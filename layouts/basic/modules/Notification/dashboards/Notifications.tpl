@@ -14,11 +14,11 @@
 							<span class="fas fa-bell fa-fw"></span>
 						</span>
 					</div>
-						<select class="widgetFilter form-control select2" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="type">
-							{foreach from=$TYPES_NOTIFICATION key=KEY item=TYPE}
-								<option value="{$KEY}">{$TYPE}</option>
-							{/foreach}
-						</select>
+					<select class="widgetFilter form-control select2" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="type">
+						{foreach from=$TYPES_NOTIFICATION key=KEY item=TYPE}
+							<option value="{\App\Purifier::encodeHtml($KEY)}">{\App\Purifier::encodeHtml($TYPE)}</option>
+						{/foreach}
+					</select>
 				</div>
 			</div>
 			<div class="col-ceq-xsm-6">

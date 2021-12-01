@@ -24,7 +24,7 @@
 			<div class="c-detail-widget__content js-detail-widget-collapse collapse multi-collapse pt-0" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}">
 				{if !empty($WIDGET['instance']) && method_exists($WIDGET['instance'], 'getCustomFields')}
 					{foreach from=$WIDGET['instance']->getCustomFields() item=FIELD_MODEL}
-						{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
+						{assign var=FIELD_INFO value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 						<div class="form-group-sm w-100 mr-1 mb-1">
 							<select name="{$FIELD_MODEL->getName()}" class="select2 form-control form-control-sm js-filter_field js-pdf-viewer-template"
 								data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO|escape}'
@@ -33,7 +33,9 @@
 									<option value="0">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 								</optgroup>
 								{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$FIELD_MODEL->getPicklistValues()}
-									<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if $FIELD_MODEL->get('fieldvalue') eq $PICKLIST_NAME} selected {/if}>{\App\Purifier::encodeHtml($PICKLIST_VALUE)}</option>
+									<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if $FIELD_MODEL->get('fieldvalue') eq $PICKLIST_NAME}selected{/if}>
+										{\App\Purifier::encodeHtml($PICKLIST_VALUE)}
+									</option>
 								{/foreach}
 							</select>
 						</div>

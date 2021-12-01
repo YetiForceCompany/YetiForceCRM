@@ -32,8 +32,7 @@
 			{/if}
 			data-fieldinfo='{$FIELD_INFO|escape}'
 			{if !empty($FIELD_MODEL->get('source_field_name'))}
-				data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
-				data-module-name="{$FIELD_MODEL->getModuleName()}"
+				data-source-field-name="{$FIELD_MODEL->get('source_field_name')}" data-module-name="{$FIELD_MODEL->getModuleName()}"
 			{/if}
 			{if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}>
 			{if App\Config::performance('SEARCH_OWNERS_BY_AJAX')}

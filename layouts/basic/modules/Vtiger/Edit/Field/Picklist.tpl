@@ -19,15 +19,14 @@
 	{assign var=IS_LAZY value=count($PICKLIST_VALUES) > \App\Config::performance('picklistLimit')}
 	<div class="w-100">
 		<select name="{$FIELD_MODEL->getFieldName()}" class="select2 form-control" data-fieldinfo='{$FIELD_INFO|escape}' tabindex="{$FIELD_MODEL->getTabIndex()}"
-				title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
-				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-				{if $IS_LAZY} data-select-lazy="true"{/if}
-				{if !empty($PLACE_HOLDER)}
-					data-select="allowClear"
-					data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}"
-				{/if}
-				{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}'{/if}
-				data-selected-value="{\App\Purifier::encodeHtml($FIELD_VALUE)}" {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}>
+			title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
+			data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+			{if $IS_LAZY} data-select-lazy="true" {/if}
+			{if !empty($PLACE_HOLDER)}
+				data-select="allowClear" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}"
+			{/if}
+			{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if}
+			data-selected-value="{\App\Purifier::encodeHtml($FIELD_VALUE)}" {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly" {/if}>
 			{if !empty($PLACE_HOLDER)}
 				<optgroup class="p-0">
 					<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>

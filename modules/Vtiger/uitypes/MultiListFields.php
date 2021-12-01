@@ -107,7 +107,7 @@ class Vtiger_MultiListFields_UIType extends Vtiger_Multipicklist_UIType
 	{
 		$params = $this->getFieldModel()->getFieldParams();
 		$condition = ['and',
-			['<>', 'vtiger_field.presence', 1]
+			['<>', 'vtiger_field.presence', 1],
 		];
 		if (isset($params['uitype'])) {
 			$condition[] = ['uitype' => $params['uitype']];
@@ -134,7 +134,7 @@ class Vtiger_MultiListFields_UIType extends Vtiger_Multipicklist_UIType
 			} else {
 				$key = $row['fieldid'];
 			}
-			$return[$key] = App\Language::translate($row['name'], $row['name']) . ' - ' . App\Language::translate($row['fieldlabel'], $row['name']);
+			$return[$key] = App\Language::translate($row['name'], $row['name'], false, false) . ' - ' . App\Language::translate($row['fieldlabel'], $row['name'], false, false);
 		}
 		$dataReader->close();
 		return $return;

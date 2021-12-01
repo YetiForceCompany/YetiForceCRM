@@ -12,8 +12,7 @@
 			title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple="multiple"
 			data-fieldinfo='{$FIELD_INFO|escape}'
 			{if !empty($FIELD_MODEL->get('source_field_name'))}
-				data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
-				data-module-name="{$FIELD_MODEL->getModuleName()}"
+				data-source-field-name="{$FIELD_MODEL->get('source_field_name')}" data-module-name="{$FIELD_MODEL->getModuleName()}"
 			{/if}
 			{if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}>
 			{foreach item=PICKLIST_LABEL key=PICKLIST_KEY from=$PICKLIST_VALUES}

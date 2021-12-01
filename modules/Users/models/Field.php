@@ -67,18 +67,16 @@ class Users_Field_Model extends Vtiger_Field_Model
 		return $permission;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPicklistValues($skipCheckingRole = false)
 	{
 		if (115 == $this->get('uitype')) {
 			$fieldPickListValues = [];
-			$query = (new \App\Db\Query())->select([$this->getFieldName()])->from('vtiger_' . $this->getFieldName());
+			$query = (new \App\Db\Query())->select([$this->getName()])->from('vtiger_' . $this->getName());
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$picklistValue = $row[$this->getFieldName()];
-				$fieldPickListValues[$picklistValue] = \App\Language::translate($picklistValue, $this->getModuleName());
+				$picklistValue = $row[$this->getName()];
+				$fieldPickListValues[$picklistValue] = \App\Language::translate($picklistValue, $this->getModuleName(), false, false);
 			}
 			$dataReader->close();
 			return $fieldPickListValues;
@@ -91,7 +89,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$fieldName = $this->getFieldName();
+		$fieldName = $this->getName();
 		if (('currency_decimal_separator' === $fieldName || 'currency_grouping_separator' === $fieldName) && (' ' === $value)) {
 			return \App\Language::translate('LBL_SPACE', 'Users');
 		}

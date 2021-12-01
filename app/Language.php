@@ -289,10 +289,11 @@ class Language
 	 * @param string      $key
 	 * @param string      $moduleName
 	 * @param bool|string $language
+	 * @param mixed       $encode
 	 *
 	 * @return string
 	 */
-	public static function translateSingleMod($key, $moduleName = '_Base', $language = false)
+	public static function translateSingleMod($key, $moduleName = '_Base', $language = false, $encode = true)
 	{
 		if (!$language) {
 			$language = static::getLanguage();
@@ -300,10 +301,13 @@ class Language
 		$moduleName = str_replace([':', '.'], [\DIRECTORY_SEPARATOR, \DIRECTORY_SEPARATOR], $moduleName);
 		static::loadLanguageFile($language, $moduleName);
 		if (isset(static::$languageContainer[$language][$moduleName]['php'][$key])) {
-			return Purifier::encodeHtml(static::$languageContainer[$language][$moduleName]['php'][$key]);
+			if ($encode) {
+				return Purifier::encodeHtml(static::$languageContainer[$language][$moduleName]['php'][$key]);
+			}
+			return static::$languageContainer[$language][$moduleName]['php'][$key];
 		}
 		if (\App\Config::performance('recursiveTranslate') && static::DEFAULT_LANG !== $language) {
-			return static::translateSingleMod($key, $moduleName, static::DEFAULT_LANG);
+			return static::translateSingleMod($key, $moduleName, static::DEFAULT_LANG, $encode);
 		}
 		return $key;
 	}

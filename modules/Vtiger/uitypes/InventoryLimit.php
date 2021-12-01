@@ -51,7 +51,6 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$limits = $this->getPicklistValues();
-
 		return \App\Purifier::encodeHtml($limits[$value] ?? '');
 	}
 

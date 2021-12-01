@@ -32,12 +32,12 @@ class Vtiger_MailScannerFields_UIType extends Vtiger_MultiListFields_UIType
 				['uitype' => [4, 13, 319]],
 				['<>', 'vtiger_tab.name', 'Users'],
 				['vtiger_tab.presence' => 0],
-				['vtiger_relatedlists.related_tabid' => \App\Module::getModuleId('OSSMailView')]
+				['vtiger_relatedlists.related_tabid' => \App\Module::getModuleId('OSSMailView')],
 			])
 			->orderBy(['vtiger_tab.tabid' => \SORT_ASC, 'vtiger_field.uitype' => \SORT_DESC, 'vtiger_field.sequence' => \SORT_ASC]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$return["{$row['fieldid']}|{$row['name']}|{$row['fieldname']}|{$row['uitype']}"] = App\Language::translate($row['name'], $row['name']) . ' - ' . App\Language::translate($row['fieldlabel'], $row['name']);
+			$return["{$row['fieldid']}|{$row['name']}|{$row['fieldname']}|{$row['uitype']}"] = App\Language::translate($row['name'], $row['name'], false, false) . ' - ' . App\Language::translate($row['fieldlabel'], $row['name'], false, false);
 		}
 		$dataReader->close();
 		return $return;

@@ -67,7 +67,7 @@ class Vtiger_MailScannerActions_UIType extends Vtiger_MultiListFields_UIType
 		$value = [];
 		$mailActions = \App\Mail\ScannerAction::getActions();
 		foreach ($mailActions as $fieldValue) {
-			$value[$fieldValue] = App\Language::translate('LBL_' . strtoupper($fieldValue), 'MailIntegration');
+			$value[$fieldValue] = App\Language::translate('LBL_' . strtoupper($fieldValue), 'MailIntegration', false, false);
 		}
 		return $value;
 	}

@@ -49,7 +49,9 @@
 						title="{\App\Language::translate('Activity Type',$SOURCE_MODULE)}">
 						<option value="all">{\App\Language::translate('LBL_ALL')}</option>
 						{foreach item=TYPE from=Calendar_Module_Model::getCalendarTypes()}
-							<option value="{$TYPE}" {if $TYPE === $ACTIVITYTYPE} selected{/if}>{\App\Language::translate($TYPE,$SOURCE_MODULE)}</option>
+							<option value="{\App\Purifier::encodeHtml($TYPE)}" {if $TYPE === $ACTIVITYTYPE} selected{/if}>
+								{\App\Language::translate($TYPE,$SOURCE_MODULE)}
+							</option>
 						{/foreach}
 					</select>
 				</div>

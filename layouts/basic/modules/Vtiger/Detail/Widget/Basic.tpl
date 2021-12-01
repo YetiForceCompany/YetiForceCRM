@@ -114,21 +114,18 @@
 							<div class="form-group-sm w-100 mr-2">
 								{assign var=FILTER value=$WIDGET['data']['filter']}
 								{assign var=FIELD_MODEL value=$RELATED_MODULE_MODEL->getField($FILTER)}
-								{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
+								{assign var=FIELD_INFO value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 								{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
-								{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-								<select name="{$FIELD_MODEL->getName()}"
-									class="select2 form-control form-control-sm js-filter_field"
+								{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
+								<select name="{$FIELD_MODEL->getName()}" class="select2 form-control form-control-sm js-filter_field"
 									data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 									data-fieldinfo='{$FIELD_INFO|escape}'
-									{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}'
-									{/if}
+									{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if}
 									data-fieldlable='{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$RELATED_MODULE_NAME)}'
 									data-filter="{$FILTER}" data-urlparams="search_params" data-js="change">
 									<option>{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$RELATED_MODULE_NAME)}</option>
 									{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-										<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}"
-											{if $FIELD_MODEL->get('fieldvalue') eq $PICKLIST_NAME} selected {/if}>
+										<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if $FIELD_MODEL->get('fieldvalue') eq $PICKLIST_NAME}selected{/if}>
 											{\App\Purifier::encodeHtml($PICKLIST_VALUE)}
 										</option>
 									{/foreach}
@@ -180,25 +177,23 @@
 									<select name="{$FIELD_MODEL->getName()}"
 										class="select2 form-control form-control-sm js-filter_field"
 										data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-										data-fieldinfo='{$FIELD_INFO|escape}' {if
-																																!empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}'
-									{/if} data-return="value" data-urlparams="{$FIELD_MODEL->getName()}" data-js="change">
-									<optgroup class="p-0">
-										<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
-									</optgroup>
-									{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$FIELD_MODEL->getPicklistValues()}
-										<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if $FIELD_MODEL->get('fieldvalue') eq
-																											$PICKLIST_NAME} selected {/if}>{\App\Purifier::encodeHtml($PICKLIST_VALUE)}</option>
-								{/foreach}
-							</select>
-						</div>
-					{/foreach}
-				{/if}
+										data-fieldinfo='{$FIELD_INFO|escape}'
+										{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if} data-return="value" data-urlparams="{$FIELD_MODEL->getName()}" data-js="change">
+										<optgroup class="p-0">
+											<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
+										</optgroup>
+										{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$FIELD_MODEL->getPicklistValues()}
+											<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" {if $FIELD_MODEL->get('fieldvalue') eq $PICKLIST_NAME}selected{/if}>{\App\Purifier::encodeHtml($PICKLIST_VALUE)}</option>
+										{/foreach}
+									</select>
+								</div>
+							{/foreach}
+						{/if}
+					</div>
+					<div class="js-detail-widget-content" data-js="container|value"></div>
+				</div>
 			</div>
-			<div class="js-detail-widget-content" data-js="container|value"></div>
 		</div>
-	</div>
-</div>
-{/if}
-<!-- /tpl-Base-Detail-Widget-Basic -->
+	{/if}
+	<!-- /tpl-Base-Detail-Widget-Basic -->
 {/strip}

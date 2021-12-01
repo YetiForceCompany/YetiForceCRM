@@ -73,7 +73,7 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	{
 		$values = [];
 		foreach (\App\Fields\Country::getAll('uitype') as $key => $data) {
-			$values[$key] = \App\Language::translateSingleMod($key, 'Other.Country');
+			$values[$key] = \App\Language::translateSingleMod($key, 'Other.Country', false, false);
 		}
 		return $values;
 	}

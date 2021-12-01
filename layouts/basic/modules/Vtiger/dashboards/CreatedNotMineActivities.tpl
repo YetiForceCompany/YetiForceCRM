@@ -9,37 +9,35 @@
 			<div class="d-inline-flex">
 				{if \App\Privilege::isPermitted($SOURCE_MODULE, 'CreateView')}
 					<button class="btn btn-sm btn-light  js-widget-quick-create" data-js="click"
-							data-module-name="{$SOURCE_MODULE}"
-							aria-label="{\App\Language::translate('LBL_ADD_RECORD')}">
+						data-module-name="{$SOURCE_MODULE}"
+						aria-label="{\App\Language::translate('LBL_ADD_RECORD')}">
 						<span class='fas fa-plus' title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 					</button>
 				{/if}
 				<button class="btn btn-light btn-sm ml-1 changeRecordSort"
-						title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}"
-						data-sort="{if isset($DATA['sortorder']) && $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}"
-						data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}"
-						data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
+					title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}"
+					data-sort="{if isset($DATA['sortorder']) && $DATA['sortorder'] eq 'desc'}asc{else}desc{/if}"
+					data-asc="{\App\Language::translate('LBL_SORT_ASCENDING', $MODULE_NAME)}"
+					data-desc="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
 					<span class="fas fa-sort-amount-down"></span>
 				</button>
 				{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<hr class="widgetHr"/>
+		<hr class="widgetHr" />
 		<div class="row no-gutters">
 			<div class="col-ceq-xsm-6">
 				<div class="input-group input-group-sm">
 					<span class="input-group-prepend">
 						<span class="input-group-text">
-							<span class="fas fa-filter iconMiddle margintop3"
-								  title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span>
+							<span class="fas fa-filter iconMiddle margintop3" title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span>
 						</span>
 					</span>
-					<select class="widgetFilter select2 form-control" aria-label="Small"
-							aria-describedby="inputGroup-sizing-sm" name="activitytype"
-							title="{\App\Language::translate('Activity Type',$SOURCE_MODULE)}">
+					<select name="activitytype" class="widgetFilter select2 form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+						title="{\App\Language::translate('Activity Type',$SOURCE_MODULE)}">
 						<option value="all">{\App\Language::translate('LBL_ALL')}</option>
 						{foreach item=TYPE from=Calendar_Module_Model::getCalendarTypes()}
-							<option value="{$TYPE}">{\App\Language::translate($TYPE,$SOURCE_MODULE)}</option>
+							<option value="{\App\Purifier::encodeHtml($TYPE)}">{\App\Language::translate($TYPE,$SOURCE_MODULE)}</option>
 						{/foreach}
 					</select>
 				</div>

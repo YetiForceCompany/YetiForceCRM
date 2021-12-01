@@ -37,7 +37,6 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 	{
 		if (!$this->isRoleBased()) {
 			$fieldModel = new Vtiger_Field_Model();
-
 			return $fieldModel->getPicklistValues();
 		}
 		$intersectionMode = false;
@@ -67,7 +66,6 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 			$pickListValues[] = \App\Purifier::decodeHtml(\App\Purifier::decodeHtml($row[$fieldName]));
 		}
 		$dataReader->close();
-
 		return $pickListValues;
 	}
 

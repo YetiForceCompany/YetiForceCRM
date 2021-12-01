@@ -589,13 +589,13 @@ class Vtiger_Field_Model extends vtlib\Field
 				$picklistValues = App\Fields\Picklist::getValuesName($this->getName());
 			}
 			foreach ($picklistValues as $value) {
-				$fieldPickListValues[$value] = \App\Language::translate($value, $this->getModuleName());
+				$fieldPickListValues[$value] = \App\Language::translate($value, $this->getModuleName(),false,false);
 			}
 			// Protection against deleting a value that does not exist on the list
 			if ('picklist' === $fieldDataType) {
 				$fieldValue = $this->get('fieldvalue');
 				if (!empty($fieldValue) && !isset($fieldPickListValues[$fieldValue])) {
-					$fieldPickListValues[$fieldValue] = \App\Language::translate($fieldValue, $this->getModuleName());
+					$fieldPickListValues[$fieldValue] = \App\Language::translate($fieldValue, $this->getModuleName(),false,false);
 					$this->set('isEditableReadOnly', true);
 				}
 			}

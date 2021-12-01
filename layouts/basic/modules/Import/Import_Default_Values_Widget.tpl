@@ -19,7 +19,7 @@
 					<select id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small select2">
 						<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>
 						{foreach item=LABEL key=VALUE from=$_FIELD_INFO->getPicklistValues()}
-							<option value="{$VALUE}">{$LABEL}</option>
+							<option value="{\App\Purifier::encodeHtml($VALUE)}">{\App\Purifier::encodeHtml($LABEL)}</option>
 						{/foreach}
 					</select>
 				{elseif $_FIELD_TYPE eq 'integer'}
@@ -38,10 +38,10 @@
 					</select>
 				{elseif $_FIELD_TYPE eq 'date'}
 					<input type="text" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue"
-						   data-date-format="{$DATE_FORMAT}" class="defaultInputTextContainer form-control col-md-2 dateField" value="" />
+						data-date-format="{$DATE_FORMAT}" class="defaultInputTextContainer form-control col-md-2 dateField" value="" />
 				{elseif $_FIELD_TYPE eq 'datetime'}
 					<input type="text" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue"
-						   class="defaultInputTextContainer form-control small col-md-2" value="" data-date-format="{$DATE_FORMAT}" />
+						class="defaultInputTextContainer form-control small col-md-2" value="" data-date-format="{$DATE_FORMAT}" />
 				{elseif $_FIELD_TYPE eq 'boolean'}
 					<input type="checkbox" id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="small" />
 				{elseif $_FIELD_TYPE eq 'reference'}

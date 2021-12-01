@@ -47,10 +47,9 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 	 */
 	public function getPicklistValues()
 	{
-		$roleModels = Settings_Roles_Record_Model::getAll();
 		$roles = [];
-		foreach ($roleModels as $roleId => $roleModel) {
-			$roles[$roleId] = \App\Language::translate($roleModel->getName(), $this->getFieldModel()->getModuleName());
+		foreach (Settings_Roles_Record_Model::getAll() as $roleId => $roleModel) {
+			$roles[$roleId] = \App\Language::translate($roleModel->getName(), $this->getFieldModel()->getModuleName(), false, false);
 		}
 		return $roles;
 	}

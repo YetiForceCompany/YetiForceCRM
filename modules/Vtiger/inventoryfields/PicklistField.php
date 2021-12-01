@@ -68,7 +68,7 @@ class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 				$values[] = [
 					'module' => $module,
 					'value' => $value,
-					'name' => \App\Language::translate($value, $module),
+					'name' => \App\Language::translate($value, $module, false, false),
 				];
 			}
 		}

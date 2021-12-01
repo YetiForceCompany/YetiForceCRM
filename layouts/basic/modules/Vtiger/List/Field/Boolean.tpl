@@ -22,8 +22,7 @@
 			title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 			data-fieldinfo='{$FIELD_INFO|escape}'
 			{if !empty($FIELD_MODEL->get('source_field_name'))}
-				data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
-				data-module-name="{$FIELD_MODEL->getModuleName()}"
+				data-source-field-name="{$FIELD_MODEL->get('source_field_name')}" data-module-name="{$FIELD_MODEL->getModuleName()}"
 			{/if}
 			{if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}>
 			<option value="">{\App\Language::translate('LBL_SELECT_OPTION','Vtiger')}</option>

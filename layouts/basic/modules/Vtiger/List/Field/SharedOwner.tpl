@@ -23,8 +23,7 @@
 		<select class="select2noactive listSearchContributor {$ASSIGNED_USER_ID}"
 			name="{$ASSIGNED_USER_ID}" multiple="multiple" data-fieldinfo='{$FIELD_INFO|escape}'
 			{if !empty($FIELD_MODEL->get('source_field_name'))}
-				data-source-field-name="{$FIELD_MODEL->get('source_field_name')}"
-				data-module-name="{$FIELD_MODEL->getModuleName()}"
+				data-source-field-name="{$FIELD_MODEL->get('source_field_name')}" data-module-name="{$FIELD_MODEL->getModuleName()}"
 			{/if}
 			{if App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
 				data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&fieldName={$ASSIGNED_USER_ID}" data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}"

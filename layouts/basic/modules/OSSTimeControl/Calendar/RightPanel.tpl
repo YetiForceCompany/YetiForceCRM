@@ -9,7 +9,7 @@
 				<div class="col-12">
 					<select class="select2 form-control col-12 js-calendar__filter__select" name="types" data-cache="calendar-types" data-name="type" multiple="multiple" data-js="data | value">
 						{foreach key=ITEM_ID item=ITEM from=$ALL_ACTIVETYPES_LIST}
-							<option value="{$ITEM_ID}" class="mb-1">{\App\Language::translate($ITEM, $MODULE_NAME)}</option>
+							<option value="{\App\Purifier::encodeHtml($ITEM_ID)}" class="mb-1">{\App\Language::translate($ITEM, $MODULE_NAME)}</option>
 						{/foreach}
 					</select>
 				</div>
