@@ -12,7 +12,7 @@
 					</div>
 					<h5 class="mb-0" title="{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}">
 						{if $WIDGET['label'] eq ''}
-							{App\Language::translate(Vtiger_Widget_Model::DEFAULT_LABELS['DetailView'],$MODULE_NAME)}
+							{App\Language::translate('LBL_RECORD_DETAILS',$MODULE_NAME)}
 						{else}
 							{App\Language::translate($WIDGET['label'],$MODULE_NAME)}
 						{/if}

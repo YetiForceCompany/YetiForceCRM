@@ -13,7 +13,7 @@
 					<div class="c-detail-widget__header__title">
 						<h5 class="mb-0 modCT_Calendar" title="{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}">
 							{if $WIDGET['label'] eq ''}
-								{App\Language::translate(Vtiger_Widget_Model::DEFAULT_LABELS['Activities'],$MODULE_NAME)}
+								{App\Language::translate('LBL_ACTIVITIES',$MODULE_NAME)}
 							{else}
 								{App\Language::translate($WIDGET['label'],$MODULE_NAME)}
 							{/if}
