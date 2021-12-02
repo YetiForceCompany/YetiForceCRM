@@ -4,7 +4,9 @@
     "LBL_NAME": "Policy name",
     "LBL_EDIT": "Edit SLA policy",
     "LBL_CREATE": "Create new SLA policy",
-    "LBL_SOURCE_MODULE": "Module"
+    "LBL_SOURCE_MODULE": "Module",
+    "LBL_AVAILABLE_FOR_RECORD_TIME_CALCULATION": "Available globally for record status time calculation",
+    "LBL_AVAILABLE_FOR_RECORD_TIME_CALCULATION_INFO": "If this option is selected, the SLA policy will be available for calculating record status times even if the entry is not related to any SLA."
   },
   "js": {
     "JS_BUSINESS_HOURS": "Select business hours",
