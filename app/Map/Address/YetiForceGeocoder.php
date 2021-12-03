@@ -19,14 +19,10 @@ namespace App\Map\Address;
  */
 class YetiForceGeocoder extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $docUrl = 'index.php?module=YetiForce&parent=Settings&view=Shop&product=YetiForceGeocoder&mode=showProductModal';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $customFields = [
 		'country_codes' => [
 			'type' => 'text',
@@ -35,25 +31,19 @@ class YetiForceGeocoder extends Base
 		],
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isActive()
 	{
 		return (bool) ($this->config['active'] ?? 0) && \App\YetiForce\Shop::check('YetiForceGeocoder');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isConfigured()
 	{
 		return \App\YetiForce\Shop::check('YetiForceGeocoder');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function find($value): array
 	{
 		$product = \App\YetiForce\Register::getProducts('YetiForceGeocoder');

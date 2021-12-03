@@ -19,14 +19,10 @@ namespace App\Map\Address;
  */
 class NominatimGeocoder extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $docUrl = 'https://nominatim.org/release-docs/develop/';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $customFields = [
 		'country_codes' => [
 			'type' => 'text',
@@ -39,17 +35,13 @@ class NominatimGeocoder extends Base
 		],
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isConfigured()
 	{
 		return !empty($this->config['map_url']);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function find($value): array
 	{
 		if (empty($value) || !\App\RequestUtil::isNetConnection()) {

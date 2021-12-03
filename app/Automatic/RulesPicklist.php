@@ -21,9 +21,7 @@ class RulesPicklist extends Rules
 	 */
 	public const AUTOMATION = 'automation';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function check(array $items, array $params): bool
 	{
 		$condition = $params['condition'] ?? '';

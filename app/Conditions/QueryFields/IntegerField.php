@@ -39,9 +39,7 @@ class IntegerField extends BaseField
 		return $condition;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getOperator()
 	{
 		return 'a' === $this->operator ? 'e' : $this->operator;

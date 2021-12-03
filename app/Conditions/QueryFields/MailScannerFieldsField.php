@@ -16,8 +16,6 @@ namespace App\Conditions\QueryFields;
  */
 class MailScannerFieldsField extends MultiListFieldsField
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected $separator = ',';
 }

@@ -136,26 +136,20 @@ class YetiForcePDF extends PDF
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getInputCharset()
 	{
 		return $this->charset;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setInputCharset(string $charset)
 	{
 		$this->charset = $charset;
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setTopMargin(float $margin)
 	{
 		$this->pdf->setDefaultTopMargin($margin);
@@ -163,9 +157,7 @@ class YetiForcePDF extends PDF
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setBottomMargin(float $margin)
 	{
 		$this->pdf->setDefaultBottomMargin((float) $margin);
@@ -185,9 +177,7 @@ class YetiForcePDF extends PDF
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setRightMargin(float $margin)
 	{
 		$this->pdf->setDefaultRightMargin((float) $margin);
@@ -195,9 +185,7 @@ class YetiForcePDF extends PDF
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setHeaderMargin(float $margin)
 	{
 		$this->headerMargin = $margin;
@@ -212,9 +200,7 @@ class YetiForcePDF extends PDF
 		return $this->headerMargin;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setFooterMargin(float $margin)
 	{
 		$this->footerMargin = $margin;
@@ -229,9 +215,7 @@ class YetiForcePDF extends PDF
 		return $this->footerMargin;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setMargins(array $margins)
 	{
 		$this->setTopMargin($margins['top'] ?? $this->defaultMargins['top']);
@@ -243,9 +227,7 @@ class YetiForcePDF extends PDF
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setPageSize(string $format, string $orientation = null)
 	{
 		$this->pdf->setDefaultFormat($format);
@@ -255,9 +237,7 @@ class YetiForcePDF extends PDF
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setFont(string $family, int $size)
 	{
 		$this->defaultFontFamily = $family;
@@ -265,9 +245,7 @@ class YetiForcePDF extends PDF
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function parseParams(array $params)
 	{
 		foreach ($params as $param => $value) {
@@ -338,63 +316,49 @@ class YetiForcePDF extends PDF
 
 	// meta attributes
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setTitle(string $title)
 	{
 		$this->pdf->getMeta()->setTitle($title);
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setAuthor(string $author)
 	{
 		$this->pdf->getMeta()->setAuthor($author);
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setCreator(string $creator)
 	{
 		$this->pdf->getMeta()->setCreator($creator);
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setSubject(string $subject)
 	{
 		$this->pdf->getMeta()->setSubject($subject);
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setKeywords(array $keywords)
 	{
 		$this->pdf->getMeta()->setKeywords($keywords);
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setHeader(string $headerHtml)
 	{
 		$this->header = trim($headerHtml);
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setFooter(string $footerHtml)
 	{
 		$this->footer = trim($footerHtml) . $this->footerYetiForce;
@@ -502,18 +466,14 @@ class YetiForcePDF extends PDF
 		return $watermark;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setWatermark(string $watermark)
 	{
 		$this->watermark = $watermark;
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function loadHtml(string $html)
 	{
 		$this->html = $html;

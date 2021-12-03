@@ -124,9 +124,7 @@ class GusClient extends \SoapClient
 		return $instance;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __doRequest($req, $location, $action, $version = SOAP_1_2, $oneWay = null): string
 	{
 		$response = parent::__doRequest($req, self::$config['addressToService'], $action, $version);

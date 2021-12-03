@@ -19,9 +19,7 @@ namespace App\Map\Address;
  */
 class OpenCageGeocoder extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $customFields = [
 		'country_codes' => [
 			'type' => 'text',
@@ -40,14 +38,10 @@ class OpenCageGeocoder extends Base
 	 */
 	protected static $url = 'https://api.opencagedata.com/geocode/v1/';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $docUrl = 'https://opencagedata.com/api/';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function find($value)
 	{
 		if (empty($value) || !\App\RequestUtil::isNetConnection()) {

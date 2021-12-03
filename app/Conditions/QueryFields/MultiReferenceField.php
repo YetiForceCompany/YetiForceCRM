@@ -23,9 +23,7 @@ class MultiReferenceField extends MultipicklistField
 	 */
 	protected $separator = ',';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getOperator()
 	{
 		return 'a' === $this->operator ? 'c' : $this->operator;

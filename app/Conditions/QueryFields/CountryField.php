@@ -36,9 +36,7 @@ class CountryField extends BaseField
 		return explode('##', $this->value);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getOperator()
 	{
 		return 'a' === $this->operator ? 'e' : $this->operator;

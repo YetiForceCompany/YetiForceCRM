@@ -14,9 +14,7 @@ namespace App\Conditions\QueryFields;
  */
 class SharedOwnerField extends BaseField
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getColumnName()
 	{
 		if ($this->fullColumnName) {

@@ -51,9 +51,7 @@ abstract class ModalSettings extends Modal
 		]);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPageTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);

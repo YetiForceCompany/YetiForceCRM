@@ -17,18 +17,12 @@ namespace App\Extension\PwnedPassword;
  */
 class YetiForce extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $url = 'YetiForce';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $infoUrl = 'index.php?module=YetiForce&parent=Settings&view=Shop&product=YetiForcePassword&mode=showProductModal';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function check(string $password): array
 	{
 		$status = ['status' => true];
@@ -61,9 +55,7 @@ class YetiForce extends Base
 		return $status;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isActive(): bool
 	{
 		return \App\YetiForce\Shop::check('YetiForcePassword');

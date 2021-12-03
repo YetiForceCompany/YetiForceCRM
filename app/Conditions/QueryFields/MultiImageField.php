@@ -13,9 +13,7 @@ namespace App\Conditions\QueryFields;
  */
 class MultiImageField extends BaseField
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function operatorY()
 	{
 		return ['or',
@@ -24,9 +22,7 @@ class MultiImageField extends BaseField
 		];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function operatorNy()
 	{
 		return ['and',

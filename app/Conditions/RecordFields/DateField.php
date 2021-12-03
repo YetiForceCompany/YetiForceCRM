@@ -19,9 +19,7 @@ use App\Log;
  */
 class DateField extends BaseField
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function check()
 	{
 		$fn = 'operator' . ucfirst($this->operator);

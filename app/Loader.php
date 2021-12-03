@@ -18,9 +18,7 @@ class Yii extends \yii\BaseYii
 	 */
 	public static $logToProfile;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static function beginProfile($token, $category = 'application')
 	{
 		if (static::$logToProfile) {
@@ -32,9 +30,7 @@ class Yii extends \yii\BaseYii
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static function endProfile($token, $category = 'application')
 	{
 		if (static::$logToProfile) {

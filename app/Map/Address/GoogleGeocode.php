@@ -26,14 +26,10 @@ class GoogleGeocode extends Base
 	 */
 	protected static $url = 'https://maps.googleapis.com/maps/api/geocode/json?';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $docUrl = 'https://code.google.com/apis/console/?noredirect';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $customFields = [
 		'key' => [
 			'type' => 'text',
@@ -41,9 +37,7 @@ class GoogleGeocode extends Base
 		],
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function find($value)
 	{
 		if (empty($value) || !\App\RequestUtil::isNetConnection()) {

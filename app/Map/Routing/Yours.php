@@ -18,9 +18,7 @@ namespace App\Map\Routing;
  */
 class Yours extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function calculate()
 	{
 		if (!\App\RequestUtil::isNetConnection()) {
@@ -56,9 +54,7 @@ class Yours extends Base
 		$this->description = $description;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function parsePoints(): array
 	{
 		$tracks = [];

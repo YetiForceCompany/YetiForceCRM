@@ -16,17 +16,13 @@ namespace App\Conditions\QueryFields;
  */
 class MultiDomainField extends BaseField
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getValue()
 	{
 		return trim($this->value, ',');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getOperator()
 	{
 		return 'a' === $this->operator ? 'c' : $this->operator;

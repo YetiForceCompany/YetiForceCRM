@@ -13,9 +13,7 @@ namespace App\Exceptions;
  */
 class Unauthorized extends Security
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct(string $message = '', int $code = 0, \Throwable $previous = null)
 	{
 		header('yf-action: logout');

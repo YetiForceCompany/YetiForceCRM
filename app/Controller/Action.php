@@ -16,9 +16,7 @@ namespace App\Controller;
  */
 abstract class Action extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $csrfActive = false;
 
 	/**
@@ -31,9 +29,7 @@ abstract class Action extends Base
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validateRequest(\App\Request $request)
 	{
 		$request->validateWriteAccess();

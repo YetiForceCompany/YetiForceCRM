@@ -16,9 +16,7 @@ namespace App\Controller\Components\View;
  */
 class InterestsConflict extends \App\Controller\View\Page
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(\App\Request $request)
 	{
 		switch ($request->getMode()) {
@@ -41,25 +39,19 @@ $this->pageTitle = \App\Language::translate('LBL_CONFIRMATIONS', 'Settings:Inter
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPageTitle(\App\Request $request)
 	{
 		return \App\Language::translate('LBL_CONFLICT_OF_INTEREST') . ' - ' . $this->pageTitle;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getBreadcrumbTitle(\App\Request $request)
 	{
 		return \App\Language::translate('LBL_CONFLICT_OF_INTEREST') . ' - ' . $this->pageTitle;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -80,9 +72,7 @@ $this->pageTitle = \App\Language::translate('LBL_CONFIRMATIONS', 'Settings:Inter
 		$viewer->view('InterestsConflict.tpl', $request->getModule());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(\App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
@@ -95,9 +85,7 @@ $this->pageTitle = \App\Language::translate('LBL_CONFIRMATIONS', 'Settings:Inter
 		]));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderCss(\App\Request $request)
 	{
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
@@ -106,9 +94,7 @@ $this->pageTitle = \App\Language::translate('LBL_CONFIRMATIONS', 'Settings:Inter
 		]));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getJSLanguageStrings(\App\Request $request)
 	{
 		$translate = parent::getJSLanguageStrings($request);

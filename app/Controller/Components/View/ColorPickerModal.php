@@ -18,14 +18,10 @@ namespace App\Controller\Components\View;
  */
 class ColorPickerModal extends \App\Controller\Modal
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $modalSize = 'modal-xl';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(\App\Request $request)
 	{
 		return true;
@@ -43,9 +39,7 @@ class ColorPickerModal extends \App\Controller\Modal
 		parent::preProcessAjax($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -53,9 +47,7 @@ class ColorPickerModal extends \App\Controller\Modal
 		$viewer->view('ColorPickerModal.tpl', $request->getModule());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModalScripts(\App\Request $request)
 	{
 		return array_merge($this->checkAndConvertJsScripts([

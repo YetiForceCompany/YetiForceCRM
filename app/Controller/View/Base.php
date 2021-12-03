@@ -38,17 +38,13 @@ abstract class Base extends \App\Controller\Base
 	 */
 	protected $breadcrumbTitle;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function showBodyHeader()
 	{
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function showFooter()
 	{
 		return false;
@@ -133,9 +129,7 @@ abstract class Base extends \App\Controller\Base
 		return '';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(\App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();

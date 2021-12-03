@@ -66,9 +66,7 @@ class EmailParser extends TextParser
 		return $emails;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function relatedRecordsListPrinter(\Vtiger_RelationListView_Model $relationListView, \Vtiger_Paging_Model $pagingModel, int $maxLength): string
 	{
 		$relatedModuleName = $relationListView->getRelationModel()->getRelationModuleName();

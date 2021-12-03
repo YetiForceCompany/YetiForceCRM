@@ -18,9 +18,7 @@ namespace App\Map\Coordinates;
  */
 class Nominatim extends Base
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getCoordinates(array $addressInfo)
 	{
 		$coordinates = false;
@@ -47,9 +45,7 @@ class Nominatim extends Base
 		return $coordinates;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getCoordinatesByValue(string $value)
 	{
 		$coordinatesDetails = $this->getCoordinates(['q' => $value]);

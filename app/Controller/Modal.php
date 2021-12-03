@@ -110,9 +110,7 @@ abstract class Modal extends View\Base
 	 */
 	public $autoRegisterEvents = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessAjax(\App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
@@ -158,9 +156,7 @@ abstract class Modal extends View\Base
 		return 'Modals/Header.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcessAjax(\App\Request $request)
 	{
 		if ($this->showFooter()) {
@@ -173,9 +169,7 @@ abstract class Modal extends View\Base
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function showFooter()
 	{
 		return $this->showFooter;
@@ -213,9 +207,7 @@ abstract class Modal extends View\Base
 		]);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPageTitle(\App\Request $request)
 	{
 		$moduleName = $request->getModule();

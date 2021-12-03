@@ -273,9 +273,7 @@ abstract class Page extends Base
 		return \Vtiger_Menu_Model::getAll();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function loadJsConfig(\App\Request $request)
 	{
 		parent::loadJsConfig($request);

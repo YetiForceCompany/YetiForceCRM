@@ -68,9 +68,7 @@ class Db extends \yii\db\Connection
 	 */
 	public $port;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $schemaMap = [
 		'pgsql' => 'App\Db\Drivers\Pgsql\Schema', // PostgreSQL
 		'mysqli' => 'yii\db\mysql\Schema', // MySQL
