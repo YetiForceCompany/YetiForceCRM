@@ -11,11 +11,10 @@
 
 class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 {
-	/**
-	 * @var string[] List of fields in edit view modal
-	 */
+	/** @var string[] List of fields in edit view modal */
 	const EDIT_FIELDS_FORM = [
-		'presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory', 'icon_name',
+		'label', 'presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field',
+		'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory', 'icon_name',
 	];
 
 	/**
@@ -114,6 +113,9 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 				switch ($field) {
 					case 'mandatory':
 						$fieldInstance->updateTypeofDataFromMandatory($request->getByType($field, 'Standard'));
+						break;
+					case 'label':
+						$fieldInstance->set($field, $request->getByType($field, 'Text'));
 						break;
 					case 'header_field':
 						if ($request->getBoolean($field)) {

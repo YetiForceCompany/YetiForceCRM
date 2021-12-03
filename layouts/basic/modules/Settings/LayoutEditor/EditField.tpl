@@ -42,7 +42,14 @@
 				</div>
 				<div class="row m-0">
 					<div class="col-md-6 px-1">
-						<div class="checkbox">
+						<div class="form-group">
+							<label for="fieldMask"><strong>{App\Language::translate('LBL_LABEL', $QUALIFIED_MODULE)}</strong></label>
+							<div class="input-group">
+								<input type="text" name="label" value="{$FIELD_MODEL->getFieldLabel()}" class="form-control"
+									id="label" data-validation-engine="validate[maxSize[50]]" />
+							</div>
+						</div>
+						<div class="checkbox my-1">
 							<input type="hidden" name="mandatory" value="O" />
 							<input type="checkbox" name="mandatory"
 								id="mandatory" {if $IS_MANDATORY} checked {/if} {if $FIELD_MODEL->isMandatoryOptionDisabled()} readonly="readonly" {/if}
@@ -51,7 +58,7 @@
 								{App\Language::translate('LBL_MANDATORY_FIELD', $QUALIFIED_MODULE)}
 							</label>
 						</div>
-						<div class="checkbox">
+						<div class="checkbox my-1">
 							<input type="hidden" name="presence" value="1" />
 							<input type="checkbox" name="presence" id="presence" {if $FIELD_MODEL->isActiveField()} checked {/if} {strip} {/strip}
 								{if $FIELD_MODEL->isActiveOptionDisabled()} readonly="readonly" class="optionDisabled" {/if} {if $IS_MANDATORY} readonly="readonly" {/if}
@@ -60,7 +67,7 @@
 								{App\Language::translate('LBL_ACTIVE', $QUALIFIED_MODULE)}
 							</label>
 						</div>
-						<div class="checkbox">
+						<div class="checkbox my-1">
 							<input type="hidden" name="quickcreate" value="1" />
 							<input type="checkbox" name="quickcreate" id="quickcreate" {if $FIELD_MODEL->isQuickCreateEnabled()} checked {/if}{strip} {/strip}
 								{if $FIELD_MODEL->isQuickCreateOptionDisabled()} readonly="readonly" class="optionDisabled" {/if} {if $IS_MANDATORY} readonly="readonly" {/if}
@@ -69,7 +76,7 @@
 								{App\Language::translate('LBL_QUICK_CREATE', $QUALIFIED_MODULE)}
 							</label>
 						</div>
-						<div class="checkbox">
+						<div class="checkbox my-1">
 							<input type="hidden" name="summaryfield" value="0" />
 							<input type="checkbox" name="summaryfield"
 								id="summaryfield" {if $FIELD_MODEL->isSummaryField()} checked {/if}{strip} {/strip}
@@ -78,7 +85,7 @@
 								{App\Language::translate('LBL_SUMMARY_FIELD', $QUALIFIED_MODULE)}
 							</label>
 						</div>
-						<div class="checkbox">
+						<div class="checkbox my-1">
 							<input type="hidden" name="header_field" value="0" />
 							<input type="checkbox" name="header_field" id="header_field" {if $FIELD_MODEL->isHeaderField()} checked {/if} value="1" />
 							<label for="header_field">
