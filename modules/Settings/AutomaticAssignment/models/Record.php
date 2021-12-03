@@ -9,19 +9,8 @@
  */
 class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_Model
 {
-	/**
-	 * Raw data.
-	 *
-	 * @var array
-	 */
-	private $rawData = [];
-
-	/**
-	 * Variable determines the possibility of creating value duplicates.
-	 *
-	 * @var bool
-	 */
-	public $checkDuplicate = false;
+	/** @var array Record changes */
+	protected $changes = [];
 
 	/**
 	 * Function to get the Id.
@@ -34,13 +23,23 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
+	 * Function to set the id of the record.
+	 *
+	 * @param int $value - id value
+	 */
+	public function setId($value)
+	{
+		return $this->set('id', (int) $value);
+	}
+
+	/**
 	 * Function to get the Role Name.
 	 *
 	 * @return string
 	 */
 	public function getName()
 	{
-		return $this->get('rolename');
+		return $this->get('subject');
 	}
 
 	/**
@@ -51,16 +50,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	public function getModule()
 	{
 		return $this->module;
-	}
-
-	/**
-	 * Source module name.
-	 *
-	 * @return string
-	 */
-	public function getSourceModuleName()
-	{
-		return \App\Module::getModuleName($this->get('tabid'));
 	}
 
 	/**
@@ -82,7 +71,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	 */
 	public function getTable()
 	{
-		return $this->module->baseTable;
+		return $this->getModule()->baseTable;
 	}
 
 	/**
@@ -92,61 +81,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	 */
 	public function getTableIndex()
 	{
-		return $this->module->baseIndex;
-	}
-
-	/**
-	 * Function to get raw data.
-	 *
-	 * @return array
-	 */
-	public function getRawData()
-	{
-		return $this->rawData;
-	}
-
-	/**
-	 * Function determines fields available in edition view.
-	 *
-	 * @return string[]
-	 */
-	public function getEditFields()
-	{
-		return ['roleid' => 'FL_MODE', 'value' => 'FL_VALUE', 'roles' => 'FL_ROLES', 'smowners' => 'FL_SMOWNERS', 'assign' => 'FL_ASSIGN', 'conditions' => 'FL_CONDITIONS'];
-	}
-
-	/**
-	 * Function declare fields to edit.
-	 *
-	 * @return string[]
-	 */
-	public function getEditableFields()
-	{
-		return ['id', 'tabid', 'field', 'roleid', 'value', 'roles', 'smowners', 'assign', 'conditions', 'user_limit', 'active'];
-	}
-
-	/**
-	 * Function returns field instances for given name.
-	 *
-	 * @param string $name
-	 *
-	 * @return Vtiger_Field_Model
-	 */
-	public function getFieldInstanceByName($name)
-	{
-		switch ($name) {
-			case 'value':
-				return Vtiger_Field_Model::getInstance($this->get('field'), Vtiger_Module_Model::getInstance($this->get('tabid')));
-			case 'roles':
-			case 'roleid':
-				return Vtiger_Field_Model::getInstance('roleid', Vtiger_Module_Model::getInstance('Users'));
-			case 'smowners':
-			case 'assign':
-				return Vtiger_Field_Model::getInstance('assigned_user_id', Vtiger_Module_Model::getInstance($this->get('tabid')));
-			default:
-				break;
-		}
-		return null;
+		return $this->getModule()->baseIndex;
 	}
 
 	/**
@@ -157,59 +92,6 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	public function getEditViewUrl()
 	{
 		return $this->getModule()->getEditViewUrl() . '&record=' . $this->getId();
-	}
-
-	/**
-	 * Function returns url of selected tab in edition view.
-	 *
-	 * @param mixed $tab
-	 *
-	 * @return string
-	 */
-	public function getEditViewTabUrl($tab)
-	{
-		return $this->getEditViewUrl() . '&tab=' . $tab;
-	}
-
-	/**
-	 * Function changes the type of a given role.
-	 *
-	 * @param string $member
-	 */
-	public function changeRoleType($member)
-	{
-		$memberArr = explode(':', $member);
-		if (\App\PrivilegeUtil::MEMBER_TYPE_ROLES === $memberArr[0]) {
-			$memberArr[0] = \App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES;
-		} else {
-			$memberArr[0] = \App\PrivilegeUtil::MEMBER_TYPE_ROLES;
-		}
-		$roles = explode(',', $this->get('roles'));
-		foreach ($roles as $key => $role) {
-			if ($role === $member) {
-				$roles[$key] = implode(':', $memberArr);
-				break;
-			}
-		}
-		$this->set('roles', $roles);
-		$this->save();
-	}
-
-	/**
-	 * Function removes given value from record.
-	 *
-	 * @param string $name
-	 * @param string $value
-	 */
-	public function deleteElement($name, $value)
-	{
-		$values = explode(',', $this->get($name));
-		$key = array_search($value, $values);
-		if (false !== $key) {
-			unset($values[$key]);
-		}
-		$this->set($name, $values);
-		$this->save();
 	}
 
 	/**
@@ -224,149 +106,8 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		if ($recordId) {
 			$result = $db->createCommand()->delete($this->getTable(), ['id' => $recordId])->execute();
 		}
+		$this->updateHandler();
 		return !empty($result);
-	}
-
-	/**
-	 * Function properly formats data for given field.
-	 *
-	 * @param string $key
-	 *
-	 * @return int|array
-	 */
-	public function getEditValue($key)
-	{
-		switch ($key) {
-			case 'roles':
-				$rows = [];
-				if ($this->get($key)) {
-					$value = explode(',', $this->get($key));
-					foreach ($value as $index => $val) {
-						$data = explode(':', $val);
-						$name = \App\Language::translate(\App\PrivilegeUtil::getRoleName($data[1]));
-						$rows[$index]['type'] = $data[0];
-						$rows[$index]['name'] = $name;
-						$rows[$index]['id'] = $val;
-					}
-				}
-
-				return $rows;
-			case 'tabid':
-				$value = (int) $value;
-				break;
-			case 'smowners':
-				$rows = [];
-				if ($this->get($key)) {
-					$value = explode(',', $this->get($key));
-					foreach ($value as $index => $val) {
-						$name = \App\Language::translate(\App\Fields\Owner::getLabel($val));
-						$rows[$index]['type'] = \App\Fields\Owner::getType($val);
-						$rows[$index]['name'] = $name;
-						$rows[$index]['id'] = $val;
-					}
-				}
-
-				return $rows;
-			default:
-				break;
-		}
-		return $value;
-	}
-
-	/**
-	 * Function formats data for saving.
-	 *
-	 * @param string $key
-	 * @param mixed  $value
-	 *
-	 * @return int|string
-	 */
-	private function getValueToSave($key, $value)
-	{
-		switch ($key) {
-			case 'roles':
-				if (!\is_array($value)) {
-					$value = array_filter(explode(',', $value));
-				}
-				if ($this->checkDuplicate) {
-					$newVal = [];
-					$oldVal = [];
-					foreach ($value as $val) {
-						if (false !== strpos($val, ':')) {
-							$valArr = explode(':', $val);
-							$newVal[$valArr[1]] = $val;
-						} else {
-							$newVal[$val] = 'Roles:' . $val;
-						}
-					}
-					if (isset($this->rawData[$key])) {
-						$oldValue = array_filter(explode(',', $this->rawData[$key]));
-						foreach ($oldValue as $val) {
-							if (false !== strpos($val, ':')) {
-								$valArr = explode(':', $val);
-								$oldVal[$valArr[1]] = $val;
-							} else {
-								$oldVal[$val] = 'Roles:' . $val;
-							}
-						}
-					}
-					$value = array_unique(array_merge($newVal, $oldVal));
-				}
-				$value = implode(',', $value);
-				break;
-			case 'tabid':
-			case 'user_limit':
-			case 'assign':
-				$value = (int) $value;
-				break;
-			case 'smowners':
-				if (!\is_array($value)) {
-					$value = array_filter(explode(',', $value));
-				}
-				if ($this->checkDuplicate) {
-					$oldValue = array_filter(explode(',', $this->rawData[$key]));
-					$value = array_unique(array_merge($value, $oldValue));
-				}
-				$value = implode(',', $value);
-				break;
-			case 'conditions':
-				if ($value !== $this->rawData[$key]) {
-					$value = \App\Json::encode($this->transformAdvanceFilter($value));
-				}
-				break;
-			default:
-				break;
-		}
-		return $value;
-	}
-
-	/**
-	 * Function transforms Advance filter to workflow conditions.
-	 *
-	 * @param array $condition
-	 * @param mixed $conditions
-	 *
-	 * @return array
-	 */
-	public function transformAdvanceFilter($conditions)
-	{
-		if (\is_string($conditions)) {
-			$conditions = \App\Json::decode($conditions);
-		}
-		$conditionResult = [];
-		if (!empty($conditions)) {
-			foreach ($conditions as $index => $condition) {
-				$columns = $condition['columns'];
-				if (!empty($columns) && \is_array($columns)) {
-					foreach ($columns as $column) {
-						$conditionResult[] = ['fieldname' => $column['columnname'], 'operation' => $column['comparator'],
-							'value' => $column['value'], 'valuetype' => $column['valuetype'] ?? '', 'joincondition' => $column['column_condition'],
-							'groupjoin' => $condition['condition'] ?? '', 'groupid' => 1 === $index ? 0 : 1, ];
-					}
-				}
-			}
-		}
-		return $conditionResult;
 	}
 
 	/**
@@ -375,24 +116,91 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	public function save()
 	{
 		$db = App\Db::getInstance('admin');
-		$params = [];
-		$fieldsToEdit = $this->getEditableFields();
-		foreach ($this->getData() as $key => $value) {
-			if (!\in_array($key, $fieldsToEdit)) {
-				throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $key, 406);
-			}
-			$params[$key] = $this->getValueToSave($key, $value);
+		$transaction = $db->beginTransaction();
+		try {
+			$this->saveToDb();
+			$this->updateHandler();
+			$transaction->commit();
+		} catch (\Throwable $ex) {
+			$transaction->rollBack();
+			\App\Log::error($ex->__toString());
+			throw $ex;
 		}
-		if ($params && empty($this->getId())) {
-			$success = $db->createCommand()->insert($this->getTable(), $params)->execute();
-			if ($success) {
-				$this->rawData = $params;
-				$this->set('id', $db->getLastInsertID($this->getTable() . '_id_seq'));
+	}
+
+	/**
+	 * Save data to the database.
+	 */
+	public function saveToDb()
+	{
+		$db = \App\Db::getInstance('admin');
+		$tablesData = $this->getId() ? array_intersect_key($this->getData(), $this->changes) : array_intersect_key($this->getData(), array_flip($this->getModule()->getEditableFields()));
+		if ($tablesData) {
+			$baseTable = $this->getModule()->baseTable;
+			$baseTableIndex = $this->getModule()->baseIndex;
+			foreach ($this->getValuesToSave($tablesData) as $tableName => $tableData) {
+				if (!$this->getId() && $baseTable === $tableName) {
+					$db->createCommand()->insert($tableName, $tableData)->execute();
+					$this->setId((int) $db->getLastInsertID("{$baseTable}_id_seq"));
+				} elseif ($baseTable === $tableName) {
+					$db->createCommand()->update($tableName, $tableData, [$baseTableIndex => $this->getId()])->execute();
+				} else {
+					$names = $tableData['names'];
+					$names[] = 'id';
+					foreach ($tableData['values'] as &$values) {
+						$values[] = $this->getId();
+					}
+					$db->createCommand()->delete($tableName, ['id' => $this->getId()])->execute();
+					$db->createCommand()->batchInsert($tableName, $names, $tableData['values'])->execute();
+				}
 			}
-		} elseif (!empty($this->getId())) {
-			$db->createCommand()->update($this->getTable(), $params, ['id' => $this->getId()])->execute();
 		}
-		$this->getModule()->clearCache($params);
+	}
+
+	/**
+	 * Function formats data for saving.
+	 *
+	 * @param array $data
+	 *
+	 * @return array
+	 */
+	private function getValuesToSave(array $data): array
+	{
+		if (!$this->getId()) {
+			$forSave[$this->getModule()->baseTable] = [];
+		}
+		foreach ($data as $fieldName => $value) {
+			$fieldModel = $this->getFieldInstanceByName($fieldName);
+			switch ($fieldName) {
+				case 'members':
+					$members = $fieldModel->getEditViewDisplayValue($value);
+					$tables = [
+						\App\PrivilegeUtil::MEMBER_TYPE_USERS => 's_#__auto_assign_users',
+						\App\PrivilegeUtil::MEMBER_TYPE_GROUPS => 's_#__auto_assign_groups',
+						\App\PrivilegeUtil::MEMBER_TYPE_ROLES => 's_#__auto_assign_roles',
+						\App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES => 's_#__auto_assign_roles'
+					];
+					foreach ($members as $member) {
+						[$type, $id] = explode(':', $member);
+						$forSave[$tables[$type]]['names'] = ['member', 'type'];
+						$forSave[$tables[$type]]['values'][] = [$id, $type];
+					}
+					break;
+				default:
+					$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $value;
+					break;
+			}
+		}
+		return $forSave;
+	}
+
+	/** {@inheritdoc} */
+	public function set($key, $value)
+	{
+		if ($this->getId() && !\in_array($key, ['id']) && (\array_key_exists($key, $this->value) && $this->value[$key] != $value)) {
+			$this->changes[$key] = $this->get($key);
+		}
+		return parent::set($key, $value);
 	}
 
 	/**
@@ -406,21 +214,17 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		$recordLinks = [
 			[
 				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_CHANGE_RECORD_STATE',
-				'linkurl' => 'javascript:Settings_AutomaticAssignment_List_Js.changeRecordState(' . $this->getId() . ', ' . (int) !$this->isActive() . ');',
-				'linkicon' => 'fas fa-exchange-alt',
-			],
-			[
-				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'yfi yfi-full-editing-view',
+				'linkclass' => 'btn btn-primary btn-sm'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Settings_AutomaticAssignment_List_Js.deleteById(' . $this->getId() . ')',
 				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn text-white btn-danger btn-sm'
 			],
 		];
 		foreach ($recordLinks as $recordLink) {
@@ -436,20 +240,33 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	 *
 	 * @return \self
 	 */
-	public static function getInstanceById($id)
+	public static function getInstanceById(int $id)
 	{
-		$cacheName = __CLASS__;
-		if (\App\Cache::staticHas($cacheName, $id)) {
-			return \App\Cache::staticGet($cacheName, $id);
-		}
 		$instance = self::getCleanInstance();
+		$baseTable = $instance->getTable();
+		$baseIndex = $instance->getTableIndex();
 		$data = (new App\Db\Query())
-			->from($instance->getTable())
-			->where([$instance->getTableIndex() => $id])
+			->from($baseTable)
+			->where([$baseIndex => $id])
 			->one(App\Db::getInstance('admin'));
-		$instance->setData($data);
-		$instance->rawData = $data;
-		\App\Cache::staticSave($cacheName, $id, $instance);
+		if ($data) {
+			$queryAll = null;
+			$customTables = $instance->getModule()->customFieldTable;
+			foreach ($customTables as $tableName => $index) {
+				$query = (new App\Db\Query())
+					->select(['member' => new \yii\db\Expression('CONCAT(type,\':\', member)')])
+					->from($tableName)
+					->where(["{$tableName}.{$index}" => $id]);
+				if ($queryAll) {
+					$queryAll->union($query, true);
+				} else {
+					$queryAll = $query;
+				}
+			}
+			$members = $queryAll->column();
+			$data['members'] = $instance->getFieldInstanceByName('members')->getUITypeModel()->getDBValue($members);
+			$instance->setData($data);
+		}
 
 		return $instance;
 	}
@@ -484,20 +301,19 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	public function getDisplayValue(string $name)
 	{
 		switch ($name) {
-			case 'field':
-				$fieldInstance = $this->getFieldInstanceByName('value');
-
-				return $fieldInstance->get('label');
 			case 'tabid':
-				return \App\Module::getModuleName($this->get($name));
-			case 'active':
-				return empty($this->get($name)) ? 'LBL_NO' : 'LBL_YES';
+				$moduleName = \App\Module::getModuleName($this->get($name));
+				return \App\Language::translate($moduleName, $moduleName);
+			case 'state':
+				$label = empty($this->get($name)) ? 'PLL_INACTIVE' : 'PLL_ACTIVE';
+				return \App\Language::translate($label, $this->getModule()->getName(true));
 			case 'roleid':
 				return empty($this->get($name)) ? 'LBL_SYSTEM' : \App\Language::translate(\App\PrivilegeUtil::getRoleName($this->get($name)));
 			default:
 				break;
 		}
-		return $this->get($name);
+		$fieldInstance = $this->getFieldInstanceByName($name);
+		return $fieldInstance->getDisplayValue($this->get($name));
 	}
 
 	/**
@@ -692,5 +508,100 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Function returns field instances for given name.
+	 *
+	 * @param string $name
+	 *
+	 * @return Vtiger_Field_Model
+	 */
+	public function getFieldInstanceByName($name)
+	{
+		$fieldModel = $this->getModule()->getFieldInstanceByName($name);
+		if ($this->has($name)) {
+			$fieldModel->set('fieldvalue', $this->get($name) ?? '');
+		}
+		return $fieldModel;
+	}
+
+	/**
+	 * Sets data from request.
+	 *
+	 * @param App\Request $request
+	 */
+	public function setDataFromRequest(App\Request $request)
+	{
+		foreach ($this->getModule()->getEditableFields() as $fieldName) {
+			if ($request->has($fieldName)) {
+				switch ($fieldName) {
+					case 'conditions':
+					case 'record_limit_conditions':
+						$value = \App\Json::encode(\App\Condition::getConditionsFromRequest($request->getArray($fieldName, \App\Purifier::TEXT)));
+						break;
+					case 'default_assign':
+						$fieldModel = $this->getFieldInstanceByName($fieldName);
+						$value = $request->getByType($fieldName, $fieldModel->get('purifyType'));
+						$fieldModel->getUITypeModel()->validate($value, true);
+						break;
+					default:
+						$fieldModel = $this->getFieldInstanceByName($fieldName);
+						$value = $request->getByType($fieldName, $fieldModel->get('purifyType'));
+						$fieldUITypeModel = $fieldModel->getUITypeModel();
+						$fieldUITypeModel->validate($value, true);
+						$value = $fieldModel->getDBValue($value);
+						break;
+				}
+				$this->set($fieldName, $value);
+			}
+		}
+	}
+
+	public function validate()
+	{
+		$response = [];
+		$isDuplicate = (new App\Db\Query())
+			->from($this->getModule()->baseTable)
+			->where(['subject' => $this->get('subject'), 'tabid' => $this->get('tabid')])
+			->andWhere(['not', [$this->getModule()->baseIndex => $this->getId()]])
+			->exists();
+		if ($isDuplicate) {
+			$response[] = [
+				'result' => false,
+				'hoverField' => 'subject',
+				'message' => App\Language::translate('LBL_DUPLICATE', $this->getModule()->getName(true))
+			];
+		}
+		return $response;
+	}
+
+	/**
+	 * Update activate/remove handler.
+	 *
+	 * @return void
+	 */
+	public function updateHandler()
+	{
+		$db = \App\Db::getInstance('admin');
+		$handlerClass = 'Vtiger_AutoAssign_Handler';
+		$tableName = $this->getModule()->baseTable;
+		$modules = (new \App\Db\Query())->select(['vtiger_tab.name'])
+			->from($tableName)->innerJoin('vtiger_tab', "{$tableName}.tabid=vtiger_tab.tabid")
+			->where(['and', ["{$tableName}.state" => 1], ["{$tableName}.handler" => 1]])->distinct()->column($db);
+		if (!$modules) {
+			\App\EventHandler::deleteHandler($handlerClass);
+		} else {
+			$type = 'EntityBeforeSave';
+			$handlers = (new \App\Db\Query())->from('vtiger_eventhandlers')
+				->where(['handler_class' => $handlerClass, 'event_name' => $type])
+				->indexBy('event_name')->all();
+			if (isset($handlers[$type])) {
+				$data = ['include_modules' => implode(',', $modules), 'is_active' => 1];
+				\App\EventHandler::update($data, $handlers[$type]['eventhandler_id']);
+			} else {
+				\App\EventHandler::registerHandler($type, $handlerClass, implode(',', $modules), '', 1, true, 0, \App\EventHandler::SYSTEM);
+			}
+		}
 	}
 }

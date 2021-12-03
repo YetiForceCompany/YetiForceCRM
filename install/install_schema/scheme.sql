@@ -1109,6 +1109,62 @@ CREATE TABLE `s_yf_address_finder_config` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_auto_assign` */
+
+CREATE TABLE `s_yf_auto_assign` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `state` tinyint(1) NOT NULL DEFAULT 0,
+  `tabid` smallint(5) NOT NULL,
+  `subject` varchar(100) NOT NULL,
+  `workflow` tinyint(1) NOT NULL DEFAULT 0,
+  `handler` tinyint(1) NOT NULL DEFAULT 0,
+  `gui` tinyint(1) NOT NULL DEFAULT 0,
+  `default_assign` int(10) unsigned DEFAULT NULL,
+  `conditions` text DEFAULT NULL,
+  `method` tinyint(1) NOT NULL DEFAULT 0,
+  `record_limit_conditions` text DEFAULT NULL,
+  `record_limit` int(10) unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `s_yf_auto_assign_tabid_idx` (`tabid`),
+  CONSTRAINT `s_yf_auto_assign_tabid_fk` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `s_yf_auto_assign_groups` */
+
+CREATE TABLE `s_yf_auto_assign_groups` (
+  `id` int(10) unsigned NOT NULL,
+  `member` int(10) NOT NULL,
+  `type` varchar(50) NOT NULL,
+  KEY `s_yf_auto_assign_groups_id_idx` (`id`),
+  KEY `s_yf_auto_assign_groups_member_idx` (`member`),
+  CONSTRAINT `s_yf_auto_assign_groups_id_fk` FOREIGN KEY (`id`) REFERENCES `s_yf_auto_assign` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `s_yf_auto_assign_groups_member_fk` FOREIGN KEY (`member`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `s_yf_auto_assign_roles` */
+
+CREATE TABLE `s_yf_auto_assign_roles` (
+  `id` int(10) unsigned NOT NULL,
+  `member` varchar(255) NOT NULL,
+  `type` varchar(50) NOT NULL,
+  KEY `s_yf_auto_assign_roles_id_idx` (`id`),
+  KEY `s_yf_auto_assign_roles_member_idx` (`member`),
+  CONSTRAINT `s_yf_auto_assign_roles_id_fk` FOREIGN KEY (`id`) REFERENCES `s_yf_auto_assign` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `s_yf_auto_assign_roles_role_fk` FOREIGN KEY (`member`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `s_yf_auto_assign_users` */
+
+CREATE TABLE `s_yf_auto_assign_users` (
+  `id` int(10) unsigned NOT NULL,
+  `member` int(10) NOT NULL,
+  `type` varchar(50) NOT NULL,
+  KEY `s_yf_auto_assign_users_id_idx` (`id`),
+  KEY `s_yf_auto_assign_users_member_idx` (`member`),
+  CONSTRAINT `s_yf_auto_assign_users_id_fk` FOREIGN KEY (`id`) REFERENCES `s_yf_auto_assign` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `s_yf_auto_assign_users_member_fk` FOREIGN KEY (`member`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_auto_record_flow_updater` */
 
 CREATE TABLE `s_yf_auto_record_flow_updater` (

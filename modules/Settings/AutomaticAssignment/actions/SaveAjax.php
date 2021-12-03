@@ -17,43 +17,61 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 		Settings_Vtiger_Tracker_Model::lockTracking();
 		parent::__construct();
 		$this->exposeMethod('save');
-		$this->exposeMethod('deleteElement');
-		$this->exposeMethod('changeRoleType');
+		$this->exposeMethod('preSaveValidation');
 	}
 
 	/**
-	 * Save.
+	 * Function to get the record model based on the request parameters.
 	 *
 	 * @param \App\Request $request
+	 *
+	 * @return Vtiger_Record_Model or Module specific Record Model instance
 	 */
-	public function save(App\Request $request)
+	protected function getRecordModelFromRequest(App\Request $request)
 	{
-		$data = $request->getMultiDimensionArray('param', [
-			'tabid' => 'Integer',
-			'field' => 'Alnum',
-			'roleid' => 'Alnum',
-			'value' => 'Text',
-			'roles' => ['Alnum'],
-			'smowners' => ['Integer'],
-			'assign' => 'Integer',
-			'conditions' => 'Text',
-			'user_limit' => 'Integer',
-			'active' => 'Integer'
-		]);
 		if ($request->isEmpty('record')) {
 			$recordModel = Settings_AutomaticAssignment_Record_Model::getCleanInstance();
 		} else {
 			$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($request->getInteger('record'));
 		}
+		$recordModel->setDataFromRequest($request);
+		return $recordModel;
+	}
 
-		$dataFull = array_merge($recordModel->getData(), $data);
-		$recordModel->setData($dataFull);
-		$recordModel->checkDuplicate = true;
-		$recordModel->save();
+	/**
+	 * PreSave validation function.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function preSaveValidation(App\Request $request)
+	{
+		$recordModel = $this->getRecordModelFromRequest($request);
+		$response = new Vtiger_Response();
+		$response->setResult($recordModel->validate());
+		$response->emit();
+	}
 
-		$responceToEmit = new Vtiger_Response();
-		$responceToEmit->setResult($recordModel->getId());
-		$responceToEmit->emit();
+	/**
+	 * Save function.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function save(App\Request $request)
+	{
+		try {
+			$recordModel = $this->getRecordModelFromRequest($request);
+			$recordModel->save();
+			$result = ['success' => true, 'url' => $recordModel->getModule()->getDefaultUrl()];
+		} catch (\App\Exceptions\AppException $e) {
+			$result = ['success' => false, 'message' => $e->getDisplayMessage()];
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
 	}
 
 	/**

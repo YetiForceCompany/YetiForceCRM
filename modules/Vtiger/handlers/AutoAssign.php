@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * Automatic assignment Handler - file.
+ *
+ * @package		Handler
+ *
+ * @copyright YetiForce Sp. z o.o
+ * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+/**
+ * Automatic assignment Handler Class.
+ */
+class Vtiger_AutoAssign_Handler
+{
+	/**
+	 * EntityBeforeSave function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 */
+	public function entityBeforeSave(App\EventHandler $eventHandler): void
+	{
+		$recordModel = $eventHandler->getRecordModel();
+		if ($recordModel->isNew() && ($assignedUserId = \App\AutoAssign::getAutoAssignUser($recordModel, \App\AutoAssign::MODE_HANDLER | \App\AutoAssign::MODE_WORKFLOW | \App\AutoAssign::MODE_MANUAL))) {
+			$fieldModel = $recordModel->getField('assigned_user_id');
+			$recordModel->set($fieldModel->getName(), $assignedUserId);
+			$recordModel->setDataForSave([$fieldModel->getTableName() => [$fieldModel->getColumnName() => $assignedUserId]]);
+		}
+	}
+}

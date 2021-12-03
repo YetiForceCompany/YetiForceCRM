@@ -22,10 +22,10 @@ class Settings_AutomaticAssignment_ListView_Model extends Settings_Vtiger_ListVi
 			$basicLinks[] = [
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',
-				'linkdata' => ['url' => $moduleModel->getCreateRecordUrl()],
+				'linkurl' => $this->getModule()->getCreateRecordUrl(),
 				'linkicon' => 'fas fa-plus',
-				'linkclass' => 'btn-light addRecord',
-				'showLabel' => '1',
+				'linkclass' => 'btn-light',
+				'showLabel' => '1'
 			];
 		}
 		return $basicLinks;

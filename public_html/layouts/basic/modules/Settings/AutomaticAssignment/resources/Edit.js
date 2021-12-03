@@ -7,128 +7,196 @@ jQuery.Class(
 	{
 		container: false,
 		advanceFilterInstance: false,
+		conditionBuilders: [],
+		setContainer: function (container) {
+			this.container = container;
+			return this.container;
+		},
 		getContainer: function () {
 			if (this.container == false) {
-				this.container = jQuery('div.contentsDiv');
+				this.container = jQuery('div.contentsDiv form');
 			}
 			return this.container;
 		},
-		registerBasicEvents: function (container) {
-			var thisInstance = this;
-
-			var advanceFilterContainer = container.find('.filterContainer');
-			if (advanceFilterContainer.length) {
-				this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(advanceFilterContainer);
-			}
-			var form = container.find('form');
-			if (form.length) {
-				form.validationEngine(app.validationEngineOptions);
-				form.find('[data-inputmask]').inputmask();
-			}
-			container.find('.select2noactive').each(function (index, domElement) {
-				var select = $(domElement);
-				if (!select.data('select2')) {
-					App.Fields.Picklist.showSelect2ElementView(select, {
-						placeholder: app.vtranslate('JS_SELECT_AN_OPTION')
-					});
+		registerBlockToggleEvent() {
+			this.container.on('click', '.blockHeader', function (e) {
+				const target = $(e.target);
+				if (
+					target.is('input') ||
+					target.is('button') ||
+					target.parents().is('button') ||
+					target.hasClass('js-stop-propagation') ||
+					target.parents().hasClass('js-stop-propagation')
+				) {
+					return false;
 				}
-			});
-			var table = app.registerDataTables(container.find('.dataTable'));
-			if (table) {
-				table.$('.changeRoleType').on('click', function (e) {
-					e.stopPropagation();
-					e.preventDefault();
-					var element = jQuery(e.currentTarget);
-					var dataElement = element.closest('tr');
-					app
-						.saveAjax('changeRoleType', dataElement.data('value'), {
-							record: app.getMainParams('record')
-						})
-						.done(function (data) {
-							thisInstance.refreshTab();
-						});
-				});
-				table.$('.delete').on('click', function (e) {
-					e.stopPropagation();
-					e.preventDefault();
-					var element = jQuery(e.currentTarget);
-					var dataElement = element.closest('tr');
-					var params = {
-						record: app.getMainParams('record'),
-						value: dataElement.data('value'),
-						name: dataElement.data('name')
-					};
-					app.saveAjax('deleteElement', null, params).done(function (data) {
-						thisInstance.refreshTab();
-					});
-				});
-			}
-			container.find('.fieldContainer').on('click', function (e) {
-				e.stopPropagation();
-				e.preventDefault();
-			});
-
-			container.find('.saveValue').on('click', function (e) {
-				let button = jQuery(e.currentTarget),
-					fieldContainer = button.closest('.fieldContainer'),
-					baseFieldName = fieldContainer.data('dbname'),
-					value = '';
-				if (baseFieldName === 'conditions') {
-					let advfilterlist = thisInstance.advanceFilterInstance.getValues();
-					value = JSON.stringify(advfilterlist);
+				const blockHeader = $(e.currentTarget);
+				const blockContents = blockHeader.next();
+				const iconToggle = blockHeader.find('.iconToggle');
+				if (blockContents.hasClass('d-none')) {
+					blockContents.removeClass('d-none');
+					iconToggle.removeClass(iconToggle.data('hide')).addClass(iconToggle.data('show'));
 				} else {
-					let fieldName = fieldContainer.data('name'),
-						fieldElement = fieldContainer.find('[name="' + fieldName + '"]');
-					if (fieldElement.validationEngine('validate')) {
-						return false;
-					}
-					value = fieldElement.val();
+					blockContents.addClass('d-none');
+					iconToggle.removeClass(iconToggle.data('show')).addClass(iconToggle.data('hide'));
 				}
-
-				let params = [];
-				params[baseFieldName] = value;
-				app.saveAjax('save', jQuery.extend({}, params), { record: app.getMainParams('record') }).done(function () {
-					thisInstance.refreshTab();
-				});
-			});
-			container.find('.js-switch').on('change', (e) => {
-				const currentTarget = $(e.currentTarget),
-					state = currentTarget.val();
-				let params = [];
-				if (currentTarget.hasClass('noField')) {
-					if (state === '1') {
-						currentTarget.closest('form').find('.fieldToShowHide').removeClass('d-none');
-						return false;
-					} else if (state === '0') {
-						currentTarget.closest('form').find('.fieldToShowHide').addClass('d-none');
-					}
-				}
-				params[currentTarget.attr('name')] = Number(state);
-				app
-					.saveAjax('save', jQuery.extend({}, params), { record: app.getMainParams('record') })
-					.done(function (respons) {
-						thisInstance.refreshTab();
-					});
 			});
 		},
-		refreshTab: function () {
-			var thisInstance = this;
-			Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_SAVE_SUCCESS') });
-			var tabContainer = this.getContainer().find('.tab-pane.active');
-			if (tabContainer.hasClass('noRefresh')) {
+		/**
+		 * Register submit event
+		 */
+		registerSubmitEvent() {
+			this.container.off('submit').on('submit', (e) => {
+				e.preventDefault();
+				this.container.find('.js-toggle-panel').find('.js-block-content').removeClass('d-none');
+				if ($(e.currentTarget).validationEngine('validate')) {
+					document.progressLoader = $.progressIndicator({
+						message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+						position: 'html',
+						blockInfo: {
+							enabled: true
+						}
+					});
+					for (var key in this.conditionBuilders) {
+						this.container
+							.find(`input[name="${key}"]`)
+							.val(JSON.stringify(this.conditionBuilders[key].getConditions()));
+					}
+
+					this.preSaveValidation().done((response) => {
+						if (response === true) {
+							let formData = this.container.serializeFormData();
+							app
+								.saveAjax('save', [], formData)
+								.done(function (data) {
+									if (data.result && data.result.success) {
+										Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_SAVE_SUCCESS') });
+										window.location.href = data.result.url;
+									} else {
+										document.progressLoader.progressIndicator({ mode: 'hide' });
+										app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
+									}
+								})
+								.fail(function () {
+									document.progressLoader.progressIndicator({ mode: 'hide' });
+									app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
+								});
+						} else {
+							document.progressLoader.progressIndicator({ mode: 'hide' });
+						}
+					});
+				}
+				e.stopPropagation();
 				return false;
-			}
-			AppConnector.request(tabContainer.data('url'))
-				.done(function (data) {
-					tabContainer.html(data);
-					thisInstance.registerBasicEvents(tabContainer);
+			});
+		},
+		/**
+		 * PreSave validation
+		 */
+		preSaveValidation: function () {
+			const aDeferred = $.Deferred();
+			let formData = new FormData(this.container[0]);
+			formData.append('mode', 'preSaveValidation');
+			AppConnector.request({
+				async: false,
+				url: 'index.php',
+				type: 'POST',
+				data: formData,
+				processData: false,
+				contentType: false
+			})
+				.done((data) => {
+					let response = data.result;
+					for (let i in response) {
+						if (response[i].result !== true) {
+							app.showNotify({
+								text: response[i].message ? response[i].message : app.vtranslate('JS_ERROR'),
+								type: 'error'
+							});
+							if (response[i].hoverField != undefined) {
+								this.container.find('[name="' + response[i].hoverField + '"]').focus();
+							}
+						}
+					}
+					aDeferred.resolve(data.result.length <= 0);
 				})
-				.fail(function (textStatus, errorThrown) {
+				.fail((textStatus, errorThrown) => {
+					app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
 					app.errorLog(textStatus, errorThrown);
+					aDeferred.resolve(false);
 				});
+
+			return aDeferred.promise();
+		},
+		/**
+		 * Load condition builder
+		 *
+		 * @param   {Integer}  sourceTabId
+		 */
+		loadConditionBuilderView(sourceTabId) {
+			let progress = $.progressIndicator({
+				position: 'html',
+				blockInfo: {
+					enabled: true
+				}
+			});
+			AppConnector.request({
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				view: 'Conditions',
+				sourceTabId: sourceTabId
+			}).done((data) => {
+				progress.progressIndicator({ mode: 'hide' });
+				this.container.find('.js-condition-builder-container').html(data);
+				this.registerConditionBuilder();
+			});
+		},
+		registerConditionBuilder() {
+			let sourceModuleName = this.sourceModuleSelect.val();
+			if (sourceModuleName) {
+				this.container.find('.js-condition-builder').each((_, e) => {
+					let conditionBuilder = new Vtiger_ConditionBuilder_Js($(e), sourceModuleName);
+					conditionBuilder.registerEvents();
+					let name = $(e).closest('.js-field-container').find('.js-condition-value').attr('name');
+					this.conditionBuilders[name] = conditionBuilder;
+				});
+			}
+		},
+		/**
+		 * Register source module change
+		 */
+		registerSourceModuleChange() {
+			this.sourceModuleSelect = this.container.find('select[name="tabid"]');
+			this.sourceTabId = this.sourceModuleSelect.val();
+			this.sourceModuleSelect.on('change', (e) => {
+				let value = $(e.currentTarget).val();
+				if (this.sourceTabId !== value && this.sourceTabId !== null) {
+					this.sourceTabId = value;
+					this.loadConditionBuilderView(this.sourceTabId);
+				}
+			});
+		},
+		registerMethodChange() {
+			this.container.find('[name="method"]').on('change', (e) => {
+				let countingCriteria = this.container.find('[name="record_limit_conditions"]').closest('.js-field-container');
+				if ($(e.currentTarget).val() == 1) {
+					countingCriteria.addClass('d-none');
+				} else {
+					countingCriteria.removeClass('d-none');
+				}
+			});
+		},
+		registerBasicEvents: function () {
+			this.container.validationEngine(app.validationEngineOptionsForRecord);
+			this.registerSubmitEvent();
+			this.registerBlockToggleEvent();
+			this.registerSourceModuleChange();
+			this.registerConditionBuilder();
 		},
 		registerEvents: function () {
-			this.registerBasicEvents(this.getContainer());
+			this.setContainer($('.contentsDiv form'));
+			this.registerBasicEvents();
+			app.showPopoverElementView(this.container.find('.js-popover-tooltip'));
 		}
 	}
 );

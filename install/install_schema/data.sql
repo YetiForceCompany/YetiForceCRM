@@ -403,6 +403,14 @@ insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (2,'r
 insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (3,'default_provider','global','YetiForceGeocoder');
 insert  into `s_yf_address_finder_config`(`id`,`name`,`type`,`val`) values (4,'active','YetiForceGeocoder','1');
 
+/*Data for the table `s_yf_auto_assign` */
+
+/*Data for the table `s_yf_auto_assign_groups` */
+
+/*Data for the table `s_yf_auto_assign_roles` */
+
+/*Data for the table `s_yf_auto_assign_users` */
+
 /*Data for the table `s_yf_auto_record_flow_updater` */
 
 insert  into `s_yf_auto_record_flow_updater`(`id`,`status`,`source_module`,`target_module`,`source_field`,`target_field`,`default_value`,`relation_field`,`rules`) values (1,0,42,41,'projecttaskstatus','projectmilestone_status','PLL_PLANNED','parentid','{\"PLL_PLANNED\":{\"condition\":\"or\",\"rules\":[{\"operator\":\"allRecordsEqual\",\"value\":\"PLL_PLANNED\"},{\"operator\":\"noRecords\"}]},\"PLL_IN_PROGRESSING\":{\"rules\":[{\"operator\":\"isExist\",\"value\":\"PLL_IN_PROGRESSING\"}]},\"PLL_ON_HOLD\":{\"condition\":\"and\",\"rules\":[{\"operator\":\"allRecordsEqual\",\"value\":\"PLL_ON_HOLD\",\"automation\":1}]},\"PLL_COMPLETED\":{\"condition\":\"or\",\"rules\":[{\"operator\":\"allRecordsEqual\",\"value\":\"PLL_COMPLETED\"},{\"operator\":\"onlyContains\",\"value\":[\"PLL_COMPLETED\",\"PLL_CANCELLED\"]}]},\"PLL_IN_APPROVAL\":{\"condition\":\"and\",\"rules\":[{\"operator\":\"allRecordsEqual\",\"value\":\"PLL_IN_APPROVAL\",\"automation\":1}]},\"PLL_CANCELLED\":{\"condition\":\"and\",\"rules\":[{\"operator\":\"allRecordsEqual\",\"value\":\"PLL_CANCELLED\"}]}}');

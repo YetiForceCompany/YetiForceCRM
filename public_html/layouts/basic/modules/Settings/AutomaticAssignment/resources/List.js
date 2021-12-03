@@ -3,23 +3,7 @@
 
 Settings_Vtiger_List_Js(
 	'Settings_AutomaticAssignment_List_Js',
-	{
-		changeRecordState: function (recordId, state) {
-			var aDeferred = jQuery.Deferred();
-			var message = app.vtranslate('JS_STATE_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({ message: message })
-				.done(function (e) {
-					app.saveAjax('save', { active: state }, { record: recordId }).done(function (respons) {
-						var listInstance = Settings_AutomaticAssignment_List_Js.getInstance();
-						listInstance.getListViewRecords();
-					});
-				})
-				.fail(function (error, err) {
-					app.errorLog(error, err);
-				});
-			return aDeferred.promise();
-		}
-	},
+	{},
 	{
 		container: false,
 		registerFilterChangeEvent: function () {

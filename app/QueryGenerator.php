@@ -184,10 +184,14 @@ class QueryGenerator
 	 * Sets conditions from ConditionBuilder.
 	 *
 	 * @param array $conditions
+	 *
+	 * @return $this
 	 */
 	public function setConditions(array $conditions)
 	{
 		$this->conditions = $conditions;
+
+		return $this;
 	}
 
 	/**
@@ -766,7 +770,7 @@ class QueryGenerator
 	 *
 	 * @param mixed $advFilterList
 	 *
-	 * @return bool
+	 * @return $this
 	 */
 	public function parseAdvFilter($advFilterList = false)
 	{
@@ -774,7 +778,7 @@ class QueryGenerator
 			$advFilterList = $this->advFilterList;
 		}
 		if (!$advFilterList) {
-			return false;
+			return $this;
 		}
 		foreach ($advFilterList as $group => &$filters) {
 			$and = ('and' === $group || 1 === (int) $group);
@@ -804,6 +808,8 @@ class QueryGenerator
 				}
 			}
 		}
+
+		return $this;
 	}
 
 	/**

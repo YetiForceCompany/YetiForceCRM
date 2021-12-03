@@ -14,7 +14,8 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	 *
 	 * @var string
 	 */
-	public $baseTable = 's_#__automatic_assignment';
+	public $baseTable = 's_#__auto_assign';
+	public $customFieldTable = ['s_#__auto_assign_users' => 'id', 's_#__auto_assign_groups' => 'id', 's_#__auto_assign_roles' => 'id'];
 
 	/**
 	 * Table primary key.
@@ -28,7 +29,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	 *
 	 * @var string
 	 */
-	public $listFields = ['tabid' => 'FL_MODULE', 'field' => 'FL_FIELD', 'value' => 'FL_VALUE', 'active' => 'FL_ACTIVE', 'roleid' => 'FL_MODE'];
+	public $listFields = ['tabid' => 'FL_MODULE', 'subject' => 'FL_SUBJECT', 'state' => 'FL_STATE'];
 
 	/**
 	 * Module Name.
@@ -51,7 +52,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	 */
 	public function getCreateRecordUrl()
 	{
-		return 'index.php?module=' . $this->getName() . '&parent=Settings&view=Create';
+		return 'index.php?module=' . $this->getName() . '&parent=Settings&view=Edit';
 	}
 
 	/**
@@ -209,5 +210,216 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 				$recordModel->save();
 			}
 		}
+	}
+
+	public $editFields = [
+		'tabid', 'subject', 'state', 'workflow', 'handler', 'gui', 'conditions', 'members', 'method', 'default_assign', 'record_limit', 'record_limit_conditions'
+	];
+
+	public function getEditableFields()
+	{
+		return $this->editFields;
+	}
+
+	public function getEditViewStructure($recordModel = null)
+	{
+		$structure = [];
+		foreach ($this->editFields as $fieldName) {
+			$fieldModel = $this->getFieldInstanceByName($fieldName);
+			if ($recordModel && $recordModel->has($fieldName)) {
+				$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
+			} else {
+				$defaultValue = $fieldModel->get('defaultvalue');
+				$fieldModel->set('fieldvalue', $defaultValue ?? '');
+			}
+			$block = $fieldModel->get('blockLabel') ?: '';
+			$structure[$block][$fieldName] = $fieldModel;
+		}
+
+		return $structure;
+	}
+
+	public function getBlockIcon($name)
+	{
+		$blocks = [
+			'BL_BASIC_DATA' => ['icon' => 'yfi-company-detlis'],
+			'BL_CONDITIONS' => ['icon' => 'fas fa-filter fa-sm'],
+			'BL_ASSIGN_USERS' => ['icon' => 'yfi yfi-users-2'],
+			'BL_USER_SELECTION_CONDITIONS' => ['icon' => 'mdi mdi-account-filter-outline'],
+		];
+		return $blocks[$name]['icon'] ?? '';
+	}
+
+	public function getFieldInstanceByName($name)
+	{
+		switch ($name) {
+			case 'subject':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_SUBJECT',
+					'uitype' => 1,
+					'typeofdata' => 'V~M',
+					'maximumlength' => '100',
+					'blockLabel' => 'BL_BASIC_DATA',
+					'purifyType' => \App\Purifier::TEXT,
+					'table' => $this->getBaseTable()
+				];
+				break;
+			case 'workflow':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_WORKFLOW',
+					'uitype' => 56,
+					'typeofdata' => 'C~O',
+					'maximumlength' => '128',
+					'blockLabel' => 'BL_BASIC_DATA',
+					'purifyType' => \App\Purifier::BOOL,
+					'table' => $this->getBaseTable()
+				];
+				break;
+			case 'handler':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_HANDLER',
+					'uitype' => 56,
+					'typeofdata' => 'C~O',
+					'maximumlength' => '128',
+					'tooltip' => 'LBL_HANDLER_DESC',
+					'blockLabel' => 'BL_BASIC_DATA',
+					'purifyType' => \App\Purifier::BOOL,
+					'table' => $this->getBaseTable()
+				];
+				break;
+			case 'gui':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_MANUAL',
+					'uitype' => 56,
+					'typeofdata' => 'C~O',
+					'maximumlength' => '128',
+					'blockLabel' => 'BL_BASIC_DATA',
+					'purifyType' => \App\Purifier::BOOL,
+					'table' => $this->getBaseTable()
+				];
+				break;
+			case 'tabid':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_MODULE_NAME',
+					'uitype' => 16,
+					'typeofdata' => 'I~M',
+					'maximumlength' => '9999',
+					'blockLabel' => 'BL_BASIC_DATA',
+					'purifyType' => \App\Purifier::INTEGER,
+					'table' => $this->getBaseTable(),
+					'picklistValues' => []
+				];
+				foreach (\vtlib\Functions::getAllModules(true, false, 0) as $module) {
+					$params['picklistValues'][$module['tabid']] = \App\Language::translate($module['name'], $module['name']);
+				}
+				break;
+			case 'state':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_STATE',
+					'uitype' => 16,
+					'typeofdata' => 'I~M',
+					'maximumlength' => '100',
+					'defaultvalue' => 1,
+					'blockLabel' => 'BL_BASIC_DATA',
+					'purifyType' => \App\Purifier::INTEGER,
+					'table' => $this->getBaseTable(),
+				];
+				$params['picklistValues'] = [
+					0 => \App\Language::translate('PLL_INACTIVE', $this->getName(true)),
+					1 => \App\Language::translate('PLL_ACTIVE', $this->getName(true))
+				];
+				break;
+			case 'method':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_METHOD',
+					'uitype' => 16,
+					'typeofdata' => 'I~M',
+					'maximumlength' => '100',
+					'defaultvalue' => 0,
+					'blockLabel' => 'BL_USER_SELECTION_CONDITIONS',
+					'purifyType' => \App\Purifier::TEXT,
+					'table' => $this->getBaseTable(),
+				];
+				$params['picklistValues'] = [
+					0 => \App\Language::translate('PLL_LOAD_BALANCED', $this->getName(true)),
+					1 => \App\Language::translate('PLL_ROUND_ROBIN', $this->getName(true))
+				];
+				break;
+			case 'record_limit':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_RECORD_LIMIT',
+					'uitype' => 7,
+					'typeofdata' => 'I~M',
+					'maximumlength' => '99999',
+					'defaultvalue' => 0,
+					'tooltip' => 'LBL_RECORD_LIMIT_DESC',
+					'blockLabel' => 'BL_USER_SELECTION_CONDITIONS',
+					'purifyType' => \App\Purifier::INTEGER,
+					'table' => $this->getBaseTable(),
+				];
+				break;
+			case 'conditions':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_RECORD_CONDITIONS',
+					'uitype' => 21,
+					'typeofdata' => 'V~O',
+					'maximumlength' => '65535',
+					'hideLabel' => true,
+					'blockLabel' => 'BL_CONDITIONS',
+					'purifyType' => \App\Purifier::TEXT,
+					'table' => $this->getBaseTable(),
+				];
+				break;
+			case 'record_limit_conditions':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_CRITERIA_FOR_COUNTING_RECORDS',
+					'uitype' => 21,
+					'typeofdata' => 'V~O',
+					'maximumlength' => '65535',
+					'blockLabel' => 'BL_USER_SELECTION_CONDITIONS',
+					'purifyType' => \App\Purifier::TEXT,
+					'table' => $this->getBaseTable(),
+				];
+				break;
+			case 'members':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_MEMBERS',
+					'uitype' => 33,
+					'typeofdata' => 'V~M',
+					'maximumlength' => '65535',
+					'blockLabel' => 'BL_ASSIGN_USERS',
+					'purifyType' => \App\Purifier::TEXT
+				];
+				$params['picklistValues'] = [];
+				break;
+			case 'default_assign':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_DEFAULT_ASSIGN',
+					'uitype' => 53,
+					'typeofdata' => 'I~O',
+					'maximumlength' => '-2147483648,2147483647',
+					'blockLabel' => 'BL_ASSIGN_USERS',
+					'tooltip' => 'LBL_DEFAULT_ASSIGN_DEC',
+					'purifyType' => \App\Purifier::INTEGER,
+					'table' => $this->getBaseTable(),
+					'picklistValues' => []
+				];
+				break;
+			default:
+				break;
+		}
+		return \Vtiger_Field_Model::init($this->getName(true), $params, $name);
 	}
 }
