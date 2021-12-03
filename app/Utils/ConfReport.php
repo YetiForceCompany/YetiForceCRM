@@ -1529,7 +1529,7 @@ class ConfReport
 				$row['status'] = false;
 			}
 		}
-		$row[$sapi] = $status ? trim($status, ', ') : \App\Language::translate('LBL_YES');
+		$row[$sapi] = $status ? trim($status, ', ') : ('shop' === $sapi ? '' : \App\Language::translate('LBL_YES'));
 		return $row;
 	}
 
