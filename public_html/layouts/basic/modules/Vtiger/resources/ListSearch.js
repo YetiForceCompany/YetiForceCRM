@@ -100,7 +100,7 @@ jQuery.Class(
 			let listViewContainer = this.getContainer();
 			let lockedEmptyFields = [];
 			let lockedInput = listViewContainer.find('.js-empty-fields').val();
-			if (lockedInput !== '') {
+			if (!lockedInput) {
 				lockedEmptyFields = JSON.parse(lockedInput);
 			}
 			listViewContainer.find('.js-empty-value').each(function () {
