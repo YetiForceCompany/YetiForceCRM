@@ -3153,10 +3153,10 @@ var app = (window.app = {
 		let isSettings = app.getUrlVar('parent') === 'Settings';
 		if (!isSettings) {
 			document.addEventListener('keydown', (event) => {
-				if (event.altKey && event.code === 'KeyL') {
+				if (CONFIG['isEntityModule'] && event.altKey && event.code === 'KeyL') {
 					window.location.href = 'index.php?module=' + app.getModuleName() + '&view=List';
 				}
-				if (event.altKey && event.code === 'KeyQ') {
+				if (CONFIG['isQuickCreateSupported'] && event.altKey && event.code === 'KeyQ') {
 					App.Components.QuickCreate.createRecord(app.getModuleName());
 				}
 			});

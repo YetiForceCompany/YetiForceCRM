@@ -272,4 +272,21 @@ abstract class Page extends Base
 	{
 		return \Vtiger_Menu_Model::getAll();
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function loadJsConfig(\App\Request $request)
+	{
+		parent::loadJsConfig($request);
+		if ('Settings' !== $request->getRaw('parent')) {
+			$moduleModel = \Vtiger_Module_Model::getInstance($request->getModule());
+			foreach ([
+				'isQuickCreateSupported' => $moduleModel->isQuickCreateSupported(),
+				'isEntityModule' => $moduleModel->isEntityModule(),
+			] as $key => $value) {
+				\App\Config::setJsEnv($key, $value);
+			}
+		}
+	}
 }

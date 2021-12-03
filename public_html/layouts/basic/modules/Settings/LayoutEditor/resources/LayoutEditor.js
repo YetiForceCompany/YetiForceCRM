@@ -2102,7 +2102,9 @@ $.Class(
 								let prefix = form.find('.js-lang').val();
 								let textArea = form.find('#' + prefix + '.js-context-area');
 								form.find('.js-help-info').attr('data-content', textArea.val());
-								app.hideModalWindow();
+								if (e.originalEvent.submitter.name === 'saveCloseButton') {
+									app.hideModalWindow();
+								}
 							});
 						});
 					});

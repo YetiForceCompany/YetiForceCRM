@@ -220,7 +220,8 @@
     "LBL_LOGGED_CONTACT": "Contact currently logged in",
     "LBL_ACCOUNT_ON_CONTACT": "Account assigned to contact",
     "LBL_ACCOUNT_LOGGED_CONTACT": "Account of contact currently logged in",
-    "LBL_DISABLE_FIELD": "Disable the field"
+    "LBL_DISABLE_FIELD": "Disable the field",
+    "LBL_SAVE_AND_CLOSE": "Save and close"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Block Name already exists",
