@@ -1517,7 +1517,7 @@ class ConfReport
 	 *
 	 * @return array
 	 */
-	private static function validateShopProducts(string $name, array $row, string $sapi)
+	public static function validateShopProducts(string $name, array $row, string $sapi)
 	{
 		unset($name);
 		$row['status'] = true;

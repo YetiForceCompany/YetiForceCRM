@@ -48,6 +48,8 @@ class Register
 	 * @var string[]
 	 */
 	public const STATUS_MESSAGES = [
+		-2 => 'ERR_NO_INTERNET_CONNECTION',
+		-1 => 'ERR_IT_HAS_NO_BEEN_6_HOURS_SINCE_THE_LAST_CHECK',
 		0 => 'LBL_NOT_REGISTERED',
 		1 => 'LBL_WAITING_FOR_ACCEPTANCE',
 		2 => 'LBL_INCORRECT_DATA',
@@ -145,16 +147,16 @@ class Register
 	 *
 	 * @return int
 	 */
-	public static function check($force = false)
+	public static function check($force = false): int
 	{
 		if (!\App\RequestUtil::isNetConnection() || 'api.yetiforce.com' === gethostbyname('api.yetiforce.com')) {
 			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
 			static::updateMetaData(['last_error' => 'ERR_NO_INTERNET_CONNECTION', 'last_error_date' => date('Y-m-d H:i:s')]);
-			return 0;
+			return -1;
 		}
 		$conf = static::getConf();
 		if (!$force && (!empty($conf['last_check_time']) && (($conf['status'] < 6 && strtotime('+6 hours', strtotime($conf['last_check_time'])) > time()) || ($conf['status'] > 6 && strtotime('+7 day', strtotime($conf['last_check_time'])) > time())))) {
-			return 0;
+			return -2;
 		}
 		$status = 0;
 		try {
@@ -168,6 +170,7 @@ class Register
 					'insKey' => static::getInstanceKey(),
 					'provider' => static::getProvider(),
 					'package' => \App\Company::getSize(),
+					'shop' => \App\Utils\ConfReport::validateShopProducts('check', [], 'shop')['shop'],
 				]),
 			]);
 			\App\Log::endProfile("POST|Register::check|{$url}", __NAMESPACE__);
