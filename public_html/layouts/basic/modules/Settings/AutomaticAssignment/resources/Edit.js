@@ -134,6 +134,10 @@ jQuery.Class(
 		 * @param   {Integer}  sourceTabId
 		 */
 		loadConditionBuilderView(sourceTabId) {
+			if (!sourceTabId) {
+				this.container.find('.js-condition-builder-container').html('');
+				return false;
+			}
 			let progress = $.progressIndicator({
 				position: 'html',
 				blockInfo: {
