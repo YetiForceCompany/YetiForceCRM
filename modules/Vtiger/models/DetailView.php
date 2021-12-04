@@ -223,6 +223,16 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linkhint' => 'BTN_RECORD_OPEN',
 				]);
 			}
+			if ($recordModel->isPermitted('AutoAssignRecord') && \App\AutoAssign::getAutoAssignForRecord($recordModel, \App\AutoAssign::MODE_MANUAL)) {
+				$linkModelList['DETAIL_VIEW_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_BASIC',
+					'linklabel' => 'BTN_ASSIGN_TO',
+					'linkdata' => ['url' => 'index.php?module=' . $recordModel->getModuleName() . '&view=AutoAssignRecord&record=' . $recordModel->getId()],
+					'linkicon' => 'yfi yfi-automatic-assignment',
+					'linkclass' => 'js-show-modal btn-outline-dark btn-sm',
+					'linkhint' => 'BTN_ASSIGN_TO',
+				]);
+			}
 			$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
 			if ($recordModel->privilegeToActivate()) {
 				$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([

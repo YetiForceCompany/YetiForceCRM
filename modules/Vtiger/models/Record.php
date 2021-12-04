@@ -1368,16 +1368,6 @@ class Vtiger_Record_Model extends \App\Base
 				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId()],
 			];
 		}
-		if ($this->isEditable() && $this->autoAssignRecord()) {
-			$recordLinks[] = [
-				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_RIGHT_SIDE',
-				'linklabel' => 'BTN_ASSIGN_TO',
-				'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=AutoAssignRecord&record=' . $this->getId(),
-				'linkicon' => 'yfi yfi-automatic-assignment',
-				'linkclass' => 'btn-sm btn-primary',
-				'modalView' => true,
-			];
-		}
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}
@@ -1709,26 +1699,6 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		return $this->isPermitted('AssignToYourself') && \App\PrivilegeUtil::MEMBER_TYPE_GROUPS === \App\Fields\Owner::getType($this->getValueByField('assigned_user_id'))
 			&& \array_key_exists(\App\User::getCurrentUserId(), \App\Fields\Owner::getInstance($this->getModuleName())->getAccessibleUsers('', 'owner'));
-	}
-
-	/**
-	 * Function checks if user can use records auto assign mechanism.
-	 *
-	 * @return bool
-	 */
-	public function autoAssignRecord()
-	{
-		if ($this->isPermitted('AutoAssignRecord') && \App\PrivilegeUtil::MEMBER_TYPE_GROUPS === \App\Fields\Owner::getType($this->getValueByField('assigned_user_id'))) {
-			$userModel = \App\User::getCurrentUserModel();
-			$roleData = \App\PrivilegeUtil::getRoleDetail($userModel->getRole());
-			if (!empty($roleData['auto_assign'])) {
-				$autoAssignModel = Settings_Vtiger_Module_Model::getInstance('Settings:AutomaticAssignment');
-				$autoAssignRecord = $autoAssignModel->searchRecord($this, $userModel->getRole());
-
-				return $autoAssignRecord ? true : false;
-			}
-		}
-		return false;
 	}
 
 	/**

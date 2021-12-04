@@ -153,6 +153,16 @@ class AutoAssign extends Base
 	}
 
 	/**
+	 * Get module name.
+	 *
+	 * @return string
+	 */
+	public function getModuleName(): string
+	{
+		return \App\Module::getModuleName($this->get('tabid'));
+	}
+
+	/**
 	 * Check conditions for record.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
@@ -200,49 +210,91 @@ class AutoAssign extends Base
 	{
 		switch ($this->get('method')) {
 			case self::METHOD_LOAD_BALANCE:
-				$owner = $this->getOwnerByLoadBalance();
+				$owner = $this->getQueryByLoadBalance()->scalar();
 				break;
 			case self::METHOD_ROUND_ROBIN:
-				$owner = $this->getOwnerByRoundRobin();
+				$owner = $this->getQueryByRoundRobin()->scalar();
 				break;
 			default:
 			$owner = null;
 				break;
 		}
 
-		return $owner ? $owner : (int) $this->get('default_assign');
+		return $owner ? $owner : $this->getDefaultOwner();
 	}
 
 	/**
-	 * Get user ID selected using the load balanced method.
+	 * Get automatic selected users.
+	 *
+	 * @return array
+	 */
+	public function getOwners(): array
+	{
+		switch ($this->get('method')) {
+			case self::METHOD_LOAD_BALANCE:
+				$owner = $this->getQueryByLoadBalance()->all();
+				break;
+			case self::METHOD_ROUND_ROBIN:
+				$owner = $this->getQueryByRoundRobin()->all();
+				break;
+			default:
+			$owner = [];
+				break;
+		}
+
+		return $owner;
+	}
+
+	/**
+	 * Get default owner.
+	 *
+	 * @return int
+	 */
+	public function getDefaultOwner(): ?int
+	{
+		$owner = null;
+		$defaultOwner = (int) $this->get('default_assign');
+		$ownerModel = \App\Fields\Owner::getInstance($this->getModuleName());
+
+		$type = $defaultOwner ? \App\Fields\Owner::getType($defaultOwner) : null;
+		if ('Users' === $type) {
+			$owner = \array_key_exists($defaultOwner, $ownerModel->getAccessibleUsersForModule()) ? $defaultOwner : $owner;
+		} elseif ($type) {
+			$owner = \array_key_exists($defaultOwner, $ownerModel->getAccessibleGroupForModule()) ? $defaultOwner : $owner;
+		}
+
+		return $owner;
+	}
+
+	/**
+	 * Query object for users allowed to be assigned by load balanced method.
 	 *
 	 * In order to correctly balance the entries attribution
 	 * we need ot randomize the order in which they are returned.
 	 * Otherwise, when multiple users have the same amount of entries
 	 * it is always the first one in the results who will be assigned to new entry.
 	 *
-	 * @return int
+	 * @return Db\Query
 	 */
-	public function getOwnerByLoadBalance(): int
+	public function getQueryByLoadBalance(): Db\Query
 	{
-		return (int) $this->getQuery()->orderBy(['count' => SORT_ASC, new \yii\db\Expression('RAND()')])->scalar();
+		return $this->getQuery()->orderBy(['count' => SORT_ASC, new \yii\db\Expression('RAND()')]);
 	}
 
 	/**
-	 * Get user ID selected using the round robin method.
+	 * Query object for users allowed to be assigned by round robin.
 	 *
-	 * @return int
+	 * @return Db\Query
 	 */
-	public function getOwnerByRoundRobin(): int
+	public function getQueryByRoundRobin(): Db\Query
 	{
 		$robinTable = self::ROUND_ROBIN_TABLE;
 		$columnName = "{$robinTable}.datetime";
 
-		return (int) $this->getQuery()->leftJoin($robinTable, "vtiger_users.id = {$robinTable}.user")
+		return $this->getQuery()->leftJoin($robinTable, "vtiger_users.id = {$robinTable}.user")
 			->addSelect([$columnName])
 			->addGroupBy($columnName)
-			->orderBy([$columnName => SORT_ASC])
-			->scalar();
+			->orderBy([$columnName => SORT_ASC]);
 	}
 
 	/**
@@ -255,8 +307,7 @@ class AutoAssign extends Base
 		$ownerFieldName = 'assigned_user_id';
 		$queryGeneratorUsers = $this->getAvailableUsersQuery();
 
-		$moduleName = \App\Module::getModuleName($this->get('tabid'));
-		$queryGenerator = (new \App\QueryGenerator($moduleName));
+		$queryGenerator = (new \App\QueryGenerator($this->getModuleName()));
 		$queryGenerator->permissions = false;
 		$conditions = \App\Json::isEmpty($this->get('record_limit_conditions')) ? [] : \App\Json::decode($this->get('record_limit_conditions'));
 		$queryGenerator->setFields([$ownerFieldName])

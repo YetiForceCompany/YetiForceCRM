@@ -515,6 +515,8 @@ var Vtiger_Index_Js = {
 			if (app.getViewName() === 'List') {
 				let listinstance = new Vtiger_List_Js();
 				listinstance.getListViewRecords();
+			} else if (app.getViewName() === 'Detail') {
+				document.location.reload();
 			}
 		});
 	},

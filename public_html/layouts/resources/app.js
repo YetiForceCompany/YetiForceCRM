@@ -1850,6 +1850,9 @@ var app = (window.app = {
 				}
 			}
 		});
+		if (!Object.keys(options).length) {
+			options = Object.assign({ searching: true, ordering: true, paging: true, info: true }, table.data());
+		}
 		return table.DataTable(options);
 	},
 	/**

@@ -3,42 +3,39 @@
 /**
  * Auto assign record View Class.
  *
+ * @package   View
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
+class Vtiger_AutoAssignRecord_View extends \App\Controller\Modal
 {
-	/**
-	 * Checking permission.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermitted
-	 *
-	 * @return bool
-	 */
+	/** {@inheritdoc} */
+	public $modalSize = 'modal-xl';
+
+	/** {@inheritdoc} */
+	public $modalIcon = 'yfi yfi-automatic-assignment';
+
+	/** {@inheritdoc} */
+	public $showFooter = false;
+
+	/** {@inheritdoc} */
+	public $pageTitle = 'BTN_ASSIGN_TO';
+
+	/** @var \Vtiger_Record_Model Record model. */
+	private $recordModel;
+
+	/** @var \App\AutoAssign Record model. */
+	private $autoAssignModel;
+
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
-		if (!$request->isEmpty('record', true)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
-			if ($recordModel && $recordModel->isEditable()) {
-				return true;
-			}
+		$this->recordModel = $request->isEmpty('record', true) ? null : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		if (!$this->recordModel || !$this->recordModel->isPermitted('AutoAssignRecord') || !$this->recordModel->isEditable() || !($this->autoAssignModel = \App\AutoAssign::getAutoAssignForRecord($this->recordModel, \App\AutoAssign::MODE_MANUAL))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-	}
-
-	/**
-	 * Function get modal size.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return string
-	 */
-	public function getSize(App\Request $request)
-	{
-		return 'modal-lg';
 	}
 
 	/**
@@ -49,28 +46,16 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->getInteger('record');
-
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		$autoAssignModel = Settings_Vtiger_Module_Model::getInstance('Settings:AutomaticAssignment');
-		$autoAssignRecord = $autoAssignModel->searchRecord($recordModel);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('RECORD', $recordModel);
-		$viewer->assign('AUTO_ASSIGN_RECORD', $autoAssignRecord);
-		$this->preProcess($request);
+		$viewer->assign('RECORD', $this->recordModel);
+		$viewer->assign('CURRENT_OWNER', $this->recordModel->get('assigned_user_id'));
+		$viewer->assign('AUTO_ASSIGN_RECORD', $this->autoAssignModel);
 		$viewer->view('AutoAssignRecord.tpl', $moduleName);
-		$this->postProcess($request);
 	}
 
-	/**
-	 * Function to get the list of Css models to be included.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return Vtiger_JsScript_Model[] - List of Vtiger_CssScript_Model instances
-	 */
+	/** {@inheritdoc} */
 	public function getModalScripts(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertJsScripts([
@@ -79,5 +64,15 @@ class Vtiger_AutoAssignRecord_View extends Vtiger_BasicModal_View
 			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
 			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js'
 		]), parent::getModalScripts($request));
+	}
+
+	/** {@inheritdoc} */
+	public function getModalCss(App\Request $request)
+	{
+		return array_merge($this->checkAndConvertCssStyles([
+			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
+			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
+			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css'
+		]), parent::getModalCss($request));
 	}
 }
