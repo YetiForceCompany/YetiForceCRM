@@ -1,6 +1,9 @@
 <?php
 /**
- * Batch method file.
+ * Auto Assign file.
+ *
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription.
+ * File modification allowed only with the consent of the system producer.
  *
  * @package App
  *
@@ -12,14 +15,17 @@
 namespace App;
 
 /**
- * Batch method class.
+ * Auto Assign class.
  */
 class AutoAssign extends Base
 {
-	/** Table name */
+	/** Basic table name */
 	const TABLE_NAME = 's_#__auto_assign';
-	/** Table name */
+	/** Members tables */
 	const MEMBERS_TABLES = ['s_#__auto_assign_users' => 'id', 's_#__auto_assign_groups' => 'id', 's_#__auto_assign_roles' => 'id'];
+	/** Round robin table name */
+	const ROUND_ROBIN_TABLE = 'u_#__auto_assign_rr';
+
 	/** Status inactive */
 	const STATUS_INACTIVE = 0;
 	/** Status active */
@@ -37,23 +43,38 @@ class AutoAssign extends Base
 	/** Round robin method */
 	const METHOD_ROUND_ROBIN = 1;
 
+	/**
+	 * Get all auto assign entries for module.
+	 *
+	 * @param string $moduleName
+	 * @param int    $mode       A bitmask of one or more of the mode flags
+	 * @param int    $state
+	 *
+	 * @return array
+	 */
 	public static function getByModule(string $moduleName, int $mode = self::MODE_HANDLER | self::MODE_WORKFLOW | self::MODE_MANUAL, int $state = self::STATUS_ACTIVE): array
 	{
 		$query = (new \App\Db\Query())->from(self::TABLE_NAME)
 			->where(['tabid' => \App\Module::getModuleId($moduleName), 'state' => $state]);
-		if ($mode & self::MODE_MANUAL) {
-			$query->andWhere(['gui' => 1]);
+		$mods = ['or'];
+		foreach ([self::MODE_MANUAL => 'gui', self::MODE_HANDLER => 'handler', self::MODE_WORKFLOW => 'workflow'] as $key => $column) {
+			if ($mode & $key) {
+				$mods[] = [$column => 1];
+			}
 		}
-		if ($mode & self::MODE_HANDLER) {
-			$query->andWhere(['handler' => 1]);
-		}
-		if ($mode & self::MODE_WORKFLOW) {
-			$query->andWhere(['workflow' => 1]);
-		}
+		$query->andWhere($mods);
 
 		return $query->all();
 	}
 
+	/**
+	 * Get all auto assign instances for module.
+	 *
+	 * @param string   $moduleName
+	 * @param int|null $mode       A bitmask of one or more of the mode flags
+	 *
+	 * @return array
+	 */
 	public static function getInstancesByModule(string $moduleName, int $mode = null): array
 	{
 		$instances = [];
@@ -63,25 +84,47 @@ class AutoAssign extends Base
 		return $instances;
 	}
 
-	public static function getAutoAssignUser(\Vtiger_Record_Model $recordModel, int $mode = null): ?int
+	/**
+	 * Get auto assign instance for record.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 * @param int|null             $mode        A bitmask of one or more of the mode flags
+	 *
+	 * @return self|null
+	 */
+	public static function getAutoAssignForRecord(\Vtiger_Record_Model $recordModel, int $mode = null): ?self
 	{
-		$autoAssignUserId = null;
+		$autoAssignInstance = null;
 		foreach (self::getByModule($recordModel->getModuleName(), $mode) as $autoAssignData) {
 			$conditions = \App\Json::isEmpty($autoAssignData['conditions']) ? [] : \App\Json::decode($autoAssignData['conditions']);
 			if (\App\Condition::checkConditions($conditions, $recordModel)) {
-				$assignRecord = self::getInstance($autoAssignData);
-				$autoAssignUserId = $assignRecord->getOwner();
+				$autoAssignInstance = self::getInstance($autoAssignData);
+				break;
 			}
 		}
-		return $autoAssignUserId;
+		return $autoAssignInstance;
 	}
 
+	/**
+	 * Get auto assign instance by ID.
+	 *
+	 * @param int $id
+	 *
+	 * @return self|null
+	 */
 	public static function getInstanceById(int $id): ?self
 	{
 		$data = (new \App\Db\Query())->from(self::TABLE_NAME)->where(['id' => $id])->one();
 		return $data ? (new self())->setData($data) : null;
 	}
 
+	/**
+	 * Get auto assign instance by data.
+	 *
+	 * @param array $data
+	 *
+	 * @return self|null
+	 */
 	public static function getInstance(array $data): ?self
 	{
 		return $data ? (new self())->setData($data) : null;
@@ -97,17 +140,38 @@ class AutoAssign extends Base
 		return $this->get('id');
 	}
 
-	public function getName(bool $encode = true)
+	/**
+	 * Get name of auto assign instance.
+	 *
+	 * @param bool $encode
+	 *
+	 * @return string
+	 */
+	public function getName(bool $encode = true): string
 	{
 		return \App\Language::translate($this->get('subject'), 'Settings:AutomaticAssignment', false, $encode);
 	}
 
-	public function checkConditionForRecord(\Vtiger_Record_Model $recordModel)
+	/**
+	 * Check conditions for record.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return bool
+	 */
+	public function checkConditionForRecord(\Vtiger_Record_Model $recordModel): bool
 	{
 		$conditions = \App\Json::isEmpty($this->get('conditions')) ? [] : \App\Json::decode($this->get('conditions'));
 		return \App\Condition::checkConditions($conditions, $recordModel);
 	}
 
+	/**
+	 * Check if the instance is active in a given mode.
+	 *
+	 * @param int $mode
+	 *
+	 * @return bool
+	 */
 	public function isActive(int $mode)
 	{
 		switch ($mode) {
@@ -127,6 +191,11 @@ class AutoAssign extends Base
 		return $result && self::STATUS_ACTIVE === (int) $this->get('state');
 	}
 
+	/**
+	 * Get an automatic selected user ID.
+	 *
+	 * @return int
+	 */
 	public function getOwner(): int
 	{
 		switch ($this->get('method')) {
@@ -134,7 +203,7 @@ class AutoAssign extends Base
 				$owner = $this->getOwnerByLoadBalance();
 				break;
 			case self::METHOD_ROUND_ROBIN:
-				$owner = '';
+				$owner = $this->getOwnerByRoundRobin();
 				break;
 			default:
 			$owner = null;
@@ -144,7 +213,44 @@ class AutoAssign extends Base
 		return $owner ? $owner : (int) $this->get('default_assign');
 	}
 
+	/**
+	 * Get user ID selected using the load balanced method.
+	 *
+	 * In order to correctly balance the entries attribution
+	 * we need ot randomize the order in which they are returned.
+	 * Otherwise, when multiple users have the same amount of entries
+	 * it is always the first one in the results who will be assigned to new entry.
+	 *
+	 * @return int
+	 */
 	public function getOwnerByLoadBalance(): int
+	{
+		return (int) $this->getQuery()->orderBy(['count' => SORT_ASC, new \yii\db\Expression('RAND()')])->scalar();
+	}
+
+	/**
+	 * Get user ID selected using the round robin method.
+	 *
+	 * @return int
+	 */
+	public function getOwnerByRoundRobin(): int
+	{
+		$robinTable = self::ROUND_ROBIN_TABLE;
+		$columnName = "{$robinTable}.datetime";
+
+		return (int) $this->getQuery()->leftJoin($robinTable, "vtiger_users.id = {$robinTable}.user")
+			->addSelect([$columnName])
+			->addGroupBy($columnName)
+			->orderBy([$columnName => SORT_ASC])
+			->scalar();
+	}
+
+	/**
+	 * Query object for users allowed for assignment.
+	 *
+	 * @return Db\Query
+	 */
+	public function getQuery(): Db\Query
 	{
 		$ownerFieldName = 'assigned_user_id';
 		$queryGeneratorUsers = $this->getAvailableUsersQuery();
@@ -171,27 +277,31 @@ class AutoAssign extends Base
 		$query->leftJoin(['crm_data_temp_table' => $subQuery], "crm_data_temp_table.{$ownerFieldName}={$queryGeneratorUsers->getColumnName('id')}");
 		$query->addSelect(['crm_data_temp_table.count']);
 		$query->andHaving(['or', ['<', 'count', new \yii\db\Expression('temp_limit')], ['temp_limit' => 0], ['count' => null]]);
-		$query->orderBy(['count' => SORT_ASC, new \yii\db\Expression('RAND()')]);
 
-		return (int) $query->scalar();
+		return $query;
 	}
 
-	public function getAvailableUsersQuery()
+	/**
+	 * Query generator object of available users.
+	 *
+	 * @return QueryGenerator
+	 */
+	public function getAvailableUsersQuery(): QueryGenerator
 	{
 		$queryGenerator = (new \App\QueryGenerator('Users'))
 			->setFields(['id'])
 			->addCondition('status', 'Active', 'e')
-			->addCondition('available', '1', 'e')
-			->addCondition('auto_assign', '1', 'e');
+			->addCondition('available', 1, 'e')
+			->addCondition('auto_assign', 1, 'e');
 		$columnName = $queryGenerator->getColumnName('id');
-		$availableUsers = $this->getAvailableUsers();
+		$availableUsers = $this->getMembers();
 
 		$condition = ['or'];
 		foreach ($availableUsers as $member) {
 			[$type, $id] = explode(':', $member);
 			switch ($type) {
 				case \App\PrivilegeUtil::MEMBER_TYPE_USERS:
-					$condition[] = [$columnName => $id];
+					$condition[$type][$columnName][] = (int) $id;
 					break;
 				case \App\PrivilegeUtil::MEMBER_TYPE_GROUPS:
 					$condition[] = [$columnName => (new \App\Db\Query())->select(['userid'])->from(["condition_{$type}_{$id}_" . \App\Layout::getUniqueId() => \App\PrivilegeUtil::getQueryToUsersByGroup((int) $id)])];
@@ -214,7 +324,12 @@ class AutoAssign extends Base
 		return $queryGenerator;
 	}
 
-	public function getAvailableUsers()
+	/**
+	 * Get members.
+	 *
+	 * @return array
+	 */
+	public function getMembers(): array
 	{
 		if (!$this->has('members')) {
 			$queryAll = null;
@@ -233,5 +348,27 @@ class AutoAssign extends Base
 			$this->set('members', $members);
 		}
 		return $this->get('members');
+	}
+
+	/**
+	 * Post process action.
+	 *
+	 * @param int $userId
+	 *
+	 * @return void
+	 */
+	public function postProcess(int $userId)
+	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		if ($userId && self::METHOD_ROUND_ROBIN === $this->get('method')) {
+			$params = ['id' => $this->getId(), 'user' => $userId];
+			$isExists = (new \App\Db\Query())->from(self::ROUND_ROBIN_TABLE)->where($params)->exists();
+			if ($isExists) {
+				$dbCommand->update(self::ROUND_ROBIN_TABLE, ['datetime' => (new \DateTime())->format('Y-m-d H:i:s.u')], $params)->execute();
+			} else {
+				$params['datetime'] = (new \DateTime())->format('Y-m-d H:i:s.u');
+				$dbCommand->insert(self::ROUND_ROBIN_TABLE, $params)->execute();
+			}
+		}
 	}
 }

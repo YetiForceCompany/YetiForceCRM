@@ -41,6 +41,7 @@ class VTAutoAssign extends VTTask
 			$cloneRecordModel->set($fieldModel->getName(), $assignedUserId);
 			$cloneRecordModel->setDataForSave([$fieldModel->getTableName() => [$fieldModel->getColumnName() => $assignedUserId]]);
 			$cloneRecordModel->save();
+			$autoAssignInstance->postProcess($assignedUserId);
 			foreach (array_keys($cloneRecordModel->getPreviousValue()) as $fieldName) {
 				$recordModel->set($fieldName, $cloneRecordModel->get($fieldName));
 			}

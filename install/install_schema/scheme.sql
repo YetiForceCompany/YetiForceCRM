@@ -1636,6 +1636,18 @@ CREATE TABLE `u_yf_auditregistercf` (
   CONSTRAINT `fk_1_u_yf_auditregistercfauditregisterid` FOREIGN KEY (`auditregisterid`) REFERENCES `u_yf_auditregister` (`auditregisterid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_auto_assign_rr` */
+
+CREATE TABLE `u_yf_auto_assign_rr` (
+  `id` int(10) unsigned NOT NULL,
+  `user` int(10) NOT NULL,
+  `datetime` varchar(30) NOT NULL,
+  KEY `s_yf_auto_assign_roles_id_date_idx` (`id`,`datetime`),
+  KEY `s_yf_auto_assign_roles_user_idx` (`user`),
+  CONSTRAINT `s_yf_auto_assign_rr_id_fk` FOREIGN KEY (`id`) REFERENCES `s_yf_auto_assign` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `s_yf_auto_assign_rr_user_fk` FOREIGN KEY (`user`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `u_yf_bankaccounts` */
 
 CREATE TABLE `u_yf_bankaccounts` (

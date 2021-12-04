@@ -23,10 +23,11 @@ class Vtiger_AutoAssign_Handler
 	public function entityBeforeSave(App\EventHandler $eventHandler): void
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		if ($recordModel->isNew() && ($assignedUserId = \App\AutoAssign::getAutoAssignUser($recordModel, \App\AutoAssign::MODE_HANDLER | \App\AutoAssign::MODE_WORKFLOW | \App\AutoAssign::MODE_MANUAL))) {
+		if ($recordModel->isNew() && ($autoAssignModel = \App\AutoAssign::getAutoAssignForRecord($recordModel, \App\AutoAssign::MODE_HANDLER)) && ($assignedUserId = $autoAssignModel->getOwner())) {
 			$fieldModel = $recordModel->getField('assigned_user_id');
 			$recordModel->set($fieldModel->getName(), $assignedUserId);
 			$recordModel->setDataForSave([$fieldModel->getTableName() => [$fieldModel->getColumnName() => $assignedUserId]]);
+			$autoAssignModel->postProcess($assignedUserId);
 		}
 	}
 }

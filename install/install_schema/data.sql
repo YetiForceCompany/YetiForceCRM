@@ -497,6 +497,8 @@ insert  into `s_yf_record_quick_changer`(`id`,`tabid`,`conditions`,`values`,`btn
 
 /*Data for the table `u_yf_auditregistercf` */
 
+/*Data for the table `u_yf_auto_assign_rr` */
+
 /*Data for the table `u_yf_bankaccounts` */
 
 /*Data for the table `u_yf_bankaccountscf` */
