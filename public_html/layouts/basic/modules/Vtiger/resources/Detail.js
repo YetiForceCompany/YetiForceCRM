@@ -3008,6 +3008,13 @@ jQuery.Class(
 				if (event.altKey && event.code === 'KeyE') {
 					container.find('.js-edit-btn').trigger('click');
 				}
+				if (event.altKey && event.code === 'KeyW') {
+					App.Components.QuickEdit.showModal({
+						module: app.getModuleName(),
+						record: app.getRecordId(),
+						removeFromUrl: 'step'
+					});
+				}
 			});
 		},
 		registerEvents: function () {

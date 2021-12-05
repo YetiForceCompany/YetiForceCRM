@@ -1635,7 +1635,7 @@ $.Class(
 						$(form).trigger('submit');
 					} else {
 						form = $(event.target).find('form');
-						if (form.length) {
+						if (form.length && form.hasClass('recordEditView')) {
 							form.last().trigger('submit');
 						}
 					}
