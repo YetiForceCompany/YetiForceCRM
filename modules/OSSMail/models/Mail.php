@@ -322,10 +322,13 @@ class OSSMail_Mail_Model extends \App\Base
 		$cacheKey = 'MailSearchByDomains' . $moduleName . '_' . $fieldName;
 		$crmids = [];
 		foreach ($emails as $email) {
-			if (empty($email) || \in_array($email, ['@', 'undisclosed-recipients@', 'undisclosed-recipients'])) {
+			if (empty($email) || \in_array($email, ['@', 'undisclosed-recipients@', 'undisclosed-recipients', 'Undisclosed recipients@,@'])) {
 				continue;
 			}
 			$domain = mb_strtolower(explode('@', $email)[1]);
+			if (!$domain) {
+				continue;
+			}
 			if (App\Cache::staticHas($cacheKey, $domain)) {
 				$cache = App\Cache::staticGet($cacheKey, $domain);
 				if (0 != $cache) {
