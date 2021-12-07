@@ -3153,8 +3153,7 @@ var app = (window.app = {
 	 * @param {jQuery} container
 	 */
 	registerKeyboardShortcutsEvent: function (container) {
-		let isSettings = app.getUrlVar('parent') === 'Settings';
-		if (!isSettings) {
+		if (!app.getUrlVar('parent') !== 'Settings') {
 			document.addEventListener('keydown', (event) => {
 				if (CONFIG['isEntityModule'] && event.altKey && event.code === 'KeyL') {
 					window.location.href = 'index.php?module=' + app.getModuleName() + '&view=List';

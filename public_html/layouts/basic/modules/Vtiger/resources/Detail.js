@@ -3005,10 +3005,10 @@ jQuery.Class(
 				if (event.altKey && event.code === 'KeyD') {
 					container.find('.js-duplicate-btn').trigger('click');
 				}
-				if (event.altKey && event.code === 'KeyE') {
+				if (event.altKey && event.code === 'KeyE' && container.find('.js-edit-btn').length) {
 					container.find('.js-edit-btn').trigger('click');
 				}
-				if (event.altKey && event.code === 'KeyW') {
+				if (event.altKey && event.code === 'KeyW' && container.find('.js-edit-btn').length) {
 					App.Components.QuickEdit.showModal({
 						module: app.getModuleName(),
 						record: app.getRecordId(),
