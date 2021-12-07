@@ -1,0 +1,31 @@
+.container-fluid .c-menu__header,
+header.navbar {
+	background: #0078d4;
+}
+.o-global-search__value,
+.o-global-search__input span.select2-selection,
+.o-global-search__input .bg-white {
+	background: #b3d7f2 !important;
+	border: unset;
+}
+.c-menu__container  .modulesList a {
+	color: #616161 !important;
+}
+ .c-menu__container .modulesList  a:hover {
+	color: #0078d4 !important;
+}
+
+.c-menu__container,
+.modulesList .c-menu__item a,
+.c-menu__content .modulesList {
+	background: #edebe9 !important;
+}
+.modulesList .c-menu__item a:hover{
+	background: #f5f5f5 !important;
+}
+.c-menu__item .tpl-menu-SubMenu {
+	background: #ded9d4 !important;
+}
+.c-menu__item .tpl-menu-SubMenu a {
+	background: #d0d0d0 !important;
+}
