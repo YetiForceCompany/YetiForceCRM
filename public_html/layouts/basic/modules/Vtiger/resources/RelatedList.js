@@ -1056,22 +1056,17 @@ jQuery.Class(
 			}
 			app.event.trigger('RelatedList.AfterLoad', thisInstance);
 		},
-		getSecondColMinWidth: function (container) {
-			let maxWidth = 0,
-				thisWidth;
-			container.find('.js-list__row').each(function (i) {
-				thisWidth = $(this).find('.js-list__field').first().width();
-				if (i === 0) {
-					maxWidth = thisWidth;
-				} else {
-					thisWidth > maxWidth ? (maxWidth = thisWidth) : maxWidth;
-				}
-			});
-			return maxWidth;
+		getListColumnWidth: function () {
+			let width = 300;
+			let column = this.container.find('.listViewEntriesDiv .listViewHeaders th:eq(1)');
+			if (column.length) {
+				width = column.offset().left + column.width();
+			}
+			return width;
 		},
 		setDomParams: function (container) {
-			this.listColumnFirstWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first().width();
-			this.listColumnSecondWidth = this.getSecondColMinWidth(container);
+			this.container = container;
+			this.listColumnWidth = this.getListColumnWidth();
 			this.windowW = $(window).width();
 			this.mainBody = container.closest('.mainBody');
 			this.windowMinWidth = (15 / this.windowW) * 100;
@@ -1086,7 +1081,7 @@ jQuery.Class(
 			this.headerH = $('.js-header').outerHeight();
 		},
 		getDefaultSplitSizes: function () {
-			let thWidth = ((this.listColumnFirstWidth + this.listColumnSecondWidth + 82) / this.windowW) * 100;
+			let thWidth = (this.listColumnWidth / this.windowW) * 100;
 			return [thWidth, 100 - thWidth];
 		},
 		getSplitSizes() {
@@ -1256,7 +1251,6 @@ jQuery.Class(
 					app.moduleCacheSet('userRelatedSplitSet', split.getSizes());
 				}
 			});
-			this.gutter = container.find('.gutter');
 			if (splitSizes[0] < 10) {
 				this.gutter.addClass('js-gutter-corr-left');
 				this.sideBlockLeft.addClass('d-block');
@@ -1266,6 +1260,7 @@ jQuery.Class(
 				this.sideBlockRight.addClass('d-block');
 				this.preview.hide();
 			}
+			this.gutter = container.find('.gutter');
 			let mainWindowHeightCss = {
 				height: $(window).height() - this.list.offset().top - this.footerH
 			};
@@ -1294,7 +1289,7 @@ jQuery.Class(
 			this.split = this.registerSplit(container);
 			splitsArray.push(this.split);
 			$(window).on('resize', () => {
-				if ($(window).width() < 993) {
+				if (this.windowW < 993) {
 					if (container.find('.gutter').length) {
 						splitsArray[splitsArray.length - 1].destroy();
 						this.sideBlockRight.removeClass('d-block');
@@ -1316,7 +1311,7 @@ jQuery.Class(
 						splitsArray.push(this.split);
 					}
 					let currentSplit = splitsArray[splitsArray.length - 1];
-					let minWidth = (15 / $(window).width()) * 100;
+					let minWidth = (15 / this.windowW) * 100;
 					let maxWidth = 100 - minWidth;
 					if (typeof currentSplit === 'undefined') return;
 					if (currentSplit.getSizes()[0] < minWidth + 5) {

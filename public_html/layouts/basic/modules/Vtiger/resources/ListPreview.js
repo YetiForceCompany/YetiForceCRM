@@ -119,24 +119,19 @@ Vtiger_List_Js(
 			});
 			this.listFloatThead.floatThead('reflow');
 		},
-		getSecondColMinWidth: function (container) {
-			let maxWidth = 0,
-				thisWidth;
-			container.find('.listViewEntries').each(function (i) {
-				thisWidth = $(this).find('.listViewEntryValue a').first().width();
-				if (i === 0) {
-					maxWidth = thisWidth;
-				} else {
-					thisWidth > maxWidth ? (maxWidth = thisWidth) : maxWidth;
-				}
-			});
-			return maxWidth;
+		getListColumnWidth: function () {
+			let width = 300;
+			let column = this.container.find('.listViewEntriesDiv .listViewHeaders th:eq(1)');
+			if (column.length) {
+				width = column.offset().left + column.width();
+			}
+			return width;
 		},
 		setDomParams: function (container) {
 			this.container = container;
-			this.listColumnFirstWidth = container.find('.listViewEntriesDiv .listViewHeaders th').first().width();
-			this.listColumnSecondWidth = this.getSecondColMinWidth(container);
-			this.windowMinWidth = (15 / $(window).width()) * 100;
+			this.listColumnWidth = this.getListColumnWidth();
+			this.windowW = $(window).width();
+			this.windowMinWidth = (15 / this.windowW) * 100;
 			this.windowMaxWidth = 100 - this.minWidth;
 			this.sideBlocks = container.find('.js-side-block');
 			this.sideBlockLeft = this.sideBlocks.first();
@@ -148,7 +143,7 @@ Vtiger_List_Js(
 			this.headerH = $('.js-header').outerHeight();
 		},
 		getDefaultSplitSizes: function () {
-			let thWidth = ((this.listColumnFirstWidth + this.listColumnSecondWidth + 82) / $(window).width()) * 100;
+			let thWidth = (this.listColumnWidth / this.windowW) * 100;
 			return [thWidth, 100 - thWidth];
 		},
 		/**
@@ -170,8 +165,8 @@ Vtiger_List_Js(
 		 * @param {Split} split - a split object.
 		 */
 		registerSplitEvents: function (container, split) {
-			var rightSplitMaxWidth = (400 / $(window).width()) * 100;
-			var minWindowWidth = (25 / $(window).width()) * 100;
+			var rightSplitMaxWidth = (400 / this.windowW) * 100;
+			var minWindowWidth = (25 / this.windowW) * 100;
 			var maxWindowWidth = 100 - minWindowWidth;
 			var listPreview = container.find('.js-detail-preview');
 			this.gutter.on('dblclick', () => {
@@ -241,8 +236,8 @@ Vtiger_List_Js(
 		 * @returns {Split} A split object.
 		 */
 		registerSplit: function (container) {
-			var rightSplitMaxWidth = (400 / $(window).width()) * 100;
-			var splitMinWidth = (25 / $(window).width()) * 100;
+			var rightSplitMaxWidth = (400 / this.windowW) * 100;
+			var splitMinWidth = (25 / this.windowW) * 100;
 			var splitMaxWidth = 100 - splitMinWidth;
 			var listPreview = container.find('.js-detail-preview');
 			const splitSizes = this.getSplitSizes();
@@ -320,12 +315,12 @@ Vtiger_List_Js(
 			var listPreview = container.find('.js-detail-preview');
 			var splitsArray = [];
 			var mainBody = container.closest('.mainBody');
-			if ($(window).width() > 993 && !container.find('.gutter').length) {
+			if (this.windowW > 993 && !container.find('.gutter').length) {
 				this.split = thisInstance.registerSplit(container);
 				splitsArray.push(this.split);
 			}
 			$(window).on('resize', () => {
-				if ($(window).width() < 993) {
+				if (this.windowW < 993) {
 					if (container.find('.gutter').length) {
 						splitsArray[splitsArray.length - 1].destroy();
 						this.sideBlockRight.removeClass('d-block');
@@ -370,7 +365,7 @@ Vtiger_List_Js(
 			const container = this.getListViewContentContainer();
 			this.setDomParams(container);
 			this.toggleSplit(container);
-			if ($(window).width() > 993) {
+			if (this.windowW > 993) {
 				this.registerListEvents(container);
 			}
 			iframe.on('load', () => {
