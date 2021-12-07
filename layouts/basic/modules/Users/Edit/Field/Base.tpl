@@ -11,9 +11,9 @@
 -->*}
 {strip}
 	<!-- tpl-Users-Edit-Field-Base -->
-	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
-	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-	{assign var="FIELD_NAME" value=$FIELD_MODEL->getName()}
+	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
+	{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	<input name="{$FIELD_MODEL->getFieldName()}" value="{$FIELD_VALUE}" class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if}" {' '}
 		id="{$MODULE_NAME}_editView_fieldName_{$FIELD_NAME}" type="text" {' '} tabindex="{$FIELD_MODEL->getTabIndex()}" {' '}

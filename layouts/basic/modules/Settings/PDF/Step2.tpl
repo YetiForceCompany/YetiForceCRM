@@ -4,13 +4,13 @@
 		<form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step2" class="form-horizontal">
 			<input type="hidden" name="module" value="PDF">
 			<input type="hidden" name="view" value="Edit">
-			<input type="hidden" name="mode" value="Step3"/>
-			<input type="hidden" name="parent" value="Settings"/>
-			<input type="hidden" class="step" value="2"/>
-			<input type="hidden" name="record" value="{$RECORDID}"/>
-			<input type="hidden" name="module_name" value="{$PDF_MODEL->get('module_name')}"/>
-			<input type="hidden" name="watermark_image" value=""/>
-			{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml('{"maximumlength":"16777215","type":"text"}')}
+			<input type="hidden" name="mode" value="Step3" />
+			<input type="hidden" name="parent" value="Settings" />
+			<input type="hidden" class="step" value="2" />
+			<input type="hidden" name="record" value="{$RECORDID}" />
+			<input type="hidden" name="module_name" value="{$PDF_MODEL->get('module_name')}" />
+			<input type="hidden" name="watermark_image" value="" />
+			{assign var=FIELD_INFO value=\App\Purifier::encodeHtml('{"maximumlength":"16777215","type":"text"}')}
 			<div class="row">
 				<div class="col-12 mb-2">
 					<div class="card">
@@ -33,8 +33,8 @@
 							<div class="card-body p-0">
 								<div class="controls">
 									<textarea class="form-control w-100 js-editor" name="header_content" id="header_content" data-js="ckeditor"
-									data-validation-engine="validate[funcCall[Vtiger_MaxSizeInByte_Validator_Js.invokeValidation]]"
-									data-fieldinfo='{$FIELD_INFO}'>{$PDF_MODEL->get('header_content')}</textarea>
+										data-validation-engine="validate[funcCall[Vtiger_MaxSizeInByte_Validator_Js.invokeValidation]]"
+										data-fieldinfo='{$FIELD_INFO}'>{$PDF_MODEL->get('header_content')}</textarea>
 								</div>
 							</div>
 						</div>
@@ -47,8 +47,8 @@
 							<div class="card-body p-0">
 								<div class="controls">
 									<textarea class="form-control w-100 js-editor" name="body_content" id="body_content" data-js="ckeditor"
-									data-validation-engine="validate[funcCall[Vtiger_MaxSizeInByte_Validator_Js.invokeValidation]]"
-									data-fieldinfo='{$FIELD_INFO}'>{$PDF_MODEL->get('body_content')}</textarea>
+										data-validation-engine="validate[funcCall[Vtiger_MaxSizeInByte_Validator_Js.invokeValidation]]"
+										data-fieldinfo='{$FIELD_INFO}'>{$PDF_MODEL->get('body_content')}</textarea>
 								</div>
 							</div>
 						</div>
@@ -62,8 +62,8 @@
 							<div class="card-body p-0">
 								<div class="controls">
 									<textarea class="form-control js-editor" name="footer_content" id="footer_content" data-js="ckeditor"
-									data-validation-engine="validate[funcCall[Vtiger_MaxSizeInByte_Validator_Js.invokeValidation]]"
-									data-fieldinfo='{$FIELD_INFO}'>{$PDF_MODEL->get('footer_content')}</textarea>
+										data-validation-engine="validate[funcCall[Vtiger_MaxSizeInByte_Validator_Js.invokeValidation]]"
+										data-fieldinfo='{$FIELD_INFO}'>{$PDF_MODEL->get('footer_content')}</textarea>
 								</div>
 							</div>
 						</div>

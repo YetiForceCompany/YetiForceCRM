@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Settings-AutomaticAssignment-Edit-Field-MultiPicklist -->
 	{if $FIELD_MODEL->getName() eq 'members'}
-		{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+		{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 		<div class="row">
 			<div class="col-12">

@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{if isset($SEARCH_INFO['searchValue'])}
 		{assign var=FIELD_VALUE value=$SEARCH_INFO['searchValue']}
 	{else}

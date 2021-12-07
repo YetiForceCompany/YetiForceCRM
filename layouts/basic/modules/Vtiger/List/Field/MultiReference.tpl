@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-List-Field-MultiReference -->
-	{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
+	{assign var=FIELD_INFO value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var="REFERENCE_LIST" value=$FIELD_MODEL->getReferenceList()}
 	{assign var="LABEL" value=$FIELD_MODEL->getFieldInfo()}
 	{if isset($SEARCH_INFO['searchValue'])}

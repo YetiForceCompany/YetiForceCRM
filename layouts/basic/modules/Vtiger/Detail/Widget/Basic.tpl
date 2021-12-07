@@ -172,7 +172,7 @@
 						{/if}
 						{if !empty($WIDGET['instance']) && method_exists($WIDGET['instance'], 'getCustomFields')}
 							{foreach from=$WIDGET['instance']->getCustomFields() item=FIELD_MODEL}
-								{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
+								{assign var=FIELD_INFO value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 								<div class="form-group-sm w-100 mr-1 mb-1">
 									<select name="{$FIELD_MODEL->getName()}"
 										class="select2 form-control form-control-sm js-filter_field"

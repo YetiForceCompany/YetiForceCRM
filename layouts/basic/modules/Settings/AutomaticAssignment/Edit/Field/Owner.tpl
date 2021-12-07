@@ -1,8 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-AutomaticAssignment-Edit-Field-Owner -->
-	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
-	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
+	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 	{assign var=OWNER_FIELD value=\App\Fields\Owner::getInstance($MODULE_NAME)}
 	{assign var=ALL_ACTIVEUSER_LIST value=$OWNER_FIELD->getAccessibleUsers('',$FIELD_MODEL->getFieldDataType())}
 	{assign var=ALL_ACTIVEGROUP_LIST value=$OWNER_FIELD->getAccessibleGroups('',$FIELD_MODEL->getFieldDataType())}

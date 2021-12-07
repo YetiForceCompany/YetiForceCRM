@@ -12,8 +12,8 @@
 {strip}
 	<!-- tpl-Base-Edit-Field-Phone -->
 	{assign var=TABINDEX value=$FIELD_MODEL->getTabIndex()}
-	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
-	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
+	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 	{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
 	{assign var="NUMBER" value=$FIELD_MODEL->get('fieldvalue')}
 	<div>
@@ -62,8 +62,8 @@
 				{if $ACTIVE_EXTRA_FIELD}
 					{assign var="PARAMS_EXTRA" value=$FIELD_MODEL->getFieldParams()}
 					<div class="col-md-4">
-						{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL_EXTRA->getFieldInfo()))}
-						{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL_EXTRA->getValidator()}
+						{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL_EXTRA->getFieldInfo()))}
+						{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL_EXTRA->getValidator()}
 						<input name="{$FIELD_NAME_EXTRA}" class="form-control" title="{\App\Language::translate($FIELD_MODEL_EXTRA->getFieldLabel(), $MODULE)}" tabindex="{$TABINDEX}"
 							placeholder="{\App\Language::translate($FIELD_MODEL_EXTRA->getFieldLabel(), $MODULE)}" value="{if $RECORD}{$FIELD_MODEL_EXTRA->getEditViewDisplayValue($RECORD->get($FIELD_NAME_EXTRA), $RECORD)}{/if}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME_EXTRA}" type="text" data-validation-engine="validate[{if $FIELD_MODEL_EXTRA->isMandatory() eq true} required,{/if}{if $FIELD_MODEL->get('maximumlength')}maxSize[{$FIELD_MODEL->get('maximumlength')}],{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if} {if $FIELD_MODEL_EXTRA->isEditableReadOnly()}readonly="readonly" {/if} {if isset($PARAMS_EXTRA['mask'])}data-inputmask="'mask': {\App\Purifier::encodeHtml(\App\Json::encode($PARAMS_EXTRA['mask']))}" {/if} />
 					</div>

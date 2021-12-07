@@ -11,8 +11,8 @@
 -->*}
 {strip}
 	<!-- tpl-Base-Edit-Field-Owner -->
-	{assign var="FIELD_INFO" value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
-	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
+	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 	{if $FIELD_MODEL->getUIType() eq '53'}
 		{assign var=ROLE_RECORD_MODEL value=$USER_MODEL->getRoleDetail()}
 		{assign var=OWNER_FIELD value=\App\Fields\Owner::getInstance($MODULE_NAME)}
