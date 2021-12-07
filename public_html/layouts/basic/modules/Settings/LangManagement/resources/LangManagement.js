@@ -342,7 +342,7 @@ var Settings_Index_Js = {
 	showStats: function (data, modules) {
 		const thisInstance = this;
 		let container = $('.LangManagement'),
-			html = '<div class="col-md-12"><div class="panel panel-default"><div class="panel-body">',
+			html = '<div class="col-md-12"><div class="panel panel-default"><div class="panel-body col-md-12">',
 			langStats = 0,
 			shortages = [];
 		for (let i in modules) {
