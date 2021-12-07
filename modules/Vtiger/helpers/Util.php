@@ -226,7 +226,8 @@ class Vtiger_Util_Helper
 	{
 		return [
 			'twilight' => '#404952',
-			'gray' => '#d1d1db'
+			'gray' => '#d1d1db',
+			'blue' => '#0078d4',
 		];
 	}
 
