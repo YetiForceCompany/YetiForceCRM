@@ -2,6 +2,8 @@
 /**
  * Mail Scanner bind email action.
  *
+ * @package Model
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -13,38 +15,22 @@
  */
 class OSSMail_Mail_Model extends \App\Base
 {
-	/**
-	 * Mail account.
-	 *
-	 * @var array
-	 */
+	/** @var string[] Ignored mail addresses */
+	public const IGNORED_MAILS = ['@', 'undisclosed-recipients',  'Undisclosed-recipients', 'undisclosed-recipients@', 'Undisclosed-recipients@', 'Undisclosed recipients@,@', 'undisclosed recipients@,@'];
+
+	/** @var array Mail account. */
 	protected $mailAccount = [];
 
-	/**
-	 * Mail folder.
-	 *
-	 * @var string
-	 */
+	/** @var string Mail folder. */
 	protected $mailFolder = '';
 
-	/**
-	 * Mail crm id.
-	 *
-	 * @var bool|int
-	 */
+	/** @var bool|int Mail crm id. */
 	protected $mailCrmId = false;
 
-	/**
-	 * Action result.
-	 *
-	 * @var array
-	 */
+	/** @var array Action result. */
 	protected $actionResult = [];
-	/**
-	 * Mail type.
-	 *
-	 * @var int
-	 */
+
+	/** @var int Mail type. */
 	protected $mailType;
 
 	/**
@@ -282,7 +268,7 @@ class OSSMail_Mail_Model extends \App\Base
 		$return = [];
 		$cacheKey = 'MailSearchByEmails' . $moduleName . '_' . $fieldName;
 		foreach ($emails as $email) {
-			if (empty($email) || \in_array($email, ['@', 'undisclosed-recipients@', 'undisclosed-recipients'])) {
+			if (empty($email) || \in_array($email, self::IGNORED_MAILS)) {
 				continue;
 			}
 			if (App\Cache::staticHas($cacheKey, $email)) {
@@ -315,14 +301,14 @@ class OSSMail_Mail_Model extends \App\Base
 	 * @param string   $fieldName
 	 * @param string[] $emails
 	 *
-	 * @return int[] crmids
+	 * @return int[] CRM ids
 	 */
 	public function searchByDomains(string $moduleName, string $fieldName, array $emails)
 	{
 		$cacheKey = 'MailSearchByDomains' . $moduleName . '_' . $fieldName;
 		$crmids = [];
 		foreach ($emails as $email) {
-			if (empty($email) || \in_array($email, ['@', 'undisclosed-recipients@', 'undisclosed-recipients', 'Undisclosed recipients@,@'])) {
+			if (empty($email) || \in_array($email, self::IGNORED_MAILS)) {
 				continue;
 			}
 			$domain = mb_strtolower(explode('@', $email)[1]);
