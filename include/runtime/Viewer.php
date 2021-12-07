@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Vtiger_Viewer extends SmartyBC
+class Vtiger_Viewer extends \Smarty
 {
 	const DEFAULTLAYOUT = 'basic';
 	const DEFAULTTHEME = 'twilight';
