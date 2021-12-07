@@ -1185,23 +1185,6 @@ CREATE TABLE `s_yf_auto_record_flow_updater` (
   CONSTRAINT `s_yf_auto_record_flow_updater_ibfk_2` FOREIGN KEY (`target_module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `s_yf_automatic_assignment` */
-
-CREATE TABLE `s_yf_automatic_assignment` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `tabid` smallint(5) unsigned NOT NULL,
-  `field` varchar(30) NOT NULL,
-  `value` varchar(255) DEFAULT NULL,
-  `roles` text DEFAULT NULL,
-  `smowners` text DEFAULT NULL,
-  `assign` smallint(5) DEFAULT NULL,
-  `active` tinyint(1) DEFAULT 1,
-  `conditions` text DEFAULT NULL,
-  `user_limit` tinyint(1) DEFAULT NULL,
-  `roleid` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `s_yf_batchmethod` */
 
 CREATE TABLE `s_yf_batchmethod` (

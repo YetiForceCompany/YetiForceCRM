@@ -9,33 +9,18 @@
  */
 class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_Model
 {
-	/**
-	 * Table name.
-	 *
-	 * @var string
-	 */
+	/** {@inheritdoc} */
 	public $baseTable = 's_#__auto_assign';
-	public $customFieldTable = ['s_#__auto_assign_users' => 'id', 's_#__auto_assign_groups' => 'id', 's_#__auto_assign_roles' => 'id'];
-
-	/**
-	 * Table primary key.
-	 *
-	 * @var string
-	 */
+	/** {@inheritdoc} */
 	public $baseIndex = 'id';
 
-	/**
-	 * List of fields displayed in list view.
-	 *
-	 * @var string
-	 */
-	public $listFields = ['tabid' => 'FL_MODULE', 'subject' => 'FL_SUBJECT', 'state' => 'FL_STATE'];
+	/** @var array Members table */
+	public $customFieldTable = ['s_#__auto_assign_users' => 'id', 's_#__auto_assign_groups' => 'id', 's_#__auto_assign_roles' => 'id'];
 
-	/**
-	 * Module Name.
-	 *
-	 * @var string
-	 */
+	/** {@inheritdoc} */
+	public $listFields = ['subject' => 'FL_SUBJECT', 'tabid' => 'FL_MODULE',  'state' => 'FL_STATE'];
+
+	/** {@inheritdoc} */
 	public $name = 'AutomaticAssignment';
 
 	/**
@@ -86,25 +71,6 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	}
 
 	/**
-	 * List of supported module fields.
-	 *
-	 * @param mixed $moduleName
-	 *
-	 * @return array
-	 */
-	public static function getFieldsByModule($moduleName)
-	{
-		$accessibleFields = [];
-		$moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
-		foreach ($moduleInstance->getFields() as $fieldName => $fieldObject) {
-			if (\in_array($fieldObject->getFieldDataType(), static::$fieldType) && $fieldObject->isActiveField() && 4 !== $fieldObject->getUIType()) {
-				$accessibleFields[$fieldObject->getBlockName()][$fieldName] = $fieldObject;
-			}
-		}
-		return $accessibleFields;
-	}
-
-	/**
 	 * Function verifies if it is possible to sort by given field in list view.
 	 *
 	 * @param string $fieldName
@@ -113,15 +79,13 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	 */
 	public function isSortByName($fieldName)
 	{
-		if (\in_array($fieldName, ['value', 'active'])) {
+		if (\in_array($fieldName, ['tabid', 'state', 'subject'])) {
 			return true;
 		}
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListFields(): array
 	{
 		if (!isset($this->listFieldModels)) {
@@ -139,89 +103,29 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 		return $this->listFieldModels;
 	}
 
-	/**
-	 * Function searches for record from the Auto assign records panel.
-	 *
-	 * @param Vtiger_Record_Model $recordModel
-	 * @param string              $role
-	 *
-	 * @return bool|Settings_AutomaticAssignment_Record_Model
-	 */
-	public function searchRecord(Vtiger_Record_Model $recordModel, $role = '')
-	{
-		$key = $recordModel->getModuleName() . $role;
-		if (\App\Cache::has(__METHOD__, $key)) {
-			$data = \App\Cache::get(__METHOD__, $key);
-		} else {
-			$query = (new \App\Db\Query())
-				->select(['field', 'value', 'id'])
-				->from($this->baseTable)
-				->where(['tabid' => \App\Module::getModuleId($recordModel->getModuleName()), 'active' => 1]);
-			if ($role) {
-				$query->andWhere(['roleid' => $role]);
-			}
-			$data = $query->all();
-			\App\Cache::save(__METHOD__, $key, $data, \App\Cache::LONG);
-		}
-		foreach ($data as $row) {
-			if (!$recordModel->has($row['field'])) {
-				$fieldModel = $recordModel->getModule()->getFieldByName($row['field']);
-				$idName = $recordModel->getEntity()->tab_name_index[$fieldModel->getTableName()];
-				$value = \vtlib\Functions::getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $idName, $recordModel->getId());
-				$recordModel->set($row['field'], $value);
-			}
-			if ($row['value'] == $recordModel->get($row['field'])) {
-				$autoAssignRecordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($row['id']);
-				$autoAssignRecordModel->sourceRecordModel = $recordModel;
-
-				return $autoAssignRecordModel;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Function clears cache.
-	 *
-	 * @param array $param
-	 */
-	public function clearCache($param)
-	{
-		if (!empty($param) && isset($param['tabid'], $param['roleid'])) {
-			$tabId = \App\Module::getModuleName($param['tabid']);
-			$cacheKey = $tabId . $param['roleid'];
-			\App\Cache::delete(__CLASS__ . '::searchRecord', $cacheKey);
-		}
-	}
-
-	/**
-	 * Execute auto assign.
-	 *
-	 * @param \Vtiger_Record_Model $recordModel
-	 */
-	public static function autoAssignExecute(Vtiger_Record_Model $recordModel)
-	{
-		$moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:AutomaticAssignment');
-		$autoAssignRecord = $moduleInstance->searchRecord($recordModel);
-		if ($autoAssignRecord) {
-			$owner = $autoAssignRecord->getAssignUser();
-			if ($owner && (int) $owner !== (int) $recordModel->get('assigned_user_id')) {
-				$recordModel->set('assigned_user_id', $owner);
-				$recordModel->save();
-			}
-		}
-	}
-
+	/** @var string[] Fields name for edit view */
 	public $editFields = [
 		'tabid', 'subject', 'state', 'workflow', 'handler', 'gui', 'conditions', 'members', 'method', 'default_assign', 'record_limit', 'record_limit_conditions'
 	];
 
-	public function getEditableFields()
+	/**
+	 * Editable fields.
+	 *
+	 * @return array
+	 */
+	public function getEditableFields(): array
 	{
 		return $this->editFields;
 	}
 
-	public function getEditViewStructure($recordModel = null)
+	/**
+	 * Get structure fields.
+	 *
+	 * @param Settings_AutomaticAssignment_Record_Model|null $recordModel
+	 *
+	 * @return array
+	 */
+	public function getEditViewStructure($recordModel = null): array
 	{
 		$structure = [];
 		foreach ($this->editFields as $fieldName) {
@@ -239,7 +143,14 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 		return $structure;
 	}
 
-	public function getBlockIcon($name)
+	/**
+	 * Get block icon.
+	 *
+	 * @param string $name
+	 *
+	 * @return string
+	 */
+	public function getBlockIcon($name): string
 	{
 		$blocks = [
 			'BL_BASIC_DATA' => ['icon' => 'yfi-company-detlis'],
@@ -250,6 +161,13 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 		return $blocks[$name]['icon'] ?? '';
 	}
 
+	/**
+	 * Get fields instance by name.
+	 *
+	 * @param string $name
+	 *
+	 * @return Vtiger_Field_Model
+	 */
 	public function getFieldInstanceByName($name)
 	{
 		switch ($name) {
@@ -315,6 +233,9 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 					'picklistValues' => []
 				];
 				foreach (\vtlib\Functions::getAllModules(true, false, 0) as $module) {
+					if (\in_array($module['name'], ['SMSNotifier', 'OSSMailView', 'Dashboard', 'ModComments', 'Notification'])) {
+						continue;
+					}
 					$params['picklistValues'][$module['tabid']] = \App\Language::translate($module['name'], $module['name']);
 				}
 				break;

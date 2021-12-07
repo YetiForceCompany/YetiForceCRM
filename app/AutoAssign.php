@@ -20,29 +20,29 @@ namespace App;
  */
 class AutoAssign extends Base
 {
-	/** Basic table name */
-	const TABLE_NAME = 's_#__auto_assign';
-	/** Members tables */
-	const MEMBERS_TABLES = ['s_#__auto_assign_users' => 'id', 's_#__auto_assign_groups' => 'id', 's_#__auto_assign_roles' => 'id'];
-	/** Round robin table name */
-	const ROUND_ROBIN_TABLE = 'u_#__auto_assign_rr';
+	/** @var string Basic table name */
+	public const TABLE_NAME = 's_#__auto_assign';
+	/** @var array Members tables */
+	public const MEMBERS_TABLES = ['s_#__auto_assign_users' => 'id', 's_#__auto_assign_groups' => 'id', 's_#__auto_assign_roles' => 'id'];
+	/** @var string Round robin table name */
+	public const ROUND_ROBIN_TABLE = 'u_#__auto_assign_rr';
 
-	/** Status inactive */
-	const STATUS_INACTIVE = 0;
-	/** Status active */
-	const STATUS_ACTIVE = 1;
+	/** @var int Status inactive */
+	public const STATUS_INACTIVE = 0;
+	/** @var int Status active */
+	public const STATUS_ACTIVE = 1;
 
-	/** Manual mode */
-	const MODE_MANUAL = 1;
-	/** Handler mode */
-	const MODE_HANDLER = 2;
-	/** Workflow mode */
-	const MODE_WORKFLOW = 4;
+	/** @var int Manual mode */
+	public const MODE_MANUAL = 1;
+	/** @var int Handler mode */
+	public const MODE_HANDLER = 2;
+	/** @var int Workflow mode */
+	public const MODE_WORKFLOW = 4;
 
-	/** Load balance method */
-	const METHOD_LOAD_BALANCE = 0;
-	/** Round robin method */
-	const METHOD_ROUND_ROBIN = 1;
+	/** @var int Load balance method */
+	private const METHOD_LOAD_BALANCE = 0;
+	/** @var int Round robin method */
+	private const METHOD_ROUND_ROBIN = 1;
 
 	/**
 	 * Get all auto assign entries for module.
@@ -58,7 +58,6 @@ class AutoAssign extends Base
 		$query = (new Db\Query())->from(self::TABLE_NAME)
 			->where(['tabid' => Module::getModuleId($moduleName), 'state' => $state]);
 		$mods = ['or'];
-
 		foreach ([self::MODE_MANUAL => 'gui', self::MODE_HANDLER => 'handler', self::MODE_WORKFLOW => 'workflow'] as $key => $column) {
 			if ($mode & $key) {
 				$mods[] = [$column => 1];
@@ -184,7 +183,7 @@ class AutoAssign extends Base
 	 *
 	 * @return bool
 	 */
-	public function isActive(int $mode)
+	public function isActive(int $mode): bool
 	{
 		switch ($mode) {
 			case self::MODE_MANUAL:
@@ -260,7 +259,7 @@ class AutoAssign extends Base
 
 		$type = $defaultOwner ? Fields\Owner::getType($defaultOwner) : null;
 		if ('Users' === $type) {
-			$owner = \array_key_exists($defaultOwner, $ownerModel->getAccessibleUsersForModule()) ? $defaultOwner : $owner;
+			$owner = User::isExists($defaultOwner) ? $defaultOwner : $owner;
 		} elseif ($type) {
 			$owner = \array_key_exists($defaultOwner, $ownerModel->getAccessibleGroupForModule()) ? $defaultOwner : $owner;
 		}
@@ -347,10 +346,9 @@ class AutoAssign extends Base
 			->addCondition('available', 1, 'e')
 			->addCondition('auto_assign', 1, 'e');
 		$columnName = $queryGenerator->getColumnName('id');
-		$availableUsers = $this->getMembers();
 
 		$condition = ['or'];
-		foreach ($availableUsers as $member) {
+		foreach ($this->getMembers() as $member) {
 			[$type, $id] = explode(':', $member);
 			switch ($type) {
 				case PrivilegeUtil::MEMBER_TYPE_USERS:
@@ -413,7 +411,7 @@ class AutoAssign extends Base
 	public function postProcess(int $userId)
 	{
 		$dbCommand = Db::getInstance()->createCommand();
-		if ($userId && self::METHOD_ROUND_ROBIN === $this->get('method')) {
+		if ($userId && self::METHOD_ROUND_ROBIN === (int) $this->get('method')) {
 			$params = ['id' => $this->getId(), 'user' => $userId];
 			$isExists = (new Db\Query())->from(self::ROUND_ROBIN_TABLE)->where($params)->exists();
 			if ($isExists) {
