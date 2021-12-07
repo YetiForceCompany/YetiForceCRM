@@ -219,8 +219,8 @@ header {
 	@extend .u-bg-twilight;
 }
 
-.select2-selection__rendered[title="Modern"] {
-	@extend .u-bg-modern;
+.select2-selection__rendered[title="Blue"] {
+	@extend .u-bg-blue;
 }
 
 .select2-selection[aria-labelledby^="select2-theme"] {

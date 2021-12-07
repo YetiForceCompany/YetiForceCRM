@@ -23105,8 +23105,8 @@ table .listButtons.narrow .c-badge__icon {
   color: #fff;
 }
 
-.u-bg-modern, .select2-selection__rendered[title=Modern] {
-  background-color: #0d9605 !important;
+.u-bg-blue, .select2-selection__rendered[title=Blue] {
+  background-color: #0078d4 !important;
 }
 
 .u-bg-gray {
