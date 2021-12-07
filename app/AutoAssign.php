@@ -10,6 +10,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App;
@@ -54,9 +55,10 @@ class AutoAssign extends Base
 	 */
 	public static function getByModule(string $moduleName, int $mode = self::MODE_HANDLER | self::MODE_WORKFLOW | self::MODE_MANUAL, int $state = self::STATUS_ACTIVE): array
 	{
-		$query = (new \App\Db\Query())->from(self::TABLE_NAME)
-			->where(['tabid' => \App\Module::getModuleId($moduleName), 'state' => $state]);
+		$query = (new Db\Query())->from(self::TABLE_NAME)
+			->where(['tabid' => Module::getModuleId($moduleName), 'state' => $state]);
 		$mods = ['or'];
+
 		foreach ([self::MODE_MANUAL => 'gui', self::MODE_HANDLER => 'handler', self::MODE_WORKFLOW => 'workflow'] as $key => $column) {
 			if ($mode & $key) {
 				$mods[] = [$column => 1];
@@ -96,8 +98,8 @@ class AutoAssign extends Base
 	{
 		$autoAssignInstance = null;
 		foreach (self::getByModule($recordModel->getModuleName(), $mode) as $autoAssignData) {
-			$conditions = \App\Json::isEmpty($autoAssignData['conditions']) ? [] : \App\Json::decode($autoAssignData['conditions']);
-			if (\App\Condition::checkConditions($conditions, $recordModel)) {
+			$conditions = Json::isEmpty($autoAssignData['conditions']) ? [] : Json::decode($autoAssignData['conditions']);
+			if (Condition::checkConditions($conditions, $recordModel)) {
 				$autoAssignInstance = self::getInstance($autoAssignData);
 				break;
 			}
@@ -114,7 +116,7 @@ class AutoAssign extends Base
 	 */
 	public static function getInstanceById(int $id): ?self
 	{
-		$data = (new \App\Db\Query())->from(self::TABLE_NAME)->where(['id' => $id])->one();
+		$data = (new Db\Query())->from(self::TABLE_NAME)->where(['id' => $id])->one();
 		return $data ? (new self())->setData($data) : null;
 	}
 
@@ -149,7 +151,7 @@ class AutoAssign extends Base
 	 */
 	public function getName(bool $encode = true): string
 	{
-		return \App\Language::translate($this->get('subject'), 'Settings:AutomaticAssignment', false, $encode);
+		return Language::translate($this->get('subject'), 'Settings:AutomaticAssignment', false, $encode);
 	}
 
 	/**
@@ -159,7 +161,7 @@ class AutoAssign extends Base
 	 */
 	public function getModuleName(): string
 	{
-		return \App\Module::getModuleName($this->get('tabid'));
+		return Module::getModuleName($this->get('tabid'));
 	}
 
 	/**
@@ -171,8 +173,8 @@ class AutoAssign extends Base
 	 */
 	public function checkConditionForRecord(\Vtiger_Record_Model $recordModel): bool
 	{
-		$conditions = \App\Json::isEmpty($this->get('conditions')) ? [] : \App\Json::decode($this->get('conditions'));
-		return \App\Condition::checkConditions($conditions, $recordModel);
+		$conditions = Json::isEmpty($this->get('conditions')) ? [] : Json::decode($this->get('conditions'));
+		return Condition::checkConditions($conditions, $recordModel);
 	}
 
 	/**
@@ -254,9 +256,9 @@ class AutoAssign extends Base
 	{
 		$owner = null;
 		$defaultOwner = (int) $this->get('default_assign');
-		$ownerModel = \App\Fields\Owner::getInstance($this->getModuleName());
+		$ownerModel = Fields\Owner::getInstance($this->getModuleName());
 
-		$type = $defaultOwner ? \App\Fields\Owner::getType($defaultOwner) : null;
+		$type = $defaultOwner ? Fields\Owner::getType($defaultOwner) : null;
 		if ('Users' === $type) {
 			$owner = \array_key_exists($defaultOwner, $ownerModel->getAccessibleUsersForModule()) ? $defaultOwner : $owner;
 		} elseif ($type) {
@@ -307,9 +309,9 @@ class AutoAssign extends Base
 		$ownerFieldName = 'assigned_user_id';
 		$queryGeneratorUsers = $this->getAvailableUsersQuery();
 
-		$queryGenerator = (new \App\QueryGenerator($this->getModuleName()));
+		$queryGenerator = (new QueryGenerator($this->getModuleName()));
 		$queryGenerator->permissions = false;
-		$conditions = \App\Json::isEmpty($this->get('record_limit_conditions')) ? [] : \App\Json::decode($this->get('record_limit_conditions'));
+		$conditions = Json::isEmpty($this->get('record_limit_conditions')) ? [] : Json::decode($this->get('record_limit_conditions'));
 		$queryGenerator->setFields([$ownerFieldName])
 			->setCustomColumn(['count' => new \yii\db\Expression('COUNT(*)')])
 			->setConditions($conditions)
@@ -339,7 +341,7 @@ class AutoAssign extends Base
 	 */
 	public function getAvailableUsersQuery(): QueryGenerator
 	{
-		$queryGenerator = (new \App\QueryGenerator('Users'))
+		$queryGenerator = (new QueryGenerator('Users'))
 			->setFields(['id'])
 			->addCondition('status', 'Active', 'e')
 			->addCondition('available', 1, 'e')
@@ -351,17 +353,17 @@ class AutoAssign extends Base
 		foreach ($availableUsers as $member) {
 			[$type, $id] = explode(':', $member);
 			switch ($type) {
-				case \App\PrivilegeUtil::MEMBER_TYPE_USERS:
+				case PrivilegeUtil::MEMBER_TYPE_USERS:
 					$condition[$type][$columnName][] = (int) $id;
 					break;
-				case \App\PrivilegeUtil::MEMBER_TYPE_GROUPS:
-					$condition[] = [$columnName => (new \App\Db\Query())->select(['userid'])->from(["condition_{$type}_{$id}_" . \App\Layout::getUniqueId() => \App\PrivilegeUtil::getQueryToUsersByGroup((int) $id)])];
+				case PrivilegeUtil::MEMBER_TYPE_GROUPS:
+					$condition[] = [$columnName => (new Db\Query())->select(['userid'])->from(["condition_{$type}_{$id}_" . Layout::getUniqueId() => PrivilegeUtil::getQueryToUsersByGroup((int) $id)])];
 					break;
-				case \App\PrivilegeUtil::MEMBER_TYPE_ROLES:
-					$condition[] = [$columnName => \App\PrivilegeUtil::getQueryToUsersByRole($id)];
+				case PrivilegeUtil::MEMBER_TYPE_ROLES:
+					$condition[] = [$columnName => PrivilegeUtil::getQueryToUsersByRole($id)];
 					break;
-				case \App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES:
-					$condition[] = [$columnName => \App\PrivilegeUtil::getQueryToUsersByRoleAndSubordinate($id)];
+				case PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES:
+					$condition[] = [$columnName => PrivilegeUtil::getQueryToUsersByRoleAndSubordinate($id)];
 					break;
 				default:
 					break;
@@ -385,7 +387,7 @@ class AutoAssign extends Base
 		if (!$this->has('members')) {
 			$queryAll = null;
 			foreach (self::MEMBERS_TABLES as $tableName => $index) {
-				$query = (new \App\Db\Query())
+				$query = (new Db\Query())
 					->select(['member' => new \yii\db\Expression('CONCAT(type,\':\', member)')])
 					->from($tableName)
 					->where(["{$tableName}.{$index}" => $this->getId()]);
@@ -410,10 +412,10 @@ class AutoAssign extends Base
 	 */
 	public function postProcess(int $userId)
 	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
+		$dbCommand = Db::getInstance()->createCommand();
 		if ($userId && self::METHOD_ROUND_ROBIN === $this->get('method')) {
 			$params = ['id' => $this->getId(), 'user' => $userId];
-			$isExists = (new \App\Db\Query())->from(self::ROUND_ROBIN_TABLE)->where($params)->exists();
+			$isExists = (new Db\Query())->from(self::ROUND_ROBIN_TABLE)->where($params)->exists();
 			if ($isExists) {
 				$dbCommand->update(self::ROUND_ROBIN_TABLE, ['datetime' => (new \DateTime())->format('Y-m-d H:i:s.u')], $params)->execute();
 			} else {
