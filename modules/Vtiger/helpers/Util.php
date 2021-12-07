@@ -227,7 +227,7 @@ class Vtiger_Util_Helper
 		return [
 			'twilight' => '#404952',
 			'gray' => '#d1d1db',
-			'outlook' => '#0078d4',
+			'blue' => '#0078d4',
 		];
 	}
 
