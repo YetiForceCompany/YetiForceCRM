@@ -2401,13 +2401,13 @@ var app = (window.app = {
 			e.stopPropagation();
 			const btn = $(e.currentTarget);
 			app.showModalWindow(
-				`<div class="modal" tabindex="-1" role="dialog"><div class="modal-dialog modal-fullscreen" role="document"><div class="modal-content">
+				`<div class="modal" tabindex="-1" role="dialog"><div class="modal-dialog modal-fullscreen" role="document"><div class="modal-content js-modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title"><span class="mdi mdi-overscan"></span>${app.vtranslate('JS_FULL_TEXT')}</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					</div>
-					<div class="modal-body text-break u-word-break"></div>
-					<div class="modal-footer">
+					<div class="modal-body text-break u-word-break pb-0 pt-1"></div>
+					<div class="modal-footer py-1">
 						<button class="btn btn-danger" type="reset" data-dismiss="modal">
 							<span class="fas fa-times mr-1"></span>${app.vtranslate('JS_CLOSE')}</button>
 						</div>
@@ -2417,13 +2417,27 @@ var app = (window.app = {
 					if (btn.data('iframe')) {
 						let iframe = btn.siblings('iframe');
 						let message = iframe.clone();
-						message.css('display', '');
-						iframe.css('display', '');
-						let height = iframe.contents().height() ?? iframe.contents().find('body').height();
+						let isHidden = iframe.is(':hidden');
+						let height = 0;
+						if (iframe.data('height')) {
+							if (iframe.data('height') === 'full') {
+								height = $(window).height() - 185;
+							} else {
+								height = iframe.data('height');
+							}
+						} else {
+							if (isHidden) {
+								message.css('display', '');
+								iframe.css('display', '');
+							}
+							height = iframe.contents().height() ?? iframe.contents().find('body').height();
+						}
 						if (height) {
 							message.height(height);
 						}
-						iframe.css('display', 'none');
+						if (isHidden) {
+							iframe.css('display', 'none');
+						}
 						container.find('.modal-body').html(message);
 					} else {
 						container.find('.modal-body').html(btn.closest('.js-more-content').find('.fullContent').html());

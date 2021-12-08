@@ -7,10 +7,10 @@
 		<form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step1" class="form-horizontal" data-js="container">
 			<input type="hidden" name="module" value="PDF">
 			<input type="hidden" name="view" value="Edit">
-			<input type="hidden" name="mode" value="Step2"/>
-			<input type="hidden" name="parent" value="Settings"/>
-			<input type="hidden" class="step" value="1"/>
-			<input type="hidden" name="record" value="{$RECORDID}"/>
+			<input type="hidden" name="mode" value="Step2" />
+			<input type="hidden" name="parent" value="Settings" />
+			<input type="hidden" class="step" value="1" />
+			<input type="hidden" name="record" value="{$RECORDID}" />
 
 			<div class="row">
 				<div class="col-12 mb-2">
@@ -55,7 +55,7 @@
 								</label>
 								<div class="col-sm-6 controls">
 									<div class="input-group">
-										<input type="text" name="primary_name" class="form-control" data-validation-engine='validate[required]' value="{$PDF_MODEL->get('primary_name')}" id="primary_name"/>
+										<input type="text" name="primary_name" class="form-control" data-validation-engine='validate[required]' value="{$PDF_MODEL->get('primary_name')}" id="primary_name" />
 										<div class="input-group-append">
 											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-info-circle"></span></span>
 										</div>
@@ -69,7 +69,7 @@
 								</label>
 								<div class="col-sm-6 controls">
 									<div class="input-group">
-										<input type="text" name="secondary_name" class="form-control" data-validation-engine='validate[required]' value="{$PDF_MODEL->get('secondary_name')}" id="secondary_name"/>
+										<input type="text" name="secondary_name" class="form-control" data-validation-engine='validate[required]' value="{$PDF_MODEL->get('secondary_name')}" id="secondary_name" />
 										<div class="input-group-append">
 											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-info-circle"></span></span>
 										</div>
@@ -96,7 +96,7 @@
 									{\App\Language::translate('LBL_METATAGS', $QUALIFIED_MODULE)}
 								</label>
 								<div class="col-sm-6 controls">
-									<input type="checkbox" name="metatags_status" id="metatags_status" value="1" class="checkboxForm" {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}checked="checked"{/if} data-js="click"/>
+									<input type="checkbox" name="metatags_status" id="metatags_status" value="1" class="checkboxForm" {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}checked="checked" {/if} data-js="click" />
 								</div>
 							</div>
 							<div class="form-group row metatags {if $PDF_MODEL->get('metatags_status') eq true || $RECORDID eq ''}d-none{/if}">
@@ -105,7 +105,7 @@
 								</label>
 								<div class="col-sm-6 controls">
 									<div class="input-group">
-										<input type="text" name="meta_title" class="form-control" value="{$PDF_MODEL->get('meta_title')}" id="meta_title"/>
+										<input type="text" name="meta_title" class="form-control" value="{$PDF_MODEL->get('meta_title')}" id="meta_title" />
 										<div class="input-group-append">
 											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-info-circle"></span></span>
 										</div>
@@ -118,7 +118,7 @@
 								</label>
 								<div class="col-sm-6 controls">
 									<div class="input-group">
-										<input type="text" name="meta_author" class="form-control" value="{$PDF_MODEL->get('meta_author')}" id="meta_author"/>
+										<input type="text" name="meta_author" class="form-control" value="{$PDF_MODEL->get('meta_author')}" id="meta_author" />
 										<div class="input-group-append">
 											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-info-circle"></span></span>
 										</div>
@@ -131,7 +131,7 @@
 								</label>
 								<div class="col-sm-6 controls">
 									<div class="input-group">
-										<input type="text" name="meta_subject" class="form-control" value="{$PDF_MODEL->get('meta_subject')}" id="meta_subject"/>
+										<input type="text" name="meta_subject" class="form-control" value="{$PDF_MODEL->get('meta_subject')}" id="meta_subject" />
 										<div class="input-group-append">
 											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-info-circle"></span></span>
 										</div>
@@ -188,7 +188,7 @@
 									{assign 'MARGIN_CHECKED' false}
 								{/if}
 								<div class="col-sm-6">
-									<input type="checkbox" id="margin_chkbox" name="margin_chkbox" value="1" {if $MARGIN_CHECKED eq 'true'}checked="checked"{/if} data-js="click"/>
+									<input type="checkbox" id="margin_chkbox" name="margin_chkbox" value="1" {if $MARGIN_CHECKED eq 'true'}checked="checked" {/if} data-js="click" />
 								</div>
 							</div>
 							<div class="form-group row margin_inputs {if $MARGIN_CHECKED eq 'true'}d-none{/if}">
@@ -200,7 +200,7 @@
 												<div class="input-group-prepend">
 													<span class="input-group-text" id="margin_top"><span class="fas fa-arrow-up" title="{\App\Language::translate('LBL_TOP', $QUALIFIED_MODULE)}"></span></span>
 												</div>
-												<input type="text" class="form-control" aria-describedby="margin_top" name="margin_top" id="margin_top" value="{$PDF_MODEL->get('margin_top')}" placeholder="{\App\Language::translate('LBL_TOP', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_TOP_IN_MILIMETERS', $QUALIFIED_MODULE)}"/>
+												<input type="text" class="form-control" aria-describedby="margin_top" name="margin_top" id="margin_top" value="{$PDF_MODEL->get('margin_top')}" placeholder="{\App\Language::translate('LBL_TOP', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_TOP_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
 											</div>
 										</div>
 										<div class="col-md-6 mb-2">
@@ -208,7 +208,7 @@
 												<div class="input-group-prepend">
 													<span class="input-group-text" id="margin_right"><span class="fas fa-arrow-right" title="{\App\Language::translate('LBL_RIGHT', $QUALIFIED_MODULE)}"></span></span>
 												</div>
-												<input type="text" class="form-control" aria-describedby="margin_right" name="margin_right" id="margin_right" value="{$PDF_MODEL->get('margin_right')}" placeholder="{\App\Language::translate('LBL_RIGHT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_RIGHT_IN_MILIMETERS', $QUALIFIED_MODULE)}"/>
+												<input type="text" class="form-control" aria-describedby="margin_right" name="margin_right" id="margin_right" value="{$PDF_MODEL->get('margin_right')}" placeholder="{\App\Language::translate('LBL_RIGHT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_RIGHT_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
 											</div>
 										</div>
 										<div class="col-md-6 mb-2">
@@ -216,7 +216,7 @@
 												<div class="input-group-prepend">
 													<span class="input-group-text" id="margin_bottom"><span class="fas fa-arrow-down" title="{\App\Language::translate('LBL_BOTTOM', $QUALIFIED_MODULE)}"></span></span>
 												</div>
-												<input type="text" class="form-control" aria-describedby="margin_bottom" name="margin_bottom" id="margin_bottom" value="{$PDF_MODEL->get('margin_bottom')}" placeholder="{\App\Language::translate('LBL_BOTTOM', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_BOTTOM_IN_MILIMETERS', $QUALIFIED_MODULE)}"/>
+												<input type="text" class="form-control" aria-describedby="margin_bottom" name="margin_bottom" id="margin_bottom" value="{$PDF_MODEL->get('margin_bottom')}" placeholder="{\App\Language::translate('LBL_BOTTOM', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_BOTTOM_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
 											</div>
 										</div>
 										<div class="col-md-6 mb-2">
@@ -224,18 +224,18 @@
 												<div class="input-group-prepend">
 													<span class="input-group-text" id="margin_left"><span class="fas fa-arrow-left" title="{\App\Language::translate('LBL_LEFT', $QUALIFIED_MODULE)}"></span></span>
 												</div>
-												<input type="text" class="form-control" aria-describedby="margin_left" name="margin_left" id="margin_left" value="{$PDF_MODEL->get('margin_left')}" placeholder="{\App\Language::translate('LBL_LEFT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_LEFT_IN_MILIMETERS', $QUALIFIED_MODULE)}"/>
+												<input type="text" class="form-control" aria-describedby="margin_left" name="margin_left" id="margin_left" value="{$PDF_MODEL->get('margin_left')}" placeholder="{\App\Language::translate('LBL_LEFT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_LEFT_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
 											</div>
 										</div>
 									</div>
 									<div class="form-row">
 										<div class="col-12  col-lg-6 mb-2">
 											<label class="col-form-label text-center u-text-ellipsis--no-hover">{\App\Language::translate('LBL_HEADER_HEIGHT', $QUALIFIED_MODULE)}</label>
-											<input type="text" class="form-control" name="header_height" id="header_height" value="{$PDF_MODEL->get('header_height')}" placeholder="{\App\Language::translate('LBL_HEADER_HEIGHT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_HEADER_IN_MILIMETERS', $QUALIFIED_MODULE)}"/>
+											<input type="text" class="form-control" name="header_height" id="header_height" value="{$PDF_MODEL->get('header_height')}" placeholder="{\App\Language::translate('LBL_HEADER_HEIGHT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_HEADER_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
 										</div>
 										<div class="col-md-12 col-lg-6 mb-2">
 											<label class="col-form-label text-center u-text-ellipsis--no-hover">{\App\Language::translate('LBL_FOOTER_HEIGHT', $QUALIFIED_MODULE)}</label>
-											<input type="text" class="form-control" name="footer_height" id="footer_height" value="{$PDF_MODEL->get('footer_height')}" placeholder="{\App\Language::translate('LBL_FOOTER_HEIGHT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_FOOTER_IN_MILIMETERS', $QUALIFIED_MODULE)}"/>
+											<input type="text" class="form-control" name="footer_height" id="footer_height" value="{$PDF_MODEL->get('footer_height')}" placeholder="{\App\Language::translate('LBL_FOOTER_HEIGHT', $QUALIFIED_MODULE)}" title="{\App\Language::translate('LBL_FOOTER_IN_MILIMETERS', $QUALIFIED_MODULE)}" />
 										</div>
 									</div>
 								</div>
@@ -276,7 +276,7 @@
 								</label>
 								<div class="col-sm-6 controls">
 									<div class="input-group">
-										<input type="text" name="filename" class="form-control" value="{$PDF_MODEL->get('filename')}" id="filename"/>
+										<input type="text" name="filename" class="form-control" value="{$PDF_MODEL->get('filename')}" id="filename" />
 										<div class="input-group-append">
 											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-info-circle"></span></span>
 										</div>
@@ -288,7 +288,7 @@
 									{\App\Language::translate('LBL_DEFAULT_TPL', $QUALIFIED_MODULE)}
 								</label>
 								<div class="col-sm-6">
-									<input type="checkbox" id="default" name="default" value="1" {if !empty($PDF_MODEL->get('default'))}checked="checked"{/if} />
+									<input type="checkbox" id="default" name="default" value="1" {if !empty($PDF_MODEL->get('default'))}checked="checked" {/if} />
 								</div>
 							</div>
 							<div class="form-group row">
@@ -304,7 +304,7 @@
 									{else}
 										{assign 'ONE_PDF' true}
 									{/if}
-									<input type="checkbox" id="one_pdf" name="one_pdf" value="1" {if $ONE_PDF eq 'true'}checked="checked"{/if} />
+									<input type="checkbox" id="one_pdf" name="one_pdf" value="1" {if $ONE_PDF eq 'true'}checked="checked" {/if} />
 								</div>
 							</div>
 						</div>
@@ -327,7 +327,7 @@
 										{foreach from=Settings_Groups_Member_Model::getAll(false) key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 											<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
 												{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
-													<option value="{$MEMBER->get('id')}" data-member-type="{$GROUP_LABEL}" {if in_array($MEMBER->get('id'), $TEMPLATE_MEMBERS)}selected="true"{/if}>{\App\Language::translate($MEMBER->get('name'), $QUALIFIED_MODULE)}</option>
+													<option value="{$MEMBER->get('id')}" data-member-type="{$GROUP_LABEL}" {if in_array($MEMBER->get('id'), $TEMPLATE_MEMBERS)}selected="true" {/if}>{\App\Language::translate($MEMBER->get('name'), $QUALIFIED_MODULE)}</option>
 												{/foreach}
 											</optgroup>
 										{/foreach}
@@ -342,8 +342,8 @@
 								<div class="col-sm-12 controls">
 									{assign 'VISIBILITY' explode(',',$PDF_MODEL->get('visibility'))}
 									<select class="select2 form-control rtl" id="visibility" name="visibility" multiple data-validation-engine="validate[required]">
-										<option value="PLL_LISTVIEW" {if in_array('PLL_LISTVIEW', $VISIBILITY)}selected="selected"{/if}>{\App\Language::translate('PLL_LISTVIEW', $QUALIFIED_MODULE)}</option>
-										<option value="PLL_DETAILVIEW" {if in_array('PLL_DETAILVIEW', $VISIBILITY)}selected="selected"{/if}>{\App\Language::translate('PLL_DETAILVIEW', $QUALIFIED_MODULE)}</option>
+										<option value="PLL_LISTVIEW" {if in_array('PLL_LISTVIEW', $VISIBILITY)}selected="selected" {/if}>{\App\Language::translate('PLL_LISTVIEW', $QUALIFIED_MODULE)}</option>
+										<option value="PLL_DETAILVIEW" {if in_array('PLL_DETAILVIEW', $VISIBILITY)}selected="selected" {/if}>{\App\Language::translate('PLL_DETAILVIEW', $QUALIFIED_MODULE)}</option>
 									</select>
 								</div>
 							</div>
@@ -373,17 +373,17 @@
 										</div>
 									</div>
 								</div>
-								<div class="form-group col-12 col-sm-6 col-xl-6 col-xxl-4 watertext {if $PDF_MODEL->get('watermark_type') neq $WATERMARK_TEXT}d-none{/if}">
+								<div class="form-group col-12 col-sm-6 col-xl-6 col-xxl-4 watertext {if !$PDF_MODEL->isEmpty('watermark_type')}d-none{/if}">
 									<div class="row">
 										<div class="col-12 col-sm-6">
 											<label class="col-form-label">{\App\Language::translate('LBL_WATERMARK_ANGLE', $QUALIFIED_MODULE)}</label>
 										</div>
 										<div class="col-sm-6 controls">
-											<input type="number" name="watermark_angle" class="form-control" value="{intval($PDF_MODEL->get('watermark_angle'))}" id="watermark_angle" min="0" max="360"/>
+											<input type="number" name="watermark_angle" class="form-control" value="{intval($PDF_MODEL->get('watermark_angle'))}" id="watermark_angle" min="0" max="360" />
 										</div>
 									</div>
 								</div>
-								<div class="form-group col-12 watertext {if $PDF_MODEL->get('watermark_type') neq $WATERMARK_TEXT}d-none{/if}">
+								<div class="form-group col-12 watertext {if !$PDF_MODEL->isEmpty('watermark_type')}d-none{/if}">
 									<div class="row">
 										<div class="col-12">
 											<label class="col-form-label">{\App\Language::translate('LBL_WATERMARK_TEXT', $QUALIFIED_MODULE)}
@@ -394,7 +394,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="form-group col-12 col-xl-4 waterimage {if $PDF_MODEL->get('watermark_type') eq $WATERMARK_TEXT}d-none{/if}">
+								<div class="form-group col-12 col-xl-4 waterimage {if $PDF_MODEL->isEmpty('watermark_type')}d-none{/if}">
 									<div class="row">
 										<div class="col-12 col-sm-4">
 											<label class="col-form-label">{\App\Language::translate('LBL_WATERMARK_IMAGE', $QUALIFIED_MODULE)}</label>
@@ -403,17 +403,17 @@
 											<div class="row">
 												<div id="watermark" class="col-3">
 													{if $PDF_MODEL->get('watermark_image')}
-														<img src="{\App\Fields\File::getImageBaseData($PDF_MODEL->get('watermark_image'))}" class="w-100"/>
+														<img src="{\App\Fields\File::getImageBaseData($PDF_MODEL->get('watermark_image'))}" class="w-100" />
 													{/if}
 												</div>
 												<div class="col-9">
-													<input type="file" name="watermark_image_file" accept="images/*" class="form-control" id="watermark_image"/>
+													<input type="file" name="watermark_image_file" accept="images/*" class="form-control" id="watermark_image" />
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="form-group col-12 col-xxl-4 pt-2 pt-xxl-0 text-center waterimage {if $PDF_MODEL->get('watermark_type') eq $WATERMARK_TEXT}d-none{/if}">
+								<div class="form-group col-12 col-xxl-4 pt-2 pt-xxl-0 text-center waterimage {if $PDF_MODEL->isEmpty('watermark_type')}d-none{/if}">
 									<button id="deleteWM" class="btn btn-danger {if $PDF_MODEL->get('watermark_image') eq ''}d-none{/if}">{\App\Language::translate('LBL_DELETE_WM', $QUALIFIED_MODULE)}</button>
 								</div>
 							</div>

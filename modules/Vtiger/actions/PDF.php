@@ -258,7 +258,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'message' => \App\Language::translate('LBL_SCHEME_SAVED', 'Settings:PDF'),
-			'records' => $records
+			'records' => $records,
 		]);
 		$response->emit();
 	}

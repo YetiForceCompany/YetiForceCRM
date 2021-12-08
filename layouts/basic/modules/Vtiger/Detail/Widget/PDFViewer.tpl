@@ -10,7 +10,7 @@
 	{/if}
 	<div class="js-iframe-content">
 		{if $TEMPLATE}
-			<iframe class="w-100 modal-iframe js-modal-iframe" frameborder="0" src="index.php?module={$MODULE_NAME}&action=PDF&record={$RECORD_ID}&mode=generate&fromview=Detail&pdf_template={$TEMPLATE}&single_pdf=1&flag=I">
+			<iframe class="w-100 modal-iframe js-modal-iframe" data-height="full" frameborder="0" src="index.php?module={$MODULE_NAME}&action=PDF&record={$RECORD_ID}&mode=generate&fromview=Detail&pdf_template={$TEMPLATE}&single_pdf=1&flag=I">
 			</iframe>
 			<a href="#" class="js-more noLinkBtn font-weight-lighter js-popover-tooltip c-btn-floating-right-bottom btn btn-primary" data-iframe="true" data-content="{\App\Language::translate('LBL_FULLSCREEN')}">
 				<span class="mdi mdi-overscan"></span></a>
