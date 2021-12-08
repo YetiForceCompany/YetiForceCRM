@@ -5,7 +5,10 @@
 	</div>
 </div>
 {if $ISADMIN eq 1}
-
+	<div class="alert alert-danger">
+		<span class="fas fa-exclamation-triangle"></span>
+		{\App\Language::translate('LBL_PASSWORD_ABANDONED', $MODULE_NAME)} (<a href="https://yetiforce.com/en/knowledge-base/documentation/user-documentation/item/passwords-module" target="_blank">{\App\Language::translate('Passwords', 'Passwords')}</a>)
+	</div>
 	{if $ERROR|count_characters:true gt 0}
 		<div class="alert alert-warning">
 			<strong>{\App\Language::translate('Error', $MODULENAME)}</strong> {\App\Language::translate($ERROR, $MODULENAME)}
@@ -53,7 +56,7 @@
 										<div class="fieldLabel col-5 col-sm-2">
 											<label class="muted float-right mr-2"> <span class="redColor">*</span> {\App\Language::translate('Old Key', $MODULENAME)}:</label>
 										</div>
-										<div class="fieldValue col-7 col-sm-10" >
+										<div class="fieldValue col-7 col-sm-10">
 											<div class="row">
 												<input id="oldKey" type="text" class="form-control nameField" name="oldKey" value="" min="8" />
 											</div>
@@ -63,7 +66,7 @@
 										<div class="fieldLabel col-5 col-sm-2">
 											<label class="muted float-right mr-2"> <span class="redColor">*</span> {\App\Language::translate('New Key', $MODULENAME)}:</label>
 										</div>
-										<div class="fieldValue col-7 col-sm-10" >
+										<div class="fieldValue col-7 col-sm-10">
 											<div class="row">
 												<input id="newKey" type="text" class="form-control nameField" name="newKey" value="" min="8" />
 											</div>
@@ -95,7 +98,7 @@
 										<div class="fieldLabel col-5 col-sm-2">
 											<label class="muted float-right mr-2"> <span class="redColor">*</span> {\App\Language::translate('Encryption Password', $MODULENAME)}:</label>
 										</div>
-										<div class="fieldValue col-7 col-sm-10" >
+										<div class="fieldValue col-7 col-sm-10">
 											<div class="row">
 												<input id="passKey" type="text" class="form-control nameField" name="passKey" value="" min="8" />
 											</div>
@@ -105,7 +108,7 @@
 							</div>
 							<div class="contentHeader">
 								<span class="float-right">
-									<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong><span 													class="fa fa-check u-mr-5px"></span>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
+									<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
 									<a class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{\App\Language::translate('Cancel', $MODULENAME)}</a>
 								</span>
 							</div>
@@ -138,8 +141,8 @@
 					</div>
 					<div class="contentHeader">
 						<span class="float-right">
-							<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong><span 											class="fa fa-check u-mr-5px"></span>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
-							<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();"><span 										class="fa fa-times u-mr-5px"></span>{\App\Language::translate('Cancel', $MODULENAME)}</button>
+							<button class="btn btn-success" name="encryption_pass" value="encryption_pass" type="submit"><strong><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
+							<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();"><span class="fa fa-times u-mr-5px"></span>{\App\Language::translate('Cancel', $MODULENAME)}</button>
 						</span>
 					</div>
 				</form>
@@ -214,7 +217,7 @@
 						<button class="btn btn-success" name="save" value="save" type="submit">
 							<span class="fa fa-check u-mr-5px"></span><strong>{\App\Language::translate('Save', $MODULENAME)}</strong></button>
 						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();"><span
-									class="fa fa-times u-mr-5px"></span>{\App\Language::translate('Cancel', $MODULENAME)}</button>
+								class="fa fa-times u-mr-5px"></span>{\App\Language::translate('Cancel', $MODULENAME)}</button>
 					</span>
 				</div>
 			</form>
@@ -241,7 +244,7 @@
 		</div>
 	</div>
 {else}
-    <div class="alert alert-warning mx-2 my-3">
-        <strong>{\App\Language::translate('Error', $MODULENAME)}</strong> {\App\Language::translate('Access denied!', $MODULENAME)}
-    </div>
+	<div class="alert alert-warning mx-2 my-3">
+		<strong>{\App\Language::translate('Error', $MODULENAME)}</strong> {\App\Language::translate('Access denied!', $MODULENAME)}
+	</div>
 {/if}
