@@ -80,7 +80,7 @@ Vtiger_List_Js(
 		 */
 		getListViewContainer() {
 			if (this.listViewContainer == false) {
-				this.listViewContainer = $('div.listViewPageDiv');
+				this.listViewContainer = $('div.contentsDiv');
 			}
 			return this.listViewContainer;
 		},
