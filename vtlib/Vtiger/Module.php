@@ -328,6 +328,12 @@ class Module extends ModuleBasic
 		$fire = self::fireEvent($moduleName, $eventType);
 		if ($fire) {
 			\App\Db::getInstance()->createCommand()->update('vtiger_tab', ['presence' => $enableDisable], ['name' => $moduleName])->execute();
+			$tabId = \App\Module::getModuleId($moduleName);
+			\App\Cache::delete('moduleTabByName', $moduleName);
+			\App\Cache::delete('moduleTabById', $tabId);
+			\App\Cache::delete('moduleTabs', 'all');
+			\App\Cache::staticDelete('module', $moduleName);
+			\App\Cache::staticDelete('module', $tabId);
 			\App\Module::createModuleMetaFile();
 			\Settings_GlobalPermission_Record_Model::recalculate();
 			$menuRecordModel = new \Settings_Menu_Record_Model();
