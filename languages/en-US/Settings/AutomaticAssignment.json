@@ -2,7 +2,7 @@
   "php": {
     "LBL_AUTOMATIC_ASSIGNMENT": "Auto assign records",
     "AutomaticAssignment": "Auto assign records",
-    "LBL_AUTOMATICASSIGNMENT_DESCRIPTION": " ",
+    "LBL_AUTOMATICASSIGNMENT_DESCRIPTION": "The mechanism allows you to define the rules for automatically assigning an owner to created records or changing the current owner. ",
     "FL_FIELD": "Field name",
     "FL_MODULE": "Module",
     "FL_VALUE": "Value",

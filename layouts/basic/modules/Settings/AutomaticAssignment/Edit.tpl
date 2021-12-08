@@ -8,6 +8,13 @@
 			</div>
 		</div>
 		<div class="form-horizontal mt-2">
+			{assign var=CHECK_ALERT value=\App\YetiForce\Shop::checkAlert('YetiForceAutoAssignment')}
+			{if $CHECK_ALERT}
+				<div class="alert alert-warning">
+					<span class="yfi-premium mr-2 u-fs-2em color-red-600 float-left"></span>
+					{\App\Language::translate($CHECK_ALERT, 'Settings::YetiForce')} <a class="btn btn-primary btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceAutoAssignment&mode=showProductModal"><span class="yfi yfi-shop mr-2"></span>{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
+				</div>
+			{/if}
 			<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php">
 				<input type="hidden" name="module" value="{$MODULE_NAME}" />
 				<input type="hidden" name="parent" value="{$PARENT_MODULE}" />
