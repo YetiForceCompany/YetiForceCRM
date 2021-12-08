@@ -864,7 +864,11 @@ class Calendar
 				$value = ltrim($attendee->getValue(), 'mailto:');
 				if (isset($invities[$value])) {
 					$row = $invities[$value];
-					$attendee['PARTSTAT']->setValue($this->getAttendeeStatus($row['status'], false));
+					if (isset($attendee['PARTSTAT'])) {
+						$attendee['PARTSTAT']->setValue($this->getAttendeeStatus($row['status'], false));
+					} else {
+						$attendee->add('PARTSTAT', $this->getAttendeeStatus($row['status']));
+					}
 					unset($invities[$value]);
 				} else {
 					$this->vcomponent->remove($attendee);
