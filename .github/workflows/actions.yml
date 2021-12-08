@@ -39,7 +39,7 @@ jobs:
           fetch-depth: 0
 
       - name: PHP VarDump Check Action
-        uses: umutphp/php-var-dump-check-action@v2
+        uses: umutphp/php-var-dump-check-action@v1
         with:
           exclude: 'vendor,tests'
 
