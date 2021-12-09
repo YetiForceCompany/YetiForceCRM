@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\SystemWarnings\Mail;
@@ -17,8 +18,10 @@ namespace App\SystemWarnings\Mail;
  */
 class CheckErrorMail extends \App\SystemWarnings\Template
 {
+	/** {@inheritdoc} */
 	protected $statusValue = 0;
-	/** @var string Modal header title */
+
+	/** {@inheritdoc} */
 	protected $title = 'LBL_CHECK_MAIL_QUEUE_ERROR';
 
 	/**

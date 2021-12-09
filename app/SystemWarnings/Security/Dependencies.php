@@ -1,9 +1,7 @@
 <?php
 
-namespace App\SystemWarnings\Security;
-
 /**
- * Check for vulnerabilities in dependencies warnings class.
+ * Check for vulnerabilities in dependencies warnings file.
  *
  * @package App
  *
@@ -11,25 +9,26 @@ namespace App\SystemWarnings\Security;
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+namespace App\SystemWarnings\Security;
+
+/**
+ * Check for vulnerabilities in dependencies warnings class.
+ */
 class Dependencies extends \App\SystemWarnings\Template
 {
-	/**
-	 * Title.
-	 *
-	 * @var string
-	 */
+	/** {@inheritdoc} */
 	protected $title = 'LBL_VULNERABILITIES_IN_DEPENDENCIES';
-	/**
-	 * Priority.
-	 *
-	 * @var int
-	 */
+
+	/** {@inheritdoc} */
 	protected $priority = 9;
 
 	/**
 	 * Checks if encryption is active.
+	 *
+	 * @return void
 	 */
-	public function process()
+	public function process(): void
 	{
 		try {
 			$checker = (new \App\Security\Dependency())->securityChecker();

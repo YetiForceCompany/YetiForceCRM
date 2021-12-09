@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\SystemWarnings\YetiForce;
@@ -17,23 +18,21 @@ namespace App\SystemWarnings\YetiForce;
  */
 class Registration extends \App\SystemWarnings\Template
 {
-	/**
-	 * @var string Warning title
-	 */
+	/** {@inheritdoc} */
 	protected $title = 'LBL_REGISTRATION';
-	/**
-	 * @var int Warning priority
-	 */
+
+	/** {@inheritdoc} */
 	protected $priority = 8;
-	/**
-	 * @var bool Template flag
-	 */
+
+	/** {@inheritdoc} */
 	protected $tpl = true;
 
 	/**
 	 * Checking if registration is correct and display modal with info if not.
+	 *
+	 * @return void
 	 */
-	public function process()
+	public function process(): void
 	{
 		if (\App\YetiForce\Register::verify(true) || 'demo' === \App\Config::main('systemMode')) {
 			$this->status = 1;

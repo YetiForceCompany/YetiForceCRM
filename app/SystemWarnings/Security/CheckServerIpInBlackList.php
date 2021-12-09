@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\SystemWarnings\Security;
@@ -16,19 +17,18 @@ namespace App\SystemWarnings\Security;
  */
 class CheckServerIpInBlackList extends \App\SystemWarnings\Template
 {
-	/**
-	 * @var string Modal header title
-	 */
+	/** {@inheritdoc} */
 	protected $title = 'LBL_CHECK_SERVER_BLACK_LIST_IP';
-	/**
-	 * @var int Warning priority code
-	 */
+
+	/** {@inheritdoc} */
 	protected $priority = 9;
 
 	/**
 	 * checks if a given ip address is on the blacklist.
+	 *
+	 * @return void
 	 */
-	public function process()
+	public function process(): void
 	{
 		$this->status = 1;
 		if (($ip = \App\RequestUtil::getRemoteIP(true)) && ($blackList = \App\Mail\Rbl::findIp($ip, true))) {

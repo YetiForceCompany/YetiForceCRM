@@ -1,9 +1,7 @@
 <?php
 
-namespace App\SystemWarnings\Security;
-
 /**
- * Https system warnings class.
+ * Https system warnings file.
  *
  * @package App
  *
@@ -12,15 +10,26 @@ namespace App\SystemWarnings\Security;
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+namespace App\SystemWarnings\Security;
+
+/**
+ * Https system warnings class.
+ */
 class ServerHttps extends \App\SystemWarnings\Template
 {
+	/** {@inheritdoc} */
 	protected $title = 'LBL_SERVER_HTTPS';
+
+	/** {@inheritdoc} */
 	protected $priority = 7;
 
 	/**
 	 * Checking whether there is a https connection.
+	 *
+	 * @return void
 	 */
-	public function process()
+	public function process(): void
 	{
 		if ('WebUI' !== \App\Process::$requestMode) {
 			$this->status = 1;

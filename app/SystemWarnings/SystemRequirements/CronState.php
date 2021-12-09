@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\SystemWarnings\SystemRequirements;
@@ -27,8 +28,10 @@ class CronState extends \App\SystemWarnings\Template
 
 	/**
 	 * Checks if cron is active.
+	 *
+	 * @return void
 	 */
-	public function process()
+	public function process(): void
 	{
 		$lastStart = \Settings_CronTasks_Module_Model::getInstance('Settings:CronTasks')->getLastCronStart();
 		$checkTasks = (new \App\Db\Query())

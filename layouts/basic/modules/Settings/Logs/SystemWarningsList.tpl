@@ -47,20 +47,20 @@
 							</button>
 						{/if}
 						{if $ITEM->getLink()}
-							<a class="ml-1 btn btn-success btn-sm {if isset($ITEM->linkTitle)}js-popover-tooltip{/if}" data-js="popover" href="{$ITEM->getLink()}" {if isset($ITEM->linkTitle)}data-placement="top" data-content="{$ITEM->linkTitle}"{/if} target="_blank" rel="noreferrer noopener">
+							<a class="ml-1 btn btn-success btn-sm {if isset($ITEM->linkTitle)}js-popover-tooltip{/if}" data-js="popover" href="{$ITEM->getLink()}" {if isset($ITEM->linkTitle)}data-placement="top" data-content="{$ITEM->linkTitle}" {/if} target="_blank" rel="noreferrer noopener">
 								<span class="fas fa-link"></span>
 							</a>
 						{/if}
 						{if $ITEM->getDescription()}
-							<button class="ml-1 btn btn-primary btn-sm showDescription">
+							<button class="ml-1 btn btn-primary btn-sm js-show-description" data-js="click">
 								<span class="fas fa-info-circle"></span>
 							</button>
-							<span class="d-none showDescriptionContent">
+							<span class="d-none js-show-description-content" data-js="container">
 								<div class="modal fade">
-									<div class="modal-dialog">
+									<div class="modal-dialog modal-xl">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h5 class="modal-title">{App\Language::translate($ITEM->getTitle(),'Settings:SystemWarnings')}</h5>
+												<h5 class="modal-title"><span class="fas fa-info-circle mr-2"></span>{App\Language::translate($ITEM->getTitle(),'Settings:SystemWarnings')}</h5>
 												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 													<span aria-hidden="true">&times;</span>
 												</button>

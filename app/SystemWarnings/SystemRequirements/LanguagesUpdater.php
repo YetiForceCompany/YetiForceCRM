@@ -28,8 +28,10 @@ class LanguagesUpdater extends \App\SystemWarnings\Template
 
 	/**
 	 * Checking if registration is correct and display modal with info if not.
+	 *
+	 * @return void
 	 */
-	public function process()
+	public function process(): void
 	{
 		if (\App\Installer\Languages::getToInstall() && \App\Security\AdminAccess::isPermitted('LangManagement')) {
 			$this->status = 0;

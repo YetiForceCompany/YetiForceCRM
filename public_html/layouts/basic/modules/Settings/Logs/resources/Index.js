@@ -35,8 +35,8 @@ Settings_Vtiger_Index_Js('Settings_Logs_Index_Js', {
 			lengthMenu: [20, 40, 60, 80, 100],
 			pageLength: 20
 		});
-		container.find('.showDescription').on('click', (e) => {
-			app.showModalWindow($(e.currentTarget).closest('td').find('.showDescriptionContent').html());
+		container.find('.js-show-description').on('click', (e) => {
+			app.showModalWindow($(e.currentTarget).closest('td').find('.js-show-description-content').html());
 		});
 		container.find('.setIgnore').on('click', (e) => {
 			container.find('.js-popover-tooltip').popover('hide');

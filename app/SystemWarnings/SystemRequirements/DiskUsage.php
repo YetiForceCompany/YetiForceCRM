@@ -1,9 +1,7 @@
 <?php
 
-namespace App\SystemWarnings\SystemRequirements;
-
 /**
- * Disk usage system warnings class.
+ * Disk usage system warnings file.
  *
  * @package App
  *
@@ -11,25 +9,26 @@ namespace App\SystemWarnings\SystemRequirements;
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+namespace App\SystemWarnings\SystemRequirements;
+
+/**
+ * Disk usage system warnings class.
+ */
 class DiskUsage extends \App\SystemWarnings\Template
 {
-	/**
-	 * {@inheritdoc}
-	 *
-	 * @var string
-	 */
+	/** {@inheritdoc} */
 	protected $title = 'LBL_DISK_USAGE';
-	/**
-	 * {@inheritdoc}
-	 *
-	 * @var int
-	 */
+
+	/** {@inheritdoc} */
 	protected $priority = 9;
 
 	/**
 	 * Check disk space.
+	 *
+	 * @return void
 	 */
-	public function process()
+	public function process(): void
 	{
 		$this->status = 1;
 		$envInfo = \App\Utils\ConfReport::get('environment');
