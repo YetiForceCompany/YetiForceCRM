@@ -40,24 +40,7 @@ class PackageUpdate extends PackageImport
 				$zip->unzipFile("$module.png", 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/skins/images/$module.png");
 			}
 			$zip->unzip([
-				// Templates folder
-				'templates' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/$module",
-				// Cron folder
-				'cron' => "cron/modules/$module",
-				// Config
-				'config' => 'config/Modules',
-				// Modules folder
-				'modules' => 'modules',
-				// Settings folder
-				'settings/actions' => "modules/Settings/$module/actions",
-				'settings/views' => "modules/Settings/$module/views",
-				'settings/models' => "modules/Settings/$module/models",
-				// Settings templates folder
-				'settings/templates' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/modules/Settings/$module",
-				//module images
-				'images' => 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . "/images/$module",
 				'updates' => 'cache/updates',
-				'layouts' => 'layouts',
 			]);
 			// If data is not yet available
 			if (empty($this->_modulexml)) {
@@ -157,8 +140,8 @@ class PackageUpdate extends PackageImport
 	{
 		if (empty($this->_migrations)) {
 			$this->_migrations = [];
-			if (!empty($modulenode->migrations) &&
-				!empty($modulenode->migrations->migration)) {
+			if (!empty($modulenode->migrations)
+				&& !empty($modulenode->migrations->migration)) {
 				foreach ($modulenode->migrations->migration as $migrationnode) {
 					$migrationattrs = $migrationnode->attributes();
 					$migrationversion = $migrationattrs['version'];
