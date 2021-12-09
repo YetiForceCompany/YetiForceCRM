@@ -217,7 +217,7 @@ class AutoAssign extends Base
 				$owner = $this->getQueryByRoundRobin()->scalar();
 				break;
 			default:
-			$owner = null;
+				$owner = null;
 				break;
 		}
 
@@ -291,8 +291,9 @@ class AutoAssign extends Base
 	{
 		$robinTable = self::ROUND_ROBIN_TABLE;
 		$columnName = "{$robinTable}.datetime";
+		$id = $this->getId();
 
-		return $this->getQuery()->leftJoin($robinTable, "vtiger_users.id = {$robinTable}.user")
+		return $this->getQuery()->leftJoin($robinTable, "vtiger_users.id = {$robinTable}.user AND {$robinTable}.id={$id}")
 			->addSelect([$columnName])
 			->addGroupBy($columnName)
 			->orderBy([$columnName => SORT_ASC]);
