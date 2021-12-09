@@ -32,6 +32,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 	public function getActiveServiceContracts()
 	{
 		$query = (new \App\Db\Query())->from('vtiger_servicecontracts')
+			->select(['servicecontractsid', 'subject', 'due_date'])
 			->innerJoin('vtiger_crmentity', 'vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid')
 			->where(['deleted' => 0, 'contract_status' => 'In Progress', 'sc_related_to' => $this->get('parent_id')])
 			->orderBy(['due_date' => SORT_ASC]);
@@ -90,10 +91,10 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 			return [
 				'hasTimeControl' => [
 					'result' => $this->checkIfHasTimeControl(),
-					'message' => \App\Language::translate('LBL_ADD_TIME_CONTROL', $this->getModuleName())],
+					'message' => \App\Language::translate('LBL_ADD_TIME_CONTROL', $this->getModuleName()), ],
 				'relatedTicketsClosed' => [
 					'result' => $this->checkIfRelatedTicketsClosed(),
-					'message' => \App\Language::translate('LBL_CLOSE_RELATED_TICKETS', $this->getModuleName())]
+					'message' => \App\Language::translate('LBL_CLOSE_RELATED_TICKETS', $this->getModuleName()), ],
 			];
 		}
 		return ['hasTimeControl' => ['result' => true], 'relatedTicketsClosed' => ['result' => true]];
