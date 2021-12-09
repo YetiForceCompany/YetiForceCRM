@@ -123,7 +123,7 @@ class Module extends \App\Encryption
 	 *
 	 * @return \App\QueryGenerator
 	 */
-	private function getQueryGenerator(int $lastId = null): \App\QueryGenerator
+	public function getQueryGenerator(int $lastId = null): \App\QueryGenerator
 	{
 		$limit = 50000;
 		$moduleName = \App\Module::getModuleName($this->getTarget());

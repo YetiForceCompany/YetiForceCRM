@@ -24,13 +24,6 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	public $name = 'AutomaticAssignment';
 
 	/**
-	 * List of available field types.
-	 *
-	 * @var string[]
-	 */
-	private static $fieldType = ['string'];
-
-	/**
 	 * Function to get the url for Create view of the module.
 	 *
 	 * @return string - url
