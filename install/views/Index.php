@@ -13,10 +13,10 @@
 class Install_Index_View extends \App\Controller\View\Base
 {
 	use \App\Controller\ExposeMethod;
-	/**
-	 * {@inheritdoc}
-	 */
+
+	/** {@inheritdoc} */
 	public $csrfActive = false;
+
 	/**
 	 * @var bool
 	 */
@@ -34,6 +34,7 @@ class Install_Index_View extends \App\Controller\View\Base
 	 */
 	protected $stepNumber = 1;
 
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
@@ -49,10 +50,12 @@ class Install_Index_View extends \App\Controller\View\Base
 		$this->exposeMethod('step7');
 	}
 
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 	}
 
+	/** {@inheritdoc} */
 	public function loginRequired()
 	{
 		return false;
@@ -92,6 +95,7 @@ class Install_Index_View extends \App\Controller\View\Base
 		return $request;
 	}
 
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		if (preg_match('|^step([0-9])|i', $request->getMode(), $m)) {
@@ -129,6 +133,7 @@ class Install_Index_View extends \App\Controller\View\Base
 		$this->viewer->display('InstallPreProcess.tpl');
 	}
 
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
@@ -138,6 +143,7 @@ class Install_Index_View extends \App\Controller\View\Base
 		$this->step1($request);
 	}
 
+	/** {@inheritdoc} */
 	public function postProcess(App\Request $request, $display = true)
 	{
 		$this->viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
@@ -422,9 +428,10 @@ class Install_Index_View extends \App\Controller\View\Base
 	{
 	}
 
+	/** {@inheritdoc} */
 	public function validateRequest(App\Request $request)
 	{
-		return $request->validateWriteAccess(true);
+		$request->validateWriteAccess(true);
 	}
 
 	/**
