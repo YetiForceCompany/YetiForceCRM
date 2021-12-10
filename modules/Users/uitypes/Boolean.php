@@ -10,9 +10,7 @@
  */
 class Users_Boolean_UIType extends Vtiger_Boolean_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if ('is_admin' === $this->getFieldModel()->getName()) {
@@ -24,9 +22,7 @@ class Users_Boolean_UIType extends Vtiger_Boolean_UIType
 		return parent::getDBValue($value, $recordModel);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$currentModel = \App\User::getCurrentUserModel();

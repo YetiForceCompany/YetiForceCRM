@@ -2,9 +2,7 @@
 
 class Users_ExportData_Action extends Vtiger_ExportData_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();

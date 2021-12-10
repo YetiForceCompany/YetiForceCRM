@@ -14,14 +14,10 @@
  */
 class Users_MeetingModal_View extends Vtiger_MeetingModal_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected $pageTitle = 'LBL_VIDEO_CONFERENCE';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$userId = \App\User::getCurrentUserRealId();
@@ -37,9 +33,7 @@ class Users_MeetingModal_View extends Vtiger_MeetingModal_View
 		$this->moderator = true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPageTitle(App\Request $request)
 	{
 		return \App\Language::translate($this->pageTitle, $request->getModule());

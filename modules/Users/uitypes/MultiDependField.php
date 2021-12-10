@@ -15,9 +15,7 @@
  */
 class Users_MultiDependField_UIType extends Vtiger_MultiDependField_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFieldsModel()
 	{
 		if (!isset($this->fieldsModels)) {
@@ -32,9 +30,7 @@ class Users_MultiDependField_UIType extends Vtiger_MultiDependField_UIType
 		return $this->fieldsModels;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDefaultValue()
 	{
 		$defaultValue = $this->getFieldModel()->get('defaultvalue');

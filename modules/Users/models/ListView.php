@@ -151,9 +151,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		return $advancedLinks;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function loadListViewOrderBy()
 	{
 		$orderBy = $this->getForSql('orderby');

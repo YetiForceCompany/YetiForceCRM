@@ -26,17 +26,13 @@ class Users_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isWorkflowSupported()
 	{
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isUtilityActionEnabled()
 	{
 		return true;

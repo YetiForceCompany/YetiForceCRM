@@ -14,9 +14,7 @@
  */
 class Users_RecordPopover_Model extends Vtiger_RecordPopover_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFields(): array
 	{
 		$summaryFields = [];
@@ -30,9 +28,7 @@ class Users_RecordPopover_Model extends Vtiger_RecordPopover_Model
 		return $summaryFields;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderLinks(): array
 	{
 		$links = [];

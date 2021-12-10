@@ -11,9 +11,7 @@
 
 class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
@@ -22,9 +20,7 @@ class Users_BasicAjax_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$result = [];

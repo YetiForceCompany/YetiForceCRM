@@ -13,9 +13,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
 	use \App\Controller\ExposeMethod;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
@@ -23,9 +21,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$this->exposeMethod('changeAccessKey');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
@@ -35,9 +31,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();
@@ -85,9 +79,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$response->emit();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getRecordModelFromRequest(App\Request $request)
 	{
 		parent::getRecordModelFromRequest($request);

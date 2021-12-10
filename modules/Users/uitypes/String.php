@@ -12,9 +12,7 @@
  */
 class Users_String_UIType extends Vtiger_Base_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if ($this->validate || empty($value)) {

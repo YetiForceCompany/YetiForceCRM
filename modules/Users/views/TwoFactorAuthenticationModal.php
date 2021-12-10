@@ -11,19 +11,13 @@
  */
 class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $modalSize = 'modal-lg';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $lockExit = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if ('TOTP_OFF' === \App\Config::security('USER_AUTHY_MODE') || \App\User::getCurrentUserRealId() !== \App\User::getCurrentUserId()) {
@@ -32,9 +26,7 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$userModel = \App\User::getUserModel(\App\User::getCurrentUserRealId());
@@ -51,9 +43,7 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 		$viewer->view('TwoFactorAuthenticationModal.tpl', $moduleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
 		$this->modalIcon = 'fa fa-key';
@@ -69,9 +59,7 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 	{
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModalScripts(App\Request $request)
 	{
 		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([

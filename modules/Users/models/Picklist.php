@@ -12,9 +12,7 @@
  */
 class Users_Picklist_UIType extends Vtiger_Picklist_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$currentModel = \App\User::getCurrentUserModel();

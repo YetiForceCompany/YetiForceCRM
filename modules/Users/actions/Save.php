@@ -11,9 +11,7 @@
 
 class Users_Save_Action extends Vtiger_Save_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -32,9 +30,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function getRecordModelFromRequest(App\Request $request)
 	{
 		parent::getRecordModelFromRequest($request);
@@ -46,9 +42,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 		return $this->record;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		if ($mode = $request->getMode()) {

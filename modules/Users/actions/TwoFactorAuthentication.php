@@ -25,9 +25,7 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 		$this->exposeMethod('massOff');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if ('TOTP_OFF' === App\Config::security('USER_AUTHY_MODE')) {
@@ -42,9 +40,7 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();

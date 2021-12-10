@@ -11,9 +11,7 @@
 
 class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -22,9 +20,7 @@ class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();

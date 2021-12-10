@@ -84,9 +84,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 		return parent::getPicklistValues($skipCheckingRole);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$fieldName = $this->getName();
@@ -134,9 +132,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 		return $this->get('editable');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isViewable()
 	{
 		if ('authy_secret_totp' === $this->getColumnName()) {
@@ -145,17 +141,13 @@ class Users_Field_Model extends Vtiger_Field_Model
 		return parent::isViewable();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isEditableReadOnly()
 	{
 		return ('login_method' === $this->getColumnName() && !\App\User::getCurrentUserModel()->isAdmin()) || (10 === (int) $this->get('displaytype'));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isWritable()
 	{
 		if (('is_admin' === $this->getName()) && \App\User::getCurrentUserModel()->isAdmin()) {

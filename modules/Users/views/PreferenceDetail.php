@@ -11,9 +11,7 @@
 
 class Users_PreferenceDetail_View extends Users_Detail_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -26,43 +24,33 @@ class Users_PreferenceDetail_View extends Users_Detail_View
 		throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		$this->record = Vtiger_DetailView_Model::getInstance($request->getModule(), $request->getInteger('record'));
 		parent::preProcess($request, $display);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessTplName(App\Request $request)
 	{
 		return 'PreferenceDetailViewPreProcess.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function showModuleBasicView(App\Request $request)
 	{
 		return $this->showModuleDetailView($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function preProcessDisplay(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->view($this->preProcessTplName($request), $request->getModule());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);

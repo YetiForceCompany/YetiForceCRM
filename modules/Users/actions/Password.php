@@ -14,9 +14,7 @@ class Users_Password_Action extends \App\Controller\Action
 {
 	use \App\Controller\ExposeMethod;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
