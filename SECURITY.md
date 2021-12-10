@@ -6,5 +6,4 @@ If you find (or simply suspect) a security issue, please report it to us and sen
 We take security very seriously and our team will try to resolve the issue as quickly as possible.
 
 PGP key:
-- http://hkps.pool.sks-keyservers.net/pks/lookup?search=security%40yetiforce.com&fingerprint=on&op=index
 - https://keys.openpgp.org/search?q=security%40yetiforce.com
