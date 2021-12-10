@@ -171,7 +171,7 @@ var Vtiger_Index_Js = {
 				form.append($('<input>', { name: i, value: JSON.stringify(postData[i]) }));
 			}
 			$('body').append(form);
-			form.submit();
+			form.trigger('submit');
 		} else {
 			window.location.href = url;
 		}

@@ -20,10 +20,10 @@
 						<a class="btn btn-success mr-2" role="button" href="javascript:window.history.back();">
 							<span class="fas fa-chevron-left mr-2"></span>{\App\Language::translate('LBL_GO_BACK')}
 						</a>
-						<a class="btn btn-warning mr-2" role="button" href="?module=Users&action=Logout">
+						<a class="btn btn-warning mr-2 js-post-action" role="button" href="index.php?module=Users&action=Logout">
 							<span class="fas fa-power-off fa-fw mr-2"></span>{\App\Language::translate('LBL_SIGN_OUT')}
 						</a>
-						<a class="btn btn-primary" role="button" href="?module=Users&action=Logout">
+						<a class="btn btn-primary" role="button" href="index.php">
 							<i class="fas fa-home mr-2"></i>{\App\Language::translate('LBL_MAIN_PAGE')}
 						</a>
 					</p>

@@ -175,7 +175,7 @@ abstract class Page extends Base
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
 			'icon' => 'fas fa-power-off fa-fw',
-			'linkclass' => 'btn-danger d-md-none',
+			'linkclass' => 'btn-danger d-md-none js-post-action',
 		];
 		$headerLinkInstances = [];
 		foreach ($headerLinks as $headerLink) {
@@ -254,7 +254,7 @@ abstract class Page extends Base
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
 			'icon' => 'fas fa-power-off fa-fw',
-			'linkclass' => 'd-none d-sm-none d-md-block',
+			'linkclass' => 'd-none d-sm-none d-md-block js-post-action',
 		];
 		$headerLinkInstances = [];
 		foreach ($headerLinks as $headerLink) {

@@ -306,7 +306,7 @@ var App = (window.App = {
 					$(data).removeAttr('data-validation-engine');
 				});
 				form.addClass('not_validation');
-				form.submit();
+				form.trigger('submit');
 			},
 			/**
 			 * Register tab events
@@ -484,7 +484,7 @@ var App = (window.App = {
 					$(data).removeAttr('data-validation-engine');
 				});
 				form.addClass('not_validation');
-				form.submit();
+				form.trigger('submit');
 			},
 			/**
 			 * Save quick create form
@@ -2627,27 +2627,6 @@ var app = (window.app = {
 			window.location.href = url;
 		}
 	},
-	openUrlMethodPost(url, postData = {}, formAttr = {}) {
-		$.extend(formAttr, {
-			method: 'post',
-			action: url,
-			style: 'display:none;'
-		});
-		let form = $('<form></form>', formAttr);
-		if (typeof csrfMagicName !== 'undefined') {
-			postData[csrfMagicName] = csrfMagicToken;
-		}
-		$.each(postData, (index, value) => {
-			let input = $(document.createElement('input'));
-			input.attr('type', 'hidden');
-			input.attr('name', index);
-			input.val(value);
-			form.append(input);
-		});
-		$('body').append(form);
-		form.submit();
-		form.remove();
-	},
 	/**
 	 * Convert url string to object
 	 *
@@ -3177,6 +3156,19 @@ var app = (window.app = {
 				}
 			});
 		}
+	},
+	/**
+	 * Register POST action
+	 * @param {jQuery} container
+	 */
+	registerPostActionEvent: function (container) {
+		container.on('click', '.js-post-action', function (e) {
+			e.preventDefault();
+			let element = $(this);
+			if (element.attr('href')) {
+				AppConnector.requestForm(element.attr('href'));
+			}
+		});
 	}
 });
 CKEDITOR.disableAutoInline = true;
@@ -3203,6 +3195,7 @@ $(function () {
 	app.registerFormsEvents(document);
 	app.registerRecordActionsEvents(document);
 	app.registerKeyboardShortcutsEvent(document);
+	app.registerPostActionEvent(document);
 	App.Components.QuickCreate.register(document);
 	App.Components.Scrollbar.initPage();
 	App.Clipboard.register(document);

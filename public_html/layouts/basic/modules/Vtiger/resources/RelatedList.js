@@ -86,7 +86,7 @@ jQuery.Class(
 					data: postData
 				};
 				if (type === 'sendByForm') {
-					app.openUrlMethodPost(massActionUrl, postData);
+					AppConnector.requestForm(massActionUrl, postData);
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 				} else {
 					AppConnector.request(actionParams)

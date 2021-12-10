@@ -195,7 +195,7 @@ $.Class(
 					let formData = container.find('.js-modal-form').serializeFormData();
 					const listInstance = Vtiger_List_Js.getInstance();
 					$.extend(formData, listInstance.getSearchParams());
-					app.openUrlMethodPost('index.php', formData);
+					AppConnector.requestForm('index.php', formData);
 					Vtiger_Helper_Js.showMessage({
 						text: app.vtranslate('JS_STARTED_GENERATING_FILE'),
 						type: 'info'
@@ -355,7 +355,7 @@ $.Class(
 			}
 			let params = Vtiger_List_Js.getInstance().getSearchParams();
 			delete params.view;
-			app.openUrlMethodPost(exportActionUrl, params, formAttr);
+			AppConnector.requestForm(exportActionUrl, params, formAttr);
 		},
 		/**
 		 * Function to reload list
@@ -1488,7 +1488,7 @@ $.Class(
 					Vtiger_Helper_Js.showConfirmationBox({
 						message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER')
 					}).done((e) => {
-						app.openUrlMethodPost(thisInstance.getSelectOptionFromChosenOption(liElement).data('deleteurl'));
+						AppConnector.requestForm(thisInstance.getSelectOptionFromChosenOption(liElement).data('deleteurl'));
 					});
 					event.stopPropagation();
 				});
@@ -1505,7 +1505,7 @@ $.Class(
 					//to close the dropdown
 					thisInstance.getFilterSelectElement().data('select2').close();
 					const liElement = $(event.currentTarget).closest('.select2-results__option');
-					app.openUrlMethodPost(thisInstance.getSelectOptionFromChosenOption(liElement).data('approveurl'));
+					AppConnector.requestForm(thisInstance.getSelectOptionFromChosenOption(liElement).data('approveurl'));
 					event.stopPropagation();
 				});
 			}
@@ -1521,7 +1521,7 @@ $.Class(
 					//to close the dropdown
 					thisInstance.getFilterSelectElement().data('select2').close();
 					const liElement = $(event.currentTarget).closest('.select2-results__option');
-					app.openUrlMethodPost(thisInstance.getSelectOptionFromChosenOption(liElement).data('denyurl'));
+					AppConnector.requestForm(thisInstance.getSelectOptionFromChosenOption(liElement).data('denyurl'));
 					event.stopPropagation();
 				});
 			}
