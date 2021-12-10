@@ -6,9 +6,11 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_MappedFields_ExportTemplate_Action extends Settings_Vtiger_Index_Action
 {
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$recordId = $request->getInteger('id');
@@ -63,9 +65,7 @@ class Settings_MappedFields_ExportTemplate_Action extends Settings_Vtiger_Index_
 		echo $xml->saveXML();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validateRequest(App\Request $request)
 	{
 		$request->validateReadAccess();

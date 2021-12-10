@@ -7,17 +7,14 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
  * Settings_AdminAccess_SaveAjax_Action class.
  */
 class Settings_AdminAccess_SaveAjax_Action extends Settings_Vtiger_Index_Action
 {
-	/**
-	 * Process.
-	 *
-	 * @param \App\Request $request
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance($request->getModule(false));
@@ -39,9 +36,7 @@ class Settings_AdminAccess_SaveAjax_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validateRequest(App\Request $request)
 	{
 		$request->validateWriteAccess();

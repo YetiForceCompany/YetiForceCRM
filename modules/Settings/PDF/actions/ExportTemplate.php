@@ -10,6 +10,7 @@
  */
 class Settings_PDF_ExportTemplate_Action extends Settings_Vtiger_Index_Action
 {
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$recordId = $request->getInteger('id');
@@ -60,9 +61,7 @@ class Settings_PDF_ExportTemplate_Action extends Settings_Vtiger_Index_Action
 		echo $xml->saveXML();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function validateRequest(App\Request $request)
 	{
 		$request->validateReadAccess();

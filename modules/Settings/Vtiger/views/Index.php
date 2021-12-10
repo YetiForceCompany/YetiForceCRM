@@ -65,7 +65,7 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 				'LABEL' => 'PLU_SYSTEM_WARNINGS',
 				'VALUE' => \count($warnings),
 				'HREF' => 'index.php?module=Logs&parent=Settings&view=SystemWarnings',
-				'ICON' => 'yfi yfi-system-warnings-2'
+				'ICON' => 'yfi yfi-system-warnings-2',
 			];
 		}
 		if (\App\Security\AdminAccess::isPermitted('Log')) {
@@ -73,7 +73,7 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 				'LABEL' => 'PLU_SECURITY',
 				'VALUE' => $this->getSecurityCount(),
 				'HREF' => 'index.php?module=Log&parent=Settings&view=Index',
-				'ICON' => 'yfi yfi-security-errors-2'
+				'ICON' => 'yfi yfi-security-errors-2',
 			];
 		}
 		if (\App\Security\AdminAccess::isPermitted('Users')) {
@@ -81,7 +81,7 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 				'LABEL' => 'PLU_USERS',
 				'VALUE' => Users_Record_Model::getCount(true),
 				'HREF' => 'index.php?module=Users&parent=Settings&view=List',
-				'ICON' => 'yfi yfi-users-2'
+				'ICON' => 'yfi yfi-users-2',
 			];
 		}
 		if (\App\Security\AdminAccess::isPermitted('ModuleManager')) {
@@ -89,7 +89,7 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 				'LABEL' => 'PLU_MODULES',
 				'VALUE' => Settings_ModuleManager_Module_Model::getModulesCount(true),
 				'HREF' => 'index.php?module=ModuleManager&parent=Settings&view=List',
-				'ICON' => 'yfi yfi-modules-2'
+				'ICON' => 'yfi yfi-modules-2',
 			];
 		}
 		if (\App\Security\AdminAccess::isPermitted('Workflows')) {
@@ -97,7 +97,7 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 				'LABEL' => 'PLU_WORKFLOWS_ACTIVE',
 				'VALUE' => Settings_Workflows_Record_Model::getAllAmountWorkflowsAmount(),
 				'HREF' => 'index.php?module=Workflows&parent=Settings&view=List',
-				'ICON' => 'yfi yfi-workflows-2'
+				'ICON' => 'yfi yfi-workflows-2',
 			];
 		}
 		$viewer->assign('SYSTEM_MONITORING', $monitoringData);
@@ -159,7 +159,7 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 				'modules.Settings.YetiForce.resources.Shop',
 				"modules.Settings.$moduleName.resources.Index",
 				"modules.Settings.$moduleName.resources.$type",
-				"modules.Settings.$moduleName.resources.$moduleName"
+				"modules.Settings.$moduleName.resources.$moduleName",
 			])
 		);
 	}
@@ -170,13 +170,7 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 		return array_merge($this->checkAndConvertCssStyles([
 			'~libraries/jstree-bootstrap-theme/dist/themes/proton/style.css',
 			'~libraries/datatables.net-bs4/css/dataTables.bootstrap4.css',
-			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css'
+			'~libraries/datatables.net-responsive-bs4/css/responsive.bootstrap4.css',
 		]), parent::getHeaderCss($request));
-	}
-
-	/** {@inheritdoc} */
-	public function validateRequest(App\Request $request)
-	{
-		$request->validateReadAccess();
 	}
 }

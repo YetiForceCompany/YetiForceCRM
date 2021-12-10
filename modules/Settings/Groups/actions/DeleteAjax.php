@@ -6,10 +6,12 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
 class Settings_Groups_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 {
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
@@ -41,10 +43,5 @@ class Settings_Groups_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 
 		$response->setResult($result);
 		$response->emit();
-	}
-
-	public function validateRequest(App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }

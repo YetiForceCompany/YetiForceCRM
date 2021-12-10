@@ -91,11 +91,11 @@ abstract class Base
 	 *
 	 * @param \App\Request $request
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	public function validateRequest(\App\Request $request)
 	{
-		return $request->validateReadAccess();
+		$request->validateReadAccess();
 	}
 
 	/**

@@ -138,6 +138,7 @@ class Leads_SaveConvertLead_View extends \App\Controller\View\Page
 		$viewer->view('ConvertLeadError.tpl', $moduleName);
 	}
 
+	/** {@inheritdoc} */
 	public function validateRequest(App\Request $request)
 	{
 		$request->validateWriteAccess();

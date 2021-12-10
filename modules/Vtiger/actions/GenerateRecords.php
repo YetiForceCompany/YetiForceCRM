@@ -8,19 +8,14 @@
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
  * Generate records class.
  */
 class Vtiger_GenerateRecords_Action extends \App\Controller\Action
 {
-	/**
-	 * Function to check permission.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermitted
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -40,6 +35,7 @@ class Vtiger_GenerateRecords_Action extends \App\Controller\Action
 		return false;
 	}
 
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$records = $request->getArray('records', 'Integer');
@@ -73,10 +69,5 @@ class Vtiger_GenerateRecords_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult($output);
 		$response->emit();
-	}
-
-	public function validateRequest(App\Request $request)
-	{
-		return $request->validateWriteAccess();
 	}
 }

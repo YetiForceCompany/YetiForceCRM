@@ -32,7 +32,7 @@
 									<td>
 										{if empty($catalog['url'])}
 											<span class="fas fa-folder mr-1"></span>
-										{\App\Purifier::encodeHtml($catalog['name'])}
+											{\App\Purifier::encodeHtml($catalog['name'])}
 										{else}
 											<a href="{$catalog['url']}" class="font-weight-bold">
 												<span class="fas fa-folder"></span> {\App\Purifier::encodeHtml($catalog['name'])}
@@ -67,7 +67,7 @@
 									<td>{$file['date']}</td>
 									<td>{$file['size']}</td>
 									<td class="u-w-1em">
-										<a href="{$file['url']}" class="btn btn-primary btn-sm">
+										<a href="{$file['url']}" class="btn btn-primary btn-sm js-post-action">
 											<span class="fas fa-download mr-1"></span> {\App\Language::translate('LBL_DOWNLOAD',$QUALIFIED_MODULE)}
 										</a>
 									</td>
@@ -78,9 +78,9 @@
 					{if empty($STRUCTURE['files'])}
 						<table class="emptyRecordsDiv">
 							<tbody>
-							<tr>
-								<td>{\App\Language::translate('LBL_NO_RECORDS_FOUND')}</td>
-							</tr>
+								<tr>
+									<td>{\App\Language::translate('LBL_NO_RECORDS_FOUND')}</td>
+								</tr>
 							</tbody>
 						</table>
 					{/if}

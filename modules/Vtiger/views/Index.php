@@ -11,13 +11,7 @@
 
 class Vtiger_Index_View extends \App\Controller\View\Page
 {
-	/**
-	 * Function to check permission.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermitted
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
@@ -25,6 +19,7 @@ class Vtiger_Index_View extends \App\Controller\View\Page
 		}
 	}
 
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
@@ -42,17 +37,20 @@ class Vtiger_Index_View extends \App\Controller\View\Page
 		}
 	}
 
+	/** {@inheritdoc} */
 	protected function preProcessTplName(App\Request $request)
 	{
 		return 'IndexViewPreProcess.tpl';
 	}
 
+	/** {@inheritdoc} */
 	public function postProcess(App\Request $request, $display = true)
 	{
 		parent::postProcess($request, $display);
 		$this->getViewer($request)->view('IndexPostProcess.tpl', $request->getModule());
 	}
 
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$this->getViewer($request)->view('Index.tpl', $request->getModule());
@@ -77,10 +75,5 @@ class Vtiger_Index_View extends \App\Controller\View\Page
 		];
 
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
-	}
-
-	public function validateRequest(App\Request $request)
-	{
-		$request->validateReadAccess();
 	}
 }

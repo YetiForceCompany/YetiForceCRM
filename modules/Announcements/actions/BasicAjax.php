@@ -52,9 +52,4 @@ class Announcements_BasicAjax_Action extends \App\Controller\Action
 		$response->setResult(true);
 		$response->emit();
 	}
-
-	public function validateRequest(App\Request $request)
-	{
-		$request->validateWriteAccess();
-	}
 }

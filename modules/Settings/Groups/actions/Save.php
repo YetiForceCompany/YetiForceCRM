@@ -10,6 +10,7 @@
 
 class Settings_Groups_Save_Action extends Settings_Vtiger_Save_Action
 {
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$prevValues = [];
@@ -40,10 +41,5 @@ class Settings_Groups_Save_Action extends Settings_Vtiger_Save_Action
 
 		$redirectUrl = $recordModel->getDetailViewUrl();
 		header("location: $redirectUrl");
-	}
-
-	public function validateRequest(App\Request $request)
-	{
-		$request->validateWriteAccess();
 	}
 }
