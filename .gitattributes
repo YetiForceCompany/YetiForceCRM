@@ -19,6 +19,9 @@
 *.lock text eol=lf
 *.yarn-integrity text eol=lf
 *.sh text eol=lf
+*.md5 text eol=lf 
+*.sha text eol=lf 
+*.sha1 text eol=lf 
 
 .github/ export-ignore
 .dependabot export-ignore
