@@ -14,15 +14,26 @@
 					</div>
 					<div class="modal-body">
 						<div class="modal-Fields">
-							<div class="row">
-								<div class="col-md-5 marginLeftZero"><strong>{\App\Language::translate('Type widget', $QUALIFIED_MODULE)}</strong>:</div>
-								<div class="col-md-7">
-									{\App\Language::translate($TYPE, $QUALIFIED_MODULE)}
+							<div class="form-container-sm">
+								<div class="form-group form-group-sm row mb-1">
+									<label class="col-md-4 col-form-label">
+										<strong>{\App\Language::translate('Type widget', $QUALIFIED_MODULE)}</strong>:
+									</label>
+									<div class="col-md-7 py-1">
+										{\App\Language::translate($TYPE, $QUALIFIED_MODULE)}
+									</div>
+								</div>
+								<div class="form-group form-group-sm row">
+									<label class="col-md-4 col-form-label">
+										<strong>{\App\Language::translate('Label', $QUALIFIED_MODULE)}</strong>:
+									</label>
+									<div class="col-md-7 py-1">
+										<input name="label" class="form-control form-control-sm" type="text" value="{$WIDGETINFO['label']}" />
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
+						{include file=\App\Layout::getTemplatePath('Modals/Footer.tpl', $QUALIFIED_MODULE) BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 				</form>
 			</div>
 		</div>
