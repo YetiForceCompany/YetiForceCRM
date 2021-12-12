@@ -26,6 +26,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 	protected $relations;
 	protected $moduleType = '0';
 	protected $entityInstance;
+	/** @var bool */
+	public $allowTypeChange = true;
 
 	/**
 	 * Function to get the Module/Tab id.
@@ -1416,7 +1418,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function changeType(int $type): bool
 	{
 		$result = false;
-		if ($type !== $this->getModuleType() && \in_array($type, [static::ADVANCED_TYPE, static::STANDARD_TYPE])) {
+		if ($this->isTypeChangeAllowed() && $type !== $this->getModuleType() && \in_array($type, [static::ADVANCED_TYPE, static::STANDARD_TYPE])) {
 			$result = \App\Db::getInstance()->createCommand()->update('vtiger_tab', ['type' => $type], ['name' => $this->getName()])->execute();
 			if ($result && $type === static::ADVANCED_TYPE) {
 				Vtiger_Inventory_Model::getInstance($this->getName())->createInventoryTables();
@@ -1430,6 +1432,16 @@ class Vtiger_Module_Model extends \vtlib\Module
 			$this->type = $type;
 		}
 		return $result;
+	}
+
+	/**
+	 * Check if change module type is supported.
+	 *
+	 * @return bool
+	 */
+	public function isTypeChangeAllowed(): bool
+	{
+		return $this->allowTypeChange;
 	}
 
 	/**

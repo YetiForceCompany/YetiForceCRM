@@ -15,6 +15,9 @@
  */
 class Calendar_Module_Model extends Vtiger_Module_Model
 {
+	/** {@inheritdoc} */
+	public $allowTypeChange = false;
+
 	/**
 	 * Function returns the default view for the Calendar module.
 	 *

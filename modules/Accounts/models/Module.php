@@ -11,6 +11,9 @@
 
 class Accounts_Module_Model extends Vtiger_Module_Model
 {
+	/** {@inheritdoc} */
+	public $allowTypeChange = false;
+
 	/**
 	 * Function to get list view query for popup window.
 	 *
