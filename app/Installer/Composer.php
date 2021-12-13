@@ -33,6 +33,7 @@ class Composer
 		'.github',
 		'.dependabot',
 		'.git',
+		'.npm',
 		'.gitattributes',
 		'.gitignore',
 		'.gitkeep',
