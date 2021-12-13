@@ -53,8 +53,9 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		$this->exposeMethod('getOwners');
 		$this->exposeMethod('getReference');
 		$this->exposeMethod('getUserRole');
-		$this->exposeMethod('verifyPhoneNumber');
 		$this->exposeMethod('findAddress');
+		$this->exposeMethod('validate');
+		$this->exposeMethod('verifyPhoneNumber');
 		$this->exposeMethod('verifyIsHolidayDate');
 		$this->exposeMethod('changeFavoriteOwner');
 	}
@@ -265,6 +266,29 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		$message = \App\Language::translate($this->fieldModel->getFieldLabel(), $moduleName) . ': ' . \App\Language::translate($message, $moduleName);
 		$response = new Vtiger_Response();
 		$response->setResult(['result' => $result, 'message' => $message]);
+		$response->emit();
+	}
+
+	/**
+	 * Validate the field value.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public function validate(App\Request $request)
+	{
+		$fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
+		if (!$fieldModel || !$fieldModel->isActiveField() || !$fieldModel->isViewEnabled()) {
+			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD', 406);
+		}
+		$recordModel = \Vtiger_Record_Model::getCleanInstance($fieldModel->getModuleName());
+		$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel, 'fieldValue');
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'raw' => $recordModel->get($fieldModel->getName()),
+			'display' => $recordModel->getDisplayValue($fieldModel->getName()),
+		]);
 		$response->emit();
 	}
 }

@@ -532,8 +532,7 @@ window.App.Fields = {
 			 */
 			loadEditor(element, customConfig) {
 				this.setElement(element);
-				const instance = this.getEditorInstanceFromName(),
-					self = this;
+				const instance = this.getEditorInstanceFromName();
 				let config = {
 					language: CONFIG.langKey,
 					allowedContent: true,
@@ -546,12 +545,17 @@ window.App.Fields = {
 					emojiEnabled: false,
 					mentionsEnabled: false,
 					on: {
-						instanceReady: function (evt) {
+						instanceReady: (evt) => {
 							evt.editor.on('blur', function () {
 								evt.editor.updateElement();
 							});
-							if (self.isModal && self.progressInstance) {
-								self.progressInstance.progressIndicator({ mode: 'hide' });
+							if (this.isModal && this.progressInstance) {
+								this.progressInstance.progressIndicator({ mode: 'hide' });
+							}
+						},
+						beforeCommandExec: (e) => {
+							if (e.editor.mode === 'source') {
+								return this.validate(element, e);
 							}
 						}
 					},
@@ -740,6 +744,38 @@ window.App.Fields = {
 			 */
 			getMentionUsersData(opts, callback) {
 				App.Fields.Text.getMentionData(opts, callback, 'owners');
+			}
+
+			/**
+			 * Function to validate the field value
+			 * @param {jQuery} element
+			 * @param {object} e
+			 */
+			validate(element, e) {
+				let status = true;
+				AppConnector.request({
+					async: false,
+					data: {
+						module: element.closest('form').find('[name="module"]').val(),
+						action: 'Fields',
+						mode: 'validate',
+						fieldName: element.attr('name'),
+						fieldValue: element.val()
+					}
+				})
+					.done(function (data) {
+						element.val(data.result.raw);
+					})
+					.fail(function (error) {
+						app.showNotify({
+							type: 'error',
+							title: app.vtranslate('JS_ERROR'),
+							text: error
+						});
+						status = false;
+					});
+
+				return status;
 			}
 		},
 		/**
