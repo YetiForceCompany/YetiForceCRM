@@ -27,7 +27,7 @@ jQuery.Class(
 				}
 			}
 			let listOfValidators = Vtiger_Base_Validator_Js.getValidator(field);
-			for (let i = 0; i < listOfValidators.length; i++) {
+			for (let i in listOfValidators) {
 				let validatorList = listOfValidators[i],
 					validatorName = validatorList.name,
 					validatorInstance = new validatorName(),
@@ -77,12 +77,12 @@ jQuery.Class(
 			}
 			if (fieldData.hasOwnProperty(dataValidator)) {
 				let specialValidators = fieldData[dataValidator];
-				for (key in specialValidators) {
+				for (let s in specialValidators) {
 					//IE for loop fix
-					if (!specialValidators.hasOwnProperty(key)) {
+					if (!specialValidators.hasOwnProperty(s)) {
 						continue;
 					}
-					let specialValidator = specialValidators[key],
+					let specialValidator = specialValidators[s],
 						tempSpecialValidator = jQuery.extend({}, specialValidator),
 						validatorOfNames = Vtiger_Base_Validator_Js.getValidatorClassName(specialValidator.name);
 					if (validatorOfNames !== '') {

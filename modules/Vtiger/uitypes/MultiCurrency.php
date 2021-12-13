@@ -28,6 +28,16 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 		return \App\Json::encode($data);
 	}
 
+	/**
+	 * Get validator.
+	 *
+	 * @return array
+	 */
+	public function getValidator(): array
+	{
+		return [['name' => 'Currency']];
+	}
+
 	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
@@ -38,19 +48,25 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 			$value = \App\Json::decode($value);
 		}
 		if (!\is_array($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$currencies = \App\Fields\Currency::getAll(true);
 		foreach ($value['currencies'] ?? [] as $id => $currency) {
 			if (!isset($currencies[$id])) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $id, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $id, 406);
 			}
 			$price = $currency['price'];
 			if ($isUserFormat) {
 				$price = App\Fields\Double::formatToDb($price);
 			}
 			if (!is_numeric($price)) {
-				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $price, 406);
+				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $price, 406);
+			}
+			if ($maximumLength = $this->getFieldModel()->get('maximumlength')) {
+				[$minimumLength, $maximumLength] = false !== strpos($maximumLength, ',') ? explode(',', $maximumLength) : [-$maximumLength, $maximumLength];
+				if ((float) $minimumLength > $price || (float) $maximumLength < $price) {
+					throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . "||{$maximumLength} < {$price} < {$minimumLength}", 406);
+				}
 			}
 		}
 	}
@@ -131,12 +147,12 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 	public function getCurrencies()
 	{
 		$priceDetails = [];
-		$params = ['uitype' => 71, 'displaytype' => 1, 'typeofdata' => 'N~O', 'isEditableReadOnly' => false, 'maximumlength' => '99999999999999999'];
+		$params = ['uitype' => 71, 'displaytype' => 1, 'typeofdata' => 'N~O', 'isEditableReadOnly' => false, 'maximumlength' => $this->getFieldModel()->get('maximumlength')];
 		$fieldModel = new \Vtiger_Field_Model();
 		$fieldModel->setModule($this->getFieldModel()->getModule());
 		$fieldInfo = $fieldModel->setData($params)->getFieldInfo();
 		foreach (\App\Fields\Currency::getAll(true) as $id => $currency) {
-			$name = "currencies[$id]['value']";
+			$name = "currencies[$id][value]";
 			$fieldInfo['name'] = $name;
 			$priceDetails[$id] = [
 				'name' => $name,

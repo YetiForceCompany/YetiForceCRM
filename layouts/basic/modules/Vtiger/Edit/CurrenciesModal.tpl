@@ -9,7 +9,7 @@
 						{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 					</h5>
 					<button type="button" class="close" data-dismiss="modal"
-							title="{\App\Language::translate('LBL_CLOSE')}">
+						title="{\App\Language::translate('LBL_CLOSE')}">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
@@ -34,36 +34,36 @@
 										</span>
 										<span class="ml-1">
 											<input type="checkbox" value="1"
-												   id="cur_{$CURRENCY_ID}_check"
-												   class="small float-right js-enable-currency"
-												   data-js="change">
+												id="cur_{$CURRENCY_ID}_check"
+												class="small float-right js-enable-currency"
+												data-js="change">
 										</span>
 									</span>
 								</td>
 								<td class="align-middle">
 									<div class="row justify-content-center">
 										<input name="{$ITEM['name']}" type="text" value=""
-											   size="10" id="{$ITEM['name']}"
-											   class="col-md-9 js-format-numer js-converted-price form-control"
-											   data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]"
-											   data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($ITEM.fieldInfo))}"
-											   data-js="value" disabled="disabled"/>
+											size="10" id="{$ITEM['name']}"
+											class="col-md-9 js-format-numer js-converted-price form-control"
+											data-validation-engine="validate[funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]"
+											data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($ITEM.fieldInfo))}"
+											data-js="value" disabled="disabled" />
 									</div>
 								</td>
 								<td class="align-middle">
 									<div class="row justify-content-center">
-										<input name="currencies[{$CURRENCY_ID}]['rate']"
-											   value="{App\Fields\Double::formatToDisplay($ITEM['conversionRate'], false)}"
-											   class="col-md-9 js-conversion-rate form-control" type="text" size="10"
-											   readonly="readonly" disabled="disabled">
+										<input name="currencies[{$CURRENCY_ID}][rate]"
+											value="{App\Fields\Double::formatToDisplay($ITEM['conversionRate'], false)}"
+											class="col-md-9 js-conversion-rate form-control" type="text" size="10"
+											readonly="readonly" disabled="disabled">
 									</div>
 								</td>
 								<td class="align-middle">
 									<div class="row justify-content-center">
 										<button type="button" class="btn btn-light js-currency-reset resetButton"
-												id="cur_reset{$CURRENCY_ID}"
-												value="{\App\Language::translate('LBL_RESET',$MODULE_NAME)}"
-												data-js="click">
+											id="cur_reset{$CURRENCY_ID}"
+											value="{\App\Language::translate('LBL_RESET',$MODULE_NAME)}"
+											data-js="click">
 											<span class="fas fa-undo mr-1"></span>
 											{\App\Language::translate('LBL_RESET',$MODULE_NAME)}
 										</button>
@@ -72,9 +72,9 @@
 								<td class="align-middle">
 									<div class="row justify-content-center">
 										<input name="baseCurrencyRadio" value="{$ITEM['name']}"
-											   class="js-base-currency" type="radio" disabled="disabled"
-											   title="{\App\Language::translate('LBL_BASE_CURRENCY')}"
-											   data-js="checked"/>
+											class="js-base-currency" type="radio" disabled="disabled"
+											title="{\App\Language::translate('LBL_BASE_CURRENCY')}"
+											data-js="checked" />
 									</div>
 								</td>
 							</tr>

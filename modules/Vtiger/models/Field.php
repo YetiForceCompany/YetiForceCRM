@@ -589,13 +589,13 @@ class Vtiger_Field_Model extends vtlib\Field
 				$picklistValues = App\Fields\Picklist::getValuesName($this->getName());
 			}
 			foreach ($picklistValues as $value) {
-				$fieldPickListValues[$value] = \App\Language::translate($value, $this->getModuleName(),false,false);
+				$fieldPickListValues[$value] = \App\Language::translate($value, $this->getModuleName(), false, false);
 			}
 			// Protection against deleting a value that does not exist on the list
 			if ('picklist' === $fieldDataType) {
 				$fieldValue = $this->get('fieldvalue');
 				if (!empty($fieldValue) && !isset($fieldPickListValues[$fieldValue])) {
-					$fieldPickListValues[$fieldValue] = \App\Language::translate($fieldValue, $this->getModuleName(),false,false);
+					$fieldPickListValues[$fieldValue] = \App\Language::translate($fieldValue, $this->getModuleName(), false, false);
 					$this->set('isEditableReadOnly', true);
 				}
 			}
@@ -1142,11 +1142,11 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
-	 * Function returns Client Side Validators name.
+	 * Gets default validator.
 	 *
-	 * @return <Array> [name=>Name of the Validator, params=>Extra Parameters]
+	 * @return array
 	 */
-	public function getValidator()
+	public function getDefaultValidator(): array
 	{
 		$validator = [];
 		$fieldName = $this->getName();
@@ -1223,6 +1223,16 @@ class Vtiger_Field_Model extends vtlib\Field
 				break;
 		}
 		return $validator;
+	}
+
+	/**
+	 * Function returns Client Side Validators name.
+	 *
+	 * @return array [name=>Name of the Validator, params=>Extra Parameters]
+	 */
+	public function getValidator()
+	{
+		return method_exists($this->getUITypeModel(), 'getValidator') ? $this->getUITypeModel()->getValidator() : $this->getDefaultValidator();
 	}
 
 	/**

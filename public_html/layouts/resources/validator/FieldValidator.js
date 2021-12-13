@@ -1023,10 +1023,16 @@ Vtiger_Base_Validator_Js(
 				return false;
 			}
 			const maximumLength = typeof fieldData.fieldinfo !== 'undefined' ? fieldData.fieldinfo.maximumlength : null;
-			if (maximumLength && strippedValue > parseFloat(maximumLength)) {
-				errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
-				this.setError(errorInfo);
-				return false;
+			if (maximumLength) {
+				let ranges = maximumLength.split(',');
+				if (
+					(ranges.length === 2 && (strippedValue > parseFloat(ranges[1]) || strippedValue < parseFloat(ranges[0]))) ||
+					(ranges.length === 1 && (strippedValue > parseFloat(ranges[0]) || strippedValue < 0))
+				) {
+					errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
+					this.setError(errorInfo);
+					return false;
+				}
 			}
 			return true;
 		}
