@@ -194,7 +194,7 @@ class Fixer
 				\App\Log::warning("Type not found: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
 				++$typeNotFound;
 			} elseif ($field['maximumlength'] != $range) {
-				if (\in_array($field['uitype'], [1, 2, 7, 10, 16, 52, 53, 56, 71, 72, 120, 156, 300, 308, 317])) {
+				if (\in_array($field['uitype'], [1, 2, 7, 10, 16, 52, 53, 56, 71, 72, 120, 156, 300, 308, 317, 360])) {
 					$update = true;
 				} else {
 					\App\Log::warning("Requires verification: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} <> {$range} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
