@@ -435,10 +435,10 @@ isomorphic-fetch@^2.1.1:
   dependencies:
     jquery ">=1.6"
 
-jquery-hoverintent@^1.10.0:
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/jquery-hoverintent/-/jquery-hoverintent-1.10.1.tgz#ea1220259334a1e9df5629424c6988c075eccc89"
-  integrity sha512-PNZAVnNcuIB5MDmZPWK7H2lQINRJ4Z8+EGLseIZd/gnd5Q9W3dBOKv0vKG7WPFxG2/Na1YX0/soeufucO6bCJQ==
+jquery-hoverintent@^1.10.2:
+  version "1.10.2"
+  resolved "https://registry.yarnpkg.com/jquery-hoverintent/-/jquery-hoverintent-1.10.2.tgz#58348b0e618e67bae45730e8cde9e1eb146869f1"
+  integrity sha512-YU4xvTywSu+/aZvbtSV8Svgcv7F3iMsXXO8Fm1Scvt9wvKDP7C1F6w1j3Pjn0lQqICxc5s7MnsL3Nbh8DEeOcg==
   dependencies:
     jquery ">=1.7.0"
 
