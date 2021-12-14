@@ -125,6 +125,9 @@ class File
 		foreach ($fileInfo as $key => $value) {
 			$instance->{$key} = $fileInfo[$key];
 		}
+		if (isset($instance->name)) {
+			$instance->name = trim(\App\Purifier::purify($instance->name));
+		}
 		return $instance;
 	}
 
@@ -148,14 +151,14 @@ class File
 	/**
 	 * Load file instance from file path.
 	 *
-	 * @param array $path
+	 * @param string $path
 	 *
 	 * @return \self
 	 */
-	public static function loadFromPath($path)
+	public static function loadFromPath(string $path)
 	{
 		$instance = new self();
-		$instance->name = basename($path);
+		$instance->name = trim(\App\Purifier::purify(basename($path)));
 		$instance->path = $path;
 		return $instance;
 	}
@@ -202,7 +205,7 @@ class File
 			$name = \App\TextParser::textTruncate($name, 180, false) . '_' . uniqid() . ".$extension";
 		}
 		$instance = new self();
-		$instance->name = $name;
+		$instance->name = trim(\App\Purifier::purify($name));
 		$instance->path = $path;
 		$instance->ext = $extension;
 		foreach ($param as $key => $value) {
@@ -377,13 +380,13 @@ class File
 	/**
 	 * Validate whether the file is safe.
 	 *
-	 * @param bool|string $type
+	 * @param string|null $type
 	 *
 	 * @throws \Exception
 	 *
 	 * @return bool
 	 */
-	public function validate($type = false)
+	public function validate(?string $type = null): bool
 	{
 		$return = true;
 		try {
@@ -408,7 +411,7 @@ class File
 				$message = \call_user_func_array('vsprintf', [\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params]);
 			}
 			$this->validateError = $message;
-			Log::error("Error: {$e->getMessage()} | {$this->getName()} | {$this->getSize()}", __CLASS__);
+			Log::error("Error during file validation: {$this->getName()} | Size: {$this->getSize()}\n {$e->__toString()}", __CLASS__);
 		}
 		return $return;
 	}
@@ -416,17 +419,17 @@ class File
 	/**
 	 * Validate and secure the file.
 	 *
-	 * @param bool|string $type
+	 * @param string|null $type
 	 *
 	 * @return bool
 	 */
-	public function validateAndSecure($type = false): bool
+	public function validateAndSecure(?string $type = null): bool
 	{
 		if ($this->validate($type)) {
 			return true;
 		}
 		$reValidate = false;
-		if ('image' === $this->getShortMimeType(0) && static::secureImage($this)) {
+		if (static::secureFile($this)) {
 			$this->size = filesize($this->path);
 			$this->content = file_get_contents($this->path);
 			$reValidate = true;
@@ -479,6 +482,9 @@ class File
 		}
 		if (empty($this->name)) {
 			throw new \App\Exceptions\DangerousFile('ERR_FILE_EMPTY_NAME');
+		}
+		if (!$this->validateInjection($this->name)) {
+			throw new \App\Exceptions\DangerousFile('ERR_FILE_ILLEGAL_NAME');
 		}
 		if (0 === $this->getSize()) {
 			throw new \App\Exceptions\DangerousFile('ERR_FILE_WRONG_SIZE');
@@ -533,7 +539,7 @@ class File
 			|| false !== stripos($contents, '<?=')
 			|| false !== stripos($contents, '<? ')) && $this->searchCodeInjection()
 			) {
-				throw new \App\Exceptions\DangerousFile('ERR_FILE_PHP_CODE_INJECTION');
+				throw new \App\Exceptions\DangerousFile('ERR_FILE_CODE_INJECTION');
 			}
 		}
 	}
@@ -636,43 +642,57 @@ class File
 	 */
 	private function validateCodeInjectionInMetadata()
 	{
-		if (
+		if (\extension_loaded('imagick')) {
+			try {
+				$img = new \imagick($this->path);
+				$this->validateInjection($img->getImageProperties());
+			} catch (\Throwable $e) {
+				throw new \App\Exceptions\DangerousFile('ERR_FILE_CODE_INJECTION', $e->getCode(), $e);
+			}
+		} elseif (
 			\function_exists('exif_read_data')
 			&& \in_array($this->getMimeType(), ['image/jpeg', 'image/tiff'])
 			&& \in_array(exif_imagetype($this->path), [IMAGETYPE_JPEG, IMAGETYPE_TIFF_II, IMAGETYPE_TIFF_MM])
 		) {
 			$imageSize = getimagesize($this->path, $imageInfo);
-			if (
-				$imageSize
-				&& (empty($imageInfo['APP1']) || 0 === strpos($imageInfo['APP1'], 'Exif'))
-				&& ($exifdata = exif_read_data($this->path)) && !$this->validateImageMetadata($exifdata)
-			) {
-				throw new \App\Exceptions\DangerousFile('ERR_FILE_PHP_CODE_INJECTION');
+			try {
+				if (
+					$imageSize
+					&& (empty($imageInfo['APP1']) || 0 === strpos($imageInfo['APP1'], 'Exif'))
+					&& ($exifData = exif_read_data($this->path)) && !$this->validateInjection($exifData)
+				) {
+					throw new \App\Exceptions\DangerousFile('ERR_FILE_CODE_INJECTION');
+				}
+			} catch (\Throwable $e) {
+				throw new \App\Exceptions\DangerousFile('ERR_FILE_CODE_INJECTION', $e->getCode(), $e);
 			}
 		}
 	}
 
 	/**
-	 * Validate image metadata.
+	 * Validate injection.
 	 *
-	 * @param mixed $data
+	 * @param string|array $data
 	 *
 	 * @return bool
 	 */
-	private function validateImageMetadata($data)
+	private function validateInjection($data): bool
 	{
+		$return = true;
 		if (\is_array($data)) {
 			foreach ($data as $value) {
-				if (!$this->validateImageMetadata($value)) {
+				if (!$this->validateInjection($value)) {
 					return false;
 				}
 			}
 		} else {
 			if (1 === preg_match('/(<\?php?(.*?))/i', $data) || false !== stripos($data, '<?=') || false !== stripos($data, '<? ')) {
-				return false;
+				$return = false;
+			} else {
+				\App\Purifier::purifyHtmlEventAttributes($data);
 			}
 		}
-		return true;
+		return $return;
 	}
 
 	/**
@@ -1198,7 +1218,7 @@ class File
 				$additionalNotes = '';
 				$file = static::loadFromRequest($fileDetails);
 				if (!$file->validate($type)) {
-					if (!static::secureImage($file)) {
+					if (!static::secureFile($file)) {
 						$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Alnum')];
 						continue;
 					}
@@ -1301,8 +1321,11 @@ class File
 	 *
 	 * @return bool
 	 */
-	public static function secureImage(self $file): bool
+	public static function secureFile(self $file): bool
 	{
+		if ('image' !== $file->getShortMimeType(0)) {
+			return false;
+		}
 		$result = false;
 		if (\extension_loaded('imagick')) {
 			try {
