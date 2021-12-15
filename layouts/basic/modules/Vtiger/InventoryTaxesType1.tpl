@@ -5,8 +5,8 @@
 		{assign var=RECORD_MODEL value=Vtiger_Record_Model::getInstanceById($RECORD)}
 		{assign var=SELECTED_TAXES value=Vtiger_Taxes_UIType::getValues($RECORD_MODEL->get($TAX_FIELD))}
 		{if count($SELECTED_TAXES) > 0}
-			<div class="card js-panel" data-js="class: js-active">
-				<div class="card-header">
+			<div class="card js-panel  mb-2" data-js="class: js-active">
+				<div class="card-header py-1">
 					<strong>{\App\Language::translate('LBL_GROUP_TAXS', $MODULE_NAME)}</strong>
 					<div class="float-right">
 						<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="group" class="activeCheckbox">
@@ -16,9 +16,9 @@
 					<div>
 						<p>
 							{\App\Language::translate('LBL_TAX_FOR_MODULE', $MODULE_NAME)} {\App\Language::translate($RECORD_MODULE, $RECORD_MODULE)}
-							: {$RECORD_MODEL->getDisplayName()}
+							:<br>{$RECORD_MODEL->getDisplayName()}
 						</p>
-						<select class="select2 groupTax" name="groupTax">
+						<select class="select2 groupTax" name="groupTax" data-validation-engine="validate[required]">
 							{foreach item=TAX from=$SELECTED_TAXES}
 								{assign var=VALUE value=CurrencyField::convertToUserFormat($TAX['value'], null, true)}
 								<option value="{$VALUE}">

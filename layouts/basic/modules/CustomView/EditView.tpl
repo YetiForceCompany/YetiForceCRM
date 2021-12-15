@@ -49,13 +49,11 @@
 							<div class="c-panel__body py-1">
 								<div class="form-group">
 									<div class="row col-md-5">
-										<label class="float-left col-form-label "><span
-												class="redColor">*</span> {\App\Language::translate('LBL_VIEW_NAME',$MODULE_NAME)}
+										<label class="float-left col-form-label ">
+											<span class="redColor">*</span> {\App\Language::translate('LBL_VIEW_NAME',$MODULE_NAME)}
 											:</label>
 										<div class="col-md-7">
-											<input type="text" id="viewname" class="form-control"
-												data-validation-engine="validate[required]" name="viewname"
-												value="{$CUSTOMVIEW_MODEL->get('viewname')}" />
+											<input type="text" id="viewname" class="form-control" data-validation-engine="validate[required]" name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}" />
 										</div>
 									</div>
 								</div>

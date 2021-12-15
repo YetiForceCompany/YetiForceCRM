@@ -1522,6 +1522,8 @@ $.Class(
 		},
 		registerChangeDiscountModal: function (modal, parentRow, params) {
 			let thisInstance = this;
+			let form = modal.find('form');
+			form.validationEngine(app.validationEngineOptions);
 			modal.on('change', '.individualDiscountType', function (e) {
 				let element = $(e.currentTarget);
 				modal.find('.individualDiscountContainer .input-group-text').text(element.data('symbol'));
@@ -1549,7 +1551,10 @@ $.Class(
 					thisInstance.calculateDiscount(parentRow, modal);
 				}
 			);
-			modal.on('click', '.saveDiscount', function (e) {
+			modal.on('click', '.js-save-discount', function (e) {
+				if (form.validationEngine('validate') === false) {
+					return;
+				}
 				thisInstance.saveDiscountsParameters(parentRow, modal);
 				if (params.discountType == 0) {
 					thisInstance.setDiscount(parentRow, App.Fields.Double.formatToDb(modal.find('.valueDiscount').text()));
@@ -1623,13 +1628,14 @@ $.Class(
 		},
 		registerChangeTaxModal: function (modal, parentRow, params) {
 			let thisInstance = this;
+			let form = modal.find('form');
+			form.validationEngine(app.validationEngineOptions);
 			modal.on('change', '.individualTaxType', function (e) {
 				let element = $(e.currentTarget);
 				modal.find('.individualTaxContainer .input-group-text').text(element.data('symbol'));
 			});
 			modal.on('change', '.activeCheckbox[name="aggregationType"]', function (e) {
 				let element = $(e.currentTarget);
-
 				if (element.attr('type') == 'checkbox' && this.checked) {
 					element.closest('.js-panel').find('.js-panel__body').removeClass('d-none');
 					element.closest('.js-panel').addClass('js-active');
@@ -1646,7 +1652,10 @@ $.Class(
 			modal.on('change', '.activeCheckbox, .globalTax, .individualTaxValue, .groupTax, .regionalTax', function (e) {
 				thisInstance.calculateTax(parentRow, modal);
 			});
-			modal.on('click', '.saveTaxs', function (e) {
+			modal.on('click', '.js-save-taxs', function (e) {
+				if (form.validationEngine('validate') === false) {
+					return;
+				}
 				thisInstance.saveTaxsParameters(parentRow, modal);
 				if (params.taxType == '0') {
 					thisInstance.setTax(parentRow, App.Fields.Double.formatToDb(modal.find('.valueTax').text()));
