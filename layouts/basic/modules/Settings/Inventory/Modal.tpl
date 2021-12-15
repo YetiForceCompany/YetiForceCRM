@@ -1,14 +1,15 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-Inventory-Modal -->
 	{assign var=EDIT_VIEW value=true}
 	{assign var=ID value=$RECORD_MODEL->getId()}
 	{if empty($ID)}
 		{assign var=EDIT_VIEW value=false}
 	{/if}
-	{if $TYPE != 'CreditLimits'}
+	{if $TYPE !== 'CreditLimits'}
 		{assign var=PERCENTAGE value=true}
 	{/if}
-	<div class='tpl-Settings-Inventory-Modal modelContainer modal fade' id="addInventory" tabindex="-1">
+	<div class="modelContainer modal fade" id="addInventory" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -21,13 +22,12 @@
 							<span class="fa fa-plus u-mr-5px"></span>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)} {\App\Language::translate($PAGE_LABELS.title_single, $QUALIFIED_MODULE)}
 						</h5>
 					{/if}
-					<button type="button" class="close" data-dismiss="modal"
-							title="{\App\Language::translate('LBL_CLOSE')}">
+					<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<form id="formInventory" class="form-horizontal" method="POST">
-					<input type="hidden" name="id" value="{$ID}"/>
+					<input type="hidden" name="id" value="{$ID}" />
 					<div class="modal-body">
 						<div class="">
 							<div class="form-group form-row">
@@ -35,10 +35,7 @@
 									{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}
 								</label>
 								<div class="col-md-6 controls">
-									<input class="form-control" type="text" name="name"
-										   placeholder="{\App\Language::translate('LBL_ENTER_NAME', $QUALIFIED_MODULE)}"
-										   value="{$RECORD_MODEL->getName()}"
-										   data-validation-engine='validate[required]'/>
+									<input type="text" name="name" value="{$RECORD_MODEL->getName()}" class="form-control" placeholder="{\App\Language::translate('LBL_ENTER_NAME', $QUALIFIED_MODULE)}" data-validation-engine='validate[required]' />
 								</div>
 							</div>
 							{if empty($PERCENTAGE)}
@@ -52,10 +49,7 @@
 								</label>
 								<div class="col-md-6 controls">
 									<div class="input-group">
-										<input class="form-control js-format-numer" type="text" name="value"
-											   placeholder="{\App\Language::translate('LBL_ENTER_VALUE', $QUALIFIED_MODULE)}"
-											   value="{$RECORD_MODEL->getValue()}" data-js="focusout"
-											   data-validation-engine='validate[required, funcCall[{$VALIDATOR}]]'/>
+										<input type="text" name="value" value="{$RECORD_MODEL->getValue()}" class="form-control js-format-numer" placeholder="{\App\Language::translate('LBL_ENTER_VALUE', $QUALIFIED_MODULE)}" data-validation-engine='validate[required,min[0],funcCall[{$VALIDATOR}]]' data-js="focusout" />
 										<span class="input-group-append">
 											<span class="input-group-text">
 												{if !empty($PERCENTAGE)}%{else}{$CURRENCY.currency_symbol}{/if}
@@ -68,15 +62,14 @@
 								<div class="form-group form-row">
 									<label class="col-md-4 col-form-label u-text-small-bold text-md-right">{\App\Language::translate('LBL_STATUS', $QUALIFIED_MODULE)}</label>
 									<div class="col-md-6 controls checkboxForm">
-										<input type="hidden" name="status" value="1"/>
-										<input type="checkbox" name="status" value="0"
-											   class="status alignBottom" {if !$RECORD_MODEL->getStatus()} checked {/if} />
+										<input type="hidden" name="status" value="1" />
+										<input type="checkbox" name="status" value="0" class="status alignBottom" {if !$RECORD_MODEL->getStatus()} checked {/if} />
 										<span>&nbsp;&nbsp;{\App\Language::translate('LBL_STATUS_DESC', $QUALIFIED_MODULE)}</span>
 									</div>
 								</div>
 							{else}
-								<input type="hidden" class="addView" value="true"/>
-								<input type="hidden" name="status" value="0"/>
+								<input type="hidden" class="addView" value="true" />
+								<input type="hidden" name="status" value="0" />
 							{/if}
 							{if $TYPE eq 'Taxes'}
 								<div class="form-group form-row">
@@ -84,9 +77,8 @@
 										{\App\Language::translate('LBL_DEFAULT', $QUALIFIED_MODULE)}
 									</label>
 									<div class="col-md-6 controls checkboxForm">
-										<input type="hidden" name="default" value="0"/>
-										<input type="checkbox" name="default" value="1"
-											   class="status alignBottom" {if $RECORD_MODEL->getDefault()} checked {/if} />
+										<input type="hidden" name="default" value="0" />
+										<input type="checkbox" name="default" value="1" class="status alignBottom" {if $RECORD_MODEL->getDefault()} checked {/if} />
 										<span>&nbsp;&nbsp;{\App\Language::translate('LBL_STATUS_DESC', $QUALIFIED_MODULE)}</span>
 									</div>
 								</div>
@@ -98,4 +90,5 @@
 			</div>
 		</div>
 	</div>
+	<!-- /tpl-Settings-Inventory-Modal -->
 {/strip}
