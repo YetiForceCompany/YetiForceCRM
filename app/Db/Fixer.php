@@ -205,11 +205,7 @@ class Fixer
 				}
 			}
 			if ($update && false !== $range) {
-				print_r([
-					"Updated: {$field['tablename']}.{$field['columnname']} |maximumlength:  before:{$field['maximumlength']} after: $range |type:{$type}|{$column->type}|{$column->dbType}",
-					$field,
-				]);
-				// $dbCommand->update('vtiger_field', ['maximumlength' => $range], ['fieldid' => $field['fieldid']])->execute();
+				$dbCommand->update('vtiger_field', ['maximumlength' => $range], ['fieldid' => $field['fieldid']])->execute();
 				++$updated;
 				\App\Log::trace("Updated: {$field['tablename']}.{$field['columnname']} |maximumlength:  before:{$field['maximumlength']} after: $range |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
 			}
