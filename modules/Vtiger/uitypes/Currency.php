@@ -29,10 +29,13 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 			$value = App\Fields\Currency::formatToDb($value);
 		}
 		if (!is_numeric($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
-		if (($maximumLength = $this->getFieldModel()->get('maximumlength')) && ($value > $maximumLength || $value < -$maximumLength)) {
-			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+		if ($maximumLength = $this->getFieldModel()->get('maximumlength')) {
+			[$minimumLength, $maximumLength] = false !== strpos($maximumLength, ',') ? explode(',', $maximumLength) : [-$maximumLength, $maximumLength];
+			if ((float) $minimumLength > $value || (float) $maximumLength < $value) {
+				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . "||{$maximumLength} < {$value} < {$minimumLength}", 406);
+			}
 		}
 		$this->validate[$value] = true;
 	}
@@ -45,7 +48,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 		}
 		$uiType = $this->getFieldModel()->get('uitype');
 		// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
-		$value = CurrencyField::convertToUserFormat($value, null, 72 === $uiType);
+		$value = \App\Fields\Currency::formatToDisplay($value, null, 72 === $uiType);
 		if (!$this->edit) {
 			$value = $this->getDetailViewDisplayValue($value, $record, $uiType);
 		}
