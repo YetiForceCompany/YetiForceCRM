@@ -107,7 +107,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 					$subject = "[$recordNumber] $subject";
 				}
 				if (($templateId = $request->getInteger('template', 0)) && \App\Record::isExists($templateId, 'EmailTemplates')) {
-					$params = $request->getArray('tamplateParams', \App\Purifier::TEXT, [], App\Purifier::ALNUM);
+					$params = $request->getArray('templateParams', \App\Purifier::TEXT, [], App\Purifier::ALNUM);
 					$templateModel = \Vtiger_Record_Model::getInstanceById($templateId, 'EmailTemplates');
 					$textParser = \App\TextParser::getInstanceByModel($recordModel);
 					foreach ($params as $key => $value) {

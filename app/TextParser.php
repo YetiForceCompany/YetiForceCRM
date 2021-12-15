@@ -1213,16 +1213,13 @@ class TextParser
 	/**
 	 * Parsing params.
 	 *
-	 * @param string $params
+	 * @param string $key
 	 *
 	 * @return string
 	 */
-	protected function params($params)
+	protected function params(string $key)
 	{
-		if (isset($this->params[$params])) {
-			return $this->params[$params];
-		}
-		return '';
+		return isset($this->params[$key]) ? \App\Purifier::encodeHtml($this->params[$key]) : '';
 	}
 
 	/**
