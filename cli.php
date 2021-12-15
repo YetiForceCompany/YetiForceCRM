@@ -1,7 +1,9 @@
 <?php
 /**
  * YetiForce CLI.
+ *
  * @package Cli
+ *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -9,8 +11,12 @@
 chdir(__DIR__);
 try {
 	require __DIR__ . '/include/RequirementsValidation.php';
-} catch (\Throwable $th) {
-	echo "Try\n/usr/local/php80/bin/php80 cli.php";
+} catch (\Exception $th) {
+	echo str_repeat('--', 40) . PHP_EOL;
+	echo $th->getMessage() . PHP_EOL;
+	echo str_repeat('--', 40) . PHP_EOL;
+	echo "Examples:\nphp74 cli.php\n/usr/local/php74/bin/php74 cli.php\n/usr/local/php80/bin/php80 cli.php\n";
+	echo str_repeat('--', 40) . PHP_EOL;
 	return;
 }
 
