@@ -3720,7 +3720,7 @@ CREATE TABLE `u_yf_occurrences` (
   `attention` text DEFAULT NULL,
   `occurrences_rating` varchar(255) DEFAULT '',
   `locationid` int(11) unsigned DEFAULT 0,
-  `participants` int(8) DEFAULT 0,
+  `participants` int(8) unsigned DEFAULT 0,
   `meeting_url` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`occurrencesid`),
   KEY `u_yf_occurrences_locationid_idx` (`locationid`),
