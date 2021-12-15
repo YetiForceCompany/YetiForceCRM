@@ -8053,7 +8053,7 @@ CREATE TABLE `vtiger_products` (
   `manufacturer` varchar(200) DEFAULT NULL,
   `qty_per_unit` decimal(11,2) DEFAULT 0.00,
   `unit_price` text DEFAULT NULL,
-  `weight` decimal(11,3) DEFAULT NULL,
+  `weight` decimal(11,3) unsigned DEFAULT NULL,
   `pack_size` int(10) DEFAULT NULL,
   `sales_start_date` date DEFAULT NULL,
   `sales_end_date` date DEFAULT NULL,

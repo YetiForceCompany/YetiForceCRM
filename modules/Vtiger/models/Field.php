@@ -29,6 +29,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		120 => 65535,
 		106 => '3,64',
 		156 => '3',
+		360 => '0,99999999',
 	];
 
 	/** @var int[] Field maximum length by db type. */

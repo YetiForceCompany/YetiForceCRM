@@ -183,6 +183,9 @@ class Fixer
 						break;
 					case 'decimal':
 						$range = 10 ** (((int) $column->size) - ((int) $column->scale)) - 1;
+						if ($column->unsigned) {
+							$range = '0,' . $range;
+						}
 						break;
 					default:
 						$range = false;
@@ -194,7 +197,7 @@ class Fixer
 				\App\Log::warning("Type not found: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
 				++$typeNotFound;
 			} elseif ($field['maximumlength'] != $range) {
-				if (\in_array($field['uitype'], [1, 2, 7, 10, 16, 52, 53, 56, 71, 72, 120, 156, 300, 308, 317, 360])) {
+				if (\in_array($field['uitype'], [1, 2, 7, 10, 16, 52, 53, 56, 71, 72, 120, 156, 300, 308, 317])) {
 					$update = true;
 				} else {
 					\App\Log::warning("Requires verification: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} <> {$range} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
@@ -202,7 +205,11 @@ class Fixer
 				}
 			}
 			if ($update && false !== $range) {
-				$dbCommand->update('vtiger_field', ['maximumlength' => $range], ['fieldid' => $field['fieldid']])->execute();
+				print_r([
+					"Updated: {$field['tablename']}.{$field['columnname']} |maximumlength:  before:{$field['maximumlength']} after: $range |type:{$type}|{$column->type}|{$column->dbType}",
+					$field,
+				]);
+				// $dbCommand->update('vtiger_field', ['maximumlength' => $range], ['fieldid' => $field['fieldid']])->execute();
 				++$updated;
 				\App\Log::trace("Updated: {$field['tablename']}.{$field['columnname']} |maximumlength:  before:{$field['maximumlength']} after: $range |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
 			}
