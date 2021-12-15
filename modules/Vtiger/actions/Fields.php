@@ -30,7 +30,8 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		if ('verifyPhoneNumber' !== $request->getMode()) {
+		$mode = $request->getMode();
+		if ('verifyPhoneNumber' !== $mode) {
 			$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -39,7 +40,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		}
-		if ('findAddress' !== $request->getMode() && 'getReference' !== $request->getMode()) {
+		if ('findAddress' !== $mode && 'getReference' !== $mode && 'validateByMode' !== $mode) {
 			$this->fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
 			if (!$this->fieldModel || !$this->fieldModel->isEditable()) {
 				throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD', 406);
@@ -54,7 +55,8 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		$this->exposeMethod('getReference');
 		$this->exposeMethod('getUserRole');
 		$this->exposeMethod('findAddress');
-		$this->exposeMethod('validate');
+		$this->exposeMethod('validateForField');
+		$this->exposeMethod('validateByMode');
 		$this->exposeMethod('verifyPhoneNumber');
 		$this->exposeMethod('verifyIsHolidayDate');
 		$this->exposeMethod('changeFavoriteOwner');
@@ -270,13 +272,13 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Validate the field value.
+	 * Validate the field name and value.
 	 *
 	 * @param \App\Request $request
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function validate(App\Request $request)
+	public function validateForField(App\Request $request)
 	{
 		$fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
 		if (!$fieldModel || !$fieldModel->isActiveField() || !$fieldModel->isViewEnabled()) {
@@ -288,6 +290,25 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		$response->setResult([
 			'raw' => $recordModel->get($fieldModel->getName()),
 			'display' => $recordModel->getDisplayValue($fieldModel->getName()),
+		]);
+		$response->emit();
+	}
+
+	/**
+	 * Validate the value based on the type of purify.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @throws \App\Exceptions\NoPermitted
+	 */
+	public function validateByMode(App\Request $request)
+	{
+		if ($request->isEmpty('purifyMode') || !$request->has('value')) {
+			throw new \App\Exceptions\NoPermitted('ERR_ILLEGAL_VALUE', 406);
+		}
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'raw' => $request->getByType('value', $request->getByType('purifyMode')),
 		]);
 		$response->emit();
 	}

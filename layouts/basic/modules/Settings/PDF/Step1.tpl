@@ -390,7 +390,7 @@
 												<span class="ml-2 js-popover-tooltip" data-content="{\App\Language::translate('LBL_USE_VARIABLES',$QUALIFIED_MODULE)}"><span class="fas fa-info-circle"></span></span></label>
 										</div>
 										<div class="col-12 controls">
-											<textarea name="watermark_text" class="form-control js-editor" id="watermark_text">{$PDF_MODEL->get('watermark_text')}</textarea>
+											<textarea name="watermark_text" class="form-control js-editor" id="watermark_text" data-purify-mode="Html">{$PDF_MODEL->get('watermark_text')}</textarea>
 										</div>
 									</div>
 								</div>

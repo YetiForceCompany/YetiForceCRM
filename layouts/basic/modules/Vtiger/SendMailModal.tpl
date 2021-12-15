@@ -93,7 +93,7 @@
 					</span>
 				</label>
 				<div class="col-sm-8">
-					<textarea class="form-control js-editor js-editor--basic" name="mail_notes" id="mail_notes" data-toolbar="Micro" data-js="ckeditor"></textarea>
+					<textarea class="form-control js-editor js-editor--basic" name="mail_notes" id="mail_notes" data-toolbar="Micro" data-purify-mode="Html" data-js="ckeditor"></textarea>
 				</div>
 			</div>
 		</form>

@@ -151,7 +151,7 @@
 								</h5>
 							</div>
 							<div class="c-panel__body py-1 d-none">
-								<textarea name="description" id="description" class="js-editor" data-js="ckeditor">{$CUSTOMVIEW_MODEL->get('description')}</textarea>
+								<textarea name="description" id="description" class="js-editor" data-purify-mode="Html" data-js="ckeditor">{$CUSTOMVIEW_MODEL->get('description')}</textarea>
 							</div>
 						</div>
 						<div class="js-toggle-panel c-panel" data-js="click">

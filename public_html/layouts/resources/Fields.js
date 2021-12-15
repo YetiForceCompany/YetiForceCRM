@@ -752,16 +752,28 @@ window.App.Fields = {
 			 * @param {object} e
 			 */
 			validate(element, e) {
-				let status = true;
-				AppConnector.request({
-					async: false,
-					data: {
+				let status = true,
+					params;
+				if (element.data('purifyMode')) {
+					params = {
+						module: 'Users',
+						action: 'Fields',
+						mode: 'validateByMode',
+						purifyMode: element.data('purifyMode'),
+						value: element.val()
+					};
+				} else {
+					params = {
 						module: element.closest('form').find('[name="module"]').val(),
 						action: 'Fields',
-						mode: 'validate',
+						mode: 'validateForField',
 						fieldName: element.attr('name'),
 						fieldValue: element.val()
-					}
+					};
+				}
+				AppConnector.request({
+					async: false,
+					data: params
 				})
 					.done(function (data) {
 						element.val(data.result.raw);
@@ -769,12 +781,11 @@ window.App.Fields = {
 					.fail(function (error) {
 						app.showNotify({
 							type: 'error',
-							title: app.vtranslate('JS_ERROR'),
+							title: app.vtranslate('JS_UNEXPECTED_ERROR'),
 							text: error
 						});
 						status = false;
 					});
-
 				return status;
 			}
 		},

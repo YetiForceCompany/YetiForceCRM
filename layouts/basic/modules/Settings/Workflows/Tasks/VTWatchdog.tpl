@@ -60,13 +60,7 @@
 	<div class="row padding-bottom1per">
 		<span class="col-md-3">{\App\Language::translate('LBL_MESSAGE', $QUALIFIED_MODULE)}</span>
 		<div class="col-md-9">
-			<textarea class="js-editor form-control messageContent" name="message" rows="3" data-js="ckeditor">
-					{if isset($TASK_OBJECT->message)}
-							{$TASK_OBJECT->message}
-					{else}
-
-					{/if}
-				</textarea>
+			<textarea class="js-editor form-control messageContent" name="message" rows="3" data-purify-mode="Html" data-js="ckeditor">{if isset($TASK_OBJECT->message)} {$TASK_OBJECT->message} {else} {/if}</textarea>
 		</div>
 	</div>
 	<!-- /tpl-Settings-Workflows-Tasks-VTWatchdog -->

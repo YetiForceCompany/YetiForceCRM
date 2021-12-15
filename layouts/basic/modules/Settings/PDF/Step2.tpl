@@ -32,7 +32,7 @@
 							</div>
 							<div class="card-body p-0">
 								<div class="controls">
-									<textarea class="form-control w-100 js-editor" name="header_content" id="header_content" data-js="ckeditor"
+									<textarea class="form-control w-100 js-editor" name="header_content" id="header_content" data-js="ckeditor" data-purify-mode="Html"
 										data-validation-engine="validate[funcCall[Vtiger_MaxSizeInByte_Validator_Js.invokeValidation]]"
 										data-fieldinfo='{$FIELD_INFO}'>{$PDF_MODEL->get('header_content')}</textarea>
 								</div>
@@ -46,7 +46,7 @@
 							</div>
 							<div class="card-body p-0">
 								<div class="controls">
-									<textarea class="form-control w-100 js-editor" name="body_content" id="body_content" data-js="ckeditor"
+									<textarea class="form-control w-100 js-editor" name="body_content" id="body_content" data-js="ckeditor" data-purify-mode="Html"
 										data-validation-engine="validate[funcCall[Vtiger_MaxSizeInByte_Validator_Js.invokeValidation]]"
 										data-fieldinfo='{$FIELD_INFO}'>{$PDF_MODEL->get('body_content')}</textarea>
 								</div>
@@ -61,7 +61,7 @@
 							</div>
 							<div class="card-body p-0">
 								<div class="controls">
-									<textarea class="form-control js-editor" name="footer_content" id="footer_content" data-js="ckeditor"
+									<textarea class="form-control js-editor" name="footer_content" id="footer_content" data-js="ckeditor" data-purify-mode="Html"
 										data-validation-engine="validate[funcCall[Vtiger_MaxSizeInByte_Validator_Js.invokeValidation]]"
 										data-fieldinfo='{$FIELD_INFO}'>{$PDF_MODEL->get('footer_content')}</textarea>
 								</div>

@@ -8,15 +8,15 @@
 		</div>
 		{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 		<ul class="nav nav-tabs mt-2 mb-2" role="tabs">
-			<li class="nav-item"><a  class="nav-link active" href="#config" data-toggle="tab" role="tab">{\App\Language::translate('LBL_MAIL_ICON_CONFIG', $QUALIFIED_MODULE)}</a></li>
-			<li class="nav-item"><a class="nav-link"  href="#signature" data-toggle="tab" role="tab">{\App\Language::translate('LBL_SIGNATURE', $QUALIFIED_MODULE)}</a></li>
+			<li class="nav-item"><a class="nav-link active" href="#config" data-toggle="tab" role="tab">{\App\Language::translate('LBL_MAIL_ICON_CONFIG', $QUALIFIED_MODULE)}</a></li>
+			<li class="nav-item"><a class="nav-link" href="#signature" data-toggle="tab" role="tab">{\App\Language::translate('LBL_SIGNATURE', $QUALIFIED_MODULE)}</a></li>
 		</ul>
 		<div class="tab-content">
 			<div class="tab-pane fade show active ml-3" id="config" role="tabpanel" aria-labelledby="home-tab">
 				{assign var=CONFIG value=$MODULE_MODEL->getConfig('mailIcon')}
 				<div class="d-flex">
 					<div class="">
-						<input class="configCheckbox" type="checkbox" name="showMailIcon" id="showMailIcon" data-type="mailIcon" value="1" {if $CONFIG['showMailIcon']=='true'}checked=""{/if}>
+						<input class="configCheckbox" type="checkbox" name="showMailIcon" id="showMailIcon" data-type="mailIcon" value="1" {if $CONFIG['showMailIcon']=='true'}checked="" {/if}>
 					</div>
 					<div class="ml-1">
 						<label for="showMailIcon">{\App\Language::translate('LBL_SHOW_MAIL_ICON', $QUALIFIED_MODULE)}</label>
@@ -24,7 +24,7 @@
 				</div>
 				<div class="d-flex">
 					<div class="float-left pagination-centered">
-						<input class="configCheckbox" type="checkbox" name="showNumberUnreadEmails" id="showNumberUnreadEmails" data-type="mailIcon" value="1" {if $CONFIG['showNumberUnreadEmails']=='true'}checked=""{/if}>
+						<input class="configCheckbox" type="checkbox" name="showNumberUnreadEmails" id="showNumberUnreadEmails" data-type="mailIcon" value="1" {if $CONFIG['showNumberUnreadEmails']=='true'}checked="" {/if}>
 					</div>
 					<div class="ml-1">
 						<label for="showNumberUnreadEmails">{\App\Language::translate('LBL_NUMBER_UNREAD_EMAILS', $QUALIFIED_MODULE)}</label>
@@ -34,7 +34,7 @@
 			<div class="tab-pane fade" id="signature" role="tabpanel">
 				{assign var=CONFIG_SIGNATURE value=$MODULE_MODEL->getConfig('signature')}
 				<div>
-					<input class="configCheckbox" type="checkbox" name="addSignature" id="addSignature" data-type="signature" value="1" {if $CONFIG_SIGNATURE['addSignature']=='true'}checked=""{/if}>
+					<input class="configCheckbox" type="checkbox" name="addSignature" id="addSignature" data-type="signature" value="1" {if $CONFIG_SIGNATURE['addSignature']=='true'}checked="" {/if}>
 					<label class="ml-1" for="addSignature">{\App\Language::translate('LBL_ADD_SIGNATURE', $QUALIFIED_MODULE)}</label>
 				</div>
 				<div class="form-row js-container-variable" data-js="container">
@@ -43,7 +43,7 @@
 				<hr />
 				<div class="row">
 					<div class="col-md-12">
-						<textarea id="signatureEditor" class="js-editor" data-js="ckeditor" name="signature">{$CONFIG_SIGNATURE['signature']}</textarea>
+						<textarea id="signatureEditor" class="js-editor" data-js="ckeditor" name="signature" data-purify-mode="Html">{$CONFIG_SIGNATURE['signature']}</textarea>
 					</div>
 				</div>
 				<br />
