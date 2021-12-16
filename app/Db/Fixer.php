@@ -163,6 +163,9 @@ class Fixer
 					case 'int':
 						if ($column->unsigned) {
 							$range = '4294967295';
+							if (7 == $field['uitype'] || 1 == $field['uitype']) {
+								$range = '0,' . $range;
+							}
 						} else {
 							$range = '-2147483648,2147483647';
 						}
@@ -170,6 +173,9 @@ class Fixer
 					case 'smallint':
 						if ($column->unsigned) {
 							$range = '65535';
+							if (7 == $field['uitype'] || 1 == $field['uitype']) {
+								$range = '0,' . $range;
+							}
 						} else {
 							$range = '-32768,32767';
 						}
@@ -177,6 +183,9 @@ class Fixer
 					case 'tinyint':
 						if ($column->unsigned) {
 							$range = '255';
+							if (7 == $field['uitype'] || 1 == $field['uitype']) {
+								$range = '0,' . $range;
+							}
 						} else {
 							$range = '-128,127';
 						}
@@ -197,7 +206,7 @@ class Fixer
 				\App\Log::warning("Type not found: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
 				++$typeNotFound;
 			} elseif ($field['maximumlength'] != $range) {
-				if (\in_array($field['uitype'], [1, 2, 7, 9, 10, 16, 52, 53, 56, 71, 72, 120, 156, 300, 308, 317])) {
+				if (\in_array($field['uitype'], [1, 2, 7, 9, 10, 16, 52, 53, 56, 71, 72, 120, 156, 300, 308, 317, 327])) {
 					$update = true;
 				} else {
 					\App\Log::warning("Requires verification: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} <> {$range} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
