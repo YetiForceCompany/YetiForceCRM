@@ -1159,7 +1159,6 @@ class PackageImport extends PackageExport
 				Functions::recurseDelete('cache/templates_c');
 			} catch (\Exception $e) {
 				\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
-				throw $e;
 			}
 		});
 		\App\Module::createModuleMetaFile();
