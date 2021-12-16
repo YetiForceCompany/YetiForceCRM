@@ -168,7 +168,7 @@ class System extends Base
 			if ($packageInstance->_errorText) {
 				$this->climate->lightRed($packageInstance->_errorText);
 			} else {
-				echo $response;
+				echo $response . PHP_EOL;
 			}
 		} catch (\Throwable $th) {
 			$this->climate->lightRed($th->__toString());
