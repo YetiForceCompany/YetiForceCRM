@@ -1156,10 +1156,8 @@ class PackageImport extends PackageExport
 		Functions::recurseDelete($dirName);
 		register_shutdown_function(function () {
 			try {
-				$viewer = \Vtiger_Viewer::getInstance();
-				$viewer->clearAllCache();
 				Functions::recurseDelete('cache/templates_c');
-			} catch (\Throwable $e) {
+			} catch (\Exception $e) {
 				\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
 				throw $e;
 			}
