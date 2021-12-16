@@ -106,7 +106,8 @@ $.Class(
 				month = splittedDate[splittedDateFormat.indexOf('mm')],
 				date = splittedDate[splittedDateFormat.indexOf('dd')],
 				dateInstance = Date.parse(year + '/' + month + '/' + date);
-			if (isNaN(dateInstance) || year.length > 4 || month.length > 2 || date.length > 2 || dateInstance == null) {
+
+			if (isNaN(dateInstance) || year.length !== 4 || month.length > 2 || date.length > 2 || dateInstance == null) {
 				throw app.vtranslate('JS_INVALID_DATE');
 			}
 
