@@ -8177,7 +8177,7 @@ CREATE TABLE `vtiger_project` (
   `startdate` date DEFAULT NULL,
   `targetenddate` date DEFAULT NULL,
   `actualenddate` date DEFAULT NULL,
-  `targetbudget` varchar(255) DEFAULT NULL,
+  `targetbudget` int(10) unsigned DEFAULT NULL,
   `projecturl` varchar(255) DEFAULT NULL,
   `projectstatus` varchar(100) DEFAULT NULL,
   `projectpriority` varchar(100) DEFAULT NULL,
