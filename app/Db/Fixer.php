@@ -130,7 +130,7 @@ class Fixer
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
 		$schema = $db->getSchema();
-		$query = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldid', 'maximumlength', 'uitype', 'typeofdata'])->from('vtiger_field');
+		$query = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldid', 'maximumlength', 'uitype'])->from('vtiger_field');
 		if ($conditions) {
 			$query->andWhere($conditions);
 		}
@@ -148,7 +148,6 @@ class Fixer
 			} elseif (isset(\Vtiger_Field_Model::$typesMaxLength[$type])) {
 				$range = \Vtiger_Field_Model::$typesMaxLength[$type];
 			} else {
-				$fieldType = explode('~', $field['typeofdata']);
 				switch ($type) {
 					case 'binary':
 					case 'string':
@@ -191,15 +190,6 @@ class Fixer
 					default:
 						$range = false;
 						break;
-				}
-				if (7 == $field['uitype'] && $fieldType[0] = 'I') {
-					if (false === strpos($range, ',')) {
-						$range = '0,' . $range;
-					} else {
-						$rangeArray = explode(',', $range);
-						$rangeArray[0] = 0;
-						$range = implode(',', $rangeArray);
-					}
 				}
 			}
 			$update = false;
