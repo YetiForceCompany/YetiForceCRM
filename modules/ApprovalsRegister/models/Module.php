@@ -40,39 +40,32 @@ class ApprovalsRegister_Module_Model extends Vtiger_Module_Model
 			}
 			$relatedModuleModel = \Vtiger_Module_Model::getInstance($moduleName);
 			$relatedApproveModel = \Vtiger_Module_Model::getInstance($relatedModule);
-			if ($referenceFieldModel &&
-				$relatedModuleModel->isActive() &&
-				$relatedApproveModel->isActive() &&
-				($relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $relatedModuleModel)) &&
-				($relationApproveModel = \Vtiger_Relation_Model::getInstance($relatedApproveModel, $relatedModuleModel)) &&
-				($fieldModel = $relationApproveModel->getRelationField()) &&
-				$fieldModel->isActiveField()
+			if ($referenceFieldModel
+				&& $relatedModuleModel->isActive()
+				&& $relatedApproveModel->isActive()
+				&& ($relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $relatedModuleModel))
+				&& ($relationApproveModel = \Vtiger_Relation_Model::getInstance($relatedApproveModel, $relatedModuleModel))
+				&& ($fieldModel = $relationApproveModel->getRelationField())
+				&& $fieldModel->isActiveField()
 			) {
 				$relationModel->set('parentRecord', $recordModel);
 				$subQuery = (new \App\QueryGenerator($relatedModule))->addCondition('approvals_status', 'PLL_ACTIVE', 'e')->setFields(['id'])->createQuery();
 
-				$approves = [];
-				$queryGenerator = $relationApproveModel->getQueryGenerator()
-					->addTableToQuery($fieldModel->getTableName())
-					->setFields(['approvals_register_type'])
+				$queryGenerator = $relationModel->getQuery();
+				$sqlColumnName = $queryGenerator->getColumnName('registration_date');
+				$approvalAll = $queryGenerator->clearFields()->setFields([$fieldModel->getName(), 'approvals_register_type'])
+					->setCustomColumn(['registration_date' => new \yii\db\Expression("MAX({$sqlColumnName})")])
 					->addCondition('approvals_register_status', $acceptValue, 'e')
-					->setOrder('registration_date', 'DESC')
-					->setLimit(1);
+					->addNativeCondition([$queryGenerator->getColumnName($fieldModel->getName()) => $subQuery])
+					->setGroup($fieldModel->getName())
+					->setGroup('approvals_register_type')
+					->setOrder('registration_date', \App\Db::DESC)
+					->createQuery()->createCommand()->queryAllByGroup(2);
 
-				$dataReader = $relationModel->getQuery()->setFields([$fieldModel->getName()])
-					->addCondition('approvals_register_status', $acceptValue, 'e')
-					->addNativeCondition([$fieldModel->getTableName() . '.' . $fieldModel->getColumnName() => $subQuery])
-					->setGroup($fieldModel->getName())->createQuery()->createCommand()->query();
+				$approves = array_keys(array_filter($approvalAll, function ($item) {
+					return 'PLL_ACCEPTANCE' === $item[0];
+				}));
 
-				while ($approvalId = $dataReader->readColumn(0)) {
-					$type = (clone $queryGenerator)
-						->addNativeCondition([$fieldModel->getTableName() . '.' . $fieldModel->getColumnName() => $approvalId])
-						->createQuery()->scalar();
-					if ('PLL_ACCEPTANCE' === $type) {
-						$approves[] = $approvalId;
-					}
-				}
-				$dataReader->close();
 				$recordModel->set($referenceFieldModel->getName(), $referenceFieldModel->getUITypeModel()->getDBValue($approves))->save();
 			}
 		}

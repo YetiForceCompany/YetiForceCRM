@@ -57,6 +57,8 @@
     "OPENSTREETMAP_OPENSTREETMAPHANDLER_HANDLER": "Save geographical coordinates",
     "OPENSTREETMAP_OPENSTREETMAPHANDLER_HANDLER_DESC": "",
     "VTIGER_AUTOASSIGN_HANDLER": "Automatic record assignment",
-    "VTIGER_AUTOASSIGN_HANDLER_DESC": "Modifying the owner of a record before its creation"
+    "VTIGER_AUTOASSIGN_HANDLER_DESC": "Modifying the owner of a record before its creation",
+    "APPROVALS_APPROVALS_HANDLER": "Updating consents on contact",
+    "APPROVALS_APPROVALS_HANDLER_DESC": ""
   }
 }
