@@ -8,7 +8,6 @@ header.navbar {
  .c-menu__container .modulesList  a:hover {
 	color: #0078d4 !important;
 }
-
 .c-menu__container,
 .modulesList .c-menu__item a,
 .c-menu__content .modulesList {
@@ -26,4 +25,8 @@ header.navbar {
 .c-menu__item .tpl-menu-SubMenu a.active, .c-menu__item .tpl-menu-Profile_submenu a.active{
 	background: #0078d4 !important;
 	color: #fff !important;
+}
+.c-footer {
+	background: #d8d8d8;
+	color: #343a40;
 }
