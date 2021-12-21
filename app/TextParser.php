@@ -1219,7 +1219,7 @@ class TextParser
 	 */
 	protected function params(string $key)
 	{
-		return isset($this->params[$key]) ? \App\Purifier::encodeHtml($this->params[$key]) : '';
+		return isset($this->params[$key]) ? \App\Purifier::purifyHtml($this->params[$key]) : '';
 	}
 
 	/**

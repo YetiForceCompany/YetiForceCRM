@@ -10,6 +10,7 @@ namespace App;
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Mailer
 {
@@ -99,7 +100,7 @@ class Mailer
 	{
 		Log::trace('Send mail from template', 'Mailer');
 		if (empty($params['template'])) {
-			Log::warning('No templete', 'Mailer');
+			Log::warning('No template', 'Mailer');
 			return false;
 		}
 		$recordModel = false;
@@ -114,7 +115,7 @@ class Mailer
 		}
 		$template = Mail::getTemplate($params['template']);
 		if (!$template) {
-			Log::warning('No mail templete', 'Mailer');
+			Log::warning('No mail template', 'Mailer');
 			return false;
 		}
 		$textParser = $recordModel ? TextParser::getInstanceByModel($recordModel) : TextParser::getInstance($params['moduleName'] ?? '');
