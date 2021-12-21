@@ -23,7 +23,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			'linktype' => 'SIDEBARLINK',
 			'linklabel' => 'LBL_CALENDAR_VIEW',
 			'linkurl' => $this->getCalendarViewUrl(),
-			'linkicon' => 'fas fa-calendar-alt'
+			'linkicon' => 'fas fa-calendar-alt',
 		]));
 		return $links;
 	}
@@ -51,9 +51,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		$totalTime = $query->limit(null)->orderBy('')->sum('vtiger_osstimecontrol.sum_time');
 		// Calculate total working time divided into users
 		$dataReader = $query->select(['sumtime' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)'), 'vtiger_crmentity.smownerid'])
-			->groupBy('vtiger_crmentity.smownerid')
-			->orderBy(['vtiger_crmentity.smownerid' => SORT_ASC])
-			->createCommand()
+			->groupBy('vtiger_crmentity.smownerid')->orderBy(['vtiger_crmentity.smownerid' => SORT_ASC])->createCommand()
 			->query();
 
 		$userTime = [
@@ -80,7 +78,6 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			$userTime['datasets'][0]['borderColor'][] = $color;
 		}
 		$dataReader->close();
-
 		return ['totalTime' => $totalTime, 'userTime' => $userTime];
 	}
 

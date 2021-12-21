@@ -1,29 +1,29 @@
 <?php
 
 /**
- * OSSTimeControl InRelation view class.
+ * Time control InRelation view file.
+ *
+ * @package   View
  *
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+/**
+ * Time control InRelation view class.
  */
 class OSSTimeControl_InRelation_View extends Vtiger_RelatedList_View
 {
 	/** {@inheritdoc} */
-	public function process(App\Request $request)
+	public function loadView()
 	{
-		$moduleName = $request->getModule();
-		$relatedModuleName = $request->getByType('relatedModule', 2);
-		$parentId = $request->getInteger('record');
-		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getByType('cvId', 'Alnum');
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'), $cvId);
-		$relatedModuleModel = $relationListView->getRelationModel()->getRelationModuleModel();
+		$relationListView = $this->viewer->getTemplateVars('VIEW_MODEL');
+		$relatedModuleModel = $this->viewer->getTemplateVars('RELATED_MODULE');
+		$this->viewer->assign('RELATED_SUMMARY', $relatedModuleModel->getRelatedSummary($relationListView->getRelationQuery()));
+		$this->viewer->assign('RELATED_MODULE_NAME', $relatedModuleModel->getName());
+		$this->viewer->view('RelatedSummary.tpl', $relatedModuleModel->getName());
 
-		$viewer = $this->getViewer($request);
-		$viewer->assign('RELATED_SUMMARY', $relatedModuleModel->getRelatedSummary($relationListView->getRelationQuery()));
-		$viewer->assign('RELATED_MODULE_NAME', $relatedModuleName);
-		$viewer->view('RelatedSummary.tpl', $relatedModuleName);
-
-		return parent::process($request);
+		return parent::loadView();
 	}
 }
