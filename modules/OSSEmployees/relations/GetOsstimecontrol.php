@@ -21,34 +21,26 @@ class OSSEmployees_GetOsstimecontrol_Relation extends \App\Relation\RelationAbst
 		return Vtiger_Relation_Model::RELATION_M2M;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQuery()
 	{
 		$this->relationModel->getQueryGenerator()
 			->addNativeCondition(['vtiger_crmentity.smownerid' => $this->relationModel->get('parentRecord')->get('assigned_user_id')]);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function delete(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function create(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
 		return false;

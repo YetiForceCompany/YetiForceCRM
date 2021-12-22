@@ -126,7 +126,7 @@ class InterestsConflict extends \App\Controller\Action
 				'user_id' => \App\Fields\Owner::getUserLabel($row['user_id']),
 				'related' => $row['related_id'],
 				'source_id' => $row['source_id'],
-				'comment' => nl2br(\App\Layout::truncateText($row['comment'], 40)),
+				'comment' => \App\Layout::truncateText($row['comment'], 40, false, true),
 				'modify_user' => $row['modify_user_id'] ? \App\Fields\Owner::getUserLabel($row['modify_user_id']) : null,
 				'modify_date_time' => $row['modify_date_time'] ? \App\Fields\DateTime::formatToDisplay($row['modify_date_time']) : null,
 			];

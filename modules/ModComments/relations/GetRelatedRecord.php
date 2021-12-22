@@ -14,12 +14,6 @@
  */
 class ModComments_GetRelatedRecord_Relation extends \App\Relation\RelationAbstraction
 {
-	/** {@inheritdoc} */
-	public function getRelationType(): int
-	{
-		return Vtiger_Relation_Model::RELATION_O2M;
-	}
-
 	/**
 	 * Field custom list.
 	 *
@@ -31,6 +25,12 @@ class ModComments_GetRelatedRecord_Relation extends \App\Relation\RelationAbstra
 			'uitype' => 7,
 		],
 	];
+
+	/** {@inheritdoc} */
+	public function getRelationType(): int
+	{
+		return Vtiger_Relation_Model::RELATION_O2M;
+	}
 
 	/**
 	 * Field list.

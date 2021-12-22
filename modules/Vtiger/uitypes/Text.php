@@ -72,7 +72,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 		} else {
 			$value = \App\Purifier::purify($value);
 			if (!$rawText) {
-				$value = nl2br(\App\Layout::truncateText($value, $length));
+				$value = \App\Layout::truncateText($value, $length, false, true);
 			}
 		}
 		return $value;

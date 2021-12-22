@@ -16,7 +16,7 @@
 class Documents_GetAttachments_Relation extends \App\Relation\RelationAbstraction
 {
 	/**
-	 * Name of the table that stores relations.
+	 * @var string Name of the table that stores relations.
 	 */
 	public const TABLE_NAME = 'vtiger_senotesrel';
 
@@ -26,9 +26,7 @@ class Documents_GetAttachments_Relation extends \App\Relation\RelationAbstractio
 		return Vtiger_Relation_Model::RELATION_M2M;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQuery()
 	{
 		$queryGenerator = $this->relationModel->getQueryGenerator();
@@ -40,9 +38,7 @@ class Documents_GetAttachments_Relation extends \App\Relation\RelationAbstractio
 		$queryGenerator->setOrder('id', 'DESC');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function delete(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		$data = ['notesid' => $destinationRecordId, 'crmid' => $sourceRecordId];
@@ -53,9 +49,7 @@ class Documents_GetAttachments_Relation extends \App\Relation\RelationAbstractio
 		return (bool) App\Db::getInstance()->createCommand()->delete(self::TABLE_NAME, $data)->execute();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function create(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		$result = false;
@@ -66,9 +60,7 @@ class Documents_GetAttachments_Relation extends \App\Relation\RelationAbstractio
 		return (bool) $result;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
 		return (bool) \App\Db::getInstance()->createCommand()->update(self::TABLE_NAME,

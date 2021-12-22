@@ -16,7 +16,7 @@
 class OSSMailView_GetEmails_Relation extends \App\Relation\RelationAbstraction
 {
 	/**
-	 * Name of the table that stores relations.
+	 * @var string Name of the table that stores relations.
 	 */
 	public const TABLE_NAME = 'vtiger_ossmailview_relation';
 
@@ -26,9 +26,7 @@ class OSSMailView_GetEmails_Relation extends \App\Relation\RelationAbstraction
 		return Vtiger_Relation_Model::RELATION_M2M;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQuery()
 	{
 		$this->relationModel->getQueryGenerator()
@@ -36,25 +34,19 @@ class OSSMailView_GetEmails_Relation extends \App\Relation\RelationAbstraction
 			->addNativeCondition([self::TABLE_NAME . '.crmid' => $this->relationModel->get('parentRecord')->getId()]);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function delete(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		return (bool) \App\Db::getInstance()->createCommand()->delete(self::TABLE_NAME, ['crmid' => $sourceRecordId, 'ossmailviewid' => $destinationRecordId])->execute();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function create(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
 		$result = $this->updateDB($toRecordId, ['crmid' => $fromRecordId, 'ossmailviewid' => $relatedRecordId]);

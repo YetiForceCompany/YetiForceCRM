@@ -15,16 +15,16 @@
  */
 class Vtiger_GetRelatedList_Relation extends \App\Relation\RelationAbstraction
 {
+	/**
+	 * @var string Name of the table that stores relations.
+	 */
+	public const TABLE_NAME = 'vtiger_crmentityrel';
+
 	/** {@inheritdoc} */
 	public function getRelationType(): int
 	{
 		return Vtiger_Relation_Model::RELATION_M2M;
 	}
-
-	/**
-	 * Name of the table that stores relations.
-	 */
-	public const TABLE_NAME = 'vtiger_crmentityrel';
 
 	/** {@inheritdoc} */
 	public function getQuery()

@@ -16,7 +16,7 @@
 class Products_GetLeads_Relation extends \App\Relation\RelationAbstraction
 {
 	/**
-	 * Name of the table that stores relations.
+	 * @var string Name of the table that stores relations.
 	 */
 	public const TABLE_NAME = 'vtiger_seproductsrel';
 
@@ -26,9 +26,7 @@ class Products_GetLeads_Relation extends \App\Relation\RelationAbstraction
 		return Vtiger_Relation_Model::RELATION_M2M;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQuery()
 	{
 		$tableName = self::TABLE_NAME;
@@ -38,9 +36,7 @@ class Products_GetLeads_Relation extends \App\Relation\RelationAbstraction
 			->addNativeCondition(['vtiger_products.productid' => $this->relationModel->get('parentRecord')->getId()]);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function delete(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		return (bool) App\Db::getInstance()->createCommand()
@@ -48,9 +44,7 @@ class Products_GetLeads_Relation extends \App\Relation\RelationAbstraction
 			->execute();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function create(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		$result = false;
@@ -64,9 +58,7 @@ class Products_GetLeads_Relation extends \App\Relation\RelationAbstraction
 		return (bool) $result;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
 		return (bool) \App\Db::getInstance()->createCommand()->update(self::TABLE_NAME,

@@ -154,13 +154,14 @@ class Layout
 	 * @param string $text
 	 * @param int    $length
 	 * @param bool   $showIcon
+	 * @param bool   $nl2br
 	 *
 	 * @return string
 	 */
-	public static function truncateText(string $text, int $length, bool $showIcon = false): string
+	public static function truncateText(string $text, int $length, bool $showIcon = false, bool $nl2br = false): string
 	{
 		if (\mb_strlen($text) < $length) {
-			return $text;
+			return $nl2br ? nl2br($text) : $text;
 		}
 		$teaser = TextParser::textTruncate($text, $length);
 		if ($showIcon) {

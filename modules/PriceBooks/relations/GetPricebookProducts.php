@@ -16,7 +16,7 @@
 class PriceBooks_GetPricebookProducts_Relation extends \App\Relation\RelationAbstraction
 {
 	/**
-	 * Name of the table that stores relations.
+	 * @var string Name of the table that stores relations.
 	 */
 	public const TABLE_NAME = 'vtiger_pricebookproductrel';
 
@@ -26,9 +26,7 @@ class PriceBooks_GetPricebookProducts_Relation extends \App\Relation\RelationAbs
 		return Vtiger_Relation_Model::RELATION_M2M;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQuery()
 	{
 		$tableName = self::TABLE_NAME;
@@ -39,9 +37,7 @@ class PriceBooks_GetPricebookProducts_Relation extends \App\Relation\RelationAbs
 			->addNativeCondition(['vtiger_pricebook.pricebookid' => $this->relationModel->get('parentRecord')->getId()]);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function delete(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		return (bool) App\Db::getInstance()->createCommand()
@@ -49,9 +45,7 @@ class PriceBooks_GetPricebookProducts_Relation extends \App\Relation\RelationAbs
 			->execute();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function create(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		$result = false;
@@ -64,9 +58,7 @@ class PriceBooks_GetPricebookProducts_Relation extends \App\Relation\RelationAbs
 		return $result;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
 		return (bool) \App\Db::getInstance()->createCommand()->update(self::TABLE_NAME,
