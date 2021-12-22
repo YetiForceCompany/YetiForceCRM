@@ -14,19 +14,13 @@
  */
 class Settings_AdminAccess_Edit_View extends \App\Controller\ModalSettings
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected $pageTitle = 'LBL_EDIT_ADMIN_ACCESS';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $modalIcon = 'yfi yfi-full-editing-view';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule(false);

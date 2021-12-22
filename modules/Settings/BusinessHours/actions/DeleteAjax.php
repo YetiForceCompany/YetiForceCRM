@@ -10,9 +10,7 @@
  */
 class Settings_BusinessHours_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$result = true;

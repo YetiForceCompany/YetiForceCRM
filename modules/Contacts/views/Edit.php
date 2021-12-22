@@ -11,9 +11,7 @@
 
 class Contacts_Edit_View extends Vtiger_Edit_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPageTitle(App\Request $request)
 	{
 		if ($this->record->isNew()) {

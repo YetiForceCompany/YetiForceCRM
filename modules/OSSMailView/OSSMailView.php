@@ -73,9 +73,7 @@ class OSSMailView extends CRMEntity
 	public $default_order_by = 'date';
 	public $default_sort_order = 'DESC';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function moduleHandler($moduleName, $eventType)
 	{
 		$dbCommand = App\Db::getInstance()->createCommand();

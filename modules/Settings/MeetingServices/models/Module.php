@@ -14,40 +14,28 @@
  */
 class Settings_MeetingServices_Module_Model extends Settings_Vtiger_Module_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $name = 'MeetingServices';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $baseTable = \App\MeetingService::TABLE_NAME;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $baseIndex = 'id';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $listFields = [
 		'url' => 'FL_URL',
 		'status' => 'FL_STATUS',
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDefaultUrl()
 	{
 		return "index.php?parent=Settings&module={$this->getName()}&view=List";
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getCreateRecordUrl()
 	{
 		return "index.php?parent=Settings&module={$this->getName()}&view=Edit";

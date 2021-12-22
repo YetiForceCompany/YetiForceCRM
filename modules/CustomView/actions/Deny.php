@@ -10,9 +10,7 @@
 
 class CustomView_Deny_Action extends \App\Controller\Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if (!CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isPublic()) {
@@ -20,9 +18,7 @@ class CustomView_Deny_Action extends \App\Controller\Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();

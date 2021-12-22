@@ -162,9 +162,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		return $mem->expressionFunctions();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListFields(): array
 	{
 		if (!property_exists($this, 'listFieldModels')) {

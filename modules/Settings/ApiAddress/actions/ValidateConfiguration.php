@@ -9,9 +9,7 @@
  */
 class Settings_ApiAddress_ValidateConfiguration_Action extends Settings_Vtiger_Basic_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule(false);

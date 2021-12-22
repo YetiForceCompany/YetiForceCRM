@@ -10,9 +10,7 @@
  */
 class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$baseModuleName = 'Accounts';
@@ -58,9 +56,7 @@ class Products_TreeRecords_View extends Vtiger_TreeRecords_View
 		$viewer->view('TreeRecords.tpl', $moduleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);

@@ -29,9 +29,7 @@ class Notification_Reminders_View extends Vtiger_IndexAjax_View
 		$viewer->view('Reminders.tpl', $moduleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isSessionExtend(App\Request $request)
 	{
 		return false;

@@ -12,9 +12,7 @@
  */
 class Contacts_CardDav_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		\App\Log::trace('Start cron CardDAV');

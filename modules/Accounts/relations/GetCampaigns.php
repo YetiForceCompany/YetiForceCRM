@@ -13,9 +13,7 @@
  */
 class Accounts_GetCampaigns_Relation extends Campaigns_GetCampaigns_Relation
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function delete(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		return (bool) App\Db::getInstance()->createCommand()->delete(self::TABLE_NAME, ['and',
@@ -27,9 +25,7 @@ class Accounts_GetCampaigns_Relation extends Campaigns_GetCampaigns_Relation
 		])->execute();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function create(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		$result = false;

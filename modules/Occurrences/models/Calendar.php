@@ -174,9 +174,7 @@ class Occurrences_Calendar_Model extends Vtiger_Calendar_Model
 		return array_values($return);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function updateEvent(int $recordId, string $data, array $delta)
 	{
 		$start = DateTimeField::convertToDBTimeZone($data, \App\User::getCurrentUserModel(), false);

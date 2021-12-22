@@ -22,9 +22,7 @@ class Settings_Logs_SystemWarnings_View extends Settings_Vtiger_Index_View
 		$this->exposeMethod('getWarningsList');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();

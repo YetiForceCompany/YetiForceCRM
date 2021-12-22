@@ -8,9 +8,7 @@
  */
 class Reservations_Calendar_Model extends Vtiger_Calendar_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSideBarLinks($linkParams)
 	{
 		$links = parent::getSideBarLinks($linkParams);

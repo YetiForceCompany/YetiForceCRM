@@ -12,9 +12,7 @@
  */
 class ModComments_Relation_Model extends Vtiger_Relation_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function addRelation($sourceRecordId, $destinationRecordIds, $params = false)
 	{
 		$result = false;

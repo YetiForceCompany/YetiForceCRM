@@ -10,9 +10,7 @@
  */
 class Settings_Vtiger_IconsModal_View extends Settings_Vtiger_BasicModal_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$this->preProcess($request);

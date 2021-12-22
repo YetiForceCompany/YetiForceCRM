@@ -15,19 +15,13 @@
  */
 class PriceBooks_SpecifyMargin_View extends \App\Controller\Modal
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $modalSize = 'modal-md';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $modalIcon = '';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
@@ -35,17 +29,13 @@ class PriceBooks_SpecifyMargin_View extends \App\Controller\Modal
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$this->getViewer($request)->view('Modals/SpecifyMargin.tpl', $request->getModule());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPageTitle(App\Request $request)
 	{
 		return \App\Language::translate('LBL_SPECIFY_THE_MARGIN', $request->getModule());

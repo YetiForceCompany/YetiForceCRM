@@ -31,9 +31,7 @@ class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View
 		return '&search_params=' . json_encode([$conditions]);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$userId = \App\User::getCurrentUserId();

@@ -25,9 +25,7 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		return (bool) \App\Db::getInstance()->getTableSchema($tableName, true)->getColumn($columnName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFieldsByType($type, bool $active = false): array
 	{
 		$fieldModels = parent::getFieldsByType($type, $active);

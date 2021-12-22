@@ -62,9 +62,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSideBarLinks($linkParams)
 	{
 		$links = Vtiger_Link_Model::getAllByType($this->getId(), ['SIDEBARLINK', 'SIDEBARWIDGET'], $linkParams);
@@ -214,9 +212,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		return $recordModels;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFieldsByType($type, bool $active = false): array
 	{
 		$restrictedField = ['picklist' => ['activitystatus', 'visibility', 'duration_minutes']];
@@ -238,9 +234,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		return $fieldList;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSettingLinks(): array
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -402,9 +396,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		return ['events' => $totalCount[$eventModule] - $skipCount[$eventModule], 'skipped_events' => $skipCount[$eventModule], 'task' => $totalCount[$todoModule] - $skipCount[$todoModule], 'skipped_task' => $skipCount[$todoModule]];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getLayoutTypeForQuickCreate(): string
 	{
 		return 'standard';

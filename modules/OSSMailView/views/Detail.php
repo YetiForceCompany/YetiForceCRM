@@ -8,26 +8,20 @@
  */
 class OSSMailView_Detail_View extends Vtiger_Detail_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showSummary');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isAjaxEnabled($recordModel)
 	{
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function showSummary(App\Request $request)
 	{
 		$record = $request->getInteger('record');

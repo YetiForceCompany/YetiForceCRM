@@ -15,9 +15,7 @@
  */
 class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static function getInstance($moduleName, $sourceModule = 0)
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $moduleName);
@@ -49,9 +47,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 		return $basicLinks;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListViewMassActions($linkParams)
 	{
 		$massActionLinks = [];
@@ -78,9 +74,7 @@ class RecycleBin_ListView_Model extends Vtiger_ListView_Model
 		return $links;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListViewLinks($linkParams)
 	{
 		$links = ['LISTVIEWBASIC' => []];

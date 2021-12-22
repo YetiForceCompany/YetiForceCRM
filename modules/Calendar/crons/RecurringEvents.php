@@ -14,9 +14,7 @@
  */
 class Calendar_RecurringEvents_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$dataReader = (new App\Db\Query())->select(['followup'])

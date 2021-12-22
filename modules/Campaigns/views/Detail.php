@@ -10,9 +10,7 @@
 
 class Campaigns_Detail_View extends Vtiger_Detail_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
@@ -44,9 +42,7 @@ class Campaigns_Detail_View extends Vtiger_Detail_View
 		return $viewer->view('CountRecordsContent.tpl', $moduleName, true);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();

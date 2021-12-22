@@ -13,9 +13,7 @@
  */
 class Calendar_GetActivities_Relation extends Vtiger_GetDependentsList_Relation
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQuery()
 	{
 		$moduleName = $this->relationModel->getParentModuleModel()->getName();

@@ -10,9 +10,7 @@
 
 class Settings_Currency_DeleteAjax_Action extends Settings_Vtiger_Basic_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$response = new Vtiger_Response();

@@ -9,18 +9,12 @@
  */
 class Settings_ConfReport_Speed_View extends \App\Controller\ModalSettings
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $showFooter = false;
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $modalIcon = 'fas fa-stopwatch';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$qualifiedModule = $request->getModule(false);
@@ -30,9 +24,7 @@ class Settings_ConfReport_Speed_View extends \App\Controller\ModalSettings
 		$viewer->view('Speed.tpl', $qualifiedModule);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPageTitle(App\Request $request)
 	{
 		return \App\Language::translate('LBL_SERVER_SPEED_TEST', $request->getModule(false));

@@ -12,9 +12,7 @@
  */
 class Calendar_ActivityState_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$statusActivity = Calendar_Module_Model::getComponentActivityStateLabel();

@@ -16,9 +16,7 @@
  */
 class ModTracker_Updates_Dashboard extends Vtiger_IndexAjax_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
@@ -28,9 +26,7 @@ class ModTracker_Updates_Dashboard extends Vtiger_IndexAjax_View
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);

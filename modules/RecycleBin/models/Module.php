@@ -33,9 +33,7 @@ class RecycleBin_Module_Model extends Vtiger_Module_Model
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isAdvSortEnabled()
 	{
 		return false;

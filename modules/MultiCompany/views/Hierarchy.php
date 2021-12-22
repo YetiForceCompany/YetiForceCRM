@@ -11,9 +11,7 @@ class MultiCompany_Hierarchy_View extends \App\Controller\View\Page
 {
 	use App\Controller\ClearProcess;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');
@@ -25,9 +23,7 @@ class MultiCompany_Hierarchy_View extends \App\Controller\View\Page
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);

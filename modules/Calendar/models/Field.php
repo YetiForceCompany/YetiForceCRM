@@ -14,9 +14,7 @@
  */
 class Calendar_Field_Model extends Vtiger_Field_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getValidator()
 	{
 		$validator = [];
@@ -30,9 +28,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		return $validator;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFieldDataType()
 	{
 		if ('date_start' == $this->getName() || 'due_date' == $this->getName()) {
@@ -44,9 +40,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		return parent::getFieldDataType();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if ($recordModel) {
@@ -59,9 +53,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		if (empty($value)) {

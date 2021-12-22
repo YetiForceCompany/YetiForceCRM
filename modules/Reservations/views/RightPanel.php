@@ -8,17 +8,13 @@
  */
 class Reservations_RightPanel_View extends Calendar_RightPanel_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function getTpl(string $tplFile)
 	{
 		return "Calendar/{$tplFile}";
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();

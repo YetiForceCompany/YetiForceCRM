@@ -9,22 +9,14 @@
  */
 class Settings_ConfReport_DbInfo_View extends \App\Controller\ModalSettings
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $modalSize = 'modal-full';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $showFooter = false;
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $modalIcon = 'fas fa-database';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$qualifiedModule = $request->getModule(false);
@@ -33,9 +25,7 @@ class Settings_ConfReport_DbInfo_View extends \App\Controller\ModalSettings
 		$viewer->view('DbInfo.tpl', $qualifiedModule);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPageTitle(App\Request $request)
 	{
 		return \App\Language::translate('LBL_DB_INFO', $request->getModule(false));

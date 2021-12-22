@@ -35,9 +35,7 @@ class Settings_WidgetsManagement_EditWidget_View extends \App\Controller\ModalSe
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPageTitle(App\Request $request)
 	{
 		return \App\Language::translate($this->widgetModel->getTitle(), \App\Module::getModuleName($this->widgetModel->get('tabid')));

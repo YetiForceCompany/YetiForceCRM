@@ -11,17 +11,13 @@
 
 class ModComments_Detail_View extends Vtiger_Detail_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isAjaxEnabled($recordModel)
 	{
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function showBreadCrumbLine()
 	{
 		return false;

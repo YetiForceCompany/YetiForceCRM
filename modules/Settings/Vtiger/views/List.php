@@ -21,9 +21,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 	 */
 	public $listViewModel;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
@@ -36,9 +34,7 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 		$viewer->view('ListViewHeader.tpl', $request->getModule(false));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);

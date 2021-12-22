@@ -10,9 +10,7 @@
 
 class Leads_Detail_View extends Vtiger_Detail_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);

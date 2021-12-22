@@ -85,9 +85,7 @@ class Notification_Notification_Action extends \App\Controller\Action
 		$response->emit();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isSessionExtend(App\Request $request)
 	{
 		return 'tracking' !== $request->getMode();

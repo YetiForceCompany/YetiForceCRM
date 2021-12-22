@@ -14,9 +14,7 @@ class Settings_RecordNumbering_SaveAjax_Action extends Settings_Vtiger_Index_Act
 {
 	use \App\Controller\ExposeMethod;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
@@ -25,9 +23,7 @@ class Settings_RecordNumbering_SaveAjax_Action extends Settings_Vtiger_Index_Act
 		$this->exposeMethod('updateRecordsWithSequenceNumber');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);

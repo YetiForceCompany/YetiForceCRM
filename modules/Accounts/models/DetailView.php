@@ -11,9 +11,7 @@
 
 class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDetailViewLinks(array $linkParams): array
 	{
 		$linkModelList = parent::getDetailViewLinks($linkParams);
@@ -30,9 +28,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 		return $linkModelList;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();

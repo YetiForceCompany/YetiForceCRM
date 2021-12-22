@@ -15,9 +15,7 @@ class Settings_TreesManager_ReplaceTreeItem_View extends \App\Controller\ModalSe
 	 */
 	public $qualifiedModuleName = '';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
 		$this->qualifiedModuleName = $request->getModule(false);
@@ -26,9 +24,7 @@ class Settings_TreesManager_ReplaceTreeItem_View extends \App\Controller\ModalSe
 		parent::preProcessAjax($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);

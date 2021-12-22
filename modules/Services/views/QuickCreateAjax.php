@@ -11,9 +11,7 @@
 
 class Services_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertJsScripts(['modules.Products.resources.Edit']), parent::getFooterScripts($request));

@@ -11,17 +11,13 @@
  */
 class Calendar_CalendarExtended_View extends Calendar_Calendar_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function getTpl(string $tplFile)
 	{
 		return "Extended/$tplFile";
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, $display);
@@ -35,17 +31,13 @@ class Calendar_CalendarExtended_View extends Calendar_Calendar_View
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($moduleName, $mid));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function preProcessTplName(App\Request $request)
 	{
 		return 'Calendar/PreProcess.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
@@ -58,9 +50,7 @@ class Calendar_CalendarExtended_View extends Calendar_Calendar_View
 		parent::postProcess($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([

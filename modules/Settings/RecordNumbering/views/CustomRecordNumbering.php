@@ -12,14 +12,10 @@
  */
 class Settings_RecordNumbering_CustomRecordNumbering_View extends Settings_Vtiger_Index_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected $pageTitle = 'LBL_CUSTOMIZE_RECORD_NUMBERING';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
@@ -56,9 +52,7 @@ class Settings_RecordNumbering_CustomRecordNumbering_View extends Settings_Vtige
 		$viewer->view('CustomRecordNumbering.tpl', $qualifiedModuleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([

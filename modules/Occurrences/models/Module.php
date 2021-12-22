@@ -21,9 +21,7 @@ class Occurrences_Module_Model extends Vtiger_Module_Model
 		return 'index.php?module=' . $this->getName() . '&view=Calendar';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSideBarLinks($linkParams)
 	{
 		$links = parent::getSideBarLinks($linkParams);
@@ -36,9 +34,7 @@ class Occurrences_Module_Model extends Vtiger_Module_Model
 		return $links;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getLayoutTypeForQuickCreate(): string
 	{
 		return 'standard';

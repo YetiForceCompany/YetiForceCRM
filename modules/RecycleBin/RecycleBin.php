@@ -38,9 +38,7 @@ class RecycleBin extends Vtiger_CRMEntity
 	 */
 	public $default_sort_order = '';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function moduleHandler($moduleName, $eventType)
 	{
 		if ('module.postinstall' === $eventType) {

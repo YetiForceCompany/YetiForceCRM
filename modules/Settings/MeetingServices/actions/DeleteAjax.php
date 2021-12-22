@@ -11,9 +11,7 @@
  */
 class Settings_MeetingServices_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$recordId = $request->getInteger('record');

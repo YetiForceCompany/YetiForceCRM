@@ -48,49 +48,37 @@ class Settings_BusinessHours_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public $name = 'BusinessHours';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getIndexViewUrl(): string
 	{
 		return 'index.php?module=' . $this->getName() . '&parent=' . $this->getParentName() . '&view=List';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDefaultUrl(): string
 	{
 		return 'index.php?module=BusinessHours&parent=Settings&view=List';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListViewUrl(): string
 	{
 		return 'index.php?module=BusinessHours&parent=Settings&view=List';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditViewUrl(): string
 	{
 		return 'index.php?module=BusinessHours&parent=Settings&view=Edit';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getCreateRecordUrl(): string
 	{
 		return 'index.php?module=BusinessHours&parent=Settings&view=Edit';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isPagingSupported(): bool
 	{
 		return false;

@@ -12,17 +12,13 @@
  */
 class Calendar_ActivityState_View extends Calendar_ActivityStateModal_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function getTpl()
 	{
 		return 'Extended/ActivityState.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getLinks(): array
 	{
 		$links = [];

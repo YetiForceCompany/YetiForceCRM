@@ -78,9 +78,7 @@ class Settings_PublicHoliday_Record_Model extends Settings_Vtiger_Record_Model
 		return new self();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public static function getInstanceById($id)
 	{
 		$moduleModel = Settings_PublicHoliday_Module_Model::getInstance();

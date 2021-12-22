@@ -12,13 +12,9 @@
  */
 class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $name = 'ConfigEditor';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $listFields = [
 		'upload_maxsize' => 'LBL_MAX_UPLOAD_SIZE',
 		'default_module' => 'LBL_DEFAULT_MODULE',

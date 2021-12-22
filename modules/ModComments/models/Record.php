@@ -23,9 +23,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	/** @var \Vtiger_Record_Model Parent comment record model instance. */
 	private $parentCommentModel;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getId()
 	{
 		$id = $this->get('modcommentsid');
@@ -35,17 +33,13 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		return $this->get('modcommentsid');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function setId($id)
 	{
 		return $this->set('modcommentsid', $id);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($fieldName, $record = false, $rawText = false, $length = false)
 	{
 		if ('commentcontent' !== $fieldName) {

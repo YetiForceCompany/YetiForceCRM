@@ -10,9 +10,7 @@
 
 class Rss_DeleteAjax_Action extends Vtiger_Delete_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -21,9 +19,7 @@ class Rss_DeleteAjax_Action extends Vtiger_Delete_Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();

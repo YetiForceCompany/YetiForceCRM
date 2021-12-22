@@ -13,9 +13,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		return 'index.php?module=' . $this->getName() . '&view=Calendar';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSideBarLinks($linkParams)
 	{
 		$links = parent::getSideBarLinks($linkParams);
@@ -124,9 +122,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		return $chartData;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFieldsForSave(Vtiger_Record_Model $recordModel)
 	{
 		$fields = parent::getFieldsForSave($recordModel);
@@ -136,9 +132,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 		return $fields;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getLayoutTypeForQuickCreate(): string
 	{
 		return 'standard';

@@ -30,9 +30,7 @@ class Settings_ModuleManager_List_View extends Settings_Vtiger_Index_View
 		echo $viewer->view('ListContents.tpl', $qualifiedModuleName, true);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();

@@ -14,9 +14,7 @@
  */
 class OSSMailScanner_Verification_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		OSSMailScanner_Record_Model::verificationCron();

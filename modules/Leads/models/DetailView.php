@@ -11,9 +11,7 @@
 
 class Leads_DetailView_Model extends Accounts_DetailView_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDetailViewLinks(array $linkParams): array
 	{
 		$linkModelList = parent::getDetailViewLinks($linkParams);

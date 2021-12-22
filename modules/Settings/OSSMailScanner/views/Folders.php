@@ -10,9 +10,7 @@
  */
 class Settings_OSSMailScanner_Folders_View extends Settings_Vtiger_BasicModal_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);

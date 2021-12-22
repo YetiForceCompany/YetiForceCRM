@@ -10,9 +10,7 @@
  */
 class Settings_MailSmtp_Detail_View extends Settings_Vtiger_Index_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
@@ -21,9 +19,7 @@ class Settings_MailSmtp_Detail_View extends Settings_Vtiger_Index_View
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$record = $request->getInteger('record');

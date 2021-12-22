@@ -11,9 +11,7 @@
 
 class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaders()
 	{
 		$headerFields = parent::getHeaders();
@@ -31,9 +29,7 @@ class PriceBooks_RelationListView_Model extends Vtiger_RelationListView_Model
 		return $headerFields;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getLinks(): array
 	{
 		$relatedLink = parent::getLinks();

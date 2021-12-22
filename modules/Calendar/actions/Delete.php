@@ -11,9 +11,7 @@
 
 class Calendar_Delete_Action extends Vtiger_Delete_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$this->record->delete();

@@ -10,9 +10,7 @@
 
 class PriceBooks_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function saveRecord(App\Request $request)
 	{
 		$this->getRecordModelFromRequest($request);

@@ -15,9 +15,7 @@
  */
 class Settings_ApiAddress_ApiConfigModal_View extends \App\Controller\ModalSettings
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
 		$this->qualifiedModuleName = $request->getModule(false);
@@ -25,9 +23,7 @@ class Settings_ApiAddress_ApiConfigModal_View extends \App\Controller\ModalSetti
 		parent::preProcessAjax($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);

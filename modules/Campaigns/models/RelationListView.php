@@ -12,9 +12,7 @@
 
 class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getLinks(): array
 	{
 		$relatedLinks = parent::getLinks();

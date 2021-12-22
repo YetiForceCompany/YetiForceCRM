@@ -13,9 +13,7 @@
  */
 class OSSSoldServices_Renewal_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$renewal = ['PLL_PLANNED', 'PLL_WAITING_FOR_RENEWAL', ''];

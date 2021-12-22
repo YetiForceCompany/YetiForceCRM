@@ -17,9 +17,7 @@ class Settings_InterestsConflict_Save_Action extends \App\Controller\Action
 {
 	use \App\Controller\ExposeMethod, \App\Controller\Traits\SettingsPermission;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();

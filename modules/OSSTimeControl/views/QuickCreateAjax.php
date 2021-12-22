@@ -14,9 +14,7 @@
  */
 class OSSTimeControl_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
@@ -25,9 +23,7 @@ class OSSTimeControl_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -41,9 +37,7 @@ class OSSTimeControl_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$viewer->view('Calendar/QuickCreate.tpl', $request->getModule());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		$jsFiles = parent::getFooterScripts($request);
@@ -61,9 +55,7 @@ class OSSTimeControl_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		]));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderCss(App\Request $request)
 	{
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([

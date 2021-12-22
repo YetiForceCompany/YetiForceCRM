@@ -10,9 +10,7 @@
  */
 class HelpDesk_CheckValidateToClose_Action extends \App\Controller\Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$this->recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
@@ -21,9 +19,7 @@ class HelpDesk_CheckValidateToClose_Action extends \App\Controller\Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$response = new Vtiger_Response();

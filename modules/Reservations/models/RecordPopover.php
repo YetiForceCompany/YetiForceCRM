@@ -14,9 +14,7 @@
  */
 class Reservations_RecordPopover_Model extends Vtiger_RecordPopover_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFieldsIcon(): array
 	{
 		return ['date_start' => 'far fa-clock', 'time_start' => 'far fa-clock', 'time_end' => 'far fa-clock', 'due_date' => 'far fa-clock', 'sum_time' => 'far fa-clock',

@@ -93,9 +93,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		return 'index.php?module=Calendar&view=' . $this->getModule()->getDetailViewName() . '&record=' . $this->getId();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function saveToDb()
 	{
 		parent::saveToDb();
@@ -150,9 +148,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isMandatorySave()
 	{
 		return true;
@@ -307,9 +303,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		return 'index.php?module=Calendar&view=ActivityStateModal&record=' . $this->getId();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function changeState($state)
 	{
 		parent::changeState($state);
@@ -330,9 +324,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['deleted' => $stateId], ['activityid' => $this->getId()])->execute();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function delete()
 	{
 		parent::delete();
@@ -365,9 +357,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		return $links;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
 	{
 		$links = parent::getRecordRelatedListViewLinksLeftSide($viewModel);

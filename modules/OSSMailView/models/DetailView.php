@@ -8,9 +8,7 @@
  */
 class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDetailViewLinks(array $linkParams): array
 	{
 		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();

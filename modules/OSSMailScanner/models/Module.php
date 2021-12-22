@@ -20,9 +20,7 @@ class OSSMailScanner_Module_Model extends Vtiger_Module_Model
 		return 'index';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSettingLinks(): array
 	{
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');

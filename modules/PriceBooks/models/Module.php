@@ -50,9 +50,7 @@ class PriceBooks_Module_Model extends Vtiger_Module_Model
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModalRecordsListFields(App\QueryGenerator $queryGenerator, $sourceModule = false)
 	{
 		$popupFields = parent::getModalRecordsListFields($queryGenerator, $sourceModule);

@@ -11,9 +11,7 @@
 
 class Project_DetailView_Model extends Vtiger_DetailView_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDetailViewLinks(array $linkParams): array
 	{
 		$recordModel = $this->getRecord();
@@ -44,9 +42,7 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 		return $linkModelList;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDetailViewRelatedLinks()
 	{
 		$recordModel = $this->getRecord();

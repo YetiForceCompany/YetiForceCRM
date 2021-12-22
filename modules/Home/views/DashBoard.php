@@ -11,9 +11,7 @@
 
 class Home_DashBoard_View extends Vtiger_DashBoard_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);

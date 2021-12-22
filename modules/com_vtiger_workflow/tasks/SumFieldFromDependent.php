@@ -16,17 +16,13 @@ class SumFieldFromDependent extends VTTask
 	 */
 	public $executeImmediately = true;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFieldNames()
 	{
 		return ['targetField', 'sourceField', 'conditions'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function doTask($recordModel)
 	{
 		[$referenceField, $moduleName, $fieldName] = explode('::', $this->targetField);

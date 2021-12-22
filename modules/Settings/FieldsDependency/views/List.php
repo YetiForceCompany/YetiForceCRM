@@ -15,9 +15,7 @@
  */
 class Settings_FieldsDependency_List_View extends Settings_Vtiger_List_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);

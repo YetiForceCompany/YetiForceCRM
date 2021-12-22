@@ -23,9 +23,7 @@ class OSSTimeControl_Record_Model extends Vtiger_Record_Model
 			. $currDate . '&due_date=' . $currDate . '&time_start=' . $time . '&time_end=' . $time;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function changeState($state)
 	{
 		parent::changeState($state);

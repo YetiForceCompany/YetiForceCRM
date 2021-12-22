@@ -14,9 +14,7 @@
  */
 class Settings_MeetingServices_ListView_Model extends Settings_Vtiger_ListView_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getBasicLinks()
 	{
 		$basicLinks = [];

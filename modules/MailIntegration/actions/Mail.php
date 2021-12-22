@@ -16,9 +16,7 @@ class MailIntegration_Mail_Action extends \App\Controller\Action
 {
 	use \App\Controller\ExposeMethod;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
@@ -27,9 +25,7 @@ class MailIntegration_Mail_Action extends \App\Controller\Action
 		$this->exposeMethod('findEmail');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {

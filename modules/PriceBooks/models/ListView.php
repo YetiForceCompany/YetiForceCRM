@@ -11,9 +11,7 @@
 
 class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
 		if ($currencyId = $this->get('currency_id')) {
@@ -22,9 +20,7 @@ class PriceBooks_ListView_Model extends Vtiger_ListView_Model
 		return parent::getListViewEntries($pagingModel);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListViewHeaders()
 	{
 		$headerFields = parent::getListViewHeaders();

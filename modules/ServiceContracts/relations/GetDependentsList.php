@@ -14,9 +14,7 @@
  */
 class ServiceContracts_GetDependentsList_Relation extends Vtiger_GetDependentsList_Relation
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function create(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		if ('HelpDesk' === $this->relationModel->getRelationModuleName()) {

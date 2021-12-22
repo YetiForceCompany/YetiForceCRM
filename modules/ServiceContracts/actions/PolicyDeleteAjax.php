@@ -11,9 +11,7 @@
  */
 class ServiceContracts_PolicyDeleteAjax_Action extends \App\Controller\Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$record = Vtiger_DetailView_Model::getInstance($request->getModule(), $request->getInteger('record'));
@@ -22,9 +20,7 @@ class ServiceContracts_PolicyDeleteAjax_Action extends \App\Controller\Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		\App\Utils\ServiceContracts::deleteSlaPolicy($request->getInteger('record'), \App\Module::getModuleId($request->getByType('targetModule', 'Alnum')));

@@ -11,9 +11,7 @@
 
 class Calendar_Time_UIType extends Vtiger_Time_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		$fieldName = $this->get('field')->getFieldName();

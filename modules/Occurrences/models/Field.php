@@ -13,9 +13,7 @@
  */
 class Occurrences_Field_Model extends Vtiger_Field_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getValidator()
 	{
 		$validator = [];

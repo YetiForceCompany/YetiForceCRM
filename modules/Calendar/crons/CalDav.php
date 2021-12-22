@@ -12,9 +12,7 @@
  */
 class Calendar_CalDav_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		\App\Log::trace('Start cron CalDAV');

@@ -24,17 +24,13 @@ class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 	 */
 	protected $error;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function loginRequired()
 	{
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if ((explode('-', $request->getByType('query', 'AlnumExtended'))[0] ?? '') !== substr(\App\YetiForce\Register::getInstanceKey(), 0, 30)) {
@@ -48,9 +44,7 @@ class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 		\CsrfMagic\Csrf::$frameBreaker = \Config\Security::$csrfFrameBreaker = false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -72,9 +66,7 @@ class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderScripts(App\Request $request)
 	{
 		return array_merge(parent::getHeaderScripts($request), $this->checkAndConvertJsScripts([
@@ -82,9 +74,7 @@ class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 		]));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([

@@ -12,9 +12,7 @@
  */
 class Settings_CurrencyUpdate_CurrencyUpdate_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		\App\Log::trace('Start CRON:' . __FILE__);

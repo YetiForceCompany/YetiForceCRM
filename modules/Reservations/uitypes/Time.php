@@ -8,9 +8,7 @@
  */
 class Reservations_Time_UIType extends Vtiger_Time_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		if (!empty($value)) {

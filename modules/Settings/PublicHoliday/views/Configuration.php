@@ -51,9 +51,7 @@ class Settings_PublicHoliday_Configuration_View extends Settings_Vtiger_Index_Vi
 		$viewer->view('ConfigurationItems.tpl', $request->getModule(false));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderCss(App\Request $request)
 	{
 		$view = $request->get('view', App\Purifier::STANDARD);

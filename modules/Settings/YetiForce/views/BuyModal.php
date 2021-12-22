@@ -16,13 +16,9 @@
  */
 class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $successBtn = 'LBL_SHOP_PROCEED_TO_CHECKOUT';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $successBtnIcon = 'far fa-credit-card';
 	/**
 	 * Header class.
@@ -31,9 +27,7 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 	 */
 	public $headerClass = 'modal-header-xl';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
@@ -42,9 +36,7 @@ class Settings_YetiForce_BuyModal_View extends \App\Controller\ModalSettings
 		parent::preProcessAjax($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);

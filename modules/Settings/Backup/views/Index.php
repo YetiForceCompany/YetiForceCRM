@@ -11,9 +11,7 @@
  */
 class Settings_Backup_Index_View extends Settings_Vtiger_Index_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);

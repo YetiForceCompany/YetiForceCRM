@@ -8,18 +8,14 @@
  */
 class Settings_GlobalPermission_Save_Action extends Settings_Vtiger_Save_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		Settings_Vtiger_Tracker_Model::setRecordId(\App\Request::_getInteger('profileID'));
 		parent::__construct();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$profileID = $request->getInteger('profileID');

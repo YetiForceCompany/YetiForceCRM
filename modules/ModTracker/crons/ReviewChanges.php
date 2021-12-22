@@ -28,9 +28,7 @@ class ModTracker_ReviewChanges_Cron extends \App\CronHandler
 		$this->displayed = ModTracker_Record_Model::DISPLAYED;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$db = \App\Db::getInstance();

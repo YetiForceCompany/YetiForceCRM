@@ -50,9 +50,7 @@ class SMSNotifier_SMSAPI_Provider extends SMSNotifier_Basic_Provider
 		return ['from', 'encoding', 'format'];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getResponse($request)
 	{
 		$response = \App\Json::decode($request->getBody());

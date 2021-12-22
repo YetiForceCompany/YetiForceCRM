@@ -9,9 +9,7 @@
  */
 class MultiCompany_RelationAjax_Action extends Vtiger_RelationAjax_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();

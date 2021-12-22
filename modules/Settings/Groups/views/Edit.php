@@ -34,9 +34,7 @@ class Settings_Groups_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([

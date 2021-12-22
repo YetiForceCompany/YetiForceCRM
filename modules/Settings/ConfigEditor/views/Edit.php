@@ -12,14 +12,10 @@
  */
 class Settings_ConfigEditor_Edit_View extends Settings_Vtiger_Index_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected $pageTitle = 'LBL_CONFIG_EDITOR';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$qualifiedName = $request->getModule(false);

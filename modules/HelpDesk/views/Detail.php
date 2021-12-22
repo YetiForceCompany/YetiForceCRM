@@ -15,9 +15,7 @@
  */
 class HelpDesk_Detail_View extends Vtiger_Detail_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
@@ -25,9 +23,7 @@ class HelpDesk_Detail_View extends Vtiger_Detail_View
 		$this->exposeMethod('showCharts');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function loadJsConfig(App\Request $request)
 	{
 		parent::loadJsConfig($request);

@@ -14,9 +14,7 @@
  */
 class IStorages_GetManyToMany_Relation extends Vtiger_GetManyToMany_Relation
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQuery()
 	{
 		$relatedModuleName = $this->relationModel->getRelationModuleName();

@@ -8,9 +8,7 @@
  */
 class Settings_PublicHoliday_Holiday_Action extends Settings_Vtiger_Index_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();

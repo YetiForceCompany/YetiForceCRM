@@ -14,9 +14,7 @@
  */
 class Settings_MeetingServices_Password_UIType extends Vtiger_Password_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		return \App\Encryption::getInstance()->decrypt($value);

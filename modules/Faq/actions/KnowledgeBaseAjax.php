@@ -11,31 +11,23 @@
  */
 class Faq_KnowledgeBaseAjax_Action extends KnowledgeBase_KnowledgeBaseAjax_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getAccounts');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected $queryCondition = ['vtiger_faq.status' => 'Published'];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModel(App\Request $request)
 	{
 		return Faq_KnowledgeBase_Model::getInstance($request->getModule());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function list(App\Request $request)
 	{
 		$treeModel = $this->getModel($request);

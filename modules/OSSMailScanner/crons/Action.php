@@ -14,9 +14,7 @@
  */
 class OSSMailScanner_Action_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$recordModel = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');

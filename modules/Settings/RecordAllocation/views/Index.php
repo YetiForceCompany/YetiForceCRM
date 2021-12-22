@@ -11,9 +11,7 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 {
 	use \App\Controller\ExposeMethod;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
@@ -33,9 +31,7 @@ class Settings_RecordAllocation_Index_View extends Settings_Vtiger_Index_View
 		$viewer->view('IndexPreProcess.tpl', $qualifiedModuleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();

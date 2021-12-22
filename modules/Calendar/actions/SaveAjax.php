@@ -11,9 +11,7 @@
 
 class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function saveRecord(App\Request $request)
 	{
 		parent::saveRecord($request);
@@ -24,9 +22,7 @@ class Calendar_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getRecordModelFromRequest(App\Request $request)
 	{
 		if (!$request->isEmpty('record') && !$request->has('field')) {

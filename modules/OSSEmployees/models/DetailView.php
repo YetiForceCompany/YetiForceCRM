@@ -9,9 +9,7 @@
  */
 class OSSEmployees_DetailView_Model extends Vtiger_DetailView_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDetailViewLinks(array $linkParams): array
 	{
 		$linkModelLists = parent::getDetailViewLinks($linkParams);

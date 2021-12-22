@@ -11,30 +11,22 @@
  */
 class Calendar_ExportToIcal_Model extends \App\Export\ExportRecords
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected $fileExtension = 'ics';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getExportContentType(): string
 	{
 		return 'text/calendar';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function sanitizeValues($arr)
 	{
 		return $arr;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function output($headers, $entries)
 	{
 		$calendar = \App\Integrations\Dav\Calendar::createEmptyInstance();

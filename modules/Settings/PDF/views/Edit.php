@@ -79,9 +79,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 		]));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderCss(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertCssStyles([

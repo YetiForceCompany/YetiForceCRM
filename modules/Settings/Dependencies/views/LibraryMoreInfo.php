@@ -18,9 +18,7 @@ class Settings_Dependencies_LibraryMoreInfo_View extends Settings_Vtiger_BasicMo
 	 */
 	public $packageFiles = ['package.json', 'composer.json', 'bower.json'];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$result = false;

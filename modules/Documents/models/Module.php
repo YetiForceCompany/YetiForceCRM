@@ -50,9 +50,7 @@ class Documents_Module_Model extends Vtiger_Module_Model
 		]);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModalRecordsListFields(App\QueryGenerator $queryGenerator, $sourceModule = false)
 	{
 		$popupFields = parent::getModalRecordsListFields($queryGenerator, $sourceModule);
@@ -76,9 +74,7 @@ class Documents_Module_Model extends Vtiger_Module_Model
 		return 'notes_title';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSettingLinks(): array
 	{
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');

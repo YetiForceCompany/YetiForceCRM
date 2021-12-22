@@ -11,9 +11,7 @@
  */
 class Settings_Yetiforce_DownloadLanguageModal_View extends \App\Controller\ModalSettings
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $successBtn = '';
 
 	/**
@@ -23,9 +21,7 @@ class Settings_Yetiforce_DownloadLanguageModal_View extends \App\Controller\Moda
 	 */
 	public $qualifiedModuleName = 'Settings:YetiForce';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
 		$this->modalIcon = 'fas fa-download';

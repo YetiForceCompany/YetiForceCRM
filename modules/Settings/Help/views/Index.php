@@ -21,9 +21,7 @@ class Settings_Help_Index_View extends Settings_Vtiger_Index_View
 		$this->exposeMethod('github');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();

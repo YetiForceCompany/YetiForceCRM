@@ -14,9 +14,7 @@
  */
 class ProjectTask_UpcomingProjectTasks_Dashboard extends Vtiger_IndexAjax_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);

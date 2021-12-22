@@ -10,9 +10,7 @@
 
 class Services_Record_Model extends Products_Record_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function delete()
 	{
 		parent::delete();

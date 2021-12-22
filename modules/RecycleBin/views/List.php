@@ -16,9 +16,7 @@
  */
 class RecycleBin_List_View extends Vtiger_List_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
@@ -30,17 +28,13 @@ class RecycleBin_List_View extends Vtiger_List_View
 		$this->preProcessDisplay($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessTplName(App\Request $request)
 	{
 		return 'ListViewPreProcess.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function initializeListViewContents(App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
@@ -91,9 +85,7 @@ class RecycleBin_List_View extends Vtiger_List_View
 		$viewer->assign('LOCKED_EMPTY_FIELDS', []);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);

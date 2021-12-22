@@ -14,9 +14,7 @@
  */
 class Occurrences_Calendar_View extends Vtiger_Calendar_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);

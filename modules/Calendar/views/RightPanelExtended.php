@@ -9,9 +9,7 @@
  */
 class Calendar_RightPanelExtended_View extends Calendar_RightPanel_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function getTpl(string $tplFile)
 	{
 		return "Calendar/$tplFile";

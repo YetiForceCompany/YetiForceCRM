@@ -13,9 +13,7 @@ class Settings_Companies_ListView_Model extends Settings_Vtiger_ListView_Model
 {
 	public static $recordsCount;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getBasicLinks()
 	{
 		$basicLinks = parent::getBasicLinks();

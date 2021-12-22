@@ -16,9 +16,7 @@ class Settings_Mail_Detail_View extends Settings_Vtiger_Index_View
 	 */
 	protected $pageTitle = 'LBL_MAIL_QUEUE_PAGE_TITLE';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);

@@ -14,9 +14,7 @@
  */
 class KnowledgeBase_RecordPopover_Model extends Vtiger_RecordPopover_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFields(): array
 	{
 		$summaryFields = [];

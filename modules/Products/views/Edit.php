@@ -13,9 +13,7 @@
  */
 class Products_Edit_View extends Vtiger_Edit_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDuplicate()
 	{
 		$this->record->set('qtyinstock', null);

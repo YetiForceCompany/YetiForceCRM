@@ -10,26 +10,20 @@
  */
 class Settings_SlaPolicy_Record_Model extends Settings_Vtiger_Record_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getId()
 	{
 		return $this->get('id');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function setId($id)
 	{
 		$this->set('id', $id);
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getName()
 	{
 		return $this->get('name');

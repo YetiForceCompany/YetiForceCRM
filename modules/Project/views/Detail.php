@@ -10,9 +10,7 @@
 
 class Project_Detail_View extends Vtiger_Detail_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
@@ -60,9 +58,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 		$viewer->view('gantt/GanttContents.tpl', $moduleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		$jsFileNames = [

@@ -10,9 +10,7 @@
  */
 class ServiceContracts_Detail_View extends Vtiger_Detail_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
@@ -57,9 +55,7 @@ class ServiceContracts_Detail_View extends Vtiger_Detail_View
 		return $viewer->view('SlaPolicy.tpl', $moduleName, true);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(

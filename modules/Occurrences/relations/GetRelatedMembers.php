@@ -13,9 +13,7 @@
  */
 class Occurrences_GetRelatedMembers_Relation extends Vtiger_GetRelatedList_Relation
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public const TABLE_NAME = 'u_#__relations_members_entity';
 
 	/**
@@ -56,9 +54,7 @@ class Occurrences_GetRelatedMembers_Relation extends Vtiger_GetRelatedList_Relat
 		return $fields;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getQuery()
 	{
 		parent::getQuery();
@@ -69,9 +65,7 @@ class Occurrences_GetRelatedMembers_Relation extends Vtiger_GetRelatedList_Relat
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function create(int $sourceRecordId, int $destinationRecordId): bool
 	{
 		$result = false;

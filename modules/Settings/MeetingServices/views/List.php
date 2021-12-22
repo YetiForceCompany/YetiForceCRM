@@ -15,9 +15,7 @@
  */
 class Settings_MeetingServices_List_View extends Settings_Vtiger_List_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([

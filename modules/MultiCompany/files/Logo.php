@@ -12,14 +12,10 @@
  */
 class MultiCompany_Logo_File extends Vtiger_Basic_File
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $storageName = 'MultiCompany';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getCheckPermission(App\Request $request)
 	{
 		if (!App\Session::has('authenticated_user_id') || $request->isEmpty('record', true) || $request->isEmpty('key', true)) {

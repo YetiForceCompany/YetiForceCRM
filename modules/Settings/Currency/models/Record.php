@@ -99,9 +99,7 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		return 0;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function set($key, $value)
 	{
 		if (null !== $this->getId() && $this->value[$key] !== $value) {

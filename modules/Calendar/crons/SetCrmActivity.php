@@ -13,9 +13,7 @@
  */
 class Calendar_SetCrmActivity_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$pauser = \App\Pauser::getInstance('CrmActivity');

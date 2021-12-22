@@ -8,9 +8,7 @@
  */
 class Settings_MarketingProcesses_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();

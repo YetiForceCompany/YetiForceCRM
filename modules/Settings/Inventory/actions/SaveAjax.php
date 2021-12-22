@@ -20,9 +20,7 @@ class Settings_Inventory_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$this->exposeMethod('saveConfig');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$mode = $request->getMode();

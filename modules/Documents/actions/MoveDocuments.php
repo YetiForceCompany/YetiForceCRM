@@ -11,9 +11,7 @@
 
 class Documents_MoveDocuments_Action extends Vtiger_Mass_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
@@ -21,9 +19,7 @@ class Documents_MoveDocuments_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();

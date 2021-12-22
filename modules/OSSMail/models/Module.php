@@ -13,9 +13,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return 'Index';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSettingLinks(): array
 	{
 		Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTWorkflowUtils.php');
@@ -332,9 +330,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		return $url . '&body=' . rawurlencode($content);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModalRecordsListSourceFields(App\QueryGenerator $queryGenerator, Vtiger_Module_Model $baseModule, $popupFields)
 	{
 		foreach ($baseModule->getFieldsByType('email') as $item) {

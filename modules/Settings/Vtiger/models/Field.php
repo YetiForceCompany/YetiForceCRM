@@ -29,17 +29,13 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 		return $this->isReadOnly ?? false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getValidator()
 	{
 		return $this->validator ?? parent::getValidator();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModuleName()
 	{
 		$moduleName = '';

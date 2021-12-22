@@ -6,9 +6,7 @@
  */
 class Assets_ExpiringSoldProducts_Dashboard extends Vtiger_IndexAjax_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();

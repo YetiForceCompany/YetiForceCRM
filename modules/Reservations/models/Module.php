@@ -13,9 +13,7 @@ class Reservations_Module_Model extends Vtiger_Module_Model
 		return 'index.php?module=' . $this->get('name') . '&view=Calendar';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSideBarLinks($linkParams)
 	{
 		$links = parent::getSideBarLinks($linkParams);
@@ -38,9 +36,7 @@ class Reservations_Module_Model extends Vtiger_Module_Model
 		return 'Calendar';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getLayoutTypeForQuickCreate(): string
 	{
 		return 'standard';

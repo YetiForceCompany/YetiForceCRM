@@ -78,9 +78,7 @@ class Project_Module_Model extends Vtiger_Module_Model
 		$dataReader->close();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSideBarLinks($linkParams)
 	{
 		$links = parent::getSideBarLinks($linkParams);

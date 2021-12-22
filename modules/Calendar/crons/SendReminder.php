@@ -12,9 +12,7 @@
  */
 class Calendar_SendReminder_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		\App\Log::trace('Start SendReminder');

@@ -12,9 +12,7 @@
  */
 class OpenStreetMap_TileLayer_File extends Vtiger_Basic_File
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getCheckPermission(App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted('OpenStreetMap')) {

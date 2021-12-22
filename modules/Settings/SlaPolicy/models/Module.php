@@ -46,17 +46,13 @@ class Settings_SlaPolicy_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public $name = 'SlaPolicy';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDefaultUrl()
 	{
 		return 'index.php?module=SlaPolicy&parent=Settings&view=List';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getCreateRecordUrl()
 	{
 		return 'index.php?module=SlaPolicy&parent=Settings&view=Edit';

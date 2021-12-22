@@ -14,9 +14,7 @@
  */
 class OSSMailScanner_Bind_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		$dbCommand = App\Db::getInstance()->createCommand();

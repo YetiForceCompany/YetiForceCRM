@@ -32,9 +32,7 @@ class Leads_Record_Model extends Vtiger_Record_Model
 		return $returnVal;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function save()
 	{
 		parent::save();
@@ -43,34 +41,26 @@ class Leads_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function delete()
 	{
 		parent::delete();
 		\App\Cache::delete('Leads.converted', $this->getId());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isViewable()
 	{
 		return parent::isViewable() && !$this->getConverted();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isPermitted(string $action)
 	{
 		return parent::isPermitted($action) && !$this->getConverted();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isEditable(): bool
 	{
 		return parent::isEditable() && !$this->getConverted();

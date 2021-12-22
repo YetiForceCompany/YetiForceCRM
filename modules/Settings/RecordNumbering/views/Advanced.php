@@ -12,18 +12,14 @@
  */
 class Settings_RecordNumbering_Advanced_View extends \App\Controller\ModalSettings
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
 		$this->pageTitle = \App\Language::translate('LBL_ADVANCED_RECORD_NUMBERING', $request->getModule(false));
 		parent::preProcessAjax($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$supportedModules = Settings_RecordNumbering_Module_Model::getSupportedModules();

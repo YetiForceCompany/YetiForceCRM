@@ -9,9 +9,7 @@
  */
 class Competition_DetailView_Model extends Vtiger_DetailView_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDetailViewRelatedLinks()
 	{
 		$relatedLinks = parent::getDetailViewRelatedLinks();

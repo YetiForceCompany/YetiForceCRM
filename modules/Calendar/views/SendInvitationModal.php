@@ -15,22 +15,14 @@
  */
 class Calendar_SendInvitationModal_View extends \App\Controller\Modal
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected $pageTitle = 'LBL_SEND_CALENDAR';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $modalIcon = 'yfi-send-invitation';
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $successBtn = 'LBL_SEND';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$this->recordModel = $request->isEmpty('record') ? null : \Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());

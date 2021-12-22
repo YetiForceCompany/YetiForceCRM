@@ -13,9 +13,7 @@
  */
 class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDetailViewLinks(array $linkParams): array
 	{
 		if ($this->getRecord()->isReadOnly() || \App\RequestUtil::getBrowserInfo()->ie) {

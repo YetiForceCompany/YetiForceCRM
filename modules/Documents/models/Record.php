@@ -245,9 +245,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		return \App\Layout\Icon::getIconByFileType($fileType);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isMandatorySave()
 	{
 		return parent::isMandatorySave() || $_FILES;
@@ -363,9 +361,7 @@ class Documents_Record_Model extends Vtiger_Record_Model
 		return $result;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function delete()
 	{
 		parent::delete();

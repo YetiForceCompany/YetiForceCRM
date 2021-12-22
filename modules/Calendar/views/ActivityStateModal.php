@@ -23,9 +23,7 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 		return 'ActivityStateModal.tpl';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$this->record = $request->isEmpty('record', true) ? null : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
@@ -34,9 +32,7 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -47,9 +43,7 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 		$viewer->view($this->getTpl(), $moduleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getScripts(App\Request $request)
 	{
 		return $this->checkAndConvertJsScripts([

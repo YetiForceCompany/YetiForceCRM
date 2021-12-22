@@ -28,9 +28,7 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);

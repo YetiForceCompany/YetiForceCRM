@@ -12,9 +12,7 @@
  */
 class SMSNotifier_SMSNotifier_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		if (SMSNotifier_Module_Model::checkServer()) {

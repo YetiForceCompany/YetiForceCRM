@@ -43,9 +43,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		return $this->get('name');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function set($key, $value)
 	{
 		if ($oldValue = $this->get($key)) {

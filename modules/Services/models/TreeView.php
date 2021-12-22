@@ -10,9 +10,7 @@
  */
 class Services_TreeView_Model extends Vtiger_TreeView_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isActive()
 	{
 		return true;

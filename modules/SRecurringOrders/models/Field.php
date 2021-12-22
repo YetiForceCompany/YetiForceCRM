@@ -9,9 +9,7 @@
  */
 class SRecurringOrders_Field_Model extends Vtiger_Field_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModulesListValues()
 	{
 		if ('target_module' !== $this->getFieldName()) {

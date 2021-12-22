@@ -86,9 +86,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 		return new static();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function get($key)
 	{
 		if ('newsletter' === $key && !empty(parent::get('email'))) {

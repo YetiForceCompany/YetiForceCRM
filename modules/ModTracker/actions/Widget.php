@@ -25,9 +25,7 @@ class ModTracker_Widget_Action extends \App\Controller\Action
 		$this->exposeMethod('saveUpdatesWidgetConfig');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($request->getInteger('widgetId'), \App\User::getCurrentUserId());

@@ -14,33 +14,23 @@
  */
 class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $name = 'AdminAccess';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $baseTable = 'a_#__settings_modules';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $baseIndex = 'id';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $listFields = [
 		'name' => 'FL_MODULE_NAME',
 		'user' => 'FL_USER',
 		'status' => 'FL_ACTIVE'
 	];
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getListFields(): array
 	{
 		$fields = [];

@@ -32,9 +32,7 @@ class KnowledgeBase_KnowledgeBaseAjax_Action extends \App\Controller\Action
 		$this->exposeMethod('search');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {

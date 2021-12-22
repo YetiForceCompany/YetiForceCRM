@@ -12,9 +12,7 @@ class Settings_Groups_DeleteAjax_View extends Settings_Vtiger_Index_View
 {
 	use App\Controller\ClearProcess;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);

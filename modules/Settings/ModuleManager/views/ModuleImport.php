@@ -25,9 +25,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		$this->exposeMethod('updateUserModuleStep3');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getViewer(App\Request $request)
 	{
 		$viewer = parent::getViewer($request);
@@ -35,9 +33,7 @@ class Settings_ModuleManager_ModuleImport_View extends Settings_Vtiger_Index_Vie
 		return $viewer;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$systemMode = \App\Config::main('systemMode');

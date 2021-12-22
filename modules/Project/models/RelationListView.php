@@ -10,9 +10,7 @@
 
 class Project_RelationListView_Model extends Vtiger_RelationListView_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getCreateViewUrl()
 	{
 		$createViewUrl = parent::getCreateViewUrl();

@@ -32,9 +32,7 @@ class IStorages_Record_Model extends Vtiger_Record_Model
 		return $hierarchy;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($fieldName, $record = false, $rawText = false, $length = false)
 	{
 		// This is special field / displayed only in Products module [view=Detail relatedModule=IStorages]

@@ -10,9 +10,7 @@
  */
 class Faq_Module_Model extends Vtiger_Module_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getKnowledgeBaseViewName()
 	{
 		$defaultView = 'KnowledgeBase';
@@ -22,17 +20,13 @@ class Faq_Module_Model extends Vtiger_Module_Model
 		return $defaultView;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getKnowledgeBaseViewUrl()
 	{
 		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getKnowledgeBaseViewName();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSideBarLinks($linkParams)
 	{
 		$links = parent::getSideBarLinks($linkParams);

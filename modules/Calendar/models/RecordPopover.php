@@ -15,9 +15,7 @@
  */
 class Calendar_RecordPopover_Model extends Vtiger_RecordPopover_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFields(): array
 	{
 		$summaryFields = [];
@@ -31,9 +29,7 @@ class Calendar_RecordPopover_Model extends Vtiger_RecordPopover_Model
 		return $summaryFields;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFieldsIcon(): array
 	{
 		return ['date_start' => 'far fa-clock', 'due_date' => 'far fa-clock', 'location' => 'fas fa-globe',

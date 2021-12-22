@@ -9,9 +9,7 @@
  */
 class Notification_Text_UIType extends Vtiger_Text_UIType
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$value = $recordModel->getParseField($this->get('field')->getName());

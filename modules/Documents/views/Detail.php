@@ -11,18 +11,14 @@
 
 class Documents_Detail_View extends Vtiger_Detail_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('showDocumentRelations');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		$fileIcon = \App\Layout\Icon::getIconByFileType($this->record->getRecord()->get('filetype'));
@@ -33,17 +29,13 @@ class Documents_Detail_View extends Vtiger_Detail_View
 		parent::preProcess($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isAjaxEnabled($recordModel)
 	{
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function showModuleBasicView(App\Request $request)
 	{
 		return $this->showModuleDetailView($request);

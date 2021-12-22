@@ -10,17 +10,13 @@
  */
 class Settings_BusinessHours_List_View extends Settings_Vtiger_List_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getBreadcrumbTitle(App\Request $request)
 	{
 		return \App\Language::translate('LBL_BUSINESS_HOURS', $request->getModule());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function initializeListViewContents(App\Request $request, Vtiger_Viewer $viewer)
 	{
 		$listViewModel = Settings_Vtiger_ListView_Model::getInstance($request->getModule(false));
@@ -45,9 +41,7 @@ class Settings_BusinessHours_List_View extends Settings_Vtiger_List_View
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', \count($this->listViewEntries));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		if ($request->isJSON()) {

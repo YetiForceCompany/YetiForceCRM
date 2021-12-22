@@ -15,17 +15,13 @@
  */
 class Settings_InterestsConflict_Index_View extends Settings_Vtiger_Index_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		parent::preProcess($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$activeTab = 'Config';
@@ -53,9 +49,7 @@ class Settings_InterestsConflict_Index_View extends Settings_Vtiger_Index_View
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
@@ -63,9 +57,7 @@ class Settings_InterestsConflict_Index_View extends Settings_Vtiger_Index_View
 		]));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getJSLanguageStrings(App\Request $request)
 	{
 		$translate = parent::getJSLanguageStrings($request);

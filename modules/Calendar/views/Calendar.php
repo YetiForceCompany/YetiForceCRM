@@ -45,9 +45,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
@@ -58,17 +56,13 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected function preProcessTplName(App\Request $request)
 	{
 		return $this->getTpl('CalendarViewPreProcess.tpl');
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
@@ -80,9 +74,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		]));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getHeaderCss(App\Request $request)
 	{
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
@@ -90,9 +82,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		]));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -116,9 +106,7 @@ class Calendar_Calendar_View extends Vtiger_Index_View
 		$viewer->view($this->getTpl('CalendarView.tpl'), $request->getModule());
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function postProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);

@@ -17,9 +17,7 @@
  */
 class HelpDesk_Edit_View extends Vtiger_Edit_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function loadJsConfig(App\Request $request)
 	{
 		parent::loadJsConfig($request);

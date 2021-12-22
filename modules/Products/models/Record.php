@@ -77,9 +77,7 @@ class Products_Record_Model extends Vtiger_Record_Model
 		return true;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function delete()
 	{
 		parent::delete();

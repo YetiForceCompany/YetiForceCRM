@@ -15,19 +15,13 @@
  */
 class ModTracker_UpdatesDetail_View extends \App\Controller\Modal
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $modalSize = 'modal-lg';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public $showFooter = false;
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$selectedModule = $request->getByType('sourceModule', \App\Purifier::ALNUM);
@@ -36,9 +30,7 @@ class ModTracker_UpdatesDetail_View extends \App\Controller\Modal
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getPageTitle(App\Request $request)
 	{
 		$selectedModule = $request->getByType('sourceModule', \App\Purifier::ALNUM);

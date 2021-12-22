@@ -9,9 +9,7 @@
  */
 class EmailTemplates_Module_Model extends Vtiger_Module_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function isQuickCreateSupported()
 	{
 		return false;

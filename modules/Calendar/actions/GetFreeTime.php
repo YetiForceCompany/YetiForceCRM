@@ -126,9 +126,7 @@ class Calendar_GetFreeTime_Action extends Vtiger_BasicAjax_Action
 		return ['day' => $day, 'time_start' => $startTime->getDisplayTime(), 'time_end' => $endTime->getDisplayTime()];
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$dateStart = DateTimeField::convertToDBFormat($request->getByType('dateStart', 'DateInUserFormat'));

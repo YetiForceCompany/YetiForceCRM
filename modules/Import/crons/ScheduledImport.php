@@ -14,9 +14,7 @@
  */
 class Import_ScheduledImport_Cron extends \App\CronHandler
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process()
 	{
 		Import_Data_Action::runScheduledImport();

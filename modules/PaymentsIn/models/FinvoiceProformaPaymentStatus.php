@@ -14,24 +14,16 @@
  */
 class PaymentsIn_FinvoiceProformaPaymentStatus_Model extends PaymentsIn_PaymentStatus_Model
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected static $moduleName = 'FInvoiceProforma';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected static $fieldPaymentStatusName = 'payment_status';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected static $fieldPaymentSumName = 'payment_sum';
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	protected static $relatedRecordIdName = 'finvoiceproformaid';
 
 }

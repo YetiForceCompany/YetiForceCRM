@@ -8,17 +8,13 @@
  */
 class PermissionInspector_UserListModal_View extends Vtiger_BasicModal_View
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getSize(App\Request $request)
 	{
 		return 'modal-lg c-modal--fit-lg';
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$this->preProcess($request);
@@ -57,9 +53,7 @@ class PermissionInspector_UserListModal_View extends Vtiger_BasicModal_View
 		$this->postProcess($request);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModalScripts(App\Request $request)
 	{
 		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
@@ -70,9 +64,7 @@ class PermissionInspector_UserListModal_View extends Vtiger_BasicModal_View
 		]));
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function getModalCss(App\Request $request)
 	{
 		return array_merge(parent::getModalCss($request), $this->checkAndConvertCssStyles([

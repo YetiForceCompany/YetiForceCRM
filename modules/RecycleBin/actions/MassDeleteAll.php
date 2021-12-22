@@ -13,9 +13,7 @@
  */
 class RecycleBin_MassDeleteAll_Action extends Vtiger_Mass_Action
 {
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		if (!\App\Privilege::isPermitted($request->getModule())) {
@@ -23,9 +21,7 @@ class RecycleBin_MassDeleteAll_Action extends Vtiger_Mass_Action
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$result = (new App\BatchMethod(['method' => 'RecycleBin_Module_Model::deleteAllRecords', 'params' => [date('Y-m-d H:i:s'), App\User::getCurrentUserId()]]))->save();
