@@ -9,12 +9,11 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use App\Relation\RelationInterface;
 
 /**
  * OSSEmployees_GetOsstimecontrol_Relation class.
  */
-class OSSEmployees_GetOsstimecontrol_Relation implements RelationInterface
+class OSSEmployees_GetOsstimecontrol_Relation extends \App\Relation\RelationAbstraction
 {
 	/** {@inheritdoc} */
 	public function getRelationType(): int

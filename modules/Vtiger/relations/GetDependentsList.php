@@ -9,12 +9,11 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use App\Relation\RelationInterface;
 
 /**
  * Vtiger_GetDependentsList_Relation class.
  */
-class Vtiger_GetDependentsList_Relation implements RelationInterface
+class Vtiger_GetDependentsList_Relation extends \App\Relation\RelationAbstraction
 {
 	/** {@inheritdoc} */
 	public function getRelationType(): int

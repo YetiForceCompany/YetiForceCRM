@@ -8,12 +8,11 @@
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-use App\Relation\RelationInterface;
 
 /**
  * ModTracker_GetRelatedRecord_Relation class.
  */
-class ModComments_GetRelatedRecord_Relation implements RelationInterface
+class ModComments_GetRelatedRecord_Relation extends \App\Relation\RelationAbstraction
 {
 	/** {@inheritdoc} */
 	public function getRelationType(): int
@@ -29,8 +28,8 @@ class ModComments_GetRelatedRecord_Relation implements RelationInterface
 	public $customFields = [
 		'children_count' => [
 			'label' => 'LBL_CHILDREN_COUNT',
-			'uitype' => 7
-		]
+			'uitype' => 7,
+		],
 	];
 
 	/**

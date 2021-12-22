@@ -1,6 +1,6 @@
 <?php
 /**
- * Main file that includes basic operations on relations.
+ * Relation interface class file.
  *
  * @package App
  *
@@ -13,7 +13,7 @@
 namespace App\Relation;
 
 /**
- * RelationInterface interface.
+ * Relation interface class.
  */
 interface RelationInterface
 {

@@ -9,12 +9,11 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use App\Relation\RelationInterface;
 
 /**
  * Documents_GetAttachments_Relation class.
  */
-class Documents_GetAttachments_Relation implements RelationInterface
+class Documents_GetAttachments_Relation extends \App\Relation\RelationAbstraction
 {
 	/**
 	 * Name of the table that stores relations.

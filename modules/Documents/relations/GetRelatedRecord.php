@@ -9,12 +9,11 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use App\Relation\RelationInterface;
 
 /**
  * Documents_GetRelatedRecord_Relation class.
  */
-class Documents_GetRelatedRecord_Relation implements RelationInterface
+class Documents_GetRelatedRecord_Relation extends \App\Relation\RelationAbstraction
 {
 	/**
 	 * Name of the table that stores relations.
@@ -45,7 +44,7 @@ class Documents_GetRelatedRecord_Relation implements RelationInterface
 	{
 		return (bool) App\Db::getInstance()->createCommand()->delete(self::TABLE_NAME, [
 			'notesid' => $sourceRecordId,
-			'crmid' => $destinationRecordId
+			'crmid' => $destinationRecordId,
 		])->execute();
 	}
 

@@ -9,12 +9,11 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use App\Relation\RelationInterface;
 
 /**
  * Vtiger_GetManyToMany_Relation class.
  */
-class Vtiger_GetManyToMany_Relation implements RelationInterface
+class Vtiger_GetManyToMany_Relation extends \App\Relation\RelationAbstraction
 {
 	/** {@inheritdoc} */
 	public function getRelationType(): int
@@ -34,11 +33,11 @@ class Vtiger_GetManyToMany_Relation implements RelationInterface
 		if ($relatedModuleName === $parentModuleName) {
 			$queryGenerator->addJoin([
 				'INNER JOIN',
-				$referenceInfo['table'], "({$referenceInfo['table']}.{$referenceInfo['base']} = vtiger_crmentity.crmid OR {$referenceInfo['table']}.{$referenceInfo['rel']} = vtiger_crmentity.crmid)"
+				$referenceInfo['table'], "({$referenceInfo['table']}.{$referenceInfo['base']} = vtiger_crmentity.crmid OR {$referenceInfo['table']}.{$referenceInfo['rel']} = vtiger_crmentity.crmid)",
 			])->addNativeCondition([
 				'or',
 				[$referenceInfo['table'] . '.' . $referenceInfo['base'] => $recordId],
-				[$referenceInfo['table'] . '.' . $referenceInfo['rel'] => $recordId]
+				[$referenceInfo['table'] . '.' . $referenceInfo['rel'] => $recordId],
 			])->addCondition('id', $recordId, 'n');
 		} else {
 			$queryGenerator->addJoin(['INNER JOIN', $referenceInfo['table'], "{$referenceInfo['table']}.{$referenceInfo['rel']} = vtiger_crmentity.crmid"])

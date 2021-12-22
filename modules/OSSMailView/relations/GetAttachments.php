@@ -9,12 +9,11 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use App\Relation\RelationInterface;
 
 /**
  * OSSMailView_GetAttachments_Relation class.
  */
-class OSSMailView_GetAttachments_Relation implements RelationInterface
+class OSSMailView_GetAttachments_Relation extends \App\Relation\RelationAbstraction
 {
 	/**
 	 * Name of the table that stores relations.
@@ -46,7 +45,7 @@ class OSSMailView_GetAttachments_Relation implements RelationInterface
 	{
 		return (bool) App\Db::getInstance()->createCommand()->delete(self::TABLE_NAME, [
 			'documentsid' => $destinationRecordId,
-			'ossmailviewid' => $sourceRecordId
+			'ossmailviewid' => $sourceRecordId,
 		])->execute();
 	}
 

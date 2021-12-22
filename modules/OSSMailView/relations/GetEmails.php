@@ -9,12 +9,11 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use App\Relation\RelationInterface;
 
 /**
  * OSSMailView_GetEmails_Relation class.
  */
-class OSSMailView_GetEmails_Relation implements RelationInterface
+class OSSMailView_GetEmails_Relation extends \App\Relation\RelationAbstraction
 {
 	/**
 	 * Name of the table that stores relations.

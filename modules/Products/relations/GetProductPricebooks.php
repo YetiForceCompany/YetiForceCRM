@@ -9,12 +9,11 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use App\Relation\RelationInterface;
 
 /**
  * Products_GetProductPricebooks_Relation class.
  */
-class Products_GetProductPricebooks_Relation implements RelationInterface
+class Products_GetProductPricebooks_Relation extends \App\Relation\RelationAbstraction
 {
 	/**
 	 * Name of the table that stores relations.

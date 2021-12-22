@@ -9,12 +9,11 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use App\Relation\RelationInterface;
 
 /**
  * Campaigns_GetCampaigns_Relation class.
  */
-class Campaigns_GetCampaigns_Relation implements RelationInterface
+class Campaigns_GetCampaigns_Relation extends \App\Relation\RelationAbstraction
 {
 	/**
 	 * Name of the table that stores relations.
@@ -68,7 +67,7 @@ class Campaigns_GetCampaigns_Relation implements RelationInterface
 	public function transfer(int $relatedRecordId, int $fromRecordId, int $toRecordId): bool
 	{
 		return (bool) \App\Db::getInstance()->createCommand()->update(self::TABLE_NAME, ['crmid' => $toRecordId], [
-			'crmid' => $fromRecordId, 'campaignid' => $relatedRecordId
+			'crmid' => $fromRecordId, 'campaignid' => $relatedRecordId,
 		])->execute();
 	}
 }

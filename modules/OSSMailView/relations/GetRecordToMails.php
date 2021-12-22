@@ -9,12 +9,11 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use App\Relation\RelationInterface;
 
 /**
  * OSSMailView_GetRecordToMails_Relation class.
  */
-class OSSMailView_GetRecordToMails_Relation implements RelationInterface
+class OSSMailView_GetRecordToMails_Relation extends \App\Relation\RelationAbstraction
 {
 	/**
 	 * Name of the table that stores relations.
@@ -53,7 +52,7 @@ class OSSMailView_GetRecordToMails_Relation implements RelationInterface
 		$return = false;
 		$data = ['ossmailviewid' => $sourceRecordId, 'crmid' => $destinationRecordId];
 		if (!$this->isExists($data)) {
-			$date = isset($this->date) ? $this->date : \Vtiger_Record_Model::getInstanceById($sourceRecordId, 'OSSMailView')->get('date');
+			$date = $this->date ?? \Vtiger_Record_Model::getInstanceById($sourceRecordId, 'OSSMailView')->get('date');
 			$return = $this->addToDB(array_merge($data, ['date' => $date]));
 			if ($return && ($parentId = \Users_Privileges_Model::getParentRecord($destinationRecordId))) {
 				$data['crmid'] = $parentId;

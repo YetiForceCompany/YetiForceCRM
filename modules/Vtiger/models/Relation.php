@@ -26,7 +26,7 @@ class Vtiger_Relation_Model extends \App\Base
 	protected $parentModule = false;
 	protected $relatedModule = false;
 	/**
-	 * @var \App\Relation\RelationInterface Class that includes basic operations on relations
+	 * @var \App\Relation\RelationAbstraction Class that includes basic operations on relations
 	 */
 	protected $typeRelationModel;
 	/**
@@ -350,11 +350,11 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
-	 * Get type relation model .
+	 * Get type relation model.
 	 *
-	 * @return \App\Relation\RelationInterface
+	 * @return \App\Relation\RelationAbstraction
 	 */
-	public function getTypeRelationModel(): App\Relation\RelationInterface
+	public function getTypeRelationModel(): App\Relation\RelationAbstraction
 	{
 		if (!isset($this->typeRelationModel)) {
 			$name = ucfirst($this->get('name'));

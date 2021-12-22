@@ -9,12 +9,11 @@
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-use App\Relation\RelationInterface;
 
 /**
  * Products_GetProducts_Relation class.
  */
-class Products_GetProducts_Relation implements RelationInterface
+class Products_GetProducts_Relation extends \App\Relation\RelationAbstraction
 {
 	/**
 	 * Name of the table that stores relations.
@@ -42,7 +41,7 @@ class Products_GetProducts_Relation implements RelationInterface
 				'INNER JOIN',
 				$tableName,
 				"{$tableName}.crmid = " . $queryGenerator->getColumnName('id') . " AND {$tableName}.setype=:module",
-				[':module' => $sourceModuleName]
+				[':module' => $sourceModuleName],
 			])->addNativeCondition(["{$tableName}.productid" => $this->relationModel->get('parentRecord')->getId()]);
 		} else {
 			$moduleModel = $this->relationModel->getParentModuleModel();
