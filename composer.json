@@ -61,7 +61,7 @@
     "sabre/dav": "^4.1",
     "smarty/smarty": "^v4",
     "phpmailer/phpmailer": "^v6.1",
-    "ezyang/htmlpurifier": "^v4.11.0",
+    "ezyang/htmlpurifier": "^4.14.0",
     "simshaun/recurr": "^v5.0",
     "giggsey/libphonenumber-for-php": "^8.8.11",
     "dg/rss-php": "^1.2",
