@@ -21,7 +21,7 @@
     "LBL_YETIFORCE_ENGINE": "YetiForce Engine",
     "LBL_CHECK_CONFIG": "RoundCube Engine",
     "LBL_MANDATORY": "Povinné",
-    "LBL_OPTIONAL": "Optional",
+    "LBL_OPTIONAL": "Voliteľné",
     "LBL_LIBRARY": "Support for libraries",
     "LBL_INSTALLED": "Installed",
     "LBL_LABEL_PHP": "PHP version",
