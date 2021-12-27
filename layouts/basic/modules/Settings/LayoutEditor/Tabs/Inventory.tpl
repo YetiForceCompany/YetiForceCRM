@@ -28,10 +28,10 @@
 									data-sequence="{$FIELD_MODEL->get('sequence')}"
 									data-type="{$FIELD_MODEL->getType()}">
 									<a>
-										<img class="mb-1" src="{\App\Layout::getImagePath('drag.png')}" border="0"
-											title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+										<img class="mb-1" src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 									</a>&nbsp;&nbsp;
 									<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
+									<span class="ml-3 badge badge-secondary">{$NAME}</span>
 									<div class="float-right actions">
 										<a href="#" class="editInventoryField mr-1">
 											<span class="yfi yfi-full-editing-view"
@@ -75,10 +75,10 @@
 									data-sequence="{$FIELD_MODEL->get('sequence')}"
 									data-type="{$FIELD_MODEL->getType()}">
 									<a>
-										<img class="mb-1" src="{\App\Layout::getImagePath('drag.png')}" border="0"
-											title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+										<img class="mb-1" src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 									</a>&nbsp;&nbsp;
 									<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
+									<span class="ml-3 badge badge-secondary">{$NAME}</span>
 									<span class="btn-group float-right actions">
 										<a href="#" class="editInventoryField mr-1">
 											<span class="yfi yfi-full-editing-view"
@@ -122,10 +122,10 @@
 									data-sequence="{$FIELD_MODEL->get('sequence')}"
 									data-type="{$FIELD_MODEL->getType()}">
 									<a>
-										<img class="mb-1" src="{\App\Layout::getImagePath('drag.png')}" border="0"
-											title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
+										<img class="mb-1" src="{\App\Layout::getImagePath('drag.png')}" border="0" title="{App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" />
 									</a>&nbsp;&nbsp;
 									<span class="fieldLabel">{App\Language::translate($FIELD_MODEL->get('label'), $SELECTED_MODULE_NAME)}</span>
+									<span class="ml-3 badge badge-secondary">{$NAME}</span>
 									<span class="btn-group float-right actions">
 										<a href="#" class="editInventoryField mr-1">
 											<span class="yfi yfi-full-editing-view"
