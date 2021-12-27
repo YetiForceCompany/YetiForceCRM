@@ -217,7 +217,7 @@ class Filter
 	 */
 	public static function getAllForModule(ModuleBasic $moduleInstance)
 	{
-		$instances = false;
+		$instances = [];
 		$dataReader = (new \App\Db\Query())->from('vtiger_customview')
 			->where(['entitytype' => $moduleInstance->name])
 			->createCommand()->query();

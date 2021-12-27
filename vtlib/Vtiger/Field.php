@@ -259,7 +259,7 @@ class Field extends FieldBasic
 				->all();
 			\App\Cache::save('AllFieldForModule', $moduleId, $rows);
 		}
-		$instances = false;
+		$instances = [];
 		foreach ($rows as $row) {
 			$instance = new self();
 			$instance->initialize($row, $moduleId);
