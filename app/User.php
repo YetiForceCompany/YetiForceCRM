@@ -99,7 +99,7 @@ class User
 		return $userModel;
 	}
 
-	protected static $userPrivilegesCache = false;
+	protected static $userPrivilegesCache = [];
 
 	/**
 	 * Get base privileges from file by id.
