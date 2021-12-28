@@ -21,7 +21,7 @@ class YetiForce extends Base
 	/** @var string[] Supported languages. */
 	protected $languages = ['de-DE', 'en-US', 'es-ES', 'fr-FR', 'gr-GR', 'hu-HU', 'id-ID', 'it-IT', 'ne-NP', 'nl-NL', 'pt-PT', 'ru-RU', 'zh-CN'];
 
-	/**  {@inheritdoc} */
+	/** {@inheritdoc} */
 	public function calculate()
 	{
 		$product = \App\YetiForce\Register::getProducts('YetiForceMap');
@@ -84,7 +84,7 @@ class YetiForce extends Base
 		$this->description = $description;
 	}
 
-	/**  {@inheritdoc} */
+	/** {@inheritdoc} */
 	public function parsePoints(): array
 	{
 		$tracks = [

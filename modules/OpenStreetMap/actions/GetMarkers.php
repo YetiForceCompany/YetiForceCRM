@@ -9,7 +9,7 @@
  */
 class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 {
-	/**  {@inheritdoc} */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
@@ -21,7 +21,7 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 		}
 	}
 
-	/**  {@inheritdoc} */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$data = [];

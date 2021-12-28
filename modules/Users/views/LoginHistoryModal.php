@@ -21,13 +21,13 @@ class Users_LoginHistoryModal_View extends \App\Controller\Modal
 	/** {@inheritdoc} */
 	public $modalSize = 'modal-full';
 
-	/**  {@inheritdoc} */
+	/** {@inheritdoc} */
 	public $successBtn = '';
 
-	/**  {@inheritdoc} */
+	/** {@inheritdoc} */
 	public $dangerBtn = 'BTN_CLOSE';
 
-	/**  {@inheritdoc} */
+	/** {@inheritdoc} */
 	public $modalIcon = 'yfi yfi-login-history';
 
 	/** @var string[] Columns to show on the list. */
@@ -38,7 +38,7 @@ class Users_LoginHistoryModal_View extends \App\Controller\Modal
 		'browser' => 'LBL_BROWSER',
 	];
 
-	/**  {@inheritdoc} */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
@@ -48,7 +48,7 @@ class Users_LoginHistoryModal_View extends \App\Controller\Modal
 		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 	}
 
-	/**  {@inheritdoc} */
+	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
 		$moduleName = $request->getModule();

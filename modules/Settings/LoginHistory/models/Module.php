@@ -15,13 +15,13 @@
  */
 class Settings_LoginHistory_Module_Model extends Settings_Vtiger_Module_Model
 {
-	/**  {@inheritdoc} */
+	/** {@inheritdoc} */
 	public $name = 'LoginHistory';
 
-	/**  {@inheritdoc} */
+	/** {@inheritdoc} */
 	public $baseTable = 'vtiger_loginhistory';
 
-	/**  {@inheritdoc} */
+	/** {@inheritdoc} */
 	public $baseIndex = 'login_id';
 
 	/** @var string[] Columns to show on the list. */

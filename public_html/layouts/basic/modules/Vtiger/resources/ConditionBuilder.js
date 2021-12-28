@@ -5,6 +5,8 @@ class Vtiger_ConditionBuilder_Js {
 	/**
 	 * Constructor
 	 * @param {jQuery} container
+	 * @param {string} sourceModuleName
+	 * @param {function} onChange
 	 */
 	constructor(container, sourceModuleName, onChange) {
 		this.container = container;
@@ -155,8 +157,8 @@ class Vtiger_ConditionBuilder_Js {
 	 * Block submit on press enter key
 	 */
 	registerDisableSubmitOnEnter() {
-		this.container.find('.js-condition-builder-value').keydown(function (e) {
-			if (e.keyCode === 13) {
+		this.container.find('.js-condition-builder-value').on('keydown', (e) => {
+			if (e.key === 'Enter') {
 				e.preventDefault();
 			}
 		});

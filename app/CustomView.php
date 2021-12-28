@@ -725,7 +725,7 @@ class CustomView
 		if (Cache::has('CustomViewById', $cvId)) {
 			return Cache::get('CustomViewById', $cvId);
 		}
-		$data = (new Db\Query())->from('vtiger_customview')->where(['cvid' => $cvId])->one();
+		$data = (new Db\Query())->from('vtiger_customview')->where(['cvid' => $cvId])->one() ?: [];
 		Cache::save('CustomViewById', $cvId, $data);
 		return $data;
 	}
@@ -744,9 +744,9 @@ class CustomView
 			return Cache::get('CustomViewInfo', $cvId);
 		}
 		if (!$moduleName) {
-			$moduleName = self::getCustomViewById($cvId)['entitytype'];
+			$moduleName = self::getCustomViewById($cvId)['entitytype'] ?? '';
 		}
-		return self::getFiltersByModule($moduleName)[$cvId] ?? [];
+		return $moduleName ? (self::getFiltersByModule($moduleName)[$cvId] ?? []) : [];
 	}
 
 	/**

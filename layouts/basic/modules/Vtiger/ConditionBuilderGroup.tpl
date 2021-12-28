@@ -27,7 +27,7 @@
 			{/if}
 		</div>
 		<div class="js-condition-builder-conditions-container">
-			{if !empty($CONDITIONS_GROUP['condition'])}
+			{if !empty($CONDITIONS_GROUP['condition']) && !empty($CONDITIONS_GROUP['rules'])}
 				{foreach from=$CONDITIONS_GROUP['rules'] item=CONDITION_ITEM}
 					{if isset($CONDITION_ITEM['condition'])}
 						{include file=\App\Layout::getTemplatePath('ConditionBuilderGroup.tpl', $MODULE_NAME) CONDITIONS_GROUP=$CONDITION_ITEM ROOT_ITEM=false}
