@@ -44,6 +44,7 @@
 				{/if}
 				{if !empty($FIELD_PARAMS['detailsWidth'])}
 					{assign var=DETAILS_WIDTH value=$FIELD_PARAMS['detailsWidth']}
+					{assign var=COUNTER value=0}
 				{else}
 					{assign var=DETAILS_WIDTH value=''}
 				{/if}
