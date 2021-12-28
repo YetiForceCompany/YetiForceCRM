@@ -32,11 +32,11 @@ class Save extends \Vtiger_Save_Action
 	/**
 	 * Initialization with API data.
 	 *
-	 * @param BaseModule\Record $record
+	 * @param BaseModule\Record or Users\Record $record
 	 *
 	 * @return void
 	 */
-	public function init(BaseModule\Record $record): void
+	public function init($record): void
 	{
 		$this->appId = $record->controller->app['id'];
 		$this->record = $record->recordModel;
