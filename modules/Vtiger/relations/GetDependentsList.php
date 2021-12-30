@@ -32,6 +32,47 @@ class Vtiger_GetDependentsList_Relation extends \App\Relation\RelationAbstractio
 		$queryGenerator->addTableToQuery($fieldModel->getTableName());
 	}
 
+	/**
+	 * Load advanced conditions for filtering related records.
+	 *
+	 * @param App\QueryGenerator $queryGenerator QueryGenerator for the list of records to be tapered based on the relationship
+	 *
+	 * @return void
+	 */
+	public function loadAdvancedConditionsByRelationId(App\QueryGenerator $queryGenerator): void
+	{
+		$fieldModel = $this->relationModel->getRelationField();
+		$advancedConditions = $queryGenerator->getAdvancedConditions();
+		$relationQueryGenerator = $this->relationModel->getQueryGenerator();
+		$relationQueryGenerator->setStateCondition($queryGenerator->getState());
+		$relationQueryGenerator->setFields(['id']);
+		if (!empty($advancedConditions['relationConditions'])) {
+			$relationQueryGenerator->setConditions(\App\Condition::getConditionsFromRequest($advancedConditions['relationConditions']));
+		}
+		$query = $relationQueryGenerator->createQuery();
+		$queryGenerator->addJoin(['INNER JOIN', $fieldModel->getTableName(), "vtiger_crmentity.crmid = {$fieldModel->getTableName()}.{$fieldModel->getColumnName()}"]);
+		$queryGenerator->addNativeCondition([
+			$fieldModel->getTableName() . '.' . $this->relationModel->getQueryGenerator()->getEntityModel()->tab_name_index[$fieldModel->getTableName()] => $query,
+		]);
+	}
+
+	/**
+	 * Load advanced conditions relationship by custom column.
+	 *
+	 * @param App\QueryGenerator $queryGenerator QueryGenerator for the list of records to be tapered based on the relationship
+	 * @param array              $searchParam    Related record for which we are filtering the list of records
+	 *
+	 * @return void
+	 */
+	public function loadAdvancedConditionsByColumns(App\QueryGenerator $queryGenerator, array $searchParam): void
+	{
+		$fieldModel = $this->relationModel->getRelationField();
+		$queryGenerator->addJoin(['INNER JOIN', $fieldModel->getTableName(), "vtiger_crmentity.crmid = {$fieldModel->getTableName()}.{$fieldModel->getColumnName()}"]);
+		$queryGenerator->addNativeCondition([
+			$fieldModel->getTableName() . '.' . $this->relationModel->getQueryGenerator()->getEntityModel()->tab_name_index[$fieldModel->getTableName()] => $searchParam['value'],
+		]);
+	}
+
 	/** {@inheritdoc} */
 	public function delete(int $sourceRecordId, int $destinationRecordId): bool
 	{

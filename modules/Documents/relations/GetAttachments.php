@@ -38,6 +38,44 @@ class Documents_GetAttachments_Relation extends \App\Relation\RelationAbstractio
 		$queryGenerator->setOrder('id', 'DESC');
 	}
 
+	/**
+	 * Load advanced conditions for filtering related records.
+	 *
+	 * @param App\QueryGenerator $queryGenerator QueryGenerator for the list of records to be tapered based on the relationship
+	 * @param array              $searchParam
+	 *
+	 * @return void
+	 */
+	public function loadAdvancedConditionsByRelationId(App\QueryGenerator $queryGenerator): void
+	{
+		$tableName = static::TABLE_NAME;
+		$advancedConditions = $queryGenerator->getAdvancedConditions();
+		$relationQueryGenerator = $this->relationModel->getQueryGenerator();
+		$relationQueryGenerator->setStateCondition($queryGenerator->getState());
+		$relationQueryGenerator->setFields(['id']);
+		if (!empty($advancedConditions['relationConditions'])) {
+			$relationQueryGenerator->setConditions(\App\Condition::getConditionsFromRequest($advancedConditions['relationConditions']));
+		}
+		$query = $relationQueryGenerator->createQuery();
+		$queryGenerator->addJoin(['INNER JOIN', $tableName, "{$tableName}.crmid = vtiger_crmentity.crmid"])
+			->addNativeCondition(["{$tableName}.notesid" => $query]);
+	}
+
+	/**
+	 * Load advanced conditions relationship by custom column.
+	 *
+	 * @param App\QueryGenerator $queryGenerator QueryGenerator for the list of records to be tapered based on the relationship
+	 * @param array              $searchParam    Related record for which we are filtering the list of records
+	 *
+	 * @return void
+	 */
+	public function loadAdvancedConditionsByColumns(App\QueryGenerator $queryGenerator, array $searchParam): void
+	{
+		$tableName = static::TABLE_NAME;
+		$queryGenerator->addJoin(['INNER JOIN', $tableName, "{$tableName}.crmid = vtiger_crmentity.crmid"])
+			->addNativeCondition(["{$tableName}.notesid" => $searchParam['value']]);
+	}
+
 	/** {@inheritdoc} */
 	public function delete(int $sourceRecordId, int $destinationRecordId): bool
 	{
