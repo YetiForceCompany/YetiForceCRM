@@ -21,16 +21,13 @@
 		</div>
 		<div class="c-panel__body py-1 {if $HIDE_CUSTOM_RELATION}d-none{/if}">
 			{foreach from=$RELATIONS item=RELATION}
-				{if method_exists($RELATION->getTypeRelationModel(), 'loadAdvancedConditionsByColumns')}
-					<div class="form-group form-check mb-2">
-						<input type="checkbox" class="form-check-input u-ml-minus-5px u-cursor-pointer js-relation-checkbox" value="{$RELATION->getId()}" {if in_array($RELATION->getId(),$RELATION_COLUMNS)}checked="checked" {/if} id="relationCheckbox{$RELATION->getId()}" data-js="value" />
-						<label class="form-check-label ml-4 u-cursor-pointer" for="relationCheckbox{$RELATION->getId()}">
-							<span class="yfm-{$RELATION->getRelationModuleName()} mr-2"></span>
-							{\App\Language::translate($RELATION->get('label'),$RELATION->getRelationModuleName())}
-
-						</label>
-					</div>
-				{/if}
+				<div class="form-group form-check mb-2">
+					<input type="checkbox" class="form-check-input u-ml-minus-5px u-cursor-pointer js-relation-checkbox" value="{$RELATION->getId()}" {if in_array($RELATION->getId(),$RELATION_COLUMNS)}checked="checked" {/if} id="relationCheckbox{$RELATION->getId()}" data-js="value" {if !method_exists($RELATION->getTypeRelationModel(), 'loadAdvancedConditionsByColumns')}disabled="disabled" {/if} />
+					<label class=" form-check-label ml-4 u-cursor-pointer" for="relationCheckbox{$RELATION->getId()}">
+						<span class="yfm-{$RELATION->getRelationModuleName()} mr-2"></span>
+						{\App\Language::translate($RELATION->get('label'),$RELATION->getRelationModuleName())}
+					</label>
+				</div>
 			{/foreach}
 		</div>
 	</div>
