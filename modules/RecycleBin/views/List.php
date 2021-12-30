@@ -9,6 +9,7 @@
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
@@ -82,6 +83,7 @@ class RecycleBin_List_View extends Vtiger_List_View
 		$viewer->assign('IS_MODULE_EDITABLE', false);
 		$viewer->assign('IS_MODULE_DELETABLE', false);
 		$viewer->assign('SEARCH_PARAMS', []);
+		$viewer->assign('ADVANCED_CONDITIONS', []);
 		$viewer->assign('LOCKED_EMPTY_FIELDS', []);
 	}
 
@@ -105,7 +107,7 @@ class RecycleBin_List_View extends Vtiger_List_View
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-			"modules.{$request->getModule()}.resources.List"
+			"modules.{$request->getModule()}.resources.List",
 		]));
 	}
 }

@@ -18,18 +18,23 @@ class CustomView {
 			}
 		});
 		app.showModalWindow(null, url, () => {
-			this.contentsCotainer = $('.js-filter-modal__container');
+			this.modalContainer = $('.js-filter-modal__container');
 			this.advanceFilterInstance = new Vtiger_ConditionBuilder_Js(
-				this.contentsCotainer.find('.js-condition-builder'),
-				this.contentsCotainer.find('#sourceModule').val()
+				this.modalContainer.find('.js-condition-builder-view .js-condition-builder'),
+				this.modalContainer.find('#sourceModule').val()
 			);
 			this.advanceFilterInstance.registerEvents();
+			CustomView.registerAdvancedConditionsEvents(this.modalContainer);
+
 			//This will store the columns selection container
 			this.columnSelectElement = false;
 			this.registerEvents();
 			progressIndicatorElement.progressIndicator({ mode: 'hide' });
 		});
 	}
+
+	/** @type {Vtiger_ConditionBuilder_Js} Condition builder object */
+	static advancedConditionsBuilder;
 
 	loadDateFilterValues() {
 		let selectedDateFilter = $('#standardDateFilter option:selected');
@@ -44,10 +49,10 @@ class CustomView {
 	 * @return : jQuery object of contents container
 	 */
 	getContentsContainer() {
-		if (this.contentsCotainer == false) {
-			this.contentsCotainer = $('.js-filter-modal__container');
+		if (this.modalContainer == false) {
+			this.modalContainer = $('.js-filter-modal__container');
 		}
-		return this.contentsCotainer;
+		return this.modalContainer;
 	}
 
 	/**
@@ -119,32 +124,6 @@ class CustomView {
 			});
 	}
 
-	registerBlockToggleEvent() {
-		const container = this.getContentsContainer();
-		container.on('click', '.blockHeader', function (e) {
-			const target = $(e.target);
-			if (
-				target.is('input') ||
-				target.is('button') ||
-				target.parents().is('button') ||
-				target.hasClass('js-stop-propagation') ||
-				target.parents().hasClass('js-stop-propagation')
-			) {
-				return false;
-			}
-			const blockHeader = $(e.currentTarget);
-			const blockContents = blockHeader.next();
-			const iconToggle = blockHeader.find('.iconToggle');
-			if (blockContents.hasClass('d-none')) {
-				blockContents.removeClass('d-none');
-				iconToggle.removeClass(iconToggle.data('hide')).addClass(iconToggle.data('show'));
-			} else {
-				blockContents.addClass('d-none');
-				iconToggle.removeClass(iconToggle.data('show')).addClass(iconToggle.data('hide'));
-			}
-		});
-	}
-
 	registerColorEvent() {
 		const container = this.getContentsContainer();
 		let picker = container.find('.js-color-picker');
@@ -193,6 +172,7 @@ class CustomView {
 	}
 	registerSubmitEvent(select2Element) {
 		$('#CustomView').on('submit', (e) => {
+			const form = $(e.currentTarget);
 			let selectElement = this.getColumnSelectElement();
 			if ($('#viewname').val().length > 100) {
 				app.showNotify({
@@ -230,7 +210,7 @@ class CustomView {
 				select2Element.validationEngine('hide');
 			}
 			//Mandatory Fields validation ends
-			let result = $(e.currentTarget).validationEngine('validate');
+			let result = form.validationEngine('validate');
 			if (result == true) {
 				//handled standard filters saved values.
 				let stdfilterlist = {};
@@ -247,8 +227,8 @@ class CustomView {
 					$('#stdfilterlist').val(JSON.stringify(stdfilterlist));
 				}
 				//handled advanced filters saved values.
-				let advfilterlist = this.advanceFilterInstance.getConditions();
-				$('#advfilterlist').val(JSON.stringify(advfilterlist));
+				$('#advfilterlist').val(JSON.stringify(this.advanceFilterInstance.getConditions()));
+				form.find('#advancedConditions').val(JSON.stringify(CustomView.getAdvancedConditions(form)));
 				$('[name="duplicatefields"]').val(JSON.stringify(this.getDuplicateFields()));
 				$('input[name="columnslist"]', this.getContentsContainer()).val(JSON.stringify(this.getSelectedColumns()));
 				this.saveAndViewFilter();
@@ -265,20 +245,121 @@ class CustomView {
 	registerDisableSubmitOnEnter() {
 		this.getContentsContainer()
 			.find('#viewname, [name="color"]')
-			.keydown(function (e) {
-				if (e.keyCode === 13) {
+			.on('keydown', (e) => {
+				if (e.key === 'Enter') {
 					e.preventDefault();
 				}
 			});
 	}
 
+	/**
+	 * Function to register the advanced conditions events for customview
+	 * @param {jQuery} listViewContainer
+	 */
+	static registerCustomViewAdvCondEvents(listViewContainer) {
+		listViewContainer.on('click', '.js-custom-view-adv-cond-modal', () => {
+			const customViewAdvCond = listViewContainer.find('.js-custom-view-adv-cond');
+			let advancedConditions = customViewAdvCond.val();
+			if (advancedConditions) {
+				advancedConditions = JSON.parse(advancedConditions);
+			}
+			AppConnector.request({
+				module: app.getModuleName(),
+				view: 'CustomViewAdvCondModal',
+				module: app.getModuleName(),
+				advancedConditions: advancedConditions
+			})
+				.done((data) => {
+					if (data) {
+						app.showModalWindow(data, (modalContainer) => {
+							App.Tools.Form.registerBlockToggle(modalContainer);
+							this.registerAdvancedConditionsEvents(modalContainer);
+							modalContainer.find('[name="saveButton"]').on('click', (e) => {
+								customViewAdvCond.val(JSON.stringify(this.getAdvancedConditions(modalContainer)));
+								app.hideModalWindow();
+								if (typeof app.pageController.getListViewRecords !== 'undefined') {
+									app.pageController.getListViewRecords();
+								}
+							});
+						});
+					}
+				})
+				.fail((textStatus, errorThrown) => {
+					app.showNotify({
+						title: app.vtranslate('JS_ERROR'),
+						text: errorThrown,
+						type: 'error'
+					});
+				});
+		});
+	}
+	/**
+	 * Function to register the advanced conditions events for custom view
+	 * @param {jQuery} container
+	 */
+	static registerAdvancedConditionsEvents(container) {
+		const self = this;
+		const builder = container.find('.js-adv-condition-builder-view');
+		const relationSelect = container.find('.js-relation-select');
+		if (relationSelect.val() != 0) {
+			this.advancedConditionsBuilder = new Vtiger_ConditionBuilder_Js(
+				builder.find('.js-condition-builder'),
+				relationSelect.find('option:selected').data('module')
+			);
+			this.advancedConditionsBuilder.registerEvents();
+		}
+		relationSelect.on('change', function (e) {
+			const moduleName = $(this).find('option:selected').data('module');
+			builder.html('');
+			delete self.advancedConditionsBuilder;
+			if (moduleName) {
+				AppConnector.request({
+					module: app.getModuleName(),
+					parent: app.getParentModuleName(),
+					view: 'ConditionBuilder',
+					mode: 'builder',
+					sourceModuleName: moduleName
+				}).done((data) => {
+					builder.html(data);
+					self.advancedConditionsBuilder = new Vtiger_ConditionBuilder_Js(
+						builder.find('.js-condition-builder'),
+						moduleName
+					);
+					self.advancedConditionsBuilder.registerEvents();
+				});
+			}
+		});
+	}
+	/**
+	 * Function to register the advanced conditions events for custom view
+	 * @param {jQuery} container
+	 * @return {object}
+	 */
+	static getAdvancedConditions(container) {
+		const advancedConditions = {
+			relationId: container.find('.js-relation-select').val()
+		};
+		container.find('.js-relation-checkbox:checked').each(function () {
+			if (typeof advancedConditions.relationColumns === 'undefined') {
+				advancedConditions.relationColumns = [];
+			}
+			advancedConditions.relationColumns.push($(this).val());
+		});
+		if (this.advancedConditionsBuilder) {
+			advancedConditions.relationConditions = this.advancedConditionsBuilder.getConditions();
+		}
+		return advancedConditions;
+	}
+	/**
+	 * Register events
+	 */
 	registerEvents() {
 		this.registerIconEvents();
 		App.Fields.Tree.register(this.getContentsContainer());
-		this.registerBlockToggleEvent();
+		App.Tools.Form.registerBlockToggle(this.getContentsContainer());
 		this.registerColorEvent();
 		this.registerDuplicatesEvents();
-		let select2Element = App.Fields.Picklist.showSelect2ElementView(this.getColumnSelectElement());
+		const select2Element = App.Fields.Picklist.showSelect2ElementView(this.getColumnSelectElement());
 		this.registerSubmitEvent(select2Element);
 		$('.stndrdFilterDateSelect').datepicker();
 		$('#standardDateFilter').on('change', () => {

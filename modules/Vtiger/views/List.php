@@ -225,6 +225,12 @@ class Vtiger_List_View extends Vtiger_Index_View
 		if ($request->has('entityState')) {
 			$this->listViewModel->set('entityState', $request->getByType('entityState'));
 		}
+		$advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : [];
+		if ($advancedConditions) {
+			$this->listViewModel->set('advancedConditions', \App\Condition::validAdvancedConditions($advancedConditions));
+		} else {
+			$advancedConditions = $this->listViewModel->get('advancedConditionsRaw');
+		}
 		$searchParams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 		if (!empty($searchParams) && \is_array($searchParams)) {
 			$transformedSearchParams = $this->listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
@@ -278,6 +284,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);
+		$viewer->assign('ADVANCED_CONDITIONS', $advancedConditions);
 		$viewer->assign('LOCKED_EMPTY_FIELDS', $request->isEmpty('lockedEmptyFields', true) ? [] : $request->getArray('lockedEmptyFields'));
 	}
 }

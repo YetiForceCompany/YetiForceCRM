@@ -708,13 +708,21 @@ class CustomView_Record_Model extends \App\Base
 	/**
 	 * Return list of field to detect duplicates.
 	 *
-	 * @throws \App\Db\Exception
-	 *
 	 * @return array
 	 */
 	public function getDuplicateFields(): array
 	{
 		return (new \App\Db\Query())->select(['fieldid', 'ignore'])->from('u_#__cv_duplicates')->where(['cvid' => $this->getId()])->all();
+	}
+
+	/**
+	 * Get custom view advanced conditions.
+	 *
+	 * @return array
+	 */
+	public function getAdvancedConditions(): array
+	{
+		return $this->isEmpty('advanced_conditions') ? [] : \App\Json::decode($this->get('advanced_conditions'));
 	}
 
 	/**
@@ -831,6 +839,7 @@ class CustomView_Record_Model extends \App\Base
 			'featured' => null,
 			'color' => $this->get('color'),
 			'description' => $this->get('description'),
+			'advanced_conditions' => $this->get('advanced_conditions'),
 		])->execute();
 		$this->set('cvid', (int) $db->getLastInsertID('vtiger_customview_cvid_seq'));
 		$this->setColumnlist();
@@ -866,6 +875,7 @@ class CustomView_Record_Model extends \App\Base
 			'status' => $this->get('status'),
 			'color' => $this->get('color'),
 			'description' => $this->get('description'),
+			'advanced_conditions' => $this->get('advanced_conditions'),
 		], ['cvid' => $cvId]
 		)->execute();
 		$dbCommand->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();

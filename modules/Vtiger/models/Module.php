@@ -1284,16 +1284,30 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function to identify if the module supports quick search or not.
+	 *
+	 * @return bool
 	 */
-	public function isQuickSearchEnabled()
+	public function isQuickSearchEnabled(): bool
 	{
 		return true;
 	}
 
 	/**
 	 * Function to identify if the module supports sort or not.
+	 *
+	 * @return bool
 	 */
-	public function isAdvSortEnabled()
+	public function isAdvSortEnabled(): bool
+	{
+		return true;
+	}
+
+	/**
+	 * The function determines whether the module custom view supports advanced conditions.
+	 *
+	 * @return bool
+	 */
+	public function isCustomViewAdvCondEnabled(): bool
 	{
 		return true;
 	}

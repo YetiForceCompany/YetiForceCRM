@@ -726,6 +726,9 @@ class CustomView
 			return Cache::get('CustomViewById', $cvId);
 		}
 		$data = (new Db\Query())->from('vtiger_customview')->where(['cvid' => $cvId])->one() ?: [];
+		if (!empty($data['advanced_conditions'])) {
+			$data['advanced_conditions'] = \App\Json::decode($data['advanced_conditions']);
+		}
 		Cache::save('CustomViewById', $cvId, $data);
 		return $data;
 	}

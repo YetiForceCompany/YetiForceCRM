@@ -39,6 +39,12 @@ class Users_Module_Model extends Vtiger_Module_Model
 	}
 
 	/** {@inheritdoc} */
+	public function isCustomViewAdvCondEnabled(): bool
+	{
+		return false;
+	}
+
+	/** {@inheritdoc} */
 	public function getQueryForRecords(string $searchValue, int $limit, int $srcRecord = null): App\QueryGenerator
 	{
 		$searchTableName = 'u_#__users_labels';

@@ -168,14 +168,15 @@ class Condition
 					if (!isset($fields[$referenceField], $relatedFields[$relatedFieldName])) {
 						throw new Exceptions\IllegalValue("ERR_FIELD_NOT_FOUND||{$param[0]}||" . Utils::varExport($param, true), 406);
 					}
-					$fieldModel = $relatedFields[$relatedFieldName];
+					$value = $relatedFields[$relatedFieldName]->getUITypeModel()->getDbConditionBuilderValue($param[2], $param[1]);
+				} elseif (0 === strpos($param[0], 'relationColumn_') && preg_match('/(^relationColumn_)(\d+)$/', $param[0])) {
+					$value = (int) $param[2];
 				} else {
 					if (!isset($fields[$param[0]])) {
 						throw new Exceptions\IllegalValue("ERR_FIELD_NOT_FOUND||{$param[0]}||" . Utils::varExport($param, true), 406);
 					}
-					$fieldModel = $fields[$param[0]];
+					$value = $fields[$param[0]]->getUITypeModel()->getDbConditionBuilderValue($param[2], $param[1]);
 				}
-				$value = $fieldModel->getUITypeModel()->getDbConditionBuilderValue($param[2], $param[1]);
 				if ($convert) {
 					$param[2] = $value;
 				}
@@ -376,5 +377,27 @@ class Condition
 			}
 		}
 		return $conditions;
+	}
+
+	/**
+	 * Checks structure advancedConditions.
+	 *
+	 * @param array $advancedConditions
+	 *
+	 * @return array
+	 */
+	public static function validAdvancedConditions(array $advancedConditions): array
+	{
+		if (!empty($advancedConditions['relationConditions']) && 0 != $advancedConditions['relationId']) {
+			$advancedConditions['relationConditions'] = self::getConditionsFromRequest($advancedConditions['relationConditions']);
+		}
+		if (!empty($advancedConditions['relationColumns'])) {
+			array_map(function ($v) {
+				if (!\App\Validator::integer($v)) {
+					throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . $v, 406);
+				}
+			}, $advancedConditions['relationColumns']);
+		}
+		return $advancedConditions;
 	}
 }

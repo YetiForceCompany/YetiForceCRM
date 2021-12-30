@@ -39,7 +39,7 @@ class CustomView_Save_Action extends \App\Controller\Action
 		} else {
 			$response->setResult([
 				'success' => false,
-				'message' => \App\Language::translate('LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST', $request->getModule(false))
+				'message' => \App\Language::translate('LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST', $request->getModule(false)),
 			]);
 		}
 		$response->emit();
@@ -55,7 +55,6 @@ class CustomView_Save_Action extends \App\Controller\Action
 	private function getCVModelFromRequest(App\Request $request)
 	{
 		$cvId = $request->getInteger('record');
-
 		if (!empty($cvId)) {
 			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
 		} else {
@@ -86,11 +85,16 @@ class CustomView_Save_Action extends \App\Controller\Action
 		$duplicateFields = $request->getMultiDimensionArray('duplicatefields', [
 			[
 				'fieldid' => 'Integer',
-				'ignore' => 'Bool'
-			]
+				'ignore' => 'Bool',
+			],
 		]);
 		if (!empty($duplicateFields)) {
 			$customViewData['duplicatefields'] = $duplicateFields;
+		}
+		$advancedConditions = $request->getArray('advanced_conditions', 'Text');
+		if (!empty($advancedConditions['relationId']) || !empty($advancedConditions['relationColumns'])) {
+			\App\Condition::validAdvancedConditions($advancedConditions);
+			$customViewData['advanced_conditions'] = \App\Json::encode($advancedConditions);
 		}
 		return $customViewModel->setData($customViewData);
 	}

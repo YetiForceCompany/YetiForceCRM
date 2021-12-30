@@ -125,7 +125,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 	/**
 	 * Function to identify if the module supports quick search or not.
 	 */
-	public function isQuickSearchEnabled()
+	public function isQuickSearchEnabled(): bool
 	{
 		return $this->has('quickSearchEnabled') ? $this->get('quickSearchEnabled') : true;
 	}

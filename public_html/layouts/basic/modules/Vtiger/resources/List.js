@@ -97,7 +97,7 @@ $.Class(
 				listInstance.noRecordSelectedAlert();
 			}
 		},
-		/*
+		/**
 		 * function to trigger Send Sms
 		 * @params: send email url , module name.
 		 */
@@ -587,7 +587,11 @@ $.Class(
 			if ($('#sortOrder').length) {
 				params.sortorder = $('#sortOrder').val();
 			}
-			let listSearchInstance = this.getListSearchInstance();
+			const advancedConditions = $('#listViewContents .js-custom-view-adv-cond');
+			if (advancedConditions.length) {
+				params.advancedConditions = advancedConditions.val();
+			}
+			const listSearchInstance = this.getListSearchInstance();
 			if (listSearchInstance !== false) {
 				let searchValue = listSearchInstance.getAlphabetSearchValue();
 				params.search_params = listSearchInstance.getListSearchParams(true);
@@ -602,7 +606,7 @@ $.Class(
 			return params;
 		},
 
-		/*
+		/**
 		 * Function which will give you all the list view params
 		 */
 		getListViewRecords: function (urlParams) {
@@ -711,7 +715,7 @@ $.Class(
 			}
 			return aDeferred.promise();
 		},
-		/*
+		/**
 		 * Function to return alerts if no records selected.
 		 */
 		noRecordSelectedAlert: function (text = 'JS_PLEASE_SELECT_ONE_RECORD') {
@@ -1184,7 +1188,7 @@ $.Class(
 				});
 			}
 		},
-		/*
+		/**
 		 * Function to register the event for changing the custom Filter
 		 */
 		registerChangeCustomFilterEvent: function (event) {
@@ -1221,7 +1225,8 @@ $.Class(
 				//to make alphabetic search empty
 				search_key: this.getAlphabetSearchField(),
 				search_value: '',
-				search_params: ''
+				search_params: '',
+				advancedConditions: ''
 			};
 			//Make the select all count as empty
 			$('#recordsCount').val('');
@@ -1235,7 +1240,7 @@ $.Class(
 			});
 			event.stopPropagation();
 		},
-		/*
+		/**
 		 * Function to register the event listeners for changing the custom Filter
 		 */
 		registerChangeCustomFilterEventListeners() {
@@ -1287,7 +1292,7 @@ $.Class(
 		ListViewPostOperation: function () {
 			return true;
 		},
-		/*
+		/**
 		 * Function to register the click event for list view main check box.
 		 */
 		registerMainCheckBoxClickEvent: function () {
@@ -1331,7 +1336,7 @@ $.Class(
 				thisInstance.writeExcludedIds(excludedIds);
 			});
 		},
-		/*
+		/**
 		 * Function  to register click event for list view check box.
 		 */
 		registerCheckBoxClickEvent: function () {
@@ -1362,7 +1367,7 @@ $.Class(
 				thisInstance.writeExcludedIds(excludedIds);
 			});
 		},
-		/*
+		/**
 		 * Function to register the click event for select all.
 		 */
 		registerSelectAllClickEvent: function () {
@@ -1378,7 +1383,7 @@ $.Class(
 				thisInstance.writeSelectedIds('all');
 			});
 		},
-		/*
+		/**
 		 * Function to register the click event for deselect All.
 		 */
 		registerDeselectAllClickEvent: function () {
@@ -1396,7 +1401,7 @@ $.Class(
 				thisInstance.writeExcludedIds(excludedIds);
 			});
 		},
-		/*
+		/**
 		 * Function to register the click event for listView headers
 		 */
 		registerHeadersClickEvent: function () {
@@ -1404,7 +1409,7 @@ $.Class(
 				this.getListViewRecords(data);
 			});
 		},
-		/*
+		/**
 		 * function to register the click event event for create filter
 		 */
 		createFilterClickEvent: function (event) {
@@ -1437,7 +1442,7 @@ $.Class(
 				});
 			}
 		},
-		/*
+		/**
 		 * Function to register the click event for duplicate filter
 		 */
 		registerDuplicateFilterClickEvent: function () {
@@ -1455,7 +1460,7 @@ $.Class(
 				});
 			}
 		},
-		/*
+		/**
 		 * Function to register the click event for edit filter
 		 */
 		registerEditFilterClickEvent: function () {
@@ -1473,7 +1478,7 @@ $.Class(
 				});
 			}
 		},
-		/*
+		/**
 		 * Function to register the click event for delete filter
 		 */
 		registerDeleteFilterClickEvent: function () {
@@ -1494,7 +1499,7 @@ $.Class(
 				});
 			}
 		},
-		/*
+		/**
 		 * Function to register the click event for approve filter
 		 */
 		registerApproveFilterClickEvent: function () {
@@ -1510,7 +1515,7 @@ $.Class(
 				});
 			}
 		},
-		/*
+		/**
 		 * Function to register the click event for deny filter
 		 */
 		registerDenyFilterClickEvent: function () {
@@ -1526,7 +1531,7 @@ $.Class(
 				});
 			}
 		},
-		/*
+		/**
 		 * Function to generate filter actions template
 		 */
 		appendFilterActionsTemplate: function (liElement) {
@@ -1554,7 +1559,7 @@ $.Class(
 				</span>`);
 			template.appendTo(liElement.find('.js-filter__title'));
 		},
-		/*
+		/**
 		 * Function to register the hover event for customview filter options
 		 */
 		registerCustomFilterOptionsHoverEvent: function () {
@@ -1572,7 +1577,7 @@ $.Class(
 				});
 			}
 		},
-		/*
+		/**
 		 * Function to register the list view row click event
 		 */
 		registerRowClickEvent: function () {
@@ -1679,7 +1684,7 @@ $.Class(
 			}
 			self.writeSelectedIds([]);
 		},
-		/*
+		/**
 		 * Function to register the click event of email field
 		 */
 		registerEmailFieldClickEvent: function () {
@@ -1688,7 +1693,7 @@ $.Class(
 				e.stopPropagation();
 			});
 		},
-		/*
+		/**
 		 * Function to register the click event of phone field
 		 */
 		registerPhoneFieldClickEvent: function () {
@@ -1697,7 +1702,7 @@ $.Class(
 				e.stopPropagation();
 			});
 		},
-		/*
+		/**
 		 * Function to register the click event of url field
 		 */
 		registerUrlFieldClickEvent: function () {
@@ -2114,6 +2119,7 @@ $.Class(
 			this.registerApproveFilterClickEvent();
 			this.registerDenyFilterClickEvent();
 			this.registerCustomFilterOptionsHoverEvent();
+			CustomView.registerCustomViewAdvCondEvents(this.getListViewContainer());
 			this.registerEmailFieldClickEvent();
 			this.registerPhoneFieldClickEvent();
 			this.registerMassActionsBtnEvents();

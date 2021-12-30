@@ -62,6 +62,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	/** @var bool Is calculate field */
 	protected $isCalculateField = true;
 
+	/** @var bool|null Field visibility permissions */
+	protected $permissions;
+
 	/** @var Vtiger_Base_UIType Vtiger_Base_UIType or UI Type specific model instance */
 	protected $uitypeModel;
 
@@ -76,11 +79,15 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public static function init($module = 'Vtiger', $data = [], $name = '')
 	{
-		$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Module', $module);
-		$moduleInstance = new $modelClassName();
+		if (\App\Module::getModuleId($module)) {
+			$moduleModel = Vtiger_Module_Model::getInstance($module);
+		} else {
+			$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Module', $module);
+			$moduleModel = new $modelClassName();
+		}
 		$modelClassName = \Vtiger_Loader::getComponentClassName('Model', 'Field', $module);
 		$instance = new $modelClassName();
-		$instance->setModule($moduleInstance);
+		$instance->setModule($moduleModel);
 		$instance->setData(array_merge([
 			'uitype' => 1,
 			'column' => $name,
@@ -1308,6 +1315,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getPermissions($readOnly = true)
 	{
+		if (isset($this->permissions)) {
+			return $this->permissions;
+		}
 		return \App\Field::getFieldPermission($this->getModuleId(), $this->getName(), $readOnly);
 	}
 

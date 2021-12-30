@@ -33,13 +33,13 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		if (!is_numeric($value)) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$maximumLength = $this->getFieldModel()->get('maximumlength');
 		if ($maximumLength) {
 			$rangeValues = explode(',', $maximumLength);
 			if (($rangeValues[1] ?? $rangeValues[0]) < $value || (isset($rangeValues[1]) ? $rangeValues[0] : 0) > $value) {
-				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 			}
 		}
 		$this->validate[$value] = true;
@@ -278,7 +278,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		if ('modifiedby' === $fieldName) {
 			return 'List/Field/Owner.tpl';
 		}
-		if (App\Config::performance('SEARCH_REFERENCE_BY_AJAX')) {
+		if (App\Config::performance('SEARCH_REFERENCE_BY_AJAX') || $fieldModel->get('searchByAjax')) {
 			return 'List/Field/Reference.tpl';
 		}
 		return parent::getListSearchTemplateName();

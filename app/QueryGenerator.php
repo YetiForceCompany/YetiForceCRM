@@ -26,7 +26,7 @@ class QueryGenerator
 	 * 1 - Trash
 	 * 2 - Archived.
 	 *
-	 * @var int
+	 * @var int|null
 	 */
 	private $stateCondition = 0;
 
@@ -49,11 +49,10 @@ class QueryGenerator
 	private $advFilterList;
 	private $conditions;
 
-	/**
-	 * Search fields for duplicates.
-	 *
-	 * @var array
-	 */
+	/** @var array Advanced conditions */
+	private $advancedConditions = [];
+
+	/** @var array Search fields for duplicates. */
 	private $searchFieldsForDuplicates = [];
 
 	/** @var array Joins */
@@ -430,7 +429,7 @@ class QueryGenerator
 	 *
 	 * @return $this
 	 */
-	public function setSourceRecord($sourceRecord)
+	public function setSourceRecord(int $sourceRecord)
 	{
 		$this->sourceRecord = $sourceRecord;
 		return $this;
@@ -494,7 +493,6 @@ class QueryGenerator
 	{
 		$queryField = $this->getQueryField($fieldName);
 		$this->order = array_merge($this->order, $queryField->getOrderBy($order));
-
 		return $this;
 	}
 
@@ -509,7 +507,6 @@ class QueryGenerator
 	{
 		$queryField = $this->getQueryField($fieldName);
 		$this->group[] = $queryField->getColumnName();
-
 		return $this;
 	}
 
@@ -663,7 +660,6 @@ class QueryGenerator
 	public function getCustomViewQueryById($viewId)
 	{
 		$this->initForCustomViewById($viewId);
-
 		return $this->createQuery();
 	}
 
@@ -688,6 +684,29 @@ class QueryGenerator
 				'relatedField' => $fieldName,
 			]);
 		}
+	}
+
+	/**
+	 * Get advanced conditions.
+	 *
+	 * @return array
+	 */
+	public function getAdvancedConditions(): array
+	{
+		return $this->advancedConditions;
+	}
+
+	/**
+	 * Set advanced conditions.
+	 *
+	 * @param array $advancedConditions
+	 *
+	 * @return $this
+	 */
+	public function setAdvancedConditions(array $advancedConditions)
+	{
+		$this->advancedConditions = $advancedConditions;
+		return $this;
 	}
 
 	/**
@@ -802,13 +821,16 @@ class QueryGenerator
 							'operator' => $filter['comparator'],
 							'conditionGroup' => $and,
 						]);
+					} elseif (0 === strpos($filter['field_name'], 'relationColumn_') && preg_match('/(^relationColumn_)(\d+)$/', $filter['field_name'], $matches)) {
+						if (\in_array($matches[2], $this->advancedConditions['relationColumns'] ?? [])) {
+							$this->advancedConditions['relationColumnsValues'][$matches[2]] = $filter;
+						}
 					} else {
 						$this->addCondition($filter['field_name'], $filter['value'], $filter['comparator'], $and);
 					}
 				}
 			}
 		}
-
 		return $this;
 	}
 
@@ -1000,8 +1022,11 @@ class QueryGenerator
 	 */
 	public function loadWhere()
 	{
-		if (false !== $this->stateCondition) {
+		if (null !== $this->stateCondition) {
 			$this->query->andWhere($this->getStateCondition());
+		}
+		if ($this->advancedConditions) {
+			$this->loadAdvancedConditions();
 		}
 		$this->query->andWhere(['and', array_merge(['and'], $this->conditionsAnd), array_merge(['or'], $this->conditionsOr)]);
 		$this->query->andWhere($this->parseConditions($this->conditions));
@@ -1013,6 +1038,62 @@ class QueryGenerator
 				PrivilegeQuery::getConditions($this->query, $this->moduleName, $this->user, $this->sourceRecord);
 			}
 		}
+	}
+
+	/**
+	 * Load advanced conditions to section where in query.
+	 *
+	 * @return void
+	 */
+	private function loadAdvancedConditions(): void
+	{
+		if (!empty($this->advancedConditions['relationId']) && ($relationModel = \Vtiger_Relation_Model::getInstanceById($this->advancedConditions['relationId']))) {
+			$typeRelationModel = $relationModel->getTypeRelationModel();
+			if (!method_exists($typeRelationModel, 'loadAdvancedConditionsByRelationId')) {
+				$className = \get_class($typeRelationModel);
+				Log::error("The relationship relationId: {$this->advancedConditions['relationId']} does not support advanced conditions | No function in the class: $className | Module: " . $this->getModule());
+				throw new \App\Exceptions\AppException("ERR_FUNCTION_NOT_FOUND_IN_CLASS||loadAdvancedConditionsByRelationId|$className|" . $this->getModule());
+			}
+			$typeRelationModel->loadAdvancedConditionsByRelationId($this);
+		}
+		if (!empty($this->advancedConditions['relationColumnsValues'])) {
+			foreach ($this->advancedConditions['relationColumnsValues'] as $relationId => $value) {
+				if ($relationModel = \Vtiger_Relation_Model::getInstanceById($relationId)) {
+					$typeRelationModel = $relationModel->getTypeRelationModel();
+					if (!method_exists($typeRelationModel, 'loadAdvancedConditionsByColumns')) {
+						$className = \get_class($typeRelationModel);
+						Log::error("The relationship relationId: {$relationId} does not support advanced conditions | No function in the class: $className | Module: " . $this->getModule());
+						throw new \App\Exceptions\AppException("ERR_FUNCTION_NOT_FOUND_IN_CLASS|loadAdvancedConditionsByColumns|$className|" . $this->getModule());
+					}
+					$typeRelationModel->loadAdvancedConditionsByColumns($this, $value);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Get records state.
+	 *
+	 * @return string
+	 */
+	public function getState(): string
+	{
+		if (null === $this->stateCondition) {
+			return 'All';
+		}
+		switch ($this->stateCondition) {
+			default:
+			case 0:
+				$stateCondition = 'Active';
+				break;
+			case 1:
+				$stateCondition = 'Trash';
+				break;
+			case 2:
+				$stateCondition = 'Archived';
+				break;
+		}
+		return $stateCondition;
 	}
 
 	/**
@@ -1057,7 +1138,7 @@ class QueryGenerator
 				$this->stateCondition = 2;
 				break;
 			case 'All':
-				$this->stateCondition = false;
+				$this->stateCondition = null;
 				break;
 		}
 		return $this;
@@ -1321,7 +1402,7 @@ class QueryGenerator
 						} else {
 							$field = $this->getModuleField($fieldName);
 						}
-						if ('date_start' === $fieldName || 'due_date' === $fieldName || 'datetime' === $field->getFieldDataType()) {
+						if ($field && ('date_start' === $fieldName || 'due_date' === $fieldName || 'datetime' === $field->getFieldDataType())) {
 							$dateValues = explode(',', $fieldValue);
 							//Indicate whether it is fist date in the between condition
 							$isFirstDate = true;

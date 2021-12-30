@@ -36,7 +36,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 			if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
-			if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
+			if ('getReference' !== $mode && !\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		}
@@ -151,14 +151,30 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 */
 	public function getReference(App\Request $request)
 	{
-		$fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
-		if (!$fieldModel || !$fieldModel->isActiveField() || !$fieldModel->isViewEnabled()) {
+		if ($request->has('fieldName')) {
+			$fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
+			if (empty($fieldModel) || !$fieldModel->isActiveField() || !$fieldModel->isViewEnabled()) {
+				throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD', 406);
+			}
+			$searchInModule = $fieldModel->getReferenceList();
+		} elseif ($request->has('relationId') && ($relation = \App\Relation::getById($request->getInteger('relationId'))) && $relation['related_modulename'] === $request->getModule()) {
+			if (\in_array($relation['related_modulename'], ['getDependentsList', 'getManyToMany', 'getRelatedList'])) {
+				$searchInModule = $relation['related_modulename'];
+			} else {
+				$typeRelationModel = \Vtiger_Relation_Model::getInstanceById($relation['relation_id'])->getTypeRelationModel();
+				if (method_exists($typeRelationModel, 'getConfigAdvancedConditionsByColumns')) {
+					$searchInModule = $typeRelationModel->getConfigAdvancedConditionsByColumns()['relatedModules'] ?? $relation['related_modulename'];
+				} else {
+					$searchInModule = $relation['related_modulename'];
+				}
+			}
+		} else {
 			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD', 406);
 		}
 		$response = new Vtiger_Response();
 		$limit = \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT');
 		$searchValue = \App\RecordSearch::getSearchField()->getUITypeModel()->getDbConditionBuilderValue($request->getByType('value', \App\Purifier::TEXT), '');
-		$rows = (new \App\RecordSearch($searchValue, $fieldModel->getReferenceList(), $limit))->setMode(\App\RecordSearch::LABEL_MODE)->search();
+		$rows = (new \App\RecordSearch($searchValue, $searchInModule, $limit))->setMode(\App\RecordSearch::LABEL_MODE)->search();
 		$data = $modules = [];
 		foreach ($rows as $row) {
 			$modules[$row['setype']][] = $row;

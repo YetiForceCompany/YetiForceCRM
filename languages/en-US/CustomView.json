@@ -3,6 +3,11 @@
     "CustomView": "Filters - Configuration",
     "LBL_FEATURED": "Add to favorites",
     "LBL_COLOR_VIEW": "View color",
-    "LBL_ADD_FIELD": "Add field"
+    "LBL_ADD_FIELD": "Add field",
+    "LBL_CUSTOM_RELATION_COLUMN": "Relationship as a custom column",
+    "LBL_CUSTOM_RELATION_COLUMN_DESC": "Filter the current list of records based on relationships and related records that meet specified criteria.",
+    "LBL_CUSTOM_CONDITIONS": "Conditions for filtering related records",
+    "LBL_CUSTOM_CONDITIONS_DESC": "Filter the current list of records based on relationships and related records that meet specified criteria.\nFailure to set conditions results in showing lists of records with at least one binding.",
+    "ccc": "Advanced custom view conditions"
   }
 }

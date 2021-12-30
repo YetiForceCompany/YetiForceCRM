@@ -23,5 +23,35 @@ App.Tools = {
 				App.Tools.VariablesPanel.refreshCompanyVariables(container);
 			});
 		}
+	},
+	Form: {
+		/**
+		 * Generate values based on selected company
+		 * @param {jQuery} container
+		 */
+		registerBlockToggle(container) {
+			container.on('click', '.js-toggle-block', function (e) {
+				const target = $(e.target);
+				if (
+					target.is('input') ||
+					target.is('button') ||
+					target.parents().is('button') ||
+					target.hasClass('js-stop-propagation') ||
+					target.parents().hasClass('js-stop-propagation')
+				) {
+					return false;
+				}
+				const blockHeader = $(e.currentTarget);
+				const blockContents = blockHeader.next();
+				const icon = blockHeader.find('.js-toggle-icon');
+				if (blockContents.hasClass('d-none')) {
+					blockContents.removeClass('d-none');
+					icon.removeClass(icon.data('hide')).addClass(icon.data('show'));
+				} else {
+					blockContents.addClass('d-none');
+					icon.removeClass(icon.data('show')).addClass(icon.data('hide'));
+				}
+			});
+		}
 	}
 };

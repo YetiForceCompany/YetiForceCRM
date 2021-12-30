@@ -53,8 +53,11 @@ class Vtiger_ListView_Model extends \App\Base
 			}
 		}
 		$instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
+		if (($customView = \App\CustomView::getCustomViewById($viewId)) && $customView['advanced_conditions']) {
+			$instance->set('advancedConditionsRaw', $customView['advanced_conditions']);
+			$instance->set('advancedConditions', \App\Condition::validAdvancedConditions($customView['advanced_conditions']));
+		}
 		\App\Cache::staticSave('ListView_Model', $cacheName, $instance);
-
 		return $instance;
 	}
 
@@ -82,7 +85,6 @@ class Vtiger_ListView_Model extends \App\Base
 		} else {
 			$moduleModel->getModalRecordsListFields($queryGenerator, $sourceModule);
 		}
-
 		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
 	}
 
@@ -450,6 +452,20 @@ class Vtiger_ListView_Model extends \App\Base
 				}
 				$headerFields[] = $fieldModel;
 			}
+			if (($advancedConditions = $this->get('advancedConditions')) && !empty($advancedConditions['relationColumns'])) {
+				foreach ($advancedConditions['relationColumns'] as $relationId) {
+					if (($row = \App\Relation::getById($relationId)) && \App\Privilege::isPermitted($row['related_modulename'])) {
+						$headerFields[] = Vtiger_Field_Model::init($row['related_modulename'], [
+							'uitype' => 10,
+							'label' => $row['label'],
+							'referenceList' => [$row['related_modulename']],
+							'searchByAjax' => true,
+							'relationId' => $relationId,
+							'permissions' => true,
+						], 'relationColumn_' . $relationId);
+					}
+				}
+			}
 		}
 		foreach ($headerFields as $fieldModel) {
 			if ($fieldModel && (!$fieldModel->isViewable() || !$fieldModel->getPermissions())) {
@@ -497,6 +513,9 @@ class Vtiger_ListView_Model extends \App\Base
 		$srcRecord = $this->get('src_record');
 		if ($this->getModule()->get('name') === $this->get('src_module') && !empty($srcRecord)) {
 			$queryGenerator->addCondition('id', $srcRecord, 'n');
+		}
+		if ($advancedConditions = $this->get('advancedConditions')) {
+			$queryGenerator->setAdvancedConditions($advancedConditions);
 		}
 		if ($searchParams = $this->get('search_params')) {
 			$queryGenerator->parseAdvFilter($searchParams);

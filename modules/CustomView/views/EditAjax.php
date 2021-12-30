@@ -77,6 +77,8 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('CV_PUBLIC_VALUE', App\CustomView::CV_STATUS_PUBLIC);
 		$viewer->assign('MODULE_MODEL', $sourceModuleModel);
 		$viewer->assign('MID', $request->has('mid') ? $request->getInteger('mid') : null);
+		$viewer->assign('RELATIONS', $sourceModuleModel->getRelations());
+		$viewer->assign('ADVANCED_CONDITIONS', \App\Condition::validAdvancedConditions($customViewModel->getAdvancedConditions()));
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 }
