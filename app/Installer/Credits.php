@@ -26,7 +26,6 @@ class Credits
 	 * @var array
 	 */
 	public static $licenses = [
-		'yetiforce/yetiforcepdf' => 'YetiForce Public License v3',
 		'bootstrap-tabdrop' => 'Apache-2.0',
 		'color-convert' => 'MIT',
 		'@fortawesome/fontawesome-free' => 'MIT',
@@ -85,7 +84,7 @@ class Credits
 				'notPackageFile' => true,
 				'showLicenseModal' => false,
 				'description' => 'LBL_CHAT_SOUND_DESCRIPTION',
-			]];
+			], ];
 	}
 
 	/**
