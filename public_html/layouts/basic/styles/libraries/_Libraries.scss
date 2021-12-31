@@ -244,6 +244,9 @@ header {
 	@extend .mr-sm-2;
 }
 .select2-container--bootstrap .select2-selection--multiple {
+	max-height: 70px;
+	overflow: auto;
+
 	.select2-selection__choice + .select2-search--inline {
 		.select2-search__field {
 			min-width: 0;
