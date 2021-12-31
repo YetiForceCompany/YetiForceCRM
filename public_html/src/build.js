@@ -31,7 +31,11 @@ async function build(fileName) {
 							}
 						]
 					],
-					plugins: [`${dirModules}@babel/plugin-proposal-object-rest-spread`, `${dirModules}@babel/plugin-transform-classes`]
+					plugins: [
+						`${dirModules}@babel/plugin-proposal-class-properties`,
+						`${dirModules}@babel/plugin-proposal-object-rest-spread`,
+						`${dirModules}@babel/plugin-transform-classes`
+					]
 				}),
 				sourcemaps()
 			]
