@@ -17629,7 +17629,7 @@ header .c-header__btn__container .select2-selection:hover .select2-selection__re
 }
 
 .select2-container--bootstrap .select2-selection--multiple {
-  max-height: 69px;
+  max-height: 70px;
   overflow: auto;
 }
 .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice + .select2-search--inline .select2-search__field {
