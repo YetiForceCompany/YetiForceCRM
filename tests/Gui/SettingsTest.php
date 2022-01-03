@@ -10,15 +10,13 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Tests\Init;
-
 use Facebook\WebDriver\WebDriverBy;
 
 /**
  * @internal
  * @coversNothing
  */
-final class SettingsTest extends \Tests\GuiBase
+final class Gui_SettingsTest extends \Tests\GuiBase
 {
 	/**
 	 * Testing marketplace view.
