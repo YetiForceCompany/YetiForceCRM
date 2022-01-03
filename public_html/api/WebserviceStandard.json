@@ -813,7 +813,7 @@
                     "BaseModule"
                 ],
                 "summary": "Create record",
-                "description": "Gets data to save record",
+                "description": "Create new record",
                 "operationId": "ea3b9bea091cbde741323b5393901825",
                 "parameters": [
                     {
@@ -1901,7 +1901,7 @@
                 ],
                 "summary": "Data for the user",
                 "description": "Gets details about the user",
-                "operationId": "5de1069868c749968f98e50485b6f084",
+                "operationId": "getUser",
                 "parameters": [
                     {
                         "name": "userId",
@@ -1979,6 +1979,81 @@
                                 "schema": {
                                     "$ref": "#/components/schemas/Exception"
                                 }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "basicAuth": [],
+                        "ApiKeyAuth": [],
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/webservice/WebserviceStandard/Users/Record": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create user",
+                "description": "Create new user",
+                "operationId": "b2550c068a0148252c584ed08f9d7fae",
+                "parameters": [
+                    {
+                        "name": "moduleName",
+                        "in": "path",
+                        "description": "Module name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "Contacts"
+                    },
+                    {
+                        "name": "X-ENCRYPTED",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Header-Encrypted"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Contents of the request contains an associative array with the user data.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User_Create_Details"
+                            }
+                        },
+                        "application/xml": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User_Create_Details"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contents of the response contains only id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User_Post_Record_Response"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User_Post_Record_Response"
+                                }
+                            }
+                        },
+                        "links": {
+                            "GetUserById": {
+                                "$ref": "#/components/links/GetUserById"
                             }
                         }
                     }
@@ -4573,6 +4648,65 @@
                 },
                 "type": "object"
             },
+            "User_Post_Record_Response": {
+                "title": "User - Created user",
+                "description": "Contents of the response contains only id and name",
+                "required": [
+                    "status",
+                    "result"
+                ],
+                "properties": {
+                    "status": {
+                        "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "enum": [
+                            0,
+                            1
+                        ]
+                    },
+                    "result": {
+                        "title": "User data",
+                        "description": "Created user id and name.",
+                        "required": [
+                            "id",
+                            "name"
+                        ],
+                        "properties": {
+                            "id": {
+                                "description": "Id of the newly created user",
+                                "type": "integer",
+                                "example": 22
+                            },
+                            "name": {
+                                "description": "Id of the newly created user",
+                                "type": "string",
+                                "example": "YetiForce Name"
+                            },
+                            "skippedData": {
+                                "description": "List of parameters passed in the request that were skipped in the write process",
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "User_Create_Details": {
+                "title": "General - User create details",
+                "description": "User data in user format for create view",
+                "type": "object",
+                "example": {
+                    "user_name": "tom",
+                    "first_name": "Tom",
+                    "last_name": "Kowalski",
+                    "roleid": "H38",
+                    "password": "MyFunP@ssword",
+                    "confirm_password": "MyFunP@ssword",
+                    "email1": "my@email.com",
+                    "language": "en-US"
+                }
+            },
             "Users_RecordsList_ResponseBody": {
                 "title": "Users module - Response action users list",
                 "description": "Module action record list response body",
@@ -4811,6 +4945,13 @@
                     "recordId": "$response.body#/result/id"
                 },
                 "description": "The `id` value returned in the response can be used as the `recordId` parameter in `GET /webservice/{moduleName}/Record/{recordId}`."
+            },
+            "GetUserById": {
+                "operationId": "getUser",
+                "parameters": {
+                    "recordId": "$response.body#/result/id"
+                },
+                "description": "The `id` value returned in the response can be used as the `userId` parameter in `GET /webservice/Users/Record/{userId}`."
             }
         }
     },

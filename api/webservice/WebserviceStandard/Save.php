@@ -32,7 +32,7 @@ class Save extends \Vtiger_Save_Action
 	/**
 	 * Initialization with API data.
 	 *
-	 * @param BaseModule\Record or Users\Record $record
+	 * @param BaseModule\Record|Users\Record $record
 	 *
 	 * @return void
 	 */

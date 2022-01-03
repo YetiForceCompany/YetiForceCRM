@@ -24,21 +24,15 @@ class Record extends \Api\Core\BaseAction
 	/** @var \Users_Record_Model User record model. */
 	public $recordModel;
 
-	/**
-	 * Check permission to method, access for administrators only.
-	 *
-	 * @throws \Api\Core\Exception
-	 *
-	 * @return bool
-	 */
+	/** {@inheritdoc}  */
 	protected function checkPermission(): void
 	{
 		parent::checkPermission();
 		$moduleName = $this->controller->request->getModule();
 		if ('POST' === $this->controller->method) {
-			$this->recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
+			$this->recordModel = \Users_Record_Model::getCleanInstance($moduleName);
 			if (!$this->recordModel->isCreateable()) {
-				throw new \Api\Core\Exception('No permissions to create record', 403);
+				throw new \Api\Core\Exception('No permissions to create user', 403);
 			}
 		} else {
 			if ($this->controller->request->isEmpty('record', true) || !\App\User::isExists($this->controller->request->getInteger('record'), false)) {
@@ -62,6 +56,7 @@ class Record extends \Api\Core\BaseAction
 	 *		summary="Data for the user",
 	 *		tags={"Users"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
+	 *		operationId="getUser",
 	 *		@OA\Parameter(
 	 *			name="userId",
 	 *			description="User id",
@@ -160,9 +155,64 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @return array
 	 *
+	 * @OA\Post(
+	 *		path="/webservice/WebserviceStandard/Users/Record",
+	 *		description="Create new user",
+	 *		summary="Create user",
+	 *		tags={"Users"},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
+	 *		@OA\RequestBody(required=true, description="Contents of the request contains an associative array with the user data.",
+	 *			@OA\JsonContent(ref="#/components/schemas/User_Create_Details"),
+	 *			@OA\XmlContent(ref="#/components/schemas/User_Create_Details"),
+	 *		),
+	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
+	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
+	 *		@OA\Response(response=200, description="Contents of the response contains only id",
+	 *			@OA\JsonContent(ref="#/components/schemas/User_Post_Record_Response"),
+	 *			@OA\XmlContent(ref="#/components/schemas/User_Post_Record_Response"),
+	 *			@OA\Link(link="GetUserById", ref="#/components/links/GetUserById")
+	 *		),
+	 * ),
+	 * @OA\Schema(
+	 *		schema="User_Post_Record_Response",
+	 *		title="User - Created user",
+	 *		description="Contents of the response contains only id and name",
+	 *		type="object",
+	 *		required={"status", "result"},
+	 *		@OA\Property(property="status", type="integer", enum={0, 1}, description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error"),
+	 *		@OA\Property(property="result", type="object", title="User data", description="Created user id and name.",
+	 *			required={"id", "name"},
+	 *			@OA\Property(property="id", type="integer", description="Id of the newly created user", example=22),
+	 *			@OA\Property(property="name", type="string", description="Id of the newly created user", example="YetiForce Name"),
+	 *			@OA\Property(property="skippedData", type="object", description="List of parameters passed in the request that were skipped in the write process"),
+	 *		),
+	 * ),
+	 *	@OA\Schema(
+	 *		schema="User_Create_Details",
+	 *		title="General - User create details",
+	 *		description="User data in user format for create view",
+	 *		type="object",
+	 *		example={"user_name" : "tom", "first_name" : "Tom", "last_name" : "Kowalski", "roleid" : "H38", "password" : "MyFunP@ssword", "confirm_password" : "MyFunP@ssword", "email1" : "my@email.com", "language" : "en-US"},
+	 *	),
+	 *	@OA\Link(
+	 *		link="GetUserById",
+	 *		description="The `id` value returned in the response can be used as the `userId` parameter in `GET /webservice/Users/Record/{userId}`.",
+	 *		operationId="getUser",
+	 *		parameters={
+	 *			"recordId" = "$response.body#/result/id"
+	 *		}
+	 *	)
 	 */
 	public function post(): array
 	{
+		if (1 !== $this->getUserData('type')) {
+			foreach ($this->recordModel->getModule()->getFieldsByType('serverAccess') as $fieldName => $fieldModel) {
+				if ($fieldModel->getFieldParams() == $this->getUserData('server_id')) {
+					$this->recordModel->set($fieldName, 1);
+					break;
+				}
+			}
+		}
 		\Api\WebserviceStandard\Fields::loadWebserviceFields($this->recordModel->getModule()->getFields(), $this);
 		$saveModel = new \Api\WebserviceStandard\Save();
 		$saveModel->init($this);
