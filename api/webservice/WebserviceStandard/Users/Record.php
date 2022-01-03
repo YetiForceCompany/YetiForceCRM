@@ -19,7 +19,7 @@ use OpenApi\Annotations as OA;
 class Record extends \Api\Core\BaseAction
 {
 	/** {@inheritdoc}  */
-	public $allowedMethod = ['GET'];
+	public $allowedMethod = ['GET', 'POST'];
 
 	/** @var \Users_Record_Model User record model. */
 	public $recordModel;
@@ -34,13 +34,21 @@ class Record extends \Api\Core\BaseAction
 	protected function checkPermission(): void
 	{
 		parent::checkPermission();
-		if ($this->controller->request->isEmpty('record', true) || !\App\User::isExists($this->controller->request->getInteger('record'), false)) {
-			throw new \Api\Core\Exception('User doesn\'t exist', 404);
+		$moduleName = $this->controller->request->getModule();
+		if ('POST' === $this->controller->method) {
+			$this->recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
+			if (!$this->recordModel->isCreateable()) {
+				throw new \Api\Core\Exception('No permissions to create record', 403);
+			}
+		} else {
+			if ($this->controller->request->isEmpty('record', true) || !\App\User::isExists($this->controller->request->getInteger('record'), false)) {
+				throw new \Api\Core\Exception('User doesn\'t exist', 404);
+			}
+			if (!\App\User::getCurrentUserModel()->isAdmin()) {
+				throw new \Api\Core\Exception('Access denied, access for administrators only', 403);
+			}
+			$this->recordModel = \Users_Record_Model::getInstanceById($this->controller->request->getInteger('record'), 'Users');
 		}
-		if (!\App\User::getCurrentUserModel()->isAdmin()) {
-			throw new \Api\Core\Exception('Access denied, access for administrators only', 403);
-		}
-		$this->recordModel = \Users_Record_Model::getInstanceById($this->controller->request->getInteger('record'), 'Users');
 	}
 
 	/**
@@ -145,5 +153,27 @@ class Record extends \Api\Core\BaseAction
 			$response['rawData'] = $rawData;
 		}
 		return $response;
+	}
+
+	/**
+	 * Create record.
+	 *
+	 * @return array
+	 *
+	 */
+	public function post(): array
+	{
+		\Api\WebserviceStandard\Fields::loadWebserviceFields($this->recordModel->getModule()->getFields(), $this);
+		$saveModel = new \Api\WebserviceStandard\Save();
+		$saveModel->init($this);
+		$saveModel->saveRecord($this->controller->request);
+		$return = [
+			'id' => $this->recordModel->getId(),
+			'name' => $this->recordModel->getName(),
+		];
+		if ($saveModel->skippedData) {
+			$return['skippedData'] = $saveModel->skippedData;
+		}
+		return $return;
 	}
 }
