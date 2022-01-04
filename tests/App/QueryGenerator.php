@@ -57,7 +57,7 @@ class QueryGenerator extends \Tests\Base
 		\Vtiger_Relation_Model::getInstanceById($relationId)->addRelation($row['id'], $documentModel->getId());
 
 		$queryGenerator = new \App\QueryGenerator($moduleName);
-		$queryGenerator->initForDefaultCustomView();
+		$queryGenerator->setFields(['id', 'accountname']);
 		$queryGenerator->setAdvancedConditions(['relationId' => '0', 'relationColumns' => [$relationId]]);
 		$searchParams = \App\Condition::validSearchParams($moduleName, [[['relationColumn_' . $relationId, 'a', $documentModel->getId()]]]);
 		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParams);
@@ -78,15 +78,15 @@ class QueryGenerator extends \Tests\Base
 		$this->assertEquals($accountModel->getId(), $row['id']);
 
 		$queryGenerator = new \App\QueryGenerator($moduleName);
-		$queryGenerator->initForDefaultCustomView();
+		$queryGenerator->setFields(['id', 'accountname']);
 		$queryGenerator->setAdvancedConditions([
 			'relationId' => $relationId,
 			'relationConditions' => ['condition' => 'AND', 'rules' => [['fieldname' => 'notes_title:Documents', 'operator' => 'e', 'value' => $documentModel->get('notes_title')]]],
 		]);
-		$row = $queryGenerator->createQuery()->one() ?? [];
+		$rows = $queryGenerator->createQuery()->createCommand()->queryAllByGroup(1);
+		$this->logs['DocumentsId'] = $documentModel->getId();
 		$this->logs['Documents'] = (new \App\Db\Query())->select(['vtiger_notes.notesid', 'title', 'deleted'])->from('vtiger_notes')->innerJoin('vtiger_crmentity', 'vtiger_notes.notesid = vtiger_crmentity.crmid')->createCommand()->queryAllByGroup(1);
 		$this->logs['DocumentsRel'] = (new \App\Db\Query())->from('vtiger_senotesrel')->all();
-		$this->assertEquals($accountModel->get('accountname'), $row['accountname']);
-		$this->assertEquals($accountModel->getId(), $row['id']);
+		$this->assertArrayHasKey($accountModel->getId(), $rows);
 	}
 }
