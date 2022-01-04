@@ -42,7 +42,15 @@ class QueryGenerator extends \Tests\Base
 		], $transformedSearchParams);
 		$queryGenerator->parseAdvFilter($transformedSearchParams);
 		$row = $queryGenerator->createQuery()->one() ?? [];
+		$this->logs = [
+			'accountId' => $accountModel->getId(),
+			'contactId' => $contactId,
+			'query' => $queryGenerator->createQuery()->createCommand()->getRawSql(),
+			'Accounts' => (new \App\Db\Query())->select(['accountid', 'accountname', 'deleted'])->from('vtiger_account')->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')->createCommand()->queryAllByGroup(1),
+			'Contacts' => (new \App\Db\Query())->select(['contactid', 'lastname', 'deleted'])->from('vtiger_contactdetails')->innerJoin('vtiger_crmentity', 'vtiger_contactdetails.contactid = vtiger_crmentity.crmid')->createCommand()->queryAllByGroup(1),
+		];
 		$this->assertEquals($accountModel->get('accountname'), $row['accountname']);
+		$this->assertEquals($accountModel->getId(), $row['id']);
 
 		$relationId = 9;
 		$documentModel = \Tests\Base\C_RecordActions::createDocumentsRecord();
@@ -67,6 +75,7 @@ class QueryGenerator extends \Tests\Base
 		$queryGenerator->parseAdvFilter($transformedSearchParams);
 		$row = $queryGenerator->createQuery()->one() ?? [];
 		$this->assertEquals($accountModel->get('accountname'), $row['accountname']);
+		$this->assertEquals($accountModel->getId(), $row['id']);
 
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$queryGenerator->initForDefaultCustomView();
@@ -76,5 +85,6 @@ class QueryGenerator extends \Tests\Base
 		]);
 		$row = $queryGenerator->createQuery()->one() ?? [];
 		$this->assertEquals($accountModel->get('accountname'), $row['accountname']);
+		$this->assertEquals($accountModel->getId(), $row['id']);
 	}
 }
