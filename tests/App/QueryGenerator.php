@@ -84,6 +84,8 @@ class QueryGenerator extends \Tests\Base
 			'relationConditions' => ['condition' => 'AND', 'rules' => [['fieldname' => 'notes_title:Documents', 'operator' => 'e', 'value' => $documentModel->get('notes_title')]]],
 		]);
 		$row = $queryGenerator->createQuery()->one() ?? [];
+		$this->logs['Documents'] = (new \App\Db\Query())->select(['vtiger_notes.notesid', 'title', 'deleted'])->from('vtiger_notes')->innerJoin('vtiger_crmentity', 'vtiger_notes.notesid = vtiger_crmentity.crmid')->createCommand()->queryAllByGroup(1);
+		$this->logs['DocumentsRel'] = (new \App\Db\Query())->from('vtiger_senotesrel')->all();
 		$this->assertEquals($accountModel->get('accountname'), $row['accountname']);
 		$this->assertEquals($accountModel->getId(), $row['id']);
 	}
