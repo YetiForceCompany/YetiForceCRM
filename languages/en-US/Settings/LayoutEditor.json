@@ -217,7 +217,7 @@
     "BTN_WEBSERVICE_APP_EDIT": "Edit field configuration",
     "LBL_WSA_VISIBILITY": "Visibility",
     "LBL_WSA_VISIBILITY_DEFAULT": "Inherits from field visibility",
-    "LBL_LOGGED_CONTACT": "Contact currently logged in",
+    "LBL_LOGGED_CONTACT": "Contact online in Portal",
     "LBL_ACCOUNT_ON_CONTACT": "Account assigned to contact",
     "LBL_ACCOUNT_LOGGED_CONTACT": "Account of contact currently logged in",
     "LBL_DISABLE_FIELD": "Disable the field",
