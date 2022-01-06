@@ -1821,7 +1821,9 @@ class TextParser
 			$html .= '<table class="inventory-table" style="border-collapse:collapse;width:100%"><thead><tr>';
 			$columns = [];
 			$customFieldClassSeq = 0;
-			foreach ($config['columns'] as $name) {
+			$labels = isset($config['labels']) ? explode(',', $config['labels']) : [];
+			$width = isset($config['width']) ? explode(',', $config['width']) : [];
+			foreach ($config['columns'] as $key => $name) {
 				if (false !== strpos($name, '||')) {
 					[$title,$value] = explode('||', $name, 2);
 					if ('(' === $title[0] && ')' === substr($title, -1)) {
@@ -1844,7 +1846,7 @@ class TextParser
 				if (!$field->isVisible()) {
 					continue;
 				}
-				$html .= '<th class="col-type-' . $field->getType() . '" style="border:1px solid #ddd">' . Language::translate($field->get('label'), $this->moduleName) . '</th>';
+				$html .= '<th class="col-type-' . $field->getType() . '" style="border:1px solid #ddd ' . (empty($width[$key]) ? '' : ";width: {$width[$key]}") . '">' . (empty($labels[$key]) ? Language::translate($field->get('label'), $this->moduleName) : $labels[$key]) . '</th>';
 				$columns[$field->getColumnName()] = $field;
 			}
 			$html .= '</tr></thead><tbody>';
