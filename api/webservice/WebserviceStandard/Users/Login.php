@@ -371,7 +371,7 @@ class Login extends \Api\Core\BaseAction
 	{
 		$db = \App\Db::getInstance('webservice');
 		$userData = (new \App\Db\Query())->from($this->controller->app['tables']['user'])
-			->where(['user_name' => $this->controller->request->get('userName'), 'status' => 1])
+			->where(['server_id' => $this->controller->app['id'], 'user_name' => $this->controller->request->get('userName'), 'status' => 1])
 			->limit(1)->one($db);
 		if (!$userData) {
 			$this->saveLoginHistory([
