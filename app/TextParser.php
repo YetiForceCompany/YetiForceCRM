@@ -1822,7 +1822,7 @@ class TextParser
 			$columns = [];
 			$customFieldClassSeq = 0;
 			$labels = isset($config['labels']) ? explode(',', $config['labels']) : [];
-			$width = isset($config['width']) ? explode(',', $config['width']) : [];
+			$width = isset($config['width']) ? preg_replace('/[^[:alnum:]]/', '', explode(',', $config['width'])) : [];
 			foreach ($config['columns'] as $key => $name) {
 				if (false !== strpos($name, '||')) {
 					[$title,$value] = explode('||', $name, 2);
@@ -1846,7 +1846,7 @@ class TextParser
 				if (!$field->isVisible()) {
 					continue;
 				}
-				$html .= '<th class="col-type-' . $field->getType() . '" style="border:1px solid #ddd ' . (empty($width[$key]) ? '' : ";width: {$width[$key]}") . '">' . (empty($labels[$key]) ? Language::translate($field->get('label'), $this->moduleName) : $labels[$key]) . '</th>';
+				$html .= '<th class="col-type-' . $field->getType() . '" style="border:1px solid #ddd ' . (empty($width[$key]) ? '' : ";width: {$width[$key]}") . '">' . (empty($labels[$key]) ? Language::translate($field->get('label'), $this->moduleName) : Purifier::encodeHtml($labels[$key])) . '</th>';
 				$columns[$field->getColumnName()] = $field;
 			}
 			$html .= '</tr></thead><tbody>';
