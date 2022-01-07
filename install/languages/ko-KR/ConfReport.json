@@ -241,6 +241,7 @@
     "LBL_LABEL_SCRIPT_USER": "스크립트 사용자",
     "LBL_ERROR_DURING_VERIFICATION": "검증 중 오류 발생",
     "LBL_LABEL_CRM_PROVIDER": "공급자",
+    "LBL_LABEL_APP_ID": "Shortened APP ID",
     "LBL_DATA_SIZE": "Database data size",
     "LBL_DATA_TOTAL_SIZE": "Total data size",
     "LBL_DB_INFO": "Detailed information about the database",

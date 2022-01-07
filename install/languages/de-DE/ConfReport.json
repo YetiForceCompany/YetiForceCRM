@@ -241,6 +241,7 @@
     "LBL_LABEL_SCRIPT_USER": "Skriptaufruf-Benutzer",
     "LBL_ERROR_DURING_VERIFICATION": "Ein Fehler ist während der Prüfung aufgetreten",
     "LBL_LABEL_CRM_PROVIDER": "Anbieter",
+    "LBL_LABEL_APP_ID": "Shortened APP ID",
     "LBL_DATA_SIZE": "Datenbank-Datengröße",
     "LBL_DATA_TOTAL_SIZE": "Gesamte Datengröße",
     "LBL_DB_INFO": "Detaillierte Informationen über die Datenbank",

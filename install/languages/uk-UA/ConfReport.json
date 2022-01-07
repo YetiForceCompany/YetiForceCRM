@@ -241,6 +241,7 @@
     "LBL_LABEL_SCRIPT_USER": "Сценарій викликає користувач",
     "LBL_ERROR_DURING_VERIFICATION": "Помилка під час перевірки",
     "LBL_LABEL_CRM_PROVIDER": "Provider",
+    "LBL_LABEL_APP_ID": "Shortened APP ID",
     "LBL_DATA_SIZE": "Розмір даних БД",
     "LBL_DATA_TOTAL_SIZE": "Загальний розмір даних",
     "LBL_DB_INFO": "Детальна інформація про базу даних",

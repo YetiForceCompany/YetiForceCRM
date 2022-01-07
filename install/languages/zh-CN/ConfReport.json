@@ -241,6 +241,7 @@
     "LBL_LABEL_SCRIPT_USER": "脚本执行人",
     "LBL_ERROR_DURING_VERIFICATION": "再校验期间发生错误",
     "LBL_LABEL_CRM_PROVIDER": "Provider",
+    "LBL_LABEL_APP_ID": "Shortened APP ID",
     "LBL_DATA_SIZE": "Database data size",
     "LBL_DATA_TOTAL_SIZE": "Total data size",
     "LBL_DB_INFO": "Detailed information about the database",

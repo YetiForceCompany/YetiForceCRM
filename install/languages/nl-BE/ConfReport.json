@@ -241,6 +241,7 @@
     "LBL_LABEL_SCRIPT_USER": "Script calling user",
     "LBL_ERROR_DURING_VERIFICATION": "Error occurred during verification",
     "LBL_LABEL_CRM_PROVIDER": "Provider",
+    "LBL_LABEL_APP_ID": "Shortened APP ID",
     "LBL_DATA_SIZE": "Database datagrootte",
     "LBL_DATA_TOTAL_SIZE": "Totale datagrootte",
     "LBL_DB_INFO": "Gedetailleerde informatie over de database",

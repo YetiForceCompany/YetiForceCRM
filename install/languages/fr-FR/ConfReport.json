@@ -241,6 +241,7 @@
     "LBL_LABEL_SCRIPT_USER": "Utilisateur appelant le script",
     "LBL_ERROR_DURING_VERIFICATION": "Une erreur s'est produite lors de la vérification",
     "LBL_LABEL_CRM_PROVIDER": "Fournisseur",
+    "LBL_LABEL_APP_ID": "Shortened APP ID",
     "LBL_DATA_SIZE": "Taille des données de la base de données",
     "LBL_DATA_TOTAL_SIZE": "Taille totale des données",
     "LBL_DB_INFO": "Informations détaillées sur la base de données",

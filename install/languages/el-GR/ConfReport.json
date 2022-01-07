@@ -241,6 +241,7 @@
     "LBL_LABEL_SCRIPT_USER": "Script που καλεί τον χρήστη",
     "LBL_ERROR_DURING_VERIFICATION": "Προέκυψε σφάλμα κατά την επικύρωση",
     "LBL_LABEL_CRM_PROVIDER": "Πάροχος",
+    "LBL_LABEL_APP_ID": "Shortened APP ID",
     "LBL_DATA_SIZE": "Μέγεθος βάσης δεδομένων",
     "LBL_DATA_TOTAL_SIZE": "Συνολικό μέγεθος δεδομένων",
     "LBL_DB_INFO": "Λεπτομερείς πληροφορίες για την βάση δεδομένων",

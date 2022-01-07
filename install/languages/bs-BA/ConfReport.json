@@ -241,6 +241,7 @@
     "LBL_LABEL_SCRIPT_USER": "Korisnik za pozivanje skripte",
     "LBL_ERROR_DURING_VERIFICATION": "Desila se greška tokom verifikacije",
     "LBL_LABEL_CRM_PROVIDER": "Pružatelj usluge",
+    "LBL_LABEL_APP_ID": "Shortened APP ID",
     "LBL_DATA_SIZE": "Veličina podataka baze podataka",
     "LBL_DATA_TOTAL_SIZE": "Ukupna veličina podataka",
     "LBL_DB_INFO": "Detaljne informacije o bazi podataka",

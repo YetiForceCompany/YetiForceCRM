@@ -241,6 +241,7 @@
     "LBL_LABEL_SCRIPT_USER": "Script de chamada do usuário",
     "LBL_ERROR_DURING_VERIFICATION": "Ocorreu um erro durante a validação",
     "LBL_LABEL_CRM_PROVIDER": "Fornecedor",
+    "LBL_LABEL_APP_ID": "ID de APP reduzido",
     "LBL_DATA_SIZE": "Database data size",
     "LBL_DATA_TOTAL_SIZE": "Total data size",
     "LBL_DB_INFO": "Detailed information about the database",

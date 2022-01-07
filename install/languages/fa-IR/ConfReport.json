@@ -241,6 +241,7 @@
     "LBL_LABEL_SCRIPT_USER": "اسکریپت تماس با کاربر",
     "LBL_ERROR_DURING_VERIFICATION": "هنگام تأیید خطایی روی داد",
     "LBL_LABEL_CRM_PROVIDER": "سرویس دهنده",
+    "LBL_LABEL_APP_ID": "Shortened APP ID",
     "LBL_DATA_SIZE": "Database data size",
     "LBL_DATA_TOTAL_SIZE": "Total data size",
     "LBL_DB_INFO": "Detailed information about the database",

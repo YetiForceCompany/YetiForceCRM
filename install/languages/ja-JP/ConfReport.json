@@ -241,6 +241,7 @@
     "LBL_LABEL_SCRIPT_USER": "通話中のユーザー",
     "LBL_ERROR_DURING_VERIFICATION": "認証中にエラーが発生しました",
     "LBL_LABEL_CRM_PROVIDER": "プロバイダー",
+    "LBL_LABEL_APP_ID": "Shortened APP ID",
     "LBL_DATA_SIZE": "データベースのデータサイズ",
     "LBL_DATA_TOTAL_SIZE": "合計データサイズ",
     "LBL_DB_INFO": "データベースに関する詳細情報",
