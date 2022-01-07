@@ -94,7 +94,8 @@
     "RecordConventer": "Record converter",
     "RecordCollector": "Record collector",
     "MeetingUrl": "Meeting URL",
-    "InterestsConflictUsers": "Conflict of interests"
+    "InterestsConflictUsers": "Conflict of interests",
+    "CustomViewAdvCond": "Advanced custom view conditions"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Profile deleted successfully"
