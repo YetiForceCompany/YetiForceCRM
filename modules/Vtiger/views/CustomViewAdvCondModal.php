@@ -30,7 +30,8 @@ class Vtiger_CustomViewAdvCondModal_View extends \App\Controller\Modal
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
-		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule()) || $currentUserPrivilegesModel->hasModuleActionPermission($request->getModule(), 'CustomViewAdvCond')) {
 			throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED', 406);
 		}
 		$this->advancedConditions = \App\Condition::validAdvancedConditions($request->getArray('advancedConditions'));
