@@ -130,7 +130,7 @@
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
 							<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}">
 								{if empty($LISTVIEW_HEADER->get('source_field_name')) && ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true && $LISTVIEW_ENTRY->isViewable()}
-									<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modCT_{$MODULE} js-list-field" data-js="width" {/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
+									<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modCT_{$MODULE} js-list-field js-popover-tooltip--record" data-js="width" {/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
 										{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER)}
 									</a>
 								{else}

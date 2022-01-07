@@ -111,7 +111,7 @@
 									{assign var=SEARCH_INFO value=[]}
 								{/if}
 								{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $RELATED_MODULE_NAME)
-										FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE_MODEL=$RELATED_MODULE MODULE=$RELATED_MODULE_NAME}
+																			FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE_MODEL=$RELATED_MODULE MODULE=$RELATED_MODULE_NAME}
 							</td>
 						{/foreach}
 						<td class="reducePadding" colspan="{$ADDITIONAL_TD + 1}"></td>
@@ -145,8 +145,7 @@
 							<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap
 								{if $smarty.foreach.listHeaderForeach.iteration eq $RELATED_HEADER_COUNT}colspan="2" {/if}>
 								{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') && $RELATED_RECORD->isViewable()}
-									<a class="modCT_{$RELATED_MODULE_NAME} js-list__field js-popover-tooltip--record" data-js="width" title=""
-										href="{$RELATED_RECORD->getDetailViewUrl()}">
+									<a class="modCT_{$RELATED_MODULE_NAME} js-list__field js-popover-tooltip--record" data-js="width" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">
 										{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
 									</a>
 								{elseif $HEADER_FIELD->get('fromOutsideList') eq true}
