@@ -1309,7 +1309,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function isCustomViewAdvCondEnabled(): bool
 	{
-		return true;
+		return $this->isPermitted('CustomViewAdvCond');
 	}
 
 	/**
