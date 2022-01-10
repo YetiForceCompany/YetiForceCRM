@@ -30,7 +30,7 @@
 				{foreach item=VALUE key=KEY from=$PICKLIST_VALUES}
 					{assign var=CODE value=$COUNTRY_DATA[$KEY]['code']}
 					<option value="{\App\Purifier::encodeHtml($KEY)}" data-code="{$CODE}" title="{\App\Purifier::encodeHtml($VALUE)}"
-						data-template="<span><span class='flag-icon flag-icon-{$CODE|lower} mr-2'></span>{\App\Purifier::encodeHtml($VALUE)}</span>"
+						data-template="<span><span class='fi fi-{$CODE|lower} mr-2'></span>{\App\Purifier::encodeHtml($VALUE)}</span>"
 						{if trim($FIELD_VALUE) eq trim($KEY)} selected{/if}>
 						{\App\Purifier::encodeHtml($VALUE)}
 					</option>
