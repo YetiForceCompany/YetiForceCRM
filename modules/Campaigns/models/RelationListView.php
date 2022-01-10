@@ -32,15 +32,16 @@ class Campaigns_RelationListView_Model extends Vtiger_RelationListView_Model
 			$emailLink->set('_sendEmail', true);
 			$relatedLinks['LISTVIEWBASIC'][] = $emailLink;
 		}
-		if ($this->getRelationModel()->privilegeToDelete() && $relatedModuleModel->isPermitted('Delete')) {
+		if ($this->getRelationModel()->privilegeToDelete()) {
 			$relatedLinks['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'RELATEDLIST_MASSACTIONS',
-				'linklabel' => 'LBL_MASS_DELETE',
-				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=massDeleteRelation&src_record={$id}&relatedModule={$relatedModuleName}')",
-				'linkclass' => '',
-				'linkicon' => 'fas fa-eraser',
+				'linklabel' => 'LBL_REMOVE_RELATION',
+				'linkicon' => 'fas fa-unlink',
+				'linkclass' => 'btn-sm btn-secondary',
+				'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module=Campaigns&action=RelationAjax&mode=massDeleteRelation&src_record={$id}&relatedModule={$relatedModuleName}')"
 			]);
 		}
+
 		return $relatedLinks;
 	}
 }
