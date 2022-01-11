@@ -1349,14 +1349,6 @@ paths:
       operationId: b2550c068a0148252c584ed08f9d7fae
       parameters:
         -
-          name: moduleName
-          in: path
-          description: 'Module name'
-          required: true
-          schema:
-            type: string
-          example: Contacts
-        -
           name: X-ENCRYPTED
           in: header
           required: true

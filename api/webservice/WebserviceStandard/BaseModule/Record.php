@@ -320,7 +320,7 @@ class Record extends \Api\Core\BaseAction
 	 *
 	 * @OA\Post(
 	 *		path="/webservice/WebserviceStandard/{moduleName}/Record",
-	 *		description="Gets data to save record",
+	 *		description="Create new record",
 	 *		summary="Create record",
 	 *		tags={"BaseModule"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},

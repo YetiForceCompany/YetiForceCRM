@@ -851,7 +851,7 @@ paths:
       tags:
         - BaseModule
       summary: 'Create record'
-      description: 'Gets data to save record'
+      description: 'Create new record'
       operationId: 10503c8d531e680a764151718cb0ca34
       parameters:
         -

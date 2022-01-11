@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license	YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author	Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author	Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\WebservicePremium\BaseModule;
@@ -284,7 +285,7 @@ class Record extends \Api\WebserviceStandard\BaseModule\Record
 	 *
 	 *	@OA\Post(
 	 *		path="/webservice/WebservicePremium/{moduleName}/Record",
-	 *		description="Gets data to save record",
+	 *		description="Create new record",
 	 *		summary="Create record",
 	 *		tags={"BaseModule"},
 	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},

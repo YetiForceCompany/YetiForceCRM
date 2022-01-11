@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license	YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author	Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author  Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\WebserviceStandard\Users;
@@ -165,7 +166,6 @@ class Record extends \Api\Core\BaseAction
 	 *			@OA\JsonContent(ref="#/components/schemas/User_Create_Details"),
 	 *			@OA\XmlContent(ref="#/components/schemas/User_Create_Details"),
 	 *		),
-	 *		@OA\Parameter(name="moduleName", in="path", @OA\Schema(type="string"), description="Module name", required=true, example="Contacts"),
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Response(response=200, description="Contents of the response contains only id",
 	 *			@OA\JsonContent(ref="#/components/schemas/User_Post_Record_Response"),
