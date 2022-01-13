@@ -143,7 +143,6 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	/**
 	 * Update the value for relation.
 	 *
-	 * @param string $sourceModule Source module name
 	 * @param int    $sourceRecord Source record
 	 */
 	public function reloadValue($sourceRecord)
