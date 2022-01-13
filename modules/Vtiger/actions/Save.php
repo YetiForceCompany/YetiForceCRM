@@ -95,7 +95,12 @@ class Vtiger_Save_Action extends \App\Controller\Action
 	{
 		$this->getRecordModelFromRequest($request);
 		$eventHandler = $this->record->getEventHandler();
+		$skipHandlers = $request->getArray('skipHandlers', \App\Purifier::ALNUM, [], \App\Purifier::INTEGER);
 		foreach ($eventHandler->getHandlers(\App\EventHandler::EDIT_VIEW_PRE_SAVE) as $handler) {
+			$handlerId = $handler['eventhandler_id'];
+			if (isset($skipHandlers[$handlerId]) && $skipHandlers[$handlerId] === hash('sha256', implode('|', $this->record->getData()))) {
+				continue;
+			}
 			if (!(($response = $eventHandler->triggerHandler($handler))['result'] ?? null)) {
 				throw new \App\Exceptions\NoPermittedToRecord($response['message'], 406);
 			}
@@ -162,9 +167,14 @@ class Vtiger_Save_Action extends \App\Controller\Action
 		$this->getRecordModelFromRequest($request);
 		$eventHandler = $this->record->getEventHandler();
 		$result = [];
+		$skipHandlers = $request->getArray('skipHandlers', \App\Purifier::ALNUM, [], \App\Purifier::INTEGER);
 		foreach ($eventHandler->getHandlers(\App\EventHandler::EDIT_VIEW_PRE_SAVE) as $handler) {
+			$handlerId = $handler['eventhandler_id'];
+			if (isset($skipHandlers[$handlerId]) && $skipHandlers[$handlerId] === hash('sha256', implode('|', $this->record->getData()))) {
+				continue;
+			}
 			if (!(($response = $eventHandler->triggerHandler($handler))['result'] ?? null)) {
-				$result[] = $response;
+				$result[$handlerId] = $response;
 			}
 		}
 		$response = new Vtiger_Response();

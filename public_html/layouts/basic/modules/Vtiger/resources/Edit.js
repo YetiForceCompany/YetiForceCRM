@@ -144,13 +144,38 @@ $.Class(
 				validation = parseInt(app.pageController.getForm().find('#preSaveValidation').val());
 			}
 			if (validation) {
-				params.data.mode = 'preSaveValidation';
-				AppConnector.request(params)
+				let paramsTemp = JSON.parse(JSON.stringify(params));
+				paramsTemp.data.mode = 'preSaveValidation';
+				AppConnector.request(paramsTemp)
 					.done((data) => {
 						const response = data.result;
-						for (let i = 0; i < response.length; i++) {
+						let lock = false;
+						for (let i in response) {
 							if (response[i].result !== true) {
-								if (typeof response[i].showModal !== 'undefined' && typeof response[i].showModal.url !== 'undefined') {
+								if (response[i].type === 'confirm' && typeof response[i].hash !== 'undefined') {
+									app.showConfirmModal({
+										text: response[i].message || '',
+										confirmedCallback: () => {
+											let handlers = {};
+											if (typeof params.data.skipHandlers !== 'undefined') {
+												handlers = JSON.parse(params.data.skipHandlers);
+											}
+											handlers[i] = response[i].hash;
+											params.data.skipHandlers = JSON.stringify(handlers);
+											this.saveAjaxValidation(params, form).then((responsePart) => {
+												aDeferred.resolve(responsePart);
+											});
+										},
+										rejectedCallback: () => {
+											aDeferred.resolve(false);
+										}
+									});
+									lock = true;
+									break;
+								} else if (
+									typeof response[i].showModal !== 'undefined' &&
+									typeof response[i].showModal.url !== 'undefined'
+								) {
 									app.showModalWindow(null, response[i].showModal.url, function (modalContainer) {
 										app.registerModalController(undefined, modalContainer, function (_, instance) {
 											instance.formContainer = form;
@@ -166,7 +191,7 @@ $.Class(
 						}
 						if (data.result.length <= 0) {
 							aDeferred.resolve(true);
-						} else {
+						} else if (!lock) {
 							aDeferred.resolve(false);
 						}
 					})
@@ -979,9 +1004,31 @@ $.Class(
 					.done((data) => {
 						document.progressLoader.progressIndicator({ mode: 'hide' });
 						let response = data.result;
-						for (let i = 0; i < response.length; i++) {
+						for (let i in response) {
 							if (response[i].result !== true) {
-								if (typeof response[i].showModal !== 'undefined' && typeof response[i].showModal.url !== 'undefined') {
+								if (response[i].type === 'confirm' && typeof response[i].hash !== 'undefined') {
+									app.showConfirmModal({
+										text: response[i].message || '',
+										confirmedCallback: () => {
+											let handlers = {},
+												handlerElement = form.find('input[name="skipHandlers"]');
+											if (handlerElement.length) {
+												handlers = JSON.parse(handlerElement.val());
+												handlerElement.remove();
+											}
+											handlers[i] = response[i].hash;
+											form.append(
+												$('<input>', { name: 'skipHandlers', value: JSON.stringify(handlers), type: 'hidden' })
+											);
+											form.submit();
+										}
+									});
+									aDeferred.resolve(false);
+									break;
+								} else if (
+									typeof response[i].showModal !== 'undefined' &&
+									typeof response[i].showModal.url !== 'undefined'
+								) {
 									app.showModalWindow(null, response[i].showModal.url, function (modalContainer) {
 										app.registerModalController(undefined, modalContainer, function (_, instance) {
 											instance.formContainer = form;
