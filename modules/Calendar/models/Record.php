@@ -368,7 +368,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 					'linkhref' => true,
 					'linkurl' => $this->getActivityStateModalUrl(),
 					'linkicon' => 'fas fa-check',
-					'linkclass' => 'btn-xs btn-default',
+					'linkclass' => 'btn-sm btn-default',
 					'modalView' => true,
 				]);
 			}
@@ -378,7 +378,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 					'linkurl' => $this->getEditViewUrl(),
 					'linkhref' => true,
 					'linkicon' => 'yfi yfi-full-editing-view',
-					'linkclass' => 'btn-xs btn-default',
+					'linkclass' => 'btn-sm btn-default',
 				]);
 			}
 		}
