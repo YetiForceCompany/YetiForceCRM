@@ -1701,42 +1701,11 @@ jQuery.Class(
 			 * to add record from widget
 			 */
 
-			jQuery('.changeDetailViewMode').on('click', function (e) {
+			$('.changeDetailViewMode').on('click', function (e) {
 				thisInstance
 					.getTabs()
 					.filter('[data-link-key="' + thisInstance.detailViewDetailsTabLabel + '"]:not(.d-none)')
 					.trigger('click');
-			});
-
-			/*
-			 * Register click event for add button in Related widgets
-			 * to add record from widget
-			 */
-			jQuery('.createRecord').on('click', function (e) {
-				let currentElement = jQuery(e.currentTarget);
-				let summaryWidgetContainer = currentElement.closest('.js-detail-widget');
-				let widgetHeaderContainer = summaryWidgetContainer.find('.js-detail-widget-header');
-				let referenceModuleName = widgetHeaderContainer.find('[name="relatedModule"]').val();
-				let recordId = thisInstance.getRecordId();
-				let module = app.getModuleName();
-				let customParams = {};
-				customParams['sourceModule'] = module;
-				customParams['sourceRecord'] = recordId;
-
-				let postQuickCreateSave = function (data) {
-					thisInstance.postSummaryWidgetAddRecord(data, currentElement);
-				};
-
-				let goToFullFormcallback = function (data) {
-					thisInstance.addElementsToQuickCreateForCreatingRelation(data, customParams);
-				};
-
-				let QuickCreateParams = {};
-				QuickCreateParams['callbackFunction'] = postQuickCreateSave;
-				QuickCreateParams['goToFullFormcallback'] = goToFullFormcallback;
-				QuickCreateParams['data'] = customParams;
-				QuickCreateParams['noCache'] = false;
-				App.Components.QuickCreate.createRecord(referenceModuleName, QuickCreateParams);
 			});
 			this.registerFastEditingFields();
 		},
@@ -1779,22 +1748,16 @@ jQuery.Class(
 		 * summary view widget
 		 */
 		postSummaryWidgetAddRecord: function (data, currentElement) {
-			let thisInstance = this;
 			let summaryWidgetContainer = currentElement.closest('.js-detail-widget');
 			let widgetContainer = summaryWidgetContainer.find('[class^="widgetContainer_"]');
-			let widgetHeaderContainer = summaryWidgetContainer.find('.js-detail-widget-header');
-			let referenceModuleName = widgetHeaderContainer.find('[name="relatedModule"]').val();
-			let idList = [];
-			idList.push(data.result._recordId);
-			let params = {};
-			if (summaryWidgetContainer.data('relationId')) {
-				params.relationId = summaryWidgetContainer.data('relationId');
+
+			this.loadWidget(widgetContainer);
+			let updatesWidget = this.getContentHolder().find("[data-type='Updates']");
+			if (updatesWidget.length > 0) {
+				let params = this.getFiltersData(updatesWidget);
+				updatesWidget.find('.btnChangesReviewedOn').parent().remove();
+				this.loadWidget(updatesWidget, params['params']);
 			}
-			this.addRelationBetweenRecords(referenceModuleName, idList, null, params, widgetContainer.data('url')).done(
-				function (data) {
-					thisInstance.loadWidget(widgetContainer);
-				}
-			);
 		},
 		registerChangeEventForModulesList: function () {
 			jQuery('#tagSearchModulesList').on('change', function (e) {

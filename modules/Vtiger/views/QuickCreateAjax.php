@@ -78,6 +78,12 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		} else {
 			$viewer->assign('RECORD_STRUCTURE', $this->recordStructure);
 		}
+		$isRelationOperation = $request->getBoolean('relationOperation');
+		$viewer->assign('IS_RELATION_OPERATION', $isRelationOperation);
+		if ($isRelationOperation) {
+			$viewer->assign('SOURCE_MODULE', $request->getByType('sourceModule', \App\Purifier::ALNUM));
+			$viewer->assign('SOURCE_RECORD', $request->getInteger('sourceRecord'));
+		}
 		$viewer->assign('LAYOUT', $layout);
 		$viewer->assign('ADDRESS_BLOCK_LABELS', ['LBL_ADDRESS_INFORMATION', 'LBL_ADDRESS_MAILING_INFORMATION', 'LBL_ADDRESS_DELIVERY_INFORMATION', 'LBL_ADDRESS_BILLING', 'LBL_ADDRESS_SHIPPING']);
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));

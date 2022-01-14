@@ -474,17 +474,16 @@ class Vtiger_RelationListView_Model extends \App\Base
 			->where(['ttd.templateid' => $template, 'rel.crmid' => $recordId, 'rel.relmodule' => $relModuleId])->count();
 	}
 
-	public function getCreateViewUrl()
+	/**
+	 * Get create url from parent record.
+	 *
+	 * @param bool $fullView
+	 *
+	 * @return string
+	 */
+	public function getCreateViewUrl(bool $fullView = false)
 	{
-		$relationModelInstance = $this->getRelationModel();
-		$relatedModel = $relationModelInstance->getRelationModuleModel();
-		$parentRecordModule = $this->getParentRecordModel();
-		$createViewUrl = $relatedModel->getCreateRecordUrl() . '&sourceModule=' . $parentRecordModule->getModule()->getName() . '&sourceRecord=' . $parentRecordModule->getId() . '&relationOperation=true&relationId=' . $relationModelInstance->getId();
-		//To keep the reference fieldname and record value in the url if it is direct relation
-		if ($relationModelInstance->isDirectRelation()) {
-			$relationField = $relationModelInstance->getRelationField();
-			$createViewUrl .= '&' . $relationField->getName() . '=' . $parentRecordModule->getId();
-		}
+		$createViewUrl = $this->getRelationModel()->getCreateViewUrl($fullView);
 		if (!empty(Config\Relation::$addSearchParamsToCreateView) && ($searchParams = $this->getArray('search_params')) && isset($searchParams['and']) && \is_array($searchParams['and'])) {
 			foreach ($searchParams['and'] as $row) {
 				if ('e' === $row['comparator']) {

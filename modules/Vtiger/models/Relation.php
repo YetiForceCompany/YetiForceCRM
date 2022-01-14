@@ -576,6 +576,31 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
+	 * Get create url from parent record.
+	 *
+	 * @param bool $fullView
+	 *
+	 * @return string
+	 */
+	public function getCreateViewUrl(bool $fullView = false)
+	{
+		$parentRecord = $this->getParentRecord();
+		$relatedModuleModel = $this->getRelationModuleModel();
+		if (!$fullView && $relatedModuleModel->isQuickCreateSupported()) {
+			$createViewUrl = $relatedModuleModel->getQuickCreateUrl();
+		} else {
+			$createViewUrl = $relatedModuleModel->getCreateRecordUrl();
+		}
+		$createViewUrl .= '&sourceModule=' . $parentRecord->getModule()->getName() . '&sourceRecord=' . $parentRecord->getId() . '&relationOperation=true&relationId=' . $this->getId();
+		if ($this->isDirectRelation()) {
+			$relationField = $this->getRelationField();
+			$createViewUrl .= '&' . $relationField->getName() . '=' . $parentRecord->getId();
+		}
+
+		return $createViewUrl;
+	}
+
+	/**
 	 * Add relation.
 	 *
 	 * @param int       $sourceRecordId

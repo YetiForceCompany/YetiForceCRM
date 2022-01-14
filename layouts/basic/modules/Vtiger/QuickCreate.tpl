@@ -18,22 +18,27 @@
 		<div class="modal-dialog modal-lg modal-full" role="document">
 			<div class="modal-content">
 				<form class="form-horizontal recordEditView js-form" name="{$FROM_VIEW}" method="post" action="index.php" enctype="multipart/form-data">
-					<input type="hidden" name="module" value="{$MODULE}"/>
-					<input type="hidden" name="action" value="SaveAjax"/>
-					<input type="hidden" name="fromView" value="{$FROM_VIEW}"/>
-					<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
-					<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, $FROM_VIEW])}"/>
+					<input type="hidden" name="module" value="{$MODULE}" />
+					<input type="hidden" name="action" value="SaveAjax" />
+					<input type="hidden" name="fromView" value="{$FROM_VIEW}" />
+					<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}" />
+					<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, $FROM_VIEW])}" />
+					{if !empty($IS_RELATION_OPERATION) && !empty($SOURCE_MODULE) && !empty($SOURCE_RECORD)}
+						<input type="hidden" name="sourceModule" value="{$SOURCE_MODULE}" />
+						<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
+						<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
+					{/if}
 					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-						<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}'/>
+						<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}' />
 					{/if}
 					{if !empty($MAPPING_RELATED_FIELD)}
-						<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}'/>
+						<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}' />
 					{/if}
 					{if !empty($LIST_FILTER_FIELDS)}
-						<input type="hidden" name="listFilterFields" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}'/>
+						<input type="hidden" name="listFilterFields" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}' />
 					{/if}
 					{foreach key=INPUT_NAME item=INPUT_VALUE from=$HIDDEN_INPUT}
-						<input type="hidden" name="{$INPUT_NAME}" value='{\App\Purifier::encodeHtml($INPUT_VALUE)}'/>
+						<input type="hidden" name="{$INPUT_NAME}" value='{\App\Purifier::encodeHtml($INPUT_VALUE)}' />
 					{/foreach}
 					{if !empty($SOURCE_RELATED_FIELD)}
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$SOURCE_RELATED_FIELD}
@@ -57,7 +62,7 @@
 								{foreach item=COLLECTOR_LINK from=$QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
 									{assign var=COLLECTOR value=\App\RecordCollector::getInstance($COLLECTOR_LINK->get('linkurl'), $MODULE_NAME)}
 									{if isset($COLLECTOR) && $COLLECTOR->isActive()}
-										<button type="button" class="btn btn-outline-dark js-popover-tooltip js-record-collector-modal mr-1" {if isset(Vtiger_Field_Model::$tabIndexLastSeq)}tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}"{/if} data-type={$COLLECTOR_LINK->get('linkurl')} data-content="{App\Language::translate({$COLLECTOR->label}, $MODULE_NAME)}" data-js="click|popover">
+										<button type="button" class="btn btn-outline-dark js-popover-tooltip js-record-collector-modal mr-1" {if isset(Vtiger_Field_Model::$tabIndexLastSeq)}tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}" {/if} data-type={$COLLECTOR_LINK->get('linkurl')} data-content="{App\Language::translate({$COLLECTOR->label}, $MODULE_NAME)}" data-js="click|popover">
 											<span class="{$COLLECTOR->icon}"></span>
 										</button>
 									{/if}
@@ -86,37 +91,37 @@
 									<div class="px-0 m-0 form-row d-flex justify-content-center">
 										{assign var=COUNTER value=0}
 										{foreach key=FIELD_NAME item=FIELD_MODEL from=$RECORD_STRUCTURE name=blockfields}
-										{if ($FIELD_NAME === 'time_start' || $FIELD_NAME === 'time_end') && ($MODULE_NAME === 'OSSTimeControl' || $MODULE_NAME === 'Reservations')}{continue}{/if}
-										{if $COUNTER eq 2}
-									</div>
-									<div class="col-12 form-row d-flex justify-content-center px-0 m-0">
-										{assign var=COUNTER value=1}
-										{else}
-										{assign var=COUNTER value=$COUNTER+1}
-										{/if}
-										<div class="col-md-6 py-2 form-row d-flex justify-content-center px-0 m-0 {$WIDTHTYPE} ">
-											<div class="fieldLabel col-lg-12 col-xl-3 pl-0 text-lg-left text-xl-right u-text-ellipsis">
-												{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
-												<label class="text-right muted small font-weight-bold">
-													{if $FIELD_MODEL->isMandatory() eq true}
-														<span class="redColor">*</span>
-													{/if}
-													{if $HELPINFO_LABEL}
-														<a href="#" class="js-help-info float-right u-cursor-pointer"
-															title=""
-															data-placement="top"
-															data-content="{$HELPINFO_LABEL}"
-															data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}">
-															<span class="fas fa-info-circle"></span>
-														</a>
-													{/if}
-													{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
-												</label>
+											{if ($FIELD_NAME === 'time_start' || $FIELD_NAME === 'time_end') && ($MODULE_NAME === 'OSSTimeControl' || $MODULE_NAME === 'Reservations')}{continue}{/if}
+											{if $COUNTER eq 2}
 											</div>
-											<div class="fieldValue col-lg-12 col-xl-9 px-0 px-sm-1">
-												{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
+											<div class="col-12 form-row d-flex justify-content-center px-0 m-0">
+												{assign var=COUNTER value=1}
+											{else}
+												{assign var=COUNTER value=$COUNTER+1}
+											{/if}
+											<div class="col-md-6 py-2 form-row d-flex justify-content-center px-0 m-0 {$WIDTHTYPE} ">
+												<div class="fieldLabel col-lg-12 col-xl-3 pl-0 text-lg-left text-xl-right u-text-ellipsis">
+													{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
+													<label class="text-right muted small font-weight-bold">
+														{if $FIELD_MODEL->isMandatory() eq true}
+															<span class="redColor">*</span>
+														{/if}
+														{if $HELPINFO_LABEL}
+															<a href="#" class="js-help-info float-right u-cursor-pointer"
+																title=""
+																data-placement="top"
+																data-content="{$HELPINFO_LABEL}"
+																data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}">
+																<span class="fas fa-info-circle"></span>
+															</a>
+														{/if}
+														{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
+													</label>
+												</div>
+												<div class="fieldValue col-lg-12 col-xl-9 px-0 px-sm-1">
+													{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME)}
+												</div>
 											</div>
-										</div>
 										{/foreach}
 										{if $COUNTER eq 1}
 											<div class="col-md-6 form-row align-items-center p-1 {$WIDTHTYPE} px-0"></div>

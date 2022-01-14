@@ -990,8 +990,12 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$structuredValues = $this->recordStructure->getStructure();
 		$moduleModel = $recordModel->getModule();
+		$relations = \Vtiger_Relation_Model::getAllRelations($moduleModel, false, true, true, 'modulename');
+		foreach ($relations as $relation) {
+			$relation->set('parentRecord', $recordModel);
+		}
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
-		$viewer->assign('RELATIONS', \Vtiger_Relation_Model::getAllRelations($moduleModel, false, true, true, 'modulename'));
+		$viewer->assign('RELATIONS', $relations);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		return $viewer->view('DetailViewProductsServicesContents.tpl', $moduleName, true);
