@@ -276,7 +276,7 @@ var Vtiger_Index_Js = {
 			module: 'Notification',
 			action: 'Notification',
 			mode: 'setMark',
-			ids: id
+			record: id
 		};
 		AppConnector.request(params)
 			.done(function (data) {
@@ -306,33 +306,6 @@ var Vtiger_Index_Js = {
 				aDeferred.reject(textStatus, errorThrown);
 			});
 		return aDeferred.promise();
-	},
-	markAllNotifications: function (element) {
-		let ids = [];
-		let li = $(element).closest('.notificationContainer');
-		li.find('.notificationEntries .noticeRow').each(function (index) {
-			ids.push($(this).data('id'));
-		});
-		if (ids.length == 0) {
-			element.remove();
-			return false;
-		}
-		let params = {
-			module: 'Notification',
-			action: 'Notification',
-			mode: 'setMark',
-			ids: ids
-		};
-		li.progressIndicator({ position: 'html' });
-		AppConnector.request(params).done(function (data) {
-			li.progressIndicator({ mode: 'hide' });
-			app.showNotify({
-				title: app.vtranslate('JS_MESSAGE'),
-				text: app.vtranslate('JS_MARKED_AS_READ'),
-				type: 'info'
-			});
-			Vtiger_Index_Js.getNotificationsForReminder();
-		});
 	},
 	/**
 	 * Function registers event for Reminder popups

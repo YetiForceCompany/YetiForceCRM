@@ -21,12 +21,8 @@ class Notification_Notification_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		if (!$request->isEmpty('id')) {
-			$notice = Notification_NoticeEntries_Model::getInstanceById($request->getInteger('id'));
-			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-			if ($userPrivilegesModel->getId() != $notice->getUserId()) {
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-			}
+		if (!$request->isEmpty('record') && !Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule())->isEditable()) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED', 406);
 		}
 		$mode = $request->getMode();
 		if ('createMessage' === $mode && !\App\Privilege::isPermitted('Notification', 'CreateView')) {
@@ -55,10 +51,9 @@ class Notification_Notification_Action extends \App\Controller\Action
 	 */
 	public function setMark(App\Request $request)
 	{
-		foreach ($request->getArray('ids', 'Integer') as $id) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($id, $request->getModule());
-			$recordModel->setMarked();
-		}
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		$recordModel->setMarked();
+
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
