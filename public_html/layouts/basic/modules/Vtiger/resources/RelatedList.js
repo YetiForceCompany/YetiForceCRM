@@ -814,6 +814,7 @@ jQuery.Class(
 					if ($(e.target).closest('div').hasClass('actions')) return;
 					if ($(e.target).is('button') || $(e.target).parent().is('button') || $(e.target).is('a')) return;
 					if ($(e.target).closest('a').hasClass('noLinkBtn')) return;
+					if ($(e.target).is('a')) return;
 					if ($(e.target, $(e.currentTarget)).is('td:first-child')) return;
 					if ($(e.target).is('input')) return;
 					if ($.contains($(e.currentTarget).find('td:last-child').get(0), e.target)) return;
