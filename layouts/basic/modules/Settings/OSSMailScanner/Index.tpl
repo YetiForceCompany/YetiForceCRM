@@ -159,7 +159,7 @@
 													<span class="fas fa-folder-open"></span>
 												</button>
 											{/if}
-											<button type="button" class="btn btn-light js-delate-accont" title="{\App\Language::translate('LBL_DELETE_ACCOUNT', $MODULE_NAME)}" data-user-id="{$row['user_id']}" data-js="click">
+											<button type="button" class="btn btn-light js-delate-account" title="{\App\Language::translate('LBL_DELETE_ACCOUNT', $MODULE_NAME)}" data-user-id="{$row['user_id']}" data-js="click">
 												<span class="fas fa-trash-alt"></span>
 											</button>
 											{if $IS_ACTIVE || $row['crm_status'] == MAIL_BOX_STATUS_INVALID_ACCESS}

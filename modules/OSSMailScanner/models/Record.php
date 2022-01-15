@@ -866,7 +866,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @param int $id
 	 */
-	public static function accontDelete($id)
+	public static function accountDelete($id)
 	{
 		$db = App\Db::getInstance();
 		$db->createCommand()->delete('roundcube_users', ['user_id' => $id])->execute();

@@ -1,12 +1,12 @@
 <?php
 
 /**
- * OSSMailScanner AccontRemove action class.
+ * OSSMailScanner AccountRemove action class.
  *
  * @copyright YetiForce Sp. z o.o
  * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class OSSMailScanner_AccontRemove_Action extends \App\Controller\Action
+class OSSMailScanner_AccountRemove_Action extends \App\Controller\Action
 {
 	/**
 	 * Function to check permission.
@@ -27,7 +27,7 @@ class OSSMailScanner_AccontRemove_Action extends \App\Controller\Action
 	{
 		$id = $request->getInteger('id');
 		$recordModelOSSMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-		$recordModelOSSMailScanner->accontDelete($id);
+		$recordModelOSSMailScanner->accountDelete($id);
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => true, 'data' => \App\Language::translate('AccontDeleteOK', 'OSSMailScanner')]);
 		$response->emit();

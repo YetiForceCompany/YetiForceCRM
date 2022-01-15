@@ -135,11 +135,11 @@ jQuery.Class(
 					function (data, err) {}
 				);
 			});
-			container.find('.js-delate-accont').on('click', function () {
+			container.find('.js-delate-account').on('click', function () {
 				if (window.confirm(app.vtranslate('whether_remove_an_identity'))) {
 					const userId = jQuery(this).data('user-id');
 					AppConnector.request({
-						data: { module: 'OSSMailScanner', action: 'AccontRemove', id: userId },
+						data: { module: 'OSSMailScanner', action: 'AccountRemove', id: userId },
 						async: true
 					}).done(function (data) {
 						app.showNotify({
