@@ -81,7 +81,7 @@ class Users_Login_Action extends \App\Controller\Action
 	public function check2fa(App\Request $request): void
 	{
 		$userId = \App\Session::get('2faUserId');
-		if (Users_Totp_Authmethod::verifyCode(\App\User::getUserModel($userId)->getDetail('authy_secret_totp'), $request->getByType('user_code', 'Digital'))) {
+		if (Users_Totp_Authmethod::verifyCode(\App\User::getUserModel($userId)->getDetail('authy_secret_totp'), $request->getByType('user_code', \App\Purifier::DIGITS))) {
 			\App\Session::set('authenticated_user_id', $userId);
 			\App\Session::delete('2faUserId');
 			\App\Session::delete('LoginAuthyMethod');

@@ -9,6 +9,7 @@
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 {
@@ -20,7 +21,7 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('secert');
+		$this->exposeMethod('secret');
 		$this->exposeMethod('off');
 		$this->exposeMethod('massOff');
 	}
@@ -61,7 +62,7 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	{
 		$secret = $request->getByType('secret', 'Alnum');
 		try {
-			$checkResult = Users_Totp_Authmethod::verifyCode($secret, $request->getByType('user_code', 'Digital'));
+			$checkResult = Users_Totp_Authmethod::verifyCode($secret, $request->getByType('user_code', \App\Purifier::DIGITS));
 			if ($checkResult) {
 				$userRecordModel = Users_Record_Model::getInstanceById(\App\User::getCurrentUserRealId(), 'Users');
 				$userRecordModel->set('authy_secret_totp', $secret);

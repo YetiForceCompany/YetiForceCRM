@@ -11,7 +11,7 @@
 			<div id="loginDiv">
 				{if !$IS_BLOCKED_IP}
 					<form class="login-form" action="index.php?module=Users&action=Login" method="POST"
-						  autocomplete="off">
+						autocomplete="off">
 						<div class='fieldContainer mx-0 form-row col-md-12'>
 							{if !empty($MESSAGE)}
 								<div class='mx-0 col-sm-10 alert alert-warning'>
@@ -24,13 +24,13 @@
 							</div>
 							<div class='mx-0 col-sm-10'>
 								<label for="user_code"
-									   class="sr-only">{\App\Language::translate('LBL_USER',$MODULE)}</label>
+									class="sr-only">{\App\Language::translate('LBL_USER',$MODULE)}</label>
 								<div class="input-group form-group first-group">
-									<input name="user_code" type="text" id="user-code"
-										   class="form-control form-control-lg"
-										   placeholder="{\App\Language::translate('PLL_AUTHY_TOTP',$MODULE)}"
-										   required="" autocomplete="off"
-										   data-validation-engine="validate[custom[integer]]">
+									<input name="user_code" type="number" id="user-code"
+										class="form-control form-control-lg"
+										placeholder="{\App\Language::translate('PLL_AUTHY_TOTP',$MODULE)}"
+										required="" autocomplete="off"
+										data-validation-engine="validate[custom[integer]]">
 									<div class="input-group-append">
 										<div class="input-group-text"><i class="fas fa-key"></i></div>
 									</div>
@@ -38,7 +38,7 @@
 							</div>
 							<div class="col-sm-2">
 								<button class="btn btn-lg btn-primary btn-block heightButtonPhone"
-										type="submit" title="{\App\Language::translate('LBL_SIGN_IN', $MODULE_NAME)}">
+									type="submit" title="{\App\Language::translate('LBL_SIGN_IN', $MODULE_NAME)}">
 									<strong><span class="fas fa-chevron-right"></span></strong>
 								</button>
 							</div>

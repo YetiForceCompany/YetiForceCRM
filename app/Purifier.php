@@ -65,6 +65,10 @@ class Purifier
 	 * Purify type Alnum.
 	 */
 	public const ALNUM_EXTENDED = 'AlnumExtended';
+
+	/** Purify type Digits. */
+	public const DIGITS = 'Digits';
+
 	/**
 	 * Purify type HTML text parser.
 	 */
@@ -518,7 +522,7 @@ class Purifier
 							$value = $input;
 						}
 						break;
-					case 'Digital': // Digital - eg. 000523
+					case 'Digits': // Digits - eg. 000523
 						if (false !== ($input = filter_var($input, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^[0-9]+$/']]))) {
 							$value = $input;
 						}
