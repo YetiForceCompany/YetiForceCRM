@@ -710,8 +710,8 @@ class Request
 			throw new \App\Exceptions\Csrf('Invalid request - validate Write Access');
 		}
 		$this->validateReadAccess();
-		if (class_exists('CSRFConfig') && !\CsrfMagic\Csrf::check(false)) {
-			throw new \App\Exceptions\Csrf('Unsupported request');
+		if (\App\Config::security('csrfActive')) {
+			\CsrfMagic\Csrf::check();
 		}
 	}
 

@@ -151,6 +151,9 @@ class Security
 	/** Enable CSRF protection */
 	public static $csrfActive = true;
 
+	/** Default expire time of CSRF token in seconds */
+	public static $csrfLifetimeToken = 28800;
+
 	/** Enable verified frame protection, used in CSRF */
 	public static $csrfFrameBreaker = true;
 

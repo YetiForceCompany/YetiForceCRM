@@ -1154,6 +1154,12 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool'
 		],
+		'csrfLifetimeToken' => [
+			'default' => 28800,
+			'description' => 'Default expire time of CSRF token in seconds',
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => '\App\Purifier::naturalNumber'
+		],
 		'csrfFrameBreaker' => [
 			'default' => true,
 			'description' => 'Enable verified frame protection, used in CSRF',

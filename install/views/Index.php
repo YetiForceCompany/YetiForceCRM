@@ -14,9 +14,6 @@ class Install_Index_View extends \App\Controller\View\Base
 {
 	use \App\Controller\ExposeMethod;
 
-	/** {@inheritdoc} */
-	public $csrfActive = false;
-
 	/**
 	 * @var bool
 	 */

@@ -168,9 +168,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 				\App\Log::error("HandlerClass: $handlerClass", 'Loader');
 				throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND', 405);
 			}
-			if ($handler->csrfActive) {
-				$handler->validateRequest($request);
-			}
+			$handler->validateRequest($request);
 			if ($handler->loginRequired() && $this->checkLogin($request)) {
 				return true;
 			}
