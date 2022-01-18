@@ -2120,7 +2120,9 @@ $.Class(
 			this.registerApproveFilterClickEvent();
 			this.registerDenyFilterClickEvent();
 			this.registerCustomFilterOptionsHoverEvent();
-			CustomView.registerCustomViewAdvCondEvents(this.getListViewContainer());
+			if (typeof CustomView !== 'undefined') {
+				CustomView.registerCustomViewAdvCondEvents(this.getListViewContainer());
+			}
 			this.registerEmailFieldClickEvent();
 			this.registerPhoneFieldClickEvent();
 			this.registerMassActionsBtnEvents();
