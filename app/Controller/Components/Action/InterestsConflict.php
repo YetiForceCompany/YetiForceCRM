@@ -55,7 +55,7 @@ class InterestsConflict extends \App\Controller\Action
 	/**
 	 * Get unlock data.
 	 *
-	 * @param App\Request $request
+	 * @param \App\Request $request
 	 *
 	 * @return void
 	 */
@@ -68,7 +68,7 @@ class InterestsConflict extends \App\Controller\Action
 	/**
 	 * Get confirmations data.
 	 *
-	 * @param App\Request $request
+	 * @param \App\Request $request
 	 *
 	 * @return void
 	 */
@@ -81,7 +81,7 @@ class InterestsConflict extends \App\Controller\Action
 	/**
 	 * Save unlock data.
 	 *
-	 * @param App\Request $request
+	 * @param \App\Request $request
 	 *
 	 * @return void
 	 */
@@ -95,7 +95,7 @@ class InterestsConflict extends \App\Controller\Action
 	/**
 	 * Save confirmations data.
 	 *
-	 * @param App\Request $request
+	 * @param \App\Request $request
 	 *
 	 * @return void
 	 */
@@ -109,7 +109,7 @@ class InterestsConflict extends \App\Controller\Action
 	/**
 	 * Get response.
 	 *
-	 * @param App\Request $request
+	 * @param \App\Request $request
 	 *
 	 * @return array
 	 */
@@ -160,9 +160,9 @@ class InterestsConflict extends \App\Controller\Action
 	/**
 	 * Get query.
 	 *
-	 * @param App\Request $request
+	 * @param \App\Request $request
 	 *
-	 * @return App\Db\Query
+	 * @return \App\Db\Query
 	 */
 	public function getUnlockQuery(\App\Request $request): \App\Db\Query
 	{
@@ -196,7 +196,7 @@ class InterestsConflict extends \App\Controller\Action
 	/**
 	 * Get response.
 	 *
-	 * @param App\Request $request
+	 * @param \App\Request $request
 	 *
 	 * @return array
 	 */
@@ -263,10 +263,10 @@ class InterestsConflict extends \App\Controller\Action
 	/**
 	 * Get query.
 	 *
-	 * @param App\Request $request
-	 * @param string      $type
+	 * @param \App\Request $request
+	 * @param string       $type
 	 *
-	 * @return App\Db\Query
+	 * @return \App\Db\Query
 	 */
 	public function getConfirmQuery(\App\Request $request, string $type): \App\Db\Query
 	{
