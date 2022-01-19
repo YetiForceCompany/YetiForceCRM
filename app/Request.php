@@ -707,7 +707,7 @@ class Request
 	public function validateWriteAccess($skipRequestTypeCheck = false)
 	{
 		if (!$skipRequestTypeCheck && 'POST' !== $_SERVER['REQUEST_METHOD']) {
-			throw new \App\Exceptions\Csrf('Invalid request - validate Write Access');
+			throw new \App\Exceptions\Csrf('Invalid request - validate Write Access', 403);
 		}
 		$this->validateReadAccess();
 		if (\App\Config::security('csrfActive')) {
