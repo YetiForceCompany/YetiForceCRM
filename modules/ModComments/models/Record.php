@@ -129,20 +129,16 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getCommentedByModel(): ?Vtiger_Record_Model
 	{
-		if (isset($this->commentedModel)) {
+		if (isset($this->commentatorModel)) {
 			return $this->commentatorModel;
 		}
 		if ($customer = $this->get('customer')) {
-			return $this->commentatorModel = Vtiger_Record_Model::getInstanceById($customer, 'Contacts');
+			$this->commentatorModel = Vtiger_Record_Model::getInstanceById($customer, 'Contacts');
+		} elseif ($commentedBy = $this->get('assigned_user_id')) {
+			$this->commentatorModel = Vtiger_Record_Model::getInstanceById($commentedBy, 'Users');
 		}
-		$commentatorModel = null;
-		if ($commentedBy = $this->get('assigned_user_id')) {
-			$commentatorModel = Users_Privileges_Model::getInstanceById($commentedBy, 'Users');
-			if (empty($commentatorModel->entity->column_fields['user_name'])) {
-				$commentatorModel = Users_Privileges_Model::getInstanceById(Users::getActiveAdminId(), 'Users');
-			}
-		}
-		return $this->commentatorModel = $commentatorModel;
+
+		return $this->commentatorModel;
 	}
 
 	/**
