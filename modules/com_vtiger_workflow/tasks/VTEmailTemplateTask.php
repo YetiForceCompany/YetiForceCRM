@@ -43,7 +43,10 @@ class VTEmailTemplateTask extends VTTask
 				$mailerContent['to'] = $emailParser->setContent($email)->parse()->getContent(true);
 			}
 			if ($this->address_emails) {
-				$mailerContent['to'][] = $this->address_emails;
+				$emails = $emailParser->setContent($this->address_emails)->getContent(true);
+				foreach ($emails as $email) {
+					$mailerContent['to'][] = $email;
+				}
 			}
 			if ($this->relations_email && '-' !== $this->relations_email) {
 				[$relatedModule,$relatedFieldName,$onlyFirst] = array_pad(explode('::', $this->relations_email), 3, false);
