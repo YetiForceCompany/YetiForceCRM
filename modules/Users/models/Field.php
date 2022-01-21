@@ -118,12 +118,12 @@ class Users_Field_Model extends Vtiger_Field_Model
 	public function isEditable(): bool
 	{
 		if (null === $this->get('editable')) {
-			if (115 === $this->get('uitype') && (!\App\User::getCurrentUserModel()->isAdmin() || \App\User::getCurrentUserId() === $this->get('rocordId'))) {
+			if (115 === $this->get('uitype') && (!\App\User::getCurrentUserModel()->isAdmin() || \App\User::getCurrentUserId() === $this->get('recordId'))) {
 				$permission = false;
 			} elseif ('super_user' === $this->getName()) {
 				$permission = \App\User::getCurrentUserModel()->isAdmin();
 			} elseif ('authy_secret_totp' === $this->getColumnName()) {
-				$permission = $this->get('rocordId') === \App\User::getCurrentUserId();
+				$permission = $this->get('recordId') === \App\User::getCurrentUserId();
 			} elseif (!$this->get('editable')) {
 				$permission = parent::isEditable();
 			}
@@ -135,10 +135,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 	/** {@inheritdoc} */
 	public function isViewable()
 	{
-		if ('authy_secret_totp' === $this->getColumnName()) {
-			return $this->get('rocordId') === \App\User::getCurrentUserId();
-		}
-		return parent::isViewable();
+		return 'authy_secret_totp' !== $this->getColumnName() && parent::isViewable();
 	}
 
 	/** {@inheritdoc} */

@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 {
@@ -39,16 +40,17 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 		$viewer->assign('QR_CODE_HTML', $authMethod->createQrCodeForUser());
 		$viewer->assign('LOCK_EXIT', $this->lockExit);
 		$viewer->assign('SHOW_OFF', $this->showOff());
-		$viewer->assign('IS_INIT', !empty($userModel->getDetail('authy_secret_totp')));
+		$viewer->assign('SECRET_OLD', $userModel->getDetail('authy_secret_totp'));
 		$viewer->view('TwoFactorAuthenticationModal.tpl', $moduleName);
 	}
 
 	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
+		$userModel = \App\User::getCurrentUserModel();
 		$this->modalIcon = 'fa fa-key';
 		$this->pageTitle = \App\Language::translate('LBL_TWO_FACTOR_AUTHENTICATION', $request->getModule());
-		$this->lockExit = 'TOTP_OBLIGATORY' === \App\Config::security('USER_AUTHY_MODE');
+		$this->lockExit = 'TOTP_OBLIGATORY' === \App\Config::security('USER_AUTHY_MODE') && (empty($userModel->getDetail('authy_secret_totp')) || empty($userModel->getDetail('authy_methods')));
 		parent::preProcessAjax($request);
 	}
 
@@ -74,9 +76,7 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 	 */
 	private function showOff()
 	{
-		if ('TOTP_OPTIONAL' === \App\Config::security('USER_AUTHY_MODE')) {
-			return !empty(\App\User::getUserModel(\App\User::getCurrentUserRealId())->getDetail('authy_secret_totp'));
-		}
-		return false;
+		$userModel = \App\User::getCurrentUserModel();
+		return 'TOTP_OPTIONAL' === \App\Config::security('USER_AUTHY_MODE') && !empty($userModel->getDetail('authy_secret_totp')) && $userModel->getDetail('authy_methods');
 	}
 }

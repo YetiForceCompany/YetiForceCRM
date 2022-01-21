@@ -223,9 +223,21 @@ abstract class Page extends Base
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_CHANGE_PASSWORD',
-				'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->get('id')],
+				'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->getId()],
 				'linkclass' => 'showModal d-block',
 				'icon' => 'yfi yfi-change-passowrd',
+			];
+		}
+		if (
+			('PLL_PASSWORD_2FA' === $userModel->get('login_method') || 'PLL_LDAP_2FA' === $userModel->get('login_method'))
+		 && $userModel->getId() === \App\User::getCurrentUserRealId() && 'TOTP_OFF' !== \App\Config::security('USER_AUTHY_MODE')
+		) {
+			$headerLinks[] = [
+				'linktype' => 'HEADERLINK',
+				'linklabel' => 'LBL_2FA_TOTP_QR_CODE',
+				'linkdata' => ['url' => 'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' . $userModel->getId()],
+				'linkclass' => 'showModal d-block',
+				'icon' => 'fas fa-key',
 			];
 		}
 		if (\Users_Module_Model::getSwitchUsers()) {
