@@ -134,7 +134,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		}
 		if ($customer = $this->get('customer')) {
 			$this->commentatorModel = Vtiger_Record_Model::getInstanceById($customer, 'Contacts');
-		} elseif ($commentedBy = $this->get('assigned_user_id')) {
+		} elseif (($commentedBy = $this->get('assigned_user_id')) && \App\User::isExists($commentedBy, false)) {
 			$this->commentatorModel = Vtiger_Record_Model::getInstanceById($commentedBy, 'Users');
 		}
 
