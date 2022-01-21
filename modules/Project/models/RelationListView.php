@@ -6,14 +6,15 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce Sp. z o.o
  * *********************************************************************************** */
 
 class Project_RelationListView_Model extends Vtiger_RelationListView_Model
 {
 	/** {@inheritdoc} */
-	public function getCreateViewUrl()
+	public function getCreateViewUrl(bool $fullView = false)
 	{
-		$createViewUrl = parent::getCreateViewUrl();
+		$createViewUrl = parent::getCreateViewUrl($fullView);
 		$relationModuleModel = $this->getRelationModel()->getRelationModuleModel();
 		if ('HelpDesk' == $relationModuleModel->getName() && $relationModuleModel->getFieldByName('parent_id')->isViewable()) {
 			$createViewUrl .= '&parent_id=' . $this->getParentRecordModel()->get('linktoaccountscontacts');
