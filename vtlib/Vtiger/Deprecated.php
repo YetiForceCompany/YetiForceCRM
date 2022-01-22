@@ -50,7 +50,6 @@ class Deprecated
 		if (\count($accessibleFieldNames) > 0) {
 			return implode(' ', $accessibleFieldNames);
 		}
-
 		return '';
 	}
 
