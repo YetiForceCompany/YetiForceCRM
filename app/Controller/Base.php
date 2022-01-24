@@ -28,6 +28,13 @@ abstract class Base
 	protected static $activatedLocale = false;
 
 	/**
+	 * CSRF already initiated.
+	 *
+	 * @var bool
+	 */
+	private static $csrfInitiated = false;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct()
@@ -37,9 +44,10 @@ abstract class Base
 			\App\Language::initLocale();
 			self::$activatedLocale = true;
 		}
-		if (\App\Config::security('csrfActive')) {
+		if (\App\Config::security('csrfActive') && !self::$csrfInitiated) {
 			require_once 'config/csrf_config.php';
 			\CsrfMagic\Csrf::init();
+			self::$csrfInitiated = true;
 		}
 	}
 
