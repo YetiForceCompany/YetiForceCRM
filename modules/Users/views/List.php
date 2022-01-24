@@ -13,6 +13,13 @@ class Users_List_View extends Settings_Vtiger_List_View
 {
 	use \App\Controller\Traits\SettingsPermission;
 
+	/**
+	 * List view model instance.
+	 *
+	 * @var Vtiger_ListView_Model
+	 */
+	public $listViewModel;
+
 	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
@@ -91,7 +98,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		}
 		$searchParams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 		if (empty($searchParams) || !\is_array($searchParams)) {
-			$searchParamsRaw = $searchParams = [];
+			$searchParamsRaw = $searchParams = [[['status', 'e', 'Active']]];
 		}
 		$this->listViewModel->loadSearchLockedFields($request);
 		$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
