@@ -33,7 +33,7 @@ jQuery.Class(
 					module: 'Notification',
 					action: 'Notification',
 					mode: 'saveWatchingModules',
-					selctedModules: selectedModules,
+					selectedModules: selectedModules,
 					sendNotifications: sendNoticeModules,
 					frequency: container.find('select[name="frequency"]').val()
 				};

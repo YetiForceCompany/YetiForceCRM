@@ -61,7 +61,7 @@ class Notification_Notification_Action extends \App\Controller\Action
 
 	public function saveWatchingModules(App\Request $request)
 	{
-		$selectedModules = $request->getArray('selctedModules', 2);
+		$selectedModules = $request->getArray('selectedModules', \App\Purifier::INTEGER);
 		$watchingModules = Vtiger_Watchdog_Model::getWatchingModules();
 		Vtiger_Watchdog_Model::setSchedulerByUser($request->getArray('sendNotifications', 'Integer'), $request->getInteger('frequency'));
 		foreach ($selectedModules as $moduleId) {
