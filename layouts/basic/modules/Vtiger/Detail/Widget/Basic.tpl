@@ -3,9 +3,13 @@
 	<!-- tpl-Base-Detail-Widget-Basic -->
 	{assign var=WIDGET_UID value="id-{\App\Layout::getUniqueId($WIDGET['id']|cat:_)}"}
 	{assign var=RELATED_MODULE_NAME value=App\Module::getModuleName($WIDGET['data']['relatedmodule'])}
+	{assign var=RELATION_ID value=null}
 	{if $RELATED_MODULE_NAME}
+		{if isset($WIDGET['data']['relation_id'])}
+			{assign var=RELATION_ID value=$WIDGET['data']['relation_id']}
+		{/if}
 		<div class="c-detail-widget js-detail-widget" data-name="{$WIDGET['label']}" data-module-name="{$RELATED_MODULE_NAME}"
-			{if isset($WIDGET['data']['relation_id'])}data-relation-id="{$WIDGET['data']['relation_id']}" {/if}
+			{if $RELATION_ID}data-relation-id="{$RELATION_ID}" {/if}
 			data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}" data-js="container">
 			<div class="widgetContainer_{$key} widgetContentBlock" data-url="{\App\Purifier::encodeHtml($WIDGET['url'])}"
 				data-name="{$WIDGET['label']}" data-type="{$WIDGET['type']}" data-id="{$WIDGET['id']}">
@@ -66,7 +70,7 @@
 									{/if}
 									{if empty($IS_READ_ONLY) && (isset($WIDGET['data']['actionSelect']) || isset($WIDGET['data']['action']))}
 										{assign var=VRM value=Vtiger_Record_Model::getInstanceById($RECORD->getId(), $MODULE_NAME)}
-										{assign var=VRMM value=Vtiger_RelationListView_Model::getInstance($VRM, $RELATED_MODULE_NAME)}
+										{assign var=VRMM value=Vtiger_RelationListView_Model::getInstance($VRM, $RELATED_MODULE_NAME, $RELATION_ID)}
 										{assign var=RELATIONMODEL value=$VRMM->getRelationModel()}
 										{if !empty($WIDGET['data']['actionSelect']) && $VRMM->getSelectRelationLinks()}
 											{assign var=RESTRICTIONS_FIELD value=$RELATIONMODEL->getRestrictionsPopupField($VRM)}
