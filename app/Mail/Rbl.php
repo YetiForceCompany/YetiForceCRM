@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Mail;
@@ -263,7 +264,7 @@ class Rbl extends \App\Base
 	protected function getHeaderEmail(string $name): string
 	{
 		if ($header = $this->mailMimeParser->getHeader($name)) {
-			return $header->getEmail();
+			return $header->getEmail() ?? '';
 		}
 		return '';
 	}
@@ -481,8 +482,8 @@ class Rbl extends \App\Base
 		$status = true;
 		$info = '';
 		if ($returnPath = $this->getHeaderEmail('Return-Path')) {
-			if (0 === stripos($returnPath, 'SRS')) {
-				$separator = substr($returnPath, 4, 1);
+			if (0 === stripos($returnPath, 'SRS') && ($separator = substr($returnPath, 4, 1)) !== '') {
+				$returnPathSrs = '';
 				$parts = explode($separator, $returnPath);
 				$mail = explode('@', array_pop($parts));
 				if (isset($mail[1])) {
@@ -494,13 +495,13 @@ class Rbl extends \App\Base
 				$status = $from === $returnPath;
 			}
 			if (!$status) {
-				$info .= "From: $from <> Return-Path: $returnPath" . PHP_EOL;
+				$info .= "From: {$from} <> Return-Path: {$returnPath}" . PHP_EOL;
 			}
 		}
 		if ($status && ($sender = $this->getHeaderEmail('Sender'))) {
 			$status = $from === $sender;
 			if (!$status) {
-				$info .= "From: $from <> Sender: $sender" . PHP_EOL;
+				$info .= "From: {$from} <> Sender: {$sender}" . PHP_EOL;
 			}
 		}
 		return ['status' => $status, 'info' => $info];
