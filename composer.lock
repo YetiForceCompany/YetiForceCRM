@@ -1099,16 +1099,16 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v8.80.0",
+            "version": "v8.81.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
-                "reference": "ed630f15e937c5c928a9454748ff727ce5ea01ec"
+                "reference": "3933ab6b032167c0f7a598388e211c0810acf5d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/collections/zipball/ed630f15e937c5c928a9454748ff727ce5ea01ec",
-                "reference": "ed630f15e937c5c928a9454748ff727ce5ea01ec",
+                "url": "https://api.github.com/repos/illuminate/collections/zipball/3933ab6b032167c0f7a598388e211c0810acf5d3",
+                "reference": "3933ab6b032167c0f7a598388e211c0810acf5d3",
                 "shasum": ""
             },
             "require": {
@@ -1149,11 +1149,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-01-17T15:04:13+00:00"
+            "time": "2022-01-24T16:41:15+00:00"
         },
         {
             "name": "illuminate/contracts",
-            "version": "v8.80.0",
+            "version": "v8.81.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1201,7 +1201,7 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v8.80.0",
+            "version": "v8.81.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1247,16 +1247,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v8.80.0",
+            "version": "v8.81.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "69afbd89e6b6bf847e3df59e0f72cd820b18e8da"
+                "reference": "fb33fd4bbcc075f641d5576b700a1c3d962acef0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/69afbd89e6b6bf847e3df59e0f72cd820b18e8da",
-                "reference": "69afbd89e6b6bf847e3df59e0f72cd820b18e8da",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/fb33fd4bbcc075f641d5576b700a1c3d962acef0",
+                "reference": "fb33fd4bbcc075f641d5576b700a1c3d962acef0",
                 "shasum": ""
             },
             "require": {
@@ -1268,7 +1268,7 @@
                 "illuminate/macroable": "^8.0",
                 "nesbot/carbon": "^2.53.1",
                 "php": "^7.3|^8.0",
-                "voku/portable-ascii": "^1.4.8"
+                "voku/portable-ascii": "^1.6.1"
             },
             "conflict": {
                 "tightenco/collect": "<5.5.33"
@@ -1311,7 +1311,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2022-01-17T15:24:30+00:00"
+            "time": "2022-01-25T16:10:28+00:00"
         },
         {
             "name": "league/climate",
@@ -2717,20 +2717,20 @@
         },
         {
             "name": "psr/container",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/container.git",
-                "reference": "8622567409010282b7aeebe4bb841fe98b58dcaf"
+                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/container/zipball/8622567409010282b7aeebe4bb841fe98b58dcaf",
-                "reference": "8622567409010282b7aeebe4bb841fe98b58dcaf",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/513e0666f7216c7459170d56df27dfcefe1689ea",
+                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2.0"
+                "php": ">=7.4.0"
             },
             "type": "library",
             "autoload": {
@@ -2759,9 +2759,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-fig/container/issues",
-                "source": "https://github.com/php-fig/container/tree/1.1.1"
+                "source": "https://github.com/php-fig/container/tree/1.1.2"
             },
-            "time": "2021-03-05T17:36:06+00:00"
+            "time": "2021-11-05T16:50:12+00:00"
         },
         {
             "name": "psr/http-client",
@@ -3828,25 +3828,25 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v2.5.0",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "6f981ee24cf69ee7ce9736146d1c57c2780598a8"
+                "reference": "c726b64c1ccfe2896cb7df2e1331c357ad1c8ced"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/6f981ee24cf69ee7ce9736146d1c57c2780598a8",
-                "reference": "6f981ee24cf69ee7ce9736146d1c57c2780598a8",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/c726b64c1ccfe2896cb7df2e1331c357ad1c8ced",
+                "reference": "c726b64c1ccfe2896cb7df2e1331c357ad1c8ced",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1"
+                "php": ">=8.0.2"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.5-dev"
+                    "dev-main": "3.0-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -3875,7 +3875,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v2.5.0"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.0.0"
             },
             "funding": [
                 {
@@ -3891,7 +3891,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-12T14:48:14+00:00"
+            "time": "2021-11-01T23:48:49+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -4352,48 +4352,46 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v5.4.2",
+            "version": "v6.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "ff8bb2107b6a549dc3c5dd9c498dcc82c9c098ca"
+                "reference": "a16c33f93e2fd62d259222aebf792158e9a28a77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/ff8bb2107b6a549dc3c5dd9c498dcc82c9c098ca",
-                "reference": "ff8bb2107b6a549dc3c5dd9c498dcc82c9c098ca",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/a16c33f93e2fd62d259222aebf792158e9a28a77",
+                "reference": "a16c33f93e2fd62d259222aebf792158e9a28a77",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2.5",
-                "symfony/deprecation-contracts": "^2.1|^3",
+                "php": ">=8.0.2",
                 "symfony/polyfill-mbstring": "~1.0",
-                "symfony/polyfill-php80": "^1.16",
-                "symfony/translation-contracts": "^2.3"
+                "symfony/translation-contracts": "^2.3|^3.0"
             },
             "conflict": {
-                "symfony/config": "<4.4",
-                "symfony/console": "<5.3",
-                "symfony/dependency-injection": "<5.0",
-                "symfony/http-kernel": "<5.0",
-                "symfony/twig-bundle": "<5.0",
-                "symfony/yaml": "<4.4"
+                "symfony/config": "<5.4",
+                "symfony/console": "<5.4",
+                "symfony/dependency-injection": "<5.4",
+                "symfony/http-kernel": "<5.4",
+                "symfony/twig-bundle": "<5.4",
+                "symfony/yaml": "<5.4"
             },
             "provide": {
-                "symfony/translation-implementation": "2.3"
+                "symfony/translation-implementation": "2.3|3.0"
             },
             "require-dev": {
                 "psr/log": "^1|^2|^3",
-                "symfony/config": "^4.4|^5.0|^6.0",
+                "symfony/config": "^5.4|^6.0",
                 "symfony/console": "^5.4|^6.0",
-                "symfony/dependency-injection": "^5.0|^6.0",
-                "symfony/finder": "^4.4|^5.0|^6.0",
+                "symfony/dependency-injection": "^5.4|^6.0",
+                "symfony/finder": "^5.4|^6.0",
                 "symfony/http-client-contracts": "^1.1|^2.0|^3.0",
-                "symfony/http-kernel": "^5.0|^6.0",
-                "symfony/intl": "^4.4|^5.0|^6.0",
+                "symfony/http-kernel": "^5.4|^6.0",
+                "symfony/intl": "^5.4|^6.0",
                 "symfony/polyfill-intl-icu": "^1.21",
                 "symfony/service-contracts": "^1.1.2|^2|^3",
-                "symfony/yaml": "^4.4|^5.0|^6.0"
+                "symfony/yaml": "^5.4|^6.0"
             },
             "suggest": {
                 "psr/log-implementation": "To use logging capability in translator",
@@ -4429,7 +4427,7 @@
             "description": "Provides tools to internationalize your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/translation/tree/v5.4.2"
+                "source": "https://github.com/symfony/translation/tree/v6.0.2"
             },
             "funding": [
                 {
@@ -4445,24 +4443,24 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-12-25T19:45:36+00:00"
+            "time": "2021-12-25T20:10:03+00:00"
         },
         {
             "name": "symfony/translation-contracts",
-            "version": "v2.5.0",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation-contracts.git",
-                "reference": "d28150f0f44ce854e942b671fc2620a98aae1b1e"
+                "reference": "1b6ea5a7442af5a12dba3dbd6d71034b5b234e77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/d28150f0f44ce854e942b671fc2620a98aae1b1e",
-                "reference": "d28150f0f44ce854e942b671fc2620a98aae1b1e",
+                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/1b6ea5a7442af5a12dba3dbd6d71034b5b234e77",
+                "reference": "1b6ea5a7442af5a12dba3dbd6d71034b5b234e77",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.2.5"
+                "php": ">=8.0.2"
             },
             "suggest": {
                 "symfony/translation-implementation": ""
@@ -4470,7 +4468,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.5-dev"
+                    "dev-main": "3.0-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -4507,7 +4505,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/translation-contracts/tree/v2.5.0"
+                "source": "https://github.com/symfony/translation-contracts/tree/v3.0.0"
             },
             "funding": [
                 {
@@ -4523,7 +4521,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-17T14:20:01+00:00"
+            "time": "2021-09-07T12:43:40+00:00"
         },
         {
             "name": "symfony/var-dumper",
