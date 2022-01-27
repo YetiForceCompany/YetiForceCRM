@@ -53,13 +53,20 @@
 									<span class="redColor">*</span>
 								</label>
 								<div class="col-sm-6 controls">
-									<select class="select2 form-control" id="generator" name="generator" required="true">
-										{foreach key=DRIVER_NAME item=DRIVER_LABEL from=\App\Pdf\Pdf::getSupportedDrivers()}
-											<option value="{$DRIVER_NAME}" {if $PDF_MODEL->get('generator') eq $DRIVER_NAME}selected="selected" {/if}>
-												{\App\Language::translate($DRIVER_LABEL, $QUALIFIED_MODULE)}
-											</option>
-										{/foreach}
-									</select>
+									<div class="input-group">
+										<select class="select2 form-control" id="generator" name="generator" required="true">
+											{foreach key=DRIVER_NAME item=DRIVER_LABEL from=\App\Pdf\Pdf::getSupportedDrivers()}
+												<option value="{$DRIVER_NAME}" {if $PDF_MODEL->get('generator') eq $DRIVER_NAME}selected="selected" {/if}>
+													{\App\Language::translate($DRIVER_LABEL, $QUALIFIED_MODULE)}
+												</option>
+											{/foreach}
+										</select>
+										<div class="input-group-append">
+											<span class="input-group-text js-popover-tooltip" data-content="{\App\Language::translate('LBL_GENERATOR_ENGINE_DESC',$QUALIFIED_MODULE)}">
+												<span class="fas fa-info-circle"></span>
+											</span>
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="form-group row">

@@ -160,6 +160,7 @@
     "PLL_ACTIVE": "Active",
     "PLL_INACTIVE": "Inactive",
     "LBL_GENERATOR_ENGINE": "Generating engine",
+    "LBL_GENERATOR_ENGINE_DESC": "YetiForcePDF - free pdf generator\nChromium/Chrome - paid PDF file generator, requires purchase of YetiForce PDF Premium",
     "LBL_CUSTOM_STYLES": "Custom styles",
     "LBL_CHROMIUM_PDF": "Chromium/Chrome",
     "LBL_YETIFORCE_PDF": "YetiFore PDF"
