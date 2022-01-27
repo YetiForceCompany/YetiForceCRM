@@ -219,7 +219,7 @@ class TextParser
 	 *
 	 * @var string
 	 */
-	public const VARIABLE_REGEX = '/\$\((\w+) : ([,"\+\#\%\.\=\-\[\]\&\w\s\|\)\(\:]+)\)\$/u';
+	public const VARIABLE_REGEX = '/\$\((\w+) : ([,"\+\#\%\.\:\;\=\-\[\]\&\w\s\|\)\(\:]+)\)\$/u';
 
 	/** @var bool Permissions condition */
 	protected $permissions = true;
@@ -755,7 +755,11 @@ class TextParser
 	 */
 	protected function relatedRecord($params)
 	{
-		[$fieldName, $relatedField, $relatedModule] = array_pad(explode('|', $params, 3), 3, '');
+		$params = explode('|', $params);
+		$fieldName = array_shift($params);
+		$relatedField = array_shift($params);
+		$relatedModule = array_shift($params);
+		$value = $params ? $relatedField . '|' . implode('|', $params) : $relatedField;
 		if (
 			!isset($this->recordModel)
 			|| ($this->permissions && !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record))
@@ -782,7 +786,7 @@ class TextParser
 								$instance->{$key} = $this->{$key};
 							}
 						}
-						$return[] = $instance->record($relatedField, false);
+						$return[] = $instance->record($value, false);
 					}
 					continue;
 				}
@@ -795,7 +799,7 @@ class TextParser
 								$instance->{$key} = $this->{$key};
 							}
 						}
-						$return[] = $instance->record($relatedField, false);
+						$return[] = $instance->record($value, false);
 					}
 				}
 			}
@@ -815,7 +819,7 @@ class TextParser
 				$instance->{$key} = $this->{$key};
 			}
 		}
-		return $instance->record($relatedField);
+		return $instance->record($value);
 	}
 
 	/**

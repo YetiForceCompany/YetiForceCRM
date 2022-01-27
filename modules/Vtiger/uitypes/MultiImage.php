@@ -148,7 +148,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		}
 		$images = $style = '';
 		if ($params) {
-			[$width, $height] = array_pad(explode('|', $params, 2), 2, '');
+			[$width, $height, $style] = array_pad(explode('|', $params, 3), 3, '');
 			if ($width) {
 				$style .= "max-width:$width;";
 			}
