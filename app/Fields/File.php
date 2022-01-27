@@ -1134,7 +1134,7 @@ class File
 	{
 		\App\Log::beginProfile("GET|File::isExistsUrl|{$url}", __NAMESPACE__);
 		try {
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('HEAD', $url, ['timeout' => 1, 'connect_timeout' => 1, 'http_errors' => false, 'allow_redirects' => false]);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('HEAD', $url, ['timeout' => 1, 'connect_timeout' => 1, 'verify' => false, 'http_errors' => false, 'allow_redirects' => false]);
 			$status = \in_array($response->getStatusCode(), [200, 302, 401]);
 		} catch (\Throwable $th) {
 			$status = false;
