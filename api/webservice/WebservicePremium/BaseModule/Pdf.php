@@ -107,19 +107,13 @@ class Pdf extends \Api\Core\BaseAction
 		$file = $pdfFiles = $increment = [];
 		$recordId = $this->controller->request->getInteger('record');
 		foreach ($this->controller->request->getArray('templates', 'Integer') as $templateId) {
-			$template = \Vtiger_PDF_Model::getInstanceById($templateId);
+			$pdf = \App\Pdf\Pdf::getInstanceByTemplateId($templateId);
+			$template = $pdf->getTemplate();
 			if (!$template || !$template->isVisible('Detail') || !$template->checkFiltersForRecord($recordId) || !$template->checkUserPermissions()) {
 				continue;
 			}
 			$template->setVariable('recordId', $recordId);
-			$pdf = new \App\Pdf\YetiForcePDF();
-			$pdf->setPageSize($template->getFormat(), $template->getOrientation())
-				->setWatermark($pdf->getTemplateWatermark($template))
-				->setFileName($template->parseVariables($template->get('filename')))
-				->parseParams($template->getParameters())
-				->loadHtml($template->parseVariables($template->getBody()))
-				->setHeader($template->parseVariables($template->getHeader()))
-				->setFooter($template->parseVariables($template->getFooter()));
+			$pdf->loadTemplateData();
 
 			$fileName = ($pdf->getFileName() ?: time());
 			$increment[$fileName] = $increment[$fileName] ?? 0;

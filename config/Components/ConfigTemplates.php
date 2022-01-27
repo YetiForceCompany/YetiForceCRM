@@ -444,4 +444,14 @@ return [
 			},
 		],
 	],
+	'Pdf' => [
+		'chromeBinaryPath' => [
+			'default' => '',
+			'description' => "The name or path of the chrome/chromium engine.\n\n@see https://www.chromium.org/getting-involved/download-chromium\n\n@var string",
+		],
+		'chromeBrowserOptions' => [
+			'default' => ['noSandbox' => true],
+			'description' => "Chrome browser options available for the browser factory:.\n\n@see https://github.com/chrome-php/chrome#available-options\n\n@var array",
+		],
+	],
 ];

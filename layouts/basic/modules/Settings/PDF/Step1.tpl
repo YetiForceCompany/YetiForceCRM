@@ -1,9 +1,10 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-PDF-Step1 -->
 	{if empty($RECORDID)}
 		{assign var=RECORDID value=''}
 	{/if}
-	<div class="tpl-Settings-PDF-Step1 pdfTemplateContents" data-js="container">
+	<div class="pdfTemplateContents" data-js="container">
 		<form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step1" class="form-horizontal" data-js="container">
 			<input type="hidden" name="module" value="PDF">
 			<input type="hidden" name="view" value="Edit">
@@ -11,12 +12,11 @@
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" class="step" value="1" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
-
 			<div class="row">
-				<div class="col-12 mb-2">
+				<div class="col-12 mb-3">
 					<div class="card">
 						<div class="card-header">
-							<span class="fa fa-copy"></span> {\App\Language::translate('LBL_VARIABLES',$QUALIFIED_MODULE)}
+							<span class="fa fa-copy mr-2"></span>{\App\Language::translate('LBL_VARIABLES',$QUALIFIED_MODULE)}
 						</div>
 						<div class="card-body">
 							<div class="row js-variable-panel" data-js="container">
@@ -25,11 +25,10 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="col-xs-12 col-xl-6 col-xxl-4 mb-2">
+				<div class="col-xs-12 col-xl-6 col-xxl-4 mb-3">
 					<div class="card">
 						<div class="card-header">
-							<span class="fa fa-edit"></span> {\App\Language::translate('LBL_ENTER_BASIC_DETAILS',$QUALIFIED_MODULE)}
+							<span class="fa fa-edit mr-2"></span>{\App\Language::translate('LBL_ENTER_BASIC_DETAILS',$QUALIFIED_MODULE)}
 						</div>
 						<div class="card-body">
 							<div class="form-group row">
@@ -45,6 +44,21 @@
 										<option value="0" {if $PDF_MODEL->get('status') eq 0} selected {/if}>
 											{\App\Language::translate('PLL_INACTIVE', $QUALIFIED_MODULE)}
 										</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-6 col-form-label">
+									{\App\Language::translate('LBL_GENERATOR_ENGINE', $QUALIFIED_MODULE)}
+									<span class="redColor">*</span>
+								</label>
+								<div class="col-sm-6 controls">
+									<select class="select2 form-control" id="generator" name="generator" required="true">
+										{foreach key=DRIVER_NAME item=DRIVER_LABEL from=\App\Pdf\Pdf::getSupportedDrivers()}
+											<option value="{$DRIVER_NAME}" {if $PDF_MODEL->get('generator') eq $DRIVER_NAME}selected="selected" {/if}>
+												{\App\Language::translate($DRIVER_LABEL, $QUALIFIED_MODULE)}
+											</option>
+										{/foreach}
 									</select>
 								</div>
 							</div>
@@ -156,10 +170,10 @@
 					</div>
 				</div>
 
-				<div class="col-xs-12 col-xl-6 col-xxl-4 mb-2 order-1 order-xl-2 order-xxl-1">
+				<div class="col-xs-12 col-xl-6 col-xxl-4 mb-3 order-1 order-xl-2 order-xxl-1">
 					<div class="card">
 						<div class="card-header">
-							<span class="fa fa-cogs"></span> {\App\Language::translate('LBL_DOCUMENT_SETTINGS_DETAILS',$QUALIFIED_MODULE)}
+							<span class="fa fa-cogs mr-2"></span> {\App\Language::translate('LBL_DOCUMENT_SETTINGS_DETAILS',$QUALIFIED_MODULE)}
 						</div>
 						<div class="card-body">
 							<div class="form-group row">
@@ -170,7 +184,7 @@
 								<div class="col-sm-6 controls">
 									<select class="select2 form-control rtl" id="page_format" name="page_format" data-validation-engine="validate[required]">
 										<option value="" selected="">{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
-										{foreach item=FORMAT from=Settings_PDF_Module_Model::getPageFormats()}
+										{foreach item=FORMAT from=\App\Pdf\Pdf::getPageFormats()}
 											<option value="{$FORMAT}" {if $PDF_MODEL->get('page_format') eq $FORMAT} selected="selected" {/if}>
 												{\App\Language::translate($FORMAT, $QUALIFIED_MODULE)}
 											</option>
@@ -314,7 +328,7 @@
 				<div class="col-xs-12 col-xl-6 col-xxl-4 mb-2  order-2 order-xl-1 order-xxl-2">
 					<div class="card">
 						<div class="card-header">
-							<span class="fa fa-user-shield"></span> {\App\Language::translate('LBL_PERMISSIONS_DETAILS',$QUALIFIED_MODULE)}
+							<span class="fa fa-user-shield mr-2"></span> {\App\Language::translate('LBL_PERMISSIONS_DETAILS',$QUALIFIED_MODULE)}
 						</div>
 						<div class="card-body">
 							<div class="form-group row">
@@ -350,10 +364,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-12 mb-2 order-5">
+				<div class="col-12 mb-3 order-5">
 					<div class="card">
 						<div class="card-header">
-							<span class="fas fa-tint"></span> {\App\Language::translate('LBL_WATERMARK_DETAILS',$QUALIFIED_MODULE)}
+							<span class="fas fa-tint mr-2"></span> {\App\Language::translate('LBL_WATERMARK_DETAILS',$QUALIFIED_MODULE)}
 						</div>
 						<div class="card-body">
 							<div class="row">
@@ -434,4 +448,5 @@
 			</div>
 		</form>
 	</div>
+	<!-- /tpl-Settings-PDF-Step1 -->
 {/strip}

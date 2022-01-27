@@ -12,7 +12,7 @@
 			<input type="hidden" name="watermark_image" value="" />
 			{assign var=FIELD_INFO value=\App\Purifier::encodeHtml('{"maximumlength":"16777215","type":"text"}')}
 			<div class="row">
-				<div class="col-12 mb-2">
+				<div class="col-12 mb-3">
 					<div class="card">
 						<div class="card-header">
 							<span class="fa fa-copy"></span> {\App\Language::translate('LBL_VARIABLES',$QUALIFIED_MODULE)}
@@ -25,10 +25,10 @@
 					</div>
 				</div>
 				<div class="col-12">
-					<div class="mb-2">
+					<div class="mb-3">
 						<div class="card">
 							<div class="card-header">
-								<span class="yfi yfi-full-editing-view"></span> {\App\Language::translate('LBL_HEADER_DETAILS',$QUALIFIED_MODULE)}
+								<span class="yfi yfi-full-editing-view mr-2"></span> {\App\Language::translate('LBL_HEADER_DETAILS',$QUALIFIED_MODULE)}
 							</div>
 							<div class="card-body p-0">
 								<div class="controls">
@@ -39,10 +39,10 @@
 							</div>
 						</div>
 					</div>
-					<div class="mb-2">
+					<div class="mb-3">
 						<div class="card">
 							<div class="card-header">
-								<span class="yfi yfi-full-editing-view"></span> {\App\Language::translate('LBL_BODY_DETAILS',$QUALIFIED_MODULE)}
+								<span class="yfi yfi-full-editing-view mr-2"></span> {\App\Language::translate('LBL_BODY_DETAILS',$QUALIFIED_MODULE)}
 							</div>
 							<div class="card-body p-0">
 								<div class="controls">
@@ -54,10 +54,10 @@
 						</div>
 					</div>
 
-					<div class="mb-2">
+					<div class="mb-3">
 						<div class="card">
 							<div class="card-header">
-								<span class="yfi yfi-full-editing-view"></span> {\App\Language::translate('LBL_FOOTER_DETAILS',$QUALIFIED_MODULE)}
+								<span class="yfi yfi-full-editing-view mr-2"></span> {\App\Language::translate('LBL_FOOTER_DETAILS',$QUALIFIED_MODULE)}
 							</div>
 							<div class="card-body p-0">
 								<div class="controls">
@@ -69,21 +69,31 @@
 						</div>
 					</div>
 
+					<div class="mb-3">
+						<div class="card">
+							<div class="card-header">
+								<span class="yfi yfi-full-editing-view mr-2"></span> {\App\Language::translate('LBL_CUSTOM_STYLES',$QUALIFIED_MODULE)}
+							</div>
+							<div class="card-body p-0">
+								<div class="controls">
+									<textarea class="form-control" name="styles" id="styles">{$PDF_MODEL->get('styles')}</textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 
 			<div class="float-right mb-2">
 				<button class="btn btn-danger backStep mr-1" type="button">
-					<span class="fas fa-caret-left mr-1"></span>
-					{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}
+					<span class="fas fa-caret-left mr-1"></span>{\App\Language::translate('LBL_BACK', $QUALIFIED_MODULE)}
 				</button>
 				<button class="btn btn-success mr-1" type="submit">
-					<span class="fas fa-caret-right mr-1"></span>
-					{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}
+					<span class="fas fa-caret-right mr-1"></span>{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}
 				</button>
 				<button class="btn btn-warning cancelLink" type="reset">
-					<span class="fas fa-times mr-1"></span>
-					{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
+					<span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
 				</button>
 			</div>
 		</form>

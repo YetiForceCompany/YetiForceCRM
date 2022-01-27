@@ -124,6 +124,7 @@ CREATE TABLE `a_yf_mapped_fields` (
 
 CREATE TABLE `a_yf_pdf` (
   `pdfid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id of record',
+  `generator` varchar(50) NOT NULL DEFAULT 'YetiForcePDF',
   `module_name` varchar(25) NOT NULL COMMENT 'name of the module',
   `header_content` mediumtext DEFAULT NULL,
   `body_content` mediumtext DEFAULT NULL,
@@ -157,6 +158,7 @@ CREATE TABLE `a_yf_pdf` (
   `template_members` text NOT NULL,
   `one_pdf` tinyint(1) DEFAULT NULL,
   `type` tinyint(1) unsigned DEFAULT 0,
+  `styles` text DEFAULT NULL,
   PRIMARY KEY (`pdfid`),
   KEY `module_name` (`module_name`,`status`),
   KEY `module_name_2` (`module_name`)

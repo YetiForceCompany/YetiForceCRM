@@ -41,6 +41,7 @@ class Pdf extends \Tests\Base
 		$pdfModel = \Settings_PDF_Record_Model::getCleanInstance(self::MODULE_NAME);
 		$pdfModel->set('module_name', self::MODULE_NAME);
 		$pdfModel->set('status', 1);
+		$pdfModel->set('generator', 'YetiForcePDF');
 		$pdfModel->set('primary_name', 'test');
 		$pdfModel->set('page_format', 'A4');
 		$pdfModel->set('language', 'pl-PL');
@@ -63,6 +64,7 @@ class Pdf extends \Tests\Base
 		$pdfModel->set('watermark_angle', 0);
 		$pdfModel->set('watermark_image', '');
 		$pdfModel->set('template_members', '');
+		$pdfModel->set('styles', '');
 		\Settings_PDF_Record_Model::save($pdfModel, 'import');
 		$this->assertSame((int) (new \App\Db\Query())->select(['pdfid'])
 			->from('a_#__pdf')
@@ -77,7 +79,10 @@ class Pdf extends \Tests\Base
 	public function testGenerate()
 	{
 		$pathToFile = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache/pdf/' . $this->fileName;
-		\Vtiger_PDF_Model::exportToPdf(\Tests\Base\C_RecordActions::createAccountRecord()->getId(), self::$pdfModel->get('pdfid'), $pathToFile, 'F');
+		$pdf = \App\Pdf\Pdf::getInstanceByTemplateId(self::$pdfModel->get('pdfid'));
+		$pdf->getTemplate()->setVariable('recordId', \Tests\Base\C_RecordActions::createAccountRecord()->getId());
+		$pdf->loadTemplateData();
+		$pdf->output($pathToFile, 'F');
 		$this->assertFileExists($pathToFile);
 	}
 

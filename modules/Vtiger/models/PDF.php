@@ -479,31 +479,6 @@ class Vtiger_PDF_Model extends \App\Base
 	}
 
 	/**
-	 * Export record to PDF file.
-	 *
-	 * @param int    $recordId   - id of a record
-	 * @param int    $templateId - id of pdf template
-	 * @param string $filePath   - path name for saving pdf file
-	 * @param string $saveFlag   - save option flag
-	 */
-	public static function exportToPdf($recordId, $templateId, $filePath = '', $saveFlag = '')
-	{
-		$template = self::getInstanceById($templateId);
-		$template->setVariable('recordId', $recordId);
-
-		$pdf = new \App\Pdf\YetiForcePDF();
-		$pdf->setPageSize($template->getFormat(), $template->getOrientation());
-		$pdf->setWatermark($pdf->getTemplateWatermark($template));
-		$pdf->setFileName($template->parseVariables($template->get('filename')));
-		$pdf->parseParams($template->getParameters());
-		$pdf->loadHtml($template->parseVariables($template->getBody()));
-		$pdf->setHeader($template->parseVariables($template->getHeader()));
-		$pdf->setFooter($template->parseVariables($template->getFooter()));
-
-		$pdf->output($filePath, $saveFlag);
-	}
-
-	/**
 	 * Gets TextParser.
 	 *
 	 * @return \App\TextParser

@@ -158,7 +158,11 @@
     "DEMY": "Demy",
     "ROYAL": "Royal",
     "PLL_ACTIVE": "Active",
-    "PLL_INACTIVE": "Inactive"
+    "PLL_INACTIVE": "Inactive",
+    "LBL_GENERATOR_ENGINE": "Generating engine",
+    "LBL_CUSTOM_STYLES": "Custom styles",
+    "LBL_CHROMIUM_PDF": "Chromium/Chrome",
+    "LBL_YETIFORCE_PDF": "YetiFore PDF"
   },
   "js": {
     "JS_PDF_SAVED_SUCCESSFULLY": "PDF template saved.",

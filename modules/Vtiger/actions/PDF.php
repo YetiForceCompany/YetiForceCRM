@@ -105,14 +105,14 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$html = '';
 		$countTemplates = \count($templateIds);
 		$countRecords = \count($recordIds);
-		$pdf = new \App\Pdf\YetiForcePDF();
 		foreach ($recordIds as $recordId) {
 			foreach ($templateIds as $templateId) {
 				if (isset($skip[$templateId])) {
 					continue;
 				}
+				$pdf = \App\Pdf\Pdf::getInstanceByTemplateId($templateId);
+				$template = $pdf->getTemplate();
 				$filePath = $saveFlag = '';
-				$template = Vtiger_PDF_Model::getInstanceById($templateId);
 				switch ($template->get('type')) {
 					case Vtiger_PDF_Model::TEMPLATE_TYPE_SUMMARY:
 						$skip[$templateId] = true;
@@ -152,13 +152,8 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 					}
 				}
 
-				$pdf->setPageSize($template->getFormat(), $template->getOrientation())
-					->setWatermark($watermark = $pdf->getTemplateWatermark($template))
-					->setFileName($template->parseVariables($template->get('filename')))
-					->parseParams($template->getParameters())
-					->loadHtml($template->parseVariables($template->getBody()))
-					->setHeader($template->parseVariables($template->getHeader()))
-					->setFooter($template->parseVariables($template->getFooter()));
+				$pdf->loadTemplateData();
+
 				$attach = $template->attachFiles ?? [];
 				if (!$singlePdf && ($attach || $emailPdf || ($countTemplates > 1 || (1 === $countTemplates && !isset($skip[$templateId]) && $countRecords > 1)))) {
 					$fileName = ($pdf->getFileName() ?: time());

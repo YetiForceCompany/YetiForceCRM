@@ -1,264 +1,104 @@
 <?php
 
 /**
- * Abstract class for pdf generation.
+ * Primary file for generating PDF files.
  *
- * @package App\Pdf
+ * @package App
  *
  * @copyright YetiForce Sp. z o.o
- * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Rafal Pospiech <r.pospiech@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Pdf;
 
 /**
- * Class PDF.
+ * Primary class for generating PDF files.
  */
-abstract class PDF
+class Pdf
 {
-	protected $pdf;
-	protected $charset;
-	protected $library;
-	protected $html;
-	protected $header;
-	protected $footer;
-	protected $fileName;
-
 	/**
-	 * Returns pdf library object.
+	 * Get page formats.
+	 *
+	 * @return string[]
 	 */
-	abstract public function getPdf();
-
-	/**
-	 * Set input charset.
-	 *
-	 * @param string $charset
-	 *
-	 * @return $this
-	 */
-	abstract public function setInputCharset(string $charset);
-
-	/**
-	 * Get input charset.
-	 *
-	 * @return string
-	 */
-	abstract public function getInputCharset();
-
-	/**
-	 * Set document margins.
-	 *
-	 * @param array $margins ['top'=>40,'bottom'=>40,'left'=>30,'right'=>30,'header'=>10,'footer'=>10]
-	 *
-	 * @return $this
-	 */
-	abstract public function setMargins(array $margins);
-
-	/**
-	 * Set top margin.
-	 *
-	 * @param float $margin
-	 *
-	 * @return $this
-	 */
-	abstract public function setTopMargin(float $margin);
-
-	/**
-	 * Set bottom margin.
-	 *
-	 * @param float $margin
-	 *
-	 * @return $this
-	 */
-	abstract public function setBottomMargin(float $margin);
-
-	/**
-	 * Set left margin.
-	 *
-	 * @param float $margin
-	 *
-	 * @return $this
-	 */
-	abstract public function setLeftMargin(float $margin);
-
-	/**
-	 * Set right margin.
-	 *
-	 * @param float $margin
-	 *
-	 * @return $this
-	 */
-	abstract public function setRightMargin(float $margin);
-
-	/**
-	 * Set header margin.
-	 *
-	 * @param float $margin
-	 *
-	 * @return $this
-	 */
-	abstract public function setHeaderMargin(float $margin);
-
-	/**
-	 * Set footer margin.
-	 *
-	 * @param float $margin
-	 *
-	 * @return $this
-	 */
-	abstract public function setFooterMargin(float $margin);
-
-	/**
-	 * Set page size and orientation.
-	 *
-	 * @param string $format
-	 * @param string $orientation
-	 *
-	 * @return $this
-	 */
-	abstract public function setPageSize(string $format, string $orientation = null);
-
-	/**
-	 * Set font.
-	 *
-	 * @param string $family
-	 * @param int    $size
-	 *
-	 * @return $this
-	 */
-	abstract public function setFont(string $family, int $size);
-
-	/**
-	 * Parse and set options.
-	 *
-	 * @param array $params
-	 *
-	 * @return $this
-	 */
-	abstract public function parseParams(array $params);
-
-	// meta attributes
-
-	/**
-	 * Set Title of the document.
-	 *
-	 * @param string $title
-	 *
-	 * @return $this
-	 */
-	abstract public function setTitle(string $title);
-
-	/**
-	 * Set Title of the document.
-	 *
-	 * @param string $author
-	 *
-	 * @return $this
-	 */
-	abstract public function setAuthor(string $author);
-
-	/**
-	 * Set Title of the document.
-	 *
-	 * @param string $creator
-	 *
-	 * @return $this
-	 */
-	abstract public function setCreator(string $creator);
-
-	/**
-	 * Set Title of the document.
-	 *
-	 * @param string $subject
-	 *
-	 * @return $this
-	 */
-	abstract public function setSubject(string $subject);
-
-	/**
-	 * Set Title of the document.
-	 *
-	 * @param string[] $keywords
-	 *
-	 * @return $this
-	 */
-	abstract public function setKeywords(array $keywords);
-
-	/**
-	 * Set header content.
-	 *
-	 * @param string $headerHtml
-	 *
-	 * @return $this
-	 */
-	abstract public function setHeader(string $headerHtml);
-
-	/**
-	 * Set footer content.
-	 *
-	 * @param string $footerHtml
-	 *
-	 * @return $this
-	 */
-	abstract public function setFooter(string $footerHtml);
-
-	/**
-	 * Set watermark.
-	 *
-	 * @param string $watermark
-	 *
-	 * @return $this
-	 */
-	abstract public function setWatermark(string $watermark);
-
-	/**
-	 * Load HTML content for exporting to PDF.
-	 *
-	 * @param string $html
-	 *
-	 * @return $this
-	 */
-	abstract public function loadHTML(string $html);
-
-	/**
-	 * Output content to PDF.
-	 */
-	abstract public function output();
-
-	/**
-	 * Get pdf filename.
-	 *
-	 * @return string
-	 */
-	public function getFileName()
+	public static function getPageFormats(): array
 	{
-		return $this->fileName;
+		return [
+			'4A0',
+			'2A0',
+			'A0', 'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10',
+			'B0', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10',
+			'C0', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10',
+			'RA0', 'RA1', 'RA2', 'RA3', 'RA4',
+			'SRA0', 'SRA1', 'SRA2', 'SRA3', 'SRA4',
+			'LETTER',
+			'LEGAL',
+			'LEDGER',
+			'TABLOID',
+			'EXECUTIVE',
+			'FOLIO',
+			'B', //	'B' format paperback size 128x198mm
+			'A', //	'A' format paperback size 111x178mm
+			'DEMY', //	'Demy' format paperback size 135x216mm
+			'ROYAL', //	'Royal' format paperback size 153x234mm
+		];
 	}
 
 	/**
-	 * Set pdf filename.
+	 * Get supported drivers for generating PDF.
 	 *
-	 * @param string $fileName
-	 *
-	 * @return $this
+	 * @return string[]
 	 */
-	public function setFileName(string $fileName)
+	public static function getSupportedDrivers(): array
 	{
-		$this->fileName = \App\Fields\File::sanitizeUploadFileName($fileName);
-		return $this;
+		$drivers = [];
+		foreach ((new \DirectoryIterator(__DIR__ . \DIRECTORY_SEPARATOR . 'Drivers')) as $fileInfo) {
+			$fileName = $fileInfo->getBasename('.php');
+			if ('Base' !== $fileName && 'php' === $fileInfo->getExtension()) {
+				$className = '\App\Pdf\Drivers\\' . $fileName;
+				if (!class_exists($className)) {
+					\App\Log::warning('Not found custom class: ' . $className);
+					continue;
+				}
+				if ($className::isActive()) {
+					$drivers[$fileName] = $className::DRIVER_NAME;
+				}
+			}
+		}
+		return $drivers;
 	}
 
 	/**
-	 * Export record to PDF file.
+	 * Get driver label.
 	 *
-	 * @param int    $recordId   - record
-	 * @param int    $templateId - id of pdf template
-	 * @param string $filePath   - path name for saving pdf file
-	 * @param string $saveFlag   - save option flag
+	 * @param string $name
+	 *
+	 * @return string
 	 */
-	abstract public function export($recordId, $templateId, $filePath = '', $saveFlag = '');
+	public static function getDriverLabel(string $name): string
+	{
+		$className = '\App\Pdf\Drivers\\' . $name;
+		$label = $name;
+		if (class_exists($className)) {
+			$label = \App\Language::translate($className::DRIVER_NAME, 'Settings::PDF');
+		}
+		return $label;
+	}
+
+	/**
+	 * Get PDF instance by template id.
+	 *
+	 * @param int $templateId
+	 *
+	 * @return Drivers\Base
+	 */
+	public static function getInstanceByTemplateId(int $templateId): Drivers\Base
+	{
+		$template = \Vtiger_PDF_Model::getInstanceById($templateId);
+		$className = '\App\Pdf\Drivers\\' . $template->get('generator');
+		$pdf = new $className();
+		$pdf->setTemplate($template);
+		return $pdf;
+	}
 }

@@ -57,8 +57,7 @@ class Settings_PDF_Edit_View extends Settings_Vtiger_Index_View
 				break;
 			case 'step1':
 			default:
-				$allModules = Settings_PDF_Module_Model::getSupportedModules();
-				$viewer->assign('ALL_MODULES', $allModules);
+				$viewer->assign('ALL_MODULES', Settings_PDF_Module_Model::getSupportedModules());
 				$viewer->view('Step1.tpl', $qualifiedModuleName);
 				break;
 		}

@@ -13,52 +13,23 @@ class Settings_PDF_Module_Model extends Settings_Vtiger_Module_Model
 	public $baseTable = 'a_yf_pdf';
 	public $baseIndex = 'pdfid';
 	public $listFields = [
+		'primary_name' => 'LBL_PRIMARY_NAME',
 		'module_name' => 'Module',
 		'status' => 'LBL_STATUS',
-		'primary_name' => 'LBL_PRIMARY_NAME',
 		'secondary_name' => 'LBL_SECONDARY_NAME',
-		'meta_author' => 'LBL_META_AUTHOR',
-		'meta_keywords' => 'LBL_META_KEYWORDS',
-		'margin_chkbox' => 'LBL_MAIN_MARGIN',
+		'generator' => 'LBL_GENERATOR_ENGINE',
+		'default' => 'LBL_DEFAULT_TPL',
 		'page_format' => 'LBL_PAGE_FORMAT',
 	];
 	public static $allFields = [
-		'module_name',
-		'status',
-		'primary_name',
-		'secondary_name',
-		'meta_author',
-		'meta_keywords',
-		'metatags_status',
-		'meta_subject',
-		'meta_title',
-		'page_format',
-		'margin_chkbox',
-		'margin_top',
-		'margin_bottom',
-		'margin_left',
-		'margin_right',
-		'header_height',
-		'footer_height',
-		'page_orientation',
-		'language',
-		'filename',
-		'visibility',
-		'default',
-		'header_content',
-		'body_content',
-		'footer_content',
-		'conditions',
-		'watermark_type',
-		'watermark_text',
-		'watermark_angle',
-		'template_members',
-		'watermark_image',
-		'one_pdf',
-		'type'
+		'module_name', 'status', 'generator', 'primary_name', 'secondary_name', 'meta_author', 'meta_keywords', 'metatags_status', 'meta_subject', 'meta_title',
+		'page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'header_height', 'footer_height', 'page_orientation',
+		'language',	'filename',	'visibility', 'default',	'header_content', 'body_content', 'footer_content', 'conditions',
+		'watermark_type', 'watermark_text', 'watermark_angle', 'template_members',	'watermark_image',	'one_pdf',	'type',   'styles',
 	];
-	public static $step1Fields = ['status', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'meta_subject', 'meta_title', 'meta_author', 'meta_keywords', 'page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'header_height', 'footer_height', 'page_orientation', 'language', 'filename', 'visibility', 'default', 'one_pdf', 'template_members', 'watermark_type', 'watermark_text', 'watermark_image', 'watermark_angle'];
-	public static $step2Fields = ['module_name', 'header_content', 'module_name', 'body_content', 'footer_content'];
+
+	public static $step1Fields = ['status', 'generator', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'meta_subject', 'meta_title', 'meta_author', 'meta_keywords', 'page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'header_height', 'footer_height', 'page_orientation', 'language', 'filename', 'visibility', 'default', 'one_pdf', 'template_members', 'watermark_type', 'watermark_text', 'watermark_image', 'watermark_angle'];
+	public static $step2Fields = ['module_name', 'header_content', 'module_name', 'body_content', 'footer_content',  'styles'];
 	public static $step3Fields = ['conditions'];
 	public static $module = 'PDF';
 	public static $parent = 'Settings';
