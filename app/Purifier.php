@@ -308,6 +308,8 @@ class Purifier
 		$config->set('URI.SafeIframeRegexp', '%^(http:|https:)?//(www\.youtube(?:-nocookie)?\.com/embed/|player\.vimeo\.com/video/)%');
 		$config->set('HTML.DefinitionRev', 1);
 		$config->set('HTML.TargetBlank', true);
+		$config->set('Attr.EnableID', true);
+		$config->set('CSS.MaxImgLength', null);
 		$config->set('URI.AllowedSchemes', [
 			'http' => true,
 			'https' => true,
@@ -351,6 +353,11 @@ class Purifier
 				'src' => 'URI',
 				'type' => 'Text',
 			]);
+			$def->addElement('link', 'Block', 'Flow', 'Common', [
+				'href' => 'URI',
+				'type' => 'Text',
+				'rel' => 'Text',
+			]);
 			$def->addElement('s', 'Inline', 'Inline', 'Common');
 			$def->addElement('var', 'Inline', 'Inline', 'Common');
 			$def->addElement('sub', 'Inline', 'Inline', 'Common');
@@ -373,6 +380,10 @@ class Purifier
 			$def->addAttribute('a', 'data-id', 'Text');
 			$def->addAttribute('a', 'data-module', 'Text');
 		}
+
+		// $cssDef = $config->getCSSDefinition();
+		// var_dump($cssDef);
+
 		if ($uriDef = $config->getURIDefinition()) {
 			$uriDef->addFilter(new Extension\HTMLPurifier\Domain(), $config);
 		}
