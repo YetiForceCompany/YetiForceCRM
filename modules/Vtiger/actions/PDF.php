@@ -102,7 +102,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermitted('LBL_EXPORT_ERROR');
 		}
 		$increment = $skip = $pdfFiles = [];
-		$html = '';
 		$countTemplates = \count($templateIds);
 		$countRecords = \count($recordIds);
 		foreach ($recordIds as $recordId) {
@@ -155,7 +154,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				$pdf->loadTemplateData();
 
 				$attach = $template->attachFiles ?? [];
-				if (!$singlePdf && ($attach || $emailPdf || ($countTemplates > 1 || (1 === $countTemplates && !isset($skip[$templateId]) && $countRecords > 1)))) {
+				if ($attach || $emailPdf || ($countTemplates > 1 || (1 === $countTemplates && !isset($skip[$templateId]) && $countRecords > 1))) {
 					$fileName = ($pdf->getFileName() ?: time());
 					$increment[$fileName] = $increment[$fileName] ?? 0;
 					$fileName .= ($increment[$fileName]++ > 0 ? '_' . $increment[$fileName] : '') . '.pdf';
@@ -173,32 +172,19 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						}
 					}
 				}
-				if ($singlePdf) {
-					$html = $html ? substr_replace($html, '<div style="page-break-after: always;">', -6, 0) : $html;
-					$html .= '<div data-page-group
-					data-format="' . $template->getFormat() . '"
-					data-orientation="' . $template->getOrientation() . '"
-					data-margin-left="' . $pdf->defaultMargins['left'] . '"
-					data-margin-right="' . $pdf->defaultMargins['right'] . '"
-					data-margin-top="' . $pdf->defaultMargins['top'] . '"
-					data-margin-bottom="' . $pdf->defaultMargins['bottom'] . '"
-					data-header-top="' . $pdf->getHeaderMargin() . '"
-					data-footer-bottom="' . $pdf->getFooterMargin() . '"
-					>' . $watermark ? "<div data-watermark style=\"text-align:center\">{$watermark}</div>" : '' . '</div>';
-					$html .= $pdf->getHtml() . '</div>';
-				} else {
-					$pdf->output($filePath, $saveFlag);
-					if ($increment) {
-						$pdf = new \App\Pdf\YetiForcePDF();
-					}
-				}
+				$pdf->output($filePath, $saveFlag);
 			}
 		}
 		if ($singlePdf) {
-			$pdf->setHeader('')->setFooter('')->setWatermark('');
-			$pdf->loadHTML($html);
-			$pdf->setFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE'));
-			$pdf->output('', $pdfFlag);
+			$pdf = new \Clegginabox\PDFMerger\PDFMerger();
+			foreach ($pdfFiles as $pdfFile) {
+				$pdf->addPDF(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pdfFile['path']);
+			}
+			$destination = 'I' === $pdfFlag ? 'browser' : 'download';
+			$pdf->merge($destination, \App\Fields\File::sanitizeUploadFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE')) . '.pdf');
+			foreach ($pdfFiles as $pdfFile) {
+				unlink(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pdfFile['path']);
+			}
 		} elseif ($emailPdf) {
 			$pdfFiles = array_values($pdfFiles);
 			Vtiger_PDF_Model::attachToEmail(\App\Json::encode($pdfFiles));

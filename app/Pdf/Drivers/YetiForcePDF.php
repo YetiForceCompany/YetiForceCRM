@@ -170,27 +170,6 @@ class YetiForcePDF extends Base
 	}
 
 	/**
-	 * Get PDF HTML.
-	 *
-	 * @return string
-	 */
-	protected function getPdfHtml(): string
-	{
-		$html = '<div data-page-group
-					data-format="' . $this->template->getFormat() . '"
-					data-orientation="' . $this->template->getOrientation() . '"
-					data-margin-left="' . $this->defaultMargins['left'] . '"
-					data-margin-right="' . $this->defaultMargins['right'] . '"
-					data-margin-top="' . $this->defaultMargins['top'] . '"
-					data-margin-bottom="' . $this->defaultMargins['bottom'] . '"
-					data-header-top="' . $this->headerMargin . '"
-					data-footer-bottom="' . $this->footerMargin . '"
-					>' . ($this->watermark ? "<div data-watermark style=\"text-align:center\">{$this->watermark}</div>" : '') . '</div>';
-		$html .= $this->getHtml() . '</div>';
-		return $html;
-	}
-
-	/**
 	 * Write html.
 	 *
 	 * @return $this
