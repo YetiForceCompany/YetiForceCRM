@@ -380,10 +380,6 @@ class Purifier
 			$def->addAttribute('a', 'data-id', 'Text');
 			$def->addAttribute('a', 'data-module', 'Text');
 		}
-
-		// $cssDef = $config->getCSSDefinition();
-		// var_dump($cssDef);
-
 		if ($uriDef = $config->getURIDefinition()) {
 			$uriDef->addFilter(new Extension\HTMLPurifier\Domain(), $config);
 		}
