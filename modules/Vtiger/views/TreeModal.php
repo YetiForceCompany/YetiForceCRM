@@ -28,15 +28,13 @@ class Vtiger_TreeModal_View extends \App\Controller\Modal
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+		$userModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
+
 		$this->fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
-		if (!$this->fieldModel || !$this->fieldModel->isEditable()) {
+		if (!$this->fieldModel || !$this->fieldModel->isViewable() || !\in_array($this->fieldModel->getFieldDataType(), ['categoryMultipicklist', 'tree'])) {
 			throw new \App\Exceptions\NoPermitted('LBL_NO_PERMISSIONS_TO_FIELD');
 		}
 	}
@@ -65,10 +63,8 @@ class Vtiger_TreeModal_View extends \App\Controller\Modal
 	{
 		$moduleName = $request->getModule();
 		$type = false;
-		if ($request->isEmpty('template', true)) {
-			throw new \App\Exceptions\AppException(\App\Language::translate('ERR_TREE_NOT_FOUND', $moduleName));
-		}
-		$recordModel = Settings_TreesManager_Record_Model::getInstanceById($request->getInteger('template'));
+		$templateId = (int) $this->fieldModel->getFieldParams();
+		$recordModel = Settings_TreesManager_Record_Model::getInstanceById($templateId);
 		if (!$recordModel) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('ERR_TREE_NOT_FOUND', $moduleName));
 		}
