@@ -7,6 +7,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Utils;
@@ -56,9 +57,10 @@ class Backup
 					'name' => $element->getBasename(),
 				];
 				if ($element->isDir()) {
-					if ($element->isReadable()) {
-						$record['url'] = "{$requestUrl}&catalog={$urlDirectory}{$record['name']}";
+					if (!$element->isReadable()) {
+						continue;
 					}
+					$record['url'] = "{$requestUrl}&catalog={$urlDirectory}{$record['name']}";
 					$returnStructure['catalogs'][] = $record;
 				} else {
 					if (!$element->isReadable() || !\in_array($element->getExtension(), $allowedExtensions)) {

@@ -7,15 +7,15 @@
 			</div>
 		</div>
 		<div class="contents mt-2">
-			<h5>{\App\Language::translate('LBL_BACKUP_LIST',$QUALIFIED_MODULE)}</h5>
 			<div class="listViewContentDiv ps ps--active-y">
-				{if !empty($SHOW_CONFIG_ALERT)}
+				{if !empty($CONFIG_ALERT)}
 					<div class="alert alert-block alert-danger fade in show">
 						<button type="button" class="close" data-dismiss="alert">×</button>
 						<h4 class="alert-heading">{\App\Language::translate('ERR_CONFIG_ALERT_TITLE', $QUALIFIED_MODULE)}</h4>
-						<p>{\App\Language::translate('ERR_CONFIG_ALERT_DESC', $QUALIFIED_MODULE)}</p>
+						<p>{$CONFIG_ALERT}</p>
 					</div>
 				{else}
+					<h5>{\App\Language::translate('LBL_BACKUP_LIST',$QUALIFIED_MODULE)}</h5>
 					<table class="table tableBorderHeadBody listViewEntriesTable medium">
 						{if !empty($STRUCTURE['manage'])}
 							<tr class="listViewEntries">

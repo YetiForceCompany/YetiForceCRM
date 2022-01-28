@@ -8,6 +8,7 @@
  * @copyright YetiForce Sp. z o.o
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Backup_Index_View extends Settings_Vtiger_Index_View
 {
@@ -17,9 +18,11 @@ class Settings_Backup_Index_View extends Settings_Vtiger_Index_View
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $request->getModule());
+		$catalogStructure = [];
 		if (empty(\App\Utils\Backup::getBackupCatalogPath())) {
-			$viewer->assign('SHOW_CONFIG_ALERT', true);
-			$catalogStructure = [];
+			$viewer->assign('CONFIG_ALERT', \App\Language::translate('ERR_CONFIG_ALERT_DESC', $qualifiedModuleName));
+		} elseif(!\App\Fields\File::isAllowedDirectory(\App\Utils\Backup::getBackupCatalogPath())) {
+			$viewer->assign('CONFIG_ALERT', \App\Language::translate('ERR_CONFIG_PATH_ALERT_DESC', $qualifiedModuleName));
 		} else {
 			$catalogPath = $request->isEmpty('catalog') ? '' : $request->getByType('catalog', 'Path');
 			$catalogStructure = \App\Utils\Backup::readCatalog($catalogPath);
