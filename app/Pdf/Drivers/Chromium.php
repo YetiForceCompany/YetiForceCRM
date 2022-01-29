@@ -110,9 +110,9 @@ class Chromium extends Base
 		$status = false;
 		if (\App\YetiForce\Register::isRegistered() && class_exists('HeadlessChromium\BrowserFactory')) {
 			try {
-				if (!empty(\Config\Components\Pdf::$chromeBinaryPath)) {
-					$browserFactory = new \HeadlessChromium\BrowserFactory(\Config\Components\Pdf::$chromeBinaryPath ?? '');
-					$browser = $browserFactory->createBrowser(\Config\Components\Pdf::$chromeBrowserOptions ?? []);
+				if (!empty(\Config\Components\Pdf::$chromiumBinaryPath)) {
+					$browserFactory = new \HeadlessChromium\BrowserFactory(\Config\Components\Pdf::$chromiumBinaryPath ?? '');
+					$browser = $browserFactory->createBrowser(\Config\Components\Pdf::$chromiumBrowserOptions ?? []);
 					$status = $browser instanceof \HeadlessChromium\Browser;
 				}
 			} catch (\Throwable $th) {
@@ -128,8 +128,8 @@ class Chromium extends Base
 	public function __construct()
 	{
 		$this->setInputCharset(\App\Config::main('default_charset', 'UTF-8'));
-		$browserFactory = new \HeadlessChromium\BrowserFactory(\Config\Components\Pdf::$chromeBinaryPath ?? '');
-		$this->pdf = $browserFactory->createBrowser(\Config\Components\Pdf::$chromeBrowserOptions ?? []);
+		$browserFactory = new \HeadlessChromium\BrowserFactory(\Config\Components\Pdf::$chromiumBinaryPath ?? '');
+		$this->pdf = $browserFactory->createBrowser(\Config\Components\Pdf::$chromiumBrowserOptions ?? []);
 		$this->pdfOptions = [
 			'printBackground' => true,
 			'headerTemplate' => ' ',
