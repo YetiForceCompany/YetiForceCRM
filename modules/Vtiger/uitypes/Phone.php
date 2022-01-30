@@ -110,6 +110,36 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
+	public function getTextParserDisplayValue($value, Vtiger_Record_Model $recordModel, $params)
+	{
+		if (empty($value)) {
+			return '';
+		}
+		$href = $international = \App\Purifier::encodeHtml($value);
+		if ((\Config\Main::$phoneFieldAdvancedVerification ?? false) && ($format = \App\Config::main('phoneFieldAdvancedHrefFormat', \libphonenumber\PhoneNumberFormat::RFC3966)) !== false) {
+			if ($recordModel) {
+				$extra = $recordModel->getDisplayValue($this->getFieldModel()->getName() . '_extra');
+				if ($extra) {
+					$extra = ' ' . $extra;
+				}
+			}
+			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+			try {
+				$swissNumberProto = $phoneUtil->parse($value);
+				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
+				$href = $phoneUtil->format($swissNumberProto, $format);
+			} catch (\libphonenumber\NumberParseException $e) {
+			}
+			if (\libphonenumber\PhoneNumberFormat::RFC3966 !== $format) {
+				$href = 'tel:' . $href;
+			}
+		} else {
+			$href = 'tel:' . $href;
+		}
+		return '<a href="tel:' . $href . '">' . $international . '</a>';
+	}
+
+	/** {@inheritdoc} */
 	public function getTemplateName()
 	{
 		return 'Edit/Field/Phone.tpl';
