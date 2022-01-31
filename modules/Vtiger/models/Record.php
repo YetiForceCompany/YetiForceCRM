@@ -88,7 +88,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function set($key, $value)
 	{
-		if (!$this->isNew && !\in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) && (isset($this->value[$key]) && $this->value[$key] != $value)) {
+		if (!$this->isNew && !\in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) && (\array_key_exists($key, $this->value) && $this->value[$key] != $value)) {
 			$this->changes[$key] = $this->get($key);
 		}
 		$this->value[$key] = $value;
