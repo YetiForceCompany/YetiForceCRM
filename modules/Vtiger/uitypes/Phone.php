@@ -117,18 +117,13 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		}
 		$href = $international = \App\Purifier::encodeHtml($value);
 		if ((\Config\Main::$phoneFieldAdvancedVerification ?? false) && ($format = \App\Config::main('phoneFieldAdvancedHrefFormat', \libphonenumber\PhoneNumberFormat::RFC3966)) !== false) {
-			if ($recordModel) {
-				$extra = $recordModel->getDisplayValue($this->getFieldModel()->getName() . '_extra');
-				if ($extra) {
-					$extra = ' ' . $extra;
-				}
-			}
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 			try {
 				$swissNumberProto = $phoneUtil->parse($value);
 				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
 				$href = $phoneUtil->format($swissNumberProto, $format);
 			} catch (\libphonenumber\NumberParseException $e) {
+				\App\Log::info($e->__toString(), __CLASS__);
 			}
 			if (\libphonenumber\PhoneNumberFormat::RFC3966 !== $format) {
 				$href = 'tel:' . $href;
@@ -136,7 +131,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		} else {
 			$href = 'tel:' . $href;
 		}
-		return '<a href="tel:' . $href . '">' . $international . '</a>';
+		return '<a href="' . $href . '">' . $international . '</a>';
 	}
 
 	/** {@inheritdoc} */
