@@ -1,11 +1,6 @@
 <?php
-
-namespace App\Fields;
-
-use App\Log;
-
 /**
- * File class.
+ * Tool file for the field type `File`.
  *
  * @package App
  *
@@ -13,6 +8,14 @@ use App\Log;
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+namespace App\Fields;
+
+use App\Log;
+
+/**
+ * Tool class for the field type `File`.
  */
 class File
 {
@@ -1512,5 +1515,18 @@ class File
 			}
 		}
 		return $value;
+	}
+
+	/**
+	 * Creates a temporary file.
+	 *
+	 * @param string $prefix The prefix of the generated temporary filename Note: Windows uses only the first three characters of prefix
+	 * @param string $ext    File extension, default: .tmp
+	 *
+	 * @return string The new temporary filename (with path), or throw an exception on failure
+	 */
+	public static function createTempFile(string $prefix = '', string $ext = 'tmp'): string
+	{
+		return (new \Symfony\Component\Filesystem\Filesystem())->tempnam(self::getTmpPath(), $prefix, '.' . $ext);
 	}
 }
