@@ -13737,6 +13737,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`,`custom_view`) values (668,4,135,'getDependentsList',16,'Passwords',0,'ADD',0,0,0,'RelatedTab','linkextend',NULL);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`,`custom_view`) values (669,4,13,'getDependentsList',4,'LBL_HELPDESK_DEPENDENTS',0,'ADD',0,0,0,'RelatedTab','contact_id',NULL);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`,`custom_view`) values (670,42,111,'getDependentsList',5,'Notification',0,'ADD',0,0,0,'RelatedTab','subprocess_sl',NULL);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`,`custom_view`) values (671,18,135,'getDependentsList',22,'Passwords',0,'ADD',0,0,0,'RelatedTab','link',NULL);
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
