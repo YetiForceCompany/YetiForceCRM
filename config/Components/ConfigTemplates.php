@@ -445,7 +445,7 @@ return [
 		],
 	],
 	'Pdf' => [
-		'$chromiumBinaryPath' => [
+		'chromiumBinaryPath' => [
 			'default' => '',
 			'description' => "The name or path of the chrome/chromium engine.\n\n@see https://www.chromium.org/getting-involved/download-chromium\n\n@var string",
 		],
