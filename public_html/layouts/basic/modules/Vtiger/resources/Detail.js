@@ -2455,8 +2455,10 @@ jQuery.Class(
 					value: picklistValue,
 					field: picklistName
 				})
-					.done(() => {
-						window.location.reload();
+					.done((response) => {
+						if(!response || response.success !== false){
+							window.location.reload();
+						}
 					})
 					.fail(function (error, err) {
 						app.errorLog(error, err);
