@@ -54,6 +54,7 @@ class Composer
 		'readme.md',
 		'security.md',
 		'upgrade.md',
+		'doc',
 		'docs',
 		'demo',
 		'examples',
@@ -68,6 +69,7 @@ class Composer
 		'sample',
 		'samples',
 		'todo',
+		'tutorial',
 		'test',
 		'tests',
 		'whatsnew',
@@ -98,6 +100,8 @@ class Composer
 		'crowdin.yml',
 		'sonar-project.properties',
 		'whitesource.config.json',
+		'changelog.htm',
+		'FAQ.htm',
 	];
 	/**
 	 * Clear vendor files.
