@@ -176,70 +176,6 @@ var Vtiger_Index_Js = {
 			window.location.href = url;
 		}
 	},
-	registerWidgetsEvents: function () {
-		let widgets = $('div.widgetContainer');
-		widgets.on('shown.bs.collapse', function (e) {
-			let widgetContainer = $(e.currentTarget);
-			Vtiger_Index_Js.loadWidgets(widgetContainer);
-			let key = widgetContainer.attr('id');
-			app.cacheSet(key, 1);
-		});
-		widgets.on('hidden.bs.collapse', function (e) {
-			let widgetContainer = $(e.currentTarget);
-			let imageEle = widgetContainer.parent().find('.imageElement');
-			let imagePath = imageEle.data('rightimage');
-			imageEle.attr('src', imagePath);
-			let key = widgetContainer.attr('id');
-			app.cacheSet(key, 0);
-		});
-	},
-	/**
-	 * Function is used to load the sidebar widgets
-	 * @param widgetContainer - widget container
-	 * @param open - widget should be open or closed
-	 */
-	loadWidgets: function (widgetContainer, open) {
-		let message = $('.loadingWidgetMsg').html();
-		if (widgetContainer.find('.card-body').html().trim()) {
-			let imageEle = widgetContainer.parent().find('.imageElement');
-			let imagePath = imageEle.data('downimage');
-			imageEle.attr('src', imagePath);
-			widgetContainer.css('height', 'auto');
-			return;
-		}
-
-		widgetContainer.progressIndicator({ message: message });
-		let url = widgetContainer.data('url');
-		let listViewWidgetParams = {
-			type: 'GET',
-			url: 'index.php',
-			dataType: 'html',
-			data: url
-		};
-		AppConnector.request(listViewWidgetParams).done(function (data) {
-			if (typeof open === 'undefined') open = true;
-			if (open) {
-				widgetContainer.progressIndicator({ mode: 'hide' });
-				let imageEle = widgetContainer.parent().find('.imageElement');
-				let imagePath = imageEle.data('downimage');
-				imageEle.attr('src', imagePath);
-				widgetContainer.css('height', 'auto');
-			}
-			widgetContainer.html(data);
-			if (data == '') {
-				widgetContainer.closest('.quickWidget').addClass('d-none');
-			} else {
-				let label = widgetContainer.closest('.quickWidget').find('.quickWidgetHeader').data('label');
-			}
-			$('.bodyContents').trigger('Vtiger.Widget.Load.' + label, $(widgetContainer));
-		});
-	},
-	loadWidgetsOnLoad: function () {
-		let widgets = $('div.widgetContainer');
-		widgets.each(function (index, element) {
-			Vtiger_Index_Js.loadWidgets($(element));
-		});
-	},
 	/**
 	 * Function to change user theme(colour)
 	 * @params : colour name
@@ -509,8 +445,6 @@ var Vtiger_Index_Js = {
 		});
 	},
 	registerEvents: function () {
-		Vtiger_Index_Js.registerWidgetsEvents();
-		Vtiger_Index_Js.loadWidgetsOnLoad();
 		Vtiger_Index_Js.registerReminders();
 		Vtiger_Index_Js.changeSkin();
 		Vtiger_Index_Js.registerResizeEvent();

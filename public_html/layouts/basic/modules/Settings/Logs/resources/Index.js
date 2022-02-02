@@ -111,5 +111,56 @@ Settings_Vtiger_Index_Js('Settings_Logs_Index_Js', {
 	},
 	registerEventsLoadContent: function (thisInstance, mode, container) {
 		thisInstance.registerWarningsFolders(container);
+	},
+	reloadContent: function () {
+		$('.js-tabs li .active').trigger('click');
+	},
+	registerTabEvents: function () {
+		var thisInstance = this;
+		$('.js-tabs li').on('click', function () {
+			thisInstance.loadContent($(this).data('mode'), false, $(this).data('params'));
+		});
+	},
+	getSelectedFolders: function () {
+		var selected = [];
+		$.each($('#jstreeContainer').jstree('get_selected', true), function (index, value) {
+			selected.push(value.original.subPath);
+		});
+		return selected;
+	},
+	loadContent: function (mode, page, modeParams) {
+		const thisInstance = this;
+		let container = $('.indexContainer');
+		let params = {
+			mode: mode,
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			view: app.getViewName()
+		};
+		if (page) {
+			params.page = page;
+		}
+		if (modeParams) {
+			params.params = modeParams;
+		}
+		const progressIndicatorElement = $.progressIndicator({
+			position: 'html',
+			blockInfo: {
+				enabled: true,
+				elementToBlock: container
+			}
+		});
+		AppConnector.request(params).done(function (data) {
+			progressIndicatorElement.progressIndicator({ mode: 'hide' });
+			container.html(data);
+			thisInstance.registerEventsLoadContent(thisInstance, mode, container);
+		});
+	},
+	/**
+	 * Register events
+	 */
+	registerEvents: function () {
+		this.registerTabEvents();
+		this.reloadContent();
 	}
 });

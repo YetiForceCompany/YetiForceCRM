@@ -272,15 +272,6 @@ $.Class(
 		loadEditorElement: function () {
 			App.Fields.Text.Editor.register($('.js-editor'), {});
 		},
-		reloadContent: function () {
-			$('.js-tabs li .active').trigger('click');
-		},
-		registerTabEvents: function () {
-			var thisInstance = this;
-			$('.js-tabs li').on('click', function () {
-				thisInstance.loadContent($(this).data('mode'), false, $(this).data('params'));
-			});
-		},
 		registerWarningsAlert: function () {
 			const alertsContainer = $('#systemWarningAletrs');
 			if (alertsContainer.length) {
@@ -352,61 +343,8 @@ $.Class(
 				});
 			}
 		},
-		getSelectedFolders: function () {
-			var selected = [];
-			$.each($('#jstreeContainer').jstree('get_selected', true), function (index, value) {
-				selected.push(value.original.subPath);
-			});
-			return selected;
-		},
-		loadContent: function (mode, page, modeParams) {
-			const thisInstance = this;
-			let container = $('.indexContainer');
-			let state = container.find('.js-switch--state');
-			let author = container.find('.js-switch--author');
-			let params = {
-				mode: mode,
-				module: app.getModuleName(),
-				parent: app.getParentModuleName(),
-				view: app.getViewName()
-			};
-			if (page) {
-				params.page = page;
-			}
-			if (modeParams) {
-				params.params = modeParams;
-			}
-			if (state.last().is(':checked')) {
-				params.state = 'closed';
-			} else {
-				params.state = 'open';
-			}
-			params.author = author.first().is(':checked');
-			const progressIndicatorElement = $.progressIndicator({
-				position: 'html',
-				blockInfo: {
-					enabled: true,
-					elementToBlock: container
-				}
-			});
-			AppConnector.request(params).done(function (data) {
-				progressIndicatorElement.progressIndicator({ mode: 'hide' });
-				container.html(data);
-				thisInstance.registerEventsLoadContent(thisInstance, mode, container);
-			});
-		},
-		registerEventsLoadContent: function (thisInstance, mode, container) {
-			if (mode == 'index') {
-				thisInstance.registerWidgetsEvents();
-				thisInstance.registerDeleteShortCutEvent();
-				thisInstance.registerAddShortcutDragDropEvent();
-				thisInstance.registerWarningsAlert();
-			}
-		},
 		registerEvents: function () {
 			this.container = $('.js-dashboard-container');
-			this.registerTabEvents();
-			this.reloadContent();
 			this.registerWarningsAlert();
 			this.registerDeleteShortCutEvent();
 			this.registerAddShortcutDragDropEvent();
