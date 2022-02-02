@@ -85,7 +85,7 @@
     "illuminate/support": "^8.0",
     "globalcitizen/php-iban": "^4.0.0",
     "chrome-php/chrome": "^v1.4.0",
-    "clegginabox/pdf-merger": "dev-master",
+    "setasign/fpdi": "^v2.3.6",
     "symfony/filesystem": "^v5.4.3"
   },
   "suggest": {

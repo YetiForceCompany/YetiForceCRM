@@ -111,7 +111,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				}
 				$pdf = \App\Pdf\Pdf::getInstanceByTemplateId($templateId);
 				$template = $pdf->getTemplate();
-				$filePath = $saveFlag = '';
+				$filePath = '';
 				switch ($template->get('type')) {
 					case Vtiger_PDF_Model::TEMPLATE_TYPE_SUMMARY:
 						$skip[$templateId] = true;
@@ -160,7 +160,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 					$fileName .= ($increment[$fileName]++ > 0 ? '_' . $increment[$fileName] : '') . '.pdf';
 
 					$filePath = $template->getPath();
-					$saveFlag = 'F';
+					$mode = 'F';
 					$pdfFiles[] = ['name' => $fileName, 'path' => $filePath, 'recordId' => $recordId, 'moduleName' => $moduleName];
 					foreach ($attach as $info) {
 						if (!isset($pdfFiles[$info['path']])) {
@@ -172,18 +172,13 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						}
 					}
 				}
-				$pdf->output($filePath, $saveFlag);
+				$pdf->output($filePath, $mode ?? 'D');
 			}
 		}
 		if ($singlePdf) {
-			$pdf = new \Clegginabox\PDFMerger\PDFMerger();
+			\App\Pdf\Pdf::merge(array_column($pdfFiles, 'path'), \App\Fields\File::sanitizeUploadFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE')) . '.pdf', $pdfFlag ?: 'D');
 			foreach ($pdfFiles as $pdfFile) {
-				$pdf->addPDF(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pdfFile['path']);
-			}
-			$destination = 'I' === $pdfFlag ? 'browser' : 'download';
-			$pdf->merge($destination, \App\Fields\File::sanitizeUploadFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE')) . '.pdf');
-			foreach ($pdfFiles as $pdfFile) {
-				unlink(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $pdfFile['path']);
+				unlink($pdfFile['path']);
 			}
 		} elseif ($emailPdf) {
 			$pdfFiles = array_values($pdfFiles);

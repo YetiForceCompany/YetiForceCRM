@@ -101,4 +101,28 @@ class Pdf
 		$pdf->setTemplate($template);
 		return $pdf;
 	}
+
+	/**
+	 * Function that merges PDF files into one.
+	 *
+	 * @param string[] $files   List of files to merge
+	 * @param string   $path    File name or path to write
+	 * @param string   $pdfFlag Merge mode e.g. `I` = show in browser , `D` = download , `F` = save to file
+	 *
+	 * @return void
+	 */
+	public static function merge(array $files, string $path, string $pdfFlag): void
+	{
+		$merger = new \setasign\Fpdi\Fpdi();
+		foreach ($files as $file) {
+			$pageCount = $merger->setSourceFile($file);
+			for ($i = 1; $i <= $pageCount; ++$i) {
+				$template = $merger->importPage($i);
+				$size = $merger->getTemplateSize($template);
+				$merger->AddPage(($size['width'] > $size['height']) ? 'L' : 'P', [$size['width'], $size['height']]);
+				$merger->useTemplate($template);
+			}
+		}
+		$merger->Output($path, $pdfFlag);
+	}
 }

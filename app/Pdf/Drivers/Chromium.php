@@ -395,13 +395,10 @@ class Chromium extends Base
 	}
 
 	/** {@inheritdoc} */
-	public function output($fileName = '', $dest = ''): void
+	public function output($fileName = '', $mode = 'D'): void
 	{
 		if (empty($fileName)) {
 			$fileName = ($this->getFileName() ?: time()) . '.pdf';
-		}
-		if (!$dest) {
-			$dest = 'D';
 		}
 		$this->writeHTML();
 		$page = $this->pdf->createPage();
@@ -410,11 +407,11 @@ class Chromium extends Base
 		$page->navigate('file://' . $tempFileName)->waitForNavigation();
 		$pdf = $page->pdf($this->getPdfOptions());
 		unlink($tempFileName);
-		if ('I' !== $dest && 'D' !== $dest) {
+		if ('I' !== $mode && 'D' !== $mode) {
 			$pdf->saveToFile($fileName);
 			return;
 		}
-		$destination = 'I' === $dest ? 'inline' : 'attachment';
+		$destination = 'I' === $mode ? 'inline' : 'attachment';
 		header('accept-charset: utf-8');
 		header('content-type: application/pdf; charset=utf-8');
 		$basename = \App\Fields\File::sanitizeUploadFileName($fileName);

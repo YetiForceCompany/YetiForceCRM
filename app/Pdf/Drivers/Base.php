@@ -228,11 +228,11 @@ abstract class Base
 	 * Output content to PDF.
 	 *
 	 * @param string $filePath Path name for saving pdf file
-	 * @param string $saveFlag Save option flag
+	 * @param string $mode     Output mode, default: `D`,  `I` = show in browser , `D` = download  , `F` = save to file
 	 *
 	 * @return void
 	 */
-	abstract public function output($filePath = '', $saveFlag = ''): void;
+	abstract public function output($filePath = '', $mode = 'D'): void;
 
 	/**
 	 * Load template data to PDF instance.

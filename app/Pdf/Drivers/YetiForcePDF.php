@@ -265,21 +265,18 @@ class YetiForcePDF extends Base
 	}
 
 	/** {@inheritdoc} */
-	public function output($fileName = '', $dest = ''): void
+	public function output($fileName = '', $mode = 'D'): void
 	{
 		if (empty($fileName)) {
 			$fileName = ($this->getFileName() ?: time()) . '.pdf';
 		}
-		if (!$dest) {
-			$dest = 'D';
-		}
 		$this->writeHTML();
 		$output = $this->pdf->render();
-		if ('I' !== $dest && 'D' !== $dest) {
+		if ('I' !== $mode && 'D' !== $mode) {
 			file_put_contents($fileName, $output);
 			return;
 		}
-		$destination = 'I' === $dest ? 'inline' : 'attachment';
+		$destination = 'I' === $mode ? 'inline' : 'attachment';
 		header('accept-charset: utf-8');
 		header('content-type: application/pdf; charset=utf-8');
 		$basename = \App\Fields\File::sanitizeUploadFileName($fileName);
