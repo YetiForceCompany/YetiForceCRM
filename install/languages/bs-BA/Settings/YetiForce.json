@@ -123,6 +123,8 @@
     "LBL_SHOP_YETIFORCEAUTOASSIGNMENT_INTRO": "Mehanizam vam omogućava da definirate pravila za automatsko dodjeljivanje vlasnika kreiranim zapisima ili promjenu trenutnog vlasnika.",
     "LBL_SHOP_YETIFORCEAUTOASSIGNMENT_DESC": "YetiForce Auto Assignment značajno poboljšava efikasnost rada vašeg tima. Mehanizam će automatski dodijeliti zadatke korisniku ili grupi korisnika, npr. upite slati putem kontakt forme ili ulaznica, na osnovu strogo definisanih uslova.\nMehanizam može procijeniti obim posla zaposlenih u realnom vremenu i dodijeliti nove zadatke tim zaposlenima koji su u mogućnosti da se o njima brinu u ovom trenutku. Svi uslovi se mogu prilagoditi pomoću intuitivnog panela u sistemskim postavkama kako bi odgovarali profilu vaše kompanije.",
     "LBL_ACTIVATE_DEACTIVATE_SERVICE": "Aktivirajte/Deaktivirajte uslugu",
-    "LBL_ACTIVATE_DEACTIVATE_SERVICE_CONFIRM_DESC": "Jeste li sigurni da želite aktivirati/deaktivirati uslugu?"
+    "LBL_ACTIVATE_DEACTIVATE_SERVICE_CONFIRM_DESC": "Jeste li sigurni da želite aktivirati/deaktivirati uslugu?",
+    "LBL_SHOP_YETIFORCEPDFPREMIUM_INTRO": "Additional Chromium/Chrome engine to generate PDF files",
+    "LBL_SHOP_YETIFORCEPDFPREMIUM_DESC": "Additional engine to generate PDF Chromium/Chrome files\nThe Chromium engine used to generate PDFs introduces a method of creating complex PDF files.\n\nFeatures:\n- compatibility with CSS and HTML 5\n- compatibility with all technologies supported by the browser\n- fully supported special characters and fonts\n- the only limitation is the browsers capability\n- support for OS: Linux, macOS, Windows"
   }
 }

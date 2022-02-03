@@ -115,13 +115,13 @@
     "LBL_INDUSTRY": "Settore",
     "LBL_CITY": "Comune",
     "LBL_COUNTRY": "Paese",
-    "LBL_COMPANYSIZE": "The number of employees employed by the entity",
-    "LBL_WEBSITE": "The website of the entity",
-    "LBL_WEBSITE_INFO": "Enter the entity's website or a personal website. DO NOT enter the URL where your CRM is installed.",
+    "LBL_COMPANYSIZE": "Il numero di impiegati dipendenti dall'entità",
+    "LBL_WEBSITE": "Il sito web dell'entità",
+    "LBL_WEBSITE_INFO": "Inserisci il sito web dell'entità o un sito web personale. NON inserire l'URL in cui è installato il tuo CRM.",
     "LBL_ADDRESS": "Indirizzo",
     "LBL_POST_CODE": "Codice postale",
-    "LBL_VAT_ID": "Entity's unique identifier",
-    "LBL_VAT_ID_INFO": "In case of companies, provide unique tax identifier applicable in the country, for example TAX ID: PL1180002425\nIn case of private persons, provide a unique identifier assigned on the day of birth, for example:  PESEL: 01234567890",
+    "LBL_VAT_ID": "Identificativo unico dell'entità",
+    "LBL_VAT_ID_INFO": "In caso di aziende, fornisci il tuo identificativo fiscale univico applicabile nel paese, per esempio la Partita IVA: PL1180002425\nNel caso di privati, fornisci un identificativo univoco assegnato sulla data di nascita, ad esempio: PESEL: 01234567890",
     "LBL_CHOOSE_INSTALLATION_TYPE": "Scegli tipo di installazione",
     "LBL_INSTALL_YOURSELF": "Installa",
     "LBL_HOSTING_SELF": "Proprio server",
@@ -131,7 +131,7 @@
     "LBL_HOSTING_CLOUD": "YetiForce cloud",
     "LBL_BUY": "Acquista",
     "LBL_SHOW_MORE": "Ulteriori informazioni sul prodotto",
-    "LBL_NO_NO_DATA_IN_SESSION": "Error generating configuration files, no data in the session"
+    "LBL_NO_NO_DATA_IN_SESSION": "Errore generando i file di configurazione, nessun dato nella sessione"
   },
   "js": {
     "JS_ALL": "Tutti",

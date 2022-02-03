@@ -113,7 +113,7 @@
     "LBL_SESSION_ERROR_DESC": "Sent session ID does not match the one received from the server. We recommend clearing your browser cache, and if that does not fix the problem, we recommend correcting your server configuration.",
     "LBL_NAME": "Company name or first and last name",
     "LBL_INDUSTRY": "Industry",
-    "LBL_CITY": "City",
+    "LBL_CITY": "Město",
     "LBL_COUNTRY": "Country",
     "LBL_COMPANYSIZE": "The number of employees employed by the entity",
     "LBL_WEBSITE": "The website of the entity",
@@ -136,7 +136,7 @@
   "js": {
     "JS_ALL": "All",
     "JS_OK": "Ok",
-    "JS_CANCEL": "Cancel",
+    "JS_CANCEL": "Zrušit",
     "LBL_PASS_TO_SHORT": "Password is too short - the minimum length is 8 characters",
     "LBL_PASS_TO_LONG": "The password is too long - maximum length is 32 characters",
     "LBL_PASS_NO_NUM": "The password must contain numbers",
