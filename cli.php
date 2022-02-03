@@ -31,9 +31,12 @@ set_error_handler(function ($errNo, $errStr, $errFile, $errLine) {
 }, E_ALL);
 
 try {
+	if (PHP_SAPI !== 'cli') {
+		throw new \Exception('Console access only from the operating system CLI.');
+	}
 	new \App\Cli();
 } catch (Throwable $e) {
-	echo $e->__toString();
+	echo rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->__toString()), PHP_EOL);
 	if ('test' === \App\Config::main('systemMode')) {
 		throw $e;
 	}
