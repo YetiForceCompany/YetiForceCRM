@@ -75,7 +75,7 @@
     "yetiforce/csrf-magic": "^v1.1.1",
     "maximebf/debugbar": "1.*",
     "yetiforce/yii2": "^2.0.43",
-    "yetiforce/yetiforcepdf": "0.1.33",
+    "yetiforce/yetiforcepdf": "0.1.34",
     "adhocore/jwt": "^1.0",
     "zbateson/mail-mime-parser": "^2.0",
     "mlocati/spf-lib": "^3",
@@ -85,6 +85,7 @@
     "illuminate/support": "^8.0",
     "globalcitizen/php-iban": "^4.0.0",
     "chrome-php/chrome": "^v1.4.0",
+    "setasign/fpdf": "1.8.*",
     "setasign/fpdi": "^v2.3.6",
     "symfony/filesystem": "^v5.4.3"
   },
