@@ -3,7 +3,7 @@
 /**
  * Log list viewer file.
  *
- * @copyright YetiForce Sp. z o.o
+ * @copyright YetiForce S.A.
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadisz Sołek <a.solek@yetiforce.com>
  */

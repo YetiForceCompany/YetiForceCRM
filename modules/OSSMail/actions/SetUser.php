@@ -3,7 +3,7 @@
 /**
  * OSSMail SetUser action class.
  *
- * @copyright YetiForce Sp. z o.o
+ * @copyright YetiForce S.A.
  * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMail_SetUser_Action extends \App\Controller\Action

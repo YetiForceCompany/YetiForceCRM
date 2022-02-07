@@ -5,7 +5,7 @@
  *
  * @package   Tests
  *
- * @copyright YetiForce Sp. z o.o
+ * @copyright YetiForce S.A.
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -158,7 +158,7 @@ class C_RecordActions extends \Tests\Base
 			return self::$recordAccounts;
 		}
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('Accounts');
-		$recordModel->set('accountname', 'YetiForce Sp. z o.o.');
+		$recordModel->set('accountname', 'YetiForce S.A.');
 		$recordModel->set('legal_form', 'PLL_COMPANY');
 		$recordModel->save();
 		if ($cache) {
@@ -317,7 +317,7 @@ class C_RecordActions extends \Tests\Base
 	 */
 	public function testGetDisplayName()
 	{
-		$this->assertTrue('YetiForce Sp. z o.o.' === self::$recordAccounts->getDisplayName());
+		$this->assertTrue('YetiForce S.A.' === self::$recordAccounts->getDisplayName());
 	}
 
 	/**

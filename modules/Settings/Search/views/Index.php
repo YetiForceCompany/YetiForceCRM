@@ -3,7 +3,7 @@
 /**
  * Settings search index view class.
  *
- * @copyright YetiForce Sp. z o.o
+ * @copyright YetiForce S.A.
  * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Search_Index_View extends Settings_Vtiger_Index_View

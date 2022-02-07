@@ -3,7 +3,7 @@
 /**
  * OSSTimeControl record model class.
  *
- * @copyright YetiForce Sp. z o.o
+ * @copyright YetiForce S.A.
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSTimeControl_Record_Model extends Vtiger_Record_Model

@@ -6,7 +6,7 @@ namespace App;
  * Purifier basic class.
  *
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @copyright YetiForce Sp. z o.o
+ * @copyright YetiForce S.A.
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */

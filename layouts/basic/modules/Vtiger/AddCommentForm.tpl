@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce Sp. z o.o.
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -25,17 +25,17 @@
 					</button>
 				</div>
 				<form class="form-horizontal" id="massSave" method="post" action="index.php">
-					<input type="hidden" name="module" value="{$MODULE}"/>
-					<input type="hidden" name="source_module" value="{$SOURCE_MODULE}"/>
-					<input type="hidden" name="action" value="MassSaveAjax"/>
-					<input type="hidden" name="viewname" value="{$CVID}"/>
+					<input type="hidden" name="module" value="{$MODULE}" />
+					<input type="hidden" name="source_module" value="{$SOURCE_MODULE}" />
+					<input type="hidden" name="action" value="MassSaveAjax" />
+					<input type="hidden" name="viewname" value="{$CVID}" />
 					<input type="hidden" name="selected_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}">
 					<input type="hidden" name="excluded_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}">
-					<input type="hidden" name="search_key" value="{$SEARCH_KEY}"/>
-					<input type="hidden" name="operator" value="{$OPERATOR}"/>
-					<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}"/>
-					<input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}"/>
-					<input type="hidden" name="entityState" value="{$ENTITY_STATE}"/>
+					<input type="hidden" name="search_key" value="{$SEARCH_KEY}" />
+					<input type="hidden" name="operator" value="{$OPERATOR}" />
+					<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
+					<input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}" />
+					<input type="hidden" name="entityState" value="{$ENTITY_STATE}" />
 					<div class="modal-body commentContainer">
 						<div class="js-add-comment-block addCommentBlock" data-js="container|remove">
 							<div class="input-group input-group-sm">

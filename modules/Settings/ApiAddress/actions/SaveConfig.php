@@ -3,7 +3,7 @@
 /**
  * Settings ApiAddress SaveConfig action class.
  *
- * @copyright YetiForce Sp. z o.o
+ * @copyright YetiForce S.A.
  * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_ApiAddress_SaveConfig_Action extends Settings_Vtiger_Basic_Action

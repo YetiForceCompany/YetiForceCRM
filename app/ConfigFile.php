@@ -4,7 +4,7 @@
  *
  * @package App
  *
- * @copyright YetiForce Sp. z o.o
+ * @copyright YetiForce S.A.
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -51,7 +51,7 @@ This file is auto-generated.
 
 @package Config
 
-@copyright YetiForce Sp. z o.o
+@copyright YetiForce S.A.
 @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
 ';
 

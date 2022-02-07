@@ -6,17 +6,17 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce Sp. z o.o.
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
 	<div class="tpl-Settings-Workflow-Tasks-VTCreateTodoTask row">
 		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
 			<span class="col-md-3">{\App\Language::translate('LBL_TITLE',$QUALIFIED_MODULE)}<span
-						class="redColor">*</span></span>
+					class="redColor">*</span></span>
 			<div class="col-md-9">
 				<input data-validation-engine='validate[required]' class="form-control" name="todo" type="text"
-				       value="{if isset($TASK_OBJECT->todo)}{$TASK_OBJECT->todo}{/if}"/>
+					value="{if isset($TASK_OBJECT->todo)}{$TASK_OBJECT->todo}{/if}" />
 			</div>
 		</div>
 		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
@@ -74,7 +74,7 @@
 						{if $WORKFLOW_MODEL->get('execution_condition') === \VTWorkflowManager::$TRIGGER}
 							<option value="triggerUser" {if $ASSIGNED_USER_ID eq 'triggerUser'} selected="" {/if}>{\App\Language::translate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)}</option>
 						{/if}
-                    </optgroup>
+					</optgroup>
 				</select>
 			</span>
 		</div>
@@ -87,7 +87,7 @@
 					{else}
 						{assign var=TIME value=App\Fields\Time::formatToDisplay('')}
 					{/if}
-					<input type="text" class="clockPicker form-control" value="{$TIME}" name="time" autocomplete="off"/>
+					<input type="text" class="clockPicker form-control" value="{$TIME}" name="time" autocomplete="off" />
 					<div class="input-group-append">
 						<span class="input-group-text u-cursor-pointer js-clock__btn" data-js="click">
 							<span class="far fa-clock"></span>
@@ -105,10 +105,10 @@
 				<div class="col-2 pt-1">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
 				<div class="col-10">
 					<select class="select2 form-control" name="direction_start">
-						<option {if isset($TASK_OBJECT->direction_start) && $TASK_OBJECT->direction_start eq 'after'}selected=""{/if}
-						        value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
-						<option {if isset($TASK_OBJECT->direction_start) && $TASK_OBJECT->direction_start eq 'before'}selected=""{/if}
-						        value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
+						<option {if isset($TASK_OBJECT->direction_start) && $TASK_OBJECT->direction_start eq 'after'}selected="" {/if}
+							value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
+						<option {if isset($TASK_OBJECT->direction_start) && $TASK_OBJECT->direction_start eq 'before'}selected="" {/if}
+							value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 					</select>
 				</div>
 			</div>
@@ -120,13 +120,13 @@
 				<select class="select2 form-control" name="datefield_start">
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_FIELDS', $QUALIFIED_MODULE)}'>
 						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
-							<option {if $DATE_FIELD_START eq $DATETIME_FIELD->get('name')}selected="selected"{/if}
-							        value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
+							<option {if $DATE_FIELD_START eq $DATETIME_FIELD->get('name')}selected="selected" {/if}
+								value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
 						{/foreach}
 					</optgroup>
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_SERVER', $QUALIFIED_MODULE)}'>
-						<option {if $DATE_FIELD_START eq 'wfRunTime'}selected="selected"{/if}
-						        value="wfRunTime">{\App\Language::translate('LBL_WORKFLOWS_RUN_TIME',$QUALIFIED_MODULE)}</option>
+						<option {if $DATE_FIELD_START eq 'wfRunTime'}selected="selected" {/if}
+							value="wfRunTime">{\App\Language::translate('LBL_WORKFLOWS_RUN_TIME',$QUALIFIED_MODULE)}</option>
 					</optgroup>
 				</select>
 			</div>
@@ -139,12 +139,11 @@
 			<div class="col-md-4 mb-1 mb-md-0 row no-gutters pr-md-1">
 				<div class="col-2 pt-1">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
 				<div class="col-10">
-					<select class="select2 form-control" name="direction_end"
-					>
-						<option {if isset($TASK_OBJECT->direction_end) && $TASK_OBJECT->direction_end eq 'after'}selected=""{/if}
-						        value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
-						<option {if isset($TASK_OBJECT->direction_end) && $TASK_OBJECT->direction_end eq 'before'}selected=""{/if}
-						        value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
+					<select class="select2 form-control" name="direction_end">
+						<option {if isset($TASK_OBJECT->direction_end) && $TASK_OBJECT->direction_end eq 'after'}selected="" {/if}
+							value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
+						<option {if isset($TASK_OBJECT->direction_end) && $TASK_OBJECT->direction_end eq 'before'}selected="" {/if}
+							value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 					</select>
 				</div>
 			</div>
@@ -156,17 +155,17 @@
 				<select class="select2 form-control" name="datefield_end">
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_FIELDS', $QUALIFIED_MODULE)}'>
 						{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
-							<option {if $DATE_FIELD_END eq $DATETIME_FIELD->get('name')}selected="selected"{/if}
-							        value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
+							<option {if $DATE_FIELD_END eq $DATETIME_FIELD->get('name')}selected="selected" {/if}
+								value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
 						{/foreach}
 					</optgroup>
 					<optgroup label='{\App\Language::translate('LBL_SPECIAL_OPTIONS', $QUALIFIED_MODULE)}'>
-						<option {if $DATE_FIELD_END eq 'fromDateStart'}selected="selected"{/if}
-						        value="fromDateStart">{\App\Language::translate('LBL_TASK_START_DATES_AND_TIMES', $QUALIFIED_MODULE)}</option>
+						<option {if $DATE_FIELD_END eq 'fromDateStart'}selected="selected" {/if}
+							value="fromDateStart">{\App\Language::translate('LBL_TASK_START_DATES_AND_TIMES', $QUALIFIED_MODULE)}</option>
 					</optgroup>
 					<optgroup label='{\App\Language::translate('LBL_VALUE_OF_SERVER', $QUALIFIED_MODULE)}'>
-						<option {if $DATE_FIELD_END eq 'wfRunTime'}selected="selected"{/if}
-						        value="wfRunTime">{\App\Language::translate('LBL_WORKFLOWS_RUN_TIME',$QUALIFIED_MODULE)}</option>
+						<option {if $DATE_FIELD_END eq 'wfRunTime'}selected="selected" {/if}
+							value="wfRunTime">{\App\Language::translate('LBL_WORKFLOWS_RUN_TIME',$QUALIFIED_MODULE)}</option>
 					</optgroup>
 				</select>
 			</div>
@@ -175,14 +174,14 @@
 			<span class="col-md-8">{\App\Language::translate('LBL_SEND_NOTIFICATION',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-4">
 				<input type="checkbox" name="sendNotification" value="true"
-				       {if !empty($TASK_OBJECT->sendNotification)}checked{/if} />
+					{if !empty($TASK_OBJECT->sendNotification)}checked{/if} />
 			</div>
 		</div>
 		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
 			<span class="col-md-8">{\App\Language::translate('LBL_DO_NOT_DUPLICATE_RECORDS',$QUALIFIED_MODULE)}</span>
 			<div class="col-md-4">
 				<input type="checkbox" name="doNotDuplicate" value="true"
-				       {if !empty($TASK_OBJECT->doNotDuplicate)}checked{/if} />
+					{if !empty($TASK_OBJECT->doNotDuplicate)}checked{/if} />
 			</div>
 		</div>
 		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">

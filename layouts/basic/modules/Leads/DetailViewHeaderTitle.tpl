@@ -6,10 +6,10 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce Sp. z o.o
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
-	<input type="hidden" id="conversion_available_status" value="{if !empty($CONVERSION_AVAILABLE_STATUS)}{\App\Purifier::encodeHtml($CONVERSION_AVAILABLE_STATUS)}{/if}"/>
+	<input type="hidden" id="conversion_available_status" value="{if !empty($CONVERSION_AVAILABLE_STATUS)}{\App\Purifier::encodeHtml($CONVERSION_AVAILABLE_STATUS)}{/if}" />
 	{include file=\App\Layout::getTemplatePath('DetailViewHeaderTitle.tpl', 'Vtiger')}
 {/strip}

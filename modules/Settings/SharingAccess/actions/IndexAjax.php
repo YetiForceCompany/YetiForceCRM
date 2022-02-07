@@ -3,7 +3,7 @@
 /**
  * Settings SharingAccess IndexAjax action class.
  *
- * @copyright YetiForce Sp. z o.o
+ * @copyright YetiForce S.A.
  * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Action

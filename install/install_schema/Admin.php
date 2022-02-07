@@ -5,7 +5,7 @@ namespace Importers;
 /**
  * Class that imports admin database.
  *
- * @copyright YetiForce Sp. z o.o.
+ * @copyright YetiForce S.A.
  * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -1700,7 +1700,7 @@ $(custom : ProductsTableHierarchy|IStorages)$', '<div style="text-align:center;"
 			's_#__companies' => [
 				'columns' => ['id', 'name', 'short_name', 'default', 'industry', 'street', 'city', 'code', 'state', 'country', 'phone', 'fax', 'website', 'vatid', 'id1', 'id2', 'email', 'logo_login', 'logo_login_height', 'logo_main', 'logo_main_height', 'logo_mail', 'logo_mail_height'],
 				'values' => [
-						[1, 'YetiForce Sp. z o.o. ', 'YetiForce', 1, null, 'ul. Marszałkowska 111', 'Warszawa', '00-102', 'Mazowieckie', 'Poland', '+48 22 415 49 34', null, 'yetiforce.com', null, null, null, null, 'logo_yetiforce.png', 200, 'blue_yetiforce_logo.png', 38, 'logo_yetiforce.png', 50],
+						[1, 'YetiForce S.A. ', 'YetiForce', 1, null, 'ul. Marszałkowska 111', 'Warszawa', '00-102', 'Mazowieckie', 'Poland', '+48 22 415 49 34', null, 'yetiforce.com', null, null, null, null, 'logo_yetiforce.png', 200, 'blue_yetiforce_logo.png', 38, 'logo_yetiforce.png', 50],
 				]
 			],
 		];

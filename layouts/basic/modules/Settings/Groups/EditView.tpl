@@ -5,14 +5,14 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce Sp. z o.o.
+* Contributor(s): YetiForce S.A.
 *************************************************************************************}
 {strip}
 	<div class="tpl-Settings-Groups-EditView editViewContainer">
 		<form name="EditGroup" action="index.php" method="post" id="EditView" class="form-horizontal">
 			<input type="hidden" name="module" value="Groups">
-			<input type="hidden" name="action" value="Save"/>
-			<input type="hidden" name="parent" value="Settings"/>
+			<input type="hidden" name="action" value="Save" />
+			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" name="record" value="{$RECORD_MODEL->getId()}">
 			<div class="o-breadcrumb widget_header row mb-3">
 				<div class="col-12 d-flex">
@@ -25,7 +25,7 @@
 				</div>
 				<div class="col-lg-6 controls">
 					<input class="form-control" name="groupname" value="{$RECORD_MODEL->getName()}"
-						   data-validation-engine="validate[required]">
+						data-validation-engine="validate[required]">
 				</div>
 			</div>
 			<div class="form-group row">
@@ -34,7 +34,7 @@
 				</div>
 				<div class="col-lg-6 controls">
 					<input class="form-control" name="description" id="description"
-						   value="{$RECORD_MODEL->getDescription()}"/>
+						value="{$RECORD_MODEL->getDescription()}" />
 				</div>
 			</div>
 			<div class="form-group row">
@@ -51,10 +51,10 @@
 						</button>
 					</div>
 					<select id="modulesList" class="row modules select2 form-control" multiple="true" name="modules[]"
-							data-validation-engine="validate[required]">
+						data-validation-engine="validate[required]">
 						{foreach from=Vtiger_Module_Model::getAll([0],[],true) key=TABID item=MODULE_MODEL}
 							<option value="{$TABID}"
-									{if array_key_exists($TABID, $RECORD_MODEL->getModules())}selected="true"{/if}>{\App\Language::translate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}</option>
+								{if array_key_exists($TABID, $RECORD_MODEL->getModules())}selected="true" {/if}>{\App\Language::translate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}</option>
 						{/foreach}
 					</select>
 				</div>
@@ -82,17 +82,17 @@
 							{assign var="GROUP_MEMBERS" value=$RECORD_MODEL->getMembers()}
 							{assign var="RECORD_MEMBER_ID" value=$RECORD_MODEL->getMemberId()}
 							<select id="memberList" class="members form-control select2 groupMembersColors"
-									multiple="true" name="members[]"
-									data-placeholder="{\App\Language::translate('LBL_ADD_USERS_ROLES', $QUALIFIED_MODULE)}"
-									data-validation-engine="validate[required]">
+								multiple="true" name="members[]"
+								data-placeholder="{\App\Language::translate('LBL_ADD_USERS_ROLES', $QUALIFIED_MODULE)}"
+								data-validation-engine="validate[required]">
 								{foreach from=$MEMBER_GROUPS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 									<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
 										{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
 											{if $MEMBER->getId() neq $RECORD_MEMBER_ID}
 												{assign var="MEMBER_ID" value=$MEMBER->getId()}
 												<option class="{$GROUP_LABEL}" value="{$MEMBER->getId()}"
-														data-member-type="{$GROUP_LABEL}"
-														{if isset($GROUP_MEMBERS[$GROUP_LABEL][$MEMBER_ID])}selected="true"{/if}>
+													data-member-type="{$GROUP_LABEL}"
+													{if isset($GROUP_MEMBERS[$GROUP_LABEL][$MEMBER_ID])}selected="true" {/if}>
 													{\App\Language::translate($MEMBER->getName(), $QUALIFIED_MODULE)}
 												</option>
 											{/if}
@@ -107,11 +107,11 @@
 			<div class="form-group row">
 				<div class="text-right col-lg-8">
 					<button class="btn btn-success mr-1 c-btn-block-sm-down mb-1 mb-md-0" type="submit"><span
-								class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
+							class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
 					</button>
 					<button class="btn btn-danger c-btn-block-sm-down" type="reset"
-							onclick="javascript:window.history.back();"><span
-								class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
+						onclick="javascript:window.history.back();"><span
+							class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
 					</button>
 				</div>
 			</div>

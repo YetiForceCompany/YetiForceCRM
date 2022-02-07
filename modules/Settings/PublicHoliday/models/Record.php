@@ -3,7 +3,7 @@
 /**
  * Settings PublicHoliday record model class.
  *
- * @copyright YetiForce Sp. z o.o
+ * @copyright YetiForce S.A.
  * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_PublicHoliday_Record_Model extends Settings_Vtiger_Record_Model

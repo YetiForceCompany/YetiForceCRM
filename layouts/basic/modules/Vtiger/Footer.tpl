@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce Sp. z o.o
+* Contributor(s): YetiForce S.A.
 **********************************************************************************/
 
 /*****************************************************************************************************************
@@ -22,7 +22,7 @@
 	</div>
 	</div>
 	</div>
-	<input class="d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}"/>
+	<input class="d-none noprint" type="hidden" id="activityReminder" value="{$ACTIVITY_REMINDER}" />
 	{assign var="IS_ADMIN" value=$USER_MODEL->isAdminUser()}
 	{if $SHOW_FOOTER_BAR}
 		{assign var="DISABLE_BRANDING" value=\App\YetiForce\Shop::check('YetiForceDisableBranding')}
@@ -46,7 +46,7 @@
 						<span class="mr-1"> {$USER_MODEL->getName()}</span>(
 						<span>{$USER_MODEL->get('email1')}</span>
 						{if !empty($USER_MODEL->get('phone_crm_extension'))}
-						,<span class="ml-1">{$USER_MODEL->get('phone_crm_extension')}</span>
+							,<span class="ml-1">{$USER_MODEL->get('phone_crm_extension')}</span>
 						{/if})
 					</p>
 				</div>
@@ -55,7 +55,7 @@
 				<ul class="float-left pagination border-0">
 					{if !empty($URL_LINKEDIN)}
 						<li class="page-item">
-							<a class="page-link" href="{$URL_LINKEDIN}" target="_blank"	rel="noreferrer noopener">
+							<a class="page-link" href="{$URL_LINKEDIN}" target="_blank" rel="noreferrer noopener">
 								<span class="fab fa-linkedin fa-2x" title="Linkedin"></span>
 							</a>
 						</li>
@@ -69,7 +69,7 @@
 					{/if}
 					{if !empty($URL_FACEBOOK)}
 						<li class="page-item">
-							<a class="page-link" href="{$URL_FACEBOOK}" target="_blank"	rel="noreferrer noopener">
+							<a class="page-link" href="{$URL_FACEBOOK}" target="_blank" rel="noreferrer noopener">
 								<span class="fab fa-facebook-square fa-2x" title="Facebook"></span>
 							</a>
 						</li>
@@ -92,13 +92,13 @@
 							{/if}
 							<li class="page-item">
 								<a class="page-link text-warning p-0 mr-md-1 text-danger js-popover-tooltip c-header__btn" role="button"
-										data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
-										title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
-										{if \App\Security\AdminAccess::isPermitted('Companies')}
-											href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
-										{else}
-											href="#"
-										{/if} >
+									data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
+									title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
+									{if \App\Security\AdminAccess::isPermitted('Companies')}
+										href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
+									{else}
+										href="#"
+									{/if}>
 									<span class="yfi yfi-yeti-register-alert fa-2x">
 									</span>
 								</a>
@@ -108,7 +108,7 @@
 						{if $VERIFY}
 							<li class="page-item">
 								<a class="page-link text-warning mr-md-1 js-popover-tooltip" role="button" data-content="{$VERIFY}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
-									{if $IS_ADMIN} href="index.php?module=YetiForce&parent=Settings&view=Shop"{else} href="#"{/if}>
+									{if $IS_ADMIN} href="index.php?module=YetiForce&parent=Settings&view=Shop" {else} href="#" {/if}>
 									<span class="yfi yfi-shop-alert {if !$DISABLE_BRANDING }fa-2x{/if}"></span>
 								</a>
 							</li>
@@ -148,7 +148,7 @@
 							{/if}
 							<span class="d-none d-sm-inline">
 								Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
-								<br/>
+								<br />
 								{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base', $FOOTOSP)}
 							</span>
 							<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
@@ -172,15 +172,15 @@
 					</div>
 					<div class="modal-body">
 						<p class="text-center">
-							<img class="u-h-120px" src="{App\Layout::getPublicUrl('layouts/resources/Logo/logo_hor.png')}" title="YetiForceCRM" alt="YetiForceCRM"/>
+							<img class="u-h-120px" src="{App\Layout::getPublicUrl('layouts/resources/Logo/logo_hor.png')}" title="YetiForceCRM" alt="YetiForceCRM" />
 						</p>
 						<p class="text-center">
-							<ul class="list-group o-min-width m-auto">
-								<li class="list-group-item d-flex justify-content-between align-items-center">
-									<span class="badge badge-primary mr-2 badge-pill">APP ID</span>
-									<span>{\App\YetiForce\Register::getInstanceKey()}</span>
-								</li>
-							</ul>
+						<ul class="list-group o-min-width m-auto">
+							<li class="list-group-item d-flex justify-content-between align-items-center">
+								<span class="badge badge-primary mr-2 badge-pill">APP ID</span>
+								<span>{\App\YetiForce\Register::getInstanceKey()}</span>
+							</li>
+						</ul>
 						</p>
 						<p>Copyright © YetiForce.com All rights reserved.</p>
 						<p class="my-2">The Program is provided AS IS, without warranty. Licensed under
@@ -188,7 +188,7 @@
 								<strong>YetiForce Public License 4.0</strong>
 							</a>.
 						</p>
-						<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br/><br/>
+						<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br /><br />
 						</p>
 						<div class="u-word-break">
 							<p>

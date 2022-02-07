@@ -3,7 +3,7 @@
 /**
  * Class to show hierarchy.
  *
- * @copyright YetiForce Sp. z o.o
+ * @copyright YetiForce S.A.
  * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>

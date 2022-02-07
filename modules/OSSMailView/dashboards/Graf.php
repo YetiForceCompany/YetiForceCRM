@@ -3,7 +3,7 @@
 /**
  * OSSMailView graf dashboard class.
  *
- * @copyright YetiForce Sp. z o.o
+ * @copyright YetiForce S.A.
  * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailView_Graf_Dashboard extends Vtiger_IndexAjax_View

@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce Sp. z o.o
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -25,19 +25,19 @@
 		{assign var=MINUTE value=$REMINDER_VALUES[2]}
 	{/if}
 	<div class="tpl-Edit-Field-Reminder d-flex flex-nowrap js-reminder-field-element"
-		 data-js="container">
+		data-js="container">
 		<div class="checkbox">
 			<input name="{$FIELD_MODEL->getName()}" value="0" type="hidden">
 			<label class="d-flex align-items-baseline">
-				<input name="{$FIELD_MODEL->getName()}" value="1" type="checkbox" class="js-reminder-field-checkbox" {if $REMINDER_VALUES neq ''}checked="checked"{/if} tabindex="{$TABINDEX}"
-					   title="{\App\Language::translate('Send Reminder', $MODULE)}" data-js="checked"/>&nbsp;&nbsp;
+				<input name="{$FIELD_MODEL->getName()}" value="1" type="checkbox" class="js-reminder-field-checkbox" {if $REMINDER_VALUES neq ''}checked="checked" {/if} tabindex="{$TABINDEX}"
+					title="{\App\Language::translate('Send Reminder', $MODULE)}" data-js="checked" />&nbsp;&nbsp;
 			</label>
 		</div>
 		<div class="{if $REMINDER_VALUES neq ''}show{else}d-none{/if} row w-100 js-reminder-field-row"
-			 data-js="class:d-none">
+			data-js="class:d-none">
 			<div class="col-4">
 				<div>
-					<select class="select2" name="remdays" tabindex="{$TABINDEX}"	title="{\App\Language::translate('LBL_REMAIND_DAYS', $MODULE)}">
+					<select class="select2" name="remdays" tabindex="{$TABINDEX}" title="{\App\Language::translate('LBL_REMAIND_DAYS', $MODULE)}">
 						{for $DAYS = 0 to 31}
 							<option value="{$DAYS}" {if $DAYS eq $DAY}selected{/if}>{$DAYS}</option>
 						{/for}
