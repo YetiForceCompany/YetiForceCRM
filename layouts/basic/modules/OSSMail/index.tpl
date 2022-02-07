@@ -1,9 +1,9 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <script>
 	let height = window.innerHeight;
 	jQuery(function() {
 		window.App.Components.Scrollbar.active = false;
-		$('#roundcube_interface').css('height', height - $('.js-header').innerHeight() - $('.js-footer').innerHeight() -1 );
+		$('#roundcube_interface').css('height', height - $('.js-header').innerHeight() - $('.js-footer').innerHeight() - 1);
 	});
 </script>
 <input type="hidden" value="" id="tempField" name="tempField" />

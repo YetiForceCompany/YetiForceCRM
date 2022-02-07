@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-TwoFactorAuthentication-Index">
 		<div class="o-breadcrumb widget_header row">
@@ -40,7 +40,7 @@
 									<div class="input-group js-ip-container_element flex-nowrap mb-2" data-js="container">
 										<div class="input-group-prepend">
 											<button type="button" class="btn btn-danger js-clear" data-js="click"
-													title="{\App\Language::translate('LBL_REMOVE', $QUALIFIED_MODULE)}">
+												title="{\App\Language::translate('LBL_REMOVE', $QUALIFIED_MODULE)}">
 												<span class="fas fa-times-circle"></span>
 											</button>
 										</div>
@@ -50,7 +50,7 @@
 								<div class="input-group js-ip-container_element flex-nowrap mb-2{if $BASIC} js-base-element d-none{/if}" data-js="container">
 									<div class="input-group-prepend">
 										<button type="button" class="btn btn-danger js-clear" data-js="click"
-												title="{\App\Language::translate('LBL_REMOVE', $QUALIFIED_MODULE)}">
+											title="{\App\Language::translate('LBL_REMOVE', $QUALIFIED_MODULE)}">
 											<span class="fas fa-times-circle"></span>
 										</button>
 									</div>
@@ -58,7 +58,7 @@
 								</div>
 							</div>
 							<button type="button" class="btn btn-default js-add float-right mt-2" data-js="click"
-									title="{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)}">
+								title="{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)}">
 								<span class="fas fa-plus"></span>
 							</button>
 						</div>

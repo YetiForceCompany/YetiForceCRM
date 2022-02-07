@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-LayoutEditor-inventoryTypes-Base -->
 	<div class="form-group row align-items-center">
@@ -11,7 +11,7 @@
 				{assign var='LABEL' value=$FIELD_INSTANCE->get('label')}
 			{/if}
 			<input name="label" value="{$LABEL}" type="text" class="form-control"
-				   data-validation-engine="validate[required]"/>
+				data-validation-engine="validate[required]" />
 		</div>
 	</div>
 	<div class="form-group row align-items-center">
@@ -35,11 +35,11 @@
 		<div class="col-md-7">
 			<div class=" input-group">
 				<input name="colSpan" value="{$FIELD_INSTANCE->getColSpan()}" type="text" class="form-control"
-					   data-validation-engine="validate[required, custom[integer]]"/>
+					data-validation-engine="validate[required, custom[integer]]" />
 				<div class="input-group-append">
 					<div class="input-group-text js-popover-tooltip u-cursor-pointer" data-js="popover"
-						 data-placement="top"
-						 data-content="{App\Language::translate('LBL_MAX_WIDTH_COLUMN_INFO', $QUALIFIED_MODULE)}">
+						data-placement="top"
+						data-content="{App\Language::translate('LBL_MAX_WIDTH_COLUMN_INFO', $QUALIFIED_MODULE)}">
 						<span class="fas fa-info-circle"></span>
 					</div>
 				</div>

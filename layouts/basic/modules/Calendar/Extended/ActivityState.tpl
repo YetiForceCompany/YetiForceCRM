@@ -1,7 +1,7 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Calendar-Extended-ActivityState js-activity-state modalEditStatus"
-		 data-js="container" tabindex="-1">
+		data-js="container" tabindex="-1">
 		{assign var=ID value=$RECORD->getId()}
 		<div class="o-calendar__form w-100 d-flex flex-column">
 			<h6 class="boxEventTitle text-muted text-center my-1">
@@ -16,21 +16,21 @@
 					{/foreach}
 					{if $RECORD->isEditable()}
 						<a href="#" data-url="{$RECORD->getEditViewUrl()}" data-id="{$ID}"
-						   class="editRecord btn mt-1 btn-default mr-1"
-						   title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}">
+							class="editRecord btn mt-1 btn-default mr-1"
+							title="{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}">
 							<span class="yfi yfi-full-editing-view summaryViewEdit"></span>
 							<span class="ml-1">{\App\Language::translate('LBL_EDIT',$MODULE_NAME)}</span>
 						</a>
 					{/if}
 					{if $RECORD->isViewable()}
 						<a href="{$RECORD->getDetailViewUrl()}" class="btn mt-1 btn-default mr-1"
-						   title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}">
+							title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}">
 							<span class="fas fa-list summaryViewEdit"></span>
 							<span class="ml-1">{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE_NAME)}</span>
 						</a>
 					{/if}
 					<a href="#" class="btn mt-1 btn-danger js-summary-close-edit ml-auto"
-					   title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}">
+						title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}">
 						<span class="fas fa-times" title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"></span>
 						<span class="ml-1 d-none d-xl-inline">{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}</span>
 					</a>

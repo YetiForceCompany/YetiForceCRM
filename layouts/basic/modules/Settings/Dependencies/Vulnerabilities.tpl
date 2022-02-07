@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-Dependencies-Vulnerabilities -->
 	<div class="pt-md-0 pt-1">
@@ -55,12 +55,12 @@
 										<td><label>{if isset($ADVISORIE['cve'])}{\App\Purifier::encodeHtml($ADVISORIE['cve'])}{/if}</label></td>
 										<td><label>{\App\Purifier::encodeHtml($ADVISORIE['title'])}</label></td>
 										<td><label>
-											{if isset($ADVISORIE['link'])}
-												<a target="_blank" rel="noreferrer noopener" href="{\App\Purifier::encodeHtml($ADVISORIE['link'])}">
-													{\App\Purifier::encodeHtml($ADVISORIE['link'])}
-												</a>
-											{/if}
-										</label></td>
+												{if isset($ADVISORIE['link'])}
+													<a target="_blank" rel="noreferrer noopener" href="{\App\Purifier::encodeHtml($ADVISORIE['link'])}">
+														{\App\Purifier::encodeHtml($ADVISORIE['link'])}
+													</a>
+												{/if}
+											</label></td>
 
 									</tr>
 								{/foreach}

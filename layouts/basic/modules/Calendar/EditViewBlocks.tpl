@@ -1,9 +1,9 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Calendar-EditViewBlocks -->
 	<input type="hidden" id="extendModules" value="Calendar">
 	{include file=\App\Layout::getTemplatePath('EditViewBlocks.tpl', 'Vtiger')}
-	<input type="hidden" name="userChangedEndDateTime" value="{$USER_CHANGED_END_DATE_TIME}"/>
+	<input type="hidden" name="userChangedEndDateTime" value="{$USER_CHANGED_END_DATE_TIME}" />
 	{assign var=IS_HIDDEN value=false}
 	{assign var=INVITIES_SELECTED value=$RECORD->getInvities()}
 	<div class="js-toggle-panel c-panel c-panel--edit row mx-1 mb-3" data-js="click" data-label="LBL_INVITE_RECORDS">

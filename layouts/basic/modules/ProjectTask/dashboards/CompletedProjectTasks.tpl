@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-ProjectTask-Dashboard-CompletedProjectTasks dashboardWidgetHeader">
 		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
@@ -7,29 +7,29 @@
 			<div class="d-inline-flex">
 				{if !empty($LISTVIEWLINKS)}
 					<button class="btn btn-light btn-sm ml-1 goToListView"
-							title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}">
+						title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}">
 						<span class="fas fa-th-list"></span>
 					</button>
 				{/if}
 				{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<hr class="widgetHr"/>
+		<hr class="widgetHr" />
 		<div class="row no-gutters">
 			<div class="col-ceq-xsm-6">
 				<div class="input-group input-group-sm">
 					<span class="input-group-prepend">
 						<span class="input-group-text">
 							<span class="fas fa-filter iconMiddle margintop3"
-								  title="{\App\Language::translate('Priority', $MODULE_NAME)}"></span>
+								title="{\App\Language::translate('Priority', $MODULE_NAME)}"></span>
 						</span>
 					</span>
 					<select class="widgetFilter select2 form-control" aria-label="Small"
-							aria-describedby="inputGroup-sizing-sm" name="projecttaskpriority"
-							title="{\App\Language::translate('LBL_TICKET_PRIORITY',$MODULE_NAME)}">
+						aria-describedby="inputGroup-sizing-sm" name="projecttaskpriority"
+						title="{\App\Language::translate('LBL_TICKET_PRIORITY',$MODULE_NAME)}">
 						<option value="all">{\App\Language::translate('LBL_ALL')}</option>
 						{foreach item=ITEM from=\App\Fields\Picklist::getValues('projecttaskpriority')}
-							<option value="{$ITEM['picklistValue']}"{if $ITEM['picklistValue'] === $TICKETPRIORITY} selected{/if}>{\App\Language::translate($ITEM['picklistValue'],$MODULE_NAME)}</option>
+							<option value="{$ITEM['picklistValue']}" {if $ITEM['picklistValue'] === $TICKETPRIORITY} selected{/if}>{\App\Language::translate($ITEM['picklistValue'],$MODULE_NAME)}</option>
 						{/foreach}
 					</select>
 				</div>

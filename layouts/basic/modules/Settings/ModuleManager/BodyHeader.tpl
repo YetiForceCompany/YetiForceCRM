@@ -1,14 +1,14 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<!-- tpl-Base-BodyHeader -->
 	{assign var='count' value=0}
 	<header class="navbar navbar-expand-md navbar-dark fixed-top px-2 js-header c-header"
-			data-js="height">
+		data-js="height">
 		<div class="o-navbar__left d-inline-flex">
 			<div class="rightHeaderBtnMenu">
 				<div class="quickAction">
 					<a class="btn btn-light c-header__btn ml-0 js-sidebar-btn" role="button" href="#" data-js="click"
-					   aria-haspopup="true" aria-expanded="false">
+						aria-haspopup="true" aria-expanded="false">
 						<span class="fas fa-bars fa-fw" title="{\App\Language::translate('LBL_MENU')}"></span>
 					</a>
 				</div>
@@ -16,7 +16,7 @@
 			{assign var=VERIFY value=\App\YetiForce\Shop::verify()}
 			{if $VERIFY}
 				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip" role="button" data-content="{$VERIFY}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
-					{if $USER_MODEL->isAdminUser()} href="index.php?module=YetiForce&parent=Settings&view=Shop"{else} href="#"{/if}>
+					{if $USER_MODEL->isAdminUser()} href="index.php?module=YetiForce&parent=Settings&view=Shop" {else} href="#" {/if}>
 					<span class="yfi yfi-shop-alert fa-2x"></span>
 				</a>
 			{/if}
@@ -27,13 +27,13 @@
 					{assign var="INFO_REGISTRATION_ERROR" value=\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}
 				{/if}
 				<a class="d-flex align-items-center text-center text-warning p-0 text-danger js-popover-tooltip c-header__btn" role="button"
-						data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
-						title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
-						{if \App\Security\AdminAccess::isPermitted('Companies')}
-							href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
-						{else}
-							href="#"
-						{/if} >
+					data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
+					title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
+					{if \App\Security\AdminAccess::isPermitted('Companies')}
+						href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
+					{else}
+						href="#"
+					{/if}>
 					<span class="yfi yfi-yeti-register-alert fa-2x">
 					</span>
 				</a>
@@ -58,7 +58,7 @@
 			{/if}
 			<nav class="actionMenu" aria-label="{\App\Language::translate("QUICK_ACCESS_MENU")}">
 				<a class="btn btn-light c-header__btn ml-2 c-header__btn--mobile js-quick-action-btn" href="#"
-				   data-js="click" role="button" aria-expanded="false" aria-controls="o-action-menu__container">
+					data-js="click" role="button" aria-expanded="false" aria-controls="o-action-menu__container">
 					<span class="fas fa-ellipsis-h fa-fw" title="{\App\Language::translate('LBL_ACTION_MENU')}"></span>
 				</a>
 				<div class="o-action-menu__container d-flex flex-md-nowrap flex-column flex-md-row" id="o-action-menu__container">
@@ -74,19 +74,19 @@
 								{assign var="HREF" value=$LINK}
 							{/if}
 							<div class="o-action-menu__item">
-								<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" href="{$HREF}"  data-placement="bottom"
-								   role="button" data-js="popover" data-content="{\App\Language::translate($TITLE)}"
-										{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
-											{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
-												data-{$DATA_NAME}="{$DATA_VALUE}"
-											{/foreach}
-										{/if}>
+								<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" href="{$HREF}" data-placement="bottom"
+									role="button" data-js="popover" data-content="{\App\Language::translate($TITLE)}"
+									{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
+										{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+											data-{$DATA_NAME}="{$DATA_VALUE}"
+										{/foreach}
+									{/if}>
 									{if $ICON}
 										<span class="{$ICON}" title="{\App\Language::translate($TITLE)}"></span>
 										<span class="c-header__label--sm-down">{\App\Language::translate($TITLE)}</span>
 									{/if}
 									{if $ICON_PATH}
-										<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE)}" title="{\App\Language::translate($TITLE)}"/>
+										<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE)}" title="{\App\Language::translate($TITLE)}" />
 									{/if}
 								</a>
 								{if !empty($CHILD_LINKS)}
@@ -106,8 +106,8 @@
 												<li>
 													<a class="dropdown-item" href="{$href}" target="{$obj->target}" {$onclick}
 														id="menubar_item_right_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($label)}"
-													   	{if $obj->linkdata && is_array($obj->linkdata)}
-															{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}data-{$DATA_NAME}="{$DATA_VALUE}"{/foreach}
+														{if $obj->linkdata && is_array($obj->linkdata)}
+															{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}data-{$DATA_NAME}="{$DATA_VALUE}" {/foreach}
 														{/if}>
 														{\App\Language::translate($label)}
 													</a>

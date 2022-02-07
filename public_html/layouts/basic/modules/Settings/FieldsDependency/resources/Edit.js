@@ -4,7 +4,7 @@
  * @package     Settings.Edit
  *
  * @description Fields dependency edit view scripts
- * @license     YetiForce Public License 4.0
+ * @license     YetiForce Public License 5.0
  * @author      Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 'use strict';

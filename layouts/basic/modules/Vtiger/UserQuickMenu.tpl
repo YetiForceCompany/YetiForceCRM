@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-UserQuickMenu -->
 	<div class="dropdown-menu historyList p-0 u-max-w-sm-100 u-min-w-300pxr" aria-labelledby="showHistoryBtn" role="list" data-js="perfectscrollbar">
@@ -43,11 +43,11 @@
 						<div class="col-12 u-bg-light-darken">
 							<a class="text-decoration-none u-fs-sm text-secondary pt-2 pb-2 {$MENU_ELEMENT->getClassName()}"
 								href="{$HREF}"
-									{if isset($MENU_ELEMENT->linkdata) && $MENU_ELEMENT->linkdata && is_array($MENU_ELEMENT->linkdata)}
-										{foreach item=DATA_VALUE key=DATA_NAME from=$MENU_ELEMENT->linkdata}
-											data-{$DATA_NAME}="{$DATA_VALUE}"
-										{/foreach}
-									{/if}>
+								{if isset($MENU_ELEMENT->linkdata) && $MENU_ELEMENT->linkdata && is_array($MENU_ELEMENT->linkdata)}
+									{foreach item=DATA_VALUE key=DATA_NAME from=$MENU_ELEMENT->linkdata}
+										data-{$DATA_NAME}="{$DATA_VALUE}"
+									{/foreach}
+								{/if}>
 								{if $ICON}
 									<span class="{$ICON}" title="{\App\Language::translate($TITLE, 'Users')}"></span>
 									<span class="ml-2">{\App\Language::translate($TITLE, 'Users')}</span>

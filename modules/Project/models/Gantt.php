@@ -4,7 +4,7 @@
  * Gantt Model class.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 class Project_Gantt_Model

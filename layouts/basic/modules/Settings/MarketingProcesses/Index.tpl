@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 
 <div id="supportProcessesContainer" class=" supportProcessesContainer">
 	<div class="o-breadcrumb widget_header row">
@@ -16,7 +16,7 @@
 			<div class="well">
 				<div class="row">
 					<div class="col-3"><label class="">{\App\Language::translate('LBL_CONVERSION_TO_ACCOUNT',$QUALIFIED_MODULE)}</label></div>
-					<div class="col-1"><input class="configField" type="checkbox" data-type="conversion" name="change_owner" value="1"  {if $CONVERSION['change_owner']=='true'}checked=""{/if} /></div>
+					<div class="col-1"><input class="configField" type="checkbox" data-type="conversion" name="change_owner" value="1" {if $CONVERSION['change_owner']=='true'}checked="" {/if} /></div>
 					<div class="col-8">
 						<span class="alert alert-info float-right no-margin">
 							{\App\Language::translate('LBL_CONVERSION_TO_ACCOUNT_INFO',$QUALIFIED_MODULE)}
@@ -27,7 +27,7 @@
 			<div class="well">
 				<div class="row">
 					<div class="col-3"><label class="">{\App\Language::translate('LBL_CONVERT_LEAD_MERGE',$QUALIFIED_MODULE)}</label></div>
-					<div class="col-1"><input class="configField" type="checkbox" data-type="conversion" name="create_always" value="1"  {if $CONVERSION['create_always']=='true'}checked=""{/if} /></div>
+					<div class="col-1"><input class="configField" type="checkbox" data-type="conversion" name="create_always" value="1" {if $CONVERSION['create_always']=='true'}checked="" {/if} /></div>
 					<div class="col-8">
 						<span class="alert alert-info float-right no-margin">
 							{\App\Language::translate('LBL_CONVERT_LEAD_MERGE_ALERT',$QUALIFIED_MODULE)}
@@ -119,7 +119,7 @@
 			{assign var=LEAD value=$MODULE_MODEL->getConfig('lead')}
 			<table class="table tableRWD table-bordered table-sm themeTableColor userTable">
 				<thead>
-					<tr class="blockHeader" >
+					<tr class="blockHeader">
 						<th class="mediumWidthType">
 							<span>{\App\Language::translate('LBL_INFO', $QUALIFIED_MODULE)}</span>
 						</th>
@@ -135,7 +135,7 @@
 							{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance('Leads')->getAccessibleGroups()}
 							<select class="select2 configField" name="groups" data-type="lead" multiple>
 								{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
-									<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $LEAD['groups'])}selected{/if} >
+									<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $LEAD['groups'])}selected{/if}>
 										{$OWNER_NAME}
 									</option>
 								{/foreach}
@@ -147,7 +147,7 @@
 						<td class="w-50">
 							<select class="select2 configField" multiple data-type="lead" name="status">
 								{foreach  item=ITEM from=App\Fields\Picklist::getValuesName('leadstatus')}
-									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['status'])} selected {/if}  >{\App\Language::translate($ITEM,'Leads')}</option>
+									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['status'])} selected {/if}>{\App\Language::translate($ITEM,'Leads')}</option>
 								{/foreach}
 							</select>
 						</td>
@@ -157,7 +157,7 @@
 						<td class="w-50">
 							<select class="select2 configField" multiple data-type="lead" name="convert_status">
 								{foreach  item=ITEM from=App\Fields\Picklist::getValuesName('leadstatus')}
-									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['convert_status'])} selected {/if}  >{\App\Language::translate($ITEM,'Leads')}</option>
+									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['convert_status'])} selected {/if}>{\App\Language::translate($ITEM,'Leads')}</option>
 								{/foreach}
 							</select>
 						</td>

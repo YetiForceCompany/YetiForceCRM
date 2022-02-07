@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var=FIELD_INFO value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
@@ -23,7 +23,7 @@
 				value="{$FIELD_VALUE}"
 			{/if}
 			{if ($FIELD_MODEL->getUIType() eq '106' && $MODE neq '') || $FIELD_MODEL->getUIType() eq '3'
-							|| $FIELD_MODEL->getUIType() eq '4'|| $FIELD_MODEL->isReadOnly()}
+								|| $FIELD_MODEL->getUIType() eq '4'|| $FIELD_MODEL->isReadOnly()}
 			readonly
 		{/if}
 		data-fieldinfo='{$FIELD_INFO}'

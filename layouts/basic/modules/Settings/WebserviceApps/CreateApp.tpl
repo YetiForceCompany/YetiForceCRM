@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="validationEngineContainer" id="EditView">
 		<form>
@@ -9,7 +9,7 @@
 					<h5 class="modal-title"><span class="fas fa-plus fa-sm mr-1"></span>{\App\Language::translate('LBL_TITLE_ADDED', $QUALIFIED_MODULE)}</h5>
 				{/if}
 				<button type="button" class="close" data-dismiss="modal"
-						title="{\App\Language::translate('LBL_CLOSE')}">
+					title="{\App\Language::translate('LBL_CLOSE')}">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
@@ -45,7 +45,7 @@
 				<div class="form-group form-row col-sm-12">
 					<label class="col-sm-2 col-form-label text-right u-text-small-bold">{\App\Language::translate('LBL_TYPE_SERVER', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-10">
-						<select name="type" class="select2 typeServer" {if $RECORD_MODEL}readonly="readonly"{/if}>
+						<select name="type" class="select2 typeServer" {if $RECORD_MODEL}readonly="readonly" {/if}>
 							{foreach from=\Api\Core\Containers::$list item=TYPE}
 								<option value="{$TYPE}" {if $TYPE eq $APP_TYPE}selected{/if}>
 									{\App\Language::translate($TYPE, $QUALIFIED_MODULE)}

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<tr class="tpl-Settings-Users-SwitchUsersItem">
 		<td>
@@ -39,7 +39,7 @@
 		</td>
 		<td class="textAlignCenter">
 			<button title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" type="button"
-					class="btn btn-sm btn-danger delate">
+				class="btn btn-sm btn-danger delate">
 				<i class="fas fa-trash-alt"></i>
 			</button>
 		</td>

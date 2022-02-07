@@ -1,7 +1,7 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="tpl-Settings-Menu-CreateMenuStep1 modal fade" tabindex="-1">
 	<div class="modal-dialog">
-        <div class="modal-content">
+		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title"><span class="fa fa-plus u-mr-5px"></span>{\App\Language::translate('LBL_CREATING_MENU', $QUALIFIED_MODULE)}</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">

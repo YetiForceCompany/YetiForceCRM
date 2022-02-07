@@ -1,7 +1,7 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="tpl-Base-QuickCreateModel quickCreateModules modal" id="quickCreateModules" tabindex="-1" role="dialog"
-		 aria-labelledby="c-quick-create__title" aria-hidden="true">
+		aria-labelledby="c-quick-create__title" aria-hidden="true">
 		<div class="modal-dialog c-modal-xxl" role="document">
 			<div class="modal-content">
 				<div class="modal-header row no-gutters">
@@ -40,18 +40,17 @@
 										{/if}
 										<li class="list-group-item pt-1 pb-1 js-quickcreate-search-item">
 											<a id="menubar_quickCreate_{$NAME}"
-											   data-name="{$NAME}"
-													{if $quickCreateModule}
-														class="quickCreateModule text-dark"
-														data-url="{$MODULEMODEL->getQuickCreateUrl()}"
-														href="javascript:void(0)"
-													{else}
-														class="text-dark"
-														href="{$MODULEMODEL->getCreateRecordUrl()}"
-													{/if}
-											>
-													<span class="modCT_{$NAME} yfm-{$NAME} mr-1"
-														  title="{\App\Language::translate($singularLabel,$NAME)}"></span>
+												data-name="{$NAME}"
+												{if $quickCreateModule}
+													class="quickCreateModule text-dark"
+													data-url="{$MODULEMODEL->getQuickCreateUrl()}"
+													href="javascript:void(0)"
+												{else}
+													class="text-dark"
+													href="{$MODULEMODEL->getCreateRecordUrl()}"
+												{/if}>
+												<span class="modCT_{$NAME} yfm-{$NAME} mr-1"
+													title="{\App\Language::translate($singularLabel,$NAME)}"></span>
 												<span>{\App\Language::translate($singularLabel,$NAME)}</span>
 											</a>
 										</li>

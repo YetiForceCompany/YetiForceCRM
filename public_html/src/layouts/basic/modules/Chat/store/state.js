@@ -1,10 +1,10 @@
-/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 export default {
 	layout: {
 		drawer: {
 			fs: '.88rem',
-			breakpoint: 1023
-		}
+			breakpoint: 1023,
+		},
 	},
 	session: {
 		dialog: false,
@@ -19,12 +19,12 @@ export default {
 			width: 450,
 			height: window.innerHeight - 160,
 			top: 60,
-			left: window.innerWidth - 450
+			left: window.innerWidth - 450,
 		},
 		buttonCoordinates: {
 			top: window.innerHeight - 82,
-			left: window.innerWidth - 62
-		}
+			left: window.innerWidth - 62,
+		},
 	},
 	local: {
 		isSoundNotification: null,
@@ -35,9 +35,9 @@ export default {
 			global: [],
 			group: [],
 			private: [],
-			user: []
+			user: [],
 		},
-		roomsExpanded: []
+		roomsExpanded: [],
 	},
 	data: {
 		amountOfNewMessages: 0,
@@ -46,13 +46,13 @@ export default {
 			group: {},
 			global: {},
 			crm: {},
-			user: {}
+			user: {},
 		},
 		currentRoom: {},
 		history: {
 			chatEntries: [],
-			showMoreButton: null
-		}
+			showMoreButton: null,
+		},
 	},
 	config: {
 		isChatAllowed: null,
@@ -67,6 +67,6 @@ export default {
 		draggableButton: null,
 		detailPreview: { id: null, module: null },
 		activeRoomTypes: [],
-		userRoomPin: null
-	}
+		userRoomPin: null,
+	},
 }

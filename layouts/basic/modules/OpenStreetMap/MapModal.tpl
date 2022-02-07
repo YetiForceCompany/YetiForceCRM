@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-OpenStreet-MapModal -->
 	<input type="hidden" id="tileLayerServer" value="{\App\Map\Layer::getTileServer()}">
@@ -13,7 +13,7 @@
 			<div class="col-md-6 ">
 				<div class="input-group">
 					<input type="text" class="searchValue form-control"
-							placeholder="{\App\Language::translate('LBL_SEARCH_VALUE_DESCRIPTION', $MODULE_NAME)}"/>
+						placeholder="{\App\Language::translate('LBL_SEARCH_VALUE_DESCRIPTION', $MODULE_NAME)}" />
 					<input type="text" class="form-control u-max-w-150px js-radius" data-js="val" size="6" placeholder="{\App\Language::translate('LBL_IN_RADIUS', $MODULE_NAME)}" />
 					<div class="input-group-append">
 						<button class="btn btn-success input-group-btn searchBtn">{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)}</span></button>

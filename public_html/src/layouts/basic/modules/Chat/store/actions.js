@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import difference from 'lodash.difference'
 let timer = false
 
@@ -39,7 +39,7 @@ export default {
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
-				mode: 'getChatConfig'
+				mode: 'getChatConfig',
 			}).done(({ result }) => {
 				commit('setConfig', result.config)
 				commit('setAmountOfNewMessagesByRoom', result.roomList)
@@ -56,7 +56,7 @@ export default {
 				mode: 'getMessages',
 				recordId: id,
 				roomType,
-				recordRoom: false
+				recordRoom: false,
 			}).done(({ result }) => {
 				if (result) {
 					if (result.amountOfNewMessages) {
@@ -75,7 +75,7 @@ export default {
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
-				mode: 'getRooms'
+				mode: 'getRooms',
 			}).done(({ result }) => {
 				if (result) {
 					commit('mergeData', result)
@@ -90,7 +90,7 @@ export default {
 				module: 'Chat',
 				action: 'ChatAjax',
 				mode: 'getRoomsUnpinned',
-				roomType
+				roomType,
 			}).done(({ result }) => {
 				resolve(result)
 			})
@@ -102,7 +102,7 @@ export default {
 				module: 'Chat',
 				action: 'ChatAjax',
 				mode: 'archivePrivateRoom',
-				recordId: recordId
+				recordId: recordId,
 			}).done(({ result }) => {
 				if (result) {
 					commit('unsetRoom', { roomType: 'private', recordId })
@@ -117,7 +117,7 @@ export default {
 				module: 'Chat',
 				action: 'ChatAjax',
 				mode: 'getRecordRoom',
-				id: id
+				id: id,
 			}).done(({ result }) => {
 				commit('mergeData', result)
 				resolve(result)
@@ -133,7 +133,7 @@ export default {
 				module: 'Chat',
 				action: 'ChatAjax',
 				mode: 'getRoomPrivateUnpinnedUsers',
-				roomId
+				roomId,
 			}).done(({ result }) => {
 				resolve(result)
 			})
@@ -153,8 +153,8 @@ export default {
 				module: 'Chat',
 				action: 'ChatAjax',
 				mode: 'addPrivateRoom',
-				name: name
-			}).done(result => {
+				name: name,
+			}).done((result) => {
 				resolve(result)
 			})
 		})
@@ -169,8 +169,8 @@ export default {
 				action: 'ChatAjax',
 				mode: 'addParticipant',
 				recordId,
-				userId
-			}).done(result => {
+				userId,
+			}).done((result) => {
 				resolve(result)
 			})
 		})
@@ -185,14 +185,14 @@ export default {
 				roomType,
 				recordId,
 				message: text,
-				mid: lastEntries !== undefined ? lastEntries['id'] : undefined
+				mid: lastEntries !== undefined ? lastEntries['id'] : undefined,
 			}).done(({ result }) => {
 				if (result.message) {
 					commit('setData', result.data)
 					Quasar.plugins.Notify.create({
 						position: 'top',
 						textColor: 'negative',
-						message: app.vtranslate(result.message)
+						message: app.vtranslate(result.message),
 					})
 				} else {
 					commit('pushSended', { result, roomType, recordId })
@@ -207,8 +207,8 @@ export default {
 			action: 'Room',
 			mode: 'removeFromFavorites',
 			roomType,
-			recordId
-		}).done(data => {
+			recordId,
+		}).done((data) => {
 			if (data) {
 				dispatch('unsetRoom', { roomType, recordId })
 			}
@@ -227,7 +227,7 @@ export default {
 			action: 'Room',
 			mode: 'addToFavorites',
 			roomType,
-			recordId
+			recordId,
 		}).done(({ success, result }) => {
 			if (success) {
 				dispatch('fetchRoomList')
@@ -242,14 +242,14 @@ export default {
 				mode: 'removeUserFromRoom',
 				recordId,
 				roomType,
-				userId
+				userId,
 			}).done(({ result }) => {
 				commit('unsetParticipant', { roomId: recordId, participantId: userId })
 				Quasar.plugins.Notify.create({
 					position: 'top',
 					color: 'success',
 					message: app.vtranslate('JS_CHAT_PARTICIPANT_REMOVED'),
-					icon: 'mdi-check'
+					icon: 'mdi-check',
 				})
 				resolve(result)
 			})
@@ -264,7 +264,7 @@ export default {
 					mode: 'getMoreMessages',
 					lastId: chatEntries[0].id,
 					roomType,
-					recordId
+					recordId,
 				},
 				false
 			).done(({ result }) => {
@@ -287,7 +287,7 @@ export default {
 					searchVal: value,
 					mid: showMore ? roomData.searchData.chatEntries[0].id : null,
 					roomType: roomData.roomType,
-					recordId: roomData.recordid
+					recordId: roomData.recordid,
 				},
 				false
 			).done(({ result }) => {
@@ -295,13 +295,13 @@ export default {
 					commit('setSearchData', {
 						searchData: result,
 						roomType: roomData.roomType,
-						recordId: roomData.recordid
+						recordId: roomData.recordid,
 					})
 				} else {
 					commit('pushOlderEntriesToSearch', {
 						searchData: result,
 						roomType: roomData.roomType,
-						recordId: roomData.recordid
+						recordId: roomData.recordid,
 					})
 				}
 				resolve(result)
@@ -316,7 +316,7 @@ export default {
 			AppConnector.request({
 				module: 'Chat',
 				action: 'ChatAjax',
-				mode: 'getUnread'
+				mode: 'getUnread',
 			}).done(({ result }) => {
 				resolve(result)
 			})
@@ -334,7 +334,7 @@ export default {
 				action: 'ChatAjax',
 				mode: 'getHistory',
 				mid: showMoreClicked ? getters.data.history.chatEntries[0].id : null,
-				groupHistory
+				groupHistory,
 			}).done(({ result }) => {
 				if (!showMoreClicked) {
 					commit('setHistoryData', result)
@@ -405,7 +405,7 @@ export default {
 				if (!getters.data.roomList[roomType][room]) {
 					newRooms.push({
 						roomType,
-						recordId: roomList[roomType][room].recordid
+						recordId: roomList[roomType][room].recordid,
 					})
 				}
 			}
@@ -413,7 +413,7 @@ export default {
 		if (newRooms.length) {
 			commit('setNewRooms', {
 				newRooms,
-				newData: roomList
+				newData: roomList,
 			})
 		}
 	},
@@ -447,28 +447,28 @@ export default {
 	 * Fetch new messages timeout function
 	 */
 	fetchNewMessages({ getters, commit, dispatch }, { firstFetch } = { firstFetch: false }) {
-		let activeRooms = getters.allRooms.length ? getters.allRooms.filter(el => el.active) : []
+		let activeRooms = getters.allRooms.length ? getters.allRooms.filter((el) => el.active) : []
 		AppConnector.request({
 			module: 'Chat',
 			action: 'ChatAjax',
 			mode: 'getRoomsMessages',
-			rooms: activeRooms
+			rooms: activeRooms,
 		}).done(({ result }) => {
 			dispatch('unsetUnpinnedRooms', result.roomList)
 			dispatch('setNewRooms', result.roomList)
 			if (result.areNewEntries) {
 				commit('updateActiveRooms', {
 					roomsToUpdate: [...activeRooms],
-					newData: result
+					newData: result,
 				})
 			}
 			dispatch('notifyAboutNewMessages', {
 				...result.amountOfNewMessages,
-				firstFetch
+				firstFetch,
 			})
 			if (timer || firstFetch) {
 				dispatch('initTimer')
 			}
 		})
-	}
+	},
 }

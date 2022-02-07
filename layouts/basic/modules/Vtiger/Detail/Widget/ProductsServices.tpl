@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="addRelatedRecordBtn w-100 mb-2">
 		{if $RELATED_MODULE eq 'Products' && \App\Privilege::isPermitted('Products')}
@@ -54,12 +54,12 @@
 				<tbody>
 					{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 						<tr class="listViewEntries" data-id="{$RELATED_RECORD->getId()}" {if $RELATED_RECORD->
-									isViewable()}data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}' {/if}>
+											isViewable()}data-recordUrl='{$RELATED_RECORD->getDetailViewUrl()}' {/if}>
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 							<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap>
 								{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') &&
-												$RELATED_RECORD->isViewable()}
+															$RELATED_RECORD->isViewable()}
 								<a class="modCT_{$RELATED_RECORD->getModuleName()}"
 									href="{$RELATED_RECORD->getDetailViewUrl()}">{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)|truncate:50}</a>
 							{elseif $RELATED_HEADERNAME eq 'access_count'}
@@ -69,7 +69,7 @@
 								{CurrencyField::convertToUserFormat($RELATED_RECORD->get($RELATED_HEADERNAME), null, true)}
 								{if $RELATED_HEADERNAME eq 'listprice'}
 									{assign var="LISTPRICE" value=CurrencyField::convertToUserFormat($RELATED_RECORD->get($RELATED_HEADERNAME),
-														null, true)}
+																		null, true)}
 								{/if}
 							{else}
 								{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}

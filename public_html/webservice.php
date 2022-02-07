@@ -2,7 +2,7 @@
 /**
  * Api public file.
  *
- * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @copyright YetiForce S.A.
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div id="salesProcessesHierarchyContainer" class="modelContainer modal fade" tabindex="-1">
 		<div class="modal-dialog modal-lg">
@@ -10,13 +10,13 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<div id ="hierarchyScroll">
+					<div id="hierarchyScroll">
 						<table class="table table-bordered">
 							<thead>
 								<tr class="blockHeader">
 									{foreach item=HEADERNAME from=$HIERARCHY['header']}
 										<th class="text-center text-nowrap">{\App\Language::translate($HEADERNAME, $MODULE)}</th>
-										{/foreach}
+									{/foreach}
 								</tr>
 							</thead>
 							{foreach item=ENTRIES from=$HIERARCHY['entries']}

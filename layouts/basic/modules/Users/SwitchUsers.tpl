@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Users-SwitchUsers -->
 	<div class="modal-header">
@@ -11,9 +11,9 @@
 		</button>
 	</div>
 	<form name="switchUsersForm" class="validateForm" action="index.php" method="post">
-		<input type="hidden" name="module" value="{$MODULE_NAME}"/>
-		<input type="hidden" name="action" value="SwitchUsers"/>
-		<input type="hidden" name="id" value="{$BASE_USER_ID}"/>
+		<input type="hidden" name="module" value="{$MODULE_NAME}" />
+		<input type="hidden" name="action" value="SwitchUsers" />
+		<input type="hidden" name="id" value="{$BASE_USER_ID}" />
 		{if count($SWITCH_USERS) neq 0}
 			{assign var=FIRST_SWITCH_USER value=current($SWITCH_USERS)}
 			<div class="modal-body text-center">
@@ -28,7 +28,7 @@
 				</div>
 				{if \App\Config::security('askAdminAboutVisitSwitchUsers', true)}
 					<div class="form-group js-sub-container{if !$FIRST_SWITCH_USER.isAdmin} d-none{/if}">
-						<textarea id="visitPurpose" placeholder="{App\Language::translate('LBL_VISIT_PURPOSE_INFO',$MODULE_NAME)}" maxlength="501" class="form-control js-text-element" name="visitPurpose" data-validation-engine="validate[required,maxSize[500]]" {if !$FIRST_SWITCH_USER.isAdmin} disabled="disabled"{/if}></textarea>
+						<textarea id="visitPurpose" placeholder="{App\Language::translate('LBL_VISIT_PURPOSE_INFO',$MODULE_NAME)}" maxlength="501" class="form-control js-text-element" name="visitPurpose" data-validation-engine="validate[required,maxSize[500]]" {if !$FIRST_SWITCH_USER.isAdmin} disabled="disabled" {/if}></textarea>
 					</div>
 				{/if}
 				<button type="button" class="btn btn-success js-switch-btn">

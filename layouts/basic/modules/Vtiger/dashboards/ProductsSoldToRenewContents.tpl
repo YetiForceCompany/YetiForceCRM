@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Dashboards-ProductsSoldToRenewContents -->
 	{assign var="SPANSIZE" value=12}
@@ -8,7 +8,8 @@
 	<div class="row">
 		{foreach item=FIELD from=$WIDGET_MODEL->getHeaders()}
 			<div class="col-sm-{$SPANSIZE}">
-				<strong>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)} </strong></div>
+				<strong>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)} </strong>
+			</div>
 		{/foreach}
 	</div>
 	{assign var="WIDGET_RECORDS" value=$WIDGET_MODEL->getRecords()}
@@ -27,8 +28,8 @@
 	{/foreach}
 	{if count($WIDGET_RECORDS) >= $WIDGET_MODEL->getRecordLimit()}
 		<button class="btn btn-light float-right btn-sm goToListView"
-				data-url="{$WIDGET_MODEL->getUrl()}"
-				title="{\App\Language::translate('LBL_MORE', $MODULE_NAME)}">
+			data-url="{$WIDGET_MODEL->getUrl()}"
+			title="{\App\Language::translate('LBL_MORE', $MODULE_NAME)}">
 			<span>{\App\Language::translate('LBL_MORE', $MODULE_NAME)}</span>
 		</button>
 	{/if}

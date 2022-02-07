@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-OSSMailView-widgets container-fluid px-0">
 		{assign var=COUNT value=count($RECOLDLIST)}
@@ -48,24 +48,24 @@
 								{if \App\Privilege::isPermitted($SMODULENAME, 'RemoveRelation')}
 									{if  \App\Privilege::isPermitted($MODULE_NAME, 'MoveToTrash', $ROW['id'])}
 										{assign var=LINK value=Vtiger_Link_Model::getInstanceFromValues([
-										'linklabel' => 'LBL_REMOVE_RELATION',
-										'linkicon' => 'fas fa-unlink',
-										'linkclass' => 'btn-xs btn-secondary relationDelete entityStateBtn',
-										'linkdata' => ['content' => \App\Language::translate('LBL_REMOVE_RELATION'),
-									'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'), 'id' => $ROW['id']
-									]
-									])}
+														'linklabel' => 'LBL_REMOVE_RELATION',
+														'linkicon' => 'fas fa-unlink',
+														'linkclass' => 'btn-xs btn-secondary relationDelete entityStateBtn',
+														'linkdata' => ['content' => \App\Language::translate('LBL_REMOVE_RELATION'),
+													'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'), 'id' => $ROW['id']
+													]
+													])}
 										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) MODULE=$MODULE_NAME}
 									{/if}
 									{if  \App\Privilege::isPermitted($MODULE_NAME, 'Delete', $ROW['id'])}
 										{assign var=LINK value=Vtiger_Link_Model::getInstanceFromValues([
-										'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-										'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-										'linkicon' => 'fas fa-eraser',
-										'dataUrl' => "index.php?module={$MODULE_NAME}&action=Delete&record={$ROW['id']}",
+														'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+														'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+														'linkicon' => 'fas fa-eraser',
+														'dataUrl' => "index.php?module={$MODULE_NAME}&action=Delete&record={$ROW['id']}",
 										'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
-									'linkclass' => 'btn-xs btn-dark relationDelete entityStateBtn'
-									])}
+										'linkclass' => 'btn-xs btn-dark relationDelete entityStateBtn'
+										])}
 										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) MODULE=$MODULE_NAME}
 									{/if}
 								{/if}

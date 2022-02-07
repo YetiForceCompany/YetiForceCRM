@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="widgetFooterContent">
 		<div class="row no-margin">
@@ -9,11 +9,11 @@
 			{/if}
 			<div class="col-4">
 				<button class="btn btn-sm btn-light recordCount"
-						data-url="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getTotalCountURL($OWNER))}">
+					data-url="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getTotalCountURL($OWNER))}">
 					<span class="fas fa-signal" title="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}"
-						  aria-hidden="false"></span>
+						aria-hidden="false"></span>
 					<a class="d-none" aria-hidden="true"
-					   href="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getListViewURL($OWNER))}">
+						href="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getListViewURL($OWNER))}">
 						<span class="count badge badge-secondary"></span>
 					</a>
 				</button>
@@ -21,12 +21,13 @@
 			{if count($MINILIST_WIDGET_RECORDS) >= $MINILIST_WIDGET_MODEL->getRecordLimit()}
 				<div class="col-8">
 					<a class="btn btn-sm btn-primary float-right"
-					   href="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getListViewURL($OWNER))}">
+						href="{\App\Purifier::encodeHtml($MINILIST_WIDGET_MODEL->getListViewURL($OWNER))}">
 						<span class="fas fa-align-justify"></span>&nbsp;&nbsp;
 						{\App\Language::translate('LBL_MORE')}
 					</a>
 				</div>
-			{else}&nbsp;{/if}
+			{else}&nbsp;
+			{/if}
 		</div>
 	</div>
 {/strip}

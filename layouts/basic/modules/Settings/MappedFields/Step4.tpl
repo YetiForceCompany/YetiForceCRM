@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="mfTemplateContents">
 		<form name="editMFTemplate" action="index.php" method="post" id="mf_step4" class="form-horizontal">
@@ -26,7 +26,7 @@
 									{foreach from=Settings_Groups_Member_Model::getAll(false) key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 										<optgroup label="{\App\Language::translate($GROUP_LABEL, $QUALIFIED_MODULE)}">
 											{foreach from=$ALL_GROUP_MEMBERS item=MEMBER}
-												<option value="{$MEMBER->get('id')}"  data-member-type="{$GROUP_LABEL}" {if in_array($MEMBER->get('id'), $TEMPLATE_MEMBERS)}selected="true"{/if}>{\App\Language::translate($MEMBER->get('name'), $QUALIFIED_MODULE)}</option>
+												<option value="{$MEMBER->get('id')}" data-member-type="{$GROUP_LABEL}" {if in_array($MEMBER->get('id'), $TEMPLATE_MEMBERS)}selected="true" {/if}>{\App\Language::translate($MEMBER->get('name'), $QUALIFIED_MODULE)}</option>
 											{/foreach}
 										</optgroup>
 									{/foreach}

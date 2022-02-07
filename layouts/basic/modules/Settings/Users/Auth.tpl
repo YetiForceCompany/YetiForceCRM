@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class=" usersAuth">
 		<div class="o-breadcrumb widget_header row">
@@ -25,7 +25,7 @@
 						<div class="clearfix"></div>
 						<div class="form-row">
 							<div class="col-md-1 col-sm-1 col-2 pagination-centered">
-								<input class="configField" type="checkbox" name="active" id="ldapActive" data-type="ldap" value="1" {if $CONFIG['active']=='true'}checked=""{/if}>
+								<input class="configField" type="checkbox" name="active" id="ldapActive" data-type="ldap" value="1" {if $CONFIG['active']=='true'}checked="" {/if}>
 							</div>
 							<div class="col-md-11 col-sm-11 col-10">
 								<label class="u-text-small-bold" for="ldapActive">{\App\Language::translate('LBL_ACTIVE_LDAP_AUTH', $QUALIFIED_MODULE)}</label>

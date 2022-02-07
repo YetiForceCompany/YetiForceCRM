@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import ChatDialog from './views/Dialog.vue'
 import ChatRecordRoom from './views/RecordRoom.vue'
 import YfIcon from 'components/YfIcon.vue'
@@ -14,8 +14,8 @@ Vue.mixin({
 	methods: {
 		translate(key) {
 			return app.vtranslate(key)
-		}
-	}
+		},
+	},
 })
 function initChat() {
 	return new Promise((resolve, reject) => {
@@ -39,18 +39,18 @@ window.ChatRecordRoomVueComponent = {
 			return new Vue({
 				store,
 				config: config,
-				render: h => h(ChatRecordRoom),
+				render: (h) => h(ChatRecordRoom),
 				recordId: app.getRecordId(),
 				beforeCreate() {
 					this.$store.dispatch('Chat/fetchRecordRoom', this.$options.recordId)
-				}
+				},
 			})
 		}
 		if (isModuleInitialized) {
 			recordChatComponent = recordChatComponent()
 			recordChatComponent.$mount(recordChatComponent.$options.config.el)
 		}
-	}
+	},
 }
 window.ChatModalVueComponent = {
 	component: ChatDialog,
@@ -58,15 +58,12 @@ window.ChatModalVueComponent = {
 		ChatDialog.state = config.state
 		return new Vue({
 			store,
-			render: h => h(ChatDialog),
+			render: (h) => h(ChatDialog),
 			beforeCreate() {
-				initChat().then(e => {
+				initChat().then((e) => {
 					this.$store.commit('Chat/initStorage')
 					store.subscribe((mutation, state) => {
-						if (
-							mutation.type !== 'Chat/updateChatData' &&
-							mutation.type !== 'Chat/setAmountOfNewMessages'
-						) {
+						if (mutation.type !== 'Chat/updateChatData' && mutation.type !== 'Chat/setAmountOfNewMessages') {
 							Quasar.plugins.LocalStorage.set('yf-chat', JSON.stringify(state.Chat.local))
 							Quasar.plugins.SessionStorage.set('yf-chat', JSON.stringify(state.Chat.session))
 						}
@@ -76,7 +73,7 @@ window.ChatModalVueComponent = {
 						recordChatComponent.$mount(recordChatComponent.$options.config.el)
 					}
 				})
-			}
+			},
 		}).$mount(config.el)
-	}
+	},
 }

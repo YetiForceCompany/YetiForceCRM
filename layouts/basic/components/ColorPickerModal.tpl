@@ -1,6 +1,6 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Components-ColorPickerModal-->
+	<!-- tpl-Components-ColorPickerModal-->
 	<div class="modal-body">
 		<form class="form-horizontal">
 			<div class="form-group form-row">
@@ -10,12 +10,12 @@
 					<span class="c-circle d-inline-flex" style="background-color: #{$COLOR}"></span>
 				</div>
 				<div class=" col-12 controls">
-					<input type="hidden" class="selectedColor" value="{$COLOR}"/>
+					<input type="hidden" class="selectedColor" value="{$COLOR}" />
 					<div class="js-color-picker" data-js="color-picker">
 					</div>
 				</div>
 			</div>
 		</form>
 	</div>
-<!-- /tpl-Components-ColorPickerModal-->
+	<!-- /tpl-Components-ColorPickerModal-->
 {/strip}

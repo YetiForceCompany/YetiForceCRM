@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="mfTemplateContents">
 		<form name="editMFTemplate" action="index.php" method="post" id="mf_step1" class="form-horizontal">
@@ -10,7 +10,7 @@
 			{if $RECORDID}
 				<input type="hidden" name="tabid" value="{$MAPPEDFIELDS_MODULE_MODEL->get('tabid')}" />
 				<input type="hidden" name="reltabid" value="{$MAPPEDFIELDS_MODULE_MODEL->get('reltabid')}" />
-				<input type="hidden" name="record" value="{$RECORDID}"/>
+				<input type="hidden" name="record" value="{$RECORDID}" />
 			{/if}
 			<div class="col-md-12 px-0">
 				<div class="card">
@@ -68,7 +68,7 @@
 					</div>
 					<div class="card-footer clearfix">
 						<div class="btn-toolbar float-right">
-							<button class="btn btn-success" type="submit" >
+							<button class="btn btn-success" type="submit">
 								<span class="fas fa-caret-right mr-1"></span>
 								{\App\Language::translate('LBL_NEXT', $QUALIFIED_MODULE)}
 							</button>

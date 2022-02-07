@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<!-- tpl-Base-BodyLeft -->
 	<div class="container-fluid c-menu__header">
 		<div class="row">
@@ -8,10 +8,10 @@
 					<h1 class="sr-only">{$CURRENT_USER->get('roleName')}</h1>
 					{if $CURRENT_USER->get('multiCompanyLogoUrl')}
 						<img class="img-fluid logo" src="{$CURRENT_USER->get('multiCompanyLogoUrl')}"
-							 title="{$CURRENT_USER->get('roleName')}"
-							 alt="{$CURRENT_USER->get('roleName')}"/>
+							title="{$CURRENT_USER->get('roleName')}"
+							alt="{$CURRENT_USER->get('roleName')}" />
 					{else}
-						<img class="img-fluid logo" src="{App\Layout::getPublicUrl('layouts/resources/Logo/logo')}" title="Logo" alt="Logo"/>
+						<img class="img-fluid logo" src="{App\Layout::getPublicUrl('layouts/resources/Logo/logo')}" title="Logo" alt="Logo" />
 					{/if}
 				</a>
 			</div>
@@ -25,7 +25,7 @@
 							{/if}
 						{/foreach}
 						<p class="companyName p-0 m-0 u-text-ellipsis"
-						   title="{\App\Language::translate('LBL_ROLE', $QUALIFIED_MODULE)}">
+							title="{\App\Language::translate('LBL_ROLE', $QUALIFIED_MODULE)}">
 							{\App\Language::translate($CURRENT_USER->get('roleName'))}
 						</p>
 					</div>

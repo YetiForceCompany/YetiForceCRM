@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header">
 		<h5 id="myModalLabel" class="modal-title">{\App\Language::translate('LBL_UNTRANSLATED_LABELS',$QUALIFIED_MODULE)}</h5>
@@ -15,9 +15,9 @@
 							<thead>
 								<tr class="blockHeader">
 									<th><strong>{\App\Language::translate('LBL_variable',$QUALIFIED_MODULE)}</strong></th>
-											{foreach from=$TRANSLATIONS item=VALUE key=LANG_KEY name=header}
+									{foreach from=$TRANSLATIONS item=VALUE key=LANG_KEY name=header}
 										<th><strong>{$LANG_KEY}</strong></th>
-											{/foreach}
+									{/foreach}
 									<th><strong>{\App\Language::translate('LBL_ACTIONS',$QUALIFIED_MODULE)}</strong></th>
 								</tr>
 							</thead>
@@ -28,13 +28,13 @@
 								{foreach from=$TRANSLATIONS item=VALUE key=LANG_KEY}
 									{if $LANG eq $LANG_KEY}
 										<td class="col-4">
-											<input 	data-lang="{$LANG}"
-													data-type="{$TYPE}"
-													name="{$LABEL}"
-													class="form-control {if $VALUE == NULL}empty_value{/if}"
-													type="text"
-													data-mod="{$SOURCE_MODULE}"
-													value ="{$VALUE}">
+											<input data-lang="{$LANG}"
+												data-type="{$TYPE}"
+												name="{$LABEL}"
+												class="form-control {if $VALUE == NULL}empty_value{/if}"
+												type="text"
+												data-mod="{$SOURCE_MODULE}"
+												value="{$VALUE}">
 										</td>
 										<td>
 											<button type="button" class="btn btn-success" title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}">

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-FCorectingInvoice-Edit-Inventory -->
 	<div class="detailViewTable">
@@ -6,7 +6,7 @@
 			<div class="blockHeader c-panel__header">
 				<div class="m-2">
 					<span class="u-cursor-pointer js-block-toggle fas fa-angle-right d-none" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
-					<span class="u-cursor-pointer js-block-toggle fas fa-angle-down" data-js="click"  alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
+					<span class="u-cursor-pointer js-block-toggle fas fa-angle-down" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
 				</div>
 				<div class="d-inline-flex ml-auto mr-2 js-stop-propagation">
 					<div class="js-popover-tooltip" data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translate("LBL_INVOICE_INFO",$MODULE_NAME)}">

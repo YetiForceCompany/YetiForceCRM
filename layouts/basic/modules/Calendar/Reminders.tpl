@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Calendar-Reminders remindersContent">
 		{foreach item=RECORD from=$RECORDS}
@@ -78,7 +78,7 @@
 								{if $USER_MODEL->get('internal_mailer') == 1}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('linkextend')), $RECORD->get('linkextend'), 'Detail', 'new')}
 									<a target="_blank" class="float-right" href="{$COMPOSE_URL}"
-									   rel="noreferrer noopener">
+										rel="noreferrer noopener">
 										<span class="fas fa-envelope fa-fw" title="{\App\Language::translate('LBL_SEND_EMAIL')}"></span>
 									</a>
 								{else}
@@ -111,7 +111,7 @@
 							{/if}
 						</div>
 					{/if}
-					<hr/>
+					<hr />
 					<div class="actionRow text-center" role="toolbar">
 						<a class="btn btn-success btn-sm showModal" role="button" href="#" data-url="index.php?module=Calendar&view=ActivityStateModal&trigger=Reminders&record={$RECORD->getId()}" data-modalid="calendar-reminder-modal">
 							<span class="fas fa-check" title="{\App\Language::translate('LBL_SET_RECORD_STATUS')}"></span>
@@ -137,7 +137,7 @@
 					</div>
 				</div>
 			</div>
-			{foreachelse}
+		{foreachelse}
 			<div class="alert alert-info">
 				{\App\Language::translate('LBL_NO_CURRENT_ACTIVITIES',$MODULE_NAME)}
 			</div>

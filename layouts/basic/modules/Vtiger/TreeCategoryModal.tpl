@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-header d-block">
 		<div class="d-flex">
@@ -18,9 +18,9 @@
 		</div>
 	</div>
 	<div id="treePopupContainer" class="modal-body col-md-12">
-		<input type="hidden" id="relationType" value="{$RELATION_TYPE}"/>
-		<input type="hidden" id="relatedModule" value="{$MODULE}"/>
-		<input type="hidden" name="tree" id="treePopupValues" value="{\App\Purifier::encodeHtml($TREE)}"/>
+		<input type="hidden" id="relationType" value="{$RELATION_TYPE}" />
+		<input type="hidden" id="relatedModule" value="{$MODULE}" />
+		<input type="hidden" name="tree" id="treePopupValues" value="{\App\Purifier::encodeHtml($TREE)}" />
 		{if $TREE}
 			<div class="col-md-12 mb-2">
 				<div class="col-md-12" id="treePopupContents"></div>

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Calendar-ActivityStateContent -->
 	{assign var=START_DATE value=$RECORD->get('date_start')}
@@ -11,7 +11,7 @@
 				{\App\Language::translate('Subject',$MODULE_NAME)}:
 			</label>
 			<div class="col-8 mt-2 u-text-ellipsis fieldVal"
-				 data-subject="{$RECORD->getDisplayValue('subject',false,false,true)}">
+				data-subject="{$RECORD->getDisplayValue('subject',false,false,true)}">
 				{$RECORD->getDisplayValue('subject',false,false,100)}
 			</div>
 		</div>
@@ -82,7 +82,7 @@
 					</div>
 				</div>
 			{/if}
-			<hr/>
+			<hr />
 			<div class="form-group row">
 				<label class="col-4 mt-2 u-font-weight-500">
 					{\App\Language::translate('Description',$MODULE_NAME)}:
@@ -95,7 +95,7 @@
 					{/if}
 				</div>
 			</div>
-			<hr/>
+			<hr />
 			<div class="form-group row">
 				<label class="col-4 mt-2 u-font-weight-500">
 					{\App\Language::translate('Created By',$MODULE_NAME)}:

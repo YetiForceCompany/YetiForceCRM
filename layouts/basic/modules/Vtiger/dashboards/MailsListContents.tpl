@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if $ACCOUNTSLIST}
 		{assign var="MAILS" value=OSSMail_Record_Model::getMailsFromIMAP($USER)}
@@ -12,8 +12,8 @@
 						<h5>{\App\Purifier::encodeHtml($item->get('subject'))} {if count($item->get('attachments')) > 0}<img alt="{\App\Language::translate('LBL_ATTACHMENT')}" class="float-right" src="{\App\Layout::getLayoutFile('modules/OSSMailView/attachment.png')}" />{/if}</h5>
 					</div>
 					<div class="col-md-12">
-						<div class="float-right" >
-							<button class="badge badge-pill badge-light mb-1 showMailBody" >
+						<div class="float-right">
+							<button class="badge badge-pill badge-light mb-1 showMailBody">
 								<span class="body-icon fas fa-chevron-down"></span>
 							</button>
 						</div>
@@ -23,7 +23,7 @@
 						{\App\Purifier::purifyHtml($item->get('body'))}
 					</div>
 				</div>
-				<hr/>
+				<hr />
 			{/foreach}
 		</div>
 	{else}

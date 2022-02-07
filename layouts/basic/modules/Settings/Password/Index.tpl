@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-Password-Index -->
 	<form id="PassForm" class="form-horizontal">
@@ -29,17 +29,19 @@
 				</div>
 				<table class="table table-bordered table-sm themeTableColor">
 					<thead>
-						<tr class="blockHeader"><th colspan="2" class="mediumWidthType">
-							<span class="mdi mdi-form-textbox-password u-fs-lg mr-2"></span>
-							{\App\Language::translate('LBL_Password_Header', $QUALIFIED_MODULE)}
-						</th></tr>
+						<tr class="blockHeader">
+							<th colspan="2" class="mediumWidthType">
+								<span class="mdi mdi-form-textbox-password u-fs-lg mr-2"></span>
+								{\App\Language::translate('LBL_Password_Header', $QUALIFIED_MODULE)}
+							</th>
+						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td class="u-w-37per px-2"><label class="muted float-right col-form-label u-text-small-bold">{\App\Language::translate('Minimum password length', $QUALIFIED_MODULE)}</label></td>
 							<td class="border-left-0 px-3">
 								<div class="col-5 px-0">
-									<input class="form-control" type="number" name="min_length" id="min_length"  title="{\App\Language::translate('Minimum password length', $QUALIFIED_MODULE)}" value="{$DETAIL['min_length']}" />
+									<input class="form-control" type="number" name="min_length" id="min_length" title="{\App\Language::translate('Minimum password length', $QUALIFIED_MODULE)}" value="{$DETAIL['min_length']}" />
 								</div>
 							</td>
 						</tr>
@@ -79,7 +81,7 @@
 							<td class="u-w-37per px-2"><label class="muted float-right mb-0 col-form-label u-text-small-bold">{\App\Language::translate('Password should contain special characters', $QUALIFIED_MODULE)}</label></td>
 							<td class="border-left-0 align-middle">
 								<div class="col-5 form-row align-items-center">
-									<input type="checkbox" name="special" title="{\App\Language::translate('Password should contain special characters', $QUALIFIED_MODULE)}" id="special"  {if $DETAIL['special'] == 'true'}checked{/if} />
+									<input type="checkbox" name="special" title="{\App\Language::translate('Password should contain special characters', $QUALIFIED_MODULE)}" id="special" {if $DETAIL['special'] == 'true'}checked{/if} />
 								</div>
 							</td>
 						</tr>
@@ -93,7 +95,7 @@
 							</td>
 							<td class="border-left-0 align-middle">
 								<div class="col-5 form-row align-items-center">
-									<input type="checkbox" name="pwned" title="{\App\Language::translate('LBL_CHECK_PWNED_PASSWORD', $QUALIFIED_MODULE)}" id="pwned" {if $DETAIL['pwned'] == 'true'}checked{/if} {if !$DEFAULT_PROVIDER_ACTIVE}disabled{/if}/>
+									<input type="checkbox" name="pwned" title="{\App\Language::translate('LBL_CHECK_PWNED_PASSWORD', $QUALIFIED_MODULE)}" id="pwned" {if $DETAIL['pwned'] == 'true'}checked{/if} {if !$DEFAULT_PROVIDER_ACTIVE}disabled{/if} />
 								</div>
 							</td>
 						</tr>
@@ -102,10 +104,10 @@
 				<table class="table table-bordered table-sm themeTableColor">
 					<thead>
 						<tr class="blockHeader">
-						<th colspan="2" class="mediumWidthType">
-							<span class="mdi mdi-lock-reset mr-2 u-fs-lg"></span>
-							{\App\Language::translate('LBL_PASSWORD_CHANGE_RULES', $QUALIFIED_MODULE)}
-						</th>
+							<th colspan="2" class="mediumWidthType">
+								<span class="mdi mdi-lock-reset mr-2 u-fs-lg"></span>
+								{\App\Language::translate('LBL_PASSWORD_CHANGE_RULES', $QUALIFIED_MODULE)}
+							</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -119,7 +121,7 @@
 							<td class="border-left-0">
 								<div class="form-row px-3">
 									<div class="col-5 px-0">
-										<input class="form-control" type="number" name="change_time" id="change_time"  title="{\App\Language::translate('LBL_PASSWORD_CHANGE_TIME', $QUALIFIED_MODULE)}" value="{$DETAIL['change_time']}" />
+										<input class="form-control" type="number" name="change_time" id="change_time" title="{\App\Language::translate('LBL_PASSWORD_CHANGE_TIME', $QUALIFIED_MODULE)}" value="{$DETAIL['change_time']}" />
 									</div>
 								</div>
 							</td>
@@ -134,7 +136,7 @@
 							<td class="border-left-0">
 								<div class="form-row px-3">
 									<div class="col-5 px-0">
-										<input class="form-control" type="number" name="lock_time" id="lock_time"  title="{\App\Language::translate('LBL_TIME_TO_CHANGE_PASSWORD', $QUALIFIED_MODULE)}" value="{$DETAIL['lock_time']}" />
+										<input class="form-control" type="number" name="lock_time" id="lock_time" title="{\App\Language::translate('LBL_TIME_TO_CHANGE_PASSWORD', $QUALIFIED_MODULE)}" value="{$DETAIL['lock_time']}" />
 									</div>
 								</div>
 							</td>
@@ -146,7 +148,7 @@
 							<td class="border-left-0">
 								<div class="form-row px-3">
 									<div class="col-5 px-0">
-										<input class="form-control" type="number" name="pwned_time" id="pwned_time"  title="{\App\Language::translate('LBL_TIME_TO_CHECK_PWNED', $QUALIFIED_MODULE)}" value="{$DETAIL['pwned_time']}" />
+										<input class="form-control" type="number" name="pwned_time" id="pwned_time" title="{\App\Language::translate('LBL_TIME_TO_CHECK_PWNED', $QUALIFIED_MODULE)}" value="{$DETAIL['pwned_time']}" />
 									</div>
 								</div>
 							</td>

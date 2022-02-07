@@ -1,8 +1,8 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="">
 	<div class="form-horizontal">
 		<div class="form-group row">
-			<label for="langs_list" class="col-form-label col-md-1" >{\App\Language::translate('Language',$QUALIFIED_MODULE)}:</label>
+			<label for="langs_list" class="col-form-label col-md-1">{\App\Language::translate('Language',$QUALIFIED_MODULE)}:</label>
 			<div class="col-md-3">
 				<select multiple="multiple" class="form-control select2" id="langs_list">
 					{foreach from=$LANGS item=LABEL key=PREFIX}
@@ -39,13 +39,13 @@
 <br />
 {if $DATA}
 	<div class="">
-		<table class="table table-bordered table-sm listViewEntriesTable" >
+		<table class="table table-bordered table-sm listViewEntriesTable">
 			<thead>
 				<tr class="blockHeader">
 					<th><strong>{\App\Language::translate('LBL_variable',$QUALIFIED_MODULE)}</strong></th>
-							{foreach from=$DATA['langs'] item=item}
+					{foreach from=$DATA['langs'] item=item}
 						<th><strong>{$item}</strong></th>
-							{/foreach}
+					{/foreach}
 					<th></th>
 				</tr>
 			</thead>
@@ -72,7 +72,7 @@
 											class="translation form-control {if $item == NULL}empty_value{/if}"
 											{if $item == NULL} placeholder="{\App\Language::translate('LBL_NoTranslation',$QUALIFIED_MODULE)}" {/if}
 											type="text"
-											value ="{$item}" />
+											value="{$item}" />
 									</td>
 								{/foreach}
 								<td>
@@ -108,7 +108,7 @@
 											class="translation form-control {if $item == NULL}empty_value{/if}"
 											{if $item == NULL} placeholder="{\App\Language::translate('LBL_NoTranslation',$QUALIFIED_MODULE)}" {/if}
 											type="text"
-											value ="{$item}" />
+											value="{$item}" />
 									</td>
 								{/foreach}
 								<td>

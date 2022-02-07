@@ -1,7 +1,7 @@
 /**
  * build vue files in dev mode
  *
- * @license YetiForce Public License 4.0
+ * @license YetiForce Public License 5.0
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -27,29 +27,29 @@ const plugins = [
 		entries: [
 			{ find: '~', replacement: __dirname },
 			{ find: 'store', replacement: `${__dirname}/store/index` },
-			{ find: 'components', replacement: `${__dirname}/components` }
-		]
+			{ find: 'components', replacement: `${__dirname}/components` },
+		],
 	}),
 	json(),
 	sass(),
 	vue({
 		needMap: false,
 		scss: {
-			indentedSyntax: true
-		}
+			indentedSyntax: true,
+		},
 	}),
 	buble({
 		transforms: {
 			arrow: true,
 			modules: false,
 			dangerousForOf: true,
-			spreadRest: false
+			spreadRest: false,
 		},
-		objectAssign: 'Object.assign'
+		objectAssign: 'Object.assign',
 	}),
 	resolve(),
 	commonjs(),
-	globals()
+	globals(),
 ]
 
 if (process.env.NODE_ENV === 'production') {
@@ -61,7 +61,7 @@ async function build(filePath, isWatched = false) {
 	const inputOptions = {
 		input: filePath,
 		external: 'vue',
-		plugins
+		plugins,
 	}
 
 	const outputOptions = {
@@ -69,9 +69,9 @@ async function build(filePath, isWatched = false) {
 		file: outputFile,
 		format: 'iife',
 		globals: {
-			vue: 'Vue'
+			vue: 'Vue',
 		},
-		sourcemap: true
+		sourcemap: true,
 	}
 
 	if (process.env.NODE_ENV === 'development' && !isWatched) {
@@ -79,11 +79,11 @@ async function build(filePath, isWatched = false) {
 			...inputOptions,
 			output: [outputOptions],
 			watch: {
-				exclude: 'node_modules/**'
-			}
+				exclude: 'node_modules/**',
+			},
 		})
 
-		watcher.on('event', event => {
+		watcher.on('event', (event) => {
 			if (event.code === 'START') {
 				runBuild(filePath, true)
 			}
@@ -98,10 +98,10 @@ async function build(filePath, isWatched = false) {
 function runBuild(file, isWatched = false) {
 	console.log('Building... ' + file)
 	build(file, isWatched)
-		.then(e => {
+		.then((e) => {
 			done(file)
 		})
-		.catch(err => {
+		.catch((err) => {
 			console.log(err)
 		})
 }
@@ -118,7 +118,7 @@ finder.on('file', (file, stat) => {
 })
 
 finder.on('end', () => {
-	filesToMin.forEach(file => {
+	filesToMin.forEach((file) => {
 		if (process.env.NODE_ENV === 'development') {
 			build(file)
 		} else {

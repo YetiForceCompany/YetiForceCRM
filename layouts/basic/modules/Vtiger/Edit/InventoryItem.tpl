@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Edit-InventoryItem -->
 	{if !empty($ITEM_DATA['name'])}
@@ -11,32 +11,32 @@
 			{if $INVENTORY_MODEL->isField('seq')}
 				<a class="dragHandle mx-1">
 					<img src="{\App\Layout::getImagePath('drag.png')}" border="0"
-						 alt="{\App\Language::translate('LBL_DRAG', $MODULE_NAME)}"/>
+						alt="{\App\Language::translate('LBL_DRAG', $MODULE_NAME)}" />
 				</a>
-				<input name="inventory[{$ROW_NO}][seq]" type="hidden" value="{$ROW_NO}" class="sequence"/>
+				<input name="inventory[{$ROW_NO}][seq]" type="hidden" value="{$ROW_NO}" class="sequence" />
 			{/if}
 			<button type="button" class="btn btn-sm btn-danger fas fa-trash-alt deleteRow"
-					title="{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}"></button>
+				title="{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}"></button>
 			{if $COUNT_FIELDS2 > 0 && $IS_VISIBLE_COMMENTS}
 				<button type="button" class="btn btn-sm btn-light toggleVisibility ml-1 js-toggle-icon__container" data-status="{$IS_OPENED_COMMENTS}"
-						href="#" data-js="click">
+					href="#" data-js="click">
 					<span class="js-toggle-icon fas fa-angle-{if $IS_OPENED_COMMENTS}up{else}down{/if}" data-active="fa-angle-up" data-inactive="fa-angle-down" data-js="click"></span>
 				</button>
 			{/if}
 			{if isset($ITEM_DATA['id'])}
-				<input name="inventory[{$ROW_NO}][id]" type="hidden" value="{$ITEM_DATA['id']}"/>
+				<input name="inventory[{$ROW_NO}][id]" type="hidden" value="{$ITEM_DATA['id']}" />
 			{/if}
 			{if isset($FIELDS[0])}
 				{foreach item=FIELD from=$FIELDS[0]}
-					<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="" type="hidden" class="js-sync" data-sync-id="{$FIELD->getColumnName()}" data-js="container|data"/>
+					<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="" type="hidden" class="js-sync" data-sync-id="{$FIELD->getColumnName()}" data-js="container|data" />
 					{foreach key=CUSTOM_FIELD_NAME item from=$FIELD->getCustomColumn()}
-						<input name="inventory[{$ROW_NO}][{$CUSTOM_FIELD_NAME}]" value="" type="hidden" class="js-sync" data-sync-id="{$CUSTOM_FIELD_NAME}" data-js="container|data"/>
+						<input name="inventory[{$ROW_NO}][{$CUSTOM_FIELD_NAME}]" value="" type="hidden" class="js-sync" data-sync-id="{$CUSTOM_FIELD_NAME}" data-js="container|data" />
 					{/foreach}
 				{/foreach}
 			{/if}
 		</td>
 		{foreach item=FIELD from=$FIELDS[1]}
-			<td {if !$FIELD->isEditable()}colspan="0"{/if}
+			<td {if !$FIELD->isEditable()}colspan="0" {/if}
 				class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right fieldValue">
 				{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 				{assign var="COLUMN_NAME" value=$FIELD->get('columnName')}

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-Watchdog-Index -->
 	<div class="pt-md-0 pt-1">
@@ -36,41 +36,38 @@
 							<div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
 								<label class="btn btn-secondary{if $CONF_FLAG['value']} active{/if}">
 									<input
-											name="YF_status_flag[{$CONF_FLAG['name']}]"
-											value="1"
-											type="radio"
-											class="js-vars"
-											data-js="change|value"
-											data-flag="{$CONF_FLAG['name']}"
-											data-type="{$CONF_FLAG['type']}"
-											autocomplete="off"
-											{if $CONF_FLAG['value']} checked{/if}
-									>
+										name="YF_status_flag[{$CONF_FLAG['name']}]"
+										value="1"
+										type="radio"
+										class="js-vars"
+										data-js="change|value"
+										data-flag="{$CONF_FLAG['name']}"
+										data-type="{$CONF_FLAG['type']}"
+										autocomplete="off"
+										{if $CONF_FLAG['value']} checked{/if}>
 									{\App\Language::translate('LBL_YES',$QUALIFIED_MODULE)}
 								</label>
 								<label class="btn btn-secondary{if !$CONF_FLAG['value']} active{/if}">
 									<input
-											name="YF_status_flag[{$CONF_FLAG['name']}]"
-											value="0"
-											type="radio"
-											class="js-vars"
-											data-js="change|value"
-											data-flag="{$CONF_FLAG['name']}"
-											data-type="{$CONF_FLAG['type']}"
-											autocomplete="off"
-											{if !$CONF_FLAG['value']} checked{/if}
-									> {\App\Language::translate('LBL_NO',$QUALIFIED_MODULE)}
+										name="YF_status_flag[{$CONF_FLAG['name']}]"
+										value="0"
+										type="radio"
+										class="js-vars"
+										data-js="change|value"
+										data-flag="{$CONF_FLAG['name']}"
+										data-type="{$CONF_FLAG['type']}"
+										autocomplete="off"
+										{if !$CONF_FLAG['value']} checked{/if}> {\App\Language::translate('LBL_NO',$QUALIFIED_MODULE)}
 								</label>
 							</div>
 						{else}
 							<input
-									value="{\App\Purifier::encodeHTML($CONF_FLAG['value'])}"
-									type="text"
-									class="form-control js-vars"
-									data-js="change|value"
-									data-type="{$CONF_FLAG['type']}"
-									data-flag="{$CONF_FLAG['name']}"
-							/>
+								value="{\App\Purifier::encodeHTML($CONF_FLAG['value'])}"
+								type="text"
+								class="form-control js-vars"
+								data-js="change|value"
+								data-type="{$CONF_FLAG['type']}"
+								data-flag="{$CONF_FLAG['name']}" />
 						{/if}
 					</div>
 				</div>

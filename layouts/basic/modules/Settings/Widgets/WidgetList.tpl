@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class='modelContainer modal fade' tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -19,7 +19,7 @@
 							<div class="col-md-8">
 								<select name="type" class="select2 col-md-3 marginLeftZero form-control">
 									{foreach from=$MODULE_MODEL->getType($SOUNRCE_MODULE) item=item key=key}
-										<option value="{$key}" >{\App\Language::translate($item, $QUALIFIED_MODULE)}</option>
+										<option value="{$key}">{\App\Language::translate($item, $QUALIFIED_MODULE)}</option>
 									{/foreach}
 								</select>
 							</div>

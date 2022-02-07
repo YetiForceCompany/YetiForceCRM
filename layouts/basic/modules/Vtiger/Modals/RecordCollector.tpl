@@ -1,13 +1,13 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Modals-RecordCollector -->
 	<div class="modal-body js-modal-body" data-js="container">
 		<form class="form-horizontal js-record-collector__form" data-js="submit">
-			<input type="hidden" name="module" value="{$MODULE_NAME}"/>
-			<input type="hidden" name="view" value="RecordCollector"/>
-			<input type="hidden" name="mode" value="search"/>
-			<input type="hidden" name="record" value="{$RECORD_ID}"/>
-			<input type="hidden" name="collectorType" value="{$COLLECTOR_NAME}"/>
+			<input type="hidden" name="module" value="{$MODULE_NAME}" />
+			<input type="hidden" name="view" value="RecordCollector" />
+			<input type="hidden" name="mode" value="search" />
+			<input type="hidden" name="record" value="{$RECORD_ID}" />
+			<input type="hidden" name="collectorType" value="{$COLLECTOR_NAME}" />
 			{foreach item=FIELD_MODEL from=$RECORD_COLLECTOR->getFields()}
 				<div class="form-group form-row">
 					<label class="col-4 col-form-label">

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal-body tpl-MergeRecords">
 		<form class="form-horizontal" name="massMerge" method="post" action="index.php">
@@ -14,26 +14,26 @@
 					{\App\Language::translateArgs('LBL_NUMBER_OF_MERGED_RECORDS_HAS_BEEN_REDUCED_TO', $MODULE_NAME,count($RECORD_MODELS))}
 				</div>
 			{/if}
-			<input type="hidden" name=module value="{$MODULE_NAME}"/>
-			<input type="hidden" name="action" value="MergeRecords"/>
-			<input type="hidden" name="records" value="{\App\Purifier::encodeHtml(\App\Json::encode(array_keys($RECORD_MODELS)))}"/>
+			<input type="hidden" name=module value="{$MODULE_NAME}" />
+			<input type="hidden" name="action" value="MergeRecords" />
+			<input type="hidden" name="records" value="{\App\Purifier::encodeHtml(\App\Json::encode(array_keys($RECORD_MODELS)))}" />
 			<div class="table-responsive">
 				<table class="table table-bordered table-condensed">
 					<thead class="listViewHeaders">
-					<th class="align-text-top">
-						{\App\Language::translate('LBL_FIELDS', $MODULE)}
-					</th>
-					{foreach item=RECORD from=$RECORD_MODELS name=recordList}
-						<th>
-							<div class="form-check form-check-inline">
-								<div>
-									<input {if $smarty.foreach.recordList.first}checked{/if} type="radio" id="radio{$RECORD->getId()}" name="record" class="form-check-input" value="{$RECORD->getId()}" data-js="change">
-								</div>
-								<label class="ml-1 form-check-label u-word-break-keep-all" for="radio{$RECORD->getId()}">
-									#{$smarty.foreach.recordList.index+1} {\App\TextParser::textTruncate($RECORD->getName())}</label>
-							</div>
+						<th class="align-text-top">
+							{\App\Language::translate('LBL_FIELDS', $MODULE)}
 						</th>
-					{/foreach}
+						{foreach item=RECORD from=$RECORD_MODELS name=recordList}
+							<th>
+								<div class="form-check form-check-inline">
+									<div>
+										<input {if $smarty.foreach.recordList.first}checked{/if} type="radio" id="radio{$RECORD->getId()}" name="record" class="form-check-input" value="{$RECORD->getId()}" data-js="change">
+									</div>
+									<label class="ml-1 form-check-label u-word-break-keep-all" for="radio{$RECORD->getId()}">
+										#{$smarty.foreach.recordList.index+1} {\App\TextParser::textTruncate($RECORD->getName())}</label>
+								</div>
+							</th>
+						{/foreach}
 					</thead>
 					{foreach item=FIELD_NAME from=$FIELDS}
 						<tr>

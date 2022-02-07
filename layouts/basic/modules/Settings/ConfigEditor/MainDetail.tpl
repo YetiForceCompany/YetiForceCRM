@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-ConfigEditor-MainDetail -->
 	<div class="contents">
@@ -9,8 +9,8 @@
 						<span class="alignMiddle">{\App\Language::translate('LBL_MAIN_CONFIG', $QUALIFIED_MODULE)}</span>
 						<div class="float-right">
 							<button class="btn btn-success editButton" data-url='{$MODEL->getEditViewUrl()}' type="button"
-									title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"><span
-										class="fa fa-edit u-mr-5px"></span><strong>{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}</strong>
+								title="{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}"><span
+									class="fa fa-edit u-mr-5px"></span><strong>{\App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}</strong>
 							</button>
 						</div>
 					</th>

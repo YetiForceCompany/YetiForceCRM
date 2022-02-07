@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal fade">
 		<div class="modal-dialog">
@@ -27,7 +27,7 @@
 						<div class="col-md-6">{\App\Language::translate('LBL_CURRENT_VALUE', $MODULE)}:</div>
 						<div class="col-md-6"><strong>{$PRICE}</strong> {$SYMBOL}</div>
 					</div>
-					<hr/>
+					<hr />
 					<div class="row">
 						<div class="col-md-6">{\App\Language::translate('LBL_TOTALS_LIMIT', $MODULE)}:</div>
 						<div class="col-md-6"><strong>{$TOTALS}</strong> {$SYMBOL}</div>

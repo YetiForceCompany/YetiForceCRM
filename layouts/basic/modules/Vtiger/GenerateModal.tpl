@@ -1,6 +1,6 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Base-GenerateModal -->
+	<!-- tpl-Base-GenerateModal -->
 	<div class="modal-header align-items-center">
 		<h5 class="modal-title">
 			<span class="fas fa-plus-circle mr-2"></span>
@@ -13,7 +13,7 @@
 	<div class="modal-body">
 		{if $VIEW eq 'List'}
 			<input type="hidden" name="all_records" id="all_records"
-				   value="{\App\Purifier::encodeHtml(\App\Json::encode($ALL_RECORDS))}"/>
+				value="{\App\Purifier::encodeHtml(\App\Json::encode($ALL_RECORDS))}" />
 			<div class="form-group form-row d-flex justify-content-center">
 				<div class="radio-inline mr-3">
 					<label>
@@ -21,7 +21,7 @@
 						{\App\Language::translate('LBL_AUTOGENERATE',$BASE_MODULE_NAME)}&nbsp;
 					</label>
 					<span class="js-popover-tooltip delay0" data-js="popover" data-placement="top"
-						  data-content="{\App\Language::translate('LBL_AUTOGENERATE_INFO',$BASE_MODULE_NAME)}">
+						data-content="{\App\Language::translate('LBL_AUTOGENERATE_INFO',$BASE_MODULE_NAME)}">
 						<span class="fas fa-info-circle"></span>
 					</span>
 				</div>
@@ -31,7 +31,7 @@
 						{\App\Language::translate('LBL_OPEN_NEW_WINDOWS',$BASE_MODULE_NAME)}&nbsp;
 					</label>
 					<span class="js-popover-tooltip delay0" data-js="popover" data-placement="top"
-						  data-content="{\App\Language::translate('LBL_OPEN_NEW_WINDOWS_INFO',$BASE_MODULE_NAME)}">
+						data-content="{\App\Language::translate('LBL_OPEN_NEW_WINDOWS_INFO',$BASE_MODULE_NAME)}">
 						<span class="fas fa-info-circle"></span>
 					</span>
 				</div>
@@ -39,14 +39,14 @@
 		{/if}
 		<div class="w-75 float-left">
 			<select class="select2 form-control js-generate-mapping" data-template-result="prependDataTemplate"
-					data-template-selection="prependDataTemplate" data-js="select">
+				data-template-selection="prependDataTemplate" data-js="select">
 				{foreach item=TEMPLATE from=$TEMPLATES}
 					{assign var=RELATED_MODEL value=$TEMPLATE->getRelatedModule()}
 					{assign var=RELATED_MODULE_NAME value=\App\Language::translate($TEMPLATE->getRelatedName(), $TEMPLATE->getRelatedName())}
 					<option data-id="{$TEMPLATE->getId()}"
-							data-name="{$RELATED_MODEL->getName()}"
-							data-url="{$RELATED_MODEL->getCreateRecordUrl()|cat:"&reference_id=$RECORD"}"
-							data-template="<span><span class='yfm-{$TEMPLATE->getRelatedName()} mr-1'></span>{$RELATED_MODULE_NAME}</span>">
+						data-name="{$RELATED_MODEL->getName()}"
+						data-url="{$RELATED_MODEL->getCreateRecordUrl()|cat:"&reference_id=$RECORD"}"
+						data-template="<span><span class='yfm-{$TEMPLATE->getRelatedName()} mr-1'></span>{$RELATED_MODULE_NAME}</span>">
 						{$RELATED_MODULE_NAME}
 					</option>
 				{/foreach}
@@ -60,5 +60,5 @@
 	</div>
 	<div class="modal-footer">
 	</div>
-<!-- /tpl-Base-GenerateModal -->
+	<!-- /tpl-Base-GenerateModal -->
 {/strip}

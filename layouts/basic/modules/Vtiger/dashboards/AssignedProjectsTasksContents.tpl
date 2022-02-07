@@ -1,7 +1,7 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<style type="text/css">
-		small.small-a{
+		small.small-a {
 			font-size: 75%;
 		}
 	</style>
@@ -18,10 +18,10 @@
 						<a href="{$TASKS->getDetailViewUrl()}">{$TASKS->get('projecttaskname')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGTH:'...'}</a>
 						{if $PROJECT_ID}
 							<br /><small class='small-a'><strong>{$TASKS->getDisplayValue('projectid')}</strong></small>
-								{/if}
-								{if $ACCOUNT}
+						{/if}
+						{if $ACCOUNT}
 							- <small class='small-a'><strong>{$TASKS->getDisplayValue('account')}</strong></small>
-								{/if}
+						{/if}
 					</div>
 					<p class='float-right muted' style='margin-top:5px;padding-right:5px;'><small title="{\App\Fields\DateTime::formatToDay($TASKS->get('targetenddate'))}">{$TASKS->getDisplayValue('targetenddate')}</small></p>
 					<div class='clearfix'></div>

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div id="modTrackerContainer">
 		<div class="o-breadcrumb widget_header row">
@@ -20,7 +20,7 @@
 							<tr data-id="{$item.id}" class="js-row" data-js="data">
 								<td>{\App\Language::translate($item.module,$item.module)}</td>
 								<td>
-									<input class="js-active-modtracker" data-js="change" type="checkbox" name="active" value="1" {if $item.active}checked=""{/if}>
+									<input class="js-active-modtracker" data-js="change" type="checkbox" name="active" value="1" {if $item.active}checked="" {/if}>
 								</td>
 							</tr>
 						{/foreach}

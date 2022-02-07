@@ -1,21 +1,22 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Calendar-QuickCreateEvents form-row px-0 mx-0 col-12 eventsTable">
 		{foreach from=$DATES item=DATE name="iteration"}
 			<div class="col float-left px-0 small font-weight-bold"
-				 {if $smarty.foreach.iteration.index eq 3}id="cur_events"{/if}>
+				{if $smarty.foreach.iteration.index eq 3}id="cur_events" {/if}>
 				<table class="table">
 					<tr>
 						{if $smarty.foreach.iteration.first}
 							<th class="p-1 d-none d-md-table-cell">
-								<button type="button" class="btn btn-sm btn-primary previousDayBtn"><</button>
+								<button type="button" class="btn btn-sm btn-primary previousDayBtn">
+									<< /button>
 							</th>
 						{/if}
 						<th class="text-center col-md-2 taskPrevTwoDaysAgo">
-						<span class="u-cursor-pointer dateBtn"
-							  data-date="{App\Fields\Date::formatToDisplay($DATE)}">{App\Fields\Date::formatToDisplay($DATE)}
-							&nbsp;({\App\Language::translate('LBL_'|cat:\App\Fields\Date::getDayFromDate($DATE, true), $MODULE_NAME)}
-							)</span>
+							<span class="u-cursor-pointer dateBtn"
+								data-date="{App\Fields\Date::formatToDisplay($DATE)}">{App\Fields\Date::formatToDisplay($DATE)}
+								&nbsp;({\App\Language::translate('LBL_'|cat:\App\Fields\Date::getDayFromDate($DATE, true), $MODULE_NAME)}
+								)</span>
 						</th>
 						{if $smarty.foreach.iteration.last}
 							<th class="p-1 d-none d-md-table-cell">
@@ -49,8 +50,8 @@
 											  <div><label class='px-1'>{App\Language::translate('FL_SUB_PROCESS', $MODULE_NAME)}:</label>{\App\Purifier::encodeHtml($EVENT['subprocl'])}</div>
 											{/if}
 										">
-										<i class="float-right fas fa-info-circle"></i>
-									</span>
+												<i class="float-right fas fa-info-circle"></i>
+											</span>
 										</div>
 									</a>
 									{if $SHOW_COMPANIES}

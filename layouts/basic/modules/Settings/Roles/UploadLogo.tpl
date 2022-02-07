@@ -1,12 +1,12 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-Roles-UploadLogo -->
 	<form name="UploadLogo" class="form-horizontal js-form-upload-logo validateForm"
-		  action="index.php" method="post" enctype="multipart/form-data" data-js="container">
+		action="index.php" method="post" enctype="multipart/form-data" data-js="container">
 		<input type="hidden" name="module" value="Roles">
-		<input type="hidden" name="parent" value="Settings"/>
+		<input type="hidden" name="parent" value="Settings" />
 		<input type="hidden" name="action" value="UploadLogo">
-		<input type="hidden" name="mode" value="upload"/>
+		<input type="hidden" name="mode" value="upload" />
 		<div class="modal-body">
 			<div class="form-group row">
 				<label class="col-sm-4 col-form-label">

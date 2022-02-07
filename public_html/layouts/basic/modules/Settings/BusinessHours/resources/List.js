@@ -4,7 +4,7 @@
  * @package     List
  *
  * @description List scripts for businesshours module
- * @license     YetiForce Public License 4.0
+ * @license     YetiForce Public License 5.0
  * @author      Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 'use strict';

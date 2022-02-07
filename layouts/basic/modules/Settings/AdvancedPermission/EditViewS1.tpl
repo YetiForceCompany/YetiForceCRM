@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="row widget_header tpl-Settings-AdvancedPermission-EditVewS1">
 		<div class="col-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
@@ -27,7 +27,7 @@
 				<div class="col-sm-10">
 					<select class="row modules select2 form-control" name="actions" data-validation-engine="validate[required]">
 						{foreach from=Settings_AdvancedPermission_Module_Model::$action key=ID item=NAME}
-							<option value="{$ID}" {if $RECORD_MODEL->get('action') == $ID}selected="true"{/if}>{\App\Language::translate($NAME, $QUALIFIED_MODULE)}</option>
+							<option value="{$ID}" {if $RECORD_MODEL->get('action') == $ID}selected="true" {/if}>{\App\Language::translate($NAME, $QUALIFIED_MODULE)}</option>
 						{/foreach}
 					</select>
 				</div>
@@ -39,7 +39,7 @@
 				<div class="col-sm-10">
 					<select class="row modules select2 form-control" name="status" data-validation-engine="validate[required]">
 						{foreach from=Settings_AdvancedPermission_Module_Model::$status key=ID item=NAME}
-							<option value="{$ID}" {if $RECORD_MODEL->get('status') == $ID}selected="true"{/if}>{\App\Language::translate($NAME, $QUALIFIED_MODULE)}</option>
+							<option value="{$ID}" {if $RECORD_MODEL->get('status') == $ID}selected="true" {/if}>{\App\Language::translate($NAME, $QUALIFIED_MODULE)}</option>
 						{/foreach}
 					</select>
 				</div>
@@ -51,7 +51,7 @@
 				<div class="col-sm-10">
 					<select class="row modules select2 form-control" name="priority" data-validation-engine="validate[required]">
 						{foreach from=Settings_AdvancedPermission_Module_Model::$priority key=ID item=NAME}
-							<option value="{$ID}" {if $RECORD_MODEL->get('priority') == $ID}selected="true"{/if}>{\App\Language::translate($NAME)}</option>
+							<option value="{$ID}" {if $RECORD_MODEL->get('priority') == $ID}selected="true" {/if}>{\App\Language::translate($NAME)}</option>
 						{/foreach}
 					</select>
 				</div>
@@ -61,9 +61,9 @@
 					<span class="redColor">*</span> {\App\Language::translate('LBL_MODULE', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-10">
-					<select  class="row modules select2 form-control" name="tabid" data-validation-engine="validate[required]">
+					<select class="row modules select2 form-control" name="tabid" data-validation-engine="validate[required]">
 						{foreach from=Vtiger_Module_Model::getAll([0],[],true) key=TABID item=MODULE_MODEL}
-							<option value="{$TABID}" {if $RECORD_MODEL->get('tabid') == $TABID}selected="true"{/if}>{\App\Language::translate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}</option>
+							<option value="{$TABID}" {if $RECORD_MODEL->get('tabid') == $TABID}selected="true" {/if}>{\App\Language::translate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}</option>
 						{/foreach}
 					</select>
 				</div>
@@ -82,11 +82,11 @@
 					<span class="redColor">*</span> {\App\Language::translate('LBL_MEMBERS', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-10">
-					<select class="row modules select2 form-control groupMembersColors"  multiple="true" name="members[]" data-validation-engine="validate[required]">
+					<select class="row modules select2 form-control groupMembersColors" multiple="true" name="members[]" data-validation-engine="validate[required]">
 						{foreach from=\App\PrivilegeUtil::getMembers() key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 							<optgroup label="{\App\Language::translate($GROUP_LABEL)}">
 								{foreach from=$ALL_GROUP_MEMBERS key=MEMBER_ID item=MEMBER}
-									<option class="{$MEMBER['type']}" value="{$MEMBER_ID}" {if $RECORD_MODEL->get('members') && in_array($MEMBER_ID, $RECORD_MODEL->get('members'))}selected="true"{/if}>{\App\Language::translate($MEMBER['name'])}</option>
+									<option class="{$MEMBER['type']}" value="{$MEMBER_ID}" {if $RECORD_MODEL->get('members') && in_array($MEMBER_ID, $RECORD_MODEL->get('members'))}selected="true" {/if}>{\App\Language::translate($MEMBER['name'])}</option>
 								{/foreach}
 							</optgroup>
 						{/foreach}
@@ -97,7 +97,7 @@
 				<div class="col-md-5 float-right">
 					<span class="float-right">
 						<button class="btn btn-success" type="submit"><strong><span class="fa fa-caret-right u-mr-5px"></span>{\App\Language::translate('LBL_SAVE_AND_CONDITIONS', $QUALIFIED_MODULE)}</strong></button>
-						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();"><span 									class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
+						<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();"><span class="fa fa-times u-mr-5px"></span>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</button>
 					</span>
 				</div>
 			</div>

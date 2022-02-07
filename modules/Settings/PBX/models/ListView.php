@@ -4,7 +4,7 @@
  * PBX ListView Model Class.
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PBX_ListView_Model extends Settings_Vtiger_ListView_Model

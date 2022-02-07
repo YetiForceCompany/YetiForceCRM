@@ -1,6 +1,6 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Settings-BusinessHours-EditViewActions -->
+	<!-- tpl-Settings-BusinessHours-EditViewActions -->
 	<div class="tpl-Settings-BusinessHours-EditViewActions c-form__action-panel">
 		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE}
 		<button class="btn btn-success u-mr-5px" type="submit">
@@ -12,8 +12,8 @@
 			{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}
 		</button>
 	</div>
-</form>
-</div>
-</div>
-<!-- /tpl-Settings-BusinessHours-EditViewActions -->
+	</form>
+	</div>
+	</div>
+	<!-- /tpl-Settings-BusinessHours-EditViewActions -->
 {/strip}

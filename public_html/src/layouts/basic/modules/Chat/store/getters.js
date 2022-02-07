@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import get from 'lodash.get'
 
 export default {
@@ -42,9 +42,7 @@ export default {
 		return state.session.buttonCoordinates
 	},
 	isSoundNotification(state) {
-		return state.local.isSoundNotification === null
-			? state.config.isDefaultSoundNotification
-			: state.local.isSoundNotification
+		return state.local.isSoundNotification === null ? state.config.isDefaultSoundNotification : state.local.isSoundNotification
 	},
 	roomSoundNotificationsOff(state) {
 		return state.local.roomSoundNotificationsOff
@@ -88,5 +86,5 @@ export default {
 	},
 	getInterval(state, getters) {
 		return getters.dialog ? getters.config.refreshMessageTime : getters.config.refreshTimeGlobal
-	}
+	},
 }

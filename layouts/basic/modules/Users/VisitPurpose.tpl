@@ -1,9 +1,9 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Users-VisitPurpose -->
+	<!-- tpl-Users-VisitPurpose -->
 	<form name="VisitPurpose" class="form-horizontal validateForm">
-		<input type="hidden" name="module" value="{$MODULE_NAME}"/>
-		<input type="hidden" name="action" value="VisitPurpose"/>
+		<input type="hidden" name="module" value="{$MODULE_NAME}" />
+		<input type="hidden" name="action" value="VisitPurpose" />
 		<div class="modal-body">
 			<div class="row">
 				<div class="col-md-12">
@@ -18,5 +18,5 @@
 			{/if}
 		</div>
 	</form>
-<!-- /tpl-Users-VisitPurpose -->
+	<!-- /tpl-Users-VisitPurpose -->
 {/strip}

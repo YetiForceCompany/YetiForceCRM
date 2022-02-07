@@ -4,7 +4,7 @@
  * Settings TreesManager list view class.
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_TreesManager_List_View extends Settings_Vtiger_List_View
 {

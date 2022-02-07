@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <div class="tpl-Settings-Menu-Index menuConfigContainer">
 	<div class="o-breadcrumb widget_header row">
 		<div class="col-md-7">
@@ -41,8 +41,8 @@
 			<strong>{\App\Language::translate('LBL_COPY_MENU', $QUALIFIED_MODULE)}</strong></button>
 	{/if}
 	<div class="treeMenuContainer">
-		<input type="hidden" id="treeLastID" value="{$LASTID}"/>
-		<input type="hidden" name="tree" id="treeValues" value='{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}'/>
+		<input type="hidden" id="treeLastID" value="{$LASTID}" />
+		<input type="hidden" name="tree" id="treeValues" value='{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}' />
 		<div id="treeContent"></div>
 	</div>
 	<div class="modal fade copyMenuModal">
@@ -52,13 +52,13 @@
 					<div class="modal-header">
 						<h5 class="modal-title">{\App\Language::translate('LBL_COPY_MENU', $QUALIFIED_MODULE)}</h5>
 						<button type="button" class="close" data-dismiss="modal"
-								aria-label="{\App\Language::translate('LBL_CLOSE')}">
+							aria-label="{\App\Language::translate('LBL_CLOSE')}">
 							<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
 						<select id="roleList" class="form-control" name="roles"
-								data-validation-engine="validate[required]">
+							data-validation-engine="validate[required]">
 							<option value="0">
 								{\App\Language::translate('LBL_DEFAULT_MENU', $QUALIFIED_MODULE)}
 							</option>
@@ -71,11 +71,11 @@
 					</div>
 					<div class="modal-footer">
 						<button type="submit"
-								class="btn btn-success saveButton">
+							class="btn btn-success saveButton">
 							{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
 						</button>
 						<button type="button" class="btn btn-warning dismiss"
-								data-dismiss="modal">
+							data-dismiss="modal">
 							{\App\Language::translate('LBL_CLOSE', $QUALIFIED_MODULE)}
 						</button>
 					</div>
@@ -90,7 +90,7 @@
 			<div class="modal-header">
 				<h5 class="modal-title">{\App\Language::translate('LBL_REMOVE_TITLE', $QUALIFIED_MODULE)}</h5>
 				<button type="button" class="close" data-dismiss="modal"
-						aria-label="{\App\Language::translate('LBL_CLOSE')}">
+					aria-label="{\App\Language::translate('LBL_CLOSE')}">
 					<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
 				</button>
 			</div>

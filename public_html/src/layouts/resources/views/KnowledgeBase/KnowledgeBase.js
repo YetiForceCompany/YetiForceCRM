@@ -2,7 +2,7 @@
  * KnowledgeBase components initializations
  *
  * @description KnowledgeBase views' instances
- * @license YetiForce Public License 4.0
+ * @license YetiForce Public License 5.0
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 
@@ -21,8 +21,8 @@ Vue.mixin({
 	methods: {
 		translate(key) {
 			return app.vtranslate(key)
-		}
-	}
+		},
+	},
 })
 window.KnowledgeBase = {
 	component: KnowledgeBaseComponent,
@@ -30,15 +30,15 @@ window.KnowledgeBase = {
 		KnowledgeBaseComponent.state = config.state
 		return new Vue({
 			store,
-			render: h => h(KnowledgeBaseComponent),
+			render: (h) => h(KnowledgeBaseComponent),
 			methods: {
-				...mapActions(['fetchCategories', 'initState'])
+				...mapActions(['fetchCategories', 'initState']),
 			},
 			created() {
 				this.initState(config.state)
-			}
+			},
 		}).$mount(config.el)
-	}
+	},
 }
 window.ArticlePreviewVueComponent = {
 	component: ArticlePreviewComponent,
@@ -46,9 +46,9 @@ window.ArticlePreviewVueComponent = {
 		ArticlePreviewComponent.state = config.state
 		return new Vue({
 			store,
-			render: h => h(ArticlePreviewComponent)
+			render: (h) => h(ArticlePreviewComponent),
 		}).$mount(config.el)
-	}
+	},
 }
 window.KnowledgeBaseModalVueComponent = {
 	component: KnowledgeBaseModal,
@@ -56,7 +56,7 @@ window.KnowledgeBaseModalVueComponent = {
 		KnowledgeBaseModal.state = config.state
 		return new Vue({
 			store,
-			render: h => h(KnowledgeBaseModal)
+			render: (h) => h(KnowledgeBaseModal),
 		}).$mount(config.el)
-	}
+	},
 }

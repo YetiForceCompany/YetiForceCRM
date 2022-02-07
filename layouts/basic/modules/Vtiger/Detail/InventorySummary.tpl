@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Detail-InventorySummary -->
 	<div class="row">
@@ -7,20 +7,20 @@
 			<div class="col-md-4">
 				<table class="table table-bordered inventorySummaryContainer">
 					<thead>
-					<tr>
-						<th>
-							<img src="{\App\Layout::getImagePath('Discount24.png')}"
-								 alt="{\App\Language::translate('LBL_DISCOUNT', $MODULE_NAME)}"/>&nbsp;&nbsp;
-							<strong>{\App\Language::translate('LBL_DISCOUNTS_SUMMARY',$MODULE_NAME)}</strong>
-						</th>
-					</tr>
+						<tr>
+							<th>
+								<img src="{\App\Layout::getImagePath('Discount24.png')}"
+									alt="{\App\Language::translate('LBL_DISCOUNT', $MODULE_NAME)}" />&nbsp;&nbsp;
+								<strong>{\App\Language::translate('LBL_DISCOUNTS_SUMMARY',$MODULE_NAME)}</strong>
+							</th>
+						</tr>
 					</thead>
 					<tbody>
-					<tr>
-						<td class="textAlignRight">
-							{CurrencyField::convertToUserFormatSymbol($DISCOUNT, true, $CURRENCY_SYMBOLAND['currency_symbol'])}
-						</td>
-					</tr>
+						<tr>
+							<td class="textAlignRight">
+								{CurrencyField::convertToUserFormatSymbol($DISCOUNT, true, $CURRENCY_SYMBOLAND['currency_symbol'])}
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -39,35 +39,35 @@
 			<div class="col-md-4">
 				<table class="table table-bordered inventorySummaryContainer">
 					<thead>
-					<tr>
-						<th colspan="2">
-							<img src="{\App\Layout::getImagePath('Tax24.png')}"
-								 alt="{\App\Language::translate('LBL_TAX', $MODULE_NAME)}"/>&nbsp;&nbsp;
-							<strong>{\App\Language::translate('LBL_TAX_SUMMARY',$MODULE_NAME)}</strong>
-						</th>
-					</tr>
+						<tr>
+							<th colspan="2">
+								<img src="{\App\Layout::getImagePath('Tax24.png')}"
+									alt="{\App\Language::translate('LBL_TAX', $MODULE_NAME)}" />&nbsp;&nbsp;
+								<strong>{\App\Language::translate('LBL_TAX_SUMMARY',$MODULE_NAME)}</strong>
+							</th>
+						</tr>
 					</thead>
 					<tbody>
-					{assign var="TAX_AMOUNT" value=0}
-					{foreach item=TAX key=KEY from=$TAXS}
-						{assign var="TAX_AMOUNT" value=$TAX_AMOUNT + $TAX}
+						{assign var="TAX_AMOUNT" value=0}
+						{foreach item=TAX key=KEY from=$TAXS}
+							{assign var="TAX_AMOUNT" value=$TAX_AMOUNT + $TAX}
+							<tr>
+								<td class="textAlignRight" width='70px'>
+									{App\Fields\Double::formatToDisplay($KEY)}%
+								</td>
+								<td class="textAlignRight">
+									{CurrencyField::convertToUserFormatSymbol($TAX, true, $CURRENCY_SYMBOLAND['currency_symbol'])}
+								</td>
+							</tr>
+						{/foreach}
 						<tr>
 							<td class="textAlignRight" width='70px'>
-								{App\Fields\Double::formatToDisplay($KEY)}%
+								{\App\Language::translate('LBL_AMOUNT',$MODULE_NAME)}
 							</td>
 							<td class="textAlignRight">
-								{CurrencyField::convertToUserFormatSymbol($TAX, true, $CURRENCY_SYMBOLAND['currency_symbol'])}
+								{CurrencyField::convertToUserFormatSymbol($TAX_AMOUNT, true, $CURRENCY_SYMBOLAND['currency_symbol'])}
 							</td>
 						</tr>
-					{/foreach}
-					<tr>
-						<td class="textAlignRight" width='70px'>
-							{\App\Language::translate('LBL_AMOUNT',$MODULE_NAME)}
-						</td>
-						<td class="textAlignRight">
-							{CurrencyField::convertToUserFormatSymbol($TAX_AMOUNT, true, $CURRENCY_SYMBOLAND['currency_symbol'])}
-						</td>
-					</tr>
 					</tbody>
 				</table>
 			</div>
@@ -77,33 +77,33 @@
 				<div class="col-md-4">
 					<table class="table table-bordered inventorySummaryContainer">
 						<thead>
-						<tr>
-							<th colspan="2">
-								<strong>{\App\Language::translate('LBL_CURRENCIES_SUMMARY',$MODULE_NAME)}</strong>
-							</th>
-						</tr>
+							<tr>
+								<th colspan="2">
+									<strong>{\App\Language::translate('LBL_CURRENCIES_SUMMARY',$MODULE_NAME)}</strong>
+								</th>
+							</tr>
 						</thead>
 						<tbody>
-						{assign var="CURRENY_AMOUNT" value=0}
-						{foreach item=TAX key=KEY from=$TAXS}
-							{assign var="CURRENY_AMOUNT" value=$CURRENY_AMOUNT + $TAX}
+							{assign var="CURRENY_AMOUNT" value=0}
+							{foreach item=TAX key=KEY from=$TAXS}
+								{assign var="CURRENY_AMOUNT" value=$CURRENY_AMOUNT + $TAX}
+								<tr>
+									<td class="textAlignRight" width='70px'>
+										{CurrencyField::convertToUserFormat($KEY)}%
+									</td>
+									<td class="textAlignRight">
+										{CurrencyField::convertToUserFormatSymbol($TAX * $RATE, true, $BASE_CURRENCY['currency_symbol'])}
+									</td>
+								</tr>
+							{/foreach}
 							<tr>
 								<td class="textAlignRight" width='70px'>
-									{CurrencyField::convertToUserFormat($KEY)}%
+									{\App\Language::translate('LBL_AMOUNT',$MODULE_NAME)}
 								</td>
 								<td class="textAlignRight">
-									{CurrencyField::convertToUserFormatSymbol($TAX * $RATE, true, $BASE_CURRENCY['currency_symbol'])}
+									{CurrencyField::convertToUserFormatSymbol($CURRENY_AMOUNT * $RATE, true, $BASE_CURRENCY['currency_symbol'])}
 								</td>
 							</tr>
-						{/foreach}
-						<tr>
-							<td class="textAlignRight" width='70px'>
-								{\App\Language::translate('LBL_AMOUNT',$MODULE_NAME)}
-							</td>
-							<td class="textAlignRight">
-								{CurrencyField::convertToUserFormatSymbol($CURRENY_AMOUNT * $RATE, true, $BASE_CURRENCY['currency_symbol'])}
-							</td>
-						</tr>
 						</tbody>
 					</table>
 				</div>

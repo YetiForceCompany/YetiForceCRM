@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-LayoutEditor-inventoryTypes-Comment -->
 	<div class="form-group row align-items-center">
@@ -11,7 +11,7 @@
 				{assign var='LABEL' value=$FIELD_INSTANCE->get('label')}
 			{/if}
 			<input name="label" value="{$LABEL}" type="text" class="form-control"
-				   data-validation-engine="validate[required]"/>
+				data-validation-engine="validate[required]" />
 		</div>
 	</div>
 	<div class="form-group row align-items-center">
@@ -31,8 +31,8 @@
 	{if $FIELD_INSTANCE->getParams()}
 		<div class="paramsJson">
 			<input value='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INSTANCE->getParams()))}'
-					type="hidden"
-					id="params"/>
+				type="hidden"
+				id="params" />
 			<div class="form-group paramsJson">
 				<div class="form-group row">
 					<div class="col-md-4 col-form-label text-right">
@@ -41,7 +41,7 @@
 					<div class="col-md-7">
 						<div class=" input-group">
 							<input name="width" value="{$FIELD_INSTANCE->getWidth()}" type="text" class="form-control"
-								data-validation-engine="validate[required, custom[integer]]"/>
+								data-validation-engine="validate[required, custom[integer]]" />
 							<div class="input-group-append">
 								<div class="input-group-text js-popover-tooltip u-cursor-pointer" data-js="popover"
 									data-placement="top"
@@ -61,7 +61,7 @@
 					<div class="col-md-7">
 						<div class=" input-group">
 							<input name="height" value="{$FIELD_INSTANCE->getHeight()}" type="text" class="form-control"
-								data-validation-engine="validate[required, custom[integer]]"/>
+								data-validation-engine="validate[required, custom[integer]]" />
 						</div>
 					</div>
 				</div>

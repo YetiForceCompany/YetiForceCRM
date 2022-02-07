@@ -2,7 +2,7 @@
  * Helper methods
  *
  * @description Helper methods
- * @license YetiForce Public License 4.0
+ * @license YetiForce Public License 5.0
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 export function getGroupIcon(roomType) {
@@ -32,7 +32,7 @@ export function mergeDeepReactive(target, ...sources) {
 	if (!sources.length) {
 		return Vue.observable(target)
 	}
-	const isObject = item => {
+	const isObject = (item) => {
 		return item && typeof item === 'object' && !Array.isArray(item)
 	}
 	const source = sources.shift()

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-LayoutEditor-Modals-WebserviceAppsModal -->
 	<form name="importList" class="js-validate-form js-form-ajax-submit js-modal-form form-horizontal validateForm" action="index.php" method="post" class="form-horizontal" enctype="multipart/form-data" data-js="container">

@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 import unionby from 'lodash.unionby'
 
 import { mergeDeepReactive } from '../utils/utils.js'
@@ -41,13 +41,13 @@ export default {
 		state.local.isSoundNotification = val
 	},
 	removeRoomSoundNotificationsOff(state, { roomType, id }) {
-		state.local.roomSoundNotificationsOff[roomType] = state.local.roomSoundNotificationsOff[roomType].filter(item => item !== id)
+		state.local.roomSoundNotificationsOff[roomType] = state.local.roomSoundNotificationsOff[roomType].filter((item) => item !== id)
 	},
 	addRoomSoundNotificationsOff(state, { roomType, id }) {
 		state.local.roomSoundNotificationsOff[roomType].push(id)
 	},
 	removeRoomExpanded(state, roomType) {
-		state.local.roomsExpanded = state.local.roomsExpanded.filter(room => room !== roomType)
+		state.local.roomsExpanded = state.local.roomsExpanded.filter((room) => room !== roomType)
 	},
 	addRoomExpanded(state, roomType) {
 		state.local.roomsExpanded.push(roomType)
@@ -75,7 +75,7 @@ export default {
 	},
 	updateActiveRooms(state, { roomsToUpdate, newData }) {
 		state.data.amountOfNewMessages = newData.amountOfNewMessages.amount
-		roomsToUpdate.forEach(room => {
+		roomsToUpdate.forEach((room) => {
 			state.data.roomList[room.roomType][room.recordid].showMoreButton = newData.roomList[room.roomType][room.recordid].showMoreButton
 			state.data.roomList[room.roomType][room.recordid].participants = newData.roomList[room.roomType][room.recordid].participants
 			state.data.roomList[room.roomType][room.recordid].chatEntries = unionby(
@@ -86,14 +86,14 @@ export default {
 		})
 	},
 	setNewRooms(state, { newRooms, newData }) {
-		newRooms.forEach(room => {
+		newRooms.forEach((room) => {
 			Vue.set(state.data.roomList[room.roomType], room.recordId, newData[room.roomType][room.recordId])
 		})
 	},
 	unsetUnpinnedRooms(state, roomsToUnpin) {
-		Object.keys(roomsToUnpin).forEach(roomType => {
+		Object.keys(roomsToUnpin).forEach((roomType) => {
 			if (roomsToUnpin[roomType].length) {
-				roomsToUnpin[roomType].forEach(recordId => {
+				roomsToUnpin[roomType].forEach((recordId) => {
 					Vue.delete(state.data.roomList[roomType], recordId)
 				})
 			}
@@ -168,5 +168,5 @@ export default {
 		if (chatSessionStorage && JSON.stringify(Object.keys(state.session)) === JSON.stringify(Object.keys(JSON.parse(chatSessionStorage)))) {
 			state.session = mergeDeepReactive(state.session, JSON.parse(chatSessionStorage))
 		}
-	}
+	},
 }

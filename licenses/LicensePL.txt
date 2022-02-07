@@ -1,5 +1,5 @@
-YetiForce Public License 4.0
-Producent: YetiForce Sp. z o.o., PL1180002425
+YetiForce Public License 5.0
+Producent: YetiForce S.A., PL1180002425
 Email: registration@yetiforce.com ([rejestracja Oprogramowania)]
 
 Gwarantuje się, bez opłat, że każda osoba, która wejdzie w posiadanie kopii tego Oprogramowania i związanych z nim plików dokumentacji (dalej „Oprogramowanie”) może wprowadzać do obrotu Oprogramowanie bez żadnych ograniczeń, w tym bez ograniczeń prawa do użytkowania, kopiowania, modyfikowania, łączenia, publikowania, dystrybuowania, sublicencjonowania i/lub sprzedaży kopii Oprogramowania, a także zezwalania osobie, której Oprogramowanie zostało dostarczone czynienia tego samego, z zastrzeżeniem następujących warunków:

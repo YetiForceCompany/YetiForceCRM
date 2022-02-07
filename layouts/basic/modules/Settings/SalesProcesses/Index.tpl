@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="" id="salesProcessesContainer">
 		<div class="o-breadcrumb widget_header row">
@@ -16,7 +16,8 @@
 				<div class="btn-group-toggle" data-toggle="buttons">
 					<label class="btn {if $POPUP['limit_product_service'] eq 'true'}btn-success active{else}btn-light{/if} btn-block">
 						<span class="far {if $POPUP['limit_product_service'] eq 'true'}fa-check-square{else}fa-square{/if} float-left"></span>
-						<input id="limit_product_service" autocomplete="off" class="configField" type="checkbox" name="limit_product_service" data-type="popup" {if $POPUP['limit_product_service'] eq 'true'}checked=""{/if}><div class="u-white-space-n">{\App\Language::translate('LBL_LIMIT_PRODUCT_AND_SERVICE', $QUALIFIED_MODULE)}</div>
+						<input id="limit_product_service" autocomplete="off" class="configField" type="checkbox" name="limit_product_service" data-type="popup" {if $POPUP['limit_product_service'] eq 'true'}checked="" {/if}>
+						<div class="u-white-space-n">{\App\Language::translate('LBL_LIMIT_PRODUCT_AND_SERVICE', $QUALIFIED_MODULE)}</div>
 					</label>
 				</div>
 			</div>

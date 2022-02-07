@@ -3,7 +3,7 @@
  * Update Related Field Task Handler Class.
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';

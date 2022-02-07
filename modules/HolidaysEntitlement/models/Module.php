@@ -3,7 +3,7 @@
  * HolidaysEntitlement module model class.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 class HolidaysEntitlement_Module_Model extends Vtiger_Module_Model

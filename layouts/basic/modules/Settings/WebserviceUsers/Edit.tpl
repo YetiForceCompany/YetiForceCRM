@@ -1,10 +1,10 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-WebserviceUsers-Edit -->
 	<form class="form-horizontal validateForm" id="editForm">
 		<input type="hidden" name="module" value="WebserviceUsers">
-		<input type="hidden" name="parent" value="Settings"/>
-		<input type="hidden" name="action" value="SaveAjax"/>
+		<input type="hidden" name="parent" value="Settings" />
+		<input type="hidden" name="action" value="SaveAjax" />
 		<input type="hidden" id="typeApi" name="typeApi" value="{$TYPE_API}">
 		<input type="hidden" id="record" name="record" value="{$RECORD_MODEL->getId()}">
 		<div class="modal-header">

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-dashboards-ChartFilterHeader -->
 	<div class="dashboardWidgetHeader">
@@ -26,7 +26,7 @@
 		</div>
 		{assign var="WIDGET_DATA" value=$WIDGET->getArray('data')}
 		{if !empty($WIDGET_DATA['additionalFiltersFields'])}
-			<hr class="widgetHr"/>
+			<hr class="widgetHr" />
 		{/if}
 		{foreach item=FIELD from=$ADDITIONAL_FILTERS_FIELDS key=COUNTER}
 			{assign var=FIELD_UI_TYPE_MODEL value=$FIELD->getUITypeModel()}
@@ -40,11 +40,12 @@
 				<div class="col-ceq-xsm-6 input-group-sm">
 					{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE=$WIDGET_DATA['module'] CLASS_SIZE='input-group-sm'}
 				</div>
-			{if $COUNTER % 2 !==0 || $COUNTER===count($ADDITIONAL_FILTERS_FIELDS)-1}</div>{/if}
+				{if $COUNTER % 2 !==0 || $COUNTER===count($ADDITIONAL_FILTERS_FIELDS)-1}
+			</div>{/if}
 		{/foreach}
 	</div>
 	<div class="dashboardWidgetContent">
 		{include file=\App\Layout::getTemplatePath('dashboards/ChartFilterContents.tpl', $MODULE_NAME) WIDGET=$WIDGET}
 	</div>
-<!-- /tpl-dashboards-ChartFilterHeader -->
+	<!-- /tpl-dashboards-ChartFilterHeader -->
 {/strip}

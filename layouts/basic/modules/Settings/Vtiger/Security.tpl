@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<!-- tpl-Settings-Base-Security -->
 	{function SHOW_HELP_TEXT ITEM=[] KEY=''}
 		{if empty($ITEM['label'])}{$KEY}{else}{\App\Language::translate('LBL_LABEL_'|cat:$ITEM['label'], $MODULE_NAME)}{/if}
@@ -8,8 +8,8 @@
 			{assign var="HELP_TEXT_TRANS" value=\App\Language::translateEncodeHtml($HELP_TEXT, 'Settings::ConfReport')}
 			{if !empty($HELP_TEXT_TRANS) && $HELP_TEXT_TRANS!==$HELP_TEXT }
 				<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-				   data-trigger="focus hover" data-placement="right"
-				   data-content="{$HELP_TEXT_TRANS}">
+					data-trigger="focus hover" data-placement="right"
+					data-content="{$HELP_TEXT_TRANS}">
 					<span class="fas fa-info-circle"></span>
 				</a>
 			{/if}
@@ -36,15 +36,15 @@
 				</tr>
 			</thead>
 			<tbody>
-			{foreach from=\App\Utils\ConfReport::get('security') key=KEY item=ITEM}
-				<tr {if empty($ITEM.status)}class="table-danger"{/if}>
-					<td>
-						<label>{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}</label>
-					</td>
-					<td><label>{App\Language::translate($ITEM.recommended, 'Settings::ConfReport')}</label></td>
-					<td><label>{App\Language::translate($ITEM.www, 'Settings::ConfReport')}</label></td>
-				</tr>
-			{/foreach}
+				{foreach from=\App\Utils\ConfReport::get('security') key=KEY item=ITEM}
+					<tr {if empty($ITEM.status)}class="table-danger" {/if}>
+						<td>
+							<label>{SHOW_HELP_TEXT ITEM=$ITEM KEY=$KEY}</label>
+						</td>
+						<td><label>{App\Language::translate($ITEM.recommended, 'Settings::ConfReport')}</label></td>
+						<td><label>{App\Language::translate($ITEM.www, 'Settings::ConfReport')}</label></td>
+					</tr>
+				{/foreach}
 			</tbody>
 		</table>
 		{if $SENSIOLABS}

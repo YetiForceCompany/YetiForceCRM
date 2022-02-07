@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Documents-MassAddDocuments-->
 	<div class="modal-header">
@@ -11,8 +11,8 @@
 		</button>
 	</div>
 	<form class="form-horizontal" id="addDocuments" method="post" action="index.php" enctype="multipart/form-data">
-		<input type="hidden" name="module" value="{$MODULE}"/>
-		<input type="hidden" name="action" value="MassAdd"/>
+		<input type="hidden" name="module" value="{$MODULE}" />
+		<input type="hidden" name="action" value="MassAdd" />
 		<div class="modal-body row">
 			<div class="col-md-12 uploadFileContainer">
 				<input type="file" name="file[]" multiple id="filesToUpload">

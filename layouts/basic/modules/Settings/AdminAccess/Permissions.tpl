@@ -1,6 +1,6 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Settings-AdminAccess-Permissions -->
+	<!-- tpl-Settings-AdminAccess-Permissions -->
 	<div class="actions mb-2">
 		{foreach from=$LINKS item=LINK}
 			{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $QUALIFIED_MODULE) BUTTON_VIEW='listViewBasic' MODULE_NAME=$QUALIFIED_MODULE}
@@ -27,5 +27,5 @@
 			</thead>
 		</table>
 	</form>
-<!-- /tpl-Settings-AdminAccess-Permissions -->
+	<!-- /tpl-Settings-AdminAccess-Permissions -->
 {/strip}

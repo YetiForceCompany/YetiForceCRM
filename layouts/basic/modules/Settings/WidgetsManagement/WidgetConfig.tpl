@@ -1,11 +1,11 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-WidgetsManagement-WidgetConfig -->
 	{assign var=LINKID value=$WIDGET_MODEL->get('linkid')}
 	{assign var=LINK_LABEL_KEY value=$WIDGET_MODEL->get('linklabel')}
 	<li class="col-md-12">
 		<div class="opacity editFieldsWidget ml-0 border1px" data-block-id="{$AUTHORIZATION_KEY}"
-			 data-field-id="{$WIDGET_MODEL->get('id')}" data-linkid="{$LINKID}" data-sequence="">
+			data-field-id="{$WIDGET_MODEL->get('id')}" data-linkid="{$LINKID}" data-sequence="">
 			<div class="row py-1  justify-content-between">
 				<div class="col-9 text-truncate">
 					<span class="fieldLabel ml-3">{\App\Language::translate($WIDGET_MODEL->getTitle(), $SELECTED_MODULE_NAME)}</span>

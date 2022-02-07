@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="o-breadcrumb widget_header row mb-2">
 		<div class="col-12">
@@ -25,20 +25,20 @@
 				<div name="uploadPdfTemplate">
 					<table class="massEditTable table table-bordered">
 						<thead>
-						<tr class="blockHeader">
-							<th class="fieldLabel">
-								<strong>{\App\Language::translate('LBL_IMPORT_VIEW', $QUALIFIED_MODULE)} ({\App\Language::translate('LBL_TEMPLATE_XML', $QUALIFIED_MODULE)})</strong>
-							</th>
-						</tr>
+							<tr class="blockHeader">
+								<th class="fieldLabel">
+									<strong>{\App\Language::translate('LBL_IMPORT_VIEW', $QUALIFIED_MODULE)} ({\App\Language::translate('LBL_TEMPLATE_XML', $QUALIFIED_MODULE)})</strong>
+								</th>
+							</tr>
 						</thead>
 						<tbody>
-						<tr>
-							<td>
-								<div class="fieldValue position-relative">
-									<input type="file" name="imported_xml" accept="text/xml" data-validation-engine='validate[required]' id="imported_xml" />
-								</div>
-							</td>
-						</tr>
+							<tr>
+								<td>
+									<div class="fieldValue position-relative">
+										<input type="file" name="imported_xml" accept="text/xml" data-validation-engine='validate[required]' id="imported_xml" />
+									</div>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>

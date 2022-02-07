@@ -1,10 +1,10 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-MeetingServices-Edit -->
 	<form class="form-horizontal validateForm sendByAjax" id="editForm">
 		<input type="hidden" name="module" value="{$MODULE_NAME}">
-		<input type="hidden" name="parent" value="Settings"/>
-		<input type="hidden" name="action" value="SaveAjax"/>
+		<input type="hidden" name="parent" value="Settings" />
+		<input type="hidden" name="action" value="SaveAjax" />
 		<input type="hidden" id="record" name="record" value="{$RECORD_MODEL->getId()}">
 		<div class="modal-body">
 			{foreach from=$RECORD_MODEL->getModule()->getFormFields() item=FIELD_INFO key=FIELD_NAME name=fields}

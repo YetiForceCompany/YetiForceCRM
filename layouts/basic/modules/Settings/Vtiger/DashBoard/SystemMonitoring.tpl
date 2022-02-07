@@ -1,6 +1,6 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Settings-Base-DashBoard-SystemMonitoring  -->
+	<!-- tpl-Settings-Base-DashBoard-SystemMonitoring  -->
 	<div class="mb-3 d-flex flex-wrap mr-n3">
 		{foreach from=$SYSTEM_MONITORING item=ITEM}
 			{assign var="TRANSLATION" value=\App\Language::translatePluralized($ITEM['LABEL'], $QUALIFIED_MODULE, $ITEM['VALUE'])}
@@ -12,13 +12,13 @@
 					<div class="display-3 u-font-weight-350" {if strlen($ITEM['VALUE']) > 3}title="{$ITEM['VALUE']}">999+{else}>{$ITEM['VALUE']}{/if}</div>
 				</div>
 				<div class="px-3">
-				{include file=\App\Layout::getTemplatePath('DashBoard/WidgetTitle.tpl', $QUALIFIED_MODULE) CLASS='text-center' TITLE=$TRANSLATION}
-				{if not empty($ITEM['HREF'])}
-					<a href="{$ITEM['HREF']}" class="btn btn-dark btn-block mt-2">{\App\Language::translate('LBL_MORE')}</a>
-				{/if}
+					{include file=\App\Layout::getTemplatePath('DashBoard/WidgetTitle.tpl', $QUALIFIED_MODULE) CLASS='text-center' TITLE=$TRANSLATION}
+					{if not empty($ITEM['HREF'])}
+						<a href="{$ITEM['HREF']}" class="btn btn-dark btn-block mt-2">{\App\Language::translate('LBL_MORE')}</a>
+					{/if}
 				</div>
 			</div>
 		{/foreach}
 	</div>
-<!-- /tpl-Settings-Base-DashBoard-SystemMonitoring  -->
+	<!-- /tpl-Settings-Base-DashBoard-SystemMonitoring  -->
 {/strip}

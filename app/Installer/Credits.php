@@ -8,7 +8,7 @@ namespace App\Installer;
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -54,7 +54,7 @@ class Credits
 			'YetiForce' => [
 				'name' => 'YetiForce',
 				'version' => \App\Version::get(),
-				'license' => 'YetiForce Public License 4.0',
+				'license' => 'YetiForce Public License 5.0',
 				'homepage' => 'https://yetiforce.com/en/yetiforce/license',
 				'notPackageFile' => true,
 				'showLicenseModal' => true,

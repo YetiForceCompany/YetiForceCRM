@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if $CONNECTOR_CONFIG}
 		<div class="tpl-Settings-PBX-EditModal editModalContent my-3">
@@ -26,7 +26,7 @@
 					<h5 class="modal-title">{\App\Language::translate('LBL_CREATE_RECORD', $QUALIFIED_MODULE)}</h5>
 				{/if}
 				<button type="button" class="close" data-dismiss="modal"
-						title="{\App\Language::translate('LBL_CLOSE')}">
+					title="{\App\Language::translate('LBL_CLOSE')}">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>

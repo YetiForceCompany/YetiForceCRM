@@ -4,7 +4,7 @@
  * Products widget view class.
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Products_Widget_View extends Vtiger_Index_View
 {

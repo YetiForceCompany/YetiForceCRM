@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if count($LINKS) gt 0}
 		{if empty($BTN_ICON) && empty($TEXT_HOLDER)}
@@ -31,26 +31,26 @@
 					{assign var="LINK_TYPE" value=$LINK->getType()}
 					{assign var="LINK_URL" value=$LINK->getUrl()}
 					<a class="dropdown-item quickLinks {$LINK->getClassName()}"
-							{if $LINK->get('linkdata') neq ''}
-								{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
-									{' '}data-{$NAME}="{$DATA}"
-								{/foreach}
-							{/if}
-							{' '}
-							{if $LINK_URL && stripos($LINK_URL, 'javascript:') === false}
-								href="{$LINK_URL}"
-							{elseif $LINK_URL}
-								type="button"
-								onclick='{$LINK_URL|substr:strlen("javascript:")}'
-							{else}
-								type="button"
-							{/if}
-							{if $LINK->get('dataUrl')}
-								{' '}data-url="{$LINK->get('dataUrl')}"
-							{/if}
-							{if $LINK->get('style')}
+						{if $LINK->get('linkdata') neq ''}
+							{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
+								{' '}data-{$NAME}="{$DATA}"
+							{/foreach}
+						{/if}
+						{' '}
+						{if $LINK_URL && stripos($LINK_URL, 'javascript:') === false}
+							href="{$LINK_URL}"
+						{elseif $LINK_URL}
+							type="button"
+							onclick='{$LINK_URL|substr:strlen("javascript:")}'
+						{else}
+							type="button"
+						{/if}
+						{if $LINK->get('dataUrl')}
+							{' '}data-url="{$LINK->get('dataUrl')}"
+						{/if}
+						{if $LINK->get('style')}
 							{' '}style="{$LINK->get('style')}"
-							{/if}>
+						{/if}>
 						{if $LINK->get('linkicon') neq ''}
 							<span class="{$LINK->get('linkicon')}"></span>
 							&nbsp;&nbsp;

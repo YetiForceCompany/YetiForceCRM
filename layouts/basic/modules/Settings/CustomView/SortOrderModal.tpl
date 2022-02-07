@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-CustomView-SortOrderModal -->
 	<div class="col-md-12">
@@ -11,8 +11,8 @@
 		</div>
 	</div>
 	<form class="js-sorting-form" data-js="submit">
-		<input type="hidden" id="cvid" name="cvid" value="{$CVID}"/>
-		<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}"/>
+		<input type="hidden" id="cvid" name="cvid" value="{$CVID}" />
+		<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />
 		<input type="hidden" id="orderBy" value="{\App\Purifier::encodeHtml(\App\Json::encode($SORT_ORDER_BY))}">
 	</form>
 	{include file=\App\Layout::getTemplatePath('Modals/SortOrderModal.tpl', $MODULE_NAME)}

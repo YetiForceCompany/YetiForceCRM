@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if empty($VIEWNAME)}
 		{assign var=VIEWNAME value='list'}
@@ -8,17 +8,17 @@
 	{/if}
 	<nav class="tpl-Pagination" aria-label="Page navigation">
 		<ul class="js-pagination-list pagination m-0"
-			{if isset($LISTVIEW_COUNT)}data-total-count="{$LISTVIEW_COUNT}"{/if} data-js="data">
+			{if isset($LISTVIEW_COUNT)}data-total-count="{$LISTVIEW_COUNT}" {/if} data-js="data">
 			<li class="js-page--set page-item {if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1} disabled {/if} pageNumber firstPage"
 				data-id="1"
 				data-js="data">
 				<a class="page-link" href="#"><span
-							class="fas fa-fast-backward mr-1 d-inline-block d-sm-none"></span><span
-							class="d-none d-sm-inline">{\App\Language::translate('LBL_FIRST')}</span></a>
+						class="fas fa-fast-backward mr-1 d-inline-block d-sm-none"></span><span
+						class="d-none d-sm-inline">{\App\Language::translate('LBL_FIRST')}</span></a>
 			</li>
 			<li class="page-item {if !$PAGING_MODEL->isPrevPageExists() OR $PAGE_NUMBER eq 1}disabled{/if}">
 				<a class="js-page--previous page-link"
-				   id="{$VIEWNAME}ViewPreviousPageButton" data-js="click" href="#">
+					id="{$VIEWNAME}ViewPreviousPageButton" data-js="click" href="#">
 					<span aria-hidden="true">&laquo;</span>
 					<span class="sr-only">Previous</span>
 				</a>
@@ -30,27 +30,28 @@
 						{if $PAGE_COUNT > 5}
 							<li class="page-item {if $PAGE_COUNT eq 1} disabled{/if}">
 								<a class="page-link" id="dLabel" data-target="#" data-toggle="dropdown" role="button"
-								   href="#" aria-expanded="true">
+									href="#" aria-expanded="true">
 									...
 								</a>
 								<div class="js-page--jump-drop-down dropdown-menu listViewBasicAction" data-js="click"
-									 aria-labelledby="dLabel" id="{$VIEWNAME}ViewPageJumpDropDown">
+									aria-labelledby="dLabel" id="{$VIEWNAME}ViewPageJumpDropDown">
 									<a class="dropdown-item">
 										<div class="row">
 											<div class="col-md-3 p-0 textAlignCenter pushUpandDown2per">
-												<span>{\App\Language::translate('LBL_PAGE')}</span></div>
+												<span>{\App\Language::translate('LBL_PAGE')}</span>
+											</div>
 											<div class="col-md-3 p-0">
 												<input type="text" id="pageToJump"
-													   class="js-page-jump listViewPagingInput u-h-input-text textAlignCenter form-control"
-													   title="{\App\Language::translate('LBL_LISTVIEW_PAGE_JUMP')}"
-													   value="{$PAGE_NUMBER}"
-													   data-js="keypress"/>
+													class="js-page-jump listViewPagingInput u-h-input-text textAlignCenter form-control"
+													title="{\App\Language::translate('LBL_LISTVIEW_PAGE_JUMP')}"
+													value="{$PAGE_NUMBER}"
+													data-js="keypress" />
 											</div>
 											<div class="col-md-2 p-0 textAlignCenter pushUpandDown2per">
 												{\App\Language::translate('LBL_OF')}
 											</div>
 											<div class="js-page--total col-md-2 p-0 pushUpandDown2per textAlignCenter"
-												 id="totalPageCount" data-js="text">{$PAGE_COUNT}</div>
+												id="totalPageCount" data-js="text">{$PAGE_COUNT}</div>
 										</div>
 									</a>
 								</div>
@@ -87,18 +88,18 @@
 				<li class="js-page--set page-item {if $PAGE_NUMBER eq $PAGE_COUNT or (!$PAGING_MODEL->isNextPageExists())} disabled {/if} pageNumber lastPage"
 					data-id="{$PAGE_COUNT}" data-js="click">
 					<a class="page-link" href="#"><span
-								class="fas fa-fast-forward mr-1 d-inline-block d-sm-none"></span><span
-								class="d-none d-sm-inline">{\App\Language::translate('LBL_LAST')}</span></a>
+							class="fas fa-fast-forward mr-1 d-inline-block d-sm-none"></span><span
+							class="d-none d-sm-inline">{\App\Language::translate('LBL_LAST')}</span></a>
 				</li>
 			{/if}
 			<li class="page-item text-muted">
 				<a class="page-link pageNumbersText">
 					<span class="js-popover-tooltip d-block d-sm-none" tabindex="0" data-trigger="focus"
-						  data-js="popover" data-placement="top"
-						  data-content="{$PAGING_MODEL->getRecordStartRange()} {\App\Language::translate('LBL_TO_LC')} {$PAGING_MODEL->getRecordEndRange()}
+						data-js="popover" data-placement="top"
+						data-content="{$PAGING_MODEL->getRecordStartRange()} {\App\Language::translate('LBL_TO_LC')} {$PAGING_MODEL->getRecordEndRange()}
 					{if !empty($LISTVIEW_COUNT)} ({$LISTVIEW_COUNT}){/if}">
 						<span class="fas fa-info-circle"
-							  title="{App\Language::translate('LBL_SHOW_INVENTORY_ROW')}"></span>
+							title="{App\Language::translate('LBL_SHOW_INVENTORY_ROW')}"></span>
 					</span>
 					<span class="d-none d-sm-inline">{$PAGING_MODEL->getRecordStartRange()} {\App\Language::translate('LBL_TO_LC')} {$PAGING_MODEL->getRecordEndRange()} {if !empty($LISTVIEW_COUNT)} ({$LISTVIEW_COUNT}){/if}</span>
 				</a>

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var=ENTRIES value=\App\AutoAssign::getInstancesByModule($WORKFLOW_MODEL->get('module_name'), \App\AutoAssign::MODE_WORKFLOW)}
 	<div class="row">

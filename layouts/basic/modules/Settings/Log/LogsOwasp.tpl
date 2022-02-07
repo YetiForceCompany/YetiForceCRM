@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-Log-Index js-log" data-js="container">
 		<div class="o-breadcrumb widget_header row">
@@ -13,8 +13,8 @@
 				{foreach key=INDEX item=ITEM from=$TABLE_MAPPING}
 					<li class="nav-item">
 						<a class="nav-link {if $TYPE === $INDEX}active{/if}"
-						   href="index.php?parent=Settings&module=Log&view=LogsOwasp&type={$INDEX}"
-						   data-type="{$INDEX}">{\App\Language::translate('LBL_'|cat:$INDEX|UPPER,$MODULE_NAME)}</a>
+							href="index.php?parent=Settings&module=Log&view=LogsOwasp&type={$INDEX}"
+							data-type="{$INDEX}">{\App\Language::translate('LBL_'|cat:$INDEX|UPPER,$MODULE_NAME)}</a>
 					</li>
 				{/foreach}
 			</ul>
@@ -31,15 +31,15 @@
 							</span>
 						</div>
 						<input type="text" name="time" title="{\App\Language::translate('LBL_CHOOSE_DATE')}"
-						       class="dateRangeField js-date-range-filter form-control text-center"
-						       data-js="val" data-date-format="{$USER_MODEL->get('date_format')}"
-						       value="{implode(',',\App\Fields\Date::formatRangeToDisplay([date('Y-m-d'),date('Y-m-d')]))}"/>
+							class="dateRangeField js-date-range-filter form-control text-center"
+							data-js="val" data-date-format="{$USER_MODEL->get('date_format')}"
+							value="{implode(',',\App\Fields\Date::formatRangeToDisplay([date('Y-m-d'),date('Y-m-d')]))}" />
 					</div>
 				</div>
 				<div class="col-lg-3">
 					<button type="button"
-					        class="btn btn-primary btn-sm js-date-range-btn"
-					        data-js="click">{\App\Language::translate('LBL_FILTER')}</button>
+						class="btn btn-primary btn-sm js-date-range-btn"
+						data-js="click">{\App\Language::translate('LBL_FILTER')}</button>
 				</div>
 			</div>
 			<table class="table table-bordered js-data-table" data-js="dataTable"></table>

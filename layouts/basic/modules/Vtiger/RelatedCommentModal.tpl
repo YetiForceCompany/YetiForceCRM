@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-RelatedCommentModal -->
 	<div class="modal-header">
@@ -8,8 +8,8 @@
 		</button>
 	</div>
 	<div class="modal-body">
-		<input type="hidden" class="relatedRecord" value="{$RELATED_RECORD}"/>
-		<input type="hidden" class="relatedModuleName" value="{$RELATED_MODULE}"/>
+		<input type="hidden" class="relatedRecord" value="{$RELATED_RECORD}" />
+		<input type="hidden" class="relatedModuleName" value="{$RELATED_MODULE}" />
 		<textarea class="form-control comment" rows="4">{$COMMENT}</textarea>
 	</div>
 	<div class="modal-footer">

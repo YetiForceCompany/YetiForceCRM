@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-PDF-ListViewContents -->
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
@@ -20,25 +20,26 @@
 				<tbody>
 					{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
 						<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"
-							{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}>
+							{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}" {/if}>
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 								{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 								{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
 								<td class="listViewEntryValue {$WIDTHTYPE}" data-name="{$LISTVIEW_HEADERNAME}" width="{$WIDTH}%" nowrap>
 									&nbsp;{\App\Language::translate($LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME), $QUALIFIED_MODULE)}
 									{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
-									</td><td nowrap class="{$WIDTHTYPE}">
+									</td>
+									<td nowrap class="{$WIDTHTYPE}">
 										<div class="float-right actions">
 											<span class="actionImages">
 												{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 													{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
 													{if $RECORD_LINK->getLabel() eq 'LBL_DELETE_RECORD'}
 														<button type="button" class="btn btn-sm btn-danger templateDelete">
-														<span class="{$RECORD_LINK->getIcon()}" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+															<span class="{$RECORD_LINK->getIcon()}" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 														</button>
 													{elseif $RECORD_LINK->getLabel() eq 'LBL_EXPORT_RECORD'}
 														<a href="{$RECORD_LINK_URL}" class="btn btn-primary btn-sm"><span class="{$RECORD_LINK->getIcon()}"></span></a>
-														{else}
+													{else}
 														<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="
 																											 {$RECORD_LINK_URL|substr:strlen("javascript:")};
 																if (event.stopPropagation){ldelim}
@@ -63,18 +64,18 @@
 				</tbody>
 			</table>
 
-		<!--added this div for Temporarily -->
-		{if $LISTVIEW_ENTRIES_COUNT eq '0'}
-			<table class="emptyRecordsDiv">
-				<tbody>
-					<tr>
-						<td>
-							{\App\Language::translate('LBL_NO_RECORDS_FOUND', $QUALIFIED_MODULE)}
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		{/if}
-	</div>
-	<!-- /tpl-Settings-PDF-ListViewContents -->
+			<!--added this div for Temporarily -->
+			{if $LISTVIEW_ENTRIES_COUNT eq '0'}
+				<table class="emptyRecordsDiv">
+					<tbody>
+						<tr>
+							<td>
+								{\App\Language::translate('LBL_NO_RECORDS_FOUND', $QUALIFIED_MODULE)}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			{/if}
+		</div>
+		<!-- /tpl-Settings-PDF-ListViewContents -->
 {/strip}

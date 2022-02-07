@@ -1,11 +1,11 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Modals-SortOrderModal -->
 	<div class="modal-body js-modal-body" data-js="container">
 		<div class="row">
 			<div class="form-group col-12">
 				<button type="button" class="btn btn-default js-add" data-js="click"
-						title="{\App\Language::translate('LBL_ADD', $MODULE_NAME)}">
+					title="{\App\Language::translate('LBL_ADD', $MODULE_NAME)}">
 					<span class="fas fa-plus"></span>
 				</button>
 			</div>
@@ -15,7 +15,7 @@
 						<div class="input-group js-sort-container_element flex-nowrap mb-2{if $BASIC} js-base-element d-none{/if}" data-js="container">
 							<div class="input-group-prepend">
 								<button type="button" class="btn btn-danger js-clear" data-js="click"
-										title="{\App\Language::translate('LBL_REMOVE', $MODULE_NAME)}">
+									title="{\App\Language::translate('LBL_REMOVE', $MODULE_NAME)}">
 									<span class="fas fa-times-circle"></span>
 								</button>
 							</div>
@@ -50,7 +50,7 @@
 										data-val="{\App\Db::DESC}"
 										title="{\App\Language::translate('LBL_SORT_DESCENDING', $MODULE_NAME)}">
 									</span>
-									<input type="hidden" class="js-sort-order" name="sortOrder" value="{\App\Db::ASC}" data-js="val"/>
+									<input type="hidden" class="js-sort-order" name="sortOrder" value="{\App\Db::ASC}" data-js="val" />
 								</button>
 							</div>
 						</div>

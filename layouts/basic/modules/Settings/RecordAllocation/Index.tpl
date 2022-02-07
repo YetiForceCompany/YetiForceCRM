@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<input type="hidden" id="fieldType" value="{$TYPE}" />
 	{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers('Public')}
@@ -25,8 +25,8 @@
 		{/foreach}
 	</div>
 	<div class="js-modal-add-panel modal fade in" data-js="modal">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
 				<form>
 					<div class="modal-header">
 						<h5 class="modal-title">{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</h5>
@@ -52,7 +52,7 @@
 						</button>
 					</div>
 				</form>
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 {/strip}

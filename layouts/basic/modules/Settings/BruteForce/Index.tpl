@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-BruteForce-Index">
 		<div class="o-breadcrumb widget_header row">
@@ -20,7 +20,7 @@
 					<div class="card">
 						<div class="card-body">
 							<form id="brutalForceTabForm1" class="form-horizontal" name="brutalForceTabForm1"
-								  data-mode="saveConfig">
+								data-mode="saveConfig">
 								<div class="form-group row align-items-center">
 									<label class="col-sm-3 col-form-label text-right">{\App\Language::translate('LBL_BRUTEFORCE_ACTIVE', $QUALIFIED_MODULE)}</label>
 									<div class="col-sm-8 col-md-9">
@@ -61,7 +61,7 @@
 												<input class="js-switch--sent" type="radio" name="sent" data-js="change" id="sent1" autocomplete="off" value="1" {if $CONFIG.sent}checked{/if}> {\App\Language::translate('LBL_YES', $QUALIFIED_MODULE)}
 											</label>
 											<label class="btn btn-outline-primary {if !$CONFIG.sent} active{/if}">
-												<input class="js-switch--sent" type="radio" name="sent" data-js="change"  id="sent2" autocomplete="off" value="0" {if !$CONFIG.sent}checked{/if}> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
+												<input class="js-switch--sent" type="radio" name="sent" data-js="change" id="sent2" autocomplete="off" value="0" {if !$CONFIG.sent}checked{/if}> {\App\Language::translate('LBL_NO', $QUALIFIED_MODULE)}
 											</label>
 										</div>
 										<div class="selectedUsersForm{if !$CONFIG.sent} d-none{/if}">
@@ -79,7 +79,8 @@
 							<div class="float-left">
 								<button class="btn btn-success saveButton" type="submit" id="saveConfig" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}">
 									<span class="fa fa-check u-mr-5px"></span>
-									<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button></div>
+									<strong>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
+							</div>
 							</form>
 						</div>
 					</div>
@@ -90,43 +91,43 @@
 					<div class="table-responsive">
 						<table class="table tableRWD table-bordered table-sm themeTableColor">
 							<thead>
-							<tr class="blockHeader">
-								<th>
-									<span class="alignMiddle">{\App\Language::translate('LBL_IP', $QUALIFIED_MODULE)}</span>
-								</th>
-								<th>
-									<span class="alignMiddle">{\App\Language::translate('LBL_DATE', $QUALIFIED_MODULE)}</span>
-								</th>
-								<th>
-									<span class="alignMiddle">{\App\Language::translate('LBL_USERS', $QUALIFIED_MODULE)}</span>
-								</th>
-								<th>
-									<span class="alignMiddle">{\App\Language::translate('LBL_NUMBER_OF_ATTEMPTS', $QUALIFIED_MODULE)}</span>
-								</th>
-								<th>
-									<span class="alignMiddle">{\App\Language::translate('LBL_BROWSERS', $QUALIFIED_MODULE)}</span>
-								</th>
-								<th>
-									<span class="alignMiddle">{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</span>
-								</th>
-							</tr>
+								<tr class="blockHeader">
+									<th>
+										<span class="alignMiddle">{\App\Language::translate('LBL_IP', $QUALIFIED_MODULE)}</span>
+									</th>
+									<th>
+										<span class="alignMiddle">{\App\Language::translate('LBL_DATE', $QUALIFIED_MODULE)}</span>
+									</th>
+									<th>
+										<span class="alignMiddle">{\App\Language::translate('LBL_USERS', $QUALIFIED_MODULE)}</span>
+									</th>
+									<th>
+										<span class="alignMiddle">{\App\Language::translate('LBL_NUMBER_OF_ATTEMPTS', $QUALIFIED_MODULE)}</span>
+									</th>
+									<th>
+										<span class="alignMiddle">{\App\Language::translate('LBL_BROWSERS', $QUALIFIED_MODULE)}</span>
+									</th>
+									<th>
+										<span class="alignMiddle">{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</span>
+									</th>
+								</tr>
 							</thead>
 							<tbody>
-							{foreach from=$BLOCKED item=ITEM}
-								{assign var=ITEM value=$MODULE_MODEL->getLoginHistoryData($ITEM)}
-								<tr>
-									<td><label>{$ITEM['ip']}</label></td>
-									<td><label>{$ITEM['time']}</label></td>
-									<td><label>{$ITEM['usersName']}</label></td>
-									<td><label>{$ITEM['attempts']}</label></td>
-									<td><label>{$ITEM['browsers']}</label></td>
-									<td class="text-center">
-										<button data-id="{$ITEM['id']}" class="btn btn-success unblock" type="button" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}">
-											<strong>{\App\Language::translate('LBL_UNBLOCK', $QUALIFIED_MODULE)}</strong>
-										</button>
-									</td>
-								</tr>
-							{/foreach}
+								{foreach from=$BLOCKED item=ITEM}
+									{assign var=ITEM value=$MODULE_MODEL->getLoginHistoryData($ITEM)}
+									<tr>
+										<td><label>{$ITEM['ip']}</label></td>
+										<td><label>{$ITEM['time']}</label></td>
+										<td><label>{$ITEM['usersName']}</label></td>
+										<td><label>{$ITEM['attempts']}</label></td>
+										<td><label>{$ITEM['browsers']}</label></td>
+										<td class="text-center">
+											<button data-id="{$ITEM['id']}" class="btn btn-success unblock" type="button" title="{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}">
+												<strong>{\App\Language::translate('LBL_UNBLOCK', $QUALIFIED_MODULE)}</strong>
+											</button>
+										</td>
+									</tr>
+								{/foreach}
 							</tbody>
 						</table>
 					</div>

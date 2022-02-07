@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if count($NEW_ACCOUNTS) > 0}
 		{if $PAGING_MODEL->getCurrentPage() eq 1}
@@ -14,8 +14,8 @@
 				</div>
 			</div>
 			<hr>
-			{/if}
-			{foreach from=$NEW_ACCOUNTS key=RECORD_ID item=ACCOUNTS_MODEL}
+		{/if}
+		{foreach from=$NEW_ACCOUNTS key=RECORD_ID item=ACCOUNTS_MODEL}
 			<div class="row paddingLRZero">
 				<div class="col-4">
 					{if \App\Privilege::isPermitted($MODULE_NAME, 'DetailView', $RECORD_ID)}

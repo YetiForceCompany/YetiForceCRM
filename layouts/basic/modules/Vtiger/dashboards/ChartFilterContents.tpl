@@ -1,11 +1,11 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<input type="hidden" name="typeChart" value="{$CHART_MODEL->getType()}">
 	<input type="hidden" name="stacked" value="{$CHART_STACKED}">
 	<input type="hidden" name="colorsFromDividingField" value="{$CHART_COLORS_FROM_DIVIDING_FIELD}">
 	<input type="hidden" name="colorsFromFilters" value="{$CHART_COLORS_FROM_FILTERS}">
 	<input type="hidden" name="filterIds"
-		   value="{\App\Purifier::encodeHtml(App\Json::encode($CHART_MODEL->getFilterIds()))}">
+		value="{\App\Purifier::encodeHtml(App\Json::encode($CHART_MODEL->getFilterIds()))}">
 	{if $CHART_MODEL->getType() === 'Table' && $CHART_DATA}
 		{assign var=FIRST_ROW value=current($CHART_DATA)}
 		{assign var=HEADERS value=array_keys($CHART_DATA)}
@@ -58,7 +58,7 @@
 								{foreach from=$HEADERS item=HEADER}
 									<td class="text-center noWrap listButtons narrow border-secondary">
 										{assign var=HEADER_SUM value=array_sum($SUMMARY[$HEADER])}
-									    <b>{$CHART_MODEL->convertToUserFormat($HEADER_SUM)}</b>
+										<b>{$CHART_MODEL->convertToUserFormat($HEADER_SUM)}</b>
 									</td>
 								{/foreach}
 							</tr>
@@ -68,7 +68,7 @@
 			</div>
 		</div>
 	{elseif !empty($CHART_DATA['show_chart']) }
-		<input class="widgetData" name="data" type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($CHART_DATA))}"/>
+		<input class="widgetData" name="data" type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($CHART_DATA))}" />
 		<div class="widgetChartContainer chartcontent">
 			<canvas></canvas>
 		</div>

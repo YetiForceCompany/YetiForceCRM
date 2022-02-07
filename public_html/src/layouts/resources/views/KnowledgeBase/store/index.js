@@ -2,7 +2,7 @@
  * Knowledge base module
  *
  * @description Knowledge base vuex module
- * @license YetiForce Public License 4.0
+ * @license YetiForce Public License 5.0
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 
@@ -16,10 +16,10 @@ const state = {
 	tree: {
 		topCategory: {
 			icon: 'mdi-file-tree',
-			label: 'JS_KB_MAIN_CATEGORIES'
+			label: 'JS_KB_MAIN_CATEGORIES',
 		},
-		categories: {}
-	}
+		categories: {},
+	},
 }
 
 // getters
@@ -53,7 +53,7 @@ const getters = {
 	},
 	defaultTreeIcon(state) {
 		return state.defaultTreeIcon
-	}
+	},
 }
 
 // actions
@@ -61,17 +61,17 @@ const actions = {
 	fetchRecord({ state, commit, getters }, id) {
 		const aDeferred = $.Deferred()
 		const progressIndicatorElement = $.progressIndicator({
-			blockInfo: { enabled: true }
+			blockInfo: { enabled: true },
 		})
 		return AppConnector.request({
 			module: getters.moduleName,
 			action: 'KnowledgeBaseAjax',
 			mode: 'detail',
-			record: id
-		}).done(data => {
+			record: id,
+		}).done((data) => {
 			let recordData = data.result
 			if (recordData.related.base.Articles) {
-				recordData.related.base.Articles = Object.keys(recordData.related.base.Articles).map(function(key) {
+				recordData.related.base.Articles = Object.keys(recordData.related.base.Articles).map(function (key) {
 					return { ...recordData.related.base.Articles[key], id: key }
 				})
 			}
@@ -85,15 +85,15 @@ const actions = {
 		return AppConnector.request({
 			module: getters.moduleName,
 			action: 'KnowledgeBaseAjax',
-			mode: 'categories'
-		}).done(data => {
+			mode: 'categories',
+		}).done((data) => {
 			commit('setTreeCategories', data.result)
 			aDeferred.resolve(data.result)
 		})
 	},
 	initState({ state, commit }, data) {
 		commit('setState', data)
-	}
+	},
 }
 
 // mutations
@@ -115,7 +115,7 @@ const mutations = {
 	},
 	setTreeCategories(state, payload) {
 		state.tree.categories = payload
-	}
+	},
 }
 
 export default {
@@ -123,5 +123,5 @@ export default {
 	state,
 	getters,
 	actions,
-	mutations
+	mutations,
 }

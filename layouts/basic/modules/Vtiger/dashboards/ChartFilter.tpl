@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-dashboards-ChartFilter -->
 	{assign "COL_LBL" "col-sm-12 col-md-4 col-lg-3 col-form-label"}
@@ -11,42 +11,42 @@
 			<input type="hidden" name="linkId" class="js-link-id" value="{$WIDGET_MODEL->get('linkid')}">
 			<div class="modal-body">
 				<div class="container-fluid pt-3">
-						<input type="hidden" id="widgetStep" value=""/>
-						<div>
-							<div class="form-group row mb-2">
-								<label class="{$COL_LBL}">{\App\Language::translate('LBL_WIDGET_NAME','Home')}</label>
-								<div class="{$COL_CTRL}"><input type="text" class="form-control" name="title" value="{$WIDGET_MODEL->getValueForEditView('title')}"></div>
-							</div>
-							<div class="form-group row mb-2">
-								<label class="{$COL_LBL}"><span class="redColor">*</span>{\App\Language::translate('LBL_SELECT_CHART','Home')}</label>
-								<div class="{$COL_CTRL}">
-									{assign "VALUE_CHART_TYPE" $WIDGET_MODEL->getValueForEditView('chartType')}
-									<select class="form-control select2 saveParam" name="chartType">
-										{foreach from=$CHART_TYPES item=TYPE key=VALUE}
-											<option value="{$VALUE}" {if $VALUE === $VALUE_CHART_TYPE} selected{/if}>{\App\Language::translate($TYPE, $MODULE_NAME)}</option>
-										{/foreach}
-									</select>
-								</div>
+					<input type="hidden" id="widgetStep" value="" />
+					<div>
+						<div class="form-group row mb-2">
+							<label class="{$COL_LBL}">{\App\Language::translate('LBL_WIDGET_NAME','Home')}</label>
+							<div class="{$COL_CTRL}"><input type="text" class="form-control" name="title" value="{$WIDGET_MODEL->getValueForEditView('title')}"></div>
+						</div>
+						<div class="form-group row mb-2">
+							<label class="{$COL_LBL}"><span class="redColor">*</span>{\App\Language::translate('LBL_SELECT_CHART','Home')}</label>
+							<div class="{$COL_CTRL}">
+								{assign "VALUE_CHART_TYPE" $WIDGET_MODEL->getValueForEditView('chartType')}
+								<select class="form-control select2 saveParam" name="chartType">
+									{foreach from=$CHART_TYPES item=TYPE key=VALUE}
+										<option value="{$VALUE}" {if $VALUE === $VALUE_CHART_TYPE} selected{/if}>{\App\Language::translate($TYPE, $MODULE_NAME)}</option>
+									{/foreach}
+								</select>
 							</div>
 						</div>
-						<div class="step1">
-							<div class="form-group row mb-2">
-								<label class="{$COL_LBL}"><span class="redColor">*</span>{\App\Language::translate('LBL_SELECT_MODULE')}</label>
-								<div class="{$COL_CTRL}">
-									{assign "VALUE_MODULE" $WIDGET_MODEL->getValueForEditView('module')}
-									<select class="form-control saveParam" name="module">
-										<option></option>
-										{foreach from=$MODULES item=MODULE_MODEL key=MODULE_THIS_NAME}
-											<option value="{$MODULE_MODEL['name']}" {if $MODULE_MODEL['name'] === $VALUE_MODULE} selected{/if}>{\App\Language::translate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
-										{/foreach}
-									</select>
-								</div>
+					</div>
+					<div class="step1">
+						<div class="form-group row mb-2">
+							<label class="{$COL_LBL}"><span class="redColor">*</span>{\App\Language::translate('LBL_SELECT_MODULE')}</label>
+							<div class="{$COL_CTRL}">
+								{assign "VALUE_MODULE" $WIDGET_MODEL->getValueForEditView('module')}
+								<select class="form-control saveParam" name="module">
+									<option></option>
+									{foreach from=$MODULES item=MODULE_MODEL key=MODULE_THIS_NAME}
+										<option value="{$MODULE_MODEL['name']}" {if $MODULE_MODEL['name'] === $VALUE_MODULE} selected{/if}>{\App\Language::translate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
+									{/foreach}
+								</select>
 							</div>
 						</div>
-						<div class="step2"></div>
-						<div class="step3"></div>
-						<div class="step4"></div>
-						<div class="step5"></div>
+					</div>
+					<div class="step2"></div>
+					<div class="step3"></div>
+					<div class="step4"></div>
+					<div class="step5"></div>
 				</div>
 			</div>
 			<div class="js-chart-footer" style="display: none;">
@@ -59,8 +59,9 @@
 			<div class="{$COL_CTRL}">
 				{assign "VALUE_FILTER" $WIDGET_MODEL->getValueForEditView('filterid')}
 				<select class="form-control filtersId" {if $CHART_TYPE!=='Funnel' && $CHART_TYPE!=='Table' }name="filtersId"
-						multiple="multiple" {else}name="filtersId[]"{/if}
-						data-validation-engine="validate[required]" data-maximum-selection-length="{\App\Config::performance('CHART_MULTI_FILTER_LIMIT')}">
+					multiple="multiple" {else}name="filtersId[]" 
+					{/if}
+					data-validation-engine="validate[required]" data-maximum-selection-length="{\App\Config::performance('CHART_MULTI_FILTER_LIMIT')}">
 					<option></option>
 					{foreach from=$ALLFILTERS item=FILTERS key=FILTERGROUP}
 						<optgroup label="{\App\Language::translate($FILTERGROUP,$SELECTED_MODULE)}">
@@ -79,10 +80,10 @@
 			<div class="{$COL_CTRL}">
 				{assign "VALUE_TYPE" $WIDGET_MODEL->getValueForEditView('valueType')}
 				<select class="form-control valueType saveParam" name="valueType" size="2">
-					<option value="count"{if 'count' === $VALUE_TYPE} selected{/if}>{\App\Language::translate('LBL_NUMBER_OF_RECORDS','Home')}</option>
+					<option value="count" {if 'count' === $VALUE_TYPE} selected{/if}>{\App\Language::translate('LBL_NUMBER_OF_RECORDS','Home')}</option>
 					{if $IS_NUMERAL_VALUE}
-						<option value="sum"{if 'sum' === $VALUE_TYPE} selected{/if}>{\App\Language::translate('LBL_SUM','Home')}</option>
-						<option value="avg"{if 'avg' === $VALUE_TYPE} selected{/if}>{\App\Language::translate('LBL_AVG','Home')}</option>
+						<option value="sum" {if 'sum' === $VALUE_TYPE} selected{/if}>{\App\Language::translate('LBL_SUM','Home')}</option>
+						<option value="avg" {if 'avg' === $VALUE_TYPE} selected{/if}>{\App\Language::translate('LBL_AVG','Home')}</option>
 					{/if}
 				</select>
 			</div>
@@ -97,9 +98,8 @@
 						<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
 							{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
 								<option value="{$FIELD_NAME}"
-										data-field-type="{$FIELD->getFieldDataType()}"
-										{if $FIELD_NAME === $VALUE_GROUP_FIELD} selected{/if}
-										>{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+									data-field-type="{$FIELD->getFieldDataType()}"
+									{if $FIELD_NAME === $VALUE_GROUP_FIELD} selected{/if}>{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
 							{/foreach}
 						</optgroup>
 					{/foreach}
@@ -151,9 +151,8 @@
 							<optgroup label="{\App\Language::translate($BLOCK_NAME,$SELECTED_MODULE)}">
 								{foreach from=$FIELDS item=FIELD key=FIELD_NAME}
 									<option value="{$FIELD_NAME}"
-											data-field-type="{$FIELD->getFieldDataType()}"
-											{if $FIELD_NAME === $VALUE_DIVIDING_FIELD} selected{/if}
-											>{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+										data-field-type="{$FIELD->getFieldDataType()}"
+										{if $FIELD_NAME === $VALUE_DIVIDING_FIELD} selected{/if}>{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
 								{/foreach}
 							</optgroup>
 						{/foreach}

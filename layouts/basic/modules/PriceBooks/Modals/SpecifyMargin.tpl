@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-PriceBooks-Modals-SpecifyMargin js-modal-body" data-js="container">
 		<div class="col-12 row m-0">
@@ -8,9 +8,9 @@
 				</label>
 			</div>
 			<div class="fieldValue col-sm-8 col-xl-8 px-0 px-sm-1">
-					<div class="input-group input-group-sm">
-							<input type="text" class="smallInputBox form-control form-control-sm js-margin" />
-					</div>
+				<div class="input-group input-group-sm">
+					<input type="text" class="smallInputBox form-control form-control-sm js-margin" />
+				</div>
 			</div>
 		</div>
 	</div>

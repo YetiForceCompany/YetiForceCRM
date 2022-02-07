@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 /*globals jQuery, define, exports, require, document */
 (function (factory) {
 	'use strict';
@@ -105,9 +105,8 @@
 									for (i = 0, j = dpc.length; i < j; i++) {
 										m[dpc[i]].state[t ? 'selected' : 'checked'] = true;
 									}
-									this._data[t ? 'core' : 'checkbox'].selected = this._data[t ? 'core' : 'checkbox'].selected.concat(
-										dpc
-									);
+									this._data[t ? 'core' : 'checkbox'].selected =
+										this._data[t ? 'core' : 'checkbox'].selected.concat(dpc);
 								} else {
 									for (i = 0, j = dpc.length; i < j; i++) {
 										if (m[dpc[i]].state[t ? 'selected' : 'checked']) {

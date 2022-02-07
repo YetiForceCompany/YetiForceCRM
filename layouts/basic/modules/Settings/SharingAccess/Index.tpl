@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="" id="sharingAccessContainer">
 		<div class="contents">
@@ -52,8 +52,8 @@
 								{foreach from=$ALL_ACTIONS key=ACTION_ID item=ACTION_MODEL}
 									<td class="">
 										{if $ACTION_MODEL->isModuleEnabled($MODULE_MODEL)}
-											<div><input type="radio" name="permissions[{$TABID}]" data-action-state="{$ACTION_MODEL->getName()}" title="{\App\Language::translate($ACTION_MODEL->getName(), $QUALIFIED_MODULE)}" value="{$ACTION_ID}"{if $MODULE_MODEL->getPermissionValue() eq $ACTION_ID}checked="true"{/if}></div>
-											{/if}
+											<div><input type="radio" name="permissions[{$TABID}]" data-action-state="{$ACTION_MODEL->getName()}" title="{\App\Language::translate($ACTION_MODEL->getName(), $QUALIFIED_MODULE)}" value="{$ACTION_ID}" {if $MODULE_MODEL->getPermissionValue() eq $ACTION_ID}checked="true" {/if}></div>
+										{/if}
 									</td>
 								{/foreach}
 								<td class="triggerCustomSharingAccess">

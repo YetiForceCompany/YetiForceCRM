@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	{assign var='MODULEMODEL' value=Vtiger_Module_Model::getInstance($MENU.tabid)}
 	{assign var=ICON value=Vtiger_Menu_Model::getMenuIcon($MENU, $MENU['name'])}
 	<li class="tpl-menu-QuickCreate c-menu__item js-menu__item nav-item quickCreateModules quickCreate {if !$HASCHILDS}hasParentMenu{/if}"

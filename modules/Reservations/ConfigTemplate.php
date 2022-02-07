@@ -3,7 +3,7 @@
  * Reservations module config.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
 	'SHOW_RIGHT_PANEL' => [

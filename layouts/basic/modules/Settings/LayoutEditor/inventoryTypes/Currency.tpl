@@ -1,11 +1,11 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-LayoutEditor-inventoryTypes-Currency -->
 	{include file=\App\Layout::getTemplatePath('inventoryTypes/Base.tpl', $QUALIFIED_MODULE)}
 	{if $FIELD_INSTANCE->getParams()}
 		<div class="paramsJson">
 			<input value='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INSTANCE->getParams()))}' type="hidden"
-				   id="params"/>
+				id="params" />
 			{assign var='PARAMS' value=\App\Json::decode($FIELD_INSTANCE->get('params'))}
 			{foreach from=$FIELD_INSTANCE->getParams() item=ITEM key=KEY}
 				<div class="form-group paramsJson row">
@@ -15,7 +15,7 @@
 					{assign var='functionName' value=$ITEM|cat:'Values'}
 					<div class="col-md-7">
 						<select class='form-control select2' name="{$ITEM}"
-								data-validation-engine="validate[required]" {if $ITEM eq 'modules'} multiple {/if}>
+							data-validation-engine="validate[required]" {if $ITEM eq 'modules'} multiple {/if}>
 							{foreach from=$FIELD_INSTANCE->$functionName() item=ITEMS key=KEY}
 								{assign var='CONDITION' value=0}
 								{if $PARAMS[$ITEM]|is_array && in_array($ITEMS.id,$PARAMS[$ITEM])}

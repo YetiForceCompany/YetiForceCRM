@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-Base-DashBoard-SystemWarningAletrs" id="systemWarningAletrs">
 		<div class="modal fade static">
@@ -35,7 +35,7 @@
 											{/if}
 											{if $ITEM->getLink()}
 												<a class="btn btn-success ml-1" href="{$ITEM->getLink()}" target="_blank"
-														rel="noreferrer noopener">
+													rel="noreferrer noopener">
 													<span class="fas fa-link mr-1"></span>
 													{$ITEM->linkTitle}
 												</a>

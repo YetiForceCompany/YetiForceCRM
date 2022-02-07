@@ -1,6 +1,6 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Settings-AdminAccess-HistoryAdminsVisitPurpose -->
+	<!-- tpl-Settings-AdminAccess-HistoryAdminsVisitPurpose -->
 	<div id="dataTableHistoryAdminsVisitPurpose">
 		<form class="js-form-single-save js-validate-form" data-js="container|validationEngine">
 			<input type="hidden" name="parent" value="Settings">
@@ -8,8 +8,8 @@
 			<input type="hidden" name="action" value="SaveConfigForm">
 			{include file=\App\Layout::getTemplatePath('ConfigForm.tpl','Vtiger/Utils')}
 		</form>
-		<form class="js-filter-form"  data-js="container">
-			<table  class="table table-sm table-striped display text-center mt-2 js-data-table" data-url="index.php?module=AdminAccess&parent=Settings&action=GetData&mode=historyVisitPurpose">
+		<form class="js-filter-form" data-js="container">
+			<table class="table table-sm table-striped display text-center mt-2 js-data-table" data-url="index.php?module=AdminAccess&parent=Settings&action=GetData&mode=historyVisitPurpose">
 				<thead>
 					<tr>
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$MODULE_MODEL->getStructure('visitPurpose')}
@@ -28,5 +28,5 @@
 			</table>
 		</form>
 	</div>
-<!-- /tpl-Settings-AdminAccess-HistoryAdminsVisitPurpose -->
+	<!-- /tpl-Settings-AdminAccess-HistoryAdminsVisitPurpose -->
 {/strip}

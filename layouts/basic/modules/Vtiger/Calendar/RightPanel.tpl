@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Calendar-RightPanel -->
 	{if !empty($ALL_ACTIVEUSER_LIST)}
@@ -19,8 +19,8 @@
 							<div class="mr-0 pr-0 col-12 form-row d-flex align-items-center">
 								<div class="mr-2">
 									<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
-										   class="js-input-user-owner-id alignMiddle mr-2"
-											{if (empty($HISTORY_USERS) && $USER_MODEL->getId() eq $OWNER_ID) || (!empty($HISTORY_USERS) && in_array($OWNER_ID, $HISTORY_USERS))} checked {/if}>
+										class="js-input-user-owner-id alignMiddle mr-2"
+										{if (empty($HISTORY_USERS) && $USER_MODEL->getId() eq $OWNER_ID) || (!empty($HISTORY_USERS) && in_array($OWNER_ID, $HISTORY_USERS))} checked {/if}>
 									{if !empty($PIN_USER)}
 										<div class="js-pin-user d-inline-block align-middle text-center"
 											data-elementid="{$OWNER_ID}"
@@ -40,14 +40,14 @@
 				</ul>
 			{else}
 				<select class="js-input-user-owner-id-ajax form-control"
-						data-validation-engine="validate[required]"
-						title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE_NAME)}"
-						name="transferOwnerId" id="transferOwnerId" multiple="multiple"
-						data-ajax-search="1"
-						data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=users"
-						data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
+					data-validation-engine="validate[required]"
+					title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE_NAME)}"
+					name="transferOwnerId" id="transferOwnerId" multiple="multiple"
+					data-ajax-search="1"
+					data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=users"
+					data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
 					<option value="{$USER_MODEL->get('id')}"
-							data-picklistvalue="{$USER_MODEL->getName()}">
+						data-picklistvalue="{$USER_MODEL->getName()}">
 						{$USER_MODEL->getName()}
 					</option>
 				</select>
@@ -72,11 +72,11 @@
 							<div class="mr-0 pr-0 col-12 form-row d-flex align-items-center">
 								<div class="mr-2">
 									<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
-										   class="js-input-user-owner-id alignMiddle mr-2"
-											{if (empty($HISTORY_USERS) && $USER_MODEL->getId() eq $OWNER_ID) || (!empty($HISTORY_USERS) && in_array($OWNER_ID, $HISTORY_USERS))} checked {/if}>
+										class="js-input-user-owner-id alignMiddle mr-2"
+										{if (empty($HISTORY_USERS) && $USER_MODEL->getId() eq $OWNER_ID) || (!empty($HISTORY_USERS) && in_array($OWNER_ID, $HISTORY_USERS))} checked {/if}>
 								</div>
 								<label class="m-0 p-0 col-9 col-xxl-10 js-filter__item__value u-text-ellipsis"
-									   for="ownerId{$OWNER_ID}">
+									for="ownerId{$OWNER_ID}">
 									<div class="ownerCBg_{$OWNER_ID} d-inline-block align-middle mr-1 u-w-1em u-h-1em"></div>{$OWNER_NAME}
 								</label>
 							</div>
@@ -85,14 +85,14 @@
 				</ul>
 			{else}
 				<select class="js-input-role-owner-id-ajax form-control"
-						data-validation-engine="validate[required]"
-						title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE_NAME)}"
-						name="transferRoleOwnerId" id="transferRoleOwnerId" multiple="multiple"
-						data-ajax-search="1"
-						data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=groups"
-						data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
+					data-validation-engine="validate[required]"
+					title="{\App\Language::translate('LBL_TRANSFER_OWNERSHIP', $MODULE_NAME)}"
+					name="transferRoleOwnerId" id="transferRoleOwnerId" multiple="multiple"
+					data-ajax-search="1"
+					data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&fieldName=assigned_user_id&result[]=groups"
+					data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}">
 					<option value="{$USER_MODEL->get('id')}"
-							data-picklistvalue="{$USER_MODEL->getName()}">
+						data-picklistvalue="{$USER_MODEL->getName()}">
 						{$USER_MODEL->getName()}
 					</option>
 				</select>

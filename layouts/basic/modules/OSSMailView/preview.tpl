@@ -1,16 +1,16 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-OSSMailView-preview -->
 	{if !$NOLOADLIBS}
 		{include file=\App\Layout::getTemplatePath('PageHeader.tpl')}
 	{/if}
-{if $ISMODAL}
-	<div class="modelContainer modal fade" tabindex="-1">
-		<div class="modal-dialog modal-blg">
+	{if $ISMODAL}
+		<div class="modelContainer modal fade" tabindex="-1">
+			<div class="modal-dialog modal-blg">
 			{/if}
 			<div class="{if $ISMODAL}modal-content{else}container-fluid{/if}" id="emailPreview" name="emailPreview">
 				<div class="{if $ISMODAL}modal-header{else}blockHeader emailPreviewHeader{/if} flex-wrap flex-md-nowrap">
-					<h5 {if $ISMODAL}class="modal-title"{/if}>{\App\Language::translate('emailPreviewHeader',$MODULENAME)}</h5>
+					<h5 {if $ISMODAL}class="modal-title" {/if}>{\App\Language::translate('emailPreviewHeader',$MODULENAME)}</h5>
 					<div class="btn-toolbar order-3 order-md-2 ml-md-auto mt-2 mt-md-0">
 						{if App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
 							{if $USER_MODEL->get('internal_mailer') == 1}
@@ -18,36 +18,36 @@
 								{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
 								{assign var=POPUP value=$CONFIG['popup']}
 								<button type="button" class="btn btn-sm btn-outline-success sendMailBtn mr-1"
-										data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=reply"
-										data-popup="{$POPUP}">
+									data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=reply"
+									data-popup="{$POPUP}">
 									<span class="fas fa-reply mr-1"></span>
 									<strong>{\App\Language::translate('LBL_REPLY','OSSMailView')}</strong>
 								</button>
 								<button type="button" class="btn btn-sm btn-outline-secondary sendMailBtn mr-1"
-										data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=replyAll"
-										data-popup="{$POPUP}">
+									data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=replyAll"
+									data-popup="{$POPUP}">
 									<span class="fas fa-reply-all mr-1"></span>
 									<strong>{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}</strong>
 								</button>
 								<button type="button" class="btn btn-sm btn-outline-primary sendMailBtn mr-1"
-										data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=forward"
-										data-popup="{$POPUP}">
+									data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=forward"
+									data-popup="{$POPUP}">
 									<span class="fas fa-share mr-1"></span>
 									<strong>{\App\Language::translate('LBL_FORWARD','OSSMailView')}</strong>
 								</button>
 							{else}
 								<a class="btn btn-sm btn-light" role="button"
-								   href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'reply')}">
+									href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'reply')}">
 									<span class="fas fa-reply mr-1"></span>
 									<strong>{\App\Language::translate('LBL_REPLY','OSSMailView')}</strong>
 								</a>
 								<a class="btn btn-sm btn-light" role="button"
-								   href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'replyAll')}">
+									href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'replyAll')}">
 									<span class="fas fa-reply-all mr-1"></span>
 									<strong>{\App\Language::translate('LBL_REPLYALLL','OSSMailView')}</strong>
 								</a>
 								<a class="btn btn-sm btn-light" role="button"
-								   href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'forward')}">
+									href="{OSSMail_Module_Model::getExternalUrlForWidget($RECORD_MODEL, 'forward')}">
 									<span class="fas fa-share mr-1"></span>
 									<strong>{\App\Language::translate('LBL_FORWARD','OSSMailView')}</strong>
 								</a>
@@ -56,8 +56,8 @@
 						{if \App\Privilege::isPermitted($MODULENAME, 'PrintMail')}
 							<div class="btn-group">
 								<button id="previewPrint" onclick="OSSMailView_Preview_Js.printMail();"
-										type="button" name="previewPrint" class="btn btn-sm btn-light"
-										data-mode="previewPrint">
+									type="button" name="previewPrint" class="btn btn-sm btn-light"
+									data-mode="previewPrint">
 									<span class="fas fa-print mr-1"></span>
 									<strong>{\App\Language::translate('LBL_PRINT',$MODULENAME)}</strong>
 								</button>
@@ -66,7 +66,7 @@
 					</div>
 					{if $ISMODAL}
 						<button type="button" class="close order-2 order-md-3 ml-1" data-dismiss="modal"
-								aria-label="Close">
+							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					{/if}
@@ -120,16 +120,16 @@
 							</span>
 						</div>
 					{/if}
-					<hr/>
+					<hr />
 					<div class="no-gutters pb-1 content">
 						{$CONTENT}
 					</div>
 				</form>
 			</div>
 			{if $ISMODAL}
+			</div>
 		</div>
-	</div>
-{/if}
+	{/if}
 	{if !$NOLOADLIBS}
 		{include file=\App\Layout::getTemplatePath('PageFooter.tpl')}
 	{/if}

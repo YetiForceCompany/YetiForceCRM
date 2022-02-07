@@ -1,11 +1,11 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Calendar-Modals-SendInvitationModal -->
 	<div class="modal-body js-modal-body mb-0 pt-0" data-js="container">
 		<form class="form-horizontal validateForm">
-			<input type="hidden" name="ics" value="1"/>
-			<input type="hidden" name="crmModule" value="{$MODULE_NAME}"/>
-			<input type="hidden" name="crmRecord" value="{$RECORD_ID}"/>
+			<input type="hidden" name="ics" value="1" />
+			<input type="hidden" name="crmModule" value="{$MODULE_NAME}" />
+			<input type="hidden" name="crmRecord" value="{$RECORD_ID}" />
 			{function SEND_TO LABEL='' NAME=''}
 				<div class="form-group form-row mb-0">
 					<label class="col-sm-12 col-form-label">{\App\Language::translate($LABEL, $MODULE_NAME)}</label>

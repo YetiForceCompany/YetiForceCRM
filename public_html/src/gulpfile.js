@@ -2,7 +2,7 @@
  * gulpfile.js
  *
  * @description contains css tasks
- * @license YetiForce Public License 4.0
+ * @license YetiForce Public License 5.0
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 
@@ -34,7 +34,7 @@ function getCompileQuasarCssTask() {
 			.pipe(stylus())
 			.pipe(autoprefixer())
 			.pipe(
-				cleanCSS({}, details => {
+				cleanCSS({}, (details) => {
 					console.log(`${details.name}: ${details.stats.originalSize}`)
 					console.log(`${details.name}: ${details.stats.minifiedSize}`)
 				})
@@ -58,14 +58,14 @@ function getMinifyCssTask(path, name) {
 			.src(path + name)
 			.pipe(
 				rename({
-					suffix: '.min'
+					suffix: '.min',
 				})
 			)
 			.pipe(sourcemaps.init())
 			.pipe(sass({ style: 'compressed' }).on('error', sass.logError))
 			.pipe(autoprefixer())
 			.pipe(
-				cleanCSS({}, details => {
+				cleanCSS({}, (details) => {
 					console.log(`${details.name}: ${details.stats.originalSize}`)
 					console.log(`${details.name}: ${details.stats.minifiedSize}`)
 				})
@@ -102,7 +102,7 @@ gulp.task('minify-main-css', getMinifyCssTask(mainCssPath, mainScss))
 gulp.task('minify-gray-css', getMinifyCssTask(graySkinPath, grayScss))
 gulp.task('minify-css', gulp.series('minify-main-css', 'minify-gray-css'))
 
-gulp.task('watch-css', function() {
+gulp.task('watch-css', function () {
 	gulp.watch(`${mainCssPath}**/*.scss`, gulp.series('compile-main-css'))
 	gulp.watch(`${graySkinPath}**/*.scss`, gulp.series('compile-gray-css'))
 })

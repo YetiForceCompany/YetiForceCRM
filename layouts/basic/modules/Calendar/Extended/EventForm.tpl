@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Calendar-Extended-EventForm -->
 	<div class="js-edit-form">
@@ -10,15 +10,15 @@
 			<input type="hidden" name="module" value="{$MODULE_NAME}" />
 			<input type="hidden" name="action" value="SaveAjax" />
 			{if !empty($RECORD_ID)}
-				<input name="record" value="{$RECORD_ID}" type="hidden"/>
-				<input type="hidden" name="fromView" value="QuickEdit"/>
+				<input name="record" value="{$RECORD_ID}" type="hidden" />
+				<input type="hidden" name="fromView" value="QuickEdit" />
 				{assign var="FROM_VIEW" value='QuickEdit'}
 			{else}
-				<input type="hidden" name="fromView" value="QuickCreate"/>
+				<input type="hidden" name="fromView" value="QuickCreate" />
 				{assign var="FROM_VIEW" value='QuickCreate'}
 			{/if}
-			<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}"/>
-			<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, $FROM_VIEW])}"/>
+			<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}" />
+			<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, $FROM_VIEW])}" />
 			<input type="hidden" name="defaultOtherEventDuration" value="{\App\Purifier::encodeHtml($USER_MODEL->get('othereventduration'))}" />
 			<input type="hidden" name="userChangedEndDateTime" value="0" />
 			{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
@@ -31,7 +31,7 @@
 				<input type="hidden" name="listFilterFields" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}' />
 			{/if}
 			{if !empty($IS_POSTPONED)}
-				<input type="hidden" name="postponed" value="1"/>
+				<input type="hidden" name="postponed" value="1" />
 			{/if}
 			{if !empty($SOURCE_RELATED_FIELD)}
 				{foreach key=FIELD_NAME item=FIELD_MODEL from=$SOURCE_RELATED_FIELD}
@@ -71,18 +71,18 @@
 										{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
 										<label class="muted mt-0 mb-0">
 											{if $HELPINFO_LABEL}
-													<a href="#" class="js-help-info float-right u-cursor-pointer"
-														title=""
-														data-placement="top"
-														data-content="{$HELPINFO_LABEL}"
-														data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}">
-														<span class="fas fa-info-circle"></span>
-													</a>
-												{/if}
-												{if $FIELD_MODEL->isMandatory() eq true}
-													<span class="redColor">*</span>
-												{/if}
-												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
+												<a href="#" class="js-help-info float-right u-cursor-pointer"
+													title=""
+													data-placement="top"
+													data-content="{$HELPINFO_LABEL}"
+													data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}">
+													<span class="fas fa-info-circle"></span>
+												</a>
+											{/if}
+											{if $FIELD_MODEL->isMandatory() eq true}
+												<span class="redColor">*</span>
+											{/if}
+											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 										</label>
 									</div>
 								{/if}
@@ -133,14 +133,14 @@
 							{/foreach}
 						{/if}
 						<button type="submit" class="js-save-event btn btn-success"
-								title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" data-js="click">
+							title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" data-js="click">
 							<span title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" class="fas fa-check mr-1"></span>
 							{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
 						</button>
 						{if !empty($RECORD_ID) && $VIEW === 'EventForm'}
 							<a href="#" role="button" class="btn btn-danger js-summary-close-edit ml-auto u-h-fit">
 								<span title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"
-										class="fas fa-times"></span>
+									class="fas fa-times"></span>
 							</a>
 						{/if}
 					</div>

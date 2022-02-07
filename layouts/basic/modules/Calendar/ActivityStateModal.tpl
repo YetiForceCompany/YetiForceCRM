@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div id="activityStateModal" class="js-activity-state modal fade modalEditStatus" tabindex="-1">
 		{assign var=ID value=$RECORD->getId()}
@@ -13,7 +13,7 @@
 							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='detailViewBasic' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
 						{/foreach}
 						<button type="button" class="close" data-dismiss="modal"
-								aria-label="{\App\Language::translate('LBL_CLOSE')}">
+							aria-label="{\App\Language::translate('LBL_CLOSE')}">
 							<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>
 						</button>
 					</div>
@@ -31,26 +31,26 @@
 								{assign var=SHOW_QUICK_CREATE value=App\Config::module('Calendar','SHOW_QUICK_CREATE_BY_STATUS')}
 								{if $EMPTY && \App\Privilege::isPermitted($MODULE_NAME, 'ActivityCancel', $ID)}
 									<button type="button"
-											class="mr-1 btn btn-warning {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}"
-											data-state="{$ACTIVITY_STATE_LABEL.cancelled}" data-id="{$ID}"
-											data-type="1">
+										class="mr-1 btn btn-warning {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}"
+										data-state="{$ACTIVITY_STATE_LABEL.cancelled}" data-id="{$ID}"
+										data-type="1">
 										<span class="fas fa-ban mr-1"></span>
 										{\App\Language::translate($ACTIVITY_STATE_LABEL.cancelled, $MODULE_NAME)}
 									</button>
 								{/if}
 								{if $EMPTY && \App\Privilege::isPermitted($MODULE_NAME, 'ActivityComplete', $ID)}
 									<button type="button"
-											class="mr-1 btn c-btn-done {if in_array($ACTIVITY_STATE_LABEL.completed,$SHOW_QUICK_CREATE)}showQuickCreate{/if}"
-											data-state="{$ACTIVITY_STATE_LABEL.completed}" data-id="{$ID}"
-											data-type="1">
+										class="mr-1 btn c-btn-done {if in_array($ACTIVITY_STATE_LABEL.completed,$SHOW_QUICK_CREATE)}showQuickCreate{/if}"
+										data-state="{$ACTIVITY_STATE_LABEL.completed}" data-id="{$ID}"
+										data-type="1">
 										<span class="far fa-check-square fa-lg mr-1"></span>
 										{\App\Language::translate($ACTIVITY_STATE_LABEL.completed, $MODULE_NAME)}
 									</button>
 								{/if}
 								{if $EMPTY && \App\Privilege::isPermitted($MODULE_NAME, 'ActivityPostponed', $ID)}
 									<button type="button" class="mr-1 btn btn-primary showQuickCreate"
-											data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}"
-											data-type="0">
+										data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}"
+										data-type="0">
 										<span class="fas fa-angle-double-right mr-1"></span>
 										{\App\Language::translate($ACTIVITY_STATE_LABEL.postponed, $MODULE_NAME)}
 									</button>

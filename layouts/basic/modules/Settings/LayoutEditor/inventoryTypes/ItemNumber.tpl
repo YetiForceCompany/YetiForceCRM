@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-LayoutEditor-inventoryTypes-ItemNumber -->
 	<div class="form-group row">
@@ -7,7 +7,7 @@
 		</div>
 		<div class="col-md-7">
 			<input name="colSpan" value="{$FIELD_INSTANCE->getColSpan()}" type="text" class="form-control"
-				   data-validation-engine="validate[required, custom[integer]]"/>
+				data-validation-engine="validate[required, custom[integer]]" />
 		</div>
 	</div>
 	<div class="form-group row align-items-center">

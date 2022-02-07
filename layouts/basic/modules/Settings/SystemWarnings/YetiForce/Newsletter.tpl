@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <!-- tpl-Settings-SystemWarnings-YetiForce-Newsletter -->
 {strip}
 	<h6 class="h3">
@@ -10,7 +10,7 @@
 		<div class="float-right mr-2">
 			{if \App\Security\AdminAccess::isPermitted('Companies')}
 				<a href="index.php?module=Companies&parent=Settings&view=List&displayModal=online" target="_blank"
-				class="btn btn-success mr-1">
+					class="btn btn-success mr-1">
 					<span class="fas fa-check mr-1"></span>
 					{App\Language::translate('LBL_COMPANY_DATA','Settings:SystemWarnings')}
 				</a>

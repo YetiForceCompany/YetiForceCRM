@@ -1,11 +1,11 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <script type="text/javascript">
-	YetiForce_Bar_Widget_Js('YetiForce_SummationByUser_Widget_Js',{}, {
-		getBasicOptions: function getBasicOptions(chartData){
+	YetiForce_Bar_Widget_Js('YetiForce_SummationByUser_Widget_Js', {}, {
+		getBasicOptions: function getBasicOptions(chartData) {
 			return {
-				tooltips:{
-					callbacks:{
-						title: function tooltipsTitleCallback(tooltipItems,data){
+				tooltips: {
+					callbacks: {
+						title: function tooltipsTitleCallback(tooltipItems, data) {
 							return data.fullLabels[tooltipItems[0].index];
 						}
 					}
@@ -20,7 +20,7 @@
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 	</div>
 	<hr class="widgetHr" />
-	<div class="row no-gutters" >
+	<div class="row no-gutters">
 		<div class="col-ceq-xsm-6">
 			<div class="input-group input-group-sm">
 				<div class="input-group-prepend">

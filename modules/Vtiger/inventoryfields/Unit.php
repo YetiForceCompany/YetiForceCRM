@@ -6,7 +6,7 @@
  * @package   InventoryField
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 4.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 class Vtiger_Unit_InventoryField extends Vtiger_Basic_InventoryField

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
@@ -12,7 +12,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form class="form-horizontal validateForm sendByAjax" >
+				<form class="form-horizontal validateForm sendByAjax">
 					<input type="hidden" name="module" value="{$MODULE_NAME}" />
 					<input type="hidden" name="action" value="Dashboard">
 					<input type="hidden" name="mode" value="save" />

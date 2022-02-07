@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<form id="exceptionsView" class="form-horizontal">
 		<input type="hidden" id="srcModule" name="srcModule" value="{$SRC_MODULE}" />
@@ -16,7 +16,7 @@
 					<label class="col-form-label">
 						{\App\Language::translate('LBL_SELECT_USER', $QUALIFIED_MODULE)}
 					</label>
-					<select id="exceptions" class="select2 form-control"  multiple="true" name="exceptions[]">
+					<select id="exceptions" class="select2 form-control" multiple="true" name="exceptions[]">
 						{foreach from=\App\PrivilegeUtil::getUserByMember($MEMBER) item=USER_ID}
 							<option value="{$USER_ID}" {if in_array($USER_ID, $MEMBERS)}selected{/if}>{\App\Fields\Owner::getUserLabel($USER_ID)}</option>
 						{/foreach}

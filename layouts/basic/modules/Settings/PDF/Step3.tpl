@@ -1,13 +1,13 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-PDF-Step3 pdfTemplateContents">
 		<form name="EditPdfTemplate" action="index.php" method="post" id="pdf_step3" class="form-horizontal" enctype="multipart/form-data">
 			<input type="hidden" name="module" value="PDF">
-			<input type="hidden" name="action" value="Save"/>
-			<input type="hidden" name="parent" value="Settings"/>
-			<input type="hidden" class="step" value="3"/>
-			<input type="hidden" name="record" value="{$RECORDID}"/>
-			<input type="hidden" name="conditions" id="advanced_filter" value=''/>
+			<input type="hidden" name="action" value="Save" />
+			<input type="hidden" name="parent" value="Settings" />
+			<input type="hidden" class="step" value="3" />
+			<input type="hidden" name="record" value="{$RECORDID}" />
+			<input type="hidden" name="conditions" id="advanced_filter" value='' />
 
 			<div class="row">
 				<div class="col-12">

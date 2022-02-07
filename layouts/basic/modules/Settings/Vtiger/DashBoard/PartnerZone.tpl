@@ -1,6 +1,6 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 4.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-<!-- tpl-Settings-Base-DashBoard-PartnerZone -->
+	<!-- tpl-Settings-Base-DashBoard-PartnerZone -->
 	{assign var="QUALIFIED_MODULE" value='Settings:YetiForce'}
 	{if isset($PRODUCTS_PARTNER)}
 		<div class="d-flex flex-wrap mb-3 justify-content-center mr-n3">
@@ -16,5 +16,5 @@
 			{/foreach}
 		</div>
 	{/if}
-<!-- /tpl-Settings-Base-DashBoard-PartnerZone -->
+	<!-- /tpl-Settings-Base-DashBoard-PartnerZone -->
 {/strip}
