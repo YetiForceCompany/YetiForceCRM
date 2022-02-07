@@ -4592,7 +4592,7 @@
                                 },
                                 "name": {
                                     "type": "string",
-                                    "example": "YetiForce Sp. z o.o."
+                                    "example": "YetiForce S.A."
                                 }
                             },
                             "type": "object"

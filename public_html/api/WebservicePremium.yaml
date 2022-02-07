@@ -2844,7 +2844,7 @@ components:
                 example: 0
               name:
                 type: string
-                example: 'YetiForce Sp. z o.o.'
+                example: 'YetiForce S.A.'
             type: object
       type: object
     BaseModule_Get_Pdf_Response:
