@@ -429,11 +429,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	{
 		if ($partNum) {
 			\App\Log::beginProfile(__METHOD__ . '|imap_fetchbody', 'Mail|IMAP');
-			$data = imap_fetchbody($mbox, $mail['id'], $partNum, FT_UID | FT_PEEK);
+			$data = $orgData = imap_fetchbody($mbox, $mail['id'], $partNum, FT_UID | FT_PEEK);
 			\App\Log::endProfile(__METHOD__ . '|imap_fetchbody', 'Mail|IMAP');
 		} else {
 			\App\Log::beginProfile(__METHOD__ . '|imap_body', 'Mail|IMAP');
-			$data = imap_body($mbox, $mail['id'], FT_UID | FT_PEEK);
+			$data = $orgData = imap_body($mbox, $mail['id'], FT_UID | FT_PEEK);
 			\App\Log::endProfile(__METHOD__ . '|imap_body', 'Mail|IMAP');
 		}
 		if (1 == $partStructure->encoding) {
@@ -501,6 +501,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			} else {
 				if (!isset($mail['textHtml'])) {
 					$mail['textHtml'] = '';
+				}
+				if ($data && '<' !== $data[0] && '<' === $orgData[0]) {
+					$data = $orgData;
 				}
 				$mail['textHtml'] .= $data;
 			}
