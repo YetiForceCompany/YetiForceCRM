@@ -3800,16 +3800,16 @@
         },
         {
             "name": "smarty/smarty",
-            "version": "v4.0.4",
+            "version": "v4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smarty-php/smarty.git",
-                "reference": "cdf0f2b164fbb9a96f86be97713a2426f0bb0c97"
+                "reference": "9e0536de18b53ba193364291ef0303b0ab9903e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/cdf0f2b164fbb9a96f86be97713a2426f0bb0c97",
-                "reference": "cdf0f2b164fbb9a96f86be97713a2426f0bb0c97",
+                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/9e0536de18b53ba193364291ef0303b0ab9903e1",
+                "reference": "9e0536de18b53ba193364291ef0303b0ab9903e1",
                 "shasum": ""
             },
             "require": {
@@ -3860,9 +3860,9 @@
             "support": {
                 "forum": "https://github.com/smarty-php/smarty/discussions",
                 "issues": "https://github.com/smarty-php/smarty/issues",
-                "source": "https://github.com/smarty-php/smarty/tree/v4.0.4"
+                "source": "https://github.com/smarty-php/smarty/tree/v4.1.0"
             },
-            "time": "2022-01-17T23:17:19+00:00"
+            "time": "2022-02-06T20:34:27+00:00"
         },
         {
             "name": "sonata-project/google-authenticator",
