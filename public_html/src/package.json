@@ -45,7 +45,7 @@
     "lodash.unionby": "^4.8.0",
     "vue-color": "^2.8.1",
     "vue-drag-resize": "https://github.com/kirillmurashov/vue-drag-resize#master",
-    "vuex": "^3.6.2"
+    "vuex": "^4.0.2"
   },
   "bugs": {
     "url": "https://github.com/YetiForceCompany/YetiForceCRM/issues"

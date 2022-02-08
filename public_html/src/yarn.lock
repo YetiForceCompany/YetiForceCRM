@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@vue/devtools-api@^6.0.0-beta.11":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.0.1.tgz#c198200b9f84c7b6f7c4976b0206cbe1e7f61dc9"
+  integrity sha512-V2BKGa9pHf/sY2oBUr4uO8yF5MtgL2X96uJq2cBPxPqEUEkLfhJrbpU7t34JRjnanp2tkDJQrQsrsoMltHnFNQ==
+
 clamp@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/clamp/-/clamp-1.0.1.tgz#66a0e64011816e37196828fdc8c8c147312c8634"
@@ -58,7 +63,9 @@ vue-drag-resize@^1.5.0-rc3, "vue-drag-resize@https://github.com/kirillmurashov/v
   dependencies:
     vue-drag-resize "^1.5.0-rc3"
 
-vuex@^3.6.2:
-  version "3.6.2"
-  resolved "https://registry.yarnpkg.com/vuex/-/vuex-3.6.2.tgz#236bc086a870c3ae79946f107f16de59d5895e71"
-  integrity sha512-ETW44IqCgBpVomy520DT5jf8n0zoCac+sxWnn+hMe/CzaSejb/eVw2YToiXYX+Ex/AuHHia28vWTq4goAexFbw==
+vuex@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/vuex/-/vuex-4.0.2.tgz#f896dbd5bf2a0e963f00c67e9b610de749ccacc9"
+  integrity sha512-M6r8uxELjZIK8kTKDGgZTYX/ahzblnzC4isU1tpmEuOIIKmV+TRdc+H4s8ds2NuZ7wpUTdGRzJRtoj+lI+pc0Q==
+  dependencies:
+    "@vue/devtools-api" "^6.0.0-beta.11"
