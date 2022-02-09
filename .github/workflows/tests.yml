@@ -168,7 +168,7 @@ jobs:
           CODACY_PROJECT_TOKEN: ${{ secrets.YETI_CODACY_PROJECT_TOKEN }}
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-  coverage8:
+  coverage8jit:
     runs-on: ubuntu-latest
     name: Code Coverage PHP8 JIT
     steps:
