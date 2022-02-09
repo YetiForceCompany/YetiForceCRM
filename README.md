@@ -149,14 +149,17 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 
 ### Gallery: https://public.yetiforce.com/gallery
 
-![](https://public.yetiforce.com/img/main/1_Home_page.png)
-
-![](https://public.yetiforce.com/gallery/uploads/big/7679123c2d73f4065c9abc532d1bde77.png)
-
-![](https://public.yetiforce.com/img/main/3_Home_page.png)
-
-![](https://public.yetiforce.com/img/main/4_Calendar.png)
-
-![](https://public.yetiforce.com/img/main/8_List_Accounts.png)
-
-![](https://public.yetiforce.com/img/main/24_Detail_Projects_Gantt_Months.png)
+![](https://yetiforce.com/images/v6/1_home.png)
+![](https://yetiforce.com/images/v6/1_home2.png)
+![](https://yetiforce.com/images/v6/1_home3.png)
+![](https://yetiforce.com/images/v6/2_kanban1.png)
+![](https://yetiforce.com/images/v6/2_kanban2.png)
+![](https://yetiforce.com/images/v6/3_detail.png)
+![](https://yetiforce.com/images/v6/3_edit.png)
+![](https://yetiforce.com/images/v6/3_list.png)
+![](https://yetiforce.com/images/v6/4_detail.png)
+![](https://yetiforce.com/images/v6/5_perms.png)
+![](https://yetiforce.com/images/v6/5_progreswizard.png)
+![](https://yetiforce.com/images/v6/6_calendar.png)
+![](https://yetiforce.com/images/v6/7_map.png)
+![](https://yetiforce.com/images/v6/8_admin.png)
