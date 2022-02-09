@@ -151,35 +151,3 @@ jobs:
         with:
           name: Logs
           path: ${{github.workspace}}/cache/logs/
-
-  coverage8:
-    runs-on: ubuntu-latest
-    name: Code Coverage PHP8
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: Tests
-        uses: YetiForceCompany/YetiForceCRM-Tests/coverage8@main
-        env:
-          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
-          CODACY_PROJECT_TOKEN: ${{ secrets.YETI_CODACY_PROJECT_TOKEN }}
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
-  coverage8jit:
-    runs-on: ubuntu-latest
-    name: Code Coverage PHP8 JIT
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: Tests
-        uses: YetiForceCompany/YetiForceCRM-Tests/coverage8JIT@main
-        env:
-          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
-          CODACY_PROJECT_TOKEN: ${{ secrets.YETI_CODACY_PROJECT_TOKEN }}
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
