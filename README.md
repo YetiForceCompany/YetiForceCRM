@@ -22,6 +22,8 @@
 [![mozilla-observatory](https://img.shields.io/mozilla-observatory/grade/gitdeveloper.yetiforce.com?publish)](https://observatory.mozilla.org/analyze/gitdeveloper.yetiforce.com)
 [![Docker Hub](https://img.shields.io/badge/docker-ready-blue.svg)](https://registry.hub.docker.com/r/yetiforce/yetiforcecrm/)
 
+<img referrerpolicy="no-referrer-when-downgrade" src="https://stats.yetiforce.com/matomo.php?idsite=4&amp;rec=1" style="border:0" alt="" />
+
 <p align="center">
 	<a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>  <img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' /></a>
 	<a href='https://www.capterra.com/customer-relationship-management-software/#affordable' width="50"><img border='0' src='https://public.yetiforce.com/img/CRM-AF-2017.png' width="150" /></a>
