@@ -99,7 +99,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 		foreach ($eventHandler->getHandlers(\App\EventHandler::EDIT_VIEW_PRE_SAVE) as $handler) {
 			$handlerId = $handler['eventhandler_id'];
 			$response = $eventHandler->triggerHandler($handler);
-			if (!($response['result'] ?? null) && !(!isset($response['hash']) || (isset($response['hash'], $skipHandlers[$handlerId]) && $skipHandlers[$handlerId] === $response['hash']))) {
+			if (!($response['result'] ?? null) && (!isset($response['hash'], $skipHandlers[$handlerId]) || $skipHandlers[$handlerId] !== $response['hash'])) {
 				throw new \App\Exceptions\NoPermittedToRecord($response['message'], 406);
 			}
 		}
@@ -169,7 +169,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 		foreach ($eventHandler->getHandlers(\App\EventHandler::EDIT_VIEW_PRE_SAVE) as $handler) {
 			$handlerId = $handler['eventhandler_id'];
 			$response = $eventHandler->triggerHandler($handler);
-			if (!($response['result'] ?? null) && !(!isset($response['hash']) || (isset($response['hash'], $skipHandlers[$handlerId]) && $skipHandlers[$handlerId] === $response['hash']))) {
+			if (!($response['result'] ?? null) && (!isset($response['hash'], $skipHandlers[$handlerId]) || $skipHandlers[$handlerId] !== $response['hash'])) {
 				$result[$handlerId] = $response;
 			}
 		}
