@@ -33,6 +33,7 @@
     "LBL_UPDATED": "updated",
     "LBL_DISPLAYED": "Displayed",
     "LBL_ADDED": "added",
+    "LBL_UNLINK": "removed relation",
     "LBL_REMOVED": "removed",
     "LBL_CONVERTED_FROM_LEAD": "Converted from lead",
     "LBL_DELETED": "Deleted record",
@@ -49,6 +50,8 @@
     "LBL_UPDATES_WIDGET_CONFIGURATION": "Updates widget config",
     "LBL_PERSON_MAKING_CHANGES": "Person making changes",
     "LBL_MODULES": "Modules",
-    "LBL_SHOW_HIDDEN_DATA": "Showed hidden data"
+    "LBL_SHOW_HIDDEN_DATA": "Showed hidden data",
+    "LBL_RECORD_DOES_NOT_EXIST": "Record does not exist",
+    "LBL_RECORD_DOES_NOT_EXIST_DESC": "The record has been deleted and the name cannot be displayed."
   }
 }
