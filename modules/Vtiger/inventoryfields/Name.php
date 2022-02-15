@@ -33,22 +33,57 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 		if (empty($value)) {
 			return '';
 		}
-		$label = \App\Record::getLabel($value);
-		$moduleName = \App\Record::getType($value);
-		if ($rawText || ($value && !\App\Privilege::isPermitted($moduleName, 'DetailView', $value))) {
+		if (!($referenceModule = $this->getReferenceModule($value))) {
+			return '<i class="color-red-500" title="' . \App\Purifier::encodeHtml($value) . '">' . \App\Language::translate('LBL_RECORD_DOES_NOT_EXIST', 'ModTracker') . '</i>';
+		}
+		$referenceModuleName = $referenceModule->getName();
+		if ('Users' === $referenceModuleName || 'Groups' === $referenceModuleName) {
+			return \App\Fields\Owner::getLabel($value);
+		}
+		$state = \App\Record::getState($value);
+		if (null === $state) {
+			return $rawText ? '' : ('<i class="color-red-500" title="' . \App\Purifier::encodeHtml($value) . '">' . \App\Language::translate('LBL_RECORD_DOES_NOT_EXIST', 'ModTracker') . '</i>');
+		}
+		$label = \App\Record::getLabel($value, $rawText);
+		if ($rawText) {
 			return $label;
 		}
 		$label = App\TextParser::textTruncate($label, \App\Config::main('href_max_length'));
-		if ('Active' !== \App\Record::getState($value)) {
+		if ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value)) {
+			return $label;
+		}
+		if ('Trash' === $state) {
 			$label = '<s>' . $label . '</s>';
 		}
-		return "<span class=\"yfm-{$moduleName} mr-1\"></span><a class=\"modCT_$moduleName showReferenceTooltip js-popover-tooltip--record\" href=\"index.php?module=$moduleName&view=Detail&record=$value\" title=\"" . App\Language::translateSingularModuleName($moduleName) . "\">$label</a>";
+		return "<span class=\"yfm-{$referenceModuleName} mr-1\"></span><a class='modCT_{$referenceModuleName} showReferenceTooltip js-popover-tooltip--record' href='index.php?module={$referenceModuleName}&view={$referenceModule->getDetailViewName()}&record={$value}'>$label</a>";
 	}
 
 	/** {@inheritdoc} */
 	public function getEditValue($value)
 	{
 		return \App\Record::getLabel($value);
+	}
+
+	/**
+	 * Function to get the Display Value, for the current field type with given DB Insert Value.
+	 *
+	 * @param mixed $record
+	 *
+	 * @return Vtiger_Module_Model|null
+	 */
+	public function getReferenceModule($record): ?Vtiger_Module_Model
+	{
+		if (!empty($record)) {
+			$referenceModuleList = $this->getParamsConfig()['modules'] ?? [];
+			$referenceEntityType = vtlib\Functions::getCRMRecordMetadata($record)['setype'] ?? '';
+			if (!empty($referenceModuleList) && \in_array($referenceEntityType, $referenceModuleList)) {
+				return Vtiger_Module_Model::getInstance($referenceEntityType);
+			}
+			if (!empty($referenceModuleList) && \in_array('Users', $referenceModuleList)) {
+				return Vtiger_Module_Model::getInstance('Users');
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -73,7 +108,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		return [
 			['id' => 'true', 'name' => 'LBL_YES'],
-			['id' => 'false', 'name' => 'LBL_NO']
+			['id' => 'false', 'name' => 'LBL_NO'],
 		];
 	}
 

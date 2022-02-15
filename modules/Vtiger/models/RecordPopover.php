@@ -89,7 +89,7 @@ class Vtiger_RecordPopover_Model extends \App\Base
 					'linkdata' => [
 						'module' => $this->recordModel->getModuleName(),
 						'record' => $this->recordModel->getId(),
-					]
+					],
 				];
 			}
 			$links[] = [

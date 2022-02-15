@@ -36,8 +36,10 @@
 						{assign var=COLOR value=App\Config::search('LIST_ENTITY_STATE_COLOR')}
 						<span class="badge badge-secondary ml-1" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};" {/if}>
 							{if \App\Record::getState($RECORD->getId()) === 'Trash'}
+								<span class="fas fa-trash-alt mr-2"></span>
 								{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
 							{else}
+								<span class="fas fa-archive mr-2"></span>
 								{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}
 							{/if}
 						</span>

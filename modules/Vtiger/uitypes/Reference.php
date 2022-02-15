@@ -54,10 +54,8 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	 */
 	public function getReferenceModule($value): ?Vtiger_Module_Model
 	{
-		$fieldModel = $this->getFieldModel();
-		$referenceModuleList = $fieldModel->getReferenceList();
-		$referenceEntityType = \App\Record::getType($value);
-		if (!empty($referenceModuleList) && \in_array($referenceEntityType, $referenceModuleList)) {
+		$referenceModuleList = $this->getFieldModel()->getReferenceList();
+		if (!empty($referenceModuleList) && ($referenceEntityType = \App\Record::getType($value)) && \in_array($referenceEntityType, $referenceModuleList)) {
 			return Vtiger_Module_Model::getInstance($referenceEntityType);
 		}
 		if (!empty($referenceModuleList) && \in_array('Users', $referenceModuleList)) {
@@ -69,19 +67,22 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if (empty($value) || !($referenceModule = $this->getReferenceModule($value))) {
+		if (empty($value)) {
 			return '';
 		}
+		if (!($referenceModule = $this->getReferenceModule($value))) {
+			return '<i class="color-red-500" title="' . \App\Purifier::encodeHtml($value) . '">' . \App\Language::translate('LBL_RECORD_DOES_NOT_EXIST', 'ModTracker') . '</i>';
+		}
 		$referenceModuleName = $referenceModule->getName();
-
 		if ('Users' === $referenceModuleName || 'Groups' === $referenceModuleName) {
 			return \App\Fields\Owner::getLabel($value);
 		}
-		if (!\App\Record::isExists($value)) {
-			return '';
+		$state = \App\Record::getState($value);
+		if (null === $state) {
+			return $rawText ? '' : ('<i class="color-red-500" title="' . \App\Purifier::encodeHtml($value) . '">' . \App\Language::translate('LBL_RECORD_DOES_NOT_EXIST', 'ModTracker') . '</i>');
 		}
 		$label = \App\Record::getLabel($value, $rawText);
-		if ($rawText || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
+		if ($rawText) {
 			return $label;
 		}
 		if (\is_int($length)) {
@@ -89,7 +90,10 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 		} elseif (true !== $length) {
 			$label = App\TextParser::textTruncate($label, \App\Config::main('href_max_length'));
 		}
-		if ('Active' !== \App\Record::getState($value)) {
+		if ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value)) {
+			return $label;
+		}
+		if ('Trash' === $state) {
 			$label = '<s>' . $label . '</s>';
 		}
 		$url = "index.php?module={$referenceModuleName}&view={$referenceModule->getDetailViewName()}&record={$value}";
