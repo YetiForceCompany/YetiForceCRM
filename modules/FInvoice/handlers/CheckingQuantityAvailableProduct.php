@@ -15,8 +15,6 @@
  */
 class FInvoice_CheckingQuantityAvailableProduct_Handler
 {
-	/** @var array Invetory data for validation */
-	public $invetoryDataQty = [];
 	/**
 	 * EditViewPreSave handler function.
 	 *
@@ -26,16 +24,23 @@ class FInvoice_CheckingQuantityAvailableProduct_Handler
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$response = ['result' => true];
+		$dataQty = $productsName = [];
 		foreach ($recordModel->getInventoryData() as $value) {
-			$recordModelInvetory = Vtiger_Record_Model::getInstanceById($value['name']);
-			if ($recordModelInvetory->getModuleName() === 'Products' && $recordModelInvetory->getModule()->getFieldByColumn('qtyinstock')->isActiveField()) {
-				$this->invetoryDataQty[$value['name']]['qtyInvetory'][] = $value['qty'];
-				$this->invetoryDataQty[$value['name']] += ['qtyRecord' => $recordModelInvetory->get('qtyinstock')];
+			$productRecordModel = Vtiger_Record_Model::getInstanceById($value['name'], 'Products');
+			if ($productRecordModel->isEditable() && $productRecordModel->getModuleName() === 'Products' && $productRecordModel->getField('qtyinstock')->isActiveField()) {
+				$dataQty[$productRecordModel->getId()]['qtyInventory'] = ($dataQty[$productRecordModel->getId()]['qtyInventory'] ?? 0) + $value['qty'];
+				$dataQty[$productRecordModel->getId()]['qtyRecord'] = $productRecordModel->get('qtyinstock');
+				$dataQty[$productRecordModel->getId()]['productName'] = "<br />{$productRecordModel->getName()}";
 			}
 		}
-		foreach ($this->invetoryDataQty as $value) {
-			if ((float) array_sum($value['qtyInvetory']) > (float) $value['qtyRecord']) {
-				$response = ['result' => false, 'message' => App\Language::translate('LBL_CHECK_QUANTITY_AVAILABLE', $recordModel->getModuleName())];
+		if (!empty($dataQty)) {
+			foreach ($dataQty as $value) {
+				if ((float) $value['qtyInventory'] > (float) $value['qtyRecord']) {
+					$productsName[] = $value['productName'];
+				}
+			}
+			if (!empty($productsName)) {
+				$response = ['result' => false, 'message' => App\Language::translateArgs('LBL_AVAILABLE_QUANTITY_PRODUCT', $recordModel->getModuleName(), implode(' ', $productsName))];
 			}
 		}
 		return $response;
