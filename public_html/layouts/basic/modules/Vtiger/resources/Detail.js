@@ -2456,7 +2456,7 @@ jQuery.Class(
 					field: picklistName
 				})
 					.done((response) => {
-						if(!response || response.success !== false){
+						if (!response || response.success !== false) {
 							window.location.reload();
 						}
 					})
@@ -3010,6 +3010,7 @@ jQuery.Class(
 			this.registerChat(detailViewContainer);
 			this.registerSendPdfFromPdfViewer(detailViewContainer);
 			this.registerKeyboardShortcutsEvent(detailViewContainer);
+			App.Components.ActivityNotifier.register(detailViewContainer);
 		}
 	}
 );

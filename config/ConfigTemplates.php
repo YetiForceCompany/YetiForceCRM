@@ -853,6 +853,18 @@ return [
 			'description' => 'Number of records that can be shown in history login modal',
 			'validation' => '\App\Validator::naturalNumber'
 		],
+		'recordActivityNotifier' => [
+			'default' => false,
+			'description' => "Functionality notifying about activity on the record\n\n@var bool",
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool'
+		],
+		'recordActivityNotifierInterval' => [
+			'default' => 5,
+			'description' => "Interval for Record activity notifier\n\n@var int Number of seconds",
+			'validation' => '\App\Validator::naturalNumber',
+			'sanitization' => '\App\Purifier::naturalNumber'
+		],
 	],
 	'relation' => [
 		'COMMENT_MAX_LENGTH' => [

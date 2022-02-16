@@ -1509,7 +1509,8 @@
     "BTN_SHARE_RECORD_IN": "Share a record in:",
     "BTN_DISABLE_SHARE_RECORD_IN": "Disable record sharing in:",
     "BTN_SERVER_ACCESS": "Manage record sharing for Webservice",
-    "LBL_CUSTOM_VIEW_ADV_COND": "Advanced custom view conditions"
+    "LBL_CUSTOM_VIEW_ADV_COND": "Advanced custom view conditions",
+    "LBL_ATTENTION": "Attention!"
   },
   "js": {
     "JS_APPROVE": "Approve",

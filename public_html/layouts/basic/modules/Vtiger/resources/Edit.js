@@ -1721,6 +1721,7 @@ $.Class(
 			App.Fields.ChangesJson.register(container);
 			App.Fields.MultiReference.register(container);
 			App.Fields.Password.register(container);
+			App.Components.ActivityNotifier.register(container);
 		},
 		registerEvents: function () {
 			let editViewForm = this.getForm();

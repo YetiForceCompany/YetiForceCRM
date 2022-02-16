@@ -5,6 +5,9 @@
 	<input type="hidden" name="record" value="{$RECORD_ID}" />
 	<input type="hidden" name="action" value="SaveAjax" />
 	<input type="hidden" name="fromView" value="QuickEdit" />
+	{if $RECORD_ID && !empty($RECORD_ACTIVITY_NOTIFIER)}
+		<input type="hidden" id="recordActivityNotifier" data-interval="{App\Config::performance('recordActivityNotifierInterval', 10)}" data-record="{$RECORD_ID}" data-module="{$MODULE_NAME}" />
+	{/if}
 	<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}" />
 	<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, 'QuickEdit'])}" />
 	{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}

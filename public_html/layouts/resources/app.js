@@ -645,6 +645,141 @@ var App = (window.App = {
 					});
 				});
 			}
+		},
+		ActivityNotifier: class ActivityNotifier {
+			notice = {
+				type: 'error',
+				icon: false,
+				hide: true,
+				delay: 8000,
+				stack: new PNotify.Stack({
+					dir1: 'up',
+					dir2: 'left',
+					firstpos1: 25,
+					firstpos2: 25,
+					modal: false,
+					maxOpen: 2,
+					maxStrategy: 'close',
+					maxClosureCausesWait: true
+				})
+			};
+			intervalId = null;
+			state = null;
+			static identifier = '#recordActivityNotifier';
+			constructor(element, params, interval, notice = {}) {
+				this.nodeElement = element.get(0);
+				this.url = params;
+				this.interval = interval || 10;
+				if (notice.length) {
+					this.notice = { ...this.notice, ...notice };
+				}
+			}
+			/**
+			 * Register
+			 * @param {jQuery} container
+			 */
+			static register(container) {
+				let element = container.find(ActivityNotifier.identifier);
+				if (element.length) {
+					let notifierData = element.data();
+					new ActivityNotifier(
+						element,
+						{ module: notifierData.module, view: 'RecordActivity', record: notifierData.record },
+						notifierData.interval
+					).init();
+				}
+			}
+			/**
+			 * Initiation
+			 */
+			init() {
+				this.setFormat();
+				this.setTime();
+				document.addEventListener('visibilitychange', (_) => {
+					if (document.hidden) {
+						this.destroyInterval();
+					} else {
+						this.setInterval();
+						this.requestNotifier();
+					}
+				});
+				if (!document.hidden) {
+					this.setInterval();
+				}
+			}
+			/**
+			 * Set date format
+			 * @param string
+			 */
+			setFormat(format = '') {
+				if (!format) {
+					let timeFormat = '';
+					if (CONFIG.hourFormat.toUpperCase() == 24) {
+						timeFormat = 'HH:mm:ss';
+					} else {
+						timeFormat = 'hh:mm:ss A';
+					}
+					format = CONFIG.dateFormat.toUpperCase() + ' ' + timeFormat;
+				}
+				this.format = format;
+			}
+			/**
+			 * Set date time
+			 * @param string
+			 */
+			setTime(time = '') {
+				if (!time) {
+					time = moment().format(this.format);
+				}
+				this.startTime = time;
+			}
+			/**
+			 * Set Interval
+			 */
+			setInterval() {
+				if (this.nodeElement.isConnected) {
+					this.intervalId = setInterval(() => {
+						if (!this.state) {
+							this.requestNotifier();
+						}
+					}, this.interval * 1000);
+				}
+			}
+			/**
+			 * Destroy Interval
+			 */
+			destroyInterval() {
+				clearInterval(this.intervalId);
+			}
+			/**
+			 * Function request for notifier popups
+			 */
+			requestNotifier() {
+				if (!this.nodeElement.isConnected) {
+					this.destroyInterval();
+					return false;
+				}
+				this.url.dateTime = this.startTime;
+				this.state = 1;
+				AppConnector.request(this.url)
+					.done((data) => {
+						this.state = 0;
+						if (app.isJsonString(data)) {
+							data = JSON.parse(data);
+						}
+						let response = data.result;
+						if (response.text) {
+							this.notice.text = response.text.trim();
+							this.notice.title = response.title.trim();
+							app.showNotify(this.notice);
+						}
+						this.setTime(response.dateTime);
+					})
+					.fail((data, err) => {
+						app.errorLog(data, err);
+						this.destroyInterval();
+					});
+			}
 		}
 	},
 	Notify: {
