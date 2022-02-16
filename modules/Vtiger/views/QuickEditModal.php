@@ -117,7 +117,7 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 		$viewer->assign('MODE', 'edit');
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', \App\Config::main('upload_maxsize'));
-		$viewer->assign('RECORD_ACTIVITY_NOTIFIER', $record && \App\Config::performance('recordActivityNotifier', false) && $moduleModel->isPermitted('RecordActivityNotifier'));
+		$viewer->assign('RECORD_ACTIVITY_NOTIFIER', $record && \App\Config::performance('recordActivityNotifier', false) && $moduleModel->isTrackingEnabled() && $moduleModel->isPermitted('RecordActivityNotifier'));
 		$viewer->view('Modals/QuickEdit.tpl', $request->getModule());
 	}
 
