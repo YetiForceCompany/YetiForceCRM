@@ -45,7 +45,7 @@ class Vtiger_RecordActivity_View extends Vtiger_Index_View
 		$query = (new \App\Db\Query())
 			->from('vtiger_modtracker_basic')
 			->where(['vtiger_modtracker_basic.crmid' => $this->record->getId()])
-			->andWhere(['>', 'vtiger_modtracker_basic.changedon', $dateTime])
+			->andWhere(['>=', 'vtiger_modtracker_basic.changedon', $dateTime])
 			->andWhere(['<>', 'vtiger_modtracker_basic.whodid', \App\User::getCurrentUserRealId()])
 			->andWhere(['vtiger_modtracker_basic.status' => array_keys($actions)])
 			->orderBy(['vtiger_modtracker_basic.id' => SORT_ASC])->limit(5);
