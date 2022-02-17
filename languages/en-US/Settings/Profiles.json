@@ -95,7 +95,8 @@
     "RecordCollector": "Record collector",
     "MeetingUrl": "Meeting URL",
     "InterestsConflictUsers": "Conflict of interests",
-    "CustomViewAdvCond": "Advanced custom view conditions"
+    "CustomViewAdvCond": "Advanced custom view conditions",
+    "RecordActivityNotifier": "Record activity notifier"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Profile deleted successfully"
