@@ -7617,12 +7617,12 @@ CREATE TABLE `vtiger_ossmailview` (
   `orginal_mail` mediumtext DEFAULT NULL,
   `verify` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`ossmailviewid`),
-  UNIQUE KEY `ossmailview_cid_idx` (`cid`),
   KEY `ossmailview_id_idx` (`id`),
   KEY `ossmailview_verify_idx` (`verify`),
   KEY `ossmailview_messageid_idx` (`uid`,`rc_user`),
   KEY `ossmailview_mbox_idx` (`mbox`),
   KEY `ossmailview_date_idx` (`date`),
+  KEY `ossmailview_cid_idx` (`cid`),
   CONSTRAINT `fk_1_vtiger_ossmailview` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
