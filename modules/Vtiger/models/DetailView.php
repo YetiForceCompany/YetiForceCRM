@@ -112,7 +112,8 @@ class Vtiger_DetailView_Model extends \App\Base
 					]);
 				}
 			}
-			if ($moduleModel->isPermitted('WorkflowTrigger') && $recordModel->isEditable()) {
+			if ($moduleModel->isPermitted('WorkflowTrigger') && ($recordModel->isEditable()
+			|| ($moduleModel->isPermitted('WorkflowTriggerWhenRecordIsBlocked') && $recordModel->isBlockedAndIsPermittedToEdit()))) {
 				Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
 				Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
 				$wfs = new VTWorkflowManager();

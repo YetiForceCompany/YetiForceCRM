@@ -833,6 +833,19 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
+	 * Function check if record is blocked and has permission to edit view.
+	 *
+	 * @return bool
+	 */
+	public function isBlockedAndIsPermittedToEdit(): bool
+	{
+		if (!isset($this->privileges['isBlockedAndIsPermittedToEdit'])) {
+			return $this->privileges['isBlockedAndIsPermittedToEdit'] = $this->isPermitted('EditView') && ($this->isLockByFields() || true === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) || $this->getUnlockFields() || $this->isReadOnly());
+		}
+		return $this->privileges['isBlockedAndIsPermittedToEdit'];
+	}
+
+	/**
 	 * Function to check permission.
 	 *
 	 * @param string $action
