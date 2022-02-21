@@ -35,7 +35,7 @@ class Vtiger_ConditionBuilder_Js {
 	 */
 	registerChangeConditions(container) {
 		let self = this;
-		container.find('.js-conditions-fields, .js-conditions-operator').on('change', function (e) {
+		container.on('change', '.js-conditions-fields, .js-conditions-operator', function (e) {
 			let progress = $.progressIndicator({
 				position: 'html',
 				blockInfo: {
@@ -65,7 +65,6 @@ class Vtiger_ConditionBuilder_Js {
 			AppConnector.request(requestParams).done(function (data) {
 				progress.progressIndicator({ mode: 'hide' });
 				container.html($(data).html());
-				self.registerChangeConditions(container);
 				self.registerField(container);
 				self.registerChangeValueEvent(container);
 				self.onChange(self);
