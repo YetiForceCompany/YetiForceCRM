@@ -13,14 +13,18 @@ class Vtiger_WorkflowTrigger_View extends Vtiger_BasicModal_View
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
+		$moduleName = $request->getModule();
 		if ($request->isEmpty('record')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+		$recordId = $request->getInteger('record');
+		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'WorkflowTrigger')) {
+		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		if (!\App\Privilege::isPermitted($moduleName, 'WorkflowTrigger') && !$recordModel->isEditable()
+		|| !($recordModel->isPermitted('EditView') && App\Privilege::isPermitted($moduleName, 'WorkflowTriggerWhenRecordIsBlocked') && $recordModel->isBlocked())
+		) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -43,7 +47,7 @@ class Vtiger_WorkflowTrigger_View extends Vtiger_BasicModal_View
 	{
 		return array_merge($this->checkAndConvertJsScripts([
 			'~libraries/jstree/dist/jstree.js',
-			'~layouts/resources/libraries/jstree.category.js'
+			'~layouts/resources/libraries/jstree.category.js',
 		]), parent::getModalScripts($request));
 	}
 

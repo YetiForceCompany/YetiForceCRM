@@ -18,20 +18,22 @@ class Vtiger_Workflow_Action extends \App\Controller\Action
 		$this->exposeMethod('execute');
 	}
 
-	/**
-	 * Function to check permission.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedToRecord
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
+		$moduleName = $request->getModule();
 		if ($request->isEmpty('record')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+		$recordId = $request->getInteger('record');
+		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
+		if (!\App\Privilege::isPermitted($moduleName, 'WorkflowTrigger') && !$recordModel->isEditable()
+		|| !($recordModel->isPermitted('EditView') && App\Privilege::isPermitted($moduleName, 'WorkflowTriggerWhenRecordIsBlocked') && $recordModel->isBlocked())
+		) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 

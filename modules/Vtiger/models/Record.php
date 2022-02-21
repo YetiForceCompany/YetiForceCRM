@@ -827,22 +827,24 @@ class Vtiger_Record_Model extends \App\Base
 	public function isEditable(): bool
 	{
 		if (!isset($this->privileges['isEditable'])) {
-			return $this->privileges['isEditable'] = $this->isPermitted('EditView') && !$this->isLockByFields() && false === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) && empty($this->getUnlockFields()) && !$this->isReadOnly();
+			return $this->privileges['isEditable'] = $this->isPermitted('EditView') && !$this->isBlocked();
 		}
 		return $this->privileges['isEditable'];
 	}
 
 	/**
-	 * Function check if record is blocked and has permission to edit view.
+	 * Function check if record is blocked.
 	 *
 	 * @return bool
 	 */
-	public function isBlockedAndIsPermittedToEdit(): bool
+	public function isBlocked(): bool
 	{
-		if (!isset($this->privileges['isBlockedAndIsPermittedToEdit'])) {
-			return $this->privileges['isBlockedAndIsPermittedToEdit'] = $this->isPermitted('EditView') && ($this->isLockByFields() || true === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) || $this->getUnlockFields() || $this->isReadOnly());
+		if (!isset($this->privileges['isBlocked'])) {
+			return $this->privileges['isBlocked'] = $this->isLockByFields()
+			|| true === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this)
+			 || !empty($this->getUnlockFields()) || $this->isReadOnly();
 		}
-		return $this->privileges['isBlockedAndIsPermittedToEdit'];
+		return $this->privileges['isBlocked'];
 	}
 
 	/**
