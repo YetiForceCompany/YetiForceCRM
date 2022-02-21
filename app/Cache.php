@@ -262,7 +262,7 @@ class Cache
 		}
 		foreach ([ROOT_DIRECTORY . '/cache', \App\Fields\File::getTmpPath()] as $dir) {
 			foreach ((new \DirectoryIterator($dir)) as $item) {
-				if ($item->isFile() && 'index.html' !== $item->getBasename()) {
+				if ($item->isFile() && 'index.html' !== $item->getBasename() && $item->getMTime() < $time && $item->getATime() < $time) {
 					$s += $item->getSize();
 					unlink($item->getPathname());
 					++$i;
