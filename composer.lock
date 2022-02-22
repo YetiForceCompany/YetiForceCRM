@@ -2170,16 +2170,16 @@
         },
         {
             "name": "nette/php-generator",
-            "version": "v3.6.5",
+            "version": "v3.6.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/php-generator.git",
-                "reference": "9370403f9d9c25b51c4596ded1fbfe70347f7c82"
+                "reference": "ad7d0a77f58260001bd263605eb2b9fbaf1d61a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/php-generator/zipball/9370403f9d9c25b51c4596ded1fbfe70347f7c82",
-                "reference": "9370403f9d9c25b51c4596ded1fbfe70347f7c82",
+                "url": "https://api.github.com/repos/nette/php-generator/zipball/ad7d0a77f58260001bd263605eb2b9fbaf1d61a7",
+                "reference": "ad7d0a77f58260001bd263605eb2b9fbaf1d61a7",
                 "shasum": ""
             },
             "require": {
@@ -2232,9 +2232,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/php-generator/issues",
-                "source": "https://github.com/nette/php-generator/tree/v3.6.5"
+                "source": "https://github.com/nette/php-generator/tree/v3.6.6"
             },
-            "time": "2021-11-24T16:23:44+00:00"
+            "time": "2022-02-20T18:06:09+00:00"
         },
         {
             "name": "nette/utils",
