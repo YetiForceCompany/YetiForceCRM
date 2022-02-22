@@ -16,4 +16,13 @@ namespace App\Conditions\QueryFields;
  */
 class IbanField extends BaseField
 {
+	/**
+	 * Starts with operator.
+	 *
+	 * @return array
+	 */
+	public function operatorS()
+	{
+		return ['like', $this->getColumnName(), $this->getValue() . '%', false];
+	}
 }

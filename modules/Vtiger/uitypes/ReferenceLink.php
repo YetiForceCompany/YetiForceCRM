@@ -33,10 +33,4 @@ class Vtiger_ReferenceLink_UIType extends Vtiger_Reference_UIType
 	{
 		return false;
 	}
-
-	/** {@inheritdoc} */
-	public function getQueryOperators()
-	{
-		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny', 'ef', 'nf'];
-	}
 }
