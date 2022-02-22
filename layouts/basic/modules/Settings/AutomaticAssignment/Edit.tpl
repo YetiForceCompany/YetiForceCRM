@@ -31,7 +31,6 @@
 								{\App\Language::translate($BLOCK, $QUALIFIED_MODULE)}
 							</h5>
 						</div>
-						{assign var=HR value=false}
 						<div class="c-panel__body p-2 js-block-content {if !$smarty.foreach.structre.first}d-none{/if}">
 							<div class="form-group row mb-0">
 								{foreach from=$FIELDS item=FIELD_MODEL key=FIELD_NAME name=field}

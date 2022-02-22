@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-ModTracker-dashboards-UpdateContents -->
+	<!-- tpl-ModTracker-dashboards-UpdatesContents -->
 	<input type="hidden" class="js-widget-data" value="{\App\Purifier::encodeHtml(App\Json::encode($WIDGET_DATA))}" data-js="value">
 	{if $UPDATES}
 		{function DISPLAY_RECORD_NAME RECORD_MODEL=false CHECK_PERMISSIONS=true SHOW_MODULE=true}
@@ -21,7 +21,7 @@
 				<span {if $IS_PERMITTED_RECORD}
 						class="js-popover-tooltip--ellipsis u-text-ellipsis--no-hover" data-toggle="popover"
 						data-content="{\App\Purifier::encodeHtml($DISPLAY_TEXT)}"
-					data-js="popover" {else}class="text-truncate" 
+					data-js="popover" {else}class="text-truncate"
 					{/if}>
 					{if $IS_PERMITTED_RECORD}
 						<a class="modCT_{$RECORD_MODEL->getModuleName()} js-popover-tooltip--record"
@@ -140,7 +140,7 @@
 											<span {if $IS_PERMITTED_RECORD}
 													class="js-popover-tooltip--ellipsis u-text-ellipsis--no-hover" data-toggle="popover"
 													data-content="{\App\Purifier::encodeHtml($DISPLAY_TEXT)}"
-												data-js="popover" {else}class="text-truncate" 
+												data-js="popover" {else}class="text-truncate"
 												{/if}>
 												{if $IS_PERMITTED_RECORD}
 													<a class="modCT_{$RELATION->get('targetmodule')} js-popover-tooltip--record"
@@ -189,5 +189,5 @@
 			{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA', $MODULE_NAME)}
 		</span>
 	{/if}
-	<!-- /tpl-ModTracker-dashboards-UpdateContents -->
+	<!-- /tpl-ModTracker-dashboards-UpdatesContents -->
 {/strip}
