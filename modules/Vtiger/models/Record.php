@@ -840,7 +840,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function isBlocked(): bool
 	{
 		if (!isset($this->privileges['isBlocked'])) {
-			return $this->privileges['isBlocked'] = $this->isLockByFields()
+			$this->privileges['isBlocked'] = $this->isLockByFields()
 			|| true === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this)
 			 || !empty($this->getUnlockFields()) || $this->isReadOnly();
 		}

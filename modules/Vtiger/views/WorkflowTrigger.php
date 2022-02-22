@@ -13,19 +13,12 @@ class Vtiger_WorkflowTrigger_View extends Vtiger_BasicModal_View
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		if ($request->isEmpty('record')) {
+		if ($request->isEmpty('record')
+		  || (!$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule()))
+		  || !$recordModel->isPermitted('WorkflowTrigger')
+		  || !$recordModel->isPermitted('DetailView')
+		  || (!$recordModel->isPermitted('EditView') || ($recordModel->isPermitted('EditView') && !$recordModel->isPermitted('WorkflowTriggerWhenRecordIsBlocked') && !$recordModel->isBlocked()))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-		$recordId = $request->getInteger('record');
-		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
-		if (!\App\Privilege::isPermitted($moduleName, 'WorkflowTrigger') && !$recordModel->isEditable()
-		|| !($recordModel->isPermitted('EditView') && App\Privilege::isPermitted($moduleName, 'WorkflowTriggerWhenRecordIsBlocked') && $recordModel->isBlocked())
-		) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
