@@ -13,4 +13,6 @@ namespace App\Conditions\RecordFields;
  */
 class RangeTimeField extends BaseField
 {
+	use \App\Conditions\RecordTraits\Comparison;
+	use \App\Conditions\RecordTraits\ComparisonField;
 }

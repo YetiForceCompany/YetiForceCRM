@@ -99,6 +99,26 @@ class BaseField
 	}
 
 	/**
+	 * Get value from record source.
+	 *
+	 * @return string
+	 */
+	public function getValueFromSource(): string
+	{
+		[$fieldName, $fieldModuleName, $sourceFieldName] = array_pad(explode(':', $this->value), 3, '');
+		if ($sourceFieldName) {
+			if ($this->recordModel->isEmpty($sourceFieldName)) {
+				return false;
+			}
+			return \Vtiger_Record_Model::getInstanceById($this->recordModel->get($sourceFieldName))->get($fieldName);
+		}
+		if ($this->recordModel->getModuleName() === $fieldModuleName) {
+			return $this->recordModel->get($fieldName);
+		}
+		return false;
+	}
+
+	/**
 	 * Equals operator.
 	 *
 	 * @return bool
@@ -165,7 +185,7 @@ class BaseField
 	 *
 	 * @return bool
 	 */
-	public function operatorK()
+	public function operatorK(): bool
 	{
 		if (\is_array($this->getValue())) {
 			return !\in_array($this->value, $this->getValue());
@@ -174,51 +194,11 @@ class BaseField
 	}
 
 	/**
-	 * Less than operator.
-	 *
-	 * @return bool
-	 */
-	public function operatorL()
-	{
-		return $this->getValue() < $this->value;
-	}
-
-	/**
-	 * Greater than operator.
-	 *
-	 * @return bool
-	 */
-	public function operatorG()
-	{
-		return $this->getValue() > $this->value;
-	}
-
-	/**
-	 * Less than or equal to operator.
-	 *
-	 * @return bool
-	 */
-	public function operatorM()
-	{
-		return $this->getValue() <= $this->value;
-	}
-
-	/**
-	 * Greater than or equal to operator.
-	 *
-	 * @return bool
-	 */
-	public function operatorH()
-	{
-		return $this->getValue() >= $this->value;
-	}
-
-	/**
 	 * Before operator.
 	 *
 	 * @return bool
 	 */
-	public function operatorB()
+	public function operatorB(): bool
 	{
 		if (empty($this->getValue())) {
 			return false;
@@ -234,7 +214,7 @@ class BaseField
 	 *
 	 * @return bool
 	 */
-	public function operatorA()
+	public function operatorA(): bool
 	{
 		if (empty($this->getValue())) {
 			return false;
@@ -248,9 +228,9 @@ class BaseField
 	/**
 	 * Is empty operator.
 	 *
-	 * @return array
+	 * @return bool
 	 */
-	public function operatorY()
+	public function operatorY(): bool
 	{
 		return empty($this->getValue());
 	}
@@ -258,9 +238,9 @@ class BaseField
 	/**
 	 * Is not empty operator.
 	 *
-	 * @return array
+	 * @return bool
 	 */
-	public function operatorNy()
+	public function operatorNy(): bool
 	{
 		return !empty($this->getValue());
 	}
@@ -268,9 +248,9 @@ class BaseField
 	/**
 	 * Has changed operator.
 	 *
-	 * @return array
+	 * @return bool
 	 */
-	public function operatorHs()
+	public function operatorHs(): bool
 	{
 		$hasChanged = $this->recordModel->getPreviousValue($this->fieldModel->getName());
 		if (false === $hasChanged) {
@@ -282,9 +262,9 @@ class BaseField
 	/**
 	 * Has changed to operator.
 	 *
-	 * @return array
+	 * @return bool
 	 */
-	public function operatorHst()
+	public function operatorHst(): bool
 	{
 		return false !== $this->recordModel->getPreviousValue($this->fieldModel->getName()) && $this->getValue() == $this->value;
 	}
@@ -292,9 +272,9 @@ class BaseField
 	/**
 	 * Is currently logged user operator.
 	 *
-	 * @return array
+	 * @return bool
 	 */
-	public function operatorOm()
+	public function operatorOm(): bool
 	{
 		return $this->getValue() == \App\User::getCurrentUserId();
 	}
@@ -302,10 +282,30 @@ class BaseField
 	/**
 	 * Is currently logged user group operator.
 	 *
-	 * @return array
+	 * @return bool
 	 */
-	public function operatorOgr()
+	public function operatorOgr(): bool
 	{
 		return \in_array($this->getValue(), \App\User::getCurrentUserModel()->getGroups());
+	}
+
+	/**
+	 * Is equal to selected field operator.
+	 *
+	 * @return bool
+	 */
+	public function operatorEf(): bool
+	{
+		return $this->getValue() == $this->getValueFromSource();
+	}
+
+	/**
+	 * Is not equal to selected field operator.
+	 *
+	 * @return bool
+	 */
+	public function operatorNf(): bool
+	{
+		return $this->getValue() != $this->getValueFromSource();
 	}
 }

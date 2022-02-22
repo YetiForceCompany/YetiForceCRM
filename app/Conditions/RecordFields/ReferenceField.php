@@ -50,7 +50,7 @@ class ReferenceField extends BaseField
 	}
 
 	/** {@inheritdoc} */
-	public function operatorK()
+	public function operatorK(): bool
 	{
 		return false === strpos(\App\Record::getLabel($this->getValue(), true), $this->value);
 	}

@@ -19,6 +19,9 @@ use App\Log;
  */
 class DateField extends BaseField
 {
+	use \App\Conditions\RecordTraits\Comparison;
+	use \App\Conditions\RecordTraits\ComparisonField;
+
 	/** {@inheritdoc} */
 	public function check()
 	{
