@@ -108,6 +108,6 @@ class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
-		return ['e', 'n', 'y', 'ny'];
+		return ['e', 'n', 'y', 'ny', 'ef', 'nf'];
 	}
 }

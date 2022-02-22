@@ -1,6 +1,6 @@
 <?php
 /**
- * Base Query Field file.
+ * Base query field conditions file.
  *
  * @package UIType
  *
@@ -15,12 +15,12 @@ namespace App\Conditions\QueryFields;
 use App\Log;
 
 /**
- * Base Query Field Class.
+ * Base query field conditions class.
  */
 class BaseField
 {
 	/**
-	 * @var QueryGenerator
+	 * @var \App\QueryGenerator
 	 */
 	protected $queryGenerator;
 
@@ -142,6 +142,28 @@ class BaseField
 			return $this->fullColumnName;
 		}
 		return $this->fullColumnName = $this->getTableName() . '.' . $this->fieldModel->getColumnName();
+	}
+
+	/**
+	 * Get column name from value.
+	 *
+	 * @return string
+	 */
+	public function getColumnNameFromValue(): string
+	{
+		[$fieldName, $fieldModuleName, $sourceFieldName] = array_pad(explode(':', $this->value), 3, '');
+		if ($sourceFieldName) {
+			$fieldModel = $this->queryGenerator->getRelatedModuleField($fieldName, $fieldModuleName);
+			$this->queryGenerator->addRelatedJoin([
+				'sourceField' => $sourceFieldName,
+				'relatedModule' => $fieldModuleName,
+				'relatedField' => $fieldName,
+			]);
+		} else {
+			$fieldModel = $this->queryGenerator->getModuleField($fieldName);
+			$this->queryGenerator->addTableToQuery($fieldModel->getTableName());
+		}
+		return $fieldModel ? ($fieldModel->getTableName() . $sourceFieldName . '.' . $fieldModel->getColumnName()) : '';
 	}
 
 	/**
@@ -299,6 +321,26 @@ class BaseField
 	public function operatorK()
 	{
 		return ['not like', $this->getColumnName(), $this->getValue()];
+	}
+
+	/**
+	 * Is equal to selected field operator.
+	 *
+	 * @return array
+	 */
+	public function operatorEf():array
+	{
+		return [$this->getColumnName() => new \yii\db\Expression($this->getColumnNameFromValue())];
+	}
+
+	/**
+	 * Is not equal to selected field operator.
+	 *
+	 * @return array
+	 */
+	public function operatorNf():array
+	{
+		return ['<>', $this->getColumnName(), new \yii\db\Expression($this->getColumnNameFromValue())];
 	}
 
 	/**

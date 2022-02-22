@@ -166,7 +166,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
-		return array_merge(['e', 'n', 'bw', 'b', 'a', 'y', 'ny'], array_keys(App\Condition::DATE_OPERATORS));
+		return array_merge(['e', 'n', 'bw', 'b', 'a', 'y', 'ny'], \App\Condition::FIELD_COMPARISON_OPERATORS, array_keys(App\Condition::DATE_OPERATORS));
 	}
 
 	/**

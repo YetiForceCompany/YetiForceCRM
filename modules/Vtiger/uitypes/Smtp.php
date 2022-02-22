@@ -1,7 +1,7 @@
 <?php
 
 /**
- * UIType Smtp Field Class.
+ * UIType Smtp field file.
  *
  * @package   UIType
  *
@@ -9,6 +9,10 @@
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  * @author    Adrian Kon <a.kon@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+/**
+ * UIType Smtp field class.
  */
 class Vtiger_Smtp_UIType extends Vtiger_Base_UIType
 {
@@ -76,6 +80,6 @@ class Vtiger_Smtp_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
-		return ['e', 'n', 'y', 'ny'];
+		return ['e', 'n', 'y', 'ny', 'ef', 'nf'];
 	}
 }

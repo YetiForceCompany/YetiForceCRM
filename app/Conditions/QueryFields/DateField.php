@@ -1,13 +1,6 @@
 <?php
-
 /**
- * Date Query Field file.
- */
-
-namespace App\Conditions\QueryFields;
-
-/**
- * Date Query Field Class.
+ * Date query field conditions file.
  *
  * @package UIType
  *
@@ -15,8 +8,16 @@ namespace App\Conditions\QueryFields;
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+namespace App\Conditions\QueryFields;
+
+/**
+ * Date query field conditions class.
+ */
 class DateField extends BaseField
 {
+	use \App\Conditions\QueryTraits\ComparisonField;
+
 	/**
 	 * Get order by.
 	 *

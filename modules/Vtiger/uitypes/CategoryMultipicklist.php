@@ -85,6 +85,6 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
-		return ['e', 'n', 'c', 'ch', 'k', 'kh', 'y', 'ny'];
+		return ['e', 'n', 'c', 'ch', 'k', 'kh', 'y', 'ny', 'ef', 'nf'];
 	}
 }

@@ -1680,8 +1680,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			$label = '';
 			if (isset(\App\Condition::STANDARD_OPERATORS[$op])) {
 				$label = \App\Condition::STANDARD_OPERATORS[$op];
-			}
-			if (isset(\App\Condition::DATE_OPERATORS[$op])) {
+			} elseif (isset(\App\Condition::DATE_OPERATORS[$op])) {
 				$label = \App\Condition::DATE_OPERATORS[$op]['label'];
 			}
 			$oper[$op] = $label;
@@ -1702,8 +1701,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			$label = '';
 			if (isset(\App\Condition::STANDARD_OPERATORS[$op])) {
 				$label = \App\Condition::STANDARD_OPERATORS[$op];
-			}
-			if (isset(\App\Condition::DATE_OPERATORS[$op])) {
+			} elseif (isset(\App\Condition::DATE_OPERATORS[$op])) {
 				$label = \App\Condition::DATE_OPERATORS[$op]['label'];
 			}
 			$oper[$op] = $label;
@@ -1720,8 +1718,11 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getOperatorTemplateName(string $operator)
 	{
-		if (\in_array($operator, App\Condition::OPERATORS_WITHOUT_VALUES + array_keys(App\Condition::DATE_OPERATORS))) {
+		if (\in_array($operator, array_merge(\App\Condition::OPERATORS_WITHOUT_VALUES, array_keys(App\Condition::DATE_OPERATORS)))) {
 			return;
+		}
+		if (\in_array($operator, \App\Condition::FIELD_COMPARISON_OPERATORS)) {
+			return 'ConditionBuilder/FieldsListUitype.tpl';
 		}
 		return $this->getUITypeModel()->getOperatorTemplateName($operator);
 	}

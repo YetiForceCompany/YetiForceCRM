@@ -104,7 +104,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
-		return ['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'];
+		return array_merge(['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'], \App\Condition::FIELD_COMPARISON_OPERATORS);
 	}
 
 	/**

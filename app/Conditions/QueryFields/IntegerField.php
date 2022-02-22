@@ -1,18 +1,27 @@
 <?php
-
-namespace App\Conditions\QueryFields;
-
 /**
- * Integer Query Field Class.
+ * Integer query field conditions file.
  *
  * @package UIType
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace App\Conditions\QueryFields;
+
+/**
+ * Integer query field conditions class.
  */
 class IntegerField extends BaseField
 {
+	use \App\Conditions\QueryTraits\ComparisonField;
+
+	/**
+	 * @var string[] List of extended operators
+	 */
 	public static $extendedOperators = ['>=', '<=', '<', '>'];
 
 	/**

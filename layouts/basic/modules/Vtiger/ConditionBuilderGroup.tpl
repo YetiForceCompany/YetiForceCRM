@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Base-ConditionBuilderGroup c-condition-builder__group pt-2 js-condition-builder-group-container">
+	<!-- tpl-Base-ConditionBuilderGroup -->
+	<div class="c-condition-builder__group pt-2 js-condition-builder-group-container">
 		<div class="btn-group btn-group-toggle js-condition-switch mr-2" data-toggle="buttons">
 			{assign var=GROUP_OPTION_ACTIVE value=empty($CONDITIONS_GROUP['condition']) || ($CONDITIONS_GROUP['condition'] eq 'AND')}
 			<label class="btn btn-sm btn-outline-primary js-condition-switch-value {if $GROUP_OPTION_ACTIVE} active {/if}">
@@ -38,4 +39,5 @@
 			{/if}
 		</div>
 	</div>
+	<!-- /tpl-Base-ConditionBuilderGroup -->
 {/strip}

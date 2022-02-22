@@ -42,6 +42,6 @@ class Vtiger_RangeTime_UIType extends Vtiger_Integer_UIType
 	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
-		return ['y', 'ny'];
+		return array_merge(['y', 'ny'], \App\Condition::FIELD_COMPARISON_OPERATORS);
 	}
 }

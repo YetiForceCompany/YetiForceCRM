@@ -1,9 +1,6 @@
 <?php
-
-namespace App;
-
 /**
- * Query generator class.
+ * Query generator file.
  *
  * @package App
  *
@@ -11,6 +8,12 @@ namespace App;
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+namespace App;
+
+/**
+ * Query generator class.
  */
 class QueryGenerator
 {
@@ -590,7 +593,7 @@ class QueryGenerator
 	 *
 	 * @param string $fieldName
 	 *
-	 * @return bool|\Vtiger_Field_Model
+	 * @return \Vtiger_Field_Model|bool
 	 */
 	public function getModuleField(string $fieldName)
 	{
@@ -609,7 +612,7 @@ class QueryGenerator
 	 * @param string $fieldName
 	 * @param string $moduleName
 	 *
-	 * @return bool|\Vtiger_Field_Model
+	 * @return \Vtiger_Field_Model|bool
 	 */
 	public function getRelatedModuleField(string $fieldName, string $moduleName)
 	{
@@ -902,11 +905,9 @@ class QueryGenerator
 	{
 		if ('id' === $fieldName) {
 			$baseTable = $this->entityModel->table_name;
-
 			return $baseTable . '.' . $this->entityModel->tab_name_index[$baseTable];
 		}
 		$field = $this->getModuleField($fieldName);
-
 		return $field->getTableName() . '.' . $field->getColumnName();
 	}
 
@@ -1238,7 +1239,6 @@ class QueryGenerator
 		}
 		if ('id' === $fieldName) {
 			$queryField = new Conditions\QueryFields\IdField($this, '');
-
 			return $this->queryFields[$fieldName] = $queryField;
 		}
 		$field = $this->getModuleField($fieldName);
@@ -1286,7 +1286,6 @@ class QueryGenerator
 		$relatedFieldModel = $this->getRelatedModuleField($fieldDetail['relatedField'], $fieldDetail['relatedModule']);
 		if (!$relatedFieldModel || !$relatedFieldModel->isActiveField()) {
 			Log::warning("Field in related module is inactive or does not exist. Related module: {$fieldDetail['relatedModule']} | Related field: {$fieldDetail['relatedField']}");
-
 			return false;
 		}
 		$tableName = $relatedFieldModel->getTableName();
@@ -1294,7 +1293,6 @@ class QueryGenerator
 		$relatedTableName = $tableName . $fieldDetail['sourceField'];
 		$relatedTableIndex = $relatedFieldModel->getModule()->getEntityInstance()->tab_name_index[$tableName];
 		$this->addJoin(['LEFT JOIN', "$tableName $relatedTableName", "{$sourceFieldModel->getTableName()}.{$sourceFieldModel->getColumnName()} = $relatedTableName.$relatedTableIndex"]);
-
 		return $relatedFieldModel;
 	}
 

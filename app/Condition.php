@@ -20,7 +20,7 @@ namespace App;
 class Condition
 {
 	/**
-	 * Data filter list.
+	 * @var array Data filter list.
 	 */
 	const DATE_OPERATORS = [
 		'custom' => ['label' => 'LBL_CUSTOM'],
@@ -57,8 +57,14 @@ class Condition
 		'next120days' => ['label' => 'LBL_NEXT_120_DAYS'],
 		'moreThanDaysAgo' => ['label' => 'LBL_DATE_CONDITION_MORE_THAN_DAYS_AGO'],
 	];
+
 	/**
-	 * Supported advanced filter operations.
+	 * @var string[] List of field comparison operators
+	 */
+	const FIELD_COMPARISON_OPERATORS = ['ef', 'nf', 'lf', 'gf', 'mf', 'hf'];
+
+	/**
+	 * @var string[] Supported advanced filter operations.
 	 */
 	const STANDARD_OPERATORS = [
 		'e' => 'LBL_EQUALS',
@@ -88,9 +94,16 @@ class Condition
 		'ro' => 'LBL_IS_RECORD_OPEN',
 		'rc' => 'LBL_IS_RECORD_CLOSED',
 		'nco' => 'LBL_NOT_CREATED_BY_OWNER',
+		'ef' => 'LBL_EQUALS_FIELD',
+		'nf' => 'LBL_NOT_EQUAL_TO_FIELD',
+		'lf' => 'LBL_LESS_THAN_FIELD',
+		'gf' => 'LBL_GREATER_THAN_FIELD',
+		'mf' => 'LBL_LESS_THAN_OR_EQUAL_FIELD',
+		'hf' => 'LBL_GREATER_OR_EQUAL_FIELD',
 	];
+
 	/**
-	 * Operators without values.
+	 * @var string[] Operators without values.
 	 */
 	const OPERATORS_WITHOUT_VALUES = [
 		'y', 'ny', 'om', 'nom', 'ogr', 'wr', 'nwr', 'hs', 'ro', 'rc', 'nco',
@@ -221,7 +234,7 @@ class Condition
 				} else {
 					$operator = $condition['operator'];
 					$value = $condition['value'] ?? '';
-					if (!\in_array($operator, self::OPERATORS_WITHOUT_VALUES + array_keys(self::DATE_OPERATORS))) {
+					if (!\in_array($operator, array_merge(self::OPERATORS_WITHOUT_VALUES, self::FIELD_COMPARISON_OPERATORS, array_keys(self::DATE_OPERATORS)))) {
 						[$fieldName, $fieldModuleName,] = array_pad(explode(':', $condition['fieldname']), 3, false);
 						$value = \Vtiger_Module_Model::getInstance($fieldModuleName)->getFieldByName($fieldName)
 							->getUITypeModel()

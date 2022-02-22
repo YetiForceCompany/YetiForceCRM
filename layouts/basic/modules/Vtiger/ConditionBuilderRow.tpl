@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!--  Do not add comments through the DIV  -->*}
 {strip}
-	<div class="tpl-Base-ConditionBuilderRow c-condition-builder__row d-flex pt-2 form-group-sm js-condition-builder-conditions-row"
-		data-js="container">
+	<div class="tpl-Base-ConditionBuilderRow c-condition-builder__row d-flex pt-2 form-group-sm js-condition-builder-conditions-row" data-js="container">
 		{if empty($SELECTED_FIELD_MODEL) && !empty($CONDITIONS_ROW)}
 			{assign var=SELECTED_FIELD_MODEL value=Vtiger_Field_Model::getInstanceFromFilter($CONDITIONS_ROW['fieldname'])}
 			{assign var=OPERATORS value=$SELECTED_FIELD_MODEL->getRecordOperators()}
@@ -12,6 +12,7 @@
 		{if empty($FIELD_INFO) && !empty($CONDITIONS_ROW)}
 			{assign var=FIELD_INFO value=$CONDITIONS_ROW['fieldname']}
 		{/if}
+		{assign var=SELECTED_RELATED_FIELD_NAME value=''}
 		<div class="col-4">
 			<select class="select2 form-control js-conditions-fields" data-js="change">
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
@@ -35,7 +36,10 @@
 									{if !$FIELD_MODEL->isActiveSearchView()}
 										{continue}
 									{/if}
-									<option value="{$FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME)}" {if $FIELD_INFO eq $FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME)} selected="selected" {/if}>
+									<option value="{$FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME)}"
+										{if $FIELD_INFO eq $FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME)} selected="selected"
+											{assign var=SELECTED_RELATED_FIELD_NAME value=$RELATED_FIELD_NAME}
+										{/if}>
 										{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}
 										&nbsp;-&nbsp;{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_KEY)}
 									</option>

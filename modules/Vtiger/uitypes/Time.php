@@ -142,7 +142,7 @@ class Vtiger_Time_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
-		return ['e', 'n', 'b', 'a', 'y', 'ny'];
+		return array_merge(['e', 'n', 'b', 'a', 'y', 'ny'], \App\Condition::FIELD_COMPARISON_OPERATORS);
 	}
 
 	/**
