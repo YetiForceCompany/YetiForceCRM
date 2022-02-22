@@ -18,19 +18,14 @@ class Vtiger_Workflow_Action extends \App\Controller\Action
 		$this->exposeMethod('execute');
 	}
 
-	/**
-	 * Function to check permission.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermittedToRecord
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
-		if ($request->isEmpty('record')) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
-		}
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+		if ($request->isEmpty('record', true)
+		|| (!$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule()))
+		|| !$recordModel->isPermitted('WorkflowTrigger')
+		|| !$recordModel->isPermitted('DetailView')
+		|| (!$recordModel->isPermitted('EditView') || ($recordModel->isPermitted('EditView') && !$recordModel->isPermitted('WorkflowTriggerWhenRecordIsBlocked') && !$recordModel->isBlocked()))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
