@@ -225,7 +225,7 @@
     "LBL_ENDS_WITH": "ends with",
     "LBL_STARTS_WITH": "begins with",
     "LBL_CONTAINS": "contains",
-    "LBL_EQUALS": "equals",
+    "LBL_EQUALS": "equals (==)",
     "LBL_EXCEEDED": "Exceeded",
     "LBL_EXPORT": "Export",
     "LBL_EXPORT_ALL_DATA": "Export all data",
@@ -368,7 +368,7 @@
     "LBL_NOTEPAD": "Notepad",
     "LBL_NOTEPAD_CONTENT": "Notepad content",
     "LBL_NOTEPAD_NAME": "Notepad name",
-    "LBL_NOT_EQUAL_TO": "not equal to",
+    "LBL_NOT_EQUAL_TO": "not equal to (!=)",
     "LBL_Nov": "Nov",
     "LBL_NO_COMMENTS": "No comments",
     "LBL_NO_DATA": "No data",
@@ -1510,7 +1510,13 @@
     "BTN_DISABLE_SHARE_RECORD_IN": "Disable record sharing in:",
     "BTN_SERVER_ACCESS": "Manage record sharing for Webservice",
     "LBL_CUSTOM_VIEW_ADV_COND": "Advanced custom view conditions",
-    "LBL_ATTENTION": "Attention!"
+    "LBL_ATTENTION": "Attention!",
+    "LBL_EQUALS_FIELD": "is equal to field (==)",
+    "LBL_NOT_EQUAL_TO_FIELD": "is not equal to field (!=)",
+    "LBL_LESS_THAN_FIELD": "less than field (<)",
+    "LBL_GREATER_THAN_FIELD": "greater than field (>)",
+    "LBL_LESS_THAN_OR_EQUAL_FIELD": "less than or equal to field (<=)",
+    "LBL_GREATER_OR_EQUAL_FIELD": "greater than or equal to field (>=)"
   },
   "js": {
     "JS_APPROVE": "Approve",
