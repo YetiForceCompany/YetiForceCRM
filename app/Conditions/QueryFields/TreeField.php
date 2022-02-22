@@ -47,7 +47,7 @@ class TreeField extends StringField
 	 *
 	 * @return array
 	 */
-	public function getOrderBy($order = false)
+	public function getOrderBy($order = false): array
 	{
 		$this->queryGenerator->addJoin(['LEFT JOIN', 'vtiger_trees_templates_data', $this->getColumnName() . ' =  vtiger_trees_templates_data.tree AND vtiger_trees_templates_data.templateid = :template', [':template' => $this->fieldModel->getFieldParams()]]);
 		if ($order && 'DESC' === strtoupper($order)) {

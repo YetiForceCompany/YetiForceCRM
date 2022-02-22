@@ -17,6 +17,7 @@ namespace App\Conditions\QueryFields;
  */
 class IntegerField extends BaseField
 {
+	use \App\Conditions\QueryTraits\Comparison;
 	use \App\Conditions\QueryTraits\ComparisonField;
 
 	/**
@@ -29,7 +30,7 @@ class IntegerField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorA()
+	public function operatorA(): array
 	{
 		$value = \App\Purifier::decodeHtml($this->value);
 		$condition = ['and'];
@@ -49,49 +50,9 @@ class IntegerField extends BaseField
 	}
 
 	/** {@inheritdoc} */
-	public function getOperator()
+	public function getOperator(): string
 	{
 		return 'a' === $this->operator ? 'e' : $this->operator;
-	}
-
-	/**
-	 * Lower operator.
-	 *
-	 * @return array
-	 */
-	public function operatorL()
-	{
-		return ['<', $this->getColumnName(), $this->getValue()];
-	}
-
-	/**
-	 * Greater operator.
-	 *
-	 * @return array
-	 */
-	public function operatorG()
-	{
-		return ['>', $this->getColumnName(), $this->getValue()];
-	}
-
-	/**
-	 * Lower or equal operator.
-	 *
-	 * @return array
-	 */
-	public function operatorM()
-	{
-		return ['<=', $this->getColumnName(), $this->getValue()];
-	}
-
-	/**
-	 * Greater or equal operator.
-	 *
-	 * @return array
-	 */
-	public function operatorH()
-	{
-		return ['>=', $this->getColumnName(), $this->getValue()];
 	}
 
 	/**
@@ -99,7 +60,7 @@ class IntegerField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorY()
+	public function operatorY(): array
 	{
 		return [$this->getColumnName() => null];
 	}
@@ -109,7 +70,7 @@ class IntegerField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorNy()
+	public function operatorNy(): array
 	{
 		return ['not', [$this->getColumnName() => null]];
 	}

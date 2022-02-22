@@ -40,7 +40,7 @@ class DatetimeField extends DateField
 	 *
 	 * @return array
 	 */
-	public function operatorE()
+	public function operatorE(): array
 	{
 		$value = $this->getValue();
 
@@ -52,7 +52,7 @@ class DatetimeField extends DateField
 	 *
 	 * @return array
 	 */
-	public function operatorN()
+	public function operatorN(): array
 	{
 		$value = $this->getValue();
 
@@ -86,7 +86,7 @@ class DatetimeField extends DateField
 	 *
 	 * @return array
 	 */
-	public function operatorA()
+	public function operatorA(): array
 	{
 		return ['>', $this->getColumnName(), $this->getValue() . ' 23:59:59'];
 	}

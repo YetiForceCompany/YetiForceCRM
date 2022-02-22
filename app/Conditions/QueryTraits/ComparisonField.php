@@ -1,6 +1,6 @@
 <?php
 /**
- * Comparison field file.
+ * Query comparison field file.
  *
  * @package UIType
  *
@@ -12,7 +12,7 @@
 namespace App\Conditions\QueryTraits;
 
 /**
- * Comparison field class.
+ * Query comparison field class.
  */
 trait ComparisonField
 {
@@ -23,7 +23,7 @@ trait ComparisonField
 	 */
 	public function operatorLf(): array
 	{
-		return ['<', $this->getColumnName(), new \yii\db\Expression($this->getColumnNameFromValue())];
+		return ['<', $this->getColumnName(), new \yii\db\Expression($this->getColumnNameFromSource())];
 	}
 
 	/**
@@ -33,7 +33,7 @@ trait ComparisonField
 	 */
 	public function operatorGf(): array
 	{
-		return ['>', $this->getColumnName(), new \yii\db\Expression($this->getColumnNameFromValue())];
+		return ['>', $this->getColumnName(), new \yii\db\Expression($this->getColumnNameFromSource())];
 	}
 
 	/**
@@ -43,7 +43,7 @@ trait ComparisonField
 	 */
 	public function operatorMf(): array
 	{
-		return ['<=', $this->getColumnName(), new \yii\db\Expression($this->getColumnNameFromValue())];
+		return ['<=', $this->getColumnName(), new \yii\db\Expression($this->getColumnNameFromSource())];
 	}
 
 	/**
@@ -53,6 +53,6 @@ trait ComparisonField
 	 */
 	public function operatorHf(): array
 	{
-		return ['>=', $this->getColumnName(), new \yii\db\Expression($this->getColumnNameFromValue())];
+		return ['>=', $this->getColumnName(), new \yii\db\Expression($this->getColumnNameFromSource())];
 	}
 }

@@ -11,6 +11,7 @@ namespace App\Conditions\QueryFields;
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class MultipicklistField extends BaseField
 {
@@ -70,7 +71,7 @@ class MultipicklistField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorN()
+	public function operatorN(): array
 	{
 		return ['not', [$this->getColumnName() => $this->getValue()]];
 	}
@@ -80,7 +81,7 @@ class MultipicklistField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorC()
+	public function operatorC(): array
 	{
 		$condition = ['or'];
 		foreach ($this->getValue() as $value) {
@@ -100,7 +101,7 @@ class MultipicklistField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorK()
+	public function operatorK(): array
 	{
 		$condition = ['and'];
 		foreach ($this->getValue() as $value) {

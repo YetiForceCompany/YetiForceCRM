@@ -16,6 +16,7 @@ namespace App\Conditions\QueryFields;
  */
 class DateField extends BaseField
 {
+	use \App\Conditions\QueryTraits\Comparison;
 	use \App\Conditions\QueryTraits\ComparisonField;
 
 	/**
@@ -25,7 +26,7 @@ class DateField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function getOrderBy($order = false)
+	public function getOrderBy($order = false): array
 	{
 		if ($order && 'DESC' === strtoupper($order)) {
 			$sort = SORT_DESC;
@@ -134,7 +135,7 @@ class DateField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorA()
+	public function operatorA(): array
 	{
 		return ['>', $this->getColumnName(), $this->getValue()];
 	}
@@ -179,15 +180,5 @@ class DateField extends BaseField
 	public function operatorMoreThanDaysAgo()
 	{
 		return ['<=', $this->getColumnName(), date('Y-m-d', strtotime('-' . $this->getValue() . ' days'))];
-	}
-
-	/**
-	 * Lower operator.
-	 *
-	 * @return array
-	 */
-	public function operatorL()
-	{
-		return ['<', $this->getColumnName(), $this->getValue()];
 	}
 }

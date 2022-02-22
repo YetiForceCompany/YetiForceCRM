@@ -19,7 +19,7 @@ class OwnerField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorE()
+	public function operatorE(): array
 	{
 		if (!\is_array($this->value)) {
 			$this->value = explode('##', $this->value);
@@ -36,7 +36,7 @@ class OwnerField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorN()
+	public function operatorN(): array
 	{
 		if (!\is_array($this->value)) {
 			$this->value = explode('##', $this->value);
@@ -146,7 +146,7 @@ class OwnerField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function getOrderBy($order = false)
+	public function getOrderBy($order = false): array
 	{
 		$this->queryGenerator->addJoin(['LEFT JOIN', 'vtiger_users', 'vtiger_users.id = ' . $this->getColumnName()]);
 		$this->queryGenerator->addJoin(['LEFT JOIN', 'vtiger_groups', 'vtiger_groups.groupid = ' . $this->getColumnName()]);
@@ -161,7 +161,7 @@ class OwnerField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorNy()
+	public function operatorNy(): array
 	{
 		return ['and',
 			['not', [$this->getColumnName() => null]],
@@ -174,7 +174,7 @@ class OwnerField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorY()
+	public function operatorY(): array
 	{
 		return ['or',
 			[$this->getColumnName() => null],

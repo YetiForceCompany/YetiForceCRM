@@ -18,7 +18,7 @@ class PicklistField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorN()
+	public function operatorN(): array
 	{
 		return ['NOT IN', $this->getColumnName(), $this->getValue()];
 	}

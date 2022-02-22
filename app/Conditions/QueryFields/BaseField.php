@@ -73,7 +73,7 @@ class BaseField
 	 *
 	 * @return string
 	 */
-	public function getModuleName()
+	public function getModuleName(): string
 	{
 		return $this->queryGenerator->getModule();
 	}
@@ -83,7 +83,7 @@ class BaseField
 	 *
 	 * @param string $operator
 	 */
-	public function setOperator($operator)
+	public function setOperator(string $operator): void
 	{
 		$this->operator = strtolower($operator);
 	}
@@ -93,7 +93,7 @@ class BaseField
 	 *
 	 * @param array $relatedInfo
 	 */
-	public function setRelated($relatedInfo)
+	public function setRelated(array $relatedInfo): void
 	{
 		$this->related = $relatedInfo;
 	}
@@ -125,7 +125,7 @@ class BaseField
 	 *
 	 * @return array
 	 */
-	public function getOrderBy($order = false)
+	public function getOrderBy($order = false): array
 	{
 		$order = $order && \App\Db::DESC === strtoupper($order) ? SORT_DESC : SORT_ASC;
 		return [$this->getColumnName() => $order];
@@ -136,7 +136,7 @@ class BaseField
 	 *
 	 * @return string
 	 */
-	public function getColumnName()
+	public function getColumnName(): string
 	{
 		if ($this->fullColumnName) {
 			return $this->fullColumnName;
@@ -145,11 +145,11 @@ class BaseField
 	}
 
 	/**
-	 * Get column name from value.
+	 * Get column name from source.
 	 *
 	 * @return string
 	 */
-	public function getColumnNameFromValue(): string
+	public function getColumnNameFromSource(): string
 	{
 		[$fieldName, $fieldModuleName, $sourceFieldName] = array_pad(explode(':', $this->value), 3, '');
 		if ($sourceFieldName) {
@@ -171,7 +171,7 @@ class BaseField
 	 *
 	 * @return string
 	 */
-	public function getTableName()
+	public function getTableName(): string
 	{
 		if ($this->tableName) {
 			return $this->tableName;
@@ -188,7 +188,7 @@ class BaseField
 	 *
 	 * @param string $tableName
 	 */
-	public function setTableName($tableName)
+	public function setTableName($tableName): void
 	{
 		$this->tableName = $tableName;
 	}
@@ -216,7 +216,7 @@ class BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorA()
+	public function operatorA(): array
 	{
 		return $this->getCondition($this->getOperator());
 	}
@@ -227,7 +227,7 @@ class BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorWca()
+	public function operatorWca(): array
 	{
 		return ['like', $this->getColumnName(), str_replace('*', '%', "%{$this->getValue()}%"), false];
 	}
@@ -252,7 +252,6 @@ class BaseField
 	public function setValue($value)
 	{
 		$this->value = $value;
-
 		return $this;
 	}
 
@@ -261,7 +260,7 @@ class BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorC()
+	public function operatorC(): array
 	{
 		return ['like', $this->getColumnName(), $this->getValue()];
 	}
@@ -271,7 +270,7 @@ class BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorE()
+	public function operatorE(): array
 	{
 		return [$this->getColumnName() => $this->getValue()];
 	}
@@ -281,7 +280,7 @@ class BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorN()
+	public function operatorN(): array
 	{
 		$value = $this->getValue();
 		return [(\is_array($value) ? 'not in' : '<>'), $this->getColumnName(), $value];
@@ -292,7 +291,7 @@ class BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorY()
+	public function operatorY(): array
 	{
 		return ['or',
 			[$this->getColumnName() => null],
@@ -305,7 +304,7 @@ class BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorNy()
+	public function operatorNy(): array
 	{
 		return ['and',
 			['not', [$this->getColumnName() => null]],
@@ -318,7 +317,7 @@ class BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorK()
+	public function operatorK(): array
 	{
 		return ['not like', $this->getColumnName(), $this->getValue()];
 	}
@@ -328,9 +327,9 @@ class BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorEf():array
+	public function operatorEf(): array
 	{
-		return [$this->getColumnName() => new \yii\db\Expression($this->getColumnNameFromValue())];
+		return [$this->getColumnName() => new \yii\db\Expression($this->getColumnNameFromSource())];
 	}
 
 	/**
@@ -338,9 +337,9 @@ class BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorNf():array
+	public function operatorNf(): array
 	{
-		return ['<>', $this->getColumnName(), new \yii\db\Expression($this->getColumnNameFromValue())];
+		return ['<>', $this->getColumnName(), new \yii\db\Expression($this->getColumnNameFromSource())];
 	}
 
 	/**
@@ -367,7 +366,7 @@ class BaseField
 	 *
 	 * @return string
 	 */
-	public function getOperator()
+	public function getOperator(): string
 	{
 		$operator = $this->operator;
 		if ('a' === $this->operator) {

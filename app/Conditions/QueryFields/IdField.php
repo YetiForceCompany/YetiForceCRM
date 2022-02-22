@@ -28,7 +28,7 @@ class IdField extends StringField
 	 *
 	 * @return string
 	 */
-	public function getColumnName()
+	public function getColumnName(): string
 	{
 		if ($this->fullColumnName) {
 			return $this->fullColumnName;
@@ -51,7 +51,7 @@ class IdField extends StringField
 	 *
 	 * @return array
 	 */
-	public function operatorA()
+	public function operatorA(): array
 	{
 		return ['>', $this->getColumnName(), $this->getValue()];
 	}

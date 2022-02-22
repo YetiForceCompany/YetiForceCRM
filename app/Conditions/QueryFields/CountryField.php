@@ -21,7 +21,7 @@ class CountryField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorN()
+	public function operatorN(): array
 	{
 		return ['NOT IN', $this->getColumnName(), $this->getValue()];
 	}
@@ -37,7 +37,7 @@ class CountryField extends BaseField
 	}
 
 	/** {@inheritdoc} */
-	public function getOperator()
+	public function getOperator(): string
 	{
 		return 'a' === $this->operator ? 'e' : $this->operator;
 	}

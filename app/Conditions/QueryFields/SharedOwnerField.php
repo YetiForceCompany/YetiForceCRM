@@ -15,7 +15,7 @@ namespace App\Conditions\QueryFields;
 class SharedOwnerField extends BaseField
 {
 	/** {@inheritdoc} */
-	public function getColumnName()
+	public function getColumnName(): string
 	{
 		if ($this->fullColumnName) {
 			return $this->fullColumnName;
@@ -33,7 +33,7 @@ class SharedOwnerField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorE()
+	public function operatorE(): array
 	{
 		if (empty($this->value)) {
 			return [];
@@ -46,7 +46,7 @@ class SharedOwnerField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorN()
+	public function operatorN(): array
 	{
 		if (empty($this->value)) {
 			return [];
@@ -81,7 +81,7 @@ class SharedOwnerField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorC()
+	public function operatorC(): array
 	{
 		return $this->operatorE();
 	}
@@ -91,7 +91,7 @@ class SharedOwnerField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorNy()
+	public function operatorNy(): array
 	{
 		if ($this->related) {
 			$fieldModel = $this->queryGenerator->getModuleField($this->related['sourceField']);
@@ -110,7 +110,7 @@ class SharedOwnerField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorY()
+	public function operatorY(): array
 	{
 		if ($this->related) {
 			$fieldModel = $this->queryGenerator->getModuleField($this->related['sourceField']);

@@ -22,9 +22,9 @@ class ReferenceField extends BaseField
 	/**
 	 * Get related column name.
 	 *
-	 * @return string
+	 * @return string[]
 	 */
-	public function getRelatedTableName()
+	public function getRelatedTableName(): array
 	{
 		if ($this->related) {
 			if (\App\Config::performance('SEARCH_REFERENCE_BY_AJAX')) {
@@ -73,7 +73,7 @@ class ReferenceField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorA()
+	public function operatorA(): array
 	{
 		if (\App\Config::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			if (false === strpos($this->value, '##')) {
@@ -93,7 +93,7 @@ class ReferenceField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorE()
+	public function operatorE(): array
 	{
 		$condition = ['or'];
 		foreach ($this->getRelatedTableName() as $formattedName) {
@@ -117,7 +117,7 @@ class ReferenceField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorN()
+	public function operatorN(): array
 	{
 		$condition = ['or'];
 		foreach ($this->getRelatedTableName() as $formattedName) {
@@ -159,7 +159,7 @@ class ReferenceField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorC()
+	public function operatorC(): array
 	{
 		$condition = ['or'];
 		foreach ($this->getRelatedTableName() as $formattedName) {
@@ -173,7 +173,7 @@ class ReferenceField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorK()
+	public function operatorK(): array
 	{
 		$condition = ['or'];
 		foreach ($this->getRelatedTableName() as $formattedName) {
@@ -187,7 +187,7 @@ class ReferenceField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorY()
+	public function operatorY(): array
 	{
 		return ['or',
 			[$this->getColumnName() => null],
@@ -201,7 +201,7 @@ class ReferenceField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorNy()
+	public function operatorNy(): array
 	{
 		return ['and',
 			['not', [$this->getColumnName() => null]],
@@ -217,7 +217,7 @@ class ReferenceField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function getOrderBy($order = false)
+	public function getOrderBy($order = false): array
 	{
 		$condition = [];
 		if ($order && 'DESC' === strtoupper($order)) {

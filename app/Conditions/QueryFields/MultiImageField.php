@@ -14,7 +14,7 @@ namespace App\Conditions\QueryFields;
 class MultiImageField extends BaseField
 {
 	/** {@inheritdoc} */
-	public function operatorY()
+	public function operatorY(): array
 	{
 		return ['or',
 			[$this->getColumnName() => null],
@@ -23,7 +23,7 @@ class MultiImageField extends BaseField
 	}
 
 	/** {@inheritdoc} */
-	public function operatorNy()
+	public function operatorNy(): array
 	{
 		return ['and',
 			['not', [$this->getColumnName() => null]],

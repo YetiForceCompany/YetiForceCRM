@@ -305,7 +305,7 @@ class Condition
 	public static function checkCondition(array $rule, \Vtiger_Record_Model $recordModel): bool
 	{
 		[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
-		if (!empty($sourceFieldName)) {
+		if ($sourceFieldName) {
 			if ($recordModel->isEmpty($sourceFieldName)) {
 				return false;
 			}

@@ -34,7 +34,7 @@ class TimeField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorA()
+	public function operatorA(): array
 	{
 		return ['>', $this->getColumnName(), $this->getValue()];
 	}
