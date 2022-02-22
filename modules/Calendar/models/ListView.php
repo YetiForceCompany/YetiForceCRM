@@ -23,7 +23,7 @@ class Calendar_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
-		$queryGenerator = $this->get('query_generator');
+		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->setField(['visibility', 'assigned_user_id', 'activitystatus']);
 		$queryGenerator->setConcatColumn('date_start', "CONCAT(vtiger_activity.date_start, ' ', vtiger_activity.time_start)");
 		$queryGenerator->setConcatColumn('due_date', "CONCAT(vtiger_activity.due_date, ' ', vtiger_activity.time_end)");

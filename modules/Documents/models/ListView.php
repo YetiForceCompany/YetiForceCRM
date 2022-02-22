@@ -163,7 +163,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 
 	public function loadListViewCondition()
 	{
-		$queryGenerator = $this->get('query_generator');
+		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->setField('filetype');
 		$folderValue = $this->get('folder_value');
 		if (!empty($folderValue)) {

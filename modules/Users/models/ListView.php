@@ -28,7 +28,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkurl' => $this->getModule()->getCreateRecordUrl(),
 				'linkicon' => '',
-				'linkclass' => 'btn-light'
+				'linkclass' => 'btn-light',
 			]);
 		}
 		$advancedLinks = $this->getAdvancedLinks();
@@ -54,7 +54,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_EDIT',
 				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=Users&view=MassActionAjax&mode=showMassEditForm");',
-				'linkicon' => 'yfi yfi-full-editing-view'
+				'linkicon' => 'yfi yfi-full-editing-view',
 			];
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
@@ -86,7 +86,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 	 */
 	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
-		$queryGenerator = $this->get('query_generator');
+		$queryGenerator = $this->getQueryGenerator();
 		// Added as Users module do not have custom filters and id column is added by querygenerator.
 		$fields = $queryGenerator->getFields();
 		$fields[] = 'id';
@@ -162,7 +162,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 					'sourceField' => $sourceFieldName,
 					'relatedModule' => $moduleName,
 					'relatedField' => $fieldName,
-					'relatedSortOrder' => $this->getForSql('sortorder')
+					'relatedSortOrder' => $this->getForSql('sortorder'),
 				]);
 			}
 			return $this->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));

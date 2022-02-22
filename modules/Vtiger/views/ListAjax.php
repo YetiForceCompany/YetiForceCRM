@@ -10,8 +10,8 @@
 
 class Vtiger_ListAjax_View extends Vtiger_List_View
 {
-	use \App\Controller\ExposeMethod;
 	use App\Controller\ClearProcess;
+	use \App\Controller\ExposeMethod;
 
 	public function __construct()
 	{
@@ -98,7 +98,7 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 		}
 		$searchParmams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
 		if (!empty($searchParmams) && \is_array($searchParmams)) {
-			$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
+			$transformedSearchParams = $this->listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParmams);
 			$this->listViewModel->set('search_params', $transformedSearchParams);
 		}
 		return $this->listViewModel->getListViewCount();

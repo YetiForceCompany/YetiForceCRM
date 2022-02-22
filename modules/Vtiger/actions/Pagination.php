@@ -44,7 +44,7 @@ class Vtiger_Pagination_Action extends Vtiger_BasicAjax_Action
 		if (empty($searchParmams) || !\is_array($searchParmams)) {
 			$searchParmams = [];
 		}
-		$listViewModel->set('search_params', $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams));
+		$listViewModel->set('search_params', $listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParmams));
 		$totalCount = (int) $listViewModel->getListViewCount();
 		$data = [
 			'totalCount' => $totalCount,

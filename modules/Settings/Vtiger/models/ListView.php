@@ -170,7 +170,6 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'ListView', $name);
 		$instance = new $modelClassName();
-
 		return $instance->setModule($name);
 	}
 }

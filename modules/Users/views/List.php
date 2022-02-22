@@ -101,7 +101,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 			$searchParamsRaw = $searchParams = [[['status', 'e', 'Active']]];
 		}
 		$this->listViewModel->loadSearchLockedFields($request);
-		$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
+		$transformedSearchParams = $this->listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 		$this->listViewModel->set('search_params', $transformedSearchParams);
 
 		//To make smarty to get the details easily accesible
@@ -115,7 +115,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 			}
 		}
 		if (!empty($searchResult) && \is_array($searchResult)) {
-			$this->listViewModel->get('query_generator')->addNativeCondition(['vtiger_crmentity.crmid' => $searchResult]);
+			$this->listViewModel->getQueryGenerator()->addNativeCondition(['vtiger_crmentity.crmid' => $searchResult]);
 		}
 		if (!$this->listViewHeaders) {
 			$this->listViewHeaders = $this->listViewModel->getListViewHeaders();
@@ -212,7 +212,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		if (empty($searchParams) || !\is_array($searchParams)) {
 			$searchParams = [];
 		}
-		$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
+		$transformedSearchParams = $listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 		$listViewModel->set('search_params', $transformedSearchParams);
 		if (!empty($operator)) {
 			$listViewModel->set('operator', $operator);
