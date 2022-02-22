@@ -64,7 +64,7 @@ class Vtiger_RecordActivity_View extends Vtiger_Index_View
 
 		$response = new Vtiger_Response();
 		$response->setEmitType(\Vtiger_Response::$EMIT_JSON);
-		$response->setResult(['title' => \App\Language::translate('LBL_ATTENTION'), 'dateStart' => $currentTime, 'text' => $content]);
+		$response->setResult(['title' => \App\Language::translate('LBL_ATTENTION'), 'dateTime' => $currentTime, 'text' => $content]);
 		$response->emit();
 	}
 
