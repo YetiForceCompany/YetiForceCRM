@@ -366,7 +366,7 @@ class Functions
 				$viewer->assign('MESSAGE', $message);
 				$viewer->assign('MESSAGE_EXPANDED', \is_array($message));
 				$viewer->assign('HEADER_MESSAGE', \App\Language::translate($messageHeader));
-				$viewer->view('ExceptionError.tpl', 'Vtiger');
+				$viewer->view('Exceptions/ExceptionError.tpl', 'Vtiger');
 			} else {
 				echo $message . PHP_EOL;
 			}

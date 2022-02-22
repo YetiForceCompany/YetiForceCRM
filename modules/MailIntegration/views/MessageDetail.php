@@ -62,7 +62,7 @@ class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 			$viewer->assign('MESSAGE', \App\Language::translate($this->error));
 			$viewer->assign('MESSAGE_EXPANDED', false);
 			$viewer->assign('HEADER_MESSAGE', \App\Language::translate('LBL_ERROR'));
-			$viewer->view('ExceptionError.tpl', 'Vtiger');
+			$viewer->view('Exceptions/ExceptionError.tpl', 'Vtiger');
 		}
 	}
 
@@ -78,7 +78,7 @@ class MailIntegration_MessageDetail_View extends \App\Controller\View\Base
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-			"modules.{$request->getModule()}.resources.{$request->getByType('source')}{$request->getByType('view')}"
+			"modules.{$request->getModule()}.resources.{$request->getByType('source')}{$request->getByType('view')}",
 		]));
 	}
 }

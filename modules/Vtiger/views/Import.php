@@ -41,12 +41,12 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$relationId = $request->getInteger('relationId');
 		if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'Import') || !$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'CreateView') || (
 			$relationId && (
-				!($relationModel = Vtiger_Relation_Model::getInstanceById($relationId)) ||
-				!$relationModel->isAddActionSupported() ||
-				$relationModel->getRelationModuleName() !== $request->getModule() ||
-				!($recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('src_record'))) ||
-				!$recordModel->isViewable() ||
-				$relationModel->getParentModuleModel()->getName() !== $recordModel->getModuleName()
+				!($relationModel = Vtiger_Relation_Model::getInstanceById($relationId))
+				|| !$relationModel->isAddActionSupported()
+				|| $relationModel->getRelationModuleName() !== $request->getModule()
+				|| !($recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('src_record')))
+				|| !$recordModel->isViewable()
+				|| $relationModel->getParentModuleModel()->getName() !== $recordModel->getModuleName()
 			))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
@@ -211,7 +211,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$user = App\User::getCurrentUserModel();
 		if (!$user->isAdmin() && $user->getId() !== $ownerId) {
 			$viewer->assign('MESSAGE', 'LBL_PERMISSION_DENIED');
-			$viewer->view('ExceptionError.tpl', 'Vtiger');
+			$viewer->view('Exceptions/ExceptionError.tpl', 'Vtiger');
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		[$noOfRecords, $noOfRecordsDeleted] = $this->undoRecords($moduleName);

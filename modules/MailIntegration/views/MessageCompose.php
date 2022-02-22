@@ -62,7 +62,7 @@ class MailIntegration_MessageCompose_View extends \App\Controller\View\Base
 			$viewer->assign('MESSAGE', \App\Language::translate($this->error));
 			$viewer->assign('MESSAGE_EXPANDED', false);
 			$viewer->assign('HEADER_MESSAGE', \App\Language::translate('LBL_ERROR'));
-			$viewer->view('ExceptionError.tpl', 'Vtiger');
+			$viewer->view('Exceptions/ExceptionError.tpl', 'Vtiger');
 		} else {
 			$viewer = $this->getViewer($request);
 			$viewer->view('MessageCompose.tpl', $moduleName);
