@@ -21,7 +21,7 @@ class Vtiger_Workflow_Action extends \App\Controller\Action
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
-		if ($request->isEmpty('record')
+		if ($request->isEmpty('record', true)
 		|| (!$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule()))
 		|| !$recordModel->isPermitted('WorkflowTrigger')
 		|| !$recordModel->isPermitted('DetailView')
