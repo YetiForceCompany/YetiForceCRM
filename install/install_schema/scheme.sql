@@ -6251,7 +6251,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3099 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3100 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -7913,9 +7913,11 @@ CREATE TABLE `vtiger_paymentsin` (
   `transaction_id` varchar(255) DEFAULT NULL,
   `ssingleordersid` int(10) DEFAULT NULL,
   `finvoiceid` int(10) DEFAULT NULL,
+  `finvoiceproformaid` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`paymentsinid`),
   KEY `vtiger_paymentsin_ssingleordersid_idx` (`ssingleordersid`),
   KEY `vtiger_paymentsin_finvoiceid_idx` (`finvoiceid`),
+  KEY `vtiger_paymentsin_finvoiceproformaid_idx` (`finvoiceproformaid`),
   CONSTRAINT `fk_1_vtiger_paymentsin` FOREIGN KEY (`paymentsinid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -8446,7 +8448,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `related_tabid` (`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=672 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=673 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
