@@ -148,6 +148,9 @@ class Security
 	 */
 	public static $hpkpKeysHeader = [];
 
+	/** Verify referer header */
+	public static $verifyRefererHeader = true;
+
 	/** Enable CSRF protection */
 	public static $csrfActive = true;
 

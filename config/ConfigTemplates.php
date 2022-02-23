@@ -1160,6 +1160,10 @@ return [
 			'default' => [],
 			'description' => "HTTP Public-Key-Pins (HPKP) pin-sha256 For HPKP to work properly at least 2 keys are needed.\nhttps://scotthelme.co.uk/hpkp-http-public-key-pinning/, https://sekurak.pl/mechanizm-http-public-key-pinning/.",
 		],
+		'verifyRefererHeader' => [
+			'default' => true,
+			'description' => 'Verify referer header',
+		],
 		'csrfActive' => [
 			'default' => true,
 			'description' => 'Enable CSRF protection',
