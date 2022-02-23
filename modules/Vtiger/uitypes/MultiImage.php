@@ -25,10 +25,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		}
 		[$value, $newValues, $save] = \App\Fields\File::updateUploadFiles($request->getArray($requestFieldName, 'Text'), $recordModel, $this->getFieldModel());
 		$this->validate($newValues, true);
-		if ($value && !$save && $request->getBoolean('_isDuplicateRecord')) {
-			$save = $this->duplicateValueFromRecord($value, $request);
-		}
-		if ($save) {
+		if (($value && $request->getBoolean('_isDuplicateRecord') && $this->duplicateValueFromRecord($value, $request)) || $save) {
 			$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 		}
 	}
