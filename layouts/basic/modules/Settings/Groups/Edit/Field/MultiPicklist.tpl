@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Settings-AutomaticAssignment-Edit-Field-MultiPicklist -->
+	<!-- tpl-Settings-Groups-Edit-Field-MultiPicklist -->
 	{if $FIELD_MODEL->getName() eq 'members'}
 		{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
@@ -29,5 +29,5 @@
 	{else}
 		{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), 'Vtiger')}
 	{/if}
-	<!-- /tpl-Settings-AutomaticAssignment-Edit-Field-MultiPicklist -->
+	<!-- /tpl-Settings-Groups-Edit-Field-MultiPicklist -->
 {/strip}
