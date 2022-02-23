@@ -173,6 +173,9 @@ class Headers
 		if (\Config\Security::$allowedFrameDomains) {
 			$this->csp['frame-ancestors'] .= ' ' . \implode(' ', \Config\Security::$allowedFrameDomains);
 		}
+		if (\Config\Security::$allowedConnectDomains) {
+			$this->csp['connect-src'] .= ' ' . \implode(' ', \Config\Security::$allowedConnectDomains);
+		}
 	}
 
 	/**
