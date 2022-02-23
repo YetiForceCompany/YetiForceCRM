@@ -22,17 +22,18 @@ class Users_Bruteforce_Textparser extends \App\TextParser\Base
 	 */
 	public function process()
 	{
-		$html = '<table style="width:100%"><tr style="font-weight: bold;"><td>' . App\Language::translate('SINGLE_Users', 'Users') . '</td><td>' . App\Language::translate('LBL_IP', 'Settings:BruteForce') . '</td><td>' . App\Language::translate('LBL_DATE') . '</td><td>' . App\Language::translate('LBL_BROWSERS', 'Settings:BruteForce') . '</td></tr>';
-		$configBruteForce = Settings_BruteForce_Module_Model::getBruteForceSettings();
-		$attemptsLogin = (new \App\Db\Query())->select(['user_name', 'user_ip', 'login_time', 'browser'])->from('vtiger_loginhistory')
+		$html = \App\Language::translate('LBL_BLOCKED_IP', 'Settings::BruteForce') . ': ' . $this->displayIpAddress($this->textParser->getParam('ip'));
+		$html .= '<hr><table border="1" cellspacing="0" style="width:100%"><tr style="font-weight: bold;"><td>' . \App\Language::translate('SINGLE_Users', 'Users') . '</td><td>' . \App\Language::translate('LBL_DATE') . '</td><td>' . \App\Language::translate('LBL_STATUS', 'Settings:BruteForce') . '</td><td>' . \App\Language::translate('LBL_BROWSERS', 'Settings:BruteForce') . '</td><td>' . \App\Language::translate('LBL_USER_AGENT', 'Settings:BruteForce') . '</td></tr>';
+		$attemptsLogin = (new \App\Db\Query())->from('vtiger_loginhistory')
 			->where([
 				'and',
-				['user_ip' => \App\RequestUtil::getRemoteIP(true)],
-				['status' => 'Failed login'],
-				['>=', 'login_time', (new DateTime())->modify("-{$configBruteForce['timelock']} minutes")->format('Y-m-d H:i:s')]
+				['user_ip' => $this->textParser->getParam('ip')],
+				['>=', 'login_time', $this->textParser->getParam('time')],
 			])->all();
 		foreach ($attemptsLogin as $data) {
-			$html .= "<tr><td>{$data['user_name']}</td><td>{$this->displayIpAddress($data['user_ip'])}</td><td>{$data['login_time']}</td><td>{$data['browser']}</td></tr>";
+			$time = \App\Fields\DateTime::formatToDisplay($data['login_time']);
+			$status = \App\Language::translate($data['status'], 'Users');
+			$html .= "<tr><td>{$data['user_name']}</td><td>{$time}</td><td>{$status}</td><td>{$data['browser']}</td><td>{$data['agent']}</td></tr>";
 		}
 		return $html . '</table>';
 	}
