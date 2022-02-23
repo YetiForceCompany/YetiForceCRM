@@ -664,31 +664,6 @@ class Owner
 	}
 
 	/**
-	 * Gets the member label.
-	 *
-	 * @param string $member
-	 *
-	 * @return string
-	 */
-	public static function getMemberLabel(string $member): string
-	{
-		[$type, $id] = explode(':', $member);
-		switch ($type) {
-			case \App\PrivilegeUtil::MEMBER_TYPE_GROUPS:
-				$value = self::getGroupName((int) $id) ?: '';
-				break;
-			case \App\PrivilegeUtil::MEMBER_TYPE_ROLES:
-			case \App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES:
-				$value = \App\PrivilegeUtil::getRoleDetail($id)['rolename'] ?? '';
-				break;
-			default:
-				$value = '';
-				break;
-		}
-		return $value;
-	}
-
-	/**
 	 * Gets favorite owners.
 	 *
 	 * @param string $ownerFieldType

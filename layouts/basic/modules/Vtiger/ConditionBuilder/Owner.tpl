@@ -23,7 +23,7 @@
 			{if App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
 				{foreach from=$VALUES item=OWNER_ID}
 					{if false !== strpos($OWNER_ID, ':')}
-						<option value="{$OWNER_ID}" selected>{\App\Fields\Owner::getMemberLabel($OWNER_ID)}</option>
+						<option value="{$OWNER_ID}" selected>{\App\Labels::member($OWNER_ID)}</option>
 					{else}
 						<option value="{$OWNER_ID}" selected>{\App\Fields\Owner::getLabel($OWNER_ID)}</option>
 					{/if}

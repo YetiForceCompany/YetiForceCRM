@@ -330,6 +330,48 @@ class PrivilegeUtil
 	}
 
 	/**
+	 * Gets query to users by members.
+	 *
+	 * @param array $members
+	 *
+	 * @return Db\Query
+	 */
+	public static function getQueryToUsersByMembers(array $members): Db\Query
+	{
+		$queryGenerator = (new \App\QueryGenerator('Users'))->setFields(['id']);
+		$columName = $queryGenerator->getColumnName('id');
+		$conditions = ['or'];
+		foreach ($members as $member) {
+			[$type, $id] = explode(':', $member);
+			switch ($type) {
+					case self::MEMBER_TYPE_USERS:
+						if (!isset($conditions[$type])) {
+							$conditions[$type][$columName] = [(int) $id];
+						} else {
+							$conditions[$type][$columName][] = (int) $id;
+						}
+						break;
+					case self::MEMBER_TYPE_GROUPS:
+						$conditions[] = [$columName => (new \App\Db\Query())->select(['userid'])->from(["condition_{$type}_{$id}_" . \App\Layout::getUniqueId() => self::getQueryToUsersByGroup((int) $id)])];
+						break;
+					case self::MEMBER_TYPE_ROLES:
+						$conditions[] = [$columName => self::getQueryToUsersByRole($id)];
+						break;
+					case self::MEMBER_TYPE_ROLE_AND_SUBORDINATES:
+						$conditions[] = [$columName => self::getQueryToUsersByRoleAndSubordinate($id)];
+						break;
+					default:
+						break;
+				}
+		}
+		if (\count($conditions) <= 1) {
+			$conditions[] = [$columName => -1];
+		}
+
+		return $queryGenerator->setFields(['id'])->addNativeCondition(array_values($conditions))->createQuery();
+	}
+
+	/**
 	 * Gets query to users by group.
 	 *
 	 * @param int  $groupId

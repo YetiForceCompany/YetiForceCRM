@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
 class Settings_Groups_Detail_View extends Settings_Vtiger_Index_View
@@ -19,8 +20,9 @@ class Settings_Groups_Detail_View extends Settings_Vtiger_Index_View
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('RECORD_MODEL', Settings_Groups_Record_Model::getInstance($request->getInteger('record')));
-		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->view('DetailView.tpl', $qualifiedModuleName);
+		$recordModel = Settings_Groups_Record_Model::getInstance($request->getInteger('record'));
+		$viewer->assign('RECORD_MODEL', $recordModel);
+		$viewer->assign('STRUCTURE', $recordModel->getModule()->getEditViewStructure($recordModel));
+		$viewer->view('Detail.tpl', $qualifiedModuleName);
 	}
 }

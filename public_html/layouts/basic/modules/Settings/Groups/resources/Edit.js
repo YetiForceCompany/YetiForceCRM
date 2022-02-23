@@ -77,8 +77,8 @@ Settings_Vtiger_Edit_Js(
 			var params = {
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
-				action: 'EditAjax',
-				mode: 'checkDuplicate',
+				action: 'Save',
+				mode: 'preSaveValidation',
 				groupname: details.groupname,
 				record: details.record
 			};
@@ -104,7 +104,11 @@ Settings_Vtiger_Edit_Js(
 		registerButtonsModule: function () {
 			const editViewForm = this.getForm();
 			editViewForm.find('.js-modules-select-all, .js-modules-deselect-all').on('click', function (e) {
-				$('#modulesList option').prop('selected', $(this).hasClass('js-modules-select-all')).parent().trigger('change');
+				editViewForm
+					.find('[name="modules[]"] option')
+					.prop('selected', $(this).hasClass('js-modules-select-all'))
+					.parent()
+					.trigger('change');
 			});
 		},
 		/**

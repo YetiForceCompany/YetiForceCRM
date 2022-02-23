@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
 class Settings_Groups_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
@@ -18,30 +18,17 @@ class Settings_Groups_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
 		$transferRecordId = $request->getInteger('transfer_record');
 
 		$recordModel = Settings_Groups_Record_Model::getInstance($recordId);
-		$members = $recordModel->getMembers();
-		$membersToDipslay = [];
-		foreach ($members as $typeMembers) {
-			foreach ($typeMembers as $member) {
-				$membersToDipslay[] = $member->get('id');
-			}
-		}
-		$recordModel->set('group_members', $membersToDipslay);
-		$recordModel->set('modules', $recordModel->getModules());
-		$prevValues = $recordModel->getDisplayData();
-		$transferToOwner = Settings_Groups_Record_Model::getInstance($transferRecordId);
-		if (!$transferToOwner) {
+		if (\App\User::isExists($transferRecordId)) {
 			$transferToOwner = Users_Record_Model::getInstanceById($transferRecordId, 'Users');
+		} else {
+			$transferToOwner = Settings_Groups_Record_Model::getInstance($transferRecordId);
 		}
-
 		if ($recordModel && $transferToOwner) {
-			Settings_Vtiger_Tracker_Model::addDetail([], $prevValues);
 			$recordModel->delete($transferToOwner);
 		}
 
 		$response = new Vtiger_Response();
-		$result = ['success' => true];
-
-		$response->setResult($result);
+		$response->setResult(['success' => true]);
 		$response->emit();
 	}
 }

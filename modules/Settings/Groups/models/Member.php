@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
 /**
@@ -48,72 +49,40 @@ class Settings_Groups_Member_Model extends \App\Base
 		return $type . ':' . $id;
 	}
 
-	public static function getAllByTypeForGroup($groupModel, $type)
+	/**
+	 * Gets members by type.
+	 *
+	 * @param int         $groupId
+	 * @param string|null $type
+	 *
+	 * @return array
+	 */
+	public static function getAllByTypeForGroup(int $groupId, ?string $type = null): array
 	{
-		$query = new App\Db\Query();
-		$members = [];
-
-		if (self::MEMBER_TYPE_USERS == $type) {
-			$query->select(['vtiger_users.id', 'vtiger_users.last_name', 'vtiger_users.first_name'])
-				->from('vtiger_users')
-				->innerJoin('vtiger_users2group', ' vtiger_users2group.userid = vtiger_users.id')
-				->where(['vtiger_users2group.groupid' => $groupModel->getId()]);
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$userId = $row['id'];
-				$qualifiedId = self::getQualifiedId(self::MEMBER_TYPE_USERS, $userId);
-				$name = \vtlib\Deprecated::getFullNameFromArray('Users', $row);
-				$member = new self();
-				$members[$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $name)->set('userId', $userId);
+		$tables = [
+			self::MEMBER_TYPE_USERS => ['vtiger_users2group', 'userid'],
+			self::MEMBER_TYPE_GROUPS => ['vtiger_group2grouprel', 'containsgroupid'],
+			self::MEMBER_TYPE_ROLES => ['vtiger_group2role', 'roleid'],
+			self::MEMBER_TYPE_ROLE_AND_SUBORDINATES => ['vtiger_group2rs', 'roleandsubid']
+		];
+		if (null !== $type) {
+			$tables = isset($tables[$type]) ? [$type => $tables[$type]] : [];
+		}
+		$queryAll = null;
+		foreach ($tables as $type => $indexes) {
+			[$tableName, $index] = $indexes;
+			$query = (new App\Db\Query())
+				->select(['member' => new \yii\db\Expression("CONCAT('{$type}',':',{$tableName}.{$index})")])
+				->from($tableName)
+				->where(["{$tableName}.groupid" => $groupId]);
+			if ($queryAll) {
+				$queryAll->union($query, true);
+			} else {
+				$queryAll = $query;
 			}
-			$dataReader->close();
 		}
 
-		if (self::MEMBER_TYPE_GROUPS == $type) {
-			$query->select(['vtiger_groups.groupid', 'vtiger_groups.groupname'])
-				->from('vtiger_groups')
-				->innerJoin('vtiger_group2grouprel', 'vtiger_group2grouprel.containsgroupid = vtiger_groups.groupid')
-				->where(['vtiger_group2grouprel.groupid' => $groupModel->getId()]);
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$qualifiedId = self::getQualifiedId(self::MEMBER_TYPE_GROUPS, $row['groupid']);
-				$name = $row['groupname'];
-				$member = new self();
-				$members[$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $name)->set('groupId', $row['groupid']);
-			}
-			$dataReader->close();
-		}
-
-		if (self::MEMBER_TYPE_ROLES == $type) {
-			$query->select(['vtiger_role.roleid', 'vtiger_role.rolename'])
-				->from('vtiger_role')
-				->innerJoin('vtiger_group2role', 'vtiger_group2role.roleid = vtiger_role.roleid')
-				->where(['vtiger_group2role.groupid' => $groupModel->getId()]);
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$qualifiedId = self::getQualifiedId(self::MEMBER_TYPE_ROLES, $row['roleid']);
-				$name = $row['rolename'];
-				$member = new self();
-				$members[$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $name)->set('roleId', $row['roleid']);
-			}
-			$dataReader->close();
-		}
-
-		if (self::MEMBER_TYPE_ROLE_AND_SUBORDINATES == $type) {
-			$query->select(['vtiger_role.roleid', 'vtiger_role.rolename'])
-				->from('vtiger_role')
-				->innerJoin('vtiger_group2rs', 'vtiger_group2rs.roleandsubid = vtiger_role.roleid')
-				->where(['vtiger_group2rs.groupid' => $groupModel->getId()]);
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$qualifiedId = self::getQualifiedId(self::MEMBER_TYPE_ROLE_AND_SUBORDINATES, $row['roleid']);
-				$name = $row['rolename'];
-				$member = new self();
-				$members[$qualifiedId] = $member->set('id', $qualifiedId)->set('name', $name)->set('roleId', $row['roleid']);
-			}
-			$dataReader->close();
-		}
-		return $members;
+		return $queryAll ? $queryAll->column() : [];
 	}
 
 	/**
@@ -143,25 +112,6 @@ class Settings_Groups_Member_Model extends \App\Base
 			default:
 				break;
 		}
-	}
-
-	/**
-	 * Function to get all the groups.
-	 *
-	 * @param mixed $groupModel
-	 *
-	 * @return <Array> - Array of Settings_Groups_Record_Model instances
-	 */
-	public static function getAllByGroup($groupModel)
-	{
-		$members = [];
-		if (!empty($groupModel->getId())) {
-			$members[self::MEMBER_TYPE_USERS] = self::getAllByTypeForGroup($groupModel, self::MEMBER_TYPE_USERS);
-			$members[self::MEMBER_TYPE_GROUPS] = self::getAllByTypeForGroup($groupModel, self::MEMBER_TYPE_GROUPS);
-			$members[self::MEMBER_TYPE_ROLES] = self::getAllByTypeForGroup($groupModel, self::MEMBER_TYPE_ROLES);
-			$members[self::MEMBER_TYPE_ROLE_AND_SUBORDINATES] = self::getAllByTypeForGroup($groupModel, self::MEMBER_TYPE_ROLE_AND_SUBORDINATES);
-		}
-		return $members;
 	}
 
 	/**
