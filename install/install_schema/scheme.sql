@@ -6399,11 +6399,12 @@ CREATE TABLE `vtiger_glacct` (
 
 CREATE TABLE `vtiger_group2grouprel` (
   `groupid` int(10) NOT NULL,
-  `containsgroupid` int(10) unsigned NOT NULL,
+  `containsgroupid` int(10) NOT NULL,
   PRIMARY KEY (`groupid`,`containsgroupid`),
   KEY `containsgroupid` (`containsgroupid`),
   KEY `groupid` (`groupid`),
-  CONSTRAINT `fk_2_vtiger_group2grouprel` FOREIGN KEY (`groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_2_vtiger_group2grouprel` FOREIGN KEY (`groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `vtiger_group2grouprel_containsgroupid_fk` FOREIGN KEY (`containsgroupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_group2modules` */
@@ -6424,17 +6425,19 @@ CREATE TABLE `vtiger_group2role` (
   `roleid` varchar(255) NOT NULL,
   PRIMARY KEY (`groupid`,`roleid`),
   KEY `fk_2_vtiger_group2role` (`roleid`),
-  CONSTRAINT `fk_2_vtiger_group2role` FOREIGN KEY (`roleid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE
+  CONSTRAINT `fk_2_vtiger_group2role` FOREIGN KEY (`roleid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE,
+  CONSTRAINT `vtiger_group2role_groupid_fk` FOREIGN KEY (`groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_group2rs` */
 
 CREATE TABLE `vtiger_group2rs` (
-  `groupid` int(10) unsigned NOT NULL,
+  `groupid` int(10) NOT NULL,
   `roleandsubid` varchar(255) NOT NULL,
   PRIMARY KEY (`groupid`,`roleandsubid`),
   KEY `fk_2_vtiger_group2rs` (`roleandsubid`),
-  CONSTRAINT `fk_2_vtiger_group2rs` FOREIGN KEY (`roleandsubid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE
+  CONSTRAINT `fk_2_vtiger_group2rs` FOREIGN KEY (`roleandsubid`) REFERENCES `vtiger_role` (`roleid`) ON DELETE CASCADE,
+  CONSTRAINT `vtiger_group2rs_groupid_fk` FOREIGN KEY (`groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_groups` */
@@ -9536,7 +9539,8 @@ CREATE TABLE `vtiger_users2group` (
   PRIMARY KEY (`groupid`,`userid`),
   KEY `users2group_groupname_uerid_idx` (`groupid`,`userid`),
   KEY `fk_2_vtiger_users2group` (`userid`),
-  CONSTRAINT `fk_2_vtiger_users2group` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
+  CONSTRAINT `fk_2_vtiger_users2group` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `vtiger_users2group_groupid_fk` FOREIGN KEY (`groupid`) REFERENCES `vtiger_groups` (`groupid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_users_last_import` */
