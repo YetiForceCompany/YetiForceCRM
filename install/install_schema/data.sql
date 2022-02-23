@@ -386,6 +386,8 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 
 /*Data for the table `roundcube_identities` */
 
+/*Data for the table `roundcube_responses` */
+
 /*Data for the table `roundcube_searches` */
 
 /*Data for the table `roundcube_session` */
