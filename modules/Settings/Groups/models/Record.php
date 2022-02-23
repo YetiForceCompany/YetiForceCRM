@@ -208,12 +208,14 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 				} elseif ($baseTable === $tableName) {
 					$db->createCommand()->update($tableName, $tableData, [$baseTableIndex => $this->getId()])->execute();
 				} else {
-					$names = $tableData['names'];
-					foreach ($tableData['values'] as &$values) {
-						$values[] = $this->getId();
-					}
 					$db->createCommand()->delete($tableName, ['groupid' => $this->getId()])->execute();
-					$db->createCommand()->batchInsert($tableName, $names, $tableData['values'])->execute();
+					if ($names = $tableData['names'] ?? []) {
+						$values = $tableData['values'] ?? [];
+						foreach ($values as &$value) {
+							$value[] = $this->getId();
+						}
+						$db->createCommand()->batchInsert($tableName, $names, $values)->execute();
+					}
 				}
 			}
 		}
@@ -228,6 +230,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	private function getValuesToSave(array $data): array
 	{
+		$forSave = [];
 		if (!$this->getId()) {
 			$forSave[$this->getModule()->baseTable][$this->getModule()->baseIndex] = \App\Db::getInstance('admin')->getUniqueId('vtiger_users');
 		}
@@ -242,6 +245,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 						\App\PrivilegeUtil::MEMBER_TYPE_ROLES => ['table' => 'vtiger_group2role', 'memberColumn' => 'roleid', 'groupColumn' => 'groupid'],
 						\App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES => ['table' => 'vtiger_group2rs', 'memberColumn' => 'roleandsubid', 'groupColumn' => 'groupid']
 					];
+					$forSave = array_merge(array_fill_keys(array_column($tables, 'table'), []), $forSave);
 					foreach ($members as $member) {
 						[$type, $memberId] = explode(':', $member);
 						$tableName = $tables[$type]['table'];
@@ -254,8 +258,9 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 					break;
 				case 'modules':
 					$modules = $fieldModel->getEditViewDisplayValue($value);
+					$tableName = 'vtiger_group2modules';
+					$forSave[$tableName] = [];
 					foreach ($modules as $tabId) {
-						$tableName = 'vtiger_group2modules';
 						$forSave[$tableName]['names'] = ['tabid', 'groupid'];
 						$forSave[$tableName]['values'][] = [$tabId];
 					}
