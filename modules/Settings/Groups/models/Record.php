@@ -204,7 +204,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			foreach ($this->getValuesToSave($tablesData) as $tableName => $tableData) {
 				if (!$this->getId() && $baseTable === $tableName) {
 					$db->createCommand()->insert($tableName, $tableData)->execute();
-					$this->setId((int) $tableData['groupid']);
+					$this->setId((int) $tableData[$baseTableIndex]);
 				} elseif ($baseTable === $tableName) {
 					$db->createCommand()->update($tableName, $tableData, [$baseTableIndex => $this->getId()])->execute();
 				} else {
@@ -245,7 +245,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 						\App\PrivilegeUtil::MEMBER_TYPE_ROLES => ['table' => 'vtiger_group2role', 'memberColumn' => 'roleid', 'groupColumn' => 'groupid'],
 						\App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES => ['table' => 'vtiger_group2rs', 'memberColumn' => 'roleandsubid', 'groupColumn' => 'groupid']
 					];
-					$forSave = array_merge(array_fill_keys(array_column($tables, 'table'), []), $forSave);
+					$forSave += array_fill_keys(array_column($tables, 'table'), []);
 					foreach ($members as $member) {
 						[$type, $memberId] = explode(':', $member);
 						$tableName = $tables[$type]['table'];
