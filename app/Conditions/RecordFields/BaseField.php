@@ -105,17 +105,18 @@ class BaseField
 	 */
 	public function getValueFromSource(): string
 	{
+		$return = false;
 		[$fieldName, $fieldModuleName, $sourceFieldName] = array_pad(explode(':', $this->value), 3, '');
 		if ($sourceFieldName) {
 			if ($this->recordModel->isEmpty($sourceFieldName)) {
 				return false;
 			}
-			return \Vtiger_Record_Model::getInstanceById($this->recordModel->get($sourceFieldName))->get($fieldName);
+			$return = \Vtiger_Record_Model::getInstanceById($this->recordModel->get($sourceFieldName))->get($fieldName);
 		}
 		if ($this->recordModel->getModuleName() === $fieldModuleName) {
-			return $this->recordModel->get($fieldName);
+			$return = $this->recordModel->get($fieldName);
 		}
-		return false;
+		return $return;
 	}
 
 	/**
