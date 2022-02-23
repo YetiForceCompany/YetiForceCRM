@@ -244,7 +244,7 @@ class YtResultPrinter extends PHPUnit\TextUI\DefaultResultPrinter
 	public function addSkippedTest(Test $test, Throwable $t, float $time): void
 	{
 		$time = round($time, 2);
-		$this->writeProgressWithColor('fg-cyan, bold', "! Test '{$this->getTestName($test)}' has been skipped. ($time second(s))\n" . PHP_EOL . $t->__toString());
+		$this->writeProgressWithColor('fg-cyan, bold', "! Test '{$this->getTestName($test)}' has been skipped. ($time second(s))\n" . PHP_EOL . trim($t->__toString()) . PHP_EOL);
 		$this->lastTestFailed = true;
 	}
 
