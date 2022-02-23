@@ -25,10 +25,10 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		}
 		[$value, $newValues, $save] = \App\Fields\File::updateUploadFiles($request->getArray($requestFieldName, 'Text'), $recordModel, $this->getFieldModel());
 		$this->validate($newValues, true);
+		if ($value && !$save && $request->getBoolean('_isDuplicateRecord')) {
+			$save = $this->duplicateValueFromRecord($value, $request);
+		}
 		if ($save) {
-			if ($request->getBoolean('_isDuplicateRecord')) {
-				$this->duplicateValueFromRecord($value, $request);
-			}
 			$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 		}
 	}
@@ -399,17 +399,20 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 	/**
 	 * Duplicate value from record.
 	 *
-	 * @param array        $value
-	 * @param \App\Request $request
+	 * @param array       $value
+	 * @param App\Request $request
 	 *
 	 * @throws \App\Exceptions\FieldException
+	 *
+	 * @return bool
 	 */
-	public function duplicateValueFromRecord(&$value, App\Request $request)
+	public function duplicateValueFromRecord(&$value, App\Request $request): bool
 	{
-		$fieldName = $this->getFieldModel()->getFieldName();
+		$fieldName = $this->getFieldModel()->getName();
 		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('_duplicateRecord'), $request->getModule());
 		$copyValue = $recordModel->get($fieldName);
 		$keyColumn = array_column($value, 'key');
+		$createCopy = false;
 		if ($copyValue && '[]' !== $copyValue && '""' !== $copyValue) {
 			foreach (\App\Json::decode($copyValue) as $item) {
 				$key = array_search($item['key'], $keyColumn);
@@ -420,7 +423,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				$dirPath = $file->getDirectoryPath();
 				$newKey = $file->generateHash(true, $dirPath);
 				$path = $dirPath . DIRECTORY_SEPARATOR . $newKey;
-				if (copy($item['path'], $path)) {
+				if ($createCopy = copy($item['path'], $path)) {
 					$item['key'] = $newKey;
 					$item['path'] = $path;
 					$value[$key] = $item;
@@ -430,6 +433,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 				}
 			}
 		}
+		return $createCopy;
 	}
 
 	/**
