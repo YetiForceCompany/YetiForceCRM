@@ -83,6 +83,7 @@ class RecordNumber extends \App\Base
 		$actualSequence = static::getSequenceNumber($this->get('reset_sequence'));
 		if ($this->get('reset_sequence') && $this->get('cur_sequence') !== $actualSequence) {
 			$currentSequenceNumber = 1;
+			$this->updateModuleSystemVariablesSequences($currentSequenceNumber);
 		} else {
 			$currentSequenceNumber = $this->getCurrentSequenceNumber();
 		}
@@ -208,6 +209,18 @@ class RecordNumber extends \App\Base
 	}
 
 	/**
+	 * Update all module system variables sequences.
+	 *
+	 * @param string $currentId
+	 *
+	 * @return void
+	 */
+	public function updateModuleSystemVariablesSequences($currentId): void
+	{
+		\App\Db::getInstance()->createCommand()->update('u_#__modentity_sequences', ['cur_id' => $currentId], ['tabid' => $this->get('tabid')])->execute();
+	}
+
+	/**
 	 * Function to check if record need a new number of sequence.
 	 *
 	 * @return bool
@@ -216,7 +229,7 @@ class RecordNumber extends \App\Base
 	{
 		return $this->getRecord()->isNew()
 			|| ($this->getRelatedValue() && $this->getRelatedValue() !== self::getInstance($this->getRecord()->getModuleName())
-				->setRecord((clone $this->getRecord())->getInstanceByEntity($this->getRecord()->getEntity(), $this->getRecord()->getId()))->getRelatedValue());
+				->setRecord((clone $this->getRecord())->getInstanceByEntity($this->getRecord()->getEntity(), $this->getRecord()->getId())->setData($this->getRecord()->getData()))->getRelatedValue());
 	}
 
 	/**
