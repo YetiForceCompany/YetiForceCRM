@@ -172,7 +172,10 @@ class Security
 	/** Allowed domains for loading images, used in CSP. */
 	public static $allowedImageDomains = [];
 
-	/** Allowed domains for loading frame, used in CSP and validate referer. */
+	/**
+	 * Specifies valid parents that may embed a page using <frame>, <iframe>, <object>, <embed> or <applet> and validate referer.
+	 * CSP: frame-ancestors.
+	 */
 	public static $allowedFrameDomains = [];
 
 	/** Allowed domains for loading script, used in CSP. */
@@ -186,6 +189,12 @@ class Security
 
 	/** Generally allowed domains, used in CSP. */
 	public static $generallyAllowedDomains = [];
+
+	/**
+	 * Specifies valid sources for nested browsing contexts loading using elements such as <frame> and <iframe>.
+	 * CSP: frame-src.
+	 */
+	public static $allowedDomainsLoadInFrame = [];
 
 	/** List of allowed domains for fields with HTML support */
 	public static $purifierAllowedDomains = [];

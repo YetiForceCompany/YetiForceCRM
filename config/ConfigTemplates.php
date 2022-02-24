@@ -1206,7 +1206,7 @@ return [
 		],
 		'allowedFrameDomains' => [
 			'default' => [],
-			'description' => 'Allowed domains for loading frame, used in CSP and validate referer.',
+			'description' => "Specifies valid parents that may embed a page using <frame>, <iframe>, <object>, <embed> or <applet> and validate referer.\nCSP: frame-ancestors.",
 			'loopValidate' => true,
 			'validation' => '\App\Validator::url',
 		],
@@ -1227,6 +1227,12 @@ return [
 		'generallyAllowedDomains' => [
 			'default' => [],
 			'description' => 'Generally allowed domains, used in CSP.',
+		],
+		'allowedDomainsLoadInFrame' => [
+			'default' => [],
+			'description' => "Specifies valid sources for nested browsing contexts loading using elements such as <frame> and <iframe>.\nCSP: frame-src.",
+			'loopValidate' => true,
+			'validation' => '\App\Validator::url',
 		],
 		'purifierAllowedDomains' => [
 			'default' => [],
