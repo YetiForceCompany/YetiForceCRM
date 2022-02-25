@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Conditions\RecordFields;
@@ -105,15 +106,11 @@ class BaseField
 	 */
 	public function getValueFromSource(): string
 	{
-		$return = false;
+		$return = '';
 		[$fieldName, $fieldModuleName, $sourceFieldName] = array_pad(explode(':', $this->value), 3, '');
-		if ($sourceFieldName) {
-			if ($this->recordModel->isEmpty($sourceFieldName)) {
-				return false;
-			}
+		if ($sourceFieldName && ($relId = $this->recordModel->get($sourceFieldName)) && \App\Record::isExists($relId)) {
 			$return = \Vtiger_Record_Model::getInstanceById($this->recordModel->get($sourceFieldName))->get($fieldName);
-		}
-		if ($this->recordModel->getModuleName() === $fieldModuleName) {
+		} elseif (!$sourceFieldName && $this->recordModel->getModuleName() === $fieldModuleName) {
 			$return = $this->recordModel->get($fieldName);
 		}
 		return $return;

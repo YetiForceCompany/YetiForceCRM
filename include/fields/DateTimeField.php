@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  * ********************************************************************************** */
 require_once 'include/utils/CommonUtils.php';
 require_once 'include/fields/DateTimeField.php';
@@ -137,11 +137,13 @@ class DateTimeField
 	 */
 	public static function convertToUserFormat($date)
 	{
-		$format = \App\User::getCurrentUserModel()->getDetail('date_format');
-		if (empty($format)) {
-			$format = 'yyyy-mm-dd';
+		$userDate = '';
+		if (!empty($date)) {
+			$format = \App\User::getCurrentUserModel()->getDetail('date_format') ?: 'yyyy-mm-dd';
+			$userDate = self::__convertToUserFormat($date, $format);
 		}
-		return self::__convertToUserFormat($date, $format);
+
+		return $userDate;
 	}
 
 	/**
