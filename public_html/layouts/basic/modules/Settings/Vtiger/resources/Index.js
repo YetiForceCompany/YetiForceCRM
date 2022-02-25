@@ -5,7 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  *************************************************************************************/
 'use strict';
 
@@ -69,7 +69,7 @@ $.Class(
 							return $(`<span class="${data.text}" aria-hidden="true"></span><span> - ${data.text}</span>`);
 						} else if (data.type === 'image') {
 							container.find('.iconName').text(data.text);
-							container.find('#iconName').val(data.url);
+							container.find('#iconName').val(data.text);
 							container.find('.iconExample').html(`<img width="24px" src="${data.url}"/>`);
 						}
 						return data.text;
