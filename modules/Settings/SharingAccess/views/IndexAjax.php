@@ -6,12 +6,14 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
 class Settings_SharingAccess_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 {
 	use \App\Controller\ExposeMethod;
 
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();

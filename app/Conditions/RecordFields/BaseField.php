@@ -108,8 +108,8 @@ class BaseField
 	{
 		$return = '';
 		[$fieldName, $fieldModuleName, $sourceFieldName] = array_pad(explode(':', $this->value), 3, '');
-		if ($sourceFieldName && ($relId = $this->recordModel->get($sourceFieldName)) && \App\Record::isExists($relId)) {
-			$return = \Vtiger_Record_Model::getInstanceById($this->recordModel->get($sourceFieldName))->get($fieldName);
+		if ($sourceFieldName && ($relId = $this->recordModel->get($sourceFieldName)) && \App\Record::isExists($relId, $fieldModuleName)) {
+			$return = \Vtiger_Record_Model::getInstanceById($relId, $fieldModuleName)->get($fieldName);
 		} elseif (!$sourceFieldName && $this->recordModel->getModuleName() === $fieldModuleName) {
 			$return = $this->recordModel->get($fieldName);
 		}

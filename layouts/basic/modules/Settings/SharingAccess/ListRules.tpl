@@ -24,7 +24,7 @@
 						<tr class="js-custom-rule-headers" data-js="remove">
 							<th>{\App\Language::translate('LBL_RULE_NO', $QUALIFIED_MODULE)}</th>
 							<!-- Check if the module should the for module to get the translations -->
-							<th>{if $FOR_MODULE == 'Accounts'}{\App\Language::translate($FOR_MODULE, $QUALIFIED_MODULE)}{else}{\App\Language::translate($FOR_MODULE, $MODULE)}{/if}
+							<th>{if $FOR_MODULE == 'Accounts'}{\App\Language::translate($FOR_MODULE, $QUALIFIED_MODULE)}{else}{\App\Language::translate($FOR_MODULE, $FOR_MODULE)}{/if}
 								&nbsp;{\App\Language::translate('LBL_OF', $MODULE)}</th>
 							<th>{\App\Language::translate('LBL_CAN_ACCESSED_BY', $QUALIFIED_MODULE)}</th>
 							<th>{\App\Language::translate('LBL_PRIVILEGES', $QUALIFIED_MODULE)}</th>

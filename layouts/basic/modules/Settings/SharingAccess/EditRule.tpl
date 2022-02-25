@@ -11,18 +11,18 @@
 				<div class="modal-header">
 					<h5 class="modal-title">
 						<span class="fas fa-plus mr-1"></span>
-						{\App\Language::translate('LBL_ADD_CUSTOM_RULE_TO', $QUALIFIED_MODULE)}&nbsp;{\App\Language::translate($MODULE_MODEL->get('name'), $MODULE)}
+						{\App\Language::translate('LBL_ADD_CUSTOM_RULE_TO', $QUALIFIED_MODULE)}&nbsp;{\App\Language::translate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}
 					</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<form class="form-horizontal js-edit-rule-form" data-js="submit" method="POST">
-					<input type="hidden" name="for_module" value="{$MODULE_MODEL->get('name')}" />
+					<input type="hidden" name="for_module" value="{$MODULE_MODEL->getName()}" />
 					<input type="hidden" name="record" value="{$RULE_ID}" />
 					<div class="modal-body">
 						<div class="row form-group align-items-center">
-							<label class="col-md-5 col-form-label text-right">{\App\Language::translate($MODULE_MODEL->get('name'), $MODULE)}&nbsp;{\App\Language::translate('LBL_OF', $MODULE)}</label>
+							<label class="col-md-5 col-form-label text-right">{\App\Language::translate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}&nbsp;{\App\Language::translate('LBL_OF', $MODULE)}</label>
 							<div class="col-md-6">
 								<select class="select2 form-control" name="source_id">
 									{foreach from=$ALL_RULE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
