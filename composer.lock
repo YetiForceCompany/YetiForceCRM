@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "41476f573a1e9aeb4da731a306a5f889",
+    "content-hash": "881d29888a1f040dc74174202c74db5b",
     "packages": [
         {
             "name": "adhocore/jwt",
@@ -617,16 +617,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.12.42",
+            "version": "8.12.44",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "33c8dc586ab0d430193dc721d597a3aa79803d06"
+                "reference": "a726990faf05bfffdd826f75d9b41a1580dad4a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/33c8dc586ab0d430193dc721d597a3aa79803d06",
-                "reference": "33c8dc586ab0d430193dc721d597a3aa79803d06",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/a726990faf05bfffdd826f75d9b41a1580dad4a7",
+                "reference": "a726990faf05bfffdd826f75d9b41a1580dad4a7",
                 "shasum": ""
             },
             "require": {
@@ -686,7 +686,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2022-01-28T08:38:37+00:00"
+            "time": "2022-02-24T09:38:54+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -4274,12 +4274,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Mbstring\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
