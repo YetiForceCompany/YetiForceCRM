@@ -3,9 +3,12 @@
 /**
  * Special function to display the last fails login.
  *
+ * @package TextParser
+ *
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Users_Bruteforce_Textparser extends \App\TextParser\Base
 {
@@ -29,7 +32,7 @@ class Users_Bruteforce_Textparser extends \App\TextParser\Base
 				'and',
 				['user_ip' => $this->textParser->getParam('ip')],
 				['>=', 'login_time', $this->textParser->getParam('time')],
-			])->all();
+			])->orderBy(['login_time' => SORT_DESC])->all();
 		foreach ($attemptsLogin as $data) {
 			$time = \App\Fields\DateTime::formatToDisplay($data['login_time']);
 			$status = \App\Language::translate($data['status'], 'Users');
