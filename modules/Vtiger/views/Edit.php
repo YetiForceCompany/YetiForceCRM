@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  * ********************************************************************************** */
 
 class Vtiger_Edit_View extends Vtiger_Index_View
@@ -66,13 +66,13 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
-		$viewer->assign('MODE', '');
+		$mode = '';
 		$viewer->assign('RECORD_ID', '');
 		if (!empty($recordId) && true === $request->getBoolean('isDuplicate')) {
-			$viewer->assign('MODE', 'duplicate');
+			$mode = 'duplicate';
 			$this->getDuplicate();
 		} elseif (!empty($recordId)) {
-			$viewer->assign('MODE', 'edit');
+			$mode = 'edit';
 			$viewer->assign('RECORD_ID', $recordId);
 		} elseif (!$request->isEmpty('recordConverter')) {
 			$convertInstance = \App\RecordConverter::getInstanceById($request->getInteger('recordConverter'), $request->getByType('sourceModule', 2));
@@ -87,8 +87,19 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 			}
 		}
 		$editModel = Vtiger_EditView_Model::getInstance($moduleName, $recordId);
-		$editViewLinkParams = ['MODULE' => $moduleName, 'RECORD' => $recordId];
-		$detailViewLinks = $editModel->getEditViewLinks($editViewLinkParams);
+		$detailViewLinks = $editModel->getEditViewLinks(['MODULE' => $moduleName, 'RECORD' => $recordId]);
+
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setRecordModel($this->record);
+		$eventHandler->setModuleName($moduleName);
+		$eventHandler->setParams([
+			'mode' => $mode,
+			'detailViewLinks' => $detailViewLinks,
+		]);
+		$eventHandler->trigger('EditViewBefore');
+		$detailViewLinks = $eventHandler->getParams()['detailViewLinks'];
+
+		$viewer->assign('MODE', $mode);
 		$viewer->assign('EDITVIEW_LINKS', $detailViewLinks);
 
 		$moduleModel = $this->record->getModule();
