@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
 class Vtiger_MiniList_Model extends Vtiger_Widget_Model
@@ -112,13 +112,13 @@ class Vtiger_MiniList_Model extends Vtiger_Widget_Model
 	{
 		$this->initListViewController();
 		if (!$this->listviewHeaders) {
-			$headerFieldModels = [];
 			foreach ($this->getTargetFields() as $fieldName) {
-				if ('id' !== $fieldName) {
-					$headerFieldModels[$fieldName] = $this->getTargetModuleModel()->getFieldByName($fieldName);
+				if ('id' !== $fieldName && ($fieldModel = $this->getTargetModuleModel()->getFieldByName($fieldName))) {
+					$this->listviewHeaders[$fieldName] = $fieldModel;
+				} else {
+					\App\Log::warning('Field not found:' . $fieldName . ' | Module: ' . $this->getTargetModuleModel()->getName(), __METHOD__);
 				}
 			}
-			$this->listviewHeaders = $headerFieldModels;
 		}
 		return $this->listviewHeaders;
 	}

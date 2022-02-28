@@ -7,7 +7,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
 class Vtiger_RelationListView_Model extends \App\Base
@@ -50,7 +50,6 @@ class Vtiger_RelationListView_Model extends \App\Base
 	public function setRelationModel($relation)
 	{
 		$this->relationModel = $relation;
-
 		return $this;
 	}
 
@@ -356,7 +355,11 @@ class Vtiger_RelationListView_Model extends \App\Base
 				$fieldName = $fieldInfo['field_name'];
 				$sourceFieldName = $fieldInfo['source_field_name'] ?? '';
 				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldInfo['module_name']));
-				if (!$fieldModel || !$fieldModel->isActiveField() || ($sourceFieldName && !$moduleModel->getFieldByName($sourceFieldName)->isActiveField())) {
+				if (!$fieldModel) {
+					\App\Log::warning("The field does not exist: '$fieldName' | Module: " . $this->getRelationModel()->getRelationModuleModel()->getName(), __METHOD__);
+					continue;
+				}
+				if (!$fieldModel->isActiveField() || ($sourceFieldName && !$moduleModel->getFieldByName($sourceFieldName)->isActiveField())) {
 					continue;
 				}
 				if ($sourceFieldName) {
@@ -370,11 +373,20 @@ class Vtiger_RelationListView_Model extends \App\Base
 		}
 		unset($fields['id']);
 		foreach ($fields as $fieldName => $fieldModel) {
-			if (!$fieldModel->isViewable() && !$fieldModel->get('fromOutsideList')) {
+			if (!$fieldModel) {
+				\App\Log::warning("The field does not exist: '$fieldName' | Module: " . $this->getRelationModel()->getRelationModuleModel()->getName(), __METHOD__);
+				unset($fields[$fieldName]);
+			} elseif (!$fieldModel->isViewable() && !$fieldModel->get('fromOutsideList')) {
 				unset($fields[$fieldName]);
 			}
 		}
 		if ($relFields = $this->getRelationModel()->getRelationFields()) {
+			foreach ($relFields as $fieldName => $fieldModel) {
+				if (!$fieldModel) {
+					\App\Log::warning("The field does not exist: '$fieldName' | Module: " . $this->getRelationModel()->getRelationModuleModel()->getName(), __METHOD__);
+					unset($relFields[$fieldName]);
+				}
+			}
 			$fields = array_merge($fields, $relFields);
 		}
 		return $fields;

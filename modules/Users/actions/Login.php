@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  * ********************************************************************************** */
 
 class Users_Login_Action extends \App\Controller\Action
@@ -258,7 +258,7 @@ class Users_Login_Action extends \App\Controller\Action
 	 */
 	public function failedLogin(App\Request $request, string $type): void
 	{
-		$status = '2fa' === $type ? 'Failed login' : 'ERR_WRONG_2FA_CODE';
+		$status = '2fa' === $type ? 'ERR_WRONG_2FA_CODE' : 'Failed login';
 		$bfInstance = Settings_BruteForce_Module_Model::getCleanInstance();
 		if ($bfInstance->isActive()) {
 			$bfInstance->updateBlockedIp();
@@ -266,7 +266,7 @@ class Users_Login_Action extends \App\Controller\Action
 				$bfInstance->sendNotificationEmail();
 				\App\Session::set('UserLoginMessage', App\Language::translate('LBL_TOO_MANY_FAILED_LOGIN_ATTEMPTS', 'Users'));
 				\App\Session::set('UserLoginMessageType', 'error');
-				$status = '2fa' === $type ? 'ERR_LOGIN_IP_BLOCK' : 'ERR_2FA_IP_BLOCK';
+				$status = '2fa' === $type ? 'ERR_2FA_IP_BLOCK' : 'ERR_LOGIN_IP_BLOCK';
 			}
 		}
 		Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), $status);

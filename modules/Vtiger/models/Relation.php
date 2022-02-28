@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
 class Vtiger_Relation_Model extends \App\Base
@@ -36,6 +36,7 @@ class Vtiger_Relation_Model extends \App\Base
 
 	//one to many
 	const RELATION_O2M = 1;
+
 	//Many to many and many to one
 	const RELATION_M2M = 2;
 
@@ -59,7 +60,6 @@ class Vtiger_Relation_Model extends \App\Base
 	public function setParentModuleModel($moduleModel)
 	{
 		$this->parentModule = $moduleModel;
-
 		return $this;
 	}
 
@@ -96,7 +96,6 @@ class Vtiger_Relation_Model extends \App\Base
 	public function setRelationModuleModel($relationModel)
 	{
 		$this->relatedModule = $relationModel;
-
 		return $this;
 	}
 
