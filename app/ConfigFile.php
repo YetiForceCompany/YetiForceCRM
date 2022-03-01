@@ -237,7 +237,10 @@ This file is auto-generated.
 				$class->addMethod($parameterName)->setStatic()->setBody($parameter['default'])->addComment($parameter['description']);
 			} else {
 				$value = $this->has($parameterName) ? $this->get($parameterName) : Config::get($className, $parameterName, $parameter['default']);
-				$class->addProperty($parameterName, $value)->setStatic()->addComment($parameter['description']);
+				$property = $class->addProperty($parameterName, $value)->setStatic()->addComment($parameter['description']);
+				if (isset($parameter['type'])) {
+					$property->addComment(PHP_EOL . '@var ' . $parameter['type']);
+				}
 			}
 		}
 		if (false === file_put_contents($this->path, $file, LOCK_EX)) {
