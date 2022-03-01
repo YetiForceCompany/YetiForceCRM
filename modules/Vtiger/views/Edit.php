@@ -87,20 +87,20 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 			}
 		}
 		$editModel = Vtiger_EditView_Model::getInstance($moduleName, $recordId);
-		$detailViewLinks = $editModel->getEditViewLinks(['MODULE' => $moduleName, 'RECORD' => $recordId]);
+		$viewLinks = $editModel->getEditViewLinks(['MODULE' => $moduleName, 'RECORD' => $recordId]);
 
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($this->record);
 		$eventHandler->setModuleName($moduleName);
 		$eventHandler->setParams([
 			'mode' => $mode,
-			'detailViewLinks' => $detailViewLinks,
+			'viewLinks' => $viewLinks,
 		]);
 		$eventHandler->trigger('EditViewBefore');
-		$detailViewLinks = $eventHandler->getParams()['detailViewLinks'];
+		$viewLinks = $eventHandler->getParams()['viewLinks'];
 
 		$viewer->assign('MODE', $mode);
-		$viewer->assign('EDITVIEW_LINKS', $detailViewLinks);
+		$viewer->assign('EDITVIEW_LINKS', $viewLinks);
 
 		$moduleModel = $this->record->getModule();
 		$fieldList = $moduleModel->getFields();

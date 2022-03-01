@@ -101,15 +101,21 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recordModel = $this->record->getRecord();
 		$this->recordStructure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$fieldsInHeader = $this->recordStructure->getFieldInHeader();
+
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($recordModel);
 		$eventHandler->setModuleName($moduleName);
-		$eventHandler->trigger('DetailViewBefore');
-		$detailViewLinks = $this->record->getDetailViewLinks([
+		$viewLinks = $this->record->getDetailViewLinks([
 			'MODULE' => $moduleName,
 			'RECORD' => $recordId,
-			'VIEW' => $request->getByType('view', 2)
+			'VIEW' => $request->getByType('view', 2),
 		]);
+		$eventHandler->setParams([
+			'viewLinks' => $viewLinks,
+		]);
+		$eventHandler->trigger('DetailViewBefore');
+		$viewLinks = $eventHandler->getParams()['viewLinks'];
+
 		$this->record->getWidgets();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
@@ -138,8 +144,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 				}
 			}
 		}
-		if (isset($detailViewLinks['DETAILVIEWTAB']) && \is_array($detailViewLinks['DETAILVIEWTAB'])) {
-			foreach ($detailViewLinks['DETAILVIEWTAB'] as $link) {
+		if (isset($viewLinks['DETAILVIEWTAB']) && \is_array($viewLinks['DETAILVIEWTAB'])) {
+			foreach ($viewLinks['DETAILVIEWTAB'] as $link) {
 				if ($link->getLabel() === $selectedTabLabel) {
 					$params = vtlib\Functions::getQueryParams($link->getUrl());
 					$this->defaultMode = $params['mode'];
@@ -149,7 +155,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 		$viewer->assign('SELECTED_TAB_LABEL', $selectedTabLabel);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
+		$viewer->assign('DETAILVIEW_LINKS', $viewLinks);
 		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
 		$viewer->assign('FIELDS_HEADER', $fieldsInHeader);
 		$viewer->assign('CUSTOM_FIELDS_HEADER', $this->record->getCustomHeaderFields());
@@ -158,7 +164,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('QUICK_LINKS', $this->record->getSideBarLinks([
 			'MODULE' => $moduleName,
-			'ACTION' => $request->getByType('view', 1)
+			'ACTION' => $request->getByType('view', 1),
 		]));
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
 		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
@@ -244,7 +250,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
 			'modules.OpenStreetMap.resources.Map',
 			'modules.Vtiger.resources.dashboards.Widget',
-			'~libraries/chart.js/dist/Chart.js'
+			'~libraries/chart.js/dist/Chart.js',
 		];
 		if (\App\Privilege::isPermitted('Chat')) {
 			$jsFileNames[] = '~layouts/basic/modules/Chat/resources/Chat.js';
@@ -329,17 +335,17 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
 		$recordModel = $this->record->getRecord();
-		$detailViewLinks = $this->record->getDetailViewLinks([
+		$viewLinks = $this->record->getDetailViewLinks([
 			'MODULE' => $moduleName,
 			'RECORD' => $recordId,
-			'VIEW' => $request->getByType('view', 2)
+			'VIEW' => $request->getByType('view', 2),
 		]);
 		$this->record->getWidgets();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE_SUMMARY', $this->showModuleSummaryView($request));
 		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
-		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
+		$viewer->assign('DETAILVIEW_LINKS', $viewLinks);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 
@@ -982,7 +988,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$viewer->assign('DETAILVIEW_LINKS', $this->record->getDetailViewLinks([
 			'MODULE' => $moduleName,
 			'RECORD' => $recordId,
-			'VIEW' => $request->getByType('view', 2)
+			'VIEW' => $request->getByType('view', 2),
 		]));
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('LIMIT', 0);
@@ -1225,7 +1231,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			if (!isset($history[$label])) {
 				$history[$label] = [
 					'time' => 0,
-					'value' => $fieldModel->getDisplayValue($label, $recordModel->getId(), $recordModel)
+					'value' => $fieldModel->getDisplayValue($label, $recordModel->getId(), $recordModel),
 				];
 			}
 			$history[$label]['date'] = $dataStart;

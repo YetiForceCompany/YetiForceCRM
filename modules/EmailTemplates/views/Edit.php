@@ -18,12 +18,8 @@ class EmailTemplates_Edit_View extends Vtiger_Edit_View
 	 */
 	public function getFooterScripts(App\Request $request)
 	{
-		$parentScript = parent::getFooterScripts($request);
-		$fileNames = [
+		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
 			'libraries.clipboard.dist.clipboard',
-		];
-		$scriptInstances = $this->checkAndConvertJsScripts($fileNames);
-
-		return array_merge($parentScript, $scriptInstances);
+		]));
 	}
 }
