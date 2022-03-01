@@ -180,7 +180,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$viewer->assign('LOCKED_EMPTY_FIELDS', $request->isEmpty('lockedEmptyFields', true) ? [] : $request->getArray('lockedEmptyFields'));
 		if ($relationListView->isWidgetsList()) {
 			$viewer->assign('IS_WIDGETS', true);
-			$viewer->assign('HIERARCHY_VALUE', App\Config::module('ModComments', 'DEFAULT_SOURCE'));
+			$viewer->assign('HIERARCHY_VALUE', \Config\Modules\ModComments::$defaultSource);
 			$viewer->assign('HIERARCHY', \App\ModuleHierarchy::getModuleLevel($relatedModuleName));
 		} else {
 			$viewer->assign('IS_WIDGETS', false);

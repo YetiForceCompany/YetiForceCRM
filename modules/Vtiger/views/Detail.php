@@ -692,7 +692,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			if (App\Session::has($cacheName)) {
 				$hierarchyValue = App\Session::get($cacheName);
 			} else {
-				$hierarchyValue = App\Config::module('ModComments', 'DEFAULT_SOURCE');
+				$hierarchyValue = \Config\Modules\ModComments::$defaultSource;
 			}
 		} else {
 			App\Session::set($cacheName, $hierarchyValue);

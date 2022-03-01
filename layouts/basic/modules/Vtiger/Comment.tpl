@@ -132,7 +132,13 @@
 								{/if}
 								<span class="q-message-text-content">
 									<div class="js-comment-info" data-js="html">{$COMMENT->getDisplayValue('commentcontent')}</div>
-									<div class="u-w-fit q-message-stamp ml-auto">{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}</div>
+									<div class="u-w-fit q-message-stamp ml-auto">
+										{if \Config\Modules\ModComments::$dateFormat === 'user'}
+											{\App\Fields\DateTime::formatToViewDate($COMMENT->getCommentedTime())}
+										{else}
+											{\App\Fields\DateTime::formatToDisplay($COMMENT->getCommentedTime())}
+										{/if}
+									</div>
 								</span>
 							</div>
 						</div>
@@ -155,7 +161,11 @@
 								<span class="ml-auto">
 									<em class="mr-1">{\App\Language::translate('LBL_MODIFIED',$MODULE_NAME)}</em>
 									<span class="js-comment-modified-time commentModifiedTime" data-js="html">
-										{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}
+										{if \Config\Modules\ModComments::$dateFormat === 'user'}
+											{\App\Fields\DateTime::formatToViewDate($COMMENT->getModifiedTime())}
+										{else}
+											{\App\Fields\DateTime::formatToDisplay($COMMENT->getModifiedTime())}
+										{/if}
 									</span>
 								</span>
 							{/if}
