@@ -49,8 +49,8 @@ class Settings_Groups_Save_Action extends Settings_Vtiger_Save_Action
 		}
 		$recordModel->setDataFromRequest($request);
 		$response = new Vtiger_Response();
-		if ($recordModel->checkDuplicate()) {
-			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_DUPLICATES_EXIST', $request->getModule(false))]);
+		if ($errorLabel = $recordModel->validate()) {
+			$response->setResult(['success' => true, 'message' => \App\Language::translate($errorLabel, $request->getModule(false))]);
 		} else {
 			$response->setResult(['success' => false]);
 		}

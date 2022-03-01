@@ -5768,9 +5768,9 @@ insert  into `vtiger_group2rs`(`groupid`,`roleandsubid`) values (4,'H3');
 
 /*Data for the table `vtiger_groups` */
 
-insert  into `vtiger_groups`(`groupid`,`groupname`,`description`,`color`,`modules`) values (2,'Team Selling','Group Related to Sales','#E6FAD8',NULL);
-insert  into `vtiger_groups`(`groupid`,`groupname`,`description`,`color`,`modules`) values (3,'Marketing Group','Group Related to Marketing Activities','#E6FAD8',NULL);
-insert  into `vtiger_groups`(`groupid`,`groupname`,`description`,`color`,`modules`) values (4,'Support Group','Group Related to providing Support to Customers','#E6FAD8',NULL);
+insert  into `vtiger_groups`(`groupid`,`groupname`,`description`,`color`,`parentid`) values (2,'Team Selling','Group Related to Sales','#E6FAD8',0);
+insert  into `vtiger_groups`(`groupid`,`groupname`,`description`,`color`,`parentid`) values (3,'Marketing Group','Group Related to Marketing Activities','#E6FAD8',0);
+insert  into `vtiger_groups`(`groupid`,`groupname`,`description`,`color`,`parentid`) values (4,'Support Group','Group Related to providing Support to Customers','#E6FAD8',0);
 
 /*Data for the table `vtiger_holidaysentitlement` */
 

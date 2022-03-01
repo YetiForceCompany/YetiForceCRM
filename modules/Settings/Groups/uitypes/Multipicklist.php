@@ -37,4 +37,25 @@ class Settings_Groups_Multipicklist_UIType extends Vtiger_Multipicklist_UIType
 
 		return $rawText ? $value : implode(', ', $result);
 	}
+
+	/**
+	 * Gets members list.
+	 *
+	 * @param Settings_Groups_Record_Model|null $recordModel
+	 *
+	 * @return array
+	 */
+	public function getMembersList(?Settings_Groups_Record_Model $recordModel = null): array
+	{
+		$members = \App\PrivilegeUtil::getMembers();
+		if ($recordModel && $recordModel->getId()) {
+			$type = \App\PrivilegeUtil::MEMBER_TYPE_GROUPS;
+			$currentMemberId = $type . ':' . $recordModel->getId();
+			unset($members[$type][$currentMemberId]);
+			if (!\count($members[$type])) {
+				unset($members[$type]);
+			}
+		}
+		return $members;
+	}
 }

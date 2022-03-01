@@ -6447,9 +6447,10 @@ CREATE TABLE `vtiger_groups` (
   `groupname` varchar(100) DEFAULT NULL,
   `description` text DEFAULT NULL,
   `color` varchar(25) DEFAULT '#E6FAD8',
-  `modules` varchar(255) DEFAULT NULL,
+  `parentid` int(10) unsigned DEFAULT 0,
   PRIMARY KEY (`groupid`),
-  UNIQUE KEY `groups_groupname_idx` (`groupname`)
+  UNIQUE KEY `groups_groupname_idx` (`groupname`),
+  KEY `vtiger_groups_parentid_idx` (`parentid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_holidaysentitlement` */

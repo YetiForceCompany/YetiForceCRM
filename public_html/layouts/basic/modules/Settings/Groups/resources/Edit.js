@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  *************************************************************************************/
 'use strict';
 
@@ -12,49 +13,37 @@ Settings_Vtiger_Edit_Js(
 	'Settings_Groups_Edit_Js',
 	{},
 	{
-		memberSelectElement: false,
-
-		getMemberSelectElement: function () {
-			if (this.memberSelectElement == false) {
-				this.memberSelectElement = jQuery('#memberList');
-			}
-			return this.memberSelectElement;
-		},
 		/**
 		 * Function to register form for validation
 		 */
 		registerFormForValidation: function () {
-			var editViewForm = this.getForm();
-			editViewForm.validationEngine(app.getvalidationEngineOptions(true));
+			this.getForm().validationEngine(app.getvalidationEngineOptions(true));
 		},
 
 		/**
 		 * Function to register the submit event of form
 		 */
 		registerSubmitEvent: function () {
-			var thisInstance = this;
-			var form = jQuery('#EditView');
-			form.on('submit', function (e) {
+			let form = this.getForm();
+			form.on('submit', (e) => {
 				if (form.data('submit') == 'true' && form.data('performCheck') == 'true') {
+					document.progressLoader = $.progressIndicator({
+						message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+						position: 'html',
+						blockInfo: { enabled: true }
+					});
 					return true;
 				} else {
 					if (form.data('jqv').InvalidFields.length <= 0) {
-						var formData = form.serializeFormData();
-						thisInstance
-							.checkDuplicateName({
-								groupname: formData.groupname,
-								record: formData.record
-							})
-							.done(function (data) {
+						let formData = form.serializeFormData();
+						this.validate(formData)
+							.done(function (_) {
 								form.data('submit', 'true');
 								form.data('performCheck', 'true');
 								form.submit();
 							})
 							.fail(function (data, err) {
-								var params = {};
-								params['text'] = data['message'];
-								params['type'] = 'error';
-								Settings_Vtiger_Index_Js.showMessage(params);
+								Settings_Vtiger_Index_Js.showMessage({ text: data['message'], type: 'error' });
 								return false;
 							});
 					} else {
@@ -71,23 +60,13 @@ Settings_Vtiger_Edit_Js(
 		 * Function to check Duplication of Group Names
 		 * returns boolean true or false
 		 */
-		checkDuplicateName: function (details) {
-			var aDeferred = jQuery.Deferred();
-
-			var params = {
-				module: app.getModuleName(),
-				parent: app.getParentModuleName(),
-				action: 'Save',
-				mode: 'preSaveValidation',
-				groupname: details.groupname,
-				record: details.record
-			};
-
+		validate: function (params) {
+			const aDeferred = jQuery.Deferred();
+			params.mode = 'preSaveValidation';
 			AppConnector.request(params)
 				.done(function (data) {
-					var response = data['result'];
-					var result = response['success'];
-					if (result == true) {
+					let response = data.result;
+					if (response.success) {
 						aDeferred.reject(response);
 					} else {
 						aDeferred.resolve(response);

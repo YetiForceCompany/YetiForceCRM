@@ -43,6 +43,7 @@ class Settings_Groups_Module_Model extends Settings_Vtiger_Module_Model
 	public $editFields = [
 		'groupname',
 		'description',
+		'parentid',
 		'modules',
 		'members'
 	];
@@ -114,6 +115,18 @@ class Settings_Groups_Module_Model extends Settings_Vtiger_Module_Model
 					'table' => $this->getBaseTable()
 				];
 				break;
+			case 'parentid':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_PARENT',
+					'uitype' => 53,
+					'typeofdata' => 'I~O',
+					'maximumlength' => '4294967295',
+					'purifyType' => \App\Purifier::INTEGER,
+					'table' => $this->getBaseTable(),
+					'picklistValues' => []
+				];
+				break;
 			case 'modules':
 				$params = [
 					'name' => $name,
@@ -143,6 +156,7 @@ class Settings_Groups_Module_Model extends Settings_Vtiger_Module_Model
 			default:
 				break;
 		}
+
 		return $params ? \Vtiger_Field_Model::init($this->getName(true), $params, $name) : null;
 	}
 }

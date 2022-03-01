@@ -84,6 +84,8 @@ class PrivilegeFile
 		$user['displayName'] = trim($displayName);
 		$user['profiles'] = PrivilegeUtil::getProfilesByRole($userInstance->column_fields['roleid']);
 		$user['groups'] = PrivilegeUtil::getAllGroupsByUser($userId);
+		$user['leadersByGroup'] = PrivilegeUtil::getLeadersGroupByUserId($userId);
+		$user['leader'] = PrivilegeUtil::getGroupsWhereUserIsLeader($userId);
 		$user['parent_roles'] = $userRoleInfo['parentRoles'];
 		$user['parent_role_seq'] = $userRoleInfo['parentrole'];
 		$user['roleName'] = $userRoleInfo['rolename'];

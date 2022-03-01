@@ -178,6 +178,9 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$db = App\Db::getInstance('admin');
 		$transaction = $db->beginTransaction();
 		try {
+			if ($errorLabel = $this->validate()) {
+				throw new \App\Exceptions\AppException($errorLabel);
+			}
 			$oldUsersList = $this->getUsersList($this->getPreviousValue('members') ?? '');
 			$this->saveToDb();
 			$transaction->commit();
@@ -283,11 +286,20 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		foreach ($this->getModule()->getEditableFields() as $fieldName) {
 			if ($request->has($fieldName)) {
-				$fieldModel = $this->getFieldInstanceByName($fieldName);
-				$value = $request->getByType($fieldName, $fieldModel->get('purifyType'));
-				$fieldUITypeModel = $fieldModel->getUITypeModel();
-				$fieldUITypeModel->validate($value, true);
-				$value = $fieldModel->getDBValue($value);
+				switch ($fieldName) {
+					case 'parentid':
+						$fieldModel = $this->getFieldInstanceByName($fieldName);
+						$value = $request->getByType($fieldName, $fieldModel->get('purifyType'));
+						$fieldModel->getUITypeModel()->validate($value, true);
+						break;
+					default:
+						$fieldModel = $this->getFieldInstanceByName($fieldName);
+						$value = $request->getByType($fieldName, $fieldModel->get('purifyType'));
+						$fieldUITypeModel = $fieldModel->getUITypeModel();
+						$fieldUITypeModel->validate($value, true);
+						$value = $fieldModel->getDBValue($value);
+						break;
+				}
 				$this->set($fieldName, $value);
 			}
 		}
@@ -470,6 +482,22 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
+	 * Data validation.
+	 *
+	 * @return string|null
+	 */
+	public function validate(): ?string
+	{
+		$error = null;
+		if ($this->checkDuplicate()) {
+			$error = self::ERROR_DUPLICATE;
+		} else {
+			$error = $this->checkLoop();
+		}
+		return $error ? self::GROUP_ERRORS[$error] : $error;
+	}
+
+	/**
 	 * Check duplicate.
 	 *
 	 * @return bool
@@ -483,5 +511,89 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		}
 
 		return $query->exists();
+	}
+
+	/**
+	 * Get elements by member type.
+	 *
+	 * @param string $type
+	 *
+	 * @return array
+	 */
+	public function getMembersByType(string $type): array
+	{
+		$fieldModel = $this->getFieldInstanceByName('members');
+		$members = $fieldModel->getEditViewValue($this->get($fieldModel->getName()));
+		$needle = $type . ':';
+		$length = \strlen($needle);
+		foreach ($members as $key => $member) {
+			if (0 === strncmp($member, $needle, $length)) {
+				$members[$key] = substr($member, $length);
+			} else {
+				unset($members[$key]);
+			}
+		}
+
+		return $members;
+	}
+
+	/** @var int Error ID - The limit of allowed group nests has been exceeded */
+	public const ERROR_LOOP_LIMIT = 1;
+	/** @var int Error ID - Indefinite loop */
+	public const ERROR_LOOP_INF = 2;
+	/** @var int Error ID - Duplicate record */
+	public const ERROR_DUPLICATE = 3;
+	/** @var array Labels by error ID */
+	public const GROUP_ERRORS = [
+		self::ERROR_LOOP_LIMIT => 'LBL_ALLOWED_GROUP_NESTS_EXCEEDED',
+		self::ERROR_LOOP_INF => 'LBL_INDEFINITE_LOOP',
+		self::ERROR_DUPLICATE => 'LBL_GROUP_DUPLICATE',
+	];
+
+	/**
+	 * Check group correlations.
+	 *
+	 * @return int|null
+	 */
+	public function checkLoop(): ?int
+	{
+		$error = null;
+		$groupsDown = $allGroups = $this->getMembersByType(\App\PrivilegeUtil::MEMBER_TYPE_GROUPS);
+		if (!$groupsDown) {
+			return $error;
+		}
+		$i = 2;
+		$groupsUp = [];
+		$max = \App\PrivilegeUtil::GROUP_LOOP_LIMIT;
+		if ($this->getId()) {
+			$allGroups[] = $this->getId();
+			$groupsUp[] = $this->getId();
+		}
+		while ($i <= $max) {
+			if ($groupsDown) {
+				$groupsDown = (new App\Db\Query())->select(['containsgroupid'])->from('vtiger_group2grouprel')->where(['groupid' => $groupsDown])->column();
+			}
+			if ($groupsUp) {
+				$groupsUp = (new App\Db\Query())->select(['groupid'])->from('vtiger_group2grouprel')->where(['containsgroupid' => $groupsUp])->column();
+			}
+			if ($groupsUp && $groupsDown) {
+				++$i;
+			}
+			if ($i >= $max) {
+				$error = self::ERROR_LOOP_LIMIT;
+				break;
+			}
+			if (!$groupsDown && !$groupsUp) {
+				break;
+			}
+			$allGroups = array_merge($allGroups, $groupsDown, $groupsUp);
+			if (\count($allGroups) !== \count(array_flip($allGroups))) {
+				$error = self::ERROR_LOOP_INF;
+				break;
+			}
+			++$i;
+		}
+
+		return $error;
 	}
 }
