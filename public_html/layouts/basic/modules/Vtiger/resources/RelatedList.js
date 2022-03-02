@@ -1539,6 +1539,60 @@ jQuery.Class(
 			});
 		},
 		/**
+		 * Register mass records events.
+		 */
+		registerMassRecordsEvents: function () {
+			const self = this;
+			self.getRelatedContainer().on('click', '.js-mass-record-event', function () {
+				let target = $(this);
+				if (self.checkListRecordSelected() != true) {
+					if (target.data('type') === 'modal') {
+						let params = self.getSelectedParams();
+						target.data('url').replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+							params[key] = value;
+						});
+						AppConnector.request({
+							type: 'POST',
+							url: target.data('url'),
+							data: params
+						}).done(function (modal) {
+							app.showModalWindow(modal);
+						});
+					} else {
+						let params = {};
+						if (target.data('confirm')) {
+							params.message = target.data('confirm');
+							params.title = target.html();
+						} else {
+							params.message = target.html();
+						}
+						Vtiger_Helper_Js.showConfirmationBox(params).done(function (e) {
+							let progressIndicatorElement = $.progressIndicator(),
+								dataParams = self.getSearchParams();
+							delete dataParams.view;
+							AppConnector.request({
+								type: 'POST',
+								url: target.data('url'),
+								data: dataParams
+							})
+								.done(function (data) {
+									progressIndicatorElement.progressIndicator({ mode: 'hide' });
+									if (data && data.result && data.result.notify) {
+										Vtiger_Helper_Js.showMessage(data.result.notify);
+									}
+									self.getListViewRecords();
+								})
+								.fail(function (error, err) {
+									progressIndicatorElement.progressIndicator({ mode: 'hide' });
+								});
+						});
+					}
+				} else {
+					self.noRecordSelectedAlert();
+				}
+			});
+		},
+		/**
 		 * Register related events
 		 */
 		registerRelatedEvents: function () {
@@ -1554,6 +1608,7 @@ jQuery.Class(
 			this.registerDeselectAllClickEvent();
 			this.registerQuickEditSaveEvent();
 			this.registerChangeViewEvent();
+			this.registerMassRecordsEvents();
 			YetiForce_ListSearch_Js.registerSearch(this.content, (data) => {
 				this.loadRelatedList(data);
 			});

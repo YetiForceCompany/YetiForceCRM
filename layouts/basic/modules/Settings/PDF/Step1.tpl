@@ -363,8 +363,9 @@
 								<div class="col-sm-12 controls">
 									{assign 'VISIBILITY' explode(',',$PDF_MODEL->get('visibility'))}
 									<select class="select2 form-control rtl" id="visibility" name="visibility" multiple data-validation-engine="validate[required]">
-										<option value="PLL_LISTVIEW" {if in_array('PLL_LISTVIEW', $VISIBILITY)}selected="selected" {/if}>{\App\Language::translate('PLL_LISTVIEW', $QUALIFIED_MODULE)}</option>
 										<option value="PLL_DETAILVIEW" {if in_array('PLL_DETAILVIEW', $VISIBILITY)}selected="selected" {/if}>{\App\Language::translate('PLL_DETAILVIEW', $QUALIFIED_MODULE)}</option>
+										<option value="PLL_LISTVIEW" {if in_array('PLL_LISTVIEW', $VISIBILITY)}selected="selected" {/if}>{\App\Language::translate('PLL_LISTVIEW', $QUALIFIED_MODULE)}</option>
+										<option value="PLL_RELATEDLISTVIEW" {if in_array('PLL_RELATEDLISTVIEW', $VISIBILITY)}selected="selected" {/if}>{\App\Language::translate('PLL_RELATEDLISTVIEW', $QUALIFIED_MODULE)}</option>
 									</select>
 								</div>
 							</div>

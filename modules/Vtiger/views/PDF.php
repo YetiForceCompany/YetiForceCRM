@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Export PDF Modal View Class.
+ * Export PDF modal view file.
  *
  * @package View
  *
@@ -11,21 +11,17 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+/**
+ * Export PDF modal view class.
+ */
 class Vtiger_PDF_View extends Vtiger_BasicModal_View
 {
-	/**
-	 * Function to check permission.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermitted
-	 * @throws \App\Exceptions\NoPermittedToRecord
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'ExportPdf')) {
+		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModuleActionPermission($moduleName, 'ExportPdf')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!$request->isEmpty('record') && !\App\Privilege::isPermitted($moduleName, 'DetailView', $request->getInteger('record'))) {
@@ -33,35 +29,34 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		}
 	}
 
-	/**
-	 * Process.
-	 *
-	 * @param App\Request $request
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
-
-		$moduleName = $request->getModule();
+		$pdfModuleName = $moduleName = $request->getModule();
+		$view = $request->getByType('fromview', \App\Purifier::STANDARD);
 		$recordId = $request->getInteger('record');
-		$view = $request->getByType('fromview', 'Standard');
-		$handlerClass = \Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
+		if ($isRelatedView = ('RelatedList' === $view)) {
+			$pdfModuleName = $request->getByType('relatedModule', \App\Purifier::ALNUM);
+		}
+		$handlerClass = \Vtiger_Loader::getComponentClassName('Model', 'PDF', $pdfModuleName);
 		$pdfModel = new $handlerClass();
-
 		$dynamicTemplates = $records = [];
-		$active = false;
-		$activeDynamic = false;
+		$active = $activeDynamic = false;
 
-		if ($recordId) {
-			$templates = $pdfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName);
+		if ($isRelatedView) {
+			$templates = $pdfModel->getActiveTemplatesForModule($pdfModuleName, $view);
+			$records = \Vtiger_RelationAjax_Action::getRecordsListFromRequest($request);
+		} elseif ($recordId) {
+			$templates = $pdfModel->getActiveTemplatesForRecord($recordId, $view, $pdfModuleName);
 			$records = [$recordId];
 		} else {
-			$templates = $pdfModel->getActiveTemplatesForModule($moduleName, $view);
+			$templates = $pdfModel->getActiveTemplatesForModule($pdfModuleName, $view);
 			$records = \Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		}
 
-		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		$moduleModel = \Vtiger_Module_Model::getInstance($pdfModuleName);
 		$isInventory = $moduleModel->isInventory();
 		foreach ($templates as $key => $template) {
 			$isTemplateActive = $template->get('default');
@@ -83,11 +78,11 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		}
 		if ($isInventory) {
 			$allInventoryColumns = [];
-			foreach (\Vtiger_Inventory_Model::getInstance($moduleName)->getFields() as $name => $field) {
+			foreach (\Vtiger_Inventory_Model::getInstance($pdfModuleName)->getFields() as $name => $field) {
 				$allInventoryColumns[$name] = $field->get('label');
 			}
 			$viewer->assign('ALL_INVENTORY_COLUMNS', $allInventoryColumns);
-			$viewer->assign('SELECTED_INVENTORY_COLUMNS', $recordId ? \App\Pdf\InventoryColumns::getInventoryColumnsForRecord($recordId, $moduleName) : array_keys($allInventoryColumns));
+			$viewer->assign('SELECTED_INVENTORY_COLUMNS', ($recordId && !$isRelatedView) ? \App\Pdf\InventoryColumns::getInventoryColumnsForRecord($recordId, $pdfModuleName) : array_keys($allInventoryColumns));
 			$viewer->assign('CAN_CHANGE_SCHEME', $moduleModel->isPermitted('RecordPdfInventory'));
 		}
 		$viewer->assign('STANDARD_TEMPLATES', $templates);
@@ -98,17 +93,22 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		$viewer->assign('ACTIVE', $active);
 		$viewer->assign('OPERATOR', $request->getByType('operator'));
 		$viewer->assign('ALPHABET_VALUE', App\Condition::validSearchValue(
-			$request->getByType('search_value', \App\Purifier::TEXT),
-			$moduleName,
+			$request->getByType('search_value', \App\Purifier::TEXT), $pdfModuleName,
 			$request->getByType('search_key', \App\Purifier::ALNUM), $request->getByType('operator')
 		));
 		$viewer->assign('VIEW_NAME', $request->getByType('viewname', \App\Purifier::ALNUM));
 		$viewer->assign('SELECTED_IDS', $request->getArray('selected_ids', \App\Purifier::INTEGER));
 		$viewer->assign('EXCLUDED_IDS', $request->getArray('excluded_ids', \App\Purifier::INTEGER));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', \App\Purifier::ALNUM));
-		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($moduleName, $request->getArray('search_params'), false));
+		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($pdfModuleName, $request->getArray('search_params'), false));
 		$viewer->assign('ORDER_BY', $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL));
-		$viewer->view('ExportPDF.tpl', $moduleName);
+		if ($isRelatedView) {
+			$viewer->assign('MODULE_NAME', $moduleName);
+			$viewer->assign('RELATED_MODULE', $pdfModuleName);
+			$viewer->assign('RELATION_ID', $request->getInteger('relationId'));
+			$viewer->assign('CV_ID', $request->getByType('cvId', \App\Purifier::ALNUM));
+		}
+		$viewer->view('ExportPDF.tpl', $pdfModuleName);
 		$this->postProcess($request);
 	}
 }

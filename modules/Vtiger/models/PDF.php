@@ -59,7 +59,7 @@ class Vtiger_PDF_Model extends \App\Base
 	 *
 	 * @var array
 	 */
-	protected $viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW'];
+	protected $viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW', 'RelatedList' => 'PLL_RELATEDLISTVIEW'];
 
 	/**
 	 * Custom columns.

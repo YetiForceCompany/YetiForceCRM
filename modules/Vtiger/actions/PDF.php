@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Returns special functions for PDF Settings.
+ * Export PDF action file.
  *
  * @package Action
  *
@@ -12,6 +12,10 @@
  * @author    Adrian Koń <a.kon@yetiforce.com>
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+/**
+ * Export PDF action class.
  */
 class Vtiger_PDF_Action extends \App\Controller\Action
 {
@@ -48,17 +52,17 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	 * Function to validate date.
 	 *
 	 * @param App\Request $request
+	 *
+	 * @return void
 	 */
-	public function validateRecords(App\Request $request)
+	public function validateRecords(App\Request $request): void
 	{
 		$moduleName = $request->getModule();
-		$templates = $request->getArray('templates', \App\Purifier::INTEGER);
 		$recordId = $request->getInteger('record');
-		$records = $recordId ? [$recordId] : \Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		$result = false;
-		foreach ($templates as $templateId) {
+		foreach ($request->getArray('templates', \App\Purifier::INTEGER) as $templateId) {
 			$templateRecord = Vtiger_PDF_Model::getInstanceById($templateId);
-			foreach ($records as $recordId) {
+			foreach ($this->getRecords($request) as $recordId) {
 				if (\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId) && $templateRecord->checkFiltersForRecord((int) $recordId)) {
 					$result = true;
 					break 2;
@@ -66,7 +70,10 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			}
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(['valid' => $result, 'message' => \App\Language::translateArgs('LBL_NO_DATA_AVAILABLE', $moduleName)]);
+		$response->setResult([
+			'valid' => $result,
+			'message' => \App\Language::translateArgs('LBL_NO_DATA_AVAILABLE', $moduleName),
+		]);
 		$response->emit();
 	}
 
@@ -76,27 +83,32 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	 * @param App\Request $request
 	 *
 	 * @throws \App\Exceptions\NoPermitted
+	 *
+	 * @return void
 	 */
-	public function generate(App\Request $request)
+	public function generate(App\Request $request): void
 	{
-		$moduleName = $request->getModule();
+		$pdfModuleName = $request->getModule();
+		$view = $request->getByType('fromview', \App\Purifier::STANDARD);
 		$recordId = $request->getInteger('record');
-		$recordIds = $recordId ? [$recordId] : \Vtiger_Mass_Action::getRecordsListFromRequest($request);
+		if ($isRelatedView = ('RelatedList' === $view)) {
+			$pdfModuleName = $request->getByType('relatedModule', \App\Purifier::ALNUM);
+		}
+		$recordIds = $this->getRecords($request);
 
 		$templateIds = $request->getArray('pdf_template', 'Integer');
 		$singlePdf = 1 === $request->getInteger('single_pdf');
 		$emailPdf = 1 === $request->getInteger('email_pdf');
 		$pdfFlag = $request->getByType('flag', \App\Purifier::STANDARD) ?: '';
-		$view = $request->getByType('fromview', \App\Purifier::STANDARD);
 		$key = 'inventoryColumns';
 		$userVariables = $request->getArray('userVariables', \App\Purifier::TEXT);
 
-		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $moduleName);
+		$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $pdfModuleName);
 		$pdfModel = new $handlerClass();
-		$templates = $recordId ? $pdfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName) : $pdfModel->getActiveTemplatesForModule($moduleName, $view);
+		$templates = ($recordId && !$isRelatedView) ? $pdfModel->getActiveTemplatesForRecord($recordId, $view, $pdfModuleName) : $pdfModel->getActiveTemplatesForModule($pdfModuleName, $view);
 
 		if (($emailPdf && !\App\Privilege::isPermitted('OSSMail'))
-			|| ($request->has($key) && !\App\Privilege::isPermitted($moduleName, 'RecordPdfInventory'))
+			|| ($request->has($key) && !\App\Privilege::isPermitted($pdfModuleName, 'RecordPdfInventory'))
 			|| array_diff($templateIds, array_keys($templates))
 			) {
 			throw new \App\Exceptions\NoPermitted('LBL_EXPORT_ERROR');
@@ -122,9 +134,9 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 							}
 						}
 						$template->setVariable('recordsId', $validRecords);
-						foreach (['viewname', 'search_value', 'search_key', 'search_params', 'operator'] as $keyName) {
+						foreach (['viewname', 'search_value', 'search_key', 'search_params', 'operator', 'cvId', 'relatedModule', 'relationId'] as $keyName) {
 							if ('search_params' === $keyName) {
-								$template->setVariable($keyName, App\Condition::validSearchParams($moduleName, $request->getArray($keyName)));
+								$template->setVariable($keyName, App\Condition::validSearchParams($pdfModuleName, $request->getArray($keyName)));
 							} else {
 								$template->setVariable($keyName, $request->isEmpty($keyName) ? '' : $request->getByType($keyName, \App\Purifier::ALNUM));
 							}
@@ -161,13 +173,13 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 
 					$filePath = $template->getPath();
 					$mode = 'F';
-					$pdfFiles[] = ['name' => $fileName, 'path' => $filePath, 'recordId' => $recordId, 'moduleName' => $moduleName];
+					$pdfFiles[] = ['name' => $fileName, 'path' => $filePath, 'recordId' => $recordId, 'moduleName' => $pdfModuleName];
 					foreach ($attach as $info) {
 						if (!isset($pdfFiles[$info['path']])) {
 							$tmpFileName = 'cache' . \DIRECTORY_SEPARATOR . 'pdf' . \DIRECTORY_SEPARATOR;
 							$tmpFileName = $tmpFileName . basename(tempnam($tmpFileName, 'Attach' . time()));
 							if (\copy($info['path'], $tmpFileName)) {
-								$pdfFiles[$info['path']] = ['name' => $info['name'], 'path' => $tmpFileName, 'recordId' => $recordId, 'moduleName' => $moduleName];
+								$pdfFiles[$info['path']] = ['name' => $info['name'], 'path' => $tmpFileName, 'recordId' => $recordId, 'moduleName' => $pdfModuleName];
 							}
 						}
 					}
@@ -193,22 +205,17 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 *
-	 * @return bool true if valid template exists for this record
+	 * @return void
 	 */
-	public function hasValidTemplate(App\Request $request)
+	public function hasValidTemplate(App\Request $request): void
 	{
 		$recordId = $request->getInteger('record');
 		$moduleName = $request->getModule();
-		$view = $request->getByType('view');
 		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$pdfModel = new Vtiger_PDF_Model();
-		$valid = $pdfModel->checkActiveTemplates($recordId, $moduleName, $view);
-		$output = ['valid' => $valid];
-
 		$response = new Vtiger_Response();
-		$response->setResult($output);
+		$response->setResult(['valid' => (new Vtiger_PDF_Model())->checkActiveTemplates($recordId, $moduleName, $request->getByType('view'))]);
 		$response->emit();
 	}
 
@@ -216,15 +223,17 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	 * Save inventory column scheme.
 	 *
 	 * @param App\Request $request
+	 *
+	 * @return void
 	 */
-	public function saveInventoryColumnScheme(App\Request $request)
+	public function saveInventoryColumnScheme(App\Request $request): void
 	{
-		$moduleName = $request->getModule();
+		$moduleName = $request->has('relatedModule') ? $request->getByType('relatedModule', \App\Purifier::ALNUM) : $request->getModule();
 		if (!\App\Privilege::isPermitted($moduleName, 'RecordPdfInventory')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$recordId = $request->getInteger('record');
-		$records = $recordId ? [$recordId] : \Vtiger_Mass_Action::getRecordsListFromRequest($request);
+		$records = $this->getRecords($request);
 		$columns = $request->getArray('inventoryColumns');
 		$save = [];
 		foreach ($records as $recordId) {
@@ -237,5 +246,24 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			'records' => $records,
 		]);
 		$response->emit();
+	}
+
+	/**
+	 * Get record ids.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return int[]
+	 */
+	private function getRecords(App\Request $request): array
+	{
+		if ($request->has('relatedModule')) {
+			$records = \Vtiger_RelationAjax_Action::getRecordsListFromRequest($request);
+		} elseif (!$request->isEmpty('record')) {
+			$records = [$request->getInteger('record')];
+		} else {
+			$records = \Vtiger_Mass_Action::getRecordsListFromRequest($request);
+		}
+		return $records;
 	}
 }

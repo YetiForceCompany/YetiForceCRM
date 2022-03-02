@@ -515,6 +515,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 	{
 		$parentRecordModel = $this->getParentRecordModel();
 		$relationModelInstance = $this->getRelationModel();
+		$relatedModuleModel = $relationModelInstance->getRelationModuleModel();
 		$relatedLink = [
 			'RELATEDLIST_VIEWS' => [
 				Vtiger_Link_Model::getInstanceFromValues([
@@ -534,10 +535,10 @@ class Vtiger_RelationListView_Model extends \App\Base
 		if (!$parentRecordModel->isReadOnly()) {
 			$selectLinks = $this->getSelectRelationLinks();
 			foreach ($selectLinks as $selectLinkModel) {
-				$selectLinkModel->set('_selectRelation', true)->set('_module', $relationModelInstance->getRelationModuleModel());
+				$selectLinkModel->set('_selectRelation', true)->set('_module', $relatedModuleModel);
 			}
 			$relatedLink['LISTVIEWBASIC'] = array_merge($selectLinks, $this->getAddRelationLinks());
-			if ('Documents' === $relationModelInstance->getRelationModuleModel()->getName()) {
+			if ('Documents' === $relatedModuleModel->getName()) {
 				$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'RELATEDLIST_MASSACTIONS',
 					'linklabel' => 'LBL_MASS_DOWNLOAD',
@@ -546,14 +547,30 @@ class Vtiger_RelationListView_Model extends \App\Base
 					'linkicon' => 'fas fa-download',
 				]);
 			}
-			if ($relationModelInstance->getRelationModuleModel()->isPermitted('QuickExportToExcel')) {
+			if ($relatedModuleModel->isPermitted('QuickExportToExcel')) {
 				$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'RELATEDLIST_MASSACTIONS',
 					'linklabel' => 'LBL_QUICK_EXPORT',
-					'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module={$parentRecordModel->getModuleName()}&action=RelationAjax&mode=exportToExcel&src_record={$parentRecordModel->getId()}&relatedModule={$relationModelInstance->getRelationModuleModel()->getName()}&relationId={$this->getRelationModel()->getId()}&isSortActive=true','sendByForm')",
+					'linkurl' => "javascript:Vtiger_RelatedList_Js.triggerMassAction('index.php?module={$parentRecordModel->getModuleName()}&action=RelationAjax&mode=exportToExcel&src_record={$parentRecordModel->getId()}&relatedModule={$relatedModuleModel->getName()}&relationId={$this->getRelationModel()->getId()}&isSortActive=true','sendByForm')",
 					'linkclass' => '',
 					'linkicon' => 'fas fa-file-export',
 				]);
+			}
+			if ($relatedModuleModel->isPermitted('ExportPdf')) {
+				$handlerClass = Vtiger_Loader::getComponentClassName('Model', 'PDF', $relatedModuleModel->getName());
+				$pdfModel = new $handlerClass();
+				if ($pdfModel->getActiveTemplatesForModule($relatedModuleModel->getName(), 'RelatedList')) {
+					$relatedLink['RELATEDLIST_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
+						'linktype' => 'RELATEDLIST_BASIC',
+						'linkdata' => [
+							'type' => 'modal',
+							'url' => "index.php?module={$parentRecordModel->getModuleName()}&view=PDF&fromview=RelatedList",
+						],
+						'linkclass' => 'btn-light js-mass-record-event',
+						'linkicon' => 'fas fa-file-pdf',
+						'linkhint' => \App\Language::translate('LBL_EXPORT_PDF'),
+					]);
+				}
 			}
 		}
 		return $relatedLink;

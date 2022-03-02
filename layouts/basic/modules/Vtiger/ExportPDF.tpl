@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<form id="pdfExportModal" class="tpl-Vtiger-ExportPDF" action="index.php?module={$MODULE_NAME}&action=PDF&mode=generate" target="_blank" method="POST">
+	<!-- tpl-Base-ExportPDF -->
+	<form id="pdfExportModal" action="index.php" target="_blank" method="POST">
 		<div class="modal-header">
 			<h5 class="modal-title"><span class="fas fa-file-pdf mr-1"></span>{\App\Language::translate('LBL_GENERATE_PDF_FILE', $MODULE_NAME)}</h5>
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -10,16 +11,22 @@
 		<div class="modal-body">
 			<input type="hidden" name="module" value="{$MODULE_NAME}" />
 			<input type="hidden" name="action" value="PDF" />
+			<input type="hidden" name="mode" value="generate" />
+			<input type="hidden" name="record" value="{$RECORD_ID}" />
+			<input type="hidden" name="fromview" value="{$FROM_VIEW}" />
 			<input type="hidden" name="viewname" value="{$VIEW_NAME}" />
-			<input type="hidden" name="selected_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}">
-			<input type="hidden" name="excluded_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}">
+			{if isset($RELATED_MODULE)}
+				<input type="hidden" name="relatedModule" value="{$RELATED_MODULE}" />
+				<input type="hidden" name="relationId" value="{$RELATION_ID}" />
+				<input type="hidden" name="cvId" value="{$CV_ID}" />
+			{/if}
 			<input type="hidden" name="search_key" value="{$SEARCH_KEY}" />
 			<input type="hidden" name="operator" value="{$OPERATOR}" />
 			<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
 			<input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}" />
+			<input type="hidden" name="selected_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}">
+			<input type="hidden" name="excluded_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}">
 			<input type="hidden" name="orderby" value="{\App\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}" />
-			<input type="hidden" name="record" value="{$RECORD_ID}" />
-			<input type="hidden" name="fromview" value="{$FROM_VIEW}" />
 			<input type="hidden" name="single_pdf" value="0" />
 			<input type="hidden" name="email_pdf" value="0" />
 			<input type="hidden" name="isSortActive" value="1" />
@@ -150,4 +157,5 @@
 			<button class="btn btn-danger" type="reset" data-dismiss="modal"><span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</button>
 		</div>
 	</form>
+	<!-- /tpl-Base-ExportPDF -->
 {/strip}
