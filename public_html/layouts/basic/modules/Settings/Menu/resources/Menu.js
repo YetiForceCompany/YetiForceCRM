@@ -274,10 +274,10 @@ jQuery.Class(
 		},
 		registerHiddenInput: function (container) {
 			if (container.find('#menuType').val() == 'CustomFilter') {
-				var tabid = container.find('select[name="dataurl"] option:selected').data('tabid');
+				var tabid = container.find('select[name="filterId"] option:selected').data('tabid');
 				container.find('[name="module"]').val(tabid);
-				container.on('change', 'select[name="dataurl"]', function (e) {
-					var tabid = container.find('select[name="dataurl"] option:selected').data('tabid');
+				container.on('change', 'select[name="filterId"]', function (e) {
+					var tabid = container.find('select[name="filterId"] option:selected').data('tabid');
 					container.find('[name="module"]').val(tabid);
 				});
 			}

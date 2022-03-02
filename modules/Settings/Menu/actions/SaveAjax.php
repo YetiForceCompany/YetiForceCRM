@@ -29,9 +29,15 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			'filters' => ['Integer'],
 			'icon' => 'Text',
 			'role' => 'Alnum',
-			'dataurl' => 'Text',
+			'dataurl' => 'Url',
+			'filterId' => 'Integer'
 		]
 		);
+		$type = Settings_Menu_Module_Model::TYPES[$data['type']] ?? '';
+		if ('CustomFilter' === $type) {
+			$data['dataurl'] = $data['filterId'];
+			unset($data['filterId']);
+		}
 		$data['source'] = $request->getInteger('source');
 		$recordModel = Settings_Menu_Record_Model::getCleanInstance();
 		$recordModel->initialize($data);
@@ -56,9 +62,14 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			'filters' => ['Integer'],
 			'icon' => 'Text',
 			'role' => 'Alnum',
-			'dataurl' => 'Text',
+			'dataurl' => 'Url',
+			'filterId' => 'Integer'
 		]
 		);
+		if (!empty($data['filterId']) && empty($data['dataurl'])) {
+			$data['dataurl'] = $data['filterId'];
+			unset($data['filterId']);
+		}
 		$data['source'] = $request->getInteger('source');
 		$recordModel = Settings_Menu_Record_Model::getInstanceById($data['id']);
 		$recordModel->initialize($data);

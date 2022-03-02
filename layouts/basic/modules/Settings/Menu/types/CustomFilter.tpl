@@ -4,7 +4,7 @@
 <div class="form-group row">
 	<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
-		<select name="dataurl" class="select2 form-control type">
+		<select name="filterId" class="select2 form-control type">
 			{foreach from=$MODULE_MODEL->getCustomViewList() item=ITEM}
 				<option value="{$ITEM.cvid}" {if $RECORD && $ITEM['cvid'] == $RECORD->get('dataurl')} selected="" {/if} data-tabid="{$ITEM['tabid']}">{\App\Language::translate($ITEM['entitytype'], $ITEM['entitytype'])}: {\App\Language::translate($ITEM['viewname'], $ITEM['entitytype'])}</option>
 			{/foreach}

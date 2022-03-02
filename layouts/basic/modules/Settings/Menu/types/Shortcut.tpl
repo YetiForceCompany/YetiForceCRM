@@ -9,7 +9,7 @@
 <div class="form-group row">
 	<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_URL', $QUALIFIED_MODULE)}:</label>
 	<div class="col-md-7">
-		<input name="dataurl" class="form-control" type="text" value="{if $RECORD}{$RECORD->get('dataurl')}{/if}" placeholder="https://yetiforce.com" data-validation-engine="validate[custom[url]]" />
+		<input name="dataurl" class="form-control" type="text" value="{if $RECORD}{\App\Purifier::encodeHtml($RECORD->get('dataurl'))}{/if}" placeholder="https://yetiforce.com" data-validation-engine="validate[required,funcCall[Vtiger_Url_Validator_Js.invokeValidation]]" />
 	</div>
 </div>
 {include file=\App\Layout::getTemplatePath('fields/Newwindow.tpl', $QUALIFIED_MODULE)}
