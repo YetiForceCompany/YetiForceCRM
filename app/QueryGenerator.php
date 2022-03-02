@@ -155,7 +155,7 @@ class QueryGenerator
 	/**
 	 * Get query fields.
 	 *
-	 * @return \Vtiger_Field_Model[]
+	 * @return string[]
 	 */
 	public function getFields()
 	{

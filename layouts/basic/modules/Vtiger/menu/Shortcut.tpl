@@ -10,7 +10,7 @@
 	<li class="tpl-menu-Shortcut c-menu__item js-menu__item nav-item menuShortcut {if !$HASCHILDS}hasParentMenu{/if}" data-id="{$MENU.id}" data-js="mouseenter mouseleave">
 		<a class="nav-link {if $ACTIVE =='true'}active{else}collapsed{/if}{if $ICON} hasIcon{/if}{if $HASCHILDS == 'true'} js-submenu-toggler is-submenu-toggler{/if}{if isset($MENU['hotkey'])} hotKey{/if}{if $PARENT_MODULE} js-menu__link--draggable{/if}" {if isset($MENU['hotkey'])} data-hotkeys="{$MENU['hotkey']}" {/if}
 			{if $HASCHILDS == 'true'} data-toggle="collapse" data-target="#submenu-{$MENU['id']}" role="button" {/if}
-			href="{$MENU['dataurl']}" {if $HASCHILDS == 'true'} aria-haspopup="true" aria-expanded="{$ACTIVE}" aria-controls="submenu-{$MENU['id']}" {/if}
+			href="{\App\Purifier::encodeHtml($MENU['dataurl'])}" {if $HASCHILDS == 'true'} aria-haspopup="true" aria-expanded="{$ACTIVE}" aria-controls="submenu-{$MENU['id']}" {/if}
 			{if $MENU.newwindow eq 1}target="_blank" {/if} rel="noreferrer noopener" data-js="draggable">
 			{$ICON}
 			<span class="c-menu__item__text js-menu__item__text" title="{$MENU['name']}" data-js="class: u-white-space-n">
