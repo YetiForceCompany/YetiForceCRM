@@ -96,6 +96,11 @@
 								{/if}
 							{/foreach}
 						{/if}
+						{if isset($RELATED_LIST_LINKS['RELATEDLIST_BASIC'])}
+							{foreach item=LINK from=$RELATED_LIST_LINKS['RELATEDLIST_BASIC']}
+								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='relatedListView' CLASS='mr-sm-1 mb-1 c-btn-block-sm-down'}
+							{/foreach}
+						{/if}
 					</div>
 					{if $CUSTOM_VIEW_LIST}
 						<div class="mr-auto col-xl-2 col-md-4 col-12 px-0 mb-md-0 mb-1">

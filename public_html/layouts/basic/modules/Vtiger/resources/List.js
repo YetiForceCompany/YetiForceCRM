@@ -1600,6 +1600,9 @@ $.Class(
 				window.location.href = recordUrl;
 			});
 		},
+		/**
+		 * Register mass records events.
+		 */
 		registerMassRecordsEvents: function () {
 			const self = this;
 			this.getListViewContainer().on('click', '.js-mass-record-event', function () {
