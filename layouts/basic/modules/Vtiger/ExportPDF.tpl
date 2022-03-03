@@ -15,6 +15,7 @@
 			<input type="hidden" name="record" value="{$RECORD_ID}" />
 			<input type="hidden" name="fromview" value="{$FROM_VIEW}" />
 			<input type="hidden" name="viewname" value="{$VIEW_NAME}" />
+			<input type="hidden" name="entityState" value="{\App\Purifier::encodeHtml($ENTITY_STATE)}" />
 			{if isset($RELATED_MODULE)}
 				<input type="hidden" name="relatedModule" value="{$RELATED_MODULE}" />
 				<input type="hidden" name="relationId" value="{$RELATION_ID}" />
