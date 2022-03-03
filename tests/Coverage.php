@@ -44,7 +44,7 @@ class Coverage
 	public static function getInstance(): self
 	{
 		if (!isset(self::$self)) {
-			\SebastianBergmann\CodeCoverage\Directory::create(ROOT_DIRECTORY . '/tests/coverages/');
+			\SebastianBergmann\CodeCoverage\Util\Filesystem::createDirectory(ROOT_DIRECTORY . '/tests/coverages/');
 			self::log(($_SERVER['REQUEST_METHOD'] ?? '') . ':' . ($_SERVER['REQUEST_URI'] ?? ''), true);
 			$self = new self();
 			$self->startTime = microtime(true);
