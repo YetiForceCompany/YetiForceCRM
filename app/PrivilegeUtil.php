@@ -1338,7 +1338,7 @@ class PrivilegeUtil
 	 */
 	public static function getGroupsWhereUserIsLeader(int $userId): array
 	{
-		return (new \App\Db\Query())->select(['groupid'])->from('vtiger_groups')->where(['parentid' => self::getQueryToGroupsByUserId($userId)])->column();
+		return (new \App\Db\Query())->select(['groupid'])->from('vtiger_groups')->where(['or', ['parentid' => $userId], ['parentid' => self::getQueryToGroupsByUserId($userId)]])->column();
 	}
 
 	/**
