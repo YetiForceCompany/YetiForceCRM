@@ -447,15 +447,13 @@ return [
 	'Pdf' => [
 		'chromiumBinaryPath' => [
 			'default' => '',
-			'type' => 'string',
 			'description' => 'The name or path of the chrome/chromium engine.',
-			'custom' => ['see' => 'https://www.chromium.org/getting-involved/download-chromium'],
+			'docTags' => ['see' => 'https://www.chromium.org/getting-involved/download-chromium', 'var' => 'string'],
 		],
 		'chromiumBrowserOptions' => [
 			'default' => ['noSandbox' => true],
-			'type' => 'array',
 			'description' => 'Chromium browser options available for the browser factory:',
-			'custom' => ['see' => 'https://github.com/chrome-php/chrome#available-options'],
+			'docTags' => ['see' => 'https://github.com/chrome-php/chrome#available-options', 'var' => 'array'],
 		],
 	],
 ];

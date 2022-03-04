@@ -181,7 +181,10 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			if ($errorLabel = $this->validate()) {
 				throw new \App\Exceptions\AppException($errorLabel);
 			}
-			$oldUsersList = $this->getUsersList($this->getPreviousValue('members') ?? '');
+			$userIds = array_unique(array_merge(
+				$this->getUsersList($this->getPreviousValue('members') ?? ''),
+				$this->getLeaderUsers($this->getPreviousValue('parentid'))
+			));
 			$this->saveToDb();
 			$transaction->commit();
 		} catch (\Throwable $ex) {
@@ -190,8 +193,31 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			throw $ex;
 		}
 		\App\Cache::clear();
-		$userIds = array_unique(array_merge($oldUsersList, $this->getUsersList($this->get('members') ?? '')));
+		$userIds = array_unique(array_merge($userIds,
+			$this->getUsersList($this->get('members') ?? ''),
+			$this->getLeaderUsers($this->get('parentid'))
+		));
 		$this->recalculate($userIds);
+	}
+
+	/**
+	 * Get leader users.
+	 *
+	 * @param int|null $leader
+	 *
+	 * @return array
+	 */
+	public function getLeaderUsers(?int $leader): array
+	{
+		$users = [];
+		if ($leader) {
+			if ('Users' === \App\Fields\Owner::getType($leader)) {
+				$users[] = $leader;
+			} else {
+				$users = \App\PrivilegeUtil::getUsersByGroup($leader);
+			}
+		}
+		return $users;
 	}
 
 	/**
@@ -290,7 +316,11 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 					case 'parentid':
 						$fieldModel = $this->getFieldInstanceByName($fieldName);
 						$value = $request->getByType($fieldName, $fieldModel->get('purifyType'));
-						$fieldModel->getUITypeModel()->validate($value, true);
+						$fieldUITypeModel = $fieldModel->getUITypeModel();
+						$fieldUITypeModel->validate($value, true);
+						if ($value && ($ownerList = $fieldUITypeModel->getOwnerList($this)) && !isset($ownerList['LBL_USERS'][$value]) && !isset($ownerList['LBL_GROUPS'][$value])) {
+							$value = 0;
+						}
 						break;
 					default:
 						$fieldModel = $this->getFieldInstanceByName($fieldName);

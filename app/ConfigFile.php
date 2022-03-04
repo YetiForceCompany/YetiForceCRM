@@ -238,14 +238,11 @@ This file is auto-generated.
 			} else {
 				$value = $this->has($parameterName) ? $this->get($parameterName) : Config::get($className, $parameterName, $parameter['default']);
 				$property = $class->addProperty($parameterName, $value)->setStatic()->addComment($parameter['description']);
-				if (isset($parameter['custom'])) {
+			}
+			if (isset($parameter['docTags'])) {
+				foreach ($parameter['docTags'] as $tagName => $val) {
 					$property->addComment('');
-					foreach ($parameter['custom'] as $key => $val) {
-						$property->addComment("@{$key} {$val}");
-					}
-				}
-				if (isset($parameter['type'])) {
-					$property->addComment(PHP_EOL . '@var ' . $parameter['type']);
+					$property->addComment("@{$tagName} {$val}");
 				}
 			}
 		}

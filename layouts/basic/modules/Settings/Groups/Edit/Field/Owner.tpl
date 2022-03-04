@@ -3,9 +3,7 @@
 	<!-- tpl-Settings-Groups-Edit-Field-Owner -->
 	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
-	{assign var=OWNER_FIELD value=\App\Fields\Owner::getInstance($MODULE_NAME)}
-	{assign var=ALL_ACTIVEUSER_LIST value=$OWNER_FIELD->getAccessibleUsers('',$FIELD_MODEL->getFieldDataType())}
-	{assign var=ALL_ACTIVEGROUP_LIST value=$OWNER_FIELD->getAccessibleGroups('',$FIELD_MODEL->getFieldDataType())}
+	{assign var=OWNERS_ALL value=$FIELD_MODEL->getUITypeModel()->getOwnerList($RECORD)}
 	{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 	{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
@@ -27,14 +25,14 @@
 			data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 			data-name="{$FIELD_NAME}" name="{$FIELD_NAME}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if}
 			{if $FIELD_MODEL->isEditableReadOnly() || !$USER_MODEL->isAdminUser()}readonly="readonly" {/if}>
-			{assign var=FOUND_SELECT_VALUE value=isset($ALL_ACTIVEUSER_LIST[$FIELD_VALUE]) || isset($ALL_ACTIVEGROUP_LIST[$FIELD_VALUE])}
 			{if !$FIELD_MODEL->isMandatory()}
 				<optgroup class="p-0">
 					<option value="0">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 				</optgroup>
 			{/if}
-			{OPTGRUOP BLOCK_NAME='LBL_USERS' OWNERS=$ALL_ACTIVEUSER_LIST}
-			{OPTGRUOP BLOCK_NAME='LBL_GROUPS' OWNERS=$ALL_ACTIVEGROUP_LIST}
+			{foreach from=$OWNERS_ALL item=OWNERS key=BLOCK_NAME}
+				{OPTGRUOP BLOCK_NAME=$BLOCK_NAME OWNERS=$OWNERS}
+			{/foreach}
 		</select>
 	</div>
 	<!-- /tpl-Settings-Groups-Edit-Field-Owner -->
