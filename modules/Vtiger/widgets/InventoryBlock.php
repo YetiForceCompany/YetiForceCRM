@@ -32,7 +32,7 @@ class Vtiger_InventoryBlock_Widget extends Vtiger_Basic_Widget
 	{
 		$this->Config['url'] = $this->getUrl();
 		if (!isset($this->Config['data']['relatedmodule'])) {
-			$this->Config['data']['relatedmodule'] = $this->Module;
+			$this->Config['data']['relatedmodule'] = \App\Module::getModuleId($this->Module);
 		}
 		return $this->Config;
 	}
