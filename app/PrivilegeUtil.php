@@ -1,7 +1,4 @@
 <?php
-
-namespace App;
-
 /**
  * Privilege Util basic class.
  *
@@ -12,6 +9,9 @@ namespace App;
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+namespace App;
+
 class PrivilegeUtil
 {
 	/** @var int Allowed group nests */
@@ -1259,7 +1259,20 @@ class PrivilegeUtil
 		if (Cache::has('getAllGroupsByUser', $userId)) {
 			return Cache::get('getAllGroupsByUser', $userId);
 		}
-		$allGroups = self::getQueryToGroupsByUserId((int) $userId)->column();
+		$userGroups = static::getUserGroups($userId);
+		$userRole = static::getRoleByUsers($userId);
+		$roleGroups = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2role')->where(['roleid' => $userRole])->column();
+		$roles = static::getParentRole($userRole);
+		$roles[] = $userRole;
+		$rsGroups = (new \App\Db\Query())->select(['groupid'])->from('vtiger_group2rs')->where(['roleandsubid' => $roles])->column();
+		$allGroups = array_unique(array_merge($userGroups, $roleGroups, $rsGroups));
+		$parentGroups = [];
+		foreach ($allGroups as $groupId) {
+			$parentGroups = array_merge($parentGroups, static::getParentGroups($groupId));
+		}
+		if ($parentGroups) {
+			$allGroups = array_unique(array_merge($allGroups, $parentGroups));
+		}
 		Cache::save('getAllGroupsByUser', $userId, $allGroups, Cache::LONG);
 
 		return $allGroups;
@@ -1296,28 +1309,7 @@ class PrivilegeUtil
 	 */
 	public static function getQueryToGroupsByUserId(int $userId): Db\Query
 	{
-		$roleData = (new \App\Db\Query())->select(['vtiger_role.roleid', 'vtiger_role.parentrole'])
-			->from('vtiger_role')
-			->innerJoin('vtiger_user2role', 'vtiger_role.roleid = vtiger_user2role.roleid')
-			->where(['vtiger_user2role.userid' => $userId])->one() ?: [];
-		$userParentRoleSeq = isset($roleData['parentrole']) ? explode('::', $roleData['parentrole']) : [];
-
-		$queryGroup = (new \App\Db\Query())->select(['groupid'])->from('vtiger_users2group')->where(['userid' => $userId])
-			->union(
-				(new \App\Db\Query())->select(['groupid'])->from('vtiger_group2role')->innerJoin('vtiger_user2role', 'vtiger_group2role.roleid=vtiger_user2role.roleid')->where(['vtiger_user2role.userid' => $userId])
-			)->union(
-				(new \App\Db\Query())->select(['groupid'])->from('vtiger_group2rs')->where(['roleandsubid' => $userParentRoleSeq])
-			);
-
-		$tableTemp = "getQueryToGroupsByUserId_{$userId}_" . \App\Layout::getUniqueId();
-		$queryTamp = (new \App\Db\Query())->select(['groupid'])->from($tableTemp)->withQuery($queryGroup, $tableTemp);
-		$mainTableTemp = "getQueryToGroupsByUserId_{$userId}_main_" . \App\Layout::getUniqueId();
-
-		$initialQueryG2G = (new \App\Db\Query())->select(['groupid', 'containsgroupid'])->from(['g2g' => 'vtiger_group2grouprel'])->where(['containsgroupid' => $queryTamp]);
-		$recursiveQueryG2G = (new \App\Db\Query())->select(['g2g.groupid', 'g2g.containsgroupid'])->from(['g2g' => 'vtiger_group2grouprel'])->innerJoin($mainTableTemp, "{$mainTableTemp}.groupid = g2g.containsgroupid");
-		$tempQueryForG2G = (new \App\Db\Query())->select(['groupid'])->from($mainTableTemp)->withQuery($initialQueryG2G->union($recursiveQueryG2G), $mainTableTemp, true);
-
-		return (new \App\Db\Query())->select(['groupid'])->from('vtiger_groups')->where(['or', ['groupid' => $queryTamp], ['groupid' => $tempQueryForG2G]]);
+		return (new \App\Db\Query())->select(['groupid'])->from('vtiger_groups')->where(['groupid' => self::getAllGroupsByUser($userId)]);
 	}
 
 	/**
