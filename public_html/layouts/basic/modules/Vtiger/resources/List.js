@@ -5,7 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  *************************************************************************************/
 'use strict';
 
@@ -1721,25 +1721,20 @@ $.Class(
 		 * @param Accepts form as a parameter
 		 */
 		inactiveFieldsValidation: function (form) {
-			let massEditFieldList = $('#massEditFieldsNameList').data('value');
-			for (let fieldName in massEditFieldList) {
-				let fieldInfo = massEditFieldList[fieldName];
-
-				let fieldElement = form.find('[name="' + fieldInfo.name + '"]');
+			form.find('.fieldValue [data-validation-engine][data-fieldinfo]').each((_, e) => {
+				let fieldElement = $(e);
+				let fieldInfo = fieldElement.data('fieldinfo');
 				if (fieldInfo.type == 'reference') {
 					//get the element which will be shown which has "_display" appended to actual field name
 					fieldElement = form.find('[name="' + fieldInfo.name + '_display"]');
 				} else if (fieldInfo.type == 'multipicklist' || fieldInfo.type == 'sharedOwner') {
 					fieldElement = form.find('[name="' + fieldInfo.name + '[]"]');
 				}
-
 				//Not all the fields will be enabled for mass edit
 				if (fieldElement.length == 0) {
-					continue;
+					return;
 				}
-
 				let elemData = fieldElement.data();
-
 				//Blank validation by default
 				let validationVal = 'validate[]';
 				if ('validationEngine' in elemData) {
@@ -1748,7 +1743,7 @@ $.Class(
 				}
 				fieldElement.attr('data-invalid-validation-engine', validationVal);
 				fieldElement.removeAttr('data-validation-engine');
-			}
+			});
 		},
 		registerEventForTabClick: function (form) {
 			let ulContainer = form.find('.massEditTabs');

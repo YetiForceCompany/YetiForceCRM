@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
 class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
@@ -38,11 +38,6 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_MASSEDIT);
-		$fieldInfo = [];
-		$fieldList = $moduleModel->getFields();
-		foreach ($fieldList as $fieldName => $fieldModel) {
-			$fieldInfo[$fieldName] = $fieldModel->getFieldInfo();
-		}
 		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
 
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
@@ -54,7 +49,6 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('EXCLUDED_IDS', $request->getArray('excluded_ids', 2));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('MASS_EDIT_FIELD_DETAILS', $fieldInfo);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->assign('MODULE_MODEL', $moduleModel);
