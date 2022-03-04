@@ -452,7 +452,7 @@ return [
 		],
 		'chromiumBrowserOptions' => [
 			'default' => ['noSandbox' => true],
-			'description' => 'Chromium browser options available for the browser factory:',
+			'description' => 'Chromium browser options available for the browser factory.',
 			'docTags' => ['see' => 'https://github.com/chrome-php/chrome#available-options', 'var' => 'array'],
 		],
 	],

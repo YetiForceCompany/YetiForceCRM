@@ -234,7 +234,7 @@ This file is auto-generated.
 		$class->addComment("Configuration file: $className.");
 		foreach ($this->template as $parameterName => $parameter) {
 			if (isset($parameter['type']) && 'function' === $parameter['type']) {
-				$class->addMethod($parameterName)->setStatic()->setBody($parameter['default'])->addComment($parameter['description']);
+				$property = $class->addMethod($parameterName)->setStatic()->setBody($parameter['default'])->addComment($parameter['description']);
 			} else {
 				$value = $this->has($parameterName) ? $this->get($parameterName) : Config::get($className, $parameterName, $parameter['default']);
 				$property = $class->addProperty($parameterName, $value)->setStatic()->addComment($parameter['description']);
