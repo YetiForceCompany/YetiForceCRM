@@ -41,7 +41,9 @@ class TableDiscountSummary extends Base
 			} else {
 				$currency = $baseCurrency['id'];
 			}
-			$currencyData = \App\Fields\Currency::getById($currency);
+			$currencySymbol = \App\Fields\Currency::getById($currency)['currency_symbol'];
+		} else {
+			$currencySymbol = \App\Fields\Currency::getDefault()['currency_symbol'];
 		}
 		if (!empty($fields[0])) {
 			$discount = 0;
@@ -57,7 +59,7 @@ class TableDiscountSummary extends Base
 				</thead>
 					<tbody>
 						<tr>
-							<td style="padding:0px 4px;text-align:right;font-weight:bold;border:1px solid #ddd;">' . \CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+							<td style="padding:0px 4px;text-align:right;font-weight:bold;border:1px solid #ddd;">' . \CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencySymbol . '</td>
 						</tr>
 					</tbody>
 				</table>';

@@ -49,7 +49,9 @@ class TableCorrectTaxSummary extends Base
 			} else {
 				$currency = $baseCurrency['id'];
 			}
-			$currencyData = \App\Fields\Currency::getById($currency);
+			$currencySymbol = \App\Fields\Currency::getById($currency)['currency_symbol'];
+		} else {
+			$currencySymbol = \App\Fields\Currency::getDefault()['currency_symbol'];
 		}
 		if (!empty($fields[0])) {
 			$taxes = $relatedTaxes = [];
@@ -83,7 +85,7 @@ class TableCorrectTaxSummary extends Base
 				}
 				$html .= '<tr>
 									<td class="name" style="text-align:left;font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
-									<td class="value" style="text-align:right;font-weight:bold;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($relatedTaxAmount - $taxAmount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
+									<td class="value" style="text-align:right;font-weight:bold;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($relatedTaxAmount - $taxAmount, null, true) . ' ' . $currencySymbol . '</td>
 								</tr>
 								</tbody>
 						</table>';

@@ -39,6 +39,8 @@ class ProductsTable extends Base
 			$currency = $inventoryRows && $firstRow['currency'] ? $firstRow['currency'] : $baseCurrency['id'];
 			$currencyData = \App\Fields\Currency::getById($currency);
 			$currencySymbol = $currencyData['currency_symbol'];
+		} else {
+			$currencyData = \App\Fields\Currency::getDefault();
 		}
 		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
 		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;';
