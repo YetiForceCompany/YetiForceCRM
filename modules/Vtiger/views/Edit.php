@@ -89,19 +89,6 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		$editModel = Vtiger_EditView_Model::getInstance($moduleName, $recordId);
 		$viewLinks = $editModel->getEditViewLinks(['MODULE' => $moduleName, 'RECORD' => $recordId]);
 
-		$eventHandler = new App\EventHandler();
-		$eventHandler->setRecordModel($this->record);
-		$eventHandler->setModuleName($moduleName);
-		$eventHandler->setParams([
-			'mode' => $mode,
-			'viewLinks' => $viewLinks,
-		]);
-		$eventHandler->trigger('EditViewBefore');
-		$viewLinks = $eventHandler->getParams()['viewLinks'];
-
-		$viewer->assign('MODE', $mode);
-		$viewer->assign('EDITVIEW_LINKS', $viewLinks);
-
 		$moduleModel = $this->record->getModule();
 		$fieldList = $moduleModel->getFields();
 		foreach (array_intersect($request->getKeys(), array_keys($fieldList)) as $fieldName) {
@@ -135,6 +122,18 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 				}
 			}
 		}
+
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setRecordModel($this->record);
+		$eventHandler->setModuleName($moduleName);
+		$eventHandler->setParams([
+			'mode' => ucfirst($mode),
+			'viewLinks' => $viewLinks,
+			'viewInstance' => $this,
+		]);
+		$eventHandler->trigger('EditViewBefore');
+		['viewLinks' => $viewLinks] = $eventHandler->getParams();
+
 		if ($editViewLayout = ((1 === $moduleModel->getModuleType() || (\in_array($moduleName, \App\Config::performance('MODULES_SPLITTED_EDIT_VIEW_LAYOUT', [])))) && \App\Config::performance('INVENTORY_EDIT_VIEW_LAYOUT'))) {
 			$recordStructureRight = [];
 			foreach ($moduleModel->getFieldsByType('text') as $field) {
@@ -145,6 +144,9 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 			}
 			$viewer->assign('RECORD_STRUCTURE_RIGHT', $recordStructureRight);
 		}
+
+		$viewer->assign('MODE', $mode);
+		$viewer->assign('EDITVIEW_LINKS', $viewLinks);
 		$viewer->assign('EDIT_VIEW_LAYOUT', $editViewLayout);
 		$viewer->assign('ADDRESS_BLOCK_LABELS', ['LBL_ADDRESS_INFORMATION', 'LBL_ADDRESS_MAILING_INFORMATION', 'LBL_ADDRESS_DELIVERY_INFORMATION', 'LBL_ADDRESS_BILLING', 'LBL_ADDRESS_SHIPPING']);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);

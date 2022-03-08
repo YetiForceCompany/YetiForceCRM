@@ -80,6 +80,18 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$layout = $request->getByType('showLayout') ?: Config\Performance::$quickEditLayout ?? 'blocks';
 		$layout = 'Calendar' === $moduleName ? 'standard' : $layout;
+
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setRecordModel($recordModel);
+		$eventHandler->setModuleName($moduleName);
+		$eventHandler->setParams([
+			'mode' => 'QuickEdit',
+			'layout' => $layout,
+			'viewInstance' => $this,
+		]);
+		$eventHandler->trigger('EditViewBefore');
+		['layout' => $layout] = $eventHandler->getParams();
+
 		if ('blocks' === $layout) {
 			$layout = 'blocks';
 			$blockModels = $moduleModel->getBlocks();
