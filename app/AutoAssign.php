@@ -40,9 +40,9 @@ class AutoAssign extends Base
 	public const MODE_WORKFLOW = 4;
 
 	/** @var int Load balance method */
-	private const METHOD_LOAD_BALANCE = 0;
+	public const METHOD_LOAD_BALANCE = 0;
 	/** @var int Round robin method */
-	private const METHOD_ROUND_ROBIN = 1;
+	public const METHOD_ROUND_ROBIN = 1;
 
 	/**
 	 * Get all auto assign entries for module.
@@ -207,14 +207,14 @@ class AutoAssign extends Base
 	 *
 	 * @return int
 	 */
-	public function getOwner(): int
+	public function getOwner(): ?int
 	{
 		switch ($this->get('method')) {
 			case self::METHOD_LOAD_BALANCE:
-				$owner = $this->getQueryByLoadBalance()->scalar();
+				$owner = $this->getQueryByLoadBalance()->scalar() ?: null;
 				break;
 			case self::METHOD_ROUND_ROBIN:
-				$owner = $this->getQueryByRoundRobin()->scalar();
+				$owner = $this->getQueryByRoundRobin()->scalar() ?: null;
 				break;
 			default:
 				$owner = null;
@@ -239,7 +239,7 @@ class AutoAssign extends Base
 				$owner = $this->getQueryByRoundRobin()->all();
 				break;
 			default:
-			$owner = [];
+				$owner = [];
 				break;
 		}
 
@@ -417,7 +417,7 @@ class AutoAssign extends Base
 			$isExists = (new Db\Query())->from(self::ROUND_ROBIN_TABLE)->where($params)->exists();
 			if ($isExists) {
 				$dbCommand->update(self::ROUND_ROBIN_TABLE, ['datetime' => (new \DateTime())->format('Y-m-d H:i:s.u')], $params)->execute();
-			} else {
+			} elseif (\App\User::isExists($userId, false)) {
 				$params['datetime'] = (new \DateTime())->format('Y-m-d H:i:s.u');
 				$dbCommand->insert(self::ROUND_ROBIN_TABLE, $params)->execute();
 			}
