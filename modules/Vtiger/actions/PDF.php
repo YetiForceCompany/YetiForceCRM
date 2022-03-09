@@ -259,7 +259,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	{
 		if ($request->has('relatedModule')) {
 			$records = \Vtiger_RelationAjax_Action::getRecordsListFromRequest($request);
-		} elseif (!$request->isEmpty('record')) {
+		} elseif (!$request->isEmpty('record', true)) {
 			$records = [$request->getInteger('record')];
 		} else {
 			$records = \Vtiger_Mass_Action::getRecordsListFromRequest($request);
