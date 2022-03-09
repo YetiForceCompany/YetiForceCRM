@@ -89,6 +89,17 @@ class EventHandler
 				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
 			],
 		],
+		'DetailViewBefore' => [
+			'label' => 'LBL_DETAIL_VIEW_BEFORE',
+			'icon' => 'mdi mdi-account-details c-mdi',
+			'columns' => [
+				'eventName' => ['label' => 'LBL_EVENT_NAME'],
+				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
+				'modules' => ['label' => 'LBL_INCLUDE_MODULES'],
+				'modulesExcluded' => ['label' => 'LBL_EXCLUDE_MODULES'],
+				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
+			],
+		],
 	];
 
 	/**
