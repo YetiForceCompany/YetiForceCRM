@@ -681,6 +681,7 @@ class RecordConverter extends Base
 	 */
 	public function checkFieldMergeExist()
 	{
+		$this->isFieldMergeExists = false;
 		if (isset($this->fieldMapping['field_merge'])) {
 			$destinyReferenceFields = $this->destinyModuleModel->getFieldsByReference();
 			$referenceDestinyField = $this->fieldMapping['field_merge'][$this->destinyModuleModel->getId()];
@@ -691,7 +692,6 @@ class RecordConverter extends Base
 				$this->isFieldMergeExists = true;
 			}
 		}
-		$this->isFieldMergeExists = false;
 	}
 
 	/**
