@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="modal-body tpl-MergeRecords">
+	<!-- tpl-Base-MergeRecords -->
+	<div class="modal-body">
 		<form class="form-horizontal" name="massMerge" method="post" action="index.php">
 			<div class="alert alert-info alert-dismissible fade show" role="alert">
 				<button type="button" class="close" data-dismiss="alert" aria-label="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}">
@@ -36,14 +37,21 @@
 						{/foreach}
 					</thead>
 					{foreach item=FIELD_NAME from=$FIELDS}
+						{assign var=ROW_COLOR value=0}
+						{assign var=ROW_LAST_VALUE value=null}
+						{foreach item=RECORD from=$RECORD_MODELS name=recordList}
+							{if $smarty.foreach.recordList.first}
+								{assign var=ROW_LAST_VALUE value=$RECORD->get($FIELD_NAME)}
+							{elseif $ROW_LAST_VALUE !== '' && $RECORD->get($FIELD_NAME) !== '' && $ROW_LAST_VALUE !== $RECORD->get($FIELD_NAME)}
+								{assign var=ROW_COLOR value=1}
+							{/if}
+						{/foreach}
 						<tr>
-							{foreach item=RECORD from=$RECORD_MODELS name=recordList}
-								{if $smarty.foreach.recordList.first}
-									<td>
-										{\App\Language::translate($RECORD->getField($FIELD_NAME)->get('label'), $RECORD->getModuleName())}
-									</td>
-								{/if}
-								<td>
+							<td>
+								{\App\Language::translate($RECORD->getField($FIELD_NAME)->get('label'), $RECORD->getModuleName())}
+							</td>
+							{foreach item=RECORD from=$RECORD_MODELS}
+								<td {if $ROW_COLOR}class="table-info" {/if}>
 									<div class="form-check form-check-inline">
 										<div>
 											<input {if $smarty.foreach.recordList.first}checked{/if} type="radio" id="radio{$FIELD_NAME}{$RECORD->getId()}" name="{$FIELD_NAME}" class="form-check-input" value="{$RECORD->getId()}">
@@ -58,4 +66,5 @@
 			</div>
 		</form>
 	</div>
+	<!-- /tpl-Base-MergeRecords -->
 {/strip}
