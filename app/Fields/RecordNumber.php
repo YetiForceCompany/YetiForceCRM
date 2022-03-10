@@ -66,9 +66,9 @@ class RecordNumber extends \App\Base
 	/**
 	 * Returns model of record.
 	 *
-	 * @return mixed
+	 * @return \Vtiger_Record_Model
 	 */
-	public function getRecord()
+	public function getRecord(): \Vtiger_Record_Model
 	{
 		return $this->get('recordModel');
 	}
@@ -243,7 +243,7 @@ class RecordNumber extends \App\Base
 	private function getPicklistValue(string $picklistName, ?string $recordValue = null): string
 	{
 		$values = Picklist::getValues($picklistName);
-		if (!isset($recordValue)) {
+		if (null === $recordValue) {
 			$recordValue = $this->getRecord()->get($picklistName);
 		}
 		foreach ($values as $value) {
