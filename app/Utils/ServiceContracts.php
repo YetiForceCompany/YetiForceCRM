@@ -287,8 +287,9 @@ class ServiceContracts
 						'resolve_time' => $row['resolve_time'],
 					];
 				}
+				break;
 			}
-			break;
+			
 		}
 		if ($businessHours) {
 			$result = [];
