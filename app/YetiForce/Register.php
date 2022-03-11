@@ -155,7 +155,7 @@ class Register
 			return -1;
 		}
 		$conf = static::getConf();
-		if (!$force && (!empty($conf['last_check_time']) && (($conf['status'] < 6 && strtotime('+6 hours', strtotime($conf['last_check_time'])) > time()) || ($conf['status'] > 6 && strtotime('+7 day', strtotime($conf['last_check_time'])) > time())))) {
+		if (!$force && (!empty($conf['last_check_time']) && (($conf['status'] < 6 && strtotime('+6 hours', strtotime($conf['last_check_time'])) > time()) || ($conf['status'] >= 6 && strtotime('+7 day', strtotime($conf['last_check_time'])) > time())))) {
 			return -2;
 		}
 		$status = 0;

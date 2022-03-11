@@ -431,6 +431,9 @@ class ConfReport
 	public static $functionalVerification = [
 		'branding' => ['type' => 'Branding',  'testCli' => false, 'label' => 'FOOTER', 'mode' => 'onlyText'],
 		'shop' => ['type' => 'ShopProducts',  'testCli' => false, 'label' => 'PREMIUM_MODULES', 'mode' => 'onlyText'],
+		'watchdog' => ['type' => 'Watchdog',  'testCli' => true, 'label' => 'WATCHDOG', 'mode' => 'onlyText'],
+		'register' => ['type' => 'Register',  'testCli' => true, 'label' => 'REGISTER', 'mode' => 'onlyText'],
+		'shopCache' => ['type' => 'ShopCache',  'testCli' => true, 'label' => 'SHOP_CACHE', 'mode' => 'onlyText'],
 	];
 	/**
 	 * Php variables.
@@ -1630,6 +1633,69 @@ class ConfReport
 			if (!is_dir($dir) && !is_readable($dir)) {
 				$row['status'] = true;
 			}
+		}
+		return $row;
+	}
+
+	/**
+	 * Validate watchdog.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	public static function validateWatchdog(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$row['status'] = true;
+		$row[$sapi] = \App\Language::translate('LBL_YES');
+		if (!\App\Cron::$watchdogIsActive) {
+			$row['status'] = false;
+			$row[$sapi] = \App\Language::translate('LBL_NO');
+		}
+		return $row;
+	}
+
+	/**
+	 * Validate register.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	public static function validateRegister(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$row['status'] = true;
+		$row[$sapi] = \App\Language::translate('LBL_YES');
+		if (!\App\Cron::$registerIsActive) {
+			$row['status'] = false;
+			$row[$sapi] = \App\Language::translate('LBL_NO');
+		}
+		return $row;
+	}
+
+	/**
+	 * Validate shop cache.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	public static function validateShopCache(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$row['status'] = true;
+		$row[$sapi] = \App\Language::translate('LBL_YES');
+		if (!\App\Cron::$shopIsActive) {
+			$row['status'] = false;
+			$row[$sapi] = \App\Language::translate('LBL_NO');
 		}
 		return $row;
 	}
