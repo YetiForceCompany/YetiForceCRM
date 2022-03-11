@@ -183,15 +183,15 @@ class ServiceContracts
 	 *
 	 * @param int $crmId
 	 * @param int $sourceModuleId
-	 * @param int|bool $rowId
+	 * @param null|int $rowId
 	 *
 	 * @return void
 	 */
-	public static function deleteSlaPolicy(int $crmId, int $sourceModuleId, $rowId = false)
+	public static function deleteSlaPolicy(int $crmId, int $sourceModuleId, ?int $rowId = null)
 	{
 		$where = ['crmid' => $crmId, 'tabid' => $sourceModuleId];
 		if ($rowId) {
-			$where = ['crmid' => $crmId, 'tabid' => $sourceModuleId, 'id' => $rowId];
+			$where['id'] = $rowId;
 		}
 		\App\Db::getInstance()->createCommand()
 			->delete('u_#__servicecontracts_sla_policy', $where)->execute();
