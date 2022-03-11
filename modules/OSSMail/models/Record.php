@@ -50,7 +50,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			$userModel = \App\User::getCurrentUserModel();
 			$crmUsers = $userModel->getGroups();
 			$crmUsers[] = $userModel->getId();
-			$query->andWhere(['crm_user_id' => $crmUsers]);
+			$query->innerJoin('roundcube_users_autologin', 'roundcube_users_autologin.rcuser_id = roundcube_users.user_id');
+			$query->andWhere(['roundcube_users_autologin.crmuser_id' => $crmUsers]);
 		}
 		if ($password) {
 			$query->andWhere(['<>', 'password', '']);
