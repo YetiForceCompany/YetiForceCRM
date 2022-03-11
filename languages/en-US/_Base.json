@@ -325,7 +325,7 @@
     "LBL_MAX_UPLOAD_SIZE": "Maximum upload size is",
     "LBL_May": "May",
     "LBL_MERGE": "Merge",
-    "LBL_MERGE_RECORDS_DESCRIPTION": "The primary record will be retained after the merge. You can select the column to retain the values.<br />The other record will be deleted but the related information will be merged.",
+    "LBL_MERGE_RECORDS_DESCRIPTION": "The primary record will be retained after the merge. You can select the column to retain the values. The other record will be deleted but the related information will be merged.",
     "LBL_MERGE_RECORDS_IN": "Merge records in",
     "LBL_MERGE_SELECT": "Select for merging",
     "LBL_MERGING_CRITERIA_SELECTION": "Merging criteria selection",
