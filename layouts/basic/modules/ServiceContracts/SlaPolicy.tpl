@@ -17,7 +17,7 @@
 				<label class="d-inline-block mr-2">
 					<input type="radio" name="policy_type" class="form-control d-inline-block mr-1 js-sla-policy-type-radio" value="2" {if $POLICY_TYPE===2} checked="checked" {/if} /> {\App\Language::translate('LBL_POLICY_TYPE_CUSTOM', $MODULE_NAME)}
 				</label>
-				<button class="js-sla-policy-custom js-sla-policy-add-record-btn btn btn-success float-right d-none">
+				<button class="js-sla-policy-custom js-sla-policy-add-record-btn btn btn-success float-right d-none" data-record-id="{$RECORD->getId()}">
 					<span class="fas fa-plus"></span> {\App\Language::translate('LBL_ADD_ENTRY', $MODULE_NAME)}
 				</button>
 			</div>
