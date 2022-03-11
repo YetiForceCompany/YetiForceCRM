@@ -183,13 +183,18 @@ class ServiceContracts
 	 *
 	 * @param int $crmId
 	 * @param int $sourceModuleId
+	 * @param null|int $rowId
 	 *
 	 * @return void
 	 */
-	public static function deleteSlaPolicy(int $crmId, int $sourceModuleId)
+	public static function deleteSlaPolicy(int $crmId, int $sourceModuleId, ?int $rowId = null)
 	{
+		$where = ['crmid' => $crmId, 'tabid' => $sourceModuleId];
+		if ($rowId) {
+			$where['id'] = $rowId;
+		}
 		\App\Db::getInstance()->createCommand()
-			->delete('u_#__servicecontracts_sla_policy', ['crmid' => $crmId, 'tabid' => $sourceModuleId])->execute();
+			->delete('u_#__servicecontracts_sla_policy', $where)->execute();
 		\App\Cache::delete('UtilsServiceContracts::getSlaPolicyForServiceContracts', $crmId);
 	}
 
@@ -289,7 +294,6 @@ class ServiceContracts
 				}
 				break;
 			}
-			
 		}
 		if ($businessHours) {
 			$result = [];

@@ -194,11 +194,12 @@ Vtiger_Detail_Js(
 		 * Register add record button click
 		 */
 		registerAddRecordBtnClick() {
-			this.container.find('.js-sla-policy-add-record-btn').on('click', (e) => {
+			let addPolicyBtn = this.container.find('.js-sla-policy-add-record-btn');
+			addPolicyBtn.on('click', (e) => {
 				e.preventDefault();
 				e.stopPropagation();
 				const index = this.container.find('.js-custom-row').length;
-				const row = $(`<div class="card js-custom-row shadow-sm mb-2" data-id="0" data-js="container">
+				const row = $(`<div class="card js-custom-row shadow-sm mb-2" data-id="0" data-record-id="` + addPolicyBtn.data('record-id') + `" data-js="container">
 			<div class="card-body">
 				<div class="d-flex">
 					<div class="d-block" style="flex-grow:1">
@@ -247,7 +248,8 @@ Vtiger_Detail_Js(
 					</div>
 				</div>
 			</div>
-		</div>`);
+		</div>`
+				);
 				App.Fields.TimePeriod.register(row);
 				this.registerDelBtnClick(row);
 				App.Fields.Picklist.showSelect2ElementView(row.find('.select2'));
@@ -284,7 +286,8 @@ Vtiger_Detail_Js(
 					module: 'ServiceContracts',
 					action: 'PolicyDeleteAjax',
 					targetModule: this.targetModule,
-					record: rowId
+					record: row.data('record-id'),
+					rowId: rowId
 				}).done((data) => {
 					progress.progressIndicator({ mode: 'hide' });
 					$(e.target).closest('.card').remove();

@@ -15,7 +15,7 @@ class ServiceContracts_PolicyDeleteAjax_Action extends \App\Controller\Action
 	public function checkPermission(App\Request $request)
 	{
 		$record = Vtiger_DetailView_Model::getInstance($request->getModule(), $request->getInteger('record'));
-		if (!$record->getRecord()->isViewable()) {
+		if (!$record->getRecord()->isViewable() || $request->isEmpty('rowId', true)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
@@ -23,7 +23,7 @@ class ServiceContracts_PolicyDeleteAjax_Action extends \App\Controller\Action
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		\App\Utils\ServiceContracts::deleteSlaPolicy($request->getInteger('record'), \App\Module::getModuleId($request->getByType('targetModule', 'Alnum')));
+		\App\Utils\ServiceContracts::deleteSlaPolicy($request->getInteger('record'), \App\Module::getModuleId($request->getByType('targetModule', 'Alnum')), $request->getInteger('rowId'));
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
