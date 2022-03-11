@@ -284,7 +284,7 @@ Vtiger_Detail_Js(
 					module: 'ServiceContracts',
 					action: 'PolicyDeleteAjax',
 					targetModule: this.targetModule,
-					record: Number($('#recordId').val()),
+					record: row.data('record-id'),
 					rowId: rowId
 				}).done((data) => {
 					progress.progressIndicator({ mode: 'hide' });

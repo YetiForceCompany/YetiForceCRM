@@ -2,14 +2,13 @@
 {strip}
 	<!-- tpl-ServiceContracts-CustomConditions -->
 	<input type="hidden" class="js-all-business-hours" value="{\App\Purifier::encodeHtml(\App\Json::encode($ALL_BUSINESS_HOURS))}">
-	<input id="recordId" type="hidden" value="{$RECORD->getId()}" />
 	<div class="d-none js-conditions-template" data-js="container">
 		{include file=\App\Layout::getTemplatePath('ConditionBuilder.tpl', $MODULE_NAME) ADVANCE_CRITERIA=[]}
 	</div>
 	<div class="js-custom-conditions" data-js="container">
 		{foreach item=ROW from=$SLA_POLICY_ROWS key=$ROW_INDEX}
 			{if $ROW['policy_type']===2}
-				<div class="card js-custom-row shadow-sm mb-2" data-id="{$ROW['id']}" data-js="container">
+				<div class="card js-custom-row shadow-sm mb-2" data-id="{$ROW['id']}" data-record-id="{$RECORD->getId()}" data-js="container">
 					<div class="card-body">
 						<div class="d-flex">
 							<div class="d-block" style="flex-grow:1">
