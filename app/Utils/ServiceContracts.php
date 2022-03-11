@@ -294,7 +294,6 @@ class ServiceContracts
 				}
 				break;
 			}
-
 		}
 		if ($businessHours) {
 			$result = [];
