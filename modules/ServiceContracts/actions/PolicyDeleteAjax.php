@@ -15,7 +15,7 @@ class ServiceContracts_PolicyDeleteAjax_Action extends \App\Controller\Action
 	public function checkPermission(App\Request $request)
 	{
 		$record = Vtiger_DetailView_Model::getInstance($request->getModule(), $request->getInteger('record'));
-		if (!$record->getRecord()->isViewable()) {
+		if (!$record->getRecord()->isViewable() && $record->getRecord()->privilegeToDelete()) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
