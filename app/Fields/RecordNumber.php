@@ -66,9 +66,9 @@ class RecordNumber extends \App\Base
 	/**
 	 * Returns model of record.
 	 *
-	 * @return \Vtiger_Record_Model
+	 * @return \Vtiger_Record_Model|null
 	 */
-	public function getRecord(): \Vtiger_Record_Model
+	public function getRecord(): ?\Vtiger_Record_Model
 	{
 		return $this->get('recordModel');
 	}

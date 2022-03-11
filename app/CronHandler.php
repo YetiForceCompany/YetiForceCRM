@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App;
@@ -16,12 +17,11 @@ namespace App;
  */
 abstract class CronHandler
 {
-	/**
-	 * Cron task instance.
-	 *
-	 * @var \vtlib\Cron
-	 */
+	/** @var \vtlib\Cron Cron task instance. */
 	protected $cronTask;
+
+	/** @var string Cron task logs. */
+	protected $logs = '';
 
 	/**
 	 * Main function to execute task.
@@ -58,5 +58,15 @@ abstract class CronHandler
 	public function updateLastActionTime(): void
 	{
 		$this->cronTask->updateLastActionTime();
+	}
+
+	/**
+	 * Get cron task logs.
+	 *
+	 * @return string
+	 */
+	public function getTaskLog(): string
+	{
+		return $this->logs;
 	}
 }

@@ -114,7 +114,7 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 			}
 			// Mark the status - finished
 			$cronTask->markFinished();
-			$response .= sprintf('%s | %s - End task (%s s)', date('Y-m-d H:i:s'), $cronTask->getName(), $taskTime) . PHP_EOL;
+			$response .= sprintf('%s | %s - End task (%s s) | %s', date('Y-m-d H:i:s'), $cronTask->getName(), $taskTime, $cronHandler->getTaskLog()) . PHP_EOL;
 			\App\Log::trace($cronTask->getName() . ' - End', 'Cron');
 			$cronInstance->log('End task, time: ' . $taskTime);
 		} catch (\Throwable $e) {
