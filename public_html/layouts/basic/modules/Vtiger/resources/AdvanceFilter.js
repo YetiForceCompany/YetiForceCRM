@@ -816,7 +816,7 @@ Vtiger_Categorymultipicklist_Field_Js(
 				multiple +
 				'" data-value="value" data-treetemplate="' +
 				this.getTreeTemplate() +
-				'" data-modulename="' +
+				'" data-module-name="' +
 				this.getModuleName() +
 				'"><div class="input-group"><span class="input-group-prepend clearTreeSelection u-cursor-pointer"><span class="input-group-text"><span id="' +
 				this.getModuleName() +

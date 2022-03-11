@@ -2180,7 +2180,7 @@ window.App.Fields = {
 					let sourceFieldElement = this.container.find('input.sourceField'),
 						fieldDisplayElement = this.container.find('input[name="' + sourceFieldElement.attr('name') + '_display"]');
 					AppConnector.request({
-						module: sourceFieldElement.data('modulename'),
+						module: sourceFieldElement.data('module-name'),
 						view: 'TreeModal',
 						template: sourceFieldElement.data('treetemplate'),
 						fieldName: sourceFieldElement.attr('name'),
