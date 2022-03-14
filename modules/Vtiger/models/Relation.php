@@ -279,7 +279,7 @@ class Vtiger_Relation_Model extends \App\Base
 	 * @param Vtiger_Module_Model $relatedModuleModel
 	 * @param bool|int            $relationId
 	 *
-	 * @return self|false
+	 * @return $this|bool
 	 */
 	public static function getInstance($parentModuleModel, $relatedModuleModel, $relationId = false)
 	{

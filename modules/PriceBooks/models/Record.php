@@ -32,21 +32,22 @@ class PriceBooks_Record_Model extends Vtiger_Record_Model
 	 * Function updates ListPrice for PriceBook-Product/Service relation.
 	 *
 	 * @param int   $relatedRecordId - Product/Service Id
-	 * @param float $price           - listprice
+	 * @param mixed $value           - listprice
+	 * @param mixed $name
 	 */
-	public function updateListPrice($relatedRecordId, $price)
+	public function updateListPrice(int $relatedRecordId, $value, string $name = 'listprice')
 	{
 		$isExists = (new \App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])->exists();
 		if ($isExists) {
 			$status = App\Db::getInstance()->createCommand()
-				->update('vtiger_pricebookproductrel', ['listprice' => $price], ['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])
+				->update('vtiger_pricebookproductrel', [$name => $value], ['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])
 				->execute();
 		} else {
 			$status = App\Db::getInstance()->createCommand()
 				->insert('vtiger_pricebookproductrel', [
 					'pricebookid' => $this->getId(),
 					'productid' => $relatedRecordId,
-					'listprice' => $price,
+					$name => $value,
 					'usedcurrency' => $this->get('currency_id'),
 				])->execute();
 		}

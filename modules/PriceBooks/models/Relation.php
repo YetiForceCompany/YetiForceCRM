@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
 class PriceBooks_Relation_Model extends Vtiger_Relation_Model
@@ -14,38 +14,14 @@ class PriceBooks_Relation_Model extends Vtiger_Relation_Model
 	/**
 	 * Function to add PriceBook-Products/Services Relation.
 	 *
-	 * @param <Integer> $sourceRecordId
-	 * @param <Integer> $destinationRecordId
-	 * @param <Integer> $listPrice
+	 * @param int    $sourceRecordId
+	 * @param int    $destinationRecordId
+	 * @param mixed  $value
+	 * @param string $name
 	 */
-	public function addListPrice($sourceRecordId, $destinationRecordId, $listPrice)
+	public function addListPrice(int $sourceRecordId, int $destinationRecordId, $value, string $name = 'listprice')
 	{
-		$sourceModuleName = $this->getParentModuleModel()->get('name');
-		$priceBookModel = Vtiger_Record_Model::getInstanceById($sourceRecordId, $sourceModuleName);
-		return $priceBookModel->updateListPrice($destinationRecordId, $listPrice);
-	}
-
-	/**
-	 * Get Pricebooks for products.
-	 */
-	public function getPricebookProducts()
-	{
-		$queryGenerator = $this->getQueryGenerator();
-		$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.listprice');
-		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebookproductrel', 'vtiger_products.productid = vtiger_pricebookproductrel.productid']);
-		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebook', 'vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid']);
-		$queryGenerator->addNativeCondition(['vtiger_pricebook.pricebookid' => $this->get('parentRecord')->getId()]);
-	}
-
-	/**
-	 * Get Pricebooks for services.
-	 */
-	public function getPricebookServices()
-	{
-		$queryGenerator = $this->getQueryGenerator();
-		$queryGenerator->setCustomColumn('vtiger_pricebookproductrel.listprice');
-		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebookproductrel', 'vtiger_service.serviceid = vtiger_pricebookproductrel.productid']);
-		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_pricebook', 'vtiger_pricebook.pricebookid = vtiger_pricebookproductrel.pricebookid']);
-		$queryGenerator->addNativeCondition(['vtiger_pricebook.pricebookid' => $this->get('parentRecord')->getId()]);
+		$priceBookModel = PriceBooks_Record_Model::getInstanceById($sourceRecordId, $this->getParentModuleModel()->get('name'));
+		return $priceBookModel->updateListPrice($destinationRecordId, $value, $name);
 	}
 }

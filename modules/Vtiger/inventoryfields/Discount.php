@@ -23,11 +23,11 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	protected $summationValue = true;
 	protected $maximumLength = '99999999999999999999';
 	protected $customMaximumLength = [
-		'discountparam' => 255
+		'discountparam' => 255,
 	];
 	protected $purifyType = \App\Purifier::NUMBER;
 	protected $customPurifyType = [
-		'discountparam' => App\Purifier::TEXT
+		'discountparam' => App\Purifier::TEXT,
 	];
 
 	/** {@inheritdoc} */
