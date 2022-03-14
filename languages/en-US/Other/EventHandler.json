@@ -59,6 +59,8 @@
     "VTIGER_AUTOASSIGN_HANDLER": "Automatic record assignment",
     "VTIGER_AUTOASSIGN_HANDLER_DESC": "Modifying the owner of a record before its creation",
     "APPROVALS_APPROVALS_HANDLER": "Updating consents on contact",
-    "APPROVALS_APPROVALS_HANDLER_DESC": ""
+    "APPROVALS_APPROVALS_HANDLER_DESC": "",
+    "PRODUCTS_INVENTORYRECORDDETAILS_HANDLER": "Details about the product or service",
+    "PRODUCTS_INVENTORYRECORDDETAILS_HANDLER_DESC": ""
   }
 }

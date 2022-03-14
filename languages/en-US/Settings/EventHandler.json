@@ -12,6 +12,9 @@
     "LBL_ENTITY_CHANGE_STATE": "Change state",
     "LBL_ENTITY_BEFORE_SAVE": "Before save",
     "LBL_ENTITY_AFTER_SAVE": "After save",
-    "LBL_DETAIL_VIEW_BEFORE": "Detail View"
+    "LBL_DETAIL_VIEW_BEFORE": "Detail View",
+    "LBL_EDIT_VIEW_BEFORE": "Edit View",
+    "LBL_EDIT_VIEW_DUPLICATE": "Edit View Duplicate",
+    "LBL_INVENTORY_RECORD_DETAILS": "Loading data for inventory"
   }
 }

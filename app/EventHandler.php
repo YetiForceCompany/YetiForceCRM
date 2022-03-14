@@ -100,6 +100,39 @@ class EventHandler
 				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
 			],
 		],
+		'EditViewBefore' => [
+			'label' => 'LBL_EDIT_VIEW_BEFORE',
+			'icon' => 'yfi yfi-full-editing-view ',
+			'columns' => [
+				'eventName' => ['label' => 'LBL_EVENT_NAME'],
+				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
+				'modules' => ['label' => 'LBL_INCLUDE_MODULES'],
+				'modulesExcluded' => ['label' => 'LBL_EXCLUDE_MODULES'],
+				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
+			],
+		],
+		'EditViewDuplicate' => [
+			'label' => 'LBL_EDIT_VIEW_DUPLICATE',
+			'icon' => 'fas fa-clone',
+			'columns' => [
+				'eventName' => ['label' => 'LBL_EVENT_NAME'],
+				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
+				'modules' => ['label' => 'LBL_INCLUDE_MODULES'],
+				'modulesExcluded' => ['label' => 'LBL_EXCLUDE_MODULES'],
+				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
+			],
+		],
+		'InventoryRecordDetails' => [
+			'label' => 'LBL_INVENTORY_RECORD_DETAILS',
+			'icon' => 'fas fa-pallet',
+			'columns' => [
+				'eventName' => ['label' => 'LBL_EVENT_NAME'],
+				'eventDescription' => ['label' => 'LBL_EVENT_DESC'],
+				'modules' => ['label' => 'LBL_INCLUDE_MODULES'],
+				'modulesExcluded' => ['label' => 'LBL_EXCLUDE_MODULES'],
+				'active' => ['label' => 'LBL_EVENT_IS_ACTIVE'],
+			],
+		],
 	];
 
 	/**
@@ -385,6 +418,18 @@ class EventHandler
 	public function getParams()
 	{
 		return $this->params;
+	}
+
+	/**
+	 * Get param.
+	 *
+	 * @param string $key
+	 *
+	 * @return mixed
+	 */
+	public function getParam(string $key)
+	{
+		return $this->params[$key] ?? null;
 	}
 
 	/**
