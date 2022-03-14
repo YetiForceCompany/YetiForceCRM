@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
 /**
@@ -49,6 +49,10 @@ class Vtiger_Field_Model extends vtlib\Field
 	/** @var Vtiger_Field_Model[][] Cache by module id and field id */
 	protected static $instanceCacheByName = [];
 
+	/**
+	 * @var array
+	 */
+	protected $fieldInfo;
 	protected $fieldType;
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
@@ -934,8 +938,21 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @return array - array of field values
 	 */
-	public function getFieldInfo()
+	public function getFieldInfo(): array
 	{
+		return $this->getUITypeModel()->getFieldInfo();
+	}
+
+	/**
+	 * Load field info.
+	 *
+	 * @return array
+	 */
+	public function loadFieldInfo(): array
+	{
+		if (null !== $this->fieldInfo) {
+			return $this->fieldInfo;
+		}
 		$this->fieldInfo['name'] = $this->get('name');
 		$this->fieldInfo['label'] = App\Language::translate($this->get('label'), $this->getModuleName(), false, false);
 		$fieldDataType = $this->getFieldDataType();
@@ -1037,6 +1054,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			default:
 				break;
 		}
+
 		return $this->fieldInfo;
 	}
 

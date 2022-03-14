@@ -21,7 +21,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		if ('due_date' === $this->getName()) {
 			$funcName = ['name' => 'greaterThanDependentField',
 				'params' => ['date_start'], ];
-			array_push($validator, $funcName);
+			$validator[] = $funcName;
 		} else {
 			$validator = parent::getValidator();
 		}
@@ -96,12 +96,8 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 		return true;
 	}
 
-	/**
-	 * Function to get the field details.
-	 *
-	 * @return <Array> - array of field values
-	 */
-	public function getFieldInfo()
+	/** {@inheritdoc} */
+	public function getFieldInfo(): array
 	{
 		parent::getFieldInfo();
 		//Change the default search operator

@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  * ********************************************************************************** */
 
 class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
@@ -341,12 +341,8 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		return $fieldModelsList;
 	}
 
-	/**
-	 * Function to get the field details.
-	 *
-	 * @return <Array> - array of field values
-	 */
-	public function getFieldInfo()
+	/** {@inheritdoc} */
+	public function getFieldInfo(): array
 	{
 		$fieldInfo = parent::getFieldInfo();
 		$fieldInfo['isQuickCreateDisabled'] = $this->isQuickCreateOptionDisabled();

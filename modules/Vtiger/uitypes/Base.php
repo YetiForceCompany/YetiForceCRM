@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
 class Vtiger_Base_UIType extends \App\Base
@@ -503,5 +503,15 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function delete()
 	{
+	}
+
+	/**
+	 * Function to get the field details.
+	 *
+	 * @return array
+	 */
+	public function getFieldInfo(): array
+	{
+		return $this->getFieldModel()->loadFieldInfo();
 	}
 }
