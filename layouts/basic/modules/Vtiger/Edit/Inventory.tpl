@@ -48,12 +48,12 @@
 		{/if}
 		{assign var="INVENTORY_ITEMS_NO" value=count($INVENTORY_ROWS)}
 		{assign var="RELATED_FIELD" value=\App\Field::getRelatedFieldForModule($MODULE_NAME, 'Accounts')}
-		<input type="hidden" class="aggregationTypeDiscount" value="{$DISCOUNTS_CONFIG['aggregation']}">
-		<input type="hidden" class="aggregationTypeTax" value="{$TAXS_CONFIG['aggregation']}">
-		<input type="hidden" value="{if $INVENTORY_ITEMS_NO}{$INVENTORY_ITEMS_NO}{else}1{/if}" id="inventoryItemsNo" />
-		<input id="accountReferenceField" type="hidden" value="{if $RELATED_FIELD}{$RELATED_FIELD['fieldname']}{/if}" />
-		<input id="inventoryLimit" type="hidden" value="{$MAIN_PARAMS['limit']}" />
-		<input id="isRequiredInventory" type="hidden" value="{$IS_REQUIRED_INVENTORY}" />
+		<input type="hidden" class="js-discount-config" value="{App\Purifier::encodeHtml(\App\Json::encode($DISCOUNTS_CONFIG))}">
+		<input type="hidden" class="js-tax-config" value="{App\Purifier::encodeHtml(\App\Json::encode($TAXS_CONFIG))}">
+		<input type="hidden" id="inventoryItemsNo" value="{if $INVENTORY_ITEMS_NO}{$INVENTORY_ITEMS_NO}{else}1{/if}" />
+		<input type="hidden" id="accountReferenceField" value="{if $RELATED_FIELD}{$RELATED_FIELD['fieldname']}{/if}" />
+		<input type="hidden" id="inventoryLimit" value="{$MAIN_PARAMS['limit']}" />
+		<input type="hidden" id="isRequiredInventory" value="{$IS_REQUIRED_INVENTORY}" />
 		<div class="table-responsive">
 			<table class="table inventoryHeader blockContainer mb-0 table-bordered">
 				<colgroup>

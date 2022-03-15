@@ -27,6 +27,8 @@ $.Class(
 	},
 	{
 		form: false,
+		discount: false,
+		tax: false,
 		inventoryContainer: false,
 		inventoryHeadContainer: false,
 		summaryTaxesContainer: false,
@@ -49,7 +51,14 @@ $.Class(
 		getForm() {
 			return this.form;
 		},
-
+		/**
+		 * Get current form element
+		 * @returns {jQuery}
+		 */
+		loadConfig() {
+			this.discount = JSON.parse(this.form.find('.js-discount-config').val());
+			this.tax = JSON.parse(this.form.find('.js-tax-config').val());
+		},
 		/**
 		 * Function that is used to get the line item container
 		 * @return : jQuery object
@@ -137,19 +146,18 @@ $.Class(
 			}
 		},
 		isIndividualTaxMode: function (row) {
-			let taxModeElement = this.getTaxModeSelectElement(row);
-			let selectedOption = taxModeElement.find('option:selected');
-			return selectedOption.val() == '1';
+			let selectedOption = this.getTaxModeSelectElement(row).find('option:selected');
+			if (selectedOption.length !== 0) {
+				return selectedOption.val() == 1;
+			}
+			return this.tax.default_mode == 1;
 		},
 		isGroupTaxMode: function () {
-			let taxTypeElement = this.getTaxModeSelectElement();
-			if (taxTypeElement) {
-				let selectedOption = taxTypeElement.find('option:selected');
-				if (selectedOption.val() == '0') {
-					return true;
-				}
+			let selectedOption = this.getTaxModeSelectElement();
+			if (selectedOption && (selectedOption = selectedOption.find('option:selected')) && selectedOption.length !== 0) {
+				return selectedOption.val() == 0;
 			}
-			return false;
+			return this.tax.default_mode == 0;
 		},
 		showIndividualTax: function (row) {
 			let thisInstance = this;
@@ -216,9 +224,11 @@ $.Class(
 			return row.find('.js-discountmode');
 		},
 		isIndividualDiscountMode: function (row) {
-			let discountModeElement = this.getDiscountModeSelectElement(row);
-			let selectedOption = discountModeElement.find('option:selected');
-			return selectedOption.val() == '1';
+			let selectedOption = this.getDiscountModeSelectElement(row).find('option:selected');
+			if (selectedOption.length === 0) {
+				return this.discount.default_mode == 1;
+			}
+			return selectedOption.val() == 1;
 		},
 		showIndividualDiscount: function (row) {
 			let thisInstance = this;
@@ -246,7 +256,6 @@ $.Class(
 			let taxParams = row.find('.taxParam').val();
 			if (taxParams == '' || taxParams == '[]' || taxParams == undefined) return 0;
 			taxParams = JSON.parse(taxParams);
-			let aggregationType = $('.aggregationTypeTax').val();
 			let valuePrices = this.getNetPrice(row);
 			let taxRate = 0;
 			let types = taxParams.aggregationType;
@@ -271,7 +280,7 @@ $.Class(
 							break;
 					}
 					taxRate += valuePrices * (taxValue / 100);
-					if (aggregationType == '2') {
+					if (this.tax.aggregation == 2) {
 						valuePrices = valuePrices + taxRate;
 					}
 				});
@@ -303,7 +312,6 @@ $.Class(
 		},
 		getDiscount: function (row) {
 			let discountParams = row.find('.discountParam').val();
-			let aggregationType = $('.aggregationTypeDiscount').val();
 			if (discountParams == '' || discountParams == 'null' || discountParams == '[]' || discountParams == undefined) {
 				return 0;
 			}
@@ -333,7 +341,7 @@ $.Class(
 						let groupDiscount = discountParams.groupDiscount ? discountParams.groupDiscount : 0;
 						discountRate += valuePrices * (groupDiscount / 100);
 					}
-					if (aggregationType == '2') {
+					if (this.discount.aggregation == 2) {
 						valuePrices = valuePrices - discountRate;
 					}
 				});
@@ -705,8 +713,7 @@ $.Class(
 				valuePrices = netPriceBeforeDiscount,
 				globalDiscount = 0,
 				groupDiscount = 0,
-				individualDiscount = 0,
-				valueDiscount = 0;
+				individualDiscount = 0;
 
 			let discountsType = modal.find('.discountsType').val();
 
@@ -973,6 +980,7 @@ $.Class(
 				if (typeof recordData['autoFields']['unit'] !== 'undefined') {
 					unit = recordData['autoFields']['unit'];
 				}
+				app.event.trigger('Inventory.SelectionItem', thisInstance, parentRow, recordData, referenceModule);
 				this.triggerQtyParam(unit, recordData.qtyPerUnit, parentRow);
 			}
 			if (referenceModule === 'Products') {
@@ -1841,6 +1849,7 @@ $.Class(
 		 */
 		registerEvents: function (container) {
 			this.form = container;
+			this.loadConfig();
 			this.registerInventorySaveData();
 			this.registerAddItem();
 			this.registerMassAddItem();
