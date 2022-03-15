@@ -617,16 +617,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.12.42",
+            "version": "8.12.45",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "33c8dc586ab0d430193dc721d597a3aa79803d06"
+                "reference": "7f494fd3b87c7d83472e8b6126eedc6b72dd3f3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/33c8dc586ab0d430193dc721d597a3aa79803d06",
-                "reference": "33c8dc586ab0d430193dc721d597a3aa79803d06",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/7f494fd3b87c7d83472e8b6126eedc6b72dd3f3e",
+                "reference": "7f494fd3b87c7d83472e8b6126eedc6b72dd3f3e",
                 "shasum": ""
             },
             "require": {
@@ -686,7 +686,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2022-01-28T08:38:37+00:00"
+            "time": "2022-03-10T10:28:34+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -4242,7 +4242,7 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.24.0",
+            "version": "v1.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
@@ -4274,12 +4274,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Mbstring\\": ""
-                },
                 "files": [
                     "bootstrap.php"
-                ]
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -4305,7 +4305,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.24.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.25.0"
             },
             "funding": [
                 {
