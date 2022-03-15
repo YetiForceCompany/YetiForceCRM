@@ -83,7 +83,7 @@
     "@pnotify/bootstrap4": "^5",
     "@pnotify/font-awesome5": "^5",
     "popper.js": "^1.15.0",
-    "quasar": "^1.6.1",
+    "quasar": "^2.6.0",
     "respond.js": "^1.4.2",
     "sass-material-colors": "^0.0.5",
     "select2": "^4.0.8",
