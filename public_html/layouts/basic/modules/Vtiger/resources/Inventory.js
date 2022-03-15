@@ -253,6 +253,7 @@ $.Class(
 			return currency.find('option:selected').val();
 		},
 		getTax: function (row) {
+			const self = this;
 			let taxParams = row.find('.taxParam').val();
 			if (taxParams == '' || taxParams == '[]' || taxParams == undefined) return 0;
 			taxParams = JSON.parse(taxParams);
@@ -280,7 +281,7 @@ $.Class(
 							break;
 					}
 					taxRate += valuePrices * (taxValue / 100);
-					if (this.tax.aggregation == 2) {
+					if (self.tax.aggregation == 2) {
 						valuePrices = valuePrices + taxRate;
 					}
 				});
