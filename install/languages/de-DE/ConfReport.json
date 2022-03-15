@@ -256,6 +256,9 @@
     "LBL_FORMAT": "Zeilenformat",
     "LBL_ENGINE": "Engine",
     "LBL_COLLATION": "Sortierung",
+    "LBL_LABEL_WATCHDOG": "Watchdog",
+    "LBL_LABEL_REGISTER": "Register",
+    "LBL_LABEL_SHOP_CACHE": "Shop cache",
     "LBL_LAMP_CONFIG_FILES": "LAMP Konfigurationsdateien",
     "LBL_PATH_VERIFICATION_TITLE": "Pfadüberprüfung"
   },

@@ -256,6 +256,9 @@
     "LBL_FORMAT": "Format wiersza",
     "LBL_ENGINE": "Silnik",
     "LBL_COLLATION": "Porównanie",
+    "LBL_LABEL_WATCHDOG": "Watchdog",
+    "LBL_LABEL_REGISTER": "Rejestracja",
+    "LBL_LABEL_SHOP_CACHE": "Pamięć podręczna sklepu",
     "LBL_LAMP_CONFIG_FILES": "Pliki konfiguracyjne LAMP",
     "LBL_PATH_VERIFICATION_TITLE": "Weryfikacja ścieżki"
   },
