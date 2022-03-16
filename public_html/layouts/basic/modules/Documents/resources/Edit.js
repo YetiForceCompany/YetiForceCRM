@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  *************************************************************************************/
 'use strict';
 
@@ -103,7 +104,7 @@ Vtiger_Edit_Js(
 				let uploadFileSizeHolder = element.closest('.fileUploadContainer').find('.uploadedFileSize');
 				let fileSize = element.get(0).files[0].size;
 				if (fileSize > thisInstance.getMaxiumFileUploadingSize(container)) {
-					app.showAlert(app.vtranslate('JS_EXCEEDS_MAX_UPLOAD_SIZE'));
+					app.showAlert(app.vtranslate('JS_UPLOADED_FILE_SIZE_EXCEEDS'));
 					element.val('');
 					uploadFileSizeHolder.text('');
 				} else {
