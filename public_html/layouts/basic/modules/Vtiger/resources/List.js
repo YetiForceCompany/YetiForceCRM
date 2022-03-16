@@ -2093,7 +2093,7 @@ $.Class(
 		 */
 		registerKeyboardShortcutsEvent: function () {
 			document.addEventListener('keydown', (event) => {
-				if (event.altKey && event.code === 'KeyA' && $('.js-add-record').length) {
+				if (event.shiftKey && event.code === 'KeyA' && $('.js-add-record').length) {
 					window.location.href = 'index.php?module=' + app.getModuleName() + '&view=Edit';
 				}
 			});

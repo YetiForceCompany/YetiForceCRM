@@ -3283,11 +3283,11 @@ var app = (window.app = {
 	registerKeyboardShortcutsEvent: function (container) {
 		if (app.getUrlVar('parent') !== 'Settings') {
 			document.addEventListener('keydown', (event) => {
-				if (CONFIG['isEntityModule'] && event.altKey && event.ctrlKey && event.code === 'KeyW') {
+				if (CONFIG['isEntityModule'] && event.shiftKey && event.code === 'KeyL') {
 					window.location.href = 'index.php?module=' + app.getModuleName() + '&view=List';
 				}
-				if (CONFIG['isQuickCreateSupported'] && event.altKey && event.ctrlKey && event.code === 'KeyQ') {
-					App.Components.QuickCreate.createRecord(app.getModuleName());
+				if (CONFIG['isQuickCreateSupported'] && event.shiftKey && event.code === 'KeyQ') {
+					App.Components.QuickCreate.createRecord(app.getMQoduleName());
 				}
 			});
 		}
