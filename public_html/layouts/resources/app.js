@@ -3287,7 +3287,7 @@ var app = (window.app = {
 					window.location.href = 'index.php?module=' + app.getModuleName() + '&view=List';
 				}
 				if (CONFIG['isQuickCreateSupported'] && event.shiftKey && event.code === 'KeyQ') {
-					App.Components.QuickCreate.createRecord(app.getMQoduleName());
+					App.Components.QuickCreate.createRecord(app.getModuleName());
 				}
 			});
 		}
