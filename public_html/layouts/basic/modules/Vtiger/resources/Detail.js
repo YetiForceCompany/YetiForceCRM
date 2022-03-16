@@ -2968,13 +2968,13 @@ jQuery.Class(
 		 */
 		registerKeyboardShortcutsEvent: function (container) {
 			document.addEventListener('keydown', (event) => {
-				if (event.altKey && event.code === 'KeyD') {
+				if (event.altKey && event.ctrlKey && event.code === 'KeyD') {
 					container.find('.js-duplicate-btn').trigger('click');
 				}
-				if (event.altKey && event.code === 'KeyE' && container.find('.js-edit-btn').length) {
+				if (event.altKey && event.ctrlKey && event.code === 'KeyE' && container.find('.js-edit-btn').length) {
 					container.find('.js-edit-btn').trigger('click');
 				}
-				if (event.altKey && event.code === 'KeyW' && container.find('.js-edit-btn').length) {
+				if (event.altKey && event.ctrlKey && event.code === 'KeyW' && container.find('.js-edit-btn').length) {
 					App.Components.QuickEdit.showModal({
 						module: app.getModuleName(),
 						record: app.getRecordId(),

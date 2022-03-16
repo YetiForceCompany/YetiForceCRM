@@ -801,12 +801,10 @@ $.Class(
 		 * Function which will copy the address details
 		 */
 		copyAddressDetails: function (from, to, data, container) {
-			let thisInstance = this;
-			let sourceModule = data.module;
-			app.getRecordDetails(data).done(function (data) {
-				let response = data['result'];
-				thisInstance.addressFieldsData = response;
-				thisInstance.copyAddress(from, to, true, sourceModule);
+			app.getRecordDetails(data).done((response) => {
+				this.addressFieldsData = response['result'];
+				this.copyAddress(from, to, true, data['module']);
+				app.event.trigger('Edit.CopyAddress', this, from, to, response, data, container);
 			});
 		},
 		/**
@@ -1676,7 +1674,7 @@ $.Class(
 		 */
 		registerKeyboardShortcutsEvent: function () {
 			document.addEventListener('keydown', (event) => {
-				if (event.altKey && event.code === 'KeyS') {
+				if (event.altKey && event.ctrlKey && event.code === 'KeyS') {
 					let form = event.target.closest('form');
 					if (form) {
 						$(form).trigger('submit');
