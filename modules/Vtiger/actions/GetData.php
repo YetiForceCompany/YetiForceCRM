@@ -56,14 +56,22 @@ class Vtiger_GetData_Action extends App\Controller\Action
 				$type[$fieldName] = $fieldModel->getFieldDataType();
 			}
 		}
-		$response = new Vtiger_Response();
-		$response->setResult([
-			'success' => true,
-			'data' => array_map('App\Purifier::decodeHtml', $data),
-			'displayData' => array_map('App\Purifier::decodeHtml', $display),
-			'labels' => $labels,
-			'type' => $type,
+
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setRecordModel($recordModel);
+		$eventHandler->setParams([
+			'result' => [
+				'success' => true,
+				'data' => array_map('App\Purifier::decodeHtml', $data),
+				'displayData' => array_map('App\Purifier::decodeHtml', $display),
+				'labels' => $labels,
+				'type' => $type,
+			],
 		]);
+		$eventHandler->trigger('RecordGetData');
+
+		$response = new Vtiger_Response();
+		$response->setResult($eventHandler->getParam('result'));
 		$response->emit();
 	}
 }

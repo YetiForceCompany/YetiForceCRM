@@ -352,6 +352,7 @@ class EventHandler
 	public function setRecordModel(\Vtiger_Record_Model $recordModel)
 	{
 		$this->recordModel = $recordModel;
+		$this->moduleName = $recordModel->getModuleName();
 		return $this;
 	}
 

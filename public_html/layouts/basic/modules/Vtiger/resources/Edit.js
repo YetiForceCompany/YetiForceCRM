@@ -347,7 +347,7 @@ $.Class(
 				};
 				app.getRecordDetails(params).done(function (data) {
 					let response = (params.data = data['result']['data']);
-					app.event.trigger('EditView.SelectReference', params, formElement);
+					app.event.trigger('EditView.SelectReference', params, formElement, data);
 					$.each(mappingRelatedField, function (key, value) {
 						if (response[value[0]] != 0) {
 							let mapFieldElement = formElement.find('[name="' + key + '"]');
