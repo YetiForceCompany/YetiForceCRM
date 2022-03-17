@@ -26,6 +26,8 @@
     "LBL_EMAIL": "E-mail",
     "LBL_VATID": "Vat ID",
     "LBL_SALE_DATE": "Sale date",
-    "LBL_PLACE_DATE": "Place, date"
+    "LBL_PLACE_DATE": "Place, date",
+    "LBL_REFUND_AMOUNT": "Refund amount",
+    "LBL_SURCHARGE_AMOUNT" : "Surcharge amount"
   }
 }
