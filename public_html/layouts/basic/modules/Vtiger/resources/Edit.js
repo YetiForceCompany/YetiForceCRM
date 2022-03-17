@@ -1674,7 +1674,7 @@ $.Class(
 		 */
 		registerKeyboardShortcutsEvent: function () {
 			document.addEventListener('keydown', (event) => {
-				if (event.shiftKey && event.code === 'KeyS') {
+				if (event.shiftKey && event.ctrlKey && event.code === 'KeyS') {
 					let form = event.target.closest('form');
 					if (form) {
 						$(form).trigger('submit');
