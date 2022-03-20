@@ -510,6 +510,7 @@ abstract class ExportRecords extends \App\Base
 	 */
 	public function getRecordDataInUserFormat(array $recordValues): array
 	{
+		$recordId = (int) ($recordValues['id'] ?? 0);
 		foreach ($recordValues as $fieldName => &$value) {
 			if (isset($this->moduleFieldInstances[$fieldName])) {
 				$fieldModel = $this->moduleFieldInstances[$fieldName];
@@ -518,6 +519,12 @@ abstract class ExportRecords extends \App\Base
 			} else {
 				unset($recordValues[$fieldName]);
 				continue;
+			}
+			if ('shownerid' === $fieldName && $recordId) {
+				$fieldValue = \App\Fields\SharedOwner::getById($recordId);
+				if (\is_array($fieldValue)) {
+					$value = implode(',', $fieldValue);
+				}
 			}
 			$value = $fieldModel->getDisplayValue($value, false, false, true);
 		}
@@ -602,6 +609,13 @@ abstract class ExportRecords extends \App\Base
 			$referenceRecordModel = $record->ext[$field->get('source_field_name')][$field->getModuleName()];
 			return $referenceRecordModel->getDisplayValue($field->getName(), $referenceRecordModel, $rawText, $textLengthLimit);
 		}
-		return $field->getUITypeModel()->getDisplayValue($record->get($field->getName()), $record->getId(), $record, $rawText, $textLengthLimit);
+		$fieldValue = $record->get($field->getName());
+		if ('sharedOwner' === $field->getFieldDataType()) {
+			$fieldValue = \App\Fields\SharedOwner::getById($record->getId());
+			if (\is_array($fieldValue)) {
+				$fieldValue = implode(',', $fieldValue);
+			}
+		}
+		return $field->getUITypeModel()->getDisplayValue($fieldValue, $record->getId(), $record, $rawText, $textLengthLimit);
 	}
 }
