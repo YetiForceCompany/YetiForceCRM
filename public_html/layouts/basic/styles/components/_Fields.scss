@@ -1,0 +1,65 @@
+/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+
+/* Multi attachments field styles */
+.c-multi-attachment {
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+	@at-root #{&}--file {
+		justify-content: space-between !important;
+		display: flex;
+		border: 1px solid #dee2e6 !important;
+		border-radius: 0.25rem !important;
+		padding: 0.25rem !important;
+		margin: 0.25em 0 0.25em 0;
+		min-width: 7rem;
+		> legend {
+			position: absolute;
+			overflow: hidden;
+			height: 1px;
+			width: 1px;
+			padding: 0;
+			border: 0;
+			-webkit-clip-path: inset(50%);
+			clip-path: inset(50%);
+			white-space: nowrap;
+		}
+		&-icon {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 1.75rem;
+		}
+		&-info {
+			position: static;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			flex: 1;
+			margin: 0 0.25em 0 0.25em;
+			min-width: 5rem;
+			pointer-events: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			&-main {
+				font-size: 0.875rem;
+				line-height: 1.2;
+				text-align: left;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
+				width: 100%;
+			}
+			&-sub {
+				font-size: 0.625em;
+				opacity: 0.875;
+				transition: opacity 0.25s ease-in-out;
+				white-space: nowrap;
+				&:empty {
+					display: none;
+				}
+			}
+		}
+	}
+}
