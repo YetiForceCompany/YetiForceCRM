@@ -542,26 +542,13 @@ abstract class ExportRecords extends \App\Base
 	{
 		if ('sharedOwner' === $fieldModel->getFieldDataType() && ($recordId || $recordModel)) {
 			$recordId = $recordId ?: $recordModel->getId();
-			$value = $this->getSharedOwners($recordId);
+			$value = '';
+			$fieldValue = \App\Fields\SharedOwner::getById($recordId);
+			if (\is_array($fieldValue)) {
+				$value = implode(',', $fieldValue);
+			}
 		}
 		return $fieldModel->getDisplayValue($value, $recordId, $recordModel, $rawText, $length);
-	}
-
-	/**
-	 * Get shared owners for record.
-	 *
-	 * @param int $recordId
-	 *
-	 * @return string
-	 */
-	public function getSharedOwners(int $recordId): string
-	{
-		$value = '';
-		$fieldValue = \App\Fields\SharedOwner::getById($recordId);
-		if (\is_array($fieldValue)) {
-			$value = implode(',', $fieldValue);
-		}
-		return $value;
 	}
 
 	/**
