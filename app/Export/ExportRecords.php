@@ -207,7 +207,7 @@ abstract class ExportRecords extends \App\Base
 				$label = $fieldModel->getFullLabelTranslation($this->moduleInstance);
 				$relatedModuleInstance = \Vtiger_Module_Model::getInstance($relatedModule);
 				if ($fieldFromReferenceModule = $relatedModuleInstance->getFieldByName($relatedFieldName)) {
-					$label .= ' - ' . $fieldFromReferenceModule->getFullLabelTranslation($relatedModuleInstance);
+					$label .= ' - ' . $fieldFromReferenceModule->getFullLabelTranslation($this->moduleInstance);
 				}
 				$headers[] = \App\Purifier::decodeHtml($label);
 			}
@@ -510,6 +510,7 @@ abstract class ExportRecords extends \App\Base
 	 */
 	public function getRecordDataInUserFormat(array $recordValues): array
 	{
+		$recordId = (int) ($recordValues['id'] ?? 0);
 		foreach ($recordValues as $fieldName => &$value) {
 			if (isset($this->moduleFieldInstances[$fieldName])) {
 				$fieldModel = $this->moduleFieldInstances[$fieldName];
@@ -519,10 +520,35 @@ abstract class ExportRecords extends \App\Base
 				unset($recordValues[$fieldName]);
 				continue;
 			}
-			$value = $fieldModel->getDisplayValue($value, false, false, true);
+			$value = $this->getDisplayValue($fieldModel, $value, $recordId, false, true);
 		}
 
 		return $recordValues;
+	}
+
+	/**
+	 * Get display value.
+	 *
+	 * @param \Vtiger_Field_Model $fieldModel
+	 * @param mixed               $value
+	 * @param bool|int            $recordId
+	 * @param bool|int            $recordModel
+	 * @param bool                $rawText
+	 * @param bool|int            $length
+	 *
+	 * @return mixed
+	 */
+	public function getDisplayValue(\Vtiger_Field_Model $fieldModel, $value, $recordId = false, $recordModel = false, $rawText = false, $length = false)
+	{
+		if ('sharedOwner' === $fieldModel->getFieldDataType() && ($recordId || $recordModel)) {
+			$recordId = $recordId ?: $recordModel->getId();
+			$value = '';
+			$fieldValue = \App\Fields\SharedOwner::getById($recordId);
+			if (\is_array($fieldValue)) {
+				$value = implode(',', $fieldValue);
+			}
+		}
+		return $fieldModel->getDisplayValue($value, $recordId, $recordModel, $rawText, $length);
 	}
 
 	/**
@@ -589,19 +615,20 @@ abstract class ExportRecords extends \App\Base
 	/**
 	 * Get list value from related fields.
 	 *
-	 * @param \Vtiger_Field_Model  $field
+	 * @param \Vtiger_Field_Model  $fieldModel
 	 * @param bool                 $rawText
-	 * @param \Vtiger_Record_Model $record
+	 * @param \Vtiger_Record_Model $recordModel
 	 *
 	 * @return string
 	 */
-	public function listValueForExport(\Vtiger_Field_Model $field, bool $rawText, \Vtiger_Record_Model $record)
+	public function listValueForExport(\Vtiger_Field_Model $fieldModel, bool $rawText, \Vtiger_Record_Model $recordModel)
 	{
 		$textLengthLimit = 3000;
-		if (!empty($field->get('source_field_name')) && isset($record->ext[$field->get('source_field_name')][$field->getModuleName()])) {
-			$referenceRecordModel = $record->ext[$field->get('source_field_name')][$field->getModuleName()];
-			return $referenceRecordModel->getDisplayValue($field->getName(), $referenceRecordModel, $rawText, $textLengthLimit);
+		if (!empty($fieldModel->get('source_field_name')) && isset($recordModel->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()])) {
+			$referenceRecordModel = $recordModel->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()];
+			$recordModel = $referenceRecordModel;
 		}
-		return $field->getUITypeModel()->getDisplayValue($record->get($field->getName()), $record->getId(), $record, $rawText, $textLengthLimit);
+		$fieldValue = $recordModel->get($fieldModel->getName());
+		return $this->getDisplayValue($fieldModel, $fieldValue, $recordModel->getId(), $recordModel, $rawText, $textLengthLimit);
 	}
 }
