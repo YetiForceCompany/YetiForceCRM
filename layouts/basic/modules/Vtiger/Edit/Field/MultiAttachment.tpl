@@ -12,7 +12,7 @@
 			data-validation-engine="validate[funcCall[Vtiger_MultiImage_Validator_Js.invokeValidation]]" data-fieldinfo='{$FIELD_INFO}' class="js-multi-image__values "
 			data-js="value" {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if}>
 		<label for="{$MODULE_NAME}_editView_fieldName_{$FIELD_MODEL->getFieldName()}" class="text-muted u-cursor-pointer mb-0" id="filepond--drop-label" aria-hidden="true">
-			{\App\Language::translate('LBL_DRAG_AND_DROP_FILES', $BTN_MODULE)}
+			{\App\Language::translate('LBL_DRAG_AND_DROP_FILES', $MODULE_NAME)}
 		</label>
 		<div class="js-multi-image__result" data-js="container" data-name="{$FIELD_MODEL->getFieldName()}"></div>
 		<div class="js-multi-image__progress progress d-none mt-2" data-js="container|css:display">

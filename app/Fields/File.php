@@ -1564,7 +1564,7 @@ class File
 	}
 
 	/**
-	 * Delete files for the field MultiImage.
+	 * Delete files from record.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
 	 */
