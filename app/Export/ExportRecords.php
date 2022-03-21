@@ -207,7 +207,7 @@ abstract class ExportRecords extends \App\Base
 				$label = $fieldModel->getFullLabelTranslation($this->moduleInstance);
 				$relatedModuleInstance = \Vtiger_Module_Model::getInstance($relatedModule);
 				if ($fieldFromReferenceModule = $relatedModuleInstance->getFieldByName($relatedFieldName)) {
-					$label .= ' - ' . $fieldFromReferenceModule->getFullLabelTranslation($this->moduleInstance);
+					$label .= ' - ' . $fieldFromReferenceModule->getFullLabelTranslation($relatedModuleInstance);
 				}
 				$headers[] = \App\Purifier::decodeHtml($label);
 			}
@@ -521,15 +521,29 @@ abstract class ExportRecords extends \App\Base
 				continue;
 			}
 			if ('shownerid' === $fieldName && $recordId) {
-				$fieldValue = \App\Fields\SharedOwner::getById($recordId);
-				if (\is_array($fieldValue)) {
-					$value = implode(',', $fieldValue);
-				}
+				$value = $this->getSharedOwners($recordId);
 			}
 			$value = $fieldModel->getDisplayValue($value, false, false, true);
 		}
 
 		return $recordValues;
+	}
+
+	/**
+	 * Get shared owners for record.
+	 *
+	 * @param int $recordId
+	 *
+	 * @return string
+	 */
+	public function getSharedOwners(int $recordId): string
+	{
+		$value = '';
+		$fieldValue = \App\Fields\SharedOwner::getById($recordId);
+		if (\is_array($fieldValue)) {
+			$value = implode(',', $fieldValue);
+		}
+		return $value;
 	}
 
 	/**
@@ -611,10 +625,7 @@ abstract class ExportRecords extends \App\Base
 		}
 		$fieldValue = $record->get($field->getName());
 		if ('sharedOwner' === $field->getFieldDataType()) {
-			$fieldValue = \App\Fields\SharedOwner::getById($record->getId());
-			if (\is_array($fieldValue)) {
-				$fieldValue = implode(',', $fieldValue);
-			}
+			$fieldValue = $this->getSharedOwners($record->getId());
 		}
 		return $field->getUITypeModel()->getDisplayValue($fieldValue, $record->getId(), $record, $rawText, $textLengthLimit);
 	}
