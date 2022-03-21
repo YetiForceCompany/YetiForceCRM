@@ -207,7 +207,7 @@ abstract class ExportRecords extends \App\Base
 				$label = $fieldModel->getFullLabelTranslation($this->moduleInstance);
 				$relatedModuleInstance = \Vtiger_Module_Model::getInstance($relatedModule);
 				if ($fieldFromReferenceModule = $relatedModuleInstance->getFieldByName($relatedFieldName)) {
-					$label .= ' - ' . $fieldFromReferenceModule->getFullLabelTranslation($relatedModuleInstance);
+					$label .= ' - ' . $fieldFromReferenceModule->getFullLabelTranslation($this->moduleInstance);
 				}
 				$headers[] = \App\Purifier::decodeHtml($label);
 			}
