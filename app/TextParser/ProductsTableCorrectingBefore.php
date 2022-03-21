@@ -49,7 +49,7 @@ class ProductsTableCorrectingBefore extends Base
 		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;';
 		$html .= '<table class="products-table-correcting-before" style="border-collapse:collapse;width:100%"><thead><tr>';
 		$groupModels = [];
-		foreach (['Name', 'Quantity', 'Discount', 'Currency', 'DiscountMode', 'TaxMode', 'UnitPrice', 'GrossPrice', 'NetPrice', 'Tax', 'TotalPrice', 'Value'] as $fieldType) {
+		foreach (['Name', 'Quantity', 'UnitPrice', 'TotalPrice', 'Discount', 'NetPrice', 'Currency', 'DiscountMode', 'Tax', 'TaxMode', 'GrossPrice', 'Value'] as $fieldType) {
 			foreach ($inventory->getFieldsByType($fieldType) as $fieldModel) {
 				$columnName = $fieldModel->getColumnName();
 				if (!$fieldModel->isVisible()) {
@@ -103,7 +103,7 @@ class ProductsTableCorrectingBefore extends Base
 		}
 		$html .= '</tbody><tfoot><tr>';
 		foreach ($groupModels as $fieldModel) {
-			$html .= "<th style=\"{$headerStyle}\">";
+			$html .= '<th style="font-size:9px;padding:0px 4px;text-align:right;">';
 			if ($fieldModel->isSummary()) {
 				$sum = 0;
 				foreach ($inventoryRows as $inventoryRow) {
