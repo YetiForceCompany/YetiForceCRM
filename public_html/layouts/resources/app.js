@@ -3283,10 +3283,10 @@ var app = (window.app = {
 	registerKeyboardShortcutsEvent: function (container) {
 		if (app.getUrlVar('parent') !== 'Settings') {
 			document.addEventListener('keydown', (event) => {
-				if (CONFIG['isEntityModule'] && event.shiftKey && event.code === 'KeyL') {
+				if (CONFIG['isEntityModule'] && event.shiftKey && event.ctrlKey && event.code === 'KeyL') {
 					window.location.href = 'index.php?module=' + app.getModuleName() + '&view=List';
 				}
-				if (CONFIG['isQuickCreateSupported'] && event.shiftKey && event.code === 'KeyQ') {
+				if (CONFIG['isQuickCreateSupported'] && event.shiftKey && event.ctrlKey && event.code === 'KeyQ') {
 					App.Components.QuickCreate.createRecord(app.getModuleName());
 				}
 			});
