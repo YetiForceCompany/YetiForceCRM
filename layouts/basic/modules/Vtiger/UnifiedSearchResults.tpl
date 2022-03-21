@@ -23,18 +23,18 @@
 					<div class="form-row w-100 m-0">
 						<div class="col-6 u-text-ellipsis">
 							<strong><span
-										class="fas fa-search fa-fw"></span> {\App\Language::translate('LBL_SEARCH_RESULTS',$MODULE)}
+									class="fas fa-search fa-fw"></span> {\App\Language::translate('LBL_SEARCH_RESULTS',$MODULE)}
 								&nbsp;({$totalCount})</strong>
 						</div>
 						<div class="col-6">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-										aria-hidden="true">&times;</span></button>
+									aria-hidden="true">&times;</span></button>
 						</div>
 						{if $IS_ADVANCE_SEARCH }
 							<span class="col-12">
 								<span class="float-left">
 									<a href="javascript:void(0);"
-									   id="showFilter">{\App\Language::translate('LBL_SAVE_MODIFY_FILTER',$MODULE)}</a>
+										id="showFilter">{\App\Language::translate('LBL_SAVE_MODIFY_FILTER',$MODULE)}</a>
 								</span>
 							</span>
 						{/if}
@@ -54,17 +54,18 @@
 					{foreach key=module item=searchRecords from=$MATCHING_RECORDS name=matchingRecords}
 						{assign var="modulesCount" value=count($searchRecords)}
 						<form method="POST" action="index.php?module={$module}&view=List" name="form_{$module}"
-							  enctype="multipart/form-data">
+							enctype="multipart/form-data">
 							<input type="hidden" id="recordList" name="searchResult"
-								   value="{\App\Purifier::encodeHtml(\App\Json::encode(array_keys($searchRecords)))}"/>
+								value="{\App\Purifier::encodeHtml(\App\Json::encode(array_keys($searchRecords)))}" />
 							<div class="clearfix">
 								<span onclick="form_{$module}.submit()"><span
-											class="fas fa-list mr-1"></span> <strong>{\App\Language::translate($module)}
+										class="fas fa-list mr-1"></span> <strong>{\App\Language::translate($module,$module)}
 										&nbsp;({$modulesCount})</strong></span>
 								<!-- &nbsp;&nbsp;<i title="" class="fas fa-th-list alignMiddle"></i> -->
 								{if {$smarty.foreach.matchingRecords.index+1} eq 1}
-									<div class="float-right"><p
-												class="muted">{\App\Language::translate('LBL_CREATED_ON', $MODULE)}</small></p>
+									<div class="float-right">
+										<p
+											class="muted">{\App\Language::translate('LBL_CREATED_ON', $MODULE)}</small></p>
 									</div>
 								{/if}
 							</div>
@@ -75,11 +76,12 @@
 									{if $recordObject->get('permitted')}
 										<li id="{$ID}" class="col-12 form-row px-0">
 											<a target="_blank" id="{$ID}_link"
-											   class="u-cursor-pointer col-12 form-row py-1" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
-												onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' {/if}>
+												class="u-cursor-pointer col-12 form-row py-1" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
+												onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' 
+												{/if}>
 												<span class="col-8 text-left u-text-ellipsis">{$recordObject->getName()} {if $recordObject->get('assigned_user_id')}({$recordObject->getDisplayValue('assigned_user_id',$ID,true)}){/if}</span>
 												<span id="{$ID}_time"
-													  class="col-4 text-right px-0 u-text-ellipsis">{\App\Fields\DateTime::formatToViewDate($recordObject->get('createdtime'))}</span>
+													class="col-4 text-right px-0 u-text-ellipsis">{\App\Fields\DateTime::formatToViewDate($recordObject->get('createdtime'))}</span>
 											</a>
 										</li>
 									{else}
@@ -88,11 +90,11 @@
 												<span>{$recordObject->getName()} {if $recordObject->get('assigned_user_id')}({$recordObject->getDisplayValue('assigned_user_id',$ID,true)}){/if}</span>&nbsp;
 												<span class="fas fa-exclamation-circle"></span>
 												<span id="{$ID}_time"
-													  class="float-right">{\App\Fields\DateTime::formatToViewDate($recordObject->get('createdtime'))}</span>
+													class="float-right">{\App\Fields\DateTime::formatToViewDate($recordObject->get('createdtime'))}</span>
 											</a>
 										</li>
 									{/if}
-									{foreachelse}
+								{foreachelse}
 									<li>{\App\Language::translate('LBL_NO_RECORDS', $module)}</li>
 								{/foreach}
 							</ul>
