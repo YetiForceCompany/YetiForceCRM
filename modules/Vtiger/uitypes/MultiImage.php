@@ -465,27 +465,6 @@ class Vtiger_MultiImage_UIType extends Vtiger_Base_UIType
 		return $this->getDBValue($value, $recordModel);
 	}
 
-	/**
-	 * Delete files for the field MultiImage.
-	 *
-	 * @param \Vtiger_Record_Model $recordModel
-	 */
-	public static function deleteRecord(Vtiger_Record_Model $recordModel)
-	{
-		foreach ($recordModel->getModule()->getFieldsByType(['multiImage', 'image']) as $fieldModel) {
-			if (!$recordModel->isEmpty($fieldModel->getName()) && !\App\Json::isEmpty($recordModel->get($fieldModel->getName()))) {
-				foreach (\App\Json::decode($recordModel->get($fieldModel->getName())) as $image) {
-					$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
-					if (file_exists($path)) {
-						unlink($path);
-					} else {
-						\App\Log::warning('Deleted file does not exist: ' . print_r($image, true));
-					}
-				}
-			}
-		}
-	}
-
 	/** {@inheritdoc} */
 	public function getAllowedColumnTypes()
 	{

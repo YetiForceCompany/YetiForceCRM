@@ -88,7 +88,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			'Text', 'Decimal', 'Integer', 'AdvPercentage', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'Country',
 			'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree',
 			'MultiReferenceValue', 'CategoryMultipicklist', 'DateTime', 'Image', 'MultiImage', 'Twitter', 'MultiEmail',
-			'Smtp', 'ServerAccess', 'MultiDomain', 'RangeTime', 'Token',
+			'Smtp', 'ServerAccess', 'MultiDomain', 'RangeTime', 'Token', 'MultiAttachment'
 		];
 	}
 
@@ -489,6 +489,11 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uichekdata = 'V~O';
 				$displayType = 3;
 				$type = $importerType->stringType(Vtiger_Token_UIType::MAX_LENGTH)->defaultValue('');
+				break;
+			case 'MultiAttachment':
+				$uitype = 330;
+				$type = $importerType->text();
+				$uichekdata = 'V~O';
 				break;
 			default:
 				break;

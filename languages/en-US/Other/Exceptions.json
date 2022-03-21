@@ -51,6 +51,8 @@
     "ERR_NO_TOKEN": "No token",
     "ERR_INCORRECT_2FA_TOTP_CODE": "Incorrect 2FA TOTP code",
     "ERR_NO_2FA_TOTP_CODE": "No 2FA TOTP code",
-    "ERR_FUNCTION_NOT_FOUND_IN_CLASS": "Function %s not found in class %s object"
+    "ERR_FUNCTION_NOT_FOUND_IN_CLASS": "Function %s not found in class %s object",
+    "ERR_FILE_SIZE_EXCEEDED": "File size exceeded",
+    "ERR_FILE_TYPE": "Invalid file type"
   }
 }

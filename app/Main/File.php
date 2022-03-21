@@ -1,15 +1,19 @@
 <?php
-
-namespace App\Main;
-
 /**
- * Basic class to handle files.
+ * The main file for handling attachments.
  *
  * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+namespace App\Main;
+
+/**
+ * Basic class to handle files.
  */
 class File
 {
@@ -24,6 +28,10 @@ class File
 				header('location: ' . \App\Config::main('site_URL'), true, 301);
 			}
 		}
+		if (\App\Config::security('csrfActive')) {
+			require_once 'config/csrf_config.php';
+			\CsrfMagic\Csrf::init();
+		}
 		\App\Session::init();
 		$this->getLogin();
 		$moduleName = $request->getModule();
@@ -36,6 +44,7 @@ class File
 		$handlerClass = \Vtiger_Loader::getComponentClassName('File', $action, $moduleName);
 		$handler = new $handlerClass();
 		if ($handler) {
+			$handler->validateRequest($request);
 			$method = \App\Request::getRequestMethod();
 			$permissionFunction = $method . 'CheckPermission';
 			if (!$handler->{$permissionFunction}($request)) {

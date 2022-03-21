@@ -67,6 +67,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		318 => 'ServerAccess',
 		319 => 'MultiDomain',
 		324 => 'Token',
+		330 => 'MultiAttachment',
 		365 => 'AdvPercentage',
 	];
 

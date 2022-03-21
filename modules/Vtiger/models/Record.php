@@ -705,7 +705,7 @@ class Vtiger_Record_Model extends \App\Base
 			$eventHandler->trigger('EntityBeforeDelete');
 			$db->createCommand()->delete('vtiger_crmentity', ['crmid' => $this->getId()])->execute();
 			\App\Db::getInstance('admin')->createCommand()->delete('s_#__privileges_updater', ['crmid' => $this->getId()])->execute();
-			Vtiger_MultiImage_UIType::deleteRecord($this);
+			\App\Fields\File::deleteForRecord($this);
 			$eventHandler->trigger('EntityAfterDelete');
 			if ($this->getModule()->isCommentEnabled()) {
 				(new \App\BatchMethod(['method' => 'ModComments_Module_Model::deleteForRecord', 'params' => [$this->getId()]]))->save();

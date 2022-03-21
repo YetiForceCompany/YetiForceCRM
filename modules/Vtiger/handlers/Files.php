@@ -22,7 +22,7 @@ class Vtiger_Files_Handler
 	public function entityAfterSave(App\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		foreach ($recordModel->getModule()->getFieldsByType(['image', 'multiImage'], true) as $fieldName => $fieldModel) {
+		foreach ($recordModel->getModule()->getFieldsByType(['image', 'multiImage', 'multiAttachment'], true) as $fieldName => $fieldModel) {
 			$currentData = [];
 			if ($recordModel->get($fieldName) && ($recordModel->isNew() || false !== $recordModel->getPreviousValue($fieldName))) {
 				$currentData = \App\Fields\File::parse(\App\Json::decode($recordModel->get($fieldName)));

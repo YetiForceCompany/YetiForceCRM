@@ -3197,6 +3197,457 @@ window.App.Fields = {
 			return this.container.find('.js-pwd-field');
 		}
 	},
+	/**
+	 * Multi Attachment
+	 */
+	MultiAttachment: class MultiAttachment {
+		/**
+		 * Constructor
+		 * @param {jQuery} container
+		 * @param {Object} options
+		 */
+		constructor(container, options) {
+			this.container = container;
+			this.fileInput = container.find('.js-multi-image__file').eq(0);
+			this.dataInput = container.find('.js-multi-image__values');
+			this.addButton = container.find('.js-multi-image__file-btn');
+			this.form = container.closest('form');
+
+			this.progressBar = container.find('.js-multi-image__progress-bar');
+			this.progress = container.find('.js-multi-image__progress');
+			this.result = container.find('.js-multi-image__result');
+			this.files = this.dataInput.is('input') ? JSON.parse(this.dataInput.val()) : this.dataInput.data('value');
+
+			let fieldInfo = this.dataInput.data('fieldinfo') || {};
+			this.options = {
+				showCarousel: true,
+				formats: fieldInfo.formats || [],
+				limit: fieldInfo.limit || 1,
+				maxFileSize: fieldInfo.maxFileSize,
+				maxFileSizeDisplay: fieldInfo.maxFileSizeDisplay || '',
+				...options
+			};
+			if (this.form.length && this.fileInput.length) {
+				this.initEditView();
+			} else {
+				this.initDetailView();
+			}
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 * @param {Object} options
+		 */
+		static register(container, options = {}) {
+			if (container.hasClass('js-multi-attachment')) {
+				return new MultiAttachment(container, options);
+			}
+			const instances = [];
+			container.find('.js-multi-attachment').each((_, e) => {
+				instances.push(new MultiAttachment($(e), options));
+			});
+			return instances;
+		}
+		/**
+		 * Initiation for detail view
+		 */
+		initDetailView() {
+			this.files.forEach((fileInfo) => {
+				this.createItem(fileInfo);
+			});
+		}
+		/**
+		 * Initiation for edit view
+		 */
+		initEditView() {
+			this.fileInput.detach();
+			this.container.on('mouseup', this.openBrowser.bind(this));
+			this.fileInput.fileupload({
+				dataType: 'json',
+				replaceFileInput: false,
+				fileInput: this.fileInput,
+				autoUpload: false,
+				submit: this.submit.bind(this),
+				add: this.add.bind(this),
+				progressall: this.progressAll.bind(this),
+				change: this.change.bind(this),
+				drop: this.change.bind(this),
+				dragover: this.dragOver.bind(this),
+				fail: this.uploadError.bind(this),
+				done: this.uploadSuccess.bind(this)
+			});
+			this.container.on('dragleave', this.dragLeave.bind(this));
+			this.container.on('dragend', this.dragLeave.bind(this));
+			this.fileInput.fileupload('option', 'dropZone', this.container);
+			this.enableDragNDrop();
+			this.form.on('submit', this.onFormSubmit.bind(this));
+			this.deleteButtonActive = true;
+			this.container.on('click', '.js-multi-attachment__file-buttons-delete', (e) => {
+				e.preventDefault();
+				this.deleteFile(e.currentTarget.dataset.key);
+			});
+			this.files.forEach((fileInfo) => {
+				this.createItem(fileInfo);
+			});
+			this.filesActive = 0;
+		}
+		/**
+		 * Add event handler from jQuery-file-upload
+		 *
+		 * @param {Event} e
+		 * @param {Object} data
+		 */
+		add(e, data) {
+			if (data.files.length > 0) {
+				data.submit();
+			}
+		}
+		/**
+		 * Submit event handler from jQuery-file-upload
+		 *
+		 * @param {Event} e
+		 * @param {Object} data
+		 */
+		submit(e, data) {
+			this.filesActive++;
+			this.progressInstance = $.progressIndicator({
+				position: 'replace',
+				blockInfo: {
+					enabled: true,
+					elementToBlock: this.container
+				}
+			});
+		}
+		/**
+		 * Prevent form submission before file upload end
+		 * @param e
+		 */
+		onFormSubmit(e) {
+			if (this.filesActive) {
+				e.preventDefault();
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+				app.showAlert(app.vtranslate('JS_WAIT_FOR_FILE_UPLOAD'));
+				return false;
+			}
+			return true;
+		}
+		/**
+		 * Progressall event handler from jQuery-file-upload
+		 *
+		 * @param {Event} e
+		 * @param {Object} data
+		 */
+		progressAll(e, data) {
+			const progress = parseInt((data.loaded / data.total) * 100, 10);
+			this.progressBar.css({ width: progress + '%' });
+			if (progress === 100) {
+				setTimeout(() => {
+					this.progress.addClass('d-none');
+					this.progressBar.css({ width: '0%' });
+				}, 1000);
+			} else {
+				this.progress.removeClass('d-none');
+			}
+		}
+		/**
+		 * File change event handler from jQuery-file-upload
+		 *
+		 * @param {Event} e
+		 * @param {object} data
+		 */
+		change(e, data) {
+			let { valid, error } = this.filterFiles(data.files);
+			data.files = valid;
+			if (!valid.length) {
+				this.fileInput.val('');
+			}
+			if (error.length) {
+				this.showErrors(error);
+			}
+			this.dragLeave(e);
+		}
+		/**
+		 * Get only valid files from list
+		 *
+		 * @param {Array} files
+		 * @returns {Object}
+		 */
+		filterFiles(files) {
+			let valid = [],
+				error = [];
+			if (files.length + this.files.length > this.options.limit) {
+				error.push({ error: { text: `${app.vtranslate('JS_FILE_LIMIT')} [${this.options.limit}]` } });
+			} else {
+				for (let file of files) {
+					this.validateFileType(file) && this.validateFileSize(file) ? valid.push(file) : error.push(file);
+				}
+			}
+			return { valid, error };
+		}
+		/**
+		 * Validate maximum file size
+		 * @param {Object} file
+		 * @returns {Boolean}
+		 */
+		validateFileSize(file) {
+			let result = typeof file.size === 'number' && file.size < this.options.maxFileSize;
+			if (!result) {
+				file.error = {
+					title: `${app.vtranslate('JS_UPLOADED_FILE_SIZE_EXCEEDS')} <br> [${this.options.maxFileSizeDisplay}]`,
+					text: file.name
+				};
+			}
+			return result;
+		}
+		/**
+		 * Validate file
+		 *
+		 * @param {Object} file
+		 * @returns {boolean}
+		 */
+		validateFileType(file) {
+			let result =
+				!this.options.formats.length ||
+				this.options.formats.filter((format) => {
+					return file.type === format || (format.slice(-2) === '/*' && file.type.indexOf(format.slice(0, -1)) === 0);
+				}).length > 0;
+			if (!result) {
+				file.error = { title: app.vtranslate('JS_INVALID_FILE_TYPE'), text: file.name };
+			}
+			return result;
+		}
+		/**
+		 * Show errors
+		 */
+		showErrors(errors = []) {
+			for (let info of errors) {
+				this.showError(info.error);
+			}
+		}
+		/**
+		 * Show error
+		 */
+		showError(error) {
+			if (typeof error.type === 'undefined') {
+				error.type = 'error';
+			}
+			error.textTrusted = false;
+			app.showNotify(error);
+		}
+		/**
+		 * Dragover event handler from jQuery-file-upload
+		 *
+		 * @param {Event} e
+		 */
+		dragOver(e) {
+			this.container.addClass('c-multi-image__drop-effect');
+		}
+		/**
+		 * Dragleave event handler
+		 * @param {Event} e
+		 */
+		dragLeave(e) {
+			this.container.removeClass('c-multi-image__drop-effect');
+		}
+		/**
+		 * Error event handler from file upload request
+		 *
+		 * @param {Event} e
+		 * @param {Object} data
+		 */
+		uploadError(e, data) {
+			this.progressInstance.progressIndicator({ mode: 'hide' });
+			this.filesActive--;
+			app.errorLog('File upload error.');
+			const { jqXHR, files } = data;
+			if (typeof jqXHR.responseJSON === 'undefined' || jqXHR.responseJSON === null) {
+				return app.showNotify({
+					title: app.vtranslate('JS_FILE_UPLOAD_ERROR'),
+					type: 'error'
+				});
+			}
+			files.forEach((file) => {
+				app.showNotify({
+					title: app.vtranslate('JS_FILE_UPLOAD_ERROR'),
+					text: file.name,
+					type: 'error'
+				});
+			});
+			this.updateFormValues();
+		}
+		/**
+		 * Success event handler from file upload request
+		 *
+		 * @param {Event} e
+		 * @param {Object} data
+		 */
+		uploadSuccess(e, data) {
+			this.progressInstance.progressIndicator({ mode: 'hide' });
+			const { result } = data;
+			const attach = result.result.attach;
+			attach.forEach((fileAttach) => {
+				this.filesActive--;
+				if (typeof fileAttach.key === 'undefined') {
+					return this.uploadError(e, data);
+				}
+				if (typeof fileAttach.info !== 'undefined' && fileAttach.info) {
+					app.showNotify({
+						type: 'notice',
+						text: fileAttach.info + ` [${fileAttach.name}]`
+					});
+				}
+				this.files.push(fileAttach);
+				const fileInfo = this.getFileInfo(fileAttach.key);
+				this.createItem(fileInfo);
+			});
+			this.updateFormValues();
+		}
+		/**
+		 * Get file information
+		 *
+		 * @param {String} key - file id
+		 * @returns {Object}
+		 */
+		getFileInfo(key) {
+			for (let i = 0, len = this.files.length; i < len; i++) {
+				const file = this.files[i];
+				if (file.key === key) {
+					return file;
+				}
+			}
+			app.errorLog(`File '${key}' not found.`);
+			app.showNotify({
+				text: app.vtranslate('JS_INVALID_FILE_HASH'),
+				type: 'error'
+			});
+		}
+		/**
+		 * Generate preview of image as html string from existing values
+		 * @param {Object} file
+		 */
+		createItem(file) {
+			const item = document.createElement('fieldset');
+			item.setAttribute('class', 'c-multi-attachment--file bg-light js-handle');
+			item.setAttribute('data-key', file.key);
+
+			const legend = document.createElement('legend');
+			legend.appendChild(document.createTextNode(file.name));
+			item.appendChild(legend);
+
+			const icon = document.createElement('div');
+			icon.setAttribute('class', 'c-multi-attachment--file-icon');
+			const span = document.createElement('span');
+			span.setAttribute('class', file.icon);
+			icon.appendChild(span);
+			item.appendChild(icon);
+
+			const fileInfo = document.createElement('div');
+			fileInfo.setAttribute('class', 'c-multi-attachment--file-info');
+			const name = document.createElement('span');
+			name.setAttribute('class', 'c-multi-attachment--file-info-main');
+			name.setAttribute('aria-hidden', true);
+			name.appendChild(document.createTextNode(file.name));
+			fileInfo.appendChild(name);
+			const size = document.createElement('span');
+			size.setAttribute('class', 'c-multi-attachment--file-info-sub');
+			size.appendChild(document.createTextNode(file.sizeDisplay));
+			fileInfo.appendChild(size);
+			item.appendChild(fileInfo);
+
+			const buttons = document.createElement('div');
+			buttons.setAttribute('class', 'js-multi-attachment__file-buttons');
+
+			if (file.url) {
+				const downloadBtn = document.createElement('a');
+				downloadBtn.setAttribute('class', 'btn btn-sm btn-outline-success js-multi-attachment__file-buttons-download');
+				downloadBtn.setAttribute('href', file.url);
+				downloadBtn.setAttribute('download', file.name);
+				downloadBtn.setAttribute('title', $('<textarea />').html(app.vtranslate('JS_DOWNLOAD')).text());
+				const downloadBtnIcon = document.createElement('span');
+				downloadBtnIcon.setAttribute('class', 'fa fa-download');
+				downloadBtn.appendChild(downloadBtnIcon);
+				buttons.appendChild(downloadBtn);
+			}
+			if (this.deleteButtonActive) {
+				const deleteBtn = document.createElement('button');
+				deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-danger js-multi-attachment__file-buttons-delete ml-1');
+				deleteBtn.setAttribute('data-key', file.key);
+				deleteBtn.setAttribute('title', $('<textarea />').html(app.vtranslate('JS_DELETE')).text());
+				const deleteBtnIcon = document.createElement('span');
+				deleteBtnIcon.setAttribute('class', 'fa fa-trash-alt');
+				deleteBtn.appendChild(deleteBtnIcon);
+				buttons.appendChild(deleteBtn);
+			}
+
+			item.appendChild(buttons);
+			this.result.append(item);
+		}
+		/**
+		 * Enable drag and drop files repositioning
+		 */
+		enableDragNDrop() {
+			this.result
+				.sortable({
+					containment: this.container,
+					items: '.js-handle',
+					stop: this.sortStop.bind(this)
+				})
+				.disableSelection();
+		}
+		/**
+		 * Prevent form submission
+		 *
+		 * @param {Event} e
+		 */
+		openBrowser(e) {
+			if (!e.target.closest('fieldset')) {
+				e.preventDefault();
+				this.fileInput.trigger('click');
+			}
+		}
+
+		/**
+		 * Update file position according to elements order
+		 *
+		 * @param {Event} e
+		 * @param {Object} ui
+		 */
+		sortStop(e, ui) {
+			const actualElements = this.result.find('fieldset').toArray();
+			this.files = actualElements.map((element) => {
+				for (let i = 0, len = this.files.length; i < len; i++) {
+					const elementHash = $(element).data('key');
+					if (this.files[i].key === elementHash) {
+						return this.files[i];
+					}
+				}
+			});
+			this.updateFormValues();
+		}
+		/**
+		 * Remove file from preview and from file list
+		 *
+		 * @param {String} key
+		 */
+		deleteFile(key) {
+			const fileInfo = this.getFileInfo(key);
+			this.result.find(`[data-key="${fileInfo.key}"]`).remove();
+			this.files = this.files.filter((file) => file.key !== fileInfo.key);
+			this.updateFormValues();
+		}
+
+		/**
+		 * Update form input values
+		 */
+		updateFormValues() {
+			this.fileInput.val('');
+			const formValues = this.files.map((file) => {
+				return { key: file.key, name: file.name, size: file.size, type: file.type };
+			});
+			this.dataInput.val(JSON.stringify(formValues));
+		}
+	},
 	Utils: {
 		registerMobileDateRangePicker(element) {
 			this.hideMobileKeyboard(element);

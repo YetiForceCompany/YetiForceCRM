@@ -465,6 +465,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 329:
 						$fieldDataType = 'iban';
 						break;
+					case 330:
+						$fieldDataType = 'multiAttachment';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {

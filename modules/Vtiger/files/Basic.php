@@ -93,4 +93,18 @@ abstract class Vtiger_Basic_File
 			$response->emit();
 		}
 	}
+
+	/**
+	 * Function to validate request method.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return void
+	 */
+	public function validateRequest(App\Request $request)
+	{
+		if (\App\Config::security('csrfActive')) {
+			\CsrfMagic\Csrf::check();
+		}
+	}
 }

@@ -1423,6 +1423,7 @@ var app = (window.app = {
 				height: '5em',
 				toolbar: 'Min'
 			});
+			App.Fields.MultiAttachment.register(modalContainer);
 			app.registesterScrollbar(modalContainer);
 			app.registerIframeEvents(modalContainer);
 			modalContainer.find('.modal-dialog').draggable({

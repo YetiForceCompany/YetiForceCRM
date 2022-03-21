@@ -282,11 +282,13 @@ class File
 	/**
 	 * Get file name.
 	 *
+	 * @param bool $decode
+	 *
 	 * @return string
 	 */
-	public function getName()
+	public function getName(bool $decode = false)
 	{
-		return $this->name;
+		return $decode ? \App\Purifier::decodeHtml($this->name) : $this->name;
 	}
 
 	/**
@@ -1318,6 +1320,37 @@ class File
 	}
 
 	/**
+	 * Add an entry to the temporary table of files.
+	 *
+	 * @param array $params
+	 *
+	 * @return int
+	 */
+	public function insertTempFile(array $params): int
+	{
+		$db = \App\Db::getInstance();
+		$result = 0;
+		$data = [
+			'name' => $this->getName(true),
+			'type' => $this->getMimeType(),
+			'path' => null,
+			'createdtime' => date('Y-m-d H:i:s'),
+			'fieldname' => null,
+			'key' => null,
+			'crmid' => 0
+		];
+		foreach ($data as $key => &$value) {
+			if (isset($params[$key])) {
+				$value = $params[$key];
+			}
+		}
+		if ($db->createCommand()->insert(static::TABLE_NAME_TEMP, $data)->execute()) {
+			$result = $db->getLastInsertID(static::TABLE_NAME_TEMP . '_id_seq');
+		}
+		return $result;
+	}
+
+	/**
 	 * Secure image file.
 	 *
 	 * @param \App\Fields\File $file
@@ -1528,5 +1561,26 @@ class File
 	public static function createTempFile(string $prefix = '', string $ext = 'tmp'): string
 	{
 		return (new \Symfony\Component\Filesystem\Filesystem())->tempnam(self::getTmpPath(), $prefix, '.' . $ext);
+	}
+
+	/**
+	 * Delete files for the field MultiImage.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 */
+	public static function deleteForRecord(\Vtiger_Record_Model $recordModel)
+	{
+		foreach ($recordModel->getModule()->getFieldsByType(['multiAttachment', 'multiImage', 'image']) as $fieldModel) {
+			if (!$recordModel->isEmpty($fieldModel->getName()) && !\App\Json::isEmpty($recordModel->get($fieldModel->getName()))) {
+				foreach (\App\Json::decode($recordModel->get($fieldModel->getName())) as $file) {
+					$path = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $file['path'];
+					if (file_exists($path)) {
+						unlink($path);
+					} else {
+						\App\Log::warning('Deleted file does not exist: ' . print_r($file, true));
+					}
+				}
+			}
+		}
 	}
 }
