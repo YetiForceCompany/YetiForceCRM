@@ -56,6 +56,15 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 			$records = \Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		}
 
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setModuleName($pdfModuleName);
+		$eventHandler->setParams([
+			'records' => $records,
+			'viewInstance' => $this,
+			'pdfModel' => $pdfModel,
+		]);
+		$eventHandler->trigger('ExportPdfBefore');
+
 		$moduleModel = \Vtiger_Module_Model::getInstance($pdfModuleName);
 		$isInventory = $moduleModel->isInventory();
 		foreach ($templates as $key => $template) {
@@ -109,6 +118,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 			$viewer->assign('RELATION_ID', $request->getInteger('relationId'));
 			$viewer->assign('CV_ID', $request->getByType('cvId', \App\Purifier::ALNUM));
 		}
+		$eventHandler->trigger('ExportPdfAfter');
 		$viewer->view('ExportPDF.tpl', $pdfModuleName);
 		$this->postProcess($request);
 	}

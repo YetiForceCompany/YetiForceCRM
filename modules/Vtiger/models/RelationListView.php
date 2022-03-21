@@ -573,7 +573,15 @@ class Vtiger_RelationListView_Model extends \App\Base
 				}
 			}
 		}
-		return $relatedLink;
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setRecordModel($parentRecordModel);
+		$eventHandler->setModuleName($relatedModuleModel->getName());
+		$eventHandler->setParams([
+			'relatedLink' => $relatedLink,
+			'viewInstance' => $this,
+		]);
+		$eventHandler->trigger('RelationListLinks');
+		return $eventHandler->getParam('relatedLink');
 	}
 
 	/**
