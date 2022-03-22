@@ -305,13 +305,17 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_USERS',
 				'linkurl' => "module={$this->getModuleName()}&view=RightPanelExtended&mode=getUsersList",
-				'linkclass' => 'js-users-form usersForm '
+				'linkclass' => 'js-users-form usersForm ',
+				'template' => 'Filters/Users.tpl',
+				'methodName' => 'getUsersList()',
 			]);
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_GROUPS',
 				'linkurl' => "module={$this->getModuleName()}&view=RightPanelExtended&mode=getGroupsList",
 				'linkclass' => 'js-group-form groupForm',
+				'template' => 'Filters/Groups.tpl',
+				'methodName' => 'getGroupsList()',
 			]);
 		} else {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
