@@ -58,7 +58,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	public function validateRecords(App\Request $request): void
 	{
 		$moduleName = $request->getModule();
-		$recordId = $request->getInteger('record');
+		$recordId = $request->isEmpty('record', true) ? null : $request->getInteger('record');
 		$result = false;
 		foreach ($request->getArray('templates', \App\Purifier::INTEGER) as $templateId) {
 			$templateRecord = Vtiger_PDF_Model::getInstanceById($templateId);
@@ -90,7 +90,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	{
 		$pdfModuleName = $request->getModule();
 		$view = $request->getByType('fromview', \App\Purifier::STANDARD);
-		$recordId = $request->getInteger('record');
+		$recordId = $request->isEmpty('record', true) ? null : $request->getInteger('record');
 		if ($isRelatedView = ('RelatedList' === $view)) {
 			$pdfModuleName = $request->getByType('relatedModule', \App\Purifier::ALNUM);
 		}
@@ -113,6 +113,17 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 			) {
 			throw new \App\Exceptions\NoPermitted('LBL_EXPORT_ERROR');
 		}
+		$eventHandler = new App\EventHandler();
+		$eventHandler->setModuleName($pdfModuleName);
+		$eventHandler->setParams([
+			'records' => $recordIds,
+			'templates' => $templateIds,
+			'viewInstance' => $this,
+			'pdfModel' => $pdfModel,
+		]);
+		$eventHandler->trigger('PdfGenerateInit');
+		$recordIds = $eventHandler->getParam('records');
+
 		$increment = $skip = $pdfFiles = [];
 		$countTemplates = \count($templateIds);
 		$countRecords = \count($recordIds);
@@ -164,6 +175,8 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				}
 
 				$pdf->loadTemplateData();
+				$eventHandler->addParams('pdf', $pdf);
+				$eventHandler->trigger('PdfGenerate');
 
 				$attach = $template->attachFiles ?? [];
 				if ($attach || $emailPdf || ($countTemplates > 1 || (1 === $countTemplates && !isset($skip[$templateId]) && $countRecords > 1))) {
@@ -209,7 +222,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	 */
 	public function hasValidTemplate(App\Request $request): void
 	{
-		$recordId = $request->getInteger('record');
+		$recordId = $request->isEmpty('record', true) ? null : $request->getInteger('record');
 		$moduleName = $request->getModule();
 		if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -232,7 +245,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		if (!\App\Privilege::isPermitted($moduleName, 'RecordPdfInventory')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		$recordId = $request->getInteger('record');
 		$records = $this->getRecords($request);
 		$columns = $request->getArray('inventoryColumns');
 		$save = [];

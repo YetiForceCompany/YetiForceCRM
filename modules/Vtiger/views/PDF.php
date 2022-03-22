@@ -24,7 +24,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModuleActionPermission($moduleName, 'ExportPdf')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!$request->isEmpty('record') && !\App\Privilege::isPermitted($moduleName, 'DetailView', $request->getInteger('record'))) {
+		if (!$request->isEmpty('record', true) && !\App\Privilege::isPermitted($moduleName, 'DetailView', $request->getInteger('record'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
@@ -36,7 +36,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		$viewer = $this->getViewer($request);
 		$pdfModuleName = $moduleName = $request->getModule();
 		$view = $request->getByType('fromview', \App\Purifier::STANDARD);
-		$recordId = $request->getInteger('record');
+		$recordId = $request->isEmpty('record', true) ? null : $request->getInteger('record');
 		if ($isRelatedView = ('RelatedList' === $view)) {
 			$pdfModuleName = $request->getByType('relatedModule', \App\Purifier::ALNUM);
 		}
@@ -107,6 +107,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		));
 		$viewer->assign('VIEW_NAME', $request->getByType('viewname', \App\Purifier::ALNUM));
 		$viewer->assign('ENTITY_STATE', $request->isEmpty('entityState') ? '' : $request->getByType('entityState'));
+		$viewer->assign('SELECT_MODE', ($request->isEmpty('selectMode') ? true : ('multi' === $request->getByType('selectMode'))) ? 'checkbox' : 'radio');
 		$viewer->assign('SELECTED_IDS', $request->getArray('selected_ids', \App\Purifier::INTEGER));
 		$viewer->assign('EXCLUDED_IDS', $request->getArray('excluded_ids', \App\Purifier::INTEGER));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', \App\Purifier::ALNUM));
