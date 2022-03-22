@@ -28,11 +28,11 @@ class File
 				header('location: ' . \App\Config::main('site_URL'), true, 301);
 			}
 		}
+		\App\Session::init();
 		if (\App\Config::security('csrfActive')) {
 			require_once 'config/csrf_config.php';
 			\CsrfMagic\Csrf::init();
 		}
-		\App\Session::init();
 		$this->getLogin();
 		$moduleName = $request->getModule();
 		$action = $request->getByType('action', 1);
