@@ -242,13 +242,14 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	 */
 	public static function getInstanceById(int $id)
 	{
+		$db = App\Db::getInstance('admin');
 		$instance = self::getCleanInstance();
 		$baseTable = $instance->getTable();
 		$baseIndex = $instance->getTableIndex();
 		$data = (new App\Db\Query())
 			->from($baseTable)
 			->where([$baseIndex => $id])
-			->one(App\Db::getInstance('admin'));
+			->one($db);
 		if ($data) {
 			$queryAll = null;
 			$customTables = $instance->getModule()->customFieldTable;
@@ -263,7 +264,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 					$queryAll = $query;
 				}
 			}
-			$members = $queryAll->column();
+			$members = $queryAll->column($db);
 			$data['members'] = $instance->getFieldInstanceByName('members')->getUITypeModel()->getDBValue($members);
 			$instance->setData($data);
 		}
@@ -281,12 +282,12 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 		$cacheName = __CLASS__;
 		$key = 'Clean';
 		if (\App\Cache::staticHas($cacheName, $key)) {
-			return \App\Cache::staticGet($cacheName, $key);
+			return clone \App\Cache::staticGet($cacheName, $key);
 		}
 		$moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:AutomaticAssignment');
 		$instance = new self();
 		$instance->module = $moduleInstance;
-		\App\Cache::staticSave($cacheName, $key, $instance);
+		\App\Cache::staticSave($cacheName, $key, clone $instance);
 
 		return $instance;
 	}
