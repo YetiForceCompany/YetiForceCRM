@@ -1,6 +1,6 @@
 <?php
 /**
- * MultiImages cron, deleting attachment from database and storage..
+ * Cron task for deleting attachment from database temp table and storage.
  *
  * @package   Cron
  *
@@ -8,10 +8,11 @@
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Michał Lorencik <m.lorencik@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
- * Vtiger_Mailer_Cron class.
+ * Vtiger_FileUploadTemp_Cron class.
  */
 class Vtiger_FileUploadTemp_Cron extends \App\CronHandler
 {
@@ -19,8 +20,11 @@ class Vtiger_FileUploadTemp_Cron extends \App\CronHandler
 	public function process()
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		$query = (new \App\Db\Query())->select(['id', 'name', 'path', 'key'])->from('u_#__file_upload_temp')->where(['status' => 0]);
-		$query->andWhere(['<', 'createdtime', date('Y-m-d H:i:s', strtotime('-1 day'))])->limit(App\Config::performance('CRON_MAX_ATACHMENTS_DELETE'));
+		$query = (new \App\Db\Query())->select(['id', 'path', 'key'])
+			->from(\App\Fields\File::TABLE_NAME_TEMP)
+			->where(['status' => 0])
+			->andWhere(['<', 'createdtime', date('Y-m-d H:i:s', strtotime('-1 day'))])
+			->limit(App\Config::performance('CRON_MAX_ATACHMENTS_DELETE'));
 
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {

@@ -33,7 +33,7 @@
 					<a class="dropdown-item quickLinks {$LINK->getClassName()}"
 						{if $LINK->get('linkdata') neq ''}
 							{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
-								{' '}data-{$NAME}="{$DATA}"
+								{' '}data-{$NAME}="{\App\Purifier::encodeHtml($DATA)}"
 							{/foreach}
 						{/if}
 						{' '}

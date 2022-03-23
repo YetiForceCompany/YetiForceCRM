@@ -107,7 +107,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		));
 		$viewer->assign('VIEW_NAME', $request->getByType('viewname', \App\Purifier::ALNUM));
 		$viewer->assign('ENTITY_STATE', $request->isEmpty('entityState') ? '' : $request->getByType('entityState'));
-		$viewer->assign('SELECT_MODE', ($request->isEmpty('selectMode') ? true : ('multi' === $request->getByType('selectMode'))) ? 'checkbox' : 'radio');
+		$viewer->assign('SELECT_MODE', ($request->isEmpty('selectMode', true) || 'multi' === $request->getByType('selectMode')) ? 'checkbox' : 'radio');
 		$viewer->assign('SELECTED_IDS', $request->getArray('selected_ids', \App\Purifier::INTEGER));
 		$viewer->assign('EXCLUDED_IDS', $request->getArray('excluded_ids', \App\Purifier::INTEGER));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', \App\Purifier::ALNUM));
