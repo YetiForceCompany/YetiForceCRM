@@ -3208,14 +3208,13 @@ window.App.Fields = {
 		 */
 		constructor(container, options) {
 			this.container = container;
-			this.fileInput = container.find('.js-multi-image__file').eq(0);
-			this.dataInput = container.find('.js-multi-image__values');
-			this.addButton = container.find('.js-multi-image__file-btn');
+			this.fileInput = container.find('.js-multi-attachment__file').eq(0);
+			this.dataInput = container.find('.js-multi-attachment__values');
 			this.form = container.closest('form');
 
-			this.progressBar = container.find('.js-multi-image__progress-bar');
-			this.progress = container.find('.js-multi-image__progress');
-			this.result = container.find('.js-multi-image__result');
+			this.progressBar = container.find('.js-multi-attachment__progress-bar');
+			this.progress = container.find('.js-multi-attachment__progress');
+			this.result = container.find('.js-multi-attachment__result');
 			this.files = this.dataInput.is('input') ? JSON.parse(this.dataInput.val()) : this.dataInput.data('value');
 
 			let fieldInfo = this.dataInput.data('fieldinfo') || {};
@@ -3462,13 +3461,13 @@ window.App.Fields = {
 			app.errorLog('File upload error.');
 			const { jqXHR, files } = data;
 			if (typeof jqXHR.responseJSON === 'undefined' || jqXHR.responseJSON === null) {
-				return app.showNotify({
+				return this.showError({
 					title: app.vtranslate('JS_FILE_UPLOAD_ERROR'),
 					type: 'error'
 				});
 			}
 			files.forEach((file) => {
-				app.showNotify({
+				this.showError({
 					title: app.vtranslate('JS_FILE_UPLOAD_ERROR'),
 					text: file.name,
 					type: 'error'
@@ -3494,7 +3493,7 @@ window.App.Fields = {
 				if (typeof fileAttach.info !== 'undefined' && fileAttach.info) {
 					app.showNotify({
 						type: 'notice',
-						text: fileAttach.info + ` [${fileAttach.name}]`
+						text: fileAttach.info
 					});
 				}
 				this.files.push(fileAttach);

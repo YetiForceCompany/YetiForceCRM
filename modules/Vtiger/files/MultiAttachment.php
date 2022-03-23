@@ -24,10 +24,6 @@ class Vtiger_MultiAttachment_File extends Vtiger_MultiImage_File
 	 * Get attachment.
 	 *
 	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\AppException
-	 * @throws \App\Exceptions\IllegalValue
-	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function get(App\Request $request)
 	{
@@ -67,8 +63,8 @@ class Vtiger_MultiAttachment_File extends Vtiger_MultiImage_File
 		if ($request->isAjax()) {
 			$response = new Vtiger_Response();
 			$response->setResult([
-				'field' => $request->getByType('field', 'Alnum'),
-				'module' => $request->getModule(),
+				'field' => $fieldModel->getName(),
+				'module' => $fieldModel->getModuleName(),
 				'attach' => $attach,
 			]);
 			$response->emit();
