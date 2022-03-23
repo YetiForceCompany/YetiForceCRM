@@ -307,7 +307,7 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 				'linkurl' => "module={$this->getModuleName()}&view=RightPanelExtended&mode=getUsersList",
 				'linkclass' => 'js-users-form usersForm ',
 				'template' => 'Filters/Users.tpl',
-				'methodName' => 'getUsersList()',
+				'filterData' => Calendar_Filter_Model::getUsersList(),
 			]);
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
@@ -315,7 +315,7 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 				'linkurl' => "module={$this->getModuleName()}&view=RightPanelExtended&mode=getGroupsList",
 				'linkclass' => 'js-group-form groupForm',
 				'template' => 'Filters/Groups.tpl',
-				'methodName' => 'getGroupsList()',
+				'filterData' => Calendar_Filter_Model::getGroupsList(),
 			]);
 		} else {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([

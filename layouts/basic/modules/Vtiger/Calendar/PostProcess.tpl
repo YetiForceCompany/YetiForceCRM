@@ -68,9 +68,8 @@
 							{/if}
 						</div>
 						{foreach item=SIDEBARWIDGET key=index from=$LINKS}
-							<div class="js-sidebar-filter-container position-relative mt-1 mb-1">
-								{assign var=ALL_ACTIVE value=Calendar_Filter_Model::{$SIDEBARWIDGET->get('methodName')}}
-								{include file=\App\Layout::getTemplatePath($SIDEBARWIDGET->get('template'), $MODULE_NAME) ALL_ACTIVE=$ALL_ACTIVE}
+							<div class="js-sidebar-filter-container position-relative mt-1 mb-1 {$SIDEBARWIDGET->get('linkclass')}">
+								{include file=\App\Layout::getTemplatePath($SIDEBARWIDGET->get('template'), $MODULE_NAME) FILTER_DATA=$SIDEBARWIDGET->get('filterData')}
 							</div>
 						{/foreach}
 						<!--

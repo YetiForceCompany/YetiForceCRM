@@ -481,7 +481,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	 */
 	updateSidebar(sidebar, data) {
 		sidebar.find('.js-qc-form').html(data);
-		this.showRightPanelForm();
 	}
 	loadCalendarData(view = this.getCalendarView().fullCalendar('getView')) {
 		const self = this;
@@ -768,6 +767,20 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		this.registerPinUser();
 	}
 
+	registerSelectAll(formContainer) {
+		formContainer.find('.js-select-all').on('change', (e) => {
+			let checkboxSelectAll = $(e.currentTarget);
+			let checkboxes = formContainer.find('.js-input-user-owner-id-ajax, .js-input-user-owner-id');
+			if (checkboxSelectAll.is(':checked')) {
+				checkboxes.attr('checked', 'checked');
+			} else {
+				checkboxes.removeAttr('checked');
+			}
+			this.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
+		});
+		this.registerPinUser();
+	}
+
 	/**
 	 * Register actions to do after save record
 	 * @param instance
@@ -947,35 +960,23 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		if (user === undefined) {
 			user = [app.getMainParams('userId')];
 		}
-		AppConnector.request(`index.php?module=${this.module}&view=RightPanelExtended&mode=getUsersList&user=${user}`).done(
-			function (data) {
-				if (data) {
-					let formContainer = sideBar.find('.js-users-form');
-					formContainer.html(data);
-					thisInstance.registerUsersChange(formContainer);
-					App.Fields.Picklist.showSelect2ElementView(formContainer.find('select'));
-					app.showNewScrollbar(formContainer, {
-						suppressScrollX: true
-					});
-					thisInstance.registerFilterForm(formContainer);
-				}
-			}
-		);
-		AppConnector.request(
-			`index.php?module=${this.module}&view=RightPanelExtended&mode=getGroupsList&user=${user}`
-		).done(function (data) {
-			if (data) {
-				let formContainer = sideBar.find('.js-group-form');
-				formContainer.html(data);
-				thisInstance.registerUsersChange(formContainer);
-				App.Fields.Picklist.showSelect2ElementView(formContainer.find('select'));
-				formContainer.addClass('u-min-h-30per');
-				app.showNewScrollbar(formContainer, {
-					suppressScrollX: true
-				});
-				thisInstance.registerFilterForm(formContainer);
-			}
+		let usersFormContainer = sideBar.find('.js-users-form');
+		thisInstance.registerUsersChange(usersFormContainer);
+		thisInstance.registerSelectAll(usersFormContainer);
+		App.Fields.Picklist.showSelect2ElementView(usersFormContainer.find('select'));
+		app.showNewScrollbar(usersFormContainer, {
+			suppressScrollX: true
 		});
+		thisInstance.registerFilterForm(usersFormContainer);
+
+		let groupFormContainer = sideBar.find('.js-group-form');
+		thisInstance.registerUsersChange(groupFormContainer);
+		App.Fields.Picklist.showSelect2ElementView(groupFormContainer.find('select'));
+		groupFormContainer.addClass('u-min-h-30per');
+		app.showNewScrollbar(groupFormContainer, {
+			suppressScrollX: true
+		});
+		thisInstance.registerFilterForm(groupFormContainer);
 	}
 
 	/**

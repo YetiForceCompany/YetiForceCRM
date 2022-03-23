@@ -43,7 +43,7 @@ class Calendar_CalendarExtended_View extends Calendar_Calendar_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$calendarFilters = Calendar_CalendarFilters_Model::getCleanInstance();
-		$viewer->assign('FILTERS', ['Events', 'Filter']);
+		$viewer->assign('FILTERS', ['Filter', 'Events']);
 		$viewer->assign('SHOW_TYPE', true);
 		$viewer->assign('CALENDAR_FILTERS', $calendarFilters);
 		$viewer->view('Calendar/PostProcess.tpl', $moduleName);
