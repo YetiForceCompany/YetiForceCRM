@@ -17,7 +17,7 @@
 		{assign var=ROLE_RECORD_MODEL value=$USER_MODEL->getRoleDetail()}
 		{assign var=OWNER_FIELD value=\App\Fields\Owner::getInstance($MODULE_NAME)}
 		{assign var=ALL_ACTIVEUSER_LIST value=$OWNER_FIELD->getAccessibleUsers('',$FIELD_MODEL->getFieldDataType())}
-		{assign var=ALL_ACTIVEGROUP_LIST value=$OWNER_FIELD->getAccessibleGroups('',$FIELD_MODEL->getFieldDataType())}
+		{assign var=ALL_ACTIVEGROUP_LIST value=$OWNER_FIELD->getAccessibleGroups('',$FIELD_MODEL->getFieldDataType(), true)}
 		{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 		{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}

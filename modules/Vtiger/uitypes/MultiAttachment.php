@@ -120,17 +120,16 @@ class Vtiger_MultiAttachment_UIType extends Vtiger_Base_UIType
 		if (!$record && $recordModel) {
 			$record = $recordModel->getId();
 		}
-		foreach ($valueArr as $key => $data) {
-			$valueArr[$key] = $data['name'];
-		}
+		$names = array_column($valueArr, 'name');
 		if ($rawText) {
-			return implode(', ', $valueArr);
+			return implode(', ', $names);
 		}
+
 		$length = $length ?: ($this->getFieldModel()->get('maxlengthtext') ?: null);
-		$text = \App\Purifier::encodeHtml(\App\TextParser::textTruncate(implode(', ', $valueArr), $length));
+		$text = \App\Purifier::encodeHtml(\App\TextParser::textTruncate(implode(', ', $names), $length));
 
 		$value = $this->getValueEncoded($value, $record);
-		$result = '<div class="js-multi-attachment c-multi-attachment"><div class="js-multi-image__result js-multi-image__values" data-value="' . $value . '"></div></div>';
+		$result = '<div class="js-multi-attachment c-multi-attachment"><div class="js-multi-attachment__result js-multi-attachment__values" data-value="' . $value . '"></div></div>';
 		$icon = $this->getFieldModel()->getIcon()['name'] ?? '';
 		$title = "<span class=\"{$icon} mr-1\"></span>" . $this->getFieldModel()->getFullLabelTranslation() . ': ' . ($record ? \App\Record::getLabel($record) : '');
 

@@ -25,7 +25,7 @@ class Settings_Groups_Owner_UIType extends Vtiger_Owner_UIType
 	{
 		$ownerInstance = \App\Fields\Owner::getInstance();
 		$owners['LBL_USERS'] = $ownerInstance->getAccessibleUsers('', $this->getFieldModel()->getFieldDataType());
-		$owners['LBL_GROUPS'] = $ownerInstance->getAccessibleGroups('', $this->getFieldModel()->getFieldDataType());
+		$owners['LBL_GROUPS'] = $ownerInstance->getAccessibleGroups('', $this->getFieldModel()->getFieldDataType(), true);
 		if ($recordModel && ($recordId = $recordModel->getId())) {
 			unset($owners['LBL_GROUPS'][$recordId]);
 		}

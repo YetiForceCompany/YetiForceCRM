@@ -19,6 +19,8 @@ class Conditions extends \Tests\Base
 	/**
 	 * Testing constructor method.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @throws \App\Exceptions\AppException
 	 */
 	public function testIfAllOperatorsExist()
