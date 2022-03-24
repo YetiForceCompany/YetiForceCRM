@@ -69,22 +69,9 @@
 						</div>
 						{foreach item=SIDEBARWIDGET key=index from=$LINKS}
 							<div class="js-sidebar-filter-container position-relative mt-1 mb-1 {$SIDEBARWIDGET->get('linkclass')}">
-								{include file=\App\Layout::getTemplatePath($SIDEBARWIDGET->get('template'), $MODULE_NAME) FILTER_DATA=$SIDEBARWIDGET->get('filterData')}
+								{include file=\App\Layout::getTemplatePath($SIDEBARWIDGET->get('template'), $MODULE_NAME) FILTER_DATA=$SIDEBARWIDGET->get('filterData') HISTORY_USERS=$SIDEBARWIDGET->get('historyUsers')}
 							</div>
 						{/foreach}
-						<!--
-						{foreach item=SIDEBARWIDGET key=index from=$LINKS}
-
-							<div class="js-sidebar-filter-container position-relative mt-1 mb-1 {$SIDEBARWIDGET->get('linkclass')}" data-url="{$SIDEBARWIDGET->getUrl()}" data-js="perfectScrollbar | html | container"
-								{if isset($SIDEBARWIDGET->get('linkdata'))}
-									{foreach from=$SIDEBARWIDGET->get('linkdata') key=NAME item=DATA}
-										data-{$NAME}="{$DATA}"
-									{/foreach}
-								{/if}>
-								<div class="js-sidebar-filter-body"></div>
-							</div>
-						{/foreach}
-						-->
 					</div>
 				</div>
 			{/if}

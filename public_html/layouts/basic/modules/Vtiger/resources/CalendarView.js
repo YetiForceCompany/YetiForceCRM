@@ -313,17 +313,29 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 	getSelectedUsersCalendar() {
 		const sidebar = this.getSidebarView();
 		let selectedUsers = sidebar.find('.js-input-user-owner-id:checked'),
+			notSelectedUsers = sidebar.find('.js-input-user-owner-id:not(:checked)'),
 			selectedUsersAjax = sidebar.find('.js-input-user-owner-id-ajax'),
 			selectedRolesAjax = sidebar.find('.js-input-role-owner-id-ajax'),
-			users = [];
+			checkboxSelectAll = sidebar.find('.js-select-all'),
+			selectedIds = [],
+			excludedIds = [];
+
+		if (checkboxSelectAll.length > 0 && checkboxSelectAll.is(':checked')) {
+			selectedIds.push('all');
+		}
+		if (notSelectedUsers) {
+			notSelectedUsers.each(function () {
+				excludedIds.push($(this).val());
+			});
+		}
 		if (selectedUsers.length > 0) {
 			selectedUsers.each(function () {
-				users.push($(this).val());
+				selectedIds.push($(this).val());
 			});
 		} else if (selectedUsersAjax.length > 0) {
-			users = selectedUsersAjax.val().concat(selectedRolesAjax.val());
+			selectedIds = selectedUsersAjax.val().concat(selectedRolesAjax.val());
 		}
-		return users;
+		return { selectedIds: selectedIds, excludedIds: excludedIds };
 	}
 
 	clearFilterButton(user, cvid) {

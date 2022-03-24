@@ -1,15 +1,28 @@
 <?php
+/**
+ * Vtiger filter file.
+ *
+ * @package Model
+ *
+ * @copyright YetiForce S.A.
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Adrian Kon <a.kon@yetiforce.com>
+ */
 
-class Calendar_Filter_Model
+/**
+ * Vtiger filter class.
+ */
+class Vtiger_Filter_Model
 {
-	/*
-	todo move to vtiger
-	w parametrze moduł?
-	*/
-
-	public static function getUsersList()
+	/**
+	 * Get users.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public static function getUsersList(string $moduleName): array
 	{
-		$moduleName = 'Calendar';
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
@@ -33,16 +46,20 @@ class Calendar_Filter_Model
 				function ($a, $b) use ($favouriteUsers) {
 					return (int) (!isset($favouriteUsers[$a]) && isset($favouriteUsers[$b]));
 				});
-			//	$viewer->assign('FAVOURITES_USERS', $favouriteUsers);
 		}
 
 		return $users;
 	}
 
-	public static function getGroupsList()
+	/**
+	 * Get groups.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public static function getGroupsList(string $moduleName): array
 	{
-		$moduleName = 'Calendar';
-		//$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
@@ -68,8 +85,15 @@ class Calendar_Filter_Model
 		return $groups;
 	}
 
-	public static function getActivityType(App\Request $request)
+	/**
+	 * Get calendar types.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public static function getCalendarTypes(string $moduleName): array
 	{
-		return Calendar_Module_Model::getCalendarTypes();
+		return Vtiger_Calendar_Model::getInstance($moduleName)->getCalendarTypes();
 	}
 }

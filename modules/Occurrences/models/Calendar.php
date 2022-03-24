@@ -55,7 +55,7 @@ class Occurrences_Calendar_Model extends Vtiger_Calendar_Model
 					'and',
 					['<', 'u_yf_occurrences.date_start', $dbStartDate],
 					['>', 'u_yf_occurrences.date_end', $dbEndDate],
-				]
+				],
 			]);
 		}
 
@@ -71,9 +71,18 @@ class Occurrences_Calendar_Model extends Vtiger_Calendar_Model
 		}
 		$conditions = [];
 		if (!empty($this->get('user'))) {
-			$conditions[] = ['vtiger_crmentity.smownerid' => $this->get('user')];
-			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => $this->get('user')]);
-			$conditions[] = ['vtiger_crmentity.crmid' => $subQuery];
+			$selectedUsers = $this->get('user');
+			if (isset($selectedUsers['selectedIds'][0]) && 'all' !== $selectedUsers['selectedIds'][0]) {
+				$conditions[] = ['vtiger_crmentity.smownerid' => $selectedUsers['selectedIds']];
+				$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => $selectedUsers['selectedIds']]);
+				$conditions[] = ['vtiger_crmentity.crmid' => $subQuery];
+			}
+			if (isset($selectedUsers['selectedIds'][0], $selectedUsers['excludedIds'])
+			 && 'all' === $selectedUsers['selectedIds'][0]) {
+				$conditions[] = ['not in', 'vtiger_crmentity.smownerid', $selectedUsers['excludedIds']];
+				$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['not in', 'userid', $selectedUsers['excludedIds']]);
+				$conditions[] = ['vtiger_crmentity.crmid' => $subQuery];
+			}
 		}
 		if ($conditions) {
 			$query->andWhere(array_merge(['or'], $conditions));
