@@ -345,7 +345,7 @@ class Register
 	 */
 	public static function isRegistered(): bool
 	{
-		return static::getStatus() > 6;
+		return static::getStatus() >= 6;
 	}
 
 	/**

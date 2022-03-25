@@ -8,7 +8,7 @@
 			</div>
 		</div>
 		<div class="mt-2 mx-n2 js-products-container">
-			{if empty($TAB)}
+			{if !\App\YetiForce\Register::isRegistered()}
 				<div class="col-md-12">
 					<div class="alert alert-danger">
 						<span class="yfi yfi-yeti-register-alert color-red-600 u-fs-5x mr-4 float-left"></span>
