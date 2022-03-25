@@ -515,6 +515,7 @@ $.Class(
 			this.calculateTaxes(row);
 			this.calculateGrossPrice(row);
 			this.calculateMargin(row);
+			app.event.trigger('Inventory.RowCalculations', this, row);
 		},
 		rowsCalculations: function () {
 			let thisInstance = this;
