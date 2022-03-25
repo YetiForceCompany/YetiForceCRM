@@ -47,7 +47,6 @@ class Vtiger_Filter_Model
 					return (int) (!isset($favouriteUsers[$a]) && isset($favouriteUsers[$b]));
 				});
 		}
-
 		return $users;
 	}
 
@@ -81,7 +80,6 @@ class Vtiger_Filter_Model
 			default:
 				break;
 		}
-
 		return $groups;
 	}
 
