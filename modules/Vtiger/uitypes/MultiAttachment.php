@@ -470,7 +470,7 @@ class Vtiger_MultiAttachment_UIType extends Vtiger_Base_UIType
 					'size' => $item['size'],
 					'path' => $uploadFile['path'] . $item['key'],
 					'key' => $item['key'],
-					'type' => $item['type'],
+					'type' => $item['type'] ?? '',
 				];
 				$save = true;
 			}

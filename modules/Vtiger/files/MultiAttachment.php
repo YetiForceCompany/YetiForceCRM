@@ -12,7 +12,7 @@
 /**
  * Multi attachment class to handle files.
  */
-class Vtiger_MultiAttachment_File extends Vtiger_MultiImage_File
+class Vtiger_MultiAttachment_File extends Vtiger_Basic_File
 {
 	/** {@inheritdoc} */
 	public $storageName = 'MultiAttachment';
@@ -69,5 +69,31 @@ class Vtiger_MultiAttachment_File extends Vtiger_MultiImage_File
 			]);
 			$response->emit();
 		}
+	}
+
+	/**
+	 * Api function to get file.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return \App\Fields\File
+	 */
+	public function api(App\Request $request): App\Fields\File
+	{
+		if ($request->isEmpty('key', true)) {
+			throw new \App\Exceptions\NoPermitted('Not Acceptable', 406);
+		}
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
+		$key = $request->getByType('key', \App\Purifier::ALNUM);
+		$value = \App\Json::decode($recordModel->get($request->getByType('field', \App\Purifier::ALNUM))) ?: [];
+		foreach ($value as $item) {
+			if ($item['key'] === $key) {
+				return \App\Fields\File::loadFromInfo([
+					'path' => ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $item['path'],
+					'name' => $item['name'],
+				]);
+			}
+		}
+		throw new \App\Exceptions\AppException('ERR_FILE_NOT_FOUND', 404);
 	}
 }

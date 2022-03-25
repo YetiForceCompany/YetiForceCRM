@@ -1265,49 +1265,6 @@ class File
 	}
 
 	/**
-	 * Update upload files.
-	 *
-	 * @param array                $value
-	 * @param \Vtiger_Record_Model $recordModel
-	 * @param \Vtiger_Field_Model  $fieldModel
-	 *
-	 * @return array
-	 */
-	public static function updateUploadFiles(array $value, \Vtiger_Record_Model $recordModel, \Vtiger_Field_Model $fieldModel)
-	{
-		$previousValue = $recordModel->get($fieldModel->getName());
-		$previousValue = ($previousValue && !\App\Json::isEmpty($previousValue)) ? static::parse(\App\Json::decode($previousValue)) : [];
-		$value = static::parse($value);
-		$new = [];
-		$save = false;
-		foreach ($value as $key => $item) {
-			if (isset($previousValue[$item['key']])) {
-				$value[$item['key']] = $previousValue[$item['key']];
-			} elseif (!empty($item['baseContent'])) {
-				$base = static::saveFromBase($item, $recordModel->getModuleName());
-				$new[] = $value[$base['key']] = $base;
-				unset($value[$key]);
-				$save = true;
-			} elseif ($item['key'] ? ($uploadFile = static::getUploadFile($item['key'])) : null) {
-				$new[] = $value[$item['key']] = [
-					'name' => $uploadFile['name'],
-					'size' => $item['size'],
-					'path' => $uploadFile['path'] . $item['key'],
-					'key' => $item['key'],
-				];
-				$save = true;
-			}
-		}
-		foreach ($previousValue as $item) {
-			if (!isset($value[$item['key']])) {
-				$save = true;
-				break;
-			}
-		}
-		return [array_values($value), $new, $save];
-	}
-
-	/**
 	 * Delete data from the temporary table.
 	 *
 	 * @param string|string[] $keys
@@ -1490,32 +1447,6 @@ class File
 			}
 		}
 		return 'YetiTemp' === $absolutes[0];
-	}
-
-	/**
-	 * Save file from base64 encoded string.
-	 *
-	 * @param string $raw        base64 string
-	 * @param string $moduleName Destination record module name
-	 *
-	 * @return array
-	 */
-	public static function saveFromBase($raw, $moduleName): array
-	{
-		$file = static::loadFromContent(\base64_decode($raw['baseContent']), $raw['name']);
-		$savePath = static::initStorageFileDirectory($moduleName);
-		$key = $file->generateHash(true, $savePath);
-		if ($file->moveFile($savePath . $key)) {
-			return [
-				'name' => $file->getName(),
-				'size' => \vtlib\Functions::showBytes($file->getSize()),
-				'key' => $key,
-				'hash' => \md5_file($savePath . $key),
-				'path' => $savePath . $key,
-			];
-		}
-		$file->delete();
-		return [];
 	}
 
 	/**
