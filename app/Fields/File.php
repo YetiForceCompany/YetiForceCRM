@@ -1201,70 +1201,6 @@ class File
 	}
 
 	/**
-	 * Upload and save attachment.
-	 *
-	 * @param \App\Request $request
-	 * @param array        $files
-	 * @param string       $type
-	 * @param string       $storageName
-	 *
-	 * @throws \App\Exceptions\IllegalValue
-	 * @throws \Exception
-	 * @throws \yii\db\Exception
-	 *
-	 * @return array
-	 */
-	public static function uploadAndSave(\App\Request $request, array $files, string $type, string $storageName)
-	{
-		$db = \App\Db::getInstance();
-		$attach = [];
-		foreach (static::transform($files, true) as $key => $transformFiles) {
-			foreach ($transformFiles as $fileDetails) {
-				$additionalNotes = '';
-				$file = static::loadFromRequest($fileDetails);
-				if (!$file->validate($type)) {
-					if (!static::secureFile($file)) {
-						$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Alnum')];
-						continue;
-					}
-					$fileDetails['size'] = filesize($fileDetails['tmp_name']);
-					$file = static::loadFromRequest($fileDetails);
-					if (!$file->validate($type)) {
-						$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $request->getByType('hash', 'Alnum')];
-						continue;
-					}
-					$additionalNotes = \App\Language::translate('LBL_FILE_HAS_BEEN_MODIFIED');
-				}
-				$uploadFilePath = static::initStorageFileDirectory($storageName);
-				$key = $file->generateHash(true, $uploadFilePath);
-				$db->createCommand()->insert(static::TABLE_NAME_TEMP, [
-					'name' => $file->getName(),
-					'type' => $file->getMimeType(),
-					'path' => $uploadFilePath,
-					'createdtime' => date('Y-m-d H:i:s'),
-					'fieldname' => $request->getByType('field', 'Alnum'),
-					'key' => $key,
-					'crmid' => $request->isEmpty('record') ? 0 : $request->getInteger('record'),
-				])->execute();
-				if (move_uploaded_file($file->getPath(), $uploadFilePath . $key)) {
-					$attach[] = [
-						'name' => $file->getName(),
-						'size' => \vtlib\Functions::showBytes($file->getSize()),
-						'key' => $key,
-						'hash' => $request->getByType('hash', 'Alnum'),
-						'info' => $additionalNotes,
-					];
-				} else {
-					$db->createCommand()->delete(static::TABLE_NAME_TEMP, ['key' => $key])->execute();
-					Log::error("Moves an uploaded file to a new location failed: {$uploadFilePath}");
-					$attach[] = ['hash' => $request->getByType('hash', 'Alnum'), 'name' => $file->getName(), 'error' => ''];
-				}
-			}
-		}
-		return $attach;
-	}
-
-	/**
 	 * Delete data from the temporary table.
 	 *
 	 * @param string|string[] $keys
@@ -1447,38 +1383,6 @@ class File
 			}
 		}
 		return 'YetiTemp' === $absolutes[0];
-	}
-
-	/**
-	 * Save file from given url.
-	 *
-	 * @param string      $url
-	 * @param string      $moduleName
-	 * @param string|bool $type
-	 *
-	 * @return array
-	 */
-	public static function saveImageFromUrl(string $url, string $moduleName, $type = false): array
-	{
-		$value = [];
-		if ($file = static::loadFromUrl($url)) {
-			if ($file->validateAndSecure($type)) {
-				$savePath = static::initStorageFileDirectory($moduleName);
-				$key = $file->generateHash(true, $savePath);
-				if ($file->moveFile($savePath . $key)) {
-					$value = [
-						'name' => $file->getName(),
-						'size' => \vtlib\Functions::showBytes($file->getSize()),
-						'key' => $key,
-						'hash' => \md5_file($savePath . $key),
-						'path' => $savePath . $key,
-					];
-				}
-			} else {
-				$file->delete();
-			}
-		}
-		return $value;
 	}
 
 	/**

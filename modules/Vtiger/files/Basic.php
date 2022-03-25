@@ -82,16 +82,7 @@ abstract class Vtiger_Basic_File
 	 */
 	public function post(App\Request $request)
 	{
-		$attach = \App\Fields\File::uploadAndSave($request, $_FILES, $this->fileType, $this->storageName);
-		if ($request->isAjax()) {
-			$response = new Vtiger_Response();
-			$response->setResult([
-				'field' => $request->getByType('field', 'Alnum'),
-				'module' => $request->getModule(),
-				'attach' => $attach,
-			]);
-			$response->emit();
-		}
+		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 	}
 
 	/**
