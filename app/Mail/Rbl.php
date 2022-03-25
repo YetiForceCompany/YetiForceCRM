@@ -264,7 +264,7 @@ class Rbl extends \App\Base
 	protected function getHeaderEmail(string $name): string
 	{
 		if ($header = $this->mailMimeParser->getHeader($name)) {
-			return $header->getEmail() ?? '';
+			return $header->getEmail() ?: '';
 		}
 		return '';
 	}
