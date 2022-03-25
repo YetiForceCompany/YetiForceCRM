@@ -383,7 +383,13 @@ window.Calendar_Js = class {
 				if (element.prop('tagName') == 'SELECT') {
 					element.val(cachedValue);
 				}
-			} else if (name && element.length > 0 && cachedValue === undefined && !element.find(':selected').length) {
+			} else if (
+				name &&
+				element.length > 0 &&
+				cachedValue === undefined &&
+				!element.find(':selected').length &&
+				element.data('selected') !== 0
+			) {
 				let allOptions = [];
 				element.find('option').each((i, option) => {
 					allOptions.push($(option).val());

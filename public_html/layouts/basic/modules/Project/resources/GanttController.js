@@ -59,7 +59,7 @@ $.Class(
 			const projectId = container.parent().find('input[name="projectId"]').val();
 			if (!ganttData) {
 				this.gantt.loadProjectFromAjax({
-					module: 'Project',
+					module: app.getModuleName(),
 					action: 'GanttData',
 					projectId: projectId
 				});

@@ -47,21 +47,8 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 
 	public function getEvents(App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		$record = Vtiger_Calendar_Model::getInstance($moduleName);
-		$record->set('user', $request->getArray('user', 'Alnum'));
-		$record->set('types', $request->getArray('types', 'Text'));
-		$record->set('time', $request->isEmpty('time') ? '' : $request->getByType('time'));
-		if ($request->has('start') && $request->has('end')) {
-			$record->set('start', $request->getByType('start', 'DateInUserFormat'));
-			$record->set('end', $request->getByType('end', 'DateInUserFormat'));
-		}
-		if ($request->has('filters')) {
-			$record->set('filters', $request->getByType('filters', 'Alnum'));
-		}
-		if ($request->has('cvid')) {
-			$record->set('customFilter', $request->getInteger('cvid'));
-		}
+		$record = $this->getCalendarModel($request);
+		$record->remove('types');
 		$entity = array_merge($record->getEntity(), $record->getPublicHolidays());
 		$response = new Vtiger_Response();
 		$response->setResult($entity);
@@ -75,19 +62,7 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 	 */
 	public function getEventsYear(App\Request $request)
 	{
-		$record = Vtiger_Calendar_Model::getInstance($request->getModule());
-		$record->set('user', $request->getArray('user', 'Alnum'));
-		$record->set('time', $request->isEmpty('time') ? '' : $request->getByType('time'));
-		if ($request->has('start') && $request->has('end')) {
-			$record->set('start', $request->getByType('start', 'DateInUserFormat'));
-			$record->set('end', $request->getByType('end', 'DateInUserFormat'));
-		}
-		if ($request->has('filters')) {
-			$record->set('filters', $request->getByType('filters', 'Alnum'));
-		}
-		if ($request->has('cvid')) {
-			$record->set('customFilter', $request->getInteger('cvid'));
-		}
+		$record = $this->getCalendarModel($request);
 		$entity = array_merge($record->getEntityYearCount(), $record->getPublicHolidays());
 		$response = new Vtiger_Response();
 		$response->setResult($entity);
@@ -101,6 +76,42 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 	 */
 	public function getCountEvents(App\Request $request)
 	{
+		$record = $this->getCalendarModel($request);
+		$entity = $record->getEntityRecordsCount();
+		$response = new Vtiger_Response();
+		$response->setResult($entity);
+		$response->emit();
+	}
+
+	/**
+	 * Get count Events for extended calendar's left column.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function getCountEventsGroup(App\Request $request)
+	{
+		$request->delete('end');
+		$record = $this->getCalendarModel($request);
+		$result = [];
+		foreach ($request->getArray('dates', 'DateTimeInUserFormat') as $datePair) {
+			$record->set('start', $datePair[0]);
+			$record->set('end', $datePair[1]);
+			$result[] = $record->getEntityRecordsCount();
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
+	/**
+	 * Get calendar model.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return Vtiger_Calendar_Model
+	 */
+	public function getCalendarModel(App\Request $request): Vtiger_Calendar_Model
+	{
 		$record = Vtiger_Calendar_Model::getInstance($request->getModule());
 		$record->set('user', $request->getArray('user', 'Alnum'));
 		$record->set('types', $request->getArray('types', 'Text'));
@@ -115,38 +126,7 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 		if ($request->has('cvid')) {
 			$record->set('customFilter', $request->getInteger('cvid'));
 		}
-		$entity = $record->getEntityRecordsCount();
-		$response = new Vtiger_Response();
-		$response->setResult($entity);
-		$response->emit();
-	}
-
-	/**
-	 * Get count Events for extended calendar's left column.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function getCountEventsGroup(App\Request $request)
-	{
-		$record = Vtiger_Calendar_Model::getInstance($request->getModule());
-		$record->set('user', $request->getArray('user', 'Alnum'));
-		$record->set('types', $request->getArray('types', 'Text'));
-		$record->set('time', $request->isEmpty('time') ? '' : $request->getByType('time'));
-		if ($request->has('filters')) {
-			$record->set('filters', $request->getByType('filters', 'Alnum'));
-		}
-		if ($request->has('cvid')) {
-			$record->set('customFilter', $request->getInteger('cvid'));
-		}
-		$result = [];
-		foreach ($request->getArray('dates', 'DateTimeInUserFormat') as $datePair) {
-			$record->set('start', $datePair[0]);
-			$record->set('end', $datePair[1]);
-			$result[] = $record->getEntityRecordsCount();
-		}
-		$response = new Vtiger_Response();
-		$response->setResult($result);
-		$response->emit();
+		return $record;
 	}
 
 	/**

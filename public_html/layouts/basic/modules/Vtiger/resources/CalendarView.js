@@ -533,7 +533,7 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 	 * @returns {{allDaySlot: boolean, dayClick: object, selectable: boolean}}
 	 */
 	setCalendarModuleOptions() {
-		let self = this;
+		const self = this;
 		return {
 			allDaySlot: false,
 			dayClick: this.eventCreate
@@ -557,7 +557,12 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 	 * @param {string} date
 	 */
 	registerDayClickEvent(date) {
-		let self = this;
+		if (!CONFIG.isQuickCreateSupported) {
+			let userFormat = moment(date).format(CONFIG.dateFormat.toUpperCase());
+			app.openUrl('index.php?module=Reservations&view=Edit&date_start=' + userFormat + '&due_date=' + userFormat);
+			return;
+		}
+		const self = this;
 		self.getCalendarCreateView().done(function (data) {
 			if (data.length <= 0) {
 				return;

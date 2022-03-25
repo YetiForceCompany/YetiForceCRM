@@ -1308,7 +1308,9 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		$inventory = Vtiger_Inventory_Model::getInstance($this->getModuleName());
 		$rawInventory = $request->getRaw('inventory');
-		unset($rawInventory['_NUM_']);
+		if (isset($rawInventory['_NUM_'])) {
+			unset($rawInventory['_NUM_']);
+		}
 		$request->set('inventory', $rawInventory, true);
 		$this->initInventoryData($request->getMultiDimensionArray('inventory', ['id' => \App\Purifier::INTEGER] + $inventory->getPurifyTemplate()));
 	}
