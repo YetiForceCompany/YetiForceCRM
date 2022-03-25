@@ -285,6 +285,7 @@ class Card
 									$this->record->set($details['fieldName'], $details['number']);
 									continue 2;
 								}
+								$orgPhone = $details['number'];
 							}
 							$this->record->set($key, $fieldModel->getDBValue($orgPhone));
 							continue 2;
