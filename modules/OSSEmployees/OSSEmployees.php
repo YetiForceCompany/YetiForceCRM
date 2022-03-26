@@ -180,7 +180,7 @@ class OSSEmployees extends Vtiger_CRMEntity
 			->innerJoin('vtiger_crmentity', 'vtiger_ossemployees.ossemployeesid = vtiger_crmentity.crmid')
 			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
 			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
-			->where(['vtiger_crmentity.deleted' => 0, 'parentid' => $id])->createCommand()->query();
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_ossemployees.parentid' => $id])->createCommand()->query();
 		if ($dataReader->count() > 0) {
 			++$depth;
 			while ($row = $dataReader->read()) {

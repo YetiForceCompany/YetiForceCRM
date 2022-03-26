@@ -6,7 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
 class HelpDesk_Record_Model extends Vtiger_Record_Model
@@ -126,7 +126,7 @@ class HelpDesk_Record_Model extends Vtiger_Record_Model
 		if (\App\Config::module($this->getModuleName(), 'CHECK_IF_RELATED_TICKETS_ARE_CLOSED')) {
 			$queryGenerator = new App\QueryGenerator($this->getModuleName());
 			$queryGenerator->permissions = false;
-			$queryGenerator->addNativeCondition(['parentid' => $this->getId()]);
+			$queryGenerator->addCondition('parentid', $this->getId(), 'eid');
 			$statusFieldName = \App\RecordStatus::getFieldName($this->getModuleName());
 			$queryGenerator->addCondition($statusFieldName, array_merge(
 				\App\RecordStatus::getStates($this->getModuleName(), \App\RecordStatus::RECORD_STATE_NO_CONCERN),

@@ -21,6 +21,7 @@
  * All Rights Reserved.
  * Contributor(s): ______________________________________..
  * ****************************************************************************** */
+// Contributor(s): YetiForce S.A.
 
 class Accounts extends CRMEntity
 {
@@ -268,7 +269,7 @@ class Accounts extends CRMEntity
 			->innerJoin('vtiger_accountaddress', 'vtiger_account.accountid = vtiger_accountaddress.accountaddressid')
 			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
 			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
-			->where(['vtiger_crmentity.deleted' => 0, 'parentid' => $id])->createCommand()->query();
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_account.parentid' => $id])->createCommand()->query();
 		if ($dataReader->count() > 0) {
 			$depth = $depthBase + 1;
 			while ($row = $dataReader->read()) {
