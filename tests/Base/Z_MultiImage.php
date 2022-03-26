@@ -159,7 +159,7 @@ class Z_MultiImage extends \Tests\Base
 			$hash[$i] = $fileObj->generateHash(true, $filePathDst);
 			$attach[$i] = [
 				'name' => $name,
-				'size' => \vtlib\Functions::showBytes($fileObj->getSize()),
+				'size' => $fileObj->getSize(),
 				'key' => $hash[$i],
 				'path' => $fileObj->getPath(),
 			];
