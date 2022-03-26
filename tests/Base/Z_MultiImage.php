@@ -97,7 +97,7 @@ class Z_MultiImage extends \Tests\Base
 		$hash = $fileObj->generateHash(true, $filePathDst);
 		$attach[] = [
 			'name' => self::$files[$file],
-			'size' => \vtlib\Functions::showBytes($fileObj->getSize()),
+			'size' => $fileObj->getSize(),
 			'key' => $hash,
 			'path' => $fileObj->getPath(),
 		];
@@ -111,7 +111,7 @@ class Z_MultiImage extends \Tests\Base
 		$dataPath = \App\Json::decode($recordModel->get($field))[0]['path'];
 		$this->assertNotEmpty($data);
 		$this->assertSame(self::$files[$file], $data[0]['name'], 'File name should be equal');
-		$this->assertSame(\vtlib\Functions::showBytes($fileObj->getSize()), $data[0]['size'], 'File size should be equal');
+		$this->assertSame($fileObj->getSize(), $data[0]['size'], 'File size should be equal');
 		$this->assertFileExists($dataPath, 'File should exists');
 		$this->assertSame($hash, $data[0]['key'], 'Key should be equal');
 		parse_str(\parse_url($data[0]['imageSrc'])['query'], $url);
