@@ -348,20 +348,24 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			selectedIds = [],
 			excludedIds = [];
 
-		if (checkboxSelectAll.length > 0 && checkboxSelectAll.is(':checked')) {
+		let ifSelectAllIsChecked = checkboxSelectAll.length > 0 && checkboxSelectAll.is(':checked');
+		if (ifSelectAllIsChecked) {
 			selectedIds.push('all');
+		} else if (selectedUsers.length > 0) {
+			selectedUsers.each(function () {
+				selectedIds.push($(this).val());
+			});
 		}
-		if (notSelectedUsers) {
+		if (selectedUsersAjax.length > 0) {
+			selectedIds = selectedUsersAjax.val().concat(selectedRolesAjax.val());
+		}
+		if (ifSelectAllIsChecked && notSelectedUsers) {
 			notSelectedUsers.each(function () {
 				excludedIds.push($(this).val());
 			});
 		}
-		if (selectedUsers.length > 0) {
-			selectedUsers.each(function () {
-				selectedIds.push($(this).val());
-			});
-		} else if (selectedUsersAjax.length > 0) {
-			selectedIds = selectedUsersAjax.val().concat(selectedRolesAjax.val());
+		if (0 === selectedIds.length && app.getMainParams('usersId')) {
+			selectedIds.push(app.getMainParams('usersId'));
 		}
 		return { selectedIds: selectedIds, excludedIds: excludedIds };
 	}
@@ -496,6 +500,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	 */
 	updateSidebar(sidebar, data) {
 		sidebar.find('.js-qc-form').html(data);
+		this.showRightPanelForm();
 	}
 	loadCalendarData(view = this.getCalendarView().fullCalendar('getView')) {
 		const self = this;
@@ -504,7 +509,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			calendarInstance = this.getCalendarView();
 		calendarInstance.fullCalendar('removeEvents');
 		let progressInstance = $.progressIndicator({ blockInfo: { enabled: true } }),
-			user = self.getSelectedUsersCalendar();
+			user = JSON.stringify(self.getSelectedUsersCalendar());
 		self.clearFilterButton(user, cvid);
 		if (view.type === 'agendaDay') {
 			view.end = view.end.add(1, 'day');
@@ -526,9 +531,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			)}&cvid=${cvid}&hiddenDays=${view.options.hiddenDays}`
 		};
 		let connectorMethod = window['AppConnector']['request'];
-		if (this.browserHistory && window.calendarLoaded) {
-			connectorMethod = window['AppConnector']['requestPjax'];
-		}
 		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && !window.calendarLoaded) {
 			options = Object.assign(options, {
 				start: this.browserHistoryConfig.start,
@@ -1026,5 +1028,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		this.registerSiteBarEvents();
 		this.registerPopoverButtonsClickEvent();
 		ElementQueries.listen();
+		this.getCalendarCreateView();
 	}
 };

@@ -63,7 +63,6 @@ abstract class Vtiger_Calendar_Model extends App\Base
 		$links[] = Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'SIDEBARWIDGET',
 			'linklabel' => 'LBL_USERS',
-			'linkurl' => "module={$this->getModuleName()}&view=RightPanel&mode=getUsersList",
 			'linkclass' => 'js-calendar__filter--users',
 			'template' => 'Filters/Users.tpl',
 			'filterData' => Vtiger_Filter_Model::getUsersList($this->getModuleName()),
@@ -71,7 +70,6 @@ abstract class Vtiger_Calendar_Model extends App\Base
 		$links[] = Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'SIDEBARWIDGET',
 			'linklabel' => 'LBL_GROUPS',
-			'linkurl' => "module={$this->getModuleName()}&view=RightPanel&mode=getGroupsList",
 			'linkclass' => 'js-calendar__filter--groups',
 			'template' => 'Filters/Groups.tpl',
 			'filterData' => Vtiger_Filter_Model::getGroupsList($this->getModuleName()),

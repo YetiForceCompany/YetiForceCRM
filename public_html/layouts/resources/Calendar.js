@@ -355,7 +355,6 @@ window.Calendar_Js = class {
 			thisInstance.registerFilterForm(formContainer);
 		});
 		thisInstance.registerSelectAll(sideBar);
-		sideBar.find('.js-select-all').trigger('change');
 		return aDeferred.promise();
 	}
 	/**

@@ -320,20 +320,24 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 			selectedIds = [],
 			excludedIds = [];
 
-		if (checkboxSelectAll.length > 0 && checkboxSelectAll.is(':checked')) {
+		let ifSelectAllIsChecked = checkboxSelectAll.length > 0 && checkboxSelectAll.is(':checked');
+		if (ifSelectAllIsChecked) {
 			selectedIds.push('all');
+		} else if (selectedUsers.length > 0) {
+			selectedUsers.each(function () {
+				selectedIds.push($(this).val());
+			});
 		}
-		if (notSelectedUsers) {
+		if (selectedUsersAjax.length > 0) {
+			selectedIds = selectedUsersAjax.val().concat(selectedRolesAjax.val());
+		}
+		if (ifSelectAllIsChecked && notSelectedUsers) {
 			notSelectedUsers.each(function () {
 				excludedIds.push($(this).val());
 			});
 		}
-		if (selectedUsers.length > 0) {
-			selectedUsers.each(function () {
-				selectedIds.push($(this).val());
-			});
-		} else if (selectedUsersAjax.length > 0) {
-			selectedIds = selectedUsersAjax.val().concat(selectedRolesAjax.val());
+		if (0 === selectedIds.length && app.getMainParams('usersId')) {
+			selectedIds.push(app.getMainParams('usersId'));
 		}
 		return { selectedIds: selectedIds, excludedIds: excludedIds };
 	}

@@ -84,18 +84,16 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 			}
 		}
 		$conditions = [];
-		if (!empty($this->get('user'))) {
+		if (!empty($this->get('user')) && isset($this->get('user')['selectedIds'][0])) {
 			$selectedUsers = $this->get('user');
-			if (isset($selectedUsers['selectedIds'][0]) && 'all' !== $selectedUsers['selectedIds'][0]) {
-				$conditions[] = ['vtiger_crmentity.smownerid' => $selectedUsers['selectedIds']];
-				$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => $selectedUsers['selectedIds']]);
+			$selectedIds = $selectedUsers['selectedIds'];
+			if ('all' !== $selectedIds[0]) {
+				$conditions[] = ['vtiger_crmentity.smownerid' => $selectedIds];
+				$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => $selectedIds]);
 				$conditions[] = ['vtiger_crmentity.crmid' => $subQuery];
 			}
-			if (isset($selectedUsers['selectedIds'][0], $selectedUsers['excludedIds'])
-			 && 'all' === $selectedUsers['selectedIds'][0]) {
+			if (isset($selectedUsers['excludedIds']) && 'all' === $selectedIds[0]) {
 				$conditions[] = ['not in', 'vtiger_crmentity.smownerid', $selectedUsers['excludedIds']];
-				$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['not in', 'userid', $selectedUsers['excludedIds']]);
-				$conditions[] = ['vtiger_crmentity.crmid' => $subQuery];
 			}
 		}
 		if ($conditions) {
@@ -313,7 +311,6 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_USERS',
-				'linkurl' => "module={$this->getModuleName()}&view=RightPanelExtended&mode=getUsersList",
 				'linkclass' => 'js-users-form usersForm ',
 				'template' => 'Filters/Users.tpl',
 				'filterData' => Vtiger_Filter_Model::getUsersList($this->moduleName),
@@ -321,7 +318,6 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_GROUPS',
-				'linkurl' => "module={$this->getModuleName()}&view=RightPanelExtended&mode=getGroupsList",
 				'linkclass' => 'js-group-form groupForm',
 				'template' => 'Filters/Groups.tpl',
 				'filterData' => Vtiger_Filter_Model::getGroupsList($this->moduleName),
