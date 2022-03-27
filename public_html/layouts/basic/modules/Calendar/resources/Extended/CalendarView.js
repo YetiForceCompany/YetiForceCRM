@@ -539,7 +539,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				time: this.browserHistoryConfig.time,
 				cvid: this.browserHistoryConfig.cvid
 			});
-			connectorMethod = window['AppConnector']['request'];
 			app.setMainParams('showType', this.browserHistoryConfig.time);
 			app.setMainParams('usersId', this.browserHistoryConfig.user);
 		}
