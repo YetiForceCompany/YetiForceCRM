@@ -1,7 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-Filters-Users -->
 	{if !empty($FILTER_DATA)}
-		{assign var="SELECT_ALL_BY_DEFAULT" value=$USER_MODEL->get('select_all_users_by_default')}
+		{assign var="SELECT_ALL_BY_DEFAULT" value=$USER_MODEL->get('calendar_all_users_by_default')}
 		<div class="js-filter__container">
 			<div class="form-row d-flex align-items-center m-0">
 				<input type="checkbox" class="alignMiddle js-select-all mr-2"
@@ -64,4 +65,5 @@
 		{/if}
 	</div>
 {/if}
+<!-- tpl-Base-Filters-Users -->
 {/strip}

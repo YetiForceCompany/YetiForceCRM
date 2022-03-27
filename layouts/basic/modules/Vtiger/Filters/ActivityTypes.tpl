@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-Filters-Users -->
 	{if !empty($FILTER_DATA)}
 		<div class="card">
 			<div class="card-header p-1 pl-2">{\App\Language::translate('LBL_TYPE', $MODULE_NAME)}</div>
@@ -14,4 +15,5 @@
 			</div>
 		</div>
 	{/if}
+	<!-- tpl-Base-Filters-Users -->
 {/strip}
