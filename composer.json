@@ -75,7 +75,7 @@
     "yetiforce/csrf-magic": "^v1.1.1",
     "maximebf/debugbar": "1.*",
     "yetiforce/yii2": "^2.0.43",
-    "yetiforce/yetiforcepdf": "0.1.34",
+    "yetiforce/yetiforcepdf": "0.1.36",
     "adhocore/jwt": "^1.0",
     "zbateson/mail-mime-parser": "^2.0",
     "mlocati/spf-lib": "^3",
