@@ -45,7 +45,7 @@ class ProductsTableCorrectingBefore extends Base
 		} else {
 			$currencySymbol = \App\Fields\Currency::getDefault()['currency_symbol'];
 		}
-		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
+		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;background-color:#ddd;';
 		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;';
 		$html .= '<table class="products-table-correcting-before" style="border-collapse:collapse;width:100%"><thead><tr>';
 		$groupModels = [];
@@ -103,7 +103,7 @@ class ProductsTableCorrectingBefore extends Base
 		}
 		$html .= '</tbody><tfoot><tr>';
 		foreach ($groupModels as $fieldModel) {
-			$html .= '<th style="font-size:9px;padding:0px 4px;text-align:right;">';
+			$html .= '<th style="font-size:9px;padding:0px 4px;text-align:right;;background-color:#ddd;">';
 			if ($fieldModel->isSummary()) {
 				$sum = 0;
 				foreach ($inventoryRows as $inventoryRow) {

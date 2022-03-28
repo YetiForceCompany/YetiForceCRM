@@ -54,7 +54,7 @@ class TableDiscountSummary extends Base
 				$html .= '<table class="table-discount-summary" style="width:100%;vertical-align:top;border-collapse:collapse;">
 				<thead>
 					<tr>
-						<th style="padding:0px 4px;font-weight:bold;">' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . '</th>
+						<th style="padding:0px 4px;font-weight:bold;background-color:#ddd;">' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . '</th>
 					</tr>
 				</thead>
 					<tbody>
