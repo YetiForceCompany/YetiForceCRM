@@ -75,6 +75,9 @@ delegate/dist
 @fortawesome/fontawesome-free/css/svg-with-js.min.css
 @fortawesome/fontawesome-free/css/v4-shims.css
 @fortawesome/fontawesome-free/css/v4-shims.min.css
+@fortawesome/fontawesome-free/css/v4-font-face.css
+@fortawesome/fontawesome-free/css/v5-font-face.css
+@fortawesome/fontawesome-free/css/v5-font-face.min.css
 good-listener/dist
 html2canvas/flow-typed
 jquery/external
