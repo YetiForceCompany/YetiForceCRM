@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "199875c688507fd3ebc485d8d669afa8",
+    "content-hash": "0758ac34b38ce1da144b0242c5a9aae0",
     "packages": [
         {
             "name": "adhocore/jwt",
@@ -1624,20 +1624,20 @@
         },
         {
             "name": "milon/barcode",
-            "version": "8.0.1",
+            "version": "9.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/milon/barcode.git",
-                "reference": "a1b1ee1a743c1368597f1742e6ee4765333a15a1"
+                "reference": "6859fe19808380a0b40916d0009d7b4b5e04cc25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/milon/barcode/zipball/a1b1ee1a743c1368597f1742e6ee4765333a15a1",
-                "reference": "a1b1ee1a743c1368597f1742e6ee4765333a15a1",
+                "url": "https://api.github.com/repos/milon/barcode/zipball/6859fe19808380a0b40916d0009d7b4b5e04cc25",
+                "reference": "6859fe19808380a0b40916d0009d7b4b5e04cc25",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "^8.0",
+                "illuminate/support": "^7.0|^8.0|^9.0",
                 "php": "^7.3 | ^8.0"
             },
             "type": "library",
@@ -1682,7 +1682,7 @@
             ],
             "support": {
                 "issues": "https://github.com/milon/barcode/issues",
-                "source": "https://github.com/milon/barcode/tree/8.0.1"
+                "source": "https://github.com/milon/barcode/tree/9.0.0"
             },
             "funding": [
                 {
@@ -1694,7 +1694,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-01-08T11:36:07+00:00"
+            "time": "2022-02-15T15:18:46+00:00"
         },
         {
             "name": "mlocati/idna",
@@ -4936,16 +4936,16 @@
         },
         {
             "name": "yetiforce/yetiforcepdf",
-            "version": "0.1.36",
+            "version": "0.1.38",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "1a872b8d951a4c4b8d27d9a0449820d84c87558a"
+                "reference": "1e9982612f3b3384bf4174a6ba3d3c55d77c5fba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/1a872b8d951a4c4b8d27d9a0449820d84c87558a",
-                "reference": "1a872b8d951a4c4b8d27d9a0449820d84c87558a",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/1e9982612f3b3384bf4174a6ba3d3c55d77c5fba",
+                "reference": "1e9982612f3b3384bf4174a6ba3d3c55d77c5fba",
                 "shasum": ""
             },
             "require": {
@@ -4958,10 +4958,10 @@
                 "ext-mbstring": "*",
                 "ext-zlib": "*",
                 "guzzlehttp/guzzle": "^7.0",
-                "milon/barcode": "^8.0.0",
+                "milon/barcode": "^9.0.0",
                 "phenx/php-font-lib": "^0.5.1",
-                "php": ">=7.3",
-                "sabberworm/php-css-parser": "^8.3"
+                "php": ">=7.4",
+                "sabberworm/php-css-parser": "^8.4"
             },
             "type": "library",
             "autoload": {
@@ -4989,7 +4989,7 @@
             ],
             "support": {
                 "issues": "https://github.com/YetiForceCompany/YetiForcePDF/issues",
-                "source": "https://github.com/YetiForceCompany/YetiForcePDF/tree/0.1.36"
+                "source": "https://github.com/YetiForceCompany/YetiForcePDF/tree/0.1.38"
             },
             "funding": [
                 {
@@ -4997,7 +4997,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-03-22T10:32:25+00:00"
+            "time": "2022-03-28T12:27:30+00:00"
         },
         {
             "name": "yetiforce/yii2",
