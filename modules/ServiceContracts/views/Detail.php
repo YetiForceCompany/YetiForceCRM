@@ -36,6 +36,7 @@ class ServiceContracts_Detail_View extends Vtiger_Detail_View
 			$policyType = (int) $rows[0]['policy_type'];
 		}
 		$viewer = $this->getViewer($request);
+		$viewer->assign('RECORD', $this->record->getRecord());
 		$viewer->assign('ALL_BUSINESS_HOURS', \App\Utils\ServiceContracts::getAllBusinessHours());
 		$viewer->assign('SLA_POLICY_ROWS', $rows);
 		$viewer->assign('POLICY_TYPE', $policyType);
@@ -61,7 +62,7 @@ class ServiceContracts_Detail_View extends Vtiger_Detail_View
 		return array_merge(
 			parent::getFooterScripts($request),
 			$this->checkAndConvertJsScripts([
-				'modules.ServiceContracts.resources.InRelation'
+				'modules.ServiceContracts.resources.InRelation',
 			])
 		);
 	}
