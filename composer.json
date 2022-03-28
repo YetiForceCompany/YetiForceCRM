@@ -12,6 +12,7 @@
     "Customer Relation Management",
     "System CRM"
   ],
+  "type": "project",
   "homepage": "https://yetiforce.com/",
   "support": {
     "issues": "https://github.com/YetiForceCompany/YetiForceCRM/issues",

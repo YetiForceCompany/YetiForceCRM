@@ -12,6 +12,7 @@
     "Customer Relation Management",
     "System CRM"
   ],
+  "type": "project",
   "homepage": "https://yetiforce.com/",
   "support": {
     "issues": "https://github.com/YetiForceCompany/YetiForceCRM/issues",
@@ -32,7 +33,7 @@
     }
   ],
   "require": {
-    "php": ">=7.3",
+    "php": ">=7.4",
     "ext-imap": "*",
     "ext-pdo": "*",
     "ext-pdo_mysql": "*",
@@ -67,7 +68,7 @@
     "dg/rss-php": "^1.2",
     "phpoffice/phpspreadsheet": "^1.3.1",
     "sonata-project/google-authenticator": "^2.3.0",
-    "milon/barcode": "^8.0.0",
+    "milon/barcode": "^9.0.0",
     "ckeditor/ckeditor": "^4.9.2",
     "parsecsv/php-parsecsv": "^1.1.0",
     "guzzlehttp/guzzle": "^7.0",
@@ -75,7 +76,7 @@
     "yetiforce/csrf-magic": "^v1.1.1",
     "maximebf/debugbar": "1.*",
     "yetiforce/yii2": "^2.0.43",
-    "yetiforce/yetiforcepdf": "0.1.34",
+    "yetiforce/yetiforcepdf": "0.1.38",
     "adhocore/jwt": "^1.0",
     "zbateson/mail-mime-parser": "^2.0",
     "mlocati/spf-lib": "^3",
