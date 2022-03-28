@@ -10,7 +10,7 @@ coverage:
   status:
     project:
       default:
-        target: 29%
+        target: 27%
 
       tests:
         target: 100%
