@@ -310,7 +310,8 @@ class Vtiger_MultiAttachment_UIType extends Vtiger_Base_UIType
 				$dirPath = $file->getDirectoryPath();
 				$newKey = $file->generateHash(true, $dirPath);
 				$path = $dirPath . DIRECTORY_SEPARATOR . $newKey;
-				if ($createCopy = copy($item['path'], $path)) {
+				if (copy($item['path'], $path)) {
+					$createCopy = true;
 					$item['key'] = $newKey;
 					$item['path'] = $path;
 					$value[$key] = $item;

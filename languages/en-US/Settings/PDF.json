@@ -49,6 +49,7 @@
     "LBL_VISIBILITY": "Available in views",
     "PLL_LISTVIEW": "List",
     "PLL_DETAILVIEW": "Record",
+    "PLL_RELATEDLISTVIEW": "From related list",
     "LBL_DEFAULT_TPL": "Selected by default",
     "LBL_DOCUMENT_SETTINGS_DETAILS": "Document settings",
     "LBL_MAIN_MODULE_FIELDS": "Main module fields",
