@@ -1,4 +1,14 @@
 <?php
+/**
+ * FileTarget file records log messages in a file.
+ *
+ * @package Log
+ *
+ * @copyright YetiForce S.A.
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Qiang Xue <qiang.xue@gmail.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
 namespace App\Log;
 
@@ -6,17 +16,7 @@ use Yii;
 use yii\base\InvalidConfigException;
 
 /**
- * FileTarget records log messages in a file.
- *
- * The log file is specified via [[logFile]]. If the size of the log file exceeds
- * [[maxFileSize]] (in kilo-bytes), a rotation will be performed, which renames
- * the current log file by suffixing the file name with '.1'. All existing log
- * files are moved backwards by one place, i.e., '.2' to '.3', '.1' to '.2', and so on.
- * The property [[maxLogFiles]] specifies how many history files to keep.
- *
- * @author Qiang Xue <qiang.xue@gmail.com>
- *
- * @since  2.0
+ * FileTarget class records log messages in a file.
  */
 class FileTarget extends \yii\log\FileTarget
 {
@@ -135,16 +135,18 @@ class FileTarget extends \yii\log\FileTarget
 		$anonymization = new \App\Anonymization();
 		try {
 			foreach (\yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars) as $key => $value) {
-				$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($anonymization->setData($value)->anonymize()->getData());
+				if ($value) {
+					$result .= "\n\${$key} = " . \App\Utils::varExport($anonymization->setData($value)->anonymize()->getData());
+				}
 			}
 		} catch (\Throwable $th) {
 			$result .= "\nError while saving logs: 'GLOBALS': \n" . $th->__toString();
 		}
-		$result .= "\nHEADERS = " . \yii\helpers\VarDumper::dumpAsString(getallheaders());
+		$result .= "\n_HEADERS = " . \App\Utils::varExport(getallheaders());
 		if ('test' !== \App\Config::main('systemMode')) {
 			try {
 				foreach (\App\Utils\ConfReport::getAllErrors(true) as $key => $value) {
-					$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($value);
+					$result .= "\n\${$key} = " . \App\Utils::varExport($value);
 				}
 			} catch (\Throwable $th) {
 				$result .= "\nError while saving logs: 'ConfReport::getAllErrors': \n" . $th->__toString();

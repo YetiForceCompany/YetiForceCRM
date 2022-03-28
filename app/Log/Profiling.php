@@ -1,4 +1,13 @@
 <?php
+/**
+ * Profiling file records log messages in a profile table.
+ *
+ * @package Log
+ *
+ * @copyright YetiForce S.A.
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
 
 namespace App\Log;
 
@@ -7,6 +16,9 @@ use yii\helpers\VarDumper;
 use yii\log\Logger;
 use yii\log\Target;
 
+/**
+ * Profiling class records log messages in a profile table.
+ */
 class Profiling extends Target
 {
 	public $db;
