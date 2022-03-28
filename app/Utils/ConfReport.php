@@ -366,7 +366,7 @@ class ConfReport
 	 * @var array
 	 */
 	public static $pathVerification = [
-		'webservice/WebserviceStandard/' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
+		'webservice/WebserviceStandard/' => ['type' => 'Webservice', 'container' => 'request', 'testCli' => false],
 		'.well-known/carddav' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 		'.well-known/caldav' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
 		'robots.txt' => ['type' => 'ExistsUrl', 'container' => 'request', 'testCli' => false],
@@ -1696,6 +1696,30 @@ class ConfReport
 		if (!\App\Cron::$shopIsActive) {
 			$row['status'] = false;
 			$row[$sapi] = \App\Language::translate('LBL_NO');
+		}
+		return $row;
+	}
+
+	/**
+	 * Validate webservice.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateWebservice(string $name, array $row, string $sapi)
+	{
+		unset($sapi);
+		try {
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('HEAD', static::$crmUrl . $name, ['timeout' => 1, 'connect_timeout' => 1, 'verify' => false, 'http_errors' => false, 'allow_redirects' => false]);
+			$row['status'] = 401 === $response->getStatusCode();
+		} catch (\Throwable $th) {
+			$row['status'] = false;
+		}
+		if (!\in_array('webservice', \Config\Api::$enabledServices)) {
+			$row['mode'] = 'showWarnings';
 		}
 		return $row;
 	}
