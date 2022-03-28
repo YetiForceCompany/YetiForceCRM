@@ -145,6 +145,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			}
 		}
 		if (isset($viewLinks['DETAILVIEWTAB']) && \is_array($viewLinks['DETAILVIEWTAB'])) {
+			$detailViewLabel = [];
+			foreach ($viewLinks['DETAILVIEWTAB'] as $link) {
+				$detailViewLabel[] = $link->getLabel();
+			}
+			if (!\in_array($selectedTabLabel, $detailViewLabel)) {
+				$selectedTabLabel = 'LBL_RECORD_SUMMARY';
+			}
 			foreach ($viewLinks['DETAILVIEWTAB'] as $link) {
 				if ($link->getLabel() === $selectedTabLabel) {
 					$params = vtlib\Functions::getQueryParams($link->getUrl());
