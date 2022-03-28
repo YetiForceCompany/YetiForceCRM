@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "41476f573a1e9aeb4da731a306a5f889",
+    "content-hash": "4c93def7e14c7b13e481e82b3e671b5b",
     "packages": [
         {
             "name": "adhocore/jwt",
@@ -4936,16 +4936,16 @@
         },
         {
             "name": "yetiforce/yetiforcepdf",
-            "version": "0.1.34",
+            "version": "0.1.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "db74749449b8a2d0e084e6364a7976734ae451ff"
+                "reference": "1a872b8d951a4c4b8d27d9a0449820d84c87558a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/db74749449b8a2d0e084e6364a7976734ae451ff",
-                "reference": "db74749449b8a2d0e084e6364a7976734ae451ff",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/1a872b8d951a4c4b8d27d9a0449820d84c87558a",
+                "reference": "1a872b8d951a4c4b8d27d9a0449820d84c87558a",
                 "shasum": ""
             },
             "require": {
@@ -4989,7 +4989,7 @@
             ],
             "support": {
                 "issues": "https://github.com/YetiForceCompany/YetiForcePDF/issues",
-                "source": "https://github.com/YetiForceCompany/YetiForcePDF/tree/0.1.34"
+                "source": "https://github.com/YetiForceCompany/YetiForcePDF/tree/0.1.36"
             },
             "funding": [
                 {
@@ -4997,7 +4997,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-02-04T12:52:56+00:00"
+            "time": "2022-03-22T10:32:25+00:00"
         },
         {
             "name": "yetiforce/yii2",
