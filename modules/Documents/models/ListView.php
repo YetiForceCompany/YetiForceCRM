@@ -87,7 +87,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_EDIT',
-				'linkurl' => "javascript:Vtiger_List_Js.triggerMassEdit('index.php?module=$moduleName&view=MassActionAjax&mode=showMassEditForm');",
+				'linkurl' => "javascript:Vtiger_List_Js.triggerMassEdit('index.php?module=$moduleName&view=MassActionAjax&mode=showMassEditForm&sourceView=List');",
 				'linkicon' => 'fas fa-edit',
 			];
 		}
@@ -95,7 +95,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MOVE',
-				'linkurl' => "javascript:Documents_List_Js.massMove('index.php?module=$moduleName&view=MoveDocuments');",
+				'linkurl' => "javascript:Documents_List_Js.massMove('index.php?module=$moduleName&view=MoveDocuments&sourceView=List');",
 				'linkicon' => 'fas fa-folder-open',
 			];
 		}
@@ -103,7 +103,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
-				'linkurl' => "javascript:Vtiger_List_Js.triggerTransferOwnership('index.php?module=$moduleName&view=MassActionAjax&mode=transferOwnership')",
+				'linkurl' => "javascript:Vtiger_List_Js.triggerTransferOwnership('index.php?module=$moduleName&view=MassActionAjax&mode=transferOwnership&sourceView=List')",
 				'linkicon' => 'yfi yfi-change-of-owner',
 			];
 		}
@@ -111,7 +111,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_ADD',
-				'linkurl' => "javascript:Vtiger_Index_Js.massAddDocuments('index.php?module=$moduleName&view=MassAddDocuments')",
+				'linkurl' => "javascript:Vtiger_Index_Js.massAddDocuments('index.php?module=$moduleName&view=MassAddDocuments&sourceView=List')",
 				'linkicon' => 'yfi-document-templates',
 			];
 		}

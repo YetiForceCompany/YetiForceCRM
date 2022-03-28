@@ -142,8 +142,13 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 	public function transferOwnership(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'MassTransferOwnership')) {
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$sourceView = $request->getByType('sourceView');
+		if (
+			('Detail' !== $sourceView && 'List' !== $sourceView)
+			|| ('List' === $sourceView && !$currentUserPrivilegesModel->hasModuleActionPermission($moduleName, 'MassTransferOwnership'))
+			|| ('Detail' === $sourceView && !$currentUserPrivilegesModel->hasModuleActionPermission($moduleName, 'DetailTransferOwnership'))
+		) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$transferModel = Vtiger_TransferOwnership_Model::getInstance($moduleName);
