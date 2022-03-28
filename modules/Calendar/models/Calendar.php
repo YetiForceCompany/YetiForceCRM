@@ -308,12 +308,15 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 	{
 		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['SIDEBARWIDGET'], $linkParams)['SIDEBARWIDGET'] ?? [];
 		if ('Extended' === App\Config::module('Calendar', 'CALENDAR_VIEW')) {
+			$request = \App\Request::init();
+			$historyUsers = $request->has('user') ? $request->get('user') : [];
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_USERS',
 				'linkclass' => 'js-users-form usersForm ',
 				'template' => 'Filters/Users.tpl',
 				'filterData' => Vtiger_Filter_Model::getUsersList($this->moduleName),
+				'historyUsers' => $historyUsers,
 			]);
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
@@ -321,6 +324,7 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 				'linkclass' => 'js-group-form groupForm',
 				'template' => 'Filters/Groups.tpl',
 				'filterData' => Vtiger_Filter_Model::getGroupsList($this->moduleName),
+				'historyUsers' => $historyUsers,
 			]);
 		} else {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([

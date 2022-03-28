@@ -21,8 +21,8 @@
 									<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
 										class="js-input-user-owner-id alignMiddle mr-2"
 										{if (empty($HISTORY_USERS) && $USER_MODEL->getId() eq $OWNER_ID)
-															|| (!empty($HISTORY_USERS) && in_array($OWNER_ID, $HISTORY_USERS))
-															|| $SELECT_ALL_BY_DEFAULT eq '1'}
+														||(	isset($HISTORY_USERS['selectedIds'][0]) && (($HISTORY_USERS['selectedIds'][0] eq 'all' || in_array($OWNER_ID, $HISTORY_USERS['selectedIds'])) && !in_array($OWNER_ID, $HISTORY_USERS['excludedIds'])))
+																			|| $SELECT_ALL_BY_DEFAULT eq '1'}
 										checked
 									{/if}>
 							</div>

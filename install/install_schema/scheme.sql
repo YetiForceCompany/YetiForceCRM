@@ -6265,7 +6265,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3100 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3101 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -9525,6 +9525,7 @@ CREATE TABLE `vtiger_users` (
   `secondary_email` varchar(100) DEFAULT '',
   `default_search_operator` varchar(255) DEFAULT NULL,
   `super_user` tinyint(1) DEFAULT 0,
+  `calendar_all_users_by_default` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),

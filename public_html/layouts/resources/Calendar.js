@@ -313,7 +313,8 @@ window.Calendar_Js = class {
 					return isNaN(parsedValue) ? '' : parsedValue;
 				}),
 				cvid: historyParams.cvid,
-				defaultView: historyParams.viewType
+				defaultView: historyParams.viewType,
+				user: historyParams.user
 			};
 			let dateFormat = CONFIG.dateFormat.toUpperCase();
 			let s = moment(options.start, dateFormat).valueOf();

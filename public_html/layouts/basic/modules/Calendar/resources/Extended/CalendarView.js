@@ -364,9 +364,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				excludedIds.push($(this).val());
 			});
 		}
-		if (0 === selectedIds.length && app.getMainParams('usersId')) {
-			selectedIds.push(app.getMainParams('usersId'));
-		}
 		return { selectedIds: selectedIds, excludedIds: excludedIds };
 	}
 
@@ -526,11 +523,15 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			cvid: cvid,
 			historyUrl: `index.php?module=${this.module}&view=CalendarExtended&history=true&viewType=${
 				view.type
-			}&start=${view.start.format(formatDate)}&end=${view.end.format(formatDate)}&time=${app.getMainParams(
+			}&start=${view.start.format(formatDate)}&end=${view.end.format(formatDate)}&user=${user}&time=${app.getMainParams(
 				'showType'
 			)}&cvid=${cvid}&hiddenDays=${view.options.hiddenDays}`
 		};
+
 		let connectorMethod = window['AppConnector']['request'];
+		if (this.browserHistory && window.calendarLoaded) {
+			connectorMethod = window['AppConnector']['requestPjax'];
+		}
 		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && !window.calendarLoaded) {
 			options = Object.assign(options, {
 				start: this.browserHistoryConfig.start,
@@ -539,6 +540,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				time: this.browserHistoryConfig.time,
 				cvid: this.browserHistoryConfig.cvid
 			});
+			connectorMethod = window['AppConnector']['request'];
 			app.setMainParams('showType', this.browserHistoryConfig.time);
 			app.setMainParams('usersId', this.browserHistoryConfig.user);
 		}
@@ -788,6 +790,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				checkboxes.prop('checked', true);
 			} else {
 				checkboxes.prop('checked', false);
+				formContainer.find('#ownerId' + CONFIG.userId).prop('checked', true);
 			}
 			let calendar = this.getCalendarView().fullCalendar('getCalendar');
 			if (calendar) {
