@@ -6,20 +6,6 @@ on:
       - developer
 
 jobs:
-  tests73:
-    runs-on: ubuntu-latest
-    name: PHP 7.3 - MariaDB 10
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Tests
-        uses: YetiForceCompany/YetiForceCRM-Tests/7.3@main
-        env:
-          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
-
   tests74:
     runs-on: ubuntu-latest
     name: PHP 7.4 - MariaDB 10

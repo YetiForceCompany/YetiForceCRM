@@ -1,4 +1,4 @@
-php_version: 7.3
+php_version: 7.4
 
 php_ini: |
   extension=imap.so
