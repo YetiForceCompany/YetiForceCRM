@@ -11,6 +11,18 @@
 
 class Vtiger_Base_UIType extends \App\Base
 {
+	/** @var bool Search allowed */
+	protected $search = true;
+
+	/** @var bool Sorting allowed */
+	protected $sortable = true;
+
+	/** @var bool Field is editable from Detail View */
+	protected $ajaxEditable = true;
+
+	/** @var bool Field is writable */
+	protected $writable = true;
+
 	/**
 	 * Verify the value.
 	 *
@@ -390,14 +402,24 @@ class Vtiger_Base_UIType extends \App\Base
 		return $this->get('field');
 	}
 
+	/**
+	 * The function determines whether sorting on this field is allowed.
+	 *
+	 * @return bool
+	 */
 	public function isActiveSearchView()
 	{
-		return true;
+		return $this->search;
 	}
 
+	/**
+	 * The function determines whether quick field editing is allowed (Detail View).
+	 *
+	 * @return bool
+	 */
 	public function isAjaxEditable()
 	{
-		return true;
+		return $this->ajaxEditable;
 	}
 
 	/**
@@ -405,7 +427,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function isListviewSortable()
 	{
-		return true;
+		return $this->sortable;
 	}
 
 	/**
@@ -415,7 +437,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function isWritable(): bool
 	{
-		return true;
+		return $this->writable;
 	}
 
 	/**
