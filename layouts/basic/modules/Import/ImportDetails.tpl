@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -24,13 +24,13 @@
 						<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">
 							<table class="table table-bordered listViewEntriesTable">
 								<thead>
-								<tr class="listViewHeaders">
-									{assign var=LISTVIEW_HEADERS value=$IMPORT_RECORDS['headers']}
-									{assign var=IMPORT_RESULT_DATA value=$IMPORT_RECORDS[$TYPE]}
-									{foreach item=LISTVIEW_HEADER_NAME from=$LISTVIEW_HEADERS}
-										<th>{\App\Language::translate($LISTVIEW_HEADER_NAME, $FOR_MODULE)}</th>
-									{/foreach}
-								</tr>
+									<tr class="listViewHeaders">
+										{assign var=LISTVIEW_HEADERS value=$IMPORT_RECORDS['headers']}
+										{assign var=IMPORT_RESULT_DATA value=$IMPORT_RECORDS[$TYPE]}
+										{foreach item=LISTVIEW_HEADER_NAME from=$LISTVIEW_HEADERS}
+											<th>{\App\Language::translate($LISTVIEW_HEADER_NAME, $FOR_MODULE)}</th>
+										{/foreach}
+									</tr>
 								</thead>
 								{foreach item=RECORD from=$IMPORT_RESULT_DATA}
 									<tr class="listViewEntries">

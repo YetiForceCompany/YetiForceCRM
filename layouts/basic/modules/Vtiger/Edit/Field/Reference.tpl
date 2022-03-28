@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -21,16 +21,16 @@
 	{assign var=PARAMS value=$FIELD_MODEL->getFieldParams()}
 	<div class="uitype_{$MODULE}_{$FIELD_NAME}">
 		{if isset($PARAMS['searchParams'])}
-			<input name="searchParams" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['searchParams'])}"/>
+			<input name="searchParams" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['searchParams'])}" />
 		{/if}
 		{if isset($PARAMS['modalParams'])}
-			<input name="modalParams" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['modalParams'])}"/>
+			<input name="modalParams" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['modalParams'])}" />
 		{/if}
 		{if isset($PARAMS['lockedFields'])}
-			<input name="lockedFields" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['lockedFields'])}"/>
+			<input name="lockedFields" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['lockedFields'])}" />
 		{/if}
 		{if {$REFERENCE_LIST_COUNT} eq 1}
-			<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}" value="{reset($REFERENCE_LIST)}"/>
+			<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}" value="{reset($REFERENCE_LIST)}" />
 		{/if}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 		{assign var="VALUE" value=$FIELD_MODEL->getEditViewValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
@@ -42,9 +42,9 @@
 				{assign var="REFERENCED_MODULE_NAME" value=''}
 			{/if}
 			{if in_array($REFERENCED_MODULE_NAME, $REFERENCE_LIST)}
-				<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCED_MODULE_NAME}"/>
+				<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCED_MODULE_NAME}" />
 			{else}
-				<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCE_LIST[0]}"/>
+				<input name="popupReferenceModule" type="hidden" data-multi-reference="1" value="{$REFERENCE_LIST[0]}" />
 			{/if}
 		{/if}
 		{if $REFERENCE_LIST_COUNT}
@@ -52,7 +52,7 @@
 		{else}
 			{assign var=REFERENCE_MODULE_MODEL value=false}
 		{/if}
-		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$VALUE}" title="{$FIELD_VALUE}" class="sourceField" data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{$FIELD_VALUE}" data-fieldinfo='{$FIELD_INFO}' {if $IS_EDITABLE_READ_ONLY}readonly="readonly"{/if} />
+		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$VALUE}" title="{$FIELD_VALUE}" class="sourceField" data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{$FIELD_VALUE}" data-fieldinfo='{$FIELD_INFO}' {if $IS_EDITABLE_READ_ONLY}readonly="readonly" {/if} />
 		<div class="input-group referenceGroup {$WIDTHTYPE_GROUP}">
 			{if $REFERENCE_LIST_COUNT > 1}
 				<div class="input-group-prepend referenceModulesListGroup">
@@ -63,11 +63,11 @@
 					</select>
 				</div>
 			{/if}
-			<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text"  title="{$FIELD_VALUE}" class="marginLeftZero form-control autoComplete"
-				tabindex="{$TABINDEX}" {if !empty($VALUE)}readonly="true"{/if} value="{$FIELD_VALUE}"
-				   data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-				   data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') != 10}placeholder="{\App\Language::translate('LBL_TYPE_SEARCH',$MODULE)}"{/if} {if $REFERENCE_MODULE_MODEL == false || $IS_EDITABLE_READ_ONLY}disabled{/if}
-					{if !empty($SPECIAL_VALIDATOR)}data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}"{/if} {if $IS_EDITABLE_READ_ONLY}readonly="readonly"{/if}/>
+			<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text" title="{$FIELD_VALUE}" class="marginLeftZero form-control autoComplete"
+				tabindex="{$TABINDEX}" {if !empty($VALUE)}readonly="true" {/if} value="{$FIELD_VALUE}"
+				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+				data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') != 10}placeholder="{\App\Language::translate('LBL_TYPE_SEARCH',$MODULE)}" {/if} {if $REFERENCE_MODULE_MODEL == false || $IS_EDITABLE_READ_ONLY}disabled{/if}
+				{if !empty($SPECIAL_VALIDATOR)}data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}" {/if} {if $IS_EDITABLE_READ_ONLY}readonly="readonly" {/if} />
 			<div class="input-group-append u-cursor-pointer">
 				<button class="btn btn-light clearReferenceSelection" type="button" tabindex="{$TABINDEX}" {if $REFERENCE_MODULE_MODEL == false || $IS_EDITABLE_READ_ONLY}disabled{/if}>
 					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="fas fa-times-circle" title="{\App\Language::translate('LBL_CLEAR', $MODULE)}"></span>

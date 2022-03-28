@@ -6,11 +6,11 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="recentActivitiesContainer" >
+	<div class="recentActivitiesContainer">
 		<input type="hidden" id="updatesCurrentPage" value="{$PAGING_MODEL->get('page')}" />
 		<input type="hidden" id="updatesPageLimit" value="{$PAGING_MODEL->getPageLimit()}" />
 		<div>
@@ -67,14 +67,18 @@
 													{/if}
 												{/foreach}
 											</span>
-											<span class="float-right"><p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getParent()->get('createdtime'))}</small></p></span>
+											<span class="float-right">
+												<p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getParent()->get('createdtime'))}</small></p>
+											</span>
 										</div>
 									</li>
 								{else if $RECENT_ACTIVITY->isUpdate()}
 									<li>
 										<div>
 											<span><strong>{$MODIFIER_NAME}</strong> {\App\Language::translate($RECENT_ACTIVITY->getStatusLabel(), 'ModTracker')}</span>
-											<span class="float-right"><p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</small></p></span>
+											<span class="float-right">
+												<p class="muted"><small>{\App\Fields\DateTime::formatToViewDate($RECENT_ACTIVITY->getActivityTime())}</small></p>
+											</span>
 										</div>
 										{foreach item=FIELDMODEL from=$RECENT_ACTIVITY->getFieldInstances()}
 											{if $FIELDMODEL && $FIELDMODEL->getFieldInstance() && $FIELDMODEL->getFieldInstance()->isViewable() && $FIELDMODEL->getFieldInstance()->getDisplayType() neq '5'}
@@ -155,12 +159,12 @@
 			{if $PAGING_MODEL->isNextPageExists()}
 				<div class="ml-auto">
 					<button type="button"
-							class="btn btn-link btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
+						class="btn btn-link btn-sm moreRecentUpdates">{\App\Language::translate('LBL_MORE',$MODULE_NAME)}
 						..
 					</button>
 				</div>
 			{/if}
 		</div>
 	</div>
-</div>
+	</div>
 {/strip}

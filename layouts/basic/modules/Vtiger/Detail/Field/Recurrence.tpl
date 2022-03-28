@@ -6,12 +6,12 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
 	<div class="tpl-Detail-Field-Recurrence typeRemoveModal" tabindex="-1">
-		<div  class="modal fade">
+		<div class="modal fade">
 			<div class="modal-dialog modal-lg ">
 				<div class="modal-content">
 					<div class="modal-header row no-margin">
@@ -34,7 +34,7 @@
 									{App\Language::translate('LBL_DELETE_THIS_EVENT_DESCRIPTION', $MODULE)}
 								</div>
 							</div>
-							<div class="col-12 paddingLRZero marginBottom10px">	
+							<div class="col-12 paddingLRZero marginBottom10px">
 								<div class="col-4">
 									<button class="btn btn-primary btn-sm typeSavingBtn" data-value="3">
 										{App\Language::translate('LBL_DELETE_FUTURE_EVENTS', $MODULE)}
@@ -44,7 +44,7 @@
 									{App\Language::translate('LBL_DELETE_FUTURE_EVENTS_DESCRIPTION', $MODULE)}
 								</div>
 							</div>
-							<div class="col-12 paddingLRZero marginBottom10px">	
+							<div class="col-12 paddingLRZero marginBottom10px">
 								<div class="col-4">
 									<button class="btn btn-primary btn-sm typeSavingBtn" data-value="1">
 										{App\Language::translate('LBL_DELETE_ALL_EVENTS', $MODULE)}

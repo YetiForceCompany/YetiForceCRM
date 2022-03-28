@@ -7,7 +7,7 @@
  *
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author YetiForce.com
+ * @author YetiForce S.A.
  */
 class Vtiger_InventoryLimit_UIType extends Vtiger_Picklist_UIType
 {

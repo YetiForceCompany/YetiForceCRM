@@ -147,11 +147,11 @@
 								{assign var=FOOTOSP value= '<em><a class="u-text-underline" href="index.php?module=Dependencies&view=Credits&parent=Settings">open source project</a></em>'}
 							{/if}
 							<span class="d-none d-sm-inline">
-								Copyright &copy; YetiForce.com All rights reserved. {$FOOTVR}
+								Copyright &copy; YetiForce S.A. All rights reserved. {$FOOTVR}
 								<br />
 								{\App\Language::translateArgs('LBL_FOOTER_CONTENT', '_Base', $FOOTOSP)}
 							</span>
-							<span class="d-inline d-sm-none text-center">&copy; YetiForce.com All rights reserved.</span>
+							<span class="d-inline d-sm-none text-center">&copy; YetiForce S.A. All rights reserved.</span>
 						{else}
 							{$FOOTER_NAME} [{\App\Language::translate('WEBLOADTIME')}: {$SCRIPT_TIME}s.]
 						{/if}
@@ -182,7 +182,7 @@
 							</li>
 						</ul>
 						</p>
-						<p>Copyright © YetiForce.com All rights reserved.</p>
+						<p>Copyright © YetiForce S.A. All rights reserved.</p>
 						<p class="my-2">The Program is provided AS IS, without warranty. Licensed under
 							<a href="https://github.com/YetiForceCompany/YetiForceCRM/blob/developer/licenses/LicenseEN.txt" class="ml-2" target="_blank" rel="noreferrer noopener">
 								<strong>YetiForce Public License 5.0</strong>

@@ -5,7 +5,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 *************************************************************************************}
 {strip}
 	{* Comupte the nubmer of columns required *}
@@ -24,7 +24,8 @@
 				{$SPANSIZE_ARRAY[$ITERATION] = 3}
 			{/if}
 			<h6 class="p-0 pr-2 col-sm-{$SPANSIZE_ARRAY[$ITERATION]} u-fs-100per mb-0">
-				<strong>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)} </strong></h6>
+				<strong>{\App\Language::translate($FIELD->get('label'),$BASE_MODULE)} </strong>
+			</h6>
 		{/foreach}
 	</div>
 	{if $OWNER eq false}
@@ -41,15 +42,16 @@
 				<div class="p-0 col-sm-{$SPANSIZE_ARRAY[$ITERATION]}">
 					{if empty($FIELD_HREF) && $LAST_RECORD}
 						<a href="{$RECORD->getDetailViewUrl()}" class="float-right"><span
-									title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}"
-									class="fas fa-th-list alignMiddle"></span></a>
+								title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS',$MODULE_NAME)}"
+								class="fas fa-th-list alignMiddle"></span></a>
 					{/if}
 					<div class="pr-2">
 						{if $FIELD_VALUE}
 							{assign var=HAS_LINK value=empty($FIELD->get('source_field_name')) && $FIELD->isNameField() && $RECORD->getModule()->isListViewNameFieldNavigationEnabled() && $RECORD->isViewable()}
 							<div {if !$HAS_LINK}class="js-popover-tooltip--ellipsis" data-toggle="popover"
-								 data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}"
-								 data-js="popover"{else}class="text-truncate"{/if}>
+									data-content="{\App\Purifier::encodeHtml($RECORD->getDisplayValue($FIELD->get('name')))}"
+								data-js="popover" {else}class="text-truncate" 
+								{/if}>
 								{if $HAS_LINK || (!empty($FIELD_HREF) && $FIELD_HREF === $FIELD->get('name'))}
 									<a class="modCT_{$RECORD->getModuleName()} js-popover-tooltip--record" href="{$RECORD->getDetailViewUrl()}">
 										{$RECORD->getDisplayValue($FIELD->get('name'))}

@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ************************************************************************************/
 -->*}
 {strip}
@@ -56,8 +56,8 @@
 					{\App\Language::translate('LBL_EMPTY_DASHBOARD')}
 				</p>
 			</div>
-			<input type="hidden" id="row" value="{$ROW}"/>
-			<input type="hidden" id="col" value="{$COLCOUNT}"/>
+			<input type="hidden" id="row" value="{$ROW}" />
+			<input type="hidden" id="col" value="{$COLCOUNT}" />
 		</div>
 		<div class="o-tablet-scroll__container mx-1 d-none" data-js="class: d-none">
 			<div class="o-tablet-scroll__content js-tablet-scroll position-fixed u-hide-underneath border" data-js="scroll | parent">

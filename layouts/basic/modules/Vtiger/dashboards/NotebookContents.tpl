@@ -5,7 +5,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 *************************************************************************************}
 {strip}
 	<div class="tpl-Base-dashboards-NotebookContents">
@@ -32,9 +32,9 @@
 				</button>
 			</div>
 			<textarea class="w-100 dashboard_notebookWidget_textarea form-control boxSizingBorderBox border rounded p-1"
-					  data-note-book-id="{$WIDGET->get('id')}">
-							{$WIDGET->getContent()}
-						</textarea>
+				data-note-book-id="{$WIDGET->get('id')}">
+								{$WIDGET->getContent()}
+							</textarea>
 		</div>
 	</div>
 {/strip}

@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -26,7 +26,7 @@
 				</h4>
 			</div>
 			<div class="card-body form-horizontal font-larger">
-				<input type="hidden" name="module" value="{$FOR_MODULE}"/>
+				<input type="hidden" name="module" value="{$FOR_MODULE}" />
 				{if !empty($ERROR_MESSAGE)}
 					<div class="alert alert-warning">
 						{$ERROR_MESSAGE}

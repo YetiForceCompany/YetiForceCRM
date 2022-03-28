@@ -5,7 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  *************************************************************************************/
 'use strict';
 
@@ -456,7 +456,10 @@ Settings_Workflows_Edit_Js(
 							var selectElement = $('select.createEntityModule:not(:disabled)');
 							var moduleName = selectElement.val();
 							moduleNameElement.val(moduleName).change().prop('disabled', true);
-						} else if (selectedOption.data('reference') && moduleNameElement.find(`option[value="${workflowModuleName}"]`).length){
+						} else if (
+							selectedOption.data('reference') &&
+							moduleNameElement.find(`option[value="${workflowModuleName}"]`).length
+						) {
 							moduleNameElement.val(workflowModuleName).change().prop('disabled', true);
 						} else {
 							moduleNameElement.prop('disabled', false);

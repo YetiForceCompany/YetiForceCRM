@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -16,24 +16,24 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
-{literal}
-	<script type="text/javascript">
-		jQuery(document).ready(function () {
-			setTimeout(function () {
-				jQuery("[name=importStatusForm]").get(0).submit();
-			}, 2000);
-		});
-	</script>
-{/literal}
+	{literal}
+		<script type="text/javascript">
+			jQuery(document).ready(function() {
+				setTimeout(function() {
+					jQuery("[name=importStatusForm]").get(0).submit();
+				}, 2000);
+			});
+		</script>
+	{/literal}
 	<div>
 		<form onsubmit="VtigerJS_DialogBox.block();" action="index.php" enctype="multipart/form-data" method="POST"
-			  name="importStatusForm">
-			<input type="hidden" name="module" value="{$FOR_MODULE}"/>
-			<input type="hidden" name="view" value="Import"/>
+			name="importStatusForm">
+			<input type="hidden" name="module" value="{$FOR_MODULE}" />
+			<input type="hidden" name="view" value="Import" />
 			{if $CONTINUE_IMPORT eq 'true'}
-				<input type="hidden" name="mode" value="continueImport"/>
+				<input type="hidden" name="mode" value="continueImport" />
 			{else}
-				<input type="hidden" name="mode" value=""/>
+				<input type="hidden" name="mode" value="" />
 			{/if}
 		</form>
 		<table class="u-w-90per m-auto searchUIBasic well">
@@ -92,7 +92,7 @@
 			<tr>
 				<td class="float-right">
 					<button class="delete btn btn-danger btn-sm" name="cancel"
-							onclick="location.href = 'index.php?module={$FOR_MODULE}&view=Import&mode=cancelImport&import_id={$IMPORT_ID}'">
+						onclick="location.href = 'index.php?module={$FOR_MODULE}&view=Import&mode=cancelImport&import_id={$IMPORT_ID}'">
 						<strong>
 							{\App\Language::translate('LBL_CANCEL_IMPORT', $MODULE_NAME)}
 						</strong>

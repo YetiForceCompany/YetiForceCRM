@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -28,7 +28,7 @@
 		<div class="form-row pb-2">
 			<div class="col-md-4 px-4"><span>{\App\Language::translate('LBL_CHARACTER_ENCODING', $MODULE)}</span></div>
 			<div class="col-md-6">
-				<select name="file_encoding" class="form-control"  title="{\App\Language::translate('LBL_CHARACTER_ENCODING', $MODULE)}">
+				<select name="file_encoding" class="form-control" title="{\App\Language::translate('LBL_CHARACTER_ENCODING', $MODULE)}">
 					{foreach key=_FILE_ENCODING item=_FILE_ENCODING_LABEL from=$SUPPORTED_FILE_ENCODING}
 						<option value="{$_FILE_ENCODING}">{\App\Language::translate($_FILE_ENCODING_LABEL, $MODULE)}</option>
 					{/foreach}
@@ -38,7 +38,7 @@
 		<div class="form-row pb-2 js-delimiter-container" data-js="class: d-none">
 			<div class="col-md-4 px-4"><span>{\App\Language::translate('LBL_DELIMITER', $MODULE)}</span></div>
 			<div class="col-md-6">
-				<select name="delimiter" class="form-control"  title="{\App\Language::translate('LBL_DELIMITER', $MODULE)}">
+				<select name="delimiter" class="form-control" title="{\App\Language::translate('LBL_DELIMITER', $MODULE)}">
 					{foreach key=_DELIMITER item=_DELIMITER_LABEL from=$SUPPORTED_DELIMITERS}
 						<option value="{$_DELIMITER}">{\App\Language::translate($_DELIMITER_LABEL, $MODULE)}</option>
 					{/foreach}
@@ -48,7 +48,7 @@
 		<div class="form-row pb-2 js-zip-extension d-none" data-js="class: d-none">
 			<div class="col-md-4 px-4"><span>{\App\Language::translate('LBL_EXTENSION_TYPE', $MODULE)}</span></div>
 			<div class="col-md-6">
-				<select name="extension" class="select2"  title="{\App\Language::translate('LBL_EXTENSION_TYPE', $MODULE)}">
+				<select name="extension" class="select2" title="{\App\Language::translate('LBL_EXTENSION_TYPE', $MODULE)}">
 					{foreach from=Import_ZipReader_Reader::getAllowedExtension() item=EXTENSION_NAME key=EXTENSION_VALUE}
 						<option value="{$EXTENSION_VALUE}">{$EXTENSION_NAME}</option>
 					{/foreach}

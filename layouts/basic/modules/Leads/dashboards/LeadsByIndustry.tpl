@@ -6,11 +6,11 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ************************************************************************************/
 -->*}
 <script type="text/javascript">
-	YetiForce_Bar_Widget_Js('YetiForce_LeadsByIndustry_Widget_Js',{}, {});
+	YetiForce_Bar_Widget_Js('YetiForce_LeadsByIndustry_Widget_Js', {}, {});
 </script>
 <div class="dashboardWidgetHeader">
 	{assign var=WIDGET_WIDTH value=$WIDGET->getWidth()}
@@ -18,7 +18,7 @@
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 	</div>
-	<hr class="widgetHr"/>
+	<hr class="widgetHr" />
 	<div class="row no-gutters">
 		<div class="col-ceq-xsm-6">
 			<div class="input-group input-group-sm">
@@ -28,8 +28,8 @@
 					</span>
 				</div>
 				<input type="text" name="createdtime" title="{\App\Language::translate('Created Time', $MODULE_NAME)}"
-					   class="dateRangeField form-control widgetFilter text-center" value="{implode(',', $DTIME)}"
-					   aria-label="Small" aria-describedby="inputGroup-sizing-sm"/>
+					class="dateRangeField form-control widgetFilter text-center" value="{implode(',', $DTIME)}"
+					aria-label="Small" aria-describedby="inputGroup-sizing-sm" />
 			</div>
 		</div>
 		<div class="col-ceq-xsm-6">

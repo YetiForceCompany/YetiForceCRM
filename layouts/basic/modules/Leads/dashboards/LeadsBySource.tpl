@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ************************************************************************************/
 -->*}
 <div class="dashboardWidgetHeader">
@@ -24,7 +24,7 @@
 						<span class="fas fa-calendar-alt"></span>
 					</span>
 				</div>
-				<input type="text" name="createdtime" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField form-control widgetFilter text-center" value="{implode(',', $DTIME)}" aria-label="Small" aria-describedby="inputGroup-sizing-sm"/>
+				<input type="text" name="createdtime" title="{\App\Language::translate('Created Time', $MODULE_NAME)}" class="dateRangeField form-control widgetFilter text-center" value="{implode(',', $DTIME)}" aria-label="Small" aria-describedby="inputGroup-sizing-sm" />
 			</div>
 		</div>
 		<div class="col-ceq-xsm-6">

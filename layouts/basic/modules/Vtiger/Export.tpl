@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -15,26 +15,26 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
-    <div>
-        <form id="exportForm" class="form-horizontal row" method="post" action="index.php">
-            <input type="hidden" name="module" value="{$MODULE}" />
-            <input type="hidden" name="source_module" value="{$SOURCE_MODULE}" />
-            <input type="hidden" name="action" value="ExportData" />
-            <input type="hidden" name="viewname" value="{$VIEWID}" />
-            <input type="hidden" name="selected_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}">
-            <input type="hidden" name="excluded_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}">
-            <input type="hidden" id="page" name="page" value="{$PAGE}" />
-            <input type="hidden" name="search_key" value= "{$SEARCH_KEY}" />
-            <input type="hidden" name="operator" value="{$OPERATOR}" />
-            <input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
-            <input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}" />
-			<input type="hidden" name="entityState" value="{$ENTITY_STATE}"/>
+	<div>
+		<form id="exportForm" class="form-horizontal row" method="post" action="index.php">
+			<input type="hidden" name="module" value="{$MODULE}" />
+			<input type="hidden" name="source_module" value="{$SOURCE_MODULE}" />
+			<input type="hidden" name="action" value="ExportData" />
+			<input type="hidden" name="viewname" value="{$VIEWID}" />
+			<input type="hidden" name="selected_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($SELECTED_IDS))}">
+			<input type="hidden" name="excluded_ids" value="{\App\Purifier::encodeHtml(\App\Json::encode($EXCLUDED_IDS))}">
+			<input type="hidden" id="page" name="page" value="{$PAGE}" />
+			<input type="hidden" name="search_key" value="{$SEARCH_KEY}" />
+			<input type="hidden" name="operator" value="{$OPERATOR}" />
+			<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
+			<input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}" />
+			<input type="hidden" name="entityState" value="{$ENTITY_STATE}" />
 
-            <div class="col-md-8">
+			<div class="col-md-8">
 				<div class="p-3 card bg-light exportContents ml-0 my-2">
 					<div class="radio">
 						<label title="{\App\Language::translate('LBL_EXPORT_SELECTED_RECORDS')}">
-							<input class="mr-1" type="radio" name="mode" id="optionsRadios1" value="ExportSelectedRecords" {if !empty($SELECTED_IDS)} checked="checked" {else} disabled="disabled"{/if}>
+							<input class="mr-1" type="radio" name="mode" id="optionsRadios1" value="ExportSelectedRecords" {if !empty($SELECTED_IDS)} checked="checked" {else} disabled="disabled" {/if}>
 							{\App\Language::translate('LBL_EXPORT_SELECTED_RECORDS',$MODULE)}
 							{if empty($SELECTED_IDS)}&nbsp; - <span class="redColor">{\App\Language::translate('LBL_NO_RECORD_SELECTED',$MODULE)}</span>{/if}
 						</label>
@@ -90,7 +90,7 @@
 						{\App\Language::translate('LBL_CANCEL', $MODULE)}
 					</button>
 				</div>
-            </div>
+			</div>
 		</form>
-    </div>
+	</div>
 {/strip}

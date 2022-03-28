@@ -6,14 +6,14 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
     <div class="col-12 row">
         <div class="col-2 px-0">
             <strong>{\App\Language::translate('LBL_IMPORT_STEP_3', $MODULE)}:</strong>&nbsp;&nbsp;&nbsp;
-            <input name="auto_merge" value="1" type="checkbox" class="font-x-small" id="auto_merge" title="{\App\Language::translate('LBL_IMPORT_STEP_3', $MODULE)}" onclick="ImportJs.toogleMergeConfiguration();"/>
+            <input name="auto_merge" value="1" type="checkbox" class="font-x-small" id="auto_merge" title="{\App\Language::translate('LBL_IMPORT_STEP_3', $MODULE)}" onclick="ImportJs.toogleMergeConfiguration();" />
         </div>
         <div class="col-10">
             <span>{\App\Language::translate('LBL_IMPORT_STEP_3_DESCRIPTION', $MODULE)}</span>
@@ -60,12 +60,12 @@
                             </div>
                             <div class="col-1">
                                 <div align="center">
-                                    <input type="button" name="Button" value="&nbsp;&rsaquo;&rsaquo;&nbsp;" onClick="ImportJs.copySelectedOptions('#available_fields', '#selected_merge_fields')" class="crmButton font-x-small importButton"/><br/><br/>
-                                    <input type="button" name="Button1" value="&nbsp;&lsaquo;&lsaquo;&nbsp;" onClick="ImportJs.removeSelectedOptions('#selected_merge_fields')" class="crmButton font-x-small importButton"/><br/><br/>
+                                    <input type="button" name="Button" value="&nbsp;&rsaquo;&rsaquo;&nbsp;" onClick="ImportJs.copySelectedOptions('#available_fields', '#selected_merge_fields')" class="crmButton font-x-small importButton" /><br /><br />
+                                    <input type="button" name="Button1" value="&nbsp;&lsaquo;&lsaquo;&nbsp;" onClick="ImportJs.removeSelectedOptions('#selected_merge_fields')" class="crmButton font-x-small importButton" /><br /><br />
                                 </div>
                             </div>
                             <div class="col-5">
-                                <input type="hidden" id="merge_fields" size="10" name="merge_fields" value=""/>
+                                <input type="hidden" id="merge_fields" size="10" name="merge_fields" value="" />
                                 <select id="selected_merge_fields" size="10" name="selected_merge_fields" title="{\App\Language::translate('lBL_SELECTED_FIELDS', $MODULE)}" multiple class="txtBox select2" style="width: 100%">
                                     {foreach item=FIELD_NAME from=$FOR_MODULE_MODEL->getNameFields()}
                                         {assign var="FIELD" value=$FOR_MODULE_MODEL->getFieldByName($FIELD_NAME)}

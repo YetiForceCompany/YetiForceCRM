@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -35,14 +35,14 @@
 				<table class="table customTableRWD table-bordered" id="convertLeadMapping">
 					<thead>
 						<tr class="blockHeader">
-							<th data-hide='phone,'  class="blockHeader">{\App\Language::translate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>
-							<th data-hide='phone'  class="blockHeader">{\App\Language::translate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}</th>
+							<th data-hide='phone,' class="blockHeader">{\App\Language::translate('LBL_FIELD_LABEL', $QUALIFIED_MODULE)}</th>
+							<th data-hide='phone' class="blockHeader">{\App\Language::translate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}</th>
 							<th data-hide='phone' class="blockHeader">{\App\Language::translate('LBL_MAPPING_WITH_OTHER_MODULES', $QUALIFIED_MODULE)}</th>
 						</tr>
 						<tr>
 							{foreach key=key item=LABEL from=$MODULE_MODEL->getHeaders() name=header}
-								<th {if $smarty.foreach.header.iteration > 2}data-hide='phone'{/if}><b>{\App\Language::translate($LABEL, $LABEL)}</b></th>
-									{/foreach}
+								<th {if $smarty.foreach.header.iteration > 2}data-hide='phone' {/if}><b>{\App\Language::translate($LABEL, $LABEL)}</b></th>
+							{/foreach}
 						</tr>
 					</thead>
 					<tbody>

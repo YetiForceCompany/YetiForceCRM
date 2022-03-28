@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -17,7 +17,7 @@
 		&nbsp;
 	{/if}
 	<a class="btn btn-sm btn-light" href="javascript:void(0);" name="drefresh"
-	   data-url="{$WIDGET->getUrl()}&content=data">
+		data-url="{$WIDGET->getUrl()}&content=data">
 		<span class="fas fa-sync-alt" title="{\App\Language::translate('LBL_REFRESH')}"></span>
 	</a>
 	{if !$WIDGET->isDefault()}

@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -26,7 +26,7 @@
 						</li>
 					{foreachelse}
 						<li class="nav-item text-center">{\App\Language::translate('LBL_NO_RECORDS', $MODULE)}</li>
-						{/foreach}
+					{/foreach}
 				</ul>
 			</div>
 		</div>

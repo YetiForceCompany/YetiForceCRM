@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -63,10 +63,10 @@
 							</div>
 							<div class="col-md-9 controls">
 								<textarea class="form-control js-editor" name="description" data-purify-mode="Html" data-js="ckeditor">
-											{if isset($PICKLIST_VALUE['description'])}
-														{\App\Purifier::encodeHtml($PICKLIST_VALUE['description'])}
-											{/if}
-										</textarea>
+												{if isset($PICKLIST_VALUE['description'])}
+																{\App\Purifier::encodeHtml($PICKLIST_VALUE['description'])}
+												{/if}
+											</textarea>
 							</div>
 						</div>
 						<div class="form-group row align-items-center">

@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -30,7 +30,7 @@
 			<input type="hidden" id="mandatory_fields" name="mandatory_fields" value='{$ENCODED_MANDATORY_FIELDS}' />
 			<input type="hidden" name="src_record" value="{$MODULE_MODEL->get('src_record')}" />
 			<input type="hidden" name="relationId" value="{$MODULE_MODEL->get('relationId')}" />
-			<table  class="searchUIBasic col-12 no-margin paddingLRZero">
+			<table class="searchUIBasic col-12 no-margin paddingLRZero">
 				{if !empty($ERROR_MESSAGE)}
 					<tr>
 						<td class="style1" align="left" colspan="2">
@@ -50,4 +50,4 @@
 				</tr>
 			</table>
 		</form>
-	{/strip}
+{/strip}

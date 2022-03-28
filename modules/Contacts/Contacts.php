@@ -18,7 +18,7 @@
  * All Rights Reserved.
  * Contributor(s): ______________________________________..
  * ******************************************************************************
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  */
 
 // Contact is used to store customer information.

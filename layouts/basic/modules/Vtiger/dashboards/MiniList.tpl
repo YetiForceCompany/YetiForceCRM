@@ -5,7 +5,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ************************************************************************************}
 {strip}
 	<!-- tpl-Base-dashboards-Minilist -->
@@ -17,7 +17,7 @@
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 		</div>
-		<hr class="widgetHr"/>
+		<hr class="widgetHr" />
 		<div class="row no-gutters">
 			<div class="col-ceq-xsm-6">
 				{if $FILTER_FIELD}

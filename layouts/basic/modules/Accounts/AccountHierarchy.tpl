@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -26,23 +26,23 @@
 					<div class="table-responsive">
 						<table class="table table-bordered">
 							<thead>
-							<tr class="blockHeader">
-								{foreach item=HEADERNAME from=$ACCOUNT_HIERARCHY['header']}
-									<th>{\App\Language::translate($HEADERNAME, $MODULE)}</th>
-								{/foreach}
-							</tr>
-							</thead>
-							<tbody>
-							{foreach key=RECORD_ID item=ENTRIES from=$ACCOUNT_HIERARCHY['entries'] name=hierarchyEntries}
-								<tr {if $smarty.foreach.hierarchyEntries.first} class="bgAzure" {/if}
-										data-id="{$RECORD_ID}">
-									{foreach item=LISTFIELDS from=$ENTRIES}
-										<td>
-											{$LISTFIELDS['data']}
-										</td>
+								<tr class="blockHeader">
+									{foreach item=HEADERNAME from=$ACCOUNT_HIERARCHY['header']}
+										<th>{\App\Language::translate($HEADERNAME, $MODULE)}</th>
 									{/foreach}
 								</tr>
-							{/foreach}
+							</thead>
+							<tbody>
+								{foreach key=RECORD_ID item=ENTRIES from=$ACCOUNT_HIERARCHY['entries'] name=hierarchyEntries}
+									<tr {if $smarty.foreach.hierarchyEntries.first} class="bgAzure" {/if}
+										data-id="{$RECORD_ID}">
+										{foreach item=LISTFIELDS from=$ENTRIES}
+											<td>
+												{$LISTFIELDS['data']}
+											</td>
+										{/foreach}
+									</tr>
+								{/foreach}
 							</tbody>
 						</table>
 					</div>

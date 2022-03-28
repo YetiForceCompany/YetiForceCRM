@@ -5,7 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce.com
+ * Contributor(s): YetiForce S.A.
  *************************************************************************************/
 'use strict';
 
@@ -123,12 +123,14 @@ jQuery.Class(
 		},
 		createModule: function (currentTarget) {
 			var progressIndicatorElement = jQuery.progressIndicator();
-			app.showModalWindow(null, 'index.php?module=ModuleManager&parent=Settings&view=CreateModule', function (
-				wizardContainer
-			) {
-				progressIndicatorElement.progressIndicator({ mode: 'hide' });
-				Settings_Module_Manager_Js.registerModalCreateModule(wizardContainer);
-			});
+			app.showModalWindow(
+				null,
+				'index.php?module=ModuleManager&parent=Settings&view=CreateModule',
+				function (wizardContainer) {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					Settings_Module_Manager_Js.registerModalCreateModule(wizardContainer);
+				}
+			);
 		},
 		//This will show the notification message using pnotify
 		showNotify: function (customParams) {

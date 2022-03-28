@@ -6,14 +6,14 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
 	<!-- tpl-Base-JSResources -->
 	<div id="javascript">
 		{foreach key=index item=jsModel from=$FOOTER_SCRIPTS}
-      <script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
+			<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 		{/foreach}
 	</div>
 	<!-- /tpl-Base-JSResources -->

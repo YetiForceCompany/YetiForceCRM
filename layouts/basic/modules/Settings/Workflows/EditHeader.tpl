@@ -5,18 +5,18 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 *************************************************************************************}
 {strip}
     <div class="editContainer">
-		<div class='widget_header row '>
-			<div class="col-12">
-				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
-			</div>
-		</div>
+        <div class='widget_header row '>
+            <div class="col-12">
+                {include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
+            </div>
+        </div>
         <div id="breadcrumb">
             <ul class="crumbs marginLeftZero">
-                <li class="first step"  style="z-index:9" id="step1">
+                <li class="first step" style="z-index:9" id="step1">
                     <a>
                         <span class="stepNum">1</span>
                         <span class="stepText">{\App\Language::translate('SCHEDULE_WORKFLOW',$QUALIFIED_MODULE)}</span>

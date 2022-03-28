@@ -6,14 +6,14 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-* Contributor(s): YetiForce.com
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
 	<div class="tpl-CalendarViewPostProcess js-calendar-right-panel {if $USER_MODEL->get('leftpanelhide')}c-menu--open {/if}siteBarRight calendarRightPanel col-12 hideSiteBar"
-		 data-showPanel="{if !App\Config::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}" >
+		data-showPanel="{if !App\Config::module($MODULE, 'SHOW_RIGHT_PANEL')}0{else}1{/if}">
 		<div class="btn btn-block toggleSiteBarRightButton c-standard-toggle-button hideToggleSiteBarRightButton d-none d-lg-block"
-			 title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
+			title="{\App\Language::translate('LBL_RIGHT_PANEL_SHOW_HIDE', $MODULE)}">
 			<span class="fas fa-chevron-left"></span>
 		</div>
 		<div class="siteBarContent pt-4">
@@ -32,9 +32,9 @@
 									<div class="checkbox m-0">
 										<label>
 											<input type="checkbox" value="{$FILTER->value}"
-												   id="filterField_{$FILTER->name}" title="{$FILTER->name}"
-												   data-search="{\App\Purifier::encodeHtml($FILTER->searchParams)}"
-												   class="filterField">{\App\Language::translate($FILTER->name, $MODULE)}
+												id="filterField_{$FILTER->name}" title="{$FILTER->name}"
+												data-search="{\App\Purifier::encodeHtml($FILTER->searchParams)}"
+												class="filterField">{\App\Language::translate($FILTER->name, $MODULE)}
 										</label>
 									</div>
 								{/if}
@@ -47,7 +47,7 @@
 				<div class="js-toggle-panel c-panel border-info quickWidget" data-js="click">
 					<div class="card-header d-flex  quickWidgetHeader bg-info">
 						<div class="card-title h6 text-white o-label-container"
-								title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
+							title="{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}">
 							{\App\Language::translate($SIDEBARWIDGET->getLabel(), $MODULE)}
 						</div>
 						<div>
@@ -58,9 +58,9 @@
 						</div>
 					</div>
 					<div class="js-sidebar-filter-container panel-collapse {$SIDEBARWIDGET->get('linkclass')}"
-						 id="{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}"
-						 data-url="{$SIDEBARWIDGET->getUrl()}"
-						 {if isset($SIDEBARWIDGET->get('linkdata'))}
+						id="{$MODULE}_sideBar_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($SIDEBARWIDGET->getLabel())}"
+						data-url="{$SIDEBARWIDGET->getUrl()}"
+						{if isset($SIDEBARWIDGET->get('linkdata'))}
 							{foreach from=$SIDEBARWIDGET->get('linkdata') key=NAME item=DATA}
 								data-{$NAME}="{$DATA}"
 							{/foreach}
