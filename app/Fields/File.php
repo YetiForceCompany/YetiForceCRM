@@ -1359,33 +1359,6 @@ class File
 	}
 
 	/**
-	 * CheckFilePath.
-	 *
-	 * @param string $path
-	 *
-	 * @return bool
-	 */
-	public static function checkFilePath(string $path)
-	{
-		preg_match('[^\\w\\s\\d\\.\\-_~,;:\\[\\]\\(\\]]', $path, $matches);
-		if ($matches) {
-			return true;
-		}
-		$absolutes = ['YetiTemp'];
-		foreach (array_filter(explode('/', str_replace(['/', '\\'], '/', $path)), 'strlen') as $part) {
-			if ('.' === $part) {
-				continue;
-			}
-			if ('..' === $part) {
-				array_pop($absolutes);
-			} else {
-				$absolutes[] = $part;
-			}
-		}
-		return 'YetiTemp' === $absolutes[0];
-	}
-
-	/**
 	 * Creates a temporary file.
 	 *
 	 * @param string $prefix The prefix of the generated temporary filename Note: Windows uses only the first three characters of prefix

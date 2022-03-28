@@ -456,4 +456,31 @@ class Validator
 	{
 		return Purifier::decodeHtml(Purifier::purify($input)) === $input;
 	}
+
+	/**
+	 * Check directory name.
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public static function dirName(string $input): bool
+	{
+		return !preg_match('/[\\/:\*\?"<>|]/', $input) && false === strpos($input, '.', -1);
+	}
+
+	/**
+	 * Check path.
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public static function path(string $input): bool
+	{
+		$parts = explode('/', trim(str_replace(\DIRECTORY_SEPARATOR, '/', $input), '/'));
+		return !array_filter($parts, function ($dir) {
+			return !self::dirName($dir);
+		});
+	}
 }

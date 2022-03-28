@@ -34,7 +34,7 @@
 											<span class="fas fa-folder mr-1"></span>
 											{\App\Purifier::encodeHtml($catalog['name'])}
 										{else}
-											<a href="{$catalog['url']}" class="font-weight-bold">
+											<a href="{\App\Purifier::encodeHtml($catalog['url'])}" class="font-weight-bold">
 												<span class="fas fa-folder"></span> {\App\Purifier::encodeHtml($catalog['name'])}
 											</a>
 										{/if}

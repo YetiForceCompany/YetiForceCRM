@@ -1,78 +1,64 @@
 <?php
-
-namespace App;
-
 /**
- * Purifier basic class.
+ * Purifier file.
+ *
+ * @package App
  *
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @copyright YetiForce S.A.
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+namespace App;
+
+/**
+ * Purifier basic class.
+ */
 class Purifier
 {
-	/**
-	 * Purify type date in user format.
-	 */
+	/** @var string Purify type date in user format. */
 	public const DATE_USER_FORMAT = 'DateInUserFormat';
 
-	/**
-	 * Purify type integer.
-	 */
+	/** @var string Purify type integer. */
 	public const INTEGER = 'Integer';
 
-	/**
-	 * Purify type standard.
-	 */
+	/** @var string Purify type standard. */
 	public const STANDARD = 'Standard';
 
-	/**
-	 * Purify type sql.
-	 */
+	/** @var string Purify type sql. */
 	public const SQL = 'Sql';
 
-	/**
-	 * Purify type text.
-	 */
+	/** @var string Purify type text. */
 	public const TEXT = 'Text';
 
-	/**
-	 * Purify type number.
-	 */
+	/** @var string Purify type number. */
 	public const NUMBER = 'Number';
 
-	/**
-	 * Purify type html.
-	 */
+	/** @var string Purify type html. */
 	public const HTML = 'Html';
 
-	/**
-	 * Purify type boolean.
-	 */
+	/** @var string Purify type boolean. */
 	public const BOOL = 'Bool';
 
-	/**
-	 * Purify type url.
-	 */
+	/** @var string Purify type url. */
 	public const URL = 'Url';
 
-	/**
-	 * Purify type Alnum.
-	 */
+	/** @var string Purify type Alnum. */
 	public const ALNUM = 'Alnum';
-	/**
-	 * Purify type Alnum.
-	 */
+
+	/** @var string Purify type AlnumExtended. */
 	public const ALNUM_EXTENDED = 'AlnumExtended';
 
-	/** Purify type Digits. */
+	/** @var string Purify type Digits. */
 	public const DIGITS = 'Digits';
 
-	/**
-	 * Purify type HTML text parser.
-	 */
+	/** @var string Purify type HTML text parser */
 	public const HTML_TEXT_PARSER = 'HtmlTextParser';
+
+	/** @var string Purify type Path. */
+	public const PATH = 'Path';
+
 	/**
 	 * Default charset.
 	 *
@@ -545,8 +531,8 @@ class Purifier
 					case 'Version':
 						$value = preg_match('/^[\.0-9]+$/', $input) ? $input : null;
 						break;
-					case 'Path':
-						$value = Fields\File::checkFilePath($input) ? static::encodeHtml(static::purify($input)) : null;
+					case self::PATH:
+						$value = Validator::path($input) && Validator::path(static::purify($input)) ? $input : null;
 						break;
 					case 'Url':
 						if (!$input) {

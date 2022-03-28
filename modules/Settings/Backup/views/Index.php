@@ -21,10 +21,10 @@ class Settings_Backup_Index_View extends Settings_Vtiger_Index_View
 		$catalogStructure = [];
 		if (empty(\App\Utils\Backup::getBackupCatalogPath())) {
 			$viewer->assign('CONFIG_ALERT', \App\Language::translate('ERR_CONFIG_ALERT_DESC', $qualifiedModuleName));
-		} elseif(!\App\Fields\File::isAllowedDirectory(\App\Utils\Backup::getBackupCatalogPath())) {
+		} elseif (!\App\Fields\File::isAllowedDirectory(\App\Utils\Backup::getBackupCatalogPath())) {
 			$viewer->assign('CONFIG_ALERT', \App\Language::translate('ERR_CONFIG_PATH_ALERT_DESC', $qualifiedModuleName));
 		} else {
-			$catalogPath = $request->isEmpty('catalog') ? '' : $request->getByType('catalog', 'Path');
+			$catalogPath = $request->isEmpty('catalog') ? '' : $request->getByType('catalog', \App\Purifier::PATH);
 			$catalogStructure = \App\Utils\Backup::readCatalog($catalogPath);
 		}
 		$viewer->assign('STRUCTURE', $catalogStructure);
