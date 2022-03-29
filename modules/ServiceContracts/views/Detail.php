@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -25,9 +26,11 @@ class ServiceContracts_Detail_View extends Vtiger_Detail_View
 	public function checkPermission(App\Request $request)
 	{
 		parent::checkPermission($request);
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$userPrivilegesModel->hasModuleActionPermission($this->record->getModuleName(), 'ServiceContractsSla') && $userPrivilegesModel->hasModulePermission($request->getByType('target', \App\Purifier::ALNUM))) {
-			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		if ('showSlaPolicyView' === $request->getMode()) {
+			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			if (!$userPrivilegesModel->hasModuleActionPermission($this->record->getModuleName(), 'ServiceContractsSla') || !$userPrivilegesModel->hasModulePermission($request->getByType('target', \App\Purifier::ALNUM))) {
+				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+			}
 		}
 	}
 
