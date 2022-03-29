@@ -7,6 +7,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  * ********************************************************************************** */
 
 namespace vtlib;
@@ -87,8 +88,8 @@ class LanguageExport extends Package
 		$this->outputNode($prefix, 'prefix');
 		$this->outputNode('language', 'type');
 		$this->outputNode(\App\Config::main('default_charset'), 'encoding');
-		$this->outputNode('YetiForce - yetiforce.com', 'author');
-		$this->outputNode('YetiForce - yetiforce.com', 'license');
+		$this->outputNode('YetiForce S.A.', 'author');
+		$this->outputNode('YetiForce Public License 5.0 (yetiforce.com)', 'license');
 		// Export dependency information
 		$this->openNode('dependencies');
 		$this->outputNode(\App\Version::get(), 'vtiger_version');
