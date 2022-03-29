@@ -294,8 +294,8 @@ class Chromium extends Base
 		} else {
 			// Modification of the following condition will violate the license!
 			if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
-				$this->pdfOptions['footerTemplate'] = '<div style="position: fixed; margin-top: 10px; font-size:6px; margin-left: 35%; text-align: center; z-index: 99999999;color: black !important">Powered by YetiForce</div>';
-				$this->pdfOptions['marginBottom'] = 0.2;
+				$this->pdfOptions['footerTemplate'] = '<div style="position: fixed; font-size:6px; margin-left: 20px; text-align: left; z-index: 9999999;color: black !important">Powered by YetiForce</div>';
+				$this->pdfOptions['marginBottom'] = 0.4;
 			}
 			// Modification of the following condition will violate the license!
 		}
@@ -355,9 +355,9 @@ class Chromium extends Base
 		$content = '<div id="footer" style="color-adjust: exact; -webkit-print-color-adjust: exact; print-color-adjust: exact; ' . $style . '">' . $content;
 		// Modification of the following condition will violate the license!
 		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
-			$content .= '<div style="position: fixed; margin-top: 10px; font-size:6px; margin-left: 35%; text-align: center; z-index: 9999999;color: black !important">Powered by YetiForce</div>';
-			if ($this->pdfOptions['marginBottom'] < 0.2) {
-				$this->pdfOptions['marginBottom'] = 0.2;
+			$content .= '<div style="position: fixed; font-size:6px; margin-left: 20px; text-align: left; z-index: 9999999;color: black !important">Powered by YetiForce</div>';
+			if ($this->pdfOptions['marginBottom'] < (float) 0.4) {
+				$this->pdfOptions['marginBottom'] = 0.4;
 			}
 		}
 		// Modification of the following condition will violate the license!

@@ -67,7 +67,7 @@ class TableTaxSummary extends Base
 				$html .= '<table class="table-tax-summary" style="width:100%;vertical-align:top;border-collapse:collapse;border:1px solid #ddd;">
 						<thead>
 							<tr>
-								<th colspan="2" style="font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . '</th>
+								<th colspan="2" style="font-weight:bold;padding:0px 4px;background-color:#ddd;">' . \App\Language::translate('LBL_TAX_SUMMARY', $this->textParser->moduleName) . '</th>
 							</tr>
 						</thead><tbody>';
 				foreach ($taxes as $key => &$tax) {
