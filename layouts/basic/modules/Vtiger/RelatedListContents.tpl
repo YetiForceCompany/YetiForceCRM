@@ -61,7 +61,7 @@
 							{/if}
 							{if $HEADER_FIELD->getFieldDataType() eq 'tree' || $HEADER_FIELD->getFieldDataType() eq 'categoryMultipicklist'}
 								<div class="d-flex align-items-center">
-									<input name="searchInSubcategories" value="1" type="checkbox" class="searchInSubcategories mr-1" id="searchInSubcategories{$HEADER_FIELD_NAME}" title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" data-columnname="{$HEADER_FIELD->getColumnName()}" {if !empty($SEARCH_DETAILS[$HEADER_FIELD_NAME]['specialOption'])} checked {/if}>
+									<input name="searchInSubcategories" value="1" type="checkbox" class="searchInSubcategories mr-1 ml-1" id="searchInSubcategories{$HEADER_FIELD_NAME}" title="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}" data-columnname="{$HEADER_FIELD->getColumnName()}" {if !empty($SEARCH_DETAILS[$HEADER_FIELD_NAME]['specialOption'])} checked {/if}>
 									<span class="js-popover-tooltip delay0" data-js="popover" data-placement="top" data-original-title="{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $MODULE)}" data-content="{\App\Language::translate('LBL_SEARCH_IN_SUBCATEGORIES',$MODULE_NAME)}">
 										<span class="fas fa-info-circle"></span>
 									</span>
@@ -111,7 +111,7 @@
 									{assign var=SEARCH_INFO value=[]}
 								{/if}
 								{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $RELATED_MODULE_NAME)
-																									FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE_MODEL=$RELATED_MODULE MODULE=$RELATED_MODULE_NAME}
+																												FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE_MODEL=$RELATED_MODULE MODULE=$RELATED_MODULE_NAME}
 							</td>
 						{/foreach}
 						<td class="reducePadding" colspan="{$ADDITIONAL_TD + 1}"></td>

@@ -86,7 +86,8 @@ jQuery.Class(
 					search_params: [],
 					search_key: '',
 					search_value: '',
-					operator: ''
+					operator: '',
+					lockedEmptyFields: []
 				});
 			});
 			this.registerListSearchEmptyValue();
