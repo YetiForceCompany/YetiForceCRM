@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -33,14 +34,14 @@ class Vtiger_TransferOwnership_View extends \App\Controller\Modal
 	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$sourceView = $request->getByType('sourceView');
-		if (
-			$currentUserPrivilegesModel->hasModuleActionPermission($moduleName, 'EditView')
-			&& ('Detail' !== $sourceView && 'List' !== $sourceView)
-			|| ('List' === $sourceView && !$currentUserPrivilegesModel->hasModuleActionPermission($moduleName, 'MassTransferOwnership'))
-			|| ('Detail' === $sourceView && !$currentUserPrivilegesModel->hasModuleActionPermission($moduleName, 'DetailTransferOwnership'))
-		) {
+		if ($request->isEmpty('record', true)) {
+			$record = Vtiger_Record_Model::getCleanInstance($moduleName);
+			$permission = $record->isPermitted('EditView') && $record->isPermitted('MassTransferOwnership');
+		} else {
+			$record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
+			$permission = $record->isEditable() && $record->isPermitted('DetailTransferOwnership');
+		}
+		if (!$permission) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}

@@ -19,7 +19,7 @@ class Accounts_DetailView_Model extends Vtiger_DetailView_Model
 			$massActionLink = [
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
-				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("index.php?module=' . $this->getModule()->getName() . '&view=TransferOwnership&sourceView=Detail")',
+				'linkurl' => 'javascript:Vtiger_Detail_Js.triggerTransferOwnership("index.php?module=' . $this->getModule()->getName() . '&view=TransferOwnership&record=' . $this->record->getId() . '")',
 				'linkclass' => 'btn-outline-dark btn-sm',
 				'linkicon' => 'yfi yfi-change-of-owner',
 			];
