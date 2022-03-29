@@ -11,6 +11,7 @@
 		<div>
 			<ul id="tabs" class="nav nav-tabs my-2 mr-0" data-tabs="tabs">
 				{foreach key=INDEX item=ITEM  from=$HANDLER_TYPES}
+					{if !isset($HANDLERS[$INDEX])} {continue} {/if}
 					<li class="nav-item">
 						<a class="nav-link {if $ACTIVE_TAB eq $INDEX} active{/if}" href="#{$INDEX}" data-toggle="tab">
 							{if isset($ITEM['icon'])}
@@ -24,6 +25,7 @@
 		</div>
 		<div id="my-tab-content" class="tab-content">
 			{foreach key=INDEX item=ITEM  from=$HANDLER_TYPES}
+				{if !isset($HANDLERS[$INDEX])} {continue} {/if}
 				<div class="js-tab tab-pane {if $ACTIVE_TAB eq $INDEX}active{/if}" id="{$INDEX}" data-name="{$INDEX}" data-js="data">
 					<form class="js-validation-form">
 						<div class="js-config-table table-responsive" data-js="container">
@@ -36,7 +38,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									{foreach from=\App\EventHandler::getByType($INDEX, '', false) item=ITEM}
+									{foreach from=$HANDLERS[$INDEX] item=ITEM}
 										<tr>
 											<th scope="row">{\App\Language::translate(strtoupper($ITEM['handler_class']), 'Other.EventHandler')}</th>
 											<td>{\App\Language::translate(strtoupper("{$ITEM['handler_class']}_DESC"), 'Other.EventHandler')}</td>
