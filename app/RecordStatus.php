@@ -295,9 +295,9 @@ class RecordStatus
 		$timeCountingValues = self::getTimeCountingValues($fieldName);
 		$previous = $recordModel->getPreviousValue($fieldName);
 		$current = $recordModel->get($fieldName);
-		$currentCountingValue = $timeCountingValues[$current] ?? '';
-		$previousCountingValue = $timeCountingValues[$previous] ?? '';
-		if ($previous && $currentCountingValue !== $previousCountingValue
+		$currentCountingValue = $timeCountingValues[$current] ?? null;
+		$previousCountingValue = $timeCountingValues[$previous] ?? null;
+		if ($previous && $currentCountingValue !== $previousCountingValue && null !== $previousCountingValue
 		&& ($date = self::getStateDate($recordModel, $previousCountingValue)) && ($key = self::$fieldsByStateTime[$previousCountingValue] ?? '')) {
 			$recordModel->set($key . '_range_time', $recordModel->get($key . '_range_time') + Utils\ServiceContracts::getDiff($date, $recordModel));
 			$recordModel->set($key . '_datatime', date('Y-m-d H:i:s'));
@@ -308,7 +308,7 @@ class RecordStatus
 	}
 
 	/**
-	 * Get date date from the status change history by status.
+	 * Get date from the status change history by status.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
 	 * @param int                  $value
