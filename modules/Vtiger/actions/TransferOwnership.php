@@ -2,7 +2,7 @@
 /**
  * Transfer ownership modal action file.
  *
- * @package   View
+ * @package   Action
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
