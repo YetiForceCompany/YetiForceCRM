@@ -1,43 +1,47 @@
 <?php
-
 /**
- * Vtiger TransferOwnership action class.
+ * Transfer ownership modal action file.
  *
- * @package Action
+ * @package   View
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+/**
+ * Transfer ownership modal action class.
  */
 class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 {
-	/**
-	 * Function to check permission.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermitted
-	 */
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$userPriviligesModel->hasModuleActionPermission($moduleName, 'EditView') || !$userPriviligesModel->hasModuleActionPermission($moduleName, 'MassTransferOwnership')) {
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$sourceView = $request->getByType('sourceView');
+		if (
+			$currentUserPrivilegesModel->hasModuleActionPermission($moduleName, 'EditView')
+			&& ('Detail' !== $sourceView && 'List' !== $sourceView)
+			|| ('List' === $sourceView && !$currentUserPrivilegesModel->hasModuleActionPermission($moduleName, 'MassTransferOwnership'))
+			|| ('Detail' === $sourceView && !$currentUserPrivilegesModel->hasModuleActionPermission($moduleName, 'DetailTransferOwnership'))
+		) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
 
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		$module = $request->getModule();
+		$moduleName = $request->getModule();
 		$transferOwnerId = $request->getInteger('transferOwnerId');
-		$record = $request->getInteger('record');
 		$relatedModules = $request->getByType('related_modules', 'Text');
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TransferOwnership', $module);
+		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TransferOwnership', $moduleName);
 		$transferModel = new $modelClassName();
-		if (empty($record)) {
-			$recordIds = $this->getBaseModuleRecordIds($request);
+		if ($request->isEmpty('record', true)) {
+			$recordIds = Vtiger_Mass_Action::getRecordsListFromRequest($request);
 		} else {
-			$recordIds = [$record];
+			$recordIds = [$request->getInteger('record')];
 		}
 		$configMaxTransferRecords = App\Config::performance('maxMassTransferOwnershipRecords');
 		if (\count($recordIds) > $configMaxTransferRecords) {
@@ -47,7 +51,7 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 			return;
 		}
 		if (!empty($recordIds)) {
-			$transferModel->transferRecordsOwnership($module, $transferOwnerId, $recordIds);
+			$transferModel->transferRecordsOwnership($moduleName, $transferOwnerId, $recordIds);
 		}
 		if (!empty($relatedModules)) {
 			foreach ($relatedModules as $relatedData) {
@@ -62,28 +66,5 @@ class Vtiger_TransferOwnership_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => true]);
 		$response->emit();
-	}
-
-	protected function getBaseModuleRecordIds(App\Request $request)
-	{
-		$cvId = $request->getByType('viewname', 2);
-		$module = $request->getModule();
-		$selectedIds = $request->getArray('selected_ids', 2);
-		$excludedIds = $request->getArray('excluded_ids', 2);
-		if ('all' == $selectedIds[0]) {
-			$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
-			if ($customViewModel) {
-				$searchKey = $request->getByType('search_key', 'Alnum');
-				$operator = $request->getByType('operator');
-				if (!empty($operator)) {
-					$customViewModel->set('operator', $operator);
-					$customViewModel->set('search_key', $searchKey);
-					$customViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $module, $searchKey, $operator));
-				}
-				$customViewModel->set('search_params', App\Condition::validSearchParams($module, $request->getArray('search_params')));
-				$selectedIds = $customViewModel->getRecordIds($excludedIds, $module, true);
-			}
-		}
-		return $selectedIds ?? [];
 	}
 }

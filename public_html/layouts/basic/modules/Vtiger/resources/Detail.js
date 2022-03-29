@@ -74,7 +74,7 @@ jQuery.Class(
 			AppConnector.request(actionParams).done(function (data) {
 				if (data) {
 					let callback = function (data) {
-						let params = app.validationEngineOptions;
+						let params = { ...app.validationEngineOptions };
 						params.onValidationComplete = function (form, valid) {
 							if (valid) {
 								if (form.attr('name') == 'changeOwner') {
@@ -83,7 +83,7 @@ jQuery.Class(
 							}
 							return false;
 						};
-						jQuery('#changeOwner').validationEngine(app.validationEngineOptions);
+						jQuery('#changeOwner').validationEngine(params);
 					};
 					app.showModalWindow(data, function (data) {
 						let selectElement = thisInstance.getRelatedModuleContainer();
@@ -102,6 +102,7 @@ jQuery.Class(
 			let params = {
 				module: app.getModuleName(),
 				action: 'TransferOwnership',
+				sourceView: 'Detail',
 				record: recordId,
 				transferOwnerId: transferOwner,
 				related_modules: relatedModules
@@ -114,13 +115,13 @@ jQuery.Class(
 						text: app.vtranslate('JS_RECORDS_TRANSFERRED_SUCCESSFULLY'),
 						type: 'info'
 					};
-					let oldvalue = jQuery('.assigned_user_id').val();
+					let oldValue = jQuery('.assigned_user_id').val();
 					let element = jQuery('.assigned_user_id ');
 
-					element.find('option[value="' + oldvalue + '"]').removeAttr('selected');
+					element.find('option[value="' + oldValue + '"]').removeAttr('selected');
 					element.find('option[value="' + transferOwner + '"]').attr('selected', 'selected');
 					element.trigger('liszt:updated');
-					let Fieldname = element.find('option[value="' + transferOwner + '"]').data('picklistvalue');
+					let fieldName = element.find('option[value="' + transferOwner + '"]').data('picklistvalue');
 					element
 						.closest('.row-fluid')
 						.find('.value')
@@ -128,7 +129,7 @@ jQuery.Class(
 							'<a href="index.php?module=Users&amp;parent=Settings&amp;view=Detail&amp;record=' +
 								transferOwner +
 								'">' +
-								Fieldname +
+								fieldName +
 								'</a>'
 						);
 

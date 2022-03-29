@@ -19,7 +19,6 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$this->exposeMethod('showMassEditForm');
 		$this->exposeMethod('showAddCommentForm');
 		$this->exposeMethod('showSendSMSForm');
-		$this->exposeMethod('transferOwnership');
 	}
 
 	/**
@@ -130,34 +129,5 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 'Alnum'));
 		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($sourceModule, $request->getArray('search_params'), false));
 		$viewer->view('SendSMSForm.tpl', $moduleName);
-	}
-
-	/**
-	 * Rransfer record ownership.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermitted
-	 */
-	public function transferOwnership(App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$sourceView = $request->getByType('sourceView');
-		if (
-			('Detail' !== $sourceView && 'List' !== $sourceView)
-			|| ('List' === $sourceView && !$currentUserPrivilegesModel->hasModuleActionPermission($moduleName, 'MassTransferOwnership'))
-			|| ('Detail' === $sourceView && !$currentUserPrivilegesModel->hasModuleActionPermission($moduleName, 'DetailTransferOwnership'))
-		) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-		$transferModel = Vtiger_TransferOwnership_Model::getInstance($moduleName);
-		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('REL_BY_FIELDS', $transferModel->getRelationsByFields());
-		$viewer->assign('REL_BY_RELATEDLIST', $transferModel->getRelationsByRelatedList());
-		$viewer->assign('SKIP_MODULES', $transferModel->getSkipModules());
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->view('TransferRecordOwnership.tpl', $moduleName);
 	}
 }

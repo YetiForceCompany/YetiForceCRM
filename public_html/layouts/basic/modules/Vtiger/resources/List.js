@@ -165,14 +165,14 @@ $.Class(
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					if (data) {
 						let callback = function (data) {
-							let params = app.validationEngineOptions;
+							let params = { ...app.validationEngineOptions };
 							params.onValidationComplete = function (form, valid) {
 								if (valid) {
 									thisInstance.transferOwnershipSave(form);
 								}
 								return false;
 							};
-							data.find('#changeOwner').validationEngine(app.validationEngineOptions);
+							data.find('#changeOwner').validationEngine(params);
 						};
 						app.showModalWindow(data, function (data) {
 							let selectElement = thisInstance.getRelatedModuleContainer();
@@ -212,6 +212,7 @@ $.Class(
 				params = {
 					module: app.getModuleName(),
 					action: 'TransferOwnership',
+					sourceView: 'List',
 					transferOwnerId: transferOwner,
 					related_modules: relatedModules
 				};
