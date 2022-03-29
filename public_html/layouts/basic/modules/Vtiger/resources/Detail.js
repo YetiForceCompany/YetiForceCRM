@@ -102,7 +102,6 @@ jQuery.Class(
 			let params = {
 				module: app.getModuleName(),
 				action: 'TransferOwnership',
-				sourceView: 'Detail',
 				record: recordId,
 				transferOwnerId: transferOwner,
 				related_modules: relatedModules

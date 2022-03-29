@@ -212,7 +212,6 @@ $.Class(
 				params = {
 					module: app.getModuleName(),
 					action: 'TransferOwnership',
-					sourceView: 'List',
 					transferOwnerId: transferOwner,
 					related_modules: relatedModules
 				};
