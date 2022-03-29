@@ -287,6 +287,26 @@ class BaseField
 	}
 
 	/**
+	 * Starts with operator.
+	 *
+	 * @return array
+	 */
+	public function operatorS()
+	{
+		return ['like', $this->getColumnName(), $this->getValue() . '%', false];
+	}
+
+	/**
+	 * Ends with operator.
+	 *
+	 * @return array
+	 */
+	public function operatorEw()
+	{
+		return ['like', $this->getColumnName(), '%' . $this->getValue(), false];
+	}
+
+	/**
 	 * Is empty operator.
 	 *
 	 * @return array
