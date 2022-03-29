@@ -79,12 +79,9 @@ FC.views.year = View.extend({
 		let calendar = self.getCalendarView().fullCalendar('getCalendar'),
 			date = calendar.getDate().year(),
 			yearView = this.el.html(this.renderHtml(date)),
-			user = this.getSelectedUsersCalendar(),
+			user = JSON.stringify(this.getSelectedUsersCalendar()),
 			progressInstance = $.progressIndicator({ blockInfo: { enabled: true } }),
 			cvid = this.getCurrentCvId();
-		if (user.length === 0) {
-			user = [app.getMainParams('userId')];
-		}
 		let dateFormat = CONFIG.dateFormat.toUpperCase();
 		this.clearFilterButton(user, cvid);
 		let options = {

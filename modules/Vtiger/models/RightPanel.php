@@ -1,40 +1,28 @@
 <?php
-
 /**
- * Calendar right panel view model class.
+ * Vtiger right panel file.
+ *
+ * @package Model
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Adrian Kon <a.kon@yetiforce.com>
  */
-class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
+
+/**
+ * Vtiger right panel class.
+ */
+class Vtiger_RightPanel_Model
 {
 	/**
-	 * Constructor.
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('getUsersList');
-		$this->exposeMethod('getGroupsList');
-		$this->exposeMethod('getActivityType');
-	}
-
-	/**
-	 * Get tpl path file.
+	 * Get users.
 	 *
-	 * @param string $tplFile
+	 * @param string $moduleName
 	 *
-	 * @return string
+	 * @return array
 	 */
-	protected function getTpl(string $tplFile)
+	public static function getUsersList(string $moduleName): array
 	{
-		return "Standard/$tplFile";
-	}
-
-	public function getUsersList(App\Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
@@ -58,19 +46,19 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 				function ($a, $b) use ($favouriteUsers) {
 					return (int) (!isset($favouriteUsers[$a]) && isset($favouriteUsers[$b]));
 				});
-			$viewer->assign('FAVOURITES_USERS', $favouriteUsers);
 		}
-		$viewer->assign('HISTORY_USERS', $request->getExploded('user', ',', 'Integer'));
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('ALL_ACTIVEUSER_LIST', $users);
-		$viewer->assign('USER_MODEL', $currentUser);
-		$viewer->view($this->getTpl('RightPanel.tpl'), $moduleName);
+		return $users;
 	}
 
-	public function getGroupsList(App\Request $request)
+	/**
+	 * Get groups.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public static function getGroupsList(string $moduleName): array
 	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
@@ -92,18 +80,18 @@ class Calendar_RightPanel_View extends Vtiger_IndexAjax_View
 			default:
 				break;
 		}
-		$viewer->assign('HISTORY_USERS', $request->getExploded('user', ',', 'Integer'));
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('ALL_ACTIVEGROUP_LIST', $groups);
-		$viewer->view($this->getTpl('RightPanel.tpl'), $moduleName);
+		return $groups;
 	}
 
-	public function getActivityType(App\Request $request)
+	/**
+	 * Get calendar types.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public static function getCalendarTypes(string $moduleName): array
 	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('ACTIVITY_TYPE', Calendar_Module_Model::getCalendarTypes());
-		$viewer->view($this->getTpl('RightPanel.tpl'), $moduleName);
+		return Vtiger_Calendar_Model::getInstance($moduleName)->getCalendarTypes();
 	}
 }

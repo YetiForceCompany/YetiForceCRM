@@ -334,21 +334,37 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				thisInstance.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
 			});
 	}
-
+	/**
+	 * Get selected users or groups
+	 * @returns Object
+	 */
 	getSelectedUsersCalendar() {
 		const sidebar = this.getSidebarView();
 		let selectedUsers = sidebar.find('.js-input-user-owner-id:checked'),
+			notSelectedUsers = sidebar.find('.js-input-user-owner-id:not(:checked)'),
 			selectedUsersAjax = sidebar.find('.js-input-user-owner-id-ajax'),
 			selectedRolesAjax = sidebar.find('.js-input-role-owner-id-ajax'),
-			users = [];
-		if (selectedUsers.length > 0) {
+			checkboxSelectAll = sidebar.find('.js-select-all'),
+			selectedIds = [],
+			excludedIds = [];
+
+		let ifSelectAllIsChecked = checkboxSelectAll.length > 0 && checkboxSelectAll.is(':checked');
+		if (ifSelectAllIsChecked) {
+			selectedIds.push('all');
+		} else if (selectedUsers.length > 0) {
 			selectedUsers.each(function () {
-				users.push($(this).val());
+				selectedIds.push($(this).val());
 			});
-		} else if (selectedUsersAjax.length > 0) {
-			users = selectedUsersAjax.val().concat(selectedRolesAjax.val());
 		}
-		return users;
+		if (selectedUsersAjax.length > 0) {
+			selectedIds = selectedUsersAjax.val().concat(selectedRolesAjax.val());
+		}
+		if (ifSelectAllIsChecked && notSelectedUsers) {
+			notSelectedUsers.each(function () {
+				excludedIds.push($(this).val());
+			});
+		}
+		return { selectedIds: selectedIds, excludedIds: excludedIds };
 	}
 
 	getSidebarView() {
@@ -490,13 +506,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			calendarInstance = this.getCalendarView();
 		calendarInstance.fullCalendar('removeEvents');
 		let progressInstance = $.progressIndicator({ blockInfo: { enabled: true } }),
-			user = self.getSelectedUsersCalendar();
-		if (0 === user.length) {
-			user = app.getMainParams('usersId');
-		}
-		if (user === undefined) {
-			user = [app.getMainParams('userId')];
-		}
+			user = JSON.stringify(self.getSelectedUsersCalendar());
 		self.clearFilterButton(user, cvid);
 		if (view.type === 'agendaDay') {
 			view.end = view.end.add(1, 'day');
@@ -517,6 +527,7 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				'showType'
 			)}&cvid=${cvid}&hiddenDays=${view.options.hiddenDays}`
 		};
+
 		let connectorMethod = window['AppConnector']['request'];
 		if (this.browserHistory && window.calendarLoaded) {
 			connectorMethod = window['AppConnector']['requestPjax'];
@@ -767,6 +778,27 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 		});
 		this.registerPinUser();
 	}
+	/**
+	 * Register change on select all checkbox
+	 * @param {jQuery} formContainer
+	 */
+	registerSelectAll(formContainer) {
+		formContainer.find('.js-select-all').on('change', (e) => {
+			let checkboxSelectAll = $(e.currentTarget);
+			let checkboxes = formContainer.find('.js-input-user-owner-id-ajax, .js-input-user-owner-id');
+			if (checkboxSelectAll.is(':checked')) {
+				checkboxes.prop('checked', true);
+			} else {
+				checkboxes.prop('checked', false);
+				formContainer.find('#ownerId' + CONFIG.userId).prop('checked', true);
+			}
+			let calendar = this.getCalendarView().fullCalendar('getCalendar');
+			if (calendar) {
+				calendar.view.options.loadView();
+			}
+		});
+		this.registerPinUser();
+	}
 
 	/**
 	 * Register actions to do after save record
@@ -939,45 +971,6 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 			});
 	}
 
-	registerAddForm() {
-		const thisInstance = this;
-		let sideBar = thisInstance.getSidebarView();
-		thisInstance.getCalendarCreateView();
-		let user = app.getMainParams('usersId');
-		if (user === undefined) {
-			user = [app.getMainParams('userId')];
-		}
-		AppConnector.request(`index.php?module=${this.module}&view=RightPanelExtended&mode=getUsersList&user=${user}`).done(
-			function (data) {
-				if (data) {
-					let formContainer = sideBar.find('.js-users-form');
-					formContainer.html(data);
-					thisInstance.registerUsersChange(formContainer);
-					App.Fields.Picklist.showSelect2ElementView(formContainer.find('select'));
-					app.showNewScrollbar(formContainer, {
-						suppressScrollX: true
-					});
-					thisInstance.registerFilterForm(formContainer);
-				}
-			}
-		);
-		AppConnector.request(
-			`index.php?module=${this.module}&view=RightPanelExtended&mode=getGroupsList&user=${user}`
-		).done(function (data) {
-			if (data) {
-				let formContainer = sideBar.find('.js-group-form');
-				formContainer.html(data);
-				thisInstance.registerUsersChange(formContainer);
-				App.Fields.Picklist.showSelect2ElementView(formContainer.find('select'));
-				formContainer.addClass('u-min-h-30per');
-				app.showNewScrollbar(formContainer, {
-					suppressScrollX: true
-				});
-				thisInstance.registerFilterForm(formContainer);
-			}
-		});
-	}
-
 	/**
 	 * Find element on list (user, group)
 	 * @param {jQuery.Event} e
@@ -1034,9 +1027,9 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 	 */
 	registerEvents() {
 		super.registerEvents();
-		this.registerAddForm();
 		this.registerSiteBarEvents();
 		this.registerPopoverButtonsClickEvent();
 		ElementQueries.listen();
+		this.getCalendarCreateView();
 	}
 };

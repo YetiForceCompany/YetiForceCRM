@@ -16,7 +16,8 @@ class Reservations_Calendar_Model extends Vtiger_Calendar_Model
 			'linktype' => 'SIDEBARWIDGET',
 			'linklabel' => 'LBL_TYPE',
 			'linkdata' => ['cache' => 'calendar-types', 'name' => 'types'],
-			'linkurl' => 'module=' . $this->getModuleName() . '&view=RightPanel&mode=getTypesList'
+			'template' => 'Filters/ActivityTypes.tpl',
+			'filterData' => Vtiger_RightPanel_Model::getCalendarTypes($this->getModuleName()),
 		]);
 		array_unshift($links, $link);
 		return $links;
@@ -60,7 +61,7 @@ class Reservations_Calendar_Model extends Vtiger_Calendar_Model
 					'and',
 					['<', 'vtiger_reservations.date_start', $dbStartDate],
 					['>', 'vtiger_reservations.due_date', $dbEndDate],
-				]
+				],
 			]);
 		}
 
@@ -75,10 +76,17 @@ class Reservations_Calendar_Model extends Vtiger_Calendar_Model
 			}
 		}
 		$conditions = [];
-		if (!empty($this->get('user'))) {
-			$conditions[] = ['vtiger_crmentity.smownerid' => $this->get('user')];
-			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => $this->get('user')]);
-			$conditions[] = ['vtiger_crmentity.crmid' => $subQuery];
+		if (!empty($this->get('user')) && isset($this->get('user')['selectedIds'][0])) {
+			$selectedUsers = $this->get('user');
+			$selectedIds = $selectedUsers['selectedIds'];
+			if ('all' !== $selectedIds[0]) {
+				$conditions[] = ['vtiger_crmentity.smownerid' => $selectedIds];
+				$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['userid' => $selectedIds]);
+				$conditions[] = ['vtiger_crmentity.crmid' => $subQuery];
+			}
+			if (isset($selectedUsers['excludedIds']) && 'all' === $selectedIds[0]) {
+				$conditions[] = ['not in', 'vtiger_crmentity.smownerid', $selectedUsers['excludedIds']];
+			}
 		}
 		if ($conditions) {
 			$query->andWhere(array_merge(['or'], $conditions));
