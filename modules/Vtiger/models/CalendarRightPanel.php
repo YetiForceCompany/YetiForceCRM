@@ -1,18 +1,19 @@
 <?php
 /**
- * Vtiger right panel file.
+ * Base calendar right panel file.
  *
  * @package Model
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Kon <a.kon@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
- * Vtiger right panel class.
+ * Base calendar right panel class.
  */
-class Vtiger_RightPanel_Model
+class Vtiger_CalendarRightPanel_Model
 {
 	/**
 	 * Get users.

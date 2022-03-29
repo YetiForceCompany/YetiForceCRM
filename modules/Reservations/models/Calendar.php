@@ -17,7 +17,7 @@ class Reservations_Calendar_Model extends Vtiger_Calendar_Model
 			'linklabel' => 'LBL_TYPE',
 			'linkdata' => ['cache' => 'calendar-types', 'name' => 'types'],
 			'template' => 'Filters/ActivityTypes.tpl',
-			'filterData' => Vtiger_RightPanel_Model::getCalendarTypes($this->getModuleName()),
+			'filterData' => Vtiger_CalendarRightPanel_Model::getCalendarTypes($this->getModuleName()),
 		]);
 		array_unshift($links, $link);
 		return $links;
