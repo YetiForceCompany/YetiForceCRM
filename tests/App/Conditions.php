@@ -34,8 +34,8 @@ class Conditions extends \Tests\Base
 				$instance = new $className();
 				$classNameRecordFields = '\App\Conditions\RecordFields\\' . $fileName . 'Field';
 				$classNameQueryFields = '\App\Conditions\QueryFields\\' . $fileName . 'Field';
-				$this->assertTrue(class_exists($classNameRecordFields));
-				$this->assertTrue(class_exists($classNameQueryFields));
+				$this->assertTrue(class_exists($classNameRecordFields), 'Class not found: ' . $classNameRecordFields);
+				$this->assertTrue(class_exists($classNameQueryFields), 'Class not found: ' . $classNameQueryFields);
 
 				$methodsRecordFields = class_exists($classNameRecordFields) ? get_class_methods($classNameRecordFields) : [];
 				$methodsQueryFields = class_exists($classNameQueryFields) ? get_class_methods($classNameQueryFields) : [];
