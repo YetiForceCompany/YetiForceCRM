@@ -5001,16 +5001,16 @@
         },
         {
             "name": "yetiforce/yii2",
-            "version": "2.0.43",
+            "version": "2.0.45",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/yii2-framework.git",
-                "reference": "672f0123882f71bf3cc3515c2cca2db6e91db21c"
+                "reference": "a9d87cfcb2a8d801c4e2d1e3f0eab0db934124ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/yii2-framework/zipball/672f0123882f71bf3cc3515c2cca2db6e91db21c",
-                "reference": "672f0123882f71bf3cc3515c2cca2db6e91db21c",
+                "url": "https://api.github.com/repos/YetiForceCompany/yii2-framework/zipball/a9d87cfcb2a8d801c4e2d1e3f0eab0db934124ba",
+                "reference": "a9d87cfcb2a8d801c4e2d1e3f0eab0db934124ba",
                 "shasum": ""
             },
             "require": {
@@ -5033,13 +5033,13 @@
                 {
                     "name": "Qiang Xue",
                     "email": "qiang.xue@gmail.com",
-                    "homepage": "http://www.yiiframework.com/",
+                    "homepage": "https://www.yiiframework.com/",
                     "role": "Founder and project lead"
                 },
                 {
                     "name": "Alexander Makarov",
                     "email": "sam@rmcreative.ru",
-                    "homepage": "http://rmcreative.ru/",
+                    "homepage": "https://rmcreative.ru/",
                     "role": "Core framework development"
                 },
                 {
@@ -5050,7 +5050,7 @@
                 {
                     "name": "Carsten Brandt",
                     "email": "mail@cebe.cc",
-                    "homepage": "http://cebe.cc/",
+                    "homepage": "https://www.cebe.cc/",
                     "role": "Core framework development"
                 },
                 {
@@ -5089,9 +5089,9 @@
                 "yii2"
             ],
             "support": {
-                "source": "https://github.com/YetiForceCompany/yii2-framework/tree/2.0.43"
+                "source": "https://github.com/YetiForceCompany/yii2-framework/tree/2.0.45"
             },
-            "time": "2021-10-29T10:44:56+00:00"
+            "time": "2022-03-29T11:16:44+00:00"
         },
         {
             "name": "zbateson/mail-mime-parser",
