@@ -1,6 +1,6 @@
 <?php
 /**
- * Vtiger filter file.
+ * Vtiger right panel file.
  *
  * @package Model
  *
@@ -10,9 +10,9 @@
  */
 
 /**
- * Vtiger filter class.
+ * Vtiger right panel class.
  */
-class Vtiger_Filter_Model
+class Vtiger_RightPanel_Model
 {
 	/**
 	 * Get users.

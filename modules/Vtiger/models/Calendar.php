@@ -65,14 +65,14 @@ abstract class Vtiger_Calendar_Model extends App\Base
 			'linklabel' => 'LBL_USERS',
 			'linkclass' => 'js-calendar__filter--users',
 			'template' => 'Filters/Users.tpl',
-			'filterData' => Vtiger_Filter_Model::getUsersList($this->getModuleName()),
+			'filterData' => Vtiger_RightPanel_Model::getUsersList($this->getModuleName()),
 		]);
 		$links[] = Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'SIDEBARWIDGET',
 			'linklabel' => 'LBL_GROUPS',
 			'linkclass' => 'js-calendar__filter--groups',
 			'template' => 'Filters/Groups.tpl',
-			'filterData' => Vtiger_Filter_Model::getGroupsList($this->getModuleName()),
+			'filterData' => Vtiger_RightPanel_Model::getGroupsList($this->getModuleName()),
 		]);
 		return $links;
 	}
