@@ -44,7 +44,7 @@ class ProductsTableShortVersion extends Base
 		} else {
 			$currencySymbol = \App\Fields\Currency::getDefault()['currency_symbol'];
 		}
-		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
+		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;background-color:#ddd;';
 		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;';
 		$html .= '<table class="products-table-long-version" style="width:100%;font-size:8px;border-collapse:collapse;">
 				<thead>
@@ -99,7 +99,7 @@ class ProductsTableShortVersion extends Base
 			}
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($groupModels as $fieldModel) {
-				$headerStyle = 'font-size:7px;padding:0px 4px;text-align:center;';
+				$headerStyle = 'font-size:7px;padding:0px 4px;text-align:center;background-color:#ddd;';
 				$html .= "<th class=\"col-type-{$typeName}\" style=\"{$headerStyle}\">";
 				if ($fieldModel->isSummary()) {
 					$sum = 0;
