@@ -1617,6 +1617,7 @@ insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) val
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (67,'CustomViewAdvCond',0);
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (68,'RecordActivityNotifier',0);
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (69,'WorkflowTriggerWhenRecordIsBlocked',0);
+insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (70,'ServiceContractsSla',0);
 
 /*Data for the table `vtiger_activity` */
 
@@ -10314,6 +10315,7 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,34,67,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,34,68,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,34,69,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,34,70,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,35,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,35,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,35,6,0);

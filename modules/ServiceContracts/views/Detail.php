@@ -1,12 +1,16 @@
 <?php
 /**
- * ServiceContracts detail view class.
+ * Service contracts detail view  file.
  *
  * @package View
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+/**
+ * Service contracts detail view  class.
  */
 class ServiceContracts_Detail_View extends Vtiger_Detail_View
 {
@@ -15,6 +19,16 @@ class ServiceContracts_Detail_View extends Vtiger_Detail_View
 	{
 		parent::__construct();
 		$this->exposeMethod('showSlaPolicyView');
+	}
+
+	/** {@inheritdoc} */
+	public function checkPermission(App\Request $request)
+	{
+		parent::checkPermission($request);
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userPrivilegesModel->hasModuleActionPermission($this->record->getModuleName(), 'ServiceContractsSla') && $userPrivilegesModel->hasModulePermission($request->getByType('target', \App\Purifier::ALNUM))) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
 	}
 
 	/**
@@ -29,7 +43,7 @@ class ServiceContracts_Detail_View extends Vtiger_Detail_View
 	public function showSlaPolicyView(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$relatedModuleName = $request->getByType('target', 'Alnum');
+		$relatedModuleName = $request->getByType('target', \App\Purifier::ALNUM);
 		$rows = \App\Utils\ServiceContracts::getSlaPolicyForServiceContracts($request->getInteger('record'), \App\Module::getModuleId($relatedModuleName));
 		$policyType = 0;
 		if (isset($rows[0])) {

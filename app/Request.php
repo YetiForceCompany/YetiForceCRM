@@ -547,8 +547,8 @@ class Request
 	 */
 	public function getModule($raw = true)
 	{
-		$moduleName = $this->getByType('module', 'Alnum');
-		if (!$raw && !$this->isEmpty('parent', true) && 'Settings' === ($parentModule = $this->getByType('parent', 'Alnum'))) {
+		$moduleName = $this->getByType('module', \App\Purifier::ALNUM);
+		if (!$raw && !$this->isEmpty('parent', true) && 'Settings' === ($parentModule = $this->getByType('parent', \App\Purifier::ALNUM))) {
 			$moduleName = "$parentModule:$moduleName";
 		}
 		return $moduleName;
