@@ -103,7 +103,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
-				'linkurl' => "javascript:Vtiger_List_Js.triggerTransferOwnership('index.php?module=$moduleName&view=MassActionAjax&mode=transferOwnership&sourceView=List')",
+				'linkurl' => "javascript:Vtiger_List_Js.triggerTransferOwnership('index.php?module={$moduleName}&view=TransferOwnership')",
 				'linkicon' => 'yfi yfi-change-of-owner',
 			];
 		}
