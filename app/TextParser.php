@@ -1583,8 +1583,7 @@ class TextParser
 			$length = Config::main('listview_max_textlength');
 		}
 		$encoding = Config::main('default_charset');
-		$config = \HTMLPurifier_Config::create(null);
-		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'cache' . \DIRECTORY_SEPARATOR . 'vtlib');
+		$config = \App\Purifier::getHtmlConfig(['directives' => ['Core.LexerImpl' => 'DirectLex']]);
 		$lexer = \HTMLPurifier_Lexer::create($config);
 		$tokens = $lexer->tokenizeHTML($html, $config, new \HTMLPurifier_Context());
 		$truncated = $openTokens = [];
@@ -1634,7 +1633,7 @@ class TextParser
 			return $matches[0];
 		}, $generator->generateFromTokens($truncated));
 		$isTruncated = $totalCount >= $length;
-		return $html . ($isTruncated ? ($addDots ? '...' : '') : '');
+		return \App\Purifier::decodeHtml($html) . ($isTruncated ? ($addDots ? '...' : '') : '');
 	}
 
 	/**
