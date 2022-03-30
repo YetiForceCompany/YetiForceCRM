@@ -210,8 +210,10 @@ class Vtiger_ConditionBuilder_Js {
 		this.registerDeleteCondition();
 		this.registerDisableSubmitOnEnter();
 		this.container.find('.js-condition-builder-conditions-row').each(function () {
-			self.registerChangeConditions($(this));
-			self.registerField($(this));
+			let row = $(this);
+			self.registerChangeConditions(row);
+			self.registerChangeValueEvent(row);
+			self.registerField(row);
 		});
 	}
 }
