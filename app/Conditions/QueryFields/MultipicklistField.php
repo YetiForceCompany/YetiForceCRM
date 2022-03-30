@@ -15,11 +15,7 @@ namespace App\Conditions\QueryFields;
  */
 class MultipicklistField extends BaseField
 {
-	/**
-	 * Separator.
-	 *
-	 * @var string
-	 */
+	/** @var string Separator. */
 	protected $separator = ' |##| ';
 
 	/**

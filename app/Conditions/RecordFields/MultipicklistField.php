@@ -1,9 +1,6 @@
 <?php
-
-namespace App\Conditions\RecordFields;
-
 /**
- * Multi picklist condition record field class.
+ * Multi picklist condition record field file.
  *
  * @package UIType
  *
@@ -12,8 +9,17 @@ namespace App\Conditions\RecordFields;
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+namespace App\Conditions\RecordFields;
+
+/**
+ * Multi picklist condition record field class.
+ */
 class MultipicklistField extends BaseField
 {
+	/** @var string Separator. */
+	protected $separator = ' |##| ';
+
 	/** {@inheritdoc} */
 	public function operatorE(): bool
 	{
@@ -45,6 +51,6 @@ class MultipicklistField extends BaseField
 	/** {@inheritdoc} */
 	public function getValue(): array
 	{
-		return explode(' |##| ', parent::getValue());
+		return explode($this->separator, parent::getValue());
 	}
 }

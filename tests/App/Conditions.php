@@ -29,15 +29,13 @@ class Conditions extends \Tests\Base
 			if ($item->isFile() && 'php' === $item->getExtension()) {
 				$fileName = $item->getBasename('.php');
 				$className = \Vtiger_Loader::getComponentClassName('UIType', $fileName, 'Vtiger', false);
-				$this->assertTrue(class_exists($className));
+				$this->assertTrue(class_exists($className), 'Class not found: ' . $className);
 
 				$instance = new $className();
-				$classNameRecordFields = '\App\Conditions\RecordFields\\' . $fileName . 'Field';
+
 				$classNameQueryFields = '\App\Conditions\QueryFields\\' . $fileName . 'Field';
-				$this->assertTrue(class_exists($classNameRecordFields), 'Class not found: ' . $classNameRecordFields);
 				$this->assertTrue(class_exists($classNameQueryFields), 'Class not found: ' . $classNameQueryFields);
 
-				$methodsRecordFields = class_exists($classNameRecordFields) ? get_class_methods($classNameRecordFields) : [];
 				$methodsQueryFields = class_exists($classNameQueryFields) ? get_class_methods($classNameQueryFields) : [];
 				foreach ($instance->getQueryOperators() as $operator) {
 					$fn = 'operator' . ucfirst($operator);
@@ -47,6 +45,13 @@ class Conditions extends \Tests\Base
 					if ($methodsQueryFields && !\in_array($fn, $methodsQueryFields)) {
 						$this->markTestSkipped("[QueryFields] No operator $operator (function $fn) in class $classNameQueryFields");
 					}
+				}
+
+				$classNameRecordFields = '\App\Conditions\RecordFields\\' . $fileName . 'Field';
+				$this->assertTrue(class_exists($classNameRecordFields), 'Class not found: ' . $classNameRecordFields);
+
+				$methodsRecordFields = class_exists($classNameRecordFields) ? get_class_methods($classNameRecordFields) : [];
+				foreach ($instance->getRecordOperators() as $operator) {
 					$fn = 'operator' . ucfirst($operator);
 					if ($methodsRecordFields && !\in_array($fn, $methodsRecordFields) && isset(\App\Condition::DATE_OPERATORS[$operator])) {
 						$fn = 'getStdOperator';
