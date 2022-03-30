@@ -2553,6 +2553,9 @@ var app = (window.app = {
 					if (btn.data('iframe')) {
 						let iframe = btn.siblings('iframe');
 						let message = iframe.clone();
+						if (message[0].hasAttribute('srcdoctemp')) {
+							message.attr('srcdoc', message.attr('srcdoctemp'));
+						}
 						let isHidden = iframe.is(':hidden');
 						let height = 0;
 						if (iframe.data('height')) {
