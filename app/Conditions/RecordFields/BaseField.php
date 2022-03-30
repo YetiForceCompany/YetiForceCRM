@@ -278,6 +278,16 @@ class BaseField
 	}
 
 	/**
+	 * Not currently logged user operator.
+	 *
+	 * @return array
+	 */
+	public function operatorNom()
+	{
+		return $this->getValue() != \App\User::getCurrentUserId();
+	}
+
+	/**
 	 * Is currently logged user group operator.
 	 *
 	 * @return bool

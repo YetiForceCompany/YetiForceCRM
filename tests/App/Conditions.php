@@ -42,8 +42,8 @@ class Conditions extends \Tests\Base
 					if ($methodsQueryFields && !\in_array($fn, $methodsQueryFields) && isset(\App\Condition::DATE_OPERATORS[$operator])) {
 						$fn = 'getStdOperator';
 					}
-					if ($methodsQueryFields && !\in_array($fn, $methodsQueryFields)) {
-						$this->markTestSkipped("[QueryFields] No operator $operator (function $fn) in class $classNameQueryFields");
+					if ($methodsQueryFields) {
+						$this->assertTrue(\in_array($fn, $methodsQueryFields), "No query operator $operator (function $fn) in class $classNameQueryFields");
 					}
 				}
 
@@ -56,11 +56,52 @@ class Conditions extends \Tests\Base
 					if ($methodsRecordFields && !\in_array($fn, $methodsRecordFields) && isset(\App\Condition::DATE_OPERATORS[$operator])) {
 						$fn = 'getStdOperator';
 					}
-					if ($methodsRecordFields && !\in_array($fn, $methodsRecordFields)) {
-						$this->markTestSkipped("[RecordFields] No operator $operator (function $fn) in class $classNameRecordFields");
+					if ($methodsRecordFields) {
+						$this->assertTrue(\in_array($fn, $methodsRecordFields), "No record operator $operator (function $fn) in class $classNameRecordFields");
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * Testing check conditions.
+	 */
+	public function testCheckConditions()
+	{
+		$recordModel = \Tests\Base\C_RecordActions::createSQuotesRecord();
+		$checkConditions = \App\Condition::checkConditions([
+			'condition' => 'AND',
+			'rules' => [
+				[
+					'fieldname' => 'createdtime:SQuotes',
+					'operator' => 'bw',
+					'value' => date('Y-m-d H:i:s', strtotime('last day')) . ',' . date('Y-m-d H:i:s', strtotime('next day')),
+				],
+				[
+					'fieldname' => 'subject:SQuotes',
+					'operator' => 'e',
+					'value' => 'System CRM YetiForce',
+				],
+			],
+		], $recordModel);
+		$this->assertTrue($checkConditions);
+
+		$checkConditions = \App\Condition::checkConditions([
+			'condition' => 'AND',
+			'rules' => [
+				[
+					'fieldname' => 'createdtime:SQuotes',
+					'operator' => 'bw',
+					'value' => date('Y-m-d H:i:s', strtotime('next day')) . ',' . date('Y-m-d H:i:s', strtotime('next year')),
+				],
+				[
+					'fieldname' => 'subject:SQuotes',
+					'operator' => 'e',
+					'value' => 'System CRM YetiForce',
+				],
+			],
+		], $recordModel);
+		$this->assertFalse($checkConditions);
 	}
 }
