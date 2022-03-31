@@ -39,9 +39,9 @@
 					{assign var=COLCOUNT value=0}
 				{/if}
 				<div class="grid-stack-item js-css-element-queries"
-					data-gs-y="{$WIDGET->getPosition($ROW, 'row')}" data-gs-width="{$WIDGET->getWidth()}"
-					data-gs-x="{$WIDGET->getPosition($COLCOUNT, 'col')}"
-					data-gs-height="{$WIDGET->getHeight()}" data-js="css-element-queries">
+					gs-y="{$WIDGET->getPosition($ROW, 'row')}" gs-x="{$WIDGET->getPosition($COLCOUNT, 'col')}"
+					gs-w="{$WIDGET->getWidth()}" gs-h="{$WIDGET->getHeight()}"
+					data-js="css-element-queries">
 					<div id="{$WIDGETDOMID}" {if $smarty.foreach.count.index % $COLUMNS == 0 and $smarty.foreach.count.index != 0} {/if}
 						class="grid-stack-item-content dashboardWidget dashboardWidget_{$smarty.foreach.count.index}"
 						data-url="{$WIDGET->getUrl()}"

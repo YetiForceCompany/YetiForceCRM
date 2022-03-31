@@ -1479,7 +1479,7 @@ jQuery.Class(
 		setSortingButton: function setSortingButton(currentElement) {
 			if (currentElement.length) {
 				let container = this.getContainer(),
-					drefresh = container.find('a[name="drefresh"]'),
+					drefresh = container.find('.js-widget-refresh'),
 					url = drefresh.data('url');
 				url = url.replace('&sortorder=desc', '');
 				url = url.replace('&sortorder=asc', '');
@@ -1547,7 +1547,7 @@ jQuery.Class(
 			var container = this.getContainer();
 			thisInstance.setSortingButton(container.find('.changeRecordSort'));
 			container.find('.changeRecordSort').on('click', function (e) {
-				var drefresh = container.find('a[name="drefresh"]');
+				var drefresh = container.find('.js-widget-refresh');
 				thisInstance.setSortingButton(jQuery(e.currentTarget));
 				drefresh.click();
 			});
@@ -1559,7 +1559,7 @@ jQuery.Class(
 			switchButtons.on('change', (e) => {
 				var currentElement = $(e.currentTarget);
 				var dashboardWidgetHeader = currentElement.closest('.dashboardWidgetHeader');
-				var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
+				var drefresh = dashboardWidgetHeader.find('.js-widget-refresh');
 				thisInstance.setUrlSwitch(currentElement).done(function (data) {
 					if (data) {
 						drefresh.click();
@@ -1572,7 +1572,7 @@ jQuery.Class(
 			switchButtons.each(function (index, e) {
 				var currentElement = jQuery(e);
 				var dashboardWidgetHeader = currentElement.closest('.dashboardWidgetHeader');
-				var drefresh = dashboardWidgetHeader.find('a[name="drefresh"]');
+				var drefresh = dashboardWidgetHeader.find('.js-widget-refresh');
 				var url = drefresh.data('url');
 				var urlparams = currentElement.data('urlparams');
 				if (urlparams !== '') {
@@ -1597,7 +1597,7 @@ jQuery.Class(
 		refreshWidget: function refreshWidget() {
 			let thisInstance = this;
 			let parent = this.getContainer();
-			let element = parent.find('a[name="drefresh"]');
+			let element = parent.find('.js-widget-refresh');
 			let url = element.data('url');
 			let contentContainer = parent.find('.dashboardWidgetContent');
 			let params = url;
@@ -1686,7 +1686,7 @@ jQuery.Class(
 		registerFilter: function registerFilter() {
 			const container = this.getContainer();
 			const search = container.find('.listSearchContributor');
-			const refreshBtn = container.find('a[name="drefresh"]');
+			const refreshBtn = container.find('.js-widget-refresh');
 			const originalUrl = refreshBtn.data('url');
 			const selects = container.find('.select2noactive');
 			search.css('width', '100%');
@@ -1768,12 +1768,12 @@ jQuery.Class(
 		registerFilterChangeEvent: function registerFilterChangeEvent() {
 			let container = this.getContainer();
 			container.on('change', '.widgetFilter', (e) => {
-				container.find('a[name="drefresh"]').trigger('click');
+				container.find('.js-widget-refresh').trigger('click');
 			});
 			if (container.find('.widgetFilterByField').length) {
 				App.Fields.Picklist.showSelect2ElementView(container.find('.select2noactive'));
 				this.getContainer().on('change', '.widgetFilterByField .form-control', (e) => {
-					container.find('a[name="drefresh"]').trigger('click');
+					container.find('.js-widget-refresh').trigger('click');
 				});
 			}
 		},
@@ -2463,7 +2463,7 @@ YetiForce_Widget_Js(
 						}
 					};
 					params.callbackFunction = function () {
-						thisInstance.getCalendarView().closest('.dashboardWidget').find('a[name="drefresh"]').trigger('click');
+						thisInstance.getCalendarView().closest('.dashboardWidget').find('.js-widget-refresh').trigger('click');
 					};
 					App.Components.QuickCreate.createRecord('Calendar', params);
 				});
@@ -2510,7 +2510,7 @@ YetiForce_Widget_Js(
 				}
 			}
 			if (this.paramCache) {
-				var drefresh = this.getContainer().find('a[name="drefresh"]');
+				var drefresh = this.getContainer().find('.js-widget-refresh');
 				var url = drefresh.data('url');
 				var paramCache = {
 					owner: user,
@@ -2901,7 +2901,7 @@ YetiForce_Widget_Js(
 			var loadMoreHandler = contentContainer.find('.load-more');
 			loadMoreHandler.on('click', function () {
 				var parent = thisInstance.getContainer();
-				var element = parent.find('a[name="drefresh"]');
+				var element = parent.find('.js-widget-refresh');
 				var url = element.data('url');
 				var params = url;
 				var widgetFilters = parent.find('.widgetFilter');

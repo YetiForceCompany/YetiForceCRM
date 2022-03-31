@@ -14,10 +14,10 @@
 							callback: function yAxisTickCallback(label, index, labels) {
 								return App.Fields.Double.formatToDisplay(label);
 							},
-							{if $CONF_DATA['plotTickSize']}
+							{if !empty($CONF_DATA['plotTickSize'])}
 								stepValue: {$CONF_DATA['plotTickSize']},
 							{/if}
-							{if $CONF_DATA['plotLimit']}
+							{if !empty($CONF_DATA['plotLimit'])}
 								max: {$CONF_DATA['plotLimit']},
 							{/if}
 						},

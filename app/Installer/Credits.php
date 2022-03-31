@@ -30,7 +30,6 @@ class Credits
 		'color-convert' => 'MIT',
 		'@fortawesome/fontawesome-free' => 'MIT',
 		'fontawesome-web' => 'MIT',
-		'jquery-ui-touch-punch' => 'MIT',
 		'ckeditor/ckeditor' => 'MPL-1.1+',
 		'block-ui' => 'MIT',
 		'jquery-slimscroll' => 'MIT',

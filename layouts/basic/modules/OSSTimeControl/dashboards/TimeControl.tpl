@@ -50,15 +50,13 @@
 					<span class="fas fa-plus" title="{\App\Language::translate('LBL_ADD_RECORD')}"></span>
 				</button>
 			{/if}
-			<a class="btn btn-sm btn-light" href="javascript:void(0);" name="drefresh"
-				data-url="{$WIDGET->getUrl()}&linkid={$WIDGET->get('linkid')}&content=data">
-				<span class="fas fa-sync-alt" title="{\App\Language::translate('LBL_REFRESH')}"></span>
-			</a>
+			<button class="btn btn-sm btn-light js-widget-refresh" title="{\App\Language::translate('LBL_REFRESH')}" data-url="{$WIDGET->getUrl()}&content=data" data-js="click">
+				<span class="fas fa-sync-alt"></span>
+			</button>
 			{if !$WIDGET->isDefault()}
-				<a class="btn btn-sm btn-light" class="js-widget-remove" data-js="click | bootbox"
-					data-url="{$WIDGET->getDeleteUrl()}">
-					<span class="fas fa-times" title="{\App\Language::translate('LBL_CLOSE')}"></span>
-				</a>
+				<button class="btn btn-sm btn-light js-widget-remove" title="{\App\Language::translate('LBL_CLOSE')}" data-url="{$WIDGET->getDeleteUrl()}" data-js="click">
+					<span class="fas fa-times"></span>
+				</button>
 			{/if}
 		</div>
 	</div>

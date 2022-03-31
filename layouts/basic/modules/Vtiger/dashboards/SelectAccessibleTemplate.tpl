@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-dashboards-SelectAccessibleTemplate -->
 	{assign var=ACCESS_OPTIONS value=\App\Json::decode(html_entity_decode($WIDGET->get('owners')))}
 	{if !is_array($ACCESS_OPTIONS.available)}
 		{$ACCESS_OPTIONS.available = array($ACCESS_OPTIONS.available)}
@@ -24,8 +25,7 @@
 	<div class="input-group input-group-sm">
 		<span class="input-group-prepend">
 			<span class="input-group-text">
-				<span class="fas fa-user iconMiddle"
-					title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span>
+				<span class="fas fa-user iconMiddle" title="{\App\Language::translate('Assigned To', $MODULE_NAME)}"></span>
 			</span>
 		</span>
 		<select class="widgetFilter select2 owner form-control" aria-label="{\App\Language::translate('LBL_OWNER')}"
@@ -49,14 +49,16 @@
 				<option value="all" {if $OWNER eq 'all' || $ACCESS_OPTIONS['default'] eq 'all'} data-name="" title="{\App\Language::translate('LBL_ALL')}" selected {/if}>{\App\Language::translate('LBL_ALL')}</option>
 			{/if}
 			{if !App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
-				{assign var=ACCESSIBLE_USERS value=array_diff_key($ACCESSIBLE_USERS, array_flip([$USER_MODEL->getId()]))}
-				{if !empty($ACCESSIBLE_USERS) && in_array('users', $ACCESS_OPTIONS['available'])}
-					<optgroup label="{\App\Language::translate('LBL_USERS')}">
-						{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_USERS}
-							<option title="{$OWNER_NAME}" data-name="{$OWNER_NAME}"
-								value="{$OWNER_ID}" {if $OWNER eq $OWNER_ID} selected{/if}>{$OWNER_NAME}</option>
-						{/foreach}
-					</optgroup>
+				{if !empty($ACCESSIBLE_USERS)}
+					{assign var=ACCESSIBLE_USERS value=array_diff_key($ACCESSIBLE_USERS, array_flip([$USER_MODEL->getId()]))}
+					{if !empty($ACCESSIBLE_USERS) && in_array('users', $ACCESS_OPTIONS['available'])}
+						<optgroup label="{\App\Language::translate('LBL_USERS')}">
+							{foreach key=OWNER_ID item=OWNER_NAME from=$ACCESSIBLE_USERS}
+								<option title="{$OWNER_NAME}" data-name="{$OWNER_NAME}"
+									value="{$OWNER_ID}" {if $OWNER eq $OWNER_ID} selected{/if}>{$OWNER_NAME}</option>
+							{/foreach}
+						</optgroup>
+					{/if}
 				{/if}
 				{if !empty($ACCESSIBLE_GROUPS) && in_array('groups', $ACCESS_OPTIONS['available'])}
 					<optgroup label="{\App\Language::translate('LBL_GROUPS')}">
@@ -111,4 +113,5 @@
 			{/if}
 		</select>
 	</div>
+	<!-- /tpl-Base-dashboards-SelectAccessibleTemplate -->
 {/strip}

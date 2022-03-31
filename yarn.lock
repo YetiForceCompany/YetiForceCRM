@@ -376,10 +376,10 @@ good-listener@^1.2.2:
   dependencies:
     delegate "^3.1.2"
 
-gridstack@^1.0.0:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-1.2.1.tgz#4505b3a5c3e11f3d5be0a5bb7f5d2194506487e5"
-  integrity sha512-yhcwA8ty1RaC1Vijd+C6v2jFOZhaDjweN5JtOQ35KXPFfnwItrPEejTLUij58GdG+Doc1bvHwg534El5xd4B6w==
+gridstack@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-5.0.0.tgz#b3b3f54f0bfda505d1e67c033d079b74622e00e3"
+  integrity sha512-FpXQ2gWUCcBW7QON7GEqP7NZFWZPpuGfze4dzRMQ1ikaRZ7Y2qfc9Gbc04Qukjst2AuPQcuW/mEJkh+2XnnCsA==
 
 html2canvas@^1.0.0-alpha.12:
   version "1.4.1"
@@ -457,11 +457,6 @@ jquery-ui-dist@^1.13.0:
   integrity sha512-Y711Pu4BRVrAlL58KSxX4ail74jaCJZaZcdNDLava+MgZeNwmVWmyYiK7KxyoJu1MB73eSunjJvYDbOuNrOA7w==
   dependencies:
     jquery ">=1.8.0 <4.0.0"
-
-jquery-ui-touch-punch@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/jquery-ui-touch-punch/-/jquery-ui-touch-punch-0.2.3.tgz#eed82242733ba243f46b3e87c1841b308191da68"
-  integrity sha1-7tgiQnM7okP0az6HwYQbMIGR2mg=
 
 jquery.class.js@^1.0.0:
   version "1.0.0"
@@ -560,9 +555,9 @@ promise@^7.1.1:
     asap "~2.0.3"
 
 quasar@^1.6.1:
-  version "1.18.7"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.18.7.tgz#8560ca84bfc5e09721d890eb83651774d8f9db1f"
-  integrity sha512-eDsuG+cLFAWSTbDDm/5VTnxrCsRKA/qpRgHNJs5K29YgqXbWp0s8xRFR9jkuVMsl8jE/5UwUZ2jOEYMLSu0/Qg==
+  version "1.18.8"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.18.8.tgz#3711c93c3f239387ef9b0948b47b1715b8cb1dc7"
+  integrity sha512-eYddynjWdh5L6Dgfy/fUOLFTbMHyO6TMYi/GCwSrFs2nlIUJhXEsntG7vfR8AzU8Ns7VdI3bprxQXieuglDezg==
 
 regenerator-runtime@^0.13.4:
   version "0.13.9"

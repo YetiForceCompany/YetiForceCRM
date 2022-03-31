@@ -76,10 +76,10 @@ class Vtiger_Widget_Model extends \App\Base
 	{
 		if ($positionData = $this->get('position')) {
 			$positionData = \App\Json::decode(App\Purifier::decodeHtml($positionData));
-			if (isset($positionData[App\Session::get('fingerprint')])) {
+			if (!empty($positionData[App\Session::get('fingerprint')])) {
 				$position = (int) $positionData[App\Session::get('fingerprint')][$coordinate];
 			}
-			if (isset($positionData[$coordinate])) {
+			if (!empty($positionData[$coordinate])) {
 				$position = (int) ($positionData[$coordinate]);
 			}
 		}
@@ -193,8 +193,10 @@ class Vtiger_Widget_Model extends \App\Base
 			$where = ['userid' => $userId, 'id' => $widgetId];
 		}
 		$currentPosition = App\Json::decode((new \App\Db\Query())->select(['position'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar());
-		$currentPosition[App\Session::get('fingerprint')] = App\Json::decode($position);
-		\App\Db::getInstance()->createCommand()->update('vtiger_module_dashboard_widgets', ['position' => App\Json::encode($currentPosition)], $where)->execute();
+		$currentPosition[App\Session::get('fingerprint')] = $position;
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_module_dashboard_widgets', ['position' => App\Json::encode($currentPosition)], $where)
+			->execute();
 	}
 
 	/**
@@ -216,8 +218,10 @@ class Vtiger_Widget_Model extends \App\Base
 			$where = ['userid' => $userId, 'id' => $widgetId];
 		}
 		$currentSize = App\Json::decode((new \App\Db\Query())->select(['size'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar());
-		$currentSize[App\Session::get('fingerprint')] = App\Json::decode($size);
-		\App\Db::getInstance()->createCommand()->update('vtiger_module_dashboard_widgets', ['size' => App\Json::encode($currentSize)], $where)->execute();
+		$currentSize[App\Session::get('fingerprint')] = $size;
+		\App\Db::getInstance()->createCommand()
+			->update('vtiger_module_dashboard_widgets', ['size' => App\Json::encode($currentSize)], $where)
+			->execute();
 	}
 
 	/**

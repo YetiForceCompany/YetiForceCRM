@@ -17845,8 +17845,9 @@ body:not(.desktop) .ps__rail-y {
   background-color: #d15d5d;
   border-color: #d15d5d;
 }
-.pnotify.c-confirm-modal .pnotify-title {
-  font-size: 1.4rem;
+.pnotify.c-confirm-modal .pnotify-icon {
+  font-size: 3rem;
+  margin: 12px 10px 10px 0;
 }
 
 .mdi {
@@ -18254,6 +18255,10 @@ label.btn[class*=btn-outline-]:not(.active):hover {
     margin: auto !important;
   }
 }
+.fc-unthemed td {
+  border-color: #ddd !important;
+}
+
 .fc-event {
   color: #353c44 !important;
 }
@@ -19797,7 +19802,7 @@ table.dataTable .form-control {
   width: 100%;
   height: 100%;
   background: transparent;
-  box-shadow: inset 0 0 0 1px #ffffff57;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3411764706);
   position: absolute;
   left: 0;
   top: 0;
@@ -21223,7 +21228,7 @@ select.form-control {
   background: #fff;
 }
 .listViewEntries:hover {
-  background: #dddddd20;
+  background: rgba(221, 221, 221, 0.1254901961);
 }
 
 .widthMin {
@@ -28220,7 +28225,7 @@ td.fieldValue .input-group {
 .c-kanban__highlight {
   margin-top: 0.5rem;
   border: 2px dotted #fff700;
-  background: #fff99080;
+  background: rgba(255, 249, 144, 0.5019607843);
   height: 3rem;
   line-height: 3rem;
 }

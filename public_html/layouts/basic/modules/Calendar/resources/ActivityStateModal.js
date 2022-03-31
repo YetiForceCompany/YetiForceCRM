@@ -98,7 +98,7 @@ jQuery.Class(
 						listinstance.getListViewRecords();
 					}
 					if (viewName === 'DashBoard') {
-						new Vtiger_DashBoard_Js().getContainer().find('a[name="drefresh"]').trigger('click');
+						new Vtiger_DashBoard_Js().getContainer().find('.js-widget-refresh').trigger('click');
 					}
 					if (app.getModuleName() === 'Calendar' && (viewName === 'Calendar' || viewName === 'CalendarExtended')) {
 						const calendarInstance = new window[`Calendar_${viewName}_Js`]();
