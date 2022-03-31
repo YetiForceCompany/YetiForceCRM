@@ -429,6 +429,7 @@ window.Calendar_Js = class {
 				checkboxes.prop('checked', true);
 			} else {
 				checkboxes.prop('checked', false);
+				formContainer.find('#ownerId' + CONFIG.userId).prop('checked', true);
 			}
 			let calendar = this.getCalendarView().fullCalendar('getCalendar');
 			if (calendar) {
