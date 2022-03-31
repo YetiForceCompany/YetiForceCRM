@@ -2834,7 +2834,7 @@ var app = (window.app = {
 			}
 			url += key + '=' + value + '&';
 		});
-		return url;
+		return url.slice(0, -1);
 	},
 	formatToHourText: function (decTime, type = 'short', withSeconds = false, withMinutes = true) {
 		const short = type === 'short';

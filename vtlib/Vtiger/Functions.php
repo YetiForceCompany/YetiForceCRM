@@ -363,12 +363,12 @@ class Functions
 				}
 				http_response_code($code);
 				$viewer = new \Vtiger_Viewer();
-				$viewer->assign('MESSAGE', $message);
+				$viewer->assign('MESSAGE', \Config\Debug::$EXCEPTION_ERROR_TO_SHOW ? $message : \App\Language::translate('ERR_OCCURRED_ERROR'));
 				$viewer->assign('MESSAGE_EXPANDED', \is_array($message));
 				$viewer->assign('HEADER_MESSAGE', \App\Language::translate($messageHeader));
 				$viewer->view('Exceptions/ExceptionError.tpl', 'Vtiger');
 			} else {
-				echo $message . PHP_EOL;
+				echo(\Config\Debug::$EXCEPTION_ERROR_TO_SHOW ? $message : \App\Language::translate('ERR_OCCURRED_ERROR')) . PHP_EOL;
 			}
 		}
 		if ($die) {

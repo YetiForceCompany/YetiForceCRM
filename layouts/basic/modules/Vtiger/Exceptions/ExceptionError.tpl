@@ -33,9 +33,9 @@
 
 		<body class="h-auto bg-color-amber-50 overflow-auto">
 			<div class="o-exception-fixed-block container u-white-space-n u-word-break">
-				<div class="card mx-auto mt-5 u-w-fit shadow" role="alert">
+				<div class="card mx-auto mt-3 u-w-fit shadow" role="alert">
 					<div class="card-header d-flex color-red-a200 bg-color-red-50 justify-content-center flex-wrap">
-						<span class="display-1">
+						<span class="display-4">
 							<i class="fas fa-exclamation-triangle mr-3"></i>
 						</span>
 						<h3 class="align-items-center card-title d-flex justify-content-center">{\App\Purifier::encodeHtml($HEADER_MESSAGE)}</h3>
@@ -84,9 +84,11 @@
 					{/if}
 				{/if}
 			</div>
-			<div class="my-5 mx-auto card p-3 u-w-fit shadow">
-				<pre class="js-backtrace-content" data-js="html"></pre>
-			</div>
+			{if \App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE')}
+				<div class="my-5 mx-auto card p-3 u-w-fit shadow">
+					<pre class="js-backtrace-content" data-js="html"></pre>
+				</div>
+			{/if}
 			<script type="text/javascript" {if \App\Session::get('CSP_TOKEN')}nonce="{\App\Session::get('CSP_TOKEN')}" {/if}>
 				function errorLog() {
 					console.error(document.querySelector('.js-exception-error').textContent);
