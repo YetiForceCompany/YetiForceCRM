@@ -21,6 +21,9 @@
 [![SecurityHeaders.io](https://img.shields.io/security-headers?url=https%3A%2F%2Fgitdeveloper.yetiforce.com)](https://securityheaders.io/?q=https://gitdeveloper.yetiforce.com)
 [![mozilla-observatory](https://img.shields.io/mozilla-observatory/grade/gitdeveloper.yetiforce.com?publish)](https://observatory.mozilla.org/analyze/gitdeveloper.yetiforce.com)
 [![Docker Hub](https://img.shields.io/badge/docker-ready-blue.svg)](https://registry.hub.docker.com/r/yetiforce/yetiforcecrm/)
+[![Discord](https://shields.io/badge/Discord-5865F2?logo=discord&logoColor=white)](https://discord.com/channels/415989543221592065/958656347430322237)
+[![Chat on discord](https://img.shields.io/badge/chat-on%20Discord-brightgreen?style=flat-square)](https://discord.com/channels/415989543221592065/958656347430322237)
+
 
 <img src="https://stats.yetiforce.com/matomo.php?idsite=4&amp;rec=1" style="border:0" alt="" />
 
