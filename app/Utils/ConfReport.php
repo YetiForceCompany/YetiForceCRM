@@ -321,6 +321,7 @@ class ConfReport
 	public static $environment = [
 		'crmVersion' => ['container' => 'env', 'testCli' => false, 'label' => 'CRM_VERSION'],
 		'crmDate' => ['container' => 'env', 'testCli' => false, 'label' => 'CRM_DATE'],
+		'companySize' => ['container' => 'env', 'testCli' => false, 'label' => 'COMPANY_SIZE'],
 		'operatingSystem' => ['container' => 'env', 'testCli' => true, 'label' => 'OPERATING_SYSTEM'],
 		'serverSoftware' => ['container' => 'env', 'testCli' => false, 'label' => 'SERVER_SOFTWARE'],
 		'currentUser' => ['container' => 'env', 'type' => 'CronEqual', 'testCli' => true, 'label' => 'SCRIPT_USER'],
@@ -611,6 +612,7 @@ class ConfReport
 				'public_html' => IS_PUBLIC_DIR ? 'On' : 'Off',
 				'crmVersion' => \App\Version::get(),
 				'crmDate' => \App\Version::get('patchVersion'),
+				'companySize' => \App\Company::getSize(),
 				'crmDir' => ROOT_DIRECTORY,
 				'operatingSystem' => 'demo' === \App\Config::main('systemMode') ? php_uname('s') : php_uname(),
 				'serverSoftware' => $_SERVER['SERVER_SOFTWARE'] ?? '-',
