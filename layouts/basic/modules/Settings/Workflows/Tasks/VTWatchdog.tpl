@@ -24,10 +24,13 @@
 					{\App\Language::translate('LBL_WATCHING_USERS', $QUALIFIED_MODULE)}
 				</option>
 				<option {if isset($TASK_OBJECT->recipients) && $TASK_OBJECT->recipients eq 'owner'}selected="selected" {/if} value="owner">
-					{\App\Language::translate('LBL_OWNER_REKORD', $QUALIFIED_MODULE)}
+					{\App\Language::translate('LBL_OWNER_RECORD', $QUALIFIED_MODULE)}
+				</option>
+				<option {if isset($TASK_OBJECT->recipients) && $TASK_OBJECT->recipients eq 'showner'}selected="selected" {/if} value="showner">
+					{\App\Language::translate('Share with users', $SOURCE_MODULE)}
 				</option>
 				<option {if isset($TASK_OBJECT->recipients) && $TASK_OBJECT->recipients eq 'owner_and_showner'}selected="selected" {/if} value="owner_and_showner">
-					{\App\Language::translate('LBL_OWNER_REKORD', $QUALIFIED_MODULE)} + {\App\Language::translate('Share with users', $SOURCE_MODULE)}
+					{\App\Language::translate('LBL_OWNER_RECORD', $QUALIFIED_MODULE)} + {\App\Language::translate('Share with users', $SOURCE_MODULE)}
 				</option>
 				{foreach from=\App\PrivilegeUtil::getMembers() key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 					<optgroup label="{\App\Language::translate($GROUP_LABEL)}">

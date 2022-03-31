@@ -49,6 +49,9 @@ class VTWatchdog extends VTTask
 			case 'owner_and_showner':
 				$users = array_merge([$recordModel->get('assigned_user_id')], explode(',', $recordModel->get('shownerid')));
 				break;
+			case 'showner':
+				$users = explode(',', $recordModel->get('shownerid'));
+				break;
 			default:
 				$users = \App\PrivilegeUtil::getUserByMember($this->recipients);
 				break;
