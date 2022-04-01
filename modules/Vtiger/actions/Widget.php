@@ -26,6 +26,7 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 		$this->exposeMethod('removeWidgetFromList');
 		$this->exposeMethod('updateWidgetConfig');
 		$this->exposeMethod('positions');
+		$this->exposeMethod('clear');
 	}
 
 	/**
@@ -54,7 +55,7 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 		if (
 			('updateWidgetConfig' === $mode && $request->has('widgetid') && $widget->get('active'))
 			|| ('remove' === $mode && !$widget->isDefault() && \App\Privilege::isPermitted($moduleName))
-			|| ('positions' === $mode && \App\Privilege::isPermitted($moduleName))
+			|| (('positions' === $mode || 'clear' === $mode) && \App\Privilege::isPermitted($moduleName))
 			|| ('Mini List' === $label && \App\Privilege::isPermitted($moduleName, 'CreateDashboardFilter'))
 			|| ('ChartFilter' === $label && \App\Privilege::isPermitted($moduleName, 'CreateDashboardChartFilter'))) {
 			return true;
@@ -207,5 +208,18 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();
+	}
+
+	/**
+	 * Clear configuration of widgets for this device.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function clear(App\Request $request): void
+	{
+		Vtiger_Widget_Model::clearDeviceConf(Vtiger_Widget_Model::getDashboardId($request));
+		header("location: index.php?module={$request->getModule()}&view=DashBoard");
 	}
 }

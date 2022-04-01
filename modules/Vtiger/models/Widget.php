@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
+use App\Json;
+
 /**
  * Vtiger Widget Model Class.
  */
@@ -36,7 +38,7 @@ class Vtiger_Widget_Model extends \App\Base
 		$defaultSize = 4;
 		$size = $this->get('size');
 		if ($size) {
-			$size = \App\Json::decode(App\Purifier::decodeHtml($size));
+			$size = Json::decode(App\Purifier::decodeHtml($size));
 			if (isset($size[App\Session::get('fingerprint')], $size[App\Session::get('fingerprint')]['width'])) {
 				$defaultSize = (int) $size[App\Session::get('fingerprint')]['width'];
 			} elseif (!empty($size['width'])) {
@@ -51,7 +53,7 @@ class Vtiger_Widget_Model extends \App\Base
 		$defaultSize = 4;
 		$size = $this->get('size');
 		if ($size) {
-			$size = \App\Json::decode(App\Purifier::decodeHtml($size));
+			$size = Json::decode(App\Purifier::decodeHtml($size));
 			if (isset($size[App\Session::get('fingerprint')], $size[App\Session::get('fingerprint')]['height'])) {
 				$defaultSize = (int) $size[App\Session::get('fingerprint')]['height'];
 			} elseif (!empty($size['height'])) {
@@ -75,7 +77,7 @@ class Vtiger_Widget_Model extends \App\Base
 	public function getPosition(int $position, string $coordinate)
 	{
 		if ($positionData = $this->get('position')) {
-			$positionData = \App\Json::decode(App\Purifier::decodeHtml($positionData));
+			$positionData = Json::decode(App\Purifier::decodeHtml($positionData));
 			if (!empty($positionData[App\Session::get('fingerprint')])) {
 				$position = (int) $positionData[App\Session::get('fingerprint')][$coordinate];
 			}
@@ -192,10 +194,10 @@ class Vtiger_Widget_Model extends \App\Base
 		} elseif ($widgetId) {
 			$where = ['userid' => $userId, 'id' => $widgetId];
 		}
-		$currentPosition = App\Json::decode((new \App\Db\Query())->select(['position'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar());
+		$currentPosition = Json::decode((new \App\Db\Query())->select(['position'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar());
 		$currentPosition[App\Session::get('fingerprint')] = $position;
 		\App\Db::getInstance()->createCommand()
-			->update('vtiger_module_dashboard_widgets', ['position' => App\Json::encode($currentPosition)], $where)
+			->update('vtiger_module_dashboard_widgets', ['position' => Json::encode($currentPosition)], $where)
 			->execute();
 	}
 
@@ -217,10 +219,10 @@ class Vtiger_Widget_Model extends \App\Base
 		} elseif ($widgetId) {
 			$where = ['userid' => $userId, 'id' => $widgetId];
 		}
-		$currentSize = App\Json::decode((new \App\Db\Query())->select(['size'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar());
+		$currentSize = Json::decode((new \App\Db\Query())->select(['size'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar());
 		$currentSize[App\Session::get('fingerprint')] = $size;
 		\App\Db::getInstance()->createCommand()
-			->update('vtiger_module_dashboard_widgets', ['size' => App\Json::encode($currentSize)], $where)
+			->update('vtiger_module_dashboard_widgets', ['size' => Json::encode($currentSize)], $where)
 			->execute();
 	}
 
@@ -440,7 +442,7 @@ class Vtiger_Widget_Model extends \App\Base
 				foreach ($picklistValue as $key => $label) {
 					$params['picklistValues'][$key] = \App\Language::translate($label, $moduleName);
 				}
-				$value = $this->get('owners') ? \App\Json::decode($this->get('owners')) : [];
+				$value = $this->get('owners') ? Json::decode($this->get('owners')) : [];
 				$params['fieldvalue'] = $value['default'] ?? 'mine';
 				break;
 			case 'owners_all':
@@ -455,7 +457,7 @@ class Vtiger_Widget_Model extends \App\Base
 				foreach ($picklistValue as $key => $label) {
 					$params['picklistValues'][$key] = \App\Language::translate($label, $moduleName);
 				}
-				$owners = $this->get('owners') ? \App\Json::decode($this->get('owners')) : [];
+				$owners = $this->get('owners') ? Json::decode($this->get('owners')) : [];
 				$value = $owners['available'] ?? ['mine'];
 				$params['fieldvalue'] = implode(' |##| ', $value);
 				break;
@@ -495,20 +497,20 @@ class Vtiger_Widget_Model extends \App\Base
 				switch ($fieldName) {
 					case 'width':
 					case 'height':
-						$size = $this->get('size') ? \App\Json::decode($this->get('size')) : [];
+						$size = $this->get('size') ? Json::decode($this->get('size')) : [];
 						$size[$fieldName] = $value;
-						$this->set('size', \App\Json::encode($size));
+						$this->set('size', Json::encode($size));
 						break;
 					case 'default_owner':
-						$owners = $this->get('owners') ? \App\Json::decode($this->get('owners')) : [];
+						$owners = $this->get('owners') ? Json::decode($this->get('owners')) : [];
 						$owners['default'] = $value;
-						$this->set('owners', \App\Json::encode($owners));
+						$this->set('owners', Json::encode($owners));
 						break;
 					case 'owners_all':
 						$value = $value ? explode(' |##| ', $value) : [];
-						$owners = $this->get('owners') ? \App\Json::decode($this->get('owners')) : [];
+						$owners = $this->get('owners') ? Json::decode($this->get('owners')) : [];
 						$owners['available'] = $value;
-						$this->set('owners', \App\Json::encode($owners));
+						$this->set('owners', Json::encode($owners));
 						break;
 					case 'default_date':
 						$this->set('date', $value);
@@ -570,7 +572,66 @@ class Vtiger_Widget_Model extends \App\Base
 	 */
 	public function getDataValue(string $name)
 	{
-		$values = $this->get('data') ? \App\Json::decode($this->get('data')) : [];
+		$values = $this->get('data') ? Json::decode($this->get('data')) : [];
 		return $values[$name] ?? null;
+	}
+
+	/**
+	 * Get dashboard id.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return int
+	 */
+	public static function getDashboardId(App\Request $request)
+	{
+		$dashboardId = false;
+		if (!$request->isEmpty('dashboardId', true)) {
+			$dashboardId = $request->getInteger('dashboardId');
+		} elseif (isset($_SESSION['DashBoard'][$request->getModule()]['LastDashBoardId'])) {
+			$dashboardId = $_SESSION['DashBoard'][$request->getModule()]['LastDashBoardId'];
+		}
+		if (!$dashboardId) {
+			$dashboardId = Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+		}
+		$request->set('dashboardId', $dashboardId);
+		return $dashboardId;
+	}
+
+	/**
+	 * Clear configuration of widgets for this device.
+	 *
+	 * @param int $dashboardId
+	 *
+	 * @return void
+	 */
+	public static function clearDeviceConf(int $dashboardId): void
+	{
+		$fingerPrint = App\Session::get('fingerprint');
+		$dataReader = (new \App\Db\Query())->select(['id', 'position', 'size'])->from('vtiger_module_dashboard_widgets')->where([
+			'userid' => \App\User::getCurrentUserId(),
+			'dashboardid' => $dashboardId,
+		])->andWhere([
+			'or',
+			['like', 'position', "\"$fingerPrint\""],
+			['like', 'size', "\"$fingerPrint\""],
+		], )->createCommand()->query();
+
+		$createCommand = \App\Db::getInstance()->createCommand();
+		while ($row = $dataReader->read()) {
+			$id = $row['id'];
+			unset($row['id']);
+			$position = Json::decode($row['position']);
+			if (isset($position[$fingerPrint])) {
+				unset($position[$fingerPrint]);
+				$row['position'] = Json::encode($position);
+			}
+			$size = Json::decode($row['size']);
+			if (isset($size[$fingerPrint])) {
+				unset($size[$fingerPrint]);
+				$row['size'] = Json::encode($size);
+			}
+			$createCommand->update('vtiger_module_dashboard_widgets', $row, ['id' => $id])->execute();
+		}
 	}
 }

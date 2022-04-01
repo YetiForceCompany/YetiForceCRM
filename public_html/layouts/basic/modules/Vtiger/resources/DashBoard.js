@@ -328,8 +328,8 @@ $.Class(
 		registerMiniListWidget: function () {
 			const thisInstance = this;
 			$('.dashboardHeading')
-				.off('click', '.addFilter')
-				.on('click', '.addFilter', function (e) {
+				.off('click', '.js-add-filter')
+				.on('click', '.js-add-filter', function (e) {
 					const element = $(e.currentTarget);
 					app.showModalWindow(null, 'index.php?module=Home&view=MiniListWizard&step=step1', function (wizardContainer) {
 						const form = $('form', wizardContainer);
@@ -634,13 +634,11 @@ $.Class(
 			if ($('.js-widget-list .js-widget-list__item').length < 1) {
 				$('.js-widget-list').prev('.js-widget-predefined').addClass('d-none');
 			}
-			let width = element.data('width');
-			let height = element.data('height');
 			let widget = Vtiger_DashBoard_Js.grid.addWidget(
 				`<div class="grid-stack-item js-css-element-queries" data-js="css-element-queries"><div id="${linkId}-${widgetId}" data-name="${name}" data-mode="open" class="grid-stack-item-content dashboardWidget new" data-url="${url}"></div></div>`,
 				{
-					w: width,
-					h: height,
+					w: element.data('width'),
+					h: element.data('height'),
 					auto_position: true
 				}
 			);
