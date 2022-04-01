@@ -106,7 +106,7 @@ class TextParser extends \Tests\Base
 
 		$this->assertSame((\App\Config::main('listview_max_textlength') + 4), \strlen(strip_tags(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), false, true))), 'Clean instance: html should be truncated in expected format (default length)');
 
-		$this->assertSame(10, \strlen(strip_tags(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), 10, true))), 'Clean instance: html should be truncated in expected format (text length: 10)');
+		$this->assertSame(10, \strlen(strip_tags(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), 10, false))), 'Clean instance: html should be truncated in expected format (text length: 10)');
 	}
 
 	/**
