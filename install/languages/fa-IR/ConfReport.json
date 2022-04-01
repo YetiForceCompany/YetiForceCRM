@@ -93,6 +93,7 @@
     "LBL_PER_SECOND": "/s",
     "LBL_LABEL_CRM_VERSION": "نسخه CRM",
     "LBL_LABEL_CRM_DATE": "تاریخ انتشار نسخه",
+    "LBL_LABEL_COMPANY_SIZE": "Company size",
     "LBL_LABEL_LOCALE": "اطلاعات محلی",
     "LBL_LABEL_ZEND_VERSION": "Zend نسخه",
     "LBL_LABEL_CACERTBUNDLE_PATH": "CA cert مسیر",

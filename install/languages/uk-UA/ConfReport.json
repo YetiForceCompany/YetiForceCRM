@@ -93,6 +93,7 @@
     "LBL_PER_SECOND": "/з",
     "LBL_LABEL_CRM_VERSION": "Версія CRM",
     "LBL_LABEL_CRM_DATE": "Дата випуску версії",
+    "LBL_LABEL_COMPANY_SIZE": "Company size",
     "LBL_LABEL_LOCALE": "Локалізація",
     "LBL_LABEL_ZEND_VERSION": "Версія Zend",
     "LBL_LABEL_CACERTBUNDLE_PATH": "CA cert path",

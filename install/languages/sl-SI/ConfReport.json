@@ -93,6 +93,7 @@
     "LBL_PER_SECOND": "/s",
     "LBL_LABEL_CRM_VERSION": "CRM različica",
     "LBL_LABEL_CRM_DATE": "Datum izdaje različice",
+    "LBL_LABEL_COMPANY_SIZE": "Company size",
     "LBL_LABEL_LOCALE": "Lokalno",
     "LBL_LABEL_ZEND_VERSION": "Zend version",
     "LBL_LABEL_CACERTBUNDLE_PATH": "CA cert path",

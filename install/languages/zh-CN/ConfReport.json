@@ -93,6 +93,7 @@
     "LBL_PER_SECOND": "/秒",
     "LBL_LABEL_CRM_VERSION": "CRM 版本",
     "LBL_LABEL_CRM_DATE": "版本发布日期",
+    "LBL_LABEL_COMPANY_SIZE": "Company size",
     "LBL_LABEL_LOCALE": "现场",
     "LBL_LABEL_ZEND_VERSION": "Zend version",
     "LBL_LABEL_CACERTBUNDLE_PATH": "CA cert path",
