@@ -85,25 +85,29 @@
 				{/if}
 			</div>
 			{if \App\Config::debug('DISPLAY_EXCEPTION_BACKTRACE')}
-				<div class="my-5 mx-auto card p-3 u-w-fit shadow">
-					<pre class="js-backtrace-content" data-js="html"></pre>
+				<div class="my-5 mx-auto card p-3 u-w-fit shadow d-none">
+					<pre class="js-backtrace-content m-0" data-js="html"></pre>
 				</div>
 			{/if}
 			<script type="text/javascript" {if \App\Session::get('CSP_TOKEN')}nonce="{\App\Session::get('CSP_TOKEN')}" {/if}>
 				function errorLog() {
 					console.error(document.querySelector('.js-exception-error').textContent);
-					var html = '';
-					var backtrace = document.querySelector('.js-exception-backtrace');
-					var logs = document.querySelector('.js-exception-logs');
+					let html = '';
+					let backtrace = document.querySelector('.js-exception-backtrace');
+					let logs = document.querySelector('.js-exception-logs');
 					if (backtrace) {
 						html += backtrace.textContent;
-						backtrace.remove()
+						backtrace.remove();
 					}
 					if (logs) {
 						html += logs.textContent;
-						logs.remove()
+						logs.remove();
 					}
-					document.querySelector('.js-backtrace-content').textContent = html;
+					let bc = document.querySelector('.js-backtrace-content');
+					if (html) {
+						bc.textContent = html;
+						bc.parentNode.classList.remove("d-none");
+					}
 				}
 				if (document.readyState === 'loading') {
 					document.addEventListener('DOMContentLoaded', errorLog);

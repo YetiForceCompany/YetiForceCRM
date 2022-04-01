@@ -9,6 +9,8 @@
  * Contributor(s): YetiForce S.A.
  * ********************************************************************************** */
 
+use App\Purifier;
+
 class Users_Login_Action extends \App\Controller\Action
 {
 	/** {@inheritdoc} */
@@ -81,7 +83,7 @@ class Users_Login_Action extends \App\Controller\Action
 	public function check2fa(App\Request $request): void
 	{
 		$userId = \App\Session::get('2faUserId');
-		if (Users_Totp_Authmethod::verifyCode(\App\User::getUserModel($userId)->getDetail('authy_secret_totp'), $request->getByType('user_code', \App\Purifier::DIGITS))) {
+		if (Users_Totp_Authmethod::verifyCode(\App\User::getUserModel($userId)->getDetail('authy_secret_totp'), $request->getByType('user_code', Purifier::DIGITS))) {
 			\App\Session::set('authenticated_user_id', $userId);
 			\App\Session::delete('2faUserId');
 			\App\Session::delete('LoginAuthyMethod');
@@ -172,7 +174,7 @@ class Users_Login_Action extends \App\Controller\Action
 		\App\Session::set('app_unique_key', App\Config::main('application_unique_key'));
 		\App\Session::set('user_name', $this->userRecordModel->get('user_name'));
 		\App\Session::set('full_user_name', $this->userModel->getName());
-		\App\Session::set('fingerprint', $request->get('fingerprint'));
+		\App\Session::set('fingerprint', $request->getByType('fingerprint', Purifier::ALNUM2));
 		\App\Session::set('user_agent', \App\Request::_getServer('HTTP_USER_AGENT', ''));
 
 		$eventHandler = new \App\EventHandler();
@@ -269,7 +271,7 @@ class Users_Login_Action extends \App\Controller\Action
 				$status = '2fa' === $type ? 'ERR_2FA_IP_BLOCK' : 'ERR_LOGIN_IP_BLOCK';
 			}
 		}
-		Users_Module_Model::getInstance('Users')->saveLoginHistory(App\Purifier::encodeHtml($request->getRaw('username')), $status);
+		Users_Module_Model::getInstance('Users')->saveLoginHistory(Purifier::encodeHtml($request->getRaw('username')), $status);
 		header('location: index.php?module=Users&view=Login');
 	}
 }
