@@ -104,9 +104,9 @@ class TextParser extends \Tests\Base
 		$this->assertSame((\App\Config::main('listview_max_textlength') + 3), \strlen(\App\TextParser::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), false, true)), 'Clean instance: string should be truncated in expexted format (default length)');
 		$this->assertSame(13, \strlen(\App\TextParser::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), 10, true)), 'Clean instance: string should be truncated in expexted format (text length: 10)');
 
-		$this->assertSame((\App\Config::main('listview_max_textlength') + 993), \strlen(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), false, true)), 'Clean instance: html should be truncated in expected format (default length)');
+		$this->assertSame((\App\Config::main('listview_max_textlength') + 4), \strlen(strip_tags(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), false, true))), 'Clean instance: html should be truncated in expected format (default length)');
 
-		$this->assertSame(1008, \strlen(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), 10, true)), 'Clean instance: html should be truncated in expected format (text length: 10)');
+		$this->assertSame(10, \strlen(strip_tags(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), 10, true))), 'Clean instance: html should be truncated in expected format (text length: 10)');
 	}
 
 	/**
