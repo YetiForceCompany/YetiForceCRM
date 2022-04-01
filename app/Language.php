@@ -150,14 +150,15 @@ class Language
 	/**
 	 * Functions that gets translated string.
 	 *
-	 * @param string      $key        - string which need to be translated
-	 * @param string      $moduleName - module scope in which the translation need to be check
-	 * @param bool|string $language   - language of translation
-	 * @param mixed       $encode
+	 * @param string      $key              - string which need to be translated
+	 * @param string      $moduleName       - module scope in which the translation need to be check
+	 * @param string|null $language         - language of translation
+	 * @param bool        $encode           - When no translation was found do encode the output
+	 * @param string      $secondModuleName - Additional module name to be translated when not in $moduleName
 	 *
 	 * @return string - translated string
 	 */
-	public static function translate($key, $moduleName = '_Base', $language = false, $encode = true)
+	public static function translate(string $key, string $moduleName = '_Base', ?string $language = null, bool $encode = true, ?string $secondModuleName = null)
 	{
 		if (empty($key)) { // nothing to translate
 			return $key;
@@ -180,6 +181,15 @@ class Language
 				return \nl2br(Purifier::encodeHtml(static::$languageContainer[$language][$moduleName]['php'][$key]));
 			}
 			return \nl2br(static::$languageContainer[$language][$moduleName]['php'][$key]);
+		}
+		if($secondModuleName){
+			static::loadLanguageFile($language, $secondModuleName);
+			if (isset(static::$languageContainer[$language][$secondModuleName]['php'][$key])) {
+				if ($encode) {
+					return \nl2br(Purifier::encodeHtml(static::$languageContainer[$language][$secondModuleName]['php'][$key]));
+				}
+				return \nl2br(static::$languageContainer[$language][$secondModuleName]['php'][$key]);
+			}
 		}
 		// Lookup for the translation in base module, in case of sub modules, before ending up with common strings
 		if (0 === strpos($moduleName, 'Settings')) {

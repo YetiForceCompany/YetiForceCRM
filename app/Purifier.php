@@ -44,8 +44,11 @@ class Purifier
 	/** @var string Purify type url. */
 	public const URL = 'Url';
 
-	/** @var string Purify type Alnum. */
+	/** @var string Purify type Alnum (A-Za-z0-9\,\_\.\=\-). */
 	public const ALNUM = 'Alnum';
+
+	/** @var string Purify type Alnum 2 (A-Za-z0-9\/\+\-). */
+	public const ALNUM2 = 'AlnumType2';
 
 	/** @var string Purify type AlnumExtended. */
 	public const ALNUM_EXTENDED = 'AlnumExtended';
@@ -429,7 +432,7 @@ class Purifier
 						$value = preg_match('/^[\sA-Za-z0-9\,\_\.\=\-]+$/', $input) ? $input : null;
 						break;
 					case 'AlnumType2':
-						$value = preg_match('/^[\sA-Za-z0-9\/\+]+$/', $input) ? $input : null;
+						$value = preg_match('/^[\sA-Za-z0-9\/\+\-]+$/', $input) ? $input : null;
 						break;
 					case 'AlnumSpace':
 						$value = Validator::alnumSpace($input) ? $input : null;

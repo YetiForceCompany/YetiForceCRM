@@ -1148,8 +1148,7 @@ var app = (window.app = {
 			manualTriggerDelay: 500,
 			placement: 'auto',
 			html: true,
-			template:
-				'<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+			template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3></div>',
 			container: 'body',
 			boundary: 'viewport',
 			delay: { show: 300, hide: 100 }
@@ -1157,12 +1156,14 @@ var app = (window.app = {
 		selectElement.each(function (index, domElement) {
 			let element = $(domElement);
 			let elementParams = $.extend(true, defaultParams, params, element.data());
-			if (element.data('class')) {
-				elementParams.template =
-					'<div class="popover ' +
-					element.data('class') +
-					'" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>';
+			let tmp = elementParams.template;
+			if (elementParams.class) {
+				tmp = tmp.replace('class="popover"', `class="popover ${elementParams.class}"`);
 			}
+			if (elementParams.content) {
+				tmp = tmp.replace('</h3></div>', `</h3><div class="popover-body">${elementParams.content}</div></div>`);
+			}
+			elementParams.template = tmp;
 			if (element.hasClass('delay0')) {
 				elementParams.delay = { show: 0, hide: 0 };
 			}
@@ -1191,8 +1192,7 @@ var app = (window.app = {
 			},
 			trigger: 'manual',
 			placement: 'right',
-			template:
-				'<div class="popover js-popover--before-positioned" role="tooltip"><div class="popover-body"></div></div>'
+			class: 'js-popover--before-positioned'
 		};
 		let popoverText = element.find('.js-popover-text').length ? element.find('.js-popover-text') : element;
 		if (!app.isEllipsisActive(popoverText)) {
