@@ -114,7 +114,7 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getRecordOperators(): array
 	{
-		if ($this->getFieldModel() && $this->getFieldModel()->getFieldParams()['isProcessStatusField'] ?? false) {
+		if ($this->getFieldModel() && ($this->getFieldModel()->getFieldParams()['isProcessStatusField'] ?? false)) {
 			return array_merge($this->getQueryOperators(), ['hs', 'ro', 'rc']);
 		}
 		return parent::getRecordOperators();
