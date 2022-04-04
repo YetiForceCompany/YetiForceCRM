@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\RecordCollectors;
@@ -85,7 +86,7 @@ class Base
 	}
 
 	/**
-	 * Undocumented function.
+	 * Set request.
 	 *
 	 * @param \App\Request $request
 	 *
@@ -99,7 +100,7 @@ class Base
 	/**
 	 * Get fields for the modal search window.
 	 *
-	 * @return \Vtiger_Field_Model
+	 * @return \Vtiger_Field_Model[]
 	 */
 	public function getFields(): array
 	{
@@ -119,6 +120,7 @@ class Base
 					$uitypeModel->validate($value, true);
 					$fieldModel->set('fieldvalue', $uitypeModel->getDBValue($value));
 				} catch (\Throwable $th) {
+					\App\Log::error($th->__toString(), 'RecordCollectors');
 				}
 			}
 			$fields[$fieldName] = $fieldModel;

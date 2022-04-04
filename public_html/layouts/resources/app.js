@@ -2856,7 +2856,7 @@ var app = (window.app = {
 			if (typeof value === 'object' || (typeof value === 'string' && value.startsWith('<'))) {
 				return;
 			}
-			url += key + '=' + value + '&';
+			url += key + '=' + encodeURIComponent(value) + '&';
 		});
 		return url.slice(0, -1);
 	},
