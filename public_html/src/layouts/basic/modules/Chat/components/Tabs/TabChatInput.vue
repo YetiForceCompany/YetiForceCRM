@@ -63,8 +63,8 @@ export default {
 	props: {
 		roomData: {
 			type: Object,
-			required: true,
-		},
+			required: true
+		}
 	},
 	data() {
 		return {
@@ -84,26 +84,26 @@ export default {
 					objects: this.translate('JS_EMOJI_OBJECTS'),
 					symbols: this.translate('JS_EMOJI_SYMBOLS'),
 					flags: this.translate('JS_EMOJI_FLAGS'),
-					custom: this.translate('JS_EMOJI_CUSTOM'),
-				},
+					custom: this.translate('JS_EMOJI_CUSTOM')
+				}
 			},
-			emojiIndex: emojiIndex,
+			emojiIndex: emojiIndex
 		}
 	},
 	computed: {
 		...mapGetters(['config', 'sendByEnter', 'currentRoomData']),
 		containerHeight() {
 			if (this.$refs.textContainer !== undefined) return this.$refs.textContainer.clientHeight + 'px'
-		},
+		}
 	},
 	watch: {
 		currentRoomData() {
 			this.focusInput()
-		},
+		}
 	},
 	mounted() {
 		this.$nextTick(() => {
-			new App.Fields.Text.Completions(this.$refs.input, { emojiPanel: false })
+			new App.Fields.Text.Completions(this.$refs.input)
 			this.registerEmojiPanelClickOutside()
 		})
 	},
@@ -117,8 +117,8 @@ export default {
 				this.sendMessage({
 					text: this.$refs.input.innerHTML,
 					roomType: this.roomData.roomType,
-					recordId: this.roomData.recordid,
-				}).then((e) => {
+					recordId: this.roomData.recordid
+				}).then(e => {
 					this.$refs.input.innerText = ''
 					this.sending = false
 					this.$emit('onSended')
@@ -127,7 +127,7 @@ export default {
 				app.showNotify({
 					text: app.vtranslate('JS_MESSAGE_TOO_LONG'),
 					type: 'error',
-					animation: 'show',
+					animation: 'show'
 				})
 			}
 		},
@@ -144,20 +144,20 @@ export default {
 			this.$refs.input.focus()
 		},
 		registerEmojiPanelClickOutside() {
-			document.addEventListener('click', (e) => {
+			document.addEventListener('click', e => {
 				try {
 					if (
 						this.emojiPanel &&
-						!e.target.parentNode.className.split(' ').some((c) => /emoji-mart.*/.test(c)) &&
-						!e.target.className.split(' ').some((c) => /emoji-mart.*/.test(c)) &&
+						!e.target.parentNode.className.split(' ').some(c => /emoji-mart.*/.test(c)) &&
+						!e.target.className.split(' ').some(c => /emoji-mart.*/.test(c)) &&
 						!e.target.classList.contains('js-emoji-trigger')
 					) {
 						this.emojiPanel = false
 					}
 				} catch (error) {}
 			})
-		},
-	},
+		}
+	}
 }
 </script>
 <style>

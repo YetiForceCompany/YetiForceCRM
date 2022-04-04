@@ -106,8 +106,7 @@ $.Class(
 			if (!listInstance.checkListRecordSelected()) {
 				Vtiger_List_Js.triggerMassAction(massActionUrl, (data) => {
 					new App.Fields.Text.Completions($(data).find('.js-completions').eq(0), {
-						emojiPanel: true,
-						completionsCollection: {}
+						completionsCollection: { emojis: true }
 					});
 					data.on('submit', 'form', (e) => {
 						e.preventDefault();
@@ -474,7 +473,7 @@ $.Class(
 			let listInstance = Vtiger_List_Js.getInstance();
 			if (!listInstance.checkListRecordSelected()) {
 				Vtiger_List_Js.triggerMassAction(massActionUrl, (data) => {
-					new App.Fields.Text.Completions($(data).find('.js-completions').eq(0), { emojiPanel: false });
+					new App.Fields.Text.Completions($(data).find('.js-completions').eq(0));
 					$(data).on('submit', '#massSave', (e) => {
 						e.preventDefault();
 						let form = $(e.currentTarget),
