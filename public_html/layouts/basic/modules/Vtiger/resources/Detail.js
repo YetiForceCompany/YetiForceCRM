@@ -1460,17 +1460,18 @@ jQuery.Class(
 			this.getContentHolder()
 				.find('.resetRelationsEmail')
 				.on('click', function (e) {
-					Vtiger_Helper_Js.showConfirmationBox({
-						message: app.vtranslate('JS_EMAIL_RESET_RELATIONS_CONFIRMATION')
-					}).done(function (data) {
-						AppConnector.request({
-							module: 'OSSMailView',
-							action: 'Relation',
-							moduleName: app.getModuleName(),
-							record: app.getRecordId()
-						}).done(function (d) {
-							Vtiger_Helper_Js.showMessage({ text: d.result });
-						});
+					app.showConfirmModal({
+						title: app.vtranslate('JS_EMAIL_RESET_RELATIONS_CONFIRMATION'),
+						confirmedCallback: () => {
+							AppConnector.request({
+								module: 'OSSMailView',
+								action: 'Relation',
+								moduleName: app.getModuleName(),
+								record: app.getRecordId()
+							}).done(function (d) {
+								Vtiger_Helper_Js.showMessage({ text: d.result });
+							});
+						}
 					});
 				});
 		},
@@ -2447,22 +2448,23 @@ jQuery.Class(
 		 */
 		showProgressConfirmation(element, picklistName) {
 			const picklistValue = $(element).data('picklistValue');
-			Vtiger_Helper_Js.showConfirmationBox({
+			app.showConfirmModal({
 				title: $(element).data('picklistLabel'),
-				message: app.vtranslate('JS_CHANGE_VALUE_CONFIRMATION')
-			}).done(() => {
-				Vtiger_Edit_Js.saveAjax({
-					value: picklistValue,
-					field: picklistName
-				})
-					.done((response) => {
-						if (!response || response.success !== false) {
-							window.location.reload();
-						}
+				text: app.vtranslate('JS_CHANGE_VALUE_CONFIRMATION'),
+				confirmedCallback: () => {
+					Vtiger_Edit_Js.saveAjax({
+						value: picklistValue,
+						field: picklistName
 					})
-					.fail(function (error, err) {
-						app.errorLog(error, err);
-					});
+						.done((response) => {
+							if (!response || response.success !== false) {
+								window.location.reload();
+							}
+						})
+						.fail(function (error, err) {
+							app.errorLog(error, err);
+						});
+				}
 			});
 		},
 		/**

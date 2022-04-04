@@ -569,10 +569,11 @@ var Settings_Picklist_Js = {
 			if (form.validationEngine('validate')) {
 				let confirmation = $('#modulePickList').find('option:selected').data('confirmation');
 				if (confirmation !== undefined) {
-					Vtiger_Helper_Js.showConfirmationBox({
-						message: confirmation
-					}).done(function (e) {
-						thisInstance.renameItem(form);
+					app.showConfirmModal({
+						title: confirmation,
+						confirmedCallback: () => {
+							thisInstance.renameItem(form);
+						}
 					});
 				} else {
 					thisInstance.renameItem(form);
@@ -667,10 +668,11 @@ var Settings_Picklist_Js = {
 				if (valid) {
 					let confirmation = $('#modulePickList').find('option:selected').data('confirmation');
 					if (confirmation !== undefined) {
-						Vtiger_Helper_Js.showConfirmationBox({
-							message: confirmation
-						}).done(function (e) {
-							thisInstance.deleteItem(form);
+						app.showConfirmModal({
+							title: confirmation,
+							confirmedCallback: () => {
+								thisInstance.deleteItem(form);
+							}
 						});
 					} else {
 						thisInstance.deleteItem(form);

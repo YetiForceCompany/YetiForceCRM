@@ -50,10 +50,9 @@
 							App.Components.QuickCreate.createRecord(module, QuickCreateParams);
 						} else {
 							app.hideModalWindow();
-							Vtiger_Helper_Js.showConfirmationBox({
-								message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE')
-							})
-								.done(function (e) {
+							app.showConfirmModal({
+								title: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE'),
+								confirmedCallback: () => {
 									AppConnector.request({
 										module: module,
 										action: 'State',
@@ -63,10 +62,11 @@
 										$('.showModal[data-module="OutsourcedProducts"]').trigger('click');
 										Vtiger_Detail_Js.getInstance().loadWidgets();
 									});
-								})
-								.fail(function () {
+								},
+								rejectedCallback: () => {
 									$('.showModal[data-module="OutsourcedProducts"]').trigger('click');
-								});
+								}
+							});
 						}
 					}
 				}, this)

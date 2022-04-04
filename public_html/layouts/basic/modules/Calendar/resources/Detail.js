@@ -5,26 +5,28 @@ Vtiger_Detail_Js(
 	'Calendar_Detail_Js',
 	{
 		deleteRecord: function (deleteRecordActionUrl) {
-			var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(function (data) {
-				app.showModalWindow($('.typeRemoveModal').clone(), function (container) {
-					container.find('.typeSavingBtn').on('click', function (e) {
-						var currentTarget = $(e.currentTarget);
-						app.hideModalWindow();
-						AppConnector.request(deleteRecordActionUrl + '&typeRemove=' + currentTarget.data('value')).done(function (
-							data
-						) {
-							if (data.success == true) {
-								window.location.href = data.result;
-							} else {
-								app.showNotify({
-									text: data.error.message,
-									type: 'error'
-								});
-							}
+			app.showConfirmModal({
+				text: app.vtranslate('LBL_DELETE_CONFIRMATION'),
+				confirmedCallback: () => {
+					app.showModalWindow($('.typeRemoveModal').clone(), function (container) {
+						container.find('.typeSavingBtn').on('click', function (e) {
+							var currentTarget = $(e.currentTarget);
+							app.hideModalWindow();
+							AppConnector.request(deleteRecordActionUrl + '&typeRemove=' + currentTarget.data('value')).done(function (
+								data
+							) {
+								if (data.success == true) {
+									window.location.href = data.result;
+								} else {
+									app.showNotify({
+										text: data.error.message,
+										type: 'error'
+									});
+								}
+							});
 						});
 					});
-				});
+				}
 			});
 		}
 	},

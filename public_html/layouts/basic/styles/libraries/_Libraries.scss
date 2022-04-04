@@ -286,10 +286,6 @@ header {
 	@extend %input-groupSelect2;
 }
 
-.bootbox-close-button {
-	@extend .order-2;
-}
-
 //-------- daterangepicker --------//
 
 .daterangepicker {
@@ -540,8 +536,10 @@ body:not(.desktop) {
 .pnotify-title {
 	line-height: 1.3rem;
 }
-.pnotify .bootstrap4-icon > * {
+.pnotify .pnotify-icon {
 	line-height: 1.5rem;
+	font-size: 1.2rem;
+	margin-right: 5px;
 }
 .pnotify-action-bar {
 	margin-top: 1rem;

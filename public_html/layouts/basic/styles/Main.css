@@ -780,7 +780,7 @@ pre code {
   order: 1;
 }
 
-.order-2, .bootbox-close-button {
+.order-2 {
   order: 2;
 }
 
@@ -17824,8 +17824,10 @@ body:not(.desktop) .ps__rail-y {
   line-height: 1.3rem;
 }
 
-.pnotify .bootstrap4-icon > * {
+.pnotify .pnotify-icon {
   line-height: 1.5rem;
+  font-size: 1.2rem;
+  margin-right: 5px;
 }
 
 .pnotify-action-bar {
@@ -19712,11 +19714,6 @@ table tr td .input-sm {
   background-color: #f5f5f5;
 }
 
-.panel-title,
-.message-medium {
-  font-size: 0.875rem;
-}
-
 tr.summaryViewEntries,
 #detailView table,
 #recordsListContents table,
@@ -20360,10 +20357,6 @@ body,
 
 #rssFeedHeading h3 {
   margin-top: 0;
-}
-
-.bootbox .btn-warning {
-  margin-left: 5px;
 }
 
 .menuPanel {

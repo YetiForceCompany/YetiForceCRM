@@ -324,10 +324,11 @@ $.Class(
 				});
 		},
 		removeRelation: function (relatedModule) {
-			var message = app.vtranslate('JS_DELETE_RELATION_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({ message: message })
-				.done(function (e) {
-					var params = {};
+			let message = app.vtranslate('JS_DELETE_RELATION_CONFIRMATION');
+			app.showConfirmModal({
+				text: message,
+				confirmedCallback: () => {
+					let params = {};
 					params['module'] = app.getModuleName();
 					params['parent'] = app.getParentModuleName();
 					params['action'] = 'Relation';
@@ -336,20 +337,19 @@ $.Class(
 
 					AppConnector.request(params)
 						.done(function (data) {
-							var params = {};
-							params['text'] = app.vtranslate('JS_REMOVE_RELATION_OK');
 							relatedModule.remove();
-							Settings_Vtiger_Index_Js.showMessage(params);
+							Settings_Vtiger_Index_Js.showMessage({
+								text: app.vtranslate('JS_REMOVE_RELATION_OK')
+							});
 						})
 						.fail(function (error) {
-							var params = {
+							Settings_Vtiger_Index_Js.showMessage({
 								text: message,
 								type: 'error'
-							};
-							Settings_Vtiger_Index_Js.showMessage(params);
+							});
 						});
-				})
-				.fail(function (error, err) {});
+				}
+			});
 		},
 		updateSequenceRelatedModule: function () {
 			var modules = [];
@@ -629,15 +629,15 @@ $.Class(
 				fieldName: fieldNameValue.toLowerCase()
 			}).done(function (data) {
 				if (data.result) {
-					Vtiger_Helper_Js.showConfirmationBox({
-						message: app.vtranslate('JS_EXIST_PICKLIST_NAME')
-					})
-						.done(function (data) {
+					app.showConfirmModal({
+						text: app.vtranslate('JS_EXIST_PICKLIST_NAME'),
+						confirmedCallback: () => {
 							aDeferred.resolve(true);
-						})
-						.fail(function (error) {
+						},
+						rejectedCallback: () => {
 							aDeferred.resolve(false);
-						});
+						}
+					});
 				} else {
 					aDeferred.resolve(true);
 				}
@@ -1235,19 +1235,17 @@ $.Class(
 		 * Function to register the click event for delete custom block
 		 */
 		registerDeleteCustomBlockEvent: function () {
-			var thisInstance = this;
-			var contents = this.container.find('.contents');
+			let thisInstance = this;
+			let contents = this.container.find('.contents');
 			contents.on('click', '.js-delete-custom-block-btn', function (e) {
 				let currentTarget = $(e.currentTarget);
-				var table = currentTarget.closest('div.editFieldsTable');
-				var blockId = table.data('blockId');
-
-				var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-				Vtiger_Helper_Js.showConfirmationBox({ message: message })
-					.done(function (e) {
-						thisInstance.deleteCustomBlock(blockId);
-					})
-					.fail(function (error, err) {});
+				let table = currentTarget.closest('div.editFieldsTable');
+				app.showConfirmModal({
+					text: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE'),
+					confirmedCallback: () => {
+						thisInstance.deleteCustomBlock(table.data('blockId'));
+					}
+				});
 			});
 		},
 		/**
@@ -1306,12 +1304,11 @@ $.Class(
 				contents = this.container.find('.contents');
 			}
 			contents.find('.deleteCustomField').on('click', function (e) {
-				let currentTarget = $(e.currentTarget),
-					fieldId = currentTarget.data('fieldId'),
-					message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-				Vtiger_Helper_Js.showConfirmationBox({ message: message })
-					.done(function (e) {
-						thisInstance.deleteCustomField(fieldId).done(function (data) {
+				let currentTarget = $(e.currentTarget);
+				app.showConfirmModal({
+					text: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE'),
+					confirmedCallback: () => {
+						thisInstance.deleteCustomField(currentTarget.data('fieldId')).done(function (data) {
 							let response = data.result;
 							if (response && response.success) {
 								let field = currentTarget.closest('div.editFields'),
@@ -1325,8 +1322,8 @@ $.Class(
 								Settings_Vtiger_Index_Js.showMessage({ type: 'error', text: response.message });
 							}
 						});
-					})
-					.fail(function (error, err) {});
+					}
+				});
 			});
 		},
 		/**
@@ -1718,34 +1715,34 @@ $.Class(
 				var switchBtn = $(event.currentTarget);
 				var state = switchBtn.data('value');
 				var message = app.vtranslate('JS_EXTENDED_MODULE');
-				Vtiger_Helper_Js.showConfirmationBox({
-					message: '<span class="message-medium">' + message + '</span>',
-					className: 'test'
-				}).done(function (e) {
-					let progress = $.progressIndicator({
-						message: app.vtranslate('JS_SAVE_LOADER_INFO'),
-						position: 'html',
-						blockInfo: {
-							enabled: true
-						}
-					});
-					var params = {};
-					params['sourceModule'] = container.find('[name="layoutEditorModules"]').val();
-					params['type'] = state;
-					app.saveAjax('changeModuleType', null, params).done(function (data) {
-						if (data.result) {
-							if (data.result.success) {
-								container.find('.js-switch--inventory').prop('disabled', true);
-								Settings_Vtiger_Index_Js.showMessage({
-									type: 'success',
-									text: data.result.message
-								});
-								progress.progressIndicator({ mode: 'hide' });
-							} else {
-								window.location.reload();
+				app.showConfirmModal({
+					title: message,
+					confirmedCallback: () => {
+						let progress = $.progressIndicator({
+							message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+							position: 'html',
+							blockInfo: {
+								enabled: true
 							}
-						}
-					});
+						});
+						let params = {};
+						params['sourceModule'] = container.find('[name="layoutEditorModules"]').val();
+						params['type'] = state;
+						app.saveAjax('changeModuleType', null, params).done(function (data) {
+							if (data.result) {
+								if (data.result.success) {
+									container.find('.js-switch--inventory').prop('disabled', true);
+									Settings_Vtiger_Index_Js.showMessage({
+										type: 'success',
+										text: data.result.message
+									});
+									progress.progressIndicator({ mode: 'hide' });
+								} else {
+									window.location.reload();
+								}
+							}
+						});
+					}
 				});
 			});
 		},
@@ -1930,23 +1927,23 @@ $.Class(
 		 * removing elements in advanced blocks
 		 */
 		registerDeleteInventoryField: function () {
-			var thisInstance = this;
-			var container = thisInstance.getInventoryViewLayout();
-			var selectedModule = this.container.find('[name="layoutEditorModules"]').val();
+			let thisInstance = this;
+			let container = thisInstance.getInventoryViewLayout();
+			let selectedModule = this.container.find('[name="layoutEditorModules"]').val();
 			container.find('.deleteInventoryField').on('click', function (e) {
 				let currentTarget = $(e.currentTarget);
-				var liElement = currentTarget.closest('li');
-				var message = app.vtranslate('JS_DELETE_INVENTORY_CONFIRMATION');
-				Vtiger_Helper_Js.showConfirmationBox({ message: message })
-					.done(function (e) {
-						var progressIndicatorElement = $.progressIndicator({
+				let liElement = currentTarget.closest('li');
+				app.showConfirmModal({
+					title: app.vtranslate('JS_DELETE_INVENTORY_CONFIRMATION'),
+					confirmedCallback: () => {
+						let progressIndicatorElement = $.progressIndicator({
 							message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 							position: 'html',
 							blockInfo: {
 								enabled: true
 							}
 						});
-						var editFields = liElement.find('.editFields');
+						let editFields = liElement.find('.editFields');
 						app
 							.saveAjax('delete', null, {
 								sourceModule: selectedModule,
@@ -1963,10 +1960,11 @@ $.Class(
 								Settings_Vtiger_Index_Js.showMessage(param);
 								progressIndicatorElement.progressIndicator({ mode: 'hide' });
 							});
-					})
-					.fail(function (error, err) {
+					},
+					rejectedCallback: () => {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					});
+					}
+				});
 			});
 		},
 

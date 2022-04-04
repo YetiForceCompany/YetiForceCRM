@@ -17,9 +17,9 @@ Vtiger_Detail_Js(
 		 * @params: delete record url.
 		 */
 		triggerDeleteUser: function (deleteUserUrl) {
-			var message = app.vtranslate('JS_DELETE_USER_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({ message: message })
-				.done(function (data) {
+			app.showConfirmModal({
+				title: app.vtranslate('JS_DELETE_USER_CONFIRMATION'),
+				confirmedCallback: () => {
 					AppConnector.request(deleteUserUrl).done(function (data) {
 						if (data) {
 							var callback = function (data) {
@@ -39,10 +39,8 @@ Vtiger_Detail_Js(
 							});
 						}
 					});
-				})
-				.fail(function (error, err) {
-					console.error(error);
-				});
+				}
+			});
 		},
 		deleteUser: function (form) {
 			var userid = form.find('[name="userid"]').val();
@@ -69,25 +67,27 @@ Vtiger_Detail_Js(
 			});
 		},
 		triggerChangeAccessKey: function (url) {
-			var title = app.vtranslate('JS_NEW_ACCESS_KEY_REQUESTED');
-			var message = app.vtranslate('JS_CHANGE_ACCESS_KEY_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({ title: title, message: message }).done(function (data) {
-				AppConnector.request(url).done(function (data) {
-					var params = {};
-					if (data['success']) {
-						data = data.result;
-						params['type'] = 'success';
-						message = app.vtranslate(data.message);
-						var accessKeyEle = $('#Users_detailView_fieldValue_accesskey');
-						if (accessKeyEle.length) {
-							accessKeyEle.find('.value').html(data.accessKey);
+			app.showConfirmModal({
+				title: app.vtranslate('JS_NEW_ACCESS_KEY_REQUESTED'),
+				text: app.vtranslate('JS_CHANGE_ACCESS_KEY_CONFIRMATION'),
+				confirmedCallback: () => {
+					AppConnector.request(url).done(function (data) {
+						let params = {};
+						if (data['success']) {
+							data = data.result;
+							params['type'] = 'success';
+							message = app.vtranslate(data.message);
+							let accessKeyEle = $('#Users_detailView_fieldValue_accesskey');
+							if (accessKeyEle.length) {
+								accessKeyEle.find('.value').html(data.accessKey);
+							}
+						} else {
+							message = app.vtranslate(data['error']['message']);
 						}
-					} else {
-						message = app.vtranslate(data['error']['message']);
-					}
-					params['text'] = message;
-					app.showNotify(params);
-				});
+						params['text'] = message;
+						app.showNotify(params);
+					});
+				}
 			});
 		}
 	},

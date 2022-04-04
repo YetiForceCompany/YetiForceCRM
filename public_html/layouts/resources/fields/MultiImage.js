@@ -85,7 +85,7 @@ class MultiImage {
 			e.preventDefault();
 			e.stopPropagation();
 			e.stopImmediatePropagation();
-			bootbox.alert(app.vtranslate('JS_WAIT_FOR_FILE_UPLOAD'));
+			app.showAlert(app.vtranslate('JS_WAIT_FOR_FILE_UPLOAD'));
 			return false;
 		}
 		return true;
@@ -448,9 +448,8 @@ class MultiImage {
 	 * @param {string} hash
 	 */
 	zoomPreview(hash) {
-		const thisInstance = this;
+		const self = this;
 		let fileInfo = this.getFileInfo(hash);
-
 		const titleTemplate = () => {
 			const titleObject = document.createElement('span');
 			const icon = document.createElement('i');
@@ -459,45 +458,53 @@ class MultiImage {
 			titleObject.appendChild(document.createTextNode(` ${fileInfo.name}`));
 			return titleObject.innerHTML;
 		};
-		const bootboxOptions = {
-			size: 'large',
-			backdrop: true,
-			onEscape: true,
-			title: `<span id="bootbox-title-${hash}">${titleTemplate()}</span>`,
-			message: `<img src="${fileInfo.imageSrc}" class="w-100" />`,
-			buttons: {}
-		};
-		if (this.options.showCarousel) {
-			bootboxOptions.message = this.generateCarousel(hash);
-		}
-		if (!this.detailView) {
-			bootboxOptions.buttons.Delete = {
-				label: `<i class="fa fa-trash-alt"></i> ${app.vtranslate('JS_DELETE')}`,
-				className: 'float-left btn btn-danger',
-				callback() {
-					thisInstance.deleteFile(fileInfo.hash);
-				}
-			};
-		}
-		bootboxOptions.buttons.Download = {
-			label: `<i class="fa fa-download"></i> ${app.vtranslate('JS_DOWNLOAD')}`,
-			className: 'float-left btn btn-success',
-			callback() {
-				thisInstance.download(fileInfo.hash);
-			}
-		};
-		bootboxOptions.buttons.Close = {
-			label: `<i class="fa fa-times"></i> ${app.vtranslate('JS_CLOSE')}`,
-			className: 'btn btn-warning',
-			callback: () => {}
-		};
-		bootbox.dialog(bootboxOptions);
-		if (this.options.showCarousel) {
-			$(`#carousel-${hash}`).on('slid.bs.carousel', (e) => {
-				fileInfo = this.getFileInfo($(e.relatedTarget).data('hash'));
-				$(`#bootbox-title-${hash}`).html(titleTemplate());
+
+		let buttons = [];
+		if (!self.detailView) {
+			buttons.push({
+				text: app.vtranslate('JS_DELETE'),
+				icon: 'fa fa-trash-alt',
+				class: 'float-left btn btn-danger js-delete'
 			});
 		}
+		buttons.push(
+			{
+				text: app.vtranslate('JS_DOWNLOAD'),
+				icon: 'fa fa-download',
+				class: 'float-left btn btn-success js-success'
+			},
+			{
+				text: app.vtranslate('JS_CLOSE'),
+				icon: 'fa fa-times',
+				class: 'btn btn-warning',
+				data: { dismiss: 'modal' }
+			}
+		);
+		app.showModalHtml({
+			class: 'modal-lg',
+			header: titleTemplate(),
+			footerButtons: buttons,
+			body: self.options.showCarousel
+				? self.generateCarousel(hash)
+				: `<img src="${fileInfo.imageSrc}" class="w-100" />`,
+			cb: (modal) => {
+				console.log(modal);
+				modal.on('click', '.js-delete', function (e) {
+					self.deleteFile(fileInfo.hash);
+					app.hideModalWindow();
+				});
+				modal.on('click', '.js-success', function (e) {
+					self.download(fileInfo.hash);
+					app.hideModalWindow();
+				});
+				if (self.options.showCarousel) {
+					modal.find(`#carousel-${hash}`).on('slid.bs.carousel', (e) => {
+						fileInfo = self.getFileInfo($(e.relatedTarget).data('hash'));
+						modal.find('.js-modal-title').html(titleTemplate());
+					});
+				}
+			}
+		});
 	}
 
 	/**

@@ -443,12 +443,14 @@ jQuery.Class(
 				var blockId = table.data('block-id');
 				var paramsFrom = {};
 				paramsFrom['blockid'] = blockId;
-				var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-				Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(function (__DEFAULT__) {
-					thisInstance.save(paramsFrom, 'removeBlock').done(function (_) {
-						thisInstance.reloadContent();
-						Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_CUSTOM_BLOCK_DELETED') });
-					});
+				app.showConfirmModal({
+					title: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE'),
+					confirmedCallback: () => {
+						thisInstance.save(paramsFrom, 'removeBlock').done(function (_) {
+							thisInstance.reloadContent();
+							Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_CUSTOM_BLOCK_DELETED') });
+						});
+					}
 				});
 			});
 		},
@@ -517,26 +519,27 @@ jQuery.Class(
 			}
 			contents.find('.js-delete-widget').on('click', (e) => {
 				let widgetId = e.currentTarget.dataset.id;
-				Vtiger_Helper_Js.showConfirmationBox({
-					message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE')
-				}).done((_) => {
-					let progress = $.progressIndicator({
-						message: app.vtranslate('JS_SAVE_LOADER_INFO'),
-						position: 'html',
-						blockInfo: {
-							enabled: true
-						}
-					});
-					app.saveAjax('delete', null, { widgetId: widgetId }).done((data) => {
-						if (data.result === true) {
-							Settings_Vtiger_Index_Js.showMessage({
-								type: 'success',
-								text: app.vtranslate('JS_CUSTOM_FIELD_DELETED')
-							});
-						}
-						progress.progressIndicator({ mode: 'hide' });
-						this.reloadContent();
-					});
+				app.showConfirmModal({
+					title: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE'),
+					confirmedCallback: () => {
+						let progress = $.progressIndicator({
+							message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+							position: 'html',
+							blockInfo: {
+								enabled: true
+							}
+						});
+						app.saveAjax('delete', null, { widgetId: widgetId }).done((data) => {
+							if (data.result === true) {
+								Settings_Vtiger_Index_Js.showMessage({
+									type: 'success',
+									text: app.vtranslate('JS_CUSTOM_FIELD_DELETED')
+								});
+							}
+							progress.progressIndicator({ mode: 'hide' });
+							this.reloadContent();
+						});
+					}
 				});
 			});
 		},

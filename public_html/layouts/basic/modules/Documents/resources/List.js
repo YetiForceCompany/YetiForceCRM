@@ -88,17 +88,16 @@ Vtiger_List_Js(
 			return aDeferred.promise();
 		},
 		registerDeleteFilterClickEvent: function () {
-			var thisInstance = this;
-
-			var listViewFilterBlock = this.getFilterBlock();
+			const self = this;
+			let listViewFilterBlock = this.getFilterBlock();
 			if (listViewFilterBlock != false) {
 				//used mouseup event to stop the propagation of customfilter select change event.
 				listViewFilterBlock.on('mouseup', '.js-filter-delete', function (event) {
 					//to close the dropdown
 					event.stopPropagation();
-					thisInstance.getFilterSelectElement().data('select2').close();
-					var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
-					var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
+					self.getFilterSelectElement().data('select2').close();
+					let liElement = jQuery(event.currentTarget).closest('.select2-results__option');
+					let message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
 					if (liElement.hasClass('folderOption')) {
 						if (liElement.find('.js-filter-delete').hasClass('dull')) {
 							app.showNotify({
@@ -107,27 +106,30 @@ Vtiger_List_Js(
 							});
 							return;
 						} else {
-							Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(function (e) {
-								var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
-								var folderId = currentOptionElement.data('folderid');
-								var params = {
-									module: app.getModuleName(),
-									mode: 'delete',
-									action: 'Folder',
-									folderid: folderId
-								};
-								AppConnector.request(params).done(function (data) {
-									if (data.success) {
-										currentOptionElement.remove();
-										thisInstance.getFilterSelectElement().trigger('change');
-									}
-								});
+							app.showConfirmModal({
+								text: message,
+								confirmedCallback: () => {
+									let currentOptionElement = self.getSelectOptionFromChosenOption(liElement);
+									AppConnector.request({
+										module: app.getModuleName(),
+										mode: 'delete',
+										action: 'Folder',
+										folderid: currentOptionElement.data('folderid')
+									}).done(function (data) {
+										if (data.success) {
+											currentOptionElement.remove();
+											self.getFilterSelectElement().trigger('change');
+										}
+									});
+								}
 							});
 						}
 					} else {
-						Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(function (e) {
-							var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
-							AppConnector.requestForm(currentOptionElement.data('deleteurl'));
+						app.showConfirmModal({
+							text: message,
+							confirmedCallback: () => {
+								AppConnector.requestForm(self.getSelectOptionFromChosenOption(liElement).data('deleteurl'));
+							}
 						});
 					}
 				});

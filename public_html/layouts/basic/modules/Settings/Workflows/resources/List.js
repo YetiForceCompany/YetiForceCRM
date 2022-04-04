@@ -20,51 +20,53 @@ Settings_Vtiger_List_Js(
 		},
 
 		setChangeStatusTasks: function (e, recordId, status) {
-			var changeButtonType = jQuery(e);
-			var container = jQuery(e).closest('tr');
-			var message = app.vtranslate('LBL_STATUS_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(function (e) {
-				var module = app.getModuleName();
-				var postData = {
-					module: module,
-					action: 'TaskAjax',
-					mode: 'changeStatusAllTasks',
-					record: recordId,
-					status: status,
-					parent: app.getParentModuleName()
-				};
-				var deleteMessage = app.vtranslate('JS_TASKS_STATUS_GETTING_CHANGED');
-				var progressIndicatorElement = jQuery.progressIndicator({
-					message: deleteMessage,
-					position: 'html',
-					blockInfo: {
-						enabled: true
-					}
-				});
-				AppConnector.request(postData).done(function (data) {
-					progressIndicatorElement.progressIndicator({
-						mode: 'hide'
-					});
-					if (data.success) {
-						var count = data.result.count;
-						var element = container.find('[data-name="active_tasks"]');
-						changeButtonType.hide();
-						if (status) {
-							element.html('&nbsp;' + count);
-							changeButtonType.closest('td').find('.deactiveTasks').show();
-						} else {
-							element.html('&nbsp;0');
-							changeButtonType.closest('td').find('.activeTasks').show();
+			let changeButtonType = jQuery(e);
+			let container = jQuery(e).closest('tr');
+			app.showConfirmModal({
+				title: app.vtranslate('LBL_STATUS_CONFIRMATION'),
+				confirmedCallback: () => {
+					var module = app.getModuleName();
+					var postData = {
+						module: module,
+						action: 'TaskAjax',
+						mode: 'changeStatusAllTasks',
+						record: recordId,
+						status: status,
+						parent: app.getParentModuleName()
+					};
+					var deleteMessage = app.vtranslate('JS_TASKS_STATUS_GETTING_CHANGED');
+					var progressIndicatorElement = jQuery.progressIndicator({
+						message: deleteMessage,
+						position: 'html',
+						blockInfo: {
+							enabled: true
 						}
-					} else {
-						var params = {
-							text: app.vtranslate(data.error.message),
-							title: app.vtranslate('JS_LBL_PERMISSION'),
-							type: 'error'
-						};
-						app.showNotify(params);
-					}
-				});
+					});
+					AppConnector.request(postData).done(function (data) {
+						progressIndicatorElement.progressIndicator({
+							mode: 'hide'
+						});
+						if (data.success) {
+							var count = data.result.count;
+							var element = container.find('[data-name="active_tasks"]');
+							changeButtonType.hide();
+							if (status) {
+								element.html('&nbsp;' + count);
+								changeButtonType.closest('td').find('.deactiveTasks').show();
+							} else {
+								element.html('&nbsp;0');
+								changeButtonType.closest('td').find('.activeTasks').show();
+							}
+						} else {
+							var params = {
+								text: app.vtranslate(data.error.message),
+								title: app.vtranslate('JS_LBL_PERMISSION'),
+								type: 'error'
+							};
+							app.showNotify(params);
+						}
+					});
+				}
 			});
 		}
 	},

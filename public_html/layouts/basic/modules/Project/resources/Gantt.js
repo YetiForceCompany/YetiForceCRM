@@ -424,12 +424,13 @@ class Gantt {
 	 */
 	showFiltersModal() {
 		const self = this;
-		const box = bootbox.dialog({
-			show: 'false',
-			message: `<div class="js-gantt__filter-modal form" data-js="container">
+		app.showModalHtml({
+			headerIcon: 'fas fa-filter',
+			header: app.vtranslate('JS_FILTER_BY_STATUSES'),
+			body: `<div class="js-gantt__filter-modal form" data-js="container">
 				<div class="form-group">
-					<label>${app.vtranslate('JS_PROJECT_STATUSES', 'Project')}:</label>
-					<select class="select2 form-control" id="js-gantt__filter-project" multiple>
+					<label>${app.vtranslate('JS_PROJECT_STATUSES')}:</label>
+					<select class="select2 form-control js-gantt__filter-project"  multiple>
 						${self.statuses.Project.map((status) => {
 							return `<option value="${status.value}" ${
 								this.filter.status.Project.map((status) => status.value).indexOf(status.value) >= 0 ? 'selected' : ''
@@ -438,8 +439,8 @@ class Gantt {
 					</select>
 				</div>
 				<div class="form-group">
-				<label>${app.vtranslate('JS_MILESTONE_STATUSES', 'Project')}:</label>
-					<select class="select2 form-control" id="js-gantt__filter-milestone" multiple>
+				<label>${app.vtranslate('JS_MILESTONE_STATUSES')}:</label>
+					<select class="select2 form-control js-gantt__filter-milestone" multiple>
 						${self.statuses.ProjectMilestone.map((status) => {
 							return `<option value="${status.value}" ${
 								this.filter.status.ProjectMilestone.map((status) => status.value).indexOf(status.value) >= 0
@@ -450,8 +451,8 @@ class Gantt {
 					</select>
 				</div>
 				<div class="form-group">
-				<label>${app.vtranslate('JS_TASK_STATUSES', 'Project')}:</label>
-					<select class="select2 form-control" id="js-gantt__filter-task" multiple>
+				<label>${app.vtranslate('JS_TASK_STATUSES')}:</label>
+					<select class="select2 form-control js-gantt__filter-task" multiple>
 						${self.statuses.ProjectTask.map((status) => {
 							return `<option value="${status.value}" ${
 								this.filter.status.ProjectTask.map((status) => status.value).indexOf(status.value) >= 0
@@ -462,42 +463,38 @@ class Gantt {
 					</select>
 				</div>
 			</div>`,
-			title: '<span class="fas fa-filter"></span> ' + app.vtranslate('JS_FILTER_BY_STATUSES', 'Project'),
-			buttons: {
-				success: {
-					label: '<span class="fas fa-check mr-1"></span>' + app.vtranslate('JS_UPDATE_GANTT', 'Project'),
-					className: 'btn-success',
-					callback: function () {
-						self.saveFilter({
-							status: {
-								Project: $('#js-gantt__filter-project', this)
-									.val()
-									.map((status) => {
-										return self.getStatusFromValue(status, 'Project');
-									}),
-								ProjectMilestone: $('#js-gantt__filter-milestone', this)
-									.val()
-									.map((status) => {
-										return self.getStatusFromValue(status, 'ProjectMilestone');
-									}),
-								ProjectTask: $('#js-gantt__filter-task', this)
-									.val()
-									.map((status) => {
-										return self.getStatusFromValue(status, 'ProjectTask');
-									})
-							}
-						});
-					}
-				},
-				danger: {
-					label: '<span class="fas fa-times mr-1"></span>' + app.vtranslate('JS_CANCEL'),
-					className: 'btn-danger',
-					callback: function () {}
-				}
+			footerButtons: [
+				{ text: app.vtranslate('JS_UPDATE_GANTT'), icon: 'fas fa-check', class: 'btn-success js-success' },
+				{ text: app.vtranslate('JS_CANCEL'), icon: 'fas fa-times', class: 'btn-danger', data: { dismiss: 'modal' } }
+			],
+			cb: function (modal) {
+				modal.on('click', '.js-success', function (e) {
+					self.saveFilter({
+						status: {
+							Project: modal
+								.find('.js-gantt__filter-project')
+								.val()
+								.map((status) => {
+									return self.getStatusFromValue(status, 'Project');
+								}),
+							ProjectMilestone: modal
+								.find('.js-gantt__filter-milestone')
+								.val()
+								.map((status) => {
+									return self.getStatusFromValue(status, 'ProjectMilestone');
+								}),
+							ProjectTask: modal
+								.find('.js-gantt__filter-task')
+								.val()
+								.map((status) => {
+									return self.getStatusFromValue(status, 'ProjectTask');
+								})
+						}
+					});
+					app.hideModalWindow();
+				});
 			}
 		});
-		App.Fields.Picklist.showSelect2ElementView($(box).find('.select2'));
-		box.show();
 	}
 
 	/**

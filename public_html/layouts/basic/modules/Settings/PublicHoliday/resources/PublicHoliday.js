@@ -167,34 +167,35 @@ $.Class(
 		registerDeleteHolidayEvent(container) {
 			let thisInstance = this;
 			this.$itemsContainer.on('click', '.deleteHoliday', (e) => {
-				Vtiger_Helper_Js.showConfirmationBox({
-					message: app.vtranslate('JS_DELETE_RECORD_CONFIRMATION')
-				}).done(() => {
-					let $target = $(e.target);
-					let $holidayDetails = $target.closest('.holidayElement').data();
-					Settings_PublicHoliday_Js.showProgressive();
-					AppConnector.request({
-						parent: app.getParentModuleName(),
-						module: app.getModuleName(),
-						action: 'Holiday',
-						mode: 'delete',
-						id: $holidayDetails.holidayId
-					})
-						.done((response) => {
-							Settings_PublicHoliday_Js.hideProgressive();
-							Settings_Vtiger_Index_Js.showMessage({
-								text: response.result.message,
-								type: response.result.success ? 'success' : 'error'
-							});
-							thisInstance.reloadItems();
+				app.showConfirmModal({
+					title: app.vtranslate('JS_DELETE_RECORD_CONFIRMATION'),
+					confirmedCallback: () => {
+						let $target = $(e.target);
+						let $holidayDetails = $target.closest('.holidayElement').data();
+						Settings_PublicHoliday_Js.showProgressive();
+						AppConnector.request({
+							parent: app.getParentModuleName(),
+							module: app.getModuleName(),
+							action: 'Holiday',
+							mode: 'delete',
+							id: $holidayDetails.holidayId
 						})
-						.fail((error) => {
-							Settings_PublicHoliday_Js.hideProgressive();
-							Settings_Vtiger_Index_Js.showMessage({
-								text: error.toString(),
-								type: 'error'
+							.done((response) => {
+								Settings_PublicHoliday_Js.hideProgressive();
+								Settings_Vtiger_Index_Js.showMessage({
+									text: response.result.message,
+									type: response.result.success ? 'success' : 'error'
+								});
+								thisInstance.reloadItems();
+							})
+							.fail((error) => {
+								Settings_PublicHoliday_Js.hideProgressive();
+								Settings_Vtiger_Index_Js.showMessage({
+									text: error.toString(),
+									type: 'error'
+								});
 							});
-						});
+					}
 				});
 			});
 		},
@@ -256,37 +257,38 @@ $.Class(
 			$('.massdelete', container).click((e) => {
 				let isChecked = $('.mass-selector', container).is(':checked');
 				if (isChecked) {
-					Vtiger_Helper_Js.showConfirmationBox({
-						message: app.vtranslate('JS_DELETE_RECORD_CONFIRMATION')
-					}).done(() => {
-						let recordList = $('.mass-selector:checked', container)
-							.map((idx, selector) => {
-								return $(selector).data('id');
+					app.showConfirmModal({
+						title: app.vtranslate('JS_DELETE_RECORD_CONFIRMATION'),
+						confirmedCallback: () => {
+							let recordList = $('.mass-selector:checked', container)
+								.map((idx, selector) => {
+									return $(selector).data('id');
+								})
+								.toArray();
+							Settings_PublicHoliday_Js.showProgressive();
+							AppConnector.request({
+								parent: app.getParentModuleName(),
+								module: app.getModuleName(),
+								action: 'Holiday',
+								mode: 'massDelete',
+								records: recordList
 							})
-							.toArray();
-						Settings_PublicHoliday_Js.showProgressive();
-						AppConnector.request({
-							parent: app.getParentModuleName(),
-							module: app.getModuleName(),
-							action: 'Holiday',
-							mode: 'massDelete',
-							records: recordList
-						})
-							.done((response) => {
-								Settings_PublicHoliday_Js.hideProgressive();
-								Settings_Vtiger_Index_Js.showMessage({
-									text: response.result.message,
-									type: response.result.success ? 'success' : 'error'
+								.done((response) => {
+									Settings_PublicHoliday_Js.hideProgressive();
+									Settings_Vtiger_Index_Js.showMessage({
+										text: response.result.message,
+										type: response.result.success ? 'success' : 'error'
+									});
+									thisInstance.reloadItems();
+								})
+								.fail((error) => {
+									Settings_PublicHoliday_Js.hideProgressive();
+									Settings_Vtiger_Index_Js.showMessage({
+										text: error.toString(),
+										type: 'error'
+									});
 								});
-								thisInstance.reloadItems();
-							})
-							.fail((error) => {
-								Settings_PublicHoliday_Js.hideProgressive();
-								Settings_Vtiger_Index_Js.showMessage({
-									text: error.toString(),
-									type: 'error'
-								});
-							});
+						}
 					});
 				} else {
 					Settings_Vtiger_Index_Js.showMessage({

@@ -39,20 +39,21 @@ jQuery.Class(
 		 */
 		triggerDefault: function (event, id) {
 			event.stopPropagation();
-			Vtiger_Helper_Js.showConfirmationBox({
-				message: app.vtranslate('JS_CURRENCY_DEFAULT_CONFIRMED')
-			}).done(function (data) {
-				var progressIndicatorElement = jQuery.progressIndicator({
-					position: 'html',
-					blockInfo: { enabled: true }
-				});
-				app.saveAjax('setDefault', null, { record: id }).done(function (data) {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					Settings_Vtiger_Index_Js.showMessage({
-						text: app.vtranslate('JS_CURRENCY_DETAILS_SAVED')
+			app.showConfirmModal({
+				text: app.vtranslate('JS_CURRENCY_DEFAULT_CONFIRMED'),
+				confirmedCallback: () => {
+					var progressIndicatorElement = jQuery.progressIndicator({
+						position: 'html',
+						blockInfo: { enabled: true }
 					});
-					Settings_Currency_Js.currencyInstance.loadListViewContents();
-				});
+					app.saveAjax('setDefault', null, { record: id }).done(function (data) {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						Settings_Vtiger_Index_Js.showMessage({
+							text: app.vtranslate('JS_CURRENCY_DETAILS_SAVED')
+						});
+						Settings_Currency_Js.currencyInstance.loadListViewContents();
+					});
+				}
 			});
 		},
 

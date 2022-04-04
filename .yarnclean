@@ -216,7 +216,6 @@ blueimp-canvas-to-blob/src
 blueimp-file-upload/src
 blueimp-load-image/src
 blueimp-tmpl/src
-bootbox/src
 bootstrap/src
 bootstrap/js
 bootstrap/dist/css

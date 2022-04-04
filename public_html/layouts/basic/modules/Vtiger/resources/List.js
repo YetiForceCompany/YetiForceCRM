@@ -408,10 +408,11 @@ $.Class(
 			let listInstance = Vtiger_List_Js.getInstance();
 			let validationResult = listInstance.checkListRecordSelected();
 			if (validationResult != true) {
-				let message = app.vtranslate('JS_MASS_REVIEWING_CHANGES_CONFIRMATION');
-				let title = '<i class="fa fa-check-circle"></i> ' + app.vtranslate('JS_LBL_REVIEW_CHANGES');
-				Vtiger_Helper_Js.showConfirmationBox({ message: message, title: title })
-					.done(function (e) {
+				app.showConfirmModal({
+					icon: 'fa fa-check-circle',
+					title: app.vtranslate('JS_LBL_REVIEW_CHANGES'),
+					title: app.vtranslate('JS_MASS_REVIEWING_CHANGES_CONFIRMATION'),
+					confirmedCallback: () => {
 						let params = listInstance.getSearchParams();
 						let url =
 							reviewUrl +
@@ -457,10 +458,11 @@ $.Class(
 							.fail(function (error, err) {
 								app.errorLog(error, err);
 							});
-					})
-					.fail(function (error, err) {
+					},
+					rejectedCallback: () => {
 						Vtiger_List_Js.clearList();
-					});
+					}
+				});
 			} else {
 				listInstance.noRecordSelectedAlert();
 			}
@@ -1482,18 +1484,19 @@ $.Class(
 		 * Function to register the click event for delete filter
 		 */
 		registerDeleteFilterClickEvent: function () {
-			const thisInstance = this;
+			const self = this;
 			const listViewFilterBlock = this.getFilterBlock();
 			if (listViewFilterBlock != false) {
 				//used mouseup event to stop the propagation of customfilter select change event.
 				listViewFilterBlock.on('mouseup', '.js-filter-delete', (event) => {
 					//to close the dropdown
-					thisInstance.getFilterSelectElement().data('select2').close();
+					self.getFilterSelectElement().data('select2').close();
 					const liElement = $(event.currentTarget).closest('.select2-results__option');
-					Vtiger_Helper_Js.showConfirmationBox({
-						message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER')
-					}).done((e) => {
-						AppConnector.requestForm(thisInstance.getSelectOptionFromChosenOption(liElement).data('deleteurl'));
+					app.showConfirmModal({
+						title: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE_FILTER'),
+						confirmedCallback: () => {
+							AppConnector.requestForm(self.getSelectOptionFromChosenOption(liElement).data('deleteurl'));
+						}
 					});
 					event.stopPropagation();
 				});
@@ -1622,33 +1625,36 @@ $.Class(
 							app.showModalWindow(modal);
 						});
 					} else {
-						let params = {};
+						let params = {
+							icon: false,
+							confirmedCallback: () => {
+								let progressIndicatorElement = $.progressIndicator(),
+									dataParams = self.getSearchParams();
+								delete dataParams.view;
+								AppConnector.request({
+									type: 'POST',
+									url: target.data('url'),
+									data: dataParams
+								})
+									.done(function (data) {
+										progressIndicatorElement.progressIndicator({ mode: 'hide' });
+										if (data && data.result && data.result.notify) {
+											Vtiger_Helper_Js.showMessage(data.result.notify);
+										}
+										self.getListViewRecords();
+									})
+									.fail(function (error, err) {
+										progressIndicatorElement.progressIndicator({ mode: 'hide' });
+									});
+							}
+						};
 						if (target.data('confirm')) {
-							params.message = target.data('confirm');
+							params.text = target.data('confirm');
 							params.title = target.html();
 						} else {
-							params.message = target.html();
+							params.text = target.html();
 						}
-						Vtiger_Helper_Js.showConfirmationBox(params).done(function (e) {
-							let progressIndicatorElement = $.progressIndicator(),
-								dataParams = self.getSearchParams();
-							delete dataParams.view;
-							AppConnector.request({
-								type: 'POST',
-								url: target.data('url'),
-								data: dataParams
-							})
-								.done(function (data) {
-									progressIndicatorElement.progressIndicator({ mode: 'hide' });
-									if (data && data.result && data.result.notify) {
-										Vtiger_Helper_Js.showMessage(data.result.notify);
-									}
-									self.getListViewRecords();
-								})
-								.fail(function (error, err) {
-									progressIndicatorElement.progressIndicator({ mode: 'hide' });
-								});
-						});
+						app.showConfirmModal(params);
 					}
 				} else {
 					listInstance.noRecordSelectedAlert();

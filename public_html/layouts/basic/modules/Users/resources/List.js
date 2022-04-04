@@ -17,13 +17,13 @@ Vtiger_List_Js(
 		 * @params: delete record url.
 		 */
 		deleteRecord: function (deleteRecordActionUrl) {
-			var message = app.vtranslate('JS_DELETE_USER_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({ message: message })
-				.done(function (data) {
+			app.showConfirmModal({
+				title: app.vtranslate('JS_DELETE_USER_CONFIRMATION'),
+				confirmedCallback: () => {
 					AppConnector.request(deleteRecordActionUrl).done(function (data) {
 						if (data) {
-							var callback = function (data) {
-								var params = app.validationEngineOptions;
+							let callback = function (data) {
+								let params = app.validationEngineOptions;
 								params.onValidationComplete = function (form, valid) {
 									if (valid) {
 										Settings_Users_List_Js.deleteUser(form);
@@ -39,10 +39,8 @@ Vtiger_List_Js(
 							});
 						}
 					});
-				})
-				.fail(function (error, err) {
-					console.error(error, err);
-				});
+				}
+			});
 		},
 		deleteUser: function (form) {
 			var listInstance = Vtiger_List_Js.getInstance();
@@ -94,61 +92,63 @@ Vtiger_List_Js(
 		 */
 		deleteUserPermanently: function (userId, e) {
 			e.stopPropagation();
-			var message = app.vtranslate('JS_DELETE_USER_PERMANENT_CONFIRMATION');
-			var deleteRecordActionUrl =
-				'index.php?module=' +
-				app.getModuleName() +
-				'&parent=' +
-				app.getParentModuleName() +
-				'&view=DeleteUser&mode=permanent&record=' +
-				userId;
-			Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(function (data) {
-				AppConnector.request(deleteRecordActionUrl).done(function (data) {
-					if (data) {
-						var callback = function (data) {
-							var params = app.validationEngineOptions;
-							params.onValidationComplete = function (form, valid) {
-								if (valid) {
-									var progressInstance = jQuery.progressIndicator({
-										position: 'html',
-										blockInfo: {
-											enabled: true
-										}
-									});
-									var params = {
-										module: app.getModuleName(),
-										action: 'DeleteAjax',
-										userid: userId,
-										transfer_user_id: form.find('[name="tranfer_owner_id"]').val(),
-										mode: 'permanent'
-									};
-									app.hideModalWindow();
-									AppConnector.request(params).done(function (response) {
-										if (response.success) {
-											progressInstance.progressIndicator({
-												mode: 'hide'
-											});
-											params = {
-												title: app.vtranslate('JS_MESSAGE'),
-												text: response.result.message,
-												type: 'error'
-											};
-											app.showNotify(params);
-											jQuery('[data-id=' + userId + ']').hide();
-										}
-									});
-								}
-								return false;
+			app.showConfirmModal({
+				title: app.vtranslate('JS_DELETE_USER_PERMANENT_CONFIRMATION'),
+				confirmedCallback: () => {
+					let deleteRecordActionUrl =
+						'index.php?module=' +
+						app.getModuleName() +
+						'&parent=' +
+						app.getParentModuleName() +
+						'&view=DeleteUser&mode=permanent&record=' +
+						userId;
+					AppConnector.request(deleteRecordActionUrl).done(function (data) {
+						if (data) {
+							var callback = function (data) {
+								var params = app.validationEngineOptions;
+								params.onValidationComplete = function (form, valid) {
+									if (valid) {
+										var progressInstance = jQuery.progressIndicator({
+											position: 'html',
+											blockInfo: {
+												enabled: true
+											}
+										});
+										var params = {
+											module: app.getModuleName(),
+											action: 'DeleteAjax',
+											userid: userId,
+											transfer_user_id: form.find('[name="tranfer_owner_id"]').val(),
+											mode: 'permanent'
+										};
+										app.hideModalWindow();
+										AppConnector.request(params).done(function (response) {
+											if (response.success) {
+												progressInstance.progressIndicator({
+													mode: 'hide'
+												});
+												params = {
+													title: app.vtranslate('JS_MESSAGE'),
+													text: response.result.message,
+													type: 'error'
+												};
+												app.showNotify(params);
+												jQuery('[data-id=' + userId + ']').hide();
+											}
+										});
+									}
+									return false;
+								};
+								jQuery('#deleteUser').validationEngine(app.validationEngineOptions);
 							};
-							jQuery('#deleteUser').validationEngine(app.validationEngineOptions);
-						};
-						app.showModalWindow(data, function (data) {
-							if (typeof callback == 'function') {
-								callback(data);
-							}
-						});
-					}
-				});
+							app.showModalWindow(data, function (data) {
+								if (typeof callback == 'function') {
+									callback(data);
+								}
+							});
+						}
+					});
+				}
 			});
 		},
 		/*
@@ -157,34 +157,33 @@ Vtiger_List_Js(
 		 */
 		restoreUser: function (userId, e) {
 			e.stopPropagation();
-			Vtiger_Helper_Js.showConfirmationBox({
-				message: app.vtranslate('JS_RESTORE_CONFIRMATION')
-			}).done(function () {
-				var progressInstance = jQuery.progressIndicator({
-					position: 'html',
-					blockInfo: {
-						enabled: true
-					}
-				});
-				var params = {
-					module: app.getModuleName(),
-					action: 'SaveAjax',
-					record: userId,
-					mode: 'restoreUser'
-				};
-				AppConnector.request(params).done(function (response) {
-					if (response.success) {
-						progressInstance.progressIndicator({
-							mode: 'hide'
-						});
-						app.showNotify({
-							text: response.result.message,
-							type: 'success'
-						});
-						var url = response.result.listViewUrl;
-						window.location.href = url;
-					}
-				});
+			app.showConfirmModal({
+				title: app.vtranslate('JS_RESTORE_CONFIRMATION'),
+				confirmedCallback: () => {
+					let progressInstance = jQuery.progressIndicator({
+						position: 'html',
+						blockInfo: {
+							enabled: true
+						}
+					});
+					AppConnector.request({
+						module: app.getModuleName(),
+						action: 'SaveAjax',
+						record: userId,
+						mode: 'restoreUser'
+					}).done(function (response) {
+						if (response.success) {
+							progressInstance.progressIndicator({
+								mode: 'hide'
+							});
+							app.showNotify({
+								text: response.result.message,
+								type: 'success'
+							});
+							window.location.href = response.result.listViewUrl;
+						}
+					});
+				}
 			});
 		},
 		/*
@@ -195,10 +194,9 @@ Vtiger_List_Js(
 			let listInstance = Settings_Vtiger_List_Js.getInstance();
 			let validationResult = listInstance.checkListRecordSelected();
 			if (validationResult !== true) {
-				Vtiger_Helper_Js.showConfirmationBox({
-					message: app.vtranslate('JS_2FA_OFF_CONFIRMATION')
-				})
-					.done(() => {
+				app.showConfirmModal({
+					title: app.vtranslate('JS_2FA_OFF_CONFIRMATION'),
+					confirmedCallback: () => {
 						let progressIndicatorElement = jQuery.progressIndicator({
 							message: app.vtranslate('JS_2FA_OFF_IN_PROGRESS'),
 							position: 'html',
@@ -225,10 +223,11 @@ Vtiger_List_Js(
 							}
 							window.location.href = url;
 						});
-					})
-					.fail(function (error, err) {
+					},
+					rejectedCallback: () => {
 						Vtiger_List_Js.clearList();
-					});
+					}
+				});
 			} else {
 				listInstance.noRecordSelectedAlert();
 			}

@@ -1623,11 +1623,6 @@ table tr td .input-sm {
 	background-color: #f5f5f5;
 }
 
-.panel-title,
-.message-medium {
-	font-size: calculate-rem(14px);
-}
-
 tr.summaryViewEntries,
 #detailView table,
 #recordsListContents table,
@@ -2344,10 +2339,6 @@ body,
 
 #rssFeedHeading h3 {
 	margin-top: 0;
-}
-
-.bootbox .btn-warning {
-	margin-left: 5px;
 }
 
 .menuPanel {

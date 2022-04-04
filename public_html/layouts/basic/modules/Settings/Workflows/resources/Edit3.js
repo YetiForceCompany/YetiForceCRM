@@ -332,23 +332,22 @@ Settings_Workflows_Edit_Js(
 			var thisInstance = this;
 			var container = this.getContainer();
 			container.on('click', '.deleteTask', function (e) {
-				var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-				Vtiger_Helper_Js.showConfirmationBox({
-					message: message
-				}).done(function () {
-					var currentElement = $(e.currentTarget);
-					var deleteUrl = currentElement.data('deleteurl');
-					AppConnector.request(deleteUrl).done(function (data) {
-						if (data.result == 'ok') {
-							thisInstance.getTaskList();
-							var params = {
-								title: app.vtranslate('JS_MESSAGE'),
-								text: app.vtranslate('JS_TASK_DELETED_SUCCESSFULLY'),
-								type: 'success'
-							};
-							app.showNotify(params);
-						}
-					});
+				app.showConfirmModal({
+					title: app.vtranslate('LBL_DELETE_CONFIRMATION'),
+					confirmedCallback: () => {
+						var currentElement = $(e.currentTarget);
+						var deleteUrl = currentElement.data('deleteurl');
+						AppConnector.request(deleteUrl).done(function (data) {
+							if (data.result == 'ok') {
+								thisInstance.getTaskList();
+								app.showNotify({
+									title: app.vtranslate('JS_MESSAGE'),
+									text: app.vtranslate('JS_TASK_DELETED_SUCCESSFULLY'),
+									type: 'success'
+								});
+							}
+						});
+					}
 				});
 			});
 		},

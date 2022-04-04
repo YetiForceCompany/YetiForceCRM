@@ -154,25 +154,26 @@ Vtiger_Detail_Js(
 		 */
 		showProgressConfirmation: function (element, picklistName) {
 			let picklistValue = $(element).data('picklistValue');
-			Vtiger_Helper_Js.showConfirmationBox({
+			app.showConfirmModal({
 				title: $(element).data('picklistLabel'),
-				message: app.vtranslate('JS_CHANGE_VALUE_CONFIRMATION')
-			}).done(() => {
-				const progressIndicatorElement = $.progressIndicator();
-				this.saveFieldValues({
-					value: picklistValue,
-					field: picklistName
-				})
-					.done((data) => {
-						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						if (data.success) {
-							window.location.reload();
-						}
+				text: app.vtranslate('JS_CHANGE_VALUE_CONFIRMATION'),
+				confirmedCallback: () => {
+					const progressIndicatorElement = $.progressIndicator();
+					this.saveFieldValues({
+						value: picklistValue,
+						field: picklistName
 					})
-					.fail(function (error, err) {
-						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						app.errorLog(error, err);
-					});
+						.done((data) => {
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+							if (data.success) {
+								window.location.reload();
+							}
+						})
+						.fail(function (error, err) {
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+							app.errorLog(error, err);
+						});
+				}
 			});
 		},
 		/**

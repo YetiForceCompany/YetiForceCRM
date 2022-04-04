@@ -45,18 +45,19 @@ jQuery.Class(
 		 */
 		triggerDelete: function (event, module, sourceField, targetField) {
 			event.stopPropagation();
-			var currentTarget = jQuery(event.currentTarget);
-			var currentTrEle = currentTarget.closest('tr');
-			var instance = Settings_PickListDependency_Js.pickListDependencyInstance;
+			let currentTrEle = jQuery(event.currentTarget).closest('tr');
+			let instance = Settings_PickListDependency_Js.pickListDependencyInstance;
 
-			var message = app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE');
-			Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(function (e) {
-				instance.deleteDependency(module, sourceField, targetField).done(function (data) {
-					var params = {};
-					params.text = app.vtranslate('JS_DEPENDENCY_DELETED_SUEESSFULLY');
-					Settings_Vtiger_Index_Js.showMessage(params);
-					currentTrEle.fadeOut('slow').remove();
-				});
+			app.showConfirmModal({
+				title: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE'),
+				confirmedCallback: () => {
+					instance.deleteDependency(module, sourceField, targetField).done(function (data) {
+						var params = {};
+						params.text = app.vtranslate('JS_DEPENDENCY_DELETED_SUEESSFULLY');
+						Settings_Vtiger_Index_Js.showMessage(params);
+						currentTrEle.fadeOut('slow').remove();
+					});
+				}
 			});
 		}
 	},
@@ -355,10 +356,10 @@ jQuery.Class(
 		 * Function used to update the value mapping to save the picklist dependency
 		 */
 		updateValueMapping: function (dependencyGraph) {
-			var thisInstance = this;
-			thisInstance.valueMapping = [];
-			var sourceValuesArray = thisInstance.updatedSourceValues;
-			var dependencyTable = dependencyGraph.find('.pickListDependencyTable');
+			const self = this;
+			self.valueMapping = [];
+			let sourceValuesArray = self.updatedSourceValues;
+			let dependencyTable = dependencyGraph.find('.pickListDependencyTable');
 			for (var key in sourceValuesArray) {
 				let encodedSourceValue;
 				if (typeof sourceValuesArray[key] == 'string') {
@@ -366,10 +367,10 @@ jQuery.Class(
 				} else {
 					encodedSourceValue = sourceValuesArray[key];
 				}
-				var selectedTargetValues = dependencyTable
+				let selectedTargetValues = dependencyTable
 					.find('td[data-source-value="' + encodedSourceValue + '"]')
 					.filter('.selectedCell');
-				var targetValues = [];
+				let targetValues = [];
 				if (selectedTargetValues.length > 0) {
 					jQuery.each(selectedTargetValues, function (index, element) {
 						targetValues.push(jQuery(element).data('targetValue'));
@@ -377,7 +378,7 @@ jQuery.Class(
 				} else {
 					targetValues.push('');
 				}
-				thisInstance.valueMapping.push({
+				self.valueMapping.push({
 					sourcevalue: sourceValuesArray[key],
 					targetvalues: targetValues
 				});
@@ -522,7 +523,7 @@ jQuery.Class(
 				try {
 					thisInstance.updateValueMapping(dependencyGraph);
 				} catch (e) {
-					bootbox.alert(e.message);
+					app.showAlert(e.message);
 					return;
 				}
 				if (form.find('.editDependency').val() != 'true' && thisInstance.valueMapping.length < 1) {

@@ -1020,18 +1020,21 @@ jQuery.Class(
 			this.content.find('button.relationDelete').on('click', function (e) {
 				e.stopImmediatePropagation();
 				let target = $(e.currentTarget);
-				let params = {};
+				let params = {
+					icon: false,
+					confirmedCallback: () => {
+						thisInstance.deleteRelation(target);
+					}
+				};
 				if (target.data('confirm')) {
-					params.message = target.data('confirm');
+					params.text = target.data('confirm');
 					params.title = target.html() + ' ' + target.data('content');
 				} else if (target.data('content')) {
-					params.message = target.data('content');
+					params.text = target.data('content');
 				} else {
-					params.message = app.vtranslate('JS_DELETE_CONFIRMATION');
+					params.text = app.vtranslate('JS_DELETE_CONFIRMATION');
 				}
-				Vtiger_Helper_Js.showConfirmationBox(params).done(function () {
-					thisInstance.deleteRelation(target);
-				});
+				app.showConfirmModal(params);
 			});
 			this.content.find('.js-switch--calendar,select.js-relation-cv-id').on('change', function (e) {
 				thisInstance.loadRelatedList();
@@ -1559,33 +1562,36 @@ jQuery.Class(
 							app.showModalWindow(modal);
 						});
 					} else {
-						let params = {};
+						let params = {
+							icon: false,
+							confirmedCallback: () => {
+								let progressIndicatorElement = $.progressIndicator(),
+									dataParams = self.getSearchParams();
+								delete dataParams.view;
+								AppConnector.request({
+									type: 'POST',
+									url: target.data('url'),
+									data: dataParams
+								})
+									.done(function (data) {
+										progressIndicatorElement.progressIndicator({ mode: 'hide' });
+										if (data && data.result && data.result.notify) {
+											Vtiger_Helper_Js.showMessage(data.result.notify);
+										}
+										self.getListViewRecords();
+									})
+									.fail(function (error, err) {
+										progressIndicatorElement.progressIndicator({ mode: 'hide' });
+									});
+							}
+						};
 						if (target.data('confirm')) {
-							params.message = target.data('confirm');
+							params.text = target.data('confirm');
 							params.title = target.html();
 						} else {
-							params.message = target.html();
+							params.text = target.html();
 						}
-						Vtiger_Helper_Js.showConfirmationBox(params).done(function (e) {
-							let progressIndicatorElement = $.progressIndicator(),
-								dataParams = self.getSearchParams();
-							delete dataParams.view;
-							AppConnector.request({
-								type: 'POST',
-								url: target.data('url'),
-								data: dataParams
-							})
-								.done(function (data) {
-									progressIndicatorElement.progressIndicator({ mode: 'hide' });
-									if (data && data.result && data.result.notify) {
-										Vtiger_Helper_Js.showMessage(data.result.notify);
-									}
-									self.getListViewRecords();
-								})
-								.fail(function (error, err) {
-									progressIndicatorElement.progressIndicator({ mode: 'hide' });
-								});
-						});
+						app.showConfirmModal(params);
 					}
 				} else {
 					self.noRecordSelectedAlert();

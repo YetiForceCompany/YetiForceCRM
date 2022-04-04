@@ -185,34 +185,32 @@ $.Class(
 				dt.ajax.reload();
 			});
 			table.off('click', '.js-update').on('click', '.js-update', function () {
-				let self = this;
-				bootbox.prompt({
+				app.showConfirmModal({
 					title: app.vtranslate('JS_ENTER_A_REASON'),
-					required: true,
-					callback: function (result) {
-						if (result) {
-							AppConnector.request({
-								module: 'AppComponents',
-								action: 'InterestsConflict',
-								mode: 'updateConfirmStatus',
-								id: self.dataset.user,
-								baseRecord: self.dataset.related,
-								comment: result
-							})
-								.done(function () {
-									app.showNotify({
-										text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
-										type: 'success'
-									});
-									dt.ajax.reload(null, false);
-								})
-								.fail(function () {
-									app.showNotify({
-										text: app.vtranslate('JS_ERROR'),
-										type: 'error'
-									});
+					showDialog: true,
+					multiLineDialog: true,
+					confirmedCallback: (notice, value) => {
+						AppConnector.request({
+							module: 'AppComponents',
+							action: 'InterestsConflict',
+							mode: 'updateConfirmStatus',
+							id: this.dataset.user,
+							baseRecord: this.dataset.related,
+							comment: value
+						})
+							.done(function () {
+								app.showNotify({
+									text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
+									type: 'success'
 								});
-						}
+								dt.ajax.reload(null, false);
+							})
+							.fail(function () {
+								app.showNotify({
+									text: app.vtranslate('JS_ERROR'),
+									type: 'error'
+								});
+							});
 					}
 				});
 			});

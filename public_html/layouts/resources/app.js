@@ -1508,6 +1508,34 @@ var app = (window.app = {
 		}
 		return container;
 	},
+	showModalHtml: function (params) {
+		let data = '',
+			icon = '';
+		let footer = params['footer'] ?? '';
+		if (params['header']) {
+			params['header'] = `<span class="${params['headerIcon']} mr-2"></span>${params['header']}`;
+		}
+		if (params['footerButtons']) {
+			$.each(params['footerButtons'], (i, button) => {
+				icon = data = '';
+				$.each(button['data'], (key, val) => {
+					data += ` data-${key}="${val}"`;
+				});
+				if (button['icon']) {
+					icon += `<span class="${button['icon']} mr-2"></span>`;
+				}
+				footer += `<button type="button" class="btn ${button['class']}" ${data}>${icon}${button['text']}</button>`;
+			});
+		}
+		if (footer) {
+			footer = `<div class="modal-footer">${footer}</div>`;
+		}
+		let html = `<div class="modal" tabindex="-1" role="dialog"><div class="modal-dialog ${params['class']}" role="document"><div class="modal-content">
+		<div class="modal-header"><h5 class="modal-title js-modal-title" data-js="container">${params['header']}</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+		<div class="modal-body js-modal-content text-break ${params['bodyClass']}" data-js="container">${params['body']}</div></div>${footer}</div></div>`;
+		params.data = html;
+		return app.showModalWindow(params);
+	},
 	/**
 	 * Check if current window is target for a modal and trigger in correct window if not
 	 *
@@ -2517,10 +2545,11 @@ var app = (window.app = {
 			if (currentElement.data('class')) {
 				modalClass = currentElement.data('class');
 			}
-			app.showModalWindow(`<div class="modal" tabindex="-1" role="dialog"><div class="modal-dialog ${modalClass}" role="document"><div class="modal-content">
-			<div class="modal-header"> <h5 class="modal-title">${title}</h5>
-			  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			</div><div class="modal-body text-break">${content}</div></div></div></div>`);
+			app.showModalHtml({
+				class: modalClass,
+				header: title,
+				body: content
+			});
 			e.stopPropagation();
 		});
 	},
@@ -2536,20 +2565,15 @@ var app = (window.app = {
 			e.preventDefault();
 			e.stopPropagation();
 			const btn = $(e.currentTarget);
-			app.showModalWindow(
-				`<div class="modal" tabindex="-1" role="dialog"><div class="modal-dialog modal-fullscreen" role="document"><div class="modal-content js-modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title"><span class="mdi mdi-overscan"></span>${app.vtranslate('JS_FULL_TEXT')}</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					</div>
-					<div class="modal-body text-break u-word-break pb-0 pt-1"></div>
-					<div class="modal-footer py-1">
-						<button class="btn btn-danger" type="reset" data-dismiss="modal">
-							<span class="fas fa-times mr-1"></span>${app.vtranslate('JS_CLOSE')}</button>
-						</div>
-					</div>
-				</div></div>`,
-				(container) => {
+			app.showModalHtml({
+				class: 'modal-fullscreen',
+				header: app.vtranslate('JS_FULL_TEXT'),
+				headerIcon: 'mdi mdi-overscan',
+				bodyClass: 'u-word-break pb-0 pt-1',
+				footerButtons: [
+					{ text: app.vtranslate('JS_CANCEL'), icon: 'fas fa-times', class: 'btn-danger', data: { dismiss: 'modal' } }
+				],
+				cb: (modal) => {
 					if (btn.data('iframe')) {
 						let iframe = btn.siblings('iframe');
 						let message = iframe.clone();
@@ -2577,12 +2601,12 @@ var app = (window.app = {
 						if (isHidden) {
 							iframe.css('display', 'none');
 						}
-						container.find('.modal-body').html(message);
+						modal.find('.js-modal-content').html(message);
 					} else {
-						container.find('.modal-body').html(btn.closest('.js-more-content').find('.fullContent').html());
+						modal.find('.js-modal-content').html(btn.closest('.js-more-content').find('.fullContent').html());
 					}
 				}
-			);
+			});
 		});
 	},
 	registerIframeEvents(content) {
@@ -3018,15 +3042,20 @@ var app = (window.app = {
 							PNotifyConfirm,
 							{
 								confirm: true,
+								prompt: 'showDialog' in params ? params['showDialog'] : false,
+								promptMultiLine: 'multiLineDialog' in params ? params['multiLineDialog'] : false,
 								buttons: [
 									{
 										text: '<span class="fas fa-check mr-2"></span>' + app.vtranslate(confirmButtonLabel),
 										textTrusted: true,
 										primary: true,
 										promptTrigger: true,
-										click: function (notice) {
+										click: function (notice, value, e) {
+											if (params['showDialog'] && !value) {
+												return;
+											}
 											if (typeof params.confirmedCallback !== 'undefined') {
-												params.confirmedCallback(notice);
+												params.confirmedCallback(notice, value, e);
 											}
 											notice.close();
 										}
@@ -3414,5 +3443,4 @@ $(function () {
 			})
 			.remove();
 	};
-	bootbox.setLocale(CONFIG.langKey);
 })($);

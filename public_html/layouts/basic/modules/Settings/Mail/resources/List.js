@@ -30,20 +30,19 @@ Settings_Vtiger_List_Js(
 		},
 		massDeleteAction: function () {
 			$('.massDelete').on('click', function () {
-				var listInstance = Settings_Vtiger_List_Js.getInstance();
-				var validationResult = listInstance.checkListRecordSelected();
+				let listInstance = Settings_Vtiger_List_Js.getInstance();
+				let validationResult = listInstance.checkListRecordSelected();
 				if (validationResult != true) {
-					var selectedIds = listInstance.readSelectedIds(true);
-					var message = app.vtranslate('LBL_MASS_DELETE_CONFIRMATION');
-					Vtiger_Helper_Js.showConfirmationBox({ message: message })
-						.done(function (e) {
-							var params = {};
+					app.showConfirmModal({
+						title: app.vtranslate('LBL_MASS_DELETE_CONFIRMATION'),
+						confirmedCallback: () => {
+							let params = {};
 							params['module'] = app.getModuleName();
 							params['parent'] = app.getParentModuleName();
 							params['action'] = 'MassDelete';
-							params['selected_ids'] = selectedIds;
-							var deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
-							var progressIndicatorElement = jQuery.progressIndicator({
+							params['selected_ids'] = listInstance.readSelectedIds(true);
+							let deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
+							let progressIndicatorElement = jQuery.progressIndicator({
 								message: deleteMessage,
 								position: 'html',
 								blockInfo: {
@@ -66,10 +65,11 @@ Settings_Vtiger_List_Js(
 									});
 								}
 							});
-						})
-						.fail(function (error, err) {
+						},
+						rejectedCallback: () => {
 							Vtiger_List_Js.clearList();
-						});
+						}
+					});
 				} else {
 					listInstance.noRecordSelectedAlert();
 				}

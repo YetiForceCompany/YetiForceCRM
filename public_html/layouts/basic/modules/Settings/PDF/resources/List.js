@@ -84,12 +84,13 @@ Settings_Vtiger_List_Js(
 				e.stopPropagation();
 				e.preventDefault();
 				let deleteId = $(this).closest('tr').data('id');
-				Vtiger_Helper_Js.showConfirmationBox({
-					message: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE')
-				}).done(function (e) {
-					Settings_PDF_List_Js.deleteById(deleteId, false).done(function () {
-						self.registerTemplateDelete(container);
-					});
+				app.showConfirmModal({
+					title: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE'),
+					confirmedCallback: () => {
+						Settings_PDF_List_Js.deleteById(deleteId, false).done(function () {
+							self.registerTemplateDelete(container);
+						});
+					}
 				});
 			});
 		},

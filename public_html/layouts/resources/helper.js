@@ -137,31 +137,6 @@ $.Class(
 			dateInstance = new Date(year, month, date, timeSections[0], timeSections[1], seconds);
 			return dateInstance;
 		},
-		/*
-		 * Function to show the confirmation messagebox
-		 */
-		showConfirmationBox: function (params) {
-			var aDeferred = $.Deferred();
-			var baseParams = {
-				callback: function (result) {
-					if (result) {
-						aDeferred.resolve();
-					} else {
-						aDeferred.reject();
-					}
-				}
-			};
-			var bootBoxModal = bootbox.confirm($.extend(baseParams, params));
-			bootBoxModal.on('hidden', function (e) {
-				//In Case of multiple modal. like mass edit and quick create, if bootbox is shown and hidden , it will remove
-				// modal open
-				if ($('#' + Window.lastModalId).length > 0) {
-					// Mimic bootstrap modal action body state change
-					$('body').addClass('modal-open');
-				}
-			});
-			return aDeferred.promise();
-		},
 		showMessage: function (params) {
 			if (typeof params.type === 'undefined') {
 				params.type = 'info';

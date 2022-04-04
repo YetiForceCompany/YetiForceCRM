@@ -226,21 +226,21 @@ jQuery.Class(
 		 */
 		registerHeaderElements: function () {
 			this.getContainer().on('click', '.js-remove-panel', function (e) {
-				let currentTarget = jQuery(e.currentTarget),
-					panel = currentTarget.closest('.js-panel');
-				Vtiger_Helper_Js.showConfirmationBox({
-					message: app.vtranslate('JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL')
-				}).done(function (e) {
-					app
-						.saveAjax('removePanel', {
-							module: panel.data('modulename'),
-							type: app.getMainParams('fieldType')
-						})
-						.done(function () {
-							panel.fadeOut(300, function () {
-								$(this).remove();
+				let panel = jQuery(e.currentTarget).closest('.js-panel');
+				app.showConfirmModal({
+					title: app.vtranslate('JS_ARE_YOU_SURE_YOU_WANT_TO_DELETE_PANEL'),
+					confirmedCallback: () => {
+						app
+							.saveAjax('removePanel', {
+								module: panel.data('modulename'),
+								type: app.getMainParams('fieldType')
+							})
+							.done(function () {
+								panel.fadeOut(300, function () {
+									$(this).remove();
+								});
 							});
-						});
+					}
 				});
 			});
 			this.registerLoadData();

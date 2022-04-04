@@ -18,27 +18,29 @@ Settings_Vtiger_List_Js(
 		 * @params: delete record url.
 		 */
 		DeleteRecord: function (deleteRecordActionUrl) {
-			var thisInstance = this;
-			var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(function (data) {
-				AppConnector.request(deleteRecordActionUrl).done(function (data) {
-					if (data.success == true) {
-						var params = {
-							text: app.vtranslate('JS_TREE_DELETED_SUCCESSFULLY')
-						};
-						Settings_Vtiger_Index_Js.showMessage(params);
-						jQuery('#recordsCount').val('');
-						jQuery('#totalPageCount').text('');
-						thisInstance.getListViewRecords().done(function () {
-							thisInstance.updatePagination();
-						});
-					} else {
-						app.showNotify({
-							text: data.error.message,
-							type: 'error'
-						});
-					}
-				});
+			const self = this;
+			app.showConfirmModal({
+				title: app.vtranslate('LBL_DELETE_CONFIRMATION'),
+				confirmedCallback: () => {
+					AppConnector.request(deleteRecordActionUrl).done(function (data) {
+						if (data.success == true) {
+							var params = {
+								text: app.vtranslate('JS_TREE_DELETED_SUCCESSFULLY')
+							};
+							Settings_Vtiger_Index_Js.showMessage(params);
+							jQuery('#recordsCount').val('');
+							jQuery('#totalPageCount').text('');
+							self.getListViewRecords().done(function () {
+								self.updatePagination();
+							});
+						} else {
+							app.showNotify({
+								text: data.error.message,
+								type: 'error'
+							});
+						}
+					});
+				}
 			});
 		},
 

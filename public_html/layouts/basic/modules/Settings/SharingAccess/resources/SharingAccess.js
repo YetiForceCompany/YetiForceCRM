@@ -181,39 +181,41 @@ jQuery.Class(
 		 * @params: deleteElement.
 		 */
 		deleteCustomRule: function (deleteElement) {
-			var deleteUrl = deleteElement.data('url');
-			var currentRow = deleteElement.closest('.js-custom-rule-entries');
-			var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(function (data) {
-				AppConnector.request(deleteUrl).done(function (data) {
-					let response = data.result;
-					if (response && response.success) {
-						currentRow.fadeOut('slow');
-						var customRuleTable = currentRow.closest('.js-custom-rule-table');
-						//after delete the custom rule, update the sequence number of existing rules
-						var nextRows = currentRow.nextAll('js-custom-rule-entries');
-						if (nextRows.length > 0) {
-							jQuery.each(nextRows, function (i, element) {
-								var currentSequenceElement = jQuery(element).find('.js-sequence-number');
-								var updatedNumber = parseInt(currentSequenceElement.text()) - 1;
-								currentSequenceElement.text(updatedNumber);
+			let deleteUrl = deleteElement.data('url');
+			let currentRow = deleteElement.closest('.js-custom-rule-entries');
+			app.showConfirmModal({
+				title: app.vtranslate('LBL_DELETE_CONFIRMATION'),
+				confirmedCallback: () => {
+					AppConnector.request(deleteUrl).done(function (data) {
+						let response = data.result;
+						if (response && response.success) {
+							currentRow.fadeOut('slow');
+							var customRuleTable = currentRow.closest('.js-custom-rule-table');
+							//after delete the custom rule, update the sequence number of existing rules
+							var nextRows = currentRow.nextAll('js-custom-rule-entries');
+							if (nextRows.length > 0) {
+								jQuery.each(nextRows, function (i, element) {
+									var currentSequenceElement = jQuery(element).find('.js-sequence-number');
+									var updatedNumber = parseInt(currentSequenceElement.text()) - 1;
+									currentSequenceElement.text(updatedNumber);
+								});
+							}
+							currentRow.remove();
+							var customRuleEntries = customRuleTable.find('.js-custom-rule-entries');
+							//if there are no custom rule entries, we have to hide headers also and show the empty message div
+							if (customRuleEntries.length < 1) {
+								customRuleTable.find('.js-custom-rule-headers').fadeOut('slow').remove();
+								customRuleTable.parent().find('.js-record-details').removeClass('d-none');
+								customRuleTable.addClass('d-none');
+							}
+						} else {
+							app.showNotify({
+								type: 'error',
+								text: 'JS_ERROR'
 							});
 						}
-						currentRow.remove();
-						var customRuleEntries = customRuleTable.find('.js-custom-rule-entries');
-						//if there are no custom rule entries, we have to hide headers also and show the empty message div
-						if (customRuleEntries.length < 1) {
-							customRuleTable.find('.js-custom-rule-headers').fadeOut('slow').remove();
-							customRuleTable.parent().find('.js-record-details').removeClass('d-none');
-							customRuleTable.addClass('d-none');
-						}
-					} else {
-						app.showNotify({
-							type: 'error',
-							text: 'JS_ERROR'
-						});
-					}
-				});
+					});
+				}
 			});
 		},
 
@@ -231,21 +233,22 @@ jQuery.Class(
 		 * Function to register change event for dependent modules privileges
 		 */
 		registerDependentModulesPrivilegesChange: function () {
-			var thisInstance = this;
-			var container = thisInstance.getContentContainer();
-			var contentTable = this.getContentTable();
-			var modulesList = JSON.parse(container.find('.dependentModules').val());
+			let container = this.getContentContainer();
+			let contentTable = this.getContentTable();
+			let modulesList = JSON.parse(container.find('.dependentModules').val());
 
-			jQuery.each(modulesList, function (moduleName, dependentList) {
+			$.each(modulesList, function (moduleName, dependentList) {
 				var dependentPrivilege = contentTable
 					.find('[data-module-name="' + moduleName + '"]')
 					.find('[data-action-state="Private"]');
 				dependentPrivilege.on('change', function (e) {
-					var currentTarget = jQuery(e.currentTarget);
+					var currentTarget = $(e.currentTarget);
 					if (currentTarget.is(':checked')) {
-						var message = app.vtranslate('JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE');
-						bootbox.alert(message);
-						jQuery.each(dependentList, function (index, module) {
+						app.showNotify({
+							text: app.vtranslate('JS_DEPENDENT_PRIVILEGES_SHOULD_CHANGE'),
+							hide: false
+						});
+						$.each(dependentList, function (index, module) {
 							contentTable
 								.find('[data-module-name="' + module + '"]')
 								.find('[data-action-state="Private"]')

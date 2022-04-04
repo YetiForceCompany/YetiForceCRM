@@ -118,15 +118,6 @@ blueimp-tmpl@3:
   resolved "https://registry.yarnpkg.com/blueimp-tmpl/-/blueimp-tmpl-3.20.0.tgz#bed897db362c70d3740e0ad1020ce84bfa15ceaa"
   integrity sha512-g6ln9L+VX8ZA4WA8mgKMethYH+5teroJ2uOkCvcthy9Y9d9LrQ42OAMn+r3ECKu9CB+xe9GOChlIUJBSxwkI6g==
 
-bootbox@^5.4.0:
-  version "5.5.2"
-  resolved "https://registry.yarnpkg.com/bootbox/-/bootbox-5.5.2.tgz#a4200aa03f12ffe4d07905834e9dfb76e52cee00"
-  integrity sha512-q8d9VO2A4+q6S0XvovLtqtBUp7uRy0wtDOuuycnoheK2TiAm3um0jOlAOu9ORn9XoT92tdil+p15Dle1mRgSPQ==
-  dependencies:
-    bootstrap "^4.4.0"
-    jquery "^3.5.1"
-    popper.js "^1.16.0"
-
 bootstrap-datepicker@^1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/bootstrap-datepicker/-/bootstrap-datepicker-1.9.0.tgz#e4bfce3fcce1967876b21dc6833ec5994aaed090"
@@ -146,7 +137,7 @@ bootstrap-daterangepicker@^3.0.4:
   version "0.0.0"
   resolved "https://github.com/jmschabdach/bootstrap-tabdrop#1eb8b8aeaa79d7ca211059daff7981c9908327a1"
 
-bootstrap@^4.3.1, bootstrap@^4.4.0:
+bootstrap@^4.3.1:
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.6.1.tgz#bc25380c2c14192374e8dec07cf01b2742d222a2"
   integrity sha512-0dj+VgI9Ecom+rvvpNZ4MUZJz8dcX7WCX+eTID9+/8HgOkv3dsRzi8BGeZJCQU6flWQVYxwTQnEZFrmJSEO7og==
@@ -463,7 +454,7 @@ jquery.class.js@^1.0.0:
   resolved "https://registry.yarnpkg.com/jquery.class.js/-/jquery.class.js-1.0.0.tgz#43616c36d76eff36caf2139ddacda621aa24ed30"
   integrity sha1-Q2FsNtdu/zbK8hOd2s2mIaok7TA=
 
-"jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.6, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, "jquery@>=1.8.0 <4.0.0", jquery@>=1.9.1, jquery@^3.5, jquery@^3.5.1:
+"jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.6, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, "jquery@>=1.8.0 <4.0.0", jquery@>=1.9.1, jquery@^3.5:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.0.tgz#c72a09f15c1bdce142f49dbf1170bdf8adac2470"
   integrity sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw==
@@ -510,9 +501,9 @@ loose-envify@^1.0.0:
     js-tokens "^3.0.0 || ^4.0.0"
 
 moment@^2.10.2, moment@^2.23.0, moment@^2.9.0:
-  version "2.29.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
-  integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
+  version "2.29.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.2.tgz#00910c60b20843bcba52d37d58c628b47b1f20e4"
+  integrity sha512-UgzG4rvxYpN15jgCmVJwac49h9ly9NurikMWGPdVxm8GZD6XjkKPxDTjQQ43gtGgnV3X0cAyWDdP2Wexoquifg==
 
 mousetrap@^1.6.3:
   version "1.6.5"
@@ -542,7 +533,7 @@ perfect-scrollbar@^1.3.0:
   resolved "https://registry.yarnpkg.com/perfect-scrollbar/-/perfect-scrollbar-1.5.5.tgz#41a211a2fb52a7191eff301432134ea47052b27f"
   integrity sha512-dzalfutyP3e/FOpdlhVryN4AJ5XDVauVWxybSkLZmakFE2sS3y3pc4JnSprw8tGmHvkaG5Edr5T7LBTZ+WWU2g==
 
-popper.js@^1.15.0, popper.js@^1.16.0:
+popper.js@^1.15.0:
   version "1.16.1"
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.1.tgz#2a223cb3dc7b6213d740e40372be40de43e65b1b"
   integrity sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==
@@ -555,9 +546,9 @@ promise@^7.1.1:
     asap "~2.0.3"
 
 quasar@^1.6.1:
-  version "1.18.8"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.18.8.tgz#3711c93c3f239387ef9b0948b47b1715b8cb1dc7"
-  integrity sha512-eYddynjWdh5L6Dgfy/fUOLFTbMHyO6TMYi/GCwSrFs2nlIUJhXEsntG7vfR8AzU8Ns7VdI3bprxQXieuglDezg==
+  version "1.18.9"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.18.9.tgz#51e2e5e5888db8424743ea7c9f7bc295018dc264"
+  integrity sha512-TkHXOrhS3C7HIV8xYVeQwCfmKiO8WJRhElQXtx/ksbQplKXNZs7TFHlMq2QnYnHR895MDXFqzqIHq5UYU24rXw==
 
 regenerator-runtime@^0.13.4:
   version "0.13.9"

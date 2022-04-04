@@ -278,15 +278,17 @@ jQuery.Class(
 			return aDeferred.promise();
 		},
 		removeInventory: function (inventoryElement) {
-			var message = app.vtranslate('JS_DELETE_INVENTORY_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(function (e) {
-				var params = {};
-				params['view'] = app.getViewName();
-				params['id'] = inventoryElement.data('id');
-				app.saveAjax('deleteInventory', params).done(function (data) {
-					Settings_Vtiger_Index_Js.showMessage({ type: 'success', text: data.result.message });
-					inventoryElement.remove();
-				});
+			app.showConfirmModal({
+				text: app.vtranslate('JS_DELETE_INVENTORY_CONFIRMATION'),
+				confirmedCallback: () => {
+					var params = {};
+					params['view'] = app.getViewName();
+					params['id'] = inventoryElement.data('id');
+					app.saveAjax('deleteInventory', params).done(function (data) {
+						Settings_Vtiger_Index_Js.showMessage({ type: 'success', text: data.result.message });
+						inventoryElement.remove();
+					});
+				}
 			});
 		},
 		/*

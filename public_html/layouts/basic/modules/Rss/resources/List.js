@@ -237,9 +237,9 @@ Vtiger_List_Js(
 		deleteRecord: function (container) {
 			var thisInstance = this;
 			var recordId = container.find('#recordId').val();
-			var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
-			Vtiger_Helper_Js.showConfirmationBox({ message: message }).done(
-				function (e) {
+			app.showConfirmModal({
+				text: app.vtranslate('LBL_DELETE_CONFIRMATION'),
+				confirmedCallback: () => {
 					var module = app.getModuleName();
 					var postData = {
 						module: module,
@@ -254,27 +254,23 @@ Vtiger_List_Js(
 							enabled: true
 						}
 					});
-					AppConnector.request(postData).done(
-						function (data) {
-							progressIndicatorElement.progressIndicator({
-								mode: 'hide'
-							});
-							if (data.success) {
-								thisInstance.getRssFeeds();
-							} else {
-								var params = {
-									text: app.vtranslate(data.error.message),
-									title: app.vtranslate('JS_LBL_PERMISSION'),
-									type: 'error'
-								};
-								app.showNotify(params);
-							}
-						},
-						function (error, err) {}
-					);
-				},
-				function (error, err) {}
-			);
+					AppConnector.request(postData).done(function (data) {
+						progressIndicatorElement.progressIndicator({
+							mode: 'hide'
+						});
+						if (data.success) {
+							thisInstance.getRssFeeds();
+						} else {
+							var params = {
+								text: app.vtranslate(data.error.message),
+								title: app.vtranslate('JS_LBL_PERMISSION'),
+								type: 'error'
+							};
+							app.showNotify(params);
+						}
+					});
+				}
+			});
 		},
 
 		/**
