@@ -93,14 +93,6 @@ window.Occurrences_CalendarModal_Js = class Occurrences_CalendarModal_Js extends
 	}
 
 	/**
-	 * Function return user's id
-	 * @returns {int}
-	 */
-	getSelectedUsersCalendar() {
-		return this.container.find('.assigned_user_id').val();
-	}
-
-	/**
 	 * Function invokes by fullcalendar, sets selected days in form
 	 * @param startDate
 	 * @param endDate

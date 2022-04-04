@@ -336,8 +336,8 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 				excludedIds.push($(this).val());
 			});
 		}
-		if (0 === selectedIds.length && app.getMainParams('usersId')) {
-			selectedIds.push(app.getMainParams('usersId'));
+		if (0 === selectedIds.length && CONFIG.userId) {
+			selectedIds.push(CONFIG.userId);
 		}
 		return { selectedIds: selectedIds, excludedIds: excludedIds };
 	}

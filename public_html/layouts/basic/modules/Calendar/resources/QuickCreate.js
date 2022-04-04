@@ -156,15 +156,6 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 	}
 
 	/**
-	 * Function return user's id
-	 * Overwrites Calendar_CalendarExtended_Js
-	 * @returns {int}
-	 */
-	getSelectedUsersCalendar() {
-		return this.container.find('.assigned_user_id').val();
-	}
-
-	/**
 	 * Function invokes by fullcalendar, sets selected days in form
 	 * Overwrites Calendar_CalendarExtended_Js
 	 * @param startDate
