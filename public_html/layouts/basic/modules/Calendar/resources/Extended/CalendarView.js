@@ -364,6 +364,9 @@ window.Calendar_CalendarExtended_Js = class Calendar_CalendarExtended_Js extends
 				excludedIds.push($(this).val());
 			});
 		}
+		if (0 === selectedIds.length && CONFIG.userId) {
+			selectedIds.push(CONFIG.userId);
+		}
 		return { selectedIds: selectedIds, excludedIds: excludedIds };
 	}
 
