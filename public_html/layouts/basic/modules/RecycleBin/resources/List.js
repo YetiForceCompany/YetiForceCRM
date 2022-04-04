@@ -171,6 +171,12 @@ Vtiger_List_Js(
 				});
 			return aDeferred.promise();
 		},
+		getDefaultParams: function () {
+			let params = this._super();
+			params.module = $('.js-source-module').val();
+			params.entityState = 'Trash';
+			return params;
+		},
 		registerEvents: function () {
 			this._super();
 			this.registerModuleFilter();

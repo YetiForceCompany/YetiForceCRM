@@ -805,7 +805,7 @@ window.App.Fields = {
 			 * @param {jQuery} inputDiv - contenteditable div
 			 * @param params
 			 */
-			constructor(inputDiv = $('.js-completions').eq(0), params = { emojiPanel: true }) {
+			constructor(inputDiv = $('.js-completions').eq(0), params = {}) {
 				if (typeof inputDiv === 'undefined' || inputDiv.length === 0) {
 					return;
 				} else if (inputDiv.length === undefined) {
@@ -1045,9 +1045,6 @@ window.App.Fields = {
 				if (this.params.autolink) {
 					this.registerAutoLinker(inputDiv);
 				}
-				if (this.params.emojiPanel) {
-					this.registerEmojiPanel(this.inputDiv, this.inputDiv.parents().eq(3).find('.js-completions__emojis'));
-				}
 				if (App.emoji === undefined) {
 					fetch(`${CONFIG.siteUrl}/vendor/ckeditor/ckeditor/plugins/emoji/emoji.json`)
 						.then((response) => response.json())
@@ -1110,45 +1107,6 @@ window.App.Fields = {
 				});
 				completionsContainer.find('.js-completions__records').on('click', (e) => {
 					this.completionsCollection.showMenuForCollection(this.inputDiv[0], 0);
-				});
-			}
-
-			/**
-			 * Register emojipanel library
-			 * @param {jQuery} inputDiv - contenteditable div
-			 * @param {jQuery} emojisContainer
-			 */
-			registerEmojiPanel(inputDiv, emojisContainer) {
-				new EmojiPanel({
-					container: '.js-completions__emojis',
-					json_url: CONFIG.siteUrl + 'libraries/emojipanel/dist/emojis.json'
-				});
-				emojisContainer.on('click', (e) => {
-					let element = $(e.currentTarget);
-					element.toggleClass('active');
-				});
-				emojisContainer.on('click', '.emoji', (e) => {
-					e.preventDefault();
-					e.stopPropagation();
-					if ($(e.currentTarget).data('char') !== undefined) {
-						let value = `${$(e.currentTarget).data('char')}`;
-						inputDiv.is('textarea') ? (inputDiv.get(0).value += value) : inputDiv.append(value);
-					}
-				});
-				emojisContainer.on('mouseenter', '.emoji', (e) => {
-					if ($(e.currentTarget).data('name') !== undefined) {
-						emojisContainer.find('.emoji-hovered').remove();
-						emojisContainer
-							.find('footer')
-							.prepend(
-								`<div class="emoji-hovered u-text-ellipsis">${
-									$(e.currentTarget).data('char') + ' ' + $(e.currentTarget).data('name')
-								}</div>`
-							);
-					}
-				});
-				emojisContainer.on('clickoutside', () => {
-					emojisContainer.removeClass('active');
 				});
 			}
 		},
