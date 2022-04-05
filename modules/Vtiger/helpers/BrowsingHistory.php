@@ -68,7 +68,13 @@ class Vtiger_BrowsingHistory_Helper
 			return false;
 		}
 		$url = App\RequestUtil::getBrowserInfo()->requestUri;
-		parse_str(parse_url(\App\Purifier::decodeHtml($url), PHP_URL_QUERY), $urlQuery);
+		if (null === $url) {
+			$url = (string) $url;
+		}
+		if ($parsedUrl = null === parse_url(\App\Purifier::decodeHtml($url), PHP_URL_QUERY)) {
+			$parsedUrl = (string) $parsedUrl;
+		}
+		parse_str($parsedUrl, $urlQuery);
 		$validViews = ['Index', 'List', 'Detail', 'Edit', 'DashBoard', 'ListPreview', 'TreeRecords', 'Tree'];
 		if (!empty($urlQuery['module']) && !empty($urlQuery['view']) && \in_array($urlQuery['view'], $validViews)) {
 			if (!empty($urlQuery['record'])) {

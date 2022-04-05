@@ -610,7 +610,16 @@ class Functions
 
 	public static function getQueryParams($url)
 	{
-		$queryStr = parse_url(htmlspecialchars_decode($url), PHP_URL_QUERY);
+		if (null === $url) {
+			$url = (string) $url;
+		}
+
+		$decodedUrl = htmlspecialchars_decode($url);
+		$queryStr = parse_url($decodedUrl, PHP_URL_QUERY);
+
+		if (null === $queryStr) {
+			$queryStr = (string) $queryStr;
+		}
 		parse_str($queryStr, $queryParams);
 		return $queryParams;
 	}
