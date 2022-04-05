@@ -144,7 +144,7 @@ class Performance
 	public static $picklistLimit = 50;
 
 	/** If there is no translation in the chosen language, then get from the default language. */
-	public static $recursiveTranslate = false;
+	public static $recursiveTranslate = true;
 
 	/** Parameter defining how fields are displayed in quick edit. Available values: standard,blocks,vertical */
 	public static $quickEditLayout = 'blocks';
@@ -159,14 +159,14 @@ class Performance
 	public static $LOGIN_HISTORY_VIEW_LIMIT = 10;
 
 	/**
-	 * Functionality notifying about activity on the record.
+	 * Functionality notifying about activity on the record
 	 *
 	 * @var bool
 	 */
 	public static $recordActivityNotifier = false;
 
 	/**
-	 * Interval for Record activity notifier.
+	 * Interval for Record activity notifier
 	 *
 	 * @var int Number of seconds
 	 */

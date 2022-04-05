@@ -1,0 +1,54 @@
+{
+  "name": "YetiForceCRM",
+  "keywords": [
+    "YetiForceCRM",
+    "CRM",
+    "open source crm",
+    "best crm",
+    "YetiForce",
+    "ERP",
+    "PHP",
+    "Customer Relation Management",
+    "System CRM"
+  ],
+  "description": "An open and innovative CRM system. Our team created for you one of the most innovative CRM systems that supports mainly business processes and allows for customization according to your needs. Be ahead of your competition and implement YetiForce!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YetiForceCompany/YetiForceCRM.git"
+  },
+  "author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
+  "license": "YetiForce Public License 5.0",
+  "scripts": {
+    "vue-prod": "cross-env NODE_ENV=production node buildVue.js",
+    "vue-watch": "cross-env NODE_ENV=development node buildVue.js",
+    "vue-lint": "vue-cli-service lint",
+    "minify-js": "node build.js",
+    "minify-css": "node ./node_modules/gulp/bin/gulp.js minify-css",
+    "compile-css": "node ./node_modules/gulp/bin/gulp.js compile-css",
+    "compile-quasar-css": "node ./node_modules/gulp/bin/gulp.js compile-quasar-css",
+    "compile-all": "yarn run vue-lint && yarn run vue-prod && yarn run minify-js && yarn run compile-css && yarn run minify-css && yarn run compile-quasar-css",
+    "watch-css": "node ./node_modules/gulp/bin/gulp.js watch-css"
+  },
+  "browserslist": [
+    "safari 6",
+    "ios 7",
+    "ie 11",
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "Explorer >= 11",
+    "last 1 Edge versions"
+  ],
+  "dependencies": {
+    "lodash.difference": "^4.5.0",
+    "lodash.get": "^4.4.2",
+    "lodash.isequal": "^4.5.0",
+    "lodash.unionby": "^4.8.0",
+    "vue-color": "^2.8.1",
+    "vue-drag-resize": "https://github.com/kirillmurashov/vue-drag-resize#master",
+    "vuex": "^3.6.2"
+  },
+  "bugs": {
+    "url": "https://github.com/YetiForceCompany/YetiForceCRM/issues"
+  },
+  "homepage": "https://github.com/YetiForceCompany/YetiForceCRM#readme"
+}

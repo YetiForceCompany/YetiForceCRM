@@ -24,7 +24,7 @@ class Security
 	public static $USER_ENCRYPT_PASSWORD_COST = 10;
 
 	/** Possible to reset the password while logging in (true/false) */
-	public static $RESET_LOGIN_PASSWORD = false;
+	public static $RESET_LOGIN_PASSWORD = true;
 
 	/** Show my preferences */
 	public static $SHOW_MY_PREFERENCES = true;
@@ -48,7 +48,7 @@ class Security
 	public static $PERMITTED_BY_ADVANCED_PERMISSION = true;
 
 	/** Permitted by private field. */
-	public static $PERMITTED_BY_PRIVATE_FIELD = true;
+	public static $PERMITTED_BY_PRIVATE_FIELD = false;
 
 	/** List of modules to which access is based on the record creation. */
 	public static $permittedModulesByCreatorField = [];
@@ -72,7 +72,7 @@ class Security
 	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_ACTIVE = false;
 
 	/** Restricted domains */
-	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES = [];
+	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_VALUES = ['yetiforce.com'];
 
 	/** List of modules where restricted domains are enabled, if empty it will be enabled everywhere. */
 	public static $EMAIL_FIELD_RESTRICTED_DOMAINS_ALLOWED = [];
@@ -87,7 +87,7 @@ class Security
 	public static $fieldsReferencesDependent = false;
 
 	/** Lifetime session (in seconds) */
-	public static $maxLifetimeSession = 900;
+	public static $maxLifetimeSession = 86400;
 
 	/**
 	 * Specifies the lifetime of the cookie in seconds which is sent to the browser. The value 0 means 'until the browser is closed.'
@@ -111,10 +111,10 @@ class Security
 	public static $cookieForceHttpOnly = true;
 
 	/** Maximum session lifetime from the time it was created (in minutes) */
-	public static $apiLifetimeSessionCreate = 1440;
+	public static $apiLifetimeSessionCreate = 99999;
 
 	/** Maximum session lifetime since the last modification (in minutes) */
-	public static $apiLifetimeSessionUpdate = 240;
+	public static $apiLifetimeSessionUpdate = 99999;
 
 	/**
 	 * User authentication mode.
@@ -188,7 +188,7 @@ class Security
 	public static $allowedConnectDomains = [];
 
 	/** Generally allowed domains, used in CSP. */
-	public static $generallyAllowedDomains = [];
+	public static $generallyAllowedDomains = ['yetiforce.com', 'github.com'];
 
 	/**
 	 * Specifies valid sources for nested browsing contexts loading using elements such as <frame> and <iframe>.
@@ -197,7 +197,7 @@ class Security
 	public static $allowedDomainsLoadInFrame = [];
 
 	/** List of allowed domains for fields with HTML support */
-	public static $purifierAllowedDomains = [];
+	public static $purifierAllowedDomains = ['fonts.googleapis.com'];
 
 	/** Do you want all connections to be made using a proxy? */
 	public static $proxyConnection = false;
@@ -218,11 +218,11 @@ class Security
 	public static $proxyPassword = '';
 
 	/** @var bool Ask admin about visit purpose */
-	public static $askAdminAboutVisitPurpose = true;
+	public static $askAdminAboutVisitPurpose = false;
 
 	/** @var bool Ask admin about switch users purpose */
-	public static $askAdminAboutVisitSwitchUsers = true;
+	public static $askAdminAboutVisitSwitchUsers = false;
 
 	/** @var bool Ask super user about visit purpose, only for the settings part */
-	public static $askSuperUserAboutVisitPurpose = true;
+	public static $askSuperUserAboutVisitPurpose = false;
 }
