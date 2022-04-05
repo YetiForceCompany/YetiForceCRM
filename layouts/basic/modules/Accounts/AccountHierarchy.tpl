@@ -9,7 +9,7 @@
 * Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
-{strip}
+{strip} 
 	<div class="tpl-AccountHierarchy modelContainer modal fade" id="accountHierarchyContainer" tabindex="-1" role="dialog">
 		<div class="modal-dialog c-modal-xxl" role="document">
 			<div class="modal-content">
