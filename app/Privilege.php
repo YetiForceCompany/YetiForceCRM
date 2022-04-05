@@ -74,12 +74,6 @@ class Privilege
 		$permission = false;
 		$tabId = Module::getModuleId($moduleName);
 		if ('Settings' !== Request::_get('parent')) {
-			if ('Home' === $moduleName) {
-				//These modules dont have security right now
-				static::$isPermittedLevel = 'SEC_MODULE_DONT_HAVE_SECURITY_RIGHT';
-				\App\Log::trace('Exiting isPermitted method ... - yes');
-				return true;
-			}
 			if ('Users' === $moduleName && $record == \App\User::getCurrentUserId()) {
 				static::$isPermittedLevel = 'SEC_IS_CURRENT_USER';
 				\App\Log::trace('Exiting isPermitted method ... - yes');
@@ -133,7 +127,7 @@ class Privilege
 			} else {
 				$permission = false;
 			}
-			static::$isPermittedLevel = 'SEC_USER_IS_ADMIN' . ($permission ? 'YES' : 'NO');
+			static::$isPermittedLevel = 'SEC_NO_ACTION_MODULE_PERMISSIONS' . ($permission ? 'YES' : 'NO');
 			\App\Log::trace('Exiting isPermitted method ... - ' . static::$isPermittedLevel);
 			return $permission;
 		}

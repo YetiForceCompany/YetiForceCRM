@@ -86,7 +86,7 @@
 					</thead>
 					<tbody>
 						{foreach from=$RECORD_MODEL->getModulePermissions() key=TABID item=PROFILE_MODULE}
-							<tr>
+							<tr data-name="{$PROFILE_MODULE->getName()}" data-id="{$TABID}">
 								<td>
 									<span class="mr-2 mt-1 {if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}{$ENABLE_CLASS_ICON}{else}{$DISABLE_CLASS_ICON}{/if}"></span>
 									{\App\Language::translate($PROFILE_MODULE->get('label'), $PROFILE_MODULE->getName())}

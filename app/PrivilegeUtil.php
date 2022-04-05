@@ -631,9 +631,10 @@ class PrivilegeUtil
 				}
 			}
 		}
-		$homeTabid = Module::getModuleId('Home');
-		if (!isset($userTabPerrArr[$homeTabid])) {
-			$userTabPerrArr[$homeTabid] = 0;
+		$homeId = Module::getModuleId('Home');
+		if (!isset($userTabPerrArr[$homeId])) {
+			$dashBoardId = Module::getModuleId('Dashboard');
+			$userTabPerrArr[$homeId] = $userTabPerrArr[$dashBoardId] ?? 1;
 		}
 		Cache::staticSave('getCombinedUserModulesPermissions', $userId, $userTabPerrArr);
 		return $userTabPerrArr;
