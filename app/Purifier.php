@@ -591,7 +591,7 @@ class Purifier
 	 */
 	public static function encodeHtml($string)
 	{
-		return htmlspecialchars($string, ENT_QUOTES, static::$defaultCharset);
+		return htmlspecialchars((string) $string, ENT_QUOTES, static::$defaultCharset);
 	}
 
 	/**
@@ -603,7 +603,7 @@ class Purifier
 	 */
 	public static function decodeHtml($string)
 	{
-		return html_entity_decode($string, ENT_QUOTES, static::$defaultCharset);
+		return html_entity_decode((string) $string, ENT_QUOTES, static::$defaultCharset);
 	}
 }
 
