@@ -17803,10 +17803,6 @@ body:not(.desktop) .ps__rail-y {
   width: 2.5rem;
   text-align: center;
 }
-.tribute-container li.highlight,
-.tribute-container li:hover {
-  background: #f8f9fa;
-}
 
 .btn-sm .fa-xs, .btn-group-sm > .btn .fa-xs {
   vertical-align: 0.0625rem;
@@ -24352,25 +24348,6 @@ table th {
 }
 .c-completions__item {
   cursor: pointer;
-}
-
-.js-completions__emojis .EmojiPanel {
-  display: none;
-}
-.js-completions__emojis.active .EmojiPanel {
-  display: block;
-}
-
-.EmojiPanel {
-  position: absolute;
-  z-index: 90000000;
-  transform: translateY(calc(-100% - 0.9375rem));
-}
-.EmojiPanel .EmojiPanel__brand {
-  display: none;
-}
-.EmojiPanel .fa-search {
-  display: none;
 }
 
 .c-range-slider {

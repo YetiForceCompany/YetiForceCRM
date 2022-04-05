@@ -36,7 +36,7 @@
 							<div class="paginationDiv">
 								{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE_NAME)}
 							</div>
-							<input type="hidden" id="recordsCount" value="{$LISTVIEW_ENTRIES_COUNT}" />
+							<input type="hidden" id="recordsCount" value="" />
 							<input type="hidden" id="selectedIds" name="selectedIds" />
 							<input type="hidden" id="excludedIds" name="excludedIds" />
 						{/if}

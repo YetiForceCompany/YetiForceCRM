@@ -458,32 +458,6 @@ body:not(.desktop) {
 	}
 }
 
-.js-completions__emojis {
-	.EmojiPanel {
-		display: none;
-	}
-
-	&.active {
-		.EmojiPanel {
-			display: block;
-		}
-	}
-}
-
-.EmojiPanel {
-	position: absolute;
-	z-index: 90000000;
-	transform: translateY(calc(-100% - #{calculate-rem(15px)}));
-
-	.EmojiPanel__brand {
-		display: none;
-	}
-
-	.fa-search {
-		display: none;
-	}
-}
-
 .c-range-slider {
 	-webkit-appearance: none;
 	margin: 10px 0;

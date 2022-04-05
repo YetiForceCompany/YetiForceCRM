@@ -756,9 +756,7 @@ jQuery.Class(
 				.find('.commentcontenthidden')
 				.removeClass('commentcontenthidden')
 				.addClass('js-comment-content');
-			new App.Fields.Text.Completions(clonedCommentBlock.find('.js-completions'), {
-				emojiPanel: false
-			});
+			new App.Fields.Text.Completions(clonedCommentBlock.find('.js-completions'));
 			return clonedCommentBlock;
 		},
 		/*
@@ -2313,7 +2311,7 @@ jQuery.Class(
 		 * @param {jQuery} widgetContainer
 		 */
 		registerCommentEventsInDetail(widgetContainer) {
-			new App.Fields.Text.Completions($('.js-completions').eq(0), { emojiPanel: false });
+			new App.Fields.Text.Completions($('.js-completions').eq(0));
 			widgetContainer.on('change', '.js-hierarchy-comments', function (e) {
 				let hierarchy = [];
 				widgetContainer.find('.js-hierarchy-comments').each(function () {
@@ -2511,9 +2509,7 @@ jQuery.Class(
 			//register all the events for summary view container
 
 			if (this.getSelectedTab().data('labelKey') === 'ModComments') {
-				new App.Fields.Text.Completions(detailContentsHolder.find('.js-completions'), {
-					emojiPanel: false
-				});
+				new App.Fields.Text.Completions(detailContentsHolder.find('.js-completions'));
 			}
 			app.registerBlockAnimationEvent(this.getForm());
 			thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
