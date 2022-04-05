@@ -959,7 +959,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 			'linkurl' => "index.php?module={$this->getName()}&view=ListPreview{$menuUrl}",
 			'linkicon' => 'far fa-list-alt',
 		]);
-		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission($this->getId(), 'Dashboard')) {
+		if ($userPrivilegesModel->hasModuleActionPermission($this->getId(), 'Dashboard')) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_DASHBOARD',

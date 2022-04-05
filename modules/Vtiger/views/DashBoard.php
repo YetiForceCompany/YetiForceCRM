@@ -12,6 +12,19 @@
 class Vtiger_DashBoard_View extends Vtiger_Index_View
 {
 	/** {@inheritdoc} */
+	public function checkPermission(App\Request $request)
+	{
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$moduleName = $request->getModule();
+		if ('Home' === $moduleName && !$userPrivilegesModel->hasModulePermission($moduleName)) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		if ('Home' !== $moduleName && !$userPrivilegesModel->hasModuleActionPermission($moduleName, 'Dashboard')) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+	}
+
+	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);

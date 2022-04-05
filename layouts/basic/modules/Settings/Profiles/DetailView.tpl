@@ -24,7 +24,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<label class="muted"><span class="redColor">*</span>{\App\Language::translate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}: </label>&nbsp;
-						<span  name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}"><strong>{$RECORD_MODEL->getName()}</strong></span>
+						<span name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}"><strong>{$RECORD_MODEL->getName()}</strong></span>
 					</div>
 				</div>
 				<div class="row">
@@ -46,7 +46,7 @@
 							<span class="ml-2">{\App\Language::translate('LBL_VIEW_ALL_DESC',$QUALIFIED_MODULE)}</span>
 						</div>
 					</div>
-					<div  class="row">
+					<div class="row">
 						<div class="col-md-3">
 							<span class="mr-2 mt-1 {if $RECORD_MODEL->hasGlobalWritePermission()}{$ENABLE_CLASS_ICON}{else}{$DISABLE_CLASS_ICON}{/if}"></span>
 							{\App\Language::translate('LBL_EDIT_ALL',$QUALIFIED_MODULE)}
@@ -69,24 +69,24 @@
 								</span>
 							</th>
 							<th data-hide="phone" width="12%">
-								<span class="horizontalAlignCenter" >
+								<span class="horizontalAlignCenter">
 									&nbsp;{\App\Language::translate('LBL_CREATE_PRIVILIGE',$QUALIFIED_MODULE)}
 								</span>
 							</th>
 							<th data-hide="phone" width="12%">
-								<span class="horizontalAlignCenter" >
+								<span class="horizontalAlignCenter">
 									&nbsp;{\App\Language::translate('LBL_EDIT_PRIVILIGE',$QUALIFIED_MODULE)}
 								</span>
 							</th>
 							<th data-hide="phone" width="11%">
-								<span class="horizontalAlignCenter" >{\App\Language::translate('LBL_DELETE_PRIVILIGE', $QUALIFIED_MODULE)}</span>
+								<span class="horizontalAlignCenter">{\App\Language::translate('LBL_DELETE_PRIVILIGE', $QUALIFIED_MODULE)}</span>
 							</th>
 							<th width="39%" nowrap="nowrap">{\App\Language::translate('LBL_FIELD_AND_TOOL_PRVILIGES', $QUALIFIED_MODULE)}</th>
 						</tr>
 					</thead>
 					<tbody>
 						{foreach from=$RECORD_MODEL->getModulePermissions() key=TABID item=PROFILE_MODULE}
-							<tr>
+							<tr data-name="{$PROFILE_MODULE->getName()}" data-id="{$TABID}">
 								<td>
 									<span class="mr-2 mt-1 {if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}{$ENABLE_CLASS_ICON}{else}{$DISABLE_CLASS_ICON}{/if}"></span>
 									{\App\Language::translate($PROFILE_MODULE->get('label'), $PROFILE_MODULE->getName())}
@@ -170,46 +170,47 @@
 										</div>
 										</ul>
 									{/if}
-									</div>
-								</td>
-							</tr>
-							<tr class="d-none">
-								<td colspan="6" data-toggle-visible="false">
-									<div data-togglecontent="{$TABID}-fields">
-										<div class="col-md-12"><label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
-										<table class="table table-bordered table-striped">
-											{assign var=UTILITY_ACTION_COUNT value=0}
-											{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=[]}
-											{foreach from=$ALL_UTILITY_ACTIONS item=ACTION_MODEL}
-												{if $ACTION_MODEL->isModuleEnabled($PROFILE_MODULE)}
-													{append var="ALL_UTILITY_ACTIONS_ARRAY" value=$ACTION_MODEL}
-												{/if}
-											{/foreach}
-											{foreach from=$ALL_UTILITY_ACTIONS_ARRAY item=ACTION_MODEL name="actions"}
-												{if $smarty.foreach.actions.index % 3 == 0}
-													<tr>
-													{/if}
-													{assign var=ACTION_ID value=$ACTION_MODEL->get('actionid')}
-													<td {if $smarty.foreach.actions.last && (($smarty.foreach.actions.index+1) % 3 neq 0)}
-														{assign var="index" value=($smarty.foreach.actions.index+1) % 3}
-														{assign var="colspan" value=4-$index}
-														colspan="{$colspan}"
-													{/if}>
-														<span class="mr-2 mt-1 {if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTION_ID)}{$ENABLE_CLASS_ICON}{else}{$DISABLE_CLASS_ICON}{/if}"></span>{\App\Language::translate($ACTION_MODEL->getName(),$QUALIFIED_MODULE)}</td>
-														{if $smarty.foreach.actions.last OR ($smarty.foreach.actions.index+1) % 3 == 0}
-														</div>
-													{/if}
-													{/foreach}
-												</table>
-											</div>
+				</div>
+				</td>
+				</tr>
+				<tr class="d-none">
+					<td colspan="6" data-toggle-visible="false">
+						<div data-togglecontent="{$TABID}-fields">
+							<div class="col-md-12"><label class="themeTextColor font-x-large float-left"><strong>{\App\Language::translate('LBL_TOOLS',$QUALIFIED_MODULE)}</strong></label></div>
+							<table class="table table-bordered table-striped">
+								{assign var=UTILITY_ACTION_COUNT value=0}
+								{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=[]}
+								{foreach from=$ALL_UTILITY_ACTIONS item=ACTION_MODEL}
+									{if $ACTION_MODEL->isModuleEnabled($PROFILE_MODULE)}
+										{append var="ALL_UTILITY_ACTIONS_ARRAY" value=$ACTION_MODEL}
+									{/if}
+								{/foreach}
+								{foreach from=$ALL_UTILITY_ACTIONS_ARRAY item=ACTION_MODEL name="actions"}
+									{if $smarty.foreach.actions.index % 3 == 0}
+										<tr>
+										{/if}
+										{assign var=ACTION_ID value=$ACTION_MODEL->get('actionid')}
+										<td {if $smarty.foreach.actions.last && (($smarty.foreach.actions.index+1) % 3 neq 0)}
+												{assign var="index" value=($smarty.foreach.actions.index+1) % 3}
+												{assign var="colspan" value=4-$index}
+												colspan="{$colspan}"
+											{/if}>
+											<span class="mr-2 mt-1 {if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTION_ID)}{$ENABLE_CLASS_ICON}{else}{$DISABLE_CLASS_ICON}{/if}" data-id="{$ACTION_ID}" data-name="{$ACTION_MODEL->get('actionname')}"></span>{\App\Language::translate($ACTION_MODEL->getName(),$QUALIFIED_MODULE)}
 										</td>
-									</tr>
-									{/foreach}
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<br />
-					</div>
-					<!-- /tpl-Settings-Profiles-DetailView -->
-					{/strip}
+										{if $smarty.foreach.actions.last OR ($smarty.foreach.actions.index+1) % 3 == 0}
+								</div>
+							{/if}
+						{/foreach}
+						</table>
+			</div>
+			</td>
+			</tr>
+		{/foreach}
+		</tbody>
+		</table>
+	</div>
+	</div>
+	<br />
+	</div>
+	<!-- /tpl-Settings-Profiles-DetailView -->
+{/strip}
