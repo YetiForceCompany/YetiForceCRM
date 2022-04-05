@@ -270,7 +270,6 @@
 												data-name="{$CHART_FILTER_WIDGET->getName()}"
 												data-width="{$CHART_FILTER_WIDGET->getWidth()}"
 												data-height="{$CHART_FILTER_WIDGET->getHeight()}"
-												data-block-id="{$AUTHORIZATION_KEY}"
 												data-module="{$SELECTED_MODULE_NAME}"
 												data-modalId="{\App\Layout::getUniqueId('ChartFilter')}"><span
 													class="fas fa-plus"></span>&nbsp;
