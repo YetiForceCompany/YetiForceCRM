@@ -85,6 +85,10 @@
 							{\App\Language::translate('LBL_RELATION_COMMENT', $RELATED_MODULE->get('name'))}
 						</th>
 					{/if}
+					{if $IS_INVENTORY || $IS_WIDGETS}
+						<th>
+						</th>
+					{/if}
 				</tr>
 			</thead>
 			<tbody>
