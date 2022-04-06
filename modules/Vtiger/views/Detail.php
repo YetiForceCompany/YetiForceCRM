@@ -144,20 +144,22 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 				}
 			}
 		}
-		if (isset($viewLinks['DETAILVIEWTAB']) && \is_array($viewLinks['DETAILVIEWTAB'])) {
-			$detailViewLabel = [];
-			foreach ($viewLinks['DETAILVIEWTAB'] as $link) {
+		$detailViewLabel = [];
+		if (isset($viewLinks['DETAILVIEWRELATED']) && \is_array($viewLinks['DETAILVIEWRELATED'])) {
+			foreach ($viewLinks['DETAILVIEWRELATED']  as $link) {
 				$detailViewLabel[] = $link->getLabel();
 			}
-			if (!\in_array($selectedTabLabel, $detailViewLabel)) {
-				$selectedTabLabel = 'LBL_RECORD_SUMMARY';
-			}
-			foreach ($viewLinks['DETAILVIEWTAB'] as $link) {
+		}
+		if (isset($viewLinks['DETAILVIEWTAB']) && \is_array($viewLinks['DETAILVIEWTAB'])) {
+			foreach ($viewLinks['DETAILVIEWTAB']  as $link) {
+				$detailViewLabel[] = $link->getLabel();
 				if ($link->getLabel() === $selectedTabLabel) {
 					$params = vtlib\Functions::getQueryParams($link->getUrl());
 					$this->defaultMode = $params['mode'];
-					break;
 				}
+			}
+			if (!\in_array($selectedTabLabel, $detailViewLabel)) {
+				$selectedTabLabel = 'LBL_RECORD_SUMMARY';
 			}
 		}
 		$viewer->assign('SELECTED_TAB_LABEL', $selectedTabLabel);
