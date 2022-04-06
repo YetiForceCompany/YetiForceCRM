@@ -26,7 +26,7 @@
 				data-select="allowClear" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}"
 			{/if}
 			{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if}
-			data-selected-value="{\App\Purifier::encodeHtml($FIELD_VALUE)}" {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly" {/if}>
+			{if !empty($FIELD_VALUE)}data-selected-value="{\App\Purifier::encodeHtml($FIELD_VALUE)}" {/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly" {/if}>
 			{if !empty($PLACE_HOLDER)}
 				<optgroup class="p-0">
 					<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
@@ -34,7 +34,7 @@
 			{/if}
 			{if !$IS_LAZY}
 				{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$PICKLIST_VALUES}
-					<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" title="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}" {if trim($FIELD_VALUE) eq trim($PICKLIST_NAME)}selected{/if}>
+					<option value="{\App\Purifier::encodeHtml($PICKLIST_NAME)}" title="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}" {if !empty($FIELD_VALUE) and trim($FIELD_VALUE) eq trim($PICKLIST_NAME)}selected{/if}>
 						{\App\Purifier::encodeHtml($PICKLIST_VALUE)}
 					</option>
 				{/foreach}
