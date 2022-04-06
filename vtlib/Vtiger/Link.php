@@ -43,7 +43,7 @@ class Link
 	public function initialize($valuemap)
 	{
 		foreach ($valuemap as $key => $value) {
-			if ('linkurl' == $key || 'linkicon' == $key) {
+			if (!empty($value) && ('linkurl' == $key || 'linkicon' == $key)) {
 				$this->{$key} = \App\Purifier::decodeHtml($value);
 			} else {
 				$this->{$key} = $value;
