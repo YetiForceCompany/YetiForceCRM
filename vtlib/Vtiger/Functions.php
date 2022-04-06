@@ -608,10 +608,24 @@ class Functions
 		return $info;
 	}
 
-	public static function getQueryParams($url)
+	/**
+	 * Function getting parameters from URL.
+	 *
+	 * @param [string|null] $url
+	 *
+	 * @return array
+	 */
+	public static function getQueryParams($url): array
 	{
-		$queryStr = parse_url(htmlspecialchars_decode($url), PHP_URL_QUERY);
-		parse_str($queryStr, $queryParams);
+		$queryParams = [];
+
+		if ('string' === \gettype($url)) {
+			$queryStr = parse_url(htmlspecialchars_decode($url), PHP_URL_QUERY);
+			if ('string' === \gettype($queryStr)) {
+				parse_str($queryStr, $queryParams);
+			}
+		}
+
 		return $queryParams;
 	}
 
