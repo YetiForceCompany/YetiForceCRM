@@ -31,7 +31,7 @@ class Occurrences_GetRelatedMembers_Relation extends Vtiger_GetRelatedList_Relat
 			'uitype' => 21,
 		],
 		'rel_created_user' => [
-			'label' => 'LBL_ADDED_BY_USER',
+			'label' => 'LBL_RELATION_CREATED_USER',
 			'uitype' => 52,
 		],
 	];
