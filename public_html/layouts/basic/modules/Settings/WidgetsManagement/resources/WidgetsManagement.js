@@ -125,6 +125,7 @@ jQuery.Class(
 						if (typeof callBackFunction == 'function') {
 							callBackFunction(data);
 						}
+						App.Fields.Picklist.showSelect2ElementView(data.find('.js-authorized'));
 					},
 					{ width: '1000px' }
 				);

@@ -190,8 +190,7 @@
 												<span class="redColor">*</span>
 											</div>
 											<div class="col-sm-6 controls">
-												<select class="authorized form-control validateForm mb-0"
-													name="authorized" data-validation-engine="validate[required]">
+												<select class="authorized form-control validateForm mb-0 js-authorized" name="authorized" data-validation-engine="validate[required]">
 													<optgroup label="{\App\Language::translate('LBL_ROLES', $QUALIFIED_MODULE)}">
 														{foreach from=$ALL_AUTHORIZATION item=AUTHORIZED key=AUTHORIZED_CODE}
 															<option value="{$AUTHORIZED_CODE}"
