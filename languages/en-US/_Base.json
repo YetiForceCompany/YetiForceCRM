@@ -1480,7 +1480,8 @@
     "LBL_LESS_THAN_OR_EQUAL_FIELD": "less than or equal to field (<=)",
     "LBL_GREATER_OR_EQUAL_FIELD": "greater than or equal to field (>=)",
     "LBL_DRAG_AND_DROP_FILES": "Drag & Drop your files or Browse",
-    "LBL_SELECT_CALENDAR": "Select calendar"
+    "LBL_SELECT_CALENDAR": "Select calendar",
+    "LBL_ADDED_BY_USER": "Added by user"
   },
   "js": {
     "JS_APPROVE": "Approve",

@@ -24,11 +24,16 @@ class Occurrences_GetRelatedMembers_Relation extends Vtiger_GetRelatedList_Relat
 	public $customFields = [
 		'status_rel' => [
 			'label' => 'LBL_STATUS_REL',
-			'uitype' => 16
+			'uitype' => 16,
 		],
 		'comment_rel' => [
 			'label' => 'LBL_COMMENT_REL',
-			'uitype' => 21]
+			'uitype' => 21,
+		],
+		'rel_created_user' => [
+			'label' => 'LBL_ADDED_BY_USER',
+			'uitype' => 52,
+		],
 	];
 
 	/**
@@ -70,9 +75,12 @@ class Occurrences_GetRelatedMembers_Relation extends Vtiger_GetRelatedList_Relat
 	{
 		$result = false;
 		if (!$this->getRelationData($sourceRecordId, $destinationRecordId)) {
-			$result = \App\Db::getInstance()->createCommand()->insert(static::TABLE_NAME, ['crmid' => $sourceRecordId, 'relcrmid' => $destinationRecordId])->execute();
+			$result = \App\Db::getInstance()->createCommand()->insert(static::TABLE_NAME, [
+				'crmid' => $sourceRecordId,
+				'relcrmid' => $destinationRecordId,
+				'rel_created_user' => \App\User::getCurrentUserRealId(),
+			])->execute();
 		}
-
 		return $result;
 	}
 
@@ -90,7 +98,7 @@ class Occurrences_GetRelatedMembers_Relation extends Vtiger_GetRelatedList_Relat
 		$conditions = [
 			'or',
 			['crmid' => $sourceRecordId, 'relcrmid' => $destinationRecordId],
-			['crmid' => $destinationRecordId, 'relcrmid' => $sourceRecordId]
+			['crmid' => $destinationRecordId, 'relcrmid' => $sourceRecordId],
 		];
 		$result = (bool) $this->getRelationData($sourceRecordId, $destinationRecordId);
 		if ($result) {
@@ -112,7 +120,7 @@ class Occurrences_GetRelatedMembers_Relation extends Vtiger_GetRelatedList_Relat
 		return (new \App\Db\Query())->from(static::TABLE_NAME)->where([
 			'or',
 			['crmid' => $sourceRecordId, 'relcrmid' => $destinationRecordId],
-			['crmid' => $destinationRecordId, 'relcrmid' => $sourceRecordId]
+			['crmid' => $destinationRecordId, 'relcrmid' => $sourceRecordId],
 		])->one();
 	}
 }

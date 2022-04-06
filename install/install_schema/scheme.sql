@@ -3920,6 +3920,7 @@ CREATE TABLE `u_yf_relations_members_entity` (
   `relcrmid` int(10) DEFAULT NULL,
   `status_rel` varchar(225) DEFAULT NULL,
   `comment_rel` text DEFAULT NULL,
+  `rel_created_user` int(10) DEFAULT NULL,
   KEY `u_yf_relations_members_entity_crmid_idx` (`crmid`),
   KEY `u_yf_relations_members_entity_relcrmid_idx` (`relcrmid`),
   CONSTRAINT `u_yf_relations_members_entity_crmid_fk` FOREIGN KEY (`crmid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
