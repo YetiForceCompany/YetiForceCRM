@@ -410,7 +410,7 @@ $.Class(
 				app.showConfirmModal({
 					icon: 'fa fa-check-circle',
 					title: app.vtranslate('JS_LBL_REVIEW_CHANGES'),
-					title: app.vtranslate('JS_MASS_REVIEWING_CHANGES_CONFIRMATION'),
+					text: app.vtranslate('JS_MASS_REVIEWING_CHANGES_CONFIRMATION'),
 					confirmedCallback: () => {
 						let params = listInstance.getSearchParams();
 						let url =
