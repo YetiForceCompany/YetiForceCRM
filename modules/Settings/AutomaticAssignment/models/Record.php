@@ -578,6 +578,18 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 	}
 
 	/**
+	 * Get pervious value by field.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return mixed
+	 */
+	public function getPreviousValue(string $fieldName = '')
+	{
+		return $fieldName ? ($this->changes[$fieldName] ?? null) : $this->changes;
+	}
+
+	/**
 	 * Update activate/remove handler.
 	 *
 	 * @return void

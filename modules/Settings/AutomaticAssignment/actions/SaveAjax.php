@@ -14,7 +14,6 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 	/** {@inheritdoc} */
 	public function __construct()
 	{
-		Settings_Vtiger_Tracker_Model::lockTracking();
 		parent::__construct();
 		$this->exposeMethod('save');
 		$this->exposeMethod('preSaveValidation');
@@ -64,7 +63,9 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 	{
 		try {
 			$recordModel = $this->getRecordModelFromRequest($request);
+			$recordId = $recordModel->getId();
 			$recordModel->save();
+			\Settings_Vtiger_Tracker_Model::addDetail($recordModel->getPreviousValue(), $recordId ? array_intersect_key($recordModel->getData(), $recordModel->getPreviousValue()) : $recordModel->getData());
 			$result = ['success' => true, 'url' => $recordModel->getModule()->getDefaultUrl()];
 		} catch (\App\Exceptions\AppException $e) {
 			$result = ['success' => false, 'message' => $e->getDisplayMessage()];
