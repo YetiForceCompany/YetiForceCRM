@@ -1521,7 +1521,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		$icon = [];
 		if (\is_array($this->get('icon'))) {
 			$icon = $this->get('icon');
-		} elseif (\App\Json::isJson($this->get('icon'))) {
+		} elseif ($this->get('icon') && \App\Json::isJson($this->get('icon'))) {
 			$icon = \App\Json::decode($this->get('icon'));
 		}
 		if ($place && isset($icon['place']) && !\in_array($place, $icon['place'])) {
