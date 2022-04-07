@@ -201,7 +201,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return \App\Purifier::encodeHtml($value);
+		return \App\Purifier::encodeHtml($value) ?? '';
 	}
 
 	/**
