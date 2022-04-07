@@ -367,7 +367,7 @@
 								{assign var="HREF" value=$LINK}
 							{/if}
 							<div class="o-action-menu__item">
-								<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName() && strrpos($obj->getClassName(),"btn-") === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" href="{$HREF}" data-placement="bottom"
+								<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName() && strrpos($obj->getClassName(),"btn-") !== false}{$obj->getClassName()}{else}btn-light {$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" href="{$HREF}" data-placement="bottom"
 									role="button" data-js="popover" data-content="{\App\Language::translate($TITLE)}"
 									{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 										{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
