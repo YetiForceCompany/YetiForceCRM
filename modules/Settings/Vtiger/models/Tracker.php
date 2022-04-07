@@ -9,6 +9,7 @@
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Vtiger_Tracker_Model
 {
@@ -47,7 +48,7 @@ class Settings_Vtiger_Tracker_Model
 			'module_name' => \App\Request::_get('module'),
 			'record_id' => self::$recordId ? self::$recordId : 0,
 			'date' => date('Y-m-d H:i:s'),
-			'action' => \App\Process::$processType . ':' . \App\Process::$processName,
+			'action' => $action,
 		])->execute();
 		if (1 === $insertedInfo) {
 			self::$id = $db->getLastInsertID('l_#__settings_tracker_basic_id_seq');
