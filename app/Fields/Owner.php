@@ -224,14 +224,14 @@ class Owner
 			while ($row = $dataReader->read()) {
 				$fullName = '';
 				foreach ($entityData['fieldnameArr'] as &$field) {
-					$fullName .= ' ' . $row[$field];
+					$fullName .= ' ' . \App\Purifier::encodeHtml($row[$field]);
 				}
 				if ($this->showRoleName && isset($row['rolename'])) {
-					$roleName = \App\Language::translate($row['rolename'], '_Base', false, false);
+					$roleName = \App\Language::translate(\App\Purifier::encodeHtml($row['rolename']), '_Base', false, false);
 					$fullName .= " ({$roleName})";
 				}
 				$row['fullName'] = trim($fullName);
-				$tempResult[$row['id']] = array_map('\App\Purifier::encodeHtml', $row);
+				$tempResult[$row['id']] = $row;
 			}
 			\App\Cache::save('getUsers', $cacheKey, $tempResult);
 		}
