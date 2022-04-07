@@ -185,9 +185,6 @@ gridstack/dist/h5/
 gridstack/dist/jq/
 gridstack/dist/src/
 gridstack/src
-hammerjs/.bowerrc
-hammerjs/.jscsrc
-hammerjs/src
 html2canvas/dist/npm
 html2canvas/flow-typed
 html2canvas/src
