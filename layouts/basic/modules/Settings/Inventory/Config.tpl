@@ -14,7 +14,7 @@
 						<div class="form-group form-row">
 							<label class="col-md-3 u-text-small-bold col-form-label text-md-right form-control-plaintext">{\App\Language::translate('LBL_SUMMATION_TYPE', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-6">
-								<select class="select2" name="aggregation">
+								<select class="select2 form-control" name="aggregation">
 									{foreach  item=LABEL key=KEY from=Settings_Inventory_Module_Model::getPicklistValues('aggregation')}
 										<option value="{\App\Purifier::encodeHtml($KEY)}" {if $KEY eq $CONFIG['aggregation']} selected {/if}>{\App\Language::translate($LABEL, $QUALIFIED_MODULE)}</option>
 									{/foreach}
@@ -37,7 +37,7 @@
 								{\App\Language::translate('LBL_AVAILABLE_'|cat:strtoupper($FIELD), $QUALIFIED_MODULE)}
 							</label>
 							<div class="col-md-9">
-								<select class="select2" multiple name="{$FIELD}" data-prevvalue='{implode(',', $FIELD_VALUE)}' data-validation-engine="validate[required]">
+								<select class="select2 form-control" multiple name="{$FIELD}" data-prevvalue='{implode(',', $FIELD_VALUE)}' data-validation-engine="validate[required]">
 									{foreach  item=LABEL key=KEY from=Settings_Inventory_Module_Model::getPicklistValues($FIELD)}
 										<option value="{\App\Purifier::encodeHtml($KEY)}" {if in_array($KEY, $FIELD_VALUE)} selected {/if}>{\App\Language::translate("{$LABEL}_"|cat:strtoupper($FIELD), $QUALIFIED_MODULE)}</option>
 									{/foreach}
@@ -47,7 +47,7 @@
 						<div class="form-group form-row">
 							<label class="col-md-3 u-text-small-bold col-form-label text-md-right form-control-plaintext">{\App\Language::translate('LBL_DEFAULT_MODE', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-9">
-								<select class="select2" name="default_mode">
+								<select class="select2 form-control" name="default_mode">
 									<option value="0" {if $CONFIG['default_mode'] == 0}selected{/if}>{\App\Language::translate('LBL_GROUP')}</option>
 									<option value="1" {if $CONFIG['default_mode'] == 1}selected{/if}>{\App\Language::translate('LBL_INDIVIDUAL')}</option>
 								</select>
@@ -59,7 +59,7 @@
 					{if $VIEW eq 'DiscountConfiguration'}
 						<div class="alert alert-info">
 							<h5 class="alert-heading">{\App\Language::translate('LBL_ALERT_DISCOUNT_CONFIG_TITLE', $QUALIFIED_MODULE)}</h5>
-							<p>{\App\Language::translateArgs('LBL_ALERT_DISCOUNT_CONFIG_DESC', $QUALIFIED_MODULE,App\Config::main('site_URL'))}</p>
+							<p>{\App\Language::translate('LBL_ALERT_DISCOUNT_CONFIG_DESC', $QUALIFIED_MODULE)}</p>
 						</div>
 					{elseif $VIEW eq 'TaxConfiguration'}
 						<div class="alert alert-info">
