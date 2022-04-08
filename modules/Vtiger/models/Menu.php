@@ -106,6 +106,9 @@ class Vtiger_Menu_Model
 			}
 		} elseif ('Settings' === $parent) {
 			$qualifiedModuleName = $request->getModule(false);
+			if (!$breadcrumbs) {
+				$breadcrumbs = [];
+			}
 			$breadcrumbs[] = [
 				'name' => \App\Language::translate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
 				'url' => 'index.php?module=Vtiger&parent=Settings&view=Index',
