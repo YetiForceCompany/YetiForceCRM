@@ -232,7 +232,7 @@ class Picklist
 			$sourceValue = \App\Purifier::decodeHtml($row['sourcevalue']);
 			$targetValues = \App\Purifier::decodeHtml($row['targetvalues']);
 			$unserializedTargetValues = \App\Json::decode(html_entity_decode($targetValues));
-			$criteria = \App\Purifier::decodeHtml($row['criteria']);
+			$criteria = \App\Purifier::decodeHtml($row['criteria'] ?? '');
 			$unserializedCriteria = \App\Json::decode(html_entity_decode($criteria));
 
 			if (!empty($unserializedCriteria) && null !== $unserializedCriteria['fieldname']) {
