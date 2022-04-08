@@ -67,7 +67,7 @@ class PackageExport
 
 	public function __write($value)
 	{
-		fwrite($this->_export_modulexml_file, $value);
+		fwrite($this->_export_modulexml_file, $value ?? '');
 	}
 
 	/**
