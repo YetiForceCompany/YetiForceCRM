@@ -37,7 +37,6 @@ class ModTracker_Updates_Dashboard extends Vtiger_IndexAjax_View
 		$widget = \Vtiger_Widget_Model::getInstance($linkId, \App\User::getCurrentUserId());
 
 		if (empty($dateRange)) {
-			unset($dateRange);
 			$dateRange = [];
 			$dateRange[0] = date('Y-m-d');
 			$dateRange[1] = date('Y-m-d');
