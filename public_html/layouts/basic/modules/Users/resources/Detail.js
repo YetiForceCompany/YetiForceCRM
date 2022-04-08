@@ -72,7 +72,8 @@ Vtiger_Detail_Js(
 				text: app.vtranslate('JS_CHANGE_ACCESS_KEY_CONFIRMATION'),
 				confirmedCallback: () => {
 					AppConnector.request(url).done(function (data) {
-						let params = {};
+						let params = {},
+							message;
 						if (data['success']) {
 							data = data.result;
 							params['type'] = 'success';

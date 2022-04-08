@@ -42,7 +42,7 @@
 						<span class="mdi mdi-lock-question"></span>
 					</button>
 				{/if}
-				{if $EDIT_MODE}
+				{if $EDIT_MODE && !$FIELD_MODEL->get('fromOutsideList')}
 					<button class="btn btn-light js-popover-tooltip js-pwd-get" data-content="{\App\Language::translate('LBL_PWD_GET',$MODULE_NAME)}" type="button"
 						data-placement="bottom" data-js="popover">
 						<span class="fas fa-eye-slash"></span>
