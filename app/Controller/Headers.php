@@ -46,6 +46,7 @@ class Headers
 	public $csp = [
 		'default-src' => '\'self\' blob:',
 		'img-src' => '\'self\' data:',
+		'font-src' => '\'self\' data:',
 		'script-src' => '\'self\' \'unsafe-inline\' blob:',
 		'form-action' => '\'self\'',
 		'frame-ancestors' => '\'self\'',

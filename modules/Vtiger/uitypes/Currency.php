@@ -22,7 +22,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (empty($value) || isset($this->validate[$value])) {
+		if (empty($value) || isset($this->validate["$value"])) {
 			return;
 		}
 		if ($isUserFormat) {
@@ -37,7 +37,7 @@ class Vtiger_Currency_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . "||{$maximumLength} < {$value} < {$minimumLength}", 406);
 			}
 		}
-		$this->validate[$value] = true;
+		$this->validate["$value"] = true;
 	}
 
 	/** {@inheritdoc} */

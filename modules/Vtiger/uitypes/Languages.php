@@ -14,7 +14,7 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (empty($value) || isset($this->validate[$value])) {
+		if (empty($value) || isset($this->validate["$value"])) {
 			return;
 		}
 		parent::validate($value, $isUserFormat);
@@ -22,7 +22,7 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 		if (false === \App\Language::getLanguageLabel($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
-		$this->validate[$value] = true;
+		$this->validate["$value"] = true;
 	}
 
 	/** {@inheritdoc} */
