@@ -57,7 +57,7 @@ class Icon
 
 	public static function getIconByFileType($exntension)
 	{
-		$explodeExtension = explode('/', $exntension);
+		$explodeExtension = explode('/', $exntension ?? '');
 		$explodeExtension = reset($explodeExtension);
 		if (isset(self::$extensionIcon[$explodeExtension])) {
 			$fileIcon = self::$extensionIcon[$explodeExtension];
