@@ -30,6 +30,7 @@ Vtiger_Edit_Js(
 		},
 		afterLoadVariablePanel: function (html) {
 			App.Fields.Picklist.showSelect2ElementView(html.find('select.select2'));
+			App.Fields.Text.registerCopyClipboard(html);
 		},
 		registerVariablePanelEvent: function (form) {
 			var thisInstance = this;
@@ -38,9 +39,9 @@ Vtiger_Edit_Js(
 			}
 			form
 				.find('.js-toggle-panel[data-label="LBL_CONTENT_MAIL"] .blockContent')
-				.prepend('<div id="variablePanel" class="row px-0 borderBottom bc-gray-lighter"></div>');
+				.prepend('<div id="variablePanel" class="row px-0 borderBottom bc-gray-lighter mt-n1"></div>');
 			thisInstance.loadVariablePanel(form);
-			form.find('[name="module_name"]').on('change', function (e) {
+			form.find('[name="module_name"]').on('change', function () {
 				thisInstance.loadVariablePanel(form);
 			});
 		},
@@ -48,7 +49,6 @@ Vtiger_Edit_Js(
 			this._super(container);
 			this.registerVariablePanelEvent(container);
 			App.Tools.VariablesPanel.registerRefreshCompanyVariables(container);
-			App.Fields.Text.registerCopyClipboard(container);
 			App.Tools.VariablesPanel.refreshCompanyVariables(container);
 		}
 	}
