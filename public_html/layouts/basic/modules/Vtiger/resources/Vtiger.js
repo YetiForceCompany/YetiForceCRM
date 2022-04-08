@@ -24,6 +24,8 @@ var Vtiger_Index_Js = {
 			let template = container.find('.fileContainer');
 			let uploadContainer = container.find('.uploadFileContainer');
 			let form = container.find('form');
+			let sourceModuleContainer = container.find('[name="sourceModule"]');
+			let recordIdContainer = container.find('[name="recordId"]');
 			uploadButton.on('change', function () {
 				uploadContainer.find('.fileItem').remove();
 				let files = uploadButton[0].files;
@@ -32,6 +34,14 @@ var Vtiger_Index_Js = {
 					uploadContainer.find('[name="nameFile[]"]:last').val(files[i].name);
 				}
 			});
+			let moduleName = app.getModuleName();
+			let recordId = app.getRecordId();
+			if (sourceModuleContainer.length > 0) {
+				moduleName = sourceModuleContainer.val();
+			}
+			if (recordIdContainer.length > 0) {
+				recordId = recordIdContainer.val();
+			}
 			form.on('submit', function (e) {
 				e.preventDefault();
 				app.removeEmptyFilesInput(form[0]);
@@ -39,8 +49,8 @@ var Vtiger_Index_Js = {
 				url = 'index.php';
 				if (app.getViewName() === 'Detail') {
 					formData.append('createmode', 'link');
-					formData.append('return_module', app.getModuleName());
-					formData.append('return_id', app.getRecordId());
+					formData.append('return_module', moduleName);
+					formData.append('return_id', recordId);
 				}
 				let params = {
 					url: url,

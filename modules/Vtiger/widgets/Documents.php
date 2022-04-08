@@ -42,7 +42,7 @@ class Vtiger_Documents_Widget extends Vtiger_RelatedModule_Widget
 		if (\App\Privilege::isPermitted($moduleName, 'CreateView')) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', $moduleName),
-				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
+				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments&sourceModule=' . $this->Module . '&recordId=' . $this->Record . '")',
 				'linkicon' => 'yfi-document-templates',
 				'linkclass' => 'btn-light btn-sm',
 			]);
