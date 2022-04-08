@@ -89,7 +89,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
-	public function getEditViewDisplayValue($value, $recordModel = false): array
+	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		if (\is_array($value)) {
 			return $value;
