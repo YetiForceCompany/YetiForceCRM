@@ -88,11 +88,21 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		return $rawText ? $valueRaw : $valueHtml;
 	}
 
-	/** {@inheritdoc} */
-	public function getEditViewDisplayValue($value, $recordModel = false)
+	/**
+	 * Function getting value for EditViewDisplay.
+	 *
+	 * @param array $value
+	 * @param bool  $recordModel
+	 *
+	 * @return array
+	 */
+	public function getEditViewDisplayValue($value, $recordModel = false): array
 	{
 		if (\is_array($value)) {
 			return $value;
+		}
+		if (null === $value) {
+			$value = '';
 		}
 		return explode(' |##| ', \App\Purifier::encodeHtml($value));
 	}
