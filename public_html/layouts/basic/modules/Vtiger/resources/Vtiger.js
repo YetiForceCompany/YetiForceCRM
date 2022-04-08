@@ -32,6 +32,14 @@ var Vtiger_Index_Js = {
 					uploadContainer.find('[name="nameFile[]"]:last').val(files[i].name);
 				}
 			});
+			let moduleName = app.getModuleName();
+			let recordId = app.getRecordId();
+			if (container.find('[name="sourceModule"]').length > 0) {
+				moduleName = container.find('[name="sourceModule"]').val();
+			}
+			if (container.find('[name="sourceRecord"]').length > 0) {
+				recordId = container.find('[name="sourceRecord"]').val();
+			}
 			form.on('submit', function (e) {
 				e.preventDefault();
 				app.removeEmptyFilesInput(form[0]);
@@ -39,8 +47,8 @@ var Vtiger_Index_Js = {
 				url = 'index.php';
 				if (app.getViewName() === 'Detail') {
 					formData.append('createmode', 'link');
-					formData.append('return_module', app.getModuleName());
-					formData.append('return_id', app.getRecordId());
+					formData.append('return_module', moduleName);
+					formData.append('return_id', recordId);
 				}
 				let params = {
 					url: url,

@@ -13,6 +13,12 @@
 	<form class="form-horizontal" id="addDocuments" method="post" action="index.php" enctype="multipart/form-data">
 		<input type="hidden" name="module" value="{$MODULE}" />
 		<input type="hidden" name="action" value="MassAdd" />
+		{if !empty($SOURCE_MODULE)}
+			<input type="hidden" name="sourceModule" value="{$SOURCE_MODULE}" />
+		{/if}
+		{if !empty($SOURCE_RECORD)}
+			<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
+		{/if}
 		<div class="modal-body row">
 			<div class="col-md-12 uploadFileContainer">
 				<input type="file" name="file[]" multiple id="filesToUpload">
