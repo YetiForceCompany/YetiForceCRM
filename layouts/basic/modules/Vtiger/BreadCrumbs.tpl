@@ -57,7 +57,7 @@
 					{assign var="ITEM_PREV" value=$item['name']}
 				{/foreach}
 			</ol>
-			{if isset($SELECTED_PAGE)}
+			{if isset($SELECTED_PAGE) && $SELECTED_PAGE->get('description')}
 				{assign var="TRANSLATED_DESCRIPTION" value=\App\Language::translate($SELECTED_PAGE->get('description'),$QUALIFIED_MODULE)}
 				{if !empty(trim($TRANSLATED_DESCRIPTION)) && $SELECTED_PAGE->get('description') !== $TRANSLATED_DESCRIPTION}
 					<div class="js-popover-tooltip ml-2 d-inline my-auto u-h-fit u-cursor-pointer" data-js="popover" data-content="{$TRANSLATED_DESCRIPTION}">
