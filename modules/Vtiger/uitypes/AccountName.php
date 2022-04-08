@@ -38,7 +38,7 @@ class Vtiger_AccountName_UIType extends Vtiger_Base_UIType
 	 */
 	public function parseName(): array
 	{
-		$exploded = explode('|##|', $this->getFieldModel()->get('fieldvalue'), 2);
+		$exploded = explode('|##|', $this->getFieldModel()->get('fieldvalue') ?? '', 2);
 		return ['first' => isset($exploded[1]) ? $exploded[0] : '', 'last' => $exploded[1] ?? $exploded[0]];
 	}
 }
