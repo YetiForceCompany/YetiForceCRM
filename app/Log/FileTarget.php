@@ -116,7 +116,7 @@ class FileTarget extends \yii\log\FileTarget
 		$micro = explode('.', $timestamp);
 		$micro = end($micro);
 
-		return date('Y-m-d H:i:s', $timestamp) . ".{$micro} [$level][$category] - $text"
+		return date('Y-m-d H:i:s', (int) $timestamp) . ".{$micro} [$level][$category] - $text"
 			. (empty($traces) ? '' : "\n" . $traces);
 	}
 
