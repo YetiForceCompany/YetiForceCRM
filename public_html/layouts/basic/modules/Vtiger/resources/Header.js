@@ -436,24 +436,6 @@ $.Class(
 				$(this).parents('.d-inline-block').find('.dropdown-toggle .textHolder').html($(this).text());
 			});
 		},
-		listenTextAreaChange: function () {
-			let thisInstance = this;
-			$('textarea').on('keyup', function () {
-				let elem = $(this);
-				if (!elem.data('has-scroll')) {
-					elem.data('has-scroll', true);
-					elem.on('scroll keyup', function () {
-						thisInstance.resizeTextArea($(this));
-					});
-				}
-				thisInstance.resizeTextArea($(this));
-			});
-		},
-		resizeTextArea: function (elem) {
-			elem.height(1);
-			elem.scrollTop(0);
-			elem.height(elem[0].scrollHeight - elem[0].clientHeight + elem.height());
-		},
 		registerKnowledgeBaseModal() {
 			$('.js-knowledge-base-modal').on('click', () => {
 				if (window.KnowledgeBaseModalVueComponent.mounted === undefined) {
@@ -484,7 +466,6 @@ $.Class(
 				quickCreateModal = container.find('.quickCreateModules');
 			app.showNewScrollbarLeft(menuContainer, { suppressScrollX: true });
 			app.showNewScrollbar(menuContainer.find('.subMenu').last(), { suppressScrollX: true });
-			thisInstance.listenTextAreaChange();
 			thisInstance.registerFooTable(); //Enable footable
 			$('.js-clear-history').on('click', () => {
 				app.clearBrowsingHistory();
