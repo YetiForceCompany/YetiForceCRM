@@ -87,13 +87,7 @@ class Vtiger_Date_UIType extends Vtiger_Base_UIType
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		if (empty($value) || ' ' === $value) {
-			$value = trim($value);
-			$fieldName = $this->getFieldModel()->getFieldName();
-			$moduleName = $this->getFieldModel()->getModule()->getName();
-			//Restricted Fields for to show Default Value
-			if (('birthday' === $fieldName && 'Contacts' === $moduleName) || 'Products' === $moduleName) {
-				return \App\Purifier::encodeHtml($value);
-			}
+			$value = '';
 		} else {
 			$value = DateTimeField::convertToUserFormat($value);
 		}
