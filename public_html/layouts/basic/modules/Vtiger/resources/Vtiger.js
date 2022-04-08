@@ -24,8 +24,6 @@ var Vtiger_Index_Js = {
 			let template = container.find('.fileContainer');
 			let uploadContainer = container.find('.uploadFileContainer');
 			let form = container.find('form');
-			let sourceModuleContainer = container.find('[name="sourceModule"]');
-			let recordIdContainer = container.find('[name="recordId"]');
 			uploadButton.on('change', function () {
 				uploadContainer.find('.fileItem').remove();
 				let files = uploadButton[0].files;
@@ -36,11 +34,11 @@ var Vtiger_Index_Js = {
 			});
 			let moduleName = app.getModuleName();
 			let recordId = app.getRecordId();
-			if (sourceModuleContainer.length > 0) {
-				moduleName = sourceModuleContainer.val();
+			if (container.find('[name="sourceModule"]').length > 0) {
+				moduleName = container.find('[name="sourceModule"]').val();
 			}
-			if (recordIdContainer.length > 0) {
-				recordId = recordIdContainer.val();
+			if (container.find('[name="sourceRecord"]').length > 0) {
+				recordId = container.find('[name="sourceRecord"]').val();
 			}
 			form.on('submit', function (e) {
 				e.preventDefault();

@@ -35,10 +35,10 @@ class Documents_MassAddDocuments_View extends Vtiger_BasicModal_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
 		if ($request->has('sourceModule')) {
-			$viewer->assign('SOURCE_MODULE', $request->getByType('sourceModule', 'Text'));
+			$viewer->assign('SOURCE_MODULE', $request->getByType('sourceModule', \App\Purifier::ALNUM));
 		}
-		if ($request->has('recordId')) {
-			$viewer->assign('RECORD_ID', $request->getByType('recordId', 'Text'));
+		if ($request->has('sourceRecord')) {
+			$viewer->assign('SOURCE_RECORD', $request->getInteger('sourceRecord'));
 		}
 		$viewer->view('MassAddDocuments.tpl', $moduleName);
 		parent::postProcess($request);

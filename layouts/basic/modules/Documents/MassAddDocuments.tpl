@@ -16,8 +16,8 @@
 		{if !empty($SOURCE_MODULE)}
 			<input type="hidden" name="sourceModule" value="{$SOURCE_MODULE}" />
 		{/if}
-		{if !empty($RECORD_ID)}
-			<input type="hidden" name="recordId" value="{$RECORD_ID}" />
+		{if !empty($SOURCE_RECORD)}
+			<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
 		{/if}
 		<div class="modal-body row">
 			<div class="col-md-12 uploadFileContainer">
