@@ -51,7 +51,6 @@ jobs:
   tests81:
     runs-on: ubuntu-latest
     name: PHP 8.1 - MariaDB 10
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v2
         with:
