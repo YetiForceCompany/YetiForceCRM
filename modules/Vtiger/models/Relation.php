@@ -1024,7 +1024,7 @@ class Vtiger_Relation_Model extends \App\Base
 	{
 		$fields = $this->get('fields');
 		if (!$fields) {
-			$fields = false;
+			$fields = [];
 			$relatedModel = $this->getRelationModuleModel();
 			$relatedModelFields = $relatedModel->getFields();
 

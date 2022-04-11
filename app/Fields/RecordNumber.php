@@ -44,7 +44,7 @@ class RecordNumber extends \App\Base
 		if (!\is_numeric($tabId)) {
 			$tabId = \App\Module::getModuleId($tabId);
 		}
-		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one();
+		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one() ?: [];
 		$row['tabid'] = $tabId;
 		$instance->setData($row);
 		return self::$instanceCache[$tabId] = $instance;

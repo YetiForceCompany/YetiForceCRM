@@ -120,7 +120,7 @@ class LanguageExport extends Package
 					'lastupdated' => date('Y-m-d H:i:s'),
 					'isdefault' => (int) (null === $isDefault ? $langInfo['isdefault'] : $isDefault),
 					'active' => (int) $isActive,
-					'progress' => $progress
+					'progress' => $progress,
 				],
 				['prefix' => $prefix]
 			)->execute();
@@ -133,7 +133,7 @@ class LanguageExport extends Package
 					'isdefault' => (int) $isDefault,
 					'active' => (int) $isActive,
 					'prefix' => $prefix,
-					'progress' => $progress
+					'progress' => $progress,
 				]
 			)->execute();
 		}
