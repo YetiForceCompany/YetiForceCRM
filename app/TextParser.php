@@ -1669,7 +1669,7 @@ class TextParser
 	 */
 	public static function getTextLength($text)
 	{
-		return mb_strlen($text);
+		return null !== $text ? mb_strlen($text) : 0;
 	}
 
 	/**
