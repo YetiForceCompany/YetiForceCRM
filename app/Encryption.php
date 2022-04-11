@@ -90,7 +90,7 @@ class Encryption extends Base
 	 *
 	 * @return int
 	 */
-	public function getOptions()
+	public function getOptions(): int
 	{
 		return $this->get('options') ?? 0;
 	}
