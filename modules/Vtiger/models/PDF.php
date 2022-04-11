@@ -110,7 +110,7 @@ class Vtiger_PDF_Model extends \App\Base
 	public function get($key)
 	{
 		if ('conditions' === $key && !\is_array(parent::get($key))) {
-			return json_decode(parent::get($key), true);
+			return json_decode(parent::get($key) ?? '', true);
 		}
 		return parent::get($key);
 	}

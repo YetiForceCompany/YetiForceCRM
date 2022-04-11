@@ -84,7 +84,9 @@ class LanguageExport extends Package
 		$langInfo = \App\Language::getLangInfo($prefix);
 		$this->openNode('module');
 		$this->outputNode('language', 'type');
-		$this->outputNode(\App\Purifier::decodeHtml($langInfo['name']), 'name');
+		if (isset($langInfo['name'])) {
+			$this->outputNode(\App\Purifier::decodeHtml($langInfo['name']), 'name');
+		}
 		$this->outputNode($prefix, 'prefix');
 		$this->outputNode('language', 'type');
 		$this->outputNode(\App\Config::main('default_charset'), 'encoding');
@@ -120,7 +122,7 @@ class LanguageExport extends Package
 					'lastupdated' => date('Y-m-d H:i:s'),
 					'isdefault' => (int) (null === $isDefault ? $langInfo['isdefault'] : $isDefault),
 					'active' => (int) $isActive,
-					'progress' => $progress
+					'progress' => $progress,
 				],
 				['prefix' => $prefix]
 			)->execute();
@@ -133,7 +135,7 @@ class LanguageExport extends Package
 					'isdefault' => (int) $isDefault,
 					'active' => (int) $isActive,
 					'prefix' => $prefix,
-					'progress' => $progress
+					'progress' => $progress,
 				]
 			)->execute();
 		}
