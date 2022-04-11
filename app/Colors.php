@@ -58,7 +58,7 @@ class Colors
 		$css = '';
 		$colors = [];
 		foreach (static::getAllUserColor() as $item) {
-			if (ltrim($item['color'], '#')) {
+			if (null !== $item['color'] && ltrim($item['color'], '#')) {
 				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . ' !important; font-weight: 500 !important; color: ' . static::getContrast($item['color']) . ' !important;}' . PHP_EOL;
 				$css .= '.ownerCT_' . $item['id'] . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 				$css .= '.ownerCBr_' . $item['id'] . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
@@ -66,7 +66,7 @@ class Colors
 			}
 		}
 		foreach (static::getAllGroupColor() as $item) {
-			if (ltrim($item['color'], '#')) {
+			if (null !== $item['color'] && ltrim($item['color'], '#')) {
 				$css .= '.ownerCBg_' . $item['id'] . ' { background: ' . $item['color'] . ' !important; font-weight: 500 !important; color: ' . static::getContrast($item['color']) . ' !important;}' . PHP_EOL;
 				$css .= '.ownerCT_' . $item['id'] . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
 				$css .= '.ownerCBr_' . $item['id'] . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
