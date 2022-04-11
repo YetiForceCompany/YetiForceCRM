@@ -46,12 +46,12 @@ class ServiceContracts
 		$holidaysDates = $dates = [];
 		$date = clone $start;
 		$days = array_flip($days);
-		if (!$holidays) {
+		if ($holidays) {
 			$holidaysDates = array_flip(array_keys(\App\Fields\Date::getHolidays($start->format('Y-m-d'), $end->format('Y-m-d'))));
 		}
 		while ($date <= $end) {
 			$datesEnd = (clone $date)->setTime(23, 59, 59);
-			if (isset($days[$date->format('N')]) && ($holidays || (!$holidays && !isset($holidaysDates[$date->format('Y-m-d')])))) {
+			if (isset($days[$date->format('N')]) && (!$holidays || ($holidays && !isset($holidaysDates[$date->format('Y-m-d')])))) {
 				$dates[] = [
 					'start' => clone $date,
 					'end' => clone ($end < $datesEnd ? $end : $datesEnd),
