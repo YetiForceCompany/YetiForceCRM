@@ -86,6 +86,16 @@ class Encryption extends Base
 	}
 
 	/**
+	 * Get options or options default value(0).
+	 *
+	 * @return int
+	 */
+	public function getOptions()
+	{
+		return $this->get('options') ?? 0;
+	}
+
+	/**
 	 * Function to encrypt data.
 	 *
 	 * @param string $decrypted
@@ -98,7 +108,7 @@ class Encryption extends Base
 		if (!$this->isActive($testMode)) {
 			return $decrypted;
 		}
-		$encrypted = openssl_encrypt($decrypted, $this->get('method'), $this->get('pass'), $this->get('options'), $this->get('vector'));
+		$encrypted = openssl_encrypt($decrypted, $this->getMethod(), $this->get('pass'), $this->getOptions(), $this->get('vector'));
 		return base64_encode($encrypted);
 	}
 
@@ -115,7 +125,7 @@ class Encryption extends Base
 		if (!$this->isActive($testMode)) {
 			return $encrypted;
 		}
-		return openssl_decrypt(base64_decode($encrypted), $this->get('method'), $this->get('pass'), $this->get('options'), $this->get('vector'));
+		return openssl_decrypt(base64_decode($encrypted), $this->getMethod(), $this->get('pass'), $this->getOptions(), $this->get('vector'));
 	}
 
 	/**
