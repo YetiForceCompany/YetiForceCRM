@@ -407,7 +407,7 @@ window.App.Fields = {
 		 * @returns {ClipboardJS|undefined}
 		 */
 		registerCopyClipboard: function (container, key = '.clipboard') {
-			if (typeof container !== 'object') {
+			if (typeof container !== 'object' || $(container).length === 0) {
 				return;
 			}
 			container = $(container).get(0);
