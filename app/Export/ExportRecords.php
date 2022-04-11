@@ -177,7 +177,6 @@ abstract class ExportRecords extends \App\Base
 		} else {
 			$headers = $this->getAllModuleFieldsAsHeaders();
 		}
-
 		return $headers;
 	}
 
@@ -195,21 +194,23 @@ abstract class ExportRecords extends \App\Base
 			if ($referenceField) {
 				$this->setReferenceField($relatedFieldName, $relatedModule, $referenceField);
 			}
-			if (isset($this->moduleFieldInstances[$relatedFieldName])) {
+			if (!empty($this->moduleFieldInstances[$relatedFieldName])) {
 				$fieldModel = $this->moduleFieldInstances[$relatedFieldName];
-				if ($fieldModel) {
+				if ($fieldModel->isExportTable()) {
 					$label = $fieldModel->getFullLabelTranslation($this->moduleInstance);
 					$headers[] = \App\Purifier::decodeHtml($label);
 				}
 			}
-			if (isset($this->moduleFieldInstances[$referenceField])) {
+			if (!empty($this->moduleFieldInstances[$referenceField])) {
 				$fieldModel = $this->moduleFieldInstances[$referenceField];
-				$label = $fieldModel->getFullLabelTranslation($this->moduleInstance);
-				$relatedModuleInstance = \Vtiger_Module_Model::getInstance($relatedModule);
-				if ($fieldFromReferenceModule = $relatedModuleInstance->getFieldByName($relatedFieldName)) {
-					$label .= ' - ' . $fieldFromReferenceModule->getFullLabelTranslation($this->moduleInstance);
+				if ($fieldModel->isExportTable()) {
+					$label = $fieldModel->getFullLabelTranslation($this->moduleInstance);
+					$relatedModuleInstance = \Vtiger_Module_Model::getInstance($relatedModule);
+					if ($fieldFromReferenceModule = $relatedModuleInstance->getFieldByName($relatedFieldName)) {
+						$label .= ' - ' . $fieldFromReferenceModule->getFullLabelTranslation($this->moduleInstance);
+					}
+					$headers[] = \App\Purifier::decodeHtml($label);
 				}
-				$headers[] = \App\Purifier::decodeHtml($label);
 			}
 		}
 		return $headers;
@@ -224,8 +225,10 @@ abstract class ExportRecords extends \App\Base
 	{
 		$headers = [];
 		foreach ($this->listViewHeaders as $fieldModel) {
-			$label = $fieldModel->getFullLabelTranslation($this->moduleInstance);
-			$headers[] = \App\Purifier::decodeHtml($label);
+			if ($fieldModel->isExportTable()) {
+				$label = $fieldModel->getFullLabelTranslation($this->moduleInstance);
+				$headers[] = \App\Purifier::decodeHtml($label);
+			}
 		}
 		return $headers;
 	}
@@ -259,7 +262,7 @@ abstract class ExportRecords extends \App\Base
 		foreach ($this->accessibleFields as $fieldName) {
 			if (!empty($this->moduleFieldInstances[$fieldName])) {
 				$fieldModel = $this->moduleFieldInstances[$fieldName];
-				if ($fieldModel) { // export headers for mandatory fields
+				if ($fieldModel->isExportTable()) { // export headers for mandatory fields
 					$header = \App\Language::translate(\App\Purifier::decodeHtml($fieldModel->get('label')), $this->moduleName);
 					if ($exportBlockName) {
 						$header = \App\Language::translate(\App\Purifier::decodeHtml($fieldModel->getBlockName()), $this->moduleName) . '::' . $header;
@@ -520,9 +523,12 @@ abstract class ExportRecords extends \App\Base
 				unset($recordValues[$fieldName]);
 				continue;
 			}
-			$value = $this->getDisplayValue($fieldModel, $value, $recordId, false, true);
+			if ($fieldModel->isExportTable()) {
+				$value = $this->getDisplayValue($fieldModel, $value, $recordId, false, true);
+			} else {
+				$value = '';
+			}
 		}
-
 		return $recordValues;
 	}
 
@@ -570,7 +576,11 @@ abstract class ExportRecords extends \App\Base
 				unset($recordValues[$fieldName]);
 				continue;
 			}
-			$value = $fieldModel->getUITypeModel()->getValueToExport($value, $recordId);
+			if ($fieldModel->isExportTable()) {
+				$value = $fieldModel->getUITypeModel()->getValueToExport($value, $recordId);
+			} else {
+				$value = '';
+			}
 		}
 		return $recordValues;
 	}

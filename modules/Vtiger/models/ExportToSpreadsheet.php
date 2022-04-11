@@ -71,8 +71,8 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\ExportRecords
 	/** {@inheritdoc} */
 	public function exportData()
 	{
+		$headers = $this->getHeaders();
 		if (!$this->exportColumns && $this->quickExport && $this->queryOptions['viewname']) {
-			$headers = $this->getHeaders();
 			$listViewModel = Vtiger_ListView_Model::getInstance($this->moduleName, $this->queryOptions['viewname']);
 			$pagingModel = (new \Vtiger_Paging_Model())->set('limit', Vtiger_Paging_Model::PAGE_MAX_LIMIT);
 			$listViewModel->set('query_generator', $this->queryGeneratorForList);
@@ -87,9 +87,7 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\ExportRecords
 			}
 		} else {
 			$query = $this->getExportQuery();
-			$headers = $this->getHeaders();
-			$isInventory = $this->moduleInstance->isInventory();
-			if ($isInventory) {
+			if ($isInventory = $this->moduleInstance->isInventory()) {
 				$inventoryModel = Vtiger_Inventory_Model::getInstance($this->moduleName);
 				$inventoryFields = $inventoryModel->getFields();
 				$inventoryTable = $inventoryModel->getDataTableName();
@@ -171,7 +169,9 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\ExportRecords
 				unset($row[$fieldName]);
 				continue;
 			}
-			$this->putDataIntoSpreadsheet($fieldModel, $value, $id);
+			if ($fieldModel->isExportTable()) {
+				$this->putDataIntoSpreadsheet($fieldModel, $value, $id);
+			}
 		}
 		return [];
 	}
