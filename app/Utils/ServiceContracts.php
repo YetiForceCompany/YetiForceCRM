@@ -51,7 +51,7 @@ class ServiceContracts
 		}
 		while ($date <= $end) {
 			$datesEnd = (clone $date)->setTime(23, 59, 59);
-			if (isset($days[$date->format('N')]) || ($holidays && isset($holidaysDates[$date->format('Y-m-d')]))) {
+			if (isset($days[$date->format('N')]) && (!$holidays || ($holidays && !isset($holidaysDates[$date->format('Y-m-d')])))) {
 				$dates[] = [
 					'start' => clone $date,
 					'end' => clone ($end < $datesEnd ? $end : $datesEnd),

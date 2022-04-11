@@ -39,6 +39,11 @@
 									{foreach item="DAY_NAME" key="DAY_ID" from=$DAYS_OF_THE_WEEK}
 										<label class="mr-5"><input type="checkbox" name="working_days[]" value="{$DAY_ID}" {if strpos($RECORD_MODEL->get('working_days'),(string)$DAY_ID)!==false} checked="checked" {/if} class="checkbox mr-1">{\App\Language::translate($DAY_NAME,'Calendar')}</label>
 									{/foreach}
+									<span class="js-popover-tooltip mr-1" data-toggle="popover"
+										data-placement="top"
+										data-content="{\App\Language::translate('LBL_HOLIDAYS_INFO', $QUALIFIED_MODULE)}" data-js="popover">
+										<span class="fas fa-info-circle"></span>
+									</span>
 									<label class="mr-2"><input type="checkbox" name="holidays" value="1" class="mr-1" {if isset($RECORD_MODEL) && $RECORD_MODEL->get('holidays')==1} checked="checked" {/if}>{\App\Language::translate('LBL_HOLIDAYS', $QUALIFIED_MODULE)}</label>
 									<a class="js-popover-tooltip btn btn-sm btn-default rounded-circle" data-js="popover" data-content="{App\Language::translate('LBL_HOLIDAYS_LINK',$QUALIFIED_MODULE)}" href="index.php?module=PublicHoliday&view=Configuration&parent=Settings"><span class="fas fa-link"></span></a>
 								</div>
