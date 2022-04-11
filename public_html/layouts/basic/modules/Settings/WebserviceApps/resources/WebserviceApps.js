@@ -64,20 +64,21 @@ $.Class(
 		 * Show forms to edit or create record
 		 * @param {int} id
 		 */
-		showFormToEditKey: function (id) {
+		showFormToEditKey: function (id, type) {
 			var thisInstance = this;
 			var params = {
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
-				view: 'CreateApp'
+				view: 'CreateApp',
+				type: type
 			};
 			if (id != '') {
 				params['record'] = id;
 			}
 			var progress = jQuery.progressIndicator();
-			AppConnector.request(params).done(function (data) {
+			AppConnector.request(params).done((data) => {
 				progress.progressIndicator({ mode: 'hide' });
-				app.showModalWindow(data, function (container) {
+				app.showModalWindow(data, (container) => {
 					const prevButton = container.find('.previewPassword');
 					const password = container.find('[name="pass"]');
 					prevButton.on('mousedown', function (e) {
@@ -117,6 +118,10 @@ $.Class(
 								}
 							});
 						}
+					});
+					container.find('[name="type"]').on('change', (e) => {
+						app.hideModalWindow();
+						this.showFormToEditKey('', $(e.currentTarget).val());
 					});
 				});
 			});
