@@ -84,9 +84,7 @@ class LanguageExport extends Package
 		$langInfo = \App\Language::getLangInfo($prefix);
 		$this->openNode('module');
 		$this->outputNode('language', 'type');
-		if (isset($langInfo['name'])) {
-			$this->outputNode(\App\Purifier::decodeHtml($langInfo['name']), 'name');
-		}
+		$this->outputNode(\App\Purifier::decodeHtml($langInfo['name']), 'name');
 		$this->outputNode($prefix, 'prefix');
 		$this->outputNode('language', 'type');
 		$this->outputNode(\App\Config::main('default_charset'), 'encoding');
