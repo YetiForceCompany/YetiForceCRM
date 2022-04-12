@@ -99,7 +99,7 @@ class Calendar_Field_Model extends Vtiger_Field_Model
 	/** {@inheritdoc} */
 	public function getFieldInfo(): array
 	{
-		parent::getFieldInfo();
+		$this->loadFieldInfo();
 		//Change the default search operator
 		if ('date_start' == $this->get('name')) {
 			$searchParams = App\Condition::validSearchParams('Calendar', \App\Request::_getArray('search_params'));
