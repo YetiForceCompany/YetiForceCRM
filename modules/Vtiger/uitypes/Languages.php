@@ -18,7 +18,6 @@ class Vtiger_Languages_UIType extends Vtiger_Picklist_UIType
 			return;
 		}
 		parent::validate($value, $isUserFormat);
-		$this->validate = false;
 		if (false === \App\Language::getLanguageLabel($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
