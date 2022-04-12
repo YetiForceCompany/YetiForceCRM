@@ -15,7 +15,7 @@ class Vtiger_RecordStructure_Model extends \App\Base
 {
 	protected $record = false;
 	protected $module = false;
-	protected $structuredValues = false;
+	protected $structuredValues = [];
 
 	const RECORD_STRUCTURE_MODE_DEFAULT = '';
 	const RECORD_STRUCTURE_MODE_DETAIL = 'Detail';
