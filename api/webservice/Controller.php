@@ -84,22 +84,20 @@ class Controller
 			$this->response->setAcceptableMethods($handler->allowedMethod);
 			return false;
 		}
-		$this->app = Core\Auth::init($this);
-		$this->app['tables'] = Core\Containers::$listTables[$this->app['type']] ?? [];
-		if ($this->app['type'] !== $this->request->getByType('_container', 'Alnum')) {
-			throw new Core\Exception('Invalid api type', 404);
-		}
+
 		$this->headers = $this->request->getHeaders();
+		Core\Auth::init($this);
+		if (empty($this->app)) {
+			throw new Core\Exception('Web service - Applications: Unauthorized', 401);
+		}
+		$this->app['tables'] = Core\Containers::$listTables[$this->app['type']] ?? [];
 		if (!empty($this->app['ips']) && !\in_array(\App\RequestUtil::getRemoteIP(true), array_map('trim', explode(',', $this->app['ips'])))) {
 			throw new Core\Exception('Illegal IP address', 401);
 		}
-		if ($this->headers['x-api-key'] !== \App\Encryption::getInstance()->decrypt($this->app['api_key'])) {
-			throw new Core\Exception('Invalid api key', 401);
-		}
-		if (empty($this->request->getByType('action', 'Alnum'))) {
+		if ($this->request->isEmpty('action', true)) {
 			throw new Core\Exception('No action', 404);
 		}
-		\App\Process::$processName = $this->request->getByType('action', 'Alnum');
+		\App\Process::$processName = $this->request->getByType('action', \App\Purifier::ALNUM);
 		\App\Process::$processType = $this->app['type'];
 		return true;
 	}
