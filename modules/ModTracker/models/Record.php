@@ -430,6 +430,9 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		if ($this->isCreate() || $this->isUpdate() || $this->isTransferEdit()) {
 			$dataReader = (new \App\Db\Query())->from('vtiger_modtracker_detail')->where(['id' => $this->get('id')])->createCommand()->query();
 			while ($row = $dataReader->read()) {
+				if($row['prevalue'] === null) {
+					$row['prevalue'] = '';
+				}
 				$row = array_map('html_entity_decode', $row);
 				if ('record_id' === $row['fieldname'] || 'record_module' === $row['fieldname']) {
 					continue;
