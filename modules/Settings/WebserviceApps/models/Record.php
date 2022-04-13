@@ -86,7 +86,7 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 	private function checkDuplicate(): bool
 	{
 		$where = ['and'];
-		$where[] = ['name' => $this->get('name')];
+		$where[] = ['type' => $this->get('type'), 'name' => $this->get('name')];
 		if (!$this->isEmpty('id')) {
 			$where[] = ['<>', 'id', $this->getId()];
 		}
@@ -105,9 +105,9 @@ class Settings_WebserviceApps_Record_Model extends Settings_Vtiger_Record_Model
 		$data = [
 			'status' => $this->get('status') ? 1 : 0,
 			'name' => $this->get('name'),
-			'url' => $this->get('url'),
-			'ips' => $this->get('ips'),
-			'pass' => App\Encryption::getInstance()->encrypt($this->get('pass')),
+			'url' => (string) $this->get('url'),
+			'ips' => (string) $this->get('ips'),
+			'pass' => $this->get('pass') ? App\Encryption::getInstance()->encrypt($this->get('pass')) : '',
 		];
 		if ($this->isEmpty('id')) {
 			$data['type'] = $this->get('type');

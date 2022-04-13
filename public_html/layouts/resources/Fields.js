@@ -751,7 +751,7 @@ window.App.Fields = {
 			 * @param {jQuery} element
 			 * @param {object} e
 			 */
-			validate(element, e) {
+			validate(element, _e) {
 				let status = true,
 					params;
 				if (element.data('purifyMode')) {
@@ -778,11 +778,10 @@ window.App.Fields = {
 					.done(function (data) {
 						element.val(data.result.raw);
 					})
-					.fail(function (error) {
+					.fail(function () {
 						app.showNotify({
 							type: 'error',
-							title: app.vtranslate('JS_UNEXPECTED_ERROR'),
-							text: error
+							text: app.vtranslate('JS_UNEXPECTED_ERROR')
 						});
 						status = false;
 					});

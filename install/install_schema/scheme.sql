@@ -9899,7 +9899,8 @@ CREATE TABLE `w_yf_servers` (
   `ips` varchar(255) DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `name` (`name`,`status`)
+  UNIQUE KEY `w_yf_servers_api_key_idx` (`api_key`),
+  UNIQUE KEY `w_yf_servers_name_type_idx` (`name`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `yetiforce_auth` */
