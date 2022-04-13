@@ -95,7 +95,11 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$sortOrder = 'ASC';
 		}
 		if (empty($orderBy)) {
-			$orderBy = "due_date $sortOrder, time_end $sortOrder";
+			if (\in_array($mode, ['upcoming', 'createdByMeButNotMine'])) {
+				$orderBy = "date_start $sortOrder, time_start $sortOrder";
+			} else {
+				$orderBy = "due_date $sortOrder, time_end $sortOrder";
+			}
 		} else {
 			$orderBy .= ' ' . $sortOrder;
 		}
@@ -164,7 +168,6 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$pagingModel->set('nextPageExists', false);
 		}
 		$dataReader->close();
-
 		return $activities;
 	}
 
