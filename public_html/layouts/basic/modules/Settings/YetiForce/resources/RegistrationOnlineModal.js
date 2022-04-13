@@ -76,11 +76,10 @@ jQuery.Class(
 						container.find('button[name=saveButton]').prop('disabled', false);
 						return data['result'];
 					})
-					.fail(function (error, title) {
+					.fail(function () {
 						progress.progressIndicator({ mode: 'hide' });
 						app.showNotify({
-							title: title,
-							text: error,
+							text: app.vtranslate('JS_ERROR'),
 							type: 'error'
 						});
 					});

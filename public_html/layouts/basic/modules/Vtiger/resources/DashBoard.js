@@ -175,7 +175,6 @@ $.Class(
 						);
 						app.showNotify({
 							title: app.vtranslate('JS_ERROR'),
-							text: errorThrown,
 							type: 'error'
 						});
 					});

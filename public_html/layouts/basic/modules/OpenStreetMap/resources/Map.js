@@ -663,6 +663,8 @@ jQuery.Class(
 					.fail(function (error, title) {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						app.showNotify({
+							titleTrusted: false,
+							textTrusted: false,
 							title: title,
 							text: error,
 							type: 'error'

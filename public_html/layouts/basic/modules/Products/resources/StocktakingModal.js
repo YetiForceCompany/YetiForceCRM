@@ -48,11 +48,10 @@ window.Products_StocktakingModal_JS = class {
 					App.Fields.Picklist.showSelect2ElementView(eanField);
 					progress.progressIndicator({ mode: 'hide' });
 				})
-				.fail((error, title) => {
+				.fail(() => {
 					progress.progressIndicator({ mode: 'hide' });
 					app.showNotify({
-						title: title,
-						text: error,
+						text: app.vtranslate('JS_ERROR'),
 						type: 'error'
 					});
 				});
@@ -86,11 +85,10 @@ window.Products_StocktakingModal_JS = class {
 					}
 					progress.progressIndicator({ mode: 'hide' });
 				})
-				.fail((error, title) => {
+				.fail(() => {
 					progress.progressIndicator({ mode: 'hide' });
 					app.showNotify({
-						title: title,
-						text: error,
+						text: app.vtranslate('JS_ERROR'),
 						type: 'error'
 					});
 				});
@@ -135,11 +133,10 @@ window.Products_StocktakingModal_JS = class {
 					}
 					progress.progressIndicator({ mode: 'hide' });
 				})
-				.fail((error, title) => {
+				.fail(() => {
 					progress.progressIndicator({ mode: 'hide' });
 					app.showNotify({
-						title: title,
-						text: error,
+						text: app.vtranslate('JS_ERROR'),
 						type: 'error'
 					});
 				});

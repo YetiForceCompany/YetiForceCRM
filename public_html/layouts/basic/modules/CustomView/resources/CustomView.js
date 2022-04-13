@@ -284,8 +284,9 @@ class CustomView {
 						});
 					}
 				})
-				.fail((textStatus, errorThrown) => {
+				.fail((_textStatus, errorThrown) => {
 					app.showNotify({
+						textTrusted: false,
 						title: app.vtranslate('JS_ERROR'),
 						text: errorThrown,
 						type: 'error'

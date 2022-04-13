@@ -75,9 +75,9 @@ $.Class(
 					}
 					thisInstance.$itemsContainer.trigger('items.reloaded');
 				})
-				.fail((error) => {
-					Settings_Vtiger_Index_Js.showMessage({
-						text: error.toString(),
+				.fail(() => {
+					app.showNotify({
+						text: app.vtranslate('JS_ERROR'),
 						type: 'error'
 					});
 				});
@@ -111,7 +111,8 @@ $.Class(
 							})
 							.fail((error) => {
 								Settings_PublicHoliday_Js.hideProgressive();
-								Settings_Vtiger_Index_Js.showMessage({
+								app.showNotify({
+									textTrusted: false,
 									text: error.toString(),
 									type: 'error'
 								});
@@ -190,7 +191,8 @@ $.Class(
 							})
 							.fail((error) => {
 								Settings_PublicHoliday_Js.hideProgressive();
-								Settings_Vtiger_Index_Js.showMessage({
+								app.showNotify({
+									textTrusted: false,
 									text: error.toString(),
 									type: 'error'
 								});
@@ -283,7 +285,8 @@ $.Class(
 								})
 								.fail((error) => {
 									Settings_PublicHoliday_Js.hideProgressive();
-									Settings_Vtiger_Index_Js.showMessage({
+									app.showNotify({
+										textTrusted: false,
 										text: error.toString(),
 										type: 'error'
 									});
