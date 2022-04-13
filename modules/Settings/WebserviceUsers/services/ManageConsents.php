@@ -94,15 +94,16 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 		$table = $this->baseTable;
 		$index = $this->baseIndex;
 		$data = $this->getDataForSave();
+		$success = true;
 		if (empty($this->getId())) {
 			$success = $db->createCommand()->insert($table, $data)->execute();
 			if ($success) {
 				$this->set('id', $db->getLastInsertID("{$table}_{$index}_seq"));
 			}
-		} else {
+		} elseif ($data) {
 			$success = $db->createCommand()->update($table, $data, [$index => $this->getId()])->execute();
 		}
-		return $success;
+		return (bool) $success;
 	}
 
 	/**

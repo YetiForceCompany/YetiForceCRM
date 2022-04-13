@@ -3,6 +3,8 @@
 /**
  * WebserviceUsers List View Class.
  *
+ * @package Settings.View
+ *
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -22,7 +24,7 @@ class Settings_WebserviceUsers_List_View extends Settings_Vtiger_List_View
 		if (!$request->has('typeApi')) {
 			$request->set('typeApi', current(\Api\Core\Containers::$list));
 		}
-		$typeApi = $request->getByType('typeApi', 'Alnum');
+		$typeApi = $request->getByType('typeApi', \App\Purifier::STANDARD);
 		$this->listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);
 		$this->listViewModel->getModule()->typeApi = $typeApi;
 		parent::initializeListViewContents($request, $viewer);
