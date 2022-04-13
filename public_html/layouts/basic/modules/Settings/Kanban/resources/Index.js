@@ -102,10 +102,9 @@ Settings_Vtiger_Index_Js(
 						app.showNotify(data.result.message);
 					}
 				})
-				.fail(function (error) {
+				.fail(function () {
 					app.showNotify({
-						title: app.vtranslate('JS_UNEXPECTED_ERROR'),
-						text: error,
+						text: app.vtranslate('JS_UNEXPECTED_ERROR'),
 						type: 'error'
 					});
 				});
@@ -131,10 +130,9 @@ Settings_Vtiger_Index_Js(
 						app.showNotify(data.result.message);
 					}
 				})
-				.fail(function (error) {
+				.fail(function () {
 					app.showNotify({
-						title: app.vtranslate('JS_UNEXPECTED_ERROR'),
-						text: error,
+						text: app.vtranslate('JS_UNEXPECTED_ERROR'),
 						type: 'error'
 					});
 				});

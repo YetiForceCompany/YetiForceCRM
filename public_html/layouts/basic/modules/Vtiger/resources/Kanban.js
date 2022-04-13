@@ -35,11 +35,10 @@ $.Class(
 					this.registerSortable();
 					progress.progressIndicator({ mode: 'hide' });
 				})
-				.fail((_, errorThrown) => {
+				.fail(() => {
 					progress.progressIndicator({ mode: 'hide' });
 					app.showNotify({
 						title: app.vtranslate('JS_ERROR'),
-						text: errorThrown,
 						type: 'error'
 					});
 				});

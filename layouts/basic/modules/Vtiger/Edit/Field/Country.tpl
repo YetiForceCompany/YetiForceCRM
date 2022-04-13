@@ -5,7 +5,7 @@
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 	{assign var=COUNTRY_DATA value=\App\Fields\Country::getAll('uitype')}
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
-	{assign var=FIELD_VALUE value=($FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD) && $FIELD_VALUE neq null)}
+	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	{assign var=PLACE_HOLDER value=($FIELD_MODEL->isEmptyPicklistOptionAllowed() && !($FIELD_MODEL->isMandatory() eq true && $FIELD_VALUE neq ''))}
 	{assign var=IS_LAZY value=count($PICKLIST_VALUES) > \App\Config::performance('picklistLimit')}
 	<div>

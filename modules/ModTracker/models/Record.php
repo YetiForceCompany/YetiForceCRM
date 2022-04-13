@@ -204,7 +204,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function to get the name of the module to which the record belongs.
 	 *
-	 * @return string - Record Module Name
+	 * @return Vtiger_Module_Model
 	 */
 	public function getModule(): Vtiger_Module_Model
 	{
@@ -430,7 +430,8 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		if ($this->isCreate() || $this->isUpdate() || $this->isTransferEdit()) {
 			$dataReader = (new \App\Db\Query())->from('vtiger_modtracker_detail')->where(['id' => $this->get('id')])->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$row = array_map('html_entity_decode', $row);
+				$row['prevalue'] = html_entity_decode((string) $row['prevalue']);
+				$row['postvalue'] = html_entity_decode((string) $row['postvalue']);
 				if ('record_id' === $row['fieldname'] || 'record_module' === $row['fieldname']) {
 					continue;
 				}

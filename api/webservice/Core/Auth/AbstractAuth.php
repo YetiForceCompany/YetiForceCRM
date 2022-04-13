@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\Core\Auth;
@@ -16,9 +17,6 @@ namespace Api\Core\Auth;
  */
 abstract class AbstractAuth
 {
-	/** @var array Current server details (w_#__servers) */
-	protected $currentServer;
-
 	/** @var \Api\Controller Controller instance */
 	protected $api;
 
@@ -46,12 +44,9 @@ abstract class AbstractAuth
 	abstract protected function authenticate(string $realm): bool;
 
 	/**
-	 * Get current server details.
+	 * Set server data.
 	 *
-	 * @return array
+	 * @return self
 	 */
-	public function getCurrentServer(): array
-	{
-		return $this->currentServer;
-	}
+	abstract protected function setServer(): self;
 }

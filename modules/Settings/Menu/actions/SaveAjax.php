@@ -30,11 +30,10 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			'icon' => 'Text',
 			'role' => 'Alnum',
 			'dataurl' => 'Url',
-			'filterId' => 'Integer'
+			'filterId' => 'Integer',
 		]
 		);
-		$type = Settings_Menu_Module_Model::TYPES[$data['type']] ?? '';
-		if ('CustomFilter' === $type) {
+		if ('CustomFilter' === $data['type'] && \in_array($data['type'], Settings_Menu_Module_Model::TYPES)) {
 			$data['dataurl'] = $data['filterId'];
 			unset($data['filterId']);
 		}
@@ -63,7 +62,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			'icon' => 'Text',
 			'role' => 'Alnum',
 			'dataurl' => 'Url',
-			'filterId' => 'Integer'
+			'filterId' => 'Integer',
 		]
 		);
 		if (!empty($data['filterId']) && empty($data['dataurl'])) {
