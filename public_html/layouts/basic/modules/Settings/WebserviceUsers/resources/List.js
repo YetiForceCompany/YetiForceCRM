@@ -14,8 +14,10 @@ Settings_Vtiger_List_Js(
 			};
 		},
 		container: false,
+		clipBoardInstances: false,
+
 		getContainer: function () {
-			if (this.container == false) {
+			if (!this.container) {
 				this.container = jQuery('div.contentsDiv');
 			}
 			return this.container;
@@ -52,7 +54,7 @@ Settings_Vtiger_List_Js(
 			});
 		},
 		getDefaultParams: function () {
-			var params = {
+			return {
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
 				page: jQuery('#pageNumber').val(),
@@ -61,7 +63,6 @@ Settings_Vtiger_List_Js(
 				sortorder: jQuery('#sortOrder').val(),
 				typeApi: this.getActiveTypeApi()
 			};
-			return params;
 		},
 		reloadTab: function (urlParams) {
 			var thisInstance = this;
@@ -73,11 +74,11 @@ Settings_Vtiger_List_Js(
 			var defaultParams = this.getDefaultParams();
 			var params = jQuery.extend(defaultParams, urlParams);
 			AppConnector.request(params)
-				.done(function (data) {
+				.done((data) => {
 					tabContainer.html(data);
 					Vtiger_Header_Js.getInstance().registerFooTable();
 					thisInstance.registerPageNavigationEvents();
-					App.Fields.Text.registerCopyClipboard(tabContainer);
+					this.registerClipboard();
 					aDeferred.resolve(data);
 				})
 				.fail(function (textStatus, errorThrown) {
@@ -86,15 +87,23 @@ Settings_Vtiger_List_Js(
 				});
 			return aDeferred.promise();
 		},
+		/**
+		 * Register Clipboard
+		 */
+		registerClipboard: function () {
+			if (typeof this.clipBoardInstances === 'object') {
+				this.clipBoardInstances.destroy();
+			}
+			this.clipBoardInstances = App.Fields.Text.registerCopyClipboard(this.getContainer().find('.listViewContent'));
+		},
 		registerEvents: function () {
-			var thisInstance = this;
 			this._super();
 			this.getContainer()
 				.find('li.tabApi')
-				.on('click', function (e) {
-					thisInstance.reloadTab({ typeApi: jQuery(this).data('typeapi') });
+				.on('click', () => {
+					this.reloadTab({ typeApi: jQuery(this).data('typeapi') });
 				});
-			App.Fields.Text.registerCopyClipboard(this.getContainer().find('.listViewContent'));
+			this.registerClipboard();
 		}
 	}
 );
