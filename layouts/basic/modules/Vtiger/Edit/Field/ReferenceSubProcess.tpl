@@ -34,8 +34,8 @@
 			{assign var=REFERENCE_MODULE_MODEL value=false}
 		{/if}
 		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden"
-			value="{\App\Purifier::encodeHtml((string) $FIELD_MODEL->get('fieldvalue'))}"
-			title="{\App\Purifier::encodeHtml((string) $FIELD_MODEL->get('fieldvalue'))}" class="sourceField"
+			value="{$FIELD_MODEL->get('fieldvalue')}"
+			title="{$FIELD_MODEL->get('fieldvalue')}" class="sourceField"
 			data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{$FIELD_VALUE}"
 			data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly" {/if} />
 		<div class="input-group referenceGroup {$WIDTHTYPE_GROUP}">
