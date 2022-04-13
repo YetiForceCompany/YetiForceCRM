@@ -324,7 +324,7 @@ $.Class(
 				types = [types];
 			}
 			if (types) {
-				types.forEach(function (entry) {
+				types.forEach((entry) => {
 					let discountValue;
 					if (entry == 'individual') {
 						discountValue = discountParams.individualDiscount;
