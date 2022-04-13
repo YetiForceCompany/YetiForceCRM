@@ -25,9 +25,9 @@
 	{if empty($BLOCK_FIELDS)}
 		{assign var=BLOCK_FIELDS value=false}
 	{/if}
-	{assign var=DATE_TIME_VALUE value=$FIELD_MODEL->get('fieldvalue')}
-	{assign var=DATE_TIME_COMPONENTS value=explode(' ' , (string) $DATE_TIME_VALUE)}
-	{if count($DATE_TIME_COMPONENTS) eq 2}
+	{assign var=DATE_TIME_VALUE value=((string) $FIELD_MODEL->get('fieldvalue'))}
+	{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
+	{if  count($DATE_TIME_COMPONENTS) eq 2}
 		{assign var=TIME_FIELD value=$TIME_FIELD->set('fieldvalue',$DATE_TIME_COMPONENTS[1])}
 	{elseif !empty($RECORD)}
 		{assign var=TIME_FIELD value=$TIME_FIELD->set('fieldvalue',$RECORD->get($TIME_NAME))}

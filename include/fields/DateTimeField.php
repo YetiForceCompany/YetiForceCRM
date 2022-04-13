@@ -257,7 +257,7 @@ class DateTimeField
 		if ('24:00' == $time) {
 			$time = '00:00';
 		}
-		$time = str_replace('.', '-', (string) $time);
+		$time = str_replace('.', '-', $time);
 		$time = str_replace('/', '-', $time);
 		$myDateTime = new DateTime($time, $sourceTimeZone);
 		// convert this to target timezone using the DateTimeZone object
