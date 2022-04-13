@@ -265,6 +265,7 @@ $.Class(
 				})
 				.fail(function (error) {
 					Settings_Vtiger_Index_Js.showMessage({
+						textTrusted: false,
 						text: error.message
 					});
 				});

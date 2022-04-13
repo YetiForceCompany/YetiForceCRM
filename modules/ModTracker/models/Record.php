@@ -204,7 +204,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Function to get the name of the module to which the record belongs.
 	 *
-	 * @return string - Record Module Name
+	 * @return Vtiger_Module_Model
 	 */
 	public function getModule(): Vtiger_Module_Model
 	{

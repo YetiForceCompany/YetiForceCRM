@@ -270,6 +270,7 @@ var App = (window.App = {
 								})
 								.fail(function (textStatus, errorThrown) {
 									app.showNotify({
+										textTrusted: false,
 										text: errorThrown,
 										title: app.vtranslate('JS_ERROR'),
 										type: 'error'
@@ -3191,9 +3192,10 @@ var app = (window.app = {
 							app.registerAfterLoginEvents();
 						});
 					})
-					.fail(function (textStatus, errorThrown) {
+					.fail(function (_textStatus, errorThrown) {
 						app.showNotify({
 							title: app.vtranslate('JS_ERROR'),
+							textTrusted: false,
 							text: errorThrown,
 							type: 'error'
 						});
