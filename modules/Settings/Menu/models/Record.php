@@ -114,8 +114,8 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 			if (!isset($data['newwindow'])) {
 				$params['newwindow'] = 0;
 			}
-			if (!isset($data['showentries'])) {
-				$params['showentries'] = 0;
+			if (!isset($data['countentries'])) {
+				$params['countentries'] = 0;
 			}
 			if (!isset($data['filters'])) {
 				$params['filters'] = '';
@@ -226,7 +226,7 @@ class Settings_Menu_Record_Model extends Settings_Vtiger_Record_Model
 				'parent' => $row['parentid'],
 				'hotkey' => $row['hotkey'],
 				'filters' => $row['filters'],
-				'showentries' => $row['showentries'],
+				'countentries' => $row['countentries'],
 				'childs' => $this->getChildMenu($roleId, $row['id'], $source),
 			];
 			$menu[] = $row;

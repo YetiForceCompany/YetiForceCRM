@@ -31,7 +31,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			'role' => 'Alnum',
 			'dataurl' => 'Url',
 			'filterId' => 'Integer',
-			'showentries' => 'Integer',
+			'countentries' => 'Integer',
 		]
 		);
 		if ('CustomFilter' === $data['type'] && \in_array($data['type'], Settings_Menu_Module_Model::TYPES)) {
@@ -64,7 +64,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			'role' => 'Alnum',
 			'dataurl' => 'Url',
 			'filterId' => 'Integer',
-			'showentries' => 'Integer',
+			'countentries' => 'Integer',
 		]
 		);
 		if (!empty($data['filterId']) && empty($data['dataurl'])) {

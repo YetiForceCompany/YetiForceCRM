@@ -29,6 +29,7 @@
     "LBL_LABEL_DESC": "Allows to group items in menu.",
     "LBL_SEPARATOR": "Separator",
     "LBL_SEPARATOR_DESC": "Divides large items into smaller parts.",
+    "LBL_SHOW_NUMBER_ENTRIES": "Show number of entries",
     "LBL_QUICKCREATE": "Quick create",
     "LBL_QUICKCREATE_DESC": "Helps to create records quickly.",
     "LBL_HOMEICON": "Home icon",

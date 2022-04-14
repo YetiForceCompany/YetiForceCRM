@@ -15,7 +15,7 @@ class Settings_Menu_Module_Model
 	 */
 	protected $editFields = [
 		'id', 'role', 'parentid', 'type', 'sequence', 'module', 'label', 'newwindow',
-		'dataurl', 'showicon', 'icon', 'sizeicon', 'hotkey', 'filters', 'edit', 'source', 'showentries',
+		'dataurl', 'showicon', 'icon', 'sizeicon', 'hotkey', 'filters', 'edit', 'source', 'countentries',
 	];
 	const TYPES = [
 		0 => 'Module',

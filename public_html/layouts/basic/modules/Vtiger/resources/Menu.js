@@ -34,13 +34,14 @@ jQuery.Class('Vtiger_Menu_Js', {
 	 * Gets the number of entries according to the selected filter
 	 */
 	registerRecordsCount() {
-		$('.js-count').each(function (index, element) {
+		$('.js-menu__content .js-count').each(function (index, element) {
 			let countEntries = $(element);
 			if (countEntries.length > 0) {
-				AppConnector.request(countEntries.data('url') + '&action=Pagination&mode=getTotalCount').done(function (data) {
-					countEntries.addClass('badge count badge badge-danger c-badge--md ml-2');
-					countEntries.html(JSON.parse(data).result.totalCount);
-				});
+				AppConnector.request(countEntries.parent().attr('href') + '&action=Pagination&mode=getTotalCount').done(
+					function (data) {
+						countEntries.text(JSON.parse(data).result.totalCount);
+					}
+				);
 			}
 		});
 	}
