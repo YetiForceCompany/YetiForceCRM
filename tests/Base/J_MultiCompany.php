@@ -55,9 +55,11 @@ class J_MultiCompany extends \Tests\Base
 	/**
 	 * Creating new role for test.
 	 *
+	 * @param bool $cache
+	 *
 	 * @return \Settings_Roles_Record_Model
 	 */
-	public static function createRole($cache = true): \Settings_Roles_Record_Model
+	public static function createRole(bool $cache = true): \Settings_Roles_Record_Model
 	{
 		$recordModel = new \Settings_Roles_Record_Model();
 		$parentRoleId = 'H1';
