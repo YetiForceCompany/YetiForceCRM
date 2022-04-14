@@ -41,16 +41,15 @@ Settings_Vtiger_List_Js(
 		},
 		updatePagination: function (pageNumber) {
 			pageNumber = typeof pageNumber !== 'undefined' ? pageNumber : 1;
-			var thisInstance = this;
-			var params = this.getDefaultParams();
+			let params = this.getDefaultParams();
 			params.view = 'Pagination';
 			params.page = pageNumber;
 			params.mode = 'getPagination';
-			params.totalCount = $('.pagination').data('totalCount');
-			params.noOfEntries = jQuery('#noOfEntries').val();
-			AppConnector.request(params).done(function (data) {
-				jQuery('.paginationDiv').html(data);
-				thisInstance.registerPageNavigationEvents();
+			params.totalCount = this.getContainer().find('.pagination').data('totalCount');
+			params.noOfEntries = this.getContainer().find('#noOfEntries').val();
+			AppConnector.request(params).done((data) => {
+				$('.paginationDiv').html(data);
+				this.registerPageNavigationEvents();
 			});
 		},
 		getDefaultParams: function () {
@@ -65,19 +64,17 @@ Settings_Vtiger_List_Js(
 			};
 		},
 		reloadTab: function (urlParams) {
-			var thisInstance = this;
-			var aDeferred = jQuery.Deferred();
+			const aDeferred = jQuery.Deferred();
 			if (urlParams == undefined) {
 				urlParams = {};
 			}
-			var tabContainer = this.getContainer().find('.listViewContent');
-			var defaultParams = this.getDefaultParams();
-			var params = jQuery.extend(defaultParams, urlParams);
+			let tabContainer = this.getContainer().find('.listViewContent');
+			let params = jQuery.extend(this.getDefaultParams(), urlParams);
 			AppConnector.request(params)
 				.done((data) => {
 					tabContainer.html(data);
 					Vtiger_Header_Js.getInstance().registerFooTable();
-					thisInstance.registerPageNavigationEvents();
+					this.registerPageNavigationEvents();
 					this.registerClipboard();
 					aDeferred.resolve(data);
 				})
@@ -100,8 +97,8 @@ Settings_Vtiger_List_Js(
 			this._super();
 			this.getContainer()
 				.find('li.tabApi')
-				.on('click', () => {
-					this.reloadTab({ typeApi: jQuery(this).data('typeapi') });
+				.on('click', (e) => {
+					this.reloadTab({ typeApi: e.currentTarget.dataset.typeapi, page: 1 });
 				});
 			this.registerClipboard();
 		}
