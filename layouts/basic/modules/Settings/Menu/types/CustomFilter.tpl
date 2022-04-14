@@ -12,6 +12,7 @@
 	</div>
 </div>
 {include file=\App\Layout::getTemplatePath('fields/Newwindow.tpl', $QUALIFIED_MODULE)}
+{include file=\App\Layout::getTemplatePath('fields/ShowNumberEntries.tpl', $QUALIFIED_MODULE)}
 {include file=\App\Layout::getTemplatePath('fields/Hotkey.tpl', $QUALIFIED_MODULE)}
 <div class="form-group row">
 	<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_ICON_NAME', $QUALIFIED_MODULE)}:</label>

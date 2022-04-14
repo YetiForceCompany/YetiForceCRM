@@ -11,6 +11,7 @@
 			{$ICON}
 			<span class="c-menu__item__text js-menu__item__text" title="{$MENU['name']}"
 				data-js="class: u-white-space-n">{$MENU['name']}</span>
+			{if !empty($MENU['showentries'])}<span class="js-count" data-url="{$MENU['dataurl']}" data-js="container"></span>{/if}
 			{if $HASCHILDS == 'true'}
 				<span class="toggler" aria-hidden="true"><span class="fas fa-plus-circle"></span><span
 						class="fas fa-minus-circle"></span></span>

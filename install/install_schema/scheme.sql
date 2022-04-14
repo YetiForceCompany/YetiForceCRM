@@ -9967,6 +9967,7 @@ CREATE TABLE `yetiforce_menu` (
   `hotkey` varchar(30) DEFAULT NULL,
   `filters` varchar(255) DEFAULT NULL,
   `source` tinyint(1) DEFAULT 0,
+  `showentries` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parentid`),
   KEY `role` (`role`),
