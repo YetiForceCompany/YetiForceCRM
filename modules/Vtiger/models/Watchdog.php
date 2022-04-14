@@ -445,7 +445,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 		$dataReader = (new App\Db\Query())->from('u_#__watchdog_module')->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$type = explode(':', $row['member']);
-			$exceptions = explode(',', $row['exceptions']);
+			!empty($row['exceptions']) ? $exceptions = explode(',', $row['exceptions']) : $exceptions = [];
 			$users = \App\PrivilegeUtil::getUserByMember($row['member']);
 			if (!empty($exceptions)) {
 				$users = array_diff($users, $exceptions);
