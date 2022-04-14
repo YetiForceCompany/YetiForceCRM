@@ -12,8 +12,6 @@
 
 namespace Tests\Base;
 
-use Vtiger_Record_Model;
-
 class J_MultiCompany extends \Tests\Base
 {
 	/**
@@ -109,7 +107,7 @@ class J_MultiCompany extends \Tests\Base
 	 */
 	public function testPrivilegeToDelete(): void
 	{
-		$this->assertTrue(\Vtiger_Record_Model::getInstanceById(self::$recordMultiCompany->getId())->privilegeToDelete());
+		$this->assertTrue(self::$recordMultiCompany->privilegeToDelete());
 	}
 
 	/**
@@ -136,7 +134,7 @@ class J_MultiCompany extends \Tests\Base
 
 		self::$recordMultiCompany->clearPrivilegesCache();
 
-		$this->assertFalse(\Vtiger_Record_Model::getInstanceById(self::$recordMultiCompany->getId())->privilegeToDelete());
+		$this->assertFalse(self::$recordMultiCompany->privilegeToDelete());
 	}
 
 	/**
