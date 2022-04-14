@@ -31,13 +31,11 @@ class J_MultiCompany extends \Tests\Base
 	/**
 	 * Creating MultiCompany module record for tests.
 	 *
-	 * @var bool
-	 *
-	 * @param mixed $cache
+	 * @param bool $cache
 	 *
 	 * @return \Vtiger_Record_Model
 	 */
-	public static function createMultiCompanyRecord($cache = true): \Vtiger_Record_Model
+	public static function createMultiCompanyRecord(bool $cache = true): \Vtiger_Record_Model
 	{
 		if (self::$recordMultiCompany && $cache) {
 			return self::$recordMultiCompany;
