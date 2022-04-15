@@ -161,7 +161,7 @@
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_PERMISSIONS_FIELD_RELATED_RECORDS',$QUALIFIED_MODULE)}
 							:</strong></label>
 					<div class="col-md-7 fieldValue">
-						{if $RECORD_MODEL->get('permissionsrelatedfield') eq null}
+						{if !$RECORD_MODEL->get('permissionsrelatedfield')}
 							{assign var="PERMISSIONS_RELATED_FIELD" value=[]}
 						{else}
 							{assign var="PERMISSIONS_RELATED_FIELD" value=explode(',',$RECORD_MODEL->get('permissionsrelatedfield'))}
@@ -195,7 +195,7 @@
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_SEARCH_WITHOUT_PERMISSION',$QUALIFIED_MODULE)}
 							:</strong></label>
 					<div class="col-md-7 fieldValue">
-						{if $RECORD_MODEL->get('searchunpriv') eq null}
+						{if !$RECORD_MODEL->get('searchunpriv')}
 							{assign var="SEARCH_MODULES" value=[]}
 						{else}
 							{assign var="SEARCH_MODULES" value=explode(',',$RECORD_MODEL->get('searchunpriv'))}
