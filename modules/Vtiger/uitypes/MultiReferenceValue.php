@@ -17,6 +17,9 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
+		if (null === $value) {
+			return '';
+		}
 		$value = str_replace(self::COMMA, ', ', $value);
 		$value = substr($value, 1);
 		$value = substr($value, 0, -2);
@@ -189,6 +192,9 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$dataReader = $query->distinct()->createCommand()->query();
 		$values = [];
 		while (false !== ($value = $dataReader->readColumn(0))) {
+			if (null === $value) {
+				continue;
+			}
 			$value = explode(self::COMMA, trim($value, self::COMMA));
 			$values = array_merge($values, $value);
 		}
