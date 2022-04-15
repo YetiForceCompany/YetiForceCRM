@@ -161,7 +161,11 @@
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_PERMISSIONS_FIELD_RELATED_RECORDS',$QUALIFIED_MODULE)}
 							:</strong></label>
 					<div class="col-md-7 fieldValue">
-						{assign var="PERMISSIONS_RELATED_FIELD" value=explode(',',$RECORD_MODEL->get('permissionsrelatedfield'))}
+						{if $RECORD_MODEL->get('permissionsrelatedfield') eq null}
+							{assign var="PERMISSIONS_RELATED_FIELD" value=[]}
+						{else}
+							{assign var="PERMISSIONS_RELATED_FIELD" value=explode(',',$RECORD_MODEL->get('permissionsrelatedfield'))}
+						{/if}
 						<select id="permissionsRelatedField" class="row select2 form-control"
 								name="permissionsRelatedField[]" multiple>
 							<option value="0"
@@ -191,7 +195,11 @@
 					<label class="col-md-4"><strong>{\App\Language::translate('LBL_SEARCH_WITHOUT_PERMISSION',$QUALIFIED_MODULE)}
 							:</strong></label>
 					<div class="col-md-7 fieldValue">
-						{assign var="SEARCH_MODULES" value=explode(',',$RECORD_MODEL->get('searchunpriv'))}
+						{if $RECORD_MODEL->get('searchunpriv') eq null}
+							{assign var="SEARCH_MODULES" value=[]}
+						{else}
+							{assign var="SEARCH_MODULES" value=explode(',',$RECORD_MODEL->get('searchunpriv'))}
+						{/if}
 						<select id="modulesList" class="row modules select2 form-control" multiple="true"
 								name="searchunpriv[]">
 							{foreach from=Vtiger_Module_Model::getAll([0],[],true) key=TABID item=MODULE_MODEL}
