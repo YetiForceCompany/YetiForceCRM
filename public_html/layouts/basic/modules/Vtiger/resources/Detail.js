@@ -1304,61 +1304,6 @@ jQuery.Class(
 				App.Components.QuickCreate.createRecord(referenceModuleName, QuickCreateParams);
 			});
 		},
-		getEndDate: function (startDate) {
-			let dateTab = startDate.split('-');
-			let date = new Date(dateTab[0], dateTab[1], dateTab[2]);
-			let newDate = new Date();
-
-			newDate.setDate(date.getDate() + 2);
-			return app.getStringDate(newDate);
-		},
-		getSingleEventType: function (modDay, id, type) {
-			let dateStartEl = jQuery('[name="date_start"]');
-			let dateStartVal = jQuery(dateStartEl).val();
-			let dateStartFormat = jQuery(dateStartEl).data('date-format');
-			let validDateFromat = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, modDay, type);
-			let map = jQuery.extend({}, ['#b6a996,black']);
-
-			let params = {
-				module: 'Calendar',
-				action: 'Feed',
-				start: validDateFromat,
-				end: this.getEndDate(validDateFromat),
-				type: type,
-				mapping: map
-			};
-
-			AppConnector.request(params).done(function (events) {
-				let testDate = Vtiger_Helper_Js.convertToDateString(dateStartVal, dateStartFormat, modDay);
-				if (!jQuery.isEmptyObject(events)) {
-					if (events[0]['activitytype'] === 'Task') {
-						for (let ev in events) {
-							if (events[ev]['start'].indexOf(testDate) > -1) {
-								jQuery('#' + id + ' .table').append(
-									'<tr><td><a target="_blank" href="' +
-										events[ev]['url'] +
-										'">' +
-										events[ev]['title'] +
-										'</a></td></tr>'
-								);
-							}
-						}
-					} else {
-						for (let i = 0; i < events[0].length; i++) {
-							if (events[0][i]['start'].indexOf(testDate) > -1) {
-								jQuery('#' + id + ' .table').append(
-									'<tr><td><a target="_blank" href="' +
-										events[0][i]['url'] +
-										'">' +
-										events[0][i]['title'] +
-										'</a></td></tr>'
-								);
-							}
-						}
-					}
-				}
-			});
-		},
 		/**
 		 * Function to add module related record from summary widget
 		 */

@@ -107,6 +107,7 @@ class Reservations_Calendar_Model extends Vtiger_Calendar_Model
 		$result = [];
 		$moduleModel = Vtiger_Module_Model::getInstance($this->getModuleName());
 		$isSummaryViewSupported = $moduleModel->isSummaryViewSupported();
+		$colors = \App\Fields\Picklist::getColors('reservations_status', false);
 		while ($record = $dataReader->read()) {
 			$item = [];
 			$item['id'] = $record['id'];
@@ -120,9 +121,10 @@ class Reservations_Calendar_Model extends Vtiger_Calendar_Model
 			$item['end'] = DateTimeField::convertToUserTimeZone($record['due_date'] . ' ' . $record['time_end'])->format('Y-m-d') . ' ' . $dateTimeInstance->getFullcalenderTime();
 			$item['end_display'] = $dateTimeInstance->getDisplayDateTimeValue();
 
-			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $record['assigned_user_id'] . " picklistCBr_{$this->getModuleName()}_reservations_status_" . $record['reservations_status'];
+			$item['borderColor'] = $colors[$record['reservations_status']] ?? '';
+			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $record['assigned_user_id'];
 			if ($isSummaryViewSupported) {
-				$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $record['id'];
+				$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=Detail&record=' . $record['id'];
 				$item['className'] .= ' js-show-modal';
 			} else {
 				$item['url'] = $moduleModel->getDetailViewUrl($record['id']);

@@ -2,7 +2,7 @@
 'use strict';
 
 /**
- *  Class representing a modal calendar.
+ * Class representing a modal calendar.
  * @extends Vtiger_Calendar_Js
  */
 window.Occurrences_CalendarModal_Js = class Occurrences_CalendarModal_Js extends Vtiger_Calendar_Js {
@@ -15,71 +15,68 @@ window.Occurrences_CalendarModal_Js = class Occurrences_CalendarModal_Js extends
 		this.renderCalendar();
 		this.registerEvents();
 	}
-
-	addCommonMethodsToYearView() {}
 	/**
 	 * Function sets calendar module's options
+	 * @returns {{eventClick: function, headerToolbar: object, selectable: boolean}}
 	 */
 	setCalendarModuleOptions() {
 		let options = super.setCalendarModuleOptions();
 		options.selectable = true;
-		options.hiddenDays = app.getMainParams('hiddenDays', true);
-		options.header = {
-			left: 'month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
+		options.headerToolbar = {
+			left: `dayGridMonth,${app.getMainParams('weekView')},${app.getMainParams('dayView')},today`,
 			center: 'prevYear,prev,title,next,nextYear',
-			right: 'today'
+			right: ''
 		};
-		options.eventClick = function (calEvent, jsEvent) {
-			jsEvent.preventDefault();
+		options.eventClick = function (info) {
+			info.jsEvent.preventDefault();
 		};
 		return options;
 	}
-
 	/**
 	 * Function registers calendar events
 	 */
 	registerEvents() {
+		const calendarView = this.getCalendarView();
+		this.switchContainer = $(`<div class="js-calendar-switch-container"></div>`).insertAfter(
+			calendarView.find('.fc-center')
+		);
 		this.registerSwitchEvents();
 		this.registerUsersChange();
 	}
-
 	/**
 	 * Function registers calendar switch event
 	 */
 	registerSwitchEvents() {
 		if (app.getMainParams('hiddenDays', true) !== false) {
-			let calendarView = this.getCalendarView(),
-				switchContainer = $(`<div class="js-calendar-switch-container"></div>`).insertAfter(
-					calendarView.find('.fc-center')
-				);
-			$(this.switchTpl(app.vtranslate('JS_WORK_DAYS'), app.vtranslate('JS_ALL'), this.isSwitchAllDays))
-				.prependTo(switchContainer)
-				.on('change', 'input', (e) => {
-					const currentTarget = $(e.currentTarget);
-					let hiddenDays = [];
-					if (typeof currentTarget.data('on-text') !== 'undefined') {
-						hiddenDays = app.getMainParams('hiddenDays', true);
-						this.isSwitchAllDays = false;
-					} else {
-						this.isSwitchAllDays = true;
-					}
-					this.getCalendarView().fullCalendar('option', 'hiddenDays', hiddenDays);
-					if (this.getCalendarView().fullCalendar('getView').type === 'year') {
-						this.registerViewRenderEvents(this.getCalendarView().fullCalendar('getView'));
-					}
-					this.registerSwitchEvents();
-				});
+			this.switchContainer.html(this.createSwitch());
+			this.switchContainer.find('input').on('change', (e) => {
+				const currentTarget = $(e.currentTarget);
+				let hiddenDays = [];
+				if (typeof currentTarget.data('on-text') !== 'undefined') {
+					hiddenDays = app.getMainParams('hiddenDays', true);
+					this.isSwitchAllDays = false;
+				} else {
+					this.isSwitchAllDays = true;
+				}
+				this.fullCalendar.setOption('hiddenDays', hiddenDays);
+				this.registerSwitchEvents();
+			});
 		}
 	}
-	switchTpl(on, off, state) {
+	/**
+	 * Generate filter buttons
+	 * @returns {string}
+	 */
+	createSwitch() {
+		let on = app.vtranslate('JS_WORK_DAYS'),
+			off = app.vtranslate('JS_ALL'),
+			state = this.isSwitchAllDays;
 		return `<div class="btn-group btn-group-toggle js-switch c-calendar-switch" data-toggle="buttons">
 					<label class="btn btn-outline-primary c-calendar-switch__button js-switch--label-on ${state ? '' : 'active'}">
-						<input type="radio" name="options" data-on-text="${on}" autocomplete="off" ${state ? '' : 'checked'}>
-						${on}
+						<input type="radio" name="options" data-on-text="${on}" autocomplete="off" ${state ? '' : 'checked'}>${on}
 					</label>
 					<label class="btn btn-outline-primary c-calendar-switch__button ${state ? 'active' : ''}">
-						<input type="radio" name="options" data-off-text="${off}" autocomplete="off" ${state ? 'checked' : ''}>
-						${off}
+						<input type="radio" name="options" data-off-text="${off}" autocomplete="off" ${state ? 'checked' : ''}>${off}
 					</label>
 				</div>`;
 	}
@@ -88,52 +85,39 @@ window.Occurrences_CalendarModal_Js = class Occurrences_CalendarModal_Js extends
 	 */
 	registerUsersChange() {
 		this.container.find('.assigned_user_id').on('change', () => {
-			this.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
+			this.reloadCalendarData();
 		});
 	}
-
 	/**
-	 * Function invokes by fullcalendar, sets selected days in form
-	 * @param startDate
-	 * @param endDate
+	 * Get selected users
+	 * @returns {{ selectedIds: array, excludedIds: array }}
 	 */
-	selectDays(startDate, endDate) {
+	getSelectedUsersCalendar() {
+		return { selectedIds: [this.container.find('.assigned_user_id').val()], excludedIds: [] };
+	}
+	/**
+	 * Function invokes by FullCalendar, sets selected days in form
+	 * @param {Object} info
+	 * @returns
+	 */
+	selectDays(info) {
 		if (this.sidebarName === 'status') {
 			this.sidebarName = 'add';
 			this.getCalendarCreateView().done(() => {
-				this.selectDays(startDate, endDate);
+				this.selectDays(info);
 			});
 			return;
 		}
-		let startHour = app.getMainParams('startHour'),
-			endHour = app.getMainParams('endHour'),
-			view = this.getCalendarView().fullCalendar('getView');
-		if (endDate.hasTime() == false) {
-			endDate.add(-1, 'days');
+		let startDate = info.start,
+			endDate = info.end;
+		if (info['allDay']) {
+			endDate.setDate(endDate.getDate() - 1);
+			const d = new Date();
+			startDate.setHours(d.getHours(), d.getMinutes());
+			endDate.setHours(d.getHours(), d.getMinutes() + 30);
 		}
-		startDate = startDate.format();
-		endDate = endDate.format();
-		if (startHour == '') {
-			startHour = '00';
-		}
-		if (endHour == '') {
-			endHour = '00';
-		}
-		if (view.name != 'agendaDay' && view.name != 'agendaWeek') {
-			startDate = startDate + 'T' + startHour + ':00';
-			endDate = endDate + 'T' + endHour + ':00';
-		}
-		let dateFormat = CONFIG.dateFormat.toUpperCase(),
-			timeFormat = CONFIG.hourFormat.toUpperCase(),
-			defaultTimeFormat = '';
-		if (timeFormat == 24) {
-			timeFormat = 'HH:mm';
-		} else {
-			timeFormat = 'hh:mm A';
-		}
-		defaultTimeFormat = dateFormat + ' ' + timeFormat;
-		this.container.find('[name="date_start"]').val(moment(startDate).format(defaultTimeFormat));
-		this.container.find('[name="date_end"]').val(moment(endDate).format(defaultTimeFormat));
+		this.container.find('[name="date_start"]').val(App.Fields.DateTime.dateToUserFormat(startDate));
+		this.container.find('[name="date_end"]').val(App.Fields.DateTime.dateToUserFormat(endDate));
 	}
 };
 
@@ -141,26 +125,9 @@ $.Class(
 	'Occurrences_QuickCreate_Js',
 	{},
 	{
-		container: false,
-		module: false,
-		calendar: false,
-		getContainer() {
-			return this.container;
-		},
-		setContainer(container) {
-			this.container = container;
-		},
-		setModule() {
-			this.module = this.getContainer().find('[name="module"]').val();
-		},
-		initCalendar() {
-			let className = this.module + '_CalendarModal_Js';
-			this.calendar = new window[className](this.getContainer().closest('.js-modal-container'), true);
-		},
 		registerEvents: function (container) {
-			this.setContainer(container);
-			this.setModule();
-			this.initCalendar();
+			let className = container.find('[name="module"]').val() + '_CalendarModal_Js';
+			this.calendarView = new window[className](container.closest('.js-modal-container'), true);
 		}
 	}
 );

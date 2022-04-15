@@ -34,8 +34,8 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$tplName = App\Config::module('Calendar', 'CALENDAR_VIEW') . DIRECTORY_SEPARATOR . 'QuickCreate.tpl';
 		$viewer->assign('RECORD', $this->record);
 		$viewer->assign('WEEK_COUNT', App\Config::module('Calendar', 'WEEK_COUNT'));
-		$viewer->assign('WEEK_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
-		$viewer->assign('DAY_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
+		$viewer->assign('WEEK_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'timeGridWeek' : 'basicWeek');
+		$viewer->assign('DAY_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'timeGridDay' : 'basicDay');
 		$viewer->assign('ALL_DAY_SLOT', App\Config::module('Calendar', 'ALL_DAY_SLOT'));
 		$viewer->assign('STYLES', $this->getHeaderCss($request));
 		$viewer->assign('MODAL_TITLE', $this->getPageTitle($request));
@@ -48,7 +48,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		if ('Extended' === App\Config::module('Calendar', 'CALENDAR_VIEW')) {
 			$jsFiles = $this->checkAndConvertJsScripts([
 				'~libraries/moment/min/moment.min.js',
-				'~libraries/fullcalendar/dist/fullcalendar.js',
+				'~libraries/fullcalendar/main.js',
 				'~libraries/css-element-queries/src/ResizeSensor.js',
 				'~libraries/css-element-queries/src/ElementQueries.js',
 				'modules.Calendar.resources.Edit',
@@ -56,7 +56,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 				'~layouts/resources/YearView.js',
 				'modules.Calendar.resources.Standard.CalendarView',
 				'modules.Calendar.resources.Extended.CalendarView',
-				'modules.Calendar.resources.QuickCreate'
+				'modules.Calendar.resources.QuickCreate',
 			]);
 		} else {
 			$jsFiles = $this->checkAndConvertJsScripts([
@@ -64,7 +64,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 				'modules.Calendar.resources.Edit',
 				'modules.Calendar.resources.Standard.CalendarView',
 				'modules.Calendar.resources.Extended.CalendarView',
-				'modules.Calendar.resources.QuickCreate'
+				'modules.Calendar.resources.QuickCreate',
 			]);
 		}
 		return $jsFiles;
@@ -74,7 +74,7 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 	public function getHeaderCss(App\Request $request)
 	{
 		return $this->checkAndConvertCssStyles([
-			'~libraries/fullcalendar/dist/fullcalendar.css',
+			'~libraries/fullcalendar/main.css',
 		]);
 	}
 

@@ -225,8 +225,7 @@ Vtiger_Edit_Js(
 			if (endValue === 'count') {
 				rule += ';COUNT=' + form.find('.countEvents').val();
 			} else if (endValue === 'until') {
-				var date = form.find('.calendarUntil').val();
-				date = app.getDateInDBInsertFormat(CONFIG.dateFormat, date);
+				let date = App.Fields.Date.dateToDbFormat(App.Fields.Date.getDateInstance(form.find('.calendarUntil').val()));
 				rule += ';UNTIL=' + date.replace(/-/gi, '') + 'T235959';
 			}
 			if (freq === 'WEEKLY') {
@@ -242,13 +241,11 @@ Vtiger_Edit_Js(
 				}
 			}
 			if (freq === 'MONTHLY') {
-				var dayOfWeek = Vtiger_Helper_Js.getDay(form.find('[name="date_start"]').val());
-				var dateInstance = Vtiger_Helper_Js.getDateInstance(form.find('[name="date_start"]').val(), CONFIG.dateFormat);
-				var dayOfMonth = dateInstance.getDate();
-				var option = form.find('.calendarMontlyType:checked').val();
-				if (option == 'DAY') {
-					var dayOfWeekLabel = '';
-					switch (dayOfWeek) {
+				const dateInstance = App.Fields.Date.getDateInstance(form.find('[name="date_start"]').val());
+				let dayOfMonth = dateInstance.getDate();
+				if (form.find('.calendarMontlyType:checked').val() == 'DAY') {
+					let dayOfWeekLabel = '';
+					switch (dateInstance.getDay()) {
 						case 0:
 							dayOfWeekLabel = 'SU';
 							break;
@@ -449,10 +446,10 @@ Vtiger_Edit_Js(
 			var endDate = endDateElement.val();
 			var dateFormat = CONFIG.dateFormat;
 			if (type == 'start') {
-				return Vtiger_Helper_Js.getDateInstance(startDate + ' ' + startTime, dateFormat);
+				return App.Fields.Date.getDateInstance(startDate + ' ' + startTime, dateFormat);
 			}
 			if (type == 'end') {
-				return Vtiger_Helper_Js.getDateInstance(endDate + ' ' + endTime, dateFormat);
+				return App.Fields.Date.getDateInstance(endDate + ' ' + endTime, dateFormat);
 			}
 		},
 		emailExists(email) {

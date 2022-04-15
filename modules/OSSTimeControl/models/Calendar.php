@@ -107,6 +107,7 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Calendar_Model
 		$result = [];
 		$moduleModel = $this->getModule();
 		$isSummaryViewSupported = $moduleModel->isSummaryViewSupported();
+		$colors = \App\Fields\Picklist::getColors('timecontrol_type', false);
 		while ($record = $dataReader->read()) {
 			$item = [];
 			$item['id'] = $record['id'];
@@ -120,9 +121,10 @@ class OSSTimeControl_Calendar_Model extends Vtiger_Calendar_Model
 			$item['end'] = DateTimeField::convertToUserTimeZone($record['due_date'] . ' ' . $record['time_end'])->format('Y-m-d') . ' ' . $dateTimeInstance->getFullcalenderTime();
 			$item['end_display'] = $dateTimeInstance->getDisplayDateTimeValue();
 
-			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $record['assigned_user_id'] . " picklistCBr_{$this->getModuleName()}_timecontrol_type_" . $record['timecontrol_type'];
+			$item['borderColor'] = $colors[$record['timecontrol_type']] ?? '';
+			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $record['assigned_user_id'];
 			if ($isSummaryViewSupported) {
-				$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $record['id'];
+				$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=Detail&record=' . $record['id'];
 				$item['className'] .= ' js-show-modal';
 			} else {
 				$item['url'] = $moduleModel->getDetailViewUrl($record['id']);

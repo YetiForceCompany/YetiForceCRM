@@ -1942,6 +1942,9 @@
     "JS_PWD_WEAK": "Weak",
     "JS_PWD_MEDIUM": "Medium",
     "JS_PWD_STRONG": "Strong",
-    "JS_PWD_VERY_STRONG": "Very strong"
+    "JS_PWD_VERY_STRONG": "Very strong",
+    "JS_PREV": "Previous",
+    "JS_NEXT": "Next",
+    "JS_CALENDAR_LIST": "Schedule"
   }
 }

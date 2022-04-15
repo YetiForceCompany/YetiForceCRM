@@ -9,307 +9,125 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 	constructor(container, readonly) {
 		super(container, readonly, false);
 		this.browserHistory = false;
-		this.calendarContainer = false;
-		this.addCommonMethodsToYearView();
-		this.calendar = this.getCalendarView();
 	}
-	getCalendarSidebarData() {}
-	registerEditForm() {}
 	registerCacheSettings() {}
-	registerPinUser() {}
-
-	addCommonMethodsToYearView() {
-		const self = this;
-		FC.views.year = FC.views.year.extend({
-			baseInstance: self,
-			selectDays: self.selectDays,
-			getCalendarCreateView: self.getCalendarCreateView,
-			getSidebarView: self.getSidebarView,
-			getCurrentCvId: self.getCurrentCvId,
-			getCalendarView: self.getCalendarView,
-			showRightPanelForm: self.showRightPanelForm,
-			getSelectedUsersCalendar: self.getSelectedUsersCalendar,
-			registerClearFilterButton: self.registerClearFilterButton,
-			clearFilterButton: self.clearFilterButton,
-			registerFilterTabChange: self.registerFilterTabChange,
-			sidebarView: self.sidebarView,
-			registerAfterSubmitForm: self.registerAfterSubmitForm,
-			registerViewRenderEvents: self.registerViewRenderEvents,
-			appendSubDateRow: self.appendSubDateRow,
-			refreshDatesRowView: self.refreshDatesRowView,
-			generateYearList: self.generateYearList,
-			updateCountTaskCalendar: self.updateCountTaskCalendar,
-			registerDatesChange: self.registerDatesChange,
-			addHeaderButtons: self.addHeaderButtons,
-			browserHistoryConfig: self.browserHistoryConfig,
-			readonly: self.readonly,
-			container: self.container,
-			module: self.module,
-			showChangeDateButtons: self.showChangeDateButtons,
-			showTodayButtonCheckbox: self.showTodayButtonCheckbox,
-			getDefaultParams: self.getDefaultParams
-		});
-	}
 
 	/**
-	 * Date bar with counts
-	 * @param object calendarView
+	 * Set calendar module options.
+	 * @returns {{allDaySlot: boolean, dayClick: object, selectable: boolean}}
 	 */
-	refreshDatesRowView(calendarView) {
+	setCalendarModuleOptions() {
 		const self = this;
-		switch (calendarView.type) {
-			case 'year':
-				self.generateYearList(calendarView.intervalStart, calendarView.intervalEnd);
-				break;
-			case 'month':
-				self.generateSubMonthList(calendarView.intervalStart, calendarView.intervalEnd);
-				break;
-			case 'week':
-			case 'agendaWeek':
-				self.generateSubWeekList(calendarView.start, calendarView.end);
-				break;
-			default:
-				self.generateSubDaysList(calendarView.start, calendarView.end);
-		}
-		self.updateCountTaskCalendar();
-		self.registerDatesChange();
-	}
-	generateSubDaysList(dateStart, dateEnd) {
-		let datesView = this.container.find('.js-dates-row'),
-			prevDays = moment(dateStart).subtract(5, 'days'),
-			actualDay = moment(dateStart).format('DDD'),
-			nextDays = moment(dateStart).add(7, 'days'),
-			daysToShow = nextDays.diff(prevDays, 'days'),
-			html = '';
-		for (let day = 0; day < daysToShow; ++day) {
-			let active = '';
-			if (app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all') {
-				if ($.inArray(prevDays.day(), app.getMainParams('hiddenDays', true)) !== -1) {
-					prevDays = moment(prevDays).add(1, 'days');
-					daysToShow++;
-					continue;
+		return {
+			allDaySlot: false,
+			dateClick: (args) => {
+				if (this.eventCreate) {
+					self.registerDayClickEvent(args);
+				}
+			},
+			selectable: false,
+			eventClick: function (info) {
+				info.jsEvent.preventDefault();
+				const link = $(info.el).attr('href');
+				if (link && $.inArray('js-show-modal', info.event.classNames) !== -1) {
+					app.showModalWindow(null, link.replace('view=', 'xview=') + '&view=QuickDetailModal');
 				}
 			}
-			if (prevDays.format('DDD') === actualDay) {
-				active = ' active';
-			}
-			html +=
-				'<div class="js-sub-record sub-record nav-item col-1 px-0" data-type="days" data-date="' +
-				prevDays.format('YYYY-MM-DD') +
-				'" data-js="click | class: active">' +
-				'<div class="sub-record-content nav-link' +
-				active +
-				'">' +
-				'<div class="sub-date-name">' +
-				app.vtranslate('JS_DAY_SHORT') +
-				' ' +
-				prevDays.format('DD') +
-				'<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>' +
-				'</div>' +
-				'</div>' +
-				'</div>';
-			prevDays = moment(prevDays).add(1, 'days');
-		}
-		datesView.find('.js-sub-date-list').html(html);
+		};
 	}
-	generateSubWeekList(dateStart, dateEnd) {
-		let datesView = this.container.find('.js-dates-row'),
-			prevWeeks = moment(dateStart).subtract(5, 'weeks'),
-			actualWeek = moment(dateStart).format('WW'),
-			nextWeeks = moment(dateStart).add(6, 'weeks'),
-			html = '';
-		while (prevWeeks <= nextWeeks) {
-			let active = '';
-			if (prevWeeks.format('WW') === actualWeek) {
-				active = ' active';
+	/**
+	 * Set calendar module's options.
+	 * @returns {object}
+	 */
+	setCalendarAdvancedOptions() {
+		const self = this;
+		return Object.assign(super.setCalendarAdvancedOptions(), {
+			headerToolbar: {
+				left: `dayGridMonth,${app.getMainParams('weekView')},${app.getMainParams('dayView')},listWeek,today`,
+				center: 'prevYear,prev,title,next,nextYear',
+				right: ''
+			},
+			select: function (info) {
+				self.selectDays(info);
+			},
+			datesSet: function (dateInfo) {
+				app.event.trigger('Calendar.DatesSet', dateInfo, this);
+				if (self.fullCalendar.view !== 'year') {
+					self.loadCalendarData();
+				}
 			}
-			html +=
-				'<div class="js-sub-record sub-record nav-item col-1 px-0" data-type="weeks" data-date="' +
-				prevWeeks.format('YYYY-MM-DD') +
-				'" data-js="click | class: active">' +
-				'<div class="sub-record-content nav-link' +
-				active +
-				'">' +
-				'<div class="sub-date-name">' +
-				app.vtranslate('JS_WEEK_SHORT') +
-				' ' +
-				prevWeeks.format('WW') +
-				'<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>' +
-				'</div>' +
-				'</div>' +
-				'</div>';
-			prevWeeks = moment(prevWeeks).add(1, 'weeks');
-		}
-		datesView.find('.js-sub-date-list').html(html);
-	}
-	generateYearList(dateStart, dateEnd) {
-		const datesView = this.container.find('.js-dates-row');
-		let prevYear = moment(dateStart).subtract(1, 'year'),
-			actualYear = moment(dateStart),
-			nextYear = moment(dateStart).add(1, 'year'),
-			html = '',
-			active = '';
-		while (prevYear <= nextYear) {
-			if (prevYear.format('YYYY') === actualYear.format('YYYY')) {
-				active = 'active';
-			} else {
-				active = '';
-			}
-			html += `<div class="js-sub-record sub-record col-4 nav-item" data-date="${prevYear.format(
-				'YYYY'
-			)}" data-type="years" data-js="click | class: active">
-					<div class="sub-record-content nav-link ${active}">
-						<div class="sub-date-name">
-							${prevYear.format('YYYY')}
-							<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>
-						</div>
-					</div>
-				</div>`;
-			prevYear = moment(prevYear).add(1, 'year');
-		}
-		datesView.find('.js-sub-date-list').html(html);
-	}
-	registerDatesChange() {
-		this.container.find('.js-dates-row .js-sub-record').on('click', (e) => {
-			let currentTarget = $(e.currentTarget);
-			currentTarget.addClass('active');
-			this.getCalendarView().fullCalendar('gotoDate', moment(currentTarget.data('date'), 'YYYY-MM-DD'));
 		});
 	}
-	selectDays(startDate, endDate) {
+	/**
+	 * Function invokes by fullCalendar, sets selected days in form
+	 * @param {object} info
+	 */
+	selectDays(info) {
 		if (!this.container.find('.js-right-panel-event-link').length) {
 			return false;
 		}
 		this.container.find('.js-right-panel-event-link').tab('show');
-		let start_hour = app.getMainParams('startHour'),
-			end_hour = app.getMainParams('endHour'),
-			view = this.getCalendarView().fullCalendar('getView');
-		if (endDate.hasTime() == false) {
-			endDate.add(-1, 'days');
-		}
-		startDate = startDate.format();
-		endDate = endDate.format();
-		if (start_hour == '') {
-			start_hour = '00';
-		}
-		if (end_hour == '') {
-			end_hour = '00';
-		}
-		this.getCalendarCreateView().done(function (data) {
-			if (data.length <= 0) {
-				return;
-			}
-			if (view.name != 'agendaDay' && view.name != 'agendaWeek') {
-				startDate = startDate + 'T' + start_hour + ':00';
-				endDate = endDate + 'T' + end_hour + ':00';
-				if (startDate == endDate) {
-					let activityType = data.find('[name="activitytype"]').val();
-					let activityDurations = JSON.parse(data.find('[name="defaultOtherEventDuration"]').val());
-					let minutes = 0;
-					for (let i in activityDurations) {
-						if (activityDurations[i].activitytype === activityType) {
-							minutes = parseInt(activityDurations[i].duration);
-							break;
-						}
-					}
-					endDate = moment(endDate).add(minutes, 'minutes').toISOString();
-				}
-			}
-
-			let dateFormat = CONFIG.dateFormat.toUpperCase();
-			let timeFormat = CONFIG.hourFormat;
-			let dateField = data.find('[name="date_start"]');
-			if (dateField.length) {
-				dateFormat = dateField.data('dateFormat').toUpperCase();
-			}
-			let timeField = data.find('[name="time_start"]');
-			if (timeField.length) {
-				timeFormat = timeField.data('format');
-			}
-			let defaultTimeFormat = '';
-			if (timeFormat == 24) {
-				defaultTimeFormat = 'HH:mm';
-			} else {
-				defaultTimeFormat = 'hh:mm A';
-			}
-			data.find('[name="date_start"]').val(moment(startDate).format(dateFormat));
-			data.find('[name="due_date"]').val(moment(endDate).format(dateFormat));
-			if (data.find('.js-autofill').prop('checked') === true) {
-				Calendar_Edit_Js.getInstance().getFreeTime(data);
-			} else {
-				data.find('[name="time_start"]').val(moment(startDate).format(defaultTimeFormat));
-				data.find('[name="time_end"]').val(moment(endDate).format(defaultTimeFormat));
-			}
+		super.selectDays(info);
+	}
+	/**
+	 * Load calendar data
+	 */
+	loadCalendarData() {
+		const self = this,
+			defaultParams = this.getDefaultParams(),
+			progressInstance = $.progressIndicator({ blockInfo: { enabled: true } });
+		self.fullCalendar.removeAllEvents();
+		self.clearFilterButton(defaultParams['user'], self.getCurrentCvId());
+		AppConnector.request(defaultParams).done((events) => {
+			self.fullCalendar.removeAllEvents();
+			self.fullCalendar.addEventSource(events.result);
+			progressInstance.progressIndicator({ mode: 'hide' });
 		});
 	}
-	updateCountTaskCalendar() {
-		let options = this.getDefaultParams();
-		delete options.start;
-		delete options.end;
-		let datesView = this.container.find('.js-dates-row'),
-			subDatesElements = datesView.find('.js-sub-record'),
-			dateArray = {},
-			userDateFormat = CONFIG.dateFormat.toUpperCase();
-		subDatesElements.each(function (key, element) {
-			let data = $(this).data('date'),
-				type = $(this).data('type');
-			if (type === 'years') {
-				dateArray[key] = [
-					moment(data + '-01').format(userDateFormat) + ' 00:00:00',
-					moment(data + '-01')
-						.endOf('year')
-						.format(userDateFormat) + ' 23:59:59'
-				];
-			} else if (type === 'months') {
-				dateArray[key] = [
-					moment(data).format(userDateFormat) + ' 00:00:00',
-					moment(data).endOf('month').format(userDateFormat) + ' 23:59:59'
-				];
-			} else if (type === 'weeks') {
-				dateArray[key] = [
-					moment(data).format(userDateFormat) + ' 00:00:00',
-					moment(data).add(6, 'day').format(userDateFormat) + ' 23:59:59'
-				];
-			} else if (type === 'days') {
-				dateArray[key] = [
-					moment(data).format(userDateFormat) + ' 00:00:00',
-					moment(data).format(userDateFormat) + ' 23:59:59'
-				];
-			}
-		});
-		options.mode = 'getCountEventsGroup';
-		options.dates = dateArray;
-		AppConnector.request(options).done(function (events) {
-			subDatesElements.each(function (key, element) {
-				$(this).find('.js-count-events').removeClass('hide').html(events.result[key]);
-			});
-		});
+	/**
+	 * Reload calendar data after changing search parameters
+	 */
+	reloadCalendarData() {
+		super.reloadCalendarData();
+		this.updateCountTaskCalendar();
 	}
-	generateSubMonthList(dateStart, dateEnd) {
-		let datesView = this.container.find('.js-dates-row'),
-			activeMonth = parseInt(moment(dateStart).locale('en').format('M')) - 1,
-			html = '',
-			active = '';
-		for (let month = 0; 12 > month; ++month) {
-			if (month === activeMonth) {
-				active = 'active';
-			} else {
-				active = '';
-			}
-			html += `<div class="js-sub-record sub-record nav-item col-1 px-0" data-type="months" data-date="${moment(
-				dateStart
-			)
-				.month(month)
-				.format('YYYY-MM')}" data-js="click | class: active">
-					<div class="sub-record-content nav-link ${active}">
-						<div class="sub-date-name">${App.Fields.Date.monthsTranslated[month]}
-							<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>
-						</div>
-					</div>
-				</div>`;
+	/**
+	 * Show/hide clear filter button
+	 */
+	clearFilterButton(user, cvId) {
+		let currentUser = parseInt(app.getMainParams('userId')),
+			time = app.getMainParams('showType'),
+			statement =
+				JSON.stringify(user['selectedIds']) === JSON.stringify([`${currentUser}`]) &&
+				cvId === undefined &&
+				time === 'current';
+		$('.js-calendar__clear-filters').toggleClass('d-none', statement);
+	}
+	/**
+	 * Default params
+	 * @returns {{module: *, action: string, mode: string, start: *, end: *, user: *, emptyFilters: boolean}}
+	 */
+	getDefaultParams() {
+		let options = super.getDefaultParams();
+		let user = this.getSelectedUsersCalendar();
+		if (0 === user.length) {
+			user = app.getMainParams('usersId');
 		}
-		datesView.find('.js-sub-date-list').html(html);
+		if (user === undefined) {
+			user = [app.getMainParams('userId')];
+		}
+		if (this.fullCalendar.view === 'timeGridDay') {
+			this.fullCalendar.view.activeEnd = this.fullCalendar.view.activeEnd.add(1, 'day');
+		}
+		options.user = user;
+		options.time = app.getMainParams('showType');
+		options.history = true;
+		return options;
 	}
+	/**
+	 * Get selected users
+	 * @returns {{ selectedIds: array, excludedIds: array }}
+	 */
 	getSelectedUsersCalendar() {
 		const sidebar = this.getSidebarView();
 		let selectedUsers = sidebar.find('.js-input-user-owner-id:checked'),
@@ -341,398 +159,67 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 		}
 		return { selectedIds: selectedIds, excludedIds: excludedIds };
 	}
-
-	clearFilterButton(user, cvid) {
-		let currentUser = parseInt(app.getMainParams('userId')),
-			time = app.getMainParams('showType'),
-			statement =
-				(user.length === 0 || (user.length === 1 && parseInt(user) === currentUser)) &&
-				cvid === undefined &&
-				time === 'current';
-		$('.js-calendar__clear-filters').toggleClass('d-none', statement);
-	}
-	loadCalendarData(view = this.getCalendarView().fullCalendar('getView')) {
-		const self = this;
-		let options = this.getDefaultParams(view);
-		let calendarInstance = this.getCalendarView();
-		calendarInstance.fullCalendar('removeEvents');
-		let progressInstance = $.progressIndicator({ blockInfo: { enabled: true } });
-		self.clearFilterButton(options.user, self.getCurrentCvId());
-		let connectorMethod = window['AppConnector']['request'];
-		connectorMethod(options).done((events) => {
-			calendarInstance.fullCalendar('removeEvents');
-			calendarInstance.fullCalendar('addEventSource', events.result);
-			progressInstance.progressIndicator({ mode: 'hide' });
-		});
-		self.registerViewRenderEvents(view);
-		window.calendarLoaded = true;
-	}
-	/**
-	 * Default params
-	 * @returns {{module: *, action: string, mode: string, start: *, end: *, user: *, emptyFilters: boolean}}
-	 */
-	getDefaultParams(view = this.getCalendarView().fullCalendar('getView')) {
-		let options = super.getDefaultParams();
-		let formatDate = CONFIG.dateFormat.toUpperCase();
-		let user = this.getSelectedUsersCalendar();
-		if (0 === user.length) {
-			user = app.getMainParams('usersId');
-		}
-		if (user === undefined) {
-			user = [app.getMainParams('userId')];
-		}
-		if (view.type === 'agendaDay') {
-			view.end = view.end.add(1, 'day');
-		}
-		options.user = user;
-		options.start = view.start.format(formatDate);
-		options.end = view.end.format(formatDate);
-		options.time = app.getMainParams('showType');
-		options.history = true;
-		return options;
-	}
-	/**
-	 * Function toggles next year/month and general arrows on view render
-	 * @param view
-	 * @param element
-	 */
-	registerViewRenderEvents(view) {
-		this.calendarContainer = this.getCalendarView();
-		let toolbar = this.calendarContainer.find('.fc-toolbar.fc-header-toolbar');
-		this.showChangeDateButtons(view, toolbar);
-		this.appendSubDateRow(toolbar);
-		this.refreshDatesRowView(view);
-		this.addHeaderButtons();
-		this.showTodayButtonCheckbox(toolbar);
-	}
-	/**
-	 * Function appends and shows today button's checkbox
-	 * @param {jQuery} toolbar
-	 */
-	showTodayButtonCheckbox(toolbar) {
-		let todayButton = toolbar.find('.fc-today-button'),
-			todyButtonIcon = todayButton.hasClass('fc-state-disabled') ? 'fa-calendar-check' : 'fa-calendar',
-			popoverContent = `${app.vtranslate('JS_CURRENT')} ${toolbar.find('.fc-state-active').text().toLowerCase()}`;
-		todayButton.removeClass('.fc-button');
-		todayButton.html(
-			`<div class="js-popover-tooltip--day-btn" data-toggle="popover"><span class="far fa-lg ${todyButtonIcon}"></span></div>`
-		);
-		app.showPopoverElementView(todayButton.find('.js-popover-tooltip--day-btn'), {
-			content: popoverContent,
-			container: '.fc-today-button .js-popover-tooltip--day-btn'
-		});
-	}
-	addHeaderButtons() {
-		if (this.calendarContainer.find('.js-calendar__view-btn').length) {
-			return;
-		}
-		let buttonsContainer = this.calendarContainer.prev('.js-calendar__header-buttons'),
-			viewBtn = buttonsContainer.find('.js-calendar__view-btn').clone(),
-			filters = buttonsContainer.find('.js-calendar__filter-container').clone();
-		this.calendarContainer.find('.fc-left').prepend(viewBtn);
-		this.calendarContainer.find('.fc-center').after(filters);
-		this.registerClearFilterButton();
-		this.registerFilterTabChange();
-	}
-	registerFilterTabChange() {
-		const thisInstance = this;
-		this.getCalendarView()
-			.find('.js-calendar__extended-filter-tab')
-			.on('shown.bs.tab', function () {
-				thisInstance.getCalendarView().fullCalendar('getCalendar').view.options.loadView();
-			});
-	}
-	registerClearFilterButton() {
-		const sidebar = this.getSidebarView(),
-			calendarView = this.getCalendarView();
-		let clearBtn = calendarView.find('.js-calendar__clear-filters');
-		app.showPopoverElementView(clearBtn);
-		clearBtn.on('click', () => {
-			$('.js-calendar__extended-filter-tab a').removeClass('active');
-			app.setMainParams('showType', 'current');
-			app.moduleCacheSet('defaultShowType', 'current');
-			sidebar.find('input:checkbox').prop('checked', false);
-			sidebar.find('option:selected').prop('selected', false).trigger('change.select2');
-			sidebar.find('.js-sidebar-filter-container').each((_, e) => {
-				let element = $(e);
-				let cacheName = element.data('cache');
-				if (element.data('name') && cacheName) {
-					app.moduleCacheSet(cacheName, '');
-				}
-			});
-			let calendarSwitch = sidebar.find('.js-switch--showType [class*="js-switch--label"]'),
-				actualUserCheckbox = sidebar.find('.js-input-user-owner-id[value=' + app.getMainParams('userId') + ']');
-			calendarSwitch.last().removeClass('active');
-			calendarSwitch.first().addClass('active');
-			if (actualUserCheckbox.length) {
-				actualUserCheckbox.prop('checked', true);
-			} else {
-				app.setMainParams('usersId', undefined);
-			}
-			calendarView.fullCalendar('getCalendar').view.options.loadView();
-		});
-	}
-	/**
-	 * Function shows change date buttons in calendar's header for specific view
-	 * @param view
-	 * @param toolbar
-	 */
-	showChangeDateButtons(view, toolbar) {
-		let viewType = view.type.replace(/basic|agenda/g, '').toLowerCase(),
-			nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button'),
-			yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
-		if (!window.calendarLoaded) {
-			yearButtons.first().html(`<span class="fas fa-xs fa-minus mr-1"></span>${view.options.buttonText['year']}`);
-			yearButtons.last().html(`${view.options.buttonText['year']}<span class="fas fa-xs fa-plus ml-1"></span>`);
-		}
-		if (view.type !== 'year') {
-			nextPrevButtons.first().html(`<span class="fas fa-xs fa-minus mr-1"></span>${view.options.buttonText[viewType]}`);
-			nextPrevButtons.last().html(`${view.options.buttonText[viewType]}<span class="fas fa-xs fa-plus ml-1"></span>`);
-		}
-		if (view.type === 'year') {
-			nextPrevButtons.hide();
-			yearButtons.show();
-		} else if (view.type === 'month') {
-			nextPrevButtons.show();
-			yearButtons.show();
-		} else {
-			nextPrevButtons.show();
-			yearButtons.hide();
-		}
-	}
-	/**
-	 * Appends subdate row to calendar header and register its scroll
-	 * @param toolbar
-	 */
-	appendSubDateRow(toolbar) {
-		if (!this.calendarContainer.find('.js-dates-row').length) {
-			this.subDateRow = $(`
-								<div class="js-scroll js-dates-row u-overflow-auto-lg-down order-4 flex-grow-1 position-relative my-1 w-100" data-js="perfectScrollbar | container">
-									<div class="d-flex flex-nowrap w-100">
-										<div class="js-sub-date-list w-100 sub-date-list row no-gutters flex-nowrap nav nav-tabs" data-js="data-type"></div>
-									</div>
-								</div>
-								`);
-			toolbar.append(this.subDateRow);
-			if ($(window).width() > app.breakpoints.lg) {
-				app.showNewScrollbar(this.subDateRow);
-			}
-		}
-	}
-
-	/**
-	 * Get calendar create view.
-	 * @returns {promise}
-	 */
-	getCalendarCreateView() {
-		let self = this;
-		let aDeferred = jQuery.Deferred();
-
-		if (this.calendarCreateView !== false) {
-			aDeferred.resolve(this.calendarCreateView.clone(true, true));
-			return aDeferred.promise();
-		}
-		let progressInstance = jQuery.progressIndicator();
-		this.loadCalendarCreateView()
-			.done(function (data) {
-				progressInstance.hide();
-				self.calendarCreateView = data;
-				aDeferred.resolve(data.clone(true, true));
-			})
-			.fail(function () {
-				progressInstance.hide();
-			});
-		return aDeferred.promise();
-	}
-	/**
-	 * Set calendar module options.
-	 * @returns {{allDaySlot: boolean, dayClick: object, selectable: boolean}}
-	 */
-	setCalendarModuleOptions() {
-		const self = this;
-		return {
-			allDaySlot: false,
-			dayClick: this.eventCreate
-				? function (date) {
-						self.registerDayClickEvent(date.format());
-						self.getCalendarView().fullCalendar('unselect');
-				  }
-				: false,
-			selectable: false,
-			eventClick: function (calEvent, jsEvent) {
-				jsEvent.preventDefault();
-				const link = $(this).attr('href');
-				if (link && $.inArray('js-show-modal', calEvent.className) !== -1) {
-					app.showModalWindow(null, link);
-				}
-			}
-		};
-	}
 	/**
 	 * Register day click event.
-	 * @param {string} date
+	 * @param {object} info
 	 */
-	registerDayClickEvent(date) {
+	registerDayClickEvent(info) {
+		const self = this,
+			userFormat = App.Fields.Date.dateToUserFormat(info.date);
 		if (!CONFIG.isQuickCreateSupported) {
-			let userFormat = moment(date).format(CONFIG.dateFormat.toUpperCase());
-			app.openUrl('index.php?module=Reservations&view=Edit&date_start=' + userFormat + '&due_date=' + userFormat);
+			app.openUrl(
+				'index.php?module=' +
+					(this.module ? this.module : CONFIG.module) +
+					'&view=Edit&date_start=' +
+					userFormat +
+					'&due_date=' +
+					userFormat
+			);
 			return;
 		}
-		const self = this;
-		self.getCalendarCreateView().done(function (data) {
-			if (data.length <= 0) {
-				return;
-			}
-			let dateFormat = data.find('[name="date_start"]').data('dateFormat').toUpperCase(),
-				timeFormat = data.find('[name="time_start"]').data('format'),
-				defaultTimeFormat = 'hh:mm A';
-			if (timeFormat == 24) {
-				defaultTimeFormat = 'HH:mm';
-			}
-			let startDateInstance = Date.parse(date);
-			let startDateString = moment(date).format(dateFormat);
-			let startTimeString = moment(date).format(defaultTimeFormat);
-			let endDateInstance = Date.parse(date);
-			let endDateString = moment(date).format(dateFormat);
-
-			let view = self.getCalendarView().fullCalendar('getView');
-			let endTimeString;
-			if ('month' == view.name) {
-				let diffDays = parseInt((endDateInstance - startDateInstance) / (1000 * 60 * 60 * 24));
-				if (diffDays > 1) {
-					let defaultFirstHour = app.getMainParams('startHour');
-					let explodedTime = defaultFirstHour.split(':');
-					startTimeString = explodedTime['0'];
-					let defaultLastHour = app.getMainParams('endHour');
-					explodedTime = defaultLastHour.split(':');
-					endTimeString = explodedTime['0'];
-				} else {
-					let now = new Date();
-					startTimeString = moment(now).format(defaultTimeFormat);
-					endTimeString = moment(now).add(15, 'minutes').format(defaultTimeFormat);
-				}
-			} else {
-				endTimeString = moment(endDateInstance).add(30, 'minutes').format(defaultTimeFormat);
-			}
-			data.find('[name="date_start"]').val(startDateString);
-			data.find('[name="due_date"]').val(endDateString);
-			data.find('[name="time_start"]').val(startTimeString);
-			data.find('[name="time_end"]').val(endTimeString);
-
+		self.getCalendarCreateView().done((data) => {
 			App.Components.QuickCreate.showModal(data, {
-				callbackFunction(data) {
-					self.addCalendarEvent(data.result, dateFormat);
+				callbackFunction: () => {
+					self.reloadCalendarData();
+				},
+				callbackPostShown: (modal) => {
+					self.callbackCreateModal(modal, info);
 				}
 			});
 		});
 	}
 	/**
-	 * Add calendar event.
+	 * Callback after shown create modal
+	 * @param {jQuery} modal
+	 * @param {object} info
 	 */
-	addCalendarEvent(eventObject) {
-		this.loadCalendarData();
+	callbackCreateModal(modal, info) {
+		let dateFormat = modal.find('[name="date_start"]').data('dateFormat'),
+			timeFormat = modal.find('[name="time_start"]').data('format'),
+			defaultTimeFormat = 'hh:mm A',
+			userFormat = App.Fields.Date.dateToUserFormat(info.date, dateFormat),
+			endTimeString;
+
+		if (timeFormat == 24) {
+			defaultTimeFormat = 'HH:mm';
+		}
+		let startTimeString = moment(info.date).format(defaultTimeFormat);
+		if ('dayGridMonth' == this.fullCalendar.view.type) {
+			let now = new Date();
+			startTimeString = moment(now).format(defaultTimeFormat);
+			endTimeString = moment(now).add(15, 'minutes').format(defaultTimeFormat);
+		} else {
+			endTimeString = moment(info.date).add(30, 'minutes').format(defaultTimeFormat);
+		}
+		modal.find('[name="date_start"]').val(userFormat);
+		modal.find('[name="due_date"]').val(userFormat);
+		modal.find('[name="time_start"]').val(startTimeString);
+		modal.find('[name="time_end"]').val(endTimeString);
 	}
 	/**
-	 * @deprecated
-	 * @param {*} eventObject
+	 * Register switch events
 	 */
-	isNewEventToDisplay(eventObject) {
-		let users = this.getSelectedUsersCalendar();
-		if (0 === users.length) {
-			users = [app.getMainParams('usersId')];
-		}
-		if ($.inArray(eventObject.assigned_user_id.value, users) < 0) {
-			this.refreshFilterValues(eventObject, ownerSelects);
-			return false;
-		}
-		let calendarTypes = $('.js-calendar__filter__select[data-cache="calendar-types"]');
-		if (calendarTypes.length) {
-			if (!this.eventTypeKeyName) {
-				this.setEventTypeKey(eventObject, calendarTypes.data('name'));
-			}
-			if (
-				this.eventTypeKeyName &&
-				calendarTypes.val().length &&
-				$.inArray(eventObject[this.eventTypeKeyName]['value'], calendarTypes.val()) < 0
-			) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Render calendar
-	 */
-	renderCalendar() {
-		let self = this,
-			basicOptions = this.setCalendarOptions(),
-			options = {
-				header: {
-					left: 'year,month,' + app.getMainParams('weekView') + ',' + app.getMainParams('dayView'),
-					center: 'prevYear,prev,title,next,nextYear',
-					right: 'today'
-				},
-				views: {
-					basic: {
-						eventLimit: false
-					},
-					year: {
-						eventLimit: 10,
-						eventLimitText: app.vtranslate('JS_COUNT_RECORDS'),
-						titleFormat: 'YYYY',
-						select: function (start, end) {},
-						loadView: function () {
-							self.getCalendarView().fullCalendar('getCalendar').view.render();
-						}
-					},
-					month: {
-						titleFormat: this.parseDateFormat('month'),
-						loadView: function () {
-							self.loadCalendarData();
-						}
-					},
-					week: {
-						titleFormat: this.parseDateFormat('week'),
-						loadView: function () {
-							self.loadCalendarData();
-						}
-					},
-					day: {
-						titleFormat: this.parseDateFormat('day'),
-						loadView: function () {
-							self.loadCalendarData();
-						}
-					},
-					basicDay: {
-						type: 'agendaDay',
-						loadView: function () {
-							self.loadCalendarData();
-						}
-					}
-				},
-				select: function (start, end) {
-					self.selectDays(start, end);
-					self.getCalendarView().fullCalendar('unselect');
-				},
-				eventRender: function (event, element) {
-					self.eventRenderer(event, element);
-				},
-				viewRender: function (view, element) {
-					if (view.type !== 'year') {
-						self.loadCalendarData(view);
-					}
-				},
-				addCalendarEvent(calendarDetails) {
-					self.getCalendarView().fullCalendar('renderEvent', self.getEventData(calendarDetails));
-				}
-			};
-		options = Object.assign(basicOptions, options);
-		this.calendar.fullCalendar(options);
-	}
-
 	registerSwitchEvents() {
-		const calendarView = this.getCalendarView();
 		let isWorkDays,
 			switchShowTypeVal,
 			switchContainer = $('.js-calendar__tab--filters'),
@@ -764,10 +251,10 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 				app.setMainParams('showType', 'history');
 				app.moduleCacheSet('defaultShowType', 'history');
 			}
-			calendarView.fullCalendar('getCalendar').view.options.loadView();
+			this.reloadCalendarData();
 		});
 		if (app.getMainParams('showType') !== showTypeState) {
-			$('label.active', switchShowType).find('input').filter(':first').change();
+			$('label.active', switchShowType).find('input').filter(':first').trigger('change');
 		}
 		if (switchSwitchingDays.length) {
 			if (typeof isWorkDays !== 'undefined' && !isWorkDays) {
@@ -784,36 +271,336 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 					app.setMainParams('switchingDays', 'all');
 					app.moduleCacheSet('defaultSwitchingDays', 'all');
 				}
-				calendarView.fullCalendar('option', 'hiddenDays', hiddenDays);
-				calendarView.fullCalendar('option', 'height', this.setCalendarHeight());
-				if (calendarView.fullCalendar('getView').type === 'year') {
-					this.registerViewRenderEvents(calendarView.fullCalendar('getView'));
+				this.fullCalendar.setOption('hiddenDays', hiddenDays);
+				this.fullCalendar.setOption('height', this.setCalendarHeight());
+				if (this.fullCalendar.view.type === 'year') {
+					console.log('this.registerViewRenderEvents(this.calendarView.fullCalendar');
+					// this.registerViewRenderEvents(this.calendarView.fullCalendar('getView'));  //todo
 				}
 			});
 			if (app.getMainParams('switchingDays') !== switchingDaysState) {
-				$('label.active', switchSwitchingDays).find('input').filter(':first').change();
+				$('label.active', switchSwitchingDays).find('input').filter(':first').trigger('change');
 			}
 		}
 	}
 
 	/**
-	 * Find element on list (user, group)
-	 * @param {jQuery.Event} e
+	 * Function toggles next year/month and general arrows on view render
 	 */
-	findElementOnList(e) {
-		let target = $(e.target),
-			value = target.val().toLowerCase(),
-			container = target.closest('.js-filter__container');
-		container.find('.js-filter__item__value').filter(function () {
-			let item = $(this).closest('.js-filter__item__container');
-			if ($(this).text().trim().toLowerCase().indexOf(value) > -1) {
-				item.removeClass('d-none');
-			} else {
-				item.addClass('d-none');
-			}
+	registerViewRenderEvents() {
+		let toolbar = this.calendarView.find('.fc-toolbar.fc-header-toolbar');
+		this.showChangeDateButtons(toolbar);
+		this.appendSubDateRow(toolbar);
+		this.refreshDatesRowView();
+		this.addHeaderButtons();
+		this.showTodayButtonCheckbox(toolbar);
+		app.event.on('Calendar.DatesSet', () => {
+			this.showChangeDateButtons(toolbar);
+			this.refreshDatesRowView();
+			this.showTodayButtonCheckbox(toolbar);
 		});
 	}
+	/**
+	 * Function shows change date buttons in calendar's header for specific view
+	 * @param {jQuery} toolbar
+	 */
+	showChangeDateButtons(toolbar) {
+		const view = this.fullCalendar.view;
+		const buttonText = this.calendarOptions.buttonText;
+		let nextPrevButtons = toolbar.find('.fc-prev-button, .fc-next-button'),
+			yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
+		yearButtons.first().html(`<span class="fas fa-xs fa-minus mr-1"></span>${buttonText['year']}`);
+		yearButtons.last().html(`${buttonText['year']}<span class="fas fa-xs fa-plus ml-1"></span>`);
+		if (view.type !== 'year' && this.viewsNamesLabels[view.type]) {
+			let viewType = this.viewsNamesLabels[view.type];
+			nextPrevButtons.first().html(`<span class="fas fa-xs fa-minus mr-1"></span>${buttonText[viewType]}`);
+			nextPrevButtons.last().html(`${buttonText[viewType]}<span class="fas fa-xs fa-plus ml-1"></span>`);
+		}
+		if (view.type === 'year') {
+			nextPrevButtons.hide();
+			yearButtons.show();
+		} else if (view.type === 'dayGridMonth') {
+			nextPrevButtons.show();
+			yearButtons.show();
+		} else if (view.type === 'list') {
+			nextPrevButtons.hide();
+			yearButtons.hide();
+		} else {
+			nextPrevButtons.show();
+			yearButtons.hide();
+		}
+	}
+	/**
+	 * Appends sub date row to calendar header and register its scroll
+	 * @param {jQuery} toolbar
+	 */
+	appendSubDateRow(toolbar) {
+		if (!this.calendarView.find('.js-dates-row').length) {
+			this.subDateRow =
+				$(`<div class="js-scroll js-dates-row u-overflow-auto-lg-down order-4 flex-grow-1 position-relative my-1 w-100" data-js="perfectScrollbar | container">
+						<div class="d-flex flex-nowrap w-100">
+							<div class="js-sub-date-list w-100 sub-date-list row no-gutters flex-nowrap nav nav-tabs" data-js="data-type"></div>
+						</div>
+					</div>`);
+			toolbar.append(this.subDateRow);
+			if ($(window).width() > app.breakpoints.lg) {
+				app.showNewScrollbar(toolbar);
+			}
+		}
+	}
+	/**
+	 * Refresh date bar with counts
+	 */
+	refreshDatesRowView() {
+		const self = this;
+		switch (this.fullCalendar.view.type) {
+			case 'year':
+				self.generateYearList();
+				break;
+			case 'dayGridMonth':
+				self.generateMonthList();
+				break;
+			case 'dayGridWeek':
+			case 'timeGridWeek':
+			case 'listWeek':
+				self.generateWeekList();
+				break;
+			case 'dayGridWeek':
+			case 'timeGridDay':
+				self.generateDaysList();
+				break;
+			default:
+				this.container.find('.js-dates-row .js-sub-date-list').html('');
+				break;
+		}
+		self.updateCountTaskCalendar();
+		self.registerDatesChange();
+	}
+	/**
+	 * Generate days bar list
+	 */
+	generateDaysList() {
+		const datesView = this.container.find('.js-dates-row'),
+			activeDays = moment(this.fullCalendar.view.currentStart).format('DDD'),
+			nextDays = moment(this.fullCalendar.view.currentStart).add(7, 'days');
+		let prevDays = moment(this.fullCalendar.view.currentStart).subtract(5, 'days'),
+			daysToShow = nextDays.diff(prevDays, 'days'),
+			html = '';
 
+		for (let day = 0; day < daysToShow; ++day) {
+			if (app.getMainParams('switchingDays') === 'workDays' && app.moduleCacheGet('defaultSwitchingDays') !== 'all') {
+				if ($.inArray(prevDays.day(), app.getMainParams('hiddenDays', true)) !== -1) {
+					prevDays = moment(prevDays).add(1, 'days');
+					daysToShow++;
+					continue;
+				}
+			}
+			let date = prevDays.format('YYYY-MM-DD'),
+				dateUser = App.Fields.Date.dateToUserFormat(date),
+				active = '';
+			if (prevDays.format('DDD') === activeDays) {
+				active = 'active';
+			}
+			html += `<div data-date="${date}" data-dates="${date}|${date}" data-type="days"
+				class="js-sub-record sub-record nav-item col-1 px-0"  data-js="click | class: active">
+				<div class="sub-record-content nav-link js-popover-tooltip ${active}"
+					title="${App.Fields.Date.fullDaysTranslated[prevDays.format('d')]} ${dateUser}">
+				<div class="sub-date-name">${app.vtranslate('JS_DAY_SHORT')} ${prevDays.format('DD')}
+				<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>
+				</div></div></div>`;
+			prevDays = moment(prevDays).add(1, 'days');
+		}
+		datesView.find('.js-sub-date-list').html(html);
+	}
+	/**
+	 * Generate weeks bar list
+	 */
+	generateWeekList() {
+		const datesView = this.container.find('.js-dates-row'),
+			activeWeek = moment(this.fullCalendar.view.currentStart).format('WW'),
+			nextWeeks = moment(this.fullCalendar.view.currentStart).add(6, 'weeks');
+		let prevWeeks = moment(this.fullCalendar.view.currentStart).subtract(5, 'weeks'),
+			html = '';
+
+		while (prevWeeks <= nextWeeks) {
+			let date = prevWeeks.format('YYYY-MM-DD'),
+				dateEnd = moment(prevWeeks).add(6, 'day').format('YYYY-MM-DD'),
+				dateUser = App.Fields.Date.dateToUserFormat(date),
+				dateEndUser = App.Fields.Date.dateToUserFormat(dateEnd),
+				active = '';
+			if (prevWeeks.format('WW') === activeWeek) {
+				active = 'active';
+			}
+			html += `<div data-date="${date}" data-dates="${date}|${dateEnd}"
+				class="js-sub-record sub-record nav-item col-1 px-0" data-type="weeks" data-js="click | class: active">
+				<div class="sub-record-content nav-link js-popover-tooltip ${active}" title="${dateUser} > ${dateEndUser}">
+				<div class="sub-date-name">${app.vtranslate('JS_WEEK_SHORT')} ${prevWeeks.format('WW')}
+				<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>
+				</div></div></div>`;
+			prevWeeks.add(1, 'weeks');
+		}
+		datesView.find('.js-sub-date-list').html(html);
+	}
+	/**
+	 * Generate month bar list
+	 */
+	generateMonthList() {
+		const self = this;
+		const datesView = this.container.find('.js-dates-row'),
+			activeMonth = this.fullCalendar.view.currentStart.getMonth(),
+			activeYear = this.fullCalendar.view.currentStart.getFullYear();
+		let html = '';
+		for (let month = 0; 12 > month; ++month) {
+			let m = month <= 8 ? '0' + (month + 1) : month + 1,
+				lastDay = App.Fields.Date.getLastMonthDay(activeYear, m),
+				date = activeYear + '-' + m + '-01',
+				dateEnd = activeYear + '-' + m + '-' + lastDay,
+				dateUser = App.Fields.Date.dateToUserFormat(date),
+				dateEndUser = App.Fields.Date.dateToUserFormat(dateEnd),
+				active = '';
+			if (month === activeMonth) {
+				active = 'active';
+			}
+			html += `<div data-date="${date}" data-dates="${date}|${dateEnd}"
+				class="js-sub-record sub-record nav-item col-1 px-0" data-type="months" data-js="click | class: active">
+				<div class="sub-record-content nav-link js-popover-tooltip ${active}" title="${dateUser} > ${dateEndUser}">
+				<div class="sub-date-name">${App.Fields.Date.monthsTranslated[month]}
+				<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>
+				</div></div></div>`;
+		}
+		datesView.find('.js-sub-date-list').html(html);
+	}
+	/**
+	 * Generate year bar list
+	 */
+	generateYearList() {
+		const datesView = this.container.find('.js-dates-row'),
+			activeYear = this.fullCalendar.view.currentStart.getFullYear(),
+			nextYear = activeYear + 1;
+		let prevYear = activeYear - 1,
+			html = '';
+		while (prevYear <= nextYear) {
+			let date = prevYear + '-01-01',
+				dateEnd = prevYear + '-12-31',
+				active = '';
+			if (prevYear === activeYear) {
+				active = 'active';
+			}
+			html += `<div data-date="${date}" data-dates="${date}|${dateEnd}"
+				class="js-sub-record sub-record col-4 nav-item" data-type="years" data-js="click | class: active">
+				<div class="sub-record-content nav-link ${active}">
+				<div class="sub-date-name">${prevYear}<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div></div>
+				</div></div>`;
+			prevYear = prevYear + 1;
+		}
+		datesView.find('.js-sub-date-list').html(html);
+	}
+	/**
+	 * Counting the number of events in the bar for the current view
+	 */
+	updateCountTaskCalendar() {
+		const datesView = this.container.find('.js-dates-row'),
+			subDatesElements = datesView.find('.js-sub-record');
+		let options = this.getDefaultParams(),
+			dateArray = {};
+		delete options.start;
+		delete options.end;
+		subDatesElements.each(function (key) {
+			dateArray[key] = $(this).data('dates').split('|');
+		});
+		options.mode = 'getCountEventsGroup';
+		options.dates = dateArray;
+		AppConnector.request(options).done(function (events) {
+			subDatesElements.each(function (key) {
+				$(this).find('.js-count-events').removeClass('hide').html(events.result[key]);
+			});
+		});
+	}
+	/**
+	 * Registration of the date change in the counting the number of events bar
+	 */
+	registerDatesChange() {
+		this.container.find('.js-dates-row .js-sub-record').on('click', (e) => {
+			let currentTarget = $(e.currentTarget);
+			currentTarget.addClass('active');
+			this.fullCalendar.gotoDate(currentTarget.data('date'));
+		});
+	}
+	/**
+	 * Add header buttons
+	 */
+	addHeaderButtons() {
+		if (this.calendarView.find('.js-calendar__view-btn').length) {
+			return;
+		}
+		let buttonsContainer = this.calendarView.prev('.js-calendar__header-buttons'),
+			viewBtn = buttonsContainer.find('.js-calendar__view-btn').clone(),
+			filters = buttonsContainer.find('.js-calendar__filter-container').clone(),
+			toolbar = this.calendarView.find('.fc-toolbar-chunk');
+		toolbar.first().addClass('fc-left');
+		toolbar.eq(1).addClass('fc-center');
+		this.calendarView.find('.fc-left .fc-button-group').prepend(viewBtn);
+		this.calendarView.find('.fc-center').after(filters);
+		this.registerClearFilterButton();
+		this.registerFilterTabChange();
+	}
+	/**
+	 * Register clear filter button
+	 */
+	registerClearFilterButton() {
+		const sidebar = this.getSidebarView(),
+			clearBtn = this.calendarView.find('.js-calendar__clear-filters');
+		app.showPopoverElementView(clearBtn);
+		clearBtn.on('click', () => {
+			$('.js-calendar__extended-filter-tab a').removeClass('active');
+			app.setMainParams('showType', 'current');
+			app.moduleCacheSet('defaultShowType', 'current');
+			sidebar.find('input:checkbox').prop('checked', false);
+			sidebar.find('option:selected').prop('selected', false).trigger('change.select2');
+			sidebar.find('.js-sidebar-filter-container').each((_, e) => {
+				let element = $(e);
+				let cacheName = element.data('cache');
+				if (element.data('name') && cacheName) {
+					app.moduleCacheSet(cacheName, '');
+				}
+			});
+			let calendarSwitch = sidebar.find('.js-switch--showType [class*="js-switch--label"]'),
+				actualUserCheckbox = sidebar.find('.js-input-user-owner-id[value=' + app.getMainParams('userId') + ']');
+			calendarSwitch.last().removeClass('active');
+			calendarSwitch.first().addClass('active');
+			if (actualUserCheckbox.length) {
+				actualUserCheckbox.prop('checked', true);
+			} else {
+				app.setMainParams('usersId', undefined);
+			}
+			this.reloadCalendarData();
+		});
+	}
+	/**
+	 * Register filter tab change
+	 */
+	registerFilterTabChange() {
+		this.calendarView.find('.js-calendar__extended-filter-tab').on('shown.bs.tab', () => {
+			this.reloadCalendarData();
+		});
+	}
+	/**
+	 * Function appends and shows today button's checkbox
+	 * @param {jQuery} toolbar
+	 */
+	showTodayButtonCheckbox(toolbar) {
+		let todayButton = toolbar.find('.fc-today-button'),
+			todyButtonIcon = todayButton.attr('disabled') ? 'fa-calendar-check' : 'fa-calendar',
+			popoverContent = todayButton.attr('title');
+		todayButton.removeClass('.fc-button');
+		todayButton.html(`<div class="js-popover-tooltip"><span class="far fa-lg ${todyButtonIcon}"></span></div>`);
+		app.showPopoverElementView(todayButton.find('.js-popover-tooltip'), {
+			title: popoverContent
+		});
+	}
+	/**
+	 * Register events
+	 */
 	registerEvents() {
 		super.registerEvents();
 		this.registerCacheSettings();

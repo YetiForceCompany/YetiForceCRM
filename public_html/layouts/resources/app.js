@@ -449,6 +449,7 @@ var App = (window.App = {
 								}
 								submitSuccessCallback(data);
 								app.event.trigger('QuickEdit.AfterSaveFinal', data, form, element);
+								delete window.popoverCache[data.result._recordId];
 								progress.progressIndicator({ mode: 'hide' });
 								if (data.success) {
 									app.showNotify({
@@ -1154,7 +1155,7 @@ var app = (window.app = {
 			boundary: 'viewport',
 			delay: { show: 300, hide: 100 }
 		};
-		selectElement.each(function (index, domElement) {
+		selectElement.each(function (_index, domElement) {
 			let element = $(domElement);
 			let elementParams = $.extend(true, defaultParams, params, element.data());
 			let tmp = elementParams.template;
@@ -1238,13 +1239,20 @@ var app = (window.app = {
 			manualTriggerDelay: app.getMainParams('recordPopoverDelay'),
 			placement: 'right',
 			callbackShown: () => {
+				let href;
+				if (!selectElement.attr('href')) {
+					href = selectElement.find('a').attr('href');
+				}
 				if (
-					!selectElement.attr('href') ||
-					selectElement.closest('.ui-sortable-handle').hasClass('ui-sortable-helper')
+					!href &&
+					(!selectElement.attr('href') || selectElement.closest('.ui-sortable-handle').hasClass('ui-sortable-helper'))
 				) {
 					return false;
 				}
-				let link = new URL(selectElement.eq(0).attr('href'), window.location.origin);
+				if (!href) {
+					href = selectElement.eq(0).attr('href');
+				}
+				let link = new URL(href, window.location.origin);
 				if (!link.searchParams.get('record') || !link.searchParams.get('view')) {
 					return false;
 				}
@@ -1260,12 +1268,13 @@ var app = (window.app = {
 					}
 					self.setPopoverPosition(selectElement, container);
 				};
-				let cacheData = window.popoverCache[url];
+				let urlObject = app.convertUrlToObject(url);
+				let cacheData = window.popoverCache[urlObject['record']];
 				if (typeof cacheData !== 'undefined') {
 					appendPopoverData(cacheData);
 				} else {
 					AppConnector.request(url).done((data) => {
-						window.popoverCache[url] = data;
+						window.popoverCache[urlObject['record']] = data;
 						appendPopoverData(data);
 					});
 				}
@@ -1801,86 +1810,6 @@ var app = (window.app = {
 			);
 		}
 	},
-	convertToDatePickerFormat: function (dateFormat) {
-		switch (dateFormat) {
-			case 'yyyy-mm-dd':
-				return 'Y-m-d';
-			case 'mm-dd-yyyy':
-				return 'm-d-Y';
-			case 'dd-mm-yyyy':
-				return 'd-m-Y';
-			case 'yyyy.mm.dd':
-				return 'Y.m.d';
-			case 'mm.dd.yyyy':
-				return 'm.d.Y';
-			case 'dd.mm.yyyy':
-				return 'd.m.Y';
-			case 'yyyy/mm/dd':
-				return 'Y/m/d';
-			case 'mm/dd/yyyy':
-				return 'm/d/Y';
-			case 'dd/mm/yyyy':
-				return 'd/m/Y';
-		}
-	},
-	convertTojQueryDatePickerFormat: function (dateFormat) {
-		let i,
-			dotMode = '-';
-		if (dateFormat.indexOf('-') !== -1) {
-			dotMode = '-';
-		}
-		if (dateFormat.indexOf('.') !== -1) {
-			dotMode = '.';
-		}
-		if (dateFormat.indexOf('/') !== -1) {
-			dotMode = '/';
-		}
-		let splitDateFormat = dateFormat.split(dotMode);
-		for (i in splitDateFormat) {
-			let sectionDate = splitDateFormat[i];
-			if (sectionDate.length === 4) {
-				splitDateFormat[i] = sectionDate.substring(0, 2);
-			}
-		}
-		return splitDateFormat.join(dotMode);
-	},
-	/*
-	 * Converts user formated date to database format yyyy-mm-dd
-	 */
-	getDateInDBInsertFormat: function (dateFormat, dateString) {
-		var i = 0;
-		var dotMode = '-';
-		if (dateFormat.indexOf('-') !== -1) {
-			dotMode = '-';
-		} else if (dateFormat.indexOf('.') !== -1) {
-			dotMode = '.';
-		} else if (dateFormat.indexOf('/') !== -1) {
-			dotMode = '/';
-		}
-		var dateFormatParts = dateFormat.split(dotMode);
-		var day = '',
-			month = '',
-			year = '';
-		var dateParts = dateString.split(dotMode);
-		for (i in dateFormatParts) {
-			var sectionDate = dateFormatParts[i];
-			switch (sectionDate) {
-				case 'dd':
-					day = dateParts[i];
-					break;
-
-				case 'mm':
-					month = dateParts[i];
-					break;
-
-				case 'yyyy':
-					year = dateParts[i];
-					break;
-			}
-		}
-		return year + '-' + month + '-' + day;
-	},
-
 	registerBlockAnimationEvent: function (container = false) {
 		let detailViewContentHolder = $('div.details div.contents');
 		let blockHeader = detailViewContentHolder.find('.blockHeader');
@@ -2348,45 +2277,6 @@ var app = (window.app = {
 		};
 
 		return getVar()[varName];
-	},
-	getStringDate: function (date) {
-		var d = date.getDate();
-		var m = date.getMonth() + 1;
-		var y = date.getFullYear();
-
-		d = d <= 9 ? '0' + d : d;
-		m = m <= 9 ? '0' + m : m;
-		return y + '-' + m + '-' + d;
-	},
-	formatDate: function (date) {
-		var y = date.getFullYear(),
-			m = date.getMonth() + 1,
-			d = date.getDate(),
-			h = date.getHours(),
-			i = date.getMinutes(),
-			s = date.getSeconds();
-		return (
-			y +
-			'-' +
-			this.formatDateZ(m) +
-			'-' +
-			this.formatDateZ(d) +
-			' ' +
-			this.formatDateZ(h) +
-			':' +
-			this.formatDateZ(i) +
-			':' +
-			this.formatDateZ(s)
-		);
-	},
-	formatDateZ: function (i) {
-		return i <= 9 ? '0' + i : i;
-	},
-	howManyDaysFromDate: function (time) {
-		var fromTime = time.getTime();
-		var today = new Date();
-		var toTime = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
-		return Math.floor((toTime - fromTime) / (1000 * 60 * 60 * 24)) + 1;
 	},
 	saveAjax: function (mode, param, addToParams) {
 		var aDeferred = $.Deferred();

@@ -101,6 +101,7 @@ class Occurrences_Calendar_Model extends Vtiger_Calendar_Model
 		$result = [];
 		$moduleModel = $this->getModule();
 		$isSummaryViewSupported = $moduleModel->isSummaryViewSupported();
+		$colors = \App\Fields\Picklist::getColors('occurrences_type', false);
 		while ($record = $dataReader->read()) {
 			$item = [];
 			$item['id'] = $record['id'];
@@ -114,9 +115,10 @@ class Occurrences_Calendar_Model extends Vtiger_Calendar_Model
 			$item['end'] = DateTimeField::convertToUserTimeZone($record['date_end'])->format('Y-m-d') . ' ' . $dateTimeInstance->getFullcalenderTime();
 			$item['end_display'] = $dateTimeInstance->getDisplayDateTimeValue();
 
-			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $record['assigned_user_id'] . ' picklistCBr_Occurrences_occurrences_type_' . $record['occurrences_type'];
+			$item['borderColor'] = $colors[$record['occurrences_type']] ?? '';
+			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $record['assigned_user_id'];
 			if ($isSummaryViewSupported) {
-				$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $record['id'];
+				$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=Detail&record=' . $record['id'];
 				$item['className'] .= ' js-show-modal';
 			} else {
 				$item['url'] = $moduleModel->getDetailViewUrl($record['id']);
@@ -182,17 +184,13 @@ class Occurrences_Calendar_Model extends Vtiger_Calendar_Model
 	}
 
 	/** {@inheritdoc} */
-	public function updateEvent(int $recordId, string $data, array $delta)
+	public function updateEvent(int $recordId, string $start, string $end)
 	{
-		$start = DateTimeField::convertToDBTimeZone($data, \App\User::getCurrentUserModel(), false);
-		$dateStart = $start->format('Y-m-d H:i:s');
 		try {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->getModuleName());
 			if ($success = $recordModel->isEditable()) {
-				$end = $this->changeDateTime($recordModel->get('date_end'), $delta);
-				$dueDate = $end['date'] . ' ' . $end['time'];
-				$recordModel->set('date_start', $dateStart);
-				$recordModel->set('date_end', $dueDate);
+				$recordModel->set('date_start', App\Fields\DateTime::formatToDb($start));
+				$recordModel->set('date_end', App\Fields\DateTime::formatToDb($end));
 				$recordModel->save();
 				$success = true;
 			}

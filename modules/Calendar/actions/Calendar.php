@@ -141,9 +141,9 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 			$record->set('customFilter', $request->getInteger('cvid'));
 		}
 		$result = [];
-		foreach ($request->getArray('dates', 'DateTimeInUserFormat') as $datePair) {
-			$record->set('start', $datePair[0]);
-			$record->set('end', $datePair[1]);
+		foreach ($request->getArray('dates', 'Date') as $datePair) {
+			$record->set('start', $datePair[0] . ' 00:00:00');
+			$record->set('end', $datePair[1] . ' 00:00:00');
 			$result[] = $record->getEntityRecordsCount();
 		}
 		$response = new Vtiger_Response();
@@ -153,53 +153,28 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 
 	public function updateEvent(App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('id');
-		$delta = $request->getArray('delta');
-		$start = DateTimeField::convertToDBTimeZone($request->get('start'), \App\User::getCurrentUserModel(), false);
-		$date_start = $start->format('Y-m-d');
-		$time_start = $start->format('H:i:s');
+		$start = DateTimeField::convertToDBTimeZone($request->getByType('start', 'DateTimeInUserFormat'));
+		$end = DateTimeField::convertToDBTimeZone($request->getByType('end', 'DateTimeInUserFormat'));
 		try {
-			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$recordData = $recordModel->entity->column_fields;
-			$end = self::changeDateTime($recordData['due_date'] . ' ' . $recordData['time_end'], $delta);
-			$due_date = $end['date'];
-			$time_end = $end['time'];
-			$recordModel->setId($recordId);
-			$recordModel->set('date_start', $date_start);
-			$recordModel->set('due_date', $due_date);
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $request->getModule());
+			$recordModel->set('date_start', $start->format('Y-m-d'));
+			$recordModel->set('due_date', $end->format('Y-m-d'));
 			if ($request->getBoolean('allDay')) {
 				$recordModel->set('allday', 1);
-				$start = self::changeDateTime($recordData['date_start'] . ' ' . $recordData['time_start'], $delta);
-				$recordModel->set('date_start', $start['date']);
 			} else {
-				$recordModel->set('time_start', $time_start);
-				$recordModel->set('time_end', $time_end);
+				$recordModel->set('time_start', $start->format('H:i:s'));
+				$recordModel->set('time_end', $end->format('H:i:s'));
 				$recordModel->set('allday', 0);
 			}
 			$recordModel->save();
-			$succes = true;
+			$success = true;
 		} catch (Exception $e) {
-			$succes = false;
+			$success = false;
 		}
 		$response = new Vtiger_Response();
-		$response->setResult($succes);
+		$response->setResult($success);
 		$response->emit();
-	}
-
-	public function changeDateTime($datetime, $delta)
-	{
-		$date = new DateTime($datetime);
-		if (0 != $delta['days']) {
-			$date = $date->modify('+' . $delta['days'] . ' days');
-		}
-		if (0 != $delta['hours']) {
-			$date = $date->modify('+' . $delta['hours'] . ' hours');
-		}
-		if (0 != $delta['minutes']) {
-			$date = $date->modify('+' . $delta['minutes'] . ' minutes');
-		}
-		return ['date' => $date->format('Y-m-d'), 'time' => $date->format('H:i:s')];
 	}
 
 	/**

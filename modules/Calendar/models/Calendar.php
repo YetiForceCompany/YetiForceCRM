@@ -119,6 +119,7 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 		$extended = 'Extended' === App\Config::module('Calendar', 'CALENDAR_VIEW');
 		$editForm = \App\Config::module('Calendar', 'SHOW_EDIT_FORM');
 		$dataReader = $this->getQuery()->createCommand()->query();
+		$colors = \App\Fields\Picklist::getColors('activitytype', false);
 		while ($row = $dataReader->read()) {
 			$item = [];
 			if ($extended) {
@@ -166,7 +167,8 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 			$item['start_display'] = $startDateTimeDisplay;
 			$item['end_display'] = $endDateTimeDisplay;
 			$item['hour_start'] = $startTimeDisplay;
-			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $row['assigned_user_id'] . ' picklistCBr_Calendar_activitytype_' . \App\Colors::sanitizeValue($row['activitytype']);
+			$item['borderColor'] = $colors[$row['activitytype']] ?? '';
+			$item['className'] = 'js-popover-tooltip--record ownerCBg_' . $row['assigned_user_id'];
 			$return[] = $item;
 		}
 		$dataReader->close();

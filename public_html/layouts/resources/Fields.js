@@ -248,6 +248,133 @@ window.App.Fields = {
 					});
 				App.Fields.Utils.registerMobileDateRangePicker(el);
 			});
+		},
+		/**
+		 * Function to get Date Instance
+		 * @param {string} dateTime
+		 * @param {string} dateFormat user date format
+		 * @returns {Date}
+		 */
+		getDateInstance: function (dateTime, dateFormat = CONFIG.dateFormat) {
+			let dateTimeComponents = dateTime.split(' '),
+				dateComponent = dateTimeComponents[0],
+				timeComponent = dateTimeComponents[1],
+				seconds = '00',
+				dotMode = '-';
+			if (dateFormat.indexOf('-') !== -1) {
+				dotMode = '-';
+			}
+			if (dateFormat.indexOf('.') !== -1) {
+				dotMode = '.';
+			}
+			if (dateFormat.indexOf('/') !== -1) {
+				dotMode = '/';
+			}
+			let splittedDate = dateComponent.split(dotMode),
+				splittedDateFormat = dateFormat.split(dotMode),
+				year = splittedDate[splittedDateFormat.indexOf('yyyy')],
+				month = splittedDate[splittedDateFormat.indexOf('mm')],
+				date = splittedDate[splittedDateFormat.indexOf('dd')],
+				dateInstance = Date.parse(year + '/' + month + '/' + date);
+
+			if (isNaN(dateInstance) || year.length !== 4 || month.length > 2 || date.length > 2 || dateInstance == null) {
+				throw app.vtranslate('JS_INVALID_DATE');
+			}
+			//Before creating date object time is set to 00
+			//because as while calculating date object it depends system timezone
+			if (typeof timeComponent === 'undefined') {
+				timeComponent = '00:00:00';
+			}
+			let timeSections = timeComponent.split(':');
+			if (typeof timeSections[2] !== 'undefined') {
+				seconds = timeSections[2];
+			}
+			//Am/Pm component exits
+			if (typeof dateTimeComponents[2] !== 'undefined') {
+				if (dateTimeComponents[2].toLowerCase() === 'pm' && timeSections[0] !== '12') {
+					timeSections[0] = parseInt(timeSections[0], 10) + 12;
+				}
+				if (dateTimeComponents[2].toLowerCase() === 'am' && timeSections[0] === '12') {
+					timeSections[0] = '00';
+				}
+			}
+			month = month - 1;
+			return new Date(year, month, date, timeSections[0], timeSections[1], seconds);
+		},
+		/**
+		 * Format the Date object to a date in the format DB format, example: `2018-07-23`
+		 * @param {Date} date
+		 * @returns {string}
+		 */
+		dateToDbFormat: function (date) {
+			let d = date.getDate();
+			let m = date.getMonth() + 1;
+			let y = date.getFullYear();
+			d = d <= 9 ? '0' + d : d;
+			m = m <= 9 ? '0' + m : m;
+			return y + '-' + m + '-' + d;
+		},
+		/**
+		 * Format the Date object to a date in the format user format, example: `2018/07/23`
+		 * @param {Date} date
+		 * @returns {string}
+		 */
+		dateToUserFormat: function (date, format = CONFIG.dateFormat) {
+			if (typeof date === 'string') {
+				date = new Date(date);
+			}
+			let m = date.getMonth() + 1,
+				d = date.getDate();
+			d = d <= 9 ? '0' + d : d;
+			m = m <= 9 ? '0' + m : m;
+			return format.replace('yyyy', date.getFullYear()).replace('mm', m).replace('dd', d);
+		},
+		/**
+		 * Get last day of month
+		 * @param {integer} year
+		 * @param {integer} month
+		 * @returns {integer}
+		 */
+		getLastMonthDay: function (year, month) {
+			let date = new Date(year, month, 0);
+			return date.getDate();
+		},
+		/**
+		 * Get number of days from a given date to now
+		 * @param {Date} dateTime
+		 * @returns {integer}
+		 */
+		howManyDaysFromDate: function (dateTime) {
+			let today = new Date();
+			let toTime = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+			return Math.floor((toTime - dateTime.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+		},
+		/**
+		 * Converting the date format to the format supported in the DatePicker, example: `yyyy-mm-dd` >> `Y-m-d`
+		 * @param {string} dateFormat
+		 * @returns {string}
+		 */
+		convertToDatePickerFormat: function (dateFormat) {
+			switch (dateFormat) {
+				case 'yyyy-mm-dd':
+					return 'Y-m-d';
+				case 'mm-dd-yyyy':
+					return 'm-d-Y';
+				case 'dd-mm-yyyy':
+					return 'd-m-Y';
+				case 'yyyy.mm.dd':
+					return 'Y.m.d';
+				case 'mm.dd.yyyy':
+					return 'm.d.Y';
+				case 'dd.mm.yyyy':
+					return 'd.m.Y';
+				case 'yyyy/mm/dd':
+					return 'Y/m/d';
+				case 'mm/dd/yyyy':
+					return 'm/d/Y';
+				case 'dd/mm/yyyy':
+					return 'd/m/Y';
+			}
 		}
 	},
 	DateTime: class DateTime {
@@ -273,6 +400,20 @@ window.App.Fields = {
 				instances.push(new DateTime(element, params));
 			});
 			return instances;
+		}
+		/**
+		 * Format the Date object to a date in the format user format, example: `2018/07/23 03:00`
+		 * @param {Date} dateTime Date object
+		 * @returns {string} `2018/07/23 03:00`
+		 */
+		static dateToUserFormat(dateTime, format = CONFIG.dateFormat) {
+			format = format.toUpperCase();
+			if (CONFIG.hourFormat == 24) {
+				format += ' HH:mm';
+			} else {
+				format += ' hh:mm A';
+			}
+			return moment(dateTime).format(format);
 		}
 		/**
 		 * Gets default locale data
@@ -353,6 +494,26 @@ window.App.Fields = {
 					picker.container.addClass('js-visible');
 				});
 			App.Fields.Utils.registerMobileDateRangePicker(this.container);
+		}
+	},
+	Time: {
+		/**
+		 * Format the Date object to a date in the format user format, example: `2018/07/23`
+		 * @param {Date} date
+		 * @returns {string}
+		 */
+		dateToUserFormat: function (date, timeFormat) {
+			if (typeof date === 'string') {
+				date = new Date(date);
+			}
+			if (!timeFormat) {
+				if (CONFIG.hourFormat == 24) {
+					timeFormat = 'HH:mm';
+				} else {
+					timeFormat = 'hh:mm A';
+				}
+			}
+			return moment(date).format(timeFormat);
 		}
 	},
 	Colors: {
@@ -751,7 +912,7 @@ window.App.Fields = {
 			 * @param {jQuery} element
 			 * @param {object} e
 			 */
-			validate(element, _e) {
+			validate(element) {
 				let status = true,
 					params;
 				if (element.data('purifyMode')) {

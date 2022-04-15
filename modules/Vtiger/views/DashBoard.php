@@ -145,7 +145,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			'modules.Vtiger.resources.DashBoard',
 			'modules.' . $moduleName . '.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',
-			'~libraries/fullcalendar/dist/fullcalendar.js',
+			'~libraries/fullcalendar/main.js',
 		];
 
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts($jsFileNames));
@@ -162,7 +162,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 	{
 		$headerCss = [
 			'~libraries/gridstack/dist/gridstack.css',
-			'~libraries/fullcalendar/dist/fullcalendar.css',
+			'~libraries/fullcalendar/main.css',
 		];
 
 		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles($headerCss));

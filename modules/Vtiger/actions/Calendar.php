@@ -93,9 +93,9 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 		$request->delete('end');
 		$record = $this->getCalendarModel($request);
 		$result = [];
-		foreach ($request->getArray('dates', 'DateTimeInUserFormat') as $datePair) {
-			$record->set('start', $datePair[0]);
-			$record->set('end', $datePair[1]);
+		foreach ($request->getArray('dates', 'Date') as $datePair) {
+			$record->set('start', $datePair[0] . ' 00:00:00');
+			$record->set('end', $datePair[1] . ' 00:00:00');
 			$result[] = $record->getEntityRecordsCount();
 		}
 		$response = new Vtiger_Response();
@@ -137,7 +137,7 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 	public function updateEvent(App\Request $request)
 	{
 		$record = Vtiger_Calendar_Model::getInstance($request->getModule());
-		$success = $record->updateEvent($request->getInteger('id'), $request->get('start'), $request->getArray('delta'));
+		$success = $record->updateEvent($request->getInteger('id'), $request->getByType('start', 'DateTimeInUserFormat'), $request->getByType('end', 'DateTimeInUserFormat'));
 		$response = new Vtiger_Response();
 		$response->setResult($success);
 		$response->emit();

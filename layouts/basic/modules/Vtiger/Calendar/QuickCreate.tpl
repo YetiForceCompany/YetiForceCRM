@@ -40,6 +40,7 @@
 					</div>
 					<div class="modal-body row no-gutters m-0 pt-0">
 						<div class="col col-lg-8 pt-2">
+							<input type="hidden" id="switchingDays" value="workDays" />
 							<input type="hidden" id="hiddenDays"
 								value="{\App\Purifier::encodeHtml(\App\Json::encode(App\Config::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
 							<input value="{$WEEK_COUNT}" type="hidden" id="weekCount" />

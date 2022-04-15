@@ -168,7 +168,10 @@ footable/icomoon
 footable/js
 footable/less
 footable/src
+fullcalendar/locales-all.js
+fullcalendar/locales-all.min.js
 fullcalendar/src
+fullcalendar/locales
 gantt-elastic/*.gif
 gantt-elastic/*.jpg
 gantt-elastic/src
@@ -231,10 +234,13 @@ leaflet/dist/leaflet-src.esm.js.map
 leaflet/dist/leaflet-src.js
 leaflet/dist/leaflet-src.js.map
 leaflet/src
+moment/dist
 moment/locale
+moment/ts3.1-typings
 moment/min/locales.js
 moment/min/moment-with-locales.js
 moment/min/moment-with-locales.min.js
+moment/min/moment-with-locales.min.js.map
 moment/moment.js
 moment/src
 mousetrap/plugins

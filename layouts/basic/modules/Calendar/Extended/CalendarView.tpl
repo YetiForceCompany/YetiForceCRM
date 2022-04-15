@@ -16,13 +16,13 @@
 	<input value="{\App\Purifier::encodeHtml($ACTIVITY_STATE_LABELS)}" type="hidden" id="activityStateLabels" />
 	<input value="{\App\Purifier::encodeHtml(\App\Json::encode($HISTORY_PARAMS))}" type="hidden" id="historyParams" />
 	<input value="{\App\Purifier::encodeHtml(\App\Config::module('Calendar', 'SHOW_EDIT_FORM'))}" type="hidden" id="showEditForm" />
-	<div class="calendarViewContainer rowContent js-css-element-queries" data-js="css-element-queries">
+	<div class="calendarViewContainer rowContent js-css-element-queries js-calendar-container" data-js="css-element-queries|container">
 		<div class="o-calendar__container mt-2" data-js="offset">
 			<div class="d-none js-calendar__header-buttons">
 				<div class="js-calendar__view-btn mb-1 mb-sm-0 mr-1">
 					{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='listViewMassActions u-remove-dropdown-icon' BTN_CLASS='btn-light o-calendar__view-btn d-flex align-items-center'}
 				</div>
-				<div class="js-calendar__filter-container">
+				<div class="o-calendar__filter js-calendar__filter-container" data-js="clone container">
 					{if $CUSTOM_VIEWS|@count gt 0}
 						<ul class="nav nav-pills u-w-fit js-calendar__extended-filter-tab" data-js="change"
 							role="tablist">

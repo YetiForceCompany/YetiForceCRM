@@ -13,7 +13,7 @@
 		}
 	}
 
-	.fc-head-container.fc-widget-header {
+	.fc-col-header-cell {
 		@extend .border-0;
 	}
 
@@ -21,10 +21,6 @@
 		@extend .border-right-0;
 		@extend .border-left-0;
 	}
-}
-
-.fc-state-default .fc-button-effect {
-	top: 100% !important;
 }
 
 .fc-event-style1 {
@@ -136,9 +132,8 @@
 	color: #000;
 }
 
-.fc-button {
+.fc .fc-button {
 	display: inline-block;
-	padding: $p-bs4-button !important;
 	margin-bottom: 0;
 	font-weight: normal;
 	line-height: 1.5;
@@ -164,7 +159,7 @@
 		}
 	}
 
-	&.fc-state-active .fc-button-inner .fc-button-content,
+	&.fc-button-active .fc-button-inner .fc-button-content,
 	&:active .fc-button-inner .fc-button-content {
 		color: #000 !important;
 		background: transparent;
@@ -177,14 +172,12 @@
 	line-height: 20px;
 }
 
-.fc-widget-header {
-	th {
-		padding: 4px 0 !important;
-	}
-
-	color: #666;
+.fc-col-header-cell {
 	background: $light;
 	border-color: #ccc;
+	a {
+		color: #666;
+	}
 }
 
 .fc-content {
@@ -205,10 +198,6 @@
 	td:hover {
 		background: #f3f3f3;
 	}
-}
-
-.fc-state-default .fc-button-effect span {
-	background: none;
 }
 
 .fc button {
@@ -251,7 +240,7 @@
 		padding: 0 !important;
 		line-height: 1;
 	}
-	.c-calendar-quickcreate .fc-day-top .fc-day-number {
+	.c-calendar-quickcreate .fc-daygrid-day-top .fc-daygrid-day-number {
 		font-size: 20px;
 	}
 	.js-calendar-switch-container {
@@ -260,10 +249,6 @@
 }
 .fc-unthemed td {
 	border-color: #ddd !important;
-}
-
-.fc-event {
-	color: #353c44 !important;
 }
 
 .fc-view-container {

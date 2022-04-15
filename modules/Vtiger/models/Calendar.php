@@ -100,12 +100,12 @@ abstract class Vtiger_Calendar_Model extends App\Base
 	{
 		$result = [];
 		foreach (App\Fields\Date::getHolidays(DateTimeField::convertToDBTimeZone($this->get('start'))->format('Y-m-d'), DateTimeField::convertToDBTimeZone($this->get('end'))->format('Y-m-d')) as $holiday) {
-			$item = [];
-			$item['title'] = $holiday['name'];
-			$item['type'] = $holiday['type'];
-			$item['start'] = $holiday['date'];
-			$item['rendering'] = 'background';
-			if ('national' === $item['type']) {
+			$item = [
+				'title' => $holiday['name'],
+				'start' => $holiday['date'],
+				'display' => 'background',
+			];
+			if ('national' === $holiday['type']) {
 				$item['color'] = '#FFAB91';
 				$item['icon'] = 'fas fa-flag';
 			} else {
@@ -185,23 +185,23 @@ abstract class Vtiger_Calendar_Model extends App\Base
 	/**
 	 * Update event.
 	 *
-	 * @param int    $recordId
-	 * @param string $date
-	 * @param array  $delta
+	 * @param int    $recordId Record ID
+	 * @param string $start    Start date
+	 * @param string $end      End date
 	 *
 	 * @return bool
 	 */
-	public function updateEvent(int $recordId, string $date, array $delta)
+	public function updateEvent(int $recordId, string $start, string $end)
 	{
-		$start = DateTimeField::convertToDBTimeZone($date, \App\User::getCurrentUserModel(), false);
 		try {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->getModuleName());
 			if ($success = $recordModel->isEditable()) {
-				$end = $this->changeDateTime($recordModel->get('due_date') . ' ' . $recordModel->get('time_end'), $delta);
+				$start = DateTimeField::convertToDBTimeZone($start);
 				$recordModel->set('date_start', $start->format('Y-m-d'));
 				$recordModel->set('time_start', $start->format('H:i:s'));
-				$recordModel->set('due_date', $end['date']);
-				$recordModel->set('time_end', $end['time']);
+				$end = DateTimeField::convertToDBTimeZone($end);
+				$recordModel->set('due_date', $end->format('Y-m-d'));
+				$recordModel->set('time_end', $end->format('H:i:s'));
 				$recordModel->save();
 				$success = true;
 			}
@@ -210,28 +210,5 @@ abstract class Vtiger_Calendar_Model extends App\Base
 			$success = false;
 		}
 		return $success;
-	}
-
-	/**
-	 * Modify date.
-	 *
-	 * @param string $datetime
-	 * @param array  $delta
-	 *
-	 * @return string[]
-	 */
-	public function changeDateTime($datetime, $delta)
-	{
-		$date = new DateTime($datetime);
-		if (0 != $delta['days']) {
-			$date = $date->modify('+' . $delta['days'] . ' days');
-		}
-		if (0 != $delta['hours']) {
-			$date = $date->modify('+' . $delta['hours'] . ' hours');
-		}
-		if (0 != $delta['minutes']) {
-			$date = $date->modify('+' . $delta['minutes'] . ' minutes');
-		}
-		return ['date' => $date->format('Y-m-d'), 'time' => $date->format('H:i:s')];
 	}
 }

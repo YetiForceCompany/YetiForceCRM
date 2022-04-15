@@ -627,7 +627,7 @@ Vtiger_Base_Validator_Js(
 			var fieldInfo = fieldData.fieldinfo;
 			var fieldValue = this.getFieldValue();
 			try {
-				var fieldDateInstance = Vtiger_Helper_Js.getDateInstance(fieldValue, fieldDateFormat);
+				var fieldDateInstance = App.Fields.Date.getDateInstance(fieldValue, fieldDateFormat);
 			} catch (err) {
 				this.setError(err);
 				return false;
@@ -662,7 +662,7 @@ Vtiger_Base_Validator_Js(
 			var fieldInfo = fieldData.fieldinfo;
 			var fieldValue = this.getFieldValue();
 			try {
-				var fieldDateInstance = Vtiger_Helper_Js.getDateInstance(fieldValue, fieldDateFormat);
+				var fieldDateInstance = App.Fields.Date.getDateInstance(fieldValue, fieldDateFormat);
 			} catch (err) {
 				this.setError(err);
 				return false;
@@ -702,7 +702,7 @@ Vtiger_Base_Validator_Js(
 			var fieldInfo = fieldData.fieldinfo;
 			var fieldValue = this.getFieldValue();
 			try {
-				var fieldDateInstance = Vtiger_Helper_Js.getDateInstance(fieldValue, fieldDateFormat);
+				var fieldDateInstance = App.Fields.Date.getDateInstance(fieldValue, fieldDateFormat);
 			} catch (err) {
 				this.setError(err);
 				return false;
@@ -796,7 +796,7 @@ Vtiger_Base_Validator_Js(
 			var dateFormat = field.data('dateFormat');
 			var fieldValue = field.val();
 			try {
-				var dateTimeInstance = Vtiger_Helper_Js.getDateInstance(fieldValue, dateFormat);
+				var dateTimeInstance = App.Fields.Date.getDateInstance(fieldValue, dateFormat);
 			} catch (err) {
 				this.setError(err);
 				return false;
@@ -841,7 +841,7 @@ Vtiger_Base_Validator_Js(
 				if (dependentFieldInContext.length > 0) {
 					if (typeof dependentFieldInContext.data('dateFormat') === 'undefined' && fieldDateTime) {
 						fieldDateTime += ' ' + dependentFieldInContext.val();
-						fieldDateTimeInstance[j] = Vtiger_Helper_Js.getDateInstance(fieldDateTime, dateFormat);
+						fieldDateTimeInstance[j] = App.Fields.Date.getDateInstance(fieldDateTime, dateFormat);
 						j++;
 					} else if (typeof dependentFieldInContext.data('dateFormat') !== 'undefined') {
 						var dateFormat = dependentFieldInContext.data('dateFormat');
@@ -888,7 +888,7 @@ Vtiger_Base_Validator_Js(
 					var dateFormat = dependentFieldInContext.data('dateFormat');
 					var time = jQuery('input[name=time_start]', contextFormElem);
 					var fieldValue = dependentFieldInContext.val() + ' ' + time.val();
-					var dependentFieldDateInstance = Vtiger_Helper_Js.getDateInstance(fieldValue, dateFormat);
+					var dependentFieldDateInstance = App.Fields.Date.getDateInstance(fieldValue, dateFormat);
 					var comparedDateVal = todayDateInstance - dependentFieldDateInstance;
 					if (comparedDateVal < 0 && status == 'Held') {
 						var errorInfo =
@@ -953,7 +953,7 @@ Vtiger_Base_Validator_Js(
 			var dateFormat = field.data('dateFormat');
 			var fieldValue = field.val();
 			try {
-				var dateTimeInstance = Vtiger_Helper_Js.getDateInstance(fieldValue, dateFormat);
+				var dateTimeInstance = App.Fields.Date.getDateInstance(fieldValue, dateFormat);
 			} catch (err) {
 				this.setError(err);
 				return false;
@@ -1116,7 +1116,7 @@ Vtiger_Base_Validator_Js(
 					fieldValue = [fieldValue];
 				}
 				fieldValue.forEach((key) => {
-					Vtiger_Helper_Js.getDateInstance(key, fieldDateFormat);
+					App.Fields.Date.getDateInstance(key, fieldDateFormat);
 				});
 			} catch (err) {
 				var errorInfo = app.vtranslate('JS_PLEASE_ENTER_VALID_DATE');
@@ -1291,7 +1291,7 @@ Vtiger_greaterThanDependentField_Validator_Js(
 
 			let dateFieldValue = field.val() + ' ' + timeFieldValue,
 				dateFormat = field.data('dateFormat');
-			return Vtiger_Helper_Js.getDateInstance(dateFieldValue, dateFormat);
+			return App.Fields.Date.getDateInstance(dateFieldValue, dateFormat);
 		}
 	}
 );
@@ -1312,7 +1312,7 @@ Vtiger_Base_Validator_Js(
 			var fieldInfo = fieldData.fieldinfo;
 			var fieldValue = this.getFieldValue();
 			try {
-				var fieldDateInstance = Vtiger_Helper_Js.getDateInstance(fieldValue, fieldDateFormat);
+				var fieldDateInstance = App.Fields.Date.getDateInstance(fieldValue, fieldDateFormat);
 			} catch (err) {
 				this.setError(err);
 				return false;
