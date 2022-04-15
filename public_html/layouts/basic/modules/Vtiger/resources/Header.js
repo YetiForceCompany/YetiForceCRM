@@ -110,9 +110,7 @@ $.Class(
 		},
 		registerCalendarButtonClickEvent: function () {
 			let element = $('#calendarBtn');
-			let dateFormat = element.data('dateFormat');
 			let currentDate = element.data('date');
-			let vtigerDateFormat = app.convertToDatePickerFormat(dateFormat);
 			element.on('click', function (e) {
 				e.stopImmediatePropagation();
 				element.closest('div.nav').find('div.open').removeClass('open');
@@ -124,7 +122,7 @@ $.Class(
 				}
 			});
 			element.DatePicker({
-				format: vtigerDateFormat,
+				format: App.Fields.Date.convertToDatePickerFormat(element.data('dateFormat')),
 				date: currentDate,
 				calendars: 1,
 				starts: 1,

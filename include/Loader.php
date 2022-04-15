@@ -54,7 +54,6 @@ class Vtiger_Loader
 				$file = str_replace('.', DIRECTORY_SEPARATOR, $qualifiedName) . '.' . $fileExtension;
 			}
 		}
-
 		return $file;
 	}
 
@@ -74,7 +73,7 @@ class Vtiger_Loader
 		foreach ($layoutPaths as $layoutPath) {
 			$realPaths = [];
 			$completeFilePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . $layoutPath . self::resolveRelativePath($filePath, $fileExtension);
-			if ($checkMin) {
+			if ($checkMin && false === strpos($completeFilePath, '.min.')) {
 				$realPaths[] = substr($completeFilePath, 0, -(\strlen($fileExtension) + 1)) . ".min.{$fileExtension}";
 			}
 			$realPaths[] = $completeFilePath;

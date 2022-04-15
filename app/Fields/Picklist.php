@@ -322,10 +322,11 @@ class Picklist
 	 * Get colors for all fields or generate it if not exists.
 	 *
 	 * @param mixed $fieldName
+	 * @param bool  $numericKey
 	 *
 	 * @return array [$id=>'#FF00FF']
 	 */
-	public static function getColors($fieldName)
+	public static function getColors($fieldName, bool $numericKey = true)
 	{
 		$colors = [];
 		foreach (static::getValues($fieldName) as $id => &$value) {
@@ -335,7 +336,7 @@ class Picklist
 			} else {
 				$color = '#' . $value['color'];
 			}
-			$colors[$id] = $color;
+			$colors[$numericKey ? $id : $value[$fieldName]] = $color;
 		}
 		return $colors;
 	}
