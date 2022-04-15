@@ -19,23 +19,23 @@ class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 	public function process(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-
 		$moduleName = 'Home';
 		$page = $request->getInteger('page');
 		$linkId = $request->getInteger('linkid');
 		$sortOrder = $request->getForSql('sortorder');
-		$orderBy = $request->getForSql('orderby');
+		if (empty($sortOrder) || !\in_array($sortOrder, ['asc', 'desc'])) {
+			$sortOrder = 'asc';
+		}
+		$sortOrder = ($sortOrder === 'asc') ? SORT_ASC : SORT_DESC;
+		$orderBy = $request->getForSql('orderby') ?: ['due_date' => $sortOrder, 'time_end' => $sortOrder];
 		$data = $request->getAll();
-
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Calendar', $request->getByType('owner', 2));
-
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
-
 		$params = ['status' => Calendar_Module_Model::getComponentActivityStateLabel('overdue')];
 		if (!$request->isEmpty('activitytype') && 'all' !== $request->getByType('activitytype', 'Text')) {
 			$params['activitytype'] = $request->getByType('activitytype', 'Text');

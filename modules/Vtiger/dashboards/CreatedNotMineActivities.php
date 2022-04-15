@@ -13,27 +13,27 @@ class Vtiger_CreatedNotMineActivities_Dashboard extends Vtiger_IndexAjax_View
 	public function process(App\Request $request)
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
-
 		$moduleName = 'Home';
 		$page = $request->getInteger('page');
 		$linkId = $request->getInteger('linkid');
 		$sortOrder = $request->getForSql('sortorder');
-		$orderBy = $request->getForSql('orderby');
+		if (empty($sortOrder) || !\in_array($sortOrder, ['asc', 'desc'])) {
+			$sortOrder = 'asc';
+		}
+		$sortOrder = ($sortOrder === 'asc') ? SORT_ASC : SORT_DESC;
+		$orderBy = $request->getForSql('orderby') ?: ['date_start' => $sortOrder, 'time_start' => $sortOrder];
 		$data = $request->getAll();
-
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		if (!$request->has('owner')) {
 			$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget);
 		} else {
 			$owner = $request->getByType('owner', 2);
 		}
-
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
-
 		$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel();
 		$params = ['status' => [
 			$stateActivityLabels['not_started'],
