@@ -28,6 +28,22 @@ jQuery.Class('Vtiger_Menu_Js', {
 				}
 			});
 		if (tabsWidth < largeNav) jQuery('#commonMoreMenu').hide();
+	},
+
+	/**
+	 * Gets the number of entries according to the selected filter
+	 */
+	registerRecordsCount() {
+		$('.js-menu__content .js-count').each(function (index, element) {
+			let countEntries = $(element);
+			if (countEntries.length > 0) {
+				AppConnector.request(countEntries.parent().attr('href') + '&action=Pagination&mode=getTotalCount').done(
+					function (data) {
+						countEntries.text(JSON.parse(data).result.totalCount);
+					}
+				);
+			}
+		});
 	}
 });
 var menu = new Vtiger_Menu_Js();
@@ -36,4 +52,5 @@ jQuery(window).on('resize', () => {
 });
 jQuery(function () {
 	menu.registerMenu();
+	menu.registerRecordsCount();
 });
