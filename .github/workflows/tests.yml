@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     name: PHP 7.4 - MariaDB 10
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     name: PHP 8.0 - MariaDB 10
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     name: PHP 8.0 JIT - MariaDB 10
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     name: PHP 8.1 - MariaDB 10
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
@@ -66,7 +66,7 @@ jobs:
     runs-on: ubuntu-latest
     name: PHP 7.4 - MariaDB 10.6
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
@@ -80,7 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     name: PHP 7.4 - Percona MySQL 5.7
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
@@ -94,7 +94,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Code Coverage
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
