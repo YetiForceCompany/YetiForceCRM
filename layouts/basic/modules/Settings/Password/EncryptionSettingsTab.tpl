@@ -39,7 +39,9 @@
 			{App\Language::translate('LBL_ENCRYPTION_RUN', $QUALIFIED_MODULE)}
 		</div>
 	{/if}
-	<input type="hidden" name="lengthVectors" value="{\App\Purifier::encodeHtml(\App\Json::encode($MAP_LENGTH_VECTORS_METHODS))}">
+	{if $MAP_LENGTH_VECTORS_METHODS}
+		<input type="hidden" name="lengthVectors" value="{\App\Purifier::encodeHtml(\App\Json::encode($MAP_LENGTH_VECTORS_METHODS))}">
+	{/if}
 	<form class="formEncryption">
 		<input type="hidden" name="parent" value="Settings">
 		<input type="hidden" name="module" value="{$MODULE_NAME}">
@@ -95,7 +97,9 @@
 							<div class="col-5 px-0">
 								<div class="input-group ">
 									<input type="password" name="password" id="password" class="form-control" {' '}
+									{if $ENCRYPT->get('pass')}
 										data-validation-engine="validate[required,minSize[8],maxSize[64]]" value="{\App\Purifier::encodeHtml($ENCRYPT->get('pass'))}">
+									{/if}
 									<span class="input-group-append">
 										<button class="btn btn-outline-secondary previewPassword" type="button" data-id="password">
 											<span class="fas fa-eye"></span>
@@ -119,7 +123,7 @@
 									<input type="password" name="vector" id="vector" class="form-control" {' '}
 										{if !$ENCRYPT->isEmpty('method') && $MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')] === 0}disabled="disabled" {/if}{' '}
 										data-validation-engine="{if $ENCRYPT->isEmpty('method')}validate[required]{else}validate[required,maxSize[{$MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')]}],minSize[{$MAP_LENGTH_VECTORS_METHODS[$ENCRYPT->get('method')]}]]{/if}" {' '}
-										value="{\App\Purifier::encodeHtml($ENCRYPT->get('vector'))}">
+										{if $ENCRYPT->get('vector')} value="{\App\Purifier::encodeHtml($ENCRYPT->get('vector'))}">{/if}
 									<span class="input-group-append">
 										<button class="btn btn-outline-secondary previewPassword" type="button" data-id="vector">
 											<span class="fas fa-eye"></span>
