@@ -1,7 +1,7 @@
 <?php
 
 /**
- * MultiCompany test class.
+ * MultiCompany test file.
  *
  * @package   Tests
  *
@@ -12,6 +12,9 @@
 
 namespace Tests\Base;
 
+/**
+ * Class testing creating and setting roles and privileges for MultiCompany records.
+ */
 class J_MultiCompany extends \Tests\Base
 {
 	/**
