@@ -194,6 +194,9 @@ window.Calendar_Js = class {
 				return App.Fields.Date.dateToUserFormat(zonedDate);
 			},
 			dayHeaderContent: (arg) => {
+				if (this.container.width() < 600) {
+					return App.Fields.Date.daysTranslated[arg.date.getDay()];
+				}
 				return App.Fields.Date.fullDaysTranslated[arg.date.getDay()];
 			}
 		};
