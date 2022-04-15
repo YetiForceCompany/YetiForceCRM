@@ -18,7 +18,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (null === $value) {
-			return $value;
+			return '';
 		}
 		$value = str_replace(self::COMMA, ', ', $value);
 		$value = substr($value, 1);
