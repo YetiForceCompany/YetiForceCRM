@@ -87,22 +87,6 @@ class Home_Module_Model extends Vtiger_Module_Model
 		if (!$user) {
 			$user = \App\User::getCurrentUserId();
 		}
-
-		$orderBy = $pagingModel->getForSql('orderby');
-		$sortOrder = $pagingModel->getForSql('sortorder');
-
-		if (empty($sortOrder) || !\in_array(strtolower($sortOrder), ['asc', 'desc'])) {
-			$sortOrder = 'ASC';
-		}
-		if (empty($orderBy)) {
-			if (\in_array($mode, ['upcoming', 'createdByMeButNotMine'])) {
-				$orderBy = "date_start $sortOrder, time_start $sortOrder";
-			} else {
-				$orderBy = "due_date $sortOrder, time_end $sortOrder";
-			}
-		} else {
-			$orderBy .= ' ' . $sortOrder;
-		}
 		$query->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.setype', 'vtiger_activity.*'])
 			->from('vtiger_activity')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
@@ -128,10 +112,9 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$query->andWhere(['or', ['vtiger_crmentity.smownerid' => $userAndGroups], ['vtiger_crmentity.crmid' => $subQuery]]);
 		}
 
-		$query->orderBy($orderBy)
+		$query->orderBy($pagingModel->get('orderby'))
 			->limit($pagingModel->getPageLimit() + 1)
 			->offset($pagingModel->getStartIndex());
-
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');

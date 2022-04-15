@@ -22,31 +22,31 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$moduleName = 'Home';
 		$data = $request->getAll();
-
 		$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel();
-
 		$page = $request->getInteger('page');
 		$linkId = $request->getInteger('linkid');
 		$sortOrder = $request->getForSql('sortorder');
-		$orderBy = $request->getForSql('orderby');
-
-		$params = ['status' => [
-			$stateActivityLabels['not_started'],
-			$stateActivityLabels['in_realization'],
-		],
+		if (empty($sortOrder) || !\in_array($sortOrder, ['asc', 'desc'])) {
+			$sortOrder = 'asc';
+		}
+		$sortOrder = ($sortOrder === 'asc') ? SORT_ASC : SORT_DESC;
+		$orderBy = $request->getForSql('orderby') ?: ['date_start' => $sortOrder, 'time_start' => $sortOrder];
+		$params = [
+			'status' => [
+				$stateActivityLabels['not_started'],
+				$stateActivityLabels['in_realization'],
+			],
 		];
 		if (!$request->isEmpty('activitytype') && 'all' !== $request->getByType('activitytype', 'Text')) {
 			$params['activitytype'] = $request->getByType('activitytype', 'Text');
 		}
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Calendar', $request->getByType('owner', 2));
-
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
 		$pagingModel->set('limit', (int) $widget->get('limit'));
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
-
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$calendarActivities = (false === $owner) ? [] : $moduleModel->getCalendarActivities('upcoming', $pagingModel, $owner, false, $params);
 		$msgLabel = 'LBL_NO_SCHEDULED_ACTIVITIES';
