@@ -1,7 +1,7 @@
 <?php
 
 /**
- * MultiCompany test class.
+ * MultiCompany test file.
  *
  * @package   Tests
  *
@@ -12,6 +12,9 @@
 
 namespace Tests\Base;
 
+/**
+ * Class testing creating and setting roles and privileges for MultiCompany records.
+ */
 class J_MultiCompany extends \Tests\Base
 {
 	/**
@@ -31,35 +34,27 @@ class J_MultiCompany extends \Tests\Base
 	/**
 	 * Creating MultiCompany module record for tests.
 	 *
-	 * @param bool $cache
-	 *
 	 * @return \Vtiger_Record_Model
 	 */
-	public static function createMultiCompanyRecord(bool $cache = true): \Vtiger_Record_Model
+	public static function createMultiCompanyRecord(): \Vtiger_Record_Model
 	{
-		if (self::$recordMultiCompany && $cache) {
-			return self::$recordMultiCompany;
-		}
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('MultiCompany');
 		$recordModel->set('company_name', 'TestMulti sp. z o.o.');
 		$recordModel->set('companyid1', '23123214141412');
 		$recordModel->set('email1', 'mail@testowy.pl');
 		$recordModel->set('assigned_user_id', \App\User::getCurrentUserId());
 		$recordModel->save();
-		if ($cache) {
-			self::$recordMultiCompany = $recordModel;
-		}
+		self::$recordMultiCompany = $recordModel;
+
 		return $recordModel;
 	}
 
 	/**
 	 * Creating new role for test.
 	 *
-	 * @param bool $cache
-	 *
 	 * @return \Settings_Roles_Record_Model
 	 */
-	public static function createRole(bool $cache = true): \Settings_Roles_Record_Model
+	public static function createRole(): \Settings_Roles_Record_Model
 	{
 		$recordModel = new \Settings_Roles_Record_Model();
 		$parentRoleId = 'H1';
@@ -81,9 +76,7 @@ class J_MultiCompany extends \Tests\Base
 		$recordModel->set('rolename', 'TestMultiSelect');
 		$parentRole->addChildRole($recordModel);
 
-		if ($cache) {
-			self::$role = $recordModel;
-		}
+		self::$role = $recordModel;
 
 		return $recordModel;
 	}
