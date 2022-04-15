@@ -49,7 +49,7 @@
 						{/if}
 						<div class="col-sm">
 							<div class="form-row border-right align-items-start js-field-block-column{if $FIELD_MODEL->get('hideField')} d-none{/if}" data-field="{$FIELD_MODEL->getFieldName()}" data-js="container">
-								<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel__label {if ($FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300') && empty($DETAILS_WIDTH)}  col-lg-3 {elseif !empty($DETAILS_WIDTH)} {$DETAILS_WIDTH} {else} col-lg-6 {/if} {$WIDTHTYPE} " id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
+								<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel__label {if ($FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300') && empty($DETAILS_WIDTH)}  col-lg-3 {elseif !empty($DETAILS_WIDTH)} {$DETAILS_WIDTH} {else} col-lg-6 {/if} {$WIDTHTYPE} text-right" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 									{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
 									<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} u-text-small-bold {if !empty($DETAILS_WIDTH) && ($DETAILS_WIDTH eq 'col-md-12')} mr-auto pl-2 {/if}">
 										{assign var=ICON value=$FIELD_MODEL->getIcon('Detail')}
