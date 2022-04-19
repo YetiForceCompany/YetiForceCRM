@@ -93,6 +93,9 @@ $h-calendar-form-actions: calculate-rem(49px);
 	.siteBarRight {
 		width: auto !important;
 	}
+	.hideSiteBar {
+		right: 0 !important;
+	}
 }
 
 .hideSiteBar {
