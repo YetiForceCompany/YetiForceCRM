@@ -302,10 +302,10 @@ footable@^2.0.6:
   dependencies:
     jquery ">=1.4.4"
 
-fullcalendar@3.10.3:
-  version "3.10.3"
-  resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-3.10.3.tgz#b96c335b6fd4d76147783500418ae32aca771930"
-  integrity sha512-fZiDIIkhZ7fwTYfWYHzzCmS2zPKK8VMMG/MZzuvr7ANjajmptsxcwa9xLHZP5mKMDO8duhFkVfPATKnnQeGdgQ==
+fullcalendar@^5:
+  version "5.11.0"
+  resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-5.11.0.tgz#ad22a10fbf821940a1aa10d8670700bf0e1548d8"
+  integrity sha512-R3yQMKJtP6jWZ3o9fNB0WUOl6Oi+vus3ciLtt3eva7ISutkMm6nE4lA+xhfTS3OIevxVQOv0O646R6G8o7sMXA==
 
 gantt-elastic@^1.0.12:
   version "1.0.12"
@@ -424,10 +424,10 @@ leaflet@^1.5.1:
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.7.1.tgz#10d684916edfe1bf41d688a3b97127c0322a2a19"
   integrity sha512-/xwPEBidtg69Q3HlqPdU3DnrXQOvQU/CCHA1tcDQVzOwm91YMYaILjNp7L4Eaw5Z4sOYdbBz6koWyibppd8Zqw==
 
-moment@^2.10.2, moment@^2.23.0, moment@^2.9.0:
-  version "2.29.2"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.2.tgz#00910c60b20843bcba52d37d58c628b47b1f20e4"
-  integrity sha512-UgzG4rvxYpN15jgCmVJwac49h9ly9NurikMWGPdVxm8GZD6XjkKPxDTjQQ43gtGgnV3X0cAyWDdP2Wexoquifg==
+moment@^2.10.2, moment@^2.29.3, moment@^2.9.0:
+  version "2.29.3"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.3.tgz#edd47411c322413999f7a5940d526de183c031f3"
+  integrity sha512-c6YRvhEo//6T2Jz/vVtYzqBzwvPT95JBQ+smCytzf7c50oMZRsR/a4w88aD34I+/QVSfnoAnSBFPJHItlOMJVw==
 
 mousetrap@^1.6.3:
   version "1.6.5"
