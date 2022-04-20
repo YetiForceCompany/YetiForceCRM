@@ -20,6 +20,9 @@ $h-calendar-form-actions: calculate-rem(49px);
 
 .o-calendar__container {
 	@extend .pt-2;
+	.fc-header-toolbar.fc-toolbar {
+		overflow: unset !important;
+	}
 }
 
 .o-label-container {
