@@ -143,7 +143,7 @@ class Calendar_Calendar_Action extends Vtiger_BasicAjax_Action
 		$result = [];
 		foreach ($request->getArray('dates', 'Date') as $datePair) {
 			$record->set('start', $datePair[0] . ' 00:00:00');
-			$record->set('end', $datePair[1] . ' 00:00:00');
+			$record->set('end', $datePair[1] . ' 23:59:59');
 			$result[] = $record->getEntityRecordsCount();
 		}
 		$response = new Vtiger_Response();
