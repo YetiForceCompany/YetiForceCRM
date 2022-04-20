@@ -1744,7 +1744,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function getOperatorTemplateName(string $operator)
 	{
-		if (\in_array($operator, array_merge(\App\Condition::OPERATORS_WITHOUT_VALUES, array_keys(App\Condition::DATE_OPERATORS)))) {
+		if (\in_array($operator, App\Condition::OPERATORS_WITHOUT_VALUES)) {
 			return;
 		}
 		if (\in_array($operator, \App\Condition::FIELD_COMPARISON_OPERATORS)) {
