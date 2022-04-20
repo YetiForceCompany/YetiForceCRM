@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0758ac34b38ce1da144b0242c5a9aae0",
+    "content-hash": "09564ae72ca66077b073c2d2a00f75d6",
     "packages": [
         {
             "name": "adhocore/jwt",
@@ -617,16 +617,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.12.46",
+            "version": "8.12.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "d0a5e2637b650db38e0cce9b85897df1b9809984"
+                "reference": "e931ce8e68b6ca45a30743181fbdf0b24c1b611e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/d0a5e2637b650db38e0cce9b85897df1b9809984",
-                "reference": "d0a5e2637b650db38e0cce9b85897df1b9809984",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/e931ce8e68b6ca45a30743181fbdf0b24c1b611e",
+                "reference": "e931ce8e68b6ca45a30743181fbdf0b24c1b611e",
                 "shasum": ""
             },
             "require": {
@@ -686,20 +686,20 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2022-03-31T08:27:57+00:00"
+            "time": "2022-04-19T12:45:49+00:00"
         },
         {
             "name": "giggsey/locale",
-            "version": "2.1",
+            "version": "2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/Locale.git",
-                "reference": "8d324583b5899e6280a875c43bf1fc9658bc6962"
+                "reference": "9c1dca769253f6a3e81f9a5c167f53b6a54ab635"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/Locale/zipball/8d324583b5899e6280a875c43bf1fc9658bc6962",
-                "reference": "8d324583b5899e6280a875c43bf1fc9658bc6962",
+                "url": "https://api.github.com/repos/giggsey/Locale/zipball/9c1dca769253f6a3e81f9a5c167f53b6a54ab635",
+                "reference": "9c1dca769253f6a3e81f9a5c167f53b6a54ab635",
                 "shasum": ""
             },
             "require": {
@@ -738,9 +738,9 @@
             "description": "Locale functions required by libphonenumber-for-php",
             "support": {
                 "issues": "https://github.com/giggsey/Locale/issues",
-                "source": "https://github.com/giggsey/Locale/tree/2.1"
+                "source": "https://github.com/giggsey/Locale/tree/2.2"
             },
-            "time": "2021-11-04T19:12:22+00:00"
+            "time": "2022-04-06T07:33:59+00:00"
         },
         {
             "name": "globalcitizen/php-iban",
