@@ -36,11 +36,11 @@ class Json
 	 */
 	public static function decode($encodedValue, $objectDecodeType = self::TYPE_ARRAY)
 	{
-		if (null !== $encodedValue && \function_exists('json_decode')) {
-			return json_decode($encodedValue, $objectDecodeType);
-		}
 		if (null === $encodedValue) {
 			return '';
+		}
+		if (\function_exists('json_decode')) {
+			return json_decode($encodedValue, $objectDecodeType);
 		}
 		throw new \App\Exceptions\AppException('ERR_NO_JSON_DECODE');
 	}
