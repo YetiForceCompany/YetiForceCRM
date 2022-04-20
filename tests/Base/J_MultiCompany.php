@@ -131,6 +131,35 @@ class J_MultiCompany extends \Tests\Base
 	}
 
 	/**
+	 * Testing Reloaded by MultiCompany by image loading
+	 *
+	 * @return void
+	 */
+	public function testReloadByMultiCompany(): void
+	{
+		$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'multiCompanyTest.png';
+		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$recordMultiCompany->getId());
+		$fileObj = \App\Fields\File::loadFromPath($filePath);
+		$hash = $fileObj->generateHash(true, $filePath);
+		$attach[] = [
+			'name' => 'multiCompanyTest.png',
+			'size' => $fileObj->getSize(),
+			'key' => $hash,
+			'path' => $fileObj->getPath(),
+		];
+
+		$recordModel->set('logo', \App\Json::encode($attach));
+		$recordModel->save();
+
+		$fieldModel = $recordModel->getField('logo');
+		$data = \App\Json::decode(\App\Purifier::decodeHtml($fieldModel->getUITypeModel()->getDisplayValueEncoded($recordModel->get('logo'), $recordModel->getId(), $fieldModel->getFieldInfo())));
+
+		$this->assertSame('multiCompanyTest.png', $data[0]['name']);
+		$this->assertSame($fileObj->getSize(), $data[0]['size']);
+		$this->assertSame($hash, $data[0]['key']);
+	}
+
+	/**
 	 * Cleaning after tests
 	 *
 	 * @return void
