@@ -95,7 +95,7 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 		$result = [];
 		foreach ($request->getArray('dates', 'Date') as $datePair) {
 			$record->set('start', $datePair[0] . ' 00:00:00');
-			$record->set('end', $datePair[1] . ' 00:00:00');
+			$record->set('end', $datePair[1] . ' 23:59:59');
 			$result[] = $record->getEntityRecordsCount();
 		}
 		$response = new Vtiger_Response();
