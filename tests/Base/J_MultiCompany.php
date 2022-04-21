@@ -12,11 +12,20 @@
 
 namespace Tests\Base;
 
+use Exception;
+
 /**
  * Class testing creating and setting roles and privileges for MultiCompany records.
  */
 class J_MultiCompany extends \Tests\Base
 {
+	/**
+	 * Temporary User record object
+	 *
+	 * @var \Vtiger_Record_Model
+	 */
+	protected static $user;
+
 	/**
 	 * Temporary MultiCompany record object.
 	 *
@@ -30,6 +39,32 @@ class J_MultiCompany extends \Tests\Base
 	 * @var \Settings_Roles_Record_Model
 	 */
 	protected static $role;
+
+	/**
+	 * Creating User module for tests.
+	 *
+	 * @throws Exception
+	 *
+	 * @return \Vtiger_Record_Model
+	 */
+	public static function createUser(): \Vtiger_Record_Model
+	{
+		$recordModel = \Vtiger_Record_Model::getCleanInstance('Users');
+		if (self::$role) {
+			$recordModel->set('user_name', 'TestMultiCompany');
+			$recordModel->set('email1', "s.rembiesa@yetiforce.com");
+			$recordModel->set('first_name', 'Test');
+			$recordModel->set('last_name', 'MultiCompany');
+			$recordModel->set('user_password', 'Demo12345678T');
+			$recordModel->set('confirm_password', 'Demo12345678T');
+			$recordModel->set('roleid', self::$role->getId());
+			$recordModel->set('is_admin', 'on');
+			$recordModel->save();
+			self::$user = $recordModel;
+			return $recordModel;
+		}
+		throw new Exception('First setup role.');
+	}
 
 	/**
 	 * Creating MultiCompany module record for tests.
@@ -116,6 +151,18 @@ class J_MultiCompany extends \Tests\Base
 	}
 
 	/**
+	 * Test creating user.
+	 *
+	 * @return void
+	 */
+	public function testCreateUser(): void
+	{
+		$user = self::createUser();
+		$this->assertIsInt($user->getId());
+		$this->assertInstanceOf(\Vtiger_Record_Model::class, $user);
+	}
+
+	/**
 	 * Testing not privilege to delete.
 	 *
 	 * @return void
@@ -137,15 +184,16 @@ class J_MultiCompany extends \Tests\Base
 	 */
 	public function testReloadByMultiCompany(): void
 	{
-		$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'multiCompanyTest.png';
-		$recordModel = \Vtiger_Record_Model::getInstanceById(self::$recordMultiCompany->getId());
+		$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'MultiImage' . DIRECTORY_SEPARATOR . '0.jpg';
+		$recordModel = self::$recordMultiCompany;
 		$fileObj = \App\Fields\File::loadFromPath($filePath);
 		$hash = $fileObj->generateHash(true, $filePath);
 		$attach[] = [
-			'name' => 'multiCompanyTest.png',
+			'name' => '0.jpg',
 			'size' => $fileObj->getSize(),
 			'key' => $hash,
 			'path' => $fileObj->getPath(),
+			'type' => $fileObj->getMimeType()
 		];
 
 		$recordModel->set('logo', \App\Json::encode($attach));
@@ -154,7 +202,7 @@ class J_MultiCompany extends \Tests\Base
 		$fieldModel = $recordModel->getField('logo');
 		$data = \App\Json::decode(\App\Purifier::decodeHtml($fieldModel->getUITypeModel()->getDisplayValueEncoded($recordModel->get('logo'), $recordModel->getId(), $fieldModel->getFieldInfo())));
 
-		$this->assertSame('multiCompanyTest.png', $data[0]['name']);
+		$this->assertSame('0.jpg', $data[0]['name']);
 		$this->assertSame($fileObj->getSize(), $data[0]['size']);
 		$this->assertSame($hash, $data[0]['key']);
 	}
@@ -166,7 +214,8 @@ class J_MultiCompany extends \Tests\Base
 	 */
 	public static function tearDownAfterClass(): void
 	{
-		self::$recordMultiCompany->delete();
+		//self::$recordMultiCompany->delete();
 		self::$role->delete(\Settings_Roles_Record_Model::getInstanceById('H1'));
+		\Users_Record_Model::deleteUserPermanently(self::$user->getId(), \Users_Record_Model::getCurrentUserModel()->getId());
 	}
 }
