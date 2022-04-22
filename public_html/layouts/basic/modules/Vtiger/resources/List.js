@@ -297,35 +297,38 @@ $.Class(
 				});
 		},
 		triggerMassEdit: function (massEditUrl) {
-			let selectedCount = this.getSelectedRecordCount();
-			if (selectedCount > $('#listMaxEntriesMassEdit').val()) {
-				let params = {
-					title: app.vtranslate('JS_MESSAGE'),
-					text: app.vtranslate('JS_MASS_EDIT_LIMIT'),
-					type: 'error'
-				};
-				app.showNotify(params);
-				return;
+			let listInstance = Vtiger_List_Js.getInstance();
+			if (listInstance.checkListRecordSelected() !== true) {
+				let selectedCount = this.getSelectedRecordCount();
+				if (selectedCount > $('#listMaxEntriesMassEdit').val()) {
+					let params = {
+						title: app.vtranslate('JS_MESSAGE'),
+						text: app.vtranslate('JS_MASS_EDIT_LIMIT'),
+						type: 'error'
+					};
+					app.showNotify(params);
+					return;
+				}
+				Vtiger_List_Js.triggerMassAction(
+					massEditUrl,
+					function (container) {
+						app.event.trigger('MassEditModal.AfterLoad', container, massEditUrl);
+						let massEditForm = container.find('#massEdit');
+						massEditForm.validationEngine(app.validationEngineOptions);
+						listInstance.registerEventForTabClick(massEditForm);
+						let editInstance = Vtiger_Edit_Js.getInstance();
+						editInstance.registerBasicEvents(massEditForm);
+						listInstance.postMassEdit(container);
+						listInstance.registerSlimScrollMassEdit();
+						if ($('#massEditContainer').length) {
+							listInstance.inactiveFieldsValidation($('#massEditContainer').find('form'));
+						}
+					},
+					{ width: '65%' }
+				);
+			} else {
+				listInstance.noRecordSelectedAlert();
 			}
-			Vtiger_List_Js.triggerMassAction(
-				massEditUrl,
-				function (container) {
-					app.event.trigger('MassEditModal.AfterLoad', container, massEditUrl);
-					let massEditForm = container.find('#massEdit');
-					massEditForm.validationEngine(app.validationEngineOptions);
-					let listInstance = Vtiger_List_Js.getInstance();
-					listInstance.registerEventForTabClick(massEditForm);
-					let editInstance = Vtiger_Edit_Js.getInstance();
-					editInstance.registerBasicEvents(massEditForm);
-					listInstance.postMassEdit(container);
-					listInstance.registerSlimScrollMassEdit();
-
-					if ($('#massEditContainer').length) {
-						listInstance.inactiveFieldsValidation($('#massEditContainer').find('form'));
-					}
-				},
-				{ width: '65%' }
-			);
 		},
 		getSelectedRecordCount: function () {
 			let count;
