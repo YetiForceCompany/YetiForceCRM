@@ -23,8 +23,8 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 	private function getAccounts($moduleName, $user, Vtiger_Paging_Model $pagingModel)
 	{
 		$queryGenerator = new App\QueryGenerator($moduleName);
-		$queryGenerator->setFields(['id', 'accountname', 'assigned_user_id']);
-		$queryGenerator->setCustomColumn('vtiger_entity_stats.crmactivity');
+		$queryGenerator->setFields(['id', 'accountname', 'assigned_user_id', 'crmactivity']);
+		// $queryGenerator->setCustomColumn('vtiger_entity_stats.crmactivity');
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_entity_stats', 'vtiger_entity_stats.crmid = vtiger_account.accountid']);
 		$queryGenerator->addNativeCondition(['or', ['<=', 'vtiger_entity_stats.crmactivity', 0], ['vtiger_entity_stats.crmactivity' => null]]);
 		$queryGenerator->addCondition('assigned_user_id', $user, 'e');
@@ -34,11 +34,7 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 			->addOrderBy(['vtiger_entity_stats.crmactivity' => SORT_ASC])->createCommand()->query();
 		$accounts = [];
 		while ($row = $dataReader->read()) {
-			if (false !== strpos($row['accountname'], '|##|')) {
-				$row['accountname'] = implode(" ", explode('|##|', $row['accountname']));
-			}
-			$row['owner'] = App\Fields\Owner::getLabel($row['assigned_user_id']);
-			$accounts[$row['id']] = $row;
+			$accounts[$row['id']] = \Vtiger_Module_Model::getInstance($moduleName)->getRecordFromArray($row);
 		}
 		$dataReader->close();
 		$this->conditions = [
