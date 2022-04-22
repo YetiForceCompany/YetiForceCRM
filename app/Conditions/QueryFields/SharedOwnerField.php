@@ -77,6 +77,25 @@ class SharedOwnerField extends BaseField
 	}
 
 	/**
+	 * Users who belong to the same group as the currently logged in user.
+	 *
+	 * @return array
+	 */
+	public function operatorOgrU(): array
+	{
+		$groups = \App\Fields\Owner::getInstance($this->getModuleName())->getGroups(false, 'private');
+		if ($groups) {
+			$condition = ['or'];
+			foreach (array_keys($groups)  as $idGroup) {
+				$condition[] = [$this->getColumnName() =>  (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['u_#__crmentity_showners.userid' => (new \App\Db\Query())->select(['userid'])->from(["condition_groups_{$idGroup}_" . \App\Layout::getUniqueId() => \App\PrivilegeUtil::getQueryToUsersByGroup((int) $idGroup)])])];
+			}
+		} else {
+			$condition = [$this->getColumnName() => (new \yii\db\Expression('0=1'))];
+		}
+		return $condition;
+	}
+
+	/**
 	 * Contains operator.
 	 *
 	 * @return array

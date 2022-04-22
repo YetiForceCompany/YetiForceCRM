@@ -895,6 +895,7 @@
     "LBL_PAGES_HISTORY": "Recently viewed pages",
     "LBL_CURRENTLY_LOGGED_USER": "Currently logged in user",
     "LBL_CURRENTLY_LOGGED_USER_GROUP": "Group of logged in user",
+    "LBL_USERS_BELONG_SAME_GROUP_LOGGED_USER": "Users who belong to the same group as the logged in user",
     "LBL_IS_WATCHING_RECORD": "Tracked record",
     "LBL_IS_NOT_WATCHING_RECORD": "Not tracked record",
     "LBL_TO_REALIZE": "For processing",
