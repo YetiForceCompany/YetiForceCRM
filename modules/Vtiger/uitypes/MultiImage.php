@@ -415,7 +415,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 					'size' => $file->getSize(),
 					'path' => $file->getPath(),
 					'key' => $key,
-					'type' => $file->getMimeType()
+					'type' => $file->getMimeType(),
 				];
 				$this->validate([$tempValue]);
 
@@ -439,5 +439,56 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 			}
 		}
 		return $attach;
+	}
+
+	/** {@inheritdoc} */
+	public function getTilesDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
+	{
+		$value = \App\Json::decode($value);
+		if (!$value) {
+			return '';
+		}
+		if (!$record && $recordModel) {
+			$record = $recordModel->getId();
+		}
+		$result = '<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+		<div class="carousel-inner">';
+		if ($rawText || !$record) {
+			$result = '';
+			if (!\is_array($value)) {
+				$result .= '</div></div>';
+				return $result;
+			}
+			$len = \count($value);
+			for ($i = 0; $i < $len; ++$i) {
+				$val = $value[$i];
+				$result .= $val['name'] . ', ';
+			}
+			return \App\Purifier::encodeHtml(trim($result, "\n\t ,"));
+		}
+
+		if (!\is_array($value)) {
+			$result .= '</div></div>';
+			return $result;
+		}
+
+		foreach ($value as $itemNumber => $item) {
+			if ($record) {
+				$active = 0 === $itemNumber ? 'active' : '';
+				$result .= '    <div class="carousel-item ' . $active . '">
+				<img class="d-block w-100 carousel-image" src="' . $this->getImageUrl($item['key'], $record) . '" alt="First slide">
+			  </div>';
+			} else {
+				$result .= \App\Purifier::encodeHtml($item['name']) . ', ';
+			}
+		}
+		return $result . '  </div> <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		<span class="sr-only">Previous</span>
+	  </a>
+	  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+		<span class="sr-only">Next</span>
+	  </a></div>';
 	}
 }

@@ -1193,6 +1193,7 @@ $.Class(
 		 * Function to register the event for changing the custom Filter
 		 */
 		registerChangeCustomFilterEvent: function (event) {
+			const thisInstance = this;
 			let target = $(event.currentTarget);
 			let selectOption = '';
 			let selectOptionId = '';
@@ -1238,6 +1239,11 @@ $.Class(
 				this.breadCrumbsFilter(selectOption.text());
 				this.ListViewPostOperation();
 				this.updatePagination(1);
+				if ('Tiles' === app.getViewName()) {
+					const tileInstance = new Vtiger_Tiles_Js();
+					tileInstance.contentContainer = thisInstance.getListViewContainer();
+					tileInstance.setHeightOfTiles();
+				}
 			});
 			event.stopPropagation();
 		},
