@@ -34,6 +34,9 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 			->addOrderBy(['vtiger_entity_stats.crmactivity' => SORT_ASC])->createCommand()->query();
 		$accounts = [];
 		while ($row = $dataReader->read()) {
+			if (false !== strpos($row['accountname'], '|##|')) {
+				$row['accountname'] = implode(" ", explode('|##|', $row['accountname']));
+			}
 			$row['owner'] = App\Fields\Owner::getLabel($row['assigned_user_id']);
 			$accounts[$row['id']] = $row;
 		}
