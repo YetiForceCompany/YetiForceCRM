@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  *************************************************************************************/
 'use strict';
 
@@ -44,13 +45,18 @@ var Settings_Picklist_Js = {
 
 	registerModulePickListChangeEvent: function () {
 		jQuery('#modulePickList').on('change', function (e) {
+			let picklistId = $(e.currentTarget).val();
+			if (!picklistId) {
+				$('#modulePickListValuesContainer').html('');
+				return false;
+			}
 			var params = {
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
 				source_module: jQuery('#pickListModules').val(),
 				view: 'IndexAjax',
 				mode: 'getPickListValueForField',
-				pickListFieldId: jQuery(e.currentTarget).val()
+				pickListFieldId: picklistId
 			};
 			var progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
