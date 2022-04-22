@@ -20,20 +20,20 @@
 				<div class="col-4 u-text-ellipsis">
 					{if \App\Privilege::isPermitted($MODULE_NAME, 'DetailView', $RECORD_ID)}
 						<a href="index.php?module=Accounts&view=Detail&record={$RECORD_ID}">
-							<b>{\App\Purifier::encodeHtml($ACCOUNTS_MODEL['accountname'])}</b>
+							<b>{$ACCOUNTS_MODEL->getDisplayValue('accountname')}</b>
 						</a>
 					{else}
-						{\App\Purifier::encodeHtml($ACCOUNTS_MODEL['accountname'])}
+						{$ACCOUNTS_MODEL->getDisplayValue('accountname')}
 					{/if}
 				</div>
 				<div class="col-4 u-text-ellipsis">
-					{$ACCOUNTS_MODEL['owner']}
+					{$ACCOUNTS_MODEL->getDisplayValue('assigned_user_id')}
 				</div>
 				<div class="col-4 u-text-ellipsis">
-					{if is_null($ACCOUNTS_MODEL['crmactivity'])}
+					{if is_null($ACCOUNTS_MODEL->get('crmactivity'))}
 						-
 					{else}
-						{$ACCOUNTS_MODEL['crmactivity']}
+						{$ACCOUNTS_MODEL->getDisplayValue('crmactivity')}
 					{/if}
 				</div>
 			</div>
