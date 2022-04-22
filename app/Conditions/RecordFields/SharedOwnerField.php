@@ -18,19 +18,20 @@ class SharedOwnerField extends BaseField
 	 *
 	 * @return bool
 	 */
-	public function operatorOgrU(): bool
+	public function operatorOgu(): bool
 	{
 		$result = false;
-		$groups = \App\Fields\Owner::getInstance($this->recordModel->getModuleName())->getGroups(false, 'private');
-		$usersByGroup = [];
+		$groups = \App\User::getCurrentUserModel()->getGroups();
+		$usersByGroups = [];
 		if ($groups) {
-			foreach (array_keys($groups)  as $idGroup) {
-				$usersByGroup = (new \App\Db\Query())->select(['userid'])->from(["condition_groups_{$idGroup}_" . \App\Layout::getUniqueId() => \App\PrivilegeUtil::getQueryToUsersByGroup((int) $idGroup)])->column();
+			foreach ($groups as $groupId) {
+				$usersByGroups[] = (new \App\Db\Query())->select(['userid'])->from(["condition_groups_{$groupId}_" . \App\Layout::getUniqueId() => \App\PrivilegeUtil::getQueryToUsersByGroup((int) $groupId)])->column();
 			}
-		}
-		foreach (explode(',', $this->getValue()) as $userValue) {
-			if (in_array($userValue, $usersByGroup)) {
-				$result = true;
+			foreach ($usersByGroups as $usersByGroup) {
+				if (array_intersect(explode(',', $this->getValue()), $usersByGroup)) {
+					$result = true;
+					break;
+				}
 			}
 		}
 		return $result;

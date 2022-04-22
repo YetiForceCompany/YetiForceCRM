@@ -87,7 +87,7 @@ class Condition
 		'om' => 'LBL_CURRENTLY_LOGGED_USER',
 		'nom' => 'LBL_USER_CURRENTLY_NOT_LOGGED',
 		'ogr' => 'LBL_CURRENTLY_LOGGED_USER_GROUP',
-		'ogru' => 'LBL_USERS_BELONG_SAME_GROUP_LOGGED_USER',
+		'ogu' => 'LBL_USERS_GROUP_LOGGED_IN_USER',
 		'wr' => 'LBL_IS_WATCHING_RECORD',
 		'nwr' => 'LBL_IS_NOT_WATCHING_RECORD',
 		'hs' => 'LBL_HAS_CHANGED',
@@ -107,7 +107,7 @@ class Condition
 	 * @var string[] Operators without values.
 	 */
 	const OPERATORS_WITHOUT_VALUES = [
-		'y', 'ny', 'om', 'nom', 'ogr', 'wr', 'nwr', 'hs', 'ro', 'rc', 'nco', 'ogru',
+		'y', 'ny', 'om', 'nom', 'ogr', 'wr', 'nwr', 'hs', 'ro', 'rc', 'nco', 'ogu',
 		'smallerthannow',
 		'greaterthannow',
 		'prevfy',

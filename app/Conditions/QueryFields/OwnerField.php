@@ -104,12 +104,12 @@ class OwnerField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorOgrU(): array
+	public function operatorOgu(): array
 	{
 		$groups = \App\Fields\Owner::getInstance($this->getModuleName())->getGroups(false, 'private');
 		if ($groups) {
 			$condition = ['or'];
-			foreach (array_keys(\App\Fields\Owner::getInstance($this->getModuleName())->getGroups(false, 'private'))  as $idGroup) {
+			foreach (array_keys($groups)  as $idGroup) {
 				$condition[] = [$this->getColumnName() => (new \App\Db\Query())->select(['userid'])->from(["condition_groups_{$idGroup}_" . \App\Layout::getUniqueId() => \App\PrivilegeUtil::getQueryToUsersByGroup((int) $idGroup)])];
 			}
 		} else {

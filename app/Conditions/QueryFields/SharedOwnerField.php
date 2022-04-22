@@ -81,13 +81,14 @@ class SharedOwnerField extends BaseField
 	 *
 	 * @return array
 	 */
-	public function operatorOgrU(): array
+	public function operatorOgu(): array
 	{
 		$groups = \App\Fields\Owner::getInstance($this->getModuleName())->getGroups(false, 'private');
 		if ($groups) {
 			$condition = ['or'];
-			foreach (array_keys($groups)  as $idGroup) {
-				$condition[] = [$this->getColumnName() =>  (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->where(['u_#__crmentity_showners.userid' => (new \App\Db\Query())->select(['userid'])->from(["condition_groups_{$idGroup}_" . \App\Layout::getUniqueId() => \App\PrivilegeUtil::getQueryToUsersByGroup((int) $idGroup)])])];
+			$query = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners');
+			foreach (array_keys($groups) as $groupId) {
+				$condition[] = [$this->getColumnName() => $query->where(['u_#__crmentity_showners.userid' => (new \App\Db\Query())->select(['userid'])->from(["condition_groups_{$groupId}_" . \App\Layout::getUniqueId() => \App\PrivilegeUtil::getQueryToUsersByGroup((int) $groupId)])])];
 			}
 		} else {
 			$condition = [$this->getColumnName() => (new \yii\db\Expression('0=1'))];

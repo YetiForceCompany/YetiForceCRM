@@ -28,16 +28,19 @@ class OwnerField extends BaseField
 	 *
 	 * @return bool
 	 */
-	public function operatorOgrU(): bool
+	public function operatorOgu(): bool
 	{
+		$result = false;
 		$groups = \App\Fields\Owner::getInstance($this->recordModel->getModuleName())->getGroups(false, 'private');
-		$usersByGroup = [];
 		if ($groups) {
-			foreach (array_keys($groups)  as $idGroup) {
-				$usersByGroup =  (new \App\Db\Query())->select(['userid'])->from(["condition_groups_{$idGroup}_" . \App\Layout::getUniqueId() => \App\PrivilegeUtil::getQueryToUsersByGroup((int) $idGroup)])->column();
+			foreach (array_keys($groups) as $groupId) {
+				if (in_array($this->getValue(), \App\PrivilegeUtil::getUsersByGroup((int) $groupId))) {
+					$result = true;
+					break;
+				}
 			}
 		}
-		return in_array($this->getValue(), $usersByGroup);
+		return $result;
 	}
 
 	/**
