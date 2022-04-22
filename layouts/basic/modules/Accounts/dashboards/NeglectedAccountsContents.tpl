@@ -20,10 +20,10 @@
 				<div class="col-4 u-text-ellipsis">
 					{if \App\Privilege::isPermitted($MODULE_NAME, 'DetailView', $RECORD_ID)}
 						<a href="index.php?module=Accounts&view=Detail&record={$RECORD_ID}">
-							<b>{\App\Purifier::encodeHtml($ACCOUNTS_MODEL->getDisplayValue('accountname'))}</b>
+							<b>{$ACCOUNTS_MODEL->getDisplayValue('accountname')}</b>
 						</a>
 					{else}
-						{\App\Purifier::encodeHtml($ACCOUNTS_MODEL->getDisplayValue('accountname'))}
+						{$ACCOUNTS_MODEL->getDisplayValue('accountname')}
 					{/if}
 				</div>
 				<div class="col-4 u-text-ellipsis">
