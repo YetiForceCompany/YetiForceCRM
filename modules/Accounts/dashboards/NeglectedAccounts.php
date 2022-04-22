@@ -24,7 +24,7 @@ class Accounts_NeglectedAccounts_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$queryGenerator = new App\QueryGenerator($moduleName);
 		$queryGenerator->setFields(['id', 'accountname', 'assigned_user_id', 'crmactivity']);
-		// $queryGenerator->setCustomColumn('vtiger_entity_stats.crmactivity');
+		$queryGenerator->setCustomColumn('vtiger_entity_stats.crmactivity');
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_entity_stats', 'vtiger_entity_stats.crmid = vtiger_account.accountid']);
 		$queryGenerator->addNativeCondition(['or', ['<=', 'vtiger_entity_stats.crmactivity', 0], ['vtiger_entity_stats.crmactivity' => null]]);
 		$queryGenerator->addCondition('assigned_user_id', $user, 'e');
