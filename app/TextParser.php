@@ -235,13 +235,13 @@ class TextParser
 	 *
 	 * @return \self
 	 */
-	public static function getInstanceById($record, $moduleName)
+	public static function getInstanceById(int $record, ?string $moduleName = null)
 	{
 		$class = static::class;
 		$instance = new $class();
 		$instance->record = $record;
-		$instance->moduleName = $moduleName;
 		$instance->recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
+		$instance->moduleName = $instance->recordModel->getModuleName();
 		return $instance;
 	}
 
@@ -628,7 +628,7 @@ class TextParser
 				return (new \DateTimeField(null))->getDisplayDate();
 			case 'CurrentTime':
 				return \Vtiger_Util_Helper::convertTimeIntoUsersDisplayFormat(date('H:i:s'));
-	  case 'CurrentDateTime':
+			case 'CurrentDateTime':
 				return Fields\DateTime::formatToDisplay('now');
 			case 'SiteUrl':
 				return Config::main('site_URL');
