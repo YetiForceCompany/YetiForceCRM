@@ -20,7 +20,7 @@ class SecurityPolicy
 	/** @var string[] Allowed tags */
 	private $allowedTags = ['if', 'for', 'set'];
 	/** @var string[] Allowed filters */
-	private $allowedFilters = ['escape', 'lower', 'upper', 'date'];
+	private $allowedFilters = ['escape', 'lower', 'upper', 'date', 'split'];
 	/** @var string[] Allowed methods */
 	private $allowedMethods = [];
 	/** @var string[] Allowed properties */
