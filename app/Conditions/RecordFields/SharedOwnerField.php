@@ -22,8 +22,8 @@ class SharedOwnerField extends BaseField
 	{
 		$result = false;
 		$groups = \App\User::getCurrentUserModel()->getGroups();
-		$usersByGroups = [];
 		if ($groups) {
+			$usersByGroups = [];
 			foreach ($groups as $groupId) {
 				$usersByGroups[] = (new \App\Db\Query())->select(['userid'])->from(["condition_groups_{$groupId}_" . \App\Layout::getUniqueId() => \App\PrivilegeUtil::getQueryToUsersByGroup((int) $groupId)])->column();
 			}
