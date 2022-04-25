@@ -31,10 +31,10 @@ class OwnerField extends BaseField
 	public function operatorOgu(): bool
 	{
 		$result = false;
-		$groups = \App\Fields\Owner::getInstance($this->recordModel->getModuleName())->getGroups(false, 'private');
+		$groups = \App\User::getCurrentUserModel()->getGroups();
 		if ($groups) {
 			foreach (array_keys($groups) as $groupId) {
-				if (in_array($this->getValue(), \App\PrivilegeUtil::getUsersByGroup((int) $groupId))) {
+				if (\in_array($this->getValue(), \App\PrivilegeUtil::getUsersByGroup((int) $groupId))) {
 					$result = true;
 					break;
 				}
