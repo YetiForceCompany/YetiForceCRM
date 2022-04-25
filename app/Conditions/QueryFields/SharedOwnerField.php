@@ -85,13 +85,12 @@ class SharedOwnerField extends BaseField
 	{
 		$groups = \App\Fields\Owner::getInstance($this->getModuleName())->getGroups(false, 'private');
 		if ($groups) {
-			$condition = ['or'];
+			$where = ['or'];
 			$query = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners');
-			$orWhereConditions[] = 'or';
 			foreach (array_keys($groups) as $groupId) {
-				$orWhereConditions[] = ['u_#__crmentity_showners.userid' => (new \App\Db\Query())->select(['userid'])->from(["condition_groups_{$groupId}_" . \App\Layout::getUniqueId() => \App\PrivilegeUtil::getQueryToUsersByGroup((int) $groupId)])];
+				$where[] = ['u_#__crmentity_showners.userid' => (new \App\Db\Query())->select(['userid'])->from(["condition_groups_{$groupId}_" . \App\Layout::getUniqueId() => \App\PrivilegeUtil::getQueryToUsersByGroup((int) $groupId)])];
 			}
-			$condition[] = [$this->getColumnName() => $query->where($orWhereConditions)];
+			$condition = [$this->getColumnName() => $query->where($where)];
 		} else {
 			$condition = [$this->getColumnName() => (new \yii\db\Expression('0=1'))];
 		}
