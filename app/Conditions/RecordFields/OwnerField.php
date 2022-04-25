@@ -24,6 +24,26 @@ class OwnerField extends BaseField
 	}
 
 	/**
+	 * Users who belong to the same group as the currently logged in user.
+	 *
+	 * @return bool
+	 */
+	public function operatorOgu(): bool
+	{
+		$result = false;
+		$groups = \App\Fields\Owner::getInstance($this->recordModel->getModuleName())->getGroups(false, 'private');
+		if ($groups) {
+			foreach (array_keys($groups) as $groupId) {
+				if (in_array($this->getValue(), \App\PrivilegeUtil::getUsersByGroup((int) $groupId))) {
+					$result = true;
+					break;
+				}
+			}
+		}
+		return $result;
+	}
+
+	/**
 	 * Is not watching record operator.
 	 *
 	 * @return array

@@ -263,7 +263,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
-		return ['e', 'n', 'y', 'ny', 'om', 'ogr'];
+		return ['e', 'n', 'y', 'ny', 'om', 'ogr', 'ogu'];
 	}
 
 	/** {@inheritdoc} */
