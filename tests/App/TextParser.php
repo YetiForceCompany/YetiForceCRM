@@ -39,6 +39,9 @@ class TextParser extends \Tests\Base
 	/** @var \Vtiger_Record_Model Temporary Leads record object. */
 	protected static $recordLeads;
 
+	/** @var \Vtiger_Record_Model Temporary Products record object. */
+	private static $product;
+
 	/**
 	 * Testing instances creation.
 	 */
@@ -638,5 +641,91 @@ class TextParser extends \Tests\Base
 		$comment->set('related_to', \Tests\Base\C_RecordActions::createLeadRecord()->getId());
 		$comment->save();
 		$this->assertNotSame('+  +', '+ ' . \App\TextParser::getInstanceById($comment->getId(), 'ModComments')->setContent('+ $(relatedRecord : related_to|company)$ +')->parse()->getContent() . ' +', 'Lead creator email should be not empty');
+	}
+
+	/**
+	 * test Amount to Return
+	 *
+	 * @return void
+	 */
+	public function testAmountToReturn(): void
+	{
+		$invoiceModel = \Vtiger_Record_Model::getCleanInstance('FInvoice');
+		$invoiceModel->set('assigned_user_id', \App\User::getCurrentUserId());
+		$subject = 'FV' . date("Y/m/d");
+		$invoiceModel->set('subject', $subject);
+		$this->createProduct();
+		$inventory = $this->createInventory();
+
+		$invoiceModel->initInventoryData([$inventory]);
+		$invoiceModel->saveInventoryData();
+		$invoiceModel->save();
+
+		$inventory['price'] = 110;
+		$inventory['discount'] = 26.4;
+		$correctingInvoiceModel = \Vtiger_Record_Model::getCleanInstance('FCorectingInvoice');
+		$correctingInvoiceModel->set('assigned_user_id', \App\User::getCurrentUserId());
+		$correctingInvoiceModel->set('subject', $subject);
+		$correctingInvoiceModel->set('finvoiceid', $invoiceModel->getId());
+		$correctingInvoiceModel->initInventoryData([$inventory]);
+		$correctingInvoiceModel->save();
+
+		$this->assertSame('-14.29 zł', \App\TextParser::getInstanceByModel($correctingInvoiceModel)->setContent('$(custom : AmountToReturn)$')->parse()->getContent());
+
+		$invoiceModel->delete();
+		$correctingInvoiceModel->delete();
+	}
+
+	/**
+	 * Create Inventory for Amount to return test.
+	 *
+	 * @return array
+	 */
+	private function createInventory():  array
+	{
+		$inventory = [];
+		$inventory['currency'] = \Vtiger_Util_Helper::getBaseCurrency()['id'];
+		$inventory['discountmode'] = 1;
+		$inventory['discountparam'] = json_encode([
+			"aggregationType" => "individual",
+			"individualDiscount" => 24,
+			"individualDiscountType" => "percentage"
+		]);
+		$inventory['taxmode'] = 0;
+		$inventory['name'] = self::$product->getId();
+		$inventory['unit'] = 'Hours';
+		$inventory['qty'] = 1;
+		$inventory['price'] = 100;
+		$inventory['discount'] = 24;
+		$inventory['taxparam'] = json_encode([
+			"aggregationType" =>"individual",
+			"individualTax" =>88,
+			"globalTax" =>0
+		]);
+		$inventory['comment1'] = 'test';
+
+		return $inventory;
+	}
+	/**
+	 * Crete Products record.
+	 *
+	 * @return void
+	 */
+	private function createProduct(): void
+	{
+		self::$product = \Vtiger_Record_Model::getCleanInstance('Products');
+
+		self::$product->set('productname', 'Test');
+		self::$product->save();
+	}
+
+	/**
+	 * Cleaning after tests
+	 *
+	 * @return void
+	 */
+	public static function tearDownAfterClass(): void
+	{
+		self::$product->delete();
 	}
 }
