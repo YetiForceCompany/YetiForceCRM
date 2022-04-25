@@ -5,16 +5,15 @@ Vtiger_Edit_Js(
 	'SMSNotifier_Edit_Js',
 	{},
 	{
+		/**
+		 * Load variables panel
+		 * @param {jQuery} form
+		 */
 		loadVariablePanel: function (form) {
-			var thisInstance = this;
-			if (typeof form === 'undefined') {
-				form = this.getForm();
-			}
-			var panel = form.find('#variablePanel');
+			let panel = form.find('#variablePanel');
 			let reletedField = form.find('[name="related_to"]');
 			let sourceRecord = parseInt(reletedField.val());
 			let sourceModule = reletedField.closest('.fieldValue ').find('input[name="popupReferenceModule"]').val();
-
 			if (!sourceRecord) {
 				panel.html('');
 				return false;
@@ -29,21 +28,28 @@ Vtiger_Edit_Js(
 				sourceRecord: sourceRecord,
 				selectedModule: sourceModule
 			})
-				.done(function (response) {
+				.done((response) => {
 					panel.html(response);
-					thisInstance.afterLoadVariablePanel(panel);
+					this.afterLoadVariablePanel(panel);
 					App.Tools.VariablesPanel.registerRefreshCompanyVariables(panel);
 				})
-				.fail(function () {
+				.fail(() => {
 					panel.progressIndicator({ mode: 'hide' });
 				});
 		},
+		/**
+		 * Events after load variables panel
+		 * @param {jQuery} html
+		 */
 		afterLoadVariablePanel: function (html) {
 			App.Fields.Picklist.showSelect2ElementView(html.find('select.select2'));
 			App.Fields.Text.registerCopyClipboard(html);
 		},
+		/**
+		 * Register variables panel events
+		 * @param {jQuery} form
+		 */
 		registerVariablePanelEvent: function (form) {
-			var thisInstance = this;
 			if (typeof form === 'undefined') {
 				form = this.getForm();
 			}
@@ -51,11 +57,14 @@ Vtiger_Edit_Js(
 				.find('[name="message"]')
 				.closest('.js-block-content')
 				.prepend('<div id="variablePanel" class="row px-0 borderBottom bc-gray-lighter mt-n1"></div>');
-			thisInstance.loadVariablePanel(form);
-			form.find('[name="target"]').on('change', function () {
-				thisInstance.loadVariablePanel(form);
+			this.loadVariablePanel(form);
+			form.find('[name="target"]').on('change', () => {
+				this.loadVariablePanel(form);
 			});
 		},
+		/**
+		 * Register phone change
+		 */
 		registerPhoneChange: function () {
 			this.getForm()
 				.find('.js-phone-change')
@@ -67,6 +76,10 @@ Vtiger_Edit_Js(
 					}
 				});
 		},
+		/**
+		 * Register basic events
+		 * @param {jQuery} container
+		 */
 		registerBasicEvents: function (container) {
 			this._super(container);
 			this.registerVariablePanelEvent(container);

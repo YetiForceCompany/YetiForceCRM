@@ -1,14 +1,4 @@
-{*<!--
-/*********************************************************************************
-** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is:  vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-* Contributor(s): YetiForce S.A.
-********************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Edit-Field-Phone -->
 	{assign var=TABINDEX value=$FIELD_MODEL->getTabIndex()}
@@ -34,7 +24,6 @@
 			{/if}
 			{assign var="FIELD_NAME_EXTRA" value=$FIELD_MODEL->getFieldName()|cat:'_extra'}
 			{assign var="FIELD_MODEL_EXTRA" value=$FIELD_MODEL->getModule()->getFieldByName($FIELD_NAME_EXTRA)}
-			{* {assign var="ACTIVE_EXTRA_FIELD" value=!empty($VIEW) && ($VIEW == 'Edit' || $VIEW == 'QuickCreateAjax') && $FIELD_MODEL_EXTRA && $FIELD_MODEL_EXTRA->isWritable()} *}
 			{assign var=PICKLIST_VALUES value=App\Fields\Country::getAll('phone')}
 			{assign var=IS_LAZY value=count($PICKLIST_VALUES) > \App\Config::performance('picklistLimit')}
 			<div class="form-row">
@@ -69,11 +58,6 @@
 									{foreach from=$PHONE_FIELDS item=PHONE_FIELD key=key}
 										<a class="dropdown-item js-phone-change" href="#" data-value="{\App\Purifier::encodeHtml($PHONE_FIELD->get('fieldvalue'))}">{$PHONE_FIELD->getFullLabelTranslation()}</a>
 									{/foreach}
-
-									{* <a class="dropdown-item" href="#">Another action</a>
-									<a class="dropdown-item" href="#">Something else here</a>
-									<div role="separator" class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#">Separated link</a> *}
 								</div>
 							</div>
 						{/if}

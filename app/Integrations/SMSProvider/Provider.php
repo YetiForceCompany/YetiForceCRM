@@ -28,20 +28,6 @@ abstract class Provider extends \App\Base
 	 */
 	protected $url;
 
-	// /**
-	//  * Variable name.
-	//  *
-	//  * @var string
-	//  */
-	// protected $toName = 'to';
-
-	// /**
-	//  * Variable name.
-	//  *
-	//  * @var string
-	//  */
-	// protected $messageName = 'message';
-
 	/**
 	 * Function to get provider name.
 	 *
@@ -61,45 +47,6 @@ abstract class Provider extends \App\Base
 	{
 		return $this->url;
 	}
-
-	/**
-	 * Set.
-	 *
-	 * @param string $key
-	 * @param mixed  $value
-	 *
-	 * @return \self
-	 */
-	// public function set($key, $value): self
-	// {
-	// 	$this->{$key} = $value;
-
-	// 	return $this;
-	// }
-
-	/**
-	 * Function to check if the key exists.
-	 *
-	 * @param string $key
-	 *
-	 * @return bool
-	 */
-	// public function has($key): bool
-	// {
-	// 	return isset($this->{$key});
-	// }
-
-	/**
-	 * Get.
-	 *
-	 * @param string $key
-	 *
-	 * @return mixed
-	 */
-	// public function get(string $key)
-	// {
-	// 	return $this->{$key};
-	// }
 
 	/**
 	 * Headers.
@@ -143,8 +90,6 @@ abstract class Provider extends \App\Base
 	{
 		$path = $this->getUrl();
 		$keys = $this->getRequiredParams();
-		// $keys[] = $this->toName;
-		// $keys[] = $this->messageName;
 		$params = [];
 		foreach ($keys as $key) {
 			$params[$key] = $this->get($key);
@@ -160,50 +105,18 @@ abstract class Provider extends \App\Base
 	abstract public function send(): bool;
 
 	/**
-	 * Function to handle SMS Send operation.
-	 *
-	 * @param string          $message
-	 * @param string|string[] $toNumbers
-	 * @param mixed           $request
-	 */
-	// public function send()
-	// {
-	// 	try {
-	// 		$url = $this->getPath();
-	// 		\App\Log::beginProfile('POST|' . __METHOD__ . "|{$url}", 'SMSNotifier');
-	// 		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('POST', $url, ['headers' => $this->getHeaders()]);
-	// 		echo '<pre>', print_r([
-	// 			$url,
-	// 			\App\Json::decode($response->getBody())
-	// 		]);
-	// 		echo '</pre>';
-	// 		exit;
-	// 		\App\Log::endProfile('POST|' . __METHOD__ . "|{$url}", 'SMSNotifier');
-	// 	} catch (\Throwable $e) {
-	// 		\App\Log::error($e->__toString());
-	// 		return false;
-	// 	}
-	// 	return $this->getResponse($response);
-	// }
-
-	/**
 	 * Response.
 	 *
 	 * @param \GuzzleHttp\Psr7\Response $request
 	 */
 	abstract public function getResponse($request);
 
-	abstract public function getEditFields(): array;
-
 	/**
-	 * Fields to edit in settings.
+	 * Fields for edit view in settings.
 	 *
-	 * @return \Settings_Vtiger_Field_Model[]
+	 * @return array
 	 */
-	// public function getSettingsEditFieldsModel()
-	// {
-	// 	return [];
-	// }
+	abstract public function getEditFields(): array;
 
 	/**
 	 * Function to get Edit view url.
@@ -216,5 +129,12 @@ abstract class Provider extends \App\Base
 		return 'index.php?module=' . $model->getName() . '&parent=' . $model->getParentName() . "&view=Edit&provider={$this->name}";
 	}
 
+	/**
+	 * Send by record.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return bool
+	 */
 	abstract public function sendByRecord(\Vtiger_Record_Model $recordModel): bool;
 }

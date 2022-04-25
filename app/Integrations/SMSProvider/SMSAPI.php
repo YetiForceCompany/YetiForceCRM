@@ -59,7 +59,6 @@ class SMSAPI extends Provider
 	 */
 	public function getRequiredParams(): array
 	{
-		// return ['url', 'url_backup', 'from', 'encoding', 'format'];
 		return ['to', 'from', 'encoding', 'format'];
 	}
 
@@ -70,6 +69,13 @@ class SMSAPI extends Provider
 		return 200 === $request->getStatusCode() && empty($response['error']);
 	}
 
+	/**
+	 * Set phone number.
+	 *
+	 * @param string $phoneNumber
+	 *
+	 * @return self
+	 */
 	public function setPhone(string $phoneNumber): self
 	{
 		$phoneNumber = preg_replace_callback('/[^\d]/s', function () {
@@ -80,36 +86,19 @@ class SMSAPI extends Provider
 		return $this;
 	}
 
+	/** {@inheritdoc} */
 	public function getPath(bool $useBackup = false): string
 	{
 		$path = $useBackup ? $this->urlBackup : $this->getUrl();
-		// $keys = $this->getRequiredParams();
-		// $keys[] = $this->toName;
-		// $keys[] = $this->messageName;
 		$params = [];
-
 		foreach ($this->getRequiredParams() as $key) {
-			// if (null !== $this->get($key)) {
 			$params[$key] = $this->get($key) ?? '';
-			// }
 		}
-		// unset($params['form']);
+
 		return $path . http_build_query($params);
 	}
 
-	// public function getBodyParams()
-	// {
-	// 	$keys = $this->getRequiredParams();
-	// 	$keys[] = $this->toName;
-	// 	$keys[] = $this->messageName;
-	// 	$params = [];
-
-	// 	foreach ($keys as $key) {
-	// 		$params[$key] = $this->get($key);
-	// 	}
-	// 	return $params;
-	// }
-
+	/** {@inheritdoc} */
 	public function send(bool $useBackup = false): bool
 	{
 		try {
@@ -121,9 +110,10 @@ class SMSAPI extends Provider
 			\App\Log::error($e->__toString());
 			return false;
 		}
-		return $this->getResponse($response); // \App\Json::decode($response->getBody()); // $this->getResponse($response);
+		return $this->getResponse($response);
 	}
 
+	/** {@inheritdoc} */
 	public function getEditFields(): array
 	{
 		$fields = [];
@@ -158,16 +148,6 @@ class SMSAPI extends Provider
 					$field['purifyType'] = \App\Purifier::TEXT;
 					$field['fieldvalue'] = $this->has($name) ? $this->get($name) : '';
 					break;
-				// case 'url':
-				// 	$field['uitype'] = 17;
-				// 	$field['label'] = 'FL_SMSAPI_URL';
-				// 	$field['fieldvalue'] = $this->has($name) ? $this->get($name) : '';
-				// 	break;
-				// case 'url_backup':
-				// 	$field['uitype'] = 17;
-				// 	$field['label'] = 'FL_SMSAPI_URL_BACKUP';
-				// 	$field['fieldvalue'] = $this->has($name) ? $this->get($name) : '';
-				// 	break;
 				case 'type':
 					$field['uitype'] = 16;
 					$field['label'] = 'FL_SMSAPI_TYPE';
@@ -182,13 +162,6 @@ class SMSAPI extends Provider
 					$field['purifyType'] = \App\Purifier::STANDARD;
 					$field['fieldvalue'] = $this->has($name) ? $this->get($name) : '';
 					break;
-				// case 'callback_url':
-				// 	$field['uitype'] = 1;
-				// 	$field['displaytype'] = 10;
-				// 	$field['label'] = 'FL_CALLBACK_URL';
-				// 	$field['purifyType'] = \App\Purifier::STANDARD;
-				// 	$field['fieldvalue'] = $this->has($name) ? $this->get($name) : '';
-				// 	break;
 				default:
 					$field = [];
 					break;
@@ -208,6 +181,13 @@ class SMSAPI extends Provider
 		return "index.php?module={$model->getName()}&parent={$model->getParentName()}&view={$this->name}&provider={$this->name}";
 	}
 
+	/**
+	 * Callback service URL.
+	 *
+	 * @param array $service
+	 *
+	 * @return string
+	 */
 	public function getCallBackUrlByService(array $service): string
 	{
 		$callBackUrl = \App\Config::main('site_URL') . 'webservice.php?';
@@ -225,6 +205,7 @@ class SMSAPI extends Provider
 		return $callBackUrl . http_build_query($params);
 	}
 
+	/** {@inheritdoc} */
 	public function sendByRecord(\Vtiger_Record_Model $recordModel): bool
 	{
 		$this->setPhone($recordModel->get('phone'));
