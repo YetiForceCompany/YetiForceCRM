@@ -3,12 +3,12 @@
 	{if empty($TEXT_PARSER)}
 		{assign var=TEXT_PARSER value=\App\TextParser::getInstance($SELECTED_MODULE)}
 	{/if}
-	{if $PARSER_TYPE}
+	{if !empty($PARSER_TYPE)}
 		{assign var=TEXT_PARSER value=$TEXT_PARSER->setType($PARSER_TYPE)}
 	{/if}
 	{if $SELECTED_MODULE && App\Module::getEntityInfo($SELECTED_MODULE)}
 		<div class="col-sm-6 row form-group align-items-center my-1">
-			<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right">{\App\Language::translate('LBL_MODULE_FIELDS','Other.TextParser')}</label>
+			<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_MODULE_FIELDS','Other.TextParser')}</label>
 			<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 				<div class="input-group">
 					<select class="select2 form-control" id="recordVariable" data-width="style">
@@ -38,7 +38,7 @@
 		{assign var=RELATED_VARIABLE value=$TEXT_PARSER->getRelatedVariable()}
 		{if $RELATED_VARIABLE}
 			<div class="col-sm-6 row form-group align-items-center my-1">
-				<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right">{\App\Language::translate('LBL_DEPENDENT_MODULE_FIELDS','Other.TextParser')}</label>
+				<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_DEPENDENT_MODULE_FIELDS','Other.TextParser')}</label>
 				<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 					<div class="input-group">
 						<select class="select2 form-control" id="relatedVariable" data-width="style">
@@ -70,7 +70,7 @@
 		{assign var=RELATED_LEVEL_VARIABLE value=$TEXT_PARSER->getRelatedLevelVariable()}
 		{if $RELATED_LEVEL_VARIABLE}
 			<div class="col-sm-6 row form-group align-items-center my-1">
-				<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right">{\App\Language::translate('LBL_DEPENDENT_NEXT_LEVEL_MODULE_FIELDS','Other.TextParser')}</label>
+				<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_DEPENDENT_NEXT_LEVEL_MODULE_FIELDS','Other.TextParser')}</label>
 				<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 					<div class="input-group">
 						<select class="select2 form-control" id="relatedRecordLevel" data-width="style">
@@ -98,7 +98,7 @@
 		{assign var=SOURCE_VARIABLE value=$TEXT_PARSER->getSourceVariable()}
 		{if $SOURCE_VARIABLE}
 			<div class="col-sm-6 row form-group align-items-center my-1">
-				<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right">{\App\Language::translate('LBL_SOURCE_MODULE_FIELDS','Other.TextParser')}</label>
+				<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_SOURCE_MODULE_FIELDS','Other.TextParser')}</label>
 				<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 					<div class="input-group">
 						<select class="select2" id="sourceVariable" data-width="style">
@@ -140,10 +140,12 @@
 				</div>
 			</div>
 		{/if}
-		{assign var=RELATED_LISTS value=$TEXT_PARSER->getRelatedListVariable()}
+		{if !isset($RELATED_LISTS)}
+			{assign var=RELATED_LISTS value=$TEXT_PARSER->getRelatedListVariable()}
+		{/if}
 		{if $RELATED_LISTS}
 			<div class="col-sm-6 row form-group align-items-center my-1">
-				<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right">{\App\Language::translate('LBL_RELATED_RECORDS_LIST','Other.TextParser')}</label>
+				<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_RELATED_RECORDS_LIST','Other.TextParser')}</label>
 				<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 					<div class="input-group">
 						<select class="select2 form-control" id="relatedLists" data-width="style">
@@ -162,10 +164,12 @@
 			</div>
 		{/if}
 	{/if}
-	{assign var=BASE_LISTS value=$TEXT_PARSER->getBaseListVariable()}
+	{if !isset($BASE_LISTS)}
+		{assign var=BASE_LISTS value=$TEXT_PARSER->getBaseListVariable()}
+	{/if}
 	{if $BASE_LISTS}
 		<div class="col-sm-6 row form-group align-items-center my-1">
-			<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right">{\App\Language::translate('LBL_RECORDS_LIST')}</label>
+			<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_RECORDS_LIST')}</label>
 			<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 				<div class="input-group">
 					<select class="select2 form-control" id="recordList" data-width="style">
@@ -184,7 +188,7 @@
 		</div>
 	{/if}
 	<div class="col-sm-6 row form-group align-items-center my-1">
-		<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right">{\App\Language::translate('LBL_ADDITIONAL_VARIABLES','Other.TextParser')}</label>
+		<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_ADDITIONAL_VARIABLES','Other.TextParser')}</label>
 		<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 			<div class="input-group">
 				<select class="select2 form-control" id="generalVariable" data-container-class-css="form-control"
@@ -207,7 +211,7 @@
 		</div>
 	</div>
 	<div class="col-sm-6 row form-group align-items-center my-1">
-		<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right">{\App\Language::translate('LBL_ORGANIZATION','Other.TextParser')}</label>
+		<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_ORGANIZATION','Other.TextParser')}</label>
 		<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 			<div class="input-group">
 				<select class="select2 form-control js-company-list" id="companyList"
@@ -221,7 +225,7 @@
 		</div>
 	</div>
 	<div class="col-sm-6 row form-group align-items-center my-1">
-		<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right">{\App\Language::translate('LBL_COMPANY_VARIABLES','Other.TextParser')}</label>
+		<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_COMPANY_VARIABLES','Other.TextParser')}</label>
 		<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 			<div class="input-group">
 				<select class="select2 form-control js-company-variable" id="companyVariable"
