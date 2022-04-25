@@ -547,6 +547,15 @@ class Vtiger_RelationListView_Model extends \App\Base
 					'linkicon' => 'fas fa-download',
 				]);
 			}
+			if ($relatedModuleModel->isPermitted('MassSendSMS') && ($smsNotifierModel = \Vtiger_Module_Model::getInstance('SMSNotifier'))->isMassSMSActiveForModule($relatedModuleModel->getName())) {
+				$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'RELATEDLIST_MASSACTIONS',
+					'linklabel' => 'LBL_MASS_SEND_SMS',
+					'linkdata' => ['url' => $smsNotifierModel->getMassSMSUrlForModule($relatedModuleModel->getName()), 'type' => 'modal'],
+					'linkicon' => 'fas fa-comment-sms',
+					'linkclass' => 'js-mass-record-event',
+				]);
+			}
 			if ($relatedModuleModel->isPermitted('QuickExportToExcel')) {
 				$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'RELATEDLIST_MASSACTIONS',

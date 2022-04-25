@@ -5,56 +5,48 @@ Vtiger_Edit_Js(
 	'Settings_SMSNotifier_Edit_Js',
 	{},
 	{
-		getForm: function () {
-			if (this.formElement == false) {
-				this.setForm(jQuery('#modalEdit'));
+		/**
+		 * Container
+		 */
+		container: false,
+		/**
+		 * Save Event
+		 * @param {Event} e
+		 */
+		saveEvent: function (e) {
+			e.preventDefault();
+			let form = this.getForm();
+			console.log('ssss');
+			if (form.validationEngine('validate')) {
+				var formData = form.serializeFormData();
+				app.saveAjax('', [], formData).done(function (data) {
+					if (data.result) {
+						Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_SAVE_SUCCESS') });
+						var listInstance = Settings_Vtiger_List_Js.getInstance();
+						listInstance.getListViewRecords();
+					} else {
+						app.showNotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
+					}
+					app.hideModalWindow();
+				});
 			}
-			return this.formElement;
 		},
-		registerProviderTypeChangeEvent: function (form) {
-			var contents = this.getForm();
-			contents.find('[name="providertype"]').on('change', function (e) {
-				var currentTarget = jQuery(e.currentTarget);
-				var selectedProviderName = currentTarget.val();
-				contents.find('form [data-provider]').remove();
-				var providerFields = contents
-					.find('.providersFields [data-provider="' + selectedProviderName + '"]')
-					.clone(true, true);
-				contents.find('.fieldsContainer').append(providerFields);
-				App.Fields.Picklist.showSelect2ElementView(providerFields.find('select'));
+		/**
+		 * Register Events
+		 * @param {jQuery} modalContainer
+		 */
+		registerEvents: function (modalContainer) {
+			this.container = modalContainer;
+			App.Fields.Text.registerCopyClipboard(this.container);
+			let form = this.container.find('form');
+			this.setForm(form);
+			this.registerBasicEvents(this.container);
+			this.container.on('click', '.js-modal__save', (e) => {
+				this.saveEvent(e);
 			});
-		},
-		registerEvents: function () {
-			var thisInstance = this;
-			var container = this.getForm();
-			container.find('select').removeClass('select2');
-			App.Fields.Picklist.showSelect2ElementView(container.find('form select'));
-			this.registerBasicEvents(container);
-			var form = container.find('form');
-			form.on('submit', function (e) {
-				e.preventDefault();
-				if (form.validationEngine('validate')) {
-					var formData = form.serializeFormData();
-					app.saveAjax('', [], formData).done(function (data) {
-						if (data.result) {
-							Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_SAVE_SUCCESS') });
-							var listInstance = Settings_Vtiger_List_Js.getInstance();
-							listInstance.getListViewRecords();
-						} else {
-							app.showNotify({
-								text: app.vtranslate('JS_ERROR'),
-								type: 'error'
-							});
-						}
-						app.hideModalWindow();
-					});
-				}
-			});
-			thisInstance.registerProviderTypeChangeEvent();
 		}
 	}
 );
-jQuery(document).ready(function (e) {
-	var instance = new Settings_SMSNotifier_Edit_Js();
-	instance.registerEvents();
-});

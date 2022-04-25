@@ -62,7 +62,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Watchdog', $moduleName);
 		$instance = new $modelClassName();
 		$instance->set('module', $moduleName);
-		$instance->set('moduleId', $moduleId ? $moduleId : \App\Module::getModuleId($moduleName));
+		$instance->set('moduleId', $moduleId ?: \App\Module::getModuleId($moduleName));
 		$instance->set('userId', $userId);
 		if (false === static::$cache) {
 			static::$cache = require static::$cacheFile;
@@ -498,6 +498,6 @@ class Vtiger_Watchdog_Model extends \App\Base
 	 */
 	public static function getSupportedModules()
 	{
-		return Vtiger_Module_Model::getAll([0], ['SMSNotifier', 'Integration', 'Dashboard', 'ModComments', 'Notification'], true);
+		return Vtiger_Module_Model::getAll([0], ['Integration', 'Dashboard', 'ModComments', 'Notification'], true);
 	}
 }

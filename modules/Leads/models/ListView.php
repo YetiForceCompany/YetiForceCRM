@@ -21,7 +21,6 @@ class Leads_ListView_Model extends Vtiger_ListView_Model
 	public function getListViewMassActions($linkParams)
 	{
 		$links = parent::getListViewMassActions($linkParams);
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 
 		$massActionLinks = [];
@@ -34,12 +33,13 @@ class Leads_ListView_Model extends Vtiger_ListView_Model
 			];
 		}
 
-		if ($currentUserModel->hasModulePermission('SMSNotifier') && $currentUserModel->hasModuleActionPermission($moduleModel->getId(), 'MassSendSMS') && SMSNotifier_Module_Model::checkServer()) {
+		if ($moduleModel->isPermitted('MassSendSMS') && ($smsNotifierModel = \Vtiger_Module_Model::getInstance('SMSNotifier'))->isMassSMSActiveForModule($moduleModel->getName())) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_SMS',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendSms("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
-				'linkicon' => 'fas fa-envelope',
+				'linkdata' => ['url' => $smsNotifierModel->getMassSMSUrlForModule($moduleModel->getName()), 'type' => 'modal'],
+				'linkicon' => 'fas fa-comment-sms',
+				'linkclass' => 'js-mass-action',
 			];
 		}
 

@@ -29,7 +29,7 @@ class Settings_SMSNotifier_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * @var string[]
 	 */
-	public $listFields = ['providertype' => 'FL_PROVIDER', 'isactive' => 'FL_STATUS'];
+	public $listFields = ['name' => 'FL_NAME', 'providertype' => 'FL_PROVIDER', 'isactive' => 'FL_STATUS'];
 
 	/**
 	 * @var string
@@ -43,7 +43,7 @@ class Settings_SMSNotifier_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getCreateRecordUrl()
 	{
-		return 'index.php?module=' . $this->getName() . '&parent=' . $this->getParentName() . '&view=Edit';
+		return 'index.php?module=' . $this->getName() . '&parent=' . $this->getParentName() . '&view=Create';
 	}
 
 	/**
@@ -54,18 +54,5 @@ class Settings_SMSNotifier_Module_Model extends Settings_Vtiger_Module_Model
 	public function getListViewUrl()
 	{
 		return 'index.php?module=' . $this->getName() . '&parent=' . $this->getParentName() . '&view=List';
-	}
-
-	/**
-	 * Function to get list of all providers.
-	 *
-	 * @return mixed
-	 */
-	public function getAllProviders()
-	{
-		if (empty($this->allProviders)) {
-			$this->allProviders = SMSNotifier_Module_Model::getProviders();
-		}
-		return $this->allProviders;
 	}
 }

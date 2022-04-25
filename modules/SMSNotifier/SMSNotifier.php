@@ -62,7 +62,7 @@ class SMSNotifier extends Vtiger_CRMEntity
 	public $default_sort_order = 'DESC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	public $mandatory_fields = ['createdtime', 'modifiedtime', 'message', 'assigned_user_id'];
+	public $mandatory_fields = ['createdtime', 'modifiedtime', 'message', 'assigned_user_id', 'smsnotifier_status'];
 
 	public function __construct()
 	{
@@ -77,8 +77,5 @@ class SMSNotifier extends Vtiger_CRMEntity
 	 */
 	public function moduleHandler($modulename, $eventType)
 	{
-		//adds sharing accsess
-		$SMSNotifierModule = vtlib\Module::getInstance('SMSNotifier');
-		vtlib\Access::setDefaultSharing($SMSNotifierModule);
 	}
 }

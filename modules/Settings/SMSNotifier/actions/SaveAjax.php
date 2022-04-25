@@ -9,30 +9,34 @@
  * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
-class Settings_SMSNotifier_SaveAjax_Action extends Settings_Vtiger_Index_Action
+class Settings_SMSNotifier_SaveAjax_Action extends Settings_Vtiger_Save_Action
 {
+	/** {@inheritdoc} */
+	public function checkPermission(App\Request $request)
+	{
+		parent::checkPermission($request);
+		if ($request->isEmpty('providertype', true) || !\App\Integrations\SMSProvider::getProviderByName($request->getByType('providertype', \App\Purifier::ALNUM)) || (!$request->isEmpty('record') && !\App\Integrations\SMSProvider::getById($request->getInteger('record')))) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
+	}
+
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		$qualifiedModuleName = $request->getModule(false);
-		if (!$request->isEmpty('record')) {
-			$recordModel = Settings_SMSNotifier_Record_Model::getInstanceById($request->getInteger('record'), $qualifiedModuleName);
+		$recordId = $request->isEmpty('record') ? null : $request->getInteger('record');
+		if ($recordId) {
+			$recordModel = Settings_SMSNotifier_Record_Model::getInstanceById($recordId);
 		} else {
-			$recordModel = Settings_SMSNotifier_Record_Model::getCleanInstance($qualifiedModuleName);
+			$recordModel = Settings_SMSNotifier_Record_Model::getCleanInstance($request->getByType('providertype', \App\Purifier::ALNUM));
 		}
-		foreach ($recordModel->getEditFields() as $fieldName => $fieldLabel) {
-			$recordModel->set($fieldName, $request->get($fieldName));
-		}
-		$parameters = [];
-		$provider = SMSNotifier_Module_Model::getProviderInstance($recordModel->get('providertype'));
-		foreach ($provider->getSettingsEditFieldsModel() as $fieldModel) {
-			$parameters[$fieldModel->getName()] = $request->get($fieldModel->getName());
-		}
-		$recordModel->set('parameters', \App\Json::encode($parameters));
+		$result = $recordModel->setDataFromRequest($request);
 
 		$response = new Vtiger_Response();
 		try {
 			$result = $recordModel->save();
+			$prev = $recordModel->anonymize($recordModel->getPreviousValue());
+			$post = $recordId ? array_intersect_key($recordModel->anonymize($recordModel->getData()), $prev) : $recordModel->anonymize($recordModel->getData());
+			\Settings_Vtiger_Tracker_Model::addDetail($prev, $post);
 			$response->setResult([$result]);
 		} catch (Exception $e) {
 			$response->setError($e->getMessage());

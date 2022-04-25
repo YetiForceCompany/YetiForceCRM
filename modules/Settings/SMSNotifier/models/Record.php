@@ -11,12 +11,15 @@
 
 class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 {
+	/** @var array Record changes */
+	protected $changes = [];
+
 	/**
 	 * Edit fields.
 	 *
 	 * @var string[]
 	 */
-	private $editFields = ['providertype' => 'FL_PROVIDER', 'isactive' => 'FL_STATUS', 'api_key' => 'FL_API_KEY'];
+	private $editFields = ['name', 'isactive'];
 
 	/**
 	 * Function to get Id of this record instance.
@@ -69,15 +72,13 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getEditViewUrl()
 	{
-		$moduleModel = $this->getModule();
-
-		return $moduleModel->getCreateRecordUrl() . '&record=' . $this->getId();
+		return \App\Integrations\SMSProvider::getProviderByName($this->get('providertype'))->getEditViewUrl() . '&record=' . $this->getId();
 	}
 
 	/**
 	 * Function to get record links.
 	 *
-	 * @return <Array> list of link models <Vtiger_Link_Model>
+	 * @return array list of link models <Vtiger_Link_Model>
 	 */
 	public function getRecordLinks()
 	{
@@ -122,33 +123,87 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to save the record.
-	 *
-	 * @return bool
+	 * Function to save.
 	 */
 	public function save()
 	{
-		$db = \App\Db::getInstance();
-		$success = false;
-		if (!$this->changes) {
-			return $success;
-		}
-		if (isset($this->changes['api_key'])) {
-			$this->changes['api_key'] = App\Encryption::getInstance()->encrypt($this->changes['api_key']);
-		}
-		$table = $this->getModule()->getBaseTable();
-		$index = $this->getModule()->getBaseIndex();
-		if (empty($this->getId())) {
-			$success = $db->createCommand()->insert($table, $this->changes)->execute();
-			if ($success) {
-				$this->set('id', $db->getLastInsertID("{$table}_{$index}_seq"));
-			}
-		} else {
-			$success = $db->createCommand()->update($table, $this->changes, [$index => (int) $this->getId()])->execute();
+		$result = false;
+		$db = App\Db::getInstance('admin');
+		$transaction = $db->beginTransaction();
+		try {
+			$this->saveToDb();
+			$transaction->commit();
+			$result = true;
+		} catch (\Throwable $ex) {
+			$transaction->rollBack();
+			\App\Log::error($ex->__toString());
+			throw $ex;
 		}
 		$this->clearCache($this->getId());
+		return $result;
+	}
 
-		return $success;
+	/**
+	 * Save data to the database.
+	 */
+	public function saveToDb()
+	{
+		$db = \App\Db::getInstance('admin');
+		$fields = array_flip(['providertype', 'isactive', 'api_key', 'parameters', 'name']);
+		$tablesData = $this->getId() ? array_intersect_key($this->getData(), $this->changes, $fields) : array_intersect_key($this->getData(), $fields);
+		if ($tablesData) {
+			$baseTable = $this->getModule()->baseTable;
+			$baseTableIndex = $this->getModule()->baseIndex;
+			if ($this->getId()) {
+				$db->createCommand()->update($baseTable, $tablesData, [$baseTableIndex => (int) $this->getId()])->execute();
+			} else {
+				$db->createCommand()->insert($baseTable, $tablesData)->execute();
+				$this->set('id', $db->getLastInsertID("{$baseTable}_{$baseTableIndex}_seq"));
+			}
+			if (!empty($tablesData['isactive'])) {
+				$db->createCommand()->update($baseTable, ['isactive' => 0], ['<>', $baseTableIndex, (int) $this->getId()])->execute();
+			}
+		}
+	}
+
+	/**
+	 * Get pervious value by field.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return mixed
+	 */
+	public function getPreviousValue(string $fieldName = '')
+	{
+		return $fieldName ? ($this->changes[$fieldName] ?? null) : $this->changes;
+	}
+
+	/**
+	 * Sets data from request.
+	 *
+	 * @param App\Request $request
+	 */
+	public function setDataFromRequest(App\Request $request)
+	{
+		foreach ($this->getEditFields() as $fieldName => $fieldModel) {
+			if ($request->has($fieldName)) {
+				$fieldModel = $this->getFieldInstanceByName($fieldName);
+				$value = $request->getByType($fieldName, $fieldModel->get('purifyType'));
+				if ('api_key' === $fieldName) {
+					$value = App\Encryption::getInstance()->encrypt($value);
+				}
+				$fieldModel->getUITypeModel()->validate($value, true);
+				$value = $fieldModel->getUITypeModel()->getDBValue($value);
+
+				if (\in_array($fieldName, ['id', 'providertype', 'isactive', 'api_key', 'name'])) {
+					$this->set($fieldName, $value);
+				} else {
+					$parameters = $this->getParameters();
+					$parameters[$fieldName] = $value;
+					$this->set('parameters', \App\Json::encode($parameters));
+				}
+			}
+		}
 	}
 
 	/**
@@ -158,10 +213,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function clearCache($id)
 	{
-		if ($id) {
-			\App\Cache::staticDelete(__CLASS__, $id);
-		}
-		\App\Cache::delete('SMSNotifierConfig', 'activeProviderInstance');
+		\App\Cache::staticDelete(__CLASS__, $id);
 	}
 
 	/**
@@ -172,34 +224,47 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function set($key, $value)
 	{
-		if ($key !== $this->getModule()->getBaseIndex() && ($this->value[$key] ?? null) !== $value) {
-			$this->changes[$key] = $value;
+		if ($this->getId() && !\in_array($key, ['id']) && (\array_key_exists($key, $this->value) && $this->value[$key] != $value) && !\array_key_exists($key, $this->changes)) {
+			$this->changes[$key] = $this->get($key);
 		}
-		$this->value[$key] = $value;
+		return parent::set($key, $value);
+	}
 
-		return $this;
+	/**
+	 * Data anonymization.
+	 *
+	 * @param array $data
+	 *
+	 * @return array
+	 */
+	public function anonymize(array $data): array
+	{
+		foreach ($data as $key => &$value) {
+			if ('api_key' === $key || 'pwd' === $key) {
+				$value = '****';
+			}
+		}
+		return $data;
 	}
 
 	/**
 	 * Function to get the instance, given id.
 	 *
-	 * @param int    $id
-	 * @param string $moduleName
+	 * @param int $id
 	 *
 	 * @return \self
 	 */
-	public static function getInstanceById($id, $moduleName)
+	public static function getInstanceById($id)
 	{
 		$cacheName = __CLASS__;
 		if (\App\Cache::staticHas($cacheName, $id)) {
 			return \App\Cache::staticGet($cacheName, $id);
 		}
-		$instance = self::getCleanInstance($moduleName);
+		$instance = self::getCleanInstance();
 		$data = (new App\Db\Query())
 			->from($instance->getModule()->getBaseTable())
 			->where([$instance->getModule()->getBaseIndex() => $id])
-			->one(App\Db::getInstance('admin'));
-		$data['api_key'] = App\Encryption::getInstance()->decrypt($data['api_key']);
+			->one(\App\Db::getInstance('admin'));
 		$instance->setData($data);
 		$instance->isNew = false;
 		\App\Cache::staticSave($cacheName, $id, $instance);
@@ -211,14 +276,16 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	 * Function to get clean record instance by using moduleName.
 	 *
 	 * @param string $qualifiedModuleName
+	 * @param string $provider
 	 *
 	 * @return \self
 	 */
-	public static function getCleanInstance($qualifiedModuleName)
+	public static function getCleanInstance(?string $provider = null)
 	{
 		$recordModel = new self();
-		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
+		$moduleModel = Settings_Vtiger_Module_Model::getInstance('Settings:SMSNotifier');
 		$recordModel->isNew = true;
+		$recordModel->set('providertype', $provider);
 
 		return $recordModel->setModule($moduleModel);
 	}
@@ -233,23 +300,37 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	public function getFieldInstanceByName($name)
 	{
 		$moduleName = $this->getModule()->getName(true);
-		$fieldsLabel = $this->getEditFields();
-		$params = ['uitype' => 1, 'column' => $name, 'name' => $name, 'label' => $fieldsLabel[$name], 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
+		$params = ['uitype' => 1, 'column' => $name, 'name' => $name, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
 		switch ($name) {
 			case 'providertype':
 				$params['uitype'] = 16;
 				$params['picklistValues'] = [];
-				foreach ($this->getModule()->getAllProviders() as $provider) {
+				$params['label'] = 'FL_PROVIDER';
+				$params['displaytype'] = 2;
+				$params['purifyType'] = \App\Purifier::STANDARD;
+				$params['fieldvalue'] = $this->getValueByField($name);
+				foreach (\App\Integrations\SMSProvider::getProviders() as $provider) {
 					$params['picklistValues'][$provider->getName()] = \App\Language::translate($provider->getName(), $moduleName);
 				}
 				break;
 			case 'isactive':
 				$params['uitype'] = 16;
+				$params['label'] = 'FL_STATUS';
+				$params['purifyType'] = \App\Purifier::INTEGER;
+				$params['fieldvalue'] = $this->getValueByField($name);
 				$params['picklistValues'] = [1 => \App\Language::translate('FL_ACTIVE'), 0 => \App\Language::translate('FL_INACTIVE')];
+				break;
+			case 'name':
+				$params['uitype'] = 1;
+				$params['label'] = 'FL_NAME';
+				$params['purifyType'] = \App\Purifier::TEXT;
+				$params['fieldvalue'] = $this->getValueByField($name);
+				$params['maximumlength'] = 50;
 				break;
 			default:
 				break;
 		}
+
 		return Settings_Vtiger_Field_Model::init($moduleName, $params);
 	}
 
@@ -260,7 +341,51 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getEditFields()
 	{
-		return $this->editFields;
+		$fields = [];
+		foreach ($this->editFields as $fieldName) {
+			$fields[$fieldName] = $this->getFieldInstanceByName($fieldName);
+		}
+		$provider = \App\Integrations\SMSProvider::getProviderByName($this->get('providertype'));
+		foreach ($provider->getEditFields() as $fieldName => $fieldModel) {
+			$fieldModel->set('fieldvalue', $this->getValueByField($fieldName));
+			$fields[$fieldName] = $fieldModel;
+		}
+
+		return $fields;
+	}
+
+	/**
+	 * Get parameters.
+	 *
+	 * @return array
+	 */
+	public function getParameters(): array
+	{
+		return $this->get('parameters') ? \App\Json::decode($this->get('parameters')) : [];
+	}
+
+	/**
+	 * Get parameter value by name.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return string
+	 */
+	public function getParameter(string $fieldName): string
+	{
+		return $this->getParameters()[$fieldName] ?? '';
+	}
+
+	/**
+	 * Get value by name.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return mixed
+	 */
+	public function getValueByField(string $fieldName)
+	{
+		return \array_key_exists($fieldName, $this->value) ? $this->value[$fieldName] : $this->getParameter($fieldName);
 	}
 
 	/**
@@ -282,14 +407,12 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Function to get instance of provider model.
+	 * Get webservice users.
 	 *
-	 * @param string $providerName
-	 *
-	 * @return bool|\SMSNotifier_Basic_Provider
+	 * @return array
 	 */
-	public function getProviderInstance()
+	public function getServiveUsers(): array
 	{
-		return SMSNotifier_Module_Model::getProviderInstance($this->get('providertype'), $this->get('parameters'));
+		return (new \App\Db\Query())->from('w_#__sms_user')->where(['status' => 1])->all();
 	}
 }

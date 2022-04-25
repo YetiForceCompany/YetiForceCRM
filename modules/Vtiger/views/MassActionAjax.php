@@ -18,7 +18,6 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		parent::__construct();
 		$this->exposeMethod('showMassEditForm');
 		$this->exposeMethod('showAddCommentForm');
-		$this->exposeMethod('showSendSMSForm');
 	}
 
 	/**
@@ -89,45 +88,5 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 'Alnum'));
 		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($sourceModule, $request->getArray('search_params'), false));
 		$viewer->view('AddCommentForm.tpl', $moduleName);
-	}
-
-	/**
-	 * Function shows form that will lets you send SMS.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermitted
-	 */
-	public function showSendSMSForm(App\Request $request)
-	{
-		$sourceModule = $request->getModule();
-		$moduleName = 'SMSNotifier';
-		$selectedIds = $request->getArray('selected_ids', 2);
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'CreateView') || !$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'MassSendSMS') || !SMSNotifier_Module_Model::checkServer()) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-
-		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		$phoneFields = $moduleModel->getFieldsByType('phone');
-		$viewer = $this->getViewer($request);
-
-		if (\is_array($selectedIds) && 1 === \count($selectedIds) && 'all' !== $selectedIds[0]) {
-			$recordId = current($selectedIds);
-			$selectedRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $sourceModule);
-			$viewer->assign('SINGLE_RECORD', $selectedRecordModel);
-		}
-		$viewer->assign('VIEWNAME', $request->getByType('viewname', 2));
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('SOURCE_MODULE', $sourceModule);
-		$viewer->assign('SELECTED_IDS', $selectedIds);
-		$viewer->assign('EXCLUDED_IDS', $request->getArray('excluded_ids', 2));
-		$viewer->assign('ENTITY_STATE', $request->getByType('entityState'));
-		$viewer->assign('PHONE_FIELDS', $phoneFields);
-		$viewer->assign('OPERATOR', $request->getByType('operator'));
-		$viewer->assign('ALPHABET_VALUE', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $request->getByType('search_key', 'Alnum'), $request->getByType('operator')));
-		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 'Alnum'));
-		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($sourceModule, $request->getArray('search_params'), false));
-		$viewer->view('SendSMSForm.tpl', $moduleName);
 	}
 }

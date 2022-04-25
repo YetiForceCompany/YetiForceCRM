@@ -717,11 +717,6 @@ return [
 			'description' => 'The maximum number of emails that cron can send during a single execution. Pay attention to the server limits.',
 			'validation' => '\App\Validator::naturalNumber',
 		],
-		'CRON_MAX_NUMBERS_SENDING_SMS' => [
-			'default' => 10,
-			'description' => 'The maximum number of sms that cron can send during a single execution',
-			'validation' => '\App\Validator::naturalNumber',
-		],
 		'CRON_MAX_ATACHMENTS_DELETE' => [
 			'default' => 1000,
 			'description' => 'The maximum number of attachments that cron can delete during a single execution',

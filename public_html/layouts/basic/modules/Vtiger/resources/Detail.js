@@ -55,13 +55,6 @@ jQuery.Class(
 				})
 				.fail(function (error, err) {});
 		},
-		/*
-		 * function to trigger send Sms
-		 * @params: send sms url , module name.
-		 */
-		triggerSendSms: function (detailActionUrl, module) {
-			Vtiger_Detail_Js.triggerDetailViewAction(detailActionUrl);
-		},
 		triggerTransferOwnership: function (massActionUrl) {
 			let thisInstance = this;
 			thisInstance.getRelatedModulesContainer = false;

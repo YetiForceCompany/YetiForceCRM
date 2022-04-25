@@ -97,32 +97,6 @@ $.Class(
 				listInstance.noRecordSelectedAlert();
 			}
 		},
-		/**
-		 * function to trigger Send Sms
-		 * @params: send email url , module name.
-		 */
-		triggerSendSms: function (massActionUrl, module) {
-			let listInstance = Vtiger_List_Js.getInstance();
-			if (!listInstance.checkListRecordSelected()) {
-				Vtiger_List_Js.triggerMassAction(massActionUrl, (data) => {
-					new App.Fields.Text.Completions($(data).find('.js-completions').eq(0), {
-						completionsCollection: { emojis: true }
-					});
-					data.on('submit', 'form', (e) => {
-						e.preventDefault();
-						let form = $(e.currentTarget);
-						form.find('.js-modal__save').attr('disabled', 'disabled');
-						listInstance.massActionSave(form).done(function (response) {
-							if (response.result && response.result.message) {
-								app.showNotify({ text: response.result.message, type: 'info' });
-							}
-						});
-					});
-				});
-			} else {
-				listInstance.noRecordSelectedAlert();
-			}
-		},
 		triggerMassQuickCreate: function (moduleName, data) {
 			let listInstance = Vtiger_List_Js.getInstance();
 			if (listInstance.checkListRecordSelected() != true) {
