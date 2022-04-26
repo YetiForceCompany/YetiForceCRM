@@ -234,7 +234,7 @@ class Gantt {
 	/**
 	 * Filter project data
 	 *
-	 * @param {Object} projectData
+	 * @param {Object} _projectData
 	 * @returns {Object}
 	 */
 	filterProjectData(_projectData) {

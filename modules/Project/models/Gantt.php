@@ -126,12 +126,8 @@ class Project_Gantt_Model
 	 *
 	 * @return int
 	 */
-	private function calculateDuration($startDateStr, $endDateStr)
+	private function calculateDuration($startDateStr, $endDateStr): int
 	{
-		if (null === $endDateStr) {
-			return 0;
-		}
-
 		return ((int) (new DateTime($startDateStr))->diff(new DateTime($endDateStr), true)->format('%a')) * 24 * 60 * 60;
 	}
 
@@ -325,7 +321,7 @@ class Project_Gantt_Model
 	{
 		$lastDate = $this->iterateNodes($node, 0, function (&$child, $lastDate) {
 			if (!empty($child['start_date']) && '1970-01-01' !== $child['start_date']) {
-				null !== $child['end_date'] ? $taskDate = strtotime($child['end_date']) : $taskDate = false;
+				$taskDate = strtotime($child['end_date']);
 				if ($taskDate > $lastDate) {
 					return $taskDate;
 				}
