@@ -45,10 +45,10 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
-		if (!isset($this->dbValue[$value])) {
-			$this->dbValue[$value] = $name === $this->getColumnName() ? App\Fields\Double::formatToDb($value) : $value;
+		if (!isset($this->dbValue["{$value}"])) {
+			$this->dbValue["{$value}"] = $name === $this->getColumnName() ? App\Fields\Double::formatToDb($value) : $value;
 		}
-		return $this->dbValue[$value];
+		return $this->dbValue["{$value}"];
 	}
 
 	/** {@inheritdoc} */

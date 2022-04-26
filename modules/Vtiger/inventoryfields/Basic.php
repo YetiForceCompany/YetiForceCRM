@@ -310,7 +310,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	/**
 	 * Getting value to display.
 	 *
-	 * @param type $value
+	 * @param mixed $value
 	 *
 	 * @return string
 	 */

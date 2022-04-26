@@ -36,10 +36,10 @@ class Vtiger_GrossPrice_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
-		if (!isset($this->dbValue[$value])) {
-			$this->dbValue[$value] = App\Fields\Double::formatToDb($value);
+		if (!isset($this->dbValue["{$value}"])) {
+			$this->dbValue["{$value}"] = App\Fields\Double::formatToDb($value);
 		}
-		return $this->dbValue[$value];
+		return $this->dbValue["{$value}"];
 	}
 
 	/** {@inheritdoc} */
@@ -65,7 +65,7 @@ class Vtiger_GrossPrice_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
 	{
-		return  static::getInstance($this->getModuleName(), 'NetPrice')->getValueForSave($item, $userFormat)
+		return static::getInstance($this->getModuleName(), 'NetPrice')->getValueForSave($item, $userFormat)
 			+ static::getInstance($this->getModuleName(), 'Tax')->getValueForSave($item, $userFormat);
 	}
 }

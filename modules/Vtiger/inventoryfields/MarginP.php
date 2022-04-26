@@ -57,10 +57,10 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
-		if (!isset($this->dbValue[$value])) {
-			$this->dbValue[$value] = App\Fields\Double::formatToDb($value);
+		if (!isset($this->dbValue["{$value}"])) {
+			$this->dbValue["{$value}"] = App\Fields\Double::formatToDb($value);
 		}
-		return $this->dbValue[$value];
+		return $this->dbValue["{$value}"];
 	}
 
 	/** {@inheritdoc} */

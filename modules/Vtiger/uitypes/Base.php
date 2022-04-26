@@ -130,7 +130,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function validate($value, $isUserFormat = false)
 	{
-		if (empty($value) || isset($this->validate[$value])) {
+		if (empty($value) || isset($this->validate["{$value}"])) {
 			return;
 		}
 		if ($isUserFormat) {
@@ -143,7 +143,7 @@ class Vtiger_Base_UIType extends \App\Base
 		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
-		$this->validate[$value] = true;
+		$this->validate["{$value}"] = true;
 	}
 
 	/**
