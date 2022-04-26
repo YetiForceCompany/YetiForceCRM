@@ -1193,7 +1193,6 @@ window.App.Fields = {
 				this.completionsCollection = new Tribute({
 					collection: self.collection,
 					allowSpaces: true,
-					replaceTextSuffix: ''
 				});
 				this.completionsCollection.attach(inputDiv[0]);
 				if (this.params.completionsTextarea !== undefined) {
