@@ -119,14 +119,14 @@ class Project_Gantt_Model
 	}
 
 	/**
-	 * Calculate duration in days.
+	 * Calculate duration in seconds.
 	 *
 	 * @param string $startDateStr
 	 * @param string $endDateStr
 	 *
 	 * @return int
 	 */
-	private function calculateDuration($startDateStr, $endDateStr)
+	private function calculateDuration($startDateStr, $endDateStr): int
 	{
 		return ((int) (new DateTime($startDateStr))->diff(new DateTime($endDateStr), true)->format('%a')) * 24 * 60 * 60;
 	}
@@ -333,13 +333,13 @@ class Project_Gantt_Model
 		}
 		if (empty($node['end_date'])) {
 			$node['end_date'] = date('Y-m-d', $lastDate);
-			$node['end'] = $lastDate * 1000;
+			$node['end'] = $lastDate;
 		}
 		// iterate one more time setting up empty dates
 		$this->iterateNodes($node, $lastDate, function (&$child, $lastDate) {
 			if (empty($child['end_date'])) {
 				$child['end_date'] = date('Y-m-d', $lastDate);
-				$child['end'] = $lastDate * 1000;
+				$child['end'] = $lastDate;
 			}
 			return $lastDate;
 		});
@@ -353,7 +353,7 @@ class Project_Gantt_Model
 	{
 		foreach ($this->tasks as &$task) {
 			if (empty($task['duration']) && isset($task['start_date'], $task['end_date'])) {
-				$task['duration'] = $this->calculateDuration($task['start_date'], $task['end_date']) * 1000;
+				$task['duration'] = $this->calculateDuration($task['start_date'], $task['end_date']);
 			}
 		}
 	}
@@ -497,7 +497,7 @@ class Project_Gantt_Model
 			if (empty($project['end_date']) && !empty($row['targetenddate'])) {
 				$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');
 				$project['end_date'] = date('Y-m-d', $endDate);
-				$project['end'] = strtotime($project['end_date']) * 1000;
+				$project['end'] = strtotime($project['end_date']);
 			}
 			$project['planned_duration'] = $project['estimated_work_time'];
 			$project['style'] = [
@@ -647,11 +647,11 @@ class Project_Gantt_Model
 				$milestone['dependentOn'] = [$milestone['parentId']];
 			}
 			if ($row['projectmilestonedate']) {
-				$milestone['duration'] = 24 * 60 * 60 * 1000;
+				$milestone['duration'] = 24 * 60 * 60;
 				$milestone['start'] = date('Y-m-d H:i:s', strtotime($row['projectmilestonedate']));
 				$milestone['start_date'] = date('Y-m-d', strtotime($row['projectmilestonedate']));
 				$endDate = strtotime(date('Y-m-d', strtotime($row['projectmilestonedate'])) . ' +1 days');
-				$milestone['end'] = $endDate * 1000;
+				$milestone['end'] = $endDate;
 				$milestone['end_date'] = date('Y-m-d', $endDate);
 				$milestone['v'] = $queryGenerator->getModuleField('estimated_work_time')->getDisplayValue($row['estimated_work_time'], $row['id'], false, true);
 			}
@@ -736,7 +736,7 @@ class Project_Gantt_Model
 			];
 			unset($task['color']);
 			$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');
-			$task['duration'] = $this->calculateDuration($task['start_date'], $task['end_date']) * 1000;
+			$task['duration'] = $this->calculateDuration($task['start_date'], $task['end_date']);
 			$task['planned_duration'] = $queryGenerator->getModuleField('estimated_work_time')->getDisplayValue($row['estimated_work_time'], $row['id'], false, true);
 			$taskTime += $row['estimated_work_time'];
 			$ganttTasks[] = $task;
