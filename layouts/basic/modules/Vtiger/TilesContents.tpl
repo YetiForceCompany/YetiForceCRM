@@ -122,7 +122,7 @@
 							<div class="card-body justify-content-center h-100">
 								{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
 									{if $smarty.foreach.listHeaderForeach.first}
-										<h5 class="card-title text-center c-tile-text  {if $LISTVIEW_HEADER->getFieldDataType() eq 'multiImage'} tile-image {/if}"><span class=" listViewEntryValue noWrap text-muted" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}">
+										<h5 class="card-title text-center c-tile-value {if $LISTVIEW_HEADER->getFieldDataType() eq 'multiImage'} tile-image {/if}"><span class=" listViewEntryValue noWrap text-muted" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}">
 												{if empty($LISTVIEW_HEADER->get('source_field_name')) && ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true && $LISTVIEW_ENTRY->isViewable()}
 													<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modCT_{$MODULE} js-list-field js-popover-tooltip--record" data-js="width" {/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
 														<small> {$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER)} </small>
@@ -147,7 +147,7 @@
 										{/if}
 										<div class="text-center">
 											<span class=" text-muted"> <small> {$LISTVIEW_HEADER->getFullLabelTranslation($MODULE_MODEL)}: </small> </span>
-											<span class=" listViewEntryValue noWrap text-muted c-tile-text" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}">
+											<span class=" listViewEntryValue noWrap text-muted c-tile-value" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}">
 												{if empty($LISTVIEW_HEADER->get('source_field_name')) && ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true && $LISTVIEW_ENTRY->isViewable()}
 													<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modCT_{$MODULE} js-list-field js-popover-tooltip--record" data-js="width" {/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
 														<small> {$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER)} </small>

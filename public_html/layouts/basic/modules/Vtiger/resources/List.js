@@ -1230,6 +1230,10 @@ $.Class(
 				search_params: '',
 				advancedConditions: ''
 			};
+			let tileSelect = thisInstance.getListViewTopMenuContainer().find('.js-tiles-size');
+			if ('Tiles' === app.getViewName() && tileSelect.length !== 0) {
+				urlParams.tile_size = tileSelect.find('option:selected').val();
+			}
 			//Make the select all count as empty
 			$('#recordsCount').val('');
 			//Make total number of pages as empty

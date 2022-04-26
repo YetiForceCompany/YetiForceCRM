@@ -1,15 +1,6 @@
-{*<!--
-/*********************************************************************************
-** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is:  vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-* Contributor(s): YetiForce S.A.
-********************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-TilesHeader -->
 	<div class="listViewPageDiv">
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">
@@ -91,12 +82,12 @@
 						{/if}
 					</div>
 					<div class=" d-flex flex-nowrap u-overflow-scroll-non-desktop">
-						<label for="tiles-size" class="mr-1 col-form-label">{\App\Language::translate('LBL_CHOOSE_TILE_SIZE', $MODULE_NAME)}</label>
+						<label for="tiles-size" class="mr-1 col-form-label w-100">{\App\Language::translate('LBL_CHOOSE_TILE_SIZE', $MODULE_NAME)}</label>
 						<select name="tile-size" class="form-control js-tiles-size select2" id="tiles-size">
-							<option value="x-small" {if $TILE_SIZE eq 'x-small'} selected {/if}> {\App\Language::translate('LBL_X-SMALL', $MODULE_NAME)}</option>
-							<option value="small" {if $TILE_SIZE eq 'small'} selected {/if}> {\App\Language::translate('LBL_SMALL', $MODULE_NAME)}</option>
-							<option value="medium" {if $TILE_SIZE eq 'medium'} selected {/if}> {\App\Language::translate('LBL_MEDIUM', $MODULE_NAME)}</option>
-							<option value="big" {if $TILE_SIZE eq 'big'} selected {/if}> {\App\Language::translate('LBL_BIG', $MODULE_NAME)}</option>
+							<option value="very-small" {if $TILE_SIZE eq 'very-small'} selected {/if}> {\App\Language::translate('LBL_VERY_SMALL_TILE', $MODULE_NAME)}</option>
+							<option value="small" {if $TILE_SIZE eq 'small'} selected {/if}> {\App\Language::translate('LBL_SMALL_TILE', $MODULE_NAME)}</option>
+							<option value="medium" {if $TILE_SIZE eq 'medium'} selected {/if}> {\App\Language::translate('LBL_MEDIUM_TILE', $MODULE_NAME)}</option>
+							<option value="big" {if $TILE_SIZE eq 'big'} selected {/if}> {\App\Language::translate('LBL_BIG_TILE', $MODULE_NAME)}</option>
 						</select>
 					</div>
 					<div class="c-list__right-container d-flex flex-nowrap u-overflow-scroll-non-desktop">
@@ -140,4 +131,5 @@
 			<strong><a id="deSelectAllMsg" href="#">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE_NAME)}</a></strong>
 		</div>
 		<div class="listViewContentDiv" id="listViewContents">
+			<!-- /tpl-Base-TilesHeader -->
 {/strip}

@@ -441,7 +441,16 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		return $attach;
 	}
 
-	/** {@inheritdoc} */
+	/**
+	 *  Function to get the list value in display view.
+	 *
+	 * @param mixes                    $value
+	 * @param bool|int                 $record
+	 * @param bool|Vtiger_Record_Model $recordModel
+	 * @param bool                     $rawText
+	 *
+	 * @return void
+	 */
 	public function getTilesDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
 		$value = \App\Json::decode($value);
@@ -451,7 +460,8 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		if (!$record && $recordModel) {
 			$record = $recordModel->getId();
 		}
-		$result = '<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+		$carouselId = "tileCarousel{$record}";
+		$result = '<div id="' . $carouselId . '" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">';
 		if ($rawText || !$record) {
 			$result = '';
@@ -476,19 +486,20 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 			if ($record) {
 				$active = 0 === $itemNumber ? 'active' : '';
 				$result .= '    <div class="carousel-item ' . $active . '">
-				<img class="d-block w-100 carousel-image" src="' . $this->getImageUrl($item['key'], $record) . '" alt="First slide">
+				<img class="d-block  carousel-image" src="' . $this->getImageUrl($item['key'], $record) . '" alt="First slide">
 			  </div>';
 			} else {
 				$result .= \App\Purifier::encodeHtml($item['name']) . ', ';
 			}
 		}
-		return $result . '  </div> <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-		<span class="sr-only">Previous</span>
-	  </a>
-	  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-		<span class="carousel-control-next-icon" aria-hidden="true"></span>
-		<span class="sr-only">Next</span>
-	  </a></div>';
+		return $result . '</div>
+			<a class="carousel-control-prev" href="#' . $carouselId . '" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a>
+			<a class="carousel-control-next" href="#' . $carouselId . '" role="button" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</a></div>';
 	}
 }
