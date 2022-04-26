@@ -234,9 +234,10 @@ class Gantt {
 	/**
 	 * Filter project data
 	 *
+	 * @param {Object} projectData
 	 * @returns {Object}
 	 */
-	filterProjectData() {
+	filterProjectData(_projectData) {
 		let tasks = this.allTasks.map((task) => Object.assign({}, task));
 		for (let moduleName in this.filter.status) {
 			if (this.filter.status.hasOwnProperty(moduleName)) {
