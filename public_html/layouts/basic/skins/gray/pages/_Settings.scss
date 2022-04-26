@@ -14,8 +14,10 @@
 .container-fluid[class$="-customrecordnumbering-container"] .table-bordered th {
 	border: 1px solid var(--white);
 }
-tbody {
-	background-color: var(--white);
+.o-calendar__container {
+	tbody {
+		background-color: var(--white);
+	}
 }
 
 .SearchFieldsEdit {
