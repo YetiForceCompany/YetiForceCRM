@@ -59,10 +59,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$row['actions'] = empty($row['actions']) ? [] : explode(',', $row['actions']);
-			$users[] = $row;
+			$users[$row['user_id']] = $row;
 		}
 		$dataReader->close();
-
 		return $users;
 	}
 
@@ -702,17 +701,21 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	/**
 	 * Fetch mails from IMAP.
 	 *
-	 * @param int $user
+	 * @param int|null $user
 	 *
 	 * @return array
 	 */
-	public static function getMailsFromIMAP($user = false)
+	public static function getMailsFromIMAP(?int $user = null)
 	{
-		$account = self::getAccountsList($user, true);
+		$accounts = self::getAccountsList(false, true);
 		$mails = [];
 		$mailLimit = 5;
-		if ($account) {
-			$account = reset($account);
+		if ($accounts) {
+			if ($user && isset($accounts[$user])) {
+				$account = $accounts[$user];
+			} else {
+				$account = reset($accounts);
+			}
 			$imap = self::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], 'INBOX', true, [], $account);
 			\App\Log::beginProfile(__METHOD__ . '|imap_num_msg', 'Mail|IMAP');
 			$numMessages = imap_num_msg($imap);
