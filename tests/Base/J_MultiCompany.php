@@ -18,7 +18,7 @@ namespace Tests\Base;
 class J_MultiCompany extends \Tests\Base
 {
 	/**
-	 * Temporary User record object
+	 * Temporary User record object.
 	 *
 	 * @var \Vtiger_Record_Model
 	 */
@@ -47,7 +47,7 @@ class J_MultiCompany extends \Tests\Base
 	{
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('Users');
 		$recordModel->set('user_name', 'TestMultiCompany');
-		$recordModel->set('email1', "s.rembiesa@yetiforce.com");
+		$recordModel->set('email1', 's.rembiesa@yetiforce.com');
 		$recordModel->set('first_name', 'Test');
 		$recordModel->set('last_name', 'MultiCompany');
 		$recordModel->set('user_password', 'Demo12345678T');
@@ -90,7 +90,7 @@ class J_MultiCompany extends \Tests\Base
 		$recordModel->set('changeowner', 1)
 			->set('searchunpriv', null)
 			->set('listrelatedrecord', 0)
-			->set('previewrelatedrecord',0)
+			->set('previewrelatedrecord', 0)
 			->set('editrelatedrecord', 0)
 			->set('permissionsrelatedfield', 0)
 			->set('globalsearchadv', 1)
@@ -145,14 +145,14 @@ class J_MultiCompany extends \Tests\Base
 	}
 
 	/**
-	 * Testing Reloaded by MultiCompany by image loading
+	 * Testing Reloaded by MultiCompany by image loading.
 	 *
 	 * @return void
 	 */
 	public function testReloadByMultiCompany(): void
 	{
-		$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'MultiImage' . DIRECTORY_SEPARATOR . '0.jpg';
-		$filePathDestination = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . '0.jpg';
+		$filePath = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'tests' . \DIRECTORY_SEPARATOR . 'data' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . '0.jpg';
+		$filePathDestination = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'storage' . \DIRECTORY_SEPARATOR . '0.jpg';
 		\copy($filePath, $filePathDestination);
 		$recordModel = self::$recordMultiCompany;
 		$fileObj = \App\Fields\File::loadFromPath($filePathDestination);
@@ -162,7 +162,7 @@ class J_MultiCompany extends \Tests\Base
 			'size' => $fileObj->getSize(),
 			'key' => $hash,
 			'path' => $fileObj->getPath(),
-			'type' => $fileObj->getMimeType()
+			'type' => $fileObj->getMimeType(),
 		];
 
 		$recordModel->set('logo', \App\Json::encode($attach));
@@ -183,7 +183,7 @@ class J_MultiCompany extends \Tests\Base
 	}
 
 	/**
-	 * Cleaning after tests
+	 * Cleaning after tests.
 	 *
 	 * @return void
 	 */
