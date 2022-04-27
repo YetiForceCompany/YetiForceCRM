@@ -20,8 +20,8 @@ class ApiAddress extends \Tests\Base
 	{
 		$result = \Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->setConfig([
 			'YetiForceGeocoder' => [
-				'min_length' => 5, 'result_num' => 15, 'api_name' => 'global'
-			]
+				'min_length' => 5, 'result_num' => 15, 'api_name' => 'global',
+			],
 		]);
 		$this->assertTrue($result, 'Error when saving global config var');
 	}
@@ -44,8 +44,8 @@ class ApiAddress extends \Tests\Base
 	{
 		$result = \Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->setConfig([
 			'YetiForceGeocoder' => [
-				'min_length' => 3, 'result_num' => 10, 'api_name' => 'global'
-			]
+				'min_length' => 3, 'result_num' => 10, 'api_name' => 'global',
+			],
 		]);
 		$this->assertTrue($result, 'Error when setting global config var to default value');
 	}

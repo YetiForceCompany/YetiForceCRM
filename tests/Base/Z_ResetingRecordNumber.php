@@ -41,7 +41,7 @@ class RecordNumber extends \App\Fields\RecordNumber
 		'2018-01-02',
 		'2018-01-02',
 		'2018-02-03',
-		'2018-05-05'
+		'2018-05-05',
 	];
 
 	/**

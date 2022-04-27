@@ -644,7 +644,7 @@ class TextParser extends \Tests\Base
 	}
 
 	/**
-	 * test Amount to Return
+	 * test Amount to Return.
 	 *
 	 * @return void
 	 */
@@ -652,7 +652,7 @@ class TextParser extends \Tests\Base
 	{
 		$invoiceModel = \Vtiger_Record_Model::getCleanInstance('FInvoice');
 		$invoiceModel->set('assigned_user_id', \App\User::getCurrentUserId());
-		$subject = 'FV' . date("Y/m/d");
+		$subject = 'FV' . date('Y/m/d');
 		$invoiceModel->set('subject', $subject);
 		$this->createProduct();
 		$inventory = $this->createInventory();
@@ -681,15 +681,15 @@ class TextParser extends \Tests\Base
 	 *
 	 * @return array
 	 */
-	private function createInventory():  array
+	private function createInventory(): array
 	{
 		$inventory = [];
 		$inventory['currency'] = \Vtiger_Util_Helper::getBaseCurrency()['id'];
 		$inventory['discountmode'] = 1;
 		$inventory['discountparam'] = json_encode([
-			"aggregationType" => "individual",
-			"individualDiscount" => 24,
-			"individualDiscountType" => "percentage"
+			'aggregationType' => 'individual',
+			'individualDiscount' => 24,
+			'individualDiscountType' => 'percentage',
 		]);
 		$inventory['taxmode'] = 0;
 		$inventory['name'] = self::$product->getId();
@@ -698,14 +698,15 @@ class TextParser extends \Tests\Base
 		$inventory['price'] = 100;
 		$inventory['discount'] = 24;
 		$inventory['taxparam'] = json_encode([
-			"aggregationType" =>"individual",
-			"individualTax" =>88,
-			"globalTax" =>0
+			'aggregationType' => 'individual',
+			'individualTax' => 88,
+			'globalTax' => 0,
 		]);
 		$inventory['comment1'] = 'test';
 
 		return $inventory;
 	}
+
 	/**
 	 * Crete Products record.
 	 *
@@ -720,7 +721,7 @@ class TextParser extends \Tests\Base
 	}
 
 	/**
-	 * Cleaning after tests
+	 * Cleaning after tests.
 	 *
 	 * @return void
 	 */

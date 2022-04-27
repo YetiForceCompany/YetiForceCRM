@@ -102,7 +102,7 @@ class Z_StringFormatting extends \Tests\Base
 					'grouping_pattern' => 'vtiger_currency_grouping_pattern.currency_grouping_pattern',
 					'grouping_separator' => 'vtiger_currency_grouping_separator.currency_grouping_separator',
 					'symbol_placement' => 'vtiger_currency_symbol_placement.currency_symbol_placement',
-					'decimals' => 'vtiger_no_of_currency_decimals.no_of_currency_decimals'
+					'decimals' => 'vtiger_no_of_currency_decimals.no_of_currency_decimals',
 				]
 			)->from('vtiger_currency_decimal_separator')->join('cross join', 'vtiger_currency_grouping_pattern')->join('cross join', 'vtiger_currency_grouping_separator')->join('cross join', 'vtiger_currency_symbol_placement')->join('cross join', 'vtiger_no_of_currency_decimals')->createCommand()->query();
 			while ($combination = $query->read()) {
@@ -139,7 +139,7 @@ class Z_StringFormatting extends \Tests\Base
 				$combination['decimals'],
 				$combination['symbol_placement'],
 				true,
-				true
+				true,
 			];
 			$combinations[] = [
 				\App\Module::getModuleName($fieldData['tabid']),
@@ -152,7 +152,7 @@ class Z_StringFormatting extends \Tests\Base
 				$combination['decimals'],
 				$combination['symbol_placement'],
 				false,
-				true
+				true,
 			];
 		}
 		return $combinations;
@@ -189,7 +189,7 @@ class Z_StringFormatting extends \Tests\Base
 				$combination['decimals'],
 				$combination['symbol_placement'],
 				true,
-				true
+				true,
 			];
 			$combinations[] = [
 				\App\Module::getModuleName($fieldData['tabid']),
@@ -202,7 +202,7 @@ class Z_StringFormatting extends \Tests\Base
 				$combination['decimals'],
 				$combination['symbol_placement'],
 				false,
-				true
+				true,
 			];
 			$decimals = \substr(10000, 0, $combination['decimals']);
 			$dbFormat = $int . '.' . 10000;
@@ -222,7 +222,7 @@ class Z_StringFormatting extends \Tests\Base
 				$combination['decimals'],
 				$combination['symbol_placement'],
 				true,
-				true
+				true,
 			];
 			$combinations[] = [
 				\App\Module::getModuleName($fieldData['tabid']),
@@ -235,7 +235,7 @@ class Z_StringFormatting extends \Tests\Base
 				$combination['decimals'],
 				$combination['symbol_placement'],
 				false,
-				true
+				true,
 			];
 		}
 		return $combinations;

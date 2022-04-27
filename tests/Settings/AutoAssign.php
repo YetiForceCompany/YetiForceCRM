@@ -75,7 +75,7 @@ class AutoAssign extends \Tests\Base
 			'user_password', $pwd,
 			'confirm_password', $pwd,
 			'roleid' => 'H2',
-			'is_admin' => 'off'
+			'is_admin' => 'off',
 		], $data);
 		foreach ($userData as $key => $values) {
 			$user->set($key, $values);
@@ -149,7 +149,7 @@ class AutoAssign extends \Tests\Base
 			'method' => \App\AutoAssign::METHOD_LOAD_BALANCE,
 			'default_assign' => self::$defaultUser->getId(),
 			'record_limit' => 0,
-			'record_limit_conditions' => ''
+			'record_limit_conditions' => '',
 		]);
 		$recordModel = \Settings_AutomaticAssignment_Record_Model::getCleanInstance();
 		$recordModel->setDataFromRequest($request);

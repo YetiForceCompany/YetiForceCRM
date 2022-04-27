@@ -28,7 +28,7 @@ class RecordCollector extends \Tests\Base
 		$recordCollector = \App\RecordCollector::getInstance('App\RecordCollectors\Vies', 'Accounts');
 		$recordCollector->setRequest($request);
 		$response = $recordCollector->search();
-		$this->assertArrayHasKey('fields', $response, 'Data from VIES not downloaded, ' . ( $response['error'] ?? '-'));
+		$this->assertArrayHasKey('fields', $response, 'Data from VIES not downloaded, ' . ($response['error'] ?? '-'));
 		$this->assertEquals('PL1180002425', $response['fields']['Vat ID'] ?? 'No value');
 	}
 }

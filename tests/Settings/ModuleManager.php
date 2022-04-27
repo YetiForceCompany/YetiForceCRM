@@ -84,7 +84,7 @@ class ModuleManager extends \Tests\Base
 			'module_label' => 'TestModule',
 			'entitytype' => \Vtiger_Module_Model::ADVANCED_TYPE,
 			'entityfieldlabel' => 'TestModule',
-			'premium' => 2
+			'premium' => 2,
 		]);
 
 		$this->assertFileExists(ROOT_DIRECTORY . '/modules/TestModule/TestModule.php');
