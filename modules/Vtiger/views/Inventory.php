@@ -35,7 +35,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('GLOBAL_DISCOUNTS', $inventoryModel->getGlobalDiscounts());
-		$viewer->assign('CURRENCY_SYMBOL', \App\Fields\Currency::getById($currency)['currency_symbol']);
+		$viewer->assign('CURRENCY_SYMBOL', $currency ? \App\Fields\Currency::getById($currency)['currency_symbol'] : \App\Fields\Currency::getDefault()['currency_symbol']);
 		$viewer->assign('TOTAL_PRICE', $totalPrice);
 		$viewer->assign('CONFIG', $config);
 		$viewer->assign('DISCOUNT_TYPE', $discountType);

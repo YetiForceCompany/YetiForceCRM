@@ -115,7 +115,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 				foreach ($sourceRelatedField as $field => $value) {
 					if (isset($block[$field]) && '' !== $value) {
 						$fieldModel = $block[$field];
-						if ($fieldModel->isEditable() && '' === $fieldModel->get('fieldvalue')) {
+						if ($fieldModel->isEditable() && ('' === $fieldModel->get('fieldvalue') || null === $fieldModel->get('fieldvalue'))) {
 							$fieldModel->set('fieldvalue', $value);
 						}
 					}
