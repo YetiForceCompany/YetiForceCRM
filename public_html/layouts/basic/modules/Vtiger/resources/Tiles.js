@@ -53,7 +53,6 @@ $.Class(
 		 */
 		registerTileClickEvent: function (tileContainer) {
 			tileContainer.on('click', '.js-card-body', function (e) {
-				alert('click');
 				if ($(e.target).closest('div').hasClass('actions')) return;
 				if ($(e.target).is('button') || $(e.target).parent().is('button')) return;
 				if ($(e.target).closest('a').hasClass('noLinkBtn')) return;
@@ -64,6 +63,9 @@ $.Class(
 				}
 			});
 		},
+		/**
+		 * Register events
+		 */
 		registerEvents: function () {
 			const listInstance = new Vtiger_List_Js();
 			listInstance.registerEvents();

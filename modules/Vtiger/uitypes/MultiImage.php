@@ -493,11 +493,11 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 			}
 		}
 		return $result . '</div>
-			<a class="carousel-control-prev" href="#' . $carouselId . '" role="button" data-slide="prev">
+			<a class="carousel-control-prev noLinkBtn" href="#' . $carouselId . '" role="button" data-slide="prev">
 				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 				<span class="sr-only">Previous</span>
 			</a>
-			<a class="carousel-control-next" href="#' . $carouselId . '" role="button" data-slide="next">
+			<a class="carousel-control-next noLinkBtn" href="#' . $carouselId . '" role="button" data-slide="next">
 				<span class="carousel-control-next-icon" aria-hidden="true"></span>
 				<span class="sr-only">Next</span>
 			</a></div>';
