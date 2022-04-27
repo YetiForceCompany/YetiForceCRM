@@ -33,6 +33,9 @@ class OSSTimeControl_Time_UIType extends Vtiger_Time_UIType
 	 */
 	public function getDisplayTimeDifferenceValue($fieldName, $value)
 	{
+		if (null === $value) {
+			$value = "now";
+		}
 		$date = new DateTime($value);
 		if ('time_end' === $fieldName && empty($value)) {
 			$date->modify('+15 minutes');
