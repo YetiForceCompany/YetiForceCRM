@@ -1828,7 +1828,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function getImage()
 	{
 		$image = [];
-		if (!$this->isEmpty('imagename') && \App\Json::isJson($this->get('imagename'))) {
+		if (!$this->isEmpty('imagename') && \App\Json::isJson($this->get('imagename')) && !\App\Json::isEmpty($this->get('imagename'))) {
 			$image = \App\Json::decode($this->get('imagename'));
 			if (empty($image) || !($image = \current($image)) || empty($image['path'])) {
 				\App\Log::warning("Problem with data compatibility: No parameter path [{$this->get('imagename')}]");

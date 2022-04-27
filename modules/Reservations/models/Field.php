@@ -3,6 +3,8 @@
 /**
  * Reservations field model class.
  *
+ * @package   Model
+ *
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
@@ -48,19 +50,19 @@ class Reservations_Field_Model extends Vtiger_Field_Model
 		switch ($fieldName) {
 			case 'due_date': $funcName = ['name' => 'dateAndTimeGreaterThanDependentField',
 				'params' => ['date_start', 'time_start', 'due_date', 'time_end'], ];
-				array_push($validator, $funcName);
+				$validator[] = $funcName;
 				break;
 			case 'date_start': $funcName = ['name' => 'dateAndTimeGreaterThanDependentField',
 				'params' => ['date_start', 'time_start', 'due_date', 'time_end'], ];
-				array_push($validator, $funcName);
+				$validator[] = $funcName;
 				break;
 			case 'time_start': $funcName = ['name' => 'dateAndTimeGreaterThanDependentField',
 				'params' => ['date_start', 'time_start', 'due_date', 'time_end'], ];
-				array_push($validator, $funcName);
+				$validator[] = $funcName;
 				break;
 			case 'time_end': $funcName = ['name' => 'dateAndTimeGreaterThanDependentField',
 				'params' => ['date_start', 'time_start', 'due_date', 'time_end'], ];
-				array_push($validator, $funcName);
+				$validator[] = $funcName;
 				break;
 			default: $validator = parent::getValidator();
 				break;

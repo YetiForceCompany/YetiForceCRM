@@ -1,16 +1,17 @@
 <?php
 
 /**
- * Calendar model class.
+ * Calendar model file.
  *
  * @package Model
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author   Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
- * Vtiger_Calendar_Model class.
+ * Calendar model class.
  */
 abstract class Vtiger_Calendar_Model extends App\Base
 {

@@ -1,13 +1,17 @@
 <?php
 
 /**
- * Occurrences calendar model class.
+ * Occurrences calendar model files.
  *
  * @package Model
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+/**
+ * Occurrences calendar model class.
  */
 class Occurrences_Calendar_Model extends Vtiger_Calendar_Model
 {

@@ -3,11 +3,12 @@
 /**
  * QuickCreate view.
  *
- * @package   Action
+ * @package   View
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
  * Occurrences_QuickCreateAjax_View class.
@@ -44,7 +45,6 @@ class Occurrences_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		unset($jsFiles["modules.{$request->getModule()}.resources.QuickCreate"]);
 		$jsFiles = [];
 		return array_merge($jsFiles, $this->checkAndConvertJsScripts([
-			'~libraries/moment/min/moment.min.js',
 			'~libraries/fullcalendar/main.js',
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',

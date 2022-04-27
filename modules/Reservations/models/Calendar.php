@@ -1,10 +1,16 @@
 <?php
 
 /**
- * Reservations calendar model class.
+ * Reservations calendar model file.
+ *
+ * @package   Model
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+/**
+ * Reservations calendar model class.
  */
 class Reservations_Calendar_Model extends Vtiger_Calendar_Model
 {
