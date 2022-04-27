@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	{if $ACCOUNTSLIST}
-		{assign var="MAILS" value=OSSMail_Record_Model::getMailsFromIMAP($USER)}
+	{assign var=MAILS value=OSSMail_Record_Model::getMailsFromIMAP($USER)}
+	{if $MAILS}
 		<div>
 			{foreach from=$MAILS item=item key=key}
 				<div class="form-row mailRow px-2" data-mailId="{$key}">

@@ -10,6 +10,9 @@
 		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 			<div class="d-inline-flex">
+				<button class="btn btn-sm btn-light js-widget-refresh" title="{\App\Language::translate('LBL_REFRESH')}" data-url="{$WIDGET->getUrl()}&content=data" data-js="click">
+					<span class="fas fa-sync-alt"></span>
+				</button>
 				{if !$WIDGET->isDefault()}
 					<button class="btn btn-sm btn-light js-widget-remove" title="{\App\Language::translate('LBL_CLOSE')}" data-url="{$WIDGET->getDeleteUrl()}" data-js="click">
 						<span class="fas fa-times"></span>
@@ -26,7 +29,7 @@
 							<span class="fas fa-envelope"></span>
 						</span>
 					</div>
-					<select class="mailUserList form-control select2" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="mailUserList" title="{\App\Language::translate('LBL_MAIL_USERS_LIST')}" name="type">
+					<select class="form-control select2noactive widgetFilter" name="mailAccount" aria-describedby="inputGroup-sizing-sm" id="mailUserList" title="{\App\Language::translate('LBL_MAIL_USERS_LIST')}">
 						{if count($ACCOUNTSLIST) eq 0}
 							<option value="-">{\App\Language::translate('--None--', $MODULE_NAME)}</option>
 						{else}

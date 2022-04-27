@@ -301,29 +301,6 @@ $.Class(
 				}
 			});
 		},
-		registerChangeMailUser: function () {
-			let container = this.getContainer();
-			container.on('change', '#mailUserList', function (e) {
-				let element = $(e.currentTarget);
-				let parent = element.closest('.dashboardWidget');
-				let contentContainer = parent.find('.dashboardWidgetContent');
-				let optionSelected = $('option:selected', this);
-				let url = parent.data('url') + '&user=' + optionSelected.val();
-
-				let params = {};
-				params.url = url;
-				params.data = {};
-				contentContainer.progressIndicator({});
-				AppConnector.request(params)
-					.done(function (data) {
-						contentContainer.progressIndicator({ mode: 'hide' });
-						parent.html(data).trigger(Vtiger_Widget_Js.widgetPostRefereshEvent);
-					})
-					.fail(function () {
-						contentContainer.progressIndicator({ mode: 'hide' });
-					});
-			});
-		},
 		registerMiniListWidget: function () {
 			const thisInstance = this;
 			$('.dashboardHeading')
@@ -665,7 +642,6 @@ $.Class(
 			this.removeWidget();
 			this.registerDatePickerHideInitiater();
 			this.registerShowMailBody();
-			this.registerChangeMailUser();
 			this.registerMiniListWidget();
 			this.registerTabModules();
 			this.removeWidgetFromList();
