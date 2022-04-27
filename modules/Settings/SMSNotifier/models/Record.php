@@ -187,8 +187,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		foreach ($this->getEditFields() as $fieldName => $fieldModel) {
 			if ($request->has($fieldName)) {
-				$fieldModel = $this->getFieldInstanceByName($fieldName);
-				$value = $request->getByType($fieldName, $fieldModel->get('purifyType'));
+				$value = $request->isEmpty($fieldName) && !$fieldModel->isMandatory() ? '' : $request->getByType($fieldName, $fieldModel->get('purifyType'));
 				if ('api_key' === $fieldName) {
 					$value = App\Encryption::getInstance()->encrypt($value);
 				}
@@ -295,7 +294,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @param string $name
 	 *
-	 * @return \Settings_Vtiger_Field_Model
+	 * @return \Vtiger_Field_Model
 	 */
 	public function getFieldInstanceByName($name)
 	{
@@ -337,7 +336,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function determines fields available in edition view.
 	 *
-	 * @return string[]
+	 * @return Vtiger_Field_Model[]
 	 */
 	public function getEditFields()
 	{

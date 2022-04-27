@@ -354,7 +354,7 @@ class Settings_WebserviceUsers_WebserviceStandard_Service extends Settings_Webse
 	 *
 	 * @param mixed|null $value
 	 *
-	 * @return string
+	 * @return string|string[]
 	 */
 	public function getTypeValues($value = null)
 	{

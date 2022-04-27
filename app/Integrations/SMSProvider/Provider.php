@@ -114,7 +114,7 @@ abstract class Provider extends \App\Base
 	/**
 	 * Fields for edit view in settings.
 	 *
-	 * @return array
+	 * @return \Vtiger_Field_Model[]
 	 */
 	abstract public function getEditFields(): array;
 

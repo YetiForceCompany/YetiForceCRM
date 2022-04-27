@@ -19,12 +19,12 @@ class Containers
 {
 	/** @var string[] List of available API containers */
 	public static $list = [
-		'WebserviceStandard', 'WebservicePremium', 'ManageConsents',
+		'WebserviceStandard', 'WebservicePremium', 'ManageConsents', 'SMS',
 	];
 
 	/** @var string[] List of GUI tabs */
 	public static $listTab = [
-		'WebserviceStandard', 'WebservicePremium', 'ManageConsents',
+		'WebserviceStandard', 'WebservicePremium', 'ManageConsents', 'SMS',
 	];
 
 	/** @var array List of db tables */
@@ -41,6 +41,9 @@ class Containers
 		],
 		'ManageConsents' => [
 			'user' => 'w_#__manage_consents_user',
+		],
+		'SMS' => [
+			'user' => 'w_#__sms_user',
 		],
 	];
 }

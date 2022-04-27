@@ -118,7 +118,7 @@ class SMSAPI extends Provider
 	{
 		$fields = [];
 		foreach (['api_key', 'from', 'type'] as $fieldName) {
-			$fields[$fieldName] = $this->getFieldModelByName($fieldName);
+			$fields[$fieldName] = $this->getFieldInstanceByName($fieldName);
 		}
 		return $fields;
 	}
@@ -126,11 +126,11 @@ class SMSAPI extends Provider
 	/**
 	 * Fields to edit in settings.
 	 *
-	 * @param mixed $name
+	 * @param string $name
 	 *
-	 * @return \Settings_Vtiger_Field_Model[]
+	 * @return \Vtiger_Field_Model
 	 */
-	public function getFieldModelByName($name)
+	public function getFieldInstanceByName(string $name)
 	{
 		$moduleName = 'Settings:SMSNotifier';
 		$field = ['uitype' => 16, 'column' => $name, 'name' => $name, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
@@ -138,7 +138,7 @@ class SMSAPI extends Provider
 				case 'api_key':
 					$field['uitype'] = 99;
 					$field['label'] = 'FL_API_KEY';
-					$field['purifyType'] = '-';
+					$field['purifyType'] = \App\Purifier::ALNUM;
 					$field['fromOutsideList'] = true;
 					$field['fieldvalue'] = $this->has($name) ? $this->get($name) : '';
 					break;
@@ -196,7 +196,7 @@ class SMSAPI extends Provider
 		$apiKey = \App\Encryption::getInstance()->decrypt($server->get('api_key'));
 		$params = [
 			'_container' => 'SMS',
-			'module' => 'SMSNotifier',
+			'module' => 'SMSAPI',
 			'action' => 'Report',
 			'x-api-key' => $apiKey,
 			'x-token' => $service['token'],
