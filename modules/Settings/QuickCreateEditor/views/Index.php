@@ -41,7 +41,7 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 	public function showFieldLayout(App\Request $request)
 	{
 		$sourceModule = $request->getByType('sourceModule', 2);
-		$menuModelsList = Vtiger_Module_Model::getQuickCreateModules();
+		$menuModelsList = \App\Module::getQuickCreateModules();
 
 		if (empty($sourceModule)) {
 			$firstElement = reset($menuModelsList);

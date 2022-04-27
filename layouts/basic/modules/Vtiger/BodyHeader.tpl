@@ -248,7 +248,7 @@
 							</a>
 						</div>
 					{/if}
-					{assign var=QUICKCREATE_MODULES_PARENT value=Vtiger_Module_Model::getQuickCreateModules(true, true)}
+					{assign var=QUICKCREATE_MODULES_PARENT value=\App\Module::getQuickCreateModules(true, true)}
 					{if \App\Config::main('isActiveRecordTemplate')}
 						{assign var=LIST_TEMPLATES value=\App\RecordAddsTemplates::getTemplatesList()}
 						{if count($LIST_TEMPLATES) > 1}
