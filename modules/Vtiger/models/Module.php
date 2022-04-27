@@ -71,7 +71,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function isSummaryViewSupported()
 	{
-		return false;
+		return true;
 	}
 
 	public function getModuleType()
