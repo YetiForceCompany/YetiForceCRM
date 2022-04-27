@@ -395,6 +395,10 @@ jQuery.Class(
 				instance = window.pageController;
 				instance.reloadFunctionName = 'getListViewRecords';
 				instance.execute = ['updatePagination'];
+			} else if (viewName == 'Tiles') {
+				instance = new Vtiger_List_Js();
+				instance.reloadFunctionName = 'getListViewRecords';
+				instance.execute = ['updatePagination'];
 			}
 			return instance;
 		},

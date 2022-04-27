@@ -5,6 +5,11 @@ $.Class(
 	{},
 	{
 		contentContainer: false,
+		/**
+		 * Register tiles size change action
+		 * @param {jQuery} topMenuContainer
+		 * @param {Vtiger_List_Js} listInstance
+		 */
 		registerTileSizeChange: function (topMenuContainer, listInstance) {
 			let thisInstance = this;
 			topMenuContainer.find('.js-tiles-size').on('change', (e) => {
@@ -28,6 +33,9 @@ $.Class(
 				e.stopPropagation();
 			});
 		},
+		/**
+		 * Adjust height tile to the highest
+		 */
 		setHeightOfTiles: function () {
 			let maxHeight = -1;
 			let tiles = this.contentContainer.find('.js-tile-card');
@@ -39,6 +47,23 @@ $.Class(
 				$(this).height(maxHeight);
 			});
 		},
+		/**
+		 * Function to register the click on the tile
+		 * @param {jQuery} tileContainer
+		 */
+		registerTileClickEvent: function (tileContainer) {
+			tileContainer.on('click', '.js-card-body', function (e) {
+				alert('click');
+				if ($(e.target).closest('div').hasClass('actions')) return;
+				if ($(e.target).is('button') || $(e.target).parent().is('button')) return;
+				if ($(e.target).closest('a').hasClass('noLinkBtn')) return;
+				if ($(e.target).is('input[type="checkbox"]')) return;
+				let recordUrl = $(e.target).closest('.js-tile-container').data('recordurl');
+				if (typeof recordUrl !== 'undefined') {
+					window.location.href = recordUrl;
+				}
+			});
+		},
 		registerEvents: function () {
 			const listInstance = new Vtiger_List_Js();
 			listInstance.registerEvents();
@@ -46,6 +71,7 @@ $.Class(
 			this.contentContainer = listInstance.getListViewContainer();
 			this.registerTileSizeChange(topMenuContainer, listInstance);
 			this.setHeightOfTiles();
+			this.registerTileClickEvent(listInstance.getListViewContainer());
 		}
 	}
 );

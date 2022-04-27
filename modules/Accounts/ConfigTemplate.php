@@ -9,7 +9,7 @@
 return [
 	'COLUMNS_IN_HIERARCHY' => [
 		'default' => [],
-		'description' => 'Columns visible in Account hierarchy [$label => $columnName]'
+		'description' => 'Columns visible in Account hierarchy [$label => $columnName]',
 	],
 	'MAX_HIERARCHY_DEPTH' => [
 		'default' => 50,
@@ -17,27 +17,27 @@ return [
 		'validation' => '\App\Validator::naturalNumber',
 		'sanitization' => function () {
 			return (int) func_get_arg(0);
-		}
+		},
 	],
 	'COUNT_IN_HIERARCHY' => [
 		'default' => true,
 		'description' => 'Count Accounts in hierarchy',
 		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
+		'sanitization' => '\App\Purifier::bool',
 	],
 	'SHOW_SUMMARY_PRODUCTS_SERVICES' => [
 		'default' => true,
 		'description' => 'Show summary products services bookmark',
 		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
+		'sanitization' => '\App\Purifier::bool',
 	],
 	'defaultViewName' => [
 		'default' => 'List',
-		'description' => 'Default module view. Values: List, ListPreview or DashBoard, refresh menu files after you change this value',
+		'description' => 'Default module view. Values: List, ListPreview, DashBoard or Tiles, refresh menu files after you change this value',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return 'List' === $arg || 'ListPreview' === $arg || 'DashBoard' === $arg;
-		}
+			return 'List' === $arg || 'ListPreview' === $arg || 'DashBoard' === $arg || 'Tiles' === $arg;
+		},
 	],
 	'defaultDetailViewName' => [
 		'default' => 'full',
@@ -45,6 +45,6 @@ return [
 		'validation' => function () {
 			$arg = func_get_arg(0);
 			return 'full' === $arg || 'summary' === $arg;
-		}
+		},
 	],
 ];

@@ -1481,7 +1481,7 @@
     "LBL_GREATER_OR_EQUAL_FIELD": "greater than or equal to field (>=)",
     "LBL_DRAG_AND_DROP_FILES": "Drag & Drop your files or Browse",
     "LBL_SELECT_CALENDAR": "Select calendar",
-    "LBL_RECORDS_TILES": "Tiles view",
+    "LBL_VIEW_TILES": "Tiles view",
     "LBL_CHOOSE_TILE_SIZE": "Tile size",
     "LBL_VERY_SMALL_TILE": "Very small",
     "LBL_SMALL_TILE": "Small",
