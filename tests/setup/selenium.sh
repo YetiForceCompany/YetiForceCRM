@@ -10,10 +10,10 @@
 serverUrl='http://127.0.0.1:4444'
 
 # Versions
-CHROME_DRIVER_VERSION=`curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE_99`
-#CHROME_DRIVER_VERSION="97.0.4692.71"
-SELENIUM_STANDALONE_VERSION=3.9.1
-SELENIUM_SUBDIR=$(echo "$SELENIUM_STANDALONE_VERSION" | cut -d"." -f-2)
+CHROME_DRIVER_VERSION=`curl -sS https://chromedriver.storage.googleapis.com/LATEST_RELEASE_101`
+#CHROME_DRIVER_VERSION="101.0.4951.41"
+SELENIUM_STANDALONE_VERSION=4.1.3
+SELENIUM_SUBDIR=4.1.0
 
 # Install sources.list.d.
 echo '-- # Install sources.list.d. --'
@@ -41,14 +41,14 @@ chmod 0755 /usr/local/bin/chromedriver
 
 # Install Selenium.
 echo '-- # Install Selenium. --'
-wget -q -N https://selenium-release.storage.googleapis.com/$SELENIUM_SUBDIR/selenium-server-standalone-$SELENIUM_STANDALONE_VERSION.jar -P ~/
-mv -f ~/selenium-server-standalone-$SELENIUM_STANDALONE_VERSION.jar /usr/local/bin/selenium-server-standalone.jar
+wget -q -N https://github.com/SeleniumHQ/selenium/releases/download/selenium-$SELENIUM_SUBDIR/selenium-server-$SELENIUM_STANDALONE_VERSION.jar -P ~/
+mv -f ~/selenium-server-$SELENIUM_STANDALONE_VERSION.jar /usr/local/bin/selenium-server-standalone.jar
 chown root:root /usr/local/bin/selenium-server-standalone.jar
 chmod 0755 /usr/local/bin/selenium-server-standalone.jar
 
 # Run Chrome via Selenium Server
 echo '-- # Run Chrome via Selenium Server --'
-xvfb-run java -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver -jar /usr/local/bin/selenium-server-standalone.jar > /var/www/html/cache/logs/selenium.log 2>&1 &
+xvfb-run java -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver -jar /usr/local/bin/selenium-server-standalone.jar standalone > /var/www/html/cache/logs/selenium.log 2>&1 &
 #debug
 #xvfb-run java -Dwebdriver.chrome.driver=/usr/local/bin/chromedriver -jar /usr/local/bin/selenium-server-standalone.jar -debug
 #echo '-- # chromedriver --url-base=/wd/hub --'
