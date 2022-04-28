@@ -499,9 +499,7 @@ class Vtiger_Record_Model extends \App\Base
 		} else {
 			$field = $this->getModule()->getFieldByName($field);
 		}
-		$uitypeModel = $field->getUITypeModel();
-		$uitypeModelMethod = method_exists($uitypeModel, 'getTilesDisplayValue') ? 'getTilesDisplayValue' : 'getListViewDisplayValue';
-		return $field->getUITypeModel()->{$uitypeModelMethod}($this->get($field->getName()), $this->getId(), $this, $rawText);
+		return $field->getUITypeModel()->getTilesDisplayValue($this->get($field->getName()), $this->getId(), $this, $rawText);
 	}
 
 	/**

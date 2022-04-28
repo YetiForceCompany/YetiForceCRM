@@ -600,6 +600,10 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool',
 		],
+		'tileDefaultSize' => [
+			'default' => 'very_small',
+			'description' => 'Should the breadcrumb menu have href enabled? true = enabled, false = off',
+		],
 	],
 	'performance' => [
 		'CACHING_DRIVER' => [

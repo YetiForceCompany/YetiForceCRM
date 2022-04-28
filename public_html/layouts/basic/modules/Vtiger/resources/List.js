@@ -1230,9 +1230,9 @@ $.Class(
 				search_params: '',
 				advancedConditions: ''
 			};
-			let tileSelect = thisInstance.getListViewTopMenuContainer().find('.js-tiles-size');
-			if ('Tiles' === app.getViewName() && tileSelect.length !== 0) {
-				urlParams.tile_size = tileSelect.find('option:selected').val();
+			let tileSelect = thisInstance.getListViewTopMenuContainer().find('.js-selected-tile-size');
+			if (tileSelect.length > 0) {
+				urlParams.tile_size = tileSelect.attr('data-selected-tile-size');
 			}
 			//Make the select all count as empty
 			$('#recordsCount').val('');
@@ -1243,7 +1243,7 @@ $.Class(
 				this.breadCrumbsFilter(selectOption.text());
 				this.ListViewPostOperation();
 				this.updatePagination(1);
-				if ('Tiles' === app.getViewName()) {
+				if (tileSelect.length > 0) {
 					const tileInstance = new Vtiger_Tiles_Js();
 					tileInstance.contentContainer = thisInstance.getListViewContainer();
 					tileInstance.setHeightOfTiles();

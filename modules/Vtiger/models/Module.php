@@ -984,10 +984,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 				'linkicon' => 'yfi yfi-kanban',
 			]);
 		}
-		if ($this->isPermitted('Tiles')) {
+		if ($this->isPermitted('TilesView')) {
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
-				'linklabel' => 'LBL_VIEW_TILES',
+				'linklabel' => 'LBL_TILES_VIEW',
 				'linkurl' => "index.php?module={$this->getName()}&view=Tiles{$menuUrl}",
 				'linkicon' => 'far fa-list-alt',
 			]);

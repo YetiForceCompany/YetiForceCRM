@@ -11,8 +11,10 @@ $.Class(
 		 * @param {Vtiger_List_Js} listInstance
 		 */
 		registerTileSizeChange: function (topMenuContainer, listInstance) {
-			let thisInstance = this;
-			topMenuContainer.find('.js-tiles-size').on('change', (e) => {
+			topMenuContainer.find('.js-tile-size').on('click', (e) => {
+				let selectedTileSize = $(e.currentTarget).attr('data-tile-size');
+				topMenuContainer.find('.js-tile-dropdown-title').text($(e.currentTarget).text());
+				topMenuContainer.find('.js-selected-tile-size').attr('data-selected-tile-size', selectedTileSize);
 				app.setMainParams('pageNumber', '1');
 				app.setMainParams('pageToJump', '1');
 				let urlParams = {
@@ -21,14 +23,14 @@ $.Class(
 					search_value: '',
 					search_params: '',
 					advancedConditions: '',
-					tile_size: $(e.currentTarget).find('option:selected').val()
+					tile_size: selectedTileSize
 				};
 				$('#recordsCount').val('');
 				$('#totalPageCount').text('');
 				topMenuContainer.find('.pagination').data('totalCount', 0);
 				listInstance.getListViewRecords(urlParams).done(() => {
 					listInstance.updatePagination(1);
-					thisInstance.setHeightOfTiles(thisInstance.contentContainer);
+					this.setHeightOfTiles(this.contentContainer);
 				});
 				e.stopPropagation();
 			});
@@ -42,7 +44,6 @@ $.Class(
 			tiles.each(function () {
 				maxHeight = maxHeight > $(this).height() ? maxHeight : $(this).height();
 			});
-
 			tiles.each(function () {
 				$(this).height(maxHeight);
 			});

@@ -233,6 +233,21 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Function to get the tile value in display view.
+	 *
+	 * @param mixed                    $value
+	 * @param bool|int                 $record
+	 * @param bool|Vtiger_Record_Model $recordModel
+	 * @param bool                     $rawText
+	 *
+	 * @return mixed
+	 */
+	public function getTilesDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
+	{
+		return $this->getListViewDisplayValue($value, $record, $recordModel, $rawText);
+	}
+
+	/**
 	 * Function to get the related list value in display view.
 	 *
 	 * @param mixed                    $value       Field value

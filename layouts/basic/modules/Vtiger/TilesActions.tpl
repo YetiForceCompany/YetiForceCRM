@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Base-TilesLeftSide -->
+	<!-- tpl-Base-TilesActions -->
 	<div class="d-flex c-tiles-actions-container">
 		<div>
 			<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox mt-1 ml-1" title="{\App\Language::translate('LBL_SELECT_SINGLE_ROW')}" />
@@ -29,5 +29,5 @@
 		{/if}
 
 	</div>
-	<!-- /tpl-Base-TilesLeftSide -->
+	<!-- /tpl-Base-TilesActions -->
 {/strip}

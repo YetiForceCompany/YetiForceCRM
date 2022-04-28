@@ -113,11 +113,11 @@
 		<div class="row m-0 mt-1 c-tiles-container h-100">
 			{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 				{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
-				<div class="col-md-{$TILE_COLUMN_SIZE} col-sm-12 p-1 border-0 c-tile-record-container js-tile-container" data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}'>
+				<div class="col-md-{$TILE_COLUMN_SIZE} col-sm-12 p-1 border-0 u-cursor-pointer c-tile-record-container  js-tile-container" data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}'>
 					<div class="card js-tile-card justify-content-center">
 						<div class="w-100 h-100 c-tile-body border border-light bg-light">
 							<div class="card-footer p-0 border-0 justify-content-center">
-								{include file=\App\Layout::getTemplatePath('TilesLeftSide.tpl', $MODULE_NAME)}
+								{include file=\App\Layout::getTemplatePath('TilesActions.tpl', $MODULE_NAME)}
 							</div>
 							<div class="card-body js-card-body justify-content-center h-100">
 								{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
@@ -130,12 +130,7 @@
 													</a>
 												{else}
 													<small>
-														{if $FIELD_DATA_TYPE eq 'multiImage'}
-															{$LISTVIEW_ENTRY->getTilesDisplayValue($LISTVIEW_HEADER)}
-														{else}
-															{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER)}
-
-														{/if}
+														{$LISTVIEW_ENTRY->getTilesDisplayValue($LISTVIEW_HEADER)}
 													</small>
 												{/if}
 											</span>

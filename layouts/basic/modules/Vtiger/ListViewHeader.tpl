@@ -23,6 +23,9 @@
 						{if isset($LISTVIEW_LINKS['LISTVIEW'])}
 							{assign var=LINKS value=array_merge($LINKS,$LISTVIEW_LINKS['LISTVIEW'])}
 						{/if}
+						{if 'Tiles' eq $VIEW}
+							{include file=\App\Layout::getTemplatePath('TilesSize.tpl')}
+						{/if}
 						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$LINKS TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS='listViewMassActions mr-sm-1 mb-1 mb-sm-0 c-btn-block-sm-down'}
 						{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listView' CLASS='mr-sm-1 mb-1 c-btn-block-sm-down'}
@@ -90,6 +93,7 @@
 							<input type="hidden" value="0" id="customFilter" />
 						{/if}
 					</div>
+
 					<div class="c-list__right-container d-flex flex-nowrap u-overflow-scroll-non-desktop">
 						{include file=\App\Layout::getTemplatePath('ListViewActions.tpl')}
 					</div>
