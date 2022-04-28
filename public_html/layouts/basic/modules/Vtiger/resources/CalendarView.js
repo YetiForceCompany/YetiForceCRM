@@ -592,7 +592,6 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 		let todayButton = toolbar.find('.fc-today-button'),
 			todyButtonIcon = todayButton.attr('disabled') ? 'fa-calendar-check' : 'fa-calendar',
 			popoverContent = todayButton.attr('title');
-		todayButton.removeClass('.fc-button');
 		todayButton.html(`<div class="js-popover-tooltip"><span class="far fa-lg ${todyButtonIcon}"></span></div>`);
 		app.showPopoverElementView(todayButton.find('.js-popover-tooltip'), {
 			title: popoverContent

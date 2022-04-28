@@ -166,7 +166,7 @@ window.Calendar_Js = class {
 			allDayText: app.vtranslate('JS_ALL_DAY'),
 			noEventsText: app.vtranslate('JS_NO_RECORDS'),
 			buttonText: {
-				today: app.vtranslate('JS_CURRENT'),
+				today: '',
 				year: app.vtranslate('JS_YEAR'),
 				week: app.vtranslate('JS_WEEK'),
 				month: app.vtranslate('JS_MONTH'),
