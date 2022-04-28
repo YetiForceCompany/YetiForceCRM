@@ -103,7 +103,10 @@ Vtiger_Base_Validator_Js(
 				var fieldInfo = fieldData.fieldinfo;
 				var group = field.closest('.input-group');
 				var phoneCountryList = group.find('.phoneCountryList');
-				field.attr('readonly', true);
+				let isReadOnly = field.get(0).readOnly;
+				if (!isReadOnly) {
+					field.attr('readonly', true);
+				}
 				let moduleName = form.find('[name="module"]').length ? form.find('[name="module"]').val() : app.getModuleName();
 				if (moduleName === 'LayoutEditor') {
 					moduleName = $('#selectedModuleName').val();
@@ -130,7 +133,9 @@ Vtiger_Base_Validator_Js(
 								phoneCountryList.val(data.result.country).trigger('change');
 							}
 						}
-						field.attr('readonly', false);
+						if (!isReadOnly) {
+							field.attr('readonly', false);
+						}
 					})
 					.fail(function (error, err) {
 						thisInstance.setError(app.vtranslate('JS_ERROR'));
