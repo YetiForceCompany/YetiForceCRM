@@ -677,3 +677,43 @@ input[type="checkbox"][disabled] {
 		}
 	}
 }
+
+/* -------- Tiles view -------- */
+
+.c-tiles-actions-container .toolsAction {
+	line-height: 0;
+}
+.c-tile-body .c-multi-image__preview-img {
+	transition: transform 0.2s;
+}
+.c-tile-body .c-multi-image__preview-img,
+.c-tile-body .carousel-image {
+	height: 16em;
+	width: 100%;
+}
+.c-tile-value {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.c-tile-body .carousel-control-next,
+.c-tile-body .carousel-control-prev {
+	filter: invert(100%);
+}
+
+.c-tile-image {
+	transition: transform 0.2s;
+}
+
+.js-tiles-container .c-tile-container:hover {
+	z-index: 999999;
+}
+
+.c-tile-body .c-multi-image__preview-img:hover,
+.c-tile-image:hover {
+	-moz-transform: scale(1.5);
+	-webkit-transform: scale(1.5);
+	transform: scale(1.5);
+	z-index: 999;
+}
