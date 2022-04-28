@@ -17,7 +17,7 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Vtiger_Calendar
 			dateClick: (args) => {
 				if (this.eventCreate) {
 					this.showCalendarCreateView().done((form) => {
-						this.callbackCreateModal(form, args);
+						this.dayCallbackCreateModal(form, args);
 					});
 				}
 			},
@@ -175,7 +175,6 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Vtiger_Calendar
 			self.fullCalendar.addEventSource(events.result);
 			progressInstance.progressIndicator({ mode: 'hide' });
 		});
-		self.registerViewRenderEvents(view);
 		window.calendarLoaded = true;
 	}
 	/**

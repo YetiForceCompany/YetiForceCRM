@@ -6,7 +6,7 @@ window.Occurrences_Calendar_Js = class Occurrences_Calendar_Js extends Vtiger_Ca
 	 * @param {jQuery} modal
 	 * @param {object} info
 	 */
-	callbackCreateModal(modal, info) {
+	selectCallbackCreateModal(modal, info) {
 		let dateFormat = modal.find('[name="date_start"]').data('dateFormat'),
 			timeFormat = modal.find('[name="date_start"]').data('hourFormat'),
 			userFormat = App.Fields.Date.dateToUserFormat(info.date, dateFormat),

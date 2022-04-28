@@ -182,7 +182,7 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 					self.reloadCalendarData();
 				},
 				callbackPostShown: (modal) => {
-					self.callbackCreateModal(modal, info);
+					self.dayCallbackCreateModal(modal, info);
 				}
 			});
 		});
@@ -192,7 +192,7 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 	 * @param {jQuery} modal
 	 * @param {object} info
 	 */
-	callbackCreateModal(modal, info) {
+	dayCallbackCreateModal(modal, info) {
 		let dateFormat = modal.find('[name="date_start"]').data('dateFormat'),
 			timeFormat = modal.find('[name="time_start"]').data('format'),
 			defaultTimeFormat = 'hh:mm A',

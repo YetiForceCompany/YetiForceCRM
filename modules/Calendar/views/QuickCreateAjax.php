@@ -49,9 +49,9 @@ class Calendar_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 				'modules.Calendar.resources.Edit',
 				'~layouts/resources/Calendar.js',
 				'~layouts/resources/YearView.js',
-				'modules.Calendar.resources.Standard.CalendarView',
-				'modules.Calendar.resources.Extended.CalendarView',
-				'modules.Calendar.resources.QuickCreate',
+				'modules.Vtiger.resources.CalendarView',
+				"modules.{$request->getModule()}.resources.CalendarView",
+				'modules.Calendar.resources.CalendarQuickCreate',
 			]);
 		}
 		return parent::getFooterScripts($request);

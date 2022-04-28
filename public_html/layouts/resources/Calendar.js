@@ -778,7 +778,7 @@ window.Calendar_Js = class {
 					self.reloadCalendarData();
 				},
 				callbackPostShown: (modal) => {
-					this.callbackCreateModal(modal, info);
+					this.selectCallbackCreateModal(modal, info);
 				}
 			});
 		});
@@ -787,7 +787,7 @@ window.Calendar_Js = class {
 	 * Callback after shown create modal
 	 * @param {jQuery} modal
 	 */
-	callbackCreateModal(modal, info) {
+	selectCallbackCreateModal(modal, info) {
 		let startDate = info.start,
 			endDate = info.end;
 		if (info['allDay']) {
