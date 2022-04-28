@@ -612,7 +612,7 @@ class ConfReport
 				'public_html' => IS_PUBLIC_DIR ? 'On' : 'Off',
 				'crmVersion' => \App\Version::get(),
 				'crmDate' => \App\Version::get('patchVersion'),
-				'companySize' => \App\Config::db('base') ? \App\Company::getSize() : '-',
+				'companySize' => \App\Config::main('application_unique_key') ? \App\Company::getSize() : '-',
 				'crmDir' => ROOT_DIRECTORY,
 				'operatingSystem' => 'demo' === \App\Config::main('systemMode') ? php_uname('s') : php_uname(),
 				'serverSoftware' => $_SERVER['SERVER_SOFTWARE'] ?? '-',
