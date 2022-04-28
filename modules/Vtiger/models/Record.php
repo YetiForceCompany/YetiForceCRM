@@ -1402,7 +1402,7 @@ class Vtiger_Record_Model extends \App\Base
 			return [];
 		}
 		$links = $recordLinks = [];
-		if ($this->getModule()->isSummaryViewSupported()) {
+		if ($this->getModule()->isSummaryViewSupported() && array_filter($this->getModule()->getWidgets())) {
 			$recordLinks['LBL_SHOW_QUICK_DETAILS'] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_SHOW_QUICK_DETAILS',

@@ -1004,9 +1004,16 @@ class Vtiger_Module_Model extends \vtlib\Module
 		return false;
 	}
 
-	public function getWidgets($module)
+	/**
+	 * Getting Widgets.
+	 *
+	 * @param string|null $module
+	 *
+	 * @return array
+	 */
+	public function getWidgets(?string $module = null): array
 	{
-		return Settings_Widgets_Module_Model::getWidgets($module);
+		return Settings_Widgets_Module_Model::getWidgets($module ?? $this->getName());
 	}
 
 	/**
