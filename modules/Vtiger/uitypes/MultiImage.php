@@ -170,7 +170,9 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		if (!$value) {
 			return '';
 		}
-		$len = $length ?: \count($value);
+		$imageCount = (int) ($this->getFieldModel()->getFieldParams()['imageCount'] ?? 0);
+		$countValue = \count($value);
+		$len = ($imageCount <= $countValue) && ($imageCount > 0)  ? $imageCount : $countValue;
 		if (!$record && $recordModel) {
 			$record = $recordModel->getId();
 		}
@@ -181,7 +183,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 			}
 			for ($i = 0; $i < $len; ++$i) {
 				$val = $value[$i];
-				$result .= $val['name'] . ', ';
+				$result .= \App\TextParser::textTruncate($val['name'], $length) . ', ';
 			}
 			return \App\Purifier::encodeHtml(trim($result, "\n\t ,"));
 		}
@@ -189,7 +191,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 			return '';
 		}
 		$result = '<div class="c-multi-image__result" style="width:100%">';
-		$width = 1 / \count($value) * 100;
+		$width = 1 / $len * 100;
 		for ($i = 0; $i < $len; ++$i) {
 			if ($record) {
 				$src = $this->getImageUrl($value[$i]['key'], $record);
@@ -208,6 +210,9 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		if (!$value) {
 			return '';
 		}
+		$imageCount = (int) ($this->getFieldModel()->getFieldParams()['imageCount'] ?? 0);
+		$countValue = \count($value);
+		$len = ($imageCount <= $countValue) && ($imageCount > 0) ? $imageCount : $countValue;
 		if (!$record && $recordModel) {
 			$record = $recordModel->getId();
 		}
@@ -216,7 +221,6 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 			if (!\is_array($value)) {
 				return '';
 			}
-			$len = \count($value);
 			for ($i = 0; $i < $len; ++$i) {
 				$val = $value[$i];
 				$result .= $val['name'] . ', ';
@@ -227,11 +231,11 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 			return '';
 		}
 		$result = '<div class="c-multi-image__result text-center">';
-		foreach ($value as $item) {
+		for ($i = 0; $i < $len; ++$i) {
 			if ($record) {
-				$result .= '<div class="d-inline-block mr-1 c-multi-image__preview-img middle" style="background-image:url(' . $this->getImageUrl($item['key'], $record) . ')"></div>';
+				$result .='<div class="d-inline-block mr-1 c-multi-image__preview-img middle" style="background-image:url(' . $this->getImageUrl($value[$i]['key'], $record) . ')"></div>';
 			} else {
-				$result .= \App\Purifier::encodeHtml($item['name']) . ', ';
+				$result .= \App\Purifier::encodeHtml($value[$i]['name']) . ', ';
 			}
 		}
 		return $result . '</div>';
