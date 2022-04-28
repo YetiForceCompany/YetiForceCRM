@@ -24,7 +24,11 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Vtiger_Calendar
 			selectable: false,
 			eventClick: function (info) {
 				info.jsEvent.preventDefault();
-				const link = $(info.el).attr('href');
+				const element = $(info.el);
+				let link = element.attr('href');
+				if (!link) {
+					link = element.find('a').attr('href');
+				}
 				if (!self.readonly && self.eventEdit) {
 					self.showSidebarEvent(link);
 				} else {

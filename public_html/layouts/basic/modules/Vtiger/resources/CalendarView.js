@@ -26,7 +26,11 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 			selectable: false,
 			eventClick: function (info) {
 				info.jsEvent.preventDefault();
-				const link = $(info.el).attr('href');
+				const element = $(info.el);
+				let link = element.attr('href');
+				if (!link) {
+					link = element.find('a').attr('href');
+				}
 				if (link && $.inArray('js-show-modal', info.event.classNames) !== -1) {
 					app.showModalWindow(null, link.replace('view=', 'xview=') + '&view=QuickDetailModal');
 				}
