@@ -10,6 +10,10 @@ return [
 		'default' => true,
 		'description' => 'Right calendar panel visible by default. true - show right panel, false - hide right panel',
 		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
+		'sanitization' => '\App\Purifier::bool',
+	],
+	'showPinUser' => [
+		'default' => true,
+		'description' => 'Whether to display the add to favorite users button',
 	],
 ];

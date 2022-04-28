@@ -15,6 +15,9 @@
  */
 class Vtiger_Calendar_View extends Vtiger_Index_View
 {
+	/** @var string[] Filters */
+	protected $filters = ['Filter'];
+
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
@@ -25,15 +28,9 @@ class Vtiger_Calendar_View extends Vtiger_Index_View
 	}
 
 	/** {@inheritdoc} */
-	protected function getTpl(string $tplFile)
-	{
-		return "Calendar/{$tplFile}";
-	}
-
-	/** {@inheritdoc} */
 	protected function preProcessTplName(App\Request $request)
 	{
-		return $this->getTpl('PreProcess.tpl');
+		return 'Calendar/PreProcess.tpl';
 	}
 
 	/** {@inheritdoc} */
@@ -62,15 +59,16 @@ class Vtiger_Calendar_View extends Vtiger_Index_View
 		$viewer->assign('WEEK_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'timeGridWeek' : 'basicWeek');
 		$viewer->assign('DAY_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'timeGridDay' : 'basicDay');
 		$viewer->assign('ALL_DAY_SLOT', App\Config::module('Calendar', 'ALL_DAY_SLOT'));
-		$viewer->view($this->getTpl('CalendarView.tpl'), $moduleName);
+		$viewer->view('Calendar/CalendarView.tpl', $moduleName);
 	}
 
 	/** {@inheritdoc} */
 	public function postProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('FILTERS', ['Filter']);
-		$viewer->view($this->getTpl('PostProcess.tpl'), $request->getModule());
+		$viewer->assign('FILTERS', $this->filters);
+		$viewer->assign('FAVORITES_USERS', Vtiger_CalendarRightPanel_Model::getFavoriteUsers($request->getModule()));
+		$viewer->view('Calendar/PostProcess.tpl', $request->getModule());
 		parent::postProcess($request);
 	}
 

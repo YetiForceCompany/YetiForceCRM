@@ -116,20 +116,15 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 		$return = [];
 		$currentUser = \App\User::getCurrentUserModel();
 		$moduleModel = Vtiger_Module_Model::getInstance($this->getModuleName());
-		$extended = 'Extended' === App\Config::module('Calendar', 'CALENDAR_VIEW');
 		$editForm = \App\Config::module('Calendar', 'SHOW_EDIT_FORM');
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$colors = \App\Fields\Picklist::getColors('activitytype', false);
 		while ($row = $dataReader->read()) {
 			$item = [];
-			if ($extended) {
-				if ($editForm && $moduleModel->getRecordFromArray($row, true)->setId($row['id'])->isEditable()) {
-					$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=EventForm&record=' . $row['id'];
-				} else {
-					$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=ActivityState&record=' . $row['id'];
-				}
+			if ($editForm && $moduleModel->getRecordFromArray($row, true)->setId($row['id'])->isEditable()) {
+				$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=EventForm&record=' . $row['id'];
 			} else {
-				$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=Detail&record=' . $row['id'];
+				$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=ActivityState&record=' . $row['id'];
 			}
 			$item['module'] = $this->getModuleName();
 			$item['title'] = \App\Purifier::encodeHtml($row['subject']);
@@ -309,48 +304,51 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 	public function getSideBarLinks($linkParams)
 	{
 		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['SIDEBARWIDGET'], $linkParams)['SIDEBARWIDGET'] ?? [];
-		if ('Extended' === App\Config::module('Calendar', 'CALENDAR_VIEW')) {
-			$request = \App\Request::init();
-			$historyUsers = $request->has('user') ? $request->get('user') : [];
-			$links[] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_USERS',
-				'linkclass' => 'js-users-form usersForm ',
-				'template' => 'Filters/Users.tpl',
-				'filterData' => Vtiger_CalendarRightPanel_Model::getUsersList($this->moduleName),
-				'historyUsers' => $historyUsers,
-			]);
-			$links[] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_GROUPS',
-				'linkclass' => 'js-group-form groupForm',
-				'template' => 'Filters/Groups.tpl',
-				'filterData' => Vtiger_CalendarRightPanel_Model::getGroupsList($this->moduleName),
-				'historyUsers' => $historyUsers,
-			]);
-		} else {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGETRIGHT',
-				'linklabel' => 'Activity Type',
-				'linkurl' => "module={$this->getModuleName()}&view=RightPanel&mode=getActivityType",
-				'linkdata' => ['cache' => 'calendar-types', 'name' => 'types'],
-				'linkclass' => 'js-calendar__filter--types',
-			]);
-			$links[] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGETRIGHT',
-				'linklabel' => 'LBL_USERS',
-				'linkurl' => "module={$this->getModuleName()}&view=RightPanel&mode=getUsersList",
-				'linkicon' => '',
-				'linkclass' => 'js-calendar__filter--users',
-			]);
-			$links[] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGETRIGHT',
-				'linklabel' => 'LBL_GROUPS',
-				'linkurl' => "module={$this->getModuleName()}&view=RightPanel&mode=getGroupsList",
-				'linkicon' => '',
-				'linkclass' => 'js-calendar__filter--groups',
-			]);
-		}
+		$request = \App\Request::init();
+		$historyUsers = $request->has('user') ? $request->get('user') : [];
+		$links[] = Vtiger_Link_Model::getInstanceFromValues([
+			'linktype' => 'SIDEBARWIDGET',
+			'linklabel' => 'LBL_USERS',
+			'linkclass' => 'js-users-form usersForm ',
+			'template' => 'Filters/Users.tpl',
+			'filterData' => Vtiger_CalendarRightPanel_Model::getUsersList($this->moduleName),
+			'historyUsers' => $historyUsers,
+		]);
+		$links[] = Vtiger_Link_Model::getInstanceFromValues([
+			'linktype' => 'SIDEBARWIDGET',
+			'linklabel' => 'LBL_GROUPS',
+			'linkclass' => 'js-group-form groupForm',
+			'template' => 'Filters/Groups.tpl',
+			'filterData' => Vtiger_CalendarRightPanel_Model::getGroupsList($this->moduleName),
+			'historyUsers' => $historyUsers,
+		]);
 		return $links;
+	}
+
+	/** {@inheritdoc} */
+	public function updateEvent(int $recordId, string $start, string $end, App\Request $request): bool
+	{
+		try {
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->getModuleName());
+			if ($success = $recordModel->isEditable()) {
+				$start = DateTimeField::convertToDBTimeZone($start);
+				$recordModel->set('date_start', $start->format('Y-m-d'));
+				$end = DateTimeField::convertToDBTimeZone($end);
+				$recordModel->set('due_date', $end->format('Y-m-d'));
+				if ($request->getBoolean('allDay')) {
+					$recordModel->set('allday', 1);
+				} else {
+					$recordModel->set('time_start', $start->format('H:i:s'));
+					$recordModel->set('time_end', $end->format('H:i:s'));
+					$recordModel->set('allday', 0);
+				}
+				$recordModel->save();
+				$success = true;
+			}
+		} catch (Exception $e) {
+			\App\Log::error($e->__toString());
+			$success = false;
+		}
+		return $success;
 	}
 }

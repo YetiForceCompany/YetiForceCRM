@@ -1,119 +1,39 @@
 <?php
 
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce S.A.
- * *********************************************************************************** */
-
 /**
- * Class Calendar_Calendar_View.
+ * Calendar view file.
  *
- * @package   View
+ * @package View
+ *
+ * @copyright YetiForce S.A.
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author	Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Calendar_Calendar_View extends Vtiger_Index_View
+/**
+ * Calendar view class.
+ */
+class Calendar_Calendar_View extends Vtiger_Calendar_View
 {
-	/**
-	 * Get tpl path file.
-	 *
-	 * @param string $tplFile
-	 *
-	 * @return string
-	 */
-	protected function getTpl(string $tplFile)
-	{
-		return "Standard/$tplFile";
-	}
-
-	/**
-	 * Function to check permission.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\NoPermitted
-	 */
-	public function checkPermission(App\Request $request)
-	{
-		$moduleName = $request->getModule();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$userPrivilegesModel->hasModulePermission($moduleName)) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
-	}
-
 	/** {@inheritdoc} */
-	public function preProcess(App\Request $request, $display = true)
-	{
-		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_NAME', $request->getModule());
-		parent::preProcess($request, false);
-		if ($display) {
-			$this->preProcessDisplay($request);
-		}
-	}
-
-	/** {@inheritdoc} */
-	protected function preProcessTplName(App\Request $request)
-	{
-		return $this->getTpl('CalendarViewPreProcess.tpl');
-	}
-
-	/** {@inheritdoc} */
-	public function getFooterScripts(App\Request $request)
-	{
-		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
-			'~libraries/fullcalendar/main.js',
-			'~libraries/css-element-queries/src/ResizeSensor.js',
-			'~libraries/css-element-queries/src/ElementQueries.js',
-			'~layouts/resources/Calendar.js',
-			'modules.Calendar.resources.Standard.CalendarView',
-		]));
-	}
-
-	/** {@inheritdoc} */
-	public function getHeaderCss(App\Request $request)
-	{
-		return array_merge(parent::getHeaderCss($request), $this->checkAndConvertCssStyles([
-			'~libraries/fullcalendar/main.css',
-		]));
-	}
+	protected $filters = ['Events', 'Filter'];
 
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		if ($request->getBoolean('history')) {
-			$historyParams = array_diff_key($request->getAll(), array_flip(['history', 'module', 'view']));
-			$viewer->assign('HIDDEN_DAYS', implode(',', $request->getExploded('hiddenDays', ',', 'Integer')));
-			$viewer->assign('TIME', $request->getByType('time', 'Standard'));
-		}
-		$viewer->assign('LINKS', Vtiger_Calendar_Model::getInstance($request->getModule())->getSideBarLinks([]));
-		$viewer->assign('HISTORY_PARAMS', $historyParams ?? '');
-		$viewer->assign('EVENT_CREATE', \App\Privilege::isPermitted($request->getModule(), 'CreateView'));
-		$viewer->assign('EVENT_EDIT', \App\Privilege::isPermitted($request->getModule(), 'EditView'));
-		$viewer->assign('WEEK_COUNT', App\Config::module('Calendar', 'WEEK_COUNT'));
-		$viewer->assign('WEEK_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'timeGridWeek' : 'basicWeek');
-		$viewer->assign('DAY_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'timeGridDay' : 'basicDay');
-		$viewer->assign('ALL_DAY_SLOT', App\Config::module('Calendar', 'ALL_DAY_SLOT'));
 		$viewer->assign('ACTIVITY_STATE_LABELS', \App\Json::encode([
 			'current' => Calendar_Module_Model::getComponentActivityStateLabel('current'),
 			'history' => Calendar_Module_Model::getComponentActivityStateLabel('history'),
 		]));
-		$viewer->view($this->getTpl('CalendarView.tpl'), $request->getModule());
+		parent::process($request);
 	}
 
 	/** {@inheritdoc} */
 	public function postProcess(App\Request $request, $display = true)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$calendarFilters = Calendar_CalendarFilters_Model::getCleanInstance();
-		$viewer->assign('CALENDAR_FILTERS', $calendarFilters);
-		$viewer->view($this->getTpl('CalendarViewPostProcess.tpl'), $moduleName);
+		$viewer->assign('SHOW_TYPE', true);
+		$viewer->assign('CALENDAR_FILTERS', Calendar_CalendarFilters_Model::getCleanInstance());
 		parent::postProcess($request);
 	}
 }

@@ -3,9 +3,9 @@
 
 /**
  *  Class representing a modal calendar.
- * @extends Calendar_CalendarExtended_Js
+ * @extends Calendar_Calendar_Js
  */
-window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calendar_CalendarExtended_Js {
+window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calendar_Calendar_Js {
 	constructor(container, readonly) {
 		super(container, readonly);
 		this.isSwitchAllDays = false;
@@ -29,10 +29,10 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 				},
 				views: {
 					basic: {
-						eventLimit: false
+						dayMaxEventRows: false
 					},
 					year: {
-						eventLimit: 10,
+						dayMaxEventRows: 10,
 						eventLimitText: app.vtranslate('JS_COUNT_RECORDS'),
 						titleFormat: 'YYYY',
 						select: function (start, end) {},
@@ -41,33 +41,30 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 						}
 					},
 					month: {
-						titleFormat: this.parseDateFormat('month'),
-						loadView: function () {
-							self.loadCalendarData();
+						titleFormat: (args) => {
+							return this.formatDate(args.date, 'month');
 						}
 					},
 					week: {
-						titleFormat: this.parseDateFormat('week'),
-						loadView: function () {
-							self.loadCalendarData();
+						titleFormat: (args) => {
+							return this.formatDate(args.date, 'week');
 						}
 					},
 					day: {
-						titleFormat: this.parseDateFormat('day'),
-						loadView: function () {
-							self.loadCalendarData();
+						titleFormat: (args) => {
+							return this.formatDate(args.date, 'day');
 						}
 					},
 					basicDay: {
-						type: 'agendaDay',
+						type: 'timeGridDay',
 						loadView: function () {
 							self.loadCalendarData();
 						}
 					}
 				},
-				select: function (start, end) {
-					self.selectDays(start, end);
-					self.getCalendarView().fullCalendar('unselect');
+				select: function (info) {
+					self.selectDays(info);
+					this.fullCalendar.unselect();
 				},
 				eventRender: function (event, element) {
 					self.eventRenderer(event, element);
@@ -76,21 +73,17 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 					if (view.type !== 'year') {
 						self.loadCalendarData(view);
 					}
-				},
-				addCalendarEvent(calendarDetails) {
-					self.getCalendarView().fullCalendar('renderEvent', self.getEventData(calendarDetails));
 				}
 			};
 		options = Object.assign(basicOptions, options);
 		options.eventClick = function (calEvent, jsEvent) {
 			jsEvent.preventDefault();
 		};
-		this.calendar.fullCalendar(options);
+		this.calendarView.fullCalendar(options);
 	}
 	addCommonMethodsToYearView() {}
 	/**
-	 * Function sets calendar moduls's options
-	 * Overwrites Calendar_Calendar_Js
+	 * Function sets calendar module's options
 	 */
 	setCalendarModuleOptions() {
 		let options = super.setCalendarModuleOptions();
@@ -106,7 +99,6 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 
 	/**
 	 * Function registers calendar events
-	 * Overwrites Calendar_CalendarExtended_Js
 	 */
 	registerEvents() {
 		this.registerSwitchEvents();
@@ -117,7 +109,6 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 
 	/**
 	 * Function registers calendar switch event
-	 * Overwrites Calendar_CalendarExtended_Js
 	 */
 	registerSwitchEvents() {
 		if (app.getMainParams('hiddenDays', true) !== false) {
@@ -147,7 +138,6 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 
 	/**
 	 * Function registers select's user change event
-	 * Overwrites Calendar_CalendarExtended_Js
 	 */
 	registerUsersChange() {
 		this.container.find('.assigned_user_id').on('change', () => {
@@ -157,15 +147,13 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 
 	/**
 	 * Function invokes by fullcalendar, sets selected days in form
-	 * Overwrites Calendar_CalendarExtended_Js
-	 * @param startDate
-	 * @param endDate
+	 * @param info
 	 */
-	selectDays(startDate, endDate) {
+	selectDays(info) {
 		if (this.sidebarName === 'status') {
 			this.sidebarName = 'add';
 			this.getCalendarCreateView().done(() => {
-				this.selectDays(startDate, endDate);
+				this.selectDays(info);
 			});
 			return;
 		}
@@ -183,7 +171,7 @@ window.Calendar_CalendarModal_Js = class Calendar_CalendarModal_Js extends Calen
 		if (endHour == '') {
 			endHour = '00';
 		}
-		if (view.name != 'agendaDay' && view.name != 'agendaWeek') {
+		if (view.name != 'timeGridDay' && view.name != 'timeGridWeek') {
 			startDate = startDate + 'T' + startHour + ':00';
 			endDate = endDate + 'T' + endHour + ':00';
 			if (startDate == endDate) {
@@ -364,7 +352,7 @@ jQuery.Class(
 			if (calendarType === 'Extended') {
 				this.registerExtendCalendar();
 			} else {
-				this.registerStandardCalendar();
+				// this.registerStandardCalendar();
 			}
 		}
 	}

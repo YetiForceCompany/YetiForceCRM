@@ -2,7 +2,8 @@
 {strip}
 	<!-- tpl-Base-Filters-Users -->
 	{if !empty($FILTER_DATA)}
-		{assign var="SELECT_ALL_BY_DEFAULT" value=$USER_MODEL->get('calendar_all_users_by_default')}
+		{assign var=SELECT_ALL_BY_DEFAULT value=$USER_MODEL->get('calendar_all_users_by_default')}
+		{assign var=PIN_USER value=App\Config::module($MODULE_NAME, 'showPinUser')}
 		<div class="js-filter__container">
 			<div class="form-row d-flex align-items-center m-0">
 				<input type="checkbox" class="alignMiddle js-select-all mr-2" title="{\App\Language::translate('LBL_SELECT_ALL', $MODULE_NAME)}"
@@ -23,17 +24,13 @@
 						<li class="js-filter__item__container m-0 p-0 col-12 mb-1" data-js="classs: d-none">
 							<div class="mr-0 pr-0 col-12 form-row d-flex align-items-center">
 								<div class="mr-2">
-									<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}"
-										class="js-input-user-owner-id alignMiddle mr-2"
+									<input value="{$OWNER_ID}" type="checkbox" id="ownerId{$OWNER_ID}" class="js-input-user-owner-id alignMiddle mr-2"
 										{if (empty($HISTORY_USERS) && $USER_MODEL->getId() eq $OWNER_ID) ||(	isset($HISTORY_USERS['selectedIds'][0]) && (($HISTORY_USERS['selectedIds'][0] eq 'all' || in_array($OWNER_ID, $HISTORY_USERS['selectedIds'])) && !in_array($OWNER_ID, $HISTORY_USERS['excludedIds']))) || (empty($HISTORY_USERS) && $SELECT_ALL_BY_DEFAULT eq '1')}
 											checked
 										{/if}>
 									{if !empty($PIN_USER)}
-										<div class="js-pin-user d-inline-block align-middle text-center"
-											data-elementid="{$OWNER_ID}"
-											data-js="click|data-elementid">
-											<span class="{if empty($FAVOURITES_USERS[$OWNER_ID])}far{else}fas{/if} fa-star js-pin-icon u-cursor-pointer"
-												data-js="class: fas | far"></span>
+										<div class="js-pin-user d-inline-block align-middle text-center" data-elementid="{$OWNER_ID}" data-js="click|data-elementid">
+											<span class="{if empty($FAVORITES_USERS[$OWNER_ID])}far{else}fas{/if} fa-star js-pin-icon u-cursor-pointer" data-js="class: fas | far"></span>
 										</div>
 									{/if}
 								</div>

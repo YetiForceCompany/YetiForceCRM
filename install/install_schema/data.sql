@@ -20717,6 +20717,8 @@ insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (38,'Documen
 
 /*Data for the table `w_yf_servers` */
 
+/*Data for the table `w_yf_sms_user` */
+
 /*Data for the table `yetiforce_auth` */
 
 insert  into `yetiforce_auth`(`id`,`type`,`param`,`value`) values (1,'ldap','active','false');

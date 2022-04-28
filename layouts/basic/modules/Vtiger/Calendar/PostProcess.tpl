@@ -33,7 +33,7 @@
 			{if in_array('Events', $FILTERS)}
 				<div class="tab-pane fade js-right-panel-event{if $DEFAULT_FILTER eq 'Events'} active show{/if}" id="rightPanelEvent" role="tabpanel"
 					aria-labelledby="rightPanelEvent-tab" data-js="class: active">
-					<div class="js-qc-form qc-form"></div>
+					<div class="js-qc-form qc-form px-1"></div>
 				</div>
 			{/if}
 			{if in_array('Filter', $FILTERS)}

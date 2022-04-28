@@ -645,7 +645,7 @@ window.Calendar_Js = class {
 	 * @returns {jQuery}
 	 */
 	getSidebarView() {
-		if (!this.sidebarView.length) {
+		if (!this.sidebarView || !this.sidebarView.length) {
 			this.sidebarView = this.container.find('.js-calendar-right-panel');
 		}
 		return this.sidebarView;

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Calendar-Extended-ActivityButtons -->
+	<!-- tpl-Calendar-Calendar-ActivityButtons -->
 	{if !empty($RECORD)}
 		<div class="js-activity-buttons d-flex justify-content-center flex-wrap mb-2" data-js="container">
 			{assign var=ID value=$RECORD->getId()}
@@ -43,5 +43,5 @@
 			{/if}
 		</div>
 	{/if}
-	<!-- /tpl-Calendar-Extended-ActivityButtons -->
+	<!-- /tpl-Calendar-Calendar-ActivityButtons -->
 {/strip}

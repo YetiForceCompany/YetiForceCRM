@@ -10,8 +10,6 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 		super(container, readonly, false);
 		this.browserHistory = false;
 	}
-	registerCacheSettings() {}
-
 	/**
 	 * Set calendar module options.
 	 * @returns {{allDaySlot: boolean, dayClick: object, selectable: boolean}}
@@ -108,8 +106,8 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 	 * @returns {{module: *, action: string, mode: string, start: *, end: *, user: *, emptyFilters: boolean}}
 	 */
 	getDefaultParams() {
-		let options = super.getDefaultParams();
-		let user = this.getSelectedUsersCalendar();
+		let options = super.getDefaultParams(),
+			user = this.getSelectedUsersCalendar();
 		if (0 === user.length) {
 			user = app.getMainParams('usersId');
 		}
@@ -119,9 +117,10 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 		if (this.fullCalendar.view === 'timeGridDay') {
 			this.fullCalendar.view.activeEnd = this.fullCalendar.view.activeEnd.add(1, 'day');
 		}
-		options.user = user;
-		options.time = app.getMainParams('showType');
+		const time = this.getSidebarView().find('.js-switch--showType input:checked').data('val');
+		options.time !== undefined ? time : app.getMainParams('showType');
 		options.history = true;
+		options.user = user;
 		return options;
 	}
 	/**
@@ -568,6 +567,7 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 				actualUserCheckbox = sidebar.find('.js-input-user-owner-id[value=' + app.getMainParams('userId') + ']');
 			calendarSwitch.last().removeClass('active');
 			calendarSwitch.first().addClass('active');
+			$('input[data-val="current"]', calendarSwitch).prop('checked', true);
 			if (actualUserCheckbox.length) {
 				actualUserCheckbox.prop('checked', true);
 			} else {
@@ -598,12 +598,45 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 		});
 	}
 	/**
+	 * Registration of the event being added to favorite users
+	 */
+	registerPinUser() {
+		const self = this;
+		this.getSidebarView()
+			.find('.js-pin-user')
+			.on('click', function () {
+				const element = $(this);
+				AppConnector.request({
+					module: self.module,
+					action: 'Calendar',
+					mode: 'pinOrUnpinUser',
+					element_id: element.data('elementid')
+				}).done((data) => {
+					if (data.result === 'unpin') {
+						element.find('.js-pin-icon').removeClass('fas').addClass('far');
+					} else if (data.result === 'pin') {
+						element.find('.js-pin-icon').removeClass('far').addClass('fas');
+					} else {
+						app.showNotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
+					}
+				});
+			});
+	}
+	/**
+	 * Register cache settings
+	 */
+	registerCacheSettings() {}
+	/**
 	 * Register events
 	 */
 	registerEvents() {
 		super.registerEvents();
 		this.registerCacheSettings();
 		this.registerSwitchEvents();
+		this.registerPinUser();
 		ElementQueries.listen();
 	}
 };

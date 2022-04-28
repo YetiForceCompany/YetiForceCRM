@@ -25,21 +25,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getDefaultViewName()
 	{
-		return $this->getCalendarViewName();
-	}
-
-	/**
-	 * Function returns the calendar view name.
-	 *
-	 * @return string
-	 */
-	public function getCalendarViewName()
-	{
-		$returnView = 'Calendar';
-		if ('Standard' !== $calendarView = App\Config::module('Calendar', 'CALENDAR_VIEW')) {
-			$returnView .= $calendarView;
-		}
-		return $returnView;
+		return 'Calendar';
 	}
 
 	/**
@@ -49,7 +35,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getCalendarViewUrl()
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getCalendarViewName();
+		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getDefaultViewName();
 	}
 
 	/**

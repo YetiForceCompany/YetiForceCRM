@@ -44,6 +44,7 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 		$this->exposeMethod('getCountEvents');
 		$this->exposeMethod('updateEvent');
 		$this->exposeMethod('getCountEventsGroup');
+		$this->exposeMethod('pinOrUnpinUser');
 	}
 
 	public function getEvents(App\Request $request)
@@ -138,9 +139,43 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 	public function updateEvent(App\Request $request)
 	{
 		$record = Vtiger_Calendar_Model::getInstance($request->getModule());
-		$success = $record->updateEvent($request->getInteger('id'), $request->getByType('start', 'DateTimeInUserFormat'), $request->getByType('end', 'DateTimeInUserFormat'));
+		$success = $record->updateEvent($request->getInteger('id'), $request->getByType('start', 'DateTimeInUserFormat'), $request->getByType('end', 'DateTimeInUserFormat'), $request);
 		$response = new Vtiger_Response();
 		$response->setResult($success);
+		$response->emit();
+	}
+
+	/**
+	 * Get count Events for extended calendar's left column.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function pinOrUnpinUser(App\Request $request): void
+	{
+		$db = \App\Db::getInstance();
+		$userId = \App\User::getCurrentUserId();
+		if (!$request->isEmpty('element_id')) {
+			$id = $request->getInteger('element_id');
+			if (\App\User::isExists($id)) {
+				$users = Vtiger_CalendarRightPanel_Model::getFavoriteUsers($request->getModule());
+				if (empty($users[$id])) {
+					$db->createCommand()->insert('u_#__users_pinned', [
+						'user_id' => $userId,
+						'tabid' => \App\Module::getModuleId($request->getModule()),
+						'fav_id' => $id,
+					])->execute();
+					$result = 'pin';
+				} else {
+					$db->createCommand()->delete('u_#__users_pinned', ['id' => $users[$id]])->execute();
+					$result = 'unpin';
+				}
+				\App\Cache::delete('FavoriteUsers', $userId);
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
 		$response->emit();
 	}
 }

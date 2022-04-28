@@ -141,4 +141,8 @@ return [
 		'default' => true,
 		'description' => 'Shows activity types as buttons',
 	],
+	'showPinUser' => [
+		'default' => true,
+		'description' => 'Whether to display the add to favorite users button',
+	],
 ];

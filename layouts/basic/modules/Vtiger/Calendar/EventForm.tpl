@@ -107,8 +107,7 @@
 						{if !empty($RECORD_ID) && $VIEW === 'EventForm'}
 							<a href="#" role="button" class="btn btn-danger js-summary-close-edit ml-auto u-h-fit">
 								<span title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"
-									class="fas fa-times">
-								</span>
+									class="fas fa-times"></span>
 							</a>
 						{/if}
 					</div>

@@ -16,7 +16,7 @@ jQuery.Class(
 				} else {
 					let isReminder = currentTarget.closest('#calendar-reminder-modal').length;
 					if (app.getModuleName() === 'Calendar' && viewName === 'CalendarExtended' && !isReminder) {
-						let calendarInstance = new Calendar_CalendarExtended_Js();
+						let calendarInstance = new Calendar_Calendar_Js();
 						calendarInstance.getCalendarSidebarData({
 							module: 'Calendar',
 							view: 'EventForm',

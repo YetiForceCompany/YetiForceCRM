@@ -10,6 +10,7 @@
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 {
@@ -65,7 +66,7 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 	public function postProcessAjax(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->view('Extended/EventForm.tpl', $request->getModule());
+		$viewer->view('Calendar/EventForm.tpl', $request->getModule());
 	}
 
 	/** {@inheritdoc} */
@@ -74,7 +75,7 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 		$jsFiles = parent::getFooterScripts($request);
 		if (!empty(App\Config::module('Calendar', 'SHOW_ACTIVITY_BUTTONS_IN_EDIT_FORM'))) {
 			$jsFiles = array_merge($jsFiles, $this->checkAndConvertJsScripts([
-				'modules.Calendar.resources.ActivityStateModal'
+				'modules.Calendar.resources.ActivityStateModal',
 			]));
 		}
 		return $jsFiles;

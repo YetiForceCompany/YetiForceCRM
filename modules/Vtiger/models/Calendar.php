@@ -186,13 +186,14 @@ abstract class Vtiger_Calendar_Model extends App\Base
 	/**
 	 * Update event.
 	 *
-	 * @param int    $recordId Record ID
-	 * @param string $start    Start date
-	 * @param string $end      End date
+	 * @param int          $recordId Record ID
+	 * @param string       $start    Start date
+	 * @param string       $end      End date
+	 * @param \App\Request $request  Request instance
 	 *
 	 * @return bool
 	 */
-	public function updateEvent(int $recordId, string $start, string $end)
+	public function updateEvent(int $recordId, string $start, string $end, App\Request $request): bool
 	{
 		try {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->getModuleName());

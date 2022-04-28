@@ -26,8 +26,7 @@ class Vtiger_CalendarRightPanel_Model
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
-		$clendarallorecords = $roleInstance->get('clendarallorecords');
-		switch ($clendarallorecords) {
+		switch ($roleInstance->get('clendarallorecords')) {
 			case 3:
 				if (App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST') && !\App\Config::module($moduleName, 'DISABLED_SHOW_OWNER_ONLY_IN_LIST', false)) {
 					$usersAndGroup = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getUsersAndGroupForModuleList();
@@ -42,10 +41,10 @@ class Vtiger_CalendarRightPanel_Model
 				$users[$currentUser->getId()] = $currentUser->getName();
 				break;
 		}
-		if (!empty($users) && $favouriteUsers = $currentUser->getFavouritesUsers()) {
+		if (!empty($users) && $favoriteUsers = self::getFavoriteUsers($moduleName)) {
 			uksort($users,
-				function ($a, $b) use ($favouriteUsers) {
-					return (int) (!isset($favouriteUsers[$a]) && isset($favouriteUsers[$b]));
+				function ($a, $b) use ($favoriteUsers) {
+					return (int) (!isset($favoriteUsers[$a]) && isset($favoriteUsers[$b]));
 				});
 		}
 		return $users;
@@ -62,8 +61,7 @@ class Vtiger_CalendarRightPanel_Model
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
-		$clendarallorecords = $roleInstance->get('clendarallorecords');
-		switch ($clendarallorecords) {
+		switch ($roleInstance->get('clendarallorecords')) {
 			case 1:
 				$groups = [];
 				break;
@@ -94,5 +92,28 @@ class Vtiger_CalendarRightPanel_Model
 	public static function getCalendarTypes(string $moduleName): array
 	{
 		return Vtiger_Calendar_Model::getInstance($moduleName)->getCalendarTypes();
+	}
+
+	/**
+	 * Return user favorite users.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return int[]
+	 */
+	public static function getFavoriteUsers(string $moduleName): array
+	{
+		$userId = \App\User::getCurrentUserId();
+		if (\App\Cache::has('FavoriteUsers', $userId)) {
+			$users = \App\Cache::get('FavoriteUsers', $userId);
+		} else {
+			$users = (new \App\Db\Query())->select(['fav_id', 'id'])
+				->from('u_#__users_pinned')
+				->where(['user_id' => $userId, 'tabid' => \App\Module::getModuleId($moduleName)])
+				->createCommand()
+				->queryAllByGroup();
+			\App\Cache::save('FavoriteUsers', $userId, $users, \App\Cache::LONG);
+		}
+		return $users;
 	}
 }

@@ -4659,12 +4659,15 @@ CREATE TABLE `u_yf_users_labels` (
 /*Table structure for table `u_yf_users_pinned` */
 
 CREATE TABLE `u_yf_users_pinned` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `owner_id` int(11) NOT NULL,
-  `fav_element_id` int(11) NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) NOT NULL,
+  `tabid` smallint(5) NOT NULL,
+  `fav_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `u_yf_users_pinned` (`owner_id`),
-  CONSTRAINT `u_yf_users_pinned_fk_1` FOREIGN KEY (`owner_id`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
+  KEY `user_id` (`user_id`),
+  KEY `tabid` (`tabid`),
+  CONSTRAINT `u_yf_users_pinned_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `u_yf_users_pinned_ibfk_2` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_watchdog_module` */

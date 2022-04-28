@@ -1,13 +1,13 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Calendar-Extended-ActivityState js-activity-state modalEditStatus"
-		data-js="container" tabindex="-1">
+	<!-- tpl-Calendar-Calendar-ActivityState -->
+	<div class="js-activity-state modalEditStatus" data-js="container" tabindex="-1">
 		{assign var=ID value=$RECORD->getId()}
 		<div class="o-calendar__form w-100 d-flex flex-column">
 			<h6 class="boxEventTitle text-muted text-center my-1">
 				{\App\Language::translate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}
 			</h6>
-			{include file=\App\Layout::getTemplatePath('Extended/ActivityButtons.tpl', $MODULE_NAME)}
+			{include file=\App\Layout::getTemplatePath('Calendar/ActivityButtons.tpl', $MODULE_NAME)}
 			{include file=\App\Layout::getTemplatePath('ActivityStateContent.tpl', $MODULE_NAME)}
 			<div class="o-calendar__form__actions">
 				<div class="d-flex flex-wrap">
@@ -41,4 +41,5 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}?&v={$YETIFORCE_VERSION}"></script>
 	{/foreach}
+	<!-- /tpl-Calendar-Calendar-ActivityState -->
 {/strip}

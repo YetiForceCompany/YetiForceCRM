@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Calendar-Extended-CalendarView -->
+	<!-- tpl-Calendar-Calendar-CalendarView -->
 	<input value="{\App\Purifier::encodeHtml($CURRENT_USER->getDetail('activity_view'))}" type="hidden" id="activity_view" />
 	<input value="{$CURRENT_USER->getDetail('date_format')}" type="hidden" id="date_format" />
 	<input value="current" type="hidden" id="showType" />
@@ -36,7 +36,7 @@
 												{if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};" {/if}
 												data-toggle="tab" role="tab"
 												aria-selected="{if !empty($HISTORY_PARAMS['cvid']) && $HISTORY_PARAMS['cvid'] eq {$CUSTOM_VIEW->getId()}}true{else}false{/if}">
-												{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
+												{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE_NAME)}
 												{if $CUSTOM_VIEW->get('description')}
 													<span class="js-popover-tooltip ml-1" data-toggle="popover"
 														data-placement="top"
@@ -51,14 +51,14 @@
 							{/foreach}
 						</ul>
 					{/if}
-					<a class="o-calendar__clear-btn btn btn-warning d-none ml-1 js-calendar__clear-filters js-popover-tooltip" role="button" data-content="{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}"
+					<a class="o-calendar__clear-btn btn btn-warning d-none ml-1 js-calendar__clear-filters js-popover-tooltip" role="button" data-content="{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE_NAME)}"
 						data-js="class: d-none | popover">
-						<span class="fas fa-eraser" title="{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE)}"></span>
+						<span class="fas fa-eraser" title="{\App\Language::translate("LBL_REMOVE_FILTERING", $MODULE_NAME)}"></span>
 					</a>
 				</div>
 			</div>
 			<div class="js-calendar__container" data-js="fullcalendar | offset"></div>
 		</div>
 	</div>
-	<!-- /tpl-Calendar-Extended-CalendarView -->
+	<!-- /tpl-Calendar-Calendar-CalendarView -->
 {/strip}
