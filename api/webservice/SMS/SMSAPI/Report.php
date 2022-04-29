@@ -55,7 +55,7 @@ class Report extends \Api\SMS\BaseAction
 	protected function checkPermission(): void
 	{
 		parent::checkPermission();
-		if (!$this->controller->request->getByType('MsgId', \App\Purifier::ALNUM) || !$this->controller->request->getInteger('status') || !$this->controller->request->getByType('to', \App\Purifier::ALNUM)) {
+		if (!$this->controller->request->getExploded('MsgId', ',', \App\Purifier::ALNUM) || !$this->controller->request->getExploded('status', ',', \App\Purifier::INTEGER) || !$this->controller->request->getExploded('to', ',', \App\Purifier::ALNUM)) {
 			throw new \Api\Core\Exception('No permission - wrong data', 401);
 		}
 	}
@@ -63,13 +63,13 @@ class Report extends \Api\SMS\BaseAction
 	/** {@inheritdoc}  */
 	protected function checkPermissionToModule(): void
 	{
-		if (!\Api\Core\Module::checkModuleAccess($this->moduleName)) {
+		if (!\Api\Core\Module::checkModuleAccess($this->moduleName) || !\App\Privilege::isPermitted($this->moduleName, 'EditView') || !($provider = \App\Integrations\SMSProvider::getDefaultProvider()) || 'SMSAPI' !== $provider->getName()) {
 			throw new \Api\Core\Exception('No permissions for module', 403);
 		}
 	}
 
 	/**
-	 * Add record.
+	 * Update record status.
 	 *
 	 * @return array
 	 *
@@ -87,11 +87,11 @@ class Report extends \Api\SMS\BaseAction
 	 *		@OA\Response(
 	 *				response=200,
 	 *				description="Result",
-	 *				@OA\JsonContent(ref="#/components/schemas/SMS_SMSAPI_Post_Report")
+	 *				@OA\JsonContent(ref="#/components/schemas/SMS_SMSAPI_Get_Report")
 	 *		),
 	 *		@OA\Response(
 	 *				response=401,
-	 *				description="`No sent token` OR `Invalid token` or `data provided in the request`",
+	 *				description="`No sent token` OR `Invalid token` OR `wrong data provided in the request`",
 	 *		),
 	 *		@OA\Response(
 	 *				response=403,
@@ -103,7 +103,7 @@ class Report extends \Api\SMS\BaseAction
 	 *		),
 	 * ),
 	 * @OA\Schema(
-	 *		schema="SMS_SMSAPI_Post_Report",
+	 *		schema="SMS_SMSAPI_Get_Report",
 	 *		title="Response",
 	 *		description="Response",
 	 *		type="string",
@@ -112,15 +112,13 @@ class Report extends \Api\SMS\BaseAction
 	 */
 	public function get()
 	{
-		$recordIds = $this->controller->request->getArray('idx', \App\Purifier::INTEGER);
-		$statuses = $this->controller->request->getArray('status', \App\Purifier::INTEGER);
-		$phoneNumbers = $this->controller->request->getArray('to', \App\Purifier::ALNUM);
-		$provider = \App\Integrations\SMSProvider::getProviderByName('SMSAPI');
+		$recordIds = $this->controller->request->getExploded('idx', ',', \App\Purifier::INTEGER);
+		$msgIds = $this->controller->request->getExploded('MsgId', ',', \App\Purifier::ALNUM);
+		$statuses = $this->controller->request->getExploded('status', ',', \App\Purifier::INTEGER);
 		foreach ($recordIds as $key => $recordId) {
-			$phoneNumber = $phoneNumbers[$key] ?? null;
 			if (\App\Record::isExists($recordId, $this->moduleName)
 				&& ($recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $this->moduleName))->isEditable()
-				&& ($recordModel->isEmpty('phone') || $phoneNumber === $provider->setPhone($recordModel->get('phone'))->get('to'))
+				&& !$recordModel->isEmpty('msgid') && \in_array($recordModel->get('msgid'), $msgIds)
 				&& $recordModel->set('smsnotifier_status', static::STATUSES[$statuses[$key]] ?? 'PLL_UNDEFINED')->getPreviousValue()
 			) {
 				$recordModel->save();

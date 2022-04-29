@@ -17,40 +17,26 @@ namespace App\Integrations\SMSProvider;
  */
 class SMSAPI extends Provider
 {
-	/**
-	 * Provider name.
-	 *
-	 * @var string
-	 */
+	/** {@inheritdoc} */
 	protected $name = 'SMSAPI';
 
-	/**
-	 * Address URL.
-	 *
-	 * @var string
-	 */
+	/** {@inheritdoc} */
 	protected $url = 'https://api.smsapi.pl/sms.do';
 
-	/**
-	 * Backup address URL.
-	 *
-	 * @var string
-	 */
+	/** @var string Backup address URL */
 	protected $urlBackup = 'https://api2.smsapi.pl/sms.do';
 
-	/**
-	 * Encoding.
-	 *
-	 * @var string
-	 */
+	/** @var string Encoding */
 	public $encoding = 'utf-8';
 
-	/**
-	 * Format.
-	 *
-	 * @var string
-	 */
+	/** @var string Format */
 	public $format = 'json';
+
+	/** @var \GuzzleHttp\Psr7\Response Response object */
+	private $response;
+
+	/** @var array Response body */
+	private $responseData;
 
 	/**
 	 * Required fields.
@@ -74,11 +60,29 @@ class SMSAPI extends Provider
 		return $useBackup ? $this->urlBackup : $this->url;
 	}
 
-	/** {@inheritdoc} */
-	public function getResponse($request)
+	/**
+	 * Set response.
+	 *
+	 * @param \GuzzleHttp\Psr7\Response $response
+	 *
+	 * @return $this
+	 */
+	public function setResponse($response): self
 	{
-		$response = \App\Json::decode($request->getBody());
-		return 200 === $request->getStatusCode() && empty($response['error']);
+		$this->response = $response;
+		$this->responseData = \App\Json::decode($this->response->getBody()) ?? [];
+
+		return $this;
+	}
+
+	/**
+	 * Check if the message was sent successfully.
+	 *
+	 * @return bool
+	 */
+	public function isSuccess(): bool
+	{
+		return $this->response && 200 === $this->response->getStatusCode() && empty($this->responseData['error']);
 	}
 
 	/**
@@ -126,13 +130,14 @@ class SMSAPI extends Provider
 				'headers' => $this->getHeaders(),
 				'json' => $this->getBody()
 			]);
+			$this->setResponse($response);
 			\App\Log::endProfile('POST|' . __METHOD__ . "|{$uri}", 'SMSNotifier');
 		} catch (\Throwable $e) {
 			\App\Log::error($e->__toString());
 			return false;
 		}
 
-		return $this->getResponse($response);
+		return $this->isSuccess();
 	}
 
 	/** {@inheritdoc} */
@@ -210,11 +215,12 @@ class SMSAPI extends Provider
 	/**
 	 * Callback service URL.
 	 *
-	 * @param array $service
+	 * @param array  $service
+	 * @param string $type    Action name for werservice
 	 *
 	 * @return string
 	 */
-	public function getCallBackUrlByService(array $service): string
+	public function getCallBackUrlByService(array $service, string $type): string
 	{
 		$callBackUrl = \App\Config::main('site_URL') . 'webservice.php?';
 		$serviceId = (int) $service['server_id'];
@@ -223,7 +229,7 @@ class SMSAPI extends Provider
 		$params = [
 			'_container' => 'SMS',
 			'module' => 'SMSAPI',
-			'action' => 'Report',
+			'action' => $type,
 			'x-api-key' => $apiKey,
 			'x-token' => $service['token'],
 		];
@@ -237,6 +243,11 @@ class SMSAPI extends Provider
 		$this->setPhone($recordModel->get('phone'));
 		$this->set('idx', $recordModel->getId());
 		$this->set('message', $recordModel->get('message'));
-		return $this->send() ?: $this->send(true);
+		$result = $this->send() ?: $this->send(true);
+		if ($result && !empty($this->responseData['list'][0]['id'])) {
+			$recordModel->set('msgid', $this->responseData['list'][0]['id']);
+		}
+
+		return $result;
 	}
 }

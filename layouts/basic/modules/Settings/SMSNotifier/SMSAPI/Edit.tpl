@@ -19,18 +19,42 @@
 				</div>
 			{/foreach}
 			<hr class="widgetHr" />
+			{assign var=SERVICE_USERS value=$RECORD_MODEL->getServiveUsers()}
+			<div class="text-center font-weight-bold mb-2">{\App\Language::translate('LBL_CALLBACK_ADDRESSES', $QUALIFIED_MODULE)}</div>
 			<div class="form-group form-row">
 				<label class="col-form-label col-md-4 u-text-small-bold text-left text-md-right">
-					{\App\Language::translate('FL_CALLBACK_URL', $QUALIFIED_MODULE)}
+					{\App\Language::translate('FL_CALLBACK_URL_FOR_REPORT', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-md-8 input-group">
 					<select id="callback_url" tabindex="0" title="{\App\Language::translate('FL_PROVIDER', $QUALIFIED_MODULE)}" class="select2 form-control">
-						{foreach from=$RECORD_MODEL->getServiveUsers() item=SERVICE_USER}
-							<option value="{$PROVIDER->getCallBackUrlByService($SERVICE_USER)}">{\App\Purifier::encodeHtml(\App\Fields\Owner::getUserLabel((int) $SERVICE_USER['user_id']))}</option>
+						{foreach from=$SERVICE_USERS item=SERVICE_USER}
+							<option value="{$PROVIDER->getCallBackUrlByService($SERVICE_USER, 'Report')}">{\App\Purifier::encodeHtml(\App\Fields\Owner::getUserLabel((int) $SERVICE_USER['user_id']))}</option>
 						{/foreach}
 					</select>
 					<span class="input-group-append">
 						<button class="btn btn-outline-secondary clipboard js-popover-tooltip" data-copy-target='#callback_url' type="button" data-placement="top" data-content="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}">
+							<span class="fas fa-copy"></span>
+						</button>
+					</span>
+					<span class="input-group-append">
+						<button class="btn btn-outline-secondary js-popover-tooltip" type="button" data-placement="top" data-content="{\App\Language::translate('LBL_CALLBACK_URL_DESC', $QUALIFIED_MODULE)}">
+							<span class="fas fa-info-circle"></span>
+						</button>
+					</span>
+				</div>
+			</div>
+			<div class="form-group form-row">
+				<label class="col-form-label col-md-4 u-text-small-bold text-left text-md-right">
+					{\App\Language::translate('FL_CALLBACK_URL_FOR_REPLY', $QUALIFIED_MODULE)}
+				</label>
+				<div class="col-md-8 input-group">
+					<select id="callback_url_reply" tabindex="0" title="{\App\Language::translate('FL_PROVIDER', $QUALIFIED_MODULE)}" class="select2 form-control">
+						{foreach from=$SERVICE_USERS item=SERVICE_USER}
+							<option value="{$PROVIDER->getCallBackUrlByService($SERVICE_USER, 'Reception')}">{\App\Purifier::encodeHtml(\App\Fields\Owner::getUserLabel((int) $SERVICE_USER['user_id']))}</option>
+						{/foreach}
+					</select>
+					<span class="input-group-append">
+						<button class="btn btn-outline-secondary clipboard js-popover-tooltip" data-copy-target='#callback_url_reply' type="button" data-placement="top" data-content="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}">
 							<span class="fas fa-copy"></span>
 						</button>
 					</span>

@@ -79,13 +79,6 @@ abstract class Provider extends \App\Base
 	abstract public function send(): bool;
 
 	/**
-	 * Response.
-	 *
-	 * @param \GuzzleHttp\Psr7\Response $request
-	 */
-	abstract public function getResponse($request);
-
-	/**
 	 * Fields for edit view in settings.
 	 *
 	 * @return \Vtiger_Field_Model[]
