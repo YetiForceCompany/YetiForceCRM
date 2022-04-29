@@ -2456,7 +2456,10 @@ YetiForce_Widget_Js(
 					}
 					if (container.find('.widgetFilterSwitch').length > 0) {
 						const status = container.find('.widgetFilterSwitch').data();
-						url += '["activitystatus","e","' + status[params.time] + '"],';
+						url +=
+							'["activitystatus","e","' +
+							encodeURIComponent(status[container.find('.widgetFilterSwitch').val()]) +
+							'"],';
 					}
 					const date = App.Fields.Date.dateToUserFormat(info.event.start);
 					window.location.href = `${url}["activitytype","e","${info.event.extendedProps.activityType}"],["date_start","bw","${date} 00:00:00,${date} 23:59:59"]]]`;
