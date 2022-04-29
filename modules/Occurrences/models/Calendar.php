@@ -188,7 +188,7 @@ class Occurrences_Calendar_Model extends Vtiger_Calendar_Model
 	}
 
 	/** {@inheritdoc} */
-	public function updateEvent(int $recordId, string $start, string $end)
+	public function updateEvent(int $recordId, string $start, string $end, App\Request $request): bool
 	{
 		try {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->getModuleName());
