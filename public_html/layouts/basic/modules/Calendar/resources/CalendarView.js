@@ -152,7 +152,7 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Vtiger_Calendar
 			progressInstance = $.progressIndicator({ blockInfo: { enabled: true } });
 		let options = this.getDefaultParams();
 		self.fullCalendar.removeAllEvents();
-		self.clearFilterButton(options['user'], self.getCurrentCvId());
+		self.clearFilterButton(options['user']);
 		options.historyUrl = `index.php?module=${options['module']}&view=Calendar&history=true&viewType=${
 			this.fullCalendar.view.type
 		}&start=${options['start']}&end=${options['end']}&user=${JSON.stringify(options['user'])}&time=${

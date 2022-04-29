@@ -502,15 +502,12 @@ window.Calendar_Js = class {
 	}
 	/**
 	 * Register filters
-	 * @returns {promise}
 	 */
 	registerFilters() {
 		const self = this;
-		let aDeferred = jQuery.Deferred();
 		let sideBar = self.getSidebarView();
 		if (!sideBar || sideBar.length <= 0) {
-			aDeferred.resolve(true);
-			return aDeferred.promise();
+			return;
 		}
 		sideBar.find('.js-sidebar-filter-container').each((_, row) => {
 			let formContainer = $(row);
@@ -522,7 +519,11 @@ window.Calendar_Js = class {
 			self.registerFilterForm(formContainer);
 		});
 		self.registerSelectAll(sideBar);
-		return aDeferred.promise();
+		if (app.moduleCacheGet('CurrentCvId') !== null) {
+			this.container
+				.find('.js-calendar__extended-filter-tab [data-cvid="' + app.moduleCacheGet('CurrentCvId') + '"] a')
+				.addClass('active');
+		}
 	}
 	/**
 	 * Register filter for users and groups
@@ -643,7 +644,11 @@ window.Calendar_Js = class {
 	 * @returns {int}
 	 */
 	getCurrentCvId() {
-		return $('.js-calendar__extended-filter-tab .active').parent('.js-filter-tab').data('cvid');
+		let tab = $('.js-calendar__container .js-calendar__extended-filter-tab');
+		if (tab.length === 0) {
+			tab = $('.js-calendar__header-buttons .js-calendar__extended-filter-tab');
+		}
+		return tab.find('.active').parent().data('cvid');
 	}
 	/**
 	 * Register select2 event.

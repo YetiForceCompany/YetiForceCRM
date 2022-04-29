@@ -79,7 +79,7 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 			defaultParams = this.getDefaultParams(),
 			progressInstance = $.progressIndicator({ blockInfo: { enabled: true } });
 		self.fullCalendar.removeAllEvents();
-		self.clearFilterButton(defaultParams['user'], self.getCurrentCvId());
+		self.clearFilterButton(defaultParams['user']);
 		AppConnector.request(defaultParams).done((events) => {
 			self.fullCalendar.removeAllEvents();
 			self.fullCalendar.addEventSource(events.result);
@@ -96,12 +96,12 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 	/**
 	 * Show/hide clear filter button
 	 */
-	clearFilterButton(user, cvId) {
+	clearFilterButton(user) {
 		let currentUser = parseInt(app.getMainParams('userId')),
 			time = app.getMainParams('showType'),
 			statement =
 				JSON.stringify(user['selectedIds']) === JSON.stringify([`${currentUser}`]) &&
-				cvId === undefined &&
+				this.getCurrentCvId() === undefined &&
 				time === 'current';
 		$('.js-calendar__clear-filters').toggleClass('d-none', statement);
 	}
@@ -276,10 +276,6 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 				}
 				this.fullCalendar.setOption('hiddenDays', hiddenDays);
 				this.fullCalendar.setOption('height', this.setCalendarHeight());
-				if (this.fullCalendar.view.type === 'year') {
-					console.log('this.registerViewRenderEvents(this.calendarView.fullCalendar');
-					// this.registerViewRenderEvents(this.calendarView.fullCalendar('getView'));  //todo
-				}
 			});
 			if (app.getMainParams('switchingDays') !== switchingDaysState) {
 				$('label.active', switchSwitchingDays).find('input').filter(':first').trigger('change');
@@ -556,6 +552,7 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 		app.showPopoverElementView(clearBtn);
 		clearBtn.on('click', () => {
 			$('.js-calendar__extended-filter-tab a').removeClass('active');
+			app.moduleCacheSet('CurrentCvId', null);
 			app.setMainParams('showType', 'current');
 			app.moduleCacheSet('defaultShowType', 'current');
 			sidebar.find('input:checkbox').prop('checked', false);
@@ -584,8 +581,9 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 	 * Register filter tab change
 	 */
 	registerFilterTabChange() {
-		this.calendarView.find('.js-calendar__extended-filter-tab').on('shown.bs.tab', () => {
+		this.calendarView.find('.js-calendar__extended-filter-tab').on('shown.bs.tab', (e) => {
 			this.reloadCalendarData();
+			app.moduleCacheSet('CurrentCvId', this.getCurrentCvId());
 		});
 	}
 	/**
