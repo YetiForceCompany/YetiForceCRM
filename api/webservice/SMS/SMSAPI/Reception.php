@@ -1,6 +1,6 @@
 <?php
 /**
- * The file contains: Report operations.
+ * The file contains: Reception operations.
  *
  * @package Api
  *
@@ -14,7 +14,7 @@ namespace Api\SMS\SMSAPI;
 use OpenApi\Annotations as OA;
 
 /**
- * Report class.
+ * Reception class.
  */
 class Reception extends \Api\SMS\BaseAction
 {

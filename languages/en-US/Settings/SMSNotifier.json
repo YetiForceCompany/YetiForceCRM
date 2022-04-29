@@ -13,7 +13,10 @@
     "BTN_SAVE": "Save",
     "BTN_CLOSE": "Cancel",
     "LBL_SMSPROVIDER_CREATE": "Add provider",
-    "LBL_SMSPROVIDER_EDIT": "Edit provider"
+    "LBL_SMSPROVIDER_EDIT": "Edit provider",
+    "LBL_CALLBACK_ADDRESSES": "Callback addresses",
+    "FL_CALLBACK_URL_FOR_REPORT": "SMS Reports",
+    "FL_CALLBACK_URL_FOR_REPLY": "SMS Reception"
   },
   "js": {
     "LBL_DELETE_CONFIRMATION": "Are you sure you want to delete this configuration?",

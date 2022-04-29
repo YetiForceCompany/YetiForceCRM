@@ -6290,7 +6290,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3114 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3116 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -8491,7 +8491,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `related_tabid` (`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=680 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=681 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
@@ -8838,8 +8838,11 @@ CREATE TABLE `vtiger_smsnotifier` (
   `smsnotifier_status` varchar(255) DEFAULT NULL,
   `phone` varchar(30) DEFAULT NULL,
   `related_to` int(10) unsigned DEFAULT NULL,
+  `msgid` varchar(50) DEFAULT NULL,
+  `parentid` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`smsnotifierid`),
   KEY `vtiger_smsnotifier_related_to_idx` (`related_to`),
+  KEY `vtiger_smsnotifier_parentid_idx` (`parentid`),
   CONSTRAINT `vtiger_smsnotifier_ibfk_1` FOREIGN KEY (`smsnotifierid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -8852,7 +8855,7 @@ CREATE TABLE `vtiger_smsnotifier_status` (
   `sortorderid` smallint(5) DEFAULT 0,
   `picklist_valueid` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`smsnotifier_statusid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_smsnotifiercf` */
 
