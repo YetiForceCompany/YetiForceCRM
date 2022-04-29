@@ -185,7 +185,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 				$val = $value[$i];
 				$result .= $val['name'] . ', ';
 			}
-			return \App\Purifier::encodeHtml($length ? \App\TextParser::textTruncate($result, $length) : $result, "\n\t ,"));
+			return \App\Purifier::encodeHtml($length ? \App\TextParser::textTruncate($result, $length) : $result, "\n\t ,");
 		}
 		if (!\is_array($value)) {
 			return '';
