@@ -5709,7 +5709,7 @@ h6,
   border: 1px solid var(--white);
 }
 
-tbody {
+.o-calendar__container tbody {
   background-color: var(--white);
 }
 
