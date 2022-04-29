@@ -183,9 +183,9 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 			}
 			for ($i = 0; $i < $len; ++$i) {
 				$val = $value[$i];
-				$result .= \App\TextParser::textTruncate($val['name'], $length) . ', ';
+				$result .= $val['name'] . ', ';
 			}
-			return \App\Purifier::encodeHtml(trim($result, "\n\t ,"));
+			return \App\Purifier::encodeHtml(trim($rawText && $length ? \App\TextParser::textTruncate($result, $length) : $result, "\n\t ,"));
 		}
 		if (!\is_array($value)) {
 			return '';
@@ -193,12 +193,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		$result = '<div class="c-multi-image__result" style="width:100%">';
 		$width = 1 / $len * 100;
 		for ($i = 0; $i < $len; ++$i) {
-			if ($record) {
-				$src = $this->getImageUrl($value[$i]['key'], $record);
-				$result .= '<div class="d-inline-block mr-1 c-multi-image__preview-img" style="background-image:url(' . $src . ')" style="width:' . $width . '%"></div>';
-			} else {
-				$result .= \App\Purifier::encodeHtml($value[$i]['name']) . ', ';
-			}
+			$result .= '<div class="d-inline-block mr-1 c-multi-image__preview-img" style="background-image:url(' . $this->getImageUrl($value[$i]['key'], $record) . ')" style="width:' . $width . '%"></div>';
 		}
 		return trim($result, "\n\t ") . '</div>';
 	}
@@ -232,11 +227,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		}
 		$result = '<div class="c-multi-image__result text-center">';
 		for ($i = 0; $i < $len; ++$i) {
-			if ($record) {
-				$result .='<div class="d-inline-block mr-1 c-multi-image__preview-img middle" style="background-image:url(' . $this->getImageUrl($value[$i]['key'], $record) . ')"></div>';
-			} else {
-				$result .= \App\Purifier::encodeHtml($value[$i]['name']) . ', ';
-			}
+			$result .='<div class="d-inline-block mr-1 c-multi-image__preview-img middle" style="background-image:url(' . $this->getImageUrl($value[$i]['key'], $record) . ')"></div>';
 		}
 		return $result . '</div>';
 	}
