@@ -13,7 +13,7 @@
 			<button class="btn btn-outline-dark js-add-filter ml-1 js-popover-tooltip" title="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_ADD_FILTER','_DashBoard'))}" data-content="{\App\Purifier::encodeHtml(\App\Language::translate('LBL_ADD_FILTER_DESC','_DashBoard'))}"
 				data-linkid="{$SPECIAL_WIDGETS['Mini List']->get('linkid')}" data-block-id="0" data-width="4" data-height="4" data-js="click|popover">
 				<span class="fas fa-filter"></span>
-				<span class="d-none d-xxl-inline ml-2">{\App\Language::translate('LBL_ADD_FILTER')}</span>
+				<span class="d-none d-xxl-inline ml-2">{\App\Language::translate('LBL_ADD_FILTER','_DashBoard')}</span>
 			</button>
 		{/if}
 		{if $USER_PRIVILEGES_MODEL->hasModuleActionPermission($MODULE_MODEL->getId(),'CreateDashboardChartFilter')}
