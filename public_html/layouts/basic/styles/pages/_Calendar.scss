@@ -16,6 +16,14 @@ $h-calendar-form-actions: calculate-rem(49px);
 			padding-right: 1rem !important;
 		}
 	}
+	.fc-col-header,
+	.fc-scrollgrid-sync-table,
+	.fc-daygrid-body-unbalanced,
+	.fc-timegrid-body,
+	.fc-timegrid-slots table,
+	.fc-timegrid-cols table {
+		width: 100% !important;
+	}
 }
 
 .o-calendar__container {
