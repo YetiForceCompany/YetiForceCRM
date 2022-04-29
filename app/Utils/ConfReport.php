@@ -114,7 +114,7 @@ class ConfReport
 	 * @var array
 	 */
 	public static $headers = [
-		'Header: server' => ['recommended' => '', 'type' => 'Header', 'container' => 'request', 'testCli' => false],
+		'Header: server' => ['recommended' => '', 'type' => 'HeaderServer', 'container' => 'request', 'testCli' => false],
 		'Header: x-powered-by' => ['recommended' => '', 'type' => 'Header', 'contaiuse_only_cookiesner' => 'request', 'testCli' => false],
 		'Header: access-control-allow-methods' => ['recommended' => 'GET, POST', 'type' => 'Header', 'container' => 'request', 'testCli' => false, 'onlyPhp' => true],
 		'Header: access-control-allow-origin' => ['recommended' => '*', 'type' => 'Header', 'container' => 'request', 'testCli' => false, 'onlyPhp' => true],
@@ -1203,6 +1203,37 @@ class ConfReport
 		} else {
 			$row['status'] = false;
 		}
+		return $row;
+	}
+
+	/**
+	 * Validate header CSP.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateHeaderServer(string $name, array $row, string $sapi)
+	{
+		unset($sapi);
+		$header = strtolower(\str_replace('Header: ', '', $name));
+		$onlyPhp = empty($row['onlyPhp']);
+		if (isset(static::$request[$header])) {
+			$row['www'] = static::$request[$header]['root'] ?? '-';
+			$row['js'] = static::$request[$header]['js'] ?? '-';
+			$row['css'] = static::$request[$header]['css'] ?? '-';
+			$row['status'] = empty($row['www']);
+			if ($onlyPhp) {
+				$row['status'] = $row['status'] && empty($row['js']) && empty($row['css']);
+			}
+			if (!$row['status'] && \App\Validator::standard($row['www'])) {
+				$row['mode'] = 'showWarnings';
+			}
+		}
+		$row['status'] = false;
+
 		return $row;
 	}
 
