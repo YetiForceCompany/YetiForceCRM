@@ -1835,7 +1835,11 @@ class Vtiger_Record_Model extends \App\Base
 				return [];
 			}
 			$image['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
-			$image['url'] = "file.php?module={$this->getModuleName()}&action=MultiImage&field=imagename&record={$this->getId()}&key={$image['key']}";
+			if (file_exists($image['path'])) {
+				$image['url'] = "file.php?module={$this->getModuleName()}&action=MultiImage&field=imagename&record={$this->getId()}&key={$image['key']}";
+			} else {
+				$image = [];
+			}
 		} else {
 			foreach ($this->getModule()->getFieldsByType('multiImage') as $fieldModel) {
 				if (!$this->isEmpty($fieldModel->getName()) && \App\Json::isJson($this->get($fieldModel->getName()))) {
@@ -1845,8 +1849,11 @@ class Vtiger_Record_Model extends \App\Base
 						return [];
 					}
 					$image['path'] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $image['path'];
-					$image['url'] = "file.php?module={$this->getModuleName()}&action=MultiImage&field={$fieldModel->getName()}&record={$this->getId()}&key={$image['key']}";
-					break;
+					if (file_exists($image['path'])) {
+						$image['url'] = "file.php?module={$this->getModuleName()}&action=MultiImage&field={$fieldModel->getName()}&record={$this->getId()}&key={$image['key']}";
+						break;
+					}
+					$image = [];
 				}
 			}
 		}

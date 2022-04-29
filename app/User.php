@@ -483,7 +483,11 @@ class User
 			return [];
 		}
 		$imageData['path'] = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $imageData['path'];
-		$imageData['url'] = "file.php?module=Users&action=MultiImage&field=imagename&record={$this->getId()}&key={$imageData['key']}";
+		if (file_exists($imageData['path'])) {
+			$imageData['url'] = "file.php?module=Users&action=MultiImage&field=imagename&record={$this->getId()}&key={$imageData['key']}";
+		} else {
+			$imageData = [];
+		}
 		Cache::save('UserImageById', $this->getId(), $imageData);
 		return $imageData;
 	}

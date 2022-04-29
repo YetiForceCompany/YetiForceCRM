@@ -24,7 +24,7 @@
 				{/if}
 				<div class="pb-1">
 					<div class="col-sm-6">
-						{\App\Language::translate('LBL_2FA_SECRET', $MODULE_NAME)}:
+						{\App\Language::translate('LBL_2FA_SECRET', $MODULE_NAME)}: ************
 						<button type="button" class="btn btn-sm btn-primary js-clipboard ml-2" title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}" data-copy-attribute="clipboard-text" data-clipboard-text="{$SECRET}">
 							<span class="fas fa-copy"></span>
 						</button>
