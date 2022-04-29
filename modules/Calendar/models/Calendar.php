@@ -170,8 +170,14 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 		return $return;
 	}
 
-	public function getEntityCount()
+	/**
+	 * Gets number of events.
+	 *
+	 * @return array
+	 */
+	public function getEntityCount(): array
 	{
+		$colors = \App\Fields\Picklist::getColors('activitytype', false);
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$startDate = DateTimeField::convertToDBTimeZone($this->get('start'));
 		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));
@@ -182,7 +188,7 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 			->query();
 		$return = [];
 		while ($record = $dataReader->read()) {
-			$activitytype = $record['activitytype'];
+			$activityType = $record['activitytype'];
 
 			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
 			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
@@ -204,22 +210,25 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 				$date = strtotime($dt->format('Y-m-d'));
 				if ($date >= $startDate && $date <= $endDate) {
 					$date = date('Y-m-d', $date);
+					$dateKey = $date . '__' . $activityType;
 
-					$return[$date]['start'] = $date;
-					$return[$date]['date'] = $date;
-					if (isset($return[$date]['event'][$activitytype]['count'])) {
-						++$return[$date]['event'][$activitytype]['count'];
+					$return[$dateKey]['allDay'] = true;
+					$return[$dateKey]['start'] = $date;
+					if (isset($return[$dateKey]['title'])) {
+						++$return[$dateKey]['title'];
 					} else {
-						$return[$date]['event'][$activitytype]['count'] = 1;
+						$return[$dateKey]['title'] = 1;
 					}
-					$return[$date]['event'][$activitytype]['className'] = '  fc-draggable picklistCBg_Calendar_activitytype_' . $activitytype;
-					$return[$date]['event'][$activitytype]['label'] = \App\Language::translate($activitytype, $this->getModuleName());
-					$return[$date]['type'] = 'widget';
+					$return[$dateKey]['label'] = \App\Language::translate($activityType, $this->getModuleName());
+					$return[$dateKey]['className'] = 'fc-draggable picklistCBg_Calendar_activitytype_' . $activityType;
+					$return[$dateKey]['borderColor'] = $colors[$record['activitytype']] ?? '';
+					$return[$dateKey]['type'] = 'widget';
+					$return[$dateKey]['activityType'] = $activityType;
+					$return[$dateKey]['url'] = 'index.php?module=' . $this->getModuleName() . '&view=List&entityState=Active';
 				}
 			}
 		}
 		$dataReader->close();
-
 		return array_values($return);
 	}
 

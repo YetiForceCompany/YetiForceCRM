@@ -2358,90 +2358,112 @@ YetiForce_Widget_Js(
 	{
 		calendarView: false,
 		calendarCreateView: false,
-
+		fullCalendar: false,
+		/**
+		 * Register calendar
+		 */
 		registerCalendar: function () {
-			var thisInstance = this;
-			var userDefaultActivityView = 'month';
-			var container = thisInstance.getContainer();
+			const self = this,
+				container = this.getContainer();
 			//Default time format
-			var userDefaultTimeFormat = CONFIG.hourFormat;
-			if (userDefaultTimeFormat == 24) {
-				userDefaultTimeFormat = 'H(:mm)';
+			let userTimeFormat = CONFIG.hourFormat;
+			if (userTimeFormat == 24) {
+				userTimeFormat = {
+					hour: '2-digit',
+					minute: '2-digit',
+					hour12: false,
+					meridiem: false
+				};
 			} else {
-				userDefaultTimeFormat = 'h(:mm) A';
+				userTimeFormat = {
+					hour: 'numeric',
+					minute: '2-digit',
+					meridiem: 'short'
+				};
 			}
-
-			//Default first day of the week
-			var convertedFirstDay = CONFIG.firstDayOfWeekNo;
 			//Default first hour of the day
-			var defaultFirstHour = app.getMainParams('startHour');
-			var explodedTime = defaultFirstHour.split(':');
+			let defaultFirstHour = app.getMainParams('startHour');
+			let explodedTime = defaultFirstHour.split(':');
 			defaultFirstHour = explodedTime['0'];
-			var defaultDate = app.getMainParams('defaultDate');
+			let defaultDate = app.getMainParams('defaultDate');
 			if (this.paramCache && defaultDate != moment().format('YYYY-MM-DD')) {
 				defaultDate = moment(defaultDate).format('D') == 1 ? moment(defaultDate) : moment(defaultDate).add(1, 'M');
 			}
 			container.find('.js-widget-quick-create').on('click', function (e) {
 				App.Components.QuickCreate.createRecord($(this).data('module-name'));
 			});
-			thisInstance.getCalendarView().fullCalendar({
-				header: {
-					left: ' ',
-					center: 'prev title next',
-					right: ' '
-				},
-				defaultDate: defaultDate,
-				timeFormat: userDefaultTimeFormat,
-				axisFormat: userDefaultTimeFormat,
-				firstHour: defaultFirstHour,
-				firstDay: convertedFirstDay,
-				defaultView: userDefaultActivityView,
+			this.fullCalendar = new FullCalendar.Calendar(this.getCalendarView().get(0), {
+				headerToolbar: { left: ' ', center: 'prev title next', right: ' ' },
+				initialDate: defaultDate,
+				eventTimeFormat: userTimeFormat,
+				slotLabelFormat: userTimeFormat,
+				scrollTime: defaultFirstHour,
+				firstDay: CONFIG.firstDayOfWeekNo,
+				initialView: 'dayGridMonth',
 				editable: false,
-				slotMinutes: 15,
-				theme: false,
-				defaultEventMinutes: 0,
-				eventLimit: true,
+				slotDuration: 15,
+				defaultTimedEventDuration: '01:00:00',
+				dayMaxEventRows: false,
 				allDaySlot: false,
-				monthNames: App.Fields.Date.fullMonthsTranslated,
-				monthNamesShort: App.Fields.Date.monthsTranslated,
-				dayNames: App.Fields.Date.fullDaysTranslated,
-				dayNamesShort: App.Fields.Date.daysTranslated,
-				buttonText: {
-					today: app.vtranslate('JS_TODAY'),
-					month: app.vtranslate('JS_MONTH'),
-					week: app.vtranslate('JS_WEEK'),
-					day: app.vtranslate('JS_DAY')
-				},
+				moreLinkContent: app.vtranslate('JS_MORE'),
 				allDayText: app.vtranslate('JS_ALL_DAY'),
-				eventLimitText: app.vtranslate('JS_MORE'),
-				eventRender: function (event, element, view) {
-					element = '<div class="cell-calendar">';
-					for (var key in event.event) {
-						element +=
-							'<a class="" href="javascript:;"' +
-							' data-date="' +
-							event.date +
-							'"' +
-							' data-type="' +
-							key +
-							'" title="' +
-							event.event[key].label +
-							'">' +
-							'<span class="' +
-							event.event[key].className +
-							(event.width <= 20 ? ' small-badge' : '') +
-							(event.width >= 24 ? ' big-badge' : '') +
-							' badge badge-secondary u-fs-95per">' +
-							event.event[key].count +
-							'</span>' +
-							'</a>\n';
+				noEventsText: app.vtranslate('JS_NO_RECORDS'),
+				viewHint: '$0',
+				buttonText: {
+					today: '',
+					year: app.vtranslate('JS_YEAR'),
+					week: app.vtranslate('JS_WEEK'),
+					month: app.vtranslate('JS_MONTH'),
+					day: app.vtranslate('JS_DAY'),
+					dayGridMonth: app.vtranslate('JS_MONTH'),
+					dayGridWeek: app.vtranslate('JS_WEEK'),
+					listWeek: app.vtranslate('JS_WEEK'),
+					dayGridDay: app.vtranslate('JS_DAY'),
+					timeGridDay: app.vtranslate('JS_DAY')
+				},
+				navLinkHint: (_dateStr, zonedDate) => {
+					return App.Fields.Date.dateToUserFormat(zonedDate);
+				},
+				dayHeaderContent: (arg) => {
+					return App.Fields.Date.daysTranslated[arg.date.getDay()];
+				},
+				titleFormat: (args) => {
+					return Calendar_Js.monthFormat[CONFIG.dateFormat]
+						.replace('YYYY', args.date['year'])
+						.replace('MMMM', App.Fields.Date.fullMonthsTranslated[args.date['month']]);
+				},
+				dateClick: (args) => {
+					let date = moment(args.date).format(CONFIG.dateFormat.toUpperCase());
+					App.Components.QuickCreate.createRecord('Calendar', {
+						noCache: true,
+						data: {
+							date_start: date,
+							due_date: date
+						},
+						callbackFunction: function () {
+							self.getCalendarView().closest('.dashboardWidget').find('.js-widget-refresh').trigger('click');
+						}
+					});
+				},
+				eventClick: function (info) {
+					info.jsEvent.preventDefault();
+					let url = $(info.el).attr('href');
+					url += '&viewname=' + container.find('select.widgetFilter.customFilter').val();
+					url += '&search_params=[[';
+					const owner = container.find('.widgetFilter.owner option:selected');
+					if (owner.val() != 'all') {
+						url += '["assigned_user_id","e","' + owner.val() + '"],';
 					}
-					element += '</div>';
-					return element;
+					if (container.find('.widgetFilterSwitch').length > 0) {
+						const status = container.find('.widgetFilterSwitch').data();
+						url += '["activitystatus","e","' + status[params.time] + '"],';
+					}
+					const date = App.Fields.Date.dateToUserFormat(info.event.start);
+					window.location.href = `${url}["activitytype","e","${info.event.extendedProps.activityType}"],["date_start","bw","${date} 00:00:00,${date} 23:59:59"]]]`;
 				}
 			});
-			thisInstance
-				.getCalendarView()
+			this.fullCalendar.render();
+			this.getCalendarView()
 				.find('td.fc-day-top')
 				.on('mouseenter', function () {
 					jQuery('<span class="plus pull-left fas fa-plus"></span>').prependTo($(this));
@@ -2449,25 +2471,7 @@ YetiForce_Widget_Js(
 				.on('mouseleave', function () {
 					$(this).find('.plus').remove();
 				});
-			let formatDate = CONFIG.dateFormat.toUpperCase();
-			thisInstance
-				.getCalendarView()
-				.find('td.fc-day-top')
-				.on('click', function () {
-					let date = moment($(this).data('date')).format(formatDate);
-					let params = {
-						noCache: true,
-						data: {
-							date_start: date,
-							due_date: date
-						}
-					};
-					params.callbackFunction = function () {
-						thisInstance.getCalendarView().closest('.dashboardWidget').find('.js-widget-refresh').trigger('click');
-					};
-					App.Components.QuickCreate.createRecord('Calendar', params);
-				});
-			var switchBtn = container.find('.js-switch--calendar');
+			const switchBtn = container.find('.js-switch--calendar');
 			switchBtn.on('change', (e) => {
 				const currentTarget = $(e.currentTarget);
 				if (typeof currentTarget.data('on-text') !== 'undefined') container.find('.widgetFilterSwitch').val('current');
@@ -2476,19 +2480,21 @@ YetiForce_Widget_Js(
 				this.refreshWidget();
 			});
 		},
-		loadCalendarData: function (allEvents) {
-			var thisInstance = this;
-			thisInstance.getCalendarView().fullCalendar('removeEvents');
-			var view = thisInstance.getCalendarView().fullCalendar('getView');
-			var formatDate = CONFIG.dateFormat.toUpperCase();
-			var start_date = view.start.format(formatDate);
-			var end_date = view.end.format(formatDate);
-			var parent = thisInstance.getContainer();
-			var user = parent.find('.owner').val();
+		/**
+		 * Load calendar data
+		 */
+		loadCalendarData: function () {
+			this.fullCalendar.removeAllEvents();
+			const self = this,
+				start_date = App.Fields.Date.dateToUserFormat(this.fullCalendar.view.activeStart),
+				end_date = App.Fields.Date.dateToUserFormat(this.fullCalendar.view.activeEnd),
+				parent = this.getContainer(),
+				calendarView = self.getCalendarView();
+			let user = parent.find('.owner').val();
 			if (user == 'all') {
 				user = '';
 			}
-			var params = {
+			let params = {
 				module: 'Calendar',
 				action: 'Calendar',
 				mode: 'getEvents',
@@ -2498,8 +2504,7 @@ YetiForce_Widget_Js(
 				widget: true
 			};
 			if (parent.find('.customFilter').length > 0) {
-				var customFilter = parent.find('.customFilter').val();
-				params.customFilter = customFilter;
+				params.customFilter = parent.find('.customFilter').val();
 			}
 			let widgetFilterSwitch = parent.find('.widgetFilterSwitch');
 			if (widgetFilterSwitch.length > 0) {
@@ -2510,57 +2515,14 @@ YetiForce_Widget_Js(
 				}
 			}
 			if (this.paramCache) {
-				var drefresh = this.getContainer().find('.js-widget-refresh');
-				var url = drefresh.data('url');
-				var paramCache = {
+				self.setFilterToCache(this.getContainer().find('.js-widget-refresh').data('url'), {
 					owner: user,
-					customFilter: customFilter,
+					customFilter: params.customFilter,
 					start: start_date
-				};
-				thisInstance.setFilterToCache(url, paramCache);
+				});
 			}
 			AppConnector.request(params).done(function (events) {
-				var height =
-					thisInstance.getCalendarView().find('.fc-bg :first').height() -
-					thisInstance.getCalendarView().find('.fc-day-number').height() -
-					10;
-				var width = thisInstance.getCalendarView().find('.fc-day-number').width() / 2 - 10;
-				for (var i in events.result) {
-					events.result[i]['width'] = width;
-					events.result[i]['height'] = height;
-				}
-				thisInstance.getCalendarView().fullCalendar('addEventSource', events.result);
-				thisInstance
-					.getCalendarView()
-					.find('.cell-calendar a')
-					.on('click', function () {
-						var container = thisInstance.getContainer();
-						var url = 'index.php?module=Calendar&view=List';
-						if (customFilter) {
-							url += '&viewname=' + container.find('select.widgetFilter.customFilter').val();
-						} else {
-							url += '&viewname=All';
-						}
-						url += '&search_params=[[';
-						var owner = container.find('.widgetFilter.owner option:selected');
-						if (owner.val() != 'all') {
-							url += '["assigned_user_id","e","' + owner.val() + '"],';
-						}
-						if (parent.find('.widgetFilterSwitch').length > 0) {
-							var status = parent.find('.widgetFilterSwitch').data();
-							url += '["activitystatus","e","' + status[params.time] + '"],';
-						}
-						var date = moment($(this).data('date')).format(thisInstance.getUserDateFormat().toUpperCase());
-						window.location.href =
-							url +
-							'["activitytype","e","' +
-							$(this).data('type') +
-							'"],["date_start","bw","' +
-							date +
-							',' +
-							date +
-							'"]]]';
-					});
+				self.fullCalendar.addEventSource(events.result);
 			});
 		},
 		getCalendarView: function () {

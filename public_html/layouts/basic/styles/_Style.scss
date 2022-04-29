@@ -2236,29 +2236,6 @@ body,
 	white-space: nowrap;
 }
 
-.dashboardWidgetCalendar {
-	.small-badge {
-		padding: 3% 6%;
-	}
-
-	.medium-badge {
-		padding: 6% 11%;
-		margin: 1px 0;
-		border-radius: 1.25rem !important;
-	}
-
-	.big-badge {
-		padding: 6% 12%;
-		margin: 1px 0;
-	}
-
-	.cell-calendar {
-		@extend .text-center;
-
-		margin-top: -5px;
-	}
-}
-
 .breadCrumbs {
 	padding-top: 0;
 	padding-left: 0;

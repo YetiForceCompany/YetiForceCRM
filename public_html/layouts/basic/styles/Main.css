@@ -7171,7 +7171,7 @@ button.bg-dark:focus {
   border-left: 1px solid #dee2e6 !important;
 }
 
-.border-0, .dashboardWidgetCalendar .fc-col-header-cell {
+.border-0 {
   border: 0 !important;
 }
 
@@ -7179,7 +7179,7 @@ button.bg-dark:focus {
   border-top: 0 !important;
 }
 
-.border-right-0, .dashboardWidgetCalendar .fc-body > tr > .fc-widget-content {
+.border-right-0 {
   border-right: 0 !important;
 }
 
@@ -7187,7 +7187,7 @@ button.bg-dark:focus {
   border-bottom: 0 !important;
 }
 
-.border-left-0, .dashboardWidgetCalendar .fc-body > tr > .fc-widget-content {
+.border-left-0 {
   border-left: 0 !important;
 }
 
@@ -12547,7 +12547,7 @@ button.bg-dark:focus {
   text-align: right !important;
 }
 
-.text-center, .c-badge__icon, .dashboardWidgetCalendar .cell-calendar {
+.text-center, .c-badge__icon {
   text-align: center !important;
 }
 
@@ -18024,13 +18024,25 @@ label.btn[class*=btn-outline-]:not(.active):hover {
 }
 
 /* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-.dashboardWidgetCalendar .fc-widget-content .fc-scroller.fc-day-grid-container {
-  height: 18.6rem !important;
+.dashboardWidgetCalendar .fc .fc-daygrid-day-events {
+  text-align: center;
 }
-.dashboardWidgetCalendar .fc-day-grid .fc-row.fc-week {
-  min-height: 3.1rem !important;
-  height: 3.1rem !important;
+.dashboardWidgetCalendar .fc .fc-daygrid-day-number {
+  padding: 2px 4px;
 }
+.dashboardWidgetCalendar .fc .fc-daygrid-day-top {
+  line-height: 1;
+}
+.dashboardWidgetCalendar .fc-daygrid-event-harness {
+  display: inline-block;
+}
+.dashboardWidgetCalendar .fc-daygrid-event-harness .fc-daygrid-event {
+  padding: 0px 4px;
+}
+.dashboardWidgetCalendar .fc-daygrid-event-harness .fc-daygrid-event .fc-event-main {
+  color: inherit;
+}
+
 .fc-event-style1 {
   background: #17309a;
   border-color: #17309a;
@@ -20245,22 +20257,6 @@ body,
 
 .bootstrap-switch-container {
   white-space: nowrap;
-}
-
-.dashboardWidgetCalendar .small-badge {
-  padding: 3% 6%;
-}
-.dashboardWidgetCalendar .medium-badge {
-  padding: 6% 11%;
-  margin: 1px 0;
-  border-radius: 1.25rem !important;
-}
-.dashboardWidgetCalendar .big-badge {
-  padding: 6% 12%;
-  margin: 1px 0;
-}
-.dashboardWidgetCalendar .cell-calendar {
-  margin-top: -5px;
 }
 
 .breadCrumbs {
@@ -26487,6 +26483,10 @@ ul.c-process-line li.c-process-line__active > a:after {
   }
 }
 
+.o-calendar__container .fc-header-toolbar.fc-toolbar {
+  overflow: unset !important;
+}
+
 .hideToggleSiteBarRightButton {
   right: 0 !important;
 }
@@ -26544,6 +26544,10 @@ ul.c-process-line li.c-process-line__active > a:after {
 @media (max-width: 991.98px) {
   .siteBarRight {
     width: auto !important;
+  }
+
+  .hideSiteBar {
+    right: 0 !important;
   }
 }
 .hideSiteBar {

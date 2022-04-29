@@ -314,8 +314,8 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 			yearButtons = toolbar.find('.fc-prevYear-button, .fc-nextYear-button');
 		yearButtons.first().html(`<span class="fas fa-xs fa-minus mr-1"></span>${buttonText['year']}`);
 		yearButtons.last().html(`${buttonText['year']}<span class="fas fa-xs fa-plus ml-1"></span>`);
-		if (view.type !== 'year' && this.viewsNamesLabels[view.type]) {
-			let viewType = this.viewsNamesLabels[view.type];
+		if (view.type !== 'year' && Calendar_Js.viewsNamesLabels[view.type]) {
+			let viewType = Calendar_Js.viewsNamesLabels[view.type];
 			nextPrevButtons.first().html(`<span class="fas fa-xs fa-minus mr-1"></span>${buttonText[viewType]}`);
 			nextPrevButtons.last().html(`${buttonText[viewType]}<span class="fas fa-xs fa-plus ml-1"></span>`);
 		}

@@ -1,25 +1,22 @@
 /* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .dashboardWidgetCalendar {
-	.fc-widget-content {
-		.fc-scroller.fc-day-grid-container {
-			height: 18.6rem !important;
+	.fc .fc-daygrid-day-events {
+		text-align: center;
+	}
+	.fc .fc-daygrid-day-number {
+		padding: 2px 4px;
+	}
+	.fc .fc-daygrid-day-top {
+		line-height: 1;
+	}
+	.fc-daygrid-event-harness {
+		display: inline-block;
+		.fc-daygrid-event {
+			padding: 0px 4px;
+			.fc-event-main {
+				color: inherit;
+			}
 		}
-	}
-
-	.fc-day-grid {
-		.fc-row.fc-week {
-			min-height: 3.1rem !important;
-			height: 3.1rem !important;
-		}
-	}
-
-	.fc-col-header-cell {
-		@extend .border-0;
-	}
-
-	.fc-body > tr > .fc-widget-content {
-		@extend .border-right-0;
-		@extend .border-left-0;
 	}
 }
 

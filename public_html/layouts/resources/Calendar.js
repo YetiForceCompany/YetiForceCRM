@@ -3,7 +3,7 @@
 
 /** Class representing a calendar. */
 window.Calendar_Js = class {
-	monthFormat = {
+	static monthFormat = {
 		'yyyy-mm-dd': 'YYYY-MMMM',
 		'mm-dd-yyyy': 'MMMM-YYYY',
 		'dd-mm-yyyy': 'MMMM-YYYY',
@@ -14,25 +14,14 @@ window.Calendar_Js = class {
 		'mm/dd/yyyy': 'MMMM/YYYY',
 		'dd/mm/yyyy': 'MMMM/YYYY'
 	};
-	weekAndDayFormat = {
-		'yyyy-mm-dd': 'YYYY-MMM-D',
-		'mm-dd-yyyy': 'MMM-D-YYYY',
-		'dd-mm-yyyy': 'D-MMM-YYYY',
-		'yyyy.mm.dd': 'YYYY.MMM.D',
-		'mm.dd.yyyy': 'MMM.D.YYYY',
-		'dd.mm.yyyy': 'D.MMM.YYYY',
-		'yyyy/mm/dd': 'YYYY/MMM/D',
-		'mm/dd/yyyy': 'MMM/D/YYYY',
-		'dd/mm/yyyy': 'D/MMM/YYYY'
-	};
-	viewsNamesMap = {
+	static viewsNamesMap = {
 		month: 'dayGridMonth',
 		basicWeek: 'dayGridWeek',
 		basicDay: 'dayGridDay',
 		timeGridWeek: 'timeGridWeek',
 		timeGridDay: 'timeGridDay'
 	};
-	viewsNamesLabels = {
+	static viewsNamesLabels = {
 		dayGridMonth: 'month',
 		dayGridWeek: 'week',
 		dayGridDay: 'day',
@@ -133,8 +122,7 @@ window.Calendar_Js = class {
 		let options = {
 			eventTimeFormat: userTimeFormat,
 			slotLabelFormat: userTimeFormat,
-			initialView: this.viewsNamesMap[userView] ? this.viewsNamesMap[userView] : userView,
-			defaultTimedEventDuration: 0,
+			initialView: Calendar_Js.viewsNamesMap[userView] ? Calendar_Js.viewsNamesMap[userView] : userView,
 			forceEventDuration: true,
 			defaultTimedEventDuration: '01:00:00',
 			dayMaxEvents: eventLimit,
@@ -294,7 +282,7 @@ window.Calendar_Js = class {
 		if (!defaultParams.emptyFilters) {
 			const progressInstance = $.progressIndicator({ blockInfo: { enabled: true } });
 			AppConnector.request(defaultParams).done((events) => {
-				this.calendarView.fullCalendar('addEventSource', events.result);
+				this.fullCalendar.addEventSource(events.result);
 				progressInstance.progressIndicator({ mode: 'hide' });
 			});
 		}
@@ -379,7 +367,7 @@ window.Calendar_Js = class {
 	formatDate(date, type) {
 		switch (type) {
 			case 'month':
-				return this.monthFormat[CONFIG.dateFormat]
+				return Calendar_Js.monthFormat[CONFIG.dateFormat]
 					.replace('YYYY', date['year'])
 					.replace('MMMM', App.Fields.Date.fullMonthsTranslated[date['month']]);
 			case 'week':
@@ -496,7 +484,7 @@ window.Calendar_Js = class {
 			let dateFormat = CONFIG.dateFormat.toUpperCase();
 			let s = moment(options.start, dateFormat).valueOf();
 			let e = moment(options.end, dateFormat).valueOf();
-			options.defaultDate = moment(moment(s + (e - s) / 2).format('YYYY-MM-DD'));
+			options.initialDate = moment(moment(s + (e - s) / 2).format('YYYY-MM-DD'));
 			Object.keys(options).forEach((key) => options[key] === 'undefined' && delete options[key]);
 			app.moduleCacheSet('browserHistoryEvent', false);
 			app.setMainParams('showType', options.time);
