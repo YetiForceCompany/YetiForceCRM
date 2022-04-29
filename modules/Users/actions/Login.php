@@ -271,7 +271,11 @@ class Users_Login_Action extends \App\Controller\Action
 				$status = '2fa' === $type ? 'ERR_2FA_IP_BLOCK' : 'ERR_LOGIN_IP_BLOCK';
 			}
 		}
-		Users_Module_Model::getInstance('Users')->saveLoginHistory(Purifier::encodeHtml($request->getRaw('username')), $status);
+		$userName = $request->getRaw('username');
+		if (!$userName) {
+			$userName = \App\Session::get('user_name');
+		}
+		Users_Module_Model::getInstance('Users')->saveLoginHistory(Purifier::encodeHtml($userName), $status);
 		header('location: index.php?module=Users&view=Login');
 	}
 }
