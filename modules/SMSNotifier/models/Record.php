@@ -19,7 +19,7 @@ class SMSNotifier_Record_Model extends Vtiger_Record_Model
 	 */
 	public function isEditable(): bool
 	{
-		return parent::isEditable() && !\in_array($this->get('smsnotifier_status'), ['PLL_SENT', 'PLL_DELIVERED']);
+		return parent::isEditable() && !\in_array($this->get('smsnotifier_status'), ['PLL_DELIVERED']);
 	}
 
 	/**

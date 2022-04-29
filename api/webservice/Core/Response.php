@@ -114,7 +114,7 @@ class Response
 	/**
 	 * Set body data.
 	 *
-	 * @param array|\App\Fields\File $body
+	 * @param array $body
 	 *
 	 * @return void
 	 */

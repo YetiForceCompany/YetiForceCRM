@@ -29,14 +29,14 @@ class SMSAPI extends Provider
 	 *
 	 * @var string
 	 */
-	protected $url = 'https://api.smsapi.pl/sms.do?test=1';
+	protected $url = 'https://api.smsapi.pl/sms.do';
 
 	/**
 	 * Backup address URL.
 	 *
 	 * @var string
 	 */
-	protected $urlBackup = 'https://api2.smsapi.pl/sms.do?test=1';
+	protected $urlBackup = 'https://api2.smsapi.pl/sms.do';
 
 	/**
 	 * Encoding.
@@ -59,7 +59,19 @@ class SMSAPI extends Provider
 	 */
 	public function getRequiredParams(): array
 	{
-		return ['to', 'from', 'encoding', 'format'];
+		return ['to', 'idx', 'from', 'message'];
+	}
+
+	/**
+	 * Function to get service URL.
+	 *
+	 * @param bool $useBackup
+	 *
+	 * @return string
+	 */
+	public function getUrl(bool $useBackup = false): string
+	{
+		return $useBackup ? $this->urlBackup : $this->url;
 	}
 
 	/** {@inheritdoc} */
@@ -74,7 +86,7 @@ class SMSAPI extends Provider
 	 *
 	 * @param string $phoneNumber
 	 *
-	 * @return self
+	 * @return $this
 	 */
 	public function setPhone(string $phoneNumber): self
 	{
@@ -86,30 +98,40 @@ class SMSAPI extends Provider
 		return $this;
 	}
 
-	/** {@inheritdoc} */
-	public function getPath(bool $useBackup = false): string
+	/**
+	 * Get body data.
+	 *
+	 * @return array
+	 */
+	private function getBody(): array
 	{
-		$path = $useBackup ? $this->urlBackup : $this->getUrl();
-		$params = [];
+		$params = [
+			'encoding' => $this->encoding,
+			'format' => $this->format
+		];
 		foreach ($this->getRequiredParams() as $key) {
 			$params[$key] = $this->get($key) ?? '';
 		}
 
-		return $path . http_build_query($params);
+		return $params;
 	}
 
 	/** {@inheritdoc} */
 	public function send(bool $useBackup = false): bool
 	{
 		try {
-			$fullUrl = $this->getPath($useBackup);
-			\App\Log::beginProfile('POST|' . __METHOD__ . "|{$fullUrl}", 'SMSNotifier');
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $fullUrl, ['headers' => $this->getHeaders()]);
-			\App\Log::endProfile('POST|' . __METHOD__ . "|{$fullUrl}", 'SMSNotifier');
+			$uri = $this->getUrl($useBackup);
+			\App\Log::beginProfile('POST|' . __METHOD__ . "|{$uri}", 'SMSNotifier');
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('POST', $uri, [
+				'headers' => $this->getHeaders(),
+				'json' => $this->getBody()
+			]);
+			\App\Log::endProfile('POST|' . __METHOD__ . "|{$uri}", 'SMSNotifier');
 		} catch (\Throwable $e) {
 			\App\Log::error($e->__toString());
 			return false;
 		}
+
 		return $this->getResponse($response);
 	}
 
@@ -120,6 +142,7 @@ class SMSAPI extends Provider
 		foreach (['api_key', 'from', 'type'] as $fieldName) {
 			$fields[$fieldName] = $this->getFieldInstanceByName($fieldName);
 		}
+
 		return $fields;
 	}
 
@@ -140,11 +163,14 @@ class SMSAPI extends Provider
 					$field['label'] = 'FL_API_KEY';
 					$field['purifyType'] = \App\Purifier::ALNUM;
 					$field['fromOutsideList'] = true;
+					$field['maximumlength'] = '100';
 					$field['fieldvalue'] = $this->has($name) ? $this->get($name) : '';
 					break;
 				case 'from':
 					$field['uitype'] = 1;
 					$field['label'] = 'FL_SMSAPI_FROM';
+					$field['typeofdata'] = 'V~O';
+					$field['maximumlength'] = '11';
 					$field['purifyType'] = \App\Purifier::TEXT;
 					$field['fieldvalue'] = $this->has($name) ? $this->get($name) : '';
 					break;
@@ -209,6 +235,8 @@ class SMSAPI extends Provider
 	public function sendByRecord(\Vtiger_Record_Model $recordModel): bool
 	{
 		$this->setPhone($recordModel->get('phone'));
+		$this->set('idx', $recordModel->getId());
+		$this->set('message', $recordModel->get('message'));
 		return $this->send() ?: $this->send(true);
 	}
 }

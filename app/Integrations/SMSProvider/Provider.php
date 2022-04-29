@@ -39,16 +39,6 @@ abstract class Provider extends \App\Base
 	}
 
 	/**
-	 * Function to get service URL.
-	 *
-	 * @return string
-	 */
-	public function getUrl(): string
-	{
-		return $this->url;
-	}
-
-	/**
 	 * Headers.
 	 *
 	 * @return string[]
@@ -82,22 +72,6 @@ abstract class Provider extends \App\Base
 	}
 
 	/**
-	 * Function to get full path.
-	 *
-	 * @return string
-	 */
-	public function getPath(): string
-	{
-		$path = $this->getUrl();
-		$keys = $this->getRequiredParams();
-		$params = [];
-		foreach ($keys as $key) {
-			$params[$key] = $this->get($key);
-		}
-		return $path . http_build_query($params);
-	}
-
-	/**
 	 * Function to handle SMS Send operation.
 	 *
 	 * @return bool
@@ -119,6 +93,15 @@ abstract class Provider extends \App\Base
 	abstract public function getEditFields(): array;
 
 	/**
+	 * Send by record.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return bool
+	 */
+	abstract public function sendByRecord(\Vtiger_Record_Model $recordModel): bool;
+
+	/**
 	 * Function to get Edit view url.
 	 *
 	 * @return string Url
@@ -130,11 +113,14 @@ abstract class Provider extends \App\Base
 	}
 
 	/**
-	 * Send by record.
+	 * Set phone number.
 	 *
-	 * @param \Vtiger_Record_Model $recordModel
+	 * @param string $phoneNumber
 	 *
-	 * @return bool
+	 * @return $this
 	 */
-	abstract public function sendByRecord(\Vtiger_Record_Model $recordModel): bool;
+	public function setPhone(string $phoneNumber): self
+	{
+		return $this;
+	}
 }
