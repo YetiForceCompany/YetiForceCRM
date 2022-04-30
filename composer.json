@@ -88,7 +88,7 @@
     "chrome-php/chrome": "^v1.4.0",
     "setasign/fpdf": "1.8.*",
     "setasign/fpdi": "^v2.3.6",
-    "symfony/filesystem": "^v5.4.3"
+    "symfony/filesystem": "^v6.0.0"
   },
   "suggest": {
     "ext-imagick": "Library recommended for securing potentially dangerous graphic files",
