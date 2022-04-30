@@ -72,7 +72,7 @@
     "ckeditor/ckeditor": "^4.9.2",
     "parsecsv/php-parsecsv": "^1.1.0",
     "guzzlehttp/guzzle": "^7.0",
-    "nette/php-generator": "^3.2.1",
+    "nette/php-generator": "^4.0.0",
     "yetiforce/csrf-magic": "^v1.1.1",
     "maximebf/debugbar": "1.*",
     "yetiforce/yii2": "^2.0.43",
