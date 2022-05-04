@@ -73,9 +73,9 @@ class ServiceContracts_PolicySaveAjax_Action extends \App\Controller\Action
 				$data['conditions'] = '';
 			}
 			$data['business_hours'] = implode(',', $request->getArray('business_hours', 'Integer')[$rowIndex]);
-			$data['reaction_time'] = $request->getArray('reaction_time', 'TimePeriod')[$rowIndex];
-			$data['idle_time'] = $request->getArray('idle_time', 'TimePeriod')[$rowIndex];
-			$data['resolve_time'] = $request->getArray('resolve_time', 'TimePeriod')[$rowIndex];
+			$data['reaction_time'] = $request->getArray('reaction_time', 'timePeriod')[$rowIndex];
+			$data['idle_time'] = $request->getArray('idle_time', 'timePeriod')[$rowIndex];
+			$data['resolve_time'] = $request->getArray('resolve_time', 'timePeriod')[$rowIndex];
 			$data['crmid'] = $crmId;
 			$data['tabid'] = $targetModule;
 			$data['id'] = \App\Utils\ServiceContracts::saveSlaPolicy($data, false);

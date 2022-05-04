@@ -104,7 +104,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 						$value = $request->isEmpty($name) ? null : $request->getByType($name, 'TimeInUserFormat');
 						break;
 					case 'schdate':
-						$value = $request->isEmpty($name) ? null : $request->getByType($name, 'DateTimeInUserFormat');
+						$value = $request->isEmpty($name) ? null : $request->getByType($name, 'dateTimeInUserFormat');
 						break;
 					case 'schannualdates':
 						$value = $request->isEmpty($name) ? null : implode(',', $request->getExploded($name, ',', 'DateInUserFormat'));
@@ -113,7 +113,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 						$value = $request->getMultiDimensionArray($name, [
 							'iterationOff' => \App\Purifier::BOOL,
 							'showTasks' => \App\Purifier::BOOL,
-							'enableTasks' => \App\Purifier::BOOL
+							'enableTasks' => \App\Purifier::BOOL,
 						]
 						);
 						$value = \App\Json::encode($value);

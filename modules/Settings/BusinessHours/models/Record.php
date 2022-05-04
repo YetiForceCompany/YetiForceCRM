@@ -155,17 +155,17 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 		$data['working_days'] = implode(',', $days);
-		$data['working_hours_from'] = \App\Purifier::purifyByType($data['working_hours_from'], 'Time');
-		$data['working_hours_to'] = \App\Purifier::purifyByType($data['working_hours_to'], 'Time');
+		$data['working_hours_from'] = \App\Purifier::purifyByType($data['working_hours_from'], 'time');
+		$data['working_hours_to'] = \App\Purifier::purifyByType($data['working_hours_to'], 'time');
 		if (isset($data['holidays']) && 0 !== $data['holidays'] && 1 !== $data['holidays']) {
 			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['holidays'], 406);
 		}
 		if (isset($data['default']) && 0 !== $data['default'] && 1 !== $data['default']) {
 			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE||' . $data['default'], 406);
 		}
-		$data['reaction_time'] = \App\Purifier::purifyByType($data['reaction_time'], 'TimePeriod');
-		$data['idle_time'] = \App\Purifier::purifyByType($data['idle_time'], 'TimePeriod');
-		$data['resolve_time'] = \App\Purifier::purifyByType($data['resolve_time'], 'TimePeriod');
+		$data['reaction_time'] = \App\Purifier::purifyByType($data['reaction_time'], 'timePeriod');
+		$data['idle_time'] = \App\Purifier::purifyByType($data['idle_time'], 'timePeriod');
+		$data['resolve_time'] = \App\Purifier::purifyByType($data['resolve_time'], 'timePeriod');
 		return $data;
 	}
 
@@ -250,14 +250,14 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'yfi yfi-full-editing-view',
-				'linkclass' => 'btn btn-primary btn-sm'
+				'linkclass' => 'btn btn-primary btn-sm',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => 'javascript:Settings_BusinessHours_List_Js.deleteById(' . $this->getId() . ');',
 				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn text-white btn-danger btn-sm'
+				'linkclass' => 'btn text-white btn-danger btn-sm',
 			],
 		];
 		foreach ($recordLinks as $recordLink) {

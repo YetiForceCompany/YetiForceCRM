@@ -34,7 +34,7 @@ class Vtiger_RecordActivity_View extends Vtiger_Index_View
 	public function process(App\Request $request)
 	{
 		$moduleName = $this->record->getModuleName();
-		$dateTime = $request->getByType('dateTime', 'DateTimeInUserFormat');
+		$dateTime = $request->getByType('dateTime', 'dateTimeInUserFormat');
 		$dateTime = \App\Fields\DateTime::formatToDb($dateTime);
 		$currentTime = (new \DateTimeField(date('Y-m-d H:i:s')))->getDisplayFullDateTimeValue();
 		$actions = ModTracker::getAllActionsTypes();
