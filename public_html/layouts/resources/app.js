@@ -2189,12 +2189,6 @@ var app = (window.app = {
 			$(k).val(kv[k]);
 		}
 	},
-	setRTEValues: function (kv) {
-		for (var k in kv) {
-			var rte = CKEDITOR.instances[k];
-			if (rte) rte.setData(kv[k]);
-		}
-	},
 	/**
 	 * Function returns the javascript controller based on the current view
 	 */
