@@ -25,8 +25,8 @@ $.Class(
 					advancedConditions: '',
 					tile_size: selectedTileSize
 				};
-				$('#recordsCount').val('');
-				$('#totalPageCount').text('');
+				this.contentContainer.find('#recordsCount').val('');
+				this.contentContainer.find('#totalPageCount').text('');
 				topMenuContainer.find('.pagination').data('totalCount', 0);
 				listInstance.getListViewRecords(urlParams).done(() => {
 					listInstance.updatePagination(1);

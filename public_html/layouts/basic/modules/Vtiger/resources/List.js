@@ -1193,7 +1193,6 @@ $.Class(
 		 * Function to register the event for changing the custom Filter
 		 */
 		registerChangeCustomFilterEvent: function (event) {
-			const thisInstance = this;
 			let target = $(event.currentTarget);
 			let selectOption = '';
 			let selectOptionId = '';
@@ -1230,7 +1229,7 @@ $.Class(
 				search_params: '',
 				advancedConditions: ''
 			};
-			let tileSelect = thisInstance.getListViewTopMenuContainer().find('.js-selected-tile-size');
+			let tileSelect = this.getListViewTopMenuContainer().find('.js-selected-tile-size');
 			if (tileSelect.length > 0) {
 				urlParams.tile_size = tileSelect.attr('data-selected-tile-size');
 			}
@@ -1245,7 +1244,7 @@ $.Class(
 				this.updatePagination(1);
 				if (tileSelect.length > 0) {
 					const tileInstance = new Vtiger_Tiles_Js();
-					tileInstance.contentContainer = thisInstance.getListViewContainer();
+					tileInstance.contentContainer = this.getListViewContainer();
 					tileInstance.setHeightOfTiles();
 				}
 			});

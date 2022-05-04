@@ -602,7 +602,7 @@ return [
 		],
 		'tileDefaultSize' => [
 			'default' => 'very_small',
-			'description' => 'Should the breadcrumb menu have href enabled? true = enabled, false = off',
+			'description' => 'Default tile size. Available sizes: very_small, small, medium, big',
 		],
 	],
 	'performance' => [

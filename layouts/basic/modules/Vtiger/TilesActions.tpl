@@ -11,7 +11,7 @@
 			<div class="actions">
 				{if $ONLY_ONE}
 					{foreach from=$LINKS item=LINK}
-						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
+						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='listViewBasic'}
 					{/foreach}
 				{else}
 					<div class="dropright u-remove-dropdown-icon">
@@ -20,7 +20,7 @@
 						</button>
 						<div class="dropdown-menu p-1" aria-label="{\App\Language::translate('LBL_ACTIONS')}">
 							{foreach from=$LINKS item=LINK}
-								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic' BTN_CLASS='btn-xs'}
+								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='listViewBasic' BTN_CLASS='btn-xs'}
 							{/foreach}
 						</div>
 					</div>

@@ -488,13 +488,13 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function getTilesDisplayValue($field, $rawText = false)
 	{
 		if ($field instanceof Vtiger_Field_Model) {
 			if (!empty($field->get('source_field_name')) && isset($this->ext[$field->get('source_field_name')][$field->getModuleName()])) {
-				return $this->ext[$field->get('source_field_name')][$field->getModuleName()]->getListViewDisplayValue($field, $rawText);
+				return $this->ext[$field->get('source_field_name')][$field->getModuleName()]->getTilesDisplayValue($field, $rawText);
 			}
 		} else {
 			$field = $this->getModule()->getFieldByName($field);

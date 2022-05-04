@@ -444,7 +444,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 	/** {@inheritdoc} */
 	public function getTilesDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		if (!($value = \App\Json::decode($value)) && !$value) {
+		if (!$value || !($value = \App\Json::decode($value))) {
 			return '';
 		}
 		if (!$record && $recordModel) {
@@ -469,14 +469,14 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 			return $result;
 		}
 		if ($record) {
-			$carouselId = App\Layout::getUniqueId("IC{$record}");
+			$carouselId = App\Layout::getUniqueId("IC{$record}-");
 			$result = '<div id="' . $carouselId . '" class="carousel slide" data-ride="carousel">
 		<div class="carousel-inner">';
 			foreach ($value as $itemNumber => $item) {
 				if ($record) {
 					$active = 0 === $itemNumber ? 'active' : '';
-					$result .= '    <div class="carousel-item ' . $active . '">
-				<img class="d-block  carousel-image" src="' . $this->getImageUrl($item['key'], $record) . '" alt="First slide">
+					$result .= '<div class="carousel-item ' . $active . '">
+				<img class="d-block carousel-image" src="' . $this->getImageUrl($item['key'], $record) . '" alt="First slide">
 			  </div>';
 				} else {
 					$result .= \App\Purifier::encodeHtml($item['name']) . ', ';

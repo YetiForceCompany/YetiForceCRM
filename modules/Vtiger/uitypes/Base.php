@@ -240,7 +240,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 * @param bool|Vtiger_Record_Model $recordModel
 	 * @param bool                     $rawText
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function getTilesDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
