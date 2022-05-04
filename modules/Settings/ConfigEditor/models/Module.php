@@ -28,7 +28,7 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 		'backgroundClosingModal' => 'LBL_BG_CLOSING_MODAL',
 		'href_max_length' => 'LBL_HREF_MAX_LEGTH',
 		'langInLoginView' => 'LBL_SHOW_LANG_IN_LOGIN_PAGE',
-		'layoutInLoginView' => 'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE'
+		'layoutInLoginView' => 'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE',
 	];
 
 	/** @var array Fields for relation */
@@ -37,7 +37,7 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 		'SHOW_RELATED_ICON' => 'LBL_RELATION_SHOW_RELATED_ICON',
 		'SHOW_RECORDS_COUNT' => 'LBL_RELATION_SHOW_RECORDS_COUNT',
 		'COMMENT_MAX_LENGTH' => 'LBL_RELATION_COMMENT_MAX_LENGTH',
-		'separateChangeRelationButton' => 'LBL_RELATION_SEPARATE_CHANGE_RELATION_BUTTON'
+		'separateChangeRelationButton' => 'LBL_RELATION_SEPARATE_CHANGE_RELATION_BUTTON',
 	];
 
 	/** @var string Configuration type */
@@ -147,7 +147,7 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 				break;
 			case 'upload_maxsize':
 				$params['label'] = $this->listFields[$name];
-				$params['maximumlength'] = (string) round((vtlib\Functions::getMaxUploadSize() / 1048576), 0);
+				$params['maximumlength'] = (string) round(\App\Config::getMaxUploadSize(true, true), 0);
 				unset($params['validator']);
 				break;
 			case 'layoutInLoginView':

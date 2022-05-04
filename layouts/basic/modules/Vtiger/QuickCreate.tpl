@@ -23,6 +23,7 @@
 					<input type="hidden" name="fromView" value="{$FROM_VIEW}" />
 					<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}" />
 					<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, $FROM_VIEW])}" />
+					<input type="hidden" class="js-max-upload-size" value="{$MAX_UPLOAD_LIMIT}" />
 					{if !empty($IS_RELATION_OPERATION) && !empty($SOURCE_MODULE) && !empty($SOURCE_RECORD)}
 						<input type="hidden" name="sourceModule" value="{$SOURCE_MODULE}" />
 						<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />

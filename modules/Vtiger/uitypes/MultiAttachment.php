@@ -386,9 +386,12 @@ class Vtiger_MultiAttachment_UIType extends Vtiger_Base_UIType
 		$params = $this->getFieldModel()->getFieldParams();
 		$fieldInfo['limit'] = $params['limit'] ?? static::LIMIT;
 		$fieldInfo['formats'] = $params['formats'] ?? [];
-		$fieldInfo['maxFileSize'] = $params['maxFileSize'] ?? \App\Config::main('upload_maxsize');
-		$fieldInfo['maxFileSizeDisplay'] = \vtlib\Functions::showBytes($fieldInfo['maxFileSize']);
-
+		$maxUploadSize = App\Config::getMaxUploadSize();
+		if ($params['maxFileSize'] && $params['maxFileSize'] < $maxUploadSize) {
+			$maxUploadSize = $params['maxFileSize'];
+		}
+		$fieldInfo['maxFileSize'] = $maxUploadSize;
+		$fieldInfo['maxFileSizeDisplay'] = \vtlib\Functions::showBytes($maxUploadSize);
 		return $fieldInfo;
 	}
 
@@ -418,7 +421,7 @@ class Vtiger_MultiAttachment_UIType extends Vtiger_Base_UIType
 					'size' => $file->getSize(),
 					'path' => $file->getPath(),
 					'key' => $key,
-					'type' => $file->getMimeType()
+					'type' => $file->getMimeType(),
 				];
 				$this->validate([$tempValue]);
 
@@ -506,7 +509,7 @@ class Vtiger_MultiAttachment_UIType extends Vtiger_Base_UIType
 				'size' => $file->getSize(),
 				'path' => $savePath . $key,
 				'key' => $key,
-				'type' => $file->getMimeType()
+				'type' => $file->getMimeType(),
 			];
 		}
 		$file->delete();

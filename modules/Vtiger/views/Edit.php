@@ -160,8 +160,8 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
-		$viewer->assign('MAX_UPLOAD_LIMIT', \App\Config::main('upload_maxsize'));
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', App\Config::getMaxUploadSize(true, true));
+		$viewer->assign('MAX_UPLOAD_LIMIT', App\Config::getMaxUploadSize());
 		$viewer->assign('RECORD_ACTIVITY_NOTIFIER', $recordId && \App\Config::performance('recordActivityNotifier', false) && $moduleModel->isTrackingEnabled() && $moduleModel->isPermitted('RecordActivityNotifier'));
 		$viewer->view('EditView.tpl', $moduleName);
 	}

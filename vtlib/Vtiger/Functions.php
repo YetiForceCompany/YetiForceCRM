@@ -524,18 +524,6 @@ class Functions
 		return $str;
 	}
 
-	public static function getMaxUploadSize()
-	{
-		// find max filesize value
-		$maxFileSize = self::parseBytes(ini_get('upload_max_filesize'));
-		$maxPostSize = self::parseBytes(ini_get('post_max_size'));
-
-		if ($maxPostSize && $maxPostSize < $maxFileSize) {
-			$maxFileSize = $maxPostSize;
-		}
-		return $maxFileSize;
-	}
-
 	public static function getMinimizationOptions($type = 'js')
 	{
 		switch ($type) {

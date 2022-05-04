@@ -336,4 +336,28 @@ class Config
 		}
 		return $result;
 	}
+
+	/**
+	 * Get the maximum size of an uploaded file to the server taking into account CRM configuration and server settings.
+	 *
+	 * @param bool $checkMain
+	 * @param bool $returnInMb
+	 *
+	 * @return int
+	 */
+	public static function getMaxUploadSize(bool $checkMain = true, bool $returnInMb = false): int
+	{
+		$size = \vtlib\Functions::parseBytes(ini_get('upload_max_filesize'));
+		$maxPostSize = \vtlib\Functions::parseBytes(ini_get('post_max_size'));
+		if ($maxPostSize < $size) {
+			$size = $maxPostSize;
+		}
+		if ($checkMain && \Config\Main::$upload_maxsize < $size) {
+			$size = (int) \Config\Main::$upload_maxsize;
+		}
+		if ($returnInMb) {
+			$size = floor($size / 1048576);
+		}
+		return $size;
+	}
 }

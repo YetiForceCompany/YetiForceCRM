@@ -29,7 +29,7 @@ class Settings_MailRbl_UploadList_Action extends Settings_Vtiger_Basic_Action
 		$result = ['success' => false, 'message' => \App\Language::translate('LBL_UPLOAD_ERROR', $request->getModule(false))];
 		if (!empty($_FILES['imported_list'])) {
 			$fileInstance = \App\Fields\File::loadFromRequest($_FILES['imported_list']);
-			if ($fileInstance->validateAndSecure('text') && $fileInstance->getSize() < \App\Config::main('upload_maxsize')) {
+			if ($fileInstance->validateAndSecure('text') && $fileInstance->getSize() < \App\Config::getMaxUploadSize()) {
 				if (!empty($fileContent = $fileInstance->getContents())) {
 					$importResult = $this->saveToDb($request->getByType('source', 'Alnum'), $request->getByType('type', 'Integer'), $fileContent);
 					if (!empty($importResult)) {
@@ -65,7 +65,7 @@ class Settings_MailRbl_UploadList_Action extends Settings_Vtiger_Basic_Action
 		$report = [
 			'saved' => 0,
 			'duplicates' => 0,
-			'errors' => 0
+			'errors' => 0,
 		];
 		$source = \App\TextParser::textTruncate($source, 10);
 		foreach ($explodedElements as $elementToSave) {

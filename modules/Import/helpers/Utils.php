@@ -49,11 +49,6 @@ class Import_Utils_Helper
 		return implode(', ', $description);
 	}
 
-	public static function getMaxUploadSize()
-	{
-		return \App\Config::main('upload_maxsize');
-	}
-
 	/**
 	 * The function takes the path of the file to be imported.
 	 *
@@ -147,7 +142,7 @@ class Import_Utils_Helper
 	{
 		$currentUser = \App\User::getCurrentUserModel();
 
-		$uploadMaxSize = self::getMaxUploadSize();
+		$uploadMaxSize = \App\Config::getMaxUploadSize();
 		$importDirectory = App\Fields\File::getTmpPath();
 		$temporaryFileName = self::getImportFilePath($currentUser);
 		if ($_FILES['import_file']['error']) {

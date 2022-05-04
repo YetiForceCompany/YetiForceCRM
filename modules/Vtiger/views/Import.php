@@ -96,7 +96,6 @@ class Vtiger_Import_View extends Vtiger_Index_View
 	 */
 	public function importBasicStep(App\Request $request)
 	{
-		$uploadMaxSize = App\Config::main('upload_maxsize');
 		$moduleName = $request->getModule();
 		$importModule = Vtiger_Module_Model::getInstance('Import')->setImportModule($moduleName);
 		$importModule->set('src_record', $request->getInteger('src_record'));
@@ -113,8 +112,8 @@ class Vtiger_Import_View extends Vtiger_Index_View
 		$viewer->assign('AVAILABLE_BLOCKS', $importModule->getFieldsByBlocks());
 		$viewer->assign('FOR_MODULE_MODEL', $importModule->getImportModuleModel());
 		$viewer->assign('ERROR_MESSAGE', $request->getByType('error_message', 'Text'));
-		$viewer->assign('IMPORT_UPLOAD_SIZE', $uploadMaxSize);
-		$viewer->assign('IMPORT_UPLOAD_SIZE_MB', round($uploadMaxSize / 1024 / 1024, 2));
+		$viewer->assign('IMPORT_UPLOAD_SIZE', \App\Config::getMaxUploadSize());
+		$viewer->assign('IMPORT_UPLOAD_SIZE_MB', \App\Config::getMaxUploadSize(true, true));
 		$viewer->assign('MODULE_MODEL', $importModule);
 		return $viewer->view('ImportBasicStep.tpl', 'Import');
 	}

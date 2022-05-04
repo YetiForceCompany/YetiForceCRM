@@ -392,7 +392,7 @@ class OSSMail_Mail_Model extends \App\Base
 			'folderid' => 'T2',
 		];
 		if ($attachments = $this->get('attachments')) {
-			$maxSize = \App\Config::main('upload_maxsize');
+			$maxSize = \App\Config::getMaxUploadSize();
 			foreach ($attachments as $attachment) {
 				if ($maxSize < ($size = \strlen($attachment['attachment']))) {
 					\App\Log::error("Error - downloaded the file is too big '{$attachment['filename']}', size: {$size}, in mail: {$this->get('date')} | Folder: {$this->getFolder()} | ID: {$this->get('id')}", __CLASS__);

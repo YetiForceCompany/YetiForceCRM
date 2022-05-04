@@ -49,8 +49,7 @@
 				{/if}
 			</div>
 			<div class="uploadFileSizeLimit redColor">
-				{\App\Language::translate('LBL_MAX_UPLOAD_SIZE',$MODULE)}&nbsp;
-				<span class="maxUploadSize" data-value="{$MAX_UPLOAD_LIMIT}">{$MAX_UPLOAD_LIMIT_MB}{\App\Language::translate('MB',$MODULE)}</span>
+				{\App\Language::translate('LBL_MAX_UPLOAD_SIZE',$MODULE)}&nbsp;{$MAX_UPLOAD_LIMIT_MB}{\App\Language::translate('MB',$MODULE)}
 			</div>
 		</div>
 	</div>

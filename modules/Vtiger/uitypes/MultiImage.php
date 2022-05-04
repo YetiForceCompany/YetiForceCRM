@@ -172,7 +172,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		}
 		$imageCount = (int) ($this->getFieldModel()->getFieldParams()['imageCount'] ?? 0);
 		$countValue = \count($value);
-		$len = ($imageCount <= $countValue) && ($imageCount > 0)  ? $imageCount : $countValue;
+		$len = ($imageCount <= $countValue) && ($imageCount > 0) ? $imageCount : $countValue;
 		if (!$record && $recordModel) {
 			$record = $recordModel->getId();
 		}
@@ -227,7 +227,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		}
 		$result = '<div class="c-multi-image__result text-center">';
 		for ($i = 0; $i < $len; ++$i) {
-			$result .='<div class="d-inline-block mr-1 c-multi-image__preview-img middle" style="background-image:url(' . $this->getImageUrl($value[$i]['key'], $record) . ')"></div>';
+			$result .= '<div class="d-inline-block mr-1 c-multi-image__preview-img middle" style="background-image:url(' . $this->getImageUrl($value[$i]['key'], $record) . ')"></div>';
 		}
 		return $result . '</div>';
 	}
@@ -352,9 +352,12 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		$params = $this->getFieldModel()->getFieldParams();
 		$fieldInfo['limit'] = $params['limit'] ?? static::LIMIT;
 		$fieldInfo['formats'] = $params['formats'] ?? \App\Fields\File::$allowedFormats['image'];
-		$fieldInfo['maxFileSize'] = $params['maxFileSize'] ?? \App\Config::main('upload_maxsize');
-		$fieldInfo['maxFileSizeDisplay'] = !empty($fieldInfo['maxFileSize']) ? \vtlib\Functions::showBytes($fieldInfo['maxFileSize']) : '';
-
+		$maxUploadSize = App\Config::getMaxUploadSize();
+		if ($params['maxFileSize'] && $params['maxFileSize'] < $maxUploadSize) {
+			$maxUploadSize = $params['maxFileSize'];
+		}
+		$fieldInfo['maxFileSize'] = $maxUploadSize;
+		$fieldInfo['maxFileSizeDisplay'] = \vtlib\Functions::showBytes($maxUploadSize);
 		return $fieldInfo;
 	}
 

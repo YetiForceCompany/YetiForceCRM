@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		{if \App\YetiForce\Register::isRegistered()}
-			{assign var=MAXUPLOADSIZE value=vtlib\Functions::getMaxUploadSize()}
+			{assign var=MAXUPLOADSIZE value=\App\Config::getMaxUploadSize(false)}
 			{if $MAXUPLOADSIZE < 5242880}
 				<div class="alert alert-block alert-danger fade show" role="alert">
 					<button type="button" class="close" data-dismiss="alert">×</button>

@@ -34,8 +34,7 @@
 												</div>
 											</div>
 											<label class="col-form-label">
-												(upload_max_filesize: {vtlib\Functions::showBytes(vtlib\Functions::getMaxUploadSize())}
-												)
+												(upload_max_filesize: {vtlib\Functions::showBytes(\App\Config::getMaxUploadSize(false))})
 											</label>
 										{else}
 											<div class="col-md-3 fieldValue">

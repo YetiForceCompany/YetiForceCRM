@@ -16,10 +16,6 @@ Vtiger_Edit_Js(
 		INTERNAL_FILE_LOCATION_TYPE: 'I',
 		EXTERNAL_FILE_LOCATION_TYPE: 'E',
 
-		getMaxiumFileUploadingSize: function (container) {
-			return container.find('.maxUploadSize').data('value');
-		},
-
 		isFileLocationInternalType: function (fileLocationElement) {
 			if (fileLocationElement.val() == this.INTERNAL_FILE_LOCATION_TYPE) {
 				return true;
@@ -103,7 +99,7 @@ Vtiger_Edit_Js(
 				}
 				let uploadFileSizeHolder = element.closest('.fileUploadContainer').find('.uploadedFileSize');
 				let fileSize = element.get(0).files[0].size;
-				if (fileSize > thisInstance.getMaxiumFileUploadingSize(container)) {
+				if (fileSize > container.find('.js-max-upload-size').val()) {
 					app.showAlert(app.vtranslate('JS_UPLOADED_FILE_SIZE_EXCEEDS'));
 					element.val('');
 					uploadFileSizeHolder.text('');

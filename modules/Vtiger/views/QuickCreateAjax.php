@@ -116,8 +116,8 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('HIDDEN_INPUT', $this->hiddenInput);
 		$viewer->assign('FROM_VIEW', $this->fromView);
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
-		$viewer->assign('MAX_UPLOAD_LIMIT_MB', Vtiger_Util_Helper::getMaxUploadSize());
-		$viewer->assign('MAX_UPLOAD_LIMIT', \App\Config::main('upload_maxsize'));
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', App\Config::getMaxUploadSize(true, true));
+		$viewer->assign('MAX_UPLOAD_LIMIT', App\Config::getMaxUploadSize());
 	}
 
 	/**

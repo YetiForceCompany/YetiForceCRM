@@ -17,7 +17,7 @@ class Settings_Roles_UploadLogo_Action extends Settings_Vtiger_Index_Action
 		$result = ['success' => false, 'message' => \App\Language::translate('LBL_UPLOAD_ERROR', $request->getModule(false))];
 		if (!empty($_FILES['role_logo'])) {
 			$fileInstance = \App\Fields\File::loadFromRequest($_FILES['role_logo']);
-			if ($fileInstance->validateAndSecure('image') && $fileInstance->getSize() < \App\Config::main('upload_maxsize')) {
+			if ($fileInstance->validateAndSecure('image') && $fileInstance->getSize() < \App\Config::getMaxUploadSize()) {
 				if (file_exists($targetFile)) {
 					unlink($targetFile);
 				}

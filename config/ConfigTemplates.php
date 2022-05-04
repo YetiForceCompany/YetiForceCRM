@@ -104,7 +104,7 @@ return [
 			'description' => 'Maximum file size for uploaded files in bytes also used when uploading import files: upload_maxsize default value = 52428800 (50MB)',
 			'validation' => function () {
 				$arg = func_get_arg(0);
-				return $arg && \App\Validator::naturalNumber($arg) && ($arg * 1048576) <= \vtlib\Functions::getMaxUploadSize();
+				return $arg && \App\Validator::naturalNumber($arg) && ($arg * 1048576) <= \App\Config::getMaxUploadSize(false);
 			},
 			'sanitization' => function () {
 				return (int) func_get_arg(0) * 1048576;

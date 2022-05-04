@@ -167,17 +167,6 @@ class Vtiger_Util_Helper
 	}
 
 	/**
-	 * Function to get maximum upload size.
-	 *
-	 * @return float maximum upload size
-	 */
-	public static function getMaxUploadSize()
-	{
-		$upload_maxsize = \App\Config::main('upload_maxsize');
-		return ceil($upload_maxsize / (1024 * 1024));
-	}
-
-	/**
 	 * Function decodes the utf-8 characters.
 	 *
 	 * @param string $string
