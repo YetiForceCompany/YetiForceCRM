@@ -2452,7 +2452,7 @@ YetiForce_Widget_Js(
 					url += '&viewname=' + container.find('select.widgetFilter.customFilter').val();
 					const owner = container.find('.widgetFilter.owner option:selected');
 					if (owner.val() != 'all') {
-						params.push('["assigned_user_id","e","' + owner.val() + '"],');
+						params.push('["assigned_user_id","e","' + owner.val() + '"]');
 					}
 					if (container.find('.widgetFilterSwitch').length > 0) {
 						const status = container.find('.widgetFilterSwitch').data();
