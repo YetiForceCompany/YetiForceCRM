@@ -2448,21 +2448,22 @@ YetiForce_Widget_Js(
 				eventClick: function (info) {
 					info.jsEvent.preventDefault();
 					let url = $(info.el).attr('href');
+					let params = [];
 					url += '&viewname=' + container.find('select.widgetFilter.customFilter').val();
-					url += '&search_params=[[';
 					const owner = container.find('.widgetFilter.owner option:selected');
 					if (owner.val() != 'all') {
-						url += '["assigned_user_id","e","' + owner.val() + '"],';
+						params.push('["assigned_user_id","e","' + owner.val() + '"],');
 					}
 					if (container.find('.widgetFilterSwitch').length > 0) {
 						const status = container.find('.widgetFilterSwitch').data();
-						url +=
-							'["activitystatus","e","' +
-							encodeURIComponent(status[container.find('.widgetFilterSwitch').val()]) +
-							'"],';
+						params.push('["activitystatus","e","' + status[container.find('.widgetFilterSwitch').val()] + '"]');
 					}
 					const date = App.Fields.Date.dateToUserFormat(info.event.start);
-					window.location.href = `${url}["activitytype","e","${info.event.extendedProps.activityType}"],["date_start","bw","${date} 00:00:00,${date} 23:59:59"]]]`;
+					params.push(
+						`["activitytype","e","${info.event.extendedProps.activityType}"],["date_start","bw","${date} 00:00:00,${date} 23:59:59"]`
+					);
+					url += '&search_params=' + encodeURIComponent('[[' + params + ']]');
+					window.location.href = `${url}`;
 				}
 			});
 			this.fullCalendar.render();
