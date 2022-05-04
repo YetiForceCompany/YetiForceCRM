@@ -159,46 +159,19 @@ var Settings_Picklist_Js = {
 				pickListFieldId: jQuery('#modulePickList').val()
 			};
 			AppConnector.request(params).done(function (data) {
-				app.showModalWindow(data);
-				jQuery('[name="addItemForm"]', jQuery(data)).validationEngine();
-				Settings_Picklist_Js.registerAssignValueToRoleSaveEvent(jQuery(data));
-				if (selectedListItem.length > 0) {
-					jQuery('[name="assign_values[]"]', jQuery('#assignValueToRoleForm')).select2('val', selectedValues);
-				}
+				app.showModalWindow(data, (container) => {
+					Settings_Picklist_Js.registerAssignValueToRoleSaveEvent(container);
+				});
 			});
 		});
 	},
 
-	registerAssignValueToRoleSaveEvent: function (data) {
-		jQuery('#assignValueToRoleForm').on('submit', function (e) {
-			var form = jQuery(e.currentTarget);
-
-			var assignValuesSelectElement = jQuery('[name="assign_values[]"]', form);
-			var assignValuesSelect2Element = app.getSelect2ElementFromSelect(assignValuesSelectElement);
-			var assignValueResult = Vtiger_MultiSelect_Validator_Js.invokeValidation(assignValuesSelectElement);
-			if (assignValueResult != true) {
-				assignValuesSelect2Element.validationEngine('showPrompt', assignValueResult, 'error', 'topLeft', true);
-			} else {
-				assignValuesSelect2Element.validationEngine('hide');
-			}
-
-			var rolesSelectElement = jQuery('[name="rolesSelected[]"]', form);
-			var select2Element = app.getSelect2ElementFromSelect(rolesSelectElement);
-			var result = Vtiger_MultiSelect_Validator_Js.invokeValidation(rolesSelectElement);
-			if (result != true) {
-				select2Element.validationEngine('showPrompt', result, 'error', 'bottomLeft', true);
-			} else {
-				select2Element.validationEngine('hide');
-			}
-
-			if (assignValueResult != true || result != true) {
-				e.preventDefault();
-				return;
-			} else {
-				form.find('[name="saveButton"]').attr('disabled', 'disabled');
-			}
-			var params = jQuery(e.currentTarget).serializeFormData();
-			AppConnector.request(params).done(function (data) {
+	registerAssignValueToRoleSaveEvent: function (container) {
+		container.on('submit', 'form', (e) => {
+			e.preventDefault();
+			let form = $(e.currentTarget);
+			form.find('[name="saveButton"]').attr('disabled', 'disabled');
+			AppConnector.request(form.serializeFormData()).done(function (data) {
 				if (typeof data.result !== 'undefined') {
 					app.hideModalWindow();
 					Settings_Vtiger_Index_Js.showMessage({
@@ -207,7 +180,6 @@ var Settings_Picklist_Js = {
 					});
 				}
 			});
-			e.preventDefault();
 		});
 	},
 

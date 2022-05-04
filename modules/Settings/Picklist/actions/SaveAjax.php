@@ -253,7 +253,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function assignValueToRole(App\Request $request)
 	{
-		$userSelectedRoles = $request->getArray('rolesSelected', 'Alnum');
+		$userSelectedRoles = $request->getArray('rolesSelected', \App\Purifier::ALNUM);
 		$roleIdList = [];
 		//selected all roles option
 		if (\in_array('all', $userSelectedRoles)) {

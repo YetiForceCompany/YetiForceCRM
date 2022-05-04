@@ -262,31 +262,34 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 			$pickListValueDetails[App\Purifier::decodeHtml($row[$primaryKey])] = $row['picklist_valueid'];
 		}
 		$dataReader->close();
-		$insertValueList = [];
-		$deleteValueList = ['or'];
-		foreach ($roleIdList as $roleId) {
-			foreach ($valuesToEnables as $picklistValue) {
-				if (empty($pickListValueDetails[$picklistValue])) {
-					$pickListValueId = $pickListValueDetails[App\Purifier::encodeHtml($picklistValue)];
-				} else {
-					$pickListValueId = $pickListValueDetails[$picklistValue];
+		if ($pickListValueDetails && $pickListValueList) {
+			$insertValueList = [];
+			$deleteValueList = [];
+			foreach ($roleIdList as $roleId) {
+				foreach ($valuesToEnables as $picklistValue) {
+					if (empty($pickListValueDetails[$picklistValue])) {
+						$pickListValueId = $pickListValueDetails[App\Purifier::encodeHtml($picklistValue)];
+					} else {
+						$pickListValueId = $pickListValueDetails[$picklistValue];
+					}
+					$insertValueList[] = [$roleId, $pickListValueId, $picklistId];
+					$deleteValueList[] = ['roleid' => $roleId, 'picklistvalueid' => $pickListValueId];
 				}
-				$insertValueList[] = [$roleId, $pickListValueId, $picklistId];
-				$deleteValueList[] = ['roleid' => $roleId, 'picklistvalueid' => $pickListValueId];
-			}
-			foreach ($valuesToDisable as $picklistValue) {
-				if (empty($pickListValueDetails[$picklistValue])) {
-					$pickListValueId = $pickListValueDetails[App\Purifier::encodeHtml($picklistValue)];
-				} else {
-					$pickListValueId = $pickListValueDetails[$picklistValue];
+				foreach ($valuesToDisable as $picklistValue) {
+					if (empty($pickListValueDetails[$picklistValue])) {
+						$pickListValueId = $pickListValueDetails[App\Purifier::encodeHtml($picklistValue)];
+					} else {
+						$pickListValueId = $pickListValueDetails[$picklistValue];
+					}
+					$deleteValueList[] = ['roleid' => $roleId, 'picklistvalueid' => $pickListValueId];
 				}
-				$deleteValueList[] = ['roleid' => $roleId, 'picklistvalueid' => $pickListValueId];
 			}
+			if ($deleteValueList) {
+				array_unshift($deleteValueList, 'or');
+				$db->createCommand()->delete('vtiger_role2picklist', $deleteValueList)->execute();
+			}
+			$db->createCommand()->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid'], $insertValueList)->execute();
 		}
-		if ($deleteValueList) {
-			$db->createCommand()->delete('vtiger_role2picklist', $deleteValueList)->execute();
-		}
-		$db->createCommand()->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid'], $insertValueList)->execute();
 	}
 
 	/**

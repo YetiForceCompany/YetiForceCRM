@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -19,7 +19,7 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form id="assignValueToRoleForm" class="form-horizontal" method="post" action="index.php">
+				<form id="assignValueToRoleForm" class="form-horizontal js-validate-form" method="post" action="index.php">
 					<input type="hidden" name="module" value="{$MODULE}" />
 					<input type="hidden" name="parent" value="Settings" />
 					<input type="hidden" name="source_module" value="{$SELECTED_MODULE_NAME}" />
@@ -31,23 +31,23 @@
 						<div class="form-group row align-items-center">
 							<div class="col-md-3 col-form-label text-right"><span class="redColor">*</span>{\App\Language::translate('LBL_ITEM_VALUE',$QUALIFIED_MODULE)}</div>
 							<div class="col-md-9 controls">
-								<select multiple class="select2 form-control" id="assignValues" name="assign_values[]">
+								<select multiple class="select2 form-control" id="assignValues" name="assign_values[]" data-validation-engine="validate[required,funcCall[Vtiger_MultiSelect_Validator_Js.invokeValidation]]">
 									{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$SELECTED_PICKLISTFIELD_ALL_VALUES}
 										<option value="{$PICKLIST_KEY}">{\App\Language::translate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}</option>
 									{/foreach}
 								</select>
 							</div>
-						</div>		
+						</div>
 						{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
-							<div class="form-group row align-items-center">	
+							<div class="form-group row align-items-center">
 								<div class="col-md-3 col-form-label text-right"><span class="redColor">*</span>{\App\Language::translate('LBL_ASSIGN_TO_ROLE',$QUALIFIED_MODULE)}</div>
 								<div class="col-md-9 controls">
-									<select class="rolesList select2 form-control" id="rolesSelected" name="rolesSelected[]" multiple data-placeholder="{\App\Language::translate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}">
+									<select class="rolesList select2 form-control" id="rolesSelected" name="rolesSelected[]" multiple data-placeholder="{\App\Language::translate('LBL_CHOOSE_ROLES',$QUALIFIED_MODULE)}" data-validation-engine="validate[required,funcCall[Vtiger_MultiSelect_Validator_Js.invokeValidation]]">
 										<option value="all" selected>{\App\Language::translate('LBL_ALL_ROLES',$QUALIFIED_MODULE)}</option>
 										{foreach from=$ROLES_LIST item=ROLE}
 											<option value="{$ROLE->get('roleid')}">{\App\Language::translate($ROLE->get('rolename'))}</option>
 										{/foreach}
-									</select>	
+									</select>
 								</div>
 							</div>
 						{/if}
