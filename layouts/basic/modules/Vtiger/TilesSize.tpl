@@ -9,7 +9,7 @@
 		</button>
 		<div class="dropdown-menu js-selected-tile-size" data-selected-tile-size="{$TILE_SIZE}">
 			<a class="dropdown-item js-tile-size" data-tile-size="very_small" href="#">{\App\Language::translate('LBL_TILE_VERY_SMALL', $MODULE_NAME)}</a>
-			<a class=" dropdown-item js-tile-size" data-tile-size="small" href="#">{\App\Language::translate('LBL_TILE_SMALL', $MODULE_NAME)}</a>
+			<a class="dropdown-item js-tile-size" data-tile-size="small" href="#">{\App\Language::translate('LBL_TILE_SMALL', $MODULE_NAME)}</a>
 			<a class="dropdown-item js-tile-size" data-tile-size="medium" href="#"> {\App\Language::translate('LBL_TILE_MEDIUM', $MODULE_NAME)}</a>
 			<a class="dropdown-item js-tile-size" data-tile-size="big" href="#"> {\App\Language::translate('LBL_TILE_BIG', $MODULE_NAME)}</a>
 		</div>

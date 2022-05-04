@@ -444,6 +444,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 	/** {@inheritdoc} */
 	public function getTilesDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
+		$rawValue = $value;
 		if (!$value || !($value = \App\Json::decode($value))) {
 			return '';
 		}
@@ -467,6 +468,9 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		if (!\is_array($value)) {
 			$result .= '</div></div>';
 			return $result;
+		}
+		if (1 === \count($value)) {
+			return $this->getListViewDisplayValue($rawValue, $record, $recordModel, $rawText);
 		}
 		if ($record) {
 			$carouselId = App\Layout::getUniqueId("IC{$record}-");

@@ -14,10 +14,4 @@ class Vtiger_Image_UIType extends Vtiger_MultiImage_UIType
 {
 	/** {@inheritdoc} */
 	public const LIMIT = 1;
-
-	/** {@inheritdoc} */
-	public function getTilesDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
-	{
-		return $this->getListViewDisplayValue($value, $record, $recordModel, $rawText);
-	}
 }
