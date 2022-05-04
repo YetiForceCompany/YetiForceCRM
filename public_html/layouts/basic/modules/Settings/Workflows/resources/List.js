@@ -81,7 +81,8 @@ Settings_Vtiger_List_Js(
 				var params = {
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
-					sourceModule: jQuery(e.currentTarget).val()
+					sourceModule: jQuery(e.currentTarget).val(),
+					orderby: 'sequence'
 				};
 				//Make the select all count as empty
 				jQuery('#recordsCount').val('');
@@ -89,6 +90,7 @@ Settings_Vtiger_List_Js(
 				jQuery('#totalPageCount').text('');
 				thisInstance.getListViewRecords(params).done(function (data) {
 					thisInstance.updatePagination();
+					thisInstance.registerSortWorkflowActions();
 				});
 			});
 		},
@@ -98,6 +100,9 @@ Settings_Vtiger_List_Js(
 		 */
 		registerRowClickEvent: function () {
 			this.getListViewContentContainer().on('click', '.listViewEntries', (e) => {
+				if ($(e.target).hasClass('js-workflow-up')) return;
+				if ($(e.target).hasClass('js-workflow-down')) return;
+				if ($(e.target).hasClass('js-drag')) return;
 				let editUrl = $(e.currentTarget).find('.js-edit').attr('href');
 				if (editUrl) {
 					window.location.href = editUrl;
@@ -123,10 +128,81 @@ Settings_Vtiger_List_Js(
 				window.location.href = jQuery(this).data('url');
 			});
 		},
+		registerSortWorkflowActions: function (container) {
+			let workflows = container.find('.js-workflows-list');
+			workflows.sortable({
+				containment: workflows,
+				items: workflows.find('.js-workflow'),
+				handle: '.js-drag',
+				revert: true,
+				tolerance: 'pointer',
+				cursor: 'move',
+				update: () => {
+					this.saveSequence(container);
+				}
+			});
+		},
+		/**
+		 * Save sequence
+		 */
+		saveSequence: function (container, sortType = false) {
+			let workflows = [];
+			container.find('.js-workflow').each(function (index) {
+				workflows[index] = $(this).data('id');
+			});
+			AppConnector.request({
+				module: app.getModuleName(), ///to pobrać inaczej
+				parent: app.getParentModuleName(),
+				sourceModule: this.module,
+				action: 'SaveAjax',
+				mode: 'sequence',
+				workflows: workflows,
+				sortType: sortType,
+				pageNumber: jQuery('#pageNumber').val()
+			})
+				.done(function (data) {
+					if (data.result.message) {
+						app.showNotify(data.result.message);
+					}
+				})
+				.fail(function () {
+					app.showNotify({
+						text: app.vtranslate('JS_UNEXPECTED_ERROR'),
+						type: 'error'
+					});
+				});
+		},
+		registerSortUp: function (container) {
+			let workflowUp = container.find('.js-workflow-up');
+			workflowUp.on('click', (e) => {
+				let row = $(e.target).closest('tr');
+				if (this.checkIfIsFirstRow(row) && 1 !== jQuery('#pageNumber').val()) {
+					this.saveSequence(container, 'up');
+				} else {
+					row.insertBefore(row.prev('tr'));
+					this.saveSequence(container);
+				}
+			});
+		},
+		registerSortDown: function (container) {
+			let workflowUp = container.find('.js-workflow-down');
+			workflowUp.on('click', (e) => {
+				let row = $(e.target).closest('tr');
+				row.insertAfter(row.next());
+				this.saveSequence(container, 'down');
+			});
+		},
+		checkIfIsFirstRow: function (row) {
+			return row.hasClass('js-first-workflow');
+		},
 		registerEvents: function () {
+			let container = jQuery('.js-workflows-container');
 			this._super();
 			this.registerFilterChangeEvent();
 			this.registerImportTemplate();
+			this.registerSortWorkflowActions(container);
+			this.registerSortUp(container);
+			this.registerSortDown(container);
 		}
 	}
 );
