@@ -3228,7 +3228,6 @@ var app = (window.app = {
 		});
 	}
 });
-CKEDITOR.disableAutoInline = true;
 $(function () {
 	Quasar.iconSet.set(Quasar.iconSet.mdiV3);
 	let document = $(this);

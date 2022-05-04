@@ -603,7 +603,16 @@ window.App.Fields = {
 			});
 		},
 		Editor: class {
+			static initialization = false;
 			constructor(container, params) {
+				if (window.App.Fields.Text.Editor.initialization === false) {
+					CKEDITOR.disableAutoInline = true;
+					CKEDITOR.plugins.addExternal(
+						'base64image',
+						app.getMainParams('siteUrl') + 'layouts/resources/libraries/ckeditor/base64image/'
+					);
+					window.App.Fields.Text.Editor.initialization = true;
+				}
 				this.container = container;
 				this.init(container, params);
 			}
@@ -705,6 +714,7 @@ window.App.Fields = {
 					shiftEnterMode: CKEDITOR.ENTER_P,
 					emojiEnabled: false,
 					mentionsEnabled: false,
+					clipboard_handleImages: false,
 					on: {
 						instanceReady: (evt) => {
 							evt.editor.on('blur', function () {
@@ -722,7 +732,7 @@ window.App.Fields = {
 					},
 					removePlugins: 'scayt',
 					extraPlugins:
-						'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi,ckeditor-image-to-base',
+						'colorbutton,pagebreak,colordialog,find,selectall,showblocks,div,print,font,justify,bidi,base64image',
 					toolbar: 'Full',
 					toolbar_Full: [
 						{
@@ -733,7 +743,7 @@ window.App.Fields = {
 						{ name: 'links', items: ['Link', 'Unlink'] },
 						{
 							name: 'insert',
-							items: ['ckeditor-image-to-base', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']
+							items: ['base64image', 'Table', 'HorizontalRule', 'SpecialChar', 'PageBreak']
 						},
 						{ name: 'tools', items: ['Maximize', 'ShowBlocks'] },
 						{ name: 'paragraph', items: ['Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv'] },
@@ -815,7 +825,7 @@ window.App.Fields = {
 						{ name: 'links', items: ['Link', 'Unlink'] },
 						{
 							name: 'insert',
-							items: ['ckeditor-image-to-base', 'Table', 'HorizontalRule', 'PageBreak']
+							items: ['base64image', 'Table', 'HorizontalRule', 'PageBreak']
 						},
 						{ name: 'tools', items: ['Maximize', 'ShowBlocks'] },
 						{ name: 'document', items: ['Source'] },
@@ -1192,7 +1202,7 @@ window.App.Fields = {
 				const self = this;
 				this.completionsCollection = new Tribute({
 					collection: self.collection,
-					allowSpaces: true,
+					allowSpaces: true
 				});
 				this.completionsCollection.attach(inputDiv[0]);
 				if (this.params.completionsTextarea !== undefined) {
