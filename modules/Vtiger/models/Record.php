@@ -481,6 +481,28 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
+	 * Function to get the display value in Tiles.
+	 *
+	 * @param string|Vtiger_Field_Model $field
+	 * @param bool                      $rawText
+	 *
+	 * @throws \App\Exceptions\AppException
+	 *
+	 * @return string
+	 */
+	public function getTilesDisplayValue($field, $rawText = false)
+	{
+		if ($field instanceof Vtiger_Field_Model) {
+			if (!empty($field->get('source_field_name')) && isset($this->ext[$field->get('source_field_name')][$field->getModuleName()])) {
+				return $this->ext[$field->get('source_field_name')][$field->getModuleName()]->getTilesDisplayValue($field, $rawText);
+			}
+		} else {
+			$field = $this->getModule()->getFieldByName($field);
+		}
+		return $field->getUITypeModel()->getTilesDisplayValue($this->get($field->getName()), $this->getId(), $this, $rawText);
+	}
+
+	/**
 	 * Function returns the Vtiger_Field_Model.
 	 *
 	 * @param string $fieldName - field name

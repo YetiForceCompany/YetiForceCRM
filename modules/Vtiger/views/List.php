@@ -15,6 +15,12 @@ class Vtiger_List_View extends Vtiger_Index_View
 	protected $listViewCount = false;
 	protected $listViewLinks = false;
 	protected $listViewHeaders = false;
+	/**
+	 * Page title.
+	 *
+	 * @var string
+	 */
+	protected $pageTitle = 'LBL_VIEW_LIST';
 
 	/**
 	 * List view model instance.
@@ -32,7 +38,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$moduleName = 'Vtiger' === $moduleName ? 'YetiForce' : $moduleName;
 		$title = App\Language::translate($moduleName, $moduleName);
-		$title = $title . ' ' . App\Language::translate('LBL_VIEW_LIST', $moduleName);
+		$title = $title . ' ' . App\Language::translate($this->pageTitle, $moduleName);
 
 		if ($request->has('viewname') && !empty(CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)])) {
 			$customView = CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)];
@@ -45,7 +51,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 	public function getBreadcrumbTitle(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$title = \App\Language::translate('LBL_VIEW_LIST', $moduleName);
+		$title = \App\Language::translate($this->pageTitle, $moduleName);
 		if ($request->has('viewname') && !empty(CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)])) {
 			$customView = CustomView_Record_Model::getAll($moduleName)[$request->getByType('viewname', 2)];
 			$title .= '<div class="pl-1 pb-1 align-items-end"><small class="breadCrumbsFilter"> [' . \App\Language::translate('LBL_FILTER', $moduleName)
@@ -137,7 +143,17 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$viewer->assign('VIEWID', $this->viewName);
 		}
 		$viewer->assign('VIEW', $request->getByType('view', 1));
-		$viewer->view('ListViewContents.tpl', $moduleName);
+		$viewer->view($this->getProcessTemplate(), $moduleName);
+	}
+
+	/**
+	 * Get template name for process.
+	 *
+	 * @return string
+	 */
+	public function getProcessTemplate(): string
+	{
+		return 'ListViewContents.tpl';
 	}
 
 	/** {@inheritdoc} */

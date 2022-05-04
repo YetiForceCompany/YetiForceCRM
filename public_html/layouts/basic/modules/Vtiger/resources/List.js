@@ -1206,6 +1206,10 @@ $.Class(
 				search_params: '',
 				advancedConditions: ''
 			};
+			let tileSelect = this.getListViewTopMenuContainer().find('.js-selected-tile-size');
+			if (tileSelect.length > 0) {
+				urlParams.tile_size = tileSelect.attr('data-selected-tile-size');
+			}
 			//Make the select all count as empty
 			$('#recordsCount').val('');
 			//Make total number of pages as empty
@@ -1215,6 +1219,11 @@ $.Class(
 				this.breadCrumbsFilter(selectOption.text());
 				this.ListViewPostOperation();
 				this.updatePagination(1);
+				if (tileSelect.length > 0) {
+					const tileInstance = new Vtiger_Tiles_Js();
+					tileInstance.contentContainer = this.getListViewContainer();
+					tileInstance.setHeightOfTiles();
+				}
 			});
 			event.stopPropagation();
 		},

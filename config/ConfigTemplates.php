@@ -600,6 +600,10 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool',
 		],
+		'tileDefaultSize' => [
+			'default' => 'very_small',
+			'description' => 'Default tile size. Available sizes: very_small, small, medium, big',
+		],
 	],
 	'performance' => [
 		'CACHING_DRIVER' => [

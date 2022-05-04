@@ -1,16 +1,6 @@
-﻿{*<!--
-/*********************************************************************************
-** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is:  vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-* Contributor(s): YetiForce S.A.
-********************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Base-ListViewContents -->
+	<!-- tpl-Base-TilesContents -->
 	{include file=\App\Layout::getTemplatePath('ListViewContentsTop.tpl', $MODULE_NAME)}
 	<table class="table tableBorderHeadBody listViewEntriesTable {$WIDTHTYPE} {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if} js-fixed-thead" data-js="floatThead">
 		<thead>
@@ -95,51 +85,60 @@
 			{/if}
 		</thead>
 		<tbody>
-			{assign var="LISTVIEW_HEADER_COUNT" value=count($LISTVIEW_HEADERS)}
-			{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
-				{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordListViewLinksRightSide()}
-				{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
-				{assign var="RECORD_COLORS" value=$LISTVIEW_ENTRY->getListViewColor()}
-				<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
-					<td class="noWrap leftRecordActions listButtons {$WIDTHTYPE}" {if $RECORD_COLORS['leftBorder']}style="border-left-color: {$RECORD_COLORS['leftBorder']};" {/if}>
-						{include file=\App\Layout::getTemplatePath('ListViewLeftSide.tpl', $MODULE_NAME)}
-					</td>
-					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
-						<td class="listViewEntryValue noWrap {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}">
-							{if empty($LISTVIEW_HEADER->get('source_field_name')) && ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true && $LISTVIEW_ENTRY->isViewable()}
-								<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modCT_{$MODULE} js-list-field js-popover-tooltip--record" data-js="width" {/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
-									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER)}
-								</a>
-							{else}
-								{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER)}
-							{/if}
-						</td>
-					{/foreach}
-					<td class="noWrap rightRecordActions listButtons {$WIDTHTYPE} reducePadding">
-						{include file=\App\Layout::getTemplatePath('ListViewRightSide.tpl', $MODULE_NAME)}
-					</td>
-				</tr>
-			{/foreach}
 		</tbody>
-		{if empty($SOURCE_MODULE) || $MODULE_NAME === $SOURCE_MODULE}
-			<tfoot class="listViewSummation">
-				<tr>
-					<td></td>
-					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-						<td {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="noWrap {if !empty($LISTVIEW_HEADER->isCalculateField())}border{/if}">
-							{if !empty($LISTVIEW_HEADER->isCalculateField())}
-								<button class="btn btn-sm btn-light js-popover-tooltip" data-js="popover" type="button" data-operator="sum" data-field="{$LISTVIEW_HEADER->getName()}" data-content="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}">
-									<span class="fas fa-signal" title="{\App\Language::translate('LBL_CALCULATE_SUM_FOR_THIS_FIELD')}"></span>
-								</button>
-								<span class="calculateValue"></span>
-							{/if}
-						</td>
-					{/foreach}
-				</tr>
-			</tfoot>
-		{/if}
 	</table>
-	{include file=\App\Layout::getTemplatePath('ListViewContentsBottom.tpl', $MODULE_NAME)}
+	<div class="row m-0 mt-1 c-tiles-container h-100">
+		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
+			{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
+			<div class="col-md-{$TILE_COLUMN_SIZE} col-sm-12 p-1 border-0 u-cursor-pointer c-tile-record-container  js-tile-container" data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}'>
+				<div class="card js-tile-card justify-content-center">
+					<div class="w-100 h-100 c-tile-body border border-light bg-light">
+						<div class="card-footer p-0 border-0 justify-content-center">
+							{include file=\App\Layout::getTemplatePath('TilesActions.tpl', $MODULE_NAME)}
+						</div>
+						<div class="card-body js-card-body justify-content-center h-100">
+							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaderForeach}
+								{assign var="FIELD_DATA_TYPE" value=$LISTVIEW_HEADER->getFieldDataType() }
+								{if $smarty.foreach.listHeaderForeach.first}
+									<h5 class="card-title text-center c-tile-value {if in_array($FIELD_DATA_TYPE,['multiImage', 'image'])} c-tile-image {/if}"><span class=" listViewEntryValue noWrap text-muted" data-field-type="{$FIELD_DATA_TYPE}">
+											{if empty($LISTVIEW_HEADER->get('source_field_name')) && ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true && $LISTVIEW_ENTRY->isViewable()}
+												<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modCT_{$MODULE} js-list-field js-popover-tooltip--record" data-js="width" {/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
+													<small> {$LISTVIEW_ENTRY->getTilesDisplayValue($LISTVIEW_HEADER)} </small>
+												</a>
+											{else}
+												<small>
+													{$LISTVIEW_ENTRY->getTilesDisplayValue($LISTVIEW_HEADER)}
+												</small>
+											{/if}
+										</span>
+									</h5>
+								{else}
+									{if !empty($LISTVIEW_HEADER->get('source_field_name'))}
+										{assign var=LISTVIEW_HEADER_NAME value="`$LISTVIEW_HEADER->getName()`:`$LISTVIEW_HEADER->getModuleName()`:`$LISTVIEW_HEADER->get('source_field_name')`"}
+									{else}
+										{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
+									{/if}
+									<div class="text-center">
+										<span class=" text-muted"> <small> {$LISTVIEW_HEADER->getFullLabelTranslation($MODULE_MODEL)}: </small> </span>
+										<span class=" listViewEntryValue noWrap text-muted c-tile-value" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}">
+											{if empty($LISTVIEW_HEADER->get('source_field_name')) && ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true && $LISTVIEW_ENTRY->isViewable()}
+												<a {if $LISTVIEW_HEADER->isNameField() eq true}class="modCT_{$MODULE} js-list-field js-popover-tooltip--record" data-js="width" {/if} href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">
+													<small> {$LISTVIEW_ENTRY->getTilesDisplayValue($LISTVIEW_HEADER)} </small>
+												</a>
+											{else}
+												<small> {$LISTVIEW_ENTRY->getTilesDisplayValue($LISTVIEW_HEADER)} </small>
+											{/if}
+										</span>
+									</div>
+								{/if}
+							{/foreach}
+						</div>
+					</div>
+				</div>
+			</div>
+		{/foreach}
 	</div>
-	<!-- /tpl-Base-ListViewContents -->
+	{include file=\App\Layout::getTemplatePath('ListViewContentsBottom.tpl', $MODULE_NAME)}
+	</>
+	<!-- /tpl-Base-TilesContents -->
 {/strip}
