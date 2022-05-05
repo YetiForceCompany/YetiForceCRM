@@ -1,21 +1,24 @@
-/* {[The file is published on the basis of YetiForce Public License 3.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+'use strict';
 
 CKEDITOR.dialog.add('base64image-dialog', function (editor) {
-	var t = null,
+	let self = null,
 		selectedImg = null,
 		orgWidth = null,
 		orgHeight = null,
 		imgPreview = null,
-		imgScal = 1,
-		lock = true;
+		sourceElements = [],
+		imgScale = 1,
+		lock = true,
+		maxUploadSize = CONFIG['maxUploadLimit'];
 
 	/* Check File Reader Support */
 	function fileSupport() {
-		var r = false,
+		let r = false,
 			n = null;
 		try {
 			if (FileReader) {
-				var n = document.createElement('input');
+				let n = document.createElement('input');
 				if (n && 'files' in n) r = true;
 			}
 		} catch (e) {
@@ -24,7 +27,7 @@ CKEDITOR.dialog.add('base64image-dialog', function (editor) {
 		n = null;
 		return r;
 	}
-	var isFReaderSupported = fileSupport();
+	let isFReaderSupported = fileSupport();
 
 	/* Load preview image */
 	function imagePreviewLoad(s) {
@@ -35,10 +38,10 @@ CKEDITOR.dialog.add('base64image-dialog', function (editor) {
 		}
 
 		/* Create image */
-		var i = new Image();
+		let i = new Image();
 
 		/* Display loading text in preview element */
-		imgPreview.getElement().setHtml('Loading...');
+		$(imgPreview.getElement().$).progressIndicator({ position: 'html' });
 
 		/* When image is loaded */
 		i.onload = function () {
@@ -47,11 +50,11 @@ CKEDITOR.dialog.add('base64image-dialog', function (editor) {
 
 			/* Set attributes */
 			if (orgWidth == null || orgHeight == null) {
-				t.setValueOf('tab-properties', 'width', this.width);
-				t.setValueOf('tab-properties', 'height', this.height);
-				imgScal = 1;
-				if (this.height > 0 && this.width > 0) imgScal = this.width / this.height;
-				if (imgScal <= 0) imgScal = 1;
+				self.setValueOf('tab-properties', 'width', this.width);
+				self.setValueOf('tab-properties', 'height', this.height);
+				imgScale = 1;
+				if (this.height > 0 && this.width > 0) imgScale = this.width / this.height;
+				if (imgScale <= 0) imgScale = 1;
 			} else {
 				orgWidth = null;
 				orgHeight = null;
@@ -62,7 +65,7 @@ CKEDITOR.dialog.add('base64image-dialog', function (editor) {
 
 			/* Insert preview image */
 			try {
-				var p = imgPreview.getElement().$;
+				let p = imgPreview.getElement().$;
 				if (p) p.appendChild(this);
 			} catch (e) {}
 		};
@@ -82,39 +85,61 @@ CKEDITOR.dialog.add('base64image-dialog', function (editor) {
 	function imagePreview(src) {
 		imgPreview.getElement().setHtml('');
 		if (isFReaderSupported) {
-			var fileI = t.getContentElement('tab-source', 'file');
-			var n = null;
-			try {
-				n = fileI.getInputElement().$;
-			} catch (e) {
-				n = null;
-			}
-			if (n && 'files' in n && n.files && n.files.length > 0 && n.files[0]) {
-				if ('type' in n.files[0] && !n.files[0].type.match('image.*')) return;
-				if (!FileReader) return;
-				imgPreview.getElement().setHtml('Loading...');
-				var fr = new FileReader();
-				fr.onload = (function (f) {
-					return function (e) {
-						imgPreview.getElement().setHtml('');
-						imagePreviewLoad(e.target.result);
-					};
-				})(n.files[0]);
-				fr.onerror = function () {
+			$(imgPreview.getElement().$).progressIndicator({ position: 'html' });
+			readImageAsBase64()
+				.done(function (base) {
 					imgPreview.getElement().setHtml('');
-				};
-				fr.onabort = function () {
+					imagePreviewLoad(base);
+				})
+				.fail(function () {
 					imgPreview.getElement().setHtml('');
-				};
-				fr.readAsDataURL(n.files[0]);
-			}
+				});
 		}
 	}
 
+	function readImageAsBase64() {
+		const aDeferred = jQuery.Deferred();
+		let fileI = self.getContentElement('tab-source', 'file'),
+			n = null;
+		try {
+			n = fileI.getInputElement().$;
+		} catch (e) {
+			n = null;
+		}
+		if (n && 'files' in n && n.files && n.files.length > 0 && n.files[0]) {
+			if (('type' in n.files[0] && !n.files[0].type.match('image.*')) || !FileReader) {
+				aDeferred.reject();
+				return aDeferred.promise();
+			}
+			if (n.files[0].size > maxUploadSize) {
+				app.showNotify({
+					text: app.vtranslate('JS_UPLOADED_FILE_SIZE_EXCEEDS'),
+					type: 'error'
+				});
+				aDeferred.reject();
+				return aDeferred.promise();
+			}
+			let fr = new FileReader();
+			fr.onload = (function (f) {
+				return function (e) {
+					aDeferred.resolve(e.target.result);
+				};
+			})(n.files[0]);
+			fr.onerror = function () {
+				aDeferred.reject();
+			};
+			fr.onabort = function () {
+				aDeferred.reject();
+			};
+			fr.readAsDataURL(n.files[0]);
+		}
+		return aDeferred.promise();
+	}
+
 	function getImageDimensions() {
-		var o = {
-			w: t.getContentElement('tab-properties', 'width').getValue(),
-			h: t.getContentElement('tab-properties', 'height').getValue(),
+		let o = {
+			w: self.getContentElement('tab-properties', 'width').getValue(),
+			h: self.getContentElement('tab-properties', 'height').getValue(),
 			uw: 'px',
 			uh: 'px'
 		};
@@ -128,25 +153,25 @@ CKEDITOR.dialog.add('base64image-dialog', function (editor) {
 	}
 
 	function imageDimensions(src) {
-		var o = getImageDimensions();
-		var u = 'px';
+		let o = getImageDimensions();
+		let u = 'px';
 		if (src == 'width') {
 			if (o.uw == '%') u = '%';
-			o.h = Math.round(o.w / imgScal);
+			o.h = Math.round(o.w / imgScale);
 		} else {
 			if (o.uh == '%') u = '%';
-			o.w = Math.round(o.h * imgScal);
+			o.w = Math.round(o.h * imgScale);
 		}
 		if (u == '%') {
 			o.w += '%';
 			o.h += '%';
 		}
-		t.getContentElement('tab-properties', 'width').setValue(o.w),
-			t.getContentElement('tab-properties', 'height').setValue(o.h);
+		self.getContentElement('tab-properties', 'width').setValue(o.w),
+			self.getContentElement('tab-properties', 'height').setValue(o.h);
 	}
 
 	function integerValue(elem) {
-		var v = elem.getValue(),
+		let v = elem.getValue(),
 			u = '';
 		if (v.indexOf('%') >= 0) u = '%';
 		v = parseInt(v, 10);
@@ -154,8 +179,55 @@ CKEDITOR.dialog.add('base64image-dialog', function (editor) {
 		elem.setValue(v + u);
 	}
 
+	function validateFile() {
+		const fieldInfo = $(editor.element.$).data('fieldinfo');
+		let length = editor.getData().length,
+			selectedImg = editor.getSelection();
+		if (selectedImg) selectedImg = selectedImg.getSelectedElement();
+		if (!selectedImg || selectedImg.getName() !== 'img') selectedImg = null;
+		if (selectedImg) {
+			length = length - selectedImg.getOuterHtml().length;
+		}
+		const aDeferred = jQuery.Deferred();
+		readImageAsBase64()
+			.done((base) => {
+				length += base.length;
+				if (length > fieldInfo['maximumlength']) {
+					app.showNotify({
+						text: app.vtranslate('JS_MAXIMUM_TEXT_SIZE_IN_BYTES') + ' ' + fieldInfo['maximumlength'],
+						type: 'error'
+					});
+				}
+				AppConnector.request({
+					module: app.getModuleName(),
+					action: 'Fields',
+					mode: 'validateFile',
+					fieldName: fieldInfo['name'],
+					base64: base
+				})
+					.done((data) => {
+						if (data.result.validate) {
+							aDeferred.resolve();
+						} else {
+							app.showNotify({
+								text: data.result.validateError,
+								type: 'error'
+							});
+							aDeferred.reject();
+						}
+					})
+					.fail(function () {
+						aDeferred.resolve();
+					});
+			})
+			.fail(() => {
+				aDeferred.reject();
+			});
+		return aDeferred.promise();
+	}
+
 	if (isFReaderSupported) {
-		var sourceElements = [
+		sourceElements = [
 			{
 				type: 'hbox',
 				widths: ['70px'],
@@ -165,8 +237,16 @@ CKEDITOR.dialog.add('base64image-dialog', function (editor) {
 						type: 'file',
 						id: 'file',
 						label: '',
-						onChange: function () {
-							imagePreview('file');
+						size: maxUploadSize,
+						onChange: function (a) {
+							validateFile()
+								.done(() => {
+									imagePreview('file');
+								})
+								.fail(function () {
+									self.getContentElement('tab-source', 'file').getInputElement().$.value = null;
+									imgPreview.getElement().setHtml('');
+								});
 						}
 					}
 				]
@@ -240,10 +320,13 @@ CKEDITOR.dialog.add('base64image-dialog', function (editor) {
 				);
 		},
 		onShow: function () {
+			this.getContentElement('tab-source', 'file')
+				.getInputElement()
+				.$.setAttribute('accept', 'image/jpeg, image/png, image/gif');
 			/* Remove preview */
 			imgPreview.getElement().setHtml('');
 
-			(t = this), (orgWidth = null), (orgHeight = null), (imgScal = 1), (lock = true);
+			(self = this), (orgWidth = null), (orgHeight = null), (imgScale = 1), (lock = true);
 
 			/* selected image or null */
 			selectedImg = editor.getSelection();
@@ -251,11 +334,11 @@ CKEDITOR.dialog.add('base64image-dialog', function (editor) {
 			if (!selectedImg || selectedImg.getName() !== 'img') selectedImg = null;
 
 			/* Set input values */
-			t.setValueOf('tab-properties', 'lock', lock);
-			t.setValueOf('tab-properties', 'vmargin', '0');
-			t.setValueOf('tab-properties', 'hmargin', '0');
-			t.setValueOf('tab-properties', 'border', '0');
-			t.setValueOf('tab-properties', 'align', 'none');
+			self.setValueOf('tab-properties', 'lock', lock);
+			self.setValueOf('tab-properties', 'vmargin', '0');
+			self.setValueOf('tab-properties', 'hmargin', '0');
+			self.setValueOf('tab-properties', 'border', '0');
+			self.setValueOf('tab-properties', 'align', 'none');
 			if (selectedImg) {
 				/* Set input values from selected image */
 				if (typeof selectedImg.getAttribute('width') == 'string') orgWidth = selectedImg.getAttribute('width');
@@ -265,13 +348,13 @@ CKEDITOR.dialog.add('base64image-dialog', function (editor) {
 					orgHeight = selectedImg.$.height;
 				}
 				if (orgWidth != null && orgHeight != null) {
-					t.setValueOf('tab-properties', 'width', orgWidth);
-					t.setValueOf('tab-properties', 'height', orgHeight);
+					self.setValueOf('tab-properties', 'width', orgWidth);
+					self.setValueOf('tab-properties', 'height', orgHeight);
 					orgWidth = parseInt(orgWidth, 10);
 					orgHeight = parseInt(orgHeight, 10);
-					imgScal = 1;
-					if (!isNaN(orgWidth) && !isNaN(orgHeight) && orgHeight > 0 && orgWidth > 0) imgScal = orgWidth / orgHeight;
-					if (imgScal <= 0) imgScal = 1;
+					imgScale = 1;
+					if (!isNaN(orgWidth) && !isNaN(orgHeight) && orgHeight > 0 && orgWidth > 0) imgScale = orgWidth / orgHeight;
+					if (imgScale <= 0) imgScale = 1;
 				}
 
 				if (typeof selectedImg.getAttribute('src') == 'string') {
@@ -281,38 +364,38 @@ CKEDITOR.dialog.add('base64image-dialog', function (editor) {
 					}
 				}
 				if (typeof selectedImg.getAttribute('alt') == 'string')
-					t.setValueOf('tab-properties', 'alt', selectedImg.getAttribute('alt'));
+					self.setValueOf('tab-properties', 'alt', selectedImg.getAttribute('alt'));
 				if (typeof selectedImg.getAttribute('hspace') == 'string')
-					t.setValueOf('tab-properties', 'hmargin', selectedImg.getAttribute('hspace'));
+					self.setValueOf('tab-properties', 'hmargin', selectedImg.getAttribute('hspace'));
 				if (typeof selectedImg.getAttribute('vspace') == 'string')
-					t.setValueOf('tab-properties', 'vmargin', selectedImg.getAttribute('vspace'));
+					self.setValueOf('tab-properties', 'vmargin', selectedImg.getAttribute('vspace'));
 				if (typeof selectedImg.getAttribute('border') == 'string')
-					t.setValueOf('tab-properties', 'border', selectedImg.getAttribute('border'));
+					self.setValueOf('tab-properties', 'border', selectedImg.getAttribute('border'));
 				if (typeof selectedImg.getAttribute('align') == 'string') {
 					switch (selectedImg.getAttribute('align')) {
 						case 'top':
 						case 'text-top':
-							t.setValueOf('tab-properties', 'align', 'top');
+							self.setValueOf('tab-properties', 'align', 'top');
 							break;
 						case 'baseline':
 						case 'bottom':
 						case 'text-bottom':
-							t.setValueOf('tab-properties', 'align', 'bottom');
+							self.setValueOf('tab-properties', 'align', 'bottom');
 							break;
 						case 'left':
-							t.setValueOf('tab-properties', 'align', 'left');
+							self.setValueOf('tab-properties', 'align', 'left');
 							break;
 						case 'right':
-							t.setValueOf('tab-properties', 'align', 'right');
+							self.setValueOf('tab-properties', 'align', 'right');
 							break;
 					}
 				}
-				t.selectPage('tab-properties');
+				self.selectPage('tab-properties');
 			}
 		},
 		onOk: function () {
 			/* Get image source */
-			var src = '';
+			let src = '';
 			try {
 				src = CKEDITOR.document.getById(editor.id + 'previewimage').$.src;
 			} catch (e) {
@@ -320,77 +403,85 @@ CKEDITOR.dialog.add('base64image-dialog', function (editor) {
 			}
 			if (typeof src != 'string' || src == null || src === '') return;
 
-			/* selected image or new image */
-			if (selectedImg) var newImg = selectedImg;
-			else var newImg = editor.document.createElement('img');
-			newImg.setAttribute('src', src);
-			src = null;
-
-			/* Set attributes */
-			newImg.setAttribute('alt', t.getValueOf('tab-properties', 'alt').replace(/^\s+/, '').replace(/\s+$/, ''));
-			var attr = {
-					width: ['width', 'width:#;', 'integer', 1],
-					height: ['height', 'height:#;', 'integer', 1],
-					vmargin: ['vspace', 'margin-top:#;margin-bottom:#;', 'integer', 0],
-					hmargin: ['hspace', 'margin-left:#;margin-right:#;', 'integer', 0],
-					align: ['align', ''],
-					border: ['border', 'border:# solid black;', 'integer', 0]
-				},
-				css = [],
-				value,
-				cssvalue,
-				attrvalue,
-				k;
-			for (k in attr) {
-				value = t.getValueOf('tab-properties', k);
-				attrvalue = value;
-				cssvalue = value;
-				unit = 'px';
-
-				if (k == 'align') {
-					switch (value) {
-						case 'top':
-						case 'bottom':
-							attr[k][1] = 'vertical-align:#;';
-							break;
-						case 'left':
-						case 'right':
-							attr[k][1] = 'float:#;';
-							break;
-						default:
-							value = null;
-							break;
-					}
+			validateFile().always(() => {
+				/* selected image or new image */
+				if (selectedImg) {
+					var newImg = selectedImg;
+				} else {
+					var newImg = editor.document.createElement('img');
 				}
+				newImg.setAttribute('src', src);
+				src = null;
 
-				if (attr[k][2] == 'integer') {
-					if (value.indexOf('%') >= 0) unit = '%';
-					value = parseInt(value, 10);
-					if (isNaN(value)) value = null;
-					else if (value < attr[k][3]) value = null;
-					if (value != null) {
-						if (unit == '%') {
-							attrvalue = value + '%';
-							cssvalue = value + '%';
-						} else {
-							attrvalue = value;
-							cssvalue = value + 'px';
+				/* Set attributes */
+				newImg.setAttribute('alt', self.getValueOf('tab-properties', 'alt').replace(/^\s+/, '').replace(/\s+$/, ''));
+				let attr = {
+						width: ['width', 'width:#;', 'integer', 1],
+						height: ['height', 'height:#;', 'integer', 1],
+						vmargin: ['vspace', 'margin-top:#;margin-bottom:#;', 'integer', 0],
+						hmargin: ['hspace', 'margin-left:#;margin-right:#;', 'integer', 0],
+						align: ['align', ''],
+						border: ['border', 'border:# solid black;', 'integer', 0]
+					},
+					css = [],
+					value,
+					cssValue,
+					attrValue,
+					unit,
+					k;
+				for (k in attr) {
+					value = self.getValueOf('tab-properties', k);
+					attrValue = value;
+					cssValue = value;
+					unit = 'px';
+
+					if (k == 'align') {
+						switch (value) {
+							case 'top':
+							case 'bottom':
+								attr[k][1] = 'vertical-align:#;';
+								break;
+							case 'left':
+							case 'right':
+								attr[k][1] = 'float:#;';
+								break;
+							default:
+								value = null;
+								break;
 						}
 					}
+
+					if (attr[k][2] == 'integer') {
+						if (value.indexOf('%') >= 0) unit = '%';
+						value = parseInt(value, 10);
+						if (isNaN(value)) value = null;
+						else if (value < attr[k][3]) value = null;
+						if (value != null) {
+							if (unit == '%') {
+								attrValue = value + '%';
+								cssValue = value + '%';
+							} else {
+								attrValue = value;
+								cssValue = value + 'px';
+							}
+						}
+					}
+
+					if (value != null) {
+						newImg.setAttribute(attr[k][0], attrValue);
+						css.push(attr[k][1].replace(/#/g, cssValue));
+					}
 				}
+				if (css.length > 0) newImg.setAttribute('style', css.join(''));
 
-				if (value != null) {
-					newImg.setAttribute(attr[k][0], attrvalue);
-					css.push(attr[k][1].replace(/#/g, cssvalue));
-				}
-			}
-			if (css.length > 0) newImg.setAttribute('style', css.join(''));
+				/* Insert new image */
+				if (!selectedImg) editor.insertElement(newImg);
 
-			/* Insert new image */
-			if (!selectedImg) editor.insertElement(newImg);
+				/* Resize image */
+				if (editor.plugins.imageresize) editor.plugins.imageresize.resize(editor, newImg, 800, 800);
 
-			/* Resize image */
-			if (editor.plugins.imageresize) editor.plugins.imageresize.resize(editor, newImg, 800, 800);
+				editor.updateElement();
+			});
 		},
 
 		/* Dialog form */

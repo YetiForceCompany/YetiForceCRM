@@ -483,4 +483,20 @@ class Validator
 			return !self::dirName($dir);
 		});
 	}
+
+	/**
+	 * Check base64.
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public static function base64(string $input): bool
+	{
+		if (empty($input)) {
+			return false;
+		}
+		$explode = explode(',', $input);
+		return 2 === \count($explode) && 1 === preg_match('%^[a-zA-Z0-9/+]*={0,2}$%', $explode[1]);
+	}
 }

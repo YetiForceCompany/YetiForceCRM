@@ -59,6 +59,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		$this->exposeMethod('validateByMode');
 		$this->exposeMethod('verifyPhoneNumber');
 		$this->exposeMethod('changeFavoriteOwner');
+		$this->exposeMethod('validateFile');
 	}
 
 	/**
@@ -68,7 +69,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function getOwners(App\Request $request)
+	public function getOwners(App\Request $request): void
 	{
 		if (!App\Config::performance('SEARCH_OWNERS_BY_AJAX')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -121,7 +122,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function getUserRole(App\Request $request)
+	public function getUserRole(App\Request $request): void
 	{
 		if (!App\Config::performance('SEARCH_ROLES_BY_AJAX')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -148,7 +149,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function getReference(App\Request $request)
+	public function getReference(App\Request $request): void
 	{
 		if ($request->has('fieldName')) {
 			$fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
@@ -195,7 +196,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function verifyPhoneNumber(App\Request $request)
+	public function verifyPhoneNumber(App\Request $request): void
 	{
 		if ('phone' !== $this->fieldModel->getFieldDataType()) {
 			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
@@ -224,7 +225,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function findAddress(App\Request $request)
+	public function findAddress(App\Request $request): void
 	{
 		$instance = \App\Map\Address::getInstance($request->getByType('type'));
 		$response = new Vtiger_Response();
@@ -243,7 +244,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 * @throws \App\Exceptions\NoPermitted
 	 * @throws \yii\db\Exception
 	 */
-	public function changeFavoriteOwner(App\Request $request)
+	public function changeFavoriteOwner(App\Request $request): void
 	{
 		if (!App\Config::module('Users', 'FAVORITE_OWNERS') || (\App\User::getCurrentUserRealId() !== \App\User::getCurrentUserId())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
@@ -265,7 +266,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function validateForField(App\Request $request)
+	public function validateForField(App\Request $request): void
 	{
 		$fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
 		if (!$fieldModel || !$fieldModel->isActiveField() || !$fieldModel->isViewEnabled()) {
@@ -288,7 +289,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 *
 	 * @throws \App\Exceptions\NoPermitted
 	 */
-	public function validateByMode(App\Request $request)
+	public function validateByMode(App\Request $request): void
 	{
 		if ($request->isEmpty('purifyMode') || !$request->has('value')) {
 			throw new \App\Exceptions\NoPermitted('ERR_ILLEGAL_VALUE', 406);
@@ -296,6 +297,32 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'raw' => $request->getByType('value', $request->getByType('purifyMode')),
+		]);
+		$response->emit();
+	}
+
+	/**
+	 * Validate file.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function validateFile(App\Request $request): void
+	{
+		$validate = false;
+		if ($request->has('base64')) {
+			$fileInstance = \App\Fields\File::loadFromBase($request->getByType('base64', 'base64'), ['validateAllowedFormat' => 'image']);
+			if ($fileInstance && $fileInstance->validate()) {
+				$validate = true;
+			} else {
+				$validateError = $fileInstance->validateError;
+			}
+		}
+		$response = new Vtiger_Response();
+		$response->setResult([
+			'validate' => $validate,
+			'validateError' => $validateError ?? null,
 		]);
 		$response->emit();
 	}

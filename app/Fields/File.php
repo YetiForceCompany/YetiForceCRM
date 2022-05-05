@@ -167,6 +167,39 @@ class File
 	}
 
 	/**
+	 * Load file instance from base string.
+	 *
+	 * @param string $contents
+	 * @param array  $param
+	 *
+	 * @return \self|null
+	 */
+	public static function loadFromBase(string $contents, array $param = []): ?self
+	{
+		$result = explode(',', $contents, 2);
+		$contentType = $isBase64 = false;
+		if (2 === \count($result)) {
+			[$metadata, $data] = $result;
+			foreach (explode(';', $metadata) as $cur) {
+				if ('base64' === $cur) {
+					$isBase64 = true;
+				} elseif ('data:' === substr($cur, 0, 5)) {
+					$contentType = str_replace('data:', '', $cur);
+				}
+			}
+		} else {
+			$data = $result[0];
+		}
+		$data = rawurldecode($data);
+		$rawData = $isBase64 ? base64_decode($data) : $data;
+		if (\strlen($rawData) < 12) {
+			Log::error('Incorrect content value: ' . $contents, __CLASS__);
+			return null;
+		}
+		return static::loadFromContent($rawData, false, array_merge($param, ['mimeType' => $contentType]));
+	}
+
+	/**
 	 * Load file instance from content.
 	 *
 	 * @param string   $contents
@@ -881,27 +914,7 @@ class File
 	 */
 	public static function saveFromString(string $contents, array $param = [])
 	{
-		$result = explode(',', $contents, 2);
-		$contentType = $isBase64 = false;
-		if (2 === \count($result)) {
-			[$metadata, $data] = $result;
-			foreach (explode(';', $metadata) as $cur) {
-				if ('base64' === $cur) {
-					$isBase64 = true;
-				} elseif ('data:' === substr($cur, 0, 5)) {
-					$contentType = str_replace('data:', '', $cur);
-				}
-			}
-		} else {
-			$data = $result[0];
-		}
-		$data = rawurldecode($data);
-		$rawData = $isBase64 ? base64_decode($data) : $data;
-		if (\strlen($rawData) < 12) {
-			Log::error('Incorrect content value: ' . $contents, __CLASS__);
-			return false;
-		}
-		$fileInstance = static::loadFromContent($rawData, false, array_merge($param, ['mimeType' => $contentType]));
+		$fileInstance = static::loadFromBase($contents, $param);
 		if ($fileInstance->validateAndSecure()) {
 			return $fileInstance;
 		}
@@ -1230,7 +1243,7 @@ class File
 			'createdtime' => date('Y-m-d H:i:s'),
 			'fieldname' => null,
 			'key' => null,
-			'crmid' => 0
+			'crmid' => 0,
 		];
 		foreach ($data as $key => &$value) {
 			if (isset($params[$key])) {
