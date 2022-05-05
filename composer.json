@@ -83,7 +83,7 @@
     "phpmailer/dkimvalidator": "^v0.3",
     "league/climate": "^3.6",
     "twig/twig": "^3.0",
-    "illuminate/support": "^8.0",
+    "illuminate/support": "^9.0",
     "globalcitizen/php-iban": "^4.0.0",
     "chrome-php/chrome": "^v1.4.0",
     "setasign/fpdf": "1.8.*",
