@@ -20,7 +20,7 @@
 	<div class="boolenSearchField">
 		<select name="{$FIELD_MODEL->getName()}" class="select2noactive select2 listSearchContributor"
 			title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
-			data-fieldinfo='{$FIELD_INFO|escape}'
+			data-fieldinfo='{$FIELD_INFO|escape}' data-allow-clear="true"
 			{if !empty($FIELD_MODEL->get('source_field_name'))}
 				data-source-field-name="{$FIELD_MODEL->get('source_field_name')}" data-module-name="{$FIELD_MODEL->getModuleName()}"
 			{/if}
