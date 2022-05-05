@@ -72,16 +72,17 @@ Settings_Vtiger_List_Js(
 	},
 	{
 		registerFilterChangeEvent: function () {
-			var thisInstance = this;
-			jQuery('#moduleFilter').on('change', function (e) {
+			let thisInstance = this;
+			this.topMenuContainer.find('.js-module-filter').on('change', function (e) {
 				jQuery('#pageNumber').val('1');
 				jQuery('#pageToJump').val('1');
 				jQuery('#orderBy').val('');
 				jQuery('#sortOrder').val('');
-				var params = {
+				this.module = jQuery(e.currentTarget).val();
+				let params = {
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
-					sourceModule: jQuery(e.currentTarget).val(),
+					sourceModule: this.module,
 					orderby: 'sequence'
 				};
 				//Make the select all count as empty
@@ -128,30 +129,33 @@ Settings_Vtiger_List_Js(
 				window.location.href = jQuery(this).data('url');
 			});
 		},
-		registerSortWorkflowActions: function (container) {
-			let workflows = container.find('.js-workflows-list');
+		/**
+		 * Register sort workflow actions
+		 */
+		registerSortWorkflowActions: function () {
+			let workflows = this.container.find('.js-workflows-list-actions');
 			workflows.sortable({
 				containment: workflows,
-				items: workflows.find('.js-workflow'),
+				items: workflows.find('.js-workflow-action'),
 				handle: '.js-drag',
 				revert: true,
 				tolerance: 'pointer',
 				cursor: 'move',
 				update: () => {
-					this.saveSequence(container);
+					this.saveSequence();
+					this.updateFirstAndLastRow();
 				}
 			});
 		},
 		/**
 		 * Save sequence
 		 */
-		saveSequence: function (container, sortType = false) {
-			let workflows = [];
-			container.find('.js-workflow').each(function (index) {
-				workflows[index] = $(this).data('id');
-			});
+		saveSequence: function (sortType = false) {
+			let workflows = this.getWorkflowsForUpdate(sortType);
 			AppConnector.request({
-				module: app.getModuleName(), ///to pobrać inaczej
+				module: this.container.find('[name="module"]').length
+					? this.container.find('[name="module"]').val()
+					: app.getModuleName(),
 				parent: app.getParentModuleName(),
 				sourceModule: this.module,
 				action: 'SaveAjax',
@@ -172,37 +176,92 @@ Settings_Vtiger_List_Js(
 					});
 				});
 		},
-		registerSortUp: function (container) {
-			let workflowUp = container.find('.js-workflow-up');
-			workflowUp.on('click', (e) => {
+		/**
+		 * Get workflows from list
+		 * returns [array]
+		 */
+		getWorkflowsForUpdate: function () {
+			let workflows = [];
+			this.container.find('.js-workflow-action').each(function (index) {
+				workflows[index] = $(this).data('id');
+			});
+			return workflows;
+		},
+		/**
+		 * Update first and last row after sortable
+		 */
+		updateFirstAndLastRow: function () {
+			this.container.find('.js-first-workflow').removeClass('js-first-workflow');
+			this.container.find('.js-workflows-list-actions tbody tr').first().addClass('js-first-workflow');
+			this.container.find('.js-last-workflow').removeClass('js-last-workflow');
+			this.container.find('.js-workflows-list-actions tbody tr').last().addClass('js-last-workflow');
+		},
+		/**
+		 * Sort up workflow action
+		 */
+		registerSortUp: function () {
+			this.container.on('click', '.js-workflow-up', (e) => {
 				let row = $(e.target).closest('tr');
-				if (this.checkIfIsFirstRow(row) && 1 !== jQuery('#pageNumber').val()) {
-					this.saveSequence(container, 'up');
+				if (this.checkIfIsFirstRow(row) && 1 < this.container.find('#pageNumber').val()) {
+					this.saveSequence('up');
+					location.reload();
 				} else {
 					row.insertBefore(row.prev('tr'));
-					this.saveSequence(container);
+					row.removeClass('js-last-workflow');
+					this.container.find('.js-workflows-list-actions tbody tr').last().addClass('js-last-workflow');
+					this.saveSequence();
 				}
 			});
 		},
-		registerSortDown: function (container) {
-			let workflowUp = container.find('.js-workflow-down');
-			workflowUp.on('click', (e) => {
+		/**
+		 * Sort down workflow action
+		 */
+		registerSortDown: function () {
+			this.container.on('click', '.js-workflow-down', (e) => {
 				let row = $(e.target).closest('tr');
-				row.insertAfter(row.next());
-				this.saveSequence(container, 'down');
+				if (this.checkIfIsLastRow(row)) {
+					this.saveSequence('down');
+					location.reload();
+				} else {
+					row.insertAfter(row.next());
+					row.removeClass('js-first-workflow');
+					this.container.find('.js-workflows-list-actions tbody tr').first().addClass('js-first-workflow');
+					this.saveSequence();
+				}
 			});
 		},
+		/**
+		 * Check if sortable row is first
+		 * @param {jQuery} row
+		 * @returns true
+		 */
 		checkIfIsFirstRow: function (row) {
 			return row.hasClass('js-first-workflow');
 		},
-		registerEvents: function () {
-			let container = jQuery('.js-workflows-container');
+		/**
+		 * Check if sortable row is last
+		 * @param {jQuery} row
+		 * @returns true
+		 */
+		checkIfIsLastRow: function (row) {
+			return row.hasClass('js-last-workflow');
+		},
+		/**
+		 * Register pagination events
+		 */
+		registerPageNavigationEvents: function () {
 			this._super();
+			this.registerSortWorkflowActions();
+		},
+		registerEvents: function () {
+			this.container = this.getListViewContentContainer();
+			this._super();
+			this.topMenuContainer = this.getListViewTopMenuContainer();
+			this.module = this.topMenuContainer.find('.js-module-filter option:selected').val();
 			this.registerFilterChangeEvent();
 			this.registerImportTemplate();
-			this.registerSortWorkflowActions(container);
-			this.registerSortUp(container);
-			this.registerSortDown(container);
+			this.registerSortUp();
+			this.registerSortDown();
 		}
 	}
 );

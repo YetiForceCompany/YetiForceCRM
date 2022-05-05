@@ -17,6 +17,7 @@ class Settings_Workflows_UpdateSequence_Helper
 	public $baseIndex = 'workflow_id';
 	private $sortType = false;
 	private $pageNumber = 0;
+	private $entriesPerPage = 0;
 	private $workflowsOrder = [];
 
 	public function __construct($workflowsOrder, $pageNumber, $sortType)
@@ -24,6 +25,7 @@ class Settings_Workflows_UpdateSequence_Helper
 		$this->workflowsOrder = $workflowsOrder;
 		$this->pageNumber = $pageNumber;
 		$this->sortType = $sortType;
+		$this->entriesPerPage = \App\Config::main('list_max_entries_per_page');
 		$this->updateSequence();
 	}
 
@@ -33,17 +35,13 @@ class Settings_Workflows_UpdateSequence_Helper
 		$this->{$updateTypeMethod}();
 	}
 
-	/*
-		*/
-
 	private function getUpdateTypeMethod()
 	{
-
-			return match($this->sortType){
-				false => 'updateSequenceOnThisSamePage',
-				'up' => 'updateSequenceUp',
-				'down' => 'updateSequenceDown'
-			};
+		return match($this->sortType){
+			'up' => 'updateSequenceUp',
+			'down' => 'updateSequenceDown',
+			default  => 'updateSequenceOnThisSamePage'
+		};
 	}
 
 	private function updateSequenceOnThisSamePage(){
@@ -56,8 +54,19 @@ class Settings_Workflows_UpdateSequence_Helper
 
 	private function updateSequenceUp()
 	{
-		$entriesPerPage = \App\Config::main('list_max_entries_per_page');
-		$newSequenceNumber = ($entriesPerPage * $this->pageNumber) - 2;
+		$this->workflowsOrder = [$this->workflowsOrder[0]];
+		$newSequenceNumber = ($this->entriesPerPage * ($this->pageNumber -1)) - 1;
+		$this->updateDatabase( $newSequenceNumber);
+	}
+
+	private function updateSequenceDown(){
+		$lastKeyOfArray = array_key_last($this->workflowsOrder);
+		$this->workflowsOrder = [$this->workflowsOrder[$lastKeyOfArray]];
+		$newSequenceNumber = ($this->entriesPerPage * $this->pageNumber);
+		$this->updateDatabase($newSequenceNumber);
+	}
+
+	private function updateDatabase(int $newSequenceNumber){
 		$workflows = $this->getModuleWorkflows();
 		$workflows = array_diff($workflows, $this->workflowsOrder);
 		array_splice($workflows, $newSequenceNumber, 0, $this->workflowsOrder[0]);
@@ -66,7 +75,6 @@ class Settings_Workflows_UpdateSequence_Helper
 		foreach ($workflows as $id) {
 			$createCommand->update($this->baseTable, ['sequence' => $sequence++], [$this->baseIndex => $id])->execute();
 		}
-
 
 	}
 

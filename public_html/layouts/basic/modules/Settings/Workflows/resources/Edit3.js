@@ -293,9 +293,10 @@ Settings_Workflows_Edit_Js(
 					enabled: true
 				}
 			});
-			AppConnector.request(params).done(function (data) {
+			AppConnector.request(params).done((data) => {
 				$('#taskListContainer').html(data);
 				progressIndicatorElement.progressIndicator({ mode: 'hide' });
+				this.registerSortWorkflowActionsTasks();
 			});
 		},
 		registerTaskStatusChangeEvent: function () {
@@ -683,12 +684,59 @@ Settings_Workflows_Edit_Js(
 				thisInstance.checkHiddenStatusofCcandBcc();
 			});
 		},
+		/**
+		 * Register sortable
+		 */
+		registerSortWorkflowActionsTasks: function () {
+			let tasks = this.container.find('.js-workflow-tasks-list');
+			tasks.sortable({
+				containment: tasks,
+				items: tasks.find('.js-workflow-task'),
+				handle: '.js-drag',
+				revert: true,
+				tolerance: 'pointer',
+				cursor: 'move',
+				update: () => {
+					this.saveSequence();
+				}
+			});
+		},
+		/**
+		 * Save sequence
+		 */
+		saveSequence: function () {
+			let tasks = [];
+			this.container.find('.js-workflow-task').each(function (index) {
+				tasks[index] = $(this).data('id');
+			});
+			AppConnector.request({
+				module: this.container.find('[name="module"]').length
+					? this.container.find('[name="module"]').val()
+					: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				action: 'SaveAjax',
+				mode: 'sequenceTasks',
+				tasks: tasks
+			})
+				.done(function (data) {
+					if (data.result.message) {
+						app.showNotify(data.result.message);
+					}
+				})
+				.fail(function () {
+					app.showNotify({
+						text: app.vtranslate('JS_UNEXPECTED_ERROR'),
+						type: 'error'
+					});
+				});
+		},
 		registerEvents: function () {
-			var container = this.getContainer();
-			App.Fields.Picklist.changeSelectElementView(container);
+			this.container = this.getContainer();
+			App.Fields.Picklist.changeSelectElementView(this.container);
 			this.registerEditTaskEvent();
 			this.registerTaskStatusChangeEvent();
 			this.registerTaskDeleteEvent();
+			this.registerSortWorkflowActionsTasks();
 		}
 	}
 );

@@ -298,4 +298,19 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 		$this->task_manager->saveTask($taskObject);
 		$this->set('summary', $taskObject->summary)->set('status', $taskObject->active);
 	}
+
+	/**
+	 * Get next task action sequence number.
+	 *
+	 * @param int $workflowId
+	 *
+	 * @return int
+	 */
+	public function getNextSequenceNumber(int $workflowId): int
+	{
+		return (new \App\Db\Query())
+			->from('com_vtiger_workflowtasks')
+			->where(['workflow_id' => $workflowId])
+			->max('sequence') + 1;
+	}
 }

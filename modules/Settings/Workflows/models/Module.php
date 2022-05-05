@@ -282,7 +282,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 				'module_name' => $method['module_name'],
 				'method_name' => $method['method_name'],
 				'function_path' => $functionPath,
-				'function_name' => $method['function_name']
+				'function_name' => $method['function_name'],
 			])->exists();
 		if (!$num) {
 			require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.php';
@@ -305,5 +305,20 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 			$returnVal = false !== \vtlib\Module::getInstance($match[1]);
 		}
 		return $returnVal;
+	}
+
+	/**
+	 * Update tasks sequence.
+	 *
+	 * @param array $tasks
+	 *
+	 * @return void
+	 */
+	public static function updateTasksSequence($tasks): void
+	{
+		$createCommand = \App\Db::getInstance()->createCommand();
+		foreach ($tasks as $sequence => $id) {
+			$createCommand->update('com_vtiger_workflowtasks', ['sequence' => $sequence], ['task_id' => $id])->execute();
+		}
 	}
 }

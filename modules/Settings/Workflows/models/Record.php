@@ -193,7 +193,9 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$wf->schannualdates = $this->get('schannualdates');
 		$wf->nexttrigger_time = $this->get('nexttrigger_time');
 		$wf->params = $this->get('params');
-
+		if (!isset($wf->id)) {
+			$wf->sequence = $this->getNextSequenceNumber($this->get('module_name'));
+		}
 		$wm->save($wf);
 
 		$this->set('workflow_id', $wf->id);
@@ -473,5 +475,20 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	public static function getAllAmountWorkflowsAmount()
 	{
 		return (new App\Db\Query())->from('com_vtiger_workflows')->count();
+	}
+
+	/**
+	 * Get next workflow action sequence number.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return int
+	 */
+	public function getNextSequenceNumber(string $moduleName): int
+	{
+		return (new \App\Db\Query())
+			->from('com_vtiger_workflows')
+			->where(['module_name' => $moduleName])
+			->max('sequence') + 1;
 	}
 }

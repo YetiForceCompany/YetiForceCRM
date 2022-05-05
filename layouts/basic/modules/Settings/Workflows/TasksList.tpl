@@ -10,7 +10,7 @@
 {strip}
 	<br />
 	<div>
-		<table class="table table-bordered table-sm listViewEntriesTable">
+		<table class="table table-bordered table-sm listViewEntriesTable js-workflow-tasks-list">
 			<thead>
 				<tr class="listViewHeaders">
 					<th width="10%">{\App\Language::translate('LBL_ACTIVE',$QUALIFIED_MODULE)}</th>
@@ -20,8 +20,10 @@
 			</thead>
 			<tbody>
 				{foreach from=$TASK_LIST item=TASK}
-					<tr class="listViewEntries">
-						<td><input type="checkbox" class="taskStatus" data-statusurl="{$TASK->getChangeStatusUrl()}" {if $TASK->isActive()} checked="" {/if} /></td>
+					<tr class="listViewEntries js-workflow-task" data-id="{$TASK->getId()}">
+						<td>
+							<a class="px-2 u-cursor-move js-drag" data-js="ui-sortable-handle"><img class="align-baseline" src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" /></a> <input type="checkbox" class="taskStatus" data-statusurl="{$TASK->getChangeStatusUrl()}" {if $TASK->isActive()} checked="" {/if} />
+						</td>
 						<td>{\App\Language::translate($TASK->getTaskType()->getLabel(),$QUALIFIED_MODULE)}</td>
 						<td>{$TASK->getName()}
 							<div class="float-right actions">

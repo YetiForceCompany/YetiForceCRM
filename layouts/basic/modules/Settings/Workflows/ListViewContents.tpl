@@ -22,13 +22,13 @@
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
-	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop js-workflows-container">
+	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">
 		<span class="listViewLoadingImageBlock d-none modal" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{\App\Layout::getImagePath('loading.gif')}" alt="no-image" title="{\App\Language::translate('LBL_LOADING')}" />
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
 		{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
-		<table class="table tableRWD table-bordered table-sm listViewEntriesTable js-workflows-list">
+		<table class="table tableRWD table-bordered table-sm listViewEntriesTable js-workflows-list-actions">
 			<thead>
 				<tr class="listViewHeaders">
 					{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
@@ -43,7 +43,7 @@
 			</thead>
 			<tbody>
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listViewEntries}
-					<tr class="listViewEntries js-workflow
+					<tr class="listViewEntries js-workflow-action
 					{if $smarty.foreach.listViewEntries.first} js-first-workflow {/if}
 					{if $smarty.foreach.listViewEntries.last} js-last-workflow {/if}
 					" data-id="{$LISTVIEW_ENTRY->getId()}"
@@ -59,8 +59,8 @@
 							<td class="listViewEntryValue {$WIDTHTYPE}" data-name="{$LISTVIEW_HEADERNAME}">
 								{if $smarty.foreach.listHeaders.first && !empty($SOURCE_MODULE)}
 									<a class="px-2 u-cursor-move js-drag" data-js="ui-sortable-handle"><img class="align-baseline" src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" /></a>
-									<span class="fas fa-arrow-up js-workflow-up"></span>
-									<span class="fas fa-arrow-down js-workflow-down"></span>
+									<span class="fas fa-arrow-up js-workflow-up px-2"></span>
+									<span class="fas fa-arrow-down js-workflow-down px-2"></span>
 								{/if}
 								&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 								{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
