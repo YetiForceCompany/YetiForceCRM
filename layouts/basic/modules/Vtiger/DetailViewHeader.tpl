@@ -40,7 +40,6 @@
 						<input type="hidden" name="picklistDependency" value="{\App\Purifier::encodeHtml($PICKLIST_DEPENDENCY_DATASOURCE)}">
 					{/if}
 					<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}" />
-					<input type="hidden" class="js-max-upload-size" value="{$MAX_UPLOAD_LIMIT}" />
 					{if $RECORD->getId() && !empty($RECORD_ACTIVITY_NOTIFIER)}
 						<input type="hidden" id="recordActivityNotifier" data-interval="{App\Config::performance('recordActivityNotifierInterval', 10)}" data-record="{$RECORD->getId()}" data-module="{$MODULE_NAME}" />
 					{/if}

@@ -88,6 +88,7 @@ Vtiger_Edit_Js(
 
 		registerFileChangeEvent: function (container) {
 			var thisInstance = this;
+
 			container.on('change', 'input[name="filename"]', function (e) {
 				if (e.target.type === 'text') {
 					return false;
@@ -99,7 +100,7 @@ Vtiger_Edit_Js(
 				}
 				let uploadFileSizeHolder = element.closest('.fileUploadContainer').find('.uploadedFileSize');
 				let fileSize = element.get(0).files[0].size;
-				if (fileSize > container.find('.js-max-upload-size').val()) {
+				if (fileSize > CONFIG['maxUploadLimit']) {
 					app.showAlert(app.vtranslate('JS_UPLOADED_FILE_SIZE_EXCEEDS'));
 					element.val('');
 					uploadFileSizeHolder.text('');
