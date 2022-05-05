@@ -21852,7 +21852,7 @@ table .listButtons.narrow .c-badge__icon {
 }
 
 .u-word-break {
-  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
 }
 
 .u-word-break-keep-all {
@@ -25527,7 +25527,6 @@ body > .o-exception-fixed-block {
     width: auto;
     height: auto;
     overflow: visible;
-    clip: auto;
     white-space: normal;
     clip-path: none;
   }
@@ -26481,6 +26480,14 @@ ul.c-process-line li.c-process-line__active > a:after {
     width: 75% !important;
     padding-right: 1rem !important;
   }
+}
+.calendarViewContainer .fc-col-header,
+.calendarViewContainer .fc-scrollgrid-sync-table,
+.calendarViewContainer .fc-daygrid-body-unbalanced,
+.calendarViewContainer .fc-timegrid-body,
+.calendarViewContainer .fc-timegrid-slots table,
+.calendarViewContainer .fc-timegrid-cols table {
+  width: 100% !important;
 }
 
 .o-calendar__container .fc-header-toolbar.fc-toolbar {
@@ -27943,12 +27950,12 @@ ul.c-process-line li.c-process-line__active > a:after {
 
 .table th, .c-detail-widget__table th {
   background-color: #f8f9fa;
-  background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
-  background-image: -ms-linear-gradient(top, #f6f6f6, #f3f3f4);
+  background-image: -moz-linear-gradient(to top, #f6f6f6, #f3f3f4);
+  background-image: -ms-linear-gradient(to top, #f6f6f6, #f3f3f4);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
-  background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
-  background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
-  background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
+  background-image: -webkit-linear-gradient(to top, #f6f6f6, #f3f3f4);
+  background-image: -o-linear-gradient(to top, #f6f6f6, #f3f3f4);
+  background-image: linear-gradient(to top, #f6f6f6, #f3f3f4);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f6f6f6", endColorstr="#f3f3f4", GradientType=0);
 }
@@ -27974,12 +27981,12 @@ td.fieldValue .input-group {
 }
 .listViewEntriesDiv .listViewHeaders th {
   background-color: #f8f9fa;
-  background-image: -moz-linear-gradient(top, #f6f6f6, #f3f3f4);
-  background-image: -ms-linear-gradient(top, #f6f6f6, #f3f3f4);
+  background-image: -moz-linear-gradient(to top, #f6f6f6, #f3f3f4);
+  background-image: -ms-linear-gradient(to top, #f6f6f6, #f3f3f4);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f6f6f6), to(#f3f3f4));
-  background-image: -webkit-linear-gradient(top, #f6f6f6, #f3f3f4);
-  background-image: -o-linear-gradient(top, #f6f6f6, #f3f3f4);
-  background-image: linear-gradient(top, #f6f6f6, #f3f3f4);
+  background-image: -webkit-linear-gradient(to top, #f6f6f6, #f3f3f4);
+  background-image: -o-linear-gradient(to top, #f6f6f6, #f3f3f4);
+  background-image: linear-gradient(to top, #f6f6f6, #f3f3f4);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f6f6f6", endColorstr="#f3f3f4", GradientType=0);
   border-color: #f3f3f4 #f3f3f4 #cbcbcf;
@@ -28257,6 +28264,40 @@ td.fieldValue .input-group {
 }
 .c-kanban__record .card .picklistValue, .c-kanban__record .c-panel .picklistValue, .c-kanban__record .c-detail-widget .picklistValue {
   line-height: 1.75rem;
+}
+
+/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.c-tiles-container .c-tile-record-container:hover {
+  z-index: 1;
+}
+.c-tiles-container .c-tiles-actions-container .toolsAction {
+  line-height: 0;
+}
+.c-tiles-container .c-tile-body .c-multi-image__preview-img {
+  transition: transform 0.2s;
+}
+.c-tiles-container .c-tile-body .c-tile-image .c-multi-image__preview-img,
+.c-tiles-container .c-tile-body .c-tile-image .carousel-image {
+  height: 16em;
+  width: 100%;
+}
+.c-tiles-container .c-tile-body .c-tile-value {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.c-tiles-container .c-tile-body .carousel-control-next,
+.c-tiles-container .c-tile-body .carousel-control-prev {
+  filter: invert(100%);
+}
+.c-tiles-container .c-tile-body .c-tile-image {
+  transition: transform 0.2s;
+}
+.c-tiles-container .c-tile-body .c-multi-image__preview-img:hover,
+.c-tiles-container .c-tile-body .c-tile-image:hover {
+  -moz-transform: scale(1.5);
+  -webkit-transform: scale(1.5);
+  transform: scale(1.5);
 }
 
 /* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
