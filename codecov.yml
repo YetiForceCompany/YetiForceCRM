@@ -22,7 +22,7 @@ coverage:
           - 'app/'
 
       api:
-        target: 63%
+        target: 62%
         paths:
           - 'api/'
     patch: off
