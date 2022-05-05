@@ -1566,6 +1566,7 @@
     "JS_NO_RECORDS": "No records",
     "JS_NO_RECORDS_RELATED_TO_THIS_FILTER": "No records related to this filter",
     "JS_NO_RESULTS_FOUND": "No results found",
+    "JS_REMOVE_ALL_ITEMS": "Remove all items",
     "JS_NO_VIEW_PERMISSION_AFTER_SAVE": "You will not have permissions to view this record after saving. Would you like to continue?",
     "JS_NUMBER_SHOULD_BE_LESS_THAN_32": "Number should be less than 32",
     "JS_OK": "Ok",

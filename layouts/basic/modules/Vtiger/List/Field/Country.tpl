@@ -8,7 +8,7 @@
 		{assign var=SEARCH_VALUES value=[]}
 	{/if}
 	<div class="tpl-List-Field-Country">
-		<select name="{$FIELD_MODEL->getName()}" class="select2noactive listSearchContributor form-control" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple="multiple" data-fieldinfo='{$FIELD_INFO|escape}'
+		<select name="{$FIELD_MODEL->getName()}" class="select2noactive listSearchContributor form-control" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple="multiple" data-fieldinfo='{$FIELD_INFO|escape}' data-allow-clear="true"
 			{if !empty($FIELD_MODEL->get('source_field_name'))}
 				data-source-field-name="{$FIELD_MODEL->get('source_field_name')}" data-module-name="{$FIELD_MODEL->getModuleName()}"
 			{/if}

@@ -1482,10 +1482,12 @@ window.App.Fields = {
 			if (typeof containerCssClass !== 'undefined') {
 				params.containerCssClass += ' ' + containerCssClass;
 			}
-			params.language.noResults = function (msn) {
+			params.language.noResults = function () {
 				return app.vtranslate('JS_NO_RESULTS_FOUND');
 			};
-
+			params.language.removeAllItems = function () {
+				return app.translate('JS_REMOVE_ALL_ITEMS');
+			};
 			// Sort DOM nodes alphabetically in select box.
 			if (typeof params['customSortOptGroup'] !== 'undefined' && params['customSortOptGroup']) {
 				$('optgroup', selectElement).each(function () {
