@@ -353,7 +353,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		$fieldInfo['limit'] = $params['limit'] ?? static::LIMIT;
 		$fieldInfo['formats'] = $params['formats'] ?? \App\Fields\File::$allowedFormats['image'];
 		$maxUploadSize = App\Config::getMaxUploadSize();
-		if ($params['maxFileSize'] && $params['maxFileSize'] < $maxUploadSize) {
+		if (isset($params['maxFileSize']) && $params['maxFileSize'] < $maxUploadSize) {
 			$maxUploadSize = $params['maxFileSize'];
 		}
 		$fieldInfo['maxFileSize'] = $maxUploadSize;
