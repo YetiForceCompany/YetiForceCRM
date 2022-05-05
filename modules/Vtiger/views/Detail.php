@@ -175,6 +175,8 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'MODULE' => $moduleName,
 			'ACTION' => $request->getByType('view', 1),
 		]));
+		$viewer->assign('MAX_UPLOAD_LIMIT_MB', App\Config::getMaxUploadSize(true, true));
+		$viewer->assign('MAX_UPLOAD_LIMIT', App\Config::getMaxUploadSize());
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
 		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
