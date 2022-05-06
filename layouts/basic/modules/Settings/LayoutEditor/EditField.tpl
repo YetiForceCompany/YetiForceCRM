@@ -25,14 +25,7 @@
 				<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE_NAME}" />
 				<div class="row mx-0 mb-2 py-2 border-bottom">
 					<div class="col-md-6">
-						<strong>{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}
-							{if $FIELD_LABEL_TRANSLATION neq $FIELD_MODEL->getFieldLabel()}
-								<div class="js-popover-tooltip d-inline u-fs-xs ml-1" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate('LBL_LABEL', $QUALIFIED_MODULE)|cat:': '|cat:$FIELD_MODEL->getFieldLabel())}">
-									<span class="fas fa-info-circle"></span>
-								</div>
-							{/if}
-							:
-						</strong>{$FIELD_LABEL_TRANSLATION}<br />
+						<strong>{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}: </strong>{$FIELD_LABEL_TRANSLATION}<br />
 						<strong>{App\Language::translate('LBL_FIELD_NAME', $QUALIFIED_MODULE)}: </strong>{$FIELD_MODEL->getFieldName()}
 					</div>
 					<div class="col-md-6">
