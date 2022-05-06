@@ -40,8 +40,9 @@ class Record
 			$query = (new \App\Db\Query())->select(['crmid', 'label'])->from('u_#__crmentity_label')->where(['crmid' => $missing]);
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				Cache::save('recordLabel', $row['crmid'], $row['label']);
-				$result[$row['crmid']] = $row['label'];
+				$label = \App\Utils\Completions::decodeEmoji($row['label']);
+				Cache::save('recordLabel', $row['crmid'], $label);
+				$result[$row['crmid']] = $label;
 			}
 			foreach (array_diff_key($missing, $result) as $id) {
 				$metaInfo = Functions::getCRMRecordMetadata($id);

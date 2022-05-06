@@ -28,6 +28,7 @@ class Vtiger_BrowsingHistory_Helper
 		$dateToday = DateTimeField::convertToUserTimeZone('today')->format('U');
 		$dateYesterday = DateTimeField::convertToUserTimeZone('yesterday')->format('U');
 		foreach ($results as &$value) {
+			$value['title'] = \App\Utils\Completions::decodeEmoji($value['title']);
 			$userDate = DateTimeField::convertToUserTimeZone($value['date'])->format('Y-m-d H:i:s');
 			if (strtotime($userDate) >= $dateToday) {
 				$value['hour'] = true;
@@ -76,7 +77,7 @@ class Vtiger_BrowsingHistory_Helper
 		$validViews = ['Index', 'List', 'Detail', 'Edit', 'DashBoard', 'ListPreview', 'TreeRecords', 'Tree'];
 		if (!empty($urlQuery['module']) && !empty($urlQuery['view']) && \in_array($urlQuery['view'], $validViews)) {
 			if (!empty($urlQuery['record'])) {
-				$title .= ' | ' . App\Record::getLabel($urlQuery['record']);
+				$title .= ' | ' . \App\Utils\Completions::encodeEmoji(App\Record::getLabel($urlQuery['record']));
 			}
 			if (mb_strlen($title) > 255) {
 				$title = \App\TextParser::textTruncate($title, 255, false);
