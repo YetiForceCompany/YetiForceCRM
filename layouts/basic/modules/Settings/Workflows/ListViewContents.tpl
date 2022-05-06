@@ -42,6 +42,7 @@
 				</tr>
 			</thead>
 			<tbody>
+				{assign var="AMOUNT_OF_ENTRIES" value=count($LISTVIEW_ENTRIES)}
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listViewEntries}
 					<tr class="listViewEntries js-workflow-action
 					{if $smarty.foreach.listViewEntries.first} js-first-workflow {/if}
@@ -57,7 +58,7 @@
 							{/if}
 							{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
 							<td class="listViewEntryValue {$WIDTHTYPE}" data-name="{$LISTVIEW_HEADERNAME}">
-								{if $smarty.foreach.listHeaders.first && !empty($SOURCE_MODULE)}
+								{if $smarty.foreach.listHeaders.first && !empty($SOURCE_MODULE) && 1 < $AMOUNT_OF_ENTRIES}
 									<a class="px-2 u-cursor-move js-drag" data-js="ui-sortable-handle"><img class="align-baseline" src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" /></a>
 									<span class="fas fa-arrow-up js-workflow-up px-2"></span>
 									<span class="fas fa-arrow-down js-workflow-down px-2"></span>

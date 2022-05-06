@@ -78,11 +78,10 @@ Settings_Vtiger_List_Js(
 				jQuery('#pageToJump').val('1');
 				jQuery('#orderBy').val('');
 				jQuery('#sortOrder').val('');
-				this.module = jQuery(e.currentTarget).val();
 				let params = {
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
-					sourceModule: this.module,
+					sourceModule: jQuery(e.currentTarget).val(),
 					orderby: 'sequence'
 				};
 				//Make the select all count as empty
@@ -149,6 +148,7 @@ Settings_Vtiger_List_Js(
 		},
 		/**
 		 * Save sequence
+		 * @param {string|bool} sortType
 		 */
 		saveSequence: function (sortType = false) {
 			let workflows = this.getWorkflowsForUpdate(sortType);
@@ -157,7 +157,7 @@ Settings_Vtiger_List_Js(
 					? this.container.find('[name="module"]').val()
 					: app.getModuleName(),
 				parent: app.getParentModuleName(),
-				sourceModule: this.module,
+				sourceModule: this.topMenuContainer.find('.js-module-filter option:selected').val(),
 				action: 'SaveAjax',
 				mode: 'sequence',
 				workflows: workflows,
@@ -178,7 +178,7 @@ Settings_Vtiger_List_Js(
 		},
 		/**
 		 * Get workflows from list
-		 * returns [array]
+		 * @returns [array]
 		 */
 		getWorkflowsForUpdate: function () {
 			let workflows = [];
@@ -257,7 +257,6 @@ Settings_Vtiger_List_Js(
 			this.container = this.getListViewContentContainer();
 			this._super();
 			this.topMenuContainer = this.getListViewTopMenuContainer();
-			this.module = this.topMenuContainer.find('.js-module-filter option:selected').val();
 			this.registerFilterChangeEvent();
 			this.registerImportTemplate();
 			this.registerSortUp();

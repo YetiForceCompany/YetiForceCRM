@@ -185,7 +185,9 @@ class VTWorkflowManager
 			$rows = (new \App\Db\Query())
 				->select(['workflow_id', 'module_name', 'summary', 'test', 'execution_condition', 'defaultworkflow', 'type', 'filtersavedinnew', 'params'])
 				->from('com_vtiger_workflows')
-				->where(['module_name' => $moduleName])->all();
+				->where(['module_name' => $moduleName])
+				->orderBy(['sequence' => SORT_ASC])
+				->all();
 			\App\Cache::save('WorkflowsForModule', $moduleName, $rows);
 		}
 		if ($executionCondition) {
