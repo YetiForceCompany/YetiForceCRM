@@ -64,11 +64,19 @@
                         </div>
                     </div>
                 {/if}
+                {if $FIELD_IMAGE && $FIELD_IMAGE->isViewable()}
+                    <div class="col-12 col-md-6 mb-2">
+                        <label class="u-text-small-bold mb-1">{\App\Language::translate('LBL_ADD_IMAGE_FILE', $MODULE_NAME)}:</label>
+                        <div class="fieldValue m-auto">
+                            {include file=\App\Layout::getTemplatePath($FIELD_IMAGE->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_IMAGE MODULE=$MODULE_NAME RECORD=false}
+                        </div>
+                    </div>
+                {/if}
             </div>
             <div class="form-group">
                 <label class="u-text-small-bold mb-1">{\App\Language::translate('LBL_TYPE_THE_MESSAGE', $MODULE_NAME)}:</label>
                 <div class="fieldValue">
-                    {include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MODEL MODULE=$MODULE_NAME RECORD=false}
+                    {include file=\App\Layout::getTemplatePath($FIELD_MESSAGE->getUITypeModel()->getTemplateName(), $MODULE_NAME) FIELD_MODEL=$FIELD_MESSAGE MODULE=$MODULE_NAME RECORD=false}
                 </div>
             </div>
         </div>

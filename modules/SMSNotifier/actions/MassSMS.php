@@ -36,7 +36,12 @@ class SMSNotifier_MassSMS_Action extends Vtiger_Mass_Action
 		$count = 0;
 		$moduleName = $request->getModule();
 		$recordModelTemp = \Vtiger_Record_Model::getCleanInstance($moduleName);
-		$recordModelTemp->getField('message')->getUITypeModel()->setValueFromRequest($request, $recordModelTemp);
+		foreach (['message', 'image'] as $fieldName) {
+			$fieldModel = $recordModelTemp->getField($fieldName);
+			if ($fieldModel && $fieldModel->isWritable()) {
+				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModelTemp);
+			}
+		}
 		$phoneFieldList = $request->getArray('fields', \App\Purifier::ALNUM);
 
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
@@ -46,6 +51,7 @@ class SMSNotifier_MassSMS_Action extends Vtiger_Mass_Action
 				$recordModel = clone $recordModelTemp;
 				$recordModel->set('phone', $phoneNumber)
 					->set('related_to', $row['id'])
+					->set('image', $recordModelTemp->getField($fieldName)->getUITypeModel()->getDuplicateValue($recordModelTemp))
 					->save();
 				++$count;
 			}

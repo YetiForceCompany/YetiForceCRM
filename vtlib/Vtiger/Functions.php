@@ -41,7 +41,7 @@ class Functions
 			}
 			\App\Cache::save('moduleTabs', 'all', $moduleList);
 		}
-		$restrictedModules = ['SMSNotifier', 'Dashboard', 'ModComments'];
+		$restrictedModules = ['Dashboard', 'ModComments'];
 		foreach ($moduleList as $id => $module) {
 			if (!$showRestricted && \in_array($module['name'], $restrictedModules)) {
 				unset($moduleList[$id]);
@@ -368,7 +368,7 @@ class Functions
 				$viewer->assign('HEADER_MESSAGE', \App\Language::translate($messageHeader));
 				$viewer->view('Exceptions/ExceptionError.tpl', 'Vtiger');
 			} else {
-				echo(\Config\Debug::$EXCEPTION_ERROR_TO_SHOW ? $message : \App\Language::translate('ERR_OCCURRED_ERROR')) . PHP_EOL;
+				echo (\Config\Debug::$EXCEPTION_ERROR_TO_SHOW ? $message : \App\Language::translate('ERR_OCCURRED_ERROR')) . PHP_EOL;
 			}
 		}
 		if ($die) {

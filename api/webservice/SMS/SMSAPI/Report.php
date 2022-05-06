@@ -19,7 +19,7 @@ use OpenApi\Annotations as OA;
 class Report extends \Api\SMS\BaseAction
 {
 	/** {@inheritdoc}  */
-	public $allowedMethod = ['GET'];
+	public $allowedMethod = ['GET', 'POST'];
 
 	/** @var string Module name */
 	private $moduleName = 'SMSNotifier';
@@ -71,7 +71,7 @@ class Report extends \Api\SMS\BaseAction
 	/**
 	 * Update record status.
 	 *
-	 * @return array
+	 * @return void
 	 *
 	 * @OA\Get(
 	 *		path="/webservice/SMS/SMSAPI/Report",
@@ -126,5 +126,52 @@ class Report extends \Api\SMS\BaseAction
 		}
 
 		echo 'OK';
+	}
+
+	/**
+	 * Update record status.
+	 *
+	 * @return void
+	 *
+	 * @OA\Post(
+	 *		path="/webservice/SMS/SMSAPI/Report",
+	 *		summary="Report for sms",
+	 *		tags={"SMSAPI"},
+	 *		externalDocs={
+	 *			"description" : "SMSApi Documentation",
+	 *			"url" : "https://www.smsapi.pl/docs"
+	 * 		},
+	 * 		security={
+	 *			{"ApiKeyAuth" : {}, "token" : {}}
+	 *  	},
+	 *		@OA\Response(
+	 *				response=200,
+	 *				description="Result",
+	 *				@OA\JsonContent(ref="#/components/schemas/SMS_SMSAPI_Post_Report")
+	 *		),
+	 *		@OA\Response(
+	 *				response=401,
+	 *				description="`No sent token` OR `Invalid token` OR `wrong data provided in the request`",
+	 *		),
+	 *		@OA\Response(
+	 *				response=403,
+	 *				description="No permissions for module",
+	 *		),
+	 *		@OA\Response(
+	 *				response=405,
+	 *				description="Method Not Allowed",
+	 *		),
+	 * ),
+	 * @OA\Schema(
+	 *		schema="SMS_SMSAPI_Post_Report",
+	 *		title="Response",
+	 *		description="Response",
+	 *		type="string",
+	 *		example="OK"
+	 *	),
+	 */
+	public function post()
+	{
+		$this->get();
 	}
 }

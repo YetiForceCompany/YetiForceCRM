@@ -6290,7 +6290,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3116 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3117 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -8840,6 +8840,7 @@ CREATE TABLE `vtiger_smsnotifier` (
   `related_to` int(10) unsigned DEFAULT NULL,
   `msgid` varchar(50) DEFAULT NULL,
   `parentid` int(10) unsigned DEFAULT NULL,
+  `image` text DEFAULT NULL,
   PRIMARY KEY (`smsnotifierid`),
   KEY `vtiger_smsnotifier_related_to_idx` (`related_to`),
   KEY `vtiger_smsnotifier_parentid_idx` (`parentid`),

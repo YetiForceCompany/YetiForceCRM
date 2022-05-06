@@ -26,6 +26,12 @@ class SMSAPI extends Provider
 	/** @var string Backup address URL */
 	protected $urlBackup = 'https://api2.smsapi.pl/sms.do';
 
+	/** @var string Address URL for MMS */
+	protected $mmsUrl = 'https://api.smsapi.pl/mms.do';
+
+	/** @var string Backup address URL for MMS */
+	protected $mmsUrlBackup = 'https://api2.smsapi.pl/mms.do';
+
 	/** @var string Encoding */
 	public $encoding = 'utf-8';
 
@@ -37,6 +43,9 @@ class SMSAPI extends Provider
 
 	/** @var array Response body */
 	private $responseData;
+
+	/** @var array Attachments */
+	private $attach = [];
 
 	/**
 	 * Required fields.
@@ -103,6 +112,21 @@ class SMSAPI extends Provider
 	}
 
 	/**
+	 * Set message.
+	 *
+	 * @param string $message
+	 *
+	 * @return self
+	 */
+	public function setMessage(string $message): self
+	{
+		$message = \App\Utils\Completions::decodeEmoji($message);
+		$this->set('message', $message);
+
+		return $this;
+	}
+
+	/**
 	 * Get body data.
 	 *
 	 * @return array
@@ -114,7 +138,29 @@ class SMSAPI extends Provider
 			'format' => $this->format
 		];
 		foreach ($this->getRequiredParams() as $key) {
-			$params[$key] = $this->get($key) ?? '';
+			if ('' !== $this->get($key)) {
+				$params[$key] = $this->get($key);
+			}
+		}
+
+		return $params;
+	}
+
+	/**
+	 * Get body data for MMS.
+	 *
+	 * @return array
+	 */
+	private function getMMSBody(): array
+	{
+		$params = [
+			['name' => 'format', 'contents' => $this->format],
+			['name' => 'smil', 'contents' => $this->getSmil()],
+			['name' => 'subject', 'contents' => $this->get('from')]
+		];
+
+		foreach (['to', 'idx'] as $key) {
+			$params[] = ['name' => $key, 'contents' => $this->get($key) ?? ''];
 		}
 
 		return $params;
@@ -122,6 +168,21 @@ class SMSAPI extends Provider
 
 	/** {@inheritdoc} */
 	public function send(bool $useBackup = false): bool
+	{
+		if ($this->attach || mb_strlen($this->get('message')) >= 670) {
+			return $this->sendMMS($useBackup);
+		}
+		return $this->sendSMS($useBackup);
+	}
+
+	/**
+	 * Send SMS.
+	 *
+	 * @param bool $useBackup
+	 *
+	 * @return bool
+	 */
+	public function sendSMS(bool $useBackup = false): bool
 	{
 		try {
 			$uri = $this->getUrl($useBackup);
@@ -140,11 +201,110 @@ class SMSAPI extends Provider
 		return $this->isSuccess();
 	}
 
+	/**
+	 * Send MMS.
+	 *
+	 * @param bool $useBackup
+	 *
+	 * @return bool
+	 */
+	public function sendMMS(bool $useBackup = false): bool
+	{
+		try {
+			$uri = $useBackup ? $this->mmsUrlBackup : $this->mmsUrl;
+			\App\Log::beginProfile('POST|' . __METHOD__ . "|{$uri}", 'SMSNotifier');
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('POST', $uri, [
+				'headers' => [
+					'Authorization' => 'Bearer ' . $this->getAuthorization(),
+				],
+				'multipart' => $this->getMMSBody()
+			]);
+			$this->setResponse($response);
+			\App\Log::endProfile('POST|' . __METHOD__ . "|{$uri}", 'SMSNotifier');
+		} catch (\Throwable $e) {
+			\App\Log::error($e->__toString());
+			return false;
+		}
+
+		return $this->isSuccess();
+	}
+
+	/**
+	 * Add attachemnt.
+	 *
+	 * @param \App\Fields\File $file
+	 *
+	 * @return $this
+	 */
+	public function addAttachment(\App\Fields\File $file)
+	{
+		$this->attach[] = $file;
+
+		return $this;
+	}
+
+	/**
+	 * Get smil text.
+	 *
+	 * @return string
+	 */
+	public function getSmil(): string
+	{
+		$image = $msg = ['region' => '', 'body' => ''];
+		foreach ($this->attach as $file) {
+			$image['region'] = '<region id="Image" height="100%" width="100%" fit="meet"/>';
+			$image['body'] = '<img src="' . \App\Fields\File::getImageBaseData($file->getPath()) . '" region="Image"/>';
+		}
+		if (!$this->isEmpty('message')) {
+			$msg['region'] = '<region id="Text" height="100%" width="100%" fit="scroll"/>';
+			$msg['body'] = '<text src="data:text/plain;base64,' . base64_encode($this->get('message')) . '" region="Text"/>';
+		}
+
+		return "<smil>
+			<head>
+				<layout>
+					{$image['region']}
+					{$msg['region']}
+				</layout>
+			</head>
+			<body>
+				<par>
+					{$image['body']}
+					{$msg['body']}
+				</par>
+			</body>
+		</smil>";
+	}
+
+	/** {@inheritdoc} */
+	public function sendByRecord(\Vtiger_Record_Model $recordModel): bool
+	{
+		$this->setPhone($recordModel->get('phone'));
+		$this->setMessage($recordModel->get('message'));
+		$this->set('idx', $recordModel->getId());
+
+		$image = $recordModel->get('image');
+		if ($image && !\App\Json::isEmpty($image)) {
+			foreach (\App\Json::decode($image) as $attach) {
+				$file = \App\Fields\File::loadFromPath($attach['path']);
+				$file->name = $attach['name'];
+				$this->addAttachment($file);
+			}
+		}
+
+		$result = $this->send() ?: $this->send(true);
+		if ($result && !empty($this->responseData['list'][0]['id'])) {
+			$recordModel->set('msgid', $this->responseData['list'][0]['id']);
+		}
+
+		return $result;
+	}
+
 	/** {@inheritdoc} */
 	public function getEditFields(): array
 	{
 		$fields = [];
-		foreach (['api_key', 'from', 'type'] as $fieldName) {
+		foreach (['api_key', 'from'] as $fieldName) {
 			$fields[$fieldName] = $this->getFieldInstanceByName($fieldName);
 		}
 
@@ -174,23 +334,9 @@ class SMSAPI extends Provider
 				case 'from':
 					$field['uitype'] = 1;
 					$field['label'] = 'FL_SMSAPI_FROM';
-					$field['typeofdata'] = 'V~O';
+					$field['typeofdata'] = 'V~M';
 					$field['maximumlength'] = '11';
 					$field['purifyType'] = \App\Purifier::TEXT;
-					$field['fieldvalue'] = $this->has($name) ? $this->get($name) : '';
-					break;
-				case 'type':
-					$field['uitype'] = 16;
-					$field['label'] = 'FL_SMSAPI_TYPE';
-					$field['typeofdata'] = 'V~O';
-					$field['purifyType'] = \App\Purifier::STANDARD;
-					$field['fieldvalue'] = $this->has($name) ? $this->get($name) : '';
-					$field['picklistValues'] = ['SMS' => 'SMS', 'VMS' => 'VMS', 'MMS' => 'MMS'];
-					break;
-				case 'tts_lector':
-					$field['uitype'] = 1;
-					$field['label'] = 'FL_SMSAPI_TTS_LECTOR';
-					$field['purifyType'] = \App\Purifier::STANDARD;
 					$field['fieldvalue'] = $this->has($name) ? $this->get($name) : '';
 					break;
 				default:
@@ -235,19 +381,5 @@ class SMSAPI extends Provider
 		];
 
 		return $callBackUrl . http_build_query($params);
-	}
-
-	/** {@inheritdoc} */
-	public function sendByRecord(\Vtiger_Record_Model $recordModel): bool
-	{
-		$this->setPhone($recordModel->get('phone'));
-		$this->set('idx', $recordModel->getId());
-		$this->set('message', $recordModel->get('message'));
-		$result = $this->send() ?: $this->send(true);
-		if ($result && !empty($this->responseData['list'][0]['id'])) {
-			$recordModel->set('msgid', $this->responseData['list'][0]['id']);
-		}
-
-		return $result;
 	}
 }

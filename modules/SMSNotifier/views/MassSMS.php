@@ -76,7 +76,8 @@ class SMSNotifier_MassSMS_View extends \App\Controller\Modal
 		$cvId = !$request->isEmpty('cvId') ? $request->getByType('cvId', \App\Purifier::ALNUM) : $request->getByType('viewname', \App\Purifier::ALNUM);
 
 		$viewer->assign('TEMPLATES', $templates);
-		$viewer->assign('FIELD_MODEL', $moduleModel->getFieldByName('message'));
+		$viewer->assign('FIELD_MESSAGE', $moduleModel->getFieldByName('message'));
+		$viewer->assign('FIELD_IMAGE', $moduleModel->getFieldByName('image'));
 		$viewer->assign('SMS_LIMIT', \App\Config::module($moduleName, 'maxMassSentSMS'));
 		$viewer->assign('VIEWNAME', 'relation' !== $cvId ? $cvId : '');
 		$viewer->assign('MODULE', $moduleName);

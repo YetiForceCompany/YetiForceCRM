@@ -11,13 +11,7 @@
 
 class Leads_ListView_Model extends Vtiger_ListView_Model
 {
-	/**
-	 * Function to get the list of Mass actions for the module.
-	 *
-	 * @param array $linkParams
-	 *
-	 * @return array - Associative array of Link type to List of  Vtiger_Link_Model instances for Mass Actions
-	 */
+	/** {@inheritdoc} */
 	public function getListViewMassActions($linkParams)
 	{
 		$links = parent::getListViewMassActions($linkParams);
@@ -32,17 +26,6 @@ class Leads_ListView_Model extends Vtiger_ListView_Model
 				'linkicon' => 'fas fa-envelope',
 			];
 		}
-
-		if ($moduleModel->isPermitted('MassSendSMS') && ($smsNotifierModel = \Vtiger_Module_Model::getInstance('SMSNotifier'))->isMassSMSActiveForModule($moduleModel->getName())) {
-			$massActionLinks[] = [
-				'linktype' => 'LISTVIEWMASSACTION',
-				'linklabel' => 'LBL_MASS_SEND_SMS',
-				'linkdata' => ['url' => $smsNotifierModel->getMassSMSUrlForModule($moduleModel->getName()), 'type' => 'modal'],
-				'linkicon' => 'fas fa-comment-sms',
-				'linkclass' => 'js-mass-action',
-			];
-		}
-
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = Vtiger_Link_Model::getInstanceFromValues($massActionLink);
 		}

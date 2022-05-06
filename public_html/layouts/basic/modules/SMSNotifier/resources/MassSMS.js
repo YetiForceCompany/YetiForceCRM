@@ -68,6 +68,7 @@ $.Class(
 				completionsCollection: { emojis: true },
 				autolink: false
 			});
+			App.Fields.MultiImage.register(this.container);
 		}
 	}
 );
