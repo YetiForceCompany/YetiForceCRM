@@ -133,7 +133,7 @@ class VTWorkflowManager
 				'schannualdates' => $wf->schannualdates,
 				'nexttrigger_time' => empty($wf->nexttrigger_time) ? null : $wf->nexttrigger_time,
 				'params' => empty($wf->params) ? null : $wf->params,
-				'sequence' => $wf->sequence,
+				'sequence' => (int) $wf->sequence,
 			])->execute();
 			$wf->id = $db->getLastInsertID('com_vtiger_workflows_workflow_id_seq');
 		}

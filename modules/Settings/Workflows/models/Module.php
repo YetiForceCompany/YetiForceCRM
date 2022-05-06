@@ -308,6 +308,36 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
+	 * Update actions sequence.
+	 *
+	 * @param int    $workflowsForSortId
+	 * @param int    $workflowBeforeId
+	 * @param string $moduleName
+	 *
+	 * @return void
+	 */
+	public static function updateActionsSequence(int $workflowsForSortId, int $workflowBeforeId, string $moduleName): void
+	{
+		if ($workflowBeforeId !== $workflowsForSortId) {
+			$moduleWorkflows = array_keys(self::getWorkflowActionsForModule($moduleName));
+			unset($moduleWorkflows[array_search($workflowsForSortId, $moduleWorkflows)]);
+			$keyToAddBefore = array_search($workflowBeforeId, $moduleWorkflows);
+			array_splice($moduleWorkflows, $keyToAddBefore, 0, $workflowsForSortId);
+			$db = \App\Db::getInstance();
+			$caseSequence = 'CASE';
+			$workflowList = [];
+			foreach ($moduleWorkflows as $sequence => $workflowId) {
+				$workflowList[] = $workflowId;
+				$caseSequence .= " WHEN workflow_id = {$db->quoteValue($workflowId)} THEN {$db->quoteValue($sequence)}";
+			}
+			$caseSequence .= ' END';
+			$db->createCommand()->update('com_vtiger_workflows', [
+				'sequence' => new yii\db\Expression($caseSequence),
+			], ['workflow_id' => $workflowList])->execute();
+		}
+	}
+
+	/**
 	 * Update tasks sequence.
 	 *
 	 * @param array $tasks
@@ -320,5 +350,21 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		foreach ($tasks as $sequence => $id) {
 			$createCommand->update('com_vtiger_workflowtasks', ['sequence' => $sequence], ['task_id' => $id])->execute();
 		}
+	}
+
+	/**
+	 * Get workflow actions for module.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public static function getWorkflowActionsForModule(string $moduleName): array
+	{
+		return (new \App\Db\Query())->select(['workflow_id', 'summary'])
+			->from('com_vtiger_workflows')
+			->where(['module_name' => $moduleName])
+			->orderBy(['sequence' => SORT_ASC])
+			->createCommand()->queryAllByGroup(1);
 	}
 }

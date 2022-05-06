@@ -38,10 +38,6 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		if (!$request->isEmpty('sourceModule')) {
-			$sourceModule = $request->getByType('sourceModule', 2);
-			$viewer->assign('SOURCE_MODULE', $sourceModule);
-		}
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->view('ListViewContents.tpl', $request->getModule(false));
 	}

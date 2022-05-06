@@ -51,9 +51,13 @@
 						title="{\App\Language::translate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
 						<i class="fas fa-download"></i>
 					</button>
+					<button class="btn btn-info ml-1 js-workflow-sort-button {if empty($SOURCE_MODULE)}d-none{/if}"
+						title="{\App\Language::translate('LBL_SORTING_SETTINGS', $QUALIFIED_MODULE)}">
+						<i class="fas fa-sort"></i>
+					</button>
 				</div>
 				<div class="col-lg-3 btn-toolbar ml-0 mt-1 mt-lg-0">
-					<select class="select2 form-control js-module-filter" id="moduleFilter">
+					<select class="select2 form-control js-workflow-module-filter" id="moduleFilter">
 						<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 						{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 							<option {if !empty($SOURCE_MODULE) && $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if}

@@ -73,7 +73,8 @@ Settings_Vtiger_List_Js(
 	{
 		registerFilterChangeEvent: function () {
 			let thisInstance = this;
-			this.topMenuContainer.find('.js-module-filter').on('change', function (e) {
+			this.topMenuContainer.find('.js-workflow-module-filter').on('change', (e) => {
+				this.topMenuContainer.find('.js-workflow-sort-button').removeClass('d-none');
 				jQuery('#pageNumber').val('1');
 				jQuery('#pageToJump').val('1');
 				jQuery('#orderBy').val('');
@@ -90,7 +91,6 @@ Settings_Vtiger_List_Js(
 				jQuery('#totalPageCount').text('');
 				thisInstance.getListViewRecords(params).done(function (data) {
 					thisInstance.updatePagination();
-					thisInstance.registerSortWorkflowActions();
 				});
 			});
 		},
@@ -100,9 +100,6 @@ Settings_Vtiger_List_Js(
 		 */
 		registerRowClickEvent: function () {
 			this.getListViewContentContainer().on('click', '.listViewEntries', (e) => {
-				if ($(e.target).hasClass('js-workflow-up')) return;
-				if ($(e.target).hasClass('js-workflow-down')) return;
-				if ($(e.target).hasClass('js-drag')) return;
 				let editUrl = $(e.currentTarget).find('.js-edit').attr('href');
 				if (editUrl) {
 					window.location.href = editUrl;
@@ -129,129 +126,44 @@ Settings_Vtiger_List_Js(
 			});
 		},
 		/**
-		 * Register sort workflow actions
+		 * Register show sort actions modal
 		 */
-		registerSortWorkflowActions: function () {
-			let workflows = this.container.find('.js-workflows-list-actions');
-			workflows.sortable({
-				containment: workflows,
-				items: workflows.find('.js-workflow-action'),
-				handle: '.js-drag',
-				revert: true,
-				tolerance: 'pointer',
-				cursor: 'move',
-				update: () => {
-					this.saveSequence();
-					this.updateFirstAndLastRow();
-				}
-			});
-		},
-		/**
-		 * Save sequence
-		 * @param {string|bool} sortType
-		 */
-		saveSequence: function (sortType = false) {
-			let workflows = this.getWorkflowsForUpdate(sortType);
-			AppConnector.request({
-				module: this.container.find('[name="module"]').length
-					? this.container.find('[name="module"]').val()
-					: app.getModuleName(),
-				parent: app.getParentModuleName(),
-				sourceModule: this.topMenuContainer.find('.js-module-filter option:selected').val(),
-				action: 'SaveAjax',
-				mode: 'sequence',
-				workflows: workflows,
-				sortType: sortType,
-				pageNumber: jQuery('#pageNumber').val()
-			})
-				.done(function (data) {
-					if (data.result.message) {
-						app.showNotify(data.result.message);
-					}
-				})
-				.fail(function () {
-					app.showNotify({
-						text: app.vtranslate('JS_UNEXPECTED_ERROR'),
-						type: 'error'
+		registerShowSortActionsModal: function () {
+			$('.js-workflow-sort-button').on('click', (e) => {
+				let sourceModule = this.topMenuContainer.find('.js-workflow-module-filter option:selected').val();
+				let url = 'index.php?module=Workflows&parent=Settings&view=SortActionsModal&sourceModule=' + sourceModule;
+				app.showModalWindow(null, url, (modalContainer) => {
+					modalContainer.find('.js-modal__save').on('click', (e) => {
+						let progressIndicatorElement = $.progressIndicator({
+							position: 'html',
+							blockInfo: {
+								enabled: true
+							}
+						});
+						AppConnector.request({
+							module: this.container.find('[name="module"]').length
+								? this.container.find('[name="module"]').val()
+								: app.getModuleName(),
+							parent: app.getParentModuleName(),
+							sourceModule: sourceModule,
+							action: 'SaveAjax',
+							mode: 'sequenceActions',
+							workflowForSort: modalContainer.find('.js-workflow-for-sort').val(),
+							workflowBefore: modalContainer.find('.js-workflow-before').val()
+						})
+							.done(function (data) {
+								if (data.result.message) {
+									app.hideModalWindow();
+									progressIndicatorElement.progressIndicator({ mode: 'hide' });
+									window.location.reload();
+								}
+							})
+							.fail(function (error, err) {
+								app.errorLog(error, err);
+							});
 					});
 				});
-		},
-		/**
-		 * Get workflows from list
-		 * @returns [array]
-		 */
-		getWorkflowsForUpdate: function () {
-			let workflows = [];
-			this.container.find('.js-workflow-action').each(function (index) {
-				workflows[index] = $(this).data('id');
 			});
-			return workflows;
-		},
-		/**
-		 * Update first and last row after sortable
-		 */
-		updateFirstAndLastRow: function () {
-			this.container.find('.js-first-workflow').removeClass('js-first-workflow');
-			this.container.find('.js-workflows-list-actions tbody tr').first().addClass('js-first-workflow');
-			this.container.find('.js-last-workflow').removeClass('js-last-workflow');
-			this.container.find('.js-workflows-list-actions tbody tr').last().addClass('js-last-workflow');
-		},
-		/**
-		 * Sort up workflow action
-		 */
-		registerSortUp: function () {
-			this.container.on('click', '.js-workflow-up', (e) => {
-				let row = $(e.target).closest('tr');
-				if (this.checkIfIsFirstRow(row) && 1 < this.container.find('#pageNumber').val()) {
-					this.saveSequence('up');
-					location.reload();
-				} else {
-					row.insertBefore(row.prev('tr'));
-					row.removeClass('js-last-workflow');
-					this.container.find('.js-workflows-list-actions tbody tr').last().addClass('js-last-workflow');
-					this.saveSequence();
-				}
-			});
-		},
-		/**
-		 * Sort down workflow action
-		 */
-		registerSortDown: function () {
-			this.container.on('click', '.js-workflow-down', (e) => {
-				let row = $(e.target).closest('tr');
-				if (this.checkIfIsLastRow(row)) {
-					this.saveSequence('down');
-					location.reload();
-				} else {
-					row.insertAfter(row.next());
-					row.removeClass('js-first-workflow');
-					this.container.find('.js-workflows-list-actions tbody tr').first().addClass('js-first-workflow');
-					this.saveSequence();
-				}
-			});
-		},
-		/**
-		 * Check if sortable row is first
-		 * @param {jQuery} row
-		 * @returns true
-		 */
-		checkIfIsFirstRow: function (row) {
-			return row.hasClass('js-first-workflow');
-		},
-		/**
-		 * Check if sortable row is last
-		 * @param {jQuery} row
-		 * @returns true
-		 */
-		checkIfIsLastRow: function (row) {
-			return row.hasClass('js-last-workflow');
-		},
-		/**
-		 * Register pagination events
-		 */
-		registerPageNavigationEvents: function () {
-			this._super();
-			this.registerSortWorkflowActions();
 		},
 		registerEvents: function () {
 			this.container = this.getListViewContentContainer();
@@ -259,8 +171,7 @@ Settings_Vtiger_List_Js(
 			this.topMenuContainer = this.getListViewTopMenuContainer();
 			this.registerFilterChangeEvent();
 			this.registerImportTemplate();
-			this.registerSortUp();
-			this.registerSortDown();
+			this.registerShowSortActionsModal();
 		}
 	}
 );

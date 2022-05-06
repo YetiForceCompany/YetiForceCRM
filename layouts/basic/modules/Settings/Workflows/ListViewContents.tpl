@@ -28,7 +28,7 @@
 			<p class="listViewLoadingMsg">{\App\Language::translate('LBL_LOADING_LISTVIEW_CONTENTS')}........</p>
 		</span>
 		{assign var="NAME_FIELDS" value=$MODULE_MODEL->getNameFields()}
-		<table class="table tableRWD table-bordered table-sm listViewEntriesTable js-workflows-list-actions">
+		<table class="table tableRWD table-bordered table-sm listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
 					{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
@@ -42,12 +42,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				{assign var="AMOUNT_OF_ENTRIES" value=count($LISTVIEW_ENTRIES)}
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listViewEntries}
-					<tr class="listViewEntries js-workflow-action
-					{if $smarty.foreach.listViewEntries.first} js-first-workflow {/if}
-					{if $smarty.foreach.listViewEntries.last} js-last-workflow {/if}
-					" data-id="{$LISTVIEW_ENTRY->getId()}"
+					<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"
 						{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}" {/if}>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaders}
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
@@ -58,11 +54,6 @@
 							{/if}
 							{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
 							<td class="listViewEntryValue {$WIDTHTYPE}" data-name="{$LISTVIEW_HEADERNAME}">
-								{if $smarty.foreach.listHeaders.first && !empty($SOURCE_MODULE) && 1 < $AMOUNT_OF_ENTRIES}
-									<a class="px-2 u-cursor-move js-drag" data-js="ui-sortable-handle"><img class="align-baseline" src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" /></a>
-									<span class="fas fa-arrow-up js-workflow-up px-2"></span>
-									<span class="fas fa-arrow-down js-workflow-down px-2"></span>
-								{/if}
 								&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 								{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 								</td>

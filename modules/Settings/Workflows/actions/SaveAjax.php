@@ -21,7 +21,7 @@ class Settings_Workflows_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function __construct()
 	{
 		parent::__construct();
-		$this->exposeMethod('sequence');
+		$this->exposeMethod('sequenceActions');
 		$this->exposeMethod('sequenceTasks');
 	}
 
@@ -32,13 +32,12 @@ class Settings_Workflows_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 *
 	 * @return void
 	 */
-	public function sequence(App\Request $request): void
+	public function sequenceActions(App\Request $request): void
 	{
-		$workflows = $request->getArray('workflows', \App\Purifier::INTEGER, [], \App\Purifier::INTEGER);
-		$pageNumber = $request->getInteger('pageNumber');
-		$sortType = $request->getByType('sortType');
+		$workflowsForSort = $request->getInteger('workflowForSort');
+		$workflowBefore = $request->getInteger('workflowBefore');
 		$moduleName = $request->getByType('sourceModule');
-		new \Settings_Workflows_UpdateSequence_Helper($workflows, $pageNumber, $sortType, $moduleName);
+		Settings_Workflows_Module_Model::updateActionsSequence($workflowsForSort, $workflowBefore, $moduleName);
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'message' => \App\Language::translate('LBL_CHANGES_SAVED', $request->getModule(false)),
