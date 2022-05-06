@@ -1486,7 +1486,7 @@ window.App.Fields = {
 				return app.vtranslate('JS_NO_RESULTS_FOUND');
 			};
 			params.language.removeAllItems = function () {
-				return app.translate('JS_REMOVE_ALL_ITEMS');
+				return app.vtranslate('JS_REMOVE_ALL_ITEMS');
 			};
 			// Sort DOM nodes alphabetically in select box.
 			if (typeof params['customSortOptGroup'] !== 'undefined' && params['customSortOptGroup']) {
