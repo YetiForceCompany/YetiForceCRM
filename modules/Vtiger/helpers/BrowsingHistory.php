@@ -1,11 +1,13 @@
 <?php
-
 /**
  * Browsing history.
+ *
+ * @package Helper
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Michał Lorencik <m.lorencik@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_BrowsingHistory_Helper
 {
@@ -76,6 +78,9 @@ class Vtiger_BrowsingHistory_Helper
 		parse_str($parsedUrl, $urlQuery);
 		$validViews = ['Index', 'List', 'Detail', 'Edit', 'DashBoard', 'ListPreview', 'TreeRecords', 'Tree'];
 		if (!empty($urlQuery['module']) && !empty($urlQuery['view']) && \in_array($urlQuery['view'], $validViews)) {
+			if (\is_string($title)) {
+				$title = \App\Utils\Completions::encodeEmoji($title);
+			}
 			if (!empty($urlQuery['record'])) {
 				$title .= ' | ' . \App\Utils\Completions::encodeEmoji(App\Record::getLabel($urlQuery['record']));
 			}
