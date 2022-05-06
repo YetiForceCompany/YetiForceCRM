@@ -156,7 +156,7 @@ class SMSAPI extends Provider
 		$params = [
 			['name' => 'format', 'contents' => $this->format],
 			['name' => 'smil', 'contents' => $this->getSmil()],
-			['name' => 'subject', 'contents' => $this->get('from')]
+			['name' => 'subject', 'contents' => $this->getSubject()]
 		];
 
 		foreach (['to', 'idx'] as $key) {
@@ -244,7 +244,17 @@ class SMSAPI extends Provider
 	}
 
 	/**
-	 * Get smil text.
+	 * Get subject for MMS.
+	 *
+	 * @return string
+	 */
+	public function getSubject(): string
+	{
+		return \App\TextParser::textTruncate(trim(strip_tags($this->get('message'))), 20) ?: $this->get('from');
+	}
+
+	/**
+	 * Get smil text for MMS.
 	 *
 	 * @return string
 	 */
