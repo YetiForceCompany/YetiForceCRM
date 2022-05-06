@@ -7,6 +7,7 @@
     "FL_RELATED_TO": "Related to",
     "FL_STATUS": "Status",
     "FL_PARENT": "Parent SMS",
+    "FL_IMAGE": "Image file",
     "FL_MESSAGE_ID": "Message ID",
     "PLL_UNDEFINED": "Undefined",
     "PLL_DELIVERED": "Delivered",
@@ -24,6 +25,7 @@
     "LBL_SMS_MAX_CHARACTERS_ALLOWED": "SMS max 160 characters allowed",
     "LBL_SEND_SMS_TO_SELECTED_NUMBERS": "Send SMS to the selected numbers",
     "LBL_SELECT_THE_PHONE_NUMBER_FIELDS_TO_SEND": "Phone number from",
+    "LBL_ADD_IMAGE_FILE": "Add an image file",
     "LBL_TYPE_THE_MESSAGE": "Type the message",
     "LBL_LIMIT_OF_ONETIME_CREATED_TEXT_MESSAGES": "Limit of one-time created text messages",
     "LBL_SERVER_CONFIG": "Server configuration"

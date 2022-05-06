@@ -32,7 +32,7 @@ class VTSMSTask extends VTTask
 		if (\App\Integrations\SMSProvider::isActiveProvider()) {
 			$moduleName = 'SMSNotifier';
 			$recordModelTemp = \Vtiger_Record_Model::getCleanInstance($moduleName)->set('message', $this->content);
-			if (\in_array($recordModelTemp->getModuleName(), $recordModelTemp->getField('related_to')->getReferenceList())) {
+			if (\in_array($recordModel->getModuleName(), $recordModelTemp->getField('related_to')->getReferenceList())) {
 				$recordModelTemp->set('related_to', $recordModel->getId());
 			}
 

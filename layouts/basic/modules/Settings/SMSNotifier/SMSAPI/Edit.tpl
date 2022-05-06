@@ -20,7 +20,11 @@
 			{/foreach}
 			<hr class="widgetHr" />
 			{assign var=SERVICE_USERS value=$RECORD_MODEL->getServiveUsers()}
-			<div class="text-center font-weight-bold mb-2">{\App\Language::translate('LBL_CALLBACK_ADDRESSES', $QUALIFIED_MODULE)}</div>
+			<div class="text-center font-weight-bold mb-2">{\App\Language::translate('LBL_CALLBACK_ADDRESSES', $QUALIFIED_MODULE)} <span class="js-popover-tooltip ml-1" data-toggle="popover"
+					data-placement="top"
+					data-content="{\App\Language::translate('LBL_CALLBACK_ADDRESSES_DESC', $QUALIFIED_MODULE)}" data-js="popover">
+					<span class="fas fa-info-circle"></span>
+				</span></div>
 			<div class="form-group form-row">
 				<label class="col-form-label col-md-4 u-text-small-bold text-left text-md-right">
 					{\App\Language::translate('FL_CALLBACK_URL_FOR_REPORT', $QUALIFIED_MODULE)}
@@ -37,7 +41,7 @@
 						</button>
 					</span>
 					<span class="input-group-append">
-						<button class="btn btn-outline-secondary js-popover-tooltip" type="button" data-placement="top" data-content="{\App\Language::translate('LBL_CALLBACK_URL_DESC', $QUALIFIED_MODULE)}">
+						<button class="btn btn-outline-secondary js-popover-tooltip" type="button" data-placement="top" data-content="{\App\Language::translate('FL_CALLBACK_URL_FOR_REPORT_DESC', $QUALIFIED_MODULE)}">
 							<span class="fas fa-info-circle"></span>
 						</button>
 					</span>
@@ -59,7 +63,7 @@
 						</button>
 					</span>
 					<span class="input-group-append">
-						<button class="btn btn-outline-secondary js-popover-tooltip" type="button" data-placement="top" data-content="{\App\Language::translate('LBL_CALLBACK_URL_DESC', $QUALIFIED_MODULE)}">
+						<button class="btn btn-outline-secondary js-popover-tooltip" type="button" data-placement="top" data-content="{\App\Language::translate('FL_CALLBACK_URL_FOR_REPLY_DESC', $QUALIFIED_MODULE)}">
 							<span class="fas fa-info-circle"></span>
 						</button>
 					</span>
