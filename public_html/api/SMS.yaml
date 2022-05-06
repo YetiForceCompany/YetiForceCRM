@@ -1,0 +1,115 @@
+openapi: 3.0.0
+info:
+  title: 'YetiForce API for SMS. Type: SMS'
+  description: ''
+  termsOfService: 'https://yetiforce.com/'
+  contact:
+    name: 'Devs API Team'
+    url: 'https://yetiforce.com/'
+    email: devs@yetiforce.com
+  license:
+    name: 'YetiForce Public License'
+    url: 'https://yetiforce.com/en/yetiforce/license'
+  version: '0.1'
+servers:
+  -
+    url: 'https://gitdeveloper.yetiforce.com'
+    description: 'Demo server of the development version'
+  -
+    url: 'https://gitstable.yetiforce.com'
+    description: 'Demo server of the latest stable version'
+paths:
+  /webservice/SMS/SMSAPI/Reception:
+    get:
+      tags:
+        - SMSAPI
+      summary: 'Receipt of SMS'
+      externalDocs:
+        description: 'SMSApi Documentation'
+        url: 'https://www.smsapi.pl/docs'
+      operationId: 1d5b693764111be12b9441546ea6e2cb
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SMS_SMSAPI_Post_Reception'
+        '401':
+          description: '`No sent token` OR `Invalid token` OR `wrong data provided in the request`'
+        '403':
+          description: 'No permissions for module'
+        '405':
+          description: 'Method Not Allowed'
+      security:
+        -
+          ApiKeyAuth: []
+          token: []
+  /webservice/SMS/SMSAPI/Report:
+    get:
+      tags:
+        - SMSAPI
+      summary: 'Report for sms'
+      externalDocs:
+        description: 'SMSApi Documentation'
+        url: 'https://www.smsapi.pl/docs'
+      operationId: 82162b057882b4798a1d4844f9e0161f
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SMS_SMSAPI_Get_Report'
+        '401':
+          description: '`No sent token` OR `Invalid token` OR `wrong data provided in the request`'
+        '403':
+          description: 'No permissions for module'
+        '405':
+          description: 'Method Not Allowed'
+      security:
+        -
+          ApiKeyAuth: []
+          token: []
+    post:
+      tags:
+        - SMSAPI
+      summary: 'Report for sms'
+      externalDocs:
+        description: 'SMSApi Documentation'
+        url: 'https://www.smsapi.pl/docs'
+      operationId: 2d104552585271b46f199a9df6b49930
+      responses:
+        '200':
+          description: Result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SMS_SMSAPI_Post_Report'
+        '401':
+          description: '`No sent token` OR `Invalid token` OR `wrong data provided in the request`'
+        '403':
+          description: 'No permissions for module'
+        '405':
+          description: 'Method Not Allowed'
+      security:
+        -
+          ApiKeyAuth: []
+          token: []
+components:
+  schemas:
+    SMS_SMSAPI_Post_Reception:
+      title: Response
+      description: Response
+      type: string
+      example: OK
+    SMS_SMSAPI_Get_Report:
+      title: Response
+      description: Response
+      type: string
+      example: OK
+    SMS_SMSAPI_Post_Report:
+      title: Response
+      description: Response
+      type: string
+      example: OK

@@ -229,7 +229,7 @@ class Vtiger_ListView_Model extends \App\Base
 	/**
 	 * Function to get the list of Mass actions for the module.
 	 *
-	 * @param type $linkParams
+	 * @param array $linkParams
 	 *
 	 * @return Vtiger_Link_Model[]
 	 */
@@ -323,6 +323,15 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkdata' => ['url' => "index.php?module={$moduleModel->getName()}&view=RecordConverter&sourceView=List", 'type' => 'modal'],
 				'linkicon' => 'fas fa-exchange-alt',
 				'linkclass' => 'u-cursor-pointer js-mass-action',
+			];
+		}
+		if ($moduleModel->isPermitted('MassSendSMS') && ($smsNotifierModel = \Vtiger_Module_Model::getInstance('SMSNotifier'))->isMassSMSActiveForModule($moduleModel->getName())) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_SEND_SMS',
+				'linkdata' => ['url' => $smsNotifierModel->getMassSMSUrlForModule($moduleModel->getName()), 'type' => 'modal'],
+				'linkicon' => 'fas fa-comment-sms',
+				'linkclass' => 'js-mass-action',
 			];
 		}
 		foreach ($massActionLinks as $massActionLink) {
