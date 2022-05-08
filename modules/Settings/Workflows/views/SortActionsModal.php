@@ -26,7 +26,8 @@ class Settings_Workflows_SortActionsModal_View extends \App\Controller\ModalSett
 	/** {@inheritdoc} */
 	public function getPageTitle(App\Request $request)
 	{
-		return $request->getByType('sourceModule', \App\Purifier::STANDARD) . ' - ' . App\Language::translate('LBL_SORT_WORKFLOW_ACTIONS', $request->getModule(false));
+		$sourceModule = $request->getByType('sourceModule', \App\Purifier::STANDARD);
+		return App\Language::translate($sourceModule, $sourceModule) . ' - ' . App\Language::translate('LBL_SORT_WORKFLOW_ACTIONS', $request->getModule(false));
 	}
 
 	/** {@inheritdoc} */
