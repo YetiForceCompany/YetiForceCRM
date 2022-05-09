@@ -2485,11 +2485,9 @@ YetiForce_Widget_Js(
 		 */
 		loadCalendarData: function () {
 			this.fullCalendar.removeAllEvents();
-			const self = this,
-				start_date = App.Fields.Date.dateToUserFormat(this.fullCalendar.view.activeStart),
+			const start_date = App.Fields.Date.dateToUserFormat(this.fullCalendar.view.activeStart),
 				end_date = App.Fields.Date.dateToUserFormat(this.fullCalendar.view.activeEnd),
-				parent = this.getContainer(),
-				calendarView = self.getCalendarView();
+				parent = this.getContainer();
 			let user = parent.find('.owner').val();
 			if (user == 'all') {
 				user = '';
@@ -2515,14 +2513,14 @@ YetiForce_Widget_Js(
 				}
 			}
 			if (this.paramCache) {
-				self.setFilterToCache(this.getContainer().find('.js-widget-refresh').data('url'), {
+				this.setFilterToCache(this.getContainer().find('.js-widget-refresh').data('url'), {
 					owner: user,
 					customFilter: params.customFilter,
 					start: start_date
 				});
 			}
-			AppConnector.request(params).done(function (events) {
-				self.fullCalendar.addEventSource(events.result);
+			AppConnector.request(params).done((events) => {
+				this.fullCalendar.addEventSource(events.result);
 			});
 		},
 		getCalendarView: function () {

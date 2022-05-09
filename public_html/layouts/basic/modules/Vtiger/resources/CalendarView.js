@@ -122,7 +122,7 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 			this.fullCalendar.view.activeEnd = this.fullCalendar.view.activeEnd.add(1, 'day');
 		}
 		const time = this.getSidebarView().find('.js-switch--showType input:checked').data('val');
-		options.time !== undefined ? time : app.getMainParams('showType');
+		options.time = options.time !== undefined ? time : app.getMainParams('showType');
 		options.history = true;
 		options.user = user;
 		return options;
@@ -581,7 +581,7 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 	 * Register filter tab change
 	 */
 	registerFilterTabChange() {
-		this.calendarView.find('.js-calendar__extended-filter-tab').on('shown.bs.tab', (e) => {
+		this.calendarView.find('.js-calendar__extended-filter-tab').on('shown.bs.tab', () => {
 			this.reloadCalendarData();
 			app.moduleCacheSet('CurrentCvId', this.getCurrentCvId());
 		});
