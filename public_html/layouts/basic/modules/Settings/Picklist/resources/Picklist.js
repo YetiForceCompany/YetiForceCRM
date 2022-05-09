@@ -141,16 +141,7 @@ var Settings_Picklist_Js = {
 
 	registerAssingValueToRuleEvent: function () {
 		jQuery('#assignValue').on('click', function () {
-			var pickListValuesTable = jQuery('#pickListValuesTable');
-			var selectedListItem = jQuery('.selectedListItem', pickListValuesTable);
-			if (selectedListItem.length > 0) {
-				var selectedValues = [];
-				jQuery.each(selectedListItem, function (i, element) {
-					selectedValues.push(jQuery(element).closest('tr').data('key'));
-				});
-			}
-
-			var params = {
+			let params = {
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
 				source_module: jQuery('#pickListModules').val(),
