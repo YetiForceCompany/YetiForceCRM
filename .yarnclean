@@ -90,7 +90,6 @@ MAINTAINING.md
 source
 build
 
-
 #removing unnecessary files in packages
 @fortawesome/fontawesome-free/css/brands.css
 @fortawesome/fontawesome-free/css/brands.min.css
@@ -103,6 +102,7 @@ build
 @fortawesome/fontawesome-free/css/svg-with-js.css
 @fortawesome/fontawesome-free/css/svg-with-js.min.css
 @fortawesome/fontawesome-free/css/v4-font-face.css
+@fortawesome/fontawesome-free/css/v4-font-face.min.css
 @fortawesome/fontawesome-free/css/v4-shims.css
 @fortawesome/fontawesome-free/css/v4-shims.min.css
 @fortawesome/fontawesome-free/css/v5-font-face.css
@@ -112,6 +112,8 @@ build
 @fortawesome/fontawesome-free/scss
 @fortawesome/fontawesome-free/sprites
 @fortawesome/fontawesome-free/svgs
+@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.ttf
+@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2
 add/src
 almond/src
 animate.css/src
@@ -128,6 +130,7 @@ bootstrap-datepicker/js
 bootstrap-datepicker/less
 bootstrap-datepicker/src
 bootstrap-daterangepicker/drp.png
+bootstrap-daterangepicker/moment.min.js
 bootstrap-daterangepicker/src
 bootstrap-daterangepicker/website
 bootstrap/dist/css
@@ -265,7 +268,6 @@ updated-jqplot/jqPlotOptions.txt
 updated-jqplot/optionsTutorial.txt
 updated-jqplot/src
 updated-jqplot/usage.txt
-
 
 # removing unnecessary packages
 updated-jqplot
