@@ -261,13 +261,9 @@ window.App.Fields = {
 				timeComponent = dateTimeComponents[1],
 				seconds = '00',
 				dotMode = '-';
-			if (dateFormat.indexOf('-') !== -1) {
-				dotMode = '-';
-			}
 			if (dateFormat.indexOf('.') !== -1) {
 				dotMode = '.';
-			}
-			if (dateFormat.indexOf('/') !== -1) {
+			} else if (dateFormat.indexOf('/') !== -1) {
 				dotMode = '/';
 			}
 			let splittedDate = dateComponent.split(dotMode),

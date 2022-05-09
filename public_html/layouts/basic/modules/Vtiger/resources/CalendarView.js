@@ -421,7 +421,7 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 		let prevWeeks = moment(this.fullCalendar.view.currentStart).subtract(5, 'weeks'),
 			html = '';
 
-		while (prevWeeks <= nextWeeks) {
+		while (prevWeeks.format('YYYY-MM-DD') <= nextWeeks.format('YYYY-MM-DD')) {
 			let date = prevWeeks.format('YYYY-MM-DD'),
 				dateEnd = moment(prevWeeks).add(6, 'day').format('YYYY-MM-DD'),
 				dateUser = App.Fields.Date.dateToUserFormat(date),
@@ -444,7 +444,6 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 	 * Generate month bar list
 	 */
 	generateMonthList() {
-		const self = this;
 		const datesView = this.container.find('.js-dates-row'),
 			activeMonth = this.fullCalendar.view.currentStart.getMonth(),
 			activeYear = this.fullCalendar.view.currentStart.getFullYear();
