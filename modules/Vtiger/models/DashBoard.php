@@ -68,7 +68,7 @@ class Vtiger_DashBoard_Model extends \App\Base
 		$currentUserPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 		$query = (new \App\Db\Query())->select(['vtiger_links.*', 'mdw.userid', 'mdw.data', 'mdw.active', 'mdw.title', 'mdw.size', 'mdw.filterid',
-			'widgetid' => 'mdw.id', 'mdw.position', 'id' => 'vtiger_links.linkid', 'mdw.limit', 'mdw.cache', 'mdw.owners', 'mdw.isdefault'])
+			'widgetid' => 'mdw.id', 'mdw.position', 'id' => 'vtiger_links.linkid', 'mdw.limit', 'mdw.cache', 'mdw.owners', 'mdw.isdefault', ])
 			->from('vtiger_links')
 			->leftJoin('vtiger_module_dashboard_widgets mdw', 'vtiger_links.linkid = mdw.linkid')
 			->where(['mdw.userid' => $currentUser->getId(), 'vtiger_links.linktype' => 'DASHBOARDWIDGET', 'mdw.module' => $moduleModel->getId(), 'active' => $action, 'mdw.dashboardid' => $this->get('dashboardId')]);
@@ -163,9 +163,9 @@ class Vtiger_DashBoard_Model extends \App\Base
 			->where(['vtiger_module_dashboard.blockid' => $blockId])
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$row['data'] = htmlspecialchars_decode($row['data']);
-			$row['size'] = htmlspecialchars_decode($row['size']);
-			$row['owners'] = htmlspecialchars_decode($row['owners']);
+			$row['data'] = htmlspecialchars_decode($row['data'] ?? '');
+			$row['size'] = htmlspecialchars_decode($row['size']) ?? '';
+			$row['owners'] = htmlspecialchars_decode($row['owners'] ?? '');
 			if (!(new App\Db\Query())->from('vtiger_module_dashboard_widgets')
 				->where(['userid' => $currentUser->getId(), 'templateid' => $row['id']])
 				->exists()) {
