@@ -139,7 +139,7 @@ window.App.Fields = {
 			if (typeof customParams !== 'undefined') {
 				params = $.extend(params, customParams);
 			}
-			elements.each((index, element) => {
+			elements.each((_index, element) => {
 				$(element).datepicker(
 					$.extend(
 						true,
@@ -224,11 +224,11 @@ window.App.Fields = {
 				.on('click', (e) => {
 					$(e.currentTarget).parent().next('.dateRangeField')[0].focus();
 				});
-			elements.each((index, element) => {
+			elements.each((_index, element) => {
 				let el = $(element);
 				let currentParams = $.extend(true, params, el.data('params'));
 				el.daterangepicker(currentParams)
-					.on('apply.daterangepicker', function (ev, picker) {
+					.on('apply.daterangepicker', function (_ev, picker) {
 						$(this).val(
 							picker.startDate.format(currentParams.locale.format) +
 								',' +
@@ -243,7 +243,7 @@ window.App.Fields = {
 						App.Fields.Utils.positionPicker(ev, picker);
 						picker.container.addClass('js-visible');
 					})
-					.on('hide.daterangepicker', (ev, picker) => {
+					.on('hide.daterangepicker', (_ev, picker) => {
 						picker.container.removeClass('js-visible');
 					});
 				App.Fields.Utils.registerMobileDateRangePicker(el);
@@ -478,7 +478,7 @@ window.App.Fields = {
 			}
 			this.container
 				.daterangepicker(params)
-				.on('apply.daterangepicker', function applyDateRangePickerHandler(ev, picker) {
+				.on('apply.daterangepicker', function applyDateRangePickerHandler(_ev, picker) {
 					if (isDateRangePicker) {
 						$(this).val(picker.startDate.format(format));
 					} else {
@@ -3564,14 +3564,14 @@ window.App.Fields = {
 		 *
 		 * @param {Event} e
 		 */
-		dragOver(e) {
+		dragOver(_e) {
 			this.container.addClass('c-multi-image__drop-effect');
 		}
 		/**
 		 * Dragleave event handler
 		 * @param {Event} e
 		 */
-		dragLeave(e) {
+		dragLeave(_e) {
 			this.container.removeClass('c-multi-image__drop-effect');
 		}
 		/**
@@ -3580,7 +3580,7 @@ window.App.Fields = {
 		 * @param {Event} e
 		 * @param {Object} data
 		 */
-		uploadError(e, data) {
+		uploadError(_e, data) {
 			this.progressInstance.progressIndicator({ mode: 'hide' });
 			this.filesActive--;
 			app.errorLog('File upload error.');

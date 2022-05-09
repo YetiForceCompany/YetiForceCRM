@@ -37,7 +37,7 @@ class Vtiger_Tiles_View extends Vtiger_List_View
 	public function initializeListViewContents(App\Request $request, Vtiger_Viewer $viewer): void
 	{
 		parent::initializeListViewContents($request, $viewer);
-		$tileSize = $request->isEmpty('tile_size') ? App\Config::layout('tileDefaultSize') : $request->getByType('tile_size');
+		$tileSize = $request->isEmpty('tile_size') ? App\Config::layout('tileDefaultSize', 'very_small') : $request->getByType('tile_size');
 		$viewer->assign('TILE_SIZE', $tileSize);
 		$viewer->assign('TILE_COLUMN_SIZE', $this->getTileColumnNumbers($tileSize));
 	}

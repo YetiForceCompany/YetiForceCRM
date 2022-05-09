@@ -213,7 +213,7 @@ class Field extends FieldBasic
 	public static function getAllForBlock($blockInstance, $moduleInstance = false)
 	{
 		$cache = \Vtiger_Cache::getInstance();
-		if ($cache->getBlockFields($blockInstance->id, $moduleInstance->id)) {
+		if ($moduleInstance && $cache->getBlockFields($blockInstance->id, $moduleInstance->id)) {
 			return $cache->getBlockFields($blockInstance->id, $moduleInstance->id);
 		}
 		$instances = false;

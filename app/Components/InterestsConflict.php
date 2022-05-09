@@ -318,7 +318,7 @@ class InterestsConflict
 		$allModules = array_map(function ($v) {
 			return 0 > $v ? 999 : sprintf('%03d', $v);
 		}, array_column(\vtlib\Functions::getAllModules(false, true), 'tabsequence', 'name'));
-		$excludedModules = ['SMSNotifier', 'ModComments'];
+		$excludedModules = ['ModComments'];
 		$baseModules = $return = $modules = $baseModules = [];
 		foreach (array_keys(\App\ModuleHierarchy::getModulesByLevel(0)) as $moduleName) {
 			if (\App\Module::isModuleActive($moduleName)) {
