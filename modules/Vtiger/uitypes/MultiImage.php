@@ -389,10 +389,15 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		$db = \App\Db::getInstance();
 		$attach = [];
 		$type = 'image';
+		$maxSize = $this->getFieldInfo()['maxFileSize'];
 		foreach (\App\Fields\File::transform($files, true) as $key => $transformFiles) {
 			foreach ($transformFiles as $fileDetails) {
 				$additionalNotes = '';
 				$file = \App\Fields\File::loadFromRequest($fileDetails);
+				if ($file->getSize() > $maxSize) {
+					$attach[] = ['name' => $file->getName(), 'error' => \App\Language::translateSingleMod('ERR_FILE_SIZE_EXCEEDED', 'Other.Exceptions'), 'hash' => $hash];
+					continue;
+				}
 				if (!$file->validate($type)) {
 					if (!\App\Fields\File::secureFile($file)) {
 						$attach[] = ['name' => $file->getName(), 'error' => $file->validateError, 'hash' => $hash];

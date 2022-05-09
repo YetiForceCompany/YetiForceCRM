@@ -29,6 +29,8 @@ class MultiImage {
 		this.fieldInfo = this.elements.values.data('fieldinfo');
 		this.options.formats = this.fieldInfo.formats;
 		this.options.limit = this.fieldInfo.limit;
+		this.options.maxFileSize = this.fieldInfo.maxFileSize || CONFIG.maxUploadLimit;
+		this.options.maxFileSizeDisplay = this.fieldInfo.maxFileSizeDisplay || '';
 		if (!this.detailView) {
 			this.files = JSON.parse(this.elements.values.val());
 		} else {
@@ -56,7 +58,7 @@ class MultiImage {
 			this.elements.fileInput.fileupload('option', 'dropZone', $(this.elements.component));
 			this.enableDragNDrop();
 		}
-		this.elements.component.on('click', '.js-multi-image__popover-img', function (e) {
+		this.elements.component.on('click', '.js-multi-image__popover-img', function () {
 			thisInstance.zoomPreview($(this).data('hash'));
 		});
 		this.elements.component.on('click', '.js-multi-image__popover-btn-zoom', function (e) {
@@ -107,7 +109,7 @@ class MultiImage {
 	 * @param {Event} e
 	 * @param {Object} data
 	 */
-	submit(e, data) {
+	submit(_e, data) {
 		data.formData = {
 			hash: data.files[0].hash
 		};
@@ -161,20 +163,15 @@ class MultiImage {
 	 * @param {Event} e
 	 * @param {Object} data
 	 */
-	uploadError(e, data) {
+	uploadError(_e, data) {
 		this.progressInstance.progressIndicator({ mode: 'hide' });
 		app.errorLog('File upload error.');
 		const { jqXHR, files } = data;
-		if (typeof jqXHR.responseJSON === 'undefined' || jqXHR.responseJSON === null) {
-			App.Fields.MultiImage.currentFileUploads--;
-			return app.showNotify({
-				text: app.vtranslate('JS_FILE_UPLOAD_ERROR'),
-				type: 'error'
-			});
-		}
 		const response = jqXHR.responseJSON;
 		// first try to show error for concrete file
 		if (
+			response !== null &&
+			typeof response !== 'undefined' &&
 			typeof response.result !== 'undefined' &&
 			typeof response.result.attach !== 'undefined' &&
 			Array.isArray(response.result.attach)
@@ -272,7 +269,7 @@ class MultiImage {
 	 * @param {Object} file
 	 * @returns {boolean}
 	 */
-	validateFile(file) {
+	validateFormat(file) {
 		let valid = false;
 		this.options.formats.forEach((format) => {
 			if (file.type === 'image/' + format) {
@@ -287,6 +284,22 @@ class MultiImage {
 			});
 		}
 		return valid;
+	}
+
+	/**
+	 * Validate maximum file size
+	 * @param {Object} file
+	 * @returns {Boolean}
+	 */
+	validateSize(file) {
+		let result = typeof file.size === 'number' && file.size < this.options.maxFileSize;
+		if (!result) {
+			app.showNotify({
+				text: `${app.vtranslate('JS_UPLOADED_FILE_SIZE_EXCEEDS')} <br> [${this.options.maxFileSizeDisplay}]`,
+				type: 'error'
+			});
+		}
+		return result;
 	}
 
 	/**
@@ -312,7 +325,7 @@ class MultiImage {
 			return [];
 		}
 		return files.filter((file) => {
-			return this.validateFile(file);
+			return this.validateFormat(file) && this.validateSize(file);
 		});
 	}
 
@@ -345,7 +358,7 @@ class MultiImage {
 	 * @param {Event} e
 	 * @param {object} data
 	 */
-	add(e, data) {
+	add(_e, data) {
 		if (data.files.length > 0) {
 			data.submit();
 		}
@@ -357,7 +370,7 @@ class MultiImage {
 	 * @param {Event} e
 	 * @param {Object} data
 	 */
-	progressAll(e, data) {
+	progressAll(_e, data) {
 		const progress = parseInt((data.loaded / data.total) * 100, 10);
 		this.elements.progressBar.css({ width: progress + '%' });
 		if (progress === 100) {
@@ -375,7 +388,7 @@ class MultiImage {
 	 *
 	 * @param {Event} e
 	 */
-	dragOver(e) {
+	dragOver(_e) {
 		this.elements.component.addClass('c-multi-image__drop-effect');
 	}
 
@@ -383,7 +396,7 @@ class MultiImage {
 	 * Dragleave event handler
 	 * @param {Event} e
 	 */
-	dragLeave(e) {
+	dragLeave(_e) {
 		this.elements.component.removeClass('c-multi-image__drop-effect');
 	}
 
@@ -488,12 +501,11 @@ class MultiImage {
 				? self.generateCarousel(hash)
 				: `<img src="${fileInfo.imageSrc}" class="w-100" />`,
 			cb: (modal) => {
-				console.log(modal);
-				modal.on('click', '.js-delete', function (e) {
+				modal.on('click', '.js-delete', function () {
 					self.deleteFile(fileInfo.hash);
 					app.hideModalWindow();
 				});
-				modal.on('click', '.js-success', function (e) {
+				modal.on('click', '.js-success', function () {
 					self.download(fileInfo.hash);
 					app.hideModalWindow();
 				});
@@ -633,7 +645,7 @@ class MultiImage {
 	 * @param {Event} e
 	 * @param {Object} ui
 	 */
-	sortOver(e, ui) {
+	sortOver(_e, _ui) {
 		this.elements.result.find('.js-multi-image__preview').popover('hide');
 	}
 
@@ -643,7 +655,7 @@ class MultiImage {
 	 * @param {Event} e
 	 * @param {Object} ui
 	 */
-	sortStop(e, ui) {
+	sortStop(_e, _ui) {
 		const actualElements = this.elements.result.find('.js-multi-image__preview').toArray();
 		this.files = actualElements.map((element) => {
 			for (let i = 0, len = this.files.length; i < len; i++) {
@@ -678,7 +690,7 @@ class MultiImage {
 				stop: this.sortStop.bind(this)
 			})
 			.disableSelection()
-			.on('mousedown', '.js-multi-image__preview-img', function (e) {
+			.on('mousedown', '.js-multi-image__preview-img', function () {
 				this.focus(); // focus to show popover
 			});
 	}
@@ -690,18 +702,19 @@ class MultiImage {
 	 * @param {function} callback
 	 */
 	generatePreviewElements(files, callback) {
+		let preview = (file, template, imageSrc) => {
+			file.preview = this.addPreviewPopover(file, template, imageSrc);
+			this.addFileInfoProperty(file.hash, 'previewElement', file.preview);
+			callback(file.preview);
+		};
 		files.forEach((file) => {
 			if (file instanceof File) {
 				this.generatePreviewFromFile(file, (template, imageSrc) => {
-					file.preview = this.addPreviewPopover(file, template, imageSrc);
-					this.addFileInfoProperty(file.hash, 'previewElement', file.preview);
-					callback(file.preview);
+					preview(file, template, imageSrc);
 				});
 			} else {
 				this.generatePreviewFromValue(file, (template, imageSrc) => {
-					file.preview = this.addPreviewPopover(file, template, imageSrc);
-					this.addFileInfoProperty(file.hash, 'previewElement', file.preview);
-					callback(file.preview);
+					preview(file, template, imageSrc);
 				});
 			}
 		});
