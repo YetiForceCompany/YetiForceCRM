@@ -7,6 +7,27 @@
 window.calendarLoaded = false; //Global calendar flag needed for correct loading data from history browser in year view
 window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Vtiger_Calendar_Js {
 	/**
+	 * Go to records list
+	 * @param {string} link
+	 */
+	static goToRecordsList(link) {
+		const self = app.pageController,
+			status = app.getMainParams('activityStateLabels', true),
+			options = self.getDefaultParams();
+		if (options['cvid']) {
+			link += '&viewname=' + options['cvid'];
+		} else {
+			link += '&viewname=All';
+		}
+		let searchParams = '["activitystatus","e","' + status[app.getMainParams('showType')].join() + '"]';
+		searchParams += ',["date_start","bw","' + options['start'] + ' 00:00:00,' + options['end'] + ' 23:59:59"]';
+		if (options['user']) {
+			searchParams += ',["assigned_user_id","e","' + options['user']['selectedIds'].join('##') + '"]';
+		}
+		link += '&search_params=[[' + encodeURIComponent(searchParams) + ']]';
+		window.location.href = link;
+	}
+	/**
 	 * Set calendar module options.
 	 * @returns {{allDaySlot: boolean, dayClick: object, selectable: boolean}}
 	 */
@@ -15,8 +36,11 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Vtiger_Calendar
 		return {
 			allDaySlot: false,
 			dateClick: (args) => {
-				if (this.eventCreate) {
+				if (this.eventCreate == 1) {
 					this.showCalendarCreateView().done((form) => {
+						if (this.getSidebarView().find('.tab-pane.active').hasClass('js-right-panel-event') === false) {
+							this.getSidebarView().find('.js-right-panel-event-link').trigger('click');
+						}
 						this.dayCallbackCreateModal(form, args);
 					});
 				}

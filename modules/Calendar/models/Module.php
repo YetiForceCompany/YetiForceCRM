@@ -68,7 +68,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 			$links['SIDEBARLINK'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_LIST',
-				'linkurl' => 'javascript:Calendar_Calendar_Js.getInstanceByView().goToRecordsList("' . $this->getListViewUrl() . '&viewname=All");',
+				'linkurl' => 'javascript:Calendar_Calendar_Js.goToRecordsList("' . $this->getListViewUrl() . '");',
 				'linkicon' => 'far fa-calendar-minus',
 			]);
 		}
