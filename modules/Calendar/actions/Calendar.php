@@ -21,11 +21,7 @@ class Calendar_Calendar_Action extends Vtiger_Calendar_Action
 			$record->set('customFilter', $request->getByType('customFilter', 2));
 			$entity = array_merge($record->getEntityCount(), $record->getPublicHolidays());
 		} else {
-			if ($request->getBoolean('yearView')) {
-				$entity = array_merge($record->getEntityCount(), $record->getPublicHolidays());
-			} else {
-				$entity = array_merge($record->getEntity(), $record->getPublicHolidays());
-			}
+			$entity = array_merge($record->getEntity(), $record->getPublicHolidays());
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($entity);

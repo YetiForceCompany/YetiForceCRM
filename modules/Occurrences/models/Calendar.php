@@ -143,50 +143,6 @@ class Occurrences_Calendar_Model extends Vtiger_Calendar_Model
 		return $this->getModule()->getFieldByName('occurrences_type')->getPicklistValues();
 	}
 
-	/**
-	 * Get entity count for year view.
-	 *
-	 * @return array
-	 */
-	public function getEntityYearCount()
-	{
-		$currentUser = \App\User::getCurrentUserModel();
-		$startDate = DateTimeField::convertToDBTimeZone($this->get('start'));
-		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));
-		$endDate = DateTimeField::convertToDBTimeZone($this->get('end'));
-		$endDate = strtotime($endDate->format('Y-m-d H:i:s'));
-		$dataReader = $this->getQuery()->createCommand()->query();
-		$return = [];
-		while ($record = $dataReader->read()) {
-			$dateFormat = \App\Fields\DateTime::formatToDisplay($record['date_start']);
-			$dateTimeComponents = explode(' ', $dateFormat);
-			$startDateFormated = \App\Fields\Date::sanitizeDbFormat($dateTimeComponents[0], $currentUser->getDetail('date_format'));
-
-			$dateFormat = \App\Fields\DateTime::formatToDisplay($record['date_start']);
-			$dateTimeComponents = explode(' ', $dateFormat);
-			$endDateFormated = \App\Fields\Date::sanitizeDbFormat($dateTimeComponents[0], $currentUser->getDetail('date_format'));
-
-			$begin = new DateTime($startDateFormated);
-			$end = new DateTime($endDateFormated);
-			$end->modify('+1 day');
-			$interval = DateInterval::createFromDateString('1 day');
-			foreach (new DatePeriod($begin, $interval, $end) as $dt) {
-				$date = strtotime($dt->format('Y-m-d'));
-				if ($date >= $startDate && $date <= $endDate) {
-					$date = date('Y-m-d', $date);
-					$return[$date]['date'] = $date;
-					if (isset($return[$date]['count'])) {
-						++$return[$date]['count'];
-					} else {
-						$return[$date]['count'] = 1;
-					}
-				}
-			}
-		}
-		$dataReader->close();
-		return array_values($return);
-	}
-
 	/** {@inheritdoc} */
 	public function updateEvent(int $recordId, string $start, string $end, App\Request $request): bool
 	{

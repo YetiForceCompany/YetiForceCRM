@@ -233,57 +233,6 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 	}
 
 	/**
-	 * Get entity count for year view.
-	 *
-	 * @return array
-	 */
-	public function getEntityYearCount()
-	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$startDate = DateTimeField::convertToDBTimeZone($this->get('start'));
-		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));
-		$endDate = DateTimeField::convertToDBTimeZone($this->get('end'));
-		$endDate = strtotime($endDate->format('Y-m-d H:i:s'));
-		$dataReader = $this->getQuery()
-			->createCommand()
-			->query();
-		$return = [];
-		while ($record = $dataReader->read()) {
-			$dateTimeFieldInstance = new DateTimeField($record['date_start'] . ' ' . $record['time_start']);
-			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
-			$dateTimeComponents = explode(' ', $userDateTimeString);
-			$dateComponent = $dateTimeComponents[0];
-			$startDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
-
-			$dateTimeFieldInstance = new DateTimeField($record['due_date'] . ' ' . $record['time_end']);
-			$userDateTimeString = $dateTimeFieldInstance->getDisplayDateTimeValue($currentUser);
-			$dateTimeComponents = explode(' ', $userDateTimeString);
-			$dateComponent = $dateTimeComponents[0];
-			$endDateFormated = DateTimeField::__convertToDBFormat($dateComponent, $currentUser->get('date_format'));
-
-			$begin = new DateTime($startDateFormated);
-			$end = new DateTime($endDateFormated);
-			$end->modify('+1 day');
-			$interval = DateInterval::createFromDateString('1 day');
-			foreach (new DatePeriod($begin, $interval, $end) as $dt) {
-				$date = strtotime($dt->format('Y-m-d'));
-				if ($date >= $startDate && $date <= $endDate) {
-					$date = date('Y-m-d', $date);
-					$return[$date]['date'] = $date;
-					if (isset($return[$date]['count'])) {
-						++$return[$date]['count'];
-					} else {
-						$return[$date]['count'] = 1;
-					}
-				}
-			}
-		}
-		$dataReader->close();
-
-		return array_values($return);
-	}
-
-	/**
 	 * Static Function to get the instance of Vtiger Module Model for the given id or name.
 	 *
 	 * @param mixed id or name of the module

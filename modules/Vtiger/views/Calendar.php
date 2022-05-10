@@ -80,7 +80,6 @@ class Vtiger_Calendar_View extends Vtiger_Index_View
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',
 			'~layouts/resources/Calendar.js',
-			'~layouts/resources/YearView.js',
 			'modules.Vtiger.resources.CalendarView',
 			"modules.{$request->getModule()}.resources.CalendarView",
 		]));

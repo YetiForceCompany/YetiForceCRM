@@ -58,20 +58,6 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Get events for year view.
-	 *
-	 * @param \App\Request $request
-	 */
-	public function getEventsYear(App\Request $request)
-	{
-		$record = $this->getCalendarModel($request);
-		$entity = array_merge($record->getEntityYearCount(), $record->getPublicHolidays());
-		$response = new Vtiger_Response();
-		$response->setResult($entity);
-		$response->emit();
-	}
-
-	/**
 	 * Get count Events for extended calendar's left column.
 	 *
 	 * @param \App\Request $request
