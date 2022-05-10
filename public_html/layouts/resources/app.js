@@ -2867,6 +2867,11 @@ var app = (window.app = {
 			})
 		});
 	},
+	/**
+	 * Show notify
+	 * @param {object} customParams
+	 * @returns {PNotify}
+	 */
 	showNotify: function (customParams) {
 		let params = {
 			hide: false
@@ -2904,6 +2909,12 @@ var app = (window.app = {
 		PNotify.defaultModules.set(PNotifyFontAwesome5, {});
 		PNotify.defaultModules.set(PNotifyMobile, {});
 	},
+	/**
+	 * Show confirm modal
+	 * @param {object} params
+	 * @returns {PNotify}
+	 * @returns
+	 */
 	showConfirmModal: function (params) {
 		let confirmButtonLabel = 'JS_OK';
 		let rejectedButtonLabel = 'JS_CANCEL';
