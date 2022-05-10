@@ -76,8 +76,7 @@
 					</tr>
 					{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
 						<tr class="u-cursor-pointer js-select-row listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" data-js="click"
-							data-name='{$LISTVIEW_ENTRY->getName()}'
-							data-info='{App\Json::encode($LISTVIEW_ENTRY->getRawData())}'>
+							data-name='{$LISTVIEW_ENTRY->getName()}'>
 							<td class="{$WIDTHTYPE} u-cursor-auto text-center">
 								{if $MULTI_SELECT}
 									<input class="js-select-checkbox" title="{App\Language::translate('LBL_SELECT_RECORD')}" {if $RECORD_SELECTED} checked="checked" {/if}

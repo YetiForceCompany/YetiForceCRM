@@ -80,14 +80,14 @@ class SourceBasedData extends \Api\Core\BaseAction
 		$raw = $data = [];
 		foreach ($recordModel->getModule()->getValuesFromSource($this->controller->request) as $fieldName => $value) {
 			$recordModel->set($fieldName, $value);
-			$raw[$fieldName] = $value;
+			$raw[$fieldName] = $recordModel->getRawValue($fieldName);
 		}
-		foreach ($raw as $fieldName => $value) {
-			$data[$fieldName] = $recordModel->getModule()->getFieldByName($fieldName)->getUITypeModel()->getApiDisplayValue($value, $recordModel);
+		foreach (array_keys($raw) as $fieldName) {
+			$data[$fieldName] = $recordModel->getModule()->getFieldByName($fieldName)->getUITypeModel()->getApiDisplayValue($recordModel->get($fieldName), $recordModel);
 		}
 		return [
 			'data' => $data,
-			'rawData' => $raw,
+			'rawData' => $raw
 		];
 	}
 }

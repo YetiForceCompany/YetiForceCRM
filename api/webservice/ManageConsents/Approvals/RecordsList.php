@@ -160,6 +160,7 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	public function get()
 	{
 		$rawData = $records = [];
+		$showRaw = $this->isRawData();
 		$queryGenerator = $this->getQuery();
 
 		$limit = $queryGenerator->getLimit() - 1;
@@ -178,10 +179,11 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 			$records[$recordModel->getId()]['id'] = $recordModel->getId();
 			foreach ($fields as $fieldName => $fieldModel) {
 				$records[$recordModel->getId()][$fieldName] = $fieldModel->getUITypeModel()->getApiDisplayValue($row[$fieldName], $recordModel);
+				if ($showRaw) {
+					$rawData[$recordModel->getId()] = $recordModel->getRawValue($fieldName);
+				}
 			}
-			if ($this->isRawData()) {
-				$rawData[$recordModel->getId()] = $row;
-			}
+
 			if ($limit === $count) {
 				break;
 			}

@@ -143,7 +143,7 @@ class Record extends \Api\Core\BaseAction
 	public function get(): array
 	{
 		$moduleName = $this->controller->request->get('module');
-		$rawData = $this->recordModel->getData();
+
 		$setRawData = 1 === (int) ($this->controller->headers['x-raw-data'] ?? 0);
 		$displayData = $fieldsLabel = [];
 		$fields = $this->recordModel->getModule()->getFields();
@@ -191,6 +191,12 @@ class Record extends \Api\Core\BaseAction
 			}
 		}
 		if ($setRawData) {
+			$rawData = [];
+			foreach ($this->recordModel->getData() as $key => $value) {
+				if ('id' === $key || 'record_module' === $key || (($fieldModel = $this->recordModel->getField($key)) && $fieldModel->isViewable())) {
+					$rawData[$key] = $this->recordModel->getRawValue($key);
+				}
+			}
 			$response['rawData'] = $rawData;
 		}
 		return $response;

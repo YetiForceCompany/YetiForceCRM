@@ -12,6 +12,12 @@
 class Vtiger_Password_UIType extends Vtiger_Base_UIType
 {
 	/** {@inheritdoc} */
+	protected $search = false;
+
+	/** {@inheritdoc} */
+	protected $sortable = false;
+
+	/** {@inheritdoc} */
 	public function setValueFromRequest(App\Request $request, Vtiger_Record_Model $recordModel, $requestFieldName = false)
 	{
 		$fieldName = $this->getFieldModel()->getName();
@@ -75,21 +81,9 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
-	public function isActiveSearchView()
-	{
-		return false;
-	}
-
-	/** {@inheritdoc} */
-	public function isListviewSortable()
-	{
-		return false;
-	}
-
-	/** {@inheritdoc} */
 	public function isWritable(): bool
 	{
-		return !\App\Encryption::getInstance($this->getFieldModel()->getModuleId())->isRunning();
+		return parent::isWritable() && !\App\Encryption::getInstance($this->getFieldModel()->getModuleId())->isRunning();
 	}
 
 	/** {@inheritdoc} */
@@ -108,6 +102,12 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	public function getHistoryDisplayValue($value, Vtiger_Record_Model $recordModel, $rawText = false)
 	{
 		return $this->getDisplayValue($value, false, false, true);
+	}
+
+	/** {@inheritdoc} */
+	public function getRawValue($value)
+	{
+		return '******';
 	}
 
 	/**

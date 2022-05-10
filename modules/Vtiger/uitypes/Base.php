@@ -336,6 +336,18 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Function to get raw data value.
+	 *
+	 * @param mixed $value
+	 *
+	 * @return mixed
+	 */
+	public function getRawValue($value)
+	{
+		return $value;
+	}
+
+	/**
 	 * Duplicate value from record.
 	 *
 	 * @param Vtiger_Record_Model $recordModel

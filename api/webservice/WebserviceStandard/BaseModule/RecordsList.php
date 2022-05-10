@@ -322,6 +322,25 @@ class RecordsList extends \Api\Core\BaseAction
 	 */
 	protected function getRawDataFromRow(array $row): array
 	{
+		foreach ($this->fields as $fieldName => $fieldModel) {
+			if (\array_key_exists($fieldName, $row)) {
+				$row[$fieldName] = $fieldModel->getUITypeModel()->getRawValue($row[$fieldName]);
+			}
+		}
+		if ($this->relatedFields) {
+			foreach ($this->relatedFields as $relatedModuleName => $fields) {
+				foreach ($fields as $sourceField => $field) {
+					foreach ($field as $relatedFieldName) {
+						$key = $sourceField . $relatedModuleName . $relatedFieldName;
+						if (\array_key_exists($key, $row)) {
+							$fieldModel = \Vtiger_Module_Model::getInstance($relatedModuleName)->getFieldByName($relatedFieldName);
+							$row[$key] = $fieldModel->getUITypeModel()->getRawValue($row[$key]);
+						}
+					}
+				}
+			}
+		}
+
 		return $row;
 	}
 }

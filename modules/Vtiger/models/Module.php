@@ -374,26 +374,16 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function to get a Vtiger Record Model instance from an array of key-value mapping.
 	 *
-	 * @param <Array> $valueArray
-	 * @param mixed   $rawData
+	 * @param array $valueArray
 	 *
-	 * @return Vtiger_Record_Model or Module Specific Record Model instance
+	 * @return \Vtiger_Record_Model Record Model instance
 	 */
-	public function getRecordFromArray($valueArray, $rawData = false)
+	public function getRecordFromArray(array $valueArray)
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $this->getName());
 		$recordInstance = new $modelClassName();
-		if (false !== $rawData) {
-			foreach ($this->getFields() as $field) {
-				$column = $field->get('column');
-				if (isset($rawData[$column])) {
-					$rawData[$field->getName()] = $rawData[$column];
-					unset($rawData[$column]);
-				}
-			}
-		}
-		$recordInstance->setFullForm(false);
-		return $recordInstance->setData($valueArray)->setModuleFromInstance($this)->setRawData($rawData);
+
+		return $recordInstance->setData($valueArray)->setModuleFromInstance($this);
 	}
 
 	/**

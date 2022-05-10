@@ -41,7 +41,6 @@ class Vtiger_Record_Model extends \App\Base
 	protected $handlerExceptions = [];
 	protected $handler;
 	protected $privileges = [];
-	protected $fullForm = true;
 	/**
 	 * @var string Record label
 	 */
@@ -206,16 +205,6 @@ class Vtiger_Record_Model extends \App\Base
 		return $changes;
 	}
 
-	/**
-	 * Set full form.
-	 *
-	 * @param bool $value
-	 */
-	public function setFullForm($value)
-	{
-		$this->fullForm = $value;
-	}
-
 	public function getSearchName()
 	{
 		$displayName = $this->get('searchlabel');
@@ -295,27 +284,19 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get raw data.
+	 * Function to get raw data value by field.
 	 *
-	 * @return array|false
+	 * @param string $fieldName
+	 *
+	 * @return mixed
 	 */
-	public function getRawData()
+	public function getRawValue(string $fieldName)
 	{
-		return $this->rawData ?? false;
-	}
-
-	/**
-	 * Function to set raw data.
-	 *
-	 * @param array $data
-	 *
-	 * @return Vtiger_Record_Model instance
-	 */
-	public function setRawData($data)
-	{
-		$this->rawData = $data;
-
-		return $this;
+		$value = $this->get($fieldName);
+		if ($fieldName && $fieldModel = $this->getField($fieldName)) {
+			$value = $fieldModel->getUITypeModel()->getRawValue($value);
+		}
+		return $value;
 	}
 
 	/**
