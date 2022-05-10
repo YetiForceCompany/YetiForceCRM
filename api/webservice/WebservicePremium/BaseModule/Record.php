@@ -20,7 +20,7 @@ use OpenApi\Annotations as OA;
 class Record extends \Api\WebserviceStandard\BaseModule\Record
 {
 	/** {@inheritdoc}  */
-	public $allowedHeaders = ['x-parent-id', 'x-header-fields'];
+	public $allowedHeaders = ['x-parent-id', 'x-header-fields', 'x-fields-params'];
 
 	/**
 	 * Get record detail.
@@ -39,6 +39,9 @@ class Record extends \Api\WebserviceStandard\BaseModule\Record
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
 	 *		@OA\Parameter(name="x-raw-data", in="header", @OA\Schema(type="integer", enum={0, 1}), description="Gets raw data", required=false, example=1),
 	 *		@OA\Parameter(name="x-parent-id", in="header", @OA\Schema(type="integer"), description="Parent record id", required=false, example=5),
+	 * 		@OA\Parameter(name="x-fields-params", in="header", description="JSON array - list of fields to be returned in the specified way", required=false,
+	 *			@OA\JsonContent(ref="#/components/schemas/Fields-Settings"),
+	 *		),
 	 *		@OA\Parameter(
 	 *			name="x-header-fields",
 	 *			description="Get header fields",
@@ -65,6 +68,13 @@ class Record extends \Api\WebserviceStandard\BaseModule\Record
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 *	),
+	 *  @OA\Schema(
+	 *		schema="Fields-Settings",
+	 *		title="Custom field settings",
+	 *		description="A list of custom parameters that can affect the return value of a given field.",
+	 *		type="object",
+	 * 		example={"password" : {"showHiddenData" : true}}
+	 *  ),
 	 *	@OA\Schema(
 	 *		schema="BaseModule_Get_Record_Response",
 	 *		title="Base module - Response body for Record",

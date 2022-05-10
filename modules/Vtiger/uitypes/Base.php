@@ -312,10 +312,11 @@ class Vtiger_Base_UIType extends \App\Base
 	 *
 	 * @param                      $value
 	 * @param \Vtiger_Record_Model $recordModel
+	 * @param array                $params
 	 *
 	 * @return mixed
 	 */
-	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel, array $params = [])
 	{
 		return \App\Purifier::decodeHtml($this->getDisplayValue($value, $recordModel->getId(), $recordModel, true, false));
 	}

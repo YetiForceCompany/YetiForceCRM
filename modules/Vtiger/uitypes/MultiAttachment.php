@@ -170,7 +170,7 @@ class Vtiger_MultiAttachment_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
-	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel, array $params = [])
 	{
 		$value = \App\Json::decode($value);
 		if (!$value || !\is_array($value)) {

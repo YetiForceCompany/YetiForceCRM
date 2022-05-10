@@ -706,6 +706,15 @@ paths:
             type: integer
           example: 5
         -
+          name: x-fields-params
+          in: header
+          description: 'JSON array - list of fields to be returned in the specified way'
+          required: false
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Fields-Settings'
+        -
           name: x-header-fields
           in: header
           description: 'Get header fields'
@@ -2922,6 +2931,13 @@ components:
             title: Action
             type: boolean
       type: object
+    Fields-Settings:
+      title: 'Custom field settings'
+      description: 'A list of custom parameters that can affect the return value of a given field.'
+      type: object
+      example:
+        password:
+          showHiddenData: true
     BaseModule_Get_Record_Response:
       title: 'Base module - Response body for Record'
       description: 'Get record detail.'

@@ -123,7 +123,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 	}
 
 	/** {@inheritdoc} */
-	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel)
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel, array $params = [])
 	{
 		$value = \App\Purifier::decodeHtml($this->getDisplayValue($value, $recordModel->getId(), $recordModel, true, false));
 		if (80 === $this->getFieldModel()->getUIType()) {

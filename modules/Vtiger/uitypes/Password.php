@@ -110,6 +110,18 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 		return '******';
 	}
 
+	/** {@inheritdoc} */
+	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel, array $params = [])
+	{
+		if (!empty($params['showHiddenData'])) {
+			$value = $this->getPwd($value);
+			(new App\EventHandler())->setRecordModel($recordModel)->setModuleName($recordModel->getModuleName())->trigger('EntityAfterShowHiddenData');
+		} else {
+			$value = parent::getApiDisplayValue($value, $recordModel, $params);
+		}
+		return $value;
+	}
+
 	/**
 	 * Check password.
 	 *
