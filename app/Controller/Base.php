@@ -20,18 +20,10 @@ abstract class Base
 	/** @var \App\Headers Headers instance. */
 	public $headers;
 
-	/**
-	 * Activated language locale.
-	 *
-	 * @var bool
-	 */
+	/** @var bool Activated language locale. */
 	protected static $activatedLocale = false;
 
-	/**
-	 * CSRF already initiated.
-	 *
-	 * @var bool
-	 */
+	/** @var bool  CSRF already initiated. */
 	private static $csrfInitiated = false;
 
 	/**

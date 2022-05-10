@@ -14,6 +14,14 @@
 class Settings_Backup_DownloadFile_Action extends Settings_Vtiger_Index_Action
 {
 	/** {@inheritdoc} */
+	public function __construct()
+	{
+		\CsrfMagic\Csrf::$rewrite = false;
+		ob_implicit_flush();
+		parent::__construct();
+	}
+
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		if ($request->isEmpty('file')) {
