@@ -1,16 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 $config = \PhpCsFixer\Config::create()
 	->setRiskyAllowed(true)
 	->setIndent("\t")
-	->setUsingCache(false)
+	->setCacheFile(__DIR__ . '/.php-cs-fixer.cache')
 	->setRules([
-		'@PHP56Migration' => true,
-		'@PHPUnit60Migration:risky' => true,
+		'@PHP74Migration' => true,
+		'@PHP74Migration:risky' => true,
+		'@PHP80Migration' => true,
+		'@PHP80Migration:risky' => true,
 		'@PhpCsFixer' => true,
 		'@PhpCsFixer:risky' => true,
-		'list_syntax' => ['syntax' => 'short'],
 		'@PSR2' => true,
+		'list_syntax' => ['syntax' => 'short'],
 		'align_multiline_comment' => true,
 		'array_syntax' => ['syntax' => 'short'],
 		'blank_line_after_namespace' => true,
@@ -145,7 +149,7 @@ $config = \PhpCsFixer\Config::create()
 		'switch_case_space' => true,
 		'ternary_operator_spaces' => true,
 		'ternary_to_null_coalescing' => true,
-		'trailing_comma_in_multiline_array' => false,
+		'trailing_comma_in_multiline' => ['after_heredoc' => false, 'elements' => []],
 		'trim_array_spaces' => true,
 		'unary_operator_spaces' => true,
 		'visibility_required' => [
