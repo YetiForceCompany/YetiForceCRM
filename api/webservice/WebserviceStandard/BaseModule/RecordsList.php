@@ -175,7 +175,7 @@ class RecordsList extends \Api\Core\BaseAction
 			}
 			$this->queryGenerator->initForCustomViewById($cvId);
 		} else {
-			$this->queryGenerator->initForDefaultCustomView();
+			$this->queryGenerator->initForDefaultCustomView(false, true);
 		}
 
 		$limit = 100;
