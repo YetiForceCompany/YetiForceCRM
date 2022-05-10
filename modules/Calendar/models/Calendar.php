@@ -121,7 +121,7 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 		$colors = \App\Fields\Picklist::getColors('activitytype', false);
 		while ($row = $dataReader->read()) {
 			$item = [];
-			if ($editForm && $moduleModel->getRecordFromArray($row, true)->setId($row['id'])->isEditable()) {
+			if ($editForm && $moduleModel->getRecordFromArray($row)->setId($row['id'])->isEditable()) {
 				$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=EventForm&record=' . $row['id'];
 			} else {
 				$item['url'] = 'index.php?module=' . $this->getModuleName() . '&view=ActivityState&record=' . $row['id'];
