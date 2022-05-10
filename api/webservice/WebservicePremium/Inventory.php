@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Api\WebservicePremium;
@@ -16,87 +17,53 @@ namespace Api\WebservicePremium;
  */
 class Inventory
 {
-	/**
-	 * Module name.
-	 *
-	 * @var string
-	 */
+	/** @var string Module name. */
 	protected $moduleName;
 
-	/**
-	 * Inventory items passed from request.
-	 *
-	 * @var array
-	 */
+	/** @var array Inventory items passed from request. */
 	protected $inventory;
 
-	/**
-	 * Field mapping.
-	 *
-	 * @var array|null
-	 */
+	/** @var array|null Field mapping. */
 	private $fieldMapping;
 
-	/**
-	 * Storage.
-	 *
-	 * @var int
-	 */
+	/** @var int Storage ID */
 	protected $storage;
 
-	/**
-	 * Products.
-	 *
-	 * @var array
-	 */
+	/** @var array Products */
 	protected $products = [];
 
-	/**
-	 * Arrays with errors.
-	 *
-	 * @var array
-	 */
+	/** @var array Arrays with errors. */
 	protected $errors = [];
 
-	/**
-	 * Pricebook id.
-	 *
-	 * @var int|null
-	 */
-	protected $pricebookId;
+	/** @var int|null Price book id. */
+	protected $priceBookId;
 
-	/**
-	 * Undocumented variable.
-	 *
-	 * @var \Vtiger_Record_Model
-	 */
+	/** @var \Vtiger_Record_Model Parent record model */
 	protected $parentRecordModel;
 
-	/**
-	 * Sequence.
-	 *
-	 * @var int
-	 */
+	/** @var int Sequence. */
 	protected $seq;
+
+	/** @var int Permission type. */
+	protected $permissionType;
 
 	/**
 	 * Construct.
 	 *
-	 * @param string   $moduleName
-	 * @param array    $inventory
-	 * @param int      $storage
-	 * @param int|null $accountId
+	 * @param string               $moduleName
+	 * @param \Api\Core\BaseAction $actionModel
 	 */
-	public function __construct(string $moduleName, array $inventory, int $storage, ?int $accountId)
+	public function __construct(string $moduleName, \Api\Core\BaseAction $actionModel)
 	{
 		$this->moduleName = $moduleName;
-		$this->inventory = $inventory;
-		$this->storage = $storage;
+		$this->inventory = $actionModel->controller->request->getArray('inventory');
+		$this->storage = $actionModel->getUserStorageId();
+		$this->permissionType = $actionModel->getPermissionType();
+		$accountId = $actionModel->getParentCrmId();
 		if (!empty($accountId)) {
 			$this->parentRecordModel = \Vtiger_Record_Model::getInstanceById($accountId, 'Accounts');
-			$this->pricebookId = $this->parentRecordModel->get('pricebook_id');
+			$this->priceBookId = $this->parentRecordModel->get('pricebook_id');
 		}
-
 		$this->getProductsByInventory();
 	}
 
@@ -270,9 +237,9 @@ class Inventory
 		if (!empty($this->storage)) {
 			$queryService->addSelect(['quantity' => new \yii\db\Expression('0')]);
 		}
-		if (!$isUserPermissions && !empty($this->pricebookId)) {
+		if (!$isUserPermissions && !empty($this->priceBookId)) {
 			$queryService->addSelect(['vtiger_pricebookproductrel.listprice']);
-			$queryService->leftJoin('vtiger_pricebookproductrel', "vtiger_pricebookproductrel.pricebookid={$this->pricebookId} AND vtiger_pricebookproductrel.productid = vtiger_service.serviceid");
+			$queryService->leftJoin('vtiger_pricebookproductrel', "vtiger_pricebookproductrel.pricebookid={$this->priceBookId} AND vtiger_pricebookproductrel.productid = vtiger_service.serviceid");
 		}
 		$query = (new \App\Db\Query())
 			->select([
@@ -290,9 +257,9 @@ class Inventory
 			$query->addSelect(['quantity' => 'u_#__istorages_products.qtyinstock']);
 			$query->leftJoin('u_#__istorages_products', "u_#__istorages_products.crmid={$this->storage} AND u_#__istorages_products.relcrmid = vtiger_products.productid");
 		}
-		if (!$isUserPermissions && !empty($this->pricebookId)) {
+		if (!$isUserPermissions && !empty($this->priceBookId)) {
 			$query->addSelect(['vtiger_pricebookproductrel.listprice']);
-			$query->leftJoin('vtiger_pricebookproductrel', "vtiger_pricebookproductrel.pricebookid={$this->pricebookId} AND vtiger_pricebookproductrel.productid = vtiger_products.productid");
+			$query->leftJoin('vtiger_pricebookproductrel', "vtiger_pricebookproductrel.pricebookid={$this->priceBookId} AND vtiger_pricebookproductrel.productid = vtiger_products.productid");
 		}
 		$dataReader = $query->createCommand()->query();
 		$multiCurrencyUiType = new \Vtiger_MultiCurrency_UIType();

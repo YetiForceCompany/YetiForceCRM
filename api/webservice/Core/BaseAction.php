@@ -190,30 +190,20 @@ class BaseAction
 	}
 
 	/**
-	 * Get information, whether to check inventory levels.
-	 *
-	 * @return bool
-	 */
-	public function getCheckStockLevels(): bool
-	{
-		$parentId = \Api\WebservicePremium\Privilege::USER_PERMISSIONS !== $this->getPermissionType() ? $this->getParentCrmId() : 0;
-		return empty($parentId) || (bool) \Vtiger_Record_Model::getInstanceById($parentId)->get('check_stock_levels');
-	}
-
-	/**
 	 * Get parent record.
 	 *
 	 * @throws \Api\Core\Exception
 	 *
-	 * @return int
+	 * @return int|null
 	 */
-	public function getParentCrmId(): int
+	public function getParentCrmId(): ?int
 	{
 		if ($this->controller && ($parentId = $this->controller->request->getHeader('x-parent-id'))) {
 			$hierarchy = new \Api\WebservicePremium\BaseModule\Hierarchy();
 			$hierarchy->setAllUserData($this->userData);
 			$hierarchy->findId = $parentId;
-			$hierarchy->moduleName = \App\Record::getType(\App\Record::getParentRecord($this->getUserCrmId()));
+			$parentRecord = \App\Record::getParentRecord($this->getUserCrmId());
+			$hierarchy->moduleName = $parentRecord ? '' : \App\Record::getType($parentRecord);
 			$records = $hierarchy->get();
 			if (isset($records[$parentId])) {
 				return $parentId;

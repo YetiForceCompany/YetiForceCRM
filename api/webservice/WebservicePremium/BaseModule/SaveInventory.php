@@ -188,12 +188,25 @@ class SaveInventory extends \Api\Core\BaseAction
 				],
 			];
 		}
-		$this->inventory = new \Api\WebservicePremium\Inventory($this->moduleName, $this->controller->request->getArray('inventory'), $this->getUserStorageId(), $this->getParentCrmId());
+		$this->inventory = new \Api\WebservicePremium\Inventory($this->moduleName, $this);
 		if ($this->getCheckStockLevels() && !$this->inventory->validate()) {
 			return [
 				'errors' => $this->inventory->getErrors(),
 			];
 		}
 		return [];
+	}
+
+	/**
+	 * Get information, whether to check inventory levels.
+	 *
+	 * @return bool
+	 */
+	public function getCheckStockLevels(): bool
+	{
+		if (\Api\WebservicePremium\Privilege::USER_PERMISSIONS !== $this->getPermissionType() && ($parentId = $this->getParentCrmId())) {
+			return (bool) \Vtiger_Record_Model::getInstanceById($parentId)->get('check_stock_levels');
+		}
+		return false;
 	}
 }

@@ -325,9 +325,9 @@ class Record
 	 * @param int         $recordId
 	 * @param bool|string $moduleName
 	 *
-	 * @return bool|int
+	 * @return int|null
 	 */
-	public static function getParentRecord($recordId, $moduleName = false)
+	public static function getParentRecord($recordId, $moduleName = false): ?int
 	{
 		if (Cache::has(__METHOD__, $recordId)) {
 			return Cache::get(__METHOD__, $recordId);
@@ -335,7 +335,7 @@ class Record
 		if (!$moduleName) {
 			$moduleName = static::getType($recordId);
 		}
-		$parentId = false;
+		$parentId = null;
 		if ($parentModules = ModuleHierarchy::getModulesMap1M($moduleName)) {
 			foreach ($parentModules as $parentModule) {
 				if ($field = Field::getRelatedFieldForModule($moduleName, $parentModule)) {
