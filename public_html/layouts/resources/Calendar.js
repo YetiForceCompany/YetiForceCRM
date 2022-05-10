@@ -55,6 +55,7 @@ window.Calendar_Js = class {
 		if (this.endHour == '') {
 			this.endHour = '00';
 		}
+		this.browserHistoryOptions = {};
 		this.browserHistoryConfig = this.browserHistory ? this.setBrowserHistoryOptions() : {};
 		this.calendarOptions = this.setCalendarOptions();
 		this.eventTypeKeyName = false;
@@ -73,7 +74,7 @@ window.Calendar_Js = class {
 			this.setCalendarBasicOptions(),
 			this.setCalendarAdvancedOptions(),
 			this.setCalendarModuleOptions(),
-			this.browserHistoryConfig
+			this.browserHistoryOptions
 		);
 	}
 	/**
@@ -466,34 +467,41 @@ window.Calendar_Js = class {
 	 * @returns {object}
 	 */
 	setBrowserHistoryOptions() {
-		let historyParams = app.getMainParams('historyParams', true),
-			options = null;
+		const historyParams = app.getMainParams('historyParams', true);
+		let options = {};
 		if (historyParams && (historyParams.length || Object.keys(historyParams).length)) {
+			let s = new Date(historyParams.start);
+			let e = new Date(historyParams.end);
+			this.browserHistoryOptions = {
+				initialView: historyParams.viewType,
+				initialDate: App.Fields.Date.dateToDbFormat(new Date(e - (e - s) / 2)),
+				hiddenDays: historyParams.hiddenDays.split(',').map((x) => {
+					let parsedValue = parseInt(x);
+					return isNaN(parsedValue) ? '' : parsedValue;
+				})
+			};
 			options = {
 				start: historyParams.start,
 				end: historyParams.end,
 				time: historyParams.time,
-				hiddenDays: historyParams.hiddenDays.split(',').map((x) => {
-					let parsedValue = parseInt(x);
-					return isNaN(parsedValue) ? '' : parsedValue;
-				}),
-				cvid: historyParams.cvid,
-				defaultView: historyParams.viewType,
-				user: historyParams.user
+				user: historyParams.user,
+				cvid: historyParams.cvid
 			};
-			let dateFormat = CONFIG.dateFormat.toUpperCase();
-			let s = moment(options.start, dateFormat).valueOf();
-			let e = moment(options.end, dateFormat).valueOf();
-			options.initialDate = moment(moment(s + (e - s) / 2).format('YYYY-MM-DD'));
 			Object.keys(options).forEach((key) => options[key] === 'undefined' && delete options[key]);
+			Object.keys(this.browserHistoryOptions).forEach(
+				(key) => this.browserHistoryOptions[key] === 'undefined' && delete this.browserHistoryOptions[key]
+			);
 			app.moduleCacheSet('browserHistoryEvent', false);
+			if (historyParams.cvid && historyParams.cvid !== 'undefined') {
+				app.moduleCacheSet('CurrentCvId', historyParams.cvid);
+			}
 			app.setMainParams('showType', options.time);
 			app.setMainParams('usersId', options.user);
-			app.setMainParams('defaultView', options.defaultView);
+			app.setMainParams('defaultView', this.browserHistoryOptions);
 		}
 		window.addEventListener(
 			'popstate',
-			function (event) {
+			function () {
 				app.moduleCacheSet('browserHistoryEvent', true);
 			},
 			false

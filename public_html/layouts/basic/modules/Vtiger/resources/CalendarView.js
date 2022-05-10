@@ -6,9 +6,14 @@
  * @extends Calendar_Js
  */
 window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
-	constructor(container, readonly) {
-		super(container, readonly, false);
-		this.browserHistory = false;
+	/**
+	 * Create calendar's options.
+	 * @param {jQuery} container
+	 * @param {bool} readonly
+	 * @param {boolean} browserHistory
+	 */
+	constructor(container, readonly, browserHistory = false) {
+		super(container, readonly, browserHistory);
 	}
 	/**
 	 * Set calendar module options.
@@ -401,9 +406,9 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 				active = 'active';
 			}
 			html += `<div data-date="${date}" data-dates="${date}|${date}" data-type="days"
-				class="js-sub-record sub-record nav-item col-1 px-0"  data-js="click | class: active">
+				class="js-sub-record sub-record nav-item col-1 px-0" data-js="click">
 				<div class="sub-record-content nav-link js-popover-tooltip ${active}"
-					title="${App.Fields.Date.fullDaysTranslated[prevDays.format('d')]} ${dateUser}">
+					title="${App.Fields.Date.fullDaysTranslated[prevDays.format('d')]} ${dateUser}" data-js="class: active">
 				<div class="sub-date-name">${app.vtranslate('JS_DAY_SHORT')} ${prevDays.format('DD')}
 				<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>
 				</div></div></div>`;
@@ -420,7 +425,6 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 			nextWeeks = moment(this.fullCalendar.view.currentStart).add(6, 'weeks');
 		let prevWeeks = moment(this.fullCalendar.view.currentStart).subtract(5, 'weeks'),
 			html = '';
-
 		while (prevWeeks.format('YYYY-MM-DD') <= nextWeeks.format('YYYY-MM-DD')) {
 			let date = prevWeeks.format('YYYY-MM-DD'),
 				dateEnd = moment(prevWeeks).add(6, 'day').format('YYYY-MM-DD'),
@@ -431,8 +435,8 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 				active = 'active';
 			}
 			html += `<div data-date="${date}" data-dates="${date}|${dateEnd}"
-				class="js-sub-record sub-record nav-item col-1 px-0" data-type="weeks" data-js="click | class: active">
-				<div class="sub-record-content nav-link js-popover-tooltip ${active}" title="${dateUser} > ${dateEndUser}">
+				class="js-sub-record sub-record nav-item col-1 px-0" data-type="weeks" data-js="click">
+				<div class="sub-record-content nav-link js-popover-tooltip ${active}" title="${dateUser} > ${dateEndUser}" data-js="class: active">
 				<div class="sub-date-name">${app.vtranslate('JS_WEEK_SHORT')} ${prevWeeks.format('WW')}
 				<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>
 				</div></div></div>`;
@@ -460,8 +464,8 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 				active = 'active';
 			}
 			html += `<div data-date="${date}" data-dates="${date}|${dateEnd}"
-				class="js-sub-record sub-record nav-item col-1 px-0" data-type="months" data-js="click | class: active">
-				<div class="sub-record-content nav-link js-popover-tooltip ${active}" title="${dateUser} > ${dateEndUser}">
+				class="js-sub-record sub-record nav-item col-1 px-0" data-type="months" data-js="click">
+				<div class="sub-record-content nav-link js-popover-tooltip ${active}" title="${dateUser} > ${dateEndUser}" data-js="class: active">
 				<div class="sub-date-name">${App.Fields.Date.monthsTranslated[month]}
 				<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div>
 				</div></div></div>`;
@@ -485,8 +489,8 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 				active = 'active';
 			}
 			html += `<div data-date="${date}" data-dates="${date}|${dateEnd}"
-				class="js-sub-record sub-record col-4 nav-item" data-type="years" data-js="click | class: active">
-				<div class="sub-record-content nav-link ${active}">
+				class="js-sub-record sub-record col-4 nav-item" data-type="years" data-js="click">
+				<div class="sub-record-content nav-link ${active}" data-js="class: active">
 				<div class="sub-date-name">${prevYear}<div class="js-count-events count badge c-badge--md ml-1" data-js="html">0</div></div>
 				</div></div>`;
 			prevYear = prevYear + 1;

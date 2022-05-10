@@ -28,6 +28,15 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Vtiger_Calendar
 		window.location.href = link;
 	}
 	/**
+	 * Create calendar's options.
+	 * @param {jQuery} container
+	 * @param {bool} readonly
+	 * @param {boolean} browserHistory
+	 */
+	constructor(container, readonly, browserHistory = true) {
+		super(container, readonly, browserHistory);
+	}
+	/**
 	 * Set calendar module options.
 	 * @returns {{allDaySlot: boolean, dayClick: object, selectable: boolean}}
 	 */
