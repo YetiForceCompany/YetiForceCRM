@@ -155,7 +155,7 @@ $config = \PhpCsFixer\Config::create()
 			'property',
 			'method',
 		],
-		'void_return ' => false,
+		'void_return' => false,
 		'whitespace_after_comma_in_array' => true,
 	])
 	->setFinder(PhpCsFixer\Finder::create()
