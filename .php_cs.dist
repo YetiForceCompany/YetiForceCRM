@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 $config = \PhpCsFixer\Config::create()
 	->setRiskyAllowed(true)
 	->setIndent("\t")
@@ -31,6 +29,7 @@ $config = \PhpCsFixer\Config::create()
 		],
 		'explicit_string_variable' => false,
 		'declare_equal_normalize' => true,
+		'declare_strict_types' => false,
 		'dir_constant' => false,
 		'doctrine_annotation_braces' => true,
 		'doctrine_annotation_indentation' => true,
@@ -156,6 +155,7 @@ $config = \PhpCsFixer\Config::create()
 			'property',
 			'method',
 		],
+		'void_return ' => false,
 		'whitespace_after_comma_in_array' => true,
 	])
 	->setFinder(PhpCsFixer\Finder::create()
