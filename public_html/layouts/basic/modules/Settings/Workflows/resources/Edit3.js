@@ -696,6 +696,9 @@ Settings_Workflows_Edit_Js(
 				revert: true,
 				tolerance: 'pointer',
 				cursor: 'move',
+				classes: {
+					'ui-sortable-helper': 'bg-light'
+				},
 				update: () => {
 					this.saveSequence();
 				}
