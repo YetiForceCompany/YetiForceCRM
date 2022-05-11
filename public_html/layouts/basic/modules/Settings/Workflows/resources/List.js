@@ -5,6 +5,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  *************************************************************************************/
 'use strict';
 
@@ -129,12 +130,12 @@ Settings_Vtiger_List_Js(
 		 * Register show sort actions modal
 		 */
 		registerShowSortActionsModal: function () {
-			let thisInstance = this;
-			$('.js-workflow-sort-button').on('click', (e) => {
+			$('.js-workflow-sort-button').on('click', () => {
 				let sourceModule = this.topMenuContainer.find('.js-workflow-module-filter option:selected').val();
 				let url = 'index.php?module=Workflows&parent=Settings&view=SortActionsModal&sourceModule=' + sourceModule;
 				app.showModalWindow(null, url, (modalContainer) => {
 					modalContainer.find('.js-modal__save').on('click', (e) => {
+						e.preventDefault();
 						let progressIndicatorElement = $.progressIndicator({
 							position: 'html',
 							blockInfo: {
@@ -152,13 +153,14 @@ Settings_Vtiger_List_Js(
 							workflowForSort: modalContainer.find('.js-workflow-for-sort').val(),
 							workflowBefore: modalContainer.find('.js-workflow-before').val()
 						})
-							.done(function (data) {
+							.done((data) => {
 								if (data.result.message) {
 									app.hideModalWindow();
 									progressIndicatorElement.progressIndicator({ mode: 'hide' });
-									let params = thisInstance.getDefaultParams();
+									let params = this.getDefaultParams();
 									params.orderby = 'sequence';
-									thisInstance.getListViewRecords(params).done(function (data) {});
+									this.getListViewRecords(params);
+									app.showNotify({ text: data.result.message });
 								}
 							})
 							.fail(function (error, err) {

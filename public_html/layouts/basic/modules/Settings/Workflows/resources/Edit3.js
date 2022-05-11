@@ -699,6 +699,13 @@ Settings_Workflows_Edit_Js(
 				classes: {
 					'ui-sortable-helper': 'bg-light'
 				},
+				helper: function (_e, ui) {
+					ui.children().each(function (_index, element) {
+						element = $(element);
+						element.width(element.width());
+					});
+					return ui;
+				},
 				update: () => {
 					this.saveSequence();
 				}
@@ -723,7 +730,7 @@ Settings_Workflows_Edit_Js(
 			})
 				.done(function (data) {
 					if (data.result.message) {
-						app.showNotify(data.result.message);
+						app.showNotify({ text: data.result.message });
 					}
 				})
 				.fail(function () {

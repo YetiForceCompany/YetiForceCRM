@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
 require_once 'modules/com_vtiger_workflow/include.php';
@@ -310,30 +311,36 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Update actions sequence.
 	 *
-	 * @param int    $workflowsForSortId
+	 * @param int    $wfIdToMove
 	 * @param int    $workflowBeforeId
 	 * @param string $moduleName
 	 *
 	 * @return void
 	 */
-	public static function updateActionsSequence(int $workflowsForSortId, int $workflowBeforeId, string $moduleName): void
+	public static function updateActionsSequence(int $wfIdToMove, int $workflowBeforeId, string $moduleName): void
 	{
-		if ($workflowBeforeId !== $workflowsForSortId) {
-			$moduleWorkflows = array_keys(self::getWorkflowActionsForModule($moduleName));
-			unset($moduleWorkflows[array_search($workflowsForSortId, $moduleWorkflows)]);
-			$keyToAddBefore = array_search($workflowBeforeId, $moduleWorkflows);
-			array_splice($moduleWorkflows, $keyToAddBefore, 0, $workflowsForSortId);
+		if ($workflowBeforeId !== $wfIdToMove) {
 			$db = \App\Db::getInstance();
 			$caseSequence = 'CASE';
-			$workflowList = [];
-			foreach ($moduleWorkflows as $sequence => $workflowId) {
-				$workflowList[] = $workflowId;
-				$caseSequence .= " WHEN workflow_id = {$db->quoteValue($workflowId)} THEN {$db->quoteValue($sequence)}";
+			$sequence = 0;
+
+			$moduleWorkflows = array_keys(self::getWorkflowActionsForModule($moduleName));
+			foreach ($moduleWorkflows as $wfId) {
+				if ($wfIdToMove === $wfId) {
+					continue;
+				}
+				if ($wfId === $workflowBeforeId) {
+					$caseSequence .= " WHEN workflow_id = {$db->quoteValue($wfIdToMove)} THEN {$db->quoteValue($sequence)}";
+					++$sequence;
+				}
+				$caseSequence .= " WHEN workflow_id = {$db->quoteValue($wfId)} THEN {$db->quoteValue($sequence)}";
+				++$sequence;
 			}
 			$caseSequence .= ' END';
+
 			$db->createCommand()->update('com_vtiger_workflows', [
 				'sequence' => new yii\db\Expression($caseSequence),
-			], ['workflow_id' => $workflowList])->execute();
+			], ['workflow_id' => $moduleWorkflows])->execute();
 		}
 	}
 
@@ -344,7 +351,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return void
 	 */
-	public static function updateTasksSequence($tasks): void
+	public static function updateTasksSequence(array $tasks): void
 	{
 		$createCommand = \App\Db::getInstance()->createCommand();
 		foreach ($tasks as $sequence => $id) {
