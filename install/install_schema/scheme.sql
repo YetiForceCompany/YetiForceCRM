@@ -356,6 +356,7 @@ CREATE TABLE `com_vtiger_workflows` (
   `schtime` varchar(50) DEFAULT NULL,
   `nexttrigger_time` datetime DEFAULT NULL,
   `params` text DEFAULT NULL,
+  `sequence` smallint(5) unsigned DEFAULT 0,
   PRIMARY KEY (`workflow_id`),
   UNIQUE KEY `com_vtiger_workflows_idx` (`workflow_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8;
@@ -376,6 +377,7 @@ CREATE TABLE `com_vtiger_workflowtasks` (
   `workflow_id` int(10) DEFAULT NULL,
   `summary` varchar(400) NOT NULL,
   `task` text DEFAULT NULL,
+  `sequence` smallint(5) unsigned DEFAULT 0,
   PRIMARY KEY (`task_id`),
   KEY `workflow_id` (`workflow_id`),
   CONSTRAINT `com_vtiger_workflowtasks_ibfk_1` FOREIGN KEY (`workflow_id`) REFERENCES `com_vtiger_workflows` (`workflow_id`) ON DELETE CASCADE
