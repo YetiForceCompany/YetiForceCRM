@@ -36,24 +36,20 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$account = $mail->getAccount();
 			$record = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 			$record->set('assigned_user_id', $mail->getAccountOwner());
-			$record->set('subject', $mail->isEmpty('subject') ? '-' : $mail->get('subject'));
+			$record->setFromUserValue('subject', $mail->isEmpty('subject') ? '-' : $mail->get('subject'));
 			$record->set('to_email', $mail->get('to_email'));
 			$record->set('from_email', $mail->get('from_email'));
 			$record->set('reply_to_email', $mail->get('reply_toaddress'));
 			$record->set('cc_email', $mail->get('cc_email'));
 			$record->set('bcc_email', $mail->get('bcc_email'));
-			$maxLengthOrginal = $record->getField('orginal_mail')->get('maximumlength');
-			$orginal = $mail->get('clean');
-			$record->set('orginal_mail', $maxLengthOrginal ? \App\TextParser::htmlTruncate($orginal, $maxLengthOrginal, false) : $orginal);
+			$record->set('orginal_mail', \App\TextParser::htmlTruncate($mail->get('clean'), $record->getField('orginal_mail')->getMaxColumnLength()));
 			$record->set('uid', $mail->get('message_id'))->set('rc_user', $account['user_id']);
 			$record->set('ossmailview_sendtype', $mail->getTypeEmail(true));
 			$record->set('mbox', $mail->getFolder())->set('type', $type)->set('mid', $mail->get('id'));
 			$record->set('from_id', implode(',', array_unique($fromIds)))->set('to_id', implode(',', array_unique($toIds)));
 			$record->set('created_user_id', $mail->getAccountOwner())->set('createdtime', $mail->get('date'));
 			$record->set('date', $mail->get('date'));
-			$maxLengthContent = $record->getField('content')->get('maximumlength');
-			$content = $mail->getContent();
-			$record->set('content', $maxLengthContent ? \App\TextParser::htmlTruncate($content, $maxLengthContent, false) : $content);
+			$record->set('content', \App\TextParser::htmlTruncate($mail->getContent(), $record->getField('content')->getMaxColumnLength()));
 			if ($mail->get('isAttachments') || $mail->get('attachments')) {
 				$record->set('attachments_exist', 1);
 			}

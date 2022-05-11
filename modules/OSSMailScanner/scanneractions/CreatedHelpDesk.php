@@ -79,12 +79,8 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BindHe
 		}
 		$accountOwner = $this->mail->getAccountOwner();
 		$record->set('assigned_user_id', $accountOwner);
-		$maxLengthSubject = $record->getField('ticket_title')->get('maximumlength');
-		$subject = \App\Purifier::purify($this->mail->get('subject'));
-		$record->setFromUserValue('ticket_title', $maxLengthSubject ? \App\TextParser::textTruncate($subject, $maxLengthSubject, false) : $subject);
-		$maxLengthDescription = $record->getField('description')->get('maximumlength');
-		$description = $this->mail->getContent();
-		$record->set('description', $maxLengthDescription ? \App\TextParser::htmlTruncate($description, $maxLengthDescription, false) : $description);
+		$record->setFromUserValue('ticket_title', \App\TextParser::textTruncate($this->mail->get('subject'), $record->getField('ticket_title')->getMaxColumnLength()));
+		$record->set('description', \App\TextParser::htmlTruncate($this->mail->getContent(), $record->getField('description')->getMaxColumnLength()));
 		if (!empty(\Config\Modules\OSSMailScanner::$helpdeskCreateDefaultStatus)) {
 			$record->set('ticketstatus', \Config\Modules\OSSMailScanner::$helpdeskCreateDefaultStatus);
 		}

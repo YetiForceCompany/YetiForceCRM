@@ -461,9 +461,7 @@ class TextParser
 	public function parseData(string $content)
 	{
 		if ($this->useExtension) {
-			$content = preg_replace_callback('/<!--[\s]+({% [\s\S]+? %})[\s]+-->/u', function ($matches) {
-				return $matches[1] ?? '';
-			}, $content);
+			$content = preg_replace_callback('/<!--[\s]+({% [\s\S]+? %})[\s]+-->/u', fn ($matches) => $matches[1] ?? '', $content);
 			$twig = new \Twig\Environment(new \Twig\Loader\ArrayLoader(['index' => $content]));
 			$sandbox = new \Twig\Extension\SandboxExtension(\App\Extension\Twig\SecurityPolicy::getPolicy(), true);
 			$twig->addExtension($sandbox);
@@ -1467,9 +1465,7 @@ class TextParser
 	public function getGeneralVariable()
 	{
 		$variables = [
-			'LBL_ENTITY_VARIABLES' => array_map(function ($value) {
-				return Language::translate($value, 'Other.TextParser');
-			}, array_flip(static::$variableGeneral)),
+			'LBL_ENTITY_VARIABLES' => array_map(fn ($value) => Language::translate($value, 'Other.TextParser'), array_flip(static::$variableGeneral)),
 		];
 		$variables['LBL_CUSTOM_VARIABLES'] = array_merge($this->getBaseGeneralVariable(), $this->getModuleGeneralVariable());
 		return $variables;
@@ -1566,74 +1562,102 @@ class TextParser
 	}
 
 	/**
-	 * Truncating HTML.
+	 * Truncating HTML by words.
 	 *
-	 * @param          $html
-	 * @param bool|int $length
-	 * @param bool     $addDots
-	 * @param bool     $isTruncated
-	 *
-	 * @throws \HTMLPurifier_Exception
+	 * @param string $html
+	 * @param int    $length
+	 * @param string $ending
 	 *
 	 * @return string
 	 */
-	public static function htmlTruncate($html, $length = false, $addDots = true, &$isTruncated = false)
+	public static function htmlTruncateByWords(string $html, int $length = 0, string $ending = '...'): string
 	{
 		if (!$length) {
 			$length = Config::main('listview_max_textlength');
 		}
-		$encoding = Config::main('default_charset');
-		$config = \App\Purifier::getHtmlConfig(['directives' => ['Core.LexerImpl' => 'DirectLex']]);
-		$lexer = \HTMLPurifier_Lexer::create($config);
-		$tokens = $lexer->tokenizeHTML($html, $config, new \HTMLPurifier_Context());
-		$truncated = $openTokens = [];
-		$depth = $totalCount = 0;
-		foreach ($tokens as $token) {
-			if ($token instanceof \HTMLPurifier_Token_Start) {
-				$openTokens[$depth] = $token->name;
-				$truncated[] = $token;
-				++$depth;
-			} elseif ($token instanceof \HTMLPurifier_Token_Text && $totalCount <= $length) {
-				if (false === $encoding) {
-					preg_match('/^(\s*)/um', $token->data, $prefixSpace) ?: $prefixSpace = ['', ''];
-					$token->data = $prefixSpace[1] . self::truncateWords(ltrim($token->data), $length - $totalCount, '');
-					$currentCount = self::countWords($token->data);
-				} else {
-					if (mb_strlen($token->data, $encoding) > $length - $totalCount) {
-						$token->data = rtrim(mb_substr($token->data, 0, $length - $totalCount, $encoding));
-					}
-					$currentCount = mb_strlen($token->data, $encoding);
-				}
-				$totalCount += $currentCount;
-				$truncated[] = $token;
-			} elseif ($token instanceof \HTMLPurifier_Token_End) {
-				if ($token->name === $openTokens[$depth - 1]) {
-					--$depth;
-					unset($openTokens[$depth]);
-					$truncated[] = $token;
-				}
-			} elseif ($token instanceof \HTMLPurifier_Token_Empty) {
-				$truncated[] = $token;
-			}
-			if ($totalCount >= $length) {
-				if (0 < \count($openTokens)) {
-					krsort($openTokens);
-					foreach ($openTokens as $name) {
-						$truncated[] = new \HTMLPurifier_Token_End($name);
-					}
-				}
+		if (\strlen(strip_tags($html)) <= $length) {
+			return $html;
+		}
+		$totalLength = \mb_strlen($ending);
+		$openTagsLength = 0;
+		$openTags = [];
+		preg_match_all('/(<.+?>)?([^<>]*)/s', $html, $tags, PREG_SET_ORDER);
+		$html = '';
+		foreach ($tags as $tag) {
+			$tagLength = \mb_strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $tag[2]));
+			if ($totalLength + $tagLength + $openTagsLength > $length) {
 				break;
 			}
-		}
-		$generator = new \HTMLPurifier_Generator($config, new \HTMLPurifier_Context());
-		$html = preg_replace_callback('/<*([A-Za-z_]\w*)\s\/>/', function ($matches) {
-			if (\in_array($matches[1], ['div'])) {
-				return "<{$matches[1]}></{$matches[1]}>";
+			if (!empty($tag[1])) {
+				if (preg_match('/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is', $tag[1])) {
+					// if tag is a closing tag
+				} elseif (preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $tag[1], $tagName)) {
+					$pos = array_search(strtolower($tagName[1]), $openTags);
+					if (false !== $pos) {
+						unset($openTags[$pos]);
+						$openTagsLength -= \mb_strlen("</{$tagName[1]}>");
+					}
+				} elseif (preg_match('/^<\s*([^\s>!]+).*?>$/s', $tag[1], $tagName)) {
+					array_unshift($openTags, strtolower($tagName[1]));
+					$openTagsLength += \mb_strlen("</{$tagName[1]}>");
+				}
 			}
-			return $matches[0];
-		}, $generator->generateFromTokens($truncated));
-		$isTruncated = $totalCount >= $length;
-		return \App\Purifier::decodeHtml($html) . ($isTruncated ? ($addDots ? '...' : '') : '');
+			$html .= $tag[0];
+			$totalLength += $tagLength;
+		}
+		$html .= $ending;
+		if ($openTags) {
+			$html .= '</' . implode('></', $openTags) . '>';
+		}
+		return $html;
+	}
+
+	/**
+	 * Truncating HTML.
+	 *
+	 * @param string $html
+	 * @param int    $length
+	 * @param string $ending
+	 *
+	 * @return string
+	 */
+	public static function htmlTruncate(string $html, int $length = 255, string $ending = '...'): string
+	{
+		if (\strlen($html) <= $length) {
+			return $html;
+		}
+		$totalLength = \mb_strlen($ending);
+		$openTagsLength = 0;
+		$openTags = [];
+		preg_match_all('/(<.+?>)?([^<>]*)/s', $html, $tags, PREG_SET_ORDER);
+		$html = '';
+		foreach ($tags as $tag) {
+			$tagLength = \mb_strlen($tag[0]);
+			if ($totalLength + $tagLength + $openTagsLength > $length) {
+				break;
+			}
+			if (!empty($tag[1])) {
+				if (preg_match('/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is', $tag[1])) {
+					// if tag is a closing tag
+				} elseif (preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $tag[1], $tagName)) {
+					$pos = array_search(strtolower($tagName[1]), $openTags);
+					if (false !== $pos) {
+						unset($openTags[$pos]);
+						$openTagsLength -= \mb_strlen("</{$tagName[1]}>");
+					}
+				} elseif (preg_match('/^<\s*([^\s>!]+).*?>$/s', $tag[1], $tagName)) {
+					array_unshift($openTags, strtolower($tagName[1]));
+					$openTagsLength += \mb_strlen("</{$tagName[1]}>");
+				}
+			}
+			$html .= $tag[0];
+			$totalLength += $tagLength;
+		}
+		$html .= $ending;
+		if ($openTags) {
+			$html .= '</' . implode('></', $openTags) . '>';
+		}
+		return $html;
 	}
 
 	/**

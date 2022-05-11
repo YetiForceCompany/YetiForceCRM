@@ -45,10 +45,8 @@ class CreatedHelpDesk extends Base
 		$recordModel->set('assigned_user_id', $scanner->getUserId());
 		$recordModel->set('created_user_id', $scanner->getUserId());
 		$recordModel->set('createdtime', $scanner->get('date'));
-		$titleMaxLength = $recordModel->getField('ticket_title')->get('maximumlength');
-		$recordModel->setFromUserValue('ticket_title', $titleMaxLength ? \App\TextParser::textTruncate($scanner->get('subject'), $titleMaxLength, false) : $scanner->get('subject'));
-		$descriptionMaxLength = $recordModel->getField('description')->get('maximumlength');
-		$recordModel->set('description', $descriptionMaxLength ? \App\TextParser::htmlTruncate($scanner->get('body'), $descriptionMaxLength, false) : $scanner->get('body'));
+		$recordModel->setFromUserValue('ticket_title', \App\TextParser::textTruncate($scanner->get('subject'), $recordModel->getField('ticket_title')->getMaxColumnLength(), false));
+		$recordModel->set('description', \App\TextParser::htmlTruncate($scanner->get('body'), $recordModel->getField('description')->getMaxColumnLength()));
 		$recordModel->set('ticketstatus', \Config\Modules\OSSMailScanner::$helpdeskCreateDefaultStatus);
 		if ($contactId) {
 			$recordModel->ext['relations'][] = [

@@ -29,7 +29,7 @@ class CreatedMail extends Base
 		$record = \OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 		$record->set('assigned_user_id', $scanner->getUserId());
 		$record->set('created_user_id', $scanner->getUserId());
-		$record->set('subject', $scanner->get('subject'));
+		$record->setFromUserValue('subject', \App\TextParser::textTruncate($scanner->get('subject'), $record->getField('subject')->getMaxColumnLength(), false));
 		$record->set('to_email', implode(',', $scanner->get('to_email')));
 		$record->set('from_email', $scanner->get('from_email'));
 		if ($scanner->has('cc_email')) {
@@ -44,10 +44,8 @@ class CreatedMail extends Base
 		$type = $scanner->getMailType();
 		$record->set('type', $type);
 		$record->set('ossmailview_sendtype', \App\Mail\ScannerEngine\Base::MAIL_TYPES[$type]);
-		$maxLengthContent = $record->getField('content')->get('maximumlength');
-		$record->set('content', $maxLengthContent ? \App\TextParser::htmlTruncate($scanner->get('body'), $maxLengthContent, false) : $scanner->get('body'));
-		$maxLengthOrginal = $record->getField('orginal_mail')->get('maximumlength');
-		$record->set('orginal_mail', $maxLengthOrginal ? \App\TextParser::htmlTruncate($scanner->get('headers'), $maxLengthOrginal, false) : $scanner->get('headers'));
+		$record->set('content', \App\TextParser::htmlTruncate($scanner->get('body'), $record->getField('content')->getMaxColumnLength()));
+		$record->set('orginal_mail', \App\TextParser::htmlTruncate($scanner->get('headers'), $record->getField('orginal_mail')->getMaxColumnLength()));
 		$record->setHandlerExceptions(['disableHandlers' => true]);
 		$record->setDataForSave(['vtiger_ossmailview' => [
 			'cid' => $scanner->getCid(),
