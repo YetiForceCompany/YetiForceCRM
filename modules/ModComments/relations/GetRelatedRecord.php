@@ -35,9 +35,11 @@ class ModComments_GetRelatedRecord_Relation extends \App\Relation\RelationAbstra
 	/**
 	 * Field list.
 	 *
+	 * @param bool $editable
+	 *
 	 * @return array
 	 */
-	public function getFields()
+	public function getFields(bool $editable = false)
 	{
 		$fields = [];
 		$sourceModule = $this->relationModel->getParentModuleModel();
@@ -50,7 +52,9 @@ class ModComments_GetRelatedRecord_Relation extends \App\Relation\RelationAbstra
 			foreach ($data as $key => $value) {
 				$field->set($key, $value);
 			}
-			$fields[$fieldName] = $field;
+			if (!$editable || !$field->isEditableReadOnly()) {
+				$fields[$fieldName] = $field;
+			}
 		}
 		return $fields;
 	}

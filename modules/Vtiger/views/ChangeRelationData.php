@@ -51,7 +51,7 @@ class Vtiger_ChangeRelationData_View extends \App\Controller\Modal
 		$data = $relationModel->getRelationData($parentRecordId, $recordId);
 		$fieldModels = [];
 
-		foreach ($relationModel->getFields() as $fieldModel) {
+		foreach ($relationModel->getFields(true) as $fieldModel) {
 			$fieldModel->set('fieldvalue', $data[$fieldModel->getName()] ?? '');
 			$fieldModels[$fieldModel->getName()] = $fieldModel;
 		}
