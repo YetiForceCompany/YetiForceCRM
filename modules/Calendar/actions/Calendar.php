@@ -18,7 +18,9 @@ class Calendar_Calendar_Action extends Vtiger_Calendar_Action
 	{
 		$record = $this->getCalendarModel($request);
 		if ($request->getBoolean('widget')) {
-			$record->set('customFilter', $request->getByType('customFilter', 2));
+			if ($request->has('customFilter')) {
+				$record->set('customFilter', $request->getByType('customFilter', 2));
+			}
 			$entity = array_merge($record->getEntityCount(), $record->getPublicHolidays());
 		} else {
 			$entity = array_merge($record->getEntity(), $record->getPublicHolidays());

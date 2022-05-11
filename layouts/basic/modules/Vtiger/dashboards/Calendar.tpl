@@ -59,7 +59,7 @@
 							   off"> {\App\Language::translate('History')}
 							</label>
 						</div>
-						<input type="hidden" value="current" data-current="{implode(',',$CURRENT_STATUS)}"
+						<input type="hidden" value="current" data-current="{implode('##',$CURRENT_STATUS)}"
 							data-history="{implode(',',$HISTORY_STATUS)}" class="widgetFilterSwitch" {if !empty($WIDGET_DATA['defaultFilter'])} data-default-filter="{$WIDGET_DATA['defaultFilter']}" {/if}>
 					{/if}
 				</div>
