@@ -42,10 +42,10 @@
 				</tr>
 			</thead>
 			<tbody>
-				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listViewEntries}
+				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
 					<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"
 						{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}" {/if}>
-						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS name=listHeaders}
+						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 							{if $LISTVIEW_HEADERNAME eq 'all_tasks'}
 								{assign var=ALL_TASKS value=$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
