@@ -129,6 +129,7 @@ Settings_Vtiger_List_Js(
 		 * Register show sort actions modal
 		 */
 		registerShowSortActionsModal: function () {
+			let thisInstance = this;
 			$('.js-workflow-sort-button').on('click', (e) => {
 				let sourceModule = this.topMenuContainer.find('.js-workflow-module-filter option:selected').val();
 				let url = 'index.php?module=Workflows&parent=Settings&view=SortActionsModal&sourceModule=' + sourceModule;
@@ -155,7 +156,9 @@ Settings_Vtiger_List_Js(
 								if (data.result.message) {
 									app.hideModalWindow();
 									progressIndicatorElement.progressIndicator({ mode: 'hide' });
-									window.location.reload();
+									let params = thisInstance.getDefaultParams();
+									params.orderby = 'sequence';
+									thisInstance.getListViewRecords(params).done(function (data) {});
 								}
 							})
 							.fail(function (error, err) {
