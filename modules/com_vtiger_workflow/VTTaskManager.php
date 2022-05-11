@@ -43,6 +43,7 @@ class VTTaskManager
 			'workflow_id' => $task->workflowId,
 			'summary' => $task->summary,
 			'task' => serialize($task),
+			'sequence' => $task->sequence,
 		])->execute();
 
 		return $db->getLastInsertID();
@@ -110,7 +111,7 @@ class VTTaskManager
 		if (\App\Cache::staticHas('getTasksForWorkflow', $cacheName)) {
 			return \App\Cache::staticGet('getTasksForWorkflow', $cacheName);
 		}
-		$dataReader = (new \App\Db\Query())->select(['task_id', 'workflow_id', 'task'])->from('com_vtiger_workflowtasks')->where(['workflow_id' => $workflowId])->createCommand()->query();
+		$dataReader = (new \App\Db\Query())->select(['task_id', 'workflow_id', 'task'])->from('com_vtiger_workflowtasks')->where(['workflow_id' => $workflowId])->orderBy(['sequence' => SORT_ASC])->createCommand()->query();
 		$tasks = [];
 		while ($row = $dataReader->read()) {
 			$taskType = self::taskName($row['task']);

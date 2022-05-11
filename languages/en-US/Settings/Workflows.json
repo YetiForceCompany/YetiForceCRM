@@ -261,7 +261,10 @@
     "LBL_VERIFY_IF_EXISTS": "Do not create new record, if related record exists",
     "LBL_WORKFLOW_TRIGGER_RECORD_RESTRICTION_OFF": "workflow trigger records restriction off",
     "LBL_WORKFLOW_RESTRICTION_OFF_ALERT": "Conditions for records cannot be set in a given workflow mode.",
-    "LBL_ERROR_DELETE_ENTRY": "Error, delete entry."
+    "LBL_ERROR_DELETE_ENTRY": "Error, delete entry.",
+    "LBL_SORT_WORKFLOW_ACTIONS": "Sort workflow actions",
+    "LBL_SELECT_WORKFLOW": "Select workflow",
+    "LBL_SET_WORKFLOW_BEFORE": "Set workflow before"
   },
   "js": {
     "JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE": "Same fields selected more than once",
