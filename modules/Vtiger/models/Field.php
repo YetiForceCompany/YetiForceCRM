@@ -1589,6 +1589,25 @@ class Vtiger_Field_Model extends vtlib\Field
 		return $maximumLength;
 	}
 
+	/**
+	 * Get max column length.
+	 *
+	 * @return int
+	 */
+	public function getMaxColumnLength(): int
+	{
+		if ($maximumLength = $this->get('maximumlength')) {
+			return $maximumLength;
+		}
+		$db = \App\Db::getInstance();
+		$tableSchema = $db->getSchema()->getTableSchema($this->getTableName(), true);
+		if (empty($tableSchema)) {
+			throw new \App\Exceptions\AppException('ERR_TABLE_DOES_NOT_EXISTS||' . $this->getTableName());
+		}
+		$columnSchema = $tableSchema->getColumn($this->getColumnName());
+		return $columnSchema->size ?: 0;
+	}
+
 	public function isActiveSearchView()
 	{
 		if ($this->get('fromOutsideList') || $this->get('searchLockedFields')) {

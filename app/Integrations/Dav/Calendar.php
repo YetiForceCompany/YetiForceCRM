@@ -287,11 +287,11 @@ class Calendar
 		if (false !== strpos($value, $separator)) {
 			[$html,$text] = explode($separator, $value, 2);
 			$value = trim(strip_tags($html)) . "\n" . \trim(\str_replace($separator, '', $text));
-		}else{
+		} else {
 			$value = trim(\str_replace('\n', PHP_EOL, $value));
 		}
 		$value = \App\Purifier::decodeHtml(\App\Purifier::purify($value));
-		if ($length = $this->record->getField($fieldName)->get('maximumlength')) {
+		if ($length = $this->record->getField($fieldName)->getMaxColumnLength()) {
 			$value = \App\TextParser::textTruncate($value, $length, false);
 		}
 		$this->record->set($fieldName, \trim($value));

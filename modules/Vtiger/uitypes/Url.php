@@ -36,7 +36,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		$maximumLength = $this->getFieldModel()->get('maximumlength');
+		$maximumLength = $this->getFieldModel()->getMaxColumnLength();
 		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}

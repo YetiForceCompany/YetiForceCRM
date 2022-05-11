@@ -37,7 +37,7 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		$dbValue = $isUserFormat ? $this->getDBValue($value) : $value;
-		$maximumLength = $this->getFieldModel()->get('maximumlength');
+		$maximumLength = $this->getFieldModel()->getMaxColumnLength();
 		if ($maximumLength && App\TextParser::getTextLength($dbValue) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $dbValue, 406);
 		}
