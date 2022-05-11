@@ -102,14 +102,10 @@ class Vtiger_List_View extends Vtiger_Index_View
 		}
 	}
 
+	/** {@inheritdoc} */
 	public function preProcessTplName(App\Request $request)
 	{
 		return 'ListViewPreProcess.tpl';
-	}
-
-	protected function preProcessDisplay(App\Request $request)
-	{
-		parent::preProcessDisplay($request);
 	}
 
 	/** {@inheritdoc} */

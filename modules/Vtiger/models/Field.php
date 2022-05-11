@@ -565,7 +565,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function isNameField(): bool
 	{
 		$moduleModel = $this->getModule();
-		return $moduleModel && !$this->isReferenceField() && !\in_array($this->getFieldDataType(), ['email', 'url', 'phone']) && \in_array($this->getFieldName(), $moduleModel->getNameFields());
+		return $moduleModel && !$this->isReferenceField() && !\in_array($this->getFieldDataType(), ['email', 'url', 'phone']) && \in_array($this->getName(), $moduleModel->getNameFields());
 	}
 
 	/**
@@ -1066,9 +1066,18 @@ class Vtiger_Field_Model extends vtlib\Field
 		return $this->fieldInfo;
 	}
 
-	public function setFieldInfo($fieldInfo)
+	/**
+	 * Set field info.
+	 *
+	 * @param array $fieldInfo
+	 *
+	 * @return $this
+	 */
+	public function setFieldInfo(array $fieldInfo)
 	{
 		$this->fieldInfo = $fieldInfo;
+
+		return $this;
 	}
 
 	/**
@@ -1369,12 +1378,19 @@ class Vtiger_Field_Model extends vtlib\Field
 		App\Cache::clear();
 	}
 
+	/**
+	 * Change the mandatory field.
+	 *
+	 * @param string $mandatoryValue
+	 *
+	 * @return $this
+	 */
 	public function updateTypeofDataFromMandatory($mandatoryValue = 'O')
 	{
 		$mandatoryValue = strtoupper($mandatoryValue);
 		$supportedMandatoryLiterals = ['O', 'M'];
 		if (!\in_array($mandatoryValue, $supportedMandatoryLiterals)) {
-			return;
+			return $this;
 		}
 		$typeOfData = $this->get('typeofdata');
 		$components = explode('~', $typeOfData);

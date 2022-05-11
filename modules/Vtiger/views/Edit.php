@@ -19,12 +19,6 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 	protected $record;
 
 	/** {@inheritdoc} */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
-	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();

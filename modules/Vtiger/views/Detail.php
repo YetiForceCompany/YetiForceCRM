@@ -184,6 +184,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		}
 	}
 
+	/** {@inheritdoc} */
 	public function preProcessTplName(App\Request $request)
 	{
 		return 'Detail/PreProcess.tpl';

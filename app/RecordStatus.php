@@ -377,7 +377,7 @@ class RecordStatus
 	 * @param string $moduleName
 	 * @param bool   $byName
 	 *
-	 * @return string[]
+	 * @return array
 	 */
 	public static function getLockStatus(string $moduleName, bool $byName = true): array
 	{
