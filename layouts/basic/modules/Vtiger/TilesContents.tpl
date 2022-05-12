@@ -91,7 +91,7 @@
 		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 			{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
 			<div class="col-md-{$TILE_COLUMN_SIZE} col-sm-12 p-1 border-0 u-cursor-pointer c-tile-record-container  js-tile-container" data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}'>
-				<div class="card js-tile-card justify-content-center">
+				<div class="card js-tile-card justify-content-center c-tiles-container_{$TILE_SIZE}">
 					<div class="w-100 h-100 c-tile-body border border-light bg-light">
 						<div class="card-footer p-0 border-0 justify-content-center">
 							{include file=\App\Layout::getTemplatePath('TilesActions.tpl', $MODULE_NAME)}
@@ -118,7 +118,7 @@
 									{else}
 										{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
 									{/if}
-									<div class="text-center">
+									<div class="text-center u-text-ellipsis">
 										<span class=" text-muted"> <small> {$LISTVIEW_HEADER->getFullLabelTranslation($MODULE_MODEL)}: </small> </span>
 										<span class=" listViewEntryValue noWrap text-muted c-tile-value" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}">
 											{if empty($LISTVIEW_HEADER->get('source_field_name')) && ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true && $LISTVIEW_ENTRY->isViewable()}
