@@ -125,9 +125,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		if (!\is_array($value)) {
 			return '';
 		}
-		$value = array_map(function ($v) {
-			return $v['name'];
-		}, $value);
+		$value = array_map(fn ($v) => $v['name'], $value);
 		$result = implode(', ', $value);
 		return trim($result, "\n\t, ");
 	}
@@ -477,13 +475,13 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		}
 		if ($record) {
 			$carouselId = App\Layout::getUniqueId("IC{$record}-");
-			$result = '<div id="' . $carouselId . '" class="carousel slide" data-ride="carousel">
+			$result = '<div id="' . $carouselId . '" class="carousel slide m-auto" data-ride="carousel">
 		<div class="carousel-inner">';
 			foreach ($value as $itemNumber => $item) {
 				if ($record) {
 					$active = 0 === $itemNumber ? 'active' : '';
 					$result .= '<div class="carousel-item ' . $active . '">
-				<img class="d-block carousel-image" src="' . $this->getImageUrl($item['key'], $record) . '" alt="First slide">
+				<img class="d-block carousel-image img-fluid" src="' . $this->getImageUrl($item['key'], $record) . '" alt="First slide">
 			  </div>';
 				} else {
 					$result .= \App\Purifier::encodeHtml($item['name']) . ', ';
