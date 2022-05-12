@@ -269,19 +269,23 @@ class QueryGenerator
 	/**
 	 * Set query field.
 	 *
-	 * @param string|string[] $fields
+	 * @param string $fieldName
 	 *
 	 * @return \self
 	 */
-	public function setField($fields): self
+	public function setField(string $fieldName): self
 	{
-		if (\is_array($fields)) {
-			foreach ($fields as $field) {
-				$this->fields[] = $field;
-			}
+		if (false !== strpos($fieldName, ':')) {
+			[$relatedFieldName, $relatedModule, $sourceField] = array_pad(explode(':', $fieldName), 3, null);
+			$this->addRelatedField([
+				'sourceField' => $sourceField,
+				'relatedModule' => $relatedModule,
+				'relatedField' => $relatedFieldName
+			]);
 		} else {
-			$this->fields[] = $fields;
+			$this->fields[] = $fieldName;
 		}
+
 		return $this;
 	}
 
@@ -676,7 +680,6 @@ class QueryGenerator
 		$fieldName = $cvColumn['field_name'];
 		$sourceFieldName = $cvColumn['source_field_name'];
 		if (empty($sourceFieldName)) {
-			$this->customViewFields[] = 'id';
 			if ('id' !== $fieldName) {
 				$this->fields[] = $fieldName;
 			}
@@ -722,11 +725,8 @@ class QueryGenerator
 	{
 		$this->fields[] = 'id';
 		$customView = CustomView::getInstance($this->moduleName, $this->user);
-		$this->cvColumns = $customView->getColumnsListByCvid($viewId);
-		if ($this->cvColumns) {
-			foreach ($this->cvColumns as &$cvColumn) {
-				$this->addCustomViewFields($cvColumn);
-			}
+		foreach ($customView->getColumnsListByCvid($viewId) as $cvColumn) {
+			$this->addCustomViewFields($cvColumn);
 		}
 		foreach (CustomView::getDuplicateFields($viewId) as $fields) {
 			$this->setSearchFieldsForDuplicates($fields['fieldname'], (bool) $fields['ignore']);
