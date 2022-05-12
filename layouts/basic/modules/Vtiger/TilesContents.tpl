@@ -118,7 +118,7 @@
 									{else}
 										{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
 									{/if}
-									<div class="text-center u-text-ellipsis c-tiles-container_row">
+									<div class="text-center u-text-ellipsis">
 										<span class=" text-muted"> <small> {$LISTVIEW_HEADER->getFullLabelTranslation($MODULE_MODEL)}: </small> </span>
 										<span class=" listViewEntryValue noWrap text-muted c-tile-value" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}">
 											{if empty($LISTVIEW_HEADER->get('source_field_name')) && ($LISTVIEW_HEADER->isNameField() eq true or $LISTVIEW_HEADER->getUIType() eq '4') && $MODULE_MODEL->isListViewNameFieldNavigationEnabled() eq true && $LISTVIEW_ENTRY->isViewable()}
