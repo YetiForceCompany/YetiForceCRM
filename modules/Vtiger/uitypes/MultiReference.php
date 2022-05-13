@@ -93,7 +93,7 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 			}
 		}
 
-		return implode(', <br>', $displayValue);
+		return implode($rawText ? ', ' : ', <br>', $displayValue);
 	}
 
 	/**
