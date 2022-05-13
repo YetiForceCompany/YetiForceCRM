@@ -191,6 +191,15 @@ class Vtiger_DetailView_Model extends \App\Base
 					'modalView' => true,
 				]);
 			}
+			if ($moduleModel->isPermitted('SMSNotifier')) {
+				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+					'linklabel' => 'LBL_SMSNOTIFIER_BUTTON',
+					'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSMSmodal(this)',
+					'linkicon' => 'fas fa-sms',
+					'linkclass' => 'btn-outline-dark btn-sm',
+				]);
+			}
 			if ($fields = App\Field::getQuickChangerFields($moduleModel->getId())) {
 				foreach ($fields as $field) {
 					if (App\Field::checkQuickChangerConditions($field, $recordModel)) {

@@ -55,6 +55,9 @@ jQuery.Class(
 				})
 				.fail(function (error, err) {});
 		},
+		triggerSMSmodal: () => {
+			App.Components.QuickCreate.createRecord('SMSNotifier')
+		},
 		triggerTransferOwnership: function (massActionUrl) {
 			let thisInstance = this;
 			thisInstance.getRelatedModulesContainer = false;
@@ -2948,6 +2951,6 @@ jQuery.Class(
 			this.registerSendPdfFromPdfViewer(detailViewContainer);
 			this.registerKeyboardShortcutsEvent(detailViewContainer);
 			App.Components.ActivityNotifier.register(detailViewContainer);
-		}
+		},
 	}
 );
