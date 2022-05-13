@@ -174,7 +174,14 @@ body:not(.desktop) {
 		background: rgba($blue, 0.2);
 		border: $border-width solid rgba($blue, 0.5) !important;
 	}
+	&__container-narrow,
+	&__container-medium {
+		padding: 0.15em !important;
+	}
 	&__btn-narrow {
+		@extend .btn-xs;
+	}
+	&__result-narrow {
 		.c-multi-image__preview-img {
 			height: 1.5rem !important;
 			width: 1.5rem !important;
