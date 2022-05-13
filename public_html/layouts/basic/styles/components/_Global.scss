@@ -159,24 +159,35 @@ body:not(.desktop) {
 		@extend .d-inline-flex;
 	}
 }
-
-.c-multi-image__preview-img {
-	height: 2rem;
-	width: 2rem;
-	cursor: pointer;
-	background-size: cover;
-	background-position: center;
+.c-multi-image {
+	&__preview-img {
+		height: 2rem;
+		width: 2rem;
+		cursor: pointer;
+		background-size: cover;
+		background-position: center;
+	}
+	&__popover-img {
+		cursor: pointer;
+	}
+	&__drop-effect {
+		background: rgba($blue, 0.2);
+		border: $border-width solid rgba($blue, 0.5) !important;
+	}
+	&__container-narrow,
+	&__container-medium {
+		padding: 0.15em !important;
+	}
+	&__btn-narrow {
+		@extend .btn-xs;
+	}
+	&__result-narrow {
+		.c-multi-image__preview-img {
+			height: 1.5rem !important;
+			width: 1.5rem !important;
+		}
+	}
 }
-
-.c-multi-image__popover-img {
-	cursor: pointer;
-}
-
-.c-multi-image__drop-effect {
-	background: rgba($blue, 0.2);
-	border: $border-width solid rgba($blue, 0.5) !important;
-}
-
 .c-btn-collapsible {
 	overflow: hidden;
 	white-space: nowrap;
