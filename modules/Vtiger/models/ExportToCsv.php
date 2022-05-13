@@ -26,50 +26,28 @@ class Vtiger_ExportToCsv_Model extends \App\Export\ExportRecords
 	 */
 	public function exportData(): void
 	{
-		$entries = [];
-		if (!$this->exportColumns && $this->quickExport && $this->queryOptions['viewname']) {
-			[$headers, $entries] = $this->getEntriesForQuickExport();
-		} else {
-			[$headers, $entries] = $this->getEntriesExport();
-		}
-		$this->output($headers, $entries);
+		$this->output($this->getHeaders(), $this->getEntries());
 	}
 
-	public function getEntriesForQuickExport(): array
+	/**
+	 * Get entires.
+	 *
+	 * @return array
+	 */
+	public function getEntries(): array
 	{
 		$entries = [];
-		$headers = $this->getHeaders();
-		$listViewModel = Vtiger_ListView_Model::getInstance($this->moduleName, $this->queryOptions['viewname']);
-		$pagingModel = (new \Vtiger_Paging_Model())->set('limit', Vtiger_Paging_Model::PAGE_MAX_LIMIT);
-		$listViewModel->set('query_generator', $this->queryGeneratorForList);
-		foreach ($listViewModel->getListViewEntries($pagingModel) as $record) {
-			$recordValues = [];
-			foreach ($this->listViewHeaders as $fieldModel) {
-				$displayValue = $this->listValueForExport($fieldModel, true, $record);
-				$displayValue = strip_tags($displayValue);
-				$recordValues[] = $displayValue;
-			}
-			$entries[] = $recordValues;
-		}
-
-		return [$headers, $entries];
-	}
-
-	public function getEntriesExport(): array
-	{
-		$query = $this->getExportQuery();
-		$headers = $this->getHeaders();
-		$isInventory = $this->moduleInstance->isInventory();
-		if ($isInventory) {
+		$addInventoryData = $this->fullData && $this->moduleInstance->isInventory();
+		if ($addInventoryData) {
 			$inventoryModel = Vtiger_Inventory_Model::getInstance($this->moduleName);
 			$inventoryFields = $inventoryModel->getFields();
 			$inventoryTable = $inventoryModel->getDataTableName();
 		}
 		$rowsCounter = 0;
-		$dataReader = $query->createCommand()->query();
+		$dataReader = $this->getExportQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$sanitizedRow = $this->sanitizeValues($row);
-			if ($isInventory && !$this->quickExport) {
+			if ($addInventoryData) {
 				$sanitizedRow[] = $rowsCounter++;
 				$rows = (new \App\Db\Query())->from($inventoryTable)->where(['crmid' => $row['id']])->orderBy('seq')->all();
 				if ($rows) {
@@ -85,7 +63,8 @@ class Vtiger_ExportToCsv_Model extends \App\Export\ExportRecords
 			}
 		}
 		$dataReader->close();
-		return [$headers, $entries];
+
+		return $entries;
 	}
 
 	/**

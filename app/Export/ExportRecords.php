@@ -17,11 +17,14 @@ namespace App\Export;
  */
 abstract class ExportRecords extends \App\Base
 {
+	/** @var int Data export in a format that can be imported later */
+	public const EXPORT_FORMAT = 0;
+
+	/** @var int Data export in user format */
+	public const USER_FORMAT = 1;
+
 	/** @var string Module name */
 	protected $moduleName;
-
-	/** @var array Columns selected by user */
-	protected $exportColumns = [];
 
 	/** @var \Vtiger_Module_Model Module model. */
 	protected $moduleInstance;
@@ -29,26 +32,23 @@ abstract class ExportRecords extends \App\Base
 	/** @var \Vtiger_Field_Model[] Field model instance. */
 	protected $moduleFieldInstances;
 
-	/** @var \CRMEntity Module class */
-	protected $focus;
-
-	/** @var array Picklist values */
-	protected $picklistValues;
-
-	/** @var \Vtiger_Field_Model[] Field from related modules */
-	protected $relatedModuleFields = [];
-
-	/** @var int Record from list */
-	protected $recordsListFromRequest = [];
-
 	/** @var string File extension */
 	protected $fileExtension = '';
 
-	/** @var array Query options */
-	protected $queryOptions;
+	/** @var array Headers field */
+	protected $headers = [];
 
-	/** @var bool If is quick export */
-	protected $quickExport = false;
+	/** @var array Fields for export */
+	protected $fields = [];
+
+	/** @var int Limit of exported entries */
+	protected $limit;
+
+	/** @var bool Export all data */
+	protected $format = self::EXPORT_FORMAT;
+
+	/** @var bool Export all data */
+	public $fullData = false;
 
 	/**
 	 * Get instance.
@@ -67,26 +67,16 @@ abstract class ExportRecords extends \App\Base
 		} else {
 			$componentName = 'ExportTo' . ucfirst($exportType);
 		}
-		$modelClassName = \Vtiger_Loader::getComponentClassName('Model', $componentName, $moduleName);
-		return new $modelClassName();
-	}
 
-	/**
-	 * Get instance from request.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return \self
-	 */
-	public static function getInstanceFromRequest(\App\Request $request)
-	{
-		$module = $request->getByType('source_module', 'Alnum');
-		if (empty($module)) {
-			$module = $request->getModule();
-		}
-		$exportModel = static::getInstance($module, $request->getByType('export_type', 'Alnum'));
-		$exportModel->initializeFromRequest($request);
-		return $exportModel;
+		$modelClassName = \Vtiger_Loader::getComponentClassName('Model', $componentName, $moduleName);
+		$instance = new $modelClassName();
+		$instance->fileExtension = $exportType;
+		$instance->moduleName = $moduleName;
+		$instance->moduleInstance = \Vtiger_Module_Model::getInstance($moduleName);
+		$instance->moduleFieldInstances = $instance->moduleInstance->getFields();
+		$instance->queryGenerator = new \App\QueryGenerator($moduleName);
+
+		return $instance;
 	}
 
 	/**
@@ -106,59 +96,78 @@ abstract class ExportRecords extends \App\Base
 	}
 
 	/**
-	 * Initialize from request.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\IllegalValue
+	 * Function exports the data.
 	 */
-	public function initializeFromRequest(\App\Request $request)
-	{
-		$module = $request->getByType('source_module', 2);
-		if (empty($module)) {
-			$module = $request->getModule();
-		}
-		if (!empty($module)) {
-			$this->moduleName = $module;
-			$this->moduleInstance = \Vtiger_Module_Model::getInstance($module);
-			$this->moduleFieldInstances = $this->moduleInstance->getFields();
-			$this->focus = \CRMEntity::getInstance($module);
-		}
-		if ($request->has('exportColumns') && !$request->isEmpty('exportColumns')) {
-			$this->exportColumns = $request->getArray('exportColumns', 'Text')[0];
-		}
-		if ($request->has('quickExport') && !$request->isEmpty('quickExport')) {
-			$this->quickExport = true;
-			$this->queryGeneratorForList = \Vtiger_Mass_Action::getQuery($request);
-			$this->setRecordList(\Vtiger_Mass_Action::getRecordsListFromRequest($request));
-		}
-		if (!$request->isEmpty('export_type')) {
-			$this->exportType = $request->getByType('export_type');
-		}
-		if (!$request->isEmpty('viewname', true)) {
-			$this->queryOptions['viewname'] = $request->getByType('viewname', 'Alnum');
-			$listViewModel = \Vtiger_ListView_Model::getInstance($this->moduleName, $this->queryOptions['viewname']);
-			$this->listViewHeaders = $listViewModel->getListViewHeaders();
-		}
-		if (!$request->isEmpty('entityState')) {
-			$this->queryOptions['entityState'] = $request->getByType('entityState');
-		}
+	abstract public function exportData();
 
-		$this->queryOptions['page'] = $request->getInteger('page');
-		$this->queryOptions['mode'] = $request->getMode();
-		$this->queryOptions['excluded_ids'] = $request->getArray('excluded_ids', 'Alnum');
+	/**
+	 * Set the format of the exported data.
+	 *
+	 * @param int $format self::EXPORT_FORMAT or self::USER_FORMAT
+	 *
+	 * @return $this
+	 */
+	public function setFormat(int $format)
+	{
+		$this->format = $format;
+
+		return $this;
 	}
 
 	/**
-	 * Function set id's of records from list.
+	 * Get query generator object.
 	 *
-	 * @param array $listId
-	 *
-	 * @return array
+	 * @return \App\QueryGenerator
 	 */
-	public function setRecordList(array $listId): array
+	public function getQueryGenerator(): \App\QueryGenerator
 	{
-		return $this->recordsListFromRequest = $listId;
+		return $this->queryGenerator;
+	}
+
+	/**
+	 * Set.
+	 *
+	 * @param array $fields
+	 *
+	 * @return $this
+	 */
+	public function setFields(array $fields)
+	{
+		foreach ($fields as $fieldName) {
+			$fieldModel = null;
+			[$relatedFieldName, $relatedModule, $referenceField] = array_pad(explode(':', $fieldName), 3, null);
+
+			if ($referenceField) {
+				$relatedFieldModel = \Vtiger_Module_Model::getInstance($relatedModule)->getFieldByName($relatedFieldName);
+				if (!isset($this->moduleFieldInstances[$referenceField]) || !$relatedFieldModel) {
+					throw new \App\Exceptions\IllegalValue("ERR_FIELD_NOT_FOUND||{$relatedFieldName}");
+				}
+				$fieldModel = clone $relatedFieldModel;
+				$fieldModel->set('source_field_name', $referenceField);
+			} elseif (!empty($this->moduleFieldInstances[$relatedFieldName])) {
+				$fieldModel = $this->moduleFieldInstances[$relatedFieldName];
+			}
+
+			if ($fieldModel && $fieldModel->isExportTable()) {
+				$this->fields[$fieldModel->getFullName()] = $fieldModel;
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Set a limit for exported data.
+	 *
+	 * @param int $limit
+	 *
+	 * @return $this
+	 */
+	public function setLimit(int $limit)
+	{
+		$this->limit = $limit;
+
+		return $this;
 	}
 
 	/**
@@ -168,86 +177,32 @@ abstract class ExportRecords extends \App\Base
 	 */
 	public function getHeaders(): array
 	{
-		if ($this->quickExport && isset($this->queryOptions['viewname'])) {
-			if ($this->exportColumns) {
-				$headers = $this->getHeadersSelectedByUser();
+		if (!$this->headers) {
+			if ($this->fullData) {
+				$this->headers = $this->getAllModuleFieldsAsHeaders();
 			} else {
-				$headers = $this->getHeadersFromCurrentView();
-			}
-		} else {
-			$headers = $this->getAllModuleFieldsAsHeaders();
-		}
-		return $headers;
-	}
-
-	/**
-	 * Function returns headers for file selected by user.
-	 *
-	 * @return array
-	 */
-	public function getHeadersSelectedByUser(): array
-	{
-		$headers = [];
-		foreach (explode(',', $this->exportColumns) as $index => $columnInfo) {
-			$label = '';
-			[$relatedFieldName, $relatedModule, $referenceField] = array_pad(explode(':', $columnInfo), 3, null);
-			if ($referenceField) {
-				$this->setReferenceField($relatedFieldName, $relatedModule, $referenceField);
-			}
-			if (!empty($this->moduleFieldInstances[$relatedFieldName])) {
-				$fieldModel = $this->moduleFieldInstances[$relatedFieldName];
-				if ($fieldModel->isExportTable()) {
+				foreach ($this->fields as $fieldModel) {
 					$label = $fieldModel->getFullLabelTranslation($this->moduleInstance);
-					$headers[] = \App\Purifier::decodeHtml($label);
-				}
-			}
-			if (!empty($this->moduleFieldInstances[$referenceField])) {
-				$fieldModel = $this->moduleFieldInstances[$referenceField];
-				if ($fieldModel->isExportTable()) {
-					$label = $fieldModel->getFullLabelTranslation($this->moduleInstance);
-					$relatedModuleInstance = \Vtiger_Module_Model::getInstance($relatedModule);
-					if ($fieldFromReferenceModule = $relatedModuleInstance->getFieldByName($relatedFieldName)) {
-						$label .= ' - ' . $fieldFromReferenceModule->getFullLabelTranslation($this->moduleInstance);
-					}
-					$headers[] = \App\Purifier::decodeHtml($label);
+					$this->headers[] = \App\Purifier::decodeHtml($label);
 				}
 			}
 		}
-		return $headers;
+
+		return $this->headers;
 	}
 
 	/**
-	 * Function returns headers specified in current filter.
+	 * Get fields for query.
 	 *
 	 * @return array
 	 */
-	public function getHeadersFromCurrentView(): array
+	public function getFieldsForQuery(): array
 	{
-		$headers = [];
-		foreach ($this->listViewHeaders as $fieldModel) {
-			if ($fieldModel->isExportTable()) {
-				$label = $fieldModel->getFullLabelTranslation($this->moduleInstance);
-				$headers[] = \App\Purifier::decodeHtml($label);
-			}
+		if ($this->fullData) {
+			$this->setFields(array_keys($this->moduleFieldInstances));
 		}
-		return $headers;
-	}
 
-	/**
-	 * Function sets module reference field.
-	 *
-	 * @param string $relatedFieldName
-	 * @param string $relatedModule
-	 * @param string $referenceField
-	 */
-	public function setReferenceField(string $relatedFieldName, string $relatedModule, string $referenceField)
-	{
-		$relatedFields = \Vtiger_Module_Model::getInstance($relatedModule)->getFields();
-		if (!isset($this->moduleFieldInstances[$referenceField], $relatedFields[$relatedFieldName])) {
-			throw new \App\Exceptions\IllegalValue("ERR_FIELD_NOT_FOUND||{$relatedFieldName}");
-		}
-		$referenceFieldName = $referenceField . $relatedModule . $relatedFieldName;
-		$this->relatedModuleFields[$referenceFieldName] = $relatedFields[$relatedFieldName];
+		return $this->fields;
 	}
 
 	/**
@@ -259,16 +214,13 @@ abstract class ExportRecords extends \App\Base
 	{
 		$headers = [];
 		$exportBlockName = \App\Config::component('Export', 'BLOCK_NAME');
-		foreach ($this->accessibleFields as $fieldName) {
-			if (!empty($this->moduleFieldInstances[$fieldName])) {
-				$fieldModel = $this->moduleFieldInstances[$fieldName];
-				if ($fieldModel->isExportTable()) { // export headers for mandatory fields
-					$header = \App\Language::translate(\App\Purifier::decodeHtml($fieldModel->get('label')), $this->moduleName);
-					if ($exportBlockName) {
-						$header = \App\Language::translate(\App\Purifier::decodeHtml($fieldModel->getBlockName()), $this->moduleName) . '::' . $header;
-					}
-					$headers[] = $header;
+		foreach ($this->moduleFieldInstances as $fieldModel) {
+			if ($fieldModel->isExportTable()) {
+				$header = \App\Language::translate(\App\Purifier::decodeHtml($fieldModel->getFieldLabel()), $this->moduleName);
+				if ($exportBlockName) {
+					$header = \App\Language::translate(\App\Purifier::decodeHtml($fieldModel->getBlockName()), $this->moduleName) . '::' . $header;
 				}
+				$headers[] = $header;
 			}
 		}
 		if ($this->moduleInstance->isInventory()) {
@@ -286,155 +238,23 @@ abstract class ExportRecords extends \App\Base
 	}
 
 	/**
-	 * Function returns heder label for the field.
-	 *
-	 * @param string      $fieldName
-	 * @param string      $moduleName
-	 * @param string|null $referenceField
-	 * @param bool        $exportBlockName
-	 *
-	 * @return string
-	 */
-	public function getHeaderLabelForField(string $fieldName, string $moduleName, ?string $referenceField, bool $exportBlockName): string
-	{
-		$header = '';
-		if (isset($this->moduleFieldInstances[$fieldName])) {
-			$fieldModel = $this->moduleFieldInstances[$fieldName];
-			if ($fieldModel) {
-				$header = $fieldName;
-				if ($exportBlockName) {
-					$header = \App\Language::translate(\App\Purifier::decodeHtml($fieldModel->getBlockName()), $moduleName) . '::' . $header;
-				}
-			}
-		}
-		$referenceFieldName = $referenceField . $moduleName . $fieldName;
-		if ($referenceField && isset($this->relatedModuleFields[$referenceFieldName])) {
-			$fieldModel = $this->moduleFieldInstances[$referenceField];
-			if ($fieldModel) {
-				$header = $fieldName;
-				if ($exportBlockName) {
-					$header = \App\Language::translate(\App\Purifier::decodeHtml($fieldModel->getFieldLabel()), $moduleName) . '::' . $header;
-				}
-			}
-		}
-		return $header;
-	}
-
-	/**
-	 * Function that generates Export Query based on the mode.
-	 *
-	 * @throws \Exception
+	 * Function that generates Export Query object.
 	 *
 	 * @return \App\Db\Query
 	 */
-	public function getExportQuery()
+	public function getExportQuery(): \App\Db\Query
 	{
-		$queryGenerator = new \App\QueryGenerator($this->moduleName);
-		if (!empty($this->queryOptions['viewname'])) {
-			$queryGenerator->initForCustomViewById($this->queryOptions['viewname']);
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->clearFields()->setLimit($this->limit);
+		$queryFields = $this->getFieldsForQuery();
+		if (!$queryFields) {
+			$queryGenerator->setFields(['id'])->addCondition('id', 0, 'e');
 		}
-		$queryGenerator->setFields($this->getFieldsForExportQuery());
-		if ($this->exportColumns) {
-			foreach (explode(',', $this->exportColumns) as $index => $columnInfo) {
-				[$relatedFieldName, $relatedModule, $referenceField] = array_pad(explode(':', $columnInfo), 3, null);
-				if ($referenceField) {
-					$queryGenerator->addRelatedField([
-						'sourceField' => $referenceField,
-						'relatedModule' => $relatedModule,
-						'relatedField' => $relatedFieldName,
-					]);
-				}
-			}
+		foreach (array_keys($queryFields) as $fieldName) {
+			$queryGenerator->setField($fieldName);
 		}
-		if (!empty($this->queryOptions['entityState'])) {
-			$queryGenerator->setStateCondition($this->queryOptions['entityState']);
-		}
-		$query = $queryGenerator->createQuery();
-		$this->accessibleFields = $queryGenerator->getFields();
-		switch ($this->queryOptions['mode']) {
-			case 'ExportAllData':
-				$query->limit(\App\Config::performance('MAX_NUMBER_EXPORT_RECORDS'));
-				break;
-			case 'ExportCurrentPage':
-				$pagingModel = new \Vtiger_Paging_Model();
-				$limit = $pagingModel->getPageLimit();
-				$currentPage = $this->queryOptions['page'];
-				if (empty($currentPage)) {
-					$currentPage = 1;
-				}
-				$currentPageStart = ($currentPage - 1) * $limit;
-				if ($currentPageStart < 0) {
-					$currentPageStart = 0;
-				}
-				$query->limit($limit)->offset($currentPageStart);
-				break;
-			case 'ExportSelectedRecords':
-			default:
-				$idList = $this->recordsListFromRequest;
-				$baseTable = $this->moduleInstance->get('basetable');
-				$baseTableColumnId = $this->moduleInstance->get('basetableid');
-				if (!empty($idList)) {
-					if (!empty($baseTable) && !empty($baseTableColumnId)) {
-						$query->andWhere(['in', "$baseTable.$baseTableColumnId", $idList]);
-					}
-				} else {
-					$query->andWhere(['not in', "$baseTable.$baseTableColumnId", $this->queryOptions['excluded_ids']]);
-				}
-				$query->limit(\App\Config::performance('MAX_NUMBER_EXPORT_RECORDS'));
-				break;
-		}
-		return $query;
-	}
 
-	/**
-	 * Function return fields for export query by a specific method.
-	 *
-	 * @return array
-	 */
-	public function getFieldsForExportQuery(): array
-	{
-		if ($this->exportColumns && $this->quickExport) {
-			$fields = $this->getFieldsSelectedByUserForQuery();
-		} else {
-			$fields = $this->getAllModuleFieldsForQuery();
-		}
-		return $fields;
-	}
-
-	/**
-	 * Function returns all module fields for query.
-	 *
-	 * @return array
-	 */
-	public function getAllModuleFieldsForQuery(): array
-	{
-		$fields[] = 'id';
-		foreach ($this->moduleFieldInstances as &$fieldModel) {
-			// Check added as querygenerator is not checking this for admin users
-			if ($fieldModel->isExportTable() && ($fieldModel->isViewEnabled() || $fieldModel->isMandatory())) {  // also export mandatory fields
-				$fields[] = $fieldModel->getName();
-			}
-		}
-		return $fields;
-	}
-
-	/**
-	 * Function returns  module fields selected by user.
-	 *
-	 * @return array
-	 */
-	public function getFieldsSelectedByUserForQuery(): array
-	{
-		$fields[] = 'id';
-		foreach (explode(',', $this->exportColumns) as $index => $columnInfo) {
-			[$relatedFieldName, $relatedModule, $referenceField] = array_pad(explode(':', $columnInfo), 3, null);
-			if ($referenceField) {
-				$fields[] = $columnInfo;
-			} else {
-				$fields[] = $relatedFieldName;
-			}
-		}
-		return $fields;
+		return $queryGenerator->createQuery();
 	}
 
 	/**
@@ -445,11 +265,12 @@ abstract class ExportRecords extends \App\Base
 	 */
 	public function sanitizeValues(array $recordValues): array
 	{
-		if ($this->exportColumns) {
-			$valuesToReturn = $this->getRecordDataInUserFormat($recordValues);
+		if (self::USER_FORMAT === $this->format) {
+			$valuesToReturn = $this->getDataInUserFormat($recordValues);
 		} else {
-			$valuesToReturn = $this->getRecordDataInExportFormat($recordValues);
+			$valuesToReturn = $this->getDataInExportFormat($recordValues);
 		}
+
 		return $valuesToReturn;
 	}
 
@@ -511,50 +332,21 @@ abstract class ExportRecords extends \App\Base
 	 *
 	 * @return array
 	 */
-	public function getRecordDataInUserFormat(array $recordValues): array
+	public function getDataInUserFormat(array $recordValues): array
 	{
-		$recordId = (int) ($recordValues['id'] ?? 0);
-		foreach ($recordValues as $fieldName => &$value) {
-			if (isset($this->moduleFieldInstances[$fieldName])) {
-				$fieldModel = $this->moduleFieldInstances[$fieldName];
-			} elseif (isset($this->relatedModuleFields[$fieldName])) {
-				$fieldModel = $this->relatedModuleFields[$fieldName];
-			} else {
-				unset($recordValues[$fieldName]);
-				continue;
+		$response = [];
+		foreach ($this->fields as $dbKey => $fieldModel) {
+			$idKey = 'id';
+			if ($fieldModel->get('source_field_name')) {
+				$name = $fieldModel->get('source_field_name') . $fieldModel->getModuleName();
+				$idKey = $name . $idKey;
+				$dbKey = $name . $fieldModel->getName();
 			}
-			if ($fieldModel->isExportTable()) {
-				$value = $this->getDisplayValue($fieldModel, $value, $recordId, false, true);
-			} else {
-				$value = '';
-			}
-		}
-		return $recordValues;
-	}
 
-	/**
-	 * Get display value.
-	 *
-	 * @param \Vtiger_Field_Model $fieldModel
-	 * @param mixed               $value
-	 * @param bool|int            $recordId
-	 * @param bool|int            $recordModel
-	 * @param bool                $rawText
-	 * @param bool|int            $length
-	 *
-	 * @return mixed
-	 */
-	public function getDisplayValue(\Vtiger_Field_Model $fieldModel, $value, $recordId = false, $recordModel = false, $rawText = false, $length = false)
-	{
-		if ('sharedOwner' === $fieldModel->getFieldDataType() && ($recordId || $recordModel)) {
-			$recordId = $recordId ?: $recordModel->getId();
-			$value = '';
-			$fieldValue = \App\Fields\SharedOwner::getById($recordId);
-			if (\is_array($fieldValue)) {
-				$value = implode(',', $fieldValue);
-			}
+			$response[$fieldModel->getFullName()] = $this->getDisplayValue($fieldModel, $recordValues[$dbKey], $recordValues[$idKey] ?? 0, $recordValues);
 		}
-		return $fieldModel->getDisplayValue($value, $recordId, $recordModel, $rawText, $length);
+
+		return $response;
 	}
 
 	/**
@@ -564,25 +356,42 @@ abstract class ExportRecords extends \App\Base
 	 *
 	 * @return array
 	 */
-	public function getRecordDataInExportFormat(array $recordValues): array
+	public function getDataInExportFormat(array $recordValues): array
 	{
-		$recordId = (int) ($recordValues['id'] ?? 0);
-		foreach ($recordValues as $fieldName => &$value) {
-			if (isset($this->moduleFieldInstances[$fieldName])) {
-				$fieldModel = $this->moduleFieldInstances[$fieldName];
-			} elseif (isset($this->relatedModuleFields[$fieldName])) {
-				$fieldModel = $this->relatedModuleFields[$fieldName];
-			} else {
-				unset($recordValues[$fieldName]);
-				continue;
+		$response = [];
+		foreach ($this->fields as $dbKey => $fieldModel) {
+			$idKey = 'id';
+			if ($fieldModel->get('source_field_name')) {
+				$name = $fieldModel->get('source_field_name') . $fieldModel->getModuleName();
+				$idKey = $name . $idKey;
+				$dbKey = $name . $fieldModel->getName();
 			}
-			if ($fieldModel->isExportTable()) {
-				$value = $fieldModel->getUITypeModel()->getValueToExport($value, $recordId);
-			} else {
-				$value = '';
-			}
+
+			$response[$fieldModel->getFullName()] = $fieldModel->getUITypeModel()->getValueToExport($recordValues[$dbKey], $recordValues[$idKey] ?? 0);
 		}
-		return $recordValues;
+
+		return $response;
+	}
+
+	/**
+	 * Get display value.
+	 *
+	 * @param \Vtiger_Field_Model $fieldModel
+	 * @param mixed               $value
+	 * @param int                 $recordId
+	 * @param array               $rowData
+	 * @param int                 $length
+	 *
+	 * @return string
+	 */
+	public function getDisplayValue(\Vtiger_Field_Model $fieldModel, $value, int $recordId, array $rowData, $length = 3000)
+	{
+		if ('sharedOwner' === $fieldModel->getFieldDataType() && $recordId) {
+			$value = implode(',', \App\Fields\SharedOwner::getById($recordId));
+		}
+		$returnValue = $fieldModel->getDisplayValue($value, $recordId, null, true, $length);
+
+		return 'text' === $fieldModel->getFieldDataType() ? strip_tags(\App\Purifier::decodeHtml($returnValue)) : $returnValue;
 	}
 
 	/**
@@ -619,26 +428,6 @@ abstract class ExportRecords extends \App\Base
 	 */
 	public function getFileName(): string
 	{
-		return str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($this->moduleName, $this->moduleName))) . ".{$this->fileExtension}";
-	}
-
-	/**
-	 * Get list value from related fields.
-	 *
-	 * @param \Vtiger_Field_Model  $fieldModel
-	 * @param bool                 $rawText
-	 * @param \Vtiger_Record_Model $recordModel
-	 *
-	 * @return string
-	 */
-	public function listValueForExport(\Vtiger_Field_Model $fieldModel, bool $rawText, \Vtiger_Record_Model $recordModel)
-	{
-		$textLengthLimit = 3000;
-		if (!empty($fieldModel->get('source_field_name')) && isset($recordModel->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()])) {
-			$referenceRecordModel = $recordModel->ext[$fieldModel->get('source_field_name')][$fieldModel->getModuleName()];
-			$recordModel = $referenceRecordModel;
-		}
-		$fieldValue = $recordModel->get($fieldModel->getName());
-		return $this->getDisplayValue($fieldModel, $fieldValue, $recordModel->getId(), $recordModel, $rawText, $textLengthLimit);
+		return \App\Utils::sanitizeSpecialChars(\App\Purifier::decodeHtml(\App\Language::translate($this->moduleName, $this->moduleName))) . ".{$this->fileExtension}";
 	}
 }

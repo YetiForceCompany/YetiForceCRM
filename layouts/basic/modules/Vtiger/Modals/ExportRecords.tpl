@@ -9,7 +9,7 @@
 		</div>
 		<form class="form-horizontal js-modal-form js-validate-form" data-js="container|validate">
 			<input type="hidden" name="module" value="{$MODULE_NAME}" />
-			<input type="hidden" name="action" value="ExportData" />
+			<input type="hidden" name="action" value="QuickExportData" />
 			<input type="hidden" name="quickExport" value="true" />
 			<label class="col-form-label">
 				<span class="fas fa-file-import mr-2"></span>
@@ -33,7 +33,7 @@
 				<div class="columnsSelectDiv col-md-12 p-0">
 					<div>
 						<select name="exportColumns[]" multiple="multiple" data-placeholder="{\App\Language::translate('LBL_ADD_MORE_COLUMNS',$MODULE_NAME)}"
-							class="select2 form-control js-view-columns-select" data-select-cb="registerSelectSortable" id="viewColumnsSelect" data-js="appendTo | select2 | sortable">
+							class="select2 form-control" data-select-cb="registerSelectSortable" id="viewColumnsSelect" data-js="appendTo | select2 | sortable">
 							{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 								<optgroup label="{\App\Language::translate($BLOCK_LABEL, $MODULE_NAME)}">
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}

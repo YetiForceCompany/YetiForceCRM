@@ -163,11 +163,24 @@ window.AppConnector = {
 			postData[csrfMagicName] = csrfMagicToken;
 		}
 		$.each(postData, (index, value) => {
-			let input = $(document.createElement('input'));
-			input.attr('type', 'hidden');
-			input.attr('name', index);
-			input.val(value);
-			form.append(input);
+			let isMultiple = typeof value === 'object' && value.length && index.slice(-2) === '[]';
+			const item = document.createElement(isMultiple ? 'select' : 'input');
+
+			item.setAttribute('type', 'hidden');
+			item.setAttribute('name', index);
+
+			if (isMultiple) {
+				item.setAttribute('multiple', 'multiple');
+				for (let i in value) {
+					let option = document.createElement('option');
+					option.setAttribute('value', value[i]);
+					option.setAttribute('selected', true);
+					item.appendChild(option);
+				}
+			} else {
+				item.setAttribute('value', value);
+			}
+			form.append(item);
 		});
 		$('body').append(form);
 		form.trigger('submit');
