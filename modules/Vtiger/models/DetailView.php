@@ -191,10 +191,10 @@ class Vtiger_DetailView_Model extends \App\Base
 					'modalView' => true,
 				]);
 			}
-			if ($moduleModel->isPermitted('SMSNotifier')) {
+			if ($moduleModel->isPermitted('CreateView')) {
 				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
-					'linklabel' => 'LBL_SMSNOTIFIER_BUTTON',
+					'linklabel' => 'BL_SMSNOTIFIER_BUTTON',
 					'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSMSmodal(this)',
 					'linkicon' => 'fas fa-sms',
 					'linkclass' => 'btn-outline-dark btn-sm',
