@@ -17,7 +17,7 @@
 	{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
 	{assign var="DISABLE_FIELD" value=$FIELD_MODEL->isEditableReadOnly()}
 	{assign var="EDIT_MODE" value=!empty($FIELD_MODEL->get('fieldvalue'))}
-	{if isset($MODE) and "duplicate" eq $MODE}
+	{if isset($MODE) && "duplicate" === $MODE}
 		{assign var="IS_DUPLICATE" value=true }
 	{else}
 		{assign var="IS_DUPLICATE" value=false}
@@ -25,11 +25,11 @@
 	<div class="input-group {$WIDTHTYPE_GROUP} js-pwd-container">
 		<input id="{$MODULE_NAME}_editView_fieldName_{$FIELD_NAME}" type="password" tabindex="{$FIELD_MODEL->getTabIndex()}" class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if} js-pwd-field"
 			data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-			name="{$FIELD_NAME}" value="{if $EDIT_MODE and !$IS_DUPLICATE}{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}{/if}"
+			name="{$FIELD_NAME}" value="{if $EDIT_MODE && !$IS_DUPLICATE}{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}{/if}"
 			data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if}
 			data-module="{$FIELD_MODEL->getModuleName()}"
 			{if !empty($PARAMS['strengthMeter'])} data-strength-meter="{$PARAMS['strengthMeter']}" {/if}
-			{if !$IS_DUPLICATE and ($EDIT_MODE || $DISABLE_FIELD)} disabled="disabled" {/if}>
+			{if !$IS_DUPLICATE && ($EDIT_MODE || $DISABLE_FIELD)} disabled="disabled" {/if}>
 		<span class="input-group-append">
 			{if !$DISABLE_FIELD}
 				{if $EDIT_MODE}
