@@ -14,7 +14,7 @@
 /**
  * Export to XML model class.
  */
-class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
+class Vtiger_ExportToXml_Model extends \App\Export\Records
 {
 	protected $attrList = ['crmfield', 'crmfieldtype', 'partvalue', 'constvalue', 'refmoule', 'spec', 'refkeyfld', 'delimiter', 'testcondition'];
 	protected $product = false;
@@ -169,7 +169,7 @@ class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 	}
 
 	/**
-	 * Undocumented function.
+	 * Create XML file.
 	 *
 	 * @param array $entries
 	 * @param array $entriesInventory
