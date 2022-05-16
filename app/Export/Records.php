@@ -148,7 +148,7 @@ abstract class Records extends \App\Base
 				$fieldModel = $this->moduleFieldInstances[$relatedFieldName];
 			}
 
-			if ($fieldModel && $fieldModel->isExportTable()) {
+			if ($fieldModel && $fieldModel->isExportable()) {
 				$this->fields[$fieldModel->getFullName()] = $fieldModel;
 			}
 		}
@@ -215,7 +215,7 @@ abstract class Records extends \App\Base
 		$headers = [];
 		$exportBlockName = \App\Config::component('Export', 'BLOCK_NAME');
 		foreach ($this->moduleFieldInstances as $fieldModel) {
-			if ($fieldModel->isExportTable()) {
+			if ($fieldModel->isExportable()) {
 				$header = \App\Language::translate(\App\Purifier::decodeHtml($fieldModel->getFieldLabel()), $this->moduleName);
 				if ($exportBlockName) {
 					$header = \App\Language::translate(\App\Purifier::decodeHtml($fieldModel->getBlockName()), $this->moduleName) . '::' . $header;

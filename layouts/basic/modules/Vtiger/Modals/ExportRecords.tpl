@@ -38,7 +38,7 @@
 							{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 								<optgroup label="{\App\Language::translate($BLOCK_LABEL, $MODULE_NAME)}">
 									{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
-										{if $FIELD_MODEL->isExportTable()}
+										{if $FIELD_MODEL->isExportable()}
 											<option value="{$FIELD_MODEL->getCustomViewSelectColumnName()}" data-field-name="{$FIELD_NAME}" data-js="data-sort-index|data-field-name">
 												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}
 											</option>
@@ -52,7 +52,7 @@
 									{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 										<optgroup label="{\App\Language::translate($RELATED_FIELD_LABEL, $MODULE_NAME)}&nbsp;-&nbsp;{\App\Language::translate($MODULE_KEY, $MODULE_KEY)}&nbsp;-&nbsp;{\App\Language::translate($BLOCK_LABEL, $MODULE_KEY)}">
 											{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
-												{if $FIELD_MODEL->isExportTable()}
+												{if $FIELD_MODEL->isExportable()}
 													<option value="{$FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME)}" data-field-name="{$FIELD_NAME}" data-js="data-sort-index|data-field-name">
 														{\App\Language::translate($RELATED_FIELD_LABEL, $MODULE_NAME)}
 														&nbsp;-&nbsp;{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_KEY)}

@@ -40,12 +40,8 @@ class Users_Field_Model extends Vtiger_Field_Model
 		return parent::isViewEnabled();
 	}
 
-	/**
-	 * Function to check if the field is export table.
-	 *
-	 * @return bool
-	 */
-	public function isExportTable()
+	/** {@inheritdoc} */
+	public function isExportable(): bool
 	{
 		return $this->isViewable() || 99 === $this->getUIType();
 	}

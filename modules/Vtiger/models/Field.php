@@ -723,11 +723,11 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
-	 * Function to check if the field is export table.
+	 * Function to check if the field is exportable.
 	 *
 	 * @return bool
 	 */
-	public function isExportTable()
+	public function isExportable(): bool
 	{
 		return $this->isViewable();
 	}
