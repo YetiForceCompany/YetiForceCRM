@@ -8,9 +8,8 @@ $.Class(
 		/**
 		 * Register tiles size change action
 		 * @param {jQuery} topMenuContainer
-		 * @param {Vtiger_List_Js} listInstance
 		 */
-		registerTileSizeChange: function (topMenuContainer, listInstance) {
+		registerTileSizeChange: function (topMenuContainer) {
 			topMenuContainer.find('.js-tile-size').on('click', (e) => {
 				let selectedTileSize = $(e.currentTarget).attr('data-tile-size');
 				topMenuContainer.find('.js-tile-dropdown-title').text($(e.currentTarget).text());
@@ -18,8 +17,8 @@ $.Class(
 				app.setMainParams('pageNumber', '1');
 				app.setMainParams('pageToJump', '1');
 				let urlParams = {
-					viewname: listInstance.getCurrentCvId(),
-					search_key: listInstance.getAlphabetSearchField(),
+					viewname: this.listInstance.getCurrentCvId(),
+					search_key: this.listInstance.getAlphabetSearchField(),
 					search_value: '',
 					search_params: '',
 					advancedConditions: '',
@@ -28,8 +27,8 @@ $.Class(
 				this.contentContainer.find('#recordsCount').val('');
 				this.contentContainer.find('#totalPageCount').text('');
 				topMenuContainer.find('.pagination').data('totalCount', 0);
-				listInstance.getListViewRecords(urlParams).done(() => {
-					listInstance.updatePagination(1);
+				this.listInstance.getListViewRecords(urlParams).done(() => {
+					this.listInstance.updatePagination(1);
 					this.setHeightOfTiles(this.contentContainer);
 				});
 				e.stopPropagation();
@@ -65,16 +64,25 @@ $.Class(
 			});
 		},
 		/**
+		 * Function which will give you all the list view params
+		 * @param {string} urlParams
+		 */
+		getListViewRecords: function (urlParams) {
+			this.listInstance.getListViewRecords(urlParams).done(() => {
+				this.setHeightOfTiles(this.contentContainer);
+			});
+		},
+		/**
 		 * Register events
 		 */
 		registerEvents: function () {
-			const listInstance = new Vtiger_List_Js();
-			listInstance.registerEvents();
-			const topMenuContainer = listInstance.getListViewTopMenuContainer();
-			this.contentContainer = listInstance.getListViewContainer();
-			this.registerTileSizeChange(topMenuContainer, listInstance);
+			this.listInstance = new Vtiger_List_Js();
+			this.listInstance.registerEvents();
+			const topMenuContainer = this.listInstance.getListViewTopMenuContainer();
+			this.contentContainer = this.listInstance.getListViewContainer();
+			this.registerTileSizeChange(topMenuContainer);
 			this.setHeightOfTiles();
-			this.registerTileClickEvent(listInstance.getListViewContainer());
+			this.registerTileClickEvent(this.contentContainer);
 		}
 	}
 );

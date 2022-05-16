@@ -3116,7 +3116,7 @@ var app = (window.app = {
 		const moduleName = params['module'];
 		const parentModuleName = app.getModuleName();
 		const viewName = app.getViewName();
-		if ('List' === viewName) {
+		if ('List' === viewName || 'Tiles' === viewName) {
 			if (moduleName === parentModuleName) {
 				app.pageController.getListViewRecords();
 			}
