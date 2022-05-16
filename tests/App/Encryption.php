@@ -91,4 +91,28 @@ class Encryption extends \Tests\Base
 		$this->assertFalse($testText === $encryptText, 'Encryption is not working');
 		$this->assertSame($testText, $instance->decrypt($encryptText), 'The decrypted text does not match the encrypted text');
 	}
+
+	/**
+	 * Testing process function for module.
+	 *
+	 * @param string $method
+	 * @param string $password
+	 *
+	 * @dataProvider encryptionProvider
+	 */
+	public function testEncryptionModule(string $method, string $password)
+	{
+		$instance = clone \App\Encryption::getInstance(\App\Module::getModuleId('Passwords'));
+		$instance->set('method', $method);
+		$instance->set('vector', $password);
+		$instance->set('pass', $password);
+
+		$this->assertTrue($instance->isActive(true), 'The encryption mechanism is not active');
+		foreach (['TEST TEXT', ''] as $testText) {
+			$encryptText = $instance->encrypt($testText, true);
+			$this->assertTrue(!empty($encryptText), 'Encryption is not available');
+			$this->assertFalse($testText === $encryptText, 'Encryption is not working');
+			$this->assertSame($testText, $instance->decrypt($encryptText), 'The decrypted text does not match the encrypted text');
+		}
+	}
 }

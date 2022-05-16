@@ -16,7 +16,7 @@
 	{assign var=FIELD_NAME value=$FIELD_MODEL->getFieldName()}
 	{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
 	{assign var="DISABLE_FIELD" value=$FIELD_MODEL->isEditableReadOnly()}
-	{assign var="EDIT_MODE" value=!empty($FIELD_MODEL->get('fieldvalue'))}
+	{assign var="EDIT_MODE" value=!empty($FIELD_MODEL->get('fieldvalue')) || !empty($RECORD_ID) }
 	<div class="input-group {$WIDTHTYPE_GROUP} js-pwd-container">
 		<input id="{$MODULE_NAME}_editView_fieldName_{$FIELD_NAME}" type="password" tabindex="{$FIELD_MODEL->getTabIndex()}" class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if} js-pwd-field"
 			data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
