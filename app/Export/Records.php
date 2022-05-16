@@ -15,7 +15,7 @@ namespace App\Export;
 /**
  * Abstract export records class.
  */
-abstract class ExportRecords extends \App\Base
+abstract class Records extends \App\Base
 {
 	/** @var int Data export in a format that can be imported later */
 	public const EXPORT_FORMAT = 0;

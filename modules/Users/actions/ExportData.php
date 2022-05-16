@@ -25,9 +25,9 @@ class Users_ExportData_Action extends Vtiger_ExportData_Action
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		$this->exportModel = \App\Export\ExportRecords::getInstance($this->moduelName, 'csv')
+		$this->exportModel = \App\Export\Records::getInstance($this->moduelName, 'csv')
 			->setLimit(\App\Config::performance('MAX_NUMBER_EXPORT_RECORDS'))
-			->setFormat(\App\Export\ExportRecords::EXPORT_FORMAT);
+			->setFormat(\App\Export\Records::EXPORT_FORMAT);
 		$this->exportModel->fullData = true;
 
 		$this->setDataFromRequest($request);

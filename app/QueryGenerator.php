@@ -48,7 +48,6 @@ class QueryGenerator
 	private $referenceFields = [];
 	private $ownerFields = [];
 	private $customColumns = [];
-	private $cvColumns;
 	private $advFilterList;
 	private $conditions;
 

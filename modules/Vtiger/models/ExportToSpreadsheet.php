@@ -13,7 +13,7 @@
 /**
  * Export to spreadsheet model class.
  */
-class Vtiger_ExportToSpreadsheet_Model extends \App\Export\ExportRecords
+class Vtiger_ExportToSpreadsheet_Model extends \App\Export\Records
 {
 	protected $workBook;
 	protected $workSheet;

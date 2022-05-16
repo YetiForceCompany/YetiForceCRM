@@ -16,7 +16,7 @@ class Vtiger_QuickExportData_Action extends Vtiger_Mass_Action
 {
 	/** @var string Module name */
 	protected $moduelName;
-	/** @var \App\Export\ExportRecords Export model instance */
+	/** @var \App\Export\Records Export model instance */
 	protected $exportModel;
 
 	/** {@inheritdoc} */
@@ -32,9 +32,9 @@ class Vtiger_QuickExportData_Action extends Vtiger_Mass_Action
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		$this->exportModel = \App\Export\ExportRecords::getInstance($this->moduelName, $request->getByType('export_type', \App\Purifier::ALNUM))
+		$this->exportModel = \App\Export\Records::getInstance($this->moduelName, $request->getByType('export_type', \App\Purifier::ALNUM))
 			->setLimit(\App\Config::performance('MAX_NUMBER_EXPORT_RECORDS'))
-			->setFormat(\App\Export\ExportRecords::USER_FORMAT);
+			->setFormat(\App\Export\Records::USER_FORMAT);
 
 		$this->setDataFromRequest($request);
 		$this->exportModel->sendHttpHeader();

@@ -5,7 +5,8 @@
 		<div class="alert alert-info">
 			<span class="mdi mdi-information-outline mr-2 u-fs-4x float-left"></span>
 			{\App\Language::translate('LBL_EXPORT_USER_FORMAT_ALERT',$MODULE_NAME)}<br />
-			{\App\Language::translate('LBL_USER_FORMAT_DATA_CANNOT_BE_IMPORTED',$MODULE_NAME)}
+			{\App\Language::translate('LBL_USER_FORMAT_DATA_CANNOT_BE_IMPORTED',$MODULE_NAME)}<br />
+			{\App\Language::translate('LBL_EXPORT_LIMIT', $MODULE_NAME)}: {\App\Config::performance('MAX_NUMBER_EXPORT_RECORDS')}
 		</div>
 		<form class="form-horizontal js-modal-form js-validate-form" data-js="container|validate">
 			<input type="hidden" name="module" value="{$MODULE_NAME}" />

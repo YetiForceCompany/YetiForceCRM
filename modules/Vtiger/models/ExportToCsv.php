@@ -14,7 +14,7 @@
 /**
  * Export to csv - class.
  */
-class Vtiger_ExportToCsv_Model extends \App\Export\ExportRecords
+class Vtiger_ExportToCsv_Model extends \App\Export\Records
 {
 	/** @var string File extension. */
 	protected $fileExtension = 'csv';

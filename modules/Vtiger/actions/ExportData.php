@@ -42,9 +42,9 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 	 */
 	public function process(App\Request $request)
 	{
-		$this->exportModel = \App\Export\ExportRecords::getInstance($this->moduelName, $request->getByType('export_type', \App\Purifier::ALNUM))
+		$this->exportModel = \App\Export\Records::getInstance($this->moduelName, $request->getByType('export_type', \App\Purifier::ALNUM))
 			->setLimit(\App\Config::performance('MAX_NUMBER_EXPORT_RECORDS'))
-			->setFormat(\App\Export\ExportRecords::EXPORT_FORMAT);
+			->setFormat(\App\Export\Records::EXPORT_FORMAT);
 		$this->exportModel->fullData = true;
 
 		$this->setDataFromRequest($request);

@@ -49,7 +49,7 @@ class Vtiger_Export_View extends Vtiger_Index_View
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('MODULE', 'Export');
 		$viewer->assign('XML_TPL_LIST', Import_Module_Model::getListTplForXmlType($moduleName));
-		$viewer->assign('EXPORT_TYPE', \App\Export\ExportRecords::getSupportedFileFormats($moduleName));
+		$viewer->assign('EXPORT_TYPE', \App\Export\Records::getSupportedFileFormats($moduleName));
 		$viewer->assign('OPERATOR', $request->getByType('operator'));
 		$viewer->assign('ALPHABET_VALUE', \App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $request->getByType('search_key', 'Alnum'), $request->getByType('operator')));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 'Alnum'));
