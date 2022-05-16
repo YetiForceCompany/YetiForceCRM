@@ -164,7 +164,7 @@ $.Class(
 			const progressIndicatorElement = $.progressIndicator();
 			let url = 'index.php?module=' + module + '&view=ExportRecords';
 			app.showModalWindow(null, url, function (container) {
-				container.find('.js-modal__save').on('click', (e) => {
+				container.find('.js-modal__save').on('click', (_e) => {
 					let formData = container.find('.js-modal-form').serializeFormData();
 					const listInstance = Vtiger_List_Js.getInstance();
 					$.extend(formData, listInstance.getSearchParams());

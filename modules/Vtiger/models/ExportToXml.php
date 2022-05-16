@@ -14,70 +14,55 @@
 /**
  * Export to XML model class.
  */
-class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
+class Vtiger_ExportToXml_Model extends \App\Export\Records
 {
 	protected $attrList = ['crmfield', 'crmfieldtype', 'partvalue', 'constvalue', 'refmoule', 'spec', 'refkeyfld', 'delimiter', 'testcondition'];
 	protected $product = false;
 	protected $tplName = '';
 	protected $tmpXmlPath = '';
-	protected $index;
 	protected $inventoryFields;
 	protected $fileExtension = 'xml';
 
 	/**
-	 * Initialize data fromrequest.
+	 * Set template.
 	 *
-	 * @param App\Request $request
+	 * @param string $tplName
 	 *
-	 * @return void
+	 * @return $this
 	 */
-	public function initializeFromRequest(App\Request $request): void
+	public function setTemplate(string $tplName)
 	{
-		parent::initializeFromRequest($request);
-		if ($request->has('xmlExportType')) {
-			$this->tplName = $request->getByType('xmlExportType', 'Text');
-		}
+		$this->tplName = $tplName;
+
+		return $this;
 	}
 
 	/** {@inheritdoc} */
 	public function exportData()
 	{
-		$query = $this->getExportQuery();
 		$fileName = str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($this->moduleName, $this->moduleName)));
-		$entries = $query->all();
 		$entriesInventory = [];
-		if ($this->moduleInstance->isInventory()) {
-			foreach ($entries as $key => $recordData) {
-				$entriesInventory[$key] = $this->getEntriesInventory($recordData);
-			}
-		}
-		foreach ($entries as $key => $data) {
+		$addInventoryData = $this->fullData && $this->moduleInstance->isInventory();
+		$count = 0;
+		$dataReader = $this->getExportQuery()->createCommand()->query();
+		while ($row = $dataReader->read()) {
 			$this->tmpXmlPath = 'cache/import/' . uniqid() . '_.xml';
 			$this->xmlList[] = $this->tmpXmlPath;
-			$this->index = $key;
-			if ($this->tplName) {
-				$this->createXmlFromTemplate($data, $entriesInventory[$key] ?? []);
-			} else {
-				$this->createXml($this->sanitizeValues($data), $entriesInventory[$key] ?? []);
+			if ($addInventoryData) {
+				$entriesInventory = $this->getEntriesInventory($row) ?: [];
 			}
+			if ($this->tplName) {
+				$this->createXmlFromTemplate($row, $entriesInventory);
+			} else {
+				$this->createXml($this->sanitizeValues($row), $entriesInventory);
+			}
+			++$count;
 		}
-		if (1 < \count($entries)) {
+		if (1 < $count) {
 			$this->outputZipFile($fileName);
 		} else {
 			$this->outputFile($fileName);
 		}
-	}
-
-	/**
-	 * Sanitize values.
-	 *
-	 * @param array $recordValues
-	 *
-	 * @return array
-	 */
-	public function sanitizeValues(array $recordValues): array
-	{
-		return $this->getRecordDataInExportFormat($recordValues);
 	}
 
 	/**
@@ -105,13 +90,12 @@ class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 	/**
 	 * Sanitize inventory value.
 	 *
-	 * @param [type] $value
-	 * @param [type] $columnName
-	 * @param bool   $formated
+	 * @param mixed  $value
+	 * @param string $columnName
 	 *
-	 * @return void
+	 * @return string
 	 */
-	public function sanitizeInventoryValue($value, $columnName, $formated = false)
+	public function sanitizeInventoryValue($value, $columnName): string
 	{
 		if ($field = $this->inventoryFields[$columnName] ?? false) {
 			if (\in_array($field->getType(), ['Name', 'Reference'])) {
@@ -184,6 +168,14 @@ class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 		array_map('unlink', $this->xmlList);
 	}
 
+	/**
+	 * Create XML file.
+	 *
+	 * @param array $entries
+	 * @param array $entriesInventory
+	 *
+	 * @return void
+	 */
 	public function createXml($entries, $entriesInventory)
 	{
 		$exportBlockName = \App\Config::component('Export', 'BLOCK_NAME');
@@ -192,8 +184,8 @@ class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 		$xml->setIndent(true);
 		$xml->startDocument('1.0', 'UTF-8');
 		$xml->startElement('MODULE_FIELDS');
-		foreach ($this->moduleFieldInstances as $fieldName => $fieldModel) {
-			if (!isset($entries[$fieldName]) || !\in_array($fieldModel->get('presence'), [0, 2])) {
+		foreach ($this->fields as $fieldName => $fieldModel) {
+			if ($fieldModel->get('source_field_name')) {
 				continue;
 			}
 			$xml->startElement($fieldName);
@@ -210,7 +202,7 @@ class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 			}
 			$xml->endElement();
 		}
-		if ($entriesInventory && !$this->quickExport) {
+		if ($entriesInventory) {
 			$customColumns = [];
 			$xml->startElement('INVENTORY_ITEMS');
 			foreach ($entriesInventory as $inventory) {
@@ -228,9 +220,9 @@ class Vtiger_ExportToXml_Model extends \App\Export\ExportRecords
 						}
 					}
 					if ($this->isCData($columnName, $customColumns)) {
-						$xml->writeCData($this->sanitizeInventoryValue($value, $columnName, true));
+						$xml->writeCData($this->sanitizeInventoryValue($value, $columnName));
 					} else {
-						$xml->text($this->sanitizeInventoryValue($value, $columnName, true));
+						$xml->text($this->sanitizeInventoryValue($value, $columnName));
 					}
 					$xml->endElement();
 				}

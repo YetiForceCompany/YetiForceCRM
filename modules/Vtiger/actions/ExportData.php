@@ -1,16 +1,24 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce S.A.
- * *********************************************************************************** */
+/**
+ * Export data file.
+ *
+ * @package Action
+ *
+ * @copyright YetiForce S.A.
+ * @license   YetiForce Public License 3.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
 
+/**
+ * Export data class.
+ */
 class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 {
+	/** @var string Module name */
+	protected $moduelName;
+	/** @var \App\Export\ExportRecords Export model instance */
+	protected $exportModel;
+
 	/**
 	 * Function to check permission.
 	 *
@@ -20,12 +28,9 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		$moduleName = $request->getByType('source_module', 2);
-		if (empty($moduleName)) {
-			$moduleName = $request->getModule();
-		}
+		$this->moduelName = $request->getModule();
 		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'Export')) {
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($this->moduelName, 'Export')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -37,44 +42,75 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 	 */
 	public function process(App\Request $request)
 	{
-		$exportModel = \App\Export\ExportRecords::getInstanceFromRequest($request);
-		if ('ExportSelectedRecords' === $request->getMode()) {
-			$exportModel->setRecordList($this->getRecordsListFromRequest($request));
-		}
-		$exportModel->sendHttpHeader();
-		$exportModel->exportData();
+		$this->exportModel = \App\Export\Records::getInstance($this->moduelName, $request->getByType('export_type', \App\Purifier::ALNUM))
+			->setLimit(\App\Config::performance('MAX_NUMBER_EXPORT_RECORDS'))
+			->setFormat(\App\Export\Records::EXPORT_FORMAT);
+		$this->exportModel->fullData = true;
+
+		$this->setDataFromRequest($request);
+		$this->exportModel->sendHttpHeader();
+		$this->exportModel->exportData();
 	}
 
-	/** {@inheritdoc} */
-	public static function getQuery(App\Request $request)
+	/**
+	 * Set condition data in export model.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function setDataFromRequest(App\Request $request)
 	{
-		$cvId = $request->isEmpty('viewname') ? '' : $request->getByType('viewname', 2);
-		$moduleName = $request->getByType('source_module', 'Alnum');
-		if (!empty($cvId) && 'undefined' === $cvId && 'Users' !== $moduleName) {
-			$sourceModule = $request->getByType('sourceModule', 2);
-			$cvId = CustomView_Record_Model::getAllFilterByModule($sourceModule)->getId();
+		if ($request->has('xmlExportType')) {
+			$this->exportModel->setTemplate($request->getByType('xmlExportType', 'Text'));
 		}
-		$customViewModel = CustomView_Record_Model::getInstanceById($cvId);
-		if (!$customViewModel) {
-			return false;
+		$cvId = $request->getInteger('viewname');
+		$searchParams = \App\Condition::validSearchParams($this->moduelName, $request->getArray('search_params'));
+		$operator = $request->isEmpty('operator') ? '' : $request->getByType('operator');
+		if ($operator && $searchValue = \App\Condition::validSearchValue($request->getByType('search_value', \App\Purifier::TEXT), $this->moduelName, $request->getByType('search_key', \App\Purifier::ALNUM), $operator)) {
+			$searchKey = $request->getByType('search_key', \App\Purifier::ALNUM);
 		}
-		$selectedIds = $request->getArray('selected_ids', 2);
-		if ($selectedIds && 'all' !== $selectedIds[0]) {
-			$queryGenerator = new App\QueryGenerator($moduleName);
-			$queryGenerator->setFields(['id']);
-			$queryGenerator->addCondition('id', $selectedIds, 'e');
-			$queryGenerator->setStateCondition($request->getByType('entityState'));
-			return $queryGenerator;
-		}
-		if (!$request->isEmpty('operator')) {
-			$operator = $request->getByType('operator');
-			$searchKey = $request->getByType('search_key', 'Alnum');
-			$customViewModel->set('operator', $operator);
-			$customViewModel->set('search_key', $searchKey);
-			$customViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $searchKey, $operator));
-		}
-		$customViewModel->set('search_params', App\Condition::validSearchParams($moduleName, $request->getArray('search_params')));
-		$customViewModel->set('entityState', $request->getByType('entityState'));
-		return $customViewModel->getRecordsListQuery($request->getArray('excluded_ids', 2), $moduleName);
+
+		$queryGenerator = $this->exportModel->getQueryGenerator();
+		$queryGenerator->setStateCondition($request->getByType('entityState'));
+		$queryGenerator->initForCustomViewById($cvId);
+
+		switch ($request->getMode()) {
+				case 'ExportAllData':
+					break;
+				case 'ExportCurrentPage':
+					$exportLimit = \App\Config::performance('MAX_NUMBER_EXPORT_RECORDS');
+					$pagingModel = new \Vtiger_Paging_Model();
+					$limit = $pagingModel->getPageLimit();
+					if ($limit > $exportLimit) {
+						$limit = $exportLimit;
+					}
+					$currentPage = $request->getInteger('page', 1) ?: 1;
+					$offset = ($currentPage - 1) * $limit;
+					$this->exportModel->setLimit($limit);
+					$queryGenerator
+						->setLimit($limit)
+						->setOffset($offset)
+						->parseAdvFilter($queryGenerator->parseBaseSearchParamsToCondition($searchParams));
+					if ($operator && $searchValue && $searchKey) {
+						$queryGenerator->addCondition($searchKey, $searchValue, $operator);
+					}
+					break;
+				case 'ExportSelectedRecords':
+					$selectedIds = $request->getArray('selected_ids', \App\Purifier::ALNUM);
+					if ($selectedIds && 'all' !== $selectedIds[0]) {
+						$queryGenerator->addCondition('id', $selectedIds, 'e');
+					}
+					$queryGenerator->parseAdvFilter($queryGenerator->parseBaseSearchParamsToCondition($searchParams));
+					if ($excludedIds = $request->getArray('excluded_ids', \App\Purifier::INTEGER)) {
+						$queryGenerator->addCondition('id', $excludedIds, 'n');
+					}
+					if ($operator && $searchValue && $searchKey) {
+						$queryGenerator->addCondition($searchKey, $searchValue, $operator);
+					}
+					break;
+				default:
+					throw new \App\Exceptions\IllegalValue('ERR_FIELD_NOT_FOUND||mode');
+			}
 	}
 }

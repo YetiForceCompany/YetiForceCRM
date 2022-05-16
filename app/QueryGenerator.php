@@ -48,7 +48,6 @@ class QueryGenerator
 	private $referenceFields = [];
 	private $ownerFields = [];
 	private $customColumns = [];
-	private $cvColumns;
 	private $advFilterList;
 	private $conditions;
 
@@ -720,6 +719,8 @@ class QueryGenerator
 	 *
 	 * @param mixed $viewId
 	 * @param bool  $onlyFields
+	 *
+	 * @return $this
 	 */
 	public function initForCustomViewById($viewId, $onlyFields = false)
 	{
@@ -746,6 +747,8 @@ class QueryGenerator
 		if (!$onlyFields) {
 			$this->conditions = CustomView::getConditions($viewId);
 		}
+
+		return $this;
 	}
 
 	/**

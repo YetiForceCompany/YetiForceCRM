@@ -71,10 +71,10 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		if (!\is_array($value)) {
-			$values = explode(',', $value);
+			$value = explode(',', $value);
 		}
 		$displayValue = [];
-		foreach ($values as $shownerid) {
+		foreach ($value as $shownerid) {
 			$ownerName = rtrim(\App\Fields\Owner::getLabel($shownerid));
 			if (!$isAdmin || $rawText) {
 				$displayValue[] = $ownerName;
