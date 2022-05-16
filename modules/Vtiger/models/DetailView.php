@@ -191,12 +191,12 @@ class Vtiger_DetailView_Model extends \App\Base
 					'modalView' => true,
 				]);
 			}
-			if ($moduleModel->isPermitted('SMSNotifier')) {
+			if ($userPrivilegesModel->hasModulePermission('SMSNotifier') && $moduleModel->isPermitted('sendSMS')) {
 				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
-					'linklabel' => 'BL_SMSNOTIFIER_BTN',
+					'linklabel' => 'BTN_SMSNOTIFIER',
 					'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSMSmodal(this)',
-					'linkicon' => 'fas fa-sms',
+					'linkicon' => 'yfm-SMSNotifier',
 					'linkclass' => 'btn-outline-dark btn-sm',
 				]);
 			}

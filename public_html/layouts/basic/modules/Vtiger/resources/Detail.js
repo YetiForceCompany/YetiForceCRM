@@ -56,7 +56,7 @@ jQuery.Class(
 				.fail(function (error, err) {});
 		},
 		/**
-		 * function to trigger SMS quick view actions
+		 * Function to trigger SMS quick view actions
 		 */
 		triggerSMSmodal: () => {
 			App.Components.QuickCreate.createRecord('SMSNotifier')
