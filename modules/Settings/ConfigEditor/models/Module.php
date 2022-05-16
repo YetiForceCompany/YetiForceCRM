@@ -30,6 +30,10 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 		'langInLoginView' => 'LBL_SHOW_LANG_IN_LOGIN_PAGE',
 		'layoutInLoginView' => 'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE',
 	];
+	/** {@inheritdoc} */
+	public $performanceFields = [
+		'MAX_NUMBER_EXPORT_RECORDS' => 'LBL_MAX_NUMBER_EXPORT_RECORDS'
+	];
 
 	/** @var array Fields for relation */
 	public $relationFields = [
@@ -72,10 +76,18 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 	public function getEditFields(): array
 	{
 		$fields = [];
-		if ('Main' === $this->type) {
-			$fields = $this->listFields;
-		} elseif ('Relation' === $this->type) {
-			$fields = $this->relationFields;
+		switch ($this->type) {
+			case 'Main':
+				$fields = $this->listFields;
+				break;
+			case 'Relation':
+				$fields = $this->relationFields;
+				break;
+			case 'Performance':
+				$fields = $this->performanceFields;
+				break;
+			default:
+				break;
 		}
 		return $fields;
 	}
@@ -140,6 +152,13 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 		$moduleName = $this->getName(true);
 		$params = ['uitype' => 7, 'column' => $name, 'name' => $name,  'displaytype' => 1, 'typeofdata' => 'I~M', 'presence' => 0, 'isEditableReadOnly' => false, 'maximumlength' => '', 'validator' => [['name' => 'NumberRange100']], 'source' => 'main'];
 		switch ($name) {
+			case 'MAX_NUMBER_EXPORT_RECORDS':
+				$params['label'] = $this->performanceFields[$name];
+				$params['validator'] = [['name' => 'WholeNumberGreaterThanZero']];
+				$params['uitype'] = 7;
+				$params['source'] = 'performance';
+				$params['fieldvalue'] = $this->get($name);
+				break;
 			case 'listMaxEntriesMassEdit':
 				$params['maximumlength'] = '5000';
 				$params['validator'] = [['name' => 'WholeNumberGreaterThanZero']];
