@@ -75,6 +75,13 @@ class CustomView {
 		return columnListSelectElement.val();
 	}
 
+	getShortFieldNames() {
+		return this.container
+			.find('.js-short-name-fields option')
+			.toArray()
+			.map((item) => ({ text: item.text, value: item.value }));
+	}
+
 	saveFilter() {
 		let aDeferred = $.Deferred();
 		let formData = $('#CustomView').serializeFormData();
@@ -227,10 +234,13 @@ class CustomView {
 					$('#stdfilterlist').val(JSON.stringify(stdfilterlist));
 				}
 				//handled advanced filters saved values.
+				let contentContainer = this.getContentsContainer();
 				$('#advfilterlist').val(JSON.stringify(this.advanceFilterInstance.getConditions()));
 				form.find('#advancedConditions').val(JSON.stringify(CustomView.getAdvancedConditions(form)));
 				$('[name="duplicatefields"]').val(JSON.stringify(this.getDuplicateFields()));
-				$('input[name="columnslist"]', this.getContentsContainer()).val(JSON.stringify(this.getSelectedColumns()));
+				$('input[name="columnslist"]', contentContainer).val(JSON.stringify(this.getSelectedColumns()));
+				contentContainer.find('.js-short-field-names').val(JSON.stringify(this.getShortFieldNames()));
+
 				this.saveAndViewFilter();
 				return false;
 			} else {
@@ -351,10 +361,55 @@ class CustomView {
 		}
 		return advancedConditions;
 	}
+	registerChangeViewColumns() {
+		this.container.find('.js-view-columns-select').on('change', () => {
+			this.registerSetColumnsNameShorter();
+		});
+	}
+	registerSetColumnsNameShorter() {
+		let shorterNamesContainer = this.container.find('.js-short-name-fields');
+		let shorterNamesColumns = this.getShortFieldNames();
+		let selectedColumns = this.container
+			.find('.js-view-columns-select option:selected')
+			.toArray()
+			.map((item) => ({ text: item.getAttribute('data-field-label'), value: item.value }));
+		shorterNamesContainer.empty();
+		let shorterName = '';
+		$.each(selectedColumns, function (_index, element) {
+			let found = shorterNamesColumns.find((shorterNameElement) => shorterNameElement.value == element.value);
+			if (undefined === found) {
+				shorterName = element.text;
+			} else {
+				console.log(found);
+				shorterName = found.text;
+			}
+			shorterNamesContainer.append(
+				$('<option>').val(element.value).text(shorterName).data({
+					shorterName: shorterName
+				})
+			);
+		});
+		App.Fields.Picklist.showSelect2ElementView(shorterNamesContainer);
+	}
+	registerUpdateShorterName() {
+		this.container.find('.js-update-shorter-name').on('click', (e) => {
+			let shorterValueContainer = this.container.find('.js-field-shorter-name');
+			let shorterValue = shorterValueContainer.val();
+			let selectedShorterNameOption = this.container.find('.js-short-name-fields option:selected');
+			if (shorterValue && selectedShorterNameOption) {
+				selectedShorterNameOption.text(shorterValue);
+				shorterValueContainer.val('');
+
+				let shorterNamesContainer = this.container.find('.js-short-name-fields');
+				App.Fields.Picklist.showSelect2ElementView(shorterNamesContainer);
+			}
+		});
+	}
 	/**
 	 * Register events
 	 */
 	registerEvents() {
+		this.container = this.getContentsContainer();
 		this.registerIconEvents();
 		App.Fields.Tree.register(this.getContentsContainer());
 		App.Tools.Form.registerBlockToggle(this.getContentsContainer());
@@ -368,5 +423,8 @@ class CustomView {
 		});
 		$('#CustomView').validationEngine(app.validationEngineOptions);
 		this.registerDisableSubmitOnEnter();
+		this.registerChangeViewColumns();
+		this.registerSetColumnsNameShorter();
+		this.registerUpdateShorterName();
 	}
 }

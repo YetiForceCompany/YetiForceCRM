@@ -48,13 +48,29 @@
 								</h5>
 							</div>
 							<div class="c-panel__body py-1">
-								<div class="form-group">
-									<div class="row col-md-5">
+								<div class="form-row">
+									<div class=" d-flex col-md-5">
 										<label class="float-left col-form-label ">
 											<span class="redColor">*</span> {\App\Language::translate('LBL_VIEW_NAME',$MODULE_NAME)}
 											:</label>
 										<div class="col-md-7">
 											<input type="text" id="viewname" class="form-control" data-validation-engine="validate[required]" name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}" />
+										</div>
+									</div>
+									<div class="d-flex col-md-5">
+										<label class="float-left col-form-label ">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE_NAME)}
+											:</label>
+										<div class="col-md-7">
+											{assign var=COLOR value=$CUSTOMVIEW_MODEL->get('color')}
+											<div class="input-group js-color-picker" data-js="color-picker">
+												<input type="text" class="form-control js-color-picker__field" name="color"
+													value="{$COLOR}" />
+												<div class="input-group-append">
+													<div class="input-group-text">
+														<span class="c-circle c-circle--small js-color-picker__color" style="background-color: {$COLOR}"></span>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -79,6 +95,7 @@
 															{assign var=ELEMENT_POSITION_IN_ARRAY value=array_search($FIELD_MODEL->getCustomViewSelectColumnName(), $SELECTED_FIELDS)}
 															<option value="{$FIELD_MODEL->getCustomViewSelectColumnName()}"
 																data-field-name="{$FIELD_NAME}"
+																data-field-label="{{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}}"
 																{if $ELEMENT_POSITION_IN_ARRAY !== false}
 																	data-sort-index="{$ELEMENT_POSITION_IN_ARRAY}" selected="selected"
 																{/if}
@@ -123,23 +140,25 @@
 											value="{\App\Purifier::encodeHtml(\App\Json::encode($MANDATORY_FIELDS))}" />
 									</div>
 								</div>
-								<div class="form-group marginbottomZero">
-									<div class="row col-md-5">
-										<label class="float-left col-form-label ">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE_NAME)}
-											:</label>
-										<div class="col-md-7">
-											{assign var=COLOR value=$CUSTOMVIEW_MODEL->get('color')}
-											<div class="input-group js-color-picker" data-js="color-picker">
-												<input type="text" class="form-control js-color-picker__field" name="color"
-													value="{$COLOR}" />
-												<div class="input-group-append">
-													<div class="input-group-text">
-														<span class="c-circle c-circle--small js-color-picker__color" style="background-color: {$COLOR}"></span>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
+							</div>
+						</div>
+						<div class="js-toggle-panel c-panel" data-js="click">
+							<div class="blockHeader c-panel__header py-2 js-toggle-block" data-js="click">
+								<span class="js-toggle-icon fas fa-chevron-right fa-xs m-1 mt-2 mr-3" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down" data-js="container"></span>
+								<h5>
+									<span class="yfi-company-detlis mr-2" aria-hidden="true"></span>
+									{\App\Language::translate('LBL_CHANGE_COLUMNS_LABEL',$MODULE_NAME)}
+								</h5>
+							</div>
+							<div class="c-panel__body py-1 d-none">
+								<div class="d-flex">
+									<input type="hidden" name="sortFieldNames" value="" class="js-short-field-names" data-js="val">
+									<label> {\App\Language::translate('LBL_SELECT_FIELD_FOR_SHORTING',$MODULE_NAME)} </label>
+									<select class="form-control select2 js-short-name-fields mr-2" data-js="container">
+										<option></option>
+									</select>
+									<input type="text" class="form-control js-field-shorter-name mr-2" data-js="container">
+									<button type="button" class="btn btn-success js-update-shorter-name" data-js="click"> {\App\Language::translate('LBL_UPDATE',$MODULE_NAME)} </button>
 								</div>
 							</div>
 						</div>

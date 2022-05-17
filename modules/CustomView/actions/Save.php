@@ -78,6 +78,7 @@ class CustomView_Save_Action extends \App\Controller\Action
 			$selectedColumnsList = $defaultCustomViewModel->getSelectedFields();
 		}
 		$customViewData['columnslist'] = $selectedColumnsList;
+		$customViewData['sortFieldNames'] = $request->getArray('sortFieldNames', 'Text');
 		$advFilterList = $request->getArray('advfilterlist', 'Text');
 		if (!empty($advFilterList)) {
 			$customViewData['advfilterlist'] = $advFilterList;

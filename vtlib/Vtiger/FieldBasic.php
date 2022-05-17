@@ -49,6 +49,7 @@ class FieldBasic
 	public $fieldparams = '';
 	public $color = '';
 	public $icon = '';
+	public $shortName = '';
 	/**
 	 * @var string[] Anonymization targets form field ex. logs.
 	 */
