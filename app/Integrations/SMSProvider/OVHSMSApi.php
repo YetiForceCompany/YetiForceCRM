@@ -174,7 +174,7 @@ class OVHSMSApi extends Provider
 	{
 		$content = (object) [
 			'message' => $this->get('message'),
-			'receivers' => ['+48796984170'],
+			'receivers' => ['+48777555444656676'],
 		];
 
 		return json_encode($content, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
