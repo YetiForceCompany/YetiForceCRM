@@ -46,13 +46,13 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Check if Mass SMS is active for given module.
+	 * Check if SMS is active for given module.
 	 *
 	 * @param string $moduleName
 	 *
 	 * @return bool
 	 */
-	public function isMassSMSActiveForModule(string $moduleName): bool
+	public function isSMSActiveForModule(string $moduleName): bool
 	{
 		return $this->isPermitted('CreateView')
 				&& \App\Integrations\SMSProvider::isActiveProvider()

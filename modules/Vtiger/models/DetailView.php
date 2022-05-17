@@ -80,6 +80,7 @@ class Vtiger_DetailView_Model extends \App\Base
 		$recordModel = $this->getRecord();
 		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
+		$smsModuleModel = Vtiger_Module_Model::getInstance('SMSNotifier');
 		$linkModelList = [];
 		if ($recordModel->isReadOnly()) {
 			if (\Config\Components\InterestsConflict::$isActive && \App\Components\InterestsConflict::getParent($recordId, $moduleName)) {
@@ -189,6 +190,15 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linkicon' => 'fas fa-exchange-alt',
 					'linkclass' => 'btn-outline-dark btn-sm',
 					'modalView' => true,
+				]);
+			}
+			if ($smsModuleModel->isSMSActiveForModule($moduleName) && $smsModuleModel->isQuickCreateSupported()) {
+				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+					'linklabel' => 'BTN_SMSNOTIFIER',
+					'linkurl' => 'javascript:Vtiger_Detail_Js.triggerSMSmodal(this)',
+					'linkicon' => 'yfm-SMSNotifier',
+					'linkclass' => 'btn-outline-dark btn-sm',
 				]);
 			}
 			if ($fields = App\Field::getQuickChangerFields($moduleModel->getId())) {

@@ -473,6 +473,7 @@
     "LBL_SIGN_OUT": "Sign out",
     "LBL_SIMPLE_FORM": "Simple form",
     "LBL_SMS_MAX_CHARACTERS_ALLOWED": "Maximum 160 characters are allowed for text message",
+    "BTN_SMSNOTIFIER": "Send SMS",
     "LBL_SPECIAL_OPTIONS": "Special options",
     "LBL_STRING": "Text",
     "LBL_STOCK_NOT_ENOUGH": "Not enough stock",
