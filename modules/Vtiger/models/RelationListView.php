@@ -348,10 +348,10 @@ class Vtiger_RelationListView_Model extends \App\Base
 	public function getHeaders()
 	{
 		$fields = [];
-		if ($this->get('viewId')) {
+		if ($this->get('viewId') || $this->get('cvId')) {
 			$moduleModel = $this->getRelationModel()->getRelationModuleModel();
 			$customView = App\CustomView::getInstance($moduleModel->getName());
-			foreach ($customView->getColumnsListByCvid($this->get('viewId')) as $fieldInfo) {
+			foreach ($customView->getColumnsListByCvid($this->get('viewId') ?? $this->get('cvId')) as $fieldInfo) {
 				$fieldName = $fieldInfo['field_name'];
 				$sourceFieldName = $fieldInfo['source_field_name'] ?? '';
 				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldInfo['module_name']));
