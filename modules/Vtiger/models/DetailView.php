@@ -192,7 +192,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'modalView' => true,
 				]);
 			}
-			if ($smsModuleModel->isSMSActiveForModule('SMSNotifier') && $smsModuleModel->isQuickCreateSupported()) {
+			if ($smsModuleModel->isSMSActiveForModule($moduleName) && $smsModuleModel->isQuickCreateSupported()) {
 				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => 'BTN_SMSNOTIFIER',
