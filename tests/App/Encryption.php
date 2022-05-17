@@ -110,8 +110,10 @@ class Encryption extends \Tests\Base
 		$this->assertTrue($instance->isActive(true), 'The encryption mechanism is not active');
 		foreach (['TEST TEXT', ''] as $testText) {
 			$encryptText = $instance->encrypt($testText, true);
-			$this->assertTrue(!empty($encryptText), 'Encryption is not available');
-			$this->assertFalse($testText === $encryptText, 'Encryption is not working');
+			if ($testText) {
+				$this->assertTrue(!empty($encryptText), 'Encryption is not available');
+				$this->assertFalse($testText === $encryptText, 'Encryption is not working');
+			}
 			$this->assertSame($testText, $instance->decrypt($encryptText, true), 'The decrypted text does not match the encrypted text');
 		}
 	}

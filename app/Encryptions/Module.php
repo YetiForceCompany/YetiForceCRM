@@ -74,7 +74,7 @@ class Module extends \App\Encryption
 			while ($row = $dataReader->read()) {
 				$recordId = $row['id'];
 				foreach ($pwdFields as $fieldModel) {
-					$value = $row[$fieldModel->getName()] ?? '';
+					$value = $valueRaw = $row[$fieldModel->getName()] ?? '';
 					if (!empty($value)) {
 						$value = $decryptInstance->decrypt($value);
 						if (!$decryptInstance->isEmpty('method') && !$decryptInstance->isActive()) {
@@ -82,7 +82,7 @@ class Module extends \App\Encryption
 						}
 					}
 					$value = $encryptInstance->encrypt($value, true);
-					if (empty($value) && $method) {
+					if (empty($value) && '' !== $valueRaw && $method) {
 						throw new \App\Exceptions\AppException('ERR_IMPOSSIBLE_ENCRYPT');
 					}
 					$db->createCommand()->update($fieldModel->getTableName(), [$fieldModel->getColumnName() => $value], [$queryGenerator->getColumnName('id') => $recordId])->execute();
