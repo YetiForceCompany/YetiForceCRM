@@ -469,6 +469,16 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Function determines whether the field value can be duplicated.
+	 *
+	 * @return bool
+	 */
+	public function isDuplicable(): bool
+	{
+		return $this->getFieldModel()->isActiveField();
+	}
+
+	/**
 	 * Returns allowed types of columns in database.
 	 *
 	 * @return string[]|null

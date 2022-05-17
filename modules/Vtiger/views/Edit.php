@@ -158,20 +158,21 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 
+	/**
+	 * Set duplicate data.
+	 */
 	public function getDuplicate()
 	{
 		$fromRecord = $this->record->getId();
 		$this->record->set('id', '');
-		//While Duplicating record, If the related record is deleted then we are removing related record info in record model
-		$mandatoryFieldModels = $this->record->getModule()->getMandatoryFieldModels();
-		foreach ($mandatoryFieldModels as $fieldModel) {
-			if ($fieldModel->isReferenceField()) {
-				$fieldName = $fieldModel->get('name');
-				if (!\App\Record::isExists($this->record->get($fieldName))) {
-					$this->record->set($fieldName, '');
-				}
+		foreach ($this->record->getModule()->getFields() as $fieldModel) {
+			if ((!$fieldModel->isDuplicable() && !$this->record->isEmpty($fieldModel->getName()))
+				|| ($fieldModel->isReferenceField() && ($value = $this->record->get($fieldModel->getName())) && !\App\Record::isExists($value))
+			) {
+				$this->record->set($fieldModel->getName(), '');
 			}
 		}
+
 		$eventHandler = new App\EventHandler();
 		$eventHandler->setRecordModel($this->record);
 		$eventHandler->setModuleName($this->record->getModuleName());

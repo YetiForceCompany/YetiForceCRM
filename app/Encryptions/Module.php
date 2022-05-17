@@ -49,7 +49,7 @@ class Module extends \App\Encryption
 			$dbAdmin->createCommand()->update(self::TABLE_NAME, ['status' => self::STATUS_ACTIVE], ['target' => $target])->execute();
 			return;
 		}
-		$encryptInstance = (new self())
+		$encryptInstance = (new static())
 			->set('method', $method)
 			->set('vector', $vector)
 			->set('pass', $password)
@@ -74,18 +74,18 @@ class Module extends \App\Encryption
 			while ($row = $dataReader->read()) {
 				$recordId = $row['id'];
 				foreach ($pwdFields as $fieldModel) {
-					$value = $row[$fieldModel->getName()];
+					$value = $valueRaw = $row[$fieldModel->getName()] ?? '';
 					if (!empty($value)) {
 						$value = $decryptInstance->decrypt($value);
-						if (empty($value)) {
+						if (!$decryptInstance->isEmpty('method') && !$decryptInstance->isActive()) {
 							throw new \App\Exceptions\AppException('ERR_IMPOSSIBLE_DECRYPT');
 						}
-						$value = $encryptInstance->encrypt($value, true);
-						if (empty($value)) {
-							throw new \App\Exceptions\AppException('ERR_IMPOSSIBLE_ENCRYPT');
-						}
-						$db->createCommand()->update($fieldModel->getTableName(), [$fieldModel->getColumnName() => $value], [$queryGenerator->getColumnName('id') => $recordId])->execute();
 					}
+					$value = $encryptInstance->encrypt($value, true);
+					if (empty($value) && '' !== $valueRaw && $method) {
+						throw new \App\Exceptions\AppException('ERR_IMPOSSIBLE_ENCRYPT');
+					}
+					$db->createCommand()->update($fieldModel->getTableName(), [$fieldModel->getColumnName() => $value], [$queryGenerator->getColumnName('id') => $recordId])->execute();
 				}
 				$pauser->setValue((string) $recordId);
 			}
@@ -135,10 +135,6 @@ class Module extends \App\Encryption
 		$queryGenerator->setStateCondition('All');
 		if (!$pwdFields) {
 			$queryGenerator->addNativeCondition((new \yii\db\Expression('0 > 1')));
-		}
-		foreach ($pwdFields as $fieldModel) {
-			$fieldColumn = $queryGenerator->getColumnName($fieldModel->getName());
-			$queryGenerator->addNativeCondition(['not', ['or', [$fieldColumn => ''], [$fieldColumn => null]]], false);
 		}
 		$queryGenerator->addNativeCondition(['>', $queryGenerator->getColumnName('id'), $lastId]);
 		$queryGenerator->setOrder('id', \App\Db::ASC);
