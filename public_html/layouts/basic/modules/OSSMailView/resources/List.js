@@ -4,7 +4,7 @@
 Vtiger_List_Js(
 	'OSSMailView_List_Js',
 	{
-		bindMails: function (url) {
+		bindMails: function (_url) {
 			let listInstance = Vtiger_List_Js.getInstance();
 			let validationResult = listInstance.checkListRecordSelected();
 			if (validationResult != true) {
@@ -16,8 +16,9 @@ Vtiger_List_Js(
 						$.extend(params.data, Vtiger_List_Js.getSelectedRecordsParams());
 						params.async = false;
 						AppConnector.request(params).done(function (data) {
+							let message = typeof data === 'string' ? JSON.parse(data).result : data.result;
 							app.showNotify({
-								text: data.result,
+								text: message,
 								delay: '4000',
 								type: 'success'
 							});
