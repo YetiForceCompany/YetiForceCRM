@@ -19,15 +19,22 @@
 						<span class="adminIcon-modules-relations mr-2"></span>{\App\Language::translate('LBL_RELATION_CONFIG', $QUALIFIED_MODULE)}
 					</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link {if $ACTIVE_TAB eq 'Performance'}active{/if}" href="#Performance" data-toggle="tab" data-name="Performance">
+						<span class="fa-solid fa-gauge-high mr-2"></span>{\App\Language::translate('LBL_PERFORMANCE', $QUALIFIED_MODULE)}
+					</a>
+				</li>
 			</ul>
 		</div>
 		<div id="my-tab-content" class="tab-content">
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'Main'}active{/if}" id="Main" data-name="Main" data-js="data">
 				{include file=\App\Layout::getTemplatePath('MainDetail.tpl', $QUALIFIED_MODULE)}
 			</div>
-			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'Relation'}active{/if}" id="Relation" data-name="Relation" data-js="data">
-				{include file=\App\Layout::getTemplatePath('Relation.tpl', $QUALIFIED_MODULE)}
-			</div>
+			{foreach from=$CONFIG_NAMES item=$CONFIG_NAME}
+				<div class="js-tab tab-pane {if $ACTIVE_TAB eq $CONFIG_NAME}active{/if}" id="{$CONFIG_NAME}" data-name="{$CONFIG_NAME}" data-js="data">
+					{include file=\App\Layout::getTemplatePath('ConfigTemplate.tpl', $QUALIFIED_MODULE) CONFIG_NAME="{$CONFIG_NAME}"}
+				</div>
+			{/foreach}
 		</div>
 	</div>
 	<!-- /tpl-Settings-ConfigEditor-Detail -->

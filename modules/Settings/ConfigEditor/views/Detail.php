@@ -15,6 +15,19 @@ class Settings_ConfigEditor_Detail_View extends Settings_Vtiger_Index_View
 	/** {@inheritdoc} */
 	protected $pageTitle = 'LBL_CONFIG_EDITOR';
 
+	/** @var array config names */
+	protected $configNames = ['Relation', 'Performance'];
+
+	/**
+	 * Get config names.
+	 *
+	 * @return array
+	 */
+	public function getConfigNames(): array
+	{
+		return $this->configNames;
+	}
+
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
@@ -28,6 +41,7 @@ class Settings_ConfigEditor_Detail_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODEL', $moduleModel);
 		$viewer->assign('ACTIVE_TAB', $activeTab);
+		$viewer->assign('CONFIG_NAMES', $this->getConfigNames());
 		$viewer->view('Detail.tpl', $qualifiedName);
 	}
 }
