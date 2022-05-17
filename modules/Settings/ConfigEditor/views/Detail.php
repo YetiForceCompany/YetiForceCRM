@@ -15,8 +15,14 @@ class Settings_ConfigEditor_Detail_View extends Settings_Vtiger_Index_View
 	/** {@inheritdoc} */
 	protected $pageTitle = 'LBL_CONFIG_EDITOR';
 
+	/** @var array config names */
 	protected $configNames = ['Relation', 'Performance'];
 
+	/**
+	 * Get config names.
+	 *
+	 * @return array
+	 */
 	public function getConfigNames(): array
 	{
 		return $this->configNames;
