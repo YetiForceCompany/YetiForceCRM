@@ -1482,7 +1482,17 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	public function isOwnerField()
 	{
-		return (self::OWNER_TYPE == $this->getFieldDataType()) ? true : false;
+		return self::OWNER_TYPE == $this->getFieldDataType();
+	}
+
+	/**
+	 * Function determines whether the field value can be duplicated.
+	 *
+	 * @return bool
+	 */
+	public function isDuplicable(): bool
+	{
+		return $this->getUITypeModel()->isDuplicable();
 	}
 
 	/**
