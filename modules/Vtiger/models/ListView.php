@@ -325,7 +325,7 @@ class Vtiger_ListView_Model extends \App\Base
 				'linkclass' => 'u-cursor-pointer js-mass-action',
 			];
 		}
-		if ($moduleModel->isPermitted('MassSendSMS') && ($smsNotifierModel = \Vtiger_Module_Model::getInstance('SMSNotifier'))->isMassSMSActiveForModule($moduleModel->getName())) {
+		if ($moduleModel->isPermitted('MassSendSMS') && ($smsNotifierModel = \Vtiger_Module_Model::getInstance('SMSNotifier'))->isSMSActiveForModule($moduleModel->getName())) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_SMS',

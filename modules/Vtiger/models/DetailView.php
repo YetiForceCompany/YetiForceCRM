@@ -191,7 +191,7 @@ class Vtiger_DetailView_Model extends \App\Base
 					'modalView' => true,
 				]);
 			}
-			if ($userPrivilegesModel->hasModulePermission('SMSNotifier') && $moduleModel->isPermitted('sendSMS')) {
+			if ($userPrivilegesModel->isPermitted('isSMSActiveForModule')) {
 				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => 'BTN_SMSNOTIFIER',
