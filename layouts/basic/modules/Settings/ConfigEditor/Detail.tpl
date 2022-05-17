@@ -30,12 +30,11 @@
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'Main'}active{/if}" id="Main" data-name="Main" data-js="data">
 				{include file=\App\Layout::getTemplatePath('MainDetail.tpl', $QUALIFIED_MODULE)}
 			</div>
-			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'Relation'}active{/if}" id="Relation" data-name="Relation" data-js="data">
-				{include file=\App\Layout::getTemplatePath('ConfigTemplate.tpl', $QUALIFIED_MODULE) CONFIG_NAME="Relation"}
-			</div>
-			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'Performance'}active{/if}" id="Performance" data-name="Performance" data-js="data">
-				{include file=\App\Layout::getTemplatePath('ConfigTemplate.tpl', $QUALIFIED_MODULE) CONFIG_NAME="Performance"}
-			</div>
+			{foreach from=$CONFIG_NAMES item=$CONFIG_NAME}
+				<div class="js-tab tab-pane {if $ACTIVE_TAB eq $CONFIG_NAME}active{/if}" id="{$CONFIG_NAME}" data-name="{$CONFIG_NAME}" data-js="data">
+					{include file=\App\Layout::getTemplatePath('ConfigTemplate.tpl', $QUALIFIED_MODULE) CONFIG_NAME="{$CONFIG_NAME}"}
+				</div>
+			{/foreach}
 		</div>
 	</div>
 	<!-- /tpl-Settings-ConfigEditor-Detail -->
