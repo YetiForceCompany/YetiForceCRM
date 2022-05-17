@@ -31,10 +31,10 @@
 				{include file=\App\Layout::getTemplatePath('MainDetail.tpl', $QUALIFIED_MODULE)}
 			</div>
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'Relation'}active{/if}" id="Relation" data-name="Relation" data-js="data">
-				{include file=\App\Layout::getTemplatePath('Relation.tpl', $QUALIFIED_MODULE)}
+				{include file=\App\Layout::getTemplatePath('ConfigTemplate.tpl', $QUALIFIED_MODULE) CONFIG_NAME="Relation"}
 			</div>
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'Performance'}active{/if}" id="Performance" data-name="Performance" data-js="data">
-				{include file=\App\Layout::getTemplatePath('Performance.tpl', $QUALIFIED_MODULE)}
+				{include file=\App\Layout::getTemplatePath('ConfigTemplate.tpl', $QUALIFIED_MODULE) CONFIG_NAME="Performance"}
 			</div>
 		</div>
 	</div>

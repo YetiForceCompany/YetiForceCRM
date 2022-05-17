@@ -30,7 +30,7 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 		'langInLoginView' => 'LBL_SHOW_LANG_IN_LOGIN_PAGE',
 		'layoutInLoginView' => 'LBL_SHOW_LAYOUT_IN_LOGIN_PAGE',
 	];
-	/** {@inheritdoc} */
+	/** @var array Fields for performance */
 	public $performanceFields = [
 		'MAX_NUMBER_EXPORT_RECORDS' => 'LBL_MAX_NUMBER_EXPORT_RECORDS'
 	];
@@ -71,12 +71,14 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Gets fields for edit.
 	 *
+	 * @param mixed|null $configName
+	 *
 	 * @return array
 	 */
-	public function getEditFields(): array
+	public function getEditFields($configName = null): array
 	{
 		$fields = [];
-		switch ($this->type) {
+		switch ($configName ?? $this->type) {
 			case 'Main':
 				$fields = $this->listFields;
 				break;

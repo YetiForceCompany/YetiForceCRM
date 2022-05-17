@@ -1,15 +1,15 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Settings-ConfigEditor-Relation -->
+	<!-- tpl-Settings-ConfigEditor-ConfigTemplate -->
 	<div class="verticalScroll">
 		<form class="js-form-ajax-submit js-validate-form">
 			<input name="module" type="hidden" value="{$MODULE_NAME}" />
 			<input name="parent" type="hidden" value="Settings" />
 			<input name="action" type="hidden" value="SaveAjax" />
-			<input name="type" type="hidden" value="Relation" />
-			{assign var="CONFIG_MODEL" value=Settings_ConfigEditor_Module_Model::getInstance()->init('Relation')}
+			<input name="type" type="hidden" value="{$CONFIG_NAME}" />
+			{assign var="CONFIG_MODEL" value=Settings_ConfigEditor_Module_Model::getInstance()->init($CONFIG_NAME)}
 			<div class="p-2">
-				{foreach from=$CONFIG_MODEL->relationFields item=FIELD_LABEL key=FIELD_NAME}
+				{foreach from=$CONFIG_MODEL->getEditFields($CONFIG_NAME) item=FIELD_LABEL key=FIELD_NAME}
 					{assign var="FIELD_MODEL" value=$CONFIG_MODEL->getFieldInstanceByName($FIELD_NAME)}
 					{if $FIELD_MODEL}
 						<div class="form-group row mb-2">
@@ -36,5 +36,5 @@
 			</div>
 		</form>
 	</div>
-	<!-- /tpl-Settings-ConfigEditor-Relation -->
+	<!-- /tpl-Settings-ConfigEditor-ConfigTemplate -->
 {/strip}
