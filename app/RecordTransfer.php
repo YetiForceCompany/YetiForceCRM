@@ -44,7 +44,7 @@ class RecordTransfer
 	}
 
 	/**
-	 * Update rekord data.
+	 * Update record data.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
 	 * @param array                $migrate     [$recordId => [$source => $target, ...], ...]

@@ -71,13 +71,13 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return $value ? $this->getDisplayValue($value, false, false, true) : '';
+		return $this->getDisplayValue($value, false, false, true);
 	}
 
 	/** {@inheritdoc} */
-	public function getDuplicateValue(Vtiger_Record_Model $recordModel)
+	public function isDuplicable(): bool
 	{
-		return '';
+		return false;
 	}
 
 	/** {@inheritdoc} */
