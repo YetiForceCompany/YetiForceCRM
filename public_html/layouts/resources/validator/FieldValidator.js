@@ -1687,27 +1687,4 @@ Vtiger_Base_Validator_Js(
 		}
 	}
 );
-Vtiger_Base_Validator_Js(
-	'Vtiger_Password_Validator_Js',
-	{
-		invokeValidation(field, _rules, _i, _options) {
-			const instance = new Vtiger_Password_Validator_Js();
-			instance.setElement(field);
-			if (!instance.validate()) {
-				const errorInfo = app.vtranslate('JS_ENTERED_VALUE_IS_TOO_LONG'); //too long
-				instance.setError(errorInfo);
-				return instance.getError();
-			}
-		}
-	},
-	{
-		validate:  function() {
-			const password = this.getElement().val();
-			const passwordLength = password.length;
-			const fieldData = this.getElement().data();
-			const maximumLength = parseInt(fieldData.fieldinfo.maximumlength);
-			return passwordLength <= maximumLength;
-		}
-	}
-);
 Vtiger_Double_Validator_Js('Vtiger_Advpercentage_Validator_Js', {});
