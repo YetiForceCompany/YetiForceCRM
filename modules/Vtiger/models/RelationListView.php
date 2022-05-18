@@ -156,7 +156,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$instance->setRelatedModuleModel($relationModelInstance->getRelationModuleModel());
 		$queryGenerator = new \App\QueryGenerator($relationModelInstance->getRelationModuleModel()->getName());
 		if ($cvId) {
-			$instance->set('cvId', $cvId);
+			$instance->set('viewId', $cvId);
 		}
 		$relationModelInstance->set('query_generator', $queryGenerator);
 		$relationModelInstance->set('parentRecord', $parentRecordModel);
@@ -227,8 +227,8 @@ class Vtiger_RelationListView_Model extends \App\Base
 	 */
 	public function loadCustomView()
 	{
-		if ($this->has('cvId')) {
-			$cvId = $this->get('cvId');
+		if ($this->has('viewId')) {
+			$cvId = $this->get('viewId');
 		} else {
 			$cvId = array_key_first($this->getRelationModel()->getCustomViewList());
 		}
@@ -348,10 +348,10 @@ class Vtiger_RelationListView_Model extends \App\Base
 	public function getHeaders()
 	{
 		$fields = [];
-		if ($this->get('viewId') || $this->get('cvId')) {
+		if ($this->get('viewId')) {
 			$moduleModel = $this->getRelationModel()->getRelationModuleModel();
 			$customView = App\CustomView::getInstance($moduleModel->getName());
-			foreach ($customView->getColumnsListByCvid($this->get('viewId') ?? $this->get('cvId')) as $fieldInfo) {
+			foreach ($customView->getColumnsListByCvid($this->get('viewId')) as $fieldInfo) {
 				$fieldName = $fieldInfo['field_name'];
 				$sourceFieldName = $fieldInfo['source_field_name'] ?? '';
 				$fieldModel = Vtiger_Field_Model::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldInfo['module_name']));
