@@ -558,20 +558,19 @@ class TextParser
 		} else {
 			[$id, $fieldName, $params] = array_pad(explode('|', $params, 3), 3, false);
 		}
-		if (!Record::isExists($id, 'MultiCompany')) {
-			return '';
-		}
-		$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'MultiCompany');
-		if ($recordModel->has($fieldName)) {
-			$value = $recordModel->get($fieldName);
-			$fieldModel = $recordModel->getModule()->getFieldByName($fieldName);
-			if ('' === $value || !$fieldModel || !$this->useValue($fieldModel, 'MultiCompany')) {
-				return '';
-			}
-			if ($this->withoutTranslations) {
-				$returnVal = $this->getDisplayValueByType($value, $recordModel, $fieldModel, $params);
-			} else {
-				$returnVal = $fieldModel->getUITypeModel()->getTextParserDisplayValue($value, $recordModel, $params);
+		if (Record::isExists($id, 'MultiCompany')) {
+			$companyRecordModel = \Vtiger_Record_Model::getInstanceById($id, 'MultiCompany');
+			if ($companyRecordModel->has($fieldName)) {
+				$value = $companyRecordModel->get($fieldName);
+				$fieldModel = $companyRecordModel->getModule()->getFieldByName($fieldName);
+				if ('' === $value || !$fieldModel || !$this->useValue($fieldModel, 'MultiCompany')) {
+					return '';
+				}
+				if ($this->withoutTranslations) {
+					$returnVal = $this->getDisplayValueByType($value, $companyRecordModel, $fieldModel, $params);
+				} else {
+					$returnVal = $fieldModel->getUITypeModel()->getTextParserDisplayValue($value, $companyRecordModel, $params);
+				}
 			}
 		}
 		return $returnVal;
@@ -1585,7 +1584,7 @@ class TextParser
 		$html = '';
 		foreach ($tags as $tag) {
 			$tagLength = \mb_strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $tag[2]));
-			if ($totalLength + $tagLength + $openTagsLength > $length) {
+			if (($totalLength + $tagLength + $openTagsLength) >= $length) {
 				break;
 			}
 			if (!empty($tag[1])) {
@@ -1633,7 +1632,7 @@ class TextParser
 		$html = '';
 		foreach ($tags as $tag) {
 			$tagLength = \mb_strlen($tag[0]);
-			if ($totalLength + $tagLength + $openTagsLength > $length) {
+			if (($totalLength + $tagLength + $openTagsLength) >= $length) {
 				break;
 			}
 			if (!empty($tag[1])) {
