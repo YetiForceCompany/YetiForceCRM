@@ -188,6 +188,9 @@ class Vtiger_Base_UIType extends \App\Base
 		if (\is_int($length)) {
 			$value = \App\TextParser::textTruncate($value, $length);
 		}
+		if (null === $value) {
+			return $value;
+		}
 		return \App\Purifier::encodeHtml($value);
 	}
 
