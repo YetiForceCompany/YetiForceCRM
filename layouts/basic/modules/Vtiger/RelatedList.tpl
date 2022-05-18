@@ -115,7 +115,7 @@
 									</div>
 									<select class="form-control select2 js-relation-cv-id" data-js="change|select2|value">
 										{foreach key=CV_ID item=CV_NAME from=$CUSTOM_VIEW_LIST}
-											<option value="{$CV_ID}" {if $CV_ID == $VIEW_MODEL->get('cvId')}selected{/if}>{$CV_NAME}</option>
+											<option value="{$CV_ID}" {if $CV_ID == $VIEW_MODEL->get('viewId')}selected{/if}>{$CV_NAME}</option>
 										{/foreach}
 									</select>
 								</div>
