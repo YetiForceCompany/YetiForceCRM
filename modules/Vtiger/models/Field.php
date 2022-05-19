@@ -1609,13 +1609,22 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($maximumLength = $this->get('maximumlength')) {
 			return $maximumLength;
 		}
+		return $this->getDbValueLength();
+	}
+
+	/**
+	 * Get length value form database.
+	 *
+	 * @return int
+	 */
+	public function getDbValueLength(): int
+	{
 		$db = \App\Db::getInstance();
 		$tableSchema = $db->getSchema()->getTableSchema($this->getTableName(), true);
 		if (empty($tableSchema)) {
 			throw new \App\Exceptions\AppException('ERR_TABLE_DOES_NOT_EXISTS||' . $this->getTableName());
 		}
-		$columnSchema = $tableSchema->getColumn($this->getColumnName());
-		return $columnSchema->size ?: 0;
+		return $tableSchema->getColumn($this->getColumnName())->size ?: 0;
 	}
 
 	public function isActiveSearchView()
