@@ -17,12 +17,7 @@ class Vtiger_AccountName_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if (0 === strpos($value, '|##|')) {
-			$value = str_replace('|##|', '', $value);
-		} else {
-			$value = str_replace('|##|', ' ', $value);
-		}
-		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
+		return parent::getDisplayValue($this->parseDisplayValue($value), $record, $recordModel, $rawText, $length);
 	}
 
 	/** {@inheritdoc} */
@@ -40,5 +35,25 @@ class Vtiger_AccountName_UIType extends Vtiger_Base_UIType
 	{
 		$exploded = explode('|##|', $this->getFieldModel()->get('fieldvalue') ?? '', 2);
 		return ['first' => isset($exploded[1]) ? $exploded[0] : '', 'last' => $exploded[1] ?? $exploded[0]];
+	}
+
+	/**
+	 * Parse display value.
+	 *
+	 * @param mixed $value
+	 *
+	 * @return mixed
+	 */
+	private function parseDisplayValue($value): mixed
+	{
+		if (null === $value) {
+			return $value;
+		}
+		if (0 === strpos($value, '|##|')) {
+			$value = str_replace('|##|', '', $value);
+		} else {
+			$value = str_replace('|##|', ' ', $value);
+		}
+		return $value;
 	}
 }
