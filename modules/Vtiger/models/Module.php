@@ -378,11 +378,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 *
 	 * @return \Vtiger_Record_Model Record Model instance
 	 */
-	public function getRecordFromArray(array $valueArray)
+	public function getRecordFromArray(array $valueArray): Vtiger_Record_Model
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $this->getName());
 		$recordInstance = new $modelClassName();
-
 		return $recordInstance->setData($valueArray)->setModuleFromInstance($this);
 	}
 

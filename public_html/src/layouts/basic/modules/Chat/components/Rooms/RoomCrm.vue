@@ -95,8 +95,8 @@ export default {
 		},
 		...mapActions(['fetchRoomList']),
 		showRecordsModal(val) {
-			app.showRecordsList({ module: val, src_module: val }, (modal, instance) => {
-				instance.setSelectEvent((responseData, e) => {
+			app.showRecordsList({ module: val, src_module: val }, (_modal, instance) => {
+				instance.setSelectEvent((responseData) => {
 					AppConnector.request({
 						module: 'Chat',
 						action: 'Room',

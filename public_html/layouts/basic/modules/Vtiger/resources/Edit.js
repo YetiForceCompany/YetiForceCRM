@@ -308,7 +308,7 @@ $.Class(
 				parentElem = $(e.target).closest('td');
 			}
 			let params = this.getRecordsListParams(parentElem);
-			app.showRecordsList(params, (modal, instance) => {
+			app.showRecordsList(params, (_modal, instance) => {
 				instance.setSelectEvent((data) => {
 					this.setReferenceFieldValue(parentElem, data);
 				});

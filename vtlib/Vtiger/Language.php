@@ -16,14 +16,6 @@ namespace vtlib;
 class Language extends LanguageImport
 {
 	/**
-	 * Constructor.
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
-	/**
 	 * Function to remove language files related to a module.
 	 *
 	 * @param ModuleBasic $moduleInstance

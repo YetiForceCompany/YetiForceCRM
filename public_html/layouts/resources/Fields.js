@@ -3002,7 +3002,7 @@ window.App.Fields = {
 					if (url) {
 						params = this.convertUrl(url);
 					}
-					app.showRecordsList($.extend(params, this.getParams()), (modal, instance) => {
+					app.showRecordsList($.extend(params, this.getParams()), (_modal, instance) => {
 						instance.setSelectEvent((data) => {
 							this.setReferenceFieldValue(data);
 						});
