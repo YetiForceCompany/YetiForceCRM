@@ -182,8 +182,11 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if ($rawText || null === $value) {
+		if ($rawText) {
 			return $value;
+		}
+		if (null === $value) {
+			return '';
 		}
 		if (\is_int($length)) {
 			$value = \App\TextParser::textTruncate($value, $length);
