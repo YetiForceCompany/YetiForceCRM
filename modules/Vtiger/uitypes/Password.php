@@ -31,21 +31,19 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
-	public function validate($password, $isUserFormat = false)
+	public function validate($value, $isUserFormat = false)
 	{
-		if (empty($password) || isset($this->validate[$password])) {
+		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		$maximumLength = $this->getFieldModel()->getMaxValue();
-
 		if (!$isUserFormat && \App\Encryption::getInstance()->isActive()) {
 			$maximumLength = $this->getFieldModel()->getDbValueLength();
 		}
-
-		if ($maximumLength && App\TextParser::getTextLength($password) > $maximumLength) {
-			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $password, 406);
+		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
+			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
-		$this->validate[$password] = true;
+		$this->validate[$value] = true;
 	}
 
 	/** {@inheritdoc} */

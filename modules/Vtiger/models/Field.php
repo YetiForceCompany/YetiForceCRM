@@ -1609,7 +1609,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		if ($maximumLength = $this->get('maximumlength')) {
 			return $maximumLength;
 		}
-		return $this->getDbValueLength() ?: 0;
+		return $this->getDbValueLength();
 	}
 
 	/**
@@ -1624,7 +1624,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (empty($tableSchema)) {
 			throw new \App\Exceptions\AppException('ERR_TABLE_DOES_NOT_EXISTS||' . $this->getTableName());
 		}
-		return $tableSchema->getColumn($this->getColumnName())->size;
+		return $tableSchema->getColumn($this->getColumnName())->size ?: 0;
 	}
 
 	public function isActiveSearchView()
