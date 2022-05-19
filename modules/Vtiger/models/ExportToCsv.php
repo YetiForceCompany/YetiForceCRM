@@ -63,7 +63,6 @@ class Vtiger_ExportToCsv_Model extends \App\Export\Records
 			}
 		}
 		$dataReader->close();
-
 		return $entries;
 	}
 

@@ -17,9 +17,9 @@ class OSSMail_SetUser_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$users = OSSMail_Autologin_Model::getAutologinUsers();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule()) || !isset($users[$request->getInteger('user')])) {
+		if (!$userPrivilegesModel->hasModulePermission($request->getModule()) || !isset($users[$request->getInteger('user')])) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}

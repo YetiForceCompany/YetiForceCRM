@@ -32,8 +32,8 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	{
 		$mode = $request->getMode();
 		if ('verifyPhoneNumber' !== $mode) {
-			$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-			if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			if (!$userPrivilegesModel->hasModulePermission($request->getModule())) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 			if ('getReference' !== $mode && !\App\Privilege::isPermitted($request->getModule(), 'EditView')) {

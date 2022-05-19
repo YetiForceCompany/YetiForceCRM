@@ -21,13 +21,13 @@ class ModComments_MassSaveAjax_Action extends Vtiger_Mass_Action
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'CreateView')) {
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'CreateView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$sourceModule = $request->getByType('source_module', 2);
 		$moduleModel = Vtiger_Module_Model::getInstance($sourceModule);
-		if (!$moduleModel->isCommentEnabled() || !$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'MassAddComment')) {
+		if (!$moduleModel->isCommentEnabled() || !$userPrivilegesModel->hasModuleActionPermission($sourceModule, 'MassAddComment')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
