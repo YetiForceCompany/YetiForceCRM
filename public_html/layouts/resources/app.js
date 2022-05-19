@@ -1606,15 +1606,12 @@ var app = (window.app = {
 		}
 		let moduleName = modalContainer.data('module') || 'Base';
 		let modalClass = moduleName.replace(':', '_') + '_' + modalContainer.data('view') + '_JS';
-		console.log(modalClass);
 		if (typeof windowParent[modalClass] === 'undefined') {
 			modalClass = [...modalClass.split('_').slice(0, -1), 'Js'].join('_');
 		}
-		console.log(modalClass);
 		if (typeof windowParent[modalClass] === 'undefined') {
 			modalClass = 'Base_' + modalContainer.data('view') + '_JS';
 		}
-		console.log(modalClass);
 		if (typeof windowParent[modalClass] !== 'undefined') {
 			let instance = new windowParent[modalClass]();
 			if (typeof cb === 'function') {
