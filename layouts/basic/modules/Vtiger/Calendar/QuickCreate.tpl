@@ -41,12 +41,13 @@
 					<div class="modal-body row no-gutters m-0 pt-0">
 						<div class="col col-lg-8 pt-2">
 							<input type="hidden" id="switchingDays" value="workDays" />
-							<input type="hidden" id="hiddenDays"
-								value="{\App\Purifier::encodeHtml(\App\Json::encode(App\Config::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
+							<input type="hidden" id="hiddenDays" value="{\App\Purifier::encodeHtml(\App\Json::encode(App\Config::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
 							<input value="{$WEEK_COUNT}" type="hidden" id="weekCount" />
 							<input value="{$WEEK_VIEW}" type="hidden" id="weekView" />
 							<input value="{$DAY_VIEW}" type="hidden" id="dayView" />
 							<input value="{$ALL_DAY_SLOT}" type="hidden" id="allDaySlot" />
+							<input value="{$ALL_DAY_SLOT}" type="hidden" id="allDaySlot" />
+							<input value="" type="hidden" class="js-selected-date" />
 							<div class="c-calendar-view">
 								<div class="o-calendar__container">
 									<div class="js-calendar__container" data-js="fullcalendar | offset"></div>

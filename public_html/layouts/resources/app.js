@@ -188,10 +188,13 @@ var App = (window.App = {
 				app.showModalWindow(html, (container) => {
 					const quickCreateForm = container.find('form.js-form');
 					const moduleName = quickCreateForm.find('[name="module"]').val();
+					if (typeof params.callbackBeforeRegister !== 'undefined') {
+						params.callbackBeforeRegister(container);
+					}
 					const editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
-					const moduleClassName = moduleName + '_QuickCreate_Js';
 					editViewInstance.setForm(quickCreateForm);
 					editViewInstance.registerBasicEvents(quickCreateForm);
+					const moduleClassName = moduleName + '_QuickCreate_Js';
 					if (typeof window[moduleClassName] !== 'undefined') {
 						new window[moduleClassName]().registerEvents(container);
 					}
