@@ -56,6 +56,11 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('ALPHABET_VALUE', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $request->getByType('search_key', 'Alnum'), $request->getByType('operator')));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 'Alnum'));
 		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($moduleName, $request->getArray('search_params'), false));
+		$advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : [];
+		if ($advancedConditions) {
+			\App\Condition::validAdvancedConditions($advancedConditions);
+		}
+		$viewer->assign('ADVANCED_CONDITIONS', $advancedConditions);
 		$viewer->view('MassEditForm.tpl', $moduleName);
 	}
 
@@ -87,6 +92,11 @@ class Vtiger_MassActionAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('ENTITY_STATE', $request->getByType('entityState'));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 'Alnum'));
 		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($sourceModule, $request->getArray('search_params'), false));
+		$advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : [];
+		if ($advancedConditions) {
+			\App\Condition::validAdvancedConditions($advancedConditions);
+		}
+		$viewer->assign('ADVANCED_CONDITIONS', $advancedConditions);
 		$viewer->view('AddCommentForm.tpl', $moduleName);
 	}
 }

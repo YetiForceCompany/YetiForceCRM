@@ -62,12 +62,14 @@ class Vtiger_QuickExportData_Action extends Vtiger_Mass_Action
 		if ($selectedIds && 'all' !== $selectedIds[0]) {
 			$queryGenerator->addCondition('id', $selectedIds, 'e');
 		}
+		if ($advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : []) {
+			$queryGenerator->setAdvancedConditions(\App\Condition::validAdvancedConditions($advancedConditions));
+		}
 		$searchParams = \App\Condition::validSearchParams($this->moduelName, $request->getArray('search_params'));
 		if ($searchParams) {
 			$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParams);
 			$queryGenerator->parseAdvFilter($transformedSearchParams);
 		}
-
 		$operator = $request->isEmpty('operator') ? '' : $request->getByType('operator');
 		if ($operator && $searchValue = \App\Condition::validSearchValue($request->getByType('search_value', \App\Purifier::TEXT), $this->moduelName, $request->getByType('search_key', \App\Purifier::ALNUM), $operator)) {
 			$queryGenerator->addCondition($request->getByType('search_key', \App\Purifier::ALNUM), $searchValue, $operator);

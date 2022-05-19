@@ -98,6 +98,9 @@ class SMSNotifier_MassSMS_Action extends Vtiger_Mass_Action
 			}
 			$customViewModel->set('search_params', App\Condition::validSearchParams($moduleName, $request->getArray('search_params')));
 			$customViewModel->set('entityState', $request->getByType('entityState'));
+			if ($advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : []) {
+				$customViewModel->set('advancedConditions', \App\Condition::validAdvancedConditions($advancedConditions));
+			}
 			$queryGenerator = $customViewModel->getRecordsListQuery($request->getArray('excluded_ids', 2), $moduleName);
 		}
 
@@ -108,7 +111,6 @@ class SMSNotifier_MassSMS_Action extends Vtiger_Mass_Action
 		$fields[] = 'id';
 		$queryGenerator->clearFields()->setFields($fields);
 		$queryGenerator->setLimit(\App\Config::module($request->getModule(), 'maxMassSentSMS', 1));
-
 		return $queryGenerator;
 	}
 }

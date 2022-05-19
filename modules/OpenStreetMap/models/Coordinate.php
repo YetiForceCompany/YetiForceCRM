@@ -238,11 +238,11 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 	/**
 	 * Function to get coordinates for many records.
 	 *
-	 * @param array $records Array with id of records
+	 * @param int[] $records Array with id of records
 	 *
 	 * @return array
 	 */
-	public function readCoordinatesByRecords($records)
+	public function readCoordinatesByRecords(array $records)
 	{
 		$moduleModel = $this->get('srcModuleModel');
 		$groupByField = $this->get('groupBy');
@@ -299,9 +299,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 			return $this->readAllCoordinatesFromCustomeView();
 		}
 		if (!empty($selectedIds)) {
-			$records = Vtiger_Mass_Action::getRecordsListFromRequest($this->get('request'));
-
-			return $this->readCoordinatesByRecords($records);
+			return $this->readCoordinatesByRecords(Vtiger_Mass_Action::getRecordsListFromRequest($this->get('request')));
 		}
 		return [];
 	}
@@ -315,9 +313,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 	{
 		$moduleModel = $this->get('srcModuleModel');
 		$moduleName = $moduleModel->getName();
-		$filterId = $this->get('viewname');
 		$excludedIds = $this->get('excluded_ids');
-		$searchKey = $this->get('search_key');
 		$searchValue = $this->get('search_value');
 		$operator = $this->get('operator');
 		$groupByField = $this->get('groupBy');
@@ -331,14 +327,17 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 			$groupByFieldColumn = $fieldModel->get('column');
 		}
 		$queryGenerator = new App\QueryGenerator($moduleName);
-		$queryGenerator->initForCustomViewById($filterId);
+		$queryGenerator->initForCustomViewById($this->get('viewname'));
 		$queryGenerator->setFields($fields);
 		$queryGenerator->setCustomColumn('u_#__openstreetmap.lat');
 		$queryGenerator->setCustomColumn('u_#__openstreetmap.lon');
 		$queryGenerator->setCustomColumn('vtiger_crmentity.crmid');
+		if ($advancedConditions = $this->get('advancedConditions')) {
+			$queryGenerator->setAdvancedConditions($advancedConditions);
+		}
 		$queryGenerator->addJoin(['LEFT JOIN', 'u_#__openstreetmap', 'u_#__openstreetmap.crmid = vtiger_crmentity.crmid']);
 		if (!empty($searchValue) && $operator) {
-			$queryGenerator->addCondition($searchKey, $searchValue, $operator);
+			$queryGenerator->addCondition($this->get('search_key'), $searchValue, $operator);
 		}
 		$searchParams = $this->getArray('search_params');
 		if (empty($searchParams)) {
@@ -379,7 +378,6 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 			}
 		}
 		$dataReader->close();
-
 		return $coordinates;
 	}
 

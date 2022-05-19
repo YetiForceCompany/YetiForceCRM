@@ -90,7 +90,11 @@ class SMSNotifier_MassSMS_View extends \App\Controller\Modal
 		$viewer->assign('ALPHABET_VALUE', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $request->getByType('search_key', 'Alnum'), $request->getByType('operator')));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 'Alnum'));
 		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($sourceModule, $request->getArray('search_params'), false));
-
+		$advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : [];
+		if ($advancedConditions) {
+			\App\Condition::validAdvancedConditions($advancedConditions);
+		}
+		$viewer->assign('ADVANCED_CONDITIONS', $advancedConditions);
 		$viewer->view('MassSMS.tpl', $request->getModule());
 	}
 
@@ -120,9 +124,11 @@ class SMSNotifier_MassSMS_View extends \App\Controller\Modal
 			}
 			$customViewModel->set('search_params', App\Condition::validSearchParams($sourceModule, $request->getArray('search_params')));
 			$customViewModel->set('entityState', $request->getByType('entityState'));
+			if ($advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : []) {
+				$customViewModel->set('advancedConditions', \App\Condition::validAdvancedConditions($advancedConditions));
+			}
 			$queryGenerator = $customViewModel->getRecordsListQuery($excludedIds, $module);
 		}
-
 		return $queryGenerator;
 	}
 }

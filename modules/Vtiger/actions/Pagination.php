@@ -23,8 +23,8 @@ class Vtiger_Pagination_Action extends Vtiger_BasicAjax_Action
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
+		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -40,11 +40,14 @@ class Vtiger_Pagination_Action extends Vtiger_BasicAjax_Action
 		$moduleName = $request->getModule();
 		$viewName = $request->getByType('viewname', 2);
 		$listViewModel = Vtiger_ListView_Model::getInstance($moduleName, $viewName);
-		$searchParmams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
-		if (empty($searchParmams) || !\is_array($searchParmams)) {
-			$searchParmams = [];
+		if ($advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : []) {
+			$listViewModel->set('advancedConditions', \App\Condition::validAdvancedConditions($advancedConditions));
 		}
-		$listViewModel->set('search_params', $listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParmams));
+		$searchParams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
+		if (empty($searchParams) || !\is_array($searchParams)) {
+			$searchParams = [];
+		}
+		$listViewModel->set('search_params', $listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams));
 		$totalCount = (int) $listViewModel->getListViewCount();
 		$data = [
 			'totalCount' => $totalCount,

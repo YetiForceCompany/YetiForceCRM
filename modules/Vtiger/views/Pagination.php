@@ -91,6 +91,9 @@ class Vtiger_Pagination_View extends Vtiger_IndexAjax_View
 				$transformedSearchParams = $listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 				$listViewModel->set('search_params', $transformedSearchParams);
 			}
+			if ($advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : []) {
+				$listViewModel->set('advancedConditions', \App\Condition::validAdvancedConditions($advancedConditions));
+			}
 			$totalCount = $listViewModel->getListViewCount();
 		}
 		if (!empty($totalCount)) {

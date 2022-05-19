@@ -70,10 +70,12 @@ class Vtiger_ExportData_Action extends Vtiger_Mass_Action
 		if ($operator && $searchValue = \App\Condition::validSearchValue($request->getByType('search_value', \App\Purifier::TEXT), $this->moduelName, $request->getByType('search_key', \App\Purifier::ALNUM), $operator)) {
 			$searchKey = $request->getByType('search_key', \App\Purifier::ALNUM);
 		}
-
 		$queryGenerator = $this->exportModel->getQueryGenerator();
 		$queryGenerator->setStateCondition($request->getByType('entityState'));
 		$queryGenerator->initForCustomViewById($cvId);
+		if ($advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : []) {
+			$queryGenerator->setAdvancedConditions(\App\Condition::validAdvancedConditions($advancedConditions));
+		}
 
 		switch ($request->getMode()) {
 				case 'ExportAllData':

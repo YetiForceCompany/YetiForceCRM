@@ -28,7 +28,7 @@
 			<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
 			<input type="hidden" name="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}" />
 			<input type="hidden" name="entityState" value="{$ENTITY_STATE}" />
-
+			<input type="hidden" name="advancedConditions" value="{\App\Purifier::encodeHtml(\App\Json::encode($ADVANCED_CONDITIONS))}" />
 			<div class="col-md-8">
 				<div class="p-3 card bg-light exportContents ml-0 my-2">
 					<div class="radio">

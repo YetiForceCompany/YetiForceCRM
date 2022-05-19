@@ -10,8 +10,8 @@
 
 class Vtiger_IndexAjax_View extends Vtiger_Index_View
 {
-	use \App\Controller\ExposeMethod;
 	use App\Controller\ClearProcess;
+	use \App\Controller\ExposeMethod;
 
 	public function getRecordsListFromRequest(App\Request $request)
 	{
@@ -39,7 +39,9 @@ class Vtiger_IndexAjax_View extends Vtiger_Index_View
 			if ($request->has('search_params')) {
 				$customViewModel->set('search_params', App\Condition::validSearchParams($request->getModule(), $request->getArray('search_params')));
 			}
-
+			if ($advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : []) {
+				$customViewModel->set('advancedConditions', \App\Condition::validAdvancedConditions($advancedConditions));
+			}
 			return $customViewModel->getRecordIds($excludedIds);
 		}
 	}

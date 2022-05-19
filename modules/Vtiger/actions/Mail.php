@@ -147,6 +147,9 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 			$transformedSearchParams = $listView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$listView->set('search_params', $transformedSearchParams);
 		}
+		if ($advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : []) {
+			$listView->set('advancedConditions', \App\Condition::validAdvancedConditions($advancedConditions));
+		}
 		if ($sourceModule) {
 			$queryGenerator = $listView->getRelationQuery(true);
 		} else {
