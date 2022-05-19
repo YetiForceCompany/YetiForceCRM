@@ -85,7 +85,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		$href = $international = \App\Purifier::encodeHtml($value);
+		$href = $international = ($value ? \App\Purifier::encodeHtml($value) : '');
 		if ((\Config\Main::$phoneFieldAdvancedVerification ?? false) && ($format = \App\Config::main('phoneFieldAdvancedHrefFormat', \libphonenumber\PhoneNumberFormat::RFC3966)) !== false) {
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 			try {
