@@ -74,12 +74,21 @@ class CustomView {
 		let columnListSelectElement = this.getColumnSelectElement();
 		return columnListSelectElement.val();
 	}
-
-	getShortFieldNames() {
-		return this.container
-			.find('.js-short-name-fields option')
-			.toArray()
-			.map((item) => ({ text: item.text, value: item.value }));
+	/**
+	 * Get custom labels
+	 * @returns array
+	 */
+	getCustomLabels() {
+		let customFieldNames = [];
+		this.getContentsContainer()
+			.find('.js-short-label')
+			.each(function () {
+				customFieldNames.push({
+					customLabel: $(this).val(),
+					value: $(this).attr('data-field-value')
+				});
+			});
+		return customFieldNames;
 	}
 
 	saveFilter() {
@@ -239,7 +248,7 @@ class CustomView {
 				form.find('#advancedConditions').val(JSON.stringify(CustomView.getAdvancedConditions(form)));
 				$('[name="duplicatefields"]').val(JSON.stringify(this.getDuplicateFields()));
 				$('input[name="columnslist"]', contentContainer).val(JSON.stringify(this.getSelectedColumns()));
-				contentContainer.find('.js-short-field-names').val(JSON.stringify(this.getShortFieldNames()));
+				contentContainer.find('.js-custom-field-names').val(JSON.stringify(this.getCustomLabels()));
 
 				this.saveAndViewFilter();
 				return false;
@@ -361,48 +370,39 @@ class CustomView {
 		}
 		return advancedConditions;
 	}
-	registerChangeViewColumns() {
+	/**
+	 * Register change selected columns
+	 */
+	registerChangeSelectedColumns() {
 		this.container.find('.js-view-columns-select').on('change', () => {
-			this.registerSetColumnsNameShorter();
+			this.registerAppendCustomLabels();
 		});
 	}
-	registerSetColumnsNameShorter() {
-		let shorterNamesContainer = this.container.find('.js-short-name-fields');
-		let shorterNamesColumns = this.getShortFieldNames();
+	/**
+	 *	Register append custom labels
+	 */
+	registerAppendCustomLabels() {
+		let shorterNamesContainer = this.container.find('.js-custom-name-fields');
 		let selectedColumns = this.container
 			.find('.js-view-columns-select option:selected')
 			.toArray()
-			.map((item) => ({ text: item.getAttribute('data-field-label'), value: item.value }));
+			.map((item) => ({
+				text: item.getAttribute('data-field-label'),
+				value: item.value,
+				customLabel: item.getAttribute('data-custom-label') ? item.getAttribute('data-custom-label') : ''
+			}));
 		shorterNamesContainer.empty();
-		let shorterName = '';
+		let newcustomLabelElement = '';
 		$.each(selectedColumns, function (_index, element) {
-			let found = shorterNamesColumns.find((shorterNameElement) => shorterNameElement.value == element.value);
-			if (undefined === found) {
-				shorterName = element.text;
-			} else {
-				console.log(found);
-				shorterName = found.text;
-			}
-			shorterNamesContainer.append(
-				$('<option>').val(element.value).text(shorterName).data({
-					shorterName: shorterName
-				})
-			);
-		});
-		App.Fields.Picklist.showSelect2ElementView(shorterNamesContainer);
-	}
-	registerUpdateShorterName() {
-		this.container.find('.js-update-shorter-name').on('click', (e) => {
-			let shorterValueContainer = this.container.find('.js-field-shorter-name');
-			let shorterValue = shorterValueContainer.val();
-			let selectedShorterNameOption = this.container.find('.js-short-name-fields option:selected');
-			if (shorterValue && selectedShorterNameOption) {
-				selectedShorterNameOption.text(shorterValue);
-				shorterValueContainer.val('');
-
-				let shorterNamesContainer = this.container.find('.js-short-name-fields');
-				App.Fields.Picklist.showSelect2ElementView(shorterNamesContainer);
-			}
+			newcustomLabelElement =
+				'<div class="d-flex mb-1"><div class="col-form-label col-md-2">' +
+				element.text +
+				'</div><div class="col-md-4"><input type="text" class="form-control js-short-label" data-field-value="' +
+				element.value +
+				'" value="' +
+				element.customLabel +
+				'"/></div></div>';
+			shorterNamesContainer.append(newcustomLabelElement);
 		});
 	}
 	/**
@@ -423,8 +423,7 @@ class CustomView {
 		});
 		$('#CustomView').validationEngine(app.validationEngineOptions);
 		this.registerDisableSubmitOnEnter();
-		this.registerChangeViewColumns();
-		this.registerSetColumnsNameShorter();
-		this.registerUpdateShorterName();
+		this.registerChangeSelectedColumns();
+		this.registerAppendCustomLabels();
 	}
 }

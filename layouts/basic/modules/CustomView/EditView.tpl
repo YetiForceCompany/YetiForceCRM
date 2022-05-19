@@ -37,7 +37,8 @@
 					<input type="hidden" id="advancedConditions" name="advanced_conditions" value="" />
 					<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}" />
 					<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />
-					{assign var=SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
+					{assign var=CV_SELECTED_FIELDS value=$CUSTOMVIEW_MODEL->getSelectedFields()}
+					{assign var=SELECTED_FIELDS value=array_keys($CV_SELECTED_FIELDS)}
 					<div class="modal-body">
 						<div class="js-toggle-panel c-panel" data-js="click">
 							<div class="blockHeader c-panel__header py-2 js-toggle-block" data-js="click">
@@ -49,7 +50,7 @@
 							</div>
 							<div class="c-panel__body py-1">
 								<div class="form-row">
-									<div class=" d-flex col-md-5">
+									<div class="d-flex col-md-5">
 										<label class="float-left col-form-label ">
 											<span class="redColor">*</span> {\App\Language::translate('LBL_VIEW_NAME',$MODULE_NAME)}
 											:</label>
@@ -89,14 +90,16 @@
 													<optgroup
 														label="{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}">
 														{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
+															{assign var=CUSTOM_VIEW_COLUMN_NAME value=$FIELD_MODEL->getCustomViewSelectColumnName()}
 															{if $FIELD_MODEL->isMandatory()}
-																{append var="MANDATORY_FIELDS" value=$FIELD_MODEL->getCustomViewSelectColumnName()}
+																{append var="MANDATORY_FIELDS" value=$CUSTOM_VIEW_COLUMN_NAME}
 															{/if}
-															{assign var=ELEMENT_POSITION_IN_ARRAY value=array_search($FIELD_MODEL->getCustomViewSelectColumnName(), $SELECTED_FIELDS)}
-															<option value="{$FIELD_MODEL->getCustomViewSelectColumnName()}"
+															{assign var=ELEMENT_POSITION_IN_ARRAY value=array_search($CUSTOM_VIEW_COLUMN_NAME, $SELECTED_FIELDS)}
+															<option value="{$CUSTOM_VIEW_COLUMN_NAME}"
 																data-field-name="{$FIELD_NAME}"
 																data-field-label="{{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}}"
 																{if $ELEMENT_POSITION_IN_ARRAY !== false}
+																	data-custom-label="{$CV_SELECTED_FIELDS[$CUSTOM_VIEW_COLUMN_NAME]}"
 																	data-sort-index="{$ELEMENT_POSITION_IN_ARRAY}" selected="selected"
 																{/if}
 																data-js="data-sort-index|data-field-name">
@@ -115,10 +118,14 @@
 															<optgroup
 																label="{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}&nbsp;-&nbsp;{\App\Language::translate($MODULE_KEY, $MODULE_KEY)}&nbsp;-&nbsp;{\App\Language::translate($BLOCK_LABEL, $MODULE_KEY)}">
 																{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
-																	{assign var=ELEMENT_POSITION_IN_ARRAY value=array_search($FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME), $SELECTED_FIELDS)}
-																	<option value="{$FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME)}"
+																	{assign var=CUSTOM_VIEW_COLUMN_NAME value=$FIELD_MODEL->getCustomViewSelectColumnName($RELATED_FIELD_NAME)}
+																	{assign var=ELEMENT_POSITION_IN_ARRAY value=array_search($CUSTOM_VIEW_COLUMN_NAME, $SELECTED_FIELDS)}
+																	<option value="{$CUSTOM_VIEW_COLUMN_NAME}"
 																		data-field-name="{$FIELD_NAME}"
+																		data-field-label="{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}
+																		&nbsp;-&nbsp;{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_KEY)}"
 																		{if $ELEMENT_POSITION_IN_ARRAY !== false}
+																			data-custom-label="{$CV_SELECTED_FIELDS[$CUSTOM_VIEW_COLUMN_NAME]}"
 																			data-sort-index="{$ELEMENT_POSITION_IN_ARRAY}" selected="selected"
 																		{/if}
 																		data-js="data-sort-index|data-field-name">
@@ -147,18 +154,12 @@
 								<span class="js-toggle-icon fas fa-chevron-right fa-xs m-1 mt-2 mr-3" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down" data-js="container"></span>
 								<h5>
 									<span class="yfi-company-detlis mr-2" aria-hidden="true"></span>
-									{\App\Language::translate('LBL_CHANGE_COLUMNS_LABEL',$MODULE_NAME)}
+									{\App\Language::translate('LBL_SET_CUSTOM_COLUMNS_LABEL',$MODULE_NAME)}
 								</h5>
 							</div>
 							<div class="c-panel__body py-1 d-none">
-								<div class="d-flex">
-									<input type="hidden" name="sortFieldNames" value="" class="js-short-field-names" data-js="val">
-									<label> {\App\Language::translate('LBL_SELECT_FIELD_FOR_SHORTING',$MODULE_NAME)} </label>
-									<select class="form-control select2 js-short-name-fields mr-2" data-js="container">
-										<option></option>
-									</select>
-									<input type="text" class="form-control js-field-shorter-name mr-2" data-js="container">
-									<button type="button" class="btn btn-success js-update-shorter-name" data-js="click"> {\App\Language::translate('LBL_UPDATE',$MODULE_NAME)} </button>
+								<input type="hidden" name="customFieldNames" value="" class="js-custom-field-names" data-js="val">
+								<div class="js-custom-name-fields">
 								</div>
 							</div>
 						</div>

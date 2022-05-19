@@ -446,7 +446,7 @@ class Vtiger_ListView_Model extends \App\Base
 			foreach ($fields as $fieldInfo) {
 				$fieldName = $fieldInfo['field_name'];
 				$fieldModel = Vtiger_Module_Model::getInstance($fieldInfo['module_name'])->getFieldByName($fieldName);
-				$fieldModel->shortName = $fieldInfo['short_name'] ?: '';
+				$fieldModel->customLabel = $fieldInfo['custom_label'] ?: '';
 				if (!empty($fieldInfo['source_field_name'])) {
 					if (!$this->getModule()->getFieldByName($fieldInfo['source_field_name'])->isActiveField()) {
 						continue;

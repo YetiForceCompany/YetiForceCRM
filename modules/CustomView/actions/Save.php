@@ -75,10 +75,14 @@ class CustomView_Save_Action extends \App\Controller\Action
 		if (empty($selectedColumnsList)) {
 			$cvIdDefault = App\CustomView::getInstance($request->getByType('source_module', \App\Purifier::ALNUM))->getDefaultCvId();
 			$defaultCustomViewModel = CustomView_Record_Model::getInstanceById($cvIdDefault);
-			$selectedColumnsList = $defaultCustomViewModel->getSelectedFields();
+			$selectedColumnsList = array_keys($defaultCustomViewModel->getSelectedFields());
 		}
 		$customViewData['columnslist'] = $selectedColumnsList;
-		$customViewData['sortFieldNames'] = $request->getArray('sortFieldNames', 'Text');
+		$customFieldNames = $request->getArray('customFieldNames', 'Text');
+		array_walk_recursive($customFieldNames, function (&$customLabel) {
+			$customLabel = trim($customLabel);
+		});
+		$customViewData['customFieldNames'] = $customFieldNames;
 		$advFilterList = $request->getArray('advfilterlist', 'Text');
 		if (!empty($advFilterList)) {
 			$customViewData['advfilterlist'] = $advFilterList;

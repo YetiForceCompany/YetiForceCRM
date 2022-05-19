@@ -811,15 +811,15 @@ class CustomView_Record_Model extends \App\Base
 		$cvId = $this->getId();
 		foreach ($this->get('columnslist') as $index => $columnInfo) {
 			$columnInfoExploded = explode(':', $columnInfo);
-			$shortNameKey = array_search($columnInfo, array_column($this->get('sortFieldNames'), 'value'));
-			$shortName = \is_int($shortNameKey) ? $this->get('sortFieldNames')[$shortNameKey]['text'] : '';
+			$customLabelKey = array_search($columnInfo, array_column($this->get('customFieldNames'), 'value'));
+			$customLabel = \is_int($customLabelKey) ? $this->get('customFieldNames')[$customLabelKey]['customLabel'] : '';
 			$db->createCommand()->insert('vtiger_cvcolumnlist', [
 				'cvid' => $cvId,
 				'columnindex' => $index,
 				'field_name' => $columnInfoExploded[0],
 				'module_name' => $columnInfoExploded[1],
 				'source_field_name' => $columnInfoExploded[2] ?? null,
-				'short_name' => $shortName
+				'custom_label' => $customLabel
 			])->execute();
 		}
 	}
@@ -927,12 +927,19 @@ class CustomView_Record_Model extends \App\Base
 			'vtiger_cvcolumnlist.field_name',
 			'vtiger_cvcolumnlist.module_name',
 			'vtiger_cvcolumnlist.source_field_name',
+			'vtiger_cvcolumnlist.custom_label',
 		])
 			->from('vtiger_cvcolumnlist')
 			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
 			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
 			->createCommand()->queryAllByGroup(1);
-		return array_map(fn ($item) => "{$item['field_name']}:{$item['module_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : ''), $selectedFields);
+
+		$result = [];
+		foreach ($selectedFields as $item) {
+			$key = "{$item['field_name']}:{$item['module_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
+			$result[$key] = $item['custom_label'];
+		}
+		return $result;
 	}
 
 	/**
