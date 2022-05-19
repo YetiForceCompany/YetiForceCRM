@@ -31,7 +31,7 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false): string
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		if (!$value) {
 			return '';
