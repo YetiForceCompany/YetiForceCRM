@@ -32,11 +32,14 @@ class Vtiger_CurrencyList_UIType extends Vtiger_Picklist_UIType
 	}
 
 	/** {@inheritdoc} */
-	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
+	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false): string
 	{
-		$currencylist = $this->getPicklistValues();
+		$currencyList = $this->getPicklistValues();
+		if (null !== $value) {
+			return \App\Purifier::encodeHtml($currencyList[$value] ?? $value);
+		}
 
-		return \App\Purifier::encodeHtml($currencylist[$value] ?? $value);
+		return '';
 	}
 
 	/** {@inheritdoc} */
