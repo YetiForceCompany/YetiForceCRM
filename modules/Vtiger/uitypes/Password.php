@@ -31,17 +31,21 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
-	public function validate($value, $isUserFormat = false)
+	public function validate($password, $isUserFormat = false)
 	{
-		if (empty($value) || isset($this->validate[$value])) {
+		if (empty($password) || isset($this->validate[$password])) {
 			return;
 		}
-		$dbValue = $isUserFormat ? $this->getDBValue($value) : $value;
-		$maximumLength = $this->getFieldModel()->getMaxColumnLength();
-		if ($maximumLength && App\TextParser::getTextLength($dbValue) > $maximumLength) {
-			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $dbValue, 406);
+		$maximumLength = $this->getFieldModel()->getMaxValue();
+
+		if (!$isUserFormat && \App\Encryption::getInstance()->isActive()) {
+			$maximumLength = $this->getFieldModel()->getDbValueLength();
 		}
-		$this->validate[$value] = true;
+
+		if ($maximumLength && App\TextParser::getTextLength($password) > $maximumLength) {
+			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $password, 406);
+		}
+		$this->validate[$password] = true;
 	}
 
 	/** {@inheritdoc} */
