@@ -302,6 +302,9 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				unset($params['validator']);
 				break;
 			case 'website':
+			case 'facebook':
+			case 'linkedin':
+			case 'twitter':
 				$params['uitype'] = 17;
 				$params['typeofdata'] = 'V~O';
 				unset($params['validator']);
@@ -317,13 +320,6 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 			case 'newsletter':
 				$params['typeofdata'] = 'V~O';
 				$params['uitype'] = 56;
-				unset($params['validator']);
-				break;
-			case 'facebook':
-			case 'linkedin':
-			case 'twitter':
-				$params['uitype'] = 17;
-				$params['typeofdata'] = 'V~O';
 				unset($params['validator']);
 				break;
 			default:

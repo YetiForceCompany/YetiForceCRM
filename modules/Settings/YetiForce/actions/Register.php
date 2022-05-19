@@ -80,14 +80,14 @@ class Settings_YetiForce_Register_Action extends Settings_Vtiger_Save_Action
 			'address' => 'Text',
 			'industry' => 'Text',
 			'companysize' => 'Integer',
-			'website' => 'Url',
+			'website' => 'urlDomain',
 			'newsletter' => 'Integer',
 			'firstname' => 'Text',
 			'lastname' => 'Text',
 			'email' => 'Email',
-			'facebook' => 'Url',
-			'twitter' => 'Url',
-			'linkedin' => 'Url',
+			'facebook' => 'url',
+			'twitter' => 'url',
+			'linkedin' => 'url',
 		]);
 		if (!\App\Company::registerOnline($companies)) {
 			$result = false;

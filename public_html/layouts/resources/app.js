@@ -20,17 +20,17 @@ var App = (window.App = {
 				}
 
 				generateTree(container) {
-					const slef = this;
-					if (slef.treeInstance === false) {
-						slef.treeInstance = container;
-						slef.treeInstance
-							.on('select_node.jstree', function (e, data) {
+					const self = this;
+					if (self.treeInstance === false) {
+						self.treeInstance = container;
+						self.treeInstance
+							.on('select_node.jstree', function (_e, data) {
 								if (data.event !== undefined && $(data.event.target).hasClass('jstree-checkbox')) {
 									return;
 								}
 								data.instance.select_node(data.node.children_d);
 							})
-							.on('deselect_node.jstree', function (e, data) {
+							.on('deselect_node.jstree', function (_e, data) {
 								if (data.event !== undefined && $(data.event.target).hasClass('jstree-checkbox')) {
 									return;
 								}
@@ -38,7 +38,7 @@ var App = (window.App = {
 							})
 							.jstree({
 								core: {
-									data: slef.getRecords(container),
+									data: self.getRecords(container),
 									themes: {
 										name: 'proton',
 										responsive: true
@@ -268,7 +268,7 @@ var App = (window.App = {
 									}
 									app.reloadAfterSave(data, params, form, element);
 								})
-								.fail(function (textStatus, errorThrown) {
+								.fail(function (_, errorThrown) {
 									app.showNotify({
 										textTrusted: false,
 										text: errorThrown,
@@ -1606,12 +1606,15 @@ var app = (window.app = {
 		}
 		let moduleName = modalContainer.data('module') || 'Base';
 		let modalClass = moduleName.replace(':', '_') + '_' + modalContainer.data('view') + '_JS';
+		console.log(modalClass);
 		if (typeof windowParent[modalClass] === 'undefined') {
 			modalClass = [...modalClass.split('_').slice(0, -1), 'Js'].join('_');
 		}
+		console.log(modalClass);
 		if (typeof windowParent[modalClass] === 'undefined') {
 			modalClass = 'Base_' + modalContainer.data('view') + '_JS';
 		}
+		console.log(modalClass);
 		if (typeof windowParent[modalClass] !== 'undefined') {
 			let instance = new windowParent[modalClass]();
 			if (typeof cb === 'function') {
