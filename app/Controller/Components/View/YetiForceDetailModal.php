@@ -40,6 +40,6 @@ class YetiForceDetail extends \App\Controller\Modal
 	public function process(\App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->view('YetiForceDetail.tpl', $request->getModule());
+		$viewer->view('YetiForceDetailModal.tpl', $request->getModule());
 	}
 }
