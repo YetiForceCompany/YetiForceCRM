@@ -32,8 +32,8 @@ class YetiForceDetail extends \App\Controller\Modal
 	/** {@inheritdoc} */
 	public function getPageTitle(\App\Request $request)
 	{
-		$varsion = \App\User::getCurrentUserModel()->isAdmin() ? 'v' . \App\Version::get() : '';
-		return 'YetiForceCRM ' . $varsion . '- The most flexible CRM in the world';
+		$version = \App\User::getCurrentUserModel()->isAdmin() ? 'v' . \App\Version::get() : '';
+		return 'YetiForceCRM ' . $version . '- The most flexible CRM in the world';
 	}
 
 	/** {@inheritdoc} */
