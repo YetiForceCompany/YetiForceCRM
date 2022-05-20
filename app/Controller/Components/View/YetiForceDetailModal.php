@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce detail view file.
+ * YetiForce detail modal view file.
  *
  * @package   Controller
  *
@@ -12,9 +12,9 @@
 namespace App\Controller\Components\View;
 
 /**
- * YetiForce detail view class.
+ * YetiForce detail modal view class.
  */
-class YetiForceDetail extends \App\Controller\Modal
+class YetiForceDetailModal extends \App\Controller\Modal
 {
 	/** {@inheritdoc} */
 	public $successBtn = '';

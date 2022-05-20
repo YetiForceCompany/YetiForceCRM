@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-AppComponents-YetiForceDetail-->
+	<!-- tpl-AppComponents-YetiForceDetailModal-->
 	<div class="modal-body">
 		<p class="text-center">
 			<img class="u-h-120px" src="{App\Layout::getPublicUrl('layouts/resources/Logo/logo_hor.png')}" title="YetiForceCRM" alt="YetiForceCRM" />
@@ -90,5 +90,5 @@
 			</li>
 		</ul>
 	</div>
-	<!-- /tpl-AppComponents-YetiForceDetail-->
+	<!-- /tpl-AppComponents-YetiForceDetailModal-->
 {/strip}

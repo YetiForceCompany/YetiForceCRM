@@ -3063,9 +3063,8 @@ var app = (window.app = {
 	 * @param container
 	 */
 	showYetiForceDetail(container) {
-		container.on('click', '.js-show_yetiforce-detail', (e) => {
-			let url = `index.php?module=AppComponents&view=YetiForceDetail`;
-			app.showModalWindow({ url });
+		container.on('click', '.js-show_yetiforce-detail', () => {
+			app.showModalWindow({ url: 'index.php?module=AppComponents&view=YetiForceDetailModal' });
 		});
 	},
 	registerShowHideBlock(container) {
