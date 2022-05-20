@@ -70,7 +70,6 @@ class Settings_Widgets_Widget_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RELATEDMODULES', \App\Relation::getByModule($widgetModuleName));
-		$viewer->assign('PRIVILEGESMODEL', Users_Privileges_Model::getCurrentUserPrivilegesModel());
 		$className = Vtiger_Loader::getComponentClassName('Widget', $type, $widgetModuleName);
 		if (class_exists($className)) {
 			$widgetInstance = new $className($widgetModuleName, null, null, []);

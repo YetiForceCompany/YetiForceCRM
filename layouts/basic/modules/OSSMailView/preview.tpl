@@ -12,8 +12,8 @@
 				<div class="{if $ISMODAL}modal-header{else}blockHeader emailPreviewHeader{/if} flex-wrap flex-md-nowrap">
 					<h5 {if $ISMODAL}class="modal-title" {/if}>{\App\Language::translate('emailPreviewHeader',$MODULENAME)}</h5>
 					<div class="btn-toolbar order-3 order-md-2 ml-md-auto mt-2 mt-md-0">
-						{if App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
-							{if $USER_MODEL->get('internal_mailer') == 1}
+						{if \App\Mail::checkMailClient()}
+							{if \App\Mail::checkInternalMailClient()}
 								{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
 								{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
 								{assign var=POPUP value=$CONFIG['popup']}

@@ -48,7 +48,7 @@
 							{\App\Language::translate('FL_RELATION',$MODULE_NAME)}:&nbsp;
 							<strong>{$RECORD->getDisplayValue('link')}</strong>
 							{if $PERMISSION_TO_SENDE_MAIL}
-								{if $USER_MODEL->get('internal_mailer') == 1}
+								{if \App\Mail::checkInternalMailClient()}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('link')), $RECORD->get('link'), 'Detail', 'new')}
 									<a target="_blank" class="float-right" href="{$COMPOSE_URL}" title="{\App\Language::translate('LBL_SEND_EMAIL')}">
 										<span class="fas fa-envelope fa-fw"></span>
@@ -75,7 +75,7 @@
 							{\App\Language::translate('FL_RELATION_EXTEND',$MODULE_NAME)}:&nbsp;
 							<strong>{$RECORD->getDisplayValue('linkextend')}</strong>
 							{if $PERMISSION_TO_SENDE_MAIL}
-								{if $USER_MODEL->get('internal_mailer') == 1}
+								{if \App\Mail::checkInternalMailClient()}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl(\App\Record::getType($RECORD->get('linkextend')), $RECORD->get('linkextend'), 'Detail', 'new')}
 									<a target="_blank" class="float-right" href="{$COMPOSE_URL}"
 										rel="noreferrer noopener">

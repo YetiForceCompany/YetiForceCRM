@@ -83,9 +83,10 @@
 					<button type="button" class="close" data-dismiss="alert">×</button>
 					<h4 class="alert-heading">{\App\Language::translate('OSSMail', 'OSSMail')} - {\App\Language::translate('Alert_no_accounts_title', $MODULE_NAME)}</h4>
 					<p>{\App\Language::translate('Alert_no_accounts_desc', $MODULE_NAME)}</p>
-					{if \App\Privilege::isPermitted('OSSMail')}
-						<p><a class="btn btn-light" role="button"
-								href="index.php?module=OSSMail&view=Index">{\App\Language::translate('OSSMail','OSSMail')}</a></p>
+					{if \App\Mail::checkInternalMailClient()}
+						<p><a class="btn btn-light" role="button" href="index.php?module=OSSMail&view=Index">
+								{\App\Language::translate('OSSMail','OSSMail')}
+							</a></p>
 					{/if}
 				</div>
 			{else}

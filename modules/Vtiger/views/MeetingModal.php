@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
@@ -61,7 +62,7 @@ class Vtiger_MeetingModal_View extends \App\Controller\Modal
 				$expires = $date->format('Y-m-d H:i:s (T P)');
 			}
 		}
-		$sendInvitation = ($isActive || $simpleUrl) && \App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail');
+		$sendInvitation = ($isActive || $simpleUrl) && \App\Mail::checkInternalMailClient();
 		$templateId = \App\Config::component('MeetingService', 'emailTemplateModule', [])[$moduleName] ?? \App\Config::component('MeetingService', 'emailTemplateDefault', 0);
 		if ($sendInvitation && $templateId && ($template = \App\Mail::getTemplate($templateId, false))) {
 			$textParser = \App\TextParser::getInstanceById($recordId, $moduleName);

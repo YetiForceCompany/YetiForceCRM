@@ -107,7 +107,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$pdfModel = new $handlerClass();
 		$templates = ($recordId && !$isRelatedView) ? $pdfModel->getActiveTemplatesForRecord($recordId, $view, $pdfModuleName) : $pdfModel->getActiveTemplatesForModule($pdfModuleName, $view);
 
-		if (($emailPdf && !\App\Privilege::isPermitted('OSSMail'))
+		if (($emailPdf && !\App\Mail::checkInternalMailClient())
 			|| ($request->has($key) && !\App\Privilege::isPermitted($pdfModuleName, 'RecordPdfInventory'))
 			|| array_diff($templateIds, array_keys($templates))
 			) {

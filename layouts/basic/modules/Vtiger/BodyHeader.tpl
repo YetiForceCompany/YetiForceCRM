@@ -162,9 +162,9 @@
 			</div>
 		{/if}
 		<div class="o-navbar__right ml-auto d-inline-flex flex-sm-nowrap">
-			{if !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
+			{if \App\Mail::checkMailClient() && !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
 				{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
-				{if $CONFIG['showMailIcon']=='true' && App\Privilege::isPermitted('OSSMail')}
+				{if $CONFIG['showMailIcon']=='true'}
 					{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
 					{if count($AUTOLOGINUSERS) > 0}
 						{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}

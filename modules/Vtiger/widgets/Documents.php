@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Vtiger_Documents_Widget extends Vtiger_RelatedModule_Widget
 {
@@ -47,8 +48,7 @@ class Vtiger_Documents_Widget extends Vtiger_RelatedModule_Widget
 				'linkclass' => 'btn-light btn-sm',
 			]);
 		}
-		if (!empty($this->Data['email_template']) && \App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')
-			&& 1 === \App\User::getCurrentUserModel()->getDetail('internal_mailer') && \App\Record::isExists($this->Data['email_template'], 'EmailTemplates')
+		if (!empty($this->Data['email_template']) && \App\Mail::checkInternalMailClient() && \App\Record::isExists($this->Data['email_template'], 'EmailTemplates')
 		) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linkhint' => App\Language::translate('LBL_SEND_MAIL', $moduleName),
