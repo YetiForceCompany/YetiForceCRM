@@ -143,7 +143,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDisplayValue(string $key)
 	{
-		$value = $this->get($key);
+		$value = $this->get($key) ?? '';
 		switch ($key) {
 			case 'type':
 				$value = \App\Language::translate(self::TYPES[$value], 'Settings::Companies');
@@ -152,7 +152,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				$value = \App\Language::translate(\App\YetiForce\Register::STATUS_MESSAGES[(int) $value], 'Settings::Companies');
 				break;
 			case 'tabid':
-				$value = \App\Module::getModuleName($value);
+				$value = \App\Module::getModuleName((int) $value);
 				break;
 			case 'industry':
 				$value = App\Language::translate($value);
@@ -161,7 +161,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				$value = \App\Language::translateSingleMod($value, 'Other.Country');
 				break;
 			case 'logo':
-				$src = \App\Purifier::encodeHtml($value ?? '');
+				$src = \App\Purifier::encodeHtml($value);
 				$value = $src ? "<img src='$src' class='img-thumbnail sad'/>" : \App\Language::translate('LBL_COMPANY_LOGO', 'Settings::Companies');
 				break;
 			default:
