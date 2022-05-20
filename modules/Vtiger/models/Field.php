@@ -1599,7 +1599,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (empty($maximumLength)) {
 			$maximumLength = $this->getDbValueLength();
 		}
-		return $maximumLength;
+		return (int) $maximumLength;
 	}
 
 	/**
