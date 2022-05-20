@@ -46,7 +46,7 @@ class Vtiger_ChartFilter_View extends \App\Controller\Modal
 	public function getPageTitle(App\Request $request)
 	{
 		if (!$this->widgetModel->getId()) {
-			$this->pageTitle = \App\Language::translate($this->pageTitle, '_DashBoard');
+			$this->pageTitle = \App\Language::translate($this->pageTitle, $request->getModule(), null, true, '_DashBoard');
 		} else {
 			$this->pageTitle = \App\Language::translate('LBL_EDIT_CHART_FILTER');
 		}
