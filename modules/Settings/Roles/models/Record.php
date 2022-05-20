@@ -384,7 +384,9 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		\App\Cache::delete(__CLASS__, $roleId);
 		\App\Cache::delete('RoleDetail', $roleId);
 		\App\Cache::delete('getUsersByCompany', '');
-		\App\Cache::delete('getUsersByCompany', $this->get('company'));
+		if($this->get('company'){
+			\App\Cache::delete('getUsersByCompany', $this->get('company'));
+		}
 		\App\Cache::delete('getCompanyRoles', '');
 		if (isset($rolePreviousData['company'])) {
 			\App\Cache::delete('getUsersByCompany', $rolePreviousData['company']);
