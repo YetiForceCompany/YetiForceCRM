@@ -12,7 +12,7 @@
 						<select class="js-widget form-control select2" name="widgets" data-validation-engine="validate[required]">
 							{foreach from=$WIDGETS item=WIDGET}
 								<option value="index.php?parent=Settings&module=WidgetsManagement&view=EditWidget&linkId={$WIDGET->get('linkid')}&blockId={$WIDGET->get('blockid')}" data-name="{$WIDGET->get('linklabel')}">
-									{\App\Language::translate($WIDGET->getTitle(), $QUALIFIED_MODULE,  null, true, '_DashBoard')}
+									{\App\Language::translate($WIDGET->getTitle(), $QUALIFIED_MODULE,  null, true, 'Dashboard')}
 								</option>
 							{/foreach}
 						</select>
