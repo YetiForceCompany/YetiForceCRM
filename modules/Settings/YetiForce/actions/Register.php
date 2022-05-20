@@ -80,7 +80,7 @@ class Settings_YetiForce_Register_Action extends Settings_Vtiger_Save_Action
 			'address' => 'Text',
 			'industry' => 'Text',
 			'companysize' => 'Integer',
-			'website' => 'urlDomain',
+			'website' => 'url',
 			'newsletter' => 'Integer',
 			'firstname' => 'Text',
 			'lastname' => 'Text',
