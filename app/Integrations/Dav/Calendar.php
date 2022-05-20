@@ -291,7 +291,7 @@ class Calendar
 			$value = trim(\str_replace('\n', PHP_EOL, $value));
 		}
 		$value = \App\Purifier::decodeHtml(\App\Purifier::purify($value));
-		if ($length = $this->record->getField($fieldName)->getMaxColumnLength()) {
+		if ($length = $this->record->getField($fieldName)->getMaxValue()) {
 			$value = \App\TextParser::textTruncate($value, $length, false);
 		}
 		$this->record->set($fieldName, \trim($value));

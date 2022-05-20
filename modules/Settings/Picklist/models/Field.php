@@ -116,7 +116,7 @@ class Settings_Picklist_Field_Model extends Vtiger_Field_Model
 		if (preg_match('/[\<\>\"\#]/', $value)) {
 			throw new \App\Exceptions\AppException(\App\Language::translateArgs('ERR_SPECIAL_CHARACTERS_NOT_ALLOWED', 'Other.Exceptions', '<>"#'), 512);
 		}
-		if ($this->getMaxColumnLength() && \strlen($value) > $this->getMaxColumnLength()) {
+		if ($this->getMaxValue() && \strlen($value) > $this->getMaxValue()) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('ERR_EXCEEDED_NUMBER_CHARACTERS', 'Other.Exceptions'), 512);
 		}
 		$picklistValues = \App\Fields\Picklist::getValuesName($this->getName());

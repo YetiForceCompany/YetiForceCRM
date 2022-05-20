@@ -1589,27 +1589,17 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Get maximum value.
 	 *
-	 * @return string|null
-	 */
-	public function getMaxValue(): ?string
-	{
-		if (($maximumLength = $this->get('maximumlength')) && false !== strpos($maximumLength, ',')) {
-			$maximumLength = explode(',', $maximumLength)[1];
-		}
-		return $maximumLength;
-	}
-
-	/**
-	 * Get max column length.
-	 *
 	 * @return int
 	 */
-	public function getMaxColumnLength(): int
+	public function getMaxValue(): int
 	{
-		if ($maximumLength = $this->get('maximumlength')) {
-			return $maximumLength;
+		if (($maximumLength = $this->get('maximumlength')) && false !== strpos($maximumLength, ',')) {
+			return (int) explode(',', $maximumLength)[1];
 		}
-		return $this->getDbValueLength();
+		if (empty($maximumLength)) {
+			$maximumLength = $this->getDbValueLength();
+		}
+		return $maximumLength;
 	}
 
 	/**
