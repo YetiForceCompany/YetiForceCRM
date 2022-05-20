@@ -51,7 +51,7 @@
 					<a class="btn btn-light c-header__btn ml-2" title="{\App\Language::translate('LBL_YETIFORCE_ISSUES', $QUALIFIED_MODULE)}" role="button" href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank" rel="noreferrer noopener">
 						<span class="fas fa-bug fa-fw"></span>
 					</a>
-					<a class="btn btn-light c-header__btn ml-2 js-show-modal" title="YetiForceCRM" role="button" data-url="index.php?module=AppComponents&view=YetiForceDetailModal">
+					<a class="btn btn-light c-header__btn ml-2 js-show-modal" title="YetiForceCRM" role="button" data-url="index.php?module=AppComponents&view=YetiForceDetailModal" data-js="click">
 						<span class="fas fa-info-circle fa-fw"></span>
 					</a>
 				</div>

@@ -242,7 +242,7 @@
 							</a>
 						</div>
 						<div class="o-action-menu__item ml-md-2">
-							<a class="btn btn-light c-header__btn d-block js-show-modal" title="YetiForceCRM" role="button" data-url="index.php?module=AppComponents&view=YetiForceDetailModal">
+							<a class="btn btn-light c-header__btn d-block js-show-modal" title="YetiForceCRM" role="button" data-url="index.php?module=AppComponents&view=YetiForceDetailModal" data-js="click">
 								<span class="fas fa-info-circle fa-fw"></span>
 								<span class="c-header__label--sm-down ml-1">YetiForceCRM</span>
 							</a>

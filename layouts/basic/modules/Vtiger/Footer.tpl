@@ -127,7 +127,7 @@
 								</a>
 							</li>
 							<li class="page-item u-cursor-pointer">
-								<a class="page-link js-show-modal" title="YetiForceCRM" role="button" data-url="index.php?module=AppComponents&view=YetiForceDetailModal">
+								<a class="page-link js-show-modal" title="YetiForceCRM" role="button" data-url="index.php?module=AppComponents&view=YetiForceDetailModal" data-js="click">
 									<span class="fas fa-info-circle fa-2x" title="YetiForceCRM"></span>
 								</a>
 							</li>
