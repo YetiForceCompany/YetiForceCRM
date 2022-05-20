@@ -3061,6 +3061,15 @@ var app = (window.app = {
 		temporalDiv.innerHTML = html;
 		return temporalDiv.textContent || temporalDiv.innerText || '';
 	},
+	/**
+	 * Show YetiForce detail.
+	 * @param container
+	 */
+	showYetiForceDetail(container) {
+		container.on('click', '.js-show_yetiforce-detail', () => {
+			app.showModalWindow({ url: 'index.php?module=AppComponents&view=YetiForceDetailModal' });
+		});
+	},
 	registerShowHideBlock(container) {
 		container.on('click', '.js-hb__btn', (e) => {
 			$(e.currentTarget).closest('.js-hb__container').toggleClass('u-hidden-block__opened');
@@ -3266,6 +3275,7 @@ $(function () {
 	app.registerRecordActionsEvents(document);
 	app.registerKeyboardShortcutsEvent(document);
 	app.registerPostActionEvent(document);
+	app.showYetiForceDetail(document);
 	App.Components.QuickCreate.register(document);
 	App.Components.Scrollbar.initPage();
 	App.Clipboard.register(document);
