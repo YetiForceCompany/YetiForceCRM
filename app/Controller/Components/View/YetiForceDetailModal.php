@@ -33,7 +33,8 @@ class YetiForceDetailModal extends \App\Controller\Modal
 	public function getPageTitle(\App\Request $request)
 	{
 		$version = \App\User::getCurrentUserModel()->isAdmin() ? 'v' . \App\Version::get() : '';
-		return 'YetiForceCRM ' . $version . '- The most flexible CRM in the world';
+		$titleModal = \App\Language::translate('LBL_YETIFORCE_CRM_INFO');
+		return "YetiForceCRM {$version} - {$titleModal}";
 	}
 
 	/** {@inheritdoc} */
