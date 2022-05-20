@@ -41,6 +41,11 @@ class Settings_Companies_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 				if ($request->has($fieldName)) {
 					$uiTypeModel = $recordModel->getFieldInstanceByName($fieldName)->getUITypeModel();
 					$value = $request->getByType($fieldName, 'Text');
+					if ('website' === $fieldName && !\App\Validator::url($value)) {
+						$response->setResult(['success' => false, 'message' => \App\Language::translate('LBL_WRONG_URL', $request->getModule(false))]);
+						$response->emit();
+						exit();
+					}
 					$uiTypeModel->validate($value, true);
 					$recordModel->set($fieldName, $uiTypeModel->getDBValue($value));
 				}
