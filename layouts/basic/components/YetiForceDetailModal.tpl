@@ -6,11 +6,13 @@
 			<img class="u-h-120px" src="{App\Layout::getPublicUrl('layouts/resources/Logo/logo_hor.png')}" title="YetiForceCRM" alt="YetiForceCRM" />
 		</p>
 		<p class="text-center">
-		<ul class="list-group o-min-width m-auto">
-			<li class="list-group-item d-flex justify-content-between align-items-center">
-				<span class="badge badge-primary mr-2 badge-pill">APP ID</span>
-				<span>{\App\YetiForce\Register::getInstanceKey()}</span>
-			</li>
+		<ul class="list-group col-6 m-auto">
+			{if $USER_MODEL->isAdminUser()}
+				<li class="list-group-item d-flex justify-content-between align-items-center">
+					<span class="badge badge-primary mr-2 badge-pill">APP ID</span>
+					<span>{\App\YetiForce\Register::getInstanceKey()}</span>
+				</li>
+			{/if}
 			<li class="list-group-item d-flex justify-content-between align-items-center">
 				<span class="badge badge-primary mr-2 badge-info">DEVICES ID</span>
 				<span>{App\Session::get('fingerprint')}</span>
@@ -59,6 +61,16 @@
 		</div>
 		<ul class="text-center list-inline">
 			<li class="yetiforceDetailsLink list-inline-item mr-3">
+				<a rel="noreferrer noopener" target="_blank" href="https://github.com/YetiForceCompany/YetiForceCRM">
+					<span class="fab fa-github-square" title="Github"></span>
+				</a>
+			</li>
+			<li class="yetiforceDetailsLink list-inline-item">
+				<a rel="noreferrer noopener" target="_blank" href="https://doc.yetiforce.com">
+					<span class="mdi mdi-book-open-page-variant" title="YetiForce Documentation"></span>
+				</a>
+			</li>
+			<li class="yetiforceDetailsLink list-inline-item mr-3">
 				<a rel="noreferrer noopener" target="_blank" href="https://www.linkedin.com/groups/8177576">
 					<span class="fab fa-linkedin" title="LinkendIn"></span>
 				</a>
@@ -76,16 +88,6 @@
 			<li class="yetiforceDetailsLink list-inline-item mr-3">
 				<a rel="noreferrer noopener" target="_blank" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
 					<span class="fab fa-facebook-square" title="Facebook"></span>
-				</a>
-			</li>
-			<li class="yetiforceDetailsLink list-inline-item mr-3">
-				<a rel="noreferrer noopener" target="_blank" href="https://github.com/YetiForceCompany/YetiForceCRM">
-					<span class="fab fa-github-square" title="Github"></span>
-				</a>
-			</li>
-			<li class="yetiforceDetailsLink list-inline-item">
-				<a rel="noreferrer noopener" target="_blank" href="https://doc.yetiforce.com">
-					<span class="mdi mdi-book-open-page-variant" title="YetiForce Documentation"></span>
 				</a>
 			</li>
 		</ul>
