@@ -11,9 +11,9 @@
     regenerator-runtime "^0.13.4"
 
 "@babel/runtime@^7.16.3":
-  version "7.17.9"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.17.9.tgz#d19fbf802d01a8cb6cf053a64e472d42c434ba72"
-  integrity sha512-lSiBBvodq29uShpWGNbgFdKYNiFDo5/HIYsaCEY9ff4sb10x9jizo2+pRrSyF4jKZCXqgzuqBOQKbUm90gQwJg==
+  version "7.18.0"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.18.0.tgz#6d77142a19cb6088f0af662af1ada37a604d34ae"
+  integrity sha512-YMQvx/6nKEaucl0MY56mwIG483xk8SDNdlUwb2Ts6FUpr7fm85DxEmsY18LXBNhcTz6tO6JwZV8w1W06v8UKeg==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -225,9 +225,9 @@ css-line-break@^2.1.0:
     utrie "^1.0.2"
 
 datatables.net-bs4@>=1.11.3, datatables.net-bs4@^1.11.3:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/datatables.net-bs4/-/datatables.net-bs4-1.12.0.tgz#ae94f6148de2277b501618a53e115464a9219dd4"
-  integrity sha512-ttssh9EtzP2eHeli0Ws/BgT9rUC6BKJO2KbdehTREVC+BmaNtQnBG1lA2YG/BGgT3zkxZzhJZxEchyy30/Si8w==
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/datatables.net-bs4/-/datatables.net-bs4-1.12.1.tgz#652e0701788109bf7c24170e643fe6f128cc8eca"
+  integrity sha512-LBeC8zUNVYyQT7ytC2lYqyXDn+k2kYpqvijC83oOjlcnEtb/8Tduzgquox5FrNKUJPcUrj9r+h5B0TDBbob/Gg==
   dependencies:
     datatables.net ">=1.11.3"
     jquery ">=1.7"
@@ -250,9 +250,9 @@ datatables.net-responsive@>=2.2.9:
     jquery ">=1.7"
 
 datatables.net@>=1.11.3, datatables.net@^1.11.3:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.12.0.tgz#a1306fd222d964bd47ea6c9fea606c1dea8e358b"
-  integrity sha512-oCKzEqv7kDGOpdE4WE+hTEKgYZ0+pnQ6jDl/fr2HQKlb1AaNTWaeG/3skoGk51fyf80ET/bwlFyMI3hgvKv71Q==
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.12.1.tgz#3e625e49a3341f605b0efb519fae94e37b278f24"
+  integrity sha512-e6XAMUoV41JdQPS/r9YRfRcmTPcCVvyZbWI+xog1Zg+kjVliMQbEkvWK5XFItmi64Cvwg+IqsZbTUJ1KSY3umA==
   dependencies:
     jquery ">=1.7"
 
