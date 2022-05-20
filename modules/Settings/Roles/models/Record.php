@@ -384,7 +384,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 		\App\Cache::delete(__CLASS__, $roleId);
 		\App\Cache::delete('RoleDetail', $roleId);
 		\App\Cache::delete('getUsersByCompany', '');
-		if($this->get('company'){
+		if ($this->get('company')) {
 			\App\Cache::delete('getUsersByCompany', $this->get('company'));
 		}
 		\App\Cache::delete('getCompanyRoles', '');
@@ -444,7 +444,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 				[
 					'linktype' => 'LISTVIEWRECORD',
 					'linklabel' => 'LBL_EDIT_RECORD',
-					'linkurl' => $this->getListViewEditUrl(),
+					'linkurl' => $this->getEditViewUrl(),
 					'linkicon' => 'yfi yfi-full-editing-view',
 				],
 				[
