@@ -704,7 +704,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getConditions(): array
 	{
-		return \App\CustomView::getConditions($this->getId());
+		return $this->getId() ? \App\CustomView::getConditions($this->getId()) : [];
 	}
 
 	/**
