@@ -1151,12 +1151,10 @@ class TextParser
 				break;
 			case 'tree':
 				$template = $fieldModel->getFieldParams();
-				$row = Fields\Tree::getValueByTreeId($template, $value);
 				$value = $parentName = '';
-				if ($row) {
+				if ($row = Fields\Tree::getValueByTreeId($template, $value)) {
 					if ($row['depth'] > 0) {
-						$parentTree = $row['parentTree'];
-						$pieces = explode('::', $parentTree);
+						$pieces = explode('::', $row['parentTree']);
 						end($pieces);
 						$parent = prev($pieces);
 						$parentRow = Fields\Tree::getValueByTreeId($template, $parent);

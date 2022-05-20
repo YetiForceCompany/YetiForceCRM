@@ -41,7 +41,7 @@ class Tree
 	 * @param int    $templateId
 	 * @param string $tree
 	 *
-	 * @return array[]
+	 * @return array
 	 */
 	public static function getValueByTreeId($templateId, $tree)
 	{

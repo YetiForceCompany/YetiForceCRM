@@ -1,11 +1,16 @@
 <?php
 
 /**
- * Module Manager Library class.
+ * Module Manager Library file.
+ *
+ * @package   Model
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+/**
+ * Module Manager Library class.
  */
 class Settings_ModuleManager_Library_Model
 {
@@ -34,8 +39,8 @@ class Settings_ModuleManager_Library_Model
 	 */
 	public static function checkLibrary($name)
 	{
-		if (App\Cache::has('LIBRARY', $name)) {
-			return App\Cache::get('LIBRARY', $name);
+		if (App\Cache::has('checkLibrary', $name)) {
+			return App\Cache::get('checkLibrary', $name);
 		}
 		$status = true;
 		if (static::$libraries[$name]) {
@@ -47,8 +52,7 @@ class Settings_ModuleManager_Library_Model
 				}
 			}
 		}
-		App\Cache::save('LIBRARY', $name, $status, App\Cache::LONG);
-
+		App\Cache::save('checkLibrary', $name, $status, App\Cache::LONG);
 		return $status;
 	}
 
