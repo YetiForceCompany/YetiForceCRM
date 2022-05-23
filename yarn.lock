@@ -271,10 +271,10 @@ device-uuid@^1.0.4:
   resolved "https://registry.yarnpkg.com/device-uuid/-/device-uuid-1.0.4.tgz#f6973e58f19b92a237aeca7b16a395ae7195a883"
   integrity sha1-9pc+WPGbkqI3rsp7FqOVrnGVqIM=
 
-emoji-mart-vue-fast@^10.2.0:
-  version "10.2.1"
-  resolved "https://registry.yarnpkg.com/emoji-mart-vue-fast/-/emoji-mart-vue-fast-10.2.1.tgz#9bf55fbb93a2654e4416a177086d5eeb280d9c0b"
-  integrity sha512-PtKihhsXBEEw1jHwnoRyJAnJP1OlK4EJrEze58EbUUV7iHWGLub+yuiNSj2Uo1JBHraz4fw/pH98nFysVoe0qg==
+emoji-mart-vue-fast@^10.2.2:
+  version "10.2.2"
+  resolved "https://registry.yarnpkg.com/emoji-mart-vue-fast/-/emoji-mart-vue-fast-10.2.2.tgz#dd8c539caec24580674f2ad4b9a8e2818f02c0b8"
+  integrity sha512-SO37LI60Oksog3RhNpEUoQjfceBXfZ3yW9ALhlQgyut7hE6MghHsBJrGPeI6KKK8bQfTMBYlci/RWKsUsmbkPw==
   dependencies:
     "@babel/polyfill" "^7.12.1"
     "@babel/runtime" "^7.16.3"
@@ -318,10 +318,10 @@ good-listener@^1.2.2:
   dependencies:
     delegate "^3.1.2"
 
-gridstack@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-5.0.0.tgz#b3b3f54f0bfda505d1e67c033d079b74622e00e3"
-  integrity sha512-FpXQ2gWUCcBW7QON7GEqP7NZFWZPpuGfze4dzRMQ1ikaRZ7Y2qfc9Gbc04Qukjst2AuPQcuW/mEJkh+2XnnCsA==
+gridstack@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-5.1.0.tgz#5c9c30dd8ae6c5cd5a2f880efe30b750e0903e97"
+  integrity sha512-qNLAXC4weAqOvzf7gYi+ScRR3j5FYFh1Tdp5ec1q74d2M/0PHAZJWftU/LdYXKniOydnVdr48GYNDxFxE13SFw==
 
 html2canvas@^1.0.0-alpha.12:
   version "1.4.1"
@@ -444,10 +444,10 @@ popper.js@^1.15.0:
   resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.16.1.tgz#2a223cb3dc7b6213d740e40372be40de43e65b1b"
   integrity sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==
 
-quasar@^1.6.1:
-  version "1.19.0"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.19.0.tgz#1296a640ead320a1896818080f2b21e9d8965082"
-  integrity sha512-Oj4N2OPE68g2aBp4zQH3wqgWGtkqGGx4fIqwApTmbEFCG+vkXdl27rYEqv09ZCmf6abplKT5ZZa6ZcjGt/z1Aw==
+quasar@^1.19.1:
+  version "1.19.1"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.19.1.tgz#4fc3b4830743f91e023be5f77d9ab200fabd8bec"
+  integrity sha512-vFrFcdmHx7Pxo8JHCsgSQr0nEYgPqIKaJy40rvwtbqOOhh2MYB5Zw1fB3K3Pfq6d3ZMeWDtQzaBQjqaEwPrRhQ==
 
 regenerator-runtime@^0.13.4:
   version "0.13.9"
