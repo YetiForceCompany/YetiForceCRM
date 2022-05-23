@@ -51,8 +51,8 @@ if ('TEST' === getenv('INSTALL_MODE')) {
 	$configFile->set('apiShowExceptionReasonPhrase', true);
 	$configFile->set('apiShowExceptionBacktrace', true);
 	$configFile->set('apiLogAllRequests', true);
-	$configFile->set('DAV_DEBUG_EXCEPTIONS', true);
-	$configFile->set('DAV_DEBUG_PLUGIN', true);
+	$configFile->set('davDebugExceptions', true);
+	$configFile->set('davDebugPlugin', true);
 	$configFile->set('SMARTY_ERROR_REPORTING', new \Nette\PhpGenerator\PhpLiteral('E_ALL'));
 	$configFile->set('EXCEPTION_ERROR_LEVEL', new \Nette\PhpGenerator\PhpLiteral('E_ALL'));
 	$configFile->create();

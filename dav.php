@@ -17,14 +17,13 @@ if (!\in_array('dav', \App\Config::api('enabledServices', []))) {
 	return;
 }
 
-// Database
+// DataBase
 $dbConfig = \App\Config::db('base');
 $pdo = new PDO($dbConfig['dsn'] . ';charset=' . $dbConfig['charset'], $dbConfig['username'], $dbConfig['password']);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $enableCalDAV = \App\Config::api('enableCalDAV');
 $enableCardDAV = \App\Config::api('enableCardDAV');
-$enableBrowser = \App\Config::api('enableBrowser');
 set_error_handler(['App\Integrations\Dav\Debug', 'exceptionErrorHandler']);
 $enableWebDAV = false;
 
@@ -45,33 +44,35 @@ if ($enableCardDAV) {
 }
 
 // The object tree needs in turn to be passed to the server class
+\App\Integrations\Dav\Server::$exposeVersion = false;
 $server = new \App\Integrations\Dav\Server($nodes);
 $server->setBaseUri($_SERVER['SCRIPT_NAME']);
-$server->debugExceptions = \App\Config::debug('DAV_DEBUG_EXCEPTIONS');
+$server->debugExceptions = \App\Config::debug('davDebugExceptions', false);
 
 // Plugins
 $server->addPlugin(new Sabre\DAV\Auth\Plugin($authBackend));
 $aclPlugin = new Sabre\DAVACL\Plugin();
 $aclPlugin->adminPrincipals = [];
 $server->addPlugin($aclPlugin);
-if ($enableBrowser) {
+if (\App\Config::api('enableBrowser')) {
+	// Web/Browser interface for exploring DAV
 	$server->addPlugin(new Sabre\DAV\Browser\Plugin());
 }
 if ($enableCardDAV) {
-	//CardDav integration
+	// CardDav integration
 	$server->addPlugin(new Sabre\CardDAV\Plugin());
 }
 if ($enableCalDAV) {
-	//CalDAV integration
+	// CalDAV integration
 	$server->addPlugin(new Sabre\CalDAV\Plugin());
 	$server->addPlugin(new Sabre\CalDAV\Subscriptions\Plugin());
 	$server->addPlugin(new Sabre\CalDAV\Schedule\Plugin());
 }
 if ($enableWebDAV) {
-	//WebDAV integration
+	// WebDAV integration
 	$server->addPlugin(new Sabre\DAV\Sync\Plugin());
 }
-if (\App\Config::debug('DAV_DEBUG_PLUGIN')) {
+if (\App\Config::debug('davDebugPlugin')) {
 	$server->addPlugin(new \App\Integrations\Dav\Debug());
 }
 

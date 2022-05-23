@@ -121,4 +121,38 @@ class Auth extends DAV\Auth\Backend\PDO
 		}
 		return [true, $this->principalPrefix . $userpass[0]];
 	}
+
+	/**
+	 * This method is called when a user could not be authenticated, and
+	 * authentication was required for the current request.
+	 *
+	 * This gives you the opportunity to set authentication headers. The 401
+	 * status code will already be set.
+	 *
+	 * In this case of Basic Auth, this would for example mean that the
+	 * following header needs to be set:
+	 *
+	 * $response->addHeader('WWW-Authenticate', 'Basic realm=SabreDAV');
+	 *
+	 * Keep in mind that in the case of multiple authentication backends, other
+	 * WWW-Authenticate headers may already have been set, and you'll want to
+	 * append your own WWW-Authenticate header instead of overwriting the
+	 * existing one.
+	 *
+	 * @param RequestInterface  $request
+	 * @param ResponseInterface $response
+	 */
+	public function challenge(RequestInterface $request, ResponseInterface $response)
+	{
+		if (0 === strpos($request->getHeader('Authorization'), 'Basic')) {
+			$auth = new HTTP\Auth\Basic(
+				$this->realm,
+				$request,
+				$response
+			);
+			$auth->requireLogin();
+		} else {
+			parent::challenge($request, $response);
+		}
+	}
 }
