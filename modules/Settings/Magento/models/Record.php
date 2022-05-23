@@ -233,6 +233,7 @@ class Settings_Magento_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'url':
 				$params['uitype'] = 17;
+				$params['maximumlength'] = '250';
 				break;
 			case 'sync_currency':
 			case 'sync_categories':

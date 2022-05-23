@@ -421,22 +421,26 @@ class Vtiger_Widget_Model extends \App\Base
 			case 'width':
 				$params['uitype'] = 16;
 				$params['typeofdata'] = 'V~M';
+				$params['maximumlength'] = '2';
 				$params['picklistValues'] = [3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10, 11 => 11, 12 => 12];
 				$params['fieldvalue'] = $this->getWidth();
 				break;
 			case 'height':
 				$params['uitype'] = 16;
 				$params['typeofdata'] = 'V~M';
+				$params['maximumlength'] = '2';
 				$params['picklistValues'] = [3 => 3, 4 => 4, 5 => 5, 6 => 6, 7 => 7, 8 => 8, 9 => 9, 10 => 10, 11 => 11, 12 => 12];
 				$params['fieldvalue'] = $this->getHeight();
 				break;
 			case 'limit':
 				$params['uitype'] = 7;
 				$params['typeofdata'] = 'I~M';
+				$params['maximumlength'] = '127';
 				$params['fieldvalue'] = $this->get('limit') ?: 10;
 				break;
 			case 'default_owner':
 				$params['uitype'] = 16;
+				$params['maximumlength'] = '100';
 				$params['typeofdata'] = 'V~M';
 				$picklistValue = ['mine' => 'LBL_MINE', 'all' => 'LBL_ALL'];
 				foreach ($picklistValue as $key => $label) {
@@ -447,6 +451,7 @@ class Vtiger_Widget_Model extends \App\Base
 				break;
 			case 'owners_all':
 				$params['uitype'] = 33;
+				$params['maximumlength'] = '100';
 				$params['typeofdata'] = 'V~M';
 				$picklistValue = [
 					'mine' => 'LBL_MINE',

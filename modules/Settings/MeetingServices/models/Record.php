@@ -196,6 +196,7 @@ class Settings_MeetingServices_Record_Model extends Settings_Vtiger_Record_Model
 		switch ($name) {
 			case 'url':
 				$params['uitype'] = 17;
+				$params['maximumlength'] = '250';
 				break;
 			case 'status':
 				$params['uitype'] = 56;

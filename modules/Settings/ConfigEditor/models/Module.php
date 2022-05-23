@@ -158,6 +158,7 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 				$params['label'] = $this->performanceFields[$name];
 				$params['validator'] = [['name' => 'WholeNumberGreaterThanZero']];
 				$params['uitype'] = 7;
+				$params['maximumlength'] = '99999999';
 				$params['source'] = 'performance';
 				$params['fieldvalue'] = $this->get($name);
 				break;
@@ -189,6 +190,7 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 			case 'default_module':
 				$params['label'] = $this->listFields[$name];
 				$params['uitype'] = 16;
+				$params['maximumlength'] = '40';
 				unset($params['validator']);
 				$params['picklistValues'] = ['Home' => \App\Language::translate('Home')];
 				foreach (\vtlib\Functions::getAllModules(true, false, 0) as $module) {
@@ -198,6 +200,7 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 			case 'defaultLayout':
 				$params['label'] = $this->listFields[$name];
 				$params['uitype'] = 16;
+				$params['maximumlength'] = '50';
 				$params['picklistValues'] = \App\Layout::getAllLayouts();
 				unset($params['validator']);
 				break;
