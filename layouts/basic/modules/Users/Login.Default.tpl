@@ -12,8 +12,8 @@
 {strip}
 	<!-- tpl-Users-Login.Default -->
 	{assign var="MODULE" value='Users'}
-	<div class="container" role="main">
-		<div id="login-area" class="login-area">
+	<div class="container">
+		<div id="login-area" class="login-area" role="main">
 			<div class="login-space"></div>
 			<div class="logo mb-3">
 				<h1><img class="logo__img" title="Logo" class="logo" alt="Logo" src="{\App\Layout::getPublicUrl('layouts/resources/Logo/logo')}"></h1>
@@ -33,20 +33,20 @@
 							<div class='mx-0 col-sm-10'>
 								<label for="username" class="sr-only">{\App\Language::translate('LBL_USER',$MODULE)}</label>
 								<div class="input-group form-group first-group">
-									<input name="username" type="text" id="username" aria-label="username" class="form-control form-control-lg" placeholder="{\App\Language::translate('LBL_USER',$MODULE)}"
+									<input name="username" type="text" id="username" aria-label="{\App\Language::translate('LBL_USER',$MODULE)}" class="form-control form-control-lg" placeholder="{\App\Language::translate('LBL_USER',$MODULE)}"
 										{if \App\Config::main('systemMode') === 'demo'}value="demo" {/if}
 										required="" {if !App\Config::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off" {/if}>
 									<div class="input-group-append">
 										<div class="input-group-text"><i class="fas fa-user"></i></div>
 									</div>
 								</div>
-								<label for="password" aria-label="password" class="sr-only">{\App\Language::translate('Password',$MODULE)}</label>
+								<label for="password" class="sr-only">{\App\Language::translate('Password',$MODULE)}</label>
 								<div class="input-group form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if}">
-									<input name="password" type="password" class="form-control form-control-lg" title="{\App\Language::translate('Password',$MODULE)}" id="password"
+									<input name="password" type="password" aria-label="{\App\Language::translate('Password', $MODULE)}" class="form-control form-control-lg" title="{\App\Language::translate('Password',$MODULE)}" id="password"
 										{if \App\Config::main('systemMode') === 'demo'}value="demo" {/if} {if !App\Config::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off" {/if}
 										placeholder="{\App\Language::translate('Password',$MODULE)}">
 									<div class="input-group-append">
-										<div class="input-group-text"><i class="fas fa-briefcase"></i></div>
+										<div class="input-group-text"><i class="fas fa-lock"></i></div>
 									</div>
 								</div>
 								{assign var=COUNTERFIELDS value=2}
@@ -54,7 +54,7 @@
 									{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
 									{assign var=DEFAULT_LANGUAGE value=App\Config::main('default_language')}
 									<div class="input-group input-group-lg form-group mb-0 {if $LAYOUT_SELECTION}first-group {/if}">
-										<select name="loginLanguage" aria-label="loginLanguag" class="form-control-lg form-control" title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE',$MODULE)}">
+										<select name="loginLanguage" aria-label="{\App\Language::translate('LBL_CHOOSE_LANGUAGE',$MODULE)}" class="form-control-lg form-control" title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE',$MODULE)}">
 											{foreach item=VALUE key=KEY from=\App\Language::getAll()}
 												<option {if $KEY eq $DEFAULT_LANGUAGE} selected {/if} value="{\App\Purifier::encodeHtml($KEY)}">{$VALUE}</option>
 											{/foreach}
