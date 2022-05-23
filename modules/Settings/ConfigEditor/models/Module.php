@@ -209,7 +209,7 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 				$params['label'] = $this->relationFields[$name];
 				$params['uitype'] = 7;
 				$params['maximumlength'] = '200';
-				$params['validator'] = [['name' => 'WholeNumberGreaterThanZero']];
+				$params['validator'] = [['name' => 'WholeNumberGreaterThanZero'], ['name' => 'Base']];
 				$params['source'] = 'relation';
 				$params['tooltip'] = 'LBL_RELATION_COMMENT_MAX_LENGTH_DESC';
 				$params['fieldvalue'] = $this->get($name);
