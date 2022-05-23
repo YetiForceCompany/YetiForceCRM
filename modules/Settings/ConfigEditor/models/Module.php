@@ -190,7 +190,6 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 				$params['typeofdata'] = 'C~M';
 				$params['source'] = 'layout';
 				$params['purifyType'] = \App\Purifier::BOOL;
-				$params['purifyType'] = \App\Purifier::BOOL;
 				unset($params['validator']);
 				break;
 			case 'default_module':
@@ -244,13 +243,18 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 				$params['purifyType'] = \App\Purifier::BOOL;
 				unset($params['validator']);
 				break;
-			case 'listview_max_textlength':
-			case 'list_max_entries_per_page':
 			case 'title_max_length':
 			case 'MINIMUM_CRON_FREQUENCY':
+				$params['uitype'] = 7;
+				$params['purifyType'] = \App\Purifier::TEXT;
+				$params['maximumlength'] = '0,100';
+				break;
+			case 'listview_max_textlength':
+			case 'list_max_entries_per_page':
 			case 'href_max_length':
 				$params['uitype'] = 7;
 				$params['purifyType'] = \App\Purifier::TEXT;
+				$params['maximumlength'] = '255';
 				break;
 			default:
 				break;

@@ -249,7 +249,7 @@ class Validator
 	 */
 	public static function naturalNumber($input): bool
 	{
-		return $input ? preg_match('/^[0-9]+$/', $input) : $input;
+		return preg_match('/^[0-9]+$/', $input);
 	}
 
 	/**
