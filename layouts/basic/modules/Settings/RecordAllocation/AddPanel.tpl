@@ -29,7 +29,7 @@
 							</div>
 							<div class="col-2">
 								<div class="text-right">
-									<button type="button" aria-label="{\App\Language::translate('LBL_REMOVE')}" class="js-remove-panel btn btn-danger" data-js="click"><span
+									<button type="button" aria-label="{\App\Language::translate('LBL_REMOVE')}" title="{\App\Language::translate('LBL_REMOVE')}" class="js-remove-panel btn btn-danger" data-js="click"><span
 											class="fas fa-trash-alt"></span></button>
 								</div>
 							</div>
