@@ -79,14 +79,11 @@ class CustomView {
 	 * @returns array
 	 */
 	getCustomLabels() {
-		let customFieldNames = [];
+		let customFieldNames = {};
 		this.getContentsContainer()
 			.find('.js-short-label')
 			.each(function () {
-				customFieldNames.push({
-					customLabel: $(this).val(),
-					value: $(this).attr('data-field-value')
-				});
+				customFieldNames[$(this).attr('data-field-value')] = $(this).val();
 			});
 		return customFieldNames;
 	}
@@ -389,20 +386,37 @@ class CustomView {
 			.map((item) => ({
 				text: item.getAttribute('data-field-label'),
 				value: item.value,
-				customLabel: item.getAttribute('data-custom-label') ? item.getAttribute('data-custom-label') : ''
+				customLabel: item.getAttribute('data-custom-label') || ''
 			}));
 		shorterNamesContainer.empty();
-		let newcustomLabelElement = '';
+		let newCustomLabelElement = '';
+		let customLabelElement = '';
+		let customLabelValue = '';
+		let inputContainerElement = '';
+		let inputElement = '';
 		$.each(selectedColumns, function (_index, element) {
-			newcustomLabelElement =
-				'<div class="d-flex mb-1"><div class="col-form-label col-md-2">' +
-				element.text +
-				'</div><div class="col-md-4"><input type="text" class="form-control js-short-label" data-field-value="' +
-				element.value +
-				'" value="' +
-				element.customLabel +
-				'"/></div></div>';
-			shorterNamesContainer.append(newcustomLabelElement);
+			newCustomLabelElement = document.createElement('div');
+			newCustomLabelElement.setAttribute('class', 'd-flex mb-1');
+
+			customLabelElement = document.createElement('div');
+			customLabelElement.setAttribute('class', 'col-form-label col-md-2');
+			customLabelValue = document.createTextNode(element.text);
+			customLabelElement.appendChild(customLabelValue);
+			newCustomLabelElement.appendChild(customLabelElement);
+
+			inputContainerElement = document.createElement('div');
+			inputContainerElement.setAttribute('class', 'col-md-4');
+
+			inputElement = document.createElement('input');
+			inputElement.setAttribute('type', 'text');
+			inputElement.setAttribute('class', 'form-control js-short-label');
+			inputElement.setAttribute('data-field-value', element.value);
+			inputElement.setAttribute('data-validation-engine', 'validate[maxSize[50]]');
+			inputElement.setAttribute('value', element.customLabel);
+
+			inputContainerElement.appendChild(inputElement);
+			newCustomLabelElement.appendChild(inputContainerElement);
+			shorterNamesContainer.append(newCustomLabelElement);
 		});
 	}
 	/**

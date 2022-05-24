@@ -811,8 +811,7 @@ class CustomView_Record_Model extends \App\Base
 		$cvId = $this->getId();
 		foreach ($this->get('columnslist') as $index => $columnInfo) {
 			$columnInfoExploded = explode(':', $columnInfo);
-			$customLabelKey = array_search($columnInfo, array_column($this->get('customFieldNames'), 'value'));
-			$customLabel = \is_int($customLabelKey) ? $this->get('customFieldNames')[$customLabelKey]['customLabel'] : '';
+			$customLabel = isset($this->get('customFieldNames')[$columnInfo]) ? $this->get('customFieldNames')[$columnInfo] : '';
 			$db->createCommand()->insert('vtiger_cvcolumnlist', [
 				'cvid' => $cvId,
 				'columnindex' => $index,
@@ -937,7 +936,7 @@ class CustomView_Record_Model extends \App\Base
 		$result = [];
 		foreach ($selectedFields as $item) {
 			$key = "{$item['field_name']}:{$item['module_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
-			$result[$key] = $item['custom_label'];
+			$result[$key] = \App\Purifier::encodeHtml($item['custom_label']);
 		}
 		return $result;
 	}
