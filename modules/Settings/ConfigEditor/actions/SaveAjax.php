@@ -30,11 +30,12 @@ class Settings_ConfigEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			foreach (array_keys($moduleModel->getEditFields()) as $fieldName) {
 				if ($request->has($fieldName)) {
 					$fieldModel = $moduleModel->getFieldInstanceByName($fieldName);
+					$fieldValue = $request->getByType($fieldName, $fieldModel->get('purifyType'));
 					$source = $fieldModel->get('source');
 					if (!isset($configFiles[$source])) {
 						$configFiles[$source] = new \App\ConfigFile($source);
 					}
-					$configFiles[$source]->set($fieldName, $request->getRaw($fieldName));
+					$configFiles[$source]->set($fieldName, $fieldModel->getUITypeModel()->getDBValue($fieldValue));
 				}
 			}
 			foreach ($configFiles as $configFile) {
