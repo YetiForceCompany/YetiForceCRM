@@ -186,6 +186,7 @@ class Vtiger_Widget_Model extends \App\Base
 
 	public static function updateWidgetPosition($position, $linkId, $widgetId, $userId)
 	{
+		$currentPosition = [];
 		if (!$linkId && !$widgetId) {
 			return;
 		}
@@ -194,7 +195,10 @@ class Vtiger_Widget_Model extends \App\Base
 		} elseif ($widgetId) {
 			$where = ['userid' => $userId, 'id' => $widgetId];
 		}
-		$currentPosition = Json::decode((new \App\Db\Query())->select(['position'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar());
+		$lastSavedPosition = (new \App\Db\Query())->select(['position'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar();
+		if ($lastSavedPosition && !JSON::isEmpty($lastSavedPosition)) {
+			$currentPosition = JSON::decode($lastSavedPosition);
+		}
 		$currentPosition[App\Session::get('fingerprint')] = $position;
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_module_dashboard_widgets', ['position' => Json::encode($currentPosition)], $where)
