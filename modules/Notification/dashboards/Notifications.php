@@ -29,6 +29,11 @@ class Notification_Notifications_Dashboard extends Vtiger_IndexAjax_View
 		$notifications = $notificationModel->getEntriesInstance($limit, $condition);
 		$typesNotification = $notificationModel->getTypes();
 		array_unshift($typesNotification, \App\Language::translate('All'));
+		foreach ($notifications as $id => $notification) {
+			if (null === $notification->get('type')) {
+				$notification->set('type', '');
+			}
+		}
 		$viewer->assign('TYPES_NOTIFICATION', $typesNotification);
 		$viewer->assign('NOTIFICATIONS', $notifications);
 		$viewer->assign('WIDGET', $widget);
