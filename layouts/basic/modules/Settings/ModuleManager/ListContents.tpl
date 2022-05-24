@@ -116,7 +116,7 @@
 					<tr class="c-module-table-row col-sm-12 col-lg-6 col-xl-4 float-left p-0">
 						<td class="d-flex w-100 align-items-center flex-nowrap">
 							<div class="mx-md-2 u-h-fit">
-								<input type="checkbox" value="" name="moduleStatus" data-module="{$ITEM_NAME}" data-module-translation="{\App\Language::translate($ITEM_NAME, $ITEM_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
+								<input type="checkbox" value="" name="moduleStatus" aria-label="{\App\Language::translate($ITEM_NAME, $ITEM_NAME)}" data-module="{$ITEM_NAME}" data-module-translation="{\App\Language::translate($ITEM_NAME, $ITEM_NAME)}" {if $MODULE_MODEL->isActive()}checked{/if} />
 							</div>
 							<div class="text-center text-md-left p-1 {if !$MODULE_ACTIVE}dull {/if}">
 								<span class="fa-2x yfm-{$ITEM_NAME}"></span>
@@ -136,14 +136,14 @@
 									</form>
 								{/if}
 								{if $MODULE_MODEL->get('customized')}
-									<button type="button" class="deleteModule btn btn-danger btn-sm ml-1 ml-md-2 js-popover-tooltip" name="{$ITEM_NAME}" data-content="{\App\Language::translate('LBL_DELETE_MODULE', $QUALIFIED_MODULE)}">
+									<button type="button" aria-label="{\App\Language::translate('LBL_DELETE_MODULE', $QUALIFIED_MODULE)}" class="deleteModule btn btn-danger btn-sm ml-1 ml-md-2 js-popover-tooltip" name="{$ITEM_NAME}" data-content="{\App\Language::translate('LBL_DELETE_MODULE', $QUALIFIED_MODULE)}">
 										<span class="fas fa-trash-alt"></span>
 									</button>
 								{/if}
 								{assign var=SETTINGS_LINKS value=$MODULE_MODEL->getSettingLinks()}
 								{if !in_array($ITEM_NAME, $RESTRICTED_MODULES_LIST) && (count($SETTINGS_LINKS) > 0)}
 									<div class="btn-group-sm d-flex justify-content-end ml-1 ml-md-2 u-remove-dropdown-icon {if !$MODULE_ACTIVE}d-none{/if}" role="group">
-										<button class="btn dropdown-toggle btn-outline-secondary js-popover-tooltip" data-toggle="dropdown" data-content="{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}">
+										<button class="btn dropdown-toggle btn-outline-secondary js-popover-tooltip" aria-label="{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}" data-toggle="dropdown" data-content="{\App\Language::translate('LBL_SETTINGS', $QUALIFIED_MODULE)}">
 											<strong><span class="fas fa-cog"></span></strong>
 										</button>
 										<div class="dropdown-menu">
