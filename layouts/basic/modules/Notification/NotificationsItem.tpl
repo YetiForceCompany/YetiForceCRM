@@ -1,6 +1,11 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="NotificationsItem media noticeRow" data-id="{$ROW->getId()}" data-type="{\App\Purifier::encodeHtml($ROW->get('type'))}">
+	{if null === $ROW->get('type')}
+		{assign var="DATA_TYPE" value="" }
+	{else}
+		{assign var="DATA_TYPE" value=\App\Purifier::encodeHtml($ROW->get('type'))}
+	{/if}
+	<div class="NotificationsItem media noticeRow" data-id="{$ROW->getId()}" data-type="{$DATA_TYPE}">
 		{assign var=ICON value=$ROW->getIcon()}
 		<div class="media-body wordBreakAll">
 			<div class="js-toggle-panel c-panel" data-js="click">
