@@ -195,6 +195,9 @@ class Vtiger_Widget_Model extends \App\Base
 			$where = ['userid' => $userId, 'id' => $widgetId];
 		}
 		$currentPosition = Json::decode((new \App\Db\Query())->select(['position'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar());
+		if ('string' === \gettype($currentPosition)) {
+			$currentPosition = [];
+		}
 		$currentPosition[App\Session::get('fingerprint')] = $position;
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_module_dashboard_widgets', ['position' => Json::encode($currentPosition)], $where)
