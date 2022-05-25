@@ -413,7 +413,7 @@ class CustomView {
 			inputElement.setAttribute('data-field-value', element.value);
 			inputElement.setAttribute(
 				'data-validation-engine',
-				'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]'
+				'validate[maxSize[50], funcCall[Vtiger_Base_Validator_Js.invokeValidation]]'
 			);
 			inputElement.setAttribute('data-validator', '[{"name":"FieldLabel"}]');
 			inputElement.setAttribute('value', element.customLabel);
