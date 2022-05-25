@@ -811,14 +811,13 @@ class CustomView_Record_Model extends \App\Base
 		$cvId = $this->getId();
 		foreach ($this->get('columnslist') as $index => $columnInfo) {
 			$columnInfoExploded = explode(':', $columnInfo);
-			$customLabel = isset($this->get('customFieldNames')[$columnInfo]) ? $this->get('customFieldNames')[$columnInfo] : '';
 			$db->createCommand()->insert('vtiger_cvcolumnlist', [
 				'cvid' => $cvId,
 				'columnindex' => $index,
 				'field_name' => $columnInfoExploded[0],
 				'module_name' => $columnInfoExploded[1],
 				'source_field_name' => $columnInfoExploded[2] ?? null,
-				'custom_label' => $customLabel
+				'label' => $this->get('customFieldNames')[$columnInfo] ?? ''
 			])->execute();
 		}
 	}
@@ -926,7 +925,7 @@ class CustomView_Record_Model extends \App\Base
 			'vtiger_cvcolumnlist.field_name',
 			'vtiger_cvcolumnlist.module_name',
 			'vtiger_cvcolumnlist.source_field_name',
-			'vtiger_cvcolumnlist.custom_label',
+			'vtiger_cvcolumnlist.label',
 		])
 			->from('vtiger_cvcolumnlist')
 			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
@@ -936,7 +935,7 @@ class CustomView_Record_Model extends \App\Base
 		$result = [];
 		foreach ($selectedFields as $item) {
 			$key = "{$item['field_name']}:{$item['module_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');
-			$result[$key] = \App\Purifier::encodeHtml($item['custom_label']);
+			$result[$key] = $item['label'];
 		}
 		return $result;
 	}

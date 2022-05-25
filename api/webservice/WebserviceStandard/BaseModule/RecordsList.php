@@ -300,7 +300,7 @@ class RecordsList extends \Api\Core\BaseAction
 			foreach ($this->fields as $fieldName => $fieldModel) {
 				if ($fieldModel->isViewable()) {
 					$moduleName = $fieldModel->getModuleName();
-					$fieldLabel = $selectedColumnsList[$fieldName . ':' . $moduleName]['custom_label'] ?? $fieldModel->getFieldLabel();
+					$fieldLabel = empty($selectedColumnsList[$fieldName . ':' . $moduleName]) ? $fieldModel->getFieldLabel() : $selectedColumnsList[$fieldName . ':' . $moduleName];
 					$headers[$fieldName] = \App\Language::translate($fieldLabel, $moduleName);
 				}
 			}
@@ -311,7 +311,8 @@ class RecordsList extends \Api\Core\BaseAction
 					foreach ($field as $relatedFieldName) {
 						$fieldModel = \Vtiger_Module_Model::getInstance($relatedModuleName)->getFieldByName($relatedFieldName);
 						if ($fieldModel->isViewable()) {
-							$fieldLabel = $selectedColumnsList[$sourceField . ':' . $relatedModuleName . ':' . $relatedModuleName]['custom_label'] ?? $fieldModel->getFieldLabel();
+							$selectedColumnKey = $sourceField . ':' . $relatedModuleName . ':' . $relatedModuleName;
+							$fieldLabel = empty($selectedColumnsList[$selectedColumnKey]) ? $fieldModel->getFieldLabel() : $selectedColumnsList[$selectedColumnKey];
 							$headers[$sourceField . $relatedModuleName . $relatedFieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $relatedModuleName);
 						}
 					}

@@ -1955,6 +1955,7 @@
     "JS_PWD_VERY_STRONG": "Very strong",
     "JS_PREV": "Previous",
     "JS_NEXT": "Next",
-    "JS_CALENDAR_LIST": "Schedule"
+    "JS_CALENDAR_LIST": "Schedule",
+    "JS_SPECIAL_CHARACTERS": "Special characters like"
   }
 }

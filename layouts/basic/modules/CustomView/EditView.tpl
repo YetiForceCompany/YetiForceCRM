@@ -99,7 +99,7 @@
 																data-field-name="{$FIELD_NAME}"
 																data-field-label="{{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}}"
 																data-custom-label="{if isset($CV_SELECTED_FIELDS[$CUSTOM_VIEW_COLUMN_NAME])}
-																{$CV_SELECTED_FIELDS[$CUSTOM_VIEW_COLUMN_NAME]} {/if}"
+																{\App\Purifier::encodeHtml($CV_SELECTED_FIELDS[$CUSTOM_VIEW_COLUMN_NAME])}{/if}"
 																{if $ELEMENT_POSITION_IN_ARRAY !== false}
 																	data-sort-index="{$ELEMENT_POSITION_IN_ARRAY}" selected="selected"
 																{/if}
@@ -126,7 +126,7 @@
 																		data-field-label="{\App\Language::translate($RELATED_FIELD_LABEL, $SOURCE_MODULE)}
 																		&nbsp;-&nbsp;{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_KEY)}"
 																		data-custom-label="{if isset($CV_SELECTED_FIELDS[$CUSTOM_VIEW_COLUMN_NAME])}
-																		{$CV_SELECTED_FIELDS[$CUSTOM_VIEW_COLUMN_NAME]}{/if}"
+																		{\App\Purifier::encodeHtml($CV_SELECTED_FIELDS[$CUSTOM_VIEW_COLUMN_NAME])}{/if}"
 																		{if $ELEMENT_POSITION_IN_ARRAY !== false}
 																			data-sort-index="{$ELEMENT_POSITION_IN_ARRAY}" selected="selected"
 																		{/if}

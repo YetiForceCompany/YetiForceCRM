@@ -80,7 +80,7 @@ class CustomView_Save_Action extends \App\Controller\Action
 		$customViewData['columnslist'] = $selectedColumnsList;
 		$customFieldNames = $request->getArray('customFieldNames', 'Text');
 		array_walk($customFieldNames, function (&$customLabel) {
-			$customLabel = App\TextParser::textTruncate(\App\Purifier::decodeHtml(trim($customLabel)), 50);
+			$customLabel = \App\Purifier::decodeHtml(trim($customLabel));
 		});
 		$customViewData['customFieldNames'] = $customFieldNames;
 		$advFilterList = $request->getArray('advfilterlist', 'Text');

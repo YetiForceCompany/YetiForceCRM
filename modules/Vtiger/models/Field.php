@@ -178,17 +178,13 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function getFullLabelTranslation(?Vtiger_Module_Model $module = null): string
 	{
 		$translation = '';
-		if ($this->get('customLabel')) {
-			$translation .= \App\Language::translate($this->get('customLabel'), $this->getModuleName());
-		} elseif ($this->get('source_field_name')) {
+		if ($this->get('source_field_name') && !$this->get('isLabelCustomized')) {
 			if (!$module) {
 				throw new \App\Exceptions\AppException('ERR_ARGUMENT_DOES_NOT_EXIST');
 			}
-			$translation = \App\Language::translate($module->getFieldByName($this->get('source_field_name'))->getFieldLabel(), $module->getName()) . ' - ' . \App\Language::translate($this->getFieldLabel(), $this->getModuleName());
-		} else {
-			$translation = \App\Language::translate($this->getFieldLabel(), $this->getModuleName());
+			$translation = \App\Language::translate($module->getFieldByName($this->get('source_field_name'))->getFieldLabel(), $module->getName()) . ' - ';
 		}
-		return $translation;
+		return $translation .= \App\Language::translate($this->getFieldLabel(), $this->getModuleName());
 	}
 
 	/**

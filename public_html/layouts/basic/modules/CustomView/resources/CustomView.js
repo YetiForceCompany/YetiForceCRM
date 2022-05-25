@@ -399,7 +399,7 @@ class CustomView {
 			newCustomLabelElement.setAttribute('class', 'd-flex mb-1');
 
 			customLabelElement = document.createElement('div');
-			customLabelElement.setAttribute('class', 'col-form-label col-md-2');
+			customLabelElement.setAttribute('class', 'col-form-label col-md-2 pl-0');
 			customLabelValue = document.createTextNode(element.text);
 			customLabelElement.appendChild(customLabelValue);
 			newCustomLabelElement.appendChild(customLabelElement);
@@ -411,7 +411,11 @@ class CustomView {
 			inputElement.setAttribute('type', 'text');
 			inputElement.setAttribute('class', 'form-control js-short-label');
 			inputElement.setAttribute('data-field-value', element.value);
-			inputElement.setAttribute('data-validation-engine', 'validate[maxSize[50]]');
+			inputElement.setAttribute(
+				'data-validation-engine',
+				'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]'
+			);
+			inputElement.setAttribute('data-validator', '[{"name":"FieldLabel"}]');
 			inputElement.setAttribute('value', element.customLabel);
 
 			inputContainerElement.appendChild(inputElement);
@@ -441,3 +445,34 @@ class CustomView {
 		this.registerAppendCustomLabels();
 	}
 }
+
+Vtiger_Base_Validator_Js(
+	'Vtiger_FieldLabel_Validator_Js',
+	{
+		/** @inheritdoc */
+		invokeValidation: function (field, _rules, _i, _options) {
+			let instance = new Vtiger_FieldLabel_Validator_Js();
+			instance.setElement(field);
+			let response = instance.validate();
+			if (response != true) {
+				return instance.getError();
+			}
+		}
+	},
+	{
+		/** @inheritdoc */
+		validate: function () {
+			return this.validateValue(this.getFieldValue());
+		},
+		/** @inheritdoc */
+		validateValue: function (fieldValue) {
+			let specialChars = /[&\<\>\:\'\"\,]/;
+			if (specialChars.test(fieldValue)) {
+				let errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS') + ' & < > \' " : , ' + app.vtranslate('JS_NOT_ALLOWED');
+				this.setError(errorInfo);
+				return false;
+			}
+			return true;
+		}
+	}
+);
