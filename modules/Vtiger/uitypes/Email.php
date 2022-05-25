@@ -36,7 +36,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 		if (!filter_var($value, FILTER_VALIDATE_EMAIL) || $value !== filter_var($value, FILTER_SANITIZE_EMAIL)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
-		$maximumLength = $this->getFieldModel()->getMaxColumnLength();
+		$maximumLength = $this->getFieldModel()->getMaxValue();
 		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
@@ -51,8 +51,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			$fieldName = $this->getFieldModel()->get('name');
 			$rawValue = \App\Purifier::encodeHtml($value);
 			$value = \App\Purifier::encodeHtml(App\TextParser::textTruncate($value, $length));
-			$internalMailer = (int) \App\User::getCurrentUserModel()->getDetail('internal_mailer');
-			if (1 === $internalMailer && \App\Privilege::isPermitted('OSSMail')) {
+			if (\App\Mail::checkInternalMailClient()) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $record, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
 				return "<a class = \"u-cursor-pointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$record\" data-to=\"$rawValue\" data-popup=\"" . $mailConfig['popup'] . '" title="' . \App\Language::translate('LBL_SEND_EMAIL') . "\">$value</a>";
@@ -73,8 +72,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			$fieldName = $this->getFieldModel()->get('name');
 			$rawValue = \App\Purifier::encodeHtml($value);
 			$value = \App\Purifier::encodeHtml(App\TextParser::textTruncate($value, $this->getFieldModel()->get('maxlengthtext')));
-			$internalMailer = (int) \App\User::getCurrentUserModel()->getDetail('internal_mailer');
-			if (1 === $internalMailer && \App\Privilege::isPermitted('OSSMail')) {
+			if (\App\Mail::checkInternalMailClient()) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $record, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
 				return "<a class = \"u-cursor-pointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$record\" data-to=\"$rawValue\" data-popup=\"" . $mailConfig['popup'] . '" title="' . \App\Language::translate('LBL_SEND_EMAIL') . "\">{$value}</a>";
@@ -84,7 +82,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			}
 			return "<a class=\"emailField u-cursor-pointer\"  href=\"mailto:{$rawValue}\">{$value}</a>";
 		}
-		return \App\Purifier::encodeHtml($value);
+		return $value ? \App\Purifier::encodeHtml($value) : '';
 	}
 
 	/**

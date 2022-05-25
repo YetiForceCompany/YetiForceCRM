@@ -3,10 +3,13 @@
 /**
  * Notification Record Model.
  *
+ * @package Model
+ *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Notification_Record_Model extends Vtiger_Record_Model
 {
@@ -147,7 +150,7 @@ class Notification_Record_Model extends Vtiger_Record_Model
 		if ($relatedModule && 'PLL_USERS' !== $notificationType && \App\Record::isExists($relatedId)) {
 			$textParser = \App\TextParser::getInstanceById($relatedId, $relatedModule);
 			$this->setFromUserValue('description', $textParser->withoutTranslations()->setContent($this->get('description'))->parse()->getContent());
-			$this->setFromUserValue('title', \App\TextParser::textTruncate(\App\Purifier::purifyByType($textParser->setContent($this->get('title'))->parse()->getContent(), 'Text'), $this->getField('title')->getMaxColumnLength(), false));
+			$this->setFromUserValue('title', \App\TextParser::textTruncate(\App\Purifier::purifyByType($textParser->setContent($this->get('title'))->parse()->getContent(), 'Text'), $this->getField('title')->getMaxValue(), false));
 		}
 		$users = $this->get('shownerid');
 		$usersCollection = $this->isEmpty('assigned_user_id') ? [] : [$this->get('assigned_user_id')];

@@ -17,11 +17,8 @@ class Vtiger_AccountName_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if (0 === strpos($value, '|##|')) {
-			$value = str_replace('|##|', '', $value);
-		} else {
-			$value = str_replace('|##|', ' ', $value);
-		}
+		$value = $value ? trim(str_replace('|##|', ' ', $value)) : '';
+
 		return parent::getDisplayValue($value, $record, $recordModel, $rawText, $length);
 	}
 

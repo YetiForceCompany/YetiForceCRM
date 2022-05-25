@@ -75,7 +75,7 @@ class Calendar
 	public static function deleteByCrmId(int $id)
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		$dataReader = (new \App\Db\Query())->select(['id'])->from('dav_calendarobjects')->where(['crmid' => $id])->createCommand()->query();
+		$dataReader = (new \App\Db\Query())->select(['calendarid'])->from('dav_calendarobjects')->where(['crmid' => $id])->createCommand()->query();
 		$dbCommand->delete('dav_calendarobjects', ['crmid' => $id])->execute();
 		while ($calendarId = $dataReader->readColumn(0)) {
 			static::addChange($calendarId, $id . '.vcf', 3);
@@ -92,7 +92,7 @@ class Calendar
 	 */
 	public static function delete(array $calendar)
 	{
-		static::addChange($calendar['id'], $calendar['uri'], 3);
+		static::addChange($calendar['calendarid'], $calendar['uri'], 3);
 		\App\Db::getInstance()->createCommand()->delete('dav_calendarobjects', ['id' => $calendar['id']])->execute();
 	}
 
@@ -117,8 +117,7 @@ class Calendar
 		])->execute();
 		$dbCommand->update('dav_calendars', [
 			'synctoken' => ((int) $calendar['synctoken']) + 1,
-		], ['id' => $calendarId])
-			->execute();
+		], ['id' => $calendarId])->execute();
 	}
 
 	/**
@@ -291,7 +290,7 @@ class Calendar
 			$value = trim(\str_replace('\n', PHP_EOL, $value));
 		}
 		$value = \App\Purifier::decodeHtml(\App\Purifier::purify($value));
-		if ($length = $this->record->getField($fieldName)->getMaxColumnLength()) {
+		if ($length = $this->record->getField($fieldName)->getMaxValue()) {
 			$value = \App\TextParser::textTruncate($value, $length, false);
 		}
 		$this->record->set($fieldName, \trim($value));

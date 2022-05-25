@@ -384,7 +384,7 @@ jQuery.Class(
 		},
 		showSelectRelation: function (extendParams) {
 			let params = $.extend(this.getRecordsListParams(), extendParams);
-			app.showRecordsList(params, (modal, instance) => {
+			app.showRecordsList(params, (_modal, instance) => {
 				instance.setSelectEvent((responseData) => {
 					this.addRelations(Object.keys(responseData)).done(() => {
 						app.event.trigger('RelatedListView.AfterSelectRelation', responseData, this, instance, params);

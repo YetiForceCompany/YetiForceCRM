@@ -11,14 +11,14 @@ Vtiger_Detail_Js(
 					src_module: 'HelpDesk',
 					src_record: app.getRecordId()
 				},
-				(modal, instance) => {
+				(_modal, instance) => {
 					instance.setSelectEvent((responseData) => {
 						Vtiger_Detail_Js.getInstance()
 							.saveFieldValues({
 								field: 'parent_id',
 								value: responseData.id
 							})
-							.done(function (response) {
+							.done(function () {
 								location.reload();
 							});
 					});

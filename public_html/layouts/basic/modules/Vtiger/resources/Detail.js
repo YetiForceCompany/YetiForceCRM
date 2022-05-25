@@ -59,7 +59,7 @@ jQuery.Class(
 		 * Function to trigger SMS quick view actions
 		 */
 		triggerSMSmodal: () => {
-			App.Components.QuickCreate.createRecord('SMSNotifier')
+			App.Components.QuickCreate.createRecord('SMSNotifier');
 		},
 		triggerTransferOwnership: function (massActionUrl) {
 			let thisInstance = this;
@@ -402,7 +402,7 @@ jQuery.Class(
 						for (let i in data) {
 							params.recordsToAdd.push(i);
 						}
-						AppConnector.request(params).done(function (res) {
+						AppConnector.request(params).done(function () {
 							thisInstance.reloadTabContent();
 						});
 					});
@@ -1370,13 +1370,13 @@ jQuery.Class(
 						params['search_key'] = restrictionsField.key;
 						params['search_value'] = restrictionsField.name;
 					}
-					app.showRecordsList(params, (modal, instance) => {
+					app.showRecordsList(params, (_modal, instance) => {
 						instance.setSelectEvent((responseData) => {
 							thisInstance
 								.addRelationBetweenRecords(referenceModuleName, Object.keys(responseData), null, {
 									relationId: params.relationId
 								})
-								.done(function (data) {
+								.done(function () {
 									thisInstance.loadWidget(summaryWidgetContainer.find('.widgetContentBlock'));
 								});
 						});
@@ -2954,6 +2954,6 @@ jQuery.Class(
 			this.registerSendPdfFromPdfViewer(detailViewContainer);
 			this.registerKeyboardShortcutsEvent(detailViewContainer);
 			App.Components.ActivityNotifier.register(detailViewContainer);
-		},
+		}
 	}
 );

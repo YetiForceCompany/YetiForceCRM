@@ -1,33 +1,31 @@
 <?php
 
 /**
+ * @package   View
+ *
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OSSMailView_Widget_View extends Vtiger_Edit_View
 {
+	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
-		if (!$permission) {
+		if (!Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-
-		$srecord = $request->getInteger('srecord');
-		$smodule = $request->getByType('smodule');
-
-		$recordPermission = \App\Privilege::isPermitted($smodule, 'DetailView', $srecord);
-		if (!$recordPermission) {
+		if (!\App\Privilege::isPermitted($request->getByType('smodule'), 'DetailView', $request->getInteger('srecord'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 	}
 
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -50,7 +48,6 @@ class OSSMailView_Widget_View extends Vtiger_Edit_View
 		$viewer->assign('SRECORD', $srecord);
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('POPUP', $config['popup']);
-		$viewer->assign('PRIVILEGESMODEL', Users_Privileges_Model::getCurrentUserPrivilegesModel());
 		$viewer->view('widgets.tpl', 'OSSMailView');
 	}
 }

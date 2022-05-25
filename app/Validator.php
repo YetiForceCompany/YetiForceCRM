@@ -330,10 +330,11 @@ class Validator
 	 */
 	public static function url(string $url): bool
 	{
+		if (!parse_url($url, PHP_URL_SCHEME)) {
+			$url = 'http://' . $url;
+		}
 		if (mb_strlen($url) != \strlen($url) && \function_exists('idn_to_ascii') && \defined('INTL_IDNA_VARIANT_UTS46')) {
-			$url = preg_replace_callback('/:\/\/([^\/]+)/', function ($matches) {
-				return '://' . idn_to_ascii($matches[1], IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
-			}, $url);
+			$url = preg_replace_callback('/:\/\/([^\/]+)/', fn ($matches) => '://' . idn_to_ascii($matches[1], IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46), $url);
 		}
 		return false !== filter_var($url, FILTER_VALIDATE_URL);
 	}
@@ -479,9 +480,7 @@ class Validator
 	public static function path(string $input): bool
 	{
 		$parts = explode('/', trim(str_replace(\DIRECTORY_SEPARATOR, '/', $input), '/'));
-		return !array_filter($parts, function ($dir) {
-			return !self::dirName($dir);
-		});
+		return !array_filter($parts, fn ($dir) => !self::dirName($dir));
 	}
 
 	/**

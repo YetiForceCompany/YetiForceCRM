@@ -53,7 +53,7 @@
 			<div class="alert alert-info {if count($WIDGETS) > 0} d-none {/if} js-dashboards-alert" role="alert" data-js=”container”>
 				<p>
 					<span class="fas fa-exclamation-circle fa-3x vertical-middle"></span>&nbsp;&nbsp;
-					{\App\Language::translate('LBL_EMPTY_DASHBOARD','_DashBoard')}
+					{\App\Language::translate('LBL_EMPTY_DASHBOARD','Dashboard')}
 				</p>
 			</div>
 			<input type="hidden" id="row" value="{$ROW}" />

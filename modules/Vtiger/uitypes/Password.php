@@ -36,10 +36,12 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		$dbValue = $isUserFormat ? $this->getDBValue($value) : $value;
-		$maximumLength = $this->getFieldModel()->getMaxColumnLength();
-		if ($maximumLength && App\TextParser::getTextLength($dbValue) > $maximumLength) {
-			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $dbValue, 406);
+		$maximumLength = $this->getFieldModel()->getMaxValue();
+		if (!$isUserFormat && \App\Encryption::getInstance()->isActive()) {
+			$maximumLength = $this->getFieldModel()->getDbValueLength();
+		}
+		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
+			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
 	}
@@ -71,13 +73,13 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return $value ? $this->getDisplayValue($value, false, false, true) : '';
+		return $this->getDisplayValue($value, false, false, true);
 	}
 
 	/** {@inheritdoc} */
-	public function getDuplicateValue(Vtiger_Record_Model $recordModel)
+	public function isDuplicable(): bool
 	{
-		return '';
+		return false;
 	}
 
 	/** {@inheritdoc} */

@@ -17885,7 +17885,7 @@ body:not(.desktop) .ps__rail-y {
   border-bottom-width: 1px;
 }
 
-.btn-xs, table .listButtons.narrow .btn.btn-sm, table .listButtons.narrow .btn-group-sm > .btn, .detailViewTable .fieldLabel.narrow .btn.btn-sm, .detailViewTable .fieldLabel.narrow .btn-group-sm > .btn,
+.btn-xs, .c-multi-image__btn-narrow, table .listButtons.narrow .btn.btn-sm, table .listButtons.narrow .btn-group-sm > .btn, .detailViewTable .fieldLabel.narrow .btn.btn-sm, .detailViewTable .fieldLabel.narrow .btn-group-sm > .btn,
 .detailViewTable .fieldValue.narrow .btn.btn-sm,
 .detailViewTable .fieldValue.narrow .btn-group-sm > .btn {
   padding: 0.2rem 0.4rem;
@@ -24078,14 +24078,19 @@ body:not(.desktop) .bodyContent {
   background-size: cover;
   background-position: center;
 }
-
 .c-multi-image__popover-img {
   cursor: pointer;
 }
-
 .c-multi-image__drop-effect {
   background: rgba(51, 122, 183, 0.2);
   border: 1px solid rgba(51, 122, 183, 0.5) !important;
+}
+.c-multi-image__container-narrow, .c-multi-image__container-medium {
+  padding: 0.15em !important;
+}
+.c-multi-image__result-narrow .c-multi-image__preview-img {
+  height: 1.5rem !important;
+  width: 1.5rem !important;
 }
 
 .c-btn-collapsible {
@@ -24101,7 +24106,7 @@ body:not(.desktop) .bodyContent {
 }
 .c-btn-collapsible.btn-xs, .detailViewTable .fieldLabel.narrow .c-btn-collapsible.btn.btn-sm, .detailViewTable .fieldLabel.narrow .btn-group-sm > .c-btn-collapsible.btn,
 .detailViewTable .fieldValue.narrow .c-btn-collapsible.btn.btn-sm,
-.detailViewTable .fieldValue.narrow .btn-group-sm > .c-btn-collapsible.btn, table .listButtons.narrow .c-btn-collapsible.btn.btn-sm, table .listButtons.narrow .btn-group-sm > .c-btn-collapsible.btn {
+.detailViewTable .fieldValue.narrow .btn-group-sm > .c-btn-collapsible.btn, table .listButtons.narrow .c-btn-collapsible.btn.btn-sm, table .listButtons.narrow .btn-group-sm > .c-btn-collapsible.btn, .c-btn-collapsible.c-multi-image__btn-narrow {
   max-width: 1.5625rem;
 }
 .c-btn-collapsible.btn-sm, .btn-group-sm > .c-btn-collapsible.btn {
@@ -28278,13 +28283,16 @@ td.fieldValue .input-group {
 }
 .c-tiles-container .c-tile-body .c-tile-image .c-multi-image__preview-img,
 .c-tiles-container .c-tile-body .c-tile-image .carousel-image {
-  height: 16em;
-  width: 100%;
+  height: 12em;
 }
 .c-tiles-container .c-tile-body .c-tile-value {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.c-tiles-container .c-tile-body .c-tile-value .carousel-item.active {
+  display: flex;
+  justify-content: center;
 }
 .c-tiles-container .c-tile-body .carousel-control-next,
 .c-tiles-container .c-tile-body .carousel-control-prev {
@@ -28293,11 +28301,25 @@ td.fieldValue .input-group {
 .c-tiles-container .c-tile-body .c-tile-image {
   transition: transform 0.2s;
 }
-.c-tiles-container .c-tile-body .c-multi-image__preview-img:hover,
-.c-tiles-container .c-tile-body .c-tile-image:hover {
-  -moz-transform: scale(1.5);
-  -webkit-transform: scale(1.5);
-  transform: scale(1.5);
+.c-tiles-container .c-multi-image__preview-img {
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.c-tiles-container_very_small .c-tile-image .c-multi-image__preview-img,
+.c-tiles-container_very_small .carousel.slide {
+  width: 100% !important;
+}
+.c-tiles-container_small .c-tile-image .c-multi-image__preview-img,
+.c-tiles-container_small .carousel.slide {
+  width: 63% !important;
+}
+.c-tiles-container_medium .c-tile-image .c-multi-image__preview-img,
+.c-tiles-container_medium .carousel.slide {
+  width: 46% !important;
+}
+.c-tiles-container_big .c-tile-image .c-multi-image__preview-img,
+.c-tiles-container_big .carousel.slide {
+  width: 30% !important;
 }
 
 /* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */

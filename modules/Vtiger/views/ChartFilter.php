@@ -45,13 +45,12 @@ class Vtiger_ChartFilter_View extends \App\Controller\Modal
 	/** {@inheritdoc} */
 	public function getPageTitle(App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		if (isset($this->pageTitle) && !$this->widgetModel->getId()) {
-			$pageTitle = \App\Language::translate($this->pageTitle, $moduleName);
-		} elseif ($this->widgetModel->getId()) {
-			$pageTitle = \App\Language::translate('LBL_EDIT_CHART_FILTER', $moduleName);
+		if (!$this->widgetModel->getId()) {
+			$this->pageTitle = \App\Language::translate($this->pageTitle, $request->getModule(), null, true, 'Dashboard');
+		} else {
+			$this->pageTitle = \App\Language::translate('LBL_EDIT_CHART_FILTER');
 		}
-		return $pageTitle;
+		return $this->pageTitle;
 	}
 
 	/** {@inheritdoc} */

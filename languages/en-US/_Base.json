@@ -1305,6 +1305,7 @@
     "LBL_MODIFICATION_SUCCESSFUL_AND_RELOAD": "Modification successful. Reload view to see the changes.",
     "LBL_MODIFICATION_FAILURE": "No modification has been performed",
     "LBL_QUICK_CREATE_MODULE": "Quick create",
+    "LBL_YETIFORCE_CRM_INFO": "The most flexible CRM in the world",
     "LBL_YETIFORCE_REGISTRATION_ERROR": "Your system was not properly registered. %s, an incorrectly registered system is not compliant with the license.",
     "LBL_YETIFORCE_REGISTRATION_CHECK_STATUS": "Check registration status",
     "LBL_YETIFORCE_REGISTRATION": "CRM system registration",

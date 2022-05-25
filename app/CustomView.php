@@ -764,13 +764,14 @@ class CustomView
 	{
 		Cache::delete('CustomViewById', $cvId);
 		Cache::delete('CustomViewInfo', $cvId);
-		Cache::delete('CustomViewInfo', $moduleName);
 		Cache::delete('getAllFilterColors', false);
 		Cache::delete('getAllFilterColors', true);
 		if (null === $moduleName) {
 			foreach (\App\Module::getAllModuleNames() as $moduleName) {
 				Cache::delete('CustomViewInfo', $moduleName);
 			}
+		} else {
+			Cache::delete('CustomViewInfo', $moduleName);
 		}
 	}
 }

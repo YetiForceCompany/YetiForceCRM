@@ -11,16 +11,13 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 	/** {@inheritdoc} */
 	public function getDetailViewLinks(array $linkParams): array
 	{
-		$currentUserModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$recordModel = $this->getRecord();
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		unset($linkModelList['DETAIL_VIEW_ADDITIONAL']);
 
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission('OSSMail') && !$recordModel->isReadOnly();
-		if ($permission && App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')) {
+		if (!$recordModel->isReadOnly() && \App\Mail::checkMailClient()) {
 			$recordId = $recordModel->getId();
-			if (1 == $currentUserModel->get('internal_mailer')) {
+			if (\App\Mail::checkInternalMailClient()) {
 				$config = OSSMail_Module_Model::getComposeParameters();
 				$url = OSSMail_Module_Model::getComposeUrl();
 

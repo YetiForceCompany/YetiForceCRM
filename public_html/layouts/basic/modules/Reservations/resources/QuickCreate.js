@@ -22,14 +22,13 @@ window.Reservations_CalendarModal_Js = class Reservations_CalendarModal_Js exten
 	setCalendarModuleOptions() {
 		let options = super.setCalendarModuleOptions();
 		options.selectable = true;
-		options.headerToolbar = {
-			left: `dayGridMonth,${app.getMainParams('weekView')},${app.getMainParams('dayView')},today`,
-			center: 'prevYear,prev,title,next,nextYear',
-			right: ''
-		};
 		options.eventClick = function (info) {
 			info.jsEvent.preventDefault();
 		};
+		let date = this.container.find('.js-selected-date').val();
+		if (date) {
+			options.initialDate = date;
+		}
 		return options;
 	}
 	/**

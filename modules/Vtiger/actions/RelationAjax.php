@@ -115,7 +115,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	 *
 	 * @return int[]
 	 */
-	public static function getRecordsListFromRequest(App\Request $request)
+	public static function getRecordsListFromRequest(App\Request $request): array
 	{
 		$selectedIds = $request->getArray('selected_ids', 2);
 		if ($selectedIds && 'all' !== $selectedIds[0]) {
@@ -426,9 +426,9 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			$categoryCount = ['Products', 'OutsourcedProducts', 'Services', 'OSSOutsourcedServices'];
 			$pagingModel = new Vtiger_Paging_Model();
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-			$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			foreach ($relModules as $relModule) {
-				if (!$currentUserPriviligesModel->hasModulePermission($relModule)) {
+				if (!$userPrivilegesModel->hasModulePermission($relModule)) {
 					continue;
 				}
 				$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relModule, $relationId, $cvId);

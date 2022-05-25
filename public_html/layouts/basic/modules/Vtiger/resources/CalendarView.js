@@ -190,6 +190,9 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 				callbackFunction: () => {
 					self.reloadCalendarData();
 				},
+				callbackBeforeRegister: (modal) => {
+					modal.find('.js-selected-date').val(App.Fields.Date.dateToDbFormat(info.date));
+				},
 				callbackPostShown: (modal) => {
 					self.dayCallbackCreateModal(modal, info);
 				}

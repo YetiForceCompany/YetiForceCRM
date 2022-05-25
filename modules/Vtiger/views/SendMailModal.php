@@ -131,6 +131,9 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 			$transformedSearchParams = $listView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$listView->set('search_params', $transformedSearchParams);
 		}
+		if ($advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : []) {
+			$listView->set('advancedConditions', \App\Condition::validAdvancedConditions($advancedConditions));
+		}
 		if ($sourceModule) {
 			$queryGenerator = $listView->getRelationQuery(true);
 		} else {

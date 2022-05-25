@@ -8,6 +8,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
@@ -26,16 +27,12 @@ class Calendar_SendInvitationModal_View extends \App\Controller\Modal
 	public function checkPermission(App\Request $request)
 	{
 		$this->recordModel = $request->isEmpty('record') ? null : \Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
-		if (!$this->recordModel || !($this->recordModel->isEditable() && \App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail') && 1 === \App\User::getCurrentUserModel()->getDetail('internal_mailer'))) {
+		if (!$this->recordModel || !($this->recordModel->isEditable() && \App\Mail::checkInternalMailClient())) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 
-	/**
-	 * Process function.
-	 *
-	 * @param \App\Request $request
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);

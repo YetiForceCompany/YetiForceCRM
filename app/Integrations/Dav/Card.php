@@ -2,8 +2,6 @@
 /**
  * CardDav address books file.
  *
- * @package Integration
- *
  * @see https://en.wikipedia.org/wiki/VCard#Properties
  * @see https://tools.ietf.org/id/draft-calconnect-vobject-vformat-00.html
  *
@@ -21,9 +19,7 @@ namespace App\Integrations\Dav;
  */
 class Card
 {
-	/**
-	 * @var array Address mapping for modules.
-	 */
+	/** @var array Address mapping for modules. */
 	const ADDRESS_MAPPING = [
 		'Contacts' => [
 			'WORK' => [
@@ -60,38 +56,27 @@ class Card
 			],
 		],
 	];
-	/**
-	 * @var array Mail fields.
-	 */
-	public static $mailFields = [
+
+	/** @var array Mail fields. */
+	const MAIL_FIELDS = [
 		'Contacts' => ['email' => 'WORK', 'secondary_email' => 'HOME'],
 		'OSSEmployees' => ['business_mail' => 'WORK', 'private_mail' => 'HOME'],
 	];
-	/**
-	 * @var array Phone fields.
-	 */
-	public static $telFields = [
+
+	/** @var array Phone fields. */
+	const PHONE_FIELDS = [
 		'Contacts' => ['phone' => 'WORK', 'mobile' => 'CELL'],
 		'OSSEmployees' => ['business_phone' => 'WORK', 'private_phone' => 'CELL', 'secondary_phone' => 'OTHER'],
 	];
-	/**
-	 * VCard - object.
-	 *
-	 * @var \Sabre\VObject\Component\VCard
-	 */
-	private $vcard;
-	/**
-	 * User record model.
-	 *
-	 * @var \Users_Record_Model
-	 */
+
+	/** @var \Sabre\VObject\Component\VCard Card object. */
+	private $card;
+
+	/** @var \Users_Record_Model User record model. */
 	public $user;
-	/**
-	 * Record data.
-	 *
-	 * @var \Vtiger_Record_Model
-	 */
-	private $record = [];
+
+	/** @var \Vtiger_Record_Model Record model. */
+	private $record;
 
 	/**
 	 * Load from content.
@@ -102,10 +87,10 @@ class Card
 	 *
 	 * @return self
 	 */
-	public static function loadFromContent(string $content, ?\Vtiger_Record_Model $recordModel = null, ?string $uid = null)
+	public static function loadFromContent(string $content, ?\Vtiger_Record_Model $recordModel = null, ?string $uid = null): self
 	{
 		$instance = new self();
-		$instance->vcard = \Sabre\VObject\Reader::read($content);
+		$instance->card = \Sabre\VObject\Reader::read($content);
 		if ($recordModel && $uid) {
 			$instance->records[$uid] = $recordModel;
 		}
@@ -113,13 +98,13 @@ class Card
 	}
 
 	/**
-	 * Get VCalendar instance.
+	 * Get card instance.
 	 *
-	 * @return \Sabre\VObject\Component\VCalendar
+	 * @return \Sabre\VObject\Component\VCard
 	 */
-	public function getVCard()
+	public function getVCard(): \Sabre\VObject\Component\VCard
 	{
-		return $this->vcard;
+		return $this->card;
 	}
 
 	/**
@@ -127,9 +112,9 @@ class Card
 	 *
 	 * @param int $id
 	 *
-	 * @throws \yii\db\Exception
+	 * @return void
 	 */
-	public static function deleteByCrmId(int $id)
+	public static function deleteByCrmId(int $id): void
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$dataReader = (new \App\Db\Query())->select(['addressbookid'])->from('dav_cards')->where(['crmid' => $id])->createCommand()->query();
@@ -147,20 +132,20 @@ class Card
 	 * @param string $uri
 	 * @param int    $operation
 	 *
-	 * @throws \yii\db\Exception
+	 * @return void
 	 */
-	public static function addChange(int $addressBookId, string $uri, int $operation)
+	public static function addChange(int $addressBookId, string $uri, int $operation): void
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		$addressBook = static::getAddressBook($addressBookId);
+		$syncToken = (int) static::getAddressBook($addressBookId)['synctoken'];
 		$dbCommand->insert('dav_addressbookchanges', [
 			'uri' => $uri,
-			'synctoken' => (int) $addressBook['synctoken'],
+			'synctoken' => $syncToken,
 			'addressbookid' => $addressBookId,
 			'operation' => $operation,
 		])->execute();
 		$dbCommand->update('dav_addressbooks', [
-			'synctoken' => ((int) $addressBook['synctoken']) + 1,
+			'synctoken' => $syncToken + 1,
 		], ['id' => $addressBookId])
 			->execute();
 	}
@@ -180,18 +165,17 @@ class Card
 	/**
 	 * Set values for record.
 	 *
-	 * @param Vtiger_Record_Model            $record
-	 * @param \Sabre\VObject\Component\VCard $vcard
+	 * @param \Vtiger_Record_Model $record
 	 *
 	 * @return void
 	 */
-	public function setValuesForRecord(\Vtiger_Record_Model $record)
+	public function setValuesForRecord(\Vtiger_Record_Model $record): void
 	{
 		$this->record = $record;
-		if (isset($this->vcard->N)) {
-			$head = $this->vcard->N->getParts();
-		} elseif (isset($this->vcard->FN)) {
-			$head = $this->vcard->FN->getParts();
+		if (isset($this->card->N)) {
+			$head = $this->card->N->getParts();
+		} elseif (isset($this->card->FN)) {
+			$head = $this->card->FN->getParts();
 		}
 		$moduleName = $record->getModuleName();
 		if ('Contacts' === $moduleName) {
@@ -201,14 +185,14 @@ class Card
 			if (isset($head[0]) && ($fieldModel = $record->getField('lastname'))) {
 				$record->set('lastname', $fieldModel->getDBValue(\App\Purifier::purify($head[0])));
 			}
-			if (isset($this->vcard->TITLE) && ($fieldModel = $record->getField('jobtitle'))) {
-				$record->set('jobtitle', $fieldModel->getDBValue(\App\Purifier::purify((string) $this->vcard->TITLE)));
+			if (isset($this->card->TITLE) && ($fieldModel = $record->getField('jobtitle'))) {
+				$record->set('jobtitle', $fieldModel->getDBValue(\App\Purifier::purify((string) $this->card->TITLE)));
 			}
-			if (isset($this->vcard->BDAY) && 8 === \strlen($this->vcard->BDAY) && ($fieldModel = $record->getField('birthday'))) {
-				$record->set('birthday', date('Y-m-d', strtotime($this->vcard->BDAY)));
+			if (isset($this->card->BDAY) && 8 === \strlen($this->card->BDAY) && $record->getField('birthday')) {
+				$record->set('birthday', date('Y-m-d', strtotime($this->card->BDAY)));
 			}
-			if (isset($this->vcard->GENDER) && ($fieldModel = $record->getField('salutationtype'))) {
-				$record->set('salutationtype', $fieldModel->getDBValue($this->getCardGender((string) $this->vcard->GENDER)));
+			if (isset($this->card->GENDER) && ($fieldModel = $record->getField('salutationtype'))) {
+				$record->set('salutationtype', $fieldModel->getDBValue($this->getCardGender((string) $this->card->GENDER)));
 			}
 		} elseif ('OSSEmployees' === $moduleName) {
 			if (isset($head[1]) && ($fieldModel = $record->getField('name'))) {
@@ -217,20 +201,16 @@ class Card
 			if (isset($head[0]) && ($fieldModel = $record->getField('last_name'))) {
 				$record->set('last_name', $fieldModel->getDBValue(\App\Purifier::purify($head[0])));
 			}
-			if (isset($this->vcard->BDAY) && ($fieldModel = $record->getField('birth_date'))) {
-				$record->set('birth_date', date('Y-m-d', strtotime($this->vcard->BDAY)));
+			if (isset($this->card->BDAY) && $record->getField('birth_date')) {
+				$record->set('birth_date', date('Y-m-d', strtotime($this->card->BDAY)));
 			}
 		}
-		if (isset($this->vcard->NOTE) && ($fieldModel = $record->getField('description'))) {
-			$record->set('description', $fieldModel->getDBValue(\App\Purifier::purify((string) $this->vcard->NOTE)));
+		if (isset($this->card->NOTE) && ($fieldModel = $record->getField('description'))) {
+			$record->set('description', $fieldModel->getDBValue(\App\Purifier::purify((string) $this->card->NOTE)));
 		}
-		$this->parseTel();
-		foreach (self::$mailFields[$moduleName] as $key => $val) {
-			if (isset($this->vcard->EMAIL) && ($fieldModel = $record->getField($key))) {
-				$record->set($key, $fieldModel->getDBValue($this->getCardMail($val)));
-			}
-		}
-		if (isset($this->vcard->ADR)) {
+		$this->parsePhone();
+		$this->parseMail();
+		if (isset($this->card->ADR)) {
 			$this->setRecordAddress($moduleName, $record);
 		}
 	}
@@ -242,14 +222,14 @@ class Card
 	 *
 	 * @return void
 	 */
-	public function setValuesForCreateRecord(\Vtiger_Record_Model $record)
+	public function setValuesForCreateRecord(\Vtiger_Record_Model $record): void
 	{
-		if ('Contacts' === $record->getModuleName() && isset($this->vcard->ORG)) {
+		if ('Contacts' === $record->getModuleName() && isset($this->card->ORG)) {
 			$lead = \Vtiger_Record_Model::getCleanInstance('Leads');
 			$lead->set('assigned_user_id', $this->user->get('id'));
 			$lead->set('leadstatus', 'PLL_PENDING');
 			if ($fieldModel = $lead->getField('company')) {
-				$lead->set('company', $fieldModel->getDBValue((string) $this->vcard->ORG));
+				$lead->set('company', $fieldModel->getDBValue((string) $this->card->ORG));
 			}
 			$lead->save();
 			$fieldModel = current($record->getModule()->getReferenceFieldsForModule('Leads'));
@@ -262,34 +242,42 @@ class Card
 	}
 
 	/**
-	 * Parse card phone.
+	 * Parse phone.
+	 *
+	 * @return void
 	 */
-	private function parseTel()
+	private function parsePhone(): void
 	{
+		$country = null;
+		if ($userId = $this->user ? $this->user->getId() : null) {
+			$country = \App\Fields\Country::getCountryCode(\App\User::getUserModel($userId)->getDetail('sync_carddav_default_country'));
+		}
+		$usedTypes = [];
 		$moduleName = $this->record->getModuleName();
-		foreach (self::$telFields[$moduleName] as $key => $type) {
-			if (isset($this->vcard->TEL) && ($fieldModel = $this->record->getField($key))) {
+		foreach (self::PHONE_FIELDS[$moduleName] as $key => $type) {
+			if (isset($this->card->TEL) && ($fieldModel = $this->record->getField($key))) {
 				$type = strtoupper($type);
-				foreach ($this->vcard->TEL as $t) {
+				foreach ($this->card->TEL as $t) {
+					$types = [];
 					foreach ($t->parameters() as $p) {
-						$vcardType = explode(',', $p->getValue());
-						if (strtoupper($vcardType[0]) === $type) {
-							$orgPhone = \App\Purifier::purify($t->getValue());
-							if ($orgPhone && 'phone' === $fieldModel->getFieldDataType()) {
-								$country = null;
-								if ($userId = $this->user ? $this->user->getId() : null) {
-									$country = \App\Fields\Country::getCountryCode(\App\User::getUserModel($userId)->getDetail('sync_carddav_default_country'));
-								}
-								$details = $fieldModel->getUITypeModel()->getPhoneDetails($orgPhone, $country);
-								if ($key !== $details['fieldName']) {
-									$this->record->set($details['fieldName'], $details['number']);
-									continue 2;
-								}
-								$orgPhone = $details['number'];
+						$cardType = explode(',', $p->getValue());
+						$types[] = strtoupper($cardType[0]);
+					}
+					if (!$types && !\in_array('WORK', $usedTypes)) {
+						$types[] = 'WORK';
+					}
+					if (\in_array($type, $types)) {
+						$orgPhone = \App\Purifier::purify($t->getValue());
+						if ($orgPhone && 'phone' === $fieldModel->getFieldDataType()) {
+							$details = $fieldModel->getUITypeModel()->getPhoneDetails($orgPhone, $country);
+							if ($key !== $details['fieldName']) {
+								$this->record->set($details['fieldName'], $details['number']);
+								continue;
 							}
-							$this->record->set($key, $fieldModel->getDBValue($orgPhone));
-							continue 2;
+							$orgPhone = $details['number'];
 						}
+						$this->record->set($key, $fieldModel->getDBValue($orgPhone));
+						$usedTypes = array_merge($usedTypes, $types);
 					}
 				}
 			}
@@ -297,27 +285,33 @@ class Card
 	}
 
 	/**
-	 * Get card mail.
+	 * Parse email.
 	 *
-	 * @param string $type
-	 *
-	 * @return string
+	 * @return void
 	 */
-	private function getCardMail(string $type): string
+	private function parseMail(): void
 	{
-		\App\Log::trace(__METHOD__ . ' | Start | Type:' . $type);
-		foreach ($this->vcard->EMAIL as $e) {
-			foreach ($e->parameters() as $p) {
-				$vcardType = explode(',', $p->getValue());
-				$vcardType = array_reverse($vcardType);
-				if (strtoupper($vcardType[0]) === $type) {
-					\App\Log::trace(__METHOD__ . ' | End | return: ' . $e->getValue());
-					return \App\Purifier::purify($e->getValue());
+		$moduleName = $this->record->getModuleName();
+		$usedTypes = [];
+		foreach (self::MAIL_FIELDS[$moduleName] as $key => $type) {
+			if (isset($this->card->EMAIL) && ($fieldModel = $this->record->getField($key))) {
+				$type = strtoupper($type);
+				foreach ($this->card->EMAIL as $e) {
+					$types = [];
+					foreach ($e->parameters() as $p) {
+						$cardType = explode(',', $p->getValue());
+						$types[] = strtoupper(array_reverse($cardType)[0]);
+					}
+					if (!$types && !\in_array('WORK', $usedTypes)) {
+						$types[] = 'WORK';
+					}
+					if (\in_array($type, $types)) {
+						$this->record->set($key, $fieldModel->getDBValue(\App\Purifier::purify($e->getValue())));
+						$usedTypes = array_merge($usedTypes, $types);
+					}
 				}
 			}
 		}
-		\App\Log::trace(__METHOD__ . ' | End | return: ""');
-		return '';
 	}
 
 	/**
@@ -329,7 +323,6 @@ class Card
 	 */
 	private function getCardGender(string $gender): string
 	{
-		$salutation = '';
 		switch ($gender) {
 			case 'M':
 				$salutation = 'Mr.';
@@ -337,12 +330,15 @@ class Card
 			case 'F':
 				$salutation = 'Mrs.';
 				break;
+			default:
+				$salutation = '';
+				break;
 		}
 		return $salutation;
 	}
 
 	/**
-	 * Set record addres.
+	 * Set record address.
 	 *
 	 * @param string               $moduleName
 	 * @param \Vtiger_Record_Model $record
@@ -351,7 +347,7 @@ class Card
 	 */
 	public function setRecordAddress(string $moduleName, \Vtiger_Record_Model $record): void
 	{
-		foreach ($this->vcard->ADR as $property) {
+		foreach ($this->card->ADR as $property) {
 			if ($typeOfAddress = $this->getTypeOfAddress($property)) {
 				$address = $this->convertAddress($property->getParts());
 				foreach (static::ADDRESS_MAPPING[$moduleName][$typeOfAddress] ?? [] as $fieldName => $fieldsInVCard) {
@@ -372,7 +368,7 @@ class Card
 	 *
 	 * @param array $addressFromVCard
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	private function convertAddress(array $addressFromVCard): array
 	{

@@ -43,13 +43,13 @@ class Debug extends DAV\ServerPlugin
 	 *
 	 * @var string
 	 */
-	const DEBUG_FILE = 'cache/logs/davDebug.log';
+	const DEBUG_FILE = 'cache/logs/davRequests.log';
 	/**
 	 * Exception file path.
 	 *
 	 * @var string
 	 */
-	const EXCEPTION_FILE = 'cache/logs/davException.log';
+	const EXCEPTION_FILE = 'cache/logs/davExceptions.log';
 
 	/**
 	 * Initializes selected functions.
@@ -59,7 +59,7 @@ class Debug extends DAV\ServerPlugin
 	public function initialize(DAV\Server $server)
 	{
 		$this->server = $server;
-		$this->server->on('beforeMethod', [$this, 'beforeMethod']);
+		$this->server->on('beforeMethod:*', [$this, 'beforeMethod'], 50);
 		$this->server->on('exception', [$this, 'exception']);
 		$this->server->on('afterResponse', [$this, 'afterResponse']);
 		$this->server->setLogger((new Logger()));
@@ -123,16 +123,13 @@ class Debug extends DAV\ServerPlugin
 	 */
 	public function exception(\Exception $e)
 	{
-		$error = 'exception: ' . \get_class($e) . PHP_EOL;
+		$error = 'exception: ' . \get_class($e) . ' [code: ' . $e->getCode() . ']' . PHP_EOL;
 		$error .= 'message: ' . $e->getMessage() . PHP_EOL;
-		$error .= 'file: ' . $e->getFile() . PHP_EOL;
-		$error .= 'line: ' . $e->getLine() . PHP_EOL;
-		$error .= 'code: ' . $e->getCode() . PHP_EOL;
-		$error .= 'stacktrace: ' . PHP_EOL . $e->getTraceAsString() . PHP_EOL;
-		$error .= 'request: ' . PHP_EOL . $this->request . PHP_EOL;
-		$error .= 'response: ' . PHP_EOL . $this->response . PHP_EOL;
-		file_put_contents(self::EXCEPTION_FILE, '============ ' . date('Y-m-d H:i:s') . ' ====== Error exception ======'
-			. PHP_EOL . $error . PHP_EOL, FILE_APPEND);
+		$error .= 'file: ' . rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getFile()), PHP_EOL) . ':' . $e->getLine() . PHP_EOL;
+		$error .= rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->getTraceAsString()), PHP_EOL) . PHP_EOL . PHP_EOL;
+		$error .= 'request: ' . PHP_EOL . ($this->request ?? $this->server->httpRequest) . PHP_EOL;
+		$error .= 'response: ' . PHP_EOL . ($this->response ?? $this->server->httpResponse);
+		file_put_contents(self::EXCEPTION_FILE, '============ ' . date('Y-m-d H:i:s') . PHP_EOL . $error . PHP_EOL, FILE_APPEND);
 		return true;
 	}
 
@@ -178,16 +175,15 @@ class Debug extends DAV\ServerPlugin
 	 * E_NOTICE or anything appears in your code, this allows SabreDAV to intercept
 	 * the issue and send a proper response back to the client (HTTP/1.1 500).
 	 *
-	 * @param int    $errno
-	 * @param string $errstr
-	 * @param string $errfile
-	 * @param int    $errline
-	 * @param array  $errcontext
+	 * @param int    $no
+	 * @param string $str
+	 * @param string $file
+	 * @param int    $line
 	 *
-	 * @throws \ErrorException
+	 * @throws \App\Exceptions\AppException
 	 */
-	public static function exceptionErrorHandler($errno, $errstr, $errfile, $errline, $errcontext)
+	public static function exceptionErrorHandler(int $no, string $str, string $file, int $line): void
 	{
-		throw new \App\Exceptions\AppException($errstr, 0, new \ErrorException($errstr, 0, $errno, $errfile, $errline));
+		throw new \App\Exceptions\AppException($str, 0, new \ErrorException($str, 0, $no, $file, $line));
 	}
 }

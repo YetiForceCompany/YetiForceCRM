@@ -48,21 +48,21 @@
 								{if \App\Privilege::isPermitted($SMODULENAME, 'RemoveRelation')}
 									{if  \App\Privilege::isPermitted($MODULE_NAME, 'MoveToTrash', $ROW['id'])}
 										{assign var=LINK value=Vtiger_Link_Model::getInstanceFromValues([
-														'linklabel' => 'LBL_REMOVE_RELATION',
-														'linkicon' => 'fas fa-unlink',
-														'linkclass' => 'btn-xs btn-secondary relationDelete entityStateBtn',
-														'linkdata' => ['content' => \App\Language::translate('LBL_REMOVE_RELATION'),
-													'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'), 'id' => $ROW['id']
-													]
-													])}
+																						'linklabel' => 'LBL_REMOVE_RELATION',
+																						'linkicon' => 'fas fa-unlink',
+																						'linkclass' => 'btn-xs btn-secondary relationDelete entityStateBtn',
+																						'linkdata' => ['content' => \App\Language::translate('LBL_REMOVE_RELATION'),
+																					'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'), 'id' => $ROW['id']
+																					]
+																					])}
 										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) MODULE=$MODULE_NAME}
 									{/if}
 									{if  \App\Privilege::isPermitted($MODULE_NAME, 'Delete', $ROW['id'])}
 										{assign var=LINK value=Vtiger_Link_Model::getInstanceFromValues([
-														'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-														'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-														'linkicon' => 'fas fa-eraser',
-														'dataUrl' => "index.php?module={$MODULE_NAME}&action=Delete&record={$ROW['id']}",
+																						'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+																						'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+																						'linkicon' => 'fas fa-eraser',
+																						'dataUrl' => "index.php?module={$MODULE_NAME}&action=Delete&record={$ROW['id']}",
 										'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
 										'linkclass' => 'btn-xs btn-dark relationDelete entityStateBtn'
 										])}
@@ -72,8 +72,8 @@
 							</div>
 						</div>
 						<div class="bd-highlight mailActions d-flex justify-content-end px-0">
-							{if App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail')}
-								{if $PRIVILEGESMODEL->internal_mailer == 1}
+							{if \App\Mail::checkMailClient()}
+								{if \App\Mail::checkInternalMailClient()}
 									{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
 									<button type="button" class="btn btn-xs btn-outline-success sendMailBtn ml-1" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}">
 										<span class="fas fa-reply" title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}"></span>

@@ -20,8 +20,8 @@ class Vtiger_Export_View extends Vtiger_Index_View
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'Export')) {
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'Export')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -54,6 +54,11 @@ class Vtiger_Export_View extends Vtiger_Index_View
 		$viewer->assign('ALPHABET_VALUE', \App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $request->getByType('search_key', 'Alnum'), $request->getByType('operator')));
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', 'Alnum'));
 		$viewer->assign('SEARCH_PARAMS', \App\Condition::validSearchParams($moduleName, $request->getArray('search_params'), false));
+		$advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : [];
+		if ($advancedConditions) {
+			\App\Condition::validAdvancedConditions($advancedConditions);
+		}
+		$viewer->assign('ADVANCED_CONDITIONS', $advancedConditions);
 		$viewer->view('Export.tpl', $moduleName);
 	}
 }

@@ -138,6 +138,7 @@ class Settings_WebserviceUsers_WebserviceStandard_Service extends Settings_Webse
 				];
 				break;
 			case 'password':
+				$params['maximumlength'] = '100';
 				$params['typeofdata'] = 'P~M';
 				if ($this->has('id')) {
 					$params = null;

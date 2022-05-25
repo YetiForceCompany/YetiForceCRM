@@ -1,14 +1,18 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce S.A.
- * *********************************************************************************** */
 
+/**
+ * Panel file with reminders of calendar module events.
+ *
+ * @package   View
+ *
+ * @copyright YetiForce S.A.
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+/**
+ * Panel class with reminders of calendar module events.
+ */
 class Calendar_Reminders_View extends Vtiger_IndexAjax_View
 {
 	/**
@@ -19,16 +23,8 @@ class Calendar_Reminders_View extends Vtiger_IndexAjax_View
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$recordModels = Calendar_Module_Model::getCalendarReminder();
-
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
-		$permissionToSendEmail = $permission && App\Config::main('isActiveSendingMails') && \App\Privilege::isPermitted('OSSMail');
-		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
-		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-		$viewer->assign('RECORDS', $recordModels);
-		$viewer->view('Reminders.tpl', $moduleName);
+		$viewer->assign('PERMISSION_TO_SENDE_MAIL', \App\Mail::checkMailClient());
+		$viewer->assign('RECORDS', Calendar_Module_Model::getCalendarReminder());
+		$viewer->view('Reminders.tpl', $request->getModule());
 	}
 }

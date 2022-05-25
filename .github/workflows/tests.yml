@@ -125,14 +125,14 @@ jobs:
           coverageLocations: ${{github.workspace}}/tests/coverages/coverage3.xml:clover
 
       - name: Upload artifact Coverages
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Coverages
           path: ${{github.workspace}}/tests/coverages
 
       - name: Upload artifact Logs
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Logs
           path: ${{github.workspace}}/cache/logs/

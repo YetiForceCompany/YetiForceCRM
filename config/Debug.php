@@ -103,10 +103,10 @@ class Debug
 	public static $apiLogAllRequests = false;
 
 	/** API - Sabre dav - This is a flag that allows (or not) showing file, line, and code of the exception in the returned XML */
-	public static $DAV_DEBUG_EXCEPTIONS = false;
+	public static $davDebugExceptions = false;
 
 	/** Activate the plugin recording log in DAV */
-	public static $DAV_DEBUG_PLUGIN = false;
+	public static $davDebugPlugin = false;
 
 	/** Mailer debug */
 	public static $MAILER_DEBUG = false;

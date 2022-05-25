@@ -3,6 +3,8 @@
 /**
  * Notifications parser class.
  *
+ * @package TextParser
+ *
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -36,13 +38,9 @@ class Notification_Notifications_TextParser extends \App\TextParser\Base
 				$html .= "<hr><strong>$type</strong><ul>";
 				foreach ($entries[$typeId] as $notification) {
 					$title = preg_replace_callback(
-						$pattern, function ($matches) {
-							return \App\Config::main('site_URL') . $matches[0];
-						}, $notification->getTitle());
+						$pattern, fn ($matches) => \App\Config::main('site_URL') . $matches[0], $notification->getTitle());
 					$massage = preg_replace_callback(
-						$pattern, function ($matches) {
-							return \App\Config::main('site_URL') . $matches[0];
-						}, $notification->getMessage());
+						$pattern, fn ($matches) => \App\Config::main('site_URL') . $matches[0], $notification->getMessage());
 					$html .= "<li>$title<br />$massage</li>";
 				}
 				$html .= '</ul><br />';

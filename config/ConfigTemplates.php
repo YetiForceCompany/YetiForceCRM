@@ -478,13 +478,13 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool',
 		],
-		'DAV_DEBUG_EXCEPTIONS' => [
+		'davDebugExceptions' => [
 			'default' => false,
 			'description' => 'API - Sabre dav - This is a flag that allows (or not) showing file, line, and code of the exception in the returned XML',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool',
 		],
-		'DAV_DEBUG_PLUGIN' => [
+		'davDebugPlugin' => [
 			'default' => false,
 			'description' => 'Activate the plugin recording log in DAV',
 			'validation' => '\App\Validator::bool',

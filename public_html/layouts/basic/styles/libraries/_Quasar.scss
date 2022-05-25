@@ -17,6 +17,7 @@ body > .q-dialog:not(.quasar-reset) {
 	.q-field .col {
 		position: relative;
 	}
+	z-index: 1050 !important;
 }
 
 .quasar-container {

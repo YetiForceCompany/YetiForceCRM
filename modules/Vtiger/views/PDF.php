@@ -113,6 +113,11 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 		$viewer->assign('SEARCH_KEY', $request->getByType('search_key', \App\Purifier::ALNUM));
 		$viewer->assign('SEARCH_PARAMS', App\Condition::validSearchParams($pdfModuleName, $request->getArray('search_params'), false));
 		$viewer->assign('ORDER_BY', $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL));
+		$advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : [];
+		if ($advancedConditions) {
+			\App\Condition::validAdvancedConditions($advancedConditions);
+		}
+		$viewer->assign('ADVANCED_CONDITIONS', $advancedConditions);
 		if ($isRelatedView) {
 			$viewer->assign('MODULE_NAME', $moduleName);
 			$viewer->assign('RELATED_MODULE', $pdfModuleName);

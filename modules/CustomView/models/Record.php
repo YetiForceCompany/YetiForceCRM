@@ -509,7 +509,6 @@ class CustomView_Record_Model extends \App\Base
 	public function getRecordIds($skipRecords = false, $module = false, $lockRecords = false)
 	{
 		$queryGenerator = $this->getRecordsListQuery($skipRecords, $module, $lockRecords)->setFields(['id']);
-
 		return $queryGenerator->createQuery()->column();
 	}
 
@@ -539,6 +538,9 @@ class CustomView_Record_Model extends \App\Base
 		$searchValue = $this->get('search_value');
 		if (!empty($searchValue) && ($operator = $this->get('operator'))) {
 			$queryGenerator->addCondition($searchKey, $searchValue, $operator);
+		}
+		if ($advancedConditions = $this->get('advancedConditions')) {
+			$queryGenerator->setAdvancedConditions($advancedConditions);
 		}
 		$searchParams = $this->getArray('search_params');
 		if (empty($searchParams)) {
@@ -702,7 +704,7 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function getConditions(): array
 	{
-		return \App\CustomView::getConditions($this->getId());
+		return $this->getId() ? \App\CustomView::getConditions($this->getId()) : [];
 	}
 
 	/**
@@ -931,7 +933,6 @@ class CustomView_Record_Model extends \App\Base
 			->innerJoin('vtiger_customview', 'vtiger_cvcolumnlist.cvid = vtiger_customview.cvid')
 			->where(['vtiger_customview.cvid' => $cvId])->orderBy('vtiger_cvcolumnlist.columnindex')
 			->createCommand()->queryAllByGroup(1);
-
 		$result = [];
 		foreach ($selectedFields as $item) {
 			$key = "{$item['field_name']}:{$item['module_name']}" . ($item['source_field_name'] ? ":{$item['source_field_name']}" : '');

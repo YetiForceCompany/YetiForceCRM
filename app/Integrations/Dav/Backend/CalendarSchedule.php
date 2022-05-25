@@ -25,18 +25,6 @@ class CalendarSchedule extends DAV\ServerPlugin
 	 * @var DAV\Server
 	 */
 	protected $server;
-	/**
-	 * Debug file path.
-	 *
-	 * @var string
-	 */
-	const DEBUG_FILE = 'cache/logs/davDebug.log';
-	/**
-	 * Exception file path.
-	 *
-	 * @var string
-	 */
-	const EXCEPTION_FILE = 'cache/logs/davException.log';
 
 	/**
 	 * Initializes the schedule.

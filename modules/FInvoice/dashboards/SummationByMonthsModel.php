@@ -48,11 +48,13 @@ class FInvoice_SummationByMonthsModel_Dashboard extends Vtiger_Widget_Model
 			case 'plotTickSize':
 				$data = $this->get('data') ? \App\Json::decode($this->get('data')) : [];
 				$params['uitype'] = 7;
+				$params['maximumlength'] = '99999999999';
 				$params['typeofdata'] = 'I~M';
 				$params['fieldvalue'] = $data[$name] ?? 0;
 				break;
 			case 'owners_all':
 				$params['uitype'] = 33;
+				$params['maximumlength'] = '100';
 				$params['typeofdata'] = 'V~M';
 				$picklistValue = [
 					'mine' => 'LBL_MINE',

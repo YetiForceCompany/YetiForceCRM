@@ -213,11 +213,11 @@ class YetiForcePDF extends Base
 	public function wrapFooterContent(string $content): string
 	{
 		$style = "padding-bottom:{$this->footerMargin}px; padding-left:{$this->defaultMargins['left']}px; padding-right:{$this->defaultMargins['right']}px";
-			// Modification of the following condition will violate the license!
-			if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
-				$content .= '<table style="font-size:6px;width:100%; margin: 0;"><tbody><tr><td style="width:50%">Powered by YetiForce</td></tr></tbody></table>';
-			}
-			// Modification of the following condition will violate the license!
+		// Modification of the following condition will violate the license!
+		if (!\App\YetiForce\Shop::check('YetiForceDisableBranding')) {
+			$content .= '<table style="font-size:6px;width:100%; margin: 0;"><tbody><tr><td style="width:50%">Powered by YetiForce</td></tr></tbody></table>';
+		}
+		// Modification of the following condition will violate the license!
 		return '<div id="footer" data-footer style="' . $style . '">' . $content . '</div>';
 	}
 

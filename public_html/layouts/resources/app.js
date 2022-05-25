@@ -20,17 +20,17 @@ var App = (window.App = {
 				}
 
 				generateTree(container) {
-					const slef = this;
-					if (slef.treeInstance === false) {
-						slef.treeInstance = container;
-						slef.treeInstance
-							.on('select_node.jstree', function (e, data) {
+					const self = this;
+					if (self.treeInstance === false) {
+						self.treeInstance = container;
+						self.treeInstance
+							.on('select_node.jstree', function (_e, data) {
 								if (data.event !== undefined && $(data.event.target).hasClass('jstree-checkbox')) {
 									return;
 								}
 								data.instance.select_node(data.node.children_d);
 							})
-							.on('deselect_node.jstree', function (e, data) {
+							.on('deselect_node.jstree', function (_e, data) {
 								if (data.event !== undefined && $(data.event.target).hasClass('jstree-checkbox')) {
 									return;
 								}
@@ -38,7 +38,7 @@ var App = (window.App = {
 							})
 							.jstree({
 								core: {
-									data: slef.getRecords(container),
+									data: self.getRecords(container),
 									themes: {
 										name: 'proton',
 										responsive: true
@@ -188,10 +188,13 @@ var App = (window.App = {
 				app.showModalWindow(html, (container) => {
 					const quickCreateForm = container.find('form.js-form');
 					const moduleName = quickCreateForm.find('[name="module"]').val();
+					if (typeof params.callbackBeforeRegister !== 'undefined') {
+						params.callbackBeforeRegister(container);
+					}
 					const editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
-					const moduleClassName = moduleName + '_QuickCreate_Js';
 					editViewInstance.setForm(quickCreateForm);
 					editViewInstance.registerBasicEvents(quickCreateForm);
+					const moduleClassName = moduleName + '_QuickCreate_Js';
 					if (typeof window[moduleClassName] !== 'undefined') {
 						new window[moduleClassName]().registerEvents(container);
 					}
@@ -268,7 +271,7 @@ var App = (window.App = {
 									}
 									app.reloadAfterSave(data, params, form, element);
 								})
-								.fail(function (textStatus, errorThrown) {
+								.fail(function (_, errorThrown) {
 									app.showNotify({
 										textTrusted: false,
 										text: errorThrown,

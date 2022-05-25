@@ -30,8 +30,8 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($request->getModule(), 'ExportPdf')) {
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userPrivilegesModel->hasModuleActionPermission($request->getModule(), 'ExportPdf')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -107,7 +107,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$pdfModel = new $handlerClass();
 		$templates = ($recordId && !$isRelatedView) ? $pdfModel->getActiveTemplatesForRecord($recordId, $view, $pdfModuleName) : $pdfModel->getActiveTemplatesForModule($pdfModuleName, $view);
 
-		if (($emailPdf && !\App\Privilege::isPermitted('OSSMail'))
+		if (($emailPdf && !\App\Mail::checkInternalMailClient())
 			|| ($request->has($key) && !\App\Privilege::isPermitted($pdfModuleName, 'RecordPdfInventory'))
 			|| array_diff($templateIds, array_keys($templates))
 			) {

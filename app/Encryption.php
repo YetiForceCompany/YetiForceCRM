@@ -66,6 +66,16 @@ class Encryption extends Base
 	}
 
 	/**
+	 * Get vector.
+	 *
+	 * @return string
+	 */
+	public function getVector(): string
+	{
+		return $this->get('vector') ?? '';
+	}
+
+	/**
 	 * Get target ID.
 	 *
 	 * @return int
@@ -135,9 +145,7 @@ class Encryption extends Base
 	 */
 	public static function getMethods()
 	{
-		return array_filter(openssl_get_cipher_methods(), function ($methodName) {
-			return false === stripos($methodName, 'gcm') && false === stripos($methodName, 'ccm');
-		});
+		return array_filter(openssl_get_cipher_methods(), fn ($methodName) => false === stripos($methodName, 'gcm') && false === stripos($methodName, 'ccm'));
 	}
 
 	/**

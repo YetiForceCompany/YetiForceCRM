@@ -102,18 +102,16 @@ class TextParser extends \Tests\Base
 	 */
 	public function testStaticMethods()
 	{
-		$this->assertSame(1, \App\TextParser::isVaribleToParse('$(TestGroup : TestVar)$'), 'Clean instance: string should be parseable');
-		$this->assertSame(0, \App\TextParser::isVaribleToParse('$X(TestGroup : TestVar)$'), 'Clean instance: string should be not parseable');
-		$this->assertSame((\App\Config::main('listview_max_textlength') + 3), \strlen(\App\TextParser::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), false, true)), 'Clean instance: string should be truncated in expexted format (default length)');
-		$this->assertSame(13, \strlen(\App\TextParser::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), 10, true)), 'Clean instance: string should be truncated in expexted format (text length: 10)');
+		$this->assertSame(1, \App\TextParser::isVaribleToParse('$(TestGroup : TestVar)$'), 'string should be parseable');
+		$this->assertSame(0, \App\TextParser::isVaribleToParse('$X(TestGroup : TestVar)$'), 'string should be not parseable');
+		$this->assertSame((\App\Config::main('listview_max_textlength') + 3), \strlen(\App\TextParser::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), false, true)), 'string should be truncated in expexted format (default length)');
+		$this->assertSame(13, \strlen(\App\TextParser::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), 10, true)), 'string should be truncated in expexted format (text length: 10)');
 
-		$this->assertSame((\App\Config::main('listview_max_textlength') + 4), \strlen(strip_tags(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), \App\Config::main('listview_max_textlength')))), 'Clean instance: html should be truncated in expected format (default length)');
+		$htmlTruncate = \App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), 200);
+		$this->assertSame(18, \strlen(strip_tags($htmlTruncate)), 'html should be truncated in expected format (length=18)');
+		$this->assertSame(138, \strlen($htmlTruncate), 'html should be truncated in expected format (default length=138)');
 
-		$this->assertSame(10, \strlen(strip_tags(\App\TextParser::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), 10, ''))), 'Clean instance: html should be truncated in expected format (text length: 10)');
-
-		$this->assertSame((\App\Config::main('listview_max_textlength') + 4), \strlen(strip_tags(\App\TextParser::htmlTruncateByWords(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), \App\Config::main('listview_max_textlength')))), 'Clean instance: html should be truncated in expected format (default length)');
-
-		$this->assertSame(10, \strlen(strip_tags(\App\TextParser::htmlTruncateByWords(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), 10, ''))), 'Clean instance: html should be truncated in expected format (text length: 10)');
+		$this->assertSame(15, \strlen(strip_tags(\App\TextParser::htmlTruncateByWords(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), 40, ''))), 'html should be truncated in expected format (text length: 10)');
 	}
 
 	/**
@@ -719,7 +717,6 @@ class TextParser extends \Tests\Base
 	private function createProduct(): void
 	{
 		self::$product = \Vtiger_Record_Model::getCleanInstance('Products');
-
 		self::$product->set('productname', 'Test');
 		self::$product->save();
 	}

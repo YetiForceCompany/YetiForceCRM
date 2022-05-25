@@ -958,7 +958,7 @@ class File
 		$fileName = $file->getName();
 		$fileNameLength = \App\TextParser::getTextLength($fileName);
 		$record = \Vtiger_Record_Model::getCleanInstance('Documents');
-		if ($fileNameLength > ($maxLength = $record->getField('filename')->getMaxColumnLength())) {
+		if ($fileNameLength > ($maxLength = $record->getField('filename')->getMaxValue())) {
 			$extLength = 0;
 			if ($ext = $file->getExtension()) {
 				$ext .= ".{$ext}";

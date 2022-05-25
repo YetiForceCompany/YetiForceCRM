@@ -162,9 +162,9 @@
 			</div>
 		{/if}
 		<div class="o-navbar__right ml-auto d-inline-flex flex-sm-nowrap">
-			{if !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
+			{if \App\Mail::checkMailClient() && !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
 				{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
-				{if $CONFIG['showMailIcon']=='true' && App\Privilege::isPermitted('OSSMail')}
+				{if $CONFIG['showMailIcon']=='true'}
 					{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
 					{if count($AUTOLOGINUSERS) > 0}
 						{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
@@ -242,7 +242,7 @@
 							</a>
 						</div>
 						<div class="o-action-menu__item ml-md-2">
-							<a class="btn btn-light c-header__btn d-block" title="YetiForceCRM" role="button" href="#" data-toggle="modal" data-target="#yetiforceDetails">
+							<a class="btn btn-light c-header__btn d-block js-show-modal" title="YetiForceCRM" role="button" data-url="index.php?module=AppComponents&view=YetiForceDetailModal" data-js="click">
 								<span class="fas fa-info-circle fa-fw"></span>
 								<span class="c-header__label--sm-down ml-1">YetiForceCRM</span>
 							</a>

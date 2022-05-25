@@ -1589,33 +1589,33 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Get maximum value.
 	 *
-	 * @return string|null
+	 * @return int
 	 */
-	public function getMaxValue(): ?string
+	public function getMaxValue(): int
 	{
 		if (($maximumLength = $this->get('maximumlength')) && false !== strpos($maximumLength, ',')) {
-			$maximumLength = explode(',', $maximumLength)[1];
+			return (int) explode(',', $maximumLength)[1];
 		}
-		return $maximumLength;
+		if (empty($maximumLength)) {
+			$maximumLength = $this->getDbValueLength();
+		}
+
+		return (int) $maximumLength;
 	}
 
 	/**
-	 * Get max column length.
+	 * Get length value form database.
 	 *
 	 * @return int
 	 */
-	public function getMaxColumnLength(): int
+	public function getDbValueLength(): int
 	{
-		if ($maximumLength = $this->get('maximumlength')) {
-			return $maximumLength;
-		}
 		$db = \App\Db::getInstance();
-		$tableSchema = $db->getSchema()->getTableSchema($this->getTableName(), true);
+		$tableSchema = $db->getSchema()->getTableSchema($this->getTableName());
 		if (empty($tableSchema)) {
 			throw new \App\Exceptions\AppException('ERR_TABLE_DOES_NOT_EXISTS||' . $this->getTableName());
 		}
-		$columnSchema = $tableSchema->getColumn($this->getColumnName());
-		return $columnSchema->size ?: 0;
+		return $tableSchema->getColumn($this->getColumnName())->size ?: 0;
 	}
 
 	public function isActiveSearchView()

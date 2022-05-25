@@ -36,16 +36,16 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		$maximumLength = $this->getFieldModel()->getMaxColumnLength();
+		$maximumLength = $this->getFieldModel()->getMaxValue();
 		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
-			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		if (!($scheme = parse_url($value, PHP_URL_SCHEME))) {
 			$scheme = 'http';
 			$value = "{$scheme}://{$value}";
 		}
 		if (!(preg_match('/^([^\:]+)\:/i', $value) && \App\Validator::url($value) && \in_array(strtolower($scheme), static::ALLOWED_PROTOCOLS))) {
-			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
 	}

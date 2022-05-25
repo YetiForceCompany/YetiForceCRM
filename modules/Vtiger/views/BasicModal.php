@@ -1,20 +1,21 @@
 <?php
 
 /**
- * Basic Modal Class.
+ * Basic modal file.
+ *
+ * @package View
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+/**
+ * Basic modal class.
+ */
 class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 {
-	/**
-	 * Additional classes for the modal window.
-	 *
-	 * @var string
-	 */
+	/** @var string Additional classes for the modal window. */
 	protected $modalClass = '';
 
 	public function getSize(App\Request $request)
@@ -22,6 +23,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		return '';
 	}
 
+	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)
 	{
 		$moduleName = $request->getModule();
@@ -32,6 +34,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		}
 	}
 
+	/** {@inheritdoc} */
 	public function postProcess(App\Request $request, $display = true)
 	{
 		foreach ($this->getModalScripts($request) as $script) {
@@ -40,6 +43,7 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		echo '</div></div></div>';
 	}
 
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$this->preProcess($request);
@@ -47,6 +51,13 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		$this->postProcess($request);
 	}
 
+	/**
+	 * Get modal scripts files that need to loaded in the modal.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return \Vtiger_JsScript_Model[]
+	 */
 	public function getModalScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -57,6 +68,13 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 		]);
 	}
 
+	/**
+	 * Function to get the list of Js models to be included.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return Vtiger_CssScript_Model[] - List of Vtiger_JsScript_Model instances
+	 */
 	public function getModalCss(App\Request $request)
 	{
 		$moduleName = $request->getModule();

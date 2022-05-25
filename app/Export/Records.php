@@ -288,7 +288,6 @@ abstract class Records extends \App\Base
 		foreach (array_keys($queryFields) as $fieldName) {
 			$queryGenerator->setField($fieldName);
 		}
-
 		return $queryGenerator->createQuery();
 	}
 

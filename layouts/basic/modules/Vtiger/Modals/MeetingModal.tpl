@@ -54,7 +54,7 @@
 								</div>
 								<iframe id="iframeTemlate" width="0" height="0" frameborder="0" data-js="iframe" srcdoc="{\App\Purifier::encodeHtml($EMAIL_TEMPLATE_DATA)}"></iframe>
 								<div class="col-xs-6 mx-auto">
-									{if $USER_MODEL->get('internal_mailer') == 1}
+									{if \App\Mail::checkInternalMailClient()}
 										{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD_ID, 'Detail', 'new')}
 										{assign var=URLDATA value="{$URLDATA}&template={$EMAIL_TEMPLATE}&templateParams={$TEMPLATE_PARAMS}"}
 										{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}

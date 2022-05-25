@@ -253,11 +253,11 @@ abstract class Base
 			]);
 		}
 		$this->loadWatermark();
-		$this->setFileName($this->template->parseVariables($this->template->get('filename')));
+		$this->setFileName($this->template->parseVariables($this->template->get('filename')) ?? '');
 		$this->parseParams($this->template->getParameters());
-		$this->setBody($this->template->parseVariables($this->template->getBody()));
-		$this->setHeader($this->template->parseVariables($this->template->getHeader()));
-		$this->setFooter($this->template->parseVariables($this->template->getFooter()));
+		$this->setBody($this->template->parseVariables($this->template->getBody() ?? ''));
+		$this->setHeader($this->template->parseVariables($this->template->getHeader() ?? ''));
+		$this->setFooter($this->template->parseVariables($this->template->getFooter() ?? ''));
 	}
 
 	/**

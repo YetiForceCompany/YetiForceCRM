@@ -55,7 +55,9 @@
 								<option value="{$FIELD_MODEL->getName()}">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModuleName())}
 									&nbsp;({$EMAILS_BY_FIELD[$FIELD_MODEL->getName()]})
 								</option>
-								{assign var=IS_EMAIL value=true}
+								{if $EMAILS_BY_FIELD[$FIELD_MODEL->getName()] > 0}
+									{assign var=IS_EMAIL value=true}
+								{/if}
 							{/if}
 						{/foreach}
 					</select>

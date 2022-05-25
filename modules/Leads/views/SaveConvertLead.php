@@ -32,8 +32,8 @@ class Leads_SaveConvertLead_View extends \App\Controller\View\Page
 		$moduleName = $request->getModule();
 		$recordId = $request->getInteger('record');
 
-		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'ConvertLead')) {
+		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$userPrivilegesModel->hasModuleActionPermission($moduleName, 'ConvertLead')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		$this->record = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);

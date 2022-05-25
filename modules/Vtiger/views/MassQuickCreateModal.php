@@ -26,6 +26,11 @@ class Vtiger_MassQuickCreateModal_View extends Vtiger_QuickCreateAjax_View
 		$this->hiddenInput['search_params'] = \App\Json::encode($request->getArray('search_params'));
 		$this->hiddenInput['excluded_ids'] = \App\Json::encode($request->getArray('excluded_ids', 'Integer'));
 		$this->hiddenInput['selected_ids'] = \App\Json::encode($request->getArray('selected_ids', 'Alnum'));
+		$advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : [];
+		if ($advancedConditions) {
+			\App\Condition::validAdvancedConditions($advancedConditions);
+			$this->hiddenInput['advancedConditions'] = $advancedConditions;
+		}
 		if ($request->has('multiSaveField')) {
 			$this->hiddenInput['multiSaveField'] = $request->getByType('multiSaveField', 'Alnum');
 		} elseif ($relatedField = \App\Field::getRelatedFieldForModule($request->getModule(), $request->getByType('sourceModule', 'Alnum'))) {
