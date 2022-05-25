@@ -25,16 +25,15 @@ class Yours extends Base
 			throw new \App\Exceptions\AppException('ERR_NO_INTERNET_CONNECTION');
 		}
 		$coordinates = [];
-		$travel = $distance = 0;
 		$description = '';
 		foreach ($this->parsePoints() as $track) {
 			$url = $this->url . '?format=geojson&flat=' . $track['startLat'] . '&flon=' . $track['startLon'] . '&tlat=' . $track['endLat'] . '&tlon=' . $track['endLon'] . '&lang=' . \App\Language::getLanguage() . '&instructions=1';
-			\App\Log::beginProfile("GET|Yours::calculate|{$url}", __NAMESPACE__);
+			\App\Log::beginProfile("GET|YoursRouting::calculate|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, [
-				'timeout' => 60,
+				'timeout' => 120,
 				'http_errors' => false,
 			]);
-			\App\Log::endProfile("GET|Yours::calculate|{$url}", __NAMESPACE__);
+			\App\Log::endProfile("GET|YoursRouting::calculate|{$url}", __NAMESPACE__);
 			if (200 === $response->getStatusCode()) {
 				$json = \App\Json::decode($response->getBody());
 			} else {
@@ -42,15 +41,13 @@ class Yours extends Base
 			}
 			$coordinates = array_merge($coordinates, $json['coordinates']);
 			$description .= $json['properties']['description'];
-			$travel += $json['properties']['traveltime'];
-			$distance += $json['properties']['distance'];
+			$this->travelTime += $json['properties']['traveltime'];
+			$this->distance += $json['properties']['distance'];
 		}
 		$this->geoJson = [
 			'type' => 'LineString',
 			'coordinates' => $coordinates,
 		];
-		$this->travelTime = $travel;
-		$this->distance = $distance;
 		$this->description = $description;
 	}
 
