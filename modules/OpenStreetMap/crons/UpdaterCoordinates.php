@@ -32,7 +32,7 @@ class OpenStreetMap_UpdaterCoordinates_Cron extends \App\CronHandler
 			while ($row = $dataReader->read()) {
 				if ($moduleModel->isAllowModules($row['setype']) && 0 == $row['deleted']) {
 					$recordModel = Vtiger_Record_Model::getInstanceById($row['crmid']);
-					foreach (\App\Map\Coordinates::TYPE_ADDRES as $typeAddress) {
+					foreach (\App\Map\Coordinates::TYPE_ADDRESS as $typeAddress) {
 						$addressInfo = \App\Map\Coordinates::getAddressParams($recordModel, $typeAddress);
 						$coordinatesDetails = $coordinatesConnector->getCoordinates($addressInfo);
 						if (false === $coordinatesDetails) {

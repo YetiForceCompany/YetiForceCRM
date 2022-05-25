@@ -17,14 +17,10 @@ namespace App\Map;
  */
 class Coordinates
 {
-	/**
-	 * Type of addresss.
-	 */
-	const TYPE_ADDRES = ['a', 'b', 'c'];
+	/** @var string[] Type of address. */
+	const TYPE_ADDRESS = ['a', 'b', 'c'];
 
-	/**
-	 * @var self
-	 */
+	/** @var \App\Map\Coordinates\Base Coordinates instance */
 	private static $instance;
 
 	/**
@@ -34,7 +30,7 @@ class Coordinates
 	 *
 	 * @return \App\Map\Coordinates\Base
 	 */
-	public static function getInstance()
+	public static function getInstance(): Coordinates\Base
 	{
 		if (static::$instance) {
 			return static::$instance;
@@ -56,7 +52,7 @@ class Coordinates
 	 *
 	 * @return string[]
 	 */
-	public static function getAddressParams(\Vtiger_Record_Model $recordModel, string $type)
+	public static function getAddressParams(\Vtiger_Record_Model $recordModel, string $type): array
 	{
 		return [
 			'state' => $recordModel->get('addresslevel2' . $type),

@@ -53,7 +53,7 @@ class OpenCageGeocoder extends Base
 		$urlAddress .= '&limit=' . $config['global']['result_num'];
 		$urlAddress .= '&key=' . $config['OpenCageGeocoder']['key'];
 		if (!empty($this->config['country_codes'])) {
-			$urlAddress .= '&countrycode=' . $this->config;
+			$urlAddress .= '&countrycode=' . $this->config['country_codes'];
 		}
 		try {
 			\App\Log::beginProfile("GET|OpenCageGeocoder::find|{$urlAddress}", __NAMESPACE__);

@@ -614,6 +614,7 @@ jQuery.Class(
 					thisInstance.setMarkersByResponse(response);
 				});
 			});
+			const descriptionContainer = container.find('.js-description-container');
 			container.find('.calculateTrack').on('click', function () {
 				let indirectLon = [];
 				let indirectLat = [];
@@ -651,13 +652,19 @@ jQuery.Class(
 						let route = L.geoJson(response.result.geoJson);
 						thisInstance.routeLayer = L.featureGroup([route]);
 						map.addLayer(thisInstance.routeLayer);
-						container.find('.descriptionContainer').removeClass('d-none');
-						container.find('.descriptionContent .instruction').html(response.result.properties.description);
-						container
-							.find('.descriptionContent .distance')
+						descriptionContainer.removeClass('d-none');
+						const instruction = container.find('.js-instruction_block');
+						if (response.result.properties.description) {
+							instruction.removeClass('d-none');
+							descriptionContainer.find('.js-instruction_body').html(response.result.properties.description);
+						} else {
+							instruction.addClass('d-none');
+						}
+						descriptionContainer
+							.find('.distance')
 							.html(App.Fields.Double.formatToDisplay(response.result.properties.distance));
-						container
-							.find('.descriptionContent .travelTime')
+						descriptionContainer
+							.find('.travelTime')
 							.html(App.Fields.Double.formatToDisplay(response.result.properties.traveltime / 60));
 					})
 					.fail(function (error, title) {

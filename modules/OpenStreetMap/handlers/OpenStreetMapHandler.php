@@ -33,7 +33,7 @@ class OpenStreetMap_OpenStreetMapHandler_Handler
 				}
 			}
 		}
-		foreach (\App\Map\Coordinates::TYPE_ADDRES as $typeAddress) {
+		foreach (\App\Map\Coordinates::TYPE_ADDRESS as $typeAddress) {
 			if (!$recordModel->isEmpty('addresslevel5' . $typeAddress) && ($recordModel->isNew() || \in_array($typeAddress, $typeAddressToUpdate))) {
 				$isCoordinateExists = (new App\Db\Query())
 					->from('u_#__openstreetmap_record_updater')

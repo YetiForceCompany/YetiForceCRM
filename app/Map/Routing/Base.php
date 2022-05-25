@@ -16,43 +16,31 @@ namespace App\Map\Routing;
  */
 abstract class Base
 {
-	/**
-	 * API url.
-	 *
-	 * @var string
-	 */
+	/** @var string API server URL. */
 	protected $url;
-	/**
-	 * Custom routing parameters.
-	 *
-	 * @var array
-	 */
+
+	/** @var array Custom routing parameters. */
 	protected $params;
-	/**
-	 * @var float[]
-	 */
+
+	/** @var float[] */
 	protected $start;
-	/**
-	 * @var float[]
-	 */
+
+	/** @var float[] */
 	protected $end;
-	/**
-	 * @var array
-	 */
+
+	/** @var array */
 	protected $indirectPoints;
-	/**
-	 * @var string
-	 */
-	protected $description;
-	/**
-	 * @var float
-	 */
-	protected $travelTime;
-	/**
-	 * @var float
-	 */
-	protected $distance;
-	/** @var array geo json */
+
+	/** @var string Rout description */
+	protected $description = '';
+
+	/** @var float Travel time */
+	protected $travelTime = 0;
+
+	/** @var float */
+	protected $distance = 0;
+
+	/** @var array GeoJSON, route geometry format */
 	protected $geoJson;
 
 	/**
@@ -72,7 +60,7 @@ abstract class Base
 	 * @param float $lat
 	 * @param float $lon
 	 */
-	public function setStart(float $lat, float $lon)
+	public function setStart(float $lat, float $lon): void
 	{
 		$this->start = ['lat' => $lat, 'lon' => $lon];
 	}
@@ -83,7 +71,7 @@ abstract class Base
 	 * @param float $lat .
 	 * @param float $lon
 	 */
-	public function setEnd(float $lat, float $lon)
+	public function setEnd(float $lat, float $lon): void
 	{
 		$this->end = ['lat' => $lat, 'lon' => $lon];
 	}
@@ -94,7 +82,7 @@ abstract class Base
 	 * @param float $lat
 	 * @param float $lon
 	 */
-	public function addIndirectPoint(float $lat, float $lon)
+	public function addIndirectPoint(float $lat, float $lon): void
 	{
 		$this->indirectPoints[] = ['lat' => $lat, 'lon' => $lon];
 	}
@@ -104,7 +92,7 @@ abstract class Base
 	 *
 	 * @return array
 	 */
-	public function getGeoJson()
+	public function getGeoJson(): array
 	{
 		return $this->geoJson;
 	}
@@ -114,7 +102,7 @@ abstract class Base
 	 *
 	 * @return string
 	 */
-	public function getDescription()
+	public function getDescription(): string
 	{
 		return $this->description;
 	}
@@ -124,7 +112,7 @@ abstract class Base
 	 *
 	 * @return float
 	 */
-	public function getTravelTime()
+	public function getTravelTime(): float
 	{
 		return $this->travelTime;
 	}
@@ -134,7 +122,7 @@ abstract class Base
 	 *
 	 * @return float
 	 */
-	public function getDistance()
+	public function getDistance(): float
 	{
 		return $this->distance;
 	}

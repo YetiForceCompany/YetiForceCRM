@@ -17,23 +17,13 @@ namespace App\Map;
  */
 class Address
 {
-	/**
-	 * Providers cache.
-	 *
-	 * @var string[]
-	 */
+	/** @var \App\Map\Address\Base[] Providers cache. */
 	private static $providersCache = [];
-	/**
-	 * Active providers cache.
-	 *
-	 * @var string[]
-	 */
+
+	/** @var string[] Active providers cache. */
 	private static $activeProvidersCache = [];
-	/**
-	 * Providers instance cache.
-	 *
-	 * @var Address\Base[]
-	 */
+
+	/** @var Address\Base[] Providers instance cache. */
 	private static $providerInstanceCache = [];
 
 	/**
@@ -41,7 +31,7 @@ class Address
 	 *
 	 * @return string
 	 */
-	public static function getDefaultProvider()
+	public static function getDefaultProvider(): string
 	{
 		$defaultProvider = static::getConfig()['global']['default_provider'] ?? '';
 		if (!$defaultProvider) {
@@ -58,7 +48,7 @@ class Address
 	 *
 	 * @return string[]
 	 */
-	public static function getActiveProviders()
+	public static function getActiveProviders(): array
 	{
 		if (self::$activeProvidersCache) {
 			return self::$activeProvidersCache;
@@ -84,7 +74,7 @@ class Address
 	 *
 	 * @return \App\Map\Address\Base[]
 	 */
-	public static function getAllProviders()
+	public static function getAllProviders(): array
 	{
 		if (self::$providersCache) {
 			return self::$providersCache;
@@ -104,7 +94,7 @@ class Address
 	 *
 	 * @return \App\Map\Address\Base
 	 */
-	public static function getInstance($type)
+	public static function getInstance($type): Address\Base
 	{
 		if (isset(self::$providerInstanceCache[$type])) {
 			return self::$providerInstanceCache[$type];
@@ -118,7 +108,7 @@ class Address
 	 *
 	 * @return array
 	 */
-	public static function getConfig()
+	public static function getConfig(): array
 	{
 		if (\App\Cache::has('AddressFinder', 'Config')) {
 			return \App\Cache::get('AddressFinder', 'Config');

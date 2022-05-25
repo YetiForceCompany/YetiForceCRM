@@ -16,9 +16,7 @@ namespace App\Map;
  */
 class Routing
 {
-	/**
-	 * @var self
-	 */
+	/** @var \App\Map\Routing\Base Routing instance */
 	private static $instance;
 
 	/**
@@ -28,7 +26,7 @@ class Routing
 	 *
 	 * @return \App\Map\Routing\Base
 	 */
-	public static function getInstance()
+	public static function getInstance(): Routing\Base
 	{
 		if (static::$instance) {
 			return static::$instance;

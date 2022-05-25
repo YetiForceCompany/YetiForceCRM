@@ -136,11 +136,12 @@
 					<button class="btn btn-success btn-sm copyToClipboard float-right"><span class="fas fa-paste"></span>&nbsp;{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}</button>
 				</div>
 			</div>
-			<div class="card mt-3 d-none descriptionContainer">
+			<div class="card mt-3 d-none descriptionContainer js-description-container">
 				<div class="card-body descriptionContent">
 					<b>{\App\Language::translate('LBL_DISTANCE', $MODULE_NAME)}:&nbsp;</b><span class="distance"></span><br />
 					<b>{\App\Language::translate('LBL_TRAVEL_TIME', $MODULE_NAME)}:&nbsp;</b><span class="travelTime"></span><br />
-					<b>{\App\Language::translate('LBL_INSTRUCTION', $MODULE_NAME)}:&nbsp;</b><span class="instruction"></span>
+					<b class="js-instruction_block">{\App\Language::translate('LBL_INSTRUCTION', $MODULE_NAME)}:&nbsp;</b>
+					<span class="js-instruction_body"></span>
 				</div>
 			</div>
 		</div>

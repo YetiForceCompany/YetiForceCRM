@@ -55,7 +55,6 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 	 */
 	public function getCoordinatesCenter()
 	{
-		$searchValue = $this->get('searchValue');
 		$coordinatesCenter = [];
 		if (!$this->isEmpty('lat') && !$this->isEmpty('lon')) {
 			$coordinatesCenter = [
@@ -63,7 +62,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 				'lon' => $this->get('lon'),
 			];
 		}
-		if (!empty($searchValue)) {
+		if ($searchValue = $this->get('searchValue')) {
 			$coordinatesCenter = \App\Map\Coordinates::getInstance()->getCoordinatesByValue($searchValue);
 		}
 		$this->set('coordinatesCenter', $coordinatesCenter);
