@@ -134,26 +134,61 @@ abstract class Records extends \App\Base
 	public function setFields(array $fields)
 	{
 		foreach ($fields as $fieldName) {
-			$fieldModel = null;
-			[$relatedFieldName, $relatedModule, $referenceField] = array_pad(explode(':', $fieldName), 3, null);
+			$this->setField($fieldName);
+		}
+		return $this;
+	}
 
-			if ($referenceField) {
-				$relatedFieldModel = \Vtiger_Module_Model::getInstance($relatedModule)->getFieldByName($relatedFieldName);
-				if (!isset($this->moduleFieldInstances[$referenceField]) || !$relatedFieldModel) {
-					throw new \App\Exceptions\IllegalValue("ERR_FIELD_NOT_FOUND||{$relatedFieldName}");
-				}
-				$fieldModel = clone $relatedFieldModel;
-				$fieldModel->set('source_field_name', $referenceField);
-			} elseif (!empty($this->moduleFieldInstances[$relatedFieldName])) {
-				$fieldModel = $this->moduleFieldInstances[$relatedFieldName];
-			}
-
-			if ($fieldModel && $fieldModel->isExportable()) {
-				$this->fields[$fieldModel->getFullName()] = $fieldModel;
+	/**
+	 * Load fields from custom view.
+	 *
+	 * @param int $cvId
+	 *
+	 * @return void
+	 */
+	public function loadFieldsFromCvId(int $cvId): void
+	{
+		$fields = \App\CustomView::getInstance($this->moduleName)->getColumnsListByCvid($cvId);
+		foreach ($fields as $fieldInfo) {
+			['field_name' => $relatedFieldName, 'module_name' => $relatedModule, 'source_field_name' => $referenceField] = $fieldInfo;
+			$cvFieldData = $referenceField ? "{$relatedFieldName}:{$relatedModule}:{$referenceField}" : $relatedFieldName;
+			if (($fieldModel = $this->setField($cvFieldData)) && $fieldInfo['label']) {
+				$fieldModel->set('isLabelCustomized', true);
+				$fieldModel->set('label', $fieldInfo['label']);
 			}
 		}
+	}
 
-		return $this;
+	/**
+	 * Set field model.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return Vtiger_Field_Model|false
+	 */
+	public function setField(string $fieldName)
+	{
+		$fieldModel = null;
+		[$relatedFieldName, $relatedModule, $referenceField] = array_pad(explode(':', $fieldName), 3, null);
+
+		if ($referenceField) {
+			$relatedFieldModel = \Vtiger_Module_Model::getInstance($relatedModule)->getFieldByName($relatedFieldName);
+			if (!isset($this->moduleFieldInstances[$referenceField]) || !$relatedFieldModel) {
+				throw new \App\Exceptions\IllegalValue("ERR_FIELD_NOT_FOUND||{$relatedFieldName}");
+			}
+			$fieldModel = clone $relatedFieldModel;
+			$fieldModel->set('source_field_name', $referenceField);
+		} elseif (!empty($this->moduleFieldInstances[$relatedFieldName])) {
+			$fieldModel = clone $this->moduleFieldInstances[$relatedFieldName];
+		}
+
+		if ($fieldModel && $fieldModel->isExportable()) {
+			$result = $this->fields[$fieldModel->getFullName()] = $fieldModel;
+		} else {
+			$result = false;
+		}
+
+		return $result;
 	}
 
 	/**

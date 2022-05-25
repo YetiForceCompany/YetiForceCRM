@@ -178,7 +178,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function getFullLabelTranslation(?Vtiger_Module_Model $module = null): string
 	{
 		$translation = '';
-		if ($this->get('source_field_name')) {
+		if ($this->get('source_field_name') && !$this->get('isLabelCustomized')) {
 			if (!$module) {
 				throw new \App\Exceptions\AppException('ERR_ARGUMENT_DOES_NOT_EXIST');
 			}

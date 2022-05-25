@@ -16,16 +16,16 @@
 class Vtiger_QuickExportData_Action extends Vtiger_Mass_Action
 {
 	/** @var string Module name */
-	protected $moduelName;
+	protected $moduleName;
 	/** @var \App\Export\Records Export model instance */
 	protected $exportModel;
 
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
-		$this->moduelName = $request->getModule();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$userPrivilegesModel->hasModuleActionPermission($this->moduelName, 'QuickExportToExcel')) {
+		$this->moduleName = $request->getModule();
+		$currentUserPriviligesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$currentUserPriviligesModel->hasModuleActionPermission($this->moduleName, 'QuickExportToExcel')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}
@@ -33,7 +33,7 @@ class Vtiger_QuickExportData_Action extends Vtiger_Mass_Action
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		$this->exportModel = \App\Export\Records::getInstance($this->moduelName, $request->getByType('export_type', \App\Purifier::ALNUM))
+		$this->exportModel = \App\Export\Records::getInstance($this->moduleName, $request->getByType('export_type', \App\Purifier::ALNUM))
 			->setLimit(\App\Config::performance('MAX_NUMBER_EXPORT_RECORDS'))
 			->setFormat(\App\Export\Records::USER_FORMAT);
 
@@ -66,13 +66,13 @@ class Vtiger_QuickExportData_Action extends Vtiger_Mass_Action
 		if ($advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : []) {
 			$queryGenerator->setAdvancedConditions(\App\Condition::validAdvancedConditions($advancedConditions));
 		}
-		$searchParams = \App\Condition::validSearchParams($this->moduelName, $request->getArray('search_params'));
+		$searchParams = \App\Condition::validSearchParams($this->moduleName, $request->getArray('search_params'));
 		if ($searchParams) {
 			$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParams);
 			$queryGenerator->parseAdvFilter($transformedSearchParams);
 		}
 		$operator = $request->isEmpty('operator') ? '' : $request->getByType('operator');
-		if ($operator && $searchValue = \App\Condition::validSearchValue($request->getByType('search_value', \App\Purifier::TEXT), $this->moduelName, $request->getByType('search_key', \App\Purifier::ALNUM), $operator)) {
+		if ($operator && $searchValue = \App\Condition::validSearchValue($request->getByType('search_value', \App\Purifier::TEXT), $this->moduleName, $request->getByType('search_key', \App\Purifier::ALNUM), $operator)) {
 			$queryGenerator->addCondition($request->getByType('search_key', \App\Purifier::ALNUM), $searchValue, $operator);
 		}
 		$queryGenerator->setStateCondition($request->getByType('entityState'));
@@ -84,12 +84,7 @@ class Vtiger_QuickExportData_Action extends Vtiger_Mass_Action
 		if (!$request->isEmpty('exportColumns', true) && $fields = $request->getArray('exportColumns', \App\Purifier::TEXT)) {
 			$this->exportModel->setFields($fields);
 		} else {
-			$fields = \App\CustomView::getInstance($this->moduelName)->getColumnsListByCvid($cvId);
-			array_walk($fields, function (&$fieldInfo) {
-				['field_name' => $relatedFieldName, 'module_name' => $relatedModule, 'source_field_name' => $referenceField] = $fieldInfo;
-				$fieldInfo = $referenceField ? "{$relatedFieldName}:{$relatedModule}:{$referenceField}" : $relatedFieldName;
-			});
-			$this->exportModel->setFields($fields);
+			$this->exportModel->loadFieldsFromCvId($cvId);
 		}
 	}
 }

@@ -291,10 +291,17 @@ class RecordsList extends \Api\Core\BaseAction
 	protected function getColumnNames(): array
 	{
 		$headers = [];
+		$selectedColumnsList = [];
+		if ($cvId = $this->controller->request->getHeader('x-cv-id')) {
+			$customViewModel = \CustomView_Record_Model::getInstanceById($cvId);
+			$selectedColumnsList = $customViewModel->getSelectedFields();
+		}
 		if ($this->fields) {
 			foreach ($this->fields as $fieldName => $fieldModel) {
 				if ($fieldModel->isViewable()) {
-					$headers[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $fieldModel->getModuleName());
+					$moduleName = $fieldModel->getModuleName();
+					$fieldLabel = empty($selectedColumnsList[$fieldName . ':' . $moduleName]) ? $fieldModel->getFieldLabel() : $selectedColumnsList[$fieldName . ':' . $moduleName];
+					$headers[$fieldName] = \App\Language::translate($fieldLabel, $moduleName);
 				}
 			}
 		}
@@ -304,6 +311,8 @@ class RecordsList extends \Api\Core\BaseAction
 					foreach ($field as $relatedFieldName) {
 						$fieldModel = \Vtiger_Module_Model::getInstance($relatedModuleName)->getFieldByName($relatedFieldName);
 						if ($fieldModel->isViewable()) {
+							$selectedColumnKey = $sourceField . ':' . $relatedModuleName . ':' . $relatedModuleName;
+							$fieldLabel = empty($selectedColumnsList[$selectedColumnKey]) ? $fieldModel->getFieldLabel() : $selectedColumnsList[$selectedColumnKey];
 							$headers[$sourceField . $relatedModuleName . $relatedFieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $relatedModuleName);
 						}
 					}

@@ -402,7 +402,7 @@ $.Class(
 				params['inventory'] = true;
 				selectedFields = $(target).val();
 			} else {
-				selectedFields = thisInstance.getSelectedFields($(target));
+				selectedFields = array_keys(thisInstance.getSelectedFields($(target)));
 			}
 			params['module'] = app.getModuleName();
 			params['parent'] = app.getParentModuleName();

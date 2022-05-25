@@ -74,6 +74,19 @@ class CustomView {
 		let columnListSelectElement = this.getColumnSelectElement();
 		return columnListSelectElement.val();
 	}
+	/**
+	 * Get custom labels
+	 * @returns array
+	 */
+	getCustomLabels() {
+		let customFieldNames = {};
+		this.getContentsContainer()
+			.find('.js-short-label')
+			.each(function () {
+				customFieldNames[$(this).attr('data-field-value')] = $(this).val();
+			});
+		return customFieldNames;
+	}
 
 	saveFilter() {
 		let aDeferred = $.Deferred();
@@ -227,10 +240,13 @@ class CustomView {
 					$('#stdfilterlist').val(JSON.stringify(stdfilterlist));
 				}
 				//handled advanced filters saved values.
+				let contentContainer = this.getContentsContainer();
 				$('#advfilterlist').val(JSON.stringify(this.advanceFilterInstance.getConditions()));
 				form.find('#advancedConditions').val(JSON.stringify(CustomView.getAdvancedConditions(form)));
 				$('[name="duplicatefields"]').val(JSON.stringify(this.getDuplicateFields()));
-				$('input[name="columnslist"]', this.getContentsContainer()).val(JSON.stringify(this.getSelectedColumns()));
+				$('input[name="columnslist"]', contentContainer).val(JSON.stringify(this.getSelectedColumns()));
+				contentContainer.find('.js-custom-field-names').val(JSON.stringify(this.getCustomLabels()));
+
 				this.saveAndViewFilter();
 				return false;
 			} else {
@@ -352,9 +368,66 @@ class CustomView {
 		return advancedConditions;
 	}
 	/**
+	 * Register change selected columns
+	 */
+	registerChangeSelectedColumns() {
+		this.container.find('.js-view-columns-select').on('change', () => {
+			this.registerAppendCustomLabels();
+		});
+	}
+	/**
+	 *	Register append custom labels
+	 */
+	registerAppendCustomLabels() {
+		let shorterNamesContainer = this.container.find('.js-custom-name-fields');
+		let selectedColumns = this.container
+			.find('.js-view-columns-select option:selected')
+			.toArray()
+			.map((item) => ({
+				text: item.getAttribute('data-field-label'),
+				value: item.value,
+				customLabel: item.getAttribute('data-custom-label') || ''
+			}));
+		shorterNamesContainer.empty();
+		let newCustomLabelElement = '';
+		let customLabelElement = '';
+		let customLabelValue = '';
+		let inputContainerElement = '';
+		let inputElement = '';
+		$.each(selectedColumns, function (_index, element) {
+			newCustomLabelElement = document.createElement('div');
+			newCustomLabelElement.setAttribute('class', 'd-flex mb-1');
+
+			customLabelElement = document.createElement('div');
+			customLabelElement.setAttribute('class', 'col-form-label col-md-2 pl-0');
+			customLabelValue = document.createTextNode(element.text);
+			customLabelElement.appendChild(customLabelValue);
+			newCustomLabelElement.appendChild(customLabelElement);
+
+			inputContainerElement = document.createElement('div');
+			inputContainerElement.setAttribute('class', 'col-md-4');
+
+			inputElement = document.createElement('input');
+			inputElement.setAttribute('type', 'text');
+			inputElement.setAttribute('class', 'form-control js-short-label');
+			inputElement.setAttribute('data-field-value', element.value);
+			inputElement.setAttribute(
+				'data-validation-engine',
+				'validate[maxSize[50], funcCall[Vtiger_Base_Validator_Js.invokeValidation]]'
+			);
+			inputElement.setAttribute('data-validator', '[{"name":"FieldLabel"}]');
+			inputElement.setAttribute('value', element.customLabel);
+
+			inputContainerElement.appendChild(inputElement);
+			newCustomLabelElement.appendChild(inputContainerElement);
+			shorterNamesContainer.append(newCustomLabelElement);
+		});
+	}
+	/**
 	 * Register events
 	 */
 	registerEvents() {
+		this.container = this.getContentsContainer();
 		this.registerIconEvents();
 		App.Fields.Tree.register(this.getContentsContainer());
 		App.Tools.Form.registerBlockToggle(this.getContentsContainer());
@@ -368,5 +441,38 @@ class CustomView {
 		});
 		$('#CustomView').validationEngine(app.validationEngineOptions);
 		this.registerDisableSubmitOnEnter();
+		this.registerChangeSelectedColumns();
+		this.registerAppendCustomLabels();
 	}
 }
+
+Vtiger_Base_Validator_Js(
+	'Vtiger_FieldLabel_Validator_Js',
+	{
+		/** @inheritdoc */
+		invokeValidation: function (field, _rules, _i, _options) {
+			let instance = new Vtiger_FieldLabel_Validator_Js();
+			instance.setElement(field);
+			let response = instance.validate();
+			if (response != true) {
+				return instance.getError();
+			}
+		}
+	},
+	{
+		/** @inheritdoc */
+		validate: function () {
+			return this.validateValue(this.getFieldValue());
+		},
+		/** @inheritdoc */
+		validateValue: function (fieldValue) {
+			let specialChars = /[&\<\>\:\'\"\,]/;
+			if (specialChars.test(fieldValue)) {
+				let errorInfo = app.vtranslate('JS_SPECIAL_CHARACTERS') + ' & < > \' " : , ' + app.vtranslate('JS_NOT_ALLOWED');
+				this.setError(errorInfo);
+				return false;
+			}
+			return true;
+		}
+	}
+);

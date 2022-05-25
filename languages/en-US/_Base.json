@@ -1489,7 +1489,8 @@
     "LBL_TILE_VERY_SMALL": "Very small",
     "LBL_TILE_SMALL": "Small",
     "LBL_TILE_MEDIUM": "Medium",
-    "LBL_TILE_BIG": "Big"
+    "LBL_TILE_BIG": "Big",
+    "LBL_SET_CUSTOM_COLUMNS_LABEL": "Set custom label"
   },
   "js": {
     "JS_APPROVE": "Approve",
@@ -1955,6 +1956,7 @@
     "JS_PWD_VERY_STRONG": "Very strong",
     "JS_PREV": "Previous",
     "JS_NEXT": "Next",
-    "JS_CALENDAR_LIST": "Schedule"
+    "JS_CALENDAR_LIST": "Schedule",
+    "JS_SPECIAL_CHARACTERS": "Special characters like"
   }
 }
