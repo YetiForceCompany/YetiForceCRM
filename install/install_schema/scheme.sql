@@ -5731,6 +5731,7 @@ CREATE TABLE `vtiger_cvcolumnlist` (
   `field_name` varchar(50) DEFAULT NULL,
   `module_name` varchar(25) DEFAULT NULL,
   `source_field_name` varchar(50) DEFAULT NULL,
+  `label` varchar(50) DEFAULT '',
   PRIMARY KEY (`cvid`,`columnindex`),
   KEY `cvcolumnlist_columnindex_idx` (`columnindex`),
   KEY `cvcolumnlist_cvid_idx` (`cvid`),
