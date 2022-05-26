@@ -129,9 +129,6 @@ class Item extends \App\Base
 			$this->validate();
 			$result = $this->saveToDb();
 			if ($this->getPreviousValue('name')) {
-				echo '<pre>', print_r('heee???');
-				echo '</pre>';
-				exit;
 				$this->rename();
 			}
 		} catch (\Throwable $e) {

@@ -16,7 +16,6 @@ Vtiger_Edit_Js(
 		saveEvent: function (e) {
 			e.preventDefault();
 			let form = this.getForm();
-			console.log('ssss');
 			if (form.validationEngine('validate')) {
 				var formData = form.serializeFormData();
 				app.saveAjax('', [], formData).done(function (data) {

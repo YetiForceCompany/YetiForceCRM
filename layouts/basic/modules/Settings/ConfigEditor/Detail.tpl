@@ -30,9 +30,9 @@
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'Main'}active{/if}" id="Main" data-name="Main" data-js="data">
 				{include file=\App\Layout::getTemplatePath('MainDetail.tpl', $QUALIFIED_MODULE)}
 			</div>
-			{foreach from=$CONFIG_NAMES item=$CONFIG_NAME}
+			{foreach from=$CONFIG_NAMES item=CONFIG_NAME}
 				<div class="js-tab tab-pane {if $ACTIVE_TAB eq $CONFIG_NAME}active{/if}" id="{$CONFIG_NAME}" data-name="{$CONFIG_NAME}" data-js="data">
-					{include file=\App\Layout::getTemplatePath('ConfigTemplate.tpl', $QUALIFIED_MODULE) CONFIG_NAME="{$CONFIG_NAME}"}
+					{include file=\App\Layout::getTemplatePath('ConfigTemplate.tpl', $QUALIFIED_MODULE) CONFIG_NAME=$CONFIG_NAME}
 				</div>
 			{/foreach}
 		</div>

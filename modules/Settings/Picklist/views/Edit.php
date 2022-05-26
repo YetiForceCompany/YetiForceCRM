@@ -55,27 +55,4 @@ class Settings_Picklist_Edit_View extends \App\Controller\ModalSettings
 		$viewer->assign('ITEM_MODEL', $fieldModel->getItemModel($valueId));
 		$viewer->view('Edit.tpl', $qualifiedName);
 	}
-
-	/*
-	 * The function returns module fields.
-	 *
-	 * @param Settings_AdminAccess_Record_Model $recordModel
-	 *
-	 * @return array
-	 */
-	// public function getStructure(Settings_AdminAccess_Record_Model $recordModel): array
-	// {
-	// 	$structures = [];
-	// 	foreach ($recordModel->getModule()->getEditFields() as $fieldModel) {
-	// 		if (16 === $fieldModel->getUiType()) {
-	// 			$fieldModel->uitype = 33;
-	// 		}
-	// 		if ($recordModel->getId()) {
-	// 			$fieldModel->set('fieldvalue', $fieldModel->getUiTypeModel()->getDBValue($recordModel->get($fieldModel->getName())));
-	// 			$fieldModel->set('isEditableReadOnly', 'name' === $fieldModel->getName());
-	// 		}
-	// 		$structures[$fieldModel->getName()] = $fieldModel;
-	// 	}
-	// 	return $structures;
-	// }
 }
