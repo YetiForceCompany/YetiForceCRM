@@ -1534,7 +1534,7 @@ class TextParser
 				$var = $relation->get('relation_id');
 			}
 			$variables[] = [
-				'key' => "$(relatedRecordsList : $var|__RELATED_MODULE_NAME|__COLUMNS__|__CONDITIONS__|__VIEW_ID_OR_NAME__|__LIMIT__|__MAX_LENGTH__)$",
+				'key' => "$(relatedRecordsList : $var|__FIELDS_NAME__|__CONDITIONS__|__VIEW_ID_OR_NAME__|__LIMIT__|__MAX_LENGTH__)$",
 				'label' => Language::translate($relation->get('label'), $relation->get('relatedModuleName')),
 			];
 		}
