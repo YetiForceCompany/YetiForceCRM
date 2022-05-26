@@ -1,13 +1,21 @@
 <?php
 
-/** {@inheritdoc} */
+/**
+ * Password Action file.
+ *
+ * @package Action
+ *
+ * @copyright YetiForce S.A.
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Sławomir Rembiesa <s.rembiesa@yetiforce.com>
+ */
+
+/**
+ * Password Action class.
+ */
 class Settings_WebserviceUsers_Password_Action extends \Vtiger_Password_Action
 {
-	/**
-	 * Field model instance.
-	 *
-	 * @var \Vtiger_Field_Model
-	 */
+	/** {@inheritdoc} */
 	protected $fieldModel;
 
 	/** {@inheritdoc} */
