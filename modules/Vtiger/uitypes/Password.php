@@ -124,6 +124,18 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 		return $value;
 	}
 
+	/** {@inheritdoc} */
+	public function getQueryOperators()
+	{
+		return [];
+	}
+
+	/** {@inheritdoc} */
+	public function getTemplateName()
+	{
+		return 'Edit/Field/Password.tpl';
+	}
+
 	/**
 	 * Check password.
 	 *
@@ -179,15 +191,17 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 		return $value;
 	}
 
-	/** {@inheritdoc} */
-	public function getQueryOperators()
+	/**
+	 * Get actions urls.
+	 *
+	 * @return array
+	 */
+	public function getActionsUrl(): array
 	{
-		return [];
-	}
-
-	/** {@inheritdoc} */
-	public function getTemplateName()
-	{
-		return 'Edit/Field/Password.tpl';
+		$fieldModel = $this->getFieldModel();
+		return [
+			'generate' => "index.php?module={$fieldModel->getModuleName()}&action=Password&mode=generatePwd&field={$fieldModel->getName()}",
+			'validate' => "index.php?module={$fieldModel->getModuleName()}&action=Password&mode=validatePwd&field={$fieldModel->getName()}",
+		];
 	}
 }

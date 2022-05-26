@@ -7,23 +7,15 @@
  *
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author  Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 {
-	/**
-	 * Api type.
-	 *
-	 * @var string
-	 */
+	/** @var string Api type. */
 	public $typeApi;
 
-	/**
-	 * Module Name.
-	 *
-	 * @var string
-	 */
+	/** @var string Module Name. */
 	public $name = 'WebserviceUsers';
 
 	/**
@@ -37,6 +29,7 @@ class Settings_WebserviceUsers_Module_Model extends Settings_Vtiger_Module_Model
 		$class = "Settings_WebserviceUsers_{$this->typeApi}_Service";
 		if (class_exists($class)) {
 			$recordService = new $class();
+			$recordService->typeApi = $this->typeApi;
 		}
 		return $recordService;
 	}

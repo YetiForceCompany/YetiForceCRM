@@ -8,7 +8,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
@@ -16,18 +16,10 @@
  */
 class Settings_WebserviceUsers_WebserviceStandard_Service extends Settings_WebserviceUsers_Record_Model
 {
-	/**
-	 * Table name.
-	 *
-	 * @var string
-	 */
+	/** @var string Table name. */
 	public $baseTable = 'w_#__api_user';
 
-	/**
-	 * Table name.
-	 *
-	 * @var string
-	 */
+	/** @var string Table name. */
 	public $baseIndex = 'id';
 
 	/** {@inheritdoc} */
@@ -138,8 +130,11 @@ class Settings_WebserviceUsers_WebserviceStandard_Service extends Settings_Webse
 				];
 				break;
 			case 'password':
+				$params['uitype'] = 99;
+				$params['typeApi'] = $this->getModule()->typeApi;
+				$params['fieldparams'] = '{"validate":["pwned","config"],"auto-generate":true,"strengthMeter":true}';
 				$params['maximumlength'] = '100';
-				$params['typeofdata'] = 'P~M';
+				$params['typeofdata'] = 'V~O';
 				if ($this->has('id')) {
 					$params = null;
 				}
