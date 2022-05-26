@@ -231,8 +231,8 @@ window.App.Fields = {
 					.on('apply.daterangepicker', function (_ev, picker) {
 						$(this).val(
 							picker.startDate.format(currentParams.locale.format) +
-								',' +
-								picker.endDate.format(currentParams.locale.format)
+							',' +
+							picker.endDate.format(currentParams.locale.format)
 						);
 						$(this).trigger('change');
 					})
@@ -958,7 +958,7 @@ window.App.Fields = {
 		/**
 		 * Completions class for contenteditable html element for records, users and emojis. Params can be passed in data-completions- of contenteditable element or as argument. Default params:
 		 * {
-		 		completionsCollection: {
+					completionsCollection: {
 						records: true,
 						users: true,
 						emojis: true
@@ -1012,9 +1012,8 @@ window.App.Fields = {
 					trigger: symbol,
 					selectTemplate: function (item) {
 						if (this.range.isContentEditable(this.current.element)) {
-							return `<a href="#" data-id="${symbol + item.original.id}" data-module="${
-								item.original.module
-							}">${item.original.label.split('(')[0].trim()}</a>`;
+							return `<a href="#" data-id="${symbol + item.original.id}" data-module="${item.original.module
+								}">${item.original.label.split('(')[0].trim()}</a>`;
 						}
 						return symbol + item.original.label;
 					},
@@ -1165,9 +1164,9 @@ window.App.Fields = {
 					}
 					if (getParentByTagName(range.startContainer, { a: 1, A: 1 })) return;
 					let href = range
-							.toString()
-							.replace(/<[^>]+>/g, '')
-							.replace(new RegExp(fillChar, 'g'), ''),
+						.toString()
+						.replace(/<[^>]+>/g, '')
+						.replace(new RegExp(fillChar, 'g'), ''),
 						hrefFull = /^(?:https?:\/\/)/gi.test(href) ? href : 'http://' + href,
 						url = new URL(hrefFull);
 					let allowedHosts = CONFIG.purifierAllowedDomains;
@@ -1692,7 +1691,7 @@ window.App.Fields = {
 		 * @param {jQuery} select2 element
 		 * @param {function} callback function
 		 */
-		registerSortEvent(select, cb = () => {}) {
+		registerSortEvent(select, cb = () => { }) {
 			let ul = select.next('.select2-container').first('ul.select2-selection__rendered');
 			ul.sortable({
 				items: 'li:not(.select2-search__field)',
@@ -2367,7 +2366,7 @@ window.App.Fields = {
 					element.closest('.js-tree-container').find('input.sourceField').val(selectedItemData.id).trigger('change');
 					return false;
 				},
-				change: function (event, ui) {},
+				change: function (event, ui) { },
 				open: function (event, ui) {
 					//To Make the menu come up in the case of quick create
 					$(this).data('ui-autocomplete').menu.element.css('z-index', '100001');
@@ -3203,12 +3202,16 @@ window.App.Fields = {
 			$('.js-pwd-auto-generate', this.container)
 				.off('click')
 				.on('click', () => {
-					this.getResponse({
+					let params = {
 						module: field.data('module'),
 						field: field.attr('name'),
 						action: 'Password',
 						mode: 'generatePwd'
-					}).then((response) => {
+					};
+					if (field.data('custom')) {
+						params = $.extend(params, field.data('custom'));
+					}
+					this.getResponse(params).then((response) => {
 						if (response.success && response.result && response.result.pwd) {
 							this.clear();
 							field.val(response.result.pwd).trigger('keyup').focus();
@@ -3218,13 +3221,17 @@ window.App.Fields = {
 			$('.js-pwd-validate', this.container)
 				.off('click')
 				.on('click', () => {
-					this.getResponse({
+					let params = {
 						module: field.data('module'),
 						field: field.attr('name'),
 						password: field.val(),
 						action: 'Password',
 						mode: 'validatePwd'
-					}).then((response) => {
+					}
+					if (field.data('custom')) {
+						params = $.extend(params, field.data('custom'));
+					}
+					this.getResponse(params).then((response) => {
 						if (response.success && response.result) {
 							let message = response.result.message;
 							if (Array.isArray(message)) {
