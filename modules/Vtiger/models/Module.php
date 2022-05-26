@@ -814,25 +814,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Get modules with picklists.
-	 *
-	 * @return \self[]
-	 */
-	public static function getPicklistSupportedModules()
-	{
-		$modules = App\Fields\Picklist::getModules();
-		$modulesModelsList = [];
-		foreach ($modules as $moduleData) {
-			$instance = new self();
-			$instance->name = $moduleData['tablabel'];
-			$instance->label = $moduleData['tabname'];
-			$modulesModelsList[] = $instance;
-		}
-		return $modulesModelsList;
-	}
-
-	/**
-	 * Undocumented function.
+	 * Get model instance for given module.
 	 *
 	 * @param string $moduleName
 	 *

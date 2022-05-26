@@ -6,34 +6,23 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
-	<div class="tpl-Settings-Picklist-ModulePickListDetail">
-    {if !empty($NO_PICKLIST_FIELDS) }
-        <label style="padding-top: 40px;"> <b>
-                {\App\Language::translate($SELECTED_MODULE_NAME,$SELECTED_MODULE_NAME)} {\App\Language::translate('NO_PICKLIST_FIELDS',$QUALIFIED_NAME)}. &nbsp;
-				{if !empty($CREATE_PICKLIST_URL)}
-					<a href="{$CREATE_PICKLIST_URL}">{\App\Language::translate('LBL_CREATE_NEW',$QUALIFIED_NAME)}</a>
-				{/if}
-            </b>
-        </label>
-    {else}
-		<div class="row">
-			<label class="fieldLabel col-md-3"><strong>{\App\Language::translate('LBL_SELECT_PICKLIST_IN',$QUALIFIED_MODULE)}&nbsp;{\App\Language::translate($SELECTED_MODULE_NAME,$QUALIFIED_MODULE)}</strong></label>
-			<div class="col-md-4 fieldValue">
-				<select class="select2 form-control" id="modulePickList">
-					<optgroup>
-						{foreach key=PICKLIST_FIELD item=FIELD_MODEL from=$PICKLIST_FIELDS}
-							<option value="{$FIELD_MODEL->getId()}" {if !empty($PICKLIST_INTERDEPENDENT[$FIELD_MODEL->getFieldName()]) && count($PICKLIST_INTERDEPENDENT[$FIELD_MODEL->getFieldName()]) > 1} data-confirmation="{\App\Language::translateArgs('LBL_CONFIRM_BEFORE_MODIFY', $QUALIFIED_MODULE, implode(', ',  $PICKLIST_INTERDEPENDENT[$FIELD_MODEL->getFieldName()]))}"{/if}>
-								{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
-							</option>
-						{/foreach}
-					</optgroup>
-				</select>
-			</div>
-		</div><br />
-    {/if}
+	<div class="form-group row">
+		<label class="col-form-label col-md-3"><strong>{\App\Language::translate('LBL_SELECT_PICKLIST_IN',$QUALIFIED_MODULE)}&nbsp;{\App\Language::translate($SELECTED_MODULE_NAME,$SELECTED_MODULE_NAME)}</strong></label>
+		<div class="col-md-4">
+			<select class="select2 form-control js-picklist-field" id="modulePickList" data-allow-clear="true">
+				<optgroup>
+					{foreach key=PICKLIST_FIELD item=FIELD_MODEL from=$PICKLIST_FIELDS}
+						<option value="{$FIELD_MODEL->getName()}" {if !empty($PICKLIST_INTERDEPENDENT[$FIELD_MODEL->getFieldName()]) && count($PICKLIST_INTERDEPENDENT[$FIELD_MODEL->getFieldName()]) > 1} data-confirmation="{\App\Language::translateArgs('LBL_CONFIRM_BEFORE_MODIFY', $QUALIFIED_MODULE, implode(', ',  $PICKLIST_INTERDEPENDENT[$FIELD_MODEL->getFieldName()]))}" {/if}>
+							{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
+						</option>
+					{/foreach}
+				</optgroup>
+			</select>
+		</div>
 	</div>
+	<!-- /tpl-Settings-Picklist-ModulePickListDetail -->
 {/strip}

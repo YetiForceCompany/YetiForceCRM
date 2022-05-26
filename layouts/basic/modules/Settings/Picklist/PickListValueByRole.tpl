@@ -6,26 +6,25 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
-	<br /><br />
-	<div class="row">
+	<div class="row mt-3">
 		<div class="col-md-2">&nbsp;</div>
 		<div class="col-md-4 well-md" style="overflow: hidden">
 			<div id="assignToRolepickListValuesTable" class="fontBold textAlignCenter">
 				{foreach key=PICKLIST_KEY item=PICKLIST_VALUE from=$ALL_PICKLIST_VALUES}
-					<div data-value="{$PICKLIST_VALUE}" data-id="{$PICKLIST_KEY}" class="valuesAssignedToRole u-cursor-pointer assignToRolePickListValue {if in_array($PICKLIST_VALUE,$ROLE_PICKLIST_VALUES)}selectedCell{else}unselectedCell{/if}">
+					<div data-id="{$PICKLIST_KEY}" class="valuesAssignedToRole u-cursor-pointer js-picklist-value-role {if in_array($PICKLIST_VALUE,$ROLE_PICKLIST_VALUES)}selectedCell{/if}">
 						{if in_array($PICKLIST_VALUE,$ROLE_PICKLIST_VALUES)}<i class="fas fa-check float-left"></i>{/if}{\App\Language::translate($PICKLIST_VALUE,$SELECTED_MODULE_NAME)}
 					</div>
 				{/foreach}
 			</div>
 		</div>
-		<div class="col-md-6">
-			<div><span class="fas fa-info-circle"></span>&nbsp;&nbsp;<span class="selectedCell padding1per">{\App\Language::translate('LBL_SELECTED_VALUES',$QUALIFIED_MODULE)}</span>&nbsp;<span>{\App\Language::translate('LBL_SELECTED_VALUES_MESSGAE',$QUALIFIED_MODULE)}</span></div><br />
+		<div class="col-md-6 mt-2">
+			<div><span class="fas fa-info-circle"></span>&nbsp;&nbsp;<span class="selectedCell p-1">{\App\Language::translate('LBL_SELECTED_VALUES',$QUALIFIED_MODULE)}</span>&nbsp;<span>{\App\Language::translate('LBL_SELECTED_VALUES_MESSGAE',$QUALIFIED_MODULE)}</span></div>
 			<div><span class="fas fa-info-circle"></span>&nbsp;&nbsp;<span>{\App\Language::translate('LBL_ENABLE/DISABLE_MESSGAE',$QUALIFIED_MODULE)}</span></div><br />
-			&nbsp;&nbsp;<button id="saveOrder" disabled="" class="btn btn-success">{\App\Language::translate('LBL_SAVE',$QUALIFIED_MODULE)}</button>
-		</div>		
-	</div>				
-{/strip}	
+			&nbsp;&nbsp;<button id="saveOrder" disabled="" class="btn btn-success js-role-order">{\App\Language::translate('LBL_SAVE',$QUALIFIED_MODULE)}</button>
+		</div>
+	</div>
+{/strip}

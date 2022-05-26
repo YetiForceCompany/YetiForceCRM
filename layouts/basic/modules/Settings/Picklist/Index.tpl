@@ -16,11 +16,10 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<div class="listViewContentDiv" id="listViewContents" style="padding: 1%;">
-			<br />
-			<div class="row">
-				<label class="fieldLabel col-md-3"><strong>{\App\Language::translate('LBL_SELECT_MODULE',$QUALIFIED_MODULE)} </strong></label>
-				<div class="col-md-4 fieldValue">
+		<div class="listViewContentDiv js-container p-1 mt-2" id="listViewContents">
+			<div class="form-group row">
+				<label class="col-form-label col-md-3"><strong>{\App\Language::translate('LBL_SELECT_MODULE',$QUALIFIED_MODULE)} </strong></label>
+				<div class="col-md-4">
 					<select class="select2 form-control" id="pickListModules">
 						{foreach item=PICKLIST_MODULE from=$PICKLIST_MODULES}
 							<option {if $SELECTED_MODULE_NAME eq $PICKLIST_MODULE->get('name')} selected="" {/if} value="{$PICKLIST_MODULE->get('name')}">{\App\Language::translate($PICKLIST_MODULE->get('label'),$PICKLIST_MODULE->get('name'))}</option>
@@ -28,13 +27,11 @@
 					</select>
 				</div>
 			</div>
-			<br />
-			<div id="modulePickListContainer">
+			<div id="modulePickListContainer" class="js-picklist-container">
 				{include file=\App\Layout::getTemplatePath('ModulePickListDetail.tpl', $QUALIFIED_MODULE)}
 			</div>
-
-			<div id="modulePickListValuesContainer">
-				{if empty($NO_PICKLIST_FIELDS)}
+			<div id="modulePickListValuesContainer" class="js-picklist-data-container">
+				{if !empty($SELECTED_PICKLIST_FIELDMODEL)}
 					{include file=\App\Layout::getTemplatePath('PickListValueDetail.tpl', $QUALIFIED_MODULE)}
 				{/if}
 			</div>

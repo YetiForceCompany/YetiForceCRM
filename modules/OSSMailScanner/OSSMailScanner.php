@@ -32,9 +32,6 @@ class OSSMailScanner
 			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'cron', 'parameter' => 'email', 'value' => ''])->execute();
 			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'cron', 'parameter' => 'time', 'value' => ''])->execute();
 			$dbCommand->insert('vtiger_ossmailscanner_config', ['conf_type' => 'emailsearch', 'parameter' => 'changeTicketStatus', 'value' => 'false'])->execute();
-			$moduleModel = Settings_Picklist_Module_Model::getInstance('HelpDesk');
-			$fieldModel = Settings_Picklist_Field_Model::getInstance('ticketstatus', $moduleModel);
-			$moduleModel->addPickListValues($fieldModel, 'Answered');
 			$Module = vtlib\Module::getInstance($moduleName);
 			$userId = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_InstallModule', 'info' => $moduleName . ' ' . $Module->version, 'user' => $userId])->execute();

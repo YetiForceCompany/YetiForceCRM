@@ -176,7 +176,7 @@ class Picklist
 	public static function getModules()
 	{
 		return (new \App\Db\Query())->select(['vtiger_tab.tabid', 'vtiger_tab.tablabel', 'tabname' => 'vtiger_tab.name'])->from('vtiger_field')
-			->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')->where(['uitype' => [15, 16, 33, 115], 'vtiger_tab.presence' => 0])
+			->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')->where(['uitype' => [15, 16, 33, 115], 'vtiger_field.presence' => [0, 2], 'vtiger_tab.presence' => 0])
 			->distinct('vtiger_tab.tabid')->orderBy(['vtiger_tab.tabid' => SORT_ASC])->createCommand()->queryAllByGroup(1);
 	}
 
@@ -369,6 +369,21 @@ class Picklist
 	}
 
 	/**
+	 * Get picklist ID number.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return int
+	 */
+	public static function getPicklistIdNr(string $fieldName): int
+	{
+		return (int) (new \App\Db\Query())->select(['picklistid'])
+			->from('vtiger_picklist')
+			->where(['name' => $fieldName])
+			->scalar();
+	}
+
+	/**
 	 * Clear cache.
 	 *
 	 * @param string $fieldName
@@ -384,10 +399,5 @@ class Picklist
 		\App\Cache::delete('Picklist::getValues', $fieldName);
 		\App\Cache::delete("RecordStatus::getLockStatus::$moduleName", true);
 		\App\Cache::delete("RecordStatus::getLockStatus::$moduleName", false);
-		$cacheKey = "RecordStatus::getStates::$moduleName";
-		\App\Cache::delete($cacheKey, 'empty_state');
-		foreach (array_keys(\App\RecordStatus::getLabels()) as $state) {
-			\App\Cache::delete($cacheKey, $state);
-		}
 	}
 }

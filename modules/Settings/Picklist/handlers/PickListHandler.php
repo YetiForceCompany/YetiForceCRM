@@ -25,7 +25,7 @@ class Settings_Picklist_PickListHandler_Handler
 	/**
 	 * Function to perform operation after picklist rename.
 	 *
-	 * @param type $entityData
+	 * @param array $entityData
 	 */
 	public function operationsAfterPicklistRename($entityData)
 	{
@@ -166,12 +166,15 @@ class Settings_Picklist_PickListHandler_Handler
 			}
 		}
 		$dataReader->close();
+		if ('Calendar' === $moduleName && ('activitytype' === $pickListFieldName || 'activitystatus' === $pickListFieldName)) {
+			$this->updateUserData($pickListFieldName, $oldValue, $newValue);
+		}
 	}
 
 	/**
 	 * Function to perform operation after picklist delete.
 	 *
-	 * @param type $entityData
+	 * @param array $entityData
 	 */
 	public function operationsAfterPicklistDelete($entityData)
 	{
@@ -299,5 +302,36 @@ class Settings_Picklist_PickListHandler_Handler
 			}
 			$dataReader->close();
 		}
+		if ('Calendar' === $moduleName && ('activitytype' === $pickListFieldName || 'activitystatus' === $pickListFieldName)) {
+			$this->updateUserData($pickListFieldName, $valueToDelete, $replaceValue);
+		}
+	}
+
+	/**
+	 * Update users data.
+	 *
+	 * @param string          $pickListFieldName
+	 * @param string|string[] $oldValue
+	 * @param string          $newValue
+	 *
+	 * @return void
+	 */
+	public function updateUserData($pickListFieldName, $oldValue, $newValue)
+	{
+		if ('activitytype' === $pickListFieldName) {
+			$defaultFieldName = 'defaultactivitytype';
+		} else {
+			$defaultFieldName = 'defaulteventstatus';
+		}
+		$dataReader = (new App\Db\Query())->select(['id'])
+			->from('vtiger_users')
+			->where([$defaultFieldName => $oldValue])
+			->createCommand()->query();
+		while ($userId = $dataReader->readColumn(0)) {
+			$record = Vtiger_Record_Model::getInstanceById($userId, 'Users');
+			$record->set($defaultFieldName, $newValue);
+			$record->save();
+		}
+		$dataReader->close();
 	}
 }

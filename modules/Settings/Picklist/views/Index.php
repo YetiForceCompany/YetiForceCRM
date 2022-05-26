@@ -6,16 +6,17 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  * ********************************************************************************** */
 
 class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View
 {
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$sourceModule = $request->getByType('source_module', 2);
 		$pickListSupportedModules = Settings_Picklist_Module_Model::getPicklistSupportedModules();
 		if (empty($sourceModule)) {
-			//take the first module as the source module
 			$sourceModule = $pickListSupportedModules[0]->name;
 		}
 		$moduleModel = Settings_Picklist_Module_Model::getInstance($sourceModule);
@@ -24,35 +25,20 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View
 
 		$viewer->assign('PICKLIST_MODULES', $pickListSupportedModules);
 
-		$pickListFields = $moduleModel->getFieldsByType(['picklist', 'multipicklist']);
+		$pickListFields = $moduleModel->getFieldsByType(['picklist', 'multipicklist'], true);
 		if (\count($pickListFields) > 0) {
 			$selectedPickListFieldModel = reset($pickListFields);
-
-			$selectedFieldAllPickListValues = App\Fields\Picklist::getValuesName($selectedPickListFieldModel->getName());
-
 			$viewer->assign('PICKLIST_FIELDS', $pickListFields);
 			$viewer->assign('PICKLIST_INTERDEPENDENT', $moduleModel->listModuleInterdependentPickList(array_keys($pickListFields)));
 			$viewer->assign('SELECTED_PICKLIST_FIELDMODEL', $selectedPickListFieldModel);
-			$viewer->assign('SELECTED_PICKLISTFIELD_ALL_VALUES', $selectedFieldAllPickListValues);
 			$viewer->assign('ROLES_LIST', Settings_Roles_Record_Model::getAll());
-		} else {
-			$viewer->assign('NO_PICKLIST_FIELDS', true);
-			$createPicklistUrl = '';
-			$settingsLinks = $moduleModel->getSettingLinks();
-			foreach ($settingsLinks as $linkDetails) {
-				if ('LBL_EDIT_FIELDS' == $linkDetails['linklabel']) {
-					$createPicklistUrl = $linkDetails['linkurl'];
-					break;
-				}
-			}
-			$viewer->assign('CREATE_PICKLIST_URL', $createPicklistUrl);
 		}
-		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
-		$viewer->assign('QUALIFIED_NAME', $qualifiedName);
 
+		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->view('Index.tpl', $qualifiedName);
 	}
 
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
