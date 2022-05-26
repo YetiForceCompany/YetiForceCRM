@@ -23,6 +23,9 @@
 			name="{$FIELD_NAME}" value="{if $EDIT_MODE}{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}{/if}"
 			data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if}
 			data-module="{$FIELD_MODEL->getModuleName()}"
+			{if $FIELD_MODEL->get('custom')}
+				data-custom='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->get('custom')))}'
+			{/if}
 			{if !empty($PARAMS['strengthMeter'])} data-strength-meter="{$PARAMS['strengthMeter']}" {/if}
 			{if $EDIT_MODE || $DISABLE_FIELD} disabled="disabled" {/if}>
 		<span class="input-group-append">

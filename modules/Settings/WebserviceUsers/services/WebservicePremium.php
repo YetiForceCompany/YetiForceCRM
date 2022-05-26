@@ -119,8 +119,15 @@ class Settings_WebserviceUsers_WebservicePremium_Service extends Settings_Webser
 				];
 				break;
 			case 'password':
+				$params['uitype'] = 99;
+				$params['custom'] = [
+					'typeApi' => $this->getModule()->typeApi,
+					'parent' => 'Settings',
+					'module' => $this->getModule()->getName(false)
+				];
+				$params['fieldparams'] = '{"validate":["pwned","config"],"auto-generate":true,"strengthMeter":true}';
 				$params['maximumlength'] = '100';
-				$params['typeofdata'] = 'P~M';
+				$params['typeofdata'] = 'V~O';
 				if ($this->has('id')) {
 					$params = null;
 				}
