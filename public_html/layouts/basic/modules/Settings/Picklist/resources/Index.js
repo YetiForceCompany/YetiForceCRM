@@ -132,16 +132,26 @@ window.Settings_Picklist_Index_Js = class {
 	showEditView(params) {
 		AppConnector.request(params).done((data) => {
 			app.showModalWindow(data, (container) => {
-				container.find('.js-modal__save').on('click', () => {
+				container.find('.js-modal__save').on('click', (e, skipConfirmation) => {
 					let form = container.find('form');
 					if (form.validationEngine('validate')) {
-						let progress = this.getProgressIndicator();
-						this.preSaveValidation(form).done((valid) => {
-							progress.progressIndicator({ mode: 'hide' });
-							if (valid === true) {
-								this.saveAjax(form.serializeFormData());
-							}
-						});
+						let confirmation = this.picklistField.find('option:selected').data('confirmation');
+						if (skipConfirmation !== true && confirmation !== undefined) {
+							app.showConfirmModal({
+								title: confirmation,
+								confirmedCallback: () => {
+									$(e.currentTarget).trigger('click', true);
+								}
+							});
+						} else {
+							let progress = this.getProgressIndicator();
+							this.preSaveValidation(form).done((valid) => {
+								progress.progressIndicator({ mode: 'hide' });
+								if (valid === true) {
+									this.saveAjax(form.serializeFormData());
+								}
+							});
+						}
 					}
 				});
 			});
@@ -220,10 +230,20 @@ window.Settings_Picklist_Index_Js = class {
 	deleteItem(fieldValueId) {
 		AppConnector.request({ fieldValueId, view: 'Delete', ...this.getDefaultParams() }).done((modal) => {
 			app.showModalWindow(modal, (container) => {
-				container.find('.js-modal__save').on('click', () => {
+				container.find('.js-modal__save').on('click', (e, skipConfirmation) => {
 					let form = container.find('form');
 					if (form.validationEngine('validate')) {
-						this.saveAjax(form.serializeFormData());
+						let confirmation = this.picklistField.find('option:selected').data('confirmation');
+						if (skipConfirmation !== true && confirmation !== undefined) {
+							app.showConfirmModal({
+								title: confirmation,
+								confirmedCallback: () => {
+									$(e.currentTarget).trigger('click', true);
+								}
+							});
+						} else {
+							this.saveAjax(form.serializeFormData());
+						}
 					}
 				});
 			});
