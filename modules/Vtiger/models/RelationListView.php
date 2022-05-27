@@ -155,7 +155,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 		$instance->setParentRecordModel($parentRecordModel);
 		$instance->setRelatedModuleModel($relationModelInstance->getRelationModuleModel());
 		$queryGenerator = new \App\QueryGenerator($relationModelInstance->getRelationModuleModel()->getName());
-		if ($cvId) {
+		if (is_numeric($cvId)) {
 			$instance->set('viewId', $cvId);
 		}
 		$relationModelInstance->set('query_generator', $queryGenerator);
