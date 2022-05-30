@@ -23,6 +23,13 @@ class Vtiger_ChangesJson_UIType extends Vtiger_Base_UIType
 			$requestFieldName = $fieldName;
 		}
 		$value = $request->getArray($requestFieldName, 'Text');
+		$moduleModel = Vtiger_Module_Model::getInstance($request->get('module'));
+		foreach ($value['changes'] as $fieldName => $val) {
+			if ($moduleModel->getFieldByName($fieldName)) {
+				continue;
+			}
+			unset($value['changes'][$fieldName]);
+		}
 		$this->validate($value, true);
 		$recordModel->set($fieldName, $this->getDBValue($value, $recordModel));
 	}
