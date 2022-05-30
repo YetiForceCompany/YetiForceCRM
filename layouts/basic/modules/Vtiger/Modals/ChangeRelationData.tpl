@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-Modals-ChangeRelationData -->
 	<div class="tpl-Modals-ChangeRelationData modal-body">
 		<form class="form-horizontal" name="changeRelation" method="post" action="index.php">
 			<input type="hidden" name="module" value="{$MODULE_NAME}" />
@@ -19,4 +20,5 @@
 			{/foreach}
 		</form>
 	</div>
+	<!-- /tpl-Base-Modals-ChangeRelationData -->
 {/strip}
