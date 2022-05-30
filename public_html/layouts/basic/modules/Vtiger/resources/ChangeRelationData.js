@@ -5,40 +5,44 @@ $.Class(
 	{},
 	{
 		registerEvents(container) {
-			container.find('.js-modal__save').on('click', (e) => {
-				let progress = $.progressIndicator({
-					position: 'html',
-					blockInfo: {
-						enabled: true
-					}
-				});
-				let params = container.find('form').serializeFormData();
-				AppConnector.request(params)
-					.done(function (data) {
-						progress.progressIndicator({
-							mode: 'hide'
-						});
-						app.hideModalWindow();
-						let params = {};
-						if (data.result) {
-							params = {
-								text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
-								type: 'success'
-							};
-							let detailInstance = Vtiger_Detail_Js.getInstance(),
-								selectedTabElement = detailInstance.getSelectedTab();
-							if (selectedTabElement) {
-								selectedTabElement.trigger('click');
-							}
-						} else {
-							params = {
-								text: app.vtranslate('JS_ERROR'),
-								type: 'error'
-							};
+			const form = container.find('form');
+			form.validationEngine(app.validationEngineOptions);
+			container.find('.js-modal__save').on('click', (_e) => {
+				if (form.validationEngine('validate')) {
+					let progress = $.progressIndicator({
+						position: 'html',
+						blockInfo: {
+							enabled: true
 						}
-						app.showNotify(params);
-					})
-					.fail(function (textStatus, errorThrown) {});
+					});
+					let params = container.find('form').serializeFormData();
+					AppConnector.request(params)
+						.done(function (data) {
+							progress.progressIndicator({
+								mode: 'hide'
+							});
+							app.hideModalWindow();
+							let params = {};
+							if (data.result) {
+								params = {
+									text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
+									type: 'success'
+								};
+								let detailInstance = Vtiger_Detail_Js.getInstance(),
+									selectedTabElement = detailInstance.getSelectedTab();
+								if (selectedTabElement) {
+									selectedTabElement.trigger('click');
+								}
+							} else {
+								params = {
+									text: app.vtranslate('JS_ERROR'),
+									type: 'error'
+								};
+							}
+							app.showNotify(params);
+						})
+						.fail(function (textStatus, errorThrown) { });
+				}
 			});
 		}
 	}
