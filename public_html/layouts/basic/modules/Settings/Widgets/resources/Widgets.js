@@ -171,8 +171,8 @@ jQuery.Class(
 		},
 		relatedModuleFields: function (container) {
 			const relatedModule = parseInt(container.find("input[name='relatedmodule']").val());
-			const relatedfields = container.find("select[name='relatedfields'],select[name='groupField']");
-			relatedfields.find('optgroup').each(function (index, optgroup) {
+			const relatedfield = container.find("select[name='groupField']");
+			relatedfield.find('optgroup').each(function (_index, optgroup) {
 				optgroup = $(optgroup);
 				if (relatedModule !== optgroup.data('module')) {
 					optgroup.addClass('d-none');
@@ -181,7 +181,7 @@ jQuery.Class(
 					optgroup.removeClass('d-none');
 					optgroup.prop('disabled', false);
 				}
-				optgroup.find('option').each(function (index, option) {
+				optgroup.find('option').each(function (_index, option) {
 					option = $(option);
 					if (relatedModule !== option.data('module')) {
 						option.addClass('d-none').removeAttr('selected');
@@ -192,7 +192,7 @@ jQuery.Class(
 					}
 				});
 			});
-			relatedfields.trigger('change:select2');
+			relatedfield.trigger('change:select2');
 		},
 
 		changeRelatedModule(wizardContainer) {

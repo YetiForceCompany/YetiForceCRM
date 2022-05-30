@@ -8,13 +8,13 @@ $.Class(
 			const form = container.find('form');
 			form.validationEngine(app.validationEngineOptions);
 			container.find('.js-modal__save').on('click', (_e) => {
-				let progress = $.progressIndicator({
-					position: 'html',
-					blockInfo: {
-						enabled: true
-					}
-				});
 				if (form.validationEngine('validate')) {
+					let progress = $.progressIndicator({
+						position: 'html',
+						blockInfo: {
+							enabled: true
+						}
+					});
 					let params = container.find('form').serializeFormData();
 					AppConnector.request(params)
 						.done(function (data) {
@@ -43,7 +43,6 @@ $.Class(
 						})
 						.fail(function (textStatus, errorThrown) { });
 				}
-				$(".blockOverlay, .blockMessageContainer, .blockUI").remove();
 			});
 		}
 	}
