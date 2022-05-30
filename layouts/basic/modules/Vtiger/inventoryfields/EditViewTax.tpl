@@ -11,9 +11,14 @@
 			{else}
 				{assign var=TAXPARAM_VALUE value=$ITEM_DATA['taxparam']}
 			{/if}
+			{if isset($ITEM_DATA['taxmode'])}
+				{assign var=TAX_MODE value=$ITEM_DATA['taxmode']}
+			{else}
+				{assign var=TAX_MODE value=$TAXS_CONFIG['default_mode']}
+			{/if}
 			<input name="inventory[{$ROW_NO}][taxparam]" type="hidden" value="{\App\Purifier::encodeHtml($TAXPARAM_VALUE)}"
 				class="taxParam" {if $FIELD->isReadOnly()}readonly="readonly" {/if} />
-			<span class="input-group-append u-cursor-pointer changeTax {if empty($ITEM_DATA['taxmode'])}d-none{/if}">
+			<span class="input-group-append u-cursor-pointer changeTax {if $TAX_MODE == 0}d-none{/if}">
 				<div class="input-group-text">
 					<span class="small">
 						<span class="fas fa-long-arrow-alt-up"></span>

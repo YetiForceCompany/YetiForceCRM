@@ -6,8 +6,13 @@
 		<div class="input-group input-group-sm">
 			<input type="text" name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="{$FIELD->getEditValue($VALUE)}" class="discount form-control form-control-sm" readonly="readonly" />
 			{if $DISCOUNTS_CONFIG['discounts'][0] != ''}
+				{if isset($ITEM_DATA['discountmode'])}
+					{assign var=DISCOUNT_MODE value=$ITEM_DATA['discountmode']}
+				{else}
+					{assign var=DISCOUNT_MODE value=$DISCOUNTS_CONFIG['default_mode']}
+				{/if}
 				<input name="inventory[{$ROW_NO}][discountparam]" type="hidden" value="{if isset($ITEM_DATA['discountparam'])}{\App\Purifier::encodeHtml($ITEM_DATA['discountparam'])}{/if}" class="discountParam" />
-				<span class="input-group-append u-cursor-pointer changeDiscount {if !(isset($ITEM_DATA['discountmode']) && $ITEM_DATA['discountmode'] === 1)}d-none{/if}">
+				<span class="input-group-append u-cursor-pointer changeDiscount {if $DISCOUNT_MODE == 0}d-none{/if}">
 					<div class="input-group-text">
 						<span class="small">
 							<span class="fas fa-long-arrow-alt-down"></span>

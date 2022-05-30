@@ -26,6 +26,7 @@ class Vtiger_CalendarRightPanel_Model
 	{
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$roleInstance = Settings_Roles_Record_Model::getInstanceById($currentUser->get('roleid'));
+
 		switch ($roleInstance->get('clendarallorecords')) {
 			case 3:
 				if (App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST') && !\App\Config::module($moduleName, 'DISABLED_SHOW_OWNER_ONLY_IN_LIST', false)) {
@@ -43,9 +44,7 @@ class Vtiger_CalendarRightPanel_Model
 		}
 		if (!empty($users) && $favoriteUsers = self::getFavoriteUsers($moduleName)) {
 			uksort($users,
-				function ($a, $b) use ($favoriteUsers) {
-					return (int) (!isset($favoriteUsers[$a]) && isset($favoriteUsers[$b]));
-				});
+				fn ($a, $b) => (int) (!isset($favoriteUsers[$a]) && isset($favoriteUsers[$b])));
 		}
 		return $users;
 	}

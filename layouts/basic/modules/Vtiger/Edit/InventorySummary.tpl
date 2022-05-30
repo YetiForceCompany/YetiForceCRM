@@ -14,7 +14,12 @@
 								</span>
 								<strong>{\App\Language::translate('LBL_DISCOUNTS_SUMMARY',$MODULE)}</strong>
 							</div>
-							<div class="col-12 col-lg-3 p-0 groupDiscount changeDiscount  {if isset($INVENTORY_ROW['discountmode']) && $INVENTORY_ROW['discountmode'] === 1}d-none{/if}">
+							{if isset($ITEM_DATA['discountmode'])}
+								{assign var=DISCOUNT_MODE value=$ITEM_DATA['discountmode']}
+							{else}
+								{assign var=DISCOUNT_MODE value=$DISCOUNTS_CONFIG['default_mode']}
+							{/if}
+							<div class="col-12 col-lg-3 p-0 groupDiscount changeDiscount {if $DISCOUNT_MODE == 1}d-none{/if}">
 								<button type="button" class="btn btn-primary btn-sm c-btn-block-md-down float-right">
 									<span class="fas fa-sliders-h mr-2"></span>
 									{\App\Language::translate('LBL_SET_GLOBAL_DISCOUNT', $MODULE)}
@@ -49,7 +54,12 @@
 								</span>
 								<strong>{\App\Language::translate('LBL_TAX_SUMMARY',$MODULE)}</strong>
 							</div>
-							<div class="col-12 col-lg-3 p-0 groupTax changeTax {if isset($INVENTORY_ROW['taxmode']) && $INVENTORY_ROW['taxmode'] === 1}d-none{/if}">
+							{if isset($ITEM_DATA['taxmode'])}
+								{assign var=TAX_MODE value=$ITEM_DATA['taxmode']}
+							{else}
+								{assign var=TAX_MODE value=$TAXS_CONFIG['default_mode']}
+							{/if}
+							<div class="col-12 col-lg-3 p-0 groupTax changeTax {if $TAX_MODE == 1}d-none{/if}">
 								<button type="button" class="btn btn-primary btn-sm float-right c-btn-block-md-down">
 									<span class="fas fa-sliders-h mr-2"></span>
 									{\App\Language::translate('LBL_SET_GLOBAL_TAX', $MODULE)}
