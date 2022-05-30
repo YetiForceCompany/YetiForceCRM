@@ -12,33 +12,37 @@ $.Class(
 						enabled: true
 					}
 				});
-				let params = container.find('form').serializeFormData();
-				AppConnector.request(params)
-					.done(function (data) {
-						progress.progressIndicator({
-							mode: 'hide'
-						});
-						app.hideModalWindow();
-						let params = {};
-						if (data.result) {
-							params = {
-								text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
-								type: 'success'
-							};
-							let detailInstance = Vtiger_Detail_Js.getInstance(),
-								selectedTabElement = detailInstance.getSelectedTab();
-							if (selectedTabElement) {
-								selectedTabElement.trigger('click');
+				const formValidate = container.find('form').validationEngine(app.validationEngineOptions);
+				if (formValidate.validationEngine('validate')) {
+					let params = container.find('form').serializeFormData();
+					AppConnector.request(params)
+						.done(function (data) {
+							progress.progressIndicator({
+								mode: 'hide'
+							});
+							app.hideModalWindow();
+							let params = {};
+							if (data.result) {
+								params = {
+									text: app.vtranslate('JS_SAVE_NOTIFY_OK'),
+									type: 'success'
+								};
+								let detailInstance = Vtiger_Detail_Js.getInstance(),
+									selectedTabElement = detailInstance.getSelectedTab();
+								if (selectedTabElement) {
+									selectedTabElement.trigger('click');
+								}
+							} else {
+								params = {
+									text: app.vtranslate('JS_ERROR'),
+									type: 'error'
+								};
 							}
-						} else {
-							params = {
-								text: app.vtranslate('JS_ERROR'),
-								type: 'error'
-							};
-						}
-						app.showNotify(params);
-					})
-					.fail(function (textStatus, errorThrown) {});
+							app.showNotify(params);
+						})
+						.fail(function (textStatus, errorThrown) { });
+				}
+				$(".blockOverlay, .blockMessageContainer, .blockUI").remove();
 			});
 		}
 	}
