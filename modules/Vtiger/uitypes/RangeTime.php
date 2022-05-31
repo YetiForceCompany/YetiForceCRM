@@ -24,7 +24,7 @@ class Vtiger_RangeTime_UIType extends Vtiger_Integer_UIType
 		if (isset($params['unit'])) {
 			$unit = $params['unit'];
 		}
-		return \App\Purifier::encodeHtml(App\Fields\RangeTime::formatToRangeText($value, $mode, null !== $value, $unit) ?? '');
+		return \App\Purifier::encodeHtml(App\Fields\RangeTime::formatToRangeText($value, $mode, null !== $value, $unit));
 	}
 
 	/** {@inheritdoc} */

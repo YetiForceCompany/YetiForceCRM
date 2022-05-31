@@ -50,7 +50,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			$moduleName = $this->getFieldModel()->get('block')->module->name;
 			$fieldName = $this->getFieldModel()->get('name');
 			$rawValue = \App\Purifier::encodeHtml($value);
-			$value = \App\Purifier::encodeHtml(App\TextParser::textTruncate($value ?? '', $length));
+			$value = \App\Purifier::encodeHtml(App\TextParser::textTruncate($value, $length));
 			if (\App\Mail::checkInternalMailClient()) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $record, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
@@ -61,7 +61,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			}
 			return "<a class=\"emailField u-cursor-pointer\" href=\"mailto:{$rawValue}\">{$value}</a>";
 		}
-		return \App\Purifier::encodeHtml(App\TextParser::textTruncate($value ?? '', $length));
+		return $value ? \App\Purifier::encodeHtml(App\TextParser::textTruncate($value, $length)) : '';
 	}
 
 	/** {@inheritdoc} */
