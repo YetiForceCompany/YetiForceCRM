@@ -20,7 +20,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if (!empty($value)) {
+		if (empty($value)) {
 			return '';
 		}
 		if ($rawText) {
