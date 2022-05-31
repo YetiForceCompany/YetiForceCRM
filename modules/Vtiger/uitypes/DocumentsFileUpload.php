@@ -20,6 +20,9 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
+		if (null === $value) {
+			return '';
+		}
 		if ($rawText) {
 			return \App\Purifier::encodeHtml($value);
 		}

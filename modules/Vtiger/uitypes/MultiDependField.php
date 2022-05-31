@@ -68,7 +68,7 @@ class Vtiger_MultiDependField_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if (empty($value) || !($value = \App\Json::decode($value))) {
+		if (empty($value)) {
 			return '';
 		}
 		$data = [];
