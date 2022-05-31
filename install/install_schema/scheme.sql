@@ -693,7 +693,7 @@ CREATE TABLE `l_yf_mail` (
   `from` text DEFAULT NULL,
   `subject` text DEFAULT NULL,
   `to` text DEFAULT NULL,
-  `content` text DEFAULT NULL,
+  `content` mediumtext DEFAULT NULL,
   `cc` text DEFAULT NULL,
   `bcc` text DEFAULT NULL,
   `attachments` text DEFAULT NULL,
