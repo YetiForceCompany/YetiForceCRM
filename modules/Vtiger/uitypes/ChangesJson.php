@@ -24,7 +24,7 @@ class Vtiger_ChangesJson_UIType extends Vtiger_Base_UIType
 		}
 		$value = $request->getArray($requestFieldName, 'Text');
 		$moduleModel = Vtiger_Module_Model::getInstance($request->get('module'));
-		foreach ($value['changes'] as $fieldName => $val) {
+		foreach (array_keys($value['changes']) as $fieldName) {
 			if ($moduleModel->getFieldByName($fieldName)) {
 				continue;
 			}
