@@ -53,6 +53,13 @@ class File
 	private static $tmpPath;
 
 	/**
+	 * File name.
+	 *
+	 * @var string
+	 */
+	private $name;
+
+	/**
 	 * File path.
 	 *
 	 * @var string
@@ -238,7 +245,7 @@ class File
 			return false;
 		}
 		if (mb_strlen($name) > 180) {
-			$name = \App\TextParser::textTruncate($name, 180, false) . '_' . uniqid() . ".$extension";
+			$name = \App\TextUtils::textTruncate($name, 180, false) . '_' . uniqid() . ".$extension";
 		}
 		$instance = new self();
 		$instance->name = trim(\App\Purifier::purify($name));
@@ -956,20 +963,20 @@ class File
 	public static function saveFromContent(self $file, $params = [])
 	{
 		$fileName = $file->getName();
-		$fileNameLength = \App\TextParser::getTextLength($fileName);
+		$fileNameLength = \App\TextUtils::getTextLength($fileName);
 		$record = \Vtiger_Record_Model::getCleanInstance('Documents');
 		if ($fileNameLength > ($maxLength = $record->getField('filename')->getMaxValue())) {
 			$extLength = 0;
 			if ($ext = $file->getExtension()) {
 				$ext .= ".{$ext}";
-				$extLength = \App\TextParser::getTextLength($ext);
+				$extLength = \App\TextUtils::getTextLength($ext);
 				$fileName = substr($fileName, 0, $fileNameLength - $extLength);
 			}
-			$fileName = \App\TextParser::textTruncate($fileName, $maxLength - $extLength, false) . $ext;
+			$fileName = \App\TextUtils::textTruncate($fileName, $maxLength - $extLength, false) . $ext;
 		}
 		$fileName = \App\Purifier::decodeHtml(\App\Purifier::purify($fileName));
 		$record->setData($params);
-		$record->set('notes_title', $fileName);
+		$record->set('notes_title', ($params['titlePrefix'] ?? '') . $fileName);
 		$record->set('filename', $fileName);
 		$record->set('filestatus', 1);
 		$record->set('filelocationtype', 'I');
