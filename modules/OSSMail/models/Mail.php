@@ -501,15 +501,17 @@ class OSSMail_Mail_Model extends \App\Base
 		if ('data:' === substr($src, 0, 5)) {
 			if ($fileInstance = \App\Fields\File::saveFromString($src, ['validateAllowedFormat' => 'image'])) {
 				$params['titlePrefix'] = 'base64_';
-				$file = \App\Fields\File::saveFromContent($fileInstance, $params);
-				$file['srcType'] = 'base64';
+				if ($file = \App\Fields\File::saveFromContent($fileInstance, $params)) {
+					$file['srcType'] = 'base64';
+				}
 			}
 		} elseif (filter_var($src, FILTER_VALIDATE_URL)) {
 			$params['param'] = ['validateAllowedFormat' => 'image'];
 			$params['titlePrefix'] = 'url_';
 			if (\Config\Modules\OSSMailScanner::$attachMailBodyGraphicUrl ?? true) {
-				$file = App\Fields\File::saveFromUrl($src, $params);
-				$file['srcType'] = 'url';
+				if ($file = App\Fields\File::saveFromUrl($src, $params)) {
+					$file['srcType'] = 'url';
+				}
 			} else {
 				$file = [
 					'srcType' => 'url',
@@ -522,8 +524,9 @@ class OSSMail_Mail_Model extends \App\Base
 				$fileInstance = App\Fields\File::loadFromContent($attachments[$src]['attachment'], $attachments[$src]['filename'], ['validateAllowedFormat' => 'image']);
 				if ($fileInstance && $fileInstance->validateAndSecure()) {
 					$params['titlePrefix'] = 'content_';
-					$file = App\Fields\File::saveFromContent($fileInstance, $params);
-					$file['srcType'] = 'cid';
+					if ($file = App\Fields\File::saveFromContent($fileInstance, $params)) {
+						$file['srcType'] = 'cid';
+					}
 					unset($attachments[$src]);
 				}
 			} else {
