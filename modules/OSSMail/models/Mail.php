@@ -454,7 +454,7 @@ class OSSMail_Mail_Model extends \App\Base
 				'~</?o:[^>]*>~', // remove mso tags
 				'~\sclass=[\'|\"][^\'\"]+[\'|\"]~i', // remove class attributes
 			], ['', '', '', '', '', '', '', ''], $html);
-		$dom = new \DOMDocument('1.0', 'UTF-8');
+		$doc = new \DOMDocument('1.0', 'UTF-8');
 		$previousValue = libxml_use_internal_errors(true);
 		$doc->loadHTML('<?xml encoding="utf-8"?>' . $html);
 		libxml_clear_errors();
