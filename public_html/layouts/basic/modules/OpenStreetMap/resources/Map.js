@@ -672,7 +672,7 @@ jQuery.Class(
 						app.showNotify({
 							titleTrusted: false,
 							textTrusted: false,
-							title: title,
+							title: app.vtranslate('JS_UNEXPECTED_ERROR'),
 							text: error,
 							type: 'error'
 						});

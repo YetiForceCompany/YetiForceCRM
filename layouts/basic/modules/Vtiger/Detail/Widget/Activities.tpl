@@ -12,7 +12,7 @@
 					</div>
 					<div class="c-detail-widget__header__title">
 						<h5 class="mb-0 modCT_Calendar" title="{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}">
-							{if $WIDGET['label'] eq ''}
+							{if empty($WIDGET['label'])}
 								{App\Language::translate('LBL_ACTIVITIES',$MODULE_NAME)}
 							{else}
 								{App\Language::translate($WIDGET['label'],$MODULE_NAME)}

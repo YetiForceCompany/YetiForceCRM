@@ -16,7 +16,11 @@
 					</div>
 					<div class="c-detail-widget__header__title">
 						<h5 class="mb-0 text-truncate">
-							{\App\Language::translate($WIDGET['label'],$MODULE_NAME)}
+							{if empty($WIDGET['label'])}
+								{App\Language::translate('emailPreviewHeader',$MODULE_NAME)}
+							{else}
+								{App\Language::translate($WIDGET['label'],$MODULE_NAME)}
+							{/if}
 						</h5>
 					</div>
 					<div class="row inline justify-center js-hb__container ml-auto">
