@@ -18,9 +18,6 @@ namespace App\Map\Routing;
  */
 class YetiForce extends Base
 {
-	/** @var string[] Supported languages. */
-	protected $languages = ['de-DE', 'en-US', 'es-ES', 'fr-FR', 'gr-GR', 'hu-HU', 'id-ID', 'it-IT', 'ne-NP', 'nl-NL', 'pt-PT', 'ru-RU', 'zh-CN'];
-
 	/** {@inheritdoc} */
 	public function calculate()
 	{
@@ -28,59 +25,53 @@ class YetiForce extends Base
 		if (!\App\RequestUtil::isNetConnection() || ((empty($product['params']['login']) || empty($product['params']['pass'])) && empty($product['params']['token']))) {
 			throw new \App\Exceptions\AppException('ERR_NO_INTERNET_CONNECTION');
 		}
-		$params = array_merge([
-			'coordinates' => implode('|', $this->parsePoints()),
-			'format' => 'geojson',
-			'preference' => 'fastest',
-			'profile' => 'driving-car',
-			'units' => 'km',
-			'language' => \in_array(\App\Language::getLanguage(), $this->languages) ? \App\Language::getLanguage() : 'en-US',
-			'instructions_format' => 'html',
-		], $this->params);
 		$options = [
-			'timeout' => 60,
+			'version' => 2.0,
+			'timeout' => 120,
 			'http_errors' => false,
 			'headers' => [
-				'Accept' => 'application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8',
 				'InsKey' => \App\YetiForce\Register::getInstanceKey(),
 			],
+			'json' => array_merge([
+				'points' => $this->parsePoints(),
+				'points_encoded' => false,
+				'locale' => \App\Language::getShortLanguageName(),
+			], $this->params),
 		];
+		$params = [];
 		if (isset($product['params']['token'])) {
 			$params['yf_token'] = $product['params']['token'];
 		} else {
 			$options['auth'] = [$product['params']['login'], $product['params']['pass']];
 		}
-		$coordinates = [];
-		$travel = $distance = 0;
-		$description = '';
-
-		$url = 'https://osm-route.yetiforce.eu/ors/directions?' . \http_build_query($params);
-		\App\Log::beginProfile("GET|YetiForce::calculate|{$url}", __NAMESPACE__);
-		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, $options);
-		\App\Log::endProfile("GET|YetiForce::calculate|{$url}", __NAMESPACE__);
+		$url = 'https://osm-route.yetiforce.eu?' . \http_build_query($params);
+		\App\Log::beginProfile("POST|YetiForceRouting::calculate|{$url}", __NAMESPACE__);
+		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, $options);
+		\App\Log::endProfile("POST|YetiForceRouting::calculate|{$url}", __NAMESPACE__);
 		if (200 === $response->getStatusCode()) {
 			$json = \App\Json::decode($response->getBody());
 		} else {
-			throw new \App\Exceptions\AppException('Error with connection |' . $response->getReasonPhrase() . '|' . $response->getBody(), 500);
-		}
-		foreach ($json['features'] as $feature) {
-			$coordinates = array_merge($coordinates, $feature['geometry']['coordinates']);
-			foreach ($feature['properties']['summary'] as $summary) {
-				$distance += $summary['distance'];
-				$travel += $summary['duration'];
+			$error = 'Error with connection |' . $response->getReasonPhrase() . '|' . $response->getBody();
+			$json = \App\Json::decode($response->getBody());
+			if (400 === $response->getStatusCode() && isset($json['message'])) {
+				$error = $json['message'];
 			}
-			foreach ($feature['properties']['segments'] as $segments) {
-				foreach ($segments['steps'] as $steps) {
-					$description .= $steps['instruction'] . '<br>';
-				}
+			throw new \App\Exceptions\AppException($error, 500);
+		}
+		$coordinates = [];
+		$description = '';
+		foreach ($json['paths'] as $path) {
+			$coordinates = array_merge($coordinates, $path['points']['coordinates']);
+			$this->distance += $path['distance'] / 1000;
+			$this->travelTime += $path['time'] / 1000;
+			foreach ($path['instructions'] as $instruction) {
+				$description .= $instruction['text'] . ($instruction['distance'] ? ' (' . (int) $instruction['distance'] . 'm)' : '') . '<br>';
 			}
 		}
 		$this->geoJson = [
 			'type' => 'LineString',
 			'coordinates' => $coordinates,
 		];
-		$this->travelTime = $travel;
-		$this->distance = $distance;
 		$this->description = $description;
 	}
 
@@ -88,14 +79,14 @@ class YetiForce extends Base
 	public function parsePoints(): array
 	{
 		$tracks = [
-			$this->start['lon'] . ',' . $this->start['lat'],
+			[$this->start['lon'], $this->start['lat']],
 		];
 		if (!empty($this->indirectPoints)) {
 			foreach ($this->indirectPoints as $tempLon) {
-				$tracks[] = $tempLon['lon'] . ',' . $tempLon['lat'];
+				$tracks[] = [$tempLon['lon'], $tempLon['lat']];
 			}
 		}
-		$tracks[] = $this->end['lon'] . ',' . $this->end['lat'];
+		$tracks[] = [$this->end['lon'], $this->end['lat']];
 		return $tracks;
 	}
 }

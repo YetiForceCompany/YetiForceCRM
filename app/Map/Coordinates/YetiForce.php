@@ -27,6 +27,7 @@ class YetiForce extends Base
 			return false;
 		}
 		$params = array_merge([
+			'version' => 2.0,
 			'format' => 'json',
 			'addressdetails' => 1,
 			'limit' => 1,

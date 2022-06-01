@@ -57,10 +57,12 @@ class YetiForceGeocoder extends Base
 			'accept-language' => \App\Language::getLanguage() . ',' . \App\Config::main('default_language') . ',en-US',
 			'q' => $value,
 		];
+
 		if (!empty($this->config['country_codes'])) {
 			$params['countrycodes'] = $this->config['country_codes'];
 		}
 		$options = [
+			'version' => 2.0,
 			'timeout' => 30,
 			'headers' => [
 				'InsKey' => \App\YetiForce\Register::getInstanceKey(),
