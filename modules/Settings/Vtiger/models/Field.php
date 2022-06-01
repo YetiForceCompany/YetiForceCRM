@@ -46,4 +46,14 @@ class Settings_Vtiger_Field_Model extends Vtiger_Field_Model
 		}
 		return $moduleName;
 	}
+
+	/** {@inheritdoc} */
+	public function getFieldDataType()
+	{
+		if (!isset($this->fieldDataType) && 62 === $this->uitype) {
+			$this->fieldDataType = 'icon';
+		}
+
+		return parent::getFieldDataType();
+	}
 }

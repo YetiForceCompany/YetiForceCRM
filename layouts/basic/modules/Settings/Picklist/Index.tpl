@@ -22,7 +22,7 @@
 				<div class="col-md-4">
 					<select class="select2 form-control" id="pickListModules">
 						{foreach item=PICKLIST_MODULE from=$PICKLIST_MODULES}
-							<option {if $SELECTED_MODULE_NAME eq $PICKLIST_MODULE->get('name')} selected="" {/if} value="{$PICKLIST_MODULE->get('name')}">{\App\Language::translate($PICKLIST_MODULE->get('label'),$PICKLIST_MODULE->get('name'))}</option>
+							<option {if $SELECTED_MODULE_NAME eq $PICKLIST_MODULE.tabname} selected="" {/if} value="{$PICKLIST_MODULE.tabname}">{\App\Language::translate($PICKLIST_MODULE.tablabel, $PICKLIST_MODULE.tabname)}</option>
 						{/foreach}
 					</select>
 				</div>

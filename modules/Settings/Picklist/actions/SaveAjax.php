@@ -44,7 +44,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if (!$fileInstance->validate() || 'csv' !== $fileInstance->getExtension() || $fileInstance->getSize() > \App\Config::getMaxUploadSize()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		$moduleModel = Settings_Picklist_Module_Model::getInstance($request->getByType('source_module', 'Alnum'));
+		$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', \App\Purifier::ALNUM));
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getForSql('picklistName'), $moduleModel);
 		$csv = new \ParseCsv\Csv();
 		$csv->heading = false;
@@ -116,7 +116,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	{
 		$moduleName = $request->getByType('source_module', \App\Purifier::ALNUM);
 		$pickListFieldName = $request->getByType('picklistName', \App\Purifier::ALNUM);
-		$moduleModel = Settings_Picklist_Module_Model::getInstance($moduleName);
+		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, $moduleModel);
 		$id = $request->getInteger('primaryKeyId', 0);
 

@@ -31,10 +31,11 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 	 */
 	public function getPickListDetailsForModule(App\Request $request)
 	{
-		$sourceModule = $request->getByType('source_module', 2);
-		$moduleModel = Settings_Picklist_Module_Model::getInstance($sourceModule);
-		$pickListFields = $moduleModel->getFieldsByType(['picklist', 'multipicklist'], true);
 		$qualifiedName = $request->getModule(false);
+		$sourceModule = $request->getByType('source_module', 2);
+		$moduleModel = Settings_Picklist_Module_Model::getInstance($qualifiedName)->setSourceModule($sourceModule);
+		$pickListFields = $moduleModel->getFieldsByType(['picklist', 'multipicklist'], true);
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PICKLIST_FIELDS', $pickListFields);
 		$viewer->assign('PICKLIST_INTERDEPENDENT', $moduleModel->listModuleInterdependentPickList(array_keys($pickListFields)));

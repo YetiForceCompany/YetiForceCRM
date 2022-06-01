@@ -1490,7 +1490,9 @@
     "LBL_TILE_SMALL": "Small",
     "LBL_TILE_MEDIUM": "Medium",
     "LBL_TILE_BIG": "Big",
-    "LBL_SET_CUSTOM_COLUMNS_LABEL": "Set custom label"
+    "LBL_SET_CUSTOM_COLUMNS_LABEL": "Set custom label",
+    "LBL_ICONS": "Icons",
+    "LBL_BROWSE_ASSETS": "Browse assets"
   },
   "js": {
     "JS_APPROVE": "Approve",

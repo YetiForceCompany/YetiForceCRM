@@ -41,8 +41,8 @@
     "LBL_IS_NOT_A_PROCESS_STATUS_FIELD": "Field is not a process status field.",
     "LBL_IMPORT_VALUE": "Import values",
     "LBL_CONFIRM_BEFORE_MODIFY": "The selected field is interdependent with other modules: %s. Are you sure you want to proceed?",
-    "LBL_DUPLICATE_VALUE": "Value already exists",
-    "LBL_CSV_DESC": "Import csv file with each value per line"
+    "LBL_CSV_DESC": "Import csv file with each value per line",
+    "LBL_ICON": "Icon"
   },
   "js": {
     "JS_ITEMS_DELETED_SUCCESSFULLY": "Items deleted successfully",

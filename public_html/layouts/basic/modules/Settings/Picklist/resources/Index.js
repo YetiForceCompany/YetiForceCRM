@@ -132,13 +132,14 @@ window.Settings_Picklist_Index_Js = class {
 	showEditView(params) {
 		AppConnector.request(params).done((data) => {
 			app.showModalWindow(data, (container) => {
+				App.Fields.Icon.register(container);
 				container.find('.js-modal__save').on('click', (e, skipConfirmation) => {
 					let form = container.find('form');
 					if (form.validationEngine('validate')) {
 						let confirmation = this.picklistField.find('option:selected').data('confirmation');
 						if (skipConfirmation !== true && confirmation !== undefined) {
 							app.showConfirmModal({
-								title: confirmation,
+								text: confirmation,
 								confirmedCallback: () => {
 									$(e.currentTarget).trigger('click', true);
 								}
@@ -236,7 +237,7 @@ window.Settings_Picklist_Index_Js = class {
 						let confirmation = this.picklistField.find('option:selected').data('confirmation');
 						if (skipConfirmation !== true && confirmation !== undefined) {
 							app.showConfirmModal({
-								title: confirmation,
+								text: confirmation,
 								confirmedCallback: () => {
 									$(e.currentTarget).trigger('click', true);
 								}
@@ -419,7 +420,7 @@ Vtiger_Base_Validator_Js(
 			var instance = new Vtiger_FieldLabel_Validator_Js();
 			instance.setElement(field);
 			var response = instance.validate();
-			if (response != true) {
+			if (response !== true) {
 				return instance.getError();
 			}
 		}

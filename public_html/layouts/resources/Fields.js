@@ -3333,7 +3333,6 @@ window.App.Fields = {
 
 			let fieldInfo = this.dataInput.data('fieldinfo') || {};
 			this.options = {
-				showCarousel: true,
 				formats: fieldInfo.formats || [],
 				limit: fieldInfo.limit || 1,
 				maxFileSize: fieldInfo.maxFileSize,
@@ -3759,6 +3758,75 @@ window.App.Fields = {
 				return { key: file.key, name: file.name, size: file.size, type: file.type };
 			});
 			this.dataInput.val(JSON.stringify(formValues));
+		}
+	},
+	/**
+	 * Icon
+	 */
+	Icon: class Icon {
+		constructor(container) {
+			this.container = container;
+			this.init();
+		}
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		static register(container) {
+			if (container.hasClass('js-icon-container')) {
+				return new Icon(container);
+			}
+			const instances = [];
+			container.find('.js-icon-container').each((_, e) => {
+				instances.push(new Icon($(e)));
+			});
+
+			return instances;
+		}
+		/**
+		 * Initiation
+		 */
+		init() {
+			this.iconElement = $('.js-icon-show span', this.container);
+			$('.js-clear-selection', this.container)
+				.off('click')
+				.on('click', () => {
+					this.clear();
+				});
+			$('.js-icon-select', this.container)
+				.off('click')
+				.on('click', () => {
+					App.Components.Icons.modalView().done((data) => {
+						this.iconElement.removeClass().addClass(data.name);
+						this.setDisplayFieldValue(data.name);
+					});
+				});
+		}
+		/**
+		 * Clear selection
+		 */
+		clear() {
+			let element = this.getField();
+			let fieldName = element.attr('name');
+			element.val('');
+			this.container.find(`#${fieldName}_display`).val('');
+			this.iconElement.removeClass();
+		}
+		/**
+		 * Set icon name
+		 * @param {string} data
+		 */
+		setDisplayFieldValue(name) {
+			let sourceField = this.getField(),
+				fieldName = sourceField.attr('name');
+			sourceField.val(name);
+			this.container.find(`#${fieldName}_display`).val(name).attr('readonly', true);
+		}
+		/**
+		 * Gets field
+		 */
+		getField() {
+			return this.container.find('.js-source-field');
 		}
 	},
 	Utils: {

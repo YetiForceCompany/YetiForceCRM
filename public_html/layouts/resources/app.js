@@ -785,6 +785,32 @@ var App = (window.App = {
 						this.destroyInterval();
 					});
 			}
+		},
+		Icons: class Icons {
+			static modalView(params = {}) {
+				var aDeferred = $.Deferred();
+				let url = `index.php?module=AppComponents&view=IconsModal`;
+				if (params && Object.keys(params).length) {
+					url = app.convertObjectToUrl(params, url);
+				}
+				let progressElement = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
+				app.showModalWindow({
+					id: 'iconsModal',
+					url,
+					cb: (container) => {
+						progressElement.progressIndicator({ mode: 'hide' });
+						container.find('.js-icon-item').on('click', (e) => {
+							aDeferred.resolve({
+								type: e.currentTarget.dataset.type,
+								name: e.currentTarget.dataset.name
+							});
+							app.hideModalWindow(null, 'iconsModal');
+						});
+					}
+				});
+
+				return aDeferred.promise();
+			}
 		}
 	},
 	Notify: {
@@ -1753,16 +1779,10 @@ var app = (window.app = {
 		});
 	},
 	isHidden: function (element) {
-		if (element.css('display') == 'none') {
-			return true;
-		}
-		return false;
+		return element.css('display') == 'none';
 	},
 	isInvisible: function (element) {
-		if (element.css('visibility') == 'hidden') {
-			return true;
-		}
-		return false;
+		return element.css('visibility') == 'hidden';
 	},
 	/**
 	 * Default validation eninge options

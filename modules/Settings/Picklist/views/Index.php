@@ -14,17 +14,16 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		$sourceModule = $request->getByType('source_module', 2);
-		$pickListSupportedModules = Settings_Picklist_Module_Model::getPicklistSupportedModules();
-		if (empty($sourceModule)) {
-			$sourceModule = $pickListSupportedModules[0]->name;
-		}
-		$moduleModel = Settings_Picklist_Module_Model::getInstance($sourceModule);
-		$viewer = $this->getViewer($request);
 		$qualifiedName = $request->getModule(false);
+		$sourceModule = $request->getByType('source_module', \App\Purifier::ALNUM);
+		$pickListSupportedModules = \App\Fields\Picklist::getModules();
+		if (empty($sourceModule)) {
+			$sourceModule = reset($pickListSupportedModules)['tabname'];
+		}
+		$moduleModel = Settings_Picklist_Module_Model::getInstance($qualifiedName)->setSourceModule($sourceModule);
 
+		$viewer = $this->getViewer($request);
 		$viewer->assign('PICKLIST_MODULES', $pickListSupportedModules);
-
 		$pickListFields = $moduleModel->getFieldsByType(['picklist', 'multipicklist'], true);
 		if (\count($pickListFields) > 0) {
 			$selectedPickListFieldModel = reset($pickListFields);

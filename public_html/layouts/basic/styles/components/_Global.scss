@@ -688,3 +688,22 @@ input[type="checkbox"][disabled] {
 		}
 	}
 }
+
+.c-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(calc(1em * 8), 1fr));
+	grid-gap: 1em 1em;
+    grid-auto-flow: row dense;
+    justify-items: center;
+	@at-root #{&}-item {
+		&--signature {
+			width: 100%;
+			line-height: 1.25;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+		}
+	}
+}

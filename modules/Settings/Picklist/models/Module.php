@@ -10,21 +10,57 @@
  * Contributor(s): YetiForce S.A.
  * ********************************************************************************** */
 
-class Settings_Picklist_Module_Model extends Vtiger_Module_Model
+class Settings_Picklist_Module_Model extends Settings_Vtiger_Module_Model
 {
+	/** @var string Module name */
+	public $name = 'Picklist';
+	/** @var string Parent name */
+	public $parent = 'Settings';
+	/** @var \Vtiger_Module_Model Source module model */
+	public $sourceModule;
+	/** @var \Settings_Picklist_Field_Model[] Fields model */
+	protected $fields = [];
+
+	/**
+	 * Set source module.
+	 *
+	 * @param string $sourceModule
+	 *
+	 * @return $this
+	 */
+	public function setSourceModule(string $sourceModule)
+	{
+		$this->sourceModule = \Vtiger_Module_Model::getInstance($sourceModule);
+
+		return $this;
+	}
+
 	/** {@inheritdoc} */
 	public function getFieldsByType($type, bool $active = false): array
 	{
-		$fieldModels = parent::getFieldsByType($type, $active);
-		$fields = [];
-		foreach ($fieldModels as $fieldName => $fieldModel) {
-			$field = Settings_Picklist_Field_Model::getInstanceFromFieldObject($fieldModel);
-			if ($field->isEditable()) {
-				$fields[$fieldName] = $field;
+		if (!$this->fields) {
+			$fieldModels = $this->sourceModule->getFieldsByType($type, $active);
+			foreach ($fieldModels as $fieldName => $fieldModel) {
+				$field = Settings_Picklist_Field_Model::getInstanceFromFieldObject($fieldModel);
+				if ($field->isEditable()) {
+					$this->fields[$fieldName] = $field;
+				}
 			}
 		}
 
-		return $fields;
+		return $this->fields;
+	}
+
+	/**
+	 * Get fields instance by name.
+	 *
+	 * @param string $name
+	 *
+	 * @return Vtiger_Field_Model
+	 */
+	public function getFieldByName($name)
+	{
+		return $this->getFieldsByType(['picklist', 'multipicklist'], true)[$name] ?? null;
 	}
 
 	/**
@@ -100,42 +136,6 @@ class Settings_Picklist_Module_Model extends Vtiger_Module_Model
 		$set .= ' END';
 		$expression = new \yii\db\Expression($set);
 		$db->createCommand()->update(\App\Fields\Picklist::getPickListTableName($pickListFieldName), ['sortorderid' => $expression])->execute();
-	}
-
-	/**
-	 * Undocumented function.
-	 *
-	 * @return void
-	 */
-	public static function getPicklistSupportedModules()
-	{
-		$modules = \App\Fields\Picklist::getModules();
-		$modulesModelsList = [];
-		foreach ($modules as $moduleData) {
-			$instance = new static();
-			$instance->name = $moduleData['tablabel'];
-			$instance->label = $moduleData['tabname'];
-			$modulesModelsList[] = $instance;
-		}
-		return $modulesModelsList;
-	}
-
-	/**
-	 * Static Function to get the instance of Vtiger Module Model for the given id or name.
-	 *
-	 * @param int|string $mixed id or name of the module
-	 * @param mixed      $value
-	 *
-	 * @return self
-	 */
-	public static function getInstance($value)
-	{
-		$instance = false;
-		$moduleObject = parent::getInstance($value);
-		if ($moduleObject) {
-			$instance = self::getInstanceFromModuleObject($moduleObject);
-		}
-		return $instance;
 	}
 
 	/**

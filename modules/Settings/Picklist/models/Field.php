@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce S.A.
  * ********************************************************************************** */
 
-class Settings_Picklist_Field_Model extends Vtiger_Field_Model
+class Settings_Picklist_Field_Model extends Settings_Vtiger_Field_Model
 {
 	/**
 	 * Function to check whether the current field is editable.

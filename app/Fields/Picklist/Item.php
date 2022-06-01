@@ -114,7 +114,8 @@ class Item extends \App\Base
 		return [
 			'description' => \yii\db\Schema::TYPE_TEXT,
 			'prefix' => [\yii\db\Schema::TYPE_STRING, 30],
-			'color' => [\yii\db\Schema::TYPE_STRING, 25]
+			'color' => [\yii\db\Schema::TYPE_STRING, 25],
+			'icon' => [\yii\db\Schema::TYPE_STRING, 255]
 		];
 	}
 
@@ -421,9 +422,9 @@ class Item extends \App\Base
 	/**
 	 * Get fields for edit.
 	 *
-	 * @return void
+	 * @return array
 	 */
-	public function getEditFields()
+	public function getEditFields(): array
 	{
 		$fields = [];
 		$editFields = ['name'];
@@ -432,6 +433,7 @@ class Item extends \App\Base
 		}
 		$editFields[] = 'description';
 		$editFields[] = 'prefix';
+		$editFields[] = 'icon';
 		if ($this->fieldModel->getFieldParams()['isProcessStatusField'] ?? false) {
 			$editFields[] = 'time_counting';
 			$editFields[] = 'record_state';
@@ -508,16 +510,16 @@ class Item extends \App\Base
 					throw new \App\Exceptions\IllegalValue("ERR_DUPLICATES_VALUES_FOUND||{$fieldName}||{$value}", 513);
 				}
 				break;
+			case 'color':
 			case 'description':
 			case 'prefix':
 			case 'close_state':
-			case 'time_counting':
-			case 'record_state':
+			case 'icon':
 				$itemPropertyModel = $this->getFieldInstanceByName($fieldName);
 				$itemPropertyModel->getUITypeModel()->validate($value, false);
 				break;
-			case 'color':
-			case 'icon':
+			case 'time_counting':
+			case 'record_state':
 			case 'sortorderid':
 				if (!\App\Validator::integer($value)) {
 					throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$fieldName}||{$value}", 406);
@@ -601,6 +603,18 @@ class Item extends \App\Base
 					'table' => 'u_#__picklist_close_state'
 				];
 				break;
+			case 'icon':
+				$params = [
+					'name' => $name,
+					'column' => $name,
+					'label' => 'LBL_ICON',
+					'uitype' => 62,
+					'typeofdata' => 'V~O',
+					'maximumlength' => '255',
+					'purifyType' => \App\Purifier::TEXT,
+					'table' => $tableName
+				];
+				break;
 			case 'time_counting':
 				$params = [
 					'name' => $name,
@@ -662,6 +676,6 @@ class Item extends \App\Base
 				break;
 		}
 
-		return $params ? \Vtiger_Field_Model::init($qualifiedModuleName, $params, $name) : null;
+		return $params ? \Vtiger_Field_Model::init($qualifiedModuleName, $params, $name)->set('sourceFieldModel', $this->fieldModel) : null;
 	}
 }
