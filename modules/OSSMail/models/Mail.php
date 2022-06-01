@@ -509,6 +509,7 @@ class OSSMail_Mail_Model extends \App\Base
 			$params['titlePrefix'] = 'url_';
 			if (\Config\Modules\OSSMailScanner::$attachMailBodyGraphicUrl ?? true) {
 				$file = App\Fields\File::saveFromUrl($src, $params);
+				$file['srcType'] = 'url';
 			} else {
 				$file = [
 					'srcType' => 'url',
@@ -541,6 +542,8 @@ class OSSMail_Mail_Model extends \App\Base
 				$yetiforceTag->setAttribute('attachment-id', $file['attachmentsId']);
 			}
 			$element->parentNode->replaceChild($yetiforceTag, $element);
+		} else {
+			$file = [];
 		}
 		return $file;
 	}
