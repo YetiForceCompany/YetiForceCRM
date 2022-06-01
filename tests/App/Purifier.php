@@ -205,7 +205,6 @@ class Purifier extends \Tests\Base
 		$rows = [];
 		$file = \App\Fields\File::loadFromUrl('https://raw.githubusercontent.com/YetiForceCompany/YetiForceCRM-Tests/main/xss-payload.txt');
 		$fileRows = explode("\n", $file->getContents());
-		// $fileRows = explode("\n", file_get_contents('c:\www\YetiForceCRM-Tests\xss-payload.txt'));
 		foreach ($fileRows as $row) {
 			if ($row) {
 				$rows[] = [$row];
@@ -247,6 +246,8 @@ class Purifier extends \Tests\Base
 			['<div>Test-text-string-for-purifier</div>', '<div>Test-text-string-for-purifier</div>', true],
 			['ę€ółśążźćń23{}":?>><>?:"{}+_)', 'ę€ółśążźćń23{}":?&gt;&gt;&lt;&gt;?:"{}+_)', true],
 			['ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!)', 'ę€ółśążźćń23{}":?&gt;&gt;&lt;&gt;?:"{}+_)(*&amp;^%$#@!)', true],
+			[\file_get_contents(ROOT_DIRECTORY . '/tests/data/phpFile1.html'), \file_get_contents(ROOT_DIRECTORY . '/tests/data/phpFile2.html'), true],
+			['<p><yetiforce type="Documents" crm-id="70521" attachment-id="22855"></yetiforce></p>', '<p><yetiforce type="Documents" crm-id="70521" attachment-id="22855"></yetiforce></p>', true],
 		];
 	}
 
