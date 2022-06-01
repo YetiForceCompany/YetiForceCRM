@@ -23,7 +23,7 @@
 							<button type="button" class="ml-2 btn {if !empty($ORDER_BY)}btn-info{else}btn-outline-info{/if} btn-xs js-show-modal"
 								data-url="index.php?view=SortOrderModal&module={$MODULE_NAME}"
 								data-modalid="sortOrderModal-{\App\Layout::getUniqueId()}" data-js="click">
-								<span class="fas fa-sort"></span>
+								<span aria-label="{\App\Language::translate('LBL_SORTING_SETTINGS')}" class="fas fa-sort"></span>
 							</button>
 						{/if}
 						{if $MODULE_MODEL->isCustomViewAdvCondEnabled()}

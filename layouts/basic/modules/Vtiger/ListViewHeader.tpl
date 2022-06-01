@@ -100,22 +100,21 @@
 				</div>
 			</div>
 			{if $CUSTOM_VIEWS|@count gt 0}
-				<ul class="c-tab--border nav nav-tabs" role="tablist">
+				<ul class="c-tab--border nav nav-tabs" role="list">
 					{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 						{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 							{if $CUSTOM_VIEW->isFeatured()}
 								<li class="nav-item js-filter-tab c-tab--small font-weight-bold"
-									data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
+									data-cvid="{$CUSTOM_VIEW->getId()}" role="listitem" data-js="click">
 									<a class="nav-link{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}" href="#"
 										{if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')}; border-color: {$CUSTOM_VIEW->get('color')} {$CUSTOM_VIEW->get('color')} #fff" {/if}
-										data-toggle="tab" role="tab"
-										aria-selected="{if $VIEWID == $CUSTOM_VIEW->getId()}true{else}false{/if}">
+										data-toggle="tab"
 										{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 										{if $CUSTOM_VIEW->get('description')}
 											<span class="js-popover-tooltip ml-1" data-toggle="popover"
-												data-placement="top"
-												data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}" data-js="popover">
-												<span class="fas fa-info-circle"></span>
+											data-placement="top"
+											data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}" data-js="popover">
+											<span class="fas fa-info-circle"></span>
 											</span>
 										{/if}
 									</a>
