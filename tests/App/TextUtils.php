@@ -14,7 +14,7 @@ namespace Tests\App;
 /**
  * TextUtils test class.
  */
-class TextParser extends \Tests\Base
+class TextUtils extends \Tests\Base
 {
 	/**
 	 * Tests `\App\TextUtils::getTextLength` methods.
