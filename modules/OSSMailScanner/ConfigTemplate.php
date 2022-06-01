@@ -29,18 +29,6 @@ return [
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool'
 	],
-	'attachMailBodyGraphicBase64' => [
-		'default' => true,
-		'description' => "Do you want to attach graphic files from the email body as documents: From Base64 src='data:image/jpeg;base64, ...... ?\n@var bool When the option is disabled, graphic files aren't saved in the CRM",
-		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
-	],
-	'attachMailBodyGraphicCid' => [
-		'default' => true,
-		'description' => "Do you want to attach graphic files from the email body as documents: src=cid:part1... ?\n@var bool When the option is disabled, graphic files aren't saved in the CRM",
-		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool'
-	],
 	'searchPrefixInBody' => [
 		'default' => false,
 		'description' => 'Search prefix in body, type: boolean',

@@ -347,6 +347,11 @@ class Purifier
 				'type' => 'Text',
 				'rel' => 'Text',
 			]);
+			$def->addElement('yetiforce', 'Inline', 'Inline', 'Common', [
+				'type' => 'Text',
+				'crm-id' => 'Length',
+				'attachment-id' => 'Length',
+			]);
 			$def->addElement('s', 'Inline', 'Inline', 'Common');
 			$def->addElement('var', 'Inline', 'Inline', 'Common');
 			$def->addElement('sub', 'Inline', 'Inline', 'Common');
