@@ -85,7 +85,7 @@ class Vtiger_BrowsingHistory_Helper
 				$title .= ' | ' . \App\Utils\Completions::encodeEmoji(App\Record::getLabel($urlQuery['record']));
 			}
 			if (mb_strlen($title) > 255) {
-				$title = \App\TextParser::textTruncate($title, 255, false);
+				$title = \App\TextUtils::textTruncate($title, 255, false);
 			}
 			\App\Db::getInstance()->createCommand()
 				->insert('u_#__browsinghistory', [

@@ -5,7 +5,7 @@
 			<a class="modCT_{$RELATED['module']} js-popover-tooltip--record" href="{$URL}index.php?module={$RELATED['module']}&amp;view=Detail&amp;record={$RELATED['id']}" target="_blank">
 				<span class="relatedModuleIcon yfm-{$RELATED['module']}" aria-hidden="true"></span>
 				<span class="relatedName">
-					{App\TextParser::textTruncate($RELATED['label'],38)}
+					{App\TextUtils::textTruncate($RELATED['label'],38)}
 				</span>
 			</a>
 			<div class="rowActions">
@@ -47,7 +47,7 @@
 			<a class="modCT_{$RELATED['module']}">
 				<span class="relatedModuleIcon yfm-{$RELATED['module']}" aria-hidden="true"></span>
 				<span class="relatedName">
-					{App\TextParser::textTruncate($RELATED['label'],38)}
+					{App\TextUtils::textTruncate($RELATED['label'],38)}
 				</span>
 			</a>
 		{/if}

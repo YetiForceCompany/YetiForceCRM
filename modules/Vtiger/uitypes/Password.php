@@ -40,7 +40,7 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 		if (!$isUserFormat && \App\Encryption::getInstance()->isActive()) {
 			$maximumLength = $this->getFieldModel()->getDbValueLength();
 		}
-		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
+		if ($maximumLength && App\TextUtils::getTextLength($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;

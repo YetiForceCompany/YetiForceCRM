@@ -79,7 +79,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 			return $ownerName;
 		}
 		if (\is_int($length)) {
-			$ownerName = \App\TextParser::textTruncate($ownerName, $length);
+			$ownerName = \App\TextUtils::textTruncate($ownerName, $length);
 		}
 		switch (\App\Fields\Owner::getType($value)) {
 			case 'Users':

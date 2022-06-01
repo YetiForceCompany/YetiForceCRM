@@ -5,7 +5,7 @@
 			<div class="row">
 				<div class="p-0 text-center col-sm-3">
 					<a href="{$TASK->getDetailViewUrl()}">
-						{\App\TextParser::textTruncate($TASK->getDisplayName(), $NAMELENGTH)}
+						{\App\TextUtils::textTruncate($TASK->getDisplayName(), $NAMELENGTH)}
 					</a>
 				</div>
 				<div class="p-0 text-center col-sm-1">

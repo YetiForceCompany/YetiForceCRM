@@ -68,7 +68,7 @@
 								{if strlen($RELATED_RECORD->get('rel_comment')) > App\Config::relation('COMMENT_MAX_LENGTH')}
 									<a class="js-popover-tooltip" data-js="popover" data-placement="top"
 										data-content="{$RELATED_RECORD->get('rel_comment')}">
-										{App\TextParser::textTruncate($RELATED_RECORD->get('rel_comment'), App\Config::relation('COMMENT_MAX_LENGTH'))}
+										{App\TextUtils::textTruncate($RELATED_RECORD->get('rel_comment'), App\Config::relation('COMMENT_MAX_LENGTH'))}
 									</a>
 								{else}
 									{$RELATED_RECORD->get('rel_comment')}

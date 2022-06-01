@@ -89,7 +89,7 @@ return [
 		'description' => 'Login to SMTP server',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return $arg && !is_numeric($arg) && \is_string($arg) && $arg === strip_tags($arg) && 256 > \App\TextParser::getTextLength($arg);
+			return $arg && !is_numeric($arg) && \is_string($arg) && $arg === strip_tags($arg) && 256 > \App\TextUtils::getTextLength($arg);
 		},
 		'sanitization' => '\App\Purifier::encodeHtml'
 	],
@@ -98,7 +98,7 @@ return [
 		'description' => "SMTP password (if required) if you use %p as the password Roundcube will use the current user's password for login",
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return !empty($arg) && 256 > \App\TextParser::getTextLength($arg);
+			return !empty($arg) && 256 > \App\TextUtils::getTextLength($arg);
 		}
 	],
 	'language' => [

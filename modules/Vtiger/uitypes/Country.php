@@ -38,7 +38,7 @@ class Vtiger_Country_UIType extends Vtiger_Base_UIType
 		}
 		$value = \App\Language::translateSingleMod($value, 'Other.Country', false, false);
 		if (\is_int($length)) {
-			$value = \App\TextParser::textTruncate($value, $length);
+			$value = \App\TextUtils::textTruncate($value, $length);
 		}
 		return \App\Purifier::encodeHtml($value);
 	}

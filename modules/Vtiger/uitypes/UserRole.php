@@ -31,7 +31,7 @@ class Vtiger_UserRole_UIType extends Vtiger_Picklist_UIType
 			return \App\Language::translate($roleName, $this->getFieldModel()->getModuleName());
 		}
 		$displayValue = \App\Language::translate($roleName, $this->getFieldModel()->getModuleName(), false, false);
-		$displayValue = \App\TextParser::textTruncate($displayValue, \is_int($length) ? $length : false);
+		$displayValue = \App\TextUtils::textTruncate($displayValue, \is_int($length) ? $length : false);
 		if (\App\User::getCurrentUserModel()->isAdmin()) {
 			$roleRecordModel = new Settings_Roles_Record_Model();
 			$roleRecordModel->set('roleid', $value);

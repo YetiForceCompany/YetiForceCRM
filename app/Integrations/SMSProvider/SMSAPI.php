@@ -250,7 +250,7 @@ class SMSAPI extends Provider
 	 */
 	public function getSubject(): string
 	{
-		return \App\TextParser::textTruncate(trim(strip_tags($this->get('message'))), 20) ?: $this->get('from');
+		return \App\TextUtils::textTruncate(trim(strip_tags($this->get('message'))), 20) ?: $this->get('from');
 	}
 
 	/**

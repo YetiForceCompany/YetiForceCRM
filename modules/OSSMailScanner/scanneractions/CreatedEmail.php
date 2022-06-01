@@ -42,14 +42,14 @@ class OSSMailScanner_CreatedEmail_ScannerAction
 			$record->set('reply_to_email', $mail->get('reply_toaddress'));
 			$record->set('cc_email', $mail->get('cc_email'));
 			$record->set('bcc_email', $mail->get('bcc_email'));
-			$record->set('orginal_mail', \App\TextParser::htmlTruncate($mail->get('clean'), $record->getField('orginal_mail')->getMaxValue()));
+			$record->set('orginal_mail', \App\TextUtils::htmlTruncate($mail->get('clean'), $record->getField('orginal_mail')->getMaxValue()));
 			$record->set('uid', $mail->get('message_id'))->set('rc_user', $account['user_id']);
 			$record->set('ossmailview_sendtype', $mail->getTypeEmail(true));
 			$record->set('mbox', $mail->getFolder())->set('type', $type)->set('mid', $mail->get('id'));
 			$record->set('from_id', implode(',', array_unique($fromIds)))->set('to_id', implode(',', array_unique($toIds)));
 			$record->set('created_user_id', $mail->getAccountOwner())->set('createdtime', $mail->get('date'));
 			$record->set('date', $mail->get('date'));
-			$record->set('content', \App\TextParser::htmlTruncate($mail->getContent(), $record->getField('content')->getMaxValue()));
+			$record->set('content', \App\TextUtils::htmlTruncate($mail->getContent(), $record->getField('content')->getMaxValue()));
 			if ($mail->get('isAttachments') || $mail->get('attachments')) {
 				$record->set('attachments_exist', 1);
 			}

@@ -174,7 +174,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		$dataReader->close();
 		if (!empty($inviteesRequest)) {
 			foreach ($inviteesRequest as &$invitation) {
-				if (\App\TextParser::getTextLength($invitation[0]) > 100 || !\App\Validator::email($invitation[0])) {
+				if (\App\TextUtils::getTextLength($invitation[0]) > 100 || !\App\Validator::email($invitation[0])) {
 					throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||inviteesid||Calendar||' . $invitation[0], 406);
 				}
 				if (isset($invities[$invitation[2]])) {

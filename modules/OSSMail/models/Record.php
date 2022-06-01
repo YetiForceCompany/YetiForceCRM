@@ -192,7 +192,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			if ($account) {
 				$status = self::MAIL_BOX_STATUS_INVALID_ACCESS == $account['crm_status'] ? self::MAIL_BOX_STATUS_BLOCKED : self::MAIL_BOX_STATUS_INVALID_ACCESS;
 				\App\Db::getInstance()->createCommand()
-					->update('roundcube_users', ['crm_error' => \App\TextParser::textTruncate(imap_last_error(), 250), 'crm_status' => $status], ['user_id' => $account['user_id']])
+					->update('roundcube_users', ['crm_error' => \App\TextUtils::textTruncate(imap_last_error(), 250), 'crm_status' => $status], ['user_id' => $account['user_id']])
 					->execute();
 			}
 			\App\Log::error('Error OSSMail_Record_Model::imapConnect(' . static::$imapConnectMailbox . '): ' . imap_last_error());
@@ -288,8 +288,8 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		$mail->set('reply_toaddress', \App\Purifier::purify($mail->getEmail('reply_to')));
 		$mail->set('cc_email', \App\Purifier::purify($mail->getEmail('cc')));
 		$mail->set('bcc_email', \App\Purifier::purify($mail->getEmail('bcc')));
-		$mail->set('firstLetterBg', strtoupper(\App\TextParser::textTruncate(trim(strip_tags(App\Purifier::purify($mail->getEmail('from')))), 1, false)));
-		$mail->set('subject', isset($header->subject) ? \App\TextParser::textTruncate(\App\Purifier::purify(self::decodeText($header->subject)), 65535, false) : '');
+		$mail->set('firstLetterBg', strtoupper(\App\TextUtils::textTruncate(trim(strip_tags(App\Purifier::purify($mail->getEmail('from')))), 1, false)));
+		$mail->set('subject', isset($header->subject) ? \App\TextUtils::textTruncate(\App\Purifier::purify(self::decodeText($header->subject)), 65535, false) : '');
 		$mail->set('date', date('Y-m-d H:i:s', $header->udate));
 		if ($fullMode) {
 			$structure = self::getBodyAttach($mbox, $id, $msgno);

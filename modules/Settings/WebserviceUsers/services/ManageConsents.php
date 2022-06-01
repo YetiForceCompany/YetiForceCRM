@@ -199,7 +199,7 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 				break;
 			case 'type':
 				$label = \App\Language::translate($this->getTypeValues($this->get($name)), $this->getModule()->getName(true));
-				$value = \App\TextParser::textTruncate($label);
+				$value = \App\TextUtils::textTruncate($label);
 				break;
 			default:
 				$value = $this->get($name);

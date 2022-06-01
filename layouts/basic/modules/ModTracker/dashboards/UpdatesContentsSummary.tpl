@@ -14,7 +14,7 @@
 									<span class="{ModTracker::$iconActions[$KEY]} fa-fw"></span>
 								</span>
 								<div class="mt-1">
-									{App\TextParser::textTruncate(\App\Utils::mbUcfirst(\App\Language::translate(ModTracker_Record_Model::$statusLabel[$KEY], $MODULE_NAME)), 15)}
+									{App\TextUtils::textTruncate(\App\Utils::mbUcfirst(\App\Language::translate(ModTracker_Record_Model::$statusLabel[$KEY], $MODULE_NAME)), 15)}
 								</div>
 							</th>
 						{/foreach}

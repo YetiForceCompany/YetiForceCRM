@@ -356,7 +356,7 @@ class Login extends \Api\Core\BaseAction
 				'params' => \App\Json::encode($params),
 				'ip' => $this->controller->request->getServer('REMOTE_ADDR'),
 				'last_method' => $this->controller->request->getServer('REQUEST_URI'),
-				'agent' => \App\TextParser::textTruncate($this->controller->request->getServer('HTTP_USER_AGENT', '-'), 100, false),
+				'agent' => \App\TextUtils::textTruncate($this->controller->request->getServer('HTTP_USER_AGENT', '-'), 100, false),
 			])->execute();
 	}
 

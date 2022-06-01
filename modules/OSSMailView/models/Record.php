@@ -96,7 +96,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				$subject = \App\Purifier::encodeHtml($row['subject']);
 			}
 			$firstLetterBg = self::TYPE_COLORS[$row['type']] ?? '';
-			$firstLetter = strtoupper(App\TextParser::textTruncate(trim(strip_tags($from)), 1, false));
+			$firstLetter = strtoupper(App\TextUtils::textTruncate(trim(strip_tags($from)), 1, false));
 			if ($row['orginal_mail'] && '-' !== $row['orginal_mail']) {
 				$rblInstance = \App\Mail\Rbl::getInstance([]);
 				$rblInstance->set('rawBody', $row['orginal_mail']);
@@ -121,7 +121,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				'to' => $to,
 				'url' => "index.php?module=OSSMailView&view=Preview&record={$row['ossmailviewid']}&srecord=$srecord&smodule=$smodule",
 				'type' => $row['type'],
-				'teaser' => App\TextParser::textTruncate(\App\Utils::htmlToText($content), 190),
+				'teaser' => App\TextUtils::textTruncate(\App\Utils::htmlToText($content), 190),
 				'body' => $content,
 				'bodyRaw' => $row['content'],
 			];

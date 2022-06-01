@@ -37,7 +37,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$maximumLength = $this->getFieldModel()->getMaxValue();
-		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
+		if ($maximumLength && App\TextUtils::getTextLength($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
@@ -50,7 +50,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			$moduleName = $this->getFieldModel()->get('block')->module->name;
 			$fieldName = $this->getFieldModel()->get('name');
 			$rawValue = \App\Purifier::encodeHtml($value);
-			$value = \App\Purifier::encodeHtml(App\TextParser::textTruncate($value, $length));
+			$value = \App\Purifier::encodeHtml(App\TextUtils::textTruncate($value, $length));
 			if (\App\Mail::checkInternalMailClient()) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $record, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();
@@ -61,7 +61,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			}
 			return "<a class=\"emailField u-cursor-pointer\" href=\"mailto:{$rawValue}\">{$value}</a>";
 		}
-		return $value ? \App\Purifier::encodeHtml(App\TextParser::textTruncate($value, $length)) : '';
+		return $value ? \App\Purifier::encodeHtml(App\TextUtils::textTruncate($value, $length)) : '';
 	}
 
 	/** {@inheritdoc} */
@@ -71,7 +71,7 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			$moduleName = $this->getFieldModel()->get('block')->module->name;
 			$fieldName = $this->getFieldModel()->get('name');
 			$rawValue = \App\Purifier::encodeHtml($value);
-			$value = \App\Purifier::encodeHtml(App\TextParser::textTruncate($value, $this->getFieldModel()->get('maxlengthtext')));
+			$value = \App\Purifier::encodeHtml(App\TextUtils::textTruncate($value, $this->getFieldModel()->get('maxlengthtext')));
 			if (\App\Mail::checkInternalMailClient()) {
 				$url = OSSMail_Module_Model::getComposeUrl($moduleName, $record, 'Detail', 'new');
 				$mailConfig = OSSMail_Module_Model::getComposeParameters();

@@ -266,7 +266,7 @@ class Settings_WebserviceUsers_WebserviceStandard_Service extends Settings_Webse
 				break;
 			case 'type':
 				$label = \App\Language::translate($this->getTypeValues($value), $this->getModule()->getName(true));
-				$value = \App\TextParser::textTruncate($label);
+				$value = \App\TextUtils::textTruncate($label);
 				break;
 			case 'custom_params':
 				if ($value) {

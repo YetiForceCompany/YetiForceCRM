@@ -34,7 +34,7 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 			}
 		}
 		$maximumLength = $this->getFieldModel()->get('maximumlength');
-		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
+		if ($maximumLength && App\TextUtils::getTextLength($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
@@ -78,7 +78,7 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 		foreach ($values as $recordId) {
 			$recordId = (int) $recordId;
 			if ($name = App\Record::getLabel($recordId)) {
-				$name = $rawText ? $name : \App\TextParser::textTruncate($name, $maxLength);
+				$name = $rawText ? $name : \App\TextUtils::textTruncate($name, $maxLength);
 				if (!$rawText && \App\Privilege::isPermitted($referenceModuleName, 'DetailView', $recordId)) {
 					if ('Active' !== \App\Record::getState($recordId)) {
 						$name = '<s>' . $name . '</s>';
@@ -125,9 +125,9 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 				$displayValueRaw[$recordId] = $name;
 				if (!$rawText) {
 					$names[$recordId] = $name;
-					if (($maxLengthPart = \App\TextParser::getTextLength(implode(', ', $names))) > $maxLength) {
+					if (($maxLengthPart = \App\TextUtils::getTextLength(implode(', ', $names))) > $maxLength) {
 						$partLength = \count($names) > 1 ? ($maxLengthPart - $maxLength) + 1 : $maxLength;
-						$name = \App\TextParser::textTruncate($name, $partLength);
+						$name = \App\TextUtils::textTruncate($name, $partLength);
 						$break = true;
 					}
 					if ('Active' !== \App\Record::getState($recordId)) {

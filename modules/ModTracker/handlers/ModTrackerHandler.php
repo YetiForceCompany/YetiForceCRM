@@ -96,8 +96,8 @@ class ModTracker_ModTrackerHandler_Handler
 			if (!$fieldModel) {
 				\App\Log::warning($fieldName . ' field does not exist in the module ' . $eventHandler->getModuleName(), __METHOD__);
 			} elseif ('text' === $fieldModel->getFieldDataType()) {
-				$preValue = empty($preValue) ? $preValue : \App\TextParser::textTruncate($preValue, 65532);
-				$newValue = empty($newValue) ? $newValue : \App\TextParser::textTruncate($newValue, 65532);
+				$preValue = empty($preValue) ? $preValue : \App\TextUtils::textTruncate($preValue, 65532);
+				$newValue = empty($newValue) ? $newValue : \App\TextUtils::textTruncate($newValue, 65532);
 			}
 			if ($fieldModel && \in_array(\App\Anonymization::MODTRACKER_DB, $fieldModel->getAnonymizationTarget())) {
 				$preValue = $newValue = '****';

@@ -86,9 +86,9 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			return $label;
 		}
 		if (\is_int($length)) {
-			$label = \App\TextParser::textTruncate($label, $length);
+			$label = \App\TextUtils::textTruncate($label, $length);
 		} elseif (true !== $length) {
-			$label = App\TextParser::textTruncate($label, \App\Config::main('href_max_length'));
+			$label = App\TextUtils::textTruncate($label, \App\Config::main('href_max_length'));
 		}
 		if ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value)) {
 			return $label;

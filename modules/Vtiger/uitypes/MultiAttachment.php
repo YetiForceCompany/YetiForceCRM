@@ -46,7 +46,7 @@ class Vtiger_MultiAttachment_UIType extends Vtiger_Base_UIType
 		}
 		$fieldInfo = $this->getFieldModel()->getFieldInfo();
 		foreach ($value as $item) {
-			if (5 !== \count($item) || empty($item['key']) || empty($item['name']) || empty($item['size']) || empty($item['path']) || !\array_key_exists('type', $item) || 50 !== App\TextParser::getTextLength($item['key'])) {
+			if (5 !== \count($item) || empty($item['key']) || empty($item['name']) || empty($item['size']) || empty($item['path']) || !\array_key_exists('type', $item) || 50 !== App\TextUtils::getTextLength($item['key'])) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . \App\Json::encode($value), 406);
 			}
 			if (\count($value) > (int) $fieldInfo['limit']) {
@@ -126,7 +126,7 @@ class Vtiger_MultiAttachment_UIType extends Vtiger_Base_UIType
 		}
 
 		$length = $length ?: ($this->getFieldModel()->get('maxlengthtext') ?: null);
-		$text = \App\Purifier::encodeHtml(\App\TextParser::textTruncate(implode(', ', $names), $length));
+		$text = \App\Purifier::encodeHtml(\App\TextUtils::textTruncate(implode(', ', $names), $length));
 
 		$value = $this->getValueEncoded($value, $record);
 		$result = '<div class="js-multi-attachment c-multi-attachment"><div class="js-multi-attachment__result js-multi-attachment__values" data-value="' . $value . '"></div></div>';

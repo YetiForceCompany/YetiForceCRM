@@ -96,7 +96,7 @@ class Settings_SlaPolicy_Record_Model extends Settings_Vtiger_Record_Model
 			$data['id'] = \App\Purifier::purifyByType($data['id'], 'Integer');
 		}
 		$data['name'] = \App\Purifier::purifyByType($data['name'], 'Text');
-		if (\App\TextParser::getTextLength($data['name']) > 255) {
+		if (\App\TextUtils::getTextLength($data['name']) > 255) {
 			throw new \App\Exceptions\AppException('ERR_EXCEEDED_NUMBER_CHARACTERS||255', 406);
 		}
 		$data['tabid'] = \App\Purifier::purifyByType($data['tabid'], 'Integer');

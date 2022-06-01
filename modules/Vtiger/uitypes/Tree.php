@@ -21,7 +21,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$maximumLength = $this->getFieldModel()->getMaxValue();
-		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
+		if ($maximumLength && App\TextUtils::getTextLength($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
@@ -51,7 +51,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 			if ($rawText) {
 				$text = \App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName())[$value];
 				if (\is_int($length)) {
-					$text = \App\TextParser::textTruncate($text, $length);
+					$text = \App\TextUtils::textTruncate($text, $length);
 				}
 				return \App\Purifier::encodeHtml($text);
 			}
@@ -69,7 +69,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 			$text = implode(', ', $names);
 		}
 		if (\is_int($length)) {
-			$text = \App\TextParser::textTruncate($text, $length);
+			$text = \App\TextUtils::textTruncate($text, $length);
 		}
 		if (isset($value['icon'])) {
 			return $value['icon'] . '' . \App\Purifier::encodeHtml($text);

@@ -1114,7 +1114,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$fieldModel = $this->getModule()->getFieldByColumn($columnName);
 			$labelName[] = $fieldModel->getDisplayValue($this->get($fieldModel->getName()), $this->getId(), $this, true);
 		}
-		$label = \App\TextParser::textTruncate(implode($metaInfo['separator'] ?? ' ', $labelName), 250, false);
+		$label = \App\TextUtils::textTruncate(implode($metaInfo['separator'] ?? ' ', $labelName), 250, false);
 		if (!empty($label)) {
 			$db = \App\Db::getInstance();
 			if (!(new \App\Db\Query())->from('u_#__users_labels')->where(['id' => $this->getId()])->exists()) {

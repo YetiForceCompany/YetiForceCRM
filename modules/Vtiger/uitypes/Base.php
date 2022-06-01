@@ -140,7 +140,7 @@ class Vtiger_Base_UIType extends \App\Base
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$maximumLength = $this->getFieldModel()->get('maximumlength');
-		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
+		if ($maximumLength && App\TextUtils::getTextLength($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate["{$value}"] = true;
@@ -186,7 +186,7 @@ class Vtiger_Base_UIType extends \App\Base
 			return $value ?? '';
 		}
 		if (\is_int($length)) {
-			$value = \App\TextParser::textTruncate($value, $length);
+			$value = \App\TextUtils::textTruncate($value, $length);
 		}
 		return \App\Purifier::encodeHtml($value);
 	}

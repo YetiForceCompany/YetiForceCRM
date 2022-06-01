@@ -108,13 +108,13 @@ class Users_Module_Model extends Vtiger_Module_Model
 		\App\Db::getInstance()->createCommand()
 			->insert('vtiger_loginhistory', [
 				'user_name' => $userName,
-				'user_ip' => empty($userIPAddress) ? '-' : \App\TextParser::textTruncate($userIPAddress, 252, true),
+				'user_ip' => empty($userIPAddress) ? '-' : \App\TextUtils::textTruncate($userIPAddress, 252, true),
 				'login_time' => date('Y-m-d H:i:s'),
 				'logout_time' => null,
 				'status' => $status,
 				'browser' => $browser->name . ' ' . $browser->ver,
 				'userid' => \App\User::getUserIdByName($userName),
-				'agent' => \App\TextParser::textTruncate(\App\Request::_getServer('HTTP_USER_AGENT', '-'), 500, false),
+				'agent' => \App\TextUtils::textTruncate(\App\Request::_getServer('HTTP_USER_AGENT', '-'), 500, false),
 			])->execute();
 	}
 

@@ -289,7 +289,7 @@ class BaseAction
 		$data['ip'] = $this->controller->request->getServer('REMOTE_ADDR');
 		$data['parent_id'] = $this->controller->request->getHeader('x-parent-id') ?: 0;
 		$data['last_method'] = $this->controller->request->getServer('REQUEST_URI');
-		$data['agent'] = \App\TextParser::textTruncate($this->controller->request->getServer('HTTP_USER_AGENT', '-'), 100, false);
+		$data['agent'] = \App\TextUtils::textTruncate($this->controller->request->getServer('HTTP_USER_AGENT', '-'), 100, false);
 		\App\Db::getInstance('webservice')->createCommand()
 			->update($this->controller->app['tables']['session'], $data, ['id' => $this->userData['sid']])
 			->execute();
@@ -307,7 +307,7 @@ class BaseAction
 		if (!\is_array($this->userData['custom_params'])) {
 			$this->userData['custom_params'] = \App\Json::isEmpty($this->userData['custom_params']) ? [] : \App\Json::decode($this->userData['custom_params']);
 		}
-		$this->userData['custom_params']['agent'] = \App\TextParser::textTruncate($this->controller->request->getServer('HTTP_USER_AGENT', '-'), 100, false);
+		$this->userData['custom_params']['agent'] = \App\TextUtils::textTruncate($this->controller->request->getServer('HTTP_USER_AGENT', '-'), 100, false);
 		if (isset($data['custom_params'])) {
 			$data['custom_params'] = \App\Json::encode(\App\Utils::merge($this->userData['custom_params'], $data['custom_params']));
 		}

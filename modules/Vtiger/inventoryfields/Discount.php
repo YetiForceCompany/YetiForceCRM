@@ -67,7 +67,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 			if (null !== $originalValue && !\App\Validator::floatIsEqualUserCurrencyDecimals($value, $originalValue)) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . ($columnName ?? $this->getColumnName()) . "||{$this->getModuleName()}||$value($originalValue)", 406);
 			}
-		} elseif (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
+		} elseif (App\TextUtils::getTextLength($value) > $this->customMaximumLength[$columnName]) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
 	}

@@ -31,7 +31,7 @@ class Integer
 		$userModel = \App\User::getCurrentUserModel();
 		$groupSeperator = $userModel->getDetail('currency_grouping_separator');
 		$groupPatern = $userModel->getDetail('currency_grouping_pattern');
-		if (($length = \App\TextParser::getTextLength($value)) > 3) {
+		if (($length = \App\TextUtils::getTextLength($value)) > 3) {
 			switch ($groupPatern) {
 				case '123,456,789':
 					$value = preg_replace('/(\d)(?=(\d\d\d)+(?!\d))/', "$1{$groupSeperator}", $value);

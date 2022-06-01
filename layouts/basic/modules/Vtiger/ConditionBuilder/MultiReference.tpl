@@ -18,7 +18,7 @@
 				{if \App\Record::isExists($ID)}
 					{assign var="RECORD_NAME" value=\App\Record::getLabel($ID)}
 					<option value="{$ID}" title="{\App\Purifier::encodeHtml($RECORD_NAME)}"
-						selected="selected">{\App\Purifier::encodeHtml(\App\TextParser::textTruncate($RECORD_NAME, 30))}</option>
+						selected="selected">{\App\Purifier::encodeHtml(\App\TextUtils::textTruncate($RECORD_NAME, 30))}</option>
 				{/if}
 			{/foreach}
 		</select>

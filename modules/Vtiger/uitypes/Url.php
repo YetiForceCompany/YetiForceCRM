@@ -37,7 +37,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		$maximumLength = $this->getFieldModel()->getMaxValue();
-		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
+		if ($maximumLength && App\TextUtils::getTextLength($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		if (!($scheme = parse_url($value, PHP_URL_SCHEME))) {
@@ -71,7 +71,7 @@ class Vtiger_Url_UIType extends Vtiger_Base_UIType
 		if ($rawText) {
 			return $value;
 		}
-		$rawValue = \App\TextParser::textTruncate($rawValue, \is_int($length) ? $length : false);
+		$rawValue = \App\TextUtils::textTruncate($rawValue, \is_int($length) ? $length : false);
 
 		return '<a class="urlField u-cursor-pointer" title="' . $value . '" href="' . $value . '" target="_blank" rel="noreferrer noopener">' . \App\Purifier::encodeHtml($rawValue) . '</a>';
 	}

@@ -72,7 +72,7 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 		}
 		$value = str_ireplace(',', ', ', trim($value, ','));
 		if (\is_int($length)) {
-			$value = \App\TextParser::textTruncate($value, $length);
+			$value = \App\TextUtils::textTruncate($value, $length);
 		}
 		return \App\Purifier::encodeHtml($value);
 	}

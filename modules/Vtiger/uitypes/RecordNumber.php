@@ -18,7 +18,7 @@ class Vtiger_RecordNumber_UIType extends Vtiger_Base_UIType
 			return;
 		}
 		$maximumLength = $this->getFieldModel()->getMaxValue();
-		if ($maximumLength && App\TextParser::getTextLength($value) > $maximumLength) {
+		if ($maximumLength && App\TextUtils::getTextLength($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;

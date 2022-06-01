@@ -158,7 +158,7 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 			}
 		}
 		$display = implode(', ', $display);
-		$display = explode(', ', \App\TextParser::textTruncate($display, $maxLengthText));
+		$display = explode(', ', \App\TextUtils::textTruncate($display, $maxLengthText));
 		foreach ($display as $key => &$shownerName) {
 			if (isset($shownerData[$key]['inactive'])) {
 				$shownerName = '<span class="redColor"><s>' . $shownerName . '</s></span>';

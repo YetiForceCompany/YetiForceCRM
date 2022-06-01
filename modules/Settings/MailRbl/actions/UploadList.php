@@ -67,7 +67,7 @@ class Settings_MailRbl_UploadList_Action extends Settings_Vtiger_Basic_Action
 			'duplicates' => 0,
 			'errors' => 0,
 		];
-		$source = \App\TextParser::textTruncate($source, 10);
+		$source = \App\TextUtils::textTruncate($source, 10);
 		foreach ($explodedElements as $elementToSave) {
 			$clearIp = trim($elementToSave);
 			if (\App\Validator::ip($clearIp)) {

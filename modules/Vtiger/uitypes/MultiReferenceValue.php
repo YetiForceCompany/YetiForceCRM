@@ -24,7 +24,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		$value = substr($value, 1);
 		$value = substr($value, 0, -2);
 		if (\is_int($length)) {
-			$value = \App\TextParser::textTruncate($value, $length);
+			$value = \App\TextUtils::textTruncate($value, $length);
 		}
 		return \App\Purifier::encodeHtml($value);
 	}
@@ -45,7 +45,7 @@ class Vtiger_MultiReferenceValue_UIType extends Vtiger_Base_UIType
 		} else {
 			return $this->getDisplayValue($value, $record, $recordModel, $rawText, $field->get('maxlengthtext'));
 		}
-		return \App\Purifier::encodeHtml(\App\TextParser::textTruncate($values, $field->get('maxlengthtext')));
+		return \App\Purifier::encodeHtml(\App\TextUtils::textTruncate($values, $field->get('maxlengthtext')));
 	}
 
 	/** {@inheritdoc} */

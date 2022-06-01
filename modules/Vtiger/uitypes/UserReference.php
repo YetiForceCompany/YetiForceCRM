@@ -62,7 +62,7 @@ class Vtiger_UserReference_UIType extends Vtiger_Base_UIType
 		if (!$rawText && App\User::getCurrentUserModel()->isAdmin()) {
 			$recordModel = Users_Record_Model::getCleanInstance('Users');
 			$recordModel->setId($value);
-			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . \App\TextParser::textTruncate($displayValue, \is_int($length) ? $length : false) . '</a>';
+			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . \App\TextUtils::textTruncate($displayValue, \is_int($length) ? $length : false) . '</a>';
 		}
 		return $displayValue;
 	}

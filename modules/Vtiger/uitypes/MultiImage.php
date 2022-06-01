@@ -34,7 +34,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		}
 		$fieldInfo = $this->getFieldModel()->getFieldInfo();
 		foreach ($value as $index => $item) {
-			if ((empty($item['name']) && empty($item['baseContent'])) && (empty($item['key']) || empty($item['name']) || empty($item['size']) || 50 !== App\TextParser::getTextLength($item['key']))) {
+			if ((empty($item['name']) && empty($item['baseContent'])) && (empty($item['key']) || empty($item['name']) || empty($item['size']) || 50 !== App\TextUtils::getTextLength($item['key']))) {
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . \App\Json::encode($value), 406);
 			}
 			if ($index > (int) $fieldInfo['limit']) {
@@ -183,7 +183,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 				$val = $value[$i];
 				$result .= $val['name'] . ', ';
 			}
-			return \App\Purifier::encodeHtml($length ? \App\TextParser::textTruncate($result, $length) : $result, "\n\t ,");
+			return \App\Purifier::encodeHtml($length ? \App\TextUtils::textTruncate($result, $length) : $result, "\n\t ,");
 		}
 		if (!\is_array($value)) {
 			return '';

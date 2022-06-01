@@ -47,7 +47,7 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 			return $displayValue;
 		}
 		if (\is_int($length)) {
-			$displayValue = \App\TextParser::textTruncate($displayValue, $length);
+			$displayValue = \App\TextUtils::textTruncate($displayValue, $length);
 		}
 		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getName());
 		$value = App\Colors::sanitizeValue($value);

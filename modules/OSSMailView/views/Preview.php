@@ -51,7 +51,7 @@ class OSSMailView_Preview_View extends Vtiger_Index_View
 			$content = nl2br(\App\Layout::truncateHtml(\App\Purifier::purify($recordModel->get('content')), 'full'));
 		}
 		$firstLetterBg = self::TYPE_COLORS[$recordModel->get('type')];
-		$firstLetter = strtoupper(App\TextParser::textTruncate(trim(strip_tags($recordModel->getDisplayValue('from_email'))), 1, false));
+		$firstLetter = strtoupper(App\TextUtils::textTruncate(trim(strip_tags($recordModel->getDisplayValue('from_email'))), 1, false));
 		if ($recordModel->get('orginal_mail')) {
 			$rblInstance = \App\Mail\Rbl::getInstance([]);
 			$rblInstance->set('rawBody', $recordModel->get('orginal_mail'));

@@ -117,7 +117,7 @@ class Vtiger_ChangesJson_UIType extends Vtiger_Base_UIType
 			$data[] = $fieldModel->getFullLabelTranslation() . ': ' . $fieldModel->getDisplayValue($value, $recordId, false, true);
 		}
 		$value = implode(' ', $data);
-		return \App\TextParser::textTruncate(\App\Utils\Completions::decode($value), 100);
+		return \App\TextUtils::textTruncate(\App\Utils\Completions::decode($value), 100);
 	}
 
 	/** {@inheritdoc} */

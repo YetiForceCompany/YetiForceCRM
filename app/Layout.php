@@ -163,7 +163,7 @@ class Layout
 		if (\mb_strlen($text) < $length) {
 			return $nl2br ? nl2br($text) : $text;
 		}
-		$teaser = TextParser::textTruncate($text, $length);
+		$teaser = TextUtils::textTruncate($text, $length);
 		if ($showIcon) {
 			$btn = '<span class="mdi mdi-overscan"></span>';
 		} else {
@@ -198,7 +198,7 @@ class Layout
 		} elseif ('mini' === $size) {
 			$btn = $btnTemplate('LBL_SHOW_ORIGINAL_CONTENT');
 			$css = 'display: none;';
-			$teaser = TextParser::textTruncate(trim(strip_tags($html)), $length);
+			$teaser = TextUtils::textTruncate(trim(strip_tags($html)), $length);
 			$loadData = false;
 		} elseif ('medium' === $size) {
 			$btn = $btnTemplate('LBL_FULLSCREEN', 'c-btn-floating-right-bottom btn btn-primary');
@@ -223,7 +223,7 @@ class Layout
 		if (null === $moduleName) {
 			$moduleName = Record::getType($record);
 		}
-		$label = TextParser::textTruncate(Record::getLabel($record) ?? '-', \App\Config::main('href_max_length'));
+		$label = TextUtils::textTruncate(Record::getLabel($record) ?? '-', \App\Config::main('href_max_length'));
 		if (!$moduleName || !Privilege::isPermitted($moduleName, 'DetailView', $record)) {
 			return $label;
 		}

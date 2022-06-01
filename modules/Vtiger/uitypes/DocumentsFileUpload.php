@@ -26,7 +26,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 		if ($rawText) {
 			return \App\Purifier::encodeHtml($value);
 		}
-		$truncateValue = \App\TextParser::textTruncate($value, $this->getFieldModel()->get('maxlengthtext'));
+		$truncateValue = \App\TextUtils::textTruncate($value, $this->getFieldModel()->get('maxlengthtext'));
 		$truncateValue = \App\Purifier::encodeHtml($truncateValue);
 		if ($recordModel && !empty($value) && $recordModel->getValueByField('filestatus')) {
 			if ('I' === $recordModel->getValueByField('filelocationtype')) {

@@ -97,7 +97,7 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 	 */
 	public static function sanitize(array $data): array
 	{
-		if (\App\TextParser::getTextLength($data['name']) > 100) {
+		if (\App\TextUtils::getTextLength($data['name']) > 100) {
 			throw new \App\Exceptions\AppException('ERR_EXCEEDED_NUMBER_CHARACTERS||100', 406);
 		}
 		if (isset($data['id'])) {
@@ -179,7 +179,7 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 				$value = implode(', ', array_map(function ($fieldName) use ($moduleModel) {
 					return $moduleModel->getFieldByName($fieldName)->getFullLabelTranslation();
 				}, \App\Json::decode($value) ?? []));
-				$value = "<div class=\"js-popover-tooltip ml-2 mr-2 d-inline mt-2\" data-js=\"popover\" data-content=\"$value\">" . \App\TextParser::textTruncate($value) . '</div>';
+				$value = "<div class=\"js-popover-tooltip ml-2 mr-2 d-inline mt-2\" data-js=\"popover\" data-content=\"$value\">" . \App\TextUtils::textTruncate($value) . '</div>';
 				break;
 			case 'mandatory':
 			case 'gui':

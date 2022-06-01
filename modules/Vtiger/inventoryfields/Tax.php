@@ -84,7 +84,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . ($columnName ?? $this->getColumnName()) . "||{$this->getModuleName()}||$value($originalValue)", 406);
 			}
 		} else {
-			if (App\TextParser::getTextLength($value) > $this->customMaximumLength[$columnName]) {
+			if (App\TextUtils::getTextLength($value) > $this->customMaximumLength[$columnName]) {
 				$module = $this->getModuleName();
 				throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$module||$value", 406);
 			}

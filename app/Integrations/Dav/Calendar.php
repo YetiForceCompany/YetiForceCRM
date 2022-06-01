@@ -291,7 +291,7 @@ class Calendar
 		}
 		$value = \App\Purifier::decodeHtml(\App\Purifier::purify($value));
 		if ($length = $this->record->getField($fieldName)->getMaxValue()) {
-			$value = \App\TextParser::textTruncate($value, $length, false);
+			$value = \App\TextUtils::textTruncate($value, $length, false);
 		}
 		$this->record->set($fieldName, \trim($value));
 	}
@@ -791,7 +791,7 @@ class Calendar
 				if (0 === stripos($value, 'mailto:')) {
 					$value = substr($value, 7, \strlen($value) - 7);
 				}
-				if ($value && \App\TextParser::getTextLength($value) > 100 || !\App\Validator::email($value)) {
+				if ($value && \App\TextUtils::getTextLength($value) > 100 || !\App\Validator::email($value)) {
 					throw new \Sabre\DAV\Exception\BadRequest('Invalid email: ' . $value);
 				}
 				if (isset($attendee['ROLE']) && 'CHAIR' === $attendee['ROLE']->getValue()) {
@@ -813,7 +813,7 @@ class Calendar
 						$dbCommand->update('u_#__activity_invitation', [
 							'status' => $status,
 							'time' => $timeFormated,
-							'name' => \App\TextParser::textTruncate($nameAttendee, 500, false),
+							'name' => \App\TextUtils::textTruncate($nameAttendee, 500, false),
 						], ['activityid' => $record->getId(), 'email' => $value]
 					)->execute();
 					}
@@ -823,7 +823,7 @@ class Calendar
 						'email' => $value,
 						'crmid' => $crmid,
 						'status' => $status,
-						'name' => \App\TextParser::textTruncate($nameAttendee, 500, false),
+						'name' => \App\TextUtils::textTruncate($nameAttendee, 500, false),
 						'activityid' => $record->getId(),
 					];
 					if ($status) {

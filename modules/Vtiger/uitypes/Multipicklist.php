@@ -77,12 +77,12 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		if ($rawText) {
 			$valueRaw = str_ireplace(' |##| ', ', ', implode(' |##| ', $trValueRaw));
 			if (\is_int($length)) {
-				$valueRaw = \App\TextParser::textTruncate($valueRaw, $length);
+				$valueRaw = \App\TextUtils::textTruncate($valueRaw, $length);
 			}
 		} else {
 			$valueHtml = str_ireplace(' |##| ', ' ', implode(' |##| ', $trValue));
 			if (\is_int($length)) {
-				$valueHtml = \App\TextParser::htmlTruncateByWords($valueHtml, $length);
+				$valueHtml = \App\TextUtils::htmlTruncateByWords($valueHtml, $length);
 			}
 		}
 		return $rawText ? $valueRaw : $valueHtml;

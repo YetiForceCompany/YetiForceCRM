@@ -47,7 +47,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if ($rawText) {
 			return $label;
 		}
-		$label = App\TextParser::textTruncate($label, \App\Config::main('href_max_length'));
+		$label = App\TextUtils::textTruncate($label, \App\Config::main('href_max_length'));
 		if ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value)) {
 			return $label;
 		}

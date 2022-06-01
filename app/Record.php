@@ -152,14 +152,14 @@ class Record
 				$fieldModel = $moduleModel->getFieldByColumn($columnName);
 				$labelName[] = $fieldModel ? $fieldModel->getDisplayValue($row[$columnName], $recordId, false, true) : '';
 			}
-			$label = TextParser::textTruncate(trim(implode($separator, $labelName)), 250, false);
+			$label = TextUtils::textTruncate(trim(implode($separator, $labelName)), 250, false);
 			if ($search) {
 				$labelName = [];
 				foreach ($columnsSearch as $columnName) {
 					$fieldModel = $moduleModel->getFieldByColumn($columnName);
 					$labelName[] = $fieldModel ? $fieldModel->getDisplayValue($row[$columnName], $recordId, false, true) : '';
 				}
-				$searchLabel = TextParser::textTruncate(trim(implode($separator, $labelName)), 250, false);
+				$searchLabel = TextUtils::textTruncate(trim(implode($separator, $labelName)), 250, false);
 				$entityDisplay[$recordId] = ['name' => $label, 'search' => $searchLabel];
 			} else {
 				$entityDisplay[$recordId] = $label;
@@ -227,7 +227,7 @@ class Record
 				$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
 				$labelName[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
 			}
-			$label = TextParser::textTruncate(trim(implode($separator, $labelName)), 250, false) ?: '';
+			$label = TextUtils::textTruncate(trim(implode($separator, $labelName)), 250, false) ?: '';
 			if ($recordModel->isNew()) {
 				$dbCommand->insert('u_#__crmentity_label', ['crmid' => $recordModel->getId(), 'label' => $label])->execute();
 			} else {
@@ -240,7 +240,7 @@ class Record
 					$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
 					$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel, true);
 				}
-				$search = TextParser::textTruncate(trim(implode($separator, $labelSearch)), 250, false) ?: '';
+				$search = TextUtils::textTruncate(trim(implode($separator, $labelSearch)), 250, false) ?: '';
 				if ($recordModel->isNew()) {
 					$dbCommand->insert('u_#__crmentity_search_label', ['crmid' => $recordModel->getId(), 'searchlabel' => $search, 'tabid' => $recordModel->getModule()->getId()])->execute();
 				} else {

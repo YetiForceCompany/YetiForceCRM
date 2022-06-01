@@ -24,9 +24,9 @@ class NoPermittedToApi extends Security
 			->insert('o_#__access_for_api', [
 				'username' => empty($userName) ? '-' : $userName,
 				'date' => date('Y-m-d H:i:s'),
-				'ip' => \App\TextParser::textTruncate(\App\RequestUtil::getRemoteIP(), 100, false),
-				'url' => \App\TextParser::textTruncate(\App\RequestUtil::getBrowserInfo()->url, 300, false),
-				'agent' => \App\TextParser::textTruncate(\App\Request::_getServer('HTTP_USER_AGENT', '-'), 500, false),
+				'ip' => \App\TextUtils::textTruncate(\App\RequestUtil::getRemoteIP(), 100, false),
+				'url' => \App\TextUtils::textTruncate(\App\RequestUtil::getBrowserInfo()->url, 300, false),
+				'agent' => \App\TextUtils::textTruncate(\App\Request::_getServer('HTTP_USER_AGENT', '-'), 500, false),
 				'request' => json_encode((new \App\Anonymization())->setModuleName($_REQUEST['module'] ?? '')->setData($_REQUEST)->anonymize()->getData()),
 			])->execute();
 	}

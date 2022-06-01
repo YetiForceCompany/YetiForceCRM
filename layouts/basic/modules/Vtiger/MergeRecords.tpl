@@ -31,7 +31,7 @@
 										<input {if $smarty.foreach.recordList.first}checked{/if} type="radio" id="radio{$RECORD->getId()}" name="record" class="form-check-input" value="{$RECORD->getId()}" data-js="change">
 									</div>
 									<label class="ml-1 form-check-label u-word-break-keep-all" for="radio{$RECORD->getId()}">
-										#{$smarty.foreach.recordList.index+1} {\App\TextParser::textTruncate($RECORD->getName())}</label>
+										#{$smarty.foreach.recordList.index+1} {\App\TextUtils::textTruncate($RECORD->getName())}</label>
 								</div>
 							</th>
 						{/foreach}
