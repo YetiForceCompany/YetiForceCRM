@@ -104,10 +104,6 @@ class TextParser extends \Tests\Base
 	{
 		$this->assertSame(1, \App\TextParser::isVaribleToParse('$(TestGroup : TestVar)$'), 'string should be parseable');
 		$this->assertSame(0, \App\TextParser::isVaribleToParse('$X(TestGroup : TestVar)$'), 'string should be not parseable');
-
-		$htmlTruncate = \App\TextUtils::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), 200);
-		$this->assertSame(18, \strlen(strip_tags($htmlTruncate)), 'html should be truncated in expected format (length=18)');
-		$this->assertSame(138, \strlen($htmlTruncate), 'html should be truncated in expected format (default length=138)');
 	}
 
 	/**

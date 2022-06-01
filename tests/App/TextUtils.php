@@ -47,4 +47,30 @@ class TextParser extends \Tests\Base
 	{
 		$this->assertSame(15, \strlen(strip_tags(\App\TextUtils::htmlTruncateByWords(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), 40, ''))), 'html should be truncated in expected format (text length: 10)');
 	}
+
+	/**
+	 * Tests `\App\TextUtils::htmlTruncate` methods.
+	 *
+	 * @see \App\TextUtils::htmlTruncate()
+	 */
+	public function testHtmlTruncate()
+	{
+		$htmlTruncate = \App\TextUtils::htmlTruncate(\Tests\Base\C_RecordActions::createLoremIpsumHtml(), 200);
+		$this->assertSame(18, \strlen(strip_tags($htmlTruncate)), 'html should be truncated in expected format (length=18)');
+		$this->assertSame(138, \strlen($htmlTruncate), 'html should be truncated in expected format (default length=138)');
+	}
+
+	/**
+	 * Tests `\App\TextUtils::getTagAttributes` methods.
+	 *
+	 * @see \App\TextUtils::getTagAttributes()
+	 */
+	public function testGetTagAttributes()
+	{
+		$attributes = \App\TextUtils::getTagAttributes('<yetiforce type="Documents" crm-id="448" attachment-id="19"></yetiforce>');
+		$this->assertArrayHasKey('type', $attributes);
+		$this->assertArrayHasKey('crm-id', $attributes);
+		$this->assertArrayHasKey('attachment-id', $attributes);
+		$this->assertNotEmpty($attributes);
+	}
 }
