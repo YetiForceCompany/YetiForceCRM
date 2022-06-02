@@ -786,7 +786,14 @@ var App = (window.App = {
 					});
 			}
 		},
+		/**
+		 * Icons class
+		 */
 		Icons: class Icons {
+			/**
+			 * Show modal window with icons to select
+			 * @param {Object} params
+			 */
 			static modalView(params = {}) {
 				var aDeferred = $.Deferred();
 				let url = `index.php?module=AppComponents&view=IconsModal`;

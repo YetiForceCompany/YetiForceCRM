@@ -319,6 +319,27 @@ class Picklist
 	}
 
 	/**
+	 * Get value data by field.
+	 *
+	 * @param string $fieldName
+	 * @param string $value
+	 *
+	 * @return array
+	 */
+	public static function getValueInfo(string $fieldName, string $value): array
+	{
+		$info = [];
+		foreach (self::getValues($fieldName) as $data) {
+			if ($value === $data[$fieldName]) {
+				$info = $data;
+				break;
+			}
+		}
+
+		return $info;
+	}
+
+	/**
 	 * Get colors for all fields or generate it if not exists.
 	 *
 	 * @param mixed $fieldName

@@ -15,9 +15,9 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	public function validateValue($value)
 	{
 		if ($this->getFieldModel()->isRoleBased()) {
-			$picklistValues = \App\Fields\Picklist::getRoleBasedValues($this->getFieldModel()->getFieldName(), \App\User::getCurrentUserModel()->getRole());
+			$picklistValues = \App\Fields\Picklist::getRoleBasedValues($this->getFieldModel()->getName(), \App\User::getCurrentUserModel()->getRole());
 		} else {
-			$picklistValues = App\Fields\Picklist::getValuesName($this->getFieldModel()->getFieldName());
+			$picklistValues = App\Fields\Picklist::getValuesName($this->getFieldModel()->getName());
 		}
 		return '' === $value || \in_array($value, $picklistValues);
 	}
@@ -50,8 +50,11 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 			$displayValue = \App\TextUtils::textTruncate($displayValue, $length);
 		}
 		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getName());
+		if ($icon = \App\Fields\Picklist::getValueInfo($this->getFieldModel()->getName(), $value)['icon'] ?? '') {
+			$icon = "<span class=\"{$icon} mr-1\"></span>";
+		}
 		$value = App\Colors::sanitizeValue($value);
-		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">{$displayValue}</span>";
+		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">{$icon}{$displayValue}</span>";
 	}
 
 	/** {@inheritdoc} */
@@ -96,7 +99,7 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function isAjaxEditable()
 	{
-		return !\App\Fields\Picklist::isDependentField($this->getFieldModel()->getModuleName(), $this->getFieldModel()->getFieldName());
+		return !\App\Fields\Picklist::isDependentField($this->getFieldModel()->getModuleName(), $this->getFieldModel()->getName());
 	}
 
 	/** {@inheritdoc} */
