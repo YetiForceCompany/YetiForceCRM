@@ -693,8 +693,8 @@ input[type="checkbox"][disabled] {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(calc(1em * 8), 1fr));
 	grid-gap: 1em 1em;
-    grid-auto-flow: row dense;
-    justify-items: center;
+	grid-auto-flow: row dense;
+	justify-items: center;
 	@at-root #{&}-item {
 		&--signature {
 			width: 100%;

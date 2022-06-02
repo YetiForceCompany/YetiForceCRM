@@ -18260,6 +18260,10 @@ label.btn[class*=btn-outline-]:not(.active):hover {
 }
 
 /* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+.quasar-reset,
+body > .q-dialog:not(.quasar-reset) {
+  z-index: 1050 !important;
+}
 .quasar-reset .row,
 body > .q-dialog:not(.quasar-reset) .row {
   margin: unset;
@@ -24549,6 +24553,23 @@ input[type=checkbox][disabled] {
     right: 0px;
   }
 }
+.c-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8em, 1fr));
+  grid-gap: 1em 1em;
+  grid-auto-flow: row dense;
+  justify-items: center;
+}
+.c-grid-item--signature {
+  width: 100%;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
 /* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .btn-default {
   color: #212529;
