@@ -14,21 +14,42 @@ class Settings_PickListDependency_SaveAjax_Action extends Settings_Vtiger_Index_
 	{
 		$sourceModule = $request->getByType('sourceModule', 'Alnum');
 		$sourceField = $request->getByType('sourceField', 'Alnum');
-		$targetField = $request->getByType('targetField', 'Alnum');
-		$recordModel = Settings_PickListDependency_Record_Model::getInstance($sourceModule, $sourceField, $targetField);
+		$secondField = $request->getByType('secondField', 'Alnum');
+		$thirdField = $request->isEmpty('thirdField') ? '' : $request->getByType('thirdField', \App\Purifier::ALNUM);
+		$recordModel = Settings_PickListDependency_Record_Model::getCleanInstance();
+		$recordModel->set('sourceModule', $sourceModule)
+			->set('sourceField', $sourceField)
+			->set('secondField', $secondField)
+			->set('thirdField', $thirdField);
+
+		//$recordModel = Settings_PickListDependency_Record_Model::getInstance($sourceModule, $sourceField, $secondField);
 		$response = new Vtiger_Response();
+
+		if ($thirdField) {
+			//TODO getMultiDimensionArray
+			$recordModel->set('picklistDependencies', $request->getArray('mapping'));
+		} else {
+			$recordModel->set('picklistDependencies', $request->getMultiDimensionArray('mapping',
+			[[
+				'sourcevalue' => 'Text',
+				'targetvalues' => 'Text'
+			]]));
+		}
+
 		try {
-			$data = $request->getMultiDimensionArray('mapping',
-				[[
-					'sourcevalue' => 'Text',
-					'targetvalues' => 'Text'
-				]]
-			);
-			$result = $recordModel->save($data);
+			$result = $recordModel->save();
 			$response->setResult(['success' => $result]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
+
+		//var_dump(App\Json::encode($request->get('mapping')), $request->getArray('mapping'));
+		/*
+		var_dump($request->getArray('mapping'), $request->getMultiDimensionArray('mapping', [[
+			0 => 'Text',
+			//	'targetvalues' => 'Text'
+		]]));
+		*/
 	}
 }

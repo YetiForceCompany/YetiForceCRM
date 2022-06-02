@@ -6,6 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): YetiForce S.A.
 *
 ********************************************************************************/
 -->*}
@@ -16,61 +17,23 @@
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		<div class="contents">
-			<form id="pickListDependencyForm" class="form-row" method="POST">
+		<div class="contents js-picklist-dependent-container" data-js="container">
+			<form id="pickListDependencyForm" method="POST">
 				{if !empty($MAPPED_VALUES)}
-					<input type="hidden" class="editDependency" value="true"/>
-					<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE}"/>
-					<input type="hidden" name="sourceField" value="{$RECORD_MODEL->get('sourcefield')}"/>
-					<input type="hidden" name="targetField" value="{$RECORD_MODEL->get('targetfield')}"/>
+					<input type="hidden" class="editDependency" value="true" />
+					<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE}" />
+					<input type="hidden" name="sourceField" value="{$RECORD_MODEL->get('sourcefield')}" />
+					<input type="hidden" name="secondField" value="{$RECORD_MODEL->get('secondField')}" />
 				{/if}
-				<div class="col-md-4 d-flex mb-2 mb-md-0">
-					<label class="muted u-text-small-bold u-white-space-nowrap mr-2 my-auto">{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
-					<div class="w-100">
-						<select name="sourceModule"
-								title="{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}"
-								class="select2 form-control ml-0">
-							{foreach item=MODULE_MODEL from=$PICKLIST_MODULES_LIST}
-								{assign var=MODULE_NAME value=$MODULE_MODEL->get('name')}
-								<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE} selected {/if}>
-									{\App\Language::translate($MODULE_MODEL->get('label'), $MODULE_NAME)}
-								</option>
-							{/foreach}
-						</select>
-					</div>
-				</div>
-				<div class="col-md-4 d-flex mb-2 mb-md-0">
-					<label class="muted u-text-small-bold u-white-space-nowrap mr-2 my-auto">{\App\Language::translate('LBL_SOURCE_FIELD', $QUALIFIED_MODULE)}</label>
-					<div class="w-100">
-						<select id="sourceField" name="sourceField" class="select2 form-control"
-								data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}"
-								title="{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
-							<option value=''></option>
-							{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
-								<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('sourcefield') eq $FIELD_NAME} selected {/if}>{\App\Language::translate($FIELD_LABEL, $SELECTED_MODULE)}</option>
-							{/foreach}
-						</select>
-					</div>
-				</div>
-				<div class="col-md-4 d-flex mb-2 mb-md-0">
-					<label class="muted u-text-small-bold u-white-space-nowrap mr-2 my-auto">{\App\Language::translate('LBL_TARGET_FIELD', $QUALIFIED_MODULE)}</label>
-					<div class="w-100">
-						<select id="targetField" name="targetField" class="select2 form-control"
-								data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}"
-								title="{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
-							<option value=''></option>
-							{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
-								<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('targetfield') eq $FIELD_NAME} selected {/if}>{\App\Language::translate($FIELD_LABEL, $SELECTED_MODULE)}</option>
-							{/foreach}
-						</select>
-					</div>
+				<div class="js-dependent-fields row" data-js="container">
+					{include file=\App\Layout::getTemplatePath('DependentFields.tpl', $QUALIFIED_MODULE)}
 				</div>
 				<div class="d-none errorMessage my-3">
 					<div class="alert alert-warning">
 						<strong>{\App\Language::translate('LBL_ERR_CYCLIC_DEPENDENCY', $QUALIFIED_MODULE)}</strong>
 					</div>
 				</div>
-				<div id="dependencyGraph" class="my-3 w-100">
+				<div id="dependencyGraph" class="my-3 w-100 js-dependency-tables-container" data-js="container">
 					{if $DEPENDENCY_GRAPH}
 						{include file=\App\Layout::getTemplatePath('DependencyGraph.tpl', $QUALIFIED_MODULE)}
 					{/if}

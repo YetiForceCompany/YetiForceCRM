@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  * ********************************************************************************** */
 
 class Settings_PickListDependency_Index_Action extends Settings_Vtiger_Basic_Action
@@ -20,8 +21,9 @@ class Settings_PickListDependency_Index_Action extends Settings_Vtiger_Basic_Act
 	{
 		$module = $request->getByType('sourceModule', 'Alnum');
 		$sourceField = $request->getByType('sourcefield', 'Alnum');
-		$targetField = $request->getByType('targetfield', 'Alnum');
-		$result = Vtiger_DependencyPicklist::checkCyclicDependency($module, $sourceField, $targetField);
+		$secondField = $request->getByType('secondField', 'Alnum');
+		$thirdField = $request->getByType('thirdField', 'Alnum');
+		$result = Vtiger_DependencyPicklist::checkCyclicDependency($module, $sourceField, $secondField, $thirdField);
 		$response = new Vtiger_Response();
 		$response->setResult(['result' => $result]);
 		$response->emit();

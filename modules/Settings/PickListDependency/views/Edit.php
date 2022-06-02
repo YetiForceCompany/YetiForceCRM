@@ -28,6 +28,7 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 		}
 		$sourceField = $request->getByType('sourcefield', 2);
 		$targetField = $request->getByType('targetfield', 2);
+
 		$recordModel = Settings_PickListDependency_Record_Model::getInstance($selectedModule, $sourceField, $targetField);
 		$dependencyGraph = false;
 		$viewer = $this->getViewer($request);
@@ -38,7 +39,11 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 			$viewer->assign('NON_MAPPED_SOURCE_VALUES', $recordModel->getNonMappedSourcePickListValues());
 			$dependencyGraph = true;
 		}
+		$thirdField = $request->isEmpty('thirdField') ? '' : $request->getByType('thirdField', \App\Purifier::ALNUM);
+		$thirdFieldPicklistValues = $thirdField ? $recordModel->getPickListValuesForField() : [];
+		$viewer->assign('THIRD_FIELD_PICKLIST_VALUES', $thirdFieldPicklistValues);
 		$viewer->assign('MODULE', $moduleName);
+
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('SELECTED_MODULE', $selectedModule);
 		$viewer->assign('PICKLIST_FIELDS', $recordModel->getAllPickListFields());
