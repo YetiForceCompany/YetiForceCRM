@@ -80,8 +80,9 @@
 			</li>
 			{if empty($LISTVIEW_COUNT) && $PAGING_MODEL->isNextPageExists()}
 				<li class="js-count-number-records page-item js-popover-tooltip" data-js="popover|click"
-					id="totalCountBtn" data-content="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}">
-					<a class="page-link" href="#"><span class="fas fa-signal"></span></a>
+					{assign var="TRANSLATE_DATA" value="{\App\Language::translate('LBL_WIDGET_FILTER_TOTAL_COUNT_INFO')}"}
+					id="totalCountBtn" data-content="{$TRANSLATE_DATA}">
+					<a class="page-link" aria-label="{$TRANSLATE_DATA}" href="#"><span class="fas fa-signal"></span></a>
 				</li>
 			{/if}
 			{if !empty($LISTVIEW_COUNT)}
