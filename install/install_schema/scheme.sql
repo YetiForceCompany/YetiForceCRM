@@ -3767,10 +3767,13 @@ CREATE TABLE `u_yf_openstreetmap_address_updater` (
 /*Table structure for table `u_yf_openstreetmap_cache` */
 
 CREATE TABLE `u_yf_openstreetmap_cache` (
-  `user_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) NOT NULL,
   `module_name` varchar(50) NOT NULL,
-  `crmids` int(10) unsigned NOT NULL,
-  KEY `u_yf_openstreetmap_cache_user_id_module_name_idx` (`user_id`,`module_name`)
+  `crmids` int(10) NOT NULL,
+  KEY `u_yf_openstreetmap_cache_user_id_module_name_idx` (`user_id`,`module_name`),
+  KEY `crmids` (`crmids`),
+  CONSTRAINT `u_yf_openstreetmap_cache_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `u_yf_openstreetmap_cache_ibfk_2` FOREIGN KEY (`crmids`) REFERENCES `u_yf_openstreetmap` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_openstreetmap_record_updater` */
