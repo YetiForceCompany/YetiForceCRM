@@ -61,14 +61,14 @@
 					{/if}
 					<li class="js-page--set page-item pageNumber{if $PAGE_NUMBER eq $PAGE_INDEX} active disabled{/if}"
 						data-id="{$PAGE_INDEX}" data-js="click">
-						<a class="page-link" aria-label="{\App\Language::translate('LBL_CURRENT_PAGE')}{$PAGE_INDEX}" href="#">{$PAGE_INDEX}</a>
+						<a class="page-link" {if $PAGE_INDEX === ($PAGE_COUNT - 1)}aria-label="{\App\Language::translate('LBL_PREV_PAGE')}" {else}aria-label="{\App\Language::translate('LBL_GO_TO_PAGE_NUMBER')} {$PAGE_INDEX}" {/if} href="#">{$PAGE_INDEX}</a>
 					</li>
 				{/for}
 			{/if}
 			{if $PAGE_INDEX <= $PAGE_COUNT}
 				<li class="js-page--set pageNumber{if $PAGE_NUMBER eq $PAGE_COUNT} active disabled{/if}" data-js="click"
 					data-id="{$PAGE_COUNT}">
-					<a class="page-link" aria-label="{\App\Language::translate('LBL_CURRENT_PAGE')}{$PAGE_INDEX}" href="#">{$PAGE_COUNT}</a>
+					<a class="page-link" aria-label="{\App\Language::translate('LBL_CURRENT_PAGE')} {$PAGE_COUNT}" href="#">{$PAGE_COUNT}</a>
 				</li>
 			{/if}
 			<li class="js-next-page page-item {if (!$PAGING_MODEL->isNextPageExists())}disabled{/if}"

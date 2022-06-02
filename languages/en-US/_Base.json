@@ -184,6 +184,8 @@
     "LBL_CURRENT_MONTH": "Current month",
     "LBL_CURRENT_WEEK": "Current week",
     "LBL_CURRENT_PAGE": "Current page number",
+    "LBL_PREV_PAGE": "Go to previous page",
+    "LBL_GO_TO_PAGE_NUMBER": "Go to page number",
     "LBL_CUSTOM": "Custom",
     "LBL_CUSTOMIZE_MAIN_MENU": "Customize main menu",
     "LBL_CUSTOM_FIELD_MAPPING": "Custom field mapping",
