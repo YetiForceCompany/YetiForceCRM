@@ -133,7 +133,7 @@
 								<label>
 									<input type="checkbox" class="showRecordsFromCache mr-2" data-module="{$ALLOWED_MODULE_NAME}" />
 									{\App\Language::translate($ALLOWED_MODULE_NAME, $ALLOWED_MODULE_NAME)}
-									<span class="badge countRecords{$ALLOWED_MODULE_NAME}">
+									<span class="badge badge-info badge-pill ml-2 countRecords{$ALLOWED_MODULE_NAME}">
 										{if !empty($CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME])}
 											{$CACHE_GROUP_RECORDS[$ALLOWED_MODULE_NAME]}
 										{/if}
