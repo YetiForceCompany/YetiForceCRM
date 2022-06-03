@@ -960,7 +960,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function getUnlockFields($isAjaxEditable = false)
 	{
 		$cacheName = 'UnlockFields' . $isAjaxEditable;
-		if (\App\Cache::staticHas($cacheName, $this->getId())) {
+		if (null !== $this->getId() && \App\Cache::staticHas($cacheName, $this->getId())) {
 			return \App\Cache::staticGet($cacheName, $this->getId());
 		}
 		$lockFields = \App\RecordStatus::getLockStatus($this->getModule()->getName());
@@ -969,7 +969,9 @@ class Vtiger_Record_Model extends \App\Base
 				unset($lockFields[$fieldName]);
 			}
 		}
-		\App\Cache::staticSave($cacheName, $this->getId(), $lockFields);
+		if (null !== $this->getId()) {
+			\App\Cache::staticSave($cacheName, $this->getId(), $lockFields);
+		}
 		return $lockFields;
 	}
 
