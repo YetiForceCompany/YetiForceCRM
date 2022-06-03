@@ -223,6 +223,9 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$users = $userIds = [];
 		if (isset($switchUsers[$baseUserId])) {
 			foreach ($switchUsers[$baseUserId] as $userId => &$userName) {
+				if (!self::checkUserIsActive($userId)) {
+					continue;
+				}
 				$users[$userId] = ['userName' => $userName];
 				$userIds[] = $userId;
 			}
@@ -261,5 +264,14 @@ class Users_Module_Model extends Vtiger_Module_Model
 			$editFields[] = $field['fieldname'];
 		}
 		return $editFields;
+	}
+
+	private static function checkUserIsActive(int $userId)
+	{
+		$userStatus = (new \App\Db\Query())->select(['vtiger_users.status'])->from('vtiger_users')->where(['id' => $userId])->createCommand()->query();
+		if ('Active' === $userStatus->readAll()[0]['status']) {
+			return true;
+		}
+		return false;
 	}
 }
