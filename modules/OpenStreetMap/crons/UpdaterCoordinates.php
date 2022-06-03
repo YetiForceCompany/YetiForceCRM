@@ -2,6 +2,8 @@
 /**
  * Cron task to update coordinates.
  *
+ * @package Cron
+ *
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
@@ -21,9 +23,9 @@ class OpenStreetMap_UpdaterCoordinates_Cron extends \App\CronHandler
 		if (false !== $lastUpdatedCrmId) {
 			$dataReader = (new App\Db\Query())->select(['crmid', 'setype', 'deleted'])
 				->from('vtiger_crmentity')
-				->where(['setype' => \App\Config::module('OpenStreetMap', 'ALLOW_MODULES', [])])
+				->where(['setype' => \App\Config::module('OpenStreetMap', 'mapModules', [])])
 				->andWhere(['>', 'crmid', $lastUpdatedCrmId])
-				->limit(App\Config::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
+				->limit(App\Config::module('OpenStreetMap', 'cronMaxUpdatedAddresses'))
 				->createCommand()->query();
 			$moduleModel = OpenStreetMap_Module_Model::getInstance('OpenStreetMap');
 			$coordinatesConnector = \App\Map\Coordinates::getInstance();

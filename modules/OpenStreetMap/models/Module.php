@@ -6,6 +6,7 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 {
@@ -21,17 +22,17 @@ class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 	 */
 	public function isAllowModules($moduleName)
 	{
-		return \in_array($moduleName, \App\Config::module($this->getName(), 'ALLOW_MODULES', []));
+		return \in_array($moduleName, \App\Config::module($this->getName(), 'mapModules', []));
 	}
 
 	/**
 	 * Function to get allow modules with checking permissions.
 	 *
-	 * @return array
+	 * @return string[]
 	 */
-	public function getAllowedModules()
+	public function getAllowedModules(): array
 	{
-		$allAllowedModules = \App\Config::module($this->getName(), 'ALLOW_MODULES', []);
+		$allAllowedModules = \App\Config::module($this->getName(), 'mapModules', []);
 		foreach ($allAllowedModules as $key => $moduleName) {
 			if (!\App\Privilege::isPermitted($moduleName)) {
 				unset($allAllowedModules[$key]);

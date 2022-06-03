@@ -15,6 +15,7 @@
     "LBL_COORDINATES_INFO_2": "To add additional servers, edit the $coordinatesServers variable in the %s file. Publicly available coordinates servers are available at:",
     "LBL_AVAILABLE_DRIVERS": "Drivers available in the system",
     "LBL_PROVIDER_ACTIVE": "Active",
+    "LBL_PROVIDER_NOT_VERIFIED": "Provider not verified, when you use public servers, data from the system will be sent to third-party servers.",
     "LBL_ROUTING": "Routing",
     "LBL_ROUTING_INFO_1": "Select the server to be used to map routes for vehicles, the system will provide coordinates of points for which you want to map the route.",
     "LBL_ROUTING_INFO_2": "To add additional servers, edit the $routingServers variable in the %s file. Publicly available routing servers are available at:"

@@ -81,7 +81,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$recodMetaData = \vtlib\Functions::getCRMRecordMetadata($crmid);
 		$moduleName = $recodMetaData['setype'];
 		$queryGenerator = new App\QueryGenerator($moduleName);
-		$fields = App\Config::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$fields = App\Config::module('OpenStreetMap', 'mapPinFields');
 		$queryGenerator->setFields($fields[$moduleName]);
 		$queryGenerator->addNativeCondition(['vtiger_crmentity.crmid' => $crmid]);
 		$row = $queryGenerator->createQuery()->one();
@@ -133,7 +133,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 	public function getLabelToPopupByArray($data, $moduleName)
 	{
 		$html = '<b><a href="index.php?module=' . $moduleName . '&view=Detail&record=' . $data['crmid'] . '"><span class="description">';
-		$fields = App\Config::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$fields = App\Config::module('OpenStreetMap', 'mapPinFields');
 		foreach ($fields[$moduleName] as $fieldName) {
 			if (!empty($data[$fieldName])) {
 				$html .= \App\Purifier::encodeHtml($data[$fieldName]) . '<br />';
@@ -248,7 +248,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$coordinatesCenter = $this->get('coordinatesCenter');
 		$radius = $this->get('radius');
 		$moduleName = $moduleModel->getName();
-		$fields = App\Config::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$fields = App\Config::module('OpenStreetMap', 'mapPinFields');
 		$fields = $fields[$moduleName];
 		if (!empty($groupByField)) {
 			$fields[] = $groupByField;
@@ -318,7 +318,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$groupByField = $this->get('groupBy');
 		$coordinatesCenter = $this->get('coordinatesCenter');
 		$radius = $this->get('radius');
-		$fields = App\Config::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$fields = App\Config::module('OpenStreetMap', 'mapPinFields');
 		$fields = $fields[$moduleName];
 		if (!empty($groupByField)) {
 			$fields[] = $groupByField;

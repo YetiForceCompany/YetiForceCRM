@@ -47,7 +47,18 @@
 							<tbody>
 								{foreach from=\App\Config::module('OpenStreetMap', 'tileLayerServers') item=ITEM key=KEY}
 									<tr>
-										<th scope="row">{\App\Language::translate($KEY, $QUALIFIED_MODULE)}</th>
+										<th scope="row">
+											{\App\Language::translate($KEY, $QUALIFIED_MODULE)}
+											{if $KEY === 'YetiForce'}
+												<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}">
+													<span class="yfi-premium color-red-600"></span>
+												</span>
+											{else}
+												<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PROVIDER_NOT_VERIFIED', 'Settings::Map')}">
+													<span class="fas fa-triangle-exclamation color-red-600"></span>
+												</span>
+											{/if}
+										</th>
 										<td>{$ITEM}</td>
 										<td class="text-center">
 											<input name="tileLayerServers" value="{$KEY}" type="radio" {if $ACTIVE_TILE_LAYER eq $ITEM}checked{/if}>
@@ -72,7 +83,9 @@
 						<table class="table table-bordered">
 							<thead>
 								<tr>
-									<th class="text-center" scope="col">{\App\Language::translate('LBL_PROVIDER_NAME', $QUALIFIED_MODULE)}</th>
+									<th class="text-center" scope="col">
+										{\App\Language::translate('LBL_PROVIDER_NAME', $QUALIFIED_MODULE)}
+									</th>
 									<th class="text-center" scope="col">{\App\Language::translate('LBL_API_URL', $QUALIFIED_MODULE)}</th>
 									<th class="text-center" scope="col">{\App\Language::translate('LBL_DRIVER', $QUALIFIED_MODULE)}</th>
 									<th class="text-center" scope="col">{\App\Language::translate('LBL_PROVIDER_ACTIVE', $QUALIFIED_MODULE)}</th>
@@ -83,6 +96,15 @@
 									<tr>
 										<th scope="row">
 											{\App\Language::translate($KEY, $QUALIFIED_MODULE)}
+											{if $KEY === 'YetiForce'}
+												<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}">
+													<span class="yfi-premium color-red-600"></span>
+												</span>
+											{else}
+												<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PROVIDER_NOT_VERIFIED', 'Settings::Map')}">
+													<span class="fas fa-triangle-exclamation color-red-600"></span>
+												</span>
+											{/if}
 											{if isset($ITEM['docUrl'])}
 												<a href="{$ITEM['docUrl']}" class="float-right u-cursor-pointer js-popover-tooltip" data-placement="top" data-content="{$ITEM['docUrl']}" data-js="popover"><span class="fas fa-info-circle"></span></a>
 											{/if}
@@ -123,6 +145,15 @@
 									<tr>
 										<th scope="row">
 											{\App\Language::translate($KEY, $QUALIFIED_MODULE)}
+											{if $KEY === 'YetiForce'}
+												<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}">
+													<span class="yfi-premium color-red-600"></span>
+												</span>
+											{else}
+												<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PROVIDER_NOT_VERIFIED', 'Settings::Map')}">
+													<span class="fas fa-triangle-exclamation color-red-600"></span>
+												</span>
+											{/if}
 											{if isset($ITEM['docUrl'])}
 												<a href="{$ITEM['docUrl']}" class="float-right u-cursor-pointer js-popover-tooltip" data-placement="top" data-content="{$ITEM['docUrl']}" data-js="popover"><span class="fas fa-info-circle"></span></a>
 											{/if}

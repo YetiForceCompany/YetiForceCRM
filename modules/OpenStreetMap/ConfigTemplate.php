@@ -6,16 +6,16 @@
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
-	'CRON_MAX_UPDATED_ADDRESSES' => [
+	'cronMaxUpdatedAddresses' => [
 		'default' => 1000,
-		'description' => 'Max number to update addresses',
+		'description' => 'Number of entries to be updated in one run of cron',
 		'validation' => '\App\Validator::naturalNumber'
 	],
-	'ALLOW_MODULES' => [
+	'mapModules' => [
 		'default' => ['Accounts', 'Contacts', 'Competition', 'Vendors', 'Partners', 'Leads', 'Locations'],
 		'description' => 'Allow modules'
 	],
-	'FIELDS_IN_POPUP' => [
+	'mapPinFields' => [
 		'default' => [
 			'Accounts' => ['accountname', 'email1', 'phone'],
 			'Leads' => ['company', 'firstname', 'lastname', 'email'],
@@ -25,7 +25,7 @@ return [
 			'Contacts' => ['firstname', 'lastname', 'email', 'phone'],
 			'Locations' => ['subject', 'email']
 		],
-		'description' => 'List of fields to appear in POP-UP'
+		'description' => 'List of fields from which to show information in the map pin'
 	],
 	'coordinatesServer' => [
 		'default' => 'YetiForce',

@@ -1,10 +1,13 @@
 <?php
-/**  Cron task to update coordinates in records.
- * @package YetiForce.Cron
+/**
+ * Cron task to update coordinates in records.
+ *
+ * @package Cron
  *
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
@@ -17,7 +20,7 @@ class OpenStreetMap_UpdaterRecordsCoordinates_Cron extends \App\CronHandler
 	{
 		$db = App\Db::getInstance();
 		$dataReader = (new App\Db\Query())->from(OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME)
-			->limit(App\Config::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
+			->limit(App\Config::module('OpenStreetMap', 'cronMaxUpdatedAddresses'))
 			->createCommand()->query();
 		$coordinatesConnector = \App\Map\Coordinates::getInstance();
 		while ($row = $dataReader->read()) {

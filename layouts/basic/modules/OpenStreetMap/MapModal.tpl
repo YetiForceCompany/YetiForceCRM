@@ -98,6 +98,22 @@
 					</div>
 				</div>
 			</div>
+			<div class="js-toggle-panel c-panel d-none  js-description-container" data-js="click">
+				<div class="card-header blockHeader p-2 font-weight-bold">
+					<span class="fas fa-route mr-2"></span>
+					{\App\Language::translate('LBL_ROUTE_DESCRIPTION', $MODULE_NAME)}
+					<div class="ml-auto">
+						<span class="u-cursor-pointer js-block-toggle fas fa-angle-right d-none" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
+						<span class="u-cursor-pointer js-block-toggle fas fa-angle-down" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
+					</div>
+				</div>
+				<div class="card-body blockContent descriptionContainer p-2">
+					<b>{\App\Language::translate('LBL_DISTANCE', $MODULE_NAME)}:&nbsp;</b><span class="distance"></span><br />
+					<b>{\App\Language::translate('LBL_TRAVEL_TIME', $MODULE_NAME)}:&nbsp;</b><span class="travelTime"></span><br />
+					<b class="js-instruction_block">{\App\Language::translate('LBL_INSTRUCTION', $MODULE_NAME)}:&nbsp;</b><br />
+					<span class="js-instruction_body"></span>
+				</div>
+			</div>
 			<div class="js-toggle-panel c-panel" data-js="click">
 				<div class="card-header blockHeader p-2 font-weight-bold">
 					<span class="fas fa-download mr-2"></span>
@@ -135,22 +151,6 @@
 						</div>
 					{/foreach}
 					<button class="btn btn-success btn-sm copyToClipboard float-right"><span class="fas fa-paste"></span>&nbsp;{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}</button>
-				</div>
-			</div>
-			<div class="js-toggle-panel c-panel d-none  js-description-container" data-js="click">
-				<div class="card-header blockHeader p-2 font-weight-bold">
-					<span class="fas fa-route mr-2"></span>
-					{\App\Language::translate('LBL_ROUTE_DESCRIPTION', $MODULE_NAME)}
-					<div class="ml-auto">
-						<span class="u-cursor-pointer js-block-toggle fas fa-angle-right d-none" data-js="click" alt="{\App\Language::translate('LBL_EXPAND_BLOCK')}" data-mode="hide"></span>
-						<span class="u-cursor-pointer js-block-toggle fas fa-angle-down" data-js="click" alt="{\App\Language::translate('LBL_COLLAPSE_BLOCK')}" data-mode="show"></span>
-					</div>
-				</div>
-				<div class="card-body blockContent descriptionContainer p-2">
-					<b>{\App\Language::translate('LBL_DISTANCE', $MODULE_NAME)}:&nbsp;</b><span class="distance"></span><br />
-					<b>{\App\Language::translate('LBL_TRAVEL_TIME', $MODULE_NAME)}:&nbsp;</b><span class="travelTime"></span><br />
-					<b class="js-instruction_block">{\App\Language::translate('LBL_INSTRUCTION', $MODULE_NAME)}:&nbsp;</b><br />
-					<span class="js-instruction_body"></span>
 				</div>
 			</div>
 		</div>
