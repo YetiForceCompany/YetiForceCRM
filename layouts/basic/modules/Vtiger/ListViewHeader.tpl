@@ -108,13 +108,13 @@
 									data-cvid="{$CUSTOM_VIEW->getId()}" role="listitem" data-js="click">
 									<a class="nav-link{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}" href="#"
 										{if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')}; border-color: {$CUSTOM_VIEW->get('color')} {$CUSTOM_VIEW->get('color')} #fff" {/if}
-										data-toggle="tab"
+										data-toggle="tab">
 										{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 										{if $CUSTOM_VIEW->get('description')}
 											<span class="js-popover-tooltip ml-1" data-toggle="popover"
-											data-placement="top"
-											data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}" data-js="popover">
-											<span class="fas fa-info-circle"></span>
+												data-placement="top"
+												data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}" data-js="popover">
+												<span class="fas fa-info-circle"></span>
 											</span>
 										{/if}
 									</a>
