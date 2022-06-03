@@ -59,8 +59,6 @@ jQuery.Class(
 					markers.addLayer(marker);
 					records.push(e.recordId);
 				});
-				console.log(records);
-				console.log(data.coordinates);
 				this.recordsIds = records;
 				this.markers = data.coordinates;
 				this.layerMarkers = markers;
