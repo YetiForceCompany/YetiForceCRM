@@ -329,10 +329,12 @@ class Picklist
 	public static function getValueInfo(string $fieldName, string $value): array
 	{
 		$info = [];
-		foreach (self::getValues($fieldName) as $data) {
-			if ($value === $data[$fieldName]) {
-				$info = $data;
-				break;
+		if (self::isPicklistExist($fieldName)) {
+			foreach (self::getValues($fieldName) as $data) {
+				if ($value === $data[$fieldName]) {
+					$info = $data;
+					break;
+				}
 			}
 		}
 
