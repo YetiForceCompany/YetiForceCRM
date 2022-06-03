@@ -8,6 +8,7 @@
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App;
@@ -38,7 +39,7 @@ class Colors
 			case 'picklist':
 				static::generatePicklists();
 				break;
-				case 'field':
+			case 'field':
 				static::generateFields();
 				break;
 			default:
@@ -103,20 +104,17 @@ class Colors
 			$fields = static::getPicklistFieldsByModule($module['tabname']);
 			foreach ($fields as $field) {
 				$values = \App\Fields\Picklist::getValues($field->getName());
-				if ($values) {
-					$firstRow = reset($values);
-					if (\array_key_exists('color', $firstRow)) {
-						foreach ($values as $item) {
-							if (ltrim($item['color'], '#')) {
-								if (false === strpos($item['color'], '#')) {
-									$item['color'] = '#' . $item['color'];
-								}
-								$contrastColor = static::getContrast($item['color']);
-								$css .= '.picklistCBr_' . $module['tabname'] . '_' . static::sanitizeValue($field->getName()) . '_' . static::sanitizeValue($item['picklistValue']) . ' { border-color: ' . $item['color'] . ' !important; }' . PHP_EOL;
-								$css .= '.picklistCT_' . $module['tabname'] . '_' . static::sanitizeValue($field->getName()) . '_' . static::sanitizeValue($item['picklistValue']) . ' { color: ' . $item['color'] . ' !important; }' . PHP_EOL;
-								$css .= '.picklistCBg_' . $module['tabname'] . '_' . static::sanitizeValue($field->getName()) . '_' . static::sanitizeValue($item['picklistValue']) . ' { background: ' . $item['color'] . ' !important; font-weight: 500 !important; color: ' . $contrastColor . ' !important;}' . PHP_EOL;
-								$css .= '.picklistLb_' . $module['tabname'] . '_' . static::sanitizeValue($field->getName()) . '_' . static::sanitizeValue($item['picklistValue']) . ' { background: ' . $item['color'] . ' !important; font-weight: 500 !important; color: ' . $contrastColor . ' !important;  padding: 2px 7px 3px 7px;}' . PHP_EOL;
+				if ($values && ($firstRow = reset($values)) && \array_key_exists('color', $firstRow)) {
+					foreach ($values as $item) {
+						if (($color = $item['color'] ?? '') && '#' !== $color) {
+							if (false === strpos($color, '#')) {
+								$color = '#' . $color;
 							}
+							$contrastColor = static::getContrast($color);
+							$css .= '.picklistCBr_' . $module['tabname'] . '_' . static::sanitizeValue($field->getName()) . '_' . static::sanitizeValue($item['picklistValue']) . ' { border-color: ' . $color . ' !important; }' . PHP_EOL;
+							$css .= '.picklistCT_' . $module['tabname'] . '_' . static::sanitizeValue($field->getName()) . '_' . static::sanitizeValue($item['picklistValue']) . ' { color: ' . $color . ' !important; }' . PHP_EOL;
+							$css .= '.picklistCBg_' . $module['tabname'] . '_' . static::sanitizeValue($field->getName()) . '_' . static::sanitizeValue($item['picklistValue']) . ' { background: ' . $color . ' !important; font-weight: 500 !important; color: ' . $contrastColor . ' !important;}' . PHP_EOL;
+							$css .= '.picklistLb_' . $module['tabname'] . '_' . static::sanitizeValue($field->getName()) . '_' . static::sanitizeValue($item['picklistValue']) . ' { background: ' . $color . ' !important; font-weight: 500 !important; color: ' . $contrastColor . ' !important;  padding: 2px 7px 3px 7px;}' . PHP_EOL;
 						}
 					}
 				}
@@ -150,12 +148,9 @@ class Colors
 	 *
 	 * @param string $value
 	 */
-	public static function sanitizeValue($value)
+	public static function sanitizeValue($value): string
 	{
-		if (empty($value)) {
-			return $value;
-		}
-		return str_replace([' ', '-', '=', '+', '@', '*', '!', '#', '$', '%', '^', '&', '(', ')', '[', ']', '{', '}', ';', ':', "\\'", '"', ',', '<', '.', '>', '/', '?', '\\', '|'], '_', \App\Utils::sanitizeSpecialChars($value));
+		return empty($value) ? '' : str_replace([' ', '-', '=', '+', '@', '*', '!', '#', '$', '%', '^', '&', '(', ')', '[', ']', '{', '}', ';', ':', "\\'", '"', ',', '<', '.', '>', '/', '?', '\\', '|'], '_', \App\Utils::sanitizeSpecialChars($value));
 	}
 
 	/**

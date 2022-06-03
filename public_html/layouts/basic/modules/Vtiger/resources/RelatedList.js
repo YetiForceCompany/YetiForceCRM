@@ -158,7 +158,7 @@ jQuery.Class(
 		},
 		triggerMassQuickCreate: function (moduleName, data) {
 			const self = this.relatedListInstance;
-			if (self.checkListRecordSelected() != true) {
+			if (self.checkListRecordSelected() !== true) {
 				let listParams = self.getSelectedParams();
 				let progress = $.progressIndicator({ blockInfo: { enabled: true } });
 				let params = {
@@ -1369,10 +1369,7 @@ jQuery.Class(
 		},
 		checkListRecordSelected: function (minNumberOfRecords = 1) {
 			let selectedIds = this.readSelectedIds();
-			if (typeof selectedIds === 'object' && selectedIds.length < minNumberOfRecords) {
-				return true;
-			}
-			return false;
+			return typeof selectedIds === 'object' && selectedIds.length < minNumberOfRecords;
 		},
 		readSelectedIds: function (decode) {
 			let selectedIdsDataAttr = this.getCurrentCvId() + 'selectedIds',
@@ -1548,10 +1545,10 @@ jQuery.Class(
 			const self = this;
 			self.getRelatedContainer().on('click', '.js-mass-record-event', function () {
 				let target = $(this);
-				if (self.checkListRecordSelected() != true) {
+				if (self.checkListRecordSelected() !== true) {
 					if (target.data('type') === 'modal') {
 						let params = self.getSelectedParams();
-						target.data('url').replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+						target.data('url').replace(/[?&]+([^=&]+)=([^&]*)/gi, function (_m, key, value) {
 							params[key] = value;
 						});
 						AppConnector.request({

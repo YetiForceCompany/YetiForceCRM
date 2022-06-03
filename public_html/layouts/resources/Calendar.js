@@ -36,7 +36,6 @@ window.Calendar_Js = class {
 	 * @param {boolean} browserHistory
 	 */
 	constructor(container = $('.js-base-container'), readonly = false, browserHistory = true) {
-		this.fullCalendar;
 		this.calendarCreateView = false;
 		this.container = container;
 		this.calendarView = container.find('.js-calendar__container');

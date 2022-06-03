@@ -3681,7 +3681,7 @@ window.App.Fields = {
 				downloadBtn.appendChild(downloadBtnIcon);
 				buttons.appendChild(downloadBtn);
 			}
-			if (this.deleteButtonActive) {
+			if (this.deleteButtonActive && !file.lock) {
 				const deleteBtn = document.createElement('button');
 				deleteBtn.setAttribute('class', 'btn btn-sm btn-outline-danger js-multi-attachment__file-buttons-delete ml-1');
 				deleteBtn.setAttribute('data-key', file.key);
