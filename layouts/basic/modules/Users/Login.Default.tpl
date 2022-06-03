@@ -54,9 +54,9 @@
 									{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
 									{assign var=DEFAULT_LANGUAGE value=App\Config::main('default_language')}
 									<div class="input-group input-group-lg form-group mb-0 {if $LAYOUT_SELECTION}first-group {/if}">
-										<select name="loginLanguage" class="form-control-lg form-control" title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE',$MODULE)}">
+										<select role="listbox" aria-orientation="vertical" name="loginLanguage" class="form-control-lg form-control" title="{\App\Language::translate('LBL_CHOOSE_LANGUAGE',$MODULE)}">
 											{foreach item=VALUE key=KEY from=\App\Language::getAll()}
-												<option {if $KEY eq $DEFAULT_LANGUAGE} selected {/if} value="{\App\Purifier::encodeHtml($KEY)}">{$VALUE}</option>
+												<option role="option" {if $KEY eq $DEFAULT_LANGUAGE} aria-selected="true" selected {/if} aria-selected="false" value="{\App\Purifier::encodeHtml($KEY)}">{$VALUE}</option>
 											{/foreach}
 										</select>
 										<div class="input-group-append">
