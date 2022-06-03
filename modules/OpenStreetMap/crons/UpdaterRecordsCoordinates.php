@@ -16,7 +16,7 @@ class OpenStreetMap_UpdaterRecordsCoordinates_Cron extends \App\CronHandler
 	public function process()
 	{
 		$db = App\Db::getInstance();
-		$dataReader = (new App\Db\Query())->from('u_#__openstreetmap_record_updater')
+		$dataReader = (new App\Db\Query())->from(OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME)
 			->limit(App\Config::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
 			->createCommand()->query();
 		$coordinatesConnector = \App\Map\Coordinates::getInstance();
@@ -34,25 +34,25 @@ class OpenStreetMap_UpdaterRecordsCoordinates_Cron extends \App\CronHandler
 				continue;
 			}
 			$coordinates = reset($coordinates);
-			$isCoordinateExists = (new App\Db\Query())->from('u_#__openstreetmap')
-				->where(['type' => $typeAddress, 'crmid' => $recordId])
-				->exists();
-			if ($isCoordinateExists) {
+			if ((new App\Db\Query())->from(OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME)->where(['crmid' => $recordId, 'type' => $typeAddress])->exists()) {
 				if (empty($coordinates['lat']) && empty($coordinates['lon'])) {
-					$db->createCommand()->delete('u_#__openstreetmap', ['type' => $typeAddress, 'crmid' => $recordId])->execute();
+					$db->createCommand()->delete(OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, ['crmid' => $recordId, 'type' => $typeAddress])->execute();
 				} else {
-					$db->createCommand()->update('u_#__openstreetmap', ['lat' => $coordinates['lat'], 'lon' => $coordinates['lon']], ['type' => $typeAddress, 'crmid' => $recordId])->execute();
+					$db->createCommand()->update(OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, [
+						'lat' => round($coordinates['lat'], 7),
+						'lon' => round($coordinates['lon'], 7),
+					], ['crmid' => $recordId, 'type' => $typeAddress])->execute();
 				}
-				$db->createCommand()->delete('u_#__openstreetmap_record_updater', ['type' => $typeAddress, 'crmid' => $recordId])->execute();
+				$db->createCommand()->delete('u_#__openstreetmap_record_updater', ['crmid' => $recordId, 'type' => $typeAddress])->execute();
 			} else {
 				if (!empty($coordinates['lat']) && !empty($coordinates['lon'])) {
-					$db->createCommand()->insert('u_#__openstreetmap', [
+					$db->createCommand()->insert(OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, [
 						'type' => $typeAddress,
 						'crmid' => $recordId,
-						'lat' => $coordinates['lat'],
-						'lon' => $coordinates['lon'],
+						'lat' => round($coordinates['lat'], 7),
+						'lon' => round($coordinates['lon'], 7),
 					])->execute();
-					$db->createCommand()->delete('u_#__openstreetmap_record_updater', ['type' => $typeAddress, 'crmid' => $recordId])->execute();
+					$db->createCommand()->delete('u_#__openstreetmap_record_updater', ['crmid' => $recordId, 'type' => $typeAddress])->execute();
 				}
 			}
 			if ($this->checkTimeout()) {

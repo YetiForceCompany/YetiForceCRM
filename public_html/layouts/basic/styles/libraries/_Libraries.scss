@@ -280,12 +280,6 @@ header {
 	}
 }
 
-//--- list ---//
-
-.openStreetMapModalBody {
-	@extend %input-groupSelect2;
-}
-
 //-------- daterangepicker --------//
 
 .daterangepicker {
@@ -326,7 +320,7 @@ header {
 
 //-------- jQuery UI --------//
 .ui-autocomplete {
-	padding: 0 !important;
+	padding: 3px !important;
 
 	.ui-menu-item-wrapper,
 	.ui-menu-item-wrapper:hover {

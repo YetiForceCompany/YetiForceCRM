@@ -66,11 +66,11 @@ class OpenCageGeocoder extends Base
 			$body = \App\Json::decode($response->getBody());
 			$rows = [];
 			if ($body['total_results']) {
-				$mainMapping = \App\Config::component('AddressFinder', 'REMAPPING_OPENCAGE');
+				$mainMapping = \App\Config::component('AddressFinder', 'remappingOpenCage');
 				if (!\is_callable($mainMapping)) {
 					$mainMapping = [$this, 'parseRow'];
 				}
-				$countryMapping = \App\Config::component('AddressFinder', 'REMAPPING_OPENCAGE_FOR_COUNTRY');
+				$countryMapping = \App\Config::component('AddressFinder', 'remappingOpenCageForCountry');
 				foreach ($body['results'] as $row) {
 					$mappingFunction = $mainMapping;
 					if (isset($row['components']['country'], $countryMapping[$row['components']['country']])) {
@@ -79,6 +79,8 @@ class OpenCageGeocoder extends Base
 					$rows[] = [
 						'label' => $row['formatted'],
 						'address' => \call_user_func_array($mappingFunction, [$row]),
+						'coordinates' => ['lat' => $row['geometry']['lat'], 'lon' => $row['geometry']['lng']],
+						'countryCode' => strtolower($row['components']['country'] ?? ''),
 					];
 				}
 			}

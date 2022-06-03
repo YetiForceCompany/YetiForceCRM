@@ -7,12 +7,12 @@
  */
 return [
 	'AddressFinder' => [
-		'REMAPPING_OPENCAGE' => [
+		'remappingOpenCage' => [
 			'type' => 'function',
 			'default' => 'return null;',
 			'description' => 'The main function to remapping fields for OpenCage. It should be a function.',
 		],
-		'REMAPPING_OPENCAGE_FOR_COUNTRY' => [
+		'remappingOpenCageForCountry' => [
 			'type' => 'function',
 			'default' => "return [
 		'Australia' => function (\$row) {
@@ -339,42 +339,26 @@ return [
 		'footerName' => [
 			'default' => '',
 			'description' => 'Footer\'s name',
-			'validation' => function () {
-				return true;
-			},
-			'sanitization' => function () {
-				return \App\Purifier::purify(func_get_arg(0));
-			},
+			'validation' => fn () => true,
+			'sanitization' => fn () => \App\Purifier::purify(func_get_arg(0)),
 		],
 		'urlLinkedIn' => [
 			'default' => 'https://www.linkedin.com/groups/8177576',
 			'description' => 'LinkedIn URL',
-			'validation' => function () {
-				return true;
-			},
-			'sanitization' => function () {
-				return \App\Purifier::purify(func_get_arg(0));
-			},
+			'validation' => fn () => true,
+			'sanitization' => fn () => \App\Purifier::purify(func_get_arg(0)),
 		],
 		'urlTwitter' => [
 			'default' => 'https://twitter.com/YetiForceEN',
 			'description' => 'Twitter URL',
-			'validation' => function () {
-				return true;
-			},
-			'sanitization' => function () {
-				return \App\Purifier::purify(func_get_arg(0));
-			},
+			'validation' => fn () => true,
+			'sanitization' => fn () => \App\Purifier::purify(func_get_arg(0)),
 		],
 		'urlFacebook' => [
 			'default' => 'https://www.facebook.com/YetiForce-CRM-158646854306054/',
 			'description' => 'Facebook URL',
-			'validation' => function () {
-				return true;
-			},
-			'sanitization' => function () {
-				return \App\Purifier::purify(func_get_arg(0));
-			},
+			'validation' => fn () => true,
+			'sanitization' => fn () => \App\Purifier::purify(func_get_arg(0)),
 		],
 	],
 	'MeetingService' => [
@@ -439,9 +423,7 @@ return [
 		'modules' => [
 			'default' => [],
 			'description' => 'List of modules where the conflict of interests mechanism is enabled.',
-			'validation' => function () {
-				return true;
-			},
+			'validation' => fn () => true,
 		],
 	],
 	'Pdf' => [

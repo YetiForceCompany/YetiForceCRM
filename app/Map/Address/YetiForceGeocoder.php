@@ -5,6 +5,9 @@
  *
  * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
  *
+ * @see       https://yetiforce.com/en/yetiforce-map-en
+ * @see       https://yetiforce.com/en/yetiforce-address-search-en
+ *
  * @package App
  *
  * @copyright YetiForce S.A.
@@ -57,7 +60,6 @@ class YetiForceGeocoder extends Base
 			'accept-language' => \App\Language::getLanguage() . ',' . \App\Config::main('default_language') . ',en-US',
 			'q' => $value,
 		];
-
 		if (!empty($this->config['country_codes'])) {
 			$params['countrycodes'] = $this->config['country_codes'];
 		}
@@ -98,6 +100,8 @@ class YetiForceGeocoder extends Base
 					$rows[] = [
 						'label' => $row['display_name'],
 						'address' => \call_user_func_array($mappingFunction, [$row]),
+						'coordinates' => ['lat' => $row['lat'], 'lon' => $row['lon']],
+						'countryCode' => $row['address']['country_code'] ?? '',
 					];
 				}
 			}
@@ -119,10 +123,10 @@ class YetiForceGeocoder extends Base
 		return [
 			'addresslevel1' => [$row['address']['country'] ?? '', strtoupper($row['address']['country_code'] ?? '')],
 			'addresslevel2' => $row['address']['state'] ?? '',
-			'addresslevel3' => $row['address']['state_district'] ?? '',
-			'addresslevel4' => $row['address']['county'] ?? '',
+			'addresslevel3' => $row['address']['county'] ?? $row['address']['state_district'] ?? '',
+			'addresslevel4' => $row['address']['municipality'] ?? '',
 			'addresslevel5' => $row['address']['city'] ?? $row['address']['town'] ?? $row['address']['village'] ?? '',
-			'addresslevel6' => $row['address']['suburb'] ?? $row['address']['neighbourhood'] ?? $row['address']['city_district'] ?? '',
+			'addresslevel6' => $row['address']['hamlet'] ?? $row['address']['suburb'] ?? $row['address']['neighbourhood'] ?? $row['address']['city_district'] ?? '',
 			'addresslevel7' => $row['address']['postcode'] ?? '',
 			'addresslevel8' => $row['address']['road'] ?? '',
 			'buildingnumber' => $row['address']['house_number'] ?? '',

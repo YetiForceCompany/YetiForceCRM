@@ -27,27 +27,26 @@ jQuery.Class(
 				attribution = '';
 			}
 			this.mapInstance = L.map('mapid').setView(startCoordinate, startZoom);
-			L.tileLayer($('#tileLayerServer').val(), {
+			L.tileLayer($('.js-tile-layer-server').val(), {
 				maxZoom: 19,
 				attribution: attribution
 			}).addTo(this.mapInstance);
 			return this.mapInstance;
 		},
-		setMarkersByResponse: function (response) {
+		setMarkers: function (data) {
 			var thisInstance = this;
 			var markerArray = [];
 			var container = this.container;
 			var map = this.mapInstance;
-			if (typeof response.result.coordinates !== 'undefined') {
+			if (typeof data.coordinates !== 'undefined') {
 				var markers = L.markerClusterGroup({
 					maxClusterRadius: 10
 				});
-				var coordinates = response.result.coordinates;
 				if (typeof this.layerMarkers !== 'boolean') {
 					map.removeLayer(this.layerMarkers);
 				}
 				var records = [];
-				coordinates.forEach(function (e) {
+				data.coordinates.forEach(function (e) {
 					markerArray.push([e.lat, e.lon]);
 					var marker = L.marker([e.lat, e.lon], {
 						icon: L.AwesomeMarkers.icon({
@@ -60,72 +59,57 @@ jQuery.Class(
 					markers.addLayer(marker);
 					records.push(e.recordId);
 				});
+				console.log(records);
+				console.log(data.coordinates);
 				this.recordsIds = records;
-				this.markers = coordinates;
+				this.markers = data.coordinates;
 				this.layerMarkers = markers;
 				map.addLayer(markers);
 			}
 			if (typeof this.polygonLayer !== 'boolean') {
 				map.removeLayer(this.polygonLayer);
 			}
-			if (typeof response.result.coordinatesCeneter !== 'undefined') {
-				if (typeof response.result.coordinatesCeneter.error === 'undefined') {
-					var radius = container.find('.js-radius').val();
-					markerArray.push([response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon]);
-					var popup =
-						'<span class="description">' +
-						container.find('.searchValue').val() +
-						'</span><br /><input type=hidden class="coordinates" data-lon="' +
-						response.result.coordinatesCeneter.lon +
-						'" data-lat="' +
-						response.result.coordinatesCeneter.lat +
-						'">';
-					popup +=
-						'<button class="btn btn-success btn-sm p-1 startTrack mr-2"><span class="fas  fa-truck"></span></button>';
-					popup +=
-						'<button class="btn btn-danger btn-sm p-1 endTrack"><span class="fas fa-flag-checkered"></span></button>';
-					var marker = L.marker([response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon], {
+			if (typeof data.coordinatesCenter !== 'undefined') {
+				if (typeof data.coordinatesCenter.error === 'undefined') {
+					let radius = container.find('.js-radius').val();
+					markerArray.push([data.coordinatesCenter.lat, data.coordinatesCenter.lon]);
+					let marker = L.marker([data.coordinatesCenter.lat, data.coordinatesCenter.lon], {
 						icon: L.AwesomeMarkers.icon({
 							icon: 'search',
 							markerColor: 'red',
 							prefix: 'fa'
 						})
-					}).bindPopup(popup);
+					}).bindPopup(this.getMarkerPopup(container.find('.js-search-address').val(), data.coordinatesCenter));
 					map.addLayer(marker);
 					if ($.isNumeric(radius)) {
 						radius = parseInt(radius) * 1000;
-						var circle = L.circle(
-							[response.result.coordinatesCeneter.lat, response.result.coordinatesCeneter.lon],
-							radius,
-							{
-								color: 'red',
-								fillColor: '#f03',
-								fillOpacity: 0.05
-							}
-						);
+						var circle = L.circle([data.coordinatesCenter.lat, data.coordinatesCenter.lon], radius, {
+							color: 'red',
+							fillColor: '#f03',
+							fillOpacity: 0.05
+						});
 						this.polygonLayer = L.featureGroup([circle]);
 						map.addLayer(this.polygonLayer);
 					}
 				} else {
 					var params = {
 						title: app.vtranslate('JS_LBL_PERMISSION'),
-						text: response.result.coordinatesCeneter.error,
+						text: data.coordinatesCenter.error,
 						type: 'error'
 					};
 					Vtiger_Helper_Js.showMessage(params);
 				}
 			}
-			if (typeof response.result.cache !== 'undefined') {
-				var cache = response.result.cache;
-				Object.keys(cache).forEach(function (key) {
+			if (typeof data.cache !== 'undefined') {
+				Object.keys(data.cache).forEach((key) => {
 					if (typeof thisInstance.cacheLayerMarkers[key] !== 'undefined') {
 						map.removeLayer(thisInstance.cacheLayerMarkers[key]);
 					}
 					var markersCache = L.markerClusterGroup({
 						maxClusterRadius: 10
 					});
-					coordinates = cache[key];
-					coordinates.forEach(function (e) {
+					let coordinates = data.cache[key];
+					coordinates.forEach((e) => {
 						if (thisInstance.recordsIds.indexOf(e.recordId) === -1) {
 							markerArray.push([e.lat, e.lon]);
 							var marker = L.marker([e.lat, e.lon], {
@@ -146,9 +130,9 @@ jQuery.Class(
 			}
 
 			var legendContainer = this.container.find('.js-legend-container');
-			if (typeof response.result.legend !== 'undefined') {
+			if (typeof data.legend !== 'undefined') {
 				var html = '';
-				var legend = response.result.legend;
+				var legend = data.legend;
 				legend.forEach(function (e) {
 					html +=
 						'<div class="float-left mt-2"><span class="leegendIcon mt-1" style="background:' +
@@ -169,26 +153,25 @@ jQuery.Class(
 			var endAddress = container.find('.end').val();
 			var startAddress = container.find('.start').val();
 			if (endAddress.length > 0 && startAddress.length > 0) {
-				container.find('.calculateTrack').removeClass('d-none');
+				container.find('.js-calculate-route').parent().removeClass('d-none');
 			}
 		},
 		registerCacheEvents: function (container) {
 			var thisInstance = this;
-			container.find('.showRecordsFromCache').on('change', function (e) {
-				var currentTarget = $(e.currentTarget);
-				var moduleName = currentTarget.data('module');
+			container.find('.showRecordsFromCache').on('change', (e) => {
+				const currentTarget = $(e.currentTarget),
+					moduleName = currentTarget.data('module');
 				if (currentTarget.is(':checked')) {
-					var params = {
+					AppConnector.request({
 						module: 'OpenStreetMap',
 						action: 'GetMarkers',
 						srcModule: app.getModuleName(),
 						cache: [moduleName]
-					};
-					AppConnector.request(params).done(function (response) {
-						thisInstance.setMarkersByResponse(response);
+					}).done((response) => {
+						this.setMarkers(response.result);
 					});
 				} else {
-					thisInstance.mapInstance.removeLayer(thisInstance.cacheLayerMarkers[moduleName]);
+					this.mapInstance.removeLayer(this.cacheLayerMarkers[moduleName]);
 				}
 			});
 			container.find('.copyToClipboard').on('click', function () {
@@ -206,10 +189,10 @@ jQuery.Class(
 					});
 					var countRecords = container.find('.countRecords' + app.getModuleName());
 					countRecords.html(response.result);
-					countRecords.closest('.cacheModuleContainer').find('.deleteClipBoard').removeClass('d-none');
+					countRecords.closest('.cacheModuleContainer').find('.js-delete-clip-board').removeClass('d-none');
 				});
 			});
-			container.find('.deleteClipBoard').on('click', function (e) {
+			container.find('.js-delete-clip-board').on('click', function (e) {
 				var currentTarget = $(e.currentTarget);
 				var moduleName = currentTarget.data('module');
 				var params = {
@@ -249,75 +232,40 @@ jQuery.Class(
 					var moduleContainer = currentTarget.closest('.cacheModuleContainer');
 					moduleContainer.find('.showRecordsFromCache').prop('checked', true);
 					moduleContainer.find('.showRecordsFromCache').trigger('change');
-					if (response.result.count != '0') moduleContainer.find('.deleteClipBoard').removeClass('d-none');
+					if (response.result.count != '0') moduleContainer.find('.js-delete-clip-board').removeClass('d-none');
 				});
 			});
 		},
 		getCacheParamsToRequest: function () {
-			var container = this.container;
-			var params = [];
-			container.find('.showRecordsFromCache').each(function () {
+			let params = [];
+			this.container.find('.showRecordsFromCache').each(function () {
 				var currentObject = $(this);
 				if (currentObject.is(':checked')) params.push(currentObject.data('module'));
 			});
 			return params;
 		},
 		registerSearchCompany: function () {
-			var container = this.container;
-			var searchValue = container.find('.searchCompany');
-			var searchModule = container.find('.searchModule');
-			var addButton = container.find('.addRecord');
-			var thistInstance = this;
-			addButton.on('click', function () {
-				var map = thistInstance.mapInstance;
-				var markers = thistInstance.layerMarkers;
-				var crmId = addButton.data('crmId');
-				if (crmId == '') return false;
-				AppConnector.request({
-					module: 'OpenStreetMap',
-					action: 'ClipBoard',
-					mode: 'addRecord',
-					record: crmId,
-					srcModuleName: searchModule.val()
-				}).done(function (response) {
-					addButton.data('crmId', '');
-					if (response.result.length == 1) {
-						var marker = L.marker([response.result[0].lat, response.result[0].lon], {
-							icon: L.AwesomeMarkers.icon({
-								icon: 'home',
-								markerColor: 'cadetblue',
-								prefix: 'fa',
-								iconColor: response.result[0].color
-							})
-						}).bindPopup(response.result[0].label);
-						markers.addLayer(marker);
-						map.addLayer(markers);
-						map.setView(new L.LatLng(response.result[0].lat, response.result[0].lon), 14);
-					} else {
-						Vtiger_Helper_Js.showMessage({
-							title: app.vtranslate('JS_LBL_PERMISSION'),
-							text: response.result,
-							type: 'error'
-						});
-					}
-					searchValue.val('');
-				});
-			});
+			const searchValue = this.container.find('.js-search-company');
+			const searchModule = this.container.find('.searchModule');
 			$.widget('custom.ivAutocomplete', $.ui.autocomplete, {
 				_create: function () {
 					this._super();
 					this.widget().menu('option', 'items', '> :not(.ui-autocomplete-category)');
 				},
 				_renderMenu: function (ul, items) {
-					var that = this,
+					let that = this,
 						currentCategory = '';
-					$.each(items, function (index, item) {
-						var li;
+					$.each(items, function (_index, item) {
+						let li;
+						console.log(item.category != currentCategory, item);
 						if (item.category != currentCategory) {
 							ul.append("<li class='ui-autocomplete-category'>" + item.category + '</li>');
 							currentCategory = item.category;
 						}
-						that._renderItemData(ul, item);
+						li = that._renderItemData(ul, item);
+						if (item.category) {
+							li.attr('aria-label', item.category + ' : ' + item.label);
+						}
 					});
 				},
 				_renderItemData: function (ul, item) {
@@ -330,7 +278,7 @@ jQuery.Class(
 			searchValue.ivAutocomplete({
 				delay: '600',
 				minLength: '3',
-				source: function (request, response) {
+				source: function (_request, response) {
 					AppConnector.request({
 						module: searchModule.val(),
 						currentModule: app.getModuleName(),
@@ -341,22 +289,170 @@ jQuery.Class(
 						html: false
 					}).done(function (responseAjax) {
 						responseAjax = JSON.parse(responseAjax);
-						var reponseDataList = responseAjax.result;
-						if (reponseDataList.length <= 0) {
-							reponseDataList.push({
+						let responseDataList = responseAjax.result;
+						if (responseDataList.length <= 0) {
+							responseDataList.push({
 								label: app.vtranslate('JS_NO_RESULTS_FOUND'),
 								type: 'no results',
 								category: ''
 							});
 						}
-						response(reponseDataList);
+						response(responseDataList);
 					});
 				},
-				select: function (event, ui) {
-					var selected = ui.item;
-					addButton.data('crmId', selected.id);
-				},
-				close: function (event, ui) {}
+				select: (_event, ui) => {
+					this.recordsIds.push(ui.item.id);
+					AppConnector.request({
+						module: 'OpenStreetMap',
+						action: 'ClipBoard',
+						mode: 'addRecord',
+						record: ui.item.id,
+						srcModuleName: searchModule.val()
+					}).done((response) => {
+						if (response.result.length == 1) {
+							let marker = L.marker([response.result[0].lat, response.result[0].lon], {
+								icon: L.AwesomeMarkers.icon({
+									icon: 'home',
+									markerColor: 'cadetblue',
+									prefix: 'fa',
+									iconColor: response.result[0].color
+								})
+							}).bindPopup(response.result[0].label);
+							this.layerMarkers.addLayer(marker);
+							this.mapInstance.addLayer(this.layerMarkers);
+							this.mapInstance.setView(new L.LatLng(response.result[0].lat, response.result[0].lon), 13);
+						} else {
+							Vtiger_Helper_Js.showMessage({
+								title: app.vtranslate('JS_LBL_PERMISSION'),
+								text: response.result,
+								type: 'error'
+							});
+						}
+					});
+				}
+			});
+		},
+		registerSearchAddress: function () {
+			const searchValue = this.container.find('.js-search-address'),
+				searchBtn = this.container.find('.js-search-btn'),
+				operator = this.container.find('.js-select-operator');
+			if (operator.length && operator.val()) {
+				searchValue
+					.autocomplete({
+						delay: 600,
+						minLength: 3,
+						source: function (request, response) {
+							AppConnector.request({
+								module: app.getModuleName(),
+								action: 'Fields',
+								mode: 'findAddress',
+								type: operator.val(),
+								value: request.term
+							})
+								.done(function (requestData) {
+									if (requestData.result === false) {
+										app.showNotify({
+											title: app.vtranslate('JS_ERROR'),
+											type: 'error'
+										});
+									} else if (requestData.result.length) {
+										response(requestData.result);
+									} else {
+										response([{ label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: '' }]);
+									}
+								})
+								.fail(function (_textStatus, _errorThrown, jqXHR) {
+									app.showNotify({
+										title: app.vtranslate('JS_ERROR'),
+										text: jqXHR.responseJSON.error.message,
+										type: 'error',
+										animation: 'show'
+									});
+									response([{ label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: '' }]);
+								});
+						},
+						select: (_event, ui) => {
+							if (ui.item.coordinates) {
+								let marker = L.marker([ui.item.coordinates.lat, ui.item.coordinates.lon], {
+									icon: L.AwesomeMarkers.icon({
+										icon: 'home',
+										markerColor: 'cadetblue',
+										prefix: 'fa'
+									})
+								}).bindPopup(this.getMarkerPopup(ui.item.label, ui.item.coordinates));
+								this.layerMarkers.addLayer(marker);
+								this.mapInstance.addLayer(this.layerMarkers);
+								this.mapInstance.setView(new L.LatLng(ui.item.coordinates.lat, ui.item.coordinates.lon), 10);
+							} else {
+								searchValue.val(ui.item.label);
+								searchBtn.trigger('click');
+							}
+						}
+					})
+					.autocomplete('instance')._renderItem = function (ul, item) {
+					return $('<li>')
+						.append(`<div><span class="fi fi-${item.countryCode}"></span> ${item.label}</div>`)
+						.appendTo(ul);
+				};
+			}
+			this.container.find('.js-search-address,.js-radius').on('keydown', (e) => {
+				if (e.code === 'Enter') {
+					searchBtn.trigger('click');
+				}
+			});
+			searchBtn.on('click', () => {
+				const progressIndicatorElement = jQuery.progressIndicator({
+					position: this.container,
+					blockInfo: {
+						enabled: true
+					}
+				});
+				let params = {
+					module: 'OpenStreetMap',
+					action: 'GetMarkers',
+					srcModule: app.getModuleName(),
+					searchValue: this.container.find('.js-search-address').val(),
+					cache: this.getCacheParamsToRequest()
+				};
+				const radiusValue = this.container.find('.js-radius').val();
+				if (radiusValue !== '' && parseInt(radiusValue)) {
+					params['radius'] = parseInt(radiusValue);
+				}
+				AppConnector.request($.extend(this.selectedParams, params)).done((response) => {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					this.setMarkers(response.result);
+				});
+			});
+		},
+		registerMyLocation: function () {
+			const locationBtn = this.container.find('.js-my-location-btn');
+			if (!navigator.geolocation) {
+				locationBtn.addClass('d-none');
+				return;
+			}
+			navigator.permissions.query({ name: 'geolocation' }).then((response) => {
+				if (response.state === 'denied') {
+					locationBtn.addClass('d-none');
+				}
+			});
+			locationBtn.on('click', () => {
+				navigator.geolocation.getCurrentPosition((position) => {
+					let marker = L.marker([position.coords.latitude, position.coords.longitude], {
+						icon: L.AwesomeMarkers.icon({
+							icon: 'home',
+							markerColor: 'cadetblue',
+							prefix: 'fa'
+						})
+					}).bindPopup(
+						this.getMarkerPopup(locationBtn.data('label'), {
+							lat: position.coords.latitude,
+							lon: position.coords.longitude
+						})
+					);
+					this.layerMarkers.addLayer(marker);
+					this.mapInstance.addLayer(this.layerMarkers);
+					this.mapInstance.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 10);
+				});
 			});
 		},
 		registerBasicModal: function () {
@@ -364,6 +460,7 @@ jQuery.Class(
 			var container = this.container;
 			var map = thisInstance.mapInstance;
 			var layer, description;
+			app.registerBlockAnimationEvent(container);
 			thisInstance.registerCacheEvents(container);
 			container.find('.groupBy').on('click', function () {
 				var progressIndicatorElement = jQuery.progressIndicator({
@@ -377,14 +474,14 @@ jQuery.Class(
 					action: 'GetMarkers',
 					srcModule: app.getModuleName(),
 					groupBy: container.find('.fieldsToGroup').val(),
-					searchValue: container.find('.searchValue').val(),
+					searchValue: container.find('.js-search-address').val(),
 					radius: container.find('.js-radius').val(),
 					cache: thisInstance.getCacheParamsToRequest()
 				};
 				params = $.extend(thisInstance.selectedParams, params);
 				AppConnector.request(params).done(function (response) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					thisInstance.setMarkersByResponse(response);
+					thisInstance.setMarkers(response.result);
 				});
 			});
 			container.find('.groupNeighbours').on('change', function (e) {
@@ -460,30 +557,6 @@ jQuery.Class(
 				}
 				thisInstance.layerMarkers = layer;
 				map.addLayer(layer);
-			});
-			container.find('.searchBtn').on('click', function (e) {
-				var progressIndicatorElement = jQuery.progressIndicator({
-					position: container,
-					blockInfo: {
-						enabled: true
-					}
-				});
-				var params = {
-					module: 'OpenStreetMap',
-					action: 'GetMarkers',
-					srcModule: app.getModuleName(),
-					searchValue: container.find('.searchValue').val(),
-					cache: thisInstance.getCacheParamsToRequest()
-				};
-				var radiusValue = container.find('.js-radius').val();
-				if (radiusValue !== '' && parseInt(radiusValue)) {
-					params['radius'] = radiusValue;
-				}
-				params = $.extend(thisInstance.selectedParams, params);
-				AppConnector.request(params).done(function (response) {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					thisInstance.setMarkersByResponse(response);
-				});
 			});
 			var startIconLayer = false;
 			container.on('click', '.startTrack', function (e) {
@@ -611,11 +684,11 @@ jQuery.Class(
 				params = $.extend(thisInstance.selectedParams, params);
 				AppConnector.request(params).done(function (response) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					thisInstance.setMarkersByResponse(response);
+					thisInstance.setMarkers(response.result);
 				});
 			});
 			const descriptionContainer = container.find('.js-description-container');
-			container.find('.calculateTrack').on('click', function () {
+			container.find('.js-calculate-route').on('click', function () {
 				let indirectLon = [];
 				let indirectLat = [];
 				container.find('.indirectContainer:not(.d-none) input.indirect').each(function () {
@@ -684,10 +757,12 @@ jQuery.Class(
 				let lat = inputInstance.data('lat');
 				let lon = inputInstance.data('lon');
 				if (!(typeof lat === 'undefined' && typeof lon === 'undefined')) {
-					map.setView(new L.LatLng(lat, lon), 14);
+					map.setView(new L.LatLng(lat, lon), 11);
 				}
 			});
 			this.registerSearchCompany();
+			this.registerSearchAddress();
+			this.registerMyLocation();
 		},
 		registerModalView: function (container) {
 			let thisInstance = this;
@@ -699,7 +774,7 @@ jQuery.Class(
 			});
 			this.container = container;
 			$('#mapid').css({
-				height: $('body').height() - 185
+				height: $('body').height() - 160
 			});
 			this.registerMap([0, 0], 2);
 			let params = {
@@ -711,8 +786,16 @@ jQuery.Class(
 			thisInstance.registerBasicModal();
 			AppConnector.request(params).done(function (response) {
 				progressIndicatorElement.progressIndicator({ mode: 'hide' });
-				thisInstance.setMarkersByResponse(response);
+				thisInstance.setMarkers(response.result);
 			});
+		},
+		getMarkerPopup: function (label, coordinates) {
+			return `<span class="description">${label}</span>
+			<br /><input type=hidden class="coordinates" data-lon="${coordinates.lon}"
+			data-lat="${coordinates.lat}">
+			<button class="btn btn-success btn-sm p-1 startTrack mr-2"><span class="fas  fa-truck"></span></button>
+		<button class="btn btn-warning btn-sm p-1 indirectPoint mr-2"><span class="fas fa-flag-checkered"></span></button>
+		<button class="btn btn-danger btn-sm p-1 endTrack"><span class="fas fa-flag-checkered"></span></button>`;
 		},
 		registerDetailView: function (container) {
 			this.container = container;

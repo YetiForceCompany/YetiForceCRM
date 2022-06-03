@@ -41,10 +41,12 @@ class Osrm extends Base
 			throw new \App\Exceptions\AppException('Error with connection |' . $response->getReasonPhrase() . '|' . $response->getBody(), 500);
 		}
 		$coordinates = [];
-		foreach ($json['routes'] as $route) {
-			$coordinates = array_merge($coordinates, $route['geometry']['coordinates']);
-			$this->distance += $route['distance'] / 1000;
-			$this->travelTime += $route['duration'];
+		if (!empty($json['routes'])) {
+			foreach ($json['routes'] as $route) {
+				$coordinates = array_merge($coordinates, $route['geometry']['coordinates']);
+				$this->distance += $route['distance'] / 1000;
+				$this->travelTime += $route['duration'];
+			}
 		}
 		$this->geoJson = [
 			'type' => 'LineString',

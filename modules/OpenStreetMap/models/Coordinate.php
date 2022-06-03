@@ -119,7 +119,6 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 			}
 		}
 		$dataReader->close();
-
 		return $coordinates;
 	}
 
@@ -141,10 +140,10 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 			}
 		}
 		$html .= '</span></a></b><input type=hidden class="coordinates" data-lon="' . $data['lon'] . '" data-lat="' . $data['lat'] . '">';
-		$html .= '<button class="btn btn-success btn-xs startTrack marginTB3">' . \App\Language::translate('LBL_START') . '</button><br />';
-		$html .= '<button class="btn btn-danger btn-xs endTrack marginTB3">' . \App\Language::translate('LBL_END') . '</button><br />';
-		$html .= '<button class="btn btn-warning btn-xs indirectPoint marginTB3">' . \App\Language::translate('LBL_INDIRECT_POINT', 'OpenStreetMap') . '</button><br />';
-		return $html . '<button class="btn btn-primary btn-xs searchInRadius marginTB3">' . \App\Language::translate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
+		$html .= '<button class="btn btn-success btn-xs startTrack marginTB3 mr-3"><span class="fas fa-truck mr-2"></span>' . \App\Language::translate('LBL_START') . '</button>';
+		$html .= '<button class="btn btn-danger btn-xs endTrack marginTB3"><span class="fas fa-flag-checkered mr-2"></span>' . \App\Language::translate('LBL_END') . '</button><br />';
+		$html .= '<button class="btn btn-warning btn-xs indirectPoint marginTB3 mr-3"><span class="fas fa-flag mr-2"></span>' . \App\Language::translate('LBL_INDIRECT_POINT', 'OpenStreetMap') . '</button>';
+		return $html . '<button class="btn btn-primary btn-xs searchInRadius marginTB3"><span class="fas fa-arrows-to-dot mr-2"></span>' . \App\Language::translate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
 	}
 
 	public static $colors = [];

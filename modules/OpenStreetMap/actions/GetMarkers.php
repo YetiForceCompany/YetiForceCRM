@@ -70,7 +70,7 @@ class OpenStreetMap_GetMarkers_Action extends Vtiger_BasicAjax_Action
 			if (empty($coordinatesCenter['lat']) && empty($coordinatesCenter['lon'])) {
 				$coordinatesCenter = ['error' => \App\Language::translate('LBL_NOT_FOUND_PLACE', 'OpenStreetMap')];
 			}
-			$data['coordinatesCeneter'] = $coordinatesCenter;
+			$data['coordinatesCenter'] = $coordinatesCenter;
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($data);

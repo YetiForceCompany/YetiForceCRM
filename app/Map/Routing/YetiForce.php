@@ -60,12 +60,14 @@ class YetiForce extends Base
 		}
 		$coordinates = [];
 		$description = '';
-		foreach ($json['paths'] as $path) {
-			$coordinates = array_merge($coordinates, $path['points']['coordinates']);
-			$this->distance += $path['distance'] / 1000;
-			$this->travelTime += $path['time'] / 1000;
-			foreach ($path['instructions'] as $instruction) {
-				$description .= $instruction['text'] . ($instruction['distance'] ? ' (' . (int) $instruction['distance'] . 'm)' : '') . '<br>';
+		if (!empty($json['paths'])) {
+			foreach ($json['paths'] as $path) {
+				$coordinates = array_merge($coordinates, $path['points']['coordinates']);
+				$this->distance += $path['distance'] / 1000;
+				$this->travelTime += $path['time'] / 1000;
+				foreach ($path['instructions'] as $instruction) {
+					$description .= $instruction['text'] . ($instruction['distance'] ? ' (' . (int) $instruction['distance'] . 'm)' : '') . '<br>';
+				}
 			}
 		}
 		$this->geoJson = [

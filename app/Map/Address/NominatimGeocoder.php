@@ -87,6 +87,8 @@ class NominatimGeocoder extends Base
 					$rows[] = [
 						'label' => $row['display_name'],
 						'address' => \call_user_func_array($mappingFunction, [$row]),
+						'coordinates' => ['lat' => $row['lat'], 'lon' => $row['lon']],
+						'countryCode' => $row['address']['country_code'] ?? '',
 					];
 				}
 			}
@@ -108,10 +110,10 @@ class NominatimGeocoder extends Base
 		return [
 			'addresslevel1' => [$row['address']['country'] ?? '', strtoupper($row['address']['country_code'] ?? '')],
 			'addresslevel2' => $row['address']['state'] ?? '',
-			'addresslevel3' => $row['address']['state_district'] ?? '',
-			'addresslevel4' => $row['address']['county'] ?? '',
+			'addresslevel3' => $row['address']['county'] ?? $row['address']['state_district'] ?? '',
+			'addresslevel4' => $row['address']['municipality'] ?? '',
 			'addresslevel5' => $row['address']['city'] ?? $row['address']['town'] ?? $row['address']['village'] ?? '',
-			'addresslevel6' => $row['address']['suburb'] ?? $row['address']['neighbourhood'] ?? $row['address']['city_district'] ?? '',
+			'addresslevel6' => $row['address']['hamlet'] ?? $row['address']['suburb'] ?? $row['address']['neighbourhood'] ?? $row['address']['city_district'] ?? '',
 			'addresslevel7' => $row['address']['postcode'] ?? '',
 			'addresslevel8' => $row['address']['road'] ?? '',
 			'buildingnumber' => $row['address']['house_number'] ?? '',

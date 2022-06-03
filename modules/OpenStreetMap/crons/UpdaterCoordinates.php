@@ -17,9 +17,7 @@ class OpenStreetMap_UpdaterCoordinates_Cron extends \App\CronHandler
 	public function process()
 	{
 		$db = App\Db::getInstance();
-		$lastUpdatedCrmId = (new App\Db\Query())->select(['crmid'])
-			->from('u_#__openstreetmap_address_updater')
-			->scalar();
+		$lastUpdatedCrmId = (new App\Db\Query())->select(['crmid'])->from('u_#__openstreetmap_address_updater')->scalar();
 		if (false !== $lastUpdatedCrmId) {
 			$dataReader = (new App\Db\Query())->select(['crmid', 'setype', 'deleted'])
 				->from('vtiger_crmentity')
@@ -34,31 +32,32 @@ class OpenStreetMap_UpdaterCoordinates_Cron extends \App\CronHandler
 					$recordModel = Vtiger_Record_Model::getInstanceById($row['crmid']);
 					foreach (\App\Map\Coordinates::TYPE_ADDRESS as $typeAddress) {
 						$addressInfo = \App\Map\Coordinates::getAddressParams($recordModel, $typeAddress);
-						$coordinatesDetails = $coordinatesConnector->getCoordinates($addressInfo);
-						if (false === $coordinatesDetails) {
+						$coordinate = $coordinatesConnector->getCoordinates($addressInfo);
+						if (false === $coordinate) {
 							break;
 						}
-						if (empty($coordinatesDetails)) {
+						if (empty($coordinate)) {
 							continue;
 						}
-						$coordinatesDetails = reset($coordinatesDetails);
-						$coordinate = [
-							'lat' => $coordinatesDetails['lat'],
-							'lon' => $coordinatesDetails['lon'],
-						];
-						$isCoordinateExists = (new App\Db\Query())->from('u_#__openstreetmap')->where(['type' => $typeAddress, 'crmid' => $recordModel->getId()])->exists();
+						$coordinate = reset($coordinate);
+						$isCoordinateExists = (new App\Db\Query())->from(OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME)->where(['crmid' => $recordModel->getId(), 'type' => $typeAddress])->exists();
 						if ($isCoordinateExists) {
 							if (empty($coordinate['lat']) && empty($coordinate['lon'])) {
-								$db->createCommand()->delete('u_#__openstreetmap', ['type' => $typeAddress, 'crmid' => $recordModel->getId()])->execute();
+								$db->createCommand()->delete(OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, ['crmid' => $recordModel->getId(), 'type' => $typeAddress])->execute();
 							} else {
-								$db->createCommand()->update('u_#__openstreetmap', $coordinate, ['type' => $typeAddress, 'crmid' => $recordModel->getId()])->execute();
+								$db->createCommand()->update(OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, [
+									'lat' => round($coordinate['lat'], 7),
+									'lon' => round($coordinate['lon'], 7),
+								], ['crmid' => $recordModel->getId(), 'type' => $typeAddress])
+									->execute();
 							}
-						} else {
-							if (!empty($coordinate['lat']) && !empty($coordinate['lon'])) {
-								$coordinate['type'] = $typeAddress;
-								$coordinate['crmid'] = $recordModel->getId();
-								$db->createCommand()->insert('u_#__openstreetmap', $coordinate)->execute();
-							}
+						} elseif (!empty($coordinate['lat']) && !empty($coordinate['lon'])) {
+							$db->createCommand()->insert(OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, [
+								'lat' => round($coordinate['lat'], 7),
+								'lon' => round($coordinate['lon'], 7),
+								'type' => $typeAddress,
+								'crmid' => $recordModel->getId(),
+							])->execute();
 						}
 					}
 				}

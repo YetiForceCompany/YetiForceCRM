@@ -9,6 +9,9 @@
  */
 class OpenStreetMap_Module_Model extends Vtiger_Module_Model
 {
+	/** @var string Table name of coordinates for records */
+	const COORDINATES_TABLE_NAME = 'u_#__openstreetmap';
+
 	/**
 	 * Check if module is allowed.
 	 *

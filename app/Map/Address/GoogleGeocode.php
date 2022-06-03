@@ -82,6 +82,8 @@ class GoogleGeocode extends Base
 						$rows[] = [
 							'label' => $row['formatted_address'],
 							'address' => $this->parse($row['address_components']),
+							'coordinates' => ['lat' => $row['geometry']['lat'], 'lon' => $row['geometry']['lng']],
+							'countryCode' => '',
 						];
 					}
 				}

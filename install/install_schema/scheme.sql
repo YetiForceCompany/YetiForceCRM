@@ -3773,7 +3773,7 @@ CREATE TABLE `u_yf_openstreetmap_cache` (
   KEY `u_yf_openstreetmap_cache_user_id_module_name_idx` (`user_id`,`module_name`),
   KEY `crmids` (`crmids`),
   CONSTRAINT `u_yf_openstreetmap_cache_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `u_yf_openstreetmap_cache_ibfk_2` FOREIGN KEY (`crmids`) REFERENCES `u_yf_openstreetmap` (`crmid`) ON DELETE CASCADE
+  CONSTRAINT `u_yf_openstreetmap_cache_ibfk_2` FOREIGN KEY (`crmids`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_openstreetmap_record_updater` */
