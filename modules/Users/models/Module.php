@@ -223,6 +223,9 @@ class Users_Module_Model extends Vtiger_Module_Model
 		$users = $userIds = [];
 		if (isset($switchUsers[$baseUserId])) {
 			foreach ($switchUsers[$baseUserId] as $userId => &$userName) {
+				if (!\App\User::isExists($userId)) {
+					continue;
+				}
 				$users[$userId] = ['userName' => $userName];
 				$userIds[] = $userId;
 			}
