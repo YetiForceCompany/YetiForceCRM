@@ -1,9 +1,6 @@
 <?php
-
-namespace App\Layout;
-
 /**
- * Icon class.
+ * Icon file.
  *
  * @package App
  *
@@ -11,6 +8,13 @@ namespace App\Layout;
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+namespace App\Layout;
+
+/**
+ * Icon class.
  */
 class Icon
 {
@@ -81,20 +85,6 @@ class Icon
 		if (!isset(static::$icons)) {
 			static::$icons = require 'app_data/icons.php';
 		}
-	}
-
-	/**
-	 * Get user icons.
-	 *
-	 * @return array
-	 */
-	public static function getUserIcons(): array
-	{
-		$icons = [];
-		foreach (self::$icons['user'] as $icon) {
-			$icons[] = ['type' => 'icon', 'name' => 'yfm-' . $icon];
-		}
-		return $icons;
 	}
 
 	/**
@@ -199,7 +189,6 @@ class Icon
 		static::init();
 		return array_merge(
 			self::getImageIcons(),
-			self::getUserIcons(),
 			self::getAdminIcons(),
 			self::getAdditionalIcons(),
 			self::getYetiForceIcons(),
@@ -217,7 +206,6 @@ class Icon
 	{
 		static::init();
 		return array_merge(
-			self::getUserIcons(),
 			self::getAdminIcons(),
 			self::getAdditionalIcons(),
 			self::getYetiForceIcons(),
