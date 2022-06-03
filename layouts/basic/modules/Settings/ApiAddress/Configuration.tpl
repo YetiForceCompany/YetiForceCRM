@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-<div id="tpl-Settings-ApiAddress-Configuration menuEditorContainer">
+<!-- tpl-Settings-ApiAddress-Configuration -->
+<div id="menuEditorContainer">
 	<div class="o-breadcrumb widget_header row mb-2">
 		<div class="col-md-12">
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
@@ -53,7 +54,18 @@
 							{foreach from=\App\Map\Address::getAllProviders() item=ITEM key=KEY}
 								{assign var=CONFIGURED value=$ITEM->isConfigured()}
 								<tr>
-									<th class="" scope="row">{\App\Language::translate('LBL_PROVIDER_'|cat:$KEY|upper, $MODULENAME)}</th>
+									<th scope="row">
+										{\App\Language::translate('LBL_PROVIDER_'|cat:$KEY|upper, $MODULENAME)}
+										{if $KEY === 'YetiForceGeocoder'}
+											<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}">
+												<span class="yfi-premium color-red-600"></span>
+											</span>
+										{else}
+											<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PROVIDER_NOT_VERIFIED', 'Settings::Map')}">
+												<span class="fas fa-triangle-exclamation color-red-600"></span>
+											</span>
+										{/if}
+									</th>
 									<td {if !$CONFIGURED}{UNSET_POPOVER}{else}class="text-center" {/if}>
 										<input name="active" data-type="{$KEY}" type="checkbox" {if !empty($ITEM->config['active'])} checked{/if}{if !$CONFIGURED} disabled{/if}>
 									</td>
@@ -87,3 +99,4 @@
 		</form>
 	</div>
 </div>
+<!-- /tpl-Settings-ApiAddress-Configuration -->
