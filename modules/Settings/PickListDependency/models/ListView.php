@@ -10,11 +10,7 @@
 
 class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListView_Model
 {
-	/**
-	 * Function to get the list view header.
-	 *
-	 * @return <Array> - List of Vtiger_Field_Model instances
-	 */
+	/*
 	public function getListViewHeaders()
 	{
 		$field = new \App\Base();
@@ -34,15 +30,63 @@ class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListVie
 
 		return [$field, $field1, $field2];
 	}
+	*/
 
-	/**
-	 * Function to get the list view entries.
-	 *
-	 * @param Vtiger_Paging_Model $pagingModel
-	 *
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance
-	 */
 	public function getListViewEntries($pagingModel)
+	{
+		//$forModule = $this->get('formodule');
+		$moduleModel = $this->getModule();
+		$moduleName = $moduleModel->getName();
+		$parentModuleName = $moduleModel->getParentName();
+		$qualifiedModuleName = $moduleName;
+		$pagingModel->set('page', 1);
+		if (!empty($parentModuleName)) {
+			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
+		}
+		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$listQuery = $this->getBasicListQuery();
+
+		$orderBy = $this->getForSql('orderby');
+		if (!empty($orderBy)) {
+			if ('DESC' === $this->getForSql('sortorder')) {
+				$listQuery->orderBy([$orderBy => SORT_DESC]);
+			} else {
+				$listQuery->orderBy([$orderBy => SORT_ASC]);
+			}
+		}
+		$dataReader = $listQuery->createCommand()->query();
+		$listViewRecordModels = [];
+		while ($row = $dataReader->read()) {
+			$moduleModel = Vtiger_Module_Model::getInstance($row['tabid']);
+			$sourceFieldModel = Vtiger_Field_Model::getInstance($row['source_field'], $moduleModel);
+			$secondFieldModel = Vtiger_Field_Model::getInstance($row['second_field'], $moduleModel);
+			if (!$sourceFieldModel || !$secondFieldModel) {
+				continue;
+			}
+			$row['sourceFieldLabel'] = \App\Language::translate($sourceFieldModel->getFieldLabel(), $moduleName);
+			$row['secondFieldLabel'] = \App\Language::translate($secondFieldModel->getFieldLabel(), $moduleName);
+			$row['moduleName'] = $moduleModel->getName();
+			$thirdFieldModel = $row['third_field'] ? Vtiger_Field_Model::getInstance($row['third_field'], $moduleModel) : false;
+			if ($row['third_field'] && !$thirdFieldModel) {
+				continue;
+			}
+			if ($thirdFieldModel) {
+				$row['thirdFieldLabel'] = \App\Language::translate($thirdFieldModel->getFieldLabel(), $moduleName);
+			}
+
+			$record = new $recordModelClass();
+			$record->setData($row);
+			if (method_exists($record, 'getModule') && method_exists($record, 'setModule')) {
+				$record->setModule($moduleModel);
+			}
+			$listViewRecordModels[$record->getId()] = $record;
+		}
+		$dataReader->close();
+
+		return $listViewRecordModels;
+	}
+
+	public function aagetListViewEntries($pagingModel)
 	{
 		$forModule = $this->get('formodule');
 
@@ -50,8 +94,8 @@ class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListVie
 		// jak przeniose to do s_yf_picklist_dependency to po prostu pobiorę
 		$query = (new \App\Db\Query())->select(['id', 'tabid', 'source_field', 'second_field', 'third_field'])
 			->from('s_yf_picklist_dependency');
-		if (!empty($module)) {
-			$query->where(['tabid' => \App\Module::getModuleId($module)]);
+		if (!empty($forModule)) {
+			$query->where(['tabid' => \App\Module::getModuleId($forModule)]);
 		}
 		$dataReader = $query->distinct()->createCommand()->query();
 		$dependentPicklists = [];
@@ -69,6 +113,7 @@ class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListVie
 				//	continue;
 			}
 			$sourceFieldLabel = $sourceFieldModel->getFieldLabel();
+
 			$targetFieldLabel = $targetFieldModel->getFieldLabel();
 			$moduleName = $moduleModel->getName();
 			$dependentPicklists[] = [
@@ -81,7 +126,7 @@ class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListVie
 				'module' => $moduleName,
 			];
 			$record = new $recordModelClass();
-			$record->set('id', $row['id']);
+			//	$record->set('id', $row['id']);
 			$record->setData($row);
 			$record->set('sourceModule', $moduleName);
 			$record->set('sourceLabel', \App\Language::translate($moduleName, $moduleName));

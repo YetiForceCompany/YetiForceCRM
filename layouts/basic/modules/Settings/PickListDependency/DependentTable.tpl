@@ -24,13 +24,16 @@
 		</span>
 	</div>
 	{assign var=SELECTED_MODULE value=$RECORD_MODEL->get('sourceModule')}
-	{assign var=SOURCE_FIELD value=$RECORD_MODEL->get('sourcefield')}
+	{assign var=SOURCE_FIELD value=$RECORD_MODEL->get('source_field')}
 	{assign var=MAPPED_SOURCE_PICKLIST_VALUES value=[]}
 	{assign var=MAPPED_TARGET_PICKLIST_VALUES value=[]}
+
 	{foreach item=MAPPING from=$MAPPED_VALUES}
 		{append var="MAPPED_SOURCE_PICKLIST_VALUES" value=$MAPPING['sourcevalue']}
-		{$MAPPED_TARGET_PICKLIST_VALUES[$MAPPING['sourcevalue']] = $MAPPING['targetvalues']}
+		{$MAPPED_TARGET_PICKLIST_VALUES[$MAPPING['sourcevalue']] = $MAPPING['secondValues']}
 	{/foreach}
+	{var_dump($MAPPING)}
+	{var_dump($MAPPED_TARGET_PICKLIST_VALUES)}
 	<input type="hidden" class="allSourceValues"
 		value='{\App\Purifier::encodeHtml(\App\Json::encode($SOURCE_PICKLIST_VALUES))}' />
 	<div class="js-picklist-dependency-table mb-2" data-js="container">
@@ -49,7 +52,10 @@
 									{foreach item=SOURCE_PICKLIST_VALUE from=$SOURCE_PICKLIST_VALUES}
 										<option value="{\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}"
 											{if $SOURCE_PICKLIST_VALUE@iteration == 1}
-											data-old-source-value="{\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}" selected {/if}>{\App\Language::translate($SOURCE_PICKLIST_VALUE, $SELECTED_MODULE)}</option>
+												{assign var=SELECTED_SOURCE_VALUE value=$SOURCE_PICKLIST_VALUE}
+												data-old-source-value="{\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}" selected
+											{/if}>{\App\Language::translate($SOURCE_PICKLIST_VALUE, $SELECTED_MODULE)}</option>
+
 									{/foreach}
 								</select>
 							</td>
@@ -61,9 +67,10 @@
 				<table class="table-bordered table-sm table themeTableColor pickListDependencyTable">
 					<thead>
 						<tr class="blockHeader">
+
 							{foreach item=SOURCE_PICKLIST_VALUE from=$TARGET_PICKLIST_VALUES}
 								<th class="align-baseline js-second-field-value" data-source-value="{\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}" style="
-																							{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))}display: none;{/if}">
+																										{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))}display: none;{/if}">
 									{\App\Language::translate($SOURCE_PICKLIST_VALUE, $SELECTED_MODULE)}</th>
 							{/foreach}
 						</tr>
@@ -78,8 +85,8 @@
 									{/if}
 									{assign var=SOURCE_INDEX value=$smarty.foreach.mappingIndex.index}
 									{assign var=IS_SELECTED value=false}
-
-									{if empty($targetValues) || in_array($TARGET_VALUE, array_map('App\Purifier::decodeHtml',$targetValues))}
+									{assign var=targetValues value=[]}
+									{if empty($targetValues) || in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml',$MAPPING['secondValues'])) && in_array($TARGET_VALUE, array_map('App\Purifier::decodeHtml',$MAPPING['thirdValues']))}
 										{assign var=IS_SELECTED value=true}
 									{/if}
 									<td data-source-value='{\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}'

@@ -83,31 +83,6 @@ class Vtiger_DependencyPicklist
 		\App\Cache::delete('getPicklistDependencyDatasource', $module);
 	}
 
-	public static function getPickListDependency($module, $sourceField, $targetField, $thirdField = null)
-	{
-		$dependencyMap['sourcefield'] = $sourceField;
-		$dependencyMap['targetfield'] = $targetField;
-		$dependencyMap['thirdfield'] = $thirdField;
-		$query = (new App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => \App\Module::getModuleId($module), 'sourcefield' => $sourceField, 'targetfield' => $targetField]);
-		if ($thirdField) {
-			$query->andWhere(['third_field' => $thirdField]);
-		}
-		$dataReader = $query->createCommand()->query();
-		$valueMapping = [];
-		while ($row = $dataReader->read()) {
-			$valueMapping[] = [
-				'sourcevalue' => $row['sourcevalue'],
-				'targetvalues' => \App\Json::decode(html_entity_decode($row['targetvalues'])),
-				//co jezeli puste?
-				'thirdValues' => \App\Json::decode($row['thirdValue'])
-			];
-		}
-		$dataReader->close();
-		$dependencyMap['valuemapping'] = $valueMapping;
-
-		return $dependencyMap;
-	}
-
 	public static function getJSPicklistDependencyDatasource($module)
 	{
 		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($module);

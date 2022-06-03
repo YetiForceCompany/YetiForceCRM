@@ -12,8 +12,46 @@ Vtiger_Loader::includeOnce('~~modules/PickList/DependentPickListUtils.php');
 
 class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Model
 {
+	/*
 	public $baseTable = 'vtiger_picklist_dependency';
 	public $baseIndex = 'id';
+	public $name = 'PickListDependency';
+	*/
+
+	/**
+	 * Base table.
+	 *
+	 * @var string
+	 */
+	public $baseTable = 's_#__picklist_dependency';
+	/**
+	 * Base index.
+	 *
+	 * @var string
+	 */
+	public $baseIndex = 'id';
+	/**
+	 * List fields.
+	 *
+	 * @var array
+	 */
+	public $listFields = [
+		'moduleName' => 'LBL_MODULE',
+		'sourceFieldLabel' => 'LBL_SOURCE_FIELD',
+		'secondFieldLabel' => 'LBL_SECOND_FIELD',
+		'thirdFieldLabel' => 'LBL_THIRD_FIELD'
+	];
+	/**
+	 * Name fields.
+	 *
+	 * @var array
+	 */
+	public $nameFields = ['name'];
+	/**
+	 * Module name.
+	 *
+	 * @var string
+	 */
 	public $name = 'PickListDependency';
 
 	/**

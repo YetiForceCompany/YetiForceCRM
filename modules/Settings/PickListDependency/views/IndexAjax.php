@@ -23,9 +23,9 @@ class Settings_PickListDependency_IndexAjax_View extends Settings_PickListDepend
 	public function getDependencyGraph(App\Request $request)
 	{
 		$qualifiedName = $request->getModule(false);
-		$selectedModule = $request->getByType('sourceModule', 2);
-		$sourceField = $request->getByType('sourcefield', 2);
-		$secondField = $request->getByType('secondField', 2);
+		$selectedModule = $request->getByType('sourceModule', App\Purifier::STANDARD);
+		$sourceField = $request->getByType('sourcefield', App\Purifier::STANDARD);
+		$secondField = $request->getByType('secondField', App\Purifier::STANDARD);
 		$thirdField = $request->isEmpty('thirdField') ? '' : $request->getByType('thirdField', \App\Purifier::ALNUM);
 		$recordModel = Settings_PickListDependency_Record_Model::getInstance($selectedModule, $sourceField, $secondField, $thirdField);
 		$valueMapping = $recordModel->getPickListDependency();
@@ -34,9 +34,9 @@ class Settings_PickListDependency_IndexAjax_View extends Settings_PickListDepend
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_MODULE', $selectedModule);
 		$viewer->assign('MAPPED_VALUES', $valueMapping);
-		$viewer->assign('SOURCE_PICKLIST_VALUES', $recordModel->getSourcePickListValues());
-		$viewer->assign('TARGET_PICKLIST_VALUES', $recordModel->getTargetPickListValues());
-		$viewer->assign('THIRD_FIELD_PICKLIST_VALUES', $recordModel->getPickListValuesForField());
+		$viewer->assign('SOURCE_PICKLIST_VALUES', $recordModel->getPickListValues($recordModel->get('source_field')));
+		$viewer->assign('TARGET_PICKLIST_VALUES', $recordModel->getPickListValues($recordModel->get('second_field')));
+		$viewer->assign('THIRD_FIELD_PICKLIST_VALUES', $recordModel->getPickListValues($recordModel->get('third_field')));
 		$viewer->assign('NON_MAPPED_SOURCE_VALUES', $nonMappedSourceValues);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
 		$viewer->assign('RECORD_MODEL', $recordModel);

@@ -22,8 +22,8 @@
 				{if !empty($MAPPED_VALUES)}
 					<input type="hidden" class="editDependency" value="true" />
 					<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE}" />
-					<input type="hidden" name="sourceField" value="{$RECORD_MODEL->get('sourcefield')}" />
-					<input type="hidden" name="secondField" value="{$RECORD_MODEL->get('secondField')}" />
+					<input type="hidden" name="sourceField" value="{$RECORD_MODEL->get('source_field')}" />
+					<input type="hidden" name="secondField" value="{$RECORD_MODEL->get('second_field')}" />
 				{/if}
 				<div class="js-dependent-fields row" data-js="container">
 					{include file=\App\Layout::getTemplatePath('DependentFields.tpl', $QUALIFIED_MODULE)}
@@ -35,7 +35,11 @@
 				</div>
 				<div id="dependencyGraph" class="my-3 w-100 js-dependency-tables-container" data-js="container">
 					{if $DEPENDENCY_GRAPH}
-						{include file=\App\Layout::getTemplatePath('DependencyGraph.tpl', $QUALIFIED_MODULE)}
+						{if $RECORD_MODEL->get('third_field')}
+							{include file=\App\Layout::getTemplatePath('DependentFieldSettings.tpl', $QUALIFIED_MODULE)}
+						{else}
+							{include file=\App\Layout::getTemplatePath('DependencyGraph.tpl', $QUALIFIED_MODULE)}
+						{/if}
 					{/if}
 				</div>
 			</form>

@@ -55,7 +55,7 @@
 			</span>
 		</div>
 		{assign var=SELECTED_MODULE value=$RECORD_MODEL->get('sourceModule')}
-		{assign var=SOURCE_FIELD value=$RECORD_MODEL->get('sourcefield')}
+		{assign var=SOURCE_FIELD value=$RECORD_MODEL->get('source_field')}
 		{assign var=MAPPED_SOURCE_PICKLIST_VALUES value=[]}
 		{assign var=MAPPED_TARGET_PICKLIST_VALUES value=[]}
 		{foreach item=MAPPING from=$MAPPED_VALUES}

@@ -39,7 +39,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$targetField = $this->get('targetfield');
 		$editLink = [
 			//'linkurl' => "javascript:Settings_PickListDependency_Js.triggerEdit(event, {$this->getId()})",
-			'linkurl' => "javascript:Settings_PickListDependency_Js.triggerEdit(event, '$soureModule', '$sourceField', '$targetField')",
+			'linkurl' => "javascript:Settings_PickListDependency_Js.triggerEdit(event, {$this->get('id')})",
 			'linklabel' => 'LBL_EDIT',
 			'linkicon' => 'yfi yfi-full-editing-view',
 			'linkclass' => 'btn btn-sm btn-info',
@@ -57,38 +57,62 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		return [$editLinkInstance, $deleteLinkInstance];
 	}
 
-	public function getAllPickListFields()
+	/**
+	 * Get picklist fields for module.
+	 *
+	 * @return array
+	 */
+	public function getAllPickListFields(): array
 	{
-		$tabId = \App\Module::getModuleId($this->get('sourceModule'));
-
+		if ($this->get('sourceModule')) {
+			$tabId = \App\Module::getModuleId($this->get('sourceModule'));
+		} else {
+			$tabId = $this->get('tabid');
+		}
 		$query = (new \App\Db\Query())->select(['vtiger_field.fieldlabel', 'vtiger_field.fieldname'])->from('vtiger_field')
 			->where(['displaytype' => 1, 'vtiger_field.tabid' => $tabId, 'vtiger_field.uitype' => [15, 16], 'vtiger_field.presence' => [0, 2]])
 			->andWhere(['not', ['vtiger_field.block' => null]])
 			->andWhere(['<>', 'vtiger_field.block', 0]);
 		$dataReader = $query->createCommand()->query();
-		$fieldlist = [];
+		$fields = [];
 		while ($row = $dataReader->read()) {
-			$fieldlist[$row['fieldname']] = $row['fieldlabel'];
+			$fields[$row['fieldname']] = $row['fieldlabel'];
 		}
 		$dataReader->close();
 
-		return $fieldlist;
+		return $fields;
 	}
 
 	public function getPickListDependency()
 	{
 		if (empty($this->mapping)) {
-			$dependency = Vtiger_DependencyPicklist::getPickListDependency($this->get('sourceModule'), $this->get('sourcefield'), $this->get('secondField'));
-			$this->mapping = $dependency['valuemapping'];
+			$query = (new App\Db\Query())->from('vtiger_picklist_dependency')->where(['groupId' => $this->getId()]);
+			$dataReader = $query->createCommand()->query();
+			$valueMapping = [];
+			while ($row = $dataReader->read()) {
+				$valueMapping[] = [
+					'sourcevalue' => $row['sourcevalue'],
+					'secondValues' => \App\Json::decode($row['second_values']),
+					'thirdValues' => \App\Json::decode($row['third_values'])
+				];
+			}
+			$dataReader->close();
+			$this->mapping = $valueMapping;
 		}
+
 		return $this->mapping;
 	}
 
-	private function getPickListValues($fieldName)
+	public function getPickListValues($fieldName)
 	{
-		return App\Fields\Picklist::getValuesName($fieldName);
+		$picklistValues = [];
+		if ($fieldName) {
+			$picklistValues = App\Fields\Picklist::getValuesName($fieldName);
+		}
+		return $picklistValues;
 	}
 
+	/*
 	public function getSourcePickListValues()
 	{
 		if (empty($this->sourcePickListValues)) {
@@ -111,16 +135,18 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 			return $this->getPickListValues($this->get('thirdField'));
 		}
 		return [];
-		/*
 		if (empty($this->thirdPickListValues) && $this->get('thirdField') && '' !== $this->get('thirdField')) {
 			$this->thirdPickListValues = $this->getPickListValues($this->get('thirdField'));
 		}
 		return $this->thirdPickListValues;
-		*/
+
 	}
+	*/
 
 	public function getNonMappedSourcePickListValues()
 	{
+		//todo
+		return false;
 		if (empty($this->nonMappedSourcePickListValues)) {
 			$pickListValues = $this->getSourcePickListValues();
 			$dependencyMapping = $this->getPickListDependency();
@@ -239,7 +265,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 					$db->createCommand()->insert('vtiger_picklist_dependency', [
 						'groupId' => $dependencyPicklistId,
 						'sourcevalue' => $sourceValue,
-						'second_values' => $secondValue,
+						'second_values' => App\Json::encode($secondValue),
 						'third_values' => App\Json::encode($thirdValues),
 					])->execute();
 				}
@@ -253,7 +279,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 			->where(['groupId' => $this->get('id'), 'sourcevalue' => $this->get('sourceValue')]);
 
 		if ($this->get('secondValue')) {
-			$dependencyPicklistQuery->andWhere(['second_values' => $this->get('secondValue')]);
+			$dependencyPicklistQuery->andWhere(['second_values' => App\Json::encode($this->get('secondValue'))]);
 		}
 		return $dependencyPicklistQuery->scalar();
 	}
@@ -267,20 +293,27 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 
 	private function loadFieldLabels()
 	{
-		$tabId = \App\Module::getModuleId($this->get('sourceModule'));
-		$fieldNames = [$this->get('sourcefield'), $this->get('secondField')];
+		if ($this->get('sourceModule')) {
+			$tabId = \App\Module::getModuleId($this->get('sourceModule'));
+		} else {
+			$tabId = $this->get('tabid');
+		}
+		$fieldNames = [$this->get('source_field'), $this->get('second_field'), $this->get('third_field')];  //puste thirdfield?
 		$dataReader = (new App\Db\Query())->select(['fieldlabel', 'fieldname'])
 			->from('vtiger_field')
 			->where(['fieldname' => $fieldNames, 'tabid' => $tabId])
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$fieldName = $row['fieldname'];
-			if ($fieldName === $this->get('sourcefield')) {
+			if ($fieldName === $this->get('source_field')) {
 				$this->set('sourcelabel', $row['fieldlabel']);
-			} else {
+			} elseif ($fieldName === $this->get('second_field')) {
 				$this->set('targetlabel', $row['fieldlabel']);
+			} else {
+				$this->set('thirdlabel', $row['fieldlabel']);
 			}
 		}
+
 		$dataReader->close();
 	}
 
@@ -290,6 +323,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		if (empty($sourceFieldLabel)) {
 			$this->loadFieldLabels();
 		}
+
 		return \App\Language::translate($this->get('sourcelabel'), $this->get('sourceModule'));
 	}
 
@@ -304,36 +338,34 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 
 	public static function getInstanceById(int $id)
 	{
-		//s_yf_picklist_dependency join z vtiger_picklist_dependency
-		$row = (new \App\Db\Query())->from('vtiger_picklist_dependency')->where(['id' => $id])->one();
+		//\App\Db::getInstance('admin') ????
+		$row = (new \App\Db\Query())->from('s_yf_picklist_dependency')->where(['id' => $id])->one();
 		$instance = false;
 		if ($row) {
 			$instance = new self();
+			$row['sourceModule'] = App\Module::getModuleName($row['tabid']);
 			$instance->setData($row);
 		}
 		return $instance;
 	}
 
 	/**
-	 * Function to get the clean instance.
+	 * function to get clean instance.
 	 *
-	 * @param string $type
-	 *
-	 * @return \self
+	 * @return \static
 	 */
-	public static function getCleanInstance()
+	public static function getCleanInstance(): self
 	{
-		//$moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:Magento');
-		return new self();
+		return new static();
 	}
 
 	public static function getInstance($module, $sourceField = '', $secondField = '', $thirdField = '')
 	{
 		$self = new self();
 		$self->set('sourceModule', $module)
-			->set('sourcefield', $sourceField)
-			->set('secondField', $secondField)
-			->set('thirdField', $thirdField);
+			->set('source_field', $sourceField)
+			->set('second_field', $secondField)
+			->set('third_field', $thirdField);
 
 		return $self;
 	}

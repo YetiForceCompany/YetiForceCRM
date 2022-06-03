@@ -23,7 +23,7 @@
 				title="{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
 				<option value=''></option>
 				{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
-					<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('sourcefield') eq $FIELD_NAME} selected {/if}>{\App\Language::translate($FIELD_LABEL, $SELECTED_MODULE)}</option>
+					<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('source_field') eq $FIELD_NAME} selected {/if}>{\App\Language::translate($FIELD_LABEL, $SELECTED_MODULE)}</option>
 				{/foreach}
 			</select>
 		</div>
@@ -36,7 +36,7 @@
 				title="{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
 				<option value=''></option>
 				{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
-					<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('secondField') eq $FIELD_NAME} selected {/if}>{\App\Language::translate($FIELD_LABEL, $SELECTED_MODULE)}</option>
+					<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('second_field') eq $FIELD_NAME} selected {/if}>{\App\Language::translate($FIELD_LABEL, $SELECTED_MODULE)}</option>
 				{/foreach}
 			</select>
 		</div>
@@ -50,7 +50,7 @@
 					title="{\App\Language::translate('LBL_SELECT_FIELD', $QUALIFIED_MODULE)}">
 					<option value=''></option>
 					{foreach key=FIELD_NAME item=FIELD_LABEL from=$PICKLIST_FIELDS}
-						<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('thirdField') eq $FIELD_NAME} selected {/if}>{\App\Language::translate($FIELD_LABEL, $SELECTED_MODULE)}</option>
+						<option value="{$FIELD_NAME}" {if $RECORD_MODEL->get('third_field') eq $FIELD_NAME} selected {/if}>{\App\Language::translate($FIELD_LABEL, $SELECTED_MODULE)}</option>
 					{/foreach}
 				</select>
 			</div>
