@@ -1229,83 +1229,89 @@ $.Class(
 			const self = this;
 			this.getForm()
 				.find('.js-search-address')
-				.each(function (index, item) {
+				.each(function (_index, item) {
 					let search = $(item);
 					let container = search.closest('.js-block-content');
 					let input = search.find('.js-autoload-address');
-					input.autocomplete({
-						source: function (request, response) {
-							AppConnector.request({
-								module: self.moduleName,
-								action: 'Fields',
-								mode: 'findAddress',
-								type: search.find('.js-select-operator').val(),
-								value: request.term
-							})
-								.done(function (requestData) {
-									if (requestData.result === false) {
-										app.showNotify({
-											text: app.vtranslate('JS_ERROR'),
-											type: 'error'
-										});
-									} else if (requestData.result.length) {
-										response(requestData.result);
-									} else {
-										response([{ label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: '' }]);
-									}
+					input
+						.autocomplete({
+							source: function (request, response) {
+								AppConnector.request({
+									module: self.moduleName,
+									action: 'Fields',
+									mode: 'findAddress',
+									type: search.find('.js-select-operator').val(),
+									value: request.term
 								})
-								.fail(function (textStatus, errorThrown, jqXHR) {
-									app.showNotify({
-										text: jqXHR.responseJSON.error.message,
-										type: 'error',
-										animation: 'show'
+									.done(function (requestData) {
+										if (requestData.result === false) {
+											app.showNotify({
+												text: app.vtranslate('JS_ERROR'),
+												type: 'error'
+											});
+										} else if (requestData.result.length) {
+											response(requestData.result);
+										} else {
+											response([{ label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: '' }]);
+										}
+									})
+									.fail(function (textStatus, errorThrown, jqXHR) {
+										app.showNotify({
+											text: jqXHR.responseJSON.error.message,
+											type: 'error',
+											animation: 'show'
+										});
+										response([{ label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: '' }]);
 									});
-									response([{ label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: '' }]);
-								});
-						},
-						minLength: input.data('min'),
-						select: function (event, ui) {
-							$.each(ui.item.address, function (index, value) {
-								let field = container.find('.fieldValue [name^=' + index + ']');
-								if (field.length && value) {
-									if (typeof value !== 'object') {
-										value = [value];
-									}
-									$.each(value, function (index, v) {
-										let select = false,
-											element = false;
-										if (field.prop('tagName') === 'SELECT') {
-											if (typeof v === 'object') {
-												$.each(v, function (index, x) {
-													element = field.find('option[data-' + index + "='" + x + "']");
-													if (x && element.length) {
+							},
+							minLength: input.data('min'),
+							select: function (event, ui) {
+								$.each(ui.item.address, function (index, value) {
+									let field = container.find('.fieldValue [name^=' + index + ']');
+									if (field.length && value) {
+										if (typeof value !== 'object') {
+											value = [value];
+										}
+										$.each(value, function (index, v) {
+											let select = false,
+												element = false;
+											if (field.prop('tagName') === 'SELECT') {
+												if (typeof v === 'object') {
+													$.each(v, function (index, x) {
+														element = field.find('option[data-' + index + "='" + x + "']");
+														if (x && element.length) {
+															select = element.val();
+														}
+													});
+												} else {
+													element = field.find('option:contains(' + v + ')');
+													if (v && element.length) {
 														select = element.val();
 													}
-												});
+													element = field.find('option[value="' + v + '"]');
+													if (v && element.length) {
+														select = element.val();
+													}
+												}
 											} else {
-												element = field.find('option:contains(' + v + ')');
-												if (v && element.length) {
-													select = element.val();
-												}
-												element = field.find('option[value="' + v + '"]');
-												if (v && element.length) {
-													select = element.val();
-												}
+												select = v;
 											}
-										} else {
-											select = v;
-										}
-										if (select) {
-											field.val(select).change();
-										}
-									});
-								} else {
-									field.val('').change();
-								}
-							});
-							ui.item.value = input.val();
-						}
-					});
+											if (select) {
+												field.val(select).change();
+											}
+										});
+									} else {
+										field.val('').change();
+									}
+								});
+								ui.item.value = input.val();
+							}
+						})
+						.autocomplete('instance')._renderItem = function (ul, item) {
+						return $('<li>')
+							.append(`<div><span class="fi fi-${item.countryCode} mr-2"></span>${item.label}</div>`)
+							.appendTo(ul);
+					};
 				});
 		},
 		setEnabledFields: function (element) {

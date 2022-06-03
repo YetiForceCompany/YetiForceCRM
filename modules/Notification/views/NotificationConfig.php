@@ -13,13 +13,7 @@
  */
 class Notification_NotificationConfig_View extends Vtiger_BasicModal_View
 {
-	/**
-	 * Function get modal size.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return string
-	 */
+	/** {@inheritdoc} */
 	public function getSize(App\Request $request)
 	{
 		return 'modal-lg';

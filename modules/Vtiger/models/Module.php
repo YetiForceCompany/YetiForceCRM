@@ -172,7 +172,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 *
 	 * @param int|string $mixed id or name of the module
 	 *
-	 * @return self
+	 * @return $this
 	 */
 	public static function getInstance($mixed)
 	{
@@ -196,7 +196,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 *
 	 * @param vtlib\Module $moduleObj
 	 *
-	 * @return self
+	 * @return $this
 	 */
 	public static function getInstanceFromModuleObject(vtlib\Module $moduleObj)
 	{
@@ -214,14 +214,13 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 *
 	 * @param array $valueArray
 	 *
-	 * @return self
+	 * @return $this
 	 */
 	public static function getInstanceFromArray($valueArray)
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $valueArray['name']);
 		$instance = new $modelClassName();
 		$instance->initialize($valueArray);
-
 		return $instance;
 	}
 
