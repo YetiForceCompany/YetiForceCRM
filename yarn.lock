@@ -11,9 +11,9 @@
     regenerator-runtime "^0.13.4"
 
 "@babel/runtime@^7.16.3":
-  version "7.18.0"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.18.0.tgz#6d77142a19cb6088f0af662af1ada37a604d34ae"
-  integrity sha512-YMQvx/6nKEaucl0MY56mwIG483xk8SDNdlUwb2Ts6FUpr7fm85DxEmsY18LXBNhcTz6tO6JwZV8w1W06v8UKeg==
+  version "7.18.3"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.18.3.tgz#c7b654b57f6f63cf7f8b418ac9ca04408c4579f4"
+  integrity sha512-38Y8f7YUhce/K7RMwTp7m0uCumpv9hZkitCbBClqQIow1qSbCvGkcegKOXpEWCQLfWmevgRiWokZ1GkpfhbZug==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -138,9 +138,9 @@ bootstrap@^4.3.1:
   integrity sha512-0dj+VgI9Ecom+rvvpNZ4MUZJz8dcX7WCX+eTID9+/8HgOkv3dsRzi8BGeZJCQU6flWQVYxwTQnEZFrmJSEO7og==
 
 chart.js@>2.7.0:
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-3.7.1.tgz#0516f690c6a8680c6c707e31a4c1807a6f400ada"
-  integrity sha512-8knRegQLFnPQAheZV8MjxIXc5gQEfDFD897BJgv/klO/vtIyFFmgMXrNfgrXpbTr/XbTturxRgxIXx/Y+ASJBA==
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-3.8.0.tgz#c6c14c457b9dc3ce7f1514a59e9b262afd6f1a94"
+  integrity sha512-cr8xhrXjLIXVLOBZPkBZVF6NDeiVIrPLHcMhnON7UufudL+CNeRrD+wpYanswlm8NpudMdrt3CHoLMQMxJhHRg==
 
 chart.js@^2.9.4:
   version "2.9.4"
@@ -200,7 +200,7 @@ color-convert@^1.9.3:
 color-name@1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.3.tgz#a7d0558bd89c42f795dd42328f740831ca53bc25"
-  integrity sha1-p9BVi9icQveV3UIyj3QIMcpTvCU=
+  integrity sha512-72fSenhMw2HZMTVHeCA9KCmpEIbzWiQsjN+BHcBbS9vr1mtt+vJjPdksIBNUmKAW8TFUDPJK5SUU3QhE9NEXDw==
 
 color-name@^1.0.0:
   version "1.1.4"
@@ -269,7 +269,7 @@ delegate@^3.1.2:
 device-uuid@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/device-uuid/-/device-uuid-1.0.4.tgz#f6973e58f19b92a237aeca7b16a395ae7195a883"
-  integrity sha1-9pc+WPGbkqI3rsp7FqOVrnGVqIM=
+  integrity sha512-nNbUKlCuXZ1BV4zKFr9z8VxypL1PCNExRoNtRx/mNKFcOEDWUdT3E1B4vw7LBWftBmixkrjQIjpdLov3EmEJjA==
 
 emoji-mart-vue-fast@^10.2.0:
   version "10.2.2"
@@ -281,9 +281,9 @@ emoji-mart-vue-fast@^10.2.0:
     vue-virtual-scroller "^1.0.10"
 
 flag-icons@^6.0.0:
-  version "6.4.2"
-  resolved "https://registry.yarnpkg.com/flag-icons/-/flag-icons-6.4.2.tgz#c608770f55cecf0904ffd17230ca1ec44fa65d53"
-  integrity sha512-1zlIYDVcn5jQpF5aYWEAeO4WXuLHj4i6lQIZNjn8Kl6rcZperkUj79uHC9OUi2s+IEl9AYskW8JCx83/6KcmLw==
+  version "6.4.4"
+  resolved "https://registry.yarnpkg.com/flag-icons/-/flag-icons-6.4.4.tgz#d91229842edff4ee71b3bf942b8288c19c5139fe"
+  integrity sha512-NGA8F1+MWg0Scmo/6DZcUnfEE1/8Pe/zYiyALsKF1iHVdugacdteldsLU+v6hpX0sLv42u7CNnh3oEBbaTSCoA==
 
 floatthead@^2.1.3:
   version "2.2.4"
@@ -293,7 +293,7 @@ floatthead@^2.1.3:
 footable@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/footable/-/footable-2.0.6.tgz#24e2d0c4a61648e03fc0313817be853aa59c09d0"
-  integrity sha1-JOLQxKYWSOA/wDE4F76FOqWcCdA=
+  integrity sha512-OSkHeQ3pSt2rVchLlUa02axnnCd/C8eaK4KJriglJtR+QWg4caNkooOqvb1owzJiZ9+/bEhnXCic3mv8vLKM2A==
   dependencies:
     jquery ">=1.4.4"
 
@@ -314,7 +314,7 @@ gantt-elastic@^1.0.12:
 good-listener@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/good-listener/-/good-listener-1.2.2.tgz#d53b30cdf9313dffb7dc9a0d477096aa6d145c50"
-  integrity sha1-1TswzfkxPf+33JoNR3CWqm0UXFA=
+  integrity sha512-goW1b+d9q/HIwbVYZzZ6SsTr4IgE+WA44A0GmPIQstuOrgsFcT7VEJ48nmr9GaRtNu0XTKacFLGnBPAM6Afouw==
   dependencies:
     delegate "^3.1.2"
 
@@ -334,7 +334,7 @@ html2canvas@^1.0.0-alpha.12:
 html5shiv@^3.7.3:
   version "3.7.3"
   resolved "https://registry.yarnpkg.com/html5shiv/-/html5shiv-3.7.3.tgz#d78a84a367bcb9a710100d57802c387b084631d2"
-  integrity sha1-14qEo2e8uacQEA1XgCw4ewhGMdI=
+  integrity sha512-SZwGvLGNtgp8GbgFX7oXEp8OR1aBt5LliX6dG0kdD1kl3KhMonN0QcSa/A3TsTgFewaGCbIryQunjayWDXzxmw==
 
 inputmask@^5.0.7:
   version "5.0.7"
@@ -364,12 +364,12 @@ jquery-lazy@^1.7.7:
 jquery-outside-events@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/jquery-outside-events/-/jquery-outside-events-1.0.0.tgz#da48d0c3d1df80de2f9ac8b112660d67d28a464b"
-  integrity sha1-2kjQw9HfgN4vmsixEmYNZ9KKRks=
+  integrity sha512-M7JIWgtvReEtQN64DkKl4ldyNUY8VDdbSUHjcbI/WHlCBYQFY6EcpUT1qUfZPfCqT6SsRkX6spLja9zvzAJIsg==
 
 jquery-slimscroll@^1.3.8:
   version "1.3.8"
   resolved "https://registry.yarnpkg.com/jquery-slimscroll/-/jquery-slimscroll-1.3.8.tgz#8481c44e7a47687653908a28f7f70aed64c84e36"
-  integrity sha1-hIHETnpHaHZTkIoo9/cK7WTITjY=
+  integrity sha512-3cNGNCq6i3b+rZQOx1tSBlSFewk4X35eUuQmoRVSA4MSytw3rGPvCw6cEB2oEHf+u15RVzgfh4hN+/3dDNzwiQ==
   dependencies:
     jquery ">= 1.7"
 
@@ -383,7 +383,7 @@ jquery-ui-dist@^1.13.0:
 jquery.class.js@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/jquery.class.js/-/jquery.class.js-1.0.0.tgz#43616c36d76eff36caf2139ddacda621aa24ed30"
-  integrity sha1-Q2FsNtdu/zbK8hOd2s2mIaok7TA=
+  integrity sha512-TKrc0qRYnm3+t6Bro34+4CeerNRacd5cyp5hiapLZJHvqXKi04F4BGelToKL/+d/sPe0lIY6HwCTaceeiKurpQ==
 
 "jquery@>= 1.7", jquery@>=1.10, jquery@>=1.4.4, jquery@>=1.6, jquery@>=1.7, jquery@>=1.7.0, "jquery@>=1.7.1 <4.0.0", jquery@>=1.7.2, jquery@>=1.7.x, "jquery@>=1.8.0 <4.0.0", jquery@>=1.9.1, jquery@^3.5:
   version "3.6.0"
@@ -393,7 +393,7 @@ jquery.class.js@^1.0.0:
 jstree-bootstrap-theme@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/jstree-bootstrap-theme/-/jstree-bootstrap-theme-1.0.1.tgz#7d5edc73a846e8da7f94f57a1cc5ddee9d9eab4b"
-  integrity sha1-fV7cc6hG6Np/lPV6HMXd7p2eq0s=
+  integrity sha512-H1F1NOwfPnsQAzsLPRBRR0zO4pfXD5tUHfRj9psT/2+eEMMotG1mYtU3gP5Lsr67TKbsE53M8HLv93EAL+zC2A==
   dependencies:
     jquery ">=1.9.1"
 
@@ -430,9 +430,9 @@ mousetrap@^1.6.3:
   integrity sha512-QNo4kEepaIBwiT8CDhP98umTetp+JNfQYBWvC1pc6/OAibuXtRcxZ58Qz8skvEHYvURne/7R8T5VoOI7rDsEUA==
 
 overlayscrollbars@^1.10.0:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/overlayscrollbars/-/overlayscrollbars-1.13.1.tgz#0b840a88737f43a946b9d87875a2f9e421d0338a"
-  integrity sha512-gIQfzgGgu1wy80EB4/6DaJGHMEGmizq27xHIESrzXq0Y/J0Ay1P3DWk6tuVmEPIZH15zaBlxeEJOqdJKmowHCQ==
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/overlayscrollbars/-/overlayscrollbars-1.13.2.tgz#4e2c13c89a8b66ad53cf86b520cac6a5d8d52f2b"
+  integrity sha512-xk9eJ8fpuh28WABSDpMpOv90aDQk+x5wLeqU4AGbJg56eGLeKxVPQzMxeX6+BM2dsIIOcBj3Fwvn8A0EzhHN3g==
 
 perfect-scrollbar@^1.3.0:
   version "1.5.5"
