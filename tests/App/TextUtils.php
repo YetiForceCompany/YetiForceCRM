@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Tests\App;
@@ -21,7 +22,7 @@ class TextUtils extends \Tests\Base
 	 *
 	 * @see \App\TextUtils::getTextLength()
 	 */
-	public function getTextLength()
+	public function testTextLength()
 	{
 		$this->assertSame(0, \App\TextUtils::getTextLength(null));
 		$this->assertSame(4, \App\TextUtils::getTextLength('test'));
