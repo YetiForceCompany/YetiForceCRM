@@ -17667,7 +17667,7 @@ header .c-header__btn__container .select2-selection:hover .select2-selection__re
 }
 
 .ui-autocomplete {
-  padding: 0 !important;
+  padding: 3px !important;
 }
 .ui-autocomplete .ui-menu-item-wrapper,
 .ui-autocomplete .ui-menu-item-wrapper:hover {
@@ -19008,7 +19008,7 @@ hr {
   margin-top: 2px;
   margin-left: 5px;
   height: 12px;
-  z-index: 1030;
+  z-index: 1051;
 }
 
 .ui-slider-disabled {
@@ -19890,16 +19890,10 @@ span[name=existingImages] img {
   margin-left: 5px;
 }
 
-.ui-widget-content {
-  padding: 0.8em;
-}
-
 .ui-autocomplete .ui-autocomplete-category {
   font-weight: bold;
   line-height: 1.5;
-}
-.ui-autocomplete .ui-autocomplete-category:first-child {
-  margin: 0.8em 0 0.2em;
+  padding: 2px 0.4em;
 }
 .ui-autocomplete .ui-menu-item {
   padding: 0.2em 0.8em;
@@ -19925,12 +19919,6 @@ span[name=existingImages] img {
 
 .scanerMailActionsButtons {
   min-width: 96px;
-}
-
-.ui-widget-content {
-  border: 1px solid #aaa;
-  background: #fff;
-  color: #404040;
 }
 
 .ui-menu .ui-menu-item {
@@ -21213,15 +21201,6 @@ select.form-control {
 .openStreetMapModalBody .descriptionContainer {
   max-height: 150px;
   overflow: auto;
-}
-
-.openStreetMapModalHeader .searchValue {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.openStreetMapModalHeader .radius {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
 }
 
 .activityContainer {
@@ -23976,10 +23955,6 @@ body:not(.desktop) .u-overflow-scroll-non-desktop {
 body:not(.desktop) .bodyContent {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-}
-
-.openStreetMapModalBody .input-group {
-  flex-wrap: nowrap;
 }
 
 .c-panel {

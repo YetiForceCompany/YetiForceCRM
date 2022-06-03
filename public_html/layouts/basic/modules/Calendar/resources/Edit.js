@@ -507,7 +507,7 @@ Vtiger_Edit_Js(
 				_renderMenu: function (ul, items) {
 					let that = this,
 						currentCategory = '';
-					$.each(items, function (index, item) {
+					$.each(items, function (_index, item) {
 						if (item.category != currentCategory) {
 							ul.append("<li class='ui-autocomplete-category'>" + item.category + '</li>');
 							currentCategory = item.category;
