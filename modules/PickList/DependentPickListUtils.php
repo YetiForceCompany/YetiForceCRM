@@ -74,13 +74,6 @@ class Vtiger_DependencyPicklist
 
 	public static function deletePickListDependencies($module, $sourceField, $targetField)
 	{
-		App\Db::getInstance()->createCommand()->delete('vtiger_picklist_dependency', [
-			'tabid' => \App\Module::getModuleId($module),
-			'sourcefield' => $sourceField,
-			'targetfield' => $targetField,
-		])->execute();
-		\App\Cache::delete('picklistDependencyFields', $module);
-		\App\Cache::delete('getPicklistDependencyDatasource', $module);
 	}
 
 	public static function getJSPicklistDependencyDatasource($module)

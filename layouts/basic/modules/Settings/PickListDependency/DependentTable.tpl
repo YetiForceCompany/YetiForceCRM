@@ -32,8 +32,8 @@
 		{append var="MAPPED_SOURCE_PICKLIST_VALUES" value=$MAPPING['sourcevalue']}
 		{$MAPPED_TARGET_PICKLIST_VALUES[$MAPPING['sourcevalue']] = $MAPPING['secondValues']}
 	{/foreach}
-	{var_dump($MAPPING)}
-	{var_dump($MAPPED_TARGET_PICKLIST_VALUES)}
+	{var_dump($MAPPED_VALUES)}
+
 	<input type="hidden" class="allSourceValues"
 		value='{\App\Purifier::encodeHtml(\App\Json::encode($SOURCE_PICKLIST_VALUES))}' />
 	<div class="js-picklist-dependency-table mb-2" data-js="container">
@@ -68,32 +68,30 @@
 					<thead>
 						<tr class="blockHeader">
 
-							{foreach item=SOURCE_PICKLIST_VALUE from=$TARGET_PICKLIST_VALUES}
-								<th class="align-baseline js-second-field-value" data-source-value="{\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}" style="
-																										{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))}display: none;{/if}">
-									{\App\Language::translate($SOURCE_PICKLIST_VALUE, $SELECTED_MODULE)}</th>
+							{foreach item=TARGET_PICKLIST_VALUE from=$TARGET_PICKLIST_VALUES}
+								<th class="align-baseline js-second-field-value" data-source-value="{\App\Purifier::encodeHtml($TARGET_PICKLIST_VALUE)}">
+									{\App\Language::translate($TARGET_PICKLIST_VALUE, $SELECTED_MODULE)}</th>
 							{/foreach}
 						</tr>
 					</thead>
 					<tbody>
-						{foreach key=TARGET_INDEX item=TARGET_VALUE from=$THIRD_FIELD_PICKLIST_VALUES name=targetValuesLoop}
+						{foreach key=TARGET_INDEX item=THIRD_VALUE from=$THIRD_FIELD_PICKLIST_VALUES name=targetValuesLoop}
 							<tr>
-								{foreach item=SOURCE_PICKLIST_VALUE from=$TARGET_PICKLIST_VALUES}
-									{assign var=PURIFIER_TMP_VAL value=\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}
+								{foreach item=SECOND_PICKLIST_VALUE from=$TARGET_PICKLIST_VALUES}
+									{assign var=PURIFIER_TMP_VAL value=\App\Purifier::encodeHtml($SECOND_PICKLIST_VALUE)}
 									{if !empty($MAPPED_TARGET_PICKLIST_VALUES[$PURIFIER_TMP_VAL])}
 										{assign var=targetValues value=$MAPPED_TARGET_PICKLIST_VALUES[$PURIFIER_TMP_VAL]}
 									{/if}
 									{assign var=SOURCE_INDEX value=$smarty.foreach.mappingIndex.index}
 									{assign var=IS_SELECTED value=false}
 									{assign var=targetValues value=[]}
-									{if empty($targetValues) || in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml',$MAPPING['secondValues'])) && in_array($TARGET_VALUE, array_map('App\Purifier::decodeHtml',$MAPPING['thirdValues']))}
+									{if !isset($MAPPING_FOR_THREE[$SELECTED_SOURCE_VALUE][$SECOND_PICKLIST_VALUE]) || in_array($THIRD_VALUE, $MAPPING_FOR_THREE[$SELECTED_SOURCE_VALUE][$SECOND_PICKLIST_VALUE])}
 										{assign var=IS_SELECTED value=true}
 									{/if}
-									<td data-source-value='{\App\Purifier::encodeHtml($SOURCE_PICKLIST_VALUE)}'
-										data-target-value='{\App\Purifier::encodeHtml($TARGET_VALUE)}'
-										class="{if $IS_SELECTED}selectedCell {else}unselectedCell {/if} targetValue picklistValueMapping u-cursor-pointer"
-										{if !empty($MAPPED_VALUES) && !in_array($SOURCE_PICKLIST_VALUE, array_map('App\Purifier::decodeHtml', $MAPPED_SOURCE_PICKLIST_VALUES))}style="display: none;" {/if}>
-										{\App\Language::translate($TARGET_VALUE, $SELECTED_MODULE)}
+									<td data-source-value='{\App\Purifier::encodeHtml($SECOND_PICKLIST_VALUE)}'
+										data-target-value='{\App\Purifier::encodeHtml($THIRD_VALUE)}'
+										class="{if $IS_SELECTED}selectedCell {else}unselectedCell {/if} targetValue picklistValueMapping u-cursor-pointer">
+										{\App\Language::translate($THIRD_VALUE, $SELECTED_MODULE)}
 									</td>
 								{/foreach}
 							</tr>

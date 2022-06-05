@@ -24,6 +24,7 @@
 					<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE}" />
 					<input type="hidden" name="sourceField" value="{$RECORD_MODEL->get('source_field')}" />
 					<input type="hidden" name="secondField" value="{$RECORD_MODEL->get('second_field')}" />
+					<input type="hidden" name="thirdField" value="{$RECORD_MODEL->get('third_field')}" />
 				{/if}
 				<div class="js-dependent-fields row" data-js="container">
 					{include file=\App\Layout::getTemplatePath('DependentFields.tpl', $QUALIFIED_MODULE)}

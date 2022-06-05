@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  * ********************************************************************************** */
 
 class Settings_PickListDependency_SaveAjax_Action extends Settings_Vtiger_Index_Action

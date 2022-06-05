@@ -43,7 +43,7 @@ jQuery.Class(
 		/**
 		 * This function used to trigger Delete picklist dependency
 		 */
-		triggerDelete: function (event, module, sourceField, secondField) {
+		triggerDelete: function (event, dependencyId) {
 			event.stopPropagation();
 			let currentTrEle = jQuery(event.currentTarget).closest('tr');
 			let instance = Settings_PickListDependency_Js.pickListDependencyInstance;
@@ -51,7 +51,7 @@ jQuery.Class(
 			app.showConfirmModal({
 				title: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE'),
 				confirmedCallback: () => {
-					instance.deleteDependency(module, sourceField, secondField).done(function (data) {
+					instance.deleteDependency(dependencyId).done(function (data) {
 						var params = {};
 						params.text = app.vtranslate('JS_DEPENDENCY_DELETED_SUEESSFULLY');
 						Settings_Vtiger_Index_Js.showMessage(params);
@@ -281,15 +281,13 @@ jQuery.Class(
 		 *            sourceField - source picklist value
 		 *            secondField - target picklist value
 		 */
-		deleteDependency: function (module, sourceField, secondField) {
-			var aDeferred = jQuery.Deferred();
-			var params = {};
+		deleteDependency: function (dependencyId) {
+			let aDeferred = jQuery.Deferred();
+			let params = {};
 			params['module'] = app.getModuleName();
 			params['parent'] = app.getParentModuleName();
 			params['action'] = 'DeleteAjax';
-			params['sourceModule'] = module;
-			params['sourcefield'] = sourceField;
-			params['secondField'] = secondField;
+			params['recordId'] = dependencyId;
 			AppConnector.request(params)
 				.done(function (data) {
 					aDeferred.resolve(data);
@@ -576,7 +574,9 @@ jQuery.Class(
 		},
 
 		registerAddThirdField: function () {
+			alert('go');
 			this.container.find('.js-add-next-level-field').on('click', () => {
+				alert('click');
 				let params = this.getDefaultParamsForThirdField();
 				params.thirdField = true;
 				let progress = jQuery.progressIndicator();
@@ -650,38 +650,40 @@ jQuery.Class(
 			});
 		},
 		setPicklistDependencies() {
-			const dependencyTable = this.container.find('.js-picklist-dependency-table');
-			let sourceFieldValue = dependencyTable.find('.js-source-field-value option:selected').val();
-			let selectedOldSourceData = dependencyTable.find('.js-source-field-value option[data-old-source-value]');
-			let selectedSourceValue = selectedOldSourceData.attr('data-old-source-value');
-			let picklistDependencies =
-				this.container.find('.js-picklist-dependencies-data').val() !== ''
-					? JSON.parse(this.container.find('.js-picklist-dependencies-data').val())
-					: {};
+			if (this.form.find('.thirdField').val() !== '') {
+				const dependencyTable = this.container.find('.js-picklist-dependency-table');
+				let sourceFieldValue = dependencyTable.find('.js-source-field-value option:selected').val();
+				let selectedOldSourceData = dependencyTable.find('.js-source-field-value option[data-old-source-value]');
+				let selectedSourceValue = selectedOldSourceData.attr('data-old-source-value');
+				let picklistDependencies =
+					this.container.find('.js-picklist-dependencies-data').val() !== ''
+						? JSON.parse(this.container.find('.js-picklist-dependencies-data').val())
+						: {};
 
-			dependencyTable.find('.js-second-field-value').each(function (_index, element) {
-				let secondFieldValue = $(element).attr('data-source-value').replace(/"/g, '\\"');
-				if (secondFieldValue) {
-					let allValuesInColumn = dependencyTable.find('td[data-source-value="' + secondFieldValue + '"]');
-					let selectedTargetValues = dependencyTable
-						.find('td[data-source-value="' + secondFieldValue + '"]')
-						.filter('.selectedCell');
-					let targetValues = [];
-					if (selectedTargetValues.length > 0) {
-						jQuery.each(selectedTargetValues, function (_index, element) {
-							targetValues.push(jQuery(element).data('targetValue'));
-						});
-						if (selectedTargetValues.length !== allValuesInColumn.length) {
-							if (picklistDependencies[selectedSourceValue] === undefined) {
-								picklistDependencies[selectedSourceValue] = {};
+				dependencyTable.find('.js-second-field-value').each(function (_index, element) {
+					let secondFieldValue = $(element).attr('data-source-value').replace(/"/g, '\\"');
+					if (secondFieldValue) {
+						let allValuesInColumn = dependencyTable.find('td[data-source-value="' + secondFieldValue + '"]');
+						let selectedTargetValues = dependencyTable
+							.find('td[data-source-value="' + secondFieldValue + '"]')
+							.filter('.selectedCell');
+						let targetValues = [];
+						if (selectedTargetValues.length > 0) {
+							jQuery.each(selectedTargetValues, function (_index, element) {
+								targetValues.push(jQuery(element).data('targetValue'));
+							});
+							if (selectedTargetValues.length !== allValuesInColumn.length) {
+								if (picklistDependencies[selectedSourceValue] === undefined) {
+									picklistDependencies[selectedSourceValue] = {};
+								}
+								picklistDependencies[selectedSourceValue][secondFieldValue] = targetValues;
 							}
-							picklistDependencies[selectedSourceValue][secondFieldValue] = targetValues;
 						}
 					}
-				}
-			});
-			selectedOldSourceData.attr('data-old-source-value', sourceFieldValue);
-			this.container.find('.js-picklist-dependencies-data').val(JSON.stringify(picklistDependencies));
+				});
+				selectedOldSourceData.attr('data-old-source-value', sourceFieldValue);
+				this.container.find('.js-picklist-dependencies-data').val(JSON.stringify(picklistDependencies));
+			}
 		},
 		clearAllMarkedValues() {
 			const dependencyTable = this.container.find('.js-picklist-dependency-table');
@@ -734,6 +736,9 @@ jQuery.Class(
 						.prop('disabled', true);
 					thisInstance.registerDependencyGraphEvents();
 					thisInstance.registerSubmitEvent();
+					//for three
+					thisInstance.registerSaveDependentPicklist();
+					thisInstance.registerChangeSourceValue();
 				} else {
 					thisInstance.registerAddViewEvents();
 				}
