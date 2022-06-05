@@ -21,7 +21,8 @@ jQuery.Class(
 			var instance = Settings_PickListDependency_Js.pickListDependencyInstance;
 			instance.updatedSourceValues = [];
 			instance.showEditView().done(function (data) {
-				instance.registerAddViewEvents();
+				instance.registerEvents();
+				//	instance.registerAddViewEvents();
 			});
 		},
 		/**

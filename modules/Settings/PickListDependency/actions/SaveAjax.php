@@ -44,13 +44,5 @@ class Settings_PickListDependency_SaveAjax_Action extends Settings_Vtiger_Index_
 			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
-
-		//var_dump(App\Json::encode($request->get('mapping')), $request->getArray('mapping'));
-		/*
-		var_dump($request->getArray('mapping'), $request->getMultiDimensionArray('mapping', [[
-			0 => 'Text',
-			//	'targetvalues' => 'Text'
-		]]));
-		*/
 	}
 }

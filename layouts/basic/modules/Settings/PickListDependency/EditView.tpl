@@ -19,7 +19,7 @@
 		</div>
 		<div class="contents js-picklist-dependent-container" data-js="container">
 			<form id="pickListDependencyForm" method="POST">
-				{if !empty($MAPPED_VALUES)}
+				{if !empty($MAPPED_VALUES) || !empty($MAPPING_FOR_THREE)}
 					<input type="hidden" class="editDependency" value="true" />
 					<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE}" />
 					<input type="hidden" name="sourceField" value="{$RECORD_MODEL->get('source_field')}" />

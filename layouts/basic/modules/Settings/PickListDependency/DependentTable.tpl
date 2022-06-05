@@ -17,6 +17,7 @@
 			</button>
 		</span>
 	</div>
+	<input type="hidden" class="js-picklist-dependencies-data" value='{App\Json::encode($MAPPING_FOR_THREE)}'>
 	{assign var=SELECTED_MODULE value=$RECORD_MODEL->get('sourceModule')}
 	{assign var=SOURCE_FIELD value=$RECORD_MODEL->get('source_field')}
 	{assign var=MAPPED_SOURCE_PICKLIST_VALUES value=[]}
@@ -26,8 +27,6 @@
 		{append var="MAPPED_SOURCE_PICKLIST_VALUES" value=$MAPPING['sourcevalue']}
 		{$MAPPED_TARGET_PICKLIST_VALUES[$MAPPING['sourcevalue']] = $MAPPING['secondValues']}
 	{/foreach}
-	{var_dump($MAPPED_VALUES)}
-
 	<input type="hidden" class="allSourceValues"
 		value='{\App\Purifier::encodeHtml(\App\Json::encode($SOURCE_PICKLIST_VALUES))}' />
 	<div class="js-picklist-dependency-table mb-2" data-js="container">

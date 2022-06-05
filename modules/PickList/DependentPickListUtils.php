@@ -72,10 +72,6 @@ class Vtiger_DependencyPicklist
 		return $dependentPicklists;
 	}
 
-	public static function deletePickListDependencies($module, $sourceField, $targetField)
-	{
-	}
-
 	public static function getJSPicklistDependencyDatasource($module)
 	{
 		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($module);

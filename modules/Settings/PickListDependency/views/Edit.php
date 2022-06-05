@@ -30,11 +30,15 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 		$dependencyGraph = false;
 
 		$viewer = $this->getViewer($request);
+		$mappedValues = $mappedForThree = [];
 		if ($request->has('recordId') && !$request->isEmpty('recordId', true)) {
 			$recordId = $request->getInteger('recordId');
 			$recordModel = Settings_PickListDependency_Record_Model::getInstanceById($recordId);
-
-			$viewer->assign('MAPPED_VALUES', $recordModel->getPickListDependency());
+			if ($recordModel->get('third_field')) {
+				$mappedForThree = $recordModel->getPickListDependencyForThree();
+			} else {
+				$mappedValues = $recordModel->getPickListDependency();
+			}
 			$viewer->assign('SOURCE_PICKLIST_VALUES', $recordModel->getPickListValues($recordModel->get('source_field')));
 			$viewer->assign('TARGET_PICKLIST_VALUES', $recordModel->getPickListValues($recordModel->get('second_field')));
 			$viewer->assign('THIRD_FIELD_PICKLIST_VALUES', $recordModel->getPickListValues($recordModel->get('third_field')));
@@ -46,6 +50,8 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 			$recordModel = Settings_PickListDependency_Record_Model::getCleanInstance();
 			$recordModel->set('sourceModule', $selectedModule);
 		}
+		$viewer->assign('MAPPED_VALUES', $mappedValues);
+		$viewer->assign('MAPPING_FOR_THREE', $mappedForThree);
 		$viewer->assign('THIRD_FIELD', $recordModel->get('third_field'));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('RECORD_ID', $recordId);
