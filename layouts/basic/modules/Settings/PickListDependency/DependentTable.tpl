@@ -15,12 +15,6 @@
 					{\App\Language::translate('LBL_UNMARK_ALL', $QUALIFIED_MODULE)}
 				</strong>
 			</button>
-			<button class="btn unmarkAll btn-success js-add-another-dependency-table" type="button" data-js="click">
-				<strong>
-					<span class="fas fa-plus mr-2"></span>
-					{\App\Language::translate('LBL_ADD_DEPENDENCY_FOR_ANOTHER_VALUE', $QUALIFIED_MODULE)}
-				</strong>
-			</button>
 		</span>
 	</div>
 	{assign var=SELECTED_MODULE value=$RECORD_MODEL->get('sourceModule')}

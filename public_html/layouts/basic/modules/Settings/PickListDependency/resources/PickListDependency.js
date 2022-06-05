@@ -190,12 +190,7 @@ jQuery.Class(
 						.done(function (data) {
 							var result = data['result'];
 							if (!result['result']) {
-								if (thirdField) {
-									thisInstance.addNewDependencyPickList();
-								} else {
-									thisInstance.addNewDependencyPickList();
-								}
-
+								thisInstance.addNewDependencyPickList();
 								progressIndicatorElement.progressIndicator({ mode: 'hide' });
 							} else {
 								progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -271,7 +266,6 @@ jQuery.Class(
 				thisInstance.registerDependencyGraphEvents();
 				/* to przenieśc do innej funkcji */
 				thisInstance.registerSaveDependentPicklist();
-				thisInstance.registerAddAnotherDependencyTable();
 				thisInstance.registerChangeSourceValue();
 			});
 		},
@@ -327,7 +321,7 @@ jQuery.Class(
 			var form = jQuery('#pickListDependencyForm');
 			var dependencyGraph = jQuery('#dependencyGraph');
 			form.find('.cancelAddView').addClass('d-none');
-			//	thisInstance.registersecondFieldsClickEvent(dependencyGraph);
+			thisInstance.registersecondFieldsClickEvent(dependencyGraph);
 			thisInstance.registersecondFieldsUnmarkAll(dependencyGraph);
 			thisInstance.registerSelectSourceValuesClick(dependencyGraph);
 			thisInstance.registerCancelDependency(form);
@@ -358,8 +352,7 @@ jQuery.Class(
 		registersecondFieldsClickEvent: function (dependencyGraph) {
 			var thisInstance = this;
 			thisInstance.updatedSourceValues = [];
-
-			$('#dependencyGraph').on('click', 'td.picklistValueMapping', function (e) {
+			dependencyGraph.find('td.picklistValueMapping').on('click', function (e) {
 				var currentTarget = jQuery(e.currentTarget);
 				var sourceValue = currentTarget.data('sourceValue');
 				if (jQuery.inArray(sourceValue, thisInstance.updatedSourceValues) == -1) {
@@ -574,9 +567,7 @@ jQuery.Class(
 		},
 
 		registerAddThirdField: function () {
-			alert('go');
 			this.container.find('.js-add-next-level-field').on('click', () => {
-				alert('click');
 				let params = this.getDefaultParamsForThirdField();
 				params.thirdField = true;
 				let progress = jQuery.progressIndicator();
@@ -612,34 +603,17 @@ jQuery.Class(
 			this.container.find('.js-save-dependent-picklists').on('click', () => {
 				this.setPicklistDependencies();
 				let picklistDependencies = this.container.find('.js-picklist-dependencies-data').val();
-				if (picklistDependencies !== '') {
+				console.log(picklistDependencies.length);
+				if (picklistDependencies !== '{}') {
 					this.savePickListDependency(picklistDependencies);
+				} else {
+					Settings_Vtiger_Index_Js.showMessage({
+						text: app.vtranslate('JS_PICKLIST_DEPENDENCY_NO_SAVED'),
+						type: 'info'
+					});
 				}
 
 				return;
-			});
-		},
-		registerAddAnotherDependencyTable() {
-			this.container.find('.js-add-another-dependency-table').on('click', () => {
-				AppConnector.request({
-					module: this.form.find('[name="module"]').length
-						? this.form.find('[name="module"]').val()
-						: app.getModuleName(),
-					parent: app.getParentModuleName(),
-					sourceModule: this.form.find('[name="sourceModule"]').val(),
-					view: 'DependentTable',
-					sourceModule: this.form.find('[name="sourceModule"] option:selected').val(),
-					sourceField: this.form.find('[name="sourceField"] option:selected').val(),
-					secondField: this.form.find('[name="secondField"] option:selected').val(),
-					thirdField: this.form.find('[name="thirdField"] option:selected').val()
-				})
-					.done((data) => {
-						this.container.find('.js-picklist-dependency-table').after(data);
-					})
-					.fail((_) => {
-						app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
-						progress.progressIndicator({ mode: 'hide' });
-					});
 			});
 		},
 		registerChangeSourceValue() {
@@ -743,7 +717,6 @@ jQuery.Class(
 					thisInstance.registerAddViewEvents();
 				}
 				thisInstance.registerAddThirdField();
-				thisInstance.registersecondFieldsClickEvent(this.container.find('.js-picklist-dependency-table'));
 			} else {
 				thisInstance.registerListViewEvents();
 			}
