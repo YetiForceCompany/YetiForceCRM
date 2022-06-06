@@ -10,8 +10,8 @@
 ********************************************************************************/
 -->*}
 {strip}
-	<!-- tpl-Base-ListViewContents -->
 	{include file=\App\Layout::getTemplatePath('ListViewContentsTop.tpl', $MODULE_NAME)}
+	<!-- tpl-Base-ListViewContents -->
 	<table class="table tableBorderHeadBody listViewEntriesTable {$WIDTHTYPE} {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if} js-fixed-thead" data-js="floatThead">
 		<thead>
 			<tr class="{if isset($CUSTOM_VIEWS) && $CUSTOM_VIEWS|@count gt 0}c-tab--border-active{/if} listViewHeaders">
@@ -111,7 +111,13 @@
 									{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER)}
 								</a>
 							{else}
-								{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER)}
+								<a href="">
+									{if !empty($LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER))}
+										{$LISTVIEW_ENTRY->getListViewDisplayValue($LISTVIEW_HEADER)}
+									{else}
+										{\App\Language::translate('Empty Record')}
+									{/if}
+								</a>
 							{/if}
 						</td>
 					{/foreach}
@@ -139,7 +145,7 @@
 			</tfoot>
 		{/if}
 	</table>
+	<!-- /tpl-Base-ListViewContents -->
 	{include file=\App\Layout::getTemplatePath('ListViewContentsBottom.tpl', $MODULE_NAME)}
 	</div>
-	<!-- /tpl-Base-ListViewContents -->
 {/strip}
