@@ -602,9 +602,8 @@ jQuery.Class(
 
 		registerSaveDependentPicklist() {
 			this.container.find('.js-save-dependent-picklists').on('click', () => {
-				this.setPicklistDependencies();
+				this.setPicklistDependencies(true);
 				let picklistDependencies = this.container.find('.js-picklist-dependencies-data').val();
-				console.log(picklistDependencies.length);
 				if (picklistDependencies !== '{}') {
 					this.savePickListDependency(picklistDependencies);
 				} else {
@@ -624,12 +623,15 @@ jQuery.Class(
 				this.setMarkedValues();
 			});
 		},
-		setPicklistDependencies() {
+		setPicklistDependencies(currentSelectedValue = false) {
 			if (this.form.find('.thirdField').val() !== '') {
 				const dependencyTable = this.container.find('.js-picklist-dependency-table');
-				let sourceFieldValue = dependencyTable.find('.js-source-field-value option:selected').val();
 				let selectedOldSourceData = dependencyTable.find('.js-source-field-value option[data-old-source-value]');
+				let sourceFieldValue = dependencyTable.find('.js-source-field-value option:selected').val();
 				let selectedSourceValue = selectedOldSourceData.attr('data-old-source-value');
+				if (currentSelectedValue) {
+					selectedSourceValue = sourceFieldValue;
+				}
 				let picklistDependencies =
 					this.container.find('.js-picklist-dependencies-data').val() !== ''
 						? JSON.parse(this.container.find('.js-picklist-dependencies-data').val())
@@ -653,6 +655,9 @@ jQuery.Class(
 								}
 								picklistDependencies[selectedSourceValue][secondFieldValue] = targetValues;
 							}
+						}
+						if (selectedTargetValues.length === 0 && picklistDependencies[selectedSourceValue] !== undefined) {
+							delete picklistDependencies[selectedSourceValue];
 						}
 					}
 				});

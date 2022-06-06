@@ -54,7 +54,6 @@
 					{/foreach}
 				</select>
 			</div>
-			<button type="button" class="btn btn-sm btn-danger js-remove-next-level-field" data-js="click">{\App\Language::translate('LBL_REMOVE_NEXT_LEVEL_FIELD', $QUALIFIED_MODULE)}</button>
 		{else}
 			<button type="button" class="btn btn-sm btn-success js-add-next-level-field" data-js="click">{\App\Language::translate('LBL_ADD_NEXT_LEVEL_FIELD', $QUALIFIED_MODULE)}</button>
 		{/if}
