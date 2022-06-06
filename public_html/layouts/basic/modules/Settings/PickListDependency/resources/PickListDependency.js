@@ -67,7 +67,6 @@ jQuery.Class(
 			params['view'] = 'Edit';
 			params['recordId'] = pickListDependencyId;
 			params['sourceModule'] = sourceModule;
-			console.log(sourceModule);
 			AppConnector.requestPjax(params)
 				.done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -351,10 +350,10 @@ jQuery.Class(
 		 * Function used to update the value mapping to save the picklist dependency
 		 */
 		updateValueMapping: function (dependencyGraph) {
-			const self = this;
-			self.valueMapping = [];
-			let sourceValuesArray = self.updatedSourceValues;
-			let dependencyTable = dependencyGraph.find('.js-picklist-dependency-table');
+			var thisInstance = this;
+			thisInstance.valueMapping = [];
+			var sourceValuesArray = thisInstance.updatedSourceValues;
+			var dependencyTable = dependencyGraph.find('.pickListDependencyTable');
 			for (var key in sourceValuesArray) {
 				let encodedSourceValue;
 				if (typeof sourceValuesArray[key] == 'string') {
@@ -362,10 +361,10 @@ jQuery.Class(
 				} else {
 					encodedSourceValue = sourceValuesArray[key];
 				}
-				let selectedTargetValues = dependencyTable
+				var selectedTargetValues = dependencyTable
 					.find('td[data-source-value="' + encodedSourceValue + '"]')
 					.filter('.selectedCell');
-				let targetValues = [];
+				var targetValues = [];
 				if (selectedTargetValues.length > 0) {
 					jQuery.each(selectedTargetValues, function (index, element) {
 						targetValues.push(jQuery(element).data('targetValue'));
@@ -373,7 +372,7 @@ jQuery.Class(
 				} else {
 					targetValues.push('');
 				}
-				self.valueMapping.push({
+				thisInstance.valueMapping.push({
 					sourcevalue: sourceValuesArray[key],
 					targetvalues: targetValues
 				});
@@ -449,7 +448,7 @@ jQuery.Class(
 			params['module'] = app.getModuleName();
 			params['parent'] = app.getParentModuleName();
 			params['action'] = 'SaveAjax';
-			params['mapping'] = mapping;
+			params['mapping'] = JSON.stringify(mapping);
 			AppConnector.request(params)
 				.done(function (data) {
 					if (data['success']) {
@@ -481,7 +480,7 @@ jQuery.Class(
 			params['module'] = app.getModuleName();
 			params['parent'] = app.getParentModuleName();
 			params['view'] = 'List';
-			params['formodule'] = forModule;
+			params['forModule'] = forModule;
 
 			AppConnector.requestPjax(params)
 				.done(function (data) {
@@ -505,7 +504,6 @@ jQuery.Class(
 			container.find('.pickListSupportedModules').on('change', function (e) {
 				var currentTarget = jQuery(e.currentTarget);
 				var forModule = currentTarget.val();
-				//TODO
 				thisInstance.loadListViewContents(forModule);
 			});
 		},
