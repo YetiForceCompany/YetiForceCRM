@@ -79,14 +79,5 @@ class Vtiger_DependencyPicklist
 		return \App\Json::encode($picklistDependencyDatasource);
 	}
 
-	public static function checkCyclicDependency($module, $sourceField, $secondField, $thirdField)
-	{
-		// If another parent field exists for the same target field - 2 parent fields should not be allowed for a target field
-		$query = (new App\Db\Query())->from('vtiger_picklist_dependency')
-			->where(['tabid' => \App\Module::getModuleId($module), 'targetfield' => $secondField, 'sourcefield' => $sourceField]);
-		if ($thirdField) {
-			$query->andWhere(['third_field' => $thirdField]);
-		}
-		return $query->exists();
-	}
+
 }

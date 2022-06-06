@@ -34,6 +34,7 @@ class Settings_PickListDependency_IndexAjax_View extends Settings_PickListDepend
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_MODULE', $selectedModule);
 		$viewer->assign('MAPPED_VALUES', $valueMapping);
+		$viewer->assign('MAPPING_FOR_THREE', []);
 		$viewer->assign('SOURCE_PICKLIST_VALUES', $recordModel->getPickListValues($recordModel->get('source_field')));
 		$viewer->assign('TARGET_PICKLIST_VALUES', $recordModel->getPickListValues($recordModel->get('second_field')));
 		$viewer->assign('THIRD_FIELD_PICKLIST_VALUES', $recordModel->getPickListValues($recordModel->get('third_field')));

@@ -13,9 +13,9 @@ class Settings_PickListDependency_SaveAjax_Action extends Settings_Vtiger_Index_
 {
 	public function process(App\Request $request)
 	{
-		$sourceModule = $request->getByType('sourceModule', 'Alnum');
-		$sourceField = $request->getByType('sourceField', 'Alnum');
-		$secondField = $request->getByType('secondField', 'Alnum');
+		$sourceModule = $request->getByType('sourceModule', \App\Purifier::ALNUM);
+		$sourceField = $request->getByType('sourceField', \App\Purifier::ALNUM);
+		$secondField = $request->getByType('secondField', \App\Purifier::ALNUM);
 		$thirdField = $request->isEmpty('thirdField') ? '' : $request->getByType('thirdField', \App\Purifier::ALNUM);
 		$recordModel = Settings_PickListDependency_Record_Model::getCleanInstance();
 		$recordModel->set('sourceModule', $sourceModule)
@@ -23,9 +23,7 @@ class Settings_PickListDependency_SaveAjax_Action extends Settings_Vtiger_Index_
 			->set('secondField', $secondField)
 			->set('thirdField', $thirdField);
 
-		//$recordModel = Settings_PickListDependency_Record_Model::getInstance($sourceModule, $sourceField, $secondField);
 		$response = new Vtiger_Response();
-
 		if ($thirdField) {
 			//TODO getMultiDimensionArray
 			$recordModel->set('picklistDependencies', $request->getArray('mapping'));

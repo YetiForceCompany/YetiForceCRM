@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-PickListDependency-DependentFields -->
 	<div class="col-md-3 d-flex mb-2 mb-md-0">
 		<label class="muted u-text-small-bold u-white-space-nowrap mr-2 my-auto">{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}</label>
 		<div class="w-100">
@@ -58,4 +59,5 @@
 			<button type="button" class="btn btn-sm btn-success js-add-next-level-field" data-js="click">{\App\Language::translate('LBL_ADD_NEXT_LEVEL_FIELD', $QUALIFIED_MODULE)}</button>
 		{/if}
 	</div>
+	<!-- /tpl-Settings-PickListDependency-DependentFields -->
 {/strip}

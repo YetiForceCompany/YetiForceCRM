@@ -71,7 +71,7 @@ class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Mo
 	 */
 	public function getCreateRecordUrl()
 	{
-		return 'javascript:Settings_PickListDependency_Js.triggerAdd(event)';
+		return 'index.php?parent=Settings&module=PickListDependency&view=Edit&recordId=';
 	}
 
 	public function isPagingSupported()

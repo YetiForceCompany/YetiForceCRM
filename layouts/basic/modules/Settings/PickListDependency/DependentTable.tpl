@@ -20,15 +20,6 @@
 	<input type="hidden" class="js-picklist-dependencies-data" value='{App\Json::encode($MAPPING_FOR_THREE)}'>
 	{assign var=SELECTED_MODULE value=$RECORD_MODEL->get('sourceModule')}
 	{assign var=SOURCE_FIELD value=$RECORD_MODEL->get('source_field')}
-	{assign var=MAPPED_SOURCE_PICKLIST_VALUES value=[]}
-	{assign var=MAPPED_TARGET_PICKLIST_VALUES value=[]}
-
-	{foreach item=MAPPING from=$MAPPED_VALUES}
-		{append var="MAPPED_SOURCE_PICKLIST_VALUES" value=$MAPPING['sourcevalue']}
-		{$MAPPED_TARGET_PICKLIST_VALUES[$MAPPING['sourcevalue']] = $MAPPING['secondValues']}
-	{/foreach}
-	<input type="hidden" class="allSourceValues"
-		value='{\App\Purifier::encodeHtml(\App\Json::encode($SOURCE_PICKLIST_VALUES))}' />
 	<div class="js-picklist-dependency-table mb-2" data-js="container">
 		<div class="row depandencyTable m-0">
 			<div class="col-2 col-lg-1 p-0  table-responsive">
@@ -72,12 +63,8 @@
 							<tr>
 								{foreach item=SECOND_PICKLIST_VALUE from=$TARGET_PICKLIST_VALUES}
 									{assign var=PURIFIER_TMP_VAL value=\App\Purifier::encodeHtml($SECOND_PICKLIST_VALUE)}
-									{if !empty($MAPPED_TARGET_PICKLIST_VALUES[$PURIFIER_TMP_VAL])}
-										{assign var=targetValues value=$MAPPED_TARGET_PICKLIST_VALUES[$PURIFIER_TMP_VAL]}
-									{/if}
 									{assign var=SOURCE_INDEX value=$smarty.foreach.mappingIndex.index}
 									{assign var=IS_SELECTED value=false}
-									{assign var=targetValues value=[]}
 									{if !isset($MAPPING_FOR_THREE[$SELECTED_SOURCE_VALUE][$SECOND_PICKLIST_VALUE]) || in_array($THIRD_VALUE, $MAPPING_FOR_THREE[$SELECTED_SOURCE_VALUE][$SECOND_PICKLIST_VALUE])}
 										{assign var=IS_SELECTED value=true}
 									{/if}

@@ -32,13 +32,15 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		return '';
 	}
 
+	public function getEditRecordUrl(int $recordId): string
+	{
+		return 'index.php?parent=Settings&module=PickListDependency&view=Edit&recordId=' . $recordId;
+	}
+
 	public function getRecordLinks()
 	{
-		$soureModule = $this->get('sourceModule');
-		$sourceField = $this->get('sourcefield');
-		$targetField = $this->get('targetfield');
 		$editLink = [
-			'linkurl' => "javascript:Settings_PickListDependency_Js.triggerEdit(event, {$this->get('id')})",
+			'linkurl' => $this->getEditRecordUrl($this->getId()),
 			'linklabel' => 'LBL_EDIT',
 			'linkicon' => 'yfi yfi-full-editing-view',
 			'linkclass' => 'btn btn-sm btn-info',
@@ -92,9 +94,10 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 				$valueMapping[] = [
 					'sourcevalue' => $row['sourcevalue'],
 					'secondValues' => \App\Json::decode($row['second_values']),
-					'thirdValues' => \App\Json::decode($row['third_values'])
+					//	'thirdValues' => \App\Json::decode($row['third_values'])
 				];
 			}
+			//var_dump($valueMapping);
 			$dataReader->close();
 			$this->mapping = $valueMapping;
 		}
@@ -198,6 +201,8 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		]);
 		if ($thirdField = $this->get('thirdField')) {
 			$dependencyExistsQuery->andWhere(['third_field' => $thirdField]);
+		} else {
+			$dependencyExistsQuery->andWhere(['third_field' => '']);
 		}
 		return $dependencyExistsQuery->scalar();
 	}
@@ -339,7 +344,8 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		if (empty($sourceFieldLabel)) {
 			$this->loadFieldLabels();
 		}
-
+		//	var_dump($this);
+		//	exit;
 		return \App\Language::translate($this->get('sourcelabel'), $this->get('sourceModule'));
 	}
 
@@ -384,5 +390,17 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 			->set('third_field', $thirdField);
 
 		return $self;
+	}
+
+	public static function checkCyclicDependencyExists(string $module, string $sourceField, string $secondField, ?string $thirdField): bool
+	{
+		$query = (new App\Db\Query())->from('s_yf_picklist_dependency')
+			->where(['tabid' => \App\Module::getModuleId($module), 'source_field' => $sourceField, 'second_field' => $secondField]);
+		if ($thirdField) {
+			$query->andWhere(['third_field' => $thirdField]);
+		} else {
+			$query->andWhere(['third_field' => '']);
+		}
+		return $query->exists();
 	}
 }

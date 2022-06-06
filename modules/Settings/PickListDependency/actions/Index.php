@@ -17,13 +17,13 @@ class Settings_PickListDependency_Index_Action extends Settings_Vtiger_Basic_Act
 		$this->exposeMethod('checkCyclicDependency');
 	}
 
-	public function checkCyclicDependency(App\Request $request)
+	public function checkCyclicDependencyExists(App\Request $request)
 	{
-		$module = $request->getByType('sourceModule', 'Alnum');
-		$sourceField = $request->getByType('sourcefield', 'Alnum');
-		$secondField = $request->getByType('secondField', 'Alnum');
-		$thirdField = $request->getByType('thirdField', 'Alnum');
-		$result = Vtiger_DependencyPicklist::checkCyclicDependency($module, $sourceField, $secondField, $thirdField);
+		$module = $request->getByType('sourceModule', App\Purifier::ALNUM);
+		$sourceField = $request->getByType('sourcefield', App\Purifier::ALNUM);
+		$secondField = $request->getByType('secondField', App\Purifier::ALNUM);
+		$thirdField = $request->isEmpty('thirdField') ? null : $request->getByType('thirdField', App\Purifier::ALNUM);
+		$result = Settings_PickListDependency_Record_Model::checkCyclicDependencyExists($module, $sourceField, $secondField, $thirdField);
 		$response = new Vtiger_Response();
 		$response->setResult(['result' => $result]);
 		$response->emit();
