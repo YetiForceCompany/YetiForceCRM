@@ -1,7 +1,6 @@
 {
   "php": {
     "Account Name": "Account name",
-    "accountname": "Account name",
     "Account No": "Account number",
     "Accounts": "Accounts",
     "Analyst": "Analyst",
@@ -12,8 +11,6 @@
     "industry": "Industry",
     "Integrator": "Integrator",
     "Investor": "Investor",
-    "website": "Website",
-    "phone": "Phone",
     "LBL_ACCOUNT_INFORMATION": "Account details",
     "LBL_ADVANCED_BLOCK": "Advanced block",
     "LBL_CONTACT_INFO": "Contact info",
