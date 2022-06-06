@@ -40,12 +40,18 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if (empty($_FILES['file']['name'])) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
+
+		$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', \App\Purifier::ALNUM));
+		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getForSql('picklistName'), $moduleModel);
+		if (!$fieldModel->isEditable()) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
+
 		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['file']);
 		if (!$fileInstance->validate() || 'csv' !== $fileInstance->getExtension() || $fileInstance->getSize() > \App\Config::getMaxUploadSize()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('source_module', \App\Purifier::ALNUM));
-		$fieldModel = Settings_Picklist_Field_Model::getInstance($request->getForSql('picklistName'), $moduleModel);
+
 		$csv = new \ParseCsv\Csv();
 		$csv->heading = false;
 		$csv->use_mb_convert_encoding = true;
@@ -119,10 +125,13 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, $moduleModel);
 		$id = $request->getInteger('primaryKeyId', 0);
+		if (!$id && !$fieldModel->isEditable()) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
 
 		$itemModel = $fieldModel->getItemModel($id);
 		foreach ($itemModel->getEditFields() as $fieldName => $fieldModel) {
-			if ($request->has($fieldName)) {
+			if ($request->has($fieldName) && !$fieldModel->isEditableReadOnly()) {
 				if ('roles' === $fieldName) {
 					$roleIdList = $request->getArray($fieldName, \App\Purifier::ALNUM);
 					if (\in_array('all', $roleIdList)) {
@@ -184,6 +193,12 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function assignValueToRole(App\Request $request)
 	{
+		$moduleName = $request->getByType('source_module', \App\Purifier::ALNUM);
+		$pickListFieldName = $request->getByType('picklistName', \App\Purifier::ALNUM);
+		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, Vtiger_Module_Model::getInstance($moduleName));
+		if (!$fieldModel->isEditable()) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
 		$roleIdList = $request->getArray('rolesSelected', \App\Purifier::ALNUM);
 		if (\in_array('all', $roleIdList)) {
 			$roleIdList = array_keys(Settings_Roles_Record_Model::getAll());
@@ -192,7 +207,7 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$response = new Vtiger_Response();
 		try {
 			$moduleModel->enableOrDisableValuesForRole(
-				$request->getByType('picklistName', \App\Purifier::ALNUM),
+				$pickListFieldName,
 				$request->getArray('assign_values', \App\Purifier::INTEGER),
 				[],
 				$roleIdList);
@@ -232,6 +247,12 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function enableOrDisable(App\Request $request)
 	{
+		$moduleName = $request->getByType('source_module', \App\Purifier::ALNUM);
+		$pickListFieldName = $request->getByType('picklistName', \App\Purifier::ALNUM);
+		$fieldModel = Settings_Picklist_Field_Model::getInstance($pickListFieldName, Vtiger_Module_Model::getInstance($moduleName));
+		if (!$fieldModel->isEditable()) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
 		$moduleModel = new Settings_Picklist_Module_Model();
 		$response = new Vtiger_Response();
 		try {

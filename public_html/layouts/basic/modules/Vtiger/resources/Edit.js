@@ -1229,8 +1229,8 @@ $.Class(
 			const self = this;
 			this.getForm()
 				.find('.js-search-address')
-				.each(function (_index, item) {
-					let search = $(item);
+				.each(function (_index, e) {
+					let search = $(e);
 					let container = search.closest('.js-block-content');
 					let input = search.find('.js-autoload-address');
 					input
@@ -1255,7 +1255,7 @@ $.Class(
 											response([{ label: app.vtranslate('JS_NO_RESULTS_FOUND'), value: '' }]);
 										}
 									})
-									.fail(function (textStatus, errorThrown, jqXHR) {
+									.fail(function (_textStatus, _errorThrown, jqXHR) {
 										app.showNotify({
 											text: jqXHR.responseJSON.error.message,
 											type: 'error',
@@ -1265,20 +1265,20 @@ $.Class(
 									});
 							},
 							minLength: input.data('min'),
-							select: function (event, ui) {
+							select: function (_event, ui) {
 								$.each(ui.item.address, function (index, value) {
 									let field = container.find('.fieldValue [name^=' + index + ']');
 									if (field.length && value) {
 										if (typeof value !== 'object') {
 											value = [value];
 										}
-										$.each(value, function (index, v) {
+										$.each(value, function (_idx, v) {
 											let select = false,
 												element = false;
 											if (field.prop('tagName') === 'SELECT') {
 												if (typeof v === 'object') {
-													$.each(v, function (index, x) {
-														element = field.find('option[data-' + index + "='" + x + "']");
+													$.each(v, function (idx, x) {
+														element = field.find('option[data-' + idx + "='" + x + "']");
 														if (x && element.length) {
 															select = element.val();
 														}

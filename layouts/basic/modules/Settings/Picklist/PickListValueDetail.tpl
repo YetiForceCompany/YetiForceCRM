@@ -13,6 +13,7 @@
 	<!-- tpl-Settings-Picklist-PicklistValueDetail -->
 	<div>
 		{if $SELECTED_PICKLIST_FIELDMODEL}
+			{assign var=SHOW_ROLE value=$SELECTED_PICKLIST_FIELDMODEL->isRoleBased() && $SELECTED_PICKLIST_FIELDMODEL->isEditable()}
 			<ul class="nav nav-tabs mr-0" role="tablist">
 				<li class="nav-item">
 					<a class="nav-link active" href="#allValuesLayout"
@@ -22,7 +23,7 @@
 						<strong>{\App\Language::translate('LBL_ALL_VALUES',$QUALIFIED_MODULE)}</strong>
 					</a>
 				</li>
-				{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
+				{if $SHOW_ROLE}
 					<li class="nav-item" id="assignedToRoleTab">
 						<a class="nav-link" href="#assignedToRoleLayout" data-toggle="tab"
 							role="tab"
@@ -39,7 +40,7 @@
 						<div class="col-12 btn-group flex-wrap flex-md-nowrap" role="group">
 							{if $SELECTED_PICKLIST_FIELDMODEL->isEditable()}
 								<button type="button" class="btn btn-primary js-picklist-create" id="addItem">{\App\Language::translate('LBL_ADD_VALUE',$QUALIFIED_MODULE)}</button>
-								{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
+								{if $SHOW_ROLE}
 									<button type="button" class="btn btn-info js-picklist-role" id="assignValue">
 										{\App\Language::translate('LBL_ASSIGN_VALUE',$QUALIFIED_MODULE)}
 									</button>
@@ -89,9 +90,8 @@
 						</div>
 					</div>
 				</div>
-				{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
-					<div class="tab-pane fade" role="tabpanel" id="assignedToRoleLayout"
-						aria-labelledby="assignedToRoleLayout">
+				{if $SHOW_ROLE}
+					<div class="tab-pane fade" role="tabpanel" id="assignedToRoleLayout">
 						<div class="row align-items-center">
 							<div class="col-md-2 textAlignRight">{\App\Language::translate('LBL_ROLE_NAME',$QUALIFIED_MODULE)}</div>
 							<div class="col-md-4">

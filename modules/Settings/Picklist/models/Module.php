@@ -42,9 +42,7 @@ class Settings_Picklist_Module_Model extends Settings_Vtiger_Module_Model
 			$fieldModels = $this->sourceModule->getFieldsByType($type, $active);
 			foreach ($fieldModels as $fieldName => $fieldModel) {
 				$field = Settings_Picklist_Field_Model::getInstanceFromFieldObject($fieldModel);
-				if ($field->isEditable()) {
-					$this->fields[$fieldName] = $field;
-				}
+				$this->fields[$fieldName] = $field;
 			}
 		}
 

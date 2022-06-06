@@ -388,10 +388,10 @@ class Item extends \App\Base
 		$fields = $this->getId() ? array_keys($this->changes) : $this->getWritableFields();
 		foreach ($fields as $name) {
 			$itemPropertyModel = $this->getFieldInstanceByName($name);
-			if ($itemPropertyModel && isset($this->{$name})) {
+			if ($itemPropertyModel && isset($this->{$name}) && ($this->getId() || (!$this->getId() && '' !== $this->{$name}))) {
 				$this->validateValue($name, $this->{$name});
 				$forSave[$itemPropertyModel->getTableName()][$itemPropertyModel->getColumnName()] = $this->{$name};
-			} elseif (isset($this->{$name})) {
+			} elseif (isset($this->{$name}) && ($this->getId() || (!$this->getId() && '' !== $this->{$name}))) {
 				$this->validateValue($name, $this->{$name});
 				$forSave[$tableName][$name] = $this->{$name};
 			}
@@ -428,19 +428,22 @@ class Item extends \App\Base
 	{
 		$fields = [];
 		$editFields = ['name'];
-		if (!$this->getId()) {
-			$editFields[] = 'roles';
-		}
-		$editFields[] = 'description';
-		$editFields[] = 'prefix';
 		$editFields[] = 'icon';
-		if ($this->fieldModel->getFieldParams()['isProcessStatusField'] ?? false) {
-			$editFields[] = 'time_counting';
-			$editFields[] = 'record_state';
+		if ($this->fieldModel->getModule()->isEntityModule()) {
+			if (!$this->getId()) {
+				$editFields[] = 'roles';
+			}
+			$editFields[] = 'description';
+			$editFields[] = 'prefix';
+			if ($this->fieldModel->getFieldParams()['isProcessStatusField'] ?? false) {
+				$editFields[] = 'time_counting';
+				$editFields[] = 'record_state';
+			}
+			if (15 === $this->fieldModel->getUIType()) {
+				$editFields[] = 'close_state';
+			}
 		}
-		if (15 === $this->fieldModel->getUIType()) {
-			$editFields[] = 'close_state';
-		}
+
 		foreach ($editFields as $fieldName) {
 			$propertyModel = $this->getFieldInstanceByName($fieldName);
 			if (null !== $this->get($fieldName)) {
@@ -560,7 +563,7 @@ class Item extends \App\Base
 					'table' => $tableName,
 					'validator' => [['name' => 'FieldLabel']]
 				];
-				if (0 === $this->presence) {
+				if (1 !== $this->presence || !$this->fieldModel->isEditable()) {
 					$params['isEditableReadOnly'] = true;
 				}
 				break;

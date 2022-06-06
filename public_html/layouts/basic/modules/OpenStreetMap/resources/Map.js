@@ -129,9 +129,8 @@ jQuery.Class(
 
 			var legendContainer = this.container.find('.js-legend-container');
 			if (typeof data.legend !== 'undefined') {
-				var html = '';
-				var legend = data.legend;
-				legend.forEach(function (e) {
+				let html = '';
+				data.legend.forEach(function (e) {
 					html +=
 						'<div class="float-left mt-2"><span class="leegendIcon mt-1" style="background:' +
 						e.color +
