@@ -157,9 +157,8 @@ class Record extends \Api\Core\BaseAction
 		$setRawData = 1 === (int) ($this->controller->headers['x-raw-data'] ?? 0);
 		$fieldParams = \App\Json::decode($this->controller->request->getHeader('x-fields-params')) ?: [];
 
-		$fields = $this->recordModel->getModule()->getFields();
-		\Api\WebserviceStandard\Fields::loadWebserviceFields($fields, $this);
-		foreach ($fields as $fieldModel) {
+		\Api\WebserviceStandard\Fields::loadWebserviceFields($this->recordModel->getModule(), $this);
+		foreach ($this->recordModel->getModule()->getFields() as $fieldModel) {
 			if (!$fieldModel->isActiveField() || !$fieldModel->isViewable()) {
 				continue;
 			}
@@ -316,7 +315,7 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function put(): array
 	{
-		\Api\WebserviceStandard\Fields::loadWebserviceFields($this->recordModel->getModule()->getFields(), $this);
+		\Api\WebserviceStandard\Fields::loadWebserviceFields($this->recordModel->getModule(), $this);
 		$saveModel = new \Api\WebserviceStandard\Save();
 		$saveModel->init($this);
 		$saveModel->saveRecord($this->controller->request);

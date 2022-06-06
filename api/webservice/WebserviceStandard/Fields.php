@@ -22,14 +22,15 @@ class Fields
 	/**
 	 * Load custom fields data for the webservice app.
 	 *
-	 * @param \Vtiger_Field_Model[] $fields
-	 * @param \Api\Core\BaseAction  $actionModel
+	 * @param \Vtiger_Module_Model $moduleModel
+	 * @param \Api\Core\BaseAction $actionModel
 	 *
 	 * @return void
 	 */
-	public static function loadWebserviceFields(array $fields, \Api\Core\BaseAction $actionModel): void
+	public static function loadWebserviceFields(\Vtiger_Module_Model $moduleModel, \Api\Core\BaseAction $actionModel): void
 	{
-		foreach (self::getFields($actionModel->controller->app['id']) as $fieldName => $fieldData) {
+		$fields = $moduleModel->getFields();
+		foreach (self::getFields($actionModel->controller->app['id'], $moduleModel->getId()) as $fieldName => $fieldData) {
 			if (isset($fields[$fieldName])) {
 				self::loadWebserviceByField($fields[$fieldName], $actionModel, $fieldData);
 			}
@@ -48,7 +49,7 @@ class Fields
 	public static function loadWebserviceByField(\Vtiger_Field_Model $fieldModel, \Api\Core\BaseAction $actionModel, ?array $fieldData = null): void
 	{
 		if (null === $fieldData) {
-			$fieldData = self::getFields($actionModel->controller->app['id'])[$fieldModel->getName()] ?? [];
+			$fieldData = self::getFields($actionModel->controller->app['id'], $fieldModel->getModuleId())[$fieldModel->getName()] ?? [];
 		}
 		if ($fieldData) {
 			if (1 !== $actionModel->getUserData('type') && !empty($fieldData['is_default'])) {
@@ -64,24 +65,26 @@ class Fields
 	 * Get fields for current webservice app.
 	 *
 	 * @param int $serverId
+	 * @param int $moduleId
 	 *
 	 * @return array
 	 */
-	public static function getFields(int $serverId): array
+	public static function getFields(int $serverId, int $moduleId): array
 	{
-		if (isset(self::$webserviceAppsFields[$serverId])) {
-			return self::$webserviceAppsFields[$serverId];
+		$cacheKey = "{$serverId}_{$moduleId}";
+		if (isset(self::$webserviceAppsFields[$cacheKey])) {
+			return self::$webserviceAppsFields[$cacheKey];
 		}
-		if (\App\Cache::has('WebserviceAppsFields', $serverId)) {
-			return \App\Cache::get('WebserviceAppsFields', $serverId);
+		if (\App\Cache::has('WebserviceAppsFields', $cacheKey)) {
+			return \App\Cache::get('WebserviceAppsFields', $cacheKey);
 		}
-		self::$webserviceAppsFields[$serverId] = $response = (new \App\Db\Query())->select(['vtiger_field.fieldname', 'w_#__fields_server.*'])
+		self::$webserviceAppsFields[$cacheKey] = $response = (new \App\Db\Query())->select(['vtiger_field.fieldname', 'w_#__fields_server.*'])
 			->from('w_#__fields_server')
-			->where(['w_#__fields_server.serverid' => $serverId])
+			->where(['w_#__fields_server.serverid' => $serverId, 'vtiger_field.tabid' => $moduleId])
 			->innerJoin('vtiger_field', 'w_#__fields_server.fieldid = vtiger_field.fieldid')
 			->indexBy('fieldname')
 			->all(\App\Db::getInstance('webservice')) ?: [];
-		\App\Cache::save('WebserviceAppsFields', $serverId, $response);
+		\App\Cache::save('WebserviceAppsFields', $cacheKey, $response);
 		return $response;
 	}
 

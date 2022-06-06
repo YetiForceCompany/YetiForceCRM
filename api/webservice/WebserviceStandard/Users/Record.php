@@ -213,7 +213,7 @@ class Record extends \Api\Core\BaseAction
 				}
 			}
 		}
-		\Api\WebserviceStandard\Fields::loadWebserviceFields($this->recordModel->getModule()->getFields(), $this);
+		\Api\WebserviceStandard\Fields::loadWebserviceFields($this->recordModel->getModule(), $this);
 		$saveModel = new \Api\WebserviceStandard\Save();
 		$saveModel->init($this);
 		$saveModel->saveRecord($this->controller->request);

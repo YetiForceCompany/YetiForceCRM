@@ -188,7 +188,7 @@ class RecordsList extends \Api\Core\BaseAction
 		}
 		$this->queryGenerator->setLimit($limit);
 		$this->queryGenerator->setOffset($offset);
-		\Api\WebserviceStandard\Fields::loadWebserviceFields($this->queryGenerator->getModuleModel()->getFields(), $this);
+		\Api\WebserviceStandard\Fields::loadWebserviceFields($this->queryGenerator->getModuleModel(), $this);
 		if ($requestFields = $this->controller->request->getHeader('x-fields')) {
 			if (!\App\Json::isJson($requestFields)) {
 				throw new \Api\Core\Exception('Incorrect json syntax: x-fields', 400);
