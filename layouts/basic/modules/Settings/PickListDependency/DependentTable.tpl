@@ -3,12 +3,6 @@
 	<!-- tpl-Settings-PickListDependency-DependentTable -->
 	<div class="mb-3">
 		<span class="btn-toolbar">
-			<button class="btn sourceValues btn-light mr-2" type="button">
-				<strong>
-					<span class="fas fa-hand-point-up mr-1"></span>
-					{\App\Language::translate('LBL_SELECT_SOURCE_VALUES', $QUALIFIED_MODULE)}
-				</strong>
-			</button>
 			<button class="btn unmarkAll btn-light" type="button">
 				<strong>
 					<span class="far fa-times-circle mr-2"></span>

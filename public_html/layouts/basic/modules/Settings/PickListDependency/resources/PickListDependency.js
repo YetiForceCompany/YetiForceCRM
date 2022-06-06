@@ -613,19 +613,19 @@ jQuery.Class(
 							.find('td[data-source-value="' + secondFieldValue + '"]')
 							.filter('.selectedCell');
 						let targetValues = [];
-						if (selectedTargetValues.length > 0) {
+						if (selectedTargetValues.length > 0 && selectedTargetValues.length !== allValuesInColumn.length) {
 							jQuery.each(selectedTargetValues, function (_index, element) {
 								targetValues.push(jQuery(element).data('targetValue'));
 							});
-							if (selectedTargetValues.length !== allValuesInColumn.length) {
-								if (picklistDependencies[selectedSourceValue] === undefined) {
-									picklistDependencies[selectedSourceValue] = {};
-								}
-								picklistDependencies[selectedSourceValue][secondFieldValue] = targetValues;
+
+							if (picklistDependencies[selectedSourceValue] === undefined) {
+								picklistDependencies[selectedSourceValue] = {};
 							}
+							picklistDependencies[selectedSourceValue][secondFieldValue] = targetValues;
 						}
 						if (
 							selectedTargetValues.length === 0 &&
+							picklistDependencies[selectedSourceValue] !== undefined &&
 							picklistDependencies[selectedSourceValue][secondFieldValue] !== undefined
 						) {
 							picklistDependencies[selectedSourceValue][secondFieldValue] = {};

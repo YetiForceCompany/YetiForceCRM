@@ -78,6 +78,4 @@ class Vtiger_DependencyPicklist
 
 		return \App\Json::encode($picklistDependencyDatasource);
 	}
-
-
 }
