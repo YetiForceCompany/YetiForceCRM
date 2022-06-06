@@ -130,7 +130,7 @@
 			{/if}
 			{assign var=VERIFY value=\App\YetiForce\Shop::verify()}
 			{if $VERIFY}
-				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip" role="button" data-content="{$VERIFY}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
+				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip" aria-label="{\App\Language::translate('LBL_YETIFORCE_SHOP')}" data-content="{$VERIFY}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
 					{if $USER_MODEL->isAdminUser()} href="index.php?module=YetiForce&parent=Settings&view=Shop" {else} href="#" {/if}>
 					<span class="yfi yfi-shop-alert fa-2x"></span>
 				</a>
