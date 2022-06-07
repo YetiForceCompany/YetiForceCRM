@@ -20,8 +20,6 @@
     "LBL_NOTIFICATION_SETTINGS": "Notification settings",
     "LBL_TYPE_NOTIFICATIONS": "Notification types",
     "LBL_TIME": "Time",
-    "LBL_NOTIFICATION_BY_SENDER": "Number of notifications by sender",
-    "LBL_NOTIFICATION_BY_RECIPIENT": "Number of notifications by recipient",
     "LBL_MINI_LIST": "Mini list",
     "LBL_ADDITIONAL_FILTERS": "Additional filters",
     "LBL_WIDGET_NAME": "Widget name",
@@ -42,6 +40,7 @@
     "LBL_CHART_COLORS_FROM_FILTER": "Colors from filter",
     "LBL_WIDGET_DOWNLOAD": "Download graph",
     "LBL_WIDGET_PRINT": "Print graph",
-    "LBL_WIDGET_SHOW_SUMMARY": "Show summary"
+    "LBL_WIDGET_SHOW_SUMMARY": "Show summary",
+    "Upcoming events": "Upcoming events based on selected date fields."
   }
 }
