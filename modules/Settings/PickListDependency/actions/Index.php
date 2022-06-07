@@ -17,6 +17,13 @@ class Settings_PickListDependency_Index_Action extends Settings_Vtiger_Basic_Act
 		$this->exposeMethod('checkCyclicDependencyExists');
 	}
 
+	/**
+	 * Check if dependency for fields exists.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
 	public function checkCyclicDependencyExists(App\Request $request)
 	{
 		$module = $request->getByType('sourceModule', App\Purifier::ALNUM);

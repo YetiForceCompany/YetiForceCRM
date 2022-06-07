@@ -1,7 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-PickListDependency-DependentFieldSettings -->
-	<input type="hidden" class="js-picklist-dependencies-data" value="">
 	<div id="accordion" class="my-3">
 		<div class="card border-light">
 			<div class="card-header bg-transparent border-light" id="headingOne">

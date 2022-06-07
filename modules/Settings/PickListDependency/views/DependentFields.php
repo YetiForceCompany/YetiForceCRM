@@ -1,13 +1,30 @@
 <?php
+/**
+ * Settings picklist dependency dependent fields view file.
+ *
+ * @package   Settings.View
+ *
+ * @copyright YetiForce S.A.
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Adrian Kon <a.kon@yetiforce.com>
+ */
 
-use App\Request;
-
+/**
+ * Settings picklist dependency dependent fields view class.
+ */
 class Settings_PickListDependency_DependentFields_View extends Settings_Vtiger_Index_View
 {
 	use \App\Controller\ExposeMethod;
 	use \App\Controller\Traits\SettingsPermission;
 
-	public function process(Request $request)
+	/**
+	 * Process.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function process(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleModelList = Settings_PickListDependency_Module_Model::getPicklistSupportedModules();

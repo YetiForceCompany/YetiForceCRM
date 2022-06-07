@@ -11,6 +11,13 @@
 
 class Settings_PickListDependency_SaveAjax_Action extends Settings_Vtiger_Index_Action
 {
+	/**
+	 * Process method.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
 	public function process(App\Request $request)
 	{
 		$sourceModule = $request->getByType('sourceModule', \App\Purifier::ALNUM);
@@ -25,7 +32,6 @@ class Settings_PickListDependency_SaveAjax_Action extends Settings_Vtiger_Index_
 
 		$response = new Vtiger_Response();
 		if ($thirdField) {
-			//TODO getMultiDimensionArray
 			$recordModel->set('picklistDependencies', $request->getArray('mapping'));
 		} else {
 			$recordModel->set('picklistDependencies', $request->getMultiDimensionArray('mapping',

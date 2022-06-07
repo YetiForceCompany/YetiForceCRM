@@ -24,54 +24,6 @@ require_once 'modules/PickList/PickListUtils.php';
 
 class Vtiger_DependencyPicklist
 {
-	/**
-	 * Returns information about dependent picklists.
-	 *
-	 * @param string $module
-	 *
-	 * @return array
-	 */
-	public static function getDependentPicklistFields($module = '')
-	{
-		// dorzudistinct(cić trzecią wartość ale jezeli jej nie uzywam?
-		// jak przeniose to do s_yf_picklist_dependency to po prostu pobiorę
-		$query = (new \App\Db\Query())->select(['id', 'tabid', 'source_field', 'second_field', 'third_field'])
-			->from('s_yf_picklist_dependency');
-		if (!empty($module)) {
-			$query->where(['tabid' => \App\Module::getModuleId($module)]);
-		}
-		$dataReader = $query->distinct()->createCommand()->query();
-		$dependentPicklists = [];
-		while ($row = $dataReader->read()) {
-			$sourceField = $row['source_field'];
-			$targetField = $row['second_field'];
-			$thirdField = $row['third_field'];
-
-			$moduleModel = Vtiger_Module_Model::getInstance($row['tabid']);
-			$sourceFieldModel = Vtiger_Field_Model::getInstance($sourceField, $moduleModel);
-			$targetFieldModel = Vtiger_Field_Model::getInstance($targetField, $moduleModel);
-			//	$thirdFieldModel = Vtiger_Field_Model::getInstance($row['thirdfield'], $moduleModel);
-			if (!$sourceFieldModel || !$targetFieldModel) {
-				//	continue;
-			}
-			$sourceFieldLabel = $sourceFieldModel->getFieldLabel();
-			$targetFieldLabel = $targetFieldModel->getFieldLabel();
-			$moduleName = $moduleModel->getName();
-			$dependentPicklists[] = [
-				'id' => $row['id'],
-				'sourcefield' => $sourceField,
-				'sourcefieldlabel' => \App\Language::translate($sourceFieldLabel, $moduleName),
-				'targetfield' => $targetField,
-				'targetfieldlabel' => \App\Language::translate($targetFieldLabel, $moduleName),
-				'thirdField' => 'thirdfield',
-				'module' => $moduleName,
-			];
-		}
-		$dataReader->close();
-
-		return $dependentPicklists;
-	}
-
 	public static function getJSPicklistDependencyDatasource($module)
 	{
 		$picklistDependencyDatasource = \App\Fields\Picklist::getPicklistDependencyDatasource($module);

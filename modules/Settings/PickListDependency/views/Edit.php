@@ -36,17 +36,16 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 			$recordModel = Settings_PickListDependency_Record_Model::getInstanceById($recordId);
 			if ($recordModel->get('third_field')) {
 				$mappedForThree = $recordModel->getPickListDependencyForThree();
+				$viewer->assign('NON_MAPPED_SOURCE_VALUES', []);
 			} else {
+				$viewer->assign('NON_MAPPED_SOURCE_VALUES', $recordModel->getNonMappedSourcePickListValues());
 				$mappedValues = $recordModel->getPickListDependency();
 			}
 			$viewer->assign('SOURCE_PICKLIST_VALUES', $recordModel->getPickListValues($recordModel->get('source_field')));
 			$viewer->assign('TARGET_PICKLIST_VALUES', $recordModel->getPickListValues($recordModel->get('second_field')));
 			$viewer->assign('THIRD_FIELD_PICKLIST_VALUES', $recordModel->getPickListValues($recordModel->get('third_field')));
-			//	$viewer->assign('NON_MAPPED_SOURCE_VALUES', $recordModel->getNonMappedSourcePickListValues());  ??? to jakoś inaczej albo tylko na dwóch
-			$viewer->assign('NON_MAPPED_SOURCE_VALUES', []);
 			$dependencyGraph = true;
 		} else {
-			// trzeba ustawić pola ?
 			$recordModel = Settings_PickListDependency_Record_Model::getCleanInstance();
 			$recordModel->set('sourceModule', $selectedModule);
 		}

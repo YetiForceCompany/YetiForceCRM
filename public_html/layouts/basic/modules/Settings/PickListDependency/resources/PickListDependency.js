@@ -109,7 +109,6 @@ jQuery.Class(
 		 * Function used to check the selected picklist fields are valid before showing dependency graph
 		 */
 		checkValuesForDependencyGraph: function (form) {
-			//TODO Jak będzie czas to refactor
 			let thisInstance = this;
 			let sourceField = form.find('[name="sourceField"]');
 			let secondField = form.find('[name="secondField"]');
@@ -165,6 +164,7 @@ jQuery.Class(
 								form.find('.errorMessage').removeClass('d-none');
 								form.find('.cancelAddView').removeClass('d-none');
 								dependencyGraph.html('');
+								thisInstance.registerAddViewEvents();
 							}
 						})
 						.fail(function (error, err) {
@@ -221,15 +221,16 @@ jQuery.Class(
 			var thisInstance = this;
 			var dependencyGraph = $('#dependencyGraph');
 			thisInstance.updatedSourceValues = [];
+			let form = jQuery('#pickListDependencyForm');
 			AppConnector.request({
 				mode: 'getDependencyGraph',
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
 				view: 'IndexAjax',
-				sourceModule: this.form.find('[name="sourceModule"] option:selected').val(),
-				sourcefield: this.form.find('[name="sourceField"] option:selected').val(),
-				secondField: this.form.find('[name="secondField"] option:selected').val(),
-				thirdField: this.form.find('[name="thirdField"] option:selected').val()
+				sourceModule: form.find('[name="sourceModule"] option:selected').val(),
+				sourcefield: form.find('[name="sourceField"] option:selected').val(),
+				secondField: form.find('[name="secondField"] option:selected').val(),
+				thirdField: form.find('[name="thirdField"] option:selected').val()
 			}).done(function (data) {
 				dependencyGraph.html(data).css({ padding: '10px', border: '1px solid #ddd', background: '#fff' });
 				thisInstance.registerDependencyGraphEvents();
@@ -457,8 +458,7 @@ jQuery.Class(
 							text: app.vtranslate('JS_PICKLIST_DEPENDENCY_SAVED'),
 							type: 'success'
 						});
-						//TODO
-						//	self.loadListViewContents(params['sourceModule']);
+						self.loadListViewContents(params['sourceModule']);
 					}
 				})
 				.fail(function (error) {
@@ -532,7 +532,9 @@ jQuery.Class(
 				}
 			});
 		},
-
+		/**
+		 * Action for adding third picklist field
+		 */
 		registerAddThirdField: function () {
 			this.container.find('.js-add-next-level-field').on('click', () => {
 				let params = this.getDefaultParamsForThirdField();
@@ -554,6 +556,10 @@ jQuery.Class(
 					});
 			});
 		},
+		/**
+		 * Get default params
+		 * @returns object
+		 */
 		getDefaultParamsForThirdField() {
 			let params = {
 				module: this.form.find('[name="module"]').length
@@ -565,7 +571,9 @@ jQuery.Class(
 			};
 			return params;
 		},
-
+		/**
+		 * Register save picklist dependencies for three fields
+		 */
 		registerSaveDependentPicklist() {
 			this.container.find('.js-save-dependent-picklists').on('click', () => {
 				this.setPicklistDependencies(true);
@@ -582,6 +590,9 @@ jQuery.Class(
 				return;
 			});
 		},
+		/**
+		 * Register change source picklist value
+		 */
 		registerChangeSourceValue() {
 			this.container.find('.js-source-field-value').on('change', () => {
 				this.setPicklistDependencies();
@@ -589,6 +600,10 @@ jQuery.Class(
 				this.setMarkedValues();
 			});
 		},
+		/**
+		 * Set picklist dependencies
+		 * @param bool currentSelectedValue
+		 */
 		setPicklistDependencies(currentSelectedValue = false) {
 			if (this.form.find('.thirdField').val() !== '') {
 				const dependencyTable = this.container.find('.js-picklist-dependency-table');
@@ -643,6 +658,9 @@ jQuery.Class(
 				});
 			}
 		},
+		/**
+		 * Set marked picklist values
+		 */
 		setMarkedValues() {
 			let picklistDependencies = this.container.find('.js-picklist-dependencies-data').val();
 			if (picklistDependencies !== '') {
@@ -668,6 +686,9 @@ jQuery.Class(
 				}
 			}
 		},
+		/**
+		 * Register events for three fields
+		 */
 		registerEventsForThreeFields: function () {
 			this.registerSaveDependentPicklist();
 			this.registerChangeSourceValue();

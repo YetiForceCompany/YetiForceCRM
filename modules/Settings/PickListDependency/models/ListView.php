@@ -11,6 +11,7 @@
 
 class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListView_Model
 {
+	/** {@inheritdoc} */
 	public function getListViewEntries($pagingModel)
 	{
 		$moduleModel = $this->getModule();

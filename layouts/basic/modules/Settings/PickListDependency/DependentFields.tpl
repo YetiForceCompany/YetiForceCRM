@@ -56,7 +56,7 @@
 				</select>
 			</div>
 		{else}
-			<button type="button" class="btn btn-sm btn-success js-add-next-level-field" data-js="click">{\App\Language::translate('LBL_ADD_NEXT_LEVEL_FIELD', $QUALIFIED_MODULE)}</button>
+			<button type="button" class="btn btn-sm btn-success js-add-next-level-field" data-js="click">{\App\Language::translate('LBL_ADD_THIRD_FIELD', $QUALIFIED_MODULE)}</button>
 		{/if}
 	</div>
 	<!-- /tpl-Settings-PickListDependency-DependentFields -->

@@ -11,6 +11,13 @@
 
 class Settings_PickListDependency_DeleteAjax_Action extends Settings_Vtiger_Index_Action
 {
+	/**
+	 * Method for delete dependency.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
 	public function process(App\Request $request)
 	{
 		$recordModel = Settings_PickListDependency_Record_Model::getInstanceById($request->getInteger('recordId'));

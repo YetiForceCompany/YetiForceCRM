@@ -94,9 +94,9 @@ class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 			$sourceModule = $request->getByType('sourceModule', 2);
 			$model->set('sourceModule', $sourceModule);
 		}
-		if (!$request->isEmpty('formodule')) {
-			$sourceModule = $request->getByType('formodule', 1);
-			$model->set('formodule', $sourceModule);
+		if (!$request->isEmpty('forModule')) {
+			$sourceModule = $request->getByType('forModule', 1);
+			$model->set('forModule', $sourceModule);
 		}
 		if (!$this->listViewHeaders) {
 			$this->listViewHeaders = $model->getListViewHeaders();

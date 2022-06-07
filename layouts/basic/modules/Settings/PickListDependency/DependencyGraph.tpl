@@ -60,7 +60,7 @@
 		{assign var=MAPPED_TARGET_PICKLIST_VALUES value=[]}
 		{foreach item=MAPPING from=$MAPPED_VALUES}
 			{append var="MAPPED_SOURCE_PICKLIST_VALUES" value=$MAPPING['sourcevalue']}
-			{$MAPPED_TARGET_PICKLIST_VALUES[$MAPPING['sourcevalue']] = $MAPPING['targetvalues']}
+			{$MAPPED_TARGET_PICKLIST_VALUES[$MAPPING['sourcevalue']] = $MAPPING['secondValues']}
 		{/foreach}
 		<input type="hidden" class="allSourceValues"
 			value='{\App\Purifier::encodeHtml(\App\Json::encode($SOURCE_PICKLIST_VALUES))}' />

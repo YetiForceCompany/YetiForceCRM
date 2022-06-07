@@ -128,43 +128,10 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		return $picklistValues;
 	}
 
-	/*
-	public function getSourcePickListValues()
-	{
-		if (empty($this->sourcePickListValues)) {
-			$this->sourcePickListValues = $this->getPickListValues($this->get('sourcefield'));
-		}
-		return $this->sourcePickListValues;
-	}
-
-	public function getTargetPickListValues()
-	{
-		if (empty($this->targetPickListValues)) {
-			$this->targetPickListValues = $this->getPickListValues($this->get('secondField'));
-		}
-		return $this->targetPickListValues;
-	}
-
-	public function getPickListValuesForField()
-	{
-		if ($this->get('thirdField') && '' !== $this->get('thirdField')) {
-			return $this->getPickListValues($this->get('thirdField'));
-		}
-		return [];
-		if (empty($this->thirdPickListValues) && $this->get('thirdField') && '' !== $this->get('thirdField')) {
-			$this->thirdPickListValues = $this->getPickListValues($this->get('thirdField'));
-		}
-		return $this->thirdPickListValues;
-
-	}
-	*/
-
 	public function getNonMappedSourcePickListValues()
 	{
-		//todo
-		return false;
 		if (empty($this->nonMappedSourcePickListValues)) {
-			$pickListValues = $this->getSourcePickListValues();
+			$pickListValues = $this->getPickListValues($this->get('source_field'));
 			$dependencyMapping = $this->getPickListDependency();
 			foreach ($dependencyMapping as $mappingDetails) {
 				unset($pickListValues[$mappingDetails['sourcevalue']]);
@@ -194,7 +161,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 
 	public function checkIsDependencyExists()
 	{
-		$dependencyExistsQuery = (new \App\Db\Query())->select(['id'])->from('s_yf_picklist_dependency')->where([
+		$dependencyExistsQuery = (new \App\Db\Query())->select(['id'])->from('s_#__picklist_dependency')->where([
 			'tabid' => App\Module::getModuleId($this->get('sourceModule')),
 			'source_field' => $this->get('sourceField'),
 			'second_field' => $this->get('secondField')
@@ -210,13 +177,13 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 	public function createNewDependency()
 	{
 		$db = App\Db::getInstance();
-		$db->createCommand()->insert('s_yf_picklist_dependency', [
+		$db->createCommand()->insert('s_#__picklist_dependency', [
 			'tabid' => App\Module::getModuleId($this->get('sourceModule')),
 			'source_field' => $this->get('sourceField'),
 			'second_field' => $this->get('secondField'),
 			'third_field' => $this->get('thirdField')
 		])->execute();
-		return $db->getLastInsertID('s_yf_picklist_dependency_id_seq');
+		return $db->getLastInsertID('s_#__picklist_dependency_id_seq');
 	}
 
 	public function saveForTwoFields()
@@ -225,45 +192,20 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$dependencyPicklistId = $this->get('id');
 		$valueMapping = $this->get('picklistDependencies');
 		$countValueMapping = \count($valueMapping);
-
 		for ($dependencyCounter = 0; $dependencyCounter < $countValueMapping; ++$dependencyCounter) {
 			$mapping = $valueMapping[$dependencyCounter];
 			$sourceValue = $mapping['sourcevalue'];
 			$targetValues = $mapping['targetvalues'];
 			$serializedTargetValues = \App\Json::encode($targetValues);
-			/*
-			TODO DO usunięcia?
-			$optionalsourcefield = $mapping['optionalsourcefield'] ?? '';
-			$optionalsourcevalues = $mapping['optionalsourcevalues'] ?? '';
-			if (!empty($optionalsourcefield)) {
-				$criteria = [];
-				$criteria['fieldname'] = $optionalsourcefield;
-				$criteria['fieldvalues'] = $optionalsourcevalues;
-				$serializedCriteria = \App\Json::encode($criteria);
-			} else {
-				$serializedCriteria = null;
-			}
-			*/
-
-			if ($picklistId = $this->getPicklistDependencyIfExist($sourceValue, $targetValues)) {
+			if ($picklistId = $this->getPicklistDependencyId($sourceValue, $targetValues)) {
 				App\Db::getInstance()->createCommand()->update('vtiger_picklist_dependency', [
-					'targetvalues' => $serializedTargetValues,
-					//'criteria' => $serializedCriteria,
+					'second_values' => $serializedTargetValues,
 				], ['id' => $picklistId])->execute();
 			} else {
-				//	$db->createCommand()->insert('s_yf_picklist_dependency', ['test' => 7])->execute();
-				//	$dependentGroupId = $db->getLastInsertID('s_yf_picklist_dependency_id_seq');
-
 				$db->createCommand()->insert('vtiger_picklist_dependency', [
-					/*
-					'tabid' => $tabId,
-					'sourcefield' => $sourceField,
-					'targetfield' => $secondField,
-					'criteria' => $serializedCriteria,
-					*/
 					'groupId' => $dependencyPicklistId,
 					'sourcevalue' => $sourceValue,
-					'targetvalues' => $serializedTargetValues,
+					'second_values' => $serializedTargetValues,
 				])->execute();
 			}
 		}
@@ -275,7 +217,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$dependencyPicklistId = $this->get('id');
 		foreach ($this->get('picklistDependencies') as $sourceValue => $secondValues) {
 			foreach ($secondValues as $secondValue => $thirdValues) {
-				if ($picklistId = $this->getPicklistDependencyIfExist($sourceValue, $secondValue)) {
+				if ($picklistId = $this->getPicklistValuesDependencyId($sourceValue, $secondValue)) {
 					App\Db::getInstance()->createCommand()->update('vtiger_picklist_dependency', [
 						'third_values' => App\Json::encode($thirdValues),
 					], ['id' => $picklistId])->execute();
@@ -291,7 +233,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		}
 	}
 
-	public function getPicklistDependencyIfExist($sourceValue, $secondValues)
+	public function getPicklistValuesDependencyId($sourceValue, $secondValues)
 	{
 		$dependencyPicklistQuery = (new App\Db\Query())->select(['id'])->from('vtiger_picklist_dependency')
 			->where(['groupId' => $this->get('id'), 'sourcevalue' => $sourceValue]);
@@ -304,7 +246,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 
 	public function delete()
 	{
-		App\Db::getInstance()->createCommand()->delete('s_yf_picklist_dependency', [
+		App\Db::getInstance()->createCommand()->delete('s_#__picklist_dependency', [
 			'id' => $this->get('id')
 		])->execute();
 		$sourceModule = $this->get('sourceModule');
@@ -344,8 +286,6 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		if (empty($sourceFieldLabel)) {
 			$this->loadFieldLabels();
 		}
-		//	var_dump($this);
-		//	exit;
 		return \App\Language::translate($this->get('sourcelabel'), $this->get('sourceModule'));
 	}
 
@@ -358,10 +298,16 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		return \App\Language::translate($this->get('targetlabel'), $this->get('sourceModule'));
 	}
 
-	public static function getInstanceById(int $id)
+	/**
+	 * Get instance by id.
+	 *
+	 * @param int $id
+	 *
+	 * @return self
+	 */
+	public static function getInstanceById(int $id): self
 	{
-		//\App\Db::getInstance('admin') ????
-		$row = (new \App\Db\Query())->from('s_yf_picklist_dependency')->where(['id' => $id])->one();
+		$row = (new \App\Db\Query())->from('s_#__picklist_dependency')->where(['id' => $id])->one();
 		$instance = false;
 		if ($row) {
 			$instance = new self();
@@ -392,9 +338,19 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		return $self;
 	}
 
+	/**
+	 * Check id dependency for fields exist.
+	 *
+	 * @param string      $module
+	 * @param string      $sourceField
+	 * @param string      $secondField
+	 * @param string|null $thirdField
+	 *
+	 * @return bool
+	 */
 	public static function checkCyclicDependencyExists(string $module, string $sourceField, string $secondField, ?string $thirdField): bool
 	{
-		$query = (new App\Db\Query())->from('s_yf_picklist_dependency')
+		$query = (new App\Db\Query())->from('s_#__picklist_dependency')
 			->where(['tabid' => \App\Module::getModuleId($module), 'source_field' => $sourceField, 'second_field' => $secondField]);
 		if ($thirdField) {
 			$query->andWhere(['third_field' => $thirdField]);

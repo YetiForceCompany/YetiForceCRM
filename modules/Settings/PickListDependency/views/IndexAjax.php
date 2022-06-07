@@ -20,6 +20,13 @@ class Settings_PickListDependency_IndexAjax_View extends Settings_PickListDepend
 		$this->exposeMethod('getDependencyGraph');
 	}
 
+	/**
+	 * Get dependency graph.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
 	public function getDependencyGraph(App\Request $request)
 	{
 		$qualifiedName = $request->getModule(false);
