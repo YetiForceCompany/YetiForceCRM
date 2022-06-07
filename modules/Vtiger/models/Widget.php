@@ -112,6 +112,18 @@ class Vtiger_Widget_Model extends \App\Base
 		return $title;
 	}
 
+	/**
+	 * Function to get the translated title.
+	 *
+	 * @return string
+	 */
+	public function getTranslatedTitle(): string
+	{
+		$queryParams = parse_url($this->get('linkurl'), PHP_URL_QUERY);
+		parse_str($queryParams, $output);
+		return \App\Language::translate($this->getTitle(), $output['module'], null, true, 'Dashboard');
+	}
+
 	public function getName()
 	{
 		$widgetName = $this->get('name');
