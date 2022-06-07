@@ -41,6 +41,23 @@
     "LBL_WIDGET_DOWNLOAD": "Download graph",
     "LBL_WIDGET_PRINT": "Print graph",
     "LBL_WIDGET_SHOW_SUMMARY": "Show summary",
-    "Upcoming events": "Upcoming events based on selected date fields."
+    "Upcoming events": "Upcoming events based on selected date fields.",
+    "Upcoming Activities": "Calendar - pending",
+    "ChartFilter": "Chart Filter",
+    "Rss": "RSS",
+    "LBL_CREATED_BY_ME_BUT_NOT_MINE_OVERDUE_ACTIVITIES": "Overdue matters delegated",
+    "Mini List": "Mini List",
+    "Calendar": "Calendar",
+    "Delegated (overdue) project tasks": "Delegated (overdue) project tasks",
+    "Delegated project tasks": "Delegated project tasks",
+    "History": "History",
+    "Key Metrics": "Key metrics",
+    "Overdue Activities": "Overdue activities",
+    "LBL_PRODUCTS_SOLD_TO_RENEW": "Products sold - to renew",
+    "LBL_SOLD_SERVICES_TO_RENEW": "Sold Services - to renew",
+    "LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES": "Matters delegated",
+    "LIST_OF_LAST_UPDATED_RECORD": "List of last updated record",
+    "Mails List": "Most recent emails",
+    "Notebook": "Notepad"
   }
 }
