@@ -796,22 +796,27 @@ var App = (window.App = {
 			 */
 			static modalView(params = {}) {
 				var aDeferred = $.Deferred();
-				let url = `index.php?module=AppComponents&view=IconsModal`;
+				let url = `index.php?module=AppComponents&view=MediaModal`;
 				if (params && Object.keys(params).length) {
 					url = app.convertObjectToUrl(params, url);
 				}
 				let progressElement = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
 				app.showModalWindow({
-					id: 'iconsModal',
+					id: 'MediaModal',
 					url,
 					cb: (container) => {
 						progressElement.progressIndicator({ mode: 'hide' });
-						container.find('.js-icon-item').on('click', (e) => {
-							aDeferred.resolve({
+						container.on('click', '.js-icon-item', (e) => {
+							let data = {
 								type: e.currentTarget.dataset.type,
 								name: e.currentTarget.dataset.name
-							});
-							app.hideModalWindow(null, 'iconsModal');
+							};
+							if (data.type === 'image') {
+								data.src = $(e.currentTarget).find('img').attr('src');
+								data.key = e.currentTarget.dataset.key;
+							}
+							aDeferred.resolve(data);
+							app.hideModalWindow(null, 'MediaModal');
 						});
 					}
 				});
@@ -942,6 +947,186 @@ var App = (window.App = {
 		 */
 		destroy() {
 			this.oClipboard.destroy();
+		}
+	},
+	/**
+	 * File
+	 */
+	File: class File {
+		/**
+		 * Defalut configuration for fileupload
+		 */
+		fileupload = {
+			dataType: 'json',
+			replaceFileInput: false,
+			autoUpload: false,
+			fail: this.uploadError.bind(this),
+			add: this.add.bind(this),
+			change: this.change.bind(this)
+		};
+		/**
+		 * Defalut options
+		 */
+		options = {
+			formats: [],
+			limit: 1,
+			maxFileSize: CONFIG.maxUploadLimit || 0,
+			maxFileSizeDisplay: ''
+		};
+		files = [];
+		/**
+		 * Constructor
+		 * @param {jQuery} element
+		 * @param {Object} options
+		 */
+		constructor(element, options = {}) {
+			this.fileInput = element;
+			if (typeof options.fileupload !== 'undefined') {
+				this.fileupload = { ...this.fileupload, ...options.fileupload };
+				delete options.fileupload;
+			}
+			this.options = { ...this.options, ...options };
+		}
+		/**
+		 * Register file element
+		 * @param {jQuery} element
+		 * @param {Object} options
+		 * @returns
+		 */
+		static register(element, options = {}) {
+			let file = new File(element, options);
+			file.init();
+			return file;
+		}
+		/**
+		 * Initiation
+		 */
+		init() {
+			this.fileInput.detach();
+			this.fileupload.fileInput = this.fileInput;
+			this.fileInput.fileupload(this.fileupload);
+			this.filesActive = 0;
+		}
+		/**
+		 * Add event handler from jQuery-file-upload
+		 *
+		 * @param {Event} e
+		 * @param {Object} data
+		 */
+		add(_e, data) {
+			if (data.files.length > 0) {
+				data.submit();
+			}
+		}
+		/**
+		 * File change event handler from jQuery-file-upload
+		 *
+		 * @param {Event} e
+		 * @param {object} data
+		 */
+		change(_e, data) {
+			let { valid, error } = this.filterFiles(data.files);
+			data.files = valid;
+			if (!valid.length) {
+				this.fileInput.val('');
+			}
+			if (error.length) {
+				this.showErrors(error);
+			}
+		}
+		/**
+		 * Get only valid files from list
+		 * @param {Array} files
+		 *
+		 * @returns {Object}
+		 */
+		filterFiles(files) {
+			let valid = [],
+				error = [];
+			if (files.length + this.files.length > this.options.limit) {
+				error.push({ error: { text: `${app.vtranslate('JS_FILE_LIMIT')} [${this.options.limit}]` } });
+			} else {
+				for (let file of files) {
+					this.validateFileType(file) && this.validateFileSize(file) ? valid.push(file) : error.push(file);
+				}
+			}
+			return { valid, error };
+		}
+
+		/**
+		 * Validate maximum file size
+		 * @param {Object} file
+		 * @returns {Boolean}
+		 */
+		validateFileSize(file) {
+			let result = typeof file.size === 'number' && file.size < this.options.maxFileSize;
+			if (!result) {
+				file.error = {
+					title: `${app.vtranslate('JS_UPLOADED_FILE_SIZE_EXCEEDS')} <br> [${this.options.maxFileSizeDisplay}]`,
+					text: file.name
+				};
+			}
+			return result;
+		}
+		/**
+		 * Validate file type
+		 *
+		 * @param {Object} file
+		 * @returns {boolean}
+		 */
+		validateFileType(file) {
+			let result =
+				!this.options.formats.length ||
+				this.options.formats.filter((format) => {
+					return file.type === format || (format.slice(-2) === '/*' && file.type.indexOf(format.slice(0, -1)) === 0);
+				}).length > 0;
+
+			if (!result) {
+				file.error = { title: app.vtranslate('JS_INVALID_FILE_TYPE'), text: file.name };
+			}
+			return result;
+		}
+		/**
+		 * Show errors
+		 */
+		showErrors(errors = []) {
+			for (let info of errors) {
+				this.showError(info.error);
+			}
+		}
+		/**
+		 * Show error
+		 */
+		showError(error) {
+			if (typeof error.type === 'undefined') {
+				error.type = 'error';
+			}
+			error.textTrusted = false;
+			app.showNotify(error);
+		}
+		/**
+		 * Error event handler from file upload request
+		 *
+		 * @param {Event} e
+		 * @param {Object} data
+		 */
+		uploadError(_e, data) {
+			this.filesActive--;
+			app.errorLog('File upload error.');
+			const { jqXHR, files } = data;
+			if (typeof jqXHR.responseJSON === 'undefined' || jqXHR.responseJSON === null) {
+				return this.showError({
+					title: app.vtranslate('JS_FILE_UPLOAD_ERROR'),
+					type: 'error'
+				});
+			}
+			files.forEach((file) => {
+				this.showError({
+					title: app.vtranslate('JS_FILE_UPLOAD_ERROR'),
+					text: file.name,
+					type: 'error'
+				});
+			});
 		}
 	}
 });

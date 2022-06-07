@@ -214,6 +214,7 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (81,'Proxy',1,'2021-02-02 08:38:48');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (82,'Kanban',1,'2021-08-13 11:36:47');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (83,'MeetingServices',1,'2021-11-18 16:39:26');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (84,'Media',1,'2022-06-07 17:18:53');
 
 /*Data for the table `a_yf_smsnotifier_servers` */
 
@@ -917,6 +918,8 @@ insert  into `u_yf_fcorectinginvoice_invmap`(`module`,`field`,`tofield`) values 
 /*Data for the table `u_yf_fcorectinginvoicecf` */
 
 /*Data for the table `u_yf_featured_filter` */
+
+/*Data for the table `u_yf_file_upload` */
 
 /*Data for the table `u_yf_file_upload_temp` */
 

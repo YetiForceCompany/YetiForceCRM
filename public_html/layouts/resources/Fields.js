@@ -3814,7 +3814,7 @@ window.App.Fields = {
 		 * Initiation
 		 */
 		init() {
-			this.iconElement = $('.js-icon-show span', this.container);
+			this.iconElement = $('.js-icon-show', this.container);
 			$('.js-clear-selection', this.container)
 				.off('click')
 				.on('click', () => {
@@ -3824,8 +3824,18 @@ window.App.Fields = {
 				.off('click')
 				.on('click', () => {
 					App.Components.Icons.modalView().done((data) => {
-						this.iconElement.removeClass().addClass(data.name);
-						this.setDisplayFieldValue(data.name);
+						if (data.type === 'icon') {
+							const span = document.createElement('span');
+							span.setAttribute('class', data.name);
+							this.iconElement.html('').append(span);
+						} else if (data.type === 'image') {
+							const image = document.createElement('img');
+							image.setAttribute('class', 'icon-img--picklist');
+							image.setAttribute('src', data.src);
+							this.iconElement.html('').append(image);
+						}
+						this.setValue(data);
+						this.setDisplayValue(data.name);
 					});
 				});
 		}
@@ -3837,17 +3847,26 @@ window.App.Fields = {
 			let fieldName = element.attr('name');
 			element.val('');
 			this.container.find(`#${fieldName}_display`).val('');
-			this.iconElement.removeClass();
+			this.iconElement.html('');
 		}
 		/**
 		 * Set icon name
 		 * @param {string} data
 		 */
-		setDisplayFieldValue(name) {
-			let sourceField = this.getField(),
-				fieldName = sourceField.attr('name');
-			sourceField.val(name);
+		setDisplayValue(name) {
+			let fieldName = this.getField().attr('name');
 			this.container.find(`#${fieldName}_display`).val(name).attr('readonly', true);
+		}
+		/**
+		 * Set value
+		 * @param {Object} data
+		 */
+		setValue(data) {
+			let { type, name } = data;
+			if (data.key) {
+				name = data.key;
+			}
+			this.getField().val(JSON.stringify({ type: type, name: name }));
 		}
 		/**
 		 * Gets field

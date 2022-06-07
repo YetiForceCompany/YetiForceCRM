@@ -1497,7 +1497,9 @@
     "LBL_TILE_BIG": "Big",
     "LBL_SET_CUSTOM_COLUMNS_LABEL": "Set custom label",
     "LBL_ICONS": "Icons",
-    "LBL_BROWSE_ASSETS": "Browse Assets"
+    "LBL_BROWSE_ASSETS": "Browse Assets",
+    "LBL_MEDIA": "Media",
+    "LBL_IMAGES": "Images"
   },
   "js": {
     "JS_APPROVE": "Approve",

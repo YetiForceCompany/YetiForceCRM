@@ -266,7 +266,7 @@ CREATE TABLE `a_yf_settings_modules` (
   `created_time` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `a_yf_settings_modules_name_status_idx` (`name`,`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_smsnotifier_servers` */
 
@@ -2347,6 +2347,23 @@ CREATE TABLE `u_yf_featured_filter` (
   KEY `cvid` (`cvid`),
   KEY `user` (`user`),
   CONSTRAINT `u_yf_featured_filter_ibfk_1` FOREIGN KEY (`cvid`) REFERENCES `vtiger_customview` (`cvid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_file_upload` */
+
+CREATE TABLE `u_yf_file_upload` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `type` varchar(100) NOT NULL,
+  `ext` varchar(50) NOT NULL,
+  `path` text NOT NULL,
+  `status` tinyint(1) DEFAULT 0,
+  `fieldname` varchar(50) DEFAULT '',
+  `createdtime` datetime DEFAULT NULL,
+  `key` varchar(100) NOT NULL,
+  `user` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `u_yf_file_upload_key_uidx` (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_file_upload_temp` */

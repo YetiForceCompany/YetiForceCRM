@@ -19,9 +19,7 @@ use App\Log;
  */
 class File
 {
-	/**
-	 * Temporary table name.
-	 */
+	/** @var string Temporary table name. */
 	public const TABLE_NAME_TEMP = 'u_#__file_upload_temp';
 
 	/**
@@ -996,6 +994,26 @@ class File
 	}
 
 	/**
+	 * Init storage diractory.
+	 *
+	 * @param string $path
+	 *
+	 * @return string
+	 */
+	public static function initStorage(string $path): string
+	{
+		if ('/' !== substr($path, '-1')) {
+			$path .= '/';
+		}
+		$result = 0 === strpos($path, 'storage/') || 0 === strpos($path, 'public_html/storage/');
+		if ($result && !is_dir($path)) {
+			$result = mkdir($path, 0755, true);
+		}
+
+		return $result ? $path : '';
+	}
+
+	/**
 	 * Init storage file directory.
 	 *
 	 * @param string $suffix
@@ -1260,6 +1278,40 @@ class File
 		if ($db->createCommand()->insert(static::TABLE_NAME_TEMP, $data)->execute()) {
 			$result = $db->getLastInsertID(static::TABLE_NAME_TEMP . '_id_seq');
 		}
+		return $result;
+	}
+
+	/**
+	 * Add an entry to the media table of files.
+	 *
+	 * @param array $params
+	 *
+	 * @return int
+	 */
+	public function insertMediaFile(array $params): int
+	{
+		$db = \App\Db::getInstance();
+		$result = 0;
+		$data = [
+			'name' => $this->getName(true),
+			'type' => $this->getMimeType(),
+			'path' => null,
+			'ext' => $this->getExtension(),
+			'createdtime' => date('Y-m-d H:i:s'),
+			'fieldname' => '',
+			'key' => null,
+			'status' => 0,
+			'user' => \App\User::getCurrentUserRealId()
+		];
+		foreach ($data as $key => &$value) {
+			if (isset($params[$key])) {
+				$value = $params[$key];
+			}
+		}
+		if ($db->createCommand()->insert(\App\Layout\Media::TABLE_NAME_MEDIA, $data)->execute()) {
+			$result = $db->getLastInsertID(\App\Layout\Media::TABLE_NAME_MEDIA . '_id_seq');
+		}
+
 		return $result;
 	}
 

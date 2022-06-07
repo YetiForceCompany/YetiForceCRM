@@ -34,8 +34,8 @@ class File
 			\CsrfMagic\Csrf::init();
 		}
 		$this->getLogin();
-		$moduleName = $request->getModule();
-		$action = $request->getByType('action', 1);
+		$moduleName = $request->getModule(false);
+		$action = $request->getByType('action', \App\Purifier::STANDARD);
 		if (!$moduleName || !$action) {
 			throw new \App\Exceptions\NoPermitted('Method Not Allowed', 405);
 		}

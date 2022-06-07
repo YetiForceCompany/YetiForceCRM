@@ -50,10 +50,16 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 			$displayValue = \App\TextUtils::textTruncate($displayValue, $length);
 		}
 		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getName());
-		if ($icon = \App\Fields\Picklist::getValueInfo($this->getFieldModel()->getName(), $value)['icon'] ?? '') {
-			$icon = "<span class=\"{$icon} mr-1\"></span>";
+		if ($icon = \App\Fields\Picklist::getIcon($this->getFieldModel()->getName(), $value) ?: '') {
+			['type' => $type, 'name' => $name] = $icon;
+			if ('icon' === $type) {
+				$icon = "<span class=\"{$name} mr-1\"></span>";
+			} elseif ('image' === $type) {
+				$icon = '<img class="icon-img--picklist mr-1" src="' . \App\Layout\Media::getImageUrl($name) . '">';
+			}
 		}
 		$value = App\Colors::sanitizeValue($value);
+
 		return "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">{$icon}{$displayValue}</span>";
 	}
 

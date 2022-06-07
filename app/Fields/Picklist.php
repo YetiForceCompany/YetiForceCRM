@@ -319,26 +319,21 @@ class Picklist
 	}
 
 	/**
-	 * Get value data by field.
+	 * Get icon data for picklist value.
 	 *
 	 * @param string $fieldName
 	 * @param string $value
 	 *
 	 * @return array
 	 */
-	public static function getValueInfo(string $fieldName, string $value): array
+	public static function getIcon(string $fieldName, string $value): array
 	{
-		$info = [];
-		if (self::isPicklistExist($fieldName)) {
-			foreach (self::getValues($fieldName) as $data) {
-				if ($value === $data[$fieldName]) {
-					$info = $data;
-					break;
-				}
-			}
+		$icon = [];
+		if (self::isPicklistExist($fieldName) && ($iconValue = array_column(self::getValues($fieldName), 'icon', $fieldName)[$value] ?? [])) {
+			$icon = \App\Json::isJson($iconValue) ? \App\Json::decode($iconValue) : ['type' => 'icon', 'name' => $iconValue];
 		}
 
-		return $info;
+		return $icon;
 	}
 
 	/**

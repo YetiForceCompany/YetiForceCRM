@@ -243,7 +243,7 @@ class Item extends \App\Base
 	 */
 	public function getWritableFields(): array
 	{
-		return ['name', 'presence', 'sortorderid', 'presence', 'description', 'prefix', 'color', 'icon', 'record_state', 'time_counting'];
+		return ['name', 'presence', 'sortorderid', 'presence', 'description', 'prefix', 'icon', 'record_state', 'time_counting', 'close_state'];
 	}
 
 	/**
@@ -396,13 +396,6 @@ class Item extends \App\Base
 				$forSave[$tableName][$name] = $this->{$name};
 			}
 		}
-		if ($this->close_state) {
-			$nameFieldModel = $this->getFieldInstanceByName('name');
-			$closeStateFieldModel = $this->getFieldInstanceByName('close_state');
-			if (isset($forSave[$nameFieldModel->getTableName()][$nameFieldModel->getColumnName()]) && !isset($forSave[$closeStateFieldModel->getTableName()])) {
-				$forSave[$closeStateFieldModel->getTableName()][$closeStateFieldModel->getColumnName()] = $this->close_state;
-			}
-		}
 
 		return $forSave;
 	}
@@ -503,6 +496,9 @@ class Item extends \App\Base
 			case 'name':
 				$itemPropertyModel = $this->getFieldInstanceByName($fieldName);
 				$itemPropertyModel->getUITypeModel()->validate($value, false);
+				if (empty($value)) {
+					throw new \App\Exceptions\IllegalValue("LBL_NOT_FILLED_MANDATORY_FIELDS||{$fieldName}", 512);
+				}
 				if (preg_match('/[\<\>\"\#]/', $value)) {
 					throw new \App\Exceptions\IllegalValue("ERR_SPECIAL_CHARACTERS_NOT_ALLOWED||{$fieldName}||{$value}", 512);
 				}

@@ -14,10 +14,10 @@ namespace App\Controller\Components\View;
 /**
  * Icon modal view class.
  */
-class IconsModal extends \App\Controller\Modal
+class MediaModal extends \App\Controller\Modal
 {
 	/** {@inheritdoc} */
-	protected $pageTitle = 'LBL_ICONS';
+	protected $pageTitle = 'LBL_MEDIA';
 	/** {@inheritdoc} */
 	public $modalSize = 'c-modal-xxl';
 	/** {@inheritdoc} */
@@ -36,15 +36,21 @@ class IconsModal extends \App\Controller\Modal
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('ICONS', \App\Layout\Icon::getIcons());
+		$viewer->assign('IMAGES', \App\Layout\Media::getImages());
 		$viewer->assign('PAGE_LIMT', 100);
-		$viewer->view('IconsModal.tpl', $request->getModule());
+		if (\App\Security\AdminAccess::isPermitted('Media')) {
+			$moduleModel = \Settings_Vtiger_Module_Model::getInstance('Settings:Media');
+			$fieldModel = $moduleModel->getFieldInstanceByName('image');
+			$viewer->assign('FIELD_MODEL', $fieldModel);
+		}
+		$viewer->view('MediaModal.tpl', $request->getModule());
 	}
 
 	/** {@inheritdoc} */
 	public function getModalScripts(\App\Request $request)
 	{
 		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
-			'components.IconsModal',
+			'components.MediaModal',
 		]));
 	}
 }
