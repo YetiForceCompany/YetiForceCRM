@@ -235,6 +235,7 @@ jQuery.Class(
 				dependencyGraph.html(data).css({ padding: '10px', border: '1px solid #ddd', background: '#fff' });
 				thisInstance.registerDependencyGraphEvents();
 				thisInstance.registerEventsForThreeFields();
+				App.Fields.Picklist.showSelect2ElementView(dependencyGraph.find('select.select2'));
 			});
 		},
 		/**
@@ -449,7 +450,7 @@ jQuery.Class(
 			params['module'] = app.getModuleName();
 			params['parent'] = app.getParentModuleName();
 			params['action'] = 'SaveAjax';
-			params['mapping'] = JSON.stringify(mapping);
+			params['mapping'] = mapping;
 			AppConnector.request(params)
 				.done(function (data) {
 					if (data['success']) {
@@ -528,7 +529,7 @@ jQuery.Class(
 					params.type = 'info';
 					Settings_Vtiger_Index_Js.showMessage(params);
 				} else {
-					thisInstance.savePickListDependency(thisInstance.valueMapping);
+					thisInstance.savePickListDependency(JSON.stringify(thisInstance.valueMapping));
 				}
 			});
 		},
@@ -536,19 +537,20 @@ jQuery.Class(
 		 * Action for adding third picklist field
 		 */
 		registerAddThirdField: function () {
-			this.container.find('.js-add-next-level-field').on('click', () => {
+			let container = jQuery('.js-picklist-dependent-container');
+			container.find('.js-add-next-level-field').on('click', () => {
 				let params = this.getDefaultParamsForThirdField();
 				params.thirdField = true;
 				let progress = jQuery.progressIndicator();
 				AppConnector.request(params)
 					.done((data) => {
-						let dependentFieldsContainer = this.container.find('.js-dependent-fields');
+						let dependentFieldsContainer = container.find('.js-dependent-fields');
 						progress.progressIndicator({ mode: 'hide' });
 						dependentFieldsContainer.html(data);
 						App.Fields.Picklist.showSelect2ElementView(dependentFieldsContainer.find('select.select2'));
 						this.checkValuesForDependencyGraph(this.form);
 						this.registerPicklistFieldsChangeEvent(this.form);
-						this.container.find('#dependencyGraph').html('');
+						container.find('#dependencyGraph').html('');
 					})
 					.fail((_) => {
 						app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });

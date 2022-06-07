@@ -94,10 +94,8 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 				$valueMapping[] = [
 					'sourcevalue' => $row['sourcevalue'],
 					'secondValues' => \App\Json::decode($row['second_values']),
-					//	'thirdValues' => \App\Json::decode($row['third_values'])
 				];
 			}
-			//var_dump($valueMapping);
 			$dataReader->close();
 			$this->mapping = $valueMapping;
 		}
@@ -197,7 +195,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 			$sourceValue = $mapping['sourcevalue'];
 			$targetValues = $mapping['targetvalues'];
 			$serializedTargetValues = \App\Json::encode($targetValues);
-			if ($picklistId = $this->getPicklistDependencyId($sourceValue, $targetValues)) {
+			if ($picklistId = $this->getPicklistValuesDependencyId($sourceValue, $targetValues)) {
 				App\Db::getInstance()->createCommand()->update('vtiger_picklist_dependency', [
 					'second_values' => $serializedTargetValues,
 				], ['id' => $picklistId])->execute();

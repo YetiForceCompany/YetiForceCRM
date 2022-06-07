@@ -38,27 +38,28 @@ class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListVie
 		$dataReader = $listQuery->createCommand()->query();
 		$listViewRecordModels = [];
 		while ($row = $dataReader->read()) {
-			$moduleModel = Vtiger_Module_Model::getInstance($row['tabid']);
-			$sourceFieldModel = Vtiger_Field_Model::getInstance($row['source_field'], $moduleModel);
-			$secondFieldModel = Vtiger_Field_Model::getInstance($row['second_field'], $moduleModel);
+			$picklistModuleModel = Vtiger_Module_Model::getInstance($row['tabid']);
+			$picklistModuleName = $picklistModuleModel->getName();
+			$sourceFieldModel = Vtiger_Field_Model::getInstance($row['source_field'], $picklistModuleModel);
+			$secondFieldModel = Vtiger_Field_Model::getInstance($row['second_field'], $picklistModuleModel);
 			if (!$sourceFieldModel || !$secondFieldModel) {
 				continue;
 			}
-			$row['sourceFieldLabel'] = \App\Language::translate($sourceFieldModel->getFieldLabel(), $moduleName);
-			$row['secondFieldLabel'] = \App\Language::translate($secondFieldModel->getFieldLabel(), $moduleName);
-			$row['moduleName'] = $moduleModel->getName();
-			$thirdFieldModel = $row['third_field'] ? Vtiger_Field_Model::getInstance($row['third_field'], $moduleModel) : false;
+			$thirdFieldModel = $row['third_field'] ? Vtiger_Field_Model::getInstance($row['third_field'], $picklistModuleModel) : false;
 			if ($row['third_field'] && !$thirdFieldModel) {
 				continue;
 			}
 			if ($thirdFieldModel) {
-				$row['thirdFieldLabel'] = \App\Language::translate($thirdFieldModel->getFieldLabel(), $moduleName);
+				$row['thirdFieldLabel'] = \App\Language::translate($thirdFieldModel->getFieldLabel(), $picklistModuleName);
 			}
+			$row['sourceFieldLabel'] = \App\Language::translate($sourceFieldModel->getFieldLabel(), $picklistModuleName);
+			$row['secondFieldLabel'] = \App\Language::translate($secondFieldModel->getFieldLabel(), $picklistModuleName);
+			$row['moduleName'] = \App\Language::translate($picklistModuleName, $picklistModuleName);
 
 			$record = new $recordModelClass();
 			$record->setData($row);
 			if (method_exists($record, 'getModule') && method_exists($record, 'setModule')) {
-				$record->setModule($moduleModel);
+				$record->setModule($picklistModuleModel);
 			}
 			$listViewRecordModels[$record->getId()] = $record;
 		}
