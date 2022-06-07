@@ -458,6 +458,8 @@ insert  into `s_yf_fields_dependency`(`id`,`tabid`,`status`,`name`,`views`,`gui`
 
 /*Data for the table `s_yf_pbx` */
 
+/*Data for the table `s_yf_picklist_dependency` */
+
 /*Data for the table `s_yf_privileges_updater` */
 
 /*Data for the table `s_yf_record_quick_changer` */
@@ -7199,24 +7201,6 @@ insert  into `vtiger_picklist`(`picklistid`,`name`) values (30,'usageunit');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (68,'verification');
 
 /*Data for the table `vtiger_picklist_dependency` */
-
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (1,7,'industry','subindustry','Administration','[\"Ministry\",\"Chancellery\",\"Voivodeship Office\",\"Marshal Office\",\"District\",\"City\\/Township\\/District\",\"Social Welfare Centre\",\"Water and Sewerage Company\",\"Voivodeship Job Centre\",\"District Job Center\",\"Court of justice\",\"Attorney General\'s Office\",\"Other\"]',NULL);
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (2,7,'industry','subindustry','Construction Industry','[\"Other\",\"Developers\",\"Real Estate\"]',NULL);
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (3,7,'industry','subindustry','Education','[\"Other\",\"Primary Schools\",\"High Schools\"]',NULL);
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (4,7,'industry','subindustry','Power Industry','[\"\"]',NULL);
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (5,7,'industry','subindustry','Finance','[\"Other\",\"Banking\",\"Capital Market\",\"Financial Services\",\"Investments\",\"Insurance\"]',NULL);
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (6,7,'industry','subindustry','Trade','[\"Other\",\"Retail\",\"Wholesale\",\"Resale\"]',NULL);
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (7,7,'industry','subindustry','Hotels and Restaurants','[\"\"]',NULL);
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (8,7,'industry','subindustry','Health Care','[\"\"]',NULL);
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (9,7,'industry','subindustry','Industry / Manufacturing','[\"Other\",\"Automotive\",\"Plastics\",\"Chamical\",\"Raw material\",\"Fuel\",\"Wood and paper\",\"Electromechanical\",\"Pharmaceutical\",\"Building Materials\",\"Metal\",\"Light\",\"Food industry\",\"Recycling\"]',NULL);
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (10,7,'industry','subindustry','Uniformed Services','[\"Army\",\"Police\"]',NULL);
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (11,7,'industry','subindustry','Transport & Logistics','[\"\"]',NULL);
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (12,7,'industry','subindustry','Technologies','[\"Other\",\"Information Technology\",\"Telecommunication\",\"Media\"]',NULL);
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (13,14,'usageunit','subunit','pcs','[\"\"]',NULL);
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (14,14,'usageunit','subunit','pack','[\"\"]',NULL);
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (15,14,'usageunit','subunit','kg','[\"50g\",\"100g\",\"300g\",\"500g\"]',NULL);
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (16,14,'usageunit','subunit','m','[\"\"]',NULL);
-insert  into `vtiger_picklist_dependency`(`id`,`tabid`,`sourcefield`,`targetfield`,`sourcevalue`,`targetvalues`,`criteria`) values (17,14,'usageunit','subunit','l','[\"100ml\",\"250ml\",\"330ml\",\"500ml\"]',NULL);
 
 /*Data for the table `vtiger_picklistvalues_seq` */
 
