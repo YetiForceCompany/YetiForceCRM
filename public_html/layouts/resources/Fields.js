@@ -3199,7 +3199,7 @@ window.App.Fields = {
 		 * Initiation
 		 */
 		init() {
-			let field = this.getField();
+			const field = this.getField();
 			$('.js-pwd-auto-generate', this.container)
 				.off('click')
 				.on('click', (e) => {
@@ -3229,18 +3229,31 @@ window.App.Fields = {
 				.on('click', () => {
 					this.clear();
 				});
+			$('.js-pwd-copy', this.container)
+				.off('click')
+				.on('click', () => {
+					if (this.container.find('.js-pwd-show').attr('disabled') === 'disabled') {
+						this.getPassword().then((response) => {
+							this.clear();
+							field.val(response.result.text);
+							ClipboardJS.copy(response.result.text);
+							app.showNotify({
+								text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+								type: 'success'
+							});
+						});
+					} else {
+						ClipboardJS.copy(this.getField().val());
+						app.showNotify({
+							text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+							type: 'success'
+						});
+					}
+				});
 			$('.js-pwd-get', this.container)
 				.off('click')
 				.on('click', () => {
-					let form = this.container.closest('form');
-					let recordId = $('input[name="record"]', form).val() || app.getRecordId();
-					this.getResponse({
-						module: field.data('module'),
-						field: field.attr('name'),
-						record: recordId,
-						action: 'Password',
-						mode: 'getPwd'
-					}).then((response) => {
+					this.getPassword().then((response) => {
 						this.clear();
 						field.val(response.result.text);
 					});
@@ -3256,6 +3269,20 @@ window.App.Fields = {
 			}
 		}
 		/**
+		 * Get decoded password
+		 * @returns {Promise}
+		 */
+		getPassword() {
+			const field = this.getField();
+			return this.getResponse({
+				module: field.data('module'),
+				field: field.attr('name'),
+				record: $('input[name="record"]', this.container.closest('form')).val() || app.getRecordId(),
+				action: 'Password',
+				mode: 'getPwd'
+			});
+		}
+		/**
 		 * Clear data
 		 */
 		clear() {
@@ -3265,7 +3292,7 @@ window.App.Fields = {
 		/**
 		 * Get response
 		 * @param {Object|string} params
-		 * @returns
+		 * @returns {Promise}
 		 */
 		getResponse(params) {
 			const aDeferred = $.Deferred();
