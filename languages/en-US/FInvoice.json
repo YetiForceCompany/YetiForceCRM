@@ -43,6 +43,8 @@
     "PLL_OVERPAID": "Over paid",
     "PLL_UNDERPAID": "Underpaid",
     "FL_PAYMENT_SUM": "Total payments",
-    "DW_SUM_FIELD": "Summation field"
+    "DW_SUM_FIELD": "Summation field",
+    "DW_SUMMATION_BY_MONTHS": "Sales comparison by month",
+    "DW_SUMMATION_BY_USER": "Sales comparison by user"
   }
 }

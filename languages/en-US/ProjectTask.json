@@ -24,6 +24,8 @@
     "administrative": "Internal",
     "operative": "External",
     "other": "Shared",
-    "LBL_PROJECT": "Project"
+    "LBL_PROJECT": "Project",
+    "LBL_UPCOMING_PROJECT_TASKS": "Upcoming project tasks",
+    "LBL_COMPLETED_PROJECT_TASKS": "Completed project tasks"
   }
 }
