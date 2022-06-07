@@ -60,6 +60,29 @@ $.Class(
 				});
 			});
 		},
+		registerAddDependField() {
+			this.container.find('.js-dependence-add-field').on('click', (e) => {
+				let progress = $.progressIndicator({
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				});
+				this.sourceModule = select.find('option:selected').data('module');
+				AppConnector.request({
+					module: app.getModuleName(),
+					parent: app.getParentModuleName(),
+					view: 'FieldDependence',
+					mode: 'dependencyRow',
+					selectedModule: this.sourceModule
+				}).done((data) => {
+					progress.progressIndicator({ mode: 'hide' });
+					blocks.html(data);
+					App.Fields.Picklist.changeSelectElementView(blocks);
+					this.loadConditionBuilderView();
+				});
+			});
+		},
 		/**
 		 * Register events
 		 */
@@ -70,6 +93,7 @@ $.Class(
 			this.registerSourceModuleChange();
 			this.loadConditionBuilderView();
 			this.registerSubmitEvent();
+			this.registerAddDependField();
 			this.container.validationEngine(app.validationEngineOptions);
 		}
 	}

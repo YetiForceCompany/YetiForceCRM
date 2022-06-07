@@ -1065,7 +1065,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$settingsLinks[] = [
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_PICKLIST_DEPENDENCY',
-			'linkurl' => 'index.php?parent=Settings&module=PickListDependency&view=List&formodule=' . $this->getName(),
+			'linkurl' => 'index.php?parent=Settings&module=PickListDependency&view=List&forModule=' . $this->getName(),
 			'linkicon' => 'adminIcon-fields-picklists-relations',
 		];
 		foreach ($settingsLinks as $key => $data) {

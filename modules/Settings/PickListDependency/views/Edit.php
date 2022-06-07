@@ -26,19 +26,34 @@ class Settings_PickListDependency_Edit_View extends Settings_Vtiger_Index_View
 		} else {
 			$selectedModule = $request->getByType('sourceModule', 2);
 		}
-		$sourceField = $request->getByType('sourcefield', 2);
-		$targetField = $request->getByType('targetfield', 2);
-		$recordModel = Settings_PickListDependency_Record_Model::getInstance($selectedModule, $sourceField, $targetField);
+		$recordId = null;
 		$dependencyGraph = false;
+
 		$viewer = $this->getViewer($request);
-		if (!empty($sourceField) && !empty($targetField)) {
-			$viewer->assign('MAPPED_VALUES', $recordModel->getPickListDependency());
-			$viewer->assign('SOURCE_PICKLIST_VALUES', $recordModel->getSourcePickListValues());
-			$viewer->assign('TARGET_PICKLIST_VALUES', $recordModel->getTargetPickListValues());
-			$viewer->assign('NON_MAPPED_SOURCE_VALUES', $recordModel->getNonMappedSourcePickListValues());
+		$mappedValues = $mappedForThree = [];
+		if ($request->has('recordId') && !$request->isEmpty('recordId', true)) {
+			$recordId = $request->getInteger('recordId');
+			$recordModel = Settings_PickListDependency_Record_Model::getInstanceById($recordId);
+			if ($recordModel->get('third_field')) {
+				$mappedForThree = $recordModel->getPickListDependencyForThree();
+				$viewer->assign('NON_MAPPED_SOURCE_VALUES', []);
+			} else {
+				$viewer->assign('NON_MAPPED_SOURCE_VALUES', $recordModel->getNonMappedSourcePickListValues());
+				$mappedValues = $recordModel->getPickListDependency();
+			}
+			$viewer->assign('SOURCE_PICKLIST_VALUES', $recordModel->getPickListValues($recordModel->get('source_field')));
+			$viewer->assign('TARGET_PICKLIST_VALUES', $recordModel->getPickListValues($recordModel->get('second_field')));
+			$viewer->assign('THIRD_FIELD_PICKLIST_VALUES', $recordModel->getPickListValues($recordModel->get('third_field')));
 			$dependencyGraph = true;
+		} else {
+			$recordModel = Settings_PickListDependency_Record_Model::getCleanInstance();
+			$recordModel->set('sourceModule', $selectedModule);
 		}
+		$viewer->assign('MAPPED_VALUES', $mappedValues);
+		$viewer->assign('MAPPING_FOR_THREE', $mappedForThree);
+		$viewer->assign('THIRD_FIELD', $recordModel->get('third_field'));
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('RECORD_ID', $recordId);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('SELECTED_MODULE', $selectedModule);
 		$viewer->assign('PICKLIST_FIELDS', $recordModel->getAllPickListFields());

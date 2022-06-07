@@ -14,36 +14,9 @@ jQuery.Class(
 		//holds the picklist dependency instance
 		pickListDependencyInstance: false,
 		/**
-		 * Function used to triggerAdd new Dependency for the picklists
-		 */
-		triggerAdd: function (event) {
-			event.stopPropagation();
-			var instance = Settings_PickListDependency_Js.pickListDependencyInstance;
-			instance.updatedSourceValues = [];
-			instance.showEditView(instance.listViewForModule).done(function (data) {
-				instance.registerAddViewEvents();
-			});
-		},
-		/**
-		 * This function used to trigger Edit picklist dependency
-		 */
-		triggerEdit: function (event, module, sourceField, targetField) {
-			event.stopPropagation();
-			var instance = Settings_PickListDependency_Js.pickListDependencyInstance;
-			instance.updatedSourceValues = [];
-			instance.showEditView(module, sourceField, targetField).done(function (data) {
-				var form = jQuery('#pickListDependencyForm');
-				form
-					.find('select[name="sourceModule"],select[name="sourceField"],select[name="targetField"]')
-					.prop('disabled', true);
-				instance.registerDependencyGraphEvents();
-				instance.registerSubmitEvent();
-			});
-		},
-		/**
 		 * This function used to trigger Delete picklist dependency
 		 */
-		triggerDelete: function (event, module, sourceField, targetField) {
+		triggerDelete: function (event, dependencyId) {
 			event.stopPropagation();
 			let currentTrEle = jQuery(event.currentTarget).closest('tr');
 			let instance = Settings_PickListDependency_Js.pickListDependencyInstance;
@@ -51,7 +24,7 @@ jQuery.Class(
 			app.showConfirmModal({
 				title: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE'),
 				confirmedCallback: () => {
-					instance.deleteDependency(module, sourceField, targetField).done(function (data) {
+					instance.deleteDependency(dependencyId).done(function (data) {
 						var params = {};
 						params.text = app.vtranslate('JS_DEPENDENCY_DELETED_SUEESSFULLY');
 						Settings_Vtiger_Index_Js.showMessage(params);
@@ -78,24 +51,22 @@ jQuery.Class(
 		 * function to show editView for Add/Edit Dependency
 		 * @params: module - selected module
 		 *			sourceField - source picklist
-		 *			targetField - target picklist
+		 *			secondField - target picklist
 		 */
-		showEditView: function (module, sourceField, targetField) {
-			var aDeferred = jQuery.Deferred();
-			var progressIndicatorElement = jQuery.progressIndicator({
+		showEditView: function (sourceModule, pickListDependencyId = '') {
+			let aDeferred = jQuery.Deferred();
+			let progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
-			var params = {};
+			let params = {};
 			params['module'] = app.getModuleName();
 			params['parent'] = app.getParentModuleName();
 			params['view'] = 'Edit';
-			params['sourceModule'] = module;
-			params['sourcefield'] = sourceField;
-			params['targetfield'] = targetField;
-
+			params['recordId'] = pickListDependencyId;
+			params['sourceModule'] = sourceModule;
 			AppConnector.requestPjax(params)
 				.done(function (data) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
@@ -117,9 +88,9 @@ jQuery.Class(
 		 * Function to get the Dependency graph based on selected module
 		 */
 		getModuleDependencyGraph: function (form) {
-			var thisInstance = this;
+			let thisInstance = this;
 			form.find('[name="sourceModule"]').on('change', function () {
-				var forModule = form.find('[name="sourceModule"]').val();
+				let forModule = form.find('[name="sourceModule"]').val();
 				thisInstance.showEditView(forModule).done(function (data) {
 					thisInstance.registerAddViewEvents();
 				});
@@ -130,7 +101,7 @@ jQuery.Class(
 		 */
 		registerPicklistFieldsChangeEvent: function (form) {
 			var thisInstance = this;
-			form.find('[name="sourceField"],[name="targetField"]').on('change', function () {
+			form.find('[name="sourceField"],[name="secondField"],[name="thirdField"]').on('change', function () {
 				thisInstance.checkValuesForDependencyGraph(form);
 			});
 		},
@@ -138,42 +109,62 @@ jQuery.Class(
 		 * Function used to check the selected picklist fields are valid before showing dependency graph
 		 */
 		checkValuesForDependencyGraph: function (form) {
-			var thisInstance = this;
-			var sourceField = form.find('[name="sourceField"]');
-			var targetField = form.find('[name="targetField"]');
-			var select2SourceField = app.getSelect2ElementFromSelect(sourceField);
-			var select2TargetField = app.getSelect2ElementFromSelect(targetField);
-			var sourceFieldValue = sourceField.val();
-			var targetFieldValue = targetField.val();
-			var dependencyGraph = jQuery('#dependencyGraph');
-			if (sourceFieldValue != '' && targetFieldValue != '') {
-				var resultMessage = app.vtranslate('JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME');
+			let thisInstance = this;
+			let sourceField = form.find('[name="sourceField"]');
+			let secondField = form.find('[name="secondField"]');
+			let thirdField = form.find('[name="thirdField"]').length > 0 ? form.find('[name="thirdField"]') : false;
+
+			let select2SourceField = app.getSelect2ElementFromSelect(sourceField);
+			let select2SecondField = app.getSelect2ElementFromSelect(secondField);
+			let select2ThirdField = thirdField ? app.getSelect2ElementFromSelect(thirdField) : '';
+
+			let sourceFieldValue = sourceField.val();
+			let secondFieldValue = secondField.val();
+			let thirdFieldValue = thirdField ? thirdField.val() : '';
+			let dependencyGraph = jQuery('#dependencyGraph');
+
+			if (
+				sourceFieldValue != '' &&
+				secondFieldValue != '' &&
+				(thirdField === false || (thirdField && thirdFieldValue != ''))
+			) {
 				form.find('.errorMessage').addClass('d-none');
-				if (sourceFieldValue == targetFieldValue) {
-					select2TargetField.validationEngine('showPrompt', resultMessage, 'error', 'topLeft', true);
+				let resultMessage = app.vtranslate('JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME');
+				if (sourceFieldValue == secondFieldValue) {
+					select2SecondField.validationEngine('showPrompt', resultMessage, 'error', 'topLeft', true);
 					dependencyGraph.html('');
+				} else if (thirdField && (sourceFieldValue == thirdFieldValue || secondFieldValue == thirdFieldValue)) {
+					if (select2ThirdField) {
+						select2ThirdField.validationEngine('showPrompt', resultMessage, 'error', 'topLeft', true);
+					}
 				} else {
 					select2SourceField.validationEngine('hide');
-					select2TargetField.validationEngine('hide');
-					var sourceModule = form.find('[name="sourceModule"]').val();
-					var progressIndicatorElement = jQuery.progressIndicator({
+					select2SecondField.validationEngine('hide');
+					if (select2ThirdField) {
+						select2ThirdField.validationEngine('hide');
+					}
+
+					let sourceModule = form.find('[name="sourceModule"]').val();
+					let progressIndicatorElement = jQuery.progressIndicator({
 						position: 'html',
 						blockInfo: {
 							enabled: true
 						}
 					});
+
 					thisInstance
-						.checkCyclicDependency(sourceModule, sourceFieldValue, targetFieldValue)
+						.checkCyclicDependencyExists(sourceModule, sourceFieldValue, secondFieldValue, thirdFieldValue)
 						.done(function (data) {
 							var result = data['result'];
 							if (!result['result']) {
-								thisInstance.addNewDependencyPickList(sourceModule, sourceFieldValue, targetFieldValue);
+								thisInstance.addNewDependencyPickList();
 								progressIndicatorElement.progressIndicator({ mode: 'hide' });
 							} else {
 								progressIndicatorElement.progressIndicator({ mode: 'hide' });
 								form.find('.errorMessage').removeClass('d-none');
 								form.find('.cancelAddView').removeClass('d-none');
 								dependencyGraph.html('');
+								thisInstance.registerAddViewEvents();
 							}
 						})
 						.fail(function (error, err) {
@@ -182,11 +173,13 @@ jQuery.Class(
 				}
 			} else {
 				form.find('.errorMessage').addClass('d-none');
-				var result = app.vtranslate('JS_SELECT_SOME_VALUE');
+				let result = app.vtranslate('JS_SELECT_SOME_VALUE');
 				if (sourceFieldValue == '') {
 					select2SourceField.validationEngine('showPrompt', result, 'error', 'topLeft', true);
-				} else if (targetFieldValue == '') {
-					select2TargetField.validationEngine('showPrompt', result, 'error', 'topLeft', true);
+				} else if (secondFieldValue == '') {
+					select2SecondField.validationEngine('showPrompt', result, 'error', 'topLeft', true);
+				} else if (thirdField && secondFieldValue == '') {
+					select2ThirdField.validationEngine('showPrompt', result, 'error', 'topLeft', true);
 				}
 			}
 		},
@@ -194,18 +187,19 @@ jQuery.Class(
 		 * Function used to check the cyclic dependency of the selected picklist fields
 		 * @params: sourceModule - selected module
 		 *            sourceFieldValue - source picklist value
-		 *            targetFieldValue - target picklist value
+		 *            secondFieldValue - target picklist value
 		 */
-		checkCyclicDependency: function (sourceModule, sourceFieldValue, targetFieldValue) {
-			var aDeferred = jQuery.Deferred();
-			var params = {};
-			params['mode'] = 'checkCyclicDependency';
+		checkCyclicDependencyExists: function (sourceModule, sourceFieldValue, secondFieldValue, thirdFieldValue) {
+			let aDeferred = jQuery.Deferred();
+			let params = {};
+			params['mode'] = 'checkCyclicDependencyExists';
 			params['module'] = app.getModuleName();
 			params['parent'] = app.getParentModuleName();
 			params['action'] = 'Index';
 			params['sourceModule'] = sourceModule;
 			params['sourcefield'] = sourceFieldValue;
-			params['targetfield'] = targetFieldValue;
+			params['secondField'] = secondFieldValue;
+			params['thirdField'] = thirdFieldValue;
 
 			AppConnector.request(params).done(
 				function (data) {
@@ -221,40 +215,42 @@ jQuery.Class(
 		 * Function used to show the new picklist dependency graph
 		 * @params: sourceModule - selected module
 		 *            sourceFieldValue - source picklist value
-		 *            targetFieldValue - target picklist value
+		 *            secondFieldValue - target picklist value
 		 */
-		addNewDependencyPickList: function (sourceModule, sourceFieldValue, targetFieldValue) {
+		addNewDependencyPickList: function () {
 			var thisInstance = this;
 			var dependencyGraph = $('#dependencyGraph');
 			thisInstance.updatedSourceValues = [];
+			let form = jQuery('#pickListDependencyForm');
 			AppConnector.request({
 				mode: 'getDependencyGraph',
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
 				view: 'IndexAjax',
-				sourceModule: sourceModule,
-				sourcefield: sourceFieldValue,
-				targetfield: targetFieldValue
+				sourceModule: form.find('[name="sourceModule"] option:selected').val(),
+				sourcefield: form.find('[name="sourceField"] option:selected').val(),
+				secondField: form.find('[name="secondField"] option:selected').val(),
+				thirdField: form.find('[name="thirdField"] option:selected').val()
 			}).done(function (data) {
 				dependencyGraph.html(data).css({ padding: '10px', border: '1px solid #ddd', background: '#fff' });
 				thisInstance.registerDependencyGraphEvents();
+				thisInstance.registerEventsForThreeFields();
+				App.Fields.Picklist.showSelect2ElementView(dependencyGraph.find('select.select2'));
 			});
 		},
 		/**
 		 * This function will delete the pickList Dependency
 		 * @params: module - selected module
 		 *            sourceField - source picklist value
-		 *            targetField - target picklist value
+		 *            secondField - target picklist value
 		 */
-		deleteDependency: function (module, sourceField, targetField) {
-			var aDeferred = jQuery.Deferred();
-			var params = {};
+		deleteDependency: function (dependencyId) {
+			let aDeferred = jQuery.Deferred();
+			let params = {};
 			params['module'] = app.getModuleName();
 			params['parent'] = app.getParentModuleName();
 			params['action'] = 'DeleteAjax';
-			params['sourceModule'] = module;
-			params['sourcefield'] = sourceField;
-			params['targetfield'] = targetField;
+			params['recordId'] = dependencyId;
 			AppConnector.request(params)
 				.done(function (data) {
 					aDeferred.resolve(data);
@@ -279,12 +275,12 @@ jQuery.Class(
 		 * Register all the events related to addView of picklist dependency
 		 */
 		registerAddViewEvents: function () {
-			var thisInstance = this;
-			var form = jQuery('#pickListDependencyForm');
-			thisInstance.registerCancelAddView(form);
-			thisInstance.getModuleDependencyGraph(form);
-			thisInstance.registerPicklistFieldsChangeEvent(form);
-			thisInstance.registerSubmitEvent();
+			let form = jQuery('#pickListDependencyForm');
+			this.registerCancelAddView(form);
+			this.getModuleDependencyGraph(form);
+			this.registerPicklistFieldsChangeEvent(form);
+			this.registerSubmitEvent();
+			this.registerAddThirdField();
 		},
 		/**
 		 * Register all the events in editView of picklist dependency
@@ -294,8 +290,8 @@ jQuery.Class(
 			var form = jQuery('#pickListDependencyForm');
 			var dependencyGraph = jQuery('#dependencyGraph');
 			form.find('.cancelAddView').addClass('d-none');
-			thisInstance.registerTargetFieldsClickEvent(dependencyGraph);
-			thisInstance.registerTargetFieldsUnmarkAll(dependencyGraph);
+			thisInstance.registersecondFieldsClickEvent(dependencyGraph);
+			thisInstance.registersecondFieldsUnmarkAll(dependencyGraph);
 			thisInstance.registerSelectSourceValuesClick(dependencyGraph);
 			thisInstance.registerCancelDependency(form);
 		},
@@ -322,7 +318,7 @@ jQuery.Class(
 		/**
 		 * Register the click event for target fields in dependency graph
 		 */
-		registerTargetFieldsClickEvent: function (dependencyGraph) {
+		registersecondFieldsClickEvent: function (dependencyGraph) {
 			var thisInstance = this;
 			thisInstance.updatedSourceValues = [];
 			dependencyGraph.find('td.picklistValueMapping').on('click', function (e) {
@@ -338,7 +334,7 @@ jQuery.Class(
 				}
 			});
 		},
-		registerTargetFieldsUnmarkAll: function (dependencyGraph) {
+		registersecondFieldsUnmarkAll: function (dependencyGraph) {
 			var thisInstance = this;
 			thisInstance.updatedSourceValues = [];
 			dependencyGraph.find('.unmarkAll').on('click', function (e) {
@@ -356,10 +352,10 @@ jQuery.Class(
 		 * Function used to update the value mapping to save the picklist dependency
 		 */
 		updateValueMapping: function (dependencyGraph) {
-			const self = this;
-			self.valueMapping = [];
-			let sourceValuesArray = self.updatedSourceValues;
-			let dependencyTable = dependencyGraph.find('.pickListDependencyTable');
+			var thisInstance = this;
+			thisInstance.valueMapping = [];
+			var sourceValuesArray = thisInstance.updatedSourceValues;
+			var dependencyTable = dependencyGraph.find('.pickListDependencyTable');
 			for (var key in sourceValuesArray) {
 				let encodedSourceValue;
 				if (typeof sourceValuesArray[key] == 'string') {
@@ -367,10 +363,10 @@ jQuery.Class(
 				} else {
 					encodedSourceValue = sourceValuesArray[key];
 				}
-				let selectedTargetValues = dependencyTable
+				var selectedTargetValues = dependencyTable
 					.find('td[data-source-value="' + encodedSourceValue + '"]')
 					.filter('.selectedCell');
-				let targetValues = [];
+				var targetValues = [];
 				if (selectedTargetValues.length > 0) {
 					jQuery.each(selectedTargetValues, function (index, element) {
 						targetValues.push(jQuery(element).data('targetValue'));
@@ -378,7 +374,7 @@ jQuery.Class(
 				} else {
 					targetValues.push('');
 				}
-				self.valueMapping.push({
+				thisInstance.valueMapping.push({
 					sourcevalue: sourceValuesArray[key],
 					targetvalues: targetValues
 				});
@@ -423,7 +419,7 @@ jQuery.Class(
 		loadMappingForSelectedValues: function (dependencyGraph) {
 			var thisInstance = this;
 			var allSourcePickListValues = JSON.parse(dependencyGraph.find('.allSourceValues').val());
-			var dependencyTable = dependencyGraph.find('.pickListDependencyTable');
+			var dependencyTable = dependencyGraph.find('.js-picklist-dependency-table');
 			for (var key in allSourcePickListValues) {
 				if (typeof allSourcePickListValues[key] == 'string') {
 					var encodedSourcePickListValue = allSourcePickListValues[key].replace(/"/g, '\\"');
@@ -441,7 +437,8 @@ jQuery.Class(
 		/**
 		 * This function will save the picklist dependency details
 		 */
-		savePickListDependency: function (form) {
+		savePickListDependency: function (mapping) {
+			var form = jQuery('#pickListDependencyForm');
 			const self = this;
 			let progressIndicatorElement = $.progressIndicator({
 					position: 'html',
@@ -453,7 +450,7 @@ jQuery.Class(
 			params['module'] = app.getModuleName();
 			params['parent'] = app.getParentModuleName();
 			params['action'] = 'SaveAjax';
-			params['mapping'] = JSON.stringify(self.valueMapping);
+			params['mapping'] = mapping;
 			AppConnector.request(params)
 				.done(function (data) {
 					if (data['success']) {
@@ -484,7 +481,7 @@ jQuery.Class(
 			params['module'] = app.getModuleName();
 			params['parent'] = app.getParentModuleName();
 			params['view'] = 'List';
-			params['formodule'] = forModule;
+			params['forModule'] = forModule;
 
 			AppConnector.requestPjax(params)
 				.done(function (data) {
@@ -532,23 +529,189 @@ jQuery.Class(
 					params.type = 'info';
 					Settings_Vtiger_Index_Js.showMessage(params);
 				} else {
-					thisInstance.savePickListDependency(form);
+					thisInstance.savePickListDependency(JSON.stringify(thisInstance.valueMapping));
 				}
 			});
+		},
+		/**
+		 * Action for adding third picklist field
+		 */
+		registerAddThirdField: function () {
+			let container = jQuery('.js-picklist-dependent-container');
+			container.find('.js-add-next-level-field').on('click', () => {
+				let params = this.getDefaultParamsForThirdField();
+				params.thirdField = true;
+				let progress = jQuery.progressIndicator();
+				AppConnector.request(params)
+					.done((data) => {
+						let dependentFieldsContainer = container.find('.js-dependent-fields');
+						progress.progressIndicator({ mode: 'hide' });
+						dependentFieldsContainer.html(data);
+						App.Fields.Picklist.showSelect2ElementView(dependentFieldsContainer.find('select.select2'));
+						this.checkValuesForDependencyGraph(this.form);
+						this.registerPicklistFieldsChangeEvent(this.form);
+						container.find('#dependencyGraph').html('');
+					})
+					.fail((_) => {
+						app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
+						progress.progressIndicator({ mode: 'hide' });
+					});
+			});
+		},
+		/**
+		 * Get default params
+		 * @returns object
+		 */
+		getDefaultParamsForThirdField() {
+			let params = {
+				module: this.form.find('[name="module"]').length
+					? this.form.find('[name="module"]').val()
+					: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				sourceModule: this.form.find('[name="sourceModule"]').val(),
+				view: 'DependentFields'
+			};
+			return params;
+		},
+		/**
+		 * Register save picklist dependencies for three fields
+		 */
+		registerSaveDependentPicklist() {
+			this.container.find('.js-save-dependent-picklists').on('click', () => {
+				this.setPicklistDependencies(true);
+				let picklistDependencies = this.container.find('.js-picklist-dependencies-data').val();
+				if (picklistDependencies !== '{}') {
+					this.savePickListDependency(picklistDependencies);
+				} else {
+					Settings_Vtiger_Index_Js.showMessage({
+						text: app.vtranslate('JS_PICKLIST_DEPENDENCY_NO_SAVED'),
+						type: 'info'
+					});
+				}
+
+				return;
+			});
+		},
+		/**
+		 * Register change source picklist value
+		 */
+		registerChangeSourceValue() {
+			this.container.find('.js-source-field-value').on('change', () => {
+				this.setPicklistDependencies();
+				this.clearAllMarkedValues();
+				this.setMarkedValues();
+			});
+		},
+		/**
+		 * Set picklist dependencies
+		 * @param bool currentSelectedValue
+		 */
+		setPicklistDependencies(currentSelectedValue = false) {
+			if (this.form.find('.thirdField').val() !== '') {
+				const dependencyTable = this.container.find('.js-picklist-dependency-table');
+				let selectedOldSourceData = dependencyTable.find('.js-source-field-value option[data-old-source-value]');
+				let sourceFieldValue = dependencyTable.find('.js-source-field-value option:selected').val();
+				let selectedSourceValue = selectedOldSourceData.attr('data-old-source-value');
+				if (currentSelectedValue) {
+					selectedSourceValue = sourceFieldValue;
+				}
+				let picklistDependencies =
+					this.container.find('.js-picklist-dependencies-data').val() !== ''
+						? JSON.parse(this.container.find('.js-picklist-dependencies-data').val())
+						: {};
+
+				dependencyTable.find('.js-second-field-value').each(function (_index, element) {
+					let secondFieldValue = $(element).attr('data-source-value').replace(/"/g, '\\"');
+					if (secondFieldValue) {
+						let allValuesInColumn = dependencyTable.find('td[data-source-value="' + secondFieldValue + '"]');
+						let selectedTargetValues = dependencyTable
+							.find('td[data-source-value="' + secondFieldValue + '"]')
+							.filter('.selectedCell');
+						let targetValues = [];
+						if (selectedTargetValues.length > 0 && selectedTargetValues.length !== allValuesInColumn.length) {
+							jQuery.each(selectedTargetValues, function (_index, element) {
+								targetValues.push(jQuery(element).data('targetValue'));
+							});
+
+							if (picklistDependencies[selectedSourceValue] === undefined) {
+								picklistDependencies[selectedSourceValue] = {};
+							}
+							picklistDependencies[selectedSourceValue][secondFieldValue] = targetValues;
+						}
+						if (
+							selectedTargetValues.length === 0 &&
+							picklistDependencies[selectedSourceValue] !== undefined &&
+							picklistDependencies[selectedSourceValue][secondFieldValue] !== undefined
+						) {
+							picklistDependencies[selectedSourceValue][secondFieldValue] = {};
+						}
+					}
+				});
+				selectedOldSourceData.attr('data-old-source-value', sourceFieldValue);
+				this.container.find('.js-picklist-dependencies-data').val(JSON.stringify(picklistDependencies));
+			}
+		},
+		clearAllMarkedValues() {
+			const dependencyTable = this.container.find('.js-picklist-dependency-table');
+			let selectedTargetValues = dependencyTable.find('.picklistValueMapping').filter('.selectedCell');
+			if (selectedTargetValues.length > 0) {
+				jQuery.each(selectedTargetValues, function (_index, element) {
+					jQuery(element).removeClass('selectedCell');
+				});
+			}
+		},
+		/**
+		 * Set marked picklist values
+		 */
+		setMarkedValues() {
+			let picklistDependencies = this.container.find('.js-picklist-dependencies-data').val();
+			if (picklistDependencies !== '') {
+				let sourceFieldValue = this.container.find('.js-source-field-value option:selected').val();
+				let targetValues = {};
+				let secondFieldValue = '';
+				let parsedValues = JSON.parse(picklistDependencies);
+				const dependencyTable = this.container.find('.js-picklist-dependency-table');
+				for (let sourceMappedValue of Object.keys(parsedValues)) {
+					if (sourceFieldValue === sourceMappedValue) {
+						targetValues = parsedValues[sourceMappedValue];
+						for (let secondValueKey of Object.keys(targetValues)) {
+							for (const selectedThirdValue of targetValues[secondValueKey]) {
+								secondFieldValue = dependencyTable
+									.find(
+										'td[data-source-value="' + secondValueKey + '"][data-target-value="' + selectedThirdValue + '"]'
+									)
+									.addClass('selectedCell')
+									.removeClass('unselectedCell');
+							}
+						}
+					}
+				}
+			}
+		},
+		/**
+		 * Register events for three fields
+		 */
+		registerEventsForThreeFields: function () {
+			this.registerSaveDependentPicklist();
+			this.registerChangeSourceValue();
 		},
 		/**
 		 * register events for picklist dependency
 		 */
 		registerEvents: function () {
 			var thisInstance = this;
-			var form = jQuery('#pickListDependencyForm');
-			if (form.length > 0) {
-				if (form.find('.editDependency').val() == 'true') {
-					form
-						.find('select[name="sourceModule"],select[name="sourceField"],select[name="targetField"]')
+			this.container = jQuery('.js-picklist-dependent-container');
+			this.form = jQuery('#pickListDependencyForm');
+			if (this.form.length > 0) {
+				if (this.form.find('.editDependency').val() == 'true') {
+					this.form
+						.find(
+							'select[name="sourceModule"],select[name="sourceField"],select[name="secondField"],select[name="thirdField"]'
+						)
 						.prop('disabled', true);
 					thisInstance.registerDependencyGraphEvents();
 					thisInstance.registerSubmitEvent();
+					thisInstance.registerEventsForThreeFields();
 				} else {
 					thisInstance.registerAddViewEvents();
 				}
