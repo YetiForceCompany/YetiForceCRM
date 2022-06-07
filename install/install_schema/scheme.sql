@@ -1441,6 +1441,17 @@ CREATE TABLE `s_yf_pbx` (
   PRIMARY KEY (`pbxid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_picklist_dependency` */
+
+CREATE TABLE `s_yf_picklist_dependency` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `tabid` int(7) NOT NULL,
+  `source_field` varchar(150) NOT NULL,
+  `second_field` varchar(150) NOT NULL,
+  `third_field` varchar(150) DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_privileges_updater` */
 
 CREATE TABLE `s_yf_privileges_updater` (
@@ -8040,14 +8051,15 @@ CREATE TABLE `vtiger_picklist` (
 
 CREATE TABLE `vtiger_picklist_dependency` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
+  `groupId` int(10) NOT NULL,
   `tabid` smallint(5) NOT NULL,
-  `sourcefield` varchar(255) DEFAULT NULL,
-  `targetfield` varchar(255) DEFAULT NULL,
-  `sourcevalue` varchar(100) DEFAULT NULL,
-  `targetvalues` text DEFAULT NULL,
-  `criteria` text DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+  `sourcevalue` varchar(255) NOT NULL,
+  `second_values` text DEFAULT NULL,
+  `third_values` text DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_1_picklist_dependency_dependencyId` (`groupId`),
+  CONSTRAINT `fk_1_picklist_dependency_dependencyId` FOREIGN KEY (`groupId`) REFERENCES `s_yf_picklist_dependency` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklistvalues_seq` */
 
