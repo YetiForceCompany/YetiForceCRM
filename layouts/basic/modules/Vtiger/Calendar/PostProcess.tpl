@@ -12,7 +12,7 @@
 			</div>
 			<ul class="nav nav-pills js-show-sitebar{if count($FILTERS) neq 2} d-none{/if}" id="rightPanelTab" role="tablist" data-js="click">
 				{if in_array('Events', $FILTERS)}
-					<li class="nav-item">
+					<li class="nav-item" role="tab">
 						<a class="nav-link js-right-panel-event-link{if $DEFAULT_FILTER eq "Events"} active show{/if}" id="rightPanelEvent-tab" data-toggle="tab"
 							href="#rightPanelEvent" role="tab"
 							aria-controls="event"
