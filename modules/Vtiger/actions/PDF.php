@@ -197,7 +197,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						}
 					}
 				}
-				$pdf->output($filePath, $mode ?? 'D');
+				$pdf->output($filePath, $mode ?? $pdfFlag ?? 'D');
 			}
 		}
 		if ($singlePdf) {
