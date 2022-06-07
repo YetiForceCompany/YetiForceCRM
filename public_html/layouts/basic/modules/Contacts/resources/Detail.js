@@ -54,7 +54,7 @@ Vtiger_Detail_Js(
 		/**
 		 * Function to get response from hierarchy
 		 * @param {array} params
-		 * @returns {*|jQuery}
+		 * @returns {Promise}
 		 */
 		getHierarchyResponseData: function (params) {
 			let thisInstance = this,

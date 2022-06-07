@@ -24,8 +24,9 @@ Vtiger_Detail_Js(
 			});
 		},
 
-		/*
+		/**
 		 * function to get the CheckFileIntegrity response data
+		 * @returns {Promise}
 		 */
 		getFileIntegrityResponse: function (params) {
 			var aDeferred = jQuery.Deferred();

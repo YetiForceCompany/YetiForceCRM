@@ -1254,9 +1254,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (isset($history[$value]) && (!isset($locks[$fieldName]) || !\in_array($value, $locks[$fieldName]))) {
 			$history[$value]['time'] += \App\Fields\DateTime::getDiff($history[$value]['date'], date('Y-m-d H:i:s'), 'minutes');
 		}
-		uasort($history, function ($a, $b) {
-			return strnatcmp($b['date'], $a['date']);
-		});
+		uasort($history, fn ($a, $b) => strnatcmp($b['date'], $a['date']));
 		$viewer = $this->getViewer($request);
 		$viewer->assign('VIEW', 'Detail');
 		$viewer->assign('FIELD_HISTORY', $history);

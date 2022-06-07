@@ -14,8 +14,9 @@ Vtiger_Detail_Js(
 	{
 		//It stores the Account Hierarchy response data
 		accountHierarchyResponseCache: {},
-		/*
+		/**
 		 * function to get the AccountHierarchy response data
+		 * @returns {Promise}
 		 */
 		getAccountHierarchyResponseData: function (params) {
 			var thisInstance = this;

@@ -113,7 +113,7 @@ Vtiger_Edit_Js(
 		/**
 		 * Function to save the quickcreate module
 		 * @param accepts form element as parameter
-		 * @return returns deferred promise
+		 * @returns {Promise}
 		 */
 		quickCreateSave: function (form) {
 			var thisInstance = this;

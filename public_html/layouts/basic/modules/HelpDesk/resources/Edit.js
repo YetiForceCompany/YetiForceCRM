@@ -91,6 +91,7 @@ Vtiger_Edit_Js(
 		/**
 		 * Add time control when closed ticket
 		 * @param {array} params
+		 * @returns {Promise}
 		 */
 		addTimeControl: function (params) {
 			let aDeferred = jQuery.Deferred();
