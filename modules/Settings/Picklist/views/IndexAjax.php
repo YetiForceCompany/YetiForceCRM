@@ -56,6 +56,7 @@ class Settings_Picklist_IndexAjax_View extends Settings_Vtiger_IndexAjax_View
 		$moduleName = $request->getModule();
 		$qualifiedName = $request->getModule(false);
 		$selectedFieldAllPickListValues = [];
+		$fieldModel = null;
 		if (!empty($pickFieldName)) {
 			$fieldModel = Settings_Picklist_Field_Model::getInstance($pickFieldName, Vtiger_Module_Model::getInstance($sourceModule));
 			$selectedFieldAllPickListValues = App\Fields\Picklist::getValuesName($fieldModel->getName());
