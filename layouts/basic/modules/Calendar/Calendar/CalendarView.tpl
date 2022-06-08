@@ -24,12 +24,11 @@
 				</div>
 				<div class="o-calendar__filter js-calendar__filter-container" data-js="clone container">
 					{if $CUSTOM_VIEWS|@count gt 0}
-						<ul class="nav nav-pills u-w-fit js-calendar__extended-filter-tab" data-js="change"
-							role="tablist">
+						<ul class="nav nav-pills u-w-fit js-calendar__extended-filter-tab" data-js="change">
 							{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
 								{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 									{if $CUSTOM_VIEW->isFeatured()}
-										<li class="nav-item js-filter-tab c-tab--small font-weight-bold"
+										<li class="nav-item js-filter-tab c-tab--small font-weight-bold" role="tablist"
 											data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
 											<a class="nav-link{if !empty($HISTORY_PARAMS['cvid']) && $HISTORY_PARAMS['cvid'] eq {$CUSTOM_VIEW->getId()}} active show{/if}"
 												href="#"

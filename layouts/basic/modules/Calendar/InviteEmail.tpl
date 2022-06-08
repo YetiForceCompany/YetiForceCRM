@@ -6,17 +6,17 @@
 			<div class="alert alert-info mb-0" role="alert">
 				{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}
 			</div>
-			<div class="fieldLabel">
+			<label for="invite-email" class="fieldLabel">
 				<span class="redColor">*</span> {\App\Language::translate('LBL_PARTICIPANTS_EMAIL', $MODULE_NAME)}:
-			</div>
+			</label>
 			<div class="fieldValue">
-				<input type="text" class="js-invite-email-input form-control" data-validation-engine="validate[required,custom[email],funcCall[Calendar_Edit_Js.checkEmail],maxSize[100]]" />
+				<input type="text" id="invite-email" class="js-invite-email-input form-control" data-validation-engine="validate[required,custom[email],funcCall[Calendar_Edit_Js.checkEmail],maxSize[100]]" />
 			</div>
-			<div class="fieldLabel">
+			<label for="invite-name" class="fieldLabel">
 				{\App\Language::translate('LBL_PARTICIPANTS_NAME', $MODULE_NAME)}:
-			</div>
+			</label>
 			<div class="fieldValue">
-				<input type="text" class="js-invite-name-input form-control" />
+				<input type="text" id="invite-name" class="js-invite-name-input form-control" />
 			</div>
 		</div>
 	</form>
