@@ -72,10 +72,11 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 			$displayValue = App\Language::translate($value, $moduleName);
 			if ($icon = \App\Fields\Picklist::getIcon($this->getFieldModel()->getName(), $value) ?: '') {
 				['type' => $type, 'name' => $name] = $icon;
+				$icon = '';
 				if ('icon' === $type) {
 					$icon = "<span class=\"{$name} mr-1\"></span>";
-				} elseif ('image' === $type) {
-					$icon = '<img class="icon-img--picklist mr-1" src="' . \App\Layout\Media::getImageUrl($name) . '">';
+				} elseif ('image' === $type && ($src = \App\Layout\Media::getImageUrl($name))) {
+					$icon = '<img class="icon-img--picklist mr-1" src="' . $src . '">';
 				}
 			}
 			$value = App\Colors::sanitizeValue($value);

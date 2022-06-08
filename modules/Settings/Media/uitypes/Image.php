@@ -152,15 +152,15 @@ class Settings_Media_Image_UIType extends Vtiger_Image_UIType
 
 			$tempAdd = $file->insertMediaFile(['path' => $uploadFilePath, 'fieldname' => $this->getFieldModel()->getName(), 'key' => $key]);
 			if ($tempAdd && move_uploaded_file($file->getPath(), $newPath)) {
+				$db->createCommand()->update(\App\Layout\Media::TABLE_NAME_MEDIA, ['status' => 1], ['key' => $key])->execute();
 				$attach[] = [
 					'name' => $file->getName(true),
 					'size' => $file->getSize(),
 					'sizeDisplay' => \vtlib\Functions::showBytes($file->getSize()),
 					'key' => $key,
-					'src' => $newPath,
+					'src' => IS_PUBLIC_DIR && 0 === strpos($newPath, 'public_html/') ? substr($newPath, 12, \strlen($newPath)) : $newPath,
 					'type' => $tempValue['type'],
 				];
-				$db->createCommand()->update(\App\Layout\Media::TABLE_NAME_MEDIA, ['status' => 1], ['key' => $key])->execute();
 			} else {
 				$db->createCommand()->delete(\App\Layout\Media::TABLE_NAME_MEDIA, ['key' => $key])->execute();
 				\App\Log::error("Moves an uploaded file to a new location failed: {$uploadFilePath}");

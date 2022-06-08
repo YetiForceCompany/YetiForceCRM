@@ -84,7 +84,7 @@
 					{foreach from=$IMAGES item=item name=images}
 						<article id="image-{$smarty.foreach.images.iteration}" class="w-100 {if $smarty.foreach.images.iteration gt $PAGE_LIMT} d-none{/if} position-relative js-icon-item" data-icon-search="{\App\Purifier::encodeHtml(strtolower($item.name))}" data-name="{\App\Purifier::encodeHtml($item.name)}" data-type="image" data-key="{$item.key}">
 							{if !empty($FIELD_MODEL)}
-								<button type="button" class="btn-xs btn btn-danger js-popover-tooltip position-absolute u-position-r-0 js-image-remove" data-url="{$FIELD_MODEL->getUITypeModel()->getRemoveURL($item.key)}" data-js="popover" data-content="{App\Language::translate('LBL_REMOVE_IMAGE')}" aria-label="{App\Language::translate('LBL_REMOVE_IMAGE')}">
+								<button type="button" class="btn-xs btn btn-danger js-popover-tooltip position-absolute u-position-r-0 js-image-remove" data-url="{$FIELD_MODEL->getUITypeModel()->getRemoveURL($item.key)}" data-js="popover" data-content="{App\Language::translate('LBL_REMOVE')}" aria-label="{App\Language::translate('LBL_REMOVE')}">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							{/if}

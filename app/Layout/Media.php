@@ -32,7 +32,12 @@ class Media
 			self::$images = [];
 			$dataReader = (new \App\Db\Query())->from(static::TABLE_NAME_MEDIA)->where(['status' => 1, 'fieldname' => 'image'])->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$row['src'] = "{$row['path']}{$row['key']}.{$row['ext']}";
+				$path = $row['path'];
+				if (IS_PUBLIC_DIR && 0 === strpos($path, 'public_html/')) {
+					$path = $path = substr($path, 12, \strlen($path));
+				}
+				$row['src'] = "{$path}{$row['key']}.{$row['ext']}";
+				$row['relativePath'] = "{$row['path']}{$row['key']}.{$row['ext']}";
 				self::$images[$row['key']] = $row;
 			}
 			$dataReader->close();
@@ -63,7 +68,7 @@ class Media
 	public static function removeImage(string $key): bool
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		return ($src = self::getImages()[$key]['src'] ?? '') && file_exists($src) && $dbCommand->delete(self::TABLE_NAME_MEDIA, ['key' => $key])->execute() && unlink($src);
+		return ($path = self::getImages()[$key]['relativePath'] ?? '') && file_exists($path) && $dbCommand->delete(self::TABLE_NAME_MEDIA, ['key' => $key])->execute() && unlink($path);
 	}
 
 	/**
@@ -75,6 +80,11 @@ class Media
 	 */
 	public static function getImageUrl(string $key): string
 	{
-		return self::getImages()[$key]['src'] ?? '';
+		$path = self::getImages()[$key]['src'] ?? '';
+		if ($path && !file_exists(self::getImages()[$key]['relativePath'])) {
+			$path = '';
+		}
+
+		return $path;
 	}
 }
