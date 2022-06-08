@@ -10,13 +10,13 @@
 				<span class="redColor">*</span> {\App\Language::translate('LBL_PARTICIPANTS_EMAIL', $MODULE_NAME)}:
 			</div>
 			<div class="fieldValue">
-				<input type="text" class="js-invite-email-input form-control" data-validation-engine="validate[required,custom[email],funcCall[Calendar_Edit_Js.checkEmail],maxSize[100]]" />
+				<input type="text" aria-label="{\App\Language::translate('LBL_PARTICIPANTS_EMAIL', $MODULE_NAME)}" class="js-invite-email-input form-control" data-validation-engine="validate[required,custom[email],funcCall[Calendar_Edit_Js.checkEmail],maxSize[100]]" />
 			</div>
 			<div class="fieldLabel">
 				{\App\Language::translate('LBL_PARTICIPANTS_NAME', $MODULE_NAME)}:
 			</div>
 			<div class="fieldValue">
-				<input type="text" class="js-invite-name-input form-control" />
+				<input type="text" aria-label="{\App\Language::translate('LBL_PARTICIPANTS_NAME', $MODULE_NAME)}" class="js-invite-name-input form-control" />
 			</div>
 		</div>
 	</form>

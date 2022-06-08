@@ -39,7 +39,7 @@
 					<button class="btn btn-light js-meeting-clear" type="button" tabindex="{$TABINDEX}" {if $FIELD_MODEL->isEditableReadOnly()}disabled="disabled" {/if}>
 						<span id="{$MODULE_NAME}_editView_fieldName_{$FIELD_NAME}_clear" class="fas fa-times-circle" title="{\App\Language::translate('LBL_CLEAR', $MODULE_NAME)}"></span>
 					</button>
-					<button class="btn btn-light js-meeting-add js-popover-tooltip" type="button" tabindex="{$TABINDEX}" {if $FIELD_MODEL->isEditableReadOnly()}disabled="disabled" {/if}
+					<button class="btn btn-light js-meeting-add js-popover-tooltip" type="button" aria-label="{\App\Language::translate("LBL_MEETING_AUTOGENERATE", $MODULE_NAME)}" tabindex="{$TABINDEX}" {if $FIELD_MODEL->isEditableReadOnly()}disabled="disabled" {/if}
 						data-js="popover" data-trigger="hover" data-content="{\App\Language::translate("LBL_MEETING_AUTOGENERATE", $MODULE_NAME)}{MEETING_INFO PARAMS=$PARAMS}"
 						data-url="{$FIELD_MODEL->getUITypeModel()->getUrl($RECORD_ID)}"
 						data-exp-field="{if !empty($PARAMS['exp'])}{\App\Purifier::encodeHtml($PARAMS['exp'])}{/if}"
