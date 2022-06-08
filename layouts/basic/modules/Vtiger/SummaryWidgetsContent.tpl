@@ -185,6 +185,11 @@
 												class="yfi yfi-full-editing-view"></span>
 										</button>
 									</a>
+									{if $RELATED_MODULE->isQuickCreateSupported()}
+										<button type="button" class="btn btn-sm btn-light js-quick-edit-modal js-popover-tooltip" data-module="{$RELATED_RECORD->getModuleName()}" data-record="{$RELATED_RECORD->getId()}" data-content="{\App\Language::translate('LBL_QUICK_EDIT',$MODULE)}" data-js="click|popover">
+											<span title="{\App\Language::translate('LBL_QUICK_EDIT',$MODULE)}" class="yfi yfi-quick-creation "></span>
+										</button>
+									{/if}
 								{/if}
 							</div>
 						</div>
@@ -298,9 +303,14 @@
 								<button type="button" class="btn btn-sm btn-light js-popover-tooltip" data-js="popover"
 									data-content="{\App\Language::translate('LBL_EDIT', $MODULE)}">
 									<span title="{\App\Language::translate('LBL_EDIT', $MODULE)}"
-										class="far fa-edit"></span>
+										class="yfi yfi-full-editing-view"></span>
 								</button>
 							</a>
+							{if $RELATED_MODULE->isQuickCreateSupported()}
+								<button type="button" class="btn btn-sm btn-light js-quick-edit-modal js-popover-tooltip" data-module="{$RELATED_RECORD->getModuleName()}" data-record="{$RELATED_RECORD->getId()}" data-content="{\App\Language::translate('LBL_QUICK_EDIT',$MODULE)}" data-js="click|popover">
+									<span title="{\App\Language::translate('LBL_QUICK_EDIT',$MODULE)}" class="yfi yfi-quick-creation "></span>
+								</button>
+							{/if}
 						{/if}
 						<button type="button" class="btn btn-sm btn-light js-popover-tooltip">
 							<span class="far fa-times-circle hideSummaryRelRecordView u-cursor-pointer"></span>
