@@ -218,45 +218,96 @@ class Picklist
 		if (\App\Cache::has('getPicklistDependencyDatasource', $module) && \App\Cache::has('picklistDependencyFields', $module)) {
 			return \App\Cache::get('getPicklistDependencyDatasource', $module);
 		}
-		$query = (new \App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => \App\Module::getModuleId($module)]);
+		$query = (new \App\Db\Query())->select([
+			'groupId', 'source_field', 'second_field', 'third_field', 'sourcevalue', 'second_values', 'third_values'
+		])->from('s_#__picklist_dependency')->where(['tabid' => \App\Module::getModuleId($module)])
+			->rightJoin('vtiger_picklist_dependency', 's_#__picklist_dependency.id  = vtiger_picklist_dependency.groupId');
 		$dataReader = $query->createCommand()->query();
-		$picklistDependencyDatasource = [];
-		$picklistDependencyFields = [];
+		$picklistDependencyFields = $listenFields = $picklistDependencies = [];
 		$isEmptyDefaultValue = \App\Config::performance('PICKLIST_DEPENDENCY_DEFAULT_EMPTY');
 		while ($row = $dataReader->read()) {
-			$pickArray = [];
-			$sourceField = $row['sourcefield'];
-			$targetField = $row['targetfield'];
+			$pickArray = $thirdValuesUnserialize = $defaultValues = $thirdDefaultValues = [];
+			$sourceField = $row['source_field'];
+			$secondField = $row['second_field'];
+			$thirdField = $row['third_field'];
 			$picklistDependencyFields[$sourceField] = true;
-			$picklistDependencyFields[$targetField] = true;
+			$picklistDependencyFields[$secondField] = true;
+			$listenFields[$sourceField] = $sourceField;
+
 			$sourceValue = \App\Purifier::decodeHtml($row['sourcevalue']);
-			$targetValues = \App\Purifier::decodeHtml($row['targetvalues']);
+			$targetValues = \App\Purifier::decodeHtml($row['second_values']);
 			$unserializedTargetValues = \App\Json::decode(html_entity_decode($targetValues));
+			if ('' !== $thirdField) {
+				$listenFields[$secondField] = $secondField;
+				$picklistDependencyFields[$thirdField] = true;
+				$thirdValues = \App\Purifier::decodeHtml($row['third_values']);
+				$thirdValuesUnserialize = \App\Json::decode(html_entity_decode($thirdValues));
+				if (!$isEmptyDefaultValue) {
+					foreach (self::getValuesName($thirdField) as $picklistValue) {
+						$pickArray[] = \App\Purifier::decodeHtml($picklistValue);
+					}
+					$thirdDefaultValues = $pickArray;
+				} else {
+					$thirdDefaultValues = [];
+				}
+				$dependencies = [
+					'secondValue' => [
+						$unserializedTargetValues[0] => [
+							$thirdField => [
+								'value' => $thirdValuesUnserialize,
+								'__DEFAULT__' => $thirdDefaultValues
+							]
+						]
+					]
+				];
+
+				$picklistDependencies[$secondField][$unserializedTargetValues[0]][$sourceField] = [
+					'secondValue' => [
+						$sourceValue => [
+							$thirdField => [
+								'value' => $thirdValuesUnserialize,
+							]
+						]
+					]
+				];
+			} else {
+				$dependencies = ['secondValues' => $unserializedTargetValues];
+			}
+			$picklistDependencies[$sourceField][$sourceValue][$secondField] = $dependencies;
+
+			if (!isset($picklistDependencies[$sourceField]['__DEFAULT__'][$secondField])) {
+				$pickArray = $defaultValues = [];
+				if (!$isEmptyDefaultValue) {
+					foreach (self::getValuesName($secondField) as $picklistValue) {
+						$pickArray[] = \App\Purifier::decodeHtml($picklistValue);
+					}
+					$defaultValues = $pickArray;
+				} else {
+					$defaultValues = [];
+				}
+				$picklistDependencies[$sourceField]['__DEFAULT__'][$secondField] = [
+					'secondValues' => $defaultValues
+				];
+			}
+
+			/*
 			$criteria = \App\Purifier::decodeHtml($row['criteria'] ?? '');
 			$unserializedCriteria = \App\Json::decode(html_entity_decode($criteria));
 
+
 			if (!empty($unserializedCriteria) && null !== $unserializedCriteria['fieldname']) {
-				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField][] = [
-					'condition' => [$unserializedCriteria['fieldname'] => $unserializedCriteria['fieldvalues']],
-					'values' => $unserializedTargetValues,
-				];
+			$dependenciesForTwoFields[$sourceField][$sourceValue][$targetField][] = [
+				'condition' => [$unserializedCriteria['fieldname'] => $unserializedCriteria['fieldvalues']],
+				'values' => $unserializedTargetValues,
+			];
 			} else {
-				$picklistDependencyDatasource[$sourceField][$sourceValue][$targetField] = $unserializedTargetValues;
-			}
-			if (!isset($picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField])) {
-				if (!$isEmptyDefaultValue) {
-					foreach (self::getValuesName($targetField) as $picklistValue) {
-						$pickArray[] = \App\Purifier::decodeHtml($picklistValue);
-					}
-					$picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField] = $pickArray;
-				} else {
-					$picklistDependencyDatasource[$sourceField]['__DEFAULT__'][$targetField] = [];
-				}
-			}
+
+			}*/
 		}
+		$result = ['mapping' => $picklistDependencies, 'picklistFieldsToListen' => $listenFields];
 		\App\Cache::save('picklistDependencyFields', $module, $picklistDependencyFields);
-		\App\Cache::save('getPicklistDependencyDatasource', $module, $picklistDependencyDatasource);
-		return $picklistDependencyDatasource;
+		\App\Cache::save('getPicklistDependencyDatasource', $module, $result);
+		return $result;
 	}
 
 	/**

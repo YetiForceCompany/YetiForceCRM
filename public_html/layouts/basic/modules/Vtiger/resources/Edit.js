@@ -1069,64 +1069,71 @@ $.Class(
 			if (picklistDependcyElemnt.length <= 0) {
 				return;
 			}
-			let picklistDependencyMapping = JSON.parse(picklistDependcyElemnt.val());
+			let picklistDependencyData = JSON.parse(picklistDependcyElemnt.val());
 
-			let sourcePicklists = Object.keys(picklistDependencyMapping);
-			if (sourcePicklists.length <= 0) {
+			if (Object.keys(picklistDependencyData).length <= 0) {
 				return;
 			}
 
-			let sourcePickListNames = [],
+			let picklistFieldsToListen = Object.keys(picklistDependencyData.picklistFieldsToListen);
+			let picklistDependencyMapping = picklistDependencyData.mapping;
+
+			let pickListNamesToListen = [],
 				i;
-			for (i = 0; i < sourcePicklists.length; i++) {
-				sourcePickListNames.push('[name="' + sourcePicklists[i] + '"]');
+			for (i = 0; i < picklistFieldsToListen.length; i++) {
+				pickListNamesToListen.push('[name="' + picklistFieldsToListen[i] + '"]');
 			}
-			sourcePickListNames = sourcePickListNames.join(',');
-			let sourcePickListElements = container.find(sourcePickListNames);
+			pickListNamesToListen = pickListNamesToListen.join(',');
+			let pickListElementsToListen = container.find(pickListNamesToListen);
 
-			sourcePickListElements.on('change', function (e) {
-				let currentElement = $(e.currentTarget),
-					configuredDependencyObject = picklistDependencyMapping[currentElement.attr('name')],
-					targetObjectForSelectedSourceValue = configuredDependencyObject[currentElement.val()],
-					picklistmap = configuredDependencyObject['__DEFAULT__'];
+			pickListElementsToListen.on('change', function (e) {
+				let currentElement = $(e.currentTarget);
+				let targetPickList = '';
+				let targetPickListMap = '';
+				let sourceFieldName = currentElement.attr('name');
+				let configuredDependencyObject = picklistDependencyMapping[sourceFieldName];
+				if (
+					configuredDependencyObject !== undefined &&
+					configuredDependencyObject.hasOwnProperty(currentElement.val())
+				) {
+					let targetObjectForSelectedSourceValue = configuredDependencyObject[currentElement.val()];
+					let secondFieldName = Object.keys(targetObjectForSelectedSourceValue);
 
-				if (typeof targetObjectForSelectedSourceValue === 'undefined') {
-					targetObjectForSelectedSourceValue = picklistmap;
-				}
-				$.each(picklistmap, function (targetPickListName, targetPickListValues) {
-					let targetPickListMap = targetObjectForSelectedSourceValue[targetPickListName];
-					if (typeof targetPickListMap === 'undefined') {
-						targetPickListMap = targetPickListValues;
-					}
-					let targetPickList = $('[name="' + targetPickListName + '"]', container);
-					if (targetPickList.length <= 0) {
-						return;
-					}
-
-					let listOfAvailableOptions = targetPickList.data('availableOptions');
-					if (typeof listOfAvailableOptions === 'undefined') {
-						listOfAvailableOptions = $('option', targetPickList);
-						targetPickList.data('available-options', listOfAvailableOptions);
-					}
-
-					let targetOptions = new $(),
-						optionSelector = [];
-					optionSelector.push('');
-					for (i = 0; i < targetPickListMap.length; i++) {
-						optionSelector.push(targetPickListMap[i]);
-					}
-
-					$.each(listOfAvailableOptions, function (i, e) {
-						if ($.inArray($(e).val(), optionSelector) !== -1) {
-							targetOptions = targetOptions.add($(e));
+					if (targetObjectForSelectedSourceValue[secondFieldName]['secondValue'] !== undefined) {
+						let secondFieldValue = container.find('[name="' + secondFieldName[0] + '"] option:selected').val();
+						if (targetObjectForSelectedSourceValue[secondFieldName]['secondValue'].hasOwnProperty(secondFieldValue)) {
+							let thirdFieldData = targetObjectForSelectedSourceValue[secondFieldName]['secondValue'][secondFieldValue];
+							let thirdFieldName = Object.keys(thirdFieldData)[0];
+							targetPickList = container.find('[name="' + thirdFieldName + '"]');
+							if (thirdFieldData[thirdFieldName]['value'].length > 0) {
+								targetPickListMap = thirdFieldData[thirdFieldName]['value'];
+							}
 						}
-					});
-					targetPickList.html(targetOptions).val(targetOptions.filter('[selected]').val()).trigger('change');
-				});
-			});
+					}
 
-			//To Trigger the change on load
-			sourcePickListElements.trigger('change');
+					if (targetPickList && targetPickListMap) {
+						let listOfAvailableOptions = targetPickList.data('availableOptions');
+						if (typeof listOfAvailableOptions === 'undefined') {
+							listOfAvailableOptions = $('option', targetPickList);
+							targetPickList.data('available-options', listOfAvailableOptions);
+						}
+						let targetOptions = new $(),
+							optionSelector = [];
+						optionSelector.push('');
+						for (i = 0; i < targetPickListMap.length; i++) {
+							optionSelector.push(targetPickListMap[i]);
+						}
+
+						$.each(listOfAvailableOptions, function (i, e) {
+							if ($.inArray($(e).val(), optionSelector) !== -1) {
+								targetOptions = targetOptions.add($(e));
+							}
+						});
+						targetPickList.html(targetOptions).val(targetOptions.filter('[selected]').val()).trigger('change');
+					}
+				}
+			});
+			pickListElementsToListen.trigger('change');
 		},
 		registerLeavePageWithoutSubmit: function (form) {
 			if (
