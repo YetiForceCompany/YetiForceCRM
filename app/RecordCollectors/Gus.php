@@ -28,7 +28,10 @@ class Gus extends Base
 	public $icon = 'yfi yfi-gus';
 
 	/** {@inheritdoc} */
-	public $label = 'GUS';
+	public $label = 'LBL_GUS';
+
+	/** {@inheritdoc} */
+	public $description = 'LBL_GUS_DESC';
 
 	/** {@inheritdoc} */
 	public $displayType = 'FillFields';
