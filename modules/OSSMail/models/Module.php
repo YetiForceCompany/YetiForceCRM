@@ -111,6 +111,9 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 					foreach ($params as $key => $value) {
 						$textParser->setParam($key, $value);
 					}
+					if ('Calendar' === $moduleName && !$recordModel->isEmpty('meeting_url') && !\array_key_exists('meetingUrl', $params) ) {
+						$textParser->setParam('meetingUrl', $recordModel->get('meeting_url'));
+					}
 					$subject = $textParser->setContent($templateModel->get('subject'))->parse()->getContent();
 					$return['html'] = true;
 					$return['body'] = $textParser->setContent($templateModel->get('content'))->parse()->getContent();
