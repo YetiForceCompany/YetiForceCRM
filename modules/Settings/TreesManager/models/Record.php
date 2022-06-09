@@ -79,12 +79,8 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		return 'index.php?module=TreesManager&parent=Settings&view=List';
 	}
 
-	/**
-	 * Function to get record links.
-	 *
-	 * @return <Array> list of link models <Vtiger_Link_Model>
-	 */
-	public function getRecordLinks()
+	/** {@inheritdoc} */
+	public function getRecordLinks(): array
 	{
 		$links = [];
 		$recordLinks = [
@@ -419,7 +415,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return void
 	 */
-	public function clearCache():void
+	public function clearCache(): void
 	{
 		\App\Cache::delete('TreeValuesById', $this->getId());
 	}

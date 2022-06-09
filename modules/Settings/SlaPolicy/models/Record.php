@@ -166,11 +166,7 @@ class Settings_SlaPolicy_Record_Model extends Settings_Vtiger_Record_Model
 		return $value;
 	}
 
-	/**
-	 * Function to get the list view actions for the record.
-	 *
-	 * @return array - Associate array of Vtiger_Link_Model instances
-	 */
+	/** {@inheritdoc} */
 	public function getRecordLinks(): array
 	{
 		$links = [];

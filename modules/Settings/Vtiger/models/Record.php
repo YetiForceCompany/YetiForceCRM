@@ -13,11 +13,26 @@
  */
 abstract class Settings_Vtiger_Record_Model extends App\Base
 {
+	/**
+	 * Record ID.
+	 *
+	 * @return int
+	 */
 	abstract public function getId();
 
+	/**
+	 * Record name.
+	 *
+	 * @return string
+	 */
 	abstract public function getName();
 
-	public function getRecordLinks()
+	/**
+	 * Get record links.
+	 *
+	 * @return Vtiger_Link_Model[]
+	 */
+	public function getRecordLinks(): array
 	{
 		$links = [];
 		$recordLinks = [];

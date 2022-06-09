@@ -49,12 +49,8 @@ class Settings_MeetingServices_Record_Model extends Settings_Vtiger_Record_Model
 		return 'index.php?parent=Settings&module=MeetingServices&view=Edit&record=' . $this->getId();
 	}
 
-	/**
-	 * Function to get the list view actions for the record.
-	 *
-	 * @return array - Associate array of Vtiger_Link_Model instances
-	 */
-	public function getRecordLinks()
+	/** {@inheritdoc} */
+	public function getRecordLinks(): array
 	{
 		$links = [];
 		$recordLinks = [

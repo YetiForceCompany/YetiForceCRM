@@ -236,11 +236,7 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 		return $delete;
 	}
 
-	/**
-	 * Function to get the list view actions for the record.
-	 *
-	 * @return array - Associate array of Vtiger_Link_Model instances
-	 */
+	/** {@inheritdoc} */
 	public function getRecordLinks(): array
 	{
 		$links = [];
