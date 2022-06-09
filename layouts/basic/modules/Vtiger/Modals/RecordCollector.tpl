@@ -8,6 +8,11 @@
 			<input type="hidden" name="mode" value="search" />
 			<input type="hidden" name="record" value="{$RECORD_ID}" />
 			<input type="hidden" name="collectorType" value="{$COLLECTOR_NAME}" />
+			{if !empty($RECORD_COLLECTOR->description)}
+				<div class="alert alert-info" role="alert">
+					{\App\Language::translate($RECORD_COLLECTOR->description, 'Other.RecordCollector')}
+				</div>
+			{/if}
 			{foreach item=FIELD_MODEL from=$RECORD_COLLECTOR->getFields()}
 				<div class="form-group form-row">
 					<label class="col-4 col-form-label">
