@@ -17,47 +17,28 @@ namespace App\RecordCollectors;
  */
 class Base
 {
-	/**
-	 * Module name.
-	 *
-	 * @var string
-	 */
+	/** @var string Module name. */
 	public $moduleName;
-	/**
-	 * Allowed modules.
-	 *
-	 * @var string[]
-	 */
+
+	/** @var string[] Allowed modules. */
 	protected static $allowedModules = [];
-	/**
-	 * Icon.
-	 *
-	 * @var string
-	 */
+
+	/** @var string Icon. */
 	public $icon;
-	/**
-	 * Label.
-	 *
-	 * @var string
-	 */
+
+	/** @var string Label. */
 	public $label;
-	/**
-	 * Search results display type.
-	 *
-	 * @var string
-	 */
+
+	/** @var string Additional description, visible in the modal window. */
+	public $description;
+
+	/** @var string Search results display type. */
 	public $displayType;
-	/**
-	 * List of fields for the modal search window.
-	 *
-	 * @var array
-	 */
+
+	/** var array List of fields for the modal search window. */
 	protected $fields = [];
-	/**
-	 * Request instance.
-	 *
-	 * @var \App\Request
-	 */
+
+	/** @var \App\Request Request instance. */
 	protected $request;
 	/**
 	 * Fields mapping for loading record data.

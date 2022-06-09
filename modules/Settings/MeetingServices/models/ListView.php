@@ -24,7 +24,7 @@ class Settings_MeetingServices_ListView_Model extends Settings_Vtiger_ListView_M
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkdata' => ['url' => $moduleModel->getCreateRecordUrl()],
-				'linkclass' => 'btn-light js-add-record',
+				'linkclass' => 'btn-light js-add-record-modal',
 				'linkicon' => 'fas fa-plus',
 				'showLabel' => 1
 			];

@@ -123,7 +123,6 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	public static function getInstance($name = 'Settings:Vtiger')
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
-
 		return new $modelClassName();
 	}
 

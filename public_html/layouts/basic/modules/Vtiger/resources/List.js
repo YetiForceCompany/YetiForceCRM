@@ -961,7 +961,7 @@ $.Class(
 					}
 					thisInstance
 						.massActionSave(form, true)
-						.done(function (data) {
+						.done(function () {
 							thisInstance.getListViewRecords();
 							Vtiger_List_Js.clearList();
 						})
@@ -991,7 +991,7 @@ $.Class(
 					sortorder: listViewPageDiv.find('#sortOrder').val(),
 					viewname: self.getCurrentCvId()
 				})
-				.done(function (data) {
+				.done(function () {
 					aDeferred.resolve();
 				})
 				.fail(function (textStatus, errorThrown) {
@@ -2089,6 +2089,28 @@ $.Class(
 				}
 			});
 		},
+		/**
+		 * Function that executes after the mass delete action
+		 */
+		postMassDeleteRecords: function () {
+			let aDeferred = $.Deferred();
+			let listInstance = Vtiger_List_Js.getInstance();
+			app.hideModalWindow();
+			listInstance.getListViewRecords().done(function (data) {
+				$('#recordsCount').val('');
+				$('#totalPageCount').text('');
+				$('#deSelectAllMsg').trigger('click');
+				listInstance.calculatePages().done(function () {
+					listInstance.updatePagination();
+				});
+				aDeferred.resolve();
+			});
+			$('#recordsCount').val('');
+			return aDeferred.promise();
+		},
+		/**
+		 * Function to register events
+		 */
 		registerEvents: function () {
 			this.registerRowClickEvent();
 			this.registerPageNavigationEvents();
@@ -2128,25 +2150,6 @@ $.Class(
 			this.registerLastRelationsEvent();
 			this.registerKeyboardShortcutsEvent();
 			Vtiger_Index_Js.registerMailButtons(listViewContainer);
-		},
-		/**
-		 * Function that executes after the mass delete action
-		 */
-		postMassDeleteRecords: function () {
-			let aDeferred = $.Deferred();
-			let listInstance = Vtiger_List_Js.getInstance();
-			app.hideModalWindow();
-			listInstance.getListViewRecords().done(function (data) {
-				$('#recordsCount').val('');
-				$('#totalPageCount').text('');
-				$('#deSelectAllMsg').trigger('click');
-				listInstance.calculatePages().done(function () {
-					listInstance.updatePagination();
-				});
-				aDeferred.resolve();
-			});
-			$('#recordsCount').val('');
-			return aDeferred.promise();
 		}
 	}
 );

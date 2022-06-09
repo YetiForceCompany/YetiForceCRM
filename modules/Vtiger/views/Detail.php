@@ -18,27 +18,16 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 {
 	use \App\Controller\ExposeMethod;
 
-	/**
-	 * Record model instance.
-	 *
-	 * @var Vtiger_DetailView_Model
-	 */
+	/** @var Vtiger_DetailView_Model Record model instance. */
 	public $record;
-	/**
-	 * Record structure model instance.
-	 *
-	 * @var Vtiger_RecordStructure_Model
-	 */
+
+	/** @var Vtiger_DetailRecordStructure_Model Detail record structure model instance. */
 	protected $recordStructure;
-	/**
-	 * @var string
-	 */
+
+	/** @var string Default request mode */
 	public $defaultMode = '';
-	/**
-	 * Page title.
-	 *
-	 * @var type
-	 */
+
+	/** @var string Page title. */
 	protected $pageTitle = 'LBL_VIEW_DETAIL';
 
 	/**
@@ -528,7 +517,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$parentCommentId = $request->getInteger('commentid');
-		$parentCommentModel = Vtiger_Record_Model::getInstanceById($parentCommentId);
+		$parentCommentModel = ModComments_Record_Model::getInstanceById($parentCommentId);
 		$childComments = $parentCommentModel->getChildComments();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');
@@ -557,7 +546,7 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		if (!\App\Privilege::isPermitted('ModComments')) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$parentCommentModel = Vtiger_Record_Model::getInstanceById($request->getInteger('commentid'));
+		$parentCommentModel = ModComments_Record_Model::getInstanceById($request->getInteger('commentid'));
 		$parentThreadComments = $parentCommentModel->getParentComments();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$modCommentsModel = Vtiger_Module_Model::getInstance('ModComments');

@@ -150,12 +150,8 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 			->execute();
 	}
 
-	/**
-	 * Function to get the list view actions for the record.
-	 *
-	 * @return array - Associate array of Vtiger_Link_Model instances
-	 */
-	public function getRecordLinks()
+	/** {@inheritdoc} */
+	public function getRecordLinks(): array
 	{
 		$links = [];
 		if (0 === $this->get('status')) {

@@ -220,12 +220,8 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		return (new VTEntityMethodManager())->methodsForModule($this->get('module_name'));
 	}
 
-	/**
-	 * Function to get the list view actions for the record.
-	 *
-	 * @return Vtiger_Link_Model[]
-	 */
-	public function getRecordLinks()
+	/** {@inheritdoc} */
+	public function getRecordLinks(): array
 	{
 		$links = [];
 

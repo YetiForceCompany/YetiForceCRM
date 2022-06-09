@@ -41,7 +41,6 @@ Settings_Vtiger_List_Js(
 		 */
 		registerEvents: function () {
 			this._super();
-			this.registerButtons();
 		}
 	}
 );

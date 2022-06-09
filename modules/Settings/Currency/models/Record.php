@@ -48,12 +48,8 @@ class Settings_Currency_Record_Model extends Settings_Vtiger_Record_Model
 		return ('-11' != $this->get('defaultid')) ? false : true;
 	}
 
-	/**
-	 * Return record actions links.
-	 *
-	 * @return array
-	 */
-	public function getRecordLinks()
+	/** {@inheritdoc} */
+	public function getRecordLinks(): array
 	{
 		$links = $recordLinks = [];
 		if ($this->isBaseCurrency()) {

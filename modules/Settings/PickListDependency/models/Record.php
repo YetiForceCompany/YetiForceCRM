@@ -37,7 +37,8 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		return 'index.php?parent=Settings&module=PickListDependency&view=Edit&recordId=' . $recordId;
 	}
 
-	public function getRecordLinks()
+	/** {@inheritdoc} */
+	public function getRecordLinks(): array
 	{
 		$editLink = [
 			'linkurl' => $this->getEditRecordUrl($this->getId()),

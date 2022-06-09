@@ -81,7 +81,6 @@ Settings_Vtiger_List_Js(
 				});
 			return aDeferred.promise();
 		},
-
 		/**
 		 * Function to register events
 		 */

@@ -62,12 +62,8 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 		return '?module=MailSmtp&parent=Settings&action=SaveAjax&mode=save';
 	}
 
-	/**
-	 * Function to get the list view actions for the record.
-	 *
-	 * @return array - Associate array of Vtiger_Link_Model instances
-	 */
-	public function getRecordLinks()
+	/** {@inheritdoc} */
+	public function getRecordLinks(): array
 	{
 		$links = [];
 		$recordLinks = [

@@ -75,12 +75,8 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 		return \App\Integrations\SMSProvider::getProviderByName($this->get('providertype'))->getEditViewUrl() . '&record=' . $this->getId();
 	}
 
-	/**
-	 * Function to get record links.
-	 *
-	 * @return array list of link models <Vtiger_Link_Model>
-	 */
-	public function getRecordLinks()
+	/** {@inheritdoc} */
+	public function getRecordLinks(): array
 	{
 		$links = [];
 		$recordLinks = [
