@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Admin privilege basic trait.
+ * Admin privilege basic trait file.
  *
  * @package   Controller
  *

@@ -1,26 +1,24 @@
 <?php
 
 /**
- * Settings ApiAddress Configuration view class.
+ * Settings meeting services edit/create view file.
  *
  * @package   Settings.View
  *
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
- * Settings_MeetingServices_Edit_View class.
+ * Settings meeting services edit/create view class.
  */
 class Settings_MeetingServices_Edit_View extends \App\Controller\ModalSettings
 {
-	/**
-	 * Show modal footer.
-	 *
-	 * @var bool
-	 */
+	/** {@inheritdoc} */
 	public $showFooter = false;
 
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
@@ -35,6 +33,6 @@ class Settings_MeetingServices_Edit_View extends \App\Controller\ModalSettings
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE_NAME', $request->getModule());
 		$viewer->assign('QUALIFIED_MODULE', $moduleName);
-		$viewer->view('Edit.tpl', $moduleName);
+		$viewer->view('Edit/Modal.tpl', $request->getModule(false));
 	}
 }

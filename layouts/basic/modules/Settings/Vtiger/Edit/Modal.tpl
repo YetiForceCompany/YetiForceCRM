@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Settings-MeetingServices-Edit -->
+	<!-- tpl-Settings-Base-Edit-Modal -->
 	<form class="form-horizontal validateForm sendByAjax" id="editForm">
 		<input type="hidden" name="module" value="{$MODULE_NAME}">
 		<input type="hidden" name="parent" value="Settings" />
@@ -22,5 +22,5 @@
 		</div>
 		{include file=App\Layout::getTemplatePath('Modals/Footer.tpl') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 	</form>
-	<!-- /tpl-Settings-MeetingServices-Edit -->
+	<!-- /tpl-Settings-Base-Edit-Modal -->
 {/strip}
