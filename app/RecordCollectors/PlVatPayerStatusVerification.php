@@ -18,16 +18,19 @@ namespace App\RecordCollectors;
 class PlVatPayerStatusVerification extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts'];
+	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
 	public $icon = 'fa-solid fa-magnifying-glass-dollar';
 
 	/** {@inheritdoc} */
-	public $label = 'LBL_VAT_PAYER';
+	public $label = 'LBL_PL_VAT_PAYER_LABEL';
 
 	/** {@inheritdoc} */
 	public $displayType = 'Summary';
+
+	/** {@inheritdoc} */
+	public $description = 'LBL_PL_VAT_PAYER_DESC';
 
 	/** {@inheritdoc} */
 	protected $fields = [
@@ -41,6 +44,15 @@ class PlVatPayerStatusVerification extends Base
 	/** {@inheritdoc} */
 	protected $modulesFieldsMap = [
 		'Accounts' => [
+			'vatNumber' => 'vat_id',
+		],
+		'Leads' => [
+			'vatNumber' => 'vat_id',
+		],
+		'Vendors' => [
+			'vatNumber' => 'vat_id',
+		],
+		'Competition' => [
 			'vatNumber' => 'vat_id',
 		],
 	];
