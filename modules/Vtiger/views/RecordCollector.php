@@ -40,7 +40,7 @@ class Vtiger_RecordCollector_View extends \App\Controller\Modal
 		$this->recordCollector = \App\RecordCollector::getInstance($request->getByType('collectorType', 'ClassName'), $request->getModule());
 		$this->recordCollector->setRequest($request);
 		$this->modalIcon = $this->recordCollector->icon;
-		$this->pageTitle = $this->recordCollector->label;
+		$this->pageTitle = \App\Language::translate($this->recordCollector->label, 'Other.RecordCollector');
 		if (!$request->getMode()) {
 			parent::preProcessAjax($request);
 		}
