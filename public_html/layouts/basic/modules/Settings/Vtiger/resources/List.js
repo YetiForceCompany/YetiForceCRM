@@ -148,12 +148,29 @@ Vtiger_List_Js(
 			}
 			return pageCountParams;
 		},
+		/**
+		 * Register button to create record
+		 */
+		registerButtons: function () {
+			this.getListViewContainer().on('click', '.js-add-record-modal, .js-edit-record-modal', (e) => {
+				app.showModalWindow({
+					url: e.currentTarget.dataset.url,
+					sendByAjaxCb: () => {
+						this.getListViewRecords();
+					}
+				});
+			});
+		},
+		/**
+		 * Function to register events
+		 */
 		registerEvents: function () {
 			this.registerRowClickEvent();
 			this.registerCheckBoxClickEvent();
 			this.registerHeadersClickEvent();
 			this.registerPageNavigationEvents();
 			this.registerEventForTotalRecordsCount();
+			this.registerButtons();
 		}
 	}
 );

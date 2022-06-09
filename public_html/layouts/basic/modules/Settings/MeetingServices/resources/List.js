@@ -6,44 +6,20 @@ Settings_Vtiger_List_Js(
 	{},
 	{
 		/**
-		 * Container
-		 */
-		container: false,
-		/**
-		 * Gets container
-		 */
-		getContainer: function () {
-			if (this.container === false) {
-				this.container = this.getListViewContentContainer().closest('.contentsDiv');
-			}
-			return this.container;
-		},
-
-		/**
 		 * Register button to create record
 		 */
 		registerButtons: function () {
-			let container = this.getContainer();
-			container.on('click', '.js-add-record, .js-edit-record', (e) => {
-				app.showModalWindow({
-					url: e.currentTarget.dataset.url,
-					sendByAjaxCb: (_, __) => {
-						this.getListViewRecords();
-					}
-				});
-			});
-			App.Fields.Text.registerCopyClipboard(container, '.js-clipboard');
+			this._super();
+			App.Fields.Text.registerCopyClipboard(this.getListViewContainer(), '.js-clipboard');
 		},
-
 		postLoadListViewRecordsEvents: function (container) {
 			App.Fields.Text.registerCopyClipboard(container, '.js-clipboard');
 		},
 		/**
-		 * Main function
+		 * Function to register events
 		 */
 		registerEvents: function () {
 			this._super();
-			this.registerButtons();
 		}
 	}
 );

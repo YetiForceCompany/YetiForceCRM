@@ -59,7 +59,7 @@ class Settings_MeetingServices_Record_Model extends Settings_Vtiger_Record_Model
 				'linklabel' => 'BTN_RECORD_EDIT',
 				'linkdata' => ['url' => $this->getEditViewUrl()],
 				'linkicon' => 'yfi yfi-full-editing-view',
-				'linkclass' => 'btn btn-sm btn-primary js-edit-record',
+				'linkclass' => 'btn btn-sm btn-primary js-edit-record-modal',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
