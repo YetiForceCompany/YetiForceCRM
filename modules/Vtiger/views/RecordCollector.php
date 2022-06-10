@@ -17,13 +17,11 @@ class Vtiger_RecordCollector_View extends \App\Controller\Modal
 {
 	/** {@inheritdoc} */
 	public $showFooter = false;
+
 	/** {@inheritdoc} */
 	public $modalSize = 'modal-xl';
-	/**
-	 * Record collector instance.
-	 *
-	 * @var \App\RecordCollectors\Base
-	 */
+
+	/** @var \App\RecordCollectors\Base Record collector instance. */
 	private $recordCollector;
 
 	/** {@inheritdoc} */

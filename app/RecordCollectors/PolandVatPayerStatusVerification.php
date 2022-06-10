@@ -1,13 +1,17 @@
 <?php
 /**
  * VAT Payer Status Verification in Poland record collector file.
- * https://sprawdz-status-vat.mf.gov.pl/?wsdl.
  *
  * @package App
+ *
+ * @see https://ppuslugi.mf.gov.pl/
+ * @see https://www.podatki.gov.pl/e-deklaracje/dokumentacja-it/
+ * @see https://www.podatki.gov.pl/media/3275/specyfikacja-we-wy.pdf
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Rembiesa <s.rembiesa@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\RecordCollectors;
@@ -15,7 +19,7 @@ namespace App\RecordCollectors;
 /**
  * VAT Payer Status Verification in Poland record collector class.
  */
-class PlVatPayerStatusVerification extends Base
+class PolandVatPayerStatusVerification extends Base
 {
 	/** {@inheritdoc} */
 	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
@@ -24,13 +28,13 @@ class PlVatPayerStatusVerification extends Base
 	public $icon = 'fa-solid fa-magnifying-glass-dollar';
 
 	/** {@inheritdoc} */
-	public $label = 'LBL_PL_VAT_PAYER_LABEL';
+	public $label = 'LBL_POLAND_VAT_PAYER';
 
 	/** {@inheritdoc} */
 	public $displayType = 'Summary';
 
 	/** {@inheritdoc} */
-	public $description = 'LBL_PL_VAT_PAYER_DESC';
+	public $description = 'LBL_POLAND_VAT_PAYER_DESC';
 
 	/** {@inheritdoc} */
 	protected $fields = [
