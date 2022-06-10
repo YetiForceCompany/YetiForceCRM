@@ -101,7 +101,7 @@ var App = (window.App = {
 					if (element.data('url')) {
 						let url = element.data('url');
 						let urlObject = app.convertUrlToObject(url);
-						let params = { callbackFunction: function () { } };
+						let params = { callbackFunction: function () {} };
 						const progress = $.progressIndicator({ blockInfo: { enabled: true } });
 						App.Components.QuickCreate.getForm(url, urlObject.module, params).done((data) => {
 							progress.progressIndicator({
@@ -215,8 +215,8 @@ var App = (window.App = {
 			 * @return  {boolean}
 			 */
 			registerPostLoadEvents(form, params, element) {
-				const submitSuccessCallback = params.callbackFunction || function () { };
-				const goToFullFormCallBack = params.goToFullFormcallback || function () { };
+				const submitSuccessCallback = params.callbackFunction || function () {};
+				const goToFullFormCallBack = params.goToFullFormcallback || function () {};
 				form.on('submit', (e) => {
 					const form = $(e.currentTarget);
 					if (form.hasClass('not_validation')) {
@@ -406,8 +406,8 @@ var App = (window.App = {
 			 * @param   {jQuery}  element
 			 */
 			registerPostLoadEvents(form, params, element) {
-				const submitSuccessCallback = params.callbackFunction || function () { };
-				const goToFullFormCallBack = params.goToFullFormcallback || function () { };
+				const submitSuccessCallback = params.callbackFunction || function () {};
+				const goToFullFormCallBack = params.goToFullFormcallback || function () {};
 				form.on('submit', (e) => {
 					const form = $(e.currentTarget);
 					if (form.hasClass('not_validation')) {
@@ -1699,15 +1699,15 @@ var app = (window.app = {
 			cb = url;
 			url = false;
 		} else if (typeof url === 'object') {
-			cb = function () { };
+			cb = function () {};
 			paramsObject = url;
 			url = false;
 		}
 		if (typeof cb !== 'function') {
-			cb = function () { };
+			cb = function () {};
 		}
 		if (typeof sendByAjaxCb !== 'function') {
-			sendByAjaxCb = function () { };
+			sendByAjaxCb = function () {};
 		}
 		if (paramsObject !== undefined && paramsObject.modalId !== undefined) {
 			modalId = paramsObject.modalId;
@@ -1807,7 +1807,7 @@ var app = (window.app = {
 			return;
 		}
 		if (typeof callback !== 'function') {
-			callback = function () { };
+			callback = function () {};
 		}
 		let modalContainer = container.find('.modal');
 		modalContainer.modal('hide');
