@@ -1746,8 +1746,8 @@ class ConfReport
 	{
 		unset($sapi);
 		try {
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('HEAD', static::$crmUrl . $name, ['timeout' => 1, 'connect_timeout' => 1, 'verify' => false, 'http_errors' => false, 'allow_redirects' => false]);
-			$row['status'] = 401 === $response->getStatusCode();
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('OPTIONS', static::$crmUrl . $name . 'Modules', ['timeout' => 1, 'connect_timeout' => 1, 'verify' => false, 'http_errors' => false, 'allow_redirects' => false]);
+			$row['status'] = 200 === $response->getStatusCode();
 		} catch (\Throwable $th) {
 			$row['status'] = false;
 		}
