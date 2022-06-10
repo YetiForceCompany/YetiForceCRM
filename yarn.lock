@@ -257,9 +257,9 @@ datatables.net@>=1.11.3, datatables.net@^1.11.3:
     jquery ">=1.7"
 
 dayjs@^1.8.16:
-  version "1.11.2"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.2.tgz#fa0f5223ef0d6724b3d8327134890cfe3d72fbe5"
-  integrity sha512-F4LXf1OeU9hrSYRPTTj/6FbO4HTjPKXvEIC1P2kcnFurViINCVk3ZV0xAS3XVx9MkMsXbbqlK6hjseaYbgKEHw==
+  version "1.11.3"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.3.tgz#4754eb694a624057b9ad2224b67b15d552589258"
+  integrity sha512-xxwlswWOlGhzgQ4TKzASQkUhqERI3egRNqgV4ScR8wlANA/A9tZ7miXa44vTTKEq5l7vWoL5G57bG3zA+Kow0A==
 
 delegate@^3.1.2:
   version "3.2.0"
@@ -281,9 +281,9 @@ emoji-mart-vue-fast@^10.2.0:
     vue-virtual-scroller "^1.0.10"
 
 flag-icons@^6.0.0:
-  version "6.4.4"
-  resolved "https://registry.yarnpkg.com/flag-icons/-/flag-icons-6.4.4.tgz#d91229842edff4ee71b3bf942b8288c19c5139fe"
-  integrity sha512-NGA8F1+MWg0Scmo/6DZcUnfEE1/8Pe/zYiyALsKF1iHVdugacdteldsLU+v6hpX0sLv42u7CNnh3oEBbaTSCoA==
+  version "6.4.5"
+  resolved "https://registry.yarnpkg.com/flag-icons/-/flag-icons-6.4.5.tgz#06586a9fa867812aea1991cac90cea80ef0c5bab"
+  integrity sha512-I5uoLrBHAxA1sNsaHLl45QedcOgMx/1pdVkMqfs17f5Bo55aX6qVO/Ye6bN9LZ/9emrdEtG7AR4K8ZVSeruIMg==
 
 floatthead@^2.1.3:
   version "2.2.4"
@@ -462,17 +462,17 @@ resize-observer-polyfill@^1.5.1:
 respond.js@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/respond.js/-/respond.js-1.4.2.tgz#fd5c07450acce6090916d8d090b86b672dd9748b"
-  integrity sha1-/VwHRQrM5gkJFtjQkLhrZy3ZdIs=
+  integrity sha512-CnKoEKjfyyrldG/D05DW0qtAyLQ4sm4si4Bq4GDsMPd1KMUAuQI224aybMkG/D5IVOB6PYdtYvjbeiAJo1V0rA==
 
 sass-material-colors@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/sass-material-colors/-/sass-material-colors-0.0.5.tgz#b944539236c94e2d4ece35d2ee3fa22f10b2ed43"
-  integrity sha1-uURTkjbJTi1OzjXS7j+iLxCy7UM=
+  integrity sha512-WqBonSUkR5U9xs9adPVIymIdcT2Ku7PN0Q57yFfcLHj/E63wDqZ/Y5i/m9RmkRyr/jmR85g6ZIS053fyAR8G2A==
 
 scrollparent@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/scrollparent/-/scrollparent-2.0.1.tgz#715d5b9cc57760fb22bdccc3befb5bfe06b1a317"
-  integrity sha1-cV1bnMV3YPsivczDvvtb/gaxoxc=
+  integrity sha512-HSdN78VMvFCSGCkh0oYX/tY4R3P1DW61f8+TeZZ4j2VLgfwvw0bpRSOv4PCVKisktIwbzHCfZsx+rLbbDBqIBA==
 
 select2-theme-bootstrap4@^1.0.0:
   version "1.0.1"
@@ -487,7 +487,7 @@ select2@^4.0.8:
 select@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
-  integrity sha1-DnNQrN7ICxEIUoeG7B1EGNEbOW0=
+  integrity sha512-OwpTSOfy6xSs1+pwcNrv0RBMOzI39Lp3qQKUTPVVPRjCdNa5JH/oPRiqsesIskK8TVgmRiHwO4KXlV2Li9dANA==
 
 split.js@^1.5.10:
   version "1.6.5"
@@ -497,7 +497,7 @@ split.js@^1.5.10:
 store@^2.0.12:
   version "2.0.12"
   resolved "https://registry.yarnpkg.com/store/-/store-2.0.12.tgz#8c534e2a0b831f72b75fc5f1119857c44ef5d593"
-  integrity sha1-jFNOKguDH3K3X8XxEZhXxE711ZM=
+  integrity sha512-eO9xlzDpXLiMr9W1nQ3Nfp9EzZieIQc10zPPMP5jsVV7bLOziSFFBP0XoDXACEIFtdI+rIz0NwWVA/QVJ8zJtw==
 
 text-segmentation@^1.0.3:
   version "1.0.3"

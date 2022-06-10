@@ -1882,10 +1882,11 @@ var app = (window.app = {
 							app.hideModalWindow();
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						})
-						.fail(function () {
+						.fail(function (error) {
 							app.showNotify({
-								text: app.vtranslate('JS_UNEXPECTED_ERROR'),
-								type: 'error'
+								type: 'error',
+								title: app.vtranslate('JS_UNEXPECTED_ERROR'),
+								text: error
 							});
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						});
