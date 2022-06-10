@@ -1,5 +1,7 @@
 {
   "php": {
+    "LBL_PL_VAT_PAYER_LABEL": "Verification of the status of the VAT payer",
+    "LBL_PL_VAT_PAYER_DESC": "Verifies whether the entity is registered as a VAT taxpayer on prior to sending the inquiry based on the tax identification number."
     "LBL_GUS": "GUS",
     "LBL_GUS_DESC": "Central Statistical Office of Poland",
     "LBL_VIES": "VIES",
