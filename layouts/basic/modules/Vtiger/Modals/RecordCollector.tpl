@@ -25,10 +25,10 @@
 				</div>
 			{/foreach}
 			<div class="float-right">
-				<button class="btn btn-success" type="submit" name="saveButton" data-js="click">
+				<button class="btn btn-success d-print-none" type="submit" name="saveButton" data-js="click">
 					<span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)}
 				</button>
-				<button class="btn btn-danger ml-1" type="reset" data-dismiss="modal">
+				<button class="btn btn-danger d-print-none ml-1" type="reset" data-dismiss="modal">
 					<span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}
 				</button>
 			</div>

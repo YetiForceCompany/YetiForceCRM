@@ -126,7 +126,7 @@ var App = (window.App = {
 				}
 				let url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
 				if (undefined === params.callbackFunction) {
-					params.callbackFunction = function () {};
+					params.callbackFunction = function () { };
 				}
 				if (
 					(app.getViewName() === 'Detail' || (app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
@@ -3453,6 +3453,17 @@ var app = (window.app = {
 				AppConnector.requestForm(element.attr('href'));
 			}
 		});
+	},
+	registerPrintData: function (container) {
+		container.on('click', '.js-print-container', function (event) {
+			event.preventDefault();
+			const element = $(this);
+			const printContents = $(element.data('container')).children().html();
+			const originalContents = document.body.innerHTML;
+			document.body.innerHTML = printContents;
+			window.print();
+			document.body.innerHTML = originalContents;
+		})
 	}
 });
 $(function () {
@@ -3477,6 +3488,7 @@ $(function () {
 	app.registerAfterLoginEvents(document);
 	app.registerFormsEvents(document);
 	app.registerRecordActionsEvents(document);
+	app.registerPrintData(document);
 	app.registerKeyboardShortcutsEvent(document);
 	app.registerPostActionEvent(document);
 	App.Components.QuickCreate.register(document);

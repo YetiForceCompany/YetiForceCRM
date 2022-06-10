@@ -24,6 +24,10 @@
 				</div>
 			{/if}
 		</div>
+		<button class="btn btn-info float-right d-print-none js-print-container" data-container='[data-modalid="record-collector-modal"]' data-js="click">
+			<span class="fa-solid fa-print mr-2"></span>
+			{\App\Language::translate('LBL_PRINT')}
+		</button>
 	{elseif $RECORD_COLLECTOR->displayType === 'FillFields'}
 		{if !empty($SEARCH_DATA['fields'])}
 			<form class="js-record-collector__fill_form" data-js="form">
