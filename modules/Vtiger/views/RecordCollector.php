@@ -19,6 +19,9 @@ class Vtiger_RecordCollector_View extends \App\Controller\Modal
 	public $showFooter = false;
 
 	/** {@inheritdoc} */
+	public $modalId = 'record-collector-modal';
+
+	/** {@inheritdoc} */
 	public $modalSize = 'modal-xl';
 
 	/** @var \App\RecordCollectors\Base Record collector instance. */
