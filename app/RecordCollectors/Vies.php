@@ -24,10 +24,13 @@ class Vies extends Base
 	public $icon = 'yfi yfi-vies';
 
 	/** {@inheritdoc} */
-	public $label = 'Vies';
+	public $label = 'LBL_VIES';
 
 	/** {@inheritdoc} */
 	public $displayType = 'Summary';
+
+	/** {@inheritdoc} */
+	public $description = 'LBL_VIES_DESC';
 
 	/** {@inheritdoc} */
 	protected $fields = [
