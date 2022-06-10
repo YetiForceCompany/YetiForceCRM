@@ -129,11 +129,25 @@ class Layout
 	 * @param string $templateName
 	 * @param string $moduleName
 	 *
-	 * @return array
+	 * @return string
 	 */
-	public static function getTemplatePath($templateName, $moduleName = '')
+	public static function getTemplatePath(string $templateName, string $moduleName = ''): string
 	{
 		return \Vtiger_Viewer::getInstance()->getTemplatePath($templateName, $moduleName);
+	}
+
+	/**
+	 * Check if template exists.
+	 *
+	 * @param string $templateName
+	 * @param string $moduleName
+	 *
+	 * @return bool
+	 */
+	public static function checkTemplatePath(string $templateName, string $moduleName = ''): bool
+	{
+		self::getTemplatePath($templateName, $moduleName);
+		return file_exists(\Vtiger_Viewer::$completeTemplatePath);
 	}
 
 	/**

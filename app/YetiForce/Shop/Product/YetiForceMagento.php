@@ -45,7 +45,7 @@ class YetiForceMagento extends \App\YetiForce\Shop\AbstractBaseProduct
 			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceMagento');
 		} else {
 			$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
-			$status = !(new \App\Db\Query())->from('i_#__magento_servers')->exists();
+			$status = !(new \App\Db\Query())->from('i_#__magento_servers')->exists(\App\Db::getInstance('admin'));
 		}
 		return ['status' => $status, 'message' => $message];
 	}

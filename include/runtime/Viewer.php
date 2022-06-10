@@ -19,6 +19,9 @@ class Vtiger_Viewer extends \Smarty
 	protected static $debugViewer = false;
 	protected static $instance = false;
 
+	/** @var string Complete template path */
+	public static $completeTemplatePath;
+
 	/**
 	 * log message into the file if in debug mode.
 	 *
@@ -117,7 +120,7 @@ class Vtiger_Viewer extends \Smarty
 	 *
 	 * @return string - Module specific template path if exists, otherwise default template path for the given template name
 	 */
-	public function getTemplatePath($templateName, $moduleName = '')
+	public function getTemplatePath($templateName, $moduleName = ''): string
 	{
 		$moduleName = str_replace(':', '/', $moduleName);
 		$cacheKey = $templateName . $moduleName;
@@ -129,8 +132,8 @@ class Vtiger_Viewer extends \Smarty
 				$filePath = "components/$templateName";
 				break;
 			}
-			$completeFilePath = $templateDir . "modules/$moduleName/$templateName";
-			if (!empty($moduleName) && file_exists($completeFilePath)) {
+			self::$completeTemplatePath = $templateDir . "modules/$moduleName/$templateName";
+			if (!empty($moduleName) && file_exists(self::$completeTemplatePath)) {
 				$filePath = "modules/$moduleName/$templateName";
 				break;
 			}
@@ -145,8 +148,8 @@ class Vtiger_Viewer extends \Smarty
 				];
 				foreach ($fallBackOrder as $fallBackModuleName) {
 					$intermediateFallBackFileName = 'modules/' . $fallBackModuleName . '/' . $templateName;
-					$intermediateFallBackFilePath = $templateDir . DIRECTORY_SEPARATOR . $intermediateFallBackFileName;
-					if (file_exists($intermediateFallBackFilePath)) {
+					self::$completeTemplatePath = $templateDir . DIRECTORY_SEPARATOR . $intermediateFallBackFileName;
+					if (file_exists(self::$completeTemplatePath)) {
 						\App\Cache::save('ViewerTemplatePath', $cacheKey, $intermediateFallBackFileName, \App\Cache::LONG);
 						return $intermediateFallBackFileName;
 					}

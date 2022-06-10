@@ -11,6 +11,9 @@
 -->*}
 {strip}
 	<!-- tpl-Settings-Base-ListViewContents -->
+	{if \App\Layout::checkTemplatePath('ListView/CustomHeader.tpl', $QUALIFIED_MODULE)}
+		{include file=\App\Layout::getTemplatePath('ListView/CustomHeader.tpl', $QUALIFIED_MODULE)}
+	{/if}
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
 	<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
