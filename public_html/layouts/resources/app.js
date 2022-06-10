@@ -3460,7 +3460,15 @@ var app = (window.app = {
 			const element = $(this);
 			const printContents = $(element.data('container')).children().html();
 			const originalContents = document.body.innerHTML;
-			document.body.innerHTML = printContents;
+			const today = () => {
+				const now = new Date();
+				let month = now.getMonth() + 1;
+				if (month.toString().length === 1 ) {
+					month = '0' + month;
+				}
+				return now.getFullYear() + '-' + month + '-' + now.getDate();
+			}
+			document.body.innerHTML = today() + printContents;
 			window.print();
 			document.body.innerHTML = originalContents;
 		})
