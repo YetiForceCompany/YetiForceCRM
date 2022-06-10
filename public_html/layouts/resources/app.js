@@ -3459,7 +3459,6 @@ var app = (window.app = {
 			event.preventDefault();
 			const element = $(this);
 			const printContents = $(element.data('container')).children().html();
-			console.log(printContents);
 			const originalContents = document.body.innerHTML;
 			document.body.innerHTML = printContents;
 			window.print();
