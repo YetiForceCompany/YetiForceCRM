@@ -1065,68 +1065,69 @@ $.Class(
 		 * for a module if exist on change of picklist value
 		 */
 		registerEventForPicklistDependencySetup: function (container) {
-			let picklistDependcyElemnt = $('[name="picklistDependency"]', container);
-			if (picklistDependcyElemnt.length <= 0) {
+			let element = $('[name="picklistDependency"]', container);
+			if (element.length <= 0 || typeof JSON.parse(element.val()).mapping === 'undefined') {
 				return;
 			}
-			let picklistDependencyMapping = JSON.parse(picklistDependcyElemnt.val());
-
-			let sourcePicklists = Object.keys(picklistDependencyMapping);
-			if (sourcePicklists.length <= 0) {
-				return;
-			}
-
-			let sourcePickListNames = [],
-				i;
-			for (i = 0; i < sourcePicklists.length; i++) {
-				sourcePickListNames.push('[name="' + sourcePicklists[i] + '"]');
-			}
-			sourcePickListNames = sourcePickListNames.join(',');
-			let sourcePickListElements = container.find(sourcePickListNames);
-
-			sourcePickListElements.on('change', function (e) {
-				let currentElement = $(e.currentTarget),
-					configuredDependencyObject = picklistDependencyMapping[currentElement.attr('name')],
-					targetObjectForSelectedSourceValue = configuredDependencyObject[currentElement.val()],
-					picklistmap = configuredDependencyObject['__DEFAULT__'];
-
-				if (typeof targetObjectForSelectedSourceValue === 'undefined') {
-					targetObjectForSelectedSourceValue = picklistmap;
+			app.event.on('EditView.RebuildValues', (_e, conditions, el) => {
+				let options = el.data('availableOptions');
+				if (typeof options === 'undefined') {
+					options = $('option', el);
+					el.data('available-options', options);
 				}
-				$.each(picklistmap, function (targetPickListName, targetPickListValues) {
-					let targetPickListMap = targetObjectForSelectedSourceValue[targetPickListName];
-					if (typeof targetPickListMap === 'undefined') {
-						targetPickListMap = targetPickListValues;
+				let valid = function (cond) {
+					let result = cond && Object.keys(cond).length;
+					for (let fieldName in cond) {
+						let value = container.find('[name="' + fieldName + '"]').val();
+						result = result && cond[fieldName].includes(value);
 					}
-					let targetPickList = $('[name="' + targetPickListName + '"]', container);
-					if (targetPickList.length <= 0) {
-						return;
-					}
+					return result;
+				};
 
-					let listOfAvailableOptions = targetPickList.data('availableOptions');
-					if (typeof listOfAvailableOptions === 'undefined') {
-						listOfAvailableOptions = $('option', targetPickList);
-						targetPickList.data('available-options', listOfAvailableOptions);
+				let newOptions = new $();
+				let addForce =
+					[...options]
+						.map((o) => o.value)
+						.filter((o) => {
+							return o;
+						}).length === Object.keys(conditions).length && isParentFieldsEmpty(el.attr('name'));
+				$.each(options, (_i, e) => {
+					if (
+						addForce ||
+						e.value === '' ||
+						(typeof conditions[e.value] !== 'undefined' && valid(conditions[e.value]))
+					) {
+						newOptions = newOptions.add($(e));
 					}
-
-					let targetOptions = new $(),
-						optionSelector = [];
-					optionSelector.push('');
-					for (i = 0; i < targetPickListMap.length; i++) {
-						optionSelector.push(targetPickListMap[i]);
-					}
-
-					$.each(listOfAvailableOptions, function (i, e) {
-						if ($.inArray($(e).val(), optionSelector) !== -1) {
-							targetOptions = targetOptions.add($(e));
-						}
-					});
-					targetPickList.html(targetOptions).val(targetOptions.filter('[selected]').val()).trigger('change');
 				});
+				el.html(newOptions).val(newOptions.filter('[selected]').val()).trigger('change');
 			});
 
-			//To Trigger the change on load
-			sourcePickListElements.trigger('change');
+			let isParentFieldsEmpty = (childName) => {
+				let result = true;
+				for (let fieldName in listener) {
+					for (let triggerFieldName of listener[fieldName]) {
+						if (childName === triggerFieldName) {
+							result = result && !container.find('[name="' + fieldName + '"]').val();
+						}
+					}
+				}
+				return result;
+			};
+			let triggerListeners = (listenerPart) => {
+				for (let triggerFieldName of listenerPart) {
+					let el = container.find('[name="' + triggerFieldName + '"]');
+					app.event.trigger('EditView.RebuildValues', mapping[triggerFieldName] || {}, el);
+				}
+			};
+
+			let { listener, mapping } = JSON.parse(element.val());
+			for (let fieldName in listener) {
+				container.find('[name="' + fieldName + '"]').on('change', () => {
+					triggerListeners(listener[fieldName]);
+				});
+				triggerListeners(listener[fieldName]);
+			}
 		},
 		registerLeavePageWithoutSubmit: function (form) {
 			if (

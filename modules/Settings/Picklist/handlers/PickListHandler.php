@@ -36,24 +36,35 @@ class Settings_Picklist_PickListHandler_Handler
 		$moduleName = $entityData['module'];
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$tabId = $moduleModel->getId();
-		//update picklist dependency values
-		$dataReader = (new \App\Db\Query())->select(['id', 'targetvalues'])->from('vtiger_picklist_dependency')
-			->where(['targetfield' => $pickListFieldName, 'tabid' => $tabId])
+
+		$dataReader = (new \App\Db\Query())->select(['s_#__picklist_dependency_data.*'])->from('s_#__picklist_dependency')->innerJoin('s_#__picklist_dependency_data', 's_#__picklist_dependency_data.id = s_#__picklist_dependency.id')
+			->where(['tabid' => $tabId])->andWhere(['and', ['like', 'conditions', $pickListFieldName], ['like', 'conditions', $oldValue]])
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$value = App\Purifier::decodeHtml($row['targetvalues']);
-			$explodedValueArray = \App\Json::decode($value);
-			$arrayKey = array_search($oldValue, $explodedValueArray);
-			if (false !== $arrayKey) {
-				$explodedValueArray[$arrayKey] = $newValue;
+			$change = false;
+			$conditions = \App\Json::decode($row['conditions']);
+			$rules = $conditions['rules'];
+
+			foreach ($rules as &$data) {
+				$values = explode('##', $data['value']);
+				if ($data['fieldname'] === "{$pickListFieldName}:{$moduleName}" && \in_array($oldValue, $values)) {
+					$key = array_search($oldValue, $values);
+					$values[$key] = $newValue;
+					$data['value'] = implode('##', $values);
+					$change = true;
+				}
 			}
-			$value = \App\Json::encode($explodedValueArray);
-			$dbCommand->update('vtiger_picklist_dependency', ['targetvalues' => $value], [
-				'id' => $row['id'],
-				'tabid' => $tabId,
-			])->execute();
+			if ($change) {
+				$conditions['rules'] = $rules;
+				$conditions = \App\Json::encode($conditions);
+				$dbCommand->update('s_#__picklist_dependency_data', ['conditions' => $conditions], [
+					'id' => $row['id'],
+					'source_id' => $row['source_id']
+				])->execute();
+			}
 		}
 		$dataReader->close();
+
 		//update advancefilter values
 		$dataReader = (new \App\Db\Query())->select(['id', 'value'])
 			->from('u_#__cv_condition')

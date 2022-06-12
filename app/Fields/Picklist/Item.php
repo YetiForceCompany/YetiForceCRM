@@ -289,7 +289,6 @@ class Item extends \App\Base
 				->execute();
 			$dbCommand->update('vtiger_field', ['defaultvalue' => $newValue], ['defaultvalue' => $previousValue, 'fieldid' => $row['fieldid']])
 				->execute();
-			$dbCommand->update('vtiger_picklist_dependency', ['sourcevalue' => $newValue], ['sourcevalue' => $previousValue, 'sourcefield' => $fieldName, 'tabid' => $row['tabid']])->execute();
 			$moduleName = \App\Module::getModuleName($row['tabid']);
 
 			\App\Fields\Picklist::clearCache($fieldName, $moduleName);
@@ -332,8 +331,11 @@ class Item extends \App\Base
 				$dbCommand->delete('u_#__picklist_close_state', ['valueid' => $this->valueid])->execute();
 			}
 			$dbCommand->delete($this->getTableName(), [$primaryKey => $this->getId()])->execute();
-			$dbCommand->delete('vtiger_picklist_dependency', ['sourcevalue' => $this->name, 'sourcefield' => $fieldName])
-				->execute();
+			$dependencyId = (new \App\Db\Query())->select(['s_#__picklist_dependency.id'])->from('s_#__picklist_dependency')->innerJoin('s_#__picklist_dependency_data', 's_#__picklist_dependency_data.id = s_#__picklist_dependency.id')
+				->where(['source_field' => $this->fieldModel->getId(), 'source_id' => $this->getId()])->column();
+			if ($dependencyId) {
+				$dbCommand->delete('s_#__picklist_dependency_data', ['id' => $dependencyId, 'source_id' => $this->getId()])->execute();
+			}
 
 			$dataReader = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldid', 'tabid'])
 				->from('vtiger_field')

@@ -461,6 +461,8 @@ insert  into `s_yf_fields_dependency`(`id`,`tabid`,`status`,`name`,`views`,`gui`
 
 /*Data for the table `s_yf_picklist_dependency` */
 
+/*Data for the table `s_yf_picklist_dependency_data` */
+
 /*Data for the table `s_yf_privileges_updater` */
 
 /*Data for the table `s_yf_record_quick_changer` */
@@ -7203,8 +7205,6 @@ insert  into `vtiger_picklist`(`picklistid`,`name`) values (29,'ticketstatus');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (31,'tracking_unit');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (30,'usageunit');
 insert  into `vtiger_picklist`(`picklistid`,`name`) values (68,'verification');
-
-/*Data for the table `vtiger_picklist_dependency` */
 
 /*Data for the table `vtiger_picklistvalues_seq` */
 

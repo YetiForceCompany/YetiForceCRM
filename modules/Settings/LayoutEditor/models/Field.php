@@ -122,7 +122,6 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 					}
 					$db->createCommand()->delete('vtiger_picklist', ['name' => $fieldname])->execute();
 				}
-				$db->createCommand()->delete('vtiger_picklist_dependency', ['and', ['tabid' => $tabId], ['or', ['sourcefield' => $fieldname], ['targetfield' => $fieldname]]])->execute();
 			}
 
 			$entityInfo = \App\Module::getEntityInfo($fldModule);
