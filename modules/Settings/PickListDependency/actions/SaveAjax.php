@@ -47,10 +47,6 @@ class Settings_PickListDependency_SaveAjax_Action extends Settings_Vtiger_Save_A
 			$recordModel = Settings_PickListDependency_Record_Model::getCleanInstance();
 			foreach (['tabid', 'source_field'] as $fieldName) {
 				if ($request->has($fieldName)) {
-					// $value = $request->getByType($fieldName, $recordModel->getFieldInstanceByName($fieldName)->get('purifyType'));
-					// if ('tabid' === $fieldName) {
-					// 	$value = \App\Module::getModuleId($value);
-					// }
 					$recordModel->set($fieldName, $request->getByType($fieldName, $recordModel->getFieldInstanceByName($fieldName)->get('purifyType')));
 				}
 			}
