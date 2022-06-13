@@ -12,41 +12,26 @@ Vtiger_Loader::includeOnce('~~modules/PickList/DependentPickListUtils.php');
 
 class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Model
 {
-	/**
-	 * Base table.
-	 *
-	 * @var string
-	 */
-	public $baseTable = 's_#__picklist_dependency';
-	/**
-	 * Base index.
-	 *
-	 * @var string
-	 */
-	public $baseIndex = 'id';
-	/**
-	 * List fields.
-	 *
-	 * @var array
-	 */
-	public $listFields = [
-		'moduleName' => 'LBL_MODULE',
-		'sourceFieldLabel' => 'LBL_SOURCE_FIELD',
-		'secondFieldLabel' => 'LBL_SECOND_FIELD',
-		'thirdFieldLabel' => 'LBL_THIRD_FIELD'
-	];
-	/**
-	 * Name fields.
-	 *
-	 * @var array
-	 */
-	public $nameFields = ['name'];
-	/**
-	 * Module name.
-	 *
-	 * @var string
-	 */
+	/** @var string Module name. */
 	public $name = 'PickListDependency';
+	/** @var string Module name. */
+	public $parent = 'Settings';
+	/** @var string Base table. */
+	public $baseTable = 's_#__picklist_dependency';
+	/** @var string Base index. */
+	public $baseIndex = 'id';
+
+	/** @var array List fields. */
+	public $listFields = [
+		'tabid' => 'LBL_MODULE',
+		'source_field' => 'LBL_SOURCE_FIELD',
+		// 'second_field' => 'LBL_SECOND_FIELD',
+		// 'third_field' => 'LBL_THIRD_FIELD'
+	];
+	/** @var array Name fields. */
+	public $nameFields = ['name'];
+	/** @var array Name fields. */
+	public $editFields = ['tabid', 'source_field'];
 
 	/**
 	 * Function to get the url for default view of the module.
@@ -65,40 +50,85 @@ class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Mo
 	 */
 	public function getCreateRecordUrl()
 	{
-		return 'index.php?parent=Settings&module=PickListDependency&view=Edit&recordId=';
+		return 'index.php?parent=Settings&module=PickListDependency&view=Edit';
 	}
 
-	public function isPagingSupported()
+	/** {@inheritdoc} */
+	public function getListFields(): array
 	{
-		return false;
+		if (!isset($this->listFieldModels)) {
+			foreach (parent::getListFields() as $fieldName => $fieldModel) {
+				if ('tabid' !== $fieldName) {
+					$fieldModel->set('sort', true);
+				}
+			}
+		}
+
+		return $this->listFieldModels;
 	}
 
-	public static function getPicklistSupportedModules()
+	/**
+	 * Get picklist supported modules.
+	 *
+	 * @return array
+	 */
+	public static function getPicklistSupportedModules(): array
 	{
-		$query = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_tab.tablabel', 'tabname' => 'vtiger_tab.name'])->from('vtiger_field')
+		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_tab.tablabel', 'name' => 'vtiger_tab.name'])->from('vtiger_field')
 			->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
 			->where(['uitype' => [15, 16], 'vtiger_field.displaytype' => 1, 'vtiger_field.presence' => [0, 2]])
 			->andWhere(['<>', 'vtiger_field.tabid', 29])
 			->andWhere(['not', ['vtiger_field.block' => null]])
+			->andWhere(['vtiger_tab.presence' => 0])
 			->groupBy('vtiger_field.tabid, vtiger_tab.tablabel, vtiger_tab.name')
-			->having(['>', 'count(*)', 1])->distinct('vtiger_field.tabid');
+			->having(['>', 'count(*)', 1])->distinct('vtiger_field.tabid')->createCommand()->query();
 
-		$dataReader = $query->createCommand()->query();
-
+		$modules = [];
 		while ($row = $dataReader->read()) {
-			$modules[$row['tablabel']] = $row['tabname'];
+			$tabId = $row['tabid'] = (int) $row['tabid'];
+			$modules[$tabId] = $row;
 		}
 
-		ksort($modules);
-		$modulesModelsList = [];
-		foreach ($modules as $moduleLabel => $moduleName) {
-			$instance = new Vtiger_Module_Model();
-			$instance->name = $moduleName;
-			$instance->label = $moduleLabel;
-			$modulesModelsList[] = $instance;
-		}
-		$dataReader->close();
+		return $modules;
+	}
 
-		return $modulesModelsList;
+	/**
+	 * Get structure fields.
+	 *
+	 * @param Settings_PickListDependency_Record_Model|null $recordModel
+	 *
+	 * @return array
+	 */
+	public function getEditViewStructure($recordModel): array
+	{
+		$structure = [];
+		foreach ($this->editFields as $fieldName) {
+			$fieldModel = $recordModel->getFieldInstanceByName($fieldName);
+			$structure[$fieldName] = $fieldModel;
+		}
+
+		return $structure;
+	}
+
+	/**
+	 * Get condition builder structure.
+	 *
+	 * @param Vtiger_Module_Model $moduleModel
+	 * @param string|null         $skipfield
+	 *
+	 * @return voiarrayd
+	 */
+	public static function getConditionBuilderStructure(Vtiger_Module_Model $moduleModel, ?string $skipfield): array
+	{
+		$structure = [];
+		$blockModelList = $moduleModel->getBlocks();
+		foreach ($blockModelList as $blockLabel => $blockModel) {
+			foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
+				if ($fieldName !== $skipfield && \in_array($fieldModel->getUIType(), [15, 16]) && $fieldModel->isActiveField()) {
+					$structure[$blockLabel][$fieldName] = $fieldModel;
+				}
+			}
+		}
+		return $structure;
 	}
 }

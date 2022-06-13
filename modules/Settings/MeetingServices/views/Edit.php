@@ -33,6 +33,9 @@ class Settings_MeetingServices_Edit_View extends \App\Controller\ModalSettings
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE_NAME', $request->getModule());
 		$viewer->assign('QUALIFIED_MODULE', $moduleName);
+		$viewer->assign('BTN_SUCCESS', $this->successBtn);
+		$viewer->assign('BTN_SUCCESS_ICON', $this->successBtnIcon);
+		$viewer->assign('BTN_DANGER', $this->dangerBtn);
 		$viewer->view('Edit/Modal.tpl', $request->getModule(false));
 	}
 }

@@ -9,8 +9,61 @@
  * Contributor(s): YetiForce S.A.
  * ********************************************************************************** */
 
-class Settings_PickListDependency_SaveAjax_Action extends Settings_Vtiger_Index_Action
+class Settings_PickListDependency_SaveAjax_Action extends Settings_Vtiger_Save_Action
 {
+	/** {@inheritdoc} */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('save');
+		$this->exposeMethod('preSaveValidation');
+	}
+
+	/**
+	 * PreSave validation function.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function preSaveValidation(App\Request $request)
+	{
+		$recordModel = $this->getRecordModelFromRequest($request);
+		$response = new Vtiger_Response();
+		$response->setResult($recordModel->validate());
+		$response->emit();
+	}
+
+	/**
+	 * Function to get the record model based on the request parameters.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 */
+	protected function getRecordModelFromRequest(App\Request $request)
+	{
+		if ($request->isEmpty('record')) {
+			$recordModel = Settings_PickListDependency_Record_Model::getCleanInstance();
+			foreach (['tabid', 'source_field'] as $fieldName) {
+				if ($request->has($fieldName)) {
+					$recordModel->set($fieldName, $request->getByType($fieldName, $recordModel->getFieldInstanceByName($fieldName)->get('purifyType')));
+				}
+			}
+		} else {
+			$recordModel = Settings_PickListDependency_Record_Model::getInstanceById($request->getInteger('record'));
+		}
+		if ($request->has('conditions')) {
+			$conditions = $request->getArray('conditions', \App\Purifier::TEXT, [], \App\Purifier::INTEGER);
+			foreach ($conditions as &$condition) {
+				$condition = \App\Json::encode(\App\Condition::getConditionsFromRequest(\App\Json::decode($condition)));
+			}
+			$recordModel->set('conditions', $conditions);
+		}
+
+		return $recordModel;
+	}
+
 	/**
 	 * Process method.
 	 *
@@ -18,32 +71,13 @@ class Settings_PickListDependency_SaveAjax_Action extends Settings_Vtiger_Index_
 	 *
 	 * @return void
 	 */
-	public function process(App\Request $request)
+	public function save(App\Request $request)
 	{
-		$sourceModule = $request->getByType('sourceModule', \App\Purifier::ALNUM);
-		$sourceField = $request->getByType('sourceField', \App\Purifier::ALNUM);
-		$secondField = $request->getByType('secondField', \App\Purifier::ALNUM);
-		$thirdField = $request->isEmpty('thirdField') ? '' : $request->getByType('thirdField', \App\Purifier::ALNUM);
-		$recordModel = Settings_PickListDependency_Record_Model::getCleanInstance();
-		$recordModel->set('sourceModule', $sourceModule)
-			->set('sourceField', $sourceField)
-			->set('secondField', $secondField)
-			->set('thirdField', $thirdField);
-
+		$recordModel = $this->getRecordModelFromRequest($request);
 		$response = new Vtiger_Response();
-		if ($thirdField) {
-			$recordModel->set('picklistDependencies', $request->getArray('mapping'));
-		} else {
-			$recordModel->set('picklistDependencies', $request->getMultiDimensionArray('mapping',
-			[[
-				'sourcevalue' => 'Text',
-				'targetvalues' => 'Text'
-			]]));
-		}
-
 		try {
 			$result = $recordModel->save();
-			$response->setResult(['success' => $result]);
+			$response->setResult(['success' => $result, 'url' => $recordModel->getListViewUrl()]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

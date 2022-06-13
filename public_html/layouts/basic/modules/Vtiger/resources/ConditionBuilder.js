@@ -5,12 +5,12 @@ class Vtiger_ConditionBuilder_Js {
 	/**
 	 * Constructor
 	 * @param {jQuery} container
-	 * @param {string} sourceModuleName
+	 * @param {(string|Object)} params
 	 * @param {function} onChange
 	 */
-	constructor(container, sourceModuleName, onChange) {
+	constructor(container, params, onChange) {
 		this.container = container;
-		this.sourceModuleName = sourceModuleName;
+		this.params = typeof params === 'string' ? { sourceModuleName: params } : params;
 		if (onChange) {
 			this.onChange = onChange;
 		} else {
@@ -28,6 +28,18 @@ class Vtiger_ConditionBuilder_Js {
 			this.onChange(this);
 		});
 	}
+	/**
+	 * Get default params
+	 * @returns {Object}
+	 */
+	getDefaultParams() {
+		return {
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			view: 'ConditionBuilder',
+			...this.params
+		};
+	}
 
 	/**
 	 * Register events when change conditions
@@ -35,7 +47,7 @@ class Vtiger_ConditionBuilder_Js {
 	 */
 	registerChangeConditions(container) {
 		let self = this;
-		container.on('change', '.js-conditions-fields, .js-conditions-operator', function (e) {
+		container.on('change', '.js-conditions-fields, .js-conditions-operator', (e) => {
 			let progress = $.progressIndicator({
 				position: 'html',
 				blockInfo: {
@@ -46,23 +58,15 @@ class Vtiger_ConditionBuilder_Js {
 			let requestParams = {};
 			if (currentTarget.hasClass('js-conditions-fields')) {
 				requestParams = {
-					module: app.getModuleName(),
-					parent: app.getParentModuleName(),
-					view: 'ConditionBuilder',
-					sourceModuleName: self.sourceModuleName,
 					fieldname: currentTarget.val()
 				};
 			} else {
 				requestParams = {
-					module: app.getModuleName(),
-					parent: app.getParentModuleName(),
-					view: 'ConditionBuilder',
-					sourceModuleName: self.sourceModuleName,
 					fieldname: container.find('.js-conditions-fields').val(),
 					operator: currentTarget.val()
 				};
 			}
-			AppConnector.request(requestParams).done(function (data) {
+			AppConnector.request({ ...requestParams, ...this.getDefaultParams() }).done(function (data) {
 				progress.progressIndicator({ mode: 'hide' });
 				container.html($(data).html());
 				self.registerField(container);
@@ -90,22 +94,17 @@ class Vtiger_ConditionBuilder_Js {
 	 */
 	registerAddCondition() {
 		let self = this;
-		this.container.on('click', '.js-condition-add', function (e) {
+		this.container.on('click', '.js-condition-add', (e) => {
 			let progress = $.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
-			let container = $(this)
+			let container = $(e.currentTarget)
 				.closest('.js-condition-builder-group-container')
 				.find('> .js-condition-builder-conditions-container');
-			AppConnector.request({
-				module: app.getModuleName(),
-				parent: app.getParentModuleName(),
-				view: 'ConditionBuilder',
-				sourceModuleName: self.sourceModuleName
-			}).done(function (data) {
+			AppConnector.request(this.getDefaultParams()).done(function (data) {
 				progress.progressIndicator({ mode: 'hide' });
 				data = $(data);
 				App.Fields.Picklist.showSelect2ElementView(data.find('select.select2'));

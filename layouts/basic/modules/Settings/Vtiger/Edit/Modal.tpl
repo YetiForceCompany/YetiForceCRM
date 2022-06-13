@@ -8,7 +8,7 @@
 		<input type="hidden" id="record" name="record" value="{$RECORD_MODEL->getId()}">
 		<div class="modal-body">
 			{foreach from=$RECORD_MODEL->getModule()->getFormFields() item=FIELD_INFO key=FIELD_NAME name=fields}
-				{assign var="FIELD_MODEL" value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME)->set('fieldvalue',$RECORD_MODEL->get($FIELD_NAME))}
+				{assign var=FIELD_MODEL value=$RECORD_MODEL->getFieldInstanceByName($FIELD_NAME)}
 				<div class="form-group row">
 					<label class="col-form-label col-md-3 u-text-small-bold text-right">
 						{\App\Language::translate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE)}
@@ -20,7 +20,7 @@
 				</div>
 			{/foreach}
 		</div>
-		{include file=App\Layout::getTemplatePath('Modals/Footer.tpl') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
+		{include file=App\Layout::getTemplatePath('Modals/Footer.tpl')}
 	</form>
 	<!-- /tpl-Settings-Base-Edit-Modal -->
 {/strip}

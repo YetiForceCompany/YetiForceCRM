@@ -1114,42 +1114,6 @@ hr {
 	white-space: normal;
 }
 
-#dependencyGraph {
-	.depandencyTable {
-		border: 1px solid #ddd;
-		background: #f3f3f4;
-
-		.blockHeader,
-		.picklistValueMapping {
-			border-bottom: 1px solid #ddd;
-		}
-	}
-
-	.dependencyMapping {
-		text-align: center;
-		border-left: 1px solid #ddd;
-		border-right: 1px solid #ddd;
-		background: #fff;
-
-		.pickListDependencyTable {
-			border: 0;
-
-			.blockHeader th {
-				background: #f3f3f4;
-				border-bottom: 1px solid #ddd;
-			}
-
-			.selectedCell {
-				background: #a5afb9;
-			}
-		}
-	}
-}
-
-.targetFieldsTableContainer input[type="text"] {
-	min-width: 100px;
-}
-
 #customRecordNumbering.table thead th {
 	vertical-align: middle;
 }
@@ -2460,16 +2424,6 @@ body,
 		min-height: 1px;
 		padding: 2px;
 		width: 100% !important;
-	}
-
-	#dependencyGraph .tableHeading {
-		padding-top: 70px;
-		-webkit-transform: rotate(90deg);
-		-moz-transform: rotate(90deg);
-		-o-transform: rotate(90deg);
-		-ms-transform: rotate(90deg);
-		transform: rotate(90deg);
-		white-space: nowrap;
 	}
 
 	.commentsList.commentsBody .liStyleNone {

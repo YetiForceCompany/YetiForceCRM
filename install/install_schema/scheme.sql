@@ -1445,11 +1445,23 @@ CREATE TABLE `s_yf_pbx` (
 
 CREATE TABLE `s_yf_picklist_dependency` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `tabid` int(7) NOT NULL,
-  `source_field` varchar(150) NOT NULL,
-  `second_field` varchar(150) NOT NULL,
-  `third_field` varchar(150) DEFAULT '',
-  PRIMARY KEY (`id`)
+  `tabid` smallint(5) NOT NULL,
+  `source_field` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `s_yf_picklist_dependency_tabid_source_field_fk` (`tabid`,`source_field`),
+  KEY `s_yf_picklist_dependency_source_field_fk` (`source_field`),
+  CONSTRAINT `s_yf_picklist_dependency_source_field_fk` FOREIGN KEY (`source_field`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE,
+  CONSTRAINT `s_yf_picklist_dependency_tabid_fk` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+
+/*Table structure for table `s_yf_picklist_dependency_data` */
+
+CREATE TABLE `s_yf_picklist_dependency_data` (
+  `id` int(10) NOT NULL,
+  `source_id` int(10) NOT NULL,
+  `conditions` text DEFAULT NULL,
+  KEY `s_yf_picklist_dependency_data_id_idx` (`id`),
+  CONSTRAINT `s_yf_picklist_dependency_data_id_fk` FOREIGN KEY (`id`) REFERENCES `s_yf_picklist_dependency` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_privileges_updater` */
@@ -8063,20 +8075,6 @@ CREATE TABLE `vtiger_picklist` (
   PRIMARY KEY (`picklistid`),
   UNIQUE KEY `picklist_name_idx` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_picklist_dependency` */
-
-CREATE TABLE `vtiger_picklist_dependency` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `groupId` int(10) NOT NULL,
-  `tabid` smallint(5) NOT NULL,
-  `sourcevalue` varchar(255) NOT NULL,
-  `second_values` text DEFAULT NULL,
-  `third_values` text DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_1_picklist_dependency_dependencyId` (`groupId`),
-  CONSTRAINT `fk_1_picklist_dependency_dependencyId` FOREIGN KEY (`groupId`) REFERENCES `s_yf_picklist_dependency` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_picklistvalues_seq` */
 

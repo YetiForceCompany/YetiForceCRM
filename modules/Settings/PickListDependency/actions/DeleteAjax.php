@@ -20,11 +20,11 @@ class Settings_PickListDependency_DeleteAjax_Action extends Settings_Vtiger_Inde
 	 */
 	public function process(App\Request $request)
 	{
-		$recordModel = Settings_PickListDependency_Record_Model::getInstanceById($request->getInteger('recordId'));
+		$recordModel = Settings_PickListDependency_Record_Model::getInstanceById($request->getInteger('record'));
 		$response = new Vtiger_Response();
 		try {
 			$result = $recordModel->delete();
-			$response->setResult(['success', $result]);
+			$response->setResult(['success' => $result]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
