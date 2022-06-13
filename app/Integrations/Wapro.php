@@ -14,7 +14,7 @@ namespace App\Integrations;
 /**
  * WAPRO ERP main integration class.
  */
-class Wapro extends \App\Base
+class Wapro
 {
 	/** @var string Basic table name */
 	public const TABLE_NAME = 'i_#__wapro';
@@ -24,6 +24,33 @@ class Wapro extends \App\Base
 
 	/** @var int Status active */
 	public const STATUS_ACTIVE = 1;
+
+	/**
+	 * Connect to WAPRO ERP SQL Server through PDO.
+	 *
+	 * @param string $server
+	 * @param string $database
+	 * @param string $user
+	 * @param string $password
+	 * @param int    $port
+	 *
+	 * @return \App\Db
+	 */
+	public static function connectToDatabase(string $server, string $database, string $user, string $password, int $port): \App\Db
+	{
+		$port = $port ?: 1433;
+		\App\Db::setConfig([
+			'driverName' => 'sqlsrv',
+			'dsn' => "sqlsrv:Server={$server},{$port};Database={$database};",
+			'username' => $user,
+			'password' => $password,
+			'port' => $port,
+			'charset' => 'utf8'
+		], 'wapro');
+		$db = \App\Db::getInstance('wapro');
+		$db->open();
+		return $db;
+	}
 
 	/**
 	 * Verify access to the WAPRO ERP system database.
@@ -71,42 +98,32 @@ class Wapro extends \App\Base
 	}
 
 	/**
-	 * Connect to WAPRO ERP SQL Server through PDO.
+	 * Get synchronizers.
 	 *
-	 * @param string $server
-	 * @param string $database
-	 * @param string $user
-	 * @param string $password
-	 * @param int    $port
-	 *
-	 * @return \App\Db
+	 * @return Wapro\Synchronizer[]
 	 */
-	public static function connectToDatabase(string $server, string $database, string $user, string $password, int $port): \App\Db
+	public static function getAllSynchronizers(): array
 	{
-		$port = $port ?: 1433;
-		\App\Db::setConfig([
-			'driverName' => 'sqlsrv',
-			'dsn' => "sqlsrv:Server={$server},{$port};Database={$database};",
-			'username' => $user,
-			'password' => $password,
-			'port' => $port,
-			'charset' => 'utf8'
-		], 'wapro');
-		$db = \App\Db::getInstance('wapro');
-		$db->open();
-		return $db;
+		$synchronizers = [];
+		$iterator = new \DirectoryIterator(__DIR__ . '/Wapro/Synchronizer');
+		foreach ($iterator as $item) {
+			if ($item->isFile() && 'php' === $item->getExtension() && $synchronizer = self::getSynchronizer($item->getBasename('.php'))) {
+				$providers[$item->getBasename('.php')] = $synchronizer;
+			}
+		}
+		return $synchronizers;
 	}
 
 	/**
-	 * Get provider by name.
+	 * Get synchronizer by name.
 	 *
 	 * @param string $name
 	 *
-	 * @return SMSProvider\Provider|null
+	 * @return Wapro\Synchronizer|null
 	 */
-	public static function getProviderByName(string $name): ?SMSProvider\Provider
+	public static function getSynchronizer(string $name): ?Wapro\Synchronizer
 	{
-		$className = "\\App\\Integrations\\SMSProvider\\{$name}";
+		$className = "\\App\\Integrations\\Wapro\\Synchronizer\\{$name}";
 		return class_exists($className) ? new $className() : null;
 	}
 }
