@@ -447,6 +447,18 @@ class Validator
 	}
 
 	/**
+	 * Check if input is an ip or domain value.
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public static function ipOrDomain($input): bool
+	{
+		return self::ip($input) || self::domain($input);
+	}
+
+	/**
 	 * Function verifies if given value is text.
 	 *
 	 * @param string $input

@@ -215,6 +215,7 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (82,'Kanban',1,'2021-08-13 11:36:47');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (83,'MeetingServices',1,'2021-11-18 16:39:26');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (84,'Media',1,'2022-06-07 17:18:53');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (85,'Wapro',1,'2022-06-13 15:05:10');
 
 /*Data for the table `a_yf_smsnotifier_servers` */
 
@@ -332,6 +333,8 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 /*Data for the table `i_yf_magento_config` */
 
 /*Data for the table `i_yf_magento_servers` */
+
+/*Data for the table `i_yf_wapro` */
 
 /*Data for the table `l_yf_api_login_history` */
 
@@ -19599,6 +19602,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (133,14,'LBL_LOGS_VIEWER','yfi yfi-view-logs','LBL_LOGS_VIEWER_DESCRIPTION','index.php?parent=Settings&module=Log&view=LogsViewer',6,0,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (134,7,'LBL_CONFIG_PROXY','yfi yfi-server-configuration','LBL_CONFIG_PROXY_DESCRIPTION','index.php?parent=Settings&module=Proxy&view=Index',8,0,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (135,2,'LBL_KANBAN','yfi yfi-kanban','LBL_KANBAN_DESCRIPTION','index.php?parent=Settings&module=Kanban&view=Index',17,0,0,1,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (136,5,'LBL_WAPRO_ERP','fab fa-connectdevelop','LBL_WAPRO_ERP_DESCRIPTION','index.php?parent=Settings&module=Wapro&view=List',16,0,0,1,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
