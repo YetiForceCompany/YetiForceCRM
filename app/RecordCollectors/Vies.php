@@ -129,6 +129,7 @@ class Vies extends Base
 				$r = $client->checkVat($params);
 				if ($r->valid) {
 					$response['fields'] = [
+						'Country' => $r->countryCode,
 						'Vat ID' => $r->countryCode . $r->vatNumber,
 						'LBL_COMPANY_NAME' => $r->name,
 						'Address details' => $r->address,
