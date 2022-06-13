@@ -53,7 +53,7 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 				if (\is_int($length)) {
 					$text = \App\TextUtils::textTruncate($text, $length);
 				}
-				return \App\Purifier::encodeHtml($text);
+				return $text;
 			}
 			$value = \App\Fields\Tree::getPicklistValueImage($fieldModel->getFieldParams(), $fieldModel->getModuleName(), $value);
 			$text = $value['name'];
@@ -72,9 +72,9 @@ class Vtiger_Tree_UIType extends Vtiger_Base_UIType
 			$text = \App\TextUtils::textTruncate($text, $length);
 		}
 		if (isset($value['icon'])) {
-			return $value['icon'] . '' . \App\Purifier::encodeHtml($text);
+			return $value['icon'] . '' . $text;
 		}
-		return \App\Purifier::encodeHtml($text);
+		return $text;
 	}
 
 	/** {@inheritdoc} */
