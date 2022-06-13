@@ -1,8 +1,8 @@
 {
   "php": {
-    "LBL_POLAND_VAT_PAYER": "Verify VAT taxpayer’s [PL] status ",
+    "LBL_POLAND_VAT_PAYER": "Verify VAT taxpayer’s status [PL]",
     "LBL_PL_VAT_PAYER_DESC": "The service allows you to verify whether the entity is an active, exempt, or unregistered VAT taxpayer in Poland.",
-    "LBL_GUS": "Upload business entity [PL] data",
+    "LBL_GUS": "Upload business entity data [PL]",
     "LBL_GUS_DESC": "Download information about entities of the national economy of Poland from the REGON Registry.",
     "LBL_VIES": "Confirm the VAT-EU number",
     "LBL_VIES_DESC": "Checks if the business entity has a valid VAT-EU number for intra-community transactions within the European Union.",

@@ -34,7 +34,7 @@
 			</div>
 		</form>
 		<div class="mt-5 pt-2 js-record-collector__summary" data-js="html"></div>
-		<div class="js-printed-by" style="display: none">
+		<div class="js-printed-by d-none">
 			{\App\Language::translate('LBL_PRINTED_BY', 'Other.RecordCollector')} {$USER_MODEL->getName()}
 		</div>
 	</div>

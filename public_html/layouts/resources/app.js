@@ -3458,8 +3458,9 @@ var app = (window.app = {
 		container.on('click', '.js-print-container', function (event) {
 			event.preventDefault();
 			const element = $(this);
-			let printedBy = $('.js-printed-by');
-			printedBy.css('display', 'block');
+			let printedBy = element.closest('.js-modal-body').find('.js-printed-by');
+			printedBy.removeClass('d-none').addClass('d-block');
+			console.log(printedBy);
 			const printContents = $(element.data('container')).children().html();
 			const originalContents = document.body.innerHTML;
 			const today = () => {
@@ -3473,7 +3474,7 @@ var app = (window.app = {
 			document.body.innerHTML = today() + printContents;
 			window.print();
 			document.body.innerHTML = originalContents;
-			printedBy.css('display', 'none');
+			printedBy.removeClass('d-block').addClass('d-none');
 		})
 	}
 });
