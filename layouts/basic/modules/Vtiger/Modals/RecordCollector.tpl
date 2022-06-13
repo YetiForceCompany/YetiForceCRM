@@ -34,8 +34,8 @@
 			</div>
 		</form>
 		<div class="mt-5 pt-2 js-record-collector__summary" data-js="html"></div>
-		<div class="js-printed-by d-none">
-			{\App\Language::translate('LBL_PRINTED_BY', 'Other.RecordCollector')} {$USER_MODEL->getName()} {\App\Language::translate('LBL_IN_DAY', 'Other.RecordCollector')} {date("Y/m/d h:i:s")}
+		<div class="js-printed-by d-none d-print-block">
+			{\App\Language::translate('LBL_PRINTED_BY', 'Other.RecordCollector')} {$USER_MODEL->getName()} {\App\Language::translate('LBL_IN_DAY', 'Other.RecordCollector')} {date($DATE_FORMAT)}
 		</div>
 	</div>
 	<!-- /tpl-Base-Modals-RecordCollector -->

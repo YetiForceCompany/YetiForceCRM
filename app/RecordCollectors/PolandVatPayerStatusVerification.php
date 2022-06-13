@@ -34,7 +34,7 @@ class PolandVatPayerStatusVerification extends Base
 	public $displayType = 'Summary';
 
 	/** {@inheritdoc} */
-	public $description = 'LBL_POLAND_VAT_PAYER_DESC';
+	public $description = 'LBL_PL_VAT_PAYER_DESC';
 
 	/** {@inheritdoc} */
 	protected $fields = [
