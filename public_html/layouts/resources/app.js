@@ -3458,12 +3458,14 @@ var app = (window.app = {
 		container.on('click', '.js-print-container', function (event) {
 			event.preventDefault();
 			const element = $(this);
+			let printedBy = $('.js-printed-by');
+			printedBy.css('display', 'block');
 			const printContents = $(element.data('container')).children().html();
 			const originalContents = document.body.innerHTML;
 			const today = () => {
 				const now = new Date();
 				let month = now.getMonth() + 1;
-				if (month.toString().length === 1 ) {
+				if (1 === month.toString().length) {
 					month = '0' + month;
 				}
 				return now.getFullYear() + '-' + month + '-' + now.getDate();
@@ -3471,6 +3473,7 @@ var app = (window.app = {
 			document.body.innerHTML = today() + printContents;
 			window.print();
 			document.body.innerHTML = originalContents;
+			printedBy.css('display', 'none');
 		})
 	}
 });

@@ -54,6 +54,7 @@ class Vtiger_RecordCollector_View extends \App\Controller\Modal
 		$viewer->assign('RECORD_ID', $request->getInteger('record'));
 		$viewer->assign('RECORD_COLLECTOR', $this->recordCollector);
 		$viewer->assign('COLLECTOR_NAME', $request->getByType('collectorType', 'ClassName'));
+		$viewer->assign('USER_MODEL', \App\User::getUserModel(\App\User::getCurrentUserId()));
 		if ('search' === $request->getMode()) {
 			$viewer->assign('SEARCH_DATA', $this->recordCollector->search());
 			$viewer->view('Modals/RecordCollectorSearch.tpl', $request->getModule());

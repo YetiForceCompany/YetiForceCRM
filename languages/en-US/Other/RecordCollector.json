@@ -5,6 +5,7 @@
     "LBL_POLAND_GUS": "GUS",
     "LBL_POLAND_GUS_DESC": "Central Statistical Office of Poland",
     "LBL_VIES": "VIES",
-    "LBL_VIES_DESC": "The VAT Information Exchange System (VIES) is an electronic means of transmitting information relating to VAT registration (i.e., validity of VAT numbers) of companies registered in the European Union."
+    "LBL_VIES_DESC": "The VAT Information Exchange System (VIES) is an electronic means of transmitting information relating to VAT registration (i.e., validity of VAT numbers) of companies registered in the European Union.",
+    "LBL_PRINTED_BY": "printed by"
   }
 }
