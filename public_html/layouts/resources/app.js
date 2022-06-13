@@ -3458,14 +3458,12 @@ var app = (window.app = {
 		container.on('click', '.js-print-container', function (event) {
 			event.preventDefault();
 			const element = $(this);
-			const printedBy = element.closest('.js-modal-body').find('.js-printed-by');
-			printedBy.removeClass('d-none').addClass('d-block');
 			const printContents = $(element.data('container')).children().html();
 			const originalContents = document.body.innerHTML;
 			document.body.innerHTML = printContents;
 			window.print();
 			document.body.innerHTML = originalContents;
-			printedBy.removeClass('d-block').addClass('d-none');
+			window.location.reload();
 		})
 	}
 });
