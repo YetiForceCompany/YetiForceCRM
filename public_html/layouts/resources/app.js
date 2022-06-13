@@ -126,7 +126,7 @@ var App = (window.App = {
 				}
 				let url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
 				if (undefined === params.callbackFunction) {
-					params.callbackFunction = function () { };
+					params.callbackFunction = function () {};
 				}
 				if (
 					(app.getViewName() === 'Detail' || (app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
@@ -3458,20 +3458,11 @@ var app = (window.app = {
 		container.on('click', '.js-print-container', function (event) {
 			event.preventDefault();
 			const element = $(this);
-			let printedBy = element.closest('.js-modal-body').find('.js-printed-by');
+			const printedBy = element.closest('.js-modal-body').find('.js-printed-by');
 			printedBy.removeClass('d-none').addClass('d-block');
-			console.log(printedBy);
 			const printContents = $(element.data('container')).children().html();
 			const originalContents = document.body.innerHTML;
-			const today = () => {
-				const now = new Date();
-				let month = now.getMonth() + 1;
-				if (1 === month.toString().length) {
-					month = '0' + month;
-				}
-				return now.getFullYear() + '-' + month + '-' + now.getDate();
-			}
-			document.body.innerHTML = today() + printContents;
+			document.body.innerHTML = printContents;
 			window.print();
 			document.body.innerHTML = originalContents;
 			printedBy.removeClass('d-block').addClass('d-none');
