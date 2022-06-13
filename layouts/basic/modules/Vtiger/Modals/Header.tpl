@@ -25,7 +25,7 @@
 					{if !$LOCK_EXIT}
 						<button type="button" class="close" data-dismiss="modal"
 							aria-label="{\App\Language::translate('LBL_CANCEL')}">
-							<span aria-hidden="true">&times;</span>
+							<span class="d-print-none"aria-hidden="true">&times;</span>
 						</button>
 					{/if}
 				</div>
