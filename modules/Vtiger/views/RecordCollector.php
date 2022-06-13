@@ -55,7 +55,7 @@ class Vtiger_RecordCollector_View extends \App\Controller\Modal
 		$viewer->assign('RECORD_COLLECTOR', $this->recordCollector);
 		$viewer->assign('COLLECTOR_NAME', $request->getByType('collectorType', 'ClassName'));
 		$dateFormat = \App\User::getUserModel(\App\User::getCurrentUserId())->getDetail('date_format');
-		$viewer->assign('DATE_FORMAT', 'yyyy-mm-dd' === $dateFormat ? 'Y-m-d' : $dateFormat);
+		$viewer->assign('DATE_FORMAT', 0 === strpos($dateFormat, 'yyyy') ? 'Y-m-d' : $dateFormat);
 		if ('search' === $request->getMode()) {
 			$viewer->assign('SEARCH_DATA', $this->recordCollector->search());
 			$viewer->view('Modals/RecordCollectorSearch.tpl', $request->getModule());
