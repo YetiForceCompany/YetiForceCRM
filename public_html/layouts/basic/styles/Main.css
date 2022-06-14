@@ -17893,7 +17893,6 @@ body:not(.desktop) .ps__rail-y {
   line-height: 1.2;
   border-radius: 0.16rem;
 }
-
 label.btn[class*=btn-outline-]:not(.active) {
   background: #fff;
 }

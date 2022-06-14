@@ -346,7 +346,7 @@ class Condition
 		if (isset($conditions['rules'])) {
 			foreach ($conditions['rules'] as &$condition) {
 				if (isset($condition['condition'])) {
-					$condition = static::getFieldsFromConditions($condition);
+					$fields = array_merge_recursive($fields, static::getFieldsFromConditions($condition));
 				} else {
 					[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $condition['fieldname']), 3, false);
 					if ($sourceFieldName) {

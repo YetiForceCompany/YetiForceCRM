@@ -189,9 +189,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 	public function save()
 	{
 		$this->saveToDb();
-
-		\App\Cache::delete('picklistDependencyFields', $this->getSourceModuleName());
-		\App\Cache::delete('getPicklistDependencyDatasource', $this->getSourceModuleName());
+		\App\Cache::delete('Picklist::getDependencyForModule', $this->getSourceModuleName());
 	}
 
 	/**
@@ -307,9 +305,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 			'id' => $this->get('id')
 		])->execute();
 		$sourceModule = $this->get('tabid');
-		\App\Cache::delete('picklistDependencyFields', $sourceModule);
-		\App\Cache::delete('getPicklistDependencyDatasource', $sourceModule);
-
+		\App\Cache::delete('Picklist::getDependencyForModule', $sourceModule);
 		return (bool) $result;
 	}
 
