@@ -43,7 +43,7 @@ class Settings_PickListDependency_SaveAjax_Action extends Settings_Vtiger_Save_A
 	 *
 	 * @param \App\Request $request
 	 *
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 * @return Settings_PickListDependency_Record_Model or Module specific Record Model instance
 	 */
 	protected function getRecordModelFromRequest(App\Request $request)
 	{

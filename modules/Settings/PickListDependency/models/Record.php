@@ -459,38 +459,8 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 				'result' => false,
 				'message' => App\Language::translate('LBL_DUPLICATE', $this->getModule()->getName(true))
 			];
-		} elseif ($fields = $this->getCyclicDependencyFields()) {
-			$isExists = (new App\Db\Query())->from($this->getModule()->baseTable)
-				->where(['tabid' => \App\Module::getModuleId($this->get('tabid')), 'source_field' => $fields])
-				->andWhere(['not', [$this->getModule()->baseIndex => $this->getId()]])->exists();
-			if ($isExists) {
-				$response[] = [
-					'result' => false,
-					'message' => App\Language::translate('LBL_ERR_CYCLIC_DEPENDENCY', $this->getModule()->getName(true))
-				];
-			}
 		}
-
 		return $response;
-	}
-
-	/**
-	 * Get cyclic dependency fields.
-	 *
-	 * @return array
-	 */
-	public function getCyclicDependencyFields(): array
-	{
-		$fields = [];
-		$conditions = $this->get('conditions') ?: [];
-		foreach ($conditions as $condition) {
-			$fieldNames = array_column(\App\Json::decode($condition)['rules'], 'fieldname');
-			foreach ($fieldNames as $fieldName) {
-				$fields[] = $this->getSourceModule()->getFieldByName(substr($fieldName, 0, strpos($fieldName, ':')))->getId();
-			}
-		}
-
-		return $fields;
 	}
 
 	/**

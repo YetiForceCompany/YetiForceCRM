@@ -3,7 +3,6 @@
     "Selected Values": "Selected values",
     "LBL_ADD_RECORD": "Add record",
     "PickListDependency": "PickList Dependency",
-    "LBL_ERR_CYCLIC_DEPENDENCY": "This dependency setup is not allowed as it ends up in some cyclic dependency",
     "LBL_PICKLIST_DEPENDENCY": "Picklist dependency",
     "LBL_SELECT_FIELD": "Select field",
     "LBL_SELECT_MODULE": "Module",
