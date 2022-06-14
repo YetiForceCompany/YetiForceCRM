@@ -3456,10 +3456,10 @@ var app = (window.app = {
 	},
 	/**
 	 * Print data modal
-	 * @param {this} context
+	 * @param {jQuery} printContents
 	 */
 	printModal: function (printContents) {
-		printContents = printContents.html().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, " ");
+		const printContentsAfterTrim = printContents.html().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, " ");
 		const modal = window.open();
 		modal.document.write('<link rel="stylesheet" href="layouts/resources/icons/additionalIcons.css">');
 		modal.document.write('<link rel="stylesheet" href="layouts/resources/icons/yfm.css?">');
@@ -3467,7 +3467,7 @@ var app = (window.app = {
 		modal.document.write('<link rel="stylesheet" href="libraries/@mdi/font/css/materialdesignicons.css">');
 		modal.document.write('<link rel="stylesheet" href="layouts/basic/styles/Main.css">');
 		modal.document.write('<link rel="stylesheet" href="layouts/basic/skins/twilight/style.css">');
-		modal.document.write(printContents);
+		modal.document.write(printContentsAfterTrim);
 		modal.print();
 		modal.onafterprint = (_event) => {
 			modal.close();
