@@ -126,7 +126,7 @@ var App = (window.App = {
 				}
 				let url = 'index.php?module=' + moduleName + '&view=QuickCreateAjax';
 				if (undefined === params.callbackFunction) {
-					params.callbackFunction = function () { };
+					params.callbackFunction = function () {};
 				}
 				if (
 					(app.getViewName() === 'Detail' || (app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
@@ -3454,15 +3454,34 @@ var app = (window.app = {
 			}
 		});
 	},
-	registerPrintData: function (container) {
+	/**
+	 * Print data modal
+	 * @param {jQuery} printContents
+	 */
+	printModal: function (printContents) {
+		const printContentsAfterTrim = printContents.html().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, " ");
+		const modal = window.open();
+		modal.document.write('<link rel="stylesheet" href="layouts/resources/icons/additionalIcons.css">');
+		modal.document.write('<link rel="stylesheet" href="layouts/resources/icons/yfm.css?">');
+		modal.document.write('<link rel="stylesheet" href="layouts/resources/icons/yfi.css">');
+		modal.document.write('<link rel="stylesheet" href="libraries/@mdi/font/css/materialdesignicons.css">');
+		modal.document.write('<link rel="stylesheet" href="layouts/basic/styles/Main.css">');
+		modal.document.write('<link rel="stylesheet" href="layouts/basic/skins/twilight/style.css">');
+		modal.document.write(printContentsAfterTrim);
+		modal.print();
+		modal.onafterprint = (_event) => {
+			modal.close();
+		}
+	},
+	/**
+	 * Register print event
+	 * @param {jQuery} container
+	 */
+	registerPrintEvent: function (container) {
 		container.on('click', '.js-print-container', function (event) {
 			event.preventDefault();
 			const element = $(this);
-			const printContents = $(element.data('container')).children().html();
-			const originalContents = document.body.innerHTML;
-			document.body.innerHTML = printContents;
-			window.print();
-			document.body.innerHTML = originalContents;
+			app.printModal($(element.data('container')).children());
 		})
 	}
 });
@@ -3488,7 +3507,7 @@ $(function () {
 	app.registerAfterLoginEvents(document);
 	app.registerFormsEvents(document);
 	app.registerRecordActionsEvents(document);
-	app.registerPrintData(document);
+	app.registerPrintEvent(document);
 	app.registerKeyboardShortcutsEvent(document);
 	app.registerPostActionEvent(document);
 	App.Components.QuickCreate.register(document);

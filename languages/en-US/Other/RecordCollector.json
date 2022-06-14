@@ -1,10 +1,12 @@
 {
   "php": {
-    "LBL_POLAND_VAT_PAYER": "Verification of the status of the VAT payer",
-    "LBL_POLAND_VAT_PAYER_DESC": "Verifies whether the entity is registered as a VAT taxpayer on prior to sending the inquiry based on the tax identification number.",
-    "LBL_POLAND_GUS": "GUS",
-    "LBL_POLAND_GUS_DESC": "Central Statistical Office of Poland",
-    "LBL_VIES": "VIES",
-    "LBL_VIES_DESC": "The VAT Information Exchange System (VIES) is an electronic means of transmitting information relating to VAT registration (i.e., validity of VAT numbers) of companies registered in the European Union."
+    "LBL_POLAND_VAT_PAYER": "Verify VAT taxpayer’s status [PL]",
+    "LBL_POLAND_VAT_PAYER_DESC": "The service allows you to verify whether the entity is an active, exempt, or unregistered VAT taxpayer in Poland.",
+    "LBL_POLAND_GUS": "Load business entity data [PL]",
+    "LBL_POLAND_GUS_DESC": "Download information about entities of the national economy of Poland from the REGON Registry.",
+    "LBL_VIES": "Confirm the VAT-EU number",
+    "LBL_VIES_DESC": "Checks if the business entity has a valid VAT-EU number for intra-community transactions within the European Union.",
+    "LBL_PRINTED_BY": "printed by",
+    "LBL_IN_DAY": "in day"
   }
 }
