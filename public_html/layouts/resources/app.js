@@ -3454,16 +3454,35 @@ var app = (window.app = {
 			}
 		});
 	},
-	registerPrintData: function (container) {
+	/**
+	 * Print data modal
+	 * @param {this} context
+	 */
+	printModal: function (context) {
+		const element = context;
+		let printContents = $(element.data('container')).children().html();
+		printContents = printContents.replace('<script type="text/javascript">app.registerModalController(\'record-collector-modal\');</script>', '');
+		const modal = window.open();
+		modal.document.write('<link rel="stylesheet" href="layouts/resources/icons/additionalIcons.css">');
+		modal.document.write('<link rel="stylesheet" href="layouts/resources/icons/yfm.css?">');
+		modal.document.write('<link rel="stylesheet" href="layouts/resources/icons/yfi.css">');
+		modal.document.write('<link rel="stylesheet" href="libraries/@mdi/font/css/materialdesignicons.css">');
+		modal.document.write('<link rel="stylesheet" href="layouts/basic/styles/Main.css">');
+		modal.document.write('<link rel="stylesheet" href="layouts/basic/skins/twilight/style.css">');
+		modal.document.write(printContents);
+		modal.print();
+		modal.onafterprint = (_event) => {
+			modal.close();
+		}
+	},
+	/**
+	 * Register print event
+	 * @param {jQuery} container
+	 */
+	registerPrintEvent: function (container) {
 		container.on('click', '.js-print-container', function (event) {
 			event.preventDefault();
-			const element = $(this);
-			const printContents = $(element.data('container')).children().html();
-			const originalContents = document.body.innerHTML;
-			document.body.innerHTML = printContents;
-			window.print();
-			document.body.innerHTML = originalContents;
-			window.location.reload();
+			app.printModal($(this))
 		})
 	}
 });
@@ -3489,7 +3508,7 @@ $(function () {
 	app.registerAfterLoginEvents(document);
 	app.registerFormsEvents(document);
 	app.registerRecordActionsEvents(document);
-	app.registerPrintData(document);
+	app.registerPrintEvent(document);
 	app.registerKeyboardShortcutsEvent(document);
 	app.registerPostActionEvent(document);
 	App.Components.QuickCreate.register(document);
