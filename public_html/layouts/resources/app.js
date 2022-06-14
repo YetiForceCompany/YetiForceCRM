@@ -3461,7 +3461,7 @@ var app = (window.app = {
 	printModal: function (context) {
 		const element = context;
 		let printContents = $(element.data('container')).children().html();
-		printContents = printContents.replace('<script type="text/javascript">app.registerModalController(\'record-collector-modal\');</script>', '');
+		printContents = printContents.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, " ");
 		const modal = window.open();
 		modal.document.write('<link rel="stylesheet" href="layouts/resources/icons/additionalIcons.css">');
 		modal.document.write('<link rel="stylesheet" href="layouts/resources/icons/yfm.css?">');
