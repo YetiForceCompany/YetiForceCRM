@@ -3459,7 +3459,7 @@ var app = (window.app = {
 	 * @param {this} context
 	 */
 	printModal: function (printContents) {
-		printContents = printContents.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, " ");
+		printContents = printContents.html().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, " ");
 		const modal = window.open();
 		modal.document.write('<link rel="stylesheet" href="layouts/resources/icons/additionalIcons.css">');
 		modal.document.write('<link rel="stylesheet" href="layouts/resources/icons/yfm.css?">');
@@ -3481,7 +3481,7 @@ var app = (window.app = {
 		container.on('click', '.js-print-container', function (event) {
 			event.preventDefault();
 			const element = $(this);
-			let printContents = $(element.data('container')).children().html();
+			let printContents = $(element.data('container')).children();
 			app.printModal(printContents);
 		})
 	}
