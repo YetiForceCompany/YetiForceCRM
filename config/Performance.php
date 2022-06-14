@@ -134,9 +134,6 @@ class Performance
 	/** Popover record's trigger delay in ms */
 	public static $RECORD_POPOVER_DELAY = 500;
 
-	/** Empty value when there is selected item in picklist dependency */
-	public static $PICKLIST_DEPENDENCY_DEFAULT_EMPTY = true;
-
 	/** Number of items displayed in picklists. */
 	public static $picklistLimit = 50;
 

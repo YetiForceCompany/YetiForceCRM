@@ -817,12 +817,6 @@ return [
 			'description' => "Popover record's trigger delay in ms",
 			'validation' => '\App\Validator::naturalNumber',
 		],
-		'PICKLIST_DEPENDENCY_DEFAULT_EMPTY' => [
-			'default' => true,
-			'description' => 'Empty value when there is selected item in picklist dependency',
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool',
-		],
 		'picklistLimit' => [
 			'default' => 50,
 			'description' => 'Number of items displayed in picklists.',
