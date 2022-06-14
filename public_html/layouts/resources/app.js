@@ -3481,8 +3481,7 @@ var app = (window.app = {
 		container.on('click', '.js-print-container', function (event) {
 			event.preventDefault();
 			const element = $(this);
-			let printContents = $(element.data('container')).children();
-			app.printModal(printContents);
+			app.printModal($(element.data('container')).children());
 		})
 	}
 });
