@@ -7,7 +7,8 @@
 				{assign var=SHOW_BLOCK value=isset($MAPPED_VALUES[$key])}
 				<div class="js-toggle-panel c-panel" data-js="click">
 					<div class="blockHeader c-panel__header py-2">
-						<span class="iconToggle fas {if $SHOW_BLOCK}fa-chevron-down{else}fa-chevron-right{/if} fa-xs m-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down"></span>
+						<span class="iconToggle fas {if $SHOW_BLOCK}fa-chevron-down{else}fa-chevron-right{/if} fa-xs m-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down">
+						</span>
 						<h5>
 							<span class=" mr-2" aria-hidden="true"></span>
 							{\App\Language::translate($item, $SOURCE_MODULE)}

@@ -1,9 +1,6 @@
 <?php
-
-namespace App\Fields;
-
 /**
- * Picklist class.
+ * Tools file for picklist.
  *
  * @package App
  *
@@ -11,6 +8,12 @@ namespace App\Fields;
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace App\Fields;
+
+/**
+ * Tools class for picklist.
  */
 class Picklist
 {
@@ -209,54 +212,40 @@ class Picklist
 	/**
 	 * Function to get picklist dependency data source.
 	 *
-	 * @param string $module
+	 * @param string $moduleName
 	 *
 	 * @return array
 	 */
-	public static function getPicklistDependencyDatasource($module)
+	public static function getDependencyForModule(string $moduleName)
 	{
-		if (\App\Cache::has('getPicklistDependencyDatasource', $module) && \App\Cache::has('picklistDependencyFields', $module)) {
-			return \App\Cache::get('getPicklistDependencyDatasource', $module);
+		if (\App\Cache::has('Picklist::getDependencyForModule', $moduleName)) {
+			return \App\Cache::get('Picklist::getDependencyForModule', $moduleName);
 		}
-		$mapp = $listenFields = [];
-		$isEmptyDefaultValue = \App\Config::performance('PICKLIST_DEPENDENCY_DEFAULT_EMPTY');
-		$moduleModel = \Vtiger_Module_Model::getInstance($module);
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$fields = $moduleModel->getFieldsById();
 
-		$dataReader = (new \App\Db\Query())->from(['s_yf_picklist_dependency'])->where(['tabid' => \App\Module::getModuleId($module)])->createCommand()->query();
+		$conditionsByFields = $listenFields = [];
+		$dataReader = (new \App\Db\Query())->from(['s_#__picklist_dependency'])->where(['tabid' => $moduleModel->getId()])->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$sourceFieldId = $row['source_field'];
-			$sourceFieldName = $fields[$sourceFieldId]->getName();
-			if (!$isEmptyDefaultValue && !isset($mapp[$sourceFieldName])) {
-				$mapp[$sourceFieldName] = array_fill_keys(self::getValuesName($sourceFieldName), []);
-			}
-
-			$dataReaderPDValue = (new \App\Db\Query())->from(['s_yf_picklist_dependency_data'])->where(['id' => $row['id']])->createCommand()->query();
+			$sourceFieldName = $fields[$row['source_field']]->getName();
+			$picklistTable = "vtiger_$sourceFieldName";
+			$primaryKey = static::getPickListId($sourceFieldName);
+			$dataReaderPDValue = (new \App\Db\Query())
+				->select(['value' => "{$picklistTable}.{$sourceFieldName}", 's_#__picklist_dependency_data.conditions'])
+				->from([$picklistTable])
+				->leftJoin('s_#__picklist_dependency_data', "$picklistTable.$primaryKey = s_#__picklist_dependency_data.source_id AND s_#__picklist_dependency_data.id = :pdd", [':pdd' => $row['id']])
+				->createCommand()->query();
 			while ($plRow = $dataReaderPDValue->read()) {
-				$plKey = $plRow['source_id'];
-				$plValue = self::getValuesName($sourceFieldName)[$plKey];
-				$conditions = $plRow['conditions'] ?: [];
-				$conditions = \App\Json::decode($conditions);
-
-				foreach ($conditions['rules'] as &$condition) {
-					$value = $condition['value'] ?? '';
-					[$fieldName] = explode(':', $condition['fieldname']);
-					if (!isset($listenFields[$fieldName]) || !\in_array($sourceFieldName, $listenFields[$fieldName])) {
-						$listenFields[$fieldName][] = $sourceFieldName;
-					}
-
-					$plValues = $mapp[$sourceFieldName][$plValue][$fieldName] ?? [];
-					if ($value) {
-						$mapp[$sourceFieldName][$plValue][$fieldName] = array_unique(array_merge($plValues, explode('##', $value)));
-					}
+				$conditions = [];
+				if ($plRow['conditions']) {
+					$conditions = \App\Json::decode($plRow['conditions']);
+					$listenFields = array_merge($listenFields, \App\Condition::getFieldsFromConditions($conditions)['baseModule']);
 				}
+				$conditionsByFields[$sourceFieldName][$plRow['value']] = $conditions;
 			}
 		}
-
-		$result = $mapp ? ['mapping' => $mapp, 'listener' => $listenFields] : [];
-		\App\Cache::save('picklistDependencyFields', $module, $listenFields);
-		\App\Cache::save('getPicklistDependencyDatasource', $module, $result);
-
+		$result = ['listener' => array_unique($listenFields), 'conditions' => $conditionsByFields];
+		\App\Cache::save('Picklist::getDependencyForModule', $moduleName, $result);
 		return $result;
 	}
 
@@ -270,28 +259,7 @@ class Picklist
 	 */
 	public static function isDependentField(string $moduleName, string $fieldName): bool
 	{
-		if (!\App\Cache::has('picklistDependencyFields', $moduleName)) {
-			self::getPicklistDependencyDatasource($moduleName);
-		}
-		$listener = \App\Cache::get('picklistDependencyFields', $moduleName);
-
-		return $listener && (isset($listener[$fieldName]) || \in_array($fieldName, \App\Utils::flatten($listener)));
-	}
-
-	/**
-	 * Gets dependent source field.
-	 *
-	 * @param string $moduleName
-	 * @param string $fieldName
-	 */
-	public static function getDependentSourceField(string $moduleName, string $fieldName): string
-	{
-		foreach (self::getPicklistDependencyDatasource($moduleName) as $source => $values) {
-			if (isset($values['__DEFAULT__'][$fieldName])) {
-				return $source;
-			}
-		}
-		return '';
+		return isset(self::getDependencyForModule($moduleName)['conditions'][$fieldName]);
 	}
 
 	/**
@@ -440,8 +408,7 @@ class Picklist
 	 */
 	public static function clearCache(string $fieldName, string $moduleName)
 	{
-		\App\Cache::delete('picklistDependencyFields', $moduleName);
-		\App\Cache::delete('getPicklistDependencyDatasource', $moduleName);
+		\App\Cache::delete('Picklist::getDependencyForModule', $moduleName);
 		\App\Cache::delete('Picklist::getValuesName', $fieldName);
 		\App\Cache::delete('Picklist::getNonEditableValues', $fieldName);
 		\App\Cache::delete('Picklist::getRoleBasedValues', $fieldName);

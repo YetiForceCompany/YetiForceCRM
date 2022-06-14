@@ -28,9 +28,6 @@
 						<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD}" />
 						<input type="hidden" name="relationOperation" value="{$IS_RELATION_OPERATION}" />
 					{/if}
-					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-						<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}' />
-					{/if}
 					{if !empty($MAPPING_RELATED_FIELD)}
 						<input type="hidden" name="mappingRelatedField" value='{\App\Purifier::encodeHtml($MAPPING_RELATED_FIELD)}' />
 					{/if}

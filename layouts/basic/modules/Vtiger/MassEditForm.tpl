@@ -36,9 +36,6 @@
 					{if !empty($LIST_FILTER_FIELDS)}
 						<input type="hidden" name="listFilterFields" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}' />
 					{/if}
-					{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-						<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}' />
-					{/if}
 					<input type="hidden" name="module" value="{$MODULE}" />
 					<input type="hidden" name="action" value="MassSave" />
 					<input type="hidden" name="viewname" value="{$CVID}" />

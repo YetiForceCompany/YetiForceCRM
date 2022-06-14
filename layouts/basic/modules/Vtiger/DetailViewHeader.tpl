@@ -36,9 +36,6 @@
 			{include file=\App\Layout::getTemplatePath('RelatedListButtons.tpl', $MODULE)}
 			<div class="col-md-12 pt-1 {if !empty($DETAILVIEW_LINKS['DETAILVIEWTAB']) || !empty($DETAILVIEW_LINKS['DETAILVIEWRELATED']) } details {/if}">
 				<form id="detailView" data-name-fields="{\App\Purifier::encodeHtml(\App\Json::encode($MODULE_MODEL->getNameFields()))}" method="POST">
-					{if !empty($PICKLIST_DEPENDENCY_DATASOURCE)}
-						<input type="hidden" name="picklistDependency" value="{\App\Purifier::encodeHtml($PICKLIST_DEPENDENCY_DATASOURCE)}">
-					{/if}
 					<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}" />
 					{if $RECORD->getId() && !empty($RECORD_ACTIVITY_NOTIFIER)}
 						<input type="hidden" id="recordActivityNotifier" data-interval="{App\Config::performance('recordActivityNotifierInterval', 10)}" data-record="{$RECORD->getId()}" data-module="{$MODULE_NAME}" />

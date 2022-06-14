@@ -153,7 +153,7 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	{
 		$fieldModel = $this->getFieldModel();
 		$fieldName = $fieldModel->getName();
-		$moduleName = $this->getFieldModel()->getModuleName();
+		$moduleName = $fieldModel->getModuleName();
 		if (!($fieldValue = $recordModel->get($fieldName))) {
 			return [];
 		}
@@ -161,19 +161,19 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 		if ($isEditable) {
 			$picklistOfField = $fieldModel->getPicklistValues();
 		}
-		$picklistDependency = \App\Fields\Picklist::getPicklistDependencyDatasource($moduleName);
-		$dependentSourceField = \App\Fields\Picklist::getDependentSourceField($moduleName, $fieldName);
+		$picklistDependency = \App\Fields\Picklist::getDependencyForModule($moduleName);
 		$closeStates = \App\RecordStatus::getLockStatus($moduleName, false);
 		$values = [];
 		foreach (\App\Fields\Picklist::getValues($fieldModel->getName()) as $value) {
-			if ($dependentSourceField && isset($picklistDependency[$dependentSourceField][$recordModel->get($dependentSourceField)][$fieldName]) && !\in_array($value['picklistValue'], $picklistDependency[$dependentSourceField][$recordModel->get($dependentSourceField)][$fieldName])) {
-				continue;
+			$isEditableValue = true;
+			if ($isEditable && isset($picklistDependency['conditions'][$fieldName][$value['picklistValue']])) {
+				$isEditableValue = \App\Condition::checkConditions($picklistDependency['conditions'][$fieldName][$value['picklistValue']], $recordModel);
 			}
 			$values[$value[$fieldName]] = [
 				'label' => \App\Language::translate($value['picklistValue'], $moduleName),
 				'isActive' => $value['picklistValue'] === $fieldValue,
 				'isLocked' => isset($value['picklist_valueid']) && isset($closeStates[$value['picklist_valueid']]),
-				'isEditable' => $isEditable && $value['picklistValue'] !== $fieldValue && isset($picklistOfField[$value['picklistValue']]),
+				'isEditable' => $isEditable && $isEditableValue && $value['picklistValue'] !== $fieldValue && isset($picklistOfField[$value['picklistValue']]),
 				'description' => $value['description'] ?? null,
 				'color' => $value['color'] ?? null,
 			];

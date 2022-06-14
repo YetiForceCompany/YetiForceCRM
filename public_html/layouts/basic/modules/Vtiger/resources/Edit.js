@@ -394,19 +394,6 @@ $.Class(
 				});
 			}
 		},
-		setFieldValue: function (params) {
-			let fieldElement = this.getForm().find(`[name="${params['fieldName']}"]`);
-			let fieldinfo = fieldElement.data('fieldinfo');
-			if (fieldElement.is('select')) {
-				if (fieldElement.find(`option[value="${params['value']}"]`).length) {
-					fieldElement.val(params['value']).trigger('change');
-				} else if (fieldinfo.picklistvalues.hasOwnProperty(params['value'])) {
-					fieldElement.append(new Option(params['value'], params['value'], true, true)).trigger('change');
-				}
-			} else {
-				fieldElement.val(params['value']);
-			}
-		},
 		getRelationOperation: function () {
 			if (this.relationOperation === '') {
 				let relationOperation = $('[name="relationOperation"]');
@@ -1060,75 +1047,6 @@ $.Class(
 
 			return aDeferred.promise();
 		},
-		/**
-		 * Function to register event for setting up picklistdependency
-		 * for a module if exist on change of picklist value
-		 */
-		registerEventForPicklistDependencySetup: function (container) {
-			let element = $('[name="picklistDependency"]', container);
-			if (element.length <= 0 || typeof JSON.parse(element.val()).mapping === 'undefined') {
-				return;
-			}
-			app.event.on('EditView.RebuildValues', (_e, conditions, el) => {
-				let options = el.data('availableOptions');
-				if (typeof options === 'undefined') {
-					options = $('option', el);
-					el.data('available-options', options);
-				}
-				let valid = function (cond) {
-					let result = cond && Object.keys(cond).length;
-					for (let fieldName in cond) {
-						let value = container.find('[name="' + fieldName + '"]').val();
-						result = result && cond[fieldName].includes(value);
-					}
-					return result;
-				};
-
-				let newOptions = new $();
-				let addForce =
-					[...options]
-						.map((o) => o.value)
-						.filter((o) => {
-							return o;
-						}).length === Object.keys(conditions).length && isParentFieldsEmpty(el.attr('name'));
-				$.each(options, (_i, e) => {
-					if (
-						addForce ||
-						e.value === '' ||
-						(typeof conditions[e.value] !== 'undefined' && valid(conditions[e.value]))
-					) {
-						newOptions = newOptions.add($(e));
-					}
-				});
-				el.html(newOptions).val(newOptions.filter('[selected]').val()).trigger('change');
-			});
-
-			let isParentFieldsEmpty = (childName) => {
-				let result = true;
-				for (let fieldName in listener) {
-					for (let triggerFieldName of listener[fieldName]) {
-						if (childName === triggerFieldName) {
-							result = result && !container.find('[name="' + fieldName + '"]').val();
-						}
-					}
-				}
-				return result;
-			};
-			let triggerListeners = (listenerPart) => {
-				for (let triggerFieldName of listenerPart) {
-					let el = container.find('[name="' + triggerFieldName + '"]');
-					app.event.trigger('EditView.RebuildValues', mapping[triggerFieldName] || {}, el);
-				}
-			};
-
-			let { listener, mapping } = JSON.parse(element.val());
-			for (let fieldName in listener) {
-				container.find('[name="' + fieldName + '"]').on('change', () => {
-					triggerListeners(listener[fieldName]);
-				});
-				triggerListeners(listener[fieldName]);
-			}
-		},
 		registerLeavePageWithoutSubmit: function (form) {
 			if (
 				typeof CKEDITOR !== 'undefined' &&
@@ -1619,11 +1537,16 @@ $.Class(
 		 * @param {object} data
 		 */
 		triggerRecordEditEvents: function (data) {
-			const self = this;
-			let form = this.getForm();
+			const self = this,
+				form = this.getForm();
 			if (typeof data['changeValues'] == 'object') {
-				$.each(data['changeValues'], function (key, field) {
+				$.each(data['changeValues'], function (_, field) {
 					self.setFieldValue(field);
+				});
+			}
+			if (typeof data['changeOptions'] != 'undefined') {
+				$.each(data['changeOptions'], function (fieldName, options) {
+					self.setFieldOptions(fieldName, options);
 				});
 			}
 			if (typeof data['hoverField'] != 'undefined') {
@@ -1636,16 +1559,55 @@ $.Class(
 				app.showModalWindow(null, data['showModal']['url']);
 			}
 			if (typeof data['showFields'] != 'undefined') {
-				$.each(data['showFields'], function (key, fieldName) {
+				$.each(data['showFields'], function (_, fieldName) {
 					form.find(`.js-field-block-column[data-field="${fieldName}"]`).removeClass('d-none');
 					self.checkVisibilityBlocks();
 				});
 			}
 			if (typeof data['hideFields'] != 'undefined') {
-				$.each(data['hideFields'], function (key, fieldName) {
+				$.each(data['hideFields'], function (_, fieldName) {
 					form.find(`.js-field-block-column[data-field="${fieldName}"]`).addClass('d-none');
 					self.checkVisibilityBlocks();
 				});
+			}
+		},
+		/**
+		 * Set field value
+		 * @param {object} params
+		 */
+		setFieldValue: function (params) {
+			const fieldElement = this.getForm().find(`[name="${params['fieldName']}"]`),
+				fieldInfo = fieldElement.data('fieldinfo');
+			if (fieldElement.is('select')) {
+				if (fieldElement.find(`option[value="${params['value']}"]`).length) {
+					fieldElement.val(params['value']).trigger('change');
+				} else if (fieldInfo.picklistvalues.hasOwnProperty(params['value'])) {
+					fieldElement.append(new Option(params['value'], params['value'], true, true)).trigger('change');
+				}
+			} else {
+				fieldElement.val(params['value']);
+			}
+		},
+		/**
+		 * Set field options
+		 * @param {string} fieldName
+		 * @param {object} options
+		 */
+		setFieldOptions: function (fieldName, options) {
+			const fieldElement = this.getForm().find(`[name="${fieldName}"]`),
+				fieldInfo = fieldElement.data('fieldinfo');
+			if (fieldElement.is('select')) {
+				const val = fieldElement.val(),
+					fieldValue = fieldElement.closest('.fieldValue');
+				let newOptions = new $();
+				$.each(options, (_, e) => {
+					newOptions = newOptions.add(new Option(fieldInfo['picklistvalues'][e], e, false, val == e));
+				});
+				fieldElement.html(newOptions).trigger('change');
+				fieldValue.addClass('border border-info');
+				setTimeout(function () {
+					fieldValue.removeClass('border border-info');
+				}, 5000);
 			}
 		},
 		/**
@@ -1653,27 +1615,33 @@ $.Class(
 		 * @param {jQuery} container
 		 */
 		registerChangeValueHandlerEvent: function (container) {
-			let event = container.find('.js-change-value-event');
+			const event = container.find('.js-change-value-event');
 			if (event.length <= 0) {
 				return;
 			}
-			const self = this;
-			let fields = JSON.parse(event.val());
-			$.each(fields, function (key, fieldName) {
-				let fieldElement = container.find(`[name="${fieldName}"],[name="${fieldName}[]"]`);
-				fieldElement.on(
-					`change ${Vtiger_Edit_Js.referenceSelectionEvent} ${Vtiger_Edit_Js.referenceDeSelectionEvent}`,
-					function () {
-						let formData = container.serializeFormData();
-						formData['action'] = 'ChangeValueHandler';
-						delete formData['view'];
-						AppConnector.request(formData).done(function (response) {
-							$.each(response.result, function (key, data) {
-								self.triggerRecordEditEvents(data);
-							});
-						});
-					}
-				);
+			const fields = JSON.parse(event.val());
+			$.each(fields, (_, fieldName) => {
+				container
+					.find(`[name="${fieldName}"],[name="${fieldName}[]"]`)
+					.on(`change ${Vtiger_Edit_Js.referenceSelectionEvent} ${Vtiger_Edit_Js.referenceDeSelectionEvent}`, () => {
+						this.sendChangeValueHandlerEvent(container.serializeFormData());
+					});
+			});
+			this.sendChangeValueHandlerEvent(container.serializeFormData());
+		},
+		/**
+		 * Send change value handler events
+		 * @param {object} formData
+		 */
+		sendChangeValueHandlerEvent: function (formData) {
+			formData['action'] = 'ChangeValueHandler';
+			delete formData['view'];
+			let progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
+			AppConnector.request(formData).done((response) => {
+				$.each(response.result, (_, data) => {
+					this.triggerRecordEditEvents(data);
+				});
+				progress.progressIndicator({ mode: 'hide' });
 			});
 		},
 		/**
@@ -1704,7 +1672,6 @@ $.Class(
 			this.registerClearReferenceSelectionEvent(container);
 			this.registerPreventingEnterSubmitEvent(container);
 			this.registerTimeFields(container);
-			this.registerEventForPicklistDependencySetup(container);
 			this.registerRecordPreSaveEventEvent(container);
 			this.registerReferenceSelectionEvent(container);
 			this.registerChangeValueHandlerEvent(container);

@@ -8,9 +8,6 @@
 		{if !empty($LIST_FILTER_FIELDS)}
 			<input type="hidden" name="listFilterFields" value='{\App\Purifier::encodeHtml($LIST_FILTER_FIELDS)}' />
 		{/if}
-		{if !empty($PICKIST_DEPENDENCY_DATASOURCE)}
-			<input type="hidden" name="picklistDependency" value='{\App\Purifier::encodeHtml($PICKIST_DEPENDENCY_DATASOURCE)}' />
-		{/if}
 		<input type="hidden" name="module" value="{$MODULE_NAME}" />
 		<input type="hidden" class="js-edit-field-list" data-value="{\App\Purifier::encodeHtml(\App\Json::encode($EDIT_FIELD_DETAILS))}" />
 		<form id="{\App\Layout::getUniqueId('ChangesJson')}" name="ChangesJson" method="post">

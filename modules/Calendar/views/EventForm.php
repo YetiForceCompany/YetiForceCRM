@@ -43,7 +43,6 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 			$this->recordStructure = $recordStructureInstance->getStructure();
 			$fieldValues = $this->loadFieldValuesFromSource($request);
 			$viewer->assign('QUICKCREATE_LINKS', Vtiger_QuickCreateView_Model::getInstance($moduleName)->getLinks([]));
-			$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Fields\Picklist::getPicklistDependencyDatasource($moduleName)));
 			$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 			$viewer->assign('LIST_FILTER_FIELDS', \App\Json::encode(\App\ModuleHierarchy::getFieldsForListFilter($moduleName)));
 			$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
