@@ -35,11 +35,10 @@ class Settings_Wapro_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getInstanceById(int $id): ?self
 	{
-		$row = (new \App\Db\Query())->from(\App\Integrations\Wapro::TABLE_NAME)->where(['id' => $id])->one(\App\Db::getInstance('admin'));
+		$row = App\Integrations\Wapro::getById($id);
 		if (empty($row)) {
 			return null;
 		}
-		$row['password'] = \App\Encryption::getInstance()->decrypt($row['password']);
 		$instance = new self();
 		$instance->setData($row);
 		return $instance;
@@ -74,8 +73,22 @@ class Settings_Wapro_Record_Model extends Settings_Vtiger_Record_Model
 			$result = $db->createCommand()->insert($tableName, $params)->execute();
 			$this->set('id', $db->getLastInsertID("{$tableName}_id_seq"));
 		}
-		// \App\Cache::delete('MeetingService::getServices', '');
+		\App\Cache::delete('App\Integrations\Wapro::getById', $this->getId());
 		return (bool) $result;
+	}
+
+	/**
+	 * Function to delete the current record model.
+	 *
+	 * @return int
+	 */
+	public function delete(): int
+	{
+		$return = \App\Db::getInstance()->createCommand()
+			->delete($this->getModule()->baseTable, ['id' => $this->getId()])
+			->execute();
+		\App\Cache::delete('App\Integrations\Wapro::getById', $this->getId());
+		return $return;
 	}
 
 	/**

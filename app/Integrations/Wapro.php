@@ -25,6 +25,40 @@ class Wapro
 	/** @var int Status active */
 	public const STATUS_ACTIVE = 1;
 
+	public $config;
+	public $db;
+
+	/**
+	 * Wapro instance construct.
+	 *
+	 * @param int $serverId
+	 */
+	public function __construct(int $serverId)
+	{
+		$this->config = self::getById($serverId);
+		$this->db = self::connectToDatabase($this->config['server'], $this->config['database'], $this->config['username'], $this->config['password'], $this->config['port']);
+	}
+
+	/**
+	 * Get WAPRO ERP configuration by id.
+	 *
+	 * @param int $id
+	 *
+	 * @return array
+	 */
+	public static function getById(int $id): array
+	{
+		if (\App\Cache::has(__METHOD__, $id)) {
+			return \App\Cache::get(__METHOD__, $id);
+		}
+		$row = (new \App\Db\Query())->from(self::TABLE_NAME)->where(['id' => $id])->one(\App\Db::getInstance('admin')) ?: [];
+		if ($row) {
+			$row['password'] = \App\Encryption::getInstance()->decrypt($row['password']);
+		}
+		\App\Cache::save(__METHOD__, $id, $row);
+		return $row;
+	}
+
 	/**
 	 * Connect to WAPRO ERP SQL Server through PDO.
 	 *
@@ -76,7 +110,7 @@ class Wapro
 				$row = (new \App\Db\Query())->from('dbo.WAPRODBSTATE')->one($db);
 				$response = [
 					'status' => !empty($row),
-					'message' => 'No data',
+					'message' => empty($row) ? 'No data' : '',
 				];
 			}
 		} catch (\yii\db\Exception $th) {
@@ -95,6 +129,20 @@ class Wapro
 			];
 		}
 		return $response;
+	}
+
+	public function getInfo(): string
+	{
+		$info = '';
+		$pdo = $this->db->getSlavePdo();
+		foreach (array_merge($pdo->getAttribute(\PDO::ATTR_SERVER_INFO), $pdo->getAttribute(\PDO::ATTR_CLIENT_VERSION)) as $key => $value) {
+			$info .= "$key: $value \n";
+		}
+		$info .= "dbo.WAPRODBSTATE:\n";
+		foreach ((new \App\Db\Query())->from('dbo.WAPRODBSTATE')->all($this->db) as $row) {
+			$info .= " {$row['PRGNAZWA']}, {$row['PRGWER']}, {$row['DBWER']}, {$row['WARIANT']}\n";
+		}
+		return $info;
 	}
 
 	/**
