@@ -124,7 +124,7 @@ class Vies extends Base
 		$countryCode = $this->request->getByType('countryCode', 'Standard');
 		$response = [];
 		if ($client = new \SoapClient($this->url, \App\RequestHttp::getSoapOptions())) {
-			$params = ['countryCode' => $countryCode, 'vatNumber' => $vatNumber];
+			$params = ['countryCode' => $countryCode, 'vatNumber' => $vatNumber, 'requesterCountryCode' => $countryCode, 'requesterVatNumber' => $vatNumber];
 			try {
 				$r = $client->checkVatApprox($params);
 				if ($r->valid) {
@@ -133,8 +133,8 @@ class Vies extends Base
 						'Vat ID' => $r->countryCode . $r->vatNumber,
 						'LBL_COMPANY_NAME' => $r->traderName,
 						'Address details' => $r->traderAddress,
-						'Request Date' => $r->requestDate,
-						'Request ID' => $r->requestIdentifier
+						\App\Language::translate('LBL_REQUEST_DATE', 'Other.RecordCollector') => $r->requestDate,
+						\App\Language::translate('LBL_REQUEST_ID', 'Other.RecordCollector') => $r->requestIdentifier
 					];
 				}
 			} catch (\SoapFault $e) {

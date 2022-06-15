@@ -5,6 +5,8 @@
     "LBL_POLAND_GUS": "Load business entity data [PL]",
     "LBL_POLAND_GUS_DESC": "Download information about entities of the national economy of Poland from the REGON Registry.",
     "LBL_VIES": "Confirm the VAT-EU number",
-    "LBL_VIES_DESC": "Checks if the business entity has a valid VAT-EU number for intra-community transactions within the European Union."
+    "LBL_VIES_DESC": "Checks if the business entity has a valid VAT-EU number for intra-community transactions within the European Union.",
+    "LBL_REQUEST_DATE": "Request Date",
+    "LBL_REQUEST_ID": "Request ID"
   }
 }
