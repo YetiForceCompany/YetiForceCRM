@@ -57,6 +57,39 @@ class Settings_Wapro_Record_Model extends Settings_Vtiger_Record_Model
 		return $instance;
 	}
 
+	/** {@inheritdoc} */
+	public function getRecordLinks(): array
+	{
+		$links = [];
+		$recordLinks = [
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_EDIT_RECORD',
+				'linkdata' => ['url' => $this->getEditViewUrl()],
+				'linkicon' => 'yfi yfi-full-editing-view',
+				'linkclass' => 'btn btn-primary btn-sm js-edit-record-modal'
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_DELETE_RECORD',
+				'linkurl' => 'javascript:Settings_Vtiger_List_Js.deleteById(' . $this->getId() . ')',
+				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn text-white btn-danger btn-sm'
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_LIST_RECORD',
+				'linkdata' => ['url' => 'index.php?parent=Settings&module=Wapro&view=UploadListSynchronizerModal'],
+				'linkicon' => 'fas fa-list',
+				'linkclass' => 'btn btn-light btn-sm js-show-modal'
+			],
+		];
+		foreach ($recordLinks as $recordLink) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+		}
+		return $links;
+	}
+
 	/**
 	 * Function to save.
 	 *
