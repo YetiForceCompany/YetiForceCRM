@@ -1309,13 +1309,22 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @throws \App\Exceptions\AppException
 	 * @throws \App\Exceptions\Security
+	 *
+	 * @return void
 	 */
-	public function initInventoryDataFromRequest(App\Request $request)
+	public function initInventoryDataFromRequest(App\Request $request): void
 	{
 		$inventory = Vtiger_Inventory_Model::getInstance($this->getModuleName());
 		$rawInventory = $request->getRaw('inventory');
 		if (isset($rawInventory['_NUM_'])) {
 			unset($rawInventory['_NUM_']);
+		}
+		if ($inventory->getField('name')) {
+			foreach ($rawInventory as $key => $inventoryRow) {
+				if (empty($inventoryRow['name'])) {
+					unset($rawInventory[$key]);
+				}
+			}
 		}
 		$request->set('inventory', $rawInventory, true);
 		$this->initInventoryData($request->getMultiDimensionArray('inventory', ['id' => \App\Purifier::INTEGER] + $inventory->getPurifyTemplate()));
