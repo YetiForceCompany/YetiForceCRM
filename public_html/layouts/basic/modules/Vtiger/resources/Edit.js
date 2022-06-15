@@ -1596,14 +1596,14 @@ $.Class(
 		setFieldOptions: function (fieldName, options) {
 			const fieldElement = this.getForm().find(`[name="${fieldName}"]`),
 				fieldInfo = fieldElement.data('fieldinfo');
-			if (fieldElement.is('select')) {
+			if (fieldElement.is('select') && fieldInfo) {
 				const val = fieldElement.val(),
 					fieldValue = fieldElement.closest('.fieldValue');
 				let newOptions = new $();
 				$.each(options, (_, e) => {
 					newOptions = newOptions.add(new Option(fieldInfo['picklistvalues'][e], e, false, val == e));
 				});
-				fieldElement.html(newOptions).trigger('change');
+				fieldElement.html(newOptions);
 				fieldValue.addClass('border border-info');
 				setTimeout(function () {
 					fieldValue.removeClass('border border-info');
