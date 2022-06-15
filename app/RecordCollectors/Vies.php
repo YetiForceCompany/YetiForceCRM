@@ -126,13 +126,15 @@ class Vies extends Base
 		if ($client = new \SoapClient($this->url, \App\RequestHttp::getSoapOptions())) {
 			$params = ['countryCode' => $countryCode, 'vatNumber' => $vatNumber];
 			try {
-				$r = $client->checkVat($params);
+				$r = $client->checkVatApprox($params);
 				if ($r->valid) {
 					$response['fields'] = [
 						'Country' => $r->countryCode,
 						'Vat ID' => $r->countryCode . $r->vatNumber,
-						'LBL_COMPANY_NAME' => $r->name,
-						'Address details' => $r->address,
+						'LBL_COMPANY_NAME' => $r->traderName,
+						'Address details' => $r->traderAddress,
+						'Request Date' => $r->requestDate,
+						'Request ID' => $r->requestIdentifier
 					];
 				}
 			} catch (\SoapFault $e) {
