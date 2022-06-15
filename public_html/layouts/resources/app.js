@@ -796,7 +796,7 @@ var App = (window.App = {
 			 */
 			static modalView(params = {}) {
 				var aDeferred = $.Deferred();
-				let url = `index.php?module=AppComponents&view=MediaModal`;
+				let url = 'index.php?module=AppComponents&view=MediaModal';
 				if (params && Object.keys(params).length) {
 					url = app.convertObjectToUrl(params, url);
 				}
@@ -3456,33 +3456,31 @@ var app = (window.app = {
 	},
 	/**
 	 * Print data modal
-	 * @param {jQuery} printContents
+	 * @param {jQuery} container
 	 */
-	printModal: function (printContents) {
-		const printContentsAfterTrim = printContents.html().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, " ");
+	printModal: function (container) {
+		const html = container.html().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ' '),
+			head = $('head')
+				.html()
+				.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ' ');
 		const modal = window.open();
-		modal.document.write('<link rel="stylesheet" href="layouts/resources/icons/additionalIcons.css">');
-		modal.document.write('<link rel="stylesheet" href="layouts/resources/icons/yfm.css?">');
-		modal.document.write('<link rel="stylesheet" href="layouts/resources/icons/yfi.css">');
-		modal.document.write('<link rel="stylesheet" href="libraries/@mdi/font/css/materialdesignicons.css">');
-		modal.document.write('<link rel="stylesheet" href="layouts/basic/styles/Main.css">');
-		modal.document.write('<link rel="stylesheet" href="layouts/basic/skins/twilight/style.css">');
-		modal.document.write(printContentsAfterTrim);
-		modal.print();
-		modal.onafterprint = (_event) => {
+		modal.document.write(`<head>${head}</head>`);
+		modal.document.write(`<body>${html}</body>`);
+		modal.onafterprint = (_e) => {
 			modal.close();
-		}
+		};
+		setTimeout(function () {
+			modal.print();
+		}, 500);
 	},
 	/**
 	 * Register print event
 	 * @param {jQuery} container
 	 */
 	registerPrintEvent: function (container) {
-		container.on('click', '.js-print-container', function (event) {
-			event.preventDefault();
-			const element = $(this);
-			app.printModal($(element.data('container')).children());
-		})
+		container.on('click', '.js-print-container', function (_) {
+			app.printModal($($(this).data('container')).children());
+		});
 	}
 });
 $(function () {
