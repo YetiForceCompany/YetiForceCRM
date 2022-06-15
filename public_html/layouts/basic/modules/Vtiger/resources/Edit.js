@@ -1600,6 +1600,11 @@ $.Class(
 				const val = fieldElement.val(),
 					fieldValue = fieldElement.closest('.fieldValue');
 				let newOptions = new $();
+				if (fieldInfo.mandatory == false) {
+					newOptions = newOptions.add(
+						new Option(app.vtranslate('JS_SELECT_AN_OPTION'), '', false, !val || !options.includes(val))
+					);
+				}
 				$.each(options, (_, e) => {
 					newOptions = newOptions.add(new Option(fieldInfo['picklistvalues'][e], e, false, val == e));
 				});
