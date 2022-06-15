@@ -133,8 +133,8 @@ class Vies extends Base
 						'Vat ID' => $r->countryCode . $r->vatNumber,
 						'LBL_COMPANY_NAME' => $r->traderName,
 						'Address details' => $r->traderAddress,
-						\App\Language::translate('LBL_REQUEST_DATE', 'Other.RecordCollector') => $r->requestDate,
-						\App\Language::translate('LBL_REQUEST_ID', 'Other.RecordCollector') => $r->requestIdentifier
+						'LBL_REQUEST_DATE' => $r->requestDate,
+						'LBL_REQUEST_ID' => $r->requestIdentifier
 					];
 				}
 			} catch (\SoapFault $e) {
