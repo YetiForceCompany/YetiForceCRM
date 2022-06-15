@@ -8,7 +8,7 @@
 					<tbody>
 						{foreach item=VALUE key=LABEL from=$SEARCH_DATA['fields']}
 							<tr>
-								<th scope="row">{\App\Language::translate($LABEL, $MODULE_NAME)}</th>
+								<th scope="row">{\App\Language::translate($LABEL, $MODULE_NAME, null, true, 'Other.RecordCollector')}</th>
 								<td>{nl2br($VALUE)}</td>
 							</tr>
 						{/foreach}
@@ -92,7 +92,7 @@
 					<tbody>
 						{foreach from=$SEARCH_DATA['additional'] key=NAME item=VALUES}
 							<tr>
-								<td>{\App\Language::translate($NAME, $MODULE_NAME)}</td>
+								<td>{\App\Language::translate($NAME, $MODULE_NAME, null, true, 'Other.RecordCollector')}</td>
 								{foreach from=$VALUES item=VALUE}
 									<td>{$VALUE}</td>
 								{/foreach}
