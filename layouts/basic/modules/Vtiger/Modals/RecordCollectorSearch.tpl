@@ -125,9 +125,13 @@
 					</tbody>
 				</table>
 			{/if}
-			<button class="btn btn-success float-right js-record-collector__fill_fields" data-js="click">
+			<button class="btn btn-success float-right d-print-none js-record-collector__fill_fields " data-js="click">
 				<span class="fas fa-check mr-2"></span>
 				{\App\Language::translate('LBL_COMPLETE_FIELDS', $MODULE_NAME)}
+			</button>
+			<button class="btn btn-info float-right d-print-none mr-2 js-print-container" data-container='[data-modalid="record-collector-modal"]' data-js="click">
+				<span class="fa-solid fa-print mr-2"></span>
+				{\App\Language::translate('LBL_PRINT')}
 			</button>
 		{elseif isset($SEARCH_DATA['error'])}
 			<div class="alert alert-danger m-4" role="alert">
