@@ -181,9 +181,9 @@ class ServiceContracts
 	/**
 	 * Delete sla policy for service contracts.
 	 *
-	 * @param int $crmId
-	 * @param int $sourceModuleId
-	 * @param null|int $rowId
+	 * @param int      $crmId
+	 * @param int      $sourceModuleId
+	 * @param int|null $rowId
 	 *
 	 * @return void
 	 */
@@ -404,7 +404,7 @@ class ServiceContracts
 		if ($fieldModel && ($value = $recordModel->get($fieldModel->getName()))) {
 			return self::getDiffFromServiceContracts($start, $end, $value, $recordModel);
 		}
-		if ($diff = self::getDiffFromSlaPolicy($start, $end, $recordModel)) {
+		if (\is_int($diff = self::getDiffFromSlaPolicy($start, $end, $recordModel))) {
 			return $diff;
 		}
 		if (!($diff = self::getDiffFromDefaultBusinessHours($start, $end))) {
