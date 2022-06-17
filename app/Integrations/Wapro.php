@@ -19,13 +19,10 @@ class Wapro
 	/** @var string Basic table name */
 	public const TABLE_NAME = 'i_#__wapro';
 
-	/** @var int Status inactive */
-	public const STATUS_INACTIVE = 0;
-
-	/** @var int Status active */
-	public const STATUS_ACTIVE = 1;
-
+	/** @var array Database config. */
 	public $config;
+
+	/** @var \App\Db Database instance. */
 	public $db;
 
 	/**
@@ -79,7 +76,7 @@ class Wapro
 			'username' => $user,
 			'password' => $password,
 			'port' => $port,
-			'charset' => 'utf8'
+			'charset' => 'utf8',
 		], 'wapro');
 		$db = \App\Db::getInstance('wapro');
 		$db->open();
@@ -131,6 +128,11 @@ class Wapro
 		return $response;
 	}
 
+	/**
+	 * Get information about WAPRO ERP.
+	 *
+	 * @return string
+	 */
 	public function getInfo(): string
 	{
 		$info = '';
@@ -142,6 +144,17 @@ class Wapro
 		foreach ((new \App\Db\Query())->from('dbo.WAPRODBSTATE')->all($this->db) as $row) {
 			$info .= " {$row['PRGNAZWA']}, {$row['PRGWER']}, {$row['DBWER']}, {$row['WARIANT']}\n";
 		}
+		$info .= "dbo.FIRMA:\n";
+		foreach ((new \App\Db\Query())->from('dbo.FIRMA')->all($this->db) as $row) {
+			$info .= " {$row['NAZWA_PELNA']}, NIP: {$row['NIP']}, REGON: {$row['REGON']}\n";
+		}
+		$info .= 'dbo.KONTAKT: ' . (new \App\Db\Query())->from('dbo.KONTAKT')->count('*', $this->db) . PHP_EOL;
+		$info .= 'dbo.KONTRAHENT: ' . (new \App\Db\Query())->from('dbo.KONTRAHENT')->count('*', $this->db) . PHP_EOL;
+		$info .= 'dbo.ARTYKUL: ' . (new \App\Db\Query())->from('dbo.ARTYKUL')->count('*', $this->db) . PHP_EOL;
+		$info .= 'dbo.UZYTKOWNIK: ' . (new \App\Db\Query())->from('dbo.UZYTKOWNIK')->count('*', $this->db) . PHP_EOL;
+		$info .= 'dbo.ZAMOWIENIE: ' . (new \App\Db\Query())->from('dbo.ZAMOWIENIE')->count('*', $this->db) . PHP_EOL;
+		$info .= 'dbo.ROZLICZENIE: ' . (new \App\Db\Query())->from('dbo.ROZLICZENIE')->count('*', $this->db) . PHP_EOL;
+		$info .= 'dbo.ROZRACHUNEK: ' . (new \App\Db\Query())->from('dbo.ROZRACHUNEK')->count('*', $this->db) . PHP_EOL;
 		return $info;
 	}
 
