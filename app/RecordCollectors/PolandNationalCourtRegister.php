@@ -1,8 +1,10 @@
 <?php
 /**
- * KRS record collector file.
+ * Poland National Court Register record collector file.
  *
  * @package App
+ *
+ * @see https://prs.ms.gov.pl/krs/openApi
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -12,31 +14,24 @@
 namespace App\RecordCollectors;
 
 /**
- * KRS record collector class.
+ * Poland National Court Register record collector class.
  */
-class Krs extends Base
+class PolandNationalCourtRegister extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors'];
+	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
 	public $icon = 'fa-solid fa-hammer';
 
 	/** {@inheritdoc} */
-	public $label = 'LBL_KRS';
+	public $label = 'LBL_NCR';
 
 	/** {@inheritdoc} */
 	public $displayType = 'FillFields';
 
 	/** {@inheritdoc} */
-	public $description = 'LBL_KRS_DESC';
-
-	/**
-	 * Response from KRS API.
-	 *
-	 * @var array
-	 */
-	private $apiData;
+	public $description = 'LBL_NCR_DESC';
 
 	/** {@inheritdoc} */
 	protected $fields = [
@@ -63,27 +58,33 @@ class Krs extends Base
 	/** {@inheritdoc} */
 	public $formFieldsToRecordMap = [
 		'Accounts' => [
-			'Regon' => 'registration_number_2',
-			'KRS' => 'registration_number_1',
-			'Nip' => 'vat_id',
-			'Kapitał' => 'annual_revenue',
-			'Numer PKD' => 'siccode'
+			'Tax Number' => 'registration_number_2',
+			'NCR' => 'registration_number_1',
+			'VAT' => 'vat_id',
+			'Annual revenue' => 'annual_revenue',
+			'SIC code' => 'siccode'
 		],
 		'Leads' => [
-			'Regon' => 'registration_number_2',
-			'KRS' => 'registration_number_1',
-			'Nip' => 'vat_id',
-			'Kapitał' => 'annualrevenue',
+			'Tax Number' => 'registration_number_2',
+			'NCR' => 'registration_number_1',
+			'VAT' => 'vat_id',
+			'Annual revenue' => 'annualrevenue',
 		],
 		'Vendors' => [
-			'Regon' => 'registration_number_2',
-			'KRS' => 'registration_number_1',
-			'Nip' => 'vat_id',
+			'Tax Number' => 'registration_number_2',
+			'NCR' => 'registration_number_1',
+			'VAT' => 'vat_id',
+		],
+		'Competition' => [
+			'VAT' => 'vat_id',
 		]
 	];
 
-	/** @var string KRS sever address */
+	/** @var string NCR sever address */
 	protected $url = 'https://api-krs.ms.gov.pl/api/krs/';
+
+	/** @var array Response from Poland National Court Register API. */
+	private $apiData;
 
 	/** {@inheritdoc} */
 	public function search(): array
@@ -103,7 +104,7 @@ class Krs extends Base
 			return [];
 		}
 
-		$infoFromKrs = $this->getAndParse($taxNumber);
+		$infoFromNcr = $this->getAndParse($taxNumber);
 
 		$data = $skip = [];
 		foreach ($this->formFieldsToRecordMap[$moduleName] as $label => $fieldName) {
@@ -113,8 +114,8 @@ class Krs extends Base
 			$fieldModel = $fields[$fieldName];
 			$data[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 			$data[$fieldName]['data'][0] = [
-				'raw' => $fieldModel->getEditViewDisplayValue($infoFromKrs[$label]),
-				'display' => $fieldModel->getDisplayValue($infoFromKrs[$label]),
+				'raw' => $fieldModel->getEditViewDisplayValue($infoFromNcr[$label]),
+				'display' => $fieldModel->getDisplayValue($infoFromNcr[$label]),
 			];
 		}
 
@@ -127,7 +128,7 @@ class Krs extends Base
 	}
 
 	/**
-	 * Function fetching and parsing data from KRS API to YetiForce fields.
+	 * Function fetching and parsing data from Poland National Court Register API to YetiForce fields.
 	 *
 	 * @param mixed $taxNumber
 	 *
@@ -161,16 +162,16 @@ class Krs extends Base
 		$annualRevenue = isset($this->apiData['odpis']['dane']['dzial1']['kapital']) ? (float) $this->apiData['odpis']['dane']['dzial1']['kapital']['wysokoscKapitaluZakladowego']['wartosc'] : null;
 
 		return [
-			'Regon' => $this->apiData['odpis']['dane']['dzial1']['danePodmiotu']['identyfikatory']['regon'],
-			'Nip' => $this->apiData['odpis']['dane']['dzial1']['danePodmiotu']['identyfikatory']['nip'],
-			'KRS' => $this->apiData['odpis']['naglowekA']['numerKRS'],
-			'Kapitał' => $annualRevenue,
-			'Numer PKD' => $pkd ? $pkd['kodDzial'] . '.' . $pkd['kodKlasa'] . '.' . $pkd['kodPodklasa'] : ''
+			'Tax Number' => $this->apiData['odpis']['dane']['dzial1']['danePodmiotu']['identyfikatory']['regon'],
+			'VAT' => $this->apiData['odpis']['dane']['dzial1']['danePodmiotu']['identyfikatory']['nip'],
+			'NCR' => $this->apiData['odpis']['naglowekA']['numerKRS'],
+			'Annual revenue' => $annualRevenue,
+			'SIC code' => $pkd ? $pkd['kodDzial'] . '.' . $pkd['kodKlasa'] . '.' . $pkd['kodPodklasa'] : ''
 		];
 	}
 
 	/**
-	 * Get Additional fields from API KRS response.
+	 * Get Additional fields from API Poland National Court Register response.
 	 *
 	 * @return array
 	 */
