@@ -242,10 +242,10 @@ abstract class Base
 		\App\DB::getInstance('log')->createCommand()
 			->insert('l_#__magento', [
 				'time' => date('Y-m-d H:i:s'),
-				'category' => null === $ex ? '' : $category,
+				'category' => $ex ? $category : 'info',
 				'message' => $ex ? $ex->getMessage() : $category,
 				'code' => $ex ? $ex->getCode() : 500,
-				'trace' => $ex ? $ex->__toString() : '',
+				'trace' => $ex ? $ex->__toString() : null,
 			])->execute();
 	}
 }

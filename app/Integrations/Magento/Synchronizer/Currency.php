@@ -25,23 +25,10 @@ class Currency extends Base
 		try {
 			if ($currency = $this->getCurrenciesFromApi()) {
 				$crm = array_column(\App\Fields\Currency::getAll(), 'id', 'currency_code');
-				$supported = \App\Fields\Currency::getSupported();
-				$dbCommand = \App\Db::getInstance()->createCommand();
 				foreach ($currency['available_currency_codes'] as $code) {
-					if (empty($crm[$code])) {
-						if (isset($supported[$code])) {
-							$dbCommand->insert('vtiger_currency_info', [
-								'currency_name' => $supported[$code]['currency_name'],
-								'currency_code' => $code,
-								'currency_symbol' => $supported[$code]['currency_symbol'],
-								'conversion_rate' => 1,
-								'currency_status' => 'Active',
-							])->execute();
-							\App\Fields\Currency::clearCache();
-						} else {
-							$this->log('Currency is not supported by the system: ' . $code);
-							\App\Log::error('Currency is not supported by the system: ' . $code, 'Integrations/Magento');
-						}
+					if (empty($crm[$code]) && null === \App\Fields\Currency::addCurrency($code)) {
+						$this->log('Currency is not supported by the system: ' . $code);
+						\App\Log::error('Currency is not supported by the system: ' . $code, 'Integrations/Magento');
 					}
 				}
 			}

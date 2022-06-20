@@ -182,7 +182,7 @@ class Language
 			}
 			return \nl2br(static::$languageContainer[$language][$moduleName]['php'][$key]);
 		}
-		if($secondModuleName){
+		if ($secondModuleName) {
 			static::loadLanguageFile($language, $secondModuleName);
 			if (isset(static::$languageContainer[$language][$secondModuleName]['php'][$key])) {
 				if ($encode) {
@@ -210,7 +210,7 @@ class Language
 			return \nl2br(static::$languageContainer[$language]['_Base']['php'][$key]);
 		}
 		if (\App\Config::performance('recursiveTranslate') && static::DEFAULT_LANG !== $language) {
-			return static::translate($key, $moduleName, static::DEFAULT_LANG, $encode);
+			return static::translate($key, $moduleName, static::DEFAULT_LANG, $encode, $secondModuleName);
 		}
 		\App\Log::info("Cannot translate this: '$key' for module '$moduleName', lang: $language");
 		return Purifier::encodeHtml($key);

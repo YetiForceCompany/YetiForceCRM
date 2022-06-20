@@ -394,8 +394,7 @@ class QueryGenerator
 	 */
 	public function loadRelatedFields()
 	{
-		$fields = [];
-		$checkIds = [];
+		$fields = $checkIds = [];
 		foreach ($this->relatedFields as $field) {
 			$joinTableName = $this->getModuleField($field['sourceField'])->getTableName();
 			$moduleTableIndexList = $this->entityModel->tab_name_index;
