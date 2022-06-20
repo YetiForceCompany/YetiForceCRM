@@ -147,11 +147,11 @@ class Gus extends Base
 		],
 	];
 
-	// /** {@inheritdoc} */
-	// public function isActive(): bool
-	// {
-	// 	return parent::isActive() && \App\YetiForce\Shop::check('YetiForcePlGus');
-	// }
+	/** {@inheritdoc} */
+	public function isActive(): bool
+	{
+		return parent::isActive() && \App\YetiForce\Shop::check('YetiForcePlGus');
+	}
 
 	/** {@inheritdoc} */
 	public function search(): array
