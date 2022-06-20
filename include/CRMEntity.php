@@ -33,7 +33,12 @@ require_once 'include/Webservices/Utils.php';
 
 class CRMEntity
 {
-	public $ownedby;
+	/** @var string[] Tables join clause. */
+	public $tableJoinClause = [
+		'vtiger_entity_stats' => 'LEFT JOIN',
+		'u_yf_openstreetmap' => 'LEFT JOIN',
+		'u_yf_wapro_records_map' => 'LEFT JOIN',
+	];
 
 	/**
 	 * Constructor which will set the column_fields in this object.
@@ -70,20 +75,32 @@ class CRMEntity
 		}
 		$focus = new $module();
 		$focus->moduleName = $module;
+		$focus->init();
 		\App\Cache::staticSave('CRMEntity', $module, clone $focus);
 		return $focus;
 	}
 
 	/**
+	 * Loading the system configuration.
+	 *
+	 * @return void
+	 */
+	protected function init(): void
+	{
+		$this->tab_name_index += ['u_yf_wapro_records_map' => 'crmid'];
+		$this->tab_name[] = 'u_yf_wapro_records_map';
+	}
+
+	/**
 	 * Function returns the column alias for a field.
 	 *
-	 * @param <Array> $fieldinfo - field information
+	 * @param array $fieldInfo - field information
 	 *
 	 * @return string field value
 	 */
-	protected function createColumnAliasForField($fieldinfo)
+	protected function createColumnAliasForField(array $fieldInfo)
 	{
-		return strtolower($fieldinfo['tablename'] . $fieldinfo['fieldname']);
+		return strtolower($fieldInfo['tablename'] . $fieldInfo['fieldname']);
 	}
 
 	/**
@@ -145,17 +162,19 @@ class CRMEntity
 	}
 
 	/**
+	 * Get table join clause by table name.
+	 *
 	 * @param string $tableName
 	 *
 	 * @return string
 	 */
-	public function getJoinClause($tableName)
+	public function getJoinClause($tableName): string
 	{
 		if (strripos($tableName, 'rel') === (\strlen($tableName) - 3)) {
 			return 'LEFT JOIN';
 		}
-		if ('vtiger_entity_stats' == $tableName || 'u_yf_openstreetmap' == $tableName) {
-			return 'LEFT JOIN';
+		if (isset($this->tableJoinClause[$tableName])) {
+			return $this->tableJoinClause[$tableName];
 		}
 		return 'INNER JOIN';
 	}

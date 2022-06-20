@@ -58,23 +58,14 @@ class Calendar extends CRMEntity
 		'End Time' => 'time_end', ];
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = 'date_start';
+
+	/** {@inheritdoc} */
 	public $default_sort_order = 'ASC';
 
-	public function __construct()
+	/** {@inheritdoc} */
+	protected function init(): void
 	{
-		$this->column_fields = vtlib\Deprecated::getColumnFields('Calendar');
-	}
-
-	/**
-	 * @param string $tableName
-	 *
-	 * @return string
-	 */
-	public function getJoinClause($tableName)
-	{
-		if ('vtiger_activity_reminder' == $tableName) {
-			return 'LEFT JOIN';
-		}
-		return parent::getJoinClause($tableName);
+		parent::init();
+		$this->tableJoinClause['vtiger_activity_reminder'] = 'LEFT JOIN';
 	}
 }
