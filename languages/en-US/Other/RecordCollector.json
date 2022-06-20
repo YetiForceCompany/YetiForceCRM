@@ -8,7 +8,7 @@
     "LBL_VIES_DESC": "Checks if the business entity has a valid VAT-EU number for intra-community transactions within the European Union.",
     "LBL_REQUEST_DATE": "Request Date",
     "LBL_REQUEST_ID": "Request ID",
-    "LBL_NCR": "Poland National Court Register",
-    "LBL_NCR_DESC": "Fetch data from Poland National Court Register about the company"
+    "LBL_POLAND_NCR": "Poland National Court Register",
+    "LBL_POLAND_NCR_DESC": "Fetch data from Poland National Court Register about the company"
   }
 }
