@@ -2658,9 +2658,10 @@ var app = (window.app = {
 		});
 	},
 	playSound: function (action) {
-		var soundsConfig = app.getMainParams('sounds');
+		const soundsConfig = app.getMainParams('sounds');
 		if (soundsConfig['IS_ENABLED']) {
-			var audio = new Audio(app.getMainParams('soundFilesPath') + soundsConfig[action]);
+			const audio = new Audio(app.getMainParams('soundFilesPath') + soundsConfig[action]);
+			audio.volume = 0.3;
 			audio.play();
 		}
 	},

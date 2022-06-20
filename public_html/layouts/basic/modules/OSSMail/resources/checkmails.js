@@ -1,6 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
-
 jQuery(function () {
 	if ($('.js-header__btn--mail').data('numberunreademails') != undefined) {
 		window.stopScanMails = false;
@@ -58,7 +57,7 @@ function handleChangeUserEvent() {
 		action: 'SetUser',
 		user: $(this).val()
 	};
-	AppConnector.request(params).done(function (response) {
+	AppConnector.request(params).done(function (_) {
 		if (app.getModuleName() == 'OSSMail') {
 			window.location.href = window.location.href;
 		} else {
@@ -70,11 +69,11 @@ function handleChangeUserEvent() {
 function startCheckMails() {
 	var users = [];
 	var timeCheckingMails = $('.js-header__btn--mail').data('interval');
-	$('.js-header__btn--mail .noMails').each(function (index) {
+	$('.js-header__btn--mail .noMails').each(function (_) {
 		users.push($(this).data('id'));
 	});
 	if (users.length > 0) {
-		checkMails(users);
+		checkMails(users, true);
 		var refreshIntervalId = setInterval(function () {
 			if (window.stopScanMails == false) {
 				checkMails(users);
@@ -85,34 +84,37 @@ function startCheckMails() {
 	}
 }
 
-function checkMails(users) {
-	var params = {
+function checkMails(users, initial = false) {
+	let reloadSelect = false;
+	AppConnector.request({
 		module: 'OSSMail',
 		action: 'CheckMails',
 		users: users
-	};
-	var reloadSelect = false;
-	AppConnector.request(params)
+	})
 		.done(function (response) {
 			if (response.success && response.success.error != true && response.result.error != true) {
-				var result = response.result;
-				$('.js-header__btn--mail .noMails').each(function (index) {
-					var element = jQuery(this);
-					var id = element.data('id');
+				let result = response.result;
+				$('.js-header__btn--mail .noMails').each(function (_) {
+					let element = jQuery(this);
+					let id = element.data('id');
 					if (jQuery.inArray(id, result)) {
-						var num = result[id];
+						let num = result[id];
 						if (element.is('option')) {
 							element.data('nomail', num);
 							reloadSelect = true;
 						} else {
 							let prevVal = element.data('nomail');
 							element.data('nomail', num);
-							var text = '';
+							let text = '';
 							if (num > 0) {
 								text = ' <span class="badge badge-danger mr-1">' + num + '</span>';
 							}
 							element.html(text);
-							if ((prevVal < num && prevVal >= 0) || (!prevVal && num > 0)) {
+							if (
+								initial === false &&
+								(this.tagName === 'SPAN' || this.selected) &&
+								((prevVal < num && prevVal >= 0) || (!prevVal && num > 0))
+							) {
 								element.parent().effect('pulsate', 1500);
 								app.playSound('MAILS');
 							}
