@@ -24,5 +24,20 @@
 			{\App\Language::translate('LBL_NO_REQUIRED_LIBRARY_DESC',$QUALIFIED_MODULE)}
 		</div>
 	{/if}
+	{if !Settings_Wapro_Activation_Model::check()}
+		<div class="alert alert-danger">
+			<form action='index.php' method="POST" enctype="multipart/form-data">
+				<input type="hidden" name="module" value="{$MODULE_NAME}" />
+				<input type="hidden" name="parent" value="Settings" />
+				<input type="hidden" name="action" value="Activation" />
+				<span class="mdi mdi-alert-outline mr-2 u-fs-3x float-left"></span>
+				{\App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', $QUALIFIED_MODULE, 'Wapro ERP')}
+				<button type="submit" class="btn btn-primary btn-sm ml-3">
+					<span class="mdi mdi-check mr-2 float-left"></span>
+					{\App\Language::translate('LBL_ACTIVATE_FUNCTIONALITY', $QUALIFIED_MODULE)}
+				</button>
+			</form>
+		</div>
+	{/if}
 	<!-- /tpl-Settings-Wapro-ListView-CustomHeader -->
 {/strip}

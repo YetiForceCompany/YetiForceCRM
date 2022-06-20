@@ -19,14 +19,20 @@ class Wapro
 	/** @var string Basic table name */
 	public const TABLE_NAME = 'i_#__wapro';
 
+	/** @var string Basic table name */
+	public const LOG_TABLE_NAME = 'l_#__wapro';
+
+	/** @var string Map relation table name */
+	public const RECORDS_MAP_TABLE_NAME = 'u_#__wapro_records_map';
+
 	/** @var array Database config. */
 	public $config;
 
 	/** @var \App\Db Database instance. */
-	public $db;
+	private $db;
 
 	/**
-	 * Wapro instance construct.
+	 * Wapro instance constructor.
 	 *
 	 * @param int $serverId
 	 */
@@ -182,9 +188,19 @@ class Wapro
 	 *
 	 * @return Wapro\Synchronizer|null
 	 */
-	public static function getSynchronizer(string $name): ?Wapro\Synchronizer
+	public function getSynchronizer(string $name): ?Wapro\Synchronizer
 	{
 		$className = "\\App\\Integrations\\Wapro\\Synchronizer\\{$name}";
-		return class_exists($className) ? new $className() : null;
+		return class_exists($className) ? new $className($this) : null;
+	}
+
+	/**
+	 * Database connection instance.
+	 *
+	 * @return \App\Db
+	 */
+	public function getDb(): \App\Db
+	{
+		return $this->db;
 	}
 }
