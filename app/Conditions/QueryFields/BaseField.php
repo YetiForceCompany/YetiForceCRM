@@ -57,10 +57,10 @@ class BaseField
 	/**
 	 * Constructor.
 	 *
-	 * @param \App\QueryGenerator $queryGenerator
-	 * @param \Vtiger_Field_Model $fieldModel
-	 * @param array|string        $value
-	 * @param string              $operator
+	 * @param \App\QueryGenerator       $queryGenerator
+	 * @param \Vtiger_Field_Model|false $fieldModel
+	 * @param array|string              $value
+	 * @param string                    $operator
 	 */
 	public function __construct(\App\QueryGenerator $queryGenerator, $fieldModel = false)
 	{
@@ -177,7 +177,7 @@ class BaseField
 			return $this->tableName;
 		}
 		$table = $this->fieldModel->getTableName();
-		if ($this->related) {
+		if (!empty($this->related)) {
 			$table .= $this->related['sourceField'];
 		}
 		return $this->tableName = $table;
@@ -214,9 +214,9 @@ class BaseField
 	/**
 	 * Auto operator, it allows you to use formulas: * and _.
 	 *
-	 * @return array
+	 * @return array|bool
 	 */
-	public function operatorA(): array
+	public function operatorA(): mixed
 	{
 		return $this->getCondition($this->getOperator());
 	}
