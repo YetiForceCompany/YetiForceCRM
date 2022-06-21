@@ -207,9 +207,16 @@ class PolandNationalCourtRegister extends Base
 		$additional['wartoscJednejAkcji'] = $this->apiData['odpis']['dane']['dzial1']['kapital']['wartoscJednejAkcji']['wartosc'];
 		$additional['czescKapitaluWplaconegoPokrytego'] = $this->apiData['odpis']['dane']['dzial1']['kapital']['czescKapitaluWplaconegoPokrytego']['wartosc'];
 
+		if (isset($this->apiData['odpis']['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPrzewazajacejDzialalnosci'][0])) {
+			$mainPkd = $this->apiData['odpis']['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPrzewazajacejDzialalnosci'][0];
+			$additional['przedmiotPrzewazajacejDzialalnosci'] = $mainPkd['opis'] . ' (' . $mainPkd['kodDzial'] . '.' . $mainPkd['kodKlasa'] . '.' . $mainPkd['kodPodklasa'] . ')';
+		}
+
 		if (isset($this->apiData['odpis']['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPozostalejDzialalnosci'])) {
+			$i = 1;
 			foreach ($this->apiData['odpis']['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPozostalejDzialalnosci'] as $pkd) {
-				$additional[$pkd['kodDzial'] . '.' . $pkd['kodKlasa'] . '.' . $pkd['kodPodklasa']] = $pkd['opis'];
+				$additional["przedmiotPozostalejDzialalnosci{$i}"] = $pkd['opis'] . ' (' . $pkd['kodDzial'] . '.' . $pkd['kodKlasa'] . '.' . $pkd['kodPodklasa'] . ')';
+				++$i;
 			}
 		}
 
