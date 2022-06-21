@@ -43,9 +43,9 @@ class Settings_PickListDependency_ConditionBuilder_View extends Vtiger_Condition
 			}
 		}
 
-		$operators = ['e' => \App\Condition::STANDARD_OPERATORS['e']];
+		$operators = $fieldModel->getRecordOperators();
 		if ($request->isEmpty('operator', true)) {
-			$selectedOperator = key($operators);
+			$selectedOperator = array_key_first($operators);
 		} else {
 			$selectedOperator = $request->getByType('operator', \App\Purifier::ALNUM);
 		}
