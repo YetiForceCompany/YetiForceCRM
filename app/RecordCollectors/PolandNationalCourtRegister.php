@@ -185,6 +185,34 @@ class PolandNationalCourtRegister extends Base
 		foreach ($this->apiData['odpis']['naglowekA'] as $key => $value) {
 			$additional[$key] = $value;
 		}
+
+		foreach ($this->apiData['odpis']['dane']['dzial1']['danePodmiotu'] as $key => $value) {
+			if ('identyfikatory' === $key) {
+				continue;
+			}
+			$additional[$key] = $value;
+		}
+
+		foreach ($this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['siedziba'] as $key => $value) {
+			$additional[$key] = $value;
+		}
+
+		foreach ($this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres'] as $key => $value) {
+			$additional[$key] = $value;
+		}
+		$additional['adresStronyInternetowej'] = $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adresStronyInternetowej'];
+		$additional['opisSposobuPowstaniaInformacjaOUchwale'] = $this->apiData['odpis']['dane']['dzial1']['sposobPowstaniaPodmiotu']['opisSposobuPowstaniaInformacjaOUchwale'];
+		$additional['wysokoscKapitaluDocelowegoZapasowego'] = $this->apiData['odpis']['dane']['dzial1']['kapital']['wysokoscKapitaluDocelowegoZapasowego']['wartosc'];
+		$additional['lacznaLiczbaAkcjiUdzialow'] = $this->apiData['odpis']['dane']['dzial1']['kapital']['lacznaLiczbaAkcjiUdzialow'];
+		$additional['wartoscJednejAkcji'] = $this->apiData['odpis']['dane']['dzial1']['kapital']['wartoscJednejAkcji']['wartosc'];
+		$additional['czescKapitaluWplaconegoPokrytego'] = $this->apiData['odpis']['dane']['dzial1']['kapital']['czescKapitaluWplaconegoPokrytego']['wartosc'];
+
+		if (isset($this->apiData['odpis']['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPozostalejDzialalnosci'])) {
+			foreach ($this->apiData['odpis']['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPozostalejDzialalnosci'] as $pkd) {
+				$additional[$pkd['kodDzial'] . '.' . $pkd['kodKlasa'] . '.' . $pkd['kodPodklasa']] = $pkd['opis'];
+			}
+		}
+
 		return $additional;
 	}
 }
