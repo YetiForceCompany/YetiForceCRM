@@ -125,6 +125,9 @@
 					</tbody>
 				</table>
 			{/if}
+			<button class="btn btn-danger float-right d-print-none ml-2" type="reset" data-dismiss="modal">
+				<span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}
+			</button>
 			<button class="btn btn-success float-right d-print-none js-record-collector__fill_fields " data-js="click">
 				<span class="fas fa-check mr-2"></span>
 				{\App\Language::translate('LBL_COMPLETE_FIELDS', $MODULE_NAME)}
