@@ -209,13 +209,13 @@ class PolandNationalCourtRegister extends Base
 
 		if (isset($this->apiData['odpis']['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPrzewazajacejDzialalnosci'][0])) {
 			$mainPkd = $this->apiData['odpis']['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPrzewazajacejDzialalnosci'][0];
-			$additional['przedmiotPrzewazajacejDzialalnosci'] = $mainPkd['opis'] . ' (' . $mainPkd['kodDzial'] . '.' . $mainPkd['kodKlasa'] . '.' . $mainPkd['kodPodklasa'] . ')';
+			$additional['przedmiotPrzewazajacejDzialalnosci'] = "{$mainPkd['opis']}  ({$mainPkd['kodDzial']}.{$mainPkd['kodKlasa']}.{$mainPkd['kodPodklasa']})";
 		}
 
 		if (isset($this->apiData['odpis']['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPozostalejDzialalnosci'])) {
 			$i = 1;
 			foreach ($this->apiData['odpis']['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPozostalejDzialalnosci'] as $pkd) {
-				$additional["przedmiotPozostalejDzialalnosci{$i}"] = $pkd['opis'] . ' (' . $pkd['kodDzial'] . '.' . $pkd['kodKlasa'] . '.' . $pkd['kodPodklasa'] . ')';
+				$additional["przedmiotPozostalejDzialalnosci{$i}"] = "{$pkd['opis']}  ({$pkd['kodDzial']}.{$pkd['kodKlasa']}.{$pkd['kodPodklasa']})";
 				++$i;
 			}
 		}
