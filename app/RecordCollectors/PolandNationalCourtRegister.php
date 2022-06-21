@@ -9,6 +9,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Rembiesa <s.rembiesa@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\RecordCollectors;
@@ -80,29 +81,30 @@ class PolandNationalCourtRegister extends Base
 	/** @var string NCR sever address */
 	protected $url = 'https://api-krs.ms.gov.pl/api/krs/';
 
-	/** @var array Response from Poland National Court Register API. */
-	private $apiData;
+	/** @var array Data from Poland National Court Register API. */
+	private $apiData = [];
+
+	/** @var array Response. */
+	private $response = [];
 
 	/** {@inheritdoc} */
 	public function search(): array
 	{
-		$response = [];
 		$taxNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('taxNumber', 'Text'));
 		$moduleName = $this->request->getModule();
 		if ($recordId = $this->request->getInteger('record')) {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$response['recordModel'] = $recordModel;
+			$this->response['recordModel'] = $recordModel;
 			$fields = $recordModel->getModule()->getFields();
 		} else {
 			$fields = \Vtiger_Module_Model::getInstance($moduleName)->getFields();
 		}
-
 		if (!$taxNumber) {
 			return [];
 		}
 
-		$responseToParse = $this->getDataFromApi($taxNumber);
-		$infoFromNcr = $this->parseData($responseToParse);
+		$this->getDataFromApi($taxNumber);
+		$infoFromNcr = $this->parseData();
 
 		$data = $skip = [];
 		foreach ($this->formFieldsToRecordMap[$moduleName] as $label => $fieldName) {
@@ -117,11 +119,11 @@ class PolandNationalCourtRegister extends Base
 			];
 		}
 
-		$response['fields'] = $data;
-		$response['keys'] = [0];
-		$response['skip'] = $skip;
-		$response['additional'] = $this->getAdditional();
-		return $response;
+		$this->response['fields'] = $data;
+		$this->response['keys'] = [0];
+		$this->response['skip'] = $skip;
+		$this->response['additional'] = $this->getAdditional();
+		return $this->response;
 	}
 
 	/**
@@ -129,36 +131,30 @@ class PolandNationalCourtRegister extends Base
 	 *
 	 * @param mixed $taxNumber
 	 *
-	 * @return \Psr\Http\Message\ResponseInterface
+	 * @return void
 	 */
-	private function getDataFromApi($taxNumber): \Psr\Http\Message\ResponseInterface
+	private function getDataFromApi($taxNumber): void
 	{
 		try {
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $this->url . 'OdpisAktualny/' . $taxNumber, [
-				'verify' => false,
-				'query' => [
-					'rejestr' => 'P',
-					'format' => 'json'
-				]
-			]);
+			$responseData = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
+				->request('GET', "{$this->url}OdpisAktualny/{$taxNumber}?rejestr=P&format=json");
+			$this->apiData = \App\Json::decode($responseData->getBody()->getContents());
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$response['error'] = $e->getMessage();
+			$this->response['error'] = $e->getMessage();
 		}
-		return $response;
 	}
 
 	/**
 	 * Function parsing data to YetiForce fields from Poland National Court Register API.
 	 *
-	 * @param \Psr\Http\Message\ResponseInterface $response
-	 *
 	 * @return array
 	 */
-	private function parseData(\Psr\Http\Message\ResponseInterface $response): array
+	private function parseData(): array
 	{
-		$this->apiData = \App\Json::decode($response->getBody()->getContents());
-
+		if (empty($this->apiData['odpis'])) {
+			return [];
+		}
 		if (isset($this->apiData['odpis']['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPrzewazajacejDzialalnosci'][0])) {
 			$pkd = $this->apiData['odpis']['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPrzewazajacejDzialalnosci'][0];
 		} elseif (isset($this->apiData['odpis']['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPozostalejDzialalnosci'][0])) {
@@ -166,13 +162,11 @@ class PolandNationalCourtRegister extends Base
 		} else {
 			$pkd = null;
 		}
-
-		$annualRevenue = isset($this->apiData['odpis']['dane']['dzial1']['kapital']) ? (float) $this->apiData['odpis']['dane']['dzial1']['kapital']['wysokoscKapitaluZakladowego']['wartosc'] : null;
 		return [
 			'Tax Number' => $this->apiData['odpis']['dane']['dzial1']['danePodmiotu']['identyfikatory']['regon'],
 			'VAT' => $this->apiData['odpis']['dane']['dzial1']['danePodmiotu']['identyfikatory']['nip'],
 			'NCR' => $this->apiData['odpis']['naglowekA']['numerKRS'],
-			'Annual revenue' => $annualRevenue,
+			'Annual revenue' => isset($this->apiData['odpis']['dane']['dzial1']['kapital']) ? (float) $this->apiData['odpis']['dane']['dzial1']['kapital']['wysokoscKapitaluZakladowego']['wartosc'] : null,
 			'SIC code' => $pkd ? $pkd['kodDzial'] . '.' . $pkd['kodKlasa'] . '.' . $pkd['kodPodklasa'] : ''
 		];
 	}
@@ -184,10 +178,9 @@ class PolandNationalCourtRegister extends Base
 	 */
 	private function getAdditional(): array
 	{
-		if (!isset($this->apiData)) {
+		if (empty($this->apiData)) {
 			return [];
 		}
-
 		$additional = [];
 		foreach ($this->apiData['odpis']['naglowekA'] as $key => $value) {
 			$additional[$key] = $value;
