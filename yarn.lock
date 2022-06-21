@@ -280,10 +280,10 @@ emoji-mart-vue-fast@^10.2.0:
     "@babel/runtime" "^7.16.3"
     vue-virtual-scroller "^1.0.10"
 
-flag-icons@^6.0.0:
-  version "6.4.5"
-  resolved "https://registry.yarnpkg.com/flag-icons/-/flag-icons-6.4.5.tgz#06586a9fa867812aea1991cac90cea80ef0c5bab"
-  integrity sha512-I5uoLrBHAxA1sNsaHLl45QedcOgMx/1pdVkMqfs17f5Bo55aX6qVO/Ye6bN9LZ/9emrdEtG7AR4K8ZVSeruIMg==
+flag-icons@^6.6.0:
+  version "6.6.0"
+  resolved "https://registry.yarnpkg.com/flag-icons/-/flag-icons-6.6.0.tgz#4fd4bb7e873369cbd9aa904887d67c9eaea63b2f"
+  integrity sha512-1ldq0+VJ73D6PHAD1x166FJh5Qwf2z3mZWojNXREkFp1uyZ4bKHlGgANOtV1f37MtHCjDMp+AMAnttpUEGWUqA==
 
 floatthead@^2.1.3:
   version "2.2.4"
