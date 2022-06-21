@@ -63,18 +63,45 @@ class PolandNationalCourtRegister extends Base
 			'NCR' => 'registration_number_1',
 			'VAT' => 'vat_id',
 			'Annual revenue' => 'annual_revenue',
-			'SIC code' => 'siccode'
+			'SIC code' => 'siccode',
+			'Street' => 'addresslevel8a',
+			'Building number' => 'buildingnumbera',
+			'Office Number' => 'localnumbera',
+			'City/Village' => 'addresslevel5a',
+			'Post Code' => 'addresslevel7a',
+			'State' => 'addresslevel2a',
+			'Country' => 'addresslevel1a',
+			'Township' => 'addresslevel4a',
+			'County' => 'addresslevel3a'
 		],
 		'Leads' => [
 			'Tax Number' => 'registration_number_2',
 			'NCR' => 'registration_number_1',
 			'VAT' => 'vat_id',
 			'Annual revenue' => 'annualrevenue',
+			'Street' => 'addresslevel8a',
+			'Building number' => 'buildingnumbera',
+			'Office Number' => 'localnumbera',
+			'City/Village' => 'addresslevel5a',
+			'Post Code' => 'addresslevel7a',
+			'State' => 'addresslevel2a',
+			'Country' => 'addresslevel1a',
+			'Township' => 'addresslevel4a',
+			'County' => 'addresslevel3a'
 		],
 		'Vendors' => [
 			'Tax Number' => 'registration_number_2',
 			'NCR' => 'registration_number_1',
 			'VAT' => 'vat_id',
+			'Street' => 'addresslevel8a',
+			'Building number' => 'buildingnumbera',
+			'Office Number' => 'localnumbera',
+			'City/Village' => 'addresslevel5a',
+			'Post Code' => 'addresslevel7a',
+			'State' => 'addresslevel2a',
+			'Country' => 'addresslevel1a',
+			'Township' => 'addresslevel4a',
+			'County' => 'addresslevel3a'
 		]
 	];
 
@@ -167,7 +194,16 @@ class PolandNationalCourtRegister extends Base
 			'VAT' => $this->apiData['odpis']['dane']['dzial1']['danePodmiotu']['identyfikatory']['nip'],
 			'NCR' => $this->apiData['odpis']['naglowekA']['numerKRS'],
 			'Annual revenue' => isset($this->apiData['odpis']['dane']['dzial1']['kapital']) ? (float) $this->apiData['odpis']['dane']['dzial1']['kapital']['wysokoscKapitaluZakladowego']['wartosc'] : null,
-			'SIC code' => $pkd ? $pkd['kodDzial'] . '.' . $pkd['kodKlasa'] . '.' . $pkd['kodPodklasa'] : ''
+			'SIC code' => $pkd ? $pkd['kodDzial'] . '.' . $pkd['kodKlasa'] . '.' . $pkd['kodPodklasa'] : '',
+			'Street' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['ulica'],
+			'Building number' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['nrDomu'],
+			'Office Number' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['nrLokalu'] ?? '',
+			'City/Village' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['miejscowosc'],
+			'Post Code' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['kodPocztowy'],
+			'State' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['siedziba']['wojewodztwo'],
+			'Country' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['siedziba']['kraj'],
+			'Township' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['siedziba']['gmina'],
+			'County' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['siedziba']['powiat']
 		];
 	}
 
