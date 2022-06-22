@@ -195,15 +195,15 @@ class PolandNationalCourtRegister extends Base
 			'NCR' => $this->apiData['odpis']['naglowekA']['numerKRS'],
 			'Annual revenue' => isset($this->apiData['odpis']['dane']['dzial1']['kapital']) ? (float) $this->apiData['odpis']['dane']['dzial1']['kapital']['wysokoscKapitaluZakladowego']['wartosc'] : null,
 			'SIC code' => $pkd ? $pkd['kodDzial'] . '.' . $pkd['kodKlasa'] . '.' . $pkd['kodPodklasa'] : '',
-			'Street' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['ulica'],
-			'Building number' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['nrDomu'],
+			'Street' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['ulica'] ?? '',
+			'Building number' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['nrDomu'] ?? '',
 			'Office Number' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['nrLokalu'] ?? '',
-			'City/Village' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['miejscowosc'],
-			'Post Code' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['kodPocztowy'],
-			'State' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['siedziba']['wojewodztwo'],
-			'Country' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['siedziba']['kraj'],
-			'Township' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['siedziba']['gmina'],
-			'County' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['siedziba']['powiat']
+			'City/Village' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['miejscowosc'] ?? '',
+			'Post Code' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres']['kodPocztowy'] ?? '',
+			'State' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['siedziba']['wojewodztwo'] ?? '',
+			'Country' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['siedziba']['kraj'] ?? '',
+			'Township' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['siedziba']['gmina'] ?? '',
+			'County' => $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['siedziba']['powiat'] ?? ''
 		];
 	}
 
@@ -218,30 +218,37 @@ class PolandNationalCourtRegister extends Base
 			return [];
 		}
 		$additional = [];
-		foreach ($this->apiData['odpis']['naglowekA'] as $key => $value) {
-			$additional[$key] = $value;
-		}
-
-		foreach ($this->apiData['odpis']['dane']['dzial1']['danePodmiotu'] as $key => $value) {
-			if ('identyfikatory' === $key) {
-				continue;
+		if (isset($this->apiData['odpis']['naglowekA'])) {
+			foreach ($this->apiData['odpis']['naglowekA'] as $key => $value) {
+				$additional[$key] = $value;
 			}
-			$additional[$key] = $value;
 		}
 
-		foreach ($this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['siedziba'] as $key => $value) {
-			$additional[$key] = $value;
+		if (isset($this->apiData['odpis']['dane']['dzial1']['danePodmiotu'])) {
+			foreach ($this->apiData['odpis']['dane']['dzial1']['danePodmiotu'] as $key => $value) {
+				if ('identyfikatory' === $key) {
+					continue;
+				}
+				$additional[$key] = $value;
+			}
 		}
 
-		foreach ($this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres'] as $key => $value) {
-			$additional[$key] = $value;
+		if (isset($this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres'])) {
+			foreach ($this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['siedziba'] as $key => $value) {
+				$additional[$key] = $value;
+			}
+
+			foreach ($this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adres'] as $key => $value) {
+				$additional[$key] = $value;
+			}
 		}
-		$additional['adresStronyInternetowej'] = $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adresStronyInternetowej'];
-		$additional['opisSposobuPowstaniaInformacjaOUchwale'] = $this->apiData['odpis']['dane']['dzial1']['sposobPowstaniaPodmiotu']['opisSposobuPowstaniaInformacjaOUchwale'];
-		$additional['wysokoscKapitaluDocelowegoZapasowego'] = $this->apiData['odpis']['dane']['dzial1']['kapital']['wysokoscKapitaluDocelowegoZapasowego']['wartosc'];
-		$additional['lacznaLiczbaAkcjiUdzialow'] = $this->apiData['odpis']['dane']['dzial1']['kapital']['lacznaLiczbaAkcjiUdzialow'];
-		$additional['wartoscJednejAkcji'] = $this->apiData['odpis']['dane']['dzial1']['kapital']['wartoscJednejAkcji']['wartosc'];
-		$additional['czescKapitaluWplaconegoPokrytego'] = $this->apiData['odpis']['dane']['dzial1']['kapital']['czescKapitaluWplaconegoPokrytego']['wartosc'];
+
+		$additional['adresStronyInternetowej'] = $this->apiData['odpis']['dane']['dzial1']['siedzibaIAdres']['adresStronyInternetowej'] ?? '';
+		$additional['opisSposobuPowstaniaInformacjaOUchwale'] = $this->apiData['odpis']['dane']['dzial1']['sposobPowstaniaPodmiotu']['opisSposobuPowstaniaInformacjaOUchwale'] ?? '';
+		$additional['wysokoscKapitaluDocelowegoZapasowego'] = $this->apiData['odpis']['dane']['dzial1']['kapital']['wysokoscKapitaluDocelowegoZapasowego']['wartosc'] ?? '';
+		$additional['lacznaLiczbaAkcjiUdzialow'] = $this->apiData['odpis']['dane']['dzial1']['kapital']['lacznaLiczbaAkcjiUdzialow'] ?? '';
+		$additional['wartoscJednejAkcji'] = $this->apiData['odpis']['dane']['dzial1']['kapital']['wartoscJednejAkcji']['wartosc'] ?? '';
+		$additional['czescKapitaluWplaconegoPokrytego'] = $this->apiData['odpis']['dane']['dzial1']['kapital']['czescKapitaluWplaconegoPokrytego']['wartosc'] ?? '';
 
 		if (isset($this->apiData['odpis']['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPrzewazajacejDzialalnosci'][0])) {
 			$mainPkd = $this->apiData['odpis']['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPrzewazajacejDzialalnosci'][0];
