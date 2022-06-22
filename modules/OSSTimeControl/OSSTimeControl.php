@@ -89,7 +89,8 @@ class OSSTimeControl extends Vtiger_CRMEntity
 		}
 	}
 
-	public function retrieveEntityInfo($record, $module)
+	/** {@inheritdoc} */
+	public function retrieveEntityInfo(int $record, string $module)
 	{
 		parent::retrieveEntityInfo($record, $module);
 		$start = DateTimeField::convertToUserTimeZone($this->column_fields['date_start'] . ' ' . $this->column_fields['time_start']);
