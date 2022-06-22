@@ -7,6 +7,7 @@
  * @copyright	YetiForce S.A.
  * @license		YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author		Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author		Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
  * Picklist dependency handler class.
@@ -33,6 +34,7 @@ class Vtiger_PicklistDependency_Handler
 			}
 			$return['changeOptions'][$fieldName] = $availableValues;
 		}
+
 		return $return;
 	}
 
@@ -47,9 +49,6 @@ class Vtiger_PicklistDependency_Handler
 	 */
 	public function vars(string $name, array $params, string $moduleName): ?array
 	{
-		if (\App\EventHandler::EDIT_VIEW_CHANGE_VALUE === $name) {
-			return \App\Fields\Picklist::getDependencyForModule($moduleName)['listener'];
-		}
-		return null;
+		return \App\EventHandler::EDIT_VIEW_CHANGE_VALUE === $name ? \App\Fields\Picklist::getDependencyForModule($moduleName)['listener'] : null;
 	}
 }

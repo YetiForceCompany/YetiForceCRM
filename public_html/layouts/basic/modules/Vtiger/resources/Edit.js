@@ -1600,7 +1600,7 @@ $.Class(
 				const val = fieldElement.val(),
 					fieldValue = fieldElement.closest('.fieldValue');
 				let newOptions = new $();
-				if (fieldInfo.mandatory == false) {
+				if (!fieldInfo.mandatory) {
 					newOptions = newOptions.add(
 						new Option(app.vtranslate('JS_SELECT_AN_OPTION'), '', false, !val || !options.includes(val))
 					);
