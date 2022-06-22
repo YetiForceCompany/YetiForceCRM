@@ -20,8 +20,8 @@
 	{/if}
 	{if !in_array('sqlsrv',PDO::getAvailableDrivers())}
 		<div class="alert alert-danger">
-			<h1 class="alert-heading"><span class="fas fa-exclamation-triangle mr-2"></span>{\App\Language::translate('LBL_NO_REQUIRED_LIBRARY',$QUALIFIED_MODULE)}</h1>
-			{\App\Language::translate('LBL_NO_REQUIRED_LIBRARY_DESC',$QUALIFIED_MODULE)}
+			<h1 class="alert-heading"><span class="fas fa-exclamation-triangle mr-2"></span>{\App\Language::translateArgs('ERR_NO_REQUIRED_LIBRARY',$QUALIFIED_MODULE,'PDO_SQLSRV')}</h1>
+			{\App\Language::translateArgs('ERR_NO_REQUIRED_LIBRARY_DESC',$QUALIFIED_MODULE,'PDO_SQLSRV (PDO Microsoft SQL Server Driver for PHP)')}
 		</div>
 	{/if}
 	{if !Settings_Wapro_Activation_Model::check()}

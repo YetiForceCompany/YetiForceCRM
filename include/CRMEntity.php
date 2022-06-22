@@ -87,8 +87,7 @@ class CRMEntity
 	 */
 	protected function init(): void
 	{
-		// $this->tab_name_index += ['u_yf_wapro_records_map' => 'crmid'];
-		// $this->tab_name[] = 'u_yf_wapro_records_map';
+		$this->tab_name_index += ['u_yf_wapro_records_map' => 'crmid'];
 	}
 
 	/**

@@ -10,8 +10,6 @@
     "FL_DATABASE": "Database name",
     "FL_USERNAME": "User name",
     "FL_PASSWORD": "Password",
-    "LBL_NO_REQUIRED_LIBRARY": "Could not find required PDO_SQLSRV library.",
-    "LBL_NO_REQUIRED_LIBRARY_DESC": "The PDO_SQLSRV (PDO Microsoft SQL Server Driver for PHP) library is required for the integration to work.",
     "LBL_SAVE_AND_VERIFY": "Save and verify"
   }
 }
