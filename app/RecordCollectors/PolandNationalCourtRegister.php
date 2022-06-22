@@ -72,7 +72,9 @@ class PolandNationalCourtRegister extends Base
 			'State' => 'addresslevel2a',
 			'Country' => 'addresslevel1a',
 			'Township' => 'addresslevel4a',
-			'County' => 'addresslevel3a'
+			'County' => 'addresslevel3a',
+			'Web Site' => 'website',
+			'Company' => 'accountname'
 		],
 		'Leads' => [
 			'Tax Number' => 'registration_number_2',
@@ -87,7 +89,9 @@ class PolandNationalCourtRegister extends Base
 			'State' => 'addresslevel2a',
 			'Country' => 'addresslevel1a',
 			'Township' => 'addresslevel4a',
-			'County' => 'addresslevel3a'
+			'County' => 'addresslevel3a',
+			'Web Site' => 'website',
+			'Company' => 'company'
 		],
 		'Vendors' => [
 			'Tax Number' => 'registration_number_2',
@@ -101,9 +105,13 @@ class PolandNationalCourtRegister extends Base
 			'State' => 'addresslevel2a',
 			'Country' => 'addresslevel1a',
 			'Township' => 'addresslevel4a',
-			'County' => 'addresslevel3a'
+			'County' => 'addresslevel3a',
+			'Web Site' => 'website',
+			'Company' => 'vendorname'
 		]
 	];
+	/** @var array Fields from request. */
+	public $data = [];
 
 	/** @var string NCR sever address */
 	protected $url = 'https://api-krs.ms.gov.pl/api/krs/';
@@ -131,25 +139,39 @@ class PolandNationalCourtRegister extends Base
 		}
 
 		$this->getDataFromApi($taxNumber);
-		$infoFromNcr = $this->parseData();
+		$this->parseData();
+
+		if (empty($this->data)) {
+			return [];
+		}
 
 		$data = $skip = [];
 		foreach ($this->formFieldsToRecordMap[$moduleName] as $label => $fieldName) {
+			if (!$this->data[$label]) {
+				continue;
+			}
 			if (empty($fields[$fieldName]) || !$fields[$fieldName]->isActiveField()) {
 				$skip[$fieldName]['label'] = \App\Language::translate($fields[$fieldName]->getFieldLabel(), $moduleName) ?? $fieldName;
 			}
 			$fieldModel = $fields[$fieldName];
 			$data[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 			$data[$fieldName]['data'][0] = [
-				'raw' => $fieldModel->getEditViewDisplayValue($infoFromNcr[$label]),
-				'display' => $fieldModel->getDisplayValue($infoFromNcr[$label]),
+				'raw' => $fieldModel->getEditViewDisplayValue($this->data[$label]),
+				'display' => $fieldModel->getDisplayValue($this->data[$label]),
 			];
+		}
+
+		$additional = $this->getAdditional();
+		foreach ($additional as $key => $value) {
+			if (null === $value || '' === $value) {
+				unset($additional[$key]);
+			}
 		}
 
 		$this->response['fields'] = $data;
 		$this->response['keys'] = [0];
 		$this->response['skip'] = $skip;
-		$this->response['additional'] = $this->getAdditional();
+		$this->response['additional'] = $additional;
 		return $this->response;
 	}
 
@@ -175,12 +197,12 @@ class PolandNationalCourtRegister extends Base
 	/**
 	 * Function parsing data to fields from Polish National Court Register API.
 	 *
-	 * @return array
+	 * @return void
 	 */
-	private function parseData(): array
+	private function parseData(): void
 	{
 		if (empty($this->apiData)) {
-			return [];
+			return;
 		}
 		if (isset($this->apiData['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPrzewazajacejDzialalnosci'][0])) {
 			$pkd = $this->apiData['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPrzewazajacejDzialalnosci'][0];
@@ -189,24 +211,25 @@ class PolandNationalCourtRegister extends Base
 		} else {
 			$pkd = null;
 		}
-		$return = [
-			'Tax Number' => $this->apiData['dane']['dzial1']['danePodmiotu']['identyfikatory']['regon'],
-			'VAT' => $this->apiData['dane']['dzial1']['danePodmiotu']['identyfikatory']['nip'],
-			'NCR' => $this->apiData['naglowekA']['numerKRS'],
-			'Annual revenue' => isset($this->apiData['dane']['dzial1']['kapital']) ? (float) $this->apiData['dane']['dzial1']['kapital']['wysokoscKapitaluZakladowego']['wartosc'] : null,
-			'SIC code' => $pkd ? $pkd['kodDzial'] . '.' . $pkd['kodKlasa'] . '.' . $pkd['kodPodklasa'] : '',
-			'Street' => $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['ulica'],
-			'Building number' => $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['nrDomu'],
-			'Office Number' => $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['nrLokalu'] ?? '',
-			'City/Village' => $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['miejscowosc'],
-			'Post Code' => $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['kodPocztowy'],
-			'State' => $this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['wojewodztwo'],
-			'Country' => $this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['kraj'],
-			'Township' => $this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['gmina'],
-			'County' => $this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['powiat']
-		];
-		unset($this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['powiat'],$this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['gmina'],$this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['kraj'], $this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['wojewodztwo'], $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['kodPocztowy'], $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['miejscowosc'], $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['nrLokalu'], $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['nrDomu'], $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['ulica']);
-		return $return;
+
+		$this->data['Tax Number'] = $this->apiData['dane']['dzial1']['danePodmiotu']['identyfikatory']['regon'] ?? '';
+		$this->data['VAT'] = $this->apiData['dane']['dzial1']['danePodmiotu']['identyfikatory']['nip'] ?? '';
+		$this->data['NCR'] = $this->apiData['naglowekA']['numerKRS'];
+		$this->data['Annual revenue'] = isset($this->apiData['dane']['dzial1']['kapital']) ? (float) $this->apiData['dane']['dzial1']['kapital']['wysokoscKapitaluZakladowego']['wartosc'] : null;
+		$this->data['SIC code'] = $pkd ? $pkd['kodDzial'] . '.' . $pkd['kodKlasa'] . '.' . $pkd['kodPodklasa'] : null;
+		$this->data['Street'] = $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['ulica'] ?? '';
+		$this->data['Building number'] = $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['nrDomu'] ?? '';
+		$this->data['Office Number'] = $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['nrLokalu'] ?? null;
+		$this->data['City/Village'] = $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['miejscowosc'] ?? $this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['miejscowosc'];
+		$this->data['Post Code'] = $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['kodPocztowy'] ?? '';
+		$this->data['State'] = $this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['wojewodztwo'] ?? '';
+		$this->data['Country'] = $this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['kraj'] ?? '';
+		$this->data['Township'] = $this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['gmina'] ?? '';
+		$this->data['County'] = $this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['powiat'] ?? '';
+		$this->data['Web Site'] = $this->apiData['dane']['dzial1']['siedzibaIAdres']['adresStronyInternetowej'] ?? '';
+		$this->data['Company'] = $this->apiData['dane']['dzial1']['danePodmiotu']['nazwa'];
+
+		unset($this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['powiat'],$this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['gmina'],$this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['kraj'], $this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['wojewodztwo'], $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['kodPocztowy'], $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['miejscowosc'], $this->apiData['dane']['dzial1']['siedzibaIAdres']['siedziba']['miejscowosc'], $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['nrLokalu'], $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['nrDomu'], $this->apiData['dane']['dzial1']['siedzibaIAdres']['adres']['ulica'], $this->apiData['dane']['dzial1']['danePodmiotu']['nazwa']);
 	}
 
 	/**
@@ -235,12 +258,12 @@ class PolandNationalCourtRegister extends Base
 		foreach ($this->apiData['dane']['dzial1']['siedzibaIAdres']['adres'] as $key => $value) {
 			$additional[$key] = $value;
 		}
-		$additional['adresStronyInternetowej'] = $this->apiData['dane']['dzial1']['siedzibaIAdres']['adresStronyInternetowej'];
-		$additional['opisSposobuPowstaniaInformacjaOUchwale'] = $this->apiData['dane']['dzial1']['sposobPowstaniaPodmiotu']['opisSposobuPowstaniaInformacjaOUchwale'];
-		$additional['wysokoscKapitaluDocelowegoZapasowego'] = $this->apiData['dane']['dzial1']['kapital']['wysokoscKapitaluDocelowegoZapasowego']['wartosc'];
-		$additional['lacznaLiczbaAkcjiUdzialow'] = $this->apiData['dane']['dzial1']['kapital']['lacznaLiczbaAkcjiUdzialow'];
-		$additional['wartoscJednejAkcji'] = $this->apiData['dane']['dzial1']['kapital']['wartoscJednejAkcji']['wartosc'];
-		$additional['czescKapitaluWplaconegoPokrytego'] = $this->apiData['dane']['dzial1']['kapital']['czescKapitaluWplaconegoPokrytego']['wartosc'];
+		$additional['adresStronyInternetowej'] = $this->apiData['dane']['dzial1']['siedzibaIAdres']['adresStronyInternetowej'] ?? '';
+		$additional['opisSposobuPowstaniaInformacjaOUchwale'] = $this->apiData['dane']['dzial1']['sposobPowstaniaPodmiotu']['opisSposobuPowstaniaInformacjaOUchwale'] ?? '';
+		$additional['wysokoscKapitaluDocelowegoZapasowego'] = $this->apiData['dane']['dzial1']['kapital']['wysokoscKapitaluDocelowegoZapasowego']['wartosc'] . ' ' . $this->apiData['dane']['dzial1']['kapital']['wysokoscKapitaluDocelowegoZapasowego']['waluta'] ?? '';
+		$additional['lacznaLiczbaAkcjiUdzialow'] = $this->apiData['dane']['dzial1']['kapital']['lacznaLiczbaAkcjiUdzialow'] ?? '';
+		$additional['wartoscJednejAkcji'] = $this->apiData['dane']['dzial1']['kapital']['wartoscJednejAkcji']['wartosc'] . ' ' . $this->apiData['dane']['dzial1']['kapital']['wartoscJednejAkcji']['waluta'] ?? '';
+		$additional['czescKapitaluWplaconegoPokrytego'] = $this->apiData['dane']['dzial1']['kapital']['czescKapitaluWplaconegoPokrytego']['wartosc'] . ' ' . $this->apiData['dane']['dzial1']['kapital']['czescKapitaluWplaconegoPokrytego']['waluta'] ?? '';
 		if (isset($this->apiData['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPrzewazajacejDzialalnosci'][0])) {
 			$mainPkd = $this->apiData['dane']['dzial3']['przedmiotDzialalnosci']['przedmiotPrzewazajacejDzialalnosci'][0];
 			$additional['przedmiotPrzewazajacejDzialalnosci'] = "{$mainPkd['opis']}  ({$mainPkd['kodDzial']}.{$mainPkd['kodKlasa']}.{$mainPkd['kodPodklasa']})";
