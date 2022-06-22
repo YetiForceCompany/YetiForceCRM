@@ -355,7 +355,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$params = [];
 		$qualifiedModuleName = $this->getName(true);
 		$tableName = $this->getModule()->baseTable;
-		$labels = ['source_field' => 'LBL_SOURCE_FIELD', 'second_field' => 'LBL_SECOND_FIELD', 'third_field' => 'LBL_THIRD_FIELD'];
+		$labels = ['source_field' => 'LBL_SOURCE_FIELD'];
 		switch ($name) {
 			case 'tabid':
 				$params = [
@@ -378,8 +378,6 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 				}
 				break;
 			case 'source_field':
-			case 'second_field':
-			case 'third_field':
 				$params = [
 					'name' => $name,
 					'column' => $name,

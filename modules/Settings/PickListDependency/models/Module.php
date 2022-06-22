@@ -24,9 +24,7 @@ class Settings_PickListDependency_Module_Model extends Settings_Vtiger_Module_Mo
 	/** @var array List fields. */
 	public $listFields = [
 		'tabid' => 'LBL_MODULE',
-		'source_field' => 'LBL_SOURCE_FIELD',
-		// 'second_field' => 'LBL_SECOND_FIELD',
-		// 'third_field' => 'LBL_THIRD_FIELD'
+		'source_field' => 'LBL_SOURCE_FIELD'
 	];
 	/** @var array Name fields. */
 	public $nameFields = ['name'];
