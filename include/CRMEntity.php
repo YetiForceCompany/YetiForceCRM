@@ -75,7 +75,9 @@ class CRMEntity
 		}
 		$focus = new $module();
 		$focus->moduleName = $module;
-		$focus->init();
+		if (method_exists($focus, 'init')) {
+			$focus->init();
+		}
 		\App\Cache::staticSave('CRMEntity', $module, clone $focus);
 		return $focus;
 	}
