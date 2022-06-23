@@ -19,8 +19,17 @@ abstract class Synchronizer
 	/** @var string Provider name | File name. */
 	const NAME = null;
 
+	/** @var string[] Map of fields integrating with WAPRO ERP */
+	protected $fieldMap = [];
+
 	/** @var \App\Integrations\Wapro Controller instance. */
 	protected $controller;
+
+	/** @var \Vtiger_Record_Model Record model instance. */
+	protected $recordModel;
+
+	/** @var array Record row. */
+	protected $row;
 
 	/**
 	 * Synchronizer constructor.
@@ -30,6 +39,10 @@ abstract class Synchronizer
 	public function __construct(\App\Integrations\Wapro $controller)
 	{
 		$this->controller = $controller;
+		$className = substr(static::class, strrpos(static::class, '\\') + 1);
+		if (isset($controller->customConfig[$className])) {
+			$this->fieldMap = $controller->customConfig[$className];
+		}
 	}
 
 	/**
@@ -38,6 +51,13 @@ abstract class Synchronizer
 	 * @return void
 	 */
 	abstract public function process(): void;
+
+	/**
+	 * Import record.
+	 *
+	 * @return int
+	 */
+	abstract public function importRecord(): int;
 
 	/**
 	 * Function to get provider name.
@@ -69,22 +89,110 @@ abstract class Synchronizer
 	}
 
 	/**
-	 * Add log to db.
+	 * Add error log to db.
 	 *
-	 * @param string      $category
-	 * @param ?\Throwable $ex
+	 * @param string     $category
+	 * @param \Throwable $ex
 	 *
 	 * @return void
 	 */
-	public function log(string $category, ?\Throwable $ex = null): void
+	public function logError(string $category, \Throwable $ex): void
+	{
+		\App\Log::error("Error during import record in {$category}:\n{$ex->__toString()}", 'Integrations/Wapro');
+		\App\DB::getInstance('log')->createCommand()
+			->insert(\App\Integrations\Wapro::LOG_TABLE_NAME, [
+				'time' => date('Y-m-d H:i:s'),
+				'category' => $category,
+				'message' => \App\TextUtils::textTruncate($ex->getMessage(), 255),
+				'error' => true,
+				'trace' => \App\TextUtils::textTruncate($ex->__toString(), 65535)
+			])->execute();
+	}
+
+	/**
+	 * Add log to db.
+	 *
+	 * @param string $category
+	 * @param string $message
+	 *
+	 * @return void
+	 */
+	public function log(string $category, string $message): void
 	{
 		\App\DB::getInstance('log')->createCommand()
 			->insert(\App\Integrations\Wapro::LOG_TABLE_NAME, [
 				'time' => date('Y-m-d H:i:s'),
-				'category' => $ex ? $category : 'info',
-				'message' => $ex ? $ex->getMessage() : $category,
-				'code' => $ex ? $ex->getCode() : 200,
-				'trace' => $ex ? $ex->__toString() : null,
+				'category' => $category,
+				'message' => \App\TextUtils::textTruncate($message, 255),
+				'error' => false,
 			])->execute();
+	}
+
+	/**
+	 * Load data from DB based on field map.
+	 *
+	 * @return void
+	 */
+	protected function loadFromFieldMap(): void
+	{
+		foreach ($this->fieldMap as $wapro => $crm) {
+			if (isset($this->row[$wapro])) {
+				if (\is_array($crm)) {
+					$value = $this->{$crm[1]}($this->row[$wapro], $crm); // it cannot be on the lower line because it is a reference
+					$this->recordModel->set($crm[0], $value);
+				} else {
+					$this->recordModel->set($crm, $this->row[$wapro]);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Convert phone to system format.
+	 *
+	 * @param string $value
+	 * @param array  $params
+	 *
+	 * @return string
+	 */
+	protected function convertPhone(string $value, array &$params): string
+	{
+		$fieldModel = $this->recordModel->getField($params[0]);
+		$details = $fieldModel->getUITypeModel()->getPhoneDetails($value, 'PL');
+		$value = $details['number'];
+		if ($params[0] !== $details['fieldName']) {
+			$params[0] = $details['fieldName'];
+		}
+		return $value;
+	}
+
+	/**
+	 * Convert country to system format.
+	 *
+	 * @param string $value
+	 * @param array  $params
+	 *
+	 * @return string
+	 */
+	protected function convertCountry(string $value, array $params): string
+	{
+		return $value ? \App\Fields\Country::getCountryName($value) : '';
+	}
+
+	/**
+	 * Convert currency to system format.
+	 *
+	 * @param string $value
+	 * @param array  $params
+	 *
+	 * @return int
+	 */
+	protected function convertCurrency(string $value, array $params): int
+	{
+		$currencyId = \App\Fields\Currency::getIdByCode($value);
+		if (empty($currencyId)) {
+			$currencyId = \App\Fields\Currency::addCurrency($value);
+		}
+		return $currencyId ?? 0;
 	}
 }

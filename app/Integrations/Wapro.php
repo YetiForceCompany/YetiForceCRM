@@ -28,6 +28,9 @@ class Wapro
 	/** @var array Database config. */
 	public $config;
 
+	/** @var array Custom configuration, enables extension of mappings for synchronization. */
+	public $customConfig;
+
 	/** @var \App\Db Database instance. */
 	private $db;
 
@@ -39,6 +42,7 @@ class Wapro
 	public function __construct(int $serverId)
 	{
 		$this->config = self::getById($serverId);
+		$this->customConfig = \App\Config::component('IntegrationWapro', 'config', []);
 		$this->db = self::connectToDatabase($this->config['server'], $this->config['database'], $this->config['username'], $this->config['password'], $this->config['port']);
 	}
 

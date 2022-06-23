@@ -1499,7 +1499,8 @@
     "LBL_ICONS": "Icons",
     "LBL_BROWSE_ASSETS": "Browse Assets",
     "LBL_MEDIA": "Media",
-    "LBL_IMAGES": "Images"
+    "LBL_IMAGES": "Images",
+    "FL_WAPRO_ID": "WAPRO ERP ID"
   },
   "js": {
     "JS_APPROVE": "Approve",

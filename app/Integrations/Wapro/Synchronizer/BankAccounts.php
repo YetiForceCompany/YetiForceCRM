@@ -20,12 +20,13 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 	/** {@inheritdoc} */
 	const NAME = 'LBL_COMPANY_BANK_ACCOUNTS';
 
-	/** @var string[] Map of fields integrating with WAPRO ERP */
-	const FIELDS_MAP = [
+	/** {@inheritdoc} */
+	protected $fieldMap = [
 		'NAZWA' => 'name',
 		'NUMER_RACHUNKU' => 'account_number',
 		'bankName' => 'bank_name',
 		'SWIFT' => 'swift',
+		'SYM_WALUTY' => ['currency_id', 'convertCurrency'],
 	];
 
 	/** {@inheritdoc} */
@@ -36,60 +37,48 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 			->createCommand($this->controller->getDb())->query();
 		$e = $s = $i = $u = 0;
 		while ($row = $dataReader->read()) {
+			$this->row = $row;
 			try {
-				switch ($this->importRecord($row)) {
+				switch ($this->importRecord()) {
+					default:
 					case 0:
-						++$i;
+						++$s;
 						break;
 					case 1:
 						++$u;
 						break;
-					default:
-						++$s;
+					case 2:
+						++$i;
 						break;
 				}
 			} catch (\Throwable $th) {
-				$this->log('BankAccounts', $th);
-				\App\Log::error('Error during import BankAccounts: ' . PHP_EOL . $th->__toString() . PHP_EOL, 'Integrations/Wapro');
+				$this->logError('BankAccounts', $th);
 				++$e;
 			}
 		}
-		$this->log("BankAccounts: Create {$i} | Update {$u} | Skipped {$s} | Error {$e}");
+		$this->log('BankAccounts', "Create {$i} | Update {$u} | Skipped {$s} | Error {$e}");
 	}
 
-	/**
-	 * Import record.
-	 *
-	 * @param array $row
-	 *
-	 * @return int|null
-	 */
-	public function importRecord(array $row): ?int
+	/** {@inheritdoc} */
+	public function importRecord(): int
 	{
-		$multiCompanyId = $this->findInMapTable($row['ID_FIRMY'], 'FIRMA');
+		$multiCompanyId = $this->findInMapTable($this->row['ID_FIRMY'], 'FIRMA');
 		if (!$multiCompanyId) {
-			return null;
+			return 0;
 		}
-		if ($id = $this->findInMapTable($row['ID_RACHUNKU'], 'RACHUNEK_FIRMY')) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'BankAccounts');
+		if ($id = $this->findInMapTable($this->row['ID_RACHUNKU'], 'RACHUNEK_FIRMY')) {
+			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, 'BankAccounts');
 		} else {
-			$recordModel = \Vtiger_Record_Model::getCleanInstance('BankAccounts');
-			$recordModel->setDataForSave([\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME => [
+			$this->recordModel = \Vtiger_Record_Model::getCleanInstance('BankAccounts');
+			$this->recordModel->setDataForSave([\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME => [
 				'wtable' => 'RACHUNEK_FIRMY',
 			]]);
 		}
-		$recordModel->set('bankaccount_status', $row['AKTYWNY'] ? 'PLL_ACTIVE' : 'PLL_INACTIVE');
-		$recordModel->set('wapro_id', $row['ID_RACHUNKU']);
-		$currencyId = \App\Fields\Currency::getIdByCode($row['SYM_WALUTY']);
-		if (empty($currencyId)) {
-			$currencyId = \App\Fields\Currency::addCurrency($row['SYM_WALUTY']);
-		}
-		$recordModel->set('currency_id', $currencyId ?? 0);
-		$recordModel->set('multicompanyid', $multiCompanyId);
-		foreach (self::FIELDS_MAP as $wapro => $crm) {
-			$recordModel->set($crm, $row[$wapro]);
-		}
-		$recordModel->save();
-		return $id ? 1 : 0;
+		$this->recordModel->set('bankaccount_status', $this->row['AKTYWNY'] ? 'PLL_ACTIVE' : 'PLL_INACTIVE');
+		$this->recordModel->set('wapro_id', $this->row['ID_RACHUNKU']);
+		$this->recordModel->set('multicompanyid', $multiCompanyId);
+		$this->loadFromFieldMap();
+		$this->recordModel->save();
+		return $id ? 1 : 2;
 	}
 }

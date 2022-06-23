@@ -20,8 +20,8 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 	/** {@inheritdoc} */
 	const NAME = 'LBL_MULTI_COMPANY';
 
-	/** @var string[] Map of fields integrating with WAPRO ERP */
-	const FIELDS_MAP = [
+	/** {@inheritdoc} */
+	protected $fieldMap = [
 		'NAZWA' => 'company_name',
 		'NIP' => 'vat',
 		'REGON' => 'companyid1',
@@ -35,6 +35,7 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 		'NR_DOMU' => 'buildingnumbera',
 		'NR_LOKALU' => 'localnumbera',
 		'SKRYTKA' => 'poboxa',
+		'SYM_KRAJU' => ['addresslevel1a', 'convertCountry'],
 	];
 
 	/** {@inheritdoc} */
@@ -45,44 +46,35 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 			->createCommand($this->controller->getDb())->query();
 		$e = $i = $u = 0;
 		while ($row = $dataReader->read()) {
+			$this->row = $row;
 			try {
-				if ($this->importRecord($row)) {
+				if ($this->importRecord()) {
 					++$u;
 				} else {
 					++$i;
 				}
 			} catch (\Throwable $th) {
-				$this->log('MultiCompany', $th);
-				\App\Log::error('Error during import MultiCompany: ' . PHP_EOL . $th->__toString() . PHP_EOL, 'Integrations/Wapro');
+				$this->logError('MultiCompany', $th);
 				++$e;
 			}
 		}
-		$this->log("MultiCompany: Create {$i} | Update {$u} | Error {$e}");
+		$this->log('MultiCompany', "Create {$i} | Update {$u} | Error {$e}");
 	}
 
-	/**
-	 * Import record.
-	 *
-	 * @param array $row
-	 *
-	 * @return int
-	 */
-	public function importRecord(array $row): int
+	/** {@inheritdoc} */
+	public function importRecord(): int
 	{
-		if ($id = $this->findInMapTable($row['ID_FIRMY'], 'FIRMA')) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'MultiCompany');
+		if ($id = $this->findInMapTable($this->row['ID_FIRMY'], 'FIRMA')) {
+			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, 'MultiCompany');
 		} else {
-			$recordModel = \Vtiger_Record_Model::getCleanInstance('MultiCompany');
-			$recordModel->setDataForSave([\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME => [
+			$this->recordModel = \Vtiger_Record_Model::getCleanInstance('MultiCompany');
+			$this->recordModel->setDataForSave([\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME => [
 				'wtable' => 'FIRMA',
 			]]);
 		}
-		$recordModel->set('wapro_id', $row['ID_FIRMY']);
-		$recordModel->set('addresslevel1a', \App\Fields\Country::getCountryName($row['SYM_KRAJU']));
-		foreach (self::FIELDS_MAP as $wapro => $crm) {
-			$recordModel->set($crm, $row[$wapro]);
-		}
-		$recordModel->save();
+		$this->recordModel->set('wapro_id', $this->row['ID_FIRMY']);
+		$this->loadFromFieldMap();
+		$this->recordModel->save();
 		return $id ? 1 : 0;
 	}
 }
