@@ -1,6 +1,6 @@
 <?php
 /**
- * Companies House record collector file.
+ * United Kingdom Companies House record collector file.
  *
  * @package App
  *
@@ -9,15 +9,17 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Rembiesa <s.rembiesa@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\RecordCollectors;
 
 /**
- * Companies House record collector class.
+ * United Kingdom Companies House record collector class.
  */
-class CompaniesHouse extends Base
+class UKCompaniesHouse extends Base
 {
+	/** {@inheritdoc} */
 	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
@@ -40,7 +42,7 @@ class CompaniesHouse extends Base
 
 	/** {@inheritdoc} */
 	protected $fields = [
-		'NCR' => [
+		'ncr' => [
 			'labelModule' => '_Base',
 			'label' => 'Registration number 1',
 			'typeofdata' => 'V~M',
@@ -50,13 +52,13 @@ class CompaniesHouse extends Base
 	/** {@inheritdoc} */
 	protected $modulesFieldsMap = [
 		'Accounts' => [
-			'NCR' => 'registration_number_1',
+			'ncr' => 'registration_number_1',
 		],
 		'Leads' => [
-			'NCR' => 'registration_number_1',
+			'ncr' => 'registration_number_1',
 		],
 		'Vendors' => [
-			'NCR' => 'registration_number_1',
+			'ncr' => 'registration_number_1',
 		]
 	];
 
@@ -124,7 +126,7 @@ class CompaniesHouse extends Base
 	/** {@inheritdoc} */
 	public function search(): array
 	{
-		$ncr = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('NCR', 'Text'));
+		$ncr = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('ncr', 'Text'));
 		$moduleName = $this->request->getModule();
 		if ($recordId = $this->request->getInteger('record')) {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
@@ -177,7 +179,7 @@ class CompaniesHouse extends Base
 	{
 		try {
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $this->url . 'company/' . $ncr, [
-				'auth' => ['API_KEY_HERE', ''],
+				'auth' => ['API_KEY_HERE', '8f27bb27-4af7-44c7-ad71-ed59d5c15ab2'],
 			]);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
@@ -191,7 +193,7 @@ class CompaniesHouse extends Base
 	 *
 	 * @return void
 	 */
-	private function parseData()
+	private function parseData(): void
 	{
 		$this->data['companyName'] = $this->apiData['company_name'];
 		$this->data['ncr'] = $this->apiData['company_number'];
@@ -227,32 +229,37 @@ class CompaniesHouse extends Base
 	{
 		$additional = [];
 		foreach ($this->apiData as $key => $value) {
-			if ('accounts' === $key) {
-				foreach ($this->apiData[$key] as $sectionKey => $sectionValue) {
-					if ('array' === \gettype($sectionValue)) {
-						$additional[$sectionKey] = implode(' ', $sectionValue);
-					} else {
-						$additional['accounts ' . $sectionKey] = $sectionValue;
-					}
-				}
-			}
-
-			if ('annual_return' === $key || 'branch_company_details' === $key || 'confirmation_statement' === $key || 'links' === $key || 'sic_codes' === $key) {
-				foreach ($this->apiData[$key] as $sectionKey => $sectionValue) {
-					$additional[$key . ' ' . $sectionKey] = $sectionValue;
-				}
-			}
-
-			if ('previous_company_names' === $key) {
-				$i = 1;
-				foreach ($this->apiData[$key] as $previousName) {
-					$additional["previous_company_names{$i}"] = implode(' ', $previousName);
-					++$i;
-				}
-			}
-
 			if ('foreign_company_details' === $key) {
 				continue;
+			}
+			switch ($key) {
+				case 'accounts':
+					foreach ($this->apiData[$key] as $sectionKey => $sectionValue) {
+						if ('array' === \gettype($sectionValue)) {
+							$additional[$sectionKey] = implode(' ', $sectionValue);
+						} else {
+							$additional['accounts ' . $sectionKey] = $sectionValue;
+						}
+					}
+					break;
+				case 'annual_return':
+				case 'branch_company_details':
+				case 'confirmation_statement':
+				case 'links':
+				case 'sic_codes':
+					foreach ($this->apiData[$key] as $sectionKey => $sectionValue) {
+						$additional[$key . ' ' . $sectionKey] = $sectionValue;
+					}
+					break;
+				case 'previous_company_names':
+					$i = 1;
+					foreach ($this->apiData[$key] as $previousName) {
+						$additional["previous_company_names{$i}"] = implode(' ', $previousName);
+						++$i;
+					}
+					break;
+				default:
+					break;
 			}
 			$additional['jurisdiction'] = $value;
 			$additional['company_status'] = $value;

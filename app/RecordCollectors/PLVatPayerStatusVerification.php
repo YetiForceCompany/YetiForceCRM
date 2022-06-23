@@ -19,7 +19,7 @@ namespace App\RecordCollectors;
 /**
  * VAT Payer Status Verification in Poland record collector class.
  */
-class PolandVatPayerStatusVerification extends Base
+class PLVatPayerStatusVerification extends Base
 {
 	/** {@inheritdoc} */
 	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];

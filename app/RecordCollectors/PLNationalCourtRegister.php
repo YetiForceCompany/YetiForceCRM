@@ -17,7 +17,7 @@ namespace App\RecordCollectors;
 /**
  * Polish National Court Register record collector class.
  */
-class PolandNationalCourtRegister extends Base
+class PLNationalCourtRegister extends Base
 {
 	/** {@inheritdoc} */
 	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors'];
