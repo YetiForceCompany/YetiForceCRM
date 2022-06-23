@@ -10,7 +10,7 @@
 		{if Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
 			<div class="alert alert-danger" role="alert">
 				<div>
-					<h4>{\App\Language::translateArgs('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger','roundcube','<a href="index.php?module=ModuleManager&parent=Settings&view=List">'|cat:\App\Language::translate("VTLIB_LBL_MODULE_MANAGER",'Settings:Base')|cat:'</a>')}</h4>
+					<h4>{\App\Language::translateArgs('ERR_NO_REQUIRED_LIBRARY_FEATURES_DOWNLOAD', 'Settings:Vtiger','roundcube','<a href="index.php?module=ModuleManager&parent=Settings&view=List">'|cat:\App\Language::translate("VTLIB_LBL_MODULE_MANAGER",'Settings:Base')|cat:'</a>')}</h4>
 				</div>
 			</div>
 		{elseif !\App\Module::isModuleActive('OSSMail')}
