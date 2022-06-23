@@ -67,8 +67,8 @@ class Settings_Wapro_Activation_Model
 				'id' => $importer->primaryKeyUnsigned(),
 				'time' => $importer->dateTime()->notNull(),
 				'category' => $importer->stringType(100),
-				'message' => $importer->stringType(500),
-				'code' => $importer->smallInteger(5),
+				'message' => $importer->stringType(255),
+				'error' => $importer->boolean(),
 				'trace' => $importer->text(),
 			]);
 			$status = true;
