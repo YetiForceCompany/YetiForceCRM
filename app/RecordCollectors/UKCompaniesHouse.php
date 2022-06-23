@@ -179,7 +179,7 @@ class UKCompaniesHouse extends Base
 	{
 		try {
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $this->url . 'company/' . $ncr, [
-				'auth' => ['API_KEY_HERE', '8f27bb27-4af7-44c7-ad71-ed59d5c15ab2'],
+				'auth' => ['API_KEY_HERE', ''],
 			]);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
