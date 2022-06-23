@@ -1963,6 +1963,7 @@
     "JS_PREV": "Previous",
     "JS_NEXT": "Next",
     "JS_CALENDAR_LIST": "Schedule",
-    "JS_SPECIAL_CHARACTERS": "Special characters like"
+    "JS_SPECIAL_CHARACTERS": "Special characters like",
+    "JS_NOT_ALLOWED": "are not allowed"
   }
 }

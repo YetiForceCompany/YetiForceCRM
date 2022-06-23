@@ -49,7 +49,7 @@ class CustomView {
 	 * @return : jQuery object of contents container
 	 */
 	getContentsContainer() {
-		if (this.modalContainer == false) {
+		if (!this.modalContainer) {
 			this.modalContainer = $('.js-filter-modal__container');
 		}
 		return this.modalContainer;
@@ -60,7 +60,7 @@ class CustomView {
 	 * @return : jQuery object of view columns selection element
 	 */
 	getColumnSelectElement() {
-		if (this.columnSelectElement == false) {
+		if (!this.columnSelectElement) {
 			this.columnSelectElement = $('#viewColumnsSelect');
 		}
 		return this.columnSelectElement;
@@ -172,7 +172,7 @@ class CustomView {
 	registerDuplicatesEvents() {
 		const container = this.getContentsContainer();
 		App.Fields.Picklist.showSelect2ElementView(container.find('.js-duplicates-container .js-duplicates-field'));
-		container.on('click', '.js-duplicates-remove', function (e) {
+		container.on('click', '.js-duplicates-remove', function () {
 			$(this).closest('.js-duplicates-row').remove();
 		});
 		container.find('.js-duplicate-add-field').on('click', function () {
@@ -202,12 +202,7 @@ class CustomView {
 			let selectedOptions = selectElement.val();
 			let mandatoryFieldsMissing = true;
 			if (selectedOptions) {
-				for (let i = 0; i < selectedOptions.length; i++) {
-					if ($.inArray(selectedOptions[i], mandatoryFieldsList) >= 0) {
-						mandatoryFieldsMissing = false;
-						break;
-					}
-				}
+				mandatoryFieldsMissing = selectedOptions.filter((value) => mandatoryFieldsList.includes(value)).length <= 0;
 			}
 			if (mandatoryFieldsMissing) {
 				selectElement.validationEngine(
@@ -224,7 +219,7 @@ class CustomView {
 			}
 			//Mandatory Fields validation ends
 			let result = form.validationEngine('validate');
-			if (result == true) {
+			if (result) {
 				//handled standard filters saved values.
 				let stdfilterlist = {};
 
@@ -282,7 +277,6 @@ class CustomView {
 			AppConnector.request({
 				module: app.getModuleName(),
 				view: 'CustomViewAdvCondModal',
-				module: app.getModuleName(),
 				advancedConditions: advancedConditions
 			})
 				.done((data) => {
@@ -290,7 +284,7 @@ class CustomView {
 						app.showModalWindow(data, (modalContainer) => {
 							App.Tools.Form.registerBlockToggle(modalContainer);
 							this.registerAdvancedConditionsEvents(modalContainer);
-							modalContainer.find('[name="saveButton"]').on('click', (e) => {
+							modalContainer.find('[name="saveButton"]').on('click', () => {
 								customViewAdvCond.val(JSON.stringify(this.getAdvancedConditions(modalContainer)));
 								app.hideModalWindow();
 								if (typeof app.pageController.getListViewRecords !== 'undefined') {
@@ -325,7 +319,7 @@ class CustomView {
 			);
 			this.advancedConditionsBuilder.registerEvents();
 		}
-		relationSelect.on('change', function (e) {
+		relationSelect.on('change', function () {
 			const moduleName = $(this).find('option:selected').data('module');
 			builder.html('');
 			delete self.advancedConditionsBuilder;
@@ -454,7 +448,7 @@ Vtiger_Base_Validator_Js(
 			let instance = new Vtiger_FieldLabel_Validator_Js();
 			instance.setElement(field);
 			let response = instance.validate();
-			if (response != true) {
+			if (response !== true) {
 				return instance.getError();
 			}
 		}
