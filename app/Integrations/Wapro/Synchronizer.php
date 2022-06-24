@@ -25,11 +25,17 @@ abstract class Synchronizer
 	/** @var \App\Integrations\Wapro Controller instance. */
 	protected $controller;
 
+	/** @var string Controller instance. */
+	protected $className;
+
 	/** @var \Vtiger_Record_Model Record model instance. */
 	protected $recordModel;
 
 	/** @var array Record row. */
 	protected $row;
+
+	/** @var bool The flag to skip record creation. */
+	protected $skip;
 
 	/**
 	 * Synchronizer constructor.
@@ -39,9 +45,9 @@ abstract class Synchronizer
 	public function __construct(\App\Integrations\Wapro $controller)
 	{
 		$this->controller = $controller;
-		$className = substr(static::class, strrpos(static::class, '\\') + 1);
-		if (isset($controller->customConfig[$className])) {
-			$this->fieldMap = $controller->customConfig[$className];
+		$this->className = substr(static::class, strrpos(static::class, '\\') + 1);
+		if (isset($controller->customConfig[$this->className])) {
+			$this->fieldMap = $controller->customConfig[$this->className];
 		}
 	}
 
@@ -91,18 +97,17 @@ abstract class Synchronizer
 	/**
 	 * Add error log to db.
 	 *
-	 * @param string     $category
 	 * @param \Throwable $ex
 	 *
 	 * @return void
 	 */
-	public function logError(string $category, \Throwable $ex): void
+	public function logError(\Throwable $ex): void
 	{
-		\App\Log::error("Error during import record in {$category}:\n{$ex->__toString()}", 'Integrations/Wapro');
+		\App\Log::error("Error during import record in {$this->className}:\n{$ex->__toString()}", 'Integrations/Wapro');
 		\App\DB::getInstance('log')->createCommand()
 			->insert(\App\Integrations\Wapro::LOG_TABLE_NAME, [
 				'time' => date('Y-m-d H:i:s'),
-				'category' => $category,
+				'category' => $this->className,
 				'message' => \App\TextUtils::textTruncate($ex->getMessage(), 255),
 				'error' => true,
 				'trace' => \App\TextUtils::textTruncate($ex->__toString(), 65535)
@@ -112,17 +117,16 @@ abstract class Synchronizer
 	/**
 	 * Add log to db.
 	 *
-	 * @param string $category
 	 * @param string $message
 	 *
 	 * @return void
 	 */
-	public function log(string $category, string $message): void
+	public function log(string $message): void
 	{
 		\App\DB::getInstance('log')->createCommand()
 			->insert(\App\Integrations\Wapro::LOG_TABLE_NAME, [
 				'time' => date('Y-m-d H:i:s'),
-				'category' => $category,
+				'category' => $this->className,
 				'message' => \App\TextUtils::textTruncate($message, 255),
 				'error' => false,
 			])->execute();
@@ -136,13 +140,21 @@ abstract class Synchronizer
 	protected function loadFromFieldMap(): void
 	{
 		foreach ($this->fieldMap as $wapro => $crm) {
-			if (isset($this->row[$wapro])) {
+			if (\array_key_exists($wapro, $this->row)) {
+				if (null === $this->row[$wapro]) {
+					continue;
+				}
 				if (\is_array($crm)) {
-					$value = $this->{$crm[1]}($this->row[$wapro], $crm); // it cannot be on the lower line because it is a reference
-					$this->recordModel->set($crm[0], $value);
+					$value = $this->{$crm['fn']}($this->row[$wapro], $crm); // it cannot be on the lower line because it is a reference
+					if ($this->skip) {
+						break;
+					}
+					$this->recordModel->set($crm['fieldName'], $value);
 				} else {
 					$this->recordModel->set($crm, $this->row[$wapro]);
 				}
+			} else {
+				\App\Log::error("No column {$wapro} in the {$this->className}", 'Integrations/Wapro');
 			}
 		}
 	}
@@ -157,11 +169,11 @@ abstract class Synchronizer
 	 */
 	protected function convertPhone(string $value, array &$params): string
 	{
-		$fieldModel = $this->recordModel->getField($params[0]);
+		$fieldModel = $this->recordModel->getField($params['fieldName']);
 		$details = $fieldModel->getUITypeModel()->getPhoneDetails($value, 'PL');
 		$value = $details['number'];
-		if ($params[0] !== $details['fieldName']) {
-			$params[0] = $details['fieldName'];
+		if ($params['fieldName'] !== $details['fieldName']) {
+			$params['fieldName'] = $details['fieldName'];
 		}
 		return $value;
 	}
@@ -194,5 +206,24 @@ abstract class Synchronizer
 			$currencyId = \App\Fields\Currency::addCurrency($value);
 		}
 		return $currencyId ?? 0;
+	}
+
+	/**
+	 * Convert currency to system format.
+	 *
+	 * @param string $value
+	 * @param array  $params
+	 *
+	 * @return int
+	 */
+	protected function findRelationship(string $value, array $params): int
+	{
+		if ($id = $this->findInMapTable($value, $params['tableName'])) {
+			return $id;
+		}
+		if (!empty($params['skipMode'])) {
+			$this->skip = true;
+		}
+		return 0;
 	}
 }

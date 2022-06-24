@@ -44,21 +44,29 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 		$dataReader = (new \App\Db\Query())->from('dbo.FIRMA')
 			->leftJoin('dbo.ADRESY_FIRMY', 'dbo.FIRMA.ID_ADRESU_DOMYSLNEGO = dbo.ADRESY_FIRMY.ID_ADRESY_FIRMY')
 			->createCommand($this->controller->getDb())->query();
-		$e = $i = $u = 0;
+		$s = $e = $i = $u = 0;
 		while ($row = $dataReader->read()) {
 			$this->row = $row;
+			$this->skip = false;
 			try {
-				if ($this->importRecord()) {
-					++$u;
-				} else {
-					++$i;
+				switch ($this->importRecord()) {
+					default:
+					case 0:
+						++$s;
+						break;
+					case 1:
+						++$u;
+						break;
+					case 2:
+						++$i;
+						break;
 				}
 			} catch (\Throwable $th) {
-				$this->logError('MultiCompany', $th);
+				$this->logError($th);
 				++$e;
 			}
 		}
-		$this->log('MultiCompany', "Create {$i} | Update {$u} | Error {$e}");
+		$this->log("Create {$i} | Update {$u} | Skipped {$s} | Error {$e}");
 	}
 
 	/** {@inheritdoc} */
@@ -75,6 +83,6 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 		$this->recordModel->set('wapro_id', $this->row['ID_FIRMY']);
 		$this->loadFromFieldMap();
 		$this->recordModel->save();
-		return $id ? 1 : 0;
+		return $id ? 1 : 2;
 	}
 }
