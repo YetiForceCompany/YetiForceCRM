@@ -34,9 +34,6 @@ class UKCompaniesHouse extends Base
 	/** {@inheritdoc} */
 	public $description = 'LBL_UNITED_KINGDOM_CH_DESC';
 
-	/** @var array Data from Companies House API. */
-	private $apiData = [];
-
 	/** {@inheritdoc} */
 	protected $fields = [
 		'ncr' => [
