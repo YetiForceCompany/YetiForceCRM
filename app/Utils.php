@@ -72,21 +72,59 @@ class Utils
 	 * Flatten a multi-dimensional array into a single level.
 	 *
 	 * @param array $array
-	 * @param int   $depth
+	 * @param float $depth
 	 *
 	 * @return array
 	 */
-	public static function flatten($array, $depth = INF)
+	public static function flatten(array $array, float $depth = INF): array
 	{
 		$result = [];
 		foreach ($array as $item) {
-			if (!\is_array($item)) {
-				$result[] = $item;
-			} else {
+			if (\is_array($item)) {
 				$values = 1 === $depth ? array_values($item) : static::flatten($item, $depth - 1);
 				foreach ($values as $value) {
 					$result[] = $value;
 				}
+			} else {
+				$result[] = $item;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Flatten the multidimensional array on one level, keeping the key names unique.
+	 *
+	 * @param array  $array
+	 * @param string $type
+	 * @param float  $depth
+	 *
+	 * @return array
+	 */
+	public static function flattenKeys(array $array, string $type = '_', float $depth = INF): array
+	{
+		$result = [];
+		foreach ($array as $key => $item) {
+			if (\is_array($item)) {
+				if (1 === $depth) {
+					$values = array_values($item);
+				} else {
+					$values = static::flattenKeys($item, $type, $depth - 1);
+				}
+				foreach ($values as $keySec => $value) {
+					switch ($type) {
+						case 'ucfirst':
+							$keySec = \ucfirst($keySec);
+							$newKey = "{$key}{$keySec}";
+							break;
+						default:
+						$newKey = "{$key}{$type}{$keySec}";
+							break;
+					}
+					$result[$newKey] = $value;
+				}
+			} else {
+				$result[$key] = $item;
 			}
 		}
 		return $result;

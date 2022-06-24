@@ -23,7 +23,7 @@ class UKCompaniesHouse extends Base
 	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fas fa-house';
+	public $icon = 'fas fa-house-signal';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_UNITED_KINGDOM_CH';
@@ -36,9 +36,6 @@ class UKCompaniesHouse extends Base
 
 	/** @var array Data from Companies House API. */
 	private $apiData = [];
-
-	/** @var array parsed data from CH API. */
-	private $data = [];
 
 	/** {@inheritdoc} */
 	protected $fields = [
@@ -65,12 +62,12 @@ class UKCompaniesHouse extends Base
 	/** {@inheritdoc} */
 	public $formFieldsToRecordMap = [
 		'Accounts' => [
-			'companyName' => 'accountname',
-			'ncr' => 'registration_number_1',
-			'sicCode' => 'siccode',
+			'company_name' => 'accountname',
+			'company_number' => 'registration_number_1',
+			'sic_codes0' => 'siccode',
 			'street' => 'addresslevel8a',
 			'city' => 'addresslevel5a',
-			'postCode' => 'addresslevel7a',
+			'registered_office_addressPostal_code' => 'addresslevel7a',
 			'country' => 'addresslevel1a',
 			'township' => 'addresslevel4a',
 			'county' => 'addresslevel3a',
@@ -126,45 +123,18 @@ class UKCompaniesHouse extends Base
 	/** {@inheritdoc} */
 	public function search(): array
 	{
+		$this->moduleName = $this->request->getModule();
 		$ncr = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('ncr', 'Text'));
-		$moduleName = $this->request->getModule();
-		if ($recordId = $this->request->getInteger('record')) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$this->response['recordModel'] = $recordModel;
-			$fields = $recordModel->getModule()->getFields();
-		} else {
-			$fields = \Vtiger_Module_Model::getInstance($moduleName)->getFields();
-		}
 		if (!$ncr) {
 			return [];
 		}
-
 		$this->getDataFromApi($ncr);
-		if (empty($this->apiData)) {
+		$this->parseData();
+		if (empty($this->data)) {
 			return [];
 		}
-		$this->parseData();
-
-		$fieldsData = $skip = [];
-		foreach ($this->formFieldsToRecordMap[$moduleName] as $label => $fieldName) {
-			if (!isset($this->data[$label])) {
-				continue;
-			}
-			if (empty($fields[$fieldName]) || !$fields[$fieldName]->isActiveField()) {
-				$skip[$fieldName]['label'] = \App\Language::translate($fields[$fieldName]->getFieldLabel(), $moduleName) ?? $fieldName;
-			}
-			$fieldModel = $fields[$fieldName];
-			$fieldsData[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
-			$fieldsData[$fieldName]['data'][0] = [
-				'raw' => $fieldModel->getEditViewDisplayValue($this->data[$label]),
-				'display' => $fieldModel->getDisplayValue($this->data[$label]),
-			];
-		}
-
-		$this->response['fields'] = $fieldsData;
-		$this->response['keys'] = [0];
-		$this->response['skip'] = $skip;
-		$this->response['additional'] = $this->getAdditional();
+		$this->loadData();
+		$this->response['additional'] = $this->data;
 		return $this->response;
 	}
 
@@ -185,7 +155,7 @@ class UKCompaniesHouse extends Base
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
-		$this->apiData = isset($response) ? \App\Json::decode($response->getBody()->getContents(), true) : [];
+		$this->data = isset($response) ? \App\Json::decode($response->getBody()->getContents(), true) : [];
 	}
 
 	/**
@@ -195,76 +165,9 @@ class UKCompaniesHouse extends Base
 	 */
 	private function parseData(): void
 	{
-		$this->data['companyName'] = $this->apiData['company_name'];
-		$this->data['ncr'] = $this->apiData['company_number'];
-		$this->data['sicCode'] = $this->apiData['sic_codes'][0] ?? null;
-		$this->data['country'] = $this->apiData['registered_office_address']['country'];
-		$this->data['city'] = $this->apiData['registered_office_address']['locality'];
-		$this->data['postCode'] = $this->apiData['registered_office_address']['postal_code'];
-		$this->data['street'] = $this->apiData['registered_office_address']['address_line_1'];
-		$this->data['county'] = $this->apiData['registered_office_address']['address_line_2'] ?? null;
-		$this->data['township'] = $this->apiData['registered_office_address']['region'] ?? null;
-		$this->data['poBox'] = $this->apiData['registered_office_address']['po_box'] ?? null;
-
-		if (isset($this->apiData['service_address'])) {
-			$this->data['countryDelivery'] = $this->apiData['service_address']['country'];
-			$this->data['cityDelivery'] = $this->apiData['service_address']['locality'];
-			$this->data['postCodeDelivery'] = $this->apiData['service_address']['postal_code'];
-			$this->data['streetDelivery'] = $this->apiData['service_address']['address_line_1'];
-			$this->data['countyDelivery'] = $this->apiData['service_address']['address_line_2'] ?? null;
-			$this->data['townshipDelivery'] = $this->apiData['service_address']['region'] ?? null;
-			$this->data['poBoxDelivery'] = $this->apiData['service_address']['po_box'] ?? null;
-
-			unset($this->apiData['service_address']);
+		if (empty($this->data)) {
+			return;
 		}
-		unset($this->apiData['company_name'], $this->apiData['company_number'], $this->apiData['sic_codes'][0], $this->apiData['registered_office_address']);
-	}
-
-	/**
-	 * Get Additional fields from API Companies House response.
-	 *
-	 * @return array
-	 */
-	private function getAdditional(): array
-	{
-		$additional = [];
-		foreach ($this->apiData as $key => $value) {
-			if ('foreign_company_details' === $key) {
-				continue;
-			}
-			switch ($key) {
-				case 'accounts':
-					foreach ($this->apiData[$key] as $sectionKey => $sectionValue) {
-						if ('array' === \gettype($sectionValue)) {
-							$additional[$sectionKey] = implode(' ', $sectionValue);
-						} else {
-							$additional['accounts ' . $sectionKey] = $sectionValue;
-						}
-					}
-					break;
-				case 'annual_return':
-				case 'branch_company_details':
-				case 'confirmation_statement':
-				case 'links':
-				case 'sic_codes':
-					foreach ($this->apiData[$key] as $sectionKey => $sectionValue) {
-						$additional[$key . ' ' . $sectionKey] = $sectionValue;
-					}
-					break;
-				case 'previous_company_names':
-					$i = 1;
-					foreach ($this->apiData[$key] as $previousName) {
-						$additional["previous_company_names{$i}"] = implode(' ', $previousName);
-						++$i;
-					}
-					break;
-				default:
-					break;
-			}
-			$additional['jurisdiction'] = $value;
-			$additional['company_status'] = $value;
-			$additional['date_of_creation'] = $value;
-		}
-		return $additional;
+		$this->data = \App\Utils::flattenKeys($this->data, 'ucfirst');
 	}
 }

@@ -94,7 +94,7 @@
 							<tr>
 								<td>{\App\Language::translate($NAME, $MODULE_NAME, null, true, 'Other.RecordCollector')}</td>
 								{foreach from=$VALUES item=VALUE}
-									<td>{nl2br($VALUE)}</td>
+									<td>{nl2br(\App\Purifier::encodeHtml($VALUE))}</td>
 								{/foreach}
 							</tr>
 						{/foreach}
