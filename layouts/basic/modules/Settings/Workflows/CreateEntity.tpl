@@ -70,9 +70,9 @@
 					<select name="modulename"
 						class="select2 form-control" {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist' || $IS_REFERENCE)} disabled="" {/if}>
 						<option {if $FIELD_MAP['modulename'] eq $SOURCE_MODULE} selected="" {/if}
-							value="{$SOURCE_MODULE}">{\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
+							value="{$SOURCE_MODULE}">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
 						<option {if $FIELD_MAP['modulename'] eq $RELATED_MODULE_MODEL_NAME} selected="" {/if}
-							value="{$RELATED_MODULE_MODEL_NAME}">{\App\Language::translate($RELATED_MODULE_MODEL_NAME, $RELATED_MODULE_MODEL_NAME)}</option>
+							value="destiny::::{$RELATED_MODULE_MODEL_NAME}">{\App\Language::translate('LBL_DESTINY_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($RELATED_MODULE_MODEL_NAME, $RELATED_MODULE_MODEL_NAME)}</option>
 					</select>
 				</div>
 				<div class="fieldUiHolder col-md-4">
@@ -138,9 +138,9 @@
 				<span class="col-md-3">
 					<select name="modulename"
 						class="select2 form-control" {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist' || $IS_REFERENCE)} disabled="" {/if}>
-						<option value="{$SOURCE_MODULE}">{\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
+						<option value="{$SOURCE_MODULE}">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
 						<option {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist')} selected="" {/if}
-							value="{$RELATED_MODULE_MODEL->get('name')}">{\App\Language::translate($RELATED_MODULE_MODEL->get('name'),$RELATED_MODULE_MODEL->get('name'))}</option>
+							value="destiny::::{$RELATED_MODULE_MODEL->get('name')}">{\App\Language::translate('LBL_DESTINY_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($RELATED_MODULE_MODEL->get('name'),$RELATED_MODULE_MODEL->get('name'))}</option>
 					</select>
 				</span>
 				<span class="fieldUiHolder col-md-4">
@@ -174,8 +174,8 @@
 		</div>
 		<div class="col-md-3">
 			<select name="modulename" class="form-control">
-				<option value="{$SOURCE_MODULE}">{\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
-				<option value="{$RELATED_MODULE_MODEL->get('name')}">{\App\Language::translate($RELATED_MODULE_MODEL->get('name'), $RELATED_MODULE_MODEL->get('name'))}</option>
+				<option value="{$SOURCE_MODULE}">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
+				<option value="destiny::::{$RELATED_MODULE_MODEL->get('name')}">{\App\Language::translate('LBL_DESTINY_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($RELATED_MODULE_MODEL->get('name'), $RELATED_MODULE_MODEL->get('name'))}</option>
 			</select>
 		</div>
 		<div class="fieldUiHolder col-md-4">

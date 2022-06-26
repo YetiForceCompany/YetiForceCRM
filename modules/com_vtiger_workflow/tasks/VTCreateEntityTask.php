@@ -16,7 +16,7 @@ class VTCreateEntityTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return ['entity_type', 'reference_field', 'field_value_mapping', 'mappingPanel', 'verifyIfExists'];
+		return ['entity_type', 'reference_field', 'field_value_mapping', 'mappingPanel', 'verifyIfExists', 'relationId'];
 	}
 
 	/**
@@ -42,15 +42,15 @@ class VTCreateEntityTask extends VTTask
 			foreach ($fieldValueMapping as $fieldInfo) {
 				$fieldName = $fieldInfo['fieldname'];
 				$referenceModule = $fieldInfo['modulename'];
+				$getDataFromReferenceModule = false;
+				if (strpos($referenceModule, '::::') > 0) {
+					$referenceModule = explode('::::', $referenceModule)[0];
+					$getDataFromReferenceModule = true;
+				}
 				$fieldValueType = $fieldInfo['valuetype'];
 				$fieldValue = trim($fieldInfo['value']);
-
 				if ('fieldname' === $fieldValueType) {
-					if ($referenceModule === $entityType) {
-						$fieldValue = $newRecordModel->get($fieldValue);
-					} else {
-						$fieldValue = $recordModel->get($fieldValue);
-					}
+					$fieldValue = $getDataFromReferenceModule ? $newRecordModel->get($fieldValue) : $recordModel->get($fieldValue);
 				} elseif ('expression' === $fieldValueType) {
 					require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
 
@@ -91,7 +91,9 @@ class VTCreateEntityTask extends VTTask
 			// To handle cyclic process
 			$newRecordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
 			$newRecordModel->save();
-			$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $newRecordModel->getModule());
+
+			//isset , 0 ? property exits?
+			$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $newRecordModel->getModule(), $this->relationId);
 			if ($relationModel) {
 				$relationModel->addRelation($recordModel->getId(), $newRecordModel->getId());
 			}
@@ -132,13 +134,14 @@ class VTCreateEntityTask extends VTTask
 			$referenceModule = $fieldInfo['modulename'];
 			$fieldValueType = $fieldInfo['valuetype'];
 			$fieldValue = trim($fieldInfo['value']);
+			$getDataFromReferenceModule = false;
+			if (strpos($referenceModule, '::::') > 0) {
+				$referenceModule = explode('::::', $referenceModule)[0];
+				$getDataFromReferenceModule = true;
+			}
 
 			if ('fieldname' === $fieldValueType) {
-				if ($referenceModule === $entityType) {
-					$fieldValue = $recordModel->get($fieldValue);
-				} else {
-					$fieldValue = $parentRecordModel->get($fieldValue);
-				}
+				$fieldValue = $getDataFromReferenceModule ? $recordModel->get($fieldValue) : $parentRecordModel->get($fieldValue);
 			} elseif ('expression' == $fieldValueType) {
 				require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
 

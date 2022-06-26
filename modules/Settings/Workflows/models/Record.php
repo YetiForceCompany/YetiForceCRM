@@ -428,24 +428,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$this->set('conditions', $wfCondition);
 	}
 
-	/**
-	 * Function returns all the related modules for workflows create entity task.
-	 *
-	 * @return JSON
-	 */
-	public function getDependentModules()
-	{
-		$dependentFields = [];
-		$filterModules = ['Calendar', 'Accounts', 'Notification'];
-		foreach (\App\Field::getRelatedFieldForModule(false, $this->getModule()->getName()) as $module => $value) {
-			if (\in_array($module, $filterModules)) {
-				continue;
-			}
-			$dependentFields[$module] = ['fieldname' => $value['fieldname'], 'modulelabel' => \App\Language::translate($module, $module)];
-		}
-		return $dependentFields;
-	}
-
 	public function updateNextTriggerTime()
 	{
 		$wm = new VTWorkflowManager();

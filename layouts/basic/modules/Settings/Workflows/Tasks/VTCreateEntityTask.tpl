@@ -52,8 +52,6 @@
 				</strong>
 			</label>
 			<div class="col-md-6">
-				{assign var=RELATED_MODULES_INFO value=$WORKFLOW_MODEL->getDependentModules()}
-				{assign var=RELATED_MODULES value=$RELATED_MODULES_INFO|array_keys}
 				{if !empty($TASK_OBJECT->entity_type)}
 					{assign var=RELATED_MODULE_MODEL_NAME value=$TASK_OBJECT->entity_type}
 				{else}
@@ -63,21 +61,15 @@
 					data-validation-engine='validate[required]' {if $MAPPING_PANEL} disabled{/if}
 					data-select="allowClear"
 					data-placeholder="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">
-					<optgroup class="p-0">
-						<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
-					</optgroup>
-					{foreach from=$RELATED_MODULES item=MODULE}
-						<option {if $RELATED_MODULE_MODEL_NAME eq $MODULE} selected="" {/if} value="{$MODULE}">{\App\Language::translate($MODULE,$MODULE)}</option>
+					<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
+					{foreach from=\App\Relation::getByModule($WORKFLOW_MODEL->getModule()->getName()) item=MODULE_INFO}
+						{if (false !== stripos($MODULE_INFO['actions'], 'ADD') || $WORKFLOW_MODEL->getModule()->getName() eq $MODULE_INFO['related_modulename']) &&  \App\Privilege::isPermitted($MODULE_INFO['related_modulename'], 'EditView')}
+							<option data-relation-id="{$MODULE_INFO['relation_id']}" {if $RELATED_MODULE_MODEL_NAME eq $MODULE_INFO['related_modulename']} selected="" {/if} value="{$MODULE_INFO['related_modulename']}">
+								{\App\Language::translate($MODULE_INFO['label'], $MODULE_INFO['related_modulename'])} ({$MODULE_INFO['name']})
+							</option>
+						{/if}
 					{/foreach}
-					<optgroup label="{\App\Language::translate('LBL_WORKFLOW_CUSTOM_RELATIONS', $QUALIFIED_MODULE)}">
-						{foreach from=\App\Relation::getByModule($WORKFLOW_MODEL->getModule()->getName()) item=MODULE_INFO}
-							{if !in_array($MODULE_INFO['related_modulename'], $RELATED_MODULES) && false !== stripos($MODULE_INFO['actions'], 'ADD') && \App\Privilege::isPermitted($MODULE_INFO['related_modulename'], 'EditView')}
-								<option {if $RELATED_MODULE_MODEL_NAME eq $MODULE_INFO['related_modulename']} selected="" {/if} value="{$MODULE_INFO['related_modulename']}">
-									{\App\Language::translate($MODULE_INFO['related_modulename'], $MODULE_INFO['related_modulename'])}
-								</option>
-							{/if}
-						{/foreach}
-					</optgroup>
+
 				</select>
 			</div>
 		</div>
