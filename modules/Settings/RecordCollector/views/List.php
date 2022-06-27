@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Settings RecordCollector Configuration view file.
+ * Settings RecordCollector List view file.
  *
  * @package Settings.Views
  *
@@ -11,15 +11,24 @@
  */
 
 /**
- * Settings RecordCollector Configuration view class.
+ * Settings RecordCollector List view class.
  */
-class Settings_RecordCollector_Configuration_View extends Settings_Vtiger_Index_View
+class Settings_RecordCollector_List_View extends Settings_Vtiger_Index_View
 {
+	/** @var string[] Paid Collectors Names */
+	private $paidCollectorsNames = [
+		'Gus',
+		'PLNationalCourtRegister',
+		'PLVatPayerStatusVerification',
+		'UKCompaniesHouse'
+	];
+
 	/** {@inheritdoc} */
-	public function process(App\Request $request)
+	public function process(App\Request $request): void
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULENAME', $request->getModule(false));
+		$viewer->assign('PAIDCOLLECTORS', $this->paidCollectorsNames);
 		$viewer->assign('COLLECTORS', Settings_RecordCollector_Module_Model::getInstance('Settings:RecordCollector')->getCollectors());
 		$viewer->view('List.tpl', $request->getModule(false));
 	}

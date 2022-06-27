@@ -18,13 +18,6 @@ class Settings_RecordCollector_Module_Model extends Settings_Vtiger_Module_Model
 	/** @var array collectors */
 	private $collectors = [];
 
-	private $paidCollectorsNames = [
-		'Gus',
-		'PLNationalCourtRegister',
-		'PLVatPayerStatusVerification',
-		'UKCompaniesHouse'
-	];
-
 	/**
 	 * Function fetching all collectors in system.
 	 *
@@ -42,7 +35,6 @@ class Settings_RecordCollector_Module_Model extends Settings_Vtiger_Module_Model
 					'instance' => $collectorInstance,
 					'active' => \in_array($file, $active) ? true : false,
 					'name' => $file,
-					'paid' => \in_array($file, $this->paidCollectorsNames) ? true : false
 				];
 			}
 		}
