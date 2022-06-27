@@ -7801,33 +7801,6 @@ CREATE TABLE `vtiger_ossoutsourcedservicescf` (
   CONSTRAINT `fk_1_vtiger_ossoutsourcedservicescf` FOREIGN KEY (`ossoutsourcedservicesid`) REFERENCES `vtiger_ossoutsourcedservices` (`ossoutsourcedservicesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_osspasswords` */
-
-CREATE TABLE `vtiger_osspasswords` (
-  `osspasswordsid` int(10) NOT NULL,
-  `osspassword_no` varchar(100) NOT NULL,
-  `passwordname` varchar(100) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `password` varbinary(200) NOT NULL,
-  `link_adres` varchar(255) DEFAULT NULL,
-  `linkto` int(10) DEFAULT NULL,
-  `linkextend` int(10) DEFAULT NULL,
-  `multicompanyid` int(10) unsigned DEFAULT 0,
-  PRIMARY KEY (`osspasswordsid`),
-  KEY `linkto` (`linkto`),
-  KEY `linkextend` (`linkextend`),
-  KEY `vtiger_osspasswords_multicompanyid_idx` (`multicompanyid`),
-  CONSTRAINT `fk_1_vtiger_osspasswords` FOREIGN KEY (`osspasswordsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspasswordscf` */
-
-CREATE TABLE `vtiger_osspasswordscf` (
-  `osspasswordsid` int(10) NOT NULL,
-  PRIMARY KEY (`osspasswordsid`),
-  CONSTRAINT `fk_1_vtiger_osspasswordscf` FOREIGN KEY (`osspasswordsid`) REFERENCES `vtiger_osspasswords` (`osspasswordsid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_osssoldservices` */
 
 CREATE TABLE `vtiger_osssoldservices` (
@@ -7958,15 +7931,6 @@ CREATE TABLE `vtiger_outsourcedproductscf` (
 CREATE TABLE `vtiger_password` (
   `type` varchar(20) NOT NULL,
   `val` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_passwords_config` */
-
-CREATE TABLE `vtiger_passwords_config` (
-  `pass_length_min` int(3) NOT NULL,
-  `pass_length_max` int(3) NOT NULL,
-  `pass_allow_chars` varchar(200) NOT NULL,
-  `register_changes` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_payment_methods` */
