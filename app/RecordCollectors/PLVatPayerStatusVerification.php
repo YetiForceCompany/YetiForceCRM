@@ -64,6 +64,9 @@ class PLVatPayerStatusVerification extends Base
 	/** @var string MF sever address */
 	protected $url = 'https://sprawdz-status-vat.mf.gov.pl/?wsdl';
 
+	/** @var string Url to Documentation API */
+	public $docUrl = 'https://www.podatki.gov.pl/e-deklaracje/dokumentacja-it/';
+
 	/** {@inheritdoc} */
 	public function search(): array
 	{
