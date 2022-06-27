@@ -15,7 +15,7 @@
  */
 class Settings_RecordCollector_List_View extends Settings_Vtiger_Index_View
 {
-	/** @var array Paid Collectors Names */
+	/** @var string[] Paid Collectors Names */
 	private $paidCollectorsNames = [
 		'Gus',
 		'PLNationalCourtRegister',
