@@ -1,6 +1,6 @@
 <?php
 /**
- * RecordCollector  active action file.
+ * RecordCollector active action file.
  *
  * @package Settings.Action
  *
@@ -14,6 +14,9 @@
  */
 class Settings_RecordCollector_SaveAjax_Action extends Settings_Vtiger_Save_Action
 {
+	/**
+	 * Exposing method changeStatus.
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -30,17 +33,14 @@ class Settings_RecordCollector_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 	public function changeStatus(App\Request $request): void
 	{
 		$collectorName = $request->getByType('collector');
-		$status = $request->getBoolean('status');
 
-		if ($status) {
+		if ($request->getBoolean('status')) {
 			\vtlib\Link::addLink(0, 'EDIT_VIEW_RECORD_COLLECTOR', $collectorName, 'App\RecordCollectors\\' . $collectorName);
-		} elseif (false === $status) {
+		} else {
 			\vtlib\Link::deleteLink(0, 'EDIT_VIEW_RECORD_COLLECTOR', $collectorName);
 		}
-
-		$result = ['success' => true, 'message' => 'success_message'];
 		$response = new Vtiger_Response();
-		$response->setResult($result);
+		$response->setResult(['success' => true, 'message' => App\Language::translate('LBL_SUCCESSFULLY_UPDATED', 'Other.RecordCollector')]);
 		$response->emit();
 	}
 }

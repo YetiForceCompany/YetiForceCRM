@@ -1,17 +1,17 @@
 <?php
 
 /**
- * YetiForce product Modal.
+ * Settings modal for RecordCollector file.
  *
  * @package Settings.View
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ * @author    Sławomir Rembiesa <t.poradzewski@yetiforce.com>
  */
 
 /**
- * Offline registration modal view class.
+ * Settings modal for RecordCollector class.
  */
 class Settings_RecordCollector_CollectorConfigModal_View extends \App\Controller\ModalSettings
 {
@@ -31,6 +31,6 @@ class Settings_RecordCollector_CollectorConfigModal_View extends \App\Controller
 		$viewer->assign('CONFIG', Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->getConfig()[$provider->getName()] ?? []);
 		$viewer->assign('PROVIDER', $provider);
 		$viewer->assign('CUSTOM_FIELDS', $provider->getCustomFields());
-		$viewer->view('ApiConfigModal.tpl', $this->qualifiedModuleName);
+		$viewer->view('ConfigModal.tpl', $this->qualifiedModuleName);
 	}
 }

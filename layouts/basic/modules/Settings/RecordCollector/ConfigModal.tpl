@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Settings-RecrodCollector-RecordCollectorConfigModal -->
+	<!-- tpl-Settings-RecrodCollector-ConfigModal -->
 	<div class="modal-body pb-0">
 		<form class="js-form-validation">
 			<div class="row no-gutters">
@@ -37,5 +37,5 @@
 			</div>
 		</form>
 	</div>
-	<!-- /tpl-Settings-RecrodCollector-RecordCollectorConfigModal -->
+	<!-- /tpl-Settings-RecrodCollector-ConfigModal -->
 {/strip}

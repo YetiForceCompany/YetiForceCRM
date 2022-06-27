@@ -27,6 +27,6 @@ class Settings_RecordCollector_Configuration_View extends Settings_Vtiger_Index_
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULENAME', $request->getModule(false));
 		$viewer->assign('COLLECTORS', Settings_RecordCollector_Module_Model::getInstance('Settings:RecordCollector')->getCollectors());
-		echo $viewer->view('List.tpl', $request->getModule(false));
+		$viewer->view('List.tpl', $request->getModule(false));
 	}
 }
