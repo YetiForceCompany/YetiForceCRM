@@ -3,12 +3,14 @@
 $.Class(
 	'Settings_RecordCollector_Configuration_Js',
 	{},
-	{
+	{	/**
+	 	* change status activity of RecordCollectors.
+	 	*/
 		changeStatus() {
 			AppConnector.request({
 				module: 'RecordCollector',
 				parent: 'Settings',
-				action: 'ActiveAjax',
+				action: 'SaveAjax',
 				mode: 'changeStatus',
 				collector: this.value,
 				status: this.checked
@@ -19,12 +21,18 @@ $.Class(
 				});
 			});
 		},
+		/**
+		 * register onClick event.
+		 */
 		registerOnClickEventOnCheckbox: function () {
 			const checkboxes = $('.js-status-change');
 			for (const element of checkboxes) {
 				element.addEventListener('click', this.changeStatus);
 			}
 		},
+		/**
+		 * register events.
+		 */
 		registerEvents: function () {
 			this.registerOnClickEventOnCheckbox();
 		}

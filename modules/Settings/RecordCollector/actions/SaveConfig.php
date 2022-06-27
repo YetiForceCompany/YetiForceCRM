@@ -1,10 +1,17 @@
 <?php
 
 /**
- * Settings RecordCollector SaveConfig action class.
+ * Settings RecordCollector SaveConfig action file.
+ *
+ * @package Settings.Action
  *
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author Sławomir Rembiesa <s.rembiesa@yetiforce.com>
+ */
+
+/**
+ * Settings RecordCollector SaveConfig action class.
  */
 class Settings_RecordCollector_SaveConfig_Action extends Settings_Vtiger_Basic_Action
 {
