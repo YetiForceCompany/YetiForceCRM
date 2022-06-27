@@ -15,6 +15,7 @@
  */
 class Settings_RecordCollector_List_View extends Settings_Vtiger_Index_View
 {
+	/** @var array Paid Collectors Names */
 	private $paidCollectorsNames = [
 		'Gus',
 		'PLNationalCourtRegister',
@@ -23,7 +24,7 @@ class Settings_RecordCollector_List_View extends Settings_Vtiger_Index_View
 	];
 
 	/** {@inheritdoc} */
-	public function process(App\Request $request)
+	public function process(App\Request $request): void
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULENAME', $request->getModule(false));
