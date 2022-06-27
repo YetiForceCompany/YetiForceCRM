@@ -37,6 +37,9 @@ abstract class Synchronizer
 	/** @var bool The flag to skip record creation. */
 	protected $skip;
 
+	/** @var bool Information on currency configuration. */
+	protected static $currency;
+
 	/**
 	 * Synchronizer constructor.
 	 *
@@ -89,7 +92,7 @@ abstract class Synchronizer
 		if (\App\Cache::has('WaproMapTable', $cacheKey)) {
 			return \App\Cache::get('WaproMapTable', $cacheKey);
 		}
-		$crmId = (new \App\Db\Query())->from(\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME)->select(['crmid'])->where(['wtable' => $table, 'wid' => $id])->scalar();
+		$crmId = (new \App\Db\Query())->select(['crmid'])->from(\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME)->where(['wtable' => $table, 'wid' => $id])->scalar();
 		\App\Cache::save('WaproMapTable', $cacheKey, $crmId);
 		return $crmId ?: null;
 	}
@@ -225,5 +228,23 @@ abstract class Synchronizer
 			$this->skip = true;
 		}
 		return 0;
+	}
+
+	/**
+	 * Get information about base currency.
+	 *
+	 * @return array
+	 */
+	protected function getBaseCurrency(): array
+	{
+		if (isset(self::$currency)) {
+			return self::$currency;
+		}
+		$wapro = (new \App\Db\Query())->from('dbo.WALUTA_BAZOWA_V')->one($this->controller->getDb());
+		return self::$currency = [
+			'wapro' => $wapro,
+			'currencyId' => $this->convertCurrency($wapro['SYM_WALUTY'], []),
+			'default' => \App\Fields\Currency::getDefault(),
+		];
 	}
 }

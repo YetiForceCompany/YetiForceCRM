@@ -26,7 +26,7 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 		'NUMER_RACHUNKU' => 'account_number',
 		'bankName' => 'bank_name',
 		'SWIFT' => 'swift',
-		'SYM_WALUTY' => ['currency_id', 'convertCurrency'],
+		'SYM_WALUTY' => ['fieldName' => 'currency_id', 'fn' => 'convertCurrency'],
 	];
 
 	/** {@inheritdoc} */

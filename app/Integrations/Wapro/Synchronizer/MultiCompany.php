@@ -35,7 +35,7 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 		'NR_DOMU' => 'buildingnumbera',
 		'NR_LOKALU' => 'localnumbera',
 		'SKRYTKA' => 'poboxa',
-		'SYM_KRAJU' => ['addresslevel1a', 'convertCountry'],
+		'SYM_KRAJU' => ['fieldName' => 'addresslevel1a', 'fn' => 'convertCountry'],
 	];
 
 	/** {@inheritdoc} */
