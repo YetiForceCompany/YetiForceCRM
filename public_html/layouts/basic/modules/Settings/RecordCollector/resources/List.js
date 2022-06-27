@@ -1,7 +1,7 @@
 'use strict';
 
 $.Class(
-	'Settings_RecordCollector_Configuration_Js',
+	'Settings_RecordCollector_List_Js',
 	{},
 	{
 		/**

@@ -24,7 +24,7 @@
 						{foreach from=$COLLECTORS item=ITEM}
 							<tr>
 								<td>
-						<span class="{$ITEM['instance']->icon}"> </span> {\App\Language::translate($ITEM['instance']->label, 'Other.RecordCollector')} {if $ITEM['paid']} <span class="yfi-premium color-red-600"></span> {/if}
+						<span class="{$ITEM['instance']->icon}"> </span> {\App\Language::translate($ITEM['instance']->label, 'Other.RecordCollector')} {if \in_array($ITEM['name'], $PAIDCOLLECTORS)} <span class="yfi-premium color-red-600"></span> {/if}
 								</td>
 								<td>
 									{\App\Language::translate($ITEM['instance']->description, 'Other.RecordCollector')}
