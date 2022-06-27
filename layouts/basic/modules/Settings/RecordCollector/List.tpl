@@ -14,9 +14,9 @@
 				<table class="table table-bordered">
 					<thead>
 						<tr>
-							<th class="" scope="col2">{\App\Language::translate('LBL_NAME', $MODULENAME)}</th>
+							<th class="col2" scope="col">{\App\Language::translate('LBL_NAME', $MODULENAME)}</th>
 							<th class="" scope="col">{\App\Language::translate('LBL_DESCRIPTION', $MODULENAME)}</th>
-							<th class="" scope="col">{\App\Language::translate('LBL_DATA_PROVIDER', $MODULENAME)}</th>
+							<th class="" scope="col">{\App\Language::translate('LBL_DOC_URL', $MODULENAME)}</th>
 							<th class="text-center" scope="col">{\App\Language::translate('LBL_ACTIVE', $MODULENAME)}</th>
 							<th class="text-center" scope="col">{\App\Language::translate('LBL_ACTIONS', $MODULENAME)}</th>
 						</tr>
@@ -24,14 +24,14 @@
 					<tbody>
 						{foreach from=$COLLECTORS item=ITEM}
 							<tr>
-								<td>
+								<td class="col2">
 									<span class="{$ITEM['instance']->icon}"> </span> {\App\Language::translate($ITEM['instance']->label, 'Other.RecordCollector')} {if \in_array($ITEM['name'], $PAIDCOLLECTORS)} <span class="yfi-premium color-red-600"></span> {/if}
 								</td>
 								<td>
 									{\App\Language::translate($ITEM['instance']->description, 'Other.RecordCollector')}
 								</td>
 								<td>
-									<a href="{$ITEM['instance']->docUrl}" target="_blank">{$ITEM['name']}</a>
+									<a href="{$ITEM['instance']->docUrl}" rel="noreferrer noopener" target="_blank">{$ITEM['name']}</a>
 								</td>
 								<td class="text-center">
 									<input class="js-status-change" name="is_active" value="{$ITEM['name']}" type="checkbox" {if $ITEM['active']} checked {/if}>

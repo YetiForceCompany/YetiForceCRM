@@ -5,7 +5,7 @@
     "LBL_RECORD_COLLECTOR_DESCRIPTION": "RecordCollector",
     "LBL_NAME": "Name",
     "LBL_SUCCESSFULLY_UPDATED": "The status change was successful",
-    "LBL_DATA_PROVIDER": "Data Provider"
+    "LBL_DOC_URL": "Documentation URL"
   },
   "js": {}
 }
