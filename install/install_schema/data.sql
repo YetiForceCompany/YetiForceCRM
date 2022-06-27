@@ -20456,83 +20456,6 @@ insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`dat
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`data`) values (211,131,'Comments','ModComments',2,2,'{\"relatedmodule\":\"ModComments\",\"limit\":5}');
 insert  into `vtiger_widgets`(`id`,`tabid`,`type`,`label`,`wcol`,`sequence`,`data`) values (212,131,'RelatedModule','Documents',2,1,'{\"relation_id\":636,\"relatedmodule\":8,\"relatedfields\":[\"8::notes_title\",\"8::filename\",\"8::ossdc_status\"],\"viewtype\":\"List\",\"limit\":5,\"action\":0,\"actionSelect\":0,\"no_result_text\":0,\"switchHeader\":\"-\",\"filter\":\"-\",\"checkbox\":\"-\"}');
 
-/*Data for the table `vtiger_ws_entity` */
-
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (1,'Campaigns','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (2,'Vendors','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (3,'Faq','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (8,'PriceBooks','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (9,'Calendar','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (10,'Leads','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (11,'Accounts','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (12,'Contacts','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (14,'Products','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (15,'Documents','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (17,'HelpDesk','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (18,'Events','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (19,'Users','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (20,'Groups','include/Webservices/VtigerActorOperation.php','VtigerActorOperation',0);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (21,'Currency','include/Webservices/VtigerActorOperation.php','VtigerActorOperation',0);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (22,'DocumentFolders','include/Webservices/VtigerActorOperation.php','VtigerActorOperation',0);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (25,'ServiceContracts','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (26,'Services','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (27,'Assets','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (28,'ModComments','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (29,'ProjectMilestone','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (30,'ProjectTask','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (31,'Project','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (32,'SMSNotifier','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (38,'OSSTimeControl','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (39,'OSSMailView','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (41,'OSSOutsourcedServices','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (42,'OSSSoldServices','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (43,'OutsourcedProducts','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (44,'OSSPasswords','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (45,'OSSEmployees','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (56,'CallHistory','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (57,'Ideas','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (60,'HolidaysEntitlement','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (61,'PaymentsIn','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (62,'PaymentsOut','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (63,'LettersIn','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (64,'LettersOut','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (65,'Announcements','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (66,'Reservations','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (67,'SQuoteEnquiries','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (68,'SSalesProcesses','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (69,'SRequirementsCards','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (70,'SCalculations','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (71,'SQuotes','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (72,'SSingleOrders','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (73,'SRecurringOrders','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (74,'Partners','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (75,'Competition','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (76,'FBookkeeping','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (77,'FInvoice','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (78,'KnowledgeBase','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (79,'IStorages','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (80,'IGRN','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (81,'FInvoiceProforma','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (82,'IGDN','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (83,'IIDN','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (84,'IGIN','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (85,'IPreOrder','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (86,'ISTDN','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (87,'ISTN','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (88,'ISTRN','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (89,'FCorectingInvoice','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (90,'IGRNC','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (91,'IGDNC','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (92,'Notification','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (93,'EmailTemplates','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (94,'CFixedAssets','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (95,'CInternalTickets','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (96,'FInvoiceCost','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (97,'CMileageLogbook','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-insert  into `vtiger_ws_entity`(`id`,`name`,`handler_path`,`handler_class`,`ismodule`) values (98,'SVendorEnquiries','include/Webservices/VtigerModuleOperation.php','VtigerModuleOperation',1);
-
-/*Data for the table `vtiger_ws_fieldinfo` */
-
 /*Data for the table `vtiger_ws_fieldtype` */
 
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (1,15,'picklist');
@@ -20586,77 +20509,6 @@ insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (5
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (58,360,'multiCurrency');
 insert  into `vtiger_ws_fieldtype`(`fieldtypeid`,`uitype`,`fieldtype`) values (59,365,'advPercentage');
 
-/*Data for the table `vtiger_ws_operation` */
-
-insert  into `vtiger_ws_operation`(`operationid`,`name`,`handler_path`,`handler_method`,`type`,`prelogin`) values (2,'retrieve','include/Webservices/Retrieve.php','vtws_retrieve','GET',0);
-insert  into `vtiger_ws_operation`(`operationid`,`name`,`handler_path`,`handler_method`,`type`,`prelogin`) values (3,'create','include/Webservices/Create.php','vtws_create','POST',0);
-insert  into `vtiger_ws_operation`(`operationid`,`name`,`handler_path`,`handler_method`,`type`,`prelogin`) values (4,'update','include/Webservices/Update.php','vtws_update','POST',0);
-insert  into `vtiger_ws_operation`(`operationid`,`name`,`handler_path`,`handler_method`,`type`,`prelogin`) values (5,'delete','include/Webservices/Delete.php','vtws_delete','POST',0);
-insert  into `vtiger_ws_operation`(`operationid`,`name`,`handler_path`,`handler_method`,`type`,`prelogin`) values (9,'listtypes','include/Webservices/ModuleTypes.php','vtws_listtypes','GET',0);
-insert  into `vtiger_ws_operation`(`operationid`,`name`,`handler_path`,`handler_method`,`type`,`prelogin`) values (11,'describe','include/Webservices/DescribeObject.php','vtws_describe','GET',0);
-insert  into `vtiger_ws_operation`(`operationid`,`name`,`handler_path`,`handler_method`,`type`,`prelogin`) values (13,'convertlead','include/Webservices/ConvertLead.php','vtwsConvertlead','POST',0);
-insert  into `vtiger_ws_operation`(`operationid`,`name`,`handler_path`,`handler_method`,`type`,`prelogin`) values (14,'revise','include/Webservices/Revise.php','vtws_revise','POST',0);
-insert  into `vtiger_ws_operation`(`operationid`,`name`,`handler_path`,`handler_method`,`type`,`prelogin`) values (16,'deleteUser','include/Webservices/DeleteUser.php','vtws_deleteUser','POST',0);
-
-/*Data for the table `vtiger_ws_operation_parameters` */
-
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (1,'accessKey','String',2);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (1,'username','String',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (2,'id','String',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (3,'element','encoded',2);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (3,'elementType','String',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (4,'element','encoded',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (5,'id','String',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (6,'elementType','String',2);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (6,'modifiedTime','DateTime',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (7,'query','String',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (8,'sessionName','String',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (9,'fieldTypeList','encoded',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (10,'username','String',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (11,'elementType','String',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (13,'accountName','String',3);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (13,'assignedTo','String',2);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (13,'avoidPotential','Boolean',4);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (13,'leadId','String',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (13,'potential','Encoded',5);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (14,'element','Encoded',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (15,'confirmPassword','String',4);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (15,'id','String',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (15,'newPassword','String',3);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (15,'oldPassword','String',2);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (16,'id','String',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (16,'newOwnerId','String',2);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (18,'alertid','string',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (19,'module','string',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (20,'record','string',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (21,'record','string',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (22,'filterid','string',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (23,'elements','encoded',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (24,'module','string',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (24,'record','string',2);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (24,'values','encoded',3);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (25,'module','string',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (25,'page','string',3);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (25,'syncToken','string',2);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (26,'module','string',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (26,'page','string',3);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (26,'query','string',2);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (27,'module','string',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (27,'page','string',3);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (27,'query','string',2);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (28,'synctype','string',2);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (28,'type','string',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (29,'key','string',2);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (29,'type','string',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (30,'key','string',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (30,'module','string',2);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (30,'token','string',3);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (31,'element','encoded',2);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (31,'key','string',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (32,'element','encoded',2);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (32,'key','string',1);
-insert  into `vtiger_ws_operation_parameters`(`operationid`,`name`,`type`,`sequence`) values (33,'id','String',1);
-
 /*Data for the table `vtiger_ws_referencetype` */
 
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (20,'Accounts');
@@ -20675,8 +20527,6 @@ insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (32,'Users')
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (32,'Vendors');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (33,'Products');
 insert  into `vtiger_ws_referencetype`(`fieldtypeid`,`type`) values (38,'DocumentFolders');
-
-/*Data for the table `vtiger_ws_userauthtoken` */
 
 /*Data for the table `w_yf_api_session` */
 

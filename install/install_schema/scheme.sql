@@ -9746,26 +9746,6 @@ CREATE TABLE `vtiger_widgets` (
   CONSTRAINT `vtiger_widgets_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_ws_entity` */
-
-CREATE TABLE `vtiger_ws_entity` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(25) NOT NULL,
-  `handler_path` varchar(255) NOT NULL,
-  `handler_class` varchar(64) NOT NULL,
-  `ismodule` int(3) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ws_fieldinfo` */
-
-CREATE TABLE `vtiger_ws_fieldinfo` (
-  `id` varchar(64) NOT NULL,
-  `property_name` varchar(32) DEFAULT NULL,
-  `property_value` varchar(64) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_ws_fieldtype` */
 
 CREATE TABLE `vtiger_ws_fieldtype` (
@@ -9776,28 +9756,6 @@ CREATE TABLE `vtiger_ws_fieldtype` (
   UNIQUE KEY `uitype_idx` (`uitype`)
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_ws_operation` */
-
-CREATE TABLE `vtiger_ws_operation` (
-  `operationid` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) NOT NULL,
-  `handler_path` varchar(255) NOT NULL,
-  `handler_method` varchar(64) NOT NULL,
-  `type` varchar(8) NOT NULL,
-  `prelogin` int(3) NOT NULL,
-  PRIMARY KEY (`operationid`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ws_operation_parameters` */
-
-CREATE TABLE `vtiger_ws_operation_parameters` (
-  `operationid` int(10) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `type` varchar(64) NOT NULL,
-  `sequence` int(10) NOT NULL,
-  PRIMARY KEY (`operationid`,`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_ws_referencetype` */
 
 CREATE TABLE `vtiger_ws_referencetype` (
@@ -9806,16 +9764,6 @@ CREATE TABLE `vtiger_ws_referencetype` (
   PRIMARY KEY (`fieldtypeid`,`type`),
   KEY `fieldtypeid` (`fieldtypeid`),
   CONSTRAINT `fk_1_vtiger_referencetype` FOREIGN KEY (`fieldtypeid`) REFERENCES `vtiger_ws_fieldtype` (`fieldtypeid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ws_userauthtoken` */
-
-CREATE TABLE `vtiger_ws_userauthtoken` (
-  `userid` int(10) NOT NULL,
-  `token` varchar(36) NOT NULL,
-  `expiretime` int(10) NOT NULL,
-  PRIMARY KEY (`userid`,`expiretime`),
-  UNIQUE KEY `userid_idx` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `w_yf_api_session` */
