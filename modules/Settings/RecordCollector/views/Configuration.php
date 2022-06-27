@@ -16,12 +16,6 @@
 class Settings_RecordCollector_Configuration_View extends Settings_Vtiger_Index_View
 {
 	/** {@inheritdoc} */
-	public function preProcess(App\Request $request, $display = true)
-	{
-		parent::preProcess($request);
-	}
-
-	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
