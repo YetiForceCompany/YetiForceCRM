@@ -20,9 +20,9 @@ class OSSMail extends \Tests\Base
 	{
 		$configurator = new \App\ConfigFile('module', 'OSSMail');
 		$configurator->set('des_key', 'YetiForce_Test');
-		$configurator->set('default_host', ['ssl://imap.gmail.com' => 'ssl://imap.gmail.com', 'ssl://imap.YT_Test.com' => 'ssl://imap.YT_Test.com']);
+		$configurator->set('default_host', ['ssl://imap.mail.yahoo.com' => 'ssl://imap.mail.yahoo.com', 'ssl://imap.YT_Test.com' => 'ssl://imap.YT_Test.com']);
 		$configurator->create();
 		$this->assertSame('YetiForce_Test', \App\Config::module('OSSMail', 'des_key'));
-		$this->assertCount(0, array_diff(\App\Config::module('OSSMail', 'default_host'), ['ssl://imap.gmail.com' => 'ssl://imap.gmail.com', 'ssl://imap.YT_Test.com' => 'ssl://imap.YT_Test.com']));
+		$this->assertCount(0, array_diff(\App\Config::module('OSSMail', 'default_host'), ['ssl://imap.mail.yahoo.com' => 'ssl://imap.mail.yahoo.com', 'ssl://imap.YT_Test.com' => 'ssl://imap.YT_Test.com']));
 	}
 }
