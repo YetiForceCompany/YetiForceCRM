@@ -38,6 +38,7 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 		$e = $s = $i = $u = 0;
 		while ($row = $dataReader->read()) {
 			$this->row = $row;
+			$this->skip = false;
 			try {
 				switch ($this->importRecord()) {
 					default:
@@ -52,11 +53,11 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 						break;
 				}
 			} catch (\Throwable $th) {
-				$this->logError('BankAccounts', $th);
+				$this->logError($th);
 				++$e;
 			}
 		}
-		$this->log('BankAccounts', "Create {$i} | Update {$u} | Skipped {$s} | Error {$e}");
+		$this->log("Create {$i} | Update {$u} | Skipped {$s} | Error {$e}");
 	}
 
 	/** {@inheritdoc} */

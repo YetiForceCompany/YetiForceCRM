@@ -212,7 +212,7 @@ class Gus extends Base
 						}
 					}
 					foreach ($row as $name => $value) {
-						$additional[$name][$key] = \App\Purifier::encodeHtml($value);
+						$additional[$name][$key] = $value;
 					}
 				}
 				$response['fields'] = $data;

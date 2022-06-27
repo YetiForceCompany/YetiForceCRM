@@ -38,6 +38,12 @@ class Base
 	/** var array List of fields for the modal search window. */
 	protected $fields = [];
 
+	/** @var array Data from record collector source. */
+	protected $data = [];
+
+	/** @var array Response data. */
+	protected $response = [];
+
 	/** @var \App\Request Request instance. */
 	protected $request;
 	/**
@@ -85,7 +91,7 @@ class Base
 	 */
 	public function getFields(): array
 	{
-		$fields = [];
+		$fieldsModel = [];
 		foreach ($this->fields as $fieldName => $data) {
 			if (isset($data['picklistValues']) && false !== $data['picklistModule']) {
 				$picklistModule = $data['picklistModule'] ?? $this->moduleName;
@@ -104,9 +110,9 @@ class Base
 					\App\Log::error($th->__toString(), 'RecordCollectors');
 				}
 			}
-			$fields[$fieldName] = $fieldModel;
+			$fieldsModel[$fieldName] = $fieldModel;
 		}
-		return $fields;
+		return $fieldsModel;
 	}
 
 	/**
@@ -127,5 +133,40 @@ class Base
 	public function search(): array
 	{
 		throw new \Api\Core\Exception('no search function');
+	}
+
+	/**
+	 * Load data.
+	 *
+	 * @return void
+	 */
+	public function loadData(): void
+	{
+		if ($recordId = $this->request->getInteger('record')) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $this->moduleName);
+			$this->response['recordModel'] = $recordModel;
+			$fieldsModel = $recordModel->getModule()->getFields();
+		} else {
+			$fieldsModel = \Vtiger_Module_Model::getInstance($this->moduleName)->getFields();
+		}
+		$fieldsData = $skip = [];
+		foreach ($this->formFieldsToRecordMap[$this->moduleName] as $label => $fieldName) {
+			if (!isset($this->data[$label]) || isset($fieldsData[$fieldName])) {
+				continue;
+			}
+			if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
+				$skip[$fieldName]['label'] = \App\Language::translate($fieldsModel[$fieldName]->getFieldLabel(), $this->moduleName) ?? $fieldName;
+			}
+			$fieldModel = $fieldsModel[$fieldName];
+			$fieldsData[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $this->moduleName);
+			$fieldsData[$fieldName]['data'][0] = [
+				'raw' => $fieldModel->getEditViewDisplayValue($this->data[$label]),
+				'display' => $fieldModel->getDisplayValue($this->data[$label]),
+			];
+			unset($this->data[$label]);
+		}
+		$this->response['fields'] = $fieldsData;
+		$this->response['skip'] = $skip;
+		$this->response['keys'] = [0];
 	}
 }

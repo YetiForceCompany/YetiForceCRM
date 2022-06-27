@@ -18,6 +18,9 @@ class Settings_Wapro_Activation_Model
 	private const FIELDS = [
 		['wapro_id', 'MultiCompany', 'LBL_SYSTEM_INFORMATION'],
 		['wapro_id', 'BankAccounts', 'LBL_CUSTOM_INFORMATION'],
+		['wapro_id', 'Accounts', 'LBL_ADVANCED_BLOCK'],
+		['wapro_id', 'Contacts', 'LBL_CUSTOM_INFORMATION'],
+		['wapro_id', 'Products', 'LBL_PRODUCT_INFORMATION'],
 	];
 
 	/**
