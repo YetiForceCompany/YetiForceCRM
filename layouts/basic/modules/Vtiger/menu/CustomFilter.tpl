@@ -1,20 +1,10 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	{assign var=ICON value=Vtiger_Menu_Model::getMenuIcon($MENU, $MENU['name'])}
-	{if isset($MID)}
-		{if $MENU['id'] === $MID}
-			{assign var=ACTIVE value='true'}
-		{else}
-			{assign var=ACTIVE value='false'}
-		{/if}
-	{elseif $MENU['mod'] === $MODULE}
-		{assign var=ACTIVE value='true'}
-	{else}
-		{assign var=ACTIVE value='false'}
-	{/if}
+	{assign var=ACTIVE value=isset($MID) && $MENU['id'] eq $MID}
 	<li class="tpl-menu-CustomFilter c-menu__item js-menu__item nav-item menuCustomFilter .modCT_{$MENU.mod}"
 		data-id="{$MENU['id']}" data-js="mouseenter mouseleave">
-		<a class="nav-link {if $ACTIVE eq true}active{/if} {if $HASCHILDS=='true'} collapsed{/if}{if $ICON} hasIcon{/if}{if isset($MENU['hotkey'])} hotKey{/if}{if $HASCHILDS == 'true'} js-submenu-toggler is-submenu-toggler{/if}"
+		<a class="nav-link{if $ACTIVE} active{/if}{if $HASCHILDS=='true'} collapsed{/if}{if $ICON} hasIcon{/if}{if isset($MENU['hotkey'])} hotKey{/if}{if $HASCHILDS == 'true'} js-submenu-toggler is-submenu-toggler{/if}"
 			{if isset($MENU['hotkey'])} data-hotkeys="{$MENU['hotkey']}" {/if} {if $HASCHILDS == 'true'}
 		data-toggle="collapse" data-target="#submenu-{$MENU['id']}" role="button" {/if} href="{$MENU['dataurl']}"
 		rel="noreferrer noopener" {if $HASCHILDS == 'true'} aria-haspopup="true" aria-expanded="false"
