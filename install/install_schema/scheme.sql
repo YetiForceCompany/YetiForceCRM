@@ -5618,7 +5618,8 @@ CREATE TABLE `vtiger_crmentity` (
   KEY `crmid` (`crmid`,`deleted`),
   KEY `crmid_2` (`crmid`,`setype`),
   KEY `setypedeleted` (`setype`,`deleted`),
-  KEY `setype` (`setype`)
+  KEY `setype` (`setype`),
+  KEY `vtiger_crmentity_deleted_private_smownerid_idx` (`deleted`,`private`,`smownerid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_crmentityrel` */

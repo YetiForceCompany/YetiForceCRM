@@ -287,7 +287,7 @@ class Settings_WebserviceUsers_WebserviceStandard_Service extends Settings_Webse
 								break;
 						}
 						if (isset(Settings_WebserviceUsers_Record_Model::$customParamsLabels[$key])) {
-							$value .= \App\Language::translate(Settings_WebserviceUsers_Record_Model::$customParamsLabels[$key], 'Settings.WebserviceUsers') . ": $row \n";
+							$value .= \App\Language::translate(Settings_WebserviceUsers_Record_Model::$customParamsLabels[$key], 'Settings:WebserviceUsers') . ": $row \n";
 						}
 					}
 					$value = \App\Layout::truncateText($value, 50, true);
