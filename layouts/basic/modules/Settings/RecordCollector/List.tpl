@@ -31,7 +31,7 @@
 									{\App\Language::translate($ITEM['instance']->description, 'Other.RecordCollector')}
 								</td>
 								<td>
-									<a href="{$ITEM['instance']->docUrl}" rel="noreferrer noopener" target="_blank">{$ITEM['name']}</a>
+									<a href="{$ITEM['instance']->docUrl}" rel="noreferrer noopener" target="_blank">{\App\Language::translate($ITEM['instance']->label, 'Other.RecordCollector')}</a>
 								</td>
 								<td class="text-center">
 									<input class="js-status-change" name="is_active" value="{$ITEM['name']}" type="checkbox" {if $ITEM['active']} checked {/if}>
