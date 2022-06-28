@@ -14,17 +14,17 @@
 				<table class="table table-bordered">
 					<thead>
 						<tr>
-							<th class="col2" scope="col">{\App\Language::translate('LBL_NAME', $MODULENAME)}</th>
-							<th class="" scope="col">{\App\Language::translate('LBL_DESCRIPTION', $MODULENAME)}</th>
-							<th class="" scope="col">{\App\Language::translate('LBL_DOC_URL', $MODULENAME)}</th>
-							<th class="text-center" scope="col">{\App\Language::translate('LBL_ACTIVE', $MODULENAME)}</th>
-							<th class="text-center" scope="col">{\App\Language::translate('LBL_ACTIONS', $MODULENAME)}</th>
+							<th class="col-3" scope="col">{\App\Language::translate('LBL_NAME', $MODULENAME)}</th>
+							<th class="col-4" scope="col">{\App\Language::translate('LBL_DESCRIPTION', $MODULENAME)}</th>
+							<th class="col-3" scope="col">{\App\Language::translate('LBL_DOC_URL', $MODULENAME)}</th>
+							<th class="col-1 text-center" scope="col">{\App\Language::translate('LBL_ACTIVE', $MODULENAME)}</th>
+							<th class="col-1 text-center" scope="col">{\App\Language::translate('LBL_ACTIONS', $MODULENAME)}</th>
 						</tr>
 					</thead>
 					<tbody>
 						{foreach from=$COLLECTORS item=ITEM}
 							<tr>
-								<td class="col2">
+								<td>
 									<span class="{$ITEM['instance']->icon}"> </span> {\App\Language::translate($ITEM['instance']->label, 'Other.RecordCollector')} {if \in_array($ITEM['name'], $PAIDCOLLECTORS)} <span class="yfi-premium color-red-600"></span> {/if}
 								</td>
 								<td>
