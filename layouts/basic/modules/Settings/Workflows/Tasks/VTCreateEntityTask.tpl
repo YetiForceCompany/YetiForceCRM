@@ -62,14 +62,18 @@
 					data-select="allowClear"
 					data-placeholder="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">
 					<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
-					{foreach from=\App\Relation::getByModule($WORKFLOW_MODEL->getModule()->getName()) item=MODULE_INFO}
-						{if (false !== stripos($MODULE_INFO['actions'], 'ADD') || $WORKFLOW_MODEL->getModule()->getName() eq $MODULE_INFO['related_modulename']) &&  \App\Privilege::isPermitted($MODULE_INFO['related_modulename'], 'EditView')}
-							<option data-relation-id="{$MODULE_INFO['relation_id']}" {if $RELATED_MODULE_MODEL_NAME eq $MODULE_INFO['related_modulename']} selected="" {/if} value="{$MODULE_INFO['related_modulename']}">
-								{\App\Language::translate($MODULE_INFO['label'], $MODULE_INFO['related_modulename'])} ({$MODULE_INFO['name']})
-							</option>
-						{/if}
-					{/foreach}
+					{foreach from=\App\Relation::getModuleRelationsByType($WORKFLOW_MODEL->getModule()->getName()) key=RELATION_NAME item=GROUPED_RELATIONS}
+						<optgroup label="{\App\Language::translate($RELATION_NAME, $QUALIFIED_MODULE)}">
+							{foreach from=$GROUPED_RELATIONS item=MODULE_INFO}
+								{if (false !== stripos($MODULE_INFO['actions'], 'ADD') || $WORKFLOW_MODEL->getModule()->getName() eq $MODULE_INFO['related_modulename']) &&  \App\Privilege::isPermitted($MODULE_INFO['related_modulename'], 'EditView')}
+									<option data-relation-id="{$MODULE_INFO['relation_id']}" {if $RELATED_MODULE_MODEL_NAME eq $MODULE_INFO['related_modulename']} selected="" {/if} value="{$MODULE_INFO['related_modulename']}">
+										{\App\Language::translate($MODULE_INFO['label'], $MODULE_INFO['related_modulename'])}
+									</option>
+								{/if}
 
+							{/foreach}
+						</optgroup>
+					{/foreach}
 				</select>
 			</div>
 		</div>

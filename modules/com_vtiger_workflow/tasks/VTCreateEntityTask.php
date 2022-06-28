@@ -41,16 +41,19 @@ class VTCreateEntityTask extends VTTask
 			$ownerFields = array_keys($newRecordModel->getModule()->getFieldsByType('owner'));
 			foreach ($fieldValueMapping as $fieldInfo) {
 				$fieldName = $fieldInfo['fieldname'];
-				$referenceModule = $fieldInfo['modulename'];
-				$getDataFromReferenceModule = false;
-				if (strpos($referenceModule, '::::') > 0) {
-					$referenceModule = explode('::::', $referenceModule)[0];
-					$getDataFromReferenceModule = true;
-				}
+				[$getDataFromDestinyModule, $referenceModule] = $this->getDestinyModuleData($fieldInfo['modulename']);
 				$fieldValueType = $fieldInfo['valuetype'];
 				$fieldValue = trim($fieldInfo['value']);
 				if ('fieldname' === $fieldValueType) {
-					$fieldValue = $getDataFromReferenceModule ? $newRecordModel->get($fieldValue) : $recordModel->get($fieldValue);
+					if ($this->relationId) {
+						$fieldValue = $getDataFromDestinyModule ? $newRecordModel->get($fieldValue) : $recordModel->get($fieldValue);
+					} else {
+						if ($referenceModule === $entityType) {
+							$fieldValue = $newRecordModel->get($fieldValue);
+						} else {
+							$fieldValue = $recordModel->get($fieldValue);
+						}
+					}
 				} elseif ('expression' === $fieldValueType) {
 					require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
 
@@ -92,7 +95,6 @@ class VTCreateEntityTask extends VTTask
 			$newRecordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
 			$newRecordModel->save();
 
-			//isset , 0 ? property exits?
 			$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $newRecordModel->getModule(), $this->relationId);
 			if ($relationModel) {
 				$relationModel->addRelation($recordModel->getId(), $newRecordModel->getId());
@@ -131,17 +133,19 @@ class VTCreateEntityTask extends VTTask
 		}
 		foreach ($fieldValueMapping as $fieldInfo) {
 			$fieldName = $fieldInfo['fieldname'];
-			$referenceModule = $fieldInfo['modulename'];
 			$fieldValueType = $fieldInfo['valuetype'];
 			$fieldValue = trim($fieldInfo['value']);
-			$getDataFromReferenceModule = false;
-			if (strpos($referenceModule, '::::') > 0) {
-				$referenceModule = explode('::::', $referenceModule)[0];
-				$getDataFromReferenceModule = true;
-			}
-
+			[$getDataFromDestinyModule, $referenceModule] = $this->getDestinyModuleData($fieldInfo['modulename']);
 			if ('fieldname' === $fieldValueType) {
-				$fieldValue = $getDataFromReferenceModule ? $recordModel->get($fieldValue) : $parentRecordModel->get($fieldValue);
+				if ($this->relationId) {
+					$fieldValue = $getDataFromDestinyModule ? $parentRecordModel->get($fieldValue) : $recordModel->get($fieldValue);
+				} else {
+					if ($referenceModule === $entityType) {
+						$fieldValue = $recordModel->get($fieldValue);
+					} else {
+						$fieldValue = $parentRecordModel->get($fieldValue);
+					}
+				}
 			} elseif ('expression' == $fieldValueType) {
 				require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
 
@@ -175,5 +179,22 @@ class VTCreateEntityTask extends VTTask
 			$recordModel->set($fieldName, $fieldValue);
 		}
 		return $recordModel;
+	}
+
+	/**
+	 * Get destiny module data.
+	 *
+	 * @param string $referenceModule
+	 *
+	 * @return void
+	 */
+	private function getDestinyModuleData(string $referenceModule)
+	{
+		$getDataFromDestinyModule = false;
+		if (strpos($referenceModule, 'destinyModule') > 0) {
+			$referenceModule = explode('::', $referenceModule)[1];
+			$getDataFromDestinyModule = true;
+		}
+		return [$getDataFromDestinyModule, $referenceModule];
 	}
 }
