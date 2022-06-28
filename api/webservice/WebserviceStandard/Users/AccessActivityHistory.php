@@ -95,7 +95,7 @@ class AccessActivityHistory extends \Api\Core\BaseAction
 		while ($row = $dataReader->read()) {
 			$rows[] = [
 				'time' => \App\Fields\DateTime::formatToDisplay($row['time']),
-				'status' => \App\Language::translate($row['status'], 'Settings.WebserviceUsers'),
+				'status' => \App\Language::translate($row['status'], 'Settings:WebserviceUsers'),
 				'agent' => $row['agent'],
 				'ip' => $row['ip'],
 			];

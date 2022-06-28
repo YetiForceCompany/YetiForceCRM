@@ -9,7 +9,7 @@
 			<div class="col-md-4 d-flex justify-content-lg-end">
 				<a href="index.php?module=WebserviceApps&view=Index&parent=Settings" class="btn btn-success float-right">
 					<span class="adminIcon-webservice-apps u-fs-lg mr-2"></span>
-					{\App\Language::translate('LBL_WEBSERVICE_APPS','Settings.WebserviceApps')}
+					{\App\Language::translate('LBL_WEBSERVICE_APPS','Settings:WebserviceApps')}
 				</a>
 			</div>
 		</div>
@@ -17,7 +17,7 @@
 			{foreach item=VALUE from=\Api\Core\Containers::$listTab name=typeLoop}
 				<li class="tabApi nav-item" data-typeapi="{$VALUE}">
 					<a class="nav-link {if $TYPE_API === $VALUE} active{/if}" data-toggle="tab" href="#">
-						<strong>{\App\Language::translate($VALUE, 'Settings.WebserviceApps')}</strong>
+						<strong>{\App\Language::translate($VALUE, 'Settings:WebserviceApps')}</strong>
 						{if $VALUE === 'WebservicePremium'}
 							<span class="yfi-premium color-red-600 ml-2" title="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}"></span>
 						{/if}
