@@ -22,7 +22,6 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 
 	/** {@inheritdoc} */
 	protected $fieldMap = [
-		// 'ID_KATEGORII' => ['fieldName' => 'parent_id', 'fn' => 'findRelationship', 'tableName' => 'KONTRAHENT'],
 		'NAZWA' => 'productname',
 		'STAN' => 'qtyinstock',
 		'STAN_MINIMALNY' => 'reorderlevel',
@@ -35,7 +34,7 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 		'WAGA' => 'weight',
 		'category' => ['fieldName' => 'pscategory', 'fn' => 'convertCategory'],
 		'VAT_SPRZEDAZY' => ['fieldName' => 'taxes', 'fn' => 'convertTaxes'],
-		'unitName' => ['fieldName' => 'usageunit', 'fn' => 'convertUnitName'],
+		'unitName' => ['fieldName' => 'usageunit', 'fn' => 'convertUnitName', 'moduleName' => 'Products'],
 		'CENA_ZAKUPU_BRUTTO' => ['fieldName' => 'purchase', 'fn' => 'convertPrice'],
 		'total' => ['fieldName' => 'unit_price', 'fn' => 'convertPrice'],
 	];
@@ -53,7 +52,7 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 			->leftJoin('dbo.KATEGORIA_ARTYKULU_TREE', 'dbo.ARTYKUL.ID_KATEGORII_TREE = dbo.KATEGORIA_ARTYKULU_TREE.ID_KATEGORII_TREE')
 			->leftJoin('dbo.JEDNOSTKA', 'dbo.ARTYKUL.ID_JEDNOSTKI = dbo.JEDNOSTKA.ID_JEDNOSTKI')
 			->leftJoin('dbo.CENA_ARTYKULU', 'dbo.ARTYKUL.ID_CENY_DOM = dbo.CENA_ARTYKULU.ID_CENY');
-		$pauser = \App\Pauser::getInstance('WaproContactsLastId');
+		$pauser = \App\Pauser::getInstance('WaproProductsLastId');
 		if ($val = $pauser->getValue()) {
 			$query->where(['>', 'dbo.ARTYKUL.ID_ARTYKULU', $val]);
 		}
@@ -112,31 +111,6 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 	}
 
 	/**
-	 * Convert unit name to system format.
-	 *
-	 * @param string $value
-	 * @param array  $params
-	 *
-	 * @return string
-	 */
-	protected function convertUnitName(string $value, array $params): string
-	{
-		$value = trim($value, '.');
-		$picklistValues = \App\Fields\Picklist::getValuesName('usageunit');
-		$return = \in_array($value, $picklistValues);
-		if (!$return) {
-			foreach ($picklistValues as $picklistValue) {
-				if (\App\Language::translate($picklistValue, 'Products') === $value) {
-					$return = true;
-					$value = $picklistValue;
-					break;
-				}
-			}
-		}
-		return $return ? $value : '';
-	}
-
-	/**
 	 * Convert price to system format.
 	 *
 	 * @param string $value
@@ -181,25 +155,6 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 	 */
 	protected function convertTaxes(string $value, array $params): string
 	{
-		$value = (float) $value;
-		$taxes = '';
-		foreach (\Vtiger_Inventory_Model::getGlobalTaxes() as $key => $tax) {
-			if (\App\Validator::floatIsEqual($tax['value'], $value)) {
-				$taxes = $key;
-				break;
-			}
-		}
-		if (empty($taxes)) {
-			$recordModel = new \Settings_Inventory_Record_Model();
-			$recordModel->setData([
-				'name' => $value,
-				'value' => $value,
-				'status' => 0,
-				'default' => 0,
-			])
-				->setType('Taxes');
-			$taxes = $recordModel->save();
-		}
-		return $taxes;
+		return $this->getGlobalTax($value, true);
 	}
 }

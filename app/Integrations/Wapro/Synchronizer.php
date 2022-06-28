@@ -247,4 +247,61 @@ abstract class Synchronizer
 			'default' => \App\Fields\Currency::getDefault(),
 		];
 	}
+
+	/**
+	 * Convert unit name to system format.
+	 *
+	 * @param string $value
+	 * @param array  $params
+	 *
+	 * @return string
+	 */
+	protected function convertUnitName(string $value, array $params): string
+	{
+		$value = trim($value, '.');
+		$picklistValues = \App\Fields\Picklist::getValuesName($params['fieldName']);
+		$return = \in_array($value, $picklistValues);
+		if (!$return) {
+			foreach ($picklistValues as $picklistValue) {
+				if (\App\Language::translate($picklistValue, $params['moduleName']) === $value) {
+					$return = true;
+					$value = $picklistValue;
+					break;
+				}
+			}
+		}
+		return $return ? $value : '';
+	}
+
+	/**
+	 * Get global tax from value.
+	 *
+	 * @param string $value
+	 * @param bool   $addIfNotExist
+	 *
+	 * @return string
+	 */
+	protected function getGlobalTax(string $value, bool $addIfNotExist = false): string
+	{
+		$value = (float) $value;
+		$taxes = '';
+		foreach (\Vtiger_Inventory_Model::getGlobalTaxes() as $key => $tax) {
+			if (\App\Validator::floatIsEqual($tax['value'], $value)) {
+				$taxes = $key;
+				break;
+			}
+		}
+		if ($addIfNotExist && empty($taxes)) {
+			$taxModel = new \Settings_Inventory_Record_Model();
+			$taxModel->setData([
+				'name' => $value,
+				'value' => $value,
+				'status' => 0,
+				'default' => 0,
+			])
+				->setType('Taxes');
+			$taxes = $taxModel->save();
+		}
+		return $taxes;
+	}
 }

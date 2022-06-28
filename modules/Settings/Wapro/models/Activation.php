@@ -21,6 +21,7 @@ class Settings_Wapro_Activation_Model
 		['wapro_id', 'Accounts', 'LBL_ADVANCED_BLOCK'],
 		['wapro_id', 'Contacts', 'LBL_CUSTOM_INFORMATION'],
 		['wapro_id', 'Products', 'LBL_PRODUCT_INFORMATION'],
+		['wapro_id', 'FInvoice', 'LBL_CUSTOM_INFORMATION'],
 	];
 
 	/**
