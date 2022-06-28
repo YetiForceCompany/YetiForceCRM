@@ -46,12 +46,12 @@ class Base
 
 	/** @var \App\Request Request instance. */
 	protected $request;
-	/**
-	 * Fields mapping for loading record data.
-	 *
-	 * @var array
-	 */
+
+	/** @var array Fields mapping for loading record data. */
 	protected $modulesFieldsMap = [];
+
+	/** @var array Configuration field list. */
+	public $settingsFields = [];
 
 	/**
 	 * Constructor.
@@ -59,7 +59,7 @@ class Base
 	public function __construct()
 	{
 		$class = last(explode('\\', static::class));
-		$config = \App\Config::component('RecordCollectors' . $class);
+		$config = \App\Config::component('RecordCollectors', $class);
 		if (null === $config) {
 			return;
 		}

@@ -86,7 +86,7 @@
 				<table class="table table-bordered mt-2">
 					<thead>
 						<tr>
-							<th class="text-center" colspan="{count($SEARCH_DATA['additional'])+1}">{\App\Language::translate('LBL_CUSTOM_INFORMATION', $MODULE_NAME)}</th>
+							<th class="text-center" colspan="2">{\App\Language::translate('LBL_CUSTOM_INFORMATION', $MODULE_NAME)}</th>
 						</tr>
 					</thead>
 					<tbody>

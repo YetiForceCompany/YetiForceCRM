@@ -27,7 +27,6 @@ class Settings_RecordCollector_List_View extends Settings_Vtiger_Index_View
 	public function process(App\Request $request): void
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULENAME', $request->getModule(false));
 		$viewer->assign('PAIDCOLLECTORS', $this->paidCollectorsNames);
 		$viewer->assign('COLLECTORS', Settings_RecordCollector_Module_Model::getInstance('Settings:RecordCollector')->getCollectors());
 		$viewer->view('List.tpl', $request->getModule(false));
