@@ -118,11 +118,26 @@ class UKCompaniesHouse extends Base
 		]
 	];
 
+	/** @var array Configuration field list. */
+	public $settingsFields = [
+		'api_key' => ['required' => 1, 'purifyType' => 'Text'],
+	];
+
 	/** @var string CH sever address */
 	protected $url = 'https://api.company-information.service.gov.uk/';
 
 	/** @var string Url to Documentation API */
 	public $docUrl = 'https://developer.company-information.service.gov.uk/';
+
+	/**
+	 * Function returned Configuration field list.
+	 *
+	 * @return array
+	 */
+	public function getSettingsFields(): array
+	{
+		return $this->settingsFields;
+	}
 
 	/** {@inheritdoc} */
 	public function search(): array

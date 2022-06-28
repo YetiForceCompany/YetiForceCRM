@@ -24,11 +24,22 @@ $.Class(
 				});
 			});
 		},
+		registerConfigModal: function () {
+			$('.js-show-config-modal').on('click', function () {
+				const recordCollectorName = this.dataset.name;
+				app.showModalWindow(null, 'index.php?module=RecordCollector&parent=Settings&view=ConfigModal&recordCollectorName=' + recordCollectorName,  function (modal) {
+					modal.on('click', ".js-modal__save", function() {
+						//todo
+					})
+				});
+			});
+		},
 		/**
 		 * register events.
 		 */
 		registerEvents: function () {
 			this.registerOnClickEventOnCheckbox();
+			this.registerConfigModal();
 		}
 	}
 );
