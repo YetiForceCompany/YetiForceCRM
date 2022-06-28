@@ -101,6 +101,9 @@ class Vies extends Base
 	 */
 	protected $url = 'https://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
 
+	/** @var string Url to Documentation API */
+	public $docUrl = 'https://ec.europa.eu/taxation_customs/vies/technicalInformation.html';
+
 	/** {@inheritdoc} */
 	public function getFields(): array
 	{

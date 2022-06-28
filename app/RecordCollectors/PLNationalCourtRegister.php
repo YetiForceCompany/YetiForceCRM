@@ -116,6 +116,9 @@ class PLNationalCourtRegister extends Base
 	/** @var string NCR sever address */
 	protected $url = 'https://api-krs.ms.gov.pl/api/krs/OdpisAktualny/';
 
+	/** @var string Url to Documentation API */
+	public $docUrl = 'https://prs.ms.gov.pl/krs/openApi';
+
 	/** {@inheritdoc} */
 	public function search(): array
 	{

@@ -146,6 +146,8 @@ class Gus extends Base
 			'NumerBudynku' => 'buildingnumbera',
 		],
 	];
+	/** @var string Url to Documentation API */
+	public $docUrl = 'https://api.stat.gov.pl/Home/RegonApi';
 
 	/** {@inheritdoc} */
 	public function isActive(): bool

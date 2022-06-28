@@ -40,7 +40,7 @@ class Settings_RecordCollector_SaveAjax_Action extends Settings_Vtiger_Save_Acti
 			\vtlib\Link::deleteLink(0, 'EDIT_VIEW_RECORD_COLLECTOR', $collectorName);
 		}
 		$response = new Vtiger_Response();
-		$response->setResult(['success' => true, 'message' => App\Language::translate('LBL_SUCCESSFULLY_UPDATED', 'Other.RecordCollector')]);
+		$response->setResult(['success' => true, 'message' => App\Language::translate('LBL_SUCCESSFULLY_UPDATED', 'Settings.RecordCollector')]);
 		$response->emit();
 	}
 }

@@ -14,20 +14,24 @@
 				<table class="table table-bordered">
 					<thead>
 						<tr>
-							<th class="" scope="col">{\App\Language::translate('LBL_NAME', $MODULENAME)}</th>
-							<th class="" scope="col">{\App\Language::translate('LBL_DESCRIPTION', $MODULENAME)}</th>
-							<th class="text-center" scope="col">{\App\Language::translate('LBL_ACTIVE', $MODULENAME)}</th>
-							<th class="text-center" scope="col">{\App\Language::translate('LBL_ACTIONS', $MODULENAME)}</th>
+							<th class="col-3" scope="col">{\App\Language::translate('LBL_NAME', $MODULENAME)}</th>
+							<th class="col-4" scope="col">{\App\Language::translate('LBL_DESCRIPTION', $MODULENAME)}</th>
+							<th class="col-3" scope="col">{\App\Language::translate('LBL_DOC_URL', $MODULENAME)}</th>
+							<th class="col-1 text-center" scope="col">{\App\Language::translate('LBL_ACTIVE', $MODULENAME)}</th>
+							<th class="col-1 text-center" scope="col">{\App\Language::translate('LBL_ACTIONS', $MODULENAME)}</th>
 						</tr>
 					</thead>
 					<tbody>
 						{foreach from=$COLLECTORS item=ITEM}
 							<tr>
 								<td>
-						<span class="{$ITEM['instance']->icon}"> </span> {\App\Language::translate($ITEM['instance']->label, 'Other.RecordCollector')} {if \in_array($ITEM['name'], $PAIDCOLLECTORS)} <span class="yfi-premium color-red-600"></span> {/if}
+									<span class="{$ITEM['instance']->icon}"> </span> {\App\Language::translate($ITEM['instance']->label, 'Other.RecordCollector')} {if \in_array($ITEM['name'], $PAIDCOLLECTORS)} <span class="yfi-premium color-red-600"></span> {/if}
 								</td>
 								<td>
 									{\App\Language::translate($ITEM['instance']->description, 'Other.RecordCollector')}
+								</td>
+								<td>
+									<a href="{$ITEM['instance']->docUrl}" rel="noreferrer noopener" target="_blank">{\App\Language::translate($ITEM['instance']->label, 'Other.RecordCollector')}</a>
 								</td>
 								<td class="text-center">
 									<input class="js-status-change" name="is_active" value="{$ITEM['name']}" type="checkbox" {if $ITEM['active']} checked {/if}>

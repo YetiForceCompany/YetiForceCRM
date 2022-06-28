@@ -121,6 +121,9 @@ class UKCompaniesHouse extends Base
 	/** @var string CH sever address */
 	protected $url = 'https://api.company-information.service.gov.uk/';
 
+	/** @var string Url to Documentation API */
+	public $docUrl = 'https://developer.company-information.service.gov.uk/';
+
 	/** {@inheritdoc} */
 	public function search(): array
 	{
