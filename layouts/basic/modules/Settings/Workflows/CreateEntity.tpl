@@ -9,7 +9,7 @@
 * Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
-{if isset($RELATED_MODULE_MODEL) && ($RELATED_MODULE_MODEL || $RELATED_MODULE_MODEL_NAME) && $MAPPING_PANEL}
+{if  $MAPPING_PANEL eq '1'}
 	<h5 class="bg-success text-center menuPanel">
 		{\App\Language::translate('LBL_OVERWRITTEN_FIELDS',$QUALIFIED_MODULE)}
 	</h5>
@@ -42,10 +42,10 @@
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{if $FIELD_MODEL->getFieldDataType() == 'owner'}
 								{$SPECIAL_OPTION = [\App\Language::translate('LBL_SPECIAL_OPTIONS') => [
-													'assigned_user_id' => \App\Language::translate('LBL_PARENT_OWNER'),
-													'triggerUser' => \App\Language::translate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)
-													]
-												]}
+																	'assigned_user_id' => \App\Language::translate('LBL_PARENT_OWNER'),
+																	'triggerUser' => \App\Language::translate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)
+																	]
+																]}
 								{$FIELD_INFO['picklistvalues'] = array_merge($FIELD_INFO['picklistvalues'], $SPECIAL_OPTION)}
 							{/if}
 							<option value="{$FIELD_MODEL->getName()}"
@@ -70,9 +70,9 @@
 					<select name="modulename"
 						class="select2 form-control" {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist' || $IS_REFERENCE)} disabled="" {/if}>
 						<option {if $FIELD_MAP['modulename'] eq $SOURCE_MODULE} selected="" {/if}
-							value="{$SOURCE_MODULE}">{\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
-						<option {if $FIELD_MAP['modulename'] eq $RELATED_MODULE_MODEL_NAME} selected="" {/if}
-							value="{$RELATED_MODULE_MODEL_NAME}">{\App\Language::translate($RELATED_MODULE_MODEL_NAME, $RELATED_MODULE_MODEL_NAME)}</option>
+							value="{$SOURCE_MODULE}">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}: {\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
+						<option {if $FIELD_MAP['modulename'] eq {'destinyModule::'|cat:$RELATED_MODULE_MODEL_NAME} || ($FIELD_MAP['modulename'] eq $RELATED_MODULE_MODEL_NAME && $SOURCE_MODULE neq $RELATED_MODULE_MODEL_NAME)} selected="" {/if}
+							value="destinyModule::{$RELATED_MODULE_MODEL_NAME}">{\App\Language::translate('LBL_DESTINY_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($RELATED_MODULE_MODEL_NAME, $RELATED_MODULE_MODEL_NAME)}</option>
 					</select>
 				</div>
 				<div class="fieldUiHolder col-md-4">
@@ -138,9 +138,9 @@
 				<span class="col-md-3">
 					<select name="modulename"
 						class="select2 form-control" {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist' || $IS_REFERENCE)} disabled="" {/if}>
-						<option value="{$SOURCE_MODULE}">{\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
+						<option value="{$SOURCE_MODULE}">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}: {\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
 						<option {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist')} selected="" {/if}
-							value="{$RELATED_MODULE_MODEL->get('name')}">{\App\Language::translate($RELATED_MODULE_MODEL->get('name'),$RELATED_MODULE_MODEL->get('name'))}</option>
+							value="destinyModule::{$RELATED_MODULE_MODEL->get('name')}">{\App\Language::translate('LBL_DESTINY_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($RELATED_MODULE_MODEL->get('name'),$RELATED_MODULE_MODEL->get('name'))}</option>
 					</select>
 				</span>
 				<span class="fieldUiHolder col-md-4">
@@ -174,8 +174,8 @@
 		</div>
 		<div class="col-md-3">
 			<select name="modulename" class="form-control">
-				<option value="{$SOURCE_MODULE}">{\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
-				<option value="{$RELATED_MODULE_MODEL->get('name')}">{\App\Language::translate($RELATED_MODULE_MODEL->get('name'), $RELATED_MODULE_MODEL->get('name'))}</option>
+				<option value="{$SOURCE_MODULE}">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
+				<option value="destinyModule::{$RELATED_MODULE_MODEL->get('name')}">{\App\Language::translate('LBL_DESTINY_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($RELATED_MODULE_MODEL->get('name'), $RELATED_MODULE_MODEL->get('name'))}</option>
 			</select>
 		</div>
 		<div class="fieldUiHolder col-md-4">

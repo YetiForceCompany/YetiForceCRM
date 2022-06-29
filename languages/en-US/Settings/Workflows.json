@@ -264,7 +264,10 @@
     "LBL_ERROR_DELETE_ENTRY": "Error, delete entry.",
     "LBL_SORT_WORKFLOW_ACTIONS": "Sort workflow actions",
     "LBL_SELECT_WORKFLOW": "Select workflow",
-    "LBL_SET_WORKFLOW_BEFORE": "Set workflow before"
+    "LBL_SET_WORKFLOW_BEFORE": "Set workflow before",
+    "LBL_SOURCE_MODULE": "Source module",
+    "LBL_ONE_TO_MANY_RELATIONS": "One to many relations",
+    "LBL_MANY_TO_MANY_RELATIONS": "Many to many relations"
   },
   "js": {
     "JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE": "Same fields selected more than once",
