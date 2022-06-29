@@ -13,16 +13,17 @@
 						data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 						data-fieldinfo='{\App\Json::encode($FIELD_MODEL->getFieldInfo())|escape}'
 						{if $CHECK} checked {/if}
-						{if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly" {/if}>
-					{if !empty(\App\Fields\Picklist::getIcon($FIELD_MODEL->getName(), $PICKLIST_NAME))}
-						{assign var=ACTIVITYTYPE_ICON value=\App\Fields\Picklist::getIcon($FIELD_MODEL->getName(), $PICKLIST_NAME)  }
+						{if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly" {/if}
+						title="{$VALUE}">
+					{assign var=ACTIVITYTYPE_ICON value=\App\Fields\Picklist::getIcon($FIELD_MODEL->getName(), $PICKLIST_NAME)}
+					{if !empty($ACTIVITYTYPE_ICON)}
 						{if $ACTIVITYTYPE_ICON['type'] eq 'icon'}
-							<span class="{$ACTIVITYTYPE_ICON['name']} align-middle" title="{$VALUE}"></span>
+							<span class="{$ACTIVITYTYPE_ICON['name']} mr-1"></span>
 						{elseif $ACTIVITYTYPE_ICON['type'] eq 'image' && \App\Layout\Media::getImageUrl($ACTIVITYTYPE_ICON['name'])}
-							<img class="icon-img--picklist mr-1" src="{\App\Layout\Media::getImageUrl($ACTIVITYTYPE_ICON['name'])}" title="{$VALUE}">
+							<img class="icon-img--picklist mr-1" src="{\App\Layout\Media::getImageUrl($ACTIVITYTYPE_ICON['name'])}">
 						{/if}
 					{/if}
-					<span class="ml-1">{$VALUE}</span>
+					<span>{$VALUE}</span>
 				</label>
 			{/foreach}
 		</div>
