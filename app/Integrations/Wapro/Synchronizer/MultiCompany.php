@@ -46,6 +46,7 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 			->createCommand($this->controller->getDb())->query();
 		$s = $e = $i = $u = 0;
 		while ($row = $dataReader->read()) {
+			$this->waproId = $row['ID_FIRMY'];
 			$this->row = $row;
 			$this->skip = false;
 			try {
@@ -72,7 +73,7 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 	/** {@inheritdoc} */
 	public function importRecord(): int
 	{
-		if ($id = $this->findInMapTable($this->row['ID_FIRMY'], 'FIRMA')) {
+		if ($id = $this->findInMapTable($this->waproId, 'FIRMA')) {
 			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, 'MultiCompany');
 		} else {
 			$this->recordModel = \Vtiger_Record_Model::getCleanInstance('MultiCompany');
@@ -80,7 +81,7 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 				'wtable' => 'FIRMA',
 			]]);
 		}
-		$this->recordModel->set('wapro_id', $this->row['ID_FIRMY']);
+		$this->recordModel->set('wapro_id', $this->waproId);
 		$this->loadFromFieldMap();
 		$this->recordModel->save();
 		return $id ? 1 : 2;

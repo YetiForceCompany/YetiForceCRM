@@ -428,24 +428,6 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$this->set('conditions', $wfCondition);
 	}
 
-	/**
-	 * Function returns all the related modules for workflows create entity task.
-	 *
-	 * @return JSON
-	 */
-	public function getDependentModules()
-	{
-		$dependentFields = [];
-		$filterModules = ['Calendar', 'Accounts', 'Notification'];
-		foreach (\App\Field::getRelatedFieldForModule(false, $this->getModule()->getName()) as $module => $value) {
-			if (\in_array($module, $filterModules)) {
-				continue;
-			}
-			$dependentFields[$module] = ['fieldname' => $value['fieldname'], 'modulelabel' => \App\Language::translate($module, $module)];
-		}
-		return $dependentFields;
-	}
-
 	public function updateNextTriggerTime()
 	{
 		$wm = new VTWorkflowManager();
@@ -486,5 +468,27 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 			->from('com_vtiger_workflows')
 			->where(['module_name' => $moduleName])
 			->max('sequence') + 1;
+	}
+
+	/**
+	 * Get module relations by type.
+	 *
+	 * @return array
+	 */
+	public function getModuleRelationsByType(): array
+	{
+		$moduleRelations = App\Relation::getByModule($this->getModule()->getName());
+		$moduleRelationsByType = [];
+		foreach ($moduleRelations as $relationId => $relationInfo) {
+			$relationType = \Vtiger_Relation_Model::getInstanceById($relationId)->getRelationType();
+			if (\Vtiger_Relation_Model::RELATION_O2M === $relationType) {
+				$moduleRelationsByType['LBL_ONE_TO_MANY_RELATIONS'][] = $relationInfo;
+			} elseif (\Vtiger_Relation_Model::RELATION_M2M === $relationType) {
+				$moduleRelationsByType['LBL_MANY_TO_MANY_RELATIONS'][] = $relationInfo;
+			} else {
+				$moduleRelationsByType['LBL_WORKFLOW_CUSTOM_RELATIONS'][] = $relationInfo;
+			}
+		}
+		return $moduleRelationsByType;
 	}
 }

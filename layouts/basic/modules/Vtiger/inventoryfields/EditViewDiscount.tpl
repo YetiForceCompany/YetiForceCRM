@@ -12,7 +12,7 @@
 					{assign var=DISCOUNT_MODE value=$DISCOUNTS_CONFIG['default_mode']}
 				{/if}
 				<input name="inventory[{$ROW_NO}][discountparam]" type="hidden" value="{if isset($ITEM_DATA['discountparam'])}{\App\Purifier::encodeHtml($ITEM_DATA['discountparam'])}{/if}" class="discountParam" />
-				<span class="input-group-append u-cursor-pointer changeDiscount {if $DISCOUNT_MODE == 0}d-none{/if}">
+				<span class="input-group-append u-cursor-pointer js-change-discount {if $DISCOUNT_MODE == 0}d-none{/if}">
 					<div class="input-group-text">
 						<span class="small">
 							<span class="fas fa-long-arrow-alt-down"></span>

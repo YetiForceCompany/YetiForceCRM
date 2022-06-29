@@ -4,6 +4,7 @@
 	{if count($GLOBAL_DISCOUNTS) > 0}
 		<div class="card js-panel mb-2" data-js="class: js-active">
 			<div class="card-header py-1">
+				<span class="adminIcon-discount-base mr-2"></span>
 				<strong>{\App\Language::translate('LBL_AVAILABLE_DICOUNTS', $MODULE)}</strong>
 				<div class="float-right">
 					<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="global" class="activeCheckbox">

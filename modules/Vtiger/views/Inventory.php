@@ -31,7 +31,11 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$inventoryModel = Vtiger_Inventory_Model::getInstance($moduleName);
 		$config = $inventoryModel->getDiscountsConfig();
 		$groupDiscount = $inventoryModel->getAccountDiscount($relatedRecord);
-
+		if ($request->has('discountAggregation')) {
+			$discountAggregation = $request->getInteger('discountAggregation');
+		} else {
+			$discountAggregation = $config['aggregation'];
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('GLOBAL_DISCOUNTS', $inventoryModel->getGlobalDiscounts());
@@ -39,8 +43,8 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$viewer->assign('TOTAL_PRICE', $totalPrice);
 		$viewer->assign('CONFIG', $config);
 		$viewer->assign('DISCOUNT_TYPE', $discountType);
-		$viewer->assign('AGGREGATION_TYPE', $config['aggregation']);
-		$viewer->assign('AGGREGATION_INPUT_TYPE', 0 == $config['aggregation'] ? 'radio' : 'checkbox');
+		$viewer->assign('AGGREGATION_TYPE', $discountAggregation);
+		$viewer->assign('AGGREGATION_INPUT_TYPE', 0 == $discountAggregation ? 'radio' : 'checkbox');
 		$viewer->assign('GROUP_DISCOUNT', $groupDiscount['discount']);
 		$viewer->assign('ACCOUNT_NAME', $groupDiscount['name']);
 		$viewer->view('InventoryDiscounts.tpl', $moduleName);

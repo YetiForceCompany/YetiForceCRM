@@ -7,6 +7,12 @@
  */
 class Settings_Inventory_Module_Model extends \App\Base
 {
+	public static $picklist = [
+		'aggregation' => ['LBL_CANNOT_BE_COMBINED', 'LBL_IN_TOTAL', 'LBL_CASCADE'],
+		'discounts' => ['LBL_GLOBAL', 'LBL_GROUP', 'LBL_INDIVIDUAL', 'LBL_ADDITIONAL'],
+		'taxs' => ['LBL_GLOBAL', 'LBL_GROUP', 'LBL_INDIVIDUAL', 'LBL_REGIONAL'],
+	];
+
 	public static function getCleanInstance()
 	{
 		return new self();
@@ -14,12 +20,7 @@ class Settings_Inventory_Module_Model extends \App\Base
 
 	public static function getPicklistValues($type)
 	{
-		$picklist = [
-			'aggregation' => ['LBL_CANNOT_BE_COMBINED', 'LBL_IN_TOTAL', 'LBL_CASCADE'],
-			'discounts' => ['LBL_GLOBAL', 'LBL_GROUP', 'LBL_INDIVIDUAL'],
-			'taxs' => ['LBL_GLOBAL', 'LBL_GROUP', 'LBL_INDIVIDUAL', 'LBL_REGIONAL'],
-		];
-		return $picklist[$type];
+		return self::$picklist[$type];
 	}
 
 	private static $tablename = ['DiscountConfiguration' => 'a_#__discounts_config', 'TaxConfiguration' => 'a_#__taxes_config'];

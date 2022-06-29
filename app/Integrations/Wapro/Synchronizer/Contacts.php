@@ -45,6 +45,7 @@ class Contacts extends \App\Integrations\Wapro\Synchronizer
 		foreach ($query->batch(50, $this->controller->getDb()) as $rows) {
 			$lastId = 0;
 			foreach ($rows as $row) {
+				$this->waproId = $row['ID_KONTAKTU'];
 				$this->row = $row;
 				$this->skip = false;
 				try {
@@ -60,7 +61,7 @@ class Contacts extends \App\Integrations\Wapro\Synchronizer
 							++$i;
 							break;
 					}
-					$lastId = $row['ID_KONTAKTU'];
+					$lastId = $this->waproId;
 				} catch (\Throwable $th) {
 					$this->logError($th);
 					++$e;
@@ -77,7 +78,7 @@ class Contacts extends \App\Integrations\Wapro\Synchronizer
 	/** {@inheritdoc} */
 	public function importRecord(): int
 	{
-		if ($id = $this->findInMapTable($this->row['ID_KONTAKTU'], 'KONTAKT')) {
+		if ($id = $this->findInMapTable($this->waproId, 'KONTAKT')) {
 			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Contacts');
 		} else {
 			$this->recordModel = \Vtiger_Record_Model::getCleanInstance('Contacts');
@@ -85,7 +86,7 @@ class Contacts extends \App\Integrations\Wapro\Synchronizer
 				'wtable' => 'KONTAKT',
 			]]);
 		}
-		$this->recordModel->set('wapro_id', $this->row['ID_KONTAKTU']);
+		$this->recordModel->set('wapro_id', $this->waproId);
 		$this->loadFromFieldMap();
 		if ($this->skip) {
 			return 0;

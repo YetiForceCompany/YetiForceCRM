@@ -37,6 +37,7 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 			->createCommand($this->controller->getDb())->query();
 		$e = $s = $i = $u = 0;
 		while ($row = $dataReader->read()) {
+			$this->waproId = $row['ID_RACHUNKU'];
 			$this->row = $row;
 			$this->skip = false;
 			try {
@@ -67,7 +68,7 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 		if (!$multiCompanyId) {
 			return 0;
 		}
-		if ($id = $this->findInMapTable($this->row['ID_RACHUNKU'], 'RACHUNEK_FIRMY')) {
+		if ($id = $this->findInMapTable($this->waproId, 'RACHUNEK_FIRMY')) {
 			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, 'BankAccounts');
 		} else {
 			$this->recordModel = \Vtiger_Record_Model::getCleanInstance('BankAccounts');
@@ -76,7 +77,7 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 			]]);
 		}
 		$this->recordModel->set('bankaccount_status', $this->row['AKTYWNY'] ? 'PLL_ACTIVE' : 'PLL_INACTIVE');
-		$this->recordModel->set('wapro_id', $this->row['ID_RACHUNKU']);
+		$this->recordModel->set('wapro_id', $this->waproId);
 		$this->recordModel->set('multicompanyid', $multiCompanyId);
 		$this->loadFromFieldMap();
 		$this->recordModel->save();

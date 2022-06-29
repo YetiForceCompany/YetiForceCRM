@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-ConfigEditor-ConfigTemplate -->
-	<div class="verticalScroll">
+	<div>
 		<form class="js-form-ajax-submit js-validate-form">
 			<input name="module" type="hidden" value="{$MODULE_NAME}" />
 			<input name="parent" type="hidden" value="Settings" />

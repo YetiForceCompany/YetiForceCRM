@@ -6,8 +6,8 @@
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 	{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
 	{assign var="NUMBER" value=$FIELD_MODEL->get('fieldvalue')}
-	{if $RECORD && !$RECORD->isEmpty('related_to')}
-		{assign var="PHONE_FIELDS" value=$FIELD_MODEL->getUiTypeModel()->getRelatedFields($RECORD->get('related_to'))}
+	{if $RECORD}
+		{assign var="PHONE_FIELDS" value=$FIELD_MODEL->getUiTypeModel()->getRelatedFields($RECORD)}
 	{/if}
 	<div>
 		{if \App\Config::main('phoneFieldAdvancedVerification',false)}
