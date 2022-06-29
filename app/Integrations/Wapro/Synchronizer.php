@@ -187,11 +187,12 @@ abstract class Synchronizer
 	 * @param string $value
 	 * @param array  $params
 	 *
-	 * @return string
+	 * @return string|null
 	 */
-	protected function convertCountry(string $value, array $params): string
+	protected function convertCountry(string $value, array $params = []): ?string
 	{
-		return $value ? \App\Fields\Country::getCountryName($value) : '';
+		$value = trim($value);
+		return $value ? \App\Fields\Country::getCountryName($value) : null;
 	}
 
 	/**

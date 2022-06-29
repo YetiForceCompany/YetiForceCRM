@@ -438,6 +438,4 @@ return [
 			'docTags' => ['see' => 'https://github.com/chrome-php/chrome#available-options', 'var' => 'array'],
 		],
 	],
-	'RecordCollectors' => [
-	]
 ];
