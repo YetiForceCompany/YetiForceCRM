@@ -172,7 +172,7 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 			case 'upload_maxsize':
 				$params['label'] = $this->listFields[$name];
 				$params['purifyType'] = \App\Purifier::TEXT;
-				$params['maximumlength'] = (string) round(\App\Config::getMaxUploadSize(true, true), 0);
+				$params['maximumlength'] = (string) round(\App\Config::getMaxUploadSize(false, true), 0) ?: '';
 				unset($params['validator']);
 				break;
 			case 'layoutInLoginView':
