@@ -42,6 +42,7 @@ class Wapro
 	public function __construct(int $serverId)
 	{
 		$this->config = self::getById($serverId);
+		$this->config['synchronizer'] = $this->config['synchronizer'] ? (\App\Json::decode($this->config['synchronizer']) ?? []) : [];
 		$this->customConfig = \App\Config::component('IntegrationWapro', 'config', []);
 		$this->db = self::connectToDatabase($this->config['server'], $this->config['database'], $this->config['username'], $this->config['password'], $this->config['port']);
 	}
@@ -196,6 +197,21 @@ class Wapro
 	{
 		$className = "\\App\\Integrations\\Wapro\\Synchronizer\\{$name}";
 		return class_exists($className) ? new $className($this) : null;
+	}
+
+	/**
+	 * Get synchronizers.
+	 *
+	 * @return Wapro\Synchronizer[]
+	 */
+	public function getSynchronizers(): array
+	{
+		$synchronizers = [];
+		foreach ($this->config['synchronizer'] as $name) {
+			$synchronizer = $this->getSynchronizer($name);
+			$synchronizers[$synchronizer::SEQUENCE] = $synchronizer;
+		}
+		return $synchronizers;
 	}
 
 	/**

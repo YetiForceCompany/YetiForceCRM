@@ -21,6 +21,9 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 	const NAME = 'LBL_PRODUCTS';
 
 	/** {@inheritdoc} */
+	const SEQUENCE = 4;
+
+	/** {@inheritdoc} */
 	protected $fieldMap = [
 		'NAZWA' => 'productname',
 		'STAN' => 'qtyinstock',

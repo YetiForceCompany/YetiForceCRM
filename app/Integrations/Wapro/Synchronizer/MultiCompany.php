@@ -21,6 +21,9 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 	const NAME = 'LBL_MULTI_COMPANY';
 
 	/** {@inheritdoc} */
+	const SEQUENCE = 0;
+
+	/** {@inheritdoc} */
 	protected $fieldMap = [
 		'NAZWA' => 'company_name',
 		'NIP' => 'vat',

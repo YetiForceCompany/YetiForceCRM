@@ -21,6 +21,9 @@ class Contacts extends \App\Integrations\Wapro\Synchronizer
 	const NAME = 'LBL_CONTACTS';
 
 	/** {@inheritdoc} */
+	const SEQUENCE = 3;
+
+	/** {@inheritdoc} */
 	protected $fieldMap = [
 		'ID_KONTRAHENTA' => ['fieldName' => 'parent_id', 'fn' => 'findRelationship', 'tableName' => 'KONTRAHENT'],
 		'IMIE' => 'firstname',

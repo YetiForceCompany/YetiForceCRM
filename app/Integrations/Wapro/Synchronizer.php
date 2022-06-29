@@ -19,6 +19,9 @@ abstract class Synchronizer
 	/** @var string Provider name | File name. */
 	const NAME = null;
 
+	/** @var string Priority order. */
+	const SEQUENCE = null;
+
 	/** @var string[] Map of fields integrating with WAPRO ERP */
 	protected $fieldMap = [];
 

@@ -21,6 +21,9 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 	const NAME = 'LBL_COMPANY_BANK_ACCOUNTS';
 
 	/** {@inheritdoc} */
+	const SEQUENCE = 1;
+
+	/** {@inheritdoc} */
 	protected $fieldMap = [
 		'NAZWA' => 'name',
 		'NUMER_RACHUNKU' => 'account_number',

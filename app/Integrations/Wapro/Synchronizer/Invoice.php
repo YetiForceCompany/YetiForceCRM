@@ -20,6 +20,9 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	/** {@inheritdoc} */
 	const NAME = 'LBL_INVOICE';
 
+	/** {@inheritdoc} */
+	const SEQUENCE = 5;
+
 	/** @var string[] Map for payment methods with WAPRO ERP */
 	const PAYMENT_METHODS_MAP = [
 		'gotówka' => 'PLL_CASH',

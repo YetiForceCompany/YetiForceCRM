@@ -21,6 +21,9 @@ class Accounts extends \App\Integrations\Wapro\Synchronizer
 	const NAME = 'LBL_ACCOUNTS';
 
 	/** {@inheritdoc} */
+	const SEQUENCE = 2;
+
+	/** {@inheritdoc} */
 	protected $fieldMap = [
 		'ID_FIRMY' => ['fieldName' => 'multiCompanyId', 'fn' => 'findRelationship', 'tableName' => 'FIRMA', 'skipMode' => true],
 		'NAZWA' => 'accountname',
