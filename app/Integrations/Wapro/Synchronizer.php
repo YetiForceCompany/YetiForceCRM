@@ -34,6 +34,9 @@ abstract class Synchronizer
 	/** @var array Record row. */
 	protected $row;
 
+	/** @var int WAPRO ERP record ID. */
+	protected $waproId;
+
 	/** @var bool The flag to skip record creation. */
 	protected $skip;
 

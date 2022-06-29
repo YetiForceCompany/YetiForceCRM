@@ -60,6 +60,7 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 		foreach ($query->batch(50, $this->controller->getDb()) as $rows) {
 			$lastId = 0;
 			foreach ($rows as $row) {
+				$this->waproId = $row['ID_ARTYKULU'];
 				$this->row = $row;
 				$this->skip = false;
 				try {
@@ -75,7 +76,7 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 							++$i;
 							break;
 					}
-					$lastId = $row['ID_ARTYKULU'];
+					$lastId = $this->waproId;
 				} catch (\Throwable $th) {
 					$this->logError($th);
 					++$e;
@@ -92,7 +93,7 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 	/** {@inheritdoc} */
 	public function importRecord(): int
 	{
-		if ($id = $this->findInMapTable($this->row['ID_ARTYKULU'], 'ARTYKUL')) {
+		if ($id = $this->findInMapTable($this->waproId, 'ARTYKUL')) {
 			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Products');
 		} else {
 			$this->recordModel = \Vtiger_Record_Model::getCleanInstance('Products');
@@ -100,7 +101,7 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 				'wtable' => 'ARTYKUL',
 			]]);
 		}
-		$this->recordModel->set('wapro_id', $this->row['ID_ARTYKULU']);
+		$this->recordModel->set('wapro_id', $this->waproId);
 		$this->recordModel->set('discontinued', 1);
 		$this->loadFromFieldMap();
 		if ($this->skip) {
