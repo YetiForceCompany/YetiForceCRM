@@ -8,6 +8,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -110,7 +111,6 @@ class Settings_YetiForce_Register_Action extends Settings_Vtiger_Save_Action
 	public function check(App\Request $request)
 	{
 		$status = \App\YetiForce\Register::check(true);
-		$label = 'LBL_REGISTRATION_PENDING';
 		switch ($status) {
 			case 3:
 				$label = 'LBL_REGISTRATION_COMPANY_DETAILS_VARY';
@@ -119,6 +119,8 @@ class Settings_YetiForce_Register_Action extends Settings_Vtiger_Save_Action
 			case 4:
 				$label = 'ERR_OCCURRED_CHECK_LOGS';
 				break;
+			default:
+				$label = 'LBL_REGISTRATION_PENDING';
 		}
 		$response = new Vtiger_Response();
 		$response->setResult([
