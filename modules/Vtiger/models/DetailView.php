@@ -80,7 +80,6 @@ class Vtiger_DetailView_Model extends \App\Base
 		$recordModel = $this->getRecord();
 		$moduleName = $moduleModel->getName();
 		$recordId = $recordModel->getId();
-		$smsModuleModel = Vtiger_Module_Model::getInstance('SMSNotifier');
 		$linkModelList = [];
 		if ($recordModel->isReadOnly()) {
 			if (\Config\Components\InterestsConflict::$isActive && \App\Components\InterestsConflict::getParent($recordId, $moduleName)) {
@@ -192,7 +191,11 @@ class Vtiger_DetailView_Model extends \App\Base
 					'modalView' => true,
 				]);
 			}
-			if ($smsModuleModel->isSMSActiveForModule($moduleName) && $smsModuleModel->isQuickCreateSupported()) {
+			$smsModuleModel = Vtiger_Module_Model::getInstance('SMSNotifier');
+			if ($smsModuleModel->isSMSActiveForModule($moduleName)
+				&& $smsModuleModel->isQuickCreateSupported()
+				&& array_filter($recordModel->getModule()->getFieldsByType('phone', true), fn ($fieldModel) => !$recordModel->isEmpty($fieldModel->getName()))
+			) {
 				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => 'BTN_SMSNOTIFIER',
