@@ -32,6 +32,7 @@
     "LBL_GLOBAL_DISCOUNTS": "Discount from the list of available discounts",
     "LBL_GROUP_DISCOUNTS": "Account's discount",
     "LBL_INDIVIDUAL_DISCOUNTS": "Custom discount",
+    "LBL_ADDITIONAL_DISCOUNTS": "Additional discount",
     "LBL_SUMMATION_TYPE": "Summation type",
     "LBL_AVAILABLE_TAXS": "Available taxes",
     "LBL_AVAILABLE_DISCOUNTS": "Available discounts",

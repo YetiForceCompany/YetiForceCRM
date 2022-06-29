@@ -989,6 +989,7 @@
     "LBL_AVAILABLE_DICOUNTS": "Available discounts",
     "LBL_ACCOUNT_DISCOUNT": "Account's discount",
     "LBL_CUSTOM_DISCOUNT": "Custom discount",
+    "LBL_ADDITIONAL_DISCOUNT": "Additional discount",
     "LBL_PERCENTAGE_DISCOUNTS": "Percentage",
     "LBL_AMOUNT_DISCOUNTS": "Amount",
     "LBL_DISCOUNT_FOR_ACCOUNT": "Discount for Account",

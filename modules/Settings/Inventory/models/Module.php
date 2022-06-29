@@ -9,7 +9,7 @@ class Settings_Inventory_Module_Model extends \App\Base
 {
 	public static $picklist = [
 		'aggregation' => ['LBL_CANNOT_BE_COMBINED', 'LBL_IN_TOTAL', 'LBL_CASCADE'],
-		'discounts' => ['LBL_GLOBAL', 'LBL_GROUP', 'LBL_INDIVIDUAL'],
+		'discounts' => ['LBL_GLOBAL', 'LBL_GROUP', 'LBL_INDIVIDUAL', 'LBL_ADDITIONAL'],
 		'taxs' => ['LBL_GLOBAL', 'LBL_GROUP', 'LBL_INDIVIDUAL', 'LBL_REGIONAL'],
 	];
 

@@ -41,7 +41,8 @@ $.Class(
 			'groupCheckbox',
 			'groupDiscount',
 			'individualDiscount',
-			'individualDiscountType'
+			'individualDiscountType',
+			'additionalDiscount'
 		],
 		taxModalFields: ['aggregationType', 'globalTax', 'groupCheckbox', 'groupTax', 'individualTax', 'regionalTax'],
 		/**
@@ -349,6 +350,9 @@ $.Class(
 							break;
 						case 'group':
 							discountRate += valuePrices * ((discountParams.groupDiscount ? discountParams.groupDiscount : 0) / 100);
+							break;
+						case 'additional':
+							discountRate += valuePrices * (discountParams.additionalDiscount / 100);
 							break;
 					}
 					if (aggregation === 2) {
@@ -780,10 +784,14 @@ $.Class(
 			let valuePrices = netPriceBeforeDiscount,
 				globalDiscount = 0,
 				groupDiscount = 0,
-				individualDiscount = 0;
+				individualDiscount = 0,
+				additionalDiscount = 0;
 			if (discountsType == 0 || discountsType == 1) {
 				if (modal.find('.js-active .globalDiscount').length > 0) {
 					globalDiscount = App.Fields.Double.formatToDb(modal.find('.js-active .globalDiscount').val());
+				}
+				if (modal.find('.js-active .additionalDiscountValue').length > 0) {
+					additionalDiscount = App.Fields.Double.formatToDb(modal.find('.js-active .additionalDiscountValue').val());
 				}
 				if (modal.find('.js-active .individualDiscountType').length > 0) {
 					let value = App.Fields.Double.formatToDb(modal.find('.js-active .individualDiscountValue').val());
@@ -801,6 +809,7 @@ $.Class(
 					groupDiscount = netPriceBeforeDiscount * (groupDiscount / 100);
 				}
 				valuePrices = valuePrices * ((100 - globalDiscount) / 100);
+				valuePrices = valuePrices * ((100 - additionalDiscount) / 100);
 				valuePrices = valuePrices - individualDiscount;
 				valuePrices = valuePrices - groupDiscount;
 			} else if (discountsType == 2) {
@@ -818,6 +827,9 @@ $.Class(
 						} else {
 							valuePrices = valuePrices - value;
 						}
+					} else if (panel.find('.additionalDiscountValue').length > 0) {
+						valuePrices =
+							valuePrices * ((100 - App.Fields.Double.formatToDb(panel.find('.additionalDiscountValue').val())) / 100);
 					}
 				});
 			}
@@ -858,17 +870,14 @@ $.Class(
 				modal.find('.js-active').each(function () {
 					let panel = $(this);
 					if (panel.find('.globalTax').length > 0) {
-						let globalTax = App.Fields.Double.formatToDb(panel.find('.globalTax').val());
-						valuePrices = valuePrices * ((100 + globalTax) / 100);
+						valuePrices = valuePrices * ((100 + App.Fields.Double.formatToDb(panel.find('.globalTax').val())) / 100);
 					} else if (panel.find('.groupTax').length > 0) {
-						let groupTax = App.Fields.Double.formatToDb(panel.find('.groupTax').val());
-						valuePrices = valuePrices * ((100 + groupTax) / 100);
+						valuePrices = valuePrices * ((100 + App.Fields.Double.formatToDb(panel.find('.groupTax').val())) / 100);
 					} else if (panel.find('.regionalTax').length > 0) {
-						let regionalTax = App.Fields.Double.formatToDb(panel.find('.regionalTax').val());
-						valuePrices = valuePrices * ((100 + regionalTax) / 100);
+						valuePrices = valuePrices * ((100 + App.Fields.Double.formatToDb(panel.find('.regionalTax').val())) / 100);
 					} else if (panel.find('.individualTaxValue').length > 0) {
-						let value = App.Fields.Double.formatToDb(panel.find('.individualTaxValue').val());
-						valuePrices = ((value + 100) / 100) * valuePrices;
+						valuePrices =
+							((App.Fields.Double.formatToDb(panel.find('.individualTaxValue').val()) + 100) / 100) * valuePrices;
 					}
 				});
 			}
@@ -1072,10 +1081,9 @@ $.Class(
 			$('input.qty', parentRow).attr('data-validation-engine', validationEngine);
 		},
 		saveDiscountsParameters: function (parentRow, modal) {
-			let thisInstance = this;
+			const typeName = 'aggregationType',
+				panels = modal.find('[name="' + typeName + '"]:checked');
 			let info = {};
-			let typeName = 'aggregationType';
-			let panels = modal.find('[name="' + typeName + '"]:checked');
 			info[typeName] = [];
 			panels.each(function () {
 				let type = $(this).val(),
@@ -1088,25 +1096,31 @@ $.Class(
 				container.find('[name="' + type + 'Discount"]').each(function () {
 					let param = type + 'Discount';
 					let element = $(this);
-					if ('global' === type) {
-						info[param] = App.Fields.Double.formatToDb(element.val());
-					} else if ('group' === type && element.closest('.input-group').find('.groupCheckbox').prop('checked')) {
-						info[param] = App.Fields.Double.formatToDb(element.val());
-					} else if ('individual' === type) {
-						let name = 'individualDiscountType';
-						info[name] = container.find('[name="' + name + '"]:checked').val();
-						info[param] = App.Fields.Double.formatToDb(element.val());
+					switch (type) {
+						case 'group':
+							if (element.closest('.input-group').find('.groupCheckbox').prop('checked')) {
+								info[param] = App.Fields.Double.formatToDb(element.val());
+							}
+							break;
+						case 'individual':
+							let name = 'individualDiscountType';
+							info[name] = container.find('[name="' + name + '"]:checked').val();
+							info[param] = App.Fields.Double.formatToDb(element.val());
+							break;
+						case 'global':
+						case 'additional':
+							info[param] = App.Fields.Double.formatToDb(element.val());
+							break;
 					}
 				});
 			});
-			thisInstance.setDiscountParam($('#blackIthemTable'), info);
-			thisInstance.setDiscountParam(parentRow, info);
+			this.setDiscountParam($('#blackIthemTable'), info);
+			this.setDiscountParam(parentRow, info);
 		},
 		saveTaxsParameters: function (parentRow, modal) {
-			let thisInstance = this;
 			let info = {};
-			let extend = ['aggregationType', 'groupCheckbox', 'individualTaxType'];
-			$.each(thisInstance.taxModalFields, function (_, param) {
+			const extend = ['aggregationType', 'groupCheckbox', 'individualTaxType'];
+			$.each(this.taxModalFields, function (_, param) {
 				if ($.inArray(param, extend) >= 0) {
 					if (modal.find('[name="' + param + '"]:checked').length > 1) {
 						info[param] = [];
@@ -1121,33 +1135,28 @@ $.Class(
 				}
 			});
 			parentRow.data('taxParam', JSON.stringify(info));
-			thisInstance.setTaxParam(parentRow, info);
-			thisInstance.setTaxParam($('#blackIthemTable'), info);
+			this.setTaxParam(parentRow, info);
+			this.setTaxParam($('#blackIthemTable'), info);
 		},
 		showExpandedRow: function (row) {
-			let thisInstance = this;
-			let items = thisInstance.getInventoryItemsContainer();
-			let inventoryRowExpanded = items.find('[numrowex="' + row.attr('numrow') + '"]');
-			let element = row.find('.toggleVisibility');
+			const inventoryRowExpanded = this.getInventoryItemsContainer().find('[numrowex="' + row.attr('numrow') + '"]');
+			const element = row.find('.toggleVisibility');
 			element.data('status', '1');
 			inventoryRowExpanded.removeClass('d-none');
 		},
 		hideExpandedRow: function (row) {
-			let thisInstance = this;
-			let items = thisInstance.getInventoryItemsContainer();
-			let inventoryRowExpanded = items.find('[numrowex="' + row.attr('numrow') + '"]');
-			let element = row.find('.toggleVisibility');
+			const inventoryRowExpanded = this.getInventoryItemsContainer().find('[numrowex="' + row.attr('numrow') + '"]');
+			const element = row.find('.toggleVisibility');
 			element.data('status', '0');
 			inventoryRowExpanded.addClass('d-none');
 		},
 		initDiscountsParameters: function (parentRow, modal) {
-			let thisInstance = this;
 			let parameters = parentRow.find('.discountParam').val();
 			if (parameters == '' || parameters == undefined) {
 				return;
 			}
 			parameters = JSON.parse(parameters);
-			$.each(thisInstance.discountModalFields, function (_, param) {
+			$.each(this.discountModalFields, function (_, param) {
 				let parameter = parameters[param];
 				let field = modal.find('[name="' + param + '"]');
 				if (field.attr('type') == 'checkbox' || field.attr('type') == 'radio') {
@@ -1175,10 +1184,9 @@ $.Class(
 					field.val(parameter);
 				}
 			});
-			thisInstance.calculateDiscount(parentRow, modal);
+			this.calculateDiscount(parentRow, modal);
 		},
 		initTaxParameters: function (parentRow, modal) {
-			const thisInstance = this;
 			let parameters;
 			if (parentRow.data('taxParam')) {
 				parameters = parentRow.data('taxParam');
@@ -1189,7 +1197,7 @@ $.Class(
 				return;
 			}
 			parameters = JSON.parse(parameters.toString());
-			$.each(thisInstance.taxModalFields, function (_, param) {
+			$.each(this.taxModalFields, function (_, param) {
 				let parameter = parameters[param],
 					field = modal.find('[name="' + param + '"]');
 
@@ -1219,32 +1227,29 @@ $.Class(
 					}
 				}
 			});
-			thisInstance.calculateTax(parentRow, modal);
+			this.calculateTax(parentRow, modal);
 		},
 		limitEnableSave: false,
 		checkLimits: function () {
-			let thisInstance = this;
-			let account = thisInstance.getAccountId();
-			let limit = parseInt(app.getMainParams('inventoryLimit'));
+			const account = this.getAccountId(),
+				limit = parseInt(app.getMainParams('inventoryLimit'));
 			let response = true;
-
-			if (account == '' || thisInstance.limitEnableSave || !limit) {
+			if (account == '' || this.limitEnableSave || !limit) {
 				return response;
 			}
-
-			let params = {};
-			params.data = {
-				module: app.getModuleName(),
-				action: 'Inventory',
-				mode: 'checkLimits',
-				record: account,
-				currency: thisInstance.getCurrency(),
-				price: thisInstance.getSummaryGrossPrice()
-			};
-			params.async = false;
-			params.dataType = 'json';
 			let progressInstace = $.progressIndicator();
-			AppConnector.request(params)
+			AppConnector.request({
+				async: false,
+				dataType: 'json',
+				data: {
+					module: app.getModuleName(),
+					action: 'Inventory',
+					mode: 'checkLimits',
+					record: account,
+					currency: this.getCurrency(),
+					price: thisInthisstance.getSummaryGrossPrice()
+				}
+			})
 				.done(function (data) {
 					progressInstace.hide();
 					if (data.result.status == false) {
@@ -1609,7 +1614,7 @@ $.Class(
 			});
 			modal.on(
 				'change',
-				'.activeCheckbox, .globalDiscount,.individualDiscountValue,.individualDiscountType,.groupCheckbox',
+				'.activeCheckbox, .globalDiscount,.individualDiscountValue,.individualDiscountType,.groupCheckbox,.additionalDiscountValue',
 				function () {
 					thisInstance.calculateDiscount(parentRow, modal);
 				}
