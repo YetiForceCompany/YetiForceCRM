@@ -136,14 +136,7 @@ $.Class(
 		 */
 		saveAjaxValidation: function (params) {
 			const aDeferred = $.Deferred();
-			let validation = true;
-			if (
-				typeof app.pageController.getForm !== 'undefined' &&
-				app.pageController.getForm().find('#preSaveValidation').length !== 0
-			) {
-				validation = parseInt(app.pageController.getForm().find('#preSaveValidation').val());
-			}
-			if (validation) {
+			if (app.pageController.checkPreSaveValidation()) {
 				let paramsTemp = JSON.parse(JSON.stringify(params));
 				paramsTemp.data.mode = 'preSaveValidation';
 				AppConnector.request(paramsTemp)
@@ -1616,6 +1609,20 @@ $.Class(
 			}
 		},
 		/**
+		 * Check if pre save validation is active
+		 * @returns {bool}
+		 */
+		checkPreSaveValidation: function () {
+			let validation = true;
+			if (
+				typeof app.pageController.getForm !== 'undefined' &&
+				app.pageController.getForm().find('#preSaveValidation').length !== 0
+			) {
+				validation = app.pageController.getForm().find('#preSaveValidation').val() == 1;
+			}
+			return validation;
+		},
+		/**
 		 * Register change value handler events
 		 * @param {jQuery} container
 		 */
@@ -1632,7 +1639,9 @@ $.Class(
 						this.sendChangeValueHandlerEvent(container.serializeFormData());
 					});
 			});
-			this.sendChangeValueHandlerEvent(container.serializeFormData());
+			if (this.checkPreSaveValidation()) {
+				this.sendChangeValueHandlerEvent(container.serializeFormData());
+			}
 		},
 		/**
 		 * Send change value handler events

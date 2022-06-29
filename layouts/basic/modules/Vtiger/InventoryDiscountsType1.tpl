@@ -4,6 +4,7 @@
 	{if $GROUP_DISCOUNT != 0}
 		<div class="card js-panel mb-2" data-js="class: js-active">
 			<div class="card-header py-1">
+				<span class="yfm-Accounts mr-2"></span>
 				<strong>{\App\Language::translate('LBL_ACCOUNT_DISCOUNT', $MODULE)}</strong>
 				<div class="float-right">
 					<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="group" class="activeCheckbox">
