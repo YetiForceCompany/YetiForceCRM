@@ -110,7 +110,6 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 		}
 		$this->recordModel->save();
 		\App\Cache::save('WaproMapTable', "{$this->waproId}|DOKUMENT_HANDLOWY", $this->recordModel->getId());
-		exit;
 		return $id ? 1 : 2;
 	}
 
