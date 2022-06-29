@@ -18,6 +18,15 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function __construct()
 	{
+		$recordId = 0;
+		if (\App\Request::_has('picklistName')) {
+			$request = \App\Request::init();
+			$pickListFieldName = $request->getByType('picklistName', \App\Purifier::ALNUM);
+			$moduleName = $request->getByType('source_module', \App\Purifier::ALNUM);
+			$recordId = Vtiger_Module_Model::getInstance($moduleName)->getFieldByName($pickListFieldName)->getId();
+		}
+		Settings_Vtiger_Tracker_Model::setRecordId($recordId);
+		Settings_Vtiger_Tracker_Model::addBasic('save');
 		parent::__construct();
 		$this->exposeMethod('import');
 		$this->exposeMethod('edit');
@@ -159,7 +168,9 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function edit(App\Request $request)
 	{
 		$itemModel = $this->getItemModelFromRequest($request);
+		$valueId = $itemModel->getId();
 		$result = $itemModel->save();
+		Settings_Vtiger_Tracker_Model::addDetail($itemModel->getPreviousValue(), $valueId ? array_intersect_key($itemModel->getData(), $itemModel->getPreviousValue()) : $itemModel->getData());
 		\App\Colors::generate('picklist');
 
 		$response = new Vtiger_Response();
@@ -178,7 +189,10 @@ class Settings_Picklist_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		if (!$itemModel->isDeletable() || !$request->getInteger('replace_value', 0)) {
 			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
-		$itemModel->delete($request->getInteger('replace_value'));
+		$replaceId = $request->getInteger('replace_value');
+		$itemModel->delete($replaceId);
+		$picklisValue = \App\Fields\Picklist::getValues($itemModel->getFieldModel()->getName())[$replaceId]['picklistValue'] ?? '';
+		Settings_Vtiger_Tracker_Model::addDetail(['name' => $itemModel->get('name')], ['name' => $picklisValue]);
 		\App\Colors::generate('picklist');
 
 		$response = new Vtiger_Response();
