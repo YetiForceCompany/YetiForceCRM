@@ -18,10 +18,9 @@ class Settings_RecordCollector_ConfigModal_View extends \App\Controller\ModalSet
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		$recordCollectorName = $request->getByType('recordCollectorName');
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('FIELDS', $this->getFields($recordCollectorName, $qualifiedModuleName));
+		$viewer->assign('FIELDS', $this->getFields($request->getByType('recordCollectorName')));
 		$viewer->view('ConfigModal.tpl', $qualifiedModuleName);
 	}
 
@@ -29,21 +28,25 @@ class Settings_RecordCollector_ConfigModal_View extends \App\Controller\ModalSet
 	 * Function fetching fields from Record Collector and making Field Instance.
 	 *
 	 * @param string $recordCollectorName
-	 * @param string $moduleName
 	 *
 	 * @return array
 	 */
-	private function getFields($recordCollectorName, $moduleName): array
+	private function getFields(string $recordCollectorName): array
 	{
 		$fields = [];
 		$collectorInstance = \App\RecordCollector::getInstance('App' . DIRECTORY_SEPARATOR . 'RecordCollectors' . DIRECTORY_SEPARATOR . $recordCollectorName, 'Accounts');
+		$defaultParams = ['uitype' => 1, 'value' => '', 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => '', 'isEditableReadOnly' => false, 'maximumlength' => '255'];
+		$configData = (new \App\Db\Query())->select(['params'])->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => $recordCollectorName])->scalar();
+		$configData = $configData ? \App\Json::decode($configData) : [];
 
-		foreach ($collectorInstance->getSettingsFields() as $fieldName => $fieldParams) {
-			$params = ['uitype' => 1, 'column' => $fieldName, 'name' => $fieldName, 'value' => '', 'label' => \App\Language::translate('LBL_API_KEY', $moduleName), 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => '', 'isEditableReadOnly' => false, 'maximumlength' => '255'];
-
-			$fields[] = Settings_Vtiger_Field_Model::init($moduleName, array_merge($fieldParams, $params));
+		foreach ($collectorInstance->settingsFields as $fieldName => $fieldParams) {
+			$fieldParams['column'] = $fieldName;
+			$fieldParams['name'] = $fieldName;
+			if (\array_key_exists($fieldName, $configData)) {
+				$fieldParams['value'] = $configData[$fieldName];
+			}
+			$fields[] = Settings_Vtiger_Field_Model::init($collectorInstance->moduleName, array_merge($defaultParams, $fieldParams));
 		}
-
 		return $fields;
 	}
 }

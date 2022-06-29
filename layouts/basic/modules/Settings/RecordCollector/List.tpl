@@ -37,7 +37,7 @@
 										<input class="js-status-change" name="is_active" value="{$ITEM['name']}" type="checkbox" {if $ITEM['active']} checked {/if}>
 									</td>
 									<td class="text-center">
-									{if isset($ITEM['instance']->settingsFields['api_key'])}
+									{if !empty($ITEM['instance']->settingsFields)}
 										<button class="btn btn-outline-secondary btn-sm js-show-config-modal js-popover-tooltip mr-1" type="button" data-name="{$ITEM['name']}"
 											data-content="{\App\Language::translate('LBL_CONFIG', $QUALIFIED_MODULE)}">
 											<span class="fas fa-cog"></span>

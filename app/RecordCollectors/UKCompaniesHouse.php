@@ -120,7 +120,7 @@ class UKCompaniesHouse extends Base
 
 	/** @var array Configuration field list. */
 	public $settingsFields = [
-		'api_key' => ['required' => 1, 'purifyType' => 'Text'],
+		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY'],
 	];
 
 	/** @var string CH sever address */
@@ -128,16 +128,6 @@ class UKCompaniesHouse extends Base
 
 	/** @var string Url to Documentation API */
 	public $docUrl = 'https://developer.company-information.service.gov.uk/';
-
-	/**
-	 * Function returned Configuration field list.
-	 *
-	 * @return array
-	 */
-	public function getSettingsFields(): array
-	{
-		return $this->settingsFields;
-	}
 
 	/** {@inheritdoc} */
 	public function search(): array
@@ -166,9 +156,10 @@ class UKCompaniesHouse extends Base
 	 */
 	private function getDataFromApi($ncr): void
 	{
+		$config = json_decode((new \App\Db\Query())->select(['params'])->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linkurl' => __CLASS__])->scalar(), true);
 		try {
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $this->url . 'company/' . $ncr, [
-				'auth' => ['API_KEY_HERE', ''],
+				'auth' => [$config['api_key'], ''],
 			]);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
