@@ -84,6 +84,7 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 		$this->recordModel->set('wapro_id', $this->waproId);
 		$this->loadFromFieldMap();
 		$this->recordModel->save();
+		\App\Cache::save('WaproMapTable', "{$this->waproId}|FIRMA", $this->recordModel->getId());
 		return $id ? 1 : 2;
 	}
 }

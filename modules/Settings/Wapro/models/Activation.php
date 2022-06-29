@@ -41,6 +41,9 @@ class Settings_Wapro_Activation_Model
 				}
 			}
 		}
+		if ($check) {
+			$check = Vtiger_Inventory_Model::getInstance('FInvoice')->isField('discount_aggreg');
+		}
 		return $check;
 	}
 
@@ -103,6 +106,20 @@ class Settings_Wapro_Activation_Model
 				}
 			}
 		}
+		self::activateInventory();
 		return $status ?? false;
+	}
+
+	/**
+	 * Activate integration in inventory.
+	 *
+	 * @return void
+	 */
+	private static function activateInventory(): void
+	{
+		$inventory = Vtiger_Inventory_Model::getInstance('FInvoice');
+		$fieldModel = $inventory->getFieldCleanInstance('DiscountAggregation');
+		$fieldModel->setDefaultDataConfig();
+		$inventory->saveField($fieldModel);
 	}
 }

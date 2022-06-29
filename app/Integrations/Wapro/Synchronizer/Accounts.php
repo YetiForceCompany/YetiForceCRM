@@ -104,6 +104,7 @@ class Accounts extends \App\Integrations\Wapro\Synchronizer
 			return 0;
 		}
 		$this->recordModel->save();
+		\App\Cache::save('WaproMapTable', "{$this->waproId}|KONTRAHENT", $this->recordModel->getId());
 		return $id ? 1 : 2;
 	}
 }

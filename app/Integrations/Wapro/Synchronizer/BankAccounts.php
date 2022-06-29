@@ -81,6 +81,7 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 		$this->recordModel->set('multicompanyid', $multiCompanyId);
 		$this->loadFromFieldMap();
 		$this->recordModel->save();
+		\App\Cache::save('WaproMapTable', "{$this->waproId}|RACHUNEK_FIRMY", $this->recordModel->getId());
 		return $id ? 1 : 2;
 	}
 }

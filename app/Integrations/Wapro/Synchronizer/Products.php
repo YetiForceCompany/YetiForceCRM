@@ -108,6 +108,7 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 			return 0;
 		}
 		$this->recordModel->save();
+		\App\Cache::save('WaproMapTable', "{$this->waproId}|ARTYKUL", $this->recordModel->getId());
 		return $id ? 1 : 2;
 	}
 
@@ -157,5 +158,37 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 	protected function convertTaxes(string $value, array $params): string
 	{
 		return $this->getGlobalTax($value, true);
+	}
+
+	/**
+	 * Import record by id.
+	 *
+	 * @param int $id
+	 *
+	 * @return int
+	 */
+	public function importRecordById(int $id): int
+	{
+		$row = (new \App\Db\Query())->select([
+			'dbo.ARTYKUL.*',
+			'category' => 'dbo.KATEGORIA_ARTYKULU_TREE.NAZWA',
+			'unitName' => 'dbo.JEDNOSTKA.SKROT',
+			'total' => 'dbo.CENA_ARTYKULU.CENA_NETTO',
+			'gross' => 'dbo.CENA_ARTYKULU.CENA_BRUTTO',
+		])->from('dbo.ARTYKUL')
+			->leftJoin('dbo.KATEGORIA_ARTYKULU_TREE', 'dbo.ARTYKUL.ID_KATEGORII_TREE = dbo.KATEGORIA_ARTYKULU_TREE.ID_KATEGORII_TREE')
+			->leftJoin('dbo.JEDNOSTKA', 'dbo.ARTYKUL.ID_JEDNOSTKI = dbo.JEDNOSTKA.ID_JEDNOSTKI')
+			->leftJoin('dbo.CENA_ARTYKULU', 'dbo.ARTYKUL.ID_CENY_DOM = dbo.CENA_ARTYKULU.ID_CENY')
+			->where(['dbo.ARTYKUL.ID_ARTYKULU' => $id])
+			->one($this->controller->getDb());
+		$this->waproId = $row['ID_ARTYKULU'];
+		$this->row = $row;
+		try {
+			$this->importRecord();
+		} catch (\Throwable $th) {
+			$this->logError($th);
+			throw $th;
+		}
+		return $this->recordModel->getId();
 	}
 }
