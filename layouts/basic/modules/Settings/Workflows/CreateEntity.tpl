@@ -42,10 +42,10 @@
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{if $FIELD_MODEL->getFieldDataType() == 'owner'}
 								{$SPECIAL_OPTION = [\App\Language::translate('LBL_SPECIAL_OPTIONS') => [
-													'assigned_user_id' => \App\Language::translate('LBL_PARENT_OWNER'),
-													'triggerUser' => \App\Language::translate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)
-													]
-												]}
+																	'assigned_user_id' => \App\Language::translate('LBL_PARENT_OWNER'),
+																	'triggerUser' => \App\Language::translate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)
+																	]
+																]}
 								{$FIELD_INFO['picklistvalues'] = array_merge($FIELD_INFO['picklistvalues'], $SPECIAL_OPTION)}
 							{/if}
 							<option value="{$FIELD_MODEL->getName()}"
@@ -72,7 +72,7 @@
 						<option {if $FIELD_MAP['modulename'] eq $SOURCE_MODULE} selected="" {/if}
 							value="{$SOURCE_MODULE}">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}: {\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
 						<option {if $FIELD_MAP['modulename'] eq {'destinyModule::'|cat:$RELATED_MODULE_MODEL_NAME} || ($FIELD_MAP['modulename'] eq $RELATED_MODULE_MODEL_NAME && $SOURCE_MODULE neq $RELATED_MODULE_MODEL_NAME)} selected="" {/if}
-							value="destinyModule::{$RELATED_MODULE_MODEL_NAME}">D{\App\Language::translate('LBL_DESTINY_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($RELATED_MODULE_MODEL_NAME, $RELATED_MODULE_MODEL_NAME)}</option>
+							value="destinyModule::{$RELATED_MODULE_MODEL_NAME}">{\App\Language::translate('LBL_DESTINY_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($RELATED_MODULE_MODEL_NAME, $RELATED_MODULE_MODEL_NAME)}</option>
 					</select>
 				</div>
 				<div class="fieldUiHolder col-md-4">

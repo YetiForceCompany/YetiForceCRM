@@ -469,4 +469,26 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 			->where(['module_name' => $moduleName])
 			->max('sequence') + 1;
 	}
+
+	/**
+	 * Get module relations by type.
+	 *
+	 * @return array
+	 */
+	public function getModuleRelationsByType(): array
+	{
+		$moduleRelations = App\Relation::getByModule($this->getModule()->getName());
+		$moduleRelationsByType = [];
+		foreach ($moduleRelations as $relationId => $relationInfo) {
+			$relationType = \Vtiger_Relation_Model::getInstanceById($relationId)->getRelationType();
+			if (\Vtiger_Relation_Model::RELATION_O2M === $relationType) {
+				$moduleRelationsByType['LBL_ONE_TO_MANY_RELATIONS'][] = $relationInfo;
+			} elseif (\Vtiger_Relation_Model::RELATION_M2M === $relationType) {
+				$moduleRelationsByType['LBL_MANY_TO_MANY_RELATIONS'][] = $relationInfo;
+			} else {
+				$moduleRelationsByType['LBL_WORKFLOW_CUSTOM_RELATIONS'][] = $relationInfo;
+			}
+		}
+		return $moduleRelationsByType;
+	}
 }

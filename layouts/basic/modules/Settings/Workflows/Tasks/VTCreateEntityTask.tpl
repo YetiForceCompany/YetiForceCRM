@@ -62,7 +62,7 @@
 					data-select="allowClear"
 					data-placeholder="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">
 					<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
-					{foreach from=\App\Relation::getModuleRelationsByType($WORKFLOW_MODEL->getModule()->getName()) key=RELATION_NAME item=GROUPED_RELATIONS}
+					{foreach from=$WORKFLOW_MODEL->getModuleRelationsByType() key=RELATION_NAME item=GROUPED_RELATIONS}
 						<optgroup label="{\App\Language::translate($RELATION_NAME, $QUALIFIED_MODULE)}">
 							{foreach from=$GROUPED_RELATIONS item=MODULE_INFO}
 								{if (false !== stripos($MODULE_INFO['actions'], 'ADD') || $WORKFLOW_MODEL->getModule()->getName() eq $MODULE_INFO['related_modulename']) &&  \App\Privilege::isPermitted($MODULE_INFO['related_modulename'], 'EditView')}

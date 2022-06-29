@@ -41,14 +41,15 @@ class VTCreateEntityTask extends VTTask
 			$ownerFields = array_keys($newRecordModel->getModule()->getFieldsByType('owner'));
 			foreach ($fieldValueMapping as $fieldInfo) {
 				$fieldName = $fieldInfo['fieldname'];
-				[$getDataFromDestinyModule, $referenceModule] = $this->getDestinyModuleData($fieldInfo['modulename']);
+				$destinyModuleName = $this->getDestinyModuleName($fieldInfo['modulename']);
+				$sourceModuleName = $destinyModuleName ?? $fieldInfo['modulename'];
 				$fieldValueType = $fieldInfo['valuetype'];
 				$fieldValue = trim($fieldInfo['value']);
 				if ('fieldname' === $fieldValueType) {
 					if ($this->relationId) {
-						$fieldValue = $getDataFromDestinyModule ? $newRecordModel->get($fieldValue) : $recordModel->get($fieldValue);
+						$fieldValue = $destinyModuleName ? $newRecordModel->get($fieldValue) : $recordModel->get($fieldValue);
 					} else {
-						$fieldValue = $referenceModule === $entityType ? $newRecordModel->get($fieldValue) : $fieldValue = $recordModel->get($fieldValue);
+						$fieldValue = $sourceModuleName === $entityType ? $newRecordModel->get($fieldValue) : $fieldValue = $recordModel->get($fieldValue);
 					}
 				} elseif ('expression' === $fieldValueType) {
 					require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
@@ -56,7 +57,7 @@ class VTCreateEntityTask extends VTTask
 					$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 					$expression = $parser->expression();
 					$exprEvaluater = new VTFieldExpressionEvaluater($expression);
-					if ($referenceModule === $entityType) {
+					if ($sourceModuleName === $entityType) {
 						$fieldValue = $exprEvaluater->evaluate($newRecordModel);
 					} else {
 						$fieldValue = $exprEvaluater->evaluate($recordModel);
@@ -131,12 +132,13 @@ class VTCreateEntityTask extends VTTask
 			$fieldName = $fieldInfo['fieldname'];
 			$fieldValueType = $fieldInfo['valuetype'];
 			$fieldValue = trim($fieldInfo['value']);
-			[$getDataFromDestinyModule, $referenceModule] = $this->getDestinyModuleData($fieldInfo['modulename']);
+			$destinyModuleName = $this->getDestinyModuleName($fieldInfo['modulename']);
+			$sourceModuleName = $destinyModuleName ?? $fieldInfo['modulename'];
 			if ('fieldname' === $fieldValueType) {
 				if ($this->relationId) {
-					$fieldValue = $getDataFromDestinyModule ? $parentRecordModel->get($fieldValue) : $recordModel->get($fieldValue);
+					$fieldValue = $destinyModuleName ? $parentRecordModel->get($fieldValue) : $recordModel->get($fieldValue);
 				} else {
-					$fieldValue = $referenceModule === $entityType ? $fieldValue = $recordModel->get($fieldValue) : $fieldValue = $parentRecordModel->get($fieldValue);
+					$fieldValue = $sourceModuleName === $entityType ? $fieldValue = $recordModel->get($fieldValue) : $fieldValue = $parentRecordModel->get($fieldValue);
 				}
 			} elseif ('expression' == $fieldValueType) {
 				require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
@@ -144,7 +146,7 @@ class VTCreateEntityTask extends VTTask
 				$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 				$expression = $parser->expression();
 				$exprEvaluater = new VTFieldExpressionEvaluater($expression);
-				if ($referenceModule === $entityType) {
+				if ($sourceModuleName === $entityType) {
 					$fieldValue = $exprEvaluater->evaluate($recordModel);
 				} else {
 					$fieldValue = $exprEvaluater->evaluate($parentRecordModel);
@@ -174,19 +176,18 @@ class VTCreateEntityTask extends VTTask
 	}
 
 	/**
-	 * Get destiny module data.
+	 * Get destiny module name.
 	 *
-	 * @param string $referenceModule
+	 * @param string $destinyModuleName
 	 *
-	 * @return void
+	 * @return string|null
 	 */
-	private function getDestinyModuleData(string $referenceModule)
+	private function getDestinyModuleName(string $destinyModuleName): ?string
 	{
-		$getDataFromDestinyModule = false;
-		if (strpos($referenceModule, 'destinyModule') > 0) {
-			$referenceModule = explode('::', $referenceModule)[1];
-			$getDataFromDestinyModule = true;
+		$moduleName = null;
+		if (strpos($destinyModuleName, 'destinyModule') > 0) {
+			$moduleName = explode('::', $destinyModuleName)[1];
 		}
-		return [$getDataFromDestinyModule, $referenceModule];
+		return $moduleName;
 	}
 }

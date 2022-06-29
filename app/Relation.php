@@ -154,20 +154,4 @@ class Relation
 		Cache::delete('getFieldsFromRelation', $relationId);
 		Cache::delete('HierarchyByRelation', '');
 	}
-
-	public static function getModuleRelationsByType(string $moduleName)
-	{
-		$moduleRelations = self::getByModule($moduleName);
-		$moduleRelationsByType = [];
-		foreach ($moduleRelations as $relationInfo) {
-			if ('getDependentsList' === $relationInfo['name']) {
-				$moduleRelationsByType['LBL_ONE_TO_MANY'][] = $relationInfo;
-			} elseif ('getRelatedList' === $relationInfo['name']) {
-				$moduleRelationsByType['LBL_MANY_TO_MANY'][] = $relationInfo;
-			} else {
-				$moduleRelationsByType['LBL_WORKFLOW_CUSTOM_RELATIONS'][] = $relationInfo;
-			}
-		}
-		return $moduleRelationsByType;
-	}
 }
