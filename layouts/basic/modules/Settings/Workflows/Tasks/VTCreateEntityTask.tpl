@@ -70,7 +70,6 @@
 										{\App\Language::translate($MODULE_INFO['label'], $MODULE_INFO['related_modulename'])}
 									</option>
 								{/if}
-
 							{/foreach}
 						</optgroup>
 					{/foreach}

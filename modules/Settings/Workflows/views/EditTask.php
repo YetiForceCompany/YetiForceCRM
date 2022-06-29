@@ -53,7 +53,6 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 			if (!empty($taskObject->entity_type) && $taskObject->field_value_mapping) {
 				$relationModuleModel = Vtiger_Module_Model::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
-
 				$fieldMapping = \App\Json::decode($taskObject->field_value_mapping);
 				foreach ($fieldMapping as $key => $mappingInfo) {
 					if (\array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {

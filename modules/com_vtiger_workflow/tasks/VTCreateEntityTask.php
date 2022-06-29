@@ -48,11 +48,7 @@ class VTCreateEntityTask extends VTTask
 					if ($this->relationId) {
 						$fieldValue = $getDataFromDestinyModule ? $newRecordModel->get($fieldValue) : $recordModel->get($fieldValue);
 					} else {
-						if ($referenceModule === $entityType) {
-							$fieldValue = $newRecordModel->get($fieldValue);
-						} else {
-							$fieldValue = $recordModel->get($fieldValue);
-						}
+						$fieldValue = $referenceModule === $entityType ? $newRecordModel->get($fieldValue) : $fieldValue = $recordModel->get($fieldValue);
 					}
 				} elseif ('expression' === $fieldValueType) {
 					require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
@@ -140,11 +136,7 @@ class VTCreateEntityTask extends VTTask
 				if ($this->relationId) {
 					$fieldValue = $getDataFromDestinyModule ? $parentRecordModel->get($fieldValue) : $recordModel->get($fieldValue);
 				} else {
-					if ($referenceModule === $entityType) {
-						$fieldValue = $recordModel->get($fieldValue);
-					} else {
-						$fieldValue = $parentRecordModel->get($fieldValue);
-					}
+					$fieldValue = $referenceModule === $entityType ? $fieldValue = $recordModel->get($fieldValue) : $fieldValue = $parentRecordModel->get($fieldValue);
 				}
 			} elseif ('expression' == $fieldValueType) {
 				require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
