@@ -136,7 +136,7 @@ $.Class(
 		 */
 		saveAjaxValidation: function (params) {
 			const aDeferred = $.Deferred();
-			if (app.pageController.checkPreSaveValidation()) {
+			if (this.getInstance().checkPreSaveValidation()) {
 				let paramsTemp = JSON.parse(JSON.stringify(params));
 				paramsTemp.data.mode = 'preSaveValidation';
 				AppConnector.request(paramsTemp)
