@@ -43,7 +43,7 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 	];
 
 	/** {@inheritdoc} */
-	public function process(): void
+	public function process(): int
 	{
 		$query = (new \App\Db\Query())->select([
 			'dbo.ARTYKUL.*',
@@ -86,11 +86,15 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 				}
 			}
 			$pauser->setValue($lastId);
+			if ($this->controller->cron && $this->controller->cron->checkTimeout()) {
+				break;
+			}
 		}
 		if (0 == $lastId) {
 			$pauser->destroy();
 		}
 		$this->log("Create {$i} | Update {$u} | Skipped {$s} | Error {$e}");
+		return $i + $u;
 	}
 
 	/** {@inheritdoc} */
@@ -112,7 +116,10 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 		}
 		$this->recordModel->save();
 		\App\Cache::save('WaproMapTable', "{$this->waproId}|ARTYKUL", $this->recordModel->getId());
-		return $id ? 1 : 2;
+		if ($id) {
+			return $this->recordModel->getPreviousValue() ? 1 : 3;
+		}
+		return 2;
 	}
 
 	/**

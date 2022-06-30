@@ -33,7 +33,7 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 	];
 
 	/** {@inheritdoc} */
-	public function process(): void
+	public function process(): int
 	{
 		$dataReader = (new \App\Db\Query())->select(['dbo.RACHUNEK_FIRMY.*', 'dbo.BANKI.SWIFT', 'bankName' => 'dbo.BANKI.NAZWA'])->from('dbo.RACHUNEK_FIRMY')
 			->leftJoin('dbo.BANKI', 'dbo.RACHUNEK_FIRMY.ID_BANKU = dbo.BANKI.ID_BANKU')
@@ -62,6 +62,7 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 			}
 		}
 		$this->log("Create {$i} | Update {$u} | Skipped {$s} | Error {$e}");
+		return $i + $u;
 	}
 
 	/** {@inheritdoc} */
@@ -85,6 +86,9 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 		$this->loadFromFieldMap();
 		$this->recordModel->save();
 		\App\Cache::save('WaproMapTable', "{$this->waproId}|RACHUNEK_FIRMY", $this->recordModel->getId());
-		return $id ? 1 : 2;
+		if ($id) {
+			return $this->recordModel->getPreviousValue() ? 1 : 3;
+		}
+		return 2;
 	}
 }

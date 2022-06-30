@@ -45,7 +45,7 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	];
 
 	/** {@inheritdoc} */
-	public function process(): void
+	public function process(): int
 	{
 		$query = (new \App\Db\Query())->select([
 			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA', 'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA',
@@ -58,7 +58,7 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 			$query->where(['>', 'ID_DOKUMENTU_HANDLOWEGO', $val]);
 		}
 		$lastId = $s = $e = $i = $u = 0;
-		foreach ($query->batch(50, $this->controller->getDb()) as $rows) {
+		foreach ($query->batch(100, $this->controller->getDb()) as $rows) {
 			$lastId = 0;
 			foreach ($rows as $row) {
 				$this->waproId = $row['ID_DOKUMENTU_HANDLOWEGO'];
@@ -84,11 +84,15 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 				}
 			}
 			$pauser->setValue($lastId);
+			if ($this->controller->cron && $this->controller->cron->checkTimeout()) {
+				break;
+			}
 		}
 		if (0 == $lastId) {
 			$pauser->destroy();
 		}
 		$this->log("Create {$i} | Update {$u} | Skipped {$s} | Error {$e}");
+		return $i + $u;
 	}
 
 	/** {@inheritdoc} */
@@ -113,7 +117,10 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 		}
 		$this->recordModel->save();
 		\App\Cache::save('WaproMapTable', "{$this->waproId}|DOKUMENT_HANDLOWY", $this->recordModel->getId());
-		return $id ? 1 : 2;
+		if ($id) {
+			return $this->recordModel->getPreviousValue() ? 1 : 3;
+		}
+		return 2;
 	}
 
 	/**

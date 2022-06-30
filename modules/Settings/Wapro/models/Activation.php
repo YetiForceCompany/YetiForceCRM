@@ -44,6 +44,10 @@ class Settings_Wapro_Activation_Model
 		if ($check) {
 			$check = Vtiger_Inventory_Model::getInstance('FInvoice')->isField('discount_aggreg');
 		}
+		if ($check) {
+			$cron = (new \App\Db\Query())->from('vtiger_cron_task')->where(['name' => 'LBL_INTEGRATION_WAPRO', 'handler_class' => 'Vtiger_IntegrationWapro_Cron'])->one();
+			$check = $cron && 1 == $cron['status'];
+		}
 		return $check;
 	}
 
@@ -107,6 +111,7 @@ class Settings_Wapro_Activation_Model
 			}
 		}
 		self::activateInventory();
+		self::activateCron();
 		return $status ?? false;
 	}
 
@@ -121,5 +126,21 @@ class Settings_Wapro_Activation_Model
 		$fieldModel = $inventory->getFieldCleanInstance('DiscountAggregation');
 		$fieldModel->setDefaultDataConfig();
 		$inventory->saveField($fieldModel);
+	}
+
+	/**
+	 * Activate integration in cron.
+	 *
+	 * @return void
+	 */
+	private static function activateCron(): void
+	{
+		$cron = (new \App\Db\Query())->from('vtiger_cron_task')->where(['name' => 'LBL_INTEGRATION_WAPRO', 'handler_class' => 'Vtiger_IntegrationWapro_Cron'])->one();
+		if (empty($cron)) {
+			\vtlib\Cron::register('LBL_INTEGRATION_WAPRO', 'Vtiger_IntegrationWapro_Cron', 900, 'Vtiger', 1);
+		}
+		if (1 != $cron['status']) {
+			\App\Cron::updateStatus(\App\Cron::STATUS_ENABLED, 'LBL_INTEGRATION_WAPRO');
+		}
 	}
 }

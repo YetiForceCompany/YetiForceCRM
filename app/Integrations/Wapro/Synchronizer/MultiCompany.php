@@ -42,7 +42,7 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 	];
 
 	/** {@inheritdoc} */
-	public function process(): void
+	public function process(): int
 	{
 		$dataReader = (new \App\Db\Query())->from('dbo.FIRMA')
 			->leftJoin('dbo.ADRESY_FIRMY', 'dbo.FIRMA.ID_ADRESU_DOMYSLNEGO = dbo.ADRESY_FIRMY.ID_ADRESY_FIRMY')
@@ -71,6 +71,7 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 			}
 		}
 		$this->log("Create {$i} | Update {$u} | Skipped {$s} | Error {$e}");
+		return $i + $u;
 	}
 
 	/** {@inheritdoc} */
@@ -88,6 +89,9 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 		$this->loadFromFieldMap();
 		$this->recordModel->save();
 		\App\Cache::save('WaproMapTable', "{$this->waproId}|FIRMA", $this->recordModel->getId());
-		return $id ? 1 : 2;
+		if ($id) {
+			return $this->recordModel->getPreviousValue() ? 1 : 3;
+		}
+		return 2;
 	}
 }

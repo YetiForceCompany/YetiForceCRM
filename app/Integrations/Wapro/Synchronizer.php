@@ -22,14 +22,14 @@ abstract class Synchronizer
 	/** @var string Priority order. */
 	const SEQUENCE = null;
 
+	/** @var string Class name. */
+	public $className;
+
 	/** @var string[] Map of fields integrating with WAPRO ERP */
 	protected $fieldMap = [];
 
 	/** @var \App\Integrations\Wapro Controller instance. */
 	protected $controller;
-
-	/** @var string Controller instance. */
-	protected $className;
 
 	/** @var \Vtiger_Record_Model Record model instance. */
 	protected $recordModel;
@@ -63,9 +63,9 @@ abstract class Synchronizer
 	/**
 	 * Main function to execute synchronizer.
 	 *
-	 * @return void
+	 * @return int
 	 */
-	abstract public function process(): void;
+	abstract public function process(): int;
 
 	/**
 	 * Import record.

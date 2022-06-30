@@ -49,7 +49,7 @@ class Accounts extends \App\Integrations\Wapro\Synchronizer
 	];
 
 	/** {@inheritdoc} */
-	public function process(): void
+	public function process(): int
 	{
 		$query = (new \App\Db\Query())->from('dbo.KONTRAHENT');
 		$pauser = \App\Pauser::getInstance('WaproAccountLastId');
@@ -57,7 +57,7 @@ class Accounts extends \App\Integrations\Wapro\Synchronizer
 			$query->where(['>', 'ID_KONTRAHENTA', $val]);
 		}
 		$lastId = $s = $e = $i = $u = 0;
-		foreach ($query->batch(50, $this->controller->getDb()) as $rows) {
+		foreach ($query->batch(100, $this->controller->getDb()) as $rows) {
 			$lastId = 0;
 			foreach ($rows as $row) {
 				$this->waproId = $row['ID_KONTRAHENTA'];
@@ -83,11 +83,15 @@ class Accounts extends \App\Integrations\Wapro\Synchronizer
 				}
 			}
 			$pauser->setValue($lastId);
+			if ($this->controller->cron && $this->controller->cron->checkTimeout()) {
+				break;
+			}
 		}
 		if (0 == $lastId) {
 			$pauser->destroy();
 		}
 		$this->log("Create {$i} | Update {$u} | Skipped {$s} | Error {$e}");
+		return $i + $u;
 	}
 
 	/** {@inheritdoc} */
@@ -108,6 +112,9 @@ class Accounts extends \App\Integrations\Wapro\Synchronizer
 		}
 		$this->recordModel->save();
 		\App\Cache::save('WaproMapTable', "{$this->waproId}|KONTRAHENT", $this->recordModel->getId());
-		return $id ? 1 : 2;
+		if ($id) {
+			return $this->recordModel->getPreviousValue() ? 1 : 3;
+		}
+		return 2;
 	}
 }

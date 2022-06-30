@@ -59,8 +59,14 @@ class Settings_Wapro_Record_Model extends Settings_Vtiger_Record_Model
 	/** {@inheritdoc} */
 	public function getRecordLinks(): array
 	{
-		$links = [];
 		$recordLinks = [
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_SYNCHRONIZER_LIST',
+				'linkdata' => ['url' => 'index.php?parent=Settings&module=Wapro&view=ListSynchronizerModal&id=' . $this->getId()],
+				'linkicon' => 'fas fa-list',
+				'linkclass' => 'btn btn-secondary btn-sm js-show-modal'
+			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
@@ -75,14 +81,8 @@ class Settings_Wapro_Record_Model extends Settings_Vtiger_Record_Model
 				'linkicon' => 'fas fa-trash-alt',
 				'linkclass' => 'btn text-white btn-danger btn-sm'
 			],
-			[
-				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_LIST_RECORD',
-				'linkdata' => ['url' => 'index.php?parent=Settings&module=Wapro&view=UploadListSynchronizerModal'],
-				'linkicon' => 'fas fa-list',
-				'linkclass' => 'btn btn-light btn-sm js-show-modal'
-			],
 		];
+		$links = [];
 		foreach ($recordLinks as $recordLink) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
 		}

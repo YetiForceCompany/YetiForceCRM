@@ -20,16 +20,18 @@ class Vtiger_IntegrationWapro_Cron extends \App\CronHandler
 		$ids = (new \App\Db\Query())->select(['id'])->from(\App\Integrations\Wapro::TABLE_NAME)
 			->where(['status' => 1])
 			->column(\App\Db::getInstance('admin')) ?: [];
+		$i = 0;
 		foreach ($ids as $id) {
 			$this->updateLastActionTime();
-			$wapro = new \App\Integrations\Wapro($id);
+			$wapro = new \App\Integrations\Wapro($id, $this);
 			foreach ($wapro->getSynchronizers() as $synchronizer) {
 				$this->updateLastActionTime();
-				$synchronizer->process();
+				$i += $synchronizer->process();
 				if ($this->checkTimeout()) {
 					return;
 				}
 			}
 		}
+		$this->logs = $i;
 	}
 }
