@@ -1,7 +1,7 @@
 {
   "php": {
     "RecordCollector": "RecordCollector",
-    "LBL_RECORD_COLLECTOR": "Record Collectors Config",
+    "LBL_RECORD_COLLECTOR": "Record collectors",
     "LBL_RECORD_COLLECTOR_DESCRIPTION": "Configuration Panel for required data (ex. API Key, Username) for connecting with services that provide companies data.",
     "LBL_NAME": "Name",
     "LBL_SUCCESSFULLY_UPDATED": "The status change was successful",
