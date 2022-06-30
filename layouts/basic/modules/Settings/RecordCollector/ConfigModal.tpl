@@ -8,15 +8,15 @@
 					<table class="table table-sm mb-0">
 						<tbody class="u-word-break-all small">
 							{foreach from=$FIELDS item=FIELD}
-								{if 'string' === $FIELD->getFieldDataType()}
-									{assign var=TYPE value='text'}
-								{/if}
-								<td class="py-2 u-font-weight-550 align-middle border-bottom">
-									{App\Language::translate($FIELD->get('label'), $QUALIFIED_MODULE)}
-								</td>
-								<td class="py-2 position-relative w-60 border-bottom">
-							<input type="{$TYPE}" class="form-control js-custom-field" placeholder="{\App\Language::translate($FIELD->get('label'), $QUALIFIED_MODULE)}" name="{$FIELD->get('name')}" {if isset($FIELD->get('value'))}value="{$FIELD->get('value')}" {/if}/>
-								</td>
+								<div class="form-group row">
+								<label class="col-form-label col-md-3 u-text-small-bold text-right">
+									{\App\Language::translate($FIELD->get('label'), $QUALIFIED_MODULE)}
+									{if $FIELD->isMandatory()}<span class="redColor">*</span>{/if}:
+								</label>
+								<div class="col-md-9 fieldValue">
+									{include file=\App\Layout::getTemplatePath($FIELD->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD MODULE=$QUALIFIED_MODULE RECORD=null}
+								</div>
+							</div>
 							{/foreach}
 						</tbody>
 					</table>

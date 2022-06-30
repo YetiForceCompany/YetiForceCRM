@@ -16,6 +16,9 @@
 class Settings_RecordCollector_ConfigModal_View extends \App\Controller\ModalSettings
 {
 	/** {@inheritdoc} */
+	protected $pageTitle = 'LBL_EDIT';
+
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
@@ -43,7 +46,7 @@ class Settings_RecordCollector_ConfigModal_View extends \App\Controller\ModalSet
 			$fieldParams['column'] = $fieldName;
 			$fieldParams['name'] = $fieldName;
 			if (\array_key_exists($fieldName, $configData)) {
-				$fieldParams['value'] = $configData[$fieldName];
+				$fieldParams['fieldvalue'] = $configData[$fieldName];
 			}
 			$fields[] = Settings_Vtiger_Field_Model::init($collectorInstance->moduleName, array_merge($defaultParams, $fieldParams));
 		}

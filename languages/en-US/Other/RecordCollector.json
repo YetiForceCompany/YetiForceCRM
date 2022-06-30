@@ -11,6 +11,7 @@
     "LBL_POLAND_NCR": "Polish National Court Register",
     "LBL_POLAND_NCR_DESC": "Get company data from the Polish National Court Register",
     "LBL_UNITED_KINGDOM_CH": "Companies House",
-    "LBL_UNITED_KINGDOM_CH_DESC": "Check company in government register of companies for the UK"
+    "LBL_UNITED_KINGDOM_CH_DESC": "Check company in government register of companies for the UK",
+    "LBL_EDIT": "Edit configuration"
   }
 }

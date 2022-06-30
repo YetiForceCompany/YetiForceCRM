@@ -23,7 +23,7 @@ class Settings_RecordCollector_SaveConfig_Action extends Settings_Vtiger_Basic_A
 		if (empty($config) || !$recordCollectorName) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||', 406);
 		}
-		(new \App\Db\Query())->createCommand()->update('vtiger_links', ['params' => \App\Json::encode($config)], ['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => $recordCollectorName])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_links', ['params' => \App\Json::encode($config)], ['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => $recordCollectorName])->execute();
 
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_SAVE_NOTIFY_OK', $request->getModule(false))]);
