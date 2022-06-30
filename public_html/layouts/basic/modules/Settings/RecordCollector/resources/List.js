@@ -5,10 +5,30 @@ $.Class(
 	{},
 	{
 		/**
+		* register onClick event.
+		*/
+		registerOnLoadEvent: function (container) {
+			$(function() {
+				container.find('.js-status-change').each( function () {
+					if (this.checked) {
+						container.find(`button[data-name=${this.value}].js-show-config-modal`).removeClass('d-none');
+					}
+				})
+			})
+		},
+		/**
 		 * register onClick event.
 		 */
-		registerOnClickEventOnCheckbox: function () {
-			$('.js-status-change').on('click', function () {
+		registerOnClickEventOnCheckbox: function (container) {
+			container.find('.js-status-change').on('click', function () {
+				let configButton = container.find(`button[data-name=${this.value}].js-show-config-modal`);
+				if(configButton) {
+					if (this.checked) {
+						configButton.removeClass('d-none');
+					} else {
+						configButton.addClass('d-none');
+					}
+				}
 				AppConnector.request({
 					module: 'RecordCollector',
 					parent: 'Settings',
@@ -27,8 +47,8 @@ $.Class(
 		/**
 		 * register function for showing config modal.
 		 */
-		registerConfigModal: function () {
-			$('.js-show-config-modal').on('click', function () {
+		registerConfigModal: function (container) {
+			container.find('.js-show-config-modal').on('click', function () {
 				const recordCollectorName = this.dataset.name;
 				app.showModalWindow(null, 'index.php?module=RecordCollector&parent=Settings&view=ConfigModal&recordCollectorName=' + recordCollectorName,  function (modal) {
 					modal.on('click', ".js-modal__save", function() {
@@ -59,8 +79,10 @@ $.Class(
 		 * register events.
 		 */
 		registerEvents: function () {
-			this.registerOnClickEventOnCheckbox();
-			this.registerConfigModal();
+			const container = $('.js-config-table');
+			this.registerOnLoadEvent(container);
+			this.registerOnClickEventOnCheckbox(container);
+			this.registerConfigModal(container);
 		}
 	}
 );
