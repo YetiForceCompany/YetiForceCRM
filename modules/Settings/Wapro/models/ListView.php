@@ -24,8 +24,16 @@ class Settings_Wapro_ListView_Model extends Settings_Vtiger_ListView_Model
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_ADD_RECORD',
 				'linkdata' => ['url' => $moduleModel->getCreateRecordUrl()],
-				'linkclass' => 'btn-light js-add-record-modal',
+				'linkclass' => 'btn-outline-primary mr-2 js-add-record-modal',
 				'linkicon' => 'fas fa-plus',
+				'showLabel' => 1
+			];
+			$basicLinks[] = [
+				'linktype' => 'LISTVIEWBASIC',
+				'linklabel' => 'LBL_LOGS_VIEWER',
+				'linkurl' => 'index.php?parent=Settings&module=Log&view=LogsViewer&type=wapro',
+				'linkclass' => 'btn-outline-info',
+				'linkicon' => 'yfi yfi-view-logs',
 				'showLabel' => 1
 			];
 		}

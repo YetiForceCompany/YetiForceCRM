@@ -17,6 +17,7 @@
     "LBL_CONTACTS": "Contacts (read only)",
     "LBL_PRODUCTS": "Products (read only)",
     "LBL_INVOICE": "Invoices (read only)",
+    "LBL_LOGS_VIEWER": "Logs viewer",
     "LBL_SAVE_AND_VERIFY": "Save and verify"
   }
 }
