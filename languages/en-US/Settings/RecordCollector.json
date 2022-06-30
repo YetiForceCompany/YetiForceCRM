@@ -5,7 +5,10 @@
     "LBL_RECORD_COLLECTOR_DESCRIPTION": "RecordCollector",
     "LBL_NAME": "Name",
     "LBL_SUCCESSFULLY_UPDATED": "The status change was successful",
-    "LBL_DOC_URL": "Documentation URL"
+    "LBL_DOC_URL": "Documentation URL",
+    "LBL_API_KEY": "API Key",
+    "LBL_SAVE_NOTIFY_OK": "Saved changes.",
+    "LBL_PROVIDER_INVALID": "Configuration is incorrect"
   },
   "js": {}
 }
