@@ -5,21 +5,9 @@ $.Class(
 	{},
 	{
 		/**
-		* register onClick event.
-		*/
-		registerOnLoadEvent: function (container) {
-			$(function() {
-				container.find('.js-status-change').each( function () {
-					if (this.checked) {
-						container.find(`button[data-name=${this.value}].js-show-config-modal`).removeClass('d-none');
-					}
-				})
-			})
-		},
-		/**
 		 * register onClick event.
 		 */
-		registerOnClickEventOnCheckbox: function (container) {
+		registerChangeStatusEvent: function (container) {
 			container.find('.js-status-change').on('click', function () {
 				let configButton = container.find(`button[data-name=${this.value}].js-show-config-modal`);
 				if(configButton) {
@@ -80,8 +68,7 @@ $.Class(
 		 */
 		registerEvents: function () {
 			const container = $('.js-config-table');
-			this.registerOnLoadEvent(container);
-			this.registerOnClickEventOnCheckbox(container);
+			this.registerChangeStatusEvent(container);
 			this.registerConfigModal(container);
 		}
 	}
