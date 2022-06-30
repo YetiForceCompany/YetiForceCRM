@@ -9,8 +9,8 @@ $.Class(
 		 */
 		registerChangeStatusEvent: function (container) {
 			container.find('.js-status-change').on('click', function () {
-				let configButton = container.find(`button[data-name=${this.value}].js-show-config-modal`);
-				if(configButton) {
+				let configButton = $(this).closest('tr').find('button');
+				if(configButton.length) {
 					if (this.checked) {
 						configButton.removeClass('d-none');
 					} else {
