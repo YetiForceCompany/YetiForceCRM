@@ -26,7 +26,7 @@ class Settings_Wapro_ListSynchronizerModal_View extends \App\Controller\ModalSet
 	public $modalSize = 'modal-lg';
 
 	/** {@inheritdoc} */
-	public $showFooter = true;
+	public $showFooter = false;
 
 	/** {@inheritdoc} */
 	public function process(App\Request $request)

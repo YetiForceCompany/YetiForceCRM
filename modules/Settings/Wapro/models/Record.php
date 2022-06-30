@@ -63,9 +63,9 @@ class Settings_Wapro_Record_Model extends Settings_Vtiger_Record_Model
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_SYNCHRONIZER_LIST',
-				'linkdata' => ['url' => 'index.php?parent=Settings&module=Wapro&view=ListSynchronizerModal&id=' . $this->getId()],
+				'linkdata' => ['url' => 'index.php?parent=Settings&module=Wapro&view=ListSynchronizerModal&id=' . $this->getId(), 'id' => $this->getId()],
 				'linkicon' => 'fas fa-list',
-				'linkclass' => 'btn btn-secondary btn-sm js-show-modal'
+				'linkclass' => 'btn btn-secondary btn-sm js-list-sync'
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
@@ -117,7 +117,7 @@ class Settings_Wapro_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function delete(): int
 	{
-		$return = \App\Db::getInstance()->createCommand()
+		$return = \App\Db::getInstance('admin')->createCommand()
 			->delete($this->getModule()->baseTable, ['id' => $this->getId()])
 			->execute();
 		\App\Cache::delete('App\Integrations\Wapro::getById', $this->getId());

@@ -180,7 +180,7 @@ class Wapro
 	 *
 	 * @return Wapro\Synchronizer[]
 	 */
-	public static function getAllSynchronizers(): array
+	public function getAllSynchronizers(): array
 	{
 		$synchronizers = [];
 		$iterator = new \DirectoryIterator(__DIR__ . '/Wapro/Synchronizer');
