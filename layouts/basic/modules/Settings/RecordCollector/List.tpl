@@ -38,7 +38,7 @@
 									</td>
 									<td class="text-center">
 									{if !empty($ITEM['instance']->settingsFields)}
-										<button class="btn btn-outline-secondary btn-sm js-show-config-modal js-popover-tooltip mr-1" type="button" data-name="{$ITEM['name']}"
+									<button class="btn btn-outline-secondary btn-sm js-show-config-modal js-popover-tooltip mr-1 {if !$ITEM['active']} d-none {/if}" type="button" data-name="{$ITEM['name']}"
 											data-content="{\App\Language::translate('LBL_CONFIG', $QUALIFIED_MODULE)}">
 											<span class="fas fa-cog"></span>
 										</button>
