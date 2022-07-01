@@ -253,15 +253,14 @@ Vtiger_Base_Validator_Js(
 	'Vtiger_Double_Validator_Js',
 	{
 		/**
-		 *Function which invokes field validation
-		 *@param accepts field element as parameter
+		 * Function which invokes field validation
+		 * @param accepts field element as parameter
 		 * @return error if validation fails true on success
 		 */
 		invokeValidation: function (field, rules, i, options) {
-			var doubleValidator = new Vtiger_Double_Validator_Js();
+			let doubleValidator = new Vtiger_Double_Validator_Js();
 			doubleValidator.setElement(field);
-			var response = doubleValidator.validate();
-			if (response != true) {
+			if (!doubleValidator.validate()) {
 				return doubleValidator.getError();
 			}
 		}
@@ -275,11 +274,10 @@ Vtiger_Base_Validator_Js(
 		validate: function () {
 			let response = this._super();
 			if (response === true) {
-				var fieldValue = this.getFieldValue();
-				var doubleRegex = /(^[-+]?\d+)(\.\d+)?$/;
+				let fieldValue = this.getFieldValue();
+				let doubleRegex = /(^[-+]?\d+)(\.\d+)?$/;
 				if (!fieldValue.toString().match(doubleRegex)) {
-					var errorInfo = app.vtranslate('JS_PLEASE_ENTER_DECIMAL_VALUE');
-					this.setError(errorInfo);
+					this.setError(app.vtranslate('JS_PLEASE_ENTER_DECIMAL_VALUE'));
 					return false;
 				}
 				let fieldInfo = this.getElement().data().fieldinfo;
@@ -295,8 +293,7 @@ Vtiger_Base_Validator_Js(
 					minimumLength = ranges[0];
 				}
 				if (fieldValue > parseFloat(maximumLength) || fieldValue < parseFloat(minimumLength)) {
-					errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
-					this.setError(errorInfo);
+					this.setError(app.vtranslate('JS_ERROR_MAX_VALUE'));
 					return false;
 				}
 			}

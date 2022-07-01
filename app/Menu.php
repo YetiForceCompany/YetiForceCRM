@@ -39,7 +39,7 @@ class Menu
 	public static function reloadMenu(?int $menuRoleId = null): void
 	{
 		$menuRecordModel = new \Settings_Menu_Record_Model();
-		if (null == $menuRoleId) {
+		if (null === $menuRoleId) {
 			$menuRecordModel->refreshMenuFiles();
 		} else {
 			$menuRecordModel->generateFileMenu($menuRoleId);
