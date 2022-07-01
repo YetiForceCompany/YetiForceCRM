@@ -17893,6 +17893,7 @@ body:not(.desktop) .ps__rail-y {
   line-height: 1.2;
   border-radius: 0.16rem;
 }
+
 label.btn[class*=btn-outline-]:not(.active) {
   background: #fff;
 }
@@ -23013,11 +23014,12 @@ table .listButtons.narrow .c-badge__icon {
 
 .u-bg-twilight, .select2-selection__rendered[title=Twilight] {
   background-color: #404952 !important;
-  color: #fff;
+  color: #fff !important;
 }
 
 .u-bg-blue, .select2-selection__rendered[title=Blue] {
   background-color: #0078d4 !important;
+  color: #fff !important;
 }
 
 .u-bg-gray {
@@ -23027,6 +23029,11 @@ table .listButtons.narrow .c-badge__icon {
 
 .u-text-gray {
   color: #d1d1db !important;
+}
+
+.u-bg-default {
+  background-color: #fff;
+  color: #000;
 }
 
 .u-text-inherit {
@@ -26365,6 +26372,10 @@ ul.c-process-line li.c-process-line__active > a:after {
 }
 .c-form__action-panel .btn-group {
   margin-right: 3px;
+}
+
+.fieldValue {
+  border-radius: 0.25rem;
 }
 
 .user-info--active .c-form__action-panel {
