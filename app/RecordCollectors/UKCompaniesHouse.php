@@ -40,6 +40,11 @@ class UKCompaniesHouse extends Base
 			'labelModule' => '_Base',
 			'label' => 'Registration number 1',
 			'typeofdata' => 'V~M',
+		],
+		'accountname' => [
+			'labelModule' => '_Base',
+			'label' => 'Account name',
+			'typeofdata' => 'V~M',
 		]
 	];
 
@@ -47,12 +52,18 @@ class UKCompaniesHouse extends Base
 	protected $modulesFieldsMap = [
 		'Accounts' => [
 			'ncr' => 'registration_number_1',
+			'accountname' => 'accountname',
 		],
 		'Leads' => [
 			'ncr' => 'registration_number_1',
+			'accountname' => 'company',
 		],
 		'Vendors' => [
 			'ncr' => 'registration_number_1',
+			'accountname' => 'vendorname',
+		],
+		'Competition' => [
+			'accountname' => 'subject',
 		]
 	];
 
@@ -60,14 +71,23 @@ class UKCompaniesHouse extends Base
 	public $formFieldsToRecordMap = [
 		'Accounts' => [
 			'company_name' => 'accountname',
+			'top_hitCompany_name' => 'accountname',
 			'company_number' => 'registration_number_1',
+			'top_hitCompany_number' => 'registration_number_1',
 			'sic_codes0' => 'siccode',
+			'top_hitSic_codes0' => 'siccode',
 			'registered_office_addressAddress_line_1' => 'addresslevel8a',
+			'top_hitRegistered_office_addressAddress_line_1' => 'addresslevel8a',
 			'registered_office_addressAddress_line_2' => 'addresslevel3a',
+			'top_hitRegistered_office_addressAddress_line_2' => 'addresslevel3a',
 			'registered_office_addressLocality' => 'addresslevel5a',
+			'top_hitRegistered_office_addressLocality' => 'addresslevel5a',
 			'registered_office_addressPostal_code' => 'addresslevel7a',
+			'top_hitRegistered_office_addressPostal_code' => 'addresslevel7a',
 			'registered_office_addressCountry' => 'addresslevel1a',
+			'top_hitRegistered_office_addressCountry' => 'addresslevel1a',
 			'registered_office_addressRegion' => 'addresslevel4a',
+			'top_hitRegistered_office_addressRegion' => 'addresslevel4a',
 			'registered_office_addressPo_box' => 'poboxa',
 			'service_addressAddress_line_1' => 'addresslevel8c',
 			'service_addressAddress_line_2' => 'addresslevel3c',
@@ -79,41 +99,57 @@ class UKCompaniesHouse extends Base
 		],
 		'Leads' => [
 			'company_name' => 'company',
+			'top_hitCompany_name' => 'company',
 			'company_number' => 'registration_number_1',
+			'top_hitCompany_number' => 'registration_number_1',
 			'registered_office_addressAddress_line_1' => 'addresslevel8a',
+			'top_hitRegistered_office_addressAddress_line_1' => 'addresslevel8a',
 			'registered_office_addressAddress_line_2' => 'addresslevel3a',
+			'top_hitRegistered_office_addressAddress_line_2' => 'addresslevel3a',
 			'registered_office_addressLocality' => 'addresslevel5a',
+			'top_hitRegistered_office_addressLocality' => 'addresslevel5a',
 			'registered_office_addressPostal_code' => 'addresslevel7a',
+			'top_hitRegistered_office_addressPostal_code' => 'addresslevel7a',
 			'registered_office_addressCountry' => 'addresslevel1a',
+			'top_hitRegistered_office_addressCountry' => 'addresslevel1a',
 			'registered_office_addressRegion' => 'addresslevel4a',
+			'top_hitRegistered_office_addressRegion' => 'addresslevel4a',
 			'registered_office_addressPo_box' => 'poboxa',
 		],
 		'Vendors' => [
 			'company_name' => 'vendorname',
+			'top_hitCompany_name' => 'vendorname',
 			'company_number' => 'registration_number_1',
+			'top_hitCompany_number' => 'registration_number_1',
 			'registered_office_addressAddress_line_1' => 'addresslevel8a',
+			'top_hitRegistered_office_addressAddress_line_1' => 'addresslevel8a',
 			'registered_office_addressAddress_line_2' => 'addresslevel3a',
+			'top_hitRegistered_office_addressAddress_line_2' => 'addresslevel3a',
 			'registered_office_addressLocality' => 'addresslevel5a',
+			'top_hitRegistered_office_addressLocality' => 'addresslevel5a',
 			'registered_office_addressPostal_code' => 'addresslevel7a',
+			'top_hitRegistered_office_addressPostal_code' => 'addresslevel7a',
 			'registered_office_addressCountry' => 'addresslevel1a',
+			'top_hitRegistered_office_addressCountry' => 'addresslevel1a',
 			'registered_office_addressRegion' => 'addresslevel4a',
-			'registered_office_addressPo_box' => 'poboxa',
-			'service_addressAddress_line_1' => 'addresslevel8c',
-			'service_addressAddress_line_2' => 'addresslevel3c',
-			'service_addressLocality' => 'addresslevel5b',
-			'service_addressPostal_code' => 'addresslevel7c',
-			'service_addressCountry' => 'addresslevel1c',
-			'service_addressRegion' => 'addresslevel4c',
+			'top_hitRegistered_office_addressRegion' => 'addresslevel4a',
 			'service_addressPo_box' => 'poboxb',
 		],
 		'Competition' => [
 			'company_name' => 'subject',
+			'top_hitCompany_name' => 'subject',
 			'registered_office_addressAddress_line_1' => 'addresslevel8a',
+			'top_hitRegistered_office_addressAddress_line_1' => 'addresslevel8a',
 			'registered_office_addressAddress_line_2' => 'addresslevel3a',
+			'top_hitRegistered_office_addressAddress_line_2' => 'addresslevel3a',
 			'registered_office_addressLocality' => 'addresslevel5a',
+			'top_hitRegistered_office_addressLocality' => 'addresslevel5a',
 			'registered_office_addressPostal_code' => 'addresslevel7a',
+			'top_hitRegistered_office_addressPostal_code' => 'addresslevel7a',
 			'registered_office_addressCountry' => 'addresslevel1a',
+			'top_hitRegistered_office_addressCountry' => 'addresslevel1a',
 			'registered_office_addressRegion' => 'addresslevel4a',
+			'top_hitRegistered_office_addressRegion' => 'addresslevel4a',
 			'registered_office_addressPo_box' => 'poboxa',
 		]
 	];
@@ -134,10 +170,12 @@ class UKCompaniesHouse extends Base
 	{
 		$this->moduleName = $this->request->getModule();
 		$ncr = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('ncr', 'Text'));
-		if (!$ncr) {
+		$companyName = str_replace([',', '.', '-'], ' ', $this->request->getByType('accountname', 'Text'));
+
+		if (!$ncr && !$companyName) {
 			return [];
 		}
-		$this->getDataFromApi($ncr);
+		$this->getDataFromApi($ncr, $companyName ?? null);
 		$this->parseData();
 		if (empty($this->data)) {
 			return [];
@@ -151,20 +189,27 @@ class UKCompaniesHouse extends Base
 	 * Function fetching from Companies House API.
 	 *
 	 * @param string $ncr
+	 * @param string $companyName
 	 *
 	 * @return void
 	 */
-	private function getDataFromApi($ncr): void
+	private function getDataFromApi(string $ncr, string $companyName = null): void
 	{
 		$config = \App\Json::decode((new \App\Db\Query())->select(['params'])->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linkurl' => __CLASS__])->scalar(), true);
 		try {
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $this->url . 'company/' . $ncr, [
 				'auth' => [$config['api_key'], ''],
 			]);
+			if (!isset($response) && $companyName) {
+				$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $this->url . 'advanced-search/companies?company_name_includes=' . $companyName, [
+					'auth' => [$config['api_key'], ''],
+				]);
+			}
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
+
 		$this->data = isset($response) ? \App\Json::decode($response->getBody()->getContents(), true) : [];
 	}
 
