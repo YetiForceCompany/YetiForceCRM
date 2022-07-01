@@ -75,7 +75,7 @@ class Vtiger_Menu_Model
 				$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 				if ($moduleModel && $moduleModel->getDefaultUrl()) {
 					if ($mid) {
-						$url = $menus[$mid]['dataurl'] ?? $parentList[$mid]['dataurl'];
+						$url = $menus[$mid]['dataurl'] ?? $parentList[$mid]['dataurl'] ?? $moduleModel->getDefaultUrl();
 					} else {
 						$url = $moduleModel->getDefaultUrl();
 					}
@@ -216,7 +216,7 @@ class Vtiger_Menu_Model
 		$name = '';
 		$type = $row['type'];
 		if (\is_int($type)) {
-			$type = Settings_Menu_Module_Model::TYPES[$type];
+			$type = \App\Menu::TYPES[$type];
 			$moduleName = $row['name'];
 		} else {
 			$moduleName = $row['mod'] ?? '';

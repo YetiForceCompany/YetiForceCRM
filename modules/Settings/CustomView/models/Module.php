@@ -48,23 +48,6 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 		return $users;
 	}
 
-	/**
-	 * Function to delete filter.
-	 *
-	 * @param int $cvId
-	 */
-	public static function delete($cvId)
-	{
-		$db = \App\Db::getInstance();
-		if (is_numeric($cvId)) {
-			$db->createCommand()->delete('vtiger_customview', ['cvid' => $cvId])->execute();
-			$db->createCommand()->delete('vtiger_user_module_preferences', ['default_cvid' => $cvId])->execute();
-			// To Delete the mini list widget associated with the filter
-			$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['filterid' => $cvId])->execute();
-			\App\CustomView::clearCacheById($cvId);
-		}
-	}
-
 	public static function upadteSequences($params)
 	{
 		$db = App\Db::getInstance();

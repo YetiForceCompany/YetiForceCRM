@@ -81,7 +81,7 @@ class CustomView extends \Tests\Base
 		$leadsDefCvid = (new \App\Db\Query())->select(['cvid'])->from('vtiger_customview')->where(['entitytype' => 'Leads', 'setdefault' => 1])->scalar();
 		$this->assertSame($newCustomViewModel->getId(), $leadsDefCvid, 'Default cvid for module Leads mismatch');
 
-		\Settings_CustomView_Module_Model::delete($newCvid);
+		\CustomView_Record_Model::getInstanceById($newCvid)->delete();
 		$this->assertEmpty((new \App\Db\Query())->select(['cvid'])->from('vtiger_customview')->where(['cvid' => $newCvid])->scalar(), 'New CustomView should be removed');
 	}
 }
