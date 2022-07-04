@@ -11,6 +11,10 @@
     "LBL_POLAND_NCR": "Polish National Court Register [PL]",
     "LBL_POLAND_NCR_DESC": "Get company data from the Polish National Court Register",
     "LBL_UNITED_KINGDOM_CH": "Companies House [GB]",
-    "LBL_UNITED_KINGDOM_CH_DESC": "Check company in government register of companies for the UK"
+    "LBL_UNITED_KINGDOM_CH_DESC": "Check company in government register of companies for the UK",
+    "LBL_UK_VAT_PAYER": "Confirm the VAT number [GB]",
+    "LBL_UK_VAT_PAYER_DESC": "Check if british company is VAT Payer",
+    "LBL_UK_VAT_PAYER_CONFIRM": "The entity with the given number is an UK VAT payer",
+    "LBL_UK_VAT_PAYER_NOT_CONFIRM": "The entity with the given number is not an UK VAT payer"
   }
 }
