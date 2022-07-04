@@ -84,10 +84,13 @@ class UKVatPayerStatusVerification extends Base
 			$this->response['error'] = $e->getMessage();
 		}
 		if (isset($response['target'])) {
-			var_dump($response['target']);
 			$response['fields'] = [
 				'' => \App\Language::translate('LBL_UK_VAT_PAYER_CONFIRM', 'Other.RecordCollector'),
-				'Name' => $response['target']['name']
+				'Name' => $response['target']['name'],
+				'Vat ID' => $response['target']['vatNumber'],
+				'Address' => $response['target']['address']['line1'] . $response['target']['address']['line2'] . $response['target']['address']['line3'] . $response['target']['address']['line4'],
+				'Postcode' => $response['target']['address']['postcode'],
+				'Country' => $response['target']['address']['countryCode']
 			];
 		} else {
 			$response['fields'] = [
