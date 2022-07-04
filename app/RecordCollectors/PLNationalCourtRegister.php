@@ -36,7 +36,7 @@ class PLNationalCourtRegister extends Base
 
 	/** {@inheritdoc} */
 	protected $fields = [
-		'taxNumber' => [
+		'ncr' => [
 			'labelModule' => '_Base',
 			'label' => 'Registration number 1',
 			'typeofdata' => 'V~M',
@@ -46,13 +46,13 @@ class PLNationalCourtRegister extends Base
 	/** {@inheritdoc} */
 	protected $modulesFieldsMap = [
 		'Accounts' => [
-			'taxNumber' => 'registration_number_1',
+			'ncr' => 'registration_number_1',
 		],
 		'Leads' => [
-			'taxNumber' => 'registration_number_1',
+			'ncr' => 'registration_number_1',
 		],
 		'Vendors' => [
-			'taxNumber' => 'registration_number_1',
+			'ncr' => 'registration_number_1',
 		]
 	];
 
@@ -123,11 +123,11 @@ class PLNationalCourtRegister extends Base
 	public function search(): array
 	{
 		$this->moduleName = $this->request->getModule();
-		$taxNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('taxNumber', 'Text'));
-		if (!$taxNumber) {
+		$ncr = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('ncr', 'Text'));
+		if (!$ncr) {
 			return [];
 		}
-		$this->getDataFromApi($taxNumber);
+		$this->getDataFromApi($ncr);
 		$this->parseData();
 		if (empty($this->data)) {
 			return [];
@@ -140,15 +140,15 @@ class PLNationalCourtRegister extends Base
 	/**
 	 * Function fetching from Polish National Court Register API.
 	 *
-	 * @param mixed $taxNumber
+	 * @param mixed $ncr
 	 *
 	 * @return void
 	 */
-	private function getDataFromApi($taxNumber): void
+	private function getDataFromApi($ncr): void
 	{
 		try {
 			$responseData = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
-				->request('GET', "{$this->url}{$taxNumber}?rejestr=P&format=json");
+				->request('GET', "{$this->url}{$ncr}?rejestr=P&format=json");
 			$this->data = \App\Json::decode($responseData->getBody()->getContents())['odpis'] ?? [];
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
