@@ -151,18 +151,25 @@ class UKCompaniesHouse extends Base
 		$this->moduleName = $this->request->getModule();
 		$ncr = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('ncr', 'Text'));
 		$companyName = str_replace([',', '.', '-'], ' ', $this->request->getByType('companyName', 'Text'));
-		if (!$ncr && !$companyName) {
-			return [];
-		}
-		$this->getDataFromApi($ncr);
-		$this->parseData();
-		if (empty($this->data)) {
-			$ncr = $this->findNcrByCompanyName($companyName);
-			$this->getDataFromApi($ncr);
+
+		if ($ncr) {
+			$this->getDataFromApiByNcr($ncr);
 			$this->parseData();
 			if (empty($this->data)) {
 				return [];
 			}
+		} elseif ($companyName) {
+			$this->getDataFromApiByNcr($this->findNcrByCompanyName($companyName));
+			$this->parseData();
+			if (empty($this->data)) {
+				return [];
+			}
+		} else {
+			$this->displayType = 'Summary';
+			$this->response['fields'] = [
+				'' => \App\Language::translate('LBL_UNITED_KINGDOM_CH_NOT_FOUND_NO_DATA', 'Other.RecordCollector')
+			];
+			return $this->response;
 		}
 		$this->loadData();
 		$this->response['additional'] = $this->data;
@@ -176,10 +183,10 @@ class UKCompaniesHouse extends Base
 	 *
 	 * @return void
 	 */
-	private function getDataFromApi($ncr): void
+	private function getDataFromApiByNcr($ncr): void
 	{
 		try {
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $this->url . 'company/' . $ncr, [
+			$response = (\App\RequestHttp::getClient(\App\RequestHttp::getOptions()))->request('GET', $this->url . 'company/' . $ncr, [
 				'auth' => [$this->apiKey, ''],
 			]);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
@@ -199,7 +206,7 @@ class UKCompaniesHouse extends Base
 	private function findNcrByCompanyName(string $companyName): string
 	{
 		try {
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $this->url . 'advanced-search/companies?company_name_includes=' . $companyName, [
+			$response = (\App\RequestHttp::getClient(\App\RequestHttp::getOptions()))->request('GET', $this->url . 'advanced-search/companies?company_name_includes=' . $companyName, [
 				'auth' => [$this->apiKey, ''],
 			]);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
