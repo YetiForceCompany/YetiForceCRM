@@ -1026,6 +1026,9 @@ class TextParser
 			$transformedSearchParams = $listView->getQueryGenerator()->parseBaseSearchParamsToCondition(Json::decode($conditions));
 			$listView->set('search_params', $transformedSearchParams);
 		}
+		if (($pdf = $this->getParam('pdf')) && $pdf->get('module_name') === $moduleName && ($ids = $pdf->getVariable('recordsId'))) {
+			$listView->getQueryGenerator()->addCondition('id', $ids, 'e', 1);
+		}
 		$rows = $headers = '';
 		$fields = $listView->getListViewHeaders();
 		foreach ($fields as $fieldModel) {
