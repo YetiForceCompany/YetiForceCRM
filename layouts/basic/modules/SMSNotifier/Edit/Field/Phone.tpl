@@ -7,7 +7,7 @@
 	{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
 	{assign var="NUMBER" value=$FIELD_MODEL->get('fieldvalue')}
 	{if $RECORD}
-		{assign var="PHONE_FIELDS" value=$FIELD_MODEL->getUiTypeModel()->getRelatedFields($RECORD)}
+		{assign var="PHONE_FIELDS" value=$FIELD_MODEL->getUITypeModel()->getRelatedFields($RECORD)}
 	{/if}
 	<div>
 		{if \App\Config::main('phoneFieldAdvancedVerification',false)}
