@@ -158,9 +158,9 @@ abstract class Synchronizer
 					if ($this->skip) {
 						break;
 					}
-					$this->recordModel->set($crm['fieldName'], $value);
+					$this->recordModel->set($crm['fieldName'], trim($value));
 				} else {
-					$this->recordModel->set($crm, $this->row[$wapro]);
+					$this->recordModel->set($crm, trim($this->row[$wapro]));
 				}
 			} else {
 				\App\Log::error("No column {$wapro} in the {$this->className}", 'Integrations/Wapro');

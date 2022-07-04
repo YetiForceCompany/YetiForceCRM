@@ -32,5 +32,8 @@ class Vtiger_IntegrationWapro_Cron extends \App\CronHandler
 				}
 			}
 		}
+		$createCommand = \App\DB::getInstance('log')->createCommand();
+		$createCommand->delete(\App\Integrations\Wapro::LOG_TABLE_NAME, ['and', ['error' => 0], ['<', 'time', date('Y-m-d H:i:s', strtotime('-7 day'))]])->execute();
+		$createCommand->delete(\App\Integrations\Wapro::LOG_TABLE_NAME, ['and', ['error' => 1], ['<', 'time', date('Y-m-d H:i:s', strtotime('-6 months'))]])->execute();
 	}
 }

@@ -31,7 +31,7 @@ class Accounts extends \App\Integrations\Wapro\Synchronizer
 		'REGON' => 'registration_number_2',
 		'UWAGI' => 'description',
 		'ADRES_WWW' => 'website',
-		'DOMYSLNY_RABAT' => 'discount',
+		'DOMYSLNY_RABAT' => ['fieldName' => 'discount', 'fn' => 'convertDiscount'],
 		'ADRES_EMAIL' => 'email1',
 		'TELEFON_FIRMOWY' => ['fieldName' => 'phone', 'fn' => 'convertPhone'],
 		'SYM_KRAJU' => ['fieldName' => 'addresslevel1a', 'fn' => 'convertCountry'],
@@ -116,5 +116,18 @@ class Accounts extends \App\Integrations\Wapro\Synchronizer
 			return $this->recordModel->getPreviousValue() ? 1 : 3;
 		}
 		return 2;
+	}
+
+	/**
+	 * Convert discount to system format.
+	 *
+	 * @param string $value
+	 * @param array  $params
+	 *
+	 * @return int
+	 */
+	protected function convertDiscount(string $value, array $params): float
+	{
+		return -((float) $value);
 	}
 }

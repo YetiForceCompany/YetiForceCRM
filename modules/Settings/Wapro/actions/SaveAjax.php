@@ -35,7 +35,6 @@ class Settings_Wapro_SaveAjax_Action extends Settings_Vtiger_Index_Action
 		}
 		$recordModel->setDataFromRequest($request);
 		$response = new Vtiger_Response();
-
 		$verify = App\Integrations\Wapro::verifyDatabaseAccess($recordModel->get('server'), $recordModel->get('database'), $recordModel->get('username'), $recordModel->get('password'), $recordModel->get('port'));
 		if ($verify['status']) {
 			$response->setResult($recordModel->save());

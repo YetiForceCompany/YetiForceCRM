@@ -38,6 +38,8 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 		'NR_DOMU' => 'buildingnumbera',
 		'NR_LOKALU' => 'localnumbera',
 		'SKRYTKA' => 'poboxa',
+		'E_MAIL' => 'email1',
+		'TELEFON' => ['fieldName' => 'phone', 'fn' => 'convertPhone'],
 		'SYM_KRAJU' => ['fieldName' => 'addresslevel1a', 'fn' => 'convertCountry'],
 	];
 
@@ -46,7 +48,7 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 	{
 		$dataReader = (new \App\Db\Query())->from('dbo.FIRMA')
 			->leftJoin('dbo.ADRESY_FIRMY', 'dbo.FIRMA.ID_ADRESU_DOMYSLNEGO = dbo.ADRESY_FIRMY.ID_ADRESY_FIRMY')
-			->createCommand($this->controller->getDb())->query();
+			->where(['>', 'dbo.FIRMA.ID_FIRMY', 0])->createCommand($this->controller->getDb())->query();
 		$s = $e = $i = $u = 0;
 		while ($row = $dataReader->read()) {
 			$this->waproId = $row['ID_FIRMY'];
