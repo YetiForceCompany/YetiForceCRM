@@ -76,7 +76,7 @@ class UKVatPayerStatusVerification extends Base
 			return [];
 		}
 		try {
-			$response = \App\Json::decode((new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $this->url . 'organisations/vat/check-vat-number/lookup/' . $vatNumber, [])
+			$response = \App\Json::decode(\App\RequestHttp::getClient()->get($this->url . 'organisations/vat/check-vat-number/lookup/' . $vatNumber)
 				->getBody()
 				->getContents());
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
