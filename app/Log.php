@@ -60,6 +60,26 @@ class Log extends Logger
 				'trace' => 'Text',
 			],
 		],
+		'wapro' => [
+			'label' => 'LBL_WAPRO_ERP',
+			'labelModule' => 'Settings:Wapro',
+			'table' => 'l_#__wapro',
+			'icon' => 'fab fa-connectdevelop',
+			'columns' => [
+				'time' => ['type' => 'DateTime', 'label' => 'LBL_TIME'],
+				'category' => ['type' => 'Text', 'label' => 'LBL_CATEGORY'],
+				'message' => ['type' => 'Text', 'label' => 'LBL_MESSAGE'],
+				'error' => ['type' => 'Text', 'label' => 'LBL_CODE'],
+				'trace' => ['type' => 'Text', 'label' => 'LBL_BACKTRACE'],
+			],
+			'filter' => [
+				'time' => 'DateTimeRange',
+				'category' => 'Text',
+				'message' => 'Text',
+				'code' => 'Text',
+				'trace' => 'Text',
+			],
+		],
 		'switchUsers' => [
 			'label' => 'LBL_SWITCH_USERS',
 			'labelModule' => 'Settings:Users',
@@ -175,9 +195,7 @@ class Log extends Logger
 				}
 			}
 		} else {
-			$bitmapValues = array_reduce(self::$levelMap, function ($carry, $item) {
-				return $carry | $item;
-			});
+			$bitmapValues = array_reduce(self::$levelMap, fn ($carry, $item) => $carry | $item);
 			if (!($bitmapValues & $levels) && 0 !== $levels) {
 				throw new Exceptions\AppException("Incorrect $levels value");
 			}

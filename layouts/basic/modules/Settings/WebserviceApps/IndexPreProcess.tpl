@@ -11,7 +11,7 @@
 			</a>
 			<a href="index.php?module=WebserviceUsers&view=List&parent=Settings" class="btn btn-success float-right mr-3">
 				<span class="adminIcon-webservice-users u-fs-lg mr-2"></span>
-				{\App\Language::translate('WebserviceUsers','Settings.WebserviceUsers')}
+				{\App\Language::translate('WebserviceUsers','Settings:WebserviceUsers')}
 			</a>
 			<button class="btn btn-primary createKey"><span class="fas fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD_APPLICATION',$QUALIFIED_MODULE)}</button>
 		</div>

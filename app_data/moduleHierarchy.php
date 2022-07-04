@@ -130,7 +130,6 @@ return [
 		'OSSOutsourcedServices' => ['Accounts', 'Leads'],
 		'Assets' => ['Accounts', 'Leads'],
 		'OutsourcedProducts' => ['Accounts', 'Leads'],
-		'OSSPasswords' => ['Accounts', 'Leads', 'HelpDesk', 'Vendors'],
 		'Calendar' => ['Accounts', 'Contacts', 'OSSEmployees', 'Leads', 'Vendors', 'HelpDesk', 'Project', 'HelpDesk', 'ServiceContracts', 'Campaigns'],
 	],
 	'modulesMapMMBase' => ['Services', 'Reservations'],

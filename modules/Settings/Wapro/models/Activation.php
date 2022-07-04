@@ -18,6 +18,10 @@ class Settings_Wapro_Activation_Model
 	private const FIELDS = [
 		['wapro_id', 'MultiCompany', 'LBL_SYSTEM_INFORMATION'],
 		['wapro_id', 'BankAccounts', 'LBL_CUSTOM_INFORMATION'],
+		['wapro_id', 'Accounts', 'LBL_ADVANCED_BLOCK'],
+		['wapro_id', 'Contacts', 'LBL_CUSTOM_INFORMATION'],
+		['wapro_id', 'Products', 'LBL_PRODUCT_INFORMATION'],
+		['wapro_id', 'FInvoice', 'LBL_CUSTOM_INFORMATION'],
 	];
 
 	/**
@@ -36,6 +40,13 @@ class Settings_Wapro_Activation_Model
 					break;
 				}
 			}
+		}
+		if ($check) {
+			$check = Vtiger_Inventory_Model::getInstance('FInvoice')->isField('discount_aggreg');
+		}
+		if ($check) {
+			$cron = (new \App\Db\Query())->from('vtiger_cron_task')->where(['name' => 'LBL_INTEGRATION_WAPRO', 'handler_class' => 'Vtiger_IntegrationWapro_Cron'])->one();
+			$check = $cron && 1 == $cron['status'];
 		}
 		return $check;
 	}
@@ -67,8 +78,8 @@ class Settings_Wapro_Activation_Model
 				'id' => $importer->primaryKeyUnsigned(),
 				'time' => $importer->dateTime()->notNull(),
 				'category' => $importer->stringType(100),
-				'message' => $importer->stringType(500),
-				'code' => $importer->smallInteger(5),
+				'message' => $importer->stringType(255),
+				'error' => $importer->boolean(),
 				'trace' => $importer->text(),
 			]);
 			$status = true;
@@ -99,6 +110,37 @@ class Settings_Wapro_Activation_Model
 				}
 			}
 		}
+		self::activateInventory();
+		self::activateCron();
 		return $status ?? false;
+	}
+
+	/**
+	 * Activate integration in inventory.
+	 *
+	 * @return void
+	 */
+	private static function activateInventory(): void
+	{
+		$inventory = Vtiger_Inventory_Model::getInstance('FInvoice');
+		$fieldModel = $inventory->getFieldCleanInstance('DiscountAggregation');
+		$fieldModel->setDefaultDataConfig();
+		$inventory->saveField($fieldModel);
+	}
+
+	/**
+	 * Activate integration in cron.
+	 *
+	 * @return void
+	 */
+	private static function activateCron(): void
+	{
+		$cron = (new \App\Db\Query())->from('vtiger_cron_task')->where(['name' => 'LBL_INTEGRATION_WAPRO', 'handler_class' => 'Vtiger_IntegrationWapro_Cron'])->one();
+		if (empty($cron)) {
+			\vtlib\Cron::register('LBL_INTEGRATION_WAPRO', 'Vtiger_IntegrationWapro_Cron', 900, 'Vtiger', 1);
+		}
+		if (1 != $cron['status']) {
+			\App\Cron::updateStatus(\App\Cron::STATUS_ENABLED, 'LBL_INTEGRATION_WAPRO');
+		}
 	}
 }

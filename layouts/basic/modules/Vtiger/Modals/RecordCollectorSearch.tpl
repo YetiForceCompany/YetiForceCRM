@@ -86,15 +86,15 @@
 				<table class="table table-bordered mt-2">
 					<thead>
 						<tr>
-							<th class="text-center" colspan="{count($SEARCH_DATA['additional'])+1}">{\App\Language::translate('LBL_CUSTOM_INFORMATION', $MODULE_NAME)}</th>
+							<th class="text-center" colspan="2">{\App\Language::translate('LBL_CUSTOM_INFORMATION', $MODULE_NAME)}</th>
 						</tr>
 					</thead>
 					<tbody>
 						{foreach from=$SEARCH_DATA['additional'] key=NAME item=VALUES}
 							<tr>
-								<td>{\App\Language::translate($NAME, $MODULE_NAME, null, true, 'Other.RecordCollector')}</td>
+								<td class="text-break">{\App\Language::translate($NAME, $MODULE_NAME, null, true, 'Other.RecordCollector')}</td>
 								{foreach from=$VALUES item=VALUE}
-									<td>{$VALUE}</td>
+									<td>{nl2br(\App\Purifier::encodeHtml($VALUE))}</td>
 								{/foreach}
 							</tr>
 						{/foreach}
@@ -125,6 +125,9 @@
 					</tbody>
 				</table>
 			{/if}
+			<button class="btn btn-danger float-right d-print-none ml-2" type="reset" data-dismiss="modal">
+				<span class="fas fa-times mr-1"></span>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}
+			</button>
 			<button class="btn btn-success float-right d-print-none js-record-collector__fill_fields " data-js="click">
 				<span class="fas fa-check mr-2"></span>
 				{\App\Language::translate('LBL_COMPLETE_FIELDS', $MODULE_NAME)}

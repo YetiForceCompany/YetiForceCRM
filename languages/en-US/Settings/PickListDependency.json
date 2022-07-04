@@ -8,20 +8,9 @@
     "LBL_SELECT_MODULE": "Module",
     "LBL_SELECT_SOURCE_PICKLIST_VALUES": "Select source picklist values",
     "LBL_SOURCE_FIELD": "Source field",
-    "LBL_SECOND_FIELD": "Second field",
-    "LBL_THIRD_FIELD": "Third field",
-    "LBL_ADD_THIRD_FIELD": "Add third field",
-    "LBL_UNMARK_ALL": "Unmark all",
-    "LBL_MODULE": "Module",
-    "Source Field": "Source field"
+    "LBL_MODULE": "Module"
   },
   "js": {
-    "JS_DEPENDENCY_ATLEAST_ONE_VALUE": "You need to select at least one value for",
-    "JS_DEPENDENCY_DELETED_SUEESSFULLY": "Dependency deleted successfully",
-    "JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE": "Are you sure you want to delete this picklist dependency?",
-    "JS_PICKLIST_DEPENDENCY_SAVED": "Picklist dependency saved",
-    "JS_SELECT_SOME_VALUE": "Select some value",
-    "JS_SOURCE_AND_TARGET_FIELDS_SHOULD_NOT_BE_SAME": "Source field and Target field should not be same",
-    "JS_PICKLIST_DEPENDENCY_NO_SAVED": "No dependencies were entered. No changes were saved."
+    "JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE": "Are you sure you want to delete this picklist dependency?"
   }
 }

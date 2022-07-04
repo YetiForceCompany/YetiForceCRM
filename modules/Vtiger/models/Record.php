@@ -597,9 +597,7 @@ class Vtiger_Record_Model extends \App\Base
 		$saveFields = $this->getModule()->getFieldsForSave($this);
 		$forSave = $this->getEntityDataForSave();
 
-		if (!$this->isNew()) {
-			$saveFields = array_intersect($saveFields, array_merge(array_keys($this->changes), [$moduleModel->getSequenceNumberFieldName()]));
-		} else {
+		if ($this->isNew()) {
 			$entityModel = $this->getEntity();
 			$forSave[$entityModel->table_name] = [];
 			if (!empty($entityModel->customFieldTable)) {
@@ -610,6 +608,8 @@ class Vtiger_Record_Model extends \App\Base
 					$forSave[$tableName] = [];
 				}
 			}
+		} else {
+			$saveFields = array_intersect($saveFields, array_merge(array_keys($this->changes), [$moduleModel->getSequenceNumberFieldName()]));
 		}
 		foreach ($this->dataForSave as $tableName => $values) {
 			$forSave[$tableName] = array_merge($forSave[$tableName] ?? [], $values);

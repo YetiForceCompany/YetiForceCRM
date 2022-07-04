@@ -75,7 +75,9 @@ class CRMEntity
 		}
 		$focus = new $module();
 		$focus->moduleName = $module;
-		$focus->init();
+		if (method_exists($focus, 'init')) {
+			$focus->init();
+		}
 		\App\Cache::staticSave('CRMEntity', $module, clone $focus);
 		return $focus;
 	}
@@ -87,8 +89,7 @@ class CRMEntity
 	 */
 	protected function init(): void
 	{
-		// $this->tab_name_index += ['u_yf_wapro_records_map' => 'crmid'];
-		// $this->tab_name[] = 'u_yf_wapro_records_map';
+		$this->tab_name_index += ['u_yf_wapro_records_map' => 'crmid'];
 	}
 
 	/**
@@ -109,29 +110,33 @@ class CRMEntity
 	 * @param int    $record - crmid of record
 	 * @param string $module - module name
 	 */
-	public function retrieveEntityInfo($record, $module)
+	public function retrieveEntityInfo(int $record, string $module)
 	{
 		if (!isset($record)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
 		}
 		if ($cachedModuleFields = \App\Field::getModuleFieldInfosByPresence($module)) {
 			$query = new \App\Db\Query();
-			$columnClause = [];
-			$requiredTables = $this->tab_name_index; // copies-on-write
-
+			$tabNameIndex = $this->tab_name_index; // copies-on-write
+			$requiredTables = $columnClause = [];
 			foreach ($cachedModuleFields as $fieldInfo) {
-				// Alias prefixed with tablename+fieldname to avoid duplicate column name across tables
-				// fieldname are always assumed to be unique for a module
-				$columnClause[] = $fieldInfo['tablename'] . '.' . $fieldInfo['columnname'] . ' AS ' . $this->createColumnAliasForField($fieldInfo);
+				if (isset($tabNameIndex[$fieldInfo['tablename']])) {
+					if (!isset($requiredTables[$fieldInfo['tablename']])) {
+						$requiredTables[$fieldInfo['tablename']] = $tabNameIndex[$fieldInfo['tablename']];
+					}
+					// Alias prefixed with tablename+fieldname to avoid duplicate column name across tables
+					// fieldname are always assumed to be unique for a module
+					$columnClause[] = $fieldInfo['tablename'] . '.' . $fieldInfo['columnname'] . ' AS ' . $this->createColumnAliasForField($fieldInfo);
+				}
 			}
 			$columnClause[] = 'vtiger_crmentity.deleted';
 			$query->select($columnClause);
+			$query->from('vtiger_crmentity');
 			if (isset($requiredTables['vtiger_crmentity'])) {
-				$query->from('vtiger_crmentity');
 				unset($requiredTables['vtiger_crmentity']);
-				foreach ($requiredTables as $tableName => $tableIndex) {
-					$query->leftJoin($tableName, "vtiger_crmentity.crmid = $tableName.$tableIndex");
-				}
+			}
+			foreach ($requiredTables as $tableName => $tableIndex) {
+				$query->leftJoin($tableName, "vtiger_crmentity.crmid = $tableName.$tableIndex");
 			}
 			$query->where(['vtiger_crmentity.crmid' => $record]);
 			if ('' != $module) {

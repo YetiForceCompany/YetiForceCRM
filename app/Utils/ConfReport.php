@@ -382,47 +382,47 @@ class ConfReport
 	public static $writableFilesAndFolders = [
 		'app_data/cron.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'app_data/registration.php' => ['type' => 'IsWritable', 'testCli' => true],
-		'app_data/moduleHierarchy.php' => ['type' => 'IsWritable', 'testCli' => true],
+		'app_data/moduleHierarchy.php' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
 		'app_data/shop.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'app_data/icons.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'app_data/LanguagesUpdater.json' => ['type' => 'IsWritable', 'testCli' => true],
 		'app_data/SystemUpdater.json' => ['type' => 'IsWritable', 'testCli' => true],
 		'app_data/libraries.json' => ['type' => 'IsWritable', 'testCli' => true],
-		'user_privileges/tabdata.php' => ['type' => 'IsWritable', 'testCli' => true],
+		'user_privileges/tabdata.php' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
 		'user_privileges/menu_0.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'user_privileges/user_privileges_1.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/logs/system.log' => ['type' => 'IsWritable', 'testCli' => true],
-		'app_data/' => ['type' => 'IsWritable', 'testCli' => true],
+		'app_data/' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
 		'app_data/shop/' => ['type' => 'IsWritable', 'testCli' => true],
-		'cache/' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
 		'cache/addressBook/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/images/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/import/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/mail/' => ['type' => 'IsWritable', 'testCli' => true],
 		'cache/pdf/' => ['type' => 'IsWritable', 'testCli' => true],
-		'cache/logs/' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/logs/' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
 		'cache/logs/cron/' => ['type' => 'IsWritable', 'testCli' => true],
-		'cache/session/' => ['type' => 'IsWritable', 'testCli' => true],
-		'cache/templates_c/' => ['type' => 'IsWritable', 'testCli' => true],
-		'cache/upload/' => ['type' => 'IsWritable', 'testCli' => true],
-		'cache/vtlib/' => ['type' => 'IsWritable', 'testCli' => true],
-		'cache/vtlib/HTML' => ['type' => 'IsWritable', 'testCli' => true],
-		'config/' => ['type' => 'IsWritable', 'testCli' => true],
-		'config/Components' => ['type' => 'IsWritable', 'testCli' => true],
-		'config/Modules' => ['type' => 'IsWritable', 'testCli' => true],
-		'user_privileges/' => ['type' => 'IsWritable', 'testCli' => true],
+		'cache/session/' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
+		'cache/templates_c/' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
+		'cache/upload/' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
+		'cache/vtlib/' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
+		'cache/vtlib/HTML' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
+		'config/' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
+		'config/Components' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
+		'config/Modules' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
+		'user_privileges/' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
 		'cron/modules/' => ['type' => 'IsWritable', 'testCli' => true],
-		'languages/' => ['type' => 'IsWritable', 'testCli' => true],
+		'languages/' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
 		'install/' => ['type' => 'IsWritable', 'testCli' => true],
-		'modules/' => ['type' => 'IsWritable', 'testCli' => true],
-		'storage/' => ['type' => 'IsWritable', 'testCli' => true],
+		'modules/' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
+		'storage/' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
 		'storage/Products/' => ['type' => 'IsWritable', 'testCli' => true],
 		'storage/Users/' => ['type' => 'IsWritable', 'testCli' => true],
 		'storage/Contacts/' => ['type' => 'IsWritable', 'testCli' => true],
 		'storage/OSSMailView/' => ['type' => 'IsWritable', 'testCli' => true],
-		'public_html/modules/OSSMail/' => ['type' => 'IsWritable', 'testCli' => true],
-		'public_html/libraries/' => ['type' => 'IsWritable', 'testCli' => true],
-		'public_html/layouts/resources/Logo/' => ['type' => 'IsWritable', 'testCli' => true],
+		'public_html/modules/OSSMail/' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
+		'public_html/libraries/' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
+		'public_html/layouts/resources/Logo/' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
 	];
 	/**
 	 * Functionality test map.
@@ -559,10 +559,10 @@ class ConfReport
 					break;
 				case 'writableFilesAndFolders':
 					if ($tmp = sys_get_temp_dir()) {
-						self::$writableFilesAndFolders[$tmp] = ['type' => 'IsWritable', 'testCli' => true, 'absolutePaths' => true];
+						self::$writableFilesAndFolders[$tmp] = ['type' => 'IsWritable', 'testCli' => true, 'absolutePaths' => true, 'mustExist' => true];
 					}
 					if ($tmp = ini_get('upload_tmp_dir')) {
-						self::$writableFilesAndFolders[$tmp] = ['type' => 'IsWritable', 'testCli' => true, 'absolutePaths' => true];
+						self::$writableFilesAndFolders[$tmp] = ['type' => 'IsWritable', 'testCli' => true, 'absolutePaths' => true, 'mustExist' => true];
 					}
 					break;
 				default:
@@ -1540,7 +1540,7 @@ class ConfReport
 		if (!$absolutePaths) {
 			$path = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $path;
 		}
-		if (!file_exists($path)) {
+		if (empty($row['mustExist']) && !file_exists($path)) {
 			$row['mode'] = 'skipParam';
 		} else {
 			$row['status'] = \App\Fields\File::isWriteable($path, true);

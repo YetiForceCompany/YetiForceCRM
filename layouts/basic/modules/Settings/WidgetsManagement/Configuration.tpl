@@ -84,7 +84,7 @@
 													</button>
 												</div>
 											{/if}
-											{if $SPECIAL_WIDGETS['Mini List']}
+											{if isset($SPECIAL_WIDGETS['Mini List'])}
 												{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 												<div class="btn-group ml-1">
 													<button class="btn btn-success btn-sm addMiniList" type="button"
@@ -99,7 +99,7 @@
 													</button>
 												</div>
 											{/if}
-											{if $SPECIAL_WIDGETS['ChartFilter']}
+											{if isset($SPECIAL_WIDGETS['ChartFilter'])}
 												{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
 												<div class="btn-group ml-1">
 													<button class="btn btn-success btn-sm js-show-modal" type="button"
@@ -198,7 +198,7 @@
 														{/foreach}
 													</optgroup>
 													{if count($ALL_SERVERS)}
-														<optgroup label="{\App\Language::translate('WebserviceApps', 'Settings.WebserviceApps')}">
+														<optgroup label="{\App\Language::translate('WebserviceApps', 'Settings:WebserviceApps')}">
 															{foreach from=$ALL_SERVERS item=SERVER key=ID}
 																<option value="{$ID}">{\App\Purifier::encodeHTML($SERVER['name'])}</option>
 															{/foreach}
@@ -231,7 +231,7 @@
 											<strong>{\App\Language::translate('LBL_ADD_WIDGET', $QUALIFIED_MODULE)}</strong>
 										</button>
 									</div>
-									{if $SPECIAL_WIDGETS['Rss']}
+									{if isset($SPECIAL_WIDGETS['Rss'])}
 										{assign var=RSS_WIDGET value=$SPECIAL_WIDGETS['Rss']}
 										<div class="btn-group">
 											<button class="btn btn-success btn-sm addRss specialWidget" type="button"
@@ -245,7 +245,7 @@
 											</button>
 										</div>
 									{/if}
-									{if $SPECIAL_WIDGETS['Mini List']}
+									{if isset($SPECIAL_WIDGETS['Mini List'])}
 										{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 										<div class="btn-group">
 											<button class="btn btn-success btn-sm addMiniList specialWidget"
@@ -260,7 +260,7 @@
 											</button>
 										</div>
 									{/if}
-									{if $SPECIAL_WIDGETS['ChartFilter']}
+									{if isset($SPECIAL_WIDGETS['ChartFilter'])}
 										{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
 										<div class="btn-group ml-1">
 											<button class="btn btn-success btn-sm js-show-modal" type="button"

@@ -48,7 +48,7 @@ class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 						$r[] = \App\Fields\Date::formatToDisplay($row[$key]);
 						break;
 					case 'Text':
-						$r[] = \App\Layout::truncateText($row[$key], 50, true);
+						$r[] = $row[$key] ? \App\Layout::truncateText($row[$key], 50, true) : '';
 						break;
 					case 'Owner':
 						$r[] = \App\Fields\Owner::getUserLabel($row[$key]);

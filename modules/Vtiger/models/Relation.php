@@ -850,15 +850,21 @@ class Vtiger_Relation_Model extends \App\Base
 		return $relationModels;
 	}
 
-	public function getAutoCompleteField($recordModel)
+	/**
+	 * Get autocomplete fields.
+	 *
+	 * @param \Vtiger_Record_Model $recordModel
+	 *
+	 * @return array
+	 */
+	public function getAutoCompleteField($recordModel): array
 	{
 		$fields = [];
 		$fieldsReferenceList = [];
 		$excludedModules = ['Users'];
 		$relatedModel = $this->getRelationModuleModel();
-		$relatedModuleName = $relatedModel->getName();
 		if ($relationField = $this->getRelationField()) {
-			$fields[$relationField->getFieldName()] = $recordModel->getId();
+			$fields[$relationField->getName()] = $recordModel->getId();
 		}
 		$parentModelFields = $this->getParentModuleModel()->getFields();
 		foreach ($parentModelFields as $fieldName => $fieldModel) {
@@ -867,9 +873,6 @@ class Vtiger_Relation_Model extends \App\Base
 				foreach ($referenceList as $module) {
 					if (!\in_array($module, $excludedModules) && 'userCreator' !== !$fieldModel->getFieldDataType()) {
 						$fieldsReferenceList[$module] = $fieldModel;
-					}
-					if ($relatedModuleName == $module) {
-						$fields[$fieldName] = $recordModel->getId();
 					}
 				}
 			}
@@ -882,13 +885,14 @@ class Vtiger_Relation_Model extends \App\Base
 					if (\array_key_exists($module, $fieldsReferenceList) && $module != $recordModel->getModuleName()) {
 						$parentFieldModel = $fieldsReferenceList[$module];
 						$relId = $recordModel->get($parentFieldModel->getName());
-						if ('' != $relId && 0 != $relId) {
+						if (!empty($relId) && \App\Record::isExists($relId)) {
 							$fields[$fieldName] = $relId;
 						}
 					}
 				}
 			}
 		}
+
 		return $fields;
 	}
 

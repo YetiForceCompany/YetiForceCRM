@@ -136,6 +136,7 @@ abstract class Records extends \App\Base
 		foreach ($fields as $fieldName) {
 			$this->setField($fieldName);
 		}
+
 		return $this;
 	}
 
@@ -148,8 +149,7 @@ abstract class Records extends \App\Base
 	 */
 	public function loadFieldsFromCvId(int $cvId): void
 	{
-		$fields = \App\CustomView::getInstance($this->moduleName)->getColumnsListByCvid($cvId);
-		foreach ($fields as $fieldInfo) {
+		foreach (\App\CustomView::getInstance($this->moduleName)->getColumnsListByCvid($cvId) as $fieldInfo) {
 			['field_name' => $relatedFieldName, 'module_name' => $relatedModule, 'source_field_name' => $referenceField] = $fieldInfo;
 			$cvFieldData = $referenceField ? "{$relatedFieldName}:{$relatedModule}:{$referenceField}" : $relatedFieldName;
 			if (($fieldModel = $this->setField($cvFieldData)) && $fieldInfo['label']) {

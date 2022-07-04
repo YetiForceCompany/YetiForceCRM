@@ -136,14 +136,7 @@ $.Class(
 		 */
 		saveAjaxValidation: function (params) {
 			const aDeferred = $.Deferred();
-			let validation = true;
-			if (
-				typeof app.pageController.getForm !== 'undefined' &&
-				app.pageController.getForm().find('#preSaveValidation').length !== 0
-			) {
-				validation = parseInt(app.pageController.getForm().find('#preSaveValidation').val());
-			}
-			if (validation) {
+			if (this.getInstance().checkPreSaveValidation()) {
 				let paramsTemp = JSON.parse(JSON.stringify(params));
 				paramsTemp.data.mode = 'preSaveValidation';
 				AppConnector.request(paramsTemp)
@@ -1600,7 +1593,7 @@ $.Class(
 				const val = fieldElement.val(),
 					fieldValue = fieldElement.closest('.fieldValue');
 				let newOptions = new $();
-				if (fieldInfo.mandatory == false) {
+				if (!fieldInfo.mandatory) {
 					newOptions = newOptions.add(
 						new Option(app.vtranslate('JS_SELECT_AN_OPTION'), '', false, !val || !options.includes(val))
 					);
@@ -1614,6 +1607,20 @@ $.Class(
 					fieldValue.removeClass('border border-info');
 				}, 5000);
 			}
+		},
+		/**
+		 * Check if pre save validation is active
+		 * @returns {bool}
+		 */
+		checkPreSaveValidation: function () {
+			let validation = true;
+			if (
+				typeof app.pageController.getForm !== 'undefined' &&
+				app.pageController.getForm().find('#preSaveValidation').length !== 0
+			) {
+				validation = app.pageController.getForm().find('#preSaveValidation').val() == 1;
+			}
+			return validation;
 		},
 		/**
 		 * Register change value handler events
@@ -1632,7 +1639,9 @@ $.Class(
 						this.sendChangeValueHandlerEvent(container.serializeFormData());
 					});
 			});
-			this.sendChangeValueHandlerEvent(container.serializeFormData());
+			if (this.checkPreSaveValidation()) {
+				this.sendChangeValueHandlerEvent(container.serializeFormData());
+			}
 		},
 		/**
 		 * Send change value handler events

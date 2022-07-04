@@ -311,9 +311,9 @@ class RecordsList extends \Api\Core\BaseAction
 					foreach ($field as $relatedFieldName) {
 						$fieldModel = \Vtiger_Module_Model::getInstance($relatedModuleName)->getFieldByName($relatedFieldName);
 						if ($fieldModel->isViewable()) {
-							$selectedColumnKey = $sourceField . ':' . $relatedModuleName . ':' . $relatedModuleName;
+							$selectedColumnKey = $relatedFieldName . ':' . $relatedModuleName . ':' . $sourceField;
 							$fieldLabel = empty($selectedColumnsList[$selectedColumnKey]) ? $fieldModel->getFieldLabel() : $selectedColumnsList[$selectedColumnKey];
-							$headers[$sourceField . $relatedModuleName . $relatedFieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $relatedModuleName);
+							$headers[$sourceField . $relatedModuleName . $relatedFieldName] = \App\Language::translate($fieldLabel, $relatedModuleName);
 						}
 					}
 				}

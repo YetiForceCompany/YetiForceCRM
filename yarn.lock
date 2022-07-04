@@ -11,9 +11,9 @@
     regenerator-runtime "^0.13.4"
 
 "@babel/runtime@^7.16.3":
-  version "7.18.3"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.18.3.tgz#c7b654b57f6f63cf7f8b418ac9ca04408c4579f4"
-  integrity sha512-38Y8f7YUhce/K7RMwTp7m0uCumpv9hZkitCbBClqQIow1qSbCvGkcegKOXpEWCQLfWmevgRiWokZ1GkpfhbZug==
+  version "7.18.6"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.18.6.tgz#6a1ef59f838debd670421f8c7f2cbb8da9751580"
+  integrity sha512-t9wi7/AW6XtKahAe20Yw0/mMljKq0B1r2fPdvaAdV/KPDZewFXdaaa6K7lxmZBZ8FBNpCiAT6iHPmd6QO9bKfQ==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -23,9 +23,9 @@
   integrity sha512-J/3yg2AIXc9wznaVqpHVX3Wa5jwKovVF0AMYSnbmcXTiL3PpRPfF58pzWucCwEiCJBp+hCNRLWClTomD8SseKg==
 
 "@mdi/font@^6.6":
-  version "6.7.96"
-  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-6.7.96.tgz#1686425ba291b90ea02a87292a565c6d0c854afe"
-  integrity sha512-M68vlRhtmA/SpDjo2dV3SUZus20jrU9Zp2ggslfzh0cbFpygPukcVpBIA3pErwsukhYt4RfbgXpFi74SjixOrQ==
+  version "6.9.96"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-6.9.96.tgz#c68da7e0895885dd09e60dc08c5ecc0d77f67efb"
+  integrity sha512-z3QVZStyHVwkDsFR7A7F2PIvZJPWgdSFw4BEEy2Gc9HUN5NfK9mGbjgaYClRcbMWiYEV45srmiYtczmBtCqR8w==
 
 "@pnotify/bootstrap4@^5":
   version "5.2.0"
@@ -281,9 +281,9 @@ emoji-mart-vue-fast@^10.2.0:
     vue-virtual-scroller "^1.0.10"
 
 flag-icons@^6.0.0:
-  version "6.4.5"
-  resolved "https://registry.yarnpkg.com/flag-icons/-/flag-icons-6.4.5.tgz#06586a9fa867812aea1991cac90cea80ef0c5bab"
-  integrity sha512-I5uoLrBHAxA1sNsaHLl45QedcOgMx/1pdVkMqfs17f5Bo55aX6qVO/Ye6bN9LZ/9emrdEtG7AR4K8ZVSeruIMg==
+  version "6.6.2"
+  resolved "https://registry.yarnpkg.com/flag-icons/-/flag-icons-6.6.2.tgz#c3f9adb17cd6e45e5e2d051d3fcc5298b5270b15"
+  integrity sha512-QmBC3UF3/A1WuTrl85HApCN6RCK0Fmgr8+EB37goMuEwSSTIodLW9dWV4DZoMnX9uIeDYMX16gWsHCr2tmfDFQ==
 
 floatthead@^2.1.3:
   version "2.2.4"
@@ -319,9 +319,9 @@ good-listener@^1.2.2:
     delegate "^3.1.2"
 
 gridstack@^5.0.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-5.1.0.tgz#5c9c30dd8ae6c5cd5a2f880efe30b750e0903e97"
-  integrity sha512-qNLAXC4weAqOvzf7gYi+ScRR3j5FYFh1Tdp5ec1q74d2M/0PHAZJWftU/LdYXKniOydnVdr48GYNDxFxE13SFw==
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-5.1.1.tgz#2d11bbc0fed98cd6e8da573d5b71582b38eb6abc"
+  integrity sha512-cmJ8VAxzBQi96P9Z1JS01hhaMUGv+G0VM+YxBLoUcol1hB9c/9o+u5ejvIqxN7L/h26ox8f/6Vv42gkr/VA6EQ==
 
 html2canvas@^1.0.0-alpha.12:
   version "1.4.1"
@@ -445,9 +445,9 @@ popper.js@^1.15.0:
   integrity sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==
 
 quasar@^1.6.1:
-  version "1.19.1"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.19.1.tgz#4fc3b4830743f91e023be5f77d9ab200fabd8bec"
-  integrity sha512-vFrFcdmHx7Pxo8JHCsgSQr0nEYgPqIKaJy40rvwtbqOOhh2MYB5Zw1fB3K3Pfq6d3ZMeWDtQzaBQjqaEwPrRhQ==
+  version "1.19.3"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.19.3.tgz#9bcb2c725f2d18d49d529527fb17f353cca729a4"
+  integrity sha512-jkWU8dS/E4Px/gxg3pcvNTIKaLTCeuLg5eEH80dJvDXZROMovaJ/NW2X8qX2DQR6lLTyngh+pRGe6CocS+o8Dw==
 
 regenerator-runtime@^0.13.4:
   version "0.13.9"

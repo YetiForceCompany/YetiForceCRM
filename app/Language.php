@@ -213,7 +213,8 @@ class Language
 			return static::translate($key, $moduleName, static::DEFAULT_LANG, $encode, $secondModuleName);
 		}
 		\App\Log::info("Cannot translate this: '$key' for module '$moduleName', lang: $language");
-		return Purifier::encodeHtml($key);
+
+		return $encode ? Purifier::encodeHtml($key) : $key;
 	}
 
 	/**

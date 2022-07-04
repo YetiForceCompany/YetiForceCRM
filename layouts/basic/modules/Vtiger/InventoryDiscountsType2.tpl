@@ -3,6 +3,7 @@
 	<!-- tpl-Base-InventoryDiscountsType2 -->
 	<div class="card js-panel mb-2" data-js="class: js-active">
 		<div class="card-header py-1">
+			<span class="fas fa-percent mr-2"></span>
 			<strong>{\App\Language::translate('LBL_CUSTOM_DISCOUNT', $MODULE)}</strong>
 			<div class="float-right">
 				<input type="{$AGGREGATION_INPUT_TYPE}" name="aggregationType" value="individual" class="activeCheckbox">
@@ -32,7 +33,7 @@
 				</div>
 				<div class="row">
 					<div class="input-group individualDiscountContainer">
-						<input type="text" name="individualDiscount" class="form-control individualDiscountValue" value="0" data-validation-engine="validate[required,min[0]]">
+						<input type="text" name="individualDiscount" class="form-control individualDiscountValue" value="0" data-validation-engine="validate[required]">
 						<div class="input-group-append">
 							<span class="input-group-text">%</span>
 						</div>

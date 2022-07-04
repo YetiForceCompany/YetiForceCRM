@@ -680,12 +680,16 @@ class CustomView_Record_Model extends \App\Base
 	 */
 	public function delete()
 	{
-		$db = App\Db::getInstance();
+		$dbCommand = App\Db::getInstance()->createCommand();
 		$cvId = $this->getId();
-		$db->createCommand()->delete('vtiger_customview', ['cvid' => $cvId])->execute();
-		$db->createCommand()->delete('vtiger_user_module_preferences', ['default_cvid' => $cvId])->execute();
-		// To Delete the mini list widget associated with the filter
-		$db->createCommand()->delete('vtiger_module_dashboard', ['filterid' => $cvId])->execute();
+		$dbCommand->delete('vtiger_customview', ['cvid' => $cvId])->execute();
+		$dbCommand->delete('vtiger_user_module_preferences', ['default_cvid' => $cvId])->execute();
+		$dbCommand->delete('vtiger_module_dashboard', ['filterid' => $cvId])->execute();
+		$result = $dbCommand->delete('yetiforce_menu', ['dataurl' => $cvId, 'type' => array_search('CustomFilter', \App\Menu::TYPES)])->execute();
+		if ($result) {
+			(new \App\BatchMethod(['method' => '\App\Menu::reloadMenu', 'params' => []]))->save();
+		}
+		\App\CustomView::clearCacheById($cvId);
 		App\Cache::clear();
 	}
 

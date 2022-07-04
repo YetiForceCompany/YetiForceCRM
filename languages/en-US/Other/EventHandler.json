@@ -50,8 +50,6 @@
     "VTIGER_FILES_HANDLER_DESC": "",
     "QUEUE_QUEUE_HANDLER": "Queue updater",
     "QUEUE_QUEUE_HANDLER_DESC": "",
-    "OSSPASSWORDS_SECURE_HANDLER": "Password updater",
-    "OSSPASSWORDS_SECURE_HANDLER_DESC": "Protects your password when displaying in history",
     "ISTORAGES_RECALCULATESTOCKHANDLER_HANDLER": "Recalculate stock",
     "ISTORAGES_RECALCULATESTOCKHANDLER_HANDLER_DESC": "Calculation of stock levels",
     "OPENSTREETMAP_OPENSTREETMAPHANDLER_HANDLER": "Save geographical coordinates",

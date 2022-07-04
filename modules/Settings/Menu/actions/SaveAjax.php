@@ -34,7 +34,7 @@ class Settings_Menu_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 			'countentries' => 'Integer',
 		]
 		);
-		if ('CustomFilter' === $data['type'] && \in_array($data['type'], Settings_Menu_Module_Model::TYPES)) {
+		if ('CustomFilter' === $data['type'] && \in_array($data['type'], \App\Menu::TYPES)) {
 			$data['dataurl'] = $data['filterId'];
 			unset($data['filterId']);
 		}

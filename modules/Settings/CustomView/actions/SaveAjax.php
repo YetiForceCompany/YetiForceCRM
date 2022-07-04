@@ -29,7 +29,7 @@ class Settings_CustomView_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function delete(App\Request $request)
 	{
-		Settings_CustomView_Module_Model::delete($request->getInteger('cvid'));
+		CustomView_Record_Model::getInstanceById($request->getInteger('cvid'))->delete();
 		$response = new Vtiger_Response();
 		$response->setResult([
 			'success' => true,

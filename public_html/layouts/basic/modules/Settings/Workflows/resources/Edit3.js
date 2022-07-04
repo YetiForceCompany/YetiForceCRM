@@ -124,7 +124,9 @@ Settings_Workflows_Edit_Js(
 						this[preSaveActionFunctionName].apply(this, [taskType]);
 					}
 					let formData = form.serializeFormData();
-					formData.entity_type = form.find('.createEntityModule:visible option:selected').val();
+					let createEntityModule = form.find('.createEntityModule:visible option:selected');
+					formData.entity_type = createEntityModule.val();
+					formData.relationId = createEntityModule.attr('data-relation-id');
 					AppConnector.request(formData).done((data) => {
 						if (data.result) {
 							this.getTaskList();

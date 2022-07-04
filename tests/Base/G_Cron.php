@@ -26,10 +26,10 @@ class G_Cron extends \Tests\Base
 			$db = \App\Db::getInstance();
 			$db->createCommand()
 				->insert('roundcube_users', [
-					'username' => 'yetiforcegitdevelopery@gmail.com',
-					'mail_host' => 'imap.gmail.com',
+					'username' => 'yetiforcetests@yahoo.com',
+					'mail_host' => 'imap.mail.yahoo.com',
 					'language' => 'en_US',
-					'preferences' => 'a:1:{s:11:"client_hash";s:16:"UmfW5Tgq7vMU35P0";}',
+					'preferences' => '',
 					'password' => $_SERVER['YETI_MAIL_PASS'],
 					'crm_user_id' => '1',
 					'actions' => 'CreatedEmail,CreatedHelpDesk,BindAccounts,BindContacts,BindLeads,BindHelpDesk,BindSSalesProcesses,BindCampaigns,BindCompetition,BindOSSEmployees,BindPartners,BindProject,BindServiceContracts,BindVendors',

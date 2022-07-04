@@ -47,7 +47,7 @@ class Settings_AdminAccess_Edit_View extends \App\Controller\ModalSettings
 				$fieldModel->uitype = 33;
 			}
 			if ($recordModel->getId()) {
-				$fieldModel->set('fieldvalue', $fieldModel->getUiTypeModel()->getDBValue($recordModel->get($fieldModel->getName())));
+				$fieldModel->set('fieldvalue', $fieldModel->getUITypeModel()->getDBValue($recordModel->get($fieldModel->getName())));
 				$fieldModel->set('isEditableReadOnly', 'name' === $fieldModel->getName());
 			}
 			$structures[$fieldModel->getName()] = $fieldModel;

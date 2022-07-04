@@ -1,0 +1,15 @@
+{
+  "php": {
+    "RecordCollector": "Record collectors",
+    "LBL_RECORD_COLLECTOR": "Record collectors",
+    "LBL_RECORD_COLLECTOR_DESCRIPTION": "Configuration Panel for required data (ex. API Key, Username) for connecting with services that provide companies data.",
+    "LBL_NAME": "Name",
+    "LBL_SUCCESSFULLY_UPDATED": "The status change was successful",
+    "LBL_DOC_URL": "Documentation URL",
+    "LBL_API_KEY": "API Key",
+    "LBL_SAVE_NOTIFY_OK": "Saved changes.",
+    "LBL_PROVIDER_INVALID": "Configuration is incorrect",
+    "LBL_CONFIG": "Setup data for record collector"
+  },
+  "js": {}
+}

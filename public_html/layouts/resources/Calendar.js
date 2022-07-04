@@ -268,7 +268,7 @@ window.Calendar_Js = class {
 	 * @returns {(boolean|jQuery)}
 	 */
 	getCalendarView() {
-		if (this.calendarView == false) {
+		if (!this.calendarView) {
 			this.calendarView = this.container.find('.js-calendar__container');
 		}
 		return this.calendarView;

@@ -17,17 +17,6 @@ class Settings_Menu_Module_Model
 		'id', 'role', 'parentid', 'type', 'sequence', 'module', 'label', 'newwindow',
 		'dataurl', 'showicon', 'icon', 'sizeicon', 'hotkey', 'filters', 'edit', 'source', 'countentries',
 	];
-	const TYPES = [
-		0 => 'Module',
-		1 => 'Shortcut',
-		2 => 'Label',
-		3 => 'Separator',
-		5 => 'QuickCreate',
-		6 => 'HomeIcon',
-		7 => 'CustomFilter',
-		8 => 'Profile',
-		9 => 'RecycleBin',
-	];
 
 	/**
 	 * Function to get instance.
@@ -54,14 +43,14 @@ class Settings_Menu_Module_Model
 	public function getMenuTypes($key = false)
 	{
 		if (false === $key) {
-			return self::TYPES;
+			return \App\Menu::TYPES;
 		}
-		return self::TYPES[$key];
+		return \App\Menu::TYPES[$key];
 	}
 
 	public function getMenuTypeKey($val)
 	{
-		return array_search($val, self::TYPES);
+		return array_search($val, \App\Menu::TYPES);
 	}
 
 	public function getMenuUrl($row)

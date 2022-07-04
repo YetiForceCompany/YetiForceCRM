@@ -22,7 +22,7 @@ class Vtiger_RecordCollector_View extends \App\Controller\Modal
 	public $modalId = 'record-collector-modal';
 
 	/** {@inheritdoc} */
-	public $modalSize = 'modal-xl';
+	public $modalSize = 'c-modal-xxl';
 
 	/** @var \App\RecordCollectors\Base Record collector instance. */
 	private $recordCollector;

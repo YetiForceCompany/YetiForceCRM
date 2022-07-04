@@ -146,6 +146,8 @@ class Gus extends Base
 			'NumerBudynku' => 'buildingnumbera',
 		],
 	];
+	/** @var string Url to Documentation API */
+	public $docUrl = 'https://api.stat.gov.pl/Home/RegonApi';
 
 	/** {@inheritdoc} */
 	public function isActive(): bool
@@ -212,7 +214,7 @@ class Gus extends Base
 						}
 					}
 					foreach ($row as $name => $value) {
-						$additional[$name][$key] = \App\Purifier::encodeHtml($value);
+						$additional[$name][$key] = $value;
 					}
 				}
 				$response['fields'] = $data;

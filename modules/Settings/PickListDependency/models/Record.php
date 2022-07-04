@@ -355,7 +355,7 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		$params = [];
 		$qualifiedModuleName = $this->getName(true);
 		$tableName = $this->getModule()->baseTable;
-		$labels = ['source_field' => 'LBL_SOURCE_FIELD', 'second_field' => 'LBL_SECOND_FIELD', 'third_field' => 'LBL_THIRD_FIELD'];
+		$labels = ['source_field' => 'LBL_SOURCE_FIELD'];
 		switch ($name) {
 			case 'tabid':
 				$params = [
@@ -378,8 +378,6 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 				}
 				break;
 			case 'source_field':
-			case 'second_field':
-			case 'third_field':
 				$params = [
 					'name' => $name,
 					'column' => $name,
@@ -478,17 +476,15 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 		if (!$modules) {
 			\App\EventHandler::deleteHandler('Vtiger_PicklistDependency_Handler');
 		} else {
-			$types = ['EditViewChangeValue'];
-			$handlers = (new \App\Db\Query())->from('vtiger_eventhandlers')
-				->where(['handler_class' => 'Vtiger_PicklistDependency_Handler', 'event_name' => $types])
-				->indexBy('event_name')->all();
-			foreach ($types as $type) {
-				if (isset($handlers[$type])) {
-					$data = ['include_modules' => implode(',', $modules), 'is_active' => 1];
-					\App\EventHandler::update($data, $handlers[$type]['eventhandler_id']);
-				} else {
-					\App\EventHandler::registerHandler($type, 'Vtiger_PicklistDependency_Handler', implode(',', $modules), '', 5, true, 0, \App\EventHandler::SYSTEM);
-				}
+			$type = 'EditViewChangeValue';
+			$handler = (new \App\Db\Query())->from('vtiger_eventhandlers')
+				->where(['handler_class' => 'Vtiger_PicklistDependency_Handler', 'event_name' => $type])
+				->indexBy('event_name')->one();
+			if ($handler) {
+				$data = ['include_modules' => implode(',', $modules), 'is_active' => 1];
+				\App\EventHandler::update($data, $handler['eventhandler_id']);
+			} else {
+				\App\EventHandler::registerHandler($type, 'Vtiger_PicklistDependency_Handler', implode(',', $modules), '', 5, true, 0, \App\EventHandler::SYSTEM);
 			}
 		}
 	}

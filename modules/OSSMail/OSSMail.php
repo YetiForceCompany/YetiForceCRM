@@ -39,7 +39,7 @@ class OSSMail
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_DisabledModule', 'info' => $moduleName, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();
 		} elseif ('module.enabled' === $eventType) {
 			if (Settings_ModuleManager_Library_Model::checkLibrary('roundcube')) {
-				throw new \App\Exceptions\NotAllowedMethod(\App\Language::translateArgs('ERR_NO_REQUIRED_LIBRARY', 'Settings:Base', 'roundcube', \App\Language::translate('VTLIB_LBL_MODULE_MANAGER', 'Settings:Base')));
+				throw new \App\Exceptions\NotAllowedMethod(\App\Language::translateArgs('ERR_NO_REQUIRED_LIBRARY_FEATURES_DOWNLOAD', 'Settings:Base', 'roundcube', \App\Language::translate('VTLIB_LBL_MODULE_MANAGER', 'Settings:Base')));
 			}
 			$user_id = Users_Record_Model::getCurrentUserModel()->get('user_name');
 			$dbCommand->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $user_id, 'start_time' => date('Y-m-d H:i:s')])->execute();

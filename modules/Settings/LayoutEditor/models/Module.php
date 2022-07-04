@@ -770,7 +770,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$systemFields[$name] = array_merge($systemFields['share_externally'], [
 				'name' => $name,
 				'column' => $name,
-				'label' => $field['name'] . ' (' . \App\Language::translate($field['type'], 'Settings.WebserviceApps') . ')',
+				'label' => $field['name'] . ' (' . \App\Language::translate($field['type'], 'Settings:WebserviceApps') . ')',
 				'fieldparams' => $id,
 			]);
 		}

@@ -26,6 +26,17 @@
 				</li>
 			</ul>
 		</div>
+		{function NOTE KEY=''}
+			{if $KEY === 'YetiForce'}
+				<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}">
+					<span class="yfi-premium color-red-600"></span>
+				</span>
+			{else}
+				<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PROVIDER_NOT_VERIFIED', 'Settings::Map')}">
+					<span class="fas fa-triangle-exclamation color-red-600"></span>
+				</span>
+			{/if}
+		{/function}
 		<div id="my-tab-content" class="tab-content">
 			<div class="tab-pane {if $ACTIVE_TAB eq 'TileLayer'}active{/if}" id="TileLayer">
 				<div class="alert alert-info">
@@ -49,15 +60,7 @@
 									<tr>
 										<th scope="row">
 											{\App\Language::translate($KEY, $QUALIFIED_MODULE)}
-											{if $KEY === 'YetiForce'}
-												<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}">
-													<span class="yfi-premium color-red-600"></span>
-												</span>
-											{else}
-												<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PROVIDER_NOT_VERIFIED', 'Settings::Map')}">
-													<span class="fas fa-triangle-exclamation color-red-600"></span>
-												</span>
-											{/if}
+											{NOTE KEY=$KEY}
 										</th>
 										<td>{$ITEM}</td>
 										<td class="text-center">
@@ -96,15 +99,7 @@
 									<tr>
 										<th scope="row">
 											{\App\Language::translate($KEY, $QUALIFIED_MODULE)}
-											{if $KEY === 'YetiForce'}
-												<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}">
-													<span class="yfi-premium color-red-600"></span>
-												</span>
-											{else}
-												<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PROVIDER_NOT_VERIFIED', 'Settings::Map')}">
-													<span class="fas fa-triangle-exclamation color-red-600"></span>
-												</span>
-											{/if}
+											{NOTE KEY=$KEY}
 											{if isset($ITEM['docUrl'])}
 												<a href="{$ITEM['docUrl']}" class="float-right u-cursor-pointer js-popover-tooltip" data-placement="top" data-content="{$ITEM['docUrl']}" data-js="popover"><span class="fas fa-info-circle"></span></a>
 											{/if}
@@ -145,15 +140,7 @@
 									<tr>
 										<th scope="row">
 											{\App\Language::translate($KEY, $QUALIFIED_MODULE)}
-											{if $KEY === 'YetiForce'}
-												<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}">
-													<span class="yfi-premium color-red-600"></span>
-												</span>
-											{else}
-												<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PROVIDER_NOT_VERIFIED', 'Settings::Map')}">
-													<span class="fas fa-triangle-exclamation color-red-600"></span>
-												</span>
-											{/if}
+											{NOTE KEY=$KEY}
 											{if isset($ITEM['docUrl'])}
 												<a href="{$ITEM['docUrl']}" class="float-right u-cursor-pointer js-popover-tooltip" data-placement="top" data-content="{$ITEM['docUrl']}" data-js="popover"><span class="fas fa-info-circle"></span></a>
 											{/if}

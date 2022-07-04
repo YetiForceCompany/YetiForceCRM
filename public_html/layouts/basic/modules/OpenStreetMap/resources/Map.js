@@ -81,7 +81,7 @@ jQuery.Class(
 					map.addLayer(marker);
 					if ($.isNumeric(radius)) {
 						radius = parseInt(radius) * 1000;
-						var circle = L.circle([data.coordinatesCenter.lat, data.coordinatesCenter.lon], radius, {
+						let circle = L.circle([data.coordinatesCenter.lat, data.coordinatesCenter.lon], radius, {
 							color: 'red',
 							fillColor: '#f03',
 							fillOpacity: 0.05
@@ -90,12 +90,11 @@ jQuery.Class(
 						map.addLayer(this.polygonLayer);
 					}
 				} else {
-					var params = {
+					Vtiger_Helper_Js.showMessage({
 						title: app.vtranslate('JS_LBL_PERMISSION'),
 						text: data.coordinatesCenter.error,
 						type: 'error'
-					};
-					Vtiger_Helper_Js.showMessage(params);
+					});
 				}
 			}
 			if (typeof data.cache !== 'undefined') {

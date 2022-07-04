@@ -137,36 +137,26 @@ class Users extends CRMEntity
 		return $this;
 	}
 
-	/** Function to retreive the user info of the specifed user id The user info will be available in $this->column_fields array.
-	 * @param $record -- record id:: Type integer
-	 * @param $module -- module:: Type varchar
-	 *
-	 * @throws \App\Exceptions\NoPermittedToRecord
-	 */
-	public function retrieveEntityInfo($record, $module)
+	/** {@inheritdoc} */
+	public function retrieveEntityInfo(int $record, string $module)
 	{
 		\App\Log::trace("Entering into retrieveEntityInfo($record, $module) method.");
-
 		if ('' == $record) {
 			\App\Log::error('record is empty. returning null');
-
 			return null;
 		}
 		$result = [];
-		foreach ($this->tab_name_index as $tableName => $index) {
-			$result[$tableName] = (new \App\Db\Query())
-				->from($tableName)
-				->where([$index => $record])->one();
-			if (empty($result[$tableName])) {
-				throw new \App\Exceptions\NoPermittedToRecord('ERR_RECORD_NOT_FOUND||' . $record);
-			}
-		}
 		$fields = \App\Field::getModuleFieldInfos($module);
-		foreach ($fields as $fieldName => &$fieldRow) {
-			if (isset($result[$fieldRow['tablename']][$fieldRow['columnname']])) {
-				$value = $result[$fieldRow['tablename']][$fieldRow['columnname']];
-				$this->column_fields[$fieldName] = $value;
-				$this->{$fieldName} = $value;
+		foreach ($fields as $fieldName => $fieldRow) {
+			$tableName = $fieldRow['tablename'];
+			if (empty($result[$tableName]) && isset($this->tab_name_index[$tableName])) {
+				$result[$tableName] = (new \App\Db\Query())->from($tableName)->where([$this->tab_name_index[$tableName] => $record])->one();
+				if (empty($result[$tableName])) {
+					throw new \App\Exceptions\NoPermittedToRecord('ERR_RECORD_NOT_FOUND||' . $record);
+				}
+			}
+			if (isset($result[$tableName][$fieldRow['columnname']])) {
+				$this->{$fieldName} = $this->column_fields[$fieldName] = $result[$tableName][$fieldRow['columnname']];
 			}
 		}
 		$this->column_fields['record_id'] = $record;
