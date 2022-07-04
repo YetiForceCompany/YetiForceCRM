@@ -21409,11 +21409,9 @@ td.listViewEntryValue.wide:not(.listButtons) {
 td.listViewEntryValue.medium:not(.listButtons) {
   padding: 0.625rem;
 }
-.table td.medium[data-field-type=text], .c-detail-widget__table td.medium[data-field-type=text], .table td.medium[data-field-type=image], .c-detail-widget__table td.medium[data-field-type=image], .table td.medium[data-field-type=multiImage], .c-detail-widget__table td.medium[data-field-type=multiImage],
-.listViewEntries td.medium[data-field-type=text],
+.table td.medium[data-field-type=image], .c-detail-widget__table td.medium[data-field-type=image], .table td.medium[data-field-type=multiImage], .c-detail-widget__table td.medium[data-field-type=multiImage],
 .listViewEntries td.medium[data-field-type=image],
 .listViewEntries td.medium[data-field-type=multiImage],
-td.listViewEntryValue.medium[data-field-type=text],
 td.listViewEntryValue.medium[data-field-type=image],
 td.listViewEntryValue.medium[data-field-type=multiImage] {
   padding: 0;
@@ -21424,11 +21422,9 @@ td.listViewEntryValue.medium[data-field-type=multiImage] {
 td.listViewEntryValue.narrow:not(.listButtons) {
   padding: 0.375rem;
 }
-.table td.narrow[data-field-type=text], .c-detail-widget__table td.narrow[data-field-type=text], .table td.narrow[data-field-type=image], .c-detail-widget__table td.narrow[data-field-type=image], .table td.narrow[data-field-type=multiImage], .c-detail-widget__table td.narrow[data-field-type=multiImage],
-.listViewEntries td.narrow[data-field-type=text],
+.table td.narrow[data-field-type=image], .c-detail-widget__table td.narrow[data-field-type=image], .table td.narrow[data-field-type=multiImage], .c-detail-widget__table td.narrow[data-field-type=multiImage],
 .listViewEntries td.narrow[data-field-type=image],
 .listViewEntries td.narrow[data-field-type=multiImage],
-td.listViewEntryValue.narrow[data-field-type=text],
 td.listViewEntryValue.narrow[data-field-type=image],
 td.listViewEntryValue.narrow[data-field-type=multiImage] {
   padding: 0;

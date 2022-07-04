@@ -160,7 +160,7 @@
 											value="{$HEADER_FIELD->getEditViewDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}"
 											data-js="change" />
 									{else}
-										{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}
+										{$HEADER_FIELD->getUITypeModel()->getListViewDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}
 									{/if}
 								{else}
 									{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
