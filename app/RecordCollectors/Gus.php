@@ -190,29 +190,30 @@ class Gus extends Base
 							unset($row[$apiKey]);
 							continue;
 						}
+						$value = '';
 						if (isset($row[$apiKey])) {
 							$value = $row[$apiKey];
 							unset($row[$apiKey]);
-							$fieldModel = $fieldsModel[$fieldName];
-							if ($value && 'phone' === $fieldModel->getFieldDataType()) {
-								$details = $fieldModel->getUITypeModel()->getPhoneDetails($value, 'PL');
-								$value = $details['number'];
-								if ($fieldName !== $details['fieldName']) {
-									$fieldName = $details['fieldName'];
-									$fieldModel = $fieldsModel[$fieldName];
-								}
-							}
-							if (isset($fieldsData[$fieldName])) {
-								$fieldsData[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
-							} else {
-								$skip[$fieldName]['label'] = $fieldName;
-							}
-							$fieldsData[$fieldName]['data'][$key] = [
-								'raw' => $value,
-								'edit' => $fieldModel->getEditViewDisplayValue($value),
-								'display' => $fieldModel->getDisplayValue($value),
-							];
 						}
+						$fieldModel = $fieldsModel[$fieldName];
+						if ($value && 'phone' === $fieldModel->getFieldDataType()) {
+							$details = $fieldModel->getUITypeModel()->getPhoneDetails($value, 'PL');
+							$value = $details['number'];
+							if ($fieldName !== $details['fieldName']) {
+								$fieldName = $details['fieldName'];
+								$fieldModel = $fieldsModel[$fieldName];
+							}
+						}
+						if (isset($fieldsData[$fieldName])) {
+							$fieldsData[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
+						} else {
+							$fieldsData[$fieldName]['label'] = $fieldName;
+						}
+						$fieldsData[$fieldName]['data'][$key] = [
+							'raw' => $value,
+							'edit' => $fieldModel->getEditViewDisplayValue($value),
+							'display' => $fieldModel->getDisplayValue($value),
+						];
 					}
 					foreach ($row as $name => $value) {
 						$additional[$name][$key] = $value;

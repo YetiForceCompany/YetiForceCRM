@@ -181,20 +181,21 @@ class Base
 					unset($row[$apiKey]);
 					continue;
 				}
+				$value = '';
 				if (isset($row[$apiKey])) {
 					$value = $row[$apiKey];
 					unset($row[$apiKey]);
-					if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
-						$skip[$fieldName]['label'] = \App\Language::translate($fieldsModel[$fieldName]->getFieldLabel(), $this->moduleName) ?? $fieldName;
-					}
-					$fieldModel = $fieldsModel[$fieldName];
-					$fieldsData[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $this->moduleName);
-					$fieldsData[$fieldName]['data'][$key] = [
-						'raw' => $value,
-						'edit' => $fieldModel->getEditViewDisplayValue($value),
-						'display' => $fieldModel->getDisplayValue($value),
-					];
 				}
+				if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
+					$skip[$fieldName]['label'] = \App\Language::translate($fieldsModel[$fieldName]->getFieldLabel(), $this->moduleName) ?? $fieldName;
+				}
+				$fieldModel = $fieldsModel[$fieldName];
+				$fieldsData[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $this->moduleName);
+				$fieldsData[$fieldName]['data'][$key] = [
+					'raw' => $value,
+					'edit' => $fieldModel->getEditViewDisplayValue($value),
+					'display' => $fieldModel->getDisplayValue($value),
+				];
 			}
 			foreach ($row as $name => $value) {
 				$additional[$name][$key] = $value;
