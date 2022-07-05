@@ -61,11 +61,12 @@ class Base
 	 */
 	public function __construct()
 	{
-		$class = last(explode('\\', static::class));
-		$config = \App\Config::component('RecordCollectors', $class);
-		if (null === $config) {
+		$name = last(explode('\\', static::class));
+		$class = '\\Config\\Components\\RecordCollectors\\' . $name;
+		if (!\class_exists($class)) {
 			return;
 		}
+		$config = (new \ReflectionClass($class))->getStaticProperties();
 		if (isset($config['allowedModules'])) {
 			static::$allowedModules = $config['allowedModules'];
 			unset($config['allowedModules']);
@@ -168,6 +169,7 @@ class Base
 		$fieldsData = $skip = [];
 		$rows = isset($this->data[0]) ? $this->data : [$this->data];
 		foreach ($rows as $key => &$row) {
+			$dataCounter[$key] = 0;
 			foreach ($this->formFieldsToRecordMap[$this->moduleName] as $apiKey => $fieldName) {
 				if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
 					if (isset($row[$apiKey]) && '' !== $row[$apiKey]) {
@@ -183,8 +185,11 @@ class Base
 				}
 				$value = '';
 				if (isset($row[$apiKey])) {
-					$value = $row[$apiKey];
+					$value = trim($row[$apiKey]);
 					unset($row[$apiKey]);
+				}
+				if ($value) {
+					++$dataCounter[$key];
 				}
 				if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
 					$skip[$fieldName]['label'] = \App\Language::translate($fieldsModel[$fieldName]->getFieldLabel(), $this->moduleName) ?? $fieldName;
@@ -205,5 +210,6 @@ class Base
 		$this->response['skip'] = $skip;
 		$this->response['keys'] = array_keys($rows);
 		$this->response['additional'] = $additional;
+		$this->response['dataCounter'] = $dataCounter;
 	}
 }
