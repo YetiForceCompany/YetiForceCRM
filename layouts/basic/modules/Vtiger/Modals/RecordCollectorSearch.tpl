@@ -66,7 +66,7 @@
 								{/if}
 								{foreach from=$ROW['data'] key=KEY item=VALUE name=DATA_COLUMN}
 									<td class="js-record-collector__column" data-column="{$KEY}">
-										<input type="radio" name="{$FIELD_NAME}" {if $smarty.foreach.DATA_COLUMN.first}checked{/if} value="{$VALUE['raw']}">
+										<input type="radio" name="{$FIELD_NAME}" {if $smarty.foreach.DATA_COLUMN.first}checked{/if} value="{$VALUE['edit']}">
 										<span class="ml-2">{$VALUE['display']}</span>
 									</td>
 								{/foreach}

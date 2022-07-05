@@ -139,6 +139,19 @@ class Base
 	}
 
 	/**
+	 * Get params of collector.
+	 *
+	 * @return array
+	 */
+	protected function getParams(): array
+	{
+		if ($params = (new \App\Db\Query())->select(['params'])->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linkurl' => static::class])->scalar()) {
+			return \App\Json::decode($params, true);
+		}
+		return [];
+	}
+
+	/**
 	 * Load data.
 	 *
 	 * @return void
@@ -166,7 +179,8 @@ class Base
 				$fieldModel = $fieldsModel[$fieldName];
 				$fieldsData[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $this->moduleName);
 				$fieldsData[$fieldName]['data'][$key] = [
-					'raw' => $fieldModel->getEditViewDisplayValue($row[$label]),
+					'raw' => $row[$label],
+					'edit' => $fieldModel->getEditViewDisplayValue($row[$label]),
 					'display' => $fieldModel->getDisplayValue($row[$label]),
 				];
 				unset($row[$label]);

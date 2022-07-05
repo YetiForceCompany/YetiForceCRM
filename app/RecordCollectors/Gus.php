@@ -166,7 +166,7 @@ class Gus extends Base
 		$ncr = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('ncr', 'Text'));
 		$response = [];
 		$moduleName = $this->request->getModule();
-		$client = \App\RecordCollectors\Helper\GusClient::getInstance($this->getParams($moduleName));
+		$client = \App\RecordCollectors\Helper\GusClient::getInstance($this->getClientParams($moduleName));
 		try {
 			$infoFromGus = $client->search($vatId, $ncr, $taxNumber);
 			if ($recordId = $this->request->getInteger('record')) {
@@ -208,7 +208,8 @@ class Gus extends Base
 								$skip[$fieldName]['label'] = $fieldName;
 							}
 							$data[$fieldName]['data'][$key] = [
-								'raw' => $fieldModel->getEditViewDisplayValue($value),
+								'raw' => $value,
+								'edit' => $fieldModel->getEditViewDisplayValue($value),
 								'display' => $fieldModel->getDisplayValue($value),
 							];
 						}
@@ -236,7 +237,7 @@ class Gus extends Base
 	 *
 	 * @return string[]
 	 */
-	public function getParams(string $moduleName): array
+	public function getClientParams(string $moduleName): array
 	{
 		$params = [];
 		if (isset($this->formFieldsToRecordMap[$moduleName]['PKDPodstawowyKod']) || isset($this->formFieldsToRecordMap[$moduleName]['PKDPozostaleNazwy']) || isset($this->formFieldsToRecordMap[$moduleName]['PKDPozostaleKodyNazwy'])) {

@@ -145,6 +145,12 @@ class UKCompaniesHouse extends Base
 	private $url = 'https://api.company-information.service.gov.uk/';
 
 	/** {@inheritdoc} */
+	public function isActive(): bool
+	{
+		return parent::isActive() && ($params = $this->getParams()) && !empty($params['api_key']);
+	}
+
+	/** {@inheritdoc} */
 	public function search(): array
 	{
 		$this->setApiKey();
@@ -240,8 +246,9 @@ class UKCompaniesHouse extends Base
 	 */
 	private function setApiKey(): void
 	{
-		$this->apiKey = \App\Json::decode((new \App\Db\Query())->select(['params'])->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linkurl' => __CLASS__])->scalar(), true)['api_key'];
-		if (!$this->apiKey) {
+		if (($params = $this->getParams()) && !empty($params['api_key'])) {
+			$this->apiKey = $params['api_key'];
+		} else {
 			throw new \App\Exceptions\IllegalValue('You must fist setup Api Key in Config Panel', 403);
 		}
 	}
