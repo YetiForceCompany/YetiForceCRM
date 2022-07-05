@@ -39,7 +39,7 @@ return [
 		],
 		'OSSTimeControl' => [
 			'process' => ['Project' => ['link' => ['linktoaccountscontacts']]],
-			'subprocess' => ['HelpDesk' => ['name' => ['ticket_title']]],
+			'subprocess' => ['HelpDesk' => ['name' => ['ticket_title'], 'link' => ['parent_id'], 'process' => ['servicecontractsid'], 'linkextend' => ['contact_id']]]
 		],
 		'SRequirementsCards' => [
 			'salesprocessid' => ['SSalesProcesses' => ['accountid' => ['related_to']]],
