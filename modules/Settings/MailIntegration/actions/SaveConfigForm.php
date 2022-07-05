@@ -22,7 +22,7 @@ class Settings_MailIntegration_SaveConfigForm_Action extends Settings_Vtiger_Bas
 			throw new \App\Exceptions\IllegalValue('ERR_ILLEGAL_VALUE');
 		}
 		$fieldModel = $fields[$field];
-		$value = $fieldModel->get('isArray') ? $request->getArray('updateValue', $fieldModel->get('purifyType')) : $request->getByType('updateValue', $fieldModel->get('purifyType'));
+		$value = $fieldModel->get('isArray') ? $request->getArray($field, $fieldModel->get('purifyType')) : $request->getByType($value, $fieldModel->get('purifyType'));
 		$fieldModel->getUITypeModel()->validate($value, true);
 		if ('outlookUrls' === $field) {
 			$oldValue = \Config\Modules\MailIntegration::$outlookUrls;
