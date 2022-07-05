@@ -159,7 +159,7 @@ class UKCompaniesHouse extends Base
 				return [];
 			}
 		} elseif ($companyName) {
-			$this->getDataFromApiByNcr($this->findNcrByCompanyName($companyName));
+			$this->getDataFromApiByName($companyName);
 			$this->parseData();
 			if (empty($this->data)) {
 				return [];
@@ -200,9 +200,9 @@ class UKCompaniesHouse extends Base
 	 *
 	 * @param string $companyName
 	 *
-	 * @return string
+	 * @return void
 	 */
-	private function findNcrByCompanyName(string $companyName): string
+	private function getDataFromApiByName(string $companyName): void
 	{
 		try {
 			$response = (\App\RequestHttp::getClient(\App\RequestHttp::getOptions()))->request('GET', $this->url . 'advanced-search/companies?company_name_includes=' . $companyName, [
@@ -212,7 +212,12 @@ class UKCompaniesHouse extends Base
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
-		return isset($response) ? \App\Json::decode($response->getBody()->getContents())['top_hit']['company_number'] : '';
+		$response = \App\Json::decode($response->getBody()->getContents());
+		$data = [];
+		foreach ($response['items'] as $key => $value) {
+			$data[$key] = $this->getDataFromApiByNcr($value);
+		}
+		$this->data = $data;
 	}
 
 	/**

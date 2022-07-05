@@ -157,7 +157,7 @@ class Base
 		$additional = $skip = [];
 		foreach ($rows as $key => &$row) {
 			foreach ($this->formFieldsToRecordMap[$this->moduleName] as $label => $fieldName) {
-				if (!isset($rows[$label]) || isset($fieldsData[$fieldName])) {
+				if (!isset($row[$label]) || isset($fieldsData[$fieldName])) {
 					continue;
 				}
 				if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
@@ -166,10 +166,10 @@ class Base
 				$fieldModel = $fieldsModel[$fieldName];
 				$fieldsData[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $this->moduleName);
 				$fieldsData[$fieldName]['data'][$key] = [
-					'raw' => $fieldModel->getEditViewDisplayValue($rows[$label]),
-					'display' => $fieldModel->getDisplayValue($rows[$label]),
+					'raw' => $fieldModel->getEditViewDisplayValue($row[$label]),
+					'display' => $fieldModel->getDisplayValue($row[$label]),
 				];
-				unset($rows[$label]);
+				unset($row[$label]);
 			}
 			foreach ($row as $name => $value) {
 				$additional[$name][$key] = $value;
