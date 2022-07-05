@@ -180,7 +180,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	public function refreshSwitchUsers()
 	{
 		$switchUsersRaw = $this->getSwitchUsers();
-		$map = $switchUsers = [];
+		$map = $switchUsers = $switchUsersRawToUpdate = [];
 		if (\count($switchUsersRaw)) {
 			foreach ($switchUsersRaw as $key => $row) {
 				$accessList = [];
@@ -189,8 +189,15 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 						$accessList = array_merge($accessList, $this->getUserID($access));
 					}
 				}
+				foreach ($accessList as $accessListUserKey => $userId) {
+					if (!App\User::isExists($userId, true)) {
+						unset($accessList[$accessListUserKey]);
+					}
+				}
 				foreach ($this->getUserID($key) as $user) {
-					$map[$user] = array_merge($map[$user] ?? [], $accessList);
+					if (App\User::isExists($user, true)) {
+						$map[$user] = array_merge($map[$user] ?? [], $accessList);
+					}
 				}
 			}
 		}
@@ -202,8 +209,10 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			}
 			asort($usersForSort);
 			$switchUsers[$user] = $usersForSort;
+			unset($usersForSort[$user]);
+			$switchUsersRawToUpdate[$user] = array_keys($usersForSort);
 		}
-		$content = '$switchUsersRaw = ' . \App\Utils::varExport($switchUsersRaw) . ';' . PHP_EOL .
+		$content = '$switchUsersRaw = ' . \App\Utils::varExport($switchUsersRawToUpdate) . ';' . PHP_EOL .
 			'$switchUsers = ' . \App\Utils::varExport($switchUsers) . ';' . PHP_EOL;
 		\App\Utils::saveToFile('user_privileges/switchUsers.php', $content);
 	}

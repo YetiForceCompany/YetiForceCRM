@@ -35,6 +35,7 @@ class Users_DeleteAjax_Action extends Vtiger_Delete_Action
 				Users_Record_Model::deleteUserPermanently($userId, $transformUserId);
 			}
 		}
+		Settings_Users_Module_Model::getInstance()->refreshSwitchUsers();
 		$userModuleModel = Users_Module_Model::getInstance($moduleName);
 		$listViewUrl = $userModuleModel->getListViewUrl();
 		$response = new Vtiger_Response();

@@ -109,7 +109,7 @@ class Users_SaveAjax_Action extends Vtiger_SaveAjax_Action
 		$recordModel->save();
 
 		App\Db::getInstance()->createCommand()->update('vtiger_users', ['deleted' => 0], ['id' => $record])->execute();
-
+		Settings_Users_Module_Model::getInstance()->refreshSwitchUsers();
 		$userModuleModel = Users_Module_Model::getInstance($moduleName);
 		$listViewUrl = $userModuleModel->getListViewUrl();
 
