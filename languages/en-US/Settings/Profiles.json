@@ -97,7 +97,8 @@
     "InterestsConflictUsers": "Conflict of interests",
     "CustomViewAdvCond": "Advanced custom view conditions",
     "RecordActivityNotifier": "Record activity notifier",
-    "WorkflowTriggerWhenRecordIsBlocked": "Workflow trigger when record is blocked"
+    "WorkflowTriggerWhenRecordIsBlocked": "Workflow trigger when record is blocked",
+    "LeaderCanManageGroupMembership": "Leader can manage group membership"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Profile deleted successfully"
