@@ -166,7 +166,7 @@ class Base
 			$fieldsModel = \Vtiger_Module_Model::getInstance($this->moduleName)->getFields();
 		}
 		$fieldsData = $skip = [];
-		$rows = isset($this->data[0][0]) ? $this->data : [$this->data];
+		$rows = isset($this->data[0]) ? $this->data : [$this->data];
 		foreach ($rows as $key => &$row) {
 			foreach ($this->formFieldsToRecordMap[$this->moduleName] as $apiKey => $fieldName) {
 				if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
