@@ -228,7 +228,6 @@ class UKCompaniesHouse extends Base
 			}
 		}
 		$this->data = $data;
-		var_dump($this->data);
 	}
 
 	/**
