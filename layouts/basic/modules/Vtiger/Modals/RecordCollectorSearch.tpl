@@ -96,12 +96,14 @@
 					</thead>
 					<tbody>
 						{foreach from=$SEARCH_DATA['skip'] key=FIELD_NAME item=ROW}
-							<tr>
-								<td>{$ROW['label']}</td>
-								{foreach from=$ROW['data'] item=VALUE}
-									<td>{$VALUE['display']}</td>
-								{/foreach}
-							</tr>
+							{if !empty($ROW['data'])}
+								<tr>
+									<td>{$ROW['label']}</td>
+									{foreach from=$ROW['data'] item=VALUE}
+										<td>{$VALUE}</td>
+									{/foreach}
+								</tr>
+							{/if}
 						{/foreach}
 					</tbody>
 				</table>

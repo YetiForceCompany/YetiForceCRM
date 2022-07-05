@@ -167,23 +167,34 @@ class Base
 		}
 		$fieldsData = $skip = [];
 		$rows = isset($this->data[0][0]) ? $this->data : [$this->data];
-		$additional = $skip = [];
 		foreach ($rows as $key => &$row) {
-			foreach ($this->formFieldsToRecordMap[$this->moduleName] as $label => $fieldName) {
-				if (!isset($row[$label]) || isset($fieldsData[$fieldName])) {
+			foreach ($this->formFieldsToRecordMap[$this->moduleName] as $apiKey => $fieldName) {
+				if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
+					if (isset($row[$apiKey]) && '' !== $row[$apiKey]) {
+						$skip[$fieldName]['data'][$key] = $row[$apiKey];
+						if (isset($fieldsModel[$fieldName]) && empty($skip[$fieldName]['label'])) {
+							$skip[$fieldName]['label'] = \App\Language::translate($fieldsModel[$fieldName]->getFieldLabel(), $this->moduleName);
+						} else {
+							$skip[$fieldName]['label'] = $fieldName;
+						}
+					}
+					unset($row[$apiKey]);
 					continue;
 				}
-				if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
-					$skip[$fieldName]['label'] = \App\Language::translate($fieldsModel[$fieldName]->getFieldLabel(), $this->moduleName) ?? $fieldName;
+				if (isset($row[$apiKey])) {
+					$value = $row[$apiKey];
+					unset($row[$apiKey]);
+					if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
+						$skip[$fieldName]['label'] = \App\Language::translate($fieldsModel[$fieldName]->getFieldLabel(), $this->moduleName) ?? $fieldName;
+					}
+					$fieldModel = $fieldsModel[$fieldName];
+					$fieldsData[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $this->moduleName);
+					$fieldsData[$fieldName]['data'][$key] = [
+						'raw' => $value,
+						'edit' => $fieldModel->getEditViewDisplayValue($value),
+						'display' => $fieldModel->getDisplayValue($value),
+					];
 				}
-				$fieldModel = $fieldsModel[$fieldName];
-				$fieldsData[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $this->moduleName);
-				$fieldsData[$fieldName]['data'][$key] = [
-					'raw' => $row[$label],
-					'edit' => $fieldModel->getEditViewDisplayValue($row[$label]),
-					'display' => $fieldModel->getDisplayValue($row[$label]),
-				];
-				unset($row[$label]);
 			}
 			foreach ($row as $name => $value) {
 				$additional[$name][$key] = $value;

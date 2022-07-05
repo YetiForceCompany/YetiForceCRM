@@ -80,7 +80,6 @@ class Gus extends Base
 	public $formFieldsToRecordMap = [
 		'Accounts' => [
 			'Nazwa' => 'accountname',
-			'SzczegolnaFormaPrawnaNazwa' => 'legal_form',
 			'Regon' => 'registration_number_2',
 			'Krs' => 'registration_number_1',
 			'Nip' => 'vat_id',
@@ -100,7 +99,6 @@ class Gus extends Base
 		],
 		'Leads' => [
 			'Nazwa' => 'company',
-			'SzczegolnaFormaPrawnaNazwa' => 'legal_form',
 			'Regon' => 'registration_number_2',
 			'Wojewodztwo' => 'addresslevel2a',
 			'Powiat' => 'addresslevel3a',
@@ -172,42 +170,44 @@ class Gus extends Base
 			if ($recordId = $this->request->getInteger('record')) {
 				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 				$response['recordModel'] = $recordModel;
-				$fields = $recordModel->getModule()->getFields();
+				$fieldsModel = $recordModel->getModule()->getFields();
 			} else {
-				$fields = \Vtiger_Module_Model::getInstance($moduleName)->getFields();
+				$fieldsModel = \Vtiger_Module_Model::getInstance($moduleName)->getFields();
 			}
 			if ($infoFromGus && isset($this->formFieldsToRecordMap[$moduleName])) {
-				$additional = $data = $skip = [];
+				$additional = $fieldsData = $skip = [];
 				foreach ($infoFromGus as $key => &$row) {
-					foreach ($this->formFieldsToRecordMap[$moduleName] as $apiName => $fieldName) {
-						if (empty($fields[$fieldName]) || !$fields[$fieldName]->isActiveField()) {
-							if (isset($fields[$fieldName]) && empty($skip[$fieldName]['label'])) {
-								$skip[$fieldName]['label'] = \App\Language::translate($fields[$fieldName]->getFieldLabel(), $moduleName);
-							} else {
-								$skip[$fieldName]['label'] = $fieldName;
+					foreach ($this->formFieldsToRecordMap[$moduleName] as $apiKey => $fieldName) {
+						if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
+							if (isset($row[$apiKey]) && '' !== $row[$apiKey]) {
+								$skip[$fieldName]['data'][$key] = $row[$apiKey];
+								if (isset($fieldsModel[$fieldName]) && empty($skip[$fieldName]['label'])) {
+									$skip[$fieldName]['label'] = \App\Language::translate($fieldsModel[$fieldName]->getFieldLabel(), $moduleName);
+								} else {
+									$skip[$fieldName]['label'] = $fieldName;
+								}
 							}
-							$skip[$fieldName]['data'][$key]['display'] = $row[$apiName] ?? '';
-							unset($row[$apiName]);
+							unset($row[$apiKey]);
 							continue;
 						}
-						if (isset($row[$apiName])) {
-							$value = $row[$apiName];
-							unset($row[$apiName]);
-							$fieldModel = $fields[$fieldName];
+						if (isset($row[$apiKey])) {
+							$value = $row[$apiKey];
+							unset($row[$apiKey]);
+							$fieldModel = $fieldsModel[$fieldName];
 							if ($value && 'phone' === $fieldModel->getFieldDataType()) {
 								$details = $fieldModel->getUITypeModel()->getPhoneDetails($value, 'PL');
 								$value = $details['number'];
 								if ($fieldName !== $details['fieldName']) {
 									$fieldName = $details['fieldName'];
-									$fieldModel = $fields[$fieldName];
+									$fieldModel = $fieldsModel[$fieldName];
 								}
 							}
-							if (isset($fields[$fieldName]) && empty($data[$fieldName]['label'])) {
-								$data[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
+							if (isset($fieldsData[$fieldName])) {
+								$fieldsData[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 							} else {
 								$skip[$fieldName]['label'] = $fieldName;
 							}
-							$data[$fieldName]['data'][$key] = [
+							$fieldsData[$fieldName]['data'][$key] = [
 								'raw' => $value,
 								'edit' => $fieldModel->getEditViewDisplayValue($value),
 								'display' => $fieldModel->getDisplayValue($value),
@@ -218,7 +218,7 @@ class Gus extends Base
 						$additional[$name][$key] = $value;
 					}
 				}
-				$response['fields'] = $data;
+				$response['fields'] = $fieldsData;
 				$response['additional'] = $additional;
 				$response['keys'] = array_keys($infoFromGus);
 				$response['skip'] = $skip;
