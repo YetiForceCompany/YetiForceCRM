@@ -44,7 +44,7 @@ class PLNationalCourtRegister extends Base
 	];
 
 	/** {@inheritdoc} */
-	protected $modulesFieldsMap = [
+	public $modulesFieldsMap = [
 		'Accounts' => [
 			'ncr' => 'registration_number_1',
 		],

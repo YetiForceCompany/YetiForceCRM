@@ -567,6 +567,11 @@ Settings_Workflows_Edit_Js(
 			this.registerChangeCreateEntityEvent();
 			this.registerVTUpdateFieldsTaskEvents();
 		},
+		registerVTRecordCollectorEvents: function () {
+			$('[name="recordCollector"]').on('change', function (e) {
+				let currentTarget = $(e.currentTarget);
+			});
+		},
 		registerChangeCreateEntityEvent: function () {
 			var thisInstance = this;
 			$('[name="mappingPanel"]').on('change', function (e) {

@@ -33,4 +33,26 @@ class RecordCollector
 		}
 		return $instance;
 	}
+
+	/**
+	 * Get active record collector by type.
+	 *
+	 * @param string $displayType
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public static function getByType(string $displayType, string $moduleName): array
+	{
+		$recordCollector = [];
+		foreach ((new \DirectoryIterator(__DIR__ . '/RecordCollectors')) as $fileinfo) {
+			if ('php' === $fileinfo->getExtension() && 'Base' !== ($fileName = $fileinfo->getBasename('.php'))) {
+				$instance = self::getInstance('App\RecordCollectors\\' . $fileName, $moduleName);
+				if ($instance->isActive() && $instance->displayType === $displayType) {
+					$recordCollector[$fileName] = $instance;
+				}
+			}
+		}
+		return $recordCollector;
+	}
 }

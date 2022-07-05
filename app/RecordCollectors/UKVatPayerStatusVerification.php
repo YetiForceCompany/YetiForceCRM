@@ -43,7 +43,7 @@ class UKVatPayerStatusVerification extends Base
 	];
 
 	/** {@inheritdoc} */
-	protected $modulesFieldsMap = [
+	public $modulesFieldsMap = [
 		'Accounts' => [
 			'vatNumber' => 'vat_id',
 		],
