@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Base-Modals-RecordCollectorSummary -->
 	{if $RECORD_COLLECTOR->displayType === 'Summary'}
-		<div class="mt-2">
+		<div class="mt-1">
 			{if isset($SEARCH_DATA['fields'])}
 				<table class="table">
 					<tbody>
@@ -30,8 +30,8 @@
 		</button>
 	{elseif $RECORD_COLLECTOR->displayType === 'FillFields'}
 		{if !empty($SEARCH_DATA['fields'])}
-			<form class="js-record-collector__fill_form" data-js="form">
-				<table class="table table-bordered mt-2">
+			<form class="js-record-collector__fill_form mt-1" data-js="form">
+				<table class="table table-bordered">
 					<thead>
 						<tr>
 							<th class="text-center">{\App\Language::translate('LBL_FIELDS_LIST', $MODULE_NAME)}</th>
@@ -82,25 +82,6 @@
 					</tbody>
 				</table>
 			</form>
-			{if !empty($SEARCH_DATA['additional'])}
-				<table class="table table-bordered mt-2">
-					<thead>
-						<tr>
-							<th class="text-center" colspan="2">{\App\Language::translate('LBL_CUSTOM_INFORMATION', $MODULE_NAME)}</th>
-						</tr>
-					</thead>
-					<tbody>
-						{foreach from=$SEARCH_DATA['additional'] key=NAME item=VALUES}
-							<tr>
-								<td class="text-break">{\App\Language::translate($NAME, $MODULE_NAME, null, true, 'Other.RecordCollector')}</td>
-								{foreach from=$VALUES item=VALUE}
-									<td>{nl2br(\App\Purifier::encodeHtml($VALUE))}</td>
-								{/foreach}
-							</tr>
-						{/foreach}
-					</tbody>
-				</table>
-			{/if}
 			{if !empty($SEARCH_DATA['skip'])}
 				<table class="table table-bordered mt-2">
 					<thead>
@@ -119,6 +100,25 @@
 								<td>{$ROW['label']}</td>
 								{foreach from=$ROW['data'] item=VALUE}
 									<td>{$VALUE['display']}</td>
+								{/foreach}
+							</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			{/if}
+			{if !empty($SEARCH_DATA['additional'])}
+				<table class="table table-bordered mt-2">
+					<thead>
+						<tr>
+							<th class="text-center" colspan="2">{\App\Language::translate('LBL_CUSTOM_INFORMATION', $MODULE_NAME)}</th>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach from=$SEARCH_DATA['additional'] key=NAME item=VALUES}
+							<tr>
+								<td class="text-break">{\App\Language::translate($NAME, $MODULE_NAME, null, true, 'Other.RecordCollector')}</td>
+								{foreach from=$VALUES item=VALUE}
+									<td>{nl2br(\App\Purifier::encodeHtml($VALUE))}</td>
 								{/foreach}
 							</tr>
 						{/foreach}

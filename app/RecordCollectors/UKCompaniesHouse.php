@@ -35,6 +35,9 @@ class UKCompaniesHouse extends Base
 	public $description = 'LBL_UNITED_KINGDOM_CH_DESC';
 
 	/** {@inheritdoc} */
+	public $docUrl = 'https://developer.company-information.service.gov.uk/';
+
+	/** {@inheritdoc} */
 	protected $fields = [
 		'ncr' => [
 			'labelModule' => '_Base',
@@ -139,10 +142,7 @@ class UKCompaniesHouse extends Base
 	private $apiKey;
 
 	/** @var string CH sever address */
-	protected $url = 'https://api.company-information.service.gov.uk/';
-
-	/** @var string Url to Documentation API */
-	public $docUrl = 'https://developer.company-information.service.gov.uk/';
+	private $url = 'https://api.company-information.service.gov.uk/';
 
 	/** {@inheritdoc} */
 	public function search(): array
@@ -172,7 +172,6 @@ class UKCompaniesHouse extends Base
 			return $this->response;
 		}
 		$this->loadData();
-		$this->response['additional'] = $this->data;
 		return $this->response;
 	}
 
@@ -237,7 +236,6 @@ class UKCompaniesHouse extends Base
 	private function setApiKey(): void
 	{
 		$this->apiKey = \App\Json::decode((new \App\Db\Query())->select(['params'])->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linkurl' => __CLASS__])->scalar(), true)['api_key'];
-
 		if (!$this->apiKey) {
 			throw new \App\Exceptions\IllegalValue('You must fist setup Api Key in Config Panel', 403);
 		}

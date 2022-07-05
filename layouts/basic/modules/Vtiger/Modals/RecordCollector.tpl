@@ -9,12 +9,13 @@
 			<input type="hidden" name="record" value="{$RECORD_ID}" />
 			<input type="hidden" name="collectorType" value="{$COLLECTOR_NAME}" />
 			{if !empty($RECORD_COLLECTOR->description)}
-				<div class="alert alert-info" role="alert">
+				<div class="alert alert-info mb-2" role="alert">
+					<span class="fas fa-circle-info mr-2"></span>
 					{\App\Language::translate($RECORD_COLLECTOR->description, 'Other.RecordCollector')}
 				</div>
 			{/if}
 			{foreach item=FIELD_MODEL from=$RECORD_COLLECTOR->getFields()}
-				<div class="form-group form-row">
+				<div class="form-group form-row mb-1">
 					<label class="col-4 col-form-label">
 						{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->get('labelModule'))}
 						{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}:
@@ -24,7 +25,7 @@
 					</div>
 				</div>
 			{/foreach}
-			<div class="float-right">
+			<div class="float-right mt-2">
 				<button class="btn btn-success d-print-none" type="submit" name="saveButton" data-js="click">
 					<span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)}
 				</button>

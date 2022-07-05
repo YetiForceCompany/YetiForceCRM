@@ -35,6 +35,12 @@ class Base
 	/** @var string Search results display type. */
 	public $displayType;
 
+	/** @var array Configuration field list. */
+	public $settingsFields = [];
+
+	/** @var string Url to Documentation API */
+	public $docUrl;
+
 	/** var array List of fields for the modal search window. */
 	protected $fields = [];
 
@@ -49,9 +55,6 @@ class Base
 
 	/** @var array Fields mapping for loading record data. */
 	protected $modulesFieldsMap = [];
-
-	/** @var array Configuration field list. */
-	public $settingsFields = [];
 
 	/**
 	 * Constructor.
@@ -150,23 +153,31 @@ class Base
 			$fieldsModel = \Vtiger_Module_Model::getInstance($this->moduleName)->getFields();
 		}
 		$fieldsData = $skip = [];
-		foreach ($this->formFieldsToRecordMap[$this->moduleName] as $label => $fieldName) {
-			if (!isset($this->data[$label]) || isset($fieldsData[$fieldName])) {
-				continue;
+		$rows = isset($this->data[0][0]) ? $this->data : [$this->data];
+		$additional = $skip = [];
+		foreach ($rows as $key => &$row) {
+			foreach ($this->formFieldsToRecordMap[$this->moduleName] as $label => $fieldName) {
+				if (!isset($rows[$label]) || isset($fieldsData[$fieldName])) {
+					continue;
+				}
+				if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
+					$skip[$fieldName]['label'] = \App\Language::translate($fieldsModel[$fieldName]->getFieldLabel(), $this->moduleName) ?? $fieldName;
+				}
+				$fieldModel = $fieldsModel[$fieldName];
+				$fieldsData[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $this->moduleName);
+				$fieldsData[$fieldName]['data'][$key] = [
+					'raw' => $fieldModel->getEditViewDisplayValue($rows[$label]),
+					'display' => $fieldModel->getDisplayValue($rows[$label]),
+				];
+				unset($rows[$label]);
 			}
-			if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
-				$skip[$fieldName]['label'] = \App\Language::translate($fieldsModel[$fieldName]->getFieldLabel(), $this->moduleName) ?? $fieldName;
+			foreach ($row as $name => $value) {
+				$additional[$name][$key] = $value;
 			}
-			$fieldModel = $fieldsModel[$fieldName];
-			$fieldsData[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $this->moduleName);
-			$fieldsData[$fieldName]['data'][0] = [
-				'raw' => $fieldModel->getEditViewDisplayValue($this->data[$label]),
-				'display' => $fieldModel->getDisplayValue($this->data[$label]),
-			];
-			unset($this->data[$label]);
 		}
 		$this->response['fields'] = $fieldsData;
 		$this->response['skip'] = $skip;
-		$this->response['keys'] = [0];
+		$this->response['keys'] = array_keys($rows);
+		$this->response['additional'] = $additional;
 	}
 }
