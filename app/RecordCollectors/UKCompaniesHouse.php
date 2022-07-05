@@ -144,6 +144,9 @@ class UKCompaniesHouse extends Base
 	/** @var string CH sever address */
 	private $url = 'https://api.company-information.service.gov.uk/';
 
+	/** @var int Limit for fetching companies */
+	const LIMIT = 4;
+
 	/** {@inheritdoc} */
 	public function isActive(): bool
 	{
@@ -159,14 +162,12 @@ class UKCompaniesHouse extends Base
 		$companyName = str_replace([',', '.', '-'], ' ', $this->request->getByType('companyName', 'Text'));
 
 		if ($ncr) {
-			$this->getDataFromApiByNcr($ncr);
-			$this->parseData();
+			$this->data = $this->getDataFromApiByNcr($ncr);
 			if (empty($this->data)) {
 				return [];
 			}
 		} elseif ($companyName) {
 			$this->getDataFromApiByName($companyName);
-			$this->parseData();
 			if (empty($this->data)) {
 				return [];
 			}
@@ -186,9 +187,9 @@ class UKCompaniesHouse extends Base
 	 *
 	 * @param string $ncr
 	 *
-	 * @return void
+	 * @return array
 	 */
-	private function getDataFromApiByNcr($ncr): void
+	private function getDataFromApiByNcr($ncr): array
 	{
 		try {
 			$response = (\App\RequestHttp::getClient(\App\RequestHttp::getOptions()))->request('GET', $this->url . 'company/' . $ncr, [
@@ -198,7 +199,7 @@ class UKCompaniesHouse extends Base
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
-		$this->data = isset($response) ? \App\Json::decode($response->getBody()->getContents(), true) : [];
+		return isset($response) ? $this->parseData(\App\Json::decode($response->getBody()->getContents(), true)) : [];
 	}
 
 	/**
@@ -221,22 +222,28 @@ class UKCompaniesHouse extends Base
 		$response = \App\Json::decode($response->getBody()->getContents());
 		$data = [];
 		foreach ($response['items'] as $key => $value) {
-			$data[$key] = $this->getDataFromApiByNcr($value);
+			$data[$key] = $this->getDataFromApiByNcr($value['company_number']);
+			if (self::LIMIT === $key) {
+				break;
+			}
 		}
 		$this->data = $data;
+		var_dump($this->data);
 	}
 
 	/**
 	 * Function parsing data to fields from Companies House API.
 	 *
-	 * @return void
+	 * @param array $data
+	 *
+	 * @return array
 	 */
-	private function parseData(): void
+	private function parseData(array $data): array
 	{
-		if (empty($this->data)) {
-			return;
+		if (empty($data)) {
+			return [];
 		}
-		$this->data = \App\Utils::flattenKeys($this->data, 'ucfirst');
+		return \App\Utils::flattenKeys($data, 'ucfirst');
 	}
 
 	/**
