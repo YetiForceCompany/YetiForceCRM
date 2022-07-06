@@ -30,7 +30,7 @@ class Settings_RecordCollector_Module_Model extends Settings_Vtiger_Module_Model
 		foreach ($iterator as $item) {
 			$file = $item->getBasename('.php');
 			if ($item->isFile() && 'php' === $item->getExtension() && 'Base' != $file) {
-				$collectorInstance = \App\RecordCollector::getInstance('App' . DIRECTORY_SEPARATOR . 'RecordCollectors' . DIRECTORY_SEPARATOR . $file, 'Accounts');
+				$collectorInstance = \App\RecordCollector::getInstance('App\RecordCollectors\\' . $file, 'Accounts');
 				$this->collectors[] = [
 					'instance' => $collectorInstance,
 					'active' => \in_array($file, $active) ? true : false,
