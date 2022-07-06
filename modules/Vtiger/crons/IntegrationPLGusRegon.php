@@ -29,7 +29,7 @@ class Vtiger_IntegrationPLGusRegon_Cron extends \App\CronHandler
 		}
 		$recordCollector = \App\RecordCollector::getInstance('App\RecordCollectors\Gus', $moduleName);
 		if (!$recordCollector->isActive()) {
-			\App\Log::warning('GUS rRecord collector is not active', __CLASS__);
+			\App\Log::warning('GUS record collector is not active', __CLASS__);
 			return;
 		}
 		$fieldModel = Vtiger_Module_Model::getInstance($moduleName)->getFieldByName($fieldName);
