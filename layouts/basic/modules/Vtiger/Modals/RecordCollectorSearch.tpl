@@ -109,18 +109,19 @@
 				</table>
 			{/if}
 			{if !empty($SEARCH_DATA['additional'])}
+				{assign var=MAX_ITEM_COUNT value=count(max($SEARCH_DATA['additional']))}
 				<table class="table table-bordered mt-2">
 					<thead>
 						<tr>
-							<th class="text-center" colspan="2">{\App\Language::translate('LBL_CUSTOM_INFORMATION', $MODULE_NAME)}</th>
+							<th class="text-center" colspan="{$MAX_ITEM_COUNT + 1}">{\App\Language::translate('LBL_CUSTOM_INFORMATION', $MODULE_NAME)}</th>
 						</tr>
 					</thead>
 					<tbody>
 						{foreach from=$SEARCH_DATA['additional'] key=NAME item=VALUES}
 							<tr>
 								<td class="text-break">{\App\Language::translate($NAME, $MODULE_NAME, null, true, 'Other.RecordCollector')}</td>
-								{foreach from=$VALUES item=VALUE}
-									<td>{nl2br(\App\Purifier::encodeHtml($VALUE))}</td>
+								{foreach from=$SEARCH_DATA['keys'] item=KEY}
+									<td class="text-break">{if isset($VALUES[$KEY])}{nl2br(\App\Purifier::encodeHtml($VALUES[$KEY]))}{/if}</td>
 								{/foreach}
 							</tr>
 						{/foreach}

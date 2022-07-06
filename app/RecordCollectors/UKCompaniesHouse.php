@@ -144,6 +144,9 @@ class UKCompaniesHouse extends Base
 	/** @var string CH sever address */
 	private $url = 'https://api.company-information.service.gov.uk/';
 
+	/** @var string Keys to skip in additional */
+	public $keysToSkip = ['linksSelf', 'linksFiling_history', 'linksOfficers', 'linksPersons_with_significant_control', 'linksCharges', 'linksPersons_with_significant_control_statements'];
+
 	/** @var int Limit for fetching companies */
 	const LIMIT = 4;
 
@@ -179,6 +182,11 @@ class UKCompaniesHouse extends Base
 			return $this->response;
 		}
 		$this->loadData();
+		foreach ($this->response['additional'] as $key => $value) {
+			if (\in_array($key, $this->keysToSkip)) {
+				unset($this->response['additional'][$key]);
+			}
+		}
 		return $this->response;
 	}
 
@@ -228,7 +236,6 @@ class UKCompaniesHouse extends Base
 			}
 		}
 		$this->data = $data;
-		var_dump($this->data);
 	}
 
 	/**
