@@ -568,46 +568,30 @@ Settings_Workflows_Edit_Js(
 			this.registerVTUpdateFieldsTaskEvents();
 		},
 		/**
-		 * Register sortable
+		 * Register record collector events.
 		 */
-		registerVTRecordCollectorEvents: function () {
-			let recordCollector = $('[name="recordCollector"]');
-			let formData = $('#saveTask').serializeFormData();
-			let selectedFields = [];
-			if (formData.task_id) {
-				selectedFields = app.getMainParams('selectedFields', true);
-			}
+		registerRecordCollectorEvents: function () {
+			const recordCollector = $('[name="recordCollector"]');
+			const selectedFields = $('.js-fields-map');
 			recordCollector.on('change', function (e) {
 				let fieldsMap = '';
-				let recordCollectorData = recordCollector.find('.js-fields');
-				recordCollectorData.each(function (_index, domElement) {
-					let row = $(domElement);
+				recordCollector.find('.js-fields').each(function (_, e) {
+					let row = $(e);
 					if (row.data('fields') && row.is(':checked')) {
 						fieldsMap = row.data('fields');
 					}
 				});
-				$('[id="recordCollector"]');
 				if (fieldsMap !== '') {
-					let html =
-						'<label class="col-md-4 col-form-label"> <strong>' +
-						app.vtranslate('JS_UNEXPECTED_ERROR') +
-						'</strong> </label>';
-					html +=
-						'<div class="col-md-6"> <select class="form-control select2 js-fields-map" multiple="multiple" data-value="value" name="fieldsMap[]">';
-					$.each(fieldsMap, function (_index, value) {
-						html += '<option value="' + value + '"';
-						if ($.inArray(value, selectedFields) >= 0) {
-							html += ' selected';
-						}
-						html += '>' + value + '</option>';
-					});
-					html += '</select></div>';
-					let fieldsContent = $('.js-container-fields-map');
-					fieldsContent.html(html);
-					App.Fields.Picklist.showSelect2ElementView(fieldsContent.find('.js-fields-map'));
+					if (selectedFields.is('select')) {
+						let newOptions = new $();
+						$.each(fieldsMap, (_, e) => {
+							newOptions = newOptions.add(new Option(e, e, false));
+						});
+						selectedFields.html(newOptions);
+					}
 				}
 			});
-			if (recordCollector.val()) {
+			if (recordCollector.val() && selectedFields.val().length < 1) {
 				recordCollector.trigger('change');
 			}
 		},

@@ -13,7 +13,7 @@
  */
 require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
-class VTRecordCollector extends VTTask
+class RecordCollector extends VTTask
 {
 	/** @var bool Performs the task immediately after saving. */
 	public $executeImmediately = true;
