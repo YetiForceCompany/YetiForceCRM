@@ -29,16 +29,16 @@ class RecordCollector extends VTTask
 	{
 		$moduleName = $recordModel->getModuleName();
 		$value = [];
-		$value['module'] = $moduleName;
 		if (!empty($this->recordCollector)) {
-			$recordCollector = \App\RecordCollector::getInstance('\App\RecordCollectors\\' . $this->recordCollector, $moduleName);
-			foreach ($recordCollector->modulesFieldsMap[$moduleName] as $key => $searchField) {
+			$recordCollector = \App\RecordCollector::getInstance($this->recordCollector, $moduleName);
+			foreach ($recordCollector->getFieldsModule($moduleName) as $key => $searchField) {
 				if ('' !== $recordModel->get($searchField)) {
 					$value[$key] = $recordModel->get($searchField);
 					break;
 				}
 			}
 			if (!empty($value)) {
+				$value['module'] = $moduleName;
 				$recordCollector->setRequest(new \App\Request($value, false));
 				$response = $recordCollector->search();
 				$key = array_key_first($response['dataCounter']);

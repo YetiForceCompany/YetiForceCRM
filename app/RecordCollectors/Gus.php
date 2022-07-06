@@ -53,7 +53,7 @@ class Gus extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $modulesFieldsMap = [
+	protected $modulesFieldsMap = [
 		'Accounts' => [
 			'vatId' => 'vat_id',
 			'taxNumber' => 'registration_number_2',

@@ -52,7 +52,7 @@ class UKCompaniesHouse extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $modulesFieldsMap = [
+	protected $modulesFieldsMap = [
 		'Accounts' => [
 			'ncr' => 'registration_number_1',
 			'companyName' => 'accountname'

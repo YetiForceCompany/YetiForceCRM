@@ -3,9 +3,6 @@
  {strip}
 	 <input type="hidden" id="taskFields"
 	 	value="{\App\Purifier::encodeHtml(\App\Json::encode($TASK_OBJECT->getFieldNames()))}" />
-	 {if isset($TASK_OBJECT->recordCollector)}
-		 {assign var=COLLECTOR value=\App\RecordCollector::getInstance($TASK_OBJECT->recordCollector, $MODULE_NAME)}
-	 {/if}
 	 <div class="createRecordCollector">
 	 	<div class="row">
 	 		<label class="col-md-4 col-form-label">
@@ -19,7 +16,7 @@
 	 				data-select="allowClear"
 	 				data-placeholder="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">
 	 				<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
-	 				{foreach from=\App\RecordCollector::getByType('FillFields', $SOURCE_MODULE) key=COLLECTOR_NAME item=COLLECTOR_VALUE}
+	 				{foreach from=\App\RecordCollector::getOnlyByType('FillFields', $SOURCE_MODULE) key=COLLECTOR_NAME item=COLLECTOR_VALUE}
 		 				{assign var=COLLECTOR_CLASS value='App\\RecordCollectors\\'|cat:{$COLLECTOR_NAME}}
 		 				<option value="{$COLLECTOR_CLASS}" class="js-fields" {if isset($TASK_OBJECT->recordCollector) && $TASK_OBJECT->recordCollector eq $COLLECTOR_CLASS} selected="" {/if} data-fields='{\App\Json::encode(array_values($COLLECTOR_VALUE->formFieldsToRecordMap[$SOURCE_MODULE]))}' data-js="data">
 		 					{\App\Language::translate($COLLECTOR_VALUE->label, 'Other.RecordCollector')}
@@ -30,11 +27,12 @@
 	 	</div>
 	 	<div class="row mt-2">
 	 		<label class="col-md-4 col-form-label">
-	 			<strong> {\App\Language::translate('LBL_FIELDS_MAPPING', 'Settings.RecordCollector')} </strong>
+	 			<strong> {\App\Language::translate('LBL_SELECT_FIELDS_SAVE', 'Settings.RecordCollector')} </strong>
 	 		</label>
 	 		<div class="col-md-6">
 	 			<select class="form-control select2 js-fields-map" multiple="multiple" data-value="value" name="fieldsMap[]" data-js="html">
-	 				{if isset($COLLECTOR) && isset($TASK_OBJECT->fieldsMap)}
+	 				{if isset($TASK_OBJECT->recordCollector) && isset($TASK_OBJECT->fieldsMap)}
+		 				{assign var=COLLECTOR value=\App\RecordCollector::getInstance($TASK_OBJECT->recordCollector, $MODULE_NAME)}
 		 				{foreach from=array_values($COLLECTOR->formFieldsToRecordMap[$SOURCE_MODULE]) item=FIELD_NAME}
 			 				<option value="{$FIELD_NAME}"
 			 					{if in_array($FIELD_NAME, $TASK_OBJECT->fieldsMap)} selected {/if}>{$FIELD_NAME}</option>
