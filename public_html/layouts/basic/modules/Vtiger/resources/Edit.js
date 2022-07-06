@@ -1601,11 +1601,19 @@ $.Class(
 				$.each(options, (_, e) => {
 					newOptions = newOptions.add(new Option(fieldInfo['picklistvalues'][e], e, false, val == e));
 				});
+
+				let selected = newOptions.filter(':selected').length > 0;
 				fieldElement.html(newOptions);
-				fieldValue.addClass('border border-info');
-				setTimeout(function () {
-					fieldValue.removeClass('border border-info');
-				}, 5000);
+				let change = val && val !== fieldElement.val();
+				if ((val === '' && !selected) || change) {
+					fieldElement.val(null).trigger('change');
+				}
+				if (change) {
+					fieldValue.addClass('border border-info');
+					setTimeout(function () {
+						fieldValue.removeClass('border border-info');
+					}, 5000);
+				}
 			}
 		},
 		/**
