@@ -170,6 +170,9 @@ class Base
 		$rows = isset($this->data[0]) ? $this->data : [$this->data];
 		foreach ($rows as $key => &$row) {
 			$dataCounter[$key] = 0;
+			if (empty($row)) {
+				continue;
+			}
 			foreach ($this->formFieldsToRecordMap[$this->moduleName] as $apiKey => $fieldName) {
 				if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
 					if (isset($row[$apiKey]) && '' !== $row[$apiKey]) {

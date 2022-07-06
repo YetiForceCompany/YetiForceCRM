@@ -178,6 +178,9 @@ class Gus extends Base
 				$additional = $fieldsData = $skip = $dataCounter = [];
 				foreach ($infoFromGus as $key => &$row) {
 					$dataCounter[$key] = 0;
+					if (empty($row)) {
+						continue;
+					}
 					foreach ($this->formFieldsToRecordMap[$moduleName] as $apiKey => $fieldName) {
 						if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
 							if (isset($row[$apiKey]) && '' !== $row[$apiKey]) {
