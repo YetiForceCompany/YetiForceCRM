@@ -16,24 +16,23 @@
  */
 class Vtiger_IntegrationPLGusRegon_Cron extends \App\CronHandler
 {
+	/** @var array Default configuration for data download */
+	private $config = [
+		'moduleName' => 'Leads',
+		'fieldName' => 'registration_number_2',
+		'defaultValues' => [],
+	];
+
 	/** {@inheritdoc} */
 	public function process()
 	{
-		$class = '\\Config\\Components\\RecordCollectors\\Gus';
-		if (\class_exists($class)) {
-			$moduleName = $class::$moduleName;
-			$fieldName = $class::$fieldName;
-		} else {
-			$moduleName = 'Leads';
-			$fieldName = 'registration_number_2';
-		}
-		$recordCollector = \App\RecordCollector::getInstance('App\RecordCollectors\Gus', $moduleName);
+		$this->loadConfig();
+		$recordCollector = \App\RecordCollector::getInstance('App\RecordCollectors\Gus', $this->config['moduleName']);
 		if (!$recordCollector->isActive()) {
 			\App\Log::warning('GUS record collector is not active', __CLASS__);
 			return;
 		}
-		$fieldModel = Vtiger_Module_Model::getInstance($moduleName)->getFieldByName($fieldName);
-		if (!$fieldModel->isActiveField()) {
+		if (!Vtiger_Module_Model::getInstance($this->config['moduleName'])->getFieldByName($this->config['fieldName'])->isActiveField()) {
 			\App\Log::warning('The cron job was skipped because the field is not active', __CLASS__);
 			return;
 		}
@@ -42,11 +41,13 @@ class Vtiger_IntegrationPLGusRegon_Cron extends \App\CronHandler
 		$response = $client->getData('DanePobierzRaportZbiorczy', ['pDataRaportu' => date('Y-m-d', strtotime('-1 day')), 'pNazwaRaportu' => 'BIR11NowePodmiotyPrawneOrazDzialalnosciOsFizycznych']);
 		foreach ($response as $value) {
 			$value = $value['regon'];
-			$queryGenerator = (new \App\QueryGenerator($moduleName));
-			$recordId = $queryGenerator->setFields(['id'])->addCondition($fieldName, $value, 'e')->createQuery()->scalar();
+			$recordId = (new \App\QueryGenerator($this->config['moduleName']))->setFields(['id'])->addCondition($this->config['fieldName'], $value, 'e')->createQuery()->scalar();
 			if (empty($recordId)) {
-				$recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
-				$recordCollector->setRequest(new \App\Request(['module' => $moduleName, 'taxNumber' => $value], false));
+				$recordModel = \Vtiger_Record_Model::getCleanInstance($this->config['moduleName']);
+				if (!empty($this->config['defaultValues'])) {
+					$recordModel->setData(array_merge($recordModel->getData(), $this->config['defaultValues']));
+				}
+				$recordCollector->setRequest(new \App\Request(['module' => $this->config['moduleName'], 'taxNumber' => $value], false));
 				$response = $recordCollector->search();
 				arsort($response['dataCounter']);
 				$key = array_key_first($response['dataCounter']);
@@ -64,5 +65,18 @@ class Vtiger_IntegrationPLGusRegon_Cron extends \App\CronHandler
 		}
 		$client->endSession();
 		$this->logs = $i;
+	}
+
+	/**
+	 * Load cron configuration.
+	 *
+	 * @return void
+	 */
+	public function loadConfig(): void
+	{
+		$class = '\\Config\\Components\\RecordCollectors\\Gus';
+		if (\class_exists($class)) {
+			$this->config = array_merge($this->config, (new \ReflectionClass($class))->getStaticProperties());
+		}
 	}
 }
