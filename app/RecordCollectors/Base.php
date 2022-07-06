@@ -124,7 +124,7 @@ class Base
 	 *
 	 * @param string $moduleName
 	 *
-	 * @return array
+	 * @return string[]
 	 */
 	public function getFieldsModule(string $moduleName): array
 	{
