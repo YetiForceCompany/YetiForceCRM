@@ -194,9 +194,6 @@ class Base
 				if ($value) {
 					++$dataCounter[$key];
 				}
-				if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
-					$skip[$fieldName]['label'] = \App\Language::translate($fieldsModel[$fieldName]->getFieldLabel(), $this->moduleName) ?? $fieldName;
-				}
 				$fieldModel = $fieldsModel[$fieldName];
 				$fieldsData[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $this->moduleName);
 				$fieldsData[$fieldName]['data'][$key] = [

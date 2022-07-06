@@ -211,11 +211,7 @@ class Gus extends Base
 								}
 							}
 						}
-						if (isset($fieldsData[$fieldName])) {
-							$fieldsData[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
-						} else {
-							$fieldsData[$fieldName]['label'] = $fieldName;
-						}
+						$fieldsData[$fieldName]['label'] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 						$fieldsData[$fieldName]['data'][$key] = [
 							'raw' => $value,
 							'edit' => $fieldModel->getEditViewDisplayValue($value),
