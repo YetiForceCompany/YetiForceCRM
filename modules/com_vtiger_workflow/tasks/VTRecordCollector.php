@@ -21,7 +21,7 @@ class VTRecordCollector extends VTTask
 	/** {@inheritdoc} */
 	public function getFieldNames()
 	{
-		return ['recordCollector'];
+		return ['recordCollector', 'fieldsMap'];
 	}
 
 	/** {@inheritdoc} */
@@ -41,8 +41,21 @@ class VTRecordCollector extends VTTask
 			if (!empty($value)) {
 				$recordCollector->setRequest(new \App\Request($value, false));
 				$response = $recordCollector->search();
-				foreach ($response['fields'] as $fieldName => $values) {
-					$recordModel->set($fieldName, $values['data'][0]['raw']);
+				$key = array_key_first($response['dataCounter']);
+				if (!empty($this->fieldsMap)) {
+					foreach ($this->fieldsMap as $fieldMapName) {
+						$updateFields[$fieldMapName] = $response['fields'][$fieldMapName];
+					}
+				} else {
+					$updateFields = $response['fields'];
+				}
+				foreach ($updateFields as $fieldName => $values) {
+					try {
+						$recordModel->getField($fieldName)->getUITypeModel()->validate($values['data'][$key]['raw']);
+						$recordModel->set($fieldName, $values['data'][$key]['raw']);
+					} catch (\Throwable $th) {
+						\App\Log::error("[taxNumber => $value]Error during data validation: \n{$th->__toString()}\n", __CLASS__);
+					}
 				}
 				$recordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
 				$recordModel->save();

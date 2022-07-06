@@ -567,10 +567,49 @@ Settings_Workflows_Edit_Js(
 			this.registerChangeCreateEntityEvent();
 			this.registerVTUpdateFieldsTaskEvents();
 		},
+		/**
+		 * Register sortable
+		 */
 		registerVTRecordCollectorEvents: function () {
-			$('[name="recordCollector"]').on('change', function (e) {
-				let currentTarget = $(e.currentTarget);
+			let recordCollector = $('[name="recordCollector"]');
+			let formData = $('#saveTask').serializeFormData();
+			let selectedFields = [];
+			if (formData.task_id) {
+				selectedFields = app.getMainParams('selectedFields', true);
+			}
+			recordCollector.on('change', function (e) {
+				let fieldsMap = '';
+				let recordCollectorData = recordCollector.find('.js-fields');
+				recordCollectorData.each(function (_index, domElement) {
+					let row = $(domElement);
+					if (row.data('fields') && row.is(':checked')) {
+						fieldsMap = row.data('fields');
+					}
+				});
+				$('[id="recordCollector"]');
+				if (fieldsMap !== '') {
+					let html =
+						'<label class="col-md-4 col-form-label"> <strong>' +
+						app.vtranslate('JS_UNEXPECTED_ERROR') +
+						'</strong> </label>';
+					html +=
+						'<div class="col-md-6"> <select class="form-control select2 js-fields-map" multiple="multiple" data-value="value" name="fieldsMap[]">';
+					$.each(fieldsMap, function (_index, value) {
+						html += '<option value="' + value + '"';
+						if ($.inArray(value, selectedFields) >= 0) {
+							html += ' selected';
+						}
+						html += '>' + value + '</option>';
+					});
+					html += '</select></div>';
+					let fieldsContent = $('.js-container-fields-map');
+					fieldsContent.html(html);
+					App.Fields.Picklist.showSelect2ElementView(fieldsContent.find('.js-fields-map'));
+				}
 			});
+			if (recordCollector.val()) {
+				recordCollector.trigger('change');
+			}
 		},
 		registerChangeCreateEntityEvent: function () {
 			var thisInstance = this;
