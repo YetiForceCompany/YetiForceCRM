@@ -475,13 +475,13 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		}
 		if ($record) {
 			$carouselId = App\Layout::getUniqueId("IC{$record}-");
-			$result = '<div id="' . $carouselId . '" class="carousel slide m-auto" data-ride="carousel">
-		<div class="carousel-inner">';
+			$result = '<div id="' . $carouselId . '" class="carousel slide m-auto" data-interval="false">
+				<div class="carousel-inner">';
 			foreach ($value as $itemNumber => $item) {
 				if ($record) {
 					$active = 0 === $itemNumber ? 'active' : '';
 					$result .= '<div class="carousel-item ' . $active . '">
-				<img class="d-block carousel-image img-fluid" src="' . $this->getImageUrl($item['key'], $record) . '" alt="First slide">
+				<img class="d-block carousel-image img-fluid js-show-image-preview" src="' . $this->getImageUrl($item['key'], $record) . '" alt="Carousel image">
 			  </div>';
 				} else {
 					$result .= \App\Purifier::encodeHtml($item['name']) . ', ';

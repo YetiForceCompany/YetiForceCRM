@@ -53,6 +53,7 @@ $.Class(
 		 */
 		registerTileClickEvent: function (tileContainer) {
 			tileContainer.on('click', '.js-card-body', function (e) {
+				if ($(e.target).hasClass('js-show-image-preview')) return;
 				if ($(e.target).closest('div').hasClass('actions')) return;
 				if ($(e.target).is('button') || $(e.target).parent().is('button')) return;
 				if ($(e.target).closest('a').hasClass('noLinkBtn')) return;
@@ -72,6 +73,18 @@ $.Class(
 				this.setHeightOfTiles(this.contentContainer);
 			});
 		},
+		registerImagePreview() {
+			this.contentContainer.on('click', '.js-show-image-preview', (e) => {
+				let moduleName = this.contentContainer.find('[name="module"]').length
+					? this.contentContainer.find('[name="module"]').val()
+					: app.getModuleName();
+				let recordId = $(e.target).closest('.js-tile-container').attr('data-record-id');
+				let url = `index.php?module=${moduleName}&view=ImagePreview&record=${recordId}`;
+				app.showModalWindow('', url, (modalWindow) => {
+					modalWindow.find('.js-image-preview').attr('src', $(e.target).attr('src'));
+				});
+			});
+		},
 		/**
 		 * Register events
 		 */
@@ -83,6 +96,7 @@ $.Class(
 			this.registerTileSizeChange(topMenuContainer);
 			this.setHeightOfTiles();
 			this.registerTileClickEvent(this.contentContainer);
+			this.registerImagePreview();
 		}
 	}
 );
