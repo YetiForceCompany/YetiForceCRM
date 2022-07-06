@@ -133,7 +133,6 @@ class PLNationalCourtRegister extends Base
 			return [];
 		}
 		$this->loadData();
-		$this->response['additional'] = $this->data;
 		return $this->response;
 	}
 
