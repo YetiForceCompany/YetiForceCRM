@@ -28,10 +28,6 @@
 										<span class="fas fa-plus"></span>
 									</button>
 								</th>
-								{* {foreach key=FIELD_NAME item=FIELD_MODEL from=$MODULE_MODEL->getListFields()}
-							<th data-name="{$FIELD_NAME}" data-orderable="{$FIELD_MODEL->get('sort')}">{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_MODEL->getName(true))}</th>
-						{/foreach} *}
-								{* <th style="width:1%"></th> *}
 							</tr>
 						</thead>
 					</table>

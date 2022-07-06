@@ -6,7 +6,8 @@
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
  * MailIntegration SaveConfigForm action class.
@@ -22,7 +23,7 @@ class Settings_MailIntegration_SaveConfigForm_Action extends Settings_Vtiger_Bas
 			throw new \App\Exceptions\IllegalValue('ERR_ILLEGAL_VALUE');
 		}
 		$fieldModel = $fields[$field];
-		$value = $fieldModel->get('isArray') ? $request->getArray($field, $fieldModel->get('purifyType')) : $request->getByType($value, $fieldModel->get('purifyType'));
+		$value = $fieldModel->get('isArray') ? $request->getArray($field, $fieldModel->get('purifyType')) : $request->getByType($field, $fieldModel->get('purifyType'));
 		$fieldModel->getUITypeModel()->validate($value, true);
 		if ('outlookUrls' === $field) {
 			$oldValue = \Config\Modules\MailIntegration::$outlookUrls;

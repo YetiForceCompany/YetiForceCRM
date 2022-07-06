@@ -7,26 +7,26 @@ Settings_Vtiger_List_Js(
 	{
 		container: false,
 		registerFilterChangeEvent: function () {
-			var thisInstance = this;
-			$('#moduleFilter').on('change', function (e) {
-				$('#pageNumber').val('1');
-				$('#pageToJump').val('1');
-				$('#orderBy').val('');
-				$('#sortOrder').val('');
-				var params = {
+			let container = this.getContainer();
+			container.find('#moduleFilter').on('change', (e) => {
+				container.find('#pageNumber').val('1');
+				container.find('#pageToJump').val('1');
+				container.find('#orderBy').val('');
+				container.find('#sortOrder').val('');
+				let params = {
 					module: app.getModuleName(),
 					parent: app.getParentModuleName(),
 					sourceModule: $(e.currentTarget).val()
 				};
-				$('#recordsCount').val('');
-				$('#totalPageCount').text('');
-				thisInstance.getListViewRecords(params).done(function (_data) {
-					thisInstance.updatePagination();
+				container.find('#recordsCount').val('');
+				container.find('#totalPageCount').text('');
+				this.getListViewRecords(params).done(() => {
+					this.updatePagination();
 				});
 			});
 		},
 		getContainer: function () {
-			if (this.container == false) {
+			if (this.container === false) {
 				this.container = $('div.contentsDiv');
 			}
 			return this.container;

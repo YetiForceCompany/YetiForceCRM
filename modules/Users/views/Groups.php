@@ -16,6 +16,8 @@ class Users_Groups_View extends \App\Controller\Modal
 {
 	/** {@inheritdoc} */
 	public $successBtnIcon = 'far fa-save';
+
+	/** {@inheritdoc} */
 	public $successBtn = '';
 
 	/** {@inheritdoc} */

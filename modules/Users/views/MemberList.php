@@ -40,9 +40,10 @@ class Users_MemberList_View extends \App\Controller\Modal
 	{
 		$groupId = $request->getInteger('groupID');
 		$groups = \App\PrivilegeUtil::getMembers();
-		$groupMembers = Settings_Groups_Member_Model::getAllByTypeForGroup($groupId);
+		$groupMembers = array_flip(Settings_Groups_Member_Model::getAllByTypeForGroup($groupId));
+		$groupMembers[\App\PrivilegeUtil::MEMBER_TYPE_GROUPS . ":{$groupId}"] = 0;
 		foreach ($groups as &$members) {
-			$members = array_diff_key($members, array_flip($groupMembers));
+			$members = array_diff_key($members, $groupMembers);
 		}
 
 		$viewer = $this->getViewer($request);
