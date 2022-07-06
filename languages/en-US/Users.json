@@ -413,7 +413,10 @@
     "LBL_YOUR_ACCOUNT_ACCESS_HISTORY": "History of access activity to your account",
     "LBL_PASSWORD_CHANGED": "Password changed",
     "LBL_PASSWORD_LINK_SENT": "The link for password change is waiting to be sent, it can take a few minutes. Please check your inbox.",
-    "FL_CALENDAR_ALL_USERS_BY_DEFAULT": "Select all users by default"
+    "FL_CALENDAR_ALL_USERS_BY_DEFAULT": "Select all users by default",
+    "LBL_GROUP_MEMBERS_CHANGE_VIEW": "Managing group members",
+    "LBL_MEMBER": "Members",
+    "LBL_GROUP_MEMBERS_ADD_VIEW": "Add group members"
   },
   "js": {
     "JS_DELETE_USER_CONFIRMATION": "When a User is deleted, the user will be marked as \"Inactive\" and no new records can be assigned to the User, and the user will not be able to login. Are you sure you want to delete?",

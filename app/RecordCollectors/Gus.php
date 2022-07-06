@@ -175,8 +175,9 @@ class Gus extends Base
 				$fieldsModel = \Vtiger_Module_Model::getInstance($moduleName)->getFields();
 			}
 			if ($infoFromGus && isset($this->formFieldsToRecordMap[$moduleName])) {
-				$additional = $fieldsData = $skip = [];
+				$additional = $fieldsData = $skip = $dataCounter = [];
 				foreach ($infoFromGus as $key => &$row) {
+					$dataCounter[$key] = 0;
 					foreach ($this->formFieldsToRecordMap[$moduleName] as $apiKey => $fieldName) {
 						if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
 							if (isset($row[$apiKey]) && '' !== $row[$apiKey]) {
@@ -192,16 +193,19 @@ class Gus extends Base
 						}
 						$value = '';
 						if (isset($row[$apiKey])) {
-							$value = $row[$apiKey];
+							$value = trim($row[$apiKey]);
 							unset($row[$apiKey]);
 						}
 						$fieldModel = $fieldsModel[$fieldName];
-						if ($value && 'phone' === $fieldModel->getFieldDataType()) {
-							$details = $fieldModel->getUITypeModel()->getPhoneDetails($value, 'PL');
-							$value = $details['number'];
-							if ($fieldName !== $details['fieldName']) {
-								$fieldName = $details['fieldName'];
-								$fieldModel = $fieldsModel[$fieldName];
+						if ($value) {
+							++$dataCounter[$key];
+							if ('phone' === $fieldModel->getFieldDataType()) {
+								$details = $fieldModel->getUITypeModel()->getPhoneDetails($value, 'PL');
+								$value = $details['number'];
+								if ($fieldName !== $details['fieldName']) {
+									$fieldName = $details['fieldName'];
+									$fieldModel = $fieldsModel[$fieldName];
+								}
 							}
 						}
 						if (isset($fieldsData[$fieldName])) {
@@ -223,6 +227,7 @@ class Gus extends Base
 				$response['additional'] = $additional;
 				$response['keys'] = array_keys($infoFromGus);
 				$response['skip'] = $skip;
+				$response['dataCounter'] = $dataCounter;
 			}
 		} catch (\SoapFault $e) {
 			\App\Log::warning($e->faultstring, 'RecordCollectors');
