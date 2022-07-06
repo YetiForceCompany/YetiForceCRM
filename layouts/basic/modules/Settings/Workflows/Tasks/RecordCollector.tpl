@@ -16,7 +16,7 @@
 	 				data-select="allowClear"
 	 				data-placeholder="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">
 	 				<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
-	 				{foreach from=\App\RecordCollector::getOnlyByType('FillFields', $SOURCE_MODULE) key=COLLECTOR_NAME item=COLLECTOR_VALUE}
+	 				{foreach from=\App\RecordCollector::getAllByType('FillFields', $SOURCE_MODULE) key=COLLECTOR_NAME item=COLLECTOR_VALUE}
 		 				{assign var=COLLECTOR_CLASS value='App\\RecordCollectors\\'|cat:{$COLLECTOR_NAME}}
 		 				<option value="{$COLLECTOR_CLASS}" class="js-fields" {if isset($TASK_OBJECT->recordCollector) && $TASK_OBJECT->recordCollector eq $COLLECTOR_CLASS} selected="" {/if} data-fields='{\App\Json::encode(array_values($COLLECTOR_VALUE->formFieldsToRecordMap[$SOURCE_MODULE]))}' data-js="data">
 		 					{\App\Language::translate($COLLECTOR_VALUE->label, 'Other.RecordCollector')}
