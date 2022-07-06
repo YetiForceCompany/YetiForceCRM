@@ -1606,7 +1606,7 @@ $.Class(
 				fieldElement.html(newOptions);
 				let change = val && val !== fieldElement.val();
 				if ((val === '' && !selected) || change) {
-					fieldElement.val(null).trigger('change');
+					fieldElement.val(null);
 				}
 				if (change) {
 					fieldValue.addClass('border border-info');
