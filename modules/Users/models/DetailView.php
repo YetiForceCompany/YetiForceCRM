@@ -83,7 +83,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 					'showLabel' => true,
 				];
 			}
-			if ($currentUserModel->get('leader') && \App\Privilege::isPermitted('Users', 'LeaderCanManageGroupMembership')) {
+			if ($currentUserModel->getId() === $recordId && $currentUserModel->get('leader') && \App\Privilege::isPermitted('Users', 'LeaderCanManageGroupMembership')) {
 				$detailViewActionLinks[] = [
 					'linktype' => 'DETAIL_VIEW_BASIC',
 					'linklabel' => 'LBL_GROUP_MEMBERS_CHANGE_VIEW',
