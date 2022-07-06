@@ -120,6 +120,18 @@ class Base
 	}
 
 	/**
+	 * Get fields for the module name.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public function getFieldsModule(string $moduleName): array
+	{
+		return $this->modulesFieldsMap[$moduleName];
+	}
+
+	/**
 	 * Check whether it is active.
 	 *
 	 * @return bool
