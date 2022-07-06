@@ -205,7 +205,7 @@ class UKCompaniesHouse extends Base
 		$data = isset($response) ? $this->parseData(\App\Json::decode($response->getBody()->getContents(), true)) : [];
 		if (!empty($data)) {
 			foreach ($this->keysToSkip as $key) {
-				if (\in_array($key, $data)) {
+				if (\in_array($key, $this->keysToSkip)) {
 					unset($data[$key]);
 				}
 			}
