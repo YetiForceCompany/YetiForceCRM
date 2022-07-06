@@ -40,7 +40,7 @@ class RecordCollector
 	 * @param string $displayType
 	 * @param string $moduleName
 	 *
-	 * @return array
+	 * @return RecordCollectors\Base
 	 */
 	public static function getAllByType(string $displayType, string $moduleName): array
 	{
