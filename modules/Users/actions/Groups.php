@@ -49,11 +49,16 @@ class Users_Groups_Action extends \App\Controller\Action
 		$moduleName = $request->getModule();
 		$groupId = $request->getInteger('groupID');
 		$groupMembers = Settings_Groups_Member_Model::getAllByTypeForGroup($groupId);
+		$count = \count($groupMembers);
 		$rows = [];
 
 		foreach ($groupMembers as $member) {
 			$data = [\App\Labels::member($member)];
-			$data[] = '<button type="button" class="btn btn-danger btn-sm js-member-delete" data-id="' . $member . '" title="' . \App\Language::translate('LBL_DELETE') . '" data-url="' . "index.php?&module={$moduleName}&action=Groups&mode=removeMember&groupID={$groupId}&member={$member}" . '"><span class="fas fa-trash-alt"></span></button>';
+			if ($count > 1) {
+				$data[] = '<button type="button" class="btn btn-danger btn-sm js-member-delete" data-id="' . $member . '" title="' . \App\Language::translate('LBL_DELETE') . '" data-url="' . "index.php?&module={$moduleName}&action=Groups&mode=removeMember&groupID={$groupId}&member={$member}" . '"><span class="fas fa-trash-alt"></span></button>';
+			} else {
+				$data[] = '';
+			}
 			$rows[] = $data;
 		}
 		$result = [
@@ -81,7 +86,7 @@ class Users_Groups_Action extends \App\Controller\Action
 		$recordModel = \Settings_Groups_Record_Model::getInstance($groupId);
 		$memberModel = $recordModel->getFieldInstanceByName('members');
 		$members = $memberModel->getEditViewDisplayValue($recordModel->get('members') ?? '');
-		if (false !== ($key = array_search($member, $members))) {
+		if (\count($members) > 1 && false !== ($key = array_search($member, $members))) {
 			unset($members[$key]);
 			$recordModel->set('members', $memberModel->getDBValue($members));
 			$recordModel->save();
