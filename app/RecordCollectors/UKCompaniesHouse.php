@@ -142,10 +142,10 @@ class UKCompaniesHouse extends Base
 	private $apiKey;
 
 	/** @var string CH sever address */
-	private $url = 'https://api.company-information.service.gov.uk/';
+	private $url = 'https://api.company-information.service.gov.uk';
 
-	/** @var string Keys to skip in additional */
-	public $keysToSkip = ['linksSelf', 'linksFiling_history', 'linksOfficers', 'linksPersons_with_significant_control', 'linksCharges', 'linksPersons_with_significant_control_statements'];
+	/** @var array Keys to skip in additional */
+	public $keysToSkip = ['linksSelf', 'linksFiling_history', 'linksOfficers', 'linksPersons_with_significant_control-statements', 'linksCharges'];
 
 	/** @var int Limit for fetching companies */
 	const LIMIT = 4;
@@ -186,6 +186,16 @@ class UKCompaniesHouse extends Base
 			if (\in_array($key, $this->keysToSkip)) {
 				unset($this->response['additional'][$key]);
 			}
+
+			if ('linksPersons_with_significant_control' === $key) {
+				foreach ($value as $index => $url) {
+					if (isset($url)) {
+						foreach ($this->getPersonsWithSignificantControl($url) as $name) {
+							$this->response['additional'][$key][$index] .= ' ' . $name;
+						}
+					}
+				}
+			}
 		}
 		return $this->response;
 	}
@@ -200,7 +210,7 @@ class UKCompaniesHouse extends Base
 	private function getDataFromApiByNcr($ncr): array
 	{
 		try {
-			$response = (\App\RequestHttp::getClient(\App\RequestHttp::getOptions()))->request('GET', $this->url . 'company/' . $ncr, [
+			$response = (\App\RequestHttp::getClient(\App\RequestHttp::getOptions()))->request('GET', $this->url . '/company/' . $ncr, [
 				'auth' => [$this->apiKey, ''],
 			]);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
@@ -220,7 +230,7 @@ class UKCompaniesHouse extends Base
 	private function getDataFromApiByName(string $companyName): void
 	{
 		try {
-			$response = (\App\RequestHttp::getClient(\App\RequestHttp::getOptions()))->request('GET', $this->url . 'advanced-search/companies?company_name_includes=' . $companyName, [
+			$response = (\App\RequestHttp::getClient(\App\RequestHttp::getOptions()))->request('GET', $this->url . '/advanced-search/companies?company_name_includes=' . $companyName, [
 				'auth' => [$this->apiKey, ''],
 			]);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
@@ -265,5 +275,32 @@ class UKCompaniesHouse extends Base
 		} else {
 			throw new \App\Exceptions\IllegalValue('You must fist setup Api Key in Config Panel', 403);
 		}
+	}
+
+	/**
+	 * Function fetching persons Persons with significant control .
+	 *
+	 * @param string $url
+	 *
+	 * @return array
+	 */
+	private function getPersonsWithSignificantControl(string $url): array
+	{
+		try {
+			$response = (\App\RequestHttp::getClient(\App\RequestHttp::getOptions()))->request('GET', $this->url . $url, [
+				'auth' => [$this->apiKey, ''],
+			]);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			\App\Log::warning($e->getMessage(), 'RecordCollectors');
+			$this->response['error'] = $e->getMessage();
+		}
+		$names = [];
+		$items = \App\Json::decode($response->getBody()->getContents())['items'];
+		foreach ($items as $item) {
+			if ('individual-person-with-significant-control' === $item['kind']) {
+				$names[] = $item['name'];
+			}
+		}
+		return $names;
 	}
 }
