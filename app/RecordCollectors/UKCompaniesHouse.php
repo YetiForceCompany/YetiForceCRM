@@ -204,14 +204,14 @@ class UKCompaniesHouse extends Base
 		}
 		$data = isset($response) ? $this->parseData(\App\Json::decode($response->getBody()->getContents(), true)) : [];
 		if (!empty($data)) {
-			foreach ($data as $key => $value) {
-				if (\in_array($key, $this->keysToSkip)) {
+			foreach ($this->keysToSkip as $key) {
+				if (\in_array($key, $data)) {
 					unset($data[$key]);
 				}
-				if ('linksPersons_with_significant_control' === $key && isset($value)) {
-					foreach ($this->getPersonsWithSignificantControl($value) as $name) {
-						$data[$key] .= ' ' . $name;
-					}
+			}
+			if (isset($data['linksPersons_with_significant_control'])) {
+				foreach ($this->getPersonsWithSignificantControl($data['linksPersons_with_significant_control']) as $name) {
+					$data['linksPersons_with_significant_control'] .= ' ' . $name;
 				}
 			}
 		}
