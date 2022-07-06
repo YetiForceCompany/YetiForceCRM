@@ -26,7 +26,7 @@ class Settings_RecordCollector_Module_Model extends Settings_Vtiger_Module_Model
 	public function getCollectors(): array
 	{
 		$active = (new \App\Db\Query())->select(['linklabel'])->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR'])->column();
-		$iterator = new \DirectoryIterator('App' . DIRECTORY_SEPARATOR . 'RecordCollectors');
+		$iterator = new \DirectoryIterator(ROOT_DIRECTORY . '/App/RecordCollectors/');
 		foreach ($iterator as $item) {
 			$file = $item->getBasename('.php');
 			if ($item->isFile() && 'php' === $item->getExtension() && 'Base' != $file) {
