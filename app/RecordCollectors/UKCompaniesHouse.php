@@ -182,21 +182,6 @@ class UKCompaniesHouse extends Base
 			return $this->response;
 		}
 		$this->loadData();
-		foreach ($this->response['additional'] as $key => $value) {
-			if (\in_array($key, $this->keysToSkip)) {
-				unset($this->response['additional'][$key]);
-			}
-
-			if ('linksPersons_with_significant_control' === $key) {
-				foreach ($value as $index => $url) {
-					if (isset($url)) {
-						foreach ($this->getPersonsWithSignificantControl($url) as $name) {
-							$this->response['additional'][$key][$index] .= ' ' . $name;
-						}
-					}
-				}
-			}
-		}
 		return $this->response;
 	}
 
@@ -217,7 +202,20 @@ class UKCompaniesHouse extends Base
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
-		return isset($response) ? $this->parseData(\App\Json::decode($response->getBody()->getContents(), true)) : [];
+		$data = isset($response) ? $this->parseData(\App\Json::decode($response->getBody()->getContents(), true)) : [];
+		if (!empty($data)) {
+			foreach ($data as $key => $value) {
+				if (\in_array($key, $this->keysToSkip)) {
+					unset($data[$key]);
+				}
+				if ('linksPersons_with_significant_control' === $key && isset($value)) {
+					foreach ($this->getPersonsWithSignificantControl($value) as $name) {
+						$data[$key] .= ' ' . $name;
+					}
+				}
+			}
+		}
+		return $data;
 	}
 
 	/**
