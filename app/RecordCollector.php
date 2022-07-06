@@ -42,7 +42,7 @@ class RecordCollector
 	 *
 	 * @return array
 	 */
-	public static function getOnlyByType(string $displayType, string $moduleName): array
+	public static function getAllByType(string $displayType, string $moduleName): array
 	{
 		$recordCollector = [];
 		foreach ((new \DirectoryIterator(__DIR__ . '/RecordCollectors')) as $fileinfo) {
