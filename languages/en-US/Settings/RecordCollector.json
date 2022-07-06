@@ -9,7 +9,8 @@
     "LBL_API_KEY": "API Key",
     "LBL_SAVE_NOTIFY_OK": "Saved changes.",
     "LBL_PROVIDER_INVALID": "Configuration is incorrect",
-    "LBL_CONFIG": "Setup data for record collector"
+    "LBL_CONFIG": "Setup data for record collector",
+    "LBL_FIELDS_MAPPING": "Fields mapping"
   },
   "js": {}
 }

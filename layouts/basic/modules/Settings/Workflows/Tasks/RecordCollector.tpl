@@ -30,7 +30,7 @@
 	 	</div>
 	 	<div class="row mt-2">
 	 		<label class="col-md-4 col-form-label">
-	 			<strong> {\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)} </strong>
+	 			<strong> {\App\Language::translate('LBL_FIELDS_MAPPING', 'Settings.RecordCollector')} </strong>
 	 		</label>
 	 		<div class="col-md-6">
 	 			<select class="form-control select2 js-fields-map" multiple="multiple" data-value="value" name="fieldsMap[]" data-js="html">
