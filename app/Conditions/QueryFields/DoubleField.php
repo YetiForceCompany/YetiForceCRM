@@ -26,11 +26,13 @@ class DoubleField extends IntegerField
 		$conditionFound = false;
 		$explodeBySpace = explode(' ', $value);
 		foreach ($explodeBySpace as $valueToCondition) {
+			$operatorWasFound = false;
 			foreach (static::$extendedOperators as $exo) {
-				if (false !== strpos($valueToCondition, $exo)) {
+				if (false !== strpos($valueToCondition, $exo) && false === $operatorWasFound) {
 					$ev = explode($exo, $valueToCondition);
 					$condition[] = [$exo, $this->getColumnName(),  $ev[1]];
 					$conditionFound = true;
+					$operatorWasFound = true;
 				}
 			}
 		}
