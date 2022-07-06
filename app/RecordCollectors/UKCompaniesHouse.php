@@ -144,7 +144,7 @@ class UKCompaniesHouse extends Base
 	/** @var string CH sever address */
 	private $url = 'https://api.company-information.service.gov.uk';
 
-	/** @var array Keys to skip in additional */
+	/** @var string[] Keys to skip in additional */
 	public $keysToSkip = ['linksSelf', 'linksFiling_history', 'linksOfficers', 'linksPersons_with_significant_control-statements', 'linksCharges'];
 
 	/** @var int Limit for fetching companies */
