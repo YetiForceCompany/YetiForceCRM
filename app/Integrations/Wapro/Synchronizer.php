@@ -320,8 +320,8 @@ abstract class Synchronizer
 	 *
 	 * @return string
 	 */
-	protected function convertDecodeHtml(string $value, array $params): string
+	protected function decode(string $value, array $params): string
 	{
-		return trim(\App\Purifier::decodeHtml($value));
+		return trim(preg_replace('/[\x{0081}\n]/u', ' ', \App\Purifier::decodeHtml($value)));
 	}
 }

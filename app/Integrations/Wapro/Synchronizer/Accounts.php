@@ -26,7 +26,7 @@ class Accounts extends \App\Integrations\Wapro\Synchronizer
 	/** {@inheritdoc} */
 	protected $fieldMap = [
 		'ID_FIRMY' => ['fieldName' => 'multiCompanyId', 'fn' => 'findRelationship', 'tableName' => 'FIRMA', 'skipMode' => true],
-		'NAZWA' => ['fieldName' => 'accountname', 'fn' => 'convertDecodeHtml'],
+		'NAZWA' => ['fieldName' => 'accountname', 'fn' => 'decode'],
 		'NIP' => 'vat_id',
 		'REGON' => 'registration_number_2',
 		'UWAGI' => 'description',

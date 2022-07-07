@@ -25,12 +25,12 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 
 	/** {@inheritdoc} */
 	protected $fieldMap = [
-		'NAZWA' => 'productname',
+		'NAZWA' => ['fieldName' => 'productname', 'fn' => 'decode'],
 		'STAN' => 'qtyinstock',
 		'STAN_MINIMALNY' => 'reorderlevel',
 		'STAN_MAKSYMALNY' => 'qtyindemand',
-		'INDEKS_KATALOGOWY' => 'mfr_part_no',
-		'INDEKS_HANDLOWY' => 'serial_no',
+		'INDEKS_KATALOGOWY' => ['fieldName' => 'mfr_part_no', 'fn' => 'decode'],
+		'INDEKS_HANDLOWY' => ['fieldName' => 'serial_no', 'fn' => 'decode'],
 		'INDEKS_PRODUCENTA' => 'vendor_part_no',
 		'KOD_KRESKOWY' => 'ean',
 		'OPIS' => 'description',
@@ -54,13 +54,13 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 		])->from('dbo.ARTYKUL')
 			->leftJoin('dbo.KATEGORIA_ARTYKULU_TREE', 'dbo.ARTYKUL.ID_KATEGORII_TREE = dbo.KATEGORIA_ARTYKULU_TREE.ID_KATEGORII_TREE')
 			->leftJoin('dbo.JEDNOSTKA', 'dbo.ARTYKUL.ID_JEDNOSTKI = dbo.JEDNOSTKA.ID_JEDNOSTKI')
-			->leftJoin('dbo.CENA_ARTYKULU', 'dbo.ARTYKUL.ID_CENY_DOM = dbo.CENA_ARTYKULU.ID_CENY');
+			->leftJoin('dbo.CENA_ARTYKULU', 'dbo.ARTYKUL.ID_ARTYKULU = dbo.CENA_ARTYKULU.ID_ARTYKULU AND dbo.ARTYKUL.ID_CENY_DOM = dbo.CENA_ARTYKULU.ID_CENY');
 		$pauser = \App\Pauser::getInstance('WaproProductsLastId');
 		if ($val = $pauser->getValue()) {
 			$query->where(['>', 'dbo.ARTYKUL.ID_ARTYKULU', $val]);
 		}
 		$lastId = $s = $e = $i = $u = 0;
-		foreach ($query->batch(50, $this->controller->getDb()) as $rows) {
+		foreach ($query->batch(100, $this->controller->getDb()) as $rows) {
 			$lastId = 0;
 			foreach ($rows as $row) {
 				$this->waproId = $row['ID_ARTYKULU'];
