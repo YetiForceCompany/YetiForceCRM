@@ -1657,9 +1657,7 @@ $.Class(
 						this.sendChangeValueHandlerEvent(container.serializeFormData());
 					});
 			});
-			if (this.checkPreSaveValidation()) {
-				this.sendChangeValueHandlerEvent(container.serializeFormData());
-			}
+			this.sendChangeValueHandlerEvent(container.serializeFormData());
 		},
 		/**
 		 * Send change value handler events
