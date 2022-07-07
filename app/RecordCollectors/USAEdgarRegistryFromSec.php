@@ -147,7 +147,7 @@ class USAEdgarRegistryFromSec extends Base
 	}
 
 	/**
-	 * Function finding company data by  Central Index Key (CIK).
+	 * Function finding company data by Central Index Key (CIK).
 	 *
 	 * @param string $cik
 	 *
