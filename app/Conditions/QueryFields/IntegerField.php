@@ -26,7 +26,7 @@ class IntegerField extends BaseField
 	public static $extendedOperators = ['>=', '<=', '<', '>'];
 
 	/**
-	 * Auto operator, it allows you to use formulas: >10<40, >1, <7.
+	 * Auto operator, it allows you to use formulas: >10 <40, >1, <7.
 	 *
 	 * @return array
 	 */
