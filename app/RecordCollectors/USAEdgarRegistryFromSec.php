@@ -133,15 +133,11 @@ class USAEdgarRegistryFromSec extends Base
 	{
 		$this->moduleName = $this->request->getModule();
 		$cik = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('cik', 'Text'));
-
 		if (!$cik) {
 			return [];
 		}
-		if (\strlen($cik) < self::CIK_LEN) {
-			$countZeroToAdd = self::CIK_LEN - \strlen($cik);
-			$cik = str_repeat('0', $countZeroToAdd) . $cik;
-		}
-		$this->data = $this->parseData($this->getDataFromApi($cik));
+		$this->getDataFromApi($cik);
+		$this->parseData();
 		$this->loadData();
 		return $this->response;
 	}
@@ -151,10 +147,14 @@ class USAEdgarRegistryFromSec extends Base
 	 *
 	 * @param string $cik
 	 *
-	 * @return array
+	 * @return void
 	 */
-	private function getDataFromApi(string $cik): array
+	private function getDataFromApi(string $cik): void
 	{
+		if (\strlen($cik) < self::CIK_LEN) {
+			$countZeroToAdd = self::CIK_LEN - \strlen($cik);
+			$cik = str_repeat('0', $countZeroToAdd) . $cik;
+		}
 		$response = [];
 		try {
 			$response = \App\RequestHttp::getClient()->get($this->url . $cik . '.json', [
@@ -166,21 +166,19 @@ class USAEdgarRegistryFromSec extends Base
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
-		return isset($response) ? \App\Json::decode($response->getBody()->getContents()) : [];
+		$this->data = isset($response) ? \App\Json::decode($response->getBody()->getContents()) : [];
 	}
 
 	/**
 	 * Function parsing data to fields from Securities and Exchange Commission API.
 	 *
-	 * @param array $data
-	 *
 	 * @return array
 	 */
-	private function parseData(array $data): array
+	private function parseData(): array
 	{
-		if (empty($data)) {
+		if (empty($this->data)) {
 			return [];
 		}
-		return \App\Utils::flattenKeys($data, 'ucfirst');
+		$this->data = \App\Utils::flattenKeys($this->data, 'ucfirst');
 	}
 }
