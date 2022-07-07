@@ -54,8 +54,10 @@ class RecordCollector extends VTTask
 			}
 			foreach ($updateFields as $fieldName => $values) {
 				try {
-					$recordModel->getField($fieldName)->getUITypeModel()->validate($values['data'][$key]['raw']);
-					$recordModel->set($fieldName, $values['data'][$key]['raw']);
+					if ($values['data'][$key]['raw']) {
+						$recordModel->getField($fieldName)->getUITypeModel()->validate($values['data'][$key]['raw']);
+						$recordModel->set($fieldName, $values['data'][$key]['raw']);
+					}
 				} catch (\Throwable $th) {
 					\App\Log::error("[taxNumber => $value]Error during data validation: \n{$th->__toString()}\n", __CLASS__);
 				}
