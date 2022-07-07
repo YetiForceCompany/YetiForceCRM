@@ -16,7 +16,7 @@ try {
 	$checkLibrary = true;
 	require_once __DIR__ . '/include/RequirementsValidation.php';
 } catch (\Throwable $e) {
-	file_put_contents(__DIR__ . '/cache/logs/cron_error.log', date('Y-m-d H:i:s', $init) . ' - ' . $e->getMessage() . PHP_EOL, LOCK_EX);
+	file_put_contents(__DIR__ . '/cache/logs/cron_error.log', date('Y-m-d H:i:s', (int) $init) . ' - ' . $e->getMessage() . PHP_EOL, LOCK_EX);
 	throw $e;
 }
 \App\Process::$requestMode = 'Cron';
@@ -47,7 +47,7 @@ if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') ==
 	if ($user) {
 		$response .= '<pre>';
 	}
-	$response .= sprintf('---------------  %s (init: %s) | Start CRON  ----------', date('Y-m-d H:i:s'), date('H:i:s', $init)) . PHP_EOL;
+	$response .= sprintf('---------------  %s (init: %s) | Start CRON  ----------', date('Y-m-d H:i:s'), date('H:i:s', (int) $init)) . PHP_EOL;
 	foreach ($cronTasks as $cronTask) {
 		try {
 			$cronTask->setCronInstance($cronInstance);
