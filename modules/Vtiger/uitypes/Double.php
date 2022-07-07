@@ -21,7 +21,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
 		$this->validate($value, true);
-		preg_match_all('/\D+/', $value, $matches);
+		preg_match_all('/[^\-\d]+/', $value, $matches);
 		$matches[0] = array_map('trim', $matches[0]);
 		if ($matches && $operators = \array_intersect(array_map('App\\Purifier::decodeHtml', $matches[0]), App\Conditions\QueryFields\IntegerField::$extendedOperators)) {
 			$value = \App\Purifier::decodeHtml($value);
