@@ -18,7 +18,7 @@
 	{else}
 		{assign var=SEARCH_VALUES value=[]}
 	{/if}
-	<div class="picklistSearchField input-group {if isset($CLASS_SIZE)}{$CLASS_SIZE}{/if}">
+	<div class="picklistSearchField input-group {if isset($CLASS_SIZE)}{$CLASS_SIZE}{/if} u-min-w-150pxr">
 		<select class="select2 listSearchContributor form-control" name="{$FIELD_MODEL->getName()}" multiple="multiple"
 			{if !$FIELD_MODEL->isActiveSearchView()}disabled="disabled" data-placeholder=" " {/if}
 			title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModule()->getName())}"

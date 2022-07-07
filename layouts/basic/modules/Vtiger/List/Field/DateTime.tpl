@@ -8,7 +8,7 @@
 	{else}
 		{assign var=SEARCH_VALUES value=''}
 	{/if}
-	<div class="picklistSearchField">
+	<div class="picklistSearchField u-min-w-150pxr">
 		<input name="{$FIELD_MODEL->getName()}" class="listSearchContributor dateTimePickerField form-control datepicker"
 			title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModule()->getName())}"
 			type="text" value="{$SEARCH_VALUES}" data-date-format="{$dateFormat}" data-calendar-type="range"
