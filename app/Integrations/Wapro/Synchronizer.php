@@ -119,7 +119,7 @@ abstract class Synchronizer
 				'category' => $this->className,
 				'message' => \App\TextUtils::textTruncate($ex->getMessage(), 255),
 				'error' => true,
-				'trace' => \App\TextUtils::textTruncate($ex->__toString(), 65535)
+				'trace' => \App\TextUtils::textTruncate("WAPRO ID: {$this->waproId} \n{$ex->__toString()}", 65535)
 			])->execute();
 	}
 
@@ -310,5 +310,18 @@ abstract class Synchronizer
 			$taxes = $taxModel->save();
 		}
 		return $taxes;
+	}
+
+	/**
+	 * Convert unit name to system format.
+	 *
+	 * @param string $value
+	 * @param array  $params
+	 *
+	 * @return string
+	 */
+	protected function convertDecodeHtml(string $value, array $params): string
+	{
+		return trim(\App\Purifier::decodeHtml($value));
 	}
 }

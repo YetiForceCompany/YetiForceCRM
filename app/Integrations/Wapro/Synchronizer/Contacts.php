@@ -26,8 +26,8 @@ class Contacts extends \App\Integrations\Wapro\Synchronizer
 	/** {@inheritdoc} */
 	protected $fieldMap = [
 		'ID_KONTRAHENTA' => ['fieldName' => 'parent_id', 'fn' => 'findRelationship', 'tableName' => 'KONTRAHENT'],
-		'IMIE' => 'firstname',
-		'NAZWISKO' => 'lastname',
+		'IMIE' => ['fieldName' => 'firstname', 'fn' => 'convertDecodeHtml'],
+		'NAZWISKO' => ['fieldName' => 'lastname', 'fn' => 'convertDecodeHtml'],
 		'TYTUL' => 'jobtitle',
 		'TEL' => ['fieldName' => 'phone', 'fn' => 'convertPhone'],
 		'TEL_KOM' => ['fieldName' => 'mobile', 'fn' => 'convertPhone'],

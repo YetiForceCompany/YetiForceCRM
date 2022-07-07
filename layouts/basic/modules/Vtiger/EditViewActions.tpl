@@ -6,7 +6,7 @@
 			<span class="fas fa-check mr-1"></span>
 			<strong>{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}</strong>
 		</button>
-		<button class="btn btn-danger mr-1" type="reset" onclick="javascript:window.history.back();" {if Vtiger_Field_Model::$tabIndexLastSeq}tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}" {/if}>
+		<button class="btn btn-danger mr-2" type="reset" onclick="javascript:window.history.back();" {if Vtiger_Field_Model::$tabIndexLastSeq}tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}" {/if}>
 			<span class="fas fa-times mr-1"></span>
 			<strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 		</button>
@@ -19,7 +19,7 @@
 			{foreach item=COLLECTOR_LINK from=$EDITVIEW_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
 				{assign var=COLLECTOR value=\App\RecordCollector::getInstance($COLLECTOR_LINK->get('linkurl'), $MODULE_NAME)}
 				{if isset($COLLECTOR) && $COLLECTOR->isActive()}
-					<button type="button" aria-label="{App\Language::translate($COLLECTOR->label, 'Other.RecordCollector')}" class="btn btn-outline-dark js-popover-tooltip js-record-collector-modal mr-1" {if isset(Vtiger_Field_Model::$tabIndexLastSeq)}tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}" {/if} data-type={$COLLECTOR_LINK->get('linkurl')} title="{App\Language::translate($COLLECTOR->label, 'Other.RecordCollector')}" {if !empty($COLLECTOR->description)}data-content="{App\Language::translate($COLLECTOR->description, 'Other.RecordCollector')}" {/if} data-js="click|popover">
+					<button type="button" aria-label="{App\Language::translate($COLLECTOR->label, 'Other.RecordCollector')}" class="btn btn-outline-dark js-popover-tooltip js-record-collector-modal ml-1" {if isset(Vtiger_Field_Model::$tabIndexLastSeq)}tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}" {/if} data-type={$COLLECTOR_LINK->get('linkurl')} title="{App\Language::translate($COLLECTOR->label, 'Other.RecordCollector')}" {if !empty($COLLECTOR->description)}data-content="{App\Language::translate($COLLECTOR->description, 'Other.RecordCollector')}" {/if} data-js="click|popover">
 						<span class="{$COLLECTOR->icon}"></span>
 					</button>
 				{/if}

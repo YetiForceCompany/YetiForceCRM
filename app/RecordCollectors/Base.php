@@ -215,7 +215,9 @@ class Base
 				];
 			}
 			foreach ($row as $name => $value) {
-				$additional[$name][$key] = $value;
+				if ('' !== $value) {
+					$additional[$name][$key] = $value;
+				}
 			}
 		}
 		$this->response['fields'] = $fieldsData;
