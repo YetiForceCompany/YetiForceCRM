@@ -90,7 +90,7 @@
 	<div class="row m-0 mt-1 c-tiles-container h-100">
 		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 			{assign var="RECORD_ID" value=$LISTVIEW_ENTRY->getId()}
-			<div class="col-md-{$TILE_COLUMN_SIZE} col-sm-12 p-1 border-0 u-cursor-pointer c-tile-record-container  js-tile-container" data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}'>
+			<div class="col-md-{$TILE_COLUMN_SIZE} col-sm-12 p-1 border-0 u-cursor-pointer c-tile-record-container  js-tile-container" data-record-id="{$RECORD_ID}" data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}'>
 				<div class="card js-tile-card justify-content-center c-tiles-container_{$TILE_SIZE}">
 					<div class="w-100 h-100 c-tile-body border border-light bg-light">
 						<div class="card-footer p-0 border-0 justify-content-center">

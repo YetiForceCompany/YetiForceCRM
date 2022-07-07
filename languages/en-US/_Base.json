@@ -1506,7 +1506,8 @@
     "LBL_BROWSE_ASSETS": "Browse Assets",
     "LBL_MEDIA": "Media",
     "LBL_IMAGES": "Images",
-    "FL_WAPRO_ID": "WAPRO ERP ID"
+    "FL_WAPRO_ID": "WAPRO ERP ID",
+    "LBL_IMAGE_PREVIEW": "Image preview"
   },
   "js": {
     "JS_APPROVE": "Approve",
