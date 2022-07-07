@@ -1,6 +1,6 @@
 <?php
 /**
- * Image preview modal.
+ * Display image preview file.
  *
  * @package   View
  *
@@ -9,16 +9,21 @@
  * @author    Adrian Kon <a.kon@yetiforce.com>
  */
 /**
- * Class ImagePreview.
+ * Display image preview class.
  */
 class Vtiger_ImagePreview_View extends \App\Controller\Modal
 {
 	/** {@inheritdoc} */
 	public $modalSize = 'modal-lg';
+
 	/** {@inheritdoc} */
 	public $showFooter = false;
+
 	/** {@inheritdoc} */
 	public $modalIcon = 'fas fa-images';
+
+	/** {@inheritdoc} */
+	public $pageTitle = 'LBL_IMAGE_PREVIEW';
 
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
@@ -29,12 +34,6 @@ class Vtiger_ImagePreview_View extends \App\Controller\Modal
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function getPageTitle(App\Request $request)
-	{
-		return \App\Language::translate('LBL_IMAGE_PREVIEW', $request->getModule());
-	}
-
 	/**
 	 * Process.
 	 *
@@ -42,8 +41,7 @@ class Vtiger_ImagePreview_View extends \App\Controller\Modal
 	 */
 	public function process(App\Request $request)
 	{
-		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$viewer->view('Modals/ImagePreview.tpl', $moduleName);
+		$viewer->view('Modals/ImagePreview.tpl', $request->getModule());
 	}
 }

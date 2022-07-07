@@ -75,11 +75,11 @@ $.Class(
 		},
 		registerImagePreview() {
 			this.contentContainer.on('click', '.js-show-image-preview', (e) => {
-				let moduleName = this.contentContainer.find('[name="module"]').length
+				const moduleName = this.contentContainer.find('[name="module"]').length
 					? this.contentContainer.find('[name="module"]').val()
 					: app.getModuleName();
-				let recordId = $(e.target).closest('.js-tile-container').attr('data-record-id');
-				let url = `index.php?module=${moduleName}&view=ImagePreview&record=${recordId}`;
+				const recordId = $(e.target).closest('.js-tile-container').attr('data-record-id');
+				const url = `index.php?module=${moduleName}&view=ImagePreview&record=${recordId}`;
 				app.showModalWindow('', url, (modalWindow) => {
 					modalWindow.find('.js-image-preview').attr('src', $(e.target).attr('src'));
 				});
