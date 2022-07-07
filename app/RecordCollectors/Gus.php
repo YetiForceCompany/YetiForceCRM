@@ -219,7 +219,9 @@ class Gus extends Base
 						];
 					}
 					foreach ($row as $name => $value) {
-						$additional[$name][$key] = $value;
+						if (!empty($value)) {
+							$additional[$name][$key] = $value;
+						}
 					}
 				}
 				$response['fields'] = $fieldsData;
