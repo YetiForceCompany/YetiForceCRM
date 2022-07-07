@@ -195,7 +195,7 @@ class UKCompaniesHouse extends Base
 	private function getDataFromApiByNcr($ncr): array
 	{
 		try {
-			$response = (\App\RequestHttp::getClient(\App\RequestHttp::getOptions()))->request('GET', $this->url . '/company/' . $ncr, [
+			$response = \App\RequestHttp::getClient()->request('GET', $this->url . '/company/' . $ncr, [
 				'auth' => [$this->apiKey, ''],
 			]);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
@@ -228,7 +228,7 @@ class UKCompaniesHouse extends Base
 	private function getDataFromApiByName(string $companyName): void
 	{
 		try {
-			$response = (\App\RequestHttp::getClient(\App\RequestHttp::getOptions()))->request('GET', $this->url . '/advanced-search/companies?company_name_includes=' . $companyName, [
+			$response = \App\RequestHttp::getClient()->request('GET', $this->url . '/advanced-search/companies?company_name_includes=' . $companyName, [
 				'auth' => [$this->apiKey, ''],
 			]);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
@@ -285,7 +285,7 @@ class UKCompaniesHouse extends Base
 	private function getPersonsWithSignificantControl(string $url): array
 	{
 		try {
-			$response = (\App\RequestHttp::getClient(\App\RequestHttp::getOptions()))->request('GET', $this->url . $url, [
+			$response = \App\RequestHttp::getClient()->request('GET', $this->url . $url, [
 				'auth' => [$this->apiKey, ''],
 			]);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
