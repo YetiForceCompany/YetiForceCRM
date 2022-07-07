@@ -1590,8 +1590,12 @@ $.Class(
 			const fieldElement = this.getForm().find(`[name="${fieldName}"]`),
 				fieldInfo = fieldElement.data('fieldinfo');
 			if (fieldElement.is('select') && fieldInfo) {
-				const val = fieldElement.val(),
-					fieldValue = fieldElement.closest('.fieldValue');
+				const val = fieldElement.val() ?? '',
+					fieldValue = fieldElement.closest('.fieldValue'),
+					currentValues = [...fieldElement.get(0).options]
+						.map((o) => o.value)
+						.filter((e) => e !== '')
+						.sort();
 				let newOptions = new $();
 				if (!fieldInfo.mandatory) {
 					newOptions = newOptions.add(
@@ -1602,6 +1606,11 @@ $.Class(
 					newOptions = newOptions.add(new Option(fieldInfo['picklistvalues'][e], e, false, val == e));
 				});
 
+				const newValues = [...newOptions.map((_, e) => e.value)].filter((e) => e !== '').sort();
+				if (currentValues.length === newValues.length && currentValues.every((e, i) => e === newValues[i])) {
+					return;
+				}
+
 				let selected = newOptions.filter(':selected').length > 0;
 				fieldElement.html(newOptions);
 				let change = val && val !== fieldElement.val();
@@ -1610,6 +1619,7 @@ $.Class(
 				}
 				if (change) {
 					fieldValue.addClass('border border-info');
+					fieldElement.trigger('change');
 					setTimeout(function () {
 						fieldValue.removeClass('border border-info');
 					}, 5000);
