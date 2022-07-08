@@ -77,55 +77,27 @@ class OrbIntelligence extends Base
 	/** {@inheritdoc} */
 	public $formFieldsToRecordMap = [
 		'Accounts' => [
-			'results0Name' => 'accountname',
-			'results0Match_maskEin' => 'vat_id',
-			'results0Match_maskWebdomain' => 'website',
-			'results0Match_maskPhone' => 'phone',
-			'results0Address1' => 'addresslevel8a',
-			'results0Zip' => 'addresslevel7a',
-			'results0City' => 'addresslevel5a',
-			'results0State' => 'addresslevel2a',
-			'results0Country' => 'addresslevel1a'
+			'name' => 'accountname',
+			'eins0' => 'vat_id',
+			'website' => 'website',
+			'email' => 'email1',
+			'phone' => 'phone',
+			'sic_code' => 'siccode',
+			'cik' => 'registration_number_1',
+			'addressAddress2' => 'buildingnumbera',
+			'addressAddress1' => 'addresslevel8a',
+			'addressZip' => 'addresslevel7a',
+			'addressCity' => 'addresslevel5a',
+			'addressState' => 'addresslevel2a',
+			'addressCountry' => 'addresslevel1a'
 		],
 		'Leads' => [
-			'results0Name' => 'company',
-			'results0Match_maskEin' => 'vat_id',
-			'results0Match_maskWebdomain' => 'website',
-			'results0Match_maskPhone' => 'phone',
-			'results0Address1' => 'addresslevel8a',
-			'results0Zip' => 'addresslevel7a',
-			'results0City' => 'addresslevel5a',
-			'results0State' => 'addresslevel2a',
-			'results0Country' => 'addresslevel1a'
 		],
 		'Partners' => [
-			'results0Name' => 'subject',
-			'results0Match_maskEin' => 'vat_id',
-			'results0Address1' => 'addresslevel8a',
-			'results0Zip' => 'addresslevel7a',
-			'results0City' => 'addresslevel5a',
-			'results0State' => 'addresslevel2a',
-			'results0Country' => 'addresslevel1a'
 		],
 		'Vendors' => [
-			'results0Name' => 'vendorname',
-			'results0Match_maskEin' => 'vat_id',
-			'results0Match_maskWebdomain' => 'website',
-			'results0Match_maskPhone' => 'phone',
-			'results0Address1' => 'addresslevel8a',
-			'results0Zip' => 'addresslevel7a',
-			'results0City' => 'addresslevel5a',
-			'results0State' => 'addresslevel2a',
-			'results0Country' => 'addresslevel1a'
 		],
 		'Competition' => [
-			'results0Name' => 'subject',
-			'results0Match_maskEin' => 'vat_id',
-			'results0Address1' => 'addresslevel8a',
-			'results0Zip' => 'addresslevel7a',
-			'results0City' => 'addresslevel5a',
-			'results0State' => 'addresslevel2a',
-			'results0Country' => 'addresslevel1a'
 		]
 	];
 
@@ -136,6 +108,9 @@ class OrbIntelligence extends Base
 
 	/** @var string Api Key. */
 	private $apiKey;
+
+	/** @var int Limit for fetching companies */
+	const LIMIT = 4;
 
 	/** @var string ORB Intelligence sever address */
 	protected $url = 'https://api.orb-intelligence.com/';
@@ -150,24 +125,22 @@ class OrbIntelligence extends Base
 			return [];
 		}
 		$this->setApiKey();
-		$fieldName = '';
-		$fieldValue = '';
+		$query['api_key'] = $this->apiKey;
+
 		$country = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('country', 'Text'));
 		$vatNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatNumber', 'Text'));
 		$name = $this->request->getByType('name', 'Text');
 
 		if ($country && \in_array(strtolower($country), $this->usaMatchNames) && !empty($vatNumber)) {
-			$fieldName = 'ein';
-			$fieldValue = $vatNumber;
+			$query['ein'] = $vatNumber;
 		} elseif (!empty($country) && !empty($name)) {
-			$fieldName = 'name';
-			$fieldValue = $name;
+			$query['name'] = $name;
 		} else {
 			return [];
 		}
 
-		$this->getDataFromApi($country, $fieldName, $fieldValue);
-		$this->parseData();
+		$query['country'] = $country;
+		$this->getDataFromApi($query);
 		$this->loadData();
 		return $this->response;
 	}
@@ -178,20 +151,33 @@ class OrbIntelligence extends Base
 	 * @param string $country
 	 * @param string $fieldName
 	 * @param string $fieldValue
+	 * @param array  $query
 	 *
 	 * @return void
 	 */
-	private function getDataFromApi(string $country, string $fieldName, string $fieldValue): void
+	private function getDataFromApi(array $query): void
 	{
 		$response = [];
 		try {
-			$response = \App\RequestHttp::getClient()->get($this->url . '3/match/?api_key=' . $this->apiKey . "&{$fieldName}=" . $fieldValue . '&country=' . $country, []);
+			$response = \App\RequestHttp::getClient()->get($this->url . '3/match/?' . http_build_query($query), []);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
-			var_dump($e->getMessage());
 		}
-		$this->data = isset($response) ? \App\Json::decode($response->getBody()->getContents()) : [];
+		$data = isset($response) ? \App\Json::decode($response->getBody()->getContents()) : [];
+		if (empty($data)) {
+			return;
+		}
+		$data = \array_slice($data['results'], 0, self::LIMIT, true);
+		foreach ($data as $key => $result) {
+			try {
+				$response = \App\RequestHttp::getClient()->get($result['fetch_url'], []);
+			} catch (\GuzzleHttp\Exception\ClientException $e) {
+				\App\Log::warning($e->getMessage(), 'RecordCollectors');
+				$this->response['error'] = $e->getMessage();
+			}
+			$this->data[$key] = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
+		}
 	}
 
 	/**
@@ -211,13 +197,12 @@ class OrbIntelligence extends Base
 	/**
 	 * Function parsing data to fields from ORB Intelligence API.
 	 *
-	 * @return void
+	 * @param array $data
+	 *
+	 * @return array
 	 */
-	private function parseData(): void
+	private function parseData(array $data): array
 	{
-		if (empty($this->data)) {
-			return;
-		}
-		$this->data = \App\Utils::flattenKeys($this->data, 'ucfirst');
+		return \App\Utils::flattenKeys($data, 'ucfirst');
 	}
 }
