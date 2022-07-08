@@ -73,11 +73,11 @@ class USAEdgarRegistryFromSec extends Base
 			'addressesBusinessZipCode' => 'addresslevel7a',
 			'addressesBusinessCity' => 'addresslevel5a',
 			'addressesBusinessStateOrCountryDescription' => 'addresslevel2a',
-			'addressesMailingStreet2' => 'buildingnumberc',
-			'addressesMailingStreet1' => 'addresslevel8c',
-			'addressesMailingZipCode' => 'addresslevel7c',
-			'addressesMailingsCity' => 'addresslevel5c',
-			'addressesBusinessStateOrCountryDescription' => 'addresslevel2c'
+			'addressesMailingStreet2' => 'buildingnumberb',
+			'addressesMailingStreet1' => 'addresslevel8b',
+			'addressesMailingZipCode' => 'addresslevel7b',
+			'addressesMailingsCity' => 'addresslevel5b',
+			'addressesBusinessStateOrCountryDescription' => 'addresslevel2b'
 		],
 		'Leads' => [
 			'name' => 'company',
@@ -112,11 +112,11 @@ class USAEdgarRegistryFromSec extends Base
 			'addressesBusinessZipCode' => 'addresslevel7a',
 			'addressesBusinessCity' => 'addresslevel5a',
 			'addressesBusinessStateOrCountryDescription' => 'addresslevel2a',
-			'addressesMailingStreet2' => 'buildingnumberc',
-			'addressesMailingStreet1' => 'addresslevel8c',
-			'addressesMailingZipCode' => 'addresslevel7c',
-			'addressesMailingsCity' => 'addresslevel5c',
-			'addressesBusinessStateOrCountryDescription' => 'addresslevel2c'
+			'addressesMailingStreet2' => 'buildingnumberb',
+			'addressesMailingStreet1' => 'addresslevel8b',
+			'addressesMailingZipCode' => 'addresslevel7b',
+			'addressesMailingsCity' => 'addresslevel5b',
+			'addressesBusinessStateOrCountryDescription' => 'addresslevel2b'
 		],
 		'Competition' => [
 			'name' => 'subject',
