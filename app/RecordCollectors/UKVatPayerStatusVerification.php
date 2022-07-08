@@ -9,6 +9,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Rembiesa <s.rembiesa@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\RecordCollectors;
@@ -64,7 +65,7 @@ class UKVatPayerStatusVerification extends Base
 		],
 	];
 
-	/** @var string HMRC sever address */
+	/** @var string API sever address */
 	protected $url = 'https://api.service.hmrc.gov.uk/';
 
 	/** {@inheritdoc} */
