@@ -51,6 +51,12 @@ class USAEdgarRegistryFromSec extends Base
 		'Accounts' => [
 			'cik' => 'registration_number_1',
 		],
+		'Leads' => [
+			'cik' => 'registration_number_1',
+		],
+		'Vendors' => [
+			'cik' => 'registration_number_1',
+		],
 	];
 
 	/** {@inheritdoc} */
@@ -61,17 +67,17 @@ class USAEdgarRegistryFromSec extends Base
 			'ein' => 'vat_id',
 			'webiste' => 'website',
 			'sic' => 'siccode',
-			'addressesBusinessStreet1' => 'addresslevel8a',
+			'phone' => 'phone',
 			'addressesBusinessStreet2' => 'buildingnumbera',
-			'addressesBusinessCity' => 'addresslevel5a',
+			'addressesBusinessStreet1' => 'addresslevel8a',
 			'addressesBusinessZipCode' => 'addresslevel7a',
+			'addressesBusinessCity' => 'addresslevel5a',
 			'addressesBusinessStateOrCountryDescription' => 'addresslevel2a',
-			'addressesMailingStreet1' => 'addresslevel8c',
 			'addressesMailingStreet2' => 'buildingnumberc',
-			'addressesMailingsCity' => 'addresslevel5c',
+			'addressesMailingStreet1' => 'addresslevel8c',
 			'addressesMailingZipCode' => 'addresslevel7c',
-			'addressesBusinessStateOrCountryDescription' => 'addresslevel2c',
-			'phone' => 'phone'
+			'addressesMailingsCity' => 'addresslevel5c',
+			'addressesBusinessStateOrCountryDescription' => 'addresslevel2c'
 		],
 		'Leads' => [
 			'name' => 'company',
@@ -79,47 +85,47 @@ class USAEdgarRegistryFromSec extends Base
 			'ein' => 'vat_id',
 			'webiste' => 'website',
 			'sic' => 'siccode',
-			'addressesBusinessStreet1' => 'addresslevel8a',
+			'phone' => 'phone',
 			'addressesBusinessStreet2' => 'buildingnumbera',
-			'addressesBusinessCity' => 'addresslevel5a',
+			'addressesBusinessStreet1' => 'addresslevel8a',
 			'addressesBusinessZipCode' => 'addresslevel7a',
+			'addressesBusinessCity' => 'addresslevel5a',
 			'addressesBusinessStateOrCountryDescription' => 'addresslevel2a',
-			'phone' => 'phone'
 		],
 		'Partners' => [
 			'name' => 'subject',
 			'ein' => 'vat_id',
-			'addressesBusinessStreet1' => 'addresslevel8a',
 			'addressesBusinessStreet2' => 'buildingnumbera',
-			'addressesBusinessCity' => 'addresslevel5a',
+			'addressesBusinessStreet1' => 'addresslevel8a',
 			'addressesBusinessZipCode' => 'addresslevel7a',
-			'addressesBusinessStateOrCountryDescription' => 'addresslevel2a'
+			'addressesBusinessCity' => 'addresslevel5a',
+			'addressesBusinessStateOrCountryDescription' => 'addresslevel2a',
 		],
 		'Vendors' => [
 			'name' => 'vendorname',
 			'cik' => 'registration_number_1',
 			'ein' => 'vat_id',
 			'webiste' => 'website',
-			'addressesBusinessStreet1' => 'addresslevel8a',
+			'phone' => 'phone',
 			'addressesBusinessStreet2' => 'buildingnumbera',
-			'addressesBusinessCity' => 'addresslevel5a',
+			'addressesBusinessStreet1' => 'addresslevel8a',
 			'addressesBusinessZipCode' => 'addresslevel7a',
+			'addressesBusinessCity' => 'addresslevel5a',
 			'addressesBusinessStateOrCountryDescription' => 'addresslevel2a',
-			'addressesMailingStreet1' => 'addresslevel8c',
 			'addressesMailingStreet2' => 'buildingnumberc',
-			'addressesMailingsCity' => 'addresslevel5c',
+			'addressesMailingStreet1' => 'addresslevel8c',
 			'addressesMailingZipCode' => 'addresslevel7c',
-			'addressesBusinessStateOrCountryDescription' => 'addresslevel2c',
-			'phone' => 'phone'
+			'addressesMailingsCity' => 'addresslevel5c',
+			'addressesBusinessStateOrCountryDescription' => 'addresslevel2c'
 		],
 		'Competition' => [
 			'name' => 'subject',
 			'ein' => 'vat_id',
-			'addressesBusinessStreet1' => 'addresslevel8a',
 			'addressesBusinessStreet2' => 'buildingnumbera',
-			'addressesBusinessCity' => 'addresslevel5a',
+			'addressesBusinessStreet1' => 'addresslevel8a',
 			'addressesBusinessZipCode' => 'addresslevel7a',
-			'addressesBusinessStateOrCountryDescription' => 'addresslevel2a'
+			'addressesBusinessCity' => 'addresslevel5a',
+			'addressesBusinessStateOrCountryDescription' => 'addresslevel2a',
 		]
 	];
 
@@ -135,7 +141,6 @@ class USAEdgarRegistryFromSec extends Base
 		if (!$this->isActive()) {
 			return [];
 		}
-		$this->moduleName = $this->request->getModule();
 		$cik = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('cik', 'Text'));
 		if (!$cik) {
 			return [];
@@ -176,12 +181,12 @@ class USAEdgarRegistryFromSec extends Base
 	/**
 	 * Function parsing data to fields from Securities and Exchange Commission API.
 	 *
-	 * @return array
+	 * @return void
 	 */
-	private function parseData(): array
+	private function parseData(): void
 	{
 		if (empty($this->data)) {
-			return [];
+			return;
 		}
 		$this->data = \App\Utils::flattenKeys($this->data, 'ucfirst');
 	}
