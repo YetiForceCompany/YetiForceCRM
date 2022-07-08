@@ -33,7 +33,7 @@ class CorrectingInvoice extends Invoice
 			'saleDate' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_SPRZEDAZY - 36163 as datetime)',
 			'paymentDate' => 'cast (dbo.DOKUMENT_HANDLOWY.TERMIN_PLAT - 36163 as datetime)',
 		])->from('dbo.DOKUMENT_HANDLOWY')
-			->where(['DOK_KOREKTY' => 1]);
+			->where(['ID_TYPU' => 3]);
 		$pauser = \App\Pauser::getInstance('WaproCorrectingInvoiceLastId');
 		if ($val = $pauser->getValue()) {
 			$query->andWhere(['>', 'ID_DOKUMENTU_HANDLOWEGO', $val]);
@@ -107,6 +107,6 @@ class CorrectingInvoice extends Invoice
 	/** {@inheritdoc} */
 	public function getCounter(): int
 	{
-		return (new \App\Db\Query())->from('dbo.DOKUMENT_HANDLOWY')->where(['DOK_KOREKTY' => 1])->count('*', $this->controller->getDb());
+		return (new \App\Db\Query())->from('dbo.DOKUMENT_HANDLOWY')->where(['ID_TYPU' => 3])->count('*', $this->controller->getDb());
 	}
 }

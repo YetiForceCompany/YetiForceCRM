@@ -22,7 +22,9 @@ Settings_Vtiger_List_Js(
 					url: e.currentTarget.dataset.url,
 					sendByAjaxCb: (_, responseData) => {
 						this.getListViewRecords();
-						this.showListModal(responseData['result']);
+						if (responseData['result']) {
+							this.showListModal(responseData['result']);
+						}
 					}
 				});
 			});

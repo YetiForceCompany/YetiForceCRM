@@ -81,11 +81,11 @@ class Link
 	{
 		$db = \App\Db::getInstance();
 		if (0 != $tabid) {
-			$checkres = (new \App\Db\Query())->from('vtiger_links')
+			$exists = (new \App\Db\Query())->from('vtiger_links')
 				->where(['tabid' => $tabid, 'linktype' => $type, 'linkurl' => $url, 'linkicon' => $iconpath, 'linklabel' => $label])
 				->exists();
 		}
-		if (0 == $tabid || !$checkres) {
+		if (0 == $tabid || !$exists) {
 			$params = [
 				'tabid' => $tabid,
 				'linktype' => $type,

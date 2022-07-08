@@ -79,7 +79,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 			$value = 0.0;
 			if (!\App\Json::isEmpty($item['discountparam'] ?? '')) {
 				$aggregation = $item['discount_aggreg'] ?? \Vtiger_Inventory_Model::getDiscountsConfig('aggregation');
-				if ($aggregation) {
+				if (\is_numeric($aggregation)) {
 					$discountParam = \App\Json::decode($item['discountparam']) ?? [];
 					$totalPrice = static::getInstance($this->getModuleName(), 'TotalPrice')->getValueForSave($item, $userFormat);
 					$value = $this->getDiscountValue($discountParam, $totalPrice, (int) $aggregation);

@@ -37,7 +37,7 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 		'ID_KONTRAHENTA' => ['fieldName' => 'accountid', 'fn' => 'findRelationship', 'tableName' => 'KONTRAHENT', 'skipMode' => true],
 		'FORMA_PLATNOSCI' => ['fieldName' => 'payment_methods', 'fn' => 'convertPaymentMethods'],
 		'UWAGI' => 'description',
-		'KONTRAHENT_NAZWA' => 'company_name_a',
+		'KONTRAHENT_NAZWA' => ['fieldName' => 'company_name_a', 'fn' => 'decode'],
 		'issueTime' => ['fieldName' => 'issue_time', 'fn' => 'convertDate'],
 		'saleDate' => ['fieldName' => 'saledate', 'fn' => 'convertDate'],
 		'paymentDate' => ['fieldName' => 'paymentdate', 'fn' => 'convertDate'],
@@ -48,12 +48,13 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	{
 		$query = (new \App\Db\Query())->select([
 			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA', 'ID_DOK_ORYGINALNEGO',
-			'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA', 'WARTOSC_NETTO', 'WARTOSC_BRUTTO', 'DOK_KOREKTY',
+			'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA', 'WARTOSC_NETTO', 'WARTOSC_BRUTTO', 'DOK_KOREKTY', 'DATA_KURS_WAL', 'DOK_WAL', 'SYM_WAL',
 			'issueTime' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_WYSTAWIENIA - 36163 as datetime)',
 			'saleDate' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_SPRZEDAZY - 36163 as datetime)',
 			'paymentDate' => 'cast (dbo.DOKUMENT_HANDLOWY.TERMIN_PLAT - 36163 as datetime)',
+			'currencyDate' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_KURS_WAL - 36163 as datetime)',
 		])->from('dbo.DOKUMENT_HANDLOWY')
-			->where(['or', ['DOK_KOREKTY' => 0], ['DOK_KOREKTY' => null]]);
+			->where(['ID_TYPU' => 1]);
 		$pauser = \App\Pauser::getInstance('WaproInvoiceLastId');
 		if ($val = $pauser->getValue()) {
 			$query->andWhere(['>', 'ID_DOKUMENTU_HANDLOWEGO', $val]);
@@ -219,7 +220,7 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 		}
 		$this->recordModel->initInventoryData($inventory);
 		if (isset($inventory[0]['name'])) {
-			$this->recordModel->set('subject', \App\Record::getLabel($inventory[0]['name']) ?: '-');
+			$this->recordModel->set('subject', \App\Record::getLabel($inventory[0]['name'], true) ?: '-');
 		}
 	}
 
@@ -230,8 +231,12 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	 */
 	protected function getInventory(): array
 	{
-		$currency = $this->getBaseCurrency();
-		$dataReader = (new \App\Db\Query())->select(['ID_ARTYKULU', 'ILOSC', 'KOD_VAT', 'CENA_NETTO', 'CENA_BRUTTO', 'JEDNOSTKA', 'OPIS', 'RABAT', 'RABAT2'])
+		$currencyId = $this->getBaseCurrency()['currencyId'];
+		if ($this->row['DOK_WAL']) {
+			$currencyId = $this->convertCurrency($this->row['SYM_WAL'], []);
+		}
+		$currencyParam = \App\Json::encode($this->getCurrencyParam($currencyId));
+		$dataReader = (new \App\Db\Query())->select(['ID_ARTYKULU', 'ILOSC', 'KOD_VAT', 'CENA_NETTO',  'JEDNOSTKA', 'OPIS', 'RABAT', 'RABAT2', 'CENA_NETTO_WAL'])
 			->from('dbo.POZYCJA_DOKUMENTU_MAGAZYNOWEGO')
 			->where(['ID_DOK_HANDLOWEGO' => $this->waproId])
 			->createCommand($this->controller->getDb())->query();
@@ -239,12 +244,12 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 		while ($row = $dataReader->read()) {
 			$productId = $this->findRelationship($row['ID_ARTYKULU'], ['tableName' => 'ARTYKUL']);
 			if (!$productId) {
-				$productId = $this->addProduct($row['p']);
+				$productId = $this->addProduct($row['ID_ARTYKULU']);
 			}
 			$inventory[] = [
 				'name' => $productId,
 				'qty' => $row['ILOSC'],
-				'price' => $row['CENA_NETTO'],
+				'price' => $this->row['DOK_WAL'] ? $row['CENA_NETTO_WAL'] : $row['CENA_NETTO'],
 				'comment1' => trim($row['OPIS']),
 				'unit' => $this->convertUnitName($row['JEDNOSTKA'], ['fieldName' => 'usageunit', 'moduleName' => 'Products']),
 				'discountmode' => 1,
@@ -265,10 +270,45 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 					]
 				),
 				'discount_aggreg' => 2,
-				'currency' => $currency['currencyId'],
+				'currency' => $currencyId,
+				'currencyparam' => $currencyParam,
 			];
 		}
 		return $inventory;
+	}
+
+	/**
+	 * Get currency param.
+	 *
+	 * @param int $currencyId
+	 *
+	 * @return array
+	 */
+	protected function getCurrencyParam(int $currencyId): array
+	{
+		$baseCurrency = $this->getBaseCurrency();
+		$defaultCurrencyId = $baseCurrency['default']['id'];
+		if ($this->row['DATA_KURS_WAL']) {
+			$date = $this->convertDate($this->row['currencyDate'], []);
+		} else {
+			$date = \vtlib\Functions::getLastWorkingDay(date('Y-m-d', strtotime('-1 day', strtotime($this->row['saleDate']))));
+		}
+		$params = [
+			$defaultCurrencyId => ['date' => $date, 'value' => 1.0, 'conversion' => 1.0],
+		];
+		$info = ['date' => $date];
+		if ($currencyId != $defaultCurrencyId) {
+			if (empty($this->row['PRZELICZNIK_WAL'])) {
+				$value = \Settings_CurrencyUpdate_Module_Model::getCleanInstance()->getCRMConversionRate($currencyId, $defaultCurrencyId, $date);
+				$info['value'] = empty($value) ? 1.0 : round($value, 5);
+				$info['conversion'] = empty($value) ? 1.0 : round(1 / $value, 5);
+			} else {
+				$info['value'] = round($this->row['PRZELICZNIK_WAL'], 5);
+				$info['conversion'] = round(1 / $this->row['PRZELICZNIK_WAL'], 5);
+			}
+			$params[$currencyId] = $info;
+		}
+		return $params;
 	}
 
 	/**
@@ -286,6 +326,6 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	/** {@inheritdoc} */
 	public function getCounter(): int
 	{
-		return (new \App\Db\Query())->from('dbo.DOKUMENT_HANDLOWY')->where(['or', ['DOK_KOREKTY' => 0], ['DOK_KOREKTY' => null]])->count('*', $this->controller->getDb());
+		return (new \App\Db\Query())->from('dbo.DOKUMENT_HANDLOWY')->where(['ID_TYPU' => 1])->count('*', $this->controller->getDb());
 	}
 }
