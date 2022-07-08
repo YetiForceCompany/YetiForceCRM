@@ -130,4 +130,10 @@ class Accounts extends \App\Integrations\Wapro\Synchronizer
 	{
 		return -((float) $value);
 	}
+
+	/** {@inheritdoc} */
+	public function getCounter(): int
+	{
+		return (new \App\Db\Query())->from('dbo.KONTRAHENT')->count('*', $this->controller->getDb());
+	}
 }

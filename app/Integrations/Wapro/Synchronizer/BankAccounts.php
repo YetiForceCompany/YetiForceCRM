@@ -35,7 +35,8 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 	/** {@inheritdoc} */
 	public function process(): int
 	{
-		$dataReader = (new \App\Db\Query())->select(['dbo.RACHUNEK_FIRMY.*', 'dbo.BANKI.SWIFT', 'bankName' => 'dbo.BANKI.NAZWA'])->from('dbo.RACHUNEK_FIRMY')
+		$dataReader = (new \App\Db\Query())->select(['dbo.RACHUNEK_FIRMY.*', 'dbo.BANKI.SWIFT', 'bankName' => 'dbo.BANKI.NAZWA'])
+			->from('dbo.RACHUNEK_FIRMY')
 			->leftJoin('dbo.BANKI', 'dbo.RACHUNEK_FIRMY.ID_BANKU = dbo.BANKI.ID_BANKU')
 			->createCommand($this->controller->getDb())->query();
 		$e = $s = $i = $u = 0;
@@ -90,5 +91,11 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 			return $this->recordModel->getPreviousValue() ? 1 : 3;
 		}
 		return 2;
+	}
+
+	/** {@inheritdoc} */
+	public function getCounter(): int
+	{
+		return (new \App\Db\Query())->from('dbo.RACHUNEK_FIRMY')->count('*', $this->controller->getDb());
 	}
 }

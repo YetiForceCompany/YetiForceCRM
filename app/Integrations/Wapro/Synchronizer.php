@@ -75,6 +75,13 @@ abstract class Synchronizer
 	abstract public function importRecord(): int;
 
 	/**
+	 * Get number of records.
+	 *
+	 * @return int
+	 */
+	abstract public function getCounter(): int;
+
+	/**
 	 * Function to get provider name.
 	 *
 	 * @return string provider name

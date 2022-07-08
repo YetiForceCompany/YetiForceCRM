@@ -2,13 +2,15 @@
 {strip}
 	<!-- tpl-Settings-Wapro-ListSynchronizerModal -->
 	<div class="modal-body pb-0">
-		<textarea rows="15" disabled>{$WAPRO_MODEL->getInfo()}</textarea>
+		<textarea rows="11" disabled>{$WAPRO_MODEL->getInfo()}</textarea>
 		<form>
 			{assign var=SYNCHRONIZERS value=$WAPRO_MODEL->config['synchronizer']}
 			{foreach from=$WAPRO_MODEL->getAllSynchronizers() key=NAME item=SYNCHRONIZER}
 				<div class="form-group form-check">
 					<input type="checkbox" value="{$NAME}" class="form-check-input js-synchronizer" id="wapro{$NAME}" {if in_array($NAME,$SYNCHRONIZERS)} checked{/if} data-js="container">
-					<label class="form-check-label ml-2" for="wapro{$NAME}">{\App\Language::translate($SYNCHRONIZER::NAME, $QUALIFIED_MODULE)}</label>
+					<label class="form-check-label ml-2" for="wapro{$NAME}">
+						{\App\Language::translate($SYNCHRONIZER::NAME, $QUALIFIED_MODULE)} <span class="badge badge-primary">{\App\Language::translate('LBL_NUMBER_OF_ENTRIES', $QUALIFIED_MODULE)}: {$SYNCHRONIZER->getCounter()}</span>
+					</label>
 				</div>
 			{/foreach}
 		</form>

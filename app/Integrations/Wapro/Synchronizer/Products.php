@@ -201,4 +201,10 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 		}
 		return $this->recordModel->getId();
 	}
+
+	/** {@inheritdoc} */
+	public function getCounter(): int
+	{
+		return (new \App\Db\Query())->from('dbo.ARTYKUL')->count('*', $this->controller->getDb());
+	}
 }

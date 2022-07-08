@@ -105,4 +105,10 @@ class Contacts extends \App\Integrations\Wapro\Synchronizer
 		}
 		return 2;
 	}
+
+	/** {@inheritdoc} */
+	public function getCounter(): int
+	{
+		return (new \App\Db\Query())->from('dbo.KONTAKT')->count('*', $this->controller->getDb());
+	}
 }

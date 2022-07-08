@@ -163,12 +163,6 @@ class Wapro
 		foreach ((new \App\Db\Query())->from('dbo.FIRMA')->all($this->db) as $row) {
 			$info .= " {$row['NAZWA_PELNA']}, NIP: {$row['NIP']}, REGON: {$row['REGON']}\n";
 		}
-		$info .= 'dbo.RACHUNEK_FIRMY: ' . (new \App\Db\Query())->from('dbo.RACHUNEK_FIRMY')->count('*', $this->db) . PHP_EOL;
-		$info .= 'dbo.KONTRAHENT: ' . (new \App\Db\Query())->from('dbo.KONTRAHENT')->count('*', $this->db) . PHP_EOL;
-		$info .= 'dbo.KONTAKT: ' . (new \App\Db\Query())->from('dbo.KONTAKT')->count('*', $this->db) . PHP_EOL;
-		$info .= 'dbo.ARTYKUL: ' . (new \App\Db\Query())->from('dbo.ARTYKUL')->count('*', $this->db) . PHP_EOL;
-		$info .= 'dbo.DOKUMENT_HANDLOWY: ' . (new \App\Db\Query())->from('dbo.DOKUMENT_HANDLOWY')->count('*', $this->db) . PHP_EOL;
-		$info .= 'dbo.UZYTKOWNIK: ' . (new \App\Db\Query())->from('dbo.UZYTKOWNIK')->count('*', $this->db) . PHP_EOL;
 		foreach (array_merge($pdo->getAttribute(\PDO::ATTR_SERVER_INFO), $pdo->getAttribute(\PDO::ATTR_CLIENT_VERSION)) as $key => $value) {
 			$info .= "$key: $value \n";
 		}
