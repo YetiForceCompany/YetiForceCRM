@@ -47,7 +47,8 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	public function process(): int
 	{
 		$query = (new \App\Db\Query())->select([
-			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA', 'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA', 'WARTOSC_NETTO', 'WARTOSC_BRUTTO',
+			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA', 'ID_DOK_ORYGINALNEGO',
+			'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA', 'WARTOSC_NETTO', 'WARTOSC_BRUTTO', 'DOK_KOREKTY',
 			'issueTime' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_WYSTAWIENIA - 36163 as datetime)',
 			'saleDate' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_SPRZEDAZY - 36163 as datetime)',
 			'paymentDate' => 'cast (dbo.DOKUMENT_HANDLOWY.TERMIN_PLAT - 36163 as datetime)',
@@ -111,7 +112,7 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 		$this->recordModel->set('finvoice_type', 'PLL_DOMESTIC_INVOICE');
 		$this->recordModel->set($this->recordModel->getModule()->getSequenceNumberFieldName(), $this->row['NUMER']);
 		$this->loadFromFieldMap();
-		$this->loadDeliveryAddress();
+		$this->loadDeliveryAddress('b');
 		$this->loadInventory();
 		if ($this->skip) {
 			return 0;
@@ -163,26 +164,28 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	/**
 	 * Load delivery address.
 	 *
+	 * @param string $key
+	 *
 	 * @return void
 	 */
-	protected function loadDeliveryAddress(): void
+	protected function loadDeliveryAddress(string $key): void
 	{
 		$row = (new \App\Db\Query())->select(['dbo.MIEJSCE_DOSTAWY.*'])->from('dbo.DOSTAWA')
 			->leftJoin('dbo.MIEJSCE_DOSTAWY', 'dbo.DOSTAWA.ID_MIEJSCA_DOSTAWY = dbo.MIEJSCE_DOSTAWY.ID_MIEJSCA_DOSTAWY')
-			->where(['dbo.DOSTAWA.ID_DOKUMENTU_HANDLOWEGO' => $this->waproId])
+			->where(['dbo.DOSTAWA.ID_DOKUMENTU_HANDLOWEGO' => $this->row['DOK_KOREKTY'] ? $this->row['ID_DOK_ORYGINALNEGO'] : $this->waproId])
 			->one($this->controller->getDb());
 		if ($row) {
-			$this->recordModel->set('addresslevel1b', $this->convertCountry($row['SYM_KRAJU']));
-			$this->recordModel->set('addresslevel5b', $row['MIEJSCOWOSC']);
-			$this->recordModel->set('addresslevel7b', $row['KOD_POCZTOWY']);
-			$this->recordModel->set('addresslevel8b', $row['ULICA_LOKAL']);
-			$this->recordModel->set('company_name_b', $row['FIRMA']);
+			$this->recordModel->set('addresslevel1' . $key, $this->convertCountry($row['SYM_KRAJU']));
+			$this->recordModel->set('addresslevel5' . $key, $row['MIEJSCOWOSC']);
+			$this->recordModel->set('addresslevel7' . $key, $row['KOD_POCZTOWY']);
+			$this->recordModel->set('addresslevel8' . $key, $row['ULICA_LOKAL']);
+			$this->recordModel->set('company_name_' . $key, $row['FIRMA']);
 			if ($row['ODBIORCA']) {
 				[$firstName, $lastName] = explode(' ', $row['ODBIORCA'], 2);
-				$this->recordModel->set('first_name_b', $firstName);
-				$this->recordModel->set('last_name_b', $lastName);
+				$this->recordModel->set('first_name_' . $key, $firstName);
+				$this->recordModel->set('last_name_' . $key, $lastName);
 			}
-			$params = ['fieldName' => 'phone_b'];
+			$params = ['fieldName' => 'phone_' . $key];
 			$phone = $this->convertPhone($row['TEL'], $params);
 			$this->recordModel->set($params['fieldName'], $phone);
 		}

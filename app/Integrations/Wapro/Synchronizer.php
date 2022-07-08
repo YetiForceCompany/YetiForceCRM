@@ -185,11 +185,12 @@ abstract class Synchronizer
 	 */
 	protected function convertPhone(string $value, array &$params): string
 	{
-		$fieldModel = $this->recordModel->getField($params['fieldName']);
-		$details = $fieldModel->getUITypeModel()->getPhoneDetails($value, 'PL');
-		$value = $details['number'];
-		if ($params['fieldName'] !== $details['fieldName']) {
-			$params['fieldName'] = $details['fieldName'];
+		if ($fieldModel = $this->recordModel->getField($params['fieldName'])) {
+			$details = $fieldModel->getUITypeModel()->getPhoneDetails($value, 'PL');
+			$value = $details['number'];
+			if ($params['fieldName'] !== $details['fieldName']) {
+				$params['fieldName'] = $details['fieldName'];
+			}
 		}
 		return $value;
 	}

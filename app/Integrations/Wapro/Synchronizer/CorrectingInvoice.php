@@ -27,7 +27,8 @@ class CorrectingInvoice extends Invoice
 	public function process(): int
 	{
 		$query = (new \App\Db\Query())->select([
-			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA', 'ID_DOK_KORYGOWANEGO', 'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA', 'WARTOSC_NETTO', 'WARTOSC_BRUTTO',
+			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA',  'ID_DOK_ORYGINALNEGO',
+			'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA', 'WARTOSC_NETTO', 'WARTOSC_BRUTTO', 'DOK_KOREKTY',
 			'issueTime' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_WYSTAWIENIA - 36163 as datetime)',
 			'saleDate' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_SPRZEDAZY - 36163 as datetime)',
 			'paymentDate' => 'cast (dbo.DOKUMENT_HANDLOWY.TERMIN_PLAT - 36163 as datetime)',
@@ -87,10 +88,10 @@ class CorrectingInvoice extends Invoice
 			]]);
 		}
 		$this->recordModel->set('wapro_id', $this->waproId);
-		$this->recordModel->set('finvoiceid', $this->findRelationship($this->row['ID_DOK_KORYGOWANEGO'], ['tableName' => 'DOKUMENT_HANDLOWY']));
+		$this->recordModel->set('finvoiceid', $this->findRelationship($this->row['ID_DOK_ORYGINALNEGO'], ['tableName' => 'DOKUMENT_HANDLOWY']));
 		$this->recordModel->set($this->recordModel->getModule()->getSequenceNumberFieldName(), $this->row['NUMER']);
 		$this->loadFromFieldMap();
-		$this->loadDeliveryAddress();
+		$this->loadDeliveryAddress('a');
 		$this->loadInventory();
 		if ($this->skip) {
 			return 0;
