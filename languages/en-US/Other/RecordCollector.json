@@ -2,7 +2,7 @@
   "php": {
     "LBL_POLAND_VAT_PAYER": "Verify VAT taxpayer’s status [PL]",
     "LBL_POLAND_VAT_PAYER_DESC": "The service allows you to verify whether the entity is an active, exempt, or unregistered VAT taxpayer in Poland.",
-    "LBL_POLAND_GUS": "Load business entity data [PL]",
+    "LBL_POLAND_GUS": "Load business entity data from REGON [PL]",
     "LBL_POLAND_GUS_DESC": "Download information about entities of the national economy of Poland from the REGON Registry.",
     "LBL_VIES": "Confirm the VAT-EU number",
     "LBL_VIES_DESC": "Checks if the business entity has a valid VAT-EU number for intra-community transactions within the European Union.",
@@ -18,6 +18,8 @@
     "LBL_UK_VAT_PAYER_CONFIRM": "The entity with the given number is an UK VAT payer",
     "LBL_UK_VAT_PAYER_NOT_CONFIRM": "The entity with the given number is not an UK VAT payer",
     "LBL_USA_EDGAR": "EDGAR Registry of Securities and Exchange Commission [USA]",
-    "LBL_USA_EDGAR_DESC": "Check company in Electronic Data Gathering, Analysis, and Retrieval of Securities and Exchange Commission"
+    "LBL_USA_EDGAR_DESC": "Check company in Electronic Data Gathering, Analysis, and Retrieval of Securities and Exchange Commission",
+    "LBL_POLAND_CEIDG": "Load business entity data from CEIDG [PL]",
+    "LBL_POLAND_CEIDG_DESC": "Get company data from the Polish Central Registration And Information On Business"
   }
 }
