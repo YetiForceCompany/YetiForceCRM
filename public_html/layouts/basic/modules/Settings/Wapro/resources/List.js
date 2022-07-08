@@ -20,9 +20,9 @@ Settings_Vtiger_List_Js(
 			container.on('click', '.js-add-record-modal, .js-edit-record-modal', (e) => {
 				app.showModalWindow({
 					url: e.currentTarget.dataset.url,
-					sendByAjaxCb: () => {
+					sendByAjaxCb: (_, responseData) => {
 						this.getListViewRecords();
-						container.find('.js-list-sync').trigger('click');
+						this.showListModal(responseData['result']);
 					}
 				});
 			});
@@ -32,7 +32,18 @@ Settings_Vtiger_List_Js(
 		 */
 		registerListModal: function () {
 			this.getListViewContainer().on('click', '.js-list-sync', (e) => {
-				app.showModalWindow(null, e.currentTarget.dataset.url, (modalContainer) => {
+				this.showListModal(e.currentTarget.dataset.id);
+			});
+		},
+		/**
+		 * Show list modal
+		 * @param {int} id
+		 */
+		showListModal: function (id) {
+			app.showModalWindow(
+				null,
+				'index.php?parent=Settings&module=Wapro&view=ListSynchronizerModal&id=' + id,
+				(modalContainer) => {
 					modalContainer.find('.js-modal__save').on('click', () => {
 						let synchronizer = [];
 						modalContainer.find('.js-synchronizer:checked').each(function () {
@@ -43,14 +54,14 @@ Settings_Vtiger_List_Js(
 							parent: app.getParentModuleName(),
 							action: 'SaveAjax',
 							mode: 'updateSynchronizer',
-							id: e.currentTarget.dataset.id,
+							id: id,
 							synchronizer: synchronizer
 						}).done(() => {
 							app.hideModalWindow();
 						});
 					});
-				});
-			});
+				}
+			);
 		},
 		/**
 		 * Function to register events

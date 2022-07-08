@@ -35,7 +35,6 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	protected $fieldMap = [
 		'ID_FIRMY' => ['fieldName' => 'multiCompanyId', 'fn' => 'findRelationship', 'tableName' => 'FIRMA', 'skipMode' => true],
 		'ID_KONTRAHENTA' => ['fieldName' => 'accountid', 'fn' => 'findRelationship', 'tableName' => 'KONTRAHENT', 'skipMode' => true],
-		'NUMER' => 'subject',
 		'FORMA_PLATNOSCI' => ['fieldName' => 'payment_methods', 'fn' => 'convertPaymentMethods'],
 		'UWAGI' => 'description',
 		'KONTRAHENT_NAZWA' => 'company_name_a',
@@ -48,14 +47,15 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	public function process(): int
 	{
 		$query = (new \App\Db\Query())->select([
-			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA', 'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA',
+			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA', 'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA', 'WARTOSC_NETTO', 'WARTOSC_BRUTTO',
 			'issueTime' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_WYSTAWIENIA - 36163 as datetime)',
 			'saleDate' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_SPRZEDAZY - 36163 as datetime)',
 			'paymentDate' => 'cast (dbo.DOKUMENT_HANDLOWY.TERMIN_PLAT - 36163 as datetime)',
-		])->from('dbo.DOKUMENT_HANDLOWY');
+		])->from('dbo.DOKUMENT_HANDLOWY')
+			->where(['or', ['DOK_KOREKTY' => 0], ['DOK_KOREKTY' => null]]);
 		$pauser = \App\Pauser::getInstance('WaproInvoiceLastId');
 		if ($val = $pauser->getValue()) {
-			$query->where(['>', 'ID_DOKUMENTU_HANDLOWEGO', $val]);
+			$query->andWhere(['>', 'ID_DOKUMENTU_HANDLOWEGO', $val]);
 		}
 		$lastId = $s = $e = $i = $u = 0;
 		foreach ($query->batch(100, $this->controller->getDb()) as $rows) {
@@ -109,6 +109,7 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 		$this->recordModel->set('wapro_id', $this->waproId);
 		$this->recordModel->set('finvoice_status', 'PLL_UNASSIGNED');
 		$this->recordModel->set('finvoice_type', 'PLL_DOMESTIC_INVOICE');
+		$this->recordModel->set($this->recordModel->getModule()->getSequenceNumberFieldName(), $this->row['NUMER']);
 		$this->loadFromFieldMap();
 		$this->loadDeliveryAddress();
 		$this->loadInventory();
@@ -214,6 +215,9 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 			}
 		}
 		$this->recordModel->initInventoryData($inventory);
+		if (isset($inventory[0]['name'])) {
+			$this->recordModel->set('subject', \App\Record::getLabel($inventory[0]['name']) ?: '-');
+		}
 	}
 
 	/**
@@ -243,9 +247,9 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 				'discountmode' => 1,
 				'discountparam' => \App\Json::encode([
 					'aggregationType' => ['individual', 'additional'],
-					'individualDiscount' => empty($row['RABAT']) ? 0 : (-$row['RABAT']),
+					'individualDiscount' => empty((float) $row['RABAT']) ? 0 : (-$row['RABAT']),
 					'individualDiscountType' => 'percentage',
-					'additionalDiscount' => empty($row['RABAT2']) ? 0 : (-$row['RABAT2']),
+					'additionalDiscount' => empty((float) $row['RABAT2']) ? 0 : (-$row['RABAT2']),
 				]),
 				'taxmode' => 1,
 				'taxparam' => \App\Json::encode(
@@ -274,5 +278,11 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	protected function addProduct(int $id): int
 	{
 		return $this->controller->getSynchronizer('Products')->importRecordById($id);
+	}
+
+	/** {@inheritdoc} */
+	public function getCounter(): int
+	{
+		return (new \App\Db\Query())->from('dbo.DOKUMENT_HANDLOWY')->where(['or', ['DOK_KOREKTY' => 0], ['DOK_KOREKTY' => null]])->count('*', $this->controller->getDb());
 	}
 }

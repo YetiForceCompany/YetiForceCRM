@@ -5,10 +5,10 @@
 		<textarea rows="11" disabled>{$WAPRO_MODEL->getInfo()}</textarea>
 		<form>
 			{assign var=SYNCHRONIZERS value=$WAPRO_MODEL->config['synchronizer']}
-			{foreach from=$WAPRO_MODEL->getAllSynchronizers() key=NAME item=SYNCHRONIZER}
+			{foreach from=$WAPRO_MODEL->getAllSynchronizers() item=SYNCHRONIZER}
 				<div class="form-group form-check">
-					<input type="checkbox" value="{$NAME}" class="form-check-input js-synchronizer" id="wapro{$NAME}" {if in_array($NAME,$SYNCHRONIZERS)} checked{/if} data-js="container">
-					<label class="form-check-label ml-2" for="wapro{$NAME}">
+					<input type="checkbox" value="{$SYNCHRONIZER->className}" class="form-check-input js-synchronizer" id="wapro{$SYNCHRONIZER->className}" {if in_array($SYNCHRONIZER->className,$SYNCHRONIZERS)} checked{/if} data-js="container">
+					<label class="form-check-label ml-2" for="wapro{$SYNCHRONIZER->className}">
 						{\App\Language::translate($SYNCHRONIZER::NAME, $QUALIFIED_MODULE)} <span class="badge badge-primary">{\App\Language::translate('LBL_NUMBER_OF_ENTRIES', $QUALIFIED_MODULE)}: {$SYNCHRONIZER->getCounter()}</span>
 					</label>
 				</div>

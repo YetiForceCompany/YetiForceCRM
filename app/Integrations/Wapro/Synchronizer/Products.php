@@ -42,6 +42,9 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 		'total' => ['fieldName' => 'unit_price', 'fn' => 'convertPrice'],
 	];
 
+	/** @var array Cache form products */
+	protected $cache = [];
+
 	/** {@inheritdoc} */
 	public function process(): int
 	{
@@ -64,6 +67,7 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 			$lastId = 0;
 			foreach ($rows as $row) {
 				$this->waproId = $row['ID_ARTYKULU'];
+				$this->cache[$this->waproId] = $row;
 				$this->row = $row;
 				$this->skip = false;
 				try {
@@ -179,7 +183,30 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 	 */
 	public function importRecordById(int $id): int
 	{
-		$row = (new \App\Db\Query())->select([
+		$this->row = $this->getRecordById($id);
+		$this->waproId = $this->row['ID_ARTYKULU'];
+		try {
+			$this->importRecord();
+		} catch (\Throwable $th) {
+			$this->logError($th);
+			throw $th;
+		}
+		return $this->recordModel->getId();
+	}
+
+	/**
+	 * Get product record by record id.
+	 *
+	 * @param int $id
+	 *
+	 * @return array
+	 */
+	public function getRecordById(int $id): array
+	{
+		if (isset($this->cache[$id])) {
+			return $this->cache[$id];
+		}
+		return $this->cache[$id] = (new \App\Db\Query())->select([
 			'dbo.ARTYKUL.*',
 			'category' => 'dbo.KATEGORIA_ARTYKULU_TREE.NAZWA',
 			'unitName' => 'dbo.JEDNOSTKA.SKROT',
@@ -190,16 +217,7 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 			->leftJoin('dbo.JEDNOSTKA', 'dbo.ARTYKUL.ID_JEDNOSTKI = dbo.JEDNOSTKA.ID_JEDNOSTKI')
 			->leftJoin('dbo.CENA_ARTYKULU', 'dbo.ARTYKUL.ID_CENY_DOM = dbo.CENA_ARTYKULU.ID_CENY')
 			->where(['dbo.ARTYKUL.ID_ARTYKULU' => $id])
-			->one($this->controller->getDb());
-		$this->waproId = $row['ID_ARTYKULU'];
-		$this->row = $row;
-		try {
-			$this->importRecord();
-		} catch (\Throwable $th) {
-			$this->logError($th);
-			throw $th;
-		}
-		return $this->recordModel->getId();
+			->one($this->controller->getDb()) ?? [];
 	}
 
 	/** {@inheritdoc} */

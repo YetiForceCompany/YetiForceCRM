@@ -19,7 +19,7 @@ class Vtiger_RecordNumber_UIType extends Vtiger_Base_UIType
 		}
 		$maximumLength = $this->getFieldModel()->getMaxValue();
 		if ($maximumLength && App\TextUtils::getTextLength($value) > $maximumLength) {
-			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getFieldName() . '||' . $value, 406);
+			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
 	}
@@ -29,9 +29,9 @@ class Vtiger_RecordNumber_UIType extends Vtiger_Base_UIType
 	{
 		$recordNumberInstance = \App\Fields\RecordNumber::getInstance($recordModel->getModuleName());
 		$recordNumberInstance->setRecord($recordModel);
-		if ($recordNumberInstance->isNewSequence()) {
+		if ($recordNumberInstance->isNewSequence() && empty($value)) {
 			$value = $recordNumberInstance->getIncrementNumber();
-			$recordModel->set($this->getFieldModel()->getFieldName(), $value);
+			$recordModel->set($this->getFieldModel()->getName(), $value);
 		}
 		return $value;
 	}

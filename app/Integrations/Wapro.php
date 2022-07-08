@@ -180,9 +180,10 @@ class Wapro
 		$iterator = new \DirectoryIterator(__DIR__ . '/Wapro/Synchronizer');
 		foreach ($iterator as $item) {
 			if ($item->isFile() && 'php' === $item->getExtension() && $synchronizer = self::getSynchronizer($item->getBasename('.php'))) {
-				$synchronizers[$item->getBasename('.php')] = $synchronizer;
+				$synchronizers[$synchronizer::SEQUENCE] = $synchronizer;
 			}
 		}
+		ksort($synchronizers);
 		return $synchronizers;
 	}
 

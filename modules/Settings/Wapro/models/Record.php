@@ -63,7 +63,7 @@ class Settings_Wapro_Record_Model extends Settings_Vtiger_Record_Model
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_SYNCHRONIZER_LIST',
-				'linkdata' => ['url' => 'index.php?parent=Settings&module=Wapro&view=ListSynchronizerModal&id=' . $this->getId(), 'id' => $this->getId()],
+				'linkdata' => ['id' => $this->getId()],
 				'linkicon' => 'fas fa-list',
 				'linkclass' => 'btn btn-secondary btn-sm js-list-sync'
 			],
