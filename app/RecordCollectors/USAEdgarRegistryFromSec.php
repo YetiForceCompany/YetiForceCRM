@@ -35,6 +35,9 @@ class USAEdgarRegistryFromSec extends Base
 	public $description = 'LBL_USA_EDGAR_DESC';
 
 	/** {@inheritdoc} */
+	public $docUrl = 'https://www.sec.gov/edgar/sec-api-documentation';
+
+	/** {@inheritdoc} */
 	protected $fields = [
 		'cik' => [
 			'labelModule' => '_Base',
@@ -123,15 +126,15 @@ class USAEdgarRegistryFromSec extends Base
 	/** @var string SEC sever address */
 	protected $url = 'https://data.sec.gov/submissions/CIK';
 
-	/** @var string Url to Documentation API */
-	public $docUrl = 'https://www.sec.gov/edgar/sec-api-documentation';
-
 	/** @var int Central Index Key length */
 	const CIK_LEN = 10;
 
 	/** {@inheritdoc} */
 	public function search(): array
 	{
+		if (!$this->isActive()) {
+			return [];
+		}
 		$this->moduleName = $this->request->getModule();
 		$cik = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('cik', 'Text'));
 		if (!$cik) {

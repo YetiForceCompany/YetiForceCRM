@@ -133,7 +133,7 @@ class UKCompaniesHouse extends Base
 		]
 	];
 
-	/** @var array Configuration field list. */
+	/** {@inheritdoc} */
 	public $settingsFields = [
 		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY'],
 	];
@@ -145,7 +145,7 @@ class UKCompaniesHouse extends Base
 	private $url = 'https://api.company-information.service.gov.uk';
 
 	/** @var string[] Keys to skip in additional */
-	public $keysToSkip = ['linksSelf', 'linksFiling_history', 'linksOfficers', 'linksPersons_with_significant_control-statements', 'linksCharges'];
+	const REMOVE_KEYS = ['linksSelf', 'linksFiling_history', 'linksOfficers', 'linksPersons_with_significant_control-statements', 'linksCharges'];
 
 	/** @var int Limit for fetching companies */
 	const LIMIT = 4;
@@ -159,6 +159,9 @@ class UKCompaniesHouse extends Base
 	/** {@inheritdoc} */
 	public function search(): array
 	{
+		if (!$this->isActive()) {
+			return [];
+		}
 		$this->setApiKey();
 		$this->moduleName = $this->request->getModule();
 		$ncr = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('ncr', 'Text'));
@@ -204,8 +207,8 @@ class UKCompaniesHouse extends Base
 		}
 		$data = isset($response) ? $this->parseData(\App\Json::decode($response->getBody()->getContents(), true)) : [];
 		if (!empty($data)) {
-			foreach ($this->keysToSkip as $key) {
-				if (\in_array($key, $this->keysToSkip)) {
+			foreach (self::REMOVE_KEYS as $key) {
+				if (isset($data[$key])) {
 					unset($data[$key]);
 				}
 			}

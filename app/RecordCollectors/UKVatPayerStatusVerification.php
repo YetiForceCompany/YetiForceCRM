@@ -34,6 +34,9 @@ class UKVatPayerStatusVerification extends Base
 	public $description = 'LBL_UK_VAT_PAYER_DESC';
 
 	/** {@inheritdoc} */
+	public $docUrl = 'https://developer.service.hmrc.gov.uk/api-documentation';
+
+	/** {@inheritdoc} */
 	protected $fields = [
 		'vatNumber' => [
 			'labelModule' => '_Base',
@@ -64,17 +67,17 @@ class UKVatPayerStatusVerification extends Base
 	/** @var string HMRC sever address */
 	protected $url = 'https://api.service.hmrc.gov.uk/';
 
-	/** @var string Url to Documentation API */
-	public $docUrl = 'https://developer.service.hmrc.gov.uk/api-documentation';
-
 	/** {@inheritdoc} */
 	public function search(): array
 	{
-		$response = [];
+		if (!$this->isActive()) {
+			return [];
+		}
 		$vatNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatNumber', 'Text'));
 		if (!$vatNumber) {
 			return [];
 		}
+		$response = [];
 		try {
 			$response = \App\Json::decode(\App\RequestHttp::getClient()->get($this->url . 'organisations/vat/check-vat-number/lookup/' . $vatNumber)
 				->getBody()
@@ -97,7 +100,6 @@ class UKVatPayerStatusVerification extends Base
 				'' => \App\Language::translate('LBL_UK_VAT_PAYER_NOT_CONFIRM', 'Other.RecordCollector')
 			];
 		}
-
 		return $response;
 	}
 }

@@ -37,6 +37,9 @@ class PLVatPayerStatusVerification extends Base
 	public $description = 'LBL_POLAND_VAT_PAYER_DESC';
 
 	/** {@inheritdoc} */
+	public $docUrl = 'https://www.podatki.gov.pl/e-deklaracje/dokumentacja-it/';
+
+	/** {@inheritdoc} */
 	protected $fields = [
 		'vatNumber' => [
 			'labelModule' => '_Base',
@@ -64,12 +67,12 @@ class PLVatPayerStatusVerification extends Base
 	/** @var string MF sever address */
 	protected $url = 'https://sprawdz-status-vat.mf.gov.pl/?wsdl';
 
-	/** @var string Url to Documentation API */
-	public $docUrl = 'https://www.podatki.gov.pl/e-deklaracje/dokumentacja-it/';
-
 	/** {@inheritdoc} */
 	public function search(): array
 	{
+		if (!$this->isActive()) {
+			return [];
+		}
 		$vatNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatNumber', 'Text'));
 		if (!$vatNumber) {
 			return [];

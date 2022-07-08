@@ -37,6 +37,9 @@ class Gus extends Base
 	public $displayType = 'FillFields';
 
 	/** {@inheritdoc} */
+	public $docUrl = 'https://api.stat.gov.pl/Home/RegonApi';
+
+	/** {@inheritdoc} */
 	protected $fields = [
 		'vatId' => [
 			'labelModule' => '_Base',
@@ -144,14 +147,6 @@ class Gus extends Base
 			'NumerBudynku' => 'buildingnumbera',
 		],
 	];
-	/** @var string Url to Documentation API */
-	public $docUrl = 'https://api.stat.gov.pl/Home/RegonApi';
-
-	/** {@inheritdoc} */
-	public function isActive(): bool
-	{
-		return parent::isActive() && \App\YetiForce\Shop::check('YetiForcePlGus');
-	}
 
 	/** {@inheritdoc} */
 	public function search(): array

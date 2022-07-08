@@ -35,6 +35,9 @@ class PLNationalCourtRegister extends Base
 	public $description = 'LBL_POLAND_NCR_DESC';
 
 	/** {@inheritdoc} */
+	public $docUrl = 'https://prs.ms.gov.pl/krs/openApi';
+
+	/** {@inheritdoc} */
 	protected $fields = [
 		'ncr' => [
 			'labelModule' => '_Base',
@@ -116,12 +119,12 @@ class PLNationalCourtRegister extends Base
 	/** @var string NCR sever address */
 	protected $url = 'https://api-krs.ms.gov.pl/api/krs/OdpisAktualny/';
 
-	/** @var string Url to Documentation API */
-	public $docUrl = 'https://prs.ms.gov.pl/krs/openApi';
-
 	/** {@inheritdoc} */
 	public function search(): array
 	{
+		if (!$this->isActive()) {
+			return [];
+		}
 		$this->moduleName = $this->request->getModule();
 		$ncr = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('ncr', 'Text'));
 		if (!$ncr) {
