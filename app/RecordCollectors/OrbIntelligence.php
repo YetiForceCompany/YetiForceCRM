@@ -42,6 +42,7 @@ class OrbIntelligence extends Base
 			'labelModule' => '_Base',
 			'label' => 'Country',
 			'typeofdata' => 'V~M',
+			'uitype' => 35
 		],
 		'name' => [
 			'labelModule' => '_Base',
@@ -50,7 +51,17 @@ class OrbIntelligence extends Base
 		],
 		'vatNumber' => [
 			'labelModule' => '_Base',
-			'label' => 'VAT',
+			'label' => 'VAT (Only in USA)',
+			'typeofdata' => 'V~O',
+		],
+		'phone' => [
+			'labelModule' => '_Base',
+			'label' => 'Phone',
+			'typeofdata' => 'V~O',
+		],
+		'email' => [
+			'labelModule' => '_Base',
+			'label' => 'Email',
 			'typeofdata' => 'V~O',
 		]
 	];
@@ -60,27 +71,40 @@ class OrbIntelligence extends Base
 		'Accounts' => [
 			'name' => 'accountname',
 			'country' => 'addresslevel1a',
-			'vatNumber' => 'vat_id'
+			'vatNumber' => 'vat_id',
+			'email' => 'email1',
+			'phone' => 'phone'
 		],
 		'Leads' => [
 			'country' => 'addresslevel1a',
 			'name' => 'company',
-			'vatNumber' => 'vat_id'
+			'vatNumber' => 'vat_id',
+			'email' => 'email',
+			'phone' => 'phone',
+			'email' => 'email',
+			'phone' => 'phone'
 		],
 		'Vendors' => [
 			'country' => 'addresslevel1a',
 			'name' => 'vendorname',
-			'vatNumber' => 'vat_id'
+			'vatNumber' => 'vat_id',
+			'email' => 'email',
+			'phone' => 'phone'
 		],
 		'Partners' => [
 			'country' => 'addresslevel1a',
 			'name' => 'subject',
-			'vatNumber' => 'vat_id'
+			'vatNumber' => 'vat_id',
+			'email' => 'email',
+			'phone' => 'phone'
+
 		],
 		'Competition' => [
 			'country' => 'addresslevel1a',
 			'name' => 'subject',
-			'vatNumber' => 'vat_id'
+			'vatNumber' => 'vat_id',
+			'email' => 'email',
+			'phone' => 'phone'
 		],
 	];
 
@@ -175,8 +199,11 @@ class OrbIntelligence extends Base
 	/** @var string ORB Intelligence sever address */
 	protected $url = 'https://api.orb-intelligence.com/';
 
-	/** @var string[] USA match names */
-	private $usaMatchNames = ['us', 'usa', 'united states', 'united states of america'];
+	/** {@inheritdoc} */
+	public function isActive(): bool
+	{
+		return parent::isActive() && ($params = $this->getParams()) && !empty($params['api_key']);
+	}
 
 	/** {@inheritdoc} */
 	public function search(): array
@@ -184,21 +211,29 @@ class OrbIntelligence extends Base
 		if (!$this->isActive()) {
 			return [];
 		}
-		$this->setApiKey();
+		$this->loadConfig();
 		$query['api_key'] = $this->apiKey;
 
 		$country = $this->request->getByType('country', 'Text');
 		$vatNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatNumber', 'Text'));
 		$name = $this->request->getByType('name', 'Text');
-		if ($country && \in_array(strtolower($country), $this->usaMatchNames) && !empty($vatNumber)) {
-			$query['ein'] = $vatNumber;
-		 } elseif (!empty($country) && !empty($name)) {
-			$query['name'] = $name;
-		} else {
+		$mail = str_replace([' ', ',', '-'], '', $this->request->getByType('email', 'Text'));
+		$phone = str_replace([',', '.'], '', $this->request->getByType('phone', 'Text'));
+
+		if (!$country) {
 			return [];
 		}
-
 		$query['country'] = $country;
+		if ('United States' === $country && !empty($vatNumber)) {
+			$query['ein'] = $vatNumber;
+		} elseif (!empty($name)) {
+			$query['name'] = $name;
+		} elseif (empty($name) && !empty($mail)) {
+			$query['email'] = $mail;
+		} elseif(empty($name) && !empty($phone)) {
+			$query['phone'] = $phone;
+		}
+
 		$this->getDataFromApi($query);
 		$this->loadData();
 		return $this->response;
@@ -244,7 +279,7 @@ class OrbIntelligence extends Base
 	 *
 	 * @return void
 	 */
-	private function setApiKey(): void
+	private function loadConfig(): void
 	{
 		if (($params = $this->getParams()) && !empty($params['api_key'])) {
 			$this->apiKey = $params['api_key'];
