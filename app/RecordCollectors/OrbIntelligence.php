@@ -50,8 +50,8 @@ class OrbIntelligence extends Base
 			'typeofdata' => 'V~O',
 		],
 		'vatNumber' => [
-			'labelModule' => '_Base',
-			'label' => 'EIN/VAT',
+			'labelModule' => 'Other.RecordCollector',
+			'label' => 'LBL_ORB_VAT',
 			'typeofdata' => 'V~O',
 		],
 		'phone' => [
