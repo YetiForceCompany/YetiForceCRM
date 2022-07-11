@@ -22,6 +22,7 @@
     "LBL_POLAND_CEIDG": "Load business entity data from CEIDG [PL]",
     "LBL_POLAND_CEIDG_DESC": "Get company data from the Polish Central Registration And Information On Business",
     "LBL_ORB": "Orb Intelligence API by The Dun and Bradstreet [GLOBAL]",
-    "LBL_ORB_DESC": "Fetching companies data from around the world"
+    "LBL_ORB_DESC": "Fetching companies data from around the world",
+    "LBL_ORB_VAT": "EIN/VAT (Only in USA)"
   }
 }
