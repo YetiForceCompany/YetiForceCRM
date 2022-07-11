@@ -72,6 +72,16 @@ class OrbIntelligence extends Base
 			'name' => 'vendorname',
 			'vatNumber' => 'vat_id'
 		],
+		'Partners' => [
+			'country' => 'addresslevel1a',
+			'name' => 'subject',
+			'vatNumber' => 'vat_id'
+		],
+		'Competition' => [
+			'country' => 'addresslevel1a',
+			'name' => 'subject',
+			'vatNumber' => 'vat_id'
+		],
 	];
 
 	/** {@inheritdoc} */
@@ -84,6 +94,7 @@ class OrbIntelligence extends Base
 			'phone' => 'phone',
 			'sic_code' => 'siccode',
 			'cik' => 'registration_number_1',
+			'description' => 'description',
 			'addressAddress2' => 'buildingnumbera',
 			'addressAddress1' => 'addresslevel8a',
 			'addressZip' => 'addresslevel7a',
@@ -92,12 +103,61 @@ class OrbIntelligence extends Base
 			'addressCountry' => 'addresslevel1a'
 		],
 		'Leads' => [
+			'name' => 'company',
+			'eins0' => 'vat_id',
+			'website' => 'website',
+			'email' => 'email',
+			'phone' => 'phone',
+			'cik' => 'registration_number_1',
+			'description' => 'description',
+			'addressAddress2' => 'buildingnumbera',
+			'addressAddress1' => 'addresslevel8a',
+			'addressZip' => 'addresslevel7a',
+			'addressCity' => 'addresslevel5a',
+			'addressState' => 'addresslevel2a',
+			'addressCountry' => 'addresslevel1a'
 		],
 		'Partners' => [
+			'name' => 'subject',
+			'eins0' => 'vat_id',
+			'email' => 'email',
+			'sic_code' => 'siccode',
+			'cik' => 'registration_number_1',
+			'description' => 'description',
+			'addressAddress2' => 'buildingnumbera',
+			'addressAddress1' => 'addresslevel8a',
+			'addressZip' => 'addresslevel7a',
+			'addressCity' => 'addresslevel5a',
+			'addressState' => 'addresslevel2a',
+			'addressCountry' => 'addresslevel1a'
 		],
 		'Vendors' => [
+			'name' => 'vendorname',
+			'eins0' => 'vat_id',
+			'website' => 'website',
+			'email' => 'email',
+			'phone' => 'phone',
+			'cik' => 'registration_number_1',
+			'description' => 'description',
+			'addressAddress2' => 'buildingnumbera',
+			'addressAddress1' => 'addresslevel8a',
+			'addressZip' => 'addresslevel7a',
+			'addressCity' => 'addresslevel5a',
+			'addressState' => 'addresslevel2a',
+			'addressCountry' => 'addresslevel1a'
 		],
 		'Competition' => [
+			'name' => 'subject',
+			'eins0' => 'vat_id',
+			'email' => 'email',
+			'cik' => 'registration_number_1',
+			'description' => 'description',
+			'addressAddress2' => 'buildingnumbera',
+			'addressAddress1' => 'addresslevel8a',
+			'addressZip' => 'addresslevel7a',
+			'addressCity' => 'addresslevel5a',
+			'addressState' => 'addresslevel2a',
+			'addressCountry' => 'addresslevel1a'
 		]
 	];
 
@@ -127,13 +187,12 @@ class OrbIntelligence extends Base
 		$this->setApiKey();
 		$query['api_key'] = $this->apiKey;
 
-		$country = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('country', 'Text'));
+		$country = $this->request->getByType('country', 'Text');
 		$vatNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatNumber', 'Text'));
 		$name = $this->request->getByType('name', 'Text');
-
 		if ($country && \in_array(strtolower($country), $this->usaMatchNames) && !empty($vatNumber)) {
 			$query['ein'] = $vatNumber;
-		} elseif (!empty($country) && !empty($name)) {
+		 } elseif (!empty($country) && !empty($name)) {
 			$query['name'] = $name;
 		} else {
 			return [];
