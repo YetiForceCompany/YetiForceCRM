@@ -131,6 +131,7 @@ class YetiForceGeocoder extends Base
 			'addresslevel8' => $row['address']['road'] ?? '',
 			'buildingnumber' => $row['address']['house_number'] ?? '',
 			'localnumber' => $row['address']['local_number'] ?? '',
+			'company_name_' => $row['address']['office'] ?? '',
 		];
 	}
 }
