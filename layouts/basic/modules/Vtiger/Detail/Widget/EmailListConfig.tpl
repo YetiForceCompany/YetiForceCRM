@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Base-Detail-Widget-EmailListConfig modal fade" tabindex="-1">
+	<!-- tpl-Base-Detail-Widget-EmailListConfig -->
+	<div class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<form class="form-modalAddWidget">
@@ -14,26 +15,26 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<div class="modal-Fields">
-							<div class="form-horizontal">
-								<div class="form-group row">
-									<div class="col-md-3">
-										<strong>{\App\Language::translate('Type widget', $QUALIFIED_MODULE)}</strong>:
+						<div class="form-horizontal">
+							<div class="form-container-sm">
+								<div class="form-group form-group-sm row mb-3">
+									<div class="col-md-4">
+										{\App\Language::translate('Type widget', $QUALIFIED_MODULE)}:
 									</div>
 									<div class="col-md-7">
 										{\App\Language::translate($TYPE, $QUALIFIED_MODULE)}
 									</div>
 								</div>
-								<div class="form-group row">
-									<div class="col-md-3">
-										<label class="col-form-label">{\App\Language::translate('Label', $QUALIFIED_MODULE)} :</label>
+								<div class="form-group form-group-sm row">
+									<div class="col-md-4">
+										<label class="col-form-label">{\App\Language::translate('Label', $QUALIFIED_MODULE)}:</label>
 									</div>
 									<div class="col-md-7">
 										<input name="label" class="form-control" type="text" data-validation-engine="validate[required]" value="{$WIDGETINFO['label']}" />
 									</div>
 								</div>
 								<div class="form-group form-group-sm form-switch-mini row">
-									<label class="col-md-5 col-form-label">{\App\Language::translate('LBL_CUSTOM_FILTER')}:</label>
+									<label class="col-md-4 col-form-label">{\App\Language::translate('LBL_CUSTOM_FILTER')}:</label>
 									<div class="col-md-7 py-1">
 										{assign var=SHOW_FILTER isset($WIDGETINFO['data']['filter']) && $WIDGETINFO['data']['filter'] == 1}
 										<div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -48,8 +49,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="form-group row">
-									<div class="col-md-3">
+								<div class="form-group form-group-sm row">
+									<div class="col-md-4">
 										<label class="col-form-label">
 											{\App\Language::translate('Limit entries', $QUALIFIED_MODULE)}:
 											<a href="#" class="js-help-info" title="" data-placement="top" data-content="{\App\Language::translate('Limit entries info', $QUALIFIED_MODULE)}"
@@ -70,4 +71,5 @@
 			</div>
 		</div>
 	</div>
+	<!-- /tpl-Base-Detail-Widget-EmailListConfig -->
 {/strip}
