@@ -7,10 +7,24 @@
 </div>
 <div class="main_content">
 	<form class="js-validation-form">
-		<div class="col-12 form-row m-0">
+		{foreach from=$SHOP_RECORD_COLLECTOR item=SHOP_PRODUCT}
+			{assign var=CHECK_ALERT value=\App\YetiForce\Shop::checkAlert($SHOP_PRODUCT)}
+			{if $CHECK_ALERT}
+				<div class="alert alert-warning">
+					<span class="yfi-premium mr-2 u-fs-2em color-red-600 float-left"></span>
+					{\App\YetiForce\Shop::getProduct($SHOP_PRODUCT)->getLabel()} -
+					{\App\Language::translate($CHECK_ALERT, 'Settings::YetiForce')}
+					<a class="btn btn-primary btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop&product={$SHOP_PRODUCT}&mode=showProductModal">
+						<span class="yfi yfi-shop mr-2"></span>
+						{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}
+					</a>
+				</div>
+			{/if}
+		{/foreach}
+		<div class="form-row m-0">
 			<div class="col-12 form-row mb-2">
 				<div class="js-config-table table-responsive" data-js="container">
-					<hr>
+
 					<table class="table table-bordered">
 						<thead>
 							<tr>
@@ -25,7 +39,9 @@
 							{foreach from=$COLLECTORS item=ITEM}
 								<tr>
 									<td>
-										<span class="{$ITEM['instance']->icon}"> </span> {\App\Language::translate($ITEM['instance']->label, 'Other.RecordCollector')} {if \in_array($ITEM['name'], $PAIDCOLLECTORS)} <span class="yfi-premium color-red-600"></span> {/if}
+										<span class="{$ITEM['instance']->icon} mr-2"></span>
+										{\App\Language::translate($ITEM['instance']->label, 'Other.RecordCollector')}
+										{if \in_array($ITEM['name'], $PAID_RECORD_COLLECTOR)}<span class="yfi-premium color-red-600 js-popover-tooltip ml-2" title="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}"></span>{/if}
 									</td>
 									<td>
 										{\App\Language::translate($ITEM['instance']->description, 'Other.RecordCollector')}
@@ -37,12 +53,12 @@
 										<input class="js-status-change" name="is_active" value="{$ITEM['name']}" type="checkbox" {if $ITEM['active']} checked {/if}>
 									</td>
 									<td class="text-center">
-									{if !empty($ITEM['instance']->settingsFields)}
-									<button class="btn btn-outline-secondary btn-sm js-show-config-modal js-popover-tooltip mr-1 {if !$ITEM['active']} d-none {/if}" type="button" data-name="{$ITEM['name']}"
-											data-content="{\App\Language::translate('LBL_CONFIG', $QUALIFIED_MODULE)}">
-											<span class="fas fa-cog"></span>
-										</button>
-									{/if}
+										{if !empty($ITEM['instance']->settingsFields)}
+											<button class="btn btn-outline-secondary btn-sm js-show-config-modal js-popover-tooltip mr-1 {if !$ITEM['active']} d-none {/if}" type="button" data-name="{$ITEM['name']}"
+												data-content="{\App\Language::translate('LBL_CONFIG', $QUALIFIED_MODULE)}">
+												<span class="fas fa-cog"></span>
+											</button>
+										{/if}
 									</td>
 								</tr>
 							{/foreach}
