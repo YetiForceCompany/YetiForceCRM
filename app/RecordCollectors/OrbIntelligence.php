@@ -217,8 +217,8 @@ class OrbIntelligence extends Base
 		$country = $this->request->getByType('country', 'Text');
 		$vatNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatNumber', 'Text'));
 		$name = $this->request->getByType('name', 'Text');
-		$mail = str_replace([' ', ',', '-'], '', $this->request->getByType('email', 'Text'));
-		$phone = str_replace([',', '.'], '', $this->request->getByType('phone', 'Text'));
+		$mail = $this->request->getByType('email', 'Text');
+		$phone = $this->request->getByType('phone', 'Text');
 
 		if (!$country) {
 			return [];
