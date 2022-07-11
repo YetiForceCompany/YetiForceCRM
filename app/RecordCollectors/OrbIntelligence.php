@@ -51,7 +51,7 @@ class OrbIntelligence extends Base
 		],
 		'vatNumber' => [
 			'labelModule' => '_Base',
-			'label' => 'VAT (Only in USA)',
+			'label' => 'EIN/VAT',
 			'typeofdata' => 'V~O',
 		],
 		'phone' => [
