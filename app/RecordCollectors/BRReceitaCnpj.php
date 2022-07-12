@@ -16,7 +16,7 @@ namespace App\RecordCollectors;
 /**
  * The Brazilian National Registry of Legal Entities API class.
  */
-class BRACnpj extends Base
+class BRReceitaCnpj extends Base
 {
 	/** {@inheritdoc} */
 	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
