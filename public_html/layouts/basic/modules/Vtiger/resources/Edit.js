@@ -1646,7 +1646,7 @@ $.Class(
 		 */
 		registerChangeValueHandlerEvent: function (container) {
 			const event = container.find('.js-change-value-event');
-			if (event.length <= 0) {
+			if (event.length <= 0 || event.val() === '[]') {
 				return;
 			}
 			const fields = JSON.parse(event.val());
