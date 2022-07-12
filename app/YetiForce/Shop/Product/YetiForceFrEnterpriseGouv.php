@@ -17,7 +17,7 @@ namespace App\YetiForce\Shop\Product;
 class YetiForceFrEnterpriseGouv extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce ENTREPRISE GOUV FR';
+	public $label = 'YetiForce Entreprise GOUV FR';
 
 	/** {@inheritdoc} */
 	public $category = 'Integrations';
