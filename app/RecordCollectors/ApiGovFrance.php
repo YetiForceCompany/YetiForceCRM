@@ -62,6 +62,22 @@ class ApiGovFrance extends Base
 			'sicCode' => 'siccode',
 			'vatNumber' => 'vat_id'
 		],
+		'Leads' => [
+			'companyName' => 'company',
+			'vatNumber' => 'vat_id'
+		],
+		'Vendors' => [
+			'companyName' => 'vendorname',
+			'vatNumber' => 'vat_id'
+		],
+		'Partners' => [
+			'companyName' => 'subject',
+			'vatNumber' => 'vat_id'
+		],
+		'Competition' => [
+			'companyName' => 'subject',
+			'vatNumber' => 'vat_id'
+		],
 	];
 
 	/** {@inheritdoc} */
@@ -114,9 +130,6 @@ class ApiGovFrance extends Base
 	/** @var int count of elements for page */
 	const PER_PAGE = 5;
 
-	/** @var int number of page */
-	const PAGE = 1;
-
 	/** {@inheritdoc} */
 	public function search(): array
 	{
@@ -125,10 +138,10 @@ class ApiGovFrance extends Base
 		}
 		$vatNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatNumber', 'Text'));
 		$sicCode = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('sicCode', 'Text'));
-		$companyName = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('companyName', 'Text'));
+		$companyName = $this->request->getByType('companyName', 'Text');
 		$query = [];
 
-		if(empty($vatNumber) && empty($sicCode) && empty($companyName)) {
+		if (empty($vatNumber) && empty($sicCode) && empty($companyName)) {
 			return [];
 		}
 
@@ -137,7 +150,7 @@ class ApiGovFrance extends Base
 		} elseif (!empty($companyName) && empty($vatNumber)) {
 			$query['q'] = $companyName;
 		}
-		$query['page'] = self::PAGE;
+
 		$query['per_page'] = self::PER_PAGE;
 		if (!empty($sicCode)) {
 			$query['activite_principale'] = $sicCode;
@@ -148,11 +161,10 @@ class ApiGovFrance extends Base
 		return $this->response;
 	}
 
-
 	/**
 	 * Function fetching company data by params.
 	 *
-	 * @param array  $query
+	 * @param array $query
 	 *
 	 * @return void
 	 */
@@ -171,7 +183,7 @@ class ApiGovFrance extends Base
 			return;
 		}
 
-		foreach($data['results'] as $key => $result) {
+		foreach ($data['results'] as $key => $result) {
 			$this->data[$key] = $this->parseData($result);
 		}
 	}
