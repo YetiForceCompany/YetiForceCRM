@@ -16,7 +16,7 @@ namespace App\RecordCollectors;
 /**
  * Api Government of French Republic class.
  */
-class ApiGovFrance extends Base
+class FREnterpriseGov extends Base
 {
 	/** {@inheritdoc} */
 	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
