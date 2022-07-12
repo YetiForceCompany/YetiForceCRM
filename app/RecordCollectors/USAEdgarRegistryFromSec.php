@@ -42,7 +42,7 @@ class USAEdgarRegistryFromSec extends Base
 		'cik' => [
 			'labelModule' => '_Base',
 			'label' => 'Registration number 1',
-			'typeofdata' => 'V~O',
+			'typeofdata' => 'V~M',
 		]
 	];
 

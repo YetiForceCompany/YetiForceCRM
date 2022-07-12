@@ -24,7 +24,7 @@
     "LBL_ORB": "Orb Intelligence API by The Dun and Bradstreet",
     "LBL_ORB_DESC": "Fetching companies data from around the world",
     "LBL_ORB_VAT": "EIN/VAT (Only in USA)",
-    "LBL_API_GOV_FRANCE": "Api Government of French Republic [FRA]",
+    "LBL_API_GOV_FRANCE": "Get company data from the Government of French Republic [FR]",
     "LBL_API_GOV_FRANCE_DESC": "Fetching data about French companies from the State Institute of Statistics and Economic Research (INSEE)"
   }
 }

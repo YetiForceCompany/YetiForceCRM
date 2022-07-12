@@ -42,12 +42,10 @@ class UKCompaniesHouse extends Base
 		'ncr' => [
 			'labelModule' => '_Base',
 			'label' => 'Registration number 1',
-			'typeofdata' => 'V~O',
 		],
 		'companyName' => [
 			'labelModule' => '_Base',
 			'label' => 'Account name',
-			'typeofdata' => 'V~O',
 		]
 	];
 

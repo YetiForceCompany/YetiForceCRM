@@ -9,6 +9,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Rembiesa <s.rembiesa@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\RecordCollectors;
@@ -41,17 +42,14 @@ class FREnterpriseGouv extends Base
 		'companyName' => [
 			'labelModule' => '_Base',
 			'label' => 'Account name',
-			'typeofdata' => 'V~O',
 		],
 		'sicCode' => [
 			'labelModule' => '_Base',
 			'label' => 'SIC code',
-			'typeofdata' => 'V~O',
 		],
 		'vatNumber' => [
 			'labelModule' => '_Base',
 			'label' => 'VAT',
-			'typeofdata' => 'V~O',
 		],
 	];
 
@@ -127,8 +125,8 @@ class FREnterpriseGouv extends Base
 	/** @var string CH sever address */
 	private $url = 'https://recherche-entreprises.api.gouv.fr/';
 
-	/** @var int count of elements for page */
-	const PER_PAGE = 5;
+	/** @var int Number of items returned */
+	const LIMIT = 4;
 
 	/** {@inheritdoc} */
 	public function search(): array
@@ -144,14 +142,12 @@ class FREnterpriseGouv extends Base
 		if (empty($vatNumber) && empty($sicCode) && empty($companyName)) {
 			return [];
 		}
-
 		if (!empty($vatNumber)) {
 			$query['q'] = $vatNumber;
 		} elseif (!empty($companyName) && empty($vatNumber)) {
 			$query['q'] = $companyName;
 		}
-
-		$query['per_page'] = self::PER_PAGE;
+		$query['per_page'] = self::LIMIT;
 		if (!empty($sicCode)) {
 			$query['activite_principale'] = $sicCode;
 		}
@@ -172,17 +168,15 @@ class FREnterpriseGouv extends Base
 	{
 		$response = [];
 		try {
-			$response = \App\RequestHttp::getClient()->get($this->url . 'search?' . http_build_query($query), []);
+			$response = \App\RequestHttp::getClient()->get($this->url . 'search?' . http_build_query($query));
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
-
 		$data = isset($response) ? \App\Json::decode($response->getBody()->getContents()) : [];
 		if (empty($data)) {
 			return;
 		}
-
 		foreach ($data['results'] as $key => $result) {
 			$this->data[$key] = $this->parseData($result);
 		}

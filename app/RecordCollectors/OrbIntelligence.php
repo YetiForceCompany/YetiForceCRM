@@ -9,6 +9,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Rembiesa <s.rembiesa@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\RecordCollectors;
@@ -47,22 +48,18 @@ class OrbIntelligence extends Base
 		'name' => [
 			'labelModule' => '_Base',
 			'label' => 'Account Name',
-			'typeofdata' => 'V~O',
 		],
 		'vatNumber' => [
 			'labelModule' => 'Other.RecordCollector',
 			'label' => 'LBL_ORB_VAT',
-			'typeofdata' => 'V~O',
 		],
 		'phone' => [
 			'labelModule' => '_Base',
 			'label' => 'Phone',
-			'typeofdata' => 'V~O',
 		],
 		'email' => [
 			'labelModule' => '_Base',
 			'label' => 'Email',
-			'typeofdata' => 'V~O',
 		]
 	];
 
@@ -97,7 +94,6 @@ class OrbIntelligence extends Base
 			'vatNumber' => 'vat_id',
 			'email' => 'email',
 			'phone' => 'phone'
-
 		],
 		'Competition' => [
 			'country' => 'addresslevel1a',
@@ -230,7 +226,7 @@ class OrbIntelligence extends Base
 			$query['name'] = $name;
 		} elseif (empty($name) && !empty($mail)) {
 			$query['email'] = $mail;
-		} elseif(empty($name) && !empty($phone)) {
+		} elseif (empty($name) && !empty($phone)) {
 			$query['phone'] = $phone;
 		}
 
