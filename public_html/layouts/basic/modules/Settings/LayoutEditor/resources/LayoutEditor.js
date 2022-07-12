@@ -889,25 +889,36 @@ $.Class(
 					}
 				}
 				if (selectedOption.data('predefinedvalueexists')) {
-					var pickListUi = form.find('.preDefinedValueExists');
-					pickListUi.removeClass('d-none');
+					form.find('.preDefinedValueExists').removeClass('d-none');
 				}
 				if (selectedOption.data('picklistoption')) {
-					var pickListOption = form.find('.picklistOption');
-					pickListOption.removeClass('d-none');
+					form.find('.picklistOption').removeClass('d-none');
 				}
-				if (selectedOption.val() == 'Related1M') {
-					form.find('.preDefinedModuleList').removeClass('d-none');
-				}
-				if (selectedOption.val() == 'Tree' || selectedOption.val() == 'CategoryMultipicklist') {
-					form.find('.preDefinedTreeList').removeClass('d-none');
-				}
-				if (selectedOption.val() == 'ServerAccess') {
-					form.find('.js-server-access-list').removeClass('d-none');
-				}
-				if (selectedOption.val() == 'MultiReferenceValue') {
-					form.find('.preMultiReferenceValue').removeClass('d-none');
-					thisInstance.loadMultiReferenceFields(form);
+				const type = selectedOption.val();
+				switch (type) {
+					case 'Related1M':
+					case 'MultiReference':
+						const moduleList = form.find('.preDefinedModuleList .referenceModule');
+						form.find('.preDefinedModuleList').removeClass('d-none');
+						moduleList.select2('destroy');
+						if (type === 'MultiReference') {
+							moduleList.removeAttr('multiple');
+						} else {
+							moduleList.attr('multiple', '');
+						}
+						App.Fields.Picklist.showSelect2ElementView(moduleList);
+						break;
+					case 'Tree':
+					case 'CategoryMultipicklist':
+						form.find('.preDefinedTreeList').removeClass('d-none');
+						break;
+					case 'ServerAccess':
+						form.find('.js-server-access-list').removeClass('d-none');
+						break;
+					case 'MultiReferenceValue':
+						form.find('.preMultiReferenceValue').removeClass('d-none');
+						thisInstance.loadMultiReferenceFields(form);
+						break;
 				}
 			});
 		},
