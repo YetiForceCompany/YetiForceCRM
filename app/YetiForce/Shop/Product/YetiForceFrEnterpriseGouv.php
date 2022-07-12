@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop YetiForceUkVatPayerStatus file.
+ * YetiForce shop YetiForceFrEnterpriseGouv file.
  *
  * @package App
  *
@@ -12,18 +12,18 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop YetiForceUkVatPayerStatus class.
+ * YetiForce shop YetiForceFrEnterpriseGouv class.
  */
-class YetiForceUkVatPayerStatus extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForceFrEnterpriseGouv extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce VAT UK';
+	public $label = 'YetiForce ENTREPRISE GOUV FR';
 
 	/** {@inheritdoc} */
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-vat-uk';
+	public $website = 'https://yetiforce.com/en/yetiforce-entreprise-gouv-fr';
 
 	/** {@inheritdoc} */
 	public $prices = [
@@ -41,11 +41,12 @@ class YetiForceUkVatPayerStatus extends \App\YetiForce\Shop\AbstractBaseProduct
 	public function verify(): array
 	{
 		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForceUkVatPayerStatus')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceUkVatPayerStatus');
+		if (\App\YetiForce\Register::getProducts('YetiForceFrEnterpriseGouv')) {
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceFrEnterpriseGouv');
 		} else {
 			if (
-				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'UKVatPayerStatusVerification'])->exists()
+				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'FREnterpriseGouv'])->exists()
+				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\FREnterpriseGouv";%', false])->exists()
 			) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;

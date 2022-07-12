@@ -23,7 +23,7 @@ class YetiForceUsaEdgar extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-orb';
+	public $website = 'https://yetiforce.com/en/yetiforce-edgar-usa';
 
 	/** {@inheritdoc} */
 	public $prices = [

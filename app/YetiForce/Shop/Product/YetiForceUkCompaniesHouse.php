@@ -23,7 +23,7 @@ class YetiForceUkCompaniesHouse extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-orb';
+	public $website = 'https://yetiforce.com/en/yetiforce-companies-house-uk';
 
 	/** {@inheritdoc} */
 	public $prices = [
