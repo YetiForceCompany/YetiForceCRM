@@ -4,7 +4,7 @@
  *
  * @package App
  *
- * @see https://www.receitaws.com.br/
+ * @see https://developers.receitaws.com.br/#/operations/queryCNPJFree
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -25,22 +25,22 @@ class BRReceitaCnpj extends Base
 	public $icon = 'fas fa-futbol';
 
 	/** {@inheritdoc} */
-	public $label = 'LBL_BRA_CNPJ';
+	public $label = 'LBL_BR_RECITACNPJ';
 
 	/** {@inheritdoc} */
 	public $displayType = 'FillFields';
 
 	/** {@inheritdoc} */
-	public $description = 'LBL_BRA_CNPJ_DESC';
+	public $description = 'LBL_BR_RECITACNPJ_DESC';
 
 	/** {@inheritdoc} */
-	public $docUrl = 'https://www.receitaws.com.br/';
+	public $docUrl = 'https://developers.receitaws.com.br/#/operations/queryCNPJFree';
 
 	/** {@inheritdoc} */
 	protected $fields = [
 		'cnpj' => [
 			'labelModule' => 'Other.RecordCollector',
-			'label' => 'LBL_BRA_CNPJ_NUMBER',
+			'label' => 'LBL_BR_RECITACNPJ_NUMBER',
 			'typeofdata' => 'V~O',
 		]
 	];
@@ -48,6 +48,12 @@ class BRReceitaCnpj extends Base
 	/** {@inheritdoc} */
 	protected $modulesFieldsMap = [
 		'Accounts' => [
+			'cnpj' => 'registration_number_1',
+		],
+		'Leads' => [
+			'cnpj' => 'registration_number_1',
+		],
+		'Vendors' => [
 			'cnpj' => 'registration_number_1',
 		]
 	];
@@ -149,7 +155,7 @@ class BRReceitaCnpj extends Base
 			$this->response['error'] = $e->getMessage();
 		}
 		if (isset($response) && 'array' === gettype($response)) {
-			$this->response['error'] = \App\Language::translate('LBL_BRA_CNPJ_ERROR', 'Other.RecordCollector');
+			$this->response['error'] = \App\Language::translate('LBL_BR_RECITACNPJ_ERROR', 'Other.RecordCollector');
 		} else {
 			$this->data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
 		}

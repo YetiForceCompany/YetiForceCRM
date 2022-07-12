@@ -26,9 +26,9 @@
     "LBL_ORB_VAT": "EIN/VAT (Only in USA)",
     "LBL_API_GOV_FRANCE": "Get company data from the Government of French Republic [FR]",
     "LBL_API_GOV_FRANCE_DESC": "Fetching data about French companies from the State Institute of Statistics and Economic Research (INSEE)",
-    "LBL_BRA_CNPJ_NUMBER": "CNPJ",
-    "LBL_BRA_CNPJ": "National Registry of Legal Entities [BRA]",
-    "LBL_BRA_CNPJ_DESC": "Data about Brazilian companies provided by Brazilian Federal Revenue Service",
-    "LBL_BRA_CNPJ_ERROR": "The query limit has been exceeded. Wait one minute."
+    "LBL_BR_RECITACNPJ_NUMBER": "CNPJ",
+    "LBL_BR_RECITACNPJ": "National Registry of Legal Entities [BRA]",
+    "LBL_BR_RECITACNPJ_DESC": "Data about Brazilian companies provided by Brazilian Federal Revenue Service",
+    "LBL_BR_RECITACNPJ_ERROR": "The query limit has been exceeded. Wait one minute."
   }
 }
