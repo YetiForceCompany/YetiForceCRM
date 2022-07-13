@@ -147,17 +147,18 @@ class BRReceitaCnpj extends Base
 	 */
 	private function getDataFromApi(string $cnpj): void
 	{
-		$response = [];
 		try {
 			$response = \App\RequestHttp::getClient()->get($this->url . $cnpj);
+			$this->data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getMessage();
-		}
-		if (isset($response) && 'array' === gettype($response)) {
-			$this->response['error'] = \App\Language::translate('LBL_BR_RECITACNPJ_ERROR', 'Other.RecordCollector');
-		} else {
-			$this->data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
+			if (429 === $e->getCode()) {
+				$this->response['error'] = \App\Language::translate('LBL_BR_RECITACNPJ_ERROR', 'Other.RecordCollector');
+			} elseif ($e->getCode() > 400) {
+				$this->response['error'] = $e->getResponse()->getReasonPhrase();
+			} else {
+				$this->response['error'] = $e->getMessage();
+			}
 		}
 	}
 
