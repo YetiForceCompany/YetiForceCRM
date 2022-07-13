@@ -2671,7 +2671,7 @@ var app = (window.app = {
 			e.stopPropagation();
 			const btn = $(e.currentTarget);
 			app.showModalHtml({
-				class: 'modal-fullscreen',
+				class: btn.data('modalSize') ? btn.data('modalSize') : 'modal-fullscreen',
 				header: app.vtranslate('JS_FULL_TEXT'),
 				headerIcon: 'mdi mdi-overscan',
 				bodyClass: 'u-word-break pb-0 pt-1',
@@ -3547,11 +3547,11 @@ $(function () {
 		this.removeAttr('disabled');
 	};
 	$.fn.serializeFormData = function () {
-		let form = this;
 		for (var instance in CKEDITOR.instances) {
 			CKEDITOR.instances[instance].updateElement();
 		}
-		let values = form.serializeArray();
+		const form = this,
+			values = form.serializeArray();
 		let data = {};
 		if (values) {
 			$(values).each(function (k, v) {
@@ -3572,6 +3572,7 @@ $(function () {
 			let ac = $(autocompletes[i]);
 			data[ac.attr('name')] = ac.data('value');
 		});
+		delete data['_csrf'];
 		return data;
 	};
 	// Case-insensitive :icontains expression
