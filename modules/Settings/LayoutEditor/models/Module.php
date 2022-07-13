@@ -264,7 +264,9 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->set('uitype', $details['uitype'])
 			->set('label', $label)
 			->set('typeofdata', $details['typeofdata'])
-			->set('quickcreate', 1)
+			->set('quickcreate', $params['quickcreate'] ?? 1)
+			->set('summaryfield', $params['summaryfield'] ?? 0)
+			->set('header_field', $params['header_field'] ?? null)
 			->set('fieldparams', $fieldParams ? \App\Json::encode($fieldParams) : '')
 			->set('columntype', $details['dbType']);
 		if ('Editor' === $fieldType) {
