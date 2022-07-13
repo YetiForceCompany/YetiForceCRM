@@ -600,6 +600,22 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
+	 * Get delete url from parent record.
+	 *
+	 * @param int $relatedRecordId
+	 *
+	 * @return string
+	 */
+	public function getDeleteUrl(int $relatedRecordId)
+	{
+		$parentModuleName = $this->getParentModuleModel()->getName();
+		$relatedModuleName = $this->getRelationModuleModel()->getName();
+		$recordId = $this->getParentRecord()->getId();
+
+		return "index.php?module={$parentModuleName}&related_module={$relatedModuleName}&action=RelationAjax&mode=deleteRelation&related_record_list=[{$relatedRecordId}]&src_record={$recordId}&relationId={$this->getId()}";
+	}
+
+	/**
 	 * Add relation.
 	 *
 	 * @param int       $sourceRecordId
