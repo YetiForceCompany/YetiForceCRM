@@ -1382,7 +1382,7 @@ window.App.Fields = {
 				params = {};
 			}
 			if ($(selectElement).length > 1) {
-				return $(selectElement).each((index, element) => {
+				return $(selectElement).each((_, element) => {
 					this.showSelect2ElementView($(element).eq(0), params);
 				});
 			}
@@ -1445,7 +1445,6 @@ window.App.Fields = {
 					self[params.selectCb](select, params);
 				}
 			});
-
 			return selectElement;
 		},
 		/**
@@ -1546,14 +1545,14 @@ window.App.Fields = {
 				params.templateResult = this[params.templateResult];
 			}
 			if (typeof params.templateSelection === 'undefined') {
-				params.templateSelection = function (data, container) {
-					if (data.element && data.element.className) {
-						$(container).addClass(data.element.className);
+				params.templateSelection = function (item, container) {
+					if (item.element && item.element.className) {
+						$(container).addClass(item.element.className);
 					}
-					if (data.text === '') {
-						return data.name;
+					if (item.text === '') {
+						return item.name;
 					}
-					return data.text;
+					return item.text;
 				};
 			} else if (typeof this[params.templateSelection] === 'function') {
 				params.templateSelection = this[params.templateSelection];
@@ -1565,9 +1564,9 @@ window.App.Fields = {
 		},
 		/**
 		 * Register ajax params
-		 * @param selectElement
-		 * @param params
-		 * @returns {*}
+		 * @param {jQuery} selectElement
+		 * @param {Object} params
+		 * @returns {Object}
 		 */
 		registerAjaxParams(selectElement, params) {
 			params.tags = false;
@@ -1587,41 +1586,47 @@ window.App.Fields = {
 				dataType: 'json',
 				delay: 250,
 				method: 'POST',
-				data: function (params) {
-					return {
-						value: params.term, // search term
-						page: params.page
-					};
-				},
-				processResults: function (data, params) {
-					var items = new Array();
-					if (data.success == true) {
-						selectElement.find('option').each(function () {
-							var currentTarget = $(this);
-							items.push({
-								label: currentTarget.html(),
-								value: currentTarget.val()
-							});
-						});
-						items = items.concat(data.result.items);
-					}
-					return {
-						results: items,
-						pagination: {
-							more: false
-						}
-					};
-				},
+				data:
+					params['ajax'] && params['ajax']['data']
+						? params['ajax']['data']
+						: function (item) {
+								console.log(item);
+								return {
+									value: item.term, // search term
+									page: item.page
+								};
+						  },
+				processResults:
+					params['ajax'] && params['ajax']['processResults']
+						? params['ajax']['processResults']
+						: function (data, _params) {
+								var items = new Array();
+								if (data.success == true) {
+									selectElement.find('option').each(function () {
+										var currentTarget = $(this);
+										items.push({
+											label: currentTarget.html(),
+											value: currentTarget.val()
+										});
+									});
+									items = items.concat(data.result.items);
+								}
+								return {
+									results: items,
+									pagination: {
+										more: false
+									}
+								};
+						  },
 				cache: false
 			};
 			params.escapeMarkup = function (markup) {
 				if (markup !== 'undefined') return markup;
 			};
-			var minimumInputLength = 3;
+			params.minimumInputLength = 3;
 			if (selectElement.data('minimumInput') !== 'undefined') {
-				minimumInputLength = selectElement.data('minimumInput');
+				params.minimumInputLength = selectElement.data('minimumInput');
 			}
-			params.minimumInputLength = minimumInputLength;
 			params.templateResult = function (data) {
 				if (typeof data.name === 'undefined') {
 					return data.text;
@@ -1632,7 +1637,7 @@ window.App.Fields = {
 					return '<span>' + data.name + '</span>';
 				}
 			};
-			params.templateSelection = function (data, container) {
+			params.templateSelection = function (data, _container) {
 				if (data.text === '') {
 					return data.name;
 				}
@@ -2968,6 +2973,8 @@ window.App.Fields = {
 	MultiReference: class MultiReference {
 		constructor(container) {
 			this.container = container;
+			this.select = container.find('.js-multi-reference');
+			this.form = container.closest('form');
 			this.init();
 		}
 		/**
@@ -2988,95 +2995,73 @@ window.App.Fields = {
 		 * Initiation
 		 */
 		init() {
-			$('.js-clear-selection', this.container)
-				.off('click')
-				.on('click', () => {
-					this.clear();
-				});
 			$('.js-related-popup', this.container)
 				.off('click')
 				.on('click', () => {
-					let params = {};
-					let field = this.getField();
-					let url = field.data('url');
-					if (url) {
-						params = this.convertUrl(url);
-					}
-					app.showRecordsList($.extend(params, this.getParams()), (_modal, instance) => {
+					app.showRecordsList(this.getParams(), (_modal, instance) => {
 						instance.setSelectEvent((data) => {
 							this.setReferenceFieldValue(data);
 						});
 					});
 				});
+			$('.js-create-reference-record', this.container)
+				.off('click')
+				.on('click', () => {
+					this.createHandler();
+				});
 			this.registerAutoComplete();
-		}
-		/**
-		 * Clear selection
-		 */
-		clear() {
-			let element = this.getField();
-			let fieldName = element.attr('name');
-			element.val('');
-			this.container.find(`#${fieldName}_display`).removeAttr('readonly').val('');
 		}
 		/**
 		 * Function which will handle the reference auto complete event registrations
 		 */
 		registerAutoComplete() {
-			let thisInstance = this;
-			let formElement = this.container.closest('form');
-			this.container.find('.js-auto-complete').autocomplete({
-				delay: '600',
-				minLength: '3',
-				source: function (request, response) {
-					let inputElement = $(this.element[0]);
-					let searchValue = request.term;
-					let params = {};
-					params.search_module = $('.js-popup-reference-module', thisInstance.container).val();
-					params.search_value = searchValue;
-					params.module = thisInstance.getField().data('module');
-					params.action = 'BasicAjax';
-					let sourceRecordElement = $('input[name="record"]', formElement);
-					if (sourceRecordElement.length > 0 && sourceRecordElement.val()) {
-						params.src_record = sourceRecordElement.val();
-					}
-					AppConnector.request(params)
-						.done(function (data) {
-							let responseDataList = [];
-							let serverDataFormat = data.result;
-							if (serverDataFormat.length <= 0) {
-								$(inputElement).val('');
-								serverDataFormat = new Array({
-									label: app.vtranslate('JS_NO_RESULTS_FOUND'),
-									type: 'no results'
+			App.Fields.Picklist.showSelect2ElementView(this.select, {
+				ajax: {
+					data: function (item) {
+						return {
+							search_value: item.term ?? '',
+							page: item.page
+						};
+					},
+					processResults: (data, params) => {
+						let items = new Array();
+						if (!params.term) {
+							items.push({
+								type: 'optgroup',
+								name: this.select.attr('placeholder')
+							});
+						} else if (data.success == true) {
+							$.each(data.result, (_, item) => {
+								items.push({
+									name: item.label,
+									id: item.id
 								});
+							});
+						}
+						return {
+							results: items,
+							pagination: {
+								more: false
 							}
-							for (let id in serverDataFormat) {
-								let responseData = serverDataFormat[id];
-								responseDataList.push(responseData);
-							}
-							response(responseDataList);
-						})
-						.fail(function (error, err) {
-							app.errorLog(error, err);
-						});
-				},
-				select: function (event, ui) {
-					if (typeof ui.item.type !== 'undefined' && ui.item.type == 'no results') {
-						return false;
+						};
 					}
-					let selectedItemData = [];
-					selectedItemData[ui.item.id] = ui.item.value;
-					thisInstance.setReferenceFieldValue(selectedItemData);
+				}
+			});
+		}
+		/**
+		 * Set reference field value
+		 */
+		createHandler() {
+			let formData = this.form.serializeFormData();
+			delete formData['action'];
+			App.Components.QuickCreate.createRecord($('.js-popup-reference-module', this.container).val(), {
+				data: {
+					sourceRecordData: formData
 				},
-				change: function (event, ui) {
-					let element = $(this);
-					if (element.attr('readonly') == undefined) {
-						thisInstance.clear();
+				callbackFunction: (data) => {
+					if (data.success) {
+						this.select.append(new Option(data.result._recordLabel, data.result._recordId, true, true));
 					}
-				},
-				open: function (event, ui) {
-					$(this).data('ui-autocomplete').menu.element.css('z-index', '100001');
 				}
 			});
 		}
@@ -3085,74 +3070,46 @@ window.App.Fields = {
 		 * @param {object} data
 		 */
 		setReferenceFieldValue(data) {
-			let sourceField = this.getField(),
-				fieldName = sourceField.attr('name'),
-				selectedNames = [],
-				ids = [];
-			for (let index in data) {
-				ids.push(index);
-				selectedNames.push(data[index]);
-			}
-			this.clear();
-			sourceField.val(ids.join(','));
-			this.container
-				.find(`#${fieldName}_display`)
-				.val(app.decodeHTML(selectedNames.join(', ')))
-				.attr('readonly', true);
-		}
-		/**
-		 * Gets field
-		 */
-		getField() {
-			return this.container.find('.js-source-field');
-		}
-		/**
-		 * Convert URL to Object
-		 * @param {string} data
-		 */
-		convertUrl(url) {
-			let vars = {};
-			url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (_, key, value) {
-				vars[key] = value;
+			const values = this.select.val();
+			$.each(data, (id, label) => {
+				if (!values.includes(id)) {
+					this.select.append(new Option(label, id, true, true));
+				}
 			});
-			return vars;
 		}
 		/**
 		 * Gets params
+		 * @returns {Object}
 		 */
 		getParams() {
-			let form = this.container.closest('form');
-			let sourceModule = $('input[name="module"]', form).val();
-			let popupReferenceModule = $('.js-popup-reference-module', this.container).val();
-			let sourceField = this.getField();
-			let sourceFieldName = sourceField.attr('name');
-			let sourceRecordElement = $('input[name="record"]', form);
+			const referenceModule = $('.js-popup-reference-module', this.container).val(),
+				sourceFieldName = this.select.attr('name').slice(0, -2),
+				sourceRecordElement = $('input[name="record"]', this.form),
+				listFilterFieldsJson = this.form.find('input[name="listFilterFields"]').val(),
+				listFilterFields = listFilterFieldsJson ? JSON.parse(listFilterFieldsJson) : [];
 			let sourceRecordId = '';
 			if (sourceRecordElement.length > 0) {
 				sourceRecordId = sourceRecordElement.val();
 			}
-
 			let filterFields = {};
-			let listFilterFieldsJson = form.find('input[name="listFilterFields"]').val();
-			let listFilterFields = listFilterFieldsJson ? JSON.parse(listFilterFieldsJson) : [];
 			if (
 				listFilterFields[sourceFieldName] != undefined &&
-				listFilterFields[sourceFieldName][popupReferenceModule] != undefined
+				listFilterFields[sourceFieldName][referenceModule] != undefined
 			) {
-				$.each(listFilterFields[sourceFieldName][popupReferenceModule], function (index, value) {
-					let mapFieldElement = form.find('[name="' + index + '"]');
+				$.each(listFilterFields[sourceFieldName][referenceModule], (index) => {
+					let mapFieldElement = this.form.find('[name="' + index + '"]');
 					if (mapFieldElement.length && mapFieldElement.val() != '') {
 						filterFields[index] = mapFieldElement.val();
 					}
 				});
 			}
 			return {
-				module: popupReferenceModule,
-				src_module: sourceModule,
+				module: referenceModule,
+				src_module: $('input[name="module"]', this.form).val(),
 				src_field: sourceFieldName,
 				src_record: sourceRecordId,
 				filterFields: filterFields,
-				multi_select: sourceField.data('multiple')
+				multi_select: true
 			};
 		}
 	},

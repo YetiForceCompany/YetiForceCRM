@@ -227,35 +227,46 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		$this->validate($params);
 		$moduleName = $this->getName();
 		$tableName = $this->getTableName($params['fieldTypeList']);
-		if ('Tree' === $fieldType || 'CategoryMultipicklist' === $fieldType) {
-			$fieldParams = (int) $params['tree'];
-		} elseif ('MultiReferenceValue' === $fieldType) {
-			$fieldParams = [];
-			$fieldParams['module'] = $params['MRVModule'];
-			$fieldParams['field'] = $params['MRVField'];
-			$fieldParams['filterField'] = $params['MRVFilterField'] ?? null;
-			$fieldParams['filterValue'] = $params['MRVFilterValue'] ?? null;
-			\App\Db::getInstance()->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
-		} elseif ('ServerAccess' === $fieldType) {
-			$fieldParams = (int) $params['server'];
-		} elseif ('Token' === $fieldType) {
-			(new \App\BatchMethod(['method' => '\App\Fields\Token::setTokens', 'params' => [$name, $moduleName]]))->save();
+		switch ($fieldType) {
+			case 'Tree':
+			case 'CategoryMultipicklist':
+				$fieldParams = (int) $params['tree'];
+				break;
+			case 'MultiReferenceValue':
+				$fieldParams = [
+					'module' => $params['MRVModule'],
+					'field' => $params['MRVField'],
+					'filterField' => $params['MRVFilterField'] ?? null,
+					'filterValue' => $params['MRVFilterValue'] ?? null,
+				];
+				\App\Db::getInstance()->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
+				break;
+			case 'ServerAccess':
+				$fieldParams = (int) $params['server'];
+				break;
+			case 'Token':
+				(new \App\BatchMethod(['method' => '\App\Fields\Token::setTokens', 'params' => [$name, $moduleName]]))->save();
+				break;
+			case 'MultiReference':
+				$fieldParams = [
+					'module' => $params['referenceModule']
+				];
+				break;
+			default:
+				break;
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
-		$uitype = $details['uitype'];
-		$typeofdata = $details['typeofdata'];
-		$dbType = $details['dbType'];
 		$fieldModel = new Settings_LayoutEditor_Field_Model();
 		$fieldModel->set('name', $name)
 			->set('table', $tableName)
 			->set('generatedtype', $params['generatedtype'] ?? 2)
 			->set('helpinfo', $params['helpinfo'] ?? '')
-			->set('uitype', $uitype)
+			->set('uitype', $details['uitype'])
 			->set('label', $label)
-			->set('typeofdata', $typeofdata)
+			->set('typeofdata', $details['typeofdata'])
 			->set('quickcreate', 1)
 			->set('fieldparams', $fieldParams ? \App\Json::encode($fieldParams) : '')
-			->set('columntype', $dbType);
+			->set('columntype', $details['dbType']);
 		if ('Editor' === $fieldType) {
 			$fieldModel->set('maximumlength', $params['fieldLength'] ?? null);
 		}
@@ -489,6 +500,11 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				break;
 			case 'MultiAttachment':
 				$uitype = 330;
+				$type = $importerType->text();
+				$uichekdata = 'V~O';
+				break;
+			case 'MultiReference':
+				$uitype = 321;
 				$type = $importerType->text();
 				$uichekdata = 'V~O';
 				break;
