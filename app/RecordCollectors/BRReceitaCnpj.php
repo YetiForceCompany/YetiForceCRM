@@ -123,6 +123,14 @@ class BRReceitaCnpj extends Base
 	/** @var string CNJP sever address */
 	private $url = 'https://receitaws.com.br/v1/cnpj/';
 
+	/** @var mixed api key */
+	private $apiKey = null;
+
+	/** {@inheritdoc} */
+	public $settingsFields = [
+		'api_key' => ['required' => 0, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY_OPTIONAL'],
+	];
+
 	/** {@inheritdoc} */
 	public function search(): array
 	{
@@ -130,7 +138,6 @@ class BRReceitaCnpj extends Base
 		if (!$this->isActive() || empty($cnpj)) {
 			return [];
 		}
-
 		$this->getDataFromApi($cnpj);
 		if (!isset($this->response['error'])) {
 			$this->loadData();
@@ -148,8 +155,22 @@ class BRReceitaCnpj extends Base
 	private function getDataFromApi(string $cnpj): void
 	{
 		try {
-			$response = \App\RequestHttp::getClient()->get($this->url . $cnpj);
-			$this->data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
+			$this->setApiKey();
+			if ($this->apiKey) {
+				$options = [
+					'headers' => [
+						'Authorization' => 'Bearer ' . $this->apiKey
+					]
+				];
+			}
+			$response = \App\RequestHttp::getClient()->get($this->url . $cnpj, $options ?? []);
+			$data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
+			if (isset($data['status']) && 'ERROR' === $data['status']) {
+				$this->response['error'] = $data['message'];
+				unset($this->data['fields']);
+			} else {
+				$this->data = $data;
+			}
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			if (429 === $e->getCode()) {
@@ -172,5 +193,17 @@ class BRReceitaCnpj extends Base
 	private function parseData(array $data): array
 	{
 		return \App\Utils::flattenKeys($data, 'ucfirst');
+	}
+
+	/**
+	 * Function setup Api Key.
+	 *
+	 * @return void
+	 */
+	private function setApiKey(): void
+	{
+		if (($params = $this->getParams()) && !empty($params['api_key'])) {
+			$this->apiKey = $params['api_key'];
+		}
 	}
 }
