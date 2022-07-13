@@ -7,6 +7,7 @@
     "LBL_SUCCESSFULLY_UPDATED": "The status change was successful",
     "LBL_DOC_URL": "Documentation URL",
     "LBL_API_KEY": "API Key",
+    "LBL_API_KEY_OPTIONAL": "API Key (Optional)",
     "LBL_SAVE_NOTIFY_OK": "Saved changes.",
     "LBL_PROVIDER_INVALID": "Configuration is incorrect",
     "LBL_CONFIG": "Setup data for record collector"

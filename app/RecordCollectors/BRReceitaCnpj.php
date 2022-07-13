@@ -128,7 +128,7 @@ class BRReceitaCnpj extends Base
 
 	/** {@inheritdoc} */
 	public $settingsFields = [
-		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY'],
+		'api_key' => ['required' => 0, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY_OPTIONAL'],
 	];
 
 	/** {@inheritdoc} */
@@ -138,14 +138,7 @@ class BRReceitaCnpj extends Base
 		if (!$this->isActive() || empty($cnpj)) {
 			return [];
 		}
-		$headers = [];
-		$this->setApiKey();
-		if ($this->apiKey) {
-			$headers = [
-				['Authorization' => 'Bearer ' . $this->apiKey]
-			];
-		}
-		$this->getDataFromApi($cnpj, $headers);
+		$this->getDataFromApi($cnpj);
 		if (!isset($this->response['error'])) {
 			$this->loadData();
 		}
@@ -159,10 +152,18 @@ class BRReceitaCnpj extends Base
 	 *
 	 * @return void
 	 */
-	private function getDataFromApi(string $cnpj, array $headers = []): void
+	private function getDataFromApi(string $cnpj): void
 	{
 		try {
-			$response = \App\RequestHttp::getClient()->get($this->url . $cnpj, $headers);
+			$this->setApiKey();
+			if ($this->apiKey) {
+				$options = [
+					'headers' => [
+						'Authorization' => 'Bearer ' . $this->apiKey
+					]
+				];
+			}
+			$response = \App\RequestHttp::getClient()->get($this->url . $cnpj, $options ?? []);
 			$data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
 			if (isset($data['status']) && 'ERROR' === $data['status']) {
 				$this->response['error'] = $data['message'];
