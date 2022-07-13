@@ -270,10 +270,10 @@ window.App.Fields = {
 				splittedDateFormat = dateFormat.split(dotMode),
 				year = splittedDate[splittedDateFormat.indexOf('yyyy')],
 				month = splittedDate[splittedDateFormat.indexOf('mm')],
-				date = splittedDate[splittedDateFormat.indexOf('dd')],
-				dateInstance = Date.parse(year + '/' + month + '/' + date);
+				day = splittedDate[splittedDateFormat.indexOf('dd')],
+				dateInstance = Date.parse(year + '/' + month + '/' + day);
 
-			if (isNaN(dateInstance) || year.length !== 4 || month.length > 2 || date.length > 2 || dateInstance == null) {
+			if (isNaN(dateInstance) || year.length !== 4 || month.length > 2 || day.length > 2 || dateInstance == null) {
 				throw app.vtranslate('JS_INVALID_DATE');
 			}
 			//Before creating date object time is set to 00
@@ -295,7 +295,7 @@ window.App.Fields = {
 				}
 			}
 			month = month - 1;
-			return new Date(year, month, date, timeSections[0], timeSections[1], seconds);
+			return new Date(year, month, day, timeSections[0], timeSections[1], seconds);
 		},
 		/**
 		 * Format the Date object to a date in the format DB format, example: `2018-07-23`
