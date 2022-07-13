@@ -97,7 +97,9 @@ class Base
 	{
 		$fieldsModel = [];
 		foreach ($this->fields as $fieldName => $data) {
-			if (isset($data['picklistValues']) && false !== $data['picklistModule']) {
+			if (isset($data['picklistValuesFunction'])) {
+				$data['picklistValues'] = $this->{$data['picklistValuesFunction']}($data);
+			} elseif (isset($data['picklistValues']) && false !== $data['picklistModule']) {
 				$picklistModule = $data['picklistModule'] ?? $this->moduleName;
 				foreach ($data['picklistValues'] as $picklistKey => $value) {
 					$data['picklistValues'][$picklistKey] = \App\Language::translate($value, $picklistModule);
