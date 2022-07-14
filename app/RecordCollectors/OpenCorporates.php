@@ -59,7 +59,6 @@ class OpenCorporates extends Base
 	/** {@inheritdoc} */
 	protected $modulesFieldsMap = [
 		'Accounts' => [
-			'country' => 'addresslevel1a',
 			'companyNumber' => 'registration_number_1',
 			'taxNumber' => 'registration_number_2'
 		]
@@ -77,41 +76,77 @@ class OpenCorporates extends Base
 		$countryCode = $this->request->getByType('countryCode', 'Text');
 		$companyNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('companyNumber', 'Text'));
 		$taxNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('taxNumber', 'Text'));
+		if (!$this->isActive() && empty($countryCode) && (empty($companyNumber) || empty($taxNumber))) {
+			return [];
+		}
 
+		$params = [];
+		if (!empty($companyNumber)) {
+			$params['companyNumber'] = $companyNumber;
+		}
+		if (!empty($taxNumber)) {
+			$params['taxNumber'] = $taxNumber;
+		}
+		$this->getDataFromApi($countryCode, $params);
+		//todo
 		return [];
 	}
 
 	/**
 	 * Function fetching company data by params.
 	 *
-	 * @param string $companyNumber
-	 * @param string $taxNumber
+	 * @param string   $countryCode
+	 * @param string[] $params
+	 *
 	 * @return void
 	 */
-	private function getDataFromApi(string $country, string $companyNumber, string $taxNumber): void
-	{
-		//todo
+	private function getDataFromApi(string $countryCode, array $params): void
+	{ //todo
+		$response = [];
+		try {
+			if (isset($params['companyNumber'])) {
+				$response = \App\RequestHttp::getClient()->get($this->url .  'companies/'. $countryCode . '/' . $params['companyNumber']);
+			}
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			\App\Log::warning($e->getMessage(), 'RecordCollectors');
+			$this->response['error'] = $e->getMessage();
+		}
+		$this->data = isset($response) ? $this->parseData(\App\Json::decode($response->getBody()->getContents())) : [];
 	}
+
 	/**
 	 * Function fetching and setting codes (countries, districts) for&from OpenCorporates.
 	 *
 	 * @param array $data
+	 *
 	 * @return void
 	 */
 	public function getCodesFromApi(array $data)
 	{
 		try {
-			$response = \App\Json::decode(\App\RequestHttp::getClient()->get($this->url . self::API_VERSION .'/jurisdictions')->getBody()->getContents());
+			$response = \App\Json::decode(\App\RequestHttp::getClient()->get($this->url . self::API_VERSION . '/jurisdictions')->getBody()->getContents());
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
 
 		$codes = [];
-		foreach($response['results']['jurisdictions'] as $index => $jurisdiction) {
-			$codes[$jurisdiction['jurisdiction']['code']] = $jurisdiction['jurisdiction']['country'] !== $jurisdiction['jurisdiction']['name']  ? \App\Language::translate($jurisdiction['jurisdiction']['country'], 'Country') .  " ({$jurisdiction['jurisdiction']['name']})" : \App\Language::translate($jurisdiction['jurisdiction']['country'], 'Country');
+		foreach ($response['results']['jurisdictions'] as $index => $jurisdiction) {
+			$codes[$jurisdiction['jurisdiction']['code']] = $jurisdiction['jurisdiction']['country'] !== $jurisdiction['jurisdiction']['name'] ? \App\Language::translate($jurisdiction['jurisdiction']['country'], 'Country') . " ({$jurisdiction['jurisdiction']['name']})" : \App\Language::translate($jurisdiction['jurisdiction']['country'], 'Country');
 		}
 
 		return $codes;
+	}
+
+	/**
+	 * Function parsing data to fields from API.
+	 *
+	 * @param array $data
+	 *
+	 * @return array
+	 */
+	private function parseData(array $data): array
+	{
+		return \App\Utils::flattenKeys($data, 'ucfirst');
 	}
 }
