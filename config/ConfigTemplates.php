@@ -182,7 +182,7 @@ return [
 			'sanitization' => fn () => (int) func_get_arg(0),
 		],
 		'href_max_length' => [
-			'default' => 35,
+			'default' => 50,
 			'description' => 'Maximum length for href tag',
 			'validation' => function () {
 				$arg = func_get_arg(0);

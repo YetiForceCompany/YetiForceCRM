@@ -48,11 +48,11 @@
 							<div class="btn-group" role="group">
 								{if \App\Privilege::isPermitted($SMODULENAME, 'RemoveRelation')}
 									{if  \App\Privilege::isPermitted($MODULE_NAME, 'MoveToTrash', $ROW['id'])}
-										{assign var=LINK value=Vtiger_Link_Model::getInstanceFromValues(['linkclass' => 'btn-xs btn-secondary relationDelete entityStateBtn{ }',
+										{assign var=LINK value=Vtiger_Link_Model::getInstanceFromValues(['linkclass' => 'btn-xs btn-secondary relationDelete entityStateBtn { }',
 										'linklabel' => 'LBL_REMOVE_RELATION',
 										'linkicon' => 'fas fa-unlink',
 										'linkdata' => ['content' => \App\Language::translate('LBL_REMOVE_RELATION'),
-										'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'), 'id' => $ROW['id']
+										'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'), 'id' => $ROW['id'], 'url'=> $RELATION_MODEL->getDeleteUrl($ROW['id'])
 										]
 										])}
 										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) MODULE=$MODULE_NAME}

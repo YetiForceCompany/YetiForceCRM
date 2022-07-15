@@ -19,7 +19,7 @@
 	{assign var=TABINDEX value=$FIELD_MODEL->getTabIndex()}
 	{assign var=IS_EDITABLE_READ_ONLY value=$FIELD_MODEL->isEditableReadOnly()}
 	{assign var=PARAMS value=$FIELD_MODEL->getFieldParams()}
-	<div class="uitype_{$MODULE}_{$FIELD_NAME}">
+	<div class="uitype_{$MODULE_NAME}_{$FIELD_NAME}">
 		{if isset($PARAMS['searchParams'])}
 			<input name="searchParams" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['searchParams'])}" />
 		{/if}
@@ -66,19 +66,19 @@
 			<input id="{$FIELD_NAME}_display" name="{$FIELD_MODEL->getFieldName()}_display" type="text" title="{$FIELD_VALUE}" class="marginLeftZero form-control autoComplete"
 				tabindex="{$TABINDEX}" {if !empty($VALUE)}readonly="true" {/if} value="{$FIELD_VALUE}"
 				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-				data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') != 10}placeholder="{\App\Language::translate('LBL_TYPE_SEARCH',$MODULE)}" {/if} {if $REFERENCE_MODULE_MODEL == false || $IS_EDITABLE_READ_ONLY}disabled{/if}
+				data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->get('displaytype') != 10}placeholder="{\App\Language::translate('LBL_TYPE_SEARCH',$MODULE_NAME)}" {/if} {if $REFERENCE_MODULE_MODEL == false || $IS_EDITABLE_READ_ONLY}disabled{/if}
 				{if !empty($SPECIAL_VALIDATOR)}data-validator="{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}" {/if} {if $IS_EDITABLE_READ_ONLY}readonly="readonly" {/if} />
 			<div class="input-group-append u-cursor-pointer">
 				<button class="btn btn-light clearReferenceSelection" type="button" tabindex="{$TABINDEX}" {if $REFERENCE_MODULE_MODEL == false || $IS_EDITABLE_READ_ONLY}disabled{/if}>
-					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_clear" class="fas fa-times-circle" title="{\App\Language::translate('LBL_CLEAR', $MODULE)}"></span>
+					<span id="{$MODULE_NAME}_editView_fieldName_{$FIELD_NAME}_clear" class="fas fa-times-circle" title="{\App\Language::translate('LBL_CLEAR', $MODULE_NAME)}"></span>
 				</button>
 				<button class="btn btn-light relatedPopup" type="button" tabindex="{$TABINDEX}" {if $REFERENCE_MODULE_MODEL == false || $IS_EDITABLE_READ_ONLY}disabled{/if}>
-					<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search" title="{\App\Language::translate('LBL_SELECT', $MODULE)}"></span>
+					<span id="{$MODULE_NAME}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search" title="{\App\Language::translate('LBL_SELECT', $MODULE_NAME)}"></span>
 				</button>
 				<!-- Show the add button only if it is edit view  -->
 				{if $REFERENCE_MODULE_MODEL && $REFERENCE_MODULE_MODEL->isQuickCreateSupported()}
 					<button class="btn btn-light createReferenceRecord" type="button" tabindex="{$TABINDEX}" {if $IS_EDITABLE_READ_ONLY}disabled{/if}>
-						<span id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_create" class="fas fa-plus" title="{\App\Language::translate('LBL_CREATE', $MODULE)}"></span>
+						<span id="{$MODULE_NAME}_editView_fieldName_{$FIELD_NAME}_create" class="fas fa-plus" title="{\App\Language::translate('LBL_CREATE', $MODULE_NAME)}"></span>
 					</button>
 				{/if}
 			</div>
