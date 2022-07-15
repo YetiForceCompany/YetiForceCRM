@@ -29,6 +29,9 @@
     "LBL_BR_RECITACNPJ_NUMBER": "CNPJ",
     "LBL_BR_RECITACNPJ": "National Registry of Legal Entities [BR]",
     "LBL_BR_RECITACNPJ_DESC": "Data about Brazilian companies provided by Brazilian Federal Revenue Service",
-    "LBL_BR_RECITACNPJ_ERROR": "The query limit has been exceeded. Wait one minute."
+    "LBL_BR_RECITACNPJ_ERROR": "The query limit has been exceeded. Wait one minute.",
+    "LBL_ENHETSREGISTERET": "Norwegian Register Organizations (Enhetsregisteret)",
+    "LBL_ENHETSREGISTERET_DESC": "Fetching data about Norwegian companies from the Norwegian Register Organizations (Enhetsregisteret)",
+    "LBL_ENHETSREGISTERET_400": "Organization number must be a number with exactly 9 digits."
   }
 }
