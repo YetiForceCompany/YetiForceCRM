@@ -61,7 +61,42 @@ class OpenCorporates extends Base
 		'Accounts' => [
 			'companyNumber' => 'registration_number_1',
 			'taxNumber' => 'registration_number_2'
-		]
+		],
+		'Leads' => [
+			'companyNumber' => 'registration_number_1',
+			'taxNumber' => 'registration_number_2'
+		],
+		'Vendors' => [
+			'companyNumber' => 'registration_number_1',
+			'taxNumber' => 'registration_number_2'
+		],
+	];
+
+	/** {@inheritdoc} */
+	public $formFieldsToRecordMap = [
+		'Accounts' => [
+			'resultsCompanyName' => 'accountname',
+			'resultsCompanyCompany_number' => 'registration_number_1',
+			'resultsCompanyRegistry_url' => 'description'
+		],
+		'Leads' => [
+			'resultsCompanyName' => 'company',
+			'resultsCompanyCompany_number' => 'registration_number_1',
+			'resultsCompanyRegistry_url' => 'description'
+		],
+		'Vendors' => [
+			'resultsCompanyName' => 'vendorname',
+			'resultsCompanyCompany_number' => 'registration_number_1',
+			'resultsCompanyRegistry_url' => 'description'
+		],
+		'Partners' => [
+			'resultsCompanyName' => 'subject',
+			'resultsCompanyRegistry_url' => 'description'
+		],
+		'Competition' => [
+			'resultsCompanyName' => 'subject',
+			'resultsCompanyRegistry_url' => 'description'
+		],
 	];
 
 	/** @var string OpenCorporates sever address */
@@ -88,8 +123,8 @@ class OpenCorporates extends Base
 			$params['taxNumber'] = $taxNumber;
 		}
 		$this->getDataFromApi($countryCode, $params);
-		//todo
-		return [];
+		$this->loadData();
+		return $this->response;
 	}
 
 	/**
@@ -101,17 +136,16 @@ class OpenCorporates extends Base
 	 * @return void
 	 */
 	private function getDataFromApi(string $countryCode, array $params): void
-	{ //todo
+	{
 		$response = [];
-		try {
-			if (isset($params['companyNumber'])) {
-				$response = \App\RequestHttp::getClient()->get($this->url .  'companies/'. $countryCode . '/' . $params['companyNumber']);
-			}
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getMessage();
+		if (isset($params['companyNumber'])) {
+			$response = $this->apiConnection($countryCode, $params['companyNumber']);
 		}
-		$this->data = isset($response) ? $this->parseData(\App\Json::decode($response->getBody()->getContents())) : [];
+		if (isset($params['taxNumber']) && !isset($response['errorCode'])) {
+			$response = $this->apiConnection($countryCode, $params['taxNumber']);
+		}
+
+		$this->data = $response;
 	}
 
 	/**
@@ -148,5 +182,36 @@ class OpenCorporates extends Base
 	private function parseData(array $data): array
 	{
 		return \App\Utils::flattenKeys($data, 'ucfirst');
+	}
+
+	/**
+	 * Function connect with API via GuzzleHttp.
+	 *
+	 * @param string $countryCode
+	 * @param string $param
+	 *
+	 * @return array
+	 */
+	private function apiConnection(string $countryCode, string $param): array
+	{
+		$response = [];
+		try {
+			$response = $this->parseData(\App\Json::decode(\App\RequestHttp::getClient()->get($this->url . 'companies/' . $countryCode . '/' . $param)->getBody()->getContents()));
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			switch ($e->getCode()) {
+				case 403:
+					$response['errorCode'] = $e->getCode();
+					$response['error'] = \App\Language::translate('LBL_OC_403', 'Other.RecordCollector');
+					break;
+				case 404:
+					$response['errorCode'] = $e->getCode();
+					$response['error'] = \App\Language::translate('LBL_OC_404', 'Other.RecordCollector');
+					break;
+				default:
+					$response['errorCode'] = $e->getCode();
+					$response['error'] = $e->getMessage();
+			}
+		}
+		return $response;
 	}
 }
