@@ -81,7 +81,15 @@ $.Class(
 				const recordId = $(e.target).closest('.js-tile-container').attr('data-record-id');
 				const url = `index.php?module=${moduleName}&view=ImagePreview&record=${recordId}`;
 				app.showModalWindow('', url, (modalWindow) => {
-					modalWindow.find('.js-image-preview').attr('src', $(e.target).attr('src'));
+					let imageSrc = '';
+					if ('IMG' === e.target.nodeName) {
+						imageSrc = $(e.target).attr('src');
+					} else {
+						imageSrc = $(e.target).css('background-image');
+						imageSrc = imageSrc.replace('url("', '');
+						imageSrc = imageSrc.replace('")', '');
+					}
+					modalWindow.find('img.js-image-preview').attr('src', imageSrc);
 				});
 			});
 		},

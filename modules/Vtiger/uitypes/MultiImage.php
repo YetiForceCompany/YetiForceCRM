@@ -225,7 +225,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 		}
 		$result = '<div class="c-multi-image__result text-center">';
 		for ($i = 0; $i < $len; ++$i) {
-			$result .= '<div class="d-inline-block mr-1 c-multi-image__preview-img middle" style="background-image:url(' . $this->getImageUrl($value[$i]['key'], $record) . ')"></div>';
+			$result .= '<div class="d-inline-block mr-1 c-multi-image__preview-img middle js-show-image-preview" style="background-image:url(' . $this->getImageUrl($value[$i]['key'], $record) . ')"></div>';
 		}
 		return $result . '</div>';
 	}
