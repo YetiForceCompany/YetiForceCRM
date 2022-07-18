@@ -1507,7 +1507,9 @@
     "LBL_MEDIA": "Media",
     "LBL_IMAGES": "Images",
     "FL_WAPRO_ID": "WAPRO ERP ID",
-    "LBL_IMAGE_PREVIEW": "Image preview"
+    "LBL_IMAGE_PREVIEW": "Image preview",
+    "LBL_DELETE_RECORD_COMPLETELY_CONFIRMATION": "Please confirm delete record from system",
+    "LBL_DELETE_INVENTORY_CONFIRMATION_DESC": "This record is set as position at least in one related record. Do you still want to delete it?"
   },
   "js": {
     "JS_APPROVE": "Approve",

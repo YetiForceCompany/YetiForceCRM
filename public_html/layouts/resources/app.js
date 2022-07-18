@@ -3398,13 +3398,38 @@ var app = (window.app = {
 							mode: 'hide'
 						});
 						if (data && data.success) {
-							if (data.result.notify) {
-								app.showNotify(data.result.notify);
-							}
-							if (sourceView === 'Href') {
-								app.openUrl(data.result);
+							if (undefined != data.result.anotherConfirm) {
+								let paramsForAnotherConfirm = {
+									icon: data.result.confirmBoxParams.icon,
+									title: data.result.confirmBoxParams.title,
+									text: data.result.confirmBoxParams.text,
+									confirmedCallback: () => {
+										progressIndicatorElement;
+										AppConnector.request(data.result.confirmBoxParams.url).done(function (data) {
+											progressIndicatorElement.progressIndicator({
+												mode: 'hide'
+											});
+											if (data.result.notify) {
+												app.showNotify(data.result.notify);
+											}
+											if (sourceView === 'Href') {
+												app.openUrl(data.result);
+											} else {
+												app.reloadAfterSave(data, app.convertUrlToObject(url), null, target);
+											}
+										});
+									}
+								};
+								app.showConfirmModal(paramsForAnotherConfirm);
 							} else {
-								app.reloadAfterSave(data, app.convertUrlToObject(url), null, target);
+								if (data.result.notify) {
+									app.showNotify(data.result.notify);
+								}
+								if (sourceView === 'Href') {
+									app.openUrl(data.result);
+								} else {
+									app.reloadAfterSave(data, app.convertUrlToObject(url), null, target);
+								}
 							}
 						} else {
 							app.showNotify({
