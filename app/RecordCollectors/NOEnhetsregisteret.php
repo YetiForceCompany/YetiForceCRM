@@ -17,7 +17,7 @@ namespace App\RecordCollectors;
 /**
  * Api Government of Norway class.
  */
-class Enhetsregisteret extends Base
+class NOEnhetsregisteret extends Base
 {
 	/** {@inheritdoc} */
 	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
@@ -125,10 +125,12 @@ class Enhetsregisteret extends Base
 		$this->loadData();
 		return $this->response;
 	}
+
 	/**
 	 * Function fetching company data by Company Number (Organisasjonsnummer).
 	 *
 	 * @param string $companyNumber
+	 *
 	 * @return void
 	 */
 	private function getDataFromApi(string $companyNumber): void
@@ -139,7 +141,7 @@ class Enhetsregisteret extends Base
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
-			if ($e->getCode() === 400) {
+			if (400 === $e->getCode()) {
 				$this->response['error'] = \App\Language::translate('LBL_ENHETSREGISTERET_400', 'Other.RecordCollector');
 				return;
 			}
