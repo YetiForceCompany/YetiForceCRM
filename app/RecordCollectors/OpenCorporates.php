@@ -13,6 +13,10 @@
 
 namespace App\RecordCollectors;
 
+use App\Exceptions\ApiException;
+use Exception;
+use JetBrains\PhpStorm\Internal\ReturnTypeContract;
+
 /**
  * OpenCorporates API class.
  */
@@ -25,13 +29,13 @@ class OpenCorporates extends Base
 	public $icon = 'fas fa-book-open';
 
 	/** {@inheritdoc} */
-	public $label = 'LBL_OC';
+	public $label = 'LBL_OPEN_CORPORATES';
 
 	/** {@inheritdoc} */
 	public $displayType = 'FillFields';
 
 	/** {@inheritdoc} */
-	public $description = 'LBL_OC_DESC';
+	public $description = 'LBL_OPEN_CORPORATES_DESC';
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://api.opencorporates.com';
@@ -39,12 +43,16 @@ class OpenCorporates extends Base
 	/** {@inheritdoc} */
 	protected $fields = [
 		'countryCode' => [
-			'label' => 'Country',
-			'labelModule' => '_Base',
+			'label' => 'LBL_OPEN_CORPORATES_COUNTRY',
+			'labelModule' => 'Other.RecordCollector',
 			'picklistModule' => 'Other.Country',
 			'uitype' => 16,
-			'typeofdata' => 'V~M',
+			'typeofdata' => 'V~0',
 			'picklistValuesFunction' => 'getCodesFromApi',
+		],
+		'companyName' => [
+			'labelModule' => '_Base',
+			'label' => 'Account name',
 		],
 		'companyNumber' => [
 			'labelModule' => '_Base',
@@ -59,16 +67,25 @@ class OpenCorporates extends Base
 	/** {@inheritdoc} */
 	protected $modulesFieldsMap = [
 		'Accounts' => [
+			'companyName' => 'accountname',
 			'companyNumber' => 'registration_number_1',
 			'taxNumber' => 'registration_number_2'
 		],
 		'Leads' => [
+			'companyName' => 'company',
 			'companyNumber' => 'registration_number_1',
 			'taxNumber' => 'registration_number_2'
 		],
 		'Vendors' => [
+			'companyName' => 'vendorname',
 			'companyNumber' => 'registration_number_1',
 			'taxNumber' => 'registration_number_2'
+		],
+		'Partners' => [
+			'companyName' => 'subject',
+		],
+		'Competition' => [
+			'companyName' => 'subject',
 		],
 	];
 
@@ -109,10 +126,17 @@ class OpenCorporates extends Base
 	public function search(): array
 	{
 		$countryCode = $this->request->getByType('countryCode', 'Text');
+		$companyName = $this->request->getByType('companyName', 'Text');
 		$companyNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('companyNumber', 'Text'));
 		$taxNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('taxNumber', 'Text'));
-		if (!$this->isActive() && empty($countryCode) && (empty($companyNumber) || empty($taxNumber))) {
+		if (!$this->isActive() && empty($countryCode) && (empty($companyNumber) || empty($taxNumber || empty($companyName)))) {
 			return [];
+		}
+
+		if (!empty($companyName)) {
+			$this->getDataFromApiByName($companyName, $countryCode ?? '');
+			$this->loadData();
+			return $this->response;
 		}
 
 		$params = [];
@@ -155,15 +179,22 @@ class OpenCorporates extends Base
 	 *
 	 * @return void
 	 */
-	public function getCodesFromApi(array $data)
+	public function getCodesFromApi(array $data): array
 	{
+		$response = [];
 		try {
 			$response = \App\Json::decode(\App\RequestHttp::getClient()->get($this->url . self::API_VERSION . '/jurisdictions')->getBody()->getContents());
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getMessage();
+			if ($e->getCode() > 400) {
+					$this->response['error'] = $e->getResponse()->getReasonPhrase();
+				} else {
+					$this->response['error'] = $e->getMessage();
+			}
 		}
-
+		if (!isset($response['results'])) {
+			throw new ApiException(\App\Language::translate('LBL_OPEN_CORPORATES_403', 'Other.RecordCollector'));
+		}
 		$codes = [];
 		foreach ($response['results']['jurisdictions'] as $index => $jurisdiction) {
 			$codes[$jurisdiction['jurisdiction']['code']] = $jurisdiction['jurisdiction']['country'] !== $jurisdiction['jurisdiction']['name'] ? \App\Language::translate($jurisdiction['jurisdiction']['country'], 'Country') . " ({$jurisdiction['jurisdiction']['name']})" : \App\Language::translate($jurisdiction['jurisdiction']['country'], 'Country');
@@ -201,11 +232,11 @@ class OpenCorporates extends Base
 			switch ($e->getCode()) {
 				case 403:
 					$response['errorCode'] = $e->getCode();
-					$response['error'] = \App\Language::translate('LBL_OC_403', 'Other.RecordCollector');
+					$response['error'] = \App\Language::translate('LBL_OPEN_CORPORATES_403', 'Other.RecordCollector');
 					break;
 				case 404:
 					$response['errorCode'] = $e->getCode();
-					$response['error'] = \App\Language::translate('LBL_OC_404', 'Other.RecordCollector');
+					$response['error'] = \App\Language::translate('LBL_OPEN_ORPORATES_404', 'Other.RecordCollector');
 					break;
 				default:
 					$response['errorCode'] = $e->getCode();
@@ -213,5 +244,27 @@ class OpenCorporates extends Base
 			}
 		}
 		return $response;
+	}
+	/**
+	 * Function fetching data about companies form OpenCorporates API by name.
+	 *
+	 * @param string $companyName
+	 * @return void
+	 */
+	private function getDataFromApiByName(string $companyName, string $countryCode = ''): void
+	{
+		$options = !empty($countryCode) ? $options['jurisdiction_code'] = $countryCode : [];
+		try {
+			$response = \App\Json::decode(\App\RequestHttp::getClient()->get($this->url . self::API_VERSION . '/companies/search?q=' . $companyName)->getBody()->getContents());
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$response['errorCode'] = $e->getCode();
+			$response['error'] = 403 === $e->getCode() ? \App\Language::translate('LBL_OPEN_CORPORATES_403', 'Other.RecordCollector') :  $e->getResponse()->getReasonPhrase();
+		}
+		if (!$response) {
+			return;
+		}
+		foreach ($response['results']['companies'] as $company) {
+			$this->data[$company['company']['name']] = $this->apiConnection($company['company']['jurisdiction_code'], $company['company']['company_number']);
+		}
 	}
 }
