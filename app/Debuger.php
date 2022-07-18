@@ -175,7 +175,7 @@ class Debuger
 			}
 			$trace .= "$sep$l";
 			if (isset($v['line'])) {
-				$trace .= " {$v['file']} ({$v['line']})";
+				$trace .= " {$v['file']}:{$v['line']}";
 			}
 			$trace .= '  >>  ' . (isset($v['class']) ? $v['class'] . '->' : '') . "{$v['function']}($args)" . PHP_EOL;
 			unset($args, $val, $v, $k, $a);

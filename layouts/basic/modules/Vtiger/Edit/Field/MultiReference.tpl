@@ -13,6 +13,7 @@
 	<div class="uitype_{$MODULE_NAME}_{$FIELD_NAME} js-multiReference-container">
 		<div class="input-group referenceGroup">
 			<input class="js-popup-reference-module" type="hidden" value="{$REFERENCE_LIST[0]}" />
+			<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="" />
 			<select name="{$FIELD_MODEL->getFieldName()}[]" multiple class="js-multi-reference form-control col-md-12" data-allow-clear="true"
 				id="{$MODULE_NAME}_{$VIEW}_fieldName_{$FIELD_NAME}" data-module="{$MODULE_NAME}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE_NAME)}"
 				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"

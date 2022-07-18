@@ -204,7 +204,7 @@ class Layout
 		$loadData = $iframe = true;
 		$btnTemplate = function (string $popoverText = '', ?string $btnClass = '', string $data = 'data-iframe="true"'): string {
 			$popoverText = \App\Language::translate($popoverText);
-			return "<a href=\"#\" class=\"js-more noLinkBtn font-weight-lighter js-popover-tooltip {$btnClass}\" {$data} data-content=\"{$popoverText}\"><span class=\"mdi mdi-overscan\"></span></a>";
+			return "<a href=\"#\" class=\"js-more noLinkBtn font-weight-lighter js-popover-tooltip ml-2 {$btnClass}\" {$data} data-content=\"{$popoverText}\"><span class=\"mdi mdi-overscan\"></span></a>";
 		};
 		$iframeClass = 'modal-iframe js-modal-iframe';
 		switch ($size) {
