@@ -82,9 +82,9 @@ class RecordsList extends Base
 				$value = '';
 				if (($sourceField = $fieldModel->get('source_field_name')) && !$recordModel->isEmpty($sourceField) && \App\Record::isExists($recordModel->get($sourceField))) {
 					$sourceRecordModel = \Vtiger_Record_Model::getInstanceById($recordModel->get($sourceField));
-					$value = $sourceRecordModel->getDisplayValue($fieldModel->getName(), $recordModel->getId(), true);
+					$value = $fieldModel->getUITypeModel()->getTextParserDisplayValue($sourceRecordModel->get($fieldModel->getName()), $sourceRecordModel, []);
 				} elseif (!$fieldModel->get('source_field_name')) {
-					$value = $recordModel->getDisplayValue($fieldModel->getName(), $recordModel->getId(), true);
+					$value = $fieldModel->getUITypeModel()->getTextParserDisplayValue($recordModel->get($fieldModel->getName()), $recordModel, []);
 				}
 				$html .= "<td style=\"{$bodyStyle}\">" . $value . '</td>';
 			}

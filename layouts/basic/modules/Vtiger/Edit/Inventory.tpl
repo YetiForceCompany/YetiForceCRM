@@ -119,7 +119,7 @@
 			</table>
 		</div>
 		<div class="table-responsive">
-			<table class="table table-bordered inventoryItems">
+			<table class="table table-bordered inventoryItems mb-2">
 				{if count($FIELDS[1]) neq 0}
 					<thead>
 						<tr>

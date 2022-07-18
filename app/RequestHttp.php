@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Request http class.
+ * Request http utils file.
  *
  * @package App
  *
@@ -13,10 +13,20 @@
 namespace App;
 
 /**
- * Class RequestHttp.
+ * Request http utils class.
  */
 class RequestHttp
 {
+	/**
+	 * Get GuzzleHttp client instance.
+	 *
+	 * @return \GuzzleHttp\Client
+	 */
+	public static function getClient(): \GuzzleHttp\Client
+	{
+		return new \GuzzleHttp\Client(self::getOptions());
+	}
+
 	/**
 	 * Get default configuration for GuzzleHttp Client.
 	 *

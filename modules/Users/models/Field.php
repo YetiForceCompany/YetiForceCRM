@@ -120,7 +120,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 				$permission = \App\User::getCurrentUserModel()->isAdmin();
 			} elseif ('authy_secret_totp' === $this->getColumnName()) {
 				$permission = $this->get('recordId') === \App\User::getCurrentUserId();
-			} elseif (!$this->get('editable')) {
+			} else {
 				$permission = parent::isEditable();
 			}
 			$this->set('editable', $permission);

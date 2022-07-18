@@ -28,18 +28,30 @@ class Wapro
 	/** @var array Database config. */
 	public $config;
 
+	/** @var array Custom configuration, enables extension of mappings for synchronization. */
+	public $customConfig;
+
+	/** @var \App\CronHandler The cron task object available when the timing is called by CRON. */
+	public $cron;
+
 	/** @var \App\Db Database instance. */
 	private $db;
 
 	/**
 	 * Wapro instance constructor.
 	 *
-	 * @param int $serverId
+	 * @param int                   $serverId
+	 * @param \App\CronHandler|null $cron
 	 */
-	public function __construct(int $serverId)
+	public function __construct(int $serverId, ?\App\CronHandler $cron = null)
 	{
 		$this->config = self::getById($serverId);
+		$this->config['synchronizer'] = $this->config['synchronizer'] ? (\App\Json::decode($this->config['synchronizer']) ?? []) : [];
+		$this->customConfig = \App\Config::component('IntegrationWapro', 'config', []);
 		$this->db = self::connectToDatabase($this->config['server'], $this->config['database'], $this->config['username'], $this->config['password'], $this->config['port']);
+		if ($cron) {
+			$this->cron = $cron;
+		}
 	}
 
 	/**
@@ -143,9 +155,6 @@ class Wapro
 	{
 		$info = '';
 		$pdo = $this->db->getSlavePdo();
-		foreach (array_merge($pdo->getAttribute(\PDO::ATTR_SERVER_INFO), $pdo->getAttribute(\PDO::ATTR_CLIENT_VERSION)) as $key => $value) {
-			$info .= "$key: $value \n";
-		}
 		$info .= "dbo.WAPRODBSTATE:\n";
 		foreach ((new \App\Db\Query())->from('dbo.WAPRODBSTATE')->all($this->db) as $row) {
 			$info .= " {$row['PRGNAZWA']}, {$row['PRGWER']}, {$row['DBWER']}, {$row['WARIANT']}\n";
@@ -154,14 +163,10 @@ class Wapro
 		foreach ((new \App\Db\Query())->from('dbo.FIRMA')->all($this->db) as $row) {
 			$info .= " {$row['NAZWA_PELNA']}, NIP: {$row['NIP']}, REGON: {$row['REGON']}\n";
 		}
-		$info .= 'dbo.KONTAKT: ' . (new \App\Db\Query())->from('dbo.KONTAKT')->count('*', $this->db) . PHP_EOL;
-		$info .= 'dbo.KONTRAHENT: ' . (new \App\Db\Query())->from('dbo.KONTRAHENT')->count('*', $this->db) . PHP_EOL;
-		$info .= 'dbo.ARTYKUL: ' . (new \App\Db\Query())->from('dbo.ARTYKUL')->count('*', $this->db) . PHP_EOL;
-		$info .= 'dbo.UZYTKOWNIK: ' . (new \App\Db\Query())->from('dbo.UZYTKOWNIK')->count('*', $this->db) . PHP_EOL;
-		$info .= 'dbo.ZAMOWIENIE: ' . (new \App\Db\Query())->from('dbo.ZAMOWIENIE')->count('*', $this->db) . PHP_EOL;
-		$info .= 'dbo.ROZLICZENIE: ' . (new \App\Db\Query())->from('dbo.ROZLICZENIE')->count('*', $this->db) . PHP_EOL;
-		$info .= 'dbo.ROZRACHUNEK: ' . (new \App\Db\Query())->from('dbo.ROZRACHUNEK')->count('*', $this->db) . PHP_EOL;
-		return $info;
+		foreach (array_merge($pdo->getAttribute(\PDO::ATTR_SERVER_INFO), $pdo->getAttribute(\PDO::ATTR_CLIENT_VERSION)) as $key => $value) {
+			$info .= "$key: $value \n";
+		}
+		return trim($info);
 	}
 
 	/**
@@ -169,15 +174,16 @@ class Wapro
 	 *
 	 * @return Wapro\Synchronizer[]
 	 */
-	public static function getAllSynchronizers(): array
+	public function getAllSynchronizers(): array
 	{
 		$synchronizers = [];
 		$iterator = new \DirectoryIterator(__DIR__ . '/Wapro/Synchronizer');
 		foreach ($iterator as $item) {
 			if ($item->isFile() && 'php' === $item->getExtension() && $synchronizer = self::getSynchronizer($item->getBasename('.php'))) {
-				$providers[$item->getBasename('.php')] = $synchronizer;
+				$synchronizers[$synchronizer::SEQUENCE] = $synchronizer;
 			}
 		}
+		ksort($synchronizers);
 		return $synchronizers;
 	}
 
@@ -192,6 +198,22 @@ class Wapro
 	{
 		$className = "\\App\\Integrations\\Wapro\\Synchronizer\\{$name}";
 		return class_exists($className) ? new $className($this) : null;
+	}
+
+	/**
+	 * Get synchronizers.
+	 *
+	 * @return Wapro\Synchronizer[]
+	 */
+	public function getSynchronizers(): array
+	{
+		$synchronizers = [];
+		foreach ($this->config['synchronizer'] as $name) {
+			$synchronizer = $this->getSynchronizer($name);
+			$synchronizers[$synchronizer::SEQUENCE] = $synchronizer;
+		}
+		ksort($synchronizers);
+		return $synchronizers;
 	}
 
 	/**

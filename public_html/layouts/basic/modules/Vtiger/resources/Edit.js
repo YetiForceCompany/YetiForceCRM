@@ -136,14 +136,7 @@ $.Class(
 		 */
 		saveAjaxValidation: function (params) {
 			const aDeferred = $.Deferred();
-			let validation = true;
-			if (
-				typeof app.pageController.getForm !== 'undefined' &&
-				app.pageController.getForm().find('#preSaveValidation').length !== 0
-			) {
-				validation = parseInt(app.pageController.getForm().find('#preSaveValidation').val());
-			}
-			if (validation) {
+			if (this.getInstance().checkPreSaveValidation()) {
 				let paramsTemp = JSON.parse(JSON.stringify(params));
 				paramsTemp.data.mode = 'preSaveValidation';
 				AppConnector.request(paramsTemp)
@@ -1597,8 +1590,12 @@ $.Class(
 			const fieldElement = this.getForm().find(`[name="${fieldName}"]`),
 				fieldInfo = fieldElement.data('fieldinfo');
 			if (fieldElement.is('select') && fieldInfo) {
-				const val = fieldElement.val(),
-					fieldValue = fieldElement.closest('.fieldValue');
+				const val = fieldElement.val() ?? '',
+					fieldValue = fieldElement.closest('.fieldValue'),
+					currentValues = [...fieldElement.get(0).options]
+						.map((o) => o.value)
+						.filter((e) => e !== '')
+						.sort();
 				let newOptions = new $();
 				if (!fieldInfo.mandatory) {
 					newOptions = newOptions.add(
@@ -1608,12 +1605,40 @@ $.Class(
 				$.each(options, (_, e) => {
 					newOptions = newOptions.add(new Option(fieldInfo['picklistvalues'][e], e, false, val == e));
 				});
+
+				const newValues = [...newOptions.map((_, e) => e.value)].filter((e) => e !== '').sort();
+				if (currentValues.length === newValues.length && currentValues.every((e, i) => e === newValues[i])) {
+					return;
+				}
+
+				let selected = newOptions.filter(':selected').length > 0;
 				fieldElement.html(newOptions);
-				fieldValue.addClass('border border-info');
-				setTimeout(function () {
-					fieldValue.removeClass('border border-info');
-				}, 5000);
+				let change = val && val !== fieldElement.val();
+				if ((val === '' && !selected) || change) {
+					fieldElement.val(null);
+				}
+				if (change) {
+					fieldValue.addClass('border border-info');
+					fieldElement.trigger('change');
+					setTimeout(function () {
+						fieldValue.removeClass('border border-info');
+					}, 5000);
+				}
 			}
+		},
+		/**
+		 * Check if pre save validation is active
+		 * @returns {bool}
+		 */
+		checkPreSaveValidation: function () {
+			let validation = true;
+			if (
+				typeof app.pageController.getForm !== 'undefined' &&
+				app.pageController.getForm().find('#preSaveValidation').length !== 0
+			) {
+				validation = app.pageController.getForm().find('#preSaveValidation').val() == 1;
+			}
+			return validation;
 		},
 		/**
 		 * Register change value handler events
@@ -1621,7 +1646,7 @@ $.Class(
 		 */
 		registerChangeValueHandlerEvent: function (container) {
 			const event = container.find('.js-change-value-event');
-			if (event.length <= 0) {
+			if (event.length <= 0 || event.val() === '[]') {
 				return;
 			}
 			const fields = JSON.parse(event.val());

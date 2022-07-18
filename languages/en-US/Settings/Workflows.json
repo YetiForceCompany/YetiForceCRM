@@ -44,6 +44,7 @@
     "LBL_RECREATE_CONDITIONS": "Recreate conditions",
     "LBL_SAVE_AND_CONTINUE": "Save & continue",
     "LBL_SELECT_OPTIONS": "Select options",
+    "LBL_SELECT_FIELDS_SAVE": "Select the fields to save",
     "LBL_SEND_NOTIFICATION": "Send notification",
     "LBL_SET_FIELD_VALUES": "Set field values",
     "LBL_SET_VALUE": "Set value",
@@ -193,6 +194,7 @@
     "LBL_UPLOAD_ERROR": "Import of trigger record from XML file was unsuccessful!",
     "LBL_UPLOAD_OK": "Trigger XML file imported successfully.",
     "LBL_RETURN": "Return",
+    "LBL_RECORD_COLLECTOR": "Record collectors",
     "LBL_GO_TO_TEMPLATE": "Click to go to imported record.",
     "LBL_MESSAGES_FROM_USERS": "Messages from users",
     "LBL_WATCHDOG": "Track changes",
@@ -264,7 +266,10 @@
     "LBL_ERROR_DELETE_ENTRY": "Error, delete entry.",
     "LBL_SORT_WORKFLOW_ACTIONS": "Sort workflow actions",
     "LBL_SELECT_WORKFLOW": "Select workflow",
-    "LBL_SET_WORKFLOW_BEFORE": "Set workflow before"
+    "LBL_SET_WORKFLOW_BEFORE": "Set workflow before",
+    "LBL_SOURCE_MODULE": "Source module",
+    "LBL_ONE_TO_MANY_RELATIONS": "One to many relations",
+    "LBL_MANY_TO_MANY_RELATIONS": "Many to many relations"
   },
   "js": {
     "JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE": "Same fields selected more than once",

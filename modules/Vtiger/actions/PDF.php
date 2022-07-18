@@ -99,7 +99,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$templateIds = $request->getArray('pdf_template', 'Integer');
 		$singlePdf = 1 === $request->getInteger('single_pdf');
 		$emailPdf = 1 === $request->getInteger('email_pdf');
-		$pdfFlag = $request->getByType('flag', \App\Purifier::STANDARD) ?: '';
+		$pdfFlag = $request->getByType('flag', \App\Purifier::STANDARD) ?: null;
 		$key = 'inventoryColumns';
 		$userVariables = $request->getArray('userVariables', \App\Purifier::TEXT);
 

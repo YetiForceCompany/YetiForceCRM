@@ -253,15 +253,14 @@ Vtiger_Base_Validator_Js(
 	'Vtiger_Double_Validator_Js',
 	{
 		/**
-		 *Function which invokes field validation
-		 *@param accepts field element as parameter
+		 * Function which invokes field validation
+		 * @param accepts field element as parameter
 		 * @return error if validation fails true on success
 		 */
 		invokeValidation: function (field, rules, i, options) {
-			var doubleValidator = new Vtiger_Double_Validator_Js();
+			let doubleValidator = new Vtiger_Double_Validator_Js();
 			doubleValidator.setElement(field);
-			var response = doubleValidator.validate();
-			if (response != true) {
+			if (!doubleValidator.validate()) {
 				return doubleValidator.getError();
 			}
 		}
@@ -275,11 +274,10 @@ Vtiger_Base_Validator_Js(
 		validate: function () {
 			let response = this._super();
 			if (response === true) {
-				var fieldValue = this.getFieldValue();
-				var doubleRegex = /(^[-+]?\d+)(\.\d+)?$/;
+				let fieldValue = this.getFieldValue();
+				let doubleRegex = /(^[-+]?\d+)(\.\d+)?$/;
 				if (!fieldValue.toString().match(doubleRegex)) {
-					var errorInfo = app.vtranslate('JS_PLEASE_ENTER_DECIMAL_VALUE');
-					this.setError(errorInfo);
+					this.setError(app.vtranslate('JS_PLEASE_ENTER_DECIMAL_VALUE'));
 					return false;
 				}
 				let fieldInfo = this.getElement().data().fieldinfo;
@@ -295,8 +293,7 @@ Vtiger_Base_Validator_Js(
 					minimumLength = ranges[0];
 				}
 				if (fieldValue > parseFloat(maximumLength) || fieldValue < parseFloat(minimumLength)) {
-					errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
-					this.setError(errorInfo);
+					this.setError(app.vtranslate('JS_ERROR_MAX_VALUE'));
 					return false;
 				}
 			}
@@ -342,10 +339,8 @@ Vtiger_Base_Validator_Js(
 			}
 			var fieldValue = this.getFieldValue();
 			var negativeRegex = /(^[-]+\d+)$/;
-			var parseFieldValue = App.Fields.Double.formatToDb(this.getFieldValue());
-			if (isNaN(parseFieldValue) || fieldValue < 0 || fieldValue.match(negativeRegex)) {
-				var errorInfo = app.vtranslate('JS_ACCEPT_POSITIVE_NUMBER');
-				this.setError(errorInfo);
+			if (isNaN(fieldValue) || fieldValue < 0 || fieldValue.toString().match(negativeRegex)) {
+				this.setError(app.vtranslate('JS_ACCEPT_POSITIVE_NUMBER'));
 				return false;
 			}
 			var maximumLength = null;
@@ -360,18 +355,24 @@ Vtiger_Base_Validator_Js(
 			let ranges = maximumLength.split(',');
 			if (ranges.length === 2) {
 				if (fieldValue > parseFloat(ranges[1]) || fieldValue < parseFloat(ranges[0])) {
-					errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
-					this.setError(errorInfo);
+					this.setError(app.vtranslate('JS_ERROR_MAX_VALUE'));
 					return false;
 				}
 			} else {
 				if (fieldValue > parseFloat(ranges[0]) || fieldValue < 0) {
-					errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
-					this.setError(errorInfo);
+					this.setError(app.vtranslate('JS_ERROR_MAX_VALUE'));
 					return false;
 				}
 			}
 			return true;
+		},
+
+		/**
+		 * Overwrites base function to avoid trimming and validate white spaces
+		 * @return fieldValue
+		 * */
+		getFieldValue: function () {
+			return App.Fields.Double.formatToDb(this.getElement().val());
 		}
 	}
 );
@@ -385,10 +386,9 @@ Vtiger_PositiveNumber_Validator_Js(
 		 * @return error if validation fails true on success
 		 */
 		invokeValidation: function (field, rules, i, options) {
-			var percentageInstance = new Vtiger_Percentage_Validator_Js();
+			let percentageInstance = new Vtiger_Percentage_Validator_Js();
 			percentageInstance.setElement(field);
-			var response = percentageInstance.validate();
-			if (response != true) {
+			if (!percentageInstance.validate()) {
 				return percentageInstance.getError();
 			}
 		}
@@ -401,15 +401,22 @@ Vtiger_PositiveNumber_Validator_Js(
 		 */
 		validate() {
 			const response = this._super();
-			if (response != true) {
+			if (response !== true) {
 				return response;
 			} else {
-				if (App.Fields.Double.formatToDb(this.getFieldValue()) > 100) {
+				if (this.getFieldValue() > 100) {
 					this.setError(app.vtranslate('JS_PERCENTAGE_VALUE_SHOULD_BE_LESS_THAN_100'));
 					return false;
 				}
 				return true;
 			}
+		},
+		/**
+		 * Overwrites base function to avoid trimming and validate white spaces
+		 * @return fieldValue
+		 * */
+		getFieldValue: function () {
+			return App.Fields.Double.formatToDb(this.getElement().val());
 		}
 	}
 );
@@ -598,7 +605,7 @@ Vtiger_PositiveNumber_Validator_Js(
 				return response;
 			}
 			let field = this.getElement(),
-				fieldValue = App.Fields.Double.formatToDb(this.getFieldValue()),
+				fieldValue = this.getFieldValue(),
 				fieldData = field.data(),
 				fieldInfo = fieldData.fieldinfo,
 				errorInfo;
@@ -1413,6 +1420,13 @@ Vtiger_WholeNumber_Validator_Js(
 				}
 			}
 			return true;
+		},
+		/**
+		 * Overwrites base function to avoid trimming and validate white spaces
+		 * @return fieldValue
+		 */
+		getFieldValue: function () {
+			return App.Fields.Double.formatToDb(this.getElement().val());
 		}
 	}
 );

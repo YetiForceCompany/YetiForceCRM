@@ -492,6 +492,11 @@
     "LBL_TAX": "Tax",
     "LBL_TAX_IN_PERCENT": "Tax (%)",
     "LBL_TAX_MODE": "Tax mode",
+    "LBL_DISCOUNT_AGGREGATION": "Discount aggregation type",
+    "LBL_DISCOUNT_AGGREGATION_DESC": "Selection list of allowed discount summation types",
+    "LBL_CANNOT_BE_COMBINED": "Cannot be combined",
+    "LBL_IN_TOTAL": "In total",
+    "LBL_CASCADE": "Cascade",
     "LBL_Thu": "Thu",
     "LBL_TO": "To",
     "LBL_TO_LC": "to",
@@ -984,6 +989,7 @@
     "LBL_AVAILABLE_DICOUNTS": "Available discounts",
     "LBL_ACCOUNT_DISCOUNT": "Account's discount",
     "LBL_CUSTOM_DISCOUNT": "Custom discount",
+    "LBL_ADDITIONAL_DISCOUNT": "Additional discount",
     "LBL_PERCENTAGE_DISCOUNTS": "Percentage",
     "LBL_AMOUNT_DISCOUNTS": "Amount",
     "LBL_DISCOUNT_FOR_ACCOUNT": "Discount for Account",
@@ -1499,7 +1505,9 @@
     "LBL_ICONS": "Icons",
     "LBL_BROWSE_ASSETS": "Browse Assets",
     "LBL_MEDIA": "Media",
-    "LBL_IMAGES": "Images"
+    "LBL_IMAGES": "Images",
+    "FL_WAPRO_ID": "WAPRO ERP ID",
+    "LBL_IMAGE_PREVIEW": "Image preview"
   },
   "js": {
     "JS_APPROVE": "Approve",

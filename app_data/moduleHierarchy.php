@@ -39,7 +39,7 @@ return [
 		],
 		'OSSTimeControl' => [
 			'process' => ['Project' => ['link' => ['linktoaccountscontacts']]],
-			'subprocess' => ['HelpDesk' => ['name' => ['ticket_title']]],
+			'subprocess' => ['HelpDesk' => ['name' => ['ticket_title'], 'link' => ['parent_id'], 'process' => ['servicecontractsid'], 'linkextend' => ['contact_id']]]
 		],
 		'SRequirementsCards' => [
 			'salesprocessid' => ['SSalesProcesses' => ['accountid' => ['related_to']]],
@@ -130,7 +130,6 @@ return [
 		'OSSOutsourcedServices' => ['Accounts', 'Leads'],
 		'Assets' => ['Accounts', 'Leads'],
 		'OutsourcedProducts' => ['Accounts', 'Leads'],
-		'OSSPasswords' => ['Accounts', 'Leads', 'HelpDesk', 'Vendors'],
 		'Calendar' => ['Accounts', 'Contacts', 'OSSEmployees', 'Leads', 'Vendors', 'HelpDesk', 'Project', 'HelpDesk', 'ServiceContracts', 'Campaigns'],
 	],
 	'modulesMapMMBase' => ['Services', 'Reservations'],

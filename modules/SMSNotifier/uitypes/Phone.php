@@ -17,24 +17,25 @@ class SMSNotifier_Phone_UIType extends Vtiger_Phone_UIType
 	/**
 	 * Gets phones from related record.
 	 *
-	 * @param int $relatedId
+	 * @param Vtiger_Record_Model $recordModel
 	 *
 	 * @return array
 	 */
-	public function getRelatedFields(int $relatedId): array
+	public function getRelatedFields(Vtiger_Record_Model $recordModel): array
 	{
 		$phones = [];
+		$relatedId = $recordModel->get('related_to') ?: $recordModel->getField('related_to')->get('fieldvalue');
 		$fieldModel = $this->getFieldModel();
-		if (\App\Record::isExists($relatedId)) {
-			$recordModel = Vtiger_Record_Model::getInstanceById($relatedId);
-			$sourceModuleModel = $recordModel->getModule();
-			$refField = $fieldModel->getModule()->getFieldByName('related_to');
+		if ($relatedId && \App\Record::isExists($relatedId)) {
+			$relatedRecordModel = Vtiger_Record_Model::getInstanceById($relatedId);
+			$sourceModuleModel = $relatedRecordModel->getModule();
+			$refField = $recordModel->getField('related_to');
 
-			if ($refField && $refField->isActiveField() && $fieldModel && $fieldModel->isActiveField() && \in_array($recordModel->getModuleName(), $refField->getReferenceList())) {
-				foreach ($sourceModuleModel->getFieldsByType('phone') as $phoneModel) {
-					if (!$recordModel->isEmpty($phoneModel->getName()) && $phoneModel->isViewable()) {
+			if ($refField && $refField->isActiveField() && $fieldModel && $fieldModel->isActiveField() && \in_array($relatedRecordModel->getModuleName(), $refField->getReferenceList())) {
+				foreach ($sourceModuleModel->getFieldsByType('phone', true) as $phoneModel) {
+					if (!$relatedRecordModel->isEmpty($phoneModel->getName()) && $phoneModel->isViewable()) {
 						$phoneField = clone $phoneModel;
-						$phoneField->set('fieldvalue', $recordModel->get($phoneModel->getName()));
+						$phoneField->set('fieldvalue', $relatedRecordModel->get($phoneModel->getName()));
 						$phones[$phoneField->getName()] = $phoneField;
 					}
 				}

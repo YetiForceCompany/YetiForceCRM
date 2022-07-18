@@ -53,6 +53,7 @@ $.Class(
 		 */
 		registerTileClickEvent: function (tileContainer) {
 			tileContainer.on('click', '.js-card-body', function (e) {
+				if ($(e.target).hasClass('js-show-image-preview')) return;
 				if ($(e.target).closest('div').hasClass('actions')) return;
 				if ($(e.target).is('button') || $(e.target).parent().is('button')) return;
 				if ($(e.target).closest('a').hasClass('noLinkBtn')) return;
@@ -72,6 +73,26 @@ $.Class(
 				this.setHeightOfTiles(this.contentContainer);
 			});
 		},
+		registerImagePreview() {
+			this.contentContainer.on('click', '.js-show-image-preview', (e) => {
+				const moduleName = this.contentContainer.find('[name="module"]').length
+					? this.contentContainer.find('[name="module"]').val()
+					: app.getModuleName();
+				const recordId = $(e.target).closest('.js-tile-container').attr('data-record-id');
+				const url = `index.php?module=${moduleName}&view=ImagePreview&record=${recordId}`;
+				app.showModalWindow('', url, (modalWindow) => {
+					let imageSrc = '';
+					if ('IMG' === e.target.nodeName) {
+						imageSrc = $(e.target).attr('src');
+					} else {
+						imageSrc = $(e.target).css('background-image');
+						imageSrc = imageSrc.replace('url("', '');
+						imageSrc = imageSrc.replace('")', '');
+					}
+					modalWindow.find('img.js-image-preview').attr('src', imageSrc);
+				});
+			});
+		},
 		/**
 		 * Register events
 		 */
@@ -83,6 +104,7 @@ $.Class(
 			this.registerTileSizeChange(topMenuContainer);
 			this.setHeightOfTiles();
 			this.registerTileClickEvent(this.contentContainer);
+			this.registerImagePreview();
 		}
 	}
 );

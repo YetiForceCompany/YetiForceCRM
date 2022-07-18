@@ -414,6 +414,23 @@ class Item extends \App\Base
 		return $fieldName ? ($this->changes[$fieldName] ?? null) : $this->changes;
 	}
 
+	/** {@inheritdoc} */
+	public function getData()
+	{
+		$data = [];
+		foreach (get_object_vars($this) as $name => $value) {
+			if (\is_object($value) || 'value' === $name || 'changes' === $name || null === $value) {
+				continue;
+			}
+			if (\is_array($value)) {
+				$value = implode(',', $value);
+			}
+			$data[$name] = $value;
+		}
+
+		return $data;
+	}
+
 	/**
 	 * Get fields for edit.
 	 *

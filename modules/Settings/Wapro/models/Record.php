@@ -56,6 +56,39 @@ class Settings_Wapro_Record_Model extends Settings_Vtiger_Record_Model
 		return $instance;
 	}
 
+	/** {@inheritdoc} */
+	public function getRecordLinks(): array
+	{
+		$recordLinks = [
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_SYNCHRONIZER_LIST',
+				'linkdata' => ['id' => $this->getId()],
+				'linkicon' => 'fas fa-list',
+				'linkclass' => 'btn btn-secondary btn-sm js-list-sync'
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_EDIT_RECORD',
+				'linkdata' => ['url' => $this->getEditViewUrl()],
+				'linkicon' => 'yfi yfi-full-editing-view',
+				'linkclass' => 'btn btn-primary btn-sm js-edit-record-modal'
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_DELETE_RECORD',
+				'linkurl' => 'javascript:Settings_Vtiger_List_Js.deleteById(' . $this->getId() . ')',
+				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn text-white btn-danger btn-sm'
+			],
+		];
+		$links = [];
+		foreach ($recordLinks as $recordLink) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+		}
+		return $links;
+	}
+
 	/**
 	 * Function to save.
 	 *
@@ -84,7 +117,7 @@ class Settings_Wapro_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function delete(): int
 	{
-		$return = \App\Db::getInstance()->createCommand()
+		$return = \App\Db::getInstance('admin')->createCommand()
 			->delete($this->getModule()->baseTable, ['id' => $this->getId()])
 			->execute();
 		\App\Cache::delete('App\Integrations\Wapro::getById', $this->getId());

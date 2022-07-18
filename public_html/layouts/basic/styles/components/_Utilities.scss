@@ -533,11 +533,12 @@
 //--- COLORS ---//
 .u-bg-twilight {
 	background-color: #404952 !important;
-	color: #fff;
+	color: #fff !important;
 }
 
 .u-bg-blue {
 	background-color: #0078d4 !important;
+	color: #fff !important;
 }
 
 .u-bg-gray {
@@ -547,6 +548,11 @@
 
 .u-text-gray {
 	color: #d1d1db !important;
+}
+
+.u-bg-default {
+	background-color: #fff;
+	color: $black;
 }
 
 .u-text-inherit {

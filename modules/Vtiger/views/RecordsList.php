@@ -22,7 +22,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		if (!$request->isEmpty('related_parent_module') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('related_parent_module', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!$request->isEmpty('src_module') && (!$currentUserPrivilegesModel->isAdminUser() && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('src_module', 2)))) {
+		if (!$request->isEmpty('src_module') && (!\App\Security\AdminAccess::isPermitted($request->getByType('src_module', 2)) && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('src_module', 2)))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!$request->isEmpty('related_parent_id', true)) {

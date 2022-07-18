@@ -5,7 +5,7 @@
 	{assign var="REFERENCE_LIST_COUNT" value=count($REFERENCE_LIST)}
 	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
-	{assign var="UITYPE_MODEL" value=$FIELD_MODEL->getUITypeModel()}
+	{assign var=UITYPE_MODEL value=$FIELD_MODEL->getUITypeModel()}
 	{assign var=TABINDEX value=$FIELD_MODEL->getTabIndex()}
 	<div class="uitype_{$MODULE}_{$FIELD_NAME} tpl-List-Field-ReferenceSubProcess">
 		{if {$REFERENCE_LIST_COUNT} eq 1}

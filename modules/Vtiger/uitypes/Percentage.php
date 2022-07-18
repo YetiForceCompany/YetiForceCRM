@@ -12,14 +12,19 @@
 class Vtiger_Percentage_UIType extends Vtiger_Base_UIType
 {
 	/** {@inheritdoc} */
+	public function getDBValue($value, $recordModel = false)
+	{
+		return \App\Fields\Double::formatToDb($value);
+	}
+
+	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
 		if ($isUserFormat) {
-			$currentUser = \App\User::getCurrentUserModel();
-			$value = str_replace([$currentUser->getDetail('currency_grouping_separator'), $currentUser->getDetail('currency_decimal_separator'), ' '], ['', '.', ''], $value);
+			$value = \App\Fields\Double::formatToDb($value);
 		}
 		if (!is_numeric($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
@@ -41,6 +46,12 @@ class Vtiger_Percentage_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		return App\Fields\Double::formatToDisplay($value) . '%';
+	}
+
+	/** {@inheritdoc} */
+	public function getEditViewDisplayValue($value, $recordModel = false)
+	{
+		return App\Fields\Double::formatToDisplay($value);
 	}
 
 	/** {@inheritdoc} */

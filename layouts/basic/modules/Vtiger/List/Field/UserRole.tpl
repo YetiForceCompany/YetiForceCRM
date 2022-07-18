@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-List-Field-UserRole -->
 	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{if isset($SEARCH_INFO['searchValue'])}
 		{assign var=SEARCH_VALUE value=explode('##', $SEARCH_INFO['searchValue'])}
@@ -7,7 +8,7 @@
 		{assign var=SEARCH_VALUE value=[]}
 	{/if}
 	{assign var=SEARCH_VALUES value=array_map("trim",$SEARCH_VALUE)}
-	<div class="tpl-List-Field-UserRole picklistSearchField">
+	<div class="picklistSearchField u-min-w-150pxr">
 		<select name="{$FIELD_MODEL->getFieldName()}" class="select2noactive listSearchContributor form-control"
 			title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" multiple="multiple" data-fieldinfo="{$FIELD_INFO}"
 			{if App\Config::performance('SEARCH_ROLES_BY_AJAX')}
@@ -33,4 +34,5 @@
 			{/if}
 		</select>
 	</div>
+	<!-- /tpl-Base-List-Field-UserRole -->
 {/strip}

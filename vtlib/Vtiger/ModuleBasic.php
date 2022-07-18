@@ -156,7 +156,9 @@ class ModuleBasic
 		if ($this->isentitytype) {
 			$this->unsetEntityIdentifier();
 		}
-		\App\Db::getInstance()->createCommand()->delete('vtiger_tab', ['tabid' => $this->id])->execute();
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		$dbCommand->delete('vtiger_tab', ['tabid' => $this->id])->execute();
+		$dbCommand->delete('a_#__settings_modules', ['name' => $this->name])->execute();
 		\App\Log::trace("Deleting Module $this->name ... DONE", __METHOD__);
 	}
 
@@ -293,6 +295,7 @@ class ModuleBasic
 					'entityidfield' => $this->entityidfield,
 					'entityidcolumn' => $this->entityidcolumn,
 					'searchcolumn' => $fieldInstance->name,
+					'sequence' => $this->id,
 				])->execute();
 				\App\Log::trace('Setting entity identifier ... DONE', __METHOD__);
 			} else {

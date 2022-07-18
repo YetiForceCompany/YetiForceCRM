@@ -368,7 +368,7 @@ class Functions
 				$viewer->assign('HEADER_MESSAGE', \App\Language::translate($messageHeader));
 				$viewer->view('Exceptions/ExceptionError.tpl', 'Vtiger');
 			} else {
-				echo (\Config\Debug::$EXCEPTION_ERROR_TO_SHOW ? $message : \App\Language::translate('ERR_OCCURRED_ERROR')) . PHP_EOL;
+				echo(\Config\Debug::$EXCEPTION_ERROR_TO_SHOW ? $message : \App\Language::translate('ERR_OCCURRED_ERROR')) . PHP_EOL;
 			}
 		}
 		if ($die) {
@@ -575,21 +575,18 @@ class Functions
 	 */
 	public static function getConversionRateInfo($currencyId, $date = '')
 	{
-		$currencyUpdateModel = \Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 		$defaultCurrencyId = \App\Fields\Currency::getDefault()['id'];
 		$info = [];
-
 		if (empty($date)) {
 			$yesterday = date('Y-m-d', strtotime('-1 day'));
 			$date = self::getLastWorkingDay($yesterday);
 		}
 		$info['date'] = $date;
-
 		if ($currencyId == $defaultCurrencyId) {
 			$info['value'] = 1.0;
 			$info['conversion'] = 1.0;
 		} else {
-			$value = $currencyUpdateModel->getCRMConversionRate($currencyId, $defaultCurrencyId, $date);
+			$value = \Settings_CurrencyUpdate_Module_Model::getCleanInstance()->getCRMConversionRate($currencyId, $defaultCurrencyId, $date);
 			$info['value'] = empty($value) ? 1.0 : round($value, 5);
 			$info['conversion'] = empty($value) ? 1.0 : round(1 / $value, 5);
 		}

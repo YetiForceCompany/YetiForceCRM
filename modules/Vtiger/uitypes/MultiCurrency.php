@@ -168,12 +168,12 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 	/**
 	 * Get value for the currency.
 	 *
-	 * @param string $value
-	 * @param int    $currencyId
+	 * @param string|array $value
+	 * @param int          $currencyId
 	 *
 	 * @return float
 	 */
-	public function getValueForCurrency(string $value, int $currencyId): float
+	public function getValueForCurrency($value, int $currencyId): float
 	{
 		$result = 0;
 		if (\is_string($value)) {

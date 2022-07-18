@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-ConfigEditor-Detail -->
-	<div id="ConfigEditorDetails">
+	<div class="verticalScroll">
 		<div class="o-breadcrumb widget_header row">
 			<div class="col-md-8">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
@@ -28,7 +28,7 @@
 		</div>
 		<div id="my-tab-content" class="tab-content">
 			<div class="js-tab tab-pane {if $ACTIVE_TAB eq 'Main'}active{/if}" id="Main" data-name="Main" data-js="data">
-				{include file=\App\Layout::getTemplatePath('MainDetail.tpl', $QUALIFIED_MODULE)}
+				{include file=\App\Layout::getTemplatePath('Edit.tpl', $QUALIFIED_MODULE)}
 			</div>
 			{foreach from=$CONFIG_NAMES item=CONFIG_NAME}
 				<div class="js-tab tab-pane {if $ACTIVE_TAB eq $CONFIG_NAME}active{/if}" id="{$CONFIG_NAME}" data-name="{$CONFIG_NAME}" data-js="data">

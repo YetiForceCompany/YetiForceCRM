@@ -23,11 +23,7 @@ class Vtiger_Base_UIType extends \App\Base
 	/** @var bool Field is writable */
 	protected $writable = true;
 
-	/**
-	 * Verify the value.
-	 *
-	 * @var mixed[]
-	 */
+	/** @var mixed[] Verify the value. */
 	protected $validate = [];
 
 	/**

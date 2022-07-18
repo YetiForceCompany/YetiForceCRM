@@ -266,7 +266,7 @@ CREATE TABLE `a_yf_settings_modules` (
   `created_time` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `a_yf_settings_modules_name_status_idx` (`name`,`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_smsnotifier_servers` */
 
@@ -336,7 +336,7 @@ CREATE TABLE `com_vtiger_workflow_tasktypes` (
   `modules` varchar(500) DEFAULT NULL,
   `sourcemodule` varchar(255) DEFAULT NULL,
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflows` */
 
@@ -5618,7 +5618,8 @@ CREATE TABLE `vtiger_crmentity` (
   KEY `crmid` (`crmid`,`deleted`),
   KEY `crmid_2` (`crmid`,`setype`),
   KEY `setypedeleted` (`setype`,`deleted`),
-  KEY `setype` (`setype`)
+  KEY `setype` (`setype`),
+  KEY `vtiger_crmentity_deleted_private_smownerid_idx` (`deleted`,`private`,`smownerid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_crmentityrel` */
@@ -5658,7 +5659,7 @@ CREATE TABLE `vtiger_cron_task` (
   UNIQUE KEY `handler_class` (`handler_class`),
   KEY `vtiger_cron_task_status_idx` (`status`),
   KEY `vtiger_cron_task_sequence_idx` (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */
 
@@ -7175,13 +7176,13 @@ CREATE TABLE `vtiger_links` (
   `handler_path` varchar(128) DEFAULT NULL,
   `handler_class` varchar(50) DEFAULT NULL,
   `handler` varchar(50) DEFAULT NULL,
-  `params` varchar(255) DEFAULT NULL,
+  `params` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`linkid`),
   KEY `link_tabidtype_idx` (`tabid`,`linktype`),
   KEY `linklabel` (`linklabel`),
   KEY `linkid` (`linkid`,`tabid`,`linktype`,`linklabel`),
   KEY `linktype` (`linktype`)
-) ENGINE=InnoDB AUTO_INCREMENT=377 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=375 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_locationregister_status` */
 
@@ -7801,33 +7802,6 @@ CREATE TABLE `vtiger_ossoutsourcedservicescf` (
   CONSTRAINT `fk_1_vtiger_ossoutsourcedservicescf` FOREIGN KEY (`ossoutsourcedservicesid`) REFERENCES `vtiger_ossoutsourcedservices` (`ossoutsourcedservicesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_osspasswords` */
-
-CREATE TABLE `vtiger_osspasswords` (
-  `osspasswordsid` int(10) NOT NULL,
-  `osspassword_no` varchar(100) NOT NULL,
-  `passwordname` varchar(100) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `password` varbinary(200) NOT NULL,
-  `link_adres` varchar(255) DEFAULT NULL,
-  `linkto` int(10) DEFAULT NULL,
-  `linkextend` int(10) DEFAULT NULL,
-  `multicompanyid` int(10) unsigned DEFAULT 0,
-  PRIMARY KEY (`osspasswordsid`),
-  KEY `linkto` (`linkto`),
-  KEY `linkextend` (`linkextend`),
-  KEY `vtiger_osspasswords_multicompanyid_idx` (`multicompanyid`),
-  CONSTRAINT `fk_1_vtiger_osspasswords` FOREIGN KEY (`osspasswordsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_osspasswordscf` */
-
-CREATE TABLE `vtiger_osspasswordscf` (
-  `osspasswordsid` int(10) NOT NULL,
-  PRIMARY KEY (`osspasswordsid`),
-  CONSTRAINT `fk_1_vtiger_osspasswordscf` FOREIGN KEY (`osspasswordsid`) REFERENCES `vtiger_osspasswords` (`osspasswordsid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_osssoldservices` */
 
 CREATE TABLE `vtiger_osssoldservices` (
@@ -7958,15 +7932,6 @@ CREATE TABLE `vtiger_outsourcedproductscf` (
 CREATE TABLE `vtiger_password` (
   `type` varchar(20) NOT NULL,
   `val` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_passwords_config` */
-
-CREATE TABLE `vtiger_passwords_config` (
-  `pass_length_min` int(3) NOT NULL,
-  `pass_length_max` int(3) NOT NULL,
-  `pass_allow_chars` varchar(200) NOT NULL,
-  `register_changes` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_payment_methods` */
@@ -8156,7 +8121,7 @@ CREATE TABLE `vtiger_products` (
   `start_date` date DEFAULT NULL,
   `expiry_date` date DEFAULT NULL,
   `cost_factor` int(10) DEFAULT NULL,
-  `commissionrate` decimal(8,3) DEFAULT NULL,
+  `commissionrate` decimal(8,2) DEFAULT NULL,
   `commissionmethod` varchar(50) DEFAULT NULL,
   `discontinued` tinyint(1) NOT NULL DEFAULT 0,
   `usageunit` varchar(200) DEFAULT NULL,
@@ -8777,7 +8742,7 @@ CREATE TABLE `vtiger_service` (
   `discontinued` tinyint(1) NOT NULL DEFAULT 0,
   `service_usageunit` varchar(200) DEFAULT NULL,
   `website` varchar(255) DEFAULT NULL,
-  `commissionrate` decimal(8,3) DEFAULT NULL,
+  `commissionrate` decimal(8,2) DEFAULT NULL,
   `renewable` tinyint(1) DEFAULT 0,
   `taxes` varchar(50) DEFAULT NULL,
   `purchase` text DEFAULT NULL,
@@ -8868,7 +8833,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 
@@ -9782,26 +9747,6 @@ CREATE TABLE `vtiger_widgets` (
   CONSTRAINT `vtiger_widgets_ibfk_1` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_ws_entity` */
-
-CREATE TABLE `vtiger_ws_entity` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(25) NOT NULL,
-  `handler_path` varchar(255) NOT NULL,
-  `handler_class` varchar(64) NOT NULL,
-  `ismodule` int(3) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ws_fieldinfo` */
-
-CREATE TABLE `vtiger_ws_fieldinfo` (
-  `id` varchar(64) NOT NULL,
-  `property_name` varchar(32) DEFAULT NULL,
-  `property_value` varchar(64) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_ws_fieldtype` */
 
 CREATE TABLE `vtiger_ws_fieldtype` (
@@ -9812,28 +9757,6 @@ CREATE TABLE `vtiger_ws_fieldtype` (
   UNIQUE KEY `uitype_idx` (`uitype`)
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_ws_operation` */
-
-CREATE TABLE `vtiger_ws_operation` (
-  `operationid` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) NOT NULL,
-  `handler_path` varchar(255) NOT NULL,
-  `handler_method` varchar(64) NOT NULL,
-  `type` varchar(8) NOT NULL,
-  `prelogin` int(3) NOT NULL,
-  PRIMARY KEY (`operationid`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ws_operation_parameters` */
-
-CREATE TABLE `vtiger_ws_operation_parameters` (
-  `operationid` int(10) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `type` varchar(64) NOT NULL,
-  `sequence` int(10) NOT NULL,
-  PRIMARY KEY (`operationid`,`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_ws_referencetype` */
 
 CREATE TABLE `vtiger_ws_referencetype` (
@@ -9842,16 +9765,6 @@ CREATE TABLE `vtiger_ws_referencetype` (
   PRIMARY KEY (`fieldtypeid`,`type`),
   KEY `fieldtypeid` (`fieldtypeid`),
   CONSTRAINT `fk_1_vtiger_referencetype` FOREIGN KEY (`fieldtypeid`) REFERENCES `vtiger_ws_fieldtype` (`fieldtypeid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ws_userauthtoken` */
-
-CREATE TABLE `vtiger_ws_userauthtoken` (
-  `userid` int(10) NOT NULL,
-  `token` varchar(36) NOT NULL,
-  `expiretime` int(10) NOT NULL,
-  PRIMARY KEY (`userid`,`expiretime`),
-  UNIQUE KEY `userid_idx` (`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `w_yf_api_session` */

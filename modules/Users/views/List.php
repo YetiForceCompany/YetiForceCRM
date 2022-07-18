@@ -97,7 +97,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 			}
 		}
 		$searchParams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
-		if (empty($searchParams) || !\is_array($searchParams)) {
+		if (empty($searchParams) || !\is_array($searchParams) || empty($searchParams[0])) {
 			$searchParamsRaw = $searchParams = [[['status', 'e', 'Active']]];
 		}
 		$this->listViewModel->loadSearchLockedFields($request);

@@ -124,7 +124,9 @@ Settings_Workflows_Edit_Js(
 						this[preSaveActionFunctionName].apply(this, [taskType]);
 					}
 					let formData = form.serializeFormData();
-					formData.entity_type = form.find('.createEntityModule:visible option:selected').val();
+					let createEntityModule = form.find('.createEntityModule:visible option:selected');
+					formData.entity_type = createEntityModule.val();
+					formData.relationId = createEntityModule.attr('data-relation-id');
 					AppConnector.request(formData).done((data) => {
 						if (data.result) {
 							this.getTaskList();
@@ -564,6 +566,34 @@ Settings_Workflows_Edit_Js(
 		registerVTCreateEntityTaskEvents: function () {
 			this.registerChangeCreateEntityEvent();
 			this.registerVTUpdateFieldsTaskEvents();
+		},
+		/**
+		 * Register record collector events.
+		 */
+		registerRecordCollectorEvents: function () {
+			const recordCollector = $('[name="recordCollector"]');
+			const selectedFields = $('.js-fields-map');
+			recordCollector.on('change', function (e) {
+				let fieldsMap = '';
+				recordCollector.find('.js-fields').each(function (_, e) {
+					let row = $(e);
+					if (row.data('fields') && row.is(':checked')) {
+						fieldsMap = row.data('fields');
+					}
+				});
+				if (fieldsMap !== '') {
+					if (selectedFields.is('select')) {
+						let newOptions = new $();
+						$.each(fieldsMap, (_, e) => {
+							newOptions = newOptions.add(new Option(e, e, false));
+						});
+						selectedFields.html(newOptions);
+					}
+				}
+			});
+			if (recordCollector.val() && selectedFields.val().length < 1) {
+				recordCollector.trigger('change');
+			}
 		},
 		registerChangeCreateEntityEvent: function () {
 			var thisInstance = this;

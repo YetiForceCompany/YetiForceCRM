@@ -16,7 +16,7 @@ class VTCreateEntityTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return ['entity_type', 'reference_field', 'field_value_mapping', 'mappingPanel', 'verifyIfExists'];
+		return ['entity_type', 'reference_field', 'field_value_mapping', 'mappingPanel', 'verifyIfExists', 'relationId'];
 	}
 
 	/**
@@ -41,15 +41,15 @@ class VTCreateEntityTask extends VTTask
 			$ownerFields = array_keys($newRecordModel->getModule()->getFieldsByType('owner'));
 			foreach ($fieldValueMapping as $fieldInfo) {
 				$fieldName = $fieldInfo['fieldname'];
-				$referenceModule = $fieldInfo['modulename'];
+				$destinyModuleName = $this->getDestinyModuleName($fieldInfo['modulename']);
+				$sourceModuleName = $destinyModuleName ?? $fieldInfo['modulename'];
 				$fieldValueType = $fieldInfo['valuetype'];
 				$fieldValue = trim($fieldInfo['value']);
-
 				if ('fieldname' === $fieldValueType) {
-					if ($referenceModule === $entityType) {
-						$fieldValue = $newRecordModel->get($fieldValue);
+					if ($this->relationId) {
+						$fieldValue = $destinyModuleName ? $newRecordModel->get($fieldValue) : $recordModel->get($fieldValue);
 					} else {
-						$fieldValue = $recordModel->get($fieldValue);
+						$fieldValue = $sourceModuleName === $entityType ? $newRecordModel->get($fieldValue) : $fieldValue = $recordModel->get($fieldValue);
 					}
 				} elseif ('expression' === $fieldValueType) {
 					require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
@@ -57,7 +57,7 @@ class VTCreateEntityTask extends VTTask
 					$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 					$expression = $parser->expression();
 					$exprEvaluater = new VTFieldExpressionEvaluater($expression);
-					if ($referenceModule === $entityType) {
+					if ($sourceModuleName === $entityType) {
 						$fieldValue = $exprEvaluater->evaluate($newRecordModel);
 					} else {
 						$fieldValue = $exprEvaluater->evaluate($recordModel);
@@ -91,7 +91,8 @@ class VTCreateEntityTask extends VTTask
 			// To handle cyclic process
 			$newRecordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
 			$newRecordModel->save();
-			$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $newRecordModel->getModule());
+
+			$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $newRecordModel->getModule(), $this->relationId);
 			if ($relationModel) {
 				$relationModel->addRelation($recordModel->getId(), $newRecordModel->getId());
 			}
@@ -129,15 +130,15 @@ class VTCreateEntityTask extends VTTask
 		}
 		foreach ($fieldValueMapping as $fieldInfo) {
 			$fieldName = $fieldInfo['fieldname'];
-			$referenceModule = $fieldInfo['modulename'];
 			$fieldValueType = $fieldInfo['valuetype'];
 			$fieldValue = trim($fieldInfo['value']);
-
+			$destinyModuleName = $this->getDestinyModuleName($fieldInfo['modulename']);
+			$sourceModuleName = $destinyModuleName ?? $fieldInfo['modulename'];
 			if ('fieldname' === $fieldValueType) {
-				if ($referenceModule === $entityType) {
-					$fieldValue = $recordModel->get($fieldValue);
+				if ($this->relationId) {
+					$fieldValue = $destinyModuleName ? $parentRecordModel->get($fieldValue) : $recordModel->get($fieldValue);
 				} else {
-					$fieldValue = $parentRecordModel->get($fieldValue);
+					$fieldValue = $sourceModuleName === $entityType ? $fieldValue = $recordModel->get($fieldValue) : $fieldValue = $parentRecordModel->get($fieldValue);
 				}
 			} elseif ('expression' == $fieldValueType) {
 				require_once 'modules/com_vtiger_workflow/expression_engine/include.php';
@@ -145,7 +146,7 @@ class VTCreateEntityTask extends VTTask
 				$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($fieldValue)));
 				$expression = $parser->expression();
 				$exprEvaluater = new VTFieldExpressionEvaluater($expression);
-				if ($referenceModule === $entityType) {
+				if ($sourceModuleName === $entityType) {
 					$fieldValue = $exprEvaluater->evaluate($recordModel);
 				} else {
 					$fieldValue = $exprEvaluater->evaluate($parentRecordModel);
@@ -172,5 +173,21 @@ class VTCreateEntityTask extends VTTask
 			$recordModel->set($fieldName, $fieldValue);
 		}
 		return $recordModel;
+	}
+
+	/**
+	 * Get destiny module name.
+	 *
+	 * @param string $destinyModuleName
+	 *
+	 * @return string|null
+	 */
+	private function getDestinyModuleName(string $destinyModuleName): ?string
+	{
+		$moduleName = null;
+		if (strpos($destinyModuleName, 'destinyModule') > 0) {
+			$moduleName = explode('::', $destinyModuleName)[1];
+		}
+		return $moduleName;
 	}
 }

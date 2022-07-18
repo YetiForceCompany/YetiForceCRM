@@ -111,6 +111,7 @@ class OpenCageGeocoder extends Base
 			'addresslevel8' => $row['components']['road'] ?? '',
 			'buildingnumber' => $row['components']['house_number'] ?? '',
 			'localnumber' => $row['components']['local_number'] ?? '',
+			'company_name_' => $row['components']['office'] ?? '',
 		];
 	}
 }

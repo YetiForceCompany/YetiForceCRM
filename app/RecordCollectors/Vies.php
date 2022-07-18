@@ -33,6 +33,9 @@ class Vies extends Base
 	public $description = 'LBL_VIES_DESC';
 
 	/** {@inheritdoc} */
+	public $docUrl = 'https://ec.europa.eu/taxation_customs/vies/technicalInformation.html';
+
+	/** {@inheritdoc} */
 	protected $fields = [
 		'countryCode' => [
 			'label' => 'Country',
@@ -94,29 +97,28 @@ class Vies extends Base
 		],
 	];
 
-	/**
-	 * Vies server address.
-	 *
-	 * @var string
-	 */
+	/** @var string Vies server address. */
 	protected $url = 'https://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
 
 	/** {@inheritdoc} */
 	public function getFields(): array
 	{
-		$fields = parent::getFields();
+		$fieldsModels = parent::getFields();
 		foreach (['addresslevel1a', 'addresslevel1b', 'addresslevel1c'] as $value) {
 			if (!$this->request->isEmpty($value, true) && ($code = \App\Fields\Country::getCountryCode($this->request->getByType($value, 'Text')))) {
-				$fields['countryCode']->set('fieldvalue', $code);
+				$fieldsModels['countryCode']->set('fieldvalue', $code);
 				break;
 			}
 		}
-		return $fields;
+		return $fieldsModels;
 	}
 
 	/** {@inheritdoc} */
 	public function search(): array
 	{
+		if (!$this->isActive()) {
+			return [];
+		}
 		$vatNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatNumber', 'Text'));
 		if (!$vatNumber) {
 			return [];

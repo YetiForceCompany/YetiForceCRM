@@ -14,11 +14,11 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 	/** {@inheritdoc} */
 	public function getDetailViewLinks(array $linkParams): array
 	{
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$currentUserModel = \App\User::getCurrentUserModel();
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
 		$linkModelList['DETAIL_VIEW_BASIC'] = [];
-		if ((true === $currentUserModel->isAdminUser() || $currentUserModel->get('id') === $recordId) && 'Active' === $recordModel->get('status')) {
+		if (($currentUserModel->isAdmin() || $currentUserModel->getId() === $recordId) && 'Active' === $recordModel->get('status')) {
 			$recordModel = $this->getRecord();
 			$detailViewLinks = [];
 			$detailViewLinks[] = [
@@ -29,7 +29,7 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 				'linkicon' => 'fas fa-key mr-1',
 				'showLabel' => true,
 			];
-			if (true === $currentUserModel->isAdminUser()) {
+			if ($currentUserModel->isAdmin()) {
 				$detailViewLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => 'BTN_RESET_PASSWORD',
@@ -80,6 +80,16 @@ class Users_DetailView_Model extends Vtiger_DetailView_Model
 					'linkdata' => ['url' => 'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' . $recordId],
 					'linkclass' => 'showModal',
 					'linkicon' => 'fas fa-key',
+					'showLabel' => true,
+				];
+			}
+			if ($currentUserModel->getId() === $recordId && $currentUserModel->get('leader') && \App\Privilege::isPermitted('Users', 'LeaderCanManageGroupMembership')) {
+				$detailViewActionLinks[] = [
+					'linktype' => 'DETAIL_VIEW_BASIC',
+					'linklabel' => 'LBL_GROUP_MEMBERS_CHANGE_VIEW',
+					'linkdata' => ['url' => 'index.php?module=Users&view=Groups&record=' . $recordId],
+					'linkclass' => 'js-show-modal',
+					'linkicon' => 'yfi-groups',
 					'showLabel' => true,
 				];
 			}

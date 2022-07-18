@@ -77,13 +77,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		return $links;
 	}
 
-	/**
-	 * Function to get the list view entries.
-	 *
-	 * @param Vtiger_Paging_Model $pagingModel , $status (Active or Inactive User). Default false
-	 *
-	 * @return <Array> - Associative array of record id mapped to Vtiger_Record_Model instance
-	 */
+	/** {@inheritdoc} */
 	public function getListViewEntries(Vtiger_Paging_Model $pagingModel)
 	{
 		$queryGenerator = $this->getQueryGenerator();
@@ -93,15 +87,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		$fields[] = 'imagename';
 		$fields[] = 'authy_secret_totp';
 		$queryGenerator->setFields($fields);
-		$searchParams = $this->getArray('search_params');
-		foreach ($searchParams as &$params) {
-			foreach ($params as &$param) {
-				if ('is_admin' === $param['field_name']) {
-					$param['value'] = '0' == $param['value'] ? 'off' : 'on';
-				}
-			}
-		}
-		$this->set('search_params', $searchParams);
+
 		return parent::getListViewEntries($pagingModel);
 	}
 

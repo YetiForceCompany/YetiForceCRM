@@ -54,9 +54,7 @@ return [
 		'AUTH_METHOD' => [
 			'default' => 'Basic',
 			'description' => 'Webservice config.',
-			'validation' => function () {
-				return 'Basic' === func_get_arg(0);
-			},
+			'validation' => fn () => 'Basic' === func_get_arg(0),
 		],
 		'PRIVATE_KEY' => [
 			'default' => 'config/private.key',
@@ -106,9 +104,7 @@ return [
 				$arg = func_get_arg(0);
 				return $arg && \App\Validator::naturalNumber($arg) && ($arg * 1048576) <= \App\Config::getMaxUploadSize(false);
 			},
-			'sanitization' => function () {
-				return (int) func_get_arg(0) * 1048576;
-			},
+			'sanitization' => fn () => (int) func_get_arg(0) * 1048576,
 		],
 		'allow_exports' => [
 			'default' => 'all',
@@ -129,9 +125,7 @@ return [
 				$arg = func_get_arg(0);
 				return $arg && \App\Validator::naturalNumber($arg) && (100 >= $arg) && (0 < $arg);
 			},
-			'sanitization' => function () {
-				return (int) func_get_arg(0);
-			},
+			'sanitization' => fn () => (int) func_get_arg(0),
 		],
 		'default_module' => [
 			'default' => 'Home',
@@ -144,9 +138,7 @@ return [
 		'default_charset' => [
 			'default' => 'UTF-8',
 			'description' => 'Default charset:  default value = "UTF-8"',
-			'validation' => function () {
-				return 'UTF-8' === func_get_arg(0);
-			},
+			'validation' => fn () => 'UTF-8' === func_get_arg(0),
 		],
 		'default_language' => [
 			'default' => 'en-US',
@@ -156,12 +148,8 @@ return [
 		'application_unique_key' => [
 			'default' => sha1(time() + random_int(1, 9999999)),
 			'description' => 'Unique Application Key',
-			'validation' => function () {
-				return !class_exists('\\Config\\Main');
-			},
-			'sanitization' => function () {
-				return sha1(time() + random_int(1, 9999999));
-			},
+			'validation' => fn () => !class_exists('\\Config\\Main'),
+			'sanitization' => fn () => sha1(time() + random_int(1, 9999999)),
 		],
 		'listview_max_textlength' => [
 			'default' => 40,
@@ -170,9 +158,7 @@ return [
 				$arg = func_get_arg(0);
 				return $arg && \App\Validator::naturalNumber($arg) && (100 >= $arg) && (0 < $arg);
 			},
-			'sanitization' => function () {
-				return (int) func_get_arg(0);
-			},
+			'sanitization' => fn () => (int) func_get_arg(0),
 		],
 		'php_max_execution_time' => [
 			'default' => 0,
@@ -193,20 +179,16 @@ return [
 				$arg = func_get_arg(0);
 				return $arg && \App\Validator::naturalNumber($arg) && (100 >= $arg) && (0 < $arg);
 			},
-			'sanitization' => function () {
-				return (int) func_get_arg(0);
-			},
+			'sanitization' => fn () => (int) func_get_arg(0),
 		],
 		'href_max_length' => [
-			'default' => 35,
+			'default' => 50,
 			'description' => 'Maximum length for href tag',
 			'validation' => function () {
 				$arg = func_get_arg(0);
 				return $arg && \App\Validator::naturalNumber($arg) && (100 >= $arg) && (0 < $arg);
 			},
-			'sanitization' => function () {
-				return (int) func_get_arg(0);
-			},
+			'sanitization' => fn () => (int) func_get_arg(0),
 		],
 		'MINIMUM_CRON_FREQUENCY' => [
 			'default' => 1,
@@ -215,9 +197,7 @@ return [
 				$arg = func_get_arg(0);
 				return $arg && \App\Validator::naturalNumber($arg) && (100 >= $arg) && (0 < $arg);
 			},
-			'sanitization' => function () {
-				return (int) func_get_arg(0);
-			},
+			'sanitization' => fn () => (int) func_get_arg(0),
 		],
 		'davStorageDir' => [
 			'default' => 'storage/Files',
@@ -235,9 +215,7 @@ return [
 				$arg = func_get_arg(0);
 				return $arg && \App\Validator::naturalNumber($arg) && (5000 >= $arg);
 			},
-			'sanitization' => function () {
-				return (int) func_get_arg(0);
-			},
+			'sanitization' => fn () => (int) func_get_arg(0),
 		],
 		'backgroundClosingModal' => [
 			'default' => true,
@@ -278,9 +256,7 @@ return [
 		'defaultLayout' => [
 			'default' => 'basic',
 			'description' => 'Set the default layout',
-			'validation' => function () {
-				return isset(\App\Layout::getAllLayouts()[func_get_arg(0)]);
-			},
+			'validation' => fn () => isset(\App\Layout::getAllLayouts()[func_get_arg(0)]),
 		],
 		'phoneFieldAdvancedVerification' => [
 			'default' => true,
@@ -864,9 +840,7 @@ return [
 			'default' => 20,
 			'description' => 'Maximum length of a comment visible in the related module',
 			'validation' => '\App\Validator::naturalNumber',
-			'sanitization' => function () {
-				return (int) func_get_arg(0);
-			},
+			'sanitization' => fn () => (int) func_get_arg(0),
 		],
 		'SHOW_RELATED_MODULE_NAME' => [
 			'default' => true,
@@ -962,9 +936,7 @@ return [
 		'encryptionPass' => [
 			'default' => 'yeti',
 			'description' => 'Key to encrypt passwords, changing the key results in the loss of all encrypted data.',
-			'validation' => function () {
-				return true;
-			},
+			'validation' => fn () => true,
 		],
 		'encryptionMethod' => [
 			'default' => 'aes-256-cbc',
@@ -1324,9 +1296,7 @@ return [
 		'db_password' => [
 			'default' => '_DBC_PASS_',
 			'description' => 'Gets the database password',
-			'validation' => function () {
-				return true;
-			},
+			'validation' => fn () => true,
 		],
 		'db_name' => [
 			'default' => '_DBC_NAME_',

@@ -183,7 +183,7 @@ class Layout
 		} else {
 			$btn = \App\Language::translate('LBL_MORE_BTN');
 		}
-		return "<div class=\"js-more-content\"><pre class=\"teaserContent u-pre\">$teaser</pre><span class=\"fullContent d-none\"><pre class=\"u-pre\">$text</pre></span><span class=\"text-right mb-1\"><button type=\"button\" class=\"btn btn-link btn-sm pt-0 js-more\">{$btn}</button></span></div>";
+		return "<div class=\"js-more-content c-text-divider\"><pre class=\"teaserContent u-pre\">$teaser</pre><span class=\"fullContent d-none\"><pre class=\"u-pre\">$text</pre></span><span class=\"text-right\"><button type=\"button\" class=\"btn btn-link btn-sm p-0 js-more\">{$btn}</button></span></div>";
 	}
 
 	/**
@@ -201,24 +201,41 @@ class Layout
 			return '';
 		}
 		$teaser = $css = $btn = '';
-		$loadData = true;
-		$btnTemplate = function (string $popoverText = '', ?string $btnClass = ''): string {
+		$loadData = $iframe = true;
+		$btnTemplate = function (string $popoverText = '', ?string $btnClass = '', string $data = 'data-iframe="true"'): string {
 			$popoverText = \App\Language::translate($popoverText);
-			return "<a href=\"#\" class=\"js-more noLinkBtn font-weight-lighter js-popover-tooltip {$btnClass}\" data-iframe=\"true\" data-content=\"{$popoverText}\"><span class=\"mdi mdi-overscan\"></span></a>";
+			return "<a href=\"#\" class=\"js-more noLinkBtn font-weight-lighter js-popover-tooltip {$btnClass}\" {$data} data-content=\"{$popoverText}\"><span class=\"mdi mdi-overscan\"></span></a>";
 		};
 		$iframeClass = 'modal-iframe js-modal-iframe';
-		if ('full' === $size) {
-			$iframeClass = 'js-iframe-full-height';
-		} elseif ('mini' === $size) {
-			$btn = $btnTemplate('LBL_SHOW_ORIGINAL_CONTENT');
-			$css = 'display: none;';
-			$teaser = TextUtils::textTruncate(trim(strip_tags($html)), $length);
-			$loadData = false;
-		} elseif ('medium' === $size) {
-			$btn = $btnTemplate('LBL_FULLSCREEN', 'c-btn-floating-right-bottom btn btn-primary');
+		switch ($size) {
+			case 'full':
+				$iframeClass = 'js-iframe-full-height';
+				break;
+			case 'medium':
+				$btn = $btnTemplate('LBL_FULLSCREEN', 'c-btn-floating-right-bottom btn btn-primary');
+				break;
+			case 'mini':
+				$btn = $btnTemplate('LBL_SHOW_ORIGINAL_CONTENT');
+				$css = 'display: none;';
+				$teaser = TextUtils::textTruncate(trim(strip_tags($html)), $length);
+				$loadData = false;
+				break;
+			case 'miniHtml':
+				$btn = $btnTemplate('LBL_SHOW_ORIGINAL_CONTENT', '', 'data-modal-size="modal-md"');
+				$css = 'display: none;';
+				$teaser = TextUtils::htmlTruncateByWords(str_replace('<br>', '', $html), $length);
+				$iframe = false;
+				break;
+			default:
+				break;
 		}
-		$html = Purifier::encodeHtml($html);
-		return "<div class=\"js-iframe-content\" >$teaser <iframe sandbox=\"allow-same-origin allow-popups allow-popups-to-escape-sandbox\" class=\"w-100 {$iframeClass}\" frameborder=\"0\" style=\"{$css}\" " . ($loadData ? 'srcdoc' : 'srcdoctemp') . "=\"{$html}\"></iframe>{$btn}</div>";
+		if ($iframe) {
+			$html = Purifier::encodeHtml($html);
+			$content = "<div class=\"js-iframe-content\">{$teaser}<iframe sandbox=\"allow-same-origin allow-popups allow-popups-to-escape-sandbox\" class=\"w-100 {$iframeClass}\" frameborder=\"0\" style=\"{$css}\" " . ($loadData ? 'srcdoc' : 'srcdoctemp') . "=\"{$html}\"></iframe>";
+		} else {
+			$content = "<div class=\"js-more-content\">{$teaser}<div class=\"w-100 {$iframeClass} fullContent\" style=\"{$css}\">{$html}</div>";
+		}
+		return $content . $btn . '</div>';
 	}
 
 	/**

@@ -573,7 +573,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @return Vtiger_Base_UIType Vtiger_Base_UIType or UI Type specific model instance
 	 */
-	public function getUITypeModel()
+	public function getUITypeModel(): Vtiger_Base_UIType
 	{
 		if (isset($this->uitypeModel)) {
 			return $this->uitypeModel;

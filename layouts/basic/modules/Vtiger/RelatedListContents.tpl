@@ -160,7 +160,7 @@
 											value="{$HEADER_FIELD->getEditViewDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}"
 											data-js="change" />
 									{else}
-										{$HEADER_FIELD->getDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}
+										{$HEADER_FIELD->getUITypeModel()->getListViewDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}
 									{/if}
 								{else}
 									{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
@@ -198,7 +198,7 @@
 					{if $IS_INVENTORY || $IS_WIDGETS}
 						<tr class="js-hidden-row {if !$SHOW_RELATED_WIDGETS}d-none{/if}" data-id="{$RELATED_RECORD->getId()}">
 							{if $RELATED_MODULE->isQuickSearchEnabled()}
-								{$COUNT = $COUNT+1}
+								{$COUNT = $COUNT+2}
 							{/if}
 							<td colspan="{$COUNT + $ADDITIONAL_TD}" class="backgroundWhiteSmoke">
 								{if $IS_INVENTORY}

@@ -190,8 +190,6 @@ class Shop
 		$check = self::getProduct($productName)->verify();
 		if (false === $check['status']) {
 			$message = $check['message'];
-		} elseif (!self::getConfig($productName)) {
-			$message = 'LBL_PAID_FUNCTIONALITY';
 		}
 		return $message;
 	}

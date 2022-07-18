@@ -59,7 +59,7 @@ jQuery.Class(
 		 * Function to trigger SMS quick view actions
 		 */
 		triggerSMSmodal: () => {
-			App.Components.QuickCreate.createRecord('SMSNotifier');
+			App.Components.QuickCreate.createRecord('SMSNotifier', { noCache: true });
 		},
 		triggerTransferOwnership: function (massActionUrl) {
 			let thisInstance = this;

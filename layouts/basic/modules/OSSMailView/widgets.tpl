@@ -1,10 +1,11 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-OSSMailView-widgets container-fluid px-0">
+	<!-- tpl-OSSMailView-widgets -->
+	<div class="container-fluid px-0">
 		{assign var=COUNT value=count($RECOLDLIST)}
 		{foreach from=$RECOLDLIST item=ROW key=KEY}
 			<div class="content js-mail-row {if $KEY%2 != 0} even{/if} mb-1 py-0 px-2 {if $ROW['firstLetterBg'] eq 'bg-warning'} border border-warning {/if}">
-				<div class="form-row   px-1">
+				<div class="form-row px-1">
 					<div class="d-flex col-xl-8 col-lg-12 col-md-12 col-sm-8 col-12 pr-0 pl-0   mb-1">
 						<div class="firstLetter {$ROW['firstLetterBg']} d-lg-block d-md-none d-sm-block d-none mr-2 u-box-shadow-light">
 							{$ROW['firstLetter']}
@@ -30,14 +31,14 @@
 					<div class="d-flex flex-xl-column flex-lg-row  flex-md-row flex-sm-column justify-content-md-end justify-content-sm-between justify-content-end align-items-sm-stretch align-items-center col-xl-4 col-lg-12 col-md-12 col-sm-4 col-12 pr-0 pl-0">
 						<div class="bd-highlight d-flex justify-content-end mr-1">
 							{if $ROW['attachments'] eq 1}
-								<span class="fas mt-1 fa-xs fa-paperclip mr-1"></span>
+								<span class="fas align-self-center fa-xs fa-paperclip mr-1"></span>
 							{/if}
 							{if $ROW['type'] eq 0}
-								<span class="fas mt-1 fa-xs fa-arrow-up text-success"></span>
+								<span class="fas align-self-center fa-xs fa-arrow-up text-success"></span>
 							{elseif $ROW['type'] eq 1}
-								<span class="fas mt-1 fa-xs fa-arrow-down text-danger"></span>
+								<span class="fas align-self-center fa-xs fa-arrow-down text-danger"></span>
 							{elseif $ROW['type'] eq 2}
-								<span class="fas mt-1 fa-xs fa-retweet text-primary"></span>
+								<span class="fas align-self-center fa-xs fa-retweet text-primary"></span>
 							{/if}
 							<small class="text-muted ml-1 text-truncate">
 								{\App\Fields\DateTime::formatToViewDate($ROW['date'])}
@@ -47,22 +48,20 @@
 							<div class="btn-group" role="group">
 								{if \App\Privilege::isPermitted($SMODULENAME, 'RemoveRelation')}
 									{if  \App\Privilege::isPermitted($MODULE_NAME, 'MoveToTrash', $ROW['id'])}
-										{assign var=LINK value=Vtiger_Link_Model::getInstanceFromValues([
-																						'linklabel' => 'LBL_REMOVE_RELATION',
-																						'linkicon' => 'fas fa-unlink',
-																						'linkclass' => 'btn-xs btn-secondary relationDelete entityStateBtn',
-																						'linkdata' => ['content' => \App\Language::translate('LBL_REMOVE_RELATION'),
-																					'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'), 'id' => $ROW['id']
-																					]
-																					])}
+										{assign var=LINK value=Vtiger_Link_Model::getInstanceFromValues(['linkclass' => 'btn-xs btn-secondary relationDelete entityStateBtn { }',
+										'linklabel' => 'LBL_REMOVE_RELATION',
+										'linkicon' => 'fas fa-unlink',
+										'linkdata' => ['content' => \App\Language::translate('LBL_REMOVE_RELATION'),
+										'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'), 'id' => $ROW['id'], 'url'=> $RELATION_MODEL->getDeleteUrl($ROW['id'])
+										]
+										])}
 										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) MODULE=$MODULE_NAME}
 									{/if}
 									{if  \App\Privilege::isPermitted($MODULE_NAME, 'Delete', $ROW['id'])}
-										{assign var=LINK value=Vtiger_Link_Model::getInstanceFromValues([
-																						'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-																						'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-																						'linkicon' => 'fas fa-eraser',
-																						'dataUrl' => "index.php?module={$MODULE_NAME}&action=Delete&record={$ROW['id']}",
+										{assign var=LINK value=Vtiger_Link_Model::getInstanceFromValues(['dataUrl' => "index.php?module={$MODULE_NAME}&action=Delete&record={$ROW['id']}",
+										'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+										'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+										'linkicon' => "fas fa-eraser",
 										'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
 										'linkclass' => 'btn-xs btn-dark relationDelete entityStateBtn'
 										])}
@@ -116,4 +115,5 @@
 			<p class="textAlignCenter">{\App\Language::translate('LBL_NO_MAILS',$MODULE_NAME)}</p>
 		{/if}
 	</div>
+	<!-- /tpl-OSSMailView-widgets -->
 {/strip}

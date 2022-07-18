@@ -130,10 +130,11 @@ window.Calendar_Js = class {
 			scrollTime: this.startHour + ':00'
 		};
 		if (app.moduleCacheGet('start') !== null && app.moduleCacheGet('start') !== undefined) {
-			let s = new Date(app.moduleCacheGet('start'));
-			let e = new Date(app.moduleCacheGet('end'));
+			let s = App.Fields.Date.getDateInstance(app.moduleCacheGet('start'));
+			let e = App.Fields.Date.getDateInstance(app.moduleCacheGet('end'));
 			options.initialDate = App.Fields.Date.dateToDbFormat(new Date(e - (e - s) / 2));
 		}
+
 		return Object.assign(this.setCalendarMinimalOptions(), options);
 	}
 	/**
@@ -469,8 +470,8 @@ window.Calendar_Js = class {
 		const historyParams = app.getMainParams('historyParams', true);
 		let options = {};
 		if (historyParams && (historyParams.length || Object.keys(historyParams).length)) {
-			let s = new Date(historyParams.start);
-			let e = new Date(historyParams.end);
+			let s = App.Fields.Date.getDateInstance(historyParams.start);
+			let e = App.Fields.Date.getDateInstance(historyParams.end);
 			this.browserHistoryOptions = {
 				initialView: historyParams.viewType,
 				initialDate: App.Fields.Date.dateToDbFormat(new Date(e - (e - s) / 2)),

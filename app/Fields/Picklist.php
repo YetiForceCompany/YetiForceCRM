@@ -259,7 +259,8 @@ class Picklist
 	 */
 	public static function isDependentField(string $moduleName, string $fieldName): bool
 	{
-		return isset(self::getDependencyForModule($moduleName)['conditions'][$fieldName]);
+		['listener' => $listener, 'conditions' => $conditions] = self::getDependencyForModule($moduleName);
+		return \in_array($fieldName, $listener) || isset($conditions[$fieldName]);
 	}
 
 	/**

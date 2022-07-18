@@ -81,11 +81,11 @@ class Link
 	{
 		$db = \App\Db::getInstance();
 		if (0 != $tabid) {
-			$checkres = (new \App\Db\Query())->from('vtiger_links')
+			$exists = (new \App\Db\Query())->from('vtiger_links')
 				->where(['tabid' => $tabid, 'linktype' => $type, 'linkurl' => $url, 'linkicon' => $iconpath, 'linklabel' => $label])
 				->exists();
 		}
-		if (0 == $tabid || !$checkres) {
+		if (0 == $tabid || !$exists) {
 			$params = [
 				'tabid' => $tabid,
 				'linktype' => $type,
@@ -104,6 +104,7 @@ class Link
 			}
 			$db->createCommand()->insert('vtiger_links', $params)->execute();
 			\App\Log::trace("Adding Link ($type - $label) ... DONE");
+			\App\Cache::delete('AllLinks', 'ByType');
 		}
 	}
 
@@ -134,6 +135,7 @@ class Link
 			])->execute();
 			\App\Log::trace("Deleting Link ($type - $label) ... DONE");
 		}
+		\App\Cache::delete('AllLinks', 'ByType');
 	}
 
 	/**
@@ -145,6 +147,7 @@ class Link
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_links', ['tabid' => $tabid])->execute();
 		\App\Log::trace('Deleting Links ... DONE');
+		\App\Cache::delete('AllLinks', 'ByType');
 	}
 
 	/**
@@ -312,7 +315,6 @@ class Link
 		}
 		$linkData = (new \App\Db\Query())->from('vtiger_links')->where(['linkid' => $linkId])->one();
 		\App\Cache::save('Link', $linkId, $linkData);
-
 		return $linkData;
 	}
 }
