@@ -13,10 +13,6 @@
 
 namespace App\RecordCollectors;
 
-use App\Exceptions\ApiException;
-use Exception;
-use JetBrains\PhpStorm\Internal\ReturnTypeContract;
-
 /**
  * OpenCorporates API class.
  */
@@ -193,7 +189,7 @@ class OpenCorporates extends Base
 			}
 		}
 		if (!isset($response['results'])) {
-			throw new ApiException(\App\Language::translate('LBL_OPEN_CORPORATES_403', 'Other.RecordCollector'));
+			throw new \App\Exceptions\ApiException(\App\Language::translate('LBL_OPEN_CORPORATES_403', 'Other.RecordCollector'));
 		}
 		$codes = [];
 		foreach ($response['results']['jurisdictions'] as $index => $jurisdiction) {
