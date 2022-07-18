@@ -30,9 +30,10 @@
     "LBL_BR_RECITACNPJ": "National Registry of Legal Entities [BR]",
     "LBL_BR_RECITACNPJ_DESC": "Data about Brazilian companies provided by Brazilian Federal Revenue Service",
     "LBL_BR_RECITACNPJ_ERROR": "The query limit has been exceeded. Wait one minute.",
-    "LBL_OC": "OpenCorporates [GLOBAL]",
-    "LBL_OC_DESC": "The OpenCorporates provides the possibility to download company data from national registers for a given country.",
-    "LBL_OC_403": "Rate limit exceeded.",
-    "LBL_OC_404": "Data not found."
+    "LBL_OPEN_CORPORATES": "OpenCorporates [GLOBAL]",
+    "LBL_OPEN_CORPORATES_DESC": "The OpenCorporates provides the possibility to download company data from national registers for a given country.",
+    "LBL_OPEN_CORPORATES_403": "Rate limit exceeded.",
+    "LBL_OPEN_CORPORATES_404": "Data not found.",
+    "LBL_OPEN_CORPORATES_COUNTRY": "Country (required in searching by company number)"
   }
 }
