@@ -1,6 +1,6 @@
 <?php
 /**
- * Api Government of Norway file.
+ * The Norway Brønnøysund Register Centre Enhetsregisteret API file.
  *
  * @package App
  *
@@ -15,7 +15,7 @@
 namespace App\RecordCollectors;
 
 /**
- * Api Government of Norway class.
+ * The Norway Brønnøysund Register Centre Enhetsregisteret API class.
  */
 class NOEnhetsregisteret extends Base
 {
