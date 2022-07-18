@@ -4,7 +4,7 @@
  *
  * @package App
  *
- * @see https://api.opencorporates.com/documentation/API-Reference
+ * @see https://api.opencorporates.com
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -34,7 +34,7 @@ class OpenCorporates extends Base
 	public $description = 'LBL_OC_DESC';
 
 	/** {@inheritdoc} */
-	public $docUrl = 'https://api.opencorporates.com/documentation/API-Reference';
+	public $docUrl = 'https://api.opencorporates.com';
 
 	/** {@inheritdoc} */
 	protected $fields = [
@@ -209,7 +209,7 @@ class OpenCorporates extends Base
 					break;
 				default:
 					$response['errorCode'] = $e->getCode();
-					$response['error'] = $e->getMessage();
+					$response['error'] = $e->getResponse()->getReasonPhrase();
 			}
 		}
 		return $response;
