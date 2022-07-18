@@ -1029,13 +1029,19 @@ class TextParser
 		if (($pdf = $this->getParam('pdf')) && $pdf->get('module_name') === $moduleName && ($ids = $pdf->getVariable('recordsId'))) {
 			$listView->getQueryGenerator()->addCondition('id', $ids, 'e', 1);
 		}
-		$rows = $headers = '';
+		$rows = $headers = $headerStyle = $borderStyle = '';
 		$fields = $listView->getListViewHeaders();
+		if (isset($paramsArray['headerStyle']) && 'background' === $paramsArray['headerStyle']) {
+			$headerStyle = 'background-color:#ddd;';
+		}
+		if (isset($paramsArray['table']) && 'border' === $paramsArray['table']) {
+			$borderStyle = 'border:1px solid  #ddd;';
+		}
 		foreach ($fields as $fieldModel) {
 			if ($this->withoutTranslations) {
-				$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">$(translate : {$fieldModel->getFieldLabel()}|$moduleName)$</th>";
+				$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\" style=\"{$headerStyle}\">$(translate : {$fieldModel->getFieldLabel()}|$moduleName)$</th>";
 			} else {
-				$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">" . Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
+				$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\" style=\"{$headerStyle}\">" . Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
 			}
 		}
 		$counter = 0;
@@ -1048,7 +1054,7 @@ class TextParser
 					if ((int) $maxLength) {
 						$value = TextUtils::textTruncate($value, (int) $maxLength);
 					}
-					$rows .= "<td class=\"col-type-{$fieldModel->getFieldType()}\">{$value}</td>";
+					$rows .= "<td class=\"col-type-{$fieldModel->getFieldType()}\" style=\"{$borderStyle}\">{$value}</td>";
 				}
 			}
 			$rows .= '</tr>';
@@ -1057,10 +1063,7 @@ class TextParser
 			return '';
 		}
 		$headers = "<tr>{$headers}</tr>";
-		$table = 'class="records-list" style="border-collapse:collapse;width:100%"';
-		if (isset($paramsArray['table']) && 'border' === $paramsArray['table']) {
-			$table .= 'border="1"';
-		}
+		$table = "class=\"records-list\" style=\"border-collapse:collapse;width:100%;{$borderStyle}\"";
 		if (isset($paramsArray['addCounter']) && '1' === $paramsArray['addCounter']) {
 			$headers = '<tr><th colspan="' . \count($fields) . '">' . Language::translate('LBL_NUMBER_OF_ALL_ENTRIES') . ": $counter</th></th></tr>$headers";
 		}

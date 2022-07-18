@@ -59,7 +59,7 @@
     "LBL_INVENTORY_TABLE": "Inventory table with custom predefined columns",
     "LBL_DYNAMIC_INVENTORY_TABLE": "Inventory table with dynamic columns",
     "LBL_INVENTORY_VARIABLES": "Additional inventory variables",
-    "LBL_TEXT_PARSER_RECORDS_LIST": "List of records",
+    "LBL_TEXT_PARSER_RECORDS_LIST": "List of records (marked by the user)",
     "LBL_TEXT_PARSER_USER_VARIABLE": "User variable",
     "LBL_REPORT_NEW_RECORDS": "New records in given module",
     "LBL_REPORT_SSALESPROCESSES": "Opportunity records",

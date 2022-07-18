@@ -65,15 +65,12 @@ class RecordsList extends Base
 			];
 			$html .= $this->parseConditions($conditions, $listView->getQueryGenerator());
 		}
-
-		$html .= '<table border="1" class="products-table" style="border-collapse:collapse;width:100%;"><thead><tr>';
-		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
-		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px4px;';
-
+		$html .= '<table class="records-list" style="border-collapse:collapse;width:100%;border:1px solid  #ddd;"><thead><tr>';
+		$headerStyle = 'text-align:center;background-color:#ddd;';
+		$bodyStyle = 'border:1px solid #ddd;padding:4px; ';
 		foreach ($fields as $fieldModel) {
 			$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate($fieldModel->getFieldLabel(), $this->textParser->moduleName) . '</th>';
 		}
-
 		$html .= '</tr></thead><tbody>';
 		foreach ($ids as $recordId) {
 			$html .= '<tr>';
