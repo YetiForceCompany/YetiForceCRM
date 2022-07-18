@@ -295,6 +295,7 @@ class ModuleBasic
 					'entityidfield' => $this->entityidfield,
 					'entityidcolumn' => $this->entityidcolumn,
 					'searchcolumn' => $fieldInstance->name,
+					'sequence' => $this->id,
 				])->execute();
 				\App\Log::trace('Setting entity identifier ... DONE', __METHOD__);
 			} else {
