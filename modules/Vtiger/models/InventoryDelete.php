@@ -16,7 +16,7 @@
 class Vtiger_InventoryDelete_Model extends \App\Base
 {
 	/** @var string Module name for delete */
-	private $moduleNameForDelete = '';
+	private $moduleNameForDelete;
 
 	/** @var array Records where record for delete is set */
 	private $recordsWhereInvIsSet = [];
@@ -25,7 +25,7 @@ class Vtiger_InventoryDelete_Model extends \App\Base
 	private $recordsLimit = 10;
 
 	/** @var int Record for delete id */
-	private $recordId = 0;
+	private $recordId;
 
 	/** @var Vtiger_Inventory_Model Inventory model */
 	private $inventoryModel;
