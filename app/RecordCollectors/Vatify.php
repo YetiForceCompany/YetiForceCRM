@@ -4,9 +4,9 @@
  *
  * @package App
  *
- * @see https://www.vatify.eu/docs/api/getting-started/
- * @see test https://api.vatify.eu/v1/demo/
- * @see prod https://api.vatify.eu/v1/
+ * @see https://www.vatify.eu/coverage.html
+ * @see https://api.vatify.eu/v1/demo/ test
+ * @see https://api.vatify.eu/v1/ prod
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -43,8 +43,58 @@ class Vatify extends Base
 		'country' => [
 			'labelModule' => '_Base',
 			'label' => 'Country',
+			'picklistModule' => 'Other.Country',
 			'typeofdata' => 'V~M',
-			'uitype' => 35
+			'uitype' => 16,
+			'picklistValues' => [
+				'Albania',
+				'Austria',
+				'Belarus',
+				'Belgium',
+				'Bosnia and Herzegovina',
+				'Bulgaria',
+				'Cyprus',
+				'Czech Republic',
+				'Germany',
+				'Denmark',
+				'Estonia',
+				'Great Britain',
+				'Greece',
+				'Spain',
+				'Finland',
+				'France',
+				'Northern Ireland',
+				'Georgia',
+				'Croatia',
+				'Hungary',
+				'Iceland',
+				'Ireland',
+				'Israel',
+				'Italy',
+				'Kazakhstan',
+				'Kosovo',
+				'Latvia',
+				'Liechtenstein',
+				'Lithuania',
+				'Luxembourg',
+				'North Macedonia',
+				'Malta',
+				'Moldova',
+				'Montenegro',
+				'Norway' ,
+				'The Netherlands',
+				'Poland',
+				'Portugal',
+				'Romania',
+				'Russia',
+				'Sweden',
+				'Slovenia',
+				'Slovakia',
+				'Serbia',
+				'Switzerland',
+				'Ukraine',
+				'South Africa',
+			]
 		],
 		'vatNumber' => [
 			'labelModule' => '_Base',
@@ -173,6 +223,24 @@ class Vatify extends Base
 	private $url = 'https://api.vatify.eu/v1/';
 
 	/** {@inheritdoc} */
+	public $settingsFields = [
+		'access_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_ACCESS_KEY'],
+		'client_id' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_CLIENT_ID'],
+	];
+	/** @var string Access Key. */
+	private $accessKey;
+	/** @var string Client ID. */
+	private $clientId;
+
+	private $bearerToken;
+
+	/** {@inheritdoc} */
+	public function isActive(): bool
+	{
+		return parent::isActive() && ($params = $this->getParams()) && !empty($params['access_key'] && !empty($params['client_id']));
+	}
+
+	/** {@inheritdoc} */
 	public function search(): array
 	{
 		$country = $this->request->getByType('country', 'Text');
@@ -181,6 +249,11 @@ class Vatify extends Base
 
 		if (!$this->isActive() && empty($country) && empty($vatNumber)) {
 			return [];
+		}
+		$this->setCredentials();
+		$this->getBearerToken();
+		if (empty($this->bearerToken)){
+			$this->response['error'] = \App\Language::translate('LBL_VATIFY_NO_AUTH', 'Other.RecordCollector');
 		}
 		$params['country'] = $country;
 		$params['identifier'] = $vatNumber;
@@ -202,7 +275,7 @@ class Vatify extends Base
 		$response = [];
 		$link = '';
 		try {
-			$response = \App\Json::decode(\App\RequestHttp::getClient()->get($this->url  . 'query?' . http_build_query($params))->getBody()->getContents());
+			$response = \App\Json::decode(\App\RequestHttp::getClient()->get($this->url  . 'query?' . http_build_query($params), ['headers' => ['Authorization' => 'Bearer '. $this->bearerToken]])->getBody()->getContents());
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
@@ -240,6 +313,44 @@ class Vatify extends Base
 	private function parseData(array $data): array
 	{
 		return \App\Utils::flattenKeys($data, 'ucfirst');
+	}
+
+	/**
+	 * Function setup Api Key.
+	 *
+	 * @return void
+	 */
+	private function setCredentials(): void
+	{
+		if (($params = $this->getParams()) && !empty($params['client_id'] && !empty($params['access_key']))) {
+			$this->clientId = $params['client_id'];
+			$this->accessKey = $params['access_key'];
+		} else {
+			throw new \App\Exceptions\IllegalValue('You must fist setup Api Key in Config Panel', 403);
+		}
+	}
+
+	private function getBearerToken()
+	{
+		$credentials = base64_encode($this->clientId . ':' . $this->accessKey);
+		$options = [
+			'headers' => [
+				'Authorization' => 'Basic ' . $credentials
+			],
+			'grant_type' => 'client_credentials'
+		];
+
+		try {
+			$response = \App\Json::decode(\App\RequestHttp::getClient()->get('https://api.vatify.eu/v1/oauth2/token', $options)->getBody()->getContents());
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			\App\Log::warning($e->getMessage(), 'RecordCollectors');
+			$this->response['error'] = $e->getResponse()->getReasonPhrase();
+			return;
+		}
+
+		if ($response['access_token']) {
+			$this->bearerToken = $response['access_token'];
+		}
 	}
 
 }
