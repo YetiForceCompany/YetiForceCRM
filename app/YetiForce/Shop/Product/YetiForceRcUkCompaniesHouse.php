@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop YetiForceFrEnterpriseGouv file.
+ * YetiForce shop YetiForceRcUkCompaniesHouse file.
  *
  * @package App
  *
@@ -12,18 +12,18 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop YetiForceFrEnterpriseGouv class.
+ * YetiForce shop YetiForceRcUkCompaniesHouse class.
  */
-class YetiForceFrEnterpriseGouv extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForceRcUkCompaniesHouse extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce Entreprise GOUV FR';
+	public $label = 'YetiForce Companies House UK';
 
 	/** {@inheritdoc} */
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-entreprise-gouv-fr';
+	public $website = 'https://yetiforce.com/en/yetiforce-companies-house-uk';
 
 	/** {@inheritdoc} */
 	public $prices = [
@@ -41,12 +41,12 @@ class YetiForceFrEnterpriseGouv extends \App\YetiForce\Shop\AbstractBaseProduct
 	public function verify(): array
 	{
 		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForceFrEnterpriseGouv')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceFrEnterpriseGouv');
+		if (\App\YetiForce\Register::getProducts('YetiForceRcUkCompaniesHouse')) {
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceRcUkCompaniesHouse');
 		} else {
 			if (
-				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'FREnterpriseGouv'])->exists()
-				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\FREnterpriseGouv";%', false])->exists()
+				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'UkCompaniesHouse'])->exists()
+				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\UkCompaniesHouse";%', false])->exists()
 			) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;

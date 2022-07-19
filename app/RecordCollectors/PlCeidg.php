@@ -16,7 +16,7 @@ namespace App\RecordCollectors;
 /**
  * Polish Central Registration And Information On Business record collector class.
  */
-class PLCeidg extends Base
+class PlCeidg extends Base
 {
 	/** {@inheritdoc} */
 	public static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
@@ -25,13 +25,13 @@ class PLCeidg extends Base
 	public $icon = 'fas fa-cube';
 
 	/** {@inheritdoc} */
-	public $label = 'LBL_POLAND_CEIDG';
+	public $label = 'LBL_PL_CEIDG';
 
 	/** {@inheritdoc} */
 	public $displayType = 'FillFields';
 
 	/** {@inheritdoc} */
-	public $description = 'LBL_POLAND_CEIDG_DESC';
+	public $description = 'LBL_PL_CEIDG_DESC';
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://dane.biznes.gov.pl';

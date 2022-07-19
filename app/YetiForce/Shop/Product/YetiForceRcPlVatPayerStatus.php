@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop YetiForceBrReceitaWsCnpj file.
+ * YetiForce shop YetiForceRcPlVatPayerStatus file.
  *
  * @package App
  *
@@ -12,18 +12,18 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop YetiForceBrReceitaWsCnpj class.
+ * YetiForce shop YetiForceRcPlVatPayerStatus class.
  */
-class YetiForceBrReceitaWsCnpj extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForceRcPlVatPayerStatus extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce Receita CNPJ BR';
+	public $label = 'YetiForce VAT PL';
 
 	/** {@inheritdoc} */
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/';
+	public $website = 'https://yetiforce.com/en/yetiforce-vat-pl';
 
 	/** {@inheritdoc} */
 	public $prices = [
@@ -41,12 +41,11 @@ class YetiForceBrReceitaWsCnpj extends \App\YetiForce\Shop\AbstractBaseProduct
 	public function verify(): array
 	{
 		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForceBrReceitaWsCnpj')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceBrReceitaWsCnpj');
+		if (\App\YetiForce\Register::getProducts('YetiForceRcPlVatPayerStatus')) {
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceRcPlVatPayerStatus');
 		} else {
 			if (
-				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'BrReceitaWsCnpj'])->exists()
-				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\BrReceitaWsCnpj";%', false])->exists()
+				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'PlVatPayerStatusVerification'])->exists()
 			) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;

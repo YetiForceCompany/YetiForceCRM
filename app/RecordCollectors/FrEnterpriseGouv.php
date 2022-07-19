@@ -17,7 +17,7 @@ namespace App\RecordCollectors;
 /**
  * Api Government of French Republic class.
  */
-class FREnterpriseGouv extends Base
+class FrEnterpriseGouv extends Base
 {
 	/** {@inheritdoc} */
 	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
@@ -26,13 +26,13 @@ class FREnterpriseGouv extends Base
 	public $icon = 'fas fa-flag';
 
 	/** {@inheritdoc} */
-	public $label = 'LBL_API_GOV_FRANCE';
+	public $label = 'LBL_FR_ENTERPRISE_GOUV';
 
 	/** {@inheritdoc} */
 	public $displayType = 'FillFields';
 
 	/** {@inheritdoc} */
-	public $description = 'LBL_API_GOV_FRANCE_DESC';
+	public $description = 'LBL_FR_ENTERPRISE_GOUV_DESC';
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://api.gouv.fr/les-api/api-entreprise/';

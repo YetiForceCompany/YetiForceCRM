@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop YetiForceUsaEdgar file.
+ * YetiForce shop YetiForceRcFrEnterpriseGouv file.
  *
  * @package App
  *
@@ -12,18 +12,18 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop YetiForceUsaEdgar class.
+ * YetiForce shop YetiForceRcFrEnterpriseGouv class.
  */
-class YetiForceUsaEdgar extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForceRcFrEnterpriseGouv extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce EDGAR USA';
+	public $label = 'YetiForce Entreprise GOUV FR';
 
 	/** {@inheritdoc} */
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-edgar-usa';
+	public $website = 'https://yetiforce.com/en/yetiforce-entreprise-gouv-fr';
 
 	/** {@inheritdoc} */
 	public $prices = [
@@ -41,12 +41,12 @@ class YetiForceUsaEdgar extends \App\YetiForce\Shop\AbstractBaseProduct
 	public function verify(): array
 	{
 		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForceUsaEdgar')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceUsaEdgar');
+		if (\App\YetiForce\Register::getProducts('YetiForceRcFrEnterpriseGouv')) {
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceRcFrEnterpriseGouv');
 		} else {
 			if (
-				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'USAEdgarRegistryFromSec'])->exists()
-				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\USAEdgarRegistryFromSec";%', false])->exists()
+				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'FrEnterpriseGouv'])->exists()
+				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\FrEnterpriseGouv";%', false])->exists()
 			) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;

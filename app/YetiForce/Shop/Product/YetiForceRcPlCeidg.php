@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop YetiForceOrb file.
+ * YetiForce shop YetiForceRcPlCeidg file.
  *
  * @package App
  *
@@ -12,18 +12,18 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop YetiForceOrb class.
+ * YetiForce shop YetiForceRcPlCeidg class.
  */
-class YetiForceOrb extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForceRcPlCeidg extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce ORB';
+	public $label = 'YetiForce CEIDG PL';
 
 	/** {@inheritdoc} */
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-orb';
+	public $website = 'https://yetiforce.com/en/yetiforce-ceidg-en';
 
 	/** {@inheritdoc} */
 	public $prices = [
@@ -41,12 +41,12 @@ class YetiForceOrb extends \App\YetiForce\Shop\AbstractBaseProduct
 	public function verify(): array
 	{
 		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForceOrb')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceOrb');
+		if (\App\YetiForce\Register::getProducts('YetiForceRcPlCeidg')) {
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceRcPlCeidg');
 		} else {
 			if (
-				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'OrbIntelligence'])->exists()
-				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\OrbIntelligence";%', false])->exists()
+				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'PlCeidg'])->exists()
+				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\PlCeidg";%', false])->exists()
 			) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;
