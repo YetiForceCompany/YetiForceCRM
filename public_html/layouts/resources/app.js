@@ -2623,7 +2623,7 @@ var app = (window.app = {
 									}
 								} else {
 									if (typeof window[call] === 'function') {
-										window[call](container);
+										window[call](container, e);
 									}
 								}
 							}

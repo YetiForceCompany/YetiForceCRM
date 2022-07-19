@@ -223,7 +223,11 @@ class Layout
 			case 'miniHtml':
 				$btn = $btnTemplate('LBL_SHOW_ORIGINAL_CONTENT', '', 'data-modal-size="modal-md"');
 				$css = 'display: none;';
-				$teaser = TextUtils::htmlTruncateByWords(str_replace('<br>', '', $html), $length);
+				$teaserBefore = str_replace('<br>', '', $html);
+				$teaser = TextUtils::htmlTruncateByWords(str_replace('<br>', '', $teaserBefore), $length);
+				if ($teaserBefore == $teaser) {
+					$html = $btn = '';
+				}
 				$iframe = false;
 				break;
 			default:
