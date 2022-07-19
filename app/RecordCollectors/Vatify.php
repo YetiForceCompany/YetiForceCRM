@@ -12,6 +12,7 @@
  */
 
 namespace App\RecordCollectors;
+
 /**
  * Vatify API class.
  */
@@ -71,7 +72,100 @@ class Vatify extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $formFieldsToRecordMap = [];
+	public $formFieldsToRecordMap = [
+		'Accounts' => [
+			'title' => 'accountname',
+			'transliteratedTitle' => 'accountname',
+			'registration_number' => 'registration_number_1',
+			'identifier' => 'vat_id',
+			'tax_id_number' => 'vat_id',
+			'sector' => 'siccode',
+			'transliteratedSector' => 'siccode',
+			'address' => 'addresslevel8a',
+			'transliteratedAddress' => 'addresslevel8a',
+			'postal_code' => 'addresslevel7a',
+			'city' => 'addresslevel5a',
+			'transliteratedCity' => 'addresslevel5a',
+			'community' => 'addresslevel4a',
+			'region' => 'addresslevel2a',
+			'transliteratedRegion' => 'addresslevel2a',
+			'country' => 'addresslevel1a',
+			'phone_number' => 'phone',
+			'fax_number' => 'fax',
+			'email_address' => 'email1',
+		],
+		'Leads' => [
+			'title' => 'company',
+			'transliteratedTitle' => 'company',
+			'registration_number' => 'registration_number_1',
+			'identifier' => 'vat_id',
+			'tax_id_number' => 'vat_id',
+			'address' => 'addresslevel8a',
+			'transliteratedAddress' => 'addresslevel8a',
+			'postal_code' => 'addresslevel7a',
+			'city' => 'addresslevel5a',
+			'transliteratedCity' => 'addresslevel5a',
+			'community' => 'addresslevel4a',
+			'region' => 'addresslevel2a',
+			'transliteratedRegion' => 'addresslevel2a',
+			'country' => 'addresslevel1a',
+			'phone_number' => 'phone',
+			'fax_number' => 'fax',
+			'email_address' => 'email',
+		],
+		'Vendors' => [
+			'title' => 'vendorname',
+			'transliteratedTitle' => 'vendorname',
+			'registration_number' => 'registration_number_1',
+			'identifier' => 'vat_id',
+			'tax_id_number' => 'vat_id',
+			'transliteratedSector' => 'siccode',
+			'address' => 'addresslevel8a',
+			'transliteratedAddress' => 'addresslevel8a',
+			'postal_code' => 'addresslevel7a',
+			'city' => 'addresslevel5a',
+			'transliteratedCity' => 'addresslevel5a',
+			'community' => 'addresslevel4a',
+			'region' => 'addresslevel2a',
+			'transliteratedRegion' => 'addresslevel2a',
+			'country' => 'addresslevel1a',
+			'phone_number' => 'phone',
+			'email_address' => 'email',
+		],
+		'Partners' => [
+			'title' => 'subject',
+			'transliteratedTitle' => 'subject',
+			'identifier' => 'vat_id',
+			'tax_id_number' => 'vat_id',
+			'transliteratedSector' => 'siccode',
+			'address' => 'addresslevel8a',
+			'transliteratedAddress' => 'addresslevel8a',
+			'postal_code' => 'addresslevel7a',
+			'city' => 'addresslevel5a',
+			'transliteratedCity' => 'addresslevel5a',
+			'community' => 'addresslevel4a',
+			'region' => 'addresslevel2a',
+			'transliteratedRegion' => 'addresslevel2a',
+			'country' => 'addresslevel1a',
+			'email_address' => 'email',
+		],
+		'Competition' => [
+			'title' => 'subject',
+			'transliteratedTitle' => 'subject',
+			'identifier' => 'vat_id',
+			'tax_id_number' => 'vat_id',
+			'address' => 'addresslevel8a',
+			'transliteratedAddress' => 'addresslevel8a',
+			'postal_code' => 'addresslevel7a',
+			'city' => 'addresslevel5a',
+			'transliteratedCity' => 'addresslevel5a',
+			'community' => 'addresslevel4a',
+			'region' => 'addresslevel2a',
+			'transliteratedRegion' => 'addresslevel2a',
+			'country' => 'addresslevel1a',
+			'email_address' => 'email',
+		],
+	];
 
 	/** {@inheritdoc} */
 	private $url = 'https://api.vatify.eu/v1/demo/query?';
@@ -86,17 +180,19 @@ class Vatify extends Base
 		if (!$this->isActive() && empty($country) && empty($vatNumber)) {
 			return [];
 		}
-
 		$params['country'] = $country;
 		$params['identifier'] = $vatNumber;
-		$this->getDataFromApi($params);
 
-		return [];
+		$this->getDataFromApi($params);
+		$this->loadData();
+		return $this->response;
 	}
+
 	/**
 	 * Function fetching company data by VAT ID and Country.
 	 *
 	 * @param array $params
+	 *
 	 * @return void
 	 */
 	private function getDataFromApi(array $params): void
@@ -107,15 +203,29 @@ class Vatify extends Base
 			$response = \App\Json::decode(\App\RequestHttp::getClient()->get($this->url . http_build_query($params))->getBody()->getContents());
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getMessage();
-			var_dump($e->getMessage()); //to remove after development
+			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 			return;
 		}
 
 		if ('IN_PROGRESS' === $response['query']['status']) {
 			$link = $response['query']['links'][0]['href'];
+		} else {
+			return;
 		}
-		//todo
+
+		try {
+			$response = \App\Json::decode(\App\RequestHttp::getClient()->get($link)->getBody()->getContents());
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			\App\Log::warning($e->getMessage(), 'RecordCollectors');
+			$this->response['error'] = $e->getResponse()->getReasonPhrase();
+			return;
+		}
+
+		if ('FINISHED' === $response['query']['status']){
+			$this->data = $this->parseData($response['result']['items'][0]['data']);
+		} else {
+			$this->data = [];
+		}
 	}
 
 	/**
