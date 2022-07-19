@@ -1841,23 +1841,27 @@ window.App.Fields = {
 			return options;
 		},
 		/**
-		 * Set value.
+		 * Set a value for the field
 		 *
-		 * @param   {object}  selectElement  [selectElement description]
-		 * @param   {string}  searchValue
-		 * @param   {string}  type           value|text|all
+		 * @param   {jQuery}  field Field element
+		 * @param   {mixed}  value The value to set
+		 * @param   {object}  params Additional parameters [optional]
 		 *
-		 * @return  {boolean|string}         false or set value
+		 * @return  {mixed} The value that has been set
 		 */
-		setValue(selectElement, searchValue, type = 'value') {
-			const option = this.findOption(selectElement, searchValue, type);
+		setValue(field, value, params) {
+			let type = 'value';
+			if (params && params['type']) {
+				type = params['type'];
+			}
+			const option = this.findOption(field, value, type);
 			if (!option) {
 				return false;
 			}
-			if (selectElement.hasClass('js-lazy-select-active')) {
-				this.createSelectedOption(selectElement, option.text, option.value);
+			if (field.hasClass('js-lazy-select-active')) {
+				this.createSelectedOption(field, option.text, option.value);
 			} else {
-				selectElement.val(option.value).trigger('change');
+				field.val(option.value).trigger('change');
 			}
 			return option.value;
 		},
@@ -2992,6 +2996,28 @@ window.App.Fields = {
 			return instances;
 		}
 		/**
+		 * Set a value for the field
+		 *
+		 * @param   {jQuery}  field Field element
+		 * @param   {mixed}  value The value to set
+		 * @param   {object}  params Additional parameters [optional]
+		 *
+		 * @return  {mixed} The value that has been set
+		 */
+		static setValue(field, value, params) {
+			if (!(params && params['extend'])) {
+				field.val(null);
+			}
+			const values = field.val();
+			$.each(value, (id, label) => {
+				if (!values.includes(id)) {
+					field.append(new Option(label, id, true, true));
+				}
+			});
+			field.trigger('change');
+			return field.val();
+		}
+		/**
 		 * Initiation
 		 */
 		init() {
@@ -3867,23 +3893,37 @@ window.App.Fields = {
 			picker.move();
 		},
 		/**
-		 * Set value
+		 * Set a value for the field
 		 *
-		 * @param   {object}  fieldElement  jQuery
-		 * @param   {string|boolean}  value
+		 * @param   {jQuery}  field Field element
+		 * @param   {mixed}  value The value to set
+		 * @param   {object}  params Additional parameters [optional]
+		 * @param   {boolean}  animation
 		 */
-		setValue(fieldElement, value) {
-			if (fieldElement.is('select')) {
-				App.Fields.Picklist.setValue(fieldElement, value);
-			} else {
-				fieldElement.val(value);
+		setValue(field, value, params, animation = true) {
+			const fieldInfo = field.data('fieldinfo');
+			switch (fieldInfo['type']) {
+				case 'picklist':
+				case 'languages':
+				case 'country':
+				case 'currencyList':
+				case 'modules':
+					App.Fields.Picklist.setValue(field, value, params);
+					break;
+				case 'multiReference':
+					App.Fields.MultiReference.setValue(field, value, params);
+					break;
+				default:
+					field.val(value);
+					break;
 			}
-			fieldElement.trigger('change');
-			let fieldValue = fieldElement.closest('.fieldValue');
-			fieldValue.addClass('border border-info');
-			setTimeout(function () {
-				fieldValue.removeClass('border border-info');
-			}, 5000);
+			if (animation) {
+				const fieldValue = field.closest('.fieldValue');
+				fieldValue.addClass('border border-info');
+				setTimeout(function () {
+					fieldValue.removeClass('border border-info');
+				}, 5000);
+			}
 		}
 	}
 };
