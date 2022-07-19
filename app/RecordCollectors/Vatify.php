@@ -5,6 +5,8 @@
  * @package App
  *
  * @see https://www.vatify.eu/docs/api/getting-started/
+ * @see test https://api.vatify.eu/v1/demo/
+ * @see prod https://api.vatify.eu/v1/
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -168,7 +170,7 @@ class Vatify extends Base
 	];
 
 	/** {@inheritdoc} */
-	private $url = 'https://api.vatify.eu/v1/demo/query?';
+	private $url = 'https://api.vatify.eu/v1/';
 
 	/** {@inheritdoc} */
 	public function search(): array
@@ -200,7 +202,7 @@ class Vatify extends Base
 		$response = [];
 		$link = '';
 		try {
-			$response = \App\Json::decode(\App\RequestHttp::getClient()->get($this->url . http_build_query($params))->getBody()->getContents());
+			$response = \App\Json::decode(\App\RequestHttp::getClient()->get($this->url  . 'query?' . http_build_query($params))->getBody()->getContents());
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
