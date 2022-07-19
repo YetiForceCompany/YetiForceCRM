@@ -118,7 +118,7 @@ class Session
 	/**
 	 * Update the current session id with a newly generated one.
 	 *
-	 * @see http://php.net/manual/en/function.session-regenerate-id.php
+	 * @see https://php.net/manual/en/function.session-regenerate-id.php
 	 *
 	 * @param bool $deleteOldSession
 	 */
@@ -134,7 +134,7 @@ class Session
 	/**
 	 * Destroys all data registered to a session.
 	 *
-	 * @see http://php.net/manual/en/function.session-destroy.php
+	 * @see https://php.net/manual/en/function.session-destroy.php
 	 */
 	public static function destroy()
 	{

@@ -124,7 +124,7 @@ class BRReceitaCnpj extends Base
 	private $url = 'https://receitaws.com.br/v1/cnpj/';
 
 	/** @var mixed api key */
-	private $apiKey = null;
+	private $apiKey;
 
 	/** {@inheritdoc} */
 	public $settingsFields = [
