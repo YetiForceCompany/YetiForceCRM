@@ -33,7 +33,9 @@ class Products_Delete_Action extends Vtiger_Delete_Action
 
 		$responseResult = '';
 		if (!$recordWasDeleted) {
-			$secondConfirmContent = \App\Language::translate('LBL_DELETE_INVENTORY_CONFIRMATION_DESC', $moduleName) . '<br>' . $inventoryDeleteModel->getRelatedRecordsLabels();
+			$secondConfirmContent = \App\Language::translate('LBL_DELETE_INVENTORY_CONFIRMATION_DESC', $moduleName) . '<br>' .
+			\App\Language::translate('LBL_RECORDS_LIMIT', $moduleName) . ' ' . $inventoryDeleteModel->recordsLimit . '<br>' .
+			$inventoryDeleteModel->getRelatedRecordsLabels();
 			$confirmBoxParams = [
 				'title' => '<span class="fas fa-eraser"></span><span class="ml-1">' . \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_CONFIRMATION', $moduleName) . '</span>',
 				'icon' => false,

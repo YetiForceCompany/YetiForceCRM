@@ -22,7 +22,7 @@ class Vtiger_InventoryDelete_Model extends \App\Base
 	private $recordsWhereInvIsSet = [];
 
 	/** @var array Number of related records for display user */
-	private $recordsLimit = 10;
+	public $recordsLimit = 10;
 
 	/** @var int Record for delete id */
 	private $recordId;
@@ -111,9 +111,10 @@ class Vtiger_InventoryDelete_Model extends \App\Base
 			if (\count($this->recordsWhereInvIsSet) >= $this->recordsLimit) {
 				break;
 			}
+			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $this->moduleModel->getName());
 			$recordLabel = App\Record::getLabel($recordId);
 			$this->recordsWhereInvIsSet[$recordId] = $recordLabel;
-			$this->recordsWhereInvIsHtml .= "<li>{$recordLabel}</li>";
+			$this->recordsWhereInvIsHtml .= "<li><a href='{$recordModel->getDetailViewUrl()}'>{$recordLabel}</a></li>";
 		}
 	}
 
