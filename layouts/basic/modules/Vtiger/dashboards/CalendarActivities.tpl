@@ -36,7 +36,7 @@
 		</div>
 		<hr class="widgetHr" />
 		<div class="row no-gutters">
-			<div class="col-ceq-xsm-6">
+			<div class="col-4">
 				<div class="input-group input-group-sm">
 					<span class="input-group-prepend">
 						<span class="input-group-text">
@@ -56,7 +56,26 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-ceq-xsm-6">
+			<div class="col-4">
+				<div class="input-group input-group-sm">
+					<span class="input-group-prepend">
+						<span class="input-group-text">
+							<span class="fas fa-filter iconMiddle margintop3"
+								title="{\App\Language::translate('Priority', $MODULE_NAME)}"></span>
+						</span>
+					</span>
+					<select class="widgetFilter select2 form-control" name="taskpriority"
+						title="{\App\Language::translate('Priority',$SOURCE_MODULE)}">
+						<option value="all">{\App\Language::translate('LBL_ALL')}</option>
+						{foreach item=TASK_PRIORITY from=App\Fields\Picklist::getValuesName('taskpriority')}
+							<option value="{\App\Purifier::encodeHtml($TASK_PRIORITY)}" {if $TASK_PRIORITY === $TASK_PRIORITY} selected{/if}>
+								{\App\Language::translate($TASK_PRIORITY,$SOURCE_MODULE)}
+							</option>
+						{/foreach}
+					</select>
+				</div>
+			</div>
+			<div class="col-4">
 				{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 			</div>
 		</div>

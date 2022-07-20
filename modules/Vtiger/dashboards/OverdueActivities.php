@@ -26,7 +26,7 @@ class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($sortOrder) || !\in_array($sortOrder, ['asc', 'desc'])) {
 			$sortOrder = 'asc';
 		}
-		$sortOrder = ($sortOrder === 'asc') ? SORT_ASC : SORT_DESC;
+		$sortOrder = ('asc' === $sortOrder) ? SORT_ASC : SORT_DESC;
 		$orderBy = $request->getForSql('orderby') ?: ['due_date' => $sortOrder, 'time_end' => $sortOrder];
 		$data = $request->getAll();
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
@@ -39,6 +39,9 @@ class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		$params = ['status' => Calendar_Module_Model::getComponentActivityStateLabel('overdue')];
 		if (!$request->isEmpty('activitytype') && 'all' !== $request->getByType('activitytype', 'Text')) {
 			$params['activitytype'] = $request->getByType('activitytype', 'Text');
+		}
+		if (!$request->isEmpty('taskpriority') && 'all' !== $request->getByType('taskpriority', 'Text')) {
+			$params['taskpriority'] = $request->getByType('taskpriority', 'Text');
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$overDueActivities = (false === $owner) ? [] : $moduleModel->getCalendarActivities('overdue', $pagingModel, $owner, false, $params);
@@ -54,6 +57,7 @@ class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_OVERDUE_ACTIVITIES');
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('ACTIVITYTYPE', $params['activitytype'] ?? '');
+		$viewer->assign('TASK_PRIORITY', $params['taskpriority'] ?? '');
 		$viewer->assign('DATA', $data);
 		$viewer->assign('DATE_TYPE', 'DUE');
 		$viewer->assign('USER_CONDITIONS', ['condition' => ['vtiger_activity.status' => $params['status']]]);
