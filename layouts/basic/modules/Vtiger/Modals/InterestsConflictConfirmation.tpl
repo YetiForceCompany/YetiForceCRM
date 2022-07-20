@@ -17,11 +17,7 @@
 				<input type="hidden" name="baseModuleName" value="{$BASE_MODULE_NAME}" />
 				<h3>
 					{\App\Language::translate('LBL_INTERESTS_CONFLICT_CONFIRMATION_DESC')}:<br>
-					{if \App\Privilege::isPermitted($BASE_MODULE_NAME, 'DetailView', $BASE_RECORD)}
-						<a class="modCT_{$BASE_MODULE_NAME} showReferenceTooltip js-popover-tooltip--record" href="index.php?module={$BASE_MODULE_NAME}&view=Detail&record={$BASE_RECORD}" title="{App\Language::translateSingularModuleName($BASE_MODULE_NAME)}">{\App\Record::getLabel($BASE_RECORD)}</a>
-					{else}
-						{\App\Record::getLabel($BASE_RECORD)}
-					{/if}
+					{\App\Record::getHtmlLink($BASE_RECORD,$BASE_MODULE_NAME, \App\Config::main('href_max_length'))}
 				</h3>
 				<button type="button" class="btn btn-danger btn-lg mr-5 mt-3 js-ic-confirmation" data-value="{\App\Components\InterestsConflict::CONF_STATUS_CONFLICT_YES}" data-js="click">
 					<span class="fas fa-check mr-1"></span> {\App\Language::translate('LBL_YES')}

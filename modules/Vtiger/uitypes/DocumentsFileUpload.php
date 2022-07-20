@@ -38,7 +38,7 @@ class Vtiger_DocumentsFileUpload_UIType extends Vtiger_Base_UIType
 				}
 			} else {
 				$value = \App\Purifier::encodeHtml($value);
-				$value = '<a href="' . $value . '" target="_blank" title="' . \App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" rel="noreferrer noopener">' . $truncateValue . '</a>';
+				$value = '<a href="' . $value . '" target="_blank" title="' . $value . '" rel="noreferrer noopener">' . $truncateValue . '</a>';
 			}
 		}
 		return $value;

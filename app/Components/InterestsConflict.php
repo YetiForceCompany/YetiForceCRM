@@ -217,7 +217,7 @@ class InterestsConflict
 				'to' => \Config\Components\InterestsConflict::$notificationsEmails,
 				'dateTime' => date('Y-m-d H:i:s'),
 				'user' => \App\User::getCurrentUserModel()->getName(),
-				'record' => \App\Layout::getRecordLabel($baseRecord),
+				'record' => \App\Record::getHtmlLink($baseRecord),
 				'comment' => nl2br($comment),
 			]);
 		}
@@ -298,7 +298,7 @@ class InterestsConflict
 				'moduleName' => 'Users',
 				'recordId' => $row['user_id'],
 				'to' => $userModel->getDetail('email1'),
-				'record' => \App\Layout::getRecordLabel($row['related_id']),
+				'record' => \App\Record::getHtmlLink($row['related_id']),
 				'status' => \App\Language::translate(self::UNLOCK_STATUS_LABELS[$status], '_Base', $userModel->getDetail('language')),
 			]);
 		}
@@ -315,9 +315,7 @@ class InterestsConflict
 		if (\App\Cache::has($cacheName, '')) {
 			return \App\Cache::get($cacheName, '');
 		}
-		$allModules = array_map(function ($v) {
-			return 0 > $v ? 999 : sprintf('%03d', $v);
-		}, array_column(\vtlib\Functions::getAllModules(false, true), 'tabsequence', 'name'));
+		$allModules = array_map(fn ($v) => 0 > $v ? 999 : sprintf('%03d', $v), array_column(\vtlib\Functions::getAllModules(false, true), 'tabsequence', 'name'));
 		$excludedModules = ['ModComments'];
 		$baseModules = $return = $modules = $baseModules = [];
 		foreach (array_keys(\App\ModuleHierarchy::getModulesByLevel(0)) as $moduleName) {

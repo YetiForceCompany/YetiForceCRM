@@ -135,10 +135,10 @@ class InterestsConflict extends \App\Controller\Action
 		\App\Record::getLabel($ids);
 		\vtlib\Functions::getCRMRecordMetadata($ids);
 		foreach ($rows as &$row) {
-			$row['related'] = \App\Layout::getRecordLabel($row['related']);
+			$row['related'] = \App\Record::getHtmlLink($row['related'], null, \App\Config::main('href_max_length'));
 			$info = '';
 			if ($row['source_id']) {
-				$info .= \App\Language::translate('LBL_SOURCE_RECORD') . ': ' . \App\Layout::getRecordLabel($row['source_id']) . '<br>';
+				$info .= \App\Language::translate('LBL_SOURCE_RECORD') . ': ' . \App\Record::getHtmlLink($row['source_id'], null, \App\Config::main('href_max_length')) . '<br>';
 			}
 			if ($row['modify_user']) {
 				$info .= \App\Language::translate('Last Modified By') . ': ' . $row['modify_user'] . '<br>';
@@ -231,10 +231,10 @@ class InterestsConflict extends \App\Controller\Action
 		\App\Record::getLabel($ids);
 		\vtlib\Functions::getCRMRecordMetadata($ids);
 		foreach ($rows as &$row) {
-			$row['related'] = \App\Layout::getRecordLabel($row['related_id']);
+			$row['related'] = \App\Record::getHtmlLink($row['related_id'], null, \App\Config::main('href_max_length'));
 			$info = '';
 			if ($row['source_id']) {
-				$info .= \App\Language::translate('LBL_SOURCE_RECORD') . ': ' . \App\Layout::getRecordLabel($row['source_id']) . '<br>';
+				$info .= \App\Language::translate('LBL_SOURCE_RECORD') . ': ' . \App\Record::getHtmlLink($row['source_id'], null, \App\Config::main('href_max_length')) . '<br>';
 			}
 			if ($row['modify_user']) {
 				$info .= \App\Language::translate('Last Modified By') . ': ' . $row['modify_user'] . '<br>';
