@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop YetiForcePlCeidg file.
+ * YetiForce shop YetiForceRcPlCeidg file.
  *
  * @package App
  *
@@ -12,9 +12,9 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop YetiForcePlCeidg class.
+ * YetiForce shop YetiForceRcPlCeidg class.
  */
-class YetiForcePlCeidg extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForceRcPlCeidg extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
 	public $label = 'YetiForce CEIDG PL';
@@ -41,12 +41,12 @@ class YetiForcePlCeidg extends \App\YetiForce\Shop\AbstractBaseProduct
 	public function verify(): array
 	{
 		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForcePlCeidg')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForcePlCeidg');
+		if (\App\YetiForce\Register::getProducts('YetiForceRcPlCeidg')) {
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceRcPlCeidg');
 		} else {
 			if (
-				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'PLCeidg'])->exists()
-				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\PLCeidg";%', false])->exists()
+				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'PlCeidg'])->exists()
+				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\PlCeidg";%', false])->exists()
 			) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;

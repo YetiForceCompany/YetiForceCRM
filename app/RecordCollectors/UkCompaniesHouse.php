@@ -17,7 +17,7 @@ namespace App\RecordCollectors;
 /**
  * United Kingdom Companies House record collector class.
  */
-class UKCompaniesHouse extends Base
+class UkCompaniesHouse extends Base
 {
 	/** {@inheritdoc} */
 	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
@@ -26,13 +26,13 @@ class UKCompaniesHouse extends Base
 	public $icon = 'fas fa-house-signal';
 
 	/** {@inheritdoc} */
-	public $label = 'LBL_UNITED_KINGDOM_CH';
+	public $label = 'LBL_UK_CH';
 
 	/** {@inheritdoc} */
 	public $displayType = 'FillFields';
 
 	/** {@inheritdoc} */
-	public $description = 'LBL_UNITED_KINGDOM_CH_DESC';
+	public $description = 'LBL_UK_CH_DESC';
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://developer.company-information.service.gov.uk/';
@@ -178,7 +178,7 @@ class UKCompaniesHouse extends Base
 		} else {
 			$this->displayType = 'Summary';
 			$this->response['fields'] = [
-				'' => \App\Language::translate('LBL_UNITED_KINGDOM_CH_NOT_FOUND_NO_DATA', 'Other.RecordCollector')
+				'' => \App\Language::translate('LBL_UK_CH_NOT_FOUND_NO_DATA', 'Other.RecordCollector')
 			];
 			return $this->response;
 		}

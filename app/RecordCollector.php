@@ -27,7 +27,7 @@ class RecordCollector
 	public static function getInstance(string $className, string $moduleName): ?RecordCollectors\Base
 	{
 		$instance = null;
-		if (is_subclass_of($className, 'App\RecordCollectors\Base')) {
+		if (class_exists($className) && is_subclass_of($className, 'App\RecordCollectors\Base')) {
 			$instance = new $className();
 			$instance->moduleName = $moduleName;
 		}

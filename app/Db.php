@@ -248,7 +248,7 @@ class Db extends \yii\db\Connection
 	 *
 	 * @return string the row ID of the last row inserted, or the last value retrieved from the sequence object
 	 *
-	 * @see http://www.php.net/manual/en/function.PDO-lastInsertId.php
+	 * @see https://www.php.net/manual/en/function.PDO-lastInsertId.php
 	 */
 	public function getLastInsertID($sequenceName = '')
 	{

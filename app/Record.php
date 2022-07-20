@@ -1,11 +1,6 @@
 <?php
-
-namespace App;
-
-use vtlib\Functions;
-
 /**
- * Record basic class.
+ * Record basic file.
  *
  * @package App
  *
@@ -13,6 +8,14 @@ use vtlib\Functions;
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+namespace App;
+
+use vtlib\Functions;
+
+/**
+ * Record basic class.
  */
 class Record
 {
@@ -376,5 +379,46 @@ class Record
 			->scalar();
 		Cache::staticSave(__METHOD__, $recordNumber, $id);
 		return $id;
+	}
+
+	/**
+	 * Get record link and label.
+	 *
+	 * @param int         $id
+	 * @param string|null $moduleName
+	 * @param int|null    $length
+	 * @param bool        $fullUrl
+	 *
+	 * @return string
+	 */
+	public static function getHtmlLink(int $id, ?string $moduleName = null, ?int $length = null, bool $fullUrl = false): string
+	{
+		$state = self::getState($id);
+		if (null === $state) {
+			return '<i class="color-red-500" title="' . $id . '">' . Language::translate('LBL_RECORD_DOES_NOT_EXIST') . '</i>';
+		}
+		$label = self::getLabel($id, true);
+		if (empty($label) && 0 != $label) {
+			return '<i class="color-red-500" title="' . $id . '">' . Language::translate('LBL_RECORD_DOES_NOT_EXIST') . '</i>';
+		}
+		if (null !== $length) {
+			$label = TextUtils::textTruncate($label, $length);
+		}
+		if (empty($moduleName)) {
+			$moduleName = self::getType($id);
+		}
+		if ('Trash' === $state) {
+			$label = '<s>' . $label . '</s>';
+		}
+		if ($id && !Privilege::isPermitted($moduleName, 'DetailView', $id)) {
+			return $label;
+		}
+		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
+		$url = $moduleModel->getDetailViewUrl($id);
+		if ($fullUrl) {
+			$url = \Config\Main::$site_URL . $url;
+		}
+		$label = $moduleModel->getCustomLinkLabel($id, $label);
+		return "<a class=\"modCT_{$moduleName} showReferenceTooltip js-popover-tooltip--record\" href=\"{$url}\">$label</a>";
 	}
 }

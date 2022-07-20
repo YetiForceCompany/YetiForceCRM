@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop YetiForceUkVatPayerStatus file.
+ * YetiForce shop YetiForceRcPlKrs file.
  *
  * @package App
  *
@@ -12,18 +12,18 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop YetiForceUkVatPayerStatus class.
+ * YetiForce shop YetiForceRcPlKrs class.
  */
-class YetiForceUkVatPayerStatus extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForceRcPlKrs extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce VAT UK';
+	public $label = 'YetiForce KRS PL';
 
 	/** {@inheritdoc} */
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-vat-uk';
+	public $website = 'https://yetiforce.com/en/yetiforce-krs-pl';
 
 	/** {@inheritdoc} */
 	public $prices = [
@@ -41,11 +41,12 @@ class YetiForceUkVatPayerStatus extends \App\YetiForce\Shop\AbstractBaseProduct
 	public function verify(): array
 	{
 		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForceUkVatPayerStatus')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceUkVatPayerStatus');
+		if (\App\YetiForce\Register::getProducts('YetiForceRcPlKrs')) {
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceRcPlKrs');
 		} else {
 			if (
-				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'UKVatPayerStatusVerification'])->exists()
+				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'PlNcr'])->exists()
+				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\PlNcr";%', false])->exists()
 			) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;

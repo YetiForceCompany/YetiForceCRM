@@ -18,11 +18,7 @@
 			</form>
 			<p>
 				{\App\Language::translate('LBL_INTERESTS_CONFLICT_CONFIRMATIONS_FOR')}:&nbsp;
-				{if \App\Privilege::isPermitted($BASE_MODULE_NAME, 'DetailView', $BASE_RECORD)}
-					<a class="modCT_{$BASE_MODULE_NAME} showReferenceTooltip js-popover-tooltip--record" href="index.php?module={$BASE_MODULE_NAME}&view=Detail&record={$BASE_RECORD}" title="{App\Language::translateSingularModuleName($BASE_MODULE_NAME)}">{\App\Record::getLabel($BASE_RECORD)}</a>
-				{else}
-					{\App\Record::getLabel($BASE_RECORD)}
-				{/if}
+				{\App\Record::getHtmlLink($BASE_RECORD,$BASE_MODULE_NAME, \App\Config::main('href_max_length'))}
 			</p>
 			<table class="table table-sm dataTable">
 				<thead>

@@ -17,7 +17,7 @@ namespace App\RecordCollectors;
 /**
  * Polish National Court Register record collector class.
  */
-class PLNationalCourtRegister extends Base
+class PlNcr extends Base
 {
 	/** {@inheritdoc} */
 	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors'];
@@ -26,13 +26,13 @@ class PLNationalCourtRegister extends Base
 	public $icon = 'fa-solid fa-hammer';
 
 	/** {@inheritdoc} */
-	public $label = 'LBL_POLAND_NCR';
+	public $label = 'LBL_PL_NCR';
 
 	/** {@inheritdoc} */
 	public $displayType = 'FillFields';
 
 	/** {@inheritdoc} */
-	public $description = 'LBL_POLAND_NCR_DESC';
+	public $description = 'LBL_PL_NCR_DESC';
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://prs.ms.gov.pl/krs/openApi';

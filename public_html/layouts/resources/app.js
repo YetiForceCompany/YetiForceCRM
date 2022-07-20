@@ -2601,8 +2601,8 @@ var app = (window.app = {
 			.off('click', 'button.showModal, a.showModal, .js-show-modal')
 			.on('click', 'button.showModal, a.showModal, .js-show-modal', function (e) {
 				e.preventDefault();
-				var currentElement = $(e.currentTarget);
-				var url = currentElement.data('url');
+				let currentElement = $(e.currentTarget);
+				let url = currentElement.data('url');
 
 				if (typeof url !== 'undefined') {
 					if (currentElement.hasClass('js-popover-tooltip')) {
@@ -2611,19 +2611,19 @@ var app = (window.app = {
 					if (currentElement.hasClass('disabledOnClick')) {
 						currentElement.attr('disabled', true);
 					}
-					var modalWindowParams = {
+					let modalWindowParams = {
 						url: url,
 						cb: function (container) {
-							var call = currentElement.data('cb');
+							let call = currentElement.data('cb');
 							if (typeof call !== 'undefined') {
 								if (call.indexOf('.') !== -1) {
-									var callerArray = call.split('.');
+									let callerArray = call.split('.');
 									if (typeof window[callerArray[0]] === 'object' || typeof window[callerArray[0]] === 'function') {
-										window[callerArray[0]][callerArray[1]](container);
+										window[callerArray[0]][callerArray[1]](container, e);
 									}
 								} else {
 									if (typeof window[call] === 'function') {
-										window[call](container);
+										window[call](container, e);
 									}
 								}
 							}
@@ -3533,8 +3533,8 @@ $(function () {
 	$.fn.getNumberFromText = function () {
 		return App.Fields.Double.formatToDb($(this).text());
 	};
-	$.fn.setValue = function (value, type = 'value') {
-		return App.Fields.Utils.setValue($(this), value, type);
+	$.fn.setValue = function (value, params) {
+		return App.Fields.Utils.setValue($(this), value, params);
 	};
 	$.fn.formatNumber = function () {
 		let element = $(this);

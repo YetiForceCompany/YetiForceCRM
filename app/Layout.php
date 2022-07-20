@@ -223,7 +223,11 @@ class Layout
 			case 'miniHtml':
 				$btn = $btnTemplate('LBL_SHOW_ORIGINAL_CONTENT', '', 'data-modal-size="modal-md"');
 				$css = 'display: none;';
-				$teaser = TextUtils::htmlTruncateByWords(str_replace('<br>', '', $html), $length);
+				$teaserBefore = str_replace('<br>', '', $html);
+				$teaser = TextUtils::htmlTruncateByWords(str_replace('<br>', '', $teaserBefore), $length);
+				if ($teaserBefore == $teaser) {
+					$html = $btn = '';
+				}
 				$iframe = false;
 				break;
 			default:
@@ -236,31 +240,5 @@ class Layout
 			$content = "<div class=\"js-more-content\">{$teaser}<div class=\"w-100 {$iframeClass} fullContent\" style=\"{$css}\">{$html}</div>";
 		}
 		return $content . $btn . '</div>';
-	}
-
-	/**
-	 * Get record label or href.
-	 *
-	 * @param int         $record
-	 * @param string|null $moduleName
-	 *
-	 * @return string
-	 */
-	public static function getRecordLabel(int $record, ?string $moduleName = null): string
-	{
-		if (!$record) {
-			return '-';
-		}
-		if (null === $moduleName) {
-			$moduleName = Record::getType($record);
-		}
-		$label = TextUtils::textTruncate(Record::getLabel($record) ?? '-', \App\Config::main('href_max_length'));
-		if (!$moduleName || !Privilege::isPermitted($moduleName, 'DetailView', $record)) {
-			return $label;
-		}
-		if ('Active' !== \App\Record::getState($record)) {
-			$label = "<s>$label</s>";
-		}
-		return "<a class=\"modCT_{$moduleName} showReferenceTooltip js-popover-tooltip--record\" href=\"index.php?module={$moduleName}&view=Detail&record={$record}\">{$label}</a>";
 	}
 }

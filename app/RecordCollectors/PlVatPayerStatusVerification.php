@@ -19,7 +19,7 @@ namespace App\RecordCollectors;
 /**
  * VAT Payer Status Verification in Poland record collector class.
  */
-class PLVatPayerStatusVerification extends Base
+class PlVatPayerStatusVerification extends Base
 {
 	/** {@inheritdoc} */
 	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
@@ -28,13 +28,13 @@ class PLVatPayerStatusVerification extends Base
 	public $icon = 'fa-solid fa-magnifying-glass-dollar';
 
 	/** {@inheritdoc} */
-	public $label = 'LBL_POLAND_VAT_PAYER';
+	public $label = 'LBL_PL_VAT_PAYER';
 
 	/** {@inheritdoc} */
 	public $displayType = 'Summary';
 
 	/** {@inheritdoc} */
-	public $description = 'LBL_POLAND_VAT_PAYER_DESC';
+	public $description = 'LBL_PL_VAT_PAYER_DESC';
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://www.podatki.gov.pl/e-deklaracje/dokumentacja-it/';

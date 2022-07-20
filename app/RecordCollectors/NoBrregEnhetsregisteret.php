@@ -17,7 +17,7 @@ namespace App\RecordCollectors;
 /**
  * The Norway Brønnøysund Register Centre Enhetsregisteret API class.
  */
-class NOEnhetsregisteret extends Base
+class NoBrregEnhetsregisteret extends Base
 {
 	/** {@inheritdoc} */
 	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
@@ -26,13 +26,13 @@ class NOEnhetsregisteret extends Base
 	public $icon = 'fas fa-skiing-nordic';
 
 	/** {@inheritdoc} */
-	public $label = 'LBL_ENHETSREGISTERET';
+	public $label = 'LBL_NO_BRREG_ENHETSREGISTERET';
 
 	/** {@inheritdoc} */
 	public $displayType = 'FillFields';
 
 	/** {@inheritdoc} */
-	public $description = 'LBL_ENHETSREGISTERET_DESC';
+	public $description = 'LBL_NO_BRREG_ENHETSREGISTERET_DESC';
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://www.brreg.no/produkter-og-tjenester/apne-data/';
@@ -142,7 +142,7 @@ class NOEnhetsregisteret extends Base
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 			if (400 === $e->getCode()) {
-				$this->response['error'] = \App\Language::translate('LBL_ENHETSREGISTERET_400', 'Other.RecordCollector');
+				$this->response['error'] = \App\Language::translate('LBL_NO_BRREG_ENHETSREGISTERET_400', 'Other.RecordCollector');
 				return;
 			}
 		}

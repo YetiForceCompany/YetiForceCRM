@@ -85,7 +85,7 @@ trait SchemaTrait
 	 *                      and [[Transaction::SERIALIZABLE]] but also a string containing DBMS specific syntax to be used
 	 *                      after `SET TRANSACTION ISOLATION LEVEL`.
 	 *
-	 * @see http://en.wikipedia.org/wiki/Isolation_%28database_systems%29#Isolation_levels
+	 * @see https://en.wikipedia.org/wiki/Isolation_%28database_systems%29#Isolation_levels
 	 */
 	public function setTransactionIsolationLevel($level)
 	{

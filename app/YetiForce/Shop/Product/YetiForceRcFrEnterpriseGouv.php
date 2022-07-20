@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop YetiForceOrb file.
+ * YetiForce shop YetiForceRcFrEnterpriseGouv file.
  *
  * @package App
  *
@@ -12,18 +12,18 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop YetiForceOrb class.
+ * YetiForce shop YetiForceRcFrEnterpriseGouv class.
  */
-class YetiForceOrb extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForceRcFrEnterpriseGouv extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce ORB';
+	public $label = 'YetiForce Entreprise GOUV FR';
 
 	/** {@inheritdoc} */
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-orb';
+	public $website = 'https://yetiforce.com/en/yetiforce-entreprise-gouv-fr';
 
 	/** {@inheritdoc} */
 	public $prices = [
@@ -41,12 +41,12 @@ class YetiForceOrb extends \App\YetiForce\Shop\AbstractBaseProduct
 	public function verify(): array
 	{
 		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForceOrb')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceOrb');
+		if (\App\YetiForce\Register::getProducts('YetiForceRcFrEnterpriseGouv')) {
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceRcFrEnterpriseGouv');
 		} else {
 			if (
-				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'OrbIntelligence'])->exists()
-				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\OrbIntelligence";%', false])->exists()
+				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'FrEnterpriseGouv'])->exists()
+				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\FrEnterpriseGouv";%', false])->exists()
 			) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;

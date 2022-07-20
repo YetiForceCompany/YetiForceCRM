@@ -3,9 +3,12 @@
 /**
  * Gantt Model class.
  *
+ * @package Model
+ *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Project_Gantt_Model
 {
@@ -489,11 +492,11 @@ class Project_Gantt_Model
 				$project['dependentOn'] = [$project['parentId']];
 			}
 			if (!empty($row['startdate'])) {
-				$project['start_date'] = $queryGenerator->getModuleField('startdate')->getDisplayValue($row['startdate'], $row['id'], false, true);
+				$project['start_date'] = date('Y-m-d', strtotime($row['startdate']));
 				$project['start'] = date('Y-m-d H:i:s', strtotime($row['startdate']));
 			}
-			$project['end_date'] = $queryGenerator->getModuleField('actualenddate')->getDisplayValue($row['actualenddate'], $row['id'], false, true);
-			$project['target_end_date'] = $queryGenerator->getModuleField('targetenddate')->getDisplayValue($row['targetenddate'], $row['id'], false, true);
+			$project['end_date'] = $row['actualenddate'] ? date('Y-m-d', strtotime($row['actualenddate'])) : '';
+			$project['target_end_date'] = $row['targetenddate'] ? date('Y-m-d', strtotime($row['targetenddate'])) : '';
 			if (empty($project['end_date']) && !empty($row['targetenddate'])) {
 				$endDate = strtotime(date('Y-m-d', strtotime($row['targetenddate'])) . ' +1 days');
 				$project['end_date'] = date('Y-m-d', $endDate);

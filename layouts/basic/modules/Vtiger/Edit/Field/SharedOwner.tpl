@@ -37,7 +37,7 @@
 				{/if}
 			{/function}
 			<div>
-				<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="" />
+				<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" class="js-black-field" value="" />
 				<select class="select2 form-control {if !empty($NOT_DISPLAY_LIST)}hideSelected{/if} {$FIELD_NAME}"
 					title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" tabindex="{$FIELD_MODEL->getTabIndex()}"
 					data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"

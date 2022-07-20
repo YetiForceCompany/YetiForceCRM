@@ -17,7 +17,7 @@ namespace App\RecordCollectors;
 /**
  * EDGAR Registry of Securities and Exchange Commission class.
  */
-class USAEdgarRegistryFromSec extends Base
+class UsaEdgarRegistryFromSec extends Base
 {
 	/** {@inheritdoc} */
 	protected static $allowedModules = ['Accounts', 'Leads', 'Partners', 'Vendors', 'Competition'];

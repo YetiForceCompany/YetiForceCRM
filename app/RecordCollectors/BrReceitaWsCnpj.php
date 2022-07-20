@@ -1,6 +1,6 @@
 <?php
 /**
- * The Brazilian National Registry of Legal Entities API file.
+ * The Brazilian National Registry of Legal Entities by Receita WS API file.
  *
  * @package App
  *
@@ -9,14 +9,15 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Rembiesa <s.rembiesa@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\RecordCollectors;
 
 /**
- * The Brazilian National Registry of Legal Entities API class.
+ * The Brazilian National Registry of Legal Entities by Receita WS API class.
  */
-class BRReceitaCnpj extends Base
+class BrReceitaWsCnpj extends Base
 {
 	/** {@inheritdoc} */
 	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
@@ -25,13 +26,13 @@ class BRReceitaCnpj extends Base
 	public $icon = 'fas fa-futbol';
 
 	/** {@inheritdoc} */
-	public $label = 'LBL_BR_RECITACNPJ';
+	public $label = 'LBL_BR_RECITA_WS_CNPJ';
 
 	/** {@inheritdoc} */
 	public $displayType = 'FillFields';
 
 	/** {@inheritdoc} */
-	public $description = 'LBL_BR_RECITACNPJ_DESC';
+	public $description = 'LBL_BR_RECITA_WS_CNPJ_DESC';
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://developers.receitaws.com.br/#/operations/queryCNPJFree';
@@ -40,7 +41,7 @@ class BRReceitaCnpj extends Base
 	protected $fields = [
 		'cnpj' => [
 			'labelModule' => 'Other.RecordCollector',
-			'label' => 'LBL_BR_RECITACNPJ_NUMBER',
+			'label' => 'LBL_BR_RECITA_WS_CNPJ_NUMBER',
 			'typeofdata' => 'V~O',
 		]
 	];
@@ -124,7 +125,7 @@ class BRReceitaCnpj extends Base
 	private $url = 'https://receitaws.com.br/v1/cnpj/';
 
 	/** @var mixed api key */
-	private $apiKey = null;
+	private $apiKey;
 
 	/** {@inheritdoc} */
 	public $settingsFields = [
@@ -174,7 +175,7 @@ class BRReceitaCnpj extends Base
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			if (429 === $e->getCode()) {
-				$this->response['error'] = \App\Language::translate('LBL_BR_RECITACNPJ_ERROR', 'Other.RecordCollector');
+				$this->response['error'] = \App\Language::translate('LBL_BR_RECITA_WS_CNPJ_ERROR', 'Other.RecordCollector');
 			} elseif ($e->getCode() > 400) {
 				$this->response['error'] = $e->getResponse()->getReasonPhrase();
 			} else {

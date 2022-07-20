@@ -1,6 +1,6 @@
 <?php
 /**
- * YetiForce shop YetiForcePlKrs file.
+ * YetiForce shop YetiForceRcUkCompaniesHouse file.
  *
  * @package App
  *
@@ -12,18 +12,18 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop YetiForcePlKrs class.
+ * YetiForce shop YetiForceRcUkCompaniesHouse class.
  */
-class YetiForcePlKrs extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForceRcUkCompaniesHouse extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce KRS PL';
+	public $label = 'YetiForce Companies House UK';
 
 	/** {@inheritdoc} */
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-krs-pl';
+	public $website = 'https://yetiforce.com/en/yetiforce-companies-house-uk';
 
 	/** {@inheritdoc} */
 	public $prices = [
@@ -41,12 +41,12 @@ class YetiForcePlKrs extends \App\YetiForce\Shop\AbstractBaseProduct
 	public function verify(): array
 	{
 		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForcePlKrs')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForcePlKrs');
+		if (\App\YetiForce\Register::getProducts('YetiForceRcUkCompaniesHouse')) {
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceRcUkCompaniesHouse');
 		} else {
 			if (
-				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'PLNationalCourtRegister'])->exists()
-				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\PLNationalCourtRegister";%', false])->exists()
+				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'UkCompaniesHouse'])->exists()
+				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\UkCompaniesHouse";%', false])->exists()
 			) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;

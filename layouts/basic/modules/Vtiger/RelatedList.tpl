@@ -98,7 +98,7 @@
 						{/if}
 						{if isset($RELATED_LIST_LINKS['RELATEDLIST_BASIC'])}
 							{foreach item=LINK from=$RELATED_LIST_LINKS['RELATEDLIST_BASIC']}
-								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='relatedListView' CLASS='mr-sm-1 mb-1 c-btn-block-sm-down'}
+								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='relatedListView' CLASS='mr-sm-1 c-btn-block-sm-down'}
 							{/foreach}
 						{/if}
 					</div>
