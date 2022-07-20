@@ -252,9 +252,6 @@ class VatifyEu extends Base
 		}
 		$this->loadCredentials();
 		$this->getBearerToken();
-		if (empty($this->bearerToken)) {
-			$this->response['error'] = \App\Language::translate('LBL_VATIFY_NO_AUTH', 'Other.RecordCollector');
-		}
 		$params['country'] = $country;
 		$params['identifier'] = $vatNumber;
 
@@ -275,20 +272,18 @@ class VatifyEu extends Base
 		$response = [];
 		$link = '';
 		try {
-			$client = \App\RequestHttp::getClient(['headers' => ['Authorization' => 'Bearer '. $this->bearerToken]]);
-			$response = \App\Json::decode($client->get($this->url  . 'query?' . http_build_query($params))->getBody()->getContents());
+			$client = \App\RequestHttp::getClient(['headers' => ['Authorization' => 'Bearer ' . $this->bearerToken]]);
+			$response = \App\Json::decode($client->get($this->url . 'query?' . http_build_query($params))->getBody()->getContents());
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 			return;
 		}
-
 		if ('IN_PROGRESS' === $response['query']['status']) {
 			$link = $response['query']['links'][0]['href'];
 		} else {
 			return;
 		}
-
 		try {
 			$response = \App\Json::decode($client->get($link)->getBody()->getContents());
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
@@ -296,7 +291,6 @@ class VatifyEu extends Base
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 			return;
 		}
-
 		if ('FINISHED' === $response['query']['status']) {
 			$this->data = $this->parseData($response['result']['items'][0]['data']);
 		} else {
@@ -326,29 +320,25 @@ class VatifyEu extends Base
 		if (($params = $this->getParams()) && !empty($params['client_id'] && !empty($params['access_key']))) {
 			$this->clientId = $params['client_id'];
 			$this->accessKey = $params['access_key'];
-		} else {
-			throw new \App\Exceptions\IllegalValue('You must fist setup Api Key in Config Panel', 403);
 		}
 	}
+
 	/**
 	 * Function fetching Bearer Token.
 	 *
 	 * @return void
 	 */
-	private function getBearerToken()
+	private function getBearerToken(): void
 	{
-		$credentials = base64_encode($this->clientId . ':' . $this->accessKey);
-		$options = [
-			'headers' => [
-				'Authorization' => 'Basic ' . $credentials
-			],
-			\GuzzleHttp\RequestOptions::JSON => [
-				'grant_type' => 'client_credentials'
-			]
-		];
-
 		try {
-			$response = \App\RequestHttp::getClient()->post($this->url . 'oauth2/token', $options);
+			$response = \App\RequestHttp::getClient()->post($this->url . 'oauth2/token', [
+				'headers' => [
+					'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->accessKey)
+				],
+				\GuzzleHttp\RequestOptions::JSON => [
+					'grant_type' => 'client_credentials'
+				]
+			]);
 			if (202 === $response->getStatusCode()) {
 				$response = \App\Json::decode($response->getBody()->getContents());
 			}
@@ -357,12 +347,8 @@ class VatifyEu extends Base
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 			return;
 		}
-
-		if ($response['access_token']) {
-			$this->bearerToken = $response['access_token'];
-		}
-
-		if (empty($this->bearerToken)){
+		$this->bearerToken = $response['access_token'] ?? null;
+		if (empty($this->bearerToken)) {
 			$this->response['error'] = \App\Language::translate('LBL_VATIFY_EU_NO_AUTH', 'Other.RecordCollector');
 		}
 	}

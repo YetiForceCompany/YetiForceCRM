@@ -4,7 +4,7 @@
 	{if $RECORD_COLLECTOR->displayType === 'Summary'}
 		<div class="mt-1">
 			{if isset($SEARCH_DATA['fields'])}
-				<table class="table">
+				<table class="table" data-no="1">
 					<tbody>
 						{foreach item=VALUE key=LABEL from=$SEARCH_DATA['fields']}
 							<tr>
@@ -31,7 +31,7 @@
 	{elseif $RECORD_COLLECTOR->displayType === 'FillFields'}
 		{if !empty($SEARCH_DATA['fields'])}
 			<form class="js-record-collector__fill_form mt-1" data-js="form">
-				<table class="table table-bordered">
+				<table class="table table-bordered" data-no="2">
 					<thead>
 						<tr>
 							<th class="text-center">{\App\Language::translate('LBL_FIELDS_LIST', $MODULE_NAME)}</th>
@@ -83,7 +83,7 @@
 				</table>
 			</form>
 			{if !empty($SEARCH_DATA['skip'])}
-				<table class="table table-bordered mt-2">
+				<table class="table table-bordered mt-2" data-no="3">
 					<thead>
 						<tr>
 							<th class="text-center">{\App\Language::translate('LBL_FIELDS_OMITTED', $MODULE_NAME)}</th>
@@ -109,7 +109,7 @@
 				</table>
 			{/if}
 			{if !empty($SEARCH_DATA['additional'])}
-				<table class="table table-bordered mt-2">
+				<table class="table table-bordered mt-2" data-no="4">
 					<thead>
 						<tr>
 							<th class="text-center" colspan="{1 + count($SEARCH_DATA['keys'])}">{\App\Language::translate('LBL_CUSTOM_INFORMATION', $MODULE_NAME)}</th>

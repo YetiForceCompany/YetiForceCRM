@@ -183,6 +183,7 @@ class Language
 			return \nl2br(static::$languageContainer[$language][$moduleName]['php'][$key]);
 		}
 		if ($secondModuleName) {
+			$secondModuleName = str_replace([':', '.'], [\DIRECTORY_SEPARATOR, \DIRECTORY_SEPARATOR], $secondModuleName);
 			static::loadLanguageFile($language, $secondModuleName);
 			if (isset(static::$languageContainer[$language][$secondModuleName]['php'][$key])) {
 				if ($encode) {
