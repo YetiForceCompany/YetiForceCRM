@@ -58,7 +58,7 @@
 							{if \App\Privilege::isPermitted($MODULE_NAME, 'RecordCollector') && !empty($QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR'])}
 								{foreach item=COLLECTOR_LINK from=$QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
 									{assign var=COLLECTOR value=\App\RecordCollector::getInstance($COLLECTOR_LINK->get('linkurl'), $MODULE_NAME)}
-									{if isset($COLLECTOR) && $COLLECTOR->isActive()}
+									{if !empty($COLLECTOR) && $COLLECTOR->isActive()}
 										<button type="button" class="btn btn-outline-dark js-popover-tooltip js-record-collector-modal mr-1" {if isset(Vtiger_Field_Model::$tabIndexLastSeq)}tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}" {/if} data-type={$COLLECTOR_LINK->get('linkurl')} title="{App\Language::translate($COLLECTOR->label, 'Other.RecordCollector')}" {if !empty($COLLECTOR->description)}data-content="{App\Language::translate($COLLECTOR->description, 'Other.RecordCollector')}" {/if} data-js="click|popover">
 											<span class="{$COLLECTOR->icon}"></span>
 										</button>
