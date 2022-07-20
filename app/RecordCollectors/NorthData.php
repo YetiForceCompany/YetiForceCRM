@@ -1,6 +1,6 @@
 <?php
 /**
- *  NorthData file.
+ * NorthData API file.
  *
  * @package App
  *
@@ -15,7 +15,7 @@
 namespace App\RecordCollectors;
 
 /**
- *  NorthData class.
+ * NorthData API class.
  */
 class NorthData extends Base
 {
