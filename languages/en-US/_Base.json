@@ -1507,7 +1507,9 @@
     "LBL_MEDIA": "Media",
     "LBL_IMAGES": "Images",
     "FL_WAPRO_ID": "WAPRO ERP ID",
-    "LBL_IMAGE_PREVIEW": "Image preview"
+    "LBL_IMAGE_PREVIEW": "Image preview",
+    "LBL_RECORD_DOES_NOT_EXIST": "Record does not exist",
+    "LBL_RECORD_DOES_NOT_EXIST_DESC": "The record has been deleted and the name cannot be displayed."
   },
   "js": {
     "JS_APPROVE": "Approve",

@@ -80,6 +80,11 @@ class TextUtils
 		foreach ($tags as $tag) {
 			$tagLength = \mb_strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $tag[2]));
 			if (($totalLength + $tagLength + $openTagsLength) >= $length) {
+				if (empty($html)) {
+					preg_match('/^<\s*([^\s>!]+).*?>$/s', $tag[1], $tagName);
+					$openTags[] = $tagName[1];
+					$html = $tag[1] . self::textTruncate($tag[2], $length - 3, false);
+				}
 				break;
 			}
 			if (!empty($tag[1])) {
@@ -128,6 +133,11 @@ class TextUtils
 		foreach ($tags as $tag) {
 			$tagLength = \mb_strlen($tag[0]);
 			if (($totalLength + $tagLength + $openTagsLength) >= $length) {
+				if (empty($html)) {
+					preg_match('/^<\s*([^\s>!]+).*?>$/s', $tag[1], $tagName);
+					$openTags[] = $tagName[1];
+					$html = $tag[1] . self::textTruncate($tag[2], $length - 3, false);
+				}
 				break;
 			}
 			if (!empty($tag[1])) {

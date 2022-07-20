@@ -1388,4 +1388,17 @@ class Vtiger_Module_Model extends \vtlib\Module
 	{
 		$this->fields = null;
 	}
+
+	/**
+	 * Get custom link label
+	 *
+	 * @param int    $id
+	 * @param string $label
+	 *
+	 * @return string
+	 */
+	public function getCustomLinkLabel(int $id, string $label): string
+	{
+		return \App\Purifier::encodeHtml($label);
+	}
 }
