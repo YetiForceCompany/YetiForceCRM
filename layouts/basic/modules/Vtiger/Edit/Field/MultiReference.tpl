@@ -32,11 +32,11 @@
 			<div class="input-group-append u-cursor-pointer">
 				{if !empty($PARAMS['buttons'])}
 					{foreach item=BUTTON from=$PARAMS['buttons']}
-						<button class="btn {$BUTTON['class']}" type="button" tabindex="{$TABINDEX}" {if $IS_EDITABLE_READ_ONLY}disabled{/if}
+						<button class="btn {\App\Purifier::encodeHtml($BUTTON['class'])}" type="button" tabindex="{$TABINDEX}" {if $IS_EDITABLE_READ_ONLY}disabled{/if}
 							{if isset($BUTTON['data'])}
 								{foreach from=$BUTTON['data'] key=NAME item=DATA}{' '}data-{$NAME}="{\App\Purifier::encodeHtml($DATA)}" {/foreach}
 							{/if}>
-							<span {if isset($BUTTON['name'])}id="{$MODULE_NAME}_editView_fieldName_{$FIELD_NAME}_{$BUTTON['name']}" {/if} class="{$BUTTON['icon']}" title="{\App\Language::translate($BUTTON['label'], $BUTTON['labelModule'])}"></span>
+							<span {if isset($BUTTON['name'])}id="{$MODULE_NAME}_editView_fieldName_{$FIELD_NAME}_{\App\Purifier::encodeHtml($BUTTON['name'])}" {/if} class="{\App\Purifier::encodeHtml($BUTTON['icon'])}" title="{\App\Language::translate($BUTTON['label'], $BUTTON['labelModule'])}"></span>
 						</button>
 					{/foreach}
 				{/if}
