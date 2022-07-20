@@ -32,6 +32,8 @@
     "LBL_BR_RECITA_WS_CNPJ_ERROR": "The query limit has been exceeded. Wait one minute.",
     "LBL_NO_BRREG_ENHETSREGISTERET": "Norwegian Register Organizations (Enhetsregisteret)",
     "LBL_NO_BRREG_ENHETSREGISTERET_DESC": "Fetching data about Norwegian companies from the Norwegian Register Organizations (Enhetsregisteret)",
-    "LBL_NO_BRREG_ENHETSREGISTERET_400": "Organization number must be a number with exactly 9 digits."
+    "LBL_NO_BRREG_ENHETSREGISTERET_400": "Organization number must be a number with exactly 9 digits.",
+    "LBL_VATIFY_EU": "VATify.eu",
+    "LBL_VATIFY_DESC_EU": "Feting data about companies from VATify."
   }
 }
