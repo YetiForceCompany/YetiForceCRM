@@ -67,9 +67,9 @@
 					<select class="widgetFilter select2 form-control" name="taskpriority"
 						title="{\App\Language::translate('Priority',$SOURCE_MODULE)}">
 						<option value="all">{\App\Language::translate('LBL_ALL')}</option>
-						{foreach item=TASK_PRIORITY from=App\Fields\Picklist::getValuesName('taskpriority')}
-							<option value="{\App\Purifier::encodeHtml($TASK_PRIORITY)}" {if $TASK_PRIORITY === $TASK_PRIORITY} selected{/if}>
-								{\App\Language::translate($TASK_PRIORITY,$SOURCE_MODULE)}
+						{foreach item=PRIORITY from=App\Fields\Picklist::getValuesName('taskpriority')}
+							<option value="{\App\Purifier::encodeHtml($PRIORITY)}" {if PRIORITY === $TASK_PRIORITY} selected{/if}>
+								{\App\Language::translate($PRIORITY,$SOURCE_MODULE)}
 							</option>
 						{/foreach}
 					</select>
