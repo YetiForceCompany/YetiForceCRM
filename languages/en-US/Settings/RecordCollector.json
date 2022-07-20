@@ -13,7 +13,7 @@
     "LBL_CONFIG": "Setup data for record collector",
     "LBL_ACCESS_KEY": "Access Key",
     "LBL_CLIENT_ID": "Client ID",
-    "LBL_VATIFY_NO_AUTH": "Bearer token not fetch."
+    "LBL_VATIFY_EU_NO_AUTH": "Bearer token not fetch."
   },
   "js": {}
 }

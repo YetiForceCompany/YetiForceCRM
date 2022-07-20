@@ -18,7 +18,7 @@ namespace App\RecordCollectors;
 /**
  * Vatify API class.
  */
-class Vatify extends Base
+class VatifyEu extends Base
 {
 	/** {@inheritdoc} */
 	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
@@ -27,13 +27,13 @@ class Vatify extends Base
 	public $icon = 'fas fa-globe-europe';
 
 	/** {@inheritdoc} */
-	public $label = 'LBL_VATIFY';
+	public $label = 'LBL_VATIFY_EU';
 
 	/** {@inheritdoc} */
 	public $displayType = 'FillFields';
 
 	/** {@inheritdoc} */
-	public $description = 'LBL_VATIFY_DESC';
+	public $description = 'LBL_VATIFY_DESC_EU';
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://www.vatify.eu/docs/api/getting-started/';
@@ -47,53 +47,53 @@ class Vatify extends Base
 			'typeofdata' => 'V~M',
 			'uitype' => 16,
 			'picklistValues' => [
-				'Albania',
-				'Austria',
-				'Belarus',
-				'Belgium',
-				'Bosnia and Herzegovina',
-				'Bulgaria',
-				'Cyprus',
-				'Czech Republic',
-				'Germany',
-				'Denmark',
-				'Estonia',
-				'Great Britain',
-				'Greece',
-				'Spain',
-				'Finland',
-				'France',
-				'Northern Ireland',
-				'Georgia',
-				'Croatia',
-				'Hungary',
-				'Iceland',
-				'Ireland',
-				'Israel',
-				'Italy',
-				'Kazakhstan',
-				'Kosovo',
-				'Latvia',
-				'Liechtenstein',
-				'Lithuania',
-				'Luxembourg',
-				'North Macedonia',
-				'Malta',
-				'Moldova',
-				'Montenegro',
-				'Norway' ,
-				'The Netherlands',
-				'Poland',
-				'Portugal',
-				'Romania',
-				'Russia',
-				'Sweden',
-				'Slovenia',
-				'Slovakia',
-				'Serbia',
-				'Switzerland',
-				'Ukraine',
-				'South Africa',
+				'Albania' => 'Albania',
+				'Austria' => 'Austria',
+				'Belarus' => 'Belarus',
+				'Belgium' => 'Belgium',
+				'Bosnia and Herzegovina' => 'Bosnia And Herzegovina',
+				'Bulgaria' => 'Bulgaria',
+				'Cyprus' => 'Cyprus',
+				'Czech Republic' => 'Czech Republic',
+				'Germany' => 'Germany',
+				'Denmark' => 'Denmark',
+				'Estonia' => 'Estonia',
+				'Great Britain' => 'United Kingdom',
+				'Greece' => 'Greece',
+				'Spain' => 'Spain',
+				'Finland' => 'Finland',
+				'France' => 'France',
+				'Northern Ireland' => 'Northern Ireland',
+				'Georgia' => 'Georgia',
+				'Croatia' => 'Croatia',
+				'Hungary' => 'Hungary',
+				'Iceland' => 'Iceland',
+				'Ireland' => 'Ireland',
+				'Israel' => 'Israel',
+				'Italy' => 'Italy',
+				'Kazakhstan' => 'Kazakstan',
+				'Kosovo' => 'Kosovo',
+				'Latvia' => 'Latvia',
+				'Liechtenstein' => 'Liechtenstein',
+				'Lithuania' => 'Lithuania',
+				'Luxembourg' => 'Luxembourg',
+				'North Macedonia' => 'Macedonia, The Former Yugoslav Republic Of',
+				'Malta' => 'Malta',
+				'Moldova' => 'Moldova, Republic Of',
+				'Montenegro' => 'Montenegro',
+				'Norway' => 'Norway',
+				'The Netherlands' => 'Netherlands',
+				'Poland' => 'Poland',
+				'Portugal' => 'Portugal',
+				'Romania' => 'Romania',
+				'Russia' => 'Russian Federation',
+				'Sweden' => 'Sweden',
+				'Slovenia' => 'Slovenia',
+				'Slovakia' => 'Slovakia',
+				'Serbia' => 'Serbia',
+				'Switzerland' => 'Switzerland',
+				'Ukraine' => 'Ukraine',
+				'South Africa' => 'South Africa',
 			]
 		],
 		'vatNumber' => [
@@ -231,7 +231,7 @@ class Vatify extends Base
 	private $accessKey;
 	/** @var string Client ID. */
 	private $clientId;
-
+	/** @var string Bearer Token. */
 	private $bearerToken;
 
 	/** {@inheritdoc} */
@@ -247,12 +247,12 @@ class Vatify extends Base
 		$vatNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatNumber', 'Text'));
 		$params = [];
 
-		if (!$this->isActive() && empty($country) && empty($vatNumber)) {
+		if (!$this->isActive() || empty($country) || empty($vatNumber)) {
 			return [];
 		}
-		$this->setCredentials();
+		$this->loadCredentials();
 		$this->getBearerToken();
-		if (empty($this->bearerToken)){
+		if (empty($this->bearerToken)) {
 			$this->response['error'] = \App\Language::translate('LBL_VATIFY_NO_AUTH', 'Other.RecordCollector');
 		}
 		$params['country'] = $country;
@@ -275,7 +275,8 @@ class Vatify extends Base
 		$response = [];
 		$link = '';
 		try {
-			$response = \App\Json::decode(\App\RequestHttp::getClient()->get($this->url  . 'query?' . http_build_query($params), ['headers' => ['Authorization' => 'Bearer '. $this->bearerToken]])->getBody()->getContents());
+			$client = \App\RequestHttp::getClient(['headers' => ['Authorization' => 'Bearer '. $this->bearerToken]]);
+			$response = \App\Json::decode($client->get($this->url  . 'query?' . http_build_query($params))->getBody()->getContents());
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
@@ -289,14 +290,14 @@ class Vatify extends Base
 		}
 
 		try {
-			$response = \App\Json::decode(\App\RequestHttp::getClient()->get($link)->getBody()->getContents());
+			$response = \App\Json::decode($client->get($link)->getBody()->getContents());
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 			return;
 		}
 
-		if ('FINISHED' === $response['query']['status']){
+		if ('FINISHED' === $response['query']['status']) {
 			$this->data = $this->parseData($response['result']['items'][0]['data']);
 		} else {
 			$this->data = [];
@@ -320,7 +321,7 @@ class Vatify extends Base
 	 *
 	 * @return void
 	 */
-	private function setCredentials(): void
+	private function loadCredentials(): void
 	{
 		if (($params = $this->getParams()) && !empty($params['client_id'] && !empty($params['access_key']))) {
 			$this->clientId = $params['client_id'];
@@ -329,7 +330,11 @@ class Vatify extends Base
 			throw new \App\Exceptions\IllegalValue('You must fist setup Api Key in Config Panel', 403);
 		}
 	}
-
+	/**
+	 * Function fetching Bearer Token.
+	 *
+	 * @return void
+	 */
 	private function getBearerToken()
 	{
 		$credentials = base64_encode($this->clientId . ':' . $this->accessKey);
@@ -337,11 +342,16 @@ class Vatify extends Base
 			'headers' => [
 				'Authorization' => 'Basic ' . $credentials
 			],
-			'grant_type' => 'client_credentials'
+			\GuzzleHttp\RequestOptions::JSON => [
+				'grant_type' => 'client_credentials'
+			]
 		];
 
 		try {
-			$response = \App\Json::decode(\App\RequestHttp::getClient()->get('https://api.vatify.eu/v1/oauth2/token', $options)->getBody()->getContents());
+			$response = \App\RequestHttp::getClient()->post($this->url . 'oauth2/token', $options);
+			if (202 === $response->getStatusCode()) {
+				$response = \App\Json::decode($response->getBody()->getContents());
+			}
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
@@ -351,6 +361,9 @@ class Vatify extends Base
 		if ($response['access_token']) {
 			$this->bearerToken = $response['access_token'];
 		}
-	}
 
+		if (empty($this->bearerToken)){
+			$this->response['error'] = \App\Language::translate('LBL_VATIFY_EU_NO_AUTH', 'Other.RecordCollector');
+		}
+	}
 }
