@@ -285,6 +285,7 @@ class VatifyEu extends Base
 		} else {
 			return;
 		}
+		sleep(5);
 		try {
 			$response = \App\Json::decode($client->get($link, $options)->getBody()->getContents());
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
