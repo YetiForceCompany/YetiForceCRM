@@ -9,6 +9,7 @@
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\SystemWarnings\Mail;
@@ -31,7 +32,7 @@ class CheckSuspendedAccounts extends \App\SystemWarnings\Template
 		$data = (new \App\Db\Query())->select(['username'])->from('roundcube_users')->where(['crm_status' => 2])->column();
 		if (!$data) {
 			$this->status = 1;
-		} else {
+		} elseif (\App\Security\AdminAccess::isPermitted('OSSMailScanner')) {
 			$this->status = 0;
 			$userSuspendedList = '<ul>';
 			foreach ($data as $value) {
