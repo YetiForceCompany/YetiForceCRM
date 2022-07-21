@@ -270,10 +270,11 @@ class VatifyEu extends Base
 	private function getDataFromApi(array $params): void
 	{
 		$response = [];
+		$options = ['headers' => ['Authorization' => 'Bearer ' . $this->bearerToken]];
 		$link = '';
 		try {
-			$client = \App\RequestHttp::getClient(['headers' => ['Authorization' => 'Bearer ' . $this->bearerToken]]);
-			$response = \App\Json::decode($client->get($this->url . 'query?' . http_build_query($params))->getBody()->getContents());
+			$client = \App\RequestHttp::getClient();
+			$response = \App\Json::decode($client->get($this->url . 'query?' . http_build_query($params), $options)->getBody()->getContents());
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
@@ -285,7 +286,7 @@ class VatifyEu extends Base
 			return;
 		}
 		try {
-			$response = \App\Json::decode($client->get($link)->getBody()->getContents());
+			$response = \App\Json::decode($client->get($link, $options)->getBody()->getContents());
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
@@ -339,7 +340,7 @@ class VatifyEu extends Base
 					'grant_type' => 'client_credentials'
 				]
 			]);
-			if (202 === $response->getStatusCode()) {
+			if (200 === $response->getStatusCode()) {
 				$response = \App\Json::decode($response->getBody()->getContents());
 			}
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
