@@ -27,12 +27,6 @@
 											{$ITEM->getDescription()}
 										</p>
 										<div class="float-right">
-											{if $ITEM->getStatus() != 1 && $ITEM->getPriority() < 8}
-												<button class="btn btn-warning ajaxBtn" type="button" data-params="{$ITEM->getStatus()}">
-													<span class="fas fa-minus-circle mr-1"></span>
-													{App\Language::translate('BTN_SET_IGNORE','Settings:SystemWarnings')}
-												</button>
-											{/if}
 											{if $ITEM->getLink()}
 												<a class="btn btn-success ml-1" href="{$ITEM->getLink()}" target="_blank"
 													rel="noreferrer noopener">
