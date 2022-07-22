@@ -20,7 +20,7 @@ class YetiForceRcUsaEdgar extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $label = 'YetiForce EDGAR USA';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-edgar-usa';

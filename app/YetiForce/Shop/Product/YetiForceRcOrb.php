@@ -20,7 +20,7 @@ class YetiForceRcOrb extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $label = 'YetiForce ORB';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-orb';

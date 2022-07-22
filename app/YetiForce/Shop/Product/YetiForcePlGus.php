@@ -20,7 +20,7 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $label = 'YetiForce GUS';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-gus-en';

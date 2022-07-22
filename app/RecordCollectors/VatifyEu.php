@@ -248,17 +248,16 @@ class VatifyEu extends Base
 	{
 		$country = $this->request->getByType('country', 'Text');
 		$vatNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatNumber', 'Text'));
-		$params = [];
 
 		if (!$this->isActive() || empty($country) || empty($vatNumber)) {
 			return [];
 		}
 		$this->loadCredentials();
 		$this->getBearerToken();
-		$params['country'] = $country;
-		$params['identifier'] = $vatNumber;
-
-		$this->getDataFromApi($params);
+		$this->getDataFromApi([
+			'country' => $country,
+			'identifier' => $vatNumber,
+		]);
 		$this->parseData();
 		$this->loadData();
 		return $this->response;

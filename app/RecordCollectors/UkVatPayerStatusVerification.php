@@ -5,6 +5,7 @@
  * @package App
  *
  * @see https://developer.service.hmrc.gov.uk/api-documentation
+ * @see https://developer.service.hmrc.gov.uk/api-documentation/docs/api
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)

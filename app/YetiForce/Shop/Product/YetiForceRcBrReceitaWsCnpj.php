@@ -20,7 +20,7 @@ class YetiForceRcBrReceitaWsCnpj extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $label = 'YetiForce Receita CNPJ BR';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/';

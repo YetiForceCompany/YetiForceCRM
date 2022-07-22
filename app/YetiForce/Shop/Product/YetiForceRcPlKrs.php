@@ -20,7 +20,7 @@ class YetiForceRcPlKrs extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $label = 'YetiForce KRS PL';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-krs-pl';

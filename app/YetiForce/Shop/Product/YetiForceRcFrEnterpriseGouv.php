@@ -20,7 +20,7 @@ class YetiForceRcFrEnterpriseGouv extends \App\YetiForce\Shop\AbstractBaseProduc
 	public $label = 'YetiForce Entreprise GOUV FR';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-entreprise-gouv-fr';

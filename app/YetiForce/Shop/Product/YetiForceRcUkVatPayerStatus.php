@@ -20,7 +20,7 @@ class YetiForceRcUkVatPayerStatus extends \App\YetiForce\Shop\AbstractBaseProduc
 	public $label = 'YetiForce VAT UK';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-vat-uk';

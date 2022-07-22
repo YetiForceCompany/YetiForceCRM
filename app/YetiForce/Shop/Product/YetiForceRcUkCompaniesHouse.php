@@ -20,7 +20,7 @@ class YetiForceRcUkCompaniesHouse extends \App\YetiForce\Shop\AbstractBaseProduc
 	public $label = 'YetiForce Companies House UK';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-companies-house-uk';

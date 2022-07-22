@@ -20,7 +20,7 @@ class YetiForceRcPlCeidg extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $label = 'YetiForce CEIDG PL';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-ceidg-en';
