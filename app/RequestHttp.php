@@ -20,11 +20,13 @@ class RequestHttp
 	/**
 	 * Get GuzzleHttp client instance.
 	 *
+	 * @param array $config
+	 *
 	 * @return \GuzzleHttp\Client
 	 */
-	public static function getClient(): \GuzzleHttp\Client
+	public static function getClient(array $config = []): \GuzzleHttp\Client
 	{
-		return new \GuzzleHttp\Client(self::getOptions());
+		return new \GuzzleHttp\Client(\App\Utils::merge(self::getOptions(), $config));
 	}
 
 	/**

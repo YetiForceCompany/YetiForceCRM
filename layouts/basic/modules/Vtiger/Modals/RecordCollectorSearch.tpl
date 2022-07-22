@@ -57,27 +57,35 @@
 					</thead>
 					<tbody>
 						{foreach from=$SEARCH_DATA['fields'] key=FIELD_NAME item=ROW}
-							<tr class="js-record-collector__field" data-field-name="{$FIELD_NAME}" data-js="data">
-								<td>{$ROW['label']}</td>
-								{if empty($SEARCH_DATA['recordModel'])}
-									<td class="text-center js-record-collector__column" data-column="none">
-										<input type="radio" name="{$FIELD_NAME}" value="">
-									</td>
+							{assign	var=ROW_VALUE_SET value=0}
+							{foreach from=$ROW['data'] key=KEY item=VALUE name=DATA_COLUMN}
+								{if $VALUE['raw'] !== ''}
+									{assign	var=ROW_VALUE_SET value=1}
 								{/if}
-								{foreach from=$ROW['data'] key=KEY item=VALUE name=DATA_COLUMN}
-									<td class="js-record-collector__column" data-column="{$KEY}">
-										<input type="radio" name="{$FIELD_NAME}" {if $smarty.foreach.DATA_COLUMN.first}checked{/if} value="{$VALUE['edit']}">
-										<span class="ml-2">{$VALUE['display']}</span>
-									</td>
-								{/foreach}
-								{if isset($SEARCH_DATA['recordModel'])}
-									{assign	var=FIELD_MODEL	value=$SEARCH_DATA['recordModel']->getField($FIELD_NAME)}
-									<td class="js-record-collector__column" data-column="record">
-										<input type="radio" name="{$FIELD_NAME}" value="{$FIELD_MODEL->getEditViewDisplayValue($SEARCH_DATA['recordModel']->get($FIELD_NAME),$SEARCH_DATA['recordModel'])}">
-										<span class="ml-2">{$SEARCH_DATA['recordModel']->getDisplayValue($FIELD_NAME)}</span>
-									</td>
-								{/if}
-							</tr>
+							{/foreach}
+							{if $ROW_VALUE_SET}
+								<tr class="js-record-collector__field" data-field-name="{$FIELD_NAME}" data-js="data">
+									<td>{$ROW['label']}</td>
+									{if empty($SEARCH_DATA['recordModel'])}
+										<td class="text-center js-record-collector__column" data-column="none">
+											<input type="radio" name="{$FIELD_NAME}" value="">
+										</td>
+									{/if}
+									{foreach from=$ROW['data'] key=KEY item=VALUE name=DATA_COLUMN}
+										<td class="js-record-collector__column" data-column="{$KEY}">
+											<input type="radio" name="{$FIELD_NAME}" {if $smarty.foreach.DATA_COLUMN.first}checked{/if} value="{$VALUE['edit']}">
+											<span class="ml-2">{$VALUE['display']}</span>
+										</td>
+									{/foreach}
+									{if isset($SEARCH_DATA['recordModel'])}
+										{assign	var=FIELD_MODEL	value=$SEARCH_DATA['recordModel']->getField($FIELD_NAME)}
+										<td class="js-record-collector__column" data-column="record">
+											<input type="radio" name="{$FIELD_NAME}" value="{$FIELD_MODEL->getEditViewDisplayValue($SEARCH_DATA['recordModel']->get($FIELD_NAME),$SEARCH_DATA['recordModel'])}">
+											<span class="ml-2">{$SEARCH_DATA['recordModel']->getDisplayValue($FIELD_NAME)}</span>
+										</td>
+									{/if}
+								</tr>
+							{/if}
 						{/foreach}
 					</tbody>
 				</table>

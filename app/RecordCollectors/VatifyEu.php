@@ -5,12 +5,13 @@
  * @package App
  *
  * @see https://www.vatify.eu/coverage.html
- * @see https://api.vatify.eu/v1/demo/ test
- * @see https://api.vatify.eu/v1/ prod
+ * @see https://api.vatify.eu/v1/demo/ TEST API URL
+ * @see https://api.vatify.eu/v1/ PROD API URL
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Rembiesa <s.rembiesa@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\RecordCollectors;
@@ -58,7 +59,7 @@ class VatifyEu extends Base
 				'Germany' => 'Germany',
 				'Denmark' => 'Denmark',
 				'Estonia' => 'Estonia',
-				'Great Britain' => 'United Kingdom',
+				'GB' => 'United Kingdom',
 				'Greece' => 'Greece',
 				'Spain' => 'Spain',
 				'Finland' => 'Finland',
@@ -224,13 +225,15 @@ class VatifyEu extends Base
 
 	/** {@inheritdoc} */
 	public $settingsFields = [
-		'access_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_ACCESS_KEY'],
 		'client_id' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_CLIENT_ID'],
+		'access_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_ACCESS_KEY'],
 	];
 	/** @var string Access Key. */
 	private $accessKey;
+
 	/** @var string Client ID. */
 	private $clientId;
+
 	/** @var string Bearer Token. */
 	private $bearerToken;
 
@@ -256,6 +259,7 @@ class VatifyEu extends Base
 		$params['identifier'] = $vatNumber;
 
 		$this->getDataFromApi($params);
+		$this->parseData();
 		$this->loadData();
 		return $this->response;
 	}
@@ -269,45 +273,57 @@ class VatifyEu extends Base
 	 */
 	private function getDataFromApi(array $params): void
 	{
-		$response = [];
 		$link = '';
 		try {
 			$client = \App\RequestHttp::getClient(['headers' => ['Authorization' => 'Bearer ' . $this->bearerToken]]);
-			$response = \App\Json::decode($client->get($this->url . 'query?' . http_build_query($params))->getBody()->getContents());
+			$response = $client->post($this->url . 'query', ['json' => $params]);
+			$body = \App\Json::decode($response->getBody()->getContents());
+			$link = $response->getHeaderLine('location');
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 			return;
 		}
-		if ('IN_PROGRESS' === $response['query']['status']) {
-			$link = $response['query']['links'][0]['href'];
-		} else {
+		if (!$link) {
 			return;
 		}
-		try {
-			$response = \App\Json::decode($client->get($link)->getBody()->getContents());
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getResponse()->getReasonPhrase();
-			return;
-		}
-		if ('FINISHED' === $response['query']['status']) {
-			$this->data = $this->parseData($response['result']['items'][0]['data']);
-		} else {
-			$this->data = [];
+		$response = null;
+		$delay = $counter = 0;
+		while (!$response && $counter < 5) {
+			if ($delay < 10000000) {
+				$delay += 500000;
+			}
+			usleep($delay);
+			try {
+				$response = $client->get($link);
+				$body = \App\Json::decode($response->getBody()->getContents());
+				if (202 === $response->getStatusCode() || 'FINISHED' !== $body['query']['status']) {
+					$response = null;
+				} else {
+					$this->data = $body['result']['items'];
+				}
+			} catch (\GuzzleHttp\Exception\ClientException $e) {
+				\App\Log::warning($e->getMessage(), 'RecordCollectors');
+				$this->response['error'] = $e->getResponse()->getReasonPhrase();
+				$response = true;
+			}
+			++$counter;
 		}
 	}
 
 	/**
 	 * Function parsing data to fields from API.
 	 *
-	 * @param array $data
-	 *
-	 * @return array
+	 * @return void
 	 */
-	private function parseData(array $data): array
+	private function parseData(): void
 	{
-		return \App\Utils::flattenKeys($data, 'ucfirst');
+		if (empty($this->data)) {
+			return;
+		}
+		foreach ($this->data as $key => $data) {
+			$this->data[$key] = \App\Utils::flattenKeys($data['data'], 'ucfirst');
+		}
 	}
 
 	/**
@@ -339,15 +355,13 @@ class VatifyEu extends Base
 					'grant_type' => 'client_credentials'
 				]
 			]);
-			if (202 === $response->getStatusCode()) {
-				$response = \App\Json::decode($response->getBody()->getContents());
-			}
+			$response = \App\Json::decode($response->getBody()->getContents());
+			$this->bearerToken = $response['access_token'];
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 			return;
 		}
-		$this->bearerToken = $response['access_token'] ?? null;
 		if (empty($this->bearerToken)) {
 			$this->response['error'] = \App\Language::translate('LBL_VATIFY_EU_NO_AUTH', 'Other.RecordCollector');
 		}

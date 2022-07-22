@@ -180,7 +180,7 @@ class Base
 		} else {
 			$fieldsModel = \Vtiger_Module_Model::getInstance($this->moduleName)->getFields();
 		}
-		$fieldsData = $skip = [];
+		$additional = $fieldsData = $skip = [];
 		$rows = isset($this->data[0]) ? $this->data : [$this->data];
 		foreach ($rows as $key => &$row) {
 			$dataCounter[$key] = 0;
@@ -204,6 +204,9 @@ class Base
 				if (isset($row[$apiKey])) {
 					$value = trim($row[$apiKey]);
 					unset($row[$apiKey]);
+				}
+				if ('' === $value && isset($fieldsData[$fieldName])) {
+					continue;
 				}
 				if ($value) {
 					++$dataCounter[$key];
