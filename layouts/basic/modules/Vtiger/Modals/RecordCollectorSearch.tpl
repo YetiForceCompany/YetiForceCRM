@@ -45,6 +45,11 @@
 								<th class="text-center">
 									{\App\Language::translate('LBL_DATA_FROM_SOURCE', $MODULE_NAME)}
 									<span class="far fa-check-square u-cursor-pointer ml-2 js-record-collector__select" data-column="{$KEY}" data-js="data|click"></span>
+									{if isset($SEARCH_DATA['links'][$KEY])}
+										<a role="button" class="btn btn-primary btn-xs float-right" href="{$SEARCH_DATA['links'][$KEY]}" title="{$SEARCH_DATA['links'][$KEY]}" target="_blank" rel="noreferrer noopener">
+											<span class="fa-solid fa-link"></span>
+										</a>
+									{/if}
 								</th>
 							{/foreach}
 							{if isset($SEARCH_DATA['recordModel'])}
