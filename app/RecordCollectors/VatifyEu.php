@@ -273,18 +273,16 @@ class VatifyEu extends Base
 	 */
 	private function getDataFromApi(array $params): void
 	{
-		$link = '';
 		try {
 			$client = \App\RequestHttp::getClient(['headers' => ['Authorization' => 'Bearer ' . $this->bearerToken]]);
 			$response = $client->post($this->url . 'query', ['json' => $params]);
-			$body = \App\Json::decode($response->getBody()->getContents());
 			$link = $response->getHeaderLine('location');
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 			return;
 		}
-		if (!$link) {
+		if (empty($link)) {
 			return;
 		}
 		$response = null;
