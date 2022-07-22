@@ -25,7 +25,7 @@ class YetiForceRcBrReceitaWsCnpj extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/';
+	public $website = 'https://yetiforce.com/en/yetiforce-receita-cnpj-br';
 
 	/** {@inheritdoc} */
 	public $prices = [

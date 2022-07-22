@@ -25,7 +25,7 @@ class YetiForceRcVatifyEu extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/';
+	public $website = 'https://yetiforce.com/en/yetiforce-vatify-eu';
 
 	/** {@inheritdoc} */
 	public $prices = [

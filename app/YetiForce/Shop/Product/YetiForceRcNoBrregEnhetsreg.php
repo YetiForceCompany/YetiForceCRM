@@ -25,7 +25,7 @@ class YetiForceRcNoBrregEnhetsreg extends \App\YetiForce\Shop\AbstractBaseProduc
 	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/';
+	public $website = 'https://yetiforce.com/en/yetiforce-enhetsregisteret-no';
 
 	/** {@inheritdoc} */
 	public $prices = [
