@@ -205,7 +205,7 @@ class Base
 					$value = trim($row[$apiKey]);
 					unset($row[$apiKey]);
 				}
-				if ('' === $value && isset($fieldsData[$fieldName])) {
+				if ('' === $value && isset($fieldsData[$fieldName]['data'][$key])) {
 					continue;
 				}
 				if ($value) {
