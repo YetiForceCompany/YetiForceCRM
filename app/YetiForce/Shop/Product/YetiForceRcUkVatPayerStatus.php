@@ -83,6 +83,17 @@ class YetiForceRcUkVatPayerStatus extends \App\YetiForce\Shop\AbstractBaseProduc
 				'linkclass' => 'btn-info',
 				'showLabel' => 1,
 			]),
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'gov.uk',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'fa-solid fa-link',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => 'https://developer.service.hmrc.gov.uk/api-documentation',
+				'linkclass' => 'btn-secondary',
+				'showLabel' => 1,
+			]),
 		], $return);
 	}
 }

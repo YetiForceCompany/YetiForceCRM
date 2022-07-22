@@ -84,6 +84,17 @@ class YetiForceRcPlKrs extends \App\YetiForce\Shop\AbstractBaseProduct
 				'linkclass' => 'btn-info',
 				'showLabel' => 1,
 			]),
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'prs.ms.gov.pl',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'fa-solid fa-link',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => 'https://prs.ms.gov.pl/krs/openApi',
+				'linkclass' => 'btn-secondary',
+				'showLabel' => 1,
+			]),
 		], $return);
 	}
 }

@@ -84,6 +84,17 @@ class YetiForceRcBrReceitaWsCnpj extends \App\YetiForce\Shop\AbstractBaseProduct
 				'linkclass' => 'btn-info',
 				'showLabel' => 1,
 			]),
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'receitaws.com.br',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'fa-solid fa-link',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => 'https://developers.receitaws.com.br/',
+				'linkclass' => 'btn-secondary',
+				'showLabel' => 1,
+			]),
 		], $return);
 	}
 }

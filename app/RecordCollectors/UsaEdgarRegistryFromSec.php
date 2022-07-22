@@ -37,6 +37,9 @@ class UsaEdgarRegistryFromSec extends Base
 	/** {@inheritdoc} */
 	public $docUrl = 'https://www.sec.gov/edgar/sec-api-documentation';
 
+	/** @var string SEC sever address */
+	protected $url = 'https://data.sec.gov/submissions/CIK';
+
 	/** {@inheritdoc} */
 	protected $fields = [
 		'cik' => [
@@ -128,9 +131,6 @@ class UsaEdgarRegistryFromSec extends Base
 			'addressesBusinessStateOrCountryDescription' => 'addresslevel2a',
 		]
 	];
-
-	/** @var string SEC sever address */
-	protected $url = 'https://data.sec.gov/submissions/CIK';
 
 	/** @var int Central Index Key length */
 	const CIK_LEN = 10;

@@ -84,6 +84,17 @@ class YetiForceRcNoBrregEnhetsreg extends \App\YetiForce\Shop\AbstractBaseProduc
 				'linkclass' => 'btn-info',
 				'showLabel' => 1,
 			]),
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'brreg.no',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'fa-solid fa-link',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => 'https://www.brreg.no/produkter-og-tjenester/apne-data/',
+				'linkclass' => 'btn-secondary',
+				'showLabel' => 1,
+			]),
 		], $return);
 	}
 }

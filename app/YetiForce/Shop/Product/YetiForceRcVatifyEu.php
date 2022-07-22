@@ -84,6 +84,17 @@ class YetiForceRcVatifyEu extends \App\YetiForce\Shop\AbstractBaseProduct
 				'linkclass' => 'btn-info',
 				'showLabel' => 1,
 			]),
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'vatify.eu',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'fa-solid fa-link',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => 'https://www.vatify.eu/docs/api/getting-started/',
+				'linkclass' => 'btn-secondary',
+				'showLabel' => 1,
+			]),
 		], $return);
 	}
 }

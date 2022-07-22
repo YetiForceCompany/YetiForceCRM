@@ -35,6 +35,9 @@ class Vies extends Base
 	/** {@inheritdoc} */
 	public $docUrl = 'https://ec.europa.eu/taxation_customs/vies/technicalInformation.html';
 
+	/** @var string Vies server address. */
+	protected $url = 'https://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
+
 	/** {@inheritdoc} */
 	protected $fields = [
 		'countryCode' => [
@@ -96,9 +99,6 @@ class Vies extends Base
 			'vatNumber' => 'vat_id',
 		],
 	];
-
-	/** @var string Vies server address. */
-	protected $url = 'https://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
 
 	/** {@inheritdoc} */
 	public function getFields(): array

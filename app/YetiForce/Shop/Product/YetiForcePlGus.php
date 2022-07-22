@@ -59,7 +59,19 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 	/** {@inheritdoc} */
 	public function getAdditionalButtons(): array
 	{
-		return [
+		$return = [];
+		if (\App\Security\AdminAccess::isPermitted('RecordCollector')) {
+			$return[] = \Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'RecordCollector',
+				'relatedModuleName' => 'Settings:RecordCollector',
+				'linkicon' => 'fab fa-nfc-symbol mr-2',
+				'linkhref' => true,
+				'linkurl' => 'index.php?parent=Settings&module=RecordCollector&view=List',
+				'linkclass' => 'btn-primary',
+				'showLabel' => 1,
+			]);
+		}
+		return array_merge([
 			\Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'Website',
 				'relatedModuleName' => '_Base',
@@ -74,14 +86,14 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 			\Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'api.stat.gov.pl',
 				'relatedModuleName' => 'Settings:_Base',
-				'linkicon' => 'adminIcon-passwords-configuration',
+				'linkicon' => 'fa-solid fa-link',
 				'linkhref' => true,
 				'linkExternal' => true,
 				'linktarget' => '_blank',
 				'linkurl' => 'https://api.stat.gov.pl/Home/RegonApi',
-				'linkclass' => 'btn-primary',
+				'linkclass' => 'btn-secondary',
 				'showLabel' => 1,
 			]),
-		];
+		], $return);
 	}
 }

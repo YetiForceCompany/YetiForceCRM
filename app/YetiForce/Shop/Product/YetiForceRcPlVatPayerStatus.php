@@ -83,6 +83,17 @@ class YetiForceRcPlVatPayerStatus extends \App\YetiForce\Shop\AbstractBaseProduc
 				'linkclass' => 'btn-info',
 				'showLabel' => 1,
 			]),
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'podatki.gov.pl',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'fa-solid fa-link',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => 'https://www.podatki.gov.pl/e-deklaracje/dokumentacja-it/',
+				'linkclass' => 'btn-secondary',
+				'showLabel' => 1,
+			]),
 		], $return);
 	}
 }

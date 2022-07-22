@@ -40,6 +40,23 @@ class VatifyEu extends Base
 	public $docUrl = 'https://www.vatify.eu/docs/api/getting-started/';
 
 	/** {@inheritdoc} */
+	private $url = 'https://api.vatify.eu/v1/';
+
+	/** {@inheritdoc} */
+	public $settingsFields = [
+		'client_id' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_CLIENT_ID'],
+		'access_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_ACCESS_KEY'],
+	];
+	/** @var string Access Key. */
+	private $accessKey;
+
+	/** @var string Client ID. */
+	private $clientId;
+
+	/** @var string Bearer Token. */
+	private $bearerToken;
+
+	/** {@inheritdoc} */
 	protected $fields = [
 		'country' => [
 			'labelModule' => '_Base',
@@ -219,23 +236,6 @@ class VatifyEu extends Base
 			'email_address' => 'email',
 		],
 	];
-
-	/** {@inheritdoc} */
-	private $url = 'https://api.vatify.eu/v1/';
-
-	/** {@inheritdoc} */
-	public $settingsFields = [
-		'client_id' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_CLIENT_ID'],
-		'access_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_ACCESS_KEY'],
-	];
-	/** @var string Access Key. */
-	private $accessKey;
-
-	/** @var string Client ID. */
-	private $clientId;
-
-	/** @var string Bearer Token. */
-	private $bearerToken;
 
 	/** {@inheritdoc} */
 	public function isActive(): bool
