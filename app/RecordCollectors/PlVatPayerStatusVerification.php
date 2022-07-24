@@ -39,6 +39,9 @@ class PlVatPayerStatusVerification extends Base
 	/** {@inheritdoc} */
 	public $docUrl = 'https://www.podatki.gov.pl/e-deklaracje/dokumentacja-it/';
 
+	/** @var string MF sever address */
+	protected $url = 'https://sprawdz-status-vat.mf.gov.pl/?wsdl';
+
 	/** {@inheritdoc} */
 	protected $fields = [
 		'vatNumber' => [
@@ -63,9 +66,6 @@ class PlVatPayerStatusVerification extends Base
 			'vatNumber' => 'vat_id',
 		],
 	];
-
-	/** @var string MF sever address */
-	protected $url = 'https://sprawdz-status-vat.mf.gov.pl/?wsdl';
 
 	/** {@inheritdoc} */
 	public function search(): array

@@ -20,6 +20,7 @@
     "LBL_CAT_SUPPORT": "Support",
     "LBL_CAT_ADDONS": "Addons",
     "LBL_CAT_INTEGRATIONS": "Integrations",
+    "LBL_CAT_RECORD_COLLECTORS": "Record Collectors",
     "LBL_CAT_PARTNER_SOLUTIONS": "Partner's solutions",
     "LBL_DOWNLOAD_LANG": "Preuzmite jezik",
     "LBL_DOWNLOAD": "Preuzimanje",
@@ -125,6 +126,22 @@
     "LBL_ACTIVATE_DEACTIVATE_SERVICE": "Activate/Deactivate service",
     "LBL_ACTIVATE_DEACTIVATE_SERVICE_CONFIRM_DESC": "Are you sure you want to activate/deactivate service?",
     "LBL_SHOP_YETIFORCEPDFPREMIUM_INTRO": "Additional Chromium/Chrome engine to generate PDF files",
-    "LBL_SHOP_YETIFORCEPDFPREMIUM_DESC": "Additional engine to generate PDF Chromium/Chrome files\nThe Chromium engine used to generate PDFs introduces a method of creating complex PDF files.\n\nFeatures:\n- compatibility with CSS3 and HTML 5\n- compatibility with all technologies supported by the browser\n- fully supported special characters and fonts\n- the only limitation is the browsers capability\n- support for OS: Linux, macOS, Windows"
+    "LBL_SHOP_YETIFORCEPDFPREMIUM_DESC": "Additional engine to generate PDF Chromium/Chrome files\nThe Chromium engine used to generate PDFs introduces a method of creating complex PDF files.\n\nFeatures:\n- compatibility with CSS3 and HTML 5\n- compatibility with all technologies supported by the browser\n- fully supported special characters and fonts\n- the only limitation is the browsers capability\n- support for OS: Linux, macOS, Windows",
+    "LBL_SHOP_YETIFORCEPLCEIDG_INTRO": "",
+    "LBL_SHOP_YETIFORCEPLCEIDG_DESC": "",
+    "LBL_SHOP_YETIFORCEORB_INTRO": "",
+    "LBL_SHOP_YETIFORCEORB_DESC": "",
+    "LBL_SHOP_YETIFORCEPLKRS_INTRO": "",
+    "LBL_SHOP_YETIFORCEPLKRS_DESC": "",
+    "LBL_SHOP_YETIFORCEPLVATPAYERSTATUS_INTRO": "",
+    "LBL_SHOP_YETIFORCEPLVATPAYERSTATUS_DESC": "",
+    "LBL_SHOP_YETIFORCEUKCOMPANIESHOUSE_INTRO": "",
+    "LBL_SHOP_YETIFORCEUKCOMPANIESHOUSE_DESC": "",
+    "LBL_SHOP_YETIFORCEUKVATPAYERSTATUS_INTRO": "",
+    "LBL_SHOP_YETIFORCEUKVATPAYERSTATUS_DESC": "",
+    "LBL_SHOP_YETIFORCEUSAEDGAR_INTRO": "",
+    "LBL_SHOP_YETIFORCEUSAEDGAR_DESC": "",
+    "LBL_SHOP_YETIFORCEFRENTERPRISEGOUV_INTRO": "",
+    "LBL_SHOP_YETIFORCEFRENTERPRISEGOUV_DESC": ""
   }
 }

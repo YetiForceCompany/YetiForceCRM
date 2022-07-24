@@ -37,6 +37,17 @@ class BrReceitaWsCnpj extends Base
 	/** {@inheritdoc} */
 	public $docUrl = 'https://developers.receitaws.com.br/#/operations/queryCNPJFree';
 
+	/** @var string CNJP sever address */
+	private $url = 'https://receitaws.com.br/v1/cnpj/';
+
+	/** @var mixed api key */
+	private $apiKey;
+
+	/** {@inheritdoc} */
+	public $settingsFields = [
+		'api_key' => ['required' => 0, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY_OPTIONAL'],
+	];
+
 	/** {@inheritdoc} */
 	protected $fields = [
 		'cnpj' => [
@@ -119,17 +130,6 @@ class BrReceitaWsCnpj extends Base
 			'municipio' => 'addresslevel5a',
 			'bairro' => 'addresslevel4a',
 		],
-	];
-
-	/** @var string CNJP sever address */
-	private $url = 'https://receitaws.com.br/v1/cnpj/';
-
-	/** @var mixed api key */
-	private $apiKey;
-
-	/** {@inheritdoc} */
-	public $settingsFields = [
-		'api_key' => ['required' => 0, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY_OPTIONAL'],
 	];
 
 	/** {@inheritdoc} */

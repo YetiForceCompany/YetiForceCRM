@@ -4,6 +4,8 @@
  *
  * @package App
  *
+ * @see App\RecordCollectors\FrEnterpriseGouv
+ *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -20,7 +22,7 @@ class YetiForceRcFrEnterpriseGouv extends \App\YetiForce\Shop\AbstractBaseProduc
 	public $label = 'YetiForce Entreprise GOUV FR';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-entreprise-gouv-fr';
@@ -80,6 +82,17 @@ class YetiForceRcFrEnterpriseGouv extends \App\YetiForce\Shop\AbstractBaseProduc
 				'linktarget' => '_blank',
 				'linkurl' => $this->website,
 				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'api.gouv.fr',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'fa-solid fa-link',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => 'https://api.gouv.fr/les-api/api-entreprise',
+				'linkclass' => 'btn-secondary',
 				'showLabel' => 1,
 			]),
 		], $return);

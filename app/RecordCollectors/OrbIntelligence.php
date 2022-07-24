@@ -38,6 +38,17 @@ class OrbIntelligence extends Base
 	public $docUrl = 'https://api.orb-intelligence.com/';
 
 	/** {@inheritdoc} */
+	public $settingsFields = [
+		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY']
+	];
+
+	/** @var string ORB Intelligence sever address */
+	protected $url = 'https://api.orb-intelligence.com/';
+
+	/** @var string Api Key. */
+	private $apiKey;
+
+	/** {@inheritdoc} */
 	protected $fields = [
 		'country' => [
 			'labelModule' => '_Base',
@@ -181,19 +192,8 @@ class OrbIntelligence extends Base
 		]
 	];
 
-	/** {@inheritdoc} */
-	public $settingsFields = [
-		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY']
-	];
-
-	/** @var string Api Key. */
-	private $apiKey;
-
 	/** @var int Limit for fetching companies */
 	const LIMIT = 4;
-
-	/** @var string ORB Intelligence sever address */
-	protected $url = 'https://api.orb-intelligence.com/';
 
 	/** {@inheritdoc} */
 	public function isActive(): bool

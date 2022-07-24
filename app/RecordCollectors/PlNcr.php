@@ -37,6 +37,9 @@ class PlNcr extends Base
 	/** {@inheritdoc} */
 	public $docUrl = 'https://prs.ms.gov.pl/krs/openApi';
 
+	/** @var string NCR sever address */
+	protected $url = 'https://api-krs.ms.gov.pl/api/krs/OdpisAktualny/';
+
 	/** {@inheritdoc} */
 	protected $fields = [
 		'ncr' => [
@@ -115,9 +118,6 @@ class PlNcr extends Base
 			'daneDzial1SiedzibaIAdresAdresKraj' => 'addresslevel1a',
 		]
 	];
-
-	/** @var string NCR sever address */
-	protected $url = 'https://api-krs.ms.gov.pl/api/krs/OdpisAktualny/';
 
 	/** {@inheritdoc} */
 	public function search(): array

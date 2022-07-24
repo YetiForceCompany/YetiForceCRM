@@ -37,6 +37,17 @@ class PlCeidg extends Base
 	public $docUrl = 'https://dane.biznes.gov.pl';
 
 	/** {@inheritdoc} */
+	public $settingsFields = [
+		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY'],
+	];
+
+	/** @var string Polish CEIDG sever address */
+	protected $url = 'https://dane.biznes.gov.pl/api/ceidg/v2/firmy';
+
+	/** @var string Api Key. */
+	private $apiKey;
+
+	/** {@inheritdoc} */
 	protected $fields = [
 		'vatId' => [
 			'labelModule' => '_Base',
@@ -171,17 +182,6 @@ class PlCeidg extends Base
 			'adresDzialalnosciKraj' => 'addresslevel1a'
 		]
 	];
-
-	/** {@inheritdoc} */
-	public $settingsFields = [
-		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY'],
-	];
-
-	/** @var string Polish CEIDG sever address */
-	protected $url = 'https://dane.biznes.gov.pl/api/ceidg/v2/firmy';
-
-	/** @var string Api Key. */
-	private $apiKey;
 
 	/** @var int Limit for fetching companies */
 	const LIMIT = 4;

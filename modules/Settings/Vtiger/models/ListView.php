@@ -16,7 +16,7 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 	/**
 	 * Function to get the Module Model.
 	 *
-	 * @return Vtiger_Module_Model instance
+	 * @return Settings_Vtiger_Module_Model instance
 	 */
 	public function getModule()
 	{

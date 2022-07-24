@@ -98,7 +98,9 @@ class Completions
 	}
 
 	/**
-	 * Get processed text in display Emoji.
+	 * Decode custom yetiforce tag.
+	 *
+	 * @see https://github.com/YetiForceCompany/lib_roundcube/tree/developer/plugins/yetiforce/yetiforce.php#:~:text=function%20decodeCustomTag Function: decodeCustomTag
 	 *
 	 * @param string $text
 	 *
@@ -113,7 +115,7 @@ class Completions
 				if (!empty($attributes['type'])) {
 					switch ($attributes['type']) {
 						case 'Documents':
-							$return = '<img src="file.php?module=Documents&action=DownloadFile&record=' . $attributes['crm-id'] . '&fileid=' . $attributes['attachment-id'] . '&show=true">';
+								$return = '<img src="file.php?module=Documents&action=DownloadFile&record=' . $attributes['crm-id'] . '&fileid=' . $attributes['attachment-id'] . '&show=true" />';
 							break;
 						default:
 							break;

@@ -4,6 +4,8 @@
  *
  * @package App
  *
+ * @see App\RecordCollectors\PlVatPayerStatusVerification
+ *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -20,7 +22,7 @@ class YetiForceRcPlVatPayerStatus extends \App\YetiForce\Shop\AbstractBaseProduc
 	public $label = 'YetiForce VAT PL';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-vat-pl';
@@ -79,6 +81,17 @@ class YetiForceRcPlVatPayerStatus extends \App\YetiForce\Shop\AbstractBaseProduc
 				'linktarget' => '_blank',
 				'linkurl' => $this->website,
 				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'podatki.gov.pl',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'fa-solid fa-link',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => 'https://www.podatki.gov.pl/e-deklaracje/dokumentacja-it/',
+				'linkclass' => 'btn-secondary',
 				'showLabel' => 1,
 			]),
 		], $return);

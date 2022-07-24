@@ -4,6 +4,8 @@
  *
  * @package App
  *
+ * @see App\RecordCollectors\PlNcr
+ *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -20,7 +22,7 @@ class YetiForceRcPlKrs extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $label = 'YetiForce KRS PL';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-krs-pl';
@@ -80,6 +82,17 @@ class YetiForceRcPlKrs extends \App\YetiForce\Shop\AbstractBaseProduct
 				'linktarget' => '_blank',
 				'linkurl' => $this->website,
 				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'prs.ms.gov.pl',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'fa-solid fa-link',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => 'https://prs.ms.gov.pl/krs/openApi',
+				'linkclass' => 'btn-secondary',
 				'showLabel' => 1,
 			]),
 		], $return);
