@@ -1,10 +1,10 @@
 <?php
 /**
- * YetiForce shop YetiForceRcBrReceitaWsCnpj file.
+ * YetiForce shop YetiForceRcChZefix file.
  *
  * @package App
  *
- * @see App\RecordCollectors\BrReceitaWsCnpj
+ * @see App\RecordCollectors\ChZefix
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -14,18 +14,18 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop YetiForceRcBrReceitaWsCnpj class.
+ * YetiForce shop YetiForceRcChZefix class.
  */
-class YetiForceRcBrReceitaWsCnpj extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForceRcChZefix extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce Receita CNPJ BR';
+	public $label = 'YetiForce Zefix CH';
 
 	/** {@inheritdoc} */
 	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-receita-cnpj-br';
+	public $website = 'https://yetiforce.com/en/';
 
 	/** {@inheritdoc} */
 	public $prices = [
@@ -43,12 +43,12 @@ class YetiForceRcBrReceitaWsCnpj extends \App\YetiForce\Shop\AbstractBaseProduct
 	public function verify(): array
 	{
 		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForceRcBrReceitaWsCnpj')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceRcBrReceitaWsCnpj');
+		if (\App\YetiForce\Register::getProducts('YetiForceRcChZefix')) {
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceRcChZefix');
 		} else {
 			if (
-				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'BrReceitaWsCnpj'])->exists()
-				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\BrReceitaWsCnpj";%', false])->exists()
+				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'ChZefix'])->exists()
+				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\ChZefix";%', false])->exists()
 			) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;
@@ -85,13 +85,13 @@ class YetiForceRcBrReceitaWsCnpj extends \App\YetiForce\Shop\AbstractBaseProduct
 				'showLabel' => 1,
 			]),
 			\Vtiger_Link_Model::getInstanceFromValues([
-				'linklabel' => 'receitaws.com.br',
+				'linklabel' => 'zefix.admin.ch',
 				'relatedModuleName' => 'Settings:_Base',
 				'linkicon' => 'fa-solid fa-link',
 				'linkhref' => true,
 				'linkExternal' => true,
 				'linktarget' => '_blank',
-				'linkurl' => 'https://developers.receitaws.com.br/',
+				'linkurl' => 'https://www.zefix.admin.ch/',
 				'linkclass' => 'btn-secondary',
 				'showLabel' => 1,
 			]),

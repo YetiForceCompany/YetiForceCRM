@@ -118,7 +118,7 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	 *
 	 * @param mixed $name
 	 *
-	 * @return Settings_Vtiger_Module_Model instance
+	 * @return $this instance
 	 */
 	public static function getInstance($name = 'Settings:Vtiger')
 	{

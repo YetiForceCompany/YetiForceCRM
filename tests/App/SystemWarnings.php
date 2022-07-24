@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Tests\App;
@@ -25,7 +26,5 @@ class SystemWarnings extends \Tests\Base
 		$this->assertNotEmpty($folders);
 		$warnings = \App\SystemWarnings::getWarnings('all');
 		$this->assertNotEmpty($warnings);
-		$count = \App\SystemWarnings::getWarningsCount();
-		$this->assertEquals($count, \count($warnings));
 	}
 }

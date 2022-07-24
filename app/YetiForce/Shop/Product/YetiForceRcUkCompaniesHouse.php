@@ -4,6 +4,8 @@
  *
  * @package App
  *
+ * @see App\RecordCollectors\UkCompaniesHouse
+ *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -20,7 +22,7 @@ class YetiForceRcUkCompaniesHouse extends \App\YetiForce\Shop\AbstractBaseProduc
 	public $label = 'YetiForce Companies House UK';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-companies-house-uk';
@@ -80,6 +82,17 @@ class YetiForceRcUkCompaniesHouse extends \App\YetiForce\Shop\AbstractBaseProduc
 				'linktarget' => '_blank',
 				'linkurl' => $this->website,
 				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'company-information.service.gov.uk',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'fa-solid fa-link',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => 'https://developer.company-information.service.gov.uk/',
+				'linkclass' => 'btn-secondary',
 				'showLabel' => 1,
 			]),
 		], $return);

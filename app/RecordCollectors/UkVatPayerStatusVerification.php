@@ -5,6 +5,7 @@
  * @package App
  *
  * @see https://developer.service.hmrc.gov.uk/api-documentation
+ * @see https://developer.service.hmrc.gov.uk/api-documentation/docs/api
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -37,6 +38,9 @@ class UkVatPayerStatusVerification extends Base
 	/** {@inheritdoc} */
 	public $docUrl = 'https://developer.service.hmrc.gov.uk/api-documentation';
 
+	/** @var string API sever address */
+	protected $url = 'https://api.service.hmrc.gov.uk/';
+
 	/** {@inheritdoc} */
 	protected $fields = [
 		'vatNumber' => [
@@ -64,9 +68,6 @@ class UkVatPayerStatusVerification extends Base
 			'vatNumber' => 'vat_id',
 		],
 	];
-
-	/** @var string API sever address */
-	protected $url = 'https://api.service.hmrc.gov.uk/';
 
 	/** {@inheritdoc} */
 	public function search(): array

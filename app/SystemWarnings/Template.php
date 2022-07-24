@@ -8,6 +8,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\SystemWarnings;
@@ -19,7 +20,7 @@ abstract class Template
 {
 	/**
 	 * Status value
-	 * 2 = ignored.
+	 * 0 - active, 2 - ignored.
 	 *
 	 * @var int
 	 */
@@ -34,6 +35,12 @@ abstract class Template
 	/** @var int Warning priority code */
 	protected $priority = 0;
 	protected $color;
+	/**
+	 * Status
+	 * 0 - warning occurred, 1 - no warning.
+	 *
+	 * @var int
+	 */
 	protected $status = 0;
 	protected $folder;
 
@@ -103,27 +110,11 @@ abstract class Template
 	/**
 	 * Returns the warning status.
 	 *
-	 * @param mixed $returnText
-	 *
-	 * @return int|string
+	 * @return int
 	 */
-	public function getStatus($returnText = false)
+	public function getStatus()
 	{
-		if (!$returnText) {
-			return $this->status;
-		}
-		$error = '';
-		switch ($this->status) {
-			case 1:
-				$error = 'OK';
-				break;
-			case 2:
-				$error = 'Error';
-				break;
-			default:
-				break;
-		}
-		return $error;
+		return $this->status;
 	}
 
 	/**
@@ -208,6 +199,8 @@ abstract class Template
 			$fileContent = preg_replace('/{/', $replacement, $fileContent, 1);
 		}
 		file_put_contents($filePath, $fileContent);
+		\App\Cache::resetFileCache($filePath);
+
 		return ['result' => true, 'message' => \App\Language::translate('LBL_DATA_SAVE_OK', 'Settings::SystemWarnings')];
 	}
 }

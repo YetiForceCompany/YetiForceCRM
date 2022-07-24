@@ -3056,7 +3056,7 @@ window.App.Fields = {
 								type: 'optgroup',
 								name: this.select.attr('placeholder')
 							});
-						} else if (data.success == true) {
+						} else if (data.success) {
 							$.each(data.result, (_, item) => {
 								items.push({
 									name: item.label,

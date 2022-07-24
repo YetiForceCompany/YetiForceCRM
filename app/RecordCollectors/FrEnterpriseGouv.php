@@ -37,6 +37,9 @@ class FrEnterpriseGouv extends Base
 	/** {@inheritdoc} */
 	public $docUrl = 'https://api.gouv.fr/les-api/api-entreprise/';
 
+	/** @var string CH sever address */
+	private $url = 'https://recherche-entreprises.api.gouv.fr/';
+
 	/** {@inheritdoc} */
 	protected $fields = [
 		'companyName' => [
@@ -121,9 +124,6 @@ class FrEnterpriseGouv extends Base
 			'siegeLibelle_commune' => 'addresslevel4a'
 		],
 	];
-
-	/** @var string CH sever address */
-	private $url = 'https://recherche-entreprises.api.gouv.fr/';
 
 	/** @var int Number of items returned */
 	const LIMIT = 4;

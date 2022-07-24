@@ -37,6 +37,9 @@ class NoBrregEnhetsregisteret extends Base
 	/** {@inheritdoc} */
 	public $docUrl = 'https://www.brreg.no/produkter-og-tjenester/apne-data/';
 
+	/** @var string Enhetsregisteret sever address */
+	private $url = 'https://data.brreg.no/enhetsregisteret/api/enheter/';
+
 	/** {@inheritdoc} */
 	protected $fields = [
 		'companyNumber' => [
@@ -108,9 +111,6 @@ class NoBrregEnhetsregisteret extends Base
 			'forretningsadresseLand' => 'addresslevel1a',
 		],
 	];
-
-	/** @var string Enhetsregisteret sever address */
-	private $url = 'https://data.brreg.no/enhetsregisteret/api/enheter/';
 
 	/** {@inheritdoc} */
 	public function search(): array

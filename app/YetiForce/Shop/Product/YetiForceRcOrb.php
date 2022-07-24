@@ -4,6 +4,8 @@
  *
  * @package App
  *
+ * @see App\RecordCollectors\OrbIntelligence
+ *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -20,7 +22,7 @@ class YetiForceRcOrb extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $label = 'YetiForce ORB';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-orb';
@@ -80,6 +82,17 @@ class YetiForceRcOrb extends \App\YetiForce\Shop\AbstractBaseProduct
 				'linktarget' => '_blank',
 				'linkurl' => $this->website,
 				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'orb-intelligence.com',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'fa-solid fa-link',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => 'https://api.orb-intelligence.com/',
+				'linkclass' => 'btn-secondary',
 				'showLabel' => 1,
 			]),
 		], $return);
