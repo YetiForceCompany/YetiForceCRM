@@ -36,25 +36,25 @@
 							</tr>
 						</thead>
 						<tbody>
-							{foreach from=$COLLECTORS item=ITEM}
+							{foreach from=$COLLECTORS item=COLLECTOR}
 								<tr>
 									<td>
-										<span class="{$ITEM['instance']->icon} mr-2"></span>
-										{\App\Language::translate($ITEM['instance']->label, 'Other.RecordCollector')}
-										{if \in_array($ITEM['name'], $PAID_RECORD_COLLECTOR)}<span class="yfi-premium color-red-600 js-popover-tooltip ml-2" title="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}"></span>{/if}
+										<span class="{$COLLECTOR->icon} mr-2"></span>
+										{\App\Language::translate($COLLECTOR->label, 'Other.RecordCollector')}
+										{if \in_array($COLLECTOR->getName(), $PAID_RECORD_COLLECTOR)}<span class="yfi-premium color-red-600 js-popover-tooltip ml-2" title="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}"></span>{/if}
 									</td>
 									<td>
-										{\App\Language::translate($ITEM['instance']->description, 'Other.RecordCollector')}
+										{\App\Language::translate($COLLECTOR->description, 'Other.RecordCollector')}
 									</td>
 									<td>
-										<a href="{$ITEM['instance']->docUrl}" rel="noreferrer noopener" target="_blank">{$ITEM['instance']->docUrl}</a>
+										<a href="{$COLLECTOR->docUrl}" rel="noreferrer noopener" target="_blank">{$COLLECTOR->docUrl}</a>
 									</td>
 									<td class="text-center">
-										<input class="js-status-change" name="is_active" value="{$ITEM['name']}" type="checkbox" {if $ITEM['active']} checked {/if}>
+										<input class="js-status-change" name="is_active" value="{$COLLECTOR->getName()}" type="checkbox" {if $COLLECTOR->active} checked {/if}>
 									</td>
 									<td class="text-center">
-										{if !empty($ITEM['instance']->settingsFields)}
-											<button class="btn btn-outline-secondary btn-sm js-show-config-modal js-popover-tooltip mr-1 {if !$ITEM['active']} d-none {/if}" type="button" data-name="{$ITEM['name']}"
+										{if !empty($COLLECTOR->settingsFields)}
+											<button class="btn btn-outline-secondary btn-sm js-show-config-modal js-popover-tooltip mr-1 {if !$COLLECTOR->active} d-none {/if}" type="button" data-name="{$COLLECTOR->getName()}"
 												data-content="{\App\Language::translate('LBL_CONFIG', $QUALIFIED_MODULE)}">
 												<span class="fas fa-cog"></span>
 											</button>
