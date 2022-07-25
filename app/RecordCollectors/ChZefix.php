@@ -13,6 +13,7 @@
  */
 
 namespace App\RecordCollectors;
+
 /**
  * Zefix Swiss Central Business Name Index API class.
  */
@@ -71,71 +72,71 @@ class ChZefix extends Base
 	/** {@inheritdoc} */
 	public $formFieldsToRecordMap = [
 		'Accounts' => [
-			'0Name' => 'accountname',
-			'0Translation1' => 'accountname',
-			'0Uid' => 'registration_number_1',
-			'0CapitalNominal' => 'annual_revenue',
-			'0AddressHouseNumber' => 'buildingnumbera',
-			'0AddressAddon' => 'localnumbera',
-			'0AddressStreet' => 'addresslevel8a',
-			'0AddressPoBox' => 'poboxa',
-			'0AddressSwissZipCode' => 'addresslevel7a',
-			'0AddressCity' => 'addresslevel5a',
-			'0Canton' => 'addresslevel2a',
-			'0ZefixDetailWebEn' => 'website',
-			'0Purpose' => 'description'
+			'name' => 'accountname',
+			'translation1' => 'accountname',
+			'uid' => 'registration_number_1',
+			'capitalNominal' => 'annual_revenue',
+			'addressHouseNumber' => 'buildingnumbera',
+			'addressAddon' => 'localnumbera',
+			'addressStreet' => 'addresslevel8a',
+			'addressPoBox' => 'poboxa',
+			'addressSwissZipCode' => 'addresslevel7a',
+			'addressCity' => 'addresslevel5a',
+			'canton' => 'addresslevel2a',
+			'zefixDetailWebEn' => 'website',
+			'purpose' => 'description'
 		],
 		'Leads' => [
-			'0Name' => 'company',
-			'0Translation1' => 'company',
-			'0Uid' => 'registration_number_1',
-			'0AddressHouseNumber' => 'buildingnumbera',
-			'0AddressAddon' => 'localnumbera',
-			'0AddressStreet' => 'addresslevel8a',
-			'0AddressPoBox' => 'poboxa',
-			'0AddressSwissZipCode' => 'addresslevel7a',
-			'0AddressCity' => 'addresslevel5a',
-			'0Canton' => 'addresslevel2a',
-			'0ZefixDetailWebEn' => 'website',
-			'0Purpose' => 'description'
+			'name' => 'company',
+			'translation1' => 'company',
+			'uid' => 'registration_number_1',
+			'addressHouseNumber' => 'buildingnumbera',
+			'addressAddon' => 'localnumbera',
+			'addressStreet' => 'addresslevel8a',
+			'addressPoBox' => 'poboxa',
+			'addressSwissZipCode' => 'addresslevel7a',
+			'addressCity' => 'addresslevel5a',
+			'canton' => 'addresslevel2a',
+			'zefixDetailWebEn' => 'website',
+			'purpose' => 'description'
 		],
 		'Partners' => [
-			'0Name' => 'subject',
-			'0Translation1' => 'subject',
-			'0AddressHouseNumber' => 'buildingnumbera',
-			'0AddressAddon' => 'localnumbera',
-			'0AddressStreet' => 'addresslevel8a',
-			'0AddressPoBox' => 'poboxa',
-			'0AddressSwissZipCode' => 'addresslevel7a',
-			'0AddressCity' => 'addresslevel5a',
-			'0Canton' => 'addresslevel2a',
-			'0Purpose' => 'description'
+			'name' => 'subject',
+			'translation1' => 'subject',
+			'addressHouseNumber' => 'buildingnumbera',
+			'addressAddon' => 'localnumbera',
+			'addressStreet' => 'addresslevel8a',
+			'addressPoBox' => 'poboxa',
+			'addressSwissZipCode' => 'addresslevel7a',
+			'addressCity' => 'addresslevel5a',
+			'canton' => 'addresslevel2a',
+			'purpose' => 'description'
 		],
 		'Vendors' => [
-			'0Name' => 'vendorname',
-			'0Translation1' => 'vendorname',
-			'0Uid' => 'registration_number_1',
-			'0AddressHouseNumber' => 'buildingnumbera',
-			'0AddressAddon' => 'localnumbera',
-			'0AddressStreet' => 'addresslevel8a',
-			'0AddressPoBox' => 'poboxa',
-			'0AddressSwissZipCode' => 'addresslevel7a',
-			'0AddressCity' => 'addresslevel5a',
-			'0Canton' => 'addresslevel2a',
-			'0ZefixDetailWebEn' => 'website',
-			'0Purpose' => 'description'
+			'name' => 'vendorname',
+			'translation1' => 'vendorname',
+			'uid' => 'registration_number_1',
+			'addressHouseNumber' => 'buildingnumbera',
+			'addressAddon' => 'localnumbera',
+			'addressStreet' => 'addresslevel8a',
+			'addressPoBox' => 'poboxa',
+			'addressSwissZipCode' => 'addresslevel7a',
+			'addressCity' => 'addresslevel5a',
+			'canton' => 'addresslevel2a',
+			'zefixDetailWebEn' => 'website',
+			'purpose' => 'description'
 		],
 		'Competition' => [
-			'0Name' => 'subject',
-			'0Translation1' => 'subject',
-			'0AddressHouseNumber' => 'buildingnumbera',
-			'0AddressAddon' => 'localnumbera',
-			'0AddressStreet' => 'addresslevel8a',
-			'0AddressPoBox' => 'poboxa',
-			'0AddressSwissZipCode' => 'addresslevel7a',
-			'0AddressCity' => 'addresslevel5a',
-			'0Canton' => 'addresslevel2a',
-			'0Purpose' => 'description'
+			'name' => 'subject',
+			'translation1' => 'subject',
+			'addressHouseNumber' => 'buildingnumbera',
+			'addressAddon' => 'localnumbera',
+			'addressStreet' => 'addresslevel8a',
+			'addressPoBox' => 'poboxa',
+			'addressSwissZipCode' => 'addresslevel7a',
+			'addressCity' => 'addresslevel5a',
+			'canton' => 'addresslevel2a',
+			'purpose' => 'description'
 		],
 	];
 
@@ -172,7 +173,7 @@ class ChZefix extends Base
 		$this->loadCredentials();
 		if (!empty($companyId)) {
 			$this->getCompanyById($companyId);
-		} elseif ((empty($companyId) || empty($this->data)) && !empty($companyName)){
+		} elseif ((empty($companyId) || empty($this->data)) && !empty($companyName)) {
 			$this->getCompaniesByName($companyName);
 		} else {
 			return [];
@@ -216,29 +217,30 @@ class ChZefix extends Base
 	 */
 	private function getCompanyById(string $companyId): void
 	{
-		$options = ['auth' => [$this->username , $this->password]];
+		$options = ['auth' => [$this->username, $this->password]];
 
 		try {
 			$response = \App\RequestHttp::getClient()->get($this->url . 'uid/' . $companyId, $options);
 			if (200 === $response->getStatusCode()) {
-				$this->data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
+				$this->data = $this->parseData(\App\Json::decode($response->getBody()->getContents())[0]);
 			}
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
-			var_dump($e->getResponse()->getReasonPhrase()); //remove after dev
 		}
 	}
+
 	/**
 	 * Function fetching companies data by company name.
 	 *
 	 * @param string $companyName
+	 *
 	 * @return void
 	 */
 	private function getCompaniesByName(string $companyName): void
 	{
 		$options = [
-			'auth' => [$this->username , $this->password],
+			'auth' => [$this->username, $this->password],
 			'body' => \App\Json::encode(['name' => $companyName]),
 			'headers' => [
 				'Accept' => 'application/json',
@@ -249,15 +251,14 @@ class ChZefix extends Base
 		try {
 			$response = \App\RequestHttp::getClient()->post($this->url . 'search', $options);
 			if (200 === $response->getStatusCode()) {
-				// $this->data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
-				echo '<pre>';
-				print_r(\App\Json::decode($response->getBody()->getContents()));
-				echo '</pre>';
+				$response = \App\Json::decode($response->getBody()->getContents());
+				foreach ($response as $key => $companyData) {
+					$this->data[$key] = $this->parseData($companyData);
+				}
 			}
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
-			var_dump($e->getResponse()->getReasonPhrase()); //remove after dev
 		}
 	}
 }
