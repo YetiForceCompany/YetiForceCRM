@@ -34,6 +34,8 @@
     "LBL_NO_BRREG_ENHETSREGISTERET_DESC": "Fetching data about Norwegian companies from the Norwegian Register Organizations (Enhetsregisteret)",
     "LBL_NO_BRREG_ENHETSREGISTERET_400": "Organization number must be a number with exactly 9 digits.",
     "LBL_VATIFY_EU": "VATify.eu",
-    "LBL_VATIFY_DESC_EU": "Feting data about companies from VATify."
+    "LBL_VATIFY_DESC_EU": "Feting data about companies from VATify.",
+    "LBL_UA_YOU_CONTROL": "YouScore API from YouControl",
+    "LBL_UA_YOU_CONTROL_DESC": "Check contractors and follow their changes in Ukraine from YouScore API"
   }
 }
