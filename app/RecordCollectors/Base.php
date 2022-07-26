@@ -64,7 +64,7 @@ class Base
 	 */
 	public function __construct()
 	{
-		$name = last(explode('\\', static::class));
+		$name = basename(str_replace('\\', '/', static::class));
 		$this->name = $name;
 
 		$class = '\\Config\\Components\\RecordCollectors\\' . $name;
