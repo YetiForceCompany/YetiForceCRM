@@ -27,7 +27,7 @@ if (typeof ImportJs === 'undefined') {
 			var filePath = jQuery('#import_file').val();
 			if (filePath != '') {
 				var fileExtension = filePath.split('.').pop();
-				jQuery('#type').val(fileExtension);
+				jQuery('.js-type').val(fileExtension);
 				ImportJs.handleFileTypeChange();
 			}
 		},
