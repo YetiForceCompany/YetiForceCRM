@@ -99,7 +99,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 		}
 		$rangeValues = explode(',', $this->maximumLength);
-		if ($rangeValues[1] < $value || $rangeValues[0] > $value) {
+		if (!empty($value) && ($rangeValues[1] < $value || $rangeValues[0] > $value)) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
 	}
