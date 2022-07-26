@@ -77,11 +77,7 @@
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<td class="pl-1">
 							{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
-							{if !empty($LISTVIEW_HEADER->get('source_field_name'))}
-								{assign var=LISTVIEW_HEADER_NAME value="`$LISTVIEW_HEADER->getName()`:`$LISTVIEW_HEADER->getModuleName()`:`$LISTVIEW_HEADER->get('source_field_name')`"}
-							{else}
-								{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
-							{/if}
+							{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getFullName()}
 							{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME])}
 								{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]}
 							{else}
