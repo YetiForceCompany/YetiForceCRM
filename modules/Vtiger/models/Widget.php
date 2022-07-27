@@ -235,7 +235,8 @@ class Vtiger_Widget_Model extends \App\Base
 		} elseif ($widgetId) {
 			$where = ['userid' => $userId, 'id' => $widgetId];
 		}
-		$currentSize = Json::decode((new \App\Db\Query())->select(['size'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar());
+		$lastSize = (new \App\Db\Query())->select(['size'])->from('vtiger_module_dashboard_widgets')->where($where)->scalar();
+		$currentSize = \App\Json::isEmpty($lastSize) ? [] : Json::decode($lastSize);
 		$currentSize[App\Session::get('fingerprint')] = $size;
 		\App\Db::getInstance()->createCommand()
 			->update('vtiger_module_dashboard_widgets', ['size' => Json::encode($currentSize)], $where)
@@ -304,13 +305,13 @@ class Vtiger_Widget_Model extends \App\Base
 	/**
 	 * Process the UI Widget requested.
 	 *
-	 * @param vtlib\Link             $widgetLink
+	 * @param Vtiger_Link_Model      $widgetLink
 	 * @param Current Smarty Context $context
 	 * @param Vtiger_Record_Model    $recordModel
 	 */
 	public function processWidget(Vtiger_Link_Model $widgetLink, Vtiger_Record_Model $recordModel)
 	{
-		if (preg_match('/^block:\\/\\/(.*)/', $widgetLink->get('linkurl'), $matches)) {
+		if (preg_match('/^block:\\/\\/(.*)/', $widgetLink->get('linkurl') ?? '', $matches)) {
 			[$widgetControllerClass, $widgetControllerClassFile] = explode(':', $matches[1]);
 			if (!class_exists($widgetControllerClass)) {
 				\vtlib\Deprecated::checkFileAccessForInclusion($widgetControllerClassFile);
@@ -639,20 +640,16 @@ class Vtiger_Widget_Model extends \App\Base
 		], )->createCommand()->query();
 
 		$createCommand = \App\Db::getInstance()->createCommand();
-		while ($row = $dataReader->read()) {
-			$id = $row['id'];
-			unset($row['id']);
-			$position = Json::decode($row['position']);
+		while (['id' => $id,'position' => $position,'size' => $size] = $dataReader->read()) {
+			$position = $position ? Json::decode($position) : [];
 			if (isset($position[$fingerPrint])) {
 				unset($position[$fingerPrint]);
-				$row['position'] = Json::encode($position);
 			}
-			$size = Json::decode($row['size']);
+			$size = $size ? Json::decode($size) : [];
 			if (isset($size[$fingerPrint])) {
 				unset($size[$fingerPrint]);
-				$row['size'] = Json::encode($size);
 			}
-			$createCommand->update('vtiger_module_dashboard_widgets', $row, ['id' => $id])->execute();
+			$createCommand->update('vtiger_module_dashboard_widgets', ['position' => Json::encode($position), 'size' => Json::encode($size)], ['id' => $id])->execute();
 		}
 	}
 }
