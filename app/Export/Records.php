@@ -418,14 +418,17 @@ abstract class Records extends \App\Base
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue(\Vtiger_Field_Model $fieldModel, $value, int $recordId, array $rowData, $length = 3000)
+	public function getDisplayValue(\Vtiger_Field_Model $fieldModel, $value, int $recordId, array $rowData, $length = 65000)
 	{
 		if ('sharedOwner' === $fieldModel->getFieldDataType() && $recordId) {
 			$value = implode(',', \App\Fields\SharedOwner::getById($recordId));
 		}
 		$returnValue = $fieldModel->getDisplayValue($value, $recordId, null, true, $length);
+		if (\is_string($returnValue)) {
+			$returnValue = \App\Purifier::decodeHtml($returnValue);
+		}
 
-		return 'text' === $fieldModel->getFieldDataType() ? strip_tags(\App\Purifier::decodeHtml($returnValue)) : $returnValue;
+		return $returnValue && 'text' === $fieldModel->getFieldDataType() ? strip_tags($returnValue) : $returnValue;
 	}
 
 	/**
