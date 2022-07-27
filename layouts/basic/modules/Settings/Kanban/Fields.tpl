@@ -21,7 +21,6 @@
 									</div>
 								{/if}
 							</h5>
-
 							<div class="btn-toolbar btn-group-xs">
 								<button type="button" class="btn btn-sm btn-danger float-right js-delete" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" data-js="click">
 									<span class="fas fa-times"></span>
