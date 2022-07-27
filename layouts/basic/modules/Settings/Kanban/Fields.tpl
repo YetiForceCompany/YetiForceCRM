@@ -16,7 +16,7 @@
 								<a class="px-2 u-cursor-move js-drag" data-js="ui-sortable-handle"><img class="align-baseline" src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" /></a>
 								{$FIELD_MODEL->getFullLabelTranslation()}
 								{if !$FIELD_MODEL->isAjaxEditable()}
-									<div class="js-popover-tooltip ml-2" data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translateArgs("LBL_NOT_VISIBLE_KANBAN",$QUALIFIED_MODULE, $FIELD_MODEL->getFullLabelTranslation())}">
+									<div class="js-popover-tooltip ml-2" data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translate('LBL_NOT_VISIBLE_KANBAN', $QUALIFIED_MODULE)}">
 										<span class="fas fa-triangle-exclamation text-danger"></span>
 									</div>
 								{/if}
