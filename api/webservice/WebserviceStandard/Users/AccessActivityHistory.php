@@ -32,6 +32,8 @@ class AccessActivityHistory extends \Api\Core\BaseAction
 	/**
 	 * Get user history of access activity.
 	 *
+	 * @api
+	 *
 	 * @return array
 	 *
 	 *	@OA\Get(

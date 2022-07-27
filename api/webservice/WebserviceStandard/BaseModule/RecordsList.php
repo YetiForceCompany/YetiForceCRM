@@ -40,6 +40,8 @@ class RecordsList extends \Api\Core\BaseAction
 	/**
 	 * Get record list method.
 	 *
+	 * @api
+	 *
 	 * @return array
 	 *
 	 * @OA\Get(

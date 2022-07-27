@@ -75,6 +75,8 @@ class Record extends \Api\Core\BaseAction
 	/**
 	 * Get record detail.
 	 *
+	 * @api
+	 *
 	 * @return array
 	 *
 	 * @OA\Get(
@@ -215,6 +217,8 @@ class Record extends \Api\Core\BaseAction
 	/**
 	 * Delete record.
 	 *
+	 * @api
+	 *
 	 * @return bool
 	 *
 	 * @OA\Delete(
@@ -251,6 +255,8 @@ class Record extends \Api\Core\BaseAction
 
 	/**
 	 * Edit record.
+	 *
+	 * @api
 	 *
 	 * @return array
 	 *
@@ -331,6 +337,8 @@ class Record extends \Api\Core\BaseAction
 
 	/**
 	 * Create record.
+	 *
+	 * @api
 	 *
 	 * @return array
 	 *
