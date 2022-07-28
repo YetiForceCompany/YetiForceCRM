@@ -597,7 +597,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	/**
 	 * Iterate through all rows collected from db.
 	 *
-	 * @param {callback} $callback
+	 * @param function $callback
 	 */
 	protected function iterateAllRows($callback)
 	{
@@ -678,7 +678,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	/**
 	 * Set colors.
 	 *
-	 * @param {string} $from
+	 * @param string $from
 	 */
 	protected function setColorsFrom($from)
 	{
