@@ -292,22 +292,18 @@ class Vtiger_Widget_Model extends \App\Base
 	/**
 	 * Function to check the Widget is Default widget or not.
 	 *
-	 * @return <boolean> true/false
+	 * @return bool
 	 */
-	public function isDefault()
+	public function isDefault(): bool
 	{
-		if (1 == $this->get('isdefault')) {
-			return true;
-		}
-		return false;
+		return 1 == $this->get('isdefault');
 	}
 
 	/**
 	 * Process the UI Widget requested.
 	 *
-	 * @param Vtiger_Link_Model      $widgetLink
-	 * @param Current Smarty Context $context
-	 * @param Vtiger_Record_Model    $recordModel
+	 * @param Vtiger_Link_Model   $widgetLink
+	 * @param Vtiger_Record_Model $recordModel
 	 */
 	public function processWidget(Vtiger_Link_Model $widgetLink, Vtiger_Record_Model $recordModel)
 	{
