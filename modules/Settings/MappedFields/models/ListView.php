@@ -66,7 +66,7 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 	/**
 	 * Function which will get the list view count.
 	 *
-	 * @return - number of records
+	 * @return int number of records
 	 */
 	public function getListViewCount()
 	{

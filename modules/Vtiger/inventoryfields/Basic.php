@@ -104,7 +104,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	/**
 	 * Getting onlyOne field.
 	 *
-	 * @return true/false
+	 * @return bool
 	 */
 	public function isOnlyOne()
 	{

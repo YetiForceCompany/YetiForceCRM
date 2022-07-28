@@ -503,13 +503,13 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	 * Gather information about data colors
 	 * Later we can build gradient or generate one color for line charts.
 	 *
-	 * @param $chartData
-	 * @param $datasetIndex
-	 * @param $dataset
-	 * @param $groupValue
-	 * @param $group
-	 * @param $dividingValue
-	 * @param $dividing
+	 * @param array $chartData
+	 * @param mixed $datasetIndex
+	 * @param mixed $dataset
+	 * @param mixed $groupValue
+	 * @param array $group
+	 * @param mixed $dividingValue
+	 * @param mixed $dividing
 	 */
 	protected function setChartDatasetsColorsSingle(&$chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing)
 	{
