@@ -39,7 +39,7 @@ class ErrorHandler
 	/**
 	 * Error init.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public static function init(): void
 	{
@@ -53,7 +53,7 @@ class ErrorHandler
 	/**
 	 * PHP fatal handler function.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	public static function fatalHandler(): void
 	{

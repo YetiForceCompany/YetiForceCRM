@@ -32,7 +32,7 @@ class PwnedPassword
 	/**
 	 * Get all providers.
 	 *
-	 * @return []\App\Extension\PwnedPassword\Base
+	 * @return \App\Extension\PwnedPassword\Base[]
 	 */
 	public static function getProviders(): array
 	{
