@@ -597,7 +597,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	/**
 	 * Iterate through all rows collected from db.
 	 *
-	 * @param function $callback
+	 * @param callable $callback
 	 */
 	protected function iterateAllRows($callback)
 	{
