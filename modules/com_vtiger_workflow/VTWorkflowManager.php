@@ -156,7 +156,7 @@ class VTWorkflowManager
 	/**
 	 * Function returns scheduled workflows.
 	 *
-	 * @param DateTime $referenceTime
+	 * @param object $referenceTime DateTime
 	 *
 	 * @return Workflow
 	 */
