@@ -1,7 +1,4 @@
 <?php
-
-namespace App\Fields;
-
 /**
  * Owner class.
  *
@@ -12,6 +9,9 @@ namespace App\Fields;
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+namespace App\Fields;
+
 class Owner
 {
 	/**
@@ -74,7 +74,7 @@ class Owner
 	 * @param mixed $fieldType
 	 * @param mixed $translate
 	 *
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getAccessibleGroups($private = '', $fieldType = false, $translate = false)
 	{
@@ -97,9 +97,7 @@ class Owner
 		}
 		if (!empty($this->searchValue)) {
 			$this->searchValue = strtolower($this->searchValue);
-			$accessibleGroups = array_filter($accessibleGroups, function ($name) {
-				return strstr(strtolower($name), $this->searchValue);
-			});
+			$accessibleGroups = array_filter($accessibleGroups, fn ($name) => strstr(strtolower($name), $this->searchValue));
 		}
 		return $accessibleGroups;
 	}
@@ -408,7 +406,7 @@ class Owner
 	/**
 	 * Function returns list of accessible users for a module.
 	 *
-	 * @return <Array of Users_Record_Model>
+	 * @return array
 	 */
 	public function getAccessibleGroupForModule()
 	{
@@ -431,7 +429,7 @@ class Owner
 	 *
 	 * @param string $module
 	 *
-	 * @return <Array of Users_Record_Model>
+	 * @return array
 	 */
 	public function getAccessibleUsersForModule()
 	{

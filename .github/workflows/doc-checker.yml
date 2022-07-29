@@ -13,18 +13,18 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-            php-version: 7.4
-            ini-values: memory_limit=512M, xdebug.mode=off
-          
+          php-version: 7.4
+          ini-values: memory_limit=512M, xdebug.mode=off
+
       - name: wget
         shell: bash
         run: |
-         wget https://phpdoc.org/phpDocumentor.phar -P /tmp/
-         chmod +x /tmp/phpDocumentor.phar
+          wget https://phpdoc.org/phpDocumentor.phar -P /tmp/
+          chmod +x /tmp/phpDocumentor.phar
 
       - name: phpDocumentor
         shell: bash
