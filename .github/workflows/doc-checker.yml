@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         php: [7.4, 8.0]
-    name: Doc Checker ${{ matrix.php }}
+    name: Doc Checker PHP${{ matrix.php }}
     steps:
       - uses: actions/checkout@v3
         with:
