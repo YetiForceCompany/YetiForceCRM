@@ -37,6 +37,9 @@ class NoBrregEnhetsregisteret extends Base
 	/** {@inheritdoc} */
 	public $docUrl = 'https://www.brreg.no/produkter-og-tjenester/apne-data/';
 
+	/** @var string CH sever address */
+	const EXTERNAL_URL = 'https://data.brreg.no/enhetsregisteret/oppslag/enheter/';
+
 	/** @var string Enhetsregisteret sever address */
 	private $url = 'https://data.brreg.no/enhetsregisteret/api/enheter/';
 
@@ -144,7 +147,8 @@ class NoBrregEnhetsregisteret extends Base
 			}
 		}
 		$this->data = isset($response) ? $this->parseData(\App\Json::decode($response->getBody()->getContents())) : [];
-		$this->response['links'][0] = $this->data['_linksSelfHref'];
+		$this->response['links'][0] = self::EXTERNAL_URL . $companyNumber;
+		unset($this->data['_linksSelfHref']);
 	}
 
 	/**
