@@ -2,11 +2,11 @@
 /**
  * Vatify API file.
  *
- * @package App
- *
  * @see https://www.vatify.eu/coverage.html
  * @see https://api.vatify.eu/v1/demo/ TEST API URL
  * @see https://api.vatify.eu/v1/ PROD API URL
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)

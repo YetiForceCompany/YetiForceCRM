@@ -22,9 +22,9 @@ window.Documents_MassAddDocuments_Js = class Documents_MassAddDocuments_Js {
 		uploadButton.on('change', function () {
 			uploadContainer.find('.fileItem').remove();
 			let files = uploadButton[0].files;
-			for (let i = 0; i < files.length; i++) {
+			for (let file of files) {
 				uploadContainer.append(template.html());
-				uploadContainer.find('[name="nameFile[]"]:last').val(files[i].name);
+				uploadContainer.find('[name="nameFile[]"]:last').val(file.name);
 			}
 		});
 		this.form.on('submit', (e) => {
@@ -32,6 +32,9 @@ window.Documents_MassAddDocuments_Js = class Documents_MassAddDocuments_Js {
 			this.submit();
 		});
 	}
+	/**
+	 * Submit
+	 */
 	submit() {
 		let moduleName = app.getModuleName(),
 			recordId = app.getRecordId();
@@ -91,13 +94,7 @@ window.Documents_MassAddDocuments_Js = class Documents_MassAddDocuments_Js {
 				case 'Edit':
 					if (response['result']) {
 						const fieldBlock = this.button.closest('.js-field-block-column'),
-							field = fieldBlock.find(
-								'[name="' +
-									fieldBlock.data('field') +
-									'[]"]:not(.js-black-field), [name="' +
-									fieldBlock.data('field') +
-									'"]:not(.js-black-field)'
-							);
+							field = fieldBlock.find('[name="' + fieldBlock.data('field') + '[]"]');
 						App.Fields.Utils.setValue(field, response['result'], { extend: true }, false);
 					}
 					break;

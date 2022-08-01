@@ -64,7 +64,7 @@ class Base
 	 */
 	public function __construct()
 	{
-		$name = last(explode('\\', static::class));
+		$name = basename(str_replace('\\', '/', static::class));
 		$this->name = $name;
 
 		$class = '\\Config\\Components\\RecordCollectors\\' . $name;
@@ -204,7 +204,7 @@ class Base
 			}
 			foreach ($this->formFieldsToRecordMap[$this->moduleName] as $apiKey => $fieldName) {
 				if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
-					if (isset($row[$apiKey]) && '' !== $row[$apiKey]) {
+					if (isset($row[$apiKey]) && '' !== $row[$apiKey] && null !== $row[$apiKey]) {
 						$skip[$fieldName]['data'][$key] = $row[$apiKey];
 						if (isset($fieldsModel[$fieldName]) && empty($skip[$fieldName]['label'])) {
 							$skip[$fieldName]['label'] = \App\Language::translate($fieldsModel[$fieldName]->getFieldLabel(), $this->moduleName);
@@ -235,7 +235,7 @@ class Base
 				];
 			}
 			foreach ($row as $name => $value) {
-				if ('' !== $value) {
+				if ('' !== $value && null !== $value) {
 					$additional[$name][$key] = $value;
 				}
 			}

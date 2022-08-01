@@ -239,7 +239,7 @@ class Vtiger_Relation_Model extends \App\Base
 	/**
 	 * Get relation type.
 	 *
-	 * @return int|self::RELATION_O2M|self::RELATION_M2M
+	 * @return int
 	 */
 	public function getRelationType()
 	{

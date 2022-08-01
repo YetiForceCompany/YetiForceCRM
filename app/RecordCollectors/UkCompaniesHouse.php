@@ -2,9 +2,9 @@
 /**
  * United Kingdom Companies House record collector file.
  *
- * @package App
- *
  * @see https://developer.company-information.service.gov.uk/
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)

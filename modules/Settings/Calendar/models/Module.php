@@ -61,7 +61,7 @@ class Settings_Calendar_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @throws \yii\db\Exception
 	 *
-	 * @return []
+	 * @return array
 	 */
 	public static function getNotWorkingDays()
 	{

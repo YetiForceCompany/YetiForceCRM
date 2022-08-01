@@ -26,6 +26,8 @@ class Privileges extends \Api\Core\BaseAction
 	/**
 	 * Get privileges for module.
 	 *
+	 * @api
+	 *
 	 * @return array
 	 *
 	 * @OA\Get(

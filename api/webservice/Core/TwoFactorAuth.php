@@ -75,7 +75,7 @@ class TwoFactorAuth
 	/**
 	 * Get details.
 	 *
-	 * @return string
+	 * @return array
 	 */
 	public function details(): array
 	{

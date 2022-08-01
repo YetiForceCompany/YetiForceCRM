@@ -116,7 +116,7 @@ class Settings_Vtiger_Module_Model extends \App\Base
 	/**
 	 * Function to get the instance of Settings module model.
 	 *
-	 * @param mixed $name
+	 * @param string $name
 	 *
 	 * @return $this instance
 	 */

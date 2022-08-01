@@ -2,9 +2,9 @@
 /**
  * Polish Central Registration And Information On Business record collector file.
  *
- * @package App
- *
  * @see https://akademia.biznes.gov.pl/hurtownia-danych/
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)

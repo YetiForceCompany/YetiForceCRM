@@ -1,12 +1,21 @@
 <?php
+/**
+ * Partners detail view model file.
+ *
+ * @package   Model
+ *
+ * @copyright YetiForce S.A.
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
 
+/**
+ * Partners detail view model class.
+ */
 class Partners_DetailView_Model extends Vtiger_DetailView_Model
 {
+	/** {@inheritdoc} */
 	public function getDetailViewRelatedLinks()
 	{
-		/**
-		 * {@inheritdoc}
-		 */
 		$relatedLinks = parent::getDetailViewRelatedLinks();
 		if (Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModulePermission('OpenStreetMap')) {
 			$relatedLinks[] = [

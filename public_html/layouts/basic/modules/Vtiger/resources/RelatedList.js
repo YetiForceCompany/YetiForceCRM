@@ -964,9 +964,8 @@ jQuery.Class(
 			});
 		},
 		registerListEvents: function () {
-			let relatedContent = this.content;
 			let thisInstance = this;
-			this.content.find('a.favorites').on('click', function (e) {
+			this.content.find('a.favorites').on('click', function () {
 				let progressInstance = jQuery.progressIndicator({
 					position: 'html',
 					blockInfo: {
@@ -995,7 +994,7 @@ jQuery.Class(
 					}
 				});
 			});
-			this.content.find('[name="addButton"]').on('click', function (e) {
+			this.content.find('[name="addButton"]').on('click', function () {
 				const element = $(this);
 				if (element.hasClass('quickCreateSupported') !== true) {
 					app.openUrl(element.data('url'));
@@ -1003,7 +1002,7 @@ jQuery.Class(
 				}
 				thisInstance.addRelatedRecord(element);
 			});
-			this.content.find('.relatedHeader button.selectRelation').on('click', function (e) {
+			this.content.find('.relatedHeader button.selectRelation').on('click', function () {
 				let restrictionsField = $(this).data('rf');
 				let params = {
 					relationId: thisInstance.getCompleteParams()['relationId']
@@ -1036,8 +1035,16 @@ jQuery.Class(
 				}
 				app.showConfirmModal(params);
 			});
-			this.content.find('.js-switch--calendar,select.js-relation-cv-id').on('change', function (e) {
-				thisInstance.loadRelatedList();
+			this.content.find('.js-switch--calendar,select.js-relation-cv-id').on('change', function () {
+				thisInstance.listSearchInstance.reloadList({
+					search_params: [],
+					search_key: '',
+					search_value: '',
+					operator: '',
+					lockedEmptyFields: [],
+					page: 1,
+					totalCount: 0
+				});
 			});
 		},
 		registerPostLoadEvents: function () {
