@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -69,10 +70,8 @@ class MailIntegration_Iframe_View extends \App\Controller\Modal
 		$modules = [];
 		$quickCreate = App\Config::module('MailIntegration', 'modulesListQuickCreate', []);
 		foreach (\App\Relation::getByModule('OSSMailView', true) as $relation) {
-			if (0 === $relation['presence'] && 'getRecordToMails' === $relation['name']) {
-				if (App\Privilege::isPermitted($relation['related_modulename'])) {
-					$modules[$relation['related_modulename']] = $quickCreate[$relation['related_modulename']] ?? Vtiger_Module_Model::getInstance($relation['related_modulename'])->isQuickCreateSupported();
-				}
+			if (0 === $relation['presence'] && 'getRecordToMails' === $relation['name'] && App\Privilege::isPermitted($relation['related_modulename'])) {
+				$modules[$relation['related_modulename']] = $quickCreate[$relation['related_modulename']] ?? Vtiger_Module_Model::getInstance($relation['related_modulename'])->isQuickCreateSupported();
 			}
 		}
 		return $modules;
