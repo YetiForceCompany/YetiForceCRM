@@ -4,7 +4,8 @@
  *
  * @package App
  *
- * @see
+ * @see https://cvrtjek.dk/
+ * @see https://cvrapi.dk/
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -35,10 +36,18 @@ class DkCvr extends Base
 	public $description = 'LBL_DK_CVR_DESC';
 
 	/** {@inheritdoc} */
-	public $docUrl = 'https://cvrapi.dk/';
+	public $docUrl = 'https://cvrapi.dk/documentation';
 
 	/** @var string CH sever address */
 	private $url = 'http://cvrapi.dk/api?';
+
+	/** @var string Token key */
+	private $token;
+
+	/** {@inheritdoc} */
+	public $settingsFields = [
+		'token' => ['required' => 0, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY_OPTIONAL'],
+	];
 
 	/** {@inheritdoc} */
 	protected $fields = [
@@ -56,7 +65,15 @@ class DkCvr extends Base
 		'vatNumber' => [
 			'labelModule' => '_Base',
 			'label' => 'Vat ID',
-		]
+		],
+		'name' => [
+			'labelModule' => '_Base',
+			'label' => 'FL_COMPANY_NAME',
+		],
+		'phone' => [
+			'labelModule' => '_Base',
+			'label' => 'FL_PHONE',
+		],
 	];
 
 	/** {@inheritdoc} */
@@ -80,76 +97,119 @@ class DkCvr extends Base
 		'Accounts' => [
 			'name' => 'accountname',
 			'vat' => 'vat_id',
-			'address' => 'addresslevel8a',
-			'zipcode' => 'addresslevel7a',
-			'city' => 'addresslevel5a',
 			'phone' => 'phone',
 			'fax' => 'fax',
 			'email' => 'email1',
 			'industrycode' => 'siccode',
-			'description' => 'industrydesc'
+			'companydesc' => 'description',
+			'industrydesc' => 'description',
+			'productionunits0Address' => 'addresslevel8a',
+			'address' => 'addresslevel8a',
+			'productionunits0Zipcode' => 'addresslevel7a',
+			'zipcode' => 'addresslevel7a',
+			'productionunits0City' => 'addresslevel5a',
+			'city' => 'addresslevel5a',
+			'country' => 'addresslevel1a',
 		],
 		'Leads' => [
 			'name' => 'company',
 			'vat' => 'vat_id',
-			'address' => 'addresslevel8a',
-			'zipcode' => 'addresslevel7a',
-			'city' => 'addresslevel5a',
 			'phone' => 'phone',
 			'fax' => 'fax',
 			'email' => 'email',
-			'description' => 'industrydesc'
+			'companydesc' => 'description',
+			'industrydesc' => 'description',
+			'productionunits0Address' => 'addresslevel8a',
+			'address' => 'addresslevel8a',
+			'productionunits0Zipcode' => 'addresslevel7a',
+			'zipcode' => 'addresslevel7a',
+			'productionunits0City' => 'addresslevel5a',
+			'city' => 'addresslevel5a',
+			'country' => 'addresslevel1a',
 		],
 		'Vendors' => [
 			'name' => 'vendorname',
 			'vat' => 'vat_id',
-			'address' => 'addresslevel8a',
-			'zipcode' => 'addresslevel7a',
-			'city' => 'addresslevel5a',
 			'phone' => 'phone',
 			'fax' => 'fax',
 			'email' => 'email',
-			'description' => 'industrydesc'
+			'companydesc' => 'description',
+			'industrydesc' => 'description',
+			'productionunits0Address' => 'addresslevel8a',
+			'address' => 'addresslevel8a',
+			'productionunits0Zipcode' => 'addresslevel7a',
+			'zipcode' => 'addresslevel7a',
+			'productionunits0City' => 'addresslevel5a',
+			'city' => 'addresslevel5a',
+			'country' => 'addresslevel1a',
 		],
 		'Partners' => [
 			'name' => 'subject',
 			'vat' => 'vat_id',
-			'address' => 'addresslevel8a',
-			'zipcode' => 'addresslevel7a',
-			'city' => 'addresslevel5a',
 			'phone' => 'phone',
 			'fax' => 'fax',
 			'email' => 'email',
-			'description' => 'industrydesc'
+			'companydesc' => 'description',
+			'industrydesc' => 'description',
+			'productionunits0Address' => 'addresslevel8a',
+			'address' => 'addresslevel8a',
+			'productionunits0Zipcode' => 'addresslevel7a',
+			'zipcode' => 'addresslevel7a',
+			'productionunits0City' => 'addresslevel5a',
+			'city' => 'addresslevel5a',
+			'country' => 'addresslevel1a',
 		],
 		'Competition' => [
 			'name' => 'subject',
 			'vat' => 'vat_id',
-			'address' => 'addresslevel8a',
-			'zipcode' => 'addresslevel7a',
-			'city' => 'addresslevel5a',
 			'phone' => 'phone',
 			'fax' => 'fax',
 			'email' => 'email',
-			'description' => 'industrydesc'
+			'companydesc' => 'description',
+			'industrydesc' => 'description',
+			'productionunits0Address' => 'addresslevel8a',
+			'address' => 'addresslevel8a',
+			'productionunits0Zipcode' => 'addresslevel7a',
+			'zipcode' => 'addresslevel7a',
+			'productionunits0City' => 'addresslevel5a',
+			'city' => 'addresslevel5a',
+			'country' => 'addresslevel1a',
 		]
 	];
 
 	/** {@inheritdoc} */
 	public function search(): array
 	{
-		$country = $this->request->getByType('country', 'Text');
-		$vatNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatNumber', 'Text'));
 		$params = [];
-		if (!$this->isActive() && empty($country) && empty($vatNumber)) {
+		if ($vatNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatNumber', 'Text'))) {
+			$params['vat'] = $vatNumber;
+		}
+		if ($name = $this->request->getByType('name', 'Text')) {
+			$params['name'] = $name;
+		}
+		if ($phone = $this->request->getByType('phone', 'Text')) {
+			$params['phone'] = $phone;
+		}
+		if (!$this->isActive() && empty($params)) {
 			return [];
 		}
-		$params['search'] = $vatNumber;
-		$params['country'] = $country;
-
+		$params['country'] = $this->request->getByType('country', 'Text');
+		$this->setToken();
 		$this->getDataFromApi($params);
 		$this->loadData();
 		return $this->response;
+	}
+
+	/**
+	 * Function setup token key.
+	 *
+	 * @return void
+	 */
+	private function setToken(): void
+	{
+		if (($params = $this->getParams()) && !empty($params['token'])) {
+			$this->token = $params['token'];
+		}
 	}
 
 	/**
@@ -161,7 +221,10 @@ class DkCvr extends Base
 	 */
 	private function getDataFromApi($params): void
 	{
-		$response = [];
+		$params['format'] = 'json';
+		if (!empty($this->token)) {
+			$params['token'] = $this->token;
+		}
 		try {
 			$response = \App\RequestHttp::getClient()->get($this->url . http_build_query($params));
 			if (200 === $response->getStatusCode()) {
@@ -170,6 +233,16 @@ class DkCvr extends Base
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
+		}
+		switch ($params['country']) {
+			case 'no':
+				$this->data['country'] = 'Norway';
+				break;
+			case 'dk':
+				$this->data['country'] = 'Denmark';
+				break;
+			default:
+				break;
 		}
 	}
 

@@ -40,7 +40,7 @@ class BrReceitaWsCnpj extends Base
 	/** @var string CNJP sever address */
 	private $url = 'https://receitaws.com.br/v1/cnpj/';
 
-	/** @var mixed api key */
+	/** @var string Api key */
 	private $apiKey;
 
 	/** {@inheritdoc} */
