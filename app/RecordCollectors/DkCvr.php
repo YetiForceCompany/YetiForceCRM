@@ -2,10 +2,10 @@
 /**
  * The Danish Central Business Register (CVR) file.
  *
- * @package App
- *
  * @see https://cvrtjek.dk/
  * @see https://cvrapi.dk/
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)

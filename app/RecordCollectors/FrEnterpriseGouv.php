@@ -2,9 +2,9 @@
 /**
  * Api Government of French Republic file.
  *
- * @package App
- *
  * @see https://api.gouv.fr/les-api/api-entreprise
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)

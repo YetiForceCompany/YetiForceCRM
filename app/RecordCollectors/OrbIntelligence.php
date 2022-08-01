@@ -2,9 +2,9 @@
 /**
  * Orb Intelligence API by The Dun & Bradstreet file.
  *
- * @package App
- *
  * @see https://api.orb-intelligence.com/docs/
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)

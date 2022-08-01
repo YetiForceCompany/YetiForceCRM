@@ -2,9 +2,9 @@
 /**
  * The Norway Brønnøysund Register Centre Enhetsregisteret API file.
  *
- * @package App
- *
  * @see https://www.brreg.no/produkter-og-tjenester/apne-data/
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)

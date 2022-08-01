@@ -2,9 +2,9 @@
 /**
  * The Brazilian National Registry of Legal Entities by Receita WS API file.
  *
- * @package App
- *
  * @see https://developers.receitaws.com.br/#/operations/queryCNPJFree
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)

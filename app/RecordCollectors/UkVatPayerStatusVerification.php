@@ -2,10 +2,10 @@
 /**
  * VAT Payer Status Verification in United Kingdom record collector file.
  *
- * @package App
- *
  * @see https://developer.service.hmrc.gov.uk/api-documentation
  * @see https://developer.service.hmrc.gov.uk/api-documentation/docs/api
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)

@@ -2,9 +2,9 @@
 /**
  * EDGAR Registry of Securities and Exchange Commission file.
  *
- * @package App
- *
  * @see https://www.sec.gov/edgar/sec-api-documentation
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
