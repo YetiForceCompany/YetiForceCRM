@@ -2,9 +2,9 @@
 /**
  * YouScore from YouControl API file.
  *
- * @package App
- *
  * @see https://youscore.com.ua/en/
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -115,11 +115,10 @@ class UaYouControl extends Base
 		$this->setApiKey();
 		$this->getDataFromApi($companyNumber);
 		$this->loadData();
-
 		return $this->response;
 	}
 
-		/**
+	/**
 	 * Function fetching company data by Company Number from YouScore API.
 	 *
 	 * @param string $companyNumber
@@ -130,7 +129,11 @@ class UaYouControl extends Base
 	{
 		$response = [];
 		try {
-			$response = \App\RequestHttp::getClient()->get($this->url . $companyNumber . '?apiKey=' . $this->apiKey);
+			$response = \App\RequestHttp::getClient([
+				'headers' => [
+					'Authorization' => 'Bearer ' . $this->apiKey
+				]
+			])->get($this->url . $companyNumber);
 			if (200 === $response->getStatusCode()) {
 				$this->data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
 			}
@@ -138,7 +141,6 @@ class UaYouControl extends Base
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 		}
-
 	}
 
 	/**
@@ -169,5 +171,4 @@ class UaYouControl extends Base
 			throw new \App\Exceptions\IllegalValue('You must fist setup Api Key in Config Panel', 403);
 		}
 	}
-
 }
