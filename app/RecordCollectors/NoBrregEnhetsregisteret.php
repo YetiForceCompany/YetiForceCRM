@@ -67,7 +67,6 @@ class NoBrregEnhetsregisteret extends Base
 			'navn' => 'accountname',
 			'organisasjonsnummer' => 'registration_number_1',
 			'naeringskode1Kode' => 'siccode',
-			'organisasjonsform_linksSelfHref' => 'website',
 			'forretningsadresseAdresse0' => 'addresslevel8a',
 			'forretningsadressePostnummer' => 'addresslevel7a',
 			'forretningsadressePoststed' => 'addresslevel5a',
@@ -77,7 +76,6 @@ class NoBrregEnhetsregisteret extends Base
 		'Leads' => [
 			'navn' => 'company',
 			'organisasjonsnummer' => 'registration_number_1',
-			'organisasjonsform_linksSelfHref' => 'website',
 			'forretningsadresseAdresse0' => 'addresslevel8a',
 			'forretningsadressePostnummer' => 'addresslevel7a',
 			'forretningsadressePoststed' => 'addresslevel5a',
@@ -87,7 +85,6 @@ class NoBrregEnhetsregisteret extends Base
 		'Vendors' => [
 			'navn' => 'vendorname',
 			'organisasjonsnummer' => 'registration_number_1',
-			'organisasjonsform_linksSelfHref' => 'website',
 			'forretningsadresseAdresse0' => 'addresslevel8a',
 			'forretningsadressePostnummer' => 'addresslevel7a',
 			'forretningsadressePoststed' => 'addresslevel5a',
@@ -147,6 +144,7 @@ class NoBrregEnhetsregisteret extends Base
 			}
 		}
 		$this->data = isset($response) ? $this->parseData(\App\Json::decode($response->getBody()->getContents())) : [];
+		$this->response['links'][0] = $this->data['_linksSelfHref'];
 	}
 
 	/**
