@@ -36,6 +36,8 @@
     "LBL_VATIFY_EU": "VATify.eu",
     "LBL_VATIFY_DESC_EU": "Feting data about companies from VATify.",
     "LBL_DK_CVR": "The Danish Central Business Register (CVR)",
-    "LBL_DK_CVR_DESC": "Feting data on all businesses in Denmark from The Danish Central Business Register (CVR)"
+    "LBL_DK_CVR_DESC": "Feting data on all businesses in Denmark from The Danish Central Business Register (CVR)",
+    "LBL_UA_YOU_CONTROL": "YouScore API from YouControl",
+    "LBL_UA_YOU_CONTROL_DESC": "Check contractors and follow their changes in Ukraine from YouScore API"
   }
 }
