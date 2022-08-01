@@ -33,6 +33,7 @@ class Shop
 		'Support' => ['label' => 'LBL_CAT_SUPPORT', 'icon' => 'yfi-support-shop'],
 		'Addons' => ['label' => 'LBL_CAT_ADDONS', 'icon' => 'yfi-adds-on-shop'],
 		'Integrations' => ['label' => 'LBL_CAT_INTEGRATIONS', 'icon' => 'yfi-integration-shop'],
+		'RecordCollectors' => ['label' => 'LBL_CAT_RECORD_COLLECTORS', 'icon' => 'fab fa-nfc-symbol'],
 		'PartnerSolutions' => ['label' => 'LBL_CAT_PARTNER_SOLUTIONS', 'icon' => 'yfi-partner-solution-shop'],
 	];
 

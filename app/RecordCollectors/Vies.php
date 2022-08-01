@@ -1,7 +1,8 @@
 <?php
 /**
  * Vies record collector file.
- * https://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl.
+ *
+ * @see https://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl
  *
  * @package App
  *
@@ -34,6 +35,9 @@ class Vies extends Base
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://ec.europa.eu/taxation_customs/vies/technicalInformation.html';
+
+	/** @var string Vies server address. */
+	protected $url = 'https://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
 
 	/** {@inheritdoc} */
 	protected $fields = [
@@ -96,9 +100,6 @@ class Vies extends Base
 			'vatNumber' => 'vat_id',
 		],
 	];
-
-	/** @var string Vies server address. */
-	protected $url = 'https://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
 
 	/** {@inheritdoc} */
 	public function getFields(): array

@@ -25,6 +25,8 @@ class Modules extends \Api\Core\BaseAction
 	/**
 	 * Get permitted modules.
 	 *
+	 * @api
+	 *
 	 * @return array
 	 *
 	 * @OA\Get(

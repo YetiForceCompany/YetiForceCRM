@@ -2,9 +2,9 @@
 /**
  * United Kingdom Companies House record collector file.
  *
- * @package App
- *
  * @see https://developer.company-information.service.gov.uk/
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -36,6 +36,20 @@ class UkCompaniesHouse extends Base
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://developer.company-information.service.gov.uk/';
+
+	/** @var string CH sever address */
+	private $url = 'https://api.company-information.service.gov.uk';
+
+	/** {@inheritdoc} */
+	public $settingsFields = [
+		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY'],
+	];
+
+	/** @var string Api Key. */
+	private $apiKey;
+
+	/** @var string CH sever address */
+	const EXTERNAL_URL = 'https://find-and-update.company-information.service.gov.uk/company/';
 
 	/** {@inheritdoc} */
 	protected $fields = [
@@ -130,17 +144,6 @@ class UkCompaniesHouse extends Base
 			'registered_office_addressPo_box' => 'poboxa',
 		]
 	];
-
-	/** {@inheritdoc} */
-	public $settingsFields = [
-		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY'],
-	];
-
-	/** @var string Api Key. */
-	private $apiKey;
-
-	/** @var string CH sever address */
-	private $url = 'https://api.company-information.service.gov.uk';
 
 	/** @var string[] Keys to skip in additional */
 	const REMOVE_KEYS = ['linksSelf', 'linksFiling_history', 'linksOfficers', 'linksPersons_with_significant_control-statements', 'linksCharges'];
@@ -240,6 +243,7 @@ class UkCompaniesHouse extends Base
 		$data = [];
 		foreach ($response['items'] as $key => $value) {
 			$data[$key] = $this->getDataFromApiByNcr($value['company_number']);
+			$this->response['links'][$key] = self::EXTERNAL_URL . $data[$key]['company_number'];
 			if (self::LIMIT === $key) {
 				break;
 			}

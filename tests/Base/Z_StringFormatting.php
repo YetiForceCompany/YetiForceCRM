@@ -66,7 +66,7 @@ class Z_StringFormatting extends \Tests\Base
 	/**
 	 * Data provider for the numbers formatting test.
 	 *
-	 * @return []
+	 * @return array
 	 * @codeCoverageIgnore
 	 */
 	public function providerNumbers()

@@ -2,9 +2,9 @@
 /**
  * Api Government of French Republic file.
  *
- * @package App
- *
  * @see https://api.gouv.fr/les-api/api-entreprise
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -36,6 +36,9 @@ class FrEnterpriseGouv extends Base
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://api.gouv.fr/les-api/api-entreprise/';
+
+	/** @var string CH sever address */
+	private $url = 'https://recherche-entreprises.api.gouv.fr/';
 
 	/** {@inheritdoc} */
 	protected $fields = [
@@ -121,9 +124,6 @@ class FrEnterpriseGouv extends Base
 			'siegeLibelle_commune' => 'addresslevel4a'
 		],
 	];
-
-	/** @var string CH sever address */
-	private $url = 'https://recherche-entreprises.api.gouv.fr/';
 
 	/** @var int Number of items returned */
 	const LIMIT = 4;

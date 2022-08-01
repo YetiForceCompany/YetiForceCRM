@@ -75,6 +75,8 @@ class Files extends \Api\Core\BaseAction
 	/**
 	 * Put method.
 	 *
+	 * @api
+	 *
 	 * @throws \Api\Core\Exception
 	 *
 	 * @return \App\Fields\File

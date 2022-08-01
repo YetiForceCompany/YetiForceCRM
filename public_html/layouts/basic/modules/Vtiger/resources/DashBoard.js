@@ -90,7 +90,7 @@ $.Class(
 		savePositions: function (widgets) {
 			let widgetRowColPositions = {},
 				widgetSizes = {};
-			widgets.each((index, element) => {
+			widgets.each((_index, element) => {
 				let widget = $(element);
 				let widgetId = widget.find('.grid-stack-item-content').attr('id');
 				widgetRowColPositions[widgetId] = {
@@ -101,6 +101,7 @@ $.Class(
 					width: widget.attr('gs-w'),
 					height: widget.attr('gs-h')
 				};
+				this.getWidgetInstance(widget.find('.dashboardWidget')).loadScrollbar();
 			});
 			this.updateLazyWidget();
 			AppConnector.request({

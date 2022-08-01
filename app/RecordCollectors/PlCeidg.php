@@ -2,9 +2,9 @@
 /**
  * Polish Central Registration And Information On Business record collector file.
  *
- * @package App
- *
  * @see https://akademia.biznes.gov.pl/hurtownia-danych/
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -35,6 +35,17 @@ class PlCeidg extends Base
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://dane.biznes.gov.pl';
+
+	/** {@inheritdoc} */
+	public $settingsFields = [
+		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY'],
+	];
+
+	/** @var string Polish CEIDG sever address */
+	protected $url = 'https://dane.biznes.gov.pl/api/ceidg/v2/firmy';
+
+	/** @var string Api Key. */
+	private $apiKey;
 
 	/** {@inheritdoc} */
 	protected $fields = [
@@ -171,17 +182,6 @@ class PlCeidg extends Base
 			'adresDzialalnosciKraj' => 'addresslevel1a'
 		]
 	];
-
-	/** {@inheritdoc} */
-	public $settingsFields = [
-		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY'],
-	];
-
-	/** @var string Polish CEIDG sever address */
-	protected $url = 'https://dane.biznes.gov.pl/api/ceidg/v2/firmy';
-
-	/** @var string Api Key. */
-	private $apiKey;
 
 	/** @var int Limit for fetching companies */
 	const LIMIT = 4;

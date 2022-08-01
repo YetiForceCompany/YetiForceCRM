@@ -114,7 +114,7 @@ final class TwitterTest extends \Tests\Base
 	/**
 	 * Data provider for testUiTypeWrongData.
 	 *
-	 * @return []
+	 * @return array
 	 * @codeCoverageIgnore
 	 */
 	public function providerUiTypeWrongData()
@@ -129,7 +129,7 @@ final class TwitterTest extends \Tests\Base
 	/**
 	 * Data provider for testUiTypeGoodData.
 	 *
-	 * @return []
+	 * @return array
 	 * @codeCoverageIgnore
 	 */
 	public function providerUiTypeGoodData()

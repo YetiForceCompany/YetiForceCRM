@@ -115,42 +115,57 @@ class Documents_Record_Model extends Vtiger_Record_Model
 	public function downloadFile()
 	{
 		$fileContent = false;
-		if ($fileDetails = $this->getFileDetails()) {
-			$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $fileDetails['path'];
-			$fileName = $fileDetails['name'];
-			if ('I' === $this->get('filelocationtype')) {
-				$fileName = html_entity_decode($fileName, ENT_QUOTES, \App\Config::main('default_charset'));
-				if (file_exists($filePath . $fileDetails['attachmentsid'])) {
-					$savedFile = $fileDetails['attachmentsid'];
+		if ($path = $this->getFilePath()) {
+			$fileDetails = $this->getFileDetails();
+			$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $path;
+			if ($this->get('return')) {
+				return \App\Fields\File::loadFromInfo([
+					'path' => $filePath,
+					'name' => $fileDetails['name'],
+					'mimeType' => $fileDetails['type'],
+				]);
+			}
+			$fileSize = filesize($filePath);
+			$fileSize = $fileSize + ($fileSize % 1024);
+			if (fopen($filePath, 'r')) {
+				$fileContent = fread(fopen($filePath, 'r'), $fileSize);
+				$fileName = $this->get('filename');
+				header('content-type: ' . $fileDetails['type']);
+				header('pragma: public');
+				header('cache-control: private');
+				if ($this->get('show')) {
+					header('content-disposition: inline');
 				} else {
-					$savedFile = $fileDetails['attachmentsid'] . '_' . $fileName;
-				}
-				if (file_exists($filePath . $savedFile)) {
-					if ($this->get('return')) {
-						return \App\Fields\File::loadFromInfo([
-							'path' => $filePath . $savedFile,
-							'name' => $fileDetails['name'],
-							'mimeType' => $fileDetails['type'],
-						]);
-					}
-					$fileSize = filesize($filePath . $savedFile);
-					$fileSize = $fileSize + ($fileSize % 1024);
-					if (fopen($filePath . $savedFile, 'r')) {
-						$fileContent = fread(fopen($filePath . $savedFile, 'r'), $fileSize);
-						$fileName = $this->get('filename');
-						header('content-type: ' . $fileDetails['type']);
-						header('pragma: public');
-						header('cache-control: private');
-						if ($this->get('show')) {
-							header('content-disposition: inline');
-						} else {
-							header("content-disposition: attachment; filename=\"$fileName\"");
-						}
-					}
+					header("content-disposition: attachment; filename=\"$fileName\"");
 				}
 			}
 		}
 		echo $fileContent;
+	}
+
+	/**
+	 * Get file path.
+	 *
+	 * @return string
+	 */
+	public function getFilePath(): string
+	{
+		$path = '';
+		if ($fileDetails = $this->getFileDetails()) {
+			$fileName = $fileDetails['name'];
+			if ('I' === $this->get('filelocationtype')) {
+				$fileName = html_entity_decode($fileName, ENT_QUOTES, \App\Config::main('default_charset'));
+				if (file_exists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $fileDetails['path'] . $fileDetails['attachmentsid'])) {
+					$savedFile = $fileDetails['attachmentsid'];
+				} else {
+					$savedFile = $fileDetails['attachmentsid'] . '_' . $fileName;
+				}
+				if (file_exists(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $fileDetails['path'] . $savedFile)) {
+					$path = $fileDetails['path'] . $savedFile;
+				}
+			}
+		}
+		return $path;
 	}
 
 	/**

@@ -2,9 +2,9 @@
 /**
  * EDGAR Registry of Securities and Exchange Commission file.
  *
- * @package App
- *
  * @see https://www.sec.gov/edgar/sec-api-documentation
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -36,6 +36,9 @@ class UsaEdgarRegistryFromSec extends Base
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://www.sec.gov/edgar/sec-api-documentation';
+
+	/** @var string SEC sever address */
+	protected $url = 'https://data.sec.gov/submissions/CIK';
 
 	/** {@inheritdoc} */
 	protected $fields = [
@@ -128,9 +131,6 @@ class UsaEdgarRegistryFromSec extends Base
 			'addressesBusinessStateOrCountryDescription' => 'addresslevel2a',
 		]
 	];
-
-	/** @var string SEC sever address */
-	protected $url = 'https://data.sec.gov/submissions/CIK';
 
 	/** @var int Central Index Key length */
 	const CIK_LEN = 10;

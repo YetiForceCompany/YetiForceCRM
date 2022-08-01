@@ -20,7 +20,7 @@ class Register
 	/**
 	 * Registration config cache.
 	 *
-	 * @var
+	 * @var array
 	 */
 	private static $config;
 	/**

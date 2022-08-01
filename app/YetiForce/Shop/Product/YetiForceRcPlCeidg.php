@@ -2,6 +2,8 @@
 /**
  * YetiForce shop YetiForceRcPlCeidg file.
  *
+ * @see App\RecordCollectors\PlCeidg
+ *
  * @package App
  *
  * @copyright YetiForce S.A.
@@ -20,7 +22,7 @@ class YetiForceRcPlCeidg extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $label = 'YetiForce CEIDG PL';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-ceidg-en';
@@ -80,6 +82,17 @@ class YetiForceRcPlCeidg extends \App\YetiForce\Shop\AbstractBaseProduct
 				'linktarget' => '_blank',
 				'linkurl' => $this->website,
 				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'dane.biznes.gov.pl',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'fa-solid fa-link',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => 'https://dane.biznes.gov.pl/',
+				'linkclass' => 'btn-secondary',
 				'showLabel' => 1,
 			]),
 		], $return);

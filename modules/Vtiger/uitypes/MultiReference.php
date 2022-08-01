@@ -84,7 +84,7 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 				$displayValue[] = \App\Record::getHtmlLink($recordId, $referenceModuleName, null, !empty($this->fullUrl));
 			}
 		}
-		$maxLength = \is_int($length) ? $length : \App\Config::main('href_max_length');
+		$maxLength = (int) ($this->getFieldModel()->getFieldParams()['displayLength'] ?? (\is_int($length) ? $length : \App\Config::main('href_max_length')));
 		return \App\Layout::truncateHtml(implode(', <br>', $displayValue), 'miniHtml', $maxLength);
 	}
 

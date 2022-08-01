@@ -2,9 +2,9 @@
 /**
  * The Brazilian National Registry of Legal Entities by Receita WS API file.
  *
- * @package App
- *
  * @see https://developers.receitaws.com.br/#/operations/queryCNPJFree
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -36,6 +36,17 @@ class BrReceitaWsCnpj extends Base
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://developers.receitaws.com.br/#/operations/queryCNPJFree';
+
+	/** @var string CNJP sever address */
+	private $url = 'https://receitaws.com.br/v1/cnpj/';
+
+	/** @var string Api key */
+	private $apiKey;
+
+	/** {@inheritdoc} */
+	public $settingsFields = [
+		'api_key' => ['required' => 0, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY_OPTIONAL'],
+	];
 
 	/** {@inheritdoc} */
 	protected $fields = [
@@ -119,17 +130,6 @@ class BrReceitaWsCnpj extends Base
 			'municipio' => 'addresslevel5a',
 			'bairro' => 'addresslevel4a',
 		],
-	];
-
-	/** @var string CNJP sever address */
-	private $url = 'https://receitaws.com.br/v1/cnpj/';
-
-	/** @var mixed api key */
-	private $apiKey;
-
-	/** {@inheritdoc} */
-	public $settingsFields = [
-		'api_key' => ['required' => 0, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY_OPTIONAL'],
 	];
 
 	/** {@inheritdoc} */

@@ -2,6 +2,8 @@
 /**
  * YetiForce shop YetiForceRcUkVatPayerStatus file.
  *
+ * @see App\RecordCollectors\UkVatPayerStatusVerification
+ *
  * @package App
  *
  * @copyright YetiForce S.A.
@@ -20,7 +22,7 @@ class YetiForceRcUkVatPayerStatus extends \App\YetiForce\Shop\AbstractBaseProduc
 	public $label = 'YetiForce VAT UK';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-vat-uk';
@@ -79,6 +81,17 @@ class YetiForceRcUkVatPayerStatus extends \App\YetiForce\Shop\AbstractBaseProduc
 				'linktarget' => '_blank',
 				'linkurl' => $this->website,
 				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'gov.uk',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'fa-solid fa-link',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => 'https://developer.service.hmrc.gov.uk/api-documentation',
+				'linkclass' => 'btn-secondary',
 				'showLabel' => 1,
 			]),
 		], $return);

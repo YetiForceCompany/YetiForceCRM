@@ -17,12 +17,12 @@ coverage:
         paths:
           - 'tests/'
       app:
-        target: 37%
+        target: 35%
         paths:
           - 'app/'
 
       api:
-        target: 62%
+        target: 60%
         paths:
           - 'api/'
     patch: off

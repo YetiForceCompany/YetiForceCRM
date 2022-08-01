@@ -383,31 +383,13 @@ $.Class(
 		triggerReviewChanges: function (reviewUrl) {
 			let listInstance = Vtiger_List_Js.getInstance();
 			let validationResult = listInstance.checkListRecordSelected();
-			if (validationResult != true) {
+			if (validationResult !== true) {
 				app.showConfirmModal({
 					icon: 'fa fa-check-circle',
 					title: app.vtranslate('JS_LBL_REVIEW_CHANGES'),
 					text: app.vtranslate('JS_MASS_REVIEWING_CHANGES_CONFIRMATION'),
 					confirmedCallback: () => {
-						let params = listInstance.getSearchParams();
-						let url =
-							reviewUrl +
-							'&viewname=' +
-							params.viewname +
-							'&selected_ids=' +
-							params.selected_ids +
-							'&excluded_ids=' +
-							params.excluded_ids +
-							'&entityState=' +
-							params.entityState;
-						if (listInstance.getListSearchInstance()) {
-							url += '&search_params=' + params.search_params;
-							if (typeof searchValue !== 'undefined' && params.search_value.length > 0) {
-								url += '&search_key=' + params.search_key;
-								url += '&search_value=' + params.search_value;
-								url += '&operator=s';
-							}
-						}
+						let params = { ...listInstance.getSearchParams() };
 						let deleteMessage = app.vtranslate('JS_LOADING_PLEASE_WAIT');
 						let progressIndicatorElement = $.progressIndicator({
 							message: deleteMessage,
@@ -416,7 +398,13 @@ $.Class(
 								enabled: true
 							}
 						});
-						AppConnector.request(url)
+						delete params.view;
+						delete params.module;
+						delete params.parent;
+						AppConnector.request({
+							url: reviewUrl,
+							data: params
+						})
 							.done(function (data) {
 								progressIndicatorElement.progressIndicator({
 									mode: 'hide'

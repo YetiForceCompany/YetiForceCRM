@@ -20,6 +20,9 @@ class Base
 	/** @var string Module name. */
 	public $moduleName;
 
+	/** @var string Record collector name. */
+	protected $name;
+
 	/** @var string[] Allowed modules. */
 	protected static $allowedModules = [];
 
@@ -61,7 +64,9 @@ class Base
 	 */
 	public function __construct()
 	{
-		$name = last(explode('\\', static::class));
+		$name = basename(str_replace('\\', '/', static::class));
+		$this->name = $name;
+
 		$class = '\\Config\\Components\\RecordCollectors\\' . $name;
 		if (!\class_exists($class)) {
 			return;
@@ -74,6 +79,16 @@ class Base
 		foreach ($config as $key => $value) {
 			$this->{$key} = $value;
 		}
+	}
+
+	/**
+	 * Get record collector name.
+	 *
+	 * @return string
+	 */
+	public function getName(): string
+	{
+		return $this->name;
 	}
 
 	/**
@@ -180,7 +195,7 @@ class Base
 		} else {
 			$fieldsModel = \Vtiger_Module_Model::getInstance($this->moduleName)->getFields();
 		}
-		$fieldsData = $skip = [];
+		$additional = $fieldsData = $skip = [];
 		$rows = isset($this->data[0]) ? $this->data : [$this->data];
 		foreach ($rows as $key => &$row) {
 			$dataCounter[$key] = 0;
@@ -189,7 +204,7 @@ class Base
 			}
 			foreach ($this->formFieldsToRecordMap[$this->moduleName] as $apiKey => $fieldName) {
 				if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
-					if (isset($row[$apiKey]) && '' !== $row[$apiKey]) {
+					if (isset($row[$apiKey]) && '' !== $row[$apiKey] && null !== $row[$apiKey]) {
 						$skip[$fieldName]['data'][$key] = $row[$apiKey];
 						if (isset($fieldsModel[$fieldName]) && empty($skip[$fieldName]['label'])) {
 							$skip[$fieldName]['label'] = \App\Language::translate($fieldsModel[$fieldName]->getFieldLabel(), $this->moduleName);
@@ -205,6 +220,9 @@ class Base
 					$value = trim($row[$apiKey]);
 					unset($row[$apiKey]);
 				}
+				if ('' === $value && isset($fieldsData[$fieldName]['data'][$key])) {
+					continue;
+				}
 				if ($value) {
 					++$dataCounter[$key];
 				}
@@ -217,7 +235,7 @@ class Base
 				];
 			}
 			foreach ($row as $name => $value) {
-				if ('' !== $value) {
+				if ('' !== $value && null !== $value) {
 					$additional[$name][$key] = $value;
 				}
 			}

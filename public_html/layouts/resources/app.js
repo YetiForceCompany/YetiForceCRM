@@ -3547,7 +3547,7 @@ $(function () {
 		this.removeAttr('disabled');
 	};
 	$.fn.serializeFormData = function () {
-		for (var instance in CKEDITOR.instances) {
+		for (let instance in CKEDITOR.instances) {
 			CKEDITOR.instances[instance].updateElement();
 		}
 		const form = this,

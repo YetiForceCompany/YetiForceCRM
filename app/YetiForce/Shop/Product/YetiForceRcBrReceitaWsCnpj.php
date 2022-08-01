@@ -2,6 +2,8 @@
 /**
  * YetiForce shop YetiForceRcBrReceitaWsCnpj file.
  *
+ * @see App\RecordCollectors\BrReceitaWsCnpj
+ *
  * @package App
  *
  * @copyright YetiForce S.A.
@@ -20,10 +22,10 @@ class YetiForceRcBrReceitaWsCnpj extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $label = 'YetiForce Receita CNPJ BR';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/';
+	public $website = 'https://yetiforce.com/en/yetiforce-receita-cnpj-br';
 
 	/** {@inheritdoc} */
 	public $prices = [
@@ -80,6 +82,17 @@ class YetiForceRcBrReceitaWsCnpj extends \App\YetiForce\Shop\AbstractBaseProduct
 				'linktarget' => '_blank',
 				'linkurl' => $this->website,
 				'linkclass' => 'btn-info',
+				'showLabel' => 1,
+			]),
+			\Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'receitaws.com.br',
+				'relatedModuleName' => 'Settings:_Base',
+				'linkicon' => 'fa-solid fa-link',
+				'linkhref' => true,
+				'linkExternal' => true,
+				'linktarget' => '_blank',
+				'linkurl' => 'https://developers.receitaws.com.br/',
+				'linkclass' => 'btn-secondary',
 				'showLabel' => 1,
 			]),
 		], $return);

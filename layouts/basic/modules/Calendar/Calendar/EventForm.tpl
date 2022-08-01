@@ -61,9 +61,9 @@
 							{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
 							{assign var="refrenceListCount" value=count($refrenceList)}
 							{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
-							<div class="row fieldsLabelValue pl-0 pr-0 mb-2 {$WIDTHTYPE} {$WIDTHTYPE_GROUP}">
+							<div class="row-form fieldsLabelValue px-1 mb-2 {$WIDTHTYPE} {$WIDTHTYPE_GROUP}">
 								{if !(isset($PARAMS['hideLabel']) && in_array($VIEW, $PARAMS['hideLabel']))}
-									<div class="col-12 u-fs-sm">
+									<div class="col-12 u-fs-sm px-0">
 										{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
 										<label class="muted mt-0 mb-0">
 											{if $HELPINFO_LABEL}
@@ -82,7 +82,7 @@
 										</label>
 									</div>
 								{/if}
-								<div class="fieldValue col-12">
+								<div class="fieldValue col-12 px-0">
 									{if $FIELD_MODEL->name === 'activitytype' && App\Config::module('Calendar','SHOW_ACTIVITYTYPES_AS_BUTTONS')}
 										{include file=\App\Layout::getTemplatePath('Edit/Field/ActivityType.tpl', $MODULE_NAME)}
 									{else}
@@ -91,13 +91,13 @@
 								</div>
 							</div>
 						{/foreach}
-						<div class="fieldsLabelValue pl-0 pr-0 mb-2">
-							<div class="col-12 px-2 u-fs-sm">
+						<div class="row-form fieldsLabelValue px-1 mb-2">
+							<div class="col-12 px-0 u-fs-sm">
 								<label class="muted mt-0 mb-0">
 									{\App\Language::translate('LBL_INVITE_RECORDS', $MODULE_NAME)}
 								</label>
 							</div>
-							<div class="fieldValue col-12 px-2">
+							<div class="fieldValue col-12 px-0">
 								<div class="input-group js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}">
 									<input type="text" class="form-control js-participants-search" title="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}"
 										placeholder="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}" data-js="click" />

@@ -36,10 +36,6 @@
 			transition: transform 0.2s;
 		}
 	}
-	.c-multi-image__preview-img {
-		background-size: contain;
-		background-repeat: no-repeat;
-	}
 	&_very_small {
 		.c-tile-image .c-multi-image__preview-img,
 		.carousel.slide {

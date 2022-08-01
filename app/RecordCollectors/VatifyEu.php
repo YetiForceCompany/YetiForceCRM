@@ -2,15 +2,16 @@
 /**
  * Vatify API file.
  *
- * @package App
- *
  * @see https://www.vatify.eu/coverage.html
- * @see https://api.vatify.eu/v1/demo/ test
- * @see https://api.vatify.eu/v1/ prod
+ * @see https://api.vatify.eu/v1/demo/ TEST API URL
+ * @see https://api.vatify.eu/v1/ PROD API URL
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Rembiesa <s.rembiesa@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\RecordCollectors;
@@ -39,6 +40,23 @@ class VatifyEu extends Base
 	public $docUrl = 'https://www.vatify.eu/docs/api/getting-started/';
 
 	/** {@inheritdoc} */
+	private $url = 'https://api.vatify.eu/v1/';
+
+	/** {@inheritdoc} */
+	public $settingsFields = [
+		'client_id' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_CLIENT_ID'],
+		'access_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_ACCESS_KEY'],
+	];
+	/** @var string Access Key. */
+	private $accessKey;
+
+	/** @var string Client ID. */
+	private $clientId;
+
+	/** @var string Bearer Token. */
+	private $bearerToken;
+
+	/** {@inheritdoc} */
 	protected $fields = [
 		'country' => [
 			'labelModule' => '_Base',
@@ -47,53 +65,52 @@ class VatifyEu extends Base
 			'typeofdata' => 'V~M',
 			'uitype' => 16,
 			'picklistValues' => [
-				'Albania' => 'Albania',
-				'Austria' => 'Austria',
-				'Belarus' => 'Belarus',
-				'Belgium' => 'Belgium',
-				'Bosnia and Herzegovina' => 'Bosnia And Herzegovina',
-				'Bulgaria' => 'Bulgaria',
-				'Cyprus' => 'Cyprus',
-				'Czech Republic' => 'Czech Republic',
-				'Germany' => 'Germany',
-				'Denmark' => 'Denmark',
-				'Estonia' => 'Estonia',
-				'Great Britain' => 'United Kingdom',
-				'Greece' => 'Greece',
-				'Spain' => 'Spain',
-				'Finland' => 'Finland',
-				'France' => 'France',
-				'Northern Ireland' => 'Northern Ireland',
-				'Georgia' => 'Georgia',
-				'Croatia' => 'Croatia',
-				'Hungary' => 'Hungary',
-				'Iceland' => 'Iceland',
-				'Ireland' => 'Ireland',
-				'Israel' => 'Israel',
-				'Italy' => 'Italy',
-				'Kazakhstan' => 'Kazakstan',
+				'AL' => 'Albania',
+				'AT' => 'Austria',
+				'BY' => 'Belarus',
+				'BE' => 'Belgium',
+				'BA' => 'Bosnia And Herzegovina',
+				'BG' => 'Bulgaria',
+				'CY' => 'Cyprus',
+				'CZ' => 'Czech Republic',
+				'DE' => 'Germany',
+				'DK' => 'Denmark',
+				'EE' => 'Estonia',
+				'GB' => 'United Kingdom',
+				'GR' => 'Greece',
+				'ES' => 'Spain',
+				'FI' => 'Finland',
+				'FR' => 'France',
+				'GB' => 'Northern Ireland',
+				'GE' => 'Georgia',
+				'HR' => 'Croatia',
+				'HU' => 'Hungary',
+				'IS' => 'Iceland',
+				'IE' => 'Ireland',
+				'IL' => 'Israel',
+				'IT' => 'Italy',
+				'KZ' => 'Kazakstan',
 				'Kosovo' => 'Kosovo',
-				'Latvia' => 'Latvia',
-				'Liechtenstein' => 'Liechtenstein',
-				'Lithuania' => 'Lithuania',
-				'Luxembourg' => 'Luxembourg',
-				'North Macedonia' => 'Macedonia, The Former Yugoslav Republic Of',
-				'Malta' => 'Malta',
-				'Moldova' => 'Moldova, Republic Of',
-				'Montenegro' => 'Montenegro',
-				'Norway' => 'Norway',
-				'The Netherlands' => 'Netherlands',
-				'Poland' => 'Poland',
-				'Portugal' => 'Portugal',
-				'Romania' => 'Romania',
-				'Russia' => 'Russian Federation',
-				'Sweden' => 'Sweden',
-				'Slovenia' => 'Slovenia',
-				'Slovakia' => 'Slovakia',
-				'Serbia' => 'Serbia',
-				'Switzerland' => 'Switzerland',
-				'Ukraine' => 'Ukraine',
-				'South Africa' => 'South Africa',
+				'LV' => 'Latvia',
+				'LI' => 'Liechtenstein',
+				'LT' => 'Lithuania',
+				'LU' => 'Luxembourg',
+				'MK' => 'Macedonia, The Former Yugoslav Republic Of',
+				'MT' => 'Malta',
+				'MD' => 'Moldova, Republic Of',
+				'ME' => 'Montenegro',
+				'NO' => 'Norway',
+				'NL' => 'Netherlands',
+				'PL' => 'Poland',
+				'PT' => 'Portugal',
+				'RO' => 'Romania',
+				'RU' => 'Russian Federation',
+				'SE' => 'Sweden',
+				'SK' => 'Slovenia',
+				'RS' => 'Serbia',
+				'CH' => 'Switzerland',
+				'UA' => 'Ukraine',
+				'ZA' => 'South Africa',
 			]
 		],
 		'vatNumber' => [
@@ -220,21 +237,6 @@ class VatifyEu extends Base
 	];
 
 	/** {@inheritdoc} */
-	private $url = 'https://api.vatify.eu/v1/';
-
-	/** {@inheritdoc} */
-	public $settingsFields = [
-		'access_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_ACCESS_KEY'],
-		'client_id' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_CLIENT_ID'],
-	];
-	/** @var string Access Key. */
-	private $accessKey;
-	/** @var string Client ID. */
-	private $clientId;
-	/** @var string Bearer Token. */
-	private $bearerToken;
-
-	/** {@inheritdoc} */
 	public function isActive(): bool
 	{
 		return parent::isActive() && ($params = $this->getParams()) && !empty($params['access_key'] && !empty($params['client_id']));
@@ -245,20 +247,17 @@ class VatifyEu extends Base
 	{
 		$country = $this->request->getByType('country', 'Text');
 		$vatNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatNumber', 'Text'));
-		$params = [];
 
 		if (!$this->isActive() || empty($country) || empty($vatNumber)) {
 			return [];
 		}
 		$this->loadCredentials();
 		$this->getBearerToken();
-		if (empty($this->bearerToken)) {
-			$this->response['error'] = \App\Language::translate('LBL_VATIFY_NO_AUTH', 'Other.RecordCollector');
-		}
-		$params['country'] = $country;
-		$params['identifier'] = $vatNumber;
-
-		$this->getDataFromApi($params);
+		$this->getDataFromApi([
+			'country' => $country,
+			'identifier' => $vatNumber,
+		]);
+		$this->parseData();
 		$this->loadData();
 		return $this->response;
 	}
@@ -272,48 +271,55 @@ class VatifyEu extends Base
 	 */
 	private function getDataFromApi(array $params): void
 	{
-		$response = [];
-		$link = '';
 		try {
-			$client = \App\RequestHttp::getClient(['headers' => ['Authorization' => 'Bearer '. $this->bearerToken]]);
-			$response = \App\Json::decode($client->get($this->url  . 'query?' . http_build_query($params))->getBody()->getContents());
+			$client = \App\RequestHttp::getClient(['headers' => ['Authorization' => 'Bearer ' . $this->bearerToken]]);
+			$response = $client->post($this->url . 'query', ['json' => $params]);
+			$link = $response->getHeaderLine('location');
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 			return;
 		}
-
-		if ('IN_PROGRESS' === $response['query']['status']) {
-			$link = $response['query']['links'][0]['href'];
-		} else {
+		if (empty($link)) {
 			return;
 		}
-
-		try {
-			$response = \App\Json::decode($client->get($link)->getBody()->getContents());
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getResponse()->getReasonPhrase();
-			return;
-		}
-
-		if ('FINISHED' === $response['query']['status']) {
-			$this->data = $this->parseData($response['result']['items'][0]['data']);
-		} else {
-			$this->data = [];
+		$response = null;
+		$delay = $counter = 0;
+		while (!$response && $counter < 5) {
+			if ($delay < 10000000) {
+				$delay += 500000;
+			}
+			usleep($delay);
+			try {
+				$response = $client->get($link);
+				$body = \App\Json::decode($response->getBody()->getContents());
+				if (202 === $response->getStatusCode() || 'FINISHED' !== $body['query']['status']) {
+					$response = null;
+				} else {
+					$this->data = $body['result']['items'];
+				}
+			} catch (\GuzzleHttp\Exception\ClientException $e) {
+				\App\Log::warning($e->getMessage(), 'RecordCollectors');
+				$this->response['error'] = $e->getResponse()->getReasonPhrase();
+				$response = true;
+			}
+			++$counter;
 		}
 	}
 
 	/**
 	 * Function parsing data to fields from API.
 	 *
-	 * @param array $data
-	 *
-	 * @return array
+	 * @return void
 	 */
-	private function parseData(array $data): array
+	private function parseData(): void
 	{
-		return \App\Utils::flattenKeys($data, 'ucfirst');
+		if (empty($this->data)) {
+			return;
+		}
+		foreach ($this->data as $key => $data) {
+			$this->data[$key] = \App\Utils::flattenKeys($data['data'], 'ucfirst');
+		}
 	}
 
 	/**
@@ -326,43 +332,33 @@ class VatifyEu extends Base
 		if (($params = $this->getParams()) && !empty($params['client_id'] && !empty($params['access_key']))) {
 			$this->clientId = $params['client_id'];
 			$this->accessKey = $params['access_key'];
-		} else {
-			throw new \App\Exceptions\IllegalValue('You must fist setup Api Key in Config Panel', 403);
 		}
 	}
+
 	/**
 	 * Function fetching Bearer Token.
 	 *
 	 * @return void
 	 */
-	private function getBearerToken()
+	private function getBearerToken(): void
 	{
-		$credentials = base64_encode($this->clientId . ':' . $this->accessKey);
-		$options = [
-			'headers' => [
-				'Authorization' => 'Basic ' . $credentials
-			],
-			\GuzzleHttp\RequestOptions::JSON => [
-				'grant_type' => 'client_credentials'
-			]
-		];
-
 		try {
-			$response = \App\RequestHttp::getClient()->post($this->url . 'oauth2/token', $options);
-			if (202 === $response->getStatusCode()) {
-				$response = \App\Json::decode($response->getBody()->getContents());
-			}
+			$response = \App\RequestHttp::getClient()->post($this->url . 'oauth2/token', [
+				'headers' => [
+					'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->accessKey)
+				],
+				\GuzzleHttp\RequestOptions::JSON => [
+					'grant_type' => 'client_credentials'
+				]
+			]);
+			$response = \App\Json::decode($response->getBody()->getContents());
+			$this->bearerToken = $response['access_token'];
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 			return;
 		}
-
-		if ($response['access_token']) {
-			$this->bearerToken = $response['access_token'];
-		}
-
-		if (empty($this->bearerToken)){
+		if (empty($this->bearerToken)) {
 			$this->response['error'] = \App\Language::translate('LBL_VATIFY_EU_NO_AUTH', 'Other.RecordCollector');
 		}
 	}
