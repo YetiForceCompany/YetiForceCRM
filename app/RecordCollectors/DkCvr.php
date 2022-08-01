@@ -39,6 +39,9 @@ class DkCvr extends Base
 	public $docUrl = 'https://cvrapi.dk/documentation';
 
 	/** @var string CH sever address */
+	const EXTERNAL_URL = 'https://cvrapi.dk/virksomhed/';
+
+	/** @var string CH sever address */
 	private $url = 'http://cvrapi.dk/api?';
 
 	/** @var string Token key */
@@ -229,6 +232,7 @@ class DkCvr extends Base
 			$response = \App\RequestHttp::getClient()->get($this->url . http_build_query($params));
 			if (200 === $response->getStatusCode()) {
 				$this->data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
+				$this->response['links'][0] = self::EXTERNAL_URL . $params['country'] . '/' . urlencode(str_replace(' ', '-', $this->data['name'])) . '/' . urlencode($this->data['vat']);
 			}
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
