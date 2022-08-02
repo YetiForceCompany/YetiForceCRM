@@ -3,6 +3,7 @@
  * YouScore from YouControl API file.
  *
  * @see https://youscore.com.ua/en/
+ * @see https://youcontrol.com.ua/en/sources/
  *
  * @package App
  *
