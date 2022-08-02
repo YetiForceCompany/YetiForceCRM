@@ -47,6 +47,8 @@ class CustomView extends \Api\Core\BaseAction
 	/**
 	 * Get custom view list method.
 	 *
+	 * @api
+	 *
 	 * @return array
 	 *
 	 *	@OA\Get(

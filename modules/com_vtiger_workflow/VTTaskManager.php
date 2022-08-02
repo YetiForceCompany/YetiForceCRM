@@ -160,23 +160,4 @@ class VTTaskManager
 
 		return $matches[1];
 	}
-
-	/**
-	 * Return template path.
-	 *
-	 * @param string     $moduleName
-	 * @param VTTaskType $taskTypeInstance
-	 *
-	 * @return string
-	 */
-	public function retrieveTemplatePath($moduleName, VTTaskType $taskTypeInstance)
-	{
-		$taskTemplatePath = $taskTypeInstance->get('templatepath');
-		if (!empty($taskTemplatePath)) {
-			return $taskTemplatePath;
-		}
-		$taskType = $taskTypeInstance->get('classname');
-
-		return "$moduleName/taskforms/$taskType.tpl";
-	}
 }

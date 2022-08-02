@@ -11,7 +11,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 	/**
 	 * Gets status.
 	 *
-	 * @return - array of status
+	 * @return array - array of status
 	 */
 	public static function getStatusNotModify()
 	{
@@ -42,7 +42,7 @@ class Settings_RealizationProcesses_Module_Model extends Settings_Vtiger_Module_
 	 * @param mixed $moduleId
 	 * @param mixed $status
 	 *
-	 * @return - array of status
+	 * @return array - array of status
 	 */
 	public static function updateStatusNotModify($moduleId, $status)
 	{

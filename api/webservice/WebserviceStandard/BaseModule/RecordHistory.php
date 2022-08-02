@@ -48,6 +48,8 @@ class RecordHistory extends \Api\Core\BaseAction
 	/**
 	 * Get related record list method.
 	 *
+	 * @api
+	 *
 	 * @return array
 	 * @OA\Get(
 	 *		path="/webservice/WebserviceStandard/{moduleName}/RecordHistory/{recordId}",

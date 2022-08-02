@@ -87,7 +87,7 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 					$recordStructureModulesField[$relatedModuleName][$referenceField->getFieldName()] = Vtiger_RecordStructure_Model::getInstanceForModule(Vtiger_Module_Model::getInstance($relatedModuleName))->getStructure();
 				}
 			}
-			$viewer->assign('ADVANCE_CRITERIA', $taskObject->conditions);
+			$viewer->assign('ADVANCE_CRITERIA', $taskObject->conditions ?? []);
 			$viewer->assign('RECORD_STRUCTURE_RELATED_MODULES', $recordStructureModulesField);
 			$viewer->assign('RECORD_STRUCTURE', Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel)->getStructure());
 		}

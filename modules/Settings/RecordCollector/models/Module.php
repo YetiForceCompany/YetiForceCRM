@@ -8,6 +8,7 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Sławomir Rembiesa <s.rembiesa@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -31,11 +32,8 @@ class Settings_RecordCollector_Module_Model extends Settings_Vtiger_Module_Model
 			$file = $item->getBasename('.php');
 			if ($item->isFile() && 'php' === $item->getExtension() && 'Base' != $file) {
 				$collectorInstance = \App\RecordCollector::getInstance('App\RecordCollectors\\' . $file, 'Accounts');
-				$this->collectors[] = [
-					'instance' => $collectorInstance,
-					'active' => \in_array($file, $active) ? true : false,
-					'name' => $file,
-				];
+				$collectorInstance->active = \in_array($file, $active);
+				$this->collectors[$file] = $collectorInstance;
 			}
 		}
 		return $this->collectors;

@@ -37,6 +37,8 @@ class RecordsList extends \Api\Core\BaseAction
 	/**
 	 * Get users list method.
 	 *
+	 * @api
+	 *
 	 * @return array
 	 *
 	 * @OA\Get(

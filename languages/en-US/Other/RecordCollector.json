@@ -35,7 +35,13 @@
     "LBL_NO_BRREG_ENHETSREGISTERET_400": "Organization number must be a number with exactly 9 digits.",
     "LBL_VATIFY_EU": "VATify.eu",
     "LBL_VATIFY_DESC_EU": "Feting data about companies from VATify.",
-    "LBL_CH_ZEFIX": "Swiss Zefix",
+    "LBL_DK_CVR": "The Danish Central Business Register (CVR) [DK]",
+    "LBL_DK_CVR_DESC": "Feting data on all businesses in Denmark from The Danish Central Business Register (CVR)",
+    "LBL_UA_YOU_CONTROL": "YouControl [UA]",
+    "LBL_UA_YOU_CONTROL_DESC": "Check contractors and follow their changes in Ukraine from YouScore API",
+    "LBL_NORTH_DATA": "North Data",
+    "LBL_NORTH_DATA_DESC": "Feting data about companies North Data's company database",
+    "LBL_CH_ZEFIX": "Swiss Zefix [CH]",
     "LBL_CH_ZEFIX_DESC": "Fetching data from Swiss Central Business Name Index (Zefix)"
   }
 }

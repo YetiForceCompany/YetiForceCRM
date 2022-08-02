@@ -31,6 +31,8 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 	/**
 	 * Get two factor authentication details.
 	 *
+	 * @api
+	 *
 	 * @return array
 	 *
 	 *	@OA\Get(
@@ -98,6 +100,8 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 
 	/**
 	 * Post method.
+	 *
+	 * @api
 	 *
 	 * @throws \Api\Core\Exception
 	 *
@@ -174,6 +178,8 @@ class TwoFactorAuth extends \Api\Core\BaseAction
 
 	/**
 	 * Delete record.
+	 *
+	 * @api
 	 *
 	 * @return bool
 	 *

@@ -3,7 +3,7 @@
 /**
  * Address finder Google file.
  *
- * @see       maps.googleapis.com Documentation  of Google Geocoding API
+ * @see https://maps.googleapis.com Documentation  of Google Geocoding API
  *
  * @package App
  *

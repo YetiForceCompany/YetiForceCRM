@@ -1,0 +1,43 @@
+name: phpDoc Checker
+
+on:
+  push:
+    branches:
+      - developer
+
+jobs:
+  phpDoc:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [7.4, 8.0]
+    name: Doc Checker PHP${{ matrix.php }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          ini-values: memory_limit=512M, xdebug.mode=off
+
+      - name: wget
+        shell: bash
+        run: |
+          wget https://phpdoc.org/phpDocumentor.phar -P /tmp/
+          chmod +x /tmp/phpDocumentor.phar
+
+      - name: phpDocumentor
+        shell: bash
+        run: php /tmp/phpDocumentor.phar run  -d . -t phpDoc/  --sourcecode
+
+      - name: Checker
+        shell: bash
+        run: |
+          if [ "$(grep -c 'No errors have been found in this project.' phpDoc/reports/errors.html)" = 0 ]; then
+            cat phpDoc/reports/errors.html
+            exit 3
+          fi

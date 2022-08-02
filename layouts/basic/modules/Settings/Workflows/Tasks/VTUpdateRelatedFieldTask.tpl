@@ -9,6 +9,7 @@
 	<br />
 	<div class="row js-conditions-container no-gutters px-1" id="save_fieldvaluemapping" data-js="container">
 		<input type="hidden" id="fieldValueMapping" name="field_value_mapping" value="{if isset($TASK_OBJECT->field_value_mapping)}{\App\Purifier::encodeHtml($TASK_OBJECT->field_value_mapping)}{/if}" />
+		<input type="hidden" name="conditions" class="js-condition-value" value="{if isset($TASK_OBJECT->conditions)}{\App\Purifier::encodeHtml($TASK_OBJECT->conditions)}{/if}" />
 		{if isset($TASK_OBJECT->field_value_mapping)}
 			{foreach from=\App\Json::decode($TASK_OBJECT->field_value_mapping) item=FIELD_MAP}
 				<div class="row no-gutters col-12 col-xl-6 js-conditions-row padding-bottom1per px-md-1"
@@ -56,9 +57,10 @@
 											{$FIELD_INFO['treetemplate'] = App\Purifier::decodeHtml($FIELD_MODEL->getFieldParams())}
 											{$FIELD_INFO['displayvalue'] = $FIELD_MODEL->getDisplayValue($FIELD_MAP['value'])}
 										{/if}
-										<option value="{$RELATION_MODULE_NAME}::{$FIELD_MODEL->getName()}"
-											{if $FIELD_MAP['fieldname'] eq $RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->getName()}selected=""
-											{/if}data-fieldtype="{$FIELD_MODEL->getFieldType()}"
+										{assign var=VALUE value="{$RELATION_MODULE_NAME}::{$FIELD_MODEL->getName()}"}
+										<option value="{$VALUE}"
+											{if $FIELD_MAP['fieldname'] eq $VALUE} selected="" {/if}
+											data-fieldtype="{$FIELD_MODEL->getFieldType()}"
 											data-field-name="{$FIELD_MODEL->getName()}"
 											data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}">
 											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATION_MODULE_NAME)}
@@ -68,13 +70,16 @@
 							{/foreach}
 						</select>
 					</div>
-					<div class="fieldUiHolder col-10 col-md-5 px-md-2">
+					<div class="fieldUiHolder mb-1 col-12 col-xs-10 col-md-5 col-sm-10 px-md-2 mr-1">
 						<input type="text" class="getPopupUi form-control" readonly="" name="fieldValue"
 							value="{$FIELD_MAP['value']}" />
 						<input type="hidden" name="valuetype" value="{$FIELD_MAP['valuetype']}" />
 					</div>
-					<div class="col-2">
-						<button class="btn btn-danger js-condition-delete float-right float-xl-left" type="button" data-js="click">
+					<div class="mb-1 float-right">
+						<button class="btn btn-info mr-1 js-condition-modal float-xl-left" type="button" data-field="fieldname" data-js="click">
+							<span class="fas fa-filter"></span>
+						</button>
+						<button class="btn btn-danger js-condition-delete  float-xl-left" type="button" data-js="click">
 							<span class="fas fa-trash-alt"></span>
 						</button>
 					</div>
@@ -130,12 +135,15 @@
 				{/foreach}
 			</select>
 		</div>
-		<div class="fieldUiHolder col-10 col-md-5 px-md-2">
+		<div class="fieldUiHolder mb-1 col-12 col-xs-10 col-md-5 col-sm-10 px-md-2 mr-1">
 			<input type="text" class="form-control" readonly="" name="fieldValue" value="" />
 			<input type="hidden" name="valuetype" class="form-control" value="rawtext" />
 		</div>
-		<div class="col-2">
-			<button class="btn btn-danger js-condition-delete float-right float-xl-left" type="button" data-js="click">
+		<div class="mb-1 float-right">
+			<button class="btn btn-info mr-1 js-condition-modal float-xl-left" type="button" data-field="fieldname" data-js="click">
+				<span class="fas fa-filter"></span>
+			</button>
+			<button class="btn btn-danger js-condition-delete  float-xl-left" type="button" data-js="click">
 				<span class="fas fa-trash-alt"></span>
 			</button>
 		</div>

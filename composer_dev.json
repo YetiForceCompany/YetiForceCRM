@@ -76,7 +76,7 @@
     "yetiforce/csrf-magic": "^v1.1.1",
     "maximebf/debugbar": "1.*",
     "yetiforce/yii2": "^2.0.43",
-    "yetiforce/yetiforcepdf": "0.1.38",
+    "yetiforce/yetiforcepdf": "0.1.39",
     "adhocore/jwt": "^1.0",
     "zbateson/mail-mime-parser": "^2.0",
     "mlocati/spf-lib": "^3",
@@ -107,7 +107,9 @@
     "ext-opcache": "Improve system performance"
   },
   "archive": {
-    "exclude": ["tests"]
+    "exclude": [
+      "tests"
+    ]
   },
   "config": {
     "autoloader-suffix": "YT",
@@ -115,7 +117,9 @@
     "classmap-authoritative": false
   },
   "autoload": {
-    "files": ["app/Loader.php"],
+    "files": [
+      "app/Loader.php"
+    ],
     "psr-4": {
       "vtlib\\": "vtlib/Vtiger/",
       "includes\\": "include/",

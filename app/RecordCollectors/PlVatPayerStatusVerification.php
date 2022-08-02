@@ -2,11 +2,11 @@
 /**
  * VAT Payer Status Verification in Poland record collector file.
  *
- * @package App
- *
  * @see https://ppuslugi.mf.gov.pl/
  * @see https://www.podatki.gov.pl/e-deklaracje/dokumentacja-it/
  * @see https://www.podatki.gov.pl/media/3275/specyfikacja-we-wy.pdf
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)

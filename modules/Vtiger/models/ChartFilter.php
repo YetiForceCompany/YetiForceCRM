@@ -503,13 +503,13 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	 * Gather information about data colors
 	 * Later we can build gradient or generate one color for line charts.
 	 *
-	 * @param $chartData
-	 * @param $datasetIndex
-	 * @param $dataset
-	 * @param $groupValue
-	 * @param $group
-	 * @param $dividingValue
-	 * @param $dividing
+	 * @param array $chartData
+	 * @param mixed $datasetIndex
+	 * @param mixed $dataset
+	 * @param mixed $groupValue
+	 * @param array $group
+	 * @param mixed $dividingValue
+	 * @param mixed $dividing
 	 */
 	protected function setChartDatasetsColorsSingle(&$chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing)
 	{
@@ -597,7 +597,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	/**
 	 * Iterate through all rows collected from db.
 	 *
-	 * @param {callback} $callback
+	 * @param callable $callback
 	 */
 	protected function iterateAllRows($callback)
 	{
@@ -678,7 +678,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	/**
 	 * Set colors.
 	 *
-	 * @param {string} $from
+	 * @param string $from
 	 */
 	protected function setColorsFrom($from)
 	{
@@ -1083,7 +1083,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	 */
 	protected function setLinkFromRow($row, $groupValue, $dividingValue)
 	{
-		if (!$this->sectors && !isset($this->data[$groupValue][$dividingValue]['link'])) {
+		if (!$this->sectors && !isset($this->data[$groupValue][$dividingValue]['link']) && $this->groupFieldModel->isActiveSearchView() && (!$this->isDividedByField() || $this->dividingFieldModel->isActiveSearchView())) {
 			$params = array_merge($this->searchParams, [$this->getSearchParamValue($this->groupFieldModel, $row[$this->groupName])]);
 			if ($this->isDividedByField()) {
 				$params = array_merge($params, [$this->getSearchParamValue($this->dividingFieldModel, $row[$this->dividingName])]);

@@ -28,7 +28,7 @@ class Importer
 	/**
 	 * Start time.
 	 *
-	 * @var [type]
+	 * @var string|float
 	 */
 	private $startTime;
 	/**

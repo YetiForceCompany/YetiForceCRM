@@ -16,7 +16,7 @@
 	</div>
 	{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}
 	{assign var=IS_INVENTORY value=($RELATED_VIEW === 'List' && !empty($INVENTORY_MODULE) && !empty($INVENTORY_FIELDS))}
-	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop">
+	<div class="listViewEntriesDiv u-overflow-scroll-non-desktop table-responsive">
 		<table class="table tableBorderHeadBody listViewEntriesTable {if $VIEW_MODEL && !$VIEW_MODEL->isEmpty('entityState')}listView{$VIEW_MODEL->get('entityState')}{/if}">
 			<thead>
 				<tr class="listViewHeaders">
@@ -108,9 +108,9 @@
 						{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 							<td>
 								{assign var=FIELD_UI_TYPE_MODEL value=$HEADER_FIELD->getUITypeModel()}
-								{assign var=ARRAY_ELEMENT value=$HEADER_FIELD->getName()}
-								{if isset($SEARCH_DETAILS[$ARRAY_ELEMENT])}
-									{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$ARRAY_ELEMENT]}
+								{assign var=LISTVIEW_HEADER_NAME value=$HEADER_FIELD->getFullName()}
+								{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME])}
+									{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]}
 								{else}
 									{assign var=SEARCH_INFO value=[]}
 								{/if}
@@ -147,9 +147,9 @@
 							{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 							<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap
 								{if $smarty.foreach.listHeaderForeach.iteration eq $RELATED_HEADER_COUNT} colspan="2" {/if}>
-								{if ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') &&  $RELATED_MODULE->isListViewNameFieldNavigationEnabled() && $RELATED_RECORD->isViewable()}
+								{if empty($HEADER_FIELD->get('source_field_name')) && ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') &&  $RELATED_MODULE->isListViewNameFieldNavigationEnabled() && $RELATED_RECORD->isViewable()}
 									<a class="modCT_{$RELATED_MODULE_NAME} js-list__field js-popover-tooltip--record" data-js="width" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">
-										{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
+										{$RELATED_RECORD->getListViewDisplayValue($HEADER_FIELD)}
 									</a>
 								{elseif $HEADER_FIELD->get('fromOutsideList') eq true}
 									{if $HEADER_FIELD->get('isEditable')}
@@ -163,7 +163,7 @@
 										{$HEADER_FIELD->getUITypeModel()->getListViewDisplayValue($RELATED_RECORD->get($RELATED_HEADERNAME))}
 									{/if}
 								{else}
-									{$RELATED_RECORD->getListViewDisplayValue($RELATED_HEADERNAME)}
+									{$RELATED_RECORD->getListViewDisplayValue($HEADER_FIELD)}
 								{/if}
 								{if $HEADER_FIELD@last}
 								</td>

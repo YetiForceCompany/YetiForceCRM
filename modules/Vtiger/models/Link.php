@@ -24,13 +24,11 @@ class Vtiger_Link_Model extends vtlib\Link
 	 *
 	 * @throws Exception
 	 *
-	 * @return <Object>
+	 * @return mixed
 	 */
 	public function get($propertyName)
 	{
-		if (property_exists($this, $propertyName)) {
-			return $this->{$propertyName};
-		}
+		return property_exists($this, $propertyName) ? $this->{$propertyName} : '';
 	}
 
 	/**

@@ -1318,6 +1318,13 @@ jQuery.Class(
 		getContainer: function getContainer() {
 			return this.container;
 		},
+		/**
+		 * Get widget content
+		 * @returns {jQuery}
+		 */
+		getContainerContent: function getContainer() {
+			return this.getContainer().find('.dashboardWidgetContent');
+		},
 		setContainer: function setContainer(element) {
 			this.container = element;
 			return this;
@@ -1349,11 +1356,16 @@ jQuery.Class(
 				});
 			});
 		},
+		/**
+		 * Load scrollbar
+		 */
 		loadScrollbar: function loadScrollbar() {
-			const container = $(this.getChartContainer(false));
-			if (typeof container === 'undefined') {
-				// if there is no data
-				return false;
+			let container = $(this.getChartContainer(false));
+			if (!container.length) {
+				container = this.getContainerContent();
+			}
+			if (!container.length) {
+				return;
 			}
 			const widget = container.closest('.dashboardWidget');
 			const content = widget.find('.dashboardWidgetContent');
@@ -1459,7 +1471,6 @@ jQuery.Class(
 			this.registerFilter();
 			this.registerFilterChangeEvent();
 			this.restrictContentDrag();
-			this.registerContentAutoResize();
 			this.registerWidgetSwitch();
 			this.registerChangeSorting();
 			this.registerLoadMore();
@@ -1868,16 +1879,6 @@ jQuery.Class(
 			if (container.data('cache') == 1) {
 				this.paramCache = true;
 			}
-		},
-		/**
-		 * Auto resize charts when widget was resized
-		 */
-		registerContentAutoResize() {
-			this.getContainer()
-				.closest('.grid-stack')
-				.on('gsresizestop', (event, elem) => {
-					this.loadScrollbar();
-				});
 		},
 		/**
 		 * Load and display chart into the view
@@ -2409,6 +2410,7 @@ YetiForce_Widget_Js(
 				allDayText: app.vtranslate('JS_ALL_DAY'),
 				noEventsText: app.vtranslate('JS_NO_RECORDS'),
 				viewHint: '$0',
+				contentHeight: 'auto',
 				buttonText: {
 					today: '',
 					year: app.vtranslate('JS_YEAR'),
@@ -2530,35 +2532,44 @@ YetiForce_Widget_Js(
 				this.fullCalendar.addEventSource(events.result);
 			});
 		},
+		/**
+		 * Get calendar view container
+		 * @returns {jQuery}
+		 */
 		getCalendarView: function () {
-			if (this.calendarView == false) {
+			if (this.calendarView === false) {
 				this.calendarView = this.getContainer().find('.js-calendar__container');
 			}
 			return this.calendarView;
 		},
+		/**
+		 * Update month name
+		 */
 		getMonthName: function () {
-			var thisInstance = this;
-			var month = thisInstance.getCalendarView().find('.fc-toolbar h2').text();
+			let month = this.getCalendarView().find('.fc-toolbar h2').text();
 			if (month) {
 				this.getContainer()
 					.find('.headerCalendar .month')
 					.html('<h3>' + month + '</h3>');
 			}
 		},
+		/**
+		 * Register change view
+		 */
 		registerChangeView: function () {
-			var thisInstance = this;
-			var container = this.getContainer();
+			let thisInstance = this;
+			let container = this.getContainer();
 			container.find('.fc-toolbar').addClass('d-none');
-			var month = container.find('.fc-toolbar h2').text();
+			let month = container.find('.fc-toolbar h2').text();
 			if (month) {
 				container
 					.find('.headerCalendar')
 					.removeClass('d-none')
 					.find('.month')
 					.append('<h3>' + month + '</h3>');
-				var button = container.find('.headerCalendar button');
+				let button = container.find('.headerCalendar button');
 				button.each(function () {
-					var tag = jQuery(this).data('type');
+					let tag = jQuery(this).data('type');
 					jQuery(this).on('click', function () {
 						thisInstance
 							.getCalendarView()
@@ -2570,12 +2581,21 @@ YetiForce_Widget_Js(
 				});
 			}
 		},
+		/** @inheritdoc */
+		loadScrollbar: function loadScrollbar() {
+			if (this.fullCalendar) {
+				this.fullCalendar.updateSize();
+			}
+			this._super();
+		},
+		/** @inheritdoc */
 		postLoadWidget: function () {
 			this.registerCalendar();
 			this.loadCalendarData(true);
 			this.registerChangeView();
 			this.registerFilterChangeEvent();
 		},
+		/** @inheritdoc */
 		refreshWidget: function () {
 			let thisInstance = this;
 			let refreshContainer = this.getContainer().find('.dashboardWidgetContent');
@@ -2958,8 +2978,16 @@ YetiForce_Widget_Js(
 			});
 		},
 		editNotebookContent: function () {
-			$('.dashboard_notebookWidget_text', this.container).show();
 			$('.dashboard_notebookWidget_view', this.container).hide();
+			let editContainer = $('.dashboard_notebookWidget_text', this.container).show();
+			let editTextArea = editContainer.find('textarea');
+			editTextArea.css(
+				'height',
+				this.container.innerHeight() -
+					this.container.find('.dashboardWidgetHeader').innerHeight() -
+					editTextArea.prev().innerHeight() -
+					16
+			);
 		},
 		saveNotebookContent: function () {
 			let textarea = $('.dashboard_notebookWidget_textarea', this.container),

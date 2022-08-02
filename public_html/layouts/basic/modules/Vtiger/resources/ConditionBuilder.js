@@ -165,15 +165,15 @@ class Vtiger_ConditionBuilder_Js {
 	/**
 	 * Read conditions in group
 	 * @param {jQuery} container
+	 * @param {boolean} skipEmpty
 	 * @returns {object}
 	 */
-	readCondition(container) {
+	readCondition(container, skipEmpty) {
 		let self = this;
 		let condition = container.find('> .js-condition-switch .js-condition-switch-value').hasClass('active')
 			? 'AND'
 			: 'OR';
 		let arr = {};
-		arr['condition'] = condition;
 		let rules = [];
 		container.find('> .js-condition-builder-conditions-container >').each(function () {
 			let element = $(this);
@@ -184,18 +184,26 @@ class Vtiger_ConditionBuilder_Js {
 					value: element.find('.js-condition-builder-value').val()
 				});
 			} else if (element.hasClass('js-condition-builder-group-container')) {
-				rules.push(self.readCondition(element));
+				let childRules = self.readCondition(element, skipEmpty);
+				if (!skipEmpty || Object.keys(childRules).length) {
+					rules.push(childRules);
+				}
 			}
 		});
-		arr['rules'] = rules;
+		if (!skipEmpty || rules.length) {
+			arr['condition'] = condition;
+			arr['rules'] = rules;
+		}
 		return arr;
 	}
 
 	/**
 	 * Returns conditions
+	 * @param {boolean} skipEmpty
+	 * @returns {object}
 	 */
-	getConditions() {
-		return this.readCondition(this.container.find('> .js-condition-builder-group-container'));
+	getConditions(skipEmpty = true) {
+		return this.readCondition(this.container.find('> .js-condition-builder-group-container'), skipEmpty);
 	}
 
 	/**

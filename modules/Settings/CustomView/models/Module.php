@@ -91,8 +91,8 @@ class Settings_CustomView_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Gets URL for modal window with permission settings.
 	 *
-	 * @param string$module
-	 * @param int $cvid
+	 * @param string $module
+	 * @param int    $cvid
 	 *
 	 * @return string
 	 */
