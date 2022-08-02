@@ -472,7 +472,7 @@ Settings_Workflows_Edit_Js(
 				}).done((data) => {
 					app.showModalHtml({
 						class: 'modal-lg',
-						header: app.vtranslate('JS_CONDITIONS'),
+						header: element.attr('title'),
 						headerIcon: 'fas fa-filter',
 						body: data,
 						footerButtons: [

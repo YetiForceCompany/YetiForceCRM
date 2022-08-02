@@ -87,6 +87,13 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 		}
 	}
 
+	/**
+	 * Save.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
 	public function save(App\Request $request)
 	{
 		$workflowId = $request->get('for_workflow');
@@ -94,14 +101,17 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 			$record = $request->get('task_id');
 			if ($record) {
 				$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
+				$taskObject = $taskRecordModel->getTaskObject();
 			} else {
 				$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
 				$taskRecordModel = Settings_Workflows_TaskRecord_Model::getCleanInstance($workflowModel, $request->get('taskType'));
+				$taskObject = $taskRecordModel->getTaskObject();
+				$taskObject->sequence = $taskRecordModel->getNextSequenceNumber($workflowId);
 			}
 
 			$taskObject = $taskRecordModel->getTaskObject();
 			$taskObject->summary = htmlspecialchars($request->get('summary'));
-			$taskObject->sequence = $taskRecordModel->getNextSequenceNumber($workflowId);
+
 			$active = $request->get('active');
 			if ('true' == $active) {
 				$taskObject->active = true;

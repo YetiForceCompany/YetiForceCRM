@@ -76,7 +76,7 @@
 						<input type="hidden" name="valuetype" value="{$FIELD_MAP['valuetype']}" />
 					</div>
 					<div class="mb-1 float-right">
-						<button class="btn btn-info mr-1 js-condition-modal float-xl-left" type="button" data-field="fieldname" data-js="click">
+						<button class="btn btn-info mr-1 js-condition-modal float-xl-left" type="button" title="{\App\Language::translate('LBL_CONDITION_WIZARD',$QUALIFIED_MODULE)}" data-js="click">
 							<span class="fas fa-filter"></span>
 						</button>
 						<button class="btn btn-danger js-condition-delete  float-xl-left" type="button" data-js="click">
@@ -140,7 +140,7 @@
 			<input type="hidden" name="valuetype" class="form-control" value="rawtext" />
 		</div>
 		<div class="mb-1 float-right">
-			<button class="btn btn-info mr-1 js-condition-modal float-xl-left" type="button" data-field="fieldname" data-js="click">
+			<button class="btn btn-info mr-1 js-condition-modal float-xl-left" type="button" title="{\App\Language::translate('LBL_CONDITION_WIZARD',$QUALIFIED_MODULE)}" data-js="click">
 				<span class="fas fa-filter"></span>
 			</button>
 			<button class="btn btn-danger js-condition-delete  float-xl-left" type="button" data-js="click">
