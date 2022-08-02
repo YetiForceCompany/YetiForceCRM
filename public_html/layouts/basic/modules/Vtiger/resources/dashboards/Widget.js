@@ -2978,8 +2978,16 @@ YetiForce_Widget_Js(
 			});
 		},
 		editNotebookContent: function () {
-			$('.dashboard_notebookWidget_text', this.container).show();
 			$('.dashboard_notebookWidget_view', this.container).hide();
+			let editContainer = $('.dashboard_notebookWidget_text', this.container).show();
+			let editTextArea = editContainer.find('textarea');
+			editTextArea.css(
+				'height',
+				this.container.innerHeight() -
+					this.container.find('.dashboardWidgetHeader').innerHeight() -
+					editTextArea.prev().innerHeight() -
+					16
+			);
 		},
 		saveNotebookContent: function () {
 			let textarea = $('.dashboard_notebookWidget_textarea', this.container),
