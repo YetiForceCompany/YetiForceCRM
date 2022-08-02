@@ -25,7 +25,7 @@ class YetiForceRcChZefix extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/';
+	public $website = 'https://yetiforce.com/en/yetiforce-zefix-ch';
 
 	/** {@inheritdoc} */
 	public $prices = [

@@ -23,7 +23,7 @@ class YetiForceWaproERP extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'Integrations';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/';
+	public $website = 'https://yetiforce.com/en/yetiforce-wapro-erp';
 
 	/** {@inheritdoc} */
 	public $prices = [
