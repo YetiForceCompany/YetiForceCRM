@@ -1718,17 +1718,13 @@ $.Class(
 			});
 		},
 		/**
-		 * Function to register switch
+		 * Function to register switch module type
 		 */
 		registerSwitch: function () {
-			var container = this.container;
-			container.find('.js-switch--inventory').on('click', function (event) {
+			this.container.find('.js-switch--inventory').on('click', (event) => {
 				event.preventDefault();
-				var switchBtn = $(event.currentTarget);
-				var state = switchBtn.data('value');
-				var message = app.vtranslate('JS_EXTENDED_MODULE');
 				app.showConfirmModal({
-					title: message,
+					title: app.vtranslate('JS_EXTENDED_MODULE'),
 					confirmedCallback: () => {
 						let progress = $.progressIndicator({
 							message: app.vtranslate('JS_SAVE_LOADER_INFO'),
@@ -1738,12 +1734,12 @@ $.Class(
 							}
 						});
 						let params = {};
-						params['sourceModule'] = container.find('[name="layoutEditorModules"]').val();
-						params['type'] = state;
-						app.saveAjax('changeModuleType', null, params).done(function (data) {
+						params['sourceModule'] = this.container.find('[name="layoutEditorModules"]').val();
+						params['type'] = event.currentTarget.dataset.value;
+						app.saveAjax('changeModuleType', null, params).done((data) => {
 							if (data.result) {
 								if (data.result.success) {
-									container.find('.js-switch--inventory').prop('disabled', true);
+									this.container.find('.js-switch--inventory').prop('disabled', true);
 									Settings_Vtiger_Index_Js.showMessage({
 										type: 'success',
 										text: data.result.message
