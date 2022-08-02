@@ -231,7 +231,7 @@ class Base
 				$fieldsData[$fieldName]['data'][$key] = [
 					'raw' => $value,
 					'edit' => $fieldModel->getEditViewDisplayValue($value),
-					'display' => $fieldModel->getDisplayValue($value),
+					'display' => $fieldModel->getDisplayValue($value, false, false, false, 40),
 				];
 			}
 			foreach ($row as $name => $value) {

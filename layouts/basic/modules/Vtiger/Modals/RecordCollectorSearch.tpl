@@ -30,7 +30,7 @@
 		</button>
 	{elseif $RECORD_COLLECTOR->displayType === 'FillFields'}
 		{if !empty($SEARCH_DATA['fields'])}
-			<form class="js-record-collector__fill_form mt-1" data-js="form">
+			<form class="js-record-collector__fill_form table-responsive text-nowrap mt-1" data-js="form">
 				<table class="table table-bordered" data-no="2">
 					<thead>
 						<tr>
