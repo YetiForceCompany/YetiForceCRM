@@ -56,10 +56,6 @@ use OpenApi\Annotations as OA;
  *		description="Access to user methods"
  *	)
  *	@OA\Tag(
- *		name="Products",
- *		description="Products methods"
- * )
- *	@OA\Tag(
  *		name="Users",
  *		description="Access to user methods"
  *	)
