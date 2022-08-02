@@ -25,7 +25,7 @@ class YetiForceRcNorthData extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/';
+	public $website = 'https://yetiforce.com/en/yetiforce-north-data';
 
 	/** {@inheritdoc} */
 	public $prices = [

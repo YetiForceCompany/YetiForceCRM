@@ -25,7 +25,7 @@ class YetiForceRcPlCeidg extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-ceidg-en';
+	public $website = 'https://yetiforce.com/en/yetiforce-ceidg-pl';
 
 	/** {@inheritdoc} */
 	public $prices = [

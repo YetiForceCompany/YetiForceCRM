@@ -77,16 +77,16 @@ class PlVatPayerStatusVerification extends Base
 		if (!$vatNumber) {
 			return [];
 		}
-		if ($client = new \SoapClient($this->url, \App\RequestHttp::getSoapOptions())) {
-			try {
+		try {
+			if ($client = new \SoapClient($this->url, \App\RequestHttp::getSoapOptions())) {
 				$r = $client->sprawdzNIP($vatNumber);
 				$response['fields'] = [
 					'' => $r->Komunikat
 				];
-			} catch (\SoapFault $e) {
-				\App\Log::warning($e->faultstring, 'RecordCollectors');
-				$response['error'] = $e->faultstring;
 			}
+		} catch (\SoapFault $e) {
+			\App\Log::warning($e->faultstring, 'RecordCollectors');
+			$response['error'] = $e->faultstring;
 		}
 		return $response;
 	}

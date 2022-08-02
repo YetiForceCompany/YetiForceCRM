@@ -164,18 +164,17 @@ class UsaEdgarRegistryFromSec extends Base
 			$countZeroToAdd = self::CIK_LEN - \strlen($cik);
 			$cik = str_repeat('0', $countZeroToAdd) . $cik;
 		}
-		$response = [];
 		try {
 			$response = \App\RequestHttp::getClient()->get($this->url . $cik . '.json', [
 				'headers' => [
 					'User-Agent' => 'YetiForce S. A. devs@yetiforce.com',
 				],
 			]);
+			$this->data = isset($response) ? \App\Json::decode($response->getBody()->getContents()) : [];
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
-		$this->data = isset($response) ? \App\Json::decode($response->getBody()->getContents()) : [];
 	}
 
 	/**
@@ -188,6 +187,7 @@ class UsaEdgarRegistryFromSec extends Base
 		if (empty($this->data)) {
 			return;
 		}
+		unset($this->data['filings']);
 		$this->data = \App\Utils::flattenKeys($this->data, 'ucfirst');
 	}
 }
