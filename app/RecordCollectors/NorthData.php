@@ -2,9 +2,12 @@
 /**
  * NorthData API file.
  *
- * @package App
- *
+ * @see https://www.northdata.com/
  * @see https://www.northdata.com/_coverage
+ * @see https://github.com/northdata/api
+ * @see https://northdata.github.io/doc/api/
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -35,7 +38,18 @@ class NorthData extends Base
 	public $description = 'LBL_NORTH_DATA_DESC';
 
 	/** {@inheritdoc} */
-	public $docUrl = 'https://www.northdata.com/_coverage';
+	public $docUrl = 'https://www.northdata.com/_data';
+
+	/** @var string NorthData sever address */
+	protected $url = 'https://www.northdata.com/_api/';
+
+	/** {@inheritdoc} */
+	public $settingsFields = [
+		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY']
+	];
+
+	/** @var string Api Key. */
+	private $apiKey;
 
 	/** {@inheritdoc} */
 	protected $fields = [
@@ -43,17 +57,21 @@ class NorthData extends Base
 			'labelModule' => '_Base',
 			'label' => 'Account Name',
 		],
-		'address' => [
+		'country' => [
 			'labelModule' => '_Base',
-			'label' => 'Street',
-		],
-		'city' => [
-			'labelModule' => '_Base',
-			'label' => 'City',
-		],
-		'ncr' => [
-			'labelModule' => '_Base',
-			'label' => 'Registration number 1',
+			'label' => 'Country',
+			'picklistModule' => 'Other.Country',
+			'uitype' => 16,
+			'picklistValues' => [
+				'AT' => 'Austria',
+				'FR' => 'France',
+				'DE' => 'Germany',
+				'LU' => 'Luxembourg',
+				'PL' => 'Poland',
+				'ES' => 'Spain',
+				'CH' => 'Switzerland',
+				'GB' => 'United Kingdom',
+			]
 		],
 	];
 
@@ -61,15 +79,18 @@ class NorthData extends Base
 	protected $modulesFieldsMap = [
 		'Accounts' => [
 			'companyName' => 'accountname',
-			'address' => 'addresslevel8a',
-			'city' => 'addresslevel5a',
-			'ncr' => 'registration_number_1'
 		],
 		'Leads' => [
 			'companyName' => 'company',
-			'address' => 'addresslevel8a',
-			'city' => 'addresslevel5a',
-			'ncr' => 'registration_number_1'
+		],
+		'Partners' => [
+			'companyName' => 'subject',
+		],
+		'Vendors' => [
+			'companyName' => 'vendorname',
+		],
+		'Competition' => [
+			'companyName' => 'subject',
 		],
 	];
 
@@ -79,7 +100,7 @@ class NorthData extends Base
 			'nameName' => 'accountname',
 			'registerId' => 'registration_number_1',
 			'capitalItems0Value' => 'annual_revenue',
-			'segmentCodesIsic0' => 'siccode',
+			'segmentCodesUksic' => 'siccode',
 			'addressStreet' => 'addresslevel8a',
 			'addressPostalCode' => 'addresslevel7a',
 			'addressCity' => 'addresslevel5a',
@@ -123,17 +144,6 @@ class NorthData extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $settingsFields = [
-		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY']
-	];
-
-	/** @var string Api Key. */
-	private $apiKey;
-
-	/** @var string NorthData sever address */
-	protected $url = 'https://www.northdata.com/_api/company/v1/';
-
-	/** {@inheritdoc} */
 	public function isActive(): bool
 	{
 		return parent::isActive() && ($params = $this->getParams()) && !empty($params['api_key']);
@@ -145,72 +155,55 @@ class NorthData extends Base
 		if (!$this->isActive()) {
 			return [];
 		}
-		$this->loadConfig();
-		$companyName =  $this->request->getByType('companyName', 'Text');
-		$address =  $this->request->getByType('address', 'Text');
-		$city =  $this->request->getByType('city', 'Text');
-		$ncr =  str_replace([' ', '/', '.', '-'], '', $this->request->getByType('ncr', 'Text'));
-
 		$params = [];
-		if (!empty($companyName) || !empty($address) || !empty($city) || !empty($ncr)) {
-			if (!empty($companyName)) {
-				$params['name'] = $companyName;
-			}
-			if (!empty($address)) {
-				$params['address'] = $address;
-			}
-			if (!empty($city)) {
-				$params['registerCity'] = $city;
-			}
-			if (!empty($ncr)) {
-				$params['registerId'] = $ncr;
-			}
-		} else {
+		if ($companyName = $this->request->getByType('companyName', 'Text')) {
+			$params['query'] = $companyName;
+		}
+		if ($country = $this->request->getByType('country', 'Text')) {
+			$params['countries'] = $country;
+		}
+		if (empty($params)) {
 			return [];
 		}
-
+		$this->setApiKey();
 		$this->getDataFromApi($params);
 		$this->loadData();
 		return $this->response;
 	}
 
 	/**
-	 * Function setup Api Key.
-	 *
-	 * @return void
-	 */
-	private function loadConfig(): void
-	{
-		if (($params = $this->getParams()) && !empty($params['api_key'])) {
-			$this->apiKey = $params['api_key'];
-		} else {
-			throw new \App\Exceptions\IllegalValue('You must fist setup Api Key in Config Panel', 403);
-		}
-	}
-
-	/**
 	 * Function fetching company data by params.
 	 *
 	 * @param array $query
+	 * @param array $params
 	 *
 	 * @return void
 	 */
 	private function getDataFromApi(array $params): void
 	{
-		$response = [];
-		$options = ['headers' => [
-			'X-Api-Key' => $this->apiKey
-		]];
+		$language = 'de' === \App\Language::getShortLanguageName() ? 'de' : 'en';
+		$params['language'] = $language;
+		$params['limit'] = 4;
 		try {
-			$response = \App\RequestHttp::getClient()->get($this->url . 'company?' . http_build_query($params), $options)->getBody()->getContents();
-			if ('string' === gettype($response)) {
-				$response = \App\Json::decode($response);
+			$client = \App\RequestHttp::getClient(['headers' => ['X-Api-Key' => $this->apiKey]]);
+			$suggestResponse = $client->get($this->url . 'search/v1/suggest?' . http_build_query($params));
+			if (200 === $suggestResponse->getStatusCode()) {
+				$suggestResponse = \App\Json::decode($suggestResponse->getBody()->getContents());
+				foreach ($suggestResponse['results'] as $key => $company) {
+					$companyResponse = $client->get($this->url . 'company/v1/company?' . http_build_query([
+						'companyId' => $company['company']['id'],
+						'financials' => true, 'relations' => true, 'sheets' => true, 'extras' => true,
+						'language' => $language,
+					]));
+					$companyResponse = \App\Json::decode($companyResponse->getBody()->getContents());
+					$this->response['links'][$key] = $companyResponse['northDataUrl'];
+					$this->data[$key] = $this->parseData($companyResponse);
+				}
 			}
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 		}
-		$this->data = $this->parseData($response);
 	}
 
 	/**
@@ -222,7 +215,34 @@ class NorthData extends Base
 	 */
 	private function parseData(array $data): array
 	{
+		unset($data['northDataUrl'],$data['id']);
+		$data['address']['country'] = \App\Fields\Country::getCountryName($data['address']['country']);
+		if (isset($data['segmentCodes']['isic'])) {
+			$data['segmentCodes']['isic'] = implode(', ', $data['segmentCodes']['isic']);
+		}
+		if (isset($data['segmentCodes']['naics'])) {
+			$data['segmentCodes']['naics'] = implode(', ', $data['segmentCodes']['naics']);
+		}
+		if (isset($data['segmentCodes']['nace'])) {
+			$data['segmentCodes']['nace'] = implode(', ', $data['segmentCodes']['nace']);
+		}
+		if (isset($data['segmentCodes']['wz'])) {
+			$data['segmentCodes']['wz'] = implode(', ', $data['segmentCodes']['wz']);
+		}
 		return \App\Utils::flattenKeys($data, 'ucfirst');
 	}
 
+	/**
+	 * Function setup Api Key.
+	 *
+	 * @return void
+	 */
+	private function setApiKey(): void
+	{
+		if (($params = $this->getParams()) && !empty($params['api_key'])) {
+			$this->apiKey = $params['api_key'];
+		} else {
+			throw new \App\Exceptions\IllegalValue('You must fist setup Api Key in Config Panel', 403);
+		}
+	}
 }
