@@ -80,7 +80,7 @@ class RecordCollector extends \Tests\Base
 		$recordCollector->setRequest(new \App\Request([
 			'module' => 'Accounts',
 			'country' => 'no',
-			'vatNumber' => '213305295',
+			'name' => 'test',
 		], false));
 		$response = $recordCollector->search();
 		if (empty($response['error'])) {

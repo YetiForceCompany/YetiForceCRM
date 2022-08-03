@@ -238,15 +238,17 @@ class DkCvr extends Base
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 		}
-		switch ($params['country']) {
-			case 'no':
-				$this->data['country'] = 'Norway';
-				break;
-			case 'dk':
-				$this->data['country'] = 'Denmark';
-				break;
-			default:
-				break;
+		if ($this->data) {
+			switch ($params['country']) {
+				case 'no':
+					$this->data['country'] = 'Norway';
+					break;
+				case 'dk':
+					$this->data['country'] = 'Denmark';
+					break;
+				default:
+					break;
+			}
 		}
 	}
 
