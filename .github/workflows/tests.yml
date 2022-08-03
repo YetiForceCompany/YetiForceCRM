@@ -57,6 +57,7 @@ jobs:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: Tests
+        continue-on-error: true
         uses: YetiForceCompany/YetiForceCRM-Tests/8.2@main
         env:
           YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
