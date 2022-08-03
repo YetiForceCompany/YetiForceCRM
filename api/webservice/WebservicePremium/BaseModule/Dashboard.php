@@ -83,7 +83,7 @@ class Dashboard extends \Api\Core\BaseAction
 		$tabs = $dashboardInstance->getTabs();
 		if ($this->controller->request->isEmpty('record', true)) {
 			$defaultDbId = \Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
-			$dashBoardId = isset($tabs[$defaultDbId]) ? $defaultDbId : array_key_first($tabs);
+			$dashBoardId = isset($tabs[$defaultDbId]) ? $defaultDbId : (int) array_key_first($tabs);
 		} else {
 			$dashBoardId = $this->controller->request->getInteger('record');
 		}

@@ -56,6 +56,19 @@ class Dashboard
 	}
 
 	/**
+	 * Set dashboard ID.
+	 *
+	 * @param int $dashboardType
+	 *
+	 * @return $this
+	 */
+	public function setDashboard(int $dashboardType): self
+	{
+		$this->dashboardType = $dashboardType;
+		return $this;
+	}
+
+	/**
 	 * Gets tabs.
 	 *
 	 * @return array
@@ -68,9 +81,10 @@ class Dashboard
 			->where(['vtiger_module_dashboard_blocks.authorized' => $this->application])
 			->distinct()->createCommand()->query();
 		while ($dashboard = $dataReader->read()) {
-			$tabs[] = [
+			$dbId = $dashboard['dashboard_id'];
+			$tabs[$dbId] = [
 				'name' => \App\Language::translate($dashboard['name'], $this->moduleName),
-				'id' => $dashboard['dashboard_id'],
+				'id' => $dbId,
 				'system' => $dashboard['system'],
 			];
 		}
