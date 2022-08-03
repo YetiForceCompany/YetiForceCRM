@@ -14,6 +14,7 @@
  */
 class OSSTimeControl_TimeCounter_Dashboard extends Vtiger_IndexAjax_View
 {
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$currentUserId = \App\User::getCurrentUserId();

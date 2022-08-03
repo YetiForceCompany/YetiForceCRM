@@ -212,17 +212,17 @@
 		position: relative;
 	}
 }
-
+//--- Widgets Working time counter---
 .o-time-counter {
 	&__navigator-icon {
 		font-size: 140px;
 		color: #f8f9fa;
 	}
-	&__stopwatch {
+	&__timer {
 		font-size: 40px;
 		color: #b4b2af;
 	}
-	&__navigator-button {
+	&__navigator-buttons {
 		position: absolute;
 		top: 36px;
 		left: 41px;
@@ -231,7 +231,7 @@
 		}
 	}
 
-	&__navigator-button.active {
+	&__navigator-buttons.active {
 		top: 52px;
 		left: 26px;
 		a {

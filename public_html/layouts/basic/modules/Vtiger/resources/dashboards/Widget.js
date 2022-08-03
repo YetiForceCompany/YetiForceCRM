@@ -3343,11 +3343,17 @@ YetiForce_Widget_Js(
 	'YetiForce_TimeCounter_Widget_Js',
 	{},
 	{
+		//Hours of the timer
 		hr: 0,
+		//Timer minutes
 		min: 0,
+		//Seconds of the timer
 		sec: 0,
+		//Starting a timer
 		counter: true,
+		//Time to start work
 		timeStart: '',
+		//End of work time
 		timeStop: '',
 		/**
 		 * Show quick create form
@@ -3362,12 +3368,12 @@ YetiForce_Widget_Js(
 		registerNavigatorButtons: function () {
 			const container = this.getContainer();
 			let instance = this;
-			let btnStart = container.find('.js-start-watch');
-			let btnStop = container.find('.js-stop-watch');
-			let btnReset = container.find('.js-reset-watch');
-			let navigator = container.find('.js-navigator');
+			let btnStart = container.find('.js-time-counter-start');
+			let btnStop = container.find('.js-time-counter-stop');
+			let btnReset = container.find('.js-time-counter-reset');
+			let navigatorButtons = container.find('.js-navigator-buttons');
 			btnStart.on('click', function () {
-				navigator.addClass('active');
+				navigatorButtons.addClass('active');
 				btnStart.addClass('d-none');
 				btnStop.removeClass('d-none');
 				btnReset.removeClass('d-none');
@@ -3378,7 +3384,7 @@ YetiForce_Widget_Js(
 			});
 
 			btnReset.on('click', function () {
-				navigator.removeClass('active');
+				navigatorButtons.removeClass('active');
 				btnReset.addClass('d-none');
 				btnStop.addClass('d-none');
 				btnStart.removeClass('d-none');
@@ -3437,20 +3443,20 @@ YetiForce_Widget_Js(
 		 * Resets the counting operation.
 		 */
 		resetTimerCounter: function (container) {
-			if (this.counter == false) {
+			if (this.counter === false) {
 				this.counter = true;
 				this.sec = 0;
 				this.min = 0;
 				this.hr = 0;
 			}
-			container.find('.js-stopwatch').html('00:00:00');
+			container.find('.js-time-counter').html('00:00:00');
 		},
 		/**
 		 * Counting time from the moment of starting work.
 		 */
 		timeCounter: function () {
 			const container = this.getContainer();
-			if (this.counter == false) {
+			if (this.counter === false) {
 				this.sec = parseInt(this.sec);
 				this.min = parseInt(this.min);
 				this.hr = parseInt(this.hr);
@@ -3459,21 +3465,21 @@ YetiForce_Widget_Js(
 					this.min = this.min + 1;
 					this.sec = 0;
 				}
-				if (this.min == 60) {
+				if (this.min === 60) {
 					this.hr = this.hr + 1;
 					this.min = 0;
 					this.sec = 0;
 				}
-				if (this.sec < 10 || this.sec == 0) {
+				if (this.sec < 10 || this.sec === 0) {
 					this.sec = '0' + this.sec;
 				}
-				if (this.min < 10 || this.min == 0) {
+				if (this.min < 10 || this.min === 0) {
 					this.min = '0' + this.min;
 				}
-				if (this.hr < 10 || this.hr == 0) {
+				if (this.hr < 10 || this.hr === 0) {
 					this.hr = '0' + this.hr;
 				}
-				container.find('.js-stopwatch').html(this.hr + ':' + this.min + ':' + this.sec);
+				container.find('.js-time-counter').html(this.hr + ':' + this.min + ':' + this.sec);
 				setTimeout((_) => {
 					this.timeCounter();
 				}, 1000);
