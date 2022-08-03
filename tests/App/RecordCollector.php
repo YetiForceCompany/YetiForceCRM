@@ -61,7 +61,6 @@ class RecordCollector extends \Tests\Base
 		$response = $recordCollector->search();
 		if (empty($response['error'])) {
 			$this->assertArrayHasKey('fields', $response);
-			$this->assertArrayHasKey('links', $response);
 			$this->assertArrayHasKey('additional', $response);
 			$this->assertEquals('1180002425', $response['fields']['vat_id']['data'][0]['raw']);
 			$this->assertEquals('00816349200000', $response['fields']['registration_number_2']['data'][0]['raw']);
@@ -107,7 +106,6 @@ class RecordCollector extends \Tests\Base
 		$response = $recordCollector->search();
 		if (empty($response['error'])) {
 			$this->assertArrayHasKey('fields', $response);
-			$this->assertArrayHasKey('links', $response);
 			$this->assertArrayHasKey('additional', $response);
 		} else {
 			$this->markTestSkipped($response['error']);
@@ -151,7 +149,6 @@ class RecordCollector extends \Tests\Base
 		$response = $recordCollector->search();
 		if (empty($response['error'])) {
 			$this->assertArrayHasKey('fields', $response);
-			$this->assertArrayHasKey('links', $response);
 			$this->assertArrayHasKey('additional', $response);
 		} else {
 			$this->markTestSkipped($response['error']);
