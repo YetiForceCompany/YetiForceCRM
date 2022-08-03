@@ -3,6 +3,8 @@
  * Api Government of French Republic file.
  *
  * @see https://api.gouv.fr/les-api/api-entreprise
+ * @see https://api.gouv.fr/les-api/api-recherche-entreprises
+ * @see https://api.gouv.fr/documentation/api-recherche-entreprises
  *
  * @package App
  *
@@ -37,7 +39,7 @@ class FrEnterpriseGouv extends Base
 	/** {@inheritdoc} */
 	public $docUrl = 'https://api.gouv.fr/les-api/api-entreprise/';
 
-	/** @var string CH sever address */
+	/** @var string Server address */
 	private $url = 'https://recherche-entreprises.api.gouv.fr/';
 
 	/** {@inheritdoc} */

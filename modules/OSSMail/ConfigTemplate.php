@@ -16,7 +16,7 @@ return [
 			}
 			$arg = (array) \App\Purifier::purify($arg);
 			foreach ($arg as $url) {
-				if (!\App\Validator::urlDomain($url)) {
+				if (!\App\Validator::url($url)) {
 					return false;
 				}
 			}
@@ -40,7 +40,7 @@ return [
 		'description' => 'Name of SMTP server',
 		'validation' => function () {
 			$arg = func_get_arg(0);
-			return $arg && \App\Purifier::purify($arg);
+			return $arg && \App\Validator::url($arg);
 		},
 		'sanitization' => '\App\Purifier::purify'
 	],
