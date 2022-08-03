@@ -20,7 +20,7 @@ namespace App\RecordCollectors;
 class PlNcr extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors'];
 
 	/** {@inheritdoc} */
 	public $icon = 'fa-solid fa-hammer';

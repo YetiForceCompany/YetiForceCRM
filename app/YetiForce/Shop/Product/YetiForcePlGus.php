@@ -47,7 +47,7 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForcePlGus');
 		} else {
 			$instance = new \App\RecordCollectors\Gus();
-			$instance->moduleName = reset(\App\RecordCollectors\Gus::$allowedModules);
+			$instance->moduleName = reset($instance->allowedModules);
 			if ($instance->isActive()) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;

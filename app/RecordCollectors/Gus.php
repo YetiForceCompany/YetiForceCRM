@@ -22,7 +22,7 @@ namespace App\RecordCollectors;
 class Gus extends Base
 {
 	/** {@inheritdoc} */
-	public static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
 	public $icon = 'yfi yfi-gus';

@@ -20,7 +20,7 @@ namespace App\RecordCollectors;
 class UkCompaniesHouse extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
 	public $icon = 'fas fa-house-signal';

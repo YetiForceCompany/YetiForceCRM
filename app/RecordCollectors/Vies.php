@@ -19,7 +19,7 @@ namespace App\RecordCollectors;
 class Vies extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
 	public $icon = 'yfi yfi-vies';

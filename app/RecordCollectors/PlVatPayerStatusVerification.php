@@ -22,7 +22,7 @@ namespace App\RecordCollectors;
 class PlVatPayerStatusVerification extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
 	public $icon = 'fa-solid fa-magnifying-glass-dollar';

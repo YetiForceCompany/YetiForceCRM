@@ -19,7 +19,7 @@ namespace App\RecordCollectors;
 class PlCeidg extends Base
 {
 	/** {@inheritdoc} */
-	public static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
 	public $icon = 'fas fa-cube';

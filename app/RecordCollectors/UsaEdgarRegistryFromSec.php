@@ -20,7 +20,7 @@ namespace App\RecordCollectors;
 class UsaEdgarRegistryFromSec extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Partners', 'Vendors', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Partners', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
 	public $icon = 'fa-solid fa-flag-usa';

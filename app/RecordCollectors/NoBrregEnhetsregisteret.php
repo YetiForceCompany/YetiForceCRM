@@ -20,7 +20,7 @@ namespace App\RecordCollectors;
 class NoBrregEnhetsregisteret extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
 
 	/** {@inheritdoc} */
 	public $icon = 'fas fa-skiing-nordic';

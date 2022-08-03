@@ -24,7 +24,7 @@ class Base
 	protected $name;
 
 	/** @var string[] Allowed modules. */
-	protected static $allowedModules = [];
+	public $allowedModules;
 
 	/** @var string Icon. */
 	public $icon;
@@ -73,7 +73,7 @@ class Base
 		}
 		$config = (new \ReflectionClass($class))->getStaticProperties();
 		if (isset($config['allowedModules'])) {
-			static::$allowedModules = $config['allowedModules'];
+			$this->allowedModules = $config['allowedModules'];
 			unset($config['allowedModules']);
 		}
 		foreach ($config as $key => $value) {

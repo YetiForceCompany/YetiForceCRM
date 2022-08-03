@@ -21,7 +21,7 @@ namespace App\RecordCollectors;
 class UkVatPayerStatusVerification extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition', 'Partners'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition', 'Partners'];
 
 	/** {@inheritdoc} */
 	public $icon = 'fa-solid fa-archway';
