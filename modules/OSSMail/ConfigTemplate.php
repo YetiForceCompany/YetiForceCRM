@@ -7,7 +7,7 @@
  */
 return [
 	'imap_host' => [
-		'default' => ['ssl://imap.gmail.com' => 'ssl://imap.gmail.com'],
+		'default' => ['ssl://imap.gmail.com:993' => 'ssl://imap.gmail.com:993'],
 		'description' => 'Default host.',
 		'validation' => function () {
 			$arg = func_get_arg(0);
