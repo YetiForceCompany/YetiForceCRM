@@ -115,7 +115,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 *
 	 * @return resource
 	 */
-	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true, $config = [], array $account = [])
+	public static function imapConnect($user, $password, $host = '', $folder = 'INBOX', $dieOnError = true, $config = [], array $account = [])
 	{
 		\App\Log::trace("Entering OSSMail_Record_Model::imapConnect($user , '****' , $folder) method ...");
 		if (!$config) {
@@ -125,10 +125,12 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if (isset(self::$imapConnectCache[$cacheName])) {
 			return self::$imapConnectCache[$cacheName];
 		}
+
 		$hosts = \is_string($config['imap_host']) ? [$config['imap_host']] : $config['imap_host'];
 		if (!$host) {
-			$host = key($hosts);
+			$host = current($hosts);
 		}
+
 		$parseHost = parse_url($host);
 		if (empty($parseHost['host'])) {
 			foreach ($hosts as $row) {

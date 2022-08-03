@@ -108,8 +108,6 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 				$taskObject = $taskRecordModel->getTaskObject();
 				$taskObject->sequence = $taskRecordModel->getNextSequenceNumber($workflowId);
 			}
-
-			$taskObject = $taskRecordModel->getTaskObject();
 			$taskObject->summary = htmlspecialchars($request->get('summary'));
 
 			$active = $request->get('active');
