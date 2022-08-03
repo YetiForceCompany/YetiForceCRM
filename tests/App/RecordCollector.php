@@ -38,11 +38,11 @@ class RecordCollector extends \Tests\Base
 		], false));
 		$response = $recordCollector->search();
 		if (empty($response['error'])) {
-			$this->markTestSkipped($response['error']);
-		} else {
 			$this->assertArrayHasKey('fields', $response);
 			$this->assertArrayHasKey('LBL_REQUEST_ID', $response['fields']);
 			$this->assertEquals('PL1180002425', $response['fields']['Vat ID'] ?? 'No value');
+		} else {
+			$this->markTestSkipped($response['error']);
 		}
 	}
 
