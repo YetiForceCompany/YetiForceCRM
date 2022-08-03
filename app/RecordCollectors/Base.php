@@ -155,7 +155,7 @@ class Base
 	 */
 	public function isActive(): bool
 	{
-		return \in_array($this->moduleName, static::$allowedModules);
+		return \in_array($this->moduleName, $this->allowedModules);
 	}
 
 	/**
