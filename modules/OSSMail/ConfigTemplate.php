@@ -6,7 +6,7 @@
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
-	'default_host' => [
+	'imap_host' => [
 		'default' => ['ssl://imap.gmail.com' => 'ssl://imap.gmail.com'],
 		'description' => 'Default host.',
 		'validation' => function () {
@@ -35,30 +35,14 @@ return [
 			return $saveValue;
 		}
 	],
-	'default_port' => [
-		'default' => 993,
-		'description' => 'Port used to connect to IMAP.',
-		'validation' => '\App\Validator::port',
-		'sanitization' => function () {
-			return (int) func_get_arg(0);
-		}
-	],
-	'smtp_server' => [
-		'default' => 'ssl://smtp.gmail.com',
+	'smtp_host' => [
+		'default' => 'ssl://smtp.gmail.com:465',
 		'description' => 'Name of SMTP server',
 		'validation' => function () {
 			$arg = func_get_arg(0);
 			return $arg && \App\Purifier::purify($arg);
 		},
 		'sanitization' => '\App\Purifier::purify'
-	],
-	'smtp_port' => [
-		'default' => 465,
-		'description' => 'Default smtp port',
-		'validation' => '\App\Validator::port',
-		'sanitization' => function () {
-			return (int) func_get_arg(0);
-		}
 	],
 	'username_domain' => [
 		'default' => 'gmail.com',
@@ -140,17 +124,13 @@ return [
 			$arg = func_get_arg(0);
 			return is_numeric($arg) && \in_array($arg, [0, 1, 2, 3, 4]);
 		},
-		'sanitization' => function () {
-			return (int) func_get_arg(0);
-		}
+		'sanitization' => fn () => (int) func_get_arg(0)
 	],
 	'session_lifetime' => [
 		'default' => 30,
 		'description' => 'Session lifetime in minutes',
 		'validation' => '\App\Validator::naturalNumber',
-		'sanitization' => function () {
-			return (int) func_get_arg(0);
-		}
+		'sanitization' => fn () => (int) func_get_arg(0)
 	],
 	//------------------------------------------------------------------------------------------------------------
 	'db_prefix' => [

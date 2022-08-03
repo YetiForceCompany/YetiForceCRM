@@ -641,15 +641,18 @@ class Mailer
 			Log::error('Mailer Error: No smtp data entered', 'Mailer');
 			return false;
 		}
-		$params = [
-			'default_port' => $this->smtp['smtp_port'],
-			'validate_cert' => !empty($this->smtp['smtp_validate_cert']),
-			'imap_max_retries' => 0,
-			'imap_params' => [],
-			'imap_open_add_connection_type' => true,
-		];
 		$folder = Utils::convertCharacterEncoding($this->smtp['smtp_folder'], 'UTF-8', 'UTF7-IMAP');
-		$mbox = \OSSMail_Record_Model::imapConnect($this->smtp['smtp_username'], Encryption::getInstance()->decrypt($this->smtp['smtp_password']), $this->smtp['smtp_host'], $folder, false, $params);
+		$mbox = \OSSMail_Record_Model::imapConnect(
+			$this->smtp['smtp_username'],
+			Encryption::getInstance()->decrypt($this->smtp['smtp_password']),
+			$this->smtp['smtp_host'] . ':' . $this->smtp['smtp_port'], $folder, false,
+			[
+				'validate_cert' => !empty($this->smtp['smtp_validate_cert']),
+				'imap_max_retries' => 0,
+				'imap_params' => [],
+				'imap_open_add_connection_type' => true,
+			]
+		);
 		if (false === $mbox && !imap_last_error()) {
 			static::$error[] = 'IMAP error - ' . imap_last_error();
 			Log::error('Mailer Error: IMAP error - ' . imap_last_error(), 'Mailer');
