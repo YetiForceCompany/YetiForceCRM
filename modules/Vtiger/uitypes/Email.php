@@ -61,7 +61,9 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			}
 			return "<a class=\"emailField u-cursor-pointer\" href=\"mailto:{$rawValue}\">{$value}</a>";
 		}
-		return $value ? \App\Purifier::encodeHtml(App\TextUtils::textTruncate($value, $length)) : '';
+		$value = $value ? \App\Purifier::encodeHtml($value) : '';
+
+		return $length ? App\TextUtils::textTruncate($value, $length) : $value;
 	}
 
 	/** {@inheritdoc} */
