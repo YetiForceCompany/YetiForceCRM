@@ -3,9 +3,12 @@
 /**
  * Mail module model class.
  *
+ * @package Model
+ *
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Adrian Koń <a.kon@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Mail_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -53,9 +56,14 @@ class Settings_Mail_Module_Model extends Settings_Vtiger_Module_Model
 	public static function getAttachmentInfo($id, $selectedFile)
 	{
 		$path = '';
-		$attachments = (new \App\Db\Query())->select(['attachments'])->from('s_#__mail_queue')->where(['id' => $id])->scalar(\App\Db::getInstance('admin'));
+		$attachments = (new \App\Db\Query())->select(['attachments'])->from('s_#__mail_queue')->where(['id' => $id])->scalar(\App\Db::getInstance('admin')) ?: '[]';
 		$counter = 0;
-		foreach (\App\Json::decode($attachments) as $path => $name) {
+		$attachments = \App\Json::decode($attachments);
+		if (isset($attachments['ids'])) {
+			$attachments = array_merge($attachments, \App\Mail::getAttachmentsFromDocument($attachments['ids']));
+			unset($attachments['ids']);
+		}
+		foreach ($attachments as $path => $name) {
 			if ($counter === $selectedFile) {
 				return ['path' => $path, 'name' => $name];
 			}

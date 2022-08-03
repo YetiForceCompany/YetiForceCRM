@@ -3,9 +3,12 @@
 /**
  * Mail record model class.
  *
+ * @package Model
+ *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -91,16 +94,24 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'attachments':
 				if ($value) {
-					$attachments = $value;
+					$attachments = \App\Json::decode($value);
 					$value = '';
 					$fileCounter = 0;
-					foreach (\App\Json::decode($attachments) as $path => $name) {
+					if (isset($attachments['ids'])) {
+						$attachments = array_merge($attachments, \App\Mail::getAttachmentsFromDocument($attachments['ids']));
+						unset($attachments['ids']);
+					}
+					foreach ($attachments as $path => $name) {
 						if (is_numeric($path)) {
 							$path = $name;
-							$name = 'LBL_FILE';
+							$name = \App\Language::translate('LBL_FILE');
 						}
 						$actionPath = "?module=Mail&parent=Settings&action=DownloadAttachment&record={$this->getId()}&selectedFile=$fileCounter";
-						$value .= '<form action="' . $actionPath . '" method="POST"><button class="btn btn-sm btn-outline-secondary" title="' . $name . '" data-selected-file="' . $fileCounter . '">' . $name . '</button></form>';
+						$value .= '<form action="' . $actionPath . '"
+						method="POST"><button class="btn btn-sm btn-outline-secondary"
+						title="' . $name . '"
+						data-selected-file="' . $fileCounter . '">
+						' . $name . '</button></form>';
 						++$fileCounter;
 					}
 				}
