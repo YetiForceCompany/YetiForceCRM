@@ -3367,28 +3367,27 @@ YetiForce_Widget_Js(
 		 */
 		registerNavigatorButtons: function () {
 			const container = this.getContainer();
-			let instance = this;
 			let btnStart = container.find('.js-time-counter-start');
 			let btnStop = container.find('.js-time-counter-stop');
 			let btnReset = container.find('.js-time-counter-reset');
 			let navigatorButtons = container.find('.js-navigator-buttons');
-			btnStart.on('click', function () {
+			btnStart.on('click', () => {
 				navigatorButtons.addClass('active');
 				btnStart.addClass('d-none');
 				btnStop.removeClass('d-none');
 				btnReset.removeClass('d-none');
-				instance.startTimerCounter();
+				this.startTimerCounter();
 			});
-			btnStop.on('click', function () {
-				instance.stopTimerCounter();
+			btnStop.on('click', () => {
+				this.stopTimerCounter();
 			});
 
-			btnReset.on('click', function () {
+			btnReset.on('click', () => {
 				navigatorButtons.removeClass('active');
 				btnReset.addClass('d-none');
 				btnStop.addClass('d-none');
 				btnStart.removeClass('d-none');
-				instance.resetTimerCounter(container);
+				this.resetTimerCounter(container);
 			});
 		},
 		/**
