@@ -3343,17 +3343,17 @@ YetiForce_Widget_Js(
 	'YetiForce_TimeCounter_Widget_Js',
 	{},
 	{
-		//Hours of the timer
+		/** Hours of the timer */
 		hr: 0,
-		//Timer minutes
+		/** Timer minutes */
 		min: 0,
-		//Seconds of the timer
+		/** Seconds of the timer */
 		sec: 0,
-		//Starting a timer
+		/** Starting a timer */
 		counter: true,
-		//Time to start work
+		/** Time to start work */
 		timeStart: '',
-		//End of work time
+		/** End of work time */
 		timeStop: '',
 		/**
 		 * Show quick create form
@@ -3440,6 +3440,7 @@ YetiForce_Widget_Js(
 		},
 		/**
 		 * Resets the counting operation.
+		 * @param {jQuery} container
 		 */
 		resetTimerCounter: function (container) {
 			if (this.counter === false) {
