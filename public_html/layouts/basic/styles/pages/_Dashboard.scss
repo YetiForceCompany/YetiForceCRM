@@ -212,3 +212,30 @@
 		position: relative;
 	}
 }
+
+.o-time-counter {
+	&__navigator-icon {
+		font-size: 140px;
+		color: #f8f9fa;
+	}
+	&__stopwatch {
+		font-size: 40px;
+		color: #b4b2af;
+	}
+	&__navigator-button {
+		position: absolute;
+		top: 36px;
+		left: 41px;
+		a {
+			font-size: 68px;
+		}
+	}
+
+	&__navigator-button.active {
+		top: 52px;
+		left: 26px;
+		a {
+			font-size: 46px;
+		}
+	}
+}

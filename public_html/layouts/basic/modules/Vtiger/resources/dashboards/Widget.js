@@ -3339,3 +3339,145 @@ YetiForce_Widget_Js(
 		}
 	}
 );
+YetiForce_Widget_Js(
+	'YetiForce_TimeCounter_Widget_Js',
+	{},
+	{
+		hr: 0,
+		min: 0,
+		sec: 0,
+		counter: true,
+		timeStart: '',
+		timeStop: '',
+		/**
+		 * Show quick create form
+		 */
+		postLoadWidget: function () {
+			this._super();
+			this.registerNavigatorButtons();
+		},
+		/**
+		 * Register events on the navigation buttons.
+		 */
+		registerNavigatorButtons: function () {
+			const container = this.getContainer();
+			let instance = this;
+			let btnStart = container.find('.js-start-watch');
+			let btnStop = container.find('.js-stop-watch');
+			let btnReset = container.find('.js-reset-watch');
+			let navigator = container.find('.js-navigator');
+			btnStart.on('click', function () {
+				navigator.addClass('active');
+				btnStart.addClass('d-none');
+				btnStop.removeClass('d-none');
+				btnReset.removeClass('d-none');
+				instance.startTimerCounter();
+			});
+			btnStop.on('click', function () {
+				instance.stopTimerCounter();
+			});
+
+			btnReset.on('click', function () {
+				navigator.removeClass('active');
+				btnReset.addClass('d-none');
+				btnStop.addClass('d-none');
+				btnStart.removeClass('d-none');
+				instance.resetTimerCounter(container);
+			});
+		},
+		/**
+		 * Time counting starts
+		 */
+		startTimerCounter: function () {
+			let dateStart = new Date();
+			let hours = (dateStart.getHours() < 10 ? '0' : '') + dateStart.getHours();
+			let minutes = (dateStart.getMinutes() < 10 ? '0' : '') + dateStart.getMinutes();
+			this.timeStart = hours + ':' + minutes;
+			if (this.counter == true) {
+				this.counter = false;
+				this.timeCounter();
+			}
+		},
+		/**
+		 * Time counting ends.
+		 */
+		stopTimerCounter: function () {
+			if (this.counter == false) {
+				this.counter = true;
+				let quickCreateParams = {};
+				let customParams = {};
+				this.setStopTime();
+				customParams['time_start'] = this.timeStart;
+				customParams['time_end'] = this.timeStop;
+				quickCreateParams['data'] = customParams;
+				quickCreateParams['noCache'] = true;
+				App.Components.QuickCreate.createRecord('OSSTimeControl', quickCreateParams);
+			}
+		},
+		/**
+		 * Sets the end time.
+		 */
+		setStopTime: function () {
+			if (parseInt(this.sec) > 30 || parseInt(this.min) === 0) {
+				this.min = parseInt(this.min) + 1;
+			}
+			let dateStart = new Date();
+			dateStart.setHours(this.timeStart.split(':')[0]);
+			dateStart.setMinutes(this.timeStart.split(':')[1]);
+			dateStart.setHours(dateStart.getHours() + parseInt(this.hr));
+			dateStart.setMinutes(dateStart.getMinutes() + parseInt(this.min));
+			let hours = (dateStart.getHours() < 10 ? '0' : '') + dateStart.getHours();
+			let minutes = (dateStart.getMinutes() < 10 ? '0' : '') + dateStart.getMinutes();
+			this.timeStop = hours + ':' + minutes;
+			this.sec = 0;
+			this.min = 0;
+			this.hr = 0;
+		},
+		/**
+		 * Resets the counting operation.
+		 */
+		resetTimerCounter: function (container) {
+			if (this.counter == false) {
+				this.counter = true;
+				this.sec = 0;
+				this.min = 0;
+				this.hr = 0;
+			}
+			container.find('.js-stopwatch').html('00:00:00');
+		},
+		/**
+		 * Counting time from the moment of starting work.
+		 */
+		timeCounter: function () {
+			const container = this.getContainer();
+			if (this.counter == false) {
+				this.sec = parseInt(this.sec);
+				this.min = parseInt(this.min);
+				this.hr = parseInt(this.hr);
+				this.sec = this.sec + 1;
+				if (this.sec == 60) {
+					this.min = this.min + 1;
+					this.sec = 0;
+				}
+				if (this.min == 60) {
+					this.hr = this.hr + 1;
+					this.min = 0;
+					this.sec = 0;
+				}
+				if (this.sec < 10 || this.sec == 0) {
+					this.sec = '0' + this.sec;
+				}
+				if (this.min < 10 || this.min == 0) {
+					this.min = '0' + this.min;
+				}
+				if (this.hr < 10 || this.hr == 0) {
+					this.hr = '0' + this.hr;
+				}
+				container.find('.js-stopwatch').html(this.hr + ':' + this.min + ':' + this.sec);
+				setTimeout((_) => {
+					this.timeCounter();
+				}, 1000);
+			}
+		}
+	}
+);
