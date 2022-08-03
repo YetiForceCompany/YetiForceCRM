@@ -120,6 +120,7 @@ jobs:
           YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
 
   coverage:
+    needs: tests80
     runs-on: ubuntu-latest
     name: Code Coverage
     steps:
