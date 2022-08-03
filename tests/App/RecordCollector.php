@@ -42,7 +42,9 @@ class RecordCollector extends \Tests\Base
 			$this->assertArrayHasKey('LBL_REQUEST_ID', $response['fields']);
 			$this->assertEquals('PL1180002425', $response['fields']['Vat ID'] ?? 'No value');
 		} else {
+			// @codeCoverageIgnoreStart
 			$this->markTestSkipped($response['error']);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 
@@ -65,7 +67,9 @@ class RecordCollector extends \Tests\Base
 			$this->assertEquals('1180002425', $response['fields']['vat_id']['data'][0]['raw']);
 			$this->assertEquals('00816349200000', $response['fields']['registration_number_2']['data'][0]['raw']);
 		} else {
+			// @codeCoverageIgnoreStart
 			$this->markTestSkipped($response['error']);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 
@@ -87,7 +91,9 @@ class RecordCollector extends \Tests\Base
 			$this->assertArrayHasKey('fields', $response);
 			$this->assertArrayHasKey('links', $response);
 		} else {
+			// @codeCoverageIgnoreStart
 			$this->markTestSkipped($response['error']);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 
@@ -108,7 +114,9 @@ class RecordCollector extends \Tests\Base
 			$this->assertArrayHasKey('fields', $response);
 			$this->assertArrayHasKey('additional', $response);
 		} else {
+			// @codeCoverageIgnoreStart
 			$this->markTestSkipped($response['error']);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 
@@ -130,7 +138,9 @@ class RecordCollector extends \Tests\Base
 			$this->assertArrayHasKey('links', $response);
 			$this->assertArrayHasKey('additional', $response);
 		} else {
+			// @codeCoverageIgnoreStart
 			$this->markTestSkipped($response['error']);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 
@@ -151,7 +161,9 @@ class RecordCollector extends \Tests\Base
 			$this->assertArrayHasKey('fields', $response);
 			$this->assertArrayHasKey('additional', $response);
 		} else {
+			// @codeCoverageIgnoreStart
 			$this->markTestSkipped($response['error']);
+			// @codeCoverageIgnoreEnd
 		}
 	}
 }
