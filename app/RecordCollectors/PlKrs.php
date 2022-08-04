@@ -23,7 +23,7 @@ class PlKrs extends Base
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fa-solid fa-hammer';
+	public $icon = 'yfi-krs-pl';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_PL_KRS';

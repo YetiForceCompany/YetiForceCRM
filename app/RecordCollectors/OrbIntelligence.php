@@ -23,7 +23,7 @@ class OrbIntelligence extends Base
 	public $allowedModules = ['Accounts', 'Leads', 'Partners', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fa-solid fa-earth-americas';
+	public $icon = 'yfi-orb';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_ORB';

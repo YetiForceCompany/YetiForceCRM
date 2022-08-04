@@ -24,7 +24,7 @@ class DkCvr extends Base
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fas fa-city';
+	public $icon = 'yfi-cvr-dk';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_DK_CVR';

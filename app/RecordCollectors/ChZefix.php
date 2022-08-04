@@ -24,7 +24,7 @@ class ChZefix extends Base
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fas fa-drum-steelpan';
+	public $icon = 'yfi-zefix-ch';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_CH_ZEFIX';

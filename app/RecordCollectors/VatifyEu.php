@@ -25,7 +25,7 @@ class VatifyEu extends Base
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fas fa-globe-europe';
+	public $icon = 'yfi-vatify-eu';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_VATIFY_EU';

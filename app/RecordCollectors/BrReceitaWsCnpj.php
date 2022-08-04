@@ -23,7 +23,7 @@ class BrReceitaWsCnpj extends Base
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fas fa-futbol';
+	public $icon = 'yfi-receita-cnpj-br';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_BR_RECITA_WS_CNPJ';

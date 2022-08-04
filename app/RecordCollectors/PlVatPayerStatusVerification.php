@@ -25,7 +25,7 @@ class PlVatPayerStatusVerification extends Base
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fa-solid fa-magnifying-glass-dollar';
+	public $icon = 'yfi-vat-pl';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_PL_VAT_PAYER';

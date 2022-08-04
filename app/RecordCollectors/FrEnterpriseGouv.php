@@ -25,7 +25,7 @@ class FrEnterpriseGouv extends Base
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fas fa-flag';
+	public $icon = 'yfi-entreprise-gouv-fr';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_FR_ENTERPRISE_GOUV';

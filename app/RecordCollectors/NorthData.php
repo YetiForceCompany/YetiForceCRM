@@ -26,7 +26,7 @@ class NorthData extends Base
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fas fa-mountain';
+	public $icon = 'yfi-north-data';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_NORTH_DATA';

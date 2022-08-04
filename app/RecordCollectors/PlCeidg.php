@@ -22,7 +22,7 @@ class PlCeidg extends Base
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fas fa-cube';
+	public $icon = 'yfi-cedig-pl';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_PL_CEIDG';

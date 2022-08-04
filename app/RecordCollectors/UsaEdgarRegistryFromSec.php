@@ -23,7 +23,7 @@ class UsaEdgarRegistryFromSec extends Base
 	public $allowedModules = ['Accounts', 'Leads', 'Partners', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fa-solid fa-flag-usa';
+	public $icon = 'yfi-edgar-usa';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_USA_EDGAR';

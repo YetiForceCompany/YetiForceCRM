@@ -24,7 +24,7 @@ class UkVatPayerStatusVerification extends Base
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition', 'Partners'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fa-solid fa-archway';
+	public $icon = 'yfi-vat-uk';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_UK_VAT_PAYER';

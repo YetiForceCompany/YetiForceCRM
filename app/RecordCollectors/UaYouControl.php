@@ -24,7 +24,7 @@ class UaYouControl extends Base
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fas fa-hryvnia';
+	public $icon = 'yfi-you-control';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_UA_YOU_CONTROL';

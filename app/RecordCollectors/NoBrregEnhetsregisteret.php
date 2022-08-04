@@ -23,7 +23,7 @@ class NoBrregEnhetsregisteret extends Base
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fas fa-skiing-nordic';
+	public $icon = 'yfi-enhetsregisteret-no';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_NO_BRREG_ENHETSREGISTERET';

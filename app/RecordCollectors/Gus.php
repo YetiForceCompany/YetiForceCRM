@@ -25,7 +25,7 @@ class Gus extends Base
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'yfi yfi-gus';
+	public $icon = 'yfi-gus-regon-pl';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_PL_GUS';
