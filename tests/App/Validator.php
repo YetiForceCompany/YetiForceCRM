@@ -38,7 +38,11 @@ class Validator extends \Tests\Base
 	public function dataUrlNoProtocolRequired(): array
 	{
 		return [
-			[true, 'ssl://yf.com.pl'],
+			[true, 'ssl://imap.gmail.com:993'],
+			[true, 'ssl://imap.gmail.com'],
+			[true, 'tls://imap.gmail.com'],
+			[true, 'imap.gmail.com:993'],
+			[true, 'imap.gmail.com'],
 			[true, 'google.pl'],
 			[true, 'http://google.pl'],
 			[false, 'http://a-.bc.com'],
