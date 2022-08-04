@@ -15,12 +15,8 @@
  */
 class Settings_PickListDependency_ListView_Model extends Settings_Vtiger_ListView_Model
 {
-	/**
-	 * Function creates preliminary database query.
-	 *
-	 * @return App\Db\Query()
-	 */
-	public function getBasicListQuery()
+	/** {@inheritdoc} */
+	public function getBasicListQuery(): App\Db\Query
 	{
 		$module = $this->getModule();
 		$query = (new App\Db\Query())->from($module->getBaseTable());

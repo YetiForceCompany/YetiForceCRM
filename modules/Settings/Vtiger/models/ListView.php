@@ -50,7 +50,12 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 		return $module->getListFields();
 	}
 
-	public function getBasicListQuery()
+	/**
+	 * Function creates preliminary database query.
+	 *
+	 * @return App\Db\Query
+	 */
+	public function getBasicListQuery(): App\Db\Query
 	{
 		$module = $this->getModule();
 
@@ -147,10 +152,11 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 		return $basicLinks;
 	}
 
-	/**	 * *
-	 * Function which will get the list view count.
+	/**
+	 * Function to get the list view entries count.
 	 *
-	 * @return int number of records
+	 * @return int|string|null number of records. The result may be a string depending on the
+	 *                         underlying database engine and to support integer values higher than a 32bit PHP integer can handle.
 	 */
 	public function getListViewCount()
 	{
@@ -161,9 +167,9 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 	/**
 	 * Function to get the instance of Settings module model.
 	 *
-	 * @param mixed $name
+	 * @param string $name
 	 *
-	 * @return Settings_Vtiger_Module_Model instance
+	 * @return Settings_Vtiger_ListView_Model instance
 	 */
 	public static function getInstance($name = 'Settings:Vtiger')
 	{

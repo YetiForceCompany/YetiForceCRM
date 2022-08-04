@@ -3,6 +3,8 @@
 /**
  * List View Model Class for MappedFields Settings.
  *
+ * @package Settings.Model
+ *
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -63,11 +65,7 @@ class Settings_MappedFields_ListView_Model extends Settings_Vtiger_ListView_Mode
 		return $listViewRecordModels;
 	}
 
-	/**
-	 * Function which will get the list view count.
-	 *
-	 * @return int number of records
-	 */
+	/** {@inheritdoc} */
 	public function getListViewCount()
 	{
 		$module = $this->getModule();

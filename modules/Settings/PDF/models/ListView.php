@@ -3,19 +3,16 @@
 /**
  * List View Model Class for PDF Settings.
  *
+ * @package Settings.Model
+ *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Maciej Stencel <m.stencel@yetiforce.com>
+ * @author 	  Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 {
-	/**
-	 * Function to get the list view entries.
-	 *
-	 * @param Vtiger_Paging_Model $pagingModel
-	 *
-	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance
-	 */
+	/** {@inheritdoc} */
 	public function getListViewEntries($pagingModel)
 	{
 		$module = $this->getModule();
@@ -62,11 +59,7 @@ class Settings_PDF_ListView_Model extends Settings_Vtiger_ListView_Model
 		return $listViewRecordModels;
 	}
 
-	/**
-	 * Function which will get the list view count.
-	 *
-	 * @return int number of records
-	 */
+	/** {@inheritdoc} */
 	public function getListViewCount()
 	{
 		$module = $this->getModule();

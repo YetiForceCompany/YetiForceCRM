@@ -6,11 +6,13 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  * ********************************************************************************** */
 
 class Settings_Profiles_ListView_Model extends Settings_Vtiger_ListView_Model
 {
-	public function getBasicListQuery()
+	/** {@inheritdoc} */
+	public function getBasicListQuery(): App\Db\Query
 	{
 		$query = parent::getBasicListQuery();
 		$query->where(['directly_related_to_role' => 0]);

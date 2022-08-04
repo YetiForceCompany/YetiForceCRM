@@ -31,12 +31,8 @@ class Settings_AutomaticAssignment_ListView_Model extends Settings_Vtiger_ListVi
 		return $basicLinks;
 	}
 
-	/**
-	 * Function creates preliminary database query.
-	 *
-	 * @return App\Db\Query()
-	 */
-	public function getBasicListQuery()
+	/** {@inheritdoc} */
+	public function getBasicListQuery(): App\Db\Query
 	{
 		$module = $this->getModule();
 		$query = (new App\Db\Query())->from($module->getBaseTable());
