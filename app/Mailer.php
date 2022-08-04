@@ -661,6 +661,7 @@ class Mailer
 		\App\Log::beginProfile(__METHOD__ . '|imap_append', 'Mail|IMAP');
 		imap_append($mbox, \OSSMail_Record_Model::$imapConnectMailbox, $this->mailer->getSentMIMEMessage(), '\\Seen');
 		\App\Log::endProfile(__METHOD__ . '|imap_append', 'Mail|IMAP');
+
 		return true;
 	}
 

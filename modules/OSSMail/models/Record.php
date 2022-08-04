@@ -113,7 +113,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 * @param array  $config
 	 * @param array  $account
 	 *
-	 * @return resource
+	 * @return IMAP\Connection|false
 	 */
 	public static function imapConnect($user, $password, $host = '', $folder = 'INBOX', $dieOnError = true, $config = [], array $account = [])
 	{
@@ -126,9 +126,12 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			return self::$imapConnectCache[$cacheName];
 		}
 
-		$hosts = \is_string($config['imap_host']) ? [$config['imap_host']] : $config['imap_host'];
-		if (!$host) {
-			$host = current($hosts);
+		$hosts = [];
+		if ($imapHost = $config['imap_host'] ?? '') {
+			$hosts = \is_string($imapHost) ? [$imapHost => $imapHost] : $imapHost;
+		}
+		if (!$host && $hosts) {
+			$host = array_key_first($hosts);
 		}
 
 		$parseHost = parse_url($host);
