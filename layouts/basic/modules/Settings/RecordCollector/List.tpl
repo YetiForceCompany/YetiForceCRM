@@ -28,8 +28,8 @@
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th class="col-3" scope="col">{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</th>
-								<th class="col-2" scope="col">{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}</th>
+								<th class="col-2" scope="col">{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</th>
+								<th class="col-3" scope="col">{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}</th>
 								<th class="col-2" scope="col">{\App\Language::translate('LBL_MODULES', $QUALIFIED_MODULE)}</th>
 								<th class="col-1" scope="col">{\App\Language::translate('LBL_TYPE', $QUALIFIED_MODULE)}</th>
 								<th class="col-2" scope="col">{\App\Language::translate('LBL_DOC_URL', $QUALIFIED_MODULE)}</th>

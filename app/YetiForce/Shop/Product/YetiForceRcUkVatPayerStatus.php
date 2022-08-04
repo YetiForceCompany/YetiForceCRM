@@ -64,7 +64,7 @@ class YetiForceRcUkVatPayerStatus extends \App\YetiForce\Shop\AbstractBaseProduc
 			$return[] = \Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'RecordCollector',
 				'relatedModuleName' => 'Settings:RecordCollector',
-				'linkicon' => 'fab fa-nfc-symbol mr-2',
+				'linkicon' => 'yfi-record-collectors mr-2',
 				'linkhref' => true,
 				'linkurl' => 'index.php?parent=Settings&module=RecordCollector&view=List',
 				'linkclass' => 'btn-primary',
