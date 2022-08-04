@@ -54,7 +54,7 @@
 										{/foreach}
 									</td>
 									<td>
-										{\App\Language::translate($COLLECTOR->displayType, $QUALIFIED_MODULE)}
+										{\App\Language::translate("LBL_TYPE_{$COLLECTOR->displayType}", $QUALIFIED_MODULE)}
 									</td>
 									<td class="text-break">
 										<a href="{$COLLECTOR->docUrl}" rel="noreferrer noopener" target="_blank">{$COLLECTOR->docUrl}</a>

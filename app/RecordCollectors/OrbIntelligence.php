@@ -238,18 +238,16 @@ class OrbIntelligence extends Base
 	/**
 	 * Function fetching company data by params.
 	 *
-	 * @param string $country
-	 * @param string $fieldName
-	 * @param string $fieldValue
-	 * @param array  $query
+	 * @param array $query
 	 *
 	 * @return void
 	 */
 	private function getDataFromApi(array $query): void
 	{
 		$response = [];
+		$client = \App\RequestHttp::getClient(['timeout' => 60]);
 		try {
-			$response = \App\RequestHttp::getClient()->get($this->url . '3/match/?' . http_build_query($query), []);
+			$response = $client->get($this->url . '3/match/?' . http_build_query($query));
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
@@ -261,7 +259,7 @@ class OrbIntelligence extends Base
 		$data = \array_slice($data['results'], 0, self::LIMIT, true);
 		foreach ($data as $key => $result) {
 			try {
-				$response = \App\RequestHttp::getClient()->get($result['fetch_url'], []);
+				$response = $client->get($result['fetch_url']);
 			} catch (\GuzzleHttp\Exception\ClientException $e) {
 				\App\Log::warning($e->getMessage(), 'RecordCollectors');
 				$this->response['error'] = $e->getMessage();
