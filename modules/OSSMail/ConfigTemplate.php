@@ -144,7 +144,7 @@ return [
 	],
 	'plugins' => [
 		'default' => [
-			'identity_smtp', 'thunderbird_labels', 'zipdownload', 'archive', 'html5_notifier', 'advanced_search', 'contextmenu', 'yetiforce', //'enigma'
+			'identity_smtp', 'thunderbird_labels', 'zipdownload', 'archive', 'html5_notifier', 'contextmenu', 'yetiforce', //'enigma'
 		],
 		'description' => 'List of plugins',
 	],
