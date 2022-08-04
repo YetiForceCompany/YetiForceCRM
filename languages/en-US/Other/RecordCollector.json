@@ -14,7 +14,7 @@
     "LBL_USA_EDGAR": "EDGAR [USA]",
     "LBL_USA_EDGAR_DESC": "Fetch data on US companies from the United States Securities and Exchange Commission via EDGAR ",
     "LBL_PL_VAT_PAYER": "Verify VAT taxpayer’s status [PL]",
-    "LBL_PL_VAT_PAYER_DESC": "The service allows you to verify whether an entity is an acrive, exempt, or unregistered VAT taxpayer in Poland",
+    "LBL_PL_VAT_PAYER_DESC": "The service allows you to verify whether an entity is an active, exempt, or unregistered VAT taxpayer in Poland",
     "LBL_PL_GUS": "GUS REGON [PL]",
     "LBL_PL_GUS_DESC": "Fetch data on Polish companies from the online REGON 1(BIR1) database provided by GUS",
     "LBL_PL_NCR": "NCR [PL]",
