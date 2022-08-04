@@ -26,18 +26,18 @@ class PlKrs extends Base
 	public $icon = 'fa-solid fa-hammer';
 
 	/** {@inheritdoc} */
-	public $label = 'LBL_PL_NCR';
+	public $label = 'LBL_PL_KRS';
 
 	/** {@inheritdoc} */
 	public $displayType = 'FillFields';
 
 	/** {@inheritdoc} */
-	public $description = 'LBL_PL_NCR_DESC';
+	public $description = 'LBL_PL_KRS_DESC';
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://prs.ms.gov.pl/krs/openApi';
 
-	/** @var string NCR sever address */
+	/** @var string KRS sever address */
 	protected $url = 'https://api-krs.ms.gov.pl/api/krs/OdpisAktualny/';
 
 	/** {@inheritdoc} */
