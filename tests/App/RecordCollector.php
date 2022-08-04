@@ -6,7 +6,7 @@
  * @see App\RecordCollectors\DkCvr
  * @see App\RecordCollectors\FrEnterpriseGouv
  * @see App\RecordCollectors\NoBrregEnhetsregisteret
- * @see App\RecordCollectors\PlNcr
+ * @see App\RecordCollectors\PlKrs
  * @see App\RecordCollectors\UsaEdgarRegistryFromSec
  *
  * @package   Tests
@@ -49,13 +49,13 @@ class RecordCollector extends \Tests\Base
 	}
 
 	/**
-	 * PlNcr record collector test.
+	 * PlKrs record collector test.
 	 *
 	 * @return void
 	 */
-	public function testPlNcr(): void
+	public function testPlKrs(): void
 	{
-		$recordCollector = \App\RecordCollector::getInstance('App\RecordCollectors\PlNcr', 'Accounts');
+		$recordCollector = \App\RecordCollector::getInstance('App\RecordCollectors\PlKrs', 'Accounts');
 		$recordCollector->setRequest(new \App\Request([
 			'module' => 'Accounts',
 			'ncr' => '0000940956',

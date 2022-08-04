@@ -20,7 +20,7 @@ class Settings_RecordCollector_List_View extends Settings_Vtiger_Index_View
 	public function process(App\Request $request): void
 	{
 		$viewer = $this->getViewer($request);
-		$viewer->assign('PAID_RECORD_COLLECTOR', ['Gus', 'PlCeidg', 'PlNcr', 'PlVatPayerStatusVerification', 'UkCompaniesHouse', 'UkVatPayerStatusVerification', 'UsaEdgarRegistryFromSec', 'FrEnterpriseGouv', 'BrReceitaWsCnpj', 'NoBrregEnhetsregisteret', 'VatifyEu', 'ChZefix', 'DkCvr', 'NorthData']);
+		$viewer->assign('PAID_RECORD_COLLECTOR', ['Gus', 'PlCeidg', 'PlKrs', 'PlVatPayerStatusVerification', 'UkCompaniesHouse', 'UkVatPayerStatusVerification', 'UsaEdgarRegistryFromSec', 'FrEnterpriseGouv', 'BrReceitaWsCnpj', 'NoBrregEnhetsregisteret', 'VatifyEu', 'ChZefix', 'DkCvr', 'NorthData']);
 		$viewer->assign('SHOP_RECORD_COLLECTOR', ['YetiForceRcPlCeidg', 'YetiForceRcPlKrs', 'YetiForceRcPlVatPayerStatus', 'YetiForceRcUkCompaniesHouse', 'YetiForceRcUkVatPayerStatus', 'YetiForceRcUsaEdgar', 'YetiForceRcFrEnterpriseGouv', 'YetiForceRcBrReceitaWsCnpj', 'YetiForceRcNoBrregEnhetsreg', 'YetiForceRcVatifyEu', 'YetiForceRcChZefix', 'YetiForceRcDkCvr', 'YetiForceRcNorthData']);
 		$viewer->assign('COLLECTORS', Settings_RecordCollector_Module_Model::getInstance('Settings:RecordCollector')->getCollectors());
 		$viewer->view('List.tpl', $request->getModule(false));
