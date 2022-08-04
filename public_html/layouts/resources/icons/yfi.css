@@ -1,8 +1,8 @@
 @font-face {
 	font-family: 'yfi';
-	src: url('fonts/yfi.eot?ruhjh8');
-	src: url('fonts/yfi.eot?ruhjh8#iefix') format('embedded-opentype'), url('fonts/yfi.ttf?ruhjh8') format('truetype'),
-		url('fonts/yfi.woff?ruhjh8') format('woff'), url('fonts/yfi.svg?ruhjh8#yfi') format('svg');
+	src: url('fonts/yfi.eot?kkl8bd');
+	src: url('fonts/yfi.eot?kkl8bd#iefix') format('embedded-opentype'), url('fonts/yfi.ttf?kkl8bd') format('truetype'),
+		url('fonts/yfi.woff?kkl8bd') format('woff'), url('fonts/yfi.svg?kkl8bd#yfi') format('svg');
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
@@ -24,6 +24,27 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.yfi-vat-status:before {
+	content: '\e9ec';
+}
+.yfi-record-collectors:before {
+	content: '\e9e8';
+}
+.yfi-advenced-custom-view-conditions:before {
+	content: '\e9e6';
+}
+.yfi-conditions-for-filtering-related-records:before {
+	content: '\e9e7';
+}
+.yfi-relationship-as-custom-column:before {
+	content: '\e9e9';
+}
+.yfi-share-portal-record:before {
+	content: '\e9ea';
+}
+.yfi-unshare-portal-record:before {
+	content: '\e9eb';
+}
 .yfi-api-premium:before {
 	content: '\e9e5';
 }
