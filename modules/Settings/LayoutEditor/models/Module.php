@@ -267,7 +267,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->set('quickcreate', $params['quickcreate'] ?? 1)
 			->set('summaryfield', $params['summaryfield'] ?? 0)
 			->set('header_field', $params['header_field'] ?? null)
-			->set('fieldparams', $params['fieldparams'] ?: ($fieldParams ? \App\Json::encode($fieldParams) : ''))
+			->set('fieldparams', $params['fieldparams'] ?? ($fieldParams ? \App\Json::encode($fieldParams) : ''))
 			->set('columntype', $details['dbType']);
 		if ('Editor' === $fieldType) {
 			$fieldModel->set('maximumlength', $params['fieldLength'] ?? null);
