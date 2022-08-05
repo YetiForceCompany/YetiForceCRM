@@ -385,16 +385,11 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	/**
 	 * Get filters ids.
 	 *
-	 * @param bool $asString
-	 *
-	 * @return int[]|string
+	 * @return int[]
 	 */
-	public function getFilterIds($asString = false)
+	public function getFilterIds(): array
 	{
-		if (!$asString) {
-			return $this->filterIds;
-		}
-		return implode(',', $this->filterIds);
+		return $this->filterIds;
 	}
 
 	/**
@@ -1243,17 +1238,17 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	 *
 	 * @return int[]
 	 */
-	private function setFilterIds()
+	private function setFilterIds(): array
 	{
 		$this->customView = \App\CustomView::getInstance($this->getTargetModule());
-
 		foreach (explode(',', $this->widgetModel->get('filterid')) as $id) {
 			$filterData = $this->customView->getFilterInfo((int) $id);
-			if ($filterData) {
+			if ($filterData && $this->customView->isPermittedCustomView($id)) {
 				$this->filterIds[] = (int) $id;
 				$this->viewNames[$id] = $filterData['viewname'];
 			}
 		}
+
 		return $this->filterIds;
 	}
 

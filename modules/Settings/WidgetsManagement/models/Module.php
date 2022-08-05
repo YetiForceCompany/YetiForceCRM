@@ -367,7 +367,9 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				$active = 1;
 			}
 			$db->createCommand()->insert('vtiger_module_dashboard_widgets', [
-				'linkid' => $data['linkid'], 'userid' => \App\User::getCurrentUserId(), 'templateid' => $templateId,
+				'linkid' => $data['linkid'],
+				'userid' => \App\User::getCurrentUserId(),
+				'templateid' => $templateId,
 				'filterid' => $data['filterid'],
 				'title' => $data['title'],
 				'data' => $data['data'],
@@ -375,7 +377,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 				'owners' => $owners,
 				'isdefault' => $data['isdefault'],
 				'active' => $active,
-				'module' => \App\Module::getModuleId($moduleName),
+				'module' => \vtlib\Link::getLinkData($data['linkid'])['tabid'] ?? \App\Module::getModuleId($moduleName),
 				'cache' => $data['cache'] ?? null,
 				'date' => $data['default_date'] ?? null,
 				'dashboardid' => empty($data['dashboardId']) ? self::getDefaultDashboard() : $data['dashboardId'],

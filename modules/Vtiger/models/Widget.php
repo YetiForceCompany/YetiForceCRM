@@ -648,4 +648,42 @@ class Vtiger_Widget_Model extends \App\Base
 			$createCommand->update('vtiger_module_dashboard_widgets', ['position' => Json::encode($position), 'size' => Json::encode($size)], ['id' => $id])->execute();
 		}
 	}
+
+	/**
+	 * Check if the widget is removable.
+	 *
+	 * @return bool
+	 */
+	public function isDeletable(): bool
+	{
+		return !$this->get('isdefault');
+	}
+
+	/**
+	 * Check if the widget is viewable.
+	 *
+	 * @return bool
+	 */
+	public function isViewable(): bool
+	{
+		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$params = vtlib\Functions::getQueryParams($this->get('linkurl'));
+		$moduleName = $params['module'];
+		$sourceModulePermission = true;
+		if (($name = $params['name'] ?? '') && \in_array($name, ['CalendarActivities', 'OverdueActivities'])) {
+			$sourceModulePermission = $userPrivModel->hasModulePermission('Calendar');
+		}
+
+		return 'ModTracker' === $moduleName || ($sourceModulePermission && $userPrivModel->hasModulePermission($moduleName));
+	}
+
+	/**
+	 * Check if the widget is creatable.
+	 *
+	 * @return bool
+	 */
+	public function isCreatable(): bool
+	{
+		return false;
+	}
 }

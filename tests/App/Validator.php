@@ -8,6 +8,7 @@
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Adach <a.adach@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Tests\App;
@@ -22,7 +23,7 @@ class Validator extends \Tests\Base
 	 *
 	 * @param string $fn
 	 * @param bool   $expected
-	 * @param mixed  $value
+	 * @param string $value
 	 *
 	 * @return void
 	 */
@@ -32,7 +33,7 @@ class Validator extends \Tests\Base
 	}
 
 	/**
-	 * Data provider for testUrlNoProtocolRequired.
+	 * Data provider for testValidator function.
 	 *
 	 * @return array
 	 */

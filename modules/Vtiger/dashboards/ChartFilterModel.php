@@ -202,4 +202,28 @@ class Vtiger_ChartFilterModel_Dashboard extends Vtiger_Widget_Model
 		}
 		parent::setDataFromRequest($request);
 	}
+
+	/** {@inheritdoc} */
+	public function isDeletable(): bool
+	{
+		return parent::isDeletable() && Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModuleActionPermission($this->get('tabid'), 'CreateDashboardChartFilter');
+	}
+
+	/** {@inheritdoc} */
+	public function isViewable(): bool
+	{
+		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$moduleName = \App\Json::decode($this->get('data'))['module'];
+		$customView = \App\CustomView::getInstance($moduleName);
+		$filters = explode(',', $this->get('filterid'));
+
+		return $userPrivModel->hasModulePermission($moduleName) && array_filter($filters, fn ($filterId) => $customView->isPermittedCustomView((int) $filterId));
+	}
+
+	/** {@inheritdoc} */
+	public function isCreatable(): bool
+	{
+		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		return $this->isViewable() && $userPrivModel->hasModuleActionPermission($this->get('module') ?: $this->get('tabid'), 'CreateDashboardChartFilter');
+	}
 }
