@@ -56,14 +56,7 @@
 						</div>
 						<div class="col-xl-6 col-12 text-center text-xl-right">
 							{if \App\Privilege::isPermitted($MODULE_NAME, 'RecordCollector') && !empty($QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR'])}
-								{foreach item=COLLECTOR_LINK from=$QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
-									{assign var=COLLECTOR value=\App\RecordCollector::getInstance($COLLECTOR_LINK->get('linkurl'), $MODULE_NAME)}
-									{if !empty($COLLECTOR) && $COLLECTOR->isActive()}
-										<button type="button" class="btn btn-outline-dark js-popover-tooltip js-record-collector-modal mr-1" {if isset(Vtiger_Field_Model::$tabIndexLastSeq)}tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}" {/if} data-type={$COLLECTOR_LINK->get('linkurl')} title="{App\Language::translate($COLLECTOR->label, 'Other.RecordCollector')}" {if !empty($COLLECTOR->description)}data-content="{App\Language::translate($COLLECTOR->description, 'Other.RecordCollector')}" {/if} data-js="click|popover">
-											<span class="{$COLLECTOR->icon}"></span>
-										</button>
-									{/if}
-								{/foreach}
+								{include file=\App\Layout::getTemplatePath('RecordCollectors.tpl', $MODULE) RECORD_COLLECTOR=$QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
 							{/if}
 							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
 							{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}

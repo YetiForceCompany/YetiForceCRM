@@ -1298,6 +1298,7 @@
     "LBL_DELETE_RECORD_COMPLETELY": "Delete record from system",
     "LBL_DELETE_RECORD_COMPLETELY_DESC": "Deleting a record is permanent and irreversible for all record's information. Are you sure you want to delete the record?",
     "LBL_RECORD_HAS_BEEN_DELETED": "Record has been deleted",
+    "LBL_RECORD_COLLECTOR": "Record collectors",
     "LBL_SHOW_INVENTORY_ROW": "Show inventory details",
     "LBL_SHOW_WIDGETS_ROW": "Show widgets",
     "LBL_CALCULATE_SUM_FOR_THIS_FIELD": "Calculate sum for this field",

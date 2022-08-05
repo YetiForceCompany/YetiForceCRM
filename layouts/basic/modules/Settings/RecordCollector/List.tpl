@@ -28,14 +28,14 @@
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th class="col-2" scope="col">{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</th>
-								<th class="col-3" scope="col">{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}</th>
-								<th class="col-2" scope="col">{\App\Language::translate('LBL_MODULES', $QUALIFIED_MODULE)}</th>
-								<th class="col-1" scope="col">{\App\Language::translate('LBL_TYPE', $QUALIFIED_MODULE)}</th>
-								<th class="col-2" scope="col">{\App\Language::translate('LBL_DOC_URL', $QUALIFIED_MODULE)}</th>
-								<th class="col-1 text-center" scope="col">{\App\Language::translate('LBL_FEATURED', $QUALIFIED_MODULE)}</th>
-								<th class="col-1 text-center" scope="col">{\App\Language::translate('LBL_ACTIVE', $QUALIFIED_MODULE)}</th>
-								<th class="col text-center" scope="col">{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
+								<th scope="col">{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</th>
+								<th scope="col">{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}</th>
+								<th scope="col">{\App\Language::translate('LBL_MODULES', $QUALIFIED_MODULE)}</th>
+								<th scope="col">{\App\Language::translate('LBL_TYPE', $QUALIFIED_MODULE)}</th>
+								<th scope="col">{\App\Language::translate('LBL_DOC_URL', $QUALIFIED_MODULE)}</th>
+								<th scope="col">{\App\Language::translate('LBL_FEATURED', $QUALIFIED_MODULE)}</th>
+								<th scope="col">{\App\Language::translate('LBL_ACTIVE', $QUALIFIED_MODULE)}</th>
+								<th scope="col">{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -54,7 +54,7 @@
 											{\App\Language::translate($VALUE, $VALUE)}{if not $smarty.foreach.LIST.last}, {/if}
 										{/foreach}
 									</td>
-									<td>
+									<td class="text-nowrap">
 										{\App\Language::translate("LBL_TYPE_{$COLLECTOR->displayType}", $QUALIFIED_MODULE)}
 									</td>
 									<td class="text-break">
