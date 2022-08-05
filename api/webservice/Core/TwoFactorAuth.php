@@ -11,7 +11,7 @@
 
 namespace Api\Core;
 
-use Sonata\GoogleAuthenticator\GoogleAuthenticator;
+use PragmaRX\Google2FA\Google2FA;
 
 /**
  * Two Factor Authorization class.
@@ -68,7 +68,7 @@ class TwoFactorAuth
 	{
 		return [
 			'authMethods' => 'TOTP',
-			'secretKey' => (new GoogleAuthenticator())->generateSecret(),
+			'secretKey' => (new Google2FA())->generateSecretKey(),
 		];
 	}
 
@@ -109,7 +109,7 @@ class TwoFactorAuth
 	{
 		$code = $this->action->controller->request->getByType('code', \App\Purifier::ALNUM);
 		$secret = $this->action->controller->request->getByType('secret', \App\Purifier::ALNUM);
-		if (!(new GoogleAuthenticator())->checkCode($secret, (string) $code)) {
+		if (!(new Google2FA())->verifyKey($secret, (string) $code)) {
 			return \App\Language::translate('ERR_INCORRECT_2FA_TOTP_CODE', 'Other.Exceptions');
 		}
 		$this->action->updateUser([
@@ -130,7 +130,7 @@ class TwoFactorAuth
 	public function verify(): void
 	{
 		$auth = $this->action->getUserData('auth');
-		if (!(new GoogleAuthenticator())->checkCode($auth['authy_secret_key'], (string) $this->action->controller->request->get('code'))) {
+		if (!(new Google2FA())->verifyKey($auth['authy_secret_key'], (string) $this->action->controller->request->get('code'))) {
 			throw new \Exception('Incorrect 2FA TOTP code');
 		}
 	}
