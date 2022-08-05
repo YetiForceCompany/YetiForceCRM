@@ -58,6 +58,9 @@
     "LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES": "Matters delegated",
     "LIST_OF_LAST_UPDATED_RECORD": "List of last updated records",
     "Mails List": "Most recent emails",
-    "Notebook": "Notepad"
+    "Notebook": "Notepad",
+    "LBL_START_TIME_COUNTER": "Start time counter",
+    "LBL_STOP_TIME_COUNTER": "Stop time counter",
+    "LBL_RESET_TIME_COUNTER": "Reset time counter"
   }
 }

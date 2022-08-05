@@ -3,7 +3,7 @@
 	<!-- tpl-OSSTimeControl-dashboards-TimeCounter -->
 	<div class="dashboardWidgetHeader">
 		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
-			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) TITLE=App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), 'Home'))}
+			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) TITLE=App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}
 		</div>
 	</div>
 	<div class="dashboardWidgetContent d-flex justify-content-center align-items-center">
