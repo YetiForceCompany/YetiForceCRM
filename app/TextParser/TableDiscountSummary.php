@@ -51,7 +51,7 @@ class TableDiscountSummary extends Base
 				foreach ($inventoryRows as $inventoryRow) {
 					$discount += $inventoryRow['discount'];
 				}
-				$html .= '<table class="table-discount-summary" style="width:100%;vertical-align:top;border-collapse:collapse;">
+				$html .= '<table class="table-discount-summary" style="width:100%;vertical-align:top;border-collapse:collapse;border:1px solid #ddd;">
 				<thead>
 					<tr>
 						<th style="padding:0px 4px;font-weight:bold;background-color:#ddd;">' . \App\Language::translate('LBL_DISCOUNTS_SUMMARY', $this->textParser->moduleName) . '</th>
@@ -59,7 +59,7 @@ class TableDiscountSummary extends Base
 				</thead>
 					<tbody>
 						<tr>
-							<td style="padding:0px 4px;text-align:right;font-weight:bold;border:1px solid #ddd;">' . \CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencySymbol . '</td>
+							<td style="padding:0px 4px;text-align:right;font-weight:bold;border:1px solid #ddd;">' . \CurrencyField::convertToUserFormatSymbol($discount, true, $currencySymbol) . '</td>
 						</tr>
 					</tbody>
 				</table>';
