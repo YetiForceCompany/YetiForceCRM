@@ -42,7 +42,7 @@
 							{foreach from=$COLLECTORS item=COLLECTOR}
 								<tr>
 									<td>
-										<span class="{$COLLECTOR->icon} mr-2"></span>
+										<span class="{$COLLECTOR->icon} u-fs-3x mr-2"></span>
 										{\App\Language::translate($COLLECTOR->label, 'Other.RecordCollector')}
 										{if \in_array($COLLECTOR->getName(), $PAID_RECORD_COLLECTOR)}<span class="yfi-premium color-red-600 js-popover-tooltip ml-2" title="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}"></span>{/if}
 									</td>
