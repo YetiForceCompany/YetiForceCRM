@@ -188,6 +188,9 @@ class Base
 	 */
 	public function loadData(): void
 	{
+		if (empty($this->data)) {
+			return;
+		}
 		if ($recordId = $this->request->getInteger('record')) {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $this->moduleName);
 			$this->response['recordModel'] = $recordModel;

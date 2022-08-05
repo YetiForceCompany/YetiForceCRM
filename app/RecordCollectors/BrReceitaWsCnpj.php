@@ -140,9 +140,7 @@ class BrReceitaWsCnpj extends Base
 			return [];
 		}
 		$this->getDataFromApi($cnpj);
-		if (!isset($this->response['error'])) {
-			$this->loadData();
-		}
+		$this->loadData();
 		return $this->response;
 	}
 

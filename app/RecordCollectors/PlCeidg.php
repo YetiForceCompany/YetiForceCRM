@@ -217,9 +217,6 @@ class PlCeidg extends Base
 			return [];
 		}
 		$this->getDataFromApi($query);
-		if (empty($this->data)) {
-			return [];
-		}
 		$this->loadData();
 		return $this->response;
 	}

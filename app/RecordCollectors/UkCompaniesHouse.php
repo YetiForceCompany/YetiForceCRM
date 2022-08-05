@@ -170,14 +170,8 @@ class UkCompaniesHouse extends Base
 
 		if ($ncr) {
 			$this->data = $this->getDataFromApiByNcr($ncr);
-			if (empty($this->data)) {
-				return [];
-			}
 		} elseif ($companyName) {
 			$this->getDataFromApiByName($companyName);
-			if (empty($this->data)) {
-				return [];
-			}
 		} else {
 			$this->displayType = 'Summary';
 			$this->response['fields'] = [

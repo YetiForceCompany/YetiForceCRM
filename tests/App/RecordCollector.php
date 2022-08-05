@@ -36,22 +36,16 @@ class RecordCollector extends \Tests\Base
 			'vatNumber' => '1180002425',
 			'countryCode' => 'PL',
 		], false));
-		try {
-			$response = $recordCollector->search();
-			if (empty($response['error'])) {
-				$this->assertArrayHasKey('fields', $response);
-				$this->assertArrayHasKey('LBL_REQUEST_ID', $response['fields']);
-				$this->assertEquals('PL1180002425', $response['fields']['Vat ID'] ?? 'No value');
-			} else {
-				// @codeCoverageIgnoreStart
-				$this->markTestSkipped($response['error']);
-				// @codeCoverageIgnoreEnd
-			}
+		$response = $recordCollector->search();
+		if (empty($response['error'])) {
+			$this->assertArrayHasKey('fields', $response);
+			$this->assertArrayHasKey('LBL_REQUEST_ID', $response['fields']);
+			$this->assertEquals('PL1180002425', $response['fields']['Vat ID'] ?? 'No value');
+		} else {
 			// @codeCoverageIgnoreStart
-		} catch (\Throwable $th) {
-			$this->markTestSkipped('Exception:' . $th->getMessage());
+			$this->markTestSkipped($response['error']);
+			// @codeCoverageIgnoreEnd
 		}
-		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -66,23 +60,17 @@ class RecordCollector extends \Tests\Base
 			'module' => 'Accounts',
 			'ncr' => '0000940956',
 		], false));
-		try {
-			$response = $recordCollector->search();
-			if (empty($response['error'])) {
-				$this->assertArrayHasKey('fields', $response);
-				$this->assertArrayHasKey('additional', $response);
-				$this->assertEquals('1180002425', $response['fields']['vat_id']['data'][0]['raw']);
-				$this->assertEquals('00816349200000', $response['fields']['registration_number_2']['data'][0]['raw']);
-			} else {
-				// @codeCoverageIgnoreStart
-				$this->markTestSkipped($response['error']);
-				// @codeCoverageIgnoreEnd
-			}
+		$response = $recordCollector->search();
+		if (empty($response['error'])) {
+			$this->assertArrayHasKey('fields', $response);
+			$this->assertArrayHasKey('additional', $response);
+			$this->assertEquals('1180002425', $response['fields']['vat_id']['data'][0]['raw']);
+			$this->assertEquals('00816349200000', $response['fields']['registration_number_2']['data'][0]['raw']);
+		} else {
 			// @codeCoverageIgnoreStart
-		} catch (\Throwable $th) {
-			$this->markTestSkipped('Exception:' . $th->getMessage());
+			$this->markTestSkipped($response['error']);
+			// @codeCoverageIgnoreEnd
 		}
-		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -98,21 +86,15 @@ class RecordCollector extends \Tests\Base
 			'country' => 'no',
 			'name' => 'test',
 		], false));
-		try {
-			$response = $recordCollector->search();
-			if (empty($response['error'])) {
-				$this->assertArrayHasKey('fields', $response);
-				$this->assertArrayHasKey('links', $response);
-			} else {
-				// @codeCoverageIgnoreStart
-				$this->markTestSkipped($response['error']);
-				// @codeCoverageIgnoreEnd
-			}
+		$response = $recordCollector->search();
+		if (empty($response['error'])) {
+			$this->assertArrayHasKey('fields', $response);
+			$this->assertArrayHasKey('links', $response);
+		} else {
 			// @codeCoverageIgnoreStart
-		} catch (\Throwable $th) {
-			$this->markTestSkipped('Exception:' . $th->getMessage());
+			$this->markTestSkipped($response['error']);
+			// @codeCoverageIgnoreEnd
 		}
-		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -127,21 +109,15 @@ class RecordCollector extends \Tests\Base
 			'module' => 'Accounts',
 			'vatNumber' => '213305295',
 		], false));
-		try {
-			$response = $recordCollector->search();
-			if (empty($response['error'])) {
-				$this->assertArrayHasKey('fields', $response);
-				$this->assertArrayHasKey('additional', $response);
-			} else {
-				// @codeCoverageIgnoreStart
-				$this->markTestSkipped($response['error']);
-				// @codeCoverageIgnoreEnd
-			}
+		$response = $recordCollector->search();
+		if (empty($response['error'])) {
+			$this->assertArrayHasKey('fields', $response);
+			$this->assertArrayHasKey('additional', $response);
+		} else {
 			// @codeCoverageIgnoreStart
-		} catch (\Throwable $th) {
-			$this->markTestSkipped('Exception:' . $th->getMessage());
+			$this->markTestSkipped($response['error']);
+			// @codeCoverageIgnoreEnd
 		}
-		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -156,22 +132,16 @@ class RecordCollector extends \Tests\Base
 			'module' => 'Accounts',
 			'vatNumber' => '923486178',
 		], false));
-		try {
-			$response = $recordCollector->search();
-			if (empty($response['error'])) {
-				$this->assertArrayHasKey('fields', $response);
-				$this->assertArrayHasKey('links', $response);
-				$this->assertArrayHasKey('additional', $response);
-			} else {
-				// @codeCoverageIgnoreStart
-				$this->markTestSkipped($response['error']);
-				// @codeCoverageIgnoreEnd
-			}
+		$response = $recordCollector->search();
+		if (empty($response['error'])) {
+			$this->assertArrayHasKey('fields', $response);
+			$this->assertArrayHasKey('links', $response);
+			$this->assertArrayHasKey('additional', $response);
+		} else {
 			// @codeCoverageIgnoreStart
-		} catch (\Throwable $th) {
-			$this->markTestSkipped('Exception:' . $th->getMessage());
+			$this->markTestSkipped($response['error']);
+			// @codeCoverageIgnoreEnd
 		}
-		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -186,20 +156,14 @@ class RecordCollector extends \Tests\Base
 			'module' => 'Accounts',
 			'cik' => '0001823466',
 		], false));
-		try {
-			$response = $recordCollector->search();
-			if (empty($response['error'])) {
-				$this->assertArrayHasKey('fields', $response);
-				$this->assertArrayHasKey('additional', $response);
-			} else {
-				// @codeCoverageIgnoreStart
-				$this->markTestSkipped($response['error']);
-				// @codeCoverageIgnoreEnd
-			}
+		$response = $recordCollector->search();
+		if (empty($response['error'])) {
+			$this->assertArrayHasKey('fields', $response);
+			$this->assertArrayHasKey('additional', $response);
+		} else {
 			// @codeCoverageIgnoreStart
-		} catch (\Throwable $th) {
-			$this->markTestSkipped('Exception:' . $th->getMessage());
+			$this->markTestSkipped($response['error']);
+			// @codeCoverageIgnoreEnd
 		}
-		// @codeCoverageIgnoreEnd
 	}
 }

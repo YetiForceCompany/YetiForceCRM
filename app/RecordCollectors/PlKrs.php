@@ -132,9 +132,6 @@ class PlKrs extends Base
 		}
 		$this->getDataFromApi($ncr);
 		$this->parseData();
-		if (empty($this->data)) {
-			return [];
-		}
 		$this->loadData();
 		return $this->response;
 	}

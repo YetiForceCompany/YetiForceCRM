@@ -126,10 +126,14 @@ class Vies extends Base
 		}
 		$countryCode = $this->request->getByType('countryCode', 'Standard');
 		$response = [];
-		if ($client = new \SoapClient($this->url, \App\RequestHttp::getSoapOptions())) {
-			$params = ['countryCode' => $countryCode, 'vatNumber' => $vatNumber, 'requesterCountryCode' => $countryCode, 'requesterVatNumber' => $vatNumber];
-			try {
-				$r = $client->checkVatApprox($params);
+		try {
+			if ($client = new \SoapClient($this->url, \App\RequestHttp::getSoapOptions())) {
+				$r = $client->checkVatApprox([
+					'countryCode' => $countryCode,
+					'vatNumber' => $vatNumber,
+					'requesterCountryCode' => $countryCode,
+					'requesterVatNumber' => $vatNumber
+				]);
 				if ($r->valid) {
 					$response['fields'] = [
 						'Country' => $r->countryCode,
@@ -140,10 +144,10 @@ class Vies extends Base
 						'LBL_REQUEST_ID' => $r->requestIdentifier
 					];
 				}
-			} catch (\SoapFault $e) {
-				\App\Log::warning($e->faultstring, 'RecordCollectors');
-				$response['error'] = $e->faultstring;
 			}
+		} catch (\SoapFault $e) {
+			\App\Log::warning($e->faultstring, 'RecordCollectors');
+			$response['error'] = $e->faultstring;
 		}
 		return $response;
 	}
