@@ -47,11 +47,11 @@ class RecordCollector extends \Tests\Base
 				$this->markTestSkipped($response['error']);
 				// @codeCoverageIgnoreEnd
 			}
-		} catch (\Throwable $th) {
 			// @codeCoverageIgnoreStart
+		} catch (\Throwable $th) {
 			$this->markTestSkipped('Exception:' . $th->getMessage());
-			// @codeCoverageIgnoreEnd
 		}
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -78,11 +78,11 @@ class RecordCollector extends \Tests\Base
 				$this->markTestSkipped($response['error']);
 				// @codeCoverageIgnoreEnd
 			}
-		} catch (\Throwable $th) {
 			// @codeCoverageIgnoreStart
+		} catch (\Throwable $th) {
 			$this->markTestSkipped('Exception:' . $th->getMessage());
-			// @codeCoverageIgnoreEnd
 		}
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -108,11 +108,11 @@ class RecordCollector extends \Tests\Base
 				$this->markTestSkipped($response['error']);
 				// @codeCoverageIgnoreEnd
 			}
-		} catch (\Throwable $th) {
 			// @codeCoverageIgnoreStart
+		} catch (\Throwable $th) {
 			$this->markTestSkipped('Exception:' . $th->getMessage());
-			// @codeCoverageIgnoreEnd
 		}
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -137,11 +137,11 @@ class RecordCollector extends \Tests\Base
 				$this->markTestSkipped($response['error']);
 				// @codeCoverageIgnoreEnd
 			}
-		} catch (\Throwable $th) {
 			// @codeCoverageIgnoreStart
+		} catch (\Throwable $th) {
 			$this->markTestSkipped('Exception:' . $th->getMessage());
-			// @codeCoverageIgnoreEnd
 		}
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -167,11 +167,11 @@ class RecordCollector extends \Tests\Base
 				$this->markTestSkipped($response['error']);
 				// @codeCoverageIgnoreEnd
 			}
-		} catch (\Throwable $th) {
 			// @codeCoverageIgnoreStart
+		} catch (\Throwable $th) {
 			$this->markTestSkipped('Exception:' . $th->getMessage());
-			// @codeCoverageIgnoreEnd
 		}
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -196,10 +196,10 @@ class RecordCollector extends \Tests\Base
 				$this->markTestSkipped($response['error']);
 				// @codeCoverageIgnoreEnd
 			}
-		} catch (\Throwable $th) {
 			// @codeCoverageIgnoreStart
+		} catch (\Throwable $th) {
 			$this->markTestSkipped('Exception:' . $th->getMessage());
-			// @codeCoverageIgnoreEnd
 		}
+		// @codeCoverageIgnoreEnd
 	}
 }
