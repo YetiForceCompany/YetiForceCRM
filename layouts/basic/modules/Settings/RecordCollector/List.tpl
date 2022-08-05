@@ -33,6 +33,7 @@
 								<th class="col-2" scope="col">{\App\Language::translate('LBL_MODULES', $QUALIFIED_MODULE)}</th>
 								<th class="col-1" scope="col">{\App\Language::translate('LBL_TYPE', $QUALIFIED_MODULE)}</th>
 								<th class="col-2" scope="col">{\App\Language::translate('LBL_DOC_URL', $QUALIFIED_MODULE)}</th>
+								<th class="col-1 text-center" scope="col">{\App\Language::translate('LBL_FEATURED', $QUALIFIED_MODULE)}</th>
 								<th class="col-1 text-center" scope="col">{\App\Language::translate('LBL_ACTIVE', $QUALIFIED_MODULE)}</th>
 								<th class="col text-center" scope="col">{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
 							</tr>
@@ -60,11 +61,14 @@
 										<a href="{$COLLECTOR->docUrl}" rel="noreferrer noopener" target="_blank">{$COLLECTOR->docUrl}</a>
 									</td>
 									<td class="text-center">
-										<input class="js-status-change" name="is_active" value="{$COLLECTOR->getName()}" type="checkbox" {if $COLLECTOR->active} checked {/if}>
+										<input class="js-featured-change js-visibility {if !$COLLECTOR->active}d-none{/if}" name="featured" value="{$COLLECTOR->getName()}" type="checkbox" {if $COLLECTOR->featured}checked{/if}>
+									</td>
+									<td class="text-center">
+										<input class="js-status-change" name="is_active" value="{$COLLECTOR->getName()}" type="checkbox" {if $COLLECTOR->active}checked{/if}>
 									</td>
 									<td class="text-center">
 										{if !empty($COLLECTOR->settingsFields)}
-											<button class="btn btn-outline-secondary btn-sm js-show-config-modal js-popover-tooltip mr-1 {if !$COLLECTOR->active} d-none {/if}" type="button" data-name="{$COLLECTOR->getName()}"
+											<button class="btn btn-outline-secondary btn-sm js-show-config-modal js-popover-tooltip mr-1 js-visibility {if !$COLLECTOR->active}d-none{/if}" type="button" data-name="{$COLLECTOR->getName()}"
 												data-content="{\App\Language::translate('LBL_CONFIG', $QUALIFIED_MODULE)}">
 												<span class="fas fa-cog"></span>
 											</button>
