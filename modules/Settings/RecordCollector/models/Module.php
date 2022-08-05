@@ -26,13 +26,14 @@ class Settings_RecordCollector_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getCollectors(): array
 	{
-		$active = (new \App\Db\Query())->select(['linklabel'])->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR'])->column();
+		$links = (new \App\Db\Query())->select(['linklabel', 'linkicon'])->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR'])->createCommand()->queryAllByGroup(0);
 		$iterator = new \DirectoryIterator(ROOT_DIRECTORY . '/app/RecordCollectors/');
 		foreach ($iterator as $item) {
 			$file = $item->getBasename('.php');
 			if ($item->isFile() && 'php' === $item->getExtension() && 'Base' != $file) {
 				$collectorInstance = \App\RecordCollector::getInstance('App\RecordCollectors\\' . $file, 'Accounts');
-				$collectorInstance->active = \in_array($file, $active);
+				$collectorInstance->active = isset($links[$file]);
+				$collectorInstance->featured = (bool) ($links[$file] ?? '');
 				$this->collectors[$file] = $collectorInstance;
 			}
 		}

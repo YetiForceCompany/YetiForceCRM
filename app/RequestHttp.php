@@ -17,6 +17,12 @@ namespace App;
  */
 class RequestHttp
 {
+	/** @var int Total timeout of the request in seconds. Use 0 to wait indefinitely (the default behavior). */
+	public static $timeout = 10;
+
+	/** @var int The number of seconds to wait while trying to connect to a server. Use 0 to wait indefinitely (the default behavior). */
+	public static $connectTimeout = 2;
+
 	/**
 	 * Get GuzzleHttp client instance.
 	 *
@@ -41,8 +47,8 @@ class RequestHttp
 			'headers' => [
 				'User-Agent' => 'YetiForceCRM/' . Version::get(),
 			],
-			'timeout' => 10,
-			'connect_timeout' => 2,
+			'timeout' => self::$timeout,
+			'connect_timeout' => self::$connectTimeout,
 			'verify' => \is_file($caPathOrFile) ? $caPathOrFile : false,
 		];
 		if (!empty(\Config\Security::$proxyConnection)) {
@@ -76,7 +82,7 @@ class RequestHttp
 		$options = [
 			'trace' => 1,
 			'exceptions' => 1,
-			'connection_timeout' => 10,
+			'connection_timeout' => self::$timeout,
 			'user_agent' => 'YetiForceCRM/' . Version::get(),
 		];
 		if (!empty(\Config\Security::$proxyConnection)) {

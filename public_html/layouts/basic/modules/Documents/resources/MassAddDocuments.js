@@ -62,7 +62,7 @@ window.Documents_MassAddDocuments_Js = class Documents_MassAddDocuments_Js {
 			contentType: false
 		}).done((response) => {
 			progressIndicatorElement.progressIndicator({ mode: 'hide' });
-			app.hideModalWindow();
+			app.hideModalWindow(null, this.modal.parent().attr('id'));
 			switch (this.button.data('view')) {
 				case 'Detail':
 					const detailView = Vtiger_Detail_Js.getInstance(),
