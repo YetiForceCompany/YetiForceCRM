@@ -74,12 +74,12 @@ class TableCurrencySummary extends Base
 					$currencyAmount += $tax;
 					$html .= '<tr>
 									<td class="name" style="padding:0px 4px;">' . $key . '%</td>
-									<td class="value" style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($tax * $rate, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
+									<td class="value" style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormatSymbol($tax * $rate, true, $baseCurrency['currency_symbol']) . ' </td>
 								</tr>';
 				}
 				$html .= '<tr class="summary">
 								<td class="name" style="padding:0px 4px;font-weight:bold;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
-								<td class="value" style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($currencyAmount * $rate, null, true) . ' ' . $baseCurrency['currency_symbol'] . '</td>
+								<td class="value" style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormatSymbol($currencyAmount * $rate, true, $baseCurrency['currency_symbol']) . ' </td>
 							</tr>
 						</tbody>
 					</table>';

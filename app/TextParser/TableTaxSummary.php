@@ -74,12 +74,12 @@ class TableTaxSummary extends Base
 					$taxAmount += $tax;
 					$html .= '<tr>
 								<td class="name" style="text-align:left;padding:0px 4px;">' . $key . '%</td>
-								<td class="value" style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencySymbol . '</td>
+								<td class="value" style="text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormatSymbol($tax, true, $currencySymbol) . ' </td>
 							</tr>';
 				}
 				$html .= '<tr class="summary">
-						<td class="name" style="text-align:left;font-weight:bold;padding:0px 4px;">' . (\in_array('hideSumName', $this->params) ? '' : \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName)) . '</td>
-						<td class="value" style="text-align:right;font-weight:bold;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($taxAmount, null, true) . ' ' . $currencySymbol . '</td>
+						<td class="name" style="text-align:left;font-weight:bold;padding:0px 4px;border:1px solid #ddd;border-right:0;">' . (\in_array('hideSumName', $this->params) ? '' : \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName)) . '</td>
+						<td class="value" style="text-align:right;font-weight:bold;padding:0px 4px;border:1px solid #ddd;border-left:0;">' . \CurrencyField::convertToUserFormatSymbol($taxAmount, true, $currencySymbol) . ' </td>
 					</tr>
 				</tbody>
 			</table>';
