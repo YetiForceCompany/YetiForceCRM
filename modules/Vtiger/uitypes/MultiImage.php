@@ -72,8 +72,8 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 	/**
 	 * Get image url.
 	 *
-	 * @param {string} $key
-	 * @param {int}    $record
+	 * @param string $key
+	 * @param int    $record
 	 *
 	 * @return string
 	 */
@@ -85,7 +85,7 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 	/**
 	 * Get display value as string in JSON format.
 	 *
-	 * @param {string} $value
+	 * @param string   $value
 	 * @param bool|int $length
 	 * @param mixed    $record
 	 *
@@ -376,9 +376,9 @@ class Vtiger_MultiImage_UIType extends Vtiger_MultiAttachment_UIType
 	/**
 	 * Upload and save attachment.
 	 *
-	 * @param array   $files
-	 * @param int     $recordId
-	 * @param ?string $hash
+	 * @param array       $files
+	 * @param int         $recordId
+	 * @param string|null $hash
 	 *
 	 * @return array
 	 */

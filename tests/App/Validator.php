@@ -8,6 +8,7 @@
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Adach <a.adach@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Tests\App;
@@ -18,45 +19,54 @@ namespace Tests\App;
 class Validator extends \Tests\Base
 {
 	/**
-	 * @dataProvider dataUrlNoProtocolRequired
+	 * @dataProvider dataValidator
 	 *
-	 * @param mixed $expectedValue
-	 * @param mixed $value
+	 * @param string $fn
+	 * @param bool   $expected
+	 * @param string $value
 	 *
 	 * @return void
 	 */
-	public function testUrlNoProtocolRequired(bool $expectedValue, $value)
+	public function testValidator(string $fn, bool $expected, $value)
 	{
-		$this->assertSame($expectedValue, \App\Validator::urlDomain($value));
+		$this->assertSame($expected, \App\Validator::{$fn}($value));
 	}
 
 	/**
-	 * Data provider for testUrlNoProtocolRequired.
+	 * Data provider for testValidator function.
 	 *
 	 * @return array
 	 */
-	public function dataUrlNoProtocolRequired(): array
+	public function dataValidator(): array
 	{
 		return [
-			[true, 'ssl://yf.com.pl'],
-			[true, 'google.pl'],
-			[true, 'http://google.pl'],
-			[false, 'http://a-.bc.com'],
-			[false, 'https://1243yfcom%.pl'],
-			[false, '.'],
-			[false, '#'],
-			[false, 'https://yetiforce*com/pl/'],
-			[false, 'https://yeti force.com/pl/'],
-			[true, 'ftp://yetiforce.com'],
-			[false, 'test@com.pl'],
-			[true, 'tel://600500100'],
-			[true, 'mailto://info@yetiforce.com'],
-			[false, 'http*://yetiforce.com'],
-			[true, 'http://yetiforce.com:2160/'],
-			[false, ' http://yetiforce.com/'],
-			[false, 'javascript:alert(1)'],
-			[true, 'http://www.müller.de'],
-			[true, 'http://элтранс.рф'],
+			['url', true, 'ssl://imap.gmail.com:993'],
+			['url', true, 'ssl://imap.gmail.com'],
+			['url', true, 'tls://imap.gmail.com'],
+			['url', true, 'imap.gmail.com:993'],
+			['url', true, 'imap.gmail.com'],
+			['urlDomain', true, 'ssl://imap.gmail.com:993'],
+			['urlDomain', true, 'ssl://imap.gmail.com'],
+			['urlDomain', true, 'tls://imap.gmail.com'],
+			['urlDomain', true, 'imap.gmail.com'],
+			['urlDomain', true, 'google.pl'],
+			['urlDomain', true, 'http://google.pl'],
+			['urlDomain', false, 'http://a-.bc.com'],
+			['urlDomain', false, 'https://1243yfcom%.pl'],
+			['urlDomain', false, '.'],
+			['urlDomain', false, '#'],
+			['urlDomain', false, 'https://yetiforce*com/pl/'],
+			['urlDomain', false, 'https://yeti force.com/pl/'],
+			['urlDomain', true, 'ftp://yetiforce.com'],
+			['urlDomain', false, 'test@com.pl'],
+			['urlDomain', true, 'tel://600500100'],
+			['urlDomain', true, 'mailto://info@yetiforce.com'],
+			['urlDomain', false, 'http*://yetiforce.com'],
+			['urlDomain', true, 'http://yetiforce.com:2160/'],
+			['urlDomain', false, ' http://yetiforce.com/'],
+			['urlDomain', false, 'javascript:alert(1)'],
+			['urlDomain', true, 'http://www.müller.de'],
+			['urlDomain', true, 'http://элтранс.рф'],
 		];
 	}
 

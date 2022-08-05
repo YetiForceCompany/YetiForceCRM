@@ -57,7 +57,7 @@ class Gantt {
 						id: 4,
 						label: app.vtranslate('JS_DAYS'),
 						value: (task) => {
-							return task.duration / 24 / 60 / 60;
+							return task.duration / 24 / 60 / 60 / 1000;
 						},
 						width: 75,
 						style: {
@@ -243,13 +243,7 @@ class Gantt {
 			if (this.filter.status.hasOwnProperty(moduleName)) {
 				const visibleLabels = this.filter.status[moduleName].map((status) => status.label);
 				tasks = tasks.filter((task) => {
-					if (task.module !== moduleName) {
-						return true;
-					}
-					if (visibleLabels.indexOf(task.status_label) >= 0) {
-						return true;
-					}
-					return false;
+					return task.module !== moduleName || visibleLabels.indexOf(task.status_label) >= 0;
 				});
 			}
 		}

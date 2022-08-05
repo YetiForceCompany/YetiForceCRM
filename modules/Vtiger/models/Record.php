@@ -724,6 +724,8 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Static Function to get the instance of a clean Vtiger Record Model for the given module name.
 	 *
+	 * @uses \App\Base::__construct()
+	 *
 	 * @param string $moduleName
 	 *
 	 * @return $this or Module Specific Record Model instance
@@ -749,6 +751,8 @@ class Vtiger_Record_Model extends \App\Base
 
 	/**
 	 * Static Function to get the instance of the Vtiger Record Model given the recordid and the module name.
+	 *
+	 * @uses self::__construct()
 	 *
 	 * @param int    $recordId
 	 * @param string $module

@@ -1,7 +1,8 @@
 <?php
 /**
  * Vies record collector file.
- * https://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl.
+ *
+ * @see https://ec.europa.eu/taxation_customs/vies/checkVatTestService.wsdl
  *
  * @package App
  *
@@ -18,7 +19,7 @@ namespace App\RecordCollectors;
 class Vies extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
 	public $icon = 'yfi yfi-vies';

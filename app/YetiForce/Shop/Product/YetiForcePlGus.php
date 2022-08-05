@@ -2,9 +2,9 @@
 /**
  * YetiForce shop YetiForcePlGus file.
  *
- * @package App
- *
  * @see App\RecordCollectors\Gus
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -47,7 +47,7 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForcePlGus');
 		} else {
 			$instance = new \App\RecordCollectors\Gus();
-			$instance->moduleName = reset(\App\RecordCollectors\Gus::$allowedModules);
+			$instance->moduleName = reset($instance->allowedModules);
 			if ($instance->isActive()) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;
@@ -64,7 +64,7 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 			$return[] = \Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'RecordCollector',
 				'relatedModuleName' => 'Settings:RecordCollector',
-				'linkicon' => 'fab fa-nfc-symbol mr-2',
+				'linkicon' => 'yfi-record-collectors mr-2',
 				'linkhref' => true,
 				'linkurl' => 'index.php?parent=Settings&module=RecordCollector&view=List',
 				'linkclass' => 'btn-primary',

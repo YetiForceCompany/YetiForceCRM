@@ -48,6 +48,8 @@ class RecordRelatedList extends \Api\Core\BaseAction
 	/**
 	 * Get related record list method.
 	 *
+	 * @api
+	 *
 	 * @throws \Api\Core\Exception
 	 *
 	 * @return array

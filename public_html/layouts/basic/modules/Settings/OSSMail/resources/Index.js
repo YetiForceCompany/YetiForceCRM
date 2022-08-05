@@ -27,7 +27,7 @@ jQuery.Class(
 		 * Register the field with hosts
 		 */
 		registerDefaultHost: function () {
-			App.Fields.Picklist.showSelect2ElementView(this.getContainer().find('[name="default_host"]'), {
+			App.Fields.Picklist.showSelect2ElementView(this.getContainer().find('[name="imap_host"]'), {
 				delimiter: ',',
 				persist: false,
 				tags: true,

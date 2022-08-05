@@ -12,9 +12,14 @@
 					{assign var=FIELD_MODEL value=$FIELDS_MODELS[$BOARD['fieldid']]}
 					<div class="card mb-2 js-board" data-id="{$BOARD['id']}">
 						<div class="card-header d-flex justify-content-between align-items-center px-2 py-1">
-							<h5 class="card-title my-0">
+							<h5 class="card-title my-0 form-row">
 								<a class="px-2 u-cursor-move js-drag" data-js="ui-sortable-handle"><img class="align-baseline" src="{\App\Layout::getImagePath('drag.png')}" title="{\App\Language::translate('LBL_DRAG',$QUALIFIED_MODULE)}" /></a>
 								{$FIELD_MODEL->getFullLabelTranslation()}
+								{if !$FIELD_MODEL->isAjaxEditable()}
+									<div class="js-popover-tooltip ml-2" data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translate('LBL_NOT_VISIBLE_KANBAN', $QUALIFIED_MODULE)}">
+										<span class="fas fa-triangle-exclamation text-danger"></span>
+									</div>
+								{/if}
 							</h5>
 							<div class="btn-toolbar btn-group-xs">
 								<button type="button" class="btn btn-sm btn-danger float-right js-delete" title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}" data-js="click">

@@ -2,9 +2,11 @@
 /**
  * Api Government of French Republic file.
  *
- * @package App
- *
  * @see https://api.gouv.fr/les-api/api-entreprise
+ * @see https://api.gouv.fr/les-api/api-recherche-entreprises
+ * @see https://api.gouv.fr/documentation/api-recherche-entreprises
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -20,10 +22,10 @@ namespace App\RecordCollectors;
 class FrEnterpriseGouv extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fas fa-flag';
+	public $icon = 'yfi-entreprise-gouv-fr';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_FR_ENTERPRISE_GOUV';
@@ -37,7 +39,7 @@ class FrEnterpriseGouv extends Base
 	/** {@inheritdoc} */
 	public $docUrl = 'https://api.gouv.fr/les-api/api-entreprise/';
 
-	/** @var string CH sever address */
+	/** @var string Server address */
 	private $url = 'https://recherche-entreprises.api.gouv.fr/';
 
 	/** {@inheritdoc} */

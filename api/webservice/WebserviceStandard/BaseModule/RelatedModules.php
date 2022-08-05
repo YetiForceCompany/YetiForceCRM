@@ -24,6 +24,8 @@ class RelatedModules extends \Api\Core\BaseAction
 	/**
 	 * Get related modules list method.
 	 *
+	 * @api
+	 *
 	 * @return array
 	 *
 	 *	@OA\Get(

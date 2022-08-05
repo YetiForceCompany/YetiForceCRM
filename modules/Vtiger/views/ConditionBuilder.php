@@ -9,6 +9,7 @@
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
  * Condition builder view class.
@@ -53,12 +54,15 @@ class Vtiger_ConditionBuilder_View extends \App\Controller\View\Page
 	 */
 	public function row(App\Request $request): void
 	{
+		$relatedModuleSkip = $request->getBoolean('relatedModuleSkip', false);
 		$sourceModuleName = $request->getByType('sourceModuleName', \App\Purifier::ALNUM);
 		$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModuleName);
 		$recordStructureModulesField = [];
-		foreach ($sourceModuleModel->getFieldsByReference() as $referenceField) {
-			foreach ($referenceField->getReferenceList() as $relatedModuleName) {
-				$recordStructureModulesField[$relatedModuleName][$referenceField->getFieldName()] = Vtiger_RecordStructure_Model::getInstanceForModule(Vtiger_Module_Model::getInstance($relatedModuleName))->getStructure();
+		if (!$relatedModuleSkip) {
+			foreach ($sourceModuleModel->getFieldsByReference() as $referenceField) {
+				foreach ($referenceField->getReferenceList() as $relatedModuleName) {
+					$recordStructureModulesField[$relatedModuleName][$referenceField->getFieldName()] = Vtiger_RecordStructure_Model::getInstanceForModule(Vtiger_Module_Model::getInstance($relatedModuleName))->getStructure();
+				}
 			}
 		}
 		$fieldInfo = false;
@@ -100,15 +104,20 @@ class Vtiger_ConditionBuilder_View extends \App\Controller\View\Page
 	public function builder(App\Request $request): void
 	{
 		$viewer = $this->getViewer($request);
+		$advanceCriteria = $request->getArray('advanceCriteria', \App\Purifier::TEXT);
+		$relatedModuleSkip = $request->getBoolean('relatedModuleSkip', false);
 		$sourceModuleName = $request->getByType('sourceModuleName', \App\Purifier::ALNUM);
 		$sourceModuleModel = \Vtiger_Module_Model::getInstance($sourceModuleName);
 		$recordStructureModulesField = [];
-		foreach ($sourceModuleModel->getFieldsByReference() as $referenceField) {
-			foreach ($referenceField->getReferenceList() as $relatedModuleName) {
-				$recordStructureModulesField[$relatedModuleName][$referenceField->getFieldName()] = Vtiger_RecordStructure_Model::getInstanceForModule(Vtiger_Module_Model::getInstance($relatedModuleName))->getStructure();
+		if (!$relatedModuleSkip) {
+			foreach ($sourceModuleModel->getFieldsByReference() as $referenceField) {
+				foreach ($referenceField->getReferenceList() as $relatedModuleName) {
+					$recordStructureModulesField[$relatedModuleName][$referenceField->getFieldName()] = Vtiger_RecordStructure_Model::getInstanceForModule(Vtiger_Module_Model::getInstance($relatedModuleName))->getStructure();
+				}
 			}
 		}
-		$viewer->assign('ADVANCE_CRITERIA', []);
+
+		$viewer->assign('ADVANCE_CRITERIA', $advanceCriteria ? \App\Condition::getConditionsFromRequest($advanceCriteria) : []);
 		$viewer->assign('RECORD_STRUCTURE_RELATED_MODULES', $recordStructureModulesField);
 		$viewer->assign('RECORD_STRUCTURE', Vtiger_RecordStructure_Model::getInstanceForModule($sourceModuleModel)->getStructure());
 		$viewer->assign('SOURCE_MODULE', $sourceModuleName);

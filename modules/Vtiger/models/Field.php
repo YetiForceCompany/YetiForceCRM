@@ -26,6 +26,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/** @var array Field maximum length by UiType. */
 	public static $uiTypeMaxLength = [
+		99 => 100,
 		120 => 65535,
 		106 => '3,64',
 		156 => '3',

@@ -1366,7 +1366,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function isTypeChangeAllowed(): bool
 	{
-		return $this->allowTypeChange;
+		return $this->allowTypeChange || static::ADVANCED_TYPE === $this->getModuleType();
 	}
 
 	/**
@@ -1390,7 +1390,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
-	 * Get custom link label
+	 * Get custom link label.
 	 *
 	 * @param int    $id
 	 * @param string $label

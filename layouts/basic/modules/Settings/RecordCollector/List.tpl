@@ -28,11 +28,13 @@
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th class="col-3" scope="col">{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</th>
-								<th class="col-4" scope="col">{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}</th>
-								<th class="col-3" scope="col">{\App\Language::translate('LBL_DOC_URL', $QUALIFIED_MODULE)}</th>
+								<th class="col-2" scope="col">{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</th>
+								<th class="col-3" scope="col">{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}</th>
+								<th class="col-2" scope="col">{\App\Language::translate('LBL_MODULES', $QUALIFIED_MODULE)}</th>
+								<th class="col-1" scope="col">{\App\Language::translate('LBL_TYPE', $QUALIFIED_MODULE)}</th>
+								<th class="col-2" scope="col">{\App\Language::translate('LBL_DOC_URL', $QUALIFIED_MODULE)}</th>
 								<th class="col-1 text-center" scope="col">{\App\Language::translate('LBL_ACTIVE', $QUALIFIED_MODULE)}</th>
-								<th class="col-1 text-center" scope="col">{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
+								<th class="col text-center" scope="col">{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -47,6 +49,14 @@
 										{\App\Language::translate($COLLECTOR->description, 'Other.RecordCollector')}
 									</td>
 									<td>
+										{foreach from=$COLLECTOR->allowedModules item=VALUE name=LIST}
+											{\App\Language::translate($VALUE, $VALUE)}{if not $smarty.foreach.LIST.last}, {/if}
+										{/foreach}
+									</td>
+									<td>
+										{\App\Language::translate("LBL_TYPE_{$COLLECTOR->displayType}", $QUALIFIED_MODULE)}
+									</td>
+									<td class="text-break">
 										<a href="{$COLLECTOR->docUrl}" rel="noreferrer noopener" target="_blank">{$COLLECTOR->docUrl}</a>
 									</td>
 									<td class="text-center">

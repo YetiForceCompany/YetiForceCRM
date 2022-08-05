@@ -2,9 +2,9 @@
 /**
  * EDGAR Registry of Securities and Exchange Commission file.
  *
- * @package App
- *
  * @see https://www.sec.gov/edgar/sec-api-documentation
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -20,10 +20,10 @@ namespace App\RecordCollectors;
 class UsaEdgarRegistryFromSec extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Partners', 'Vendors', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Partners', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fa-solid fa-flag-usa';
+	public $icon = 'yfi-edgar-usa';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_USA_EDGAR';
@@ -164,18 +164,17 @@ class UsaEdgarRegistryFromSec extends Base
 			$countZeroToAdd = self::CIK_LEN - \strlen($cik);
 			$cik = str_repeat('0', $countZeroToAdd) . $cik;
 		}
-		$response = [];
 		try {
 			$response = \App\RequestHttp::getClient()->get($this->url . $cik . '.json', [
 				'headers' => [
 					'User-Agent' => 'YetiForce S. A. devs@yetiforce.com',
 				],
 			]);
+			$this->data = isset($response) ? \App\Json::decode($response->getBody()->getContents()) : [];
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
-		$this->data = isset($response) ? \App\Json::decode($response->getBody()->getContents()) : [];
 	}
 
 	/**
@@ -188,6 +187,7 @@ class UsaEdgarRegistryFromSec extends Base
 		if (empty($this->data)) {
 			return;
 		}
+		unset($this->data['filings']);
 		$this->data = \App\Utils::flattenKeys($this->data, 'ucfirst');
 	}
 }

@@ -81,7 +81,7 @@ class Environment extends Base
 				$value = \is_array($value) ? \App\Json::encode($value) : $value;
 				$table[] = [
 					'Parameter' => $item['status'] ? $name : "<light_red>{$name}</light_red>",
-					'Recommended' => $item['recommended'] ? print_r($item['recommended'], true) : '-',
+					'Recommended' => empty($item['recommended']) ? '-' : print_r($item['recommended'], true),
 					'Value' => $item['status'] ? $value : ("<light_red>{$value}</light_red>"),
 				];
 			}
@@ -104,14 +104,10 @@ class Environment extends Base
 	public function htmlToText(array &$item): void
 	{
 		if (false !== strpos($item['val'], '<b class="text-danger">')) {
-			$item['val'] = preg_replace_callback("'<b class=\"text-danger\">(.*?)</b>'si", function ($match) {
-				return "<light_red>{$match['1']}</light_red>";
-			}, $item['val']);
+			$item['val'] = preg_replace_callback("'<b class=\"text-danger\">(.*?)</b>'si", fn ($match) => "<light_red>{$match['1']}</light_red>", $item['val']);
 		}
 		if (false !== strpos($item['recommended'], '<b class="text-danger">')) {
-			$item['recommended'] = preg_replace_callback("'<b class=\"text-danger\">(.*?)</b>'si", function ($match) {
-				return "<light_red>{$match['1']}</light_red>";
-			}, $item['recommended']);
+			$item['recommended'] = preg_replace_callback("'<b class=\"text-danger\">(.*?)</b>'si", fn ($match) => "<light_red>{$match['1']}</light_red>", $item['recommended']);
 		}
 	}
 }

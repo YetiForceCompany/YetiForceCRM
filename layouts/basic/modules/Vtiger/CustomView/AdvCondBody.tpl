@@ -11,7 +11,7 @@
 		<div class="blockHeader c-panel__header py-2 js-toggle-block" data-js="click">
 			<span class="js-toggle-icon fas {if $HIDE_CUSTOM_RELATION}fa-chevron-right{else}fa-chevron-down{/if} fa-xs m-1 mt-2 mr-3" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down" data-js="container"></span>
 			<h5>
-				<span class="fas fa-columns mr-2" aria-hidden="true"></span>
+				<span class="yfi-relationship-as-custom-column mr-2" aria-hidden="true"></span>
 				{\App\Language::translate('LBL_CUSTOM_RELATION_COLUMN','CustomView')}
 				<a href="#" class="js-popover-tooltip float-right u-cursor-pointer ml-2" data-placement="top"
 					data-content="{\App\Language::translate('LBL_CUSTOM_RELATION_COLUMN_DESC','CustomView')}">
@@ -45,7 +45,7 @@
 		<div class="blockHeader c-panel__header py-2 js-toggle-block" data-js="click">
 			<span class="js-toggle-icon fas {if $HIDE_CUSTOM_CONDITIONS}fa-chevron-right{else}fa-chevron-down{/if} fa-xs m-1 mt-2 mr-3" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down" data-js="container"></span>
 			<h5>
-				<span class="fas fa-filter mr-2" aria-hidden="true"></span>
+				<span class="yfi-conditions-for-filtering-related-records mr-2" aria-hidden="true"></span>
 				{\App\Language::translate('LBL_CUSTOM_CONDITIONS','CustomView')}
 				<a href="#" class="js-popover-tooltip float-right u-cursor-pointer ml-2" data-placement="top"
 					data-content="{\App\Language::translate('LBL_CUSTOM_CONDITIONS_DESC','CustomView')}">

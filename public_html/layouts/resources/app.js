@@ -2006,7 +2006,7 @@ var app = (window.app = {
 	 * Default scroll options
 	 */
 	scrollOptions: {
-		wheelSpeed: 0.1
+		wheelSpeed: 0.5
 	},
 	/**
 	 * Function to push down the error message size when validation is invoked

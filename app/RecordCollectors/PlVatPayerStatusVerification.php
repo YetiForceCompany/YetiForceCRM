@@ -2,11 +2,11 @@
 /**
  * VAT Payer Status Verification in Poland record collector file.
  *
- * @package App
- *
  * @see https://ppuslugi.mf.gov.pl/
  * @see https://www.podatki.gov.pl/e-deklaracje/dokumentacja-it/
  * @see https://www.podatki.gov.pl/media/3275/specyfikacja-we-wy.pdf
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -22,10 +22,10 @@ namespace App\RecordCollectors;
 class PlVatPayerStatusVerification extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fa-solid fa-magnifying-glass-dollar';
+	public $icon = 'yfi-vat-pl';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_PL_VAT_PAYER';
@@ -77,16 +77,16 @@ class PlVatPayerStatusVerification extends Base
 		if (!$vatNumber) {
 			return [];
 		}
-		if ($client = new \SoapClient($this->url, \App\RequestHttp::getSoapOptions())) {
-			try {
+		try {
+			if ($client = new \SoapClient($this->url, \App\RequestHttp::getSoapOptions())) {
 				$r = $client->sprawdzNIP($vatNumber);
 				$response['fields'] = [
 					'' => $r->Komunikat
 				];
-			} catch (\SoapFault $e) {
-				\App\Log::warning($e->faultstring, 'RecordCollectors');
-				$response['error'] = $e->faultstring;
 			}
+		} catch (\SoapFault $e) {
+			\App\Log::warning($e->faultstring, 'RecordCollectors');
+			$response['error'] = $e->faultstring;
 		}
 		return $response;
 	}

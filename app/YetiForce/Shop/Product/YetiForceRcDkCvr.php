@@ -1,10 +1,10 @@
 <?php
 /**
- * YetiForce shop YetiForceRcOrb file.
+ * YetiForce shop YetiForceRcDkCvr file.
+ *
+ * @see App\RecordCollectors\DkCvr
  *
  * @package App
- *
- * @see App\RecordCollectors\OrbIntelligence
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -14,18 +14,18 @@
 namespace App\YetiForce\Shop\Product;
 
 /**
- * YetiForce shop YetiForceRcOrb class.
+ * YetiForce shop YetiForceRcDkCvr class.
  */
-class YetiForceRcOrb extends \App\YetiForce\Shop\AbstractBaseProduct
+class YetiForceRcDkCvr extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce ORB';
+	public $label = 'YetiForce CVR DK';
 
 	/** {@inheritdoc} */
 	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-orb';
+	public $website = 'https://yetiforce.com/en/yetiforce-cvr-dk';
 
 	/** {@inheritdoc} */
 	public $prices = [
@@ -43,12 +43,12 @@ class YetiForceRcOrb extends \App\YetiForce\Shop\AbstractBaseProduct
 	public function verify(): array
 	{
 		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForceRcOrb')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceRcOrb');
+		if (\App\YetiForce\Register::getProducts('YetiForceRcDkCvr')) {
+			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceRcDkCvr');
 		} else {
 			if (
-				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'OrbIntelligence'])->exists()
-				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\OrbIntelligence";%', false])->exists()
+				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'DkCvr'])->exists()
+				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\DkCvr";%', false])->exists()
 			) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;
@@ -65,7 +65,7 @@ class YetiForceRcOrb extends \App\YetiForce\Shop\AbstractBaseProduct
 			$return[] = \Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'RecordCollector',
 				'relatedModuleName' => 'Settings:RecordCollector',
-				'linkicon' => 'fab fa-nfc-symbol mr-2',
+				'linkicon' => 'yfi-record-collectors mr-2',
 				'linkhref' => true,
 				'linkurl' => 'index.php?parent=Settings&module=RecordCollector&view=List',
 				'linkclass' => 'btn-primary',
@@ -85,13 +85,13 @@ class YetiForceRcOrb extends \App\YetiForce\Shop\AbstractBaseProduct
 				'showLabel' => 1,
 			]),
 			\Vtiger_Link_Model::getInstanceFromValues([
-				'linklabel' => 'orb-intelligence.com',
+				'linklabel' => 'cvrtjek.dk',
 				'relatedModuleName' => 'Settings:_Base',
 				'linkicon' => 'fa-solid fa-link',
 				'linkhref' => true,
 				'linkExternal' => true,
 				'linktarget' => '_blank',
-				'linkurl' => 'https://api.orb-intelligence.com/',
+				'linkurl' => 'https://cvrtjek.dk/',
 				'linkclass' => 'btn-secondary',
 				'showLabel' => 1,
 			]),

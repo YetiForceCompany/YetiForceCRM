@@ -510,7 +510,7 @@ class Rbl extends \App\Base
 	/**
 	 * Verify SPF (Sender Policy Framework) for Authorizing Use of Domains in Email.
 	 *
-	 * @see @see https://tools.ietf.org/html/rfc7208
+	 * @see https://tools.ietf.org/html/rfc7208
 	 *
 	 * @return array
 	 */

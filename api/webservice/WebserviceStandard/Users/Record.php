@@ -49,6 +49,8 @@ class Record extends \Api\Core\BaseAction
 	/**
 	 * Get user detail.
 	 *
+	 * @api
+	 *
 	 * @return array
 	 *
 	 * @OA\Get(
@@ -153,6 +155,8 @@ class Record extends \Api\Core\BaseAction
 
 	/**
 	 * Create record.
+	 *
+	 * @api
 	 *
 	 * @return array
 	 *

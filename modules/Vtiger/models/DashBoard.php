@@ -64,77 +64,26 @@ class Vtiger_DashBoard_Model extends \App\Base
 	 */
 	public function getDashboards(int $action = 1)
 	{
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		$currentUserPrivilegeModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 		$query = (new \App\Db\Query())->select(['vtiger_links.*', 'mdw.userid', 'mdw.data', 'mdw.active', 'mdw.title', 'mdw.size', 'mdw.filterid',
-			'widgetid' => 'mdw.id', 'mdw.position', 'id' => 'vtiger_links.linkid', 'mdw.limit', 'mdw.cache', 'mdw.owners', 'mdw.isdefault', ])
+			'widgetid' => 'mdw.id', 'mdw.position', 'id' => 'vtiger_links.linkid', 'mdw.limit', 'mdw.cache', 'mdw.owners', 'mdw.isdefault', 'mdw.module'])
 			->from('vtiger_links')
 			->leftJoin('vtiger_module_dashboard_widgets mdw', 'vtiger_links.linkid = mdw.linkid')
-			->where(['mdw.userid' => $currentUser->getId(), 'vtiger_links.linktype' => 'DASHBOARDWIDGET', 'mdw.module' => $moduleModel->getId(), 'active' => $action, 'mdw.dashboardid' => $this->get('dashboardId')]);
+			->where(['mdw.userid' => $userPrivModel->getId(), 'vtiger_links.linktype' => 'DASHBOARDWIDGET', 'mdw.module' => $moduleModel->getId(), 'active' => $action, 'mdw.dashboardid' => $this->get('dashboardId')]);
 		$dataReader = $query->createCommand()->query();
 		$widgets = [];
 
 		while ($row = $dataReader->read()) {
 			$row['linkid'] = $row['id'];
-			if ('Mini List' === $row['linklabel']) {
-				if (empty($row['isdefault']) && \App\Privilege::isPermitted($moduleModel->getName(), 'CreateDashboardFilter', false, false)) {
-					$row['deleteFromList'] = true;
-				}
-				$minilistWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
-				$minilistWidgetModel = new Vtiger_MiniList_Model();
-				$minilistWidgetModel->setWidgetModel($minilistWidget);
-				$minilistWidget->set('title', $minilistWidgetModel->getTitle());
-				$widgets[] = $minilistWidget;
-			} elseif ('ChartFilter' === $row['linklabel']) {
-				if (!$row['isdefault'] && \App\Privilege::isPermitted($moduleModel->getName(), 'CreateDashboardChartFilter', false, false)) {
-					$row['deleteFromList'] = true;
-				}
-				$charFilterWidget = Vtiger_Widget_Model::getInstanceFromValues($row);
-				$chartFilterWidgetModel = new Vtiger_ChartFilter_Model();
-				$chartFilterWidgetModel->setWidgetModel($charFilterWidget);
-				$charFilterWidget->set('title', $chartFilterWidgetModel->getTitle());
-				$widgets[] = $charFilterWidget;
-			} else {
-				$widgets[] = Vtiger_Widget_Model::getInstanceFromValues($row);
+			$widget = Vtiger_Widget_Model::getInstanceFromValues($row);
+			if ($widget->isViewable()) {
+				$widgets[] = $widget;
 			}
 		}
 		$dataReader->close();
 
-		foreach ($widgets as $index => $widget) {
-			$label = $widget->get('linklabel');
-			$url = $widget->get('linkurl');
-			$data = $widget->get('data');
-			$filterid = $widget->get('filterid');
-			$module = $this->getModuleNameFromLink($url, $label);
-
-			if ('Home' === $module && !empty($filterid) && !empty($data)) {
-				$filterData = \App\Json::decode(htmlspecialchars_decode($data));
-				$module = $filterData['module'];
-			}
-			if ('ModTracker' !== $module && !$currentUserPrivilegeModel->hasModulePermission($module)) {
-				unset($widgets[$index]);
-			}
-		}
 		return $widgets;
-	}
-
-	/**
-	 * Function to get the module name of a widget using linkurl.
-	 *
-	 * @param string $linkUrl
-	 * @param string $linkLabel
-	 *
-	 * @return string $module - Module Name
-	 */
-	public function getModuleNameFromLink($linkUrl, $linkLabel)
-	{
-		$params = vtlib\Functions::getQueryParams($linkUrl);
-		$module = $params['module'];
-		if ('Overdue Activities' == $linkLabel || 'Upcoming Activities' == $linkLabel) {
-			$module = 'Calendar';
-		}
-		return $module;
 	}
 
 	/**
@@ -147,6 +96,13 @@ class Vtiger_DashBoard_Model extends \App\Base
 		return [];
 	}
 
+	/**
+	 * Sync widgets on dashboard.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return void
+	 */
 	public function verifyDashboard($moduleName)
 	{
 		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ')');
@@ -157,12 +113,16 @@ class Vtiger_DashBoard_Model extends \App\Base
 
 			return;
 		}
-		$dataReader = (new App\Db\Query())->select(['vtiger_module_dashboard.*', 'vtiger_links.tabid'])
+		$dataReader = (new App\Db\Query())
 			->from('vtiger_module_dashboard')
 			->innerJoin('vtiger_links', 'vtiger_links.linkid = vtiger_module_dashboard.linkid')
 			->where(['vtiger_module_dashboard.blockid' => $blockId])
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
+			$widget = Vtiger_Widget_Model::getInstanceFromValues($row);
+			if (!$widget->isViewable()) {
+				continue;
+			}
 			$row['data'] = htmlspecialchars_decode($row['data'] ?? '');
 			$row['size'] = htmlspecialchars_decode($row['size']) ?? '';
 			$row['owners'] = htmlspecialchars_decode($row['owners'] ?? '');

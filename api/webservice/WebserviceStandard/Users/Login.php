@@ -39,6 +39,8 @@ class Login extends \Api\Core\BaseAction
 	/**
 	 * Post method.
 	 *
+	 * @api
+	 *
 	 * @throws \Api\Core\Exception
 	 *
 	 * @return array|null

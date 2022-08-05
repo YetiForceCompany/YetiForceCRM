@@ -2,9 +2,9 @@
 /**
  * United Kingdom Companies House record collector file.
  *
- * @package App
- *
  * @see https://developer.company-information.service.gov.uk/
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -20,10 +20,10 @@ namespace App\RecordCollectors;
 class UkCompaniesHouse extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fas fa-house-signal';
+	public $icon = 'yfi-companies-house-uk';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_UK_CH';

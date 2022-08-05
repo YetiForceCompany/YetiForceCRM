@@ -88,7 +88,7 @@ class Settings_Workflows_ListView_Model extends Settings_Vtiger_ListView_Model
 	/**	 * *
 	 * Function which will get the list view count.
 	 *
-	 * @return - number of records
+	 * @return int number of records
 	 */
 	public function getListViewCount()
 	{

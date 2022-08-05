@@ -2,9 +2,9 @@
 /**
  * Polish Central Registration And Information On Business record collector file.
  *
- * @package App
- *
  * @see https://akademia.biznes.gov.pl/hurtownia-danych/
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -19,10 +19,10 @@ namespace App\RecordCollectors;
 class PlCeidg extends Base
 {
 	/** {@inheritdoc} */
-	public static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fas fa-cube';
+	public $icon = 'yfi-cedig-pl';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_PL_CEIDG';

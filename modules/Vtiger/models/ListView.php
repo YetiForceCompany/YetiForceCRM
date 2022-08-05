@@ -634,16 +634,15 @@ class Vtiger_ListView_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the list view entries.
+	 * Function to get the list view entries count.
 	 *
-	 * @param Vtiger_Paging_Model $pagingModel
-	 *
-	 * @return array - Associative array of record id mapped to Vtiger_Record_Model instance.
+	 * @return int|string|null number of records. The result may be a string depending on the
+	 *                         underlying database engine and to support integer values higher than a 32bit PHP integer can handle.
 	 */
 	public function getListViewCount()
 	{
 		$this->loadListViewCondition();
-		return $this->getQueryGenerator()->createQuery()->count();
+		return $this->getQueryGenerator()->setDistinct('id')->createQuery()->count();
 	}
 
 	/**

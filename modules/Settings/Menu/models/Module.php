@@ -81,14 +81,31 @@ class Settings_Menu_Module_Model
 	 *
 	 * @return array
 	 */
-	public function getModulesList()
+	public function getModulesList(): array
 	{
 		return (new \App\Db\Query())->select(['tabid', 'name'])->from('vtiger_tab')
 			->where(['not in', 'name', ['Users', 'ModComments']])
-			->andWhere(['or', ['isentitytype' => 1], ['name' => ['Home', 'OSSMail', 'Portal', 'Rss']]])
+			->andWhere(['or', ['isentitytype' => 1], ['name' => ['OSSMail', 'Rss']]])
 			->andWhere(['presence' => 0])
 			->orderBy('tabsequence')
 			->all();
+	}
+
+	/**
+	 * Get a list of modules with quick create support.
+	 *
+	 * @return array
+	 */
+	public function getQuickCreateModuleList(): array
+	{
+		$modules = $this->getModulesList();
+		foreach ($modules as $key => $module) {
+			if (!Vtiger_Module_Model::getInstance($module['name'])->isQuickCreateSupported()) {
+				unset($modules[$key]);
+			}
+		}
+
+		return $modules;
 	}
 
 	public static function getLastId()

@@ -91,7 +91,7 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 	 *
 	 * @param mixed $moduleName
 	 *
-	 * @return - true or false
+	 * @return bool
 	 */
 	public static function checkRelatedToPotentialsLimit($moduleName)
 	{
@@ -110,7 +110,7 @@ class Settings_SalesProcesses_Module_Model extends \App\Base
 	 *
 	 * @param mixed $moduleName
 	 *
-	 * @return - true or false
+	 * @return bool
 	 */
 	public static function isLimitForModule($moduleName)
 	{

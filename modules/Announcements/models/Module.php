@@ -26,11 +26,10 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	 */
 	public function checkActive()
 	{
-		if ('Login' == \App\Request::_get('view') || !$this->isActive()) {
+		if ('Login' == \App\Request::_get('view') || !$this->isActive() || !\App\Privilege::isPermitted($this->getName())) {
 			return false;
 		}
 		$this->loadAnnouncements();
-
 		return !empty($this->announcements);
 	}
 

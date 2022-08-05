@@ -144,7 +144,7 @@ class FieldModel extends \Tests\Base
 	/**
 	 * Data provider for the test of correct data. For the "validate" method test.
 	 *
-	 * @return []
+	 * @return array
 	 * @codeCoverageIgnore
 	 */
 	public function providerGoodData()
@@ -157,7 +157,7 @@ class FieldModel extends \Tests\Base
 	/**
 	 * Data provider for the test of wrong data. For the "validate" method test.
 	 *
-	 * @return []
+	 * @return array
 	 * @codeCoverageIgnore
 	 */
 	public function providerWrongData()
@@ -173,7 +173,7 @@ class FieldModel extends \Tests\Base
 	/**
 	 * Data provider for the test of correct data. For the "setDefaultValueFromRequest" method test.
 	 *
-	 * @return []
+	 * @return array
 	 * @codeCoverageIgnore
 	 */
 	public function providerGoodDataForDefault()
@@ -194,7 +194,7 @@ class FieldModel extends \Tests\Base
 	/**
 	 * Data provider for the test of wrong data. For the "setDefaultValueFromRequest" method test.
 	 *
-	 * @return []
+	 * @return array
 	 * @codeCoverageIgnore
 	 */
 	public function providerWrongDataForDefault()

@@ -2,11 +2,11 @@
 /**
  * Vatify API file.
  *
- * @package App
- *
  * @see https://www.vatify.eu/coverage.html
  * @see https://api.vatify.eu/v1/demo/ TEST API URL
  * @see https://api.vatify.eu/v1/ PROD API URL
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -22,10 +22,10 @@ namespace App\RecordCollectors;
 class VatifyEu extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fas fa-globe-europe';
+	public $icon = 'yfi-vatify-eu';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_VATIFY_EU';

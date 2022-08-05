@@ -1,8 +1,8 @@
 @font-face {
 	font-family: 'yfi';
-	src: url('fonts/yfi.eot?ruhjh8');
-	src: url('fonts/yfi.eot?ruhjh8#iefix') format('embedded-opentype'), url('fonts/yfi.ttf?ruhjh8') format('truetype'),
-		url('fonts/yfi.woff?ruhjh8') format('woff'), url('fonts/yfi.svg?ruhjh8#yfi') format('svg');
+	src: url('fonts/yfi.eot?uqdcub');
+	src: url('fonts/yfi.eot?uqdcub#iefix') format('embedded-opentype'), url('fonts/yfi.ttf?uqdcub') format('truetype'),
+		url('fonts/yfi.woff?uqdcub') format('woff'), url('fonts/yfi.svg?uqdcub#yfi') format('svg');
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
@@ -24,6 +24,81 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.yfi-cedig-pl:before {
+	content: '\e9ec';
+}
+.yfi-companies-house-uk:before {
+	content: '\e9ed';
+}
+.yfi-cvr-dk:before {
+	content: '\e9ee';
+}
+.yfi-edgar-usa:before {
+	content: '\e9ef';
+}
+.yfi-enhetsregisteret-no:before {
+	content: '\e9f0';
+}
+.yfi-entreprise-gouv-fr:before {
+	content: '\e9f1';
+}
+.yfi-gus-regon-pl:before {
+	content: '\e9f2';
+}
+.yfi-krs-pl:before {
+	content: '\e9f3';
+}
+.yfi-north-data:before {
+	content: '\e9f4';
+}
+.yfi-orb:before {
+	content: '\e9f5';
+}
+.yfi-portal-cloud:before {
+	content: '\e9f6';
+}
+.yfi-receita-cnpj-br:before {
+	content: '\e9f7';
+}
+.yfi-vatify-eu:before {
+	content: '\e9f8';
+}
+.yfi-vat-pl:before {
+	content: '\e9f9';
+}
+.yfi-vat-uk:before {
+	content: '\e9fa';
+}
+.yfi-vat-uk_1:before {
+	content: '\e9fb';
+}
+.yfi-wapro-erp:before {
+	content: '\e9fc';
+}
+.yfi-you-control:before {
+	content: '\e9fd';
+}
+.yfi-zefix-ch:before {
+	content: '\e9ff';
+}
+.yfi-record-collectors:before {
+	content: '\e9e8';
+}
+.yfi-advenced-custom-view-conditions:before {
+	content: '\e9e6';
+}
+.yfi-conditions-for-filtering-related-records:before {
+	content: '\e9e7';
+}
+.yfi-relationship-as-custom-column:before {
+	content: '\e9e9';
+}
+.yfi-share-portal-record:before {
+	content: '\e9ea';
+}
+.yfi-unshare-portal-record:before {
+	content: '\e9eb';
+}
 .yfi-api-premium:before {
 	content: '\e9e5';
 }

@@ -19,8 +19,9 @@ require_once 'include/Webservices/Utils.php';
 
 class DateTimeRange
 {
-	/** Function that converts string to dates
+	/** Function that converts string to dates.
 	 * @param $type :: type string
+	 * @param mixed|null $dateObject
 	 * @returns  $dateValue array in the following format
 	 *              $dateValue = Array(0=>$startdate,1=>$enddate)
 	 */
@@ -33,7 +34,7 @@ class DateTimeRange
 			$timeZone = new DateTimeZone($currentUser->getDetail('time_zone'));
 			$dateObject = new DateTime();
 			$dateObject->setTimezone($timeZone);
-		} elseif (is_string($dateObject)) {
+		} elseif (\is_string($dateObject)) {
 			$dateObject = new DateTime($dateObject);
 		}
 		$thisMonth = $dateObject->format('m');
@@ -225,7 +226,7 @@ class DateTimeRange
 	/**
 	 * Function to get start and end date of present calendar year.
 	 *
-	 * @param DateTime/String $dateObject - date object or string
+	 * @param object|string $dateObject - date object or string
 	 *
 	 * @return date range of present year
 	 */
@@ -233,7 +234,7 @@ class DateTimeRange
 	{
 		if (!$dateObject) {
 			$dateObject = new DateTime();
-		} elseif (is_string($dateObject)) {
+		} elseif (\is_string($dateObject)) {
 			$dateObject = new DateTime($dateObject);
 		}
 		return [$dateObject->format('Y-01-01'), $dateObject->format('Y-12-31')];
@@ -242,7 +243,7 @@ class DateTimeRange
 	/**
 	 * Function to get start and end date of next calendar year.
 	 *
-	 * @param DateTime/String $dateObject - date object or string
+	 * @param object|string $dateObject - date object or string
 	 *
 	 * @return date range of next year
 	 */
@@ -250,7 +251,7 @@ class DateTimeRange
 	{
 		if (!$dateObject) {
 			$dateObject = new DateTime();
-		} elseif (is_string($dateObject)) {
+		} elseif (\is_string($dateObject)) {
 			$dateObject = new DateTime($dateObject);
 		}
 		$dateObject->modify('next year');
@@ -261,7 +262,7 @@ class DateTimeRange
 	/**
 	 * Function to get start and end date of past calendar year.
 	 *
-	 * @param DateTime/String $dateObject - date object or string
+	 * @param object|string $dateObject - date object or string
 	 *
 	 * @return date range of past year
 	 */
@@ -269,7 +270,7 @@ class DateTimeRange
 	{
 		if (!$dateObject) {
 			$dateObject = new DateTime();
-		} elseif (is_string($dateObject)) {
+		} elseif (\is_string($dateObject)) {
 			$dateObject = new DateTime($dateObject);
 		}
 		$dateObject->modify('last year');
@@ -280,8 +281,8 @@ class DateTimeRange
 	/**
 	 * Function to get start and end date of present calendar quarter.
 	 *
-	 * @param int      $month
-	 * @param DateTime $dateObject
+	 * @param int    $month
+	 * @param object $dateObject
 	 *
 	 * @return date range of present quarter
 	 */
@@ -314,8 +315,8 @@ class DateTimeRange
 	/**
 	 * Function to get start and end date of previous calendar quarter.
 	 *
-	 * @param int      $month
-	 * @param DateTime $dateObject
+	 * @param int    $month
+	 * @param object $dateObject
 	 *
 	 * @return date range of present quarter
 	 */
@@ -349,8 +350,8 @@ class DateTimeRange
 	/**
 	 * Function to get start and end date of next calendar quarter.
 	 *
-	 * @param int      $month
-	 * @param DateTime $dateObject
+	 * @param int    $month
+	 * @param object $dateObject
 	 *
 	 * @return date range of present quarter
 	 */

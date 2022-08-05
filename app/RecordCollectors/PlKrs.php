@@ -2,9 +2,9 @@
 /**
  * Polish National Court Register record collector file.
  *
- * @package App
- *
  * @see https://prs.ms.gov.pl/krs/openApi
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -17,27 +17,27 @@ namespace App\RecordCollectors;
 /**
  * Polish National Court Register record collector class.
  */
-class PlNcr extends Base
+class PlKrs extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fa-solid fa-hammer';
+	public $icon = 'yfi-krs-pl';
 
 	/** {@inheritdoc} */
-	public $label = 'LBL_PL_NCR';
+	public $label = 'LBL_PL_KRS';
 
 	/** {@inheritdoc} */
 	public $displayType = 'FillFields';
 
 	/** {@inheritdoc} */
-	public $description = 'LBL_PL_NCR_DESC';
+	public $description = 'LBL_PL_KRS_DESC';
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://prs.ms.gov.pl/krs/openApi';
 
-	/** @var string NCR sever address */
+	/** @var string KRS sever address */
 	protected $url = 'https://api-krs.ms.gov.pl/api/krs/OdpisAktualny/';
 
 	/** {@inheritdoc} */

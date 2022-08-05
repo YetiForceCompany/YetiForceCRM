@@ -2,9 +2,9 @@
 /**
  * The Brazilian National Registry of Legal Entities by Receita WS API file.
  *
- * @package App
- *
  * @see https://developers.receitaws.com.br/#/operations/queryCNPJFree
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -20,10 +20,10 @@ namespace App\RecordCollectors;
 class BrReceitaWsCnpj extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fas fa-futbol';
+	public $icon = 'yfi-receita-cnpj-br';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_BR_RECITA_WS_CNPJ';
@@ -40,7 +40,7 @@ class BrReceitaWsCnpj extends Base
 	/** @var string CNJP sever address */
 	private $url = 'https://receitaws.com.br/v1/cnpj/';
 
-	/** @var mixed api key */
+	/** @var string Api key */
 	private $apiKey;
 
 	/** {@inheritdoc} */

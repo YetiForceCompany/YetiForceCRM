@@ -891,6 +891,7 @@
     "currently logged in user": "Currently logged in user",
     "user currently not logged": "User currently not logged",
     "Users": "Users",
+    "Username": "Username",
     "Service Requests": "Service Requests",
     "LBL_NULL_VALUE": "(No value)",
     "LBL_QUICK_CREATE_EDITOR": "Quick Create Editor",
@@ -1509,7 +1510,8 @@
     "FL_WAPRO_ID": "WAPRO ERP ID",
     "LBL_IMAGE_PREVIEW": "Image preview",
     "LBL_RECORD_DOES_NOT_EXIST": "Record does not exist",
-    "LBL_RECORD_DOES_NOT_EXIST_DESC": "The record has been deleted and the name cannot be displayed."
+    "LBL_RECORD_DOES_NOT_EXIST_DESC": "The record has been deleted and the name cannot be displayed.",
+    "LBL_CONDITION_WIZARD": "Condition wizard"
   },
   "js": {
     "JS_APPROVE": "Approve",

@@ -2,10 +2,10 @@
 /**
  * VAT Payer Status Verification in United Kingdom record collector file.
  *
- * @package App
- *
  * @see https://developer.service.hmrc.gov.uk/api-documentation
  * @see https://developer.service.hmrc.gov.uk/api-documentation/docs/api
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -21,10 +21,10 @@ namespace App\RecordCollectors;
 class UkVatPayerStatusVerification extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition', 'Partners'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition', 'Partners'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fa-solid fa-archway';
+	public $icon = 'yfi-vat-uk';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_UK_VAT_PAYER';

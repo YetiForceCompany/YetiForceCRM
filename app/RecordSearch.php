@@ -1,7 +1,4 @@
 <?php
-
-namespace App;
-
 /**
  * Record search basic class.
  *
@@ -12,6 +9,9 @@ namespace App;
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+namespace App;
+
 class RecordSearch
 {
 	/** @var string Table name for search mechanisms */

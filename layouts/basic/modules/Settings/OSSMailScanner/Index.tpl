@@ -68,14 +68,6 @@
 					<button type="button" class="close" data-dismiss="alert">×</button>
 					<h4 class="alert-heading">{\App\Language::translate('OSSMail', 'OSSMail')} - {\App\Language::translate('Alert_no_module_title', $MODULE_NAME)}</h4>
 					<p>{\App\Language::translate('Alert_no_module_desc', $MODULE_NAME)}</p>
-					{if \App\Security\AdminAccess::isPermitted('ModuleManager')}
-						<p>
-							<a class="btn btn-danger" role="button"
-								href="index.php?module=ModuleManager&parent=Settings&view=List">{\App\Language::translate('LBL_STUDIO','Settings:Vtiger')}</a>
-							<a class="btn btn-light" role="button"
-								href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1">{\App\Language::translate('LBL_IMPORT_MODULE_FROM_FILE','Settings:ModuleManager')}</a>
-						</p>
-					{/if}
 				</div>
 			{/if}
 			{if $ACCOUNTS_LIST eq false}

@@ -30,6 +30,8 @@ class Logout extends \Api\Core\BaseAction
 	/**
 	 * Put method.
 	 *
+	 * @api
+	 *
 	 * @return bool
 	 *
 	 * @OA\Put(

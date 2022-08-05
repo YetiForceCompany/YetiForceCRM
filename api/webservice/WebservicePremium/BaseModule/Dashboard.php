@@ -79,14 +79,18 @@ class Dashboard extends \Api\Core\BaseAction
 	public function get(): array
 	{
 		$moduleName = $this->controller->request->getModule();
+		$dashboardInstance = \Api\WebservicePremium\Dashboard::getInstance($moduleName, 0, $this->controller->app['id']);
+		$tabs = $dashboardInstance->getTabs();
 		if ($this->controller->request->isEmpty('record', true)) {
-			$dashBoardId = \Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+			$defaultDbId = \Settings_WidgetsManagement_Module_Model::getDefaultDashboard();
+			$dashBoardId = isset($tabs[$defaultDbId]) ? $defaultDbId : (int) array_key_first($tabs);
 		} else {
 			$dashBoardId = $this->controller->request->getInteger('record');
 		}
-		$dashboardInstance = \Api\WebservicePremium\Dashboard::getInstance($moduleName, $dashBoardId, $this->controller->app['id']);
+		$dashboardInstance->setDashboard($dashBoardId);
+
 		return [
-			'types' => $dashboardInstance->getTabs(),
+			'types' => $tabs,
 			'widgets' => $dashboardInstance->getData(),
 		];
 	}

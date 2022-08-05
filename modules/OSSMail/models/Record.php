@@ -113,9 +113,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 	 * @param array  $config
 	 * @param array  $account
 	 *
-	 * @return resource
+	 * @return IMAP\Connection|false
 	 */
-	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true, $config = [], array $account = [])
+	public static function imapConnect($user, $password, $host = '', $folder = 'INBOX', $dieOnError = true, $config = [], array $account = [])
 	{
 		\App\Log::trace("Entering OSSMail_Record_Model::imapConnect($user , '****' , $folder) method ...");
 		if (!$config) {
@@ -125,31 +125,38 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if (isset(self::$imapConnectCache[$cacheName])) {
 			return self::$imapConnectCache[$cacheName];
 		}
-		if (!$host) {
-			$host = key($config['default_host']);
+
+		$hosts = [];
+		if ($imapHost = $config['imap_host'] ?? '') {
+			$hosts = \is_string($imapHost) ? [$imapHost => $imapHost] : $imapHost;
 		}
+		if (!$host && $hosts) {
+			$host = array_key_first($hosts);
+		}
+
 		$parseHost = parse_url($host);
-		$validatecert = '';
+		if (empty($parseHost['host'])) {
+			foreach ($hosts as $row) {
+				if (false !== strpos($row, $host)) {
+					$parseHost = parse_url($row);
+					break;
+				}
+			}
+		}
+		$port = 143;
+		$sslMode = 'tls';
 		if (!empty($parseHost['host'])) {
 			$host = $parseHost['host'];
 			$sslMode = (isset($parseHost['scheme']) && \in_array($parseHost['scheme'], ['ssl', 'imaps', 'tls'])) ? $parseHost['scheme'] : null;
 			if (!empty($parseHost['port'])) {
 				$port = $parseHost['port'];
-			} elseif ($sslMode && 'tls' !== $sslMode && (!$config['default_port'] || 143 == $config['default_port'])) {
+			} elseif ($sslMode && 'tls' !== $sslMode) {
 				$port = 993;
 			}
-		} else {
-			if (993 == $config['default_port']) {
-				$sslMode = 'ssl';
-			} else {
-				$sslMode = 'tls';
-			}
 		}
-		if (empty($port)) {
-			$port = $config['default_port'];
-		}
+		$validateCert = '';
 		if (!$config['validate_cert'] && $config['imap_open_add_connection_type']) {
-			$validatecert = '/novalidate-cert';
+			$validateCert = '/novalidate-cert';
 		}
 		if ($config['imap_open_add_connection_type']) {
 			$sslMode = '/' . $sslMode;
@@ -165,7 +172,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if (isset($config['imap_params'])) {
 			$params = $config['imap_params'];
 		}
-		static::$imapConnectMailbox = "{{$host}:{$port}/imap{$sslMode}{$validatecert}}{$folder}";
+		static::$imapConnectMailbox = "{{$host}:{$port}/imap{$sslMode}{$validateCert}}{$folder}";
 		\App\Log::trace('imap_open(({' . static::$imapConnectMailbox . ", $user , '****'. $options, $maxRetries, " . var_export($params, true) . ') method ...');
 		\App\Log::beginProfile(__METHOD__ . '|imap_open|' . $user, 'Mail|IMAP');
 		$mbox = imap_open(static::$imapConnectMailbox, $user, $password, $options, $maxRetries, $params);

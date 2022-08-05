@@ -1,6 +1,6 @@
 <?php
 /**
- * Relations.
+ * Locations detail view model file.
  *
  * @package   Model
  *
@@ -10,7 +10,7 @@
  */
 
 /**
- * Locations_DetailView_Model class.
+ * Locations detail view model class.
  */
 class Locations_DetailView_Model extends Vtiger_DetailView_Model
 {

@@ -2,9 +2,9 @@
 /**
  * YetiForce shop YetiForceRcUsaEdgar file.
  *
- * @package App
- *
  * @see App\RecordCollectors\UsaEdgarRegistryFromSec
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -65,7 +65,7 @@ class YetiForceRcUsaEdgar extends \App\YetiForce\Shop\AbstractBaseProduct
 			$return[] = \Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'RecordCollector',
 				'relatedModuleName' => 'Settings:RecordCollector',
-				'linkicon' => 'fab fa-nfc-symbol mr-2',
+				'linkicon' => 'yfi-record-collectors mr-2',
 				'linkhref' => true,
 				'linkurl' => 'index.php?parent=Settings&module=RecordCollector&view=List',
 				'linkclass' => 'btn-primary',

@@ -24,7 +24,7 @@ class Base
 	protected $name;
 
 	/** @var string[] Allowed modules. */
-	protected static $allowedModules = [];
+	public $allowedModules;
 
 	/** @var string Icon. */
 	public $icon;
@@ -64,7 +64,7 @@ class Base
 	 */
 	public function __construct()
 	{
-		$name = last(explode('\\', static::class));
+		$name = basename(str_replace('\\', '/', static::class));
 		$this->name = $name;
 
 		$class = '\\Config\\Components\\RecordCollectors\\' . $name;
@@ -73,7 +73,7 @@ class Base
 		}
 		$config = (new \ReflectionClass($class))->getStaticProperties();
 		if (isset($config['allowedModules'])) {
-			static::$allowedModules = $config['allowedModules'];
+			$this->allowedModules = $config['allowedModules'];
 			unset($config['allowedModules']);
 		}
 		foreach ($config as $key => $value) {
@@ -155,7 +155,7 @@ class Base
 	 */
 	public function isActive(): bool
 	{
-		return \in_array($this->moduleName, static::$allowedModules);
+		return \in_array($this->moduleName, $this->allowedModules);
 	}
 
 	/**
@@ -204,7 +204,7 @@ class Base
 			}
 			foreach ($this->formFieldsToRecordMap[$this->moduleName] as $apiKey => $fieldName) {
 				if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
-					if (isset($row[$apiKey]) && '' !== $row[$apiKey]) {
+					if (isset($row[$apiKey]) && '' !== $row[$apiKey] && null !== $row[$apiKey]) {
 						$skip[$fieldName]['data'][$key] = $row[$apiKey];
 						if (isset($fieldsModel[$fieldName]) && empty($skip[$fieldName]['label'])) {
 							$skip[$fieldName]['label'] = \App\Language::translate($fieldsModel[$fieldName]->getFieldLabel(), $this->moduleName);
@@ -231,11 +231,11 @@ class Base
 				$fieldsData[$fieldName]['data'][$key] = [
 					'raw' => $value,
 					'edit' => $fieldModel->getEditViewDisplayValue($value),
-					'display' => $fieldModel->getDisplayValue($value),
+					'display' => $fieldModel->getDisplayValue($value, false, false, false, 40),
 				];
 			}
 			foreach ($row as $name => $value) {
-				if ('' !== $value) {
+				if ('' !== $value && null !== $value) {
 					$additional[$name][$key] = $value;
 				}
 			}

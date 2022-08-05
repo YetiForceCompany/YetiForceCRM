@@ -2,9 +2,9 @@
 /**
  * YetiForce shop YetiForceRcChZefix file.
  *
- * @package App
- *
  * @see App\RecordCollectors\ChZefix
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -25,7 +25,7 @@ class YetiForceRcChZefix extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/';
+	public $website = 'https://yetiforce.com/en/yetiforce-zefix-ch';
 
 	/** {@inheritdoc} */
 	public $prices = [
@@ -65,7 +65,7 @@ class YetiForceRcChZefix extends \App\YetiForce\Shop\AbstractBaseProduct
 			$return[] = \Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'RecordCollector',
 				'relatedModuleName' => 'Settings:RecordCollector',
-				'linkicon' => 'fab fa-nfc-symbol mr-2',
+				'linkicon' => 'yfi-record-collectors mr-2',
 				'linkhref' => true,
 				'linkurl' => 'index.php?parent=Settings&module=RecordCollector&view=List',
 				'linkclass' => 'btn-primary',

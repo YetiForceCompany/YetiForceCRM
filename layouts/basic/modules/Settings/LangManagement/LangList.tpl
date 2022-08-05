@@ -2,12 +2,14 @@
 {strip}
 	<div class="tpl-Settings-LangManagement-LangList">
 		<div class="btn-toolbar" role="toolbar">
-			<div class="btn-group mr-2" role="group">
-				<a class="btn btn-primary btn-sm float-right marginBottom10px"
-					href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}"><span
-						class="fas fa-file-import u-mr-5px"></span>{\App\Language::translate('LBL_IMPORT_LANG', $QUALIFIED_MODULE)}
-				</a>
-			</div>
+			{if \App\Security\AdminAccess::isPermitted('ModuleManager') && \App\Config::main('systemMode') !== 'demo'}
+				<div class="btn-group mr-2" role="group">
+					<a class="btn btn-primary btn-sm float-right marginBottom10px"
+						href="{Settings_ModuleManager_Module_Model::getUserModuleImportUrl()}"><span
+							class="fas fa-file-import u-mr-5px"></span>{\App\Language::translate('LBL_IMPORT_LANG', $QUALIFIED_MODULE)}
+					</a>
+				</div>
+			{/if}
 			<div class="btn-group mr-2" role="group">
 				<button class="btn btn-info add_lang btn-sm float-right marginBottom10px">
 					<span class="fa fa-plus u-mr-5px"></span>{\App\Language::translate('LBL_ADD_LANG', $QUALIFIED_MODULE)}

@@ -6,7 +6,11 @@
     "LBL_NAME": "Name",
     "LBL_SUCCESSFULLY_UPDATED": "The status change was successful",
     "LBL_DOC_URL": "Documentation URL",
+    "LBL_MODULES": "Modules",
     "LBL_API_KEY": "API Key",
+    "LBL_TYPE": "Type",
+    "LBL_TYPE_FillFields": "Show and fill",
+    "LBL_TYPE_Summary": "Display",
     "LBL_API_KEY_OPTIONAL": "API Key (Optional)",
     "LBL_SAVE_NOTIFY_OK": "Saved changes.",
     "LBL_PROVIDER_INVALID": "Configuration is incorrect",
@@ -14,6 +18,5 @@
     "LBL_ACCESS_KEY": "Access Key",
     "LBL_CLIENT_ID": "Client ID",
     "LBL_VATIFY_EU_NO_AUTH": "Bearer token not fetch."
-  },
-  "js": {}
+  }
 }
