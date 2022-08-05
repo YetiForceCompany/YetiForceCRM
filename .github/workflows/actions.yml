@@ -125,7 +125,7 @@ jobs:
           fetch-depth: 0
 
       - name: Lint Code Base
-        uses: docker://github/super-linter:v4.9.4
+        uses: docker://github/super-linter:v4.9.6
         env:
           DEFAULT_BRANCH: developer
           FILTER_REGEX_EXCLUDE: .*(*.min.js|*.min.css).*s
