@@ -163,7 +163,7 @@ class Import_Utils_Helper
 			return false;
 		}
 		$fileInstance = \App\Fields\File::loadFromRequest($_FILES['import_file']);
-		if ($fileInstance->getExtension(true)!= "zip" && $fileInstance->getEncoding() !== strtoupper($request->getByType('file_encoding', 'Text'))) {
+		if ('zip' !== $fileInstance->getExtension(true) && $fileInstance->getEncoding() !== strtoupper($request->getByType('file_encoding', 'Text'))) {
 			$request->set('error_message', \App\Language::translateArgs('LBL_IMPORT_FILE_DIFFERENT_ENCODING', 'Import', $fileInstance->getEncoding()));
 			return false;
 		}
