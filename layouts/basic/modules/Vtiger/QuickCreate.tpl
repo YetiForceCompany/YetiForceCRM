@@ -56,7 +56,7 @@
 						</div>
 						<div class="col-xl-6 col-12 text-center text-xl-right">
 							{if \App\Privilege::isPermitted($MODULE_NAME, 'RecordCollector') && !empty($QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR'])}
-								{include file=\App\Layout::getTemplatePath('RecordCollectors.tpl', $MODULE) RECORD_COLLECTOR=$QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
+								{include file=\App\Layout::getTemplatePath('Edit/RecordCollectors.tpl', $MODULE) RECORD_COLLECTOR=$QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
 							{/if}
 							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
 							{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
