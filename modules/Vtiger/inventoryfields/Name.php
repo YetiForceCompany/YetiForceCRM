@@ -63,6 +63,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		if (!empty($record)) {
 			$referenceModuleList = $this->getParamsConfig()['modules'] ?? [];
+			$referenceModuleList = !\is_array($referenceModuleList) ? [$referenceModuleList] : $referenceModuleList;
 			$referenceEntityType = vtlib\Functions::getCRMRecordMetadata($record)['setype'] ?? '';
 			if (!empty($referenceModuleList) && \in_array($referenceEntityType, $referenceModuleList)) {
 				return Vtiger_Module_Model::getInstance($referenceEntityType);
