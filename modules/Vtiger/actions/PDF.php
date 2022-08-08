@@ -278,4 +278,14 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		}
 		return $records;
 	}
+
+	/** {@inheritdoc} */
+	public function validateRequest(App\Request $request)
+	{
+		if ('generate' === $request->getMode()) {
+			$request->validateReadAccess();
+		} else {
+			$request->validateWriteAccess();
+		}
+	}
 }

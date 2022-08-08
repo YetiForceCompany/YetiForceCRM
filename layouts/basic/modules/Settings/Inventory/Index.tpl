@@ -35,7 +35,7 @@
 								<td class="textAlignCenter {$WIDTHTYPE}"><label class="name">{$RECORD->getName()}</label>
 								</td>
 								<td class="textAlignCenter {$WIDTHTYPE}"><span
-										class="value">{$RECORD->getValue()} {if empty($CURRENCY_BOOL)}%{else}{$CURRENCY.currency_symbol}{/if}</span>
+										class="value">{$RECORD->getValue()}{if empty($CURRENCY_BOOL)}%{else} {$CURRENCY.currency_symbol}{/if}</span>
 								</td>
 								<td class="textAlignCenter {$WIDTHTYPE}">
 									<div class="float-right  w-50 d-flex justify-content-between mr-2">

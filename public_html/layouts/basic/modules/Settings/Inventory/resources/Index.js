@@ -11,10 +11,10 @@ jQuery.Class(
 		 * This function will show the model for Add/Edit
 		 */
 		edit: function (url, currentTrElement) {
-			var aDeferred = jQuery.Deferred();
-			var thisInstance = this;
+			let aDeferred = jQuery.Deferred();
+			let thisInstance = this;
 
-			var progressIndicatorElement = jQuery.progressIndicator({
+			let progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
@@ -22,14 +22,14 @@ jQuery.Class(
 			});
 			AppConnector.request(url)
 				.done(function (data) {
-					var callBackFunction = function (data) {
+					let callBackFunction = function (container) {
 						//cache should be empty when modal opened
 						thisInstance.duplicateCheckCache = {};
-						var form = jQuery('#formInventory');
-						var params = app.validationEngineOptions;
-						params.onValidationComplete = function (form, valid) {
+						let form = container.find('#formInventory');
+						let params = app.validationEngineOptions;
+						params.onValidationComplete = function (formData, valid) {
 							if (valid) {
-								thisInstance.saveDetails(form, currentTrElement);
+								thisInstance.saveDetails(formData, currentTrElement);
 								return valid;
 							}
 						};
@@ -41,9 +41,9 @@ jQuery.Class(
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					app.showModalWindow(
 						data,
-						function (data) {
+						function (modalContainer) {
 							if (typeof callBackFunction == 'function') {
-								callBackFunction(data);
+								callBackFunction(modalContainer);
 							}
 						},
 						{}
@@ -67,8 +67,8 @@ jQuery.Class(
 			}
 			thisInstance
 				.validateName(params)
-				.done((data) => {
-					if (typeof data === 'undefined') {
+				.done((response) => {
+					if (typeof response === 'undefined') {
 						saveButton.prop('disabled', false);
 						return false;
 					}
@@ -101,7 +101,7 @@ jQuery.Class(
 						});
 					});
 				})
-				.fail((data, err) => {
+				.fail((_data, _err) => {
 					saveButton.prop('disabled', false);
 					return false;
 				});
@@ -126,7 +126,7 @@ jQuery.Class(
 					<td class="textAlignCenter ${details.row_type}"><span class="value">${details.value} ${symbol}</span></td>
 					<td class="textAlignCenter ${details.row_type}">
 					<div class="float-right  w-50 d-flex justify-content-between mr-2">
-						<input class="status js-update-field mt-2" checked type="checkbox">
+						<input class="status js-update-field mt-2" checked type="checkbox" data-field-name="status">
 						<div class="actions">
 							<button class="btn btn-info btn-sm text-white editInventory u-cursor-pointer" data-url="${details._editurl}">
 							<span title="Edycja" class="yfi yfi-full-editing-view alignBottom"></span>
@@ -144,8 +144,8 @@ jQuery.Class(
 		 * Function to update the details in the list after edit
 		 */
 		updateDetails: function (data, currentTrElement) {
-			var currency = jQuery('#currency');
-			var symbol = '%';
+			let currency = jQuery('#currency');
+			let symbol = '%';
 			if (currency.length > 0) {
 				currency = JSON.parse(currency.val());
 				symbol = currency.currency_symbol;
@@ -169,12 +169,12 @@ jQuery.Class(
 		 * Function to validate the Name to avoid duplicates
 		 */
 		validateName: function (data) {
-			var thisInstance = this;
-			var aDeferred = jQuery.Deferred();
+			let thisInstance = this;
+			let aDeferred = jQuery.Deferred();
 
-			var name = data.name;
-			var form = jQuery('#formInventory');
-			var nameElement = form.find('[name="name"]');
+			let name = data.name;
+			let form = jQuery('#formInventory');
+			let nameElement = form.find('[name="name"]');
 			if (!(name in thisInstance.duplicateCheckCache)) {
 				thisInstance
 					.checkDuplicateName(data)
@@ -187,12 +187,12 @@ jQuery.Class(
 						}
 						aDeferred.resolve(data);
 					})
-					.fail(function (data, err) {
+					.fail(function (data, _err) {
 						aDeferred.reject(data);
 					});
 			} else {
 				if (thisInstance.duplicateCheckCache[name] == true) {
-					var result = thisInstance.duplicateCheckCache['message'];
+					let result = thisInstance.duplicateCheckCache['message'];
 					nameElement.validationEngine('showPrompt', result, 'error', 'bottomLeft', true);
 					aDeferred.reject();
 				} else {
@@ -205,11 +205,11 @@ jQuery.Class(
 		 * Function to check Duplication of inventory Name
 		 */
 		checkDuplicateName: function (details) {
-			var aDeferred = jQuery.Deferred();
-			var name = details.name;
-			var id = details.id;
-			var moduleName = app.getModuleName();
-			var params = {
+			let aDeferred = jQuery.Deferred();
+			let name = details.name;
+			let id = details.id;
+			let moduleName = app.getModuleName();
+			let params = {
 				module: moduleName,
 				parent: app.getParentModuleName(),
 				action: 'SaveAjax',
@@ -224,8 +224,7 @@ jQuery.Class(
 					if (typeof data == 'string') {
 						data = JSON.parse(data);
 					}
-					var response = data['result'];
-					aDeferred.resolve(response);
+					aDeferred.resolve(data['result']);
 				})
 				.fail(function (error, err) {
 					aDeferred.reject(error, err);
@@ -236,26 +235,25 @@ jQuery.Class(
 		 * Function to update status as enabled or disabled
 		 */
 		updateCheckbox: function (currentTarget) {
-			var aDeferred = jQuery.Deferred();
+			let aDeferred = jQuery.Deferred();
 
-			var currentTrElement = currentTarget.closest('tr');
-			var id = currentTrElement.data('id');
-			var progressIndicatorElement = jQuery.progressIndicator({
+			let currentTrElement = currentTarget.closest('tr');
+			let id = currentTrElement.data('id');
+			let progressIndicatorElement = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
-			var updatedCheckbox = currentTarget.data('field-name');
+			let updatedCheckbox = currentTarget.data('field-name');
 
-			var params = {
+			let params = {
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
 				action: 'SaveAjax',
 				id: id,
 				view: app.getViewName()
 			};
-
 			if (updatedCheckbox === 'status') {
 				params.status = currentTarget.is(':checked') ? 0 : 1;
 			} else if (updatedCheckbox === 'default') {
@@ -271,7 +269,7 @@ jQuery.Class(
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					aDeferred.resolve(data);
 				})
-				.fail(function (error, err) {
+				.fail(function (error, _err) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					aDeferred.reject(error);
 				});
@@ -281,7 +279,7 @@ jQuery.Class(
 			app.showConfirmModal({
 				text: app.vtranslate('JS_DELETE_INVENTORY_CONFIRMATION'),
 				confirmedCallback: () => {
-					var params = {};
+					let params = {};
 					params['view'] = app.getViewName();
 					params['id'] = inventoryElement.data('id');
 					app.saveAjax('deleteInventory', params).done(function (data) {
@@ -295,35 +293,34 @@ jQuery.Class(
 		 * Function to register all actions in the List
 		 */
 		registerActions: function () {
-			var thisInstance = this;
-			var container = jQuery('#inventory');
+			let thisInstance = this;
+			let container = jQuery('#inventory');
 			//register click event for Add New Inventory button
 			container.find('.addInventory').on('click', function (e) {
-				var addInventoryButton = jQuery(e.currentTarget);
-				var createUrl = addInventoryButton.data('url');
+				let addInventoryButton = jQuery(e.currentTarget);
+				let createUrl = addInventoryButton.data('url');
 				thisInstance.edit(createUrl);
 			});
 
 			//register event for edit icon
 			container.on('click', '.editInventory', function (e) {
-				var editButton = jQuery(e.currentTarget);
-				var currentTrElement = editButton.closest('tr');
+				let editButton = jQuery(e.currentTarget);
+				let currentTrElement = editButton.closest('tr');
 				thisInstance.edit(editButton.data('url'), currentTrElement);
 			});
 
 			//register event for edit icon
 			container.on('click', '.removeInventory', function (e) {
-				var removeInventoryButton = jQuery(e.currentTarget);
-				var currentTrElement = removeInventoryButton.closest('tr');
+				let removeInventoryButton = jQuery(e.currentTarget);
+				let currentTrElement = removeInventoryButton.closest('tr');
 				thisInstance.removeInventory(currentTrElement);
 			});
 
 			//register event for checkbox to change the Status
 			container.on('click', '[type="checkbox"]', function (e) {
-				var currentTarget = jQuery(e.currentTarget);
-
-				thisInstance.updateCheckbox(currentTarget).done(function (data) {
-					var params = {};
+				let currentTarget = jQuery(e.currentTarget);
+				thisInstance.updateCheckbox(currentTarget).done(function (_data) {
+					let params = {};
 					params.text = app.vtranslate('JS_SAVE_CHANGES');
 					Settings_Vtiger_Index_Js.showMessage(params);
 				});
