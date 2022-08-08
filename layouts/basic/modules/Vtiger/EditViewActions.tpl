@@ -17,7 +17,7 @@
 			{/foreach}
 		{/if}
 		{if \App\Privilege::isPermitted($MODULE_NAME, 'RecordCollector') && !empty($EDITVIEW_LINKS['EDIT_VIEW_RECORD_COLLECTOR'])}
-			{include file=\App\Layout::getTemplatePath('RecordCollectors.tpl', $MODULE_NAME) RECORD_COLLECTOR=$EDITVIEW_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
+			{include file=\App\Layout::getTemplatePath('Edit/RecordCollectors.tpl', $MODULE_NAME) RECORD_COLLECTOR=$EDITVIEW_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
 		{/if}
 	</div>
 	</form>

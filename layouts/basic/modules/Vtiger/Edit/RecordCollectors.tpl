@@ -10,6 +10,7 @@
 		{/if}
 	{/foreach}
 	<button class="btn btn-outline-dark dropdown-toggle ml-2" type="button" id="{App\Language::translate('LBL_RECORD_COLLECTOR')}" data-toggle="dropdown" aria-expanded="false">
+		<span class="yfi-record-collectors mr-2"></span>
 		{App\Language::translate('LBL_RECORD_COLLECTOR')}
 	</button>
 	<div class="dropdown-menu" aria-label="{App\Language::translate('LBL_RECORD_COLLECTOR')}">
