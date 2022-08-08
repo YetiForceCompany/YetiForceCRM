@@ -79,7 +79,7 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
 		}
 		$recordModelClass = Vtiger_Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
-		$listQuery = $this->getBasicListQuery();
+		$listQuery = $this->loadListViewCondition();
 
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
@@ -160,8 +160,17 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 	 */
 	public function getListViewCount()
 	{
-		$listQuery = $this->getBasicListQuery();
-		return $listQuery->count();
+		return $this->loadListViewCondition()->count();
+	}
+
+	/**
+	 * Load list view conditions.
+	 *
+	 * @return App\Db\Query
+	 */
+	public function loadListViewCondition(): App\Db\Query
+	{
+		return $this->getBasicListQuery();
 	}
 
 	/**

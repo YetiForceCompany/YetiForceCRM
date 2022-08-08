@@ -11,12 +11,17 @@ class Settings_TreesManager_Module_Model extends Settings_Vtiger_Module_Model
 	public $baseTable = 'vtiger_trees_templates';
 	public $baseIndex = 'id';
 	public $nameFields = ['name'];
-	public $listFields = ['name' => 'LBL_NAME', 'module' => 'LBL_MODULE'];
+	public $listFields = ['name' => 'LBL_NAME', 'tabid' => 'LBL_MODULE'];
 	public $name = 'TreesManager';
 
-	public static function getSupportedModules()
+	/**
+	 * Get supported modules.
+	 *
+	 * @return Vtiger_Module_Model[]
+	 */
+	public function getSupportedModules(): array
 	{
-		return Vtiger_Module_Model::getAll([0, 2]);
+		return Vtiger_Module_Model::getAll([0], [], true);
 	}
 
 	/**

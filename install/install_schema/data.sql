@@ -20098,35 +20098,35 @@ insert  into `vtiger_tracking_unit`(`tracking_unitid`,`tracking_unit`,`presence`
 
 /*Data for the table `vtiger_trees_templates` */
 
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (1,'System',8,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (2,'Category',14,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (3,'Category',35,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (4,'Category',57,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (5,'Category',58,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (6,'Category',59,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (7,'Reservations',84,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (8,'Category',85,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (9,'Category',86,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (10,'Category',87,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (11,'Category',88,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (12,'Category',89,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (13,'Category',90,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (14,'Category',91,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (15,'Category',37,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (16,'Category',96,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (17,'Category',13,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (18,'Category',92,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (19,'Category',113,1,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (20,'Category',115,1,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (21,'Category',95,1,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (22,'Category',117,0,NULL);
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (25,'LBL_LEGAL_BASIS',121,1,'');
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (26,'LBL_SCOPE_DATA',121,1,'');
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (27,'LBL_ACTIVITY_TYPE',122,1,'');
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (28,'LBL_SECURITY_TYPE',123,1,'');
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (29,'Category',15,1,'');
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (30,'Category',111,1,'');
-insert  into `vtiger_trees_templates`(`templateid`,`name`,`module`,`access`,`share`) values (31,'LBL_MULTICATEGORY',14,0,'');
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (1,'System',8,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (2,'Category',14,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (3,'Category',35,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (4,'Category',57,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (5,'Category',58,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (6,'Category',59,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (7,'Reservations',84,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (8,'Category',85,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (9,'Category',86,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (10,'Category',87,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (11,'Category',88,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (12,'Category',89,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (13,'Category',90,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (14,'Category',91,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (15,'Category',37,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (16,'Category',96,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (17,'Category',13,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (18,'Category',92,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (19,'Category',113,1,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (20,'Category',115,1,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (21,'Category',95,1,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (22,'Category',117,0,NULL);
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (25,'LBL_LEGAL_BASIS',121,1,'');
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (26,'LBL_SCOPE_DATA',121,1,'');
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (27,'LBL_ACTIVITY_TYPE',122,1,'');
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (28,'LBL_SECURITY_TYPE',123,1,'');
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (29,'Category',15,1,'');
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (30,'Category',111,1,'');
+insert  into `vtiger_trees_templates`(`templateid`,`name`,`tabid`,`access`,`share`) values (31,'LBL_MULTICATEGORY',14,0,'');
 
 /*Data for the table `vtiger_trees_templates_data` */
 

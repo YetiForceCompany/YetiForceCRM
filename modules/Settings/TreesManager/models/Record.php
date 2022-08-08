@@ -32,11 +32,24 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to get module of this record instance.
 	 *
-	 * @return Settings_TreesManager_Record_Model $moduleModel
+	 * @return Settings_TreesManager_Module_Model $moduleModel
 	 */
 	public function getModule()
 	{
 		return $this->module;
+	}
+
+	/**
+	 * Function to set module instance to this record instance.
+	 *
+	 * @param Settings_Vtiger_Module_Model $moduleModel
+	 *
+	 * @return $this
+	 */
+	public function setModule($moduleModel)
+	{
+		$this->module = $moduleModel;
+		return $this;
 	}
 
 	/**
@@ -160,7 +173,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$dataReader = (new App\Db\Query())->from('vtiger_trees_templates_data')
 			->where(['templateid' => $templateId])
 			->createCommand()->query();
-		$module = $this->get('module');
+		$module = $this->get('tabid');
 		if (is_numeric($module)) {
 			$module = App\Module::getModuleName($module);
 		}
@@ -184,9 +197,9 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$parameters = [
 				'id' => $treeID,
 				'parent' => 0 === $parent ? '#' : $parent,
-				'text' => \App\Language::translate($row['name'], $module),
+				'text' => \App\Language::translate($row['name'], $module, null, false),
 				'li_attr' => [
-					'text' => \App\Language::translate($row['name'], $module),
+					'text' => \App\Language::translate($row['name'], $module, null, false),
 					'key' => $row['name'],
 				],
 				'state' => ($row['state']) ? \App\Json::decode($row['state']) : '',
@@ -239,7 +252,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$share = static::getShareFromArray($this->get('share'));
 		if (empty($templateId)) {
 			$db->createCommand()
-				->insert('vtiger_trees_templates', ['name' => $this->get('name'), 'module' => $this->get('module'), 'share' => $share])
+				->insert('vtiger_trees_templates', ['name' => $this->get('name'), 'tabid' => $this->get('tabid'), 'share' => $share])
 				->execute();
 			$this->set('templateid', $db->getLastInsertID('vtiger_trees_templates_templateid_seq'));
 			foreach ($this->get('tree') as $tree) {
@@ -247,7 +260,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		} else {
 			$db->createCommand()
-				->update('vtiger_trees_templates', ['name' => $this->get('name'), 'module' => $this->get('module'), 'share' => $share], ['templateid' => $templateId])
+				->update('vtiger_trees_templates', ['name' => $this->get('name'), 'tabid' => $this->get('tabid'), 'share' => $share], ['templateid' => $templateId])
 				->execute();
 			$db->createCommand()->delete('vtiger_trees_templates_data', ['templateid' => $templateId])
 				->execute();
@@ -271,7 +284,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = App\Db::getInstance();
 		$modules = $this->get('share');
-		$modules[] = $this->get('module');
+		$modules[] = $this->get('tabid');
 		$dataReader = (new App\Db\Query())->select(['tablename', 'columnname', 'uitype'])
 			->from('vtiger_field')
 			->where(['tabid' => $modules, 'fieldparams' => (string) $templateId, 'presence' => [0, 2]])
@@ -331,12 +344,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$db = App\Db::getInstance();
 		$templateId = $this->getId();
-		$db->createCommand()
-			->delete('vtiger_trees_templates', ['templateid' => $templateId])
-			->execute();
-		$db->createCommand()
-			->delete('vtiger_trees_templates_data', ['templateid' => $templateId])
-			->execute();
+		$db->createCommand()->delete('vtiger_trees_templates', ['templateid' => $templateId])->execute();
 		$this->clearCache();
 	}
 
@@ -383,19 +391,38 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @param int $record
 	 *
-	 * @return Settings_Roles_Record_Model instance, if exists. Null otherwise
+	 * @return $this|null instance, if exists. Null otherwise
 	 */
 	public static function getInstanceById($record)
 	{
-		$row = (new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => $record])
-			->one();
+		$instance = null;
+		$row = (new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => $record])->one();
 		if ($row) {
-			$instance = new self();
+			$instance = self::getCleanInstance();
 			$instance->setData($row);
-
-			return $instance;
 		}
-		return null;
+
+		return $instance;
+	}
+
+	/**
+	 * Function to get the clean instance.
+	 *
+	 * @return \self
+	 */
+	public static function getCleanInstance()
+	{
+		$cacheName = __CLASS__;
+		$key = 'Clean';
+		if (\App\Cache::staticHas($cacheName, $key)) {
+			return clone \App\Cache::staticGet($cacheName, $key);
+		}
+		$moduleInstance = Settings_Vtiger_Module_Model::getInstance('Settings:TreesManager');
+		$instance = new self();
+		$instance->module = $moduleInstance;
+		\App\Cache::staticSave($cacheName, $key, clone $instance);
+
+		return $instance;
 	}
 
 	/**
@@ -418,5 +445,159 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	public function clearCache(): void
 	{
 		\App\Cache::delete('TreeValuesById', $this->getId());
+	}
+
+	/** @var string[] Fields to edit */
+	public $editFields = ['name', 'tabid', 'share'];
+
+	/**
+	 * Get structure fields.
+	 *
+	 * @return array
+	 */
+	public function getEditViewStructure(): array
+	{
+		$structure = [];
+		foreach ($this->editFields as $fieldName) {
+			$fieldModel = $this->getFieldInstanceByName($fieldName);
+			if ($this->has($fieldName)) {
+				$fieldModel->set('fieldvalue', $this->get($fieldName));
+			} else {
+				$defaultValue = $fieldModel->get('defaultvalue');
+				$fieldModel->set('fieldvalue', $defaultValue ?? '');
+			}
+			$structure[$fieldName] = $fieldModel;
+		}
+
+		return $structure;
+	}
+
+	/**
+	 * Get field instance by name.
+	 *
+	 * @param string $name
+	 *
+	 * @return Vtiger_Field_Model
+	 */
+	public function getFieldInstanceByName(string $name)
+	{
+		$params = [];
+		$qualifiedModuleName = 'Settings:TreesManager';
+		switch ($name) {
+			case 'name':
+				$params = [
+					'name' => $name,
+					'column' => $name,
+					'label' => 'LBL_NAME',
+					'uitype' => 1,
+					'typeofdata' => 'V~M',
+					'maximumlength' => 255,
+					'purifyType' => \App\Purifier::TEXT,
+				];
+				break;
+			case 'tabid':
+				$params = [
+					'name' => $name,
+					'column' => $name,
+					'label' => 'LBL_MODULE',
+					'uitype' => 16,
+					'typeofdata' => 'V~M',
+					'maximumlength' => '32767',
+					'purifyType' => \App\Purifier::INTEGER,
+					'picklistValues' => [],
+					'isEditableReadOnly' => !empty($this->getId())
+				];
+				foreach ($this->getModule()->getSupportedModules() as $moduleModel) {
+					$params['picklistValues'][$moduleModel->getId()] = \App\Language::translate($moduleModel->getName(), $moduleModel->getName());
+				}
+				break;
+			case 'share':
+				$params = [
+					'name' => $name,
+					'column' => $name,
+					'label' => 'LBL_SHARE_WITH',
+					'uitype' => 33,
+					'typeofdata' => 'V~O',
+					'maximumlength' => '255',
+					'purifyType' => \App\Purifier::INTEGER,
+					'picklistValues' => []
+				];
+				foreach ($this->getModule()->getSupportedModules() as $moduleModel) {
+					$params['picklistValues'][$moduleModel->getId()] = \App\Language::translate($moduleModel->getName(), $moduleModel->getName());
+				}
+				break;
+			case 'tree':
+				$params = [
+					'name' => $name,
+					'column' => $name,
+					'label' => 'LBL_PREFIX',
+					'uitype' => 1,
+					'typeofdata' => 'V~O',
+					'maximumlength' => '25',
+					'purifyType' => \App\Purifier::TEXT,
+					'tooltip' => 'LBL_DESCRIPTION_PREFIXES'
+				];
+				break;
+			default:
+				break;
+		}
+
+		return $params ? \Vtiger_Field_Model::init($qualifiedModuleName, $params, $name) : null;
+	}
+
+	/**
+	 * Parse tree data for save.
+	 *
+	 * @param array $tree
+	 *
+	 * @return array
+	 */
+	public function parseTreeDataForSave(array $tree): array
+	{
+		$values = [];
+		foreach ($tree as $branch) {
+			$value = [];
+			$value['id'] = (int) $branch['id'];
+			$value['text'] = \App\Purifier::decodeHtml($branch['text']);
+			$value['icon'] = \App\Purifier::decodeHtml($branch['icon']);
+			$value['state'] = [
+				'loaded' => \App\Validator::bool($branch['state']['loaded']) ? $branch['state']['loaded'] : false,
+				'opened' => \App\Validator::bool($branch['state']['opened']) ? $branch['state']['opened'] : false,
+				'selected' => \App\Validator::bool($branch['state']['selected']) ? $branch['state']['selected'] : false,
+				'disabled' => \App\Validator::bool($branch['state']['disabled']) ? $branch['state']['disabled'] : false,
+			];
+			if (!empty($branch['children'])) {
+				$value['children'] = $this->parseTreeDataForSave($branch['children']);
+			}
+			$values[] = $value;
+		}
+
+		return $values;
+	}
+
+	/**
+	 * Function to get the Display Value, for the current field type with given DB Insert Value.
+	 *
+	 * @param string $name
+	 *
+	 * @return string
+	 */
+	public function getDisplayValue(string $name)
+	{
+		switch ($name) {
+			case 'tabid':
+				$moduleName = \App\Module::getModuleName($this->get($name));
+				$value = \App\Language::translate($moduleName, $moduleName);
+				break;
+			case 'name':
+				$value = \App\Language::translate($this->get($name), $this->getModule()->getName(true));
+				break;
+			default:
+				$fieldInstance = $this->getFieldInstanceByName($name);
+				$value = $fieldInstance->getDisplayValue($this->get($name), false, false, true);
+				break;
+		}
+
+		return $value;
 	}
 }

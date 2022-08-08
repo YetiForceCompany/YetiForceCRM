@@ -9363,13 +9363,14 @@ CREATE TABLE `vtiger_tracking_unit` (
 /*Table structure for table `vtiger_trees_templates` */
 
 CREATE TABLE `vtiger_trees_templates` (
-  `templateid` int(10) NOT NULL AUTO_INCREMENT,
+  `templateid` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
-  `module` int(10) DEFAULT NULL,
+  `tabid` smallint(5) NOT NULL,
   `access` tinyint(1) DEFAULT 1,
   `share` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`templateid`),
-  KEY `module` (`module`)
+  KEY `module` (`tabid`),
+  CONSTRAINT `vtiger_trees_templates_tabid_fk` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_trees_templates_data` */
@@ -9384,7 +9385,8 @@ CREATE TABLE `vtiger_trees_templates_data` (
   `state` varchar(100) NOT NULL DEFAULT '',
   `icon` varchar(255) NOT NULL DEFAULT '',
   KEY `id` (`templateid`),
-  KEY `parentTree` (`parentTree`,`templateid`)
+  KEY `parentTree` (`parentTree`,`templateid`),
+  CONSTRAINT `vtiger_trees_templates_data_templateid` FOREIGN KEY (`templateid`) REFERENCES `vtiger_trees_templates` (`templateid`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_troubletickets` */
