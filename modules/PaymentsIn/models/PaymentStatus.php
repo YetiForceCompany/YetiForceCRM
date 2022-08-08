@@ -67,7 +67,7 @@ abstract class PaymentsIn_PaymentStatus_Model
 	{
 		$changes = false;
 		$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, static::$moduleName);
-		if(!empty(static::$fieldPaymentStatusName)){
+		if (!empty(static::$fieldPaymentStatusName)) {
 			$statusFieldModel = $recordModel->getField(static::$fieldPaymentStatusName);
 			if ($statusFieldModel && $statusFieldModel->isActiveField()) {
 				$recordModel->set(
@@ -77,7 +77,7 @@ abstract class PaymentsIn_PaymentStatus_Model
 				$changes = true;
 			}
 		}
-		if(!empty(static::$fieldPaymentSumName)){
+		if (!empty(static::$fieldPaymentSumName)) {
 			$sumFieldModel = $recordModel->getField(static::$fieldPaymentSumName);
 			if ($sumFieldModel && $sumFieldModel->isActiveField()) {
 				$recordModel->set(
@@ -151,11 +151,31 @@ abstract class PaymentsIn_PaymentStatus_Model
 	 */
 	protected static function canUpdatePaymentStatus(Vtiger_Record_Model $recordModel): bool
 	{
-		$returnValue = !$recordModel->isEmpty(static::$relatedRecordIdName) && ($recordModel->isNew() || false !== $recordModel->getPreviousValue('paymentsin_status'));
+		$returnValue = !$recordModel->isEmpty(static::$relatedRecordIdName) && ($recordModel->isNew() || static::checkIfPaymentFieldsChanged($recordModel));
 		if ($returnValue) {
 			$fieldModel = \Vtiger_Module_Model::getInstance(static::$moduleName)->getFieldByName(static::$fieldPaymentStatusName);
 			$returnValue = $fieldModel && $fieldModel->isActiveField();
 		}
 		return $returnValue;
+	}
+
+	/**
+	 * Check if payment fields for update changed.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 *
+	 * @return bool
+	 */
+	protected static function checkIfPaymentFieldsChanged(Vtiger_Record_Model $recordModel): bool
+	{
+		$result = false;
+		$fieldsToCheck = ['paymentsin_status', 'finvoiceid', 'ssingleordersid', 'finvoiceproformaid'];
+		foreach ($fieldsToCheck as $fieldName) {
+			if (false !== $recordModel->getPreviousValue($fieldName)) {
+				$result = true;
+				break;
+			}
+		}
+		return $result;
 	}
 }
