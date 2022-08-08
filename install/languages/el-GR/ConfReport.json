@@ -77,7 +77,7 @@
     "LBL_LATEST_PHP_VERSIONS_ARE": "Τελευταίες εκδόσεις PHP: %s",
     "BTN_CHECK_LATEST_VERSION": "Τελευταία έκδοση PHP",
     "BTN_SERVER_SPEED_TEST": "Ταχύτητα Διακομιστή",
-    "BTN_DB_INFO": "Database information",
+    "BTN_DB_INFO": "Πληροφορίες βάσης δεδομένων",
     "LBL_SERVER_SPEED_TEST": "Ταχύτητα διακομιστή",
     "LBL_READ_TEST": "Ανάγνωση",
     "LBL_WRITE_TEST": "Εγγραφή",
@@ -261,7 +261,7 @@
     "LBL_LABEL_REGISTER": "Register",
     "LBL_LABEL_SHOP_CACHE": "Shop cache",
     "LBL_LAMP_CONFIG_FILES": "Αρχεία ρυθμίσεων LAMP",
-    "LBL_PATH_VERIFICATION_TITLE": "Path verification"
+    "LBL_PATH_VERIFICATION_TITLE": "Επαλήθευση διαδρομής"
   },
   "js": {
     "JS_SPEED_TEST_START": "Έλεγχος ταχύτητας..."
