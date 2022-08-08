@@ -869,7 +869,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => $treeViewModel->getName(),
 				'linkurl' => $treeViewModel->getTreeViewUrl() . $menuUrl,
-				'linkicon' => 'fas fa-tree',
+				'linkicon' => 'yfi-tree-records',
 			]);
 		}
 		if ($this->isPermitted('Kanban') && \App\Utils\Kanban::getBoards($this->getName(), true)) {
