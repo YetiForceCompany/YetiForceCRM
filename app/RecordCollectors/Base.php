@@ -249,4 +249,23 @@ class Base
 		$this->response['additional'] = $additional;
 		$this->response['dataCounter'] = $dataCounter;
 	}
+
+	/**
+	 * Get fields labels for the module name.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return string[]
+	 */
+	public function getFieldsLabelsByModule(string $moduleName): array
+	{
+		$fieldsModels = \Vtiger_Module_Model::getInstance($moduleName)->getFields();
+		$labels = [];
+		foreach ($this->formFieldsToRecordMap[$moduleName] as $fieldName) {
+			if (isset($fieldsModels[$fieldName]) && $fieldsModels[$fieldName]->isActiveField()) {
+				$labels[$fieldName] = $fieldsModels[$fieldName]->getFullLabelTranslation();
+			}
+		}
+		return $labels;
+	}
 }

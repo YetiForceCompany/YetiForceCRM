@@ -653,8 +653,8 @@ Settings_Workflows_Edit_Js(
 				if (fieldsMap !== '') {
 					if (selectedFields.is('select')) {
 						let newOptions = new $();
-						$.each(fieldsMap, (_, e) => {
-							newOptions = newOptions.add(new Option(e, e, false));
+						$.each(fieldsMap, (v, l) => {
+							newOptions = newOptions.add(new Option(l, v, false));
 						});
 						selectedFields.html(newOptions);
 					}
