@@ -773,6 +773,23 @@ class ConfReport
 	}
 
 	/**
+	 * Check open_basedir restrictions.
+	 *
+	 * @param string $dir
+	 *
+	 * @return bool
+	 */
+	public static function validatePath(string $dir): bool
+	{
+		$paths = [];
+		if (\ini_get('open_basedir')) {
+			$paths = explode(PATH_SEPARATOR, \ini_get('open_basedir'));
+		}
+
+		return !$paths || array_filter($paths, fn ($v) => 0 === strpos(rtrim($dir, '/') . '/', rtrim($v, '/') . '/')) ? is_dir($dir) && is_readable($dir) : true;
+	}
+
+	/**
 	 * Validate php version.
 	 *
 	 * @param string $name
@@ -1662,11 +1679,9 @@ class ConfReport
 	{
 		$row = self::validateNotEmpty($name, $row, $sapi);
 		if ($row['status']) {
-			$dir = \dirname($row[$sapi]);
-			if (!is_dir($dir) && !is_readable($dir)) {
-				$row['status'] = true;
-			}
+			$row['status'] = self::validatePath(\dirname($row[$sapi]));
 		}
+
 		return $row;
 	}
 
