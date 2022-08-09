@@ -9370,7 +9370,7 @@ CREATE TABLE `vtiger_trees_templates` (
   `share` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`templateid`),
   KEY `module` (`tabid`),
-  CONSTRAINT `vtiger_trees_templates_tabid_fk` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON UPDATE CASCADE
+  CONSTRAINT `vtiger_trees_templates_tabid_fk` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_trees_templates_data` */
@@ -9386,7 +9386,7 @@ CREATE TABLE `vtiger_trees_templates_data` (
   `icon` varchar(255) NOT NULL DEFAULT '',
   KEY `id` (`templateid`),
   KEY `parentTree` (`parentTree`,`templateid`),
-  CONSTRAINT `vtiger_trees_templates_data_templateid` FOREIGN KEY (`templateid`) REFERENCES `vtiger_trees_templates` (`templateid`) ON UPDATE CASCADE
+  CONSTRAINT `vtiger_trees_templates_data_templateid` FOREIGN KEY (`templateid`) REFERENCES `vtiger_trees_templates` (`templateid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_troubletickets` */
