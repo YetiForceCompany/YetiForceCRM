@@ -97,7 +97,7 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getSwitchUsers(): array
 	{
-		require 'user_privileges/switchUsers.php';
+		require ROOT_DIRECTORY . '/user_privileges/switchUsers.php';
 		return $switchUsersRaw ?? [];
 	}
 
