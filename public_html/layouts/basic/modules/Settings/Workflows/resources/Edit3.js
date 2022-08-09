@@ -453,7 +453,7 @@ Settings_Workflows_Edit_Js(
 				if (!fieldValue || sourceField.length <= 0) {
 					return;
 				}
-				let value = sourceField.val() ? JSON.parse(sourceField.val()) : {};
+				let value = sourceField.val() ? { ...JSON.parse(sourceField.val()) } : {};
 				let moduleName;
 				let fieldValueParts = fieldValue.split('::');
 				if (fieldValueParts.length === 2) {
