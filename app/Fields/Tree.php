@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Fields;
@@ -97,7 +98,7 @@ class Tree
 				'id' => (int) str_replace('T', '', $row['tree']),
 				'tree' => $row['tree'],
 				'parent' => false === $parentIdx ? '#' : (int) str_replace('T', '', $dataTree[$parentIdx]['tree']),
-				'text' => \App\Language::translate($row['name'], $moduleName),
+				'text' => \App\Language::translate($row['name'], $moduleName, null, false),
 			];
 		}
 		return $tree;
@@ -168,6 +169,6 @@ class Tree
 	public static function deleteForModule($moduleId)
 	{
 		$db = \App\Db::getInstance();
-		$db->createCommand()->delete('vtiger_trees_templates', ['module' => $moduleId])->execute();
+		$db->createCommand()->delete('vtiger_trees_templates', ['tabid' => $moduleId])->execute();
 	}
 }
