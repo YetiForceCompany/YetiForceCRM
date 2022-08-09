@@ -53,11 +53,11 @@ abstract class PaymentsIn_PaymentStatus_Model
 	{
 		if (static::canUpdatePaymentStatus($recordModel)) {
 			if ($currentRelatedId = $recordModel->get(static::$relatedRecordIdName)) {
-				(new \App\BatchMethod(['method' => static::class . '::updatePaymentStatusN', 'params' => [$currentRelatedId]]))->save();
+				(new \App\BatchMethod(['method' => static::class . '::updatePaymentStatus', 'params' => [$currentRelatedId]]))->save();
 			}
 			$previousRelatedId = $recordModel->getPreviousValue(static::$relatedRecordIdName);
 			if (false !== $previousRelatedId && $previousRelatedId > 0) {
-				(new \App\BatchMethod(['method' => static::class . '::updatePaymentStatusO', 'params' => [$previousRelatedId]]))->save();
+				(new \App\BatchMethod(['method' => static::class . '::updatePaymentStatus', 'params' => [$previousRelatedId]]))->save();
 			}
 		}
 	}
