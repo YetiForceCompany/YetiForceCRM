@@ -9,7 +9,7 @@
  *************************************************************************************/
 'use strict';
 
-var App = (window.App = {
+const App = (window.App = {
 	Components: {
 		Tree: {
 			Basic: class {
@@ -1131,7 +1131,7 @@ var App = (window.App = {
 	}
 });
 
-var app = (window.app = {
+const app = (window.app = {
 	/**
 	 * variable stores client side language strings
 	 */
@@ -1761,7 +1761,7 @@ var app = (window.app = {
 		if (footer) {
 			footer = `<div class="modal-footer">${footer}</div>`;
 		}
-		let html = `<div class="modal" tabindex="-1" role="dialog"><div class="modal-dialog ${params['class']}" role="document"><div class="modal-content">
+		let html = `<div class="modal" role="dialog"><div class="modal-dialog ${params['class']}" role="document"><div class="modal-content">
 		<div class="modal-header"><h5 class="modal-title js-modal-title" data-js="container">${params['header']}</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
 		<div class="modal-body js-modal-content text-break ${params['bodyClass']}" data-js="container">${params['body']}</div>${footer}</div></div></div>`;
 		params.data = html;
