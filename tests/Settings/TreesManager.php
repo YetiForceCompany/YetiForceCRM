@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Tests\Settings;
@@ -35,18 +36,17 @@ class TreesManager extends \Tests\Base
 			$moduleId = \App\Module::getModuleId('Dashboard');
 		}
 
-		$recordModel = new \Settings_TreesManager_Record_Model();
+		$recordModel = \Settings_TreesManager_Record_Model::getCleanInstance();
 		$recordModel->set('name', 'TestTree' . $key);
-		$recordModel->set('module', $moduleId);
+		$recordModel->set('tabid', $moduleId);
 		$recordModel->set('tree', $tree);
 		$recordModel->set('share', $share);
-		$recordModel->set('replace', '');
 		$recordModel->save();
 		self::$treesId[$key] = $recordModel->getId();
 
 		$row = (new \App\Db\Query())->from('vtiger_trees_templates')->where(['templateid' => self::$treesId[$key]])->one();
 		$this->assertSame($row['name'], 'TestTree' . $key);
-		$this->assertSame($row['module'], $moduleId);
+		$this->assertSame($row['tabid'], $moduleId);
 		$this->assertSame($row['share'], \Settings_TreesManager_Record_Model::getShareFromArray($share));
 		$this->assertSame((new \App\Db\Query())->from('vtiger_trees_templates_data')->where(['templateid' => self::$treesId[$key]])->count(), self::countItems($tree));
 
@@ -156,7 +156,7 @@ class TreesManager extends \Tests\Base
 		return [
 			'id' => $id,
 			'text' => $itemName,
-			'icon' => '1',
+			'icon' => '',
 			'li_attr' => ['id' => $id],
 			'a_attr' => ['href' => '#', 'id' => $id . '_anchor'],
 			'state' => ['loaded' => '1', 'opened' => false, 'selected' => false, 'disabled' => false],

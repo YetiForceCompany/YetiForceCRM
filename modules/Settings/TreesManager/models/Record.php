@@ -130,7 +130,6 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		$label = $tree['text'];
 		$id = $tree['id'];
 		$treeID = 'T' . $id;
-		$icon = 1 === (int) $tree['icon'] ? '' : $tree['icon'];
 		if ('' != $parentTree) {
 			$parentTree = $parentTree . '::';
 		}
@@ -143,7 +142,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			'depth' => $depth,
 			'label' => $label,
 			'state' => $tree['state'] ? \App\Json::encode($tree['state']) : '',
-			'icon' => $icon,
+			'icon' => $tree['icon'],
 		];
 		App\Db::getInstance()->createCommand()->insert('vtiger_trees_templates_data', $params)->execute();
 		if (!empty($tree['children'])) {
