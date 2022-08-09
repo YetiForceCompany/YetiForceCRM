@@ -769,15 +769,9 @@ Vtiger_Categorymultipicklist_Field_Js(
 	'AdvanceFilter_Categorymultipicklist_Field_Js',
 	{},
 	{
-		/**
-		 * Function to get the display value
-		 */
-		getDisplayValue: function () {
-			return this.get('displayvalue');
-		},
 		getReadOnly: function () {
 			let result = '';
-			if (this.getDisplayValue() !== '') {
+			if (this.getValue()) {
 				result = ' readonly="true" ';
 			}
 			return result;
@@ -796,50 +790,67 @@ Vtiger_Categorymultipicklist_Field_Js(
 		},
 		getUi: function () {
 			let pickListValues = this.getPickListValues();
-			let displayValue = this.getDisplayValue();
+			let value = this.getValue() || '';
+			let values = value.split(',').map((v) => pickListValues[v] || '');
+			let displayValue = values.join(', ', values);
+
 			let multiple = 1;
 			if (this.getType() === 'tree') {
 				multiple = 0;
 			}
-			let html =
-				'<div class="js-tree-container fieldValue" data-js="container"><input name="' +
-				this.getName() +
-				'" type="hidden" value="' +
-				this.getValue() +
-				'" class="sourceField" data-displayvalue="' +
-				displayValue +
-				'" data-fieldinfo=\'{"mandatory":false,"presence":true,"quickcreate":true,"masseditable":true,"header_field":[],"maxlengthtext":0,"maximumlength":"200","maxwidthcolumn":0,"tabindex":0,"defaultvalue":"","type":"tree","name":"' +
-				this.getName() +
-				'","label":"","picklistvalues":' +
-				JSON.stringify(pickListValues) +
-				'}\' data-multiple="' +
-				multiple +
-				'" data-value="value" data-treetemplate="' +
-				this.getTreeTemplate() +
-				'" data-module-name="' +
-				this.getModuleName() +
-				'"><div class="input-group"><span class="input-group-prepend clearTreeSelection u-cursor-pointer"><span class="input-group-text"><span id="' +
-				this.getModuleName() +
-				'_editView_fieldName_' +
-				this.getName() +
-				'_clear" class="fas fa-times-circle"  title=""></span></span></span><input id="' +
-				this.getName() +
-				'_display" name="' +
-				this.getName() +
-				'_display" type="text" class="ml-0 treeAutoComplete form-control" value="' +
-				displayValue +
-				'"' +
-				this.getReadOnly() +
-				'data-fieldinfo=\'{"mandatory":false,"presence":true,"quickcreate":true,"masseditable":true,"header_field":[],"maxlengthtext":0,"maximumlength":"200","maxwidthcolumn":0,"tabindex":0,"defaultvalue":"","type":"tree","name":"' +
-				this.getName() +
-				'","label":"","picklistvalues":' +
-				JSON.stringify(pickListValues) +
-				'}\'><span class="input-group-append js-tree-modal u-cursor-pointer"><span class="input-group-text"><span id="' +
-				this.getModuleName() +
-				'_editView_fieldName_' +
-				this.getName() +
-				'_select" class="fas fa-search" title=""></span></span></span></div>';
-			let selectContainer = $(html);
+
+			const treeContainer = document.createElement('div');
+			treeContainer.setAttribute('class', 'js-tree-container fieldValue');
+			const sourceInput = document.createElement('input');
+			sourceInput.setAttribute('name', this.getName());
+			sourceInput.setAttribute('type', 'hidden');
+			sourceInput.setAttribute('value', this.getValue());
+			sourceInput.setAttribute('class', 'sourceField');
+			sourceInput.setAttribute('fieldinfo', JSON.stringify(this.getData()));
+			sourceInput.setAttribute('data-multiple', multiple);
+			sourceInput.setAttribute('data-value', 'value');
+			sourceInput.setAttribute('data-treetemplate', this.getTreeTemplate());
+			sourceInput.setAttribute('data-module-name', this.getModuleName());
+			const inputGroup = document.createElement('div');
+			inputGroup.setAttribute('class', 'input-group');
+
+			const clearBtn = document.createElement('span');
+			clearBtn.setAttribute('class', 'input-group-prepend clearTreeSelection u-cursor-pointer');
+			const clearBtnText = document.createElement('span');
+			clearBtnText.setAttribute('class', 'input-group-text');
+			const clearBtnTextIcon = document.createElement('span');
+			clearBtnTextIcon.setAttribute('class', 'fas fa-times-circle');
+			clearBtnText.appendChild(clearBtnTextIcon);
+			clearBtn.appendChild(clearBtnText);
+
+			const sourceDisplay = document.createElement('input');
+			sourceDisplay.setAttribute('name', this.getName() + '_display');
+			sourceDisplay.setAttribute('id', this.getName() + '_display');
+			sourceDisplay.setAttribute('type', 'text');
+			sourceDisplay.setAttribute('class', 'ml-0 treeAutoComplete form-control');
+			sourceDisplay.setAttribute('value', displayValue);
+			sourceInput.setAttribute('fieldinfo', JSON.stringify(this.getData()));
+			if (this.getReadOnly()) {
+				sourceDisplay.setAttribute('readonly', 'readonly');
+			}
+
+			const searchBtn = document.createElement('span');
+			searchBtn.setAttribute('class', 'input-group-append js-tree-modal u-cursor-pointer');
+			const searchBtnText = document.createElement('span');
+			searchBtnText.setAttribute('class', 'input-group-text');
+			const searchBtnTextIcon = document.createElement('span');
+			searchBtnTextIcon.setAttribute('class', 'fas fa-search');
+			searchBtnText.appendChild(searchBtnTextIcon);
+			searchBtn.appendChild(searchBtnText);
+
+			inputGroup.appendChild(clearBtn);
+			inputGroup.appendChild(sourceDisplay);
+			inputGroup.appendChild(searchBtn);
+
+			treeContainer.appendChild(sourceInput);
+			treeContainer.appendChild(inputGroup);
+
+			let selectContainer = $(treeContainer);
 			App.Fields.Tree.register(selectContainer);
 			this.addValidationToElement(selectContainer);
 			return selectContainer;

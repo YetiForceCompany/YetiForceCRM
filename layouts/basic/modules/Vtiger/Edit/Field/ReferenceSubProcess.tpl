@@ -36,7 +36,7 @@
 		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden"
 			value="{$DISPLAYID}"
 			class="sourceField"
-			data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{$FIELD_VALUE}"
+			data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}"
 			data-fieldinfo='{$FIELD_INFO}' {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly" {/if} />
 		<div class="input-group referenceGroup {$WIDTHTYPE_GROUP}">
 			<div class="input-group-prepend">

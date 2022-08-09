@@ -31,7 +31,6 @@
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{if in_array($FIELD_MODEL->getFieldDataType(), ['categoryMultipicklist', 'tree'])}
 								{$FIELD_INFO['treetemplate'] = App\Purifier::decodeHtml($FIELD_MODEL->getFieldParams())}
-								{$FIELD_INFO['displayvalue'] = $FIELD_MODEL->getDisplayValue($FIELD_MAP['value'])}
 							{/if}
 							{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
 							<option value="{$FIELD_MODEL->getName()}"

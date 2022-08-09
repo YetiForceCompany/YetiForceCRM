@@ -73,9 +73,9 @@ class Tree
 				$pieces = explode('::', $parentTrre);
 				$parent = end($pieces);
 				$parentName = $dataTree[$parent]['name'];
-				$parentName = '(' . \App\Language::translate($parentName, $moduleName) . ') ';
+				$parentName = '(' . \App\Language::translate($parentName, $moduleName, null, false) . ') ';
 			}
-			$values[$row['tree']] = $parentName . \App\Language::translate($row['name'], $moduleName);
+			$values[$row['tree']] = $parentName . \App\Language::translate($row['name'], $moduleName, null, false);
 		}
 		return $values;
 	}
@@ -144,9 +144,9 @@ class Tree
 			$pieces = explode('::', $parentTrre);
 			$parent = end($pieces);
 			$parentName = static::getPicklistValue($templateId, $moduleName)[$parent];
-			$parentName = '(' . \App\Language::translate($parentName, $moduleName) . ') ';
+			$parentName = '(' . \App\Language::translate($parentName, $moduleName, null, false) . ') ';
 		}
-		$value['name'] = $parentName . \App\Language::translate($row['name'], $moduleName);
+		$value['name'] = $parentName . \App\Language::translate($row['name'], $moduleName, null, false);
 		if ($row['icon']) {
 			if ($row['icon'] && 0 === strpos($row['icon'], 'layouts')) {
 				$basePath = '';

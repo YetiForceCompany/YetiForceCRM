@@ -43,7 +43,6 @@
 								{/if}
 								{if in_array($FIELD_MODEL->get('uitype'), [302,309])}
 									{$FIELD_INFO['treetemplate'] = App\Purifier::decodeHtml($FIELD_MODEL->getFieldParams())}
-									{$FIELD_INFO['displayvalue'] = $FIELD_MODEL->getDisplayValue($FIELD_VALUE)}
 								{/if}
 								data-fieldinfo='{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}'
 								{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if}>

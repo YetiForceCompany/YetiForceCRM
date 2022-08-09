@@ -30,7 +30,6 @@
 											{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 											{if in_array($FIELD_MODEL->getFieldDataType(), ['categoryMultipicklist', 'tree'])}
 												{$FIELD_INFO['treetemplate'] = App\Purifier::decodeHtml($FIELD_MODEL->getFieldParams())}
-												{$FIELD_INFO['displayvalue'] = $FIELD_MODEL->getDisplayValue($FIELD_MAP['value'])}
 											{/if}
 											{assign var=VALUE value=$REFERENCE_FIELD->get('name')|cat:'::'|cat:$RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->getName()}
 											<option value="{$VALUE}" {if $FIELD_MAP['fieldname'] eq $VALUE} selected="" {/if}
@@ -55,7 +54,6 @@
 										{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 										{if in_array($FIELD_MODEL->getFieldDataType(), ['categoryMultipicklist', 'tree'])}
 											{$FIELD_INFO['treetemplate'] = App\Purifier::decodeHtml($FIELD_MODEL->getFieldParams())}
-											{$FIELD_INFO['displayvalue'] = $FIELD_MODEL->getDisplayValue($FIELD_MAP['value'])}
 										{/if}
 										{assign var=VALUE value="{$RELATION_MODULE_NAME}::{$FIELD_MODEL->getName()}"}
 										<option value="{$VALUE}"
