@@ -27,8 +27,9 @@ class PaymentsIn_SSingleOrdersPaymentStatus_Model extends PaymentsIn_PaymentStat
 	protected static function canUpdatePaymentStatus(Vtiger_Record_Model $recordModel): bool
 	{
 		$returnValue = parent::canUpdatePaymentStatus($recordModel);
-		if ($returnValue && (int) $recordModel->get('currency_id') !== \App\Record::getCurrencyIdFromInventory($recordModel->get('ssingleordersid'), 'SSingleOrders')) {
-			\App\Log::warning('The payment is in a different currency than the order. SSingleOrdersId: ' . $recordModel->get('ssingleordersid'));
+		if (($returnValue || false !== $recordModel->getPreviousValue(static::$relatedRecordIdName)) && (int) $recordModel->get('currency_id') !== \App\Record::getCurrencyIdFromInventory($recordModel->get(static::$relatedRecordIdName), static::$moduleName)
+		) {
+			\App\Log::warning('The payment is in a different currency than the related record: ' . $recordModel->get(static::$relatedRecordIdName));
 			$returnValue = false;
 		}
 		return $returnValue;

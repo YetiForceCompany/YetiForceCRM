@@ -52,7 +52,13 @@ abstract class PaymentsIn_PaymentStatus_Model
 	public static function updateIfPossible(Vtiger_Record_Model $recordModel)
 	{
 		if (static::canUpdatePaymentStatus($recordModel)) {
-			(new \App\BatchMethod(['method' => static::class . '::updatePaymentStatus', 'params' => [$recordModel->get(static::$relatedRecordIdName)]]))->save();
+			if ($currentRelatedId = $recordModel->get(static::$relatedRecordIdName)) {
+				(new \App\BatchMethod(['method' => static::class . '::updatePaymentStatusN', 'params' => [$currentRelatedId]]))->save();
+			}
+			$previousRelatedId = $recordModel->getPreviousValue(static::$relatedRecordIdName);
+			if (false !== $previousRelatedId && $previousRelatedId > 0) {
+				(new \App\BatchMethod(['method' => static::class . '::updatePaymentStatusO', 'params' => [$previousRelatedId]]))->save();
+			}
 		}
 	}
 
@@ -151,7 +157,7 @@ abstract class PaymentsIn_PaymentStatus_Model
 	 */
 	protected static function canUpdatePaymentStatus(Vtiger_Record_Model $recordModel): bool
 	{
-		$returnValue = !$recordModel->isEmpty(static::$relatedRecordIdName) && ($recordModel->isNew() || static::checkIfPaymentFieldsChanged($recordModel));
+		$returnValue = !$recordModel->isEmpty(static::$relatedRecordIdName) && ($recordModel->isNew() || false !== $recordModel->getPreviousValue('paymentsin_status'));
 		if ($returnValue) {
 			$fieldModel = \Vtiger_Module_Model::getInstance(static::$moduleName)->getFieldByName(static::$fieldPaymentStatusName);
 			$returnValue = $fieldModel && $fieldModel->isActiveField();
