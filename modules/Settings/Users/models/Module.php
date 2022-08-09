@@ -58,7 +58,6 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		App\Db::getInstance()->createCommand()
 			->update('yetiforce_auth', ['value' => $value], ['type' => $param['type'], 'param' => $param['param']])
 			->execute();
-
 		return true;
 	}
 
@@ -66,10 +65,12 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	 * Save configuration about switching between users.
 	 *
 	 * @param array $data
+	 *
+	 * @return void
 	 */
-	public function saveSwitchUsers($data)
+	public function saveSwitchUsers($data): void
 	{
-		$map = $switchUsers = $switchUsersRaw = [];
+		$switchUsers = $switchUsersRaw = [];
 		if (!empty($data) && \count($data)) {
 			foreach ($data as $row) {
 				$switchUsersRaw[$row['user']] = $row['access'];
@@ -80,22 +81,13 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 					}
 				}
 				foreach ($this->getUserID($row['user']) as $user) {
-					$map[$user] = array_merge($map[$user] ?? [], $accessList);
+					$switchUsers[$user] = array_merge($switchUsers[$user] ?? [], $accessList);
 				}
 			}
 		}
-		foreach ($map as $user => $accessList) {
-			$usersForSort = [];
-			$usersForSort[$user] = $this->getUserName($user);
-			foreach ($accessList as $ID) {
-				$usersForSort[$ID] = $this->getUserName($ID);
-			}
-			asort($usersForSort);
-			$switchUsers[$user] = $usersForSort;
-		}
 		$content = '$switchUsersRaw = ' . \App\Utils::varExport($switchUsersRaw) . ';' . PHP_EOL .
-			'$switchUsers = ' . \App\Utils::varExport($switchUsers) . ';' . PHP_EOL;
-		\App\Utils::saveToFile('user_privileges/switchUsers.php', $content);
+			'$switchUsers = ' . \App\Utils::varExport($switchUsers) . ';';
+		\App\Utils::saveToFile(ROOT_DIRECTORY . '/user_privileges/switchUsers.php', $content, 'File generated from the panel');
 	}
 
 	/**
@@ -103,11 +95,10 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return array
 	 */
-	public function getSwitchUsers()
+	public function getSwitchUsers(): array
 	{
 		require 'user_privileges/switchUsers.php';
-
-		return $switchUsersRaw;
+		return $switchUsersRaw ?? [];
 	}
 
 	/**
@@ -122,9 +113,9 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @param string $data
 	 *
-	 * @return int
+	 * @return int[]
 	 */
-	public function getUserID($data)
+	public function getUserID($data): array
 	{
 		if (\array_key_exists($data, self::$usersID)) {
 			return self::$usersID[$data];
@@ -139,7 +130,6 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 			$return = [(int) $data];
 		}
 		self::$usersID[$data] = $return;
-
 		return $return;
 	}
 
@@ -164,48 +154,11 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$entityData = \App\Module::getEntityInfo('Users');
 		$userPrivileges = App\User::getPrivilegesFile($id);
-		$colums = [];
+		$columns = [];
 		foreach ($entityData['fieldnameArr'] as $fieldname) {
-			$colums[] = $userPrivileges['user_info'][$fieldname];
+			$columns[] = $userPrivileges['user_info'][$fieldname];
 		}
-		$name = implode(' ', $colums);
-		self::$users[$id] = $name;
-
-		return $name;
-	}
-
-	/**
-	 * Refresh list users to switch.
-	 */
-	public function refreshSwitchUsers()
-	{
-		$switchUsersRaw = $this->getSwitchUsers();
-		$map = $switchUsers = [];
-		if (\count($switchUsersRaw)) {
-			foreach ($switchUsersRaw as $key => $row) {
-				$accessList = [];
-				if (\count($row)) {
-					foreach ($row as $access) {
-						$accessList = array_merge($accessList, $this->getUserID($access));
-					}
-				}
-				foreach ($this->getUserID($key) as $user) {
-					$map[$user] = array_merge($map[$user] ?? [], $accessList);
-				}
-			}
-		}
-		foreach ($map as $user => $accessList) {
-			$usersForSort = [];
-			$usersForSort[$user] = $this->getUserName($user);
-			foreach ($accessList as $ID) {
-				$usersForSort[$ID] = $this->getUserName($ID);
-			}
-			asort($usersForSort);
-			$switchUsers[$user] = $usersForSort;
-		}
-		$content = '$switchUsersRaw = ' . \App\Utils::varExport($switchUsersRaw) . ';' . PHP_EOL .
-			'$switchUsers = ' . \App\Utils::varExport($switchUsers) . ';' . PHP_EOL;
-		\App\Utils::saveToFile('user_privileges/switchUsers.php', $content);
+		return self::$users[$id] = implode(' ', $columns);
 	}
 
 	/**

@@ -263,9 +263,19 @@ class User
 	 *
 	 * @return string
 	 */
-	public function getRole()
+	public function getRole(): string
 	{
 		return $this->privileges['details']['roleid'];
+	}
+
+	/**
+	 * Get user role Id.
+	 *
+	 * @return string
+	 */
+	public function getRoleName(): string
+	{
+		return $this->privileges['roleName'];
 	}
 
 	/**

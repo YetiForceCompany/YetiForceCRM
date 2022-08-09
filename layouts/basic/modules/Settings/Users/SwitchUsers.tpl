@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Settings-Users-SwitchUsers -->
 	<input type="hidden" id="suCount" value="{count($SWITCH_USERS)}" />
 	{assign var="USERS" value=Users_Record_Model::getAll()}
 	{assign var="ROLES" value=Settings_Roles_Record_Model::getAll()}
@@ -8,7 +9,6 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
-	<span style="font-size:12px;color: black;">{\App\Language::translate('LBL_SWITCH_USERS_DESCRIPTION', $QUALIFIED_MODULE)}</span>
 	<hr>
 	<div class="container-fluid ">
 		<div class="contents">
@@ -21,14 +21,23 @@
 					</tr>
 				</thead>
 				<tbody>
-					{foreach item=SUSERS key=ID from=$MODULE_MODEL->getSwitchUsers()}
-						{include file=\App\Layout::getTemplatePath('SwitchUsersItem.tpl', $QUALIFIED_MODULE) SELECT=true}
+					{foreach item=SUSERS key=ID from=$SWITCH_USERS}
+						{if \App\User::isExists($ID)}
+							{include file=\App\Layout::getTemplatePath('SwitchUsersItem.tpl', $QUALIFIED_MODULE) SELECT=true}
+
+						{else}
+							<tr>
+								<td colspan="3">
+									<s class="color-red-500">{\App\Fields\Owner::getLabel($ID)}</s>
+								</td>
+							</tr>
+						{/if}
 					{/foreach}
 				</tbody>
 			</table>
 		</div>
-		<div class="row">
-			<button class="btn btn-info addItem"><span class="fa fa-plus u-mr-5px"></span><strong>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)}</strong></button>&nbsp;&nbsp;
+		<div class="row float-right">
+			<button class="btn btn-primary addItem mr-3"><span class="fa fa-plus u-mr-5px"></span><strong>{\App\Language::translate('LBL_ADD', $QUALIFIED_MODULE)}</strong></button>
 			<button class="btn btn-success saveItems"><strong><span class="fa fa-check u-mr-5px"></span>{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}</strong></button>
 		</div>
 		<table class="table table-bordered cloneItem d-none">
@@ -36,4 +45,5 @@
 			{include file=\App\Layout::getTemplatePath('SwitchUsersItem.tpl', $QUALIFIED_MODULE) SELECT=false}
 		</table>
 	</div>
+	<!-- /tpl-Settings-Users-SwitchUsers -->
 {/strip}
