@@ -183,8 +183,8 @@ class System extends Base
 	 */
 	public function checkRegStatus(): void
 	{
-		$status = \App\YetiForce\Register::check(true);
-		$this->climate->bold('Status: ' . \App\Language::translate(\App\YetiForce\Register::STATUS_MESSAGES[$status], 'Settings::Companies'));
+		\App\YetiForce\Register::check(true);
+		$this->climate->bold('Status: ' . \App\Language::translate(\App\YetiForce\Register::STATUS_MESSAGES[\App\YetiForce\Register::getStatus()], 'Settings::Companies'));
 		$this->climate->border('─', 200);
 		$this->climate->bold('APP ID: ' . \App\YetiForce\Register::getInstanceKey());
 		$this->climate->border('─', 200);
