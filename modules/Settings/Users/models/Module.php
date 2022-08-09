@@ -134,34 +134,6 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Users array.
-	 *
-	 * @var array
-	 */
-	public static $users = [];
-
-	/**
-	 * Get user name by id.
-	 *
-	 * @param int $id
-	 *
-	 * @return string
-	 */
-	public function getUserName($id)
-	{
-		if (\array_key_exists($id, self::$users)) {
-			return self::$users[$id];
-		}
-		$entityData = \App\Module::getEntityInfo('Users');
-		$userPrivileges = App\User::getPrivilegesFile($id);
-		$columns = [];
-		foreach ($entityData['fieldnameArr'] as $fieldname) {
-			$columns[] = $userPrivileges['user_info'][$fieldname];
-		}
-		return self::$users[$id] = implode(' ', $columns);
-	}
-
-	/**
 	 * Function to get locks.
 	 *
 	 * @return array
@@ -169,7 +141,6 @@ class Settings_Users_Module_Model extends Settings_Vtiger_Module_Model
 	public function getLocks()
 	{
 		include 'user_privileges/locks.php';
-
 		return $locksRaw;
 	}
 
