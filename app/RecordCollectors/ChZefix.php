@@ -212,7 +212,7 @@ class ChZefix extends Base
 			if (200 === $response->getStatusCode()) {
 				$this->data = $this->parseData(\App\Json::decode($response->getBody()->getContents())[0] ?? []);
 			}
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 		}
@@ -245,7 +245,7 @@ class ChZefix extends Base
 				}
 				$this->data = $data;
 			}
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 		}

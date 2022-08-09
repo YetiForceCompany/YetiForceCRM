@@ -138,7 +138,7 @@ class NoBrregEnhetsregisteret extends Base
 		$response = [];
 		try {
 			$response = \App\RequestHttp::getClient()->get($this->url . $companyNumber);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 			if (400 === $e->getCode()) {

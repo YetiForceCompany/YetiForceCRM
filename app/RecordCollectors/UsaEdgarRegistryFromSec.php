@@ -171,7 +171,7 @@ class UsaEdgarRegistryFromSec extends Base
 				],
 			]);
 			$this->data = isset($response) ? \App\Json::decode($response->getBody()->getContents()) : [];
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}

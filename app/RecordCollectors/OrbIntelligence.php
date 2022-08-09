@@ -248,7 +248,7 @@ class OrbIntelligence extends Base
 		$client = \App\RequestHttp::getClient(['timeout' => 60]);
 		try {
 			$response = $client->get($this->url . '3/match/?' . http_build_query($query));
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
@@ -260,7 +260,7 @@ class OrbIntelligence extends Base
 		foreach ($data as $key => $result) {
 			try {
 				$response = $client->get($result['fetch_url']);
-			} catch (\GuzzleHttp\Exception\ClientException $e) {
+			} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 				\App\Log::warning($e->getMessage(), 'RecordCollectors');
 				$this->response['error'] = $e->getMessage();
 			}

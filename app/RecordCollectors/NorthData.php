@@ -200,7 +200,7 @@ class NorthData extends Base
 					$this->data[$key] = $this->parseData($companyResponse);
 				}
 			}
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 		}

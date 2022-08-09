@@ -196,7 +196,7 @@ class UkCompaniesHouse extends Base
 			$response = \App\RequestHttp::getClient()->request('GET', $this->url . '/company/' . $ncr, [
 				'auth' => [$this->apiKey, ''],
 			]);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
@@ -229,7 +229,7 @@ class UkCompaniesHouse extends Base
 			$response = \App\RequestHttp::getClient()->request('GET', $this->url . '/advanced-search/companies?company_name_includes=' . $companyName, [
 				'auth' => [$this->apiKey, ''],
 			]);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
@@ -287,7 +287,7 @@ class UkCompaniesHouse extends Base
 			$response = \App\RequestHttp::getClient()->request('GET', $this->url . $url, [
 				'auth' => [$this->apiKey, ''],
 			]);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}

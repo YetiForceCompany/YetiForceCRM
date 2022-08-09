@@ -234,7 +234,7 @@ class DkCvr extends Base
 				$this->data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
 				$this->response['links'][0] = self::EXTERNAL_URL . $params['country'] . '/' . urlencode(str_replace(' ', '-', $this->data['name'])) . '/' . urlencode($this->data['vat']);
 			}
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 		}

@@ -275,7 +275,7 @@ class VatifyEu extends Base
 			$client = \App\RequestHttp::getClient(['headers' => ['Authorization' => 'Bearer ' . $this->bearerToken]]);
 			$response = $client->post($this->url . 'query', ['json' => $params]);
 			$link = $response->getHeaderLine('location');
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 			return;
@@ -298,7 +298,7 @@ class VatifyEu extends Base
 				} else {
 					$this->data = $body['result']['items'];
 				}
-			} catch (\GuzzleHttp\Exception\ClientException $e) {
+			} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 				\App\Log::warning($e->getMessage(), 'RecordCollectors');
 				$this->response['error'] = $e->getResponse()->getReasonPhrase();
 				$response = true;
@@ -353,7 +353,7 @@ class VatifyEu extends Base
 			]);
 			$response = \App\Json::decode($response->getBody()->getContents());
 			$this->bearerToken = $response['access_token'];
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 			return;

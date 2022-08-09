@@ -236,7 +236,7 @@ class PlCeidg extends Base
 				'headers' => ['Authorization' => 'Bearer ' . $this->apiKey],
 			]);
 			$rows = \App\Json::decode($response->getBody()->getContents()) ?? [];
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
@@ -250,7 +250,7 @@ class PlCeidg extends Base
 					if (isset($response['firma'][0])) {
 						$this->data[$key] = \App\Utils::flattenKeys($this->parseData($response['firma'][0]), 'ucfirst');
 					}
-				} catch (\GuzzleHttp\Exception\ClientException $e) {
+				} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 					\App\Log::warning($e->getMessage(), 'RecordCollectors');
 					$this->response['error'] = $e->getMessage();
 				}

@@ -149,7 +149,7 @@ class PlKrs extends Base
 			$responseData = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
 				->request('GET', "{$this->url}{$ncr}?rejestr=P&format=json");
 			$this->data = \App\Json::decode($responseData->getBody()->getContents())['odpis'] ?? [];
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}

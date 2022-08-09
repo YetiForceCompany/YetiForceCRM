@@ -170,7 +170,7 @@ class BrReceitaWsCnpj extends Base
 			} else {
 				$this->data = $data;
 			}
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			if (429 === $e->getCode()) {
 				$this->response['error'] = \App\Language::translate('LBL_BR_RECITA_WS_CNPJ_ERROR', 'Other.RecordCollector');

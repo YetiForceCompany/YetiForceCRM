@@ -171,7 +171,7 @@ class FrEnterpriseGouv extends Base
 		$response = [];
 		try {
 			$response = \App\RequestHttp::getClient()->get($this->url . 'search?' . http_build_query($query));
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}

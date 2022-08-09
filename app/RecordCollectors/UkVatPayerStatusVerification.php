@@ -84,7 +84,7 @@ class UkVatPayerStatusVerification extends Base
 			$response = \App\Json::decode(\App\RequestHttp::getClient()->get($this->url . 'organisations/vat/check-vat-number/lookup/' . $vatNumber)
 				->getBody()
 				->getContents());
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
