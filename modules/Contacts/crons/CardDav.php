@@ -34,11 +34,11 @@ class Contacts_CardDav_Cron extends \App\CronHandler
 		$this->logs = "Users: $users";
 		$cardDav = new API_CardDAV_Model();
 		$cardDav->davUsers = $dav->davUsers;
-		$cardDav->cardDavCrm2Dav();
+		$this->logs = 'crm2Dav: ' . $cardDav->crm2Dav();
 		if ($this->checkTimeout()) {
 			return;
 		}
-		$cardDav->cardDav2Crm();
+		$this->logs .= ' | dav2Crm: ' . $cardDav->dav2Crm();
 		\App\Log::trace('End cron CardDAV');
 	}
 }
