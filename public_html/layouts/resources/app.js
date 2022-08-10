@@ -3040,7 +3040,7 @@ const app = (window.app = {
 	},
 	registerHtmlToImageDownloader: function (container) {
 		const self = this;
-		container.on('click', '.js-download-html', function (e) {
+		container.on('click', '.js-download-html', function () {
 			let element = $(this);
 			let fileName = element.data('fileName');
 			self.htmlToImage($(element.data('html'))).then((img) => {
@@ -3049,7 +3049,7 @@ const app = (window.app = {
 		});
 	},
 	decodeHTML(html) {
-		var txt = document.createElement('textarea');
+		let txt = document.createElement('textarea');
 		txt.innerHTML = html;
 		return txt.value;
 	},

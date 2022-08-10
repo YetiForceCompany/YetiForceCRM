@@ -4,6 +4,7 @@
  *
  * @see https://youscore.com.ua/en/
  * @see https://youcontrol.com.ua/en/sources/
+ * @see https://api.youscore.com.ua/swagger/
  *
  * @package App
  *

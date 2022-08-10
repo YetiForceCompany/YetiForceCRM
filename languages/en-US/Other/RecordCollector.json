@@ -19,7 +19,7 @@
     "LBL_PL_GUS_DESC": "Fetch data on Polish companies from the online REGON 1(BIR1) database provided by GUS",
     "LBL_PL_KRS": "KRS [PL]",
     "LBL_PL_KRS_DESC": "Fetch data on Polish companies from The National Court Register in Poland (KRS)",
-    "LBL_PL_CEIDG": "Load business entity data from CEIDG [PL]",
+    "LBL_PL_CEIDG": "CEIDG [PL]",
     "LBL_PL_CEIDG_DESC": "Fetch data on Polish companies from the Central Register and Information on Economic Activity in Poland (CEIDG)",
     "LBL_UK_CH": "Companies House [GB]",
     "LBL_UK_CH_DESC": "Fetch data on UK companies from the Comapnies House agency",

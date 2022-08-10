@@ -232,13 +232,15 @@ class DkCvr extends Base
 			$response = \App\RequestHttp::getClient()->get($this->url . http_build_query($params));
 			if (200 === $response->getStatusCode()) {
 				$this->data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
-				$this->response['links'][0] = self::EXTERNAL_URL . $params['country'] . '/' . urlencode(str_replace(' ', '-', $this->data['name'])) . '/' . urlencode($this->data['vat']);
+				if (isset($this->data['name'])) {
+					$this->response['links'][0] = self::EXTERNAL_URL . $params['country'] . '/' . urlencode(str_replace(' ', '-', $this->data['name'])) . '/' . urlencode($this->data['vat']);
+				}
 			}
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getResponse()->getReasonPhrase();
 		}
-		if ($this->data) {
+		if ($this->data && empty($this->data['error'])) {
 			switch ($params['country']) {
 				case 'no':
 					$this->data['country'] = 'Norway';
