@@ -622,9 +622,9 @@ $.Class(
 			this.getInventoryItemsContainer()
 				.find(thisInstance.rowClass)
 				.each(function () {
-					let element = $(this).find('.' + field);
-					if (element.length > 0) {
-						sum += App.Fields.Double.formatToDb(element.val());
+					let e = $(this).find('.' + field);
+					if (e.length > 0) {
+						sum += App.Fields.Double.formatToDb(e.val());
 					}
 				});
 			element.text(App.Fields.Double.formatToDisplay(sum));
@@ -1024,12 +1024,13 @@ $.Class(
 				thisInstance.setTaxParam(parentRow, taxParam);
 				thisInstance.setTax(parentRow, 0);
 				thisInstance.setTaxPercent(parentRow, 0);
-				// Load auto fields
+
 				for (let field in recordData['autoFields']) {
 					let inputField = parentRow.find('input.' + field);
-                    inputField.val(recordData['autoFields'][field]);
-                    if(inputField.attr('type')=='checkbox' && recordData['autoFields'][field]==true){
-                    	inputField.prop('checked',true);					
+					if (inputField.attr('type') === 'checkbox') {
+						inputField.prop('checked', recordData['autoFields'][field]);
+					} else {
+						inputField.val(recordData['autoFields'][field]);
 					}
 					if (recordData['autoFields'][field + 'Text']) {
 						parentRow.find('.' + field + 'Text').text(recordData['autoFields'][field + 'Text']);
