@@ -74,7 +74,9 @@ class ConfReport
 		'session.gc_maxlifetime' => ['recommended' => 1440, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
 		'session.gc_divisor' => ['recommended' => 500, 'type' => 'Greater', 'container' => 'php', 'testCli' => true],
 		'session.gc_probability' => ['recommended' => 1, 'type' => 'Equal', 'container' => 'php', 'testCli' => true],
-		'mbstring.func_overload' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true], //Roundcube
+		'suhosin.session.encrypt' => ['recommended' => 'Off', 'type' => 'Equal', 'container' => 'php', 'testCli' => true], //Roundcube
+		'mbstring.func_overload' => ['recommended' => 0, 'type' => 'Equal', 'container' => 'php', 'testCli' => true], //Roundcube
+		'pcre.backtrack_limit' => ['recommended' => 100000, 'type' => 'Greater', 'container' => 'php', 'testCli' => true], //Roundcube
 		'date.timezone' => ['type' => 'TimeZone', 'container' => 'php', 'testCli' => true], //Roundcube
 		'allow_url_fopen' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true], //Roundcube
 		'auto_detect_line_endings' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'php', 'testCli' => true], //CSVReader
@@ -218,8 +220,8 @@ class ConfReport
 		'innodb_ft_min_token_size' => ['container' => 'db', 'testCli' => true],
 		'innodb_default_row_format' => ['recommended' => 'dynamic', 'type' => 'Equal', 'container' => 'db', 'testCli' => true],
 		'innodb_strict_mode' => ['container' => 'db', 'testCli' => true],
-		'innodb_large_prefix' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'db', 'testCli' => true],
-		'innodb_file_per_table' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'db', 'testCli' => true],
+		'innodb_large_prefix' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'db', 'testCli' => true], //Roundcube
+		'innodb_file_per_table' => ['recommended' => 'On', 'type' => 'OnOff', 'container' => 'db', 'testCli' => true], //Roundcube
 		'innodb_stats_on_metadata' => ['recommended' => 'Off', 'type' => 'OnOff', 'container' => 'db', 'testCli' => true],
 		'innodb_buffer_pool_instances' => ['container' => 'db', 'testCli' => true],
 		'innodb_buffer_pool_load_at_startup' => ['container' => 'db', 'testCli' => true],
