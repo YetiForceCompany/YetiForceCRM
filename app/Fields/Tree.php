@@ -148,14 +148,14 @@ class Tree
 		}
 		$value['name'] = $parentName . \App\Language::translate($row['name'], $moduleName, null, false);
 		if ($row['icon']) {
-			if ($row['icon'] && 0 === strpos($row['icon'], 'layouts')) {
+			if ($row['icon'] && false !== strpos($row['icon'], '/')) {
 				$basePath = '';
 				if (!IS_PUBLIC_DIR) {
 					$basePath = 'public_html/';
 				}
-				$value['icon'] = '<img class="treeImageIcon" src="' . $basePath . $row['icon'] . '" />';
+				$value['icon'] = '<img class="icon-img--picklist mr-1" src="' . $basePath . $row['icon'] . '" />';
 			} else {
-				$value['icon'] = '<span class="treeImageIcon ' . $row['icon'] . '"></span>';
+				$value['icon'] = '<span class="mr-1 ' . $row['icon'] . '"></span>';
 			}
 		}
 		return $value;

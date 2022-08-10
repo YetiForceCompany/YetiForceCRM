@@ -510,4 +510,16 @@ class Validator
 		$explode = explode(',', $input);
 		return 2 === \count($explode) && 1 === preg_match('%^[a-zA-Z0-9/+]*={0,2}$%', $explode[1]);
 	}
+
+	/**
+	 * Check font icon name.
+	 *
+	 * @param string $input
+	 *
+	 * @return bool
+	 */
+	public static function fontIcon(string $input): bool
+	{
+		return !empty($input) && preg_match('/^[[:alnum:]_\- ]+$/', $input);
+	}
 }

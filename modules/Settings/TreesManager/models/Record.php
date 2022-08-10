@@ -6,6 +6,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -183,15 +184,9 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$parentTree = substr($row['parentTree'], 0, -$cut);
 			$pieces = explode('::', $parentTree);
 			$parent = (int) str_replace('T', '', end($pieces));
-			$icon = false;
-			if (!empty($row['icon'])) {
-				$basePathIcon = $row['icon'];
-				if ($basePathIcon && 0 === strpos($basePathIcon, 'public_html') && IS_PUBLIC_DIR) {
-					$basePathIcon = str_replace('public_html/', '', $basePathIcon);
-				} elseif ($basePathIcon && 0 === strpos($basePathIcon, 'layouts') && !IS_PUBLIC_DIR) {
-					$basePathIcon = 'public_html/' . $basePathIcon;
-				}
-				$icon = $basePathIcon;
+			$icon = $row['icon'] ?: false;
+			if ($icon && false !== strpos($icon, '/') && !IS_PUBLIC_DIR) {
+				$icon = 'public_html/' . $icon;
 			}
 			$parameters = [
 				'id' => $treeID,
@@ -558,13 +553,23 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			$value = [];
 			$value['id'] = (int) $branch['id'];
 			$value['text'] = \App\Purifier::decodeHtml($branch['text']);
-			$value['icon'] = \App\Purifier::decodeHtml($branch['icon']);
+
 			$value['state'] = [
 				'loaded' => \App\Validator::bool($branch['state']['loaded']) ? $branch['state']['loaded'] : false,
 				'opened' => \App\Validator::bool($branch['state']['opened']) ? $branch['state']['opened'] : false,
 				'selected' => \App\Validator::bool($branch['state']['selected']) ? $branch['state']['selected'] : false,
 				'disabled' => \App\Validator::bool($branch['state']['disabled']) ? $branch['state']['disabled'] : false,
 			];
+			$icon = \App\Purifier::decodeHtml($branch['icon'] ?? '');
+			if ($icon && false !== strpos($icon, '/')) {
+				$icon = \App\Purifier::purifyByType($icon, \App\Purifier::PATH);
+				if (0 === strpos($icon, 'public_html/')) {
+					$icon = substr($icon, 12);
+				}
+			} elseif ($icon && ('1' === $icon || !\App\Validator::fontIcon($icon))) {
+				$icon = '';
+			}
+			$value['icon'] = $icon;
 			if (!empty($branch['children'])) {
 				$value['children'] = $this->parseTreeDataForSave($branch['children']);
 			}
