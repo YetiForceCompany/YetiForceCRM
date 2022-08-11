@@ -3823,12 +3823,14 @@ CREATE TABLE `u_yf_openstreetmap_address_updater` (
 
 CREATE TABLE `u_yf_openstreetmap_cache` (
   `user_id` int(10) NOT NULL,
-  `module_name` varchar(50) NOT NULL,
+  `module_name` varchar(25) NOT NULL,
   `crmids` int(10) NOT NULL,
   KEY `u_yf_openstreetmap_cache_user_id_module_name_idx` (`user_id`,`module_name`),
-  KEY `crmids` (`crmids`),
+  KEY `u_yf_openstreetmap_cache_crmids_idx` (`crmids`),
+  KEY `u_yf_openstreetmap_cache_module_name_idx` (`module_name`),
   CONSTRAINT `u_yf_openstreetmap_cache_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `u_yf_openstreetmap_cache_ibfk_2` FOREIGN KEY (`crmids`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+  CONSTRAINT `u_yf_openstreetmap_cache_ibfk_2` FOREIGN KEY (`crmids`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `u_yf_openstreetmap_cache_ibfk_3` FOREIGN KEY (`module_name`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_openstreetmap_record_updater` */
