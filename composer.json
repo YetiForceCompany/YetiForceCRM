@@ -84,7 +84,7 @@
     "league/climate": "^3.6",
     "twig/twig": "^3.0",
     "illuminate/support": "^8.0",
-    "globalcitizen/php-iban": "^4.0.0",
+    "globalcitizen/php-iban": "^4.1.1",
     "chrome-php/chrome": "^v1.4.0",
     "setasign/fpdf": "1.8.*",
     "setasign/fpdi": "^v2.3.6",
