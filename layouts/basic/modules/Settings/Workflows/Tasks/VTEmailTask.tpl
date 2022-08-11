@@ -78,7 +78,7 @@
 							class="redColor">*</span></span>
 					<div class="col-md-9">
 						<input data-validation-engine='validate[required]' name="recepient" class="fields form-control"
-							type="text" value="{if !empty($TASK_OBJECT->recepient)}{$TASK_OBJECT->recepient}{/if}" />
+							type="text" value="{if !empty($TASK_OBJECT->recepient)}{\App\Purifier::encodeHtml($TASK_OBJECT->recepient)}{/if}" />
 					</div>
 				</span>
 				<div class="col-md-5">
