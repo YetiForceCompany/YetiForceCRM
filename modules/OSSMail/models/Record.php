@@ -14,17 +14,40 @@
  */
 class OSSMail_Record_Model extends Vtiger_Record_Model
 {
-	/** Mailbox Status: Active  */
+	/** @var int Mailbox Status: Active */
 	const MAIL_BOX_STATUS_ACTIVE = 0;
 
-	/** Mailbox Status: Invalid access data  */
+	/** @var int Mailbox Status: Invalid access data */
 	const MAIL_BOX_STATUS_INVALID_ACCESS = 1;
 
-	/** Mailbox Status: Blocked  */
-	const MAIL_BOX_STATUS_BLOCKED = 2;
+	/** @var int Mailbox Status: Blocked temporarily */
+	const MAIL_BOX_STATUS_BLOCKED_TEMP = 2;
 
-	/** Mailbox Status: Disabled  */
+	/** @var int Mailbox Status: Disabled */
 	const MAIL_BOX_STATUS_DISABLED = 3;
+
+	/** @var int Mailbox Status: Blocked permanently */
+	const MAIL_BOX_STATUS_BLOCKED_PERM = 4;
+
+	/** @var string[] Mailbox status labels */
+	const MAIL_BOX_STATUS_LABELS = [
+		self::MAIL_BOX_STATUS_INVALID_ACCESS => 'LBL_ACCOUNT_INVALID_ACCESS',
+		self::MAIL_BOX_STATUS_DISABLED => 'LBL_ACCOUNT_IS_DISABLED',
+		self::MAIL_BOX_STATUS_BLOCKED_TEMP => 'LBL_ACCOUNT_IS_BLOCKED_TEMP',
+		self::MAIL_BOX_STATUS_BLOCKED_PERM => 'LBL_ACCOUNT_IS_BLOCKED_PERM',
+	];
+
+	/**
+	 * Get status label.
+	 *
+	 * @param int $status
+	 *
+	 * @return string
+	 */
+	public static function getStatusLabel(int $status): string
+	{
+		return self::MAIL_BOX_STATUS_LABELS[$status];
+	}
 
 	/**
 	 * Return accounts array.
@@ -197,9 +220,20 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			});
 		} else {
 			if ($account) {
-				$status = self::MAIL_BOX_STATUS_INVALID_ACCESS == $account['crm_status'] ? self::MAIL_BOX_STATUS_BLOCKED : self::MAIL_BOX_STATUS_INVALID_ACCESS;
+				$status = self::MAIL_BOX_STATUS_ACTIVE == $account['crm_status'] ? self::MAIL_BOX_STATUS_INVALID_ACCESS : self::MAIL_BOX_STATUS_BLOCKED_TEMP;
+				[$date] = explode('||', $account['crm_error'] ?: '');
+				if (empty($date) || false === strtotime($date)) {
+					$date = date('Y-m-d H:i:s');
+				}
+				if (self::MAIL_BOX_STATUS_BLOCKED_TEMP === $status && strtotime('-' . (OSSMailScanner_Record_Model::getConfig('blocked')['permanentTime'] ?? '2 day')) > strtotime($date)) {
+					$status = self::MAIL_BOX_STATUS_BLOCKED_PERM;
+				}
 				\App\Db::getInstance()->createCommand()
-					->update('roundcube_users', ['crm_error' => \App\TextUtils::textTruncate(imap_last_error(), 250), 'crm_status' => $status], ['user_id' => $account['user_id']])
+					->update('roundcube_users', [
+						'crm_error' => \App\TextUtils::textTruncate($date . '||' . imap_last_error(), 250),
+						'crm_status' => $status,
+						'failed_login' => date('Y-m-d H:i:s'),
+					], ['user_id' => $account['user_id']])
 					->execute();
 			}
 			\App\Log::error('Error OSSMail_Record_Model::imapConnect(' . static::$imapConnectMailbox . '): ' . imap_last_error());
