@@ -2,15 +2,32 @@
 {strip}
 	<!-- tpl-Settings-ConfReport-DbInfo -->
 	<div class="modal-body js-modal-content" data-js="click">
-		<h3>
-			<span class="mr-4">{\App\Language::translate('LBL_DB_TOTAL_SIZE', $QUALIFIED_MODULE)}: {\vtlib\Functions::showBytes($DB_INFO['size'])}</span>
-			<span class="mr-4">{\App\Language::translate('LBL_DATA_TOTAL_SIZE', $QUALIFIED_MODULE)}: {\vtlib\Functions::showBytes($DB_INFO['dataSize'])}</span>
-			<span class="mr-4">{\App\Language::translate('LBL_INDEX_TOTAL_SIZE', $QUALIFIED_MODULE)}: {\vtlib\Functions::showBytes($DB_INFO['indexSize'])}</span>
+		<h5>
+			<span class="mr-4">{\App\Language::translate('LBL_DB_TOTAL_SIZE', $QUALIFIED_MODULE)}: {\vtlib\Functions::showBytes($DB_INFO['size'])}</span><br>
+			<span class="mr-4">{\App\Language::translate('LBL_DATA_TOTAL_SIZE', $QUALIFIED_MODULE)}: {\vtlib\Functions::showBytes($DB_INFO['dataSize'])}</span><br>
+			<span class="mr-4">{\App\Language::translate('LBL_INDEX_TOTAL_SIZE', $QUALIFIED_MODULE)}: {\vtlib\Functions::showBytes($DB_INFO['indexSize'])}</span><br>
 			{if $DB_INFO['isFileSize']}
 				<span class="mr-4">{\App\Language::translate('LBL_FILE_TOTAL_SIZE', $QUALIFIED_MODULE)}: {\vtlib\Functions::showBytes($DB_INFO['filesSize'])}</span>
 			{/if}
-		</h3>
+		</h5>
 		<div class="mt-3 table-responsive">
+			<table id="db-crm-table" class="table table-sm table-striped display js-db-info-table" data-js="dataTables">
+				<thead>
+					<tr>
+						<th>{\App\Language::translate('LBL_MODULE_NAME', $QUALIFIED_MODULE)}</th>
+						<th>{\App\Language::translate('LBL_NUMBER_OF_ASSIGNED_RECORDS', $QUALIFIED_MODULE)}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach from=$DB_RECORDS key=MODULE item=COUNT}
+						<tr>
+							<td>{\App\Language::translate($MODULE, $MODULE)}</td>
+							<td>{$COUNT}</td>
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
+			<hr class="my-3">
 			<table id="db-info-table" class="table table-sm table-striped display js-db-info-table" data-js="dataTables">
 				<thead>
 					<tr>
