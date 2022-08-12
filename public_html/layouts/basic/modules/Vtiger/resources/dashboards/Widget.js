@@ -3351,9 +3351,9 @@ YetiForce_Widget_Js(
 		sec: 0,
 		/** @type {boolean} Starting a timer */
 		counter: true,
-		/** @type {(string|number))} Time to start work */
+		/** @type {(string|number)} Time to start work */
 		timeStart: '',
-		/** @type {(string|number))} End of work time */
+		/** @type {(string|number)} End of work time */
 		timeStop: '',
 		/**
 		 * Show quick create form
