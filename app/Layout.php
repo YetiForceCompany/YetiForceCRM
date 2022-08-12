@@ -192,10 +192,11 @@ class Layout
 	 * @param string $html
 	 * @param string $size
 	 * @param int    $length
+	 * @param mixed  $showBtn
 	 *
 	 * @return string
 	 */
-	public static function truncateHtml(?string $html, ?string $size = 'medium', ?int $length = 200): string
+	public static function truncateHtml(?string $html, ?string $size = 'medium', ?int $length = 200, $showBtn = false): string
 	{
 		if (empty($html)) {
 			return '';
@@ -225,7 +226,7 @@ class Layout
 				$css = 'display: none;';
 				$teaserBefore = str_replace('<br>', '', $html);
 				$teaser = TextUtils::htmlTruncateByWords(str_replace('<br>', '', $teaserBefore), $length);
-				if ($teaserBefore == $teaser) {
+				if (false === $showBtn && $teaserBefore == $teaser) {
 					$html = $btn = '';
 				}
 				$iframe = false;

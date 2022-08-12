@@ -83,16 +83,16 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 		$emails = [];
 		foreach ($value as $item) {
 			if ($rawText) {
-				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, $length);
+				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, false);
 				continue;
 			}
 			if ($item['o']) {
-				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, $length) . '<span class="fas fa-check text-success ml-2" title="' . \App\Language::translate('LBL_CONSENT_TO_SEND') . '"></span>';
+				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, false) . '<span class="fas fa-check text-success mx-2" title="' . \App\Language::translate('LBL_CONSENT_TO_SEND') . '"></span>';
 			} else {
-				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, true, $length) . '<span class="fas fa-ban text-danger ml-2"></span>';
+				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, true, false) . '<span class="fas fa-ban text-danger mx-2"></span>';
 			}
 		}
-		return implode($rawText ? ', ' : '<br>', $emails);
+		return \App\Layout::truncateHtml(implode('<br>', $emails), 'miniHtml', $length ?: 100, true);
 	}
 
 	/** {@inheritdoc} */
@@ -111,7 +111,7 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	/** {@inheritdoc} */
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
-		return strip_tags($this->getDisplayValue($value, $record, $recordModel, $rawText), '<br>');
+		return $this->getDisplayValue($value, $record, $recordModel, $rawText, $this->getFieldModel()->get('maxlengthtext') ?: 50);
 	}
 
 	/** {@inheritdoc} */
