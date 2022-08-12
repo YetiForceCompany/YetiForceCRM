@@ -16,7 +16,7 @@
 				data-widget-url="{$WIDGET->getUrl()}" data-linkid="{$WIDGET->get('linkid')}"
 				data-width="{$WIDGET->getWidth()}" data-height="{$WIDGET->getHeight()}" data-js="remove | click">
 				{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME, null, true, 'Dashboard')}
-				{if $WIDGET->get('deleteFromList')}
+				{if $WIDGET->isDeletable()}
 					<span class="text-danger pl-5 ml-auto">
 						<span class="fas fa-trash-alt removeWidgetFromList u-hover-opacity" data-widget-id="{$WIDGET->get('widgetid')}" data-js="click"></span>
 					</span>

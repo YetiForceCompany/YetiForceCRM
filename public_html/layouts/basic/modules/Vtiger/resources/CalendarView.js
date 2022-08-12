@@ -344,7 +344,7 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 	appendSubDateRow(toolbar) {
 		if (!this.calendarView.find('.js-dates-row').length) {
 			this.subDateRow =
-				$(`<div class="js-scroll js-dates-row u-overflow-auto-lg-down order-4 flex-grow-1 position-relative my-1 w-100" data-js="perfectScrollbar | container">
+				$(`<div class="js-scroll js-dates-row u-overflow-auto-xl-down order-4 flex-grow-1 position-relative my-1 w-100" data-js="perfectScrollbar | container">
 						<div class="d-flex flex-nowrap w-100">
 							<div class="js-sub-date-list w-100 sub-date-list row no-gutters flex-nowrap nav nav-tabs" data-js="data-type"></div>
 						</div>

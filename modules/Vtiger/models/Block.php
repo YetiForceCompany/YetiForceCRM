@@ -63,9 +63,14 @@ class Vtiger_Block_Model extends vtlib\Block
 		return $this;
 	}
 
+	/**
+	 * Check if block is customizable.
+	 *
+	 * @return bool
+	 */
 	public function isCustomized()
 	{
-		return (0 != $this->iscustom) ? true : false;
+		return 0 !== (int) $this->iscustom;
 	}
 
 	/**
@@ -146,6 +151,14 @@ class Vtiger_Block_Model extends vtlib\Block
 		return $blockModelList;
 	}
 
+	/**
+	 * Get block instance.
+	 *
+	 * @param int|string             $value
+	 * @param vtlib\ModuleBasic|bool $moduleInstance
+	 *
+	 * @return self
+	 */
 	public static function getInstance($value, $moduleInstance = false)
 	{
 		return self::getInstanceFromBlockObject(parent::getInstance($value, $moduleInstance));

@@ -29,7 +29,7 @@ class Utils
 	/**
 	 * Outputs or returns a parsable string representation of a variable.
 	 *
-	 * @see http://php.net/manual/en/function.var-export.php
+	 * @see https://php.net/manual/en/function.var-export.php
 	 *
 	 * @param mixed $variable
 	 *

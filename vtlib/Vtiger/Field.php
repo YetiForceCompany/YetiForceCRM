@@ -287,7 +287,7 @@ class Field extends FieldBasic
 	public function setTreeTemplate($tree, $moduleInstance)
 	{
 		$db = \App\Db::getInstance();
-		$db->createCommand()->insert('vtiger_trees_templates', ['name' => (string) $tree->name, 'module' => $moduleInstance->id, 'access' => $tree->access])->execute();
+		$db->createCommand()->insert('vtiger_trees_templates', ['name' => (string) $tree->name, 'tabid' => $moduleInstance->id, 'access' => $tree->access])->execute();
 		$templateId = $db->getLastInsertID('vtiger_trees_templates_templateid_seq');
 
 		foreach ($tree->tree_values->tree_value as $treeValue) {

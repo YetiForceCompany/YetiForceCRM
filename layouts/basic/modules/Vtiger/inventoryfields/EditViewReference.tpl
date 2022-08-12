@@ -57,9 +57,8 @@
 				{/if}
 			{/if}
 		</div>
-		<input name="{$FIELD_NAME}" type="hidden" value="{$ITEM_VALUE}" title="{$ITEM_VALUE}" class="sourceField "
-			data-type="inventory" data-displayvalue="{\App\Purifier::encodeHtml($FIELD->getEditValue($ITEM_VALUE))}"
-			data-columnname="{$FIELD->getColumnName()}" data-fieldinfo='{$FIELD_INFO}'
+		<input name="{$FIELD_NAME}" type="hidden" value="{$ITEM_VALUE}" title="{$ITEM_VALUE}" class="sourceField"
+			data-type="inventory" data-columnname="{$FIELD->getColumnName()}" data-fieldinfo='{$FIELD_INFO}'
 			{if $FIELD->isReadOnly()}readonly="readonly" {/if} />
 	</div>
 	<!-- /tpl-Base-inventoryfields-EditViewReference -->

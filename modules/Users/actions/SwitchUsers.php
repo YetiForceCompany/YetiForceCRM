@@ -20,15 +20,14 @@ class Users_SwitchUsers_Action extends \App\Controller\Action
 	public function checkPermission(App\Request $request)
 	{
 		$userId = $request->getInteger('id');
-		require 'user_privileges/switchUsers.php';
-		$currentUserModel = Users_Record_Model::getCurrentUserModel();
-		$baseUserId = $currentUserModel->getRealId();
-		if (!\array_key_exists($baseUserId, $switchUsers) || !\array_key_exists($userId, $switchUsers[$baseUserId])) {
+		$switchUsers = \Users_Module_Model::getSwitchUsers();
+		$baseUserId = \App\User::getCurrentUserRealId();
+		if ($userId != $baseUserId && (empty($switchUsers) || !\array_key_exists($userId, $switchUsers))) {
 			$db = \App\Db::getInstance('log');
 			$db->createCommand()->insert('l_#__switch_users', [
 				'baseid' => $baseUserId,
 				'destid' => $userId,
-				'busername' => $currentUserModel->getName(),
+				'busername' => \App\User::getUserModel($baseUserId)->getName(),
 				'dusername' => '',
 				'date' => date('Y-m-d H:i:s'),
 				'ip' => \App\TextUtils::textTruncate(\App\RequestUtil::getRemoteIP(), 100, false),

@@ -736,34 +736,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Verification cron.
-	 */
-	public static function verificationCron()
-	{
-		$config = self::getConfig('cron');
-		$duration = $config['time'] ?? 0;
-		$email = $config['email'] ?? '';
-		$dbCommand = App\Db::getInstance()->createCommand();
-		$dataReader = (new App\Db\Query())->from('vtiger_ossmails_logs')->where(['status' => 1])->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$startTime = strtotime($row['start_time']);
-			if ($duration && $email
-			&& strtotime('now') > $startTime + ($duration * 60)
-			&& !(new \App\Db\Query())->from('vtiger_ossmailscanner_log_cron')->where(['laststart' => $startTime])->exists()) {
-				$dbCommand->insert('vtiger_ossmailscanner_log_cron', ['laststart' => $startTime, 'status' => 0, 'created_time' => date('Y-m-d H:i:s')])->execute();
-				$url = \App\Config::main('site_URL');
-				$mailStatus = \App\Mailer::addMail([
-					'to' => $email,
-					'subject' => App\Language::translate('Email_FromName', 'OSSMailScanner'),
-					'content' => App\Language::translate('Email_Body', 'OSSMailScanner') . "\r\n<br><a href='{$url}'>{$url}</a>",
-				]);
-				$dbCommand->update('vtiger_ossmailscanner_log_cron', ['status' => (int) $mailStatus], ['laststart' => $startTime])->execute();
-			}
-		}
-		$dataReader->close();
-	}
-
-	/**
 	 * Restart cron.
 	 *
 	 * @param int $scanId

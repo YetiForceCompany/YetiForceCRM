@@ -96,7 +96,7 @@ class Vtiger_ListAjax_View extends Vtiger_List_View
 		if ($request->has('entityState')) {
 			$this->listViewModel->set('entityState', $request->getByType('entityState'));
 		}
-		if ($advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : []) {
+		if ($advancedConditions = $request->getArray('advancedConditions')) {
 			$this->listViewModel->set('advancedConditions', \App\Condition::validAdvancedConditions($advancedConditions));
 		}
 		$searchParams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));

@@ -7,7 +7,8 @@
     "LBL_NO_BOARDS": "No boards",
     "LBL_DETAIL_FIELDS": "Details fields",
     "LBL_SUM_FIELDS": "Summation fields",
-    "LBL_NO_FIELDS_ADD": "No fields to add"
+    "LBL_NO_FIELDS_ADD": "No fields to add",
+    "LBL_NOT_VISIBLE_KANBAN": "The dictionary has lost its Quick Edit permission and is not available in Kanban view."
   },
   "js": {}
 }

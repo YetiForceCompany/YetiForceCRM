@@ -74,7 +74,7 @@ Settings_Workflows_Edit_Js(
 					var taskType = $('#taskType').val();
 					var functionName = 'register' + taskType + 'Events';
 					if (typeof thisInstance[functionName] !== 'undefined') {
-						thisInstance[functionName].apply(thisInstance);
+						thisInstance[functionName].apply(thisInstance, data);
 					}
 					thisInstance.registerSaveTaskSubmitEvent(taskType);
 					$('#saveTask').validationEngine(app.validationEngineOptions);
@@ -394,10 +394,11 @@ Settings_Workflows_Edit_Js(
 			});
 			this.getPopUp($('#saveTask'));
 		},
-		registerVTUpdateRelatedFieldTaskEvents: function () {
+		registerVTUpdateRelatedFieldTaskEvents: function (container) {
 			var thisInstance = this;
 			this.registerAddFieldEvent();
 			this.registerDeleteConditionEvent();
+			this.registerConditionsModal($(container));
 			this.registerFieldChange();
 			this.fieldValueMap = false;
 			if ($('#fieldValueMapping').val() != '') {
@@ -438,6 +439,74 @@ Settings_Workflows_Edit_Js(
 		registerDeleteConditionEvent() {
 			$('#saveTask').on('click', '.js-condition-delete', (e) => {
 				$(e.currentTarget).closest('.js-conditions-row').remove();
+			});
+		},
+		/**
+		 * Register condition wizard
+		 * @param {jQuery} container
+		 */
+		registerConditionsModal(container) {
+			container.on('click', '.js-condition-modal', (e) => {
+				let element = $(e.currentTarget);
+				let fieldValue = element.closest('.js-conditions-row').find('[name="fieldname"]').val();
+				let sourceField = container.find('.js-condition-value');
+				if (!fieldValue || sourceField.length <= 0) {
+					return;
+				}
+				let value = sourceField.val() ? { ...JSON.parse(sourceField.val()) } : {};
+				let moduleName;
+				let fieldValueParts = fieldValue.split('::');
+				if (fieldValueParts.length === 2) {
+					moduleName = fieldValueParts[0];
+				} else {
+					moduleName = fieldValueParts[1];
+				}
+				AppConnector.request({
+					module: app.getModuleName(),
+					parent: app.getParentModuleName(),
+					view: 'ConditionBuilder',
+					mode: 'builder',
+					sourceModuleName: moduleName,
+					relatedModuleSkip: true,
+					advanceCriteria: value[fieldValue] || []
+				}).done((data) => {
+					app.showModalHtml({
+						class: 'modal-lg',
+						header: element.attr('title'),
+						headerIcon: 'fas fa-filter',
+						body: data,
+						footerButtons: [
+							{
+								text: app.vtranslate('JS_APPLY'),
+								icon: 'fas fa-check',
+								class: 'btn-success js-condition-apply'
+							},
+							{
+								text: app.vtranslate('JS_CANCEL'),
+								icon: 'fas fa-times',
+								class: 'btn-danger',
+								data: { dismiss: 'modal' }
+							}
+						],
+						cb: (modal) => {
+							let conditionBuilder = new Vtiger_ConditionBuilder_Js(modal.find('.js-condition-builder'), {
+								sourceModuleName: moduleName,
+								relatedModuleSkip: true
+							});
+							conditionBuilder.registerEvents();
+							modal.on('click', '.js-condition-apply', () => {
+								let conditions = conditionBuilder.getConditions(true);
+								if (conditions && Object.keys(conditions).length) {
+									value[fieldValue] = conditions;
+								} else if (typeof value[fieldValue] !== 'undefined') {
+									delete value[fieldValue];
+								}
+								sourceField.val(JSON.stringify(value));
+								app.hideModalWindow(false, modal.closest('.js-modal-container').attr('id'));
+							});
+						}
+					});
+				});
 			});
 		},
 		/**
@@ -584,8 +653,8 @@ Settings_Workflows_Edit_Js(
 				if (fieldsMap !== '') {
 					if (selectedFields.is('select')) {
 						let newOptions = new $();
-						$.each(fieldsMap, (_, e) => {
-							newOptions = newOptions.add(new Option(e, e, false));
+						$.each(fieldsMap, (v, l) => {
+							newOptions = newOptions.add(new Option(l, v, false));
 						});
 						selectedFields.html(newOptions);
 					}

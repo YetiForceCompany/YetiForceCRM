@@ -29,7 +29,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($sortOrder) || !\in_array($sortOrder, ['asc', 'desc'])) {
 			$sortOrder = 'asc';
 		}
-		$sortOrder = ($sortOrder === 'asc') ? SORT_ASC : SORT_DESC;
+		$sortOrder = ('asc' === $sortOrder) ? SORT_ASC : SORT_DESC;
 		$orderBy = $request->getForSql('orderby') ?: ['date_start' => $sortOrder, 'time_start' => $sortOrder];
 		$params = [
 			'status' => [
@@ -39,6 +39,9 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		];
 		if (!$request->isEmpty('activitytype') && 'all' !== $request->getByType('activitytype', 'Text')) {
 			$params['activitytype'] = $request->getByType('activitytype', 'Text');
+		}
+		if (!$request->isEmpty('taskpriority') && 'all' !== $request->getByType('taskpriority', 'Text')) {
+			$params['taskpriority'] = $request->getByType('taskpriority', 'Text');
 		}
 		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Calendar', $request->getByType('owner', 2));
@@ -60,6 +63,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$viewer->assign('NAMELENGTH', \App\Config::main('title_max_length'));
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('ACTIVITYTYPE', $params['activitytype'] ?? '');
+		$viewer->assign('TASK_PRIORITY', $params['taskpriority'] ?? '');
 		$viewer->assign('NODATAMSGLABLE', $msgLabel);
 		$viewer->assign('DATA', $data);
 		$viewer->assign('DATE_TYPE', 'START');

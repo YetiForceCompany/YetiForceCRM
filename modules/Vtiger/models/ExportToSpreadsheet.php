@@ -102,9 +102,7 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\Records
 	/** {@inheritdoc} */
 	public function sanitizeValues(array $row): array
 	{
-		++$this->rowNo;
 		$this->colNo = 1;
-
 		foreach ($this->fields as $dbKey => $fieldModel) {
 			$idKey = 'id';
 			if ($fieldModel->get('source_field_name')) {
@@ -115,6 +113,7 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\Records
 
 			$this->putDataIntoSpreadsheet($fieldModel, $row[$dbKey], $row[$idKey] ?? 0);
 		}
+		++$this->rowNo;
 
 		return [];
 	}

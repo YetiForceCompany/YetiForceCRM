@@ -8,6 +8,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
+ * @author 	  Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Tests\Settings;
@@ -71,7 +72,7 @@ class Currency extends \Tests\Base
 	 */
 	public function testListViewModel()
 	{
-		$model = \Settings_Currency_ListView_Model::getInstance();
+		$model = \Settings_Currency_ListView_Model::getInstance('Settings:Currency');
 		$basicListQuery = $model->getBasicListQuery();
 		$this->assertInstanceOf('\App\Db\Query', $basicListQuery, 'Query object expected.');
 		$this->assertNotEmpty($basicListQuery->createCommand()->execute(), 'Query execute should return any result');

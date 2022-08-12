@@ -178,7 +178,7 @@ final class WebserviceStandardTest extends \Tests\Base
 				'json' => [
 					'methods' => 'TOPO',
 					'secret' => $secretKey,
-					'code' => (new \Sonata\GoogleAuthenticator\GoogleAuthenticator())->getCode($secretKey),
+					'code' => (new \PragmaRX\Google2FA\Google2FA())->getCurrentOtp($secretKey),
 				],
 			], self::$requestOptions)
 		);
@@ -193,7 +193,7 @@ final class WebserviceStandardTest extends \Tests\Base
 				'json' => [
 					'userName' => 'api@yetiforce.com',
 					'password' => 'api',
-					'code' => (new \Sonata\GoogleAuthenticator\GoogleAuthenticator())->getCode($secretKey),
+					'code' => (new \PragmaRX\Google2FA\Google2FA())->getCurrentOtp($secretKey),
 				],
 			], self::$requestOptions)
 		);

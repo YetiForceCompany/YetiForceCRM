@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Fields;
@@ -72,9 +73,9 @@ class Tree
 				$pieces = explode('::', $parentTrre);
 				$parent = end($pieces);
 				$parentName = $dataTree[$parent]['name'];
-				$parentName = '(' . \App\Language::translate($parentName, $moduleName) . ') ';
+				$parentName = '(' . \App\Language::translate($parentName, $moduleName, null, false) . ') ';
 			}
-			$values[$row['tree']] = $parentName . \App\Language::translate($row['name'], $moduleName);
+			$values[$row['tree']] = $parentName . \App\Language::translate($row['name'], $moduleName, null, false);
 		}
 		return $values;
 	}
@@ -97,7 +98,7 @@ class Tree
 				'id' => (int) str_replace('T', '', $row['tree']),
 				'tree' => $row['tree'],
 				'parent' => false === $parentIdx ? '#' : (int) str_replace('T', '', $dataTree[$parentIdx]['tree']),
-				'text' => \App\Language::translate($row['name'], $moduleName),
+				'text' => \App\Language::translate($row['name'], $moduleName, null, false),
 			];
 		}
 		return $tree;
@@ -143,18 +144,18 @@ class Tree
 			$pieces = explode('::', $parentTrre);
 			$parent = end($pieces);
 			$parentName = static::getPicklistValue($templateId, $moduleName)[$parent];
-			$parentName = '(' . \App\Language::translate($parentName, $moduleName) . ') ';
+			$parentName = '(' . \App\Language::translate($parentName, $moduleName, null, false) . ') ';
 		}
-		$value['name'] = $parentName . \App\Language::translate($row['name'], $moduleName);
+		$value['name'] = $parentName . \App\Language::translate($row['name'], $moduleName, null, false);
 		if ($row['icon']) {
-			if ($row['icon'] && 0 === strpos($row['icon'], 'layouts')) {
+			if ($row['icon'] && false !== strpos($row['icon'], '/')) {
 				$basePath = '';
 				if (!IS_PUBLIC_DIR) {
 					$basePath = 'public_html/';
 				}
-				$value['icon'] = '<img class="treeImageIcon" src="' . $basePath . $row['icon'] . '" />';
+				$value['icon'] = '<img class="icon-img--picklist mr-1" src="' . $basePath . $row['icon'] . '" />';
 			} else {
-				$value['icon'] = '<span class="treeImageIcon ' . $row['icon'] . '"></span>';
+				$value['icon'] = '<span class="mr-1 ' . $row['icon'] . '"></span>';
 			}
 		}
 		return $value;
@@ -168,6 +169,6 @@ class Tree
 	public static function deleteForModule($moduleId)
 	{
 		$db = \App\Db::getInstance();
-		$db->createCommand()->delete('vtiger_trees_templates', ['module' => $moduleId])->execute();
+		$db->createCommand()->delete('vtiger_trees_templates', ['tabid' => $moduleId])->execute();
 	}
 }

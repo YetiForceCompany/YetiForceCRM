@@ -1,5 +1,16 @@
 <?php
+/**
+ * Vendors detail view model file.
+ *
+ * @package   Model
+ *
+ * @copyright YetiForce S.A.
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ */
 
+/**
+ * Vendors detail view model class.
+ */
 class Vendors_DetailView_Model extends Vtiger_DetailView_Model
 {
 	/** {@inheritdoc} */

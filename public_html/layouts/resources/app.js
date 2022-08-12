@@ -9,7 +9,7 @@
  *************************************************************************************/
 'use strict';
 
-var App = (window.App = {
+const App = (window.App = {
 	Components: {
 		Tree: {
 			Basic: class {
@@ -1131,7 +1131,7 @@ var App = (window.App = {
 	}
 });
 
-var app = (window.app = {
+const app = (window.app = {
 	/**
 	 * variable stores client side language strings
 	 */
@@ -1761,7 +1761,7 @@ var app = (window.app = {
 		if (footer) {
 			footer = `<div class="modal-footer">${footer}</div>`;
 		}
-		let html = `<div class="modal" tabindex="-1" role="dialog"><div class="modal-dialog ${params['class']}" role="document"><div class="modal-content">
+		let html = `<div class="modal" role="dialog"><div class="modal-dialog ${params['class']}" role="document"><div class="modal-content">
 		<div class="modal-header"><h5 class="modal-title js-modal-title" data-js="container">${params['header']}</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
 		<div class="modal-body js-modal-content text-break ${params['bodyClass']}" data-js="container">${params['body']}</div>${footer}</div></div></div>`;
 		params.data = html;
@@ -2006,7 +2006,7 @@ var app = (window.app = {
 	 * Default scroll options
 	 */
 	scrollOptions: {
-		wheelSpeed: 0.1
+		wheelSpeed: 0.5
 	},
 	/**
 	 * Function to push down the error message size when validation is invoked
@@ -2601,8 +2601,8 @@ var app = (window.app = {
 			.off('click', 'button.showModal, a.showModal, .js-show-modal')
 			.on('click', 'button.showModal, a.showModal, .js-show-modal', function (e) {
 				e.preventDefault();
-				var currentElement = $(e.currentTarget);
-				var url = currentElement.data('url');
+				let currentElement = $(e.currentTarget);
+				let url = currentElement.data('url');
 
 				if (typeof url !== 'undefined') {
 					if (currentElement.hasClass('js-popover-tooltip')) {
@@ -2611,19 +2611,19 @@ var app = (window.app = {
 					if (currentElement.hasClass('disabledOnClick')) {
 						currentElement.attr('disabled', true);
 					}
-					var modalWindowParams = {
+					let modalWindowParams = {
 						url: url,
 						cb: function (container) {
-							var call = currentElement.data('cb');
+							let call = currentElement.data('cb');
 							if (typeof call !== 'undefined') {
 								if (call.indexOf('.') !== -1) {
-									var callerArray = call.split('.');
+									let callerArray = call.split('.');
 									if (typeof window[callerArray[0]] === 'object' || typeof window[callerArray[0]] === 'function') {
-										window[callerArray[0]][callerArray[1]](container);
+										window[callerArray[0]][callerArray[1]](container, e);
 									}
 								} else {
 									if (typeof window[call] === 'function') {
-										window[call](container);
+										window[call](container, e);
 									}
 								}
 							}
@@ -3040,7 +3040,7 @@ var app = (window.app = {
 	},
 	registerHtmlToImageDownloader: function (container) {
 		const self = this;
-		container.on('click', '.js-download-html', function (e) {
+		container.on('click', '.js-download-html', function () {
 			let element = $(this);
 			let fileName = element.data('fileName');
 			self.htmlToImage($(element.data('html'))).then((img) => {
@@ -3049,7 +3049,7 @@ var app = (window.app = {
 		});
 	},
 	decodeHTML(html) {
-		var txt = document.createElement('textarea');
+		let txt = document.createElement('textarea');
 		txt.innerHTML = html;
 		return txt.value;
 	},
@@ -3558,8 +3558,8 @@ $(function () {
 	$.fn.getNumberFromText = function () {
 		return App.Fields.Double.formatToDb($(this).text());
 	};
-	$.fn.setValue = function (value, type = 'value') {
-		return App.Fields.Utils.setValue($(this), value, type);
+	$.fn.setValue = function (value, params) {
+		return App.Fields.Utils.setValue($(this), value, params);
 	};
 	$.fn.formatNumber = function () {
 		let element = $(this);
@@ -3572,7 +3572,7 @@ $(function () {
 		this.removeAttr('disabled');
 	};
 	$.fn.serializeFormData = function () {
-		for (var instance in CKEDITOR.instances) {
+		for (let instance in CKEDITOR.instances) {
 			CKEDITOR.instances[instance].updateElement();
 		}
 		const form = this,

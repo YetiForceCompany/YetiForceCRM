@@ -87,6 +87,13 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 		}
 	}
 
+	/**
+	 * Save.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
 	public function save(App\Request $request)
 	{
 		$workflowId = $request->get('for_workflow');
@@ -94,14 +101,15 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 			$record = $request->get('task_id');
 			if ($record) {
 				$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
+				$taskObject = $taskRecordModel->getTaskObject();
 			} else {
 				$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
 				$taskRecordModel = Settings_Workflows_TaskRecord_Model::getCleanInstance($workflowModel, $request->get('taskType'));
+				$taskObject = $taskRecordModel->getTaskObject();
+				$taskObject->sequence = $taskRecordModel->getNextSequenceNumber($workflowId);
 			}
-
-			$taskObject = $taskRecordModel->getTaskObject();
 			$taskObject->summary = htmlspecialchars($request->get('summary'));
-			$taskObject->sequence = $taskRecordModel->getNextSequenceNumber($workflowId);
+
 			$active = $request->get('active');
 			if ('true' == $active) {
 				$taskObject->active = true;
@@ -120,24 +128,28 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 				$taskObject->trigger = null;
 			}
 
-			$fieldNames = $taskObject->getFieldNames();
-			$fieldNamesRequestMethods = method_exists($taskObject, 'getFieldsNamesRequestMethod') ? $taskObject->getFieldsNamesRequestMethod() : [];
-			foreach ($fieldNames as $fieldName) {
-				if ('field_value_mapping' == $fieldName || 'content' == $fieldName) {
-					$values = \App\Json::decode($request->getRaw($fieldName));
-					if (\is_array($values)) {
-						foreach ($values as $index => $value) {
-							$values[$index]['value'] = htmlspecialchars($value['value']);
-						}
+			if (method_exists($taskObject, 'setDataFromRequest')) {
+				$taskObject->setDataFromRequest($request);
+			} else {
+				$fieldNames = $taskObject->getFieldNames();
+				$fieldNamesRequestMethods = method_exists($taskObject, 'getFieldsNamesRequestMethod') ? $taskObject->getFieldsNamesRequestMethod() : [];
+				foreach ($fieldNames as $fieldName) {
+					if ('field_value_mapping' == $fieldName || 'content' == $fieldName) {
+						$values = \App\Json::decode($request->getRaw($fieldName));
+						if (\is_array($values)) {
+							foreach ($values as $index => $value) {
+								$values[$index]['value'] = htmlspecialchars($value['value']);
+							}
 
-						$taskObject->{$fieldName} = \App\Json::encode($values);
+							$taskObject->{$fieldName} = \App\Json::encode($values);
+						} else {
+							$taskObject->{$fieldName} = $request->getRaw($fieldName);
+						}
+					} elseif (isset($fieldNamesRequestMethods[$fieldName])) {
+						$taskObject->{$fieldName} = $request->{$fieldNamesRequestMethods[$fieldName]}($fieldName);
 					} else {
-						$taskObject->{$fieldName} = $request->getRaw($fieldName);
+						$taskObject->{$fieldName} = $request->get($fieldName);
 					}
-				} elseif (isset($fieldNamesRequestMethods[$fieldName])) {
-					$taskObject->{$fieldName} = $request->{$fieldNamesRequestMethods[$fieldName]}($fieldName);
-				} else {
-					$taskObject->{$fieldName} = $request->get($fieldName);
 				}
 			}
 

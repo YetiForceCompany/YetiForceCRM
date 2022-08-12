@@ -1,10 +1,11 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-Edit-Field-Taxes -->
 	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
-	<div class="tpl-Edit-Field-Taxes">
+	<div>
 		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="" />
 		<select id="{$MODULE}_{$VIEW}_fieldName_{$FIELD_MODEL->getName()}" tabindex="{$FIELD_MODEL->getTabIndex()}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}"
 			multiple="multiple" class="select2 form-control col-md-12" name="{$FIELD_MODEL->getFieldName()}[]"
@@ -16,4 +17,5 @@
 			{/foreach}
 		</select>
 	</div>
+	<!-- /tpl-Base-Edit-Field-Taxes -->
 {/strip}

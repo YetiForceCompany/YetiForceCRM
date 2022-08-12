@@ -46,15 +46,22 @@ class Settings_Media_Images_File extends Vtiger_Basic_File
 		$fieldModel = $moduleModel->getFieldInstanceByName('image');
 		if ($request->isAjax()) {
 			if ($request->getBoolean('remove')) {
+				Settings_Vtiger_Tracker_Model::addBasic('delete');
 				$key = $request->getByType('key', \App\Purifier::ALNUM);
-				$result = $fieldModel->getUITypeModel()->removeImage($key);
+				if ($result = $fieldModel->getUITypeModel()->removeImage($key)) {
+					Settings_Vtiger_Tracker_Model::addDetail(['key' => $key], ['key' => '']);
+				}
 			} else {
+				Settings_Vtiger_Tracker_Model::addBasic('save');
 				$attach = $fieldModel->getUITypeModel()->uploadTempFile($_FILES, 0);
 				$result = [
 					'field' => $fieldModel->getName(),
 					'module' => $fieldModel->getModuleName(),
 					'attach' => $attach,
 				];
+				if ($attach && $keys = array_column($attach, 'key')) {
+					Settings_Vtiger_Tracker_Model::addDetail(['key' => ''], ['key' => implode(',', $keys)]);
+				}
 			}
 
 			$response = new Vtiger_Response();

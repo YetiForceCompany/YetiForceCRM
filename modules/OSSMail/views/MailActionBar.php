@@ -27,7 +27,7 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 		}
 
 		$rcId = $account['user_id'];
-		if (OSSMail_Record_Model::MAIL_BOX_STATUS_BLOCKED == $account['crm_status']) {
+		if (OSSMail_Record_Model::MAIL_BOX_STATUS_BLOCKED_TEMP == $account['crm_status'] || OSSMail_Record_Model::MAIL_BOX_STATUS_BLOCKED_PERM == $account['crm_status']) {
 			OSSMail_Record_Model::setAccountUserData($rcId, ['crm_status' => OSSMail_Record_Model::MAIL_BOX_STATUS_ACTIVE]);
 			$account['crm_status'] = OSSMail_Record_Model::MAIL_BOX_STATUS_ACTIVE;
 		}

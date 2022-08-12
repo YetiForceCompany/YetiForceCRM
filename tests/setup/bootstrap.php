@@ -67,6 +67,9 @@ $id = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['user_
 \App\Cron::$watchdogIsActive = false;
 \App\Cron::$shopIsActive = false;
 
+\App\RequestHttp::$connectTimeout = 5;
+\App\RequestHttp::$timeout = 10;
+
 if (\extension_loaded('pcov') && ini_get('pcov.enabled')) {
 	echo 'Coverage driver: PCOV - ' . phpversion('pcov') . PHP_EOL;
 }

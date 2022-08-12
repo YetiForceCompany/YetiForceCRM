@@ -2,6 +2,8 @@
 /**
  * YetiForce shop YetiForcePlGus file.
  *
+ * @see App\RecordCollectors\Gus
+ *
  * @package App
  *
  * @copyright YetiForce S.A.
@@ -20,7 +22,7 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 	public $label = 'YetiForce GUS';
 
 	/** {@inheritdoc} */
-	public $category = 'Integrations';
+	public $category = 'RecordCollectors';
 
 	/** {@inheritdoc} */
 	public $website = 'https://yetiforce.com/en/yetiforce-gus-en';
@@ -45,7 +47,7 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForcePlGus');
 		} else {
 			$instance = new \App\RecordCollectors\Gus();
-			$instance->moduleName = reset(\App\RecordCollectors\Gus::$allowedModules);
+			$instance->moduleName = reset($instance->allowedModules);
 			if ($instance->isActive()) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;
@@ -57,7 +59,19 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 	/** {@inheritdoc} */
 	public function getAdditionalButtons(): array
 	{
-		return [
+		$return = [];
+		if (\App\Security\AdminAccess::isPermitted('RecordCollector')) {
+			$return[] = \Vtiger_Link_Model::getInstanceFromValues([
+				'linklabel' => 'RecordCollector',
+				'relatedModuleName' => 'Settings:RecordCollector',
+				'linkicon' => 'yfi-record-collectors mr-2',
+				'linkhref' => true,
+				'linkurl' => 'index.php?parent=Settings&module=RecordCollector&view=List',
+				'linkclass' => 'btn-primary',
+				'showLabel' => 1,
+			]);
+		}
+		return array_merge([
 			\Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'Website',
 				'relatedModuleName' => '_Base',
@@ -72,14 +86,14 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 			\Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'api.stat.gov.pl',
 				'relatedModuleName' => 'Settings:_Base',
-				'linkicon' => 'adminIcon-passwords-configuration',
+				'linkicon' => 'fa-solid fa-link',
 				'linkhref' => true,
 				'linkExternal' => true,
 				'linktarget' => '_blank',
 				'linkurl' => 'https://api.stat.gov.pl/Home/RegonApi',
-				'linkclass' => 'btn-primary',
+				'linkclass' => 'btn-secondary',
 				'showLabel' => 1,
 			]),
-		];
+		], $return);
 	}
 }

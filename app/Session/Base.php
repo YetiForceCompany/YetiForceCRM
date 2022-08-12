@@ -99,7 +99,7 @@ class Base extends \SessionHandler
 	/**
 	 * Update the current session id with a newly generated one.
 	 *
-	 * @see http://php.net/manual/en/function.session-regenerate-id.php
+	 * @see https://php.net/manual/en/function.session-regenerate-id.php
 	 *
 	 * @param bool $deleteOldSession
 	 */

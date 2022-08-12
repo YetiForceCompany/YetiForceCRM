@@ -8,11 +8,7 @@
  */
 class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 {
-	/**
-	 * Process.
-	 *
-	 * @param \App\Request $request
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		$viewer = $this->getViewer($request);
@@ -23,11 +19,11 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 		$access = 1;
 		if (!empty($record)) {
 			$recordModel = Settings_TreesManager_Record_Model::getInstanceById($record);
-			$sourceModuleId = $recordModel->get('module');
+			$sourceModuleId = $recordModel->get('tabid');
 			$viewer->assign('MODE', 'edit');
 			$access = $recordModel->get('access');
 		} else {
-			$recordModel = new Settings_TreesManager_Record_Model();
+			$recordModel = Settings_TreesManager_Record_Model::getCleanInstance();
 			$viewer->assign('MODE', '');
 			$recordModel->set('lastId', 0);
 		}
@@ -43,6 +39,7 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 
+	/** {@inheritdoc} */
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
@@ -51,6 +48,7 @@ class Settings_TreesManager_Edit_View extends Settings_Vtiger_Index_View
 		]));
 	}
 
+	/** {@inheritdoc} */
 	public function getHeaderCss(App\Request $request)
 	{
 		return array_merge($this->checkAndConvertCssStyles([

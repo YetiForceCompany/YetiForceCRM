@@ -18,7 +18,7 @@
 						{/if}
 						{if $MODULE_MODEL->isCustomViewAdvCondEnabled()}
 							<button type="button" class="ml-2 btn {if !empty($ADVANCED_CONDITIONS['relationId']) || isset($ADVANCED_CONDITIONS['relationColumns'])}btn-primary{else}btn-outline-primary{/if} btn-xs js-custom-view-adv-cond-modal" title="{\App\Language::translate('LBL_CUSTOM_VIEW_ADV_COND')}" data-js="click">
-								<span class="fas fa-cog"></span>
+								<span class="yfi-advenced-custom-view-conditions"></span>
 							</button>
 						{/if}
 						<div class="js-list-reload" data-js="click"></div>

@@ -149,8 +149,10 @@
     "LBL_EDIT_FOLDER_ACCOUNT": "Edit folders",
     "LBL_SET_STATUS_DISABLE": "Disable the email account",
     "LBL_SET_STATUS_ACTIVE": "Enable the email account",
-    "LBL_ACCOUNT_IS_BLOCKED": "The account is blocked",
+    "LBL_ACCOUNT_IS_BLOCKED_TEMP": "The account is temporarily blocked",
+    "LBL_ACCOUNT_IS_BLOCKED_PERM": "The account is permanently blocked",
     "LBL_ACCOUNT_IS_DISABLED": "The account is disabled",
+    "LBL_ACCOUNT_INVALID_ACCESS": "Incorrect access data",
     "LBL_ALERT_EDIT_FOLDER": "Deleting the folder and adding it again will restart the mail scanner for selected folders.",
     "LBL_DELETE_ACCOUNT": "Delete account"
   }

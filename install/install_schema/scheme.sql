@@ -3823,12 +3823,14 @@ CREATE TABLE `u_yf_openstreetmap_address_updater` (
 
 CREATE TABLE `u_yf_openstreetmap_cache` (
   `user_id` int(10) NOT NULL,
-  `module_name` varchar(50) NOT NULL,
+  `module_name` varchar(25) NOT NULL,
   `crmids` int(10) NOT NULL,
   KEY `u_yf_openstreetmap_cache_user_id_module_name_idx` (`user_id`,`module_name`),
-  KEY `crmids` (`crmids`),
+  KEY `u_yf_openstreetmap_cache_crmids_idx` (`crmids`),
+  KEY `u_yf_openstreetmap_cache_module_name_idx` (`module_name`),
   CONSTRAINT `u_yf_openstreetmap_cache_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `u_yf_openstreetmap_cache_ibfk_2` FOREIGN KEY (`crmids`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+  CONSTRAINT `u_yf_openstreetmap_cache_ibfk_2` FOREIGN KEY (`crmids`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE,
+  CONSTRAINT `u_yf_openstreetmap_cache_ibfk_3` FOREIGN KEY (`module_name`) REFERENCES `vtiger_tab` (`name`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `u_yf_openstreetmap_record_updater` */
@@ -6331,7 +6333,7 @@ CREATE TABLE `vtiger_field` (
   `masseditable` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `helpinfo` varchar(30) DEFAULT '',
   `summaryfield` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `fieldparams` varchar(255) DEFAULT '',
+  `fieldparams` varchar(500) DEFAULT '',
   `header_field` varchar(255) DEFAULT NULL,
   `maxlengthtext` smallint(3) unsigned DEFAULT 0,
   `maxwidthcolumn` smallint(3) unsigned DEFAULT 0,
@@ -9363,13 +9365,14 @@ CREATE TABLE `vtiger_tracking_unit` (
 /*Table structure for table `vtiger_trees_templates` */
 
 CREATE TABLE `vtiger_trees_templates` (
-  `templateid` int(10) NOT NULL AUTO_INCREMENT,
+  `templateid` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
-  `module` int(10) DEFAULT NULL,
+  `tabid` smallint(5) NOT NULL,
   `access` tinyint(1) DEFAULT 1,
   `share` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`templateid`),
-  KEY `module` (`module`)
+  KEY `module` (`tabid`),
+  CONSTRAINT `vtiger_trees_templates_tabid_fk` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_trees_templates_data` */
@@ -9384,7 +9387,8 @@ CREATE TABLE `vtiger_trees_templates_data` (
   `state` varchar(100) NOT NULL DEFAULT '',
   `icon` varchar(255) NOT NULL DEFAULT '',
   KEY `id` (`templateid`),
-  KEY `parentTree` (`parentTree`,`templateid`)
+  KEY `parentTree` (`parentTree`,`templateid`),
+  CONSTRAINT `vtiger_trees_templates_data_templateid` FOREIGN KEY (`templateid`) REFERENCES `vtiger_trees_templates` (`templateid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_troubletickets` */
@@ -9506,7 +9510,7 @@ CREATE TABLE `vtiger_users` (
   `status` varchar(25) DEFAULT NULL,
   `deleted` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `language` varchar(36) DEFAULT NULL,
-  `user_password` varchar(200) DEFAULT NULL,
+  `user_password` varchar(255) DEFAULT NULL,
   `internal_mailer` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `reports_to_id` int(10) unsigned DEFAULT NULL,
   `modified_user_id` varchar(36) DEFAULT NULL,
@@ -9553,7 +9557,7 @@ CREATE TABLE `vtiger_users` (
   `phone_crm_extension` varchar(100) DEFAULT NULL,
   `phone_crm_extension_extra` varchar(100) DEFAULT NULL,
   `accesskey` varchar(36) DEFAULT NULL,
-  `confirm_password` varchar(200) DEFAULT NULL,
+  `confirm_password` varchar(255) DEFAULT NULL,
   `cal_color` varchar(25) DEFAULT NULL,
   `user_preferences` text DEFAULT NULL,
   `authy_methods` varchar(255) DEFAULT NULL,

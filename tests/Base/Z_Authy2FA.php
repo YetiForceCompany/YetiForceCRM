@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Tests\Base;
@@ -46,10 +47,10 @@ class Z_Authy2FA extends \Tests\Base
 	 */
 	public function testVerifyCode()
 	{
-		$auth = new \Google\Authenticator\GoogleAuthenticator();
-		$secret = $auth->generateSecret();
-		$this->assertFalse(\Users_Totp_Authmethod::verifyCode($secret, '123000'), 'The "verifyCode" method does not work');
-		$this->assertTrue(\Users_Totp_Authmethod::verifyCode($secret, $auth->getCode($secret)), 'The "verifyCode" method does not work');
+		$authMethod = new \Users_Totp_Authmethod(\App\User::getCurrentUserRealId());
+		$secret = $authMethod->createSecret();
+		$this->assertFalse($authMethod->verifyCode($secret, '123000'), 'The "verifyCode" method does not work');
+		$this->assertTrue($authMethod->verifyCode($secret, $authMethod->getCode()), 'The "verifyCode" method does not work');
 	}
 
 	/**

@@ -68,14 +68,6 @@
 					<button type="button" class="close" data-dismiss="alert">×</button>
 					<h4 class="alert-heading">{\App\Language::translate('OSSMail', 'OSSMail')} - {\App\Language::translate('Alert_no_module_title', $MODULE_NAME)}</h4>
 					<p>{\App\Language::translate('Alert_no_module_desc', $MODULE_NAME)}</p>
-					{if \App\Security\AdminAccess::isPermitted('ModuleManager')}
-						<p>
-							<a class="btn btn-danger" role="button"
-								href="index.php?module=ModuleManager&parent=Settings&view=List">{\App\Language::translate('LBL_STUDIO','Settings:Vtiger')}</a>
-							<a class="btn btn-light" role="button"
-								href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1">{\App\Language::translate('LBL_IMPORT_MODULE_FROM_FILE','Settings:ModuleManager')}</a>
-						</p>
-					{/if}
 				</div>
 			{/if}
 			{if $ACCOUNTS_LIST eq false}
@@ -104,17 +96,18 @@
 						{assign var=USERS_ENTITY_INFO value=\App\Module::getEntityInfo('Users')}
 						{foreach from=$ACCOUNTS_LIST item=row}
 							{assign var=IS_ACTIVE value=$row['crm_status'] == OSSMail_Record_Model::MAIL_BOX_STATUS_ACTIVE || $row['crm_status'] == OSSMail_Record_Model::MAIL_BOX_STATUS_INVALID_ACCESS}
+							{assign var=IS_BLOCKED value=$row['crm_status'] == OSSMail_Record_Model::MAIL_BOX_STATUS_BLOCKED_TEMP || $row['crm_status'] == OSSMail_Record_Model::MAIL_BOX_STATUS_BLOCKED_PERM}
 							{if $IS_ACTIVE}
 								{assign var=FOLDERS value=$RECORD_MODEL->getFolders($row['user_id'])}
 							{else}
 								{assign var=FOLDERS value=[]}
 							{/if}
 							<tr id="row_account_{$row['user_id']}" class="
-						{if $row['crm_status'] == OSSMail_Record_Model::MAIL_BOX_STATUS_BLOCKED}table-danger
+						{if $IS_BLOCKED}table-danger
 						{elseif $row['crm_status'] == OSSMail_Record_Model::MAIL_BOX_STATUS_DISABLED}table-secondary{/if}">
 								<td><span class="mr-2">{$row['username']}</span>
-									{if $row['crm_status'] == OSSMail_Record_Model::MAIL_BOX_STATUS_BLOCKED}({\App\Language::translate('LBL_ACCOUNT_IS_BLOCKED', $MODULE_NAME)})
-									{elseif $row['crm_status'] == OSSMail_Record_Model::MAIL_BOX_STATUS_DISABLED}({\App\Language::translate('LBL_ACCOUNT_IS_DISABLED', $MODULE_NAME)})
+									{if $row['crm_status'] != OSSMail_Record_Model::MAIL_BOX_STATUS_ACTIVE}
+										({\App\Language::translate(OSSMail_Record_Model::getStatusLabel($row['crm_status']), $MODULE_NAME)})
 									{/if}
 									{if $row['crm_error']}
 										<span class="fas fa-exclamation-triangle u-fs-xlg text-danger float-right js-popover-tooltip" data-content="{\App\Language::translate('IMAP_ERROR', $MODULE_NAME)}:<br>{\App\Purifier::encodeHtml($row['crm_error'])}" data-js="popover"></span>
@@ -163,11 +156,11 @@
 											<button type="button" class="btn btn-light js-delate-account" title="{\App\Language::translate('LBL_DELETE_ACCOUNT', $MODULE_NAME)}" data-user-id="{$row['user_id']}" data-js="click">
 												<span class="fas fa-trash-alt"></span>
 											</button>
-											{if $IS_ACTIVE || $row['crm_status'] == MAIL_BOX_STATUS_INVALID_ACCESS}
+											{if $IS_ACTIVE || $row['crm_status'] == OSSMail_Record_Model::MAIL_BOX_STATUS_INVALID_ACCESS}
 												<button type="button" class="btn btn-light js-edit-status" data-status="{OSSMail_Record_Model::MAIL_BOX_STATUS_DISABLED}" data-user="{$row['user_id']}" title="{\App\Language::translate('LBL_SET_STATUS_DISABLE', $MODULE_NAME)}" data-js="click">
 													<span class="fas fa-stop"></span>
 												</button>
-											{elseif $row['crm_status'] == OSSMail_Record_Model::MAIL_BOX_STATUS_DISABLED || $row['crm_status'] == OSSMail_Record_Model::MAIL_BOX_STATUS_BLOCKED}
+											{elseif $row['crm_status'] == OSSMail_Record_Model::MAIL_BOX_STATUS_DISABLED || $IS_BLOCKED}
 												<button type="button" class="btn btn-light js-edit-status" data-status="{OSSMail_Record_Model::MAIL_BOX_STATUS_ACTIVE}" data-user="{$row['user_id']}" title="{\App\Language::translate('LBL_SET_STATUS_ACTIVE', $MODULE_NAME)}" data-js="click">
 													<span class="fas fa-play"></span>
 												</button>

@@ -5,6 +5,7 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
 
@@ -12,9 +13,10 @@ class VTUpdateRelatedFieldTask extends VTTask
 {
 	public $executeImmediately = false;
 
+	/** {@inheritdoc} */
 	public function getFieldNames()
 	{
-		return ['field_value_mapping'];
+		return ['field_value_mapping', 'conditions'];
 	}
 
 	/**
@@ -27,6 +29,9 @@ class VTUpdateRelatedFieldTask extends VTTask
 		$fieldValueMapping = [];
 		if (!empty($this->field_value_mapping)) {
 			$fieldValueMapping = \App\Json::decode($this->field_value_mapping);
+		}
+		if (!\App\Json::isEmpty($this->conditions)) {
+			$conditions = \App\Json::decode($this->conditions) ?: [];
 		}
 		if (!empty($fieldValueMapping)) {
 			foreach ($fieldValueMapping as $fieldInfo) {
@@ -63,11 +68,14 @@ class VTUpdateRelatedFieldTask extends VTTask
 					$recordId = $recordModel->get($relatedData[0]);
 					if ($recordId && \App\Record::isExists($recordId)) {
 						$relRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $relatedData[1]);
+						if (($condition = $conditions[$fieldInfo['fieldname']] ?? []) && !\App\Condition::checkConditions($condition, $relRecordModel)) {
+							continue;
+						}
 						$fieldModel = $relRecordModel->getField($relatedData[2]);
 						if ($fieldModel->isEditable()) {
 							$fieldModel->getUITypeModel()->validate($fieldValue);
 							$relRecordModel->set($relatedData[2], $fieldValue);
-							if(false !== $relRecordModel->getPreviousValue($relatedData[2])){
+							if (false !== $relRecordModel->getPreviousValue($relatedData[2])) {
 								$relRecordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
 								$relRecordModel->save();
 							}
@@ -99,7 +107,11 @@ class VTUpdateRelatedFieldTask extends VTTask
 		if (!$targetModel || !$targetModel->getRelationModel()) {
 			return false;
 		}
-		$dataReader = $targetModel->getRelationQuery()->select(['vtiger_crmentity.crmid'])
+		$queryGenerator = $targetModel->getRelationQuery(true);
+		if (!\App\Json::isEmpty($this->conditions) && ($conditions = \App\Json::decode($this->conditions)[implode('::', $relatedData)] ?? [])) {
+			$queryGenerator->setConditions($conditions);
+		}
+		$dataReader = $queryGenerator->clearFields()->setFields(['id'])->createQuery()->select(['vtiger_crmentity.crmid'])
 			->createCommand()->query();
 		while ($recordId = $dataReader->readColumn(0)) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $relatedModuleName);
@@ -129,5 +141,39 @@ class VTUpdateRelatedFieldTask extends VTTask
 		$this->contents = true;
 
 		return $this->contents;
+	}
+
+	/**
+	 * Sets data from request.
+	 *
+	 * @param App\Request $request
+	 */
+	public function setDataFromRequest(App\Request $request)
+	{
+		foreach ($this->getFieldNames() as $fieldName) {
+			if ($request->has($fieldName)) {
+				switch ($fieldName) {
+					case 'conditions':
+						$data = $request->getArray($fieldName, \App\Purifier::TEXT);
+						foreach ($data as &$condition) {
+							$condition = \App\Condition::getConditionsFromRequest($condition);
+						}
+						$value = \App\Json::encode($data);
+						break;
+					case 'field_value_mapping':
+						$values = \App\Json::decode($request->getRaw($fieldName));
+						if (\is_array($values)) {
+							$value = \App\Json::encode($values);
+						} else {
+							$value = $request->getRaw($fieldName);
+						}
+						break;
+					default:
+						$value = '';
+						break;
+				}
+				$this->{$fieldName} = $value;
+			}
+		}
 	}
 }

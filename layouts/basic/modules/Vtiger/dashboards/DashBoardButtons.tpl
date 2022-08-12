@@ -3,7 +3,7 @@
 	<!-- tpl-dashboards-DashBoardButtons -->
 	<div class="dashboardHeading d-flex ml-auto mb-2 mt-sm-2 pr-sm-1 u-remove-dropdown-icon-down-lg u-w-xs-down-100">
 		<input type="hidden" name="selectedModuleName" value="{$MODULE_NAME}">
-		{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets('Home')}
+		{assign var="SPECIAL_WIDGETS" value=Settings_WidgetsManagement_Module_Model::getSpecialWidgets($MODULE_NAME)}
 		{if $MODULE_PERMISSION}
 			<div class="js-predefined-widgets" data-js="container">
 				{include file=\App\Layout::getTemplatePath('dashboards/DashBoardWidgetsList.tpl', $MODULE)}

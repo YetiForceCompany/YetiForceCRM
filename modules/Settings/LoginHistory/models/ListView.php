@@ -1,17 +1,18 @@
 <?php
 
 /**
+ * List View Model file for LoginHistory Settings.
+ *
+ * @package Settings.Model
+ *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mriusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author 	  Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Model
 {
-	/**
-	 * Funtion to get the Login history basic query.
-	 *
-	 * @return App\Db\Query
-	 */
+	/** {@inheritdoc} */
 	public function getBasicListQuery(): App\Db\Query
 	{
 		$module = $this->getModule();
@@ -30,17 +31,14 @@ class Settings_LoginHistory_ListView_Model extends Settings_Vtiger_ListView_Mode
 		return $query;
 	}
 
+	/** {@inheritdoc} */
 	public function getListViewLinks()
 	{
 		return [];
 	}
 
-	/**
-	 * Function which will get the list view count.
-	 *
-	 * @return int - number of records
-	 */
-	public function getListViewCount(): int
+	/** {@inheritdoc} */
+	public function getListViewCount()
 	{
 		$query = $this->getBasicListQuery();
 		$query->orderBy([]);

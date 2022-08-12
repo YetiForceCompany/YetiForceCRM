@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Settings-TreesManager-EditView editViewContainer">
+	<!-- tpl-Settings-TreesManager-EditView -->
+	<div class="editViewContainer">
 		<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
 			<input type="hidden" name="module" value="TreesManager" />
 			<input type="hidden" name="parent" value="Settings" />
@@ -15,50 +16,28 @@
 					{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 				</div>
 			</div>
-			<div class="row">
-				<label class="col-md-3"><strong><span class="redColor">*</span>{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}
-						: </strong></label>
-				<div class="col-md-4">
-					<input type="text" class="fieldValue form-control" name="name" id="treeename" value="{$RECORD_MODEL->get('name')}" data-validation-engine='validate[required]' />
-				</div>
+			<div class="form-group row">
+				{foreach from=$RECORD_MODEL->getEditViewStructure() item=FIELD_MODEL key=FIELD_NAME name=field}
+					<div class="col-12 col-md-6 mb-2 js-field-container">
+						<label class="u-text-small-bold  mb-1">
+							{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}
+							{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
+							{if $FIELD_MODEL->get('tooltip')}
+								<div class="js-popover-tooltip ml-1 d-inline my-auto u-h-fit u-cursor-pointer popover-triggered" data-placement="top" data-content="{\App\Language::translate($FIELD_MODEL->get('tooltip'), $QUALIFIED_MODULE)}">
+									<span class="fas fa-info-circle"></span>
+								</div>
+							{/if}:
+						</label>
+						<div class="fieldValue m-auto">
+							{if $FIELD_MODEL->isEditableReadOnly()}
+								<input type="text" disabled="disabled" class="form-control" value="{\App\Purifier::encodeHtml($RECORD_MODEL->getDisplayValue($FIELD_MODEL->getName()))}" />
+							{else}
+								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE MODULE_NAME=$QUALIFIED_MODULE RECORD=null}
+							{/if}
+						</div>
+					</div>
+				{/foreach}
 			</div>
-			<br />
-			{assign var="SUPPORTED_MODULE_MODELS" value=Settings_Workflows_Module_Model::getSupportedModules()}
-			<div class="row">
-				<div class="col-md-3">
-					<label class=""><strong>{\App\Language::translate('LBL_MODULE', $QUALIFIED_MODULE)}
-							: </strong></label>
-				</div>
-				<div class="col-md-4 fieldValue">
-					<select class="select2 form-control" name="templatemodule" {if !$ACCESS} disabled {/if}>
-						{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
-							<option {if $SOURCE_MODULE eq $TAB_ID} selected="" {/if} value="{$TAB_ID}">
-								{\App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
-							</option>
-						{/foreach}
-					</select>
-					{if !$ACCESS}
-						<input type="text" class="fieldValue form-control d-none" name="templatemodule" value="{$SOURCE_MODULE}" />
-					{/if}
-				</div>
-			</div>
-			<br />
-			<div class="row">
-				<div class="col-md-3">
-					<label class=""><strong>{\App\Language::translate('LBL_SHARE_WITH', $QUALIFIED_MODULE)}
-							: </strong></label>
-				</div>
-				<div class="col-md-4 fieldValue">
-					<select class="select2 form-control" name="share[]" multiple>
-						{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
-							<option {if in_array($TAB_ID, $RECORD_MODEL->get('share'))} selected="" {/if} value="{$TAB_ID}">
-								{\App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
-							</option>
-						{/foreach}
-					</select>
-				</div>
-			</div>
-			<br />
 			<hr>
 			<div class="row align-items-center">
 				<div class="col-md-3">
@@ -66,7 +45,7 @@
 				</div>
 				<div class="col-md-8 d-flex">
 					<input type="text" class="fieldValue col-md-4 addNewElement form-control">
-					<button class="btn btn-primary addNewElementBtn ml-1" type="button">
+					<button class="btn btn-primary addNewElementBtn ml-1 noWrap" type="button">
 						<span class="fas fa-plus u-mr-5px"></span><strong>{\App\Language::translate('LBL_ADD_TO_TREES', $QUALIFIED_MODULE)}</strong>
 					</button>
 				</div>
@@ -88,4 +67,5 @@
 			</div>
 			<div class="clearfix"></div>
 	</div>
+	<!-- /tpl-Settings-TreesManager-EditView -->
 {/strip}

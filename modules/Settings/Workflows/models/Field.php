@@ -32,24 +32,6 @@ class Settings_Workflows_Field_Model extends Vtiger_Field_Model
 	}
 
 	/**
-	 * Function to get comment field which will useful in creating conditions.
-	 *
-	 * @param Vtiger_Module_Model $moduleModel
-	 *
-	 * @return <Vtiger_Field_Model>
-	 */
-	public static function getCommentFieldForFilterConditions($moduleModel)
-	{
-		$commentField = new Vtiger_Field_Model();
-		$commentField->set('name', '_VT_add_comment');
-		$commentField->set('label', 'Comment');
-		$commentField->setModule($moduleModel);
-		$commentField->fieldDataType = 'comment';
-
-		return $commentField;
-	}
-
-	/**
 	 * Function to get comment fields list which are useful in tasks.
 	 *
 	 * @param Vtiger_Module_Model $moduleModel

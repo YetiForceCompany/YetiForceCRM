@@ -22,7 +22,7 @@ class Vtiger_CustomViewAdvCondModal_View extends \App\Controller\Modal
 	public $successBtn = 'LBL_SAVE';
 
 	/** {@inheritdoc} */
-	public $modalIcon = 'fas fa-cog';
+	public $modalIcon = 'yfi-advenced-custom-view-conditions';
 
 	/** @var array Advanced conditions */
 	protected $advancedConditions;

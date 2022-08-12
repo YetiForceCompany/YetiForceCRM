@@ -12,9 +12,9 @@
 class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_RecordStructure_Model
 {
 	/**
-	 * Function to get the values in stuctured format.
+	 * Function to get the values in structured format.
 	 *
-	 * @return <array> - values in structure array('block'=>array(fieldinfo));
+	 * @return array
 	 */
 	public function getStructure()
 	{
@@ -50,15 +50,6 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 				}
 			}
 		}
-		if ($moduleModel->isCommentEnabled()) {
-			$commentFieldModel = Settings_Workflows_Field_Model::getCommentFieldForFilterConditions($moduleModel);
-			$commentFieldModelsList = [$commentFieldModel->getName() => $commentFieldModel];
-			$labelName = \App\Language::translate($moduleModel->getSingularLabelKey(), $moduleModel->getName()) . ' ' . \App\Language::translate('LBL_COMMENTS', $moduleModel->getName());
-			foreach ($commentFieldModelsList as $commentFieldName => $commentFieldModel) {
-				$commentFieldModel->set('workflow_columnname', $commentFieldName);
-				$values[$labelName][$commentFieldName] = $commentFieldModel;
-			}
-		}
 		//All the reference fields should also be sent
 		$referenceType = \Vtiger_Field_Model::$referenceTypes;
 		$referenceType[] = 'owner';
@@ -90,12 +81,9 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 						}
 					}
 				}
-
-				$commentFieldModelsList = [];
 			}
 		}
 		$this->structuredValues = $values;
-
 		return $values;
 	}
 }

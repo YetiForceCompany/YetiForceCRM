@@ -10,6 +10,7 @@ namespace App;
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Mail
 {
@@ -20,13 +21,13 @@ class Mail
 	 *
 	 * @return array
 	 */
-	public static function getSmtpById($smtpId)
+	public static function getSmtpById(int $smtpId): array
 	{
 		if (Cache::has('SmtpServer', $smtpId)) {
 			return Cache::get('SmtpServer', $smtpId);
 		}
 		$servers = static::getAll();
-		$smtp = false;
+		$smtp = [];
 		if (isset($servers[$smtpId])) {
 			$smtp = $servers[$smtpId];
 		}

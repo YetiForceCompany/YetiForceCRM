@@ -43,9 +43,13 @@ class Vtiger_Documents_Widget extends Vtiger_RelatedModule_Widget
 		if (\App\Privilege::isPermitted($moduleName, 'CreateView')) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', $moduleName),
-				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments&sourceModule=' . $this->Module . '&sourceRecord=' . $this->Record . '")',
+				'linkdata' => [
+					'url' => 'index.php?module=Documents&view=MassAddDocuments&sourceModule=' . $this->Module . '&sourceRecord=' . $this->Record,
+					'cb' => 'Documents_MassAddDocuments_Js.register',
+					'view' => 'Detail',
+				],
 				'linkicon' => 'yfi-document-templates',
-				'linkclass' => 'btn-light btn-sm',
+				'linkclass' => 'btn-light btn-sm js-show-modal',
 			]);
 		}
 		if (!empty($this->Data['email_template']) && \App\Mail::checkInternalMailClient() && \App\Record::isExists($this->Data['email_template'], 'EmailTemplates')

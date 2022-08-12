@@ -78,21 +78,13 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 		$displayValue = [];
 		foreach ($this->getArrayValues($value) as $recordId) {
 			$recordId = (int) $recordId;
-			if ($name = App\Record::getLabel($recordId)) {
-				if (!$rawText && \App\Privilege::isPermitted($referenceModuleName, 'DetailView', $recordId)) {
-					if ('Active' !== \App\Record::getState($recordId)) {
-						$name = '<s>' . $name . '</s>';
-					}
-					$url = "index.php?module={$referenceModuleName}&view={$referenceModule->getDetailViewName()}&record={$recordId}";
-					if (!empty($this->fullUrl)) {
-						$url = Config\Main::$site_URL . $url;
-					}
-					$name = "<a class='modCT_{$referenceModuleName} showReferenceTooltip js-popover-tooltip--record' href='{$url}' title='" . App\Language::translateSingularModuleName($referenceModuleName) . "'>{$name}</a>";
-				}
-				$displayValue[] = $name;
+			if ($rawText) {
+				$displayValue[] = App\Record::getLabel($recordId);
+			} else {
+				$displayValue[] = \App\Record::getHtmlLink($recordId, $referenceModuleName, null, !empty($this->fullUrl));
 			}
 		}
-		$maxLength = \is_int($length) ? $length : \App\Config::main('href_max_length');
+		$maxLength = (int) ($this->getFieldModel()->getFieldParams()['displayLength'] ?? (\is_int($length) ? $length : \App\Config::main('href_max_length')));
 		return \App\Layout::truncateHtml(implode(', <br>', $displayValue), 'miniHtml', $maxLength);
 	}
 

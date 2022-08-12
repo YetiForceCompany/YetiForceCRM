@@ -16,7 +16,7 @@
 				</script>
 				<form class="form-horizontal recordEditView" name="QuickEdit" method="post" action="index.php" data-module-name="{$MODULE_NAME}">
 					<div class="modal-header align-items-center form-row d-flex justify-content-between py-2{if isset($MODAL_VIEW->headerClass)} {$MODAL_VIEW->headerClass}{/if}">
-						<div class="col-xl-9 col-12">
+						<div class="col-xl-6 col-12">
 							<h5 class="modal-title form-row text-center text-xl-left mb-2 mb-xl-0">
 								<span class="col-12">
 									{if $MODAL_TITLE}
@@ -32,7 +32,10 @@
 								</span>
 							</h5>
 						</div>
-						<div class="col-xl-3 col-12 text-center text-xl-right">
+						<div class="col-xl-6 col-12 text-center text-xl-right">
+							{if \App\Privilege::isPermitted($MODULE_NAME, 'RecordCollector') && !empty($QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR'])}
+								{include file=\App\Layout::getTemplatePath('Edit/RecordCollectors.tpl', $MODULE) RECORD_COLLECTOR=$QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
+							{/if}
 							{if !empty($QUICKCREATE_LINKS['QUICKEDIT_VIEW_HEADER'])}
 								{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKEDIT_VIEW_HEADER']}
 									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS='display-block-md' TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq}

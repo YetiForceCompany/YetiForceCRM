@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<tr class="tpl-Settings-Users-SwitchUsersItem">
+	<!-- tpl-Settings-Users-SwitchUsersItem -->
+	<tr>
 		<td>
 			<select class="form-control sufrom {if $SELECT}select2{/if}">
 				<optgroup label="{\App\Language::translate('LBL_ROLES', $QUALIFIED_MODULE)}">
@@ -44,4 +45,5 @@
 			</button>
 		</td>
 	</tr>
+	<!-- /tpl-Settings-Users-SwitchUsersItem -->
 {/strip}

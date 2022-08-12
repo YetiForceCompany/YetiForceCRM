@@ -2,9 +2,9 @@
 /**
  * Orb Intelligence API by The Dun & Bradstreet file.
  *
- * @package App
- *
  * @see https://api.orb-intelligence.com/docs/
+ *
+ * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
@@ -20,10 +20,10 @@ namespace App\RecordCollectors;
 class OrbIntelligence extends Base
 {
 	/** {@inheritdoc} */
-	protected static $allowedModules = ['Accounts', 'Leads', 'Partners', 'Vendors', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Partners', 'Vendors', 'Competition'];
 
 	/** {@inheritdoc} */
-	public $icon = 'fa-solid fa-earth-americas';
+	public $icon = 'yfi-orb';
 
 	/** {@inheritdoc} */
 	public $label = 'LBL_ORB';
@@ -36,6 +36,17 @@ class OrbIntelligence extends Base
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://api.orb-intelligence.com/';
+
+	/** {@inheritdoc} */
+	public $settingsFields = [
+		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY']
+	];
+
+	/** @var string ORB Intelligence sever address */
+	protected $url = 'https://api.orb-intelligence.com/';
+
+	/** @var string Api Key. */
+	private $apiKey;
 
 	/** {@inheritdoc} */
 	protected $fields = [
@@ -181,19 +192,8 @@ class OrbIntelligence extends Base
 		]
 	];
 
-	/** {@inheritdoc} */
-	public $settingsFields = [
-		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY']
-	];
-
-	/** @var string Api Key. */
-	private $apiKey;
-
 	/** @var int Limit for fetching companies */
 	const LIMIT = 4;
-
-	/** @var string ORB Intelligence sever address */
-	protected $url = 'https://api.orb-intelligence.com/';
 
 	/** {@inheritdoc} */
 	public function isActive(): bool
@@ -238,19 +238,17 @@ class OrbIntelligence extends Base
 	/**
 	 * Function fetching company data by params.
 	 *
-	 * @param string $country
-	 * @param string $fieldName
-	 * @param string $fieldValue
-	 * @param array  $query
+	 * @param array $query
 	 *
 	 * @return void
 	 */
 	private function getDataFromApi(array $query): void
 	{
 		$response = [];
+		$client = \App\RequestHttp::getClient(['timeout' => 60]);
 		try {
-			$response = \App\RequestHttp::getClient()->get($this->url . '3/match/?' . http_build_query($query), []);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$response = $client->get($this->url . '3/match/?' . http_build_query($query));
+		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
@@ -261,8 +259,8 @@ class OrbIntelligence extends Base
 		$data = \array_slice($data['results'], 0, self::LIMIT, true);
 		foreach ($data as $key => $result) {
 			try {
-				$response = \App\RequestHttp::getClient()->get($result['fetch_url'], []);
-			} catch (\GuzzleHttp\Exception\ClientException $e) {
+				$response = $client->get($result['fetch_url']);
+			} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 				\App\Log::warning($e->getMessage(), 'RecordCollectors');
 				$this->response['error'] = $e->getMessage();
 			}

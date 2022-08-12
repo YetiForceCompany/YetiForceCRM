@@ -9,9 +9,9 @@
 	{else}
 		{assign var="SEARCH_VALUES" value=''}
 	{/if}
-	{assign var="DISPLAY_VALUE" value=$FIELD_MODEL->getDisplayValue($SEARCH_VALUES)}
+	{assign var="DISPLAY_VALUE" value=\App\Purifier::encodeHtml($FIELD_MODEL->getDisplayValue($SEARCH_VALUES, false, false, true))}
 	<div class="js-tree-container fieldValue u-min-w-150pxr" data-js="container">
-		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$SEARCH_VALUES}" class="sourceField listSearchContributor" data-displayvalue='{$DISPLAY_VALUE}' data-fieldinfo='{$FIELD_INFO}' data-multiple="1" data-treetemplate="{$FIELD_MODEL->getFieldParams()}" data-module-name="{$FIELD_MODEL->getModuleName()}" {if !empty($FIELD_MODEL->get('source_field_name'))} data-source-field-name="{$FIELD_MODEL->get('source_field_name')}" {/if}>
+		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$SEARCH_VALUES}" class="sourceField listSearchContributor" data-fieldinfo='{$FIELD_INFO}' data-multiple="1" data-treetemplate="{$FIELD_MODEL->getFieldParams()}" data-module-name="{$FIELD_MODEL->getModuleName()}" {if !empty($FIELD_MODEL->get('source_field_name'))} data-source-field-name="{$FIELD_MODEL->get('source_field_name')}" {/if}>
 		<div class="input-group {$WIDTHTYPE_GROUP}">
 			{if $FIELD_MODEL->get('displaytype') != 10}
 				<span class="input-group-prepend clearTreeSelection u-cursor-pointer">

@@ -36,6 +36,8 @@ class ResetPassword extends \Api\Core\BaseAction
 	/**
 	 * Post method.
 	 *
+	 * @api
+	 *
 	 * @return bool
 	 *
 	 *	@OA\Post(
@@ -137,6 +139,8 @@ class ResetPassword extends \Api\Core\BaseAction
 
 	/**
 	 * Put method.
+	 *
+	 * @api
 	 *
 	 * @return bool
 	 *

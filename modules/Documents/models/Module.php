@@ -132,4 +132,19 @@ class Documents_Module_Model extends Vtiger_Module_Model
 			->where(['templateid' => $templateId])
 			->createCommand()->queryAllByGroup();
 	}
+
+	/** {@inheritdoc} */
+	public function getCustomLinkLabel(int $id, string $label): string
+	{
+		$recordModel = \Vtiger_Record_Model::getInstanceById($id, $this->getName());
+		$link = '';
+		if ('I' === $recordModel->get('filelocationtype') && ($href = $recordModel->getDownloadFileURL())) {
+			$title = App\Language::translate('LBL_DOWNLOAD_FILE', 'Documents');
+			$link = "<a href=\"{$href}\" title=\"{$title}\"><span class=\"fas fa-download ml-1\"></span></a>";
+		} elseif ($recordModel->get('filename')) {
+			$href = \App\Purifier::encodeHtml($recordModel->get('filename'));
+			$link = "<a href=\"{$href}\" title=\"{$href}\" target=\"_blank\" rel=\"noreferrer noopener\"><span class=\"fa-solid fa-link ml-1\"></span></a>";
+		}
+		return \App\Purifier::encodeHtml($label) . $link;
+	}
 }

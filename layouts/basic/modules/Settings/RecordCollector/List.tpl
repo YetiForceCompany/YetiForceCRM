@@ -28,33 +28,47 @@
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th class="col-3" scope="col">{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</th>
-								<th class="col-4" scope="col">{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}</th>
-								<th class="col-3" scope="col">{\App\Language::translate('LBL_DOC_URL', $QUALIFIED_MODULE)}</th>
-								<th class="col-1 text-center" scope="col">{\App\Language::translate('LBL_ACTIVE', $QUALIFIED_MODULE)}</th>
-								<th class="col-1 text-center" scope="col">{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
+								<th scope="col">{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</th>
+								<th scope="col">{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}</th>
+								<th scope="col">{\App\Language::translate('LBL_MODULES', $QUALIFIED_MODULE)}</th>
+								<th scope="col">{\App\Language::translate('LBL_TYPE', $QUALIFIED_MODULE)}</th>
+								<th scope="col">{\App\Language::translate('LBL_DOC_URL', $QUALIFIED_MODULE)}</th>
+								<th scope="col">{\App\Language::translate('LBL_FEATURED', $QUALIFIED_MODULE)}</th>
+								<th scope="col">{\App\Language::translate('LBL_ACTIVE', $QUALIFIED_MODULE)}</th>
+								<th scope="col">{\App\Language::translate('LBL_ACTIONS', $QUALIFIED_MODULE)}</th>
 							</tr>
 						</thead>
 						<tbody>
-							{foreach from=$COLLECTORS item=ITEM}
+							{foreach from=$COLLECTORS item=COLLECTOR}
 								<tr>
 									<td>
-										<span class="{$ITEM['instance']->icon} mr-2"></span>
-										{\App\Language::translate($ITEM['instance']->label, 'Other.RecordCollector')}
-										{if \in_array($ITEM['name'], $PAID_RECORD_COLLECTOR)}<span class="yfi-premium color-red-600 js-popover-tooltip ml-2" title="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}"></span>{/if}
+										<span class="{$COLLECTOR->icon} u-fs-3x mr-2"></span>
+										{\App\Language::translate($COLLECTOR->label, 'Other.RecordCollector')}
+										{if \in_array($COLLECTOR->getName(), $PAID_RECORD_COLLECTOR)}<span class="yfi-premium color-red-600 js-popover-tooltip ml-2" title="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}"></span>{/if}
 									</td>
 									<td>
-										{\App\Language::translate($ITEM['instance']->description, 'Other.RecordCollector')}
+										{\App\Language::translate($COLLECTOR->description, 'Other.RecordCollector')}
 									</td>
 									<td>
-										<a href="{$ITEM['instance']->docUrl}" rel="noreferrer noopener" target="_blank">{$ITEM['instance']->docUrl}</a>
+										{foreach from=$COLLECTOR->allowedModules item=VALUE name=LIST}
+											{\App\Language::translate($VALUE, $VALUE)}{if not $smarty.foreach.LIST.last}, {/if}
+										{/foreach}
+									</td>
+									<td class="text-nowrap">
+										{\App\Language::translate("LBL_TYPE_{$COLLECTOR->displayType}", $QUALIFIED_MODULE)}
+									</td>
+									<td class="text-break">
+										<a href="{$COLLECTOR->docUrl}" rel="noreferrer noopener" target="_blank">{$COLLECTOR->docUrl}</a>
 									</td>
 									<td class="text-center">
-										<input class="js-status-change" name="is_active" value="{$ITEM['name']}" type="checkbox" {if $ITEM['active']} checked {/if}>
+										<input class="js-featured-change js-visibility {if !$COLLECTOR->active}d-none{/if}" name="featured" value="{$COLLECTOR->getName()}" type="checkbox" {if $COLLECTOR->featured}checked{/if}>
 									</td>
 									<td class="text-center">
-										{if !empty($ITEM['instance']->settingsFields)}
-											<button class="btn btn-outline-secondary btn-sm js-show-config-modal js-popover-tooltip mr-1 {if !$ITEM['active']} d-none {/if}" type="button" data-name="{$ITEM['name']}"
+										<input class="js-status-change" name="is_active" value="{$COLLECTOR->getName()}" type="checkbox" {if $COLLECTOR->active}checked{/if}>
+									</td>
+									<td class="text-center">
+										{if !empty($COLLECTOR->settingsFields)}
+											<button class="btn btn-outline-secondary btn-sm js-show-config-modal js-popover-tooltip mr-1 js-visibility {if !$COLLECTOR->active}d-none{/if}" type="button" data-name="{$COLLECTOR->getName()}"
 												data-content="{\App\Language::translate('LBL_CONFIG', $QUALIFIED_MODULE)}">
 												<span class="fas fa-cog"></span>
 											</button>

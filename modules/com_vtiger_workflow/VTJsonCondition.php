@@ -502,9 +502,6 @@ class VTJsonCondition
 			case 'has changed to':
 				$oldValue = $recordModel->getPreviousValue($cond['fieldname']);
 				return ($recordModel->isNew() || false !== $oldValue) && $recordModel->get($cond['fieldname']) == $value;
-			case 'is added':
-				//This condition was used only for comments. It should not execute from not from workflows, So it was always "FALSE"
-				return false;
 			case 'is Watching Record':
 				$watchdog = Vtiger_Watchdog_Model::getInstanceById($recordModel->getId(), $recordModel->getModuleName());
 				if ($watchdog->isWatchingRecord()) {

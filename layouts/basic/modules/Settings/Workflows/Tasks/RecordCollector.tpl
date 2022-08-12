@@ -13,10 +13,10 @@
 	 			<select class="select2" id="recordCollector" name="recordCollector" data-validation-engine='validate[required]' data-select="allowClear"
 	 				data-placeholder="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">
 	 				<option value="">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
-	 				{foreach from=\App\RecordCollector::getAllByType('FillFields', $SOURCE_MODULE) key=COLLECTOR_NAME item=COLLECTOR_VALUE}
+	 				{foreach from=\App\RecordCollector::getAllByType('FillFields', $SOURCE_MODULE) key=COLLECTOR_NAME item=COLLECTOR}
 		 				{assign var=COLLECTOR_CLASS value='App\\RecordCollectors\\'|cat:{$COLLECTOR_NAME}}
-		 				<option value="{$COLLECTOR_CLASS}" class="js-fields" {if isset($TASK_OBJECT->recordCollector) && $TASK_OBJECT->recordCollector eq $COLLECTOR_CLASS} selected="" {/if} data-fields='{\App\Purifier::encodeHtml(\App\Json::encode(array_values($COLLECTOR_VALUE->formFieldsToRecordMap[$SOURCE_MODULE])))}' data-js="data">
-		 					{\App\Language::translate($COLLECTOR_VALUE->label, 'Other.RecordCollector')}
+		 				<option value="{$COLLECTOR_CLASS}" class="js-fields" {if isset($TASK_OBJECT->recordCollector) && $TASK_OBJECT->recordCollector eq $COLLECTOR_CLASS} selected="" {/if} data-fields='{\App\Purifier::encodeHtml(\App\Json::encode($COLLECTOR->getFieldsLabelsByModule($SOURCE_MODULE)))}' data-js="data">
+		 					{\App\Language::translate($COLLECTOR->label, 'Other.RecordCollector')}
 		 				</option>
 	 				{/foreach}
 	 			</select>
@@ -30,8 +30,8 @@
 	 			<select class="form-control select2 js-fields-map" multiple="multiple" data-value="value" name="fieldsMap[]" data-js="html">
 	 				{if isset($TASK_OBJECT->recordCollector) && isset($TASK_OBJECT->fieldsMap)}
 		 				{assign var=COLLECTOR value=\App\RecordCollector::getInstance($TASK_OBJECT->recordCollector, $MODULE_NAME)}
-		 				{foreach from=array_values($COLLECTOR->formFieldsToRecordMap[$SOURCE_MODULE]) item=FIELD_NAME}
-			 				<option value="{$FIELD_NAME}" {if in_array($FIELD_NAME, $TASK_OBJECT->fieldsMap)} selected {/if}>{$FIELD_NAME}</option>
+		 				{foreach from=$COLLECTOR->getFieldsLabelsByModule($SOURCE_MODULE) key=FIELD_NAME item=FIELD_LABEL }
+			 				<option value="{$FIELD_NAME}" {if in_array($FIELD_NAME, $TASK_OBJECT->fieldsMap)} selected {/if}>{$FIELD_LABEL}</option>
 		 				{/foreach}
 	 				{/if}
 	 			</select>

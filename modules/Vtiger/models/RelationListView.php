@@ -537,7 +537,8 @@ class Vtiger_RelationListView_Model extends \App\Base
 			foreach ($selectLinks as $selectLinkModel) {
 				$selectLinkModel->set('_selectRelation', true)->set('_module', $relatedModuleModel);
 			}
-			$relatedLink['LISTVIEWBASIC'] = array_merge($selectLinks, $this->getAddRelationLinks());
+			$relatedLink['LISTVIEWBASIC'] = $selectLinks;
+			$relatedLink = array_merge_recursive($relatedLink, $this->getAddRelationLinks());
 			if ('Documents' === $relatedModuleModel->getName()) {
 				$relatedLink['RELATEDLIST_MASSACTIONS'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'RELATEDLIST_MASSACTIONS',
@@ -620,7 +621,7 @@ class Vtiger_RelationListView_Model extends \App\Base
 	/**
 	 * Function to get the add links for related list.
 	 *
-	 * @return Vtiger_Link_Model[]
+	 * @return Vtiger_Link_Model[][]
 	 */
 	public function getAddRelationLinks(): array
 	{
@@ -630,20 +631,28 @@ class Vtiger_RelationListView_Model extends \App\Base
 		}
 		$relatedModel = $relationModelInstance->getRelationModuleModel();
 		$addLinkModel = [
-			Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => App\Language::translate('LBL_ADD_RELATION', $relatedModel->getName()),
-				'linkurl' => $this->getCreateViewUrl(),
-				'linkqcs' => $relatedModel->isQuickCreateSupported(),
-				'linkicon' => 'fas fa-plus',
-			]),
+			'LISTVIEWBASIC' => [
+				Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'LISTVIEWBASIC',
+					'linklabel' => App\Language::translate('LBL_ADD_RELATION', $relatedModel->getName()),
+					'linkurl' => $this->getCreateViewUrl(),
+					'linkqcs' => $relatedModel->isQuickCreateSupported(),
+					'linkicon' => 'fas fa-plus',
+				]),
+			]
 		];
 		if ('Documents' === $relatedModel->getName()) {
-			$addLinkModel[] = Vtiger_Link_Model::getInstanceFromValues([
+			$addLinkModel['RELATEDLIST_BASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => App\Language::translate('LBL_MASS_ADD', 'Documents'),
-				'linkurl' => 'javascript:Vtiger_Index_Js.massAddDocuments("index.php?module=Documents&view=MassAddDocuments")',
+				'linkdata' => [
+					'url' => 'index.php?module=Documents&view=MassAddDocuments&sourceView=Detail',
+					'cb' => 'Documents_MassAddDocuments_Js.register',
+					'view' => 'Detail',
+				],
+				'linkclass' => 'btn-light js-show-modal',
 				'linkicon' => 'yfi-document-templates',
+				'showLabel' => 1,
 			]);
 		}
 		return $addLinkModel;

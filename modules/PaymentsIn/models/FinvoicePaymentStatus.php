@@ -25,4 +25,16 @@ class PaymentsIn_FinvoicePaymentStatus_Model extends PaymentsIn_PaymentStatus_Mo
 
 	/** {@inheritdoc} */
 	protected static $relatedRecordIdName = 'finvoiceid';
+
+	/** {@inheritdoc} */
+	protected static function canUpdatePaymentStatus(Vtiger_Record_Model $recordModel): bool
+	{
+		$returnValue = parent::canUpdatePaymentStatus($recordModel);
+		if (($returnValue || false !== $recordModel->getPreviousValue(static::$relatedRecordIdName)) && (int) $recordModel->get('currency_id') !== \App\Record::getCurrencyIdFromInventory($recordModel->get(static::$relatedRecordIdName), static::$moduleName)
+		) {
+			\App\Log::warning('The payment is in a different currency than the related record: ' . $recordModel->get(static::$relatedRecordIdName));
+			$returnValue = false;
+		}
+		return $returnValue;
+	}
 }

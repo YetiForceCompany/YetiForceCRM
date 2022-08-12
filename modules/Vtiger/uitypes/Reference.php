@@ -71,36 +71,16 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		if (!($referenceModule = $this->getReferenceModule($value))) {
-			return '<i class="color-red-500" title="' . \App\Purifier::encodeHtml($value) . '">' . \App\Language::translate('LBL_RECORD_DOES_NOT_EXIST', 'ModTracker') . '</i>';
+			return '<i class="color-red-500" title="' . \App\Purifier::encodeHtml($value) . '">' . \App\Language::translate('LBL_RECORD_DOES_NOT_EXIST') . '</i>';
 		}
 		$referenceModuleName = $referenceModule->getName();
 		if ('Users' === $referenceModuleName || 'Groups' === $referenceModuleName) {
 			return \App\Fields\Owner::getLabel($value);
 		}
-		$state = \App\Record::getState($value);
-		if (null === $state) {
-			return $rawText ? '' : ('<i class="color-red-500" title="' . \App\Purifier::encodeHtml($value) . '">' . \App\Language::translate('LBL_RECORD_DOES_NOT_EXIST', 'ModTracker') . '</i>');
-		}
-		$label = \App\Record::getLabel($value, $rawText);
 		if ($rawText) {
-			return $label;
+			return \App\Record::getLabel($value, $rawText);
 		}
-		if (\is_int($length)) {
-			$label = \App\TextUtils::textTruncate($label, $length);
-		} elseif (true !== $length) {
-			$label = App\TextUtils::textTruncate($label, \App\Config::main('href_max_length'));
-		}
-		if ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value)) {
-			return $label;
-		}
-		if ('Trash' === $state) {
-			$label = '<s>' . $label . '</s>';
-		}
-		$url = "index.php?module={$referenceModuleName}&view={$referenceModule->getDetailViewName()}&record={$value}";
-		if (!empty($this->fullUrl)) {
-			$url = Config\Main::$site_URL . $url;
-		}
-		return "<a class='modCT_$referenceModuleName showReferenceTooltip js-popover-tooltip--record' href='$url'>$label</a>";
+		return \App\Record::getHtmlLink($value, $referenceModuleName, \is_int($length) ? $length : \App\Config::main('href_max_length'), !empty($this->fullUrl));
 	}
 
 	/** {@inheritdoc} */
@@ -323,7 +303,6 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			\App\Relation::clearCacheByModule($module);
 		}
 		\App\Cache::delete('HierarchyByRelation', '');
-
 		parent::delete();
 	}
 }

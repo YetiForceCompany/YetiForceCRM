@@ -31,11 +31,11 @@ class Calendar_CalDav_Cron extends \App\CronHandler
 		}
 		$cardDav = new API_CalDAV_Model();
 		$cardDav->davUsers = $dav->davUsers;
-		$cardDav->calDavCrm2Dav();
+		$this->logs = 'crm2Dav: ' . $cardDav->crm2Dav();
 		if ($this->checkTimeout()) {
 			return;
 		}
-		$cardDav->calDav2Crm();
+		$this->logs .= ' | dav2Crm: ' . $cardDav->dav2Crm();
 		\App\Log::trace('End cron CalDAV');
 	}
 }

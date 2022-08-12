@@ -10,10 +10,10 @@
 	{else}
 		{assign var="FIELD_VALUES" value=''}
 	{/if}
-	{assign var="DISPLAY_VALUE" value=$FIELD_MODEL->getDisplayValue($FIELD_VALUES)}
+	{assign var="DISPLAY_VALUE" value=\App\Purifier::encodeHtml($FIELD_MODEL->getDisplayValue($FIELD_VALUES, false, false, true))}
 	<div class="js-tree-container fieldValue" data-js="container">
 		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$FIELD_VALUES}" class="sourceField js-condition-builder-value"
-			data-displayvalue='{$DISPLAY_VALUE}' data-fieldinfo='{$FIELD_INFO}'
+			data-fieldinfo='{$FIELD_INFO}'
 			data-multiple="{if $FIELD_MODEL->getFieldDataType() !== 'tree'}1{else}0{/if}"
 			data-treetemplate="{$FIELD_MODEL->getFieldParams()}" data-module-name="{$FIELD_MODEL->getModuleName()}">
 		{assign var="displayId" value=$FIELD_MODEL->get('fieldvalue')}

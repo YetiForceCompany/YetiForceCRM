@@ -19,7 +19,7 @@ class OSSEmployees_DetailView_Model extends Vtiger_DetailView_Model
 				'linktype' => 'DETAIL_VIEW_BASIC',
 				'linkhint' => 'LBL_SHOW_EMPLOYEES_HIERARCHY',
 				'linkurl' => 'javascript:OSSEmployees_Detail_Js.triggerEmployeeHierarchy("' . $linkURL . '");',
-				'linkicon' => 'fas fa-sitemap',
+				'linkicon' => 'yfi-hierarchy',
 				'linkclass' => 'btn-outline-dark btn-sm',
 			]);
 		}

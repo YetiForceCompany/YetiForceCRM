@@ -216,30 +216,28 @@ class Users_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return array
 	 */
-	public static function getSwitchUsers($showRole = false)
+	public static function getSwitchUsers($showRole = false): array
 	{
-		require 'user_privileges/switchUsers.php';
+		require ROOT_DIRECTORY . '/user_privileges/switchUsers.php';
 		$baseUserId = \App\User::getCurrentUserRealId();
-		$users = $userIds = [];
+		$users = [];
 		if (isset($switchUsers[$baseUserId])) {
-			foreach ($switchUsers[$baseUserId] as $userId => &$userName) {
-				if (!\App\User::isExists($userId)) {
+			foreach ($switchUsers[$baseUserId] as $userId) {
+				$userModel = \App\User::getUserModel($userId);
+				if (empty($userModel->getId()) || !$userModel->isActive()) {
 					continue;
 				}
-				$users[$userId] = ['userName' => $userName];
-				$userIds[] = $userId;
+				$users[$userId] = $userId;
 			}
 			if ($showRole) {
-				$dataReader = (new \App\Db\Query())->select(['vtiger_role.rolename', 'vtiger_user2role.userid', 'vtiger_users.is_admin'])->from('vtiger_role')
-					->leftJoin('vtiger_user2role', 'vtiger_role.roleid = vtiger_user2role.roleid')
-					->leftJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
-					->where(['vtiger_user2role.userid' => $userIds])
-					->createCommand()->query();
-				while ($row = $dataReader->read()) {
-					$users[$row['userid']]['roleName'] = $row['rolename'];
-					$users[$row['userid']]['isAdmin'] = 'on' === $row['is_admin'];
+				foreach ($users as $userId => &$row) {
+					$userModel = \App\User::getUserModel($userId);
+					$row = [
+						'userName' => $userModel->getName(),
+						'roleName' => $userModel->getRoleName(),
+						'isAdmin' => $userModel->isAdmin(),
+					];
 				}
-				$dataReader->close();
 			}
 		}
 		return $users;

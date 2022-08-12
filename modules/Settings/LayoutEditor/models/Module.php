@@ -267,7 +267,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			->set('quickcreate', $params['quickcreate'] ?? 1)
 			->set('summaryfield', $params['summaryfield'] ?? 0)
 			->set('header_field', $params['header_field'] ?? null)
-			->set('fieldparams', $fieldParams ? \App\Json::encode($fieldParams) : '')
+			->set('fieldparams', $params['fieldparams'] ?? ($fieldParams ? \App\Json::encode($fieldParams) : ''))
 			->set('columntype', $details['dbType']);
 		if ('Editor' === $fieldType) {
 			$fieldModel->set('maximumlength', $params['fieldLength'] ?? null);
@@ -698,7 +698,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getTreeTemplates($sourceModule)
 	{
 		$sourceModule = \App\Module::getModuleId($sourceModule);
-		$query = (new \App\Db\Query())->select(['templateid', 'name'])->from('vtiger_trees_templates')->where(['module' => $sourceModule])->orWhere(['like', 'share', ",$sourceModule,"]);
+		$query = (new \App\Db\Query())->select(['templateid', 'name'])->from('vtiger_trees_templates')->where(['tabid' => $sourceModule])->orWhere(['like', 'share', ",$sourceModule,"]);
 		$treeList = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {

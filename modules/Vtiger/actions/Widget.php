@@ -42,22 +42,15 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 		$mode = $request->getMode();
 		if ($request->has('widgetid')) {
 			$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($request->getInteger('widgetid'), \App\User::getCurrentUserId());
-			$label = $widget->get('linklabel');
 		} else {
-			if ('add' === $mode) {
-				$linkDdata = \vtlib\Link::getLinkData($request->getInteger('linkid'));
-				$label = $linkDdata['linklabel'];
-			} else {
+			if ('add' !== $mode) {
 				$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), \App\User::getCurrentUserId());
-				$label = $widget->get('linklabel');
 			}
 		}
-		if (
-			('updateWidgetConfig' === $mode && $request->has('widgetid') && $widget->get('active'))
+		if (('updateWidgetConfig' === $mode && $request->has('widgetid') && $widget->get('active'))
 			|| ('remove' === $mode && !$widget->isDefault() && \App\Privilege::isPermitted($moduleName))
 			|| (('positions' === $mode || 'clear' === $mode) && \App\Privilege::isPermitted($moduleName))
-			|| ('Mini List' === $label && \App\Privilege::isPermitted($moduleName, 'CreateDashboardFilter'))
-			|| ('ChartFilter' === $label && \App\Privilege::isPermitted($moduleName, 'CreateDashboardChartFilter'))) {
+			|| 'add' === $mode) {
 			return true;
 		}
 		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
@@ -79,16 +72,13 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 			$widget = Vtiger_Widget_Model::getInstance($linkId, \App\User::getCurrentUserId());
 		}
 		$widget->remove('hide');
-		$deleteFromList = false;
-		if (empty($widget->get('isdefault')) && \App\Privilege::isPermitted($request->getModule(), 'CreateDashboardFilter', false, false)) {
-			$deleteFromList = true;
-		}
+
 		$response->setResult(['linkid' => $linkId,
 			'name' => $widget->getName(),
 			'url' => $widget->getUrl(),
 			'title' => \App\Language::translate($widget->getTitle(), $request->getModule()),
 			'id' => $widget->get('id'),
-			'deleteFromList' => $deleteFromList,
+			'deleteFromList' => $widget->isDeletable(),
 		]);
 		$response->emit();
 	}
@@ -129,6 +119,8 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 		]);
 		if (!\is_array($data) || !$data) {
 			$result = ['success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA', $moduleName)];
+		} elseif (!Vtiger_Widget_Model::getInstanceFromValues(array_merge($data, \vtlib\Link::getLinkData($request->getInteger('linkid'))))->isCreatable()) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		} else {
 			$data['linkid'] = $request->getInteger('linkid');
 			$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();

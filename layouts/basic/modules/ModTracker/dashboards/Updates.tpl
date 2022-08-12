@@ -111,6 +111,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="{$MODAL_INDEX}">
+							<span class="fas fa-cog mr-2"></span>
 							{\App\Language::translate('LBL_UPDATES_WIDGET_CONFIGURATION', $MODULE_NAME)}
 						</h5>
 						<button type="button" class="close" data-dismiss="modal"
@@ -124,7 +125,7 @@
 								<div class="col-md-6">
 									<div class="form-check">
 										<input class="form-check-input js-tracker-action" type="checkbox" value="{$VALUE}" data-js="container">
-										<label class="form-check-label">
+										<label class="form-check-label pl-2">
 											<span class="mr-1 u-fs-xs" style="color: {ModTracker::$colorsActions[$VALUE]};">
 												<span class="{ModTracker::$iconActions[$VALUE]} fa-fw"></span>
 											</span>
@@ -145,6 +146,7 @@
 					</div>
 					<div class="modal-footer">
 						<button class="js-modal__save btn btn-success btn-sm" type="submit" name="saveButton" data-js="click">
+							<span class="fas fa-check mr-2"></span>
 							<strong>{\App\Language::translate("LBL_SAVE", $MODULE_NAME)}</strong>
 						</button>
 						<button class="btn btn-danger btn-sm" type="reset" data-dismiss="modal">

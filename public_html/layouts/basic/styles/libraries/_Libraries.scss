@@ -404,6 +404,7 @@ body:not(.desktop) {
 .grid-stack > .grid-stack-item > .grid-stack-item-content {
 	left: 0.25rem !important;
 	right: 0.25rem !important;
+	overflow-y: hidden !important;
 }
 
 @include media-breakpoint-down(xs) {

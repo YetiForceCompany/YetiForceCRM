@@ -164,8 +164,9 @@ body:not(.desktop) {
 		height: 2rem;
 		width: 2rem;
 		cursor: pointer;
-		background-size: cover;
+		background-size: contain;
 		background-position: center;
+		background-repeat: no-repeat;
 	}
 	&__popover-img {
 		cursor: pointer;

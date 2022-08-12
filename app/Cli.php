@@ -67,7 +67,7 @@ class Cli
 		$this->climate->white('Version: ' . Version::get() . ' | CRM URL: ' . \Config\Main::$site_URL);
 		$this->climate->lightGreen()->border('─', 200);
 		\App\User::setCurrentUserId(\Users::getActiveAdminId());
-		\App\Language::setTemporaryLanguage('en_US');
+		\App\Language::setTemporaryLanguage('en-US');
 
 		$this->climate->arguments->add([
 			'module' => [

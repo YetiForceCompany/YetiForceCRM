@@ -10,6 +10,7 @@
 	{assign var=IS_EDITABLE_READ_ONLY value=$FIELD_MODEL->isEditableReadOnly()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}
 	{assign var=UITYPE_MODEL value=$FIELD_MODEL->getUITypeModel()}
+	{assign var=PARAMS value=$FIELD_MODEL->getFieldParams()}
 	<div class="uitype_{$MODULE_NAME}_{$FIELD_NAME} js-multiReference-container">
 		<div class="input-group referenceGroup">
 			<input class="js-popup-reference-module" type="hidden" value="{$REFERENCE_LIST[0]}" />
@@ -29,10 +30,22 @@
 				{/if}
 			</select>
 			<div class="input-group-append u-cursor-pointer">
-				<button class="btn btn-light js-related-popup" type="button" tabindex="{$TABINDEX}" {if $REFERENCE_MODULE_MODEL == false || $IS_EDITABLE_READ_ONLY} disabled{/if}>
-					<span id="{$MODULE_NAME}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search" title="{\App\Language::translate('LBL_SELECT', $MODULE_NAME)}"></span>
-				</button>
-				{if $REFERENCE_MODULE_MODEL && $REFERENCE_MODULE_MODEL->isQuickCreateSupported()}
+				{if !empty($PARAMS['buttons'])}
+					{foreach item=BUTTON from=$PARAMS['buttons']}
+						<button class="btn {\App\Purifier::encodeHtml($BUTTON['class'])}" type="button" tabindex="{$TABINDEX}" {if $IS_EDITABLE_READ_ONLY}disabled{/if}
+							{if isset($BUTTON['data'])}
+								{foreach from=$BUTTON['data'] key=NAME item=DATA}{' '}data-{$NAME}="{\App\Purifier::encodeHtml($DATA)}" {/foreach}
+							{/if}>
+							<span {if isset($BUTTON['name'])}id="{$MODULE_NAME}_editView_fieldName_{$FIELD_NAME}_{\App\Purifier::encodeHtml($BUTTON['name'])}" {/if} class="{\App\Purifier::encodeHtml($BUTTON['icon'])}" title="{\App\Language::translate($BUTTON['label'], $BUTTON['labelModule'])}"></span>
+						</button>
+					{/foreach}
+				{/if}
+				{if empty($PARAMS['hideSelectButton'])}
+					<button class="btn btn-light js-related-popup" type="button" tabindex="{$TABINDEX}" {if $REFERENCE_MODULE_MODEL == false || $IS_EDITABLE_READ_ONLY} disabled{/if}>
+						<span id="{$MODULE_NAME}_editView_fieldName_{$FIELD_NAME}_select" class="fas fa-search" title="{\App\Language::translate('LBL_SELECT', $MODULE_NAME)}"></span>
+					</button>
+				{/if}
+				{if empty($PARAMS['hideAddButton']) && $REFERENCE_MODULE_MODEL && $REFERENCE_MODULE_MODEL->isQuickCreateSupported()}
 					<button class="btn btn-light js-create-reference-record" type="button" tabindex="{$TABINDEX}" {if $IS_EDITABLE_READ_ONLY}disabled{/if}>
 						<span id="{$MODULE_NAME}_editView_fieldName_{$FIELD_NAME}_create" class="fas fa-plus" title="{\App\Language::translate('LBL_CREATE', $MODULE_NAME)}"></span>
 					</button>

@@ -350,7 +350,7 @@ $.Class(
 							} else if (data['result']['type'][value[0]] === 'multipicklist') {
 								let mapFieldElementMultiselect = formElement.find('[name="' + key + '[]"]');
 								if (mapFieldElementMultiselect.length > 0) {
-									let multipleAttr = mapFieldElement.attr('multiple');
+									let multipleAttr = mapFieldElementMultiselect.attr('multiple');
 									let splitValues = response[value[0]].split(' |##| ');
 									if (typeof multipleAttr !== 'undefined' && multipleAttr !== false && splitValues.length > 0) {
 										mapFieldElementMultiselect.val(splitValues).trigger('change');

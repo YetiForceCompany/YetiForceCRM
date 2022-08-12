@@ -65,8 +65,9 @@ class Faq extends CRMEntity
 	/**
 	 * Function to get the relation tables for related modules.
 	 *
-	 * @param - $secmodule secondary module name
-	 *                     returns the array with table names and fieldnames storing relations between module and this module
+	 * @param bool|string $secmodule secondary module name
+	 *
+	 * @return array returns the array with table names and fieldnames storing relations between module and this module
 	 */
 	public function setRelationTables($secmodule = false)
 	{

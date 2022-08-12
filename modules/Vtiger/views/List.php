@@ -292,7 +292,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 		$viewer->assign('PAGE_COUNT', $pagingModel->getPageCount());
 		$viewer->assign('START_PAGIN_FROM', $pagingModel->getStartPagingFrom());
 		$viewer->assign('VIEW_MODEL', $this->listViewModel);
-		$viewer->assign('IS_MODULE_EDITABLE', $this->listViewModel->getModule()->isPermitted('EditView'));
+		$viewer->assign('IS_MODULE_EDITABLE', $this->listViewModel->getModule()->isPermitted('CreateView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);

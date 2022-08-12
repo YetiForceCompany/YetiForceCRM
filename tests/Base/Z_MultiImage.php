@@ -33,7 +33,7 @@ class Z_MultiImage extends \Tests\Base
 	/**
 	 * Data provider for the attach image to record test.
 	 *
-	 * @return []
+	 * @return array
 	 * @codeCoverageIgnore
 	 */
 	public function providerImageForRecord()
@@ -50,7 +50,7 @@ class Z_MultiImage extends \Tests\Base
 	/**
 	 * Data provider for the delete record images test.
 	 *
-	 * @return []
+	 * @return array
 	 * @codeCoverageIgnore
 	 */
 	public function providerDeleteImageForRecord()
@@ -91,7 +91,7 @@ class Z_MultiImage extends \Tests\Base
 		}
 		self::$cache[$module] = $record;
 		$filePathSrc = ROOT_DIRECTORY . '/tests/data/MultiImage/' . self::$files[$file];
-		$filePathDst = ROOT_DIRECTORY . '/storage/MultiImage/' . md5(rand(0, 9999)) . substr(self::$files[$file], \strpos(self::$files[$file], '.'));
+		$filePathDst = ROOT_DIRECTORY . '/storage/MultiImage/' . md5(random_int(0, 9999)) . substr(self::$files[$file], \strpos(self::$files[$file], '.'));
 		\copy($filePathSrc, $filePathDst);
 		$fileObj = \App\Fields\File::loadFromPath($filePathDst);
 		$hash = $fileObj->generateHash(true, $filePathDst);
@@ -153,7 +153,7 @@ class Z_MultiImage extends \Tests\Base
 		$attach = [];
 		foreach (self::$files as $i => $name) {
 			$filePathSrc = 'tests' . \DIRECTORY_SEPARATOR . 'data' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . $name;
-			$filePathDst = 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . md5(rand(0, 9999)) . substr($name, \strpos($name, '.'));
+			$filePathDst = 'tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'MultiImage' . \DIRECTORY_SEPARATOR . md5(random_int(0, 9999)) . substr($name, \strpos($name, '.'));
 			\copy($filePathSrc, $filePathDst);
 			$fileObj = \App\Fields\File::loadFromPath($filePathDst);
 			$hash[$i] = $fileObj->generateHash(true, $filePathDst);

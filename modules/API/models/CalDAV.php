@@ -65,9 +65,11 @@ class API_CalDAV_Model
 	protected static $cache = [];
 
 	/**
-	 * calDavCrm2Dav.
+	 * Sync from CRM to DAV.
+	 *
+	 * @return int
 	 */
-	public function calDavCrm2Dav()
+	public function crm2Dav(): int
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
 		$queryGenerator = new \App\QueryGenerator('Calendar');
@@ -77,18 +79,22 @@ class API_CalDAV_Model
 		$query = $queryGenerator->createQuery();
 		$query->where(['vtiger_crmentity.deleted' => 0, 'vtiger_activity.dav_status' => 1]);
 		$dataReader = $query->createCommand()->query();
+		$i = 0;
 		while ($row = $dataReader->read()) {
 			$this->record = $row;
-			$this->davSync();
+			$i += $this->davSync();
 		}
 		$dataReader->close();
 		\App\Log::trace(__METHOD__ . ' | End');
+		return $i;
 	}
 
 	/**
 	 * Dav sync.
+	 *
+	 * @return int
 	 */
-	public function davSync()
+	public function davSync(): int
 	{
 		$create = $updates = 0;
 		foreach ($this->davUsers as $userId => $user) {
@@ -123,6 +129,7 @@ class API_CalDAV_Model
 		}
 		$this->recordMarkComplete();
 		\App\Log::trace("Calendar end - CRM >> DAV | create: $create | updates: $updates", __METHOD__);
+		return $create + $updates;
 	}
 
 	/**
@@ -193,33 +200,35 @@ class API_CalDAV_Model
 	}
 
 	/**
-	 * Cal dav to crm.
+	 * Sync from DAV to CRM.
+	 *
+	 * @return int
 	 */
-	public function calDav2Crm()
+	public function dav2Crm(): int
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
+		$i = 0;
 		foreach ($this->davUsers as $user) {
 			$this->calendarId = $user->get('calendarsid');
 			$this->user = $user;
-			$this->recordSync();
+			$i += $this->recordSync();
 		}
 		\App\Log::trace(__METHOD__ . ' | End');
+		return $i;
 	}
 
 	/**
 	 * Sync record.
+	 *
+	 * @return int
 	 */
-	public function recordSync()
+	public function recordSync(): int
 	{
 		\App\Log::trace('Start', __METHOD__);
 		$query = (new \App\Db\Query())->select([
 			'dav_calendarobjects.*',
-			'vtiger_crmentity.modifiedtime',
-			'vtiger_crmentity.setype',
-			'assigned_user_id' => 'vtiger_crmentity.smownerid',
-			'vtiger_crmentity.crmid',
-			'vtiger_crmentity.deleted',
-			'vtiger_activity.visibility'
+			'vtiger_crmentity.modifiedtime', 'vtiger_crmentity.setype',	'assigned_user_id' => 'vtiger_crmentity.smownerid',
+			'vtiger_crmentity.crmid', 'vtiger_crmentity.deleted', 'vtiger_activity.visibility'
 		])->from('dav_calendarobjects')
 			->leftJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = dav_calendarobjects.crmid')
 			->leftJoin('vtiger_activity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
@@ -248,6 +257,7 @@ class API_CalDAV_Model
 		}
 		$dataReader->close();
 		\App\Log::trace("Calendar end - DAV >> CRM | create: $create | deletes: $deletes | updates: $updates | skipped: $skipped", __METHOD__);
+		return $create + $updates + $deletes;
 	}
 
 	/**

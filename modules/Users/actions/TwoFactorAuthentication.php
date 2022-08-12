@@ -66,7 +66,8 @@ class Users_TwoFactorAuthentication_Action extends \App\Controller\Action
 	{
 		$secret = $request->getByType('secret', 'Alnum');
 		try {
-			$checkResult = Users_Totp_Authmethod::verifyCode($secret, $request->getByType('user_code', \App\Purifier::DIGITS));
+			$authMethod = new Users_Totp_Authmethod(\App\User::getCurrentUserRealId());
+			$checkResult = $authMethod->verifyCode($secret, $request->getByType('user_code', \App\Purifier::DIGITS));
 			if ($checkResult) {
 				$userRecordModel = Users_Record_Model::getInstanceById(\App\User::getCurrentUserRealId(), 'Users');
 				$userRecordModel->set('authy_secret_totp', $secret);

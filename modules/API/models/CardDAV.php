@@ -42,14 +42,27 @@ class API_CardDAV_Model
 		$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 
-	public function cardDavCrm2Dav()
+	/**
+	 * Sync from CRM to DAV.
+	 *
+	 * @return string
+	 */
+	public function crm2Dav(): string
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
-		$this->syncCrmRecord('Contacts');
-		$this->syncCrmRecord('OSSEmployees');
+		$log = 'Contacts: ' . $this->syncCrmRecord('Contacts');
+		$log .= ' & OSSEmployees: ' . $this->syncCrmRecord('OSSEmployees');
 		\App\Log::trace(__METHOD__ . ' | End');
+		return $log;
 	}
 
+	/**
+	 * Sync from CRM to DAV for one module.
+	 *
+	 * @param mixed $moduleName
+	 *
+	 * @return string
+	 */
 	public function syncCrmRecord($moduleName)
 	{
 		$create = $updates = 0;
@@ -98,20 +111,33 @@ class API_CardDAV_Model
 		}
 		$dataReader->close();
 		\App\Log::trace("AddressBooks end - CRM >> DAV ({$moduleName}) | create: {$create} | updates: {$updates}", __METHOD__);
+		return $create + $updates;
 	}
 
-	public function cardDav2Crm()
+	/**
+	 * Sync from DAV to CRM.
+	 *
+	 * @return int
+	 */
+	public function dav2Crm(): int
 	{
 		\App\Log::trace(__METHOD__ . ' | Start');
+		$i = 0;
 		foreach ($this->davUsers as $user) {
 			$this->addressBookId = $user->get('addressbooksid');
 			$this->user = $user;
-			$this->syncAddressBooks();
+			$i += $this->syncAddressBooks();
 		}
 		\App\Log::trace(__METHOD__ . ' | End');
+		return $i;
 	}
 
-	public function syncAddressBooks()
+	/**
+	 * Sync from DAV to CRM for one user.
+	 *
+	 * @return int
+	 */
+	public function syncAddressBooks(): int
 	{
 		\App\Log::trace('AddressBooks start', __METHOD__);
 		$dataReader = $this->getDavCardsToSync()->createCommand()->query();
@@ -158,6 +184,7 @@ class API_CardDAV_Model
 		}
 		$dataReader->close();
 		\App\Log::trace("AddressBooks end - DAV >> CRM | create: {$create} | deletes: {$deletes} | updates: {$skipped} | skipped: {$updates}", __METHOD__);
+		return $create + $deletes + $updates;
 	}
 
 	public function createCard($moduleName, $record)

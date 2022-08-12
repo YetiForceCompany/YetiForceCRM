@@ -2,7 +2,7 @@
 /**
  * Webservice premium container - A store functionality - creates a record in an advanced module (orders) file.
  *
- * @package Api
+ * @package API
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)

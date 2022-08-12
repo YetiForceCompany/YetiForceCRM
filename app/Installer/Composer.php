@@ -177,7 +177,7 @@ class Composer
 			return;
 		}
 		$publicDir = $rootDir . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR;
-		$types = ['js', 'css', 'woff', 'woff2', 'ttf', 'png', 'gif', 'jpg', 'json'];
+		$types = ['js', 'css', 'woff', 'woff2', 'ttf', 'png', 'gif', 'jpg', 'json', 'svg'];
 		$list = '';
 		foreach (static::$publicPackage as $package => $method) {
 			$src = 'vendor' . \DIRECTORY_SEPARATOR . $package;

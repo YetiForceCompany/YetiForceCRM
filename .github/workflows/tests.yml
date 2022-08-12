@@ -8,7 +8,7 @@ on:
 jobs:
   tests74:
     runs-on: ubuntu-latest
-    name: PHP 7.4 - MariaDB 10
+    name: PHP 7.4 - MariaDB 10.5
     steps:
       - uses: actions/checkout@v3
         with:
@@ -22,7 +22,7 @@ jobs:
 
   tests80:
     runs-on: ubuntu-latest
-    name: PHP 8.0 - MariaDB 10
+    name: PHP 8.0 - MariaDB 10.5
     steps:
       - uses: actions/checkout@v3
         with:
@@ -34,9 +34,23 @@ jobs:
           YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
           YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
 
+  tests81:
+    runs-on: ubuntu-latest
+    name: PHP 8.1 - MariaDB 10.5
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Tests
+        uses: YetiForceCompany/YetiForceCRM-Tests/8.1@main
+        env:
+          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
+          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
+
   tests80jit:
     runs-on: ubuntu-latest
-    name: PHP 8.0 JIT - MariaDB 10
+    name: PHP 8.0 JIT - MariaDB 10.5
     steps:
       - uses: actions/checkout@v3
         with:
@@ -48,16 +62,16 @@ jobs:
           YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
           YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
 
-  tests81:
+  tests81jit:
     runs-on: ubuntu-latest
-    name: PHP 8.1 - MariaDB 10
+    name: PHP 8.1 JIT - MariaDB 10.5
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: Tests
-        uses: YetiForceCompany/YetiForceCRM-Tests/8.1@main
+        uses: YetiForceCompany/YetiForceCRM-Tests/8.1-JIT@main
         env:
           YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
           YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
@@ -91,6 +105,7 @@ jobs:
           YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
 
   coverage:
+    needs: tests80
     runs-on: ubuntu-latest
     name: Code Coverage
     steps:

@@ -402,7 +402,7 @@ jQuery.Class(
 		reloadList: function (params) {
 			let thisInstance = this;
 			if (params == undefined) {
-				params = { page: 1 };
+				params = { page: 1, totalCount: 0 };
 			}
 			let instance = this.getInstanceByView();
 			if (instance) {

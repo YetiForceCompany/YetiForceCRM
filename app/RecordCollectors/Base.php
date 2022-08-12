@@ -20,8 +20,11 @@ class Base
 	/** @var string Module name. */
 	public $moduleName;
 
+	/** @var string Record collector name. */
+	protected $name;
+
 	/** @var string[] Allowed modules. */
-	protected static $allowedModules = [];
+	public $allowedModules;
 
 	/** @var string Icon. */
 	public $icon;
@@ -61,19 +64,31 @@ class Base
 	 */
 	public function __construct()
 	{
-		$name = last(explode('\\', static::class));
+		$name = basename(str_replace('\\', '/', static::class));
+		$this->name = $name;
+
 		$class = '\\Config\\Components\\RecordCollectors\\' . $name;
 		if (!\class_exists($class)) {
 			return;
 		}
 		$config = (new \ReflectionClass($class))->getStaticProperties();
 		if (isset($config['allowedModules'])) {
-			static::$allowedModules = $config['allowedModules'];
+			$this->allowedModules = $config['allowedModules'];
 			unset($config['allowedModules']);
 		}
 		foreach ($config as $key => $value) {
 			$this->{$key} = $value;
 		}
+	}
+
+	/**
+	 * Get record collector name.
+	 *
+	 * @return string
+	 */
+	public function getName(): string
+	{
+		return $this->name;
 	}
 
 	/**
@@ -140,7 +155,7 @@ class Base
 	 */
 	public function isActive(): bool
 	{
-		return \in_array($this->moduleName, static::$allowedModules);
+		return \in_array($this->moduleName, $this->allowedModules);
 	}
 
 	/**
@@ -173,6 +188,9 @@ class Base
 	 */
 	public function loadData(): void
 	{
+		if (empty($this->data)) {
+			return;
+		}
 		if ($recordId = $this->request->getInteger('record')) {
 			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $this->moduleName);
 			$this->response['recordModel'] = $recordModel;
@@ -180,7 +198,7 @@ class Base
 		} else {
 			$fieldsModel = \Vtiger_Module_Model::getInstance($this->moduleName)->getFields();
 		}
-		$fieldsData = $skip = [];
+		$additional = $fieldsData = $skip = [];
 		$rows = isset($this->data[0]) ? $this->data : [$this->data];
 		foreach ($rows as $key => &$row) {
 			$dataCounter[$key] = 0;
@@ -189,7 +207,7 @@ class Base
 			}
 			foreach ($this->formFieldsToRecordMap[$this->moduleName] as $apiKey => $fieldName) {
 				if (empty($fieldsModel[$fieldName]) || !$fieldsModel[$fieldName]->isActiveField()) {
-					if (isset($row[$apiKey]) && '' !== $row[$apiKey]) {
+					if (isset($row[$apiKey]) && '' !== $row[$apiKey] && null !== $row[$apiKey]) {
 						$skip[$fieldName]['data'][$key] = $row[$apiKey];
 						if (isset($fieldsModel[$fieldName]) && empty($skip[$fieldName]['label'])) {
 							$skip[$fieldName]['label'] = \App\Language::translate($fieldsModel[$fieldName]->getFieldLabel(), $this->moduleName);
@@ -205,6 +223,9 @@ class Base
 					$value = trim($row[$apiKey]);
 					unset($row[$apiKey]);
 				}
+				if ('' === $value && isset($fieldsData[$fieldName]['data'][$key])) {
+					continue;
+				}
 				if ($value) {
 					++$dataCounter[$key];
 				}
@@ -213,11 +234,11 @@ class Base
 				$fieldsData[$fieldName]['data'][$key] = [
 					'raw' => $value,
 					'edit' => $fieldModel->getEditViewDisplayValue($value),
-					'display' => $fieldModel->getDisplayValue($value),
+					'display' => $fieldModel->getDisplayValue($value, false, false, false, 40),
 				];
 			}
 			foreach ($row as $name => $value) {
-				if ('' !== $value) {
+				if ('' !== $value && null !== $value) {
 					$additional[$name][$key] = $value;
 				}
 			}
@@ -227,5 +248,24 @@ class Base
 		$this->response['keys'] = array_keys($rows);
 		$this->response['additional'] = $additional;
 		$this->response['dataCounter'] = $dataCounter;
+	}
+
+	/**
+	 * Get fields labels for the module name.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return string[]
+	 */
+	public function getFieldsLabelsByModule(string $moduleName): array
+	{
+		$fieldsModels = \Vtiger_Module_Model::getInstance($moduleName)->getFields();
+		$labels = [];
+		foreach ($this->formFieldsToRecordMap[$moduleName] as $fieldName) {
+			if (isset($fieldsModels[$fieldName]) && $fieldsModels[$fieldName]->isActiveField()) {
+				$labels[$fieldName] = $fieldsModels[$fieldName]->getFullLabelTranslation();
+			}
+		}
+		return $labels;
 	}
 }

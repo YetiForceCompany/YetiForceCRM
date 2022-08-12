@@ -73,7 +73,7 @@ class Vtiger_CategoryMultipicklist_UIType extends Vtiger_Tree_UIType
 		if (\is_int($length)) {
 			$value = \App\TextUtils::textTruncate($value, $length);
 		}
-		return \App\Purifier::encodeHtml($value);
+		return $rawText ? $value : \App\Purifier::encodeHtml($value);
 	}
 
 	/** {@inheritdoc} */

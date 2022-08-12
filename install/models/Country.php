@@ -167,6 +167,7 @@ return [
 	'Nigeria',
 	'Niue',
 	'Norfolk Island',
+	'Northern Ireland',
 	'Northern Mariana Islands',
 	'Norway',
 	'Oman',

@@ -1,5 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
-// 'use strict';
+'use strict';
 
 Settings_Inventory_Index_Js(
 	'Settings_Inventory_Taxes_Js',
@@ -26,7 +26,7 @@ Settings_Inventory_Index_Js(
 				`<tr class="opacity" data-id="${details.id}">
 				<td class="textAlignCenter ${details.row_type}"><label class="name">${details.name}</label></td>
 				<td class="textAlignCenter ${details.row_type}"><span class="value">${details.value} ${symbol}</span></td>
-				<td class="textAlignCenter ${details.row_type}"><input class="status js-update-field mt-2" checked type="checkbox"></td>
+				<td class="textAlignCenter ${details.row_type}"><input class="status js-update-field mt-2" checked type="checkbox" data-field-name="status"></td>
 				<td class="textAlignCenter ${details.row_type}">
 					<div class="float-right  w-50 d-flex justify-content-between mr-2">
 						<input class="default js-update-field mt-2" ${defaultCheck} data-field-name="default" type="checkbox">

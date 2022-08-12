@@ -869,7 +869,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => $treeViewModel->getName(),
 				'linkurl' => $treeViewModel->getTreeViewUrl() . $menuUrl,
-				'linkicon' => 'fas fa-tree',
+				'linkicon' => 'yfi-tree-records',
 			]);
 		}
 		if ($this->isPermitted('Kanban') && \App\Utils\Kanban::getBoards($this->getName(), true)) {
@@ -1366,7 +1366,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function isTypeChangeAllowed(): bool
 	{
-		return $this->allowTypeChange;
+		return $this->allowTypeChange || static::ADVANCED_TYPE === $this->getModuleType();
 	}
 
 	/**
@@ -1387,5 +1387,18 @@ class Vtiger_Module_Model extends \vtlib\Module
 	public function clearCache(): void
 	{
 		$this->fields = null;
+	}
+
+	/**
+	 * Get custom link label.
+	 *
+	 * @param int    $id
+	 * @param string $label
+	 *
+	 * @return string
+	 */
+	public function getCustomLinkLabel(int $id, string $label): string
+	{
+		return \App\Purifier::encodeHtml($label);
 	}
 }

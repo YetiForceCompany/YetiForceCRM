@@ -52,7 +52,7 @@
 		{else}
 			{assign var=REFERENCE_MODULE_MODEL value=false}
 		{/if}
-		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$VALUE}" title="{$FIELD_VALUE}" class="sourceField" data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-displayvalue="{$FIELD_VALUE}" data-fieldinfo='{$FIELD_INFO}' {if $IS_EDITABLE_READ_ONLY}readonly="readonly" {/if} />
+		<input name="{$FIELD_MODEL->getFieldName()}" type="hidden" value="{$VALUE}" title="{$FIELD_VALUE}" class="sourceField" data-type="entity" data-fieldtype="{$FIELD_MODEL->getFieldDataType()}" data-fieldinfo='{$FIELD_INFO}' {if $IS_EDITABLE_READ_ONLY}readonly="readonly" {/if} />
 		<div class="input-group referenceGroup {$WIDTHTYPE_GROUP}">
 			{if $REFERENCE_LIST_COUNT > 1}
 				<div class="input-group-prepend referenceModulesListGroup">

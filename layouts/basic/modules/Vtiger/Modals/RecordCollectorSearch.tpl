@@ -4,7 +4,7 @@
 	{if $RECORD_COLLECTOR->displayType === 'Summary'}
 		<div class="mt-1">
 			{if isset($SEARCH_DATA['fields'])}
-				<table class="table">
+				<table class="table" data-no="1">
 					<tbody>
 						{foreach item=VALUE key=LABEL from=$SEARCH_DATA['fields']}
 							<tr>
@@ -30,8 +30,8 @@
 		</button>
 	{elseif $RECORD_COLLECTOR->displayType === 'FillFields'}
 		{if !empty($SEARCH_DATA['fields'])}
-			<form class="js-record-collector__fill_form mt-1" data-js="form">
-				<table class="table table-bordered">
+			<form class="js-record-collector__fill_form table-responsive text-nowrap mt-1" data-js="form">
+				<table class="table table-bordered" data-no="2">
 					<thead>
 						<tr>
 							<th class="text-center">{\App\Language::translate('LBL_FIELDS_LIST', $MODULE_NAME)}</th>
@@ -45,6 +45,11 @@
 								<th class="text-center">
 									{\App\Language::translate('LBL_DATA_FROM_SOURCE', $MODULE_NAME)}
 									<span class="far fa-check-square u-cursor-pointer ml-2 js-record-collector__select" data-column="{$KEY}" data-js="data|click"></span>
+									{if isset($SEARCH_DATA['links'][$KEY])}
+										<a role="button" class="btn btn-primary btn-xs float-right" href="{$SEARCH_DATA['links'][$KEY]}" title="{$SEARCH_DATA['links'][$KEY]}" target="_blank" rel="noreferrer noopener">
+											<span class="fa-solid fa-link"></span>
+										</a>
+									{/if}
 								</th>
 							{/foreach}
 							{if isset($SEARCH_DATA['recordModel'])}
@@ -57,33 +62,41 @@
 					</thead>
 					<tbody>
 						{foreach from=$SEARCH_DATA['fields'] key=FIELD_NAME item=ROW}
-							<tr class="js-record-collector__field" data-field-name="{$FIELD_NAME}" data-js="data">
-								<td>{$ROW['label']}</td>
-								{if empty($SEARCH_DATA['recordModel'])}
-									<td class="text-center js-record-collector__column" data-column="none">
-										<input type="radio" name="{$FIELD_NAME}" value="">
-									</td>
+							{assign	var=ROW_VALUE_SET value=0}
+							{foreach from=$ROW['data'] key=KEY item=VALUE name=DATA_COLUMN}
+								{if $VALUE['raw'] !== ''}
+									{assign	var=ROW_VALUE_SET value=1}
 								{/if}
-								{foreach from=$ROW['data'] key=KEY item=VALUE name=DATA_COLUMN}
-									<td class="js-record-collector__column" data-column="{$KEY}">
-										<input type="radio" name="{$FIELD_NAME}" {if $smarty.foreach.DATA_COLUMN.first}checked{/if} value="{$VALUE['edit']}">
-										<span class="ml-2">{$VALUE['display']}</span>
-									</td>
-								{/foreach}
-								{if isset($SEARCH_DATA['recordModel'])}
-									{assign	var=FIELD_MODEL	value=$SEARCH_DATA['recordModel']->getField($FIELD_NAME)}
-									<td class="js-record-collector__column" data-column="record">
-										<input type="radio" name="{$FIELD_NAME}" value="{$FIELD_MODEL->getEditViewDisplayValue($SEARCH_DATA['recordModel']->get($FIELD_NAME),$SEARCH_DATA['recordModel'])}">
-										<span class="ml-2">{$SEARCH_DATA['recordModel']->getDisplayValue($FIELD_NAME)}</span>
-									</td>
-								{/if}
-							</tr>
+							{/foreach}
+							{if $ROW_VALUE_SET}
+								<tr class="js-record-collector__field" data-field-name="{$FIELD_NAME}" data-js="data">
+									<td>{$ROW['label']}</td>
+									{if empty($SEARCH_DATA['recordModel'])}
+										<td class="text-center js-record-collector__column" data-column="none">
+											<input type="radio" name="{$FIELD_NAME}" value="">
+										</td>
+									{/if}
+									{foreach from=$ROW['data'] key=KEY item=VALUE name=DATA_COLUMN}
+										<td class="js-record-collector__column" data-column="{$KEY}">
+											<input type="radio" name="{$FIELD_NAME}" {if $smarty.foreach.DATA_COLUMN.first}checked{/if} value="{$VALUE['edit']}">
+											<span class="ml-2">{$VALUE['display']}</span>
+										</td>
+									{/foreach}
+									{if isset($SEARCH_DATA['recordModel'])}
+										{assign	var=FIELD_MODEL	value=$SEARCH_DATA['recordModel']->getField($FIELD_NAME)}
+										<td class="js-record-collector__column" data-column="record">
+											<input type="radio" name="{$FIELD_NAME}" value="{$FIELD_MODEL->getEditViewDisplayValue($SEARCH_DATA['recordModel']->get($FIELD_NAME),$SEARCH_DATA['recordModel'])}">
+											<span class="ml-2">{$SEARCH_DATA['recordModel']->getDisplayValue($FIELD_NAME)}</span>
+										</td>
+									{/if}
+								</tr>
+							{/if}
 						{/foreach}
 					</tbody>
 				</table>
 			</form>
 			{if !empty($SEARCH_DATA['skip'])}
-				<table class="table table-bordered mt-2">
+				<table class="table table-bordered mt-2" data-no="3">
 					<thead>
 						<tr>
 							<th class="text-center">{\App\Language::translate('LBL_FIELDS_OMITTED', $MODULE_NAME)}</th>
@@ -109,7 +122,7 @@
 				</table>
 			{/if}
 			{if !empty($SEARCH_DATA['additional'])}
-				<table class="table table-bordered mt-2">
+				<table class="table table-bordered mt-2" data-no="4">
 					<thead>
 						<tr>
 							<th class="text-center" colspan="{1 + count($SEARCH_DATA['keys'])}">{\App\Language::translate('LBL_CUSTOM_INFORMATION', $MODULE_NAME)}</th>

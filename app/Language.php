@@ -183,6 +183,7 @@ class Language
 			return \nl2br(static::$languageContainer[$language][$moduleName]['php'][$key]);
 		}
 		if ($secondModuleName) {
+			$secondModuleName = str_replace([':', '.'], [\DIRECTORY_SEPARATOR, \DIRECTORY_SEPARATOR], $secondModuleName);
 			static::loadLanguageFile($language, $secondModuleName);
 			if (isset(static::$languageContainer[$language][$secondModuleName]['php'][$key])) {
 				if ($encode) {
@@ -280,7 +281,7 @@ class Language
 	 * @param int    $count      Quantityu for plural determination
 	 *
 	 * @see https://www.i18next.com/plurals.html
-	 * @see http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html?id=l10n/pluralforms#pluralforms-list
+	 * @see https://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html?id=l10n/pluralforms#pluralforms-list
 	 *
 	 * @return string
 	 */
@@ -436,7 +437,7 @@ class Language
 	 * - 3 or more forms : key_X with X indented for each plural form.
 	 *
 	 * @see https://www.i18next.com/plurals.html for some examples
-	 * @see http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html?id=l10n/pluralforms for whole plural rules used by getText
+	 * @see https://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html?id=l10n/pluralforms for whole plural rules used by getText
 	 *
 	 * @param float $count Quantityu for plural determination
 	 *

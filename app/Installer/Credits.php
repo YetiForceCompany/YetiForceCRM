@@ -40,6 +40,7 @@ class Credits
 		'@mdi/font' => 'MIT',
 		'domhandler' => 'BSD-2-Clause',
 		'domutils' => 'BSD-2-Clause',
+		'@vue/compiler-sfc' => 'MIT',
 	];
 
 	/**
