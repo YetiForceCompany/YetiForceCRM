@@ -3406,7 +3406,7 @@ YetiForce_Widget_Js(
 			let hours = (dateStart.getHours() < 10 ? '0' : '') + dateStart.getHours();
 			let minutes = (dateStart.getMinutes() < 10 ? '0' : '') + dateStart.getMinutes();
 			this.timeStart = hours + ':' + minutes;
-			if (this.counter == true) {
+			if (this.counter === true) {
 				this.counter = false;
 				this.timeCounter();
 			}
@@ -3415,7 +3415,7 @@ YetiForce_Widget_Js(
 		 * Time counting ends.
 		 */
 		stopTimerCounter: function () {
-			if (this.counter == false) {
+			if (this.counter === false) {
 				this.counter = true;
 				let quickCreateParams = {};
 				let customParams = {};
@@ -3467,7 +3467,7 @@ YetiForce_Widget_Js(
 				this.min = parseInt(this.min);
 				this.hr = parseInt(this.hr);
 				this.sec = this.sec + 1;
-				if (this.sec == 60) {
+				if (this.sec === 60) {
 					this.min = this.min + 1;
 					this.sec = 0;
 				}
