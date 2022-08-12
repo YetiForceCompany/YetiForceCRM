@@ -87,7 +87,7 @@ class Home_Module_Model extends Vtiger_Module_Model
 		if (!$user) {
 			$user = \App\User::getCurrentUserId();
 		}
-		$query->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.setype', 'vtiger_activity.*'])
+		$query->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.setype', 'vtiger_activity.*', 'taskpriority' => 'vtiger_activity.priority'])
 			->from('vtiger_activity')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 			->where(['vtiger_crmentity.deleted' => 0]);
@@ -100,6 +100,9 @@ class Home_Module_Model extends Vtiger_Module_Model
 		}
 		if (isset($paramsMore['activitytype'])) {
 			$query->andWhere(['vtiger_activity.activitytype' => $paramsMore['activitytype']]);
+		}
+		if (isset($paramsMore['taskpriority'])) {
+			$query->andWhere(['vtiger_activity.priority' => $paramsMore['taskpriority']]);
 		}
 		if ('all' !== $user && !empty($user)) {
 			$userId = (int) $user;

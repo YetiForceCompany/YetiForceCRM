@@ -59,8 +59,11 @@
 								<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('subprocess')}</strong></small>
 							{/if}
 						</div>
+						<div>
+							{$ACTIVITY->getDisplayValue('taskpriority')}
+						</div>
 						{if $ACTIVITY->get('location') neq '' }
-							<div>
+							<div class="ml-1">
 								<a target="_blank" rel="noreferrer noopener" href="https://www.google.com/maps/search/{urlencode ($ACTIVITY->getDisplayValue('location'))}" class="float-right" title="{\App\Language::translate('Location', 'Calendar')}: {$ACTIVITY->getDisplayValue('location')}">
 									<span class="fas fa-globe"></span>
 								</a>
