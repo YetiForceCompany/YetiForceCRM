@@ -2,7 +2,7 @@
 {strip}
 	<div class="dashboardWidgetHeader">
 		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
-			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) TITLE=App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), 'Home'))}
+			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderButtons.tpl', $MODULE_NAME)}
 		</div>
 		<hr class="widgetHr" />
