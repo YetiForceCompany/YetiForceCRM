@@ -212,3 +212,30 @@
 		position: relative;
 	}
 }
+//--- Widgets Working time counter---
+.o-time-counter {
+	&__navigator-icon {
+		font-size: 140px;
+		color: #f8f9fa;
+	}
+	&__timer {
+		font-size: 40px;
+		color: #b4b2af;
+	}
+	&__navigator-buttons {
+		position: absolute;
+		top: 36px;
+		left: 41px;
+		a {
+			font-size: 68px;
+		}
+	}
+
+	&__navigator-buttons.active {
+		top: 52px;
+		left: 26px;
+		a {
+			font-size: 46px;
+		}
+	}
+}
