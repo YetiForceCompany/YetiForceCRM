@@ -232,7 +232,7 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	protected function getInventory(): array
 	{
 		$currencyId = $this->getBaseCurrency()['currencyId'];
-		if ($this->row['DOK_WAL']) {
+		if (!empty($this->row['DOK_WAL'])) {
 			$currencyId = $this->convertCurrency($this->row['SYM_WAL'], []);
 		}
 		$currencyParam = \App\Json::encode($this->getCurrencyParam($currencyId));
@@ -288,7 +288,7 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	{
 		$baseCurrency = $this->getBaseCurrency();
 		$defaultCurrencyId = $baseCurrency['default']['id'];
-		if ($this->row['DATA_KURS_WAL']) {
+		if (!empty($this->row['DATA_KURS_WAL'])) {
 			$date = $this->convertDate($this->row['currencyDate'], []);
 		} else {
 			$date = \vtlib\Functions::getLastWorkingDay(date('Y-m-d', strtotime('-1 day', strtotime($this->row['saleDate']))));
