@@ -19767,6 +19767,7 @@ select.form-control {
 .blockContent .inviteRow {
   width: 220px;
   margin-bottom: 3px;
+  margin-top: 3px;
 }
 
 .dashboardViewContainer .dashboardHeading {
@@ -24854,6 +24855,30 @@ ul.c-process-line li.c-process-line__active > a:after {
   top: 50%;
   transform: translateY(-50%);
   position: relative;
+}
+
+.o-time-counter__navigator-icon {
+  font-size: 140px;
+  color: #f8f9fa;
+}
+.o-time-counter__timer {
+  font-size: 40px;
+  color: #b4b2af;
+}
+.o-time-counter__navigator-buttons {
+  position: absolute;
+  top: 36px;
+  left: 41px;
+}
+.o-time-counter__navigator-buttons a {
+  font-size: 68px;
+}
+.o-time-counter__navigator-buttons.active {
+  top: 52px;
+  left: 26px;
+}
+.o-time-counter__navigator-buttons.active a {
+  font-size: 46px;
 }
 
 .c-form__action-panel {
