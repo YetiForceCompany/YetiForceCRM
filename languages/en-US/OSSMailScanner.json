@@ -152,7 +152,7 @@
     "LBL_ACCOUNT_IS_BLOCKED_TEMP": "The account is temporarily blocked",
     "LBL_ACCOUNT_IS_BLOCKED_PERM": "The account is permanently blocked",
     "LBL_ACCOUNT_IS_DISABLED": "The account is disabled",
-    "LBL_ACCOUNT_INVALID_ACCESS": "Incorrect access data",
+    "LBL_ACCOUNT_INVALID_ACCESS": "Incorrect credentials",
     "LBL_ALERT_EDIT_FOLDER": "Deleting the folder and adding it again will restart the mail scanner for selected folders.",
     "LBL_DELETE_ACCOUNT": "Delete account"
   }
