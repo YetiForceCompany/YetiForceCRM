@@ -61,6 +61,7 @@
     "Notebook": "Notepad",
     "LBL_START_TIME_COUNTER": "Start time counter",
     "LBL_STOP_TIME_COUNTER": "Stop time counter",
-    "LBL_RESET_TIME_COUNTER": "Reset time counter"
+    "LBL_RESET_TIME_COUNTER": "Reset time counter",
+    "LBL_WORKING_TIME_COUNTER": "Working time counter"
   }
 }
