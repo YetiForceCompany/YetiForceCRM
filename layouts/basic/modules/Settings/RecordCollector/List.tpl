@@ -3,6 +3,11 @@
 <div class="o-breadcrumb widget_header row mb-2">
 	<div class="col-md-12">
 		{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
+		<div class="d-flex align-items-center ml-auto">
+			<a href="https://yetiforce.com/en/knowledge-base/documentation/user-documentation/item/record-collector" target="_blank" class="btn btn-outline-info js-popover-tooltip" data-content="{App\Language::translate('BTM_GOTO_YETIFORCE_DOCUMENTATION')}" rel="noreferrer noopener" data-js="popover">
+				<span class="mdi mdi-book-open-page-variant u-fs-lg"></span>
+			</a>
+		</div>
 	</div>
 </div>
 <div class="main_content">
