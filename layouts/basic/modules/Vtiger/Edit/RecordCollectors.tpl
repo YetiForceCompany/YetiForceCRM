@@ -9,11 +9,11 @@
 			</button>
 		{/if}
 	{/foreach}
-	<button class="btn btn-outline-dark dropdown-toggle ml-2" type="button" id="{App\Language::translate('LBL_RECORD_COLLECTOR')}" data-toggle="dropdown" aria-expanded="false">
+	<button class="btn btn-outline-dark dropdown-toggle ml-2 {if !empty($SHOW_BTN_LABEL)}js-popover-tooltip{/if}" type="button" id="LBL_RECORD_COLLECTOR" title="{App\Language::translate('LBL_RECORD_COLLECTOR')}" data-toggle="dropdown" aria-expanded="false">
 		<span class="yfi-record-collectors mr-2"></span>
-		{App\Language::translate('LBL_RECORD_COLLECTOR')}
+		{if empty($SHOW_BTN_LABEL)}{App\Language::translate('LBL_RECORD_COLLECTOR')}{/if}
 	</button>
-	<div class="dropdown-menu" aria-label="{App\Language::translate('LBL_RECORD_COLLECTOR')}">
+	<div class="dropdown-menu" aria-label="LBL_RECORD_COLLECTOR">
 		{foreach item=COLLECTOR_LINK from=$RECORD_COLLECTOR}
 			{assign var=COLLECTOR value=\App\RecordCollector::getInstance($COLLECTOR_LINK->get('linkurl'), $MODULE_NAME)}
 			{if !empty($COLLECTOR) && $COLLECTOR->isActive() && $COLLECTOR_LINK->get('linkicon') neq 1}

@@ -34,7 +34,7 @@
 						</div>
 						<div class="col-xl-6 col-12 text-center text-xl-right">
 							{if \App\Privilege::isPermitted($MODULE_NAME, 'RecordCollector') && !empty($QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR'])}
-								{include file=\App\Layout::getTemplatePath('Edit/RecordCollectors.tpl', $MODULE) RECORD_COLLECTOR=$QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
+								{include file=\App\Layout::getTemplatePath('Edit/RecordCollectors.tpl', $MODULE) SHOW_BTN_LABEL=1 RECORD_COLLECTOR=$QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
 							{/if}
 							{if !empty($QUICKCREATE_LINKS['QUICKEDIT_VIEW_HEADER'])}
 								{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKEDIT_VIEW_HEADER']}
