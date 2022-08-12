@@ -3379,6 +3379,7 @@ YetiForce_Widget_Js(
 			let btnStop = container.find('.js-time-counter-stop');
 			let btnReset = container.find('.js-time-counter-reset');
 			let navigatorButtons = container.find('.js-navigator-buttons');
+			let btnMinutes = container.find('.js-time-counter-minute');
 			btnStart.on('click', () => {
 				navigatorButtons.addClass('active');
 				btnStart.addClass('d-none');
@@ -3387,9 +3388,8 @@ YetiForce_Widget_Js(
 				this.startTimerCounter();
 			});
 			btnStop.on('click', () => {
-				this.stopTimerCounter();
+				this.stopTimerCounter(false);
 			});
-
 			btnReset.on('click', () => {
 				navigatorButtons.removeClass('active');
 				btnReset.addClass('d-none');
@@ -3397,6 +3397,18 @@ YetiForce_Widget_Js(
 				btnStart.removeClass('d-none');
 				this.resetTimerCounter();
 			});
+			if (btnMinutes.length > 1) {
+				btnMinutes.on('click', (e) => {
+					this.counter = false;
+					let element = $(e.currentTarget);
+					this.min = element.data('value');
+					let dateEnd = new Date();
+					let hours = (dateEnd.getHours() < 10 ? '0' : '') + dateEnd.getHours();
+					let minutes = (dateEnd.getMinutes() < 10 ? '0' : '') + dateEnd.getMinutes();
+					this.timeStop = hours + ':' + minutes;
+					this.stopTimerCounter(true);
+				});
+			}
 		},
 		/**
 		 * Time counting starts
@@ -3413,13 +3425,18 @@ YetiForce_Widget_Js(
 		},
 		/**
 		 * Time counting ends.
+		 * @param {boolean} $afterTime
 		 */
-		stopTimerCounter: function () {
+		stopTimerCounter: function ($afterTime) {
 			if (this.counter === false) {
 				this.counter = true;
 				let quickCreateParams = {};
 				let customParams = {};
-				this.setStopTime();
+				if ($afterTime) {
+					this.setStopAfterTime();
+				} else {
+					this.setStopBeforeTime();
+				}
 				customParams['time_start'] = this.timeStart;
 				customParams['time_end'] = this.timeStop;
 				quickCreateParams['data'] = customParams;
@@ -3428,9 +3445,9 @@ YetiForce_Widget_Js(
 			}
 		},
 		/**
-		 * Sets the end time.
+		 * Sets the end time before ending the call.
 		 */
-		setStopTime: function () {
+		setStopBeforeTime: function () {
 			if (parseInt(this.sec) > 30 || parseInt(this.min) === 0) {
 				this.min = parseInt(this.min) + 1;
 			}
@@ -3442,6 +3459,23 @@ YetiForce_Widget_Js(
 			let hours = (dateStart.getHours() < 10 ? '0' : '') + dateStart.getHours();
 			let minutes = (dateStart.getMinutes() < 10 ? '0' : '') + dateStart.getMinutes();
 			this.timeStop = hours + ':' + minutes;
+			this.sec = 0;
+			this.min = 0;
+			this.hr = 0;
+		},
+
+		/**
+		 * Sets the end time after ending the call.
+		 */
+		setStopAfterTime: function () {
+			let dateEnd = new Date();
+			dateEnd.setHours(this.timeStop.split(':')[0]);
+			dateEnd.setMinutes(this.timeStop.split(':')[1]);
+			dateEnd.setHours(dateEnd.getHours() - parseInt(this.hr));
+			dateEnd.setMinutes(dateEnd.getMinutes() - parseInt(this.min));
+			let hours = (dateEnd.getHours() < 10 ? '0' : '') + dateEnd.getHours();
+			let minutes = (dateEnd.getMinutes() < 10 ? '0' : '') + dateEnd.getMinutes();
+			this.timeStart = hours + ':' + minutes;
 			this.sec = 0;
 			this.min = 0;
 			this.hr = 0;
