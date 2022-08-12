@@ -929,6 +929,9 @@ class TextParser
 		}
 		if ($columns) {
 			$relationListView->setFields($columns);
+		} else {
+			$fields = array_filter($relationListView->getHeaders(), fn ($fieldModel) => !$fieldModel->get('fromOutsideList'));
+			$relationListView->setFields(array_keys($fields));
 		}
 		if ($conditions) {
 			$transformedSearchParams = $relationListView->getQueryGenerator()->parseBaseSearchParamsToCondition(Json::decode($conditions));
@@ -950,9 +953,9 @@ class TextParser
 	{
 		$relatedModuleName = $relationListView->getRelationModel()->getRelationModuleName();
 		$rows = $headers = '';
-		$fields = $relationListView->getHeaders();
+		$fields = $relationListView->getRelationModel()->getQueryFields();
 		foreach ($fields as $fieldModel) {
-			if ($fieldModel->isViewable()) {
+			if ($fieldModel->isViewable() || $fieldModel->get('fromOutsideList')) {
 				if ($this->withoutTranslations) {
 					$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">$(translate : {$fieldModel->getFieldLabel()}|$relatedModuleName)$</th>";
 				} else {
@@ -1084,13 +1087,13 @@ class TextParser
 		$model = $this->recordModel;
 		if (false === $value) {
 			$value = \App\Utils\Completions::decode($this->recordModel->get($fieldModel->getName()), \App\Utils\Completions::FORMAT_TEXT);
-			if (!$fieldModel->isViewEnabled()) {
+			if (!$fieldModel->isViewEnabled() && !$fieldModel->get('fromOutsideList')) {
 				return '';
 			}
 		} elseif (\is_object($value)) {
 			$model = $value;
 			$value = $value->get($fieldModel->getName());
-			if (!$fieldModel->isViewEnabled()) {
+			if (!$fieldModel->isViewEnabled() && !$fieldModel->get('fromOutsideList')) {
 				return false;
 			}
 		}
