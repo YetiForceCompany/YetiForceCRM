@@ -3343,17 +3343,17 @@ YetiForce_Widget_Js(
 	'YetiForce_TimeCounter_Widget_Js',
 	{},
 	{
-		/** Hours of the timer */
+		/** @type {number} Hours of the timer */
 		hr: 0,
-		/** Timer minutes */
+		/** @type {number} Timer minutes */
 		min: 0,
-		/** Seconds of the timer */
+		/** @type {number} Seconds of the timer */
 		sec: 0,
-		/** Starting a timer */
+		/** @type {boolean} Starting a timer */
 		counter: true,
-		/** Time to start work */
+		/** @type {(string|number))} Time to start work */
 		timeStart: '',
-		/** End of work time */
+		/** @type {(string|number))} End of work time */
 		timeStop: '',
 		/**
 		 * Show quick create form
@@ -3387,7 +3387,7 @@ YetiForce_Widget_Js(
 				btnReset.addClass('d-none');
 				btnStop.addClass('d-none');
 				btnStart.removeClass('d-none');
-				this.resetTimerCounter(container);
+				this.resetTimerCounter();
 			});
 		},
 		/**
@@ -3440,22 +3440,20 @@ YetiForce_Widget_Js(
 		},
 		/**
 		 * Resets the counting operation.
-		 * @param {jQuery} container
 		 */
-		resetTimerCounter: function (container) {
+		resetTimerCounter: function () {
 			if (this.counter === false) {
 				this.counter = true;
 				this.sec = 0;
 				this.min = 0;
 				this.hr = 0;
 			}
-			container.find('.js-time-counter').html('00:00:00');
+			this.getContainer().find('.js-time-counter').html('00:00:00');
 		},
 		/**
 		 * Counting time from the moment of starting work.
 		 */
 		timeCounter: function () {
-			const container = this.getContainer();
 			if (this.counter === false) {
 				this.sec = parseInt(this.sec);
 				this.min = parseInt(this.min);
@@ -3479,7 +3477,9 @@ YetiForce_Widget_Js(
 				if (this.hr < 10 || this.hr === 0) {
 					this.hr = '0' + this.hr;
 				}
-				container.find('.js-time-counter').html(this.hr + ':' + this.min + ':' + this.sec);
+				this.getContainer()
+					.find('.js-time-counter')
+					.html(this.hr + ':' + this.min + ':' + this.sec);
 				setTimeout((_) => {
 					this.timeCounter();
 				}, 1000);
