@@ -21378,6 +21378,10 @@ table .listButtons.narrow .c-badge__icon {
   min-width: 18rem;
 }
 
+.u-min-w-45per {
+  min-width: 45% !important;
+}
+
 .u-min-w-300px {
   min-width: 300px !important;
 }
@@ -24854,7 +24858,6 @@ ul.c-process-line li.c-process-line__active > a:after {
 .o-tablet-scroll__icons {
   top: 50%;
   transform: translateY(-50%);
-  position: relative;
 }
 
 .o-time-counter__navigator-icon {
@@ -24866,19 +24869,16 @@ ul.c-process-line li.c-process-line__active > a:after {
   color: #b4b2af;
 }
 .o-time-counter__navigator-buttons {
-  position: absolute;
-  top: 36px;
-  left: 41px;
+  width: 10rem;
+  height: 10rem;
+  border: 13px solid #fafafa;
+  border-radius: 50%;
 }
 .o-time-counter__navigator-buttons a {
-  font-size: 68px;
-}
-.o-time-counter__navigator-buttons.active {
-  top: 52px;
-  left: 26px;
+  font-size: 5.3125rem;
 }
 .o-time-counter__navigator-buttons.active a {
-  font-size: 46px;
+  font-size: 3.4375rem;
 }
 
 .c-form__action-panel {
