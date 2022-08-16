@@ -99,7 +99,10 @@
     "LBL_GROUP_NAME": "Group name",
     "LBL_WORK_DAYS": "Work days",
     "Employees Time Control": "Employees Time Control",
-    "LBL_ALL_TIME_CONTROL": "All users total working time"
+    "LBL_ALL_TIME_CONTROL": "All users total working time",
+    "LBL_START_TIME_COUNTER": "Start time counter",
+    "LBL_STOP_TIME_COUNTER": "Stop time counter",
+    "LBL_RESET_TIME_COUNTER": "Reset time counter"
   },
   "js": {
     "MSG_ERROR_NUMBER": "Allowed characters: [0-9]",
