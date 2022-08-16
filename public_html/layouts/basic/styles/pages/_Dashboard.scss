@@ -209,7 +209,6 @@
 	&__icons {
 		top: 50%;
 		transform: translateY(-50%);
-		position: relative;
 	}
 }
 //--- Widgets Working time counter---
@@ -223,19 +222,18 @@
 		color: #b4b2af;
 	}
 	&__navigator-buttons {
-		position: absolute;
-		top: 36px;
-		left: 41px;
+		width: calculate-rem(160px);
+		height: calculate-rem(160px);
+		border: 13px solid #fafafa;
+		border-radius: 50%;
 		a {
-			font-size: 68px;
+			font-size: calculate-rem(85px);
 		}
 	}
 
 	&__navigator-buttons.active {
-		top: 52px;
-		left: 26px;
 		a {
-			font-size: 46px;
+			font-size: calculate-rem(55px);
 		}
 	}
 }

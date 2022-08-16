@@ -8,6 +8,7 @@
     "LBL_CLEAR_DEVICE_CONF": "Clear configuration of widgets for this device",
     "LBL_CLEAR_DEVICE_CONF_DESC": "The button removes/resets the configuration only for the device you are currently using and only for the current tab.",
     "LBL_PREDEFINED_WIDGETS": "Predefined widgets",
-    "LBL_EMPTY_DASHBOARD": "Selected dashboard is empty."
+    "LBL_EMPTY_DASHBOARD": "Selected dashboard is empty.",
+    "LBL_WORKING_TIME_COUNTER": "Working time counter"
   }
 }

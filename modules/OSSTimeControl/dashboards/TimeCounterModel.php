@@ -93,6 +93,6 @@ class OSSTimeControl_TimeCounterModel_Dashboard extends Vtiger_Widget_Model
 	/** {@inheritdoc} */
 	public function getTitle()
 	{
-		return \App\Language::translate($this->get('linklabel'), 'Home');
+		return \App\Language::translate($this->get('linklabel'), 'Dashboard');
 	}
 }
