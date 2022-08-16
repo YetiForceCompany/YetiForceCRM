@@ -49,17 +49,13 @@ class OSSTimeControl_TimeCounterModel_Dashboard extends Vtiger_Widget_Model
 					$data = $this->get('data') ? \App\Json::decode($this->get('data')) : [];
 					$params['uitype'] = 33;
 					$params['typeofdata'] = 'V~O';
-					$picklistValue = [
-						'15' => 'PLL_FIFTEEN_MINUTES',
-						'30' => 'PLL_THIRTY_MINUTES',
-						'40' => 'PLL_FORTY_MINUTES',
-						'60' => 'PLL_SIXTY_MINUTES',
-						'90' => 'PLL_NINETY_MINUTES',
+					$params['picklistValues'] = [
+						'15' => '15',
+						'30' => '30',
+						'40' => '40',
+						'60' => '60',
+						'90' => '90',
 					];
-					foreach ($picklistValue as $key => $label) {
-						$picklistValue[$key] = \App\Language::translate($label, $moduleName);
-					}
-					$params['picklistValues'] = $picklistValue;
 					$value = $data[$name] ?? [];
 					$params['fieldvalue'] = implode(' |##| ', $value);
 					break;

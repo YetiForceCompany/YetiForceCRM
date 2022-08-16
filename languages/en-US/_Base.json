@@ -1511,12 +1511,7 @@
     "LBL_IMAGE_PREVIEW": "Image preview",
     "LBL_RECORD_DOES_NOT_EXIST": "Record does not exist",
     "LBL_RECORD_DOES_NOT_EXIST_DESC": "The record has been deleted and the name cannot be displayed.",
-    "LBL_CONDITION_WIZARD": "Condition wizard",
-    "LBL_15_MINUTES": "Add 15 minutes to work time",
-    "LBL_30_MINUTES": "Add 30 minutes to work time",
-    "LBL_40_MINUTES": "Add 40 minutes to work time",
-    "LBL_60_MINUTES": "Add 60 minutes to work time",
-    "LBL_90_MINUTES": "Add 90 minutes to work time"
+    "LBL_CONDITION_WIZARD": "Condition wizard"
   },
   "js": {
     "JS_APPROVE": "Approve",
