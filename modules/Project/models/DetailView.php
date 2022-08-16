@@ -48,16 +48,6 @@ class Project_DetailView_Model extends Vtiger_DetailView_Model
 		$recordModel = $this->getRecord();
 		$moduleName = $recordModel->getModuleName();
 		$relatedLinks = parent::getDetailViewRelatedLinks();
-		if (Vtiger_Module_Model::getInstance('OSSTimeControl')->isActive()) {
-			$relatedLinks[] = [
-				'linktype' => 'DETAILVIEWTAB',
-				'linklabel' => \App\Language::translate('LBL_CHARTS', $moduleName),
-				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showCharts&requestMode=charts',
-				'linkicon' => '',
-				'linkKey' => 'LBL_RECORD_SUMMARY',
-				'related' => 'Charts',
-			];
-		}
 		if (\App\Config::module('Project', 'showGanttTab', true) && \App\Module::isModuleActive('ProjectTask') && \App\Module::isModuleActive('ProjectMilestone')) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
