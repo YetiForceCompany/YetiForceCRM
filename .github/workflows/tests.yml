@@ -89,8 +89,9 @@ jobs:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: Tests
-        uses: YetiForceCompany/YetiForceCRM-Tests/mariadb-${{ matrix.vdb }}@main
+        uses: YetiForceCompany/YetiForceCRM-Tests/mariadb@main
         env:
+          DB_VERSION: ${{ matrix.vdb }}
           YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
           YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
 
