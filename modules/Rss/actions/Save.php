@@ -23,7 +23,7 @@ class Rss_Save_Action extends Vtiger_Save_Action
 	{
 		$response = new Vtiger_Response();
 		$moduleName = $request->getModule();
-		$url = $request->getByType('feedurl', 'Text');
+		$url = $request->getByType('feedurl', \App\Purifier::URL);
 		$recordModel = Rss_Record_Model::getCleanInstance($moduleName);
 		$result = $recordModel->validateRssUrl($url);
 		if ($result) {
