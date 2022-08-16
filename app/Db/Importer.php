@@ -55,7 +55,7 @@ class Importer
 	/**
 	 * Array with objects to import.
 	 *
-	 * @var App\Db\Importers\Base[]
+	 * @var Base[]
 	 */
 	private $importers = [];
 
@@ -665,13 +665,29 @@ class Importer
 				} else {
 					$tableSchema = $schema->getTableSchema($tableName);
 					foreach ($this->getColumns($importer, $table) as $columnName => $column) {
-						if (!isset($tableSchema->columns[$columnName])) {
+						$rename = $mode = null;
+						if (\is_array($column)) {
+							$column = $column['type'] ?? '';
+							$rename = $column['rename'] ?? $rename;
+							$mode = $column['mode'] ?? $mode; // 0,null - create/update, 1 - update only
+						}
+						$columnExists = isset($tableSchema->columns[$columnName]);
+						if (!$columnExists && 1 !== $mode) {
 							$this->logs .= "  > add column: $tableName:$columnName ... ";
 							$start = microtime(true);
 							$dbCommand->addColumn($tableName, $columnName, $column)->execute();
 							$time = round((microtime(true) - $start), 1);
 							$this->logs .= "done    ({$time}s)\n";
-						} elseif ($column instanceof \yii\db\ColumnSchemaBuilder && $this->compareColumns($queryBuilder, $tableSchema->columns[$columnName], $column)) {
+						} elseif ($rename && !$columnExists && isset($tableSchema->columns[$rename])) {
+							$this->logs .= "  > rename column: {$tableName}:{$rename} -> {$columnName}... ";
+							$start = microtime(true);
+							$dbCommand->renameColumn($tableName, $columnName, $rename)->execute();
+							$time = round((microtime(true) - $start), 1);
+							$this->logs .= "done    ({$time}s)\n";
+							$tableSchema = $schema->getTableSchema($tableName, true);
+							$columnExists = isset($tableSchema->columns[$columnName]);
+						}
+						if ($columnExists && $column instanceof \yii\db\ColumnSchemaBuilder && $this->compareColumns($queryBuilder, $tableSchema->columns[$columnName], $column)) {
 							$primaryKey = false;
 							if ($column instanceof \yii\db\ColumnSchemaBuilder && (\in_array($column->get('type'), ['upk', 'pk', 'ubigpk', 'bigpk']))) {
 								$primaryKey = true;
@@ -734,14 +750,14 @@ class Importer
 								$this->logs .= "  > update index: {$index[0]} ... ";
 								$start = microtime(true);
 								$dbCommand->dropIndex($index[0], $tableName)->execute();
-								$dbCommand->createIndex($index[0], $tableName, $index[1], (isset($index[2]) && $index[2]) ? true : false)->execute();
+								$dbCommand->createIndex($index[0], $tableName, $index[1], !empty($index[2]))->execute();
 								$time = round((microtime(true) - $start), 1);
 								$this->logs .= "done    ({$time}s)\n";
 							}
 						} else {
 							$this->logs .= "  > create index: {$index[0]} ... ";
 							$start = microtime(true);
-							$dbCommand->createIndex($index[0], $tableName, $index[1], (isset($index[2]) && $index[2]) ? true : false)->execute();
+							$dbCommand->createIndex($index[0], $tableName, $index[1], !empty($index[2]))->execute();
 							$time = round((microtime(true) - $start), 1);
 							$this->logs .= "done    ({$time}s)\n";
 						}
