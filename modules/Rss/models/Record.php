@@ -73,7 +73,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	public function setRssValues($rss)
 	{
 		$this->set('rsstitle', \App\Purifier::purifyByType((string) $rss->title, 'Text'));
-		$this->set('url', \App\Purifier::purifyByType((string) $rss->link, 'Text'));
+		$this->set('url', \App\Purifier::purifyByType($rss->link, \App\Purifier::URL));
 	}
 
 	/**
