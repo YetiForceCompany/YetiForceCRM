@@ -81,7 +81,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        vdb: [10.6, 10.7, 10.8, 10.9]
+        vdb: ['10.6', '10.7', '10.8', '10.9']
     name: PHP 7.4 - MariaDB ${{ matrix.vdb }}
     steps:
       - uses: actions/checkout@v3
