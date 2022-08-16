@@ -9,6 +9,14 @@ on:
       - developer
 
 jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛒 Checkout
+        uses: actions/checkout@v3
+      - name: 🔎 Check IP
+        run: curl https://api.ipify.org
+
   composer:
     name: Composer
     runs-on: ubuntu-latest
