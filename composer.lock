@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "665d174b4818538e8680b18b7a487fd3",
+    "content-hash": "1272f874de8a48acde25f613c4bce0fe",
     "packages": [
         {
             "name": "adhocore/jwt",
@@ -4992,20 +4992,20 @@
         },
         {
             "name": "yetiforce/yetiforcepdf",
-            "version": "0.1.39",
+            "version": "0.1.40",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/YetiForcePDF.git",
-                "reference": "7bff63f179b6378796cdcf5cdb26756adc943496"
+                "reference": "0f5f451b85855cb57e9ee8f8fff4a0bce5cc3672"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/7bff63f179b6378796cdcf5cdb26756adc943496",
-                "reference": "7bff63f179b6378796cdcf5cdb26756adc943496",
+                "url": "https://api.github.com/repos/YetiForceCompany/YetiForcePDF/zipball/0f5f451b85855cb57e9ee8f8fff4a0bce5cc3672",
+                "reference": "0f5f451b85855cb57e9ee8f8fff4a0bce5cc3672",
                 "shasum": ""
             },
             "require": {
-                "composer/ca-bundle": "^1.1",
+                "composer/ca-bundle": "^1",
                 "ext-bcmath": "*",
                 "ext-dom": "*",
                 "ext-filter": "*",
@@ -5013,11 +5013,11 @@
                 "ext-libxml": "*",
                 "ext-mbstring": "*",
                 "ext-zlib": "*",
-                "guzzlehttp/guzzle": "^7.0",
-                "milon/barcode": "^9.0.0",
-                "phenx/php-font-lib": "^0.5.1",
+                "guzzlehttp/guzzle": "^7",
+                "milon/barcode": "^9",
+                "phenx/php-font-lib": "^0.5",
                 "php": ">=7.4",
-                "sabberworm/php-css-parser": "^8.4"
+                "sabberworm/php-css-parser": "^8"
             },
             "type": "library",
             "autoload": {
@@ -5045,7 +5045,7 @@
             ],
             "support": {
                 "issues": "https://github.com/YetiForceCompany/YetiForcePDF/issues",
-                "source": "https://github.com/YetiForceCompany/YetiForcePDF/tree/0.1.39"
+                "source": "https://github.com/YetiForceCompany/YetiForcePDF/tree/0.1.40"
             },
             "funding": [
                 {
@@ -5053,7 +5053,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-05-20T11:39:14+00:00"
+            "time": "2022-08-16T06:22:44+00:00"
         },
         {
             "name": "yetiforce/yii2",
