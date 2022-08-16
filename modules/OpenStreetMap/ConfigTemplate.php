@@ -9,11 +9,17 @@ return [
 	'cronMaxUpdatedAddresses' => [
 		'default' => 1000,
 		'description' => 'Number of entries to be updated in one run of cron',
-		'validation' => '\App\Validator::naturalNumber'
+		'validation' => '\App\Validator::naturalNumber',
+		'docTags' => ['var' => 'int'],
 	],
 	'mapModules' => [
 		'default' => ['Accounts', 'Contacts', 'Competition', 'Vendors', 'Partners', 'Leads', 'Locations'],
-		'description' => 'Allow modules'
+		'description' => 'Allow modules.',
+		'validation' => function () {
+			$arg = func_get_arg(0);
+			return \is_array($arg) && \count($arg) === \count(array_filter($arg, fn ($v) => \App\Validator::alnum($v)));
+		},
+		'docTags' => ['var' => 'string[]'],
 	],
 	'mapPinFields' => [
 		'default' => [
@@ -25,7 +31,12 @@ return [
 			'Contacts' => ['firstname', 'lastname', 'email', 'phone'],
 			'Locations' => ['subject', 'email']
 		],
-		'description' => 'List of fields from which to show information in the map pin'
+		'description' => 'List of fields from which to show information in the map pin',
+		'validation' => function () {
+			$arg = func_get_arg(0);
+			return \is_array($arg) && \count($arg) === \count(array_filter($arg, fn ($v, $k) => \App\Validator::alnum($k) && \is_array($v) && \count($v) === \count(array_filter($v, fn ($i) => \App\Validator::alnum($i))), ARRAY_FILTER_USE_BOTH));
+		},
+		'docTags' => ['var' => 'array'],
 	],
 	'coordinatesServer' => [
 		'default' => 'YetiForce',
