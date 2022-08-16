@@ -32,9 +32,9 @@ class WebservicesConvertLead
 		$leadInfo = $recordModel->getData();
 		$leadIdComponents = $entityvalues['leadId'];
 		if ((new \App\Db\Query())->select(['converted'])->from('vtiger_leaddetails')->where(['converted' => 1, 'leadid' => $leadIdComponents])->exists()) {
-			$translateAlreadyConvertedError = \App\Language::translate('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, 'Leads');
+			$translateAlreadyConvertedError = \App\Language::translate('LBL_LEAD_ALREADY_CONVERTED', 'Leads');
 			\App\Log::error('Error converting a lead: ' . $translateAlreadyConvertedError);
-			throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, $translateAlreadyConvertedError);
+			throw new WebServiceException('LEAD_ALREADY_CONVERTED', $translateAlreadyConvertedError);
 		}
 
 		$eventHandler = new App\EventHandler();
@@ -85,7 +85,7 @@ class WebservicesConvertLead
 					}
 				} catch (Exception $e) {
 					\App\Log::error('Error converting a lead: ' . $e->getMessage());
-					throw new WebServiceException(WebServiceErrorCode::$UNKNOWNOPERATION, $e->getMessage() . ' : ' . $entityvalue['name']);
+					throw new WebServiceException('UNKNOWN_OPERATION', $e->getMessage() . ' : ' . $entityvalue['name']);
 				}
 			}
 		}
@@ -233,7 +233,7 @@ class WebservicesConvertLead
 				->update('vtiger_leaddetails', ['converted' => 1], ['leadid' => $leadId])
 				->execute();
 			if (false === $result) {
-				throw new WebServiceException(WebServiceErrorCode::$FAILED_TO_MARK_CONVERTED, 'Failed mark lead converted');
+				throw new WebServiceException('FAILED_TO_MARK_LEAD_CONVERTED', 'Failed mark lead converted');
 			}
 			//update the modifiedtime and modified by information for the record
 			$db->createCommand()

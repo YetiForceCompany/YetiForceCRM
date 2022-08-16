@@ -167,7 +167,7 @@ class WebservicesUtils
 	public static function vtwsGetRelatedActivities($leadId, $accountId, $contactId, $relatedId)
 	{
 		if (empty($leadId) || empty($relatedId) || (empty($accountId) && empty($contactId))) {
-			throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, 'Failed to move related Activities/Emails');
+			throw new WebServiceException('LEAD_RELATEDLIST_UPDATE_FAILED', 'Failed to move related Activities/Emails');
 		}
 		$db = \App\Db::getInstance();
 		if (!empty($accountId)) {
@@ -212,7 +212,7 @@ class WebservicesUtils
 	public static function vtwsTransferLeadRelatedRecords($leadId, $relatedId, $seType)
 	{
 		if (empty($leadId) || empty($relatedId) || empty($seType)) {
-			throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, 'Failed to move related Records');
+			throw new WebServiceException('LEAD_RELATEDLIST_UPDATE_FAILED', 'Failed to move related Records');
 		}
 		static::vtwsGetRelatedNotesAttachments($leadId, $relatedId);
 		static::vtwsSaveLeadRelatedProducts($leadId, $relatedId, $seType);

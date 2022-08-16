@@ -101,10 +101,10 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 	{
 		$method = $request->isEmpty('methods') ? '' : $request->getByType('methods', 'Text');
 		$vector = $request->getRaw('vector');
-		$password = $request->getRaw('password');
+		$pass = $request->getRaw('password');
 		$target = $request->getInteger('target', null);
 		if (!$method) {
-			$vector = $password = '';
+			$vector = $pass = '';
 		}
 		if ($method && !\in_array($method, \App\Encryption::getMethods())) {
 			throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||methods', 406);
@@ -118,7 +118,7 @@ class Settings_Password_Save_Action extends Settings_Vtiger_Index_Action
 		$instance = clone \App\Encryption::getInstance($target);
 		$instance->set('method', $method)
 			->set('vector', $vector)
-			->set('pass', $password)
+			->set('pass', $pass)
 			->set('target', $target);
 		$response = new \Vtiger_Response();
 		$encryption = $instance->encrypt('test', true);

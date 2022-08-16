@@ -85,7 +85,7 @@ class YetiForceWaproERP extends \App\YetiForce\Shop\AbstractBaseProduct
 		];
 		if (\App\Security\AdminAccess::isPermitted('Wapro')) {
 			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
-				'linklabel' => 'LBL_MAIL_INTEGRATION',
+				'linklabel' => 'LBL_WAPRO_ERP',
 				'relatedModuleName' => 'Settings:Wapro',
 				'linkicon' => 'fab fa-connectdevelop',
 				'linkhref' => true,
