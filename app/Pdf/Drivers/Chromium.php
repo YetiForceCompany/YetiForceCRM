@@ -98,6 +98,9 @@ class Chromium extends Base
 	/** @var int Default font size (px). */
 	protected $fontSize = '16px';
 
+	/** @var \HeadlessChromium\Browser\ProcessAwareBrowser PDF generator instance. */
+	protected $pdf;
+
 	/** @var string Pdf HTML content. */
 	protected $pdfHtml;
 

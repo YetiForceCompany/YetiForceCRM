@@ -28,6 +28,9 @@ class YetiForcePDF extends Base
 	/** @var int Default font size */
 	protected $fontSize = 10;
 
+	/** @var \YetiForcePDF\Document PDF generator instance. */
+	protected $pdf;
+
 	/** {@inheritdoc} */
 	public static function isActive(): bool
 	{
