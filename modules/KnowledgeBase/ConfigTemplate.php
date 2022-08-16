@@ -22,39 +22,10 @@ return [
 			return 'List' === $arg || 'ListPreview' === $arg || 'DashBoard' === $arg || 'KnowledgeBase' === $arg;
 		}
 	],
-	//	'fileTypeSettings' => [
-	//		'default' => [
-	//			'img' => [
-	//				'dir' => '/storage/KnowledgeBase/Img/',
-	//				'maxsize' => 2000,
-	//				'maxwidth' => 900,
-	//				'maxheight' => 800,
-	//				'minwidth' => 10,
-	//				'minheight' => 10,
-	//				'type' => ['bmp', 'gif', 'jpg', 'jpe', 'png'],
-	//			],
-	//			'audio' => [
-	//				'dir' => '/storage/KnowledgeBase/Audio/',
-	//				'maxsize' => 20000,
-	//				'type' => ['mp3', 'ogg', 'wav'],
-	//			],
-	//			'video' => [
-	//				'dir' => '/storage/KnowledgeBase/Video/',
-	//				'maxsize' => 20000,
-	//				'type' => ['mp4'],
-	//				'tagclass' => 'responsiveVideo',
-	//			],
-	//		],
-	//		'description' => 'File type settings'
-	//	],
 	'rename' => [
 		'default' => 1,
 		'description' => 'If 1 and filename exists, RENAME file, adding "_NR" to the end of filename (name_1.ext, name_2.ext, ..) If 0, will OVERWRITE the existing file',
 	],
-	//	'allowedFileTypes' => [
-	//		'default' => ['img', 'audio', 'video'],
-	//		'description' => 'allowed File Types'
-	//	],
 	'knowledgeBaseArticleLimit' => [
 		'default' => 50,
 		'description' => 'Article limit in the knowledge base window',
