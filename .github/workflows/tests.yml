@@ -76,7 +76,7 @@ jobs:
           YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
           YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
 
-  tests74MariaDB:
+  testsMariaDB:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
