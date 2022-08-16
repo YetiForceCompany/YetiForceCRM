@@ -1852,15 +1852,22 @@ class ConfReport
 		if (!\App\RequestUtil::isNetConnection()) {
 			return false;
 		}
-		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get('http://php.net/releases/index.php?json&max=7&version=7');
-		$data = array_keys((array) \App\Json::decode($response->getBody()));
+		$data = [];
+		$versions = explode(',', self::$stability['phpVersion']['recommended']);
+		foreach ($versions as $version) {
+			$version = explode('.', $version, 3);
+			array_pop($version);
+			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get('http://php.net/releases/index.php?json&max=1&version=' . implode('.', $version));
+			$response = array_keys((array) \App\Json::decode($response->getBody()));
+			$data = array_merge($data, $response);
+		}
 		natsort($data);
 		$ver = [];
 		foreach (array_reverse($data) as $row) {
 			$t = explode('.', $row);
 			array_pop($t);
 			$short = implode('.', $t);
-			if (!isset($ver[$short]) && version_compare($short, '7.2', '>') && version_compare($short, '8.0', '<')) {
+			if (!isset($ver[$short])) {
 				$ver[$short] = $row;
 			}
 		}
