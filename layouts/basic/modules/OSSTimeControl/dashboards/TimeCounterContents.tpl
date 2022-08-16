@@ -19,7 +19,7 @@
 			<div class="mt-4 d-flex justify-content-center">
 				{if !empty($WIDGET_DATA['default_time'])}
 					{foreach from=$WIDGET_DATA['default_time'] item=item}
-						<button type="button" class="btn btn-outline-dark u-cursor-pointer js-time-counter-minute mr-1" data-value="{$item}" title="{\App\Language::translate('LBL_'|cat:$item|cat:'_MINUTES')}" data-js="click">
+						<button type="button" class="btn btn-outline-success u-cursor-pointer js-time-counter-minute mr-1" data-value="{$item}" title="{\App\Language::translate('LBL_'|cat:$item|cat:'_MINUTES')}" data-js="click">
 							{$item}
 						</button>
 					{/foreach}

@@ -3385,6 +3385,9 @@ YetiForce_Widget_Js(
 				btnStart.addClass('d-none');
 				btnStop.removeClass('d-none');
 				btnReset.removeClass('d-none');
+				btnMinutes.attr('disabled', true);
+				btnMinutes.removeClass('btn-outline-success');
+				btnMinutes.addClass('btn-outline-danger');
 				this.startTimerCounter();
 			});
 			btnStop.on('click', () => {
@@ -3395,6 +3398,9 @@ YetiForce_Widget_Js(
 				btnReset.addClass('d-none');
 				btnStop.addClass('d-none');
 				btnStart.removeClass('d-none');
+				btnMinutes.attr('disabled', false);
+				btnMinutes.removeClass('btn-outline-danger');
+				btnMinutes.addClass('btn-outline-success');
 				this.resetTimerCounter();
 			});
 			if (btnMinutes.length > 1) {
