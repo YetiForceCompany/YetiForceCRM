@@ -167,8 +167,8 @@ class WorkFlowScheduler
 			foreach ($conditions as &$condition) {
 				$sourceField = '';
 				$operation = $condition['operation'];
-				//Cannot handle this condition for scheduled workflows
 				if ('has changed' === $operation || 'not has changed' === $operation || !isset($conditionMapping[$operation])) {
+					$queryGenerator->addNativeCondition([$queryGenerator->getColumnName('id') => 0]);
 					continue;
 				}
 				$value = $condition['value'];
