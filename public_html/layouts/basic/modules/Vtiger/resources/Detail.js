@@ -2031,7 +2031,6 @@ jQuery.Class(
 		 */
 		registerCommentEvents(detailContentsHolder) {
 			const self = this;
-			new App.Fields.Text.Completions(detailContentsHolder.find('.js-completions'));
 			detailContentsHolder.on('click', '.js-close-comment-block', function (e) {
 				let commentInfoBlock = $(e.currentTarget.closest('.js-comment-single'));
 				commentInfoBlock.find('.js-comment-container').show();
