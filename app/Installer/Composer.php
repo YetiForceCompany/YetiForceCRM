@@ -109,10 +109,6 @@ class Composer
 	 * @var array
 	 */
 	public static $clearVendorFiles = [
-		'dg/rss-php' => [
-			'example-atom.php',
-			'example-rss.php',
-		],
 		'ezyang/htmlpurifier' => [
 			'plugins',
 		],
