@@ -11,51 +11,43 @@
 -->*}
 {strip}
 	<!-- tpl-Rss-RssFeedContents -->
+	{if $RECORD->get('error')}
+		<div class="alert alert-warning" role="alert">
+			{\App\Purifier::encodeHtml($RECORD->get('error'))}
+		</div>
+	{/if}
 	<table class="table table-bordered listViewEntriesTable">
 		<thead>
 			<tr class="listViewHeaders">
-				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-					<th nowrap {if $LISTVIEW_HEADER@last} colspan="2" {/if} class="{$WIDTHTYPE}">
-						{\App\Language::translate($LISTVIEW_HEADER->getFieldLabel(), $MODULE)}
-					</th>
-				{/foreach}
+				<th nowrap class="{$WIDTHTYPE}">
+					{\App\Language::translate('LBL_SUBJECT', $MODULE)}
+				</th>
+				<th nowrap class="{$WIDTHTYPE}">
+					{\App\Language::translate('LBL_DATE', $MODULE)}
+				</th>
+				<th class="{$WIDTHTYPE}"></th>
 			</tr>
 		</thead>
-		{foreach item=LISTVIEW_ENTRY from=$RECORD->getRssObject() name=listview}
+		{foreach item=ITEM from=$RECORD->getRssItems() name=listview}
 			<tr class="listViewEntries" data-id='{$RECORD->getId()}'>
-				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-					{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->getFieldName()}
-					<td class="listViewEntryValue {$WIDTHTYPE}" data-field-type="{$LISTVIEW_HEADER->getFieldDataType()}"
-						nowrap>
-						<a href="{\App\Purifier::encodeHtml((string)$LISTVIEW_ENTRY->link)}" target="_blank"
-							rel="noreferrer noopener">{\App\Purifier::encodeHtml((string)$LISTVIEW_ENTRY->$LISTVIEW_HEADERNAME)}</a>
-						{if $LISTVIEW_HEADER@last}
-						</td>
-						<td nowrap class="{$WIDTHTYPE}">
-							<span class="actions">
-								<span class="actionImages float-right">
-									<a href="{\App\Purifier::encodeHtml((string)$LISTVIEW_ENTRY->link)}"
-										target="_blank" rel="noreferrer noopener"><i
-											title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}"
-											class="fas fa-th-list alignMiddle"></i></a>&nbsp;
-								</span>
-							</span>
-						</td>
-					{/if}
-					</td>
-				{/foreach}
+				<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>
+					<a href="{\App\Purifier::encodeHtml($ITEM['link'])}" target="_blank" rel="noreferrer noopener">
+						<strong title="{\App\Purifier::encodeHtml($ITEM['fullTitle'])}">{$ITEM['title']}</strong>
+					</a>
+				</td>
+				<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>{$ITEM['date']}</td>
+				<td nowrap class="{$WIDTHTYPE}">
+					<span class="actions">
+						<span class="actionImages float-right">
+							<a href="{\App\Purifier::encodeHtml($ITEM['link'])}" target="_blank" rel="noreferrer noopener">
+								<i title="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS', $MODULE)}" class="fas fa-th-list alignMiddle"></i>
+							</a>
+						</span>
+					</span>
+				</td>
 			</tr>
 		{/foreach}
-		<tr class="listViewEntrie {$WIDTHTYPE}" nowrap>
-			<td class="listViewEntryValue">
-				<a href="{\App\Purifier::encodeHtml($RECORD->get('url'))}" target="_blank" rel="noreferrer noopener"
-					name="history_more">{\App\Language::translate('LBL_MORE')}...</a>
-			</td>
-			<td nowrap class="{$WIDTHTYPE}">
-			</td>
-			<td nowrap class="{$WIDTHTYPE}">
-			</td>
-		</tr>
 	</table>
+	<a href="{\App\Purifier::encodeHtml($RECORD->get('url'))}" target="_blank" rel="noreferrer noopener" name="history_more">{\App\Language::translate('LBL_MORE')}...</a>
 	<!-- /tpl-Rss-RssFeedContents -->
 {/strip}

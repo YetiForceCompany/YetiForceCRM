@@ -61,7 +61,6 @@ class Rss_List_View extends Vtiger_Index_View
 		$viewer->assign('RECORD', $recordInstance);
 		$linkParams = ['MODULE' => $module, 'ACTION' => $request->getByType('view', 1)];
 		$viewer->assign('QUICK_LINKS', $moduleModel->getSideBarLinks($linkParams));
-		$viewer->assign('LISTVIEW_HEADERS', $this->getListViewRssHeaders($module));
 	}
 
 	/**
@@ -82,41 +81,5 @@ class Rss_List_View extends Vtiger_Index_View
 			'modules.Vtiger.resources.ListSearch',
 			"modules.{$moduleName}.resources.ListSearch"
 		]));
-	}
-
-	/**
-	 * Function to get the list view header.
-	 *
-	 * @param mixed $module
-	 *
-	 * @return <Array> - List of Vtiger_Field_Model instances
-	 */
-	public function getListViewRssHeaders($module)
-	{
-		$headerFields = [
-			'title' => [
-				'uitype' => '1',
-				'name' => 'title',
-				'label' => 'LBL_SUBJECT',
-				'typeofdata' => 'V~O',
-				'diplaytype' => '1',
-			],
-			'sender' => [
-				'uitype' => '1',
-				'name' => 'sender',
-				'label' => 'LBL_SENDER',
-				'typeofdata' => 'V~O',
-				'diplaytype' => '1',
-			],
-		];
-		foreach ($headerFields as $fieldName => $fieldDetails) {
-			$fieldModel = new Vtiger_Field_Model();
-			foreach ($fieldDetails as $name => $value) {
-				$fieldModel->set($name, $value);
-			}
-			$fieldModel->module = $module;
-			$fieldModelsList[$fieldName] = $fieldModel;
-		}
-		return $fieldModelsList;
 	}
 }

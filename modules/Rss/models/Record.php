@@ -8,9 +8,6 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-// for rss caching
-Feed::$cacheDir = 'cache/rss_cache';
-
 class Rss_Record_Model extends Vtiger_Record_Model
 {
 	/**
@@ -42,38 +39,57 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getName(): string
 	{
-		return \App\Purifier::encodeHtml($this->get('rsstitle'));
+		return $this->get('rsstitle');
 	}
 
 	/**
 	 * Function to get Rss fetched object.
 	 *
-	 * @return <object> - Rss Object
+	 * @return array
 	 */
-	public function getRssObject()
+	public function getRssItems(): array
 	{
-		return $this->get('rss');
+		return $this->get('rss') ?: [];
 	}
 
 	/**
 	 * Function to set Rss Object.
 	 *
-	 * @param <object> $rss - rss fetched object
+	 * @param SimplePie $rss - Rss fetched object
+	 *
+	 * @return void
 	 */
-	public function setRssObject($rss)
+	public function setRssItems(SimplePie $rss): void
 	{
-		return $this->set('rss', $rss->item);
+		$items = [];
+		foreach ($rss->get_items() as $announcement) {
+			if (!\App\Validator::url((string) $announcement->get_link())) {
+				continue;
+			}
+			$title = \App\Purifier::purify(App\Purifier::decodeHtml($announcement->get_title()));
+			$items[] = [
+				'title' => \App\TextUtils::textTruncate($title, 100),
+				'link' => \App\Purifier::purify(App\Purifier::decodeHtml($announcement->get_link())),
+				'date' => \App\Fields\DateTime::formatToViewDate($announcement->get_date('Y-m-d H:i:s')),
+				'fullTitle' => $title,
+			];
+		}
+		$this->set('rss', $items);
 	}
 
 	/**
 	 * Function to set Rss values.
 	 *
-	 * @param <object> $rss - Rss fetched object
+	 * @param SimplePie $rss - Rss fetched object
+	 *
+	 * @return void
 	 */
-	public function setRssValues($rss)
+	public function setRssChannel(SimplePie $rss): void
 	{
-		$this->set('rsstitle', \App\Purifier::purifyByType((string) $rss->title, 'Text'));
-		$this->set('url', \App\Purifier::purifyByType($rss->link, \App\Purifier::URL));
+		$this->set('rsstitle', \App\Purifier::purify(App\Purifier::decodeHtml($rss->get_title())));
+		if (\App\Validator::url($rss->get_link())) {
+			$this->set('url', \App\Purifier::purifyByType($rss->get_link(), \App\Purifier::URL));
+		}
 	}
 
 	/**
@@ -129,33 +145,22 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	public static function getInstanceById($recordId, $qualifiedModuleName = null)
 	{
 		$rowData = (new \App\Db\Query())->from('vtiger_rss')->where(['rssid' => $recordId])->one();
-
 		if ($rowData) {
 			$recordModel = new self();
 			$recordModel->setData($rowData);
 			$recordModel->setModule($qualifiedModuleName);
-			$rss = Feed::loadRss($recordModel->get('rssurl'));
-			$recordModel->setSenderInfo($rss->item);
-			$recordModel->setRssValues($rss);
-			$recordModel->setRssObject($rss);
 
+			$feed = self::getRssClient($recordModel->get('rssurl'));
+			if ($feed->init()) {
+				$recordModel->setRssChannel($feed);
+				$recordModel->setRssItems($feed);
+			} elseif ($error = $feed->error()) {
+				$recordModel->set('error', $error);
+				\App\Log::warning($error, 'RSS');
+			}
 			return $recordModel;
 		}
 		return false;
-	}
-
-	/**
-	 * Function to set the sender address to the record.
-	 *
-	 * @param array $rssItems
-	 *
-	 * @return array $items
-	 */
-	public function setSenderInfo(&$rssItems)
-	{
-		foreach ($rssItems as $item) {
-			$item->sender = $this->getName();
-		}
 	}
 
 	/**
@@ -181,15 +186,15 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	 */
 	public function validateRssUrl($url)
 	{
-		try {
-			$rss = Feed::loadRss($url);
-			if ($rss) {
-				$this->setRssValues($rss);
-
-				return true;
-			}
-			return false;
-		} catch (FeedException $ex) {
+		$feed = new SimplePie();
+		$feed->set_cache_location(ROOT_DIRECTORY . '/cache/rss_cache');
+		$feed->set_feed_url($url);
+		if ($feed->init()) {
+			$this->setRssChannel($feed);
+			return true;
+		}
+		if ($error = $feed->error()) {
+			\App\Log::warning($error, 'RSS');
 			return false;
 		}
 	}
@@ -206,5 +211,35 @@ class Rss_Record_Model extends Vtiger_Record_Model
 			$recordId = (new \App\Db\Query())->select(['rssid'])->from('vtiger_rss')->scalar();
 			$this->setId($recordId);
 		}
+	}
+
+	/**
+	 * Get rss client.
+	 *
+	 * @param string $url
+	 *
+	 * @return SimplePie
+	 */
+	public static function getRssClient(string $url): SimplePie
+	{
+		$feed = new SimplePie();
+		if (!empty(\Config\Security::$proxyConnection)) {
+			$proxy = [];
+			$proxy[CURLOPT_PROXY] = \Config\Security::$proxyHost;
+			if (!empty(\Config\Security::$proxyPort)) {
+				$proxy[CURLOPT_PROXYPORT] = \Config\Security::$proxyPort;
+			}
+			if (!empty(\Config\Security::$proxyLogin) || !empty(\Config\Security::$proxyPassword)) {
+				$login = \Config\Security::$proxyLogin ?? '';
+				if (!empty(\Config\Security::$proxyPassword)) {
+					$login .= ':' . \Config\Security::$proxyPassword;
+				}
+				$proxy[CURLOPT_PROXYUSERPWD] = $login;
+			}
+			$feed->set_curl_options($proxy);
+		}
+		$feed->set_cache_location(ROOT_DIRECTORY . '/cache/rss_cache');
+		$feed->set_feed_url($url);
+		return $feed;
 	}
 }
