@@ -665,27 +665,27 @@ class Importer
 				} else {
 					$tableSchema = $schema->getTableSchema($tableName);
 					foreach ($this->getColumns($importer, $table) as $columnName => $column) {
-						$rename = $mode = null;
+						$renameFrom = $mode = null;
 						if (\is_array($column)) {
-							$column = $column['type'] ?? '';
-							$rename = $column['rename'] ?? $rename;
+							$renameFrom = $column['renameFrom'] ?? '';
 							$mode = $column['mode'] ?? $mode; // 0,null - create/update, 1 - update only
+							$column = $column['type'] ?? '';
 						}
 						$columnExists = isset($tableSchema->columns[$columnName]);
-						if (!$columnExists && 1 !== $mode) {
+						if ($renameFrom && !$columnExists && isset($tableSchema->columns[$renameFrom])) {
+							$this->logs .= "  > rename column: {$tableName}:{$renameFrom} -> {$columnName}... ";
+							$start = microtime(true);
+							$dbCommand->renameColumn($tableName, $renameFrom, $columnName)->execute();
+							$time = round((microtime(true) - $start), 1);
+							$this->logs .= "done    ({$time}s)\n";
+							$tableSchema = $schema->getTableSchema($tableName, true);
+							$columnExists = isset($tableSchema->columns[$columnName]);
+						}elseif (!$columnExists && 1 !== $mode) {
 							$this->logs .= "  > add column: $tableName:$columnName ... ";
 							$start = microtime(true);
 							$dbCommand->addColumn($tableName, $columnName, $column)->execute();
 							$time = round((microtime(true) - $start), 1);
 							$this->logs .= "done    ({$time}s)\n";
-						} elseif ($rename && !$columnExists && isset($tableSchema->columns[$rename])) {
-							$this->logs .= "  > rename column: {$tableName}:{$rename} -> {$columnName}... ";
-							$start = microtime(true);
-							$dbCommand->renameColumn($tableName, $columnName, $rename)->execute();
-							$time = round((microtime(true) - $start), 1);
-							$this->logs .= "done    ({$time}s)\n";
-							$tableSchema = $schema->getTableSchema($tableName, true);
-							$columnExists = isset($tableSchema->columns[$columnName]);
 						}
 						if ($columnExists && $column instanceof \yii\db\ColumnSchemaBuilder && $this->compareColumns($queryBuilder, $tableSchema->columns[$columnName], $column)) {
 							$primaryKey = false;
@@ -726,7 +726,7 @@ class Importer
 					}
 				}
 			} catch (\Throwable $e) {
-				$this->logs .= " | Error(7) [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
+				$this->logs .= " | Error(7) {$tableName} [{$e->getMessage()}] in  \n{$e->getTraceAsString()} !!!\n";
 				if ($this->dieOnError) {
 					throw new \App\Exceptions\AppException('Importer error: ' . $e->getMessage(), (int) $e->getCode(), $e);
 				}
