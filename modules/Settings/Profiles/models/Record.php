@@ -593,8 +593,15 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 		if (\count($allModuleModules) > 0) {
 			$actionModels = Vtiger_Action_Model::getAll(true);
 			foreach ($allModuleModules as $moduleModel) {
-				if ($moduleModel->isActive() && isset($profilePermissions[$moduleModel->getId()])) {
-					$this->saveModulePermissions($moduleModel, $profilePermissions[$moduleModel->getId()]);
+				$moduleId = $moduleModel->getId();
+				if ($moduleModel->isActive() && isset($profilePermissions[$moduleId])) {
+					foreach ($actionModels as $actionModel) {
+						$actionId = $actionModel->getId();
+						if (!isset($profilePermissions[$moduleId]['actions'][$actionId]) && $actionModel->isModuleEnabled($moduleModel)) {
+							$profilePermissions[$moduleId]['actions'][$actionId] = Settings_Profiles_Module_Model::NOT_PERMITTED_VALUE;
+						}
+					}
+					$this->saveModulePermissions($moduleModel, $profilePermissions[$moduleId]);
 				} else {
 					$permissions = [];
 					$permissions['is_permitted'] = Settings_Profiles_Module_Model::IS_PERMITTED_VALUE;
