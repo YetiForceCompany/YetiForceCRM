@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
 class Rss_Record_Model extends Vtiger_Record_Model
@@ -66,12 +67,12 @@ class Rss_Record_Model extends Vtiger_Record_Model
 			if (!\App\Validator::url((string) $announcement->get_link())) {
 				continue;
 			}
-			$title = \App\Purifier::purify(App\Purifier::decodeHtml($announcement->get_title()));
+			$title = App\Purifier::decodeHtml(\App\Purifier::purify(App\Purifier::decodeHtml($announcement->get_title())));
 			$items[] = [
-				'title' => \App\TextUtils::textTruncate($title, 100),
-				'link' => \App\Purifier::purify(App\Purifier::decodeHtml($announcement->get_link())),
+				'title' => \App\TextUtils::textTruncate($title, 50),
+				'link' => App\Purifier::decodeHtml($announcement->get_link()),
 				'date' => \App\Fields\DateTime::formatToViewDate($announcement->get_date('Y-m-d H:i:s')),
-				'fullTitle' => $title,
+				'fullTitle' => $title
 			];
 		}
 		$this->set('rss', $items);
@@ -86,7 +87,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 	 */
 	public function setRssChannel(SimplePie $rss): void
 	{
-		$this->set('rsstitle', \App\Purifier::purify(App\Purifier::decodeHtml($rss->get_title())));
+		$this->set('rsstitle', App\Purifier::decodeHtml(\App\Purifier::purify(App\Purifier::decodeHtml($rss->get_title()))));
 		if (\App\Validator::url($rss->get_link())) {
 			$this->set('url', \App\Purifier::purifyByType($rss->get_link(), \App\Purifier::URL));
 		}

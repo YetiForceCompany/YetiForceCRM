@@ -8,6 +8,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -32,10 +33,11 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 					if (!\App\Validator::url((string) $announcement->get_link())) {
 						continue;
 					}
-					$title = \App\Purifier::purify(App\Purifier::decodeHtml($announcement->get_title()));
+
+					$title = App\Purifier::decodeHtml(\App\Purifier::purify(App\Purifier::decodeHtml($announcement->get_title())));
 					$items[] = [
 						'title' => \App\TextUtils::textTruncate($title, 50),
-						'link' => \App\Purifier::purify(App\Purifier::decodeHtml($announcement->get_link())),
+						'link' => App\Purifier::decodeHtml($announcement->get_link()),
 						'date' => \App\Fields\DateTime::formatToViewDate($announcement->get_date('Y-m-d H:i:s')),
 						'fullTitle' => $title,
 						'source' => $rss,
@@ -47,7 +49,7 @@ class Vtiger_Rss_Dashboard extends Vtiger_IndexAjax_View
 			}
 		}
 		$viewer->assign('ERRORS', $errors);
-		$viewer->assign('LIST_SUCJECTS', $items);
+		$viewer->assign('LIST_SUBJECTS', $items);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		if ($request->has('content')) {

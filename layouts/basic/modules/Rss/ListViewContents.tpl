@@ -21,7 +21,7 @@
 				<input id="recordId" type="hidden" value="{$RECORD->getId()}">
 				<div class="d-flex justify-content-between flex-wrap">
 					<div id="rssFeedHeading">
-						<h3> {\App\Language::translate('LBL_FEEDS_LIST_FROM',$MODULE)}: {$RECORD->getName()} </h3>
+						<h3> {\App\Language::translate('LBL_FEEDS_LIST_FROM',$MODULE)}: {\App\Purifier::encodeHtml($RECORD->getName())} </h3>
 					</div>
 					<div class="btn-toolbar btn-group flex-column flex-sm-row u-w-sm-down-100">
 						<button id="changeFeedSource" class="changeFeedSource btn btn-primary c-btn-block-sm-down" title="{\App\Language::translate('LBL_CHANGE_RSS_CHANNEL', $MODULE)}"><span class="fas fa-exchange-alt mr-1"></span><span class="yfm-Rss"></span></button>

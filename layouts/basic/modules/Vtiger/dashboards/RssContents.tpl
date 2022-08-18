@@ -8,7 +8,7 @@
 			{/foreach}
 		</ul>
 	{/if}
-	{if $LIST_SUCJECTS}
+	{if $LIST_SUBJECTS}
 		<table class="table table-sm table-bordered">
 			<thead>
 				<tr>
@@ -18,11 +18,11 @@
 				</tr>
 			</thead>
 			<tbody>
-				{foreach from=$LIST_SUCJECTS item=SUBJECT}
+				{foreach from=$LIST_SUBJECTS item=SUBJECT}
 					<tr>
 						<td>
 							<a href="{\App\Purifier::encodeHtml($SUBJECT['link'])}" target="_blank" rel="noreferrer noopener">
-								<strong title="{\App\Purifier::encodeHtml($SUBJECT['fullTitle'])}">{$SUBJECT['title']}</strong>
+								<strong title="{\App\Purifier::encodeHtml($SUBJECT['fullTitle'])}">{\App\Purifier::encodeHtml($SUBJECT['title'])}</strong>
 							</a>
 						</td>
 						<td>{\App\Purifier::encodeHtml($SUBJECT['source'])}</td>

@@ -32,7 +32,7 @@
 			<tr class="listViewEntries" data-id='{$RECORD->getId()}'>
 				<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>
 					<a href="{\App\Purifier::encodeHtml($ITEM['link'])}" target="_blank" rel="noreferrer noopener">
-						<strong title="{\App\Purifier::encodeHtml($ITEM['fullTitle'])}">{$ITEM['title']}</strong>
+						<strong title="{\App\Purifier::encodeHtml($ITEM['fullTitle'])}">{\App\Purifier::encodeHtml($ITEM['title'])}</strong>
 					</a>
 				</td>
 				<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>{$ITEM['date']}</td>

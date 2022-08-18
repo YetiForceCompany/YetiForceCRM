@@ -22,7 +22,7 @@
 				<ul class="nav">
 					{foreach item=recordsModel from=$RSS_SOURCES}
 						<li class="nav-item">
-							<a href="#" class="nav-link rssLink" data-id={$recordsModel->getId()} data-url="{$recordsModel->get('rssurl')}" title="{App\Purifier::decodeHtml($recordsModel->getName())}">{App\Purifier::decodeHtml($recordsModel->getName())}</a>
+							<a href="#" class="nav-link rssLink" data-id={$recordsModel->getId()} data-url="{App\Purifier::decodeHtml($recordsModel->get('rssurl'))}" title="{App\Purifier::decodeHtml($recordsModel->getName())}">{App\Purifier::decodeHtml($recordsModel->getName())}</a>
 						</li>
 					{foreachelse}
 						<li class="nav-item text-center">{\App\Language::translate('LBL_NO_RECORDS', $MODULE)}</li>
