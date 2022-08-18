@@ -165,6 +165,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				$value = $src ? "<img src='$src' class='img-thumbnail sad'/>" : \App\Language::translate('LBL_COMPANY_LOGO', 'Settings::Companies');
 				break;
 			default:
+				$value = \App\Purifier::encodeHtml($value);
 				break;
 		}
 		return $value;

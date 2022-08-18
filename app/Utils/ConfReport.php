@@ -1868,7 +1868,7 @@ class ConfReport
 			array_pop($t);
 			$short = implode('.', $t);
 			if (!isset($ver[$short])) {
-				$ver[$short] = $row;
+				$ver[$short] = \App\Purifier::encodeHtml($row);
 			}
 		}
 		return $ver;

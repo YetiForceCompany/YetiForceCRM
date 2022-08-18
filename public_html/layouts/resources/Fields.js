@@ -1486,8 +1486,8 @@ window.App.Fields = {
 			// Sort DOM nodes alphabetically in select box.
 			if (typeof params['customSortOptGroup'] !== 'undefined' && params['customSortOptGroup']) {
 				$('optgroup', selectElement).each(function () {
-					var optgroup = $(this);
-					var options = optgroup
+					let optgroup = $(this);
+					let options = optgroup
 						.children()
 						.toArray()
 						.sort(function (a, b) {
@@ -1913,7 +1913,7 @@ window.App.Fields = {
 				return selectElement.data('fieldinfo').picklistvalues;
 			} else {
 				let optionsObject = {};
-				selectElement.find('option').each((i, element) => {
+				selectElement.find('option').each((_i, element) => {
 					optionsObject[element.value] = element.text;
 				});
 				return optionsObject;

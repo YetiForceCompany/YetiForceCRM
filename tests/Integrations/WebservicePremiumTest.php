@@ -656,7 +656,6 @@ final class WebservicePremiumTest extends \Tests\Base
 			['name' => 'notes_title', 'contents' => 'test request 1'],
 			['name' => 'filelocationtype', 'contents' => 'I'],
 			['name' => 'filename', 'contents' => file_get_contents(ROOT_DIRECTORY . '/tests/data/stringHtml.txt'), 'filename' => 'stringHtml.txt'],
-			// ['name' => 'share_externally', 'contents' => '1'],
 			['name' => 'relationOperation', 'contents' => true],
 			['name' => 'relationId', 'contents' => 27],
 			['name' => 'sourceModule', 'contents' => 'Contacts'],

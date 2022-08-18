@@ -321,7 +321,7 @@ class Language
 		if (\App\Config::performance('recursiveTranslate') && static::DEFAULT_LANG !== $language) {
 			return static::translateSingleMod($key, $moduleName, static::DEFAULT_LANG, $encode);
 		}
-		return $key;
+		return $encode ? Purifier::encodeHtml($key) : $key;
 	}
 
 	/**
