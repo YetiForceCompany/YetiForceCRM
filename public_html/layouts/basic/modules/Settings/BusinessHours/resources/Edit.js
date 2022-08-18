@@ -14,9 +14,26 @@ $.Class(
 	{
 		/**
 		 * Function to register form for validation
+		 * @param {jQuery} container
 		 */
 		registerFormForValidation(container) {
 			container.validationEngine(app.validationEngineOptions);
+		},
+
+		/**
+		 * Checks that at least one working day has been marked.
+		 * @param {jQuery} container
+		 */
+		validationCheckWorkingDays(container) {
+			container.on('submit', (e) => {
+				if (!container.find('[name="working_days[]"]').is(':checked')) {
+					app.showNotify({
+						text: app.vtranslate('JS_PLEASE_SELECT_ONE_WORKING_DAYS'),
+						type: 'error'
+					});
+					e.preventDefault();
+				}
+			});
 		},
 
 		/**
@@ -27,6 +44,7 @@ $.Class(
 			this.registerFormForValidation(container);
 			app.registerEventForClockPicker();
 			App.Fields.TimePeriod.register(container);
+			this.validationCheckWorkingDays(container);
 		}
 	}
 );
