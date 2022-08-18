@@ -41,7 +41,6 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 		parent::__construct();
 		$this->exposeMethod('getEvents');
 		$this->exposeMethod('getEventsYear');
-		$this->exposeMethod('getCountEvents');
 		$this->exposeMethod('updateEvent');
 		$this->exposeMethod('getCountEventsGroup');
 		$this->exposeMethod('pinOrUnpinUser');
@@ -62,28 +61,14 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 	 *
 	 * @param \App\Request $request
 	 */
-	public function getCountEvents(App\Request $request)
-	{
-		$record = $this->getCalendarModel($request);
-		$entity = $record->getEntityRecordsCount();
-		$response = new Vtiger_Response();
-		$response->setResult($entity);
-		$response->emit();
-	}
-
-	/**
-	 * Get count Events for extended calendar's left column.
-	 *
-	 * @param \App\Request $request
-	 */
 	public function getCountEventsGroup(App\Request $request)
 	{
 		$request->delete('end');
 		$record = $this->getCalendarModel($request);
 		$result = [];
 		foreach ($request->getArray('dates', 'date') as $datePair) {
-			$record->set('start', $datePair[0] . ' 00:00:00');
-			$record->set('end', $datePair[1] . ' 23:59:59');
+			$record->set('start', App\Fields\DateTime::formatToDisplay($datePair[0] . ' 00:00:00'));
+			$record->set('end', App\Fields\DateTime::formatToDisplay($datePair[1] . ' 23:59:59'));
 			$result[] = $record->getEntityRecordsCount();
 		}
 		$response = new Vtiger_Response();
