@@ -626,7 +626,7 @@ window.Calendar_Js = class {
 				checkboxes.prop('checked', false);
 				formContainer.find('#ownerId' + CONFIG.userId).prop('checked', true);
 			}
-			self.reloadCalendarData();
+			this.reloadCalendarData();
 		});
 	}
 	/**
