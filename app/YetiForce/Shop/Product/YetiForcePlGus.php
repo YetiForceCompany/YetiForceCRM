@@ -46,9 +46,10 @@ class YetiForcePlGus extends \App\YetiForce\Shop\AbstractBaseProduct
 		if (\App\YetiForce\Register::getProducts('YetiForcePlGus')) {
 			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForcePlGus');
 		} else {
-			$instance = new \App\RecordCollectors\Gus();
-			$instance->moduleName = reset($instance->allowedModules);
-			if ($instance->isActive()) {
+			if (
+				(new \App\Db\Query())->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linklabel' => 'Gus'])->exists()
+				 || (new \App\Db\Query())->from('com_vtiger_workflowtasks')->where(['like', 'task', '%\Gus";%', false])->exists()
+			) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;
 			}

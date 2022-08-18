@@ -1559,13 +1559,14 @@ class ConfReport
 		if (!$absolutePaths) {
 			$path = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $path;
 		}
-		if (empty($row['mustExist']) && !file_exists($path)) {
+		$exists = file_exists($path);
+		if (empty($row['mustExist']) && !$exists) {
 			$row['mode'] = 'skipParam';
 		} else {
 			$row['status'] = \App\Fields\File::isWriteable($path, true);
 			$row[$sapi] = $row['status'] ? 'LBL_YES' : 'LBL_NO';
-			$row['owner'] = fileowner($path);
-			$row['perms'] = substr(sprintf('%o', fileperms($path)), -4);
+			$row['owner'] = $exists ? fileowner($path) : '';
+			$row['perms'] = $exists ? substr(sprintf('%o', fileperms($path)), -4):'';
 		}
 		return $row;
 	}
