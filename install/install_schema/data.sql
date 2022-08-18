@@ -464,7 +464,62 @@ insert  into `s_yf_fields_dependency`(`id`,`tabid`,`status`,`name`,`views`,`gui`
 
 /*Data for the table `s_yf_picklist_dependency` */
 
+insert  into `s_yf_picklist_dependency`(`id`,`tabid`,`source_field`) values (20,7,1321);
+insert  into `s_yf_picklist_dependency`(`id`,`tabid`,`source_field`) values (21,14,2269);
+
 /*Data for the table `s_yf_picklist_dependency_data` */
+
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,1,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,2,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,3,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,4,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,5,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,6,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,7,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,8,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,9,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,10,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,11,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,12,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,14,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Construction Industry\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,15,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Construction Industry\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,16,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Education\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,17,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Education\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,18,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Finance\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,19,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Finance\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,20,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Finance\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,21,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Finance\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,22,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Finance\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,23,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Trade\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,24,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Trade\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,25,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Trade\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,26,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,27,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,28,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,29,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,30,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,31,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,32,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,33,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,34,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,35,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,36,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,37,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,38,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,39,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Uniformed Services\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,40,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Uniformed Services\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,41,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Technologies\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,42,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Technologies\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,43,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Technologies\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,13,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration##Construction Industry##Education##Finance##Trade##Industry \\/ Manufacturing##Technologies\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (21,1,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"kg\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (21,2,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"kg\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (21,3,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"kg\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (21,4,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"kg\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (21,5,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"l\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (21,6,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"l\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (21,7,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"l\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (21,8,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"l\"}]}');
 
 /*Data for the table `s_yf_privileges_updater` */
 
