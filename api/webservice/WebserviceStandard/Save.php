@@ -19,6 +19,7 @@ class Save extends \Vtiger_Save_Action
 {
 	/** @var int ID of application. */
 	protected $appId;
+
 	/** @var array Skipped value. */
 	public $skippedData = [];
 
@@ -36,7 +37,7 @@ class Save extends \Vtiger_Save_Action
 	 *
 	 * @return void
 	 */
-	public function init($record): void
+	public function init(\Api\Core\BaseAction $record): void
 	{
 		$this->appId = $record->controller->app['id'];
 		$this->record = $record->recordModel;
@@ -48,6 +49,9 @@ class Save extends \Vtiger_Save_Action
 		$fieldModelList = $this->record->getModule()->getFields();
 		$requestKeys = $request->getAllRaw();
 		unset($requestKeys['module'],$requestKeys['action'],$requestKeys['record']);
+		if (empty($requestKeys)) {
+			throw new \Api\Core\Exception('No input data', 406);
+		}
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			if (!$fieldModel->isWritable()) {
 				continue;

@@ -32,6 +32,7 @@
                     "ApprovalsRegister"
                 ],
                 "summary": "Adds an consent entry",
+                "description": "Add record.",
                 "operationId": "425399d47c958ba5c538827d258fde0a",
                 "requestBody": {
                     "description": "Required data for communication",
@@ -95,6 +96,7 @@
                     "Approvals"
                 ],
                 "summary": "Gets the list of consents",
+                "description": "Gets consents.",
                 "operationId": "04e7ebb08f943d466f20bb0e98311271",
                 "parameters": [
                     {
@@ -222,6 +224,7 @@
                     "BaseModule"
                 ],
                 "summary": "Gets the list of consents for specific entry",
+                "description": "Gets consents.",
                 "operationId": "9fd993e544cb6935282883e505b8d1d6",
                 "parameters": [
                     {
@@ -295,6 +298,7 @@
                     "BaseModule"
                 ],
                 "summary": "Send e-mail",
+                "description": "Send e-mail.",
                 "operationId": "86c8610aedbae9a8690ab71a3ae22134",
                 "parameters": [
                     {
@@ -563,7 +567,6 @@
             },
             "Exception": {
                 "title": "General - Error exception",
-                "description": "Gets consents.",
                 "properties": {
                     "status": {
                         "description": "0 - error",
@@ -618,7 +621,6 @@
             },
             "BaseModule_Post_GetConsentsForEntry_Response": {
                 "title": "Response body for GetConsentsForEntry",
-                "description": "Gets consents.",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -667,7 +669,6 @@
             },
             "BaseModule_Post_SendEmail_Response": {
                 "title": "Response body for SendEmail",
-                "description": "Send e-mail.",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",

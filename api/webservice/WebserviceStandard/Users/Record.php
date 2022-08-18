@@ -171,10 +171,16 @@ class Record extends \Api\Core\BaseAction
 	 *			@OA\XmlContent(ref="#/components/schemas/User_Create_Details"),
 	 *		),
 	 *		@OA\Parameter(name="X-ENCRYPTED", in="header", @OA\Schema(ref="#/components/schemas/Header-Encrypted"), required=true),
-	 *		@OA\Response(response=200, description="Contents of the response contains only id",
+	 *		@OA\Response(
+	 *			response=200, description="Contents of the response contains only id",
 	 *			@OA\JsonContent(ref="#/components/schemas/User_Post_Record_Response"),
 	 *			@OA\XmlContent(ref="#/components/schemas/User_Post_Record_Response"),
 	 *			@OA\Link(link="GetUserById", ref="#/components/links/GetUserById")
+	 *		),
+	 *		@OA\Response(
+	 *			response=406, description="No input data",
+	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
+	 *			@OA\XmlContent(ref="#/components/schemas/Exception"),
 	 *		),
 	 * ),
 	 * @OA\Schema(

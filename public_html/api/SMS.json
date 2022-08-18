@@ -32,6 +32,7 @@
                     "SMSAPI"
                 ],
                 "summary": "Receipt of SMS",
+                "description": "Add record.",
                 "externalDocs": {
                     "description": "SMSApi Documentation",
                     "url": "https://www.smsapi.pl/docs"
@@ -72,6 +73,7 @@
                     "SMSAPI"
                 ],
                 "summary": "Report for sms",
+                "description": "Update record status.",
                 "externalDocs": {
                     "description": "SMSApi Documentation",
                     "url": "https://www.smsapi.pl/docs"
@@ -110,6 +112,7 @@
                     "SMSAPI"
                 ],
                 "summary": "Report for sms",
+                "description": "Update record status.",
                 "externalDocs": {
                     "description": "SMSApi Documentation",
                     "url": "https://www.smsapi.pl/docs"

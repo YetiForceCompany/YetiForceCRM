@@ -1214,6 +1214,21 @@
                                 "$ref": "#/components/links/GetRecordById"
                             }
                         }
+                    },
+                    "406": {
+                        "description": "No input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -1349,6 +1364,21 @@
                         "links": {
                             "GetRecordById": {
                                 "$ref": "#/components/links/GetRecordById"
+                            }
+                        }
+                    },
+                    "406": {
+                        "description": "No input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
+                            },
+                            "application/xml": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exception"
+                                }
                             }
                         }
                     }
@@ -3992,7 +4022,6 @@
             },
             "BaseModule_Get_Dashboard_Response": {
                 "title": "Base module - Dashboard response schema",
-                "description": "Get method - Gets widgets' data from the dashboard.",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -4579,7 +4608,6 @@
             },
             "BaseModule_Get_Hierarchy_Response": {
                 "title": "Base module - Hierarchy response schema",
-                "description": "Get method - Gets records hierarchy.",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -4616,7 +4644,6 @@
             },
             "BaseModule_Get_Pdf_Response": {
                 "title": "Base module - Generate PDF response schema",
-                "description": "Get method - Generates and downloads a PDF file from a template.",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -4649,7 +4676,6 @@
             },
             "BaseModule_Get_PdfTemplates_Response": {
                 "title": "Base module - Get PDF templates list response schema",
-                "description": "Get method - Gets a list of  PDF templates.",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -4691,7 +4717,6 @@
             },
             "BaseModule_Get_Privileges_Response": {
                 "title": "Base module - Privileges response schema",
-                "description": "Get privileges for module.",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -4728,7 +4753,6 @@
             },
             "BaseModule_Get_Record_Response": {
                 "title": "Base module - Response body for Record",
-                "description": "Get record detail.",
                 "required": [
                     "status",
                     "result"
@@ -5689,7 +5713,6 @@
             },
             "BaseAction_SaveInventory_ResponseBodyError": {
                 "title": "Base module - Create inventory record response error schema",
-                "description": "Put method - A store functionality - creates a record in an advanced module (orders).",
                 "properties": {
                     "errors": {
                         "description": "Error details",
@@ -5875,7 +5898,10 @@
             },
             "Products_Get_Record_Response": {
                 "title": "Base module - Response body for Record",
-                "description": "{@inheritdoc}",
+                "required": [
+                    "status",
+                    "result"
+                ],
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -5886,7 +5912,13 @@
                         ]
                     },
                     "result": {
-                        "description": "Record data",
+                        "title": "Record data",
+                        "required": [
+                            "name",
+                            "id",
+                            "fields",
+                            "data"
+                        ],
                         "properties": {
                             "name": {
                                 "description": "Record name",
@@ -5916,7 +5948,11 @@
                                 "$ref": "#/components/schemas/Record_Display_Details"
                             },
                             "privileges": {
-                                "description": "Parameters determining checking of editing rights and moving to the trash",
+                                "title": "Parameters determining checking of editing rights and moving to the trash",
+                                "required": [
+                                    "isEditable",
+                                    "moveToTrash"
+                                ],
                                 "properties": {
                                     "isEditable": {
                                         "description": "Check if record is editable",
@@ -6027,7 +6063,6 @@
             },
             "Users_Get_AccessActivityHistory_Response": {
                 "title": "Users module - History of access activity data",
-                "description": "Get user history of access activity.",
                 "required": [
                     "status",
                     "result"
@@ -6094,7 +6129,6 @@
             },
             "Users_Put_ChangePassword_Response": {
                 "title": "Users module - Users password change response body",
-                "description": "Put method.",
                 "required": [
                     "status",
                     "result"
@@ -6470,7 +6504,6 @@
             },
             "Exception": {
                 "title": "General - Error exception",
-                "description": "Post method.",
                 "required": [
                     "status",
                     "error"
@@ -6557,7 +6590,6 @@
             },
             "Users_Put_Preferences_Response": {
                 "title": "Users module - Response content of changing user settings",
-                "description": "Put method - Changes user’s preferences.",
                 "required": [
                     "status",
                     "result"
@@ -6581,7 +6613,6 @@
             },
             "Users_Get_Record_Response": {
                 "title": "Users module - Response body for user",
-                "description": "Get user detail.",
                 "properties": {
                     "status": {
                         "description": "A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error",
@@ -6715,7 +6746,6 @@
             },
             "Users_Post_ResetPassword_Response": {
                 "title": "Users module - Users password reset response body",
-                "description": "Post method.",
                 "required": [
                     "status",
                     "result"
@@ -6772,7 +6802,6 @@
             },
             "Users_Put_ResetPassword_Response": {
                 "title": "Users module - Users password reset response body",
-                "description": "Put method.",
                 "required": [
                     "status",
                     "result"
@@ -6796,7 +6825,6 @@
             },
             "Users_Get_TwoFactorAuth_Response": {
                 "title": "Users module - Authentication secret details",
-                "description": "Get two factor authentication details.",
                 "required": [
                     "status",
                     "result"
