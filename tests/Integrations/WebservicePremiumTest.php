@@ -40,11 +40,7 @@ final class WebservicePremiumTest extends \Tests\Base
 	/** @var \Vtiger_Record_Model Temporary Contacts record object. */
 	protected static $recordContacts;
 
-	/**
-	 * Request options.
-	 *
-	 * @var array
-	 */
+	/** @var array Request options. */
 	private static $requestOptions = [];
 
 	/** @var array Details about logged in user. */
@@ -66,11 +62,21 @@ final class WebservicePremiumTest extends \Tests\Base
 	 */
 	protected $httpClient;
 
+	/**
+	 * PHPunit setUpBeforeClass method.
+	 *
+	 * @return void
+	 */
 	public static function setUpBeforeClass(): void
 	{
 		self::$schemaManager = new SchemaManager(json_decode(file_get_contents(ROOT_DIRECTORY . '/public_html/api/WebservicePremium.json')));
 	}
 
+	/**
+	 * PHPunit setUp method.
+	 *
+	 * @return void
+	 */
 	protected function setUp(): void
 	{
 		$this->httpClient = new \GuzzleHttp\Client(\App\Utils::merge(\App\RequestHttp::getOptions(), [
@@ -639,6 +645,62 @@ final class WebservicePremiumTest extends \Tests\Base
 		static::assertSame(200, $request->getStatusCode(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertSame($body, $fileInstance->getContents(), 'Files API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		self::assertResponseBodyMatch($body, self::$schemaManager, '/webservice/WebservicePremium/Files', 'put', 200);
+	}
+
+	/**
+	 * Testing upload files.
+	 */
+	public function testUploadFiles(): void
+	{
+		$request = $this->httpClient->post('Documents/Record/', \App\Utils::merge(['multipart' => [
+			['name' => 'notes_title', 'contents' => 'test request 1'],
+			['name' => 'filelocationtype', 'contents' => 'I'],
+			['name' => 'filename', 'contents' => file_get_contents(ROOT_DIRECTORY . '/tests/data/stringHtml.txt'), 'filename' => 'stringHtml.txt'],
+		]], self::$requestOptions));
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Documents/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Documents/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertIsInt($response['result']['id'], 'Documents/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/WebservicePremium/{moduleName}/Record', 'post', 200);
+
+		$this->logs = $row = (new \App\Db\Query())->from('vtiger_notes')->where(['notesid' => $response['result']['id']])->one();
+		static::assertSame('test request 1', $row['title']);
+		static::assertSame('stringHtml.txt', $row['filename']);
+		static::assertSame('I', $row['filelocationtype']);
+
+		$request = $this->httpClient->put('Documents/Record/' . $response['result']['id'], \App\Utils::merge(['multipart' => [
+			['name' => 'notes_title', 'contents' => 'test request 2'],
+			['name' => 'filelocationtype', 'contents' => 'I'],
+			['name' => 'filename', 'contents' => file_get_contents(ROOT_DIRECTORY . '/tests/data/TestLinux.zip'), 'filename' => 'TestLinux.zip'],
+		]], self::$requestOptions));
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(200, $request->getStatusCode(), 'Documents/Record/{recordId} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(1, $response['status'], 'Documents/Record/{recordId} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertIsInt($response['result']['id'], 'Documents/Record/{recordId} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/WebservicePremium/{moduleName}/Record/{recordId}', 'put', 200);
+
+		$this->logs = $row = (new \App\Db\Query())->from('vtiger_notes')->where(['notesid' => $response['result']['id']])->one();
+		static::assertSame('test request 2', $row['title']);
+		static::assertSame('TestLinux.zip', $row['filename']);
+		static::assertSame('I', $row['filelocationtype']);
+		static::assertSame(7, $row['filesize']);
+		static::assertSame('application/zip', $row['filetype']);
+	}
+
+	/**
+	 * Testing exceptions.
+	 */
+	public function testExceptions(): void
+	{
+		$request = $this->httpClient->post('HelpDesk/Record/', \App\Utils::merge(['json' => []], self::$requestOptions));
+		$this->logs = $body = $request->getBody()->getContents();
+		$response = \App\Json::decode($body);
+		static::assertSame(406, $request->getStatusCode(), 'HelpDesk/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(0, $response['status'], 'HelpDesk/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame('No input data', $response['error']['message'], 'HelpDesk/Record/ API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/WebservicePremium/{moduleName}/Record', 'post', 406);
 	}
 
 	/**
