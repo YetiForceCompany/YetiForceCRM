@@ -655,8 +655,12 @@ final class WebservicePremiumTest extends \Tests\Base
 		$request = $this->httpClient->post('Documents/Record/', \App\Utils::merge(['multipart' => [
 			['name' => 'notes_title', 'contents' => 'test request 1'],
 			['name' => 'filelocationtype', 'contents' => 'I'],
-			['name' => 'share_externally', 'contents' => '1'],
 			['name' => 'filename', 'contents' => file_get_contents(ROOT_DIRECTORY . '/tests/data/stringHtml.txt'), 'filename' => 'stringHtml.txt'],
+			// ['name' => 'share_externally', 'contents' => '1'],
+			['name' => 'relationOperation', 'contents' => true],
+			['name' => 'relationId', 'contents' => 27],
+			['name' => 'sourceModule', 'contents' => 'Contacts'],
+			['name' => 'sourceRecord', 'contents' => self::$recordContacts->getId()],
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
 		$response = \App\Json::decode($body);
@@ -670,15 +674,13 @@ final class WebservicePremiumTest extends \Tests\Base
 		static::assertSame('stringHtml.txt', $row['filename']);
 		static::assertSame('I', $row['filelocationtype']);
 
-		$createCommand = \App\Db::getInstance()->createCommand();
-		$createCommand->update('vtiger_products', ['share_externally' => 1], ['productid' => $response['result']['id']])->execute();
-
 		$request = $this->httpClient->put('Documents/Record/' . $response['result']['id'], \App\Utils::merge(['multipart' => [
 			['name' => 'notes_title', 'contents' => 'test request 2'],
 			['name' => 'filelocationtype', 'contents' => 'I'],
 			['name' => 'filename', 'contents' => file_get_contents(ROOT_DIRECTORY . '/tests/data/TestLinux.zip'), 'filename' => 'TestLinux.zip'],
 		]], self::$requestOptions));
-		$this->logs = $body = $request->getBody()->getContents();
+		$body = $request->getBody()->getContents();
+		$this->logs = print_r($row, true) . PHP_EOL . $body;
 		$response = \App\Json::decode($body);
 		static::assertSame(200, $request->getStatusCode(), 'Documents/Record/{recordId} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertSame(1, $response['status'], 'Documents/Record/{recordId} API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);

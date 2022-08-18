@@ -41,7 +41,7 @@ abstract class GuiBase extends TestCase
 	protected function onNotSuccessfulTest(\Throwable $t): void
 	{
 		if (isset($this->logs)) {
-			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nLOGS:\n";
+			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  LOGS:\n";
 			\print_r($this->logs);
 			\print_r($t);
 			file_put_contents(ROOT_DIRECTORY . '/cache/logs/selenium_logs.log', print_r($this->logs, true));
