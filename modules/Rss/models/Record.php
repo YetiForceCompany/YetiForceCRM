@@ -69,7 +69,7 @@ class Rss_Record_Model extends Vtiger_Record_Model
 			}
 			$title = App\Purifier::decodeHtml(\App\Purifier::purify(App\Purifier::decodeHtml($announcement->get_title())));
 			$items[] = [
-				'title' => \App\TextUtils::textTruncate($title, 50),
+				'title' => \App\TextUtils::textTruncate($title, 100),
 				'link' => App\Purifier::decodeHtml($announcement->get_link()),
 				'date' => \App\Fields\DateTime::formatToViewDate($announcement->get_date('Y-m-d H:i:s')),
 				'fullTitle' => $title

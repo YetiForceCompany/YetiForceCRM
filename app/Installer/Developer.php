@@ -23,7 +23,7 @@ class Developer
 	/**
 	 * Generate interactive OpenAPI documentation for your RESTful API using doctrine annotations.
 	 *
-	 * @param ?string $path
+	 * @param string $path
 	 *
 	 * @return string
 	 */
