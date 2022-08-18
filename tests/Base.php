@@ -31,7 +31,7 @@ abstract class Base extends TestCase
 	protected function onNotSuccessfulTest(\Throwable $t): void
 	{
 		if (isset($this->logs)) {
-			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nLOGS:\n";
 			//var_export(array_shift($t->getTrace()));
 			\print_r($this->logs);
 			echo "\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";

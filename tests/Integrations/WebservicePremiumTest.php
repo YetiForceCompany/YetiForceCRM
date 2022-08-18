@@ -670,6 +670,9 @@ final class WebservicePremiumTest extends \Tests\Base
 		static::assertSame('stringHtml.txt', $row['filename']);
 		static::assertSame('I', $row['filelocationtype']);
 
+		$createCommand = \App\Db::getInstance()->createCommand();
+		$createCommand->update('vtiger_products', ['share_externally' => 1], ['productid' => $response['result']['id']])->execute();
+
 		$request = $this->httpClient->put('Documents/Record/' . $response['result']['id'], \App\Utils::merge(['multipart' => [
 			['name' => 'notes_title', 'contents' => 'test request 2'],
 			['name' => 'filelocationtype', 'contents' => 'I'],
