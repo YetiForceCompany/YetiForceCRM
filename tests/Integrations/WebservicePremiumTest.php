@@ -655,6 +655,7 @@ final class WebservicePremiumTest extends \Tests\Base
 		$request = $this->httpClient->post('Documents/Record/', \App\Utils::merge(['multipart' => [
 			['name' => 'notes_title', 'contents' => 'test request 1'],
 			['name' => 'filelocationtype', 'contents' => 'I'],
+			['name' => 'share_externally', 'contents' => '1'],
 			['name' => 'filename', 'contents' => file_get_contents(ROOT_DIRECTORY . '/tests/data/stringHtml.txt'), 'filename' => 'stringHtml.txt'],
 		]], self::$requestOptions));
 		$this->logs = $body = $request->getBody()->getContents();
