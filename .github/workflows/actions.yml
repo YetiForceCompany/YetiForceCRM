@@ -84,15 +84,15 @@ jobs:
       - name: Validate OpenAPI definition - WebservicePremium.yaml
         uses: char0n/swagger-editor-validate@v1.3.1
         with:
-          definition-file: public_html/api/WebservicePremium.yaml
+          definition-file: api/doc/WebservicePremium.yaml
       - name: Validate OpenAPI definition - ManageConsents.yaml
         uses: char0n/swagger-editor-validate@v1.3.1
         with:
-          definition-file: public_html/api/ManageConsents.yaml
+          definition-file: api/doc/ManageConsents.yaml
       - name: Validate OpenAPI definition - WebserviceStandard.yaml
         uses: char0n/swagger-editor-validate@v1.3.1
         with:
-          definition-file: public_html/api/WebserviceStandard.yaml
+          definition-file: api/doc/WebserviceStandard.yaml
 
   gitGuardian:
     name: GitGuardian scan

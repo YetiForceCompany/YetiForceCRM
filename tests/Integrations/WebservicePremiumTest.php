@@ -52,14 +52,10 @@ final class WebservicePremiumTest extends \Tests\Base
 	/** @var int Inventory Record ID */
 	private static $inventoryRecordId;
 
-	/**
-	 * @var SchemaManager
-	 */
+	/** @var SchemaManager */
 	protected static $schemaManager;
 
-	/**
-	 * @var \GuzzleHttp\Client
-	 */
+	/** @var \GuzzleHttp\Client */
 	protected $httpClient;
 
 	/**
@@ -69,7 +65,7 @@ final class WebservicePremiumTest extends \Tests\Base
 	 */
 	public static function setUpBeforeClass(): void
 	{
-		self::$schemaManager = new SchemaManager(json_decode(file_get_contents(ROOT_DIRECTORY . '/public_html/api/WebservicePremium.json')));
+		self::$schemaManager = new SchemaManager(json_decode(file_get_contents(ROOT_DIRECTORY . \App\Installer\Developer::PATH . '/WebservicePremium.json')));
 	}
 
 	/**

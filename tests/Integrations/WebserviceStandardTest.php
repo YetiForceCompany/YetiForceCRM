@@ -53,19 +53,15 @@ final class WebserviceStandardTest extends \Tests\Base
 	private static $authUserParams;
 	private static $recordId;
 
-	/**
-	 * @var SchemaManager
-	 */
+	/** @var SchemaManager */
 	protected static $schemaManager;
 
-	/**
-	 * @var \GuzzleHttp\Client
-	 */
+	/** @var \GuzzleHttp\Client */
 	protected $httpClient;
 
 	public static function setUpBeforeClass(): void
 	{
-		self::$schemaManager = new SchemaManager(json_decode(file_get_contents(ROOT_DIRECTORY . '/public_html/api/WebserviceStandard.json')));
+		self::$schemaManager = new SchemaManager(json_decode(file_get_contents(ROOT_DIRECTORY . \App\Installer\Developer::PATH . '/WebserviceStandard.json')));
 	}
 
 	protected function setUp(): void

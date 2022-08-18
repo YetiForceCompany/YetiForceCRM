@@ -18,7 +18,7 @@ namespace App\Installer;
 class Developer
 {
 	/** @var string Default path */
-	private const PATH = '/api/doc';
+	public const PATH = '/api/doc';
 
 	/**
 	 * Generate interactive OpenAPI documentation for your RESTful API using doctrine annotations.

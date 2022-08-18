@@ -65,7 +65,7 @@ final class ManageConsents extends \Tests\Base
 
 	public static function setUpBeforeClass(): void
 	{
-		self::$schemaManager = new SchemaManager(json_decode(file_get_contents(ROOT_DIRECTORY . '/public_html/api/ManageConsents.json')));
+		self::$schemaManager = new SchemaManager(json_decode(file_get_contents(ROOT_DIRECTORY . \App\Installer\Developer::PATH . '/ManageConsents.json')));
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('Approvals');
 		$recordModel->set('name', 'Consent1');
 		$recordModel->set('approvals_status', 'PLL_ACTIVE');
