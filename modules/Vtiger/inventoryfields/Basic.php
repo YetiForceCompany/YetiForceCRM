@@ -531,4 +531,15 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	{
 		return [$this->getColumnName() => $this->purifyType] + $this->customPurifyType;
 	}
+
+	/**
+	 * Get information about field.
+	 *
+	 * @return array
+	 */
+	public function getFieldInfo(): array
+	{
+		$fieldInfo['maximumlength'] = $this->maximumLength;
+		return $fieldInfo;
+	}
 }

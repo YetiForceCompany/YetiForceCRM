@@ -2,9 +2,11 @@
 {strip}
 	<!-- tpl-Base-inventoryfields-EditViewQuantity -->
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
+	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD->getFieldInfo()))}
 	{assign var=VALIDATION_ENGINE value='validate[required,funcCall[Vtiger_NumberUserFormat_Validator_Js.invokeValidation]]'}
 	<div class="input-group input-group-sm">
 		<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" type="text" class="qty smallInputBox form-control form-control-sm"
+			data-fieldinfo='{$FIELD_INFO}'
 			data-maximumlength="{$FIELD->getRangeValues()}" data-validation-engine="{$VALIDATION_ENGINE}" value="{$FIELD->getEditValue($VALUE)}"
 			title="{$FIELD->getEditValue($VALUE)}" {if $FIELD->isReadOnly()}readonly="readonly" {/if} />
 		{assign var=QTY_PARAM value=''}
