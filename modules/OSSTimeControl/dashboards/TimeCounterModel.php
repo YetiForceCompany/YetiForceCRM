@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -41,25 +42,22 @@ class OSSTimeControl_TimeCounterModel_Dashboard extends Vtiger_Widget_Model
 		}
 		$params = [
 			'name' => $name,
-			'label' => $this->getEditFields()[$name]['label'],
-			'tooltip' => $this->getEditFields()[$name]['tooltip'] ?? ''
+			'label' => $this->customFields[$name]['label'],
+			'tooltip' => $this->customFields[$name]['tooltip'] ?? ''
 		];
-		switch ($name) {
-				case 'default_time':
-					$data = $this->get('data') ? \App\Json::decode($this->get('data')) : [];
-					$params['uitype'] = 33;
-					$params['typeofdata'] = 'V~O';
-					$params['picklistValues'] = [
-						'15' => '15',
-						'30' => '30',
-						'40' => '40',
-						'60' => '60',
-						'90' => '90',
-					];
-					$value = $data[$name] ?? [];
-					$params['fieldvalue'] = implode(' |##| ', $value);
-					break;
-			default: break;
+		if ('default_time' === $name) {
+			$data = $this->get('data') ? \App\Json::decode($this->get('data')) : [];
+			$params['uitype'] = 33;
+			$params['typeofdata'] = 'V~O';
+			$params['picklistValues'] = [
+				'15' => '15',
+				'30' => '30',
+				'40' => '40',
+				'60' => '60',
+				'90' => '90',
+			];
+			$value = $data[$name] ?? [];
+			$params['fieldvalue'] = implode(' |##| ', $value);
 		}
 		return \Vtiger_Field_Model::init($moduleName, $params, $name);
 	}
@@ -69,19 +67,13 @@ class OSSTimeControl_TimeCounterModel_Dashboard extends Vtiger_Widget_Model
 	{
 		parent::setDataFromRequest($request);
 		foreach ($this->customFields as $fieldName => $fieldInfo) {
-			if ($request->has($fieldName)) {
+			if ($request->has($fieldName) && 'default_time' === $fieldName) {
 				$value = $request->getByType($fieldName, $fieldInfo['purifyType']);
 				$fieldModel = $this->getFieldInstanceByName($fieldName)->getUITypeModel();
 				$fieldModel->validate($value, true);
 				$value = $fieldModel->getDBValue($value);
-				switch ($fieldName) {
-					case 'default_time':
-						$value = $value ? explode(' |##| ', $value) : [];
-						$data[$fieldName] = $value;
-						$this->set('data', \App\Json::encode($data));
-						break;
-					default: break;
-				}
+				$data[$fieldName] = $value ? explode(' |##| ', $value) : [];
+				$this->set('data', \App\Json::encode($data));
 			}
 		}
 	}

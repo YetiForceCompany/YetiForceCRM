@@ -3,7 +3,14 @@
 	<!-- tpl-OSSTimeControl-dashboards-TimeCounter -->
 	<div class="dashboardWidgetHeader">
 		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
-			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) TITLE=App\Purifier::encodeHtml(App\Language::translate($WIDGET->getTitle(), $MODULE_NAME))}
+			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) TITLE=$WIDGET->getTitle()}
+			{if !$WIDGET->isDefault()}
+				<div class="d-inline-flex">
+					<button class="btn btn-sm btn-light js-widget-remove" title="{\App\Language::translate('LBL_CLOSE')}" data-url="{$WIDGET->getDeleteUrl()}" data-js="click">
+						<span class="fas fa-times"></span>
+					</button>
+				</div>
+			{/if}
 		</div>
 	</div>
 	<div class="dashboardWidgetContent d-flex justify-content-center align-items-center">
