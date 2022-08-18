@@ -539,7 +539,8 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function getFieldInfo(): array
 	{
-		$fieldInfo['maximumlength'] = $this->maximumLength;
-		return $fieldInfo;
+		return [
+			'maximumlength' => $this->maximumLength
+		];
 	}
 }
