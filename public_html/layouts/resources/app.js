@@ -2318,12 +2318,12 @@ const app = (window.app = {
 		return store.remove(key);
 	},
 	moduleCacheSet: function (key, value) {
-		var orgKey = key;
+		const orgKey = key;
 		key = this.getModuleName() + '_' + key;
 		this.cacheSet(key, value);
 
-		var cacheKey = 'mCache' + this.getModuleName();
-		var moduleCache = this.cacheGet(cacheKey);
+		const cacheKey = 'mCache' + this.getModuleName();
+		let moduleCache = this.cacheGet(cacheKey);
 		if (moduleCache == null) {
 			moduleCache = [];
 		} else {
@@ -2336,8 +2336,7 @@ const app = (window.app = {
 		return this.cacheGet(this.getModuleName() + '_' + key);
 	},
 	moduleCacheKeys: function () {
-		var cacheKey = 'mCache' + this.getModuleName();
-		var modules = this.cacheGet(cacheKey);
+		const modules = this.cacheGet('mCache' + this.getModuleName());
 		if (modules) {
 			return modules.split(',');
 		}
