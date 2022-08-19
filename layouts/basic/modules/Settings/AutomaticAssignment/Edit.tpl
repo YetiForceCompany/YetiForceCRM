@@ -53,7 +53,7 @@
 												{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}
 												{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
 												{if $FIELD_MODEL->get('tooltip')}
-													<div class="js-popover-tooltip ml-1 d-inline my-auto u-h-fit u-cursor-pointer popover-triggered" data-placement="top" data-content="{\App\Language::translate($FIELD_MODEL->get('tooltip'), $QUALIFIED_MODULE)}">
+													<div class="js-popover-tooltip ml-1 d-inline my-auto u-h-fit u-cursor-pointer" data-placement="top" data-content="{\App\Language::translate($FIELD_MODEL->get('tooltip'), $QUALIFIED_MODULE)}">
 														<span class="fas fa-info-circle"></span>
 													</div>
 												{/if}:
