@@ -260,7 +260,7 @@ class Zip extends \ZipArchive
 	public function addDirectory(string $dir, string $localName = '', bool $relativePath = false)
 	{
 		if ($localName) {
-			$localName .= \DIRECTORY_SEPARATOR;
+			$localName .= '/';
 		}
 		$path = realpath($dir);
 		$files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path), \RecursiveIteratorIterator::LEAVES_ONLY);
@@ -268,7 +268,8 @@ class Zip extends \ZipArchive
 		foreach ($files as $file) {
 			if (!$file->isDir()) {
 				$filePath = $file->getRealPath();
-				$this->addFile($filePath, $localName . Fields\File::getLocalPath($filePath, $pathToTrim));
+				$zipPath = str_replace(\DIRECTORY_SEPARATOR, '/', Fields\File::getLocalPath($filePath, $pathToTrim));
+				$this->addFile($filePath, $localName . $zipPath);
 			}
 		}
 	}

@@ -248,7 +248,9 @@ class PackageExport
 	{
 		foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator('languages', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isFile() && $item->getFilename() === $module . '.json') {
-				$zip->addFile($item->getPath() . \DIRECTORY_SEPARATOR . $item->getFilename());
+				$filePath = $item->getRealPath();
+				$zipPath = str_replace(\DIRECTORY_SEPARATOR, '/', $item->getPath() . \DIRECTORY_SEPARATOR . $item->getFilename());
+				$zip->addFile($filePath, $zipPath);
 			}
 		}
 	}
