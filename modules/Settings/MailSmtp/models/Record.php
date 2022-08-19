@@ -9,6 +9,7 @@
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 {
@@ -116,13 +117,11 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				break;
 			case 'unsubscribe':
-				$unsubscribe = '';
-				if (null !== $value) {
-					foreach (App\Json::decode($value) as $row) {
-						$unsubscribe .= "<$row>,";
-					}
+				$unsubscribe = App\Json::isEmpty($value) ? [] : \App\Json::decode($value);
+				foreach ($unsubscribe as &$row) {
+					$row = "<$row>";
 				}
-				$value = App\Purifier::encodeHtml(rtrim($unsubscribe, ','));
+				$value = App\Purifier::encodeHtml(implode(',', $unsubscribe));
 				break;
 			default:
 				break;
