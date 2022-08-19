@@ -19554,7 +19554,7 @@ insert  into `vtiger_smsnotifier_status`(`smsnotifier_statusid`,`smsnotifier_sta
 insert  into `vtiger_smsnotifier_status`(`smsnotifier_statusid`,`smsnotifier_status`,`presence`,`sortorderid`,`picklist_valueid`) values (3,'PLL_FAILED',0,3,959);
 insert  into `vtiger_smsnotifier_status`(`smsnotifier_statusid`,`smsnotifier_status`,`presence`,`sortorderid`,`picklist_valueid`) values (4,'PLL_SENT',0,4,960);
 insert  into `vtiger_smsnotifier_status`(`smsnotifier_statusid`,`smsnotifier_status`,`presence`,`sortorderid`,`picklist_valueid`) values (5,'PLL_QUEUE',0,5,961);
-insert  into `vtiger_smsnotifier_status`(`smsnotifier_statusid`,`smsnotifier_status`,`presence`,`sortorderid`,`picklist_valueid`) values (6,'PLL_REPLY',0,1,962);
+insert  into `vtiger_smsnotifier_status`(`smsnotifier_statusid`,`smsnotifier_status`,`presence`,`sortorderid`,`picklist_valueid`) values (6,'PLL_REPLY',0,6,962);
 
 /*Data for the table `vtiger_smsnotifiercf` */
 
