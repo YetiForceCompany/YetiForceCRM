@@ -19,11 +19,8 @@ class ApiAddress extends \Tests\Base
 	public function testSaveConfig()
 	{
 		$result = \Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->setConfig([
-			'YetiForceGeocoder' => [
-				'name' => 'country_codes',
-				'type' => 'YetiForceGeocoder',
-				'val' => 'pl',
-			],
+			['name' => 'min_length', 'type' => 'global', 'val' => 5],
+			['name' => 'result_num', 'type' => 'global', 'val' => 15],
 		]);
 		$this->assertTrue($result, 'Error when saving global config var');
 	}
@@ -45,9 +42,8 @@ class ApiAddress extends \Tests\Base
 	public function testResetToDefault()
 	{
 		$result = \Settings_ApiAddress_Module_Model::getInstance('Settings:ApiAddress')->setConfig([
-			'YetiForceGeocoder' => [
-				'min_length' => 3, 'result_num' => 10, 'api_name' => 'global',
-			],
+			['name' => 'min_length', 'type' => 'global', 'val' => 3],
+			['name' => 'result_num', 'type' => 'global', 'val' => 10],
 		]);
 		$this->assertTrue($result, 'Error when setting global config var to default value');
 	}
