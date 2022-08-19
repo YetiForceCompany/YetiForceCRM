@@ -8,6 +8,7 @@
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Map;
@@ -100,7 +101,7 @@ class Address
 			return self::$providerInstanceCache[$type];
 		}
 		$className = "\\App\\Map\\Address\\$type";
-		return self::$providerInstanceCache[$type] = new $className($type);
+		return self::$providerInstanceCache[$type] = new $className();
 	}
 
 	/**

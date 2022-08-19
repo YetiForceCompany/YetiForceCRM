@@ -18,7 +18,7 @@
 					<div class="col-sm-6 col-md-4">
 						<div class="text-center">
 							<input name="min_length" type="number" min="0" class="api form-control m-0" value="{$CONFIG['global']['min_length']}"
-								data-validation-engine="validate[required,min[0],funcCall[Vtiger_Integer_Validator_Js.invokeValidation]]">
+								data-validation-engine="validate[required,min[0],max[100],funcCall[Vtiger_Integer_Validator_Js.invokeValidation]]">
 						</div>
 					</div>
 				</div>
@@ -32,7 +32,7 @@
 					<div class="col-sm-6 col-md-4">
 						<div class="text-center">
 							<input name="result_num" type="number" min="0" class="api form-control m-0" value="{$CONFIG['global']['result_num']}"
-								data-validation-engine="validate[required,min[1]funcCall[Vtiger_Integer_Validator_Js.invokeValidation]]">
+								data-validation-engine="validate[required,min[1],max[100],funcCall[Vtiger_Integer_Validator_Js.invokeValidation]]">
 						</div>
 					</div>
 				</div>
@@ -81,11 +81,6 @@
 											data-content="{\App\Language::translate('LBL_PROVIDER_INFO_'|cat:$KEY|upper, $MODULENAME)}">
 											<span class="fas fa-link"></span>
 										</a>
-										{if false}
-											<button class="js-validate btn btn-outline-success btn-sm js-popover-tooltip" data-provider="{$KEY}" type="button" data-content="{\App\Language::translate('LBL_VALIDATE', $QUALIFIED_MODULE)}" data-js="click | data | class: fa-spin">
-												<span class="js-validate__icon fas fa-sync fa-xs mr-1"></span>
-											</button>
-										{/if}
 									</td>
 								</tr>
 							{/foreach}

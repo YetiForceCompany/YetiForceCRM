@@ -2,40 +2,42 @@
 {strip}
 	<!-- tpl-Settings-ApiAddress-ApiConfigModal -->
 	<div class="modal-body pb-0">
-		<form class="js-form-validation">
+		<form class="validateForm">
+			<input type="hidden" name="module" value="{$MODULE_NAME}" />
+			<input type="hidden" name="parent" value="{$PARENT_MODULE}" />
+			<input type="hidden" name="action" value="SaveConfig" />
+			<input type="hidden" name="mode" value="provider" />
+			<input type="hidden" name="provider" value="{$PROVIDER->getName()}" />
 			<div class="row no-gutters">
 				<div class="col-sm-18 col-md-12">
-					<table class="table table-sm mb-0">
-						<tbody class="u-word-break-all small">
-							{foreach key=FIELD_NAME item=FIELD_DATA from=$PROVIDER->getCustomFields()}
-								<tr>
-									<td class="py-2 u-font-weight-550 align-middle border-bottom">
-										{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, $QUALIFIED_MODULE)}
-									</td>
-									<td class="py-2 position-relative w-50 border-bottom">
-										<div {if isset($FIELD_DATA['info'])}class="js-popover-tooltip" data-trigger="focus" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="{App\Language::translate($FIELD_DATA['info'], $QUALIFIED_MODULE)}" {/if}>
-											<div class="input-group input-group-sm position-relative">
-												{if $FIELD_DATA['type'] === 'text' || $FIELD_DATA['type'] === 'url'}
-													<input type="{$FIELD_DATA['type']}" class="form-control js-custom-field" placeholder="{\App\Language::translate('LBL_'|cat:$FIELD_NAME|upper|cat:'_PLACEHOLDER', $QUALIFIED_MODULE)}" name="{$FIELD_NAME}" value="{if isset($CONFIG[$FIELD_NAME])}{$CONFIG[$FIELD_NAME]}{/if}"
-														data-validation-engine="validate[{if isset($FIELD_DATA['validator'])}{$FIELD_DATA['validator']}{else}funcCall[Vtiger_Base_Validator_Js.invokeValidation]{/if}]" />
-												{/if}
-												{if isset($FIELD_DATA['link'])}
-													<div class="input-group-append">
-														<a href="{$FIELD_DATA['link']}" class="btn btn-primary btn-sm" role="button" rel="noreferrer noopener" target="_blank">
-															<span class="fas fa-link"></span>
-														</a>
-													</div>
-												{/if}
-											</div>
-										</div>
-									</td>
-								</tr>
-							{/foreach}
-						</tbody>
-					</table>
+					{foreach key=FIELD_NAME item=FIELD_MODEL from=$PROVIDER->getCustomFields($CONFIG)}
+						<div class="form-group form-row">
+							<label class="col-form-label col-md-3 u-text-small-bold text-left text-md-right">
+								{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}
+								{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
+								{if $FIELD_MODEL->get('tooltip')}
+									<div class="js-popover-tooltip ml-1 d-inline my-auto u-h-fit u-cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-content="{\App\Language::translate($FIELD_MODEL->get('tooltip'), $QUALIFIED_MODULE)}">
+										<span class="fas fa-info-circle"></span>
+									</div>
+								{/if}
+							</label>
+							{assign var=LINK value=$FIELD_MODEL->get('link')}
+							<div class="col-md-9 fieldValue{if $LINK} input-group{/if}">
+								{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE RECORD=false}
+								{if $LINK}
+									<div class="input-group-append">
+										<a href="{$LINK['url']|escape}" class="btn btn-primary js-popover-tooltip" role="button" rel="noreferrer noopener" target="_blank" data-trigger="hover" data-toggle="popover" data-placement="top" data-content="{App\Language::translate($LINK['title'], $QUALIFIED_MODULE)}" aria-label="{App\Language::translate($LINK['title'], $QUALIFIED_MODULE)}">
+											<span class="fas fa-link"></span>
+										</a>
+									</div>
+								{/if}
+							</div>
+
+						</div>
+					{/foreach}
 				</div>
 			</div>
 		</form>
 	</div>
-	<!-- /tpl-Settings-YetiForce-Shop-BuyModal -->
+	<!-- /tpl-Settings-ApiAddress-ApiConfigModal -->
 {/strip}

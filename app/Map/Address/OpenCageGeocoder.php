@@ -10,6 +10,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Map\Address;
@@ -22,13 +23,25 @@ class OpenCageGeocoder extends Base
 	/** {@inheritdoc} */
 	public $customFields = [
 		'country_codes' => [
-			'type' => 'text',
-			'info' => 'LBL_COUNTRY_CODES_INFO',
-			'link' => 'https://wikipedia.org/wiki/List_of_ISO_3166_country_codes',
+			'uitype' => 1,
+			'label' => 'LBL_COUNTRY_CODES',
+			'purifyType' => \App\Purifier::TEXT,
+			'maximumlength' => '100',
+			'typeofdata' => 'V~O',
+			'tooltip' => 'LBL_COUNTRY_CODES_PLACEHOLDER',
+			'link' => [
+				'title' => 'LBL_COUNTRY_CODES_INFO',
+				'url' => 'https://wikipedia.org/wiki/List_of_ISO_3166_country_codes',
+			]
 		],
 		'key' => [
-			'type' => 'text',
-			'validator' => 'required,custom[onlyLetterNumber]',
+			'validator' => [['name' => 'AlphaNumeric']],
+			'uitype' => 1,
+			'label' => 'LBL_KEY',
+			'purifyType' => \App\Purifier::ALNUM,
+			'maximumlength' => '200',
+			'typeofdata' => 'V~M',
+			'tooltip' => 'LBL_KEY_PLACEHOLDER',
 		],
 	];
 	/**

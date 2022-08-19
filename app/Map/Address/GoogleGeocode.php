@@ -10,6 +10,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Map\Address;
@@ -32,8 +33,13 @@ class GoogleGeocode extends Base
 	/** {@inheritdoc} */
 	public $customFields = [
 		'key' => [
-			'type' => 'text',
-			'validator' => 'required,custom[onlyLetterNumber]',
+			'validator' => [['name' => 'AlphaNumeric']],
+			'uitype' => 1,
+			'label' => 'LBL_KEY',
+			'purifyType' => \App\Purifier::ALNUM,
+			'maximumlength' => '200',
+			'typeofdata' => 'V~M',
+			'tooltip' => 'LBL_KEY_PLACEHOLDER',
 		],
 	];
 

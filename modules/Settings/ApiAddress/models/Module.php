@@ -3,15 +3,27 @@
 /**
  * Settings ApiAddress module model class.
  *
+ * @package Settings.Model
+ *
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 {
-	public function getConfig($type = null)
+	/** {@inheritdoc} */
+	public $baseTable = 's_#__address_finder_config';
+
+	/**
+	 * Get configuration.
+	 *
+	 * @param string $type
+	 *
+	 * @return void
+	 */
+	public function getConfig(string $type = null): array
 	{
 		$rawData = [];
-		$query = (new \App\Db\Query())->from('s_#__address_finder_config');
+		$query = (new \App\Db\Query())->from($this->baseTable);
 		if ($type) {
 			$query->where(['type' => $type]);
 		}
@@ -24,39 +36,30 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 		return $rawData;
 	}
 
-	public function setConfig(array $elements)
+	/**
+	 * Save Configuration.
+	 *
+	 * @param array $data
+	 *
+	 * @return bool
+	 */
+	public function setConfig(array $data): bool
 	{
-		\App\Log::trace('Entering set api address config');
-		unset($elements['api_name']);
+		$db = \App\Db::getInstance();
 		$result = false;
-		if (\count($elements)) {
-			$db = \App\Db::getInstance();
-			foreach ($elements as $type => $values) {
-				foreach ($values as $key => $value) {
-					if ((new \App\Db\Query())->select('type', 'name')
-						->from(['C' => 's_#__address_finder_config'])
-						->where(['C.name' => $key, 'C.type' => $type])
-						->exists()) {
-						$db->createCommand()
-							->update('s_#__address_finder_config', [
-								'val' => $value,
-							], ['type' => $type, 'name' => $key])
-							->execute();
-					} else {
-						$db->createCommand()
-							->insert('s_#__address_finder_config', [
-								'val' => $value,
-								'type' => $type,
-								'name' => $key
-							])
-							->execute();
-					}
-				}
+		foreach ($data as $value) {
+			['name' => $key, 'type' => $type, 'val' => $val] = $value;
+			if ((new \App\Db\Query())->select('type', 'name')
+				->from($this->baseTable)
+				->where(['name' => $key, 'type' => $type])
+				->exists()
+			) {
+				$result = $db->createCommand()->update($this->baseTable, ['val' => $val], ['type' => $type, 'name' => $key])->execute();
+			} else {
+				$result = $db->createCommand()->insert($this->baseTable, ['val' => $val, 'type' => $type, 'name' => $key])->execute();
 			}
-			$result = true;
 		}
-		\App\Log::trace('Exiting set api address config');
 
-		return $result;
+		return (bool) $result;
 	}
 }

@@ -7,32 +7,24 @@ jQuery.Class(
 	{
 		registerSave: function (container) {
 			container.validationEngine(app.validationEngineOptions);
-			container.find('.saveGlobal').on('click', (event) => {
+			container.find('.saveGlobal').on('click', (e) => {
 				if (!container.validationEngine('validate')) {
 					app.formAlignmentAfterValidation(container);
 					return false;
 				}
-				const defaultProvider = $('[name="default_provider"]:checked');
-				let elements = {
-					global: {
-						min_length: $('[name="min_length"]').val(),
-						result_num: $('[name="result_num"]').val(),
-						default_provider: defaultProvider.length ? defaultProvider.val() : 0
-					}
-				};
+				let form = $(e.currentTarget).closest('form');
+				let formData = form.serializeFormData();
+				let active = {};
 				$('[name="active"]').each((i, e) => {
-					elements[e.dataset.type] = { active: e.checked ? 1 : 0 };
+					active[e.dataset.type] = e.checked ? 1 : 0;
 				});
-				AppConnector.request({
-					data: {
-						module: 'ApiAddress',
-						parent: 'Settings',
-						action: 'SaveConfig',
-						elements: elements
-					},
-					async: false,
-					dataType: 'json'
-				})
+				formData['active'] = active;
+				formData['module'] = 'ApiAddress';
+				formData['parent'] = 'Settings';
+				formData['mode'] = 'global';
+				formData['action'] = 'SaveConfig';
+
+				AppConnector.request(formData)
 					.done(function (data) {
 						app.showNotify({
 							text: data['result']['message'],
@@ -50,67 +42,36 @@ jQuery.Class(
 		registerConfigModal(container) {
 			container.find('.js-show-config-modal').on('click', (e) => {
 				const providerName = e.currentTarget.dataset.provider;
-				app.showModalWindow(
-					null,
-					`index.php?module=ApiAddress&parent=Settings&view=ApiConfigModal&provider=${providerName}`,
-					(modalContainer) => {
-						const form = modalContainer.find('.js-form-validation');
-						form.validationEngine(app.validationEngineOptions);
-						modalContainer.find('.js-modal__save').on('click', (_) => {
-							if (!form.validationEngine('validate')) {
-								app.formAlignmentAfterValidation(container);
-								return false;
-							}
-							let elements = {};
-							let customField = modalContainer.find('.js-custom-field');
-							customField.each((i, e) => {
-								elements[$(e).attr('name')] = e.value;
-							});
-							elements = { [providerName]: elements };
-							AppConnector.request({
-								data: {
-									module: 'ApiAddress',
-									parent: 'Settings',
-									action: 'SaveConfig',
-									elements: elements
-								},
-								async: false,
-								dataType: 'json'
-							})
-								.done(function (data) {
-									app.showNotify({
-										text: data['result']['message'],
-										type: 'success'
-									});
-									window.location.reload();
-								})
-								.fail(function () {
-									app.showNotify({
-										text: app.vtranslate('JS_ERROR'),
-										type: 'error'
-									});
+
+				app.showModalWindow({
+					url: `index.php?module=ApiAddress&parent=Settings&view=ApiConfigModal&provider=${providerName}`,
+					cb: (modalContainer) => {
+						modalContainer.on('click', '.js-modal__save', () => {
+							let form = modalContainer.find('form');
+							if (form.validationEngine('validate')) {
+								let formData = form.serializeFormData();
+								let progress = $.progressIndicator({
+									message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+									blockInfo: { enabled: true }
 								});
+								app
+									.saveAjax('', [], formData)
+									.done(() => {
+										window.location.reload();
+									})
+									.fail(() => {
+										app.showNotify({
+											text: app.vtranslate('JS_ERROR'),
+											type: 'error'
+										});
+									})
+									.always(() => {
+										app.hideModalWindow();
+										progress.progressIndicator({ mode: 'hide' });
+									});
+							}
 						});
 					}
-				);
-			});
-		},
-		registerValidateBtn(container) {
-			container.find('.js-validate').on('click', (e) => {
-				const currentTarget = $(e.currentTarget);
-				let icon = currentTarget.find('.js-validate__icon');
-				icon.addClass('fa-spin');
-				AppConnector.request({
-					module: 'ApiAddress',
-					parent: 'Settings',
-					action: 'ValidateConfiguration',
-					provider: currentTarget.data('provider')
-				}).done((data) => {
-					icon.removeClass('fa-spin');
-					app.showNotify({
-						text: data['result']['message'],
-						type: data['result']['type']
-					});
 				});
 			});
 		},
@@ -118,7 +79,6 @@ jQuery.Class(
 			const container = $('.js-validation-form');
 			this.registerConfigModal(container);
 			this.registerSave(container);
-			this.registerValidateBtn(container);
 		}
 	}
 );

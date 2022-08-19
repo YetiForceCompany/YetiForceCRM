@@ -10,6 +10,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Map\Address;
@@ -25,13 +26,23 @@ class NominatimGeocoder extends Base
 	/** {@inheritdoc} */
 	public $customFields = [
 		'country_codes' => [
-			'type' => 'text',
-			'info' => 'LBL_COUNTRY_CODES_INFO',
-			'link' => 'https://wikipedia.org/wiki/List_of_ISO_3166_country_codes',
+			'uitype' => 1,
+			'label' => 'LBL_COUNTRY_CODES',
+			'purifyType' => \App\Purifier::TEXT,
+			'maximumlength' => '100',
+			'typeofdata' => 'V~O',
+			'tooltip' => 'LBL_COUNTRY_CODES_PLACEHOLDER',
+			'link' => [
+				'title' => 'LBL_COUNTRY_CODES_INFO',
+				'url' => 'https://wikipedia.org/wiki/List_of_ISO_3166_country_codes',
+			]
 		],
 		'map_url' => [
-			'type' => 'url',
-			'validator' => 'required,funcCall[Vtiger_Url_Validator_Js.invokeValidation]',
+			'uitype' => 17,
+			'label' => 'LBL_MAP_URL',
+			'purifyType' => \App\Purifier::URL,
+			'maximumlength' => '200',
+			'typeofdata' => 'V~M'
 		],
 	];
 

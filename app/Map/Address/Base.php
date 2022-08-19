@@ -11,18 +11,16 @@ namespace App\Map\Address;
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 abstract class Base
 {
 	/**
 	 * Construct.
-	 *
-	 * @param string $name
 	 */
-	public function __construct(string $name)
+	public function __construct()
 	{
-		$this->name = $name;
-		$this->config = \App\Map\Address::getConfig()[$name] ?? [];
+		$this->config = \App\Map\Address::getConfig()[$this->getName()] ?? [];
 	}
 
 	/**
@@ -74,11 +72,53 @@ abstract class Base
 	/**
 	 * Get provider custom fields.
 	 *
+	 * @param array $data
+	 *
 	 * @return array
 	 */
-	public function getCustomFields(): array
+	public function getCustomFields(array $data = []): array
 	{
-		return $this->customFields;
+		$fields = [];
+		foreach ($this->customFields as $fieldName => $configData) {
+			if (isset($data[$fieldName])) {
+				$configData['fieldvalue'] = $data[$fieldName];
+			}
+			$fields[$fieldName] = \Vtiger_Field_Model::init('Settings:ApiAddress', $configData, $fieldName);
+		}
+
+		return $fields;
+	}
+
+	/**
+	 * Gets data from request.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return array
+	 */
+	public function getDataFromRequest(\App\Request $request): array
+	{
+		$data = [];
+		foreach ($this->getCustomFields() as $fieldName => $fieldModel) {
+			if ($request->has($fieldName)) {
+				$value = $request->getByType($fieldName, $fieldModel->get('purifyType'));
+				$fieldUITypeModel = $fieldModel->getUITypeModel();
+				$fieldUITypeModel->validate($value, true);
+				$value = $fieldModel->getDBValue($value);
+				if ($value && 'country_codes' === $fieldName) {
+					$codes = array_map('trim', explode(',', $value));
+					$codes = array_filter($codes, fn ($code) => 2 === \strlen($code) && preg_match('/^[a-zA-Z]+$/', $code));
+					$value = implode(',', $codes);
+				}
+				$data[] = [
+					'name' => $fieldName,
+					'type' => $this->getName(),
+					'val' => $value
+				];
+			}
+		}
+
+		return $data;
 	}
 
 	/**
@@ -88,7 +128,7 @@ abstract class Base
 	 */
 	public function getName(): string
 	{
-		return $this->name;
+		return basename(str_replace('\\', '/', static::class));
 	}
 
 	/**
