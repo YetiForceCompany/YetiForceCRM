@@ -327,10 +327,12 @@ class Config
 	{
 		if (4 === \func_num_args()) {
 			[$component, $type, $key, $value] = \func_get_args();
+			$component = ucfirst($component) . 's\\';
 		} else {
 			[$type, $key, $value] = \func_get_args();
+			$type = ucfirst($type);
 		}
-		$class = '\Config\\' . (isset($component) ? ucfirst($component) . 's\\' : '') . ucfirst($type);
+		$class = '\Config\\' . ($component ?? '') . $type;
 		if ($result = (class_exists($class) && isset($class::${$key}))) {
 			$class::${$key} = $value;
 		}
