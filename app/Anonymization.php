@@ -42,7 +42,7 @@ class Anonymization
 	 * @var array Word map for anonymization.
 	 */
 	const MAPS = [
-		'password' => ['pass', 'password', 'oldPassword'],
+		'password' => ['pass', 'password', 'oldPassword', 'retype_password', 'db_password'],
 	];
 	/**
 	 * @var string Map name
