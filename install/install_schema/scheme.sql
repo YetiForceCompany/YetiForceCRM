@@ -1467,7 +1467,7 @@ CREATE TABLE `s_yf_picklist_dependency` (
   KEY `s_yf_picklist_dependency_source_field_fk` (`source_field`),
   CONSTRAINT `s_yf_picklist_dependency_source_field_fk` FOREIGN KEY (`source_field`) REFERENCES `vtiger_field` (`fieldid`) ON DELETE CASCADE,
   CONSTRAINT `s_yf_picklist_dependency_tabid_fk` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `s_yf_picklist_dependency_data` */
 

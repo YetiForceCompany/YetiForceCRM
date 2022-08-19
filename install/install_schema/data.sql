@@ -464,62 +464,62 @@ insert  into `s_yf_fields_dependency`(`id`,`tabid`,`status`,`name`,`views`,`gui`
 
 /*Data for the table `s_yf_picklist_dependency` */
 
-insert  into `s_yf_picklist_dependency`(`id`,`tabid`,`source_field`) values (20,7,1321);
-insert  into `s_yf_picklist_dependency`(`id`,`tabid`,`source_field`) values (21,14,2269);
+insert  into `s_yf_picklist_dependency`(`id`,`tabid`,`source_field`) values (1,7,1321);
+insert  into `s_yf_picklist_dependency`(`id`,`tabid`,`source_field`) values (2,14,2269);
 
 /*Data for the table `s_yf_picklist_dependency_data` */
 
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,1,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,2,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,3,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,4,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,5,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,6,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,7,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,8,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,9,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,10,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,11,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,12,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,14,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Construction Industry\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,15,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Construction Industry\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,16,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Education\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,17,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Education\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,18,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Finance\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,19,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Finance\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,20,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Finance\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,21,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Finance\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,22,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Finance\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,23,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Trade\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,24,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Trade\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,25,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Trade\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,26,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,27,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,28,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,29,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,30,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,31,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,32,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,33,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,34,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,35,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,36,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,37,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,38,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,39,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Uniformed Services\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,40,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Uniformed Services\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,41,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Technologies\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,42,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Technologies\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,43,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Technologies\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (20,13,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration##Construction Industry##Education##Finance##Trade##Industry \\/ Manufacturing##Technologies\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (21,1,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"kg\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (21,2,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"kg\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (21,3,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"kg\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (21,4,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"kg\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (21,5,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"l\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (21,6,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"l\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (21,7,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"l\"}]}');
-insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (21,8,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"l\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,1,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,2,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,3,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,4,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,5,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,6,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,7,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,8,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,9,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,10,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,11,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,12,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,14,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Construction Industry\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,15,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Construction Industry\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,16,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Education\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,17,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Education\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,18,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Finance\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,19,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Finance\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,20,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Finance\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,21,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Finance\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,22,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Finance\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,23,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Trade\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,24,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Trade\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,25,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Trade\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,26,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,27,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,28,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,29,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,30,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,31,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,32,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,33,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,34,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,35,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,36,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,37,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,38,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Industry \\/ Manufacturing\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,39,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Uniformed Services\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,40,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Uniformed Services\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,41,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Technologies\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,42,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Technologies\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,43,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Technologies\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (1,13,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"industry:Leads\",\"operator\":\"e\",\"value\":\"Administration##Construction Industry##Education##Finance##Trade##Industry \\/ Manufacturing##Technologies\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (2,1,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"kg\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (2,2,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"kg\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (2,3,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"kg\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (2,4,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"kg\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (2,5,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"l\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (2,6,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"l\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (2,7,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"l\"}]}');
+insert  into `s_yf_picklist_dependency_data`(`id`,`source_id`,`conditions`) values (2,8,'{\"condition\":\"AND\",\"rules\":[{\"fieldname\":\"usageunit:Products\",\"operator\":\"e\",\"value\":\"l\"}]}');
 
 /*Data for the table `s_yf_privileges_updater` */
 
@@ -14319,7 +14319,7 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',959,139,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',960,139,4);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',961,139,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',962,139,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H1',962,139,6);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',3,1,2);
@@ -14823,7 +14823,7 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',959,139,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',960,139,4);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',961,139,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',962,139,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H10',962,139,6);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',3,1,2);
@@ -15327,7 +15327,7 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',959,139,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',960,139,4);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',961,139,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',962,139,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H14',962,139,6);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',3,1,2);
@@ -15831,7 +15831,7 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',959,139,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',960,139,4);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',961,139,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',962,139,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H18',962,139,6);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',3,1,2);
@@ -16335,7 +16335,7 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',959,139,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',960,139,4);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',961,139,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',962,139,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H2',962,139,6);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',3,1,2);
@@ -16839,7 +16839,7 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',959,139,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',960,139,4);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',961,139,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',962,139,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H22',962,139,6);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',3,1,2);
@@ -17343,7 +17343,7 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',959,139,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',960,139,4);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',961,139,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',962,139,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H26',962,139,6);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',3,1,2);
@@ -17847,7 +17847,7 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',959,139,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',960,139,4);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',961,139,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',962,139,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H3',962,139,6);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',3,1,2);
@@ -18351,7 +18351,7 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',959,139,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',960,139,4);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',961,139,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',962,139,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H30',962,139,6);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',3,1,2);
@@ -18855,7 +18855,7 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',959,139,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',960,139,4);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',961,139,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',962,139,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H34',962,139,6);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',1,1,0);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',2,1,1);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',3,1,2);
@@ -19359,7 +19359,7 @@ insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sor
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',959,139,3);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',960,139,4);
 insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',961,139,5);
-insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',962,139,1);
+insert  into `vtiger_role2picklist`(`roleid`,`picklistvalueid`,`picklistid`,`sortid`) values ('H6',962,139,6);
 
 /*Data for the table `vtiger_role2profile` */
 
