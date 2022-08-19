@@ -44,7 +44,7 @@ class Purifier
 	/** @var string Purify type url. */
 	public const URL = 'Url';
 
-	/** @var string Purify type Alnum (A-Za-z0-9\,\_\.\=\-). */
+	/** @var string Purify type Alnum. */
 	public const ALNUM = 'Alnum';
 
 	/** @var string Purify type Alnum 2 (A-Za-z0-9\/\+\-). */
