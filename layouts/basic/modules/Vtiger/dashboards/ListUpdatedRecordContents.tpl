@@ -22,7 +22,7 @@
 			{foreach key=$index item=record from=$LIST}
 				<tr>
 					{foreach from=$record item=item key=key}
-						<td>{$item}</td>
+						<td>{\App\Purifier::encodeHtml($item)}</td>
 					{/foreach}
 				</tr>
 			{/foreach}

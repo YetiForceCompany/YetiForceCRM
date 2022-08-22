@@ -12,8 +12,8 @@
 	<div class="js-widget-list dropdown-menu widgetsList addWidgetDropDown" data-js="container">
 		{assign var="WIDGET" value=""}
 		{foreach from=$WIDGETS item=WIDGET}
-			<a class="js-widget-list__item dropdown-item d-flex" href="#" data-name="{$WIDGET->getName()}" data-id="{$WIDGET->get('widgetid')}"
-				data-widget-url="{$WIDGET->getUrl()}" data-linkid="{$WIDGET->get('linkid')}"
+			<a class="js-widget-list__item dropdown-item d-flex" href="#" data-name="{\App\Purifier::encodeHtml($WIDGET->getName())}" data-id="{$WIDGET->get('widgetid')}"
+				data-widget-url="{$WIDGET->getUrl()|escape}" data-linkid="{$WIDGET->get('linkid')}"
 				data-width="{$WIDGET->getWidth()}" data-height="{$WIDGET->getHeight()}" data-js="remove | click">
 				{\App\Language::translate($WIDGET->getTitle(), $MODULE_NAME, null, true, 'Dashboard')}
 				{if $WIDGET->isDeletable()}

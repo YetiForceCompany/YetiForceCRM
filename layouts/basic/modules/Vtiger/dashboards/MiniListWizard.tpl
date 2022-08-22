@@ -34,7 +34,7 @@
 										<td class="fieldLabel alignMiddle textAlignCenter"
 											nowrap>{App\Language::translate('LBL_WIDGET_NAME','Home')}</td>
 										<td class="fieldValue position-relative">
-											<input type="text" class="form-control" name="widgetTitle" value="{$WIDGET_MODEL->getValueForEditView('title')}"
+											<input type="text" class="form-control" name="widgetTitle" value="{\App\Purifier::encodeHtml($WIDGET_MODEL->getValueForEditView('title'))}"
 												data-validation-engine="validate[required]" {if $WIDGET_ID} disabled{/if}>
 										</td>
 									</tr>
@@ -46,7 +46,7 @@
 											<select class="form-control select2" name="module" {if $WIDGET_ID} disabled{/if}>
 												<option></option>
 												{foreach from=$MODULES item=MODULE_MODEL key=MODULE_THIS_NAME}
-													<option value="{$MODULE_MODEL['name']}" {if $MODULE_MODEL['name'] === $VALUE_FIELD} selected{/if}>{App\Language::translate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
+													<option value="{$MODULE_MODEL['name']|escape}" {if $MODULE_MODEL['name'] === $VALUE_FIELD} selected{/if}>{App\Language::translate($MODULE_MODEL['name'], $MODULE_MODEL['name'])}</option>
 												{/foreach}
 											</select>
 										</td>
@@ -152,7 +152,7 @@
 			<select class="form-control" name="fields" size="2" multiple="true">
 				<option></option>
 				{foreach from=$LIST_VIEW_FIELDS item=FIELD key=FIELD_NAME}
-					<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
+					<option value="{$FIELD_NAME|escape}">{\App\Language::translate($FIELD->getFieldLabel(),$SELECTED_MODULE)}</option>
 				{/foreach}
 			</select>
 			<select class="form-control" name="filter_fields">

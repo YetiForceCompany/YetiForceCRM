@@ -28,7 +28,7 @@
 	{/foreach}
 	{if count($WIDGET_RECORDS) >= $WIDGET_MODEL->getRecordLimit()}
 		<button class="btn btn-light float-right btn-sm goToListView"
-			data-url="{$WIDGET_MODEL->getUrl()}"
+			data-url="{$WIDGET_MODEL->getUrl()|escape}"
 			title="{\App\Language::translate('LBL_MORE', $MODULE_NAME)}">
 			<span>{\App\Language::translate('LBL_MORE', $MODULE_NAME)}</span>
 		</button>

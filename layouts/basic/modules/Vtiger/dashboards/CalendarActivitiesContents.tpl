@@ -17,7 +17,7 @@
 	</style>
 	<div>
 		{foreach from=$ACTIVITIES key=INDEX item=ACTIVITY}
-			<div class="changeActivity u-cursor-pointer" data-url="{$ACTIVITY->getActivityStateModalUrl()}" accesskey="">
+			<div class="changeActivity u-cursor-pointer" data-url="{$ACTIVITY->getActivityStateModalUrl()|escape}" accesskey="">
 				<div class="rowActivities">
 					<div class="d-flex mb-1">
 						<div class="">
@@ -47,7 +47,7 @@
 						<div class="w-100 mx-1">
 							{\App\TextUtils::textTruncate($ACTIVITY->getDisplayName(), $NAMELENGTH)}
 							{if $CONTRACTOR}
-								<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()}">{\App\TextUtils::textTruncate($CONTRACTOR->getDisplayName(), $HREFNAMELENGTH)}</a></small></strong>
+								<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('contractor')}</strong></small>, <strong><small class='small-a'><a href="{$CONTRACTOR->getDetailViewUrl()|escape}">{\App\TextUtils::textTruncate($CONTRACTOR->getDisplayName(), $HREFNAMELENGTH)}</a></small></strong>
 							{/if}
 							{if $LINK}
 								<br /><small class="small-a">{\App\Language::translate('LBL_FOR')}&nbsp;<strong>{$ACTIVITY->getDisplayValue('link')}</strong></small>
@@ -84,7 +84,7 @@
 		{/foreach}
 		{if $PAGING_MODEL->get('nextPageExists') eq 'true'}
 			<div class="float-right padding5">
-				<button type="button" class="btn btn-sm btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()}&page={$PAGING_MODEL->getNextPage()}">
+				<button type="button" class="btn btn-sm btn-primary showMoreHistory" data-url="{$WIDGET->getUrl()|escape}&page={$PAGING_MODEL->getNextPage()}">
 					{\App\Language::translate('LBL_MORE')}
 				</button>
 			</div>

@@ -42,7 +42,7 @@
 										{if $IS_SUMMARY} {$SUMMARY[$HEADER][] = $CHART_DATA.$HEADER.$GROUP_HEADER.$VALUE_TYPE} {/if}
 										{assign var=VALUE value=$CHART_MODEL->convertToUserFormat($CHART_DATA.$HEADER.$GROUP_HEADER.$VALUE_TYPE)}
 										{if !empty($CHART_DATA.$HEADER.$GROUP_HEADER.link)}
-											<a href="{$CHART_DATA.$HEADER.$GROUP_HEADER.link}">{$VALUE}</a>
+											<a href="{$CHART_DATA.$HEADER.$GROUP_HEADER.link|escape}">{$VALUE}</a>
 										{else}
 											{$VALUE}
 										{/if}

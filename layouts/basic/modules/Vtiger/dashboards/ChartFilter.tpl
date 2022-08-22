@@ -15,7 +15,7 @@
 					<div>
 						<div class="form-group row mb-2">
 							<label class="{$COL_LBL}">{\App\Language::translate('LBL_WIDGET_NAME','Home')}</label>
-							<div class="{$COL_CTRL}"><input type="text" class="form-control" name="title" value="{$WIDGET_MODEL->getValueForEditView('title')}"></div>
+							<div class="{$COL_CTRL}"><input type="text" class="form-control" name="title" value="{\App\Purifier::encodeHtml($WIDGET_MODEL->getValueForEditView('title'))}"></div>
 						</div>
 						<div class="form-group row mb-2">
 							<label class="{$COL_LBL}"><span class="redColor">*</span>{\App\Language::translate('LBL_SELECT_CHART','Home')}</label>
@@ -59,7 +59,7 @@
 			<div class="{$COL_CTRL}">
 				{assign "VALUE_FILTER" $WIDGET_MODEL->getValueForEditView('filterid')}
 				<select class="form-control filtersId" {if $CHART_TYPE!=='Funnel' && $CHART_TYPE!=='Table' }name="filtersId"
-					multiple="multiple" {else}name="filtersId[]" 
+					multiple="multiple" {else}name="filtersId[]"
 					{/if}
 					data-validation-engine="validate[required]" data-maximum-selection-length="{\App\Config::performance('CHART_MULTI_FILTER_LIMIT')}">
 					<option></option>

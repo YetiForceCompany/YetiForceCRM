@@ -16,11 +16,11 @@
 		</a>
 		&nbsp;
 	{/if}
-	<button class="btn btn-sm btn-light js-widget-refresh" title="{\App\Language::translate('LBL_REFRESH')}" data-url="{$WIDGET->getUrl()}&content=data" data-js="click">
+	<button class="btn btn-sm btn-light js-widget-refresh" title="{\App\Language::translate('LBL_REFRESH')}" data-url="{$WIDGET->getUrl()|escape}&content=data" data-js="click">
 		<span class="fas fa-sync-alt"></span>
 	</button>
 	{if !$WIDGET->isDefault()}
-		<button class="btn btn-sm btn-light js-widget-remove" title="{\App\Language::translate('LBL_CLOSE')}" data-url="{$WIDGET->getDeleteUrl()}" data-js="click">
+		<button class="btn btn-sm btn-light js-widget-remove" title="{\App\Language::translate('LBL_CLOSE')}" data-url="{$WIDGET->getDeleteUrl()|escape}" data-js="click">
 			<span class="fas fa-times"></span>
 		</button>
 	{/if}

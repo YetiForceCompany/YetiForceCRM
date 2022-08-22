@@ -10,11 +10,11 @@
 		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME)}
 			<div class="d-inline-flex">
-				<button class="btn btn-sm btn-light js-widget-refresh" title="{\App\Language::translate('LBL_REFRESH')}" data-url="{$WIDGET->getUrl()}&content=data" data-js="click">
+				<button class="btn btn-sm btn-light js-widget-refresh" title="{\App\Language::translate('LBL_REFRESH')}" data-url="{$WIDGET->getUrl()|escape}&content=data" data-js="click">
 					<span class="fas fa-sync-alt"></span>
 				</button>
 				{if !$WIDGET->isDefault()}
-					<button class="btn btn-sm btn-light js-widget-remove" title="{\App\Language::translate('LBL_CLOSE')}" data-url="{$WIDGET->getDeleteUrl()}" data-js="click">
+					<button class="btn btn-sm btn-light js-widget-remove" title="{\App\Language::translate('LBL_CLOSE')}" data-url="{$WIDGET->getDeleteUrl()|escape}" data-js="click">
 						<span class="fas fa-times"></span>
 					</button>
 				{/if}
@@ -34,7 +34,7 @@
 							<option value="-">{\App\Language::translate('--None--', $MODULE_NAME)}</option>
 						{else}
 							{foreach from=$ACCOUNTSLIST item=item key=key}
-								<option title="{$item['username']}" value="{$item['user_id']}" {if $USER == $item['user_id']}selected{/if}>{$item['username']}</option>
+								<option title="{\App\Purifier::encodeHtml($item['username'])}" value="{$item['user_id']}" {if $USER == $item['user_id']}selected{/if}>{\App\Purifier::encodeHtml($item['username'])}</option>
 							{/foreach}
 						{/if}
 					</select>

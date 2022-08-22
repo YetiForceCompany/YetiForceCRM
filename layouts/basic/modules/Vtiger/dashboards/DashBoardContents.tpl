@@ -44,8 +44,8 @@
 					data-js="css-element-queries">
 					<div id="{$WIDGETDOMID}" {if $smarty.foreach.count.index % $COLUMNS == 0 and $smarty.foreach.count.index != 0} {/if}
 						class="grid-stack-item-content dashboardWidget dashboardWidget_{$smarty.foreach.count.index}"
-						data-url="{$WIDGET->getUrl()}"
-						data-mode="open" data-name="{$WIDGET->getName()}" data-cache="{$WIDGET->get('cache')}"
+						data-url="{$WIDGET->getUrl()|escape}"
+						data-mode="open" data-name="{\App\Purifier::encodeHtml($WIDGET->getName())}" data-cache="{$WIDGET->get('cache')|escape}"
 						data-loader="widgetLoader">
 					</div>
 				</div>

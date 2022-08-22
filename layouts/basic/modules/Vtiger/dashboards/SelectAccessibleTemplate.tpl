@@ -38,11 +38,11 @@
 				{if in_array('users', $ACCESS_OPTIONS['available'])}
 					{assign var=AJAX_URL value=$AJAX_URL|cat:"&result[]=users"}
 				{/if}
-				data-ajax-search="1" data-ajax-url="{$AJAX_URL}" data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
+				data-ajax-search="1" data-ajax-url="{$AJAX_URL|escape}" data-minimum-input="{App\Config::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 			{/if}>
 
 			{if in_array('mine', $ACCESS_OPTIONS.available)}
-				<option value="{$USER_MODEL->getId()}" data-name="{$USER_MODEL->getName()}"
+				<option value="{$USER_MODEL->getId()}" data-name="{$USER_MODEL->getName()|escape}"
 					title="{\App\Language::translate('LBL_MINE')}" {if $OWNER eq $USER_MODEL->getId()} selected {/if}>{\App\Language::translate('LBL_MINE')}</option>
 			{/if}
 			{if in_array('all', $ACCESS_OPTIONS.available)}

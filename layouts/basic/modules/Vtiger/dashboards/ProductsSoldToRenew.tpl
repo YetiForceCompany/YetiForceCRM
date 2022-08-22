@@ -33,7 +33,7 @@
 			<div class="col-ceq-xsm-6">
 				<div class="float-right">
 					<button class="btn btn-light btn-sm ml-1 goToListView"
-						data-url="{$WIDGET_MODEL->getUrl()}"
+						data-url="{$WIDGET_MODEL->getUrl()|escape}"
 						title="{\App\Language::translate('LBL_GO_TO_RECORDS_LIST', $MODULE_NAME)}">
 						<span class="fas fa-th-list"></span>
 					</button>

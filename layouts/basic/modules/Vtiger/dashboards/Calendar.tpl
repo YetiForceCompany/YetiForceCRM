@@ -60,7 +60,7 @@
 							</label>
 						</div>
 						<input type="hidden" value="current" data-current="{implode('##',$CURRENT_STATUS)}"
-							data-history="{implode(',',$HISTORY_STATUS)}" class="widgetFilterSwitch" {if !empty($WIDGET_DATA['defaultFilter'])} data-default-filter="{$WIDGET_DATA['defaultFilter']}" {/if}>
+							data-history="{implode(',',$HISTORY_STATUS)|escape}" class="widgetFilterSwitch" {if !empty($WIDGET_DATA['defaultFilter'])} data-default-filter="{$WIDGET_DATA['defaultFilter']|escape}" {/if}>
 					{/if}
 				</div>
 				<div class="col-ceq-xsm-6">
