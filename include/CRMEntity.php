@@ -33,6 +33,9 @@ require_once 'include/Webservices/Utils.php';
 
 class CRMEntity
 {
+	/** @var array */
+	public $tab_name_index = [];
+
 	/** @var string[] Tables join clause. */
 	public $tableJoinClause = [
 		'vtiger_entity_stats' => 'LEFT JOIN',
