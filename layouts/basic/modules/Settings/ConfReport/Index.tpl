@@ -18,7 +18,7 @@
 		{/if}
 	{/function}
 	{function HIGHLIGHT_ROW ITEM=[]}
-		{if !$ITEM['status'] && (empty($ITEM['mode']) ||  $ITEM['mode'] eq 'showErrors')}
+		{if !$ITEM['status'] && (empty($ITEM['mode']) ||  $ITEM['mode'] eq 'showErrors') && empty($ITEM['noParameter'])}
 			class="table-danger"
 		{elseif !$ITEM['status'] && isset($ITEM['mode']) &&  $ITEM['mode'] eq 'showWarnings'}
 			class="table-warning"

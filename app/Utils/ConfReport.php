@@ -722,6 +722,7 @@ class ConfReport
 				}
 			}
 		}
+
 		return static::${$type};
 	}
 
@@ -748,6 +749,7 @@ class ConfReport
 				}
 			}
 		}
+
 		return $values;
 	}
 
@@ -1161,13 +1163,16 @@ class ConfReport
 	 * @param string $name
 	 * @param array  $row
 	 *
-	 * @return array
+	 * @return string
 	 */
 	private static function parserOnOff(string $name, array $row)
 	{
 		$container = $row['container'];
+		if ('db' === $container && !isset(static::${$container}[\strtolower($name)])) {
+			return '-';
+		}
 		$current = static::${$container}[\strtolower($name)] ?? static::${$container}[$name] ?? '';
-		static $map = ['on' => 'On', 'true' => 'On', 'off' => 'Off', 'false' => 'Off'];
+		$map = ['on' => 'On', 'true' => 'On', 'off' => 'Off', 'false' => 'Off'];
 		return isset($map[strtolower($current)]) ? $map[strtolower($current)] : ($current ? 'On' : 'Off');
 	}
 
@@ -1819,7 +1824,7 @@ class ConfReport
 	{
 		$result = [];
 		foreach (static::get($type, true) as $param => $data) {
-			if (!$data['status'] && (empty($data['mode']) || 'showErrors' === $data['mode'])) {
+			if (!$data['status'] && (empty($data['mode']) || 'showErrors' === $data['mode']) && empty($data['noParameter'])) {
 				if (!isset($data['www']) && !isset($data['cron'])) {
 					$val = $data['status'];
 				} else {
