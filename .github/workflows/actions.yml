@@ -55,9 +55,6 @@ jobs:
       - name: codecov.io/validate
         run: curl --data-binary @codecov.yml https://codecov.io/validate
 
-      - name: OSSF Scorecard action
-        uses: ossf/scorecard-action@v2.0.0-alpha.2
-
   copilot:
     name: CoPilot
     runs-on: ubuntu-latest
