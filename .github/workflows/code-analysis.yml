@@ -91,6 +91,3 @@ jobs:
         with:
           name: javascript.zip
           path: /home/runner/work/_temp/codeql_databases/javascript.zip
-
-      - name: OSSF Scorecard action
-        uses: ossf/scorecard-action@v2.0.0-alpha.2
