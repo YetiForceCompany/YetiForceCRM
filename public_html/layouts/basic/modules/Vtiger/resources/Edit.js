@@ -269,8 +269,9 @@ $.Class(
 				filterFields: filterFields
 			};
 			let searchParamsElement = $('input[name="searchParams"]', container);
-			if (searchParamsElement.length > 0) {
-				params['search_params'] = searchParamsElement.val();
+			let searchParams = searchParamsElement.length > 0 ? JSON.parse(searchParamsElement.val()) : null;
+			if (searchParams && searchParams[popupReferenceModule]) {
+				params['search_params'] = searchParams[popupReferenceModule];
 			}
 			let modalParamsElement = $('input[name="modalParams"]', container);
 			if (modalParamsElement.length > 0) {

@@ -21,7 +21,7 @@
 	{assign var=PARAMS value=$FIELD_MODEL->getFieldParams()}
 	<div class="uitype_{$MODULE_NAME}_{$FIELD_NAME}">
 		{if isset($PARAMS['searchParams'])}
-			<input name="searchParams" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['searchParams'])}" />
+			<input name="searchParams" type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($PARAMS['searchParams']))}" />
 		{/if}
 		{if isset($PARAMS['modalParams'])}
 			<input name="modalParams" type="hidden" value="{\App\Purifier::encodeHtml($PARAMS['modalParams'])}" />
