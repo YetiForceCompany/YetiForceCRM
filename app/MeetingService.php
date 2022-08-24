@@ -209,10 +209,9 @@ class MeetingService extends Base
 	{
 		$data['aud'] = $this->get('key');
 		$data['iss'] = $this->get('key');
-		$data['sub'] = $this->get('url');
+		$data['sub'] = parse_url($this->get('url'))['host'] ?? '';
 		$data['exp'] = $data['exp'] ?? strtotime("+{$this->get('duration')} minutes");
 		$jwt = new \Ahc\Jwt\JWT(\App\Encryption::getInstance()->decrypt($this->get('secret')));
-
 		return $jwt->encode($data);
 	}
 }
