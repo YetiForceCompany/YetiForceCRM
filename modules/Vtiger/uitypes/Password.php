@@ -59,9 +59,6 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		if ('' === $value) {
-			return '';
-		}
 		$value = '******';
 		if (!$rawText && $recordModel && $recordModel->isViewable() && !\App\Encryption::getInstance($this->getFieldModel()->getModuleId())->isRunning()) {
 			$moduleName = $recordModel->getModuleName();
