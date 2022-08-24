@@ -382,6 +382,7 @@ class ConfReport
 	 * @var array
 	 */
 	public static $writableFilesAndFolders = [
+		'cron.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'app_data/cron.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'app_data/registration.php' => ['type' => 'IsWritable', 'testCli' => true],
 		'app_data/moduleHierarchy.php' => ['type' => 'IsWritable', 'testCli' => true, 'mustExist' => true],
