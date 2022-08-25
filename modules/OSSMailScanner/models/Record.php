@@ -332,10 +332,19 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$params = [];
 		if (empty($account['actions'])) {
 			$params['actions'] = ['CreatedEmail', 'BindAccounts', 'BindContacts', 'BindLeads'];
+		} else {
+			if (\is_string($account['actions'])) {
+				$actions = explode(',', $account['actions']);
+			} else {
+				$actions = $account['actions'];
+			}
+			if (!\in_array('CreatedEmail', $actions)) {
+				array_unshift($actions, 'CreatedEmail', );
+			}
+			$params['actions'] = $actions;
 		}
 		$return = self::executeActions($account, $mail, $folder, $params);
 		unset($mail);
-
 		return $return;
 	}
 
