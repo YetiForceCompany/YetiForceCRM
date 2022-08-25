@@ -34,17 +34,19 @@ class Cleaner extends Base
 	 */
 	public function logs(): void
 	{
-		$i = 0;
+		$i = $s = 0;
 		$this->climate->bold('Removing all logs...');
 		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . '/cache/logs', \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 			if ($item->isFile() && 'index.html' !== $item->getBasename()) {
 				$this->climate->bold($iterator->getSubPathName() . ' - ' . \vtlib\Functions::showBytes($item->getSize()));
+				$s += $item->getSize();
 				unlink($item->getPathname());
 				++$i;
 			}
 		}
 		$this->climate->lightYellow()->border('─', 200);
 		$this->climate->bold('Number of deleted log files: ' . $i);
+		$this->climate->bold('Size of deleted log files: ' . \vtlib\Functions::showBytes($s));
 		$this->climate->lightYellow()->border('─', 200);
 	}
 
