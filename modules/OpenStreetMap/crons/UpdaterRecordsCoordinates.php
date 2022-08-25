@@ -19,7 +19,7 @@ class OpenStreetMap_UpdaterRecordsCoordinates_Cron extends \App\CronHandler
 	public function process()
 	{
 		$db = App\Db::getInstance();
-		$dataReader = (new App\Db\Query())->from(OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME)
+		$dataReader = (new App\Db\Query())->from('u_#__openstreetmap_record_updater')
 			->limit(App\Config::module('OpenStreetMap', 'cronMaxUpdatedAddresses'))
 			->createCommand()->query();
 		$coordinatesConnector = \App\Map\Coordinates::getInstance();
