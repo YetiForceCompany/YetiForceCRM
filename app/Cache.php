@@ -252,6 +252,9 @@ class Cache
 		$exclusion = ['.htaccess', 'index.html'];
 		$s = $i = 0;
 		foreach (['pdf', 'import', 'mail', 'vtlib', 'rss_cache', 'upload', 'templates_c'] as $dir) {
+			if (!file_exists(ROOT_DIRECTORY . "/cache/{$dir}")) {
+				continue;
+			}
 			foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(ROOT_DIRECTORY . "/cache/{$dir}", \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
 				if ($item->isFile() && !\in_array($item->getBasename(), $exclusion) && $item->getMTime() < $time && $item->getATime() < $time) {
 					$s += $item->getSize();
