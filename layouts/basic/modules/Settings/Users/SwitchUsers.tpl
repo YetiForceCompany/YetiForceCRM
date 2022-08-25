@@ -20,9 +20,8 @@
 		</thead>
 		<tbody>
 			{foreach item=SUSERS key=ID from=$SWITCH_USERS}
-				{if \App\User::isExists($ID)}
+				{if $ID && \App\PrivilegeUtil::isExists($ID)}
 					{include file=\App\Layout::getTemplatePath('SwitchUsersItem.tpl', $QUALIFIED_MODULE) SELECT=true}
-
 				{else}
 					<tr>
 						<td colspan="3">

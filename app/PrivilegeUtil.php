@@ -1564,4 +1564,32 @@ class PrivilegeUtil
 		}
 		return $result;
 	}
+
+	/**
+	 * Check if element exists in organization structure.
+	 *
+	 * @param int|string $member
+	 *
+	 * @return bool
+	 */
+	public static function isExists($member): bool
+	{
+		$type = is_numeric($member) ? \App\Fields\Owner::getType($member) : 'Roles';
+		switch ($type) {
+			case 'Users':
+				$exists = \App\User::isExists($member);
+				break;
+			case 'Groups':
+				$exists = (new \App\Db\Query())->from('vtiger_groups')->where(['groupid' => $member])->exists();
+				break;
+			case 'Roles':
+				$exists = !empty(self::getRoleDetail($member));
+				break;
+			default:
+				$exists = false;
+				break;
+		}
+
+		return $exists;
+	}
 }
