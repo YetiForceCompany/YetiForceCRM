@@ -33,9 +33,7 @@ class Vtiger_Comments_Widget extends Vtiger_Basic_Widget
 		return 'module=' . $this->Module . '&view=Detail&record=' . $this->Record . '&mode=showRecentComments&page=1&limit=' . $this->Data['limit'];
 	}
 
-	/**
-	 * Function return config template name.
-	 */
+	/** {@inheritdoc} */
 	public function getConfigTplName()
 	{
 		return 'CommentsConfig';

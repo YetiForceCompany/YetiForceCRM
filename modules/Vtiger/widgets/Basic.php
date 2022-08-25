@@ -37,6 +37,11 @@ class Vtiger_Basic_Widget
 		return !$this->allowedModules || \in_array($this->Module, $this->allowedModules);
 	}
 
+	/**
+	 * Function return config template name.
+	 *
+	 * @return string
+	 */
 	public function getConfigTplName()
 	{
 		return 'BasicConfig';
