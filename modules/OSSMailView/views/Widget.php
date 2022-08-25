@@ -41,7 +41,11 @@ class OSSMailView_Widget_View extends Vtiger_Edit_View
 		if ($request->has('limit')) {
 			$config['widget_limit'] = $request->getInteger('limit');
 		}
-		$relationModel = \Vtiger_Relation_Model::getInstanceById(\App\Relation::getRelationId($smodule, $moduleName))->set('parentRecord', $recordModel);
+		$relation = \App\Relation::getRelationId($smodule, $moduleName);
+		if (!$relation) {
+			throw new \App\Exceptions\AppException("ERR_RELATION_NOT_FOUND||$smodule||$moduleName", 400);
+		}
+		$relationModel = \Vtiger_Relation_Model::getInstanceById($relation)->set('parentRecord', $recordModel);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECOLDLIST', $recordModel->{$mode}($srecord, $smodule, $config, $type, $mailFilter));
 		$viewer->assign('MODULENAME', $moduleName);
