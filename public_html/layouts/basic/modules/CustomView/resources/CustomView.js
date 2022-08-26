@@ -102,25 +102,32 @@ class CustomView {
 	}
 
 	saveAndViewFilter() {
-		this.saveFilter().done(function (data) {
-			let response = data.result;
-			if (response && response.success) {
-				let url;
-				if (app.getParentModuleName() == 'Settings') {
-					url = 'index.php?module=CustomView&parent=Settings&view=Index&sourceModule=' + $('#sourceModule').val();
+		this.saveFilter()
+			.done(function (data) {
+				let response = data.result;
+				if (response && response.success) {
+					let url;
+					if (app.getParentModuleName() == 'Settings') {
+						url = 'index.php?module=CustomView&parent=Settings&view=Index&sourceModule=' + $('#sourceModule').val();
+					} else {
+						url = response.listviewurl;
+					}
+					window.location.href = url;
 				} else {
-					url = response.listviewurl;
+					$.unblockUI();
+					app.showNotify({
+						title: app.vtranslate('JS_DUPLICATE_RECORD'),
+						text: response.message,
+						type: 'error'
+					});
 				}
-				window.location.href = url;
-			} else {
-				$.unblockUI();
+			})
+			.fail(function (error) {
 				app.showNotify({
-					title: app.vtranslate('JS_DUPLICATE_RECORD'),
-					text: response.message,
+					title: error,
 					type: 'error'
 				});
-			}
-		});
+			});
 	}
 
 	registerIconEvents() {

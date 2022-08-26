@@ -51,24 +51,20 @@
 							<div class="c-panel__body py-1">
 								<div class="form-row">
 									<div class="d-flex col-md-5">
-										<label class="float-left col-form-label ">
-											<span class="redColor">*</span> {\App\Language::translate('LBL_VIEW_NAME',$MODULE_NAME)}
-											:</label>
+										<label class="float-left col-form-label "><span class="redColor">*</span> {\App\Language::translate('LBL_VIEW_NAME',$MODULE_NAME)}:</label>
 										<div class="col-md-7">
-											<input type="text" id="viewname" class="form-control" data-validation-engine="validate[required]" name="viewname" value="{$CUSTOMVIEW_MODEL->get('viewname')}" />
+											<input type="text" id="viewname" class="form-control" data-validation-engine="validate[required]" name="viewname" value="{\App\Purifier::encodeHtml($CUSTOMVIEW_MODEL->get('viewname'))}" />
 										</div>
 									</div>
 									<div class="d-flex col-md-5">
-										<label class="float-left col-form-label ">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE_NAME)}
-											:</label>
+										<label class="float-left col-form-label ">{\App\Language::translate('LBL_COLOR_VIEW',$MODULE_NAME)}:</label>
 										<div class="col-md-7">
 											{assign var=COLOR value=$CUSTOMVIEW_MODEL->get('color')}
 											<div class="input-group js-color-picker" data-js="color-picker">
-												<input type="text" class="form-control js-color-picker__field" name="color"
-													value="{$COLOR}" />
+												<input type="text" class="form-control js-color-picker__field" name="color" value="{\App\Purifier::encodeHtml($COLOR)}" />
 												<div class="input-group-append">
 													<div class="input-group-text">
-														<span class="c-circle c-circle--small js-color-picker__color" style="background-color: {$COLOR}"></span>
+														<span class="c-circle c-circle--small js-color-picker__color" style="background-color: {\App\Purifier::encodeHtml($COLOR)}"></span>
 													</div>
 												</div>
 											</div>
