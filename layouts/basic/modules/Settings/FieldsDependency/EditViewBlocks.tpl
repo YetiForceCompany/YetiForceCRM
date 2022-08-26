@@ -20,7 +20,7 @@
 					<div class="card-header">
 						{if !empty($RECORD->getId())}
 							<span class="yfi yfi-full-editing-view mr-2"></span>
-							{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)} - {$RECORD->getName()}
+							{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)} - {\App\Purifier::encodeHtml($RECORD->getName())}
 						{else}
 							<span class="fas fa-plus mr-2"></span>
 							{\App\Language::translate('LBL_CREATE',$QUALIFIED_MODULE)}
@@ -30,7 +30,7 @@
 						<div class="form-group row">
 							<label for="inputName" class="col-sm-3 col-form-label text-right"><span class="redColor">*</span>{\App\Language::translate('LBL_NAME',$QUALIFIED_MODULE)}</label>
 							<div class="col-sm-9">
-								<input type="text" name="name" value="{$RECORD->getName()}" class="form-control" id="inputName" data-validation-engine="validate[required,maxSize[100]]">
+								<input type="text" name="name" value="{\App\Purifier::encodeHtml($RECORD->getName())}" class="form-control" id="inputName" data-validation-engine="validate[required,maxSize[100]]">
 							</div>
 						</div>
 						<div class="form-group row">

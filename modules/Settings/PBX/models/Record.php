@@ -56,7 +56,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getParam($key)
 	{
-		return isset($this->param[$key]) ? $this->param[$key] : null;
+		return $this->param[$key] ?? null;
 	}
 
 	/**
@@ -99,7 +99,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		if ('default' === $key) {
 			return $this->get($key) ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
 		}
-		return $this->get($key);
+		return \App\Purifier::encodeHtml($this->get($key));
 	}
 
 	/**

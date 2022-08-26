@@ -211,6 +211,9 @@ class Settings_MeetingServices_Record_Model extends Settings_Vtiger_Record_Model
 			case 'status':
 				$value = \App\Language::translate(1 == $value ? 'LBL_ACTIVE' : 'LBL_INACTIVE', $this->getModule()->getName(true));
 				break;
+			default:
+				$value = \App\Purifier::encodeHtml($value);
+				break;
 		}
 		return $value;
 	}

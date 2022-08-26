@@ -124,7 +124,7 @@ class Settings_PublicHoliday_Record_Model extends Settings_Vtiger_Record_Model
 				$displayValue = \App\Language::translate($value, 'Settings:PublicHoliday');
 				break;
 			default:
-				$displayValue = $value;
+				$displayValue = \App\Purifier::encodeHtml($value);
 				break;
 		}
 		return $displayValue;

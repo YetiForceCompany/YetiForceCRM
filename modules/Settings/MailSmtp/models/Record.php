@@ -124,6 +124,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				$value = App\Purifier::encodeHtml(implode(',', $unsubscribe));
 				break;
 			default:
+				$value = \App\Purifier::encodeHtml($value);
 				break;
 		}
 		return $value;

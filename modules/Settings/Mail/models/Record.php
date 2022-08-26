@@ -120,6 +120,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 				 $value = \App\Layout::truncateHtml($value, 'mini', 30);
 				break;
 			default:
+				$value = \App\Purifier::encodeHtml($value);
 				break;
 		}
 		return $value;
