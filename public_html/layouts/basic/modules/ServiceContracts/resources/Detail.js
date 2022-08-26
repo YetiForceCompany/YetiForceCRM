@@ -4,6 +4,7 @@
  * @description InRelation scripts for SlaPolicy module
  * @license     YetiForce Public License 5.0
  * @author      Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author      Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 'use strict';
 
@@ -40,73 +41,45 @@ Vtiger_Detail_Js(
 			this.container.find('.js-sla-policy-custom').removeClass('d-none');
 			return this;
 		},
-
 		/**
-		 * Get template table
-		 * @param {Array} rows
-		 *
-		 * @returns {String} HTML
+		 * Get default params
+		 * @returns {Object}
 		 */
-		getTemplateTableHtml(rows) {
-			let somethingChecked = false;
-			rows.forEach((row) => {
-				if (row.checked) {
-					somethingChecked = true;
-					return false;
-				}
-			});
-			if (!somethingChecked && typeof rows[0] !== 'undefined') {
-				rows[0].checked = true;
-			}
-			return `<div class="col-12"><table class="table js-sla-policy-template-table">
-		<thead>
-			<tr>
-				<th></th>
-				<th>${app.vtranslate('JS_POLICY_NAME')}</th>
-				<th>${app.vtranslate('JS_OPERATIONAL_HOURS')}</th>
-				<th>${app.vtranslate('JS_REACTION_TIME')}</th>
-				<th>${app.vtranslate('JS_IDLE_TIME')}</th>
-				<th>${app.vtranslate('JS_RESOLVE_TIME')}</th>
-			</tr>
-		</thead>
-		<tbody>
-		${rows
-			.map((row) => {
-				return `<tr>
-				<td><input type="radio" name="policy_id" value="${row.id}"${row.checked ? 'checked="checked"' : ''}></td>
-				<td>${row.name}</td>
-				<td>${row.operational_hours}</td>
-				<td>${row.reaction_time}</td>
-				<td>${row.idle_time}</td>
-				<td>${row.resolve_time}</td>
-			</tr>`;
-			})
-			.join('')}
-		</tbody>
-		</table>
-		</div>`;
+		getDefaultParam() {
+			return {
+				module: 'ServiceContracts',
+				view: 'PolicyTemplatesAjax',
+				targetModule: this.targetModule,
+				record: Number($('#recordId').val())
+			};
 		},
 
 		/**
 		 * Load predefined sla policy templates
+		 * @param {Object} param
+		 * @returns
 		 */
-		loadTemplates() {
+		loadTemplates(param) {
 			const progress = jQuery.progressIndicator({
 				position: 'html',
 				blockInfo: {
 					enabled: true
 				}
 			});
-			AppConnector.request({
-				module: 'ServiceContracts',
-				action: 'PolicyTemplatesAjax',
-				targetModule: this.targetModule,
-				record: Number($('#recordId').val())
-			}).done((data) => {
-				progress.progressIndicator({ mode: 'hide' });
-				if (data.success) {
-					this.container.find('.js-sla-policy-template--container').html(this.getTemplateTableHtml(data.result));
-				}
+			return new Promise((resolve, _reject) => {
+				AppConnector.request(param)
+					.done((data) => {
+						progress.progressIndicator({ mode: 'hide' });
+						resolve(data);
+					})
+					.fail((e, t) => {
+						progress.progressIndicator({ mode: 'hide' });
+						app.errorLog(e, t);
+						app.showNotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
+					});
 			});
 		},
 
@@ -116,7 +89,12 @@ Vtiger_Detail_Js(
 		onPolicyTypeChange() {
 			this.policyType = Number(this.container.find('[name="policy_type"]:checked').val());
 			if (this.policyType === 1) {
-				this.hideAll().showTemplateSettings().loadTemplates();
+				this.hideAll()
+					.showTemplateSettings()
+					.loadTemplates({ mode: 'slaPolicyTemplate', ...this.getDefaultParam() })
+					.then((data) => {
+						this.container.find('.js-sla-policy-template--container').html(data);
+					});
 			} else if (this.policyType === 2) {
 				this.hideAll().showCustomSettings();
 			} else {
@@ -176,7 +154,7 @@ Vtiger_Detail_Js(
 						rowElem.find('.js-custom-row-id').val(row.id);
 					});
 				} else {
-					$.each(this.container.find('.js-custom-row'), (index, rowElem) => {
+					$.each(this.container.find('.js-custom-row'), (_index, rowElem) => {
 						rowElem = $(rowElem);
 						rowElem.data('id', 0);
 						rowElem.find('.js-custom-row-id').val(0);
@@ -198,66 +176,21 @@ Vtiger_Detail_Js(
 			addPolicyBtn.on('click', (e) => {
 				e.preventDefault();
 				e.stopPropagation();
-				const index = this.container.find('.js-custom-row').length;
-				const row = $(`<div class="card js-custom-row shadow-sm mb-2" data-id="0" data-record-id="` + addPolicyBtn.data('record-id') + `" data-js="container">
-			<div class="card-body">
-				<div class="d-flex">
-					<div class="d-block" style="flex-grow:1">
-						<div class="row no-gutters">
-							<div class="col-5 pr-2">
-								<label>${app.vtranslate('JS_BUSINESS_HOURS')}</label>
-								<select class="select2" name="business_hours[${index}][]" multiple data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
-								${this.businessHours
-									.map((businessHours) => {
-										return `<option value="${businessHours.id}">${businessHours.name}</option>`;
-									})
-									.join('')}
-								</select>
-							</div>
-							<div class="col-2 pr-2">
-								<label>${app.vtranslate('JS_REACTION_TIME')}</label>
-								<div class="input-group time">
-									<input type="hidden" name="reaction_time[${index}]" class="c-time-period" value="1:d">
-								</div>
-							</div>
-							<div class="col-2 pr-2">
-								<label>${app.vtranslate('JS_IDLE_TIME')}</label>
-								<div class="input-group time">
-									<input type="hidden" name="idle_time[${index}]" class="c-time-period" value="1:d">
-								</div>
-							</div>
-							<div class="col-2 pr-2">
-								<label>${app.vtranslate('JS_RESOLVE_TIME')}</label>
-								<div class="input-group time">
-									<input type="hidden" name="resolve_time[${index}]" class="c-time-period" value="1:d">
-								</div>
-							</div>
-						</div>
-						<div class="row mt-2">
-							<div class="js-conditions-col col">
-								<input type="hidden" name="rowid[${index}]" value="0" class="js-custom-row-id" />
-								<input type="hidden" name="conditions[${index}]" class="js-conditions-value" value="{}" data-js="container">
-								${this.container.find('.js-conditions-template').html()}
-							</div>
-						</div>
-					</div>
-					<div class="d-inline-flex text-right border-left" style="flex-grow:0">
-						<div class="d-inline-block align-center" style="margin:auto 0;">
-							<a href class="btn btn-danger ml-4 js-delete-row-action"><span class="fas fa-trash-alt"></span></a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>`
-				);
-				App.Fields.TimePeriod.register(row);
-				this.registerDelBtnClick(row);
-				App.Fields.Picklist.showSelect2ElementView(row.find('.select2'));
-				this.registerConditionBuilder(
-					row.find('.js-condition-builder').eq(0),
-					this.container.find('.js-conditions-col').length
-				);
-				this.container.find('.js-custom-conditions').append(row);
+				this.loadTemplates({
+					mode: 'slaPolicyCustom',
+					index: this.container.find('.js-custom-row').length,
+					...this.getDefaultParam()
+				}).then((data) => {
+					let html = $(data);
+					App.Fields.TimePeriod.register(html);
+					this.registerDelBtnClick(html);
+					App.Fields.Picklist.showSelect2ElementView(html.find('.select2'));
+					this.registerConditionBuilder(
+						html.find('.js-condition-builder').eq(0),
+						this.container.find('.js-conditions-col').length
+					);
+					this.container.find('.js-custom-conditions').append(html);
+				});
 			});
 		},
 
@@ -288,7 +221,7 @@ Vtiger_Detail_Js(
 					targetModule: this.targetModule,
 					record: row.data('record-id'),
 					rowId: rowId
-				}).done((data) => {
+				}).done(() => {
 					progress.progressIndicator({ mode: 'hide' });
 					$(e.target).closest('.card').remove();
 					app.showNotify({
@@ -336,11 +269,10 @@ Vtiger_Detail_Js(
 			this.container = this.getForm();
 			this.policyType = Number(this.container.find('[name="policy_type"]:checked').val());
 			this.targetModule = this.container.find('[name="target"]').val();
-			this.businessHours = JSON.parse(this.container.find('.js-all-business-hours').val());
 			this.conditionBuilders = [];
 			this.conditionsBuildersContainers = [];
 			this.container.off('submit').on('submit', this.onSubmit.bind(this));
-			this.container.find('.js-sla-policy-type-radio').on('click', (e) => this.onPolicyTypeChange());
+			this.container.find('.js-sla-policy-type-radio').on('click', () => this.onPolicyTypeChange());
 			this.onPolicyTypeChange();
 			App.Fields.TimePeriod.register(this.container);
 			this.registerAddRecordBtnClick();
@@ -356,7 +288,7 @@ Vtiger_Detail_Js(
 			if (detailViewForm.find('.js-sla-policy').length) {
 				this.initSlaPolicy();
 			}
-			app.event.on('DetailView.Tab.AfterLoad', (event, data, instance) => {
+			app.event.on('DetailView.Tab.AfterLoad', (_event, _data, instance) => {
 				if (instance.getForm().find('.js-sla-policy').length) {
 					instance.initSlaPolicy();
 				}

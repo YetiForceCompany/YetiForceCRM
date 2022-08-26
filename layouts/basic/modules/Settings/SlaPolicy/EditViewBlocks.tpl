@@ -21,7 +21,7 @@
 					<div class="card-header">
 						{if !empty($RECORD->getId())}
 							<span class="yfi yfi-full-editing-view mr-2"></span>
-							{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)} - {$RECORD->getName()}
+							{\App\Language::translate('LBL_EDIT',$QUALIFIED_MODULE)} - {\App\Purifier::encodeHtml($RECORD->getName())}
 						{else}
 							<span class="fas fa-plus mr-2"></span>
 							{\App\Language::translate('LBL_CREATE',$QUALIFIED_MODULE)}
@@ -31,13 +31,13 @@
 						<div class="form-group row">
 							<div class="col-12 col-md-3">
 								<label>{\App\Language::translate('LBL_NAME',$QUALIFIED_MODULE)}</label>
-								<input type="text" name="name" class="form-control" value="{$RECORD->getName()}" data-validation-engine="validate[required,maxSize[255]]">
+								<input type="text" name="name" class="form-control" value="{\App\Purifier::encodeHtml($RECORD->getName())}" data-validation-engine="validate[required,maxSize[255]]">
 							</div>
 							<div class="col-12 col-md-3">
 								<label>{\App\Language::translate('LBL_SOURCE_MODULE',$QUALIFIED_MODULE)}</label>
 								<select name="source_module" class="select2" data-validation-engine="validate[required]">
 									{foreach item=MODULE_NAME from=$MODULES}
-										<option value="{$MODULE_NAME}" {if \App\Module::getModuleName($RECORD->get('tabid')) === $MODULE_NAME}selected="selected" {/if}>{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
+										<option value="{$MODULE_NAME|escape}" {if \App\Module::getModuleName($RECORD->get('tabid')) === $MODULE_NAME}selected="selected" {/if}>{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
 									{/foreach}
 								</select>
 							</div>
@@ -66,19 +66,19 @@
 							<div class="col-12 col-md-4">
 								<label>{\App\Language::translate('LBL_REACTION_TIME','ServiceContracts')}</label>
 								<div class="input-group time">
-									<input type="hidden" name="reaction_time" class="c-time-period" value="{$RECORD->get('reaction_time')}">
+									<input type="hidden" name="reaction_time" class="c-time-period" value="{$RECORD->get('reaction_time')|escape}">
 								</div>
 							</div>
 							<div class="col-12 col-md-4">
 								<label>{\App\Language::translate('LBL_IDLE_TIME','ServiceContracts')}</label>
 								<div class="input-group time">
-									<input type="hidden" name="idle_time" class="c-time-period" value="{$RECORD->get('idle_time')}">
+									<input type="hidden" name="idle_time" class="c-time-period" value="{$RECORD->get('idle_time')|escape}">
 								</div>
 							</div>
 							<div class="col-12 col-md-4">
 								<label>{\App\Language::translate('LBL_RESOLVE_TIME','ServiceContracts')}</label>
 								<div class="input-group time">
-									<input type="hidden" name="resolve_time" class="c-time-period" value="{$RECORD->get('resolve_time')}">
+									<input type="hidden" name="resolve_time" class="c-time-period" value="{$RECORD->get('resolve_time')|escape}">
 								</div>
 							</div>
 						</div>

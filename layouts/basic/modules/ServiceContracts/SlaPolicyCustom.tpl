@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-ServiceContracts-SlaPolicy -->
+	<!-- tpl-ServiceContracts-SlaPolicyCustom -->
 	<div class="js-sla-policy relatedContainer" data-js="container">
 		<input type="hidden" name="target" value="{$TARGET_MODULE}">
 		<div class="form-group row text-center">
@@ -25,9 +25,7 @@
 		<div class="js-sla-policy-template js-sla-policy-template--container form-group row d-none" data-js="container"></div>
 		<div class="js-sla-policy-custom form-group row d-none" data-js="container">
 			<div class="col-12">
-				<div class="js-custom-conditions" data-js="container">
-					{include file=\App\Layout::getTemplatePath('CustomConditions.tpl', $MODULE_NAME)}
-				</div>
+				{include file=\App\Layout::getTemplatePath('CustomConditions.tpl', $MODULE_NAME)}
 			</div>
 		</div>
 		<div class="row">
@@ -39,5 +37,5 @@
 			</div>
 		</div>
 	</div>
-	<!-- /tpl-ServiceContracts-SlaPolicy -->
+	<!-- /tpl-ServiceContracts-SlaPolicyCustom -->
 {/strip}
