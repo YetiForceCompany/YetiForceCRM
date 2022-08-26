@@ -211,6 +211,7 @@ class Settings_CronTasks_Record_Model extends Settings_Vtiger_Record_Model
 				$fieldValue = $this->getDuration();
 				break;
 			default:
+				$fieldValue = \App\Purifier::encodeHtml($fieldValue);
 				break;
 		}
 		return $fieldValue;

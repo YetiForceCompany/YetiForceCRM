@@ -17,7 +17,7 @@
 					<span class="redColor">*</span> {\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}
 				</label>
 				<div class="col-sm-10">
-					<input class="form-control" name="name" value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]">
+					<input class="form-control" name="name" value="{\App\Purifier::encodeHtml($RECORD_MODEL->getName())}" data-validation-engine="validate[required]">
 				</div>
 			</div>
 			<div class="form-group row">

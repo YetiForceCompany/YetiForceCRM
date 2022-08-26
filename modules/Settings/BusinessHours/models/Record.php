@@ -216,6 +216,8 @@ class Settings_BusinessHours_Record_Model extends Settings_Vtiger_Record_Model
 			$value = \App\Fields\TimePeriod::getLabel($value);
 		} elseif ('holidays' === $key) {
 			$value = $value ? \App\Language::translate('LBL_HOLIDAYS', 'Settings:BusinessHours') : '';
+		} else {
+			$value = \App\Purifier::encodeHtml($value);
 		}
 		return $value;
 	}

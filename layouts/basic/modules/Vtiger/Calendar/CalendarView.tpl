@@ -32,7 +32,7 @@
 											data-cvid="{$CUSTOM_VIEW->getId()}" data-js="click">
 											<a class="nav-link{if !empty($HISTORY_PARAMS['cvid']) && $HISTORY_PARAMS['cvid'] eq {$CUSTOM_VIEW->getId()}} active show{/if}"
 												href="#"
-												{if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')};" {/if}
+												{if $CUSTOM_VIEW->get('color')}style="color: {\App\Purifier::encodeHtml($CUSTOM_VIEW->get('color'))};" {/if}
 												data-toggle="tab" role="tab"
 												aria-selected="{if !empty($HISTORY_PARAMS['cvid']) && $HISTORY_PARAMS['cvid'] eq {$CUSTOM_VIEW->getId()}}true{else}false{/if}">
 												{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE_NAME)}

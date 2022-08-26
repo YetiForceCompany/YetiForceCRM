@@ -33,7 +33,7 @@
 							{if $item['viewname'] eq 'All'}
 								<td>{\App\Language::translate('All', $SOURCE_MODULE)}</td>
 							{else}
-								<td>{$item['viewname']}</td>
+								<td>{\App\Purifier::encodeHtml($item['viewname'])}</td>
 							{/if}
 							<td>
 								<div class="btn-group btn-group-toggle {if $item['setdefault']} u-disabled{/if}"

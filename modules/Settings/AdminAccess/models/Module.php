@@ -266,7 +266,9 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 			case 'purpose':
 				$value = $this->getFieldInstanceByName($key)->getUITypeModel()->getListViewDisplayValue($value);
 				break;
-			default: break;
+			default:
+				$value = \App\Purifier::encodeHtml($value);
+				break;
 		}
 		return $value;
 	}
