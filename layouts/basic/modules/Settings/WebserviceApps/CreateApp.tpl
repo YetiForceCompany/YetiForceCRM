@@ -9,8 +9,7 @@
 				{else}
 					<h5 class="modal-title"><span class="fas fa-plus fa-sm mr-1"></span>{\App\Language::translate('LBL_TITLE_ADDED', $QUALIFIED_MODULE)}</h5>
 				{/if}
-				<button type="button" class="close" data-dismiss="modal"
-					title="{\App\Language::translate('LBL_CLOSE')}">
+				<button type="button" class="close" data-dismiss="modal" title="{\App\Language::translate('LBL_CLOSE')}">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
@@ -19,7 +18,7 @@
 				<div class="form-group form-row col-sm-12">
 					<label class="col-sm-2 col-form-label text-right u-text-small-bold"><span class="redColor">*</span>{\App\Language::translate('LBL_APP_NAME', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-10">
-						<input type="text" name="name" data-validation-engine="validate[required]" value="{if $RECORD_MODEL}{$RECORD_MODEL->getName()}{/if}" class="form-control">
+						<input type="text" name="name" data-validation-engine="validate[required]" value="{if $RECORD_MODEL}{\App\Purifier::encodeHtml($RECORD_MODEL->getName())}{/if}" class="form-control">
 					</div>
 				</div>
 				{if !isset($API_FIELDS[$APP_TYPE]) || isset($API_FIELDS[$APP_TYPE]['password'])}
@@ -67,7 +66,7 @@
 					</label>
 					<div class="col-sm-10">
 						<div class="input-group">
-							<input type="text" name="ips" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('ips')}{/if}" data-validation-engine="validate[{if $IS_MANDATORY}required{/if}]" class="form-control">
+							<input type="text" name="ips" value="{if $RECORD_MODEL}{\App\Purifier::encodeHtml($RECORD_MODEL->get('ips'))}{/if}" data-validation-engine="validate[{if $IS_MANDATORY}required{/if}]" class="form-control">
 							<div class="input-group-append">
 								<span class="input-group-text">
 									<a href="#" class="js-popover-tooltip" data-placement="top" data-content="{\App\Language::translate('LBL_ALLOWED_IPS_INFO', $QUALIFIED_MODULE)} x.x.x.x , y.y.y.y">
@@ -85,7 +84,7 @@
 						</label>
 						<div class="col-sm-10">
 							<div class="input-group">
-								<input type="text" name="url" value="{if $RECORD_MODEL}{$RECORD_MODEL->get('url')}{/if}" class="form-control" data-validation-engine="validate[url]">
+								<input type="text" name="url" value="{if $RECORD_MODEL}{\App\Purifier::encodeHtml($RECORD_MODEL->get('url'))}{/if}" class="form-control" data-validation-engine="validate[url]">
 								<div class="input-group-append">
 									<span class="input-group-text">
 										<a href="#" class="js-popover-tooltip" data-placement="top" data-content="{\App\Language::translate('LBL_PUBLIC_URL_INFO', $QUALIFIED_MODULE)}">

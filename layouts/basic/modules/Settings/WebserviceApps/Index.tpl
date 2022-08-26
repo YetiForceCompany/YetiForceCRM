@@ -24,7 +24,7 @@
 			<tbody>
 				{foreach from=$LIST_SERVERS key=KEY item=SERVER}
 					<tr data-id="{$KEY}">
-						<td>{$SERVER['name']}</td>
+						<td>{\App\Purifier::encodeHtml($SERVER['name'])}</td>
 						<td>
 							{if $SERVER['status'] eq 1}
 								{\App\Language::translate('LBL_ACTIVE',$QUALIFIED_MODULE)}
@@ -35,13 +35,13 @@
 						<td>
 							{\App\Language::translate($SERVER['type'], $QUALIFIED_MODULE)}
 						</td>
-						<td>{$SERVER['ips']}</td>
-						<td>{$SERVER['url']}</td>
+						<td>{\App\Purifier::encodeHtml($SERVER['ips'])}</td>
+						<td>{\App\Purifier::encodeHtml($SERVER['url'])}</td>
 						<td>
 							<div class="action">
 								*******************
 								<div class="float-right">
-									<button class="btn btn-primary btn-sm clipboard" data-copy-attribute="clipboard-text" data-clipboard-text="{\App\Encryption::getInstance()->decrypt($SERVER['api_key'])}">
+									<button class="btn btn-primary btn-sm clipboard" data-copy-attribute="clipboard-text" data-clipboard-text="{\App\Purifier::encodeHtml(\App\Encryption::getInstance()->decrypt($SERVER['api_key']))}">
 										<span class="fas fa-copy u-cursor-pointer"></span>
 									</button>
 									<button class="btn btn-primary btn-sm edit ml-2">

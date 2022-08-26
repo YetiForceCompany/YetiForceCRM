@@ -238,7 +238,7 @@ class Settings_WebserviceUsers_WebserviceStandard_Service extends Settings_Webse
 		switch ($name) {
 			case 'server_id':
 				$servers = Settings_WebserviceApps_Record_Model::getInstanceById($value);
-				$value = $servers ? $servers->getName() : '<span class="redColor">ERROR</span>';
+				$value = $servers ? \App\Purifier::encodeHtml($servers->getName()) : '<span class="redColor">ERROR</span>';
 				break;
 			case 'crmid':
 			case 'istorage':

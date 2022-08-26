@@ -107,7 +107,7 @@
 								<li class="nav-item js-filter-tab c-tab--small font-weight-bold"
 									data-cvid="{$CUSTOM_VIEW->getId()}" role="listitem" data-js="click">
 									<a class="nav-link{if $VIEWID == $CUSTOM_VIEW->getId()} active{/if}" href="#"
-										{if $CUSTOM_VIEW->get('color')}style="color: {$CUSTOM_VIEW->get('color')}; border-color: {$CUSTOM_VIEW->get('color')} {$CUSTOM_VIEW->get('color')} #fff" {/if}
+										{if $CUSTOM_VIEW->get('color')}style="color: {\App\Purifier::encodeHtml($CUSTOM_VIEW->get('color'))}; border-color: {\App\Purifier::encodeHtml($CUSTOM_VIEW->get('color'))} {\App\Purifier::encodeHtml($CUSTOM_VIEW->get('color'))} #fff" {/if}
 										data-toggle="tab">
 										{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 										{if $CUSTOM_VIEW->get('description')}

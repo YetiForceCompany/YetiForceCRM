@@ -186,7 +186,7 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 		switch ($name) {
 			case 'server_id':
 				$servers = Settings_WebserviceApps_Record_Model::getInstanceById($this->get($name));
-				$value = $servers ? $servers->getName() : '<span class="redColor">ERROR</span>';
+				$value = $servers ? \App\Purifier::encodeHtml($servers->getName()) : '<span class="redColor">ERROR</span>';
 				break;
 			case 'status':
 				$value = \App\Language::translate((empty($this->get($name)) ? 'FL_INACTIVE' : 'FL_ACTIVE'));
