@@ -10,7 +10,6 @@
 						<span class="iconToggle fas {if $SHOW_BLOCK}fa-chevron-down{else}fa-chevron-right{/if} fa-xs m-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down">
 						</span>
 						<h5>
-							<span class=" mr-2" aria-hidden="true"></span>
 							{\App\Language::translate($item, $SOURCE_MODULE)}
 						</h5>
 					</div>
