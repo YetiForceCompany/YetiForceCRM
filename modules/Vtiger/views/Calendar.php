@@ -56,8 +56,8 @@ class Vtiger_Calendar_View extends Vtiger_Index_View
 		$viewer->assign('EVENT_CREATE', \App\Privilege::isPermitted($request->getModule(), 'CreateView'));
 		$viewer->assign('EVENT_EDIT', \App\Privilege::isPermitted($request->getModule(), 'EditView'));
 		$viewer->assign('WEEK_COUNT', App\Config::module('Calendar', 'WEEK_COUNT'));
-		$viewer->assign('WEEK_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'timeGridWeek' : 'basicWeek');
-		$viewer->assign('DAY_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'timeGridDay' : 'basicDay');
+		$viewer->assign('WEEK_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'timeGridWeek' : 'dayGridWeek');
+		$viewer->assign('DAY_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'timeGridDay' : 'dayGridDay');
 		$viewer->assign('ALL_DAY_SLOT', App\Config::module('Calendar', 'ALL_DAY_SLOT'));
 		$viewer->view('Calendar/CalendarView.tpl', $moduleName);
 	}

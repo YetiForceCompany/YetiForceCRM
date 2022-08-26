@@ -20,13 +20,13 @@ return [
 	],
 	'SHOW_TIMELINE_WEEK' => [
 		'default' => true,
-		'description' => 'Show calendar timeline in monthly view:  false = basicWeek, true = timeGridWeek',
+		'description' => 'Show calendar timeline in monthly view:  false = dayGridWeek, true = timeGridWeek',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool',
 	],
 	'SHOW_TIMELINE_DAY' => [
 		'default' => true,
-		'description' => 'Show calendar timeline in day view: false = basicDay, true = timeGridDay',
+		'description' => 'Show calendar timeline in day view: false = dayGridDay, true = timeGridDay',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool',
 	],
@@ -94,9 +94,7 @@ return [
 		'default' => 5000,
 		'description' => 'Max number of records to update status in cron',
 		'validation' => '\App\Validator::naturalNumber',
-		'sanitization' => function () {
-			return (int) func_get_arg(0);
-		},
+		'sanitization' => fn () => (int) func_get_arg(0),
 	],
 	'SHOW_ONLY_CURRENT_RECORDS_COUNT' => [
 		'default' => false,

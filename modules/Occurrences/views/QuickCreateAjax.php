@@ -30,8 +30,8 @@ class Occurrences_QuickCreateAjax_View extends Vtiger_QuickCreateAjax_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $this->record ?? null);
 		$viewer->assign('WEEK_COUNT', App\Config::module('Calendar', 'WEEK_COUNT'));
-		$viewer->assign('WEEK_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'timeGridWeek' : 'basicWeek');
-		$viewer->assign('DAY_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'timeGridDay' : 'basicDay');
+		$viewer->assign('WEEK_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'timeGridWeek' : 'dayGridWeek');
+		$viewer->assign('DAY_VIEW', App\Config::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'timeGridDay' : 'dayGridDay');
 		$viewer->assign('ALL_DAY_SLOT', App\Config::module('Calendar', 'ALL_DAY_SLOT'));
 		$viewer->assign('STYLES', $this->getHeaderCss($request));
 		$viewer->assign('MODAL_TITLE', $this->getPageTitle($request));
