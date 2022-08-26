@@ -22,7 +22,7 @@
 				<input type="hidden" name="action" value="Field" />
 				<input type="hidden" name="mode" value="save" />
 				<input type="hidden" name="fieldid" value="{$FIELD_MODEL->getId()}" />
-				<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE_NAME}" />
+				<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE_NAME|escape}" />
 				<div class="row mx-0 mb-2 py-2 border-bottom">
 					<div class="col-md-6">
 						<strong>{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}: </strong>{$FIELD_LABEL_TRANSLATION}<br />
@@ -30,7 +30,7 @@
 					</div>
 					<div class="col-md-6">
 						<strong>{App\Language::translate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}: </strong> {if isset($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()])}{App\Language::translate($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()], $QUALIFIED_MODULE)}{/if} (UiType: {$FIELD_MODEL->getUIType()})<br />
-						<strong>{App\Language::translate('LBL_LENGTH', $QUALIFIED_MODULE)}: </strong>{$FIELD_MODEL->get('maximumlength')}
+						<strong>{App\Language::translate('LBL_LENGTH', $QUALIFIED_MODULE)}: </strong>{$FIELD_MODEL->get('maximumlength')|escape}
 					</div>
 				</div>
 				<div class="row m-0">
@@ -38,7 +38,7 @@
 						<div class="form-group">
 							<label for="fieldMask"><strong>{App\Language::translate('LBL_LABEL', $QUALIFIED_MODULE)}</strong></label>
 							<div class="input-group">
-								<input type="text" name="label" value="{$FIELD_MODEL->getFieldLabel()}" class="form-control"
+								<input type="text" name="label" value="{\App\Purifier::encodeHtml($FIELD_MODEL->getFieldLabel())}" class="form-control"
 									id="label" data-validation-engine="validate[maxSize[50]]" />
 							</div>
 						</div>
@@ -55,7 +55,7 @@
 							<input type="hidden" name="presence" value="1" />
 							<input type="checkbox" name="presence" id="presence" {if $FIELD_MODEL->isActiveField()} checked {/if} {strip} {/strip}
 								{if $FIELD_MODEL->isActiveOptionDisabled()} readonly="readonly" class="optionDisabled" {/if} {if $IS_MANDATORY} readonly="readonly" {/if}
-								value="{$FIELD_MODEL->get('presence')}" />
+								value="{$FIELD_MODEL->get('presence')|escape}" />
 							<label for="presence">
 								{App\Language::translate('LBL_ACTIVE', $QUALIFIED_MODULE)}
 							</label>
@@ -90,7 +90,7 @@
 								{assign var=HEADER_REL_FIELDS value=$FIELD_MODEL->getHeaderValue('rel_fields', [])}
 								<select name="header_type" class="js-header_type form-control select2">
 									{foreach key=LABEL item=VALUE from=$FIELD_MODEL->getUITypeModel()->getHeaderTypes()}
-										<option value="{$VALUE}" {if $VALUE == $HEADER_FIELD_TYPE} selected {/if}>{App\Language::translate($LABEL, $QUALIFIED_MODULE)}</option>
+										<option value="{\App\Purifier::encodeHtml($VALUE)}" {if $VALUE == $HEADER_FIELD_TYPE} selected {/if}>{App\Language::translate($LABEL, $QUALIFIED_MODULE)}</option>
 									{/foreach}
 								</select>
 								{if $FIELD_MODEL->isReferenceField() && count($FIELD_MODEL->getReferenceList()) eq 1}
@@ -101,9 +101,9 @@
 												{foreach from=$REL_MODULE_MODEL->getFields() key=REL_FIELD_NAME item=REL_FIELD_MODEL}
 													{if $REL_FIELD_MODEL->isViewableInDetailView()}
 														{assign var=ELEMENT_POSITION_IN_ARRAY value=array_search($REL_FIELD_NAME, $HEADER_REL_FIELDS)}
-														<option value="{$REL_FIELD_MODEL->getName()}" data-field-name="{$REL_FIELD_NAME}"
+														<option value="{$REL_FIELD_MODEL->getName()}" data-field-name="{$REL_FIELD_NAME|escape}"
 															{if $ELEMENT_POSITION_IN_ARRAY !== false}
-																data-sort-index="{$ELEMENT_POSITION_IN_ARRAY}" selected="selected"
+																data-sort-index="{$ELEMENT_POSITION_IN_ARRAY|escape}" selected="selected"
 															{/if}
 															data-js="data-sort-index|data-field-name">
 															{App\Language::translate($REL_FIELD_MODEL->getFieldLabel(), $REL_FIELD_MODEL->getModuleName())}
@@ -114,7 +114,7 @@
 										</select>
 									</div>
 								{/if}
-								<input name="header_class" value="{if $HEADER_FIELD_VALUE}{$HEADER_FIELD_VALUE}{else}badge-info{/if}" type="text" class="hide">
+								<input name="header_class" value="{if $HEADER_FIELD_VALUE}{$HEADER_FIELD_VALUE|escape}{else}badge-info{/if}" type="text" class="hide">
 							</div>
 						</div>
 						<div class="checkbox">
@@ -160,7 +160,7 @@
 								<div class=" input-group">
 									<input type="text" class="form-control" id="fieldMask" name="fieldMask"
 										{if $MAX_VALUE} data-validation-engine="validate[maxSize[{$MAX_VALUE}]]{/if}"
-										value="{if isset($PARAMS['mask'])}{$PARAMS['mask']}{/if}" />
+										value="{if isset($PARAMS['mask'])}{\App\Purifier::encodeHtml($PARAMS['mask'])}{/if}" />
 									<div class="input-group-append">
 										<span class="input-group-text js-popover-tooltip u-cursor-pointer" data-js="popover"
 											data-placement="top"
@@ -174,7 +174,7 @@
 						<div class="form-group">
 							<label for="maxlengthtext"><strong>{App\Language::translate('LBL_MAX_LENGTH_TEXT', $QUALIFIED_MODULE)}</strong></label>
 							<input type="text" class="form-control" id="maxlengthtext" name="maxlengthtext"
-								value="{$FIELD_MODEL->get('maxlengthtext')}" />
+								value="{$FIELD_MODEL->get('maxlengthtext')|escape}" />
 						</div>
 						<div class="form-group">
 							<label for="maxwidthcolumn"><strong>{App\Language::translate('LBL_MAX_WIDTH_COLUMN', $QUALIFIED_MODULE)}</strong></label>
