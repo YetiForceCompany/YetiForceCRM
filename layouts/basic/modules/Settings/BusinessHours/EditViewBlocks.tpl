@@ -19,7 +19,7 @@
 				<div class="card">
 					<div class="card-header">
 						{if !empty($RECORD_MODEL->getId())}
-							<span class="yfi yfi-full-editing-view mr-2"></span>{\App\Language::translate('LBL_EDIT_BUSINESS_HOURS',$QUALIFIED_MODULE)} - {$RECORD_MODEL->getName()}
+							<span class="yfi yfi-full-editing-view mr-2"></span>{\App\Language::translate('LBL_EDIT_BUSINESS_HOURS',$QUALIFIED_MODULE)} - {\App\Purifier::encodeHtml($RECORD_MODEL->getName())}
 						{else}
 							<span class="fas fa-plus mr-2"></span>{\App\Language::translate('LBL_ADD_BUSINESS_HOURS',$QUALIFIED_MODULE)}
 						{/if}
@@ -29,8 +29,7 @@
 							<div class="col-12 form-group row">
 								<label class="col-5"><span class="redColor">*</span>{\App\Language::translate('LBL_NAME', $QUALIFIED_MODULE)}</label>
 								<div class="col-7">
-									<input type="text" name="name" class="form-control w-100" {if isset($RECORD_MODEL)} value="{$RECORD_MODEL->getName()}" {/if}
-										data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
+									<input type="text" name="name" class="form-control w-100" {if isset($RECORD_MODEL)}value="{\App\Purifier::encodeHtml($RECORD_MODEL->getName())}" {/if} data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
 								</div>
 							</div>
 							<div class="col-12 form-group row">
