@@ -51,6 +51,6 @@ abstract class Settings_Vtiger_Record_Model extends App\Base
 	 */
 	public function getDisplayValue(string $key)
 	{
-		return $this->get($key);
+		return \App\Purifier::encodeHtml($this->get($key));
 	}
 }

@@ -202,7 +202,7 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 				$value = \App\TextUtils::textTruncate($label);
 				break;
 			default:
-				$value = $this->get($name);
+				$value = \App\Purifier::encodeHtml($this->get($name));
 				break;
 		}
 		return $value;

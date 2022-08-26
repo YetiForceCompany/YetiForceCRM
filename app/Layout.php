@@ -177,11 +177,12 @@ class Layout
 		if (\mb_strlen($text) < $length) {
 			return $nl2br ? nl2br($text) : $text;
 		}
-		$teaser = TextUtils::textTruncate($text, $length);
+		$teaser = Purifier::encodeHtml(TextUtils::textTruncate($text, $length));
+		$text = Purifier::encodeHtml($text);
 		if ($showIcon) {
 			$btn = '<span class="mdi mdi-overscan"></span>';
 		} else {
-			$btn = \App\Language::translate('LBL_MORE_BTN');
+			$btn = Language::translate('LBL_MORE_BTN');
 		}
 		return "<div class=\"js-more-content c-text-divider\"><pre class=\"teaserContent u-pre\">$teaser</pre><span class=\"fullContent d-none\"><pre class=\"u-pre\">$text</pre></span><span class=\"text-right\"><button type=\"button\" class=\"btn btn-link btn-sm p-0 js-more\">{$btn}</button></span></div>";
 	}

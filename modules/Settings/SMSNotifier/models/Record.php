@@ -115,7 +115,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 			$moduleName = $this->getModule()->getName();
 			return empty($this->get($name)) ? \App\Language::translate('FL_INACTIVE', "Settings:$moduleName") : \App\Language::translate('FL_ACTIVE');
 		}
-		return $this->get($name);
+		return \App\Purifier::encodeHtml($this->get($name));
 	}
 
 	/**

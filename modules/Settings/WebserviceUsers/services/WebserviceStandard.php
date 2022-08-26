@@ -293,7 +293,9 @@ class Settings_WebserviceUsers_WebserviceStandard_Service extends Settings_Webse
 					$value = \App\Layout::truncateText($value, 50, true);
 				}
 				break;
-			default: break;
+			default:
+				$value = \App\Purifier::encodeHtml($value);
+				break;
 		}
 		return $value;
 	}

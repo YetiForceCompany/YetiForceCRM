@@ -233,6 +233,7 @@ class Settings_PDF_Record_Model extends Settings_Vtiger_Record_Model
 				$value = \App\Pdf\Pdf::getDriverLabel($value);
 				break;
 			default:
+				$value = \App\Purifier::encodeHtml($value);
 				break;
 		}
 		return $value;

@@ -162,6 +162,8 @@ class Settings_SlaPolicy_Record_Model extends Settings_Vtiger_Record_Model
 			$value = implode(', ', array_column(\App\Utils\ServiceContracts::getBusinessHoursByIds(explode(',', $value)), 'name'));
 		} elseif (\in_array($key, ['reaction_time', 'idle_time', 'resolve_time'])) {
 			$value = \App\Fields\TimePeriod::getLabel($value);
+		} else {
+			$value = \App\Purifier::encodeHtml($value);
 		}
 		return $value;
 	}
