@@ -96,9 +96,9 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 	 */
 	public function save(App\Request $request)
 	{
-		$workflowId = $request->get('for_workflow');
+		$workflowId = !$request->isEmpty('for_workflow') ? $request->getInteger('for_workflow') : 0;
 		if (!empty($workflowId)) {
-			$record = $request->get('task_id');
+			$record = !$request->isEmpty('task_id') ? $request->getInteger('task_id') : 0;
 			if ($record) {
 				$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
 				$taskObject = $taskRecordModel->getTaskObject();
@@ -108,7 +108,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 				$taskObject = $taskRecordModel->getTaskObject();
 				$taskObject->sequence = $taskRecordModel->getNextSequenceNumber($workflowId);
 			}
-			$taskObject->summary = htmlspecialchars($request->get('summary'));
+			$taskObject->summary = \App\Purifier::decodeHtml($request->getByType('summary', \App\Purifier::TEXT));
 
 			$active = $request->get('active');
 			if ('true' == $active) {
@@ -121,7 +121,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 			if (!empty($checkSelectDate)) {
 				$trigger = [
 					'days' => ('after' == $request->get('select_date_direction') ? 1 : -1) * (int) $request->get('select_date_days'),
-					'field' => $request->get('select_date_field'),
+					'field' => $request->getByType('select_date_field', \App\Purifier::ALNUM),
 				];
 				$taskObject->trigger = $trigger;
 			} else {
@@ -143,7 +143,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 
 							$taskObject->{$fieldName} = \App\Json::encode($values);
 						} else {
-							$taskObject->{$fieldName} = $request->getRaw($fieldName);
+							$taskObject->{$fieldName} = \App\Purifier::decodeHtml($request->getByType($fieldName, \App\Purifier::TEXT));
 						}
 					} elseif (isset($fieldNamesRequestMethods[$fieldName])) {
 						$taskObject->{$fieldName} = $request->{$fieldNamesRequestMethods[$fieldName]}($fieldName);

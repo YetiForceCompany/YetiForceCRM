@@ -15,8 +15,8 @@
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
 	<input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
-	<input type="hidden" value="{$ORDER_BY}" id="orderBy" />
-	<input type="hidden" value="{$SORT_ORDER}" id="sortOrder" />
+	<input type="hidden" value="{$ORDER_BY|escape}" id="orderBy" />
+	<input type="hidden" value="{$SORT_ORDER|escape}" id="sortOrder" />
 	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
 	<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
 	<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
@@ -34,8 +34,8 @@
 					{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<th nowrap class="{$WIDTHTYPE}">
-							<a {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues u-cursor-pointer js-listview_header" data-js="click" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{\App\Language::translate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
-								{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
+							<a {if !($LISTVIEW_HEADER->has('sort'))} class="listViewHeaderValues u-cursor-pointer js-listview_header" data-js="click" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')|escape}" {/if}>{\App\Language::translate($LISTVIEW_HEADER->get('label'), $QUALIFIED_MODULE)}
+								{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}&nbsp;&nbsp;<span class="{$SORT_IMAGE|escape}"></span>{/if}</a>
 						</th>
 					{/foreach}
 					<th width='15%'></th>
@@ -44,7 +44,7 @@
 			<tbody>
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
 					<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}"
-						{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}" {/if}>
+						{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()|escape}" {/if}>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 							{if $LISTVIEW_HEADERNAME eq 'all_tasks'}
@@ -53,7 +53,7 @@
 								{assign var=ACTIVE_TASKS value=$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 							{/if}
 							{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
-							<td class="listViewEntryValue {$WIDTHTYPE}" data-name="{$LISTVIEW_HEADERNAME}">
+							<td class="listViewEntryValue {$WIDTHTYPE}" data-name="{$LISTVIEW_HEADERNAME|escape}">
 								&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 								{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
 								</td>
@@ -66,14 +66,14 @@
 														onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};if (event.stopPropagation){ldelim}
 																event.stopPropagation();{rdelim} else{ldelim} event.cancelBubble = true;{rdelim}"
 													{else}
-														href='{$RECORD_LINK_URL}'
+														href='{$RECORD_LINK_URL|escape}'
 													{/if}
-												class="{$RECORD_LINK->get('class')}
+												class="{$RECORD_LINK->get('class')|escape}
 															{if ($RECORD_LINK->getLabel() eq 'LBL_ACTIVATION_TASKS' && $ACTIVE_TASKS eq $ALL_TASKS) ||
 																($RECORD_LINK->getLabel() eq 'LBL_DEACTIVATION_TASKS' && $ACTIVE_TASKS eq 0)}
 																{' '}d-none
 															{/if}">
-												<span class="{$RECORD_LINK->getIcon()}" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
+												<span class="{$RECORD_LINK->getIcon()|escape}" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>
 											</a>
 											{if !$RECORD_LINK@last}
 												&nbsp;&nbsp;

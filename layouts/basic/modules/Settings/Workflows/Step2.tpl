@@ -5,32 +5,33 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): YetiForce S.A.
 *************************************************************************************}
 {strip}
 	<form name="EditWorkflow" action="index.php" method="post" id="workflow_step2"
-		  class="tpl-Settings-Workflows-Step2 form-horizontal">
-		<input type="hidden" name="module" value="Workflows"/>
-		<input type="hidden" name="action" value="Save"/>
-		<input type="hidden" name="parent" value="Settings"/>
-		<input type="hidden" class="step" value="2"/>
-		<input type="hidden" name="summary" value="{$WORKFLOW_MODEL->get('summary')}"/>
-		<input type="hidden" name="record" value="{$WORKFLOW_MODEL->get('record')}"/>
-		<input type="hidden" name="module_name" value="{$WORKFLOW_MODEL->get('module_name')}"/>
-		<input type="hidden" name="execution_condition" value="{$WORKFLOW_MODEL->get('execution_condition')}"/>
-		<input type="hidden" name="conditions" id="advanced_filter" value=''/>
+		class="tpl-Settings-Workflows-Step2 form-horizontal">
+		<input type="hidden" name="module" value="Workflows" />
+		<input type="hidden" name="action" value="Save" />
+		<input type="hidden" name="parent" value="Settings" />
+		<input type="hidden" class="step" value="2" />
+		<input type="hidden" name="summary" value="{\App\Purifier::encodeHtml($WORKFLOW_MODEL->get('summary'))}" />
+		<input type="hidden" name="record" value="{$WORKFLOW_MODEL->get('record')|escape}" />
+		<input type="hidden" name="module_name" value="{$WORKFLOW_MODEL->get('module_name')|escape}" />
+		<input type="hidden" name="execution_condition" value="{\App\Purifier::encodeHtml($WORKFLOW_MODEL->get('execution_condition'))}" />
+		<input type="hidden" name="conditions" id="advanced_filter" value='' />
 		<input type="hidden" id="olderConditions"
-			   value="{\App\Purifier::encodeHtml(\App\Json::encode($WORKFLOW_MODEL->get('conditions')))}"/>
-		<input type="hidden" name="filtersavedinnew" value="{$WORKFLOW_MODEL->get('filtersavedinnew')}"/>
-		<input type="hidden" name="schtypeid" value="{$WORKFLOW_MODEL->get('schtypeid')}"/>
-		<input type="hidden" name="schtime" value="{$WORKFLOW_MODEL->get('schtime')}"/>
-		<input type="hidden" name="schdate" value="{$WORKFLOW_MODEL->get('schdate')}"/>
-		<input type="hidden" name="params" value="{\App\Purifier::encodeHtml($WORKFLOW_MODEL->get('params'))}"/>
+			value="{\App\Purifier::encodeHtml(\App\Json::encode($WORKFLOW_MODEL->get('conditions')))}" />
+		<input type="hidden" name="filtersavedinnew" value="{$WORKFLOW_MODEL->get('filtersavedinnew')|escape}" />
+		<input type="hidden" name="schtypeid" value="{$WORKFLOW_MODEL->get('schtypeid')|escape}" />
+		<input type="hidden" name="schtime" value="{$WORKFLOW_MODEL->get('schtime')|escape}" />
+		<input type="hidden" name="schdate" value="{$WORKFLOW_MODEL->get('schdate')|escape}" />
+		<input type="hidden" name="params" value="{\App\Purifier::encodeHtml($WORKFLOW_MODEL->get('params'))}" />
 		<input type="hidden" name="schdayofweek"
-			   value="{\App\Purifier::encodeHtml(\App\Json::encode($WORKFLOW_MODEL->get('schdayofweek')))}"/>
+			value="{\App\Purifier::encodeHtml(\App\Json::encode($WORKFLOW_MODEL->get('schdayofweek')))}" />
 		<input type="hidden" name="schdayofmonth"
-			   value="{\App\Purifier::encodeHtml(\App\Json::encode($WORKFLOW_MODEL->get('schdayofmonth')))}"/>
+			value="{\App\Purifier::encodeHtml(\App\Json::encode($WORKFLOW_MODEL->get('schdayofmonth')))}" />
 		<input type="hidden" name="schannualdates"
-			   value="{\App\Purifier::encodeHtml($WORKFLOW_MODEL->get('schannualdates'))}"/>
+			value="{\App\Purifier::encodeHtml($WORKFLOW_MODEL->get('schannualdates'))}" />
 		{if $WORKFLOW_MODEL->get('execution_condition') eq \VTWorkflowManager::$ON_SCHEDULE && $WORKFLOW_MODEL->getParams('iterationOff')}
 			<div class="alert alert-info">
 				{\App\Language::translate('LBL_WORKFLOW_RESTRICTION_OFF_ALERT',$QUALIFIED_MODULE)}
@@ -42,18 +43,19 @@
 						{\App\Language::translate('LBL_CREATED_IN_OLD_LOOK_CANNOT_BE_EDITED',$QUALIFIED_MODULE)}
 					</div>
 					<div class="">
-						<span class="col-md-6"><input type="radio" name="conditionstype" class="alignMiddle" checked=""/>&nbsp;&nbsp;<span
-									class="alignMiddle">{\App\Language::translate('LBL_USE_EXISTING_CONDITIONS',$QUALIFIED_MODULE)}</span></span>
+						<span class="col-md-6"><input type="radio" name="conditionstype" class="alignMiddle" checked="" />&nbsp;&nbsp;<span
+								class="alignMiddle">{\App\Language::translate('LBL_USE_EXISTING_CONDITIONS',$QUALIFIED_MODULE)}</span></span>
 						<span class="col-md-6"><input type="radio" id="enableAdvanceFilters" name="conditionstype"
-													class="alignMiddle recreate"/>&nbsp;&nbsp;<span
-									class="alignMiddle">{\App\Language::translate('LBL_RECREATE_CONDITIONS',$QUALIFIED_MODULE)}</span></span>
+								class="alignMiddle recreate" />&nbsp;&nbsp;<span
+								class="alignMiddle">{\App\Language::translate('LBL_RECREATE_CONDITIONS',$QUALIFIED_MODULE)}</span></span>
 					</div>
-					<br/>
+					<br />
 				{/if}
 				<div id="advanceFilterContainer" {if $IS_FILTER_SAVED_NEW == false} class="zeroOpacity js-conditions-container padding1per" {else} class="row js-conditions-container padding1per" {/if}
 					data-js="container">
 					<h5 class="padding-bottom1per col-md-10">
-						<strong>{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong></h5>
+						<strong>{\App\Language::translate('LBL_CHOOSE_FILTER_CONDITIONS',$MODULE)}</strong>
+					</h5>
 					<div class="col-md-10">
 						{include file=\App\Layout::getTemplatePath('AdvanceFilter.tpl') RECORD_STRUCTURE=$RECORD_STRUCTURE}
 					</div>
@@ -61,7 +63,7 @@
 				</div>
 			</div>
 		{/if}
-		<br/>
+		<br />
 		<div class="float-right">
 			<button class="btn btn-secondary backStep mr-1" type="button">
 				<strong>
@@ -82,6 +84,6 @@
 				</strong>
 			</button>
 		</div>
-		<br/><br/>
+		<br /><br />
 	</form>
 {/strip}

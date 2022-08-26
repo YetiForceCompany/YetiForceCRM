@@ -17,7 +17,7 @@
 <input type="hidden" id="workflowModuleName" value="{$SOURCE_MODULE}">
 <input type="hidden" id="fieldValueMapping" name="field_value_mapping"
 	value="{if !empty($TASK_OBJECT->field_value_mapping)}{\App\Purifier::encodeHtml($TASK_OBJECT->field_value_mapping)}{/if}" />
-<input type="hidden" value="{$REFERENCE_FIELD_NAME}" name="reference_field" id="reference_field" />
+<input type="hidden" value="{$REFERENCE_FIELD_NAME|escape}" name="reference_field" id="reference_field" />
 <div class="js-conditions-container" id="save_fieldvaluemapping" data-js="container">
 	{if $RELATED_MODULE_MODEL_NAME neq ''}
 		<div>
@@ -42,23 +42,23 @@
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{if $FIELD_MODEL->getFieldDataType() == 'owner'}
 								{$SPECIAL_OPTION = [\App\Language::translate('LBL_SPECIAL_OPTIONS') => [
-																	'assigned_user_id' => \App\Language::translate('LBL_PARENT_OWNER'),
-																	'triggerUser' => \App\Language::translate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)
-																	]
-																]}
+												'assigned_user_id' => \App\Language::translate('LBL_PARENT_OWNER'),
+												'triggerUser' => \App\Language::translate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)
+												]
+											]}
 								{$FIELD_INFO['picklistvalues'] = array_merge($FIELD_INFO['picklistvalues'], $SPECIAL_OPTION)}
 							{/if}
-							<option value="{$FIELD_MODEL->getName()}"
+							<option value="{$FIELD_MODEL->getName()|escape}"
 								{if $FIELD_MAP['fieldname'] eq $FIELD_MODEL->getName()}
 									{assign var=MANDATORY_FIELD value=$FIELD_MODEL->isMandatory()}
 									{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()}
 									{assign var=IS_REFERENCE value=$FIELD_MODEL->isReferenceField()}
 									selected=""
 								{/if}
-								data-fieldtype="{$FIELD_MODEL->getFieldType()}"
-								data-field-name="{$FIELD_MODEL->getName()}"
+								data-fieldtype="{$FIELD_MODEL->getFieldType()|escape}"
+								data-field-name="{$FIELD_MODEL->getName()|escape}"
 								data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}"
-								data-reference="{$FIELD_MODEL->isReferenceField()}">
+								data-reference="{$FIELD_MODEL->isReferenceField()|escape}">
 								{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE_MODEL_NAME)}{if $FIELD_MODEL->isMandatory()}
 									<span class="redColor">*</span>
 								{/if}
@@ -70,15 +70,15 @@
 					<select name="modulename"
 						class="select2 form-control" {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist' || $IS_REFERENCE)} disabled="" {/if}>
 						<option {if $FIELD_MAP['modulename'] eq $SOURCE_MODULE} selected="" {/if}
-							value="{$SOURCE_MODULE}">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}: {\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
+							value="{$SOURCE_MODULE|escape}">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}: {\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
 						<option {if $FIELD_MAP['modulename'] eq {'destinyModule::'|cat:$RELATED_MODULE_MODEL_NAME} || ($FIELD_MAP['modulename'] eq $RELATED_MODULE_MODEL_NAME && $SOURCE_MODULE neq $RELATED_MODULE_MODEL_NAME)} selected="" {/if}
-							value="destinyModule::{$RELATED_MODULE_MODEL_NAME}">{\App\Language::translate('LBL_DESTINY_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($RELATED_MODULE_MODEL_NAME, $RELATED_MODULE_MODEL_NAME)}</option>
+							value="destinyModule::{$RELATED_MODULE_MODEL_NAME|escape}">{\App\Language::translate('LBL_DESTINY_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($RELATED_MODULE_MODEL_NAME, $RELATED_MODULE_MODEL_NAME)}</option>
 					</select>
 				</div>
 				<div class="fieldUiHolder col-md-4">
 					<input type="text" class="getPopupUi form-control" readonly="" name="fieldValue"
-						value="{$FIELD_MAP['value']}" />
-					<input type="hidden" name="valuetype" value="{$FIELD_MAP['valuetype']}" />
+						value="{$FIELD_MAP['value']|escape}" />
+					<input type="hidden" name="valuetype" value="{$FIELD_MAP['valuetype']|escape}" />
 				</div>
 				{if $MANDATORY_FIELD neq true || $MAPPING_PANEL}
 					<button type="button" class="btn btn-danger js-condition-delete" data-js="click">
@@ -113,22 +113,22 @@
 							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 							{if $FIELD_MODEL->getFieldDataType() == 'owner'}
 								{$SPECIAL_OPTION = [\App\Language::translate('LBL_SPECIAL_OPTIONS') => [
-														'assigned_user_id' => \App\Language::translate('LBL_PARENT_OWNER'),
-														'triggerUser' => \App\Language::translate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)
-														]
-													]}
+												'assigned_user_id' => \App\Language::translate('LBL_PARENT_OWNER'),
+												'triggerUser' => \App\Language::translate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)
+												]
+											]}
 								{$FIELD_INFO['picklistvalues'] = array_merge($FIELD_INFO['picklistvalues'], $SPECIAL_OPTION)}
 							{/if}
-							<option value="{$FIELD_MODEL->getName()}"
+							<option value="{$FIELD_MODEL->getName()|escape}"
 								data-fieldtype="{$FIELD_MODEL->getFieldType()}"
 								{if $FIELD_MODEL->getName() eq $MANDATORY_FIELD_MODEL->getName()}
 									{assign var=FIELD_TYPE value=$FIELD_MODEL->getFieldDataType()}
 									{assign var=IS_REFERENCE value=$FIELD_MODEL->isReferenceField()}
 									selected=""
 								{/if}
-								data-field-name="{$FIELD_MODEL->getName()}"
+								data-field-name="{$FIELD_MODEL->getName()|escape}"
 								data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}"
-								data-reference="{$FIELD_MODEL->isReferenceField()}">
+								data-reference="{$FIELD_MODEL->isReferenceField()|escape}">
 								{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE_MODEL->getName())}
 								<span class="redColor">*</span>
 							</option>
@@ -140,7 +140,7 @@
 						class="select2 form-control" {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist' || $IS_REFERENCE)} disabled="" {/if}>
 						<option value="{$SOURCE_MODULE}">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}: {\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
 						<option {if ($FIELD_TYPE eq 'picklist' || $FIELD_TYPE eq 'multipicklist')} selected="" {/if}
-							value="destinyModule::{$RELATED_MODULE_MODEL->get('name')}">{\App\Language::translate('LBL_DESTINY_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($RELATED_MODULE_MODEL->get('name'),$RELATED_MODULE_MODEL->get('name'))}</option>
+							value="destinyModule::{$RELATED_MODULE_MODEL->get('name')|escape}">{\App\Language::translate('LBL_DESTINY_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($RELATED_MODULE_MODEL->get('name'),$RELATED_MODULE_MODEL->get('name'))}</option>
 					</select>
 				</span>
 				<span class="fieldUiHolder col-md-4">
@@ -162,10 +162,10 @@
 					{if $REFERENCE_FIELD_NAME eq $FIELD_MODEL->getName()} {continue} {/if}
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 					{if $FIELD_MODEL->isWritable() && ($MAPPING_PANEL || (!$FIELD_MODEL->isMandatory() && !$MAPPING_PANEL))}
-						<option value="{$FIELD_MODEL->getName()}" data-fieldtype="{$FIELD_MODEL->getFieldType()}"
-							data-field-name="{$FIELD_MODEL->getName()}"
+						<option value="{$FIELD_MODEL->getName()|escape}" data-fieldtype="{$FIELD_MODEL->getFieldType()|escape}"
+							data-field-name="{$FIELD_MODEL->getName()|escape}"
 							data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}"
-							data-reference="{$FIELD_MODEL->isReferenceField()}">
+							data-reference="{$FIELD_MODEL->isReferenceField()|escape}">
 							{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATED_MODULE_MODEL_NAME)}
 						</option>
 					{/if}
@@ -175,7 +175,7 @@
 		<div class="col-md-3">
 			<select name="modulename" class="form-control">
 				<option value="{$SOURCE_MODULE}">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($SOURCE_MODULE, $SOURCE_MODULE)}</option>
-				<option value="destinyModule::{$RELATED_MODULE_MODEL->get('name')}">{\App\Language::translate('LBL_DESTINY_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($RELATED_MODULE_MODEL->get('name'), $RELATED_MODULE_MODEL->get('name'))}</option>
+				<option value="destinyModule::{$RELATED_MODULE_MODEL->get('name')|escape}">{\App\Language::translate('LBL_DESTINY_MODULE', $QUALIFIED_MODULE)} {\App\Language::translate($RELATED_MODULE_MODEL->get('name'), $RELATED_MODULE_MODEL->get('name'))}</option>
 			</select>
 		</div>
 		<div class="fieldUiHolder col-md-4">

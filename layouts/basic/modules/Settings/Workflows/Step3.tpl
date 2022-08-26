@@ -5,12 +5,13 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): YetiForce S.A.
 *************************************************************************************}
 {strip}
 	<form name="EditWorkflow" action="index.php" method="post" id="workflow_step3" class="tpl-Settings-Workflows-Step3 form-horizontal">
-		<input type="hidden" name="module" value="Workflows"/>
-		<input type="hidden" name="record" value="{$RECORD}"/>
-		<input type="hidden" class="step" value="3"/>
+		<input type="hidden" name="module" value="Workflows" />
+		<input type="hidden" name="record" value="{$RECORD}" />
+		<input type="hidden" class="step" value="3" />
 		<div class="btn-group">
 			<a class="btn dropdown-toggle btn-light addButton" data-toggle="dropdown" href="#">
 				<strong>{\App\Language::translate('LBL_ADD_TASK',$QUALIFIED_MODULE)}</strong>&nbsp;
@@ -18,7 +19,7 @@
 			<ul class="dropdown-menu">
 				{foreach from=$TASK_RECORDS item=TASK_RECORD}
 					<li><a class="u-cursor-pointer dropdown-item"
-						   data-url="{$TASK_RECORD->getEditViewUrl()}">{\App\Language::translate($TASK_RECORD->getTaskType()->get('label'), $QUALIFIED_MODULE)}</a>
+							data-url="{$TASK_RECORD->getEditViewUrl()|escape}">{\App\Language::translate($TASK_RECORD->getTaskType()->get('label'), $QUALIFIED_MODULE)}</a>
 					</li>
 				{/foreach}
 			</ul>
@@ -26,7 +27,7 @@
 		<div id="taskListContainer">
 			{include file=\App\Layout::getTemplatePath('TasksList.tpl', $QUALIFIED_MODULE)}
 		</div>
-		<br/>
+		<br />
 		<div class="float-right">
 			<button class="btn btn-secondary backStep mr-1" type="button">
 				<strong>

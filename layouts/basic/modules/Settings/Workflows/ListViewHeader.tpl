@@ -41,13 +41,13 @@
 			<div class="listViewActionsDi row my-2">
 				<div class="col-lg-4 btn-toolbar d-flex justify-content-between justify-content-lg-start">
 					<button class="btn btn-success addButton" {if stripos($MODULE_MODEL->getCreateViewUrl(), 'javascript:')===0} onclick="{$MODULE_MODEL->getCreateViewUrl()|substr:strlen('javascript:')};"
-						{else} onclick='window.location.href = "{$MODULE_MODEL->getCreateViewUrl()}"'
+						{else} onclick='window.location.href = "{$MODULE_MODEL->getCreateViewUrl()|escape}"'
 						{/if}>
 						<i class="fas fa-plus"></i>&nbsp;
 						<strong>{\App\Language::translate('LBL_NEW', $QUALIFIED_MODULE)} {\App\Language::translate('LBL_WORKFLOW',$QUALIFIED_MODULE)}</strong>
 					</button>
 					<button class="btn btn-outline-secondary ml-1 importButton" id="importButton"
-						data-url="{Settings_Workflows_Module_Model::getImportViewUrl()}"
+						data-url="{Settings_Workflows_Module_Model::getImportViewUrl()|escape}"
 						title="{\App\Language::translate('LBL_IMPORT_TEMPLATE', $QUALIFIED_MODULE)}">
 						<i class="fas fa-download"></i>
 					</button>
@@ -61,7 +61,7 @@
 						<option value="">{\App\Language::translate('LBL_ALL', $QUALIFIED_MODULE)}</option>
 						{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
 							<option {if !empty($SOURCE_MODULE) && $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if}
-								value="{$MODULE_MODEL->getName()}">
+								value="{$MODULE_MODEL->getName()|escape}">
 								{\App\Language::translate($MODULE_MODEL->getName(),$MODULE_MODEL->getName())}
 							</option>
 						{/foreach}

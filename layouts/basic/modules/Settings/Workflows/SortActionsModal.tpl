@@ -7,7 +7,7 @@
 				{App\Language::translate('LBL_SELECT_WORKFLOW', $QUALIFIED_MODULE)}<br />
 				<select class="select2 form-control js-workflow-for-sort" data-js="value">
 					{foreach key=WORKFLOW_ID item=ACTION from=$WORKFLOW_ACTIONS}
-						<option value="{$WORKFLOW_ID}">{$ACTION['summary']}</option>
+						<option value="{$WORKFLOW_ID}">{\App\Purifier::encodeHtml($ACTION['summary'])}</option>
 					{/foreach}
 				</select>
 			</div>
@@ -15,7 +15,7 @@
 				{App\Language::translate('LBL_SET_WORKFLOW_BEFORE', $QUALIFIED_MODULE)}<br />
 				<select class="select2 form-control js-workflow-before" data-js="value">
 					{foreach key=WORKFLOW_ID item=ACTION from=$WORKFLOW_ACTIONS}
-						<option value="{$WORKFLOW_ID}">{$ACTION['summary']}</option>
+						<option value="{$WORKFLOW_ID}">{\App\Purifier::encodeHtml($ACTION['summary'])}</option>
 					{/foreach}
 				</select>
 			</div>

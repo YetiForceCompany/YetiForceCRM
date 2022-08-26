@@ -21,13 +21,13 @@
 					</button>
 				</div>
 				<form class="form-horizontal" id="saveTask" method="post" action="index.php">
-					<input type="hidden" name="module" value="{$MODULE}" />
+					<input type="hidden" name="module" value="{$MODULE|escape}" />
 					<input type="hidden" name="parent" value="Settings" />
 					<input type="hidden" name="action" value="TaskAjax" />
 					<input type="hidden" name="mode" value="save" />
 					<input type="hidden" name="for_workflow" value="{$WORKFLOW_ID}" />
 					<input type="hidden" name="task_id" value="{$TASK_ID}" />
-					<input type="hidden" name="taskType" id="taskType" value="{$TASK_TYPE_MODEL->get('tasktypename')}" />
+					<input type="hidden" name="taskType" id="taskType" value="{\App\Purifier::encodeHtml($TASK_TYPE_MODEL->get('tasktypename'))}" />
 					<div class="modal-body tabbable">
 						<div class="form-row pb-3">
 							<div class="col-md-2">
@@ -38,7 +38,7 @@
 							</div>
 							<div class="col-md-5">
 								<input name="summary" class="form-control" data-validation-engine='validate[required]'
-									type="text" value="{$TASK_MODEL->get('summary')}" />
+									type="text" value="{\App\Purifier::encodeHtml($TASK_MODEL->get('summary'))}" />
 							</div>
 							<div class="col-md-4 form-control-plaintext">
 								<div class="float-left">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</div>
@@ -77,7 +77,7 @@
 									id="checkSelectDateContainer">
 									<div class="col-md-2">
 										<input class="form-control" type="text" name="select_date_days"
-											value="{if !empty($DAYS)}{$DAYS}{/if}"
+											value="{if !empty($DAYS)}{$DAYS|escape}{/if}"
 											data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">
 									</div>
 									<div class="col-form-label float-left alignMiddle">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
@@ -93,7 +93,7 @@
 										<select class="select2" name="select_date_field">
 											{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
 												<option {if !empty($TRIGGER['field']) && ($TRIGGER['field'] eq $DATETIME_FIELD->get('name'))} selected="" {/if}
-													value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'), $DATETIME_FIELD->getModuleName())}</option>
+													value="{$DATETIME_FIELD->get('name')|escape}">{\App\Language::translate($DATETIME_FIELD->get('label'), $DATETIME_FIELD->getModuleName())}</option>
 											{/foreach}
 										</select>
 									</div>

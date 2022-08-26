@@ -5,24 +5,25 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
+* Contributor(s): YetiForce S.A.
 *************************************************************************************}
 {strip}
 	<div class="tpl-Settings-Workflows-Step1 workFlowContents">
 		<form name="EditWorkflow" action="index.php" method="post" id="workflow_step1" class="form-horizontal">
 			<input type="hidden" name="module" value="Workflows">
 			<input type="hidden" name="view" value="Edit">
-			<input type="hidden" name="mode" value="Step2"/>
-			<input type="hidden" name="parent" value="Settings"/>
-			<input type="hidden" class="step" value="1"/>
-			<input type="hidden" name="record" value="{$RECORDID}"/>
-			<input type="hidden" id="weekStartDay" data-value='{$WEEK_START_ID}'/>
+			<input type="hidden" name="mode" value="Step2" />
+			<input type="hidden" name="parent" value="Settings" />
+			<input type="hidden" class="step" value="1" />
+			<input type="hidden" name="record" value="{$RECORDID}" />
+			<input type="hidden" id="weekStartDay" data-value='{$WEEK_START_ID|escape}' />
 
 			<div class="u-p-1per border">
 				<label>
 					<strong>{\App\Language::translate('LBL_STEP_1',$QUALIFIED_MODULE)}
 						: {\App\Language::translate('LBL_ENTER_BASIC_DETAILS_OF_THE_WORKFLOW',$QUALIFIED_MODULE)}</strong>
 				</label>
-				<br/>
+				<br />
 				<div class="form-group form-row">
 					<label class="col-sm-3 col-form-label u-text-small-bold text-right">
 						{\App\Language::translate('LBL_SELECT_MODULE', $QUALIFIED_MODULE)}
@@ -30,13 +31,13 @@
 					<div class="col-sm-6 controls">
 						{if isset($MODE) && $MODE eq 'edit'}
 							<input type='text' disabled='disabled' class="form-control"
-								   value="{\App\Language::translate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}">
-							<input type='hidden' name='module_name' value="{$MODULE_MODEL->get('name')}">
+								value="{\App\Language::translate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}">
+							<input type='hidden' name='module_name' value="{$MODULE_MODEL->get('name')|escape}">
 						{else}
 							<select class="select2 form-control" id="moduleName" name="module_name" required="true"
-									data-placeholder="Select Module...">
+								data-placeholder="Select Module...">
 								{foreach from=$ALL_MODULES key=TABID item=MODULE_MODEL}
-									<option value="{$MODULE_MODEL->getName()}" {if isset($SELECTED_MODULE) && $SELECTED_MODULE == $MODULE_MODEL->getName()} selected {/if}>
+									<option value="{$MODULE_MODEL->getName()|escape}" {if isset($SELECTED_MODULE) && $SELECTED_MODULE == $MODULE_MODEL->getName()} selected {/if}>
 										{\App\Language::translate($MODULE_MODEL->getName(), $MODULE_MODEL->getName())}
 									</option>
 								{/foreach}
@@ -50,8 +51,8 @@
 					</label>
 					<div class="col-sm-6 controls">
 						<input type="text" name="summary" class="form-control"
-							   data-validation-engine='validate[required]' value="{$WORKFLOW_MODEL->get('summary')}"
-							   id="summary"/>
+							data-validation-engine='validate[required]' value="{\App\Purifier::encodeHtml($WORKFLOW_MODEL->get('summary'))}"
+							id="summary" />
 					</div>
 				</div>
 				<div class="form-group form-row">
@@ -65,9 +66,9 @@
 							<div class="js-wf-execution-container" data-js="container">
 								<label>
 									<input type="radio" class="alignTop"
-										name="execution_condition" {if $EXECUTION_CONDITION eq $LABEL_ID} checked="checked" {/if}	value="{$LABEL_ID}"/>
+										name="execution_condition" {if $EXECUTION_CONDITION eq $LABEL_ID} checked="checked" {/if} value="{$LABEL_ID|escape}" />
 									&nbsp;&nbsp;{\App\Language::translate($LABEL,$QUALIFIED_MODULE)}
-								</label><br/>
+								</label><br />
 								{assign var=PARAMS value=[]}
 								{if !empty($WORKFLOW_MODEL_OBJ->params)}
 									{assign var=PARAMS value=\App\Json::decode($WORKFLOW_MODEL_OBJ->params)}
@@ -98,7 +99,7 @@
 					</div>
 				</div>
 			</div>
-			<br/>
+			<br />
 			<div class="float-right mb-4">
 				<button class="btn btn-success mr-1" type="submit" disabled="disabled">
 					<strong>
