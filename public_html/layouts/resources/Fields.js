@@ -1506,10 +1506,9 @@ window.App.Fields = {
 			//then we should send our custom function for formatSelectionTooBig
 			if (typeof params.maximumSelectionLength !== 'undefined' && typeof params.formatSelectionTooBig === 'undefined') {
 				//custom function which will return the maximum selection size exceeds message.
-				var formatSelectionExceeds = function (limit) {
+				params.language.maximumSelected = function (limit) {
 					return app.vtranslate('JS_YOU_CAN_SELECT_ONLY') + ' ' + limit.maximum + ' ' + app.vtranslate('JS_ITEMS');
 				};
-				params.language.maximumSelected = formatSelectionExceeds;
 			}
 			if (typeof selectElement.attr('multiple') !== 'undefined' && !params.placeholder) {
 				params.placeholder = app.vtranslate('JS_SELECT_SOME_OPTIONS');
@@ -1521,25 +1520,18 @@ window.App.Fields = {
 					if (data.element && data.element.className) {
 						$(container).addClass(data.element.className);
 					}
-					let actualElement = $(data.element);
-					if (typeof selectElement.data('showAdditionalIcons') !== 'undefined' && actualElement.is('option')) {
-						return (
-							'<div class="js-element__title d-flex justify-content-between" data-js="appendTo"><div class="u-text-ellipsis--no-hover">' +
-							actualElement.text() +
-							'</div></div>'
-						);
-					}
+					const resultContainer = document.createElement('span');
 					if (typeof data.name === 'undefined') {
-						return data.text;
-					}
-					if (data.type == 'optgroup') {
-						return '<strong>' + data.name + '</strong>';
+						resultContainer.innerText = data.text;
+					} else if (data.type == 'optgroup') {
+						const strong = document.createElement('strong');
+						strong.innerText = data.name;
+						strong.appendChild(document.createTextNode(file.name));
+						resultContainer.appendChild(strong);
 					} else {
-						return '<span>' + data.name + '</span>';
+						resultContainer.innerText = data.name;
 					}
-				};
-				params.escapeMarkup = function (markup) {
-					return markup;
+					return resultContainer;
 				};
 			} else if (typeof this[params.templateResult] === 'function') {
 				params.templateResult = this[params.templateResult];
@@ -1549,10 +1541,13 @@ window.App.Fields = {
 					if (item.element && item.element.className) {
 						$(container).addClass(item.element.className);
 					}
+					const span = document.createElement('span');
 					if (item.text === '') {
-						return item.name;
+						span.innerText = item.name;
+					} else {
+						span.innerText = item.text;
 					}
-					return item.text;
+					return span;
 				};
 			} else if (typeof this[params.templateSelection] === 'function') {
 				params.templateSelection = this[params.templateSelection];
@@ -1590,7 +1585,6 @@ window.App.Fields = {
 					params['ajax'] && params['ajax']['data']
 						? params['ajax']['data']
 						: function (item) {
-								console.log(item);
 								return {
 									value: item.term, // search term
 									page: item.page
@@ -1638,10 +1632,13 @@ window.App.Fields = {
 				}
 			};
 			params.templateSelection = function (data, _container) {
+				const span = document.createElement('span');
 				if (data.text === '') {
-					return data.name;
+					span.innerText = data.name;
+				} else {
+					span.innerText = data.text;
 				}
-				return data.text;
+				return span;
 			};
 			return params;
 		},
@@ -1651,25 +1648,22 @@ window.App.Fields = {
 		 * @returns {Mixed|jQuery|HTMLElement}
 		 */
 		prependDataTemplate(optionData) {
-			let template = optionData.text;
+			const span = document.createElement('span');
 			if (optionData.id !== undefined && optionData.id !== '') {
-				template = $(optionData.element.dataset.template);
+				span.innerHTML = optionData.element.dataset.template;
 				if (optionData.element.dataset.state !== undefined) {
+					const icon = span.querySelector('.js-select-option-event');
 					//check if element has icons with different states
 					if (optionData.element.dataset.state === 'active') {
-						template
-							.find('.js-select-option-event')
-							.removeClass(optionData.element.dataset.iconInactive)
-							.addClass(optionData.element.dataset.iconActive);
+						icon.classList.replace(optionData.element.dataset.iconInactive, optionData.element.dataset.iconActive);
 					} else {
-						template
-							.find('.js-select-option-event')
-							.removeClass(optionData.element.dataset.iconActive)
-							.addClass(optionData.element.dataset.iconInactive);
+						icon.classList.replace(optionData.element.dataset.iconActive, optionData.element.dataset.iconInactive);
 					}
 				}
+			} else {
+				span.innerText = optionData.text;
 			}
-			return template;
+			return span;
 		},
 		/**
 		 * Register select sortable
@@ -1738,13 +1732,15 @@ window.App.Fields = {
 					.done((data) => {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						let response = data.result;
+						const icon = currentTarget.get(0);
+						//check if element has icons with different states
 						if (response && response.result) {
 							if (optionElement.attr('data-state') === 'active') {
 								optionElement.attr('data-state', 'inactive');
-								currentTarget.toggleClass(currentElementData.iconActive + ' ' + currentElementData.iconInactive);
+								icon.classList.replace(currentElementData.iconActive, currentElementData.iconInactive);
 							} else {
 								optionElement.attr('data-state', 'active');
-								currentTarget.toggleClass(currentElementData.iconInactive + ' ' + currentElementData.iconActive);
+								icon.classList.replace(currentElementData.iconInactive, currentElementData.iconActive);
 							}
 							if (response.message) {
 								app.showNotify({ text: response.message, type: 'success' });

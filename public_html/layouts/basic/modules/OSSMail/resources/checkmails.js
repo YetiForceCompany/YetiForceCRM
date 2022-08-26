@@ -20,25 +20,41 @@ function registerUserList() {
 		selectUsers.on('change', handleChangeUserEvent);
 	}
 	App.Fields.Picklist.showSelect2ElementView(selectUsers, {
-		templateResult: function (state) {
-			if (!state.id) {
-				return state.text;
+		templateResult: function (data) {
+			const main = document.createElement('span');
+			if (data.id) {
+				const element = $(data.element),
+					mail = document.createElement('span');
+				mail.innerText = data.text;
+				main.appendChild(mail);
+				if (element.data('nomail')) {
+					const badge = document.createElement('span');
+					badge.className = 'badge badge-danger ml-1';
+					badge.innerText = element.data('nomail');
+					main.appendChild(badge);
+				}
+			} else {
+				main.innerText = data.text;
 			}
-			var element = jQuery(state.element);
-			var text = element.data('nomail') ? ' (' + element.data('nomail') + ')' : '';
-			var $state = $('<span>' + state.text + '<span class"text-left"><span>' + text + '</span>');
-			return $state;
+			return main;
 		},
 		templateSelection: function (data) {
-			var element = jQuery(data.element);
-			var text = element.data('nomail') ? ' (' + element.data('nomail') + ')' : '';
-			var resultContainer = jQuery('<span></span>');
-			resultContainer.append(data.text + text);
-			return resultContainer;
+			const element = $(data.element),
+				main = document.createElement('span'),
+				mail = document.createElement('span');
+			mail.innerText = data.text;
+			main.appendChild(mail);
+			if (element.data('nomail')) {
+				const badge = document.createElement('span');
+				badge.className = 'badge badge-danger ml-1';
+				badge.innerText = element.data('nomail');
+				main.appendChild(badge);
+			}
+			return main;
 		},
 		closeOnSelect: true
 	});
-	var select2Instance = selectUsers.data('select2');
+	const select2Instance = selectUsers.data('select2');
 	select2Instance.$dropdown.on('mouseup', 'li', function (e) {
 		if (jQuery(e.currentTarget).attr('aria-selected') == 'true') {
 			selectUsers.trigger('change');
@@ -52,12 +68,11 @@ function registerUserList() {
 }
 
 function handleChangeUserEvent() {
-	var params = {
+	AppConnector.request({
 		module: 'OSSMail',
 		action: 'SetUser',
 		user: $(this).val()
-	};
-	AppConnector.request(params).done(function (_) {
+	}).done(function (_) {
 		if (app.getModuleName() == 'OSSMail') {
 			window.location.href = window.location.href;
 		} else {
@@ -67,14 +82,14 @@ function handleChangeUserEvent() {
 }
 
 function startCheckMails() {
-	var users = [];
-	var timeCheckingMails = $('.js-header__btn--mail').data('interval');
+	let users = [];
+	let timeCheckingMails = $('.js-header__btn--mail').data('interval');
 	$('.js-header__btn--mail .noMails').each(function (_) {
 		users.push($(this).data('id'));
 	});
 	if (users.length > 0) {
 		checkMails(users, true);
-		var refreshIntervalId = setInterval(function () {
+		let refreshIntervalId = setInterval(function () {
 			if (window.stopScanMails == false) {
 				checkMails(users);
 			} else {
@@ -134,7 +149,7 @@ function checkMails(users, initial = false) {
 }
 
 function getUrlVars() {
-	var vars = {};
+	let vars = {};
 	window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
 		vars[key] = value;
 	});

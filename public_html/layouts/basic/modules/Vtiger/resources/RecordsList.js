@@ -306,20 +306,23 @@ $.Class(
 			return this.container.find('#customFilter');
 		},
 		registerCustomFilter: function () {
-			var filterSelectElement = this.getFilterSelectElement();
+			const filterSelectElement = this.getFilterSelectElement();
 			if (filterSelectElement.length > 0) {
 				App.Fields.Picklist.showSelect2ElementView(filterSelectElement, {
 					templateSelection: function (data) {
-						var resultContainer = $('<span></span>');
-						resultContainer.append($($('.filterImage').detach().get(0)).show());
-						resultContainer.append(data.text);
+						const resultContainer = document.createElement('span'),
+							span = document.createElement('span'),
+							image = $('.filterImage').detach();
+						image.removeAttr('style');
+						span.innerText = data.text;
+						resultContainer.appendChild(image.get(0));
+						resultContainer.appendChild(span);
 						return resultContainer;
 					},
 					customSortOptGroup: true,
 					closeOnSelect: true
 				});
-				var select2Instance = filterSelectElement.data('select2');
-				select2Instance.$dropdown.append(this.container.find('span.filterActionsDiv'));
+				filterSelectElement.data('select2').$dropdown.append(this.container.find('span.filterActionsDiv'));
 				this.registerChangeCustomFilterEvent(filterSelectElement);
 			}
 		},

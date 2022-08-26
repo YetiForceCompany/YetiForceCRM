@@ -6,18 +6,17 @@ jQuery.Class(
 	{},
 	{
 		registerColorField: function (field) {
-			let params = {};
-			params.tags = true;
-			params.templateSelection = function (object) {
-				let selectedId = object.id,
-					tabValue = selectedId.split('@'),
-					state = object.text;
-				if (!tabValue[0]) {
-					state = $('<span class="domain">' + object.text + '</span>');
+			App.Fields.Picklist.showSelect2ElementView(field, {
+				tags: true,
+				templateSelection: function (object) {
+					const span = document.createElement('span');
+					if (!object.id.split('@')[0]) {
+						span.className = 'domain';
+					}
+					span.innerText = object.text;
+					return span;
 				}
-				return state;
-			};
-			App.Fields.Picklist.showSelect2ElementView(field, params);
+			});
 		},
 		registerEditFolders: function (container) {
 			const self = this;

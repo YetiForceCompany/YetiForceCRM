@@ -22,14 +22,12 @@
 			{if $OWNERS}
 				<optgroup label="{\App\Language::translate($BLOCK_NAME)}">
 					{foreach key=OWNER_ID item=OWNER_NAME from=$OWNERS}
-						<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}"
+						<option value="{$OWNER_ID}" data-picklistvalue="{$OWNER_NAME}" data-userId="{$CURRENT_USER_ID}"
 							{foreach item=ELEMENT from=$FIELD_VALUE}
 								{if $ELEMENT eq $OWNER_ID } selected {/if}
 							{/foreach}
-							data-userId="{$CURRENT_USER_ID}"
 							{if $SHOW_FAVORITE_OWNERS}
-								data-url="index.php?module={$MODULE_NAME}&action=Fields&mode=changeFavoriteOwner&fieldName={$FIELD_NAME}&owner={$OWNER_ID}" data-icon-active="fas fa-star" data-icon-inactive="far fa-star"
-								data-state="{$ACTIVE}" data-template="<span class='c-option-template--state-icons'>{$OWNER_NAME}<span class='js-select-option-actions o-filter-actions noWrap float-right'><span data-js='click|class:icons' class='mx-1 js-select-option-event{if $ACTIVE == 'active'} fas fa-star{else} far fa-star{/if}'></span></span></span>" {/if}>
+								data-url="index.php?module={$MODULE_NAME}&action=Fields&mode=changeFavoriteOwner&fieldName={$FIELD_NAME}&owner={$OWNER_ID}" data-icon-active="fas" data-icon-inactive="far" data-state="{$ACTIVE}" data-template="<span class='c-option-template--state-icons'>{$OWNER_NAME}<span class='js-select-option-actions o-filter-actions noWrap float-right'><span data-js='click|class:icons' class='mx-1 js-select-option-event {if $ACTIVE == 'active'}fas{else}far{/if} fa-star'></span></span></span>" {/if}>
 								{$OWNER_NAME}
 							</option>
 						{/foreach}

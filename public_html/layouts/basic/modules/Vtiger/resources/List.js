@@ -1161,7 +1161,6 @@ $.Class(
 			let target = $(event.currentTarget);
 			let selectOption = '';
 			let selectOptionId = '';
-			let textOption = '';
 			if (target.is('option')) {
 				selectOption = target;
 			} else if (event.type === 'select2:selecting') {
@@ -1172,16 +1171,9 @@ $.Class(
 				selectOption = $(`#filterOptionId_${selectOptionId}`);
 				this.getFilterSelectElement().val(event.currentTarget.id.split('-').pop()).trigger('change');
 			}
-
 			if ($(`.nav-item[data-cvid='${selectOptionId}'] .nav-link`).tab('show').length === 0) {
 				$('.js-filter-tab .active').removeClass('active');
 			}
-
-			if (typeof selectOption === 'object') {
-				textOption = selectOption.text();
-			}
-
-			$('#select2-customFilter-container span').contents().last().replaceWith(textOption);
 			app.setMainParams('pageNumber', '1');
 			app.setMainParams('pageToJump', '1');
 			app.setMainParams('orderBy', selectOption.data('orderby'));
@@ -1237,9 +1229,7 @@ $.Class(
 				.find('.js-filter-tab')
 				.on('click', (e) => {
 					const cvId = $(e.currentTarget).data('cvid');
-					let selectOption = filterSelect.find(`[value=${cvId}]`);
-					selectOption.trigger('click');
-					$('#select2-customFilter-container span').contents().last().replaceWith(selectOption.text());
+					filterSelect.find(`[value=${cvId}]`).trigger('click');
 					filterSelect.val(cvId).trigger('change');
 				});
 		},
@@ -1745,38 +1735,40 @@ $.Class(
 			if (filterSelectElement.length > 0 && filterSelectElement.is('select')) {
 				App.Fields.Picklist.showSelect2ElementView(filterSelectElement, {
 					templateSelection: function (data) {
-						let resultContainer = $('<span></span>');
-						resultContainer.append($($('.filterImage').clone().get(0)).show());
-						resultContainer.append(data.text);
+						const resultContainer = document.createElement('span'),
+							span = document.createElement('span'),
+							image = $('.filterImage').clone();
+						image.removeAttr('style');
+						span.innerText = data.text;
+						resultContainer.appendChild(image.get(0));
+						resultContainer.appendChild(span);
 						return resultContainer;
 					},
 					customSortOptGroup: true,
 					templateResult: function (data) {
+						const main = document.createElement('div');
 						let actualElement = $(data.element);
 						if (actualElement.is('option')) {
-							let additionalText = '';
+							const div = document.createElement('div'),
+								divSec = document.createElement('div'),
+								divInner = document.createElement('div');
+							divSec.className = 'u-text-ellipsis--no-hover';
+							div.className = 'js-filter__title d-flex justify-content-between';
 							if (actualElement.data('option') !== undefined) {
-								additionalText =
-									'<div class="u-max-w-lg-100 u-text-ellipsis--no-hover d-inline-block small">' +
-									actualElement.data('option') +
-									'</div>';
+								divInner.className = 'u-max-w-lg-100 u-text-ellipsis--no-hover d-inline-block small';
+								divInner.innerText = actualElement.data('option');
 							}
-							return (
-								'<div class="js-filter__title d-flex justify-content-between" data-js="appendTo"><div class="u-text-ellipsis--no-hover">' +
-								actualElement.text() +
-								'</div></div>' +
-								additionalText
-							);
+							divSec.innerText = actualElement.text();
+							div.appendChild(divSec);
+							main.appendChild(div);
+							main.appendChild(divInner);
 						} else {
-							return actualElement.attr('label');
+							main.innerText = actualElement.attr('label');
 						}
-					},
-					escapeMarkup: function (markup) {
-						return markup;
+						return main;
 					},
 					closeOnSelect: true
 				});
-
 				let select2Instance = filterSelectElement.data('select2');
 				$('.filterActionsDiv')
 					.appendTo(select2Instance.$dropdown.find('.select2-dropdown:last'))
