@@ -24,13 +24,13 @@
 				<div class="row">
 					<div class="col-md-12">
 						<label class="muted"><span class="redColor">*</span>{\App\Language::translate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}: </label>&nbsp;
-						<span name="profilename" id="profilename" value="{$RECORD_MODEL->getName()}"><strong>{$RECORD_MODEL->getName()}</strong></span>
+						<span name="profilename" id="profilename" value="{\App\Purifier::encodeHtml($RECORD_MODEL->getName())}"><strong>{\App\Purifier::encodeHtml($RECORD_MODEL->getName())}</strong></span>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
 						<label class="muted">{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}:</strong></label>&nbsp;
-						<span name="description" id="description"><strong>{$RECORD_MODEL->getDescription()}</strong></span>
+						<span name="description" id="description"><strong>{\App\Purifier::encodeHtml($RECORD_MODEL->getDescription())}</strong></span>
 					</div>
 				</div>
 				{assign var="ENABLE_CLASS_ICON" value="fas fa-check text-success"}

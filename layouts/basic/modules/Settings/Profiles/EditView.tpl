@@ -33,19 +33,18 @@
 			{if $RECORD_ID}<input type="hidden" name="record" value="{$RECORD_ID}" />{/if}
 			{if $MODE}<input type="hidden" name="mode" value="{$MODE}" />{/if}
 			<input type="hidden" name="viewall" {if $RECORD_MODEL->hasGlobalReadPermission()}value="1"
-				{else}value="0" 
+				{else}value="0"
 				{/if} />
 			<input type="hidden" name="editall" {if $RECORD_MODEL->hasGlobalWritePermission()}value="1"
-				{else}value="0" 
+				{else}value="0"
 				{/if} />
 			<div class="mt-2">
 				<div class="row">
-					<label class="col-md-2"><span
-							class="redColor">*</span><strong>{\App\Language::translate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}
-							: </strong></label>
+					<label class="col-md-2">
+						<span class="redColor">*</span><strong>{\App\Language::translate('LBL_PROFILE_NAME', $QUALIFIED_MODULE)}: </strong>
+					</label>
 					<div class="col-md-8">
-						<input type="text" class="fieldValue form-control" name="profilename" id="profilename"
-							value="{$RECORD_MODEL->getName()}" data-validation-engine="validate[required]" />
+						<input type="text" class="fieldValue form-control" name="profilename" id="profilename" value="{\App\Purifier::encodeHtml($RECORD_MODEL->getName())}" data-validation-engine="validate[required]" />
 					</div>
 				</div>
 				<br />
@@ -53,8 +52,7 @@
 					<label class="col-md-2"><strong>{\App\Language::translate('LBL_DESCRIPTION', $QUALIFIED_MODULE)}
 							:</strong></label>
 					<div class="col-md-8">
-						<textarea class="input-xxlarge fieldValue form-control" name="description"
-							id="description">{$RECORD_MODEL->getDescription()}</textarea>
+						<textarea class="input-xxlarge fieldValue form-control" name="description" id="description">{$RECORD_MODEL->getDescription()}</textarea>
 					</div>
 				</div>
 				<br />
@@ -104,7 +102,7 @@
 												name="permissions[{$TABID}][is_permitted]"
 												data-value="{$TABID}"
 												data-module-state=""
-												{if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}checked="true" 
+												{if $RECORD_MODEL->hasModulePermission($PROFILE_MODULE)}checked="true"
 												{else}
 												data-module-unchecked="true" {/if}>
 										</div>
@@ -122,9 +120,9 @@
 												<input style="margin-left: 45% !important" class="action{$ACTION_ID}CheckBox"
 													type="checkbox" name="permissions[{$TABID}][actions][{$ACTION_ID}]"
 													data-action-state="{$ACTION_MODEL->getName()}"
-													{if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTION_MODEL)}checked="true" 
+													{if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTION_MODEL)}checked="true"
 													{elseif empty($RECORD_ID) && empty($IS_DUPLICATE_RECORD)}
-													checked="true" {else} data-action{$ACTION_ID}-unchecked="true" 
+													checked="true" {else} data-action{$ACTION_ID}-unchecked="true"
 													{/if}>
 											{/if}
 										</td>
@@ -239,7 +237,7 @@
 													{/if}>
 													<input type="checkbox" class="alignTop"
 														name="permissions[{$TABID}][actions][{$ACTIONID}]"
-														{if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTIONID)}checked="true" 
+														{if $RECORD_MODEL->hasModuleActionPermission($PROFILE_MODULE, $ACTIONID)}checked="true"
 														{elseif empty($RECORD_ID) && empty($IS_DUPLICATE_RECORD)}
 														checked="true" {/if}> {\App\Language::translate($ACTION_MODEL->getName(),$QUALIFIED_MODULE)}
 												</div>
