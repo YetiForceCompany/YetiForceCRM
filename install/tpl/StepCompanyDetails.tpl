@@ -39,7 +39,7 @@
 								<label class="col-sm-4 col-form-label" for="company-{$FIELD_NAME}">
 									{App\Language::translate('LBL_'|cat:$FIELD_NAME|upper, 'Install')}<span class="no">*</span>
 									{if isset($FIELD['infoText'])}
-										<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate($FIELD['infoText'], 'Install'))}">
+										<div class="js-popover-tooltip ml-2 mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate($FIELD['infoText'], 'Install')))}">
 											<span class="fas fa-info-circle"></span>
 										</div>
 									{/if}

@@ -81,10 +81,9 @@
 								<div class="filterActionsDiv d-none">
 									<hr>
 									<ul class="filterActions list-unstyled m-2">
-										<li id="createFilter" data-value="create"
-											data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><a href="#"><span
-													class="fas fa-plus-circle"></span> {\App\Language::translate('LBL_CREATE_NEW_FILTER')}
-											</a></li>
+										<li id="createFilter" data-value="create" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}">
+											<a href="#"><span class="fas fa-plus-circle"></span> {\App\Language::translate('LBL_CREATE_NEW_FILTER')}</a>
+										</li>
 									</ul>
 								</div>
 							{/if}
@@ -111,9 +110,8 @@
 										data-toggle="tab">
 										{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}
 										{if $CUSTOM_VIEW->get('description')}
-											<span class="js-popover-tooltip ml-1" data-toggle="popover"
-												data-placement="top"
-												data-content="{\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description'))}" data-js="popover">
+											<span class="js-popover-tooltip ml-1" data-toggle="popover" data-placement="top"
+												data-content="{\App\Purifier::encodeHtml(\App\Purifier::encodeHtml($CUSTOM_VIEW->get('description')))}" data-js="popover">
 												<span class="fas fa-info-circle"></span>
 											</span>
 										{/if}
