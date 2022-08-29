@@ -19,7 +19,7 @@
 					<span class="ml-1 badge badge-secondary">{$DATA['columnCounter'][$COLUMN_NAME]}</span>
 					{if !empty($COLUMN['description'])}
 						<span class="c-kanban__info js-popover-tooltip float-right"
-							data-content="{\App\Purifier::encodeHtml(\App\Purifier::encodeHtml($COLUMN['description']))}" data-placement="bottom"
+							data-content="{\App\Purifier::encodeHtml(\App\Purifier::purifyHtml($COLUMN['description']))}" data-placement="bottom"
 							data-js="popover">
 							<span class="fas fa-info-circle"></span>
 						</span>
