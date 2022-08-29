@@ -66,7 +66,7 @@
 														onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};if (event.stopPropagation){ldelim}
 																event.stopPropagation();{rdelim} else{ldelim} event.cancelBubble = true;{rdelim}"
 													{else}
-														href='{$RECORD_LINK_URL|escape}'
+														href='{$RECORD_LINK_URL}'
 													{/if}
 												class="{$RECORD_LINK->get('class')|escape}
 															{if ($RECORD_LINK->getLabel() eq 'LBL_ACTIVATION_TASKS' && $ACTIVE_TASKS eq $ALL_TASKS) ||
