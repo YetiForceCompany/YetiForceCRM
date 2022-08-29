@@ -43,15 +43,6 @@ class Vtiger_Date_InventoryField extends Vtiger_Basic_InventoryField
 	}
 
 	/** {@inheritdoc} */
-	public function getEditValue($value)
-	{
-		if (empty($value)) {
-			return '';
-		}
-		return \App\Purifier::encodeHtml(DateTimeField::convertToUserFormat($value));
-	}
-
-	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		if (empty($value)) {

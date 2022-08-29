@@ -8,6 +8,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -46,7 +47,7 @@ class Vtiger_DiscountAggregation_InventoryField extends Vtiger_Basic_InventoryFi
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		if (null === $value) {
-			$value = Vtiger_Inventory_Model::getInstance($this->getModuleName())->getDiscountsConfig('aggregation');
+			$value = Vtiger_Inventory_Model::getDiscountsConfig('aggregation');
 		}
 		return \App\Language::translate($this->values[$value], $this->getModuleName());
 	}
@@ -73,5 +74,12 @@ class Vtiger_DiscountAggregation_InventoryField extends Vtiger_Basic_InventoryFi
 	public function getPicklistValues(): array
 	{
 		return $this->values;
+	}
+
+	/** {@inheritdoc} */
+	public function getEditValue(array $itemData, string $column = '')
+	{
+		$value = parent::getEditValue($itemData, $column);
+		return is_numeric($value) ? $value : Vtiger_Inventory_Model::getDiscountsConfig('aggregation');
 	}
 }

@@ -8,6 +8,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Unit_InventoryField extends Vtiger_Basic_InventoryField
 {
@@ -31,11 +32,5 @@ class Vtiger_Unit_InventoryField extends Vtiger_Basic_InventoryField
 			$value = $mapDetail->getDisplayValue($value, false, false, $rawText);
 		}
 		return $value;
-	}
-
-	/** {@inheritdoc} */
-	public function getEditValue($value)
-	{
-		return \App\Purifier::encodeHtml($value);
 	}
 }

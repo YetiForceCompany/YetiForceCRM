@@ -1,9 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-inventoryfields-EditViewCurrency -->
+	{assign var=SELECTED_CURRENCY value=$INVENTORY_MODEL->getEditValue($ITEM_DATA, $FIELD->getColumnName())}
 	{assign var=CURRENCIES value=\App\Fields\Currency::getAll(true)}
-	{assign var=SELECTED_CURRENCY value=$ITEM_VALUE}
-	{if $SELECTED_CURRENCY eq ''}
+	{if !$SELECTED_CURRENCY}
 		{assign var=USER_CURRENCY_ID value=$USER_MODEL->get('currency_id')}
 		{foreach item=CURRENCY from=$CURRENCIES}
 			{if $CURRENCY.id eq $USER_CURRENCY_ID}

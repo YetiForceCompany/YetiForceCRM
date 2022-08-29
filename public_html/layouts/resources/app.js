@@ -2026,6 +2026,34 @@ const app = (window.app = {
 			);
 		}
 	},
+	/**
+	 * Register block toggle event
+	 * @param {jQuery} container
+	 */
+	registerBlockToggleEvent(container) {
+		container.on('click', '.js-block-header', function (e) {
+			const target = $(e.target);
+			if (
+				target.is('input') ||
+				target.is('button') ||
+				target.parents().is('button') ||
+				target.hasClass('js-stop-propagation') ||
+				target.parents().hasClass('js-stop-propagation')
+			) {
+				return false;
+			}
+			const blockHeader = $(e.currentTarget);
+			const blockContents = blockHeader.next();
+			const iconToggle = blockHeader.find('.iconToggle');
+			if (blockContents.hasClass('d-none')) {
+				blockContents.removeClass('d-none');
+				iconToggle.removeClass(iconToggle.data('hide')).addClass(iconToggle.data('show'));
+			} else {
+				blockContents.addClass('d-none');
+				iconToggle.removeClass(iconToggle.data('show')).addClass(iconToggle.data('hide'));
+			}
+		});
+	},
 	registerBlockAnimationEvent: function (container = false) {
 		let detailViewContentHolder = $('div.details div.contents');
 		let blockHeader = detailViewContentHolder.find('.blockHeader');

@@ -24,7 +24,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	protected $dbType = 'text';
 	/** {@inheritdoc} */
-	protected $params = ['width', 'height'];
+	protected $params = ['width', 'height', 'isOpened'];
 	/** {@inheritdoc} */
 	protected $onlyOne = false;
 	/** {@inheritdoc} */
@@ -33,12 +33,6 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	public $isVisible = false;
 	/** {@inheritdoc} */
 	protected $purifyType = \App\Purifier::HTML;
-
-	/** {@inheritdoc} */
-	public function getEditTemplateName()
-	{
-		return 'inventoryTypes/Comment.tpl';
-	}
 
 	/**
 	 * Get width.
@@ -74,7 +68,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		$conf = App\Config::module($this->getModuleName(), 'inventoryCommentIframeContent', null);
-		$value = \App\Utils\Completions::decode(\App\Purifier::purifyHtml($value));
+		$value = \App\Utils\Completions::decode(\App\Purifier::decodeHtml(\App\Purifier::purifyHtml($value)));
 		if (!$rawText && false !== $conf) {
 			return \App\Layout::truncateHtml($value, 'mini', 300);
 		}
@@ -103,11 +97,39 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	}
 
 	/** {@inheritdoc} */
-	public function getValue($value)
+	public function getConfigFieldsData(): array
 	{
-		if ('' == $value) {
-			$value = $this->getDefaultValue();
-		}
-		return \App\Utils\Completions::encode(\App\Purifier::decodeHtml($value));
+		$data = parent::getConfigFieldsData();
+		unset($data['colspan']);
+		$data['width'] = [
+			'name' => 'width',
+			'label' => 'LBL_COLSPAN',
+			'uitype' => 7,
+			'maximumlength' => '0,100',
+			'typeofdata' => 'N~M',
+			'purifyType' => \App\Purifier::INTEGER,
+			'tooltip' => 'LBL_MAX_WIDTH_COLUMN_INFO',
+			'defaultvalue' => '100',
+		];
+		$data['height'] = [
+			'name' => 'height',
+			'label' => 'LBL_HEIGHT',
+			'uitype' => 7,
+			'maximumlength' => '0,1000',
+			'typeofdata' => 'N~M',
+			'purifyType' => \App\Purifier::INTEGER,
+			'defaultvalue' => '50',
+		];
+		$data['isOpened'] = [
+			'name' => 'isOpened',
+			'label' => 'LBL_COMMENT_IS_OPENED',
+			'uitype' => 56,
+			'maximumlength' => '0,127',
+			'typeofdata' => 'C~O',
+			'tooltip' => 'LBL_COMMENT_IS_OPENED_INFO',
+			'purifyType' => \App\Purifier::BOOL,
+		];
+
+		return $data;
 	}
 }

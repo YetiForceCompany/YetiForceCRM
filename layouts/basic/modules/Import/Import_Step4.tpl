@@ -53,7 +53,7 @@
 							{assign var="TYPE_AVAILABLE_BLOCKS" value=$INVENTORY_BLOCKS}
 							{assign var="PREFIX" value='inventory_'}
 							{assign var="INVENTORY_FIELDS" value=Vtiger_Inventory_Model::getInstance($FOR_MODULE)->getAllColumns()}
-							{append var="INVENTORY_FIELDS" value="recordIteration"}
+							{* {append var="INVENTORY_FIELDS" value="recordIteration"} *}
 						{else}
 							{assign var="TYPE_AVAILABLE_BLOCKS" value=$AVAILABLE_BLOCKS}
 							{assign var="PREFIX" value=''}
@@ -65,7 +65,7 @@
 							{/if}
 							{assign var="_COUNTER" value=$_COUNTER+1}
 							{if $PREFIX && is_numeric($_HEADER_NAME)} {continue} {/if}
-							<tr class="fieldIdentifier {if $PREFIX && in_array($_HEADER_NAME, $INVENTORY_FIELDS)} d-none {/if}"
+							<tr class="fieldIdentifier {if $PREFIX && isset($INVENTORY_FIELDS[$_HEADER_NAME])} d-none {/if}"
 								id="fieldIdentifier{$_COUNTER}" data-typename="{$TYPE_NAME}">
 								{if $HAS_HEADER eq true}
 									<td class="cellLabel">

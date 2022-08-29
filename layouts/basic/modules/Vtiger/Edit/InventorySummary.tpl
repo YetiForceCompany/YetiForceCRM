@@ -14,11 +14,7 @@
 								</span>
 								{\App\Language::translate('LBL_DISCOUNTS_SUMMARY',$MODULE)}
 							</div>
-							{if isset($ITEM_DATA['discountmode'])}
-								{assign var=DISCOUNT_MODE value=$ITEM_DATA['discountmode']}
-							{else}
-								{assign var=DISCOUNT_MODE value=$DISCOUNTS_CONFIG['default_mode']}
-							{/if}
+							{assign var=DISCOUNT_MODE value=$INVENTORY_MODEL->getField('discountmode')->getEditValue($ITEM_DATA)}
 							<div class="col-12 col-lg-3 p-0 groupDiscount js-change-discount {if $DISCOUNT_MODE == 1}d-none{/if}">
 								<button type="button" class="btn btn-primary btn-sm c-btn-block-md-down float-right u-white-space-nowrap">
 									<span class="fas fa-sliders-h mr-2"></span>{\App\Language::translate('LBL_SET_GLOBAL_DISCOUNT', $MODULE)}
@@ -42,6 +38,7 @@
 			</div>
 		{/if}
 		{if ($INVENTORY_MODEL->isField('tax') || $INVENTORY_MODEL->isField('tax_percent')) && $INVENTORY_MODEL->isField('taxmode')}
+			{assign var="TAX_DEFAULT" value=Vtiger_Inventory_Model::getDefaultGlobalTax()}
 			<div class="col-md-4">
 				<div class="card mb-3 mb-md-0 inventorySummaryContainer inventorySummaryTaxes">
 					<div class="card-header">
@@ -53,11 +50,7 @@
 								</span>
 								{\App\Language::translate('LBL_TAX_SUMMARY',$MODULE)}
 							</div>
-							{if isset($ITEM_DATA['taxmode'])}
-								{assign var=TAX_MODE value=$ITEM_DATA['taxmode']}
-							{else}
-								{assign var=TAX_MODE value=$TAXS_CONFIG['default_mode']}
-							{/if}
+							{assign var=TAX_MODE value=$INVENTORY_MODEL->getField('taxmode')->getEditValue($ITEM_DATA)}
 							<div class="col-12 col-lg-3 p-0 groupTax changeTax {if $TAX_MODE == 1}d-none{/if}">
 								<button type="button" class="btn btn-primary btn-sm float-right c-btn-block-md-down u-white-space-nowrap">
 									<span class="fas fa-sliders-h mr-2"></span>{\App\Language::translate('LBL_SET_GLOBAL_TAX', $MODULE)}

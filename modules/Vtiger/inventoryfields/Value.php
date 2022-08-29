@@ -27,10 +27,4 @@ class Vtiger_Value_InventoryField extends Vtiger_Basic_InventoryField
 		}
 		return $value;
 	}
-
-	/** {@inheritdoc} */
-	public function getEditValue($value)
-	{
-		return \App\Purifier::encodeHtml($value);
-	}
 }

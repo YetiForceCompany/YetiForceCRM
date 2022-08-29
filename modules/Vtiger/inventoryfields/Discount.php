@@ -37,12 +37,6 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	}
 
 	/** {@inheritdoc} */
-	public function getEditValue($value)
-	{
-		return \App\Fields\Double::formatToDisplay($value, false);
-	}
-
-	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
 		if (!isset($this->dbValue["{$value}"])) {

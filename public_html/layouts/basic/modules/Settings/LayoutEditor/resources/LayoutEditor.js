@@ -1790,7 +1790,6 @@ $.Class(
 			container.find('.editInventoryField').on('click', function (e) {
 				let currentTarget = $(e.currentTarget);
 				var selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
-				var blockId = currentTarget.closest('.inventoryBlock').data('block-id');
 				var editField = currentTarget.closest('.editFields');
 				var progress = $.progressIndicator();
 				app.showModalWindow(
@@ -1803,7 +1802,7 @@ $.Class(
 						editField.data('name'),
 					function (container) {
 						app.showPopoverElementView(container.find('.js-help-info'));
-						thisInstance.registerStep2(container, blockId);
+						thisInstance.registerStep2(container);
 						progress.progressIndicator({ mode: 'hide' });
 					}
 				);
@@ -1839,7 +1838,7 @@ $.Class(
 								'&type=' +
 								type,
 							(modalContainer) => {
-								thisInstance.registerStep2(modalContainer, blockId);
+								thisInstance.registerStep2(modalContainer);
 								progress.progressIndicator({ mode: 'hide' });
 							}
 						);
@@ -1849,56 +1848,22 @@ $.Class(
 		},
 		/**
 		 * Function to save inventory field
+		 * @param {jQuery} container
 		 */
-		registerStep2: function (container, blockId) {
-			let thisInstance = this;
-			let containerInventory = thisInstance.getInventoryViewLayout();
+		registerStep2: function (container) {
 			let form = container.find('form');
-			let selectedModule = this.container.find('[name="layoutEditorModules"]').val();
 			form.validationEngine(app.validationEngineOptions);
-			form.on('submit', function (e) {
+			form.on('submit', (e) => {
+				e.preventDefault();
 				let formData = form.serializeFormData();
-				let paramsName = container.find('#params');
-				if (paramsName.length) {
-					paramsName = JSON.parse(paramsName.val());
-					let params = {};
-					for (let i in formData) {
-						if ($.inArray(i, paramsName) != -1) {
-							let value = formData[i];
-							if (i === 'modules' && typeof value === 'string') {
-								value = [value];
-							}
-							params[i] = value;
-							delete formData[i];
-						}
-					}
-					formData.params = JSON.stringify(params);
-				}
-				let errorExists = form.validationEngine('validate');
-				if (errorExists != false) {
-					formData.block = blockId;
-					formData.sourceModule = selectedModule;
-					app.saveAjax('saveInventoryField', null, formData).done(function (data) {
-						let result = data.result,
-							success = data.success;
+				if (form.validationEngine('validate')) {
+					app.saveAjax('saveInventoryField', null, formData).done((data) => {
 						app.hideModalWindow();
-						if (success && result && result.edit) {
-							let liElement = containerInventory.find('[data-id="' + result.data.id + '"]');
-							liElement.find('.fieldLabel').text(result.data.translate);
-						} else if (success && result) {
-							let newLiElement = containerInventory.find('.newLiElement').clone(true, true);
-							newLiElement
-								.removeClass('d-none newLiElement')
-								.find('.editFields')
-								.attr('data-id', result.data.id)
-								.attr('data-sequence', result.data.sequence)
-								.attr('data-name', result.data.columnName)
-								.attr('data-type', result.data.invtype)
-								.find('.fieldLabel')
-								.text(result.data.translate);
-							containerInventory
-								.find('[data-block-id="' + result.data.block + '"] .connectedSortable')
-								.append(newLiElement);
+						if (data.result && data.success) {
+							let selectedModule = this.container.find('[name="layoutEditorModules"]').val();
+							window.location.href =
+								'index.php?module=LayoutEditor&parent=Settings&view=Index&tab=inventoryViewLayout&sourceModule=' +
+								selectedModule;
 						} else {
 							app.showNotify({
 								text: app.vtranslate('JS_ERROR'),
@@ -1907,9 +1872,6 @@ $.Class(
 						}
 					});
 				}
-			});
-			container.find('form').on('submit', function (event) {
-				event.preventDefault();
 			});
 		},
 		/**
@@ -1968,9 +1930,6 @@ $.Class(
 								Settings_Vtiger_Index_Js.showMessage(param);
 								progressIndicatorElement.progressIndicator({ mode: 'hide' });
 							});
-					},
-					rejectedCallback: () => {
-						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					}
 				});
 			});

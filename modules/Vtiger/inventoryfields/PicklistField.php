@@ -20,17 +20,12 @@ class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 	protected $purifyType = \App\Purifier::TEXT;
 
 	/** {@inheritdoc} */
-	public function getEditTemplateName()
-	{
-		return 'inventoryTypes/PicklistField.tpl';
-	}
-
 	public function getParams()
 	{
 		$params = [];
 		$inventory = Vtiger_Inventory_Model::getInstance($this->getModuleName());
 		if ($field = $inventory->getField('name')) {
-			$params = $field->getParamsConfig()['modules'] ?? [];
+			$params = $field->getModules();
 		}
 		return $params;
 	}
@@ -73,5 +68,28 @@ class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 			}
 		}
 		return $values;
+	}
+
+	/** {@inheritdoc} */
+	public function getConfigFieldsData(): array
+	{
+		$data = parent::getConfigFieldsData();
+
+		foreach ($this->getParams() as $moduleName) {
+			$data[$moduleName] = [
+				'name' => $moduleName,
+				'label' => \App\Language::translate($moduleName, $moduleName, false, false),
+				'uitype' => 16,
+				'maximumlength' => '6500',
+				'typeofdata' => 'V~M',
+				'purifyType' => \App\Purifier::TEXT,
+				'picklistValues' => [],
+			];
+			foreach ($this->getPicklist($moduleName) as $key => $value) {
+				$data[$moduleName]['picklistValues'][$key] = $value;
+			}
+		}
+
+		return $data;
 	}
 }

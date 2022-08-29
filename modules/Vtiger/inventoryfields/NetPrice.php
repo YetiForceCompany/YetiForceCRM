@@ -28,9 +28,10 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 	}
 
 	/** {@inheritdoc} */
-	public function getEditValue($value)
+	public function getEditValue(array $itemData, string $column = '')
 	{
-		return \App\Fields\Double::formatToDisplay($value, false);
+		$value = parent::getEditValue($itemData, $column);
+		return \App\Fields\Double::formatToDisplay($value);
 	}
 
 	/** {@inheritdoc} */

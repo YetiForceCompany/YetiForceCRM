@@ -34,13 +34,14 @@ class Settings_LayoutEditor_CreateInventoryFields_View extends Settings_Vtiger_I
 	{
 		$inventory = Vtiger_Inventory_Model::getInstance($request->getByType('sourceModule', 'Standard'));
 		if ($request->has('fieldName')) {
-			$fieldInstance = $inventory->getField($request->getByType('fieldName', 'Alnum'));
+			$fieldInstance = $inventory->getField($request->getByType('fieldName', \App\Purifier::ALNUM));
 		} else {
-			$fieldInstance = $inventory->getFieldCleanInstance($request->getByType('type', 'Standard'));
+			$fieldInstance = $inventory->getFieldCleanInstance($request->getByType('type', \App\Purifier::STANDARD))->setDefaultDataConfig();
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FIELD_INSTANCE', $fieldInstance);
 		$viewer->assign('INVENTORY_MODEL', $inventory);
+		$viewer->assign('VIEW', $request->getByType('view', \App\Purifier::ALNUM));
 		$viewer->view('CreateInventoryFieldsStep2.tpl', $request->getModule(false));
 	}
 }

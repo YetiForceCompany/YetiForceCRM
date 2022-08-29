@@ -29,6 +29,7 @@ $.Class(
 		form: false,
 		discount: false,
 		tax: false,
+		container: false,
 		inventoryContainer: false,
 		inventoryHeadContainer: false,
 		summaryTaxesContainer: false,
@@ -64,11 +65,14 @@ $.Class(
 		 * Function that is used to get the line item container
 		 * @return : jQuery object
 		 */
-		getInventoryItemsContainer: function () {
-			if (this.inventoryContainer === false) {
-				this.inventoryContainer = $('.inventoryItems');
+		getContainer: function () {
+			if (this.container === false) {
+				this.container = $('.js-inv-container');
 			}
-			return this.inventoryContainer;
+			return this.container;
+		},
+		getInventoryItemsContainer: function () {
+			return this.getContainer().find('.inventoryItems');
 		},
 		getInventoryHeadContainer: function () {
 			if (this.inventoryHeadContainer === false) {
@@ -619,7 +623,8 @@ $.Class(
 		calculateSummary: function (element, field) {
 			let thisInstance = this;
 			let sum = 0;
-			this.getInventoryItemsContainer()
+			element
+				.closest('.js-inv-container-group')
 				.find(thisInstance.rowClass)
 				.each(function () {
 					let e = $(this).find('.' + field);
@@ -912,7 +917,10 @@ $.Class(
 			}
 			container.find('.js-sync').each(function () {
 				let element = $(this);
-				element.val(header.find('.js-' + element.data('syncId')).val());
+				let classElement = '.js-' + element.data('syncId');
+				let block = element.closest('.js-inv-container-group');
+				let value = block.find(classElement).length ? block.find(classElement) : header.find(classElement);
+				element.val(value.val());
 			});
 		},
 		/**
@@ -1372,8 +1380,8 @@ $.Class(
 		 * @param {string} baseTableId
 		 * @param {object} rowData [optional]
 		 */
-		addItem(module, baseTableId, rowData = false) {
-			const items = this.getInventoryItemsContainer();
+		addItem(module, baseTableId, rowData = false, group = null) {
+			const items = group || this.getInventoryItemsContainer();
 			let newRow = this.getBasicRow();
 			const sequenceNumber = this.getNextLineItemRowNumber();
 			const replaced = newRow.html().replace(/\_NUM_/g, sequenceNumber);
@@ -1400,22 +1408,57 @@ $.Class(
 			}
 			return newRow;
 		},
+		/**
+		 * Add block
+		 * @returns
+		 */
+		addBlock() {
+			let block = this.getContainer().find('.js-inv-container-group:last');
+			let newBlock = block.clone(true, true);
+			newBlock.find('.grouplabel').val('');
+			newBlock.find('.js-inventory-items-body').empty();
+			newBlock.find('.js-groupid').val(this.getNextBlockId());
+			block.after(newBlock);
+			this.registerSortableItems();
+			return newBlock;
+		},
+		/**
+		 * Get next block ID
+		 * @returns int
+		 */
+		getNextBlockId() {
+			let data = [...this.getContainer().find('.js-groupid')].map((o) => parseInt(o.value));
+			return Math.max(...data) + 1;
+		},
 
 		/**
 		 * Register add item button click
-		 * @param {jQuery} container
 		 */
 		registerAddItem() {
-			const thisInstance = this;
-			const itemsHeader = thisInstance.getInventoryHeadContainer();
-			itemsHeader.find('.js-inv-add-item').on('click', function () {
-				const btn = $(this);
-				thisInstance.addItem(btn.data('module'), btn.data('field'));
-			});
+			this.getContainer()
+				.find('.js-inv-add-item')
+				.on('click', (e) => {
+					this.addItem(
+						e.currentTarget.dataset.module,
+						e.currentTarget.dataset.field,
+						false,
+						$(e.currentTarget).closest('.js-inv-container-group')
+					);
+				});
+		},
+		/**
+		 * Register add block
+		 */
+		registerAddBlock() {
+			this.getContainer()
+				.find('.js-inv-add-group')
+				.on('click', () => {
+					this.addBlock();
+				});
 		},
 		registerSortableItems: function () {
 			let thisInstance = this;
-			let items = thisInstance.getInventoryItemsContainer();
+			let items = thisInstance.getContainer();
 			items.sortable({
 				handle: '.dragHandle',
 				items: thisInstance.rowClass,
@@ -1798,7 +1841,7 @@ $.Class(
 				app.showRecordsList(url, (_, instance) => {
 					instance.setSelectEvent((data) => {
 						for (let i in data) {
-							let parentElem = this.addItem(moduleName);
+							let parentElem = this.addItem(moduleName, '', false, currentTarget.closest('.js-inv-container-group'));
 							Vtiger_Edit_Js.getInstance().setReferenceFieldValue(parentElem, {
 								name: data[i],
 								id: i
@@ -1922,6 +1965,7 @@ $.Class(
 			this.loadConfig();
 			this.registerInventorySaveData();
 			this.registerAddItem();
+			this.registerAddBlock();
 			this.registerMassAddItem();
 			this.initItem();
 			this.registerSortableItems();
@@ -1933,6 +1977,7 @@ $.Class(
 			this.registerChangeCurrency();
 			this.registerChangeDiscountAggregation();
 			this.setDefaultGlobalTax(container);
+			app.registerBlockToggleEvent(container);
 		}
 	}
 );

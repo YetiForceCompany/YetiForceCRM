@@ -30,12 +30,6 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	];
 
 	/** {@inheritdoc} */
-	public function getEditTemplateName()
-	{
-		return 'inventoryTypes/Currency.tpl';
-	}
-
-	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		if (empty($value)) {

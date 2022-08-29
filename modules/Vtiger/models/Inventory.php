@@ -151,16 +151,13 @@ class Vtiger_Inventory_Model
 	public function getFieldById(int $fieldId): ?Vtiger_Basic_InventoryField
 	{
 		$fieldModel = null;
-		if (\App\Cache::staticHas(__METHOD__, $fieldId)) {
-			$fieldModel = \App\Cache::staticGet(__METHOD__, $fieldId);
-		} else {
-			$row = (new \App\Db\Query())->from($this->getTableName())->where(['id' => $fieldId])->one();
-			if ($row) {
-				$fieldModel = $this->getFieldCleanInstance($row['invtype']);
-				$this->setFieldData($fieldModel, $row);
+		foreach ($this->getFields() as $field) {
+			if ($fieldId === $field->getId()) {
+				$fieldModel = $field;
+				break;
 			}
-			\App\Cache::staticSave(__METHOD__, $fieldId, $fieldModel);
 		}
+
 		return $fieldModel;
 	}
 
@@ -177,6 +174,35 @@ class Vtiger_Inventory_Model
 		foreach ($this->getFields() as $fieldName => $fieldModel) {
 			$fieldList[$fieldModel->get('block')][$fieldName] = $fieldModel;
 		}
+		return $fieldList;
+	}
+
+	/**
+	 * Function that returns all the fields for given block ID.
+	 *
+	 * @param int $blockId
+	 *
+	 * @return \Vtiger_Basic_InventoryField[]
+	 */
+	public function getFieldsByBlock(int $blockId): array
+	{
+		return $this->getFieldsByBlocks()[$blockId] ?? [];
+	}
+
+	/**
+	 * Get syncronized fields.
+	 *
+	 * @return \Vtiger_Basic_InventoryField[]
+	 */
+	public function getFieldsToSync(): array
+	{
+		$fieldList = [];
+		foreach ($this->getFields() as $fieldName => $fieldModel) {
+			if (0 === $fieldModel->get('block') || $fieldModel->isSync()) {
+				$fieldList[$fieldName] = $fieldModel;
+			}
+		}
+
 		return $fieldList;
 	}
 
@@ -254,15 +280,16 @@ class Vtiger_Inventory_Model
 	public function setFieldData(Vtiger_Basic_InventoryField $fieldModel, array $row)
 	{
 		$fieldModel->set('id', (int) $row['id'])
-			->set('columnName', $row['columnname'])
+			->set('columnname', $row['columnname'])
 			->set('label', $row['label'])
 			->set('presence', (int) $row['presence'])
-			->set('defaultValue', $row['defaultvalue'])
+			->set('defaultvalue', $row['defaultvalue'])
 			->set('sequence', (int) $row['sequence'])
 			->set('block', (int) $row['block'])
-			->set('displayType', (int) $row['displaytype'])
+			->set('displaytype', (int) $row['displaytype'])
 			->set('params', $row['params'])
-			->set('colSpan', (int) $row['colspan']);
+			->set('invtype', $row['invtype'])
+			->set('colspan', (int) $row['colspan']);
 	}
 
 	/**
@@ -346,23 +373,23 @@ class Vtiger_Inventory_Model
 		if (!$fieldModel->has('sequence')) {
 			$fieldModel->set('sequence', $db->getUniqueID($tableName, 'sequence', false));
 		}
-		if ($fieldModel->isEmpty('id') && !$fieldModel->isOnlyOne()) {
+		if (!$fieldModel->getId() && !$fieldModel->isOnlyOne()) {
 			$id = (new \App\Db\Query())->from($tableName)->where(['invtype' => $fieldModel->getType()])->max('id') + 1;
-			$fieldModel->set('columnName', $fieldModel->getColumnName() . $id);
+			$fieldModel->set('columnname', $fieldModel->getColumnName() . $id);
 		}
 		$transaction = $db->beginTransaction();
 		try {
-			$data = array_change_key_case($fieldModel->getData(), CASE_LOWER);
-			if ($fieldModel->isEmpty('id')) {
+			$result = true;
+			if (!$fieldModel->getId()) {
 				$table = $this->getTableName(self::TABLE_POSTFIX_DATA);
 				vtlib\Utils::addColumn($table, $fieldModel->getColumnName(), $fieldModel->getDBType());
 				foreach ($fieldModel->getCustomColumn() as $column => $criteria) {
 					vtlib\Utils::addColumn($table, $column, $criteria);
 				}
-				$result = $db->createCommand()->insert($tableName, $data)->execute();
+				$result = $db->createCommand()->insert($tableName, $fieldModel->getData())->execute();
 				$fieldModel->set('id', $db->getLastInsertID("{$tableName}_id_seq"));
-			} else {
-				$result = $db->createCommand()->update($tableName, $data, ['id' => $fieldModel->get('id')])->execute();
+			} elseif ($data = array_intersect_key($fieldModel->getData(), $fieldModel->getPreviousValue())) {
+				$result = $db->createCommand()->update($tableName, $data, ['id' => $fieldModel->getId()])->execute();
 			}
 			$transaction->commit();
 		} catch (\Throwable $ex) {
@@ -473,17 +500,18 @@ class Vtiger_Inventory_Model
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return astring[]
+	 * @return \Vtiger_Basic_InventoryField[]
 	 */
 	public function getAllColumns()
 	{
 		$columns = [];
-		foreach ($this->getFields() as $field) {
-			$columns[] = $field->getColumnName();
-			foreach ($field->getCustomColumn() as $name => $field) {
-				$columns[] = $name;
+		foreach ($this->getFields() as $name => $field) {
+			$columns[$name] = $field;
+			foreach (array_keys($field->getCustomColumn()) as $name) {
+				$columns[$name] = $field;
 			}
 		}
+
 		return $columns;
 	}
 
@@ -562,6 +590,25 @@ class Vtiger_Inventory_Model
 			$html .= '</li>';
 		}
 		return $html . '</ul>';
+	}
+
+	/**
+	 * Get edit value.
+	 *
+	 * @param array  $itemData
+	 * @param string $column
+	 * @param string $default
+	 *
+	 * @return mixed
+	 */
+	public function getEditValue(array $itemData, string $column, $default = '')
+	{
+		$value = $default;
+		if ($fieldModel = $this->getAllColumns()[$column] ?? null) {
+			$value = $fieldModel->getEditValue($itemData, $column, $default);
+		}
+
+		return $value;
 	}
 
 	/**

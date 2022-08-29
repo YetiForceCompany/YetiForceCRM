@@ -21,12 +21,6 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	protected $purifyType = \App\Purifier::INTEGER;
 
 	/** {@inheritdoc} */
-	public function getEditTemplateName()
-	{
-		return 'inventoryTypes/Reference.tpl';
-	}
-
-	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
 		if (empty($value)) {
@@ -46,18 +40,6 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	}
 
 	/** {@inheritdoc} */
-	public function getEditValue($value)
-	{
-		if (empty($value)) {
-			return '';
-		}
-		if (($referenceModule = $this->getReferenceModule($value)) && ('Users' === $referenceModule->getName() || 'Groups' === $referenceModule->getName())) {
-			return \App\Fields\Owner::getLabel($value);
-		}
-		return \App\Record::getLabel($value);
-	}
-
-	/** {@inheritdoc} */
 	public function isMandatory()
 	{
 		$config = $this->getParamsConfig();
@@ -74,7 +56,7 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	public function getReferenceModule($record): ?Vtiger_Module_Model
 	{
 		if (!empty($record)) {
-			$referenceModuleList = $this->getParamsConfig()['modules'];
+			$referenceModuleList = $this->getReferenceModules();
 			$referenceEntityType = vtlib\Functions::getCRMRecordMetadata($record)['setype'] ?? '';
 			if (!empty($referenceModuleList) && \in_array($referenceEntityType, $referenceModuleList)) {
 				return Vtiger_Module_Model::getInstance($referenceEntityType);
@@ -84,6 +66,21 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Function to get reference modules.
+	 *
+	 * @return array
+	 */
+	public function getReferenceModules()
+	{
+		$values = $this->getParamsConfig()['modules'] ?? [];
+		if (\is_string($values)) {
+			$values = explode(' |##| ', $values);
+		}
+
+		return $values;
 	}
 
 	/** {@inheritdoc} */
@@ -104,16 +101,39 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		}
 	}
 
-	/**
-	 * Getting value to display.
-	 *
-	 * @return array
-	 */
-	public function mandatoryValues()
+	/** {@inheritdoc} */
+	public function getConfigFieldsData(): array
 	{
-		return [
-			['id' => 'true', 'name' => 'LBL_YES'],
-			['id' => 'false', 'name' => 'LBL_NO'],
+		$qualifiedModuleName = 'Settings:LayoutEditor';
+		$data = parent::getConfigFieldsData();
+
+		$data['modules'] = [
+			'name' => 'modules',
+			'label' => 'LBL_PARAMS_MODULES',
+			'uitype' => 33,
+			'maximumlength' => '25',
+			'typeofdata' => 'V~M',
+			'purifyType' => \App\Purifier::ALNUM,
+			'picklistValues' => []
 		];
+		foreach (Vtiger_Module_Model::getAll([0], [], true) as $module) {
+			$data['modules']['picklistValues'][$module->getName()] = \App\Language::translate($module->getName(), $module->getName());
+		}
+
+		$data['mandatory'] = [
+			'name' => 'mandatory',
+			'label' => 'LBL_PARAMS_MANDATORY',
+			'uitype' => 16,
+			'maximumlength' => '5',
+			'typeofdata' => 'V~M',
+			'purifyType' => \App\Purifier::STANDARD,
+			'defaultvalue' => 'true',
+			'picklistValues' => [
+				'false' => \App\Language::translate('LBL_NO', $qualifiedModuleName),
+				'true' => \App\Language::translate('LBL_YES', $qualifiedModuleName),
+			],
+		];
+
+		return $data;
 	}
 }

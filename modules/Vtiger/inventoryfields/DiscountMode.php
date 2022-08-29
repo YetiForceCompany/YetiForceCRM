@@ -41,4 +41,11 @@ class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 		}
 	}
+
+	/** {@inheritdoc} */
+	public function getEditValue(array $itemData, string $column = '')
+	{
+		$value = parent::getEditValue($itemData, $column);
+		return is_numeric($value) ? $value : Vtiger_Inventory_Model::getDiscountsConfig('aggregation');
+	}
 }

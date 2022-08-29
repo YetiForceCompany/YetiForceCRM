@@ -6,7 +6,6 @@
 	{assign var="INVENTORY_ROWS" value=$RECORD->getInventoryData()}
 	{if $FIELDS && $INVENTORY_MODEL->isField('name') && $INVENTORY_ROWS}
 		{assign var="BASE_CURRENCY" value=Vtiger_Util_Helper::getBaseCurrency()}
-		{assign var="MAIN_PARAMS" value=$INVENTORY_MODEL->getField('name')->getParamsConfig()}
 		{assign var="REFERENCE_MODULE_DEFAULT" value=''}
 		{if isset($FIELDS[0])}
 			{assign var=INVENTORY_ROW value=current($INVENTORY_ROWS)}

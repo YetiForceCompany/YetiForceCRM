@@ -18,12 +18,6 @@ class Vtiger_ItemNumber_InventoryField extends Vtiger_Basic_InventoryField
 	protected $purifyType = \App\Purifier::INTEGER;
 
 	/** {@inheritdoc} */
-	public function getEditTemplateName()
-	{
-		return 'inventoryTypes/ItemNumber.tpl';
-	}
-
-	/** {@inheritdoc} */
 	public function getDBValue($value, ?string $name = '')
 	{
 		return (int) $value;
