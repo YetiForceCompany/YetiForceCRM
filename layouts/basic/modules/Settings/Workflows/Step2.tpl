@@ -27,7 +27,7 @@
 		<input type="hidden" name="params" value="{\App\Purifier::encodeHtml($WORKFLOW_MODEL->get('params'))}" />
 		<input type="hidden" name="schdayofweek" value="{\App\Purifier::encodeHtml(\App\Json::encode($WORKFLOW_MODEL->get('schdayofweek')))}" />
 		<input type="hidden" name="schdayofmonth" value="{\App\Purifier::encodeHtml(\App\Json::encode($WORKFLOW_MODEL->get('schdayofmonth')))}" />
-		<input type="hidden" name="schannualdates" value="{\App\Purifier::encodeHtml($WORKFLOW_MODEL->get('schannualdates'))}" />
+		<input type="hidden" name="schannualdates" value="{if $WORKFLOW_MODEL->get('schannualdates')}{\App\Purifier::encodeHtml($WORKFLOW_MODEL->get('schannualdates'))}{/if}" />
 		{if $WORKFLOW_MODEL->get('execution_condition') eq \VTWorkflowManager::$ON_SCHEDULE && $WORKFLOW_MODEL->getParams('iterationOff')}
 			<div class="alert alert-info">
 				{\App\Language::translate('LBL_WORKFLOW_RESTRICTION_OFF_ALERT',$QUALIFIED_MODULE)}
