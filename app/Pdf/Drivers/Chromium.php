@@ -407,7 +407,7 @@ class Chromium extends Base
 		$page = $this->pdf->createPage();
 		$tempFileName = \App\Fields\File::getTmpPath() . \App\Encryption::generatePassword(15) . '.html';
 		file_put_contents($tempFileName, $this->getPdfHtml());
-		$page->navigate('file://' . $tempFileName)->waitForNavigation();
+		$page->navigate('file://' . $tempFileName)->waitForNavigation(\HeadlessChromium\Page::LOAD, 60000);
 		$pdf = $page->pdf($this->getPdfOptions());
 		unlink($tempFileName);
 		if ('I' !== $mode && 'D' !== $mode) {
