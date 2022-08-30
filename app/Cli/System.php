@@ -164,11 +164,13 @@ class System extends Base
 		try {
 			$packageInstance = new \vtlib\Package();
 			$this->climate->white($package['label'] . ' - Installing the package');
-			$response = $packageInstance->import(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \Settings_ModuleManager_Module_Model::getUploadDirectory() . \DIRECTORY_SEPARATOR . $package['hash'] . '.zip', true);
+			$path = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . \Settings_ModuleManager_Module_Model::getUploadDirectory() . \DIRECTORY_SEPARATOR . $package['hash'] . '.zip';
+			$response = $packageInstance->import($path, true);
 			if ($packageInstance->_errorText) {
 				$this->climate->lightRed($packageInstance->_errorText);
 			} else {
 				echo $response . PHP_EOL;
+				unlink($path);
 			}
 		} catch (\Throwable $th) {
 			$this->climate->lightRed($th->__toString());
