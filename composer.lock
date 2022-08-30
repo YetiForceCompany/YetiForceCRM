@@ -65,34 +65,40 @@
         },
         {
             "name": "chrome-php/chrome",
-            "version": "v1.6.1",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/chrome-php/chrome.git",
-                "reference": "f3deb4b31606309680bd587ea306499e462d0caa"
+                "reference": "1a317b0b12a58072999e56d64033182557771904"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chrome-php/chrome/zipball/f3deb4b31606309680bd587ea306499e462d0caa",
-                "reference": "f3deb4b31606309680bd587ea306499e462d0caa",
+                "url": "https://api.github.com/repos/chrome-php/chrome/zipball/1a317b0b12a58072999e56d64033182557771904",
+                "reference": "1a317b0b12a58072999e56d64033182557771904",
                 "shasum": ""
             },
             "require": {
-                "chrome-php/wrench": "^1.2",
+                "chrome-php/wrench": "^1.3",
                 "evenement/evenement": "^3.0.1",
-                "monolog/monolog": "^1.26 || ^2.2 || ^3.0",
+                "monolog/monolog": "^1.27.1 || ^2.8 || ^3.2",
                 "php": "^7.3 || ^8.0",
                 "psr/log": "^1.1 || ^2.0 || ^3.0",
                 "symfony/filesystem": "^4.4 || ^5.0 || ^6.0",
-                "symfony/polyfill-mbstring": "^1.23",
+                "symfony/polyfill-mbstring": "^1.26",
                 "symfony/process": "^4.4 || ^5.0 || ^6.0"
             },
             "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.4.1",
-                "phpunit/phpunit": "^9.5.10",
+                "bamarni/composer-bin-plugin": "^1.8.1",
+                "phpunit/phpunit": "^9.5.23",
                 "symfony/var-dumper": "^4.4 || ^5.0 || ^6.0"
             },
             "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": false
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "HeadlessChromium\\": "src/"
@@ -110,7 +116,7 @@
                 },
                 {
                     "name": "Enrico Dias",
-                    "email": "enricodias@gmail.com",
+                    "email": "enrico@enricodias.com",
                     "homepage": "https://github.com/enricodias"
                 }
             ],
@@ -127,38 +133,44 @@
             ],
             "support": {
                 "issues": "https://github.com/chrome-php/chrome/issues",
-                "source": "https://github.com/chrome-php/chrome/tree/v1.6.1"
+                "source": "https://github.com/chrome-php/chrome/tree/v1.7.0"
             },
-            "time": "2022-05-17T11:04:53+00:00"
+            "time": "2022-08-28T12:07:58+00:00"
         },
         {
             "name": "chrome-php/wrench",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/chrome-php/wrench.git",
-                "reference": "e8a34b54df8c9cd4f6d166bdb9df475988e17ce4"
+                "reference": "68b8282d5d0d54a519c3212ee3e4c35bef40b7d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chrome-php/wrench/zipball/e8a34b54df8c9cd4f6d166bdb9df475988e17ce4",
-                "reference": "e8a34b54df8c9cd4f6d166bdb9df475988e17ce4",
+                "url": "https://api.github.com/repos/chrome-php/wrench/zipball/68b8282d5d0d54a519c3212ee3e4c35bef40b7d9",
+                "reference": "68b8282d5d0d54a519c3212ee3e4c35bef40b7d9",
                 "shasum": ""
             },
             "require": {
                 "ext-sockets": "*",
                 "php": "^7.3 || ^8.0",
                 "psr/log": "^1.1 || ^2.0 || ^3.0",
-                "symfony/polyfill-php80": "^1.22"
+                "symfony/polyfill-php80": "^1.26"
             },
             "conflict": {
                 "wrench/wrench": "*"
             },
             "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.4.1",
-                "phpunit/phpunit": "^9.5.5"
+                "bamarni/composer-bin-plugin": "^1.8.1",
+                "phpunit/phpunit": "^9.5.23"
             },
             "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": false
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Wrench\\": "src/"
@@ -183,9 +195,9 @@
             ],
             "support": {
                 "issues": "https://github.com/chrome-php/wrench/issues",
-                "source": "https://github.com/chrome-php/wrench/tree/v1.2.0"
+                "source": "https://github.com/chrome-php/wrench/tree/v1.3.0"
             },
-            "time": "2022-03-30T09:35:45+00:00"
+            "time": "2022-08-28T11:42:16+00:00"
         },
         {
             "name": "ckeditor/ckeditor",
@@ -4138,16 +4150,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v5.4.11",
+            "version": "v5.4.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "6699fb0228d1bc35b12aed6dd5e7455457609ddd"
+                "reference": "2d67c1f9a1937406a9be3171b4b22250c0a11447"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/6699fb0228d1bc35b12aed6dd5e7455457609ddd",
-                "reference": "6699fb0228d1bc35b12aed6dd5e7455457609ddd",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/2d67c1f9a1937406a9be3171b4b22250c0a11447",
+                "reference": "2d67c1f9a1937406a9be3171b4b22250c0a11447",
                 "shasum": ""
             },
             "require": {
@@ -4182,7 +4194,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v5.4.11"
+                "source": "https://github.com/symfony/filesystem/tree/v5.4.12"
             },
             "funding": [
                 {
@@ -4198,7 +4210,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-20T13:00:38+00:00"
+            "time": "2022-08-02T13:48:16+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
