@@ -26,7 +26,7 @@ class Vtiger_ItemNumber_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
-		if ($value && $value !== filter_var($value, FILTER_VALIDATE_INT)) {
+		if ($value && (!is_numeric($value) || (string) $value !== (string) filter_var($value, FILTER_VALIDATE_INT))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName . '||' . $this->getModuleName() . '||' . $value, 406);
 		}
 	}

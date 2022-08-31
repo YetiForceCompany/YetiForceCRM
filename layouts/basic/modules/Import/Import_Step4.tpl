@@ -87,11 +87,10 @@
 											{assign var="TRANSLATED_BLOCK" value=\App\Language::translate($BLOCK_NAME, $FOR_MODULE)}
 											<optgroup label="{$TRANSLATED_BLOCK}">
 												{foreach key=_FIELD_NAME item=_FIELD_INFO from=$_FIELDS}
-													{assign var="_TRANSLATED_FIELD_LABEL" value=\App\Purifier::decodeHtml(\App\Language::translate($_FIELD_INFO->get('label'),$FOR_MODULE))}
+													{assign var="_TRANSLATED_FIELD_LABEL" value=\App\Language::translate($_FIELD_INFO->get('label'),$FOR_MODULE)}
 													<option value="{$_FIELD_NAME}"
-														{if $HEADER_FIELD_LABELS && App\Purifier::decodeHtml($HEADER_FIELD_LABELS[0]) eq $TRANSLATED_BLOCK && App\Purifier::decodeHtml($HEADER_FIELD_LABELS[1]) eq $_TRANSLATED_FIELD_LABEL} selected {elseif !$HEADER_FIELD_LABELS && App\Purifier::decodeHtml($_HEADER_NAME) eq $_TRANSLATED_FIELD_LABEL} selected {/if}
-														data-label="{$_TRANSLATED_FIELD_LABEL}">{$_TRANSLATED_FIELD_LABEL}
-														{if $_FIELD_INFO->isMandatory() eq 'true'}&nbsp; (*){/if}</option>
+														{if $HEADER_FIELD_LABELS && \App\Purifier::encodeHtml($HEADER_FIELD_LABELS[0]) eq $TRANSLATED_BLOCK && \App\Purifier::encodeHtml($HEADER_FIELD_LABELS[1]) eq $_TRANSLATED_FIELD_LABEL} selected {elseif !$HEADER_FIELD_LABELS && $_HEADER_NAME eq $_TRANSLATED_FIELD_LABEL} selected {/if}
+														data-label="{$_TRANSLATED_FIELD_LABEL}">{$_TRANSLATED_FIELD_LABEL}{if $_FIELD_INFO->isMandatory() eq 'true'}&nbsp;(*){/if}</option>
 												{/foreach}
 											</optgroup>
 										{/foreach}

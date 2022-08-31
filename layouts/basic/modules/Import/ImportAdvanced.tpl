@@ -27,7 +27,7 @@
 			<input type="hidden" name="delimiter" value='{$USER_INPUT->get('delimiter')}' />
 			<input type="hidden" name="merge_type" value='{$USER_INPUT->get('merge_type')}' />
 			<input type="hidden" name="merge_fields" value='{$MERGE_FIELDS}' />
-			<input type="hidden" id="mandatory_fields" name="mandatory_fields" value='{$ENCODED_MANDATORY_FIELDS}' />
+			<input type="hidden" id="mandatory_fields" name="mandatory_fields" value='{\App\Purifier::encodeHtml($ENCODED_MANDATORY_FIELDS)}' />
 			<input type="hidden" name="src_record" value="{$MODULE_MODEL->get('src_record')}" />
 			<input type="hidden" name="relationId" value="{$MODULE_MODEL->get('relationId')}" />
 			<table class="searchUIBasic col-12 no-margin paddingLRZero">

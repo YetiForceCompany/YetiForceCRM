@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
 class Import_Map_Model extends \App\Base
@@ -24,7 +25,7 @@ class Import_Map_Model extends \App\Base
 		foreach ($row as $key => $value) {
 			if ('content' == $key) {
 				$content = [];
-				$pairs = explode('&', $value);
+				$pairs = $value ? explode('&', $value) : [];
 				foreach ($pairs as $pair) {
 					[$mappedName, $sequence] = explode('=', $pair);
 					$mappedName = str_replace('/eq/', '=', $mappedName);
