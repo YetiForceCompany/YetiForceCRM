@@ -160,7 +160,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getUserSession(string $container): array
 	{
-		$dataReader = (new \App\Db\Query())->from(\Api\Core\Containers::$listTables[$container]['session'])
+		$dataReader = (new \App\Db\Query())->from(\Api\Core\Containers::LIST_TABLES[$container]['session'])
 			->where(['user_id' => $this->getId()])
 			->orderBy(['changed' => SORT_DESC])
 			->limit(30)
@@ -181,7 +181,7 @@ class Settings_WebserviceUsers_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getUserHistoryAccessActivity(string $container): array
 	{
-		$dataReader = (new \App\Db\Query())->from(\Api\Core\Containers::$listTables[$container]['loginHistory'])
+		$dataReader = (new \App\Db\Query())->from(\Api\Core\Containers::LIST_TABLES[$container]['loginHistory'])
 			->where(['user_id' => $this->getId()])
 			->orderBy(['id' => SORT_DESC])
 			->limit(30)

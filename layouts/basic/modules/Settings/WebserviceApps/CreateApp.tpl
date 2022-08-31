@@ -14,14 +14,14 @@
 				</button>
 			</div>
 			<div class="modal-body form-row">
-				<input type="hidden" class="js-fields" value="{\App\Purifier::encodeHtml(\App\Json::encode($API_FIELDS))}" />
+				<input type="hidden" class="js-fields" value="{\App\Purifier::encodeHtml(\App\Json::encode(\Api\Core\Containers::CONFIG_FIELDS))}" />
 				<div class="form-group form-row col-sm-12">
 					<label class="col-sm-2 col-form-label text-right u-text-small-bold"><span class="redColor">*</span>{\App\Language::translate('LBL_APP_NAME', $QUALIFIED_MODULE)}</label>
 					<div class="col-sm-10">
 						<input type="text" name="name" data-validation-engine="validate[required]" value="{if $RECORD_MODEL}{\App\Purifier::encodeHtml($RECORD_MODEL->getName())}{/if}" class="form-control">
 					</div>
 				</div>
-				{if !isset($API_FIELDS[$APP_TYPE]) || isset($API_FIELDS[$APP_TYPE]['password'])}
+				{if empty($API_FIELDS) || isset($API_FIELDS['password'])}
 					<div class="form-group form-row col-sm-12">
 						<label class="col-sm-2 col-form-label text-right u-text-small-bold"><span class="redColor">*</span>{\App\Language::translate('LBL_PASS', $QUALIFIED_MODULE)}</label>
 						<div class="col-sm-10">
@@ -51,7 +51,7 @@
 					</label>
 					<div class="col-sm-10">
 						<select name="type" class="select2 typeServer form-control" {if $RECORD_MODEL}readonly="readonly" {/if} data-validation-engine="validate[required]">
-							{foreach from=\Api\Core\Containers::$list item=TYPE}
+							{foreach from=\Api\Core\Containers::LIST item=TYPE}
 								<option value="{$TYPE}" {if $TYPE eq $APP_TYPE}selected{/if}>
 									{\App\Language::translate($TYPE, $QUALIFIED_MODULE)}
 								</option>
@@ -60,7 +60,7 @@
 					</div>
 				</div>
 				<div class="form-group form-row col-sm-12">
-					{assign var=IS_MANDATORY value=isset($API_FIELDS[$APP_TYPE]['ips']) && $API_FIELDS[$APP_TYPE]['ips'] === 'M'}
+					{assign var=IS_MANDATORY value=isset($API_FIELDS['ips']) && $API_FIELDS['ips'] === 'M'}
 					<label class="col-sm-2 col-form-label text-right u-text-small-bold">
 						{if $IS_MANDATORY}<span class="redColor">*</span>{/if}{\App\Language::translate('LBL_ALLOWED_IPS', $QUALIFIED_MODULE)}
 					</label>
@@ -77,7 +77,7 @@
 						</div>
 					</div>
 				</div>
-				{if !isset($API_FIELDS[$APP_TYPE]) || isset($API_FIELDS[$APP_TYPE]['url'])}
+				{if empty($API_FIELDS) || isset($API_FIELDS['url'])}
 					<div class="form-group form-row col-sm-12">
 						<label class="col-sm-2 col-form-label text-right u-text-small-bold">
 							{\App\Language::translate('LBL_PUBLIC_URL', $QUALIFIED_MODULE)}

@@ -90,7 +90,7 @@ class Controller
 		if (empty($this->app)) {
 			throw new Core\Exception('Web service - Applications: Unauthorized', 401);
 		}
-		$this->app['tables'] = Core\Containers::$listTables[$this->app['type']] ?? [];
+		$this->app['tables'] = Core\Containers::LIST_TABLES[$this->app['type']] ?? [];
 		if (!empty($this->app['ips']) && !\in_array(\App\RequestUtil::getRemoteIP(true), array_map('trim', explode(',', $this->app['ips'])))) {
 			throw new Core\Exception('Illegal IP address', 401);
 		}

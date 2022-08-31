@@ -14,7 +14,7 @@
 			</div>
 		</div>
 		<ul id="tabs" class="nav nav-tabs mt-2 mr-0" data-tabs="tabs">
-			{foreach item=VALUE from=\Api\Core\Containers::$listTab name=typeLoop}
+			{foreach item=VALUE from=\Api\Core\Containers::LIST_TAB name=typeLoop}
 				<li class="tabApi nav-item" data-typeapi="{$VALUE}">
 					<a class="nav-link {if $TYPE_API === $VALUE} active{/if}" data-toggle="tab" href="#">
 						<strong>{\App\Language::translate($VALUE, 'Settings:WebserviceApps')}</strong>

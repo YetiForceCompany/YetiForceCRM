@@ -35,7 +35,7 @@ class Developer
 			echo "<pre>$msg</pre><hr>";
 		}, E_ALL);
 		$json = '';
-		foreach (\Api\Core\Containers::$list as $type) {
+		foreach (\Api\Core\Containers::LIST as $type) {
 			$json .= self::generateSwaggerByType($type, $path, false);
 		}
 		return $json;

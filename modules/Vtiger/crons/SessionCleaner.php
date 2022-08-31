@@ -20,7 +20,7 @@ class Vtiger_SessionCleaner_Cron extends \App\CronHandler
 	public function process()
 	{
 		$dbCommand = \App\Db::getInstance('webservice')->createCommand();
-		foreach (\Api\Core\Containers::$listTables as $row) {
+		foreach (\Api\Core\Containers::LIST_TABLES as $row) {
 			if (!isset($row['session'])) {
 				continue;
 			}

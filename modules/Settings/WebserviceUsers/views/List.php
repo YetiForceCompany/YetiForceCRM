@@ -22,7 +22,7 @@ class Settings_WebserviceUsers_List_View extends Settings_Vtiger_List_View
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		if (!$request->has('typeApi')) {
-			$request->set('typeApi', current(\Api\Core\Containers::$list));
+			$request->set('typeApi', current(\Api\Core\Containers::LIST));
 		}
 		$typeApi = $request->getByType('typeApi', \App\Purifier::STANDARD);
 		$this->listViewModel = Settings_Vtiger_ListView_Model::getInstance($qualifiedModuleName);

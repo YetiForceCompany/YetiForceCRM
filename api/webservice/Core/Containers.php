@@ -18,17 +18,17 @@ namespace Api\Core;
 class Containers
 {
 	/** @var string[] List of available API containers */
-	public static $list = [
+	const LIST = [
 		'WebserviceStandard', 'WebservicePremium', 'ManageConsents', 'SMS',
 	];
 
 	/** @var string[] List of GUI tabs */
-	public static $listTab = [
+	const LIST_TAB = [
 		'WebserviceStandard', 'WebservicePremium', 'ManageConsents', 'SMS',
 	];
 
 	/** @var array List of db tables */
-	public static $listTables = [
+	const LIST_TABLES = [
 		'WebserviceStandard' => [
 			'user' => 'w_#__api_user',
 			'session' => 'w_#__api_session',
@@ -45,5 +45,10 @@ class Containers
 		'SMS' => [
 			'user' => 'w_#__sms_user',
 		],
+	];
+
+	/** @var array List of container configuration fields */
+	const CONFIG_FIELDS = [
+		'SMS' => ['name' => 'M', 'status' => 'M', 'type' => 'M', 'ips' => 'M'],
 	];
 }
