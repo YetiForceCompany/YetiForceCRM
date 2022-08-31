@@ -28,7 +28,7 @@
 			{/if}
 			{foreach item=FIELD from=$INVENTORY_MODEL->getFieldsToSync()}
 				<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="" type="hidden" class="js-sync" data-sync-id="{$FIELD->getColumnName()}" data-js="container|data" />
-				{foreach key=CUSTOM_FIELD_NAME item from=$FIELD->getCustomColumn()}
+				{foreach key=CUSTOM_FIELD_NAME item=item from=$FIELD->getCustomColumn()}
 					<input name="inventory[{$ROW_NO}][{$CUSTOM_FIELD_NAME}]" value="" type="hidden" class="js-sync" data-sync-id="{$CUSTOM_FIELD_NAME}" data-js="container|data" />
 				{/foreach}
 			{/foreach}

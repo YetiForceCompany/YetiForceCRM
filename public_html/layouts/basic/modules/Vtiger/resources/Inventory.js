@@ -118,6 +118,28 @@ $.Class(
 				this.hideLineItemsDeleteIcon();
 			}
 		},
+		/**
+		 * Set the visibility of the delete block button
+		 */
+		setDeleteBlockBtnVisibility() {
+			let deleteBtn = this.getContainer().find('.js-delete-block');
+			if (deleteBtn.length > 1) {
+				deleteBtn.removeClass('d-none');
+			} else {
+				deleteBtn.addClass('d-none');
+			}
+		},
+		/**
+		 * Register delete block btn
+		 */
+		registerDeleteBlock: function () {
+			this.getContainer().on('click', '.js-delete-block', (e) => {
+				let block = $(e.currentTarget).closest('.js-inv-container-group');
+				block.remove();
+				this.setDeleteBlockBtnVisibility();
+				this.rowsCalculations();
+			});
+		},
 		showLineItemsDeleteIcon: function () {
 			this.getInventoryItemsContainer().find('.deleteRow').removeClass('d-none');
 		},
@@ -913,7 +935,7 @@ $.Class(
 		syncHeaderData(container) {
 			let header = this.getInventoryHeadContainer();
 			if (typeof container === 'undefined') {
-				container = this.getInventoryItemsContainer();
+				container = this.getContainer();
 			}
 			container.find('.js-sync').each(function () {
 				let element = $(this);
@@ -962,7 +984,7 @@ $.Class(
 		loadSubProducts: function (parentRow, indicator) {
 			let thisInstance = this;
 			let progressInstace;
-			let recordId = $('input.sourceField', parentRow).val();
+			let recordId = $('input.sourceField.js-name', parentRow).val();
 			let recordModule = parentRow.find('.rowName input[name="popupReferenceModule"]').val();
 			thisInstance.removeSubProducts(parentRow);
 			if (recordId == '0' || recordId == '' || $.inArray(recordModule, ['Products', 'Services']) < 0) {
@@ -1412,14 +1434,23 @@ $.Class(
 		 * Add block
 		 * @returns
 		 */
-		addBlock() {
+		addBlock(blockId = 0, blockLabel = '') {
+			if (blockId) {
+				let blockElement = this.getContainer().find(
+					`.js-inv-container-group .js-groupid[value="${parseInt(blockId)}"]`
+				);
+				if (blockElement.length) {
+					return blockElement.closest('.js-inv-container-group');
+				}
+			}
 			let block = this.getContainer().find('.js-inv-container-group:last');
 			let newBlock = block.clone(true, true);
-			newBlock.find('.grouplabel').val('');
+			newBlock.find('.grouplabel').val(blockLabel);
 			newBlock.find('.js-inventory-items-body').empty();
 			newBlock.find('.js-groupid').val(this.getNextBlockId());
 			block.after(newBlock);
 			this.registerSortableItems();
+			this.setDeleteBlockBtnVisibility();
 			return newBlock;
 		},
 		/**
@@ -1900,7 +1931,7 @@ $.Class(
 				})
 					.done((response) => {
 						let activeModules = [];
-						this.getInventoryHeadContainer()
+						this.getContainer()
 							.find('.js-inv-add-item')
 							.each((_, addBtn) => {
 								activeModules.push($(addBtn).data('module'));
@@ -1918,12 +1949,20 @@ $.Class(
 						this.setTaxMode(first.taxmode);
 						this.currencyChangeActions = oldCurrencyChangeAction;
 						this.clearInventory();
+						let blocks = {};
+						let isBlocksActive = this.getInventoryHeadContainer().find('.js-inv-add-group').length;
 						$.each(response.result, (_, row) => {
 							if (activeModules.indexOf(row.moduleName) !== -1) {
-								this.addItem(row.moduleName, row.basetableid, row);
+								let block = null;
+								if (row.groupid && isBlocksActive) {
+									block = this.addBlock(blocks[row.groupid] || null, row.grouplabel);
+									blocks[row.groupid] = block.find('.js-groupid').val();
+								}
+								this.addItem(row.moduleName, row.basetableid, row, block);
 							} else {
 								Vtiger_Helper_Js.showMessage({
 									type: 'error',
+									textTrusted: false,
 									text: app
 										.vtranslate('JS_INVENTORY_ITEM_MODULE_NOT_FOUND')
 										.replace('${sourceModule}', row.moduleName)
@@ -1977,6 +2016,8 @@ $.Class(
 			this.registerChangeCurrency();
 			this.registerChangeDiscountAggregation();
 			this.setDefaultGlobalTax(container);
+			this.registerDeleteBlock();
+			this.setDeleteBlockBtnVisibility();
 			app.registerBlockToggleEvent(container);
 		}
 	}

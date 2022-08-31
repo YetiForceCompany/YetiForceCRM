@@ -6,7 +6,7 @@
 	{assign var=FIELD_NAME value="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]"}
 	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode(['mandatory'=>true]))}
 	{assign var="REFERENCE_LIST_COUNT" value=count($REFERENCE_LIST)}
-	<div class="invUitype_{$MODULE_NAME}_{$FIELD_NAME} input-group input-group-sm referenceGroup">
+	<div class="invUitype_{$MODULE_NAME}_{$FIELD_NAME} input-group input-group-sm referenceGroup u-min-w-300pxr">
 		{if $REFERENCE_LIST_COUNT eq 1}
 			{assign var="REFERENCED_MODULE_NAME" value=reset($REFERENCE_LIST)}
 			<input name="popupReferenceModule" type="hidden" data-multi-reference="0" title="{reset($REFERENCE_LIST)}"
@@ -58,7 +58,7 @@
 				{/if}
 			{/if}
 		</div>
-		<input name="{$FIELD_NAME}" type="hidden" value="{$VALUE|escape}" class="sourceField"
+		<input name="{$FIELD_NAME}" type="hidden" value="{$VALUE|escape}" class="sourceField skipName"
 			data-type="inventory" data-columnname="{$FIELD->getColumnName()}" data-fieldinfo='{$FIELD_INFO}'
 			{if $FIELD->isReadOnly()}readonly="readonly" {/if} />
 	</div>

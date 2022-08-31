@@ -2,82 +2,86 @@
 {strip}
 	<!-- tpl-Base-Edit-InventoryBlock -->
 	{assign var=FIELDS value=$INVENTORY_MODEL->getFieldsByBlock(1)}
-	<div class="js-inv-groups-container mb-2 mt-2">
-		<div class="js-toggle-panel js-inv-container-group c-panel mb-0" data-js="click">
-			<div class="js-block-header c-panel__header py-2">
-				<span class="iconToggle fas {if $BLOCK_EXPANDED}fa-chevron-down{else}fa-chevron-right{/if} fa-xs m-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down" style="min-width: 15px;"></span>
-				<div class="row w-100 ml-1">
-					{if $GROUP_FIELD}
-						{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$GROUP_FIELD->getTemplateName('EditView',$MODULE_NAME)}
-						<div class="input-group-sm  col-sm-4">
+	<div class="js-toggle-panel js-inv-container-group c-panel mb-2 mt-2" data-js="click">
+		<div class="js-block-header c-panel__header py-2">
+			<span class="iconToggle fas {if $BLOCK_EXPANDED}fa-chevron-down{else}fa-chevron-right{/if} fa-xs m-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down" style="min-width: 15px;"></span>
+			<div class="row w-100 ml-1">
+				{if $GROUP_FIELD}
+
+					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$GROUP_FIELD->getTemplateName('EditView',$MODULE_NAME)}
+					<div class="input-group-sm col-sm-4 ">
+						<div class="custom-control-inline mr-0 w-100">
+							<button type="button" class="btn btn-sm btn-danger fas fa-trash-alt mr-1 js-delete-block{if empty($SHOW_DELETE_BTN)} d-none{/if}"
+								title="{\App\Language::translate('LBL_DELETE', $MODULE_NAME)}"></button>
 							{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) FIELD=$GROUP_FIELD ITEM_DATA=$INVENTORY_ROW}
 						</div>
-					{/if}
-					<div class="{if $GROUP_FIELD}mt-2 mt-sm-0 col-sm-8{else}col-12{/if}">
-						{include file=\App\Layout::getTemplatePath('Edit/InventoryAddItem.tpl', $MODULE_NAME)}
+
 					</div>
+				{/if}
+				<div class="{if $GROUP_FIELD}mt-2 mt-sm-0 col-sm-8{else}col-12{/if}">
+					{include file=\App\Layout::getTemplatePath('Edit/InventoryAddItem.tpl', $MODULE_NAME)}
 				</div>
 			</div>
-			{assign var="IS_VISIBLE_COMMENTS" value=false}
-			{assign var="IS_OPENED_COMMENTS" value=false}
-			{assign var="FIELDS_COMMENT" value=$INVENTORY_MODEL->getFieldsByType('Comment')}
-			{foreach item=FIELD from=$FIELDS_COMMENT}
-				{if !$IS_VISIBLE_COMMENTS || !$IS_OPENED_COMMENTS}
-					{if $FIELD->isVisible()}
-						{assign var="IS_VISIBLE_COMMENTS" value=true}
-					{/if}
-					{if $FIELD->isOpened()}
-						{assign var="IS_OPENED_COMMENTS" value=true}
-					{/if}
-				{else}
-					{break}
+		</div>
+		{assign var="IS_VISIBLE_COMMENTS" value=false}
+		{assign var="IS_OPENED_COMMENTS" value=false}
+		{assign var="FIELDS_COMMENT" value=$INVENTORY_MODEL->getFieldsByType('Comment')}
+		{foreach item=FIELD from=$FIELDS_COMMENT}
+			{if !$IS_VISIBLE_COMMENTS || !$IS_OPENED_COMMENTS}
+				{if $FIELD->isVisible()}
+					{assign var="IS_VISIBLE_COMMENTS" value=true}
 				{/if}
-			{/foreach}
-			<div class="c-panel__body p-0 js-block-content {if !$BLOCK_EXPANDED}d-none{/if}">
-				<div class="table-responsive">
-					<table class="table table-bordered inventoryItems mb-0 border-0">
-						<thead>
-							<tr>
-								<th class="text-center u-w-1per-45px"></th>
-								{foreach item=FIELD from=$FIELDS}
-									<th {if !$FIELD->isEditable()}colspan="0" {/if}
-										class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} u-table-column__before-block u-table-column__before-block--inventory{if $FIELD->get('colSpan') neq 0 } u-table-column__vw-{$FIELD->get('colSpan')}{/if} text-center text-nowrap">
-										{\App\Language::translate($FIELD->get('label'), $FIELD->getModuleName())}
-									</th>
-								{/foreach}
-							</tr>
-						</thead>
-						<tbody class="js-inventory-items-body" data-js="container">
-							{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
-								{assign var=ROW_NO value=$ROW_NO+1}
-								{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
-							{foreachelse}
-								{if $INVENTORY_MODEL->getField('name')->isRequired()}
-									{assign var=ROW_NO value=$ROW_NO+1}
-									{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
-									{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
-								{/if}
+				{if $FIELD->isOpened()}
+					{assign var="IS_OPENED_COMMENTS" value=true}
+				{/if}
+			{else}
+				{break}
+			{/if}
+		{/foreach}
+		<div class="c-panel__body p-0 js-block-content {if !$BLOCK_EXPANDED}d-none{/if}">
+			<div class="table-responsive">
+				<table class="table table-bordered inventoryItems mb-0 border-0">
+					<thead>
+						<tr>
+							<th class="text-center u-w-1per-45px"></th>
+							{foreach item=FIELD from=$FIELDS}
+								<th {if !$FIELD->isEditable()}colspan="0" {/if}
+									class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} u-table-column__before-block u-table-column__before-block--inventory{if $FIELD->get('colspan') neq 0 } u-table-column__vw-{$FIELD->get('colspan')}{/if} text-center text-nowrap">
+									{\App\Language::translate($FIELD->get('label'), $FIELD->getModuleName())}
+								</th>
 							{/foreach}
-						</tbody>
-						<tfoot>
-							<tr>
-								<td colspan="1" class="hideTd u-w-1per-45px">&nbsp;&nbsp;</td>
-								{foreach item=FIELD from=$FIELDS}
-									<td {if !$FIELD->isEditable()}colspan="0" {/if}
-										class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right text-nowrap {if !$FIELD->isSummary()} hideTd{else} wisableTd{/if}"
-										data-sumfield="{lcfirst($FIELD->getType())|escape}">
-										{if $FIELD->isSummary()}
-											{CurrencyField::convertToUserFormat($FIELD->getSummaryValuesFromData($INVENTORY_ROWS), null, true)}
-										{/if}
-										{if $FIELD->getType() == 'Name' && $INVENTORY_MODEL->isField('price')}
-											{\App\Language::translate('LBL_SUMMARY', $MODULE_NAME)}
-										{/if}
-									</td>
-								{/foreach}
-							</tr>
-						</tfoot>
-					</table>
-				</div>
+						</tr>
+					</thead>
+					<tbody class="js-inventory-items-body" data-js="container">
+						{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
+							{assign var=ROW_NO value=$ROW_NO+1}
+							{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
+						{foreachelse}
+							{if $INVENTORY_MODEL->getField('name')->isRequired()}
+								{assign var=ROW_NO value=$ROW_NO+1}
+								{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
+								{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
+							{/if}
+						{/foreach}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="1" class="hideTd u-w-1per-45px">&nbsp;&nbsp;</td>
+							{foreach item=FIELD from=$FIELDS}
+								<td {if !$FIELD->isEditable()}colspan="0" {/if}
+									class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right text-nowrap {if !$FIELD->isSummary()} hideTd{else} wisableTd{/if}"
+									data-sumfield="{lcfirst($FIELD->getType())|escape}">
+									{if $FIELD->isSummary()}
+										{CurrencyField::convertToUserFormat($FIELD->getSummaryValuesFromData($INVENTORY_ROWS), null, true)}
+									{/if}
+									{if $FIELD->getType() == 'Name' && $INVENTORY_MODEL->isField('price')}
+										{\App\Language::translate('LBL_SUMMARY', $MODULE_NAME)}
+									{/if}
+								</td>
+							{/foreach}
+						</tr>
+					</tfoot>
+				</table>
 			</div>
 		</div>
 	</div>

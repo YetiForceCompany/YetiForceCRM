@@ -468,6 +468,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 					}
 					$changes[$key]['item'] = $changed['item'];
 					$changes[$key]['historyState'] = empty($changed['prevalue']) ? 'LBL_INV_ADDED' : (empty($changed['postvalue']) ? 'LBL_INV_DELETED' : 'LBL_INV_UPDATED');
+					$changes[$key]['data'] = [];
 					foreach ($changed['prevalue'] as $fieldName => $value) {
 						if ($inventoryModel->isField($fieldName)) {
 							$changes[$key]['data'][$fieldName]['field'] = $inventoryModel->getField($fieldName);

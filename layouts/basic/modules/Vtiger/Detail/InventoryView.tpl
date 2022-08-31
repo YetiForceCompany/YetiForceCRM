@@ -37,7 +37,7 @@
 				<thead>
 					<tr>
 						{foreach item=FIELD from=$FIELDS[1]}
-							<th class="textAlignCenter u-table-column__before-block u-table-column__before-block--inventory{if $FIELD->get('colSpan') neq 0 } u-table-column__vw-{$FIELD->get('colSpan')}{/if}">
+							<th class="textAlignCenter u-table-column__before-block u-table-column__before-block--inventory{if $FIELD->get('colspan') neq 0 } u-table-column__vw-{$FIELD->get('colspan')}{/if}">
 								{\App\Language::translate($FIELD->get('label'), $MODULE_NAME)}
 							</th>
 						{/foreach}
@@ -45,17 +45,33 @@
 				</thead>
 				<tbody class="js-inventory-items-body" data-js="container">
 					{assign var="ROW_NO" value=0}
-					{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
-						{assign var="ROW_NO" value=$ROW_NO+1}
-						{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
-						<tr class="js-inventory-row" data-product-id="{$INVENTORY_ROW['name']}" data-js="data-product-id">
-							{foreach item=FIELD from=$FIELDS[1]}
-								<td {if in_array($FIELD->getType(), $FIELDS_TEXT_ALIGN_RIGHT)}class="textAlignRight text-nowrap" {/if}>
-									{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
-									{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_VALUE=$INVENTORY_ROW[$FIELD->getColumnName()]}
-								</td>
-							{/foreach}
-						</tr>
+					{assign var=GROUP_FIELD value=$INVENTORY_MODEL->getField('grouplabel')}
+					{if $GROUP_FIELD}
+						{assign var=INV_DATA value=$GROUP_FIELD->getDataByGroup($INVENTORY_ROWS)}
+					{else}
+						{assign var=INV_DATA value=[$INVENTORY_ROWS]}
+					{/if}
+					{foreach key=KEY item=INVENTORY_ROWS from=$INV_DATA}
+						{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS name=inv_block}
+							{assign var="ROW_NO" value=$ROW_NO+1}
+							{if $GROUP_FIELD && !empty($INVENTORY_ROW['grouplabel']) && $smarty.foreach.inv_block.first}
+								<tr class="js-inventory-block">
+									<td colspan="{count($FIELDS[1])}" class="font-weight-bold">
+										{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$GROUP_FIELD->getTemplateName('DetailView',$MODULE_NAME)}
+										{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) FIELD=$GROUP_FIELD ITEM_VALUE=$INVENTORY_ROW[$GROUP_FIELD->getColumnName()]}
+									</td>
+								</tr>
+							{/if}
+							{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
+							<tr class="js-inventory-row" data-product-id="{$INVENTORY_ROW['name']}" data-js="data-product-id">
+								{foreach item=FIELD from=$FIELDS[1]}
+									<td {if in_array($FIELD->getType(), $FIELDS_TEXT_ALIGN_RIGHT)}class="textAlignRight text-nowrap" {/if}>
+										{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$MODULE_NAME)}
+										{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) ITEM_VALUE=$INVENTORY_ROW[$FIELD->getColumnName()]}
+									</td>
+								{/foreach}
+							</tr>
+						{/foreach}
 					{/foreach}
 				</tbody>
 				<tfoot>

@@ -101,16 +101,21 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$response->emit();
 	}
 
+	/**
+	 * Get record details.
+	 *
+	 * @param App\Request $request
+	 */
 	public function getDetails(App\Request $request)
 	{
 		$currencyId = $request->getInteger('currency_id');
 		$fieldName = $request->getByType('fieldname');
 		$moduleName = $request->getModule();
 		if ($request->isEmpty('idlist')) {
-			$info = self::getRecordDetail($request->getInteger('record'), $currencyId, $moduleName, $fieldName);
+			$info = static::getRecordDetail($request->getInteger('record'), $currencyId, $moduleName, $fieldName);
 		} else {
 			foreach ($request->getArray('idlist', 'Integer') as $id) {
-				$info[] = self::getRecordDetail($id, $currencyId, $moduleName, $fieldName);
+				$info[] = static::getRecordDetail($id, $currencyId, $moduleName, $fieldName);
 			}
 		}
 		$response = new Vtiger_Response();
@@ -200,13 +205,15 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($srcRecord, $srcModule);
 		$data = $recordModel->getInventoryData();
+
 		foreach ($data as &$item) {
-			$item['info'] = $this->getRecordDetail($item['name'], $item['currency'] ?? 0, $request->getModule(), 'name')[$item['name']];
+			$item['info'] = static::getRecordDetail($item['name'], $item['currency'] ?? 0, $request->getModule(), 'name')[$item['name']];
 			$item['moduleName'] = \App\Record::getType($item['info']['id']);
 			$item['basetableid'] = Vtiger_Module_Model::getInstance($item['moduleName'])->get('basetableid');
 		}
+
 		$response = new Vtiger_Response();
-		$response->setResult($data);
+		$response->setResult(array_values($data));
 		$response->emit();
 	}
 }

@@ -207,12 +207,12 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function getDisplayType(): int
 	{
-		return $this->has('displayType') ? $this->get('displayType') : $this->displayType;
+		return $this->has('displaytype') ? $this->get('displaytype') : $this->displayType;
 	}
 
 	public function getColSpan()
 	{
-		return $this->has('colSpan') ? $this->get('colSpan') : $this->colSpan;
+		return $this->has('colspan') ? $this->get('colspan') : $this->colSpan;
 	}
 
 	public function getRangeValues()

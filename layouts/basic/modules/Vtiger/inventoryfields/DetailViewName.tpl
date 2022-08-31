@@ -9,7 +9,7 @@
 				<label class="u-text-small-bold mt-2">
 					{\App\Language::translate($FIELD->get('label'), $MODULE_NAME)}
 				</label>
-				{$FIELD->getDisplayValue($INVENTORY_ROW[$FIELD->getColumnName()])}
+				{$FIELD->getDisplayValue($INVENTORY_ROW[$FIELD->getColumnName()], $INVENTORY_ROW)}
 			{/if}
 		{/foreach}
 		<div class="js-subproducts-container" data-js="append">
