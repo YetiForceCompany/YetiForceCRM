@@ -28,16 +28,6 @@ try {
 	} catch (\Throwable $e) {
 		\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
 		$controller->handleError($e);
-		if ($e instanceof \Api\Core\Exception) {
-			$e->handleError();
-		} else {
-			if ($e instanceof \App\Exceptions\AppException) {
-				$ex = new \Api\Core\Exception($e->getDisplayMessage(), $e->getCode(), $e);
-			} else {
-				$ex = new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
-			}
-			$ex->handleError();
-		}
 	}
 } catch (\Throwable $e) {
 	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());

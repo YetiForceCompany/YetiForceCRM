@@ -19,6 +19,9 @@ class Tokens
 	/** @var string Token table name. */
 	const TABLE_NAME = 's_#__tokens';
 
+	/** @var string Last generated token. */
+	private static $lastToken;
+
 	/**
 	 * Generate token.
 	 *
@@ -44,7 +47,7 @@ class Tokens
 			'expiration_date' => $expirationDate,
 			'one_time_use' => (int) $oneTime,
 		])->execute();
-		return $uid;
+		return self::$lastToken = $uid;
 	}
 
 	/**
@@ -95,5 +98,36 @@ class Tokens
 	public static function delete(string $uid): void
 	{
 		\App\Db::getInstance('admin')->createCommand()->delete(self::TABLE_NAME, ['uid' => $uid])->execute();
+	}
+
+	/**
+	 * Generate URL form token.
+	 *
+	 * @param string|null $token
+	 * @param int|null    $serverId
+	 *
+	 * @return string
+	 */
+	public static function generateLink(?string $token = null, ?int $serverId = null): string
+	{
+		if (null === $token) {
+			$token = self::$lastToken;
+		}
+		$url = \App\Config::main('site_URL');
+		if (0 === $serverId) {
+			$row = (new \App\Db\Query())->from('w_#__servers')->where(['type' => 'Token'])->one(\App\Db::getInstance('webservice')) ?: [];
+			if ($row) {
+				$url = $row['url'];
+				if ('/' !== substr($url, -1)) {
+					$url .= '/';
+				}
+			}
+		} elseif ($serverId && ($data = \App\Fields\ServerAccess::get($serverId)) && $data['url']) {
+			$url = $data['url'];
+			if ('/' !== substr($url, -1)) {
+				$url .= '/';
+			}
+		}
+		return $url . 'webservice/Token/' . $token;
 	}
 }
