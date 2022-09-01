@@ -59,6 +59,9 @@ final class Token extends \Tests\Base
 			'timeout' => 60,
 			'connect_timeout' => 60,
 			'http_errors' => false,
+			'headers' => [
+				'Accept-Language' => 'en-US,en;q=0.8,hi;q=0.6,und;q=0.4',
+			],
 		]));
 	}
 
