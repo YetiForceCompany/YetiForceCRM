@@ -116,7 +116,7 @@ class Tokens
 		$url = \App\Config::main('site_URL');
 		if (0 === $serverId) {
 			$row = (new \App\Db\Query())->from('w_#__servers')->where(['type' => 'Token'])->one(\App\Db::getInstance('webservice')) ?: [];
-			if ($row) {
+			if ($row && $row['url']) {
 				$url = $row['url'];
 				if ('/' !== substr($url, -1)) {
 					$url .= '/';
