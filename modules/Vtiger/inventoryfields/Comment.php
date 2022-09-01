@@ -67,6 +67,9 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
+		if ('' === $value || null === $value) {
+			return '';
+		}
 		$conf = App\Config::module($this->getModuleName(), 'inventoryCommentIframeContent', null);
 		$value = \App\Utils\Completions::decode(\App\Purifier::decodeHtml(\App\Purifier::purifyHtml($value)));
 		if (!$rawText && false !== $conf) {
@@ -78,7 +81,7 @@ class Vtiger_Comment_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getListViewDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		$value = \App\Utils\Completions::decode(\App\Purifier::purifyHtml($value));
+		$value = $value ? \App\Utils\Completions::decode(\App\Purifier::purifyHtml($value)) : '';
 		return $rawText ? $value : \App\Layout::truncateHtml($value, 'mini', 50);
 	}
 
