@@ -1,6 +1,6 @@
 <?php
 /**
- * Base file to handle communication via web services.
+ * Base controller file to handle communication via web services.
  *
  * @package API
  *
@@ -13,12 +13,15 @@
 namespace Api;
 
 /**
- * Base class to handle communication via web services.
+ * Base controller class to handle communication via web services.
  */
 class Controller
 {
 	/** @var \self */
 	private static $instance;
+
+	/** @var string Container name. */
+	public static $container;
 
 	/** @var Core\BaseAction */
 	private $actionHandler;
@@ -59,7 +62,18 @@ class Controller
 		if (isset(self::$instance)) {
 			return self::$instance;
 		}
-		return self::$instance = new self();
+		$container = $_GET['_container'];
+		if (!\in_array($container, \Api\Core\Containers::LIST)) {
+			throw new Core\Exception('Web service - No container', 401);
+		}
+		self::$container = $container;
+		$className = "Api\\{$container}\\Controller";
+		if (class_exists($className)) {
+			self::$instance = new $className();
+		} else {
+			self::$instance = new self();
+		}
+		return self::$instance;
 	}
 
 	/**
@@ -156,7 +170,7 @@ class Controller
 	 *
 	 * @return string
 	 */
-	private function getActionClassName(): string
+	protected function getActionClassName(): string
 	{
 		$type = $this->request->getByType('_container', 'Standard');
 		$this->request->delete('_container');
@@ -184,7 +198,7 @@ class Controller
 	 *
 	 * @return void
 	 */
-	public function debugRequest(): void
+	protected function debugRequest(): void
 	{
 		if (\App\Config::debug('apiLogAllRequests')) {
 			$log = '============ Request ' . \App\RequestUtil::requestId() . ' (Controller) ======  ' . date('Y-m-d H:i:s') . "  ======\n";
@@ -211,7 +225,11 @@ class Controller
 				$log .= "----------- Request payload -----------\n";
 				$log .= print_r($payload, true) . PHP_EOL;
 			}
-			file_put_contents(ROOT_DIRECTORY . '/cache/logs/webserviceDebug.log', $log, FILE_APPEND);
+			$path = ROOT_DIRECTORY . '/cache/logs/webserviceDebug.log';
+			if (isset(self::$container)) {
+				$path = ROOT_DIRECTORY . '/cache/logs/webservice' . self::$container . 'Debug.log';
+			}
+			file_put_contents($path, $log, FILE_APPEND);
 		}
 	}
 

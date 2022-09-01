@@ -16,7 +16,7 @@ require_once __DIR__ . '/include/RequirementsValidation.php';
 \App\Log::beginProfile(\App\Request::getRequestMethod() . '::' . $_SERVER['REQUEST_URI'], 'WebServiceAPI');
 try {
 	if (!\in_array('webservice', \App\Config::api('enabledServices'))) {
-		throw new \App\Exceptions\NoPermittedToApi('Webservice - Service is not active', 403);
+		throw new \App\Exceptions\NoPermittedToApi('Webservice - Service is not active', 503);
 	}
 	$controller = Api\Controller::getInstance();
 	try {

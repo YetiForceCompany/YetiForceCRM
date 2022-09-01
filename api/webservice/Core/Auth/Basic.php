@@ -47,7 +47,6 @@ class Basic extends AbstractAuth
 			$row['id'] = (int) $row['id'];
 			$this->api->app = $row;
 		}
-
 		return $this;
 	}
 

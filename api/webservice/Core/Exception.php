@@ -96,7 +96,11 @@ class Exception extends \Exception
 				$error .= "----------- Request payload -----------\n";
 				$error .= print_r($payload, true) . PHP_EOL;
 			}
-			file_put_contents(ROOT_DIRECTORY . '/cache/logs/webserviceErrors.log', '============ Error exception ====== ' . date('Y-m-d H:i:s') . ' ======'
+			$path = ROOT_DIRECTORY . '/cache/logs/webserviceErrors.log';
+			if (isset(\Api\Controller::$container)) {
+				$path = ROOT_DIRECTORY . '/cache/logs/webservice' . \Api\Controller::$container . 'Errors.log';
+			}
+			file_put_contents($path, '============ Error exception ====== ' . date('Y-m-d H:i:s') . ' ======'
 				. PHP_EOL . $error . PHP_EOL, FILE_APPEND);
 		}
 	}

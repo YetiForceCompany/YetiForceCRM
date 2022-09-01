@@ -33,7 +33,7 @@ class ConfReport
 	];
 
 	/** @var array Urls to check in request. */
-	public static $urlsToCheck = ['root' => 'token.php', 'js' => 'layouts/resources/Tools.js', 'css' => 'layouts/resources/fonts/fonts.css'];
+	public static $urlsToCheck = ['root' => 'cron.php', 'js' => 'layouts/resources/Tools.js', 'css' => 'layouts/resources/fonts/fonts.css'];
 
 	/**
 	 * List all variables.
@@ -1517,7 +1517,7 @@ class ConfReport
 	{
 		unset($name);
 		$supported = [];
-		$requestUrl = static::$crmUrl . 'token.php';
+		$requestUrl = static::$crmUrl . 'cron.php';
 		foreach (\explode(', ', $row['recommended']) as $type) {
 			try {
 				$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request($type, $requestUrl, ['timeout' => 1, 'verify' => false]);
