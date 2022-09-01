@@ -140,6 +140,6 @@ final class Token extends \Tests\Base
 		$request = $this->httpClient->get('xxxx');
 		$this->logs = $body = $request->getBody()->getContents();
 		static::assertSame(200, $request->getStatusCode(), 'API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
-		static::assertSame(\App\Language::translateSingleMod('ERR_TOKEN_DOES_NOT_EXIST', 'Other.Exceptions'), $body, 'API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame(\App\Language::translateSingleMod('ERR_TOKEN_DOES_NOT_EXIST', 'Other.Exceptions', 'en-US'), $body, 'API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 	}
 }
