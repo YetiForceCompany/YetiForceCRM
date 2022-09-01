@@ -51,7 +51,8 @@ $.Class(
 				lockedFields: this.container.find('.js-locked-fields').val(),
 				lockedEmptyFields: this.container.find('.js-empty-fields').val(),
 				onlyBody: true,
-				cvId: this.getFilterSelectElement().val()
+				cvId: this.getFilterSelectElement().val() || 0,
+				additionalData: this.container.find('.js-rl-additional_data').val() || null
 			};
 			let searchValue = this.listSearchInstance.getAlphabetSearchValue();
 			params['search_params'] = this.listSearchInstance.getListSearchParams(true);
@@ -81,7 +82,7 @@ $.Class(
 			AppConnector.request($.extend(this.getParams(), params))
 				.done((responseData) => {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					body.html($(responseData).html());
+					body.html(responseData);
 					this.registerBasicEvents();
 					aDeferred.resolve(responseData);
 				})

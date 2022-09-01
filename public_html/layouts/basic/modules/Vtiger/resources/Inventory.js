@@ -950,28 +950,37 @@ $.Class(
 		 * @params :  element - popup image element
 		 */
 		pricebooksModalHandler: function (element) {
-			const thisInstance = this;
 			let lineItemRow = element.closest(this.rowClass);
 			let rowName = lineItemRow.find('.rowName');
+			let currencyId = this.getCurrency() || CONFIG.defaultCurrencyId;
 			app.showRecordsList(
 				{
 					module: 'PriceBooks',
 					src_module: $('[name="popupReferenceModule"]', rowName).val(),
 					src_record: $('.sourceField', rowName).val(),
 					src_field: $('[name="popupReferenceModule"]', rowName).data('field'),
-					currency_id: thisInstance.getCurrency() || CONFIG.defaultCurrencyId
+					search_params: JSON.stringify([
+						[
+							['currency_id', 'e', currencyId],
+							['active', 'e', 1]
+						]
+					]),
+					lockedFields: ['currency_id', 'active'],
+					cvEnabled: false,
+					currency_id: currencyId,
+					additionalData: { currency_id: currencyId }
 				},
-				(modal, instance) => {
+				(_modal, instance) => {
 					instance.setSelectEvent((responseData) => {
 						AppConnector.request({
 							module: 'PriceBooks',
 							action: 'ProductListPrice',
 							record: responseData.id,
 							src_record: $('.sourceField', rowName).val()
-						}).done(function (data) {
+						}).done((data) => {
 							if (data.result) {
-								thisInstance.setUnitPrice(lineItemRow, data.result);
-								thisInstance.quantityChangeActions(lineItemRow);
+								this.setUnitPrice(lineItemRow, data.result);
+								this.quantityChangeActions(lineItemRow);
 							} else {
 								app.errorLog('Incorrect data', responseData);
 							}
@@ -1536,14 +1545,12 @@ $.Class(
 			});
 		},
 		registerPriceBookModal: function (container) {
-			let thisInstance = this;
-			container.find('.js-price-book-modal').on('click', function (e) {
+			container.find('.js-price-book-modal').on('click', (e) => {
 				let element = $(e.currentTarget);
-				let response = thisInstance.isRecordSelected(element);
-				if (response == true) {
-					return;
+				let response = this.isRecordSelected(element);
+				if (!response) {
+					this.pricebooksModalHandler(element);
 				}
-				thisInstance.pricebooksModalHandler(element);
 			});
 		},
 		registerRowChangeEvent: function (container) {
@@ -1873,7 +1880,7 @@ $.Class(
 					instance.setSelectEvent((data) => {
 						for (let i in data) {
 							let parentElem = this.addItem(moduleName, '', false, currentTarget.closest('.js-inv-container-group'));
-							Vtiger_Edit_Js.getInstance().setReferenceFieldValue(parentElem, {
+							Vtiger_Edit_Js.getInstance().setReferenceFieldValue(parentElem.find('.rowName'), {
 								name: data[i],
 								id: i
 							});
