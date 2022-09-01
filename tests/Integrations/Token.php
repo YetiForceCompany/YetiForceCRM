@@ -98,7 +98,10 @@ final class Token extends \Tests\Base
 		static::assertNotEmpty($token);
 		static::assertSame(\strlen($token), 64);
 		static::assertTrue(\App\Validator::alnum($token), "Incorrect token value: $token");
-		static::assertTrue(\App\Utils\Tokens::get($token), "Token doesn't exist: $token");
+		$tokenData = \App\Utils\Tokens::get($token);
+		static::assertNotEmpty($tokenData, "Token doesn't exist: $token");
+		static::assertSame($token, $tokenData['uid']);
+		static::assertSame('Tests\Integrations\Token::action', $tokenData['method']);
 	}
 
 	/**
