@@ -127,7 +127,6 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		}
 		$filterFields = $request->getArray('filterFields', 'Text');
 		$multiSelectMode = $request->has('multi_select') ? $request->getBoolean('multi_select') : false;
-		$currencyId = $request->isEmpty('currency_id', true) ? '' : $request->getInteger('currency_id');
 
 		$moduleModel = Vtiger_Module_Model::getInstance($this->moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
@@ -193,9 +192,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 				$searchParams[$fieldName] = $fieldSearchInfo;
 			}
 		}
-		if ($currencyId) {
-			$this->recordListModel->set('currency_id', $currencyId);
-		}
+
 		if (!empty($this->relatedParentModule) && !empty($this->relatedParentId)) {
 			$listViewHeaders = $this->recordListModel->getHeaders();
 			$listViewEntries = $this->recordListModel->getEntries($pagingModel);
@@ -233,7 +230,6 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('RELATED_PARENT_MODULE', $this->relatedParentModule);
 		$viewer->assign('RELATED_PARENT_ID', $this->relatedParentId);
 		$viewer->assign('ORDER_BY', $orderBy);
-		$viewer->assign('CURRENCY_ID', $currencyId);
 		$viewer->assign('FILTER_FIELDS', $filterFields);
 		$viewer->assign('ADDITIONAL_INFORMATIONS', $request->getBoolean('additionalInformations'));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
@@ -247,6 +243,8 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$viewer->assign('CUSTOM_VIEWS', CustomView_Record_Model::getAllByGroup($request->getModule()));
 		$viewer->assign('LOCKED_FIELDS', $request->isEmpty('lockedFields', true) ? [] : $request->getArray('lockedFields'));
 		$viewer->assign('LOCKED_EMPTY_FIELDS', $request->isEmpty('lockedEmptyFields', true) ? [] : $request->getArray('lockedEmptyFields'));
+		$viewer->assign('CUSTOM_VIEW_ENABLED', $request->isEmpty('cvEnabled', true));
+		$viewer->assign('ADDITIONAL_DATA', $request->has('additionalData') ? $request->getArray('additionalData') : []);
 		$viewer->assign('CV_ID', $cvId);
 	}
 

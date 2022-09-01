@@ -1,6 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<div class="tpl-Modals-RecordsList modal-body js-modal-body" data-js="container">
+	<!-- tpl-Base-Modals-RecordsList -->
+	<div class="modal-body js-modal-body" data-js="container">
 		<input type="hidden" class="js-parent-module" data-js="value" value="{$SOURCE_MODULE}" />
 		<input type="hidden" class="js-source-record" data-js="value" value="{$SOURCE_RECORD}" />
 		<input type="hidden" class="js-source-field" data-js="value" value="{$SOURCE_FIELD}" />
@@ -19,6 +20,9 @@
 		{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE)}
 		<input type="hidden" class="js-locked-fields" data-js="value" value="{\App\Purifier::encodeHtml(\App\Json::encode($LOCKED_FIELDS))}" />
 		<input type="hidden" class="js-empty-fields" data-js="value" value="{\App\Purifier::encodeHtml(\App\Json::encode($LOCKED_EMPTY_FIELDS))}" />
+		{if !empty($ADDITIONAL_DATA)}
+			<input type="hidden" class="js-rl-additional_data" data-js="value" value="{\App\Purifier::encodeHtml(\App\Json::encode($ADDITIONAL_DATA))}" />
+		{/if}
 		<div class="table-responsive">
 			<table class="table table-bordered listViewEntriesTable">
 				<thead>
@@ -105,4 +109,5 @@
 			{/if}
 		</div>
 	</div>
+	<!-- /tpl-Base-Modals-RecordsList -->
 {/strip}
