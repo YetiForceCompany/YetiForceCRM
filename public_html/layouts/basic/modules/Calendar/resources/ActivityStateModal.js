@@ -8,8 +8,7 @@ jQuery.Class(
 		registerActivityState() {
 			const self = this;
 			$('.js-activity-buttons button:not(.close)').on('click', function (e) {
-				let currentTarget = $(e.currentTarget),
-					viewName = app.getViewName();
+				let currentTarget = $(e.currentTarget);
 				app.hideModalWindow();
 				if (1 === currentTarget.data('type')) {
 					self.updateActivityState(currentTarget);
