@@ -1543,6 +1543,7 @@ CREATE TABLE `s_yf_tokens` (
   `created_by_user` int(10) NOT NULL,
   `created_date` datetime NOT NULL,
   `expiration_date` datetime DEFAULT NULL,
+  `one_time_use` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
