@@ -44,11 +44,7 @@ class BankAccounts extends Vtiger_CRMEntity
 		'FL_NAME' => ['bankaccounts', 'name'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
 	];
-	public $search_fields_name = [
-		// Format: Field Label => fieldname
-		'FL_NAME' => 'name',
-		'Assigned To' => 'assigned_user_id',
-	];
+	public $search_fields_name = [];
 	// For Popup window record selection
 	public $popup_fields = ['name'];
 	// For Alphabetical search
