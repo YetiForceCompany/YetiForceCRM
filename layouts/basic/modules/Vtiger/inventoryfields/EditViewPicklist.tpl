@@ -9,7 +9,7 @@
 	{/if}
 	<select class="form-control form-control-sm selectInv {$FIELD->getColumnName()}" name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" {if $FIELD->isReadOnly()}readonly="readonly" {/if}>
 		{foreach from=$FIELD->getPicklistValues() item=ITEM}
-			<option value="{\App\Purifier::encodeHtml($ITEM)}" {if $ITEM == $VALUE}selected{/if}>{\App\Purifier::encodeHtml($ITEM)}</option>
+			<option value="{\App\Purifier::encodeHtml($ITEM)}" {if $ITEM == $VALUE}selected{/if}>{\App\Language::translate($ITEM, $FIELD->getModuleName())}</option>
 		{/foreach}
 	</select>
 	<!-- /tpl-Base-inventoryfields-EditViewPicklist -->

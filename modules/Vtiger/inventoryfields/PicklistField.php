@@ -30,6 +30,13 @@ class Vtiger_PicklistField_InventoryField extends Vtiger_Basic_InventoryField
 		return $params;
 	}
 
+	/** {@inheritdoc} */
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
+	{
+		$moduleName = !empty($rowData['name']) ? \App\Record::getType($rowData['name']) : $this->getModuleName();
+		return $value ? \App\Language::translate($value, $moduleName, null, !$rawText) : '';
+	}
+
 	public function getPicklist($moduleName)
 	{
 		$values = [];

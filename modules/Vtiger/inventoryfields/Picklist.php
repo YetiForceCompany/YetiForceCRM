@@ -19,6 +19,12 @@ class Vtiger_Picklist_InventoryField extends Vtiger_Basic_InventoryField
 	protected $purifyType = \App\Purifier::TEXT;
 	protected $params = ['values'];
 
+	/** {@inheritdoc} */
+	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
+	{
+		return $value ? \App\Language::translate($value, $this->getModuleName(), null, !$rawText) : '';
+	}
+
 	public function getPicklistValues()
 	{
 		$values = $this->getParamsConfig()['values'] ?? [];
@@ -44,7 +50,7 @@ class Vtiger_Picklist_InventoryField extends Vtiger_Basic_InventoryField
 			'picklistValues' => [],
 		];
 		foreach ($this->getPicklistValues() as $value) {
-			$data['values']['picklistValues'][$value] = $value;
+			$data['values']['picklistValues'][$value] = \App\Language::translate($value, $this->getModuleName(), null, false);
 		}
 
 		return $data;
