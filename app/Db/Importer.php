@@ -849,7 +849,7 @@ class Importer
 				}
 			}
 			if ($add) {
-				$this->logs .= "  > add: $keyName, $sourceTableName ... ";
+				$this->logs .= "  > add: {$keyName}, {$sourceTableName}:{$key[2]}, {$destTableName}:{$key[4]} ... ";
 				$start = microtime(true);
 				try {
 					$dbCommand->addForeignKey($keyName, $sourceTableName, $key[2], $destTableName, $key[4], $key[5], $key[6])->execute();
