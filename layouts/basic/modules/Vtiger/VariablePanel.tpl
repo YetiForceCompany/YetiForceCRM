@@ -1,5 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<!-- tpl-Base-VariablePanel -->
 	{if empty($TEXT_PARSER)}
 		{assign var=TEXT_PARSER value=\App\TextParser::getInstance($SELECTED_MODULE)}
 	{/if}
@@ -16,7 +17,7 @@
 							<optgroup label="{$BLOCK_NAME}">
 								{foreach item=ITEM from=$FIELDS}
 									<option value="{$ITEM['var_value']}"
-										data-label="{$ITEM['var_label']}">{\App\Language::translate($ITEM['label'], $SELECTED_MODULE)}</option>
+										data-label="{$ITEM['var_label']}">{$ITEM['label']}</option>
 								{/foreach}
 							</optgroup>
 						{/foreach}
@@ -250,4 +251,5 @@
 			</div>
 		</div>
 	</div>
+	<!-- /tpl-Base-VariablePanel -->
 {/strip}

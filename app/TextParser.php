@@ -694,7 +694,8 @@ class TextParser
 					$oldValue = $this->getDisplayValueByField($fieldModel, $oldValue);
 					$currentValue = $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations) {
-						$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$ \$(translate : LBL_FROM)\$ $oldValue \$(translate : LBL_TO)\$ " . $currentValue . ($this->isHtml ? '<br>' : PHP_EOL);
+						$label = \App\Purifier::encodeHtml($fieldModel->getFieldLabel());
+						$value .= "\$(translate : {$this->moduleName}|{$label})\$ \$(translate : LBL_FROM)\$ $oldValue \$(translate : LBL_TO)\$ " . $currentValue . ($this->isHtml ? '<br>' : PHP_EOL);
 					} else {
 						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ' ';
 						$value .= Language::translate('LBL_FROM') . " $oldValue " . Language::translate('LBL_TO') . " $currentValue" . ($this->isHtml ? '<br>' : PHP_EOL);
@@ -715,7 +716,8 @@ class TextParser
 					}
 					$currentValue = \in_array($fieldModel->getFieldDataType(), $this->largeDataUiTypes) ? '' : $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations) {
-						$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$: $currentValue" . ($this->isHtml ? '<br>' : PHP_EOL);
+						$label = \App\Purifier::encodeHtml($fieldModel->getFieldLabel());
+						$value .= "\$(translate : {$this->moduleName}|{$label})\$: $currentValue" . ($this->isHtml ? '<br>' : PHP_EOL);
 					} else {
 						$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . ($this->isHtml ? '<br>' : PHP_EOL);
 					}
@@ -728,7 +730,8 @@ class TextParser
 					foreach ($fields as $fieldName => $fieldModel) {
 						$currentValue = $this->getDisplayValueByField($fieldModel);
 						if ($this->withoutTranslations) {
-							$value .= "\$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})\$: $currentValue" . ($this->isHtml ? '<br>' : PHP_EOL);
+							$label = \App\Purifier::encodeHtml($fieldModel->getFieldLabel());
+							$value .= "\$(translate : {$this->moduleName}|{$label})\$: $currentValue" . ($this->isHtml ? '<br>' : PHP_EOL);
 						} else {
 							$value .= Language::translate($fieldModel->getFieldLabel(), $this->moduleName, $this->language) . ": $currentValue" . ($this->isHtml ? '<br>' : PHP_EOL);
 						}
@@ -957,7 +960,8 @@ class TextParser
 		foreach ($fields as $fieldModel) {
 			if ($fieldModel->isViewable() || $fieldModel->get('fromOutsideList')) {
 				if ($this->withoutTranslations) {
-					$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">$(translate : {$fieldModel->getFieldLabel()}|$relatedModuleName)$</th>";
+					$label = \App\Purifier::encodeHtml($fieldModel->getFieldLabel());
+					$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">$(translate : {$label}|$relatedModuleName)$</th>";
 				} else {
 					$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\">" . Language::translate($fieldModel->getFieldLabel(), $relatedModuleName) . '</th>';
 				}
@@ -1042,7 +1046,8 @@ class TextParser
 		}
 		foreach ($fields as $fieldModel) {
 			if ($this->withoutTranslations) {
-				$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\" style=\"{$headerStyle}\">$(translate : {$fieldModel->getFieldLabel()}|$moduleName)$</th>";
+				$label = \App\Purifier::encodeHtml($fieldModel->getFieldLabel());
+				$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\" style=\"{$headerStyle}\">$(translate : {$label}|$moduleName)$</th>";
 			} else {
 				$headers .= "<th class=\"col-type-{$fieldModel->getFieldType()}\" style=\"{$headerStyle}\">" . Language::translate($fieldModel->getFieldLabel(), $moduleName) . '</th>';
 			}
@@ -1299,9 +1304,10 @@ class TextParser
 		foreach ($moduleModel->getBlocks() as $blockModel) {
 			foreach ($blockModel->getFields() as $fieldModel) {
 				if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {
+					$label = \App\Purifier::encodeHtml($fieldModel->getFieldLabel());
 					$variables[Language::translate($blockModel->get('label'), $this->moduleName)][] = [
 						'var_value' => "$(record : {$fieldModel->getName()})$",
-						'var_label' => "$(translate : {$this->moduleName}|{$fieldModel->getFieldLabel()})$",
+						'var_label' => "$(translate : {$this->moduleName}|{$label})$",
 						'label' => Language::translate($fieldModel->getFieldLabel(), $this->moduleName),
 					];
 				}
@@ -1334,9 +1340,10 @@ class TextParser
 			foreach ($moduleModel->getBlocks() as $blockModel) {
 				foreach ($blockModel->getFields() as $fieldModel) {
 					if ($fieldModel->isViewable()) {
+						$label = \App\Purifier::encodeHtml($fieldModel->getFieldLabel());
 						$variables[$moduleName][$blockModel->get('label')][] = [
 							'var_value' => "$(sourceRecord : {$fieldModel->getName()})$",
-							'var_label' => "$(translate : $moduleName|{$fieldModel->getFieldLabel()})$",
+							'var_label' => "$(translate : $moduleName|{$label})$",
 							'label' => Language::translate($fieldModel->getFieldLabel(), $moduleName),
 						];
 					}
@@ -1399,9 +1406,10 @@ class TextParser
 							&& (!$relRecord || ($relRecord && !$relRecord->isEmpty($fieldModel->getName())))
 						) {
 							$labelGroup = "$parentFieldNameLabel: ($relatedModuleLang) " . Language::translate($blockModel->get('label'), $relatedModule);
+							$label = \App\Purifier::encodeHtml($fieldModel->getFieldLabel());
 							$variables[$parentFieldName][$labelGroup][] = [
 								'var_value' => "$(relatedRecord : $parentFieldName|$fieldName|$relatedModule)$",
-								'var_label' => "$(translate : $relatedModule|{$fieldModel->getFieldLabel()})$",
+								'var_label' => "$(translate : $relatedModule|{$label})$",
 								'label' => "$parentFieldNameLabel: ($relatedModuleLang) " . Language::translate($fieldModel->getFieldLabel(), $relatedModule),
 							];
 						}
@@ -1450,9 +1458,10 @@ class TextParser
 							foreach ($blockModel->getFields() as $fieldName => $fieldModel) {
 								if ($fieldModel->isViewable() && !($fieldType && $fieldModel->getFieldDataType() !== $fieldType)) {
 									$labelGroup = "{$parentFieldNameLabel}($relatedModuleLang) -> {$parentFieldNameLabelNextLevel}($relatedModuleLangNextLevel) " . Language::translate($blockModel->get('label'), $relatedModuleNextLevel);
+									$label = \App\Purifier::encodeHtml($fieldModel->getFieldLabel());
 									$variables[$labelGroup][] = [
 										'var_value' => "$(relatedRecordLevel : $parentFieldName|$relatedModule|$parentFieldNameNextLevel|$fieldName|$relatedModuleNextLevel)$",
-										'var_label' => "$(translate : $relatedModuleNextLevel|{$fieldModel->getFieldLabel()})$",
+										'var_label' => "$(translate : $relatedModuleNextLevel|{$label})$",
 										'label' => "{$parentFieldNameLabel}($relatedModuleLang) -> {$parentFieldNameLabelNextLevel}($relatedModuleLangNextLevel) " . Language::translate($fieldModel->getFieldLabel(), $relatedModuleNextLevel),
 									];
 								}
