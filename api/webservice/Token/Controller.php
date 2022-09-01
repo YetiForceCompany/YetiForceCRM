@@ -19,7 +19,7 @@ class Controller extends \Api\Controller
 	/** {@inheritdoc}  */
 	protected function getActionClassName(): string
 	{
-		return 'Api\Token\BaseAction';
+		return 'Api\Token\Action';
 	}
 
 	/** {@inheritdoc}  */

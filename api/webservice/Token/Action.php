@@ -40,7 +40,7 @@ use OpenApi\Annotations as OA;
  *		description="Demo server of the latest stable version",
  * )
  */
-class BaseAction extends \Api\Core\BaseAction
+class Action extends \Api\Core\BaseAction
 {
 	/** {@inheritdoc}  */
 	public $allowedMethod = ['GET'];
