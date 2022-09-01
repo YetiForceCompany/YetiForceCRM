@@ -39,14 +39,14 @@ class Cron
 	 *
 	 * @var int|null Cron run start time in microtime
 	 */
-	public static $cronTimeStart = null;
+	public static $cronTimeStart;
 
 	/**
 	 * Script run start time in microtime.
 	 *
 	 * @var int|null Script run start time in microtime
 	 */
-	public static $scriptTimeStart = null;
+	public static $scriptTimeStart;
 
 	/**
 	 * @var string Log files directory path
