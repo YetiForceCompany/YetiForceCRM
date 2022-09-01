@@ -139,7 +139,7 @@ final class Token extends \Tests\Base
 
 		$request = $this->httpClient->get('xxxx');
 		$this->logs = $body = $request->getBody()->getContents();
-		$this->logs .= PHP_EOL . PHP_EOL
+		$this->logs .= PHP_EOL . PHP_EOL;
 		foreach ($request->getHeaders() as $key => $value) {
 			$this->logs .= $key . ': ' . implode(', ', $value) . PHP_EOL;
 		}
