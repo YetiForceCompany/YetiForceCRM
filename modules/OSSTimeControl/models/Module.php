@@ -47,16 +47,11 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getRelatedSummary(App\Db\Query $query)
 	{
-		// Calculate total working time
 		$totalTime = $query->limit(null)->orderBy('')->sum('vtiger_osstimecontrol.sum_time');
-		// Calculate total working time divided into users
-		$dataReader = $query->select(['sumtime' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)'), 'vtiger_crmentity.smownerid'])
-			->groupBy('vtiger_crmentity.smownerid')->orderBy(['vtiger_crmentity.smownerid' => SORT_ASC])->createCommand()
-			->query();
 
 		$userTime = [
 			'labels' => [],
-			'title' => \App\Language::translate('LBL_SUM', $this->getName()) . ': ' . \App\Fields\RangeTime::displayElapseTime($totalTime, 'i', 'i', false),
+			'title' => \App\Language::translate('LBL_SUM', $this->getName()) . ': ' . \App\Fields\RangeTime::displayElapseTime($totalTime, 'i', 'hi', false),
 			'datasets' => [
 				[
 					'data' => [],
@@ -67,6 +62,9 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			],
 		];
 
+		$dataReader = $query->select(['sumtime' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)'), 'vtiger_crmentity.smownerid'])
+			->groupBy('vtiger_crmentity.smownerid')->orderBy(['vtiger_crmentity.smownerid' => SORT_ASC])->createCommand()
+			->query();
 		while ($row = $dataReader->read()) {
 			$ownerName = App\Fields\Owner::getLabel($row['smownerid']) ?? '';
 			$color = App\Fields\Owner::getColor($row['smownerid']);
@@ -78,6 +76,7 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 			$userTime['datasets'][0]['borderColor'][] = $color;
 		}
 		$dataReader->close();
+
 		return ['totalTime' => $totalTime, 'userTime' => $userTime];
 	}
 
