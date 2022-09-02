@@ -127,6 +127,8 @@ window.Calendar_Js = class {
 			defaultTimedEventDuration: '01:00:00',
 			dayMaxEvents: eventLimit,
 			selectMirror: true,
+			slotDuration: '00:15:00',
+			nowIndicator: true,
 			scrollTime: this.startHour + ':00'
 		};
 		if (app.moduleCacheGet('start') !== null && app.moduleCacheGet('start') !== undefined) {
