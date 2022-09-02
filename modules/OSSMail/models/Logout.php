@@ -63,7 +63,7 @@ class OSSMail_Logout_Model
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public static function logutUserById(int $userId)
+	public static function logoutUserById(int $userId)
 	{
 		$sessId = static::getSessId($userId);
 		if ($sessId) {

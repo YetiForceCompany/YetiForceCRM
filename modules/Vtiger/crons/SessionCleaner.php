@@ -36,7 +36,7 @@ class Vtiger_SessionCleaner_Cron extends \App\CronHandler
 					'logout_time' => date('Y-m-d H:i:s'),
 					'status' => 'Automatic signed off'
 				])->execute();
-				OSSMail_Logout_Model::logutUserById($userId);
+				OSSMail_Logout_Model::logoutUserById($userId);
 			}
 		} else {
 			\App\Log::warning('Session cleaning has been omitted because the server headers have already been sent');
