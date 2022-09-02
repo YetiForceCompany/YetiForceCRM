@@ -73,11 +73,11 @@ class ProductsTableShortVersion extends Base
 			$count = \count($groupModels);
 			$html .= '<tbody>';
 			$counter = 0;
-			foreach ($inventoryRowsByBlock as $inventoryRows) {
-				if ($groupField && $groupField->isVisible() && !empty($blockLabel = current($inventoryRows)['grouplabel'])) {
-					$html .= "<tr><td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, current($inventoryRows), true)) . '</td></tr>';
+			foreach ($inventoryRowsByBlock as $blockData) {
+				if ($groupField && $groupField->isVisible() && !empty($blockLabel = current($blockData)['grouplabel'])) {
+					$html .= "<tr><td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, current($blockData), true)) . '</td></tr>';
 				}
-				foreach ($inventoryRows as $inventoryRow) {
+				foreach ($blockData as $inventoryRow) {
 					++$counter;
 					$html .= '<tr class="row-' . $counter . '">';
 					foreach ($groupModels as $fieldModel) {

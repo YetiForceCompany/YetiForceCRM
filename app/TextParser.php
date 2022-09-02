@@ -1756,51 +1756,70 @@ class TextParser
 				if (!$field->isVisible()) {
 					continue;
 				}
+				if ('grouplabel' === $field->getColumnName()) {
+					$columns[$field->getColumnName()] = $field;
+					continue;
+				}
 				$html .= '<th class="col-type-' . $field->getType() . '" style="border:1px solid #ddd ' . (empty($width[$key]) ? '' : ";width: {$width[$key]}") . '">' . (empty($labels[$key]) ? Language::translate($field->get('label'), $this->moduleName) : Purifier::encodeHtml($labels[$key])) . '</th>';
 				$columns[$field->getColumnName()] = $field;
 			}
+
+			if (isset($columns['grouplabel'])) {
+				unset($columns['grouplabel']);
+				$groupField = $inventory->getField('grouplabel');
+				$inventoryRowsByBlock = $inventory->getField('grouplabel')->getDataByGroup($inventoryRows);
+			} else {
+				$groupField = null;
+				$inventoryRowsByBlock = [$inventoryRows];
+			}
+			$count = \count($columns);
 			$html .= '</tr></thead><tbody>';
 			$counter = 0;
-			foreach ($inventoryRows as $inventoryRow) {
-				++$counter;
-				$html .= '<tr class="row-' . $counter . '">';
-				$customFieldClassSeq = 0;
-				foreach ($columns as $name => $field) {
-					if ('seq' === $name) {
-						$html .= '<td class="col-type-ItemNumber" style="border:1px solid #ddd;font-weight:bold;">' . $counter . '</td>';
-					} elseif (!\is_object($field)) {
-						if ('(' === $field[0] && ')' === substr($field, -1)) {
-							$field = $this->parseVariable("\${$field}\$", $inventoryRow['name'] ?? 0);
-						}
-						++$customFieldClassSeq;
-						$html .= '<td class="col-type-customField' . $customFieldClassSeq . '" style="border:1px solid #ddd;font-weight:bold;">' . $field . '</td>';
-					} elseif ('ItemNumber' === $field->getType()) {
-						$html .= '<td class="col-type-ItemNumber" style="border:1px solid #ddd;font-weight:bold;">' . $counter . '</td>';
-					} elseif ('ean' === $name) {
-						$itemValue = $inventoryRow[$name];
-						$html .= '<td class="col-type-barcode" style="border:1px solid #ddd;padding:0px 4px;' . (\in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '"><div data-barcode="EAN13" data-code="' . $itemValue . '" data-size="1" data-height="16"></div></td>';
-					} else {
-						$itemValue = $inventoryRow[$name];
-						$html .= '<td class="col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (\in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
-						if ('Name' === $field->getType()) {
-							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow, $rawText) . '</strong>';
-							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
-								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
-									$comment = $commentField->getDisplayValue($value, $inventoryRow, $rawText);
-									if ($comment) {
-										$html .= '<br>' . $comment;
+			foreach ($inventoryRowsByBlock as $blockData) {
+				if ($groupField && !empty($blockLabel = current($blockData)['grouplabel'])) {
+					$html .= "<tr><td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, current($blockData), true)) . '</td></tr>';
+				}
+				foreach ($blockData as $inventoryRow) {
+					++$counter;
+					$html .= '<tr class="row-' . $counter . '">';
+					$customFieldClassSeq = 0;
+					foreach ($columns as $name => $field) {
+						if ('seq' === $name) {
+							$html .= '<td class="col-type-ItemNumber" style="border:1px solid #ddd;font-weight:bold;">' . $counter . '</td>';
+						} elseif (!\is_object($field)) {
+							if ('(' === $field[0] && ')' === substr($field, -1)) {
+								$field = $this->parseVariable("\${$field}\$", $inventoryRow['name'] ?? 0);
+							}
+							++$customFieldClassSeq;
+							$html .= '<td class="col-type-customField' . $customFieldClassSeq . '" style="border:1px solid #ddd;font-weight:bold;">' . $field . '</td>';
+						} elseif ('ItemNumber' === $field->getType()) {
+							$html .= '<td class="col-type-ItemNumber" style="border:1px solid #ddd;font-weight:bold;">' . $counter . '</td>';
+						} elseif ('ean' === $name) {
+							$itemValue = $inventoryRow[$name];
+							$html .= '<td class="col-type-barcode" style="border:1px solid #ddd;padding:0px 4px;' . (\in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '"><div data-barcode="EAN13" data-code="' . $itemValue . '" data-size="1" data-height="16"></div></td>';
+						} else {
+							$itemValue = $inventoryRow[$name];
+							$html .= '<td class="col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (\in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
+							if ('Name' === $field->getType()) {
+								$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow, $rawText) . '</strong>';
+								foreach ($inventory->getFieldsByType('Comment') as $commentField) {
+									if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
+										$comment = $commentField->getDisplayValue($value, $inventoryRow, $rawText);
+										if ($comment) {
+											$html .= '<br>' . $comment;
+										}
 									}
 								}
+							} elseif (\in_array($field->getType(), $fieldsWithCurrency, true)) {
+								$html .= \CurrencyField::appendCurrencySymbol($field->getDisplayValue($itemValue, $inventoryRow, $rawText), $currencySymbol);
+							} else {
+								$html .= $field->getDisplayValue($itemValue, $inventoryRow, $rawText);
 							}
-						} elseif (\in_array($field->getType(), $fieldsWithCurrency, true)) {
-							$html .= \CurrencyField::appendCurrencySymbol($field->getDisplayValue($itemValue, $inventoryRow, $rawText), $currencySymbol);
-						} else {
-							$html .= $field->getDisplayValue($itemValue, $inventoryRow, $rawText);
+							$html .= '</td>';
 						}
-						$html .= '</td>';
 					}
+					$html .= '</tr>';
 				}
-				$html .= '</tr>';
 			}
 
 			$html .= '</tbody><tfoot><tr>';
@@ -1808,10 +1827,7 @@ class TextParser
 				$tb = $style = '';
 				if (\is_object($field) && $field->isSummary()) {
 					$style = 'border:1px solid #ddd;';
-					$sum = 0;
-					foreach ($inventoryRows as $inventoryRow) {
-						$sum += $inventoryRow[$name];
-					}
+					$sum = $field->getSummaryValuesFromData($inventoryRows);
 					$tb = \CurrencyField::appendCurrencySymbol(\CurrencyField::convertToUserFormat($sum, null, true), $currencySymbol);
 				}
 				$html .= '<th class="col-type-' . (\is_object($field) ? $field->getType() : $name) . '" style="padding:0px 4px;text-align:right;' . $style . '">' . $tb . '</th>';

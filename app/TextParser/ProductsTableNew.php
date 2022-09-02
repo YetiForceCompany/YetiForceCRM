@@ -70,12 +70,12 @@ class ProductsTableNew extends Base
 			$html .= '<tbody>';
 			$number = 0;
 			$counter = 0;
-			foreach ($inventoryRowsByBlock as $inventoryRows) {
-				if ($groupField && $groupField->isVisible() && !empty($blockLabel = current($inventoryRows)['grouplabel'])) {
+			foreach ($inventoryRowsByBlock as $blockData) {
+				if ($groupField && $groupField->isVisible() && !empty($blockLabel = current($blockData)['grouplabel'])) {
 					++$number;
-					$html .= "<tr class=\"row-{$number}\"><td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, current($inventoryRows), true)) . '</td></tr>';
+					$html .= "<tr class=\"row-{$number}\"><td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, current($blockData), true)) . '</td></tr>';
 				}
-				foreach ($inventoryRows as $inventoryRow) {
+				foreach ($blockData as $inventoryRow) {
 					++$number;
 					++$counter;
 					$html .= '<tr class="row-' . $number . '">';

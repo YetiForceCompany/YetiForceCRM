@@ -89,11 +89,11 @@ class ProductsTableImages extends Base
 			$inventoryRowsByBlock = [$inventoryRows];
 		}
 		$count = \count($displayFields);
-		foreach ($inventoryRowsByBlock as $inventoryRows) {
-			if ($groupField && $groupField->isVisible() && !empty($blockLabel = current($inventoryRows)['grouplabel'])) {
-				$displayRows[] = "<td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, current($inventoryRows), true)) . '</td>';
+		foreach ($inventoryRowsByBlock as $blockData) {
+			if ($groupField && $groupField->isVisible() && !empty($blockLabel = current($blockData)['grouplabel'])) {
+				$displayRows[] = "<td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, current($blockData), true)) . '</td>';
 			}
-			foreach ($inventoryRows as $inventoryRow) {
+			foreach ($blockData as $inventoryRow) {
 				$rowHtml = '';
 				foreach ($displayFields as $field) {
 					$fieldModel = $field['model'];
