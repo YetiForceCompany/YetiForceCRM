@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- /tpl-Settings-LayoutEditor-CreateInventoryFieldsStep2 -->
+	<!-- tpl-Settings-LayoutEditor-CreateInventoryFieldsStep2 -->
 	<div class="modal fade" tabindex="-1" data-js="container">
 		<div class="modal-dialog">
 			<div class="modal-content">
