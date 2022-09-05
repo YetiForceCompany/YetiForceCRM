@@ -132,8 +132,8 @@
 												</div>
 											{/if}
 											<div class="btn-group actions ml-1">
-												<button class="btn btn-sm btn-info js-show-modal" type="button"
-													data-url="index.php?parent=Settings&module=WidgetsManagement&view=ManageWidgets&blockId={$AUTHORIZATION_KEY}&dashboardId={$DASHBOARD_ID}&authorized={$AUTHORIZATION_INFO['code']}"><span class="fas fa-clone mr-2"></span>{\App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}
+												<button class="btn btn-sm btn-info js-show-manage-widget-modal" type="button"
+													data-url="index.php?parent=Settings&module=WidgetsManagement&view=ManageWidgets&blockId={$AUTHORIZATION_KEY}&dashboardId={$DASHBOARD_ID}&authorized={$AUTHORIZATION_INFO['code']}&sourceModule={$SELECTED_MODULE_NAME}"><span class="fas fa-clone mr-2"></span>{\App\Language::translate('LBL_COPY', $QUALIFIED_MODULE)}
 												</button>
 												<a href="javascript:void(0)"
 													class="js-delete-custom-block-btn btn btn-sm btn-danger ml-1"

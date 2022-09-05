@@ -590,6 +590,44 @@ jQuery.Class(
 				}
 			});
 		},
+		registerManageWidget: function () {
+			let contents = $('#widgetsManagementEditorContainer');
+			contents.find('.js-show-manage-widget-modal').on('click', (e) => {
+				let url = e.currentTarget.dataset.url;
+				app.showModalWindow({
+					url: url,
+					cb: (modalContainer) => {
+						App.Fields.Picklist.showSelect2ElementView(modalContainer.find('.select2'));
+						modalContainer.on('click', '.js-modal__save', (_) => {
+							let progressIndicatorElement = jQuery.progressIndicator({
+								position: 'html',
+								blockInfo: {
+									enabled: true
+								}
+							});
+							const allChecked = modalContainer.find('input[name="widgetLinkId"]:checked');
+							let formData = modalContainer.find('form').serializeFormData();
+							formData['widgetLinkId'] = Array.from(allChecked).map((checkbox) => checkbox.value);
+							formData['dashboardId'] = this.getCurrentDashboardId();
+							AppConnector.request({
+								parent: 'Settings',
+								module: app.getModuleName(),
+								action: 'SaveAjax',
+								mode: 'manageWidgets',
+								form: formData
+							}).done(() => {
+								progressIndicatorElement.progressIndicator({ mode: 'hide' });
+								app.hideModalWindow();
+								let contentsDiv = $('.contentsDiv');
+								this.getModuleLayoutEditor('Home', 1).done((data) => {
+									this.updateContentsDiv(contentsDiv, data);
+								});
+							});
+						});
+					}
+				});
+			});
+		},
 		/**
 		 * register events for layout editor
 		 */
@@ -602,6 +640,7 @@ jQuery.Class(
 			this.registerAddedDashboard();
 			this.registerSelectDashboard();
 			this.registerDashboardAction();
+			this.registerManageWidget();
 		}
 	}
 );

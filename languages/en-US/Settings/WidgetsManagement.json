@@ -47,7 +47,9 @@
     "LBL_SKIP_YEAR_DESC": "Skip the year of the event by only considering the month and day.",
     "LBL_WIDGET_NAME": "Widget name",
     "BTN_NEXT": "Next",
-    "LBL_DEFAULT_TIME": "Default call end time (min)"
+    "LBL_DEFAULT_TIME": "Default call end time (min)",
+    "LBL_MANAGE_WIDGETS": "Manage widgets",
+    "LBL_MOVE": "Move"
   },
   "js": {
     "JS_BLOCK_ADDED": "Block has been added successfully",
