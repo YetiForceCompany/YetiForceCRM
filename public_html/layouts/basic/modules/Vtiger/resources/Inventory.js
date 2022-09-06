@@ -924,26 +924,45 @@ $.Class(
 			});
 		},
 		registerInventorySaveData: function () {
-			const thisInstance = this;
-			thisInstance.form.on(Vtiger_Edit_Js.recordPreSave, function () {
-				thisInstance.syncHeaderData();
-				if (!thisInstance.checkLimits(thisInstance.form)) {
+			this.form.on(Vtiger_Edit_Js.recordPreSave, () => {
+				this.syncHeaderData();
+				if (!this.checkLimits(this.form)) {
 					return false;
 				}
 			});
 		},
 		syncHeaderData(container) {
+			this.renumberHeaderItems();
 			let header = this.getInventoryHeadContainer();
 			if (typeof container === 'undefined') {
 				container = this.getContainer();
 			}
-			container.find('.js-sync').each(function () {
-				let element = $(this);
+			container.find('.js-sync').each((_, e) => {
+				let element = $(e);
+				let value;
+				let name = element.data('syncId');
 				let classElement = '.js-' + element.data('syncId');
-				let block = element.closest('.js-inv-container-group');
-				let value = block.find(classElement).length ? block.find(classElement) : header.find(classElement);
-				element.val(value.val());
+				if (name === 'grouplabel' || name === 'groupid') {
+					let row = element.closest(this.rowClass);
+					while (row.is('tr') && row.prev().find(classElement).length < 1) {
+						row = row.prev();
+					}
+					value = row.prev().find(classElement);
+				} else {
+					value = header.find(classElement);
+				}
+				element.val(value.length ? value.val() : element.data('default'));
 			});
+		},
+		/**
+		 * Renumber header items
+		 */
+		renumberHeaderItems() {
+			this.getContainer()
+				.find('.js-inv-container-group .js-groupid')
+				.each((n, e) => {
+					e.value = n + 1;
+				});
 		},
 		/**
 		 * Function which will be used to handle price book popup
@@ -1411,14 +1430,14 @@ $.Class(
 		 * @param {string} baseTableId
 		 * @param {object} rowData [optional]
 		 */
-		addItem(module, baseTableId, rowData = false, group = null) {
-			const items = group || this.getInventoryItemsContainer();
+		addItem(module, baseTableId, rowData = false) {
+			const items = this.getInventoryItemsContainer();
 			let newRow = this.getBasicRow();
 			const sequenceNumber = this.getNextLineItemRowNumber();
 			const replaced = newRow.html().replace(/\_NUM_/g, sequenceNumber);
 			const moduleLabels = newRow.data('moduleLbls');
 			newRow.html(replaced);
-			newRow = newRow.children().appendTo(items.find('.js-inventory-items-body'));
+			newRow = newRow.find('tr.inventoryRow, tr.inventoryRowExpanded').appendTo(items.find('.js-inventory-items-body'));
 			newRow.find('.rowName input[name="popupReferenceModule"]').val(module).data('field', baseTableId);
 			newRow.find('.js-module-icon').removeClass().addClass(`yfm-${module}`);
 			newRow.find('.rowName span.input-group-text').attr('data-content', moduleLabels[module]);
@@ -1440,27 +1459,19 @@ $.Class(
 			return newRow;
 		},
 		/**
-		 * Add block
+		 * Add header(group) item
 		 * @returns
 		 */
-		addBlock(blockId = 0, blockLabel = '') {
-			if (blockId) {
-				let blockElement = this.getContainer().find(
-					`.js-inv-container-group .js-groupid[value="${parseInt(blockId)}"]`
-				);
-				if (blockElement.length) {
-					return blockElement.closest('.js-inv-container-group');
-				}
+		addHeaderItem(data = {}) {
+			const items = this.getInventoryItemsContainer();
+			let newRow = this.getBasicRow();
+			if (data['grouplabel']) {
+				newRow.find('.js-grouplabel').val(data['grouplabel']);
 			}
-			let block = this.getContainer().find('.js-inv-container-group:last');
-			let newBlock = block.clone(true, true);
-			newBlock.find('.grouplabel').val(blockLabel);
-			newBlock.find('.js-inventory-items-body').empty();
-			newBlock.find('.js-groupid').val(this.getNextBlockId());
-			block.after(newBlock);
-			this.registerSortableItems();
-			this.setDeleteBlockBtnVisibility();
-			return newBlock;
+			newRow = newRow.find('tr.inventoryRowGroup').appendTo(items.find('.js-inventory-items-body'));
+			this.initItem(newRow);
+
+			return newRow;
 		},
 		/**
 		 * Get next block ID
@@ -1487,13 +1498,13 @@ $.Class(
 				});
 		},
 		/**
-		 * Register add block
+		 * Register add header row
 		 */
-		registerAddBlock() {
+		registerAddHeaderItem() {
 			this.getContainer()
 				.find('.js-inv-add-group')
 				.on('click', () => {
-					this.addBlock();
+					this.addHeaderItem();
 				});
 		},
 		registerSortableItems: function () {
@@ -1501,11 +1512,11 @@ $.Class(
 			let items = thisInstance.getContainer();
 			items.sortable({
 				handle: '.dragHandle',
-				items: thisInstance.rowClass,
+				items: thisInstance.rowClass + ',.inventoryRowGroup',
 				revert: true,
 				tolerance: 'pointer',
 				placeholder: 'ui-state-highlight',
-				helper: function (e, ui) {
+				helper: function (_e, ui) {
 					ui.children().each(function (_, element) {
 						element = $(element);
 						element.width(element.width());
@@ -1617,6 +1628,10 @@ $.Class(
 			container.on('click', '.deleteRow', (e) => {
 				let num = this.getClosestRow($(e.currentTarget)).attr('numrow');
 				this.deleteLineItem(num);
+			});
+			container.on('click', '.js-delete-header-item', (e) => {
+				$(e.currentTarget).closest('tr').remove();
+				this.syncHeaderData();
 			});
 		},
 		deleteLineItem: function (num) {
@@ -1956,16 +1971,12 @@ $.Class(
 						this.setTaxMode(first.taxmode);
 						this.currencyChangeActions = oldCurrencyChangeAction;
 						this.clearInventory();
-						let blocks = {};
-						let isBlocksActive = this.getInventoryHeadContainer().find('.js-inv-add-group').length;
 						$.each(response.result, (_, row) => {
 							if (activeModules.indexOf(row.moduleName) !== -1) {
-								let block = null;
-								if (row.groupid && isBlocksActive) {
-									block = this.addBlock(blocks[row.groupid] || null, row.grouplabel);
-									blocks[row.groupid] = block.find('.js-groupid').val();
+								if (row.groupid && row.add_header) {
+									this.addHeaderItem(row);
 								}
-								this.addItem(row.moduleName, row.basetableid, row, block);
+								this.addItem(row.moduleName, row.basetableid, row);
 							} else {
 								Vtiger_Helper_Js.showMessage({
 									type: 'error',
@@ -2011,7 +2022,7 @@ $.Class(
 			this.loadConfig();
 			this.registerInventorySaveData();
 			this.registerAddItem();
-			this.registerAddBlock();
+			this.registerAddHeaderItem();
 			this.registerMassAddItem();
 			this.initItem();
 			this.registerSortableItems();

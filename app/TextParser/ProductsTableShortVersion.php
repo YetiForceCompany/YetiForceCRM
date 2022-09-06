@@ -65,51 +65,44 @@ class ProductsTableShortVersion extends Base
 		$html .= '</tr></thead>';
 		if (!empty($groupModels)) {
 			$groupField = $inventory->getField('grouplabel');
-			if ($groupField && $groupField->isVisible()) {
-				$inventoryRowsByBlock = $groupField->getDataByGroup($inventoryRows);
-			} else {
-				$inventoryRowsByBlock = [$inventoryRows];
-			}
 			$count = \count($groupModels);
 			$html .= '<tbody>';
 			$counter = 0;
-			foreach ($inventoryRowsByBlock as $blockData) {
-				if ($groupField && $groupField->isVisible() && !empty($blockLabel = current($blockData)['grouplabel'])) {
-					$html .= "<tr><td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, current($blockData), true)) . '</td></tr>';
+			foreach ($inventory->transformData($inventoryRows) as $inventoryRow) {
+				if (!empty($inventoryRow['add_header']) && $groupField && $groupField->isVisible() && !empty($blockLabel = $inventoryRow['grouplabel'])) {
+					$html .= "<tr><td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, $inventoryRow, true)) . '</td></tr>';
 				}
-				foreach ($blockData as $inventoryRow) {
-					++$counter;
-					$html .= '<tr class="row-' . $counter . '">';
-					foreach ($groupModels as $fieldModel) {
-						$columnName = $fieldModel->getColumnName();
-						$typeName = $fieldModel->getType();
-						$fieldStyle = $bodyStyle;
-						if ('ItemNumber' === $typeName) {
-							$html .= "<td style=\"{$bodyStyle}font-weight:bold;text-align:center;width:1%;\">" . $counter . '</td>';
-						} elseif ('ean' === $columnName) {
-							$code = $inventoryRow[$columnName];
-							$html .= "<td class=\"col-type-barcode\" style=\"{$fieldStyle}font-weight:bold;text-align:center;\"><div data-barcode=\"EAN13\" data-code=\"{$code}\" data-size=\"1\" data-height=\"16\">{$code}</div></td>";
-						} else {
-							$itemValue = $inventoryRow[$columnName];
-							if ('Name' === $typeName) {
-								$fieldStyle = $bodyStyle . 'text-align:left;';
-								$fieldValue = '<strong>' . \App\Purifier::encodeHtml($fieldModel->getDisplayValue($itemValue, $inventoryRow, true)) . '</strong>';
-								foreach ($inventory->getFieldsByType('Comment') as $commentField) {
-									if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()]) && $comment = $commentField->getDisplayValue($value, $inventoryRow, true)) {
-										$fieldValue .= '<br />' . $comment;
-									}
+				++$counter;
+				$html .= '<tr class="row-' . $counter . '">';
+				foreach ($groupModels as $fieldModel) {
+					$columnName = $fieldModel->getColumnName();
+					$typeName = $fieldModel->getType();
+					$fieldStyle = $bodyStyle;
+					if ('ItemNumber' === $typeName) {
+						$html .= "<td style=\"{$bodyStyle}text-align:center;width:1%;\">" . $counter . '</td>';
+					} elseif ('ean' === $columnName) {
+						$code = $inventoryRow[$columnName];
+						$html .= "<td class=\"col-type-barcode\" style=\"{$fieldStyle}font-weight:bold;text-align:center;\"><div data-barcode=\"EAN13\" data-code=\"{$code}\" data-size=\"1\" data-height=\"16\">{$code}</div></td>";
+					} else {
+						$itemValue = $inventoryRow[$columnName];
+						if ('Name' === $typeName) {
+							$fieldStyle = $bodyStyle . 'text-align:left;';
+							$fieldValue = '<strong>' . \App\Purifier::encodeHtml($fieldModel->getDisplayValue($itemValue, $inventoryRow, true)) . '</strong>';
+							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
+								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()]) && $comment = $commentField->getDisplayValue($value, $inventoryRow, true)) {
+									$fieldValue .= '<br />' . $comment;
 								}
-							} elseif (\in_array($typeName, ['GrossPrice', 'UnitPrice', 'TotalPrice']) && !empty($currencySymbol)) {
-								$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
-								$fieldStyle = $bodyStyle . 'text-align:right;white-space: nowrap;';
-							} else {
-								$fieldValue = \App\Purifier::encodeHtml($fieldModel->getDisplayValue($itemValue, $inventoryRow, true));
 							}
-							$html .= "<td class=\"col-type-{$typeName}\" style=\"{$fieldStyle}\">" . $fieldValue . '</td>';
+						} elseif (\in_array($typeName, ['GrossPrice', 'UnitPrice', 'TotalPrice']) && !empty($currencySymbol)) {
+							$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
+							$fieldStyle = $bodyStyle . 'text-align:right;white-space: nowrap;';
+						} else {
+							$fieldValue = \App\Purifier::encodeHtml($fieldModel->getDisplayValue($itemValue, $inventoryRow, true));
 						}
+						$html .= "<td class=\"col-type-{$typeName}\" style=\"{$fieldStyle}\">" . $fieldValue . '</td>';
 					}
-					$html .= '</tr>';
 				}
+				$html .= '</tr>';
 			}
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($groupModels as $fieldModel) {

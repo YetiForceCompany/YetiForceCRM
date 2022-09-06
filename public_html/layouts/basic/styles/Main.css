@@ -24976,6 +24976,10 @@ ul.c-process-line li.c-process-line__active > a:after {
 .inventoryItems .subProductsContainer ul {
   margin-bottom: 0;
 }
+.inventoryItems .inventoryRowGroup td, .inventoryItems .inventoryRowGroup td:hover {
+  background-color: #d1d1db !important;
+  color: #000 !important;
+}
 
 /* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .calendarViewContainer .widget_header {
@@ -26863,5 +26867,4 @@ td.fieldValue .input-group {
   .c-module-table-row {
     width: calc(100vw - 0.5rem);
   }
-}
-/*# sourceMappingURL=Main.css.map */
+}/*# sourceMappingURL=Main.css.map */

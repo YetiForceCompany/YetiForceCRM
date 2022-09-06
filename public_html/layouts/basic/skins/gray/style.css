@@ -5066,6 +5066,10 @@ h6,
 .inventoryItems .input-group input {
   border-radius: 0;
 }
+.inventoryItems .inventoryRowGroup td, .inventoryItems .inventoryRowGroup td:hover {
+  background-color: #e3e3e3 !important;
+  color: #000 !important;
+}
 
 /* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .container-fluid[class$=-customrecordnumbering-container] .table th {
@@ -5196,5 +5200,4 @@ h6,
 
 .recentComments .addCommentBlock {
   border-radius: 0;
-}
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */

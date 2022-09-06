@@ -119,4 +119,9 @@
 	.subProductsContainer ul {
 		margin-bottom: 0;
 	}
+
+	.inventoryRowGroup td, .inventoryRowGroup td:hover {
+		background-color: #d1d1db !important;
+		color: #000 !important;
+	}
 }

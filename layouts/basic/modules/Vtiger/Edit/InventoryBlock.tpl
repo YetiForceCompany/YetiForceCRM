@@ -2,21 +2,20 @@
 {strip}
 	<!-- tpl-Base-Edit-InventoryBlock -->
 	{assign var=FIELDS value=$INVENTORY_MODEL->getFieldsByBlock(1)}
+	{assign var=GROUP_FIELD value=$INVENTORY_MODEL->getField('grouplabel')}
+	{assign var=BLOCK_EXPANDED value=!$GROUP_FIELD || ($GROUP_FIELD && $GROUP_FIELD->isOpened())}
 	<div class="js-toggle-panel js-inv-container-group c-panel mb-2 mt-2" data-js="click">
 		<div class="js-block-header c-panel__header py-2">
 			<span class="iconToggle fas {if $BLOCK_EXPANDED}fa-chevron-down{else}fa-chevron-right{/if} fa-xs m-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down" style="min-width: 15px;"></span>
 			<div class="row w-100 ml-1">
 				{if $GROUP_FIELD}
-
-					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$GROUP_FIELD->getTemplateName('EditView',$MODULE_NAME)}
-					<div class="input-group-sm col-sm-4 ">
-						<div class="custom-control-inline mr-0 w-100">
-							<button type="button" class="btn btn-sm btn-danger fas fa-trash-alt mr-1 js-delete-block{if empty($SHOW_DELETE_BTN)} d-none{/if}"
-								title="{\App\Language::translate('LBL_DELETE', $MODULE_NAME)}"></button>
-							{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) FIELD=$GROUP_FIELD ITEM_DATA=$INVENTORY_ROW}
-						</div>
-
-					</div>
+					<th class="text-center u-w-1per-45px">
+						<button type="button" title="{\App\Language::translate('LBL_INV_ADD_BLOCK', $MODULE_NAME)}"
+							class="btn btn-sm btn-light js-inv-add-group border mb-1 mb-lg-0 text-nowrap"
+							data-js="click">
+							<span class="fas fa-layer-group"></span>
+						</button>
+					</th>
 				{/if}
 				<div class="{if $GROUP_FIELD}mt-2 mt-sm-0 col-sm-8{else}col-12{/if}">
 					{include file=\App\Layout::getTemplatePath('Edit/InventoryAddItem.tpl', $MODULE_NAME)}
@@ -53,7 +52,10 @@
 						</tr>
 					</thead>
 					<tbody class="js-inventory-items-body" data-js="container">
-						{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
+						{foreach key=KEY item=ITEM_DATA from=$INVENTORY_MODEL->transformData($INVENTORY_ROWS)}
+							{if !empty($ITEM_DATA['add_header'])}
+								{include file=\App\Layout::getTemplatePath('Edit/InventoryHeaderItem.tpl', $MODULE_NAME)}
+							{/if}
 							{assign var=ROW_NO value=$ROW_NO+1}
 							{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
 						{foreachelse}
@@ -95,6 +97,7 @@
 			<tbody class="js-inventory-base-item" data-module-lbls="{App\Purifier::encodeHtml(\App\Json::encode($INVENTORY_LBLS))}">
 				{assign var="ROW_NO" value='_NUM_'}
 				{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
+				{include file=\App\Layout::getTemplatePath('Edit/InventoryHeaderItem.tpl', $MODULE_NAME)}
 			</tbody>
 		</table>
 	{/if}

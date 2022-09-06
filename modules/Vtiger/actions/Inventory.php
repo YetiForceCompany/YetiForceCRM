@@ -204,7 +204,8 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($srcRecord, $srcModule);
-		$data = $recordModel->getInventoryData();
+		$inventoryModel = Vtiger_Inventory_Model::getInstance($srcModule);
+		$data = $inventoryModel->transformData($recordModel->getInventoryData());
 
 		foreach ($data as &$item) {
 			$item['info'] = static::getRecordDetail($item['name'], $item['currency'] ?? 0, $request->getModule(), 'name')[$item['name']];

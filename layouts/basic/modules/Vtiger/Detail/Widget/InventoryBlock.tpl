@@ -3,18 +3,27 @@
 	<!-- tpl-Base-Detail-Widget-InventoryBlock -->
 	<div class="listViewEntriesDiv table-responsive">
 		<input type="hidden" name="page" value="{$PAGING_MODEL->get('page')}" />
-		<table class="table listViewEntriesTable c-detail-widget__table">
+		<table class="table listViewEntriesTable c-detail-widget__table inventoryItems">
 			<thead>
 				<tr class="text-left listViewHeaders">
 					{foreach from=$HEADER_FIELD item=FIELD key=NAME}
 						<th class="p-1" nowrap>
-							{\App\Language::translate($FIELD->get('label'), $MODULE_NAME)}
+							{\App\Language::translate($FIELD->getLabel(), $MODULE_NAME)}
 						</th>
 					{/foreach}
 				</tr>
 			</thead>
 			<tbody>
 				{foreach from=$ENTRIES item=INVENTORY_ROW}
+					{if !empty($INVENTORY_ROW['add_header']) && $GROUP_FIELD  && !empty($INVENTORY_ROW[$GROUP_FIELD->getColumnName()])}
+						<tr class="inventoryRowGroup">
+							<td class="p-1" colspan="{count($HEADER_FIELD)}" nowrap>
+								<div class="u-font-weight-700">
+									{$GROUP_FIELD->getListViewDisplayValue($INVENTORY_ROW[$GROUP_FIELD->getColumnName()], $INVENTORY_ROW)}
+								</div>
+							</td>
+						</tr>
+					{/if}
 					<tr class="listViewEntries">
 						{foreach from=$HEADER_FIELD item=FIELD key=NAME}
 							<td nowrap>{$FIELD->getListViewDisplayValue($INVENTORY_ROW[$FIELD->getColumnName()], $INVENTORY_ROW)}</td>

@@ -41,4 +41,8 @@
 			border-radius: 0;
 		}
 	}
+	.inventoryRowGroup td, .inventoryRowGroup td:hover {
+		background-color: #e3e3e3 !important;
+		color: #000 !important;
+	}
 }

@@ -36,15 +36,19 @@ class Vtiger_GroupLabel_InventoryField extends Vtiger_Basic_InventoryField
 	protected $params = ['isOpened'];
 	/** {@inheritdoc} */
 	protected $customColumn = [
-		'groupid' => [\yii\db\Schema::TYPE_INTEGER, 10, 1, true]
+		'groupid' => [\yii\db\Schema::TYPE_INTEGER, 10, 0, true]
 	];
 	/** {@inheritdoc} */
 	protected $customMaximumLength = [
-		'groupid' => '1,4294967295'
+		'groupid' => '0,4294967295'
 	];
 	/** {@inheritdoc} */
 	protected $customPurifyType = [
 		'groupid' => \App\Purifier::INTEGER
+	];
+	/** {@inheritdoc} */
+	protected $customDefault = [
+		'groupid' => 0
 	];
 
 	/** {@inheritdoc} */
@@ -77,33 +81,13 @@ class Vtiger_GroupLabel_InventoryField extends Vtiger_Basic_InventoryField
 	}
 
 	/**
-	 * Group data.
-	 *
-	 * @param array $data
-	 *
-	 * @return array
-	 */
-	public function getDataByGroup(array $data): array
-	{
-		$groups = [];
-		foreach ($data as $item) {
-			$groups[$item['groupid']][] = $item;
-		}
-
-		return $groups;
-	}
-
-	/**
 	 * Check if the block should be expanded.
-	 *
-	 * @param int $blockSeq
 	 *
 	 * @return bool
 	 */
-	public function isOpened(int $blockSeq): bool
+	public function isOpened(): bool
 	{
-		$expandedType = (int) ($this->getParamsConfig()['isOpened'] ?? 1);
-		return 1 === $expandedType || 2 === $expandedType && 1 === $blockSeq;
+		return 1 === (int) ($this->getParamsConfig()['isOpened'] ?? 1);
 	}
 
 	/** {@inheritdoc} */

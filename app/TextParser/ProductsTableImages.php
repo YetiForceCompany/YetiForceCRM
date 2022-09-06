@@ -83,61 +83,54 @@ class ProductsTableImages extends Base
 		$displayRows = [];
 		$counter = 1;
 		$groupField = $inventory->getField('grouplabel');
-		if ($groupField && $groupField->isVisible()) {
-			$inventoryRowsByBlock = $groupField->getDataByGroup($inventoryRows);
-		} else {
-			$inventoryRowsByBlock = [$inventoryRows];
-		}
 		$count = \count($displayFields);
-		foreach ($inventoryRowsByBlock as $blockData) {
-			if ($groupField && $groupField->isVisible() && !empty($blockLabel = current($blockData)['grouplabel'])) {
-				$displayRows[] = "<td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, current($blockData), true)) . '</td>';
+		foreach ($inventory->transformData($inventoryRows) as $inventoryRow) {
+			if (!empty($inventoryRow['add_header']) && $groupField && $groupField->isVisible() && !empty($blockLabel = $inventoryRow['grouplabel'])) {
+				$displayRows[] = "<td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, $inventoryRow, true)) . '</td>';
 			}
-			foreach ($blockData as $inventoryRow) {
-				$rowHtml = '';
-				foreach ($displayFields as $field) {
-					$fieldModel = $field['model'];
-					$fieldStyle = $bodyStyle;
-					if ('image' === $fieldModel) {
-						$imageDataJson = \Vtiger_Record_Model::getInstanceById($inventoryRow['name'])->get('imagename');
-						$imageData = \App\Json::decode($imageDataJson);
-						$image = '';
-						if (!empty($imageData) && !empty($imageData[0]['path'])) {
-							$base64 = \App\Fields\File::getImageBaseData($imageData[0]['path']);
-							$image = '<img src="' . $base64 . '" style="width:80px;height:auto;">';
-						}
-						$columnHtml = "<td class=\"col-type-image\" style=\"border:1px solid #ddd;padding:0px 4px;text-align:center;\">$image</td>";
-					} else {
-						$columnName = $fieldModel->getColumnName();
-						$typeName = $fieldModel->getType();
-						if ('ItemNumber' === $typeName) {
-							$columnHtml = "<td class=\"col-type-{$typeName}\" style=\"{$bodyStyle}text-align:center;\"><strong>" . $counter++ . '</strong></td>';
-						} elseif ('ean' === $columnName) {
-							$code = $inventoryRow[$columnName];
-							$columnHtml = "<td class=\"col-type-barcode\" style=\"{$bodyStyle}\"><div data-barcode=\"EAN13\" data-code=\"$code\" data-size=\"1\" data-height=\"16\">{$code}</div></td>";
-						} else {
-							$itemValue = $inventoryRow[$columnName];
-							if ('Name' === $typeName) {
-								$fieldValue = '<strong>' . $fieldModel->getDisplayValue($itemValue) . '</strong>';
-								foreach ($inventory->getFieldsByType('Comment') as $commentField) {
-									if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()]) && $comment = $commentField->getDisplayValue($value, $inventoryRow)) {
-										$fieldValue .= '<br />' . $comment;
-									}
-								}
-							} elseif (\in_array($typeName, ['TotalPrice', 'GrossPrice', 'UnitPrice'])) {
-								$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
-								$fieldStyle = $bodyStyle . 'text-align:right;';
-							} else {
-								$fieldValue = $fieldModel->getDisplayValue($itemValue);
-							}
-							$itemHtml = "<td class=\"col-type-{$typeName}\" style=\"{$fieldStyle}\">{$fieldValue}</td>";
-							$columnHtml = $itemHtml;
-						}
+			$rowHtml = '';
+			foreach ($displayFields as $field) {
+				$fieldModel = $field['model'];
+				$fieldStyle = $bodyStyle;
+				if ('image' === $fieldModel) {
+					$imageDataJson = \Vtiger_Record_Model::getInstanceById($inventoryRow['name'])->get('imagename');
+					$imageData = \App\Json::decode($imageDataJson);
+					$image = '';
+					if (!empty($imageData) && !empty($imageData[0]['path'])) {
+						$base64 = \App\Fields\File::getImageBaseData($imageData[0]['path']);
+						$image = '<img src="' . $base64 . '" style="width:80px;height:auto;">';
 					}
-					$rowHtml .= $columnHtml;
+					$columnHtml = "<td class=\"col-type-image\" style=\"border:1px solid #ddd;padding:0px 4px;text-align:center;\">$image</td>";
+				} else {
+					$columnName = $fieldModel->getColumnName();
+					$typeName = $fieldModel->getType();
+					if ('ItemNumber' === $typeName) {
+						$columnHtml = "<td class=\"col-type-{$typeName}\" style=\"{$bodyStyle}text-align:center;\">" . $counter++ . '</td>';
+					} elseif ('ean' === $columnName) {
+						$code = $inventoryRow[$columnName];
+						$columnHtml = "<td class=\"col-type-barcode\" style=\"{$bodyStyle}\"><div data-barcode=\"EAN13\" data-code=\"$code\" data-size=\"1\" data-height=\"16\">{$code}</div></td>";
+					} else {
+						$itemValue = $inventoryRow[$columnName];
+						if ('Name' === $typeName) {
+							$fieldValue = '<strong>' . $fieldModel->getDisplayValue($itemValue) . '</strong>';
+							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
+								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()]) && $comment = $commentField->getDisplayValue($value, $inventoryRow)) {
+									$fieldValue .= '<br />' . $comment;
+								}
+							}
+						} elseif (\in_array($typeName, ['TotalPrice', 'GrossPrice', 'UnitPrice'])) {
+							$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
+							$fieldStyle = $bodyStyle . 'text-align:right;';
+						} else {
+							$fieldValue = $fieldModel->getDisplayValue($itemValue);
+						}
+						$itemHtml = "<td class=\"col-type-{$typeName}\" style=\"{$fieldStyle}\">{$fieldValue}</td>";
+						$columnHtml = $itemHtml;
+					}
 				}
-				$displayRows[] = $rowHtml;
+				$rowHtml .= $columnHtml;
 			}
+			$displayRows[] = $rowHtml;
 		}
 		$html .= '<table class="products-table-images" style="width:100%; border-collapse:collapse;"><thead><tr>';
 		foreach ($displayFields as $field) {

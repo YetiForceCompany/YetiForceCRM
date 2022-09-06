@@ -1745,7 +1745,7 @@ class TextParser
 					continue;
 				}
 				if ('seq' === $name) {
-					$html .= '<th class="col-type-ItemNumber" style="border:1px solid #ddd">' . Language::translate('LBL_ITEM_NUMBER', $this->moduleName) . '</th>';
+					$html .= '<th class="col-type-ItemNumber" style="border:1px solid #ddd;">' . Language::translate('LBL_ITEM_NUMBER', $this->moduleName) . '</th>';
 					$columns[$name] = false;
 					continue;
 				}
@@ -1767,59 +1767,55 @@ class TextParser
 			if (isset($columns['grouplabel'])) {
 				unset($columns['grouplabel']);
 				$groupField = $inventory->getField('grouplabel');
-				$inventoryRowsByBlock = $inventory->getField('grouplabel')->getDataByGroup($inventoryRows);
 			} else {
 				$groupField = null;
-				$inventoryRowsByBlock = [$inventoryRows];
 			}
 			$count = \count($columns);
 			$html .= '</tr></thead><tbody>';
 			$counter = 0;
-			foreach ($inventoryRowsByBlock as $blockData) {
-				if ($groupField && !empty($blockLabel = current($blockData)['grouplabel'])) {
-					$html .= "<tr><td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, current($blockData), true)) . '</td></tr>';
+			foreach ($inventory->transformData($inventoryRows) as $inventoryRow) {
+				if (!empty($inventoryRow['add_header']) && $groupField && !empty($blockLabel = $inventoryRow['grouplabel'])) {
+					$html .= "<tr><td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, $inventoryRow, true)) . '</td></tr>';
 				}
-				foreach ($blockData as $inventoryRow) {
-					++$counter;
-					$html .= '<tr class="row-' . $counter . '">';
-					$customFieldClassSeq = 0;
-					foreach ($columns as $name => $field) {
-						if ('seq' === $name) {
-							$html .= '<td class="col-type-ItemNumber" style="border:1px solid #ddd;font-weight:bold;">' . $counter . '</td>';
-						} elseif (!\is_object($field)) {
-							if ('(' === $field[0] && ')' === substr($field, -1)) {
-								$field = $this->parseVariable("\${$field}\$", $inventoryRow['name'] ?? 0);
-							}
-							++$customFieldClassSeq;
-							$html .= '<td class="col-type-customField' . $customFieldClassSeq . '" style="border:1px solid #ddd;font-weight:bold;">' . $field . '</td>';
-						} elseif ('ItemNumber' === $field->getType()) {
-							$html .= '<td class="col-type-ItemNumber" style="border:1px solid #ddd;font-weight:bold;">' . $counter . '</td>';
-						} elseif ('ean' === $name) {
-							$itemValue = $inventoryRow[$name];
-							$html .= '<td class="col-type-barcode" style="border:1px solid #ddd;padding:0px 4px;' . (\in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '"><div data-barcode="EAN13" data-code="' . $itemValue . '" data-size="1" data-height="16"></div></td>';
-						} else {
-							$itemValue = $inventoryRow[$name];
-							$html .= '<td class="col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (\in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
-							if ('Name' === $field->getType()) {
-								$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow, $rawText) . '</strong>';
-								foreach ($inventory->getFieldsByType('Comment') as $commentField) {
-									if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
-										$comment = $commentField->getDisplayValue($value, $inventoryRow, $rawText);
-										if ($comment) {
-											$html .= '<br>' . $comment;
-										}
+				++$counter;
+				$html .= '<tr class="row-' . $counter . '">';
+				$customFieldClassSeq = 0;
+				foreach ($columns as $name => $field) {
+					if ('seq' === $name) {
+						$html .= '<td class="col-type-ItemNumber" style="border:1px solid #ddd;text-align:center;">' . $counter . '</td>';
+					} elseif (!\is_object($field)) {
+						if ('(' === $field[0] && ')' === substr($field, -1)) {
+							$field = $this->parseVariable("\${$field}\$", $inventoryRow['name'] ?? 0);
+						}
+						++$customFieldClassSeq;
+						$html .= '<td class="col-type-customField' . $customFieldClassSeq . '" style="border:1px solid #ddd;font-weight:bold;">' . $field . '</td>';
+					} elseif ('ItemNumber' === $field->getType()) {
+						$html .= '<td class="col-type-ItemNumber" style="border:1px solid #ddd;font-weight:bold;">' . $counter . '</td>';
+					} elseif ('ean' === $name) {
+						$itemValue = $inventoryRow[$name];
+						$html .= '<td class="col-type-barcode" style="border:1px solid #ddd;padding:0px 4px;' . (\in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '"><div data-barcode="EAN13" data-code="' . $itemValue . '" data-size="1" data-height="16"></div></td>';
+					} else {
+						$itemValue = $inventoryRow[$name];
+						$html .= '<td class="col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (\in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
+						if ('Name' === $field->getType()) {
+							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow, $rawText) . '</strong>';
+							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
+								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()])) {
+									$comment = $commentField->getDisplayValue($value, $inventoryRow, $rawText);
+									if ($comment) {
+										$html .= '<br>' . $comment;
 									}
 								}
-							} elseif (\in_array($field->getType(), $fieldsWithCurrency, true)) {
-								$html .= \CurrencyField::appendCurrencySymbol($field->getDisplayValue($itemValue, $inventoryRow, $rawText), $currencySymbol);
-							} else {
-								$html .= $field->getDisplayValue($itemValue, $inventoryRow, $rawText);
 							}
-							$html .= '</td>';
+						} elseif (\in_array($field->getType(), $fieldsWithCurrency, true)) {
+							$html .= \CurrencyField::appendCurrencySymbol($field->getDisplayValue($itemValue, $inventoryRow, $rawText), $currencySymbol);
+						} else {
+							$html .= $field->getDisplayValue($itemValue, $inventoryRow, $rawText);
 						}
+						$html .= '</td>';
 					}
-					$html .= '</tr>';
 				}
+				$html .= '</tr>';
 			}
 
 			$html .= '</tbody><tfoot><tr>';

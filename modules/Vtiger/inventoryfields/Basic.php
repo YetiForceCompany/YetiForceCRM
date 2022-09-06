@@ -53,6 +53,9 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	protected $defaultLabel = '';
 	protected $purifyType = '';
 	protected $customPurifyType = [];
+	protected $customMaximumLength = [];
+	/** @var array Default values for custom fields */
+	protected $customDefault = [];
 	/** @var bool Field is synchronized */
 	protected $sync = false;
 	/** @var array List of changes */
@@ -336,9 +339,22 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		return $this->summationValue;
 	}
 
-	public function getDefaultValue()
+	/**
+	 * Gets default value by field.
+	 *
+	 * @param string $columnName
+	 *
+	 * @return mixed
+	 */
+	public function getDefaultValue(string $columnName = '')
 	{
-		return $this->has('defaultvalue') ? $this->get('defaultvalue') : $this->defaultValue;
+		if (!$columnName || $columnName === $this->getColumnName()) {
+			$value = $this->has('defaultvalue') ? $this->get('defaultvalue') : $this->defaultValue;
+		} else {
+			$value = $this->customDefault[$columnName] ?? '';
+		}
+
+		return $value;
 	}
 
 	/**

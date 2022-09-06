@@ -872,4 +872,24 @@ class Vtiger_Inventory_Model
 		}
 		return $data;
 	}
+
+	/**
+	 * Transform data.
+	 *
+	 * @param array $data
+	 *
+	 * @return array
+	 */
+	public function transformData(array $data): array
+	{
+		$set = [];
+		foreach ($data as &$row) {
+			$groupId = $row['groupid'] ?? null;
+			if ($groupId && !isset($set[$groupId])) {
+				$set[$groupId] = $groupId;
+				$row['add_header'] = true;
+			}
+		}
+		return $data;
+	}
 }

@@ -71,48 +71,41 @@ class ProductsTableCorrectingBefore extends Base
 		$html .= '</tr></thead><tbody>';
 		$counter = 1;
 		$groupField = $inventory->getField('grouplabel');
-		if ($groupField && $groupField->isVisible()) {
-			$inventoryRowsByBlock = $groupField->getDataByGroup($inventoryRows);
-		} else {
-			$inventoryRowsByBlock = [$inventoryRows];
-		}
 		$count = \count($groupModels);
-		foreach ($inventoryRowsByBlock as $blockData) {
-			if ($groupField && $groupField->isVisible() && !empty($blockLabel = current($blockData)['grouplabel'])) {
-				$html .= "<tr><td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, current($blockData), true)) . '</td></tr>';
+		foreach ($inventory->transformData($inventoryRows) as $inventoryRow) {
+			if (!empty($inventoryRow['add_header']) && $groupField && $groupField->isVisible() && !empty($blockLabel = $inventoryRow['grouplabel'])) {
+				$html .= "<tr><td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, $inventoryRow, true)) . '</td></tr>';
 			}
-			foreach ($blockData as $inventoryRow) {
-				$html .= '<tr>';
-				foreach ($groupModels as $fieldModel) {
-					$columnName = $fieldModel->getColumnName();
-					$typeName = $fieldModel->getType();
-					$styleField = $bodyStyle;
-					if ('ItemNumber' === $typeName) {
-						$html .= "<td style=\"{$bodyStyle}font-weight:bold;\">" . $counter++ . '</td>';
-					} elseif ('ean' === $columnName) {
-						$code = $inventoryRow[$columnName];
-						$html .= "<td style=\"{$bodyStyle}\"><div data-barcode=\"EAN13\" data-code=\"{$code}\" data-size=\"1\" data-height=\"16\">{$code}</div></td>";
-					} else {
-						$itemValue = $inventoryRow[$columnName];
-						if ('Name' === $typeName) {
-							$fieldValue = '<strong>' . $fieldModel->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
-							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
-								$commentFieldName = $commentField->getColumnName();
-								if ($inventory->isField($commentFieldName) && $commentField->isVisible() && ($value = $inventoryRow[$commentFieldName]) && $comment = $commentField->getDisplayValue($value, $inventoryRow)) {
-									$fieldValue .= '<br />' . $comment;
-								}
+			$html .= '<tr>';
+			foreach ($groupModels as $fieldModel) {
+				$columnName = $fieldModel->getColumnName();
+				$typeName = $fieldModel->getType();
+				$styleField = $bodyStyle;
+				if ('ItemNumber' === $typeName) {
+					$html .= "<td style=\"{$bodyStyle}\">" . $counter++ . '</td>';
+				} elseif ('ean' === $columnName) {
+					$code = $inventoryRow[$columnName];
+					$html .= "<td style=\"{$bodyStyle}\"><div data-barcode=\"EAN13\" data-code=\"{$code}\" data-size=\"1\" data-height=\"16\">{$code}</div></td>";
+				} else {
+					$itemValue = $inventoryRow[$columnName];
+					if ('Name' === $typeName) {
+						$fieldValue = '<strong>' . $fieldModel->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
+						foreach ($inventory->getFieldsByType('Comment') as $commentField) {
+							$commentFieldName = $commentField->getColumnName();
+							if ($inventory->isField($commentFieldName) && $commentField->isVisible() && ($value = $inventoryRow[$commentFieldName]) && $comment = $commentField->getDisplayValue($value, $inventoryRow)) {
+								$fieldValue .= '<br />' . $comment;
 							}
-						} elseif (\in_array($typeName, ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'])) {
-							$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
-							$styleField = $bodyStyle . ' text-align:right;';
-						} else {
-							$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
 						}
-						$html .= "<td class=\"col-type-{$typeName}\" style=\"{$styleField}\">{$fieldValue}</td>";
+					} elseif (\in_array($typeName, ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'])) {
+						$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
+						$styleField = $bodyStyle . ' text-align:right;';
+					} else {
+						$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
 					}
+					$html .= "<td class=\"col-type-{$typeName}\" style=\"{$styleField}\">{$fieldValue}</td>";
 				}
-				$html .= '</tr>';
 			}
+			$html .= '</tr>';
 		}
 		$html .= '</tbody><tfoot><tr>';
 		foreach ($groupModels as $fieldModel) {

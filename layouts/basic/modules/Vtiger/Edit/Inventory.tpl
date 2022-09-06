@@ -31,16 +31,18 @@
 			<input type="hidden" id="isRequiredInventory" value="{$BASIC_FIELD->isRequired()}" />
 			{include file=\App\Layout::getTemplatePath('Edit/InventoryHeader.tpl', $MODULE_NAME)}
 			{assign var=ROW_NO value=0}
-			{assign var=GROUP_FIELD value=$INVENTORY_MODEL->getField('grouplabel')}
-			{if $INVENTORY_ROWS && $GROUP_FIELD}
-				{foreach from=$GROUP_FIELD->getDataByGroup($INVENTORY_ROWS) item=BLOCK_DATA name=inv_blocks}
-					{assign var=ITEMS_DATA value=current($BLOCK_DATA)}
+			{assign var=HEADER_ROW_NO value=0}
+			{include file=\App\Layout::getTemplatePath('Edit/InventoryBlock.tpl', $MODULE_NAME) BLOCK_EXPANDED=true ADD_EMPTY_ROW=true}
+			{* {assign var=GROUP_FIELD value=$INVENTORY_MODEL->getField('grouplabel')} *}
+			{* {if $INVENTORY_ROWS && $GROUP_FIELD} *}
+				{* {foreach from=$GROUP_FIELD->getDataByGroup($INVENTORY_ROWS) item=BLOCK_DATA name=inv_blocks} *}
+					{* {assign var=ITEMS_DATA value=current($BLOCK_DATA)}
 					{include file=\App\Layout::getTemplatePath('Edit/InventoryBlock.tpl', $MODULE_NAME) INVENTORY_ROW=$ITEMS_DATA INVENTORY_ROWS=$BLOCK_DATA BLOCK_EXPANDED=$GROUP_FIELD->isOpened($smarty.foreach.inv_blocks.iteration) ADD_EMPTY_ROW=$smarty.foreach.inv_blocks.last SHOW_DELETE_BTN=$smarty.foreach.inv_blocks.total>1}
-					{assign var=ROW_NO value=count($BLOCK_DATA)}
-				{/foreach}
-			{else}
-				{include file=\App\Layout::getTemplatePath('Edit/InventoryBlock.tpl', $MODULE_NAME) BLOCK_EXPANDED=true ADD_EMPTY_ROW=true}
-			{/if}
+					{assign var=ROW_NO value=count($BLOCK_DATA)} *}
+				{* {/foreach} *}
+			{* {else} *}
+				{* {include file=\App\Layout::getTemplatePath('Edit/InventoryBlock.tpl', $MODULE_NAME) BLOCK_EXPANDED=true ADD_EMPTY_ROW=true} *}
+			{* {/if} *}
 			{include file=\App\Layout::getTemplatePath('Edit/InventorySummary.tpl', $MODULE_NAME) ITEM_DATA=$INVENTORY_ROW}
 		{/if}
 	</div>

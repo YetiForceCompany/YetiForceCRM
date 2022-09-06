@@ -10,8 +10,7 @@
 		<td class="u-white-space-nowrap u-w-1per-45px">
 			{if $INVENTORY_MODEL->isField('seq')}
 				<a class="dragHandle mx-1 mr-2">
-					<img src="{\App\Layout::getImagePath('drag.png')}" border="0"
-						alt="{\App\Language::translate('LBL_DRAG', $MODULE_NAME)}" />
+					<img src="{\App\Layout::getImagePath('drag.png')}" alt="{\App\Language::translate('LBL_DRAG', $MODULE_NAME)}" />
 				</a>
 				<input name="inventory[{$ROW_NO}][seq]" type="hidden" value="{$ROW_NO}" class="sequence" />
 			{/if}
@@ -27,9 +26,9 @@
 				<input name="inventory[{$ROW_NO}][id]" type="hidden" value="{$ITEM_DATA['id']}" />
 			{/if}
 			{foreach item=FIELD from=$INVENTORY_MODEL->getFieldsToSync()}
-				<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="" type="hidden" class="js-sync" data-sync-id="{$FIELD->getColumnName()}" data-js="container|data" />
+				<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="" type="hidden" class="js-sync" data-sync-id="{$FIELD->getColumnName()}" data-js="container|data" data-default="{$FIELD->getDefaultValue()|escape}" />
 				{foreach key=CUSTOM_FIELD_NAME item=item from=$FIELD->getCustomColumn()}
-					<input name="inventory[{$ROW_NO}][{$CUSTOM_FIELD_NAME}]" value="" type="hidden" class="js-sync" data-sync-id="{$CUSTOM_FIELD_NAME}" data-js="container|data" />
+					<input name="inventory[{$ROW_NO}][{$CUSTOM_FIELD_NAME}]" value="" type="hidden" class="js-sync" data-sync-id="{$CUSTOM_FIELD_NAME}" data-js="container|data" data-default="{$FIELD->getDefaultValue($CUSTOM_FIELD_NAME)|escape}" />
 				{/foreach}
 			{/foreach}
 		</td>

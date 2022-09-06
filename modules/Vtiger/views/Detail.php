@@ -1036,10 +1036,17 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 				$header[$fieldName] = $fieldModel;
 			}
 		}
+		if ($groupField = $header['grouplabel'] ?? null) {
+			unset($header['grouplabel']);
+			$entries = $inventoryModel->transformData($entries);
+		}
+
 		$viewer->assign('LIMIT', $limit);
 		$viewer->assign('ENTRIES', $entries);
 		$viewer->assign('HEADER_FIELD', $header);
+		$viewer->assign('GROUP_FIELD', $groupField);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
+
 		return $viewer->view('Detail/Widget/InventoryBlock.tpl', $moduleName, true);
 	}
 
