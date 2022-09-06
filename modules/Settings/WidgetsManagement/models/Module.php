@@ -552,6 +552,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			}
 		} else {
 			$db->createCommand()->update('vtiger_module_dashboard', ['blockid' => $newBlockId], ['id' => $data['widgetLinkId']])->execute();
+			$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['templateid' => $data['widgetLinkId']])->execute();
 		}
 		return true;
 	}

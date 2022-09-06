@@ -10,7 +10,7 @@
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="row">
-								<div class="col-sm-4 col-form-label ">
+								<div class="col-sm-4 col-form-label">
 									<span>{\App\Language::translate('LBL_SELECT_ACTION', $QUALIFIED_MODULE)}</span>
 									<span class="redColor">*</span>
 								</div>
@@ -28,15 +28,15 @@
 						</div>
 						<div class="col-sm-6">
 							<div class="row">
-								<div class="col-sm-4 col-form-label text-right">
+								<div class="col-sm-4 col-form-label">
 									<span>{\App\Language::translate('LBL_CHOISE_AUTHORIZED', $QUALIFIED_MODULE)}</span>
 									<span class="redColor">*</span>
 								</div>
 								<div class="col-sm-8 controls">
-									<select class="authorized form-control mb-0 js-authorized select2" name="authorized">
+									<select class="form-control mb-0 select2" name="authorized">
 										<optgroup label="{\App\Language::translate('LBL_ROLES', $QUALIFIED_MODULE)}">
 											{foreach from=$ALL_AUTHORIZATION item=AUTHORIZED key=AUTHORIZED_CODE}
-												{if $AUTHORIZED != $AUTHORIZED_CODE}
+												{if $AUTHORIZED_ID neq $AUTHORIZED_CODE}
 													<option value="{$AUTHORIZED_CODE}"
 														data-label="{$AUTHORIZED->get('rolename')}">{\App\Language::translate($AUTHORIZED->get('rolename'),$QUALIFIED_MODULE)}</option>
 												{/if}
@@ -45,7 +45,7 @@
 										{if count($ALL_SERVERS)}
 											<optgroup label="{\App\Language::translate('WebserviceApps', 'Settings:WebserviceApps')}">
 												{foreach from=$ALL_SERVERS item=SERVER key=ID}
-													{if $AUTHORIZED !== $ID}
+													{if $AUTHORIZED_ID neq $ID}
 														<option value="{$ID}">{\App\Purifier::encodeHTML($SERVER['name'])}</option>
 													{/if}
 												{/foreach}

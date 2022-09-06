@@ -112,7 +112,6 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_A
 			$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
 			$result = $widgetsManagementModel->manageWidgets($data);
 		}
-
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

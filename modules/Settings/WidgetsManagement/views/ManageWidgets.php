@@ -32,7 +32,7 @@ class Settings_WidgetsManagement_ManageWidgets_View extends App\Controller\Modal
 		$viewer->assign('WIDGETS', $widgetsManagementModel->getDashboardForModule($sourceModule));
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('DASHBOARD_BLOCK_ID', $request->getByType('blockId', App\Purifier::INTEGER));
-		$viewer->assign('AUTHORIZED', $request->getByType('authorized', App\Purifier::ALNUM));
+		$viewer->assign('AUTHORIZED_ID', $request->getByType('authorized', App\Purifier::ALNUM));
 		$viewer->assign('QUALIFIED_MODULE', $moduleName);
 		$viewer->view('ManageWidgets.tpl', $moduleName);
 	}

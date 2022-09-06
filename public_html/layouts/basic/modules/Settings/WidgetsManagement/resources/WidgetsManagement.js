@@ -626,7 +626,7 @@ jQuery.Class(
 									progressIndicatorElement.progressIndicator({ mode: 'hide' });
 									app.hideModalWindow();
 									let contentsDiv = $('.contentsDiv');
-									this.getModuleLayoutEditor('Home', 1).done((data) => {
+									this.getModuleLayoutEditor('Home', formData['dashboardId']).done((data) => {
 										this.updateContentsDiv(contentsDiv, data);
 									});
 								});
