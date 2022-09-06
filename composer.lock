@@ -65,16 +65,16 @@
         },
         {
             "name": "chrome-php/chrome",
-            "version": "v1.7.0",
+            "version": "v1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/chrome-php/chrome.git",
-                "reference": "1a317b0b12a58072999e56d64033182557771904"
+                "reference": "5783c749b2ee385d1c481b0906f1b8acef0296e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chrome-php/chrome/zipball/1a317b0b12a58072999e56d64033182557771904",
-                "reference": "1a317b0b12a58072999e56d64033182557771904",
+                "url": "https://api.github.com/repos/chrome-php/chrome/zipball/5783c749b2ee385d1c481b0906f1b8acef0296e4",
+                "reference": "5783c749b2ee385d1c481b0906f1b8acef0296e4",
                 "shasum": ""
             },
             "require": {
@@ -133,9 +133,9 @@
             ],
             "support": {
                 "issues": "https://github.com/chrome-php/chrome/issues",
-                "source": "https://github.com/chrome-php/chrome/tree/v1.7.0"
+                "source": "https://github.com/chrome-php/chrome/tree/v1.7.1"
             },
-            "time": "2022-08-28T12:07:58+00:00"
+            "time": "2022-09-04T21:11:00+00:00"
         },
         {
             "name": "chrome-php/wrench",
