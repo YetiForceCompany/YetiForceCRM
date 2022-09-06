@@ -28,11 +28,15 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 		return \App\Fields\Double::formatToDisplay($value, !$rawText);
 	}
 
-	public function getSummaryValuesFromData($data)
+	/** {@inheritdoc} */
+	public function getSummaryValuesFromData($data, ?int $groupId = null)
 	{
 		$sum = $purchase = $totalOrNet = 0;
 		if (\is_array($data)) {
 			foreach ($data as $row) {
+				if (null !== $groupId && $groupId !== $row['groupid'] ?? -1) {
+					continue;
+				}
 				$purchase += $row['qty'] * ($row['purchase'] ?? 0);
 				if (isset($row['net'])) {
 					$totalOrNet += $row['net'];

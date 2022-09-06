@@ -2674,6 +2674,7 @@ jQuery.Class(
 					tabElement.trigger('click');
 				});
 			app.registerIframeEvents(detailContentsHolder);
+			app.registerBlockToggleEvent(detailContentsHolder);
 		},
 		reloadWidgetActivitesStats: function (container) {
 			let countElement = container.find('.countActivities');

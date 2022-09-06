@@ -472,15 +472,19 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	/**
 	 * Sum the field value for each row.
 	 *
-	 * @param array $data
+	 * @param array    $data
+	 * @param int|null $groupId
 	 *
 	 * @return int|float
 	 */
-	public function getSummaryValuesFromData($data)
+	public function getSummaryValuesFromData($data, ?int $groupId = null)
 	{
 		$sum = 0;
 		if (\is_array($data)) {
 			foreach ($data as $row) {
+				if (null !== $groupId && $groupId !== $row['groupid'] ?? -1) {
+					continue;
+				}
 				$sum += $row[$this->getColumnName()];
 			}
 		}

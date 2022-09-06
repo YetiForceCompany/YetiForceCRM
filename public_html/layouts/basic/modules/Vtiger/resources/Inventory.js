@@ -2008,10 +2008,9 @@ $.Class(
 		 */
 		clearInventory: function () {
 			this.getInventoryItemsContainer()
-				.find('.inventoryRow')
+				.find('.deleteRow,.js-delete-header-item')
 				.each((_, e) => {
-					let num = $(e).attr('numrow');
-					this.deleteLineItem(num);
+					$(e).trigger('click');
 				});
 		},
 		/**

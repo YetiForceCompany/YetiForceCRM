@@ -203,34 +203,11 @@
 							<td colspan="{$COUNT + $ADDITIONAL_TD}" class="backgroundWhiteSmoke">
 								{if $IS_INVENTORY}
 									<div class="js-hidden-row__block d-none" data-element="inventory">
-										{assign var="INVENTORY_DATA" value=$RELATED_RECORD->getInventoryData()}
+										{assign var="INVENTORY_ROWS" value=$RELATED_RECORD->getInventoryData()}
 										{assign var="INVENTORY_MODEL" value=Vtiger_Inventory_Model::getInstance($RELATED_RECORD->getModuleName())}
-										<table class="table table-sm no-margin">
-											<thead>
-												<tr>
-													{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
-														<th class="medium" nowrap>
-															{\App\Language::translate($FIELD->get('label'),$RELATED_MODULE_NAME)}
-														</th>
-													{/foreach}
-												</tr>
-											</thead>
-											<tbody>
-												{foreach from=$INVENTORY_DATA item=INVENTORY_ROW}
-													<tr>
-														{if !empty($INVENTORY_ROW['name'])}
-															{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
-														{/if}
-														{foreach from=$INVENTORY_FIELDS item=FIELD key=NAME}
-															{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('DetailView',$RELATED_MODULE_NAME)}
-															<td>
-																{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $RELATED_MODULE_NAME) ITEM_VALUE=$INVENTORY_ROW[$FIELD->getColumnName()]}
-															</td>
-														{/foreach}
-													</tr>
-												{/foreach}
-											</tbody>
-										</table>
+										{include file=\App\Layout::getTemplatePath('Detail/Widget/InventoryBlock.tpl', $RELATED_MODULE_NAME) MODULE_NAME=$RELATED_MODULE_NAME HEADER_FIELD=$INVENTORY_FIELDS ENTRIES=$INVENTORY_ROWS PAGING_MODEL=null}
+										{assign var=GROUP_FIELD value=$INVENTORY_MODEL->getField('grouplabel')}
+										{include file=\App\Layout::getTemplatePath('Detail/InventoryGroupSummary.tpl', $RELATED_MODULE_NAME) MODULE_NAME=$RELATED_MODULE_NAME}
 									</div>
 								{/if}
 								{if $IS_WIDGETS}
