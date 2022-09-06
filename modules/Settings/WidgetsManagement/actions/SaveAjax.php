@@ -89,9 +89,16 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_A
 		$response->emit();
 	}
 
+	/**
+	 * Manage widgets between roles.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
 	public function manageWidgets(App\Request $request): void
 	{
-		$formData = $request->getMultiDimensionArray('form', [
+		$data = $request->getMultiDimensionArray('form', [
 			'dashboardBlockId' => App\Purifier::INTEGER,
 			'sourceModule' => App\Purifier::ALNUM,
 			'authorized' => App\Purifier::ALNUM,
@@ -99,28 +106,15 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_A
 			'actionOption' => App\Purifier::STANDARD,
 			'dashboardId' => App\Purifier::INTEGER
 		]);
-		//duplikaty?
-		$block = Settings_WidgetsManagement_Module_Model::getBlocksFromModule($formData['sourceModule'], $formData['authorized'], $formData['dashboardId']);
-		$newBlockId = reset($block);
-		if (!$newBlockId) {
-			$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
-			$newBlockId = $widgetsManagementModel->addBlock(['authorized' => $formData['authorized'], 'dashboardId' => $formData['dashboardId']], $formData['sourceModule'], null)['id'];
-		}
-		$db = App\Db::getInstance();
-		if ('copy' === $formData['actionOption']) {
-			foreach ($formData['widgetLinkId'] as $id) {
-				$moduleDashboardRow = (new App\Db\Query())->from('vtiger_module_dashboard')->where(['id' => $id])->one();
-				if ($moduleDashboardRow) {
-					$moduleDashboardRow['blockid'] = $newBlockId;
-					unset($moduleDashboardRow['id']);
-					$db->createCommand()->insert('vtiger_module_dashboard', $moduleDashboardRow)->execute();
-				}
-			}
+		if (!\is_array($data) || !$data) {
+			$result = ['success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA')];
 		} else {
-			$db->createCommand()->update('vtiger_module_dashboard', ['blockid' => $newBlockId], ['id' => $formData['widgetLinkId']])->execute();
+			$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
+			$result = $widgetsManagementModel->manageWidgets($data);
 		}
+
 		$response = new Vtiger_Response();
-		$response->setResult(true);
+		$response->setResult($result);
 		$response->emit();
 	}
 }

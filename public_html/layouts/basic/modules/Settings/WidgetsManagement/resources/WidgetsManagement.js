@@ -599,30 +599,38 @@ jQuery.Class(
 					cb: (modalContainer) => {
 						App.Fields.Picklist.showSelect2ElementView(modalContainer.find('.select2'));
 						modalContainer.on('click', '.js-modal__save', (_) => {
-							let progressIndicatorElement = jQuery.progressIndicator({
-								position: 'html',
-								blockInfo: {
-									enabled: true
-								}
-							});
 							const allChecked = modalContainer.find('input[name="widgetLinkId"]:checked');
 							let formData = modalContainer.find('form').serializeFormData();
-							formData['widgetLinkId'] = Array.from(allChecked).map((checkbox) => checkbox.value);
-							formData['dashboardId'] = this.getCurrentDashboardId();
-							AppConnector.request({
-								parent: 'Settings',
-								module: app.getModuleName(),
-								action: 'SaveAjax',
-								mode: 'manageWidgets',
-								form: formData
-							}).done(() => {
-								progressIndicatorElement.progressIndicator({ mode: 'hide' });
-								app.hideModalWindow();
-								let contentsDiv = $('.contentsDiv');
-								this.getModuleLayoutEditor('Home', 1).done((data) => {
-									this.updateContentsDiv(contentsDiv, data);
+							let selectedWidgets = Array.from(allChecked).map((checkbox) => checkbox.value);
+							if (selectedWidgets.length === 0) {
+								app.showNotify({
+									text: app.vtranslate('JS_SELECT_AT_LEAST_ONE_WIDGET'),
+									type: 'info'
 								});
-							});
+							} else {
+								formData['widgetLinkId'] = selectedWidgets;
+								let progressIndicatorElement = jQuery.progressIndicator({
+									position: 'html',
+									blockInfo: {
+										enabled: true
+									}
+								});
+								formData['dashboardId'] = this.getCurrentDashboardId();
+								AppConnector.request({
+									parent: 'Settings',
+									module: app.getModuleName(),
+									action: 'SaveAjax',
+									mode: 'manageWidgets',
+									form: formData
+								}).done(() => {
+									progressIndicatorElement.progressIndicator({ mode: 'hide' });
+									app.hideModalWindow();
+									let contentsDiv = $('.contentsDiv');
+									this.getModuleLayoutEditor('Home', 1).done((data) => {
+										this.updateContentsDiv(contentsDiv, data);
+									});
+								});
+							}
 						});
 					}
 				});
