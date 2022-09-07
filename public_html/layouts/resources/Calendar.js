@@ -186,9 +186,9 @@ window.Calendar_Js = class {
 			},
 			dayHeaderContent: (arg) => {
 				if (this.container.width() < 600) {
-					return App.Fields.Date.daysTranslated[arg.date.getDay()];
+					return App.Fields.Date.daysTranslated[arg.date.getUTCDay()];
 				}
-				return App.Fields.Date.fullDaysTranslated[arg.date.getDay()];
+				return App.Fields.Date.fullDaysTranslated[arg.date.getUTCDay()];
 			}
 		};
 	}
