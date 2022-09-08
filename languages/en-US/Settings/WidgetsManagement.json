@@ -48,8 +48,10 @@
     "LBL_WIDGET_NAME": "Widget name",
     "BTN_NEXT": "Next",
     "LBL_DEFAULT_TIME": "Default call end time (min)",
-    "LBL_MANAGE_WIDGETS": "Manage widgets",
-    "LBL_MOVE": "Move"
+    "LBL_MOVE": "Move",
+    "LBL_TRANSFER": "Transfer",
+    "LBL_SAVED_SUCCESSFULLY": "Saved successfully",
+    "LBL_NOT_SAVED ": "Your changes could not be saved"
   },
   "js": {
     "JS_BLOCK_ADDED": "Block has been added successfully",

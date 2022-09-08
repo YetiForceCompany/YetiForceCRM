@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Manage widgets view.
+ * Transfer widgets view.
  *
  * @package Settings.View
  *
@@ -10,12 +10,12 @@
  * @author Adrian Kon <a.kon@yetiforce.com>
  */
 /**
- * Settings_WidgetsManagement_ManageWidgets_View class.
+ * Settings_WidgetsManagement_Transfer_View class.
  */
-class Settings_WidgetsManagement_ManageWidgets_View extends App\Controller\ModalSettings
+class Settings_WidgetsManagement_Transfer_View extends App\Controller\ModalSettings
 {
 	/** {@inheritdoc} */
-	protected $pageTitle = 'LBL_MANAGE_WIDGETS';
+	protected $pageTitle = 'LBL_TRANSFER';
 
 	/** {@inheritdoc} */
 	public $modalIcon = 'fas fa-clone';
@@ -34,6 +34,6 @@ class Settings_WidgetsManagement_ManageWidgets_View extends App\Controller\Modal
 		$viewer->assign('DASHBOARD_BLOCK_ID', $request->getByType('blockId', App\Purifier::INTEGER));
 		$viewer->assign('AUTHORIZED_ID', $request->getByType('authorized', App\Purifier::ALNUM));
 		$viewer->assign('QUALIFIED_MODULE', $moduleName);
-		$viewer->view('ManageWidgets.tpl', $moduleName);
+		$viewer->view('Transfer.tpl', $moduleName);
 	}
 }

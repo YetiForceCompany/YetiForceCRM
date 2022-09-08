@@ -532,28 +532,56 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	 *
 	 * @return void
 	 */
-	public function manageWidgets(array $data): bool
+	public function transfer(array $data): bool
 	{
+		$result = true;
 		$block = self::getBlocksFromModule($data['sourceModule'], $data['authorized'], $data['dashboardId']);
 		$newBlockId = reset($block);
 		if (!$newBlockId) {
-			$widgetsManagementModel = new self();
-			$newBlockId = $widgetsManagementModel->addBlock(['authorized' => $data['authorized'], 'dashboardId' => $data['dashboardId']], $data['sourceModule'], null)['id'];
+			$newBlockId = $this->addBlock(['authorized' => $data['authorized'], 'dashboardId' => $data['dashboardId']], $data['sourceModule'], null)['id'];
 		}
 		$db = App\Db::getInstance();
-		if ('copy' === $data['actionOption']) {
-			foreach ($data['widgetLinkId'] as $id) {
+		$transaction = $db->beginTransaction();
+		try {
+			$widgetLinkId = $data['widgetLinkId'];
+			foreach ($widgetLinkId as $id) {
 				$moduleDashboardRow = (new App\Db\Query())->from('vtiger_module_dashboard')->where(['id' => $id])->one();
-				if ($moduleDashboardRow) {
-					$moduleDashboardRow['blockid'] = $newBlockId;
-					unset($moduleDashboardRow['id']);
-					$db->createCommand()->insert('vtiger_module_dashboard', $moduleDashboardRow)->execute();
+				if ($moduleDashboardRow && !$this->exists($moduleDashboardRow, $newBlockId)) {
+					if ('copy' === $data['actionOption']) {
+						$moduleDashboardRow['blockid'] = $newBlockId;
+						unset($moduleDashboardRow['id']);
+						$db->createCommand()->insert('vtiger_module_dashboard', $moduleDashboardRow)->execute();
+					} else {
+						$db->createCommand()->update('vtiger_module_dashboard', ['blockid' => $newBlockId], ['id' => $id])->execute();
+						$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['templateid' => $id])->execute();
+					}
+				} else {
+					$result = false;
 				}
 			}
-		} else {
-			$db->createCommand()->update('vtiger_module_dashboard', ['blockid' => $newBlockId], ['id' => $data['widgetLinkId']])->execute();
-			$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['templateid' => $data['widgetLinkId']])->execute();
+			$transaction->commit();
+		} catch (Throwable $e) {
+			$result = false;
+			$transaction->rollBack();
 		}
-		return true;
+		return $result;
+	}
+
+	/**
+	 * Check if widget exists.
+	 *
+	 * @param array $data
+	 * @param int   $dashboardId
+	 *
+	 * @return bool
+	 */
+	public function exists(array $data, int $dashboardId): bool
+	{
+		return (new App\Db\Query())->from('vtiger_module_dashboard')->where([
+			'linkid' => $data['linkid'],
+			'filterid' => $data['filterid'],
+			'data' => $data['data'],
+			'blockid' => $dashboardId,
+		])->exists();
 	}
 }

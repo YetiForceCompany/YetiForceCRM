@@ -6,6 +6,19 @@ jQuery.Class(
 	{},
 	{
 		/**
+		 * Container element
+		 */
+		container: false,
+		/**
+		 *
+		 * @param {jQuery} container
+		 * @returns {jQuery}
+		 */
+		setContainer: function (container) {
+			this.container = container;
+			return this.container;
+		},
+		/**
 		 * Function to create the array of block roles list
 		 */
 		getAuthorization: function () {
@@ -597,7 +610,6 @@ jQuery.Class(
 				app.showModalWindow({
 					url: url,
 					cb: (modalContainer) => {
-						App.Fields.Picklist.showSelect2ElementView(modalContainer.find('.select2'));
 						modalContainer.on('click', '.js-modal__save', (_) => {
 							const allChecked = modalContainer.find('input[name="widgetLinkId"]:checked');
 							let formData = modalContainer.find('form').serializeFormData();
@@ -620,14 +632,20 @@ jQuery.Class(
 									parent: 'Settings',
 									module: app.getModuleName(),
 									action: 'SaveAjax',
-									mode: 'manageWidgets',
+									mode: 'transfer',
 									form: formData
-								}).done(() => {
+								}).done((data) => {
+									app.showNotify({
+										text: data.result,
+										type: 'info'
+									});
 									progressIndicatorElement.progressIndicator({ mode: 'hide' });
 									app.hideModalWindow();
-									let contentsDiv = $('.contentsDiv');
-									this.getModuleLayoutEditor('Home', formData['dashboardId']).done((data) => {
-										this.updateContentsDiv(contentsDiv, data);
+									this.getModuleLayoutEditor(
+										this.container.find('[name="widgetsManagementEditorModules"]').val(),
+										formData['dashboardId']
+									).done((data) => {
+										this.updateContentsDiv(this.container, data);
 									});
 								});
 							}
@@ -640,6 +658,7 @@ jQuery.Class(
 		 * register events for layout editor
 		 */
 		registerEvents: function () {
+			this.setContainer($('.contentsDiv'));
 			this.registerAddBlockDashBoard();
 			this.registerWidgetEvent();
 			this.registerSpecialWidget();

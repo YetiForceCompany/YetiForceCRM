@@ -15,7 +15,7 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_A
 		$this->exposeMethod('delete');
 		$this->exposeMethod('addBlock');
 		$this->exposeMethod('removeBlock');
-		$this->exposeMethod('manageWidgets');
+		$this->exposeMethod('transfer');
 	}
 
 	/**
@@ -96,7 +96,7 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_A
 	 *
 	 * @return void
 	 */
-	public function manageWidgets(App\Request $request): void
+	public function transfer(App\Request $request): void
 	{
 		$data = $request->getMultiDimensionArray('form', [
 			'dashboardBlockId' => App\Purifier::INTEGER,
@@ -106,14 +106,19 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_A
 			'actionOption' => App\Purifier::STANDARD,
 			'dashboardId' => App\Purifier::INTEGER
 		]);
+		$moduleName = $request->getModule(false);
+		$message = \App\Language::translate('LBL_SAVED_SUCCESSFULLY ', $moduleName);
 		if (!\is_array($data) || !$data) {
-			$result = ['success' => false, 'message' => \App\Language::translate('LBL_INVALID_DATA')];
+			$message = \App\Language::translate('LBL_NOT_SAVED', $moduleName);
 		} else {
 			$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
-			$result = $widgetsManagementModel->manageWidgets($data);
+			$result = $widgetsManagementModel->transfer($data);
+			if (!$result) {
+				$message = \App\Language::translate('LBL_NOT_SAVED', $moduleName);
+			}
 		}
 		$response = new Vtiger_Response();
-		$response->setResult($result);
+		$response->setResult($message);
 		$response->emit();
 	}
 }
