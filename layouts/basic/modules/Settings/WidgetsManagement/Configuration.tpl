@@ -132,8 +132,11 @@
 												</div>
 											{/if}
 											<div class="btn-group actions ml-1">
+												<button class="btn btn-sm btn-info js-show-manage-widget-modal" type="button"
+													data-url="index.php?parent=Settings&module=WidgetsManagement&view=Transfer&blockId={$AUTHORIZATION_KEY}&dashboardId={$DASHBOARD_ID}&authorized={$AUTHORIZATION_INFO['code']}&sourceModule={$SELECTED_MODULE_NAME}"><span class="fas fa-clone mr-2"></span>{\App\Language::translate('LBL_TRANSFER', $QUALIFIED_MODULE)}
+												</button>
 												<a href="javascript:void(0)"
-													class="js-delete-custom-block-btn btn btn-sm btn-danger"
+													class="js-delete-custom-block-btn btn btn-sm btn-danger ml-1"
 													data-js="click">
 													<span class="fas fa-trash-alt"
 														title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
@@ -291,8 +294,11 @@
 										</div>
 									{/if}
 									<div class="btn-group actions">
-										<a href="javascript:void(0)"
-											class="js-delete-custom-block-btn btn btn-sm btn-danger" data-js="click">
+										<button class="btn btn-sm btn-info js-show-manage-widget-modal" type="button"
+											data-url="index.php?parent=Settings&module=WidgetsManagement&view=Transfer&blockId={$AUTHORIZATION_KEY}&dashboardId={$DASHBOARD_ID}&authorized={$AUTHORIZATION_INFO['code']}&sourceModule={$SELECTED_MODULE_NAME}"><span class="fas fa-clone mr-2"></span>{\App\Language::translate('LBL_TRANSFER', $QUALIFIED_MODULE)}
+										</button>
+										<a href=" javascript:void(0)"
+											class="js-delete-custom-block-btn btn btn-sm btn-danger ml-1" data-js="click">
 											<span class="fas fa-trash-alt"
 												title="{\App\Language::translate('LBL_DELETE', $QUALIFIED_MODULE)}"></span>
 										</a>

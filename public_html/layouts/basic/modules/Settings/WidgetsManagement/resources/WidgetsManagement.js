@@ -6,6 +6,19 @@ jQuery.Class(
 	{},
 	{
 		/**
+		 * Container element
+		 */
+		container: false,
+		/**
+		 *
+		 * @param {jQuery} container
+		 * @returns {jQuery}
+		 */
+		setContainer: function (container) {
+			this.container = container;
+			return this.container;
+		},
+		/**
 		 * Function to create the array of block roles list
 		 */
 		getAuthorization: function () {
@@ -590,10 +603,57 @@ jQuery.Class(
 				}
 			});
 		},
+		registerManageWidget: function () {
+			let contents = $('#widgetsManagementEditorContainer');
+			contents.find('.js-show-manage-widget-modal').on('click', (e) => {
+				let url = e.currentTarget.dataset.url;
+				app.showModalWindow({
+					url: url,
+					cb: (modalContainer) => {
+						modalContainer.on('click', '.js-modal__save', (_) => {
+							const allChecked = modalContainer.find('input[name="widgetLinkId"]:checked');
+							let formData = modalContainer.find('form').serializeFormData();
+							let selectedWidgets = Array.from(allChecked).map((checkbox) => checkbox.value);
+							if (selectedWidgets.length === 0) {
+								app.showNotify({
+									text: app.vtranslate('JS_SELECT_AT_LEAST_ONE_WIDGET'),
+									type: 'info'
+								});
+							} else {
+								formData['widgetLinkId'] = selectedWidgets;
+								let progressIndicatorElement = jQuery.progressIndicator({
+									position: 'html',
+									blockInfo: {
+										enabled: true
+									}
+								});
+								formData['dashboardId'] = this.getCurrentDashboardId();
+								AppConnector.request({
+									parent: 'Settings',
+									module: app.getModuleName(),
+									action: 'SaveAjax',
+									mode: 'transfer',
+									form: formData
+								}).done((data) => {
+									app.showNotify({
+										text: data.result,
+										type: 'info'
+									});
+									progressIndicatorElement.progressIndicator({ mode: 'hide' });
+									app.hideModalWindow();
+									this.container.find('.selectDashboard li a.active').trigger('click');
+								});
+							}
+						});
+					}
+				});
+			});
+		},
 		/**
 		 * register events for layout editor
 		 */
 		registerEvents: function () {
+			this.setContainer($('.contentsDiv'));
 			this.registerAddBlockDashBoard();
 			this.registerWidgetEvent();
 			this.registerSpecialWidget();
@@ -602,6 +662,7 @@ jQuery.Class(
 			this.registerAddedDashboard();
 			this.registerSelectDashboard();
 			this.registerDashboardAction();
+			this.registerManageWidget();
 		}
 	}
 );
