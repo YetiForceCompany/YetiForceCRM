@@ -40,22 +40,6 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 	}
 
 	/** {@inheritdoc} */
-	public function getDisplayValue($fieldName, $record = false, $rawText = false, $length = false)
-	{
-		if ('commentcontent' !== $fieldName) {
-			return parent::getDisplayValue($fieldName, $record, $rawText, $length);
-		}
-		if (empty($record)) {
-			$record = $this->getId();
-		}
-		$value = \App\Purifier::purifyHtml($this->get($fieldName));
-		if (!$rawText) {
-			$value = \App\Utils\Completions::decode($value);
-		}
-		return $length ? \App\Layout::truncateHtml($value) : $value;
-	}
-
-	/** {@inheritdoc} */
 	public function isEditable(): bool
 	{
 		if (!isset($this->privileges['isEditable'])) {
