@@ -4,7 +4,7 @@
 	{assign var=VALUE value=$INVENTORY_MODEL->getEditValue($ITEM_DATA, $FIELD->getColumnName())}
 	<div>
 		<div class="input-group input-group-sm">
-			<input type="text" name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="{$FIELD->getDisplayValue($VALUE, $ITEM_DATA, true)|escape}" class="discount form-control form-control-sm" readonly="readonly" />
+			<input type="text" name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="{$VALUE|escape}" class="discount form-control form-control-sm" readonly="readonly" />
 			{assign var=DISCOUNT_MODE value=$INVENTORY_MODEL->getEditValue($ITEM_DATA, 'discountmode', Vtiger_Inventory_Model::getDiscountsConfig('default_mode'))}
 			{assign var=DISCOUNT_PARAMS value=$INVENTORY_MODEL->getEditValue($ITEM_DATA, 'discountparam')}
 			<input name="inventory[{$ROW_NO}][discountparam]" type="hidden" value="{if $DISCOUNT_PARAMS}{\App\Purifier::encodeHtml($DISCOUNT_PARAMS)}{/if}" class="discountParam" />

@@ -25,7 +25,14 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		return \App\Fields\Double::formatToDisplay($value, !$rawText);
+		return \App\Fields\Double::formatToDisplay($value);
+	}
+
+	/** {@inheritdoc} */
+	public function getEditValue(array $itemData, string $column = '')
+	{
+		$value = parent::getEditValue($itemData, $column);
+		return \App\Fields\Double::formatToDisplay($value, false);
 	}
 
 	/** {@inheritdoc} */
@@ -92,5 +99,11 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 			$value = 100.0 * static::getInstance($this->getModuleName(), 'Margin')->getValueForSave($item, $userFormat) / $totalPurchase;
 		}
 		return $value;
+	}
+
+	/** {@inheritdoc} */
+	public function compare($value, $prevValue, string $column): bool
+	{
+		return \App\Validator::floatIsEqual((float) $value, (float) $prevValue, 8);
 	}
 }

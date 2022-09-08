@@ -5,10 +5,10 @@
 	{assign var="FIELDS" value=$INVENTORY_MODEL->getFieldsForView($VIEW)}
 	{assign var="INVENTORY_ROWS" value=$RECORD->getInventoryData()}
 	{if $FIELDS && $INVENTORY_MODEL->isField('name') && $INVENTORY_ROWS}
+		{assign var=INVENTORY_ROW value=current($INVENTORY_ROWS)}
 		{assign var="BASE_CURRENCY" value=Vtiger_Util_Helper::getBaseCurrency()}
 		{assign var="REFERENCE_MODULE_DEFAULT" value=''}
 		{if isset($FIELDS[0])}
-			{assign var=INVENTORY_ROW value=current($INVENTORY_ROWS)}
 			{if isset($INVENTORY_ROW['currency'])}
 				{assign var="CURRENCY" value=$INVENTORY_ROW['currency']}
 			{else}
@@ -85,7 +85,7 @@
 								data-sumfield="{lcfirst($FIELD->getType())}">
 								{if $FIELD->isSummary()}
 									{assign var="SUM" value=$FIELD->getSummaryValuesFromData($INVENTORY_ROWS)}
-									{CurrencyField::convertToUserFormat($SUM, null, true)}
+									{$FIELD->getDisplayValue($SUM, $INVENTORY_ROW)}
 								{/if}
 							</td>
 						{/foreach}

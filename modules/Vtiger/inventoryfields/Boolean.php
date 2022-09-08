@@ -30,6 +30,12 @@ class Vtiger_Boolean_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		return (bool) $value ? App\Language::translate('LBL_YES') : App\Language::translate('LBL_NO');
+		return (bool) $value ? App\Language::translate('LBL_YES', '_Base', null, !$rawText) : App\Language::translate('LBL_NO', '_Base', null, !$rawText);
+	}
+
+	/** {@inheritdoc} */
+	public function compare($value, $prevValue, string $column): bool
+	{
+		return (int) $prevValue === (int) $value;
 	}
 }

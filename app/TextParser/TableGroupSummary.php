@@ -40,12 +40,14 @@ class TableGroupSummary extends Base
 		$fieldNames = !empty($this->params[0]) ? explode(',', $this->params[0]) : array_unique(array_merge(['grouplabel'], array_keys($inventory->getFields())));
 
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
-		$firstRow = current($inventoryRows);
-		if ($inventory->isField('currency') && !empty($firstRow) && !empty($firstRow['currency'])) {
-			$currencySymbol = \App\Fields\Currency::getById($firstRow['currency'])['currency_symbol'];
-		} else {
-			$currencySymbol = \App\Fields\Currency::getDefault()['currency_symbol'];
+		$currencyId = current($inventoryRows)['currency'] ?? null;
+		if (!$currencyId) {
+			$currencyId = \App\Fields\Currency::getDefault()['id'];
+			foreach ($inventoryRows as &$row) {
+				$row['currency'] = $currencyId;
+			}
 		}
+
 		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
 		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;text-align:center;';
 		$html .= '<table class="products-table-new" style="width:100%;border-collapse:collapse;"><thead><tr>';
@@ -74,7 +76,7 @@ class TableGroupSummary extends Base
 					$fieldStyle = $bodyStyle;
 
 					if ($fieldModel->isSummary()) {
-						$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($inventoryRow[$columnName], $inventoryRow), $currencySymbol);
+						$fieldValue = $fieldModel->getDisplayValue($inventoryRow[$columnName], $inventoryRow);
 						$fieldStyle = $bodyStyle . 'text-align:right;white-space: nowrap;';
 					} else {
 						$fieldValue = \App\Purifier::encodeHtml($fieldModel->getDisplayValue($inventoryRow[$columnName], $inventoryRow, true));

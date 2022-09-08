@@ -33,18 +33,16 @@ class ProductsTableNew extends Base
 		}
 		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
-		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
-		$firstRow = current($inventoryRows);
-		if ($inventory->isField('currency')) {
-			if (!empty($firstRow) && null !== $firstRow['currency']) {
-				$currency = $firstRow['currency'];
-			} else {
-				$currency = $baseCurrency['id'];
+
+		$currencyId = current($inventoryRows)['currency'] ?? null;
+		if (!$currencyId) {
+			$currencyId = \App\Fields\Currency::getDefault()['id'];
+			foreach ($inventoryRows as &$row) {
+				$row['currency'] = $currencyId;
 			}
-			$currencySymbol = \App\Fields\Currency::getById($currency)['currency_symbol'];
-		} else {
-			$currencySymbol = \App\Fields\Currency::getDefault()['currency_symbol'];
 		}
+		$currencySymbol = \App\Fields\Currency::getById($currencyId)['currency_symbol'];
+
 		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
 		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;text-align:center;';
 		$html .= '<table class="products-table-new" style="width:100%;border-collapse:collapse;"><thead><tr>';
@@ -94,7 +92,7 @@ class ProductsTableNew extends Base
 								}
 							}
 						} elseif (\in_array($typeName, ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice'])) {
-							$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
+							$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
 							$fieldStyle = $bodyStyle . 'text-align:right;white-space: nowrap;';
 						} else {
 							$fieldValue = \App\Purifier::encodeHtml($fieldModel->getDisplayValue($itemValue, $inventoryRow, true));

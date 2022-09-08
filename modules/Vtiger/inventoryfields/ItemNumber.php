@@ -30,4 +30,10 @@ class Vtiger_ItemNumber_InventoryField extends Vtiger_Basic_InventoryField
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName . '||' . $this->getModuleName() . '||' . $value, 406);
 		}
 	}
+
+	/** {@inheritdoc} */
+	public function compare($value, $prevValue, string $column): bool
+	{
+		return (int) $value === (int) $prevValue;
+	}
 }

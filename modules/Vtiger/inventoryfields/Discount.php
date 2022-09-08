@@ -12,20 +12,31 @@
  */
 class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 {
+	/** {@inheritdoc} */
 	protected $type = 'Discount';
+	/** {@inheritdoc} */
 	protected $defaultLabel = 'LBL_DISCOUNT';
+	/** {@inheritdoc} */
 	protected $defaultValue = 0;
+	/** {@inheritdoc} */
 	protected $columnName = 'discount';
+	/** {@inheritdoc} */
 	protected $dbType = 'decimal(28,8) DEFAULT 0';
+	/** {@inheritdoc} */
 	protected $customColumn = [
 		'discountparam' => 'string',
 	];
+	/** {@inheritdoc} */
 	protected $summationValue = true;
+	/** {@inheritdoc} */
 	protected $maximumLength = '99999999999999999999';
+	/** {@inheritdoc} */
 	protected $customMaximumLength = [
 		'discountparam' => 255,
 	];
+	/** {@inheritdoc} */
 	protected $purifyType = \App\Purifier::NUMBER;
+	/** {@inheritdoc} */
 	protected $customPurifyType = [
 		'discountparam' => App\Purifier::TEXT,
 	];
@@ -33,7 +44,19 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		return \App\Fields\Double::formatToDisplay($value);
+		$value = \App\Fields\Double::formatToDisplay($value);
+		if (isset($rowData['currency']) && $currencySymbol = \App\Fields\Currency::getById($rowData['currency'])['currency_symbol'] ?? '') {
+			$value = \CurrencyField::appendCurrencySymbol($value, $currencySymbol);
+		}
+
+		return $value;
+	}
+
+	/** {@inheritdoc} */
+	public function getEditValue(array $itemData, string $column = '')
+	{
+		$value = parent::getEditValue($itemData, $column);
+		return \App\Fields\Double::formatToDisplay($value, false);
 	}
 
 	/** {@inheritdoc} */
@@ -136,5 +159,11 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 				throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||discountType||{$discountType}", 406);
 		}
 		return $value;
+	}
+
+	/** {@inheritdoc} */
+	public function compare($value, $prevValue, string $column): bool
+	{
+		return $column === $this->getColumnName() ? \App\Validator::floatIsEqual((float) $value, (float) $prevValue, 8) : parent::compare($value, $prevValue, $column);
 	}
 }

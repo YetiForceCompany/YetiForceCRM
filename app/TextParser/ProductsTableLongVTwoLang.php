@@ -32,19 +32,17 @@ class ProductsTableLongVTwoLang extends Base
 			return $html;
 		}
 		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
-		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
-		$firstRow = current($inventoryRows);
-		if ($inventory->isField('currency')) {
-			if (!empty($firstRow) && null !== $firstRow['currency']) {
-				$currency = $firstRow['currency'];
-			} else {
-				$currency = $baseCurrency['id'];
+
+		$currencyId = current($inventoryRows)['currency'] ?? null;
+		if (!$currencyId) {
+			$currencyId = \App\Fields\Currency::getDefault()['id'];
+			foreach ($inventoryRows as &$row) {
+				$row['currency'] = $currencyId;
 			}
-			$currencySymbol = \App\Fields\Currency::getById($currency)['currency_symbol'];
-		} else {
-			$currencySymbol = \App\Fields\Currency::getDefault()['currency_symbol'];
 		}
+		$currencySymbol = \App\Fields\Currency::getById($currencyId)['currency_symbol'];
+
 		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
 		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;';
 		$html .= '<table class="products-table-long-v-two-lang" style="border-collapse:collapse;width:100%;"><thead><tr>';
@@ -90,8 +88,8 @@ class ProductsTableLongVTwoLang extends Base
 								}
 							}
 						} elseif (\in_array($typeName, ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax']) && !empty($currencySymbol)) {
-							$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
-							$fieldStyle = $bodyStyle . 'text-align:right;';
+							$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
+							$fieldStyle = $bodyStyle . 'text-align:right;white-space: nowrap;';
 						} else {
 							$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
 						}

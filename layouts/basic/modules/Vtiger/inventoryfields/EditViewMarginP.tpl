@@ -3,7 +3,7 @@
 	<!-- tpl-Base-inventoryfields-EditViewMarginP -->
 	{assign var=VALUE value=$INVENTORY_MODEL->getEditValue($ITEM_DATA, $FIELD->getColumnName())}
 	<div class="input-group input-group-sm">
-		<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="{$FIELD->getDisplayValue($VALUE, $ITEM_DATA, true)|escape}" type="text" class="marginp form-control form-control-sm" readonly="readonly" />
+		<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="{$VALUE|escape}" type="text" class="marginp form-control form-control-sm" readonly="readonly" />
 		<div class="input-group-append">
 			<span class="input-group-text">%</span>
 		</div>

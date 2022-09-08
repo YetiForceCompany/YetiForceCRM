@@ -25,7 +25,7 @@ class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		return '' !== $value ? \App\Language::translate('LBL_' . strtoupper($this->values[$value]), $this->getModuleName()) : $value;
+		return '' !== $value && null !== $value ? \App\Language::translate('LBL_' . strtoupper($this->values[$value]), $this->getModuleName()) : $value;
 	}
 
 	/** {@inheritdoc} */
@@ -47,5 +47,11 @@ class Vtiger_DiscountMode_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		$value = parent::getEditValue($itemData, $column);
 		return is_numeric($value) ? $value : Vtiger_Inventory_Model::getDiscountsConfig('aggregation');
+	}
+
+	/** {@inheritdoc} */
+	public function compare($value, $prevValue, string $column): bool
+	{
+		return (int) $value === (int) $prevValue;
 	}
 }

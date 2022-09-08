@@ -48,4 +48,10 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 		$value = parent::getEditValue($itemData, $column);
 		return is_numeric($value) ? $value : Vtiger_Inventory_Model::getTaxesConfig('default_mode');
 	}
+
+	/** {@inheritdoc} */
+	public function compare($value, $prevValue, string $column): bool
+	{
+		return (int) $value === (int) $prevValue;
+	}
 }

@@ -51,4 +51,10 @@ class Vtiger_TaxPercent_InventoryField extends Vtiger_Tax_InventoryField
 		}
 		return $value;
 	}
+
+	/** {@inheritdoc} */
+	public function compare($value, $prevValue, string $column): bool
+	{
+		return \App\Validator::floatIsEqual((float) $value, (float) $prevValue, 8);
+	}
 }

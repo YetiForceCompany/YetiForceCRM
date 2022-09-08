@@ -115,4 +115,10 @@ class Vtiger_GroupLabel_InventoryField extends Vtiger_Basic_InventoryField
 
 		return $data;
 	}
+
+	/** {@inheritdoc} */
+	public function compare($value, $prevValue, string $column): bool
+	{
+		return $column === $this->getColumnName() ? parent::compare($value, $prevValue, $column) : (int) $value === (int) $prevValue;
+	}
 }

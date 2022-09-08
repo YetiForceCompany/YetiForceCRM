@@ -82,4 +82,10 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||" . print_r($value, true), 406);
 		}
 	}
+
+	/** {@inheritdoc} */
+	public function compare($value, $prevValue, string $column): bool
+	{
+		return $column === $this->getColumnName() ? (int) $value === (int) $prevValue : parent::compare($value, $prevValue, $column);
+	}
 }

@@ -2,6 +2,6 @@
 {strip}
 	<!-- tpl-Base-inventoryfields-EditViewMargin -->
 	{assign var=VALUE value=$INVENTORY_MODEL->getEditValue($ITEM_DATA, $FIELD->getColumnName())}
-	<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="{$FIELD->getDisplayValue($VALUE, $ITEM_DATA, true)|escape}" type="text" class="margin form-control form-control-sm" readonly="readonly" />
+	<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="{$VALUE|escape}" type="text" class="margin form-control form-control-sm" readonly="readonly" />
 	<!-- /tpl-Base-inventoryfields-EditViewMargin -->
 {/strip}

@@ -33,18 +33,16 @@ class ProductsTableLongVersion extends Base
 		}
 		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
-		$firstRow = current($inventoryRows);
-		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
-		if ($inventory->isField('currency')) {
-			if (!empty($firstRow) && null !== $firstRow['currency']) {
-				$currency = $firstRow['currency'];
-			} else {
-				$currency = $baseCurrency['id'];
+
+		$currencyId = current($inventoryRows)['currency'] ?? null;
+		if (!$currencyId) {
+			$currencyId = \App\Fields\Currency::getDefault()['id'];
+			foreach ($inventoryRows as &$row) {
+				$row['currency'] = $currencyId;
 			}
-			$currencySymbol = \App\Fields\Currency::getById($currency)['currency_symbol'];
-		} else {
-			$currencySymbol = \App\Fields\Currency::getDefault()['currency_symbol'];
 		}
+		$currencySymbol = \App\Fields\Currency::getById($currencyId)['currency_symbol'];
+
 		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
 		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;';
 		$html .= '<table class="products-table-long-version" style="width:100%;font-size:8px;border-collapse:collapse;">
@@ -91,7 +89,7 @@ class ProductsTableLongVersion extends Base
 								}
 							}
 						} elseif (\in_array($typeName, ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax']) && !empty($currencySymbol)) {
-							$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
+							$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
 							$fieldStyle = $bodyStyle . 'text-align:right;white-space: nowrap;';
 						} else {
 							$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
@@ -103,7 +101,7 @@ class ProductsTableLongVersion extends Base
 			}
 			$html .= '</tbody><tfoot><tr>';
 			foreach ($groupModels as $fieldModel) {
-				$html .= "<th class=\"col-type-{$typeName}\" style=\"{$headerStyle}\">";
+				$html .= "<th class=\"col-type-{$typeName}\" style=\"{$headerStyle}white-space: nowrap;\">";
 				if ($fieldModel->isSummary()) {
 					$sum = 0;
 					foreach ($inventoryRows as $inventoryRow) {

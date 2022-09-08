@@ -32,19 +32,17 @@ class ProductsTableImages extends Base
 			return $html;
 		}
 		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
-		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
-		$firstRow = current($inventoryRows);
-		if ($inventory->isField('currency')) {
-			if (!empty($firstRow) && null !== $firstRow['currency']) {
-				$currency = $firstRow['currency'];
-			} else {
-				$currency = $baseCurrency['id'];
+
+		$currencyId = current($inventoryRows)['currency'] ?? null;
+		if (!$currencyId) {
+			$currencyId = \App\Fields\Currency::getDefault()['id'];
+			foreach ($inventoryRows as &$row) {
+				$row['currency'] = $currencyId;
 			}
-			$currencySymbol = \App\Fields\Currency::getById($currency)['currency_symbol'];
-		} else {
-			$currencySymbol = \App\Fields\Currency::getDefault()['currency_symbol'];
 		}
+		$currencySymbol = \App\Fields\Currency::getById($currencyId)['currency_symbol'];
+
 		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
 		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;';
 		$displayFields = [];
@@ -56,10 +54,9 @@ class ProductsTableImages extends Base
 					continue;
 				}
 				$item = [];
-				$headerStyle2 = 'ItemNumber' === $fieldType ? $headerStyle . ';width:1%;' : $headerStyle;
-				$item['headerHtml'] = "<th class=\"col-type-{$fieldModel->getType()}\" style=\"{$headerStyle2}\">" . \App\Language::translate($fieldModel->get('label'), $this->textParser->moduleName) . '</th>';
+				$item['headerHtml'] = "<th class=\"col-type-{$fieldModel->getType()}\" style=\"{$headerStyle}\">" . \App\Language::translate($fieldModel->get('label'), $this->textParser->moduleName) . '</th>';
 				$item['model'] = $fieldModel;
-				$footerHtml = "<th class=\"col-type-{$fieldModel->getType()}\" style=\"{$headerStyle}\">";
+				$footerHtml = "<th class=\"col-type-{$fieldModel->getType()}\" style=\"{$headerStyle}white-space: nowrap;\">";
 				if ($fieldModel->isSummary()) {
 					$sum = 0;
 					foreach ($inventoryRows as $inventoryRow) {
@@ -112,17 +109,17 @@ class ProductsTableImages extends Base
 					} else {
 						$itemValue = $inventoryRow[$columnName];
 						if ('Name' === $typeName) {
-							$fieldValue = '<strong>' . $fieldModel->getDisplayValue($itemValue) . '</strong>';
+							$fieldValue = '<strong>' . $fieldModel->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
 							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
 								if ($commentField->isVisible() && ($value = $inventoryRow[$commentField->getColumnName()]) && $comment = $commentField->getDisplayValue($value, $inventoryRow)) {
 									$fieldValue .= '<br />' . $comment;
 								}
 							}
 						} elseif (\in_array($typeName, ['TotalPrice', 'GrossPrice', 'UnitPrice'])) {
-							$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
-							$fieldStyle = $bodyStyle . 'text-align:right;';
+							$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
+							$fieldStyle = $bodyStyle . 'text-align:right;white-space: nowrap;';
 						} else {
-							$fieldValue = $fieldModel->getDisplayValue($itemValue);
+							$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
 						}
 						$itemHtml = "<td class=\"col-type-{$typeName}\" style=\"{$fieldStyle}\">{$fieldValue}</td>";
 						$columnHtml = $itemHtml;

@@ -368,7 +368,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		return \App\Purifier::encodeHtml($value);
+		return $value ? \App\Purifier::encodeHtml($value) : '';
 	}
 
 	/**
@@ -597,16 +597,33 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		if ($userFormat && $baseValue) {
 			$baseValue = $this->getDBValue($baseValue, $column);
 		}
-
 		$this->validate($value, $column, false, $baseValue);
-		$recordModel->setInventoryItemPart($item['id'], $column, $value);
+
+		$itemId = $item['id'];
+		$addToChanges = !$recordModel->isNew() && is_numeric($itemId) && !$this->compare($value, $recordModel->getInventoryData()[$itemId][$column] ?? '', $column);
+		$recordModel->setInventoryItemPart($itemId, $column, $value, $addToChanges);
 		if ($customColumn = $this->getCustomColumn()) {
 			foreach (array_keys($customColumn) as $column) {
 				$value = $this->getValueForSave($item, $userFormat, $column);
 				$this->validate($value, $column, false);
-				$recordModel->setInventoryItemPart($item['id'], $column, $value);
+				$addToChanges = !$recordModel->isNew() && is_numeric($itemId) && !$this->compare($value, $recordModel->getInventoryData()[$itemId][$column] ?? '', $column);
+				$recordModel->setInventoryItemPart($itemId, $column, $value, $addToChanges);
 			}
 		}
+	}
+
+	/**
+	 * Compare two values.
+	 *
+	 * @param mixed  $value
+	 * @param mixed  $prevValue
+	 * @param string $column
+	 *
+	 * @return bool
+	 */
+	public function compare($value, $prevValue, string $column): bool
+	{
+		return $prevValue === $value;
 	}
 
 	/**

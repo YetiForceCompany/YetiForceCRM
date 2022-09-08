@@ -24,7 +24,19 @@ class Vtiger_TotalPrice_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		return \App\Fields\Double::formatToDisplay($value, !$rawText);
+		$value = \App\Fields\Double::formatToDisplay($value);
+		if (isset($rowData['currency']) && $currencySymbol = \App\Fields\Currency::getById($rowData['currency'])['currency_symbol'] ?? '') {
+			$value = \CurrencyField::appendCurrencySymbol($value, $currencySymbol);
+		}
+
+		return $value;
+	}
+
+	/** {@inheritdoc} */
+	public function getEditValue(array $itemData, string $column = '')
+	{
+		$value = parent::getEditValue($itemData, $column);
+		return \App\Fields\Double::formatToDisplay($value, false);
 	}
 
 	/** {@inheritdoc} */
@@ -76,5 +88,11 @@ class Vtiger_TotalPrice_InventoryField extends Vtiger_Basic_InventoryField
 			$value = $userFormat ? $this->getDBValue($item[$column]) : $item[$column];
 		}
 		return $value;
+	}
+
+	/** {@inheritdoc} */
+	public function compare($value, $prevValue, string $column): bool
+	{
+		return \App\Validator::floatIsEqual((float) $value, (float) $prevValue, 8);
 	}
 }

@@ -1340,16 +1340,17 @@ class Vtiger_Record_Model extends \App\Base
 	 * @param mixed  $itemId
 	 * @param string $name
 	 * @param mixed  $value
+	 * @param bool   $addToChanges
 	 *
 	 * @throws \App\Exceptions\AppException
 	 */
-	public function setInventoryItemPart($itemId, string $name, $value)
+	public function setInventoryItemPart($itemId, string $name, $value, $addToChanges = false)
 	{
 		if (!$this->isNew()) {
-			if (is_numeric($itemId) && ($prevValue = ($this->getInventoryData()[$itemId][$name] ?? false)) != $value) {
-				$this->changesInventory[$itemId][$name] = $prevValue;
-			} elseif (!is_numeric($itemId)) {
+			if (!is_numeric($itemId)) {
 				$this->changesInventory[$itemId] = [];
+			} elseif ($addToChanges) {
+				$this->changesInventory[$itemId][$name] = $this->getInventoryData()[$itemId][$name] ?? '';
 			}
 		}
 		$this->inventoryData[$itemId][$name] = $value;

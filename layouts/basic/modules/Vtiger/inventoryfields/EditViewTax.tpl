@@ -3,7 +3,7 @@
 	<!-- tpl-Base-inventoryfields-EditViewTax -->
 	{assign var=VALUE value=$INVENTORY_MODEL->getEditValue($ITEM_DATA, $FIELD->getColumnName())}
 	<div class="input-group input-group-sm">
-		<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="{$FIELD->getDisplayValue($VALUE, $ITEM_DATA, true)|escape}" type="text"
+		<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" value="{$VALUE|escape}" type="text"
 			class="tax form-control form-control-sm js-tax" readonly="readonly" data-js="data-default-tax|value" />
 		{assign var=TAXPARAM_VALUE value=$INVENTORY_MODEL->getEditValue($ITEM_DATA, 'taxparam')}
 		{assign var=TAX_MODE value=$INVENTORY_MODEL->getEditValue($ITEM_DATA, 'taxmode', Vtiger_Inventory_Model::getTaxesConfig('default_mode'))}

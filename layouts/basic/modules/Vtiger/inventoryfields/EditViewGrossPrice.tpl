@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Base-inventoryfields-EditViewGrossPrice -->
 	{assign var=VALUE value=$INVENTORY_MODEL->getEditValue($ITEM_DATA, $FIELD->getColumnName())}
-	<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" type="hidden" value="{$FIELD->getDisplayValue($VALUE, $ITEM_DATA, true)|escape}" class="grossPrice" {if $FIELD->isReadOnly()}readonly="readonly" {/if} />
-	<span class="grossPriceText">{$FIELD->getDisplayValue($VALUE, $ITEM_DATA, true)|escape}</span>
+	<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" type="hidden" value="{$VALUE|escape}" class="grossPrice" {if $FIELD->isReadOnly()}readonly="readonly" {/if} />
+	<span class="grossPriceText">{$VALUE|escape}</span>
 	<!-- /tpl-Base-inventoryfields-EditViewGrossPrice -->
 {/strip}

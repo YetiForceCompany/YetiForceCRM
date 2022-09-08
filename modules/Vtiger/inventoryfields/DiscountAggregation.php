@@ -82,4 +82,10 @@ class Vtiger_DiscountAggregation_InventoryField extends Vtiger_Basic_InventoryFi
 		$value = parent::getEditValue($itemData, $column);
 		return is_numeric($value) ? $value : Vtiger_Inventory_Model::getDiscountsConfig('aggregation');
 	}
+
+	/** {@inheritdoc} */
+	public function compare($value, $prevValue, string $column): bool
+	{
+		return (int) $value === (int) $prevValue;
+	}
 }
