@@ -641,12 +641,7 @@ jQuery.Class(
 									});
 									progressIndicatorElement.progressIndicator({ mode: 'hide' });
 									app.hideModalWindow();
-									this.getModuleLayoutEditor(
-										this.container.find('[name="widgetsManagementEditorModules"]').val(),
-										formData['dashboardId']
-									).done((data) => {
-										this.updateContentsDiv(this.container, data);
-									});
+									this.container.find('.selectDashboard li a.active').trigger('click');
 								});
 							}
 						});
