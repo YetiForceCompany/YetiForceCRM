@@ -89,7 +89,7 @@
 							</td>
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 								{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->getFieldName()}
-								<td class="{$WIDTHTYPE}" data-field="{$LISTVIEW_HEADERNAME}"
+								<td class="{$WIDTHTYPE} text-nowrap" data-field="{$LISTVIEW_HEADERNAME}"
 									data-type="{$LISTVIEW_HEADER->getFieldDataType()}">
 									{if $LISTVIEW_HEADER->get('fromOutsideList') eq true}
 										{$LISTVIEW_HEADER->getDisplayValue($LISTVIEW_ENTRY->get($LISTVIEW_HEADERNAME))}
