@@ -703,11 +703,15 @@ class ConfReport
 				$item['status'] = true;
 				if (isset($main[$key])) {
 					$item[static::$sapi] = $main[$key];
+					if($main[$key] === '--'){
+						$item['noParameter'] = true;
+						continue;
+					}
 				}
 				if (isset($cron[$key]['cron']) && (self::$testCli || ($item['testCli'] && 'www' === static::$sapi))) {
 					$item['cron'] = $cron[$key]['cron'];
 				}
-				if (isset($item['type'])) {
+				if(isset($item['type'])) {
 					$methodName = 'validate' . $item['type'];
 					if (\method_exists(__CLASS__, $methodName)) {
 						if ('www' === static::$sapi) {
@@ -750,7 +754,6 @@ class ConfReport
 				}
 			}
 		}
-
 		return $values;
 	}
 
@@ -1058,7 +1061,6 @@ class ConfReport
 		} else {
 			$row['noParameter'] = true;
 		}
-
 		return $row;
 	}
 
@@ -1170,7 +1172,7 @@ class ConfReport
 	{
 		$container = $row['container'];
 		if ('db' === $container && !isset(static::${$container}[\strtolower($name)])) {
-			return '-';
+			return '--';
 		}
 		$current = static::${$container}[\strtolower($name)] ?? static::${$container}[$name] ?? '';
 		$map = ['on' => 'On', 'true' => 'On', 'off' => 'Off', 'false' => 'Off'];
