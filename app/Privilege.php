@@ -299,7 +299,7 @@ class Privilege
 			$role = $userPrivilegesModel->getRoleDetail();
 			if (((3 == $actionId || 4 == $actionId) && 0 != $role->get('previewrelatedrecord')) || ((0 == $actionId || 1 == $actionId) && 0 != $role->get('editrelatedrecord'))) {
 				$parentRecord = \Users_Privileges_Model::getParentRecord($record, $moduleName, $role->get('previewrelatedrecord'), $actionId);
-				if ($parentRecord) {
+				if ($parentRecord && Record::isExists($parentRecord)) {
 					$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($parentRecord);
 					$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
 					$permissionsRelatedField = '' === $permissionsRoleForRelatedField ? [] : explode(',', $role->get('permissionsrelatedfield'));

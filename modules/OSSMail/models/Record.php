@@ -181,7 +181,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if (!$config['validate_cert'] && $config['imap_open_add_connection_type']) {
 			$validateCert = '/novalidate-cert';
 		}
-		if ($config['imap_open_add_connection_type']) {
+		if ($config['imap_open_add_connection_type'] && $sslMode) {
 			$sslMode = '/' . $sslMode;
 		} else {
 			$sslMode = '';
