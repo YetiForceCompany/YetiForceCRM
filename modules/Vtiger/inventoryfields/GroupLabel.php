@@ -108,8 +108,7 @@ class Vtiger_GroupLabel_InventoryField extends Vtiger_Basic_InventoryField
 			'defaultvalue' => 1,
 			'picklistValues' => [
 				0 => \App\Language::translate('LBL_NO', $qualifiedModuleName),
-				1 => \App\Language::translate('LBL_YES', $qualifiedModuleName),
-				2 => \App\Language::translate('LBL_INV_BLOCK_FIRST_OPEN', $qualifiedModuleName)
+				1 => \App\Language::translate('LBL_YES', $qualifiedModuleName)
 			],
 		];
 
