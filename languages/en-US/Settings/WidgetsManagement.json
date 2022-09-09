@@ -51,7 +51,7 @@
     "LBL_MOVE": "Move",
     "LBL_TRANSFER": "Transfer",
     "LBL_SAVED_SUCCESSFULLY": "Saved successfully",
-    "LBL_NOT_SAVED ": "Your changes could not be saved"
+    "LBL_NOT_SAVED": "Your changes could not be saved"
   },
   "js": {
     "JS_BLOCK_ADDED": "Block has been added successfully",

@@ -107,7 +107,7 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_A
 			'dashboardId' => App\Purifier::INTEGER
 		]);
 		$moduleName = $request->getModule(false);
-		$message = \App\Language::translate('LBL_SAVED_SUCCESSFULLY ', $moduleName);
+		$message = \App\Language::translate('LBL_SAVED_SUCCESSFULLY', $moduleName);
 		if (!\is_array($data) || !$data) {
 			$message = \App\Language::translate('LBL_NOT_SAVED', $moduleName);
 		} else {
