@@ -4010,16 +4010,16 @@
         },
         {
             "name": "simshaun/recurr",
-            "version": "v5.0.0",
+            "version": "v5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simshaun/recurr.git",
-                "reference": "b5aa5b07a595023b67a558b810390dfa7160e3f5"
+                "reference": "6887b7bd7075de97c8c69835e0939ff68d23c47e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simshaun/recurr/zipball/b5aa5b07a595023b67a558b810390dfa7160e3f5",
-                "reference": "b5aa5b07a595023b67a558b810390dfa7160e3f5",
+                "url": "https://api.github.com/repos/simshaun/recurr/zipball/6887b7bd7075de97c8c69835e0939ff68d23c47e",
+                "reference": "6887b7bd7075de97c8c69835e0939ff68d23c47e",
                 "shasum": ""
             },
             "require": {
@@ -4063,9 +4063,9 @@
             ],
             "support": {
                 "issues": "https://github.com/simshaun/recurr/issues",
-                "source": "https://github.com/simshaun/recurr/tree/v5.0.0"
+                "source": "https://github.com/simshaun/recurr/tree/v5.0.1"
             },
-            "time": "2021-09-09T03:42:57+00:00"
+            "time": "2022-09-09T05:37:22+00:00"
         },
         {
             "name": "smarty/smarty",
