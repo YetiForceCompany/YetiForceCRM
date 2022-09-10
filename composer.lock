@@ -1870,16 +1870,16 @@
         },
         {
             "name": "mlocati/spf-lib",
-            "version": "3.1.1",
+            "version": "3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mlocati/spf-lib.git",
-                "reference": "ec49c332fcf684716e00f234013af5e01f001993"
+                "reference": "8a4e52bf1c9d60ba9773a590ddc416f145c4fc57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mlocati/spf-lib/zipball/ec49c332fcf684716e00f234013af5e01f001993",
-                "reference": "ec49c332fcf684716e00f234013af5e01f001993",
+                "url": "https://api.github.com/repos/mlocati/spf-lib/zipball/8a4e52bf1c9d60ba9773a590ddc416f145c4fc57",
+                "reference": "8a4e52bf1c9d60ba9773a590ddc416f145c4fc57",
                 "shasum": ""
             },
             "require": {
@@ -1935,7 +1935,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2021-02-07T15:13:08+00:00"
+            "time": "2022-09-09T09:05:31+00:00"
         },
         {
             "name": "monolog/monolog",
