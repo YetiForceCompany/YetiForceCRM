@@ -31,6 +31,12 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 		'pobranie' => 'PLL_CASH_ON_DELIVERY',
 	];
 
+	/** @var string[] Map for status with WAPRO ERP */
+	const STATUS_MAP = [
+		'V' => 'PLL_ACCEPTED',
+		'O' => 'PLL_CANCELLED',
+	];
+
 	/** {@inheritdoc} */
 	protected $fieldMap = [
 		'ID_FIRMY' => ['fieldName' => 'multiCompanyId', 'fn' => 'findRelationship', 'tableName' => 'FIRMA', 'skipMode' => true],
@@ -41,6 +47,8 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 		'issueTime' => ['fieldName' => 'issue_time', 'fn' => 'convertDate'],
 		'saleDate' => ['fieldName' => 'saledate', 'fn' => 'convertDate'],
 		'paymentDate' => ['fieldName' => 'paymentdate', 'fn' => 'convertDate'],
+		'RAZEM_ZAPLACONO' => ['fieldName' => 'payment_status', 'fn' => 'convertPaymentStatus'],
+		'STATUS_DOKUMENTU' => ['fieldName' => 'finvoice_status', 'fn' => 'convertStatus'],
 	];
 
 	/** {@inheritdoc} */
@@ -48,7 +56,7 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	{
 		$query = (new \App\Db\Query())->select([
 			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA', 'ID_DOK_ORYGINALNEGO',
-			'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA', 'WARTOSC_NETTO', 'WARTOSC_BRUTTO', 'DOK_KOREKTY', 'DATA_KURS_WAL', 'DOK_WAL', 'SYM_WAL',
+			'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA', 'WARTOSC_NETTO', 'WARTOSC_BRUTTO', 'RAZEM_ZAPLACONO', 'DOK_KOREKTY', 'DATA_KURS_WAL', 'DOK_WAL', 'SYM_WAL', 'STATUS_DOKUMENTU',
 			'issueTime' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_WYSTAWIENIA - 36163 as datetime)',
 			'saleDate' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_SPRZEDAZY - 36163 as datetime)',
 			'paymentDate' => 'cast (dbo.DOKUMENT_HANDLOWY.TERMIN_PLAT - 36163 as datetime)',
@@ -160,6 +168,49 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	{
 		$value = explode(' ', $value);
 		return $value[0];
+	}
+
+	/**
+	 * Convert payment status.
+	 *
+	 * @param string $value
+	 * @param array  $params
+	 *
+	 * @return string
+	 */
+	protected function convertPaymentStatus(string $value, array $params): string
+	{
+		switch ($value <=> $this->row['WARTOSC_BRUTTO']) {
+			case -1:
+				$status = 'PLL_UNDERPAID';
+				break;
+			case 0:
+				$status = 'PLL_PAID';
+				break;
+			case 1:
+				$status = 'PLL_OVERPAID';
+				break;
+			default:
+				$status = 'PLL_NOT_PAID';
+				break;
+		}
+		return $status;
+	}
+
+	/**
+	 * Convert status.
+	 *
+	 * @param string $value
+	 * @param array  $params
+	 *
+	 * @return string
+	 */
+	protected function convertStatus(string $value, array $params): string
+	{
+		if (isset(self::STATUS_MAP[$value])) {
+			return self::STATUS_MAP[$value];
+		}
+		return 'PLL_UNASSIGNED';
 	}
 
 	/**
