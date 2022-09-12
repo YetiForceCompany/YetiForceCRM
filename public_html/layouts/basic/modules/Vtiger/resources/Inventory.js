@@ -1417,10 +1417,9 @@ $.Class(
 			this.setNetPrice(row, App.Fields.Double.formatToDisplay(rowData.net));
 			this.setGrossPrice(row, App.Fields.Double.formatToDisplay(rowData.gross));
 			this.setTotalPrice(row, App.Fields.Double.formatToDisplay(rowData.total));
-			let discountParam = rowData.discountparam || null;
-			this.setDiscountParam(row, JSON.parse(discountParam));
+			this.setDiscountParam(row, rowData.discountparam ? JSON.parse(discountParam) : []);
 			this.setDiscount(row, App.Fields.Double.formatToDisplay(rowData.discount));
-			this.setTaxParam(row, JSON.parse(rowData.taxparam));
+			this.setTaxParam(row, rowData.taxparam ? JSON.parse(rowData.taxparam) : []);
 			this.setTax(row, App.Fields.Double.formatToDisplay(rowData.tax));
 			this.setTaxPercent(row, App.Fields.Double.formatToDisplay(rowData.tax_percent));
 		},

@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Calendar-PostProcess -->
-	<div class="js-calendar-right-panel {if $USER_MODEL->get('leftpanelhide')}leftPanelOpen {/if}siteBarRight calendarRightPanel col-xs-12 hideSiteBar"
+	<div class="js-calendar-right-panel {if $USER_MODEL->get('leftpanelhide')}leftPanelOpen {/if}siteBarRight calendarRightPanel col-xs-12 hideSiteBar pr-0"
 		data-showPanel="{if !App\Config::module($MODULE_NAME, 'SHOW_RIGHT_PANEL')}0{else}1{/if}"
 		data-js="class: hideSiteBar">
 		{assign var=DEFAULT_FILTER value=current($FILTERS)}

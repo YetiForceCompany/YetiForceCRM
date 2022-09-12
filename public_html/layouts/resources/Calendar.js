@@ -514,21 +514,23 @@ window.Calendar_Js = class {
 	 * Register filters
 	 */
 	registerFilters() {
-		const self = this;
-		let sideBar = self.getSidebarView();
+		let sideBar = this.getSidebarView();
 		if (!sideBar || sideBar.length <= 0) {
 			return;
 		}
 		sideBar.find('.js-sidebar-filter-container').each((_, row) => {
 			let formContainer = $(row);
-			self.registerUsersChange(formContainer);
+			this.registerUsersChange(formContainer);
 			App.Fields.Picklist.showSelect2ElementView(formContainer.find('select'));
-			app.showNewScrollbar(formContainer, {
-				suppressScrollX: true
-			});
-			self.registerFilterForm(formContainer);
+			let body = formContainer.find('.js-sidebar-filter-body');
+			if (body.length) {
+				app.showNewScrollbar(body, {
+					suppressScrollX: true
+				});
+			}
+			this.registerFilterForm(formContainer);
 		});
-		self.registerSelectAll(sideBar);
+		this.registerSelectAll(sideBar);
 		if (app.moduleCacheGet('CurrentCvId') !== null) {
 			this.container
 				.find('.js-calendar__extended-filter-tab [data-cvid="' + app.moduleCacheGet('CurrentCvId') + '"] a')
