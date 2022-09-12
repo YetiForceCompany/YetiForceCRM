@@ -167,6 +167,7 @@ class ConfReport
 		'OPcache' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'Zend OPcache', 'container' => 'ext', 'testCli' => true, 'mode' => 'showWarnings'],
 		'apcu' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'apcu', 'container' => 'ext', 'testCli' => true, 'mode' => 'showWarnings'],
 		'imagick' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'imagick', 'container' => 'ext', 'testCli' => true, 'mode' => 'showWarnings'],
+		'pdo_sqlsrv' => ['mandatory' => false, 'type' => 'ExtExist', 'extName' => 'pdo_sqlsrv', 'container' => 'ext', 'testCli' => true, 'mode' => 'showWarnings'],
 		'allExt' => ['container' => 'ext', 'type' => 'AllExt', 'testCli' => true, 'label' => 'EXTENSIONS'],
 	];
 
@@ -703,7 +704,7 @@ class ConfReport
 				$item['status'] = true;
 				if (isset($main[$key])) {
 					$item[static::$sapi] = $main[$key];
-					if($main[$key] === '--'){
+					if ('--' === $main[$key]) {
 						$item['noParameter'] = true;
 						continue;
 					}
@@ -711,7 +712,7 @@ class ConfReport
 				if (isset($cron[$key]['cron']) && (self::$testCli || ($item['testCli'] && 'www' === static::$sapi))) {
 					$item['cron'] = $cron[$key]['cron'];
 				}
-				if(isset($item['type'])) {
+				if (isset($item['type'])) {
 					$methodName = 'validate' . $item['type'];
 					if (\method_exists(__CLASS__, $methodName)) {
 						if ('www' === static::$sapi) {
