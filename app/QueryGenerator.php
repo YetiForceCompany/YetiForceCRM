@@ -202,9 +202,13 @@ class QueryGenerator
 	 *
 	 * @return \self
 	 */
-	public function setFields($fields)
+	public function setFields(array $fields)
 	{
-		$this->fields = $fields;
+		$this->fields = [];
+		foreach($fields as $fieldName){
+			$this->setField($fieldName);
+		}
+
 		return $this;
 	}
 

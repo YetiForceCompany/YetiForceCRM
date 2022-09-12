@@ -688,6 +688,12 @@ class Vtiger_RelationListView_Model extends \App\Base
 				$relatedListFields[$fieldName] = $fieldModel;
 			} elseif (isset($relFields[$fieldName])) {
 				$relatedListFields[$fieldName] = $relFields[$fieldName];
+			} elseif(false !== strpos($fieldName,':')){
+				[$relatedFieldName, $relatedModule, $sourceField] = array_pad(explode(':', $fieldName), 3, null);
+				if(($model = \Vtiger_Module_Model::getInstance($relatedModule)) && ($fieldModel = $model->getFieldByName($relatedFieldName)) && $fieldModel->isActiveField()){
+					$fieldModel->set('source_field_name', $sourceField);
+					$relatedListFields[$fieldName] = $fieldModel;
+				}
 			}
 		}
 		$this->relationModel->set('QueryFields', $relatedListFields);

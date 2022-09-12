@@ -1091,13 +1091,13 @@ class TextParser
 	{
 		$model = $this->recordModel;
 		if (false === $value) {
-			$value = \App\Utils\Completions::decode($this->recordModel->get($fieldModel->getName()), \App\Utils\Completions::FORMAT_TEXT);
+			$value = \App\Utils\Completions::decode($this->recordModel->getValueByFieldModel($fieldModel), \App\Utils\Completions::FORMAT_TEXT);
 			if (!$fieldModel->isViewEnabled() && !$fieldModel->get('fromOutsideList')) {
 				return '';
 			}
 		} elseif (\is_object($value)) {
 			$model = $value;
-			$value = $value->get($fieldModel->getName());
+			$value = $value->getValueByFieldModel($fieldModel);
 			if (!$fieldModel->isViewEnabled() && !$fieldModel->get('fromOutsideList')) {
 				return false;
 			}
