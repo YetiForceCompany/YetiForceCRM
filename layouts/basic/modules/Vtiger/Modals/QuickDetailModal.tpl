@@ -82,6 +82,8 @@
 											<div>{$WIDGET['content']}</div>
 										{/if}
 									</div>
+								{foreachelse}
+									{include file=\App\Layout::getTemplatePath('Detail/BlocksView.tpl', $MODULE_NAME)}
 								{/foreach}
 							</div>
 						</div>
