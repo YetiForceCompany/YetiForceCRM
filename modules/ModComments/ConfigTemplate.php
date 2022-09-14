@@ -24,4 +24,10 @@ return [
 		},
 		'docTags' => ['var' => 'string'],
 	],
+	'showReplyToButton' => [
+		'default' => true,
+		'description' => 'Show reply to button',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool',
+	],
 ];
