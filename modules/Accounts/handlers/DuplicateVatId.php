@@ -13,6 +13,12 @@
  */
 class Accounts_DuplicateVatId_Handler
 {
+	/** @var array List of fields for verification */
+	const FIELDS = [
+		'Accounts' => ['vat_id'],
+		'Leads' => ['vat_id'],
+	];
+
 	/**
 	 * EditViewPreSave handler function.
 	 *
@@ -22,21 +28,30 @@ class Accounts_DuplicateVatId_Handler
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$response = ['result' => true];
-		$fieldModel = $recordModel->getModule()->getFieldByName('vat_id');
-		if ($fieldModel->isViewable() && ($vat = $recordModel->get('vat_id'))) {
-			$queryGenerator = new \App\QueryGenerator($recordModel->getModuleName());
+		$values = [];
+		foreach (self::FIELDS[$recordModel->getModuleName()] as $fieldName) {
+			$fieldModel = $recordModel->getModule()->getFieldByName($fieldName);
+			if ($fieldModel->isViewable() && ($value = $recordModel->get($fieldName))) {
+				$values[] = $value;
+			}
+		}
+		foreach (self::FIELDS as $moduleName => $fields) {
+			$queryGenerator = new \App\QueryGenerator($moduleName);
 			$queryGenerator->setStateCondition('All');
 			$queryGenerator->setFields(['id'])->permissions = false;
-			$queryGenerator->addCondition($fieldModel->getName(), $vat, 'e');
-			if ($recordModel->getId()) {
+			if ($moduleName === $recordModel->getModuleName() && $recordModel->getId()) {
 				$queryGenerator->addCondition('id', $recordModel->getId(), 'n');
+			}
+			foreach ($fields as $fieldName) {
+				$queryGenerator->addCondition($fieldName, $values, 'e', false);
 			}
 			if ($queryGenerator->createQuery()->exists()) {
 				$response = [
 					'result' => false,
 					'hoverField' => 'vat_id',
-					'message' => App\Language::translate('LBL_DUPLICATE_VAT_ID', $recordModel->getModuleName())
+					'message' => App\Language::translateArgs('LBL_DUPLICATE_VAT_ID', $recordModel->getModuleName(), \App\Language::translate($moduleName, $moduleName))
 				];
+				break;
 			}
 		}
 		return $response;
