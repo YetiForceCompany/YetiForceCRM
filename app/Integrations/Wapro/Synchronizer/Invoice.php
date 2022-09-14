@@ -56,7 +56,7 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	{
 		$query = (new \App\Db\Query())->select([
 			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA', 'ID_DOK_ORYGINALNEGO',
-			'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA', 'WARTOSC_NETTO', 'WARTOSC_BRUTTO', 'RAZEM_ZAPLACONO', 'DOK_KOREKTY', 'DATA_KURS_WAL', 'DOK_WAL', 'SYM_WAL', 'STATUS_DOKUMENTU',
+			'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA', 'WARTOSC_NETTO', 'WARTOSC_BRUTTO', 'RAZEM_ZAPLACONO', 'DOK_KOREKTY', 'DATA_KURS_WAL', 'DOK_WAL', 'SYM_WAL', 'STATUS_DOKUMENTU', 'RAZEM_ZAPLACONO', 'RAZEM_ZAPLACONO_WAL',
 			'issueTime' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_WYSTAWIENIA - 36163 as datetime)',
 			'saleDate' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_SPRZEDAZY - 36163 as datetime)',
 			'paymentDate' => 'cast (dbo.DOKUMENT_HANDLOWY.TERMIN_PLAT - 36163 as datetime)',
@@ -119,6 +119,7 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 		$this->recordModel->set('wapro_id', $this->waproId);
 		$this->recordModel->set('finvoice_status', 'PLL_UNASSIGNED');
 		$this->recordModel->set('finvoice_type', 'PLL_DOMESTIC_INVOICE');
+		$this->recordModel->set('wapro_paid', $this->row['DOK_WAL'] ? $this->row['RAZEM_ZAPLACONO_WAL'] : $this->row['RAZEM_ZAPLACONO']);
 		$this->recordModel->set($this->recordModel->getModule()->getSequenceNumberFieldName(), $this->row['NUMER']);
 		$this->loadFromFieldMap();
 		$this->loadDeliveryAddress('b');

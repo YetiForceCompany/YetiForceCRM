@@ -24,6 +24,17 @@ class CorrectingInvoice extends Invoice
 	const SEQUENCE = 6;
 
 	/** {@inheritdoc} */
+	protected $fieldMap = [
+		'ID_FIRMY' => ['fieldName' => 'multiCompanyId', 'fn' => 'findRelationship', 'tableName' => 'FIRMA', 'skipMode' => true],
+		'ID_KONTRAHENTA' => ['fieldName' => 'accountid', 'fn' => 'findRelationship', 'tableName' => 'KONTRAHENT', 'skipMode' => true],
+		'FORMA_PLATNOSCI' => ['fieldName' => 'payment_methods', 'fn' => 'convertPaymentMethods'],
+		'UWAGI' => 'description',
+		'issueTime' => ['fieldName' => 'issue_time', 'fn' => 'convertDate'],
+		'saleDate' => ['fieldName' => 'saledate', 'fn' => 'convertDate'],
+		'paymentDate' => ['fieldName' => 'paymentdate', 'fn' => 'convertDate'],
+	];
+
+	/** {@inheritdoc} */
 	public function process(): int
 	{
 		$query = (new \App\Db\Query())->select([

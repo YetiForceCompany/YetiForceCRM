@@ -45,6 +45,7 @@
     "FL_PAYMENT_SUM": "Total payments",
     "DW_SUM_FIELD": "Summation field",
     "DW_SUMMATION_BY_MONTHS": "Sales comparison by month",
-    "DW_SUMMATION_BY_USER": "Sales comparison by user"
+    "DW_SUMMATION_BY_USER": "Sales comparison by user",
+    "FL_WAPRO_PAID": "WAPRO ERP Paid"
   }
 }

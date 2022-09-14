@@ -23,6 +23,10 @@ class Settings_Wapro_Activation_Model
 		['wapro_id', 'Products', 'LBL_PRODUCT_INFORMATION'],
 		['wapro_id', 'FInvoice', 'LBL_CUSTOM_INFORMATION'],
 		['wapro_id', 'FCorectingInvoice', 'LBL_CUSTOM_INFORMATION'],
+		['wapro_paid', 'FInvoice', 'LBL_CUSTOM_INFORMATION', [
+			'uitype' => 317, 'label' => 'FL_WAPRO_PAID', 'columntype' => 'decimal(28,8)', 'maximumlength' => '1.0E+20',
+			'typeofdata' => 'NN~O', 'displaytype' => 9
+		]],
 	];
 
 	/**
@@ -89,21 +93,34 @@ class Settings_Wapro_Activation_Model
 			$moduleId = \App\Module::getModuleId($field[1]);
 			$check = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $moduleId, 'fieldname' => $field[0]])->exists();
 			if (!$check) {
+				$moduleModel = Vtiger_Module_Model::getInstance($field[1]);
 				$blockModel = vtlib\Block::getInstance($field[2], $field[1]);
 				if (!$blockModel) {
-					$blocks = vtlib\Block::getAllForModule(vtlib\Module::getInstance($field[1]));
+					$blocks = vtlib\Block::getAllForModule($moduleModel);
 					$blockModel = current($blocks);
 				}
 				$fieldInstance = new Vtiger_Field_Model();
-				$fieldInstance->set('name', $field[0])
-					->set('tabid', $moduleId)
-					->set('column', 'wid')
-					->set('columntype', $importer->integer(10)->notNull())
-					->set('table', $db->quoteSql(\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME))
-					->set('label', 'FL_WAPRO_ID')
-					->set('uitype', 1)
-					->set('displaytype', 9)
-					->set('typeofdata', 'I~O');
+				$fieldInstance->set('name', $field[0])->set('tabid', $moduleId);
+				if ('wapro_id' === $field[0]) {
+					$fieldInstance->set('column', 'wid')
+						->set('columntype', $importer->integer(10)->notNull())
+						->set('table', $db->quoteSql(\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME))
+						->set('label', 'FL_WAPRO_ID')
+						->set('uitype', 1)
+						->set('displaytype', 9)
+						->set('typeofdata', 'I~O');
+				} else {
+					$entityInstance = $moduleModel->getEntityInstance();
+					if (empty($entityInstance->customFieldTable)) {
+						$tableName = $entityInstance->table_name;
+					} else {
+						$tableName = current($entityInstance->customFieldTable);
+					}
+					$fieldInstance->set('column', $field[0])->set('table', $tableName);
+					foreach ($field[3] as $key => $value) {
+						$fieldInstance->set($key, $value);
+					}
+				}
 				if ($fieldInstance->save($blockModel)) {
 					$status = true;
 				} else {
