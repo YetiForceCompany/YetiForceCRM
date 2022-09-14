@@ -2,11 +2,6 @@
 {strip}
 	<!-- tpl-Base-inventoryfields-EditViewPicklistField -->
 	{assign var=VALUE value=$INVENTORY_MODEL->getEditValue($ITEM_DATA, $FIELD->getColumnName())}
-	{assign var=INPUT_TYPE value='text'}
-	{if $FIELD->isReadOnly()}
-		{assign var=INPUT_TYPE value='hidden'}
-		<span class="{$FIELD->getColumnName()}">{\App\Purifier::encodeHtml($VALUE)}</span>
-	{/if}
 	<div class="input-group-sm">
 		<select class="selectInv {$FIELD->getColumnName()}" name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" {if $FIELD->isReadOnly()}readonly="readonly" {/if}>
 			{if $ROW_NO === '_NUM_'}

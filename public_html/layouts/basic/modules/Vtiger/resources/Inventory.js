@@ -1084,9 +1084,11 @@ $.Class(
 				thisInstance.setTaxPercent(parentRow, 0);
 
 				for (let field in recordData['autoFields']) {
-					let inputField = parentRow.find('input.' + field);
+					let inputField = parentRow.find(`input.${field},select.${field}`);
 					if (inputField.attr('type') === 'checkbox') {
 						inputField.prop('checked', recordData['autoFields'][field]);
+					} else if (inputField.is('select')) {
+						inputField.val(recordData['autoFields'][field]).trigger('change');
 					} else {
 						inputField.val(recordData['autoFields'][field]);
 					}
