@@ -623,7 +623,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public function compare($value, $prevValue, string $column): bool
 	{
-		return $prevValue === $value;
+		return (string) $value === (string) $prevValue;
 	}
 
 	/**
