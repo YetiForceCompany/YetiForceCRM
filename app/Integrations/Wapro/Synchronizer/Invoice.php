@@ -301,7 +301,7 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 			$inventory[] = [
 				'name' => $productId,
 				'qty' => $row['ILOSC'],
-				'price' => $this->row['DOK_WAL'] ? $row['CENA_NETTO_WAL'] : $row['CENA_NETTO'],
+				'price' => empty($this->row['DOK_WAL']) ? $row['CENA_NETTO'] : $row['CENA_NETTO_WAL'],
 				'comment1' => trim($row['OPIS']),
 				'unit' => $this->convertUnitName($row['JEDNOSTKA'], ['fieldName' => 'usageunit', 'moduleName' => 'Products']),
 				'discountmode' => 1,
