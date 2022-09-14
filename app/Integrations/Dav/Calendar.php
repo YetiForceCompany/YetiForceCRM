@@ -553,7 +553,7 @@ class Calendar
 		if ('VEVENT' === (string) $this->vcomponent->name) {
 			$values = [
 				'PLL_PLANNED' => 'TENTATIVE',
-				'PLL_OVERDUE' => 'CANCELLED',
+				'PLL_OVERDUE' => 'TENTATIVE',
 				'PLL_POSTPONED' => 'CANCELLED',
 				'PLL_CANCELLED' => 'CANCELLED',
 				'PLL_COMPLETED' => 'CONFIRMED',
@@ -562,7 +562,7 @@ class Calendar
 			$values = [
 				'PLL_PLANNED' => 'NEEDS-ACTION',
 				'PLL_IN_REALIZATION' => 'IN-PROCESS',
-				'PLL_OVERDUE' => 'CANCELLED',
+				'PLL_OVERDUE' => 'NEEDS-ACTION',
 				'PLL_POSTPONED' => 'CANCELLED',
 				'PLL_CANCELLED' => 'CANCELLED',
 				'PLL_COMPLETED' => 'COMPLETED',
