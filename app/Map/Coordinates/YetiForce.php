@@ -62,7 +62,7 @@ class YetiForce extends Base
 	/** {@inheritdoc} */
 	public function getCoordinatesByValue(string $value): array
 	{
-		if ($coordinatesDetails = $this->getCoordinates(['q' => $value])) {
+		if (($coordinatesDetails = $this->getCoordinates(['q' => $value])) && !empty($coordinatesDetails)) {
 			$coordinatesDetails = reset($coordinatesDetails);
 			return ['lat' => $coordinatesDetails['lat'], 'lon' => $coordinatesDetails['lon']];
 		}
