@@ -244,9 +244,9 @@ class DateTimeField
 	}
 
 	/**
-	 * @param type $time
-	 * @param type $sourceTimeZoneName
-	 * @param type $targetTimeZoneName
+	 * @param string $time
+	 * @param string $sourceTimeZoneName
+	 * @param string $targetTimeZoneName
 	 *
 	 * @return DateTime
 	 */
