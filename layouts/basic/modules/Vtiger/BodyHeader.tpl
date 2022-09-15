@@ -360,7 +360,7 @@
 							{assign var="HREF" value='#'}
 							{assign var="ICON_PATH" value=$obj->getIconPath()}
 							{assign var="LINK" value=$obj->convertToNativeLink()}
-							{assign var="ICON" value=$obj->getHeaderIcon()}
+							{assign var="ICON" value=$obj->getIcon()}
 							{assign var="TITLE" value=$obj->getLabel()}
 							{assign var="CHILD_LINKS" value=$obj->getChildLinks()}
 							{if !empty($LINK)}
@@ -374,12 +374,11 @@
 											data-{$DATA_NAME}="{$DATA_VALUE}"
 										{/foreach}
 									{/if}>
-									{if $ICON}
-										<span class="{$ICON}" title="{\App\Language::translate($TITLE)}"></span>
-										<span class="c-header__label--sm-down">{\App\Language::translate($TITLE)}</span>
-									{/if}
 									{if $ICON_PATH}
-										<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE)}" title="{\App\Language::translate($TITLE)}" />
+										<img src="{$ICON_PATH|escape}" alt="{\App\Language::translate($TITLE)}" title="{\App\Language::translate($TITLE)}" />
+									{elseif $ICON}
+										<span class="{$ICON|escape}" title="{\App\Language::translate($TITLE)}"></span>
+										<span class="c-header__label--sm-down">{\App\Language::translate($TITLE)}</span>
 									{/if}
 								</a>
 								{if !empty($CHILD_LINKS)}

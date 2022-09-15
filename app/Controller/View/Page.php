@@ -149,7 +149,7 @@ abstract class Page extends Base
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_VIDEO_CONFERENCE',
 				'linkdata' => ['url' => 'index.php?module=Users&view=MeetingModal&record=' . \App\User::getCurrentUserRealId()],
-				'icon' => 'mdi mdi-card-account-phone c-mdi',
+				'linkicon' => 'mdi mdi-card-account-phone c-mdi',
 				'linkclass' => 'js-show-modal',
 			];
 		}
@@ -159,14 +159,14 @@ abstract class Page extends Base
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_SYSTEM_SETTINGS',
 					'linkurl' => 'index.php?module=YetiForce&parent=Settings&view=Shop',
-					'icon' => 'fas fa-cog fa-fw',
+					'linkicon' => 'fas fa-cog fa-fw',
 				];
 			} else {
 				$headerLinks[] = [
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_USER_PANEL',
 					'linkurl' => 'index.php',
-					'icon' => 'fas fa-house-user fa-fw',
+					'linkicon' => 'fas fa-house-user fa-fw',
 				];
 			}
 		}
@@ -174,7 +174,7 @@ abstract class Page extends Base
 			'linktype' => 'HEADERLINK',
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
-			'icon' => 'fas fa-power-off fa-fw',
+			'linkicon' => 'fas fa-power-off fa-fw',
 			'linkclass' => 'btn-danger d-md-none js-post-action',
 		];
 		$headerLinkInstances = [];
@@ -216,7 +216,7 @@ abstract class Page extends Base
 				'linklabel' => 'LBL_MY_PREFERENCES',
 				'linkurl' => $userModel->getPreferenceDetailViewUrl(),
 				'linkclass' => 'd-block',
-				'icon' => 'fas fa-user-cog fa-fw',
+				'linkicon' => 'fas fa-user-cog fa-fw',
 			];
 		}
 		if (\App\Config::security('CHANGE_LOGIN_PASSWORD') && \App\User::getCurrentUserId() === \App\User::getCurrentUserRealId()) {
@@ -225,7 +225,7 @@ abstract class Page extends Base
 				'linklabel' => 'LBL_CHANGE_PASSWORD',
 				'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->getId()],
 				'linkclass' => 'showModal d-block',
-				'icon' => 'yfi yfi-change-passowrd',
+				'linkicon' => 'yfi yfi-change-passowrd',
 			];
 		}
 		if (
@@ -237,7 +237,7 @@ abstract class Page extends Base
 				'linklabel' => 'LBL_2FA_TOTP_QR_CODE',
 				'linkdata' => ['url' => 'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' . $userModel->getId()],
 				'linkclass' => 'showModal d-block',
-				'icon' => 'fas fa-key',
+				'linkicon' => 'fas fa-key',
 			];
 		}
 		if (\Users_Module_Model::getSwitchUsers()) {
@@ -245,7 +245,7 @@ abstract class Page extends Base
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'SwitchUsers',
 				'linkurl' => '',
-				'icon' => 'fas fa-exchange-alt fa-fw',
+				'linkicon' => 'fas fa-exchange-alt fa-fw',
 				'linkdata' => ['url' => $userModel->getSwitchUsersUrl()],
 				'linkclass' => 'showModal d-block',
 			];
@@ -255,7 +255,7 @@ abstract class Page extends Base
 			'linklabel' => 'BTN_YOUR_ACCOUNT_ACCESS_HISTORY',
 			'linkdata' => ['url' => 'index.php?module=Users&view=LoginHistoryModal&mode=change&record=' . $userModel->get('id')],
 			'linkclass' => 'showModal d-block',
-			'icon' => 'yfi yfi-login-history',
+			'linkicon' => 'yfi yfi-login-history',
 		];
 		$headerLinks[] = [
 			'linktype' => 'SEPARATOR',
@@ -265,7 +265,7 @@ abstract class Page extends Base
 			'linktype' => 'HEADERLINK',
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
-			'icon' => 'fas fa-power-off fa-fw',
+			'linkicon' => 'fas fa-power-off fa-fw',
 			'linkclass' => 'd-none d-sm-none d-md-block js-post-action',
 		];
 		$headerLinkInstances = [];

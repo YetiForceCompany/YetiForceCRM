@@ -67,26 +67,25 @@
 							{assign var="HREF" value='#'}
 							{assign var="ICON_PATH" value=$obj->getIconPath()}
 							{assign var="LINK" value=$obj->convertToNativeLink()}
-							{assign var="ICON" value=$obj->getHeaderIcon()}
+							{assign var="ICON" value=$obj->getIcon()}
 							{assign var="TITLE" value=$obj->getLabel()}
 							{assign var="CHILD_LINKS" value=$obj->getChildLinks()}
 							{if !empty($LINK)}
 								{assign var="HREF" value=$LINK}
 							{/if}
 							<div class="o-action-menu__item">
-								<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName()|strrpos:"btn-" === false}btn-light {$obj->getClassName()}{else}{$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" href="{$HREF}" data-placement="bottom"
+								<a class="c-header__btn ml-2 btn btn js-popover-tooltip {if $obj->getClassName() && strrpos($obj->getClassName(),"btn-") !== false}{$obj->getClassName()}{else}btn-light {$obj->getClassName()}{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" href="{$HREF}" data-placement="bottom"
 									role="button" data-js="popover" data-content="{\App\Language::translate($TITLE)}"
 									{if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
 										{foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
 											data-{$DATA_NAME}="{$DATA_VALUE}"
 										{/foreach}
 									{/if}>
-									{if $ICON}
-										<span class="{$ICON}" title="{\App\Language::translate($TITLE)}"></span>
-										<span class="c-header__label--sm-down">{\App\Language::translate($TITLE)}</span>
-									{/if}
 									{if $ICON_PATH}
-										<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE)}" title="{\App\Language::translate($TITLE)}" />
+										<img src="{$ICON_PATH|escape}" alt="{\App\Language::translate($TITLE)}" title="{\App\Language::translate($TITLE)}" />
+									{elseif $ICON}
+										<span class="{$ICON|escape}" title="{\App\Language::translate($TITLE)}"></span>
+										<span class="c-header__label--sm-down">{\App\Language::translate($TITLE)}</span>
 									{/if}
 								</a>
 								{if !empty($CHILD_LINKS)}
