@@ -1650,6 +1650,7 @@ const app = (window.app = {
 			cb(modalContainer);
 			App.Fields.Picklist.changeSelectElementView(modalContainer);
 			App.Fields.Date.register(modalContainer);
+			App.Fields.DateTime.register(modalContainer);
 			App.Fields.Text.Editor.register(modalContainer.find('.js-editor'), {
 				height: '5em',
 				toolbar: 'Min'
