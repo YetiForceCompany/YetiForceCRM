@@ -59,6 +59,7 @@ class TextParser
 		'LBL_DATE_FIRST_DAY_OF_THIS_MONTH' => '$(date : first day of this month)$',
 		'LBL_DATE_LAST_DAY_OF_THIS_MONTH' => '$(date : last day of this month)$',
 		'LBL_DATE_FIRST_DAY_OF_NEXT_MONTH' => '$(date : first day of next month)$',
+		'LBL_DATE_NEXT_WORKING_DAY' => '$(date : nextworkingday)$',
 	];
 
 	/**

@@ -9,7 +9,7 @@
 	</div>
 	<div class="modal-body row">
 		<div class="col-md-12">
-			<select class="col-md-2 select2" name="varibles" data-validation-engine="validate[required]">
+			<select class="select2 form-control" name="varibles" data-validation-engine="validate[required]">
 				{foreach item=PICKLIST_VALUE key=PICKLIST_NAME from=$VARIBLES}
 					<option value="">{\App\Language::translate('LBL_SELECT', $QUALIFIED_MODULE)}</option>
 					<option value="{\App\Purifier::encodeHtml($PICKLIST_VALUE)}" {if $DEFAULT_VALUE eq $PICKLIST_VALUE} selected="" {/if}>{App\Language::translate($PICKLIST_NAME, 'Other::TextParser')}</option>

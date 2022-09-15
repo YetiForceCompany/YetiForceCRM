@@ -131,4 +131,17 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 		}
 		return $value . date(' (T P)', strtotime($value));
 	}
+
+	/** {@inheritdoc} */
+	public function getDefaultValue()
+	{
+		$defaultValue = $this->getFieldModel()->get('defaultvalue');
+		if ($defaultValue && \App\TextParser::isVaribleToParse($defaultValue)) {
+			$textParser = \App\TextParser::getInstance($this->getFieldModel()->getModuleName());
+			$textParser->setContent($defaultValue)->parse();
+			$defaultValue = $textParser->getContent() . ' ' . \App\User::getCurrentUserModel()->getDetail('start_hour');
+		}
+
+		return $defaultValue;
+	}
 }
