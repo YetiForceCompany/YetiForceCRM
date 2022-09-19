@@ -19,6 +19,8 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	protected $params = ['modules', 'mandatory'];
 	protected $maximumLength = '-2147483648,2147483647';
 	protected $purifyType = \App\Purifier::INTEGER;
+	/** {@inheritdoc} */
+	protected $onlyOne = false;
 
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)

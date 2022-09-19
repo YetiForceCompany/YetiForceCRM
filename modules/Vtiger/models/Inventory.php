@@ -374,8 +374,8 @@ class Vtiger_Inventory_Model
 			$fieldModel->set('sequence', $db->getUniqueID($tableName, 'sequence', false));
 		}
 		if (!$fieldModel->getId() && !$fieldModel->isOnlyOne()) {
-			$id = (new \App\Db\Query())->from($tableName)->where(['invtype' => $fieldModel->getType()])->max('id') + 1;
-			$fieldModel->set('columnname', $fieldModel->getColumnName() . $id);
+			$id = (new \App\Db\Query())->from($tableName)->where(['invtype' => $fieldModel->getType()])->max('id');
+			$fieldModel->set('columnname', $fieldModel->getColumnName() . ($id ? ++$id : ''));
 		}
 		$transaction = $db->beginTransaction();
 		try {
