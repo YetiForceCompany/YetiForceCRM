@@ -75,7 +75,7 @@
 					<div class="quickCreateContent">
 						<div class="modal-body m-0">
 							{if $LAYOUT === 'blocks'}
-								{include file=\App\Layout::getTemplatePath('EditBlocks.tpl') RECORD_STRUCTURE=$RECORD_STRUCTURE}
+								{include file=\App\Layout::getTemplatePath('EditBlocks.tpl', $MODULE_NAME) RECORD_STRUCTURE=$RECORD_STRUCTURE}
 							{else}
 								<div class="border-0 px-1 mx-auto m-0">
 									<div class="px-0 m-0 form-row d-flex justify-content-center">
