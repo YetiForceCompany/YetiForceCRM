@@ -84,9 +84,12 @@
 									{if $ICON_PATH}
 										<img src="{$ICON_PATH|escape}" alt="{\App\Language::translate($TITLE)}" title="{\App\Language::translate($TITLE)}" />
 									{elseif $ICON}
-										<span class="{$ICON|escape}" title="{\App\Language::translate($TITLE)}"></span>
-										<span class="c-header__label--sm-down">{\App\Language::translate($TITLE)}</span>
+										<span class="{$ICON|escape}" title="{\App\Language::translate($TITLE, $obj->getModuleName())}"></span>
 									{/if}
+									{if !empty($obj->linkdata['auto-refresh'])}
+										<span class="badge badge-danger d-none mr-1">0</span>
+									{/if}
+									<span class="c-header__label--sm-down">{\App\Language::translate($TITLE, $obj->getModuleName())}</span>
 								</a>
 								{if !empty($CHILD_LINKS)}
 									<ul class="dropdown-menu">

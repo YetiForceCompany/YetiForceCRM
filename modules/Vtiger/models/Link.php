@@ -396,4 +396,15 @@ class Vtiger_Link_Model extends vtlib\Link
 		}
 		return $relatedModuleName;
 	}
+
+	/**
+	 * Get module name.
+	 *
+	 * @return string
+	 */
+	public function getModuleName(): string
+	{
+		$tabId = $this->get('tabid') ?? 0;
+		return \App\Module::getModuleName($tabId) ?: '_Base';
+	}
 }

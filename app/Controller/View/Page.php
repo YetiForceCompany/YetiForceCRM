@@ -143,7 +143,14 @@ abstract class Page extends Base
 	protected function getMenuHeaderLinks(\App\Request $request): array
 	{
 		$userModel = \App\User::getCurrentUserModel();
-		$headerLinks = [];
+		$headerLinks = $headerLinkInstances = [];
+
+		foreach (\Vtiger_Link_Model::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERLINK']) as $links) {
+			foreach ($links as $headerLink) {
+				$headerLinkInstances[] = \Vtiger_Link_Model::getInstanceFromLinkObject($headerLink);
+			}
+		}
+
 		if (\App\MeetingService::getInstance()->isActive() && \App\Privilege::isPermitted('Users', 'MeetingUrl', false, \App\User::getCurrentUserRealId())) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
@@ -177,7 +184,7 @@ abstract class Page extends Base
 			'linkicon' => 'fas fa-power-off fa-fw',
 			'linkclass' => 'btn-danger d-md-none js-post-action',
 		];
-		$headerLinkInstances = [];
+
 		foreach ($headerLinks as $headerLink) {
 			$headerLinkInstance = \Vtiger_Link_Model::getInstanceFromValues($headerLink);
 			if (isset($headerLink['childlinks'])) {
@@ -187,12 +194,7 @@ abstract class Page extends Base
 			}
 			$headerLinkInstances[] = $headerLinkInstance;
 		}
-		$headerLinks = \Vtiger_Link_Model::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERLINK']);
-		foreach ($headerLinks as $headerLinks) {
-			foreach ($headerLinks as $headerLink) {
-				$headerLinkInstances[] = \Vtiger_Link_Model::getInstanceFromLinkObject($headerLink);
-			}
-		}
+
 		return $headerLinkInstances;
 	}
 

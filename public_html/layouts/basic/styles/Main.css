@@ -23762,8 +23762,7 @@ body > .o-exception-fixed-block {
   margin-bottom: 0;
 }
 
-.remindersNoticeContainer,
-.remindersNotificationContainer {
+.c-sidebar-right {
   visibility: hidden;
   position: fixed;
   right: -380px;
@@ -23778,14 +23777,12 @@ body > .o-exception-fixed-block {
   transition: all 0.5s ease;
   max-width: 100%;
 }
-.remindersNoticeContainer.toggled,
-.remindersNotificationContainer.toggled {
+.c-sidebar-right.toggled {
   visibility: visible;
   right: 0;
 }
 
-.limited-footer--active .remindersNoticeContainer,
-.limited-footer--active .remindersNotificationContainer,
+.limited-footer--active .c-sidebar-right,
 .limited-footer--active .modalRightSiteBar {
   height: calc(100vh - (1rem + 3.125rem));
 }

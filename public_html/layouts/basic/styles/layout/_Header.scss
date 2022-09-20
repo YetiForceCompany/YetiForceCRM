@@ -62,8 +62,7 @@
 	margin-bottom: 0;
 }
 
-.remindersNoticeContainer,
-.remindersNotificationContainer {
+.c-sidebar-right {
 	visibility: hidden;
 	position: fixed;
 	right: -380px;
@@ -85,8 +84,7 @@
 }
 
 .limited-footer--active {
-	.remindersNoticeContainer,
-	.remindersNotificationContainer,
+	.c-sidebar-right,
 	.modalRightSiteBar {
 		height: $h-main-viewport-limited-footer;
 	}
