@@ -50,16 +50,6 @@ class Products_Module_Model extends Vtiger_Module_Model
 		}
 	}
 
-	/**
-	 * Function to check whether the module is summary view supported.
-	 *
-	 * @return bool
-	 */
-	public function isSummaryViewSupported()
-	{
-		return false;
-	}
-
 	/** {@inheritdoc} */
 	public function getQueryForRecords(string $searchValue, int $limit, int $srcRecord = null): App\QueryGenerator
 	{
