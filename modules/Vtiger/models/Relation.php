@@ -637,15 +637,16 @@ class Vtiger_Relation_Model extends \App\Base
 			'destinationModule' => $this->getRelationModuleModel()->getName(),
 			'relationId' => $this->getId(),
 		];
-		$eventHandler = new \App\EventHandler();
-		$eventHandler->setModuleName($sourceModuleName);
+		$eventHandler = (new \App\EventHandler())->setModuleName($this->getRelationModuleModel()->getName());
+		$eventHandlerBySource = (new \App\EventHandler())->setModuleName($sourceModuleName);
 		foreach ($destinationRecordIds as $destinationRecordId) {
 			$data['destinationRecordId'] = $destinationRecordId;
-			$eventHandler->setParams($data);
-			$eventHandler->trigger('EntityBeforeLink');
+			$eventHandler->setParams($data)->trigger('EntityBeforeLink');
+			$eventHandlerBySource->setParams($data)->trigger('EntityBeforeLinkForSource');
 			if ($result = $relationModel->create($sourceRecordId, $destinationRecordId)) {
 				\CRMEntity::trackLinkedInfo($sourceRecordId);
 				$eventHandler->trigger('EntityAfterLink');
+				$eventHandler->trigger('EntityAfterLinkForSource');
 			}
 		}
 		return $result;
@@ -731,22 +732,25 @@ class Vtiger_Relation_Model extends \App\Base
 			$result = true;
 		} elseif (!($this->getRelationField() && $this->getRelationField()->isMandatory())) {
 			$destinationModuleFocus = $this->getRelationModuleModel()->getEntityInstance();
-			$eventHandler = new \App\EventHandler();
-			$eventHandler->setModuleName($sourceModuleName);
-			$eventHandler->setParams([
+			$params = [
 				'CRMEntity' => $destinationModuleFocus,
 				'sourceModule' => $sourceModuleName,
 				'sourceRecordId' => $sourceRecordId,
 				'destinationModule' => $destinationModuleName,
 				'destinationRecordId' => $relatedRecordId,
 				'relatedName' => $this->get('name'),
-			]);
+			];
+			$eventHandler = (new \App\EventHandler())->setModuleName($destinationModuleName)->setParams($params);
+			$eventHandlerBySource = (new \App\EventHandler())->setModuleName($sourceModuleName)->setParams($params);
 			$eventHandler->trigger('EntityBeforeUnLink');
+			$eventHandlerBySource->trigger('EntityBeforeUnLinkForSource');
 			if ($result = $this->getTypeRelationModel()->delete($sourceRecordId, $relatedRecordId)) {
 				$destinationModuleFocus->trackUnLinkedInfo($sourceRecordId);
 				$eventHandler->trigger('EntityAfterUnLink');
+				$eventHandlerBySource->trigger('EntityAfterUnLinkForSource');
 			}
 		}
+
 		return $result;
 	}
 

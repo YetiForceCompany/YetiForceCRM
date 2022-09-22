@@ -53,6 +53,9 @@ class Calendar_CalendarHandler_Handler
 	public function entityAfterUnLink(App\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
+		echo '<pre>', print_r(['aaaa', $params]);
+		echo '</pre>';
+		exit;
 		$fieldName = \App\ModuleHierarchy::getMappingRelatedField($params['sourceModule']);
 		Calendar_Record_Model::setCrmActivity([$params['sourceRecordId'] => $fieldName]);
 	}

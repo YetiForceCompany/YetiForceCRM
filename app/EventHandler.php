@@ -373,10 +373,14 @@ class EventHandler
 	 * Set params.
 	 *
 	 * @param array $params
+	 *
+	 * @return $this
 	 */
 	public function setParams($params)
 	{
 		$this->params = $params;
+
+		return $this;
 	}
 
 	/**
