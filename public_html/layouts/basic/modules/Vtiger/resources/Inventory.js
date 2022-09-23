@@ -58,8 +58,11 @@ $.Class(
 		 * @returns {jQuery}
 		 */
 		loadConfig() {
-			this.discount = JSON.parse(this.form.find('.js-discount-config').val());
-			this.tax = JSON.parse(this.form.find('.js-tax-config').val());
+			let discontConfig = this.form.find('.js-discount-config');
+			let taxConfig = this.form.find('.js-tax-config');
+
+			this.discount = discontConfig.length ? JSON.parse(discontConfig.val()) : {};
+			this.tax = taxConfig.length ? JSON.parse(this.form.find('.js-tax-config').val()) : {};
 		},
 		/**
 		 * Function that is used to get the line item container
