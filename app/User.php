@@ -243,9 +243,9 @@ class User
 	 *
 	 * @return array
 	 */
-	public function getGroups()
+	public function getGroups(): array
 	{
-		return $this->privileges['groups'] ?? null;
+		return $this->privileges['groups'] ?? [];
 	}
 
 	/**

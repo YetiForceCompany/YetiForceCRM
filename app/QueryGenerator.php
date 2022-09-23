@@ -205,7 +205,7 @@ class QueryGenerator
 	public function setFields(array $fields)
 	{
 		$this->fields = [];
-		foreach($fields as $fieldName){
+		foreach ($fields as $fieldName) {
 			$this->setField($fieldName);
 		}
 
@@ -446,6 +446,8 @@ class QueryGenerator
 
 	/**
 	 * Appends a JOIN part to the query.
+	 *
+	 * @example ['INNER JOIN', 'vtiger_user2role', 'vtiger_user2role.userid = vtiger_users.id']
 	 *
 	 * @param array $join
 	 *
