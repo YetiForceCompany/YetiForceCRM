@@ -510,7 +510,7 @@ class OSSMail_Mail_Model extends \App\Base
 			$params['titlePrefix'] = 'url_';
 			if (\Config\Modules\OSSMailScanner::$attachMailBodyGraphicUrl ?? true) {
 				if ($file = App\Fields\File::saveFromUrl($src, $params)) {
-					$file['srcType'] = 'url';
+					$file['srcType'] = 'image';
 				}
 			} else {
 				$file = [
