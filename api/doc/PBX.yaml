@@ -1,0 +1,148 @@
+openapi: 3.0.0
+info:
+  title: 'YetiForce API for PBX. Type: PBX'
+  description: ''
+  termsOfService: 'https://yetiforce.com/'
+  contact:
+    name: 'Devs API Team'
+    url: 'https://yetiforce.com/'
+    email: devs@yetiforce.com
+  license:
+    name: 'YetiForce Public License'
+    url: 'https://yetiforce.com/en/yetiforce/license'
+  version: '0.1'
+servers:
+  -
+    url: 'https://gitdeveloper.yetiforce.com'
+    description: 'Demo server of the development version'
+  -
+    url: 'https://gitstable.yetiforce.com'
+    description: 'Demo server of the latest stable version'
+paths:
+  /webservice/PBX/Genesys/registerInteraction:
+    post:
+      tags:
+        - PBX
+      summary: 'PBX Genesys creating interactions'
+      description: 'Api PBX Genesys creating interactions method.'
+      operationId: ec3ebee06573408811dcf8c708b53ba3
+      responses:
+        '200':
+          description: 'Correct server response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PBX_Genesys_Full_Response'
+        '401':
+          description: 'Invalid api key'
+        '404':
+          description: 'Method Not Found'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PBX_Genesys_Error'
+      security:
+        -
+          ApiKeyAuth: []
+  /webservice/PBX/Genesys/registerInteractionCampaign:
+    post:
+      tags:
+        - PBX
+      summary: 'PBX Genesys creating interactions for campaign'
+      operationId: a4d002c1c39540e3361cdfb5b35ba525
+      responses:
+        '200':
+          description: 'Correct server response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PBX_Genesys_Simple_Response'
+        '401':
+          description: 'Invalid api key'
+        '404':
+          description: 'Method Not Found'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PBX_Genesys_Error'
+      security:
+        -
+          ApiKeyAuth: []
+  /webservice/PBX/Genesys/updateInteraction:
+    put:
+      tags:
+        - PBX
+      summary: 'PBX Genesys interaction update'
+      description: 'Api PBX Genesys update interactions method.'
+      operationId: e60477350878a872455a506ed8915633
+      responses:
+        '200':
+          description: 'Correct server response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PBX_Genesys_Simple_Response'
+        '401':
+          description: 'Invalid api key'
+        '404':
+          description: 'Method Not Found'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PBX_Genesys_Error'
+      security:
+        -
+          ApiKeyAuth: []
+components:
+  schemas:
+    PBX_Genesys_Error:
+      title: 'Response for Genesys errors'
+      required:
+        - status
+        - description
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          example: 0
+        description:
+          description: 'Error description'
+          type: string
+          example: 'No data'
+      type: object
+    PBX_Genesys_Full_Response:
+      title: 'Response for creating interactions'
+      required:
+        - status
+        - interactionId
+        - url
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          example: 1
+        interactionId:
+          description: 'CRM interaction ID'
+          type: integer
+          example: 3345
+        url:
+          description: 'The full URL to call on the Genesys app'
+          type: string
+          example: 'https://gitstable.yetiforce.com/index.php?module=Accounts&view=List'
+      type: object
+    PBX_Genesys_Simple_Response:
+      title: 'Response for update interactions'
+      required:
+        - status
+      properties:
+        status:
+          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          type: integer
+          example: 1
+      type: object

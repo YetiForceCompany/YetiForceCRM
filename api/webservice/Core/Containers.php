@@ -19,7 +19,7 @@ class Containers
 {
 	/** @var string[] List of available API containers */
 	const LIST = [
-		'WebserviceStandard', 'WebservicePremium', 'ManageConsents', 'SMS', 'Token',
+		'WebserviceStandard', 'WebservicePremium', 'ManageConsents', 'SMS', 'Token', 'PBX'
 	];
 
 	/** @var string[] List of GUI tabs */
@@ -50,6 +50,7 @@ class Containers
 	/** @var array List of container configuration fields */
 	const CONFIG_FIELDS = [
 		'SMS' => ['name' => 'M', 'status' => 'M', 'type' => 'M', 'ips' => 'M'],
+		'PBX' => ['name' => 'M', 'status' => 'M', 'type' => 'M', 'ips' => 'O'],
 		'Token' => ['name' => 'M', 'status' => 'M', 'type' => 'M', 'ips' => 'O', 'url' => 'O'],
 	];
 }
