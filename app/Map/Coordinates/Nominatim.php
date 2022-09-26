@@ -48,9 +48,8 @@ class Nominatim extends Base
 	/** {@inheritdoc} */
 	public function getCoordinatesByValue(string $value): array
 	{
-		if (($coordinatesDetails = $this->getCoordinates(['q' => $value])) && !empty($coordinatesDetails)) {
-			$coordinatesDetails = reset($coordinatesDetails);
-			return ['lat' => $coordinatesDetails['lat'], 'lon' => $coordinatesDetails['lon']];
+		if (($coordinatesDetails = $this->getCoordinates(['q' => $value])) && ($coordinates = reset($coordinatesDetails)) && !empty($coordinates)) {
+			return ['lat' => $coordinates['lat'], 'lon' => $coordinates['lon']];
 		}
 		return [];
 	}
