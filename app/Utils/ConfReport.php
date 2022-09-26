@@ -193,7 +193,7 @@ class ConfReport
 		'table_open_cache_instances' => ['container' => 'db', 'testCli' => true],
 		'table_open_cache' => ['recommended' => 1000, 'type' => 'Greater', 'container' => 'db', 'testCli' => true, 'mode' => 'showWarnings'],
 		'table_definition_cache' => ['type' => 'DbTableDefinitionCache', 'container' => 'db', 'testCli' => true, 'mode' => 'showWarnings'],
-		'open_files_limit' => ['container' => 'db', 'testCli' => true],
+		'open_files_limit' => ['container' => 'db', 'type' => 'DbOpenFilesLimit', 'testCli' => true],
 		'tmp_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
 		'innodb_buffer_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
 		'innodb_additional_mem_pool_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
@@ -924,6 +924,28 @@ class ConfReport
 		unset($name);
 		$tableOpenCache = (self::$db['table_open_cache'] > self::$database['table_open_cache']['recommended']) ? self::$db['table_open_cache'] : self::$database['table_open_cache']['recommended'];
 		$row['recommended'] = $tableOpenCache + 400;
+		if (isset($row[$sapi]) && (int) $row[$sapi] < $row['recommended']) {
+			$row['status'] = false;
+		}
+		if (!isset($row[$sapi])) {
+			$row['noParameter'] = true;
+		}
+		return $row;
+	}
+
+	/**
+	 * Validate DB open_files_limit.
+	 *
+	 * @param string $name
+	 * @param array  $row
+	 * @param string $sapi
+	 *
+	 * @return array
+	 */
+	private static function validateDbOpenFilesLimit(string $name, array $row, string $sapi)
+	{
+		unset($name);
+		$row['recommended'] = self::$db['table_open_cache'] * 2;
 		if (isset($row[$sapi]) && (int) $row[$sapi] < $row['recommended']) {
 			$row['status'] = false;
 		}
