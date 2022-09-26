@@ -106,7 +106,7 @@ class Controller
 		}
 		$this->app['tables'] = Core\Containers::LIST_TABLES[$this->app['type']] ?? [];
 		if (!empty($this->app['ips']) && !\in_array(\App\RequestUtil::getRemoteIP(true), array_map('trim', explode(',', $this->app['ips'])))) {
-			throw new Core\Exception('Illegal IP address', 401);
+			throw new Core\Exception("Illegal IP address|{$this->app['ips']}<>" . \App\RequestUtil::getRemoteIP(true), 401);
 		}
 		if ($this->request->isEmpty('action', true)) {
 			throw new Core\Exception('No action', 404);

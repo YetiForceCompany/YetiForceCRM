@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace Api\SMS\Auth;
@@ -23,7 +24,6 @@ class Basic extends \Api\Core\Auth\Basic
 			$this->api->response->addHeader('WWW-Authenticate', 'Basic realm="' . $realm . '"');
 			throw new \Api\Core\Exception('Web service - Applications: Unauthorized', 401);
 		}
-
 		return true;
 	}
 
@@ -38,7 +38,6 @@ class Basic extends \Api\Core\Auth\Basic
 			$row['id'] = (int) $row['id'];
 			$this->api->app = $row;
 		}
-
 		return $this;
 	}
 }

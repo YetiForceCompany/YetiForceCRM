@@ -17,6 +17,20 @@ namespace Api\Core\Auth;
  */
 class Basic extends AbstractAuth
 {
+	/** {@inheritdoc} */
+	public function setServer(): self
+	{
+		$this->api->app = [];
+		$userName = $_SERVER['PHP_AUTH_USER'] ?? '';
+		$type = $this->api->request->getByType('_container', \App\Purifier::STANDARD);
+		$query = (new \App\Db\Query())->from('w_#__servers')->where(['type' => $type, 'name' => $userName, 'status' => 1]);
+		if ($userName && $row = $query->one()) {
+			$row['id'] = (int) $row['id'];
+			$this->api->app = $row;
+		}
+		return $this;
+	}
+
 	/** {@inheritdoc}  */
 	public function authenticate(string $realm): bool
 	{
@@ -34,20 +48,6 @@ class Basic extends AbstractAuth
 		}
 
 		return true;
-	}
-
-	/** {@inheritdoc} */
-	public function setServer(): self
-	{
-		$this->api->app = [];
-		$userName = $_SERVER['PHP_AUTH_USER'] ?? '';
-		$type = $this->api->request->getByType('_container', \App\Purifier::STANDARD);
-		$query = (new \App\Db\Query())->from('w_#__servers')->where(['type' => $type, 'name' => $userName, 'status' => 1]);
-		if ($userName && $row = $query->one()) {
-			$row['id'] = (int) $row['id'];
-			$this->api->app = $row;
-		}
-		return $this;
 	}
 
 	/**
