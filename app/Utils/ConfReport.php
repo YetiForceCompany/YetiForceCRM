@@ -186,6 +186,8 @@ class ConfReport
 		'serverInfo' => ['container' => 'db', 'testCli' => true, 'label' => 'DB_SERVER_INFO'],
 		'maxUsedMemory' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true, 'label' => 'DB_MAXIMUM_MEMORY_SIZE', 'showHelp' => true, 'desc' => 'maxUsedMemoryDesc'],
 		'key_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'max_tmp_table_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
+		'aria_pagecache_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
 		'have_query_cache' => ['container' => 'db', 'testCli' => true],
 		'query_cache_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
 		'query_cache_type' => ['container' => 'db', 'testCli' => true],
