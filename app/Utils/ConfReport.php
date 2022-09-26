@@ -184,7 +184,7 @@ class ConfReport
 		'version_comment' => ['container' => 'db', 'testCli' => true, 'label' => 'DB_VERSION_COMMENT'],
 		'connectionStatus' => ['container' => 'db', 'testCli' => true, 'label' => 'DB_CONNECTION_STATUS'],
 		'serverInfo' => ['container' => 'db', 'testCli' => true, 'label' => 'DB_SERVER_INFO'],
-		'maximumMemorySize' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true, 'label' => 'DB_MAXIMUM_MEMORY_SIZE', 'showHelp' => true],
+		'maxUsedMemory' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true, 'label' => 'DB_MAXIMUM_MEMORY_SIZE', 'showHelp' => true, 'desc' => 'maxUsedMemoryDesc'],
 		'key_buffer_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
 		'have_query_cache' => ['container' => 'db', 'testCli' => true],
 		'query_cache_size' => ['container' => 'db', 'type' => 'ShowBytes', 'testCli' => true],
@@ -720,6 +720,12 @@ class ConfReport
 						}
 						if (self::$testCli || ($item['testCli'] && !empty($cron))) {
 							$item = static::$methodName($key, $item, 'cron');
+						}
+						if (isset($item['desc'])) {
+							$container = $item['container'];
+							if (isset(static::${$container}[$item['desc']])) {
+								$item['desc'] = static::${$container}[$item['desc']];
+							}
 						}
 					}
 					if (isset($item['mode']) && (('whenError' === $item['mode'] && !$item['status']) || 'skipParam' === $item['mode'])) {

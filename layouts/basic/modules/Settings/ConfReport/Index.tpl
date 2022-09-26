@@ -10,7 +10,7 @@
 			{assign var="HELP_TEXT_TRANS" value=\App\Language::translateEncodeHtml($HELP_TEXT, $MODULE_NAME)}
 			{if !empty($HELP_TEXT_TRANS) && $HELP_TEXT_TRANS!==$HELP_TEXT }
 				<a href="#" class="js-popover-tooltip float-right" data-js="popover"
-					data-trigger="focus hover" data-placement="right"
+					data-trigger="focus hover click" data-placement="right"
 					data-content="{$HELP_TEXT_TRANS}">
 					<span class="fas fa-info-circle"></span>
 				</a>
@@ -558,18 +558,24 @@
 									<td>
 										{if isset($ITEM['isHtml'])} {$ITEM['recommended']} {else} {\App\Language::translate($ITEM['recommended'], $MODULE_NAME)} {/if}
 										{if isset($ITEM['values'])}
-											<span class="fas fa-info-circle js-popover-tooltip" data-js="popover" data-trigger="focus hover" data-content="{\App\Purifier::encodeHtml(implode('<br>', $ITEM['values']))}"></span>
+											<span class="fas fa-info-circle js-popover-tooltip" data-js="popover" data-trigger="focus hover click" data-content="{\App\Purifier::encodeHtml(implode('<br>', $ITEM['values']))}"></span>
 										{/if}
 									</td>
 									<td>
 										{if isset($ITEM['www'])}
 											{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+											{if isset($ITEM['desc'])}
+												<span class="fas fa-info-circle js-popover-tooltip" data-js="popover" data-trigger="focus hover click" data-content="{$ITEM['desc']}"></span>
+											{/if}
 										{/if}
 									</td>
 								{else}
 									<td colspan="2">
 										{if isset($ITEM['www'])}
 											{if isset($ITEM['isHtml'])} {$ITEM['www']} {else} {\App\Language::translate($ITEM['www'], $MODULE_NAME)} {/if}
+											{if isset($ITEM['desc'])}
+												<span class="fas fa-info-circle js-popover-tooltip" data-js="popover" data-trigger="focus hover click" data-content="{$ITEM['desc']}"></span>
+											{/if}
 										{/if}
 									</td>
 								{/if}
