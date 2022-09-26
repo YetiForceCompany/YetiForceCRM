@@ -82,6 +82,11 @@ class Genesys extends \Api\Core\BaseAction
 	 *		summary="PBX Genesys creating interactions",
 	 *		tags={"PBX"},
 	 * 		security={{"ApiKeyAuth" : {}}},
+	 *		@OA\RequestBody(
+	 *			required=true,
+	 *			description="Contents of the request contains an associative array with the data.",
+	 *			@OA\JsonContent(ref="#/components/schemas/PBX_Genesys_Full_Request"),
+	 *		),
 	 *		@OA\Response(response=200, description="Correct server response", @OA\JsonContent(ref="#/components/schemas/PBX_Genesys_Full_Response")),
 	 *		@OA\Response(response=401, description="Invalid api key"),
 	 *		@OA\Response(response=404, description="Method Not Found"),
@@ -92,6 +97,11 @@ class Genesys extends \Api\Core\BaseAction
 	 *		summary="PBX Genesys creating interactions for campaign",
 	 *		tags={"PBX"},
 	 * 		security={{"ApiKeyAuth" : {}}},
+	 *		@OA\RequestBody(
+	 *			required=true,
+	 *			description="Contents of the request contains an associative array with the data.",
+	 *			@OA\JsonContent(ref="#/components/schemas/PBX_Genesys_Simple_Request"),
+	 *		),
 	 *		@OA\Response(response=200, description="Correct server response", @OA\JsonContent(ref="#/components/schemas/PBX_Genesys_Simple_Response")),
 	 *		@OA\Response(response=401, description="Invalid api key"),
 	 *		@OA\Response(response=404, description="Method Not Found"),
@@ -107,21 +117,56 @@ class Genesys extends \Api\Core\BaseAction
 	 *		@OA\Property(property="url", type="string", description="The full URL to call on the Genesys app", example="https://gitstable.yetiforce.com/index.php?module=Accounts&view=List"),
 	 * ),
 	 * @OA\Schema(
+	 * 		schema="PBX_Genesys_Full_Request",
+	 * 		title="Request for creating interactions",
+	 *		type="object",
+	 *  	@OA\Property(property="genesysIdInteraction", type="string"),
+	 *  	@OA\Property(property="outboundCallId", type="integer"),
+	 *  	@OA\Property(property="queueName", type="string"),
+	 *  	@OA\Property(property="queueTime", type="integer"),
+	 * ),
+	 * @OA\Schema(
 	 *		schema="PBX_Genesys_Simple_Response",
 	 *		title="Response for update interactions",
 	 *		type="object",
 	 *		required={"status"},
 	 *		@OA\Property(property="status", type="integer", description="A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error", example=1),
 	 * ),
+	 * @OA\Schema(
+	 * 		schema="PBX_Genesys_Simple_Request",
+	 * 		title="Request for creating interactions",
+	 *		type="object",
+	 *  	@OA\Property(property="genesysIdInteraction", type="string"),
+	 *  	@OA\Property(property="outboundCallId", type="integer"),
+	 *  	@OA\Property(property="serviceType", type="string"),
+	 *  	@OA\Property(property="serviceValue", type="string"),
+	 *  	@OA\Property(property="dialedNumber", type="string"),
+	 * ),
 	 */
 	public function post()
 	{
 		try {
+			$request = $this->controller->request;
+			$action = $request->getByType('action');
+
 			file_put_contents(__DIR__ . '/_Genesys_' . date('Y-m-d-H') . '.log', print_r([
 				'datetime' => date('Y-m-d H:i:s'),
 				'method' => \App\Request::getRequestMethod(),
+				'action' => $action,
 				'REQUEST' => $_REQUEST,
 			], true), FILE_APPEND);
+
+			if ('registerInteraction' === $action) {
+				$this->controller->response->setBody([
+					'status' => 1,
+					'interactionId' => 22222,
+					'url' => \Config\Main::$site_URL . 'index.php?module=Accounts&view=Detail&record=57605',
+				]);
+			} else {
+				$this->controller->response->setBody([
+					'status' => 1,
+				]);
+			}
 		} catch (\Throwable $th) {
 			http_response_code(500);
 			$message = $th->getMessage();
@@ -142,20 +187,42 @@ class Genesys extends \Api\Core\BaseAction
 	 *		summary="PBX Genesys interaction update",
 	 *		tags={"PBX"},
 	 * 		security={{"ApiKeyAuth" : {}}},
+	 *		@OA\RequestBody(
+	 *			required=true,
+	 *			description="Contents of the request contains an associative array with the data.",
+	 *			@OA\JsonContent(ref="#/components/schemas/PBX_Genesys_Simple_Request"),
+	 *		),
 	 *		@OA\Response(response=200, description="Correct server response", @OA\JsonContent(ref="#/components/schemas/PBX_Genesys_Simple_Response")),
 	 *		@OA\Response(response=401, description="Invalid api key"),
 	 *		@OA\Response(response=404, description="Method Not Found"),
 	 *		@OA\Response(response=500, description="Error", @OA\JsonContent(ref="#/components/schemas/PBX_Genesys_Error")),
 	 * ),
+	 * @OA\Schema(
+	 * 		schema="PBX_Genesys_Update_Request",
+	 * 		title="Request for creating interactions",
+	 *		type="object",
+	 *  	@OA\Property(property="genesysIdInteraction", type="string"),
+	 *  	@OA\Property(property="interactionEndDate", type="string"),
+	 *  	@OA\Property(property="interactionEndTime", type="string"),
+	 *  	@OA\Property(property="interactionHandleTime", type="integer"),
+	 * ),
 	 */
 	public function put()
 	{
 		try {
+			$request = $this->controller->request;
+			$action = $request->getByType('action');
+
 			file_put_contents(__DIR__ . '/_Genesys_' . date('Y-m-d-H') . '.log', print_r([
 				'datetime' => date('Y-m-d H:i:s'),
 				'method' => \App\Request::getRequestMethod(),
+				'action' => $action,
 				'REQUEST' => $_REQUEST,
 			], true), FILE_APPEND);
+
+			$this->controller->response->setBody([
+				'status' => 1,
+			]);
 		} catch (\Throwable $th) {
 			http_response_code($th->getCode());
 			$message = $th->getMessage();

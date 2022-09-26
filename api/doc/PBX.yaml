@@ -26,6 +26,13 @@ paths:
       summary: 'PBX Genesys creating interactions'
       description: 'Api PBX Genesys creating interactions method.'
       operationId: ec3ebee06573408811dcf8c708b53ba3
+      requestBody:
+        description: 'Contents of the request contains an associative array with the data.'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PBX_Genesys_Full_Request'
       responses:
         '200':
           description: 'Correct server response'
@@ -52,6 +59,13 @@ paths:
         - PBX
       summary: 'PBX Genesys creating interactions for campaign'
       operationId: a4d002c1c39540e3361cdfb5b35ba525
+      requestBody:
+        description: 'Contents of the request contains an associative array with the data.'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PBX_Genesys_Simple_Request'
       responses:
         '200':
           description: 'Correct server response'
@@ -79,6 +93,13 @@ paths:
       summary: 'PBX Genesys interaction update'
       description: 'Api PBX Genesys update interactions method.'
       operationId: e60477350878a872455a506ed8915633
+      requestBody:
+        description: 'Contents of the request contains an associative array with the data.'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PBX_Genesys_Simple_Request'
       responses:
         '200':
           description: 'Correct server response'
@@ -136,6 +157,18 @@ components:
           type: string
           example: 'https://gitstable.yetiforce.com/index.php?module=Accounts&view=List'
       type: object
+    PBX_Genesys_Full_Request:
+      title: 'Request for creating interactions'
+      properties:
+        genesysIdInteraction:
+          type: string
+        outboundCallId:
+          type: integer
+        queueName:
+          type: string
+        queueTime:
+          type: integer
+      type: object
     PBX_Genesys_Simple_Response:
       title: 'Response for update interactions'
       required:
@@ -145,4 +178,30 @@ components:
           description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           example: 1
+      type: object
+    PBX_Genesys_Simple_Request:
+      title: 'Request for creating interactions'
+      properties:
+        genesysIdInteraction:
+          type: string
+        outboundCallId:
+          type: integer
+        serviceType:
+          type: string
+        serviceValue:
+          type: string
+        dialedNumber:
+          type: string
+      type: object
+    PBX_Genesys_Update_Request:
+      title: 'Request for creating interactions'
+      properties:
+        genesysIdInteraction:
+          type: string
+        interactionEndDate:
+          type: string
+        interactionEndTime:
+          type: string
+        interactionHandleTime:
+          type: integer
       type: object
