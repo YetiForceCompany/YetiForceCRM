@@ -126,7 +126,11 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
 		}
 		if ($request->has('fields')) {
-			$relationListView->setFields(array_merge(['id'], $request->getArray('fields', 'Alnum')));
+			if (\is_array($request->getRaw('fields'))) {
+				$relationListView->setFields(array_merge(['id'], $request->getArray('fields', 'Alnum')));
+			} else {
+				$relationListView->setFields(array_merge(['id'], $request->getExploded('fields', ',', 'Alnum')));
+			}
 		}
 		if ($request->has('quickSearchEnabled')) {
 			$relationListView->set('quickSearchEnabled', $request->getBoolean('quickSearchEnabled'));

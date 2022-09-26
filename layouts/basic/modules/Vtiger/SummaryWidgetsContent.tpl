@@ -40,7 +40,7 @@
 							{$COUNT = $COUNT+1}
 							{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
 							<td class="text-left {$WIDTHTYPE}
-							{if $HEADER_FIELD->getFieldDataType() eq 'documentsFileUpload' && $HEADER_FIELD->isEditable() && $RELATED_RECORD->isEditable() && 'I' === $RELATED_RECORD->getValueByField('filelocationtype') } js-drop-container{/if}"
+							{if $RELATED_HEADERNAME && $HEADER_FIELD->getFieldDataType() eq 'documentsFileUpload' && $HEADER_FIELD->isEditable() && $RELATED_RECORD->isEditable() && 'I' === $RELATED_RECORD->getValueByField('filelocationtype') } js-drop-container{/if}"
 								data-id="{$RELATED_RECORD->getId()}"
 								data-module="{$RELATED_MODULE->getName()}"
 								data-field-name="{$RELATED_HEADERNAME}"
