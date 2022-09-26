@@ -924,6 +924,8 @@ class Calendar
 	 * @param string $calendarData
 	 *
 	 * @return array
+	 *
+	 * @see Sabre\CalDAV\Backend\PDO::getDenormalizedData
 	 */
 	public function getDenormalizedData($calendarData)
 	{
