@@ -5,10 +5,6 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 	.detailViewContainer {
 		@include media-breakpoint-down(sm) {
 			font-size: 90%;
-			.c-menu__header,
-			.c-header {
-				min-height: 3.5rem !important;
-			}
 		}
 	}
 }
