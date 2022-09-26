@@ -132,9 +132,14 @@ window.Calendar_Js = class {
 			scrollTime: this.startHour + ':00'
 		};
 		if (app.moduleCacheGet('start') !== null && app.moduleCacheGet('start') !== undefined) {
-			let s = App.Fields.Date.getDateInstance(app.moduleCacheGet('start'));
-			let e = App.Fields.Date.getDateInstance(app.moduleCacheGet('end'));
-			options.initialDate = App.Fields.Date.dateToDbFormat(new Date(e - (e - s) / 2));
+			try {
+				let s = App.Fields.Date.getDateInstance(app.moduleCacheGet('start'));
+				let e = App.Fields.Date.getDateInstance(app.moduleCacheGet('end'));
+				options.initialDate = App.Fields.Date.dateToDbFormat(new Date(e - (e - s) / 2));
+			} catch (_error) {
+				app.cacheClear(app.getModuleName() + '_' + 'start');
+				app.cacheClear(app.getModuleName() + '_' + 'end');
+			}
 		}
 
 		return Object.assign(this.setCalendarMinimalOptions(), options);

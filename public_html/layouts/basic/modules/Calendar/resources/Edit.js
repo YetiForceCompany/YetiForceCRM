@@ -166,8 +166,7 @@ Vtiger_Edit_Js(
 				container.find('.js-autofill').trigger('change');
 				if (start > end) {
 					end = start;
-					endDateElement.val(moment(end).format(dateFormat));
-					App.Fields.Date.register(container);
+					endDateElement.val(moment(end).format(dateFormat)).datepicker('update');
 				}
 			});
 			container.find('input[name="time_start"]').on('focus', function (e) {
