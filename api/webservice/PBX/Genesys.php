@@ -80,7 +80,7 @@ class Genesys extends \Api\Core\BaseAction
 	 * @OA\Post(
 	 *		path="/webservice/PBX/Genesys/registerInteraction",
 	 *		summary="PBX Genesys creating interactions",
-	 *		tags={"PBX"},
+	 *		tags={"Genesys"},
 	 * 		security={{"ApiKeyAuth" : {}}},
 	 *		@OA\RequestBody(
 	 *			required=true,
@@ -95,7 +95,7 @@ class Genesys extends \Api\Core\BaseAction
 	 * @OA\Post(
 	 *		path="/webservice/PBX/Genesys/registerInteractionCampaign",
 	 *		summary="PBX Genesys creating interactions for campaign",
-	 *		tags={"PBX"},
+	 *		tags={"Genesys"},
 	 * 		security={{"ApiKeyAuth" : {}}},
 	 *		@OA\RequestBody(
 	 *			required=true,
@@ -151,9 +151,10 @@ class Genesys extends \Api\Core\BaseAction
 
 			file_put_contents(__DIR__ . '/_Genesys_' . date('Y-m-d-H') . '.log', print_r([
 				'datetime' => date('Y-m-d H:i:s'),
+				'ip' => $_SERVER['REMOTE_ADDR'],
 				'method' => \App\Request::getRequestMethod(),
 				'action' => $action,
-				'REQUEST' => $_REQUEST,
+				'REQUEST' => $request->getAllRaw(),
 			], true), FILE_APPEND);
 
 			if ('registerInteraction' === $action) {
@@ -185,7 +186,7 @@ class Genesys extends \Api\Core\BaseAction
 	 * @OA\Put(
 	 *		path="/webservice/PBX/Genesys/updateInteraction",
 	 *		summary="PBX Genesys interaction update",
-	 *		tags={"PBX"},
+	 *		tags={"Genesys"},
 	 * 		security={{"ApiKeyAuth" : {}}},
 	 *		@OA\RequestBody(
 	 *			required=true,
@@ -215,9 +216,10 @@ class Genesys extends \Api\Core\BaseAction
 
 			file_put_contents(__DIR__ . '/_Genesys_' . date('Y-m-d-H') . '.log', print_r([
 				'datetime' => date('Y-m-d H:i:s'),
+				'ip' => $_SERVER['REMOTE_ADDR'],
 				'method' => \App\Request::getRequestMethod(),
 				'action' => $action,
-				'REQUEST' => $_REQUEST,
+				'REQUEST' => $request->getAllRaw(),
 			], true), FILE_APPEND);
 
 			$this->controller->response->setBody([

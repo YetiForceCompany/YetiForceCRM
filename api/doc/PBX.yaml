@@ -22,7 +22,7 @@ paths:
   /webservice/PBX/Genesys/registerInteraction:
     post:
       tags:
-        - PBX
+        - Genesys
       summary: 'PBX Genesys creating interactions'
       description: 'Api PBX Genesys creating interactions method.'
       operationId: ec3ebee06573408811dcf8c708b53ba3
@@ -56,7 +56,7 @@ paths:
   /webservice/PBX/Genesys/registerInteractionCampaign:
     post:
       tags:
-        - PBX
+        - Genesys
       summary: 'PBX Genesys creating interactions for campaign'
       operationId: a4d002c1c39540e3361cdfb5b35ba525
       requestBody:
@@ -89,7 +89,7 @@ paths:
   /webservice/PBX/Genesys/updateInteraction:
     put:
       tags:
-        - PBX
+        - Genesys
       summary: 'PBX Genesys interaction update'
       description: 'Api PBX Genesys update interactions method.'
       operationId: e60477350878a872455a506ed8915633
