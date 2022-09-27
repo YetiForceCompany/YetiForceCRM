@@ -2,8 +2,10 @@
 $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 
 .o-view-detail {
-	@include media-breakpoint-down(sm) {
-		font-size: 90%;
+	.detailViewContainer {
+		@include media-breakpoint-down(sm) {
+			font-size: 90%;
+		}
 	}
 }
 
