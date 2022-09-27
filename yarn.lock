@@ -512,10 +512,10 @@ scrollparent@^2.0.1:
   resolved "https://registry.yarnpkg.com/scrollparent/-/scrollparent-2.0.1.tgz#715d5b9cc57760fb22bdccc3befb5bfe06b1a317"
   integrity sha512-HSdN78VMvFCSGCkh0oYX/tY4R3P1DW61f8+TeZZ4j2VLgfwvw0bpRSOv4PCVKisktIwbzHCfZsx+rLbbDBqIBA==
 
-select2-theme-bootstrap4@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/select2-theme-bootstrap4/-/select2-theme-bootstrap4-1.0.1.tgz#aa476930988cb61b05c77d1173a937688d2bb4be"
-  integrity sha512-gn9zN+ZppzsjRCQzHMfhDyizcCNlzbsB059qAXjyEaFYx7OA3677LYEIbYiGmliuF6y9Dbuae8X8Rk/Z4SBleQ==
+select2-theme-bootstrap4@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/select2-theme-bootstrap4/-/select2-theme-bootstrap4-1.0.2.tgz#309236ddf521e3f70eb1f9c107813fb2f0069d7f"
+  integrity sha512-/tAPPIIAzjsywl78lFfu7YopFnL9HjnM2pxaYxju38ZBBW5tqK9eollhFJJqBCSa+gLJT9uP2iFt6vJYw5REmw==
 
 select2@^4.0.8:
   version "4.0.13"
