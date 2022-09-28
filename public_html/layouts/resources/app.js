@@ -2765,7 +2765,7 @@ const app = (window.app = {
 		self.sidebarBtn = $('.js-sidebar-btn').first();
 		self.sidebar = $('.js-sidebar').first();
 		self.sidebarBtn.on('click', self.toggleSidebar.bind(self));
-		$(`a.nav-link,[tabindex],input,select,textarea,button`).on('focus', (e) => {
+		$('a.nav-link,[tabindex],input,select,textarea,button').on('focus', (e) => {
 			if (self.sidebarBtn[0] == e.target || self.sidebar.find(e.target).length) return;
 			if (self.sidebar.find(':focus').length) {
 				self.openSidebar();
@@ -3540,6 +3540,7 @@ $(function () {
 	App.Components.QuickCreate.register(document);
 	App.Components.Scrollbar.initPage();
 	App.Clipboard.register(document);
+	App.Fields.Phone.register(document);
 	String.prototype.toCamelCase = function () {
 		let value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();

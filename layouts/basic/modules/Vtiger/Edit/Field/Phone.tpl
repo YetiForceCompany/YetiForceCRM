@@ -14,24 +14,24 @@
 	{assign var=TABINDEX value=$FIELD_MODEL->getTabIndex()}
 	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
-	{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
-	{assign var="NUMBER" value=$FIELD_MODEL->get('fieldvalue')}
+	{assign var=PARAMS value=$FIELD_MODEL->getFieldParams()}
+	{assign var=NUMBER value=$FIELD_MODEL->get('fieldvalue')}
 	<div>
 		{if \App\Config::main('phoneFieldAdvancedVerification',false)}
 			{if $NUMBER}
-				{assign var="PHONE_DETAIL" value=App\Fields\Phone::getDetails($NUMBER)}
-				{assign var="COUNTRY" value=$PHONE_DETAIL['country']}
+				{assign var=PHONE_DETAIL value=App\Fields\Phone::getDetails($NUMBER)}
+				{assign var=COUNTRY value=$PHONE_DETAIL['country']}
 			{else}
-				{assign var="PHONE_DETAIL" value=[]}
+				{assign var=PHONE_DETAIL value=[]}
 				{if !\App\Config::component('Phone', 'defaultPhoneCountry')}
-					{assign var="COUNTRY" value=\App\Language::getLanguageRegion()}
+					{assign var=COUNTRY value=\App\Language::getLanguageRegion()}
 				{else}
-					{assign var="COUNTRY" value=''}
+					{assign var=COUNTRY value=''}
 				{/if}
 			{/if}
-			{assign var="FIELD_NAME_EXTRA" value=$FIELD_MODEL->getFieldName()|cat:'_extra'}
-			{assign var="FIELD_MODEL_EXTRA" value=$FIELD_MODEL->getModule()->getFieldByName($FIELD_NAME_EXTRA)}
-			{assign var="ACTIVE_EXTRA_FIELD" value=!empty($VIEW) && ($VIEW == 'Edit' || $VIEW == 'QuickCreateAjax') && $FIELD_MODEL_EXTRA && $FIELD_MODEL_EXTRA->isWritable()}
+			{assign var=FIELD_NAME_EXTRA value=$FIELD_MODEL->getFieldName()|cat:'_extra'}
+			{assign var=FIELD_MODEL_EXTRA value=$FIELD_MODEL->getModule()->getFieldByName($FIELD_NAME_EXTRA)}
+			{assign var=ACTIVE_EXTRA_FIELD value=!empty($VIEW) && ($VIEW == 'Edit' || $VIEW == 'QuickCreateAjax'|| $VIEW == 'PreferenceEdit') && $FIELD_MODEL_EXTRA && $FIELD_MODEL_EXTRA->isWritable()}
 			{assign var=PICKLIST_VALUES value=App\Fields\Country::getAll('phone')}
 			{assign var=IS_LAZY value=count($PICKLIST_VALUES) > \App\Config::performance('picklistLimit')}
 			<div class="form-row">

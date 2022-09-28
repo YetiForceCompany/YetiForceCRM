@@ -13,17 +13,16 @@ namespace App\Integrations;
  */
 class Pbx extends \App\Base
 {
-	/**
-	 * Connector Instances.
-	 *
-	 * @var \App\Integrations\className[]
-	 */
+	/** @var \App\Integrations\Pbx\Base[] Connector Instances. */
 	private static $connectors = [];
+
+	/** @var array Cache for default PBX. */
+	private static $defaultCache;
 
 	/**
 	 * Get pbx connectors.
 	 *
-	 * @return \App\Integrations\className
+	 * @return \App\Integrations\Pbx\Base
 	 */
 	public static function getConnectors()
 	{
@@ -44,37 +43,52 @@ class Pbx extends \App\Base
 	}
 
 	/**
+	 * Undocumented function.
+	 *
+	 * @return array
+	 */
+	public static function getDefault(): array
+	{
+		if (isset(self::$defaultCache)) {
+			return self::$defaultCache;
+		}
+		return self::$defaultCache = (new \App\Db\Query())->from('s_#__pbx')->where(['default' => 1])->one() ?: [];
+	}
+
+	/**
 	 * Whether a call is active with the PBX integration.
 	 *
 	 * @return bool
 	 */
 	public static function isActive()
 	{
-		$phone = \App\User::getCurrentUserModel()->getDetail('phone_crm_extension');
+		$phone = \App\User::getCurrentUserModel()->getDetail('phone_crm_extension_extra');
 		if (empty($phone)) {
 			return false;
 		}
-		return (new \App\Db\Query())->from('s_#__pbx')->where(['default' => 1])->exists();
+		return !empty(self::getDefault());
 	}
 
 	/**
 	 * Get default pbx instance.
 	 *
-	 * @return \self
+	 * @return self
 	 */
-	public static function getDefaultInstance()
+	public static function getDefaultInstance(): self
 	{
-		$data = (new \App\Db\Query())->from('s_#__pbx')->where(['default' => 1])->one();
 		$instance = new self();
-		$instance->setData($data);
-
+		if ($data = self::getDefault()) {
+			$instance->setData($data);
+		}
 		return $instance;
 	}
 
 	/**
 	 * Load user phone.
+	 *
+	 * @return void
 	 */
-	public function loadUserPhone()
+	public function loadUserPhone(): void
 	{
 		$this->set('sourcePhone', \App\User::getCurrentUserModel()->getDetail('phone_crm_extension_extra'));
 	}
@@ -83,10 +97,13 @@ class Pbx extends \App\Base
 	 * Perform phone call.
 	 *
 	 * @param string $targetPhone
+	 * @param int    $record
 	 *
 	 * @throws \Exception
+	 *
+	 * @return void
 	 */
-	public function performCall($targetPhone)
+	public function performCall(string $targetPhone, int $record): void
 	{
 		if ($this->isEmpty('sourcePhone')) {
 			throw new \App\Exceptions\AppException('No user phone number');
@@ -95,6 +112,7 @@ class Pbx extends \App\Base
 			throw new \App\Exceptions\AppException('No target phone number');
 		}
 		$this->set('targetPhone', $targetPhone);
+		$this->set('record', $record);
 		$connector = static::getConnectorInstance($this->get('type'));
 		if (empty($connector)) {
 			throw new \App\Exceptions\AppException('No PBX connector found');
@@ -107,24 +125,23 @@ class Pbx extends \App\Base
 	 *
 	 * @param string $name
 	 *
-	 * @return \App\Integrations\className|bool
+	 * @return \App\Integrations\Pbx\Base|null
 	 */
-	public static function getConnectorInstance($name)
+	public static function getConnectorInstance($name): ?Pbx\Base
 	{
 		$className = '\App\Integrations\Pbx\\' . $name;
 		if (isset(static::$connectors[$className])) {
 			return static::$connectors[$className];
 		}
-		if (!class_exists($className)) {
-			\App\Log::warning('Not found Pbx class');
-		} else {
+		if (class_exists($className)) {
 			return static::$connectors[$className] = new $className();
 		}
-		return false;
+		\App\Log::warning('Not found Pbx class');
+		return null;
 	}
 
 	/**
-	 * Function to get the confog param for a given key.
+	 * Function to get the config param for a given key.
 	 *
 	 * @param string $key
 	 *

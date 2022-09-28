@@ -73,13 +73,17 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		} else {
 			$href = 'tel:' . $href;
 		}
-		if ($rawText) {
+		if ($rawText || (empty($international) && empty($extra))) {
 			return $international . $extra;
 		}
 		if (!\App\Integrations\Pbx::isActive()) {
 			return '<a href="' . $href . '">' . $international . $extra . '</a>';
 		}
-		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '\',' . $record . ')"><span class="fas fa-phone" aria-hidden="true"></span> ' . $international . $extra . '</a>';
+		$data = 'data-phone="' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '"';
+		if ($record) {
+			$data .= ' data-record="' . $record . '"';
+		}
+		return '<a class="cursor-pointer js-phone-perform-call" ' . $data . ' data-js="click|container"><span class="fas fa-phone" aria-hidden="true"></span> ' . $international . $extra . '</a>';
 	}
 
 	/** {@inheritdoc} */
@@ -100,13 +104,17 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		} else {
 			$href = 'tel:' . $href;
 		}
-		if ($rawText) {
+		if ($rawText || empty($international)) {
 			return $international;
 		}
 		if (!\App\Integrations\Pbx::isActive()) {
 			return '<a href="' . $href . '">' . $international . '</a>';
 		}
-		return '<a class="phoneField" onclick="Vtiger_Index_Js.performPhoneCall(\'' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '\',' . $record . ')"><span class="fas fa-phone" aria-hidden="true"></span> ' . $international . '</a>';
+		$data = 'data-phone="' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '"';
+		if ($record) {
+			$data .= ' data-record="' . $record . '"';
+		}
+		return '<a class="cursor-pointer js-phone-perform-call" ' . $data . ' data-js="click|container"><span class="fas fa-phone" aria-hidden="true"></span> ' . $international . '</a>';
 	}
 
 	/** {@inheritdoc} */

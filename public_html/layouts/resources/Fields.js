@@ -3854,6 +3854,15 @@ window.App.Fields = {
 			return this.container.find('.js-source-field');
 		}
 	},
+	Phone: {
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		register(container) {
+			Integrations_Pbx_Base.getInstance(container).registerEvents();
+		}
+	},
 	Utils: {
 		registerMobileDateRangePicker(element) {
 			this.hideMobileKeyboard(element);

@@ -232,8 +232,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		$moduleName = $this->getModule()->getName(true);
 		$mainParams = ['uitype' => 1, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
 		$fieldModels = [];
-		$connector = App\Integrations\Pbx::getConnectorInstance($this->get('type'));
-		if ($connector) {
+		if ($connector = App\Integrations\Pbx::getConnectorInstance($this->get('type'))) {
 			foreach ($connector->configFields as $name => $params) {
 				$fieldModel = Settings_Vtiger_Field_Model::init($moduleName, array_merge($mainParams, $params, ['column' => $name, 'name' => $name]));
 				$fieldModel->set('fieldvalue', $this->getParam($name));
@@ -259,15 +258,15 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		if ($this->getId()) {
 			unset($data['pbxid']);
-			$seccess = true;
+			$success = true;
 			$db->createCommand()->update('s_#__pbx', $data, ['pbxid' => $this->getId()])->execute();
 		} else {
-			$seccess = $db->createCommand()->insert('s_#__pbx', $data)->execute();
-			if ($seccess) {
+			$success = $db->createCommand()->insert('s_#__pbx', $data)->execute();
+			if ($success) {
 				$this->set('pbxid', $db->getLastInsertID('s_#__pbx_pbxid_seq'));
 			}
 		}
-		return $seccess;
+		return $success;
 	}
 
 	/**
@@ -280,10 +279,12 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($this->getEditFields() as $name => $value) {
 			$this->set($name, $data[$name] ?? null);
 		}
-		$connector = App\Integrations\Pbx::getConnectorInstance($data['type']);
 		$params = [];
-		foreach ($connector->configFields as $name => $config) {
-			$params[$name] = $data[$name] ?? null;
+		if ($connector = App\Integrations\Pbx::getConnectorInstance($data['type'])) {
+			foreach ($connector->configFields as $name => $config) {
+				$params[$name] = $data[$name] ?? null;
+			}
+			$connector->saveSettings($data);
 		}
 		$this->param = $params;
 		$this->set('param', \App\Json::encode($params));

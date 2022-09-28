@@ -16,22 +16,42 @@ namespace App\Integrations\Pbx;
  */
 abstract class Base
 {
-	/**
-	 * @var string Class name
-	 */
+	/** @var string Class name */
 	public $name = '';
 
-	/**
-	 * Values to configure.
-	 *
-	 * @var string[]
-	 */
+	/** @var string[] Values to configure. */
 	public $configFields = [];
 
 	/**
 	 * Perform phone call.
 	 *
 	 * @param \App\Integrations\Pbx $pbx
+	 *
+	 * @return array
 	 */
-	abstract public function performCall(\App\Integrations\Pbx $pbx);
+	abstract public function performCall(\App\Integrations\Pbx $pbx): array;
+
+	/**
+	 * Save phone calls.
+	 *
+	 * @param \App\Integrations\Pbx $pbx
+	 * @param \App\Request          $request
+	 *
+	 * @return array
+	 */
+	public function saveCalls(\App\Integrations\Pbx $pbx, \App\Request $request): array
+	{
+		throw new \App\Exceptions\AppException('Method not supported');
+	}
+
+	/**
+	 * Save settings.
+	 *
+	 * @param array $data
+	 *
+	 * @return void
+	 */
+	public function saveSettings(array $data): void
+	{
+	}
 }
