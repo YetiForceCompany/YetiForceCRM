@@ -181,11 +181,12 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		if (!empty($activityReminder)) {
 			$time = date('Y-m-d H:i:s', strtotime("+$activityReminder seconds"));
 			$query = (new \App\Db\Query())
-				->select(['recordid', 'vtiger_activity_reminder_popup.datetime'])
+				->select(['vtiger_activity_reminder_popup.recordid', 'vtiger_activity_reminder_popup.datetime', 'u_yf_crmentity_showners.crmid'])
 				->from('vtiger_activity_reminder_popup')
 				->innerJoin('vtiger_activity', 'vtiger_activity_reminder_popup.recordid = vtiger_activity.activityid')
 				->innerJoin('vtiger_crmentity', 'vtiger_activity_reminder_popup.recordid = vtiger_crmentity.crmid')
-				->where(['vtiger_crmentity.smownerid' => $currentUserModel->getId(), 'vtiger_crmentity.deleted' => 0, 'vtiger_activity.status' => self::getComponentActivityStateLabel('current')])
+				->leftJoin('u_yf_crmentity_showners', 'vtiger_activity_reminder_popup.recordid = u_yf_crmentity_showners.crmid')
+				->where(['and', ['or', ['vtiger_crmentity.smownerid' => $currentUserModel->getId()], ['u_yf_crmentity_showners.userid' => $currentUserModel->getId()]], ['vtiger_crmentity.deleted' => 0, 'vtiger_activity.status' => self::getComponentActivityStateLabel('current')]])
 				->andWhere(['or', ['and', ['vtiger_activity_reminder_popup.status' => Calendar_Record_Model::REMNDER_POPUP_ACTIVE], ['<=', 'vtiger_activity_reminder_popup.datetime', $time]], ['and', ['vtiger_activity_reminder_popup.status' => Calendar_Record_Model::REMNDER_POPUP_WAIT], ['<=', 'vtiger_activity_reminder_popup.datetime', date('Y-m-d H:i:s')]]])
 				->orderBy(['vtiger_activity_reminder_popup.datetime' => SORT_DESC])
 				->distinct()
