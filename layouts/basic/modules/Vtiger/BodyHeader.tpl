@@ -162,9 +162,17 @@
 			</div>
 		{/if}
 		<div class="o-navbar__right ml-auto d-inline-flex flex-sm-nowrap">
+			{if \App\Integrations\Pbx::isActive() && \App\Integrations\Pbx::getDefault()['type'] === 'BriaSoftphone'}
+				<div class="btn-group-sm mr-2">
+					<button type="button" class="btn btn-danger btn-sm js-phone-status-btn" data-js="container">
+						<span class="fa-solid fa-phone-slash js-icon" data-js="container"></span>
+						<span class="js-text" data-js="container"></span>
+					</button>
+				</div>
+			{/if}
 			{if \App\Mail::checkMailClient() && !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
 				{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
-				{if $CONFIG['showMailIcon']=='true'}
+				{if $CONFIG['showMailIcon'] == 'true'}
 					{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
 					{if count($AUTOLOGINUSERS) > 0}
 						{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}

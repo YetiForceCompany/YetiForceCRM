@@ -1188,6 +1188,8 @@ return [
 		'allowedConnectDomains' => [
 			'default' => [],
 			'description' => 'Allowed domains which can be loaded using script interfaces.',
+			'loopValidate' => true,
+			'validation' => '\App\Validator::url',
 		],
 		'generallyAllowedDomains' => [
 			'default' => [],
