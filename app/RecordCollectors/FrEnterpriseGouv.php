@@ -171,11 +171,11 @@ class FrEnterpriseGouv extends Base
 		$response = [];
 		try {
 			$response = \App\RequestHttp::getClient()->get($this->url . 'search?' . http_build_query($query));
+			$data = isset($response) ? \App\Json::decode($response->getBody()->getContents()) : [];
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
 		}
-		$data = isset($response) ? \App\Json::decode($response->getBody()->getContents()) : [];
 		if (empty($data)) {
 			return;
 		}
