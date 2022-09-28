@@ -260,7 +260,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	{
 		$subQuery = (new \App\Db\Query())->from('vtiger_module_dashboard')->select(['vtiger_links.linkid'])
 			->innerJoin('vtiger_links', 'vtiger_module_dashboard.linkid = vtiger_links.linkid')
-			->where(['blockid' => $blockId])->andWhere(['not', ['linklabel' => ['Multifilter', 'Upcoming events']]]);
+			->where(['blockid' => $blockId])->andWhere(['not', ['linklabel' => ['Multifilter', 'Upcoming events', 'Upcoming Activities', 'Overdue Activities']]]);
 		$dataReader = (new \App\Db\Query())->from('vtiger_links')
 			->select(['vtiger_links.*', 'blockid' => 'vtiger_module_dashboard_blocks.id'])
 			->innerJoin('vtiger_tab', 'vtiger_links.tabid = vtiger_tab.tabid')
