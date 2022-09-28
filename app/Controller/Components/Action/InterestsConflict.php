@@ -1,6 +1,6 @@
 <?php
 /**
- * Conflict of interests index view file.
+ * Conflict of interests action file.
  *
  * @package   Controller
  *
@@ -13,7 +13,7 @@
 namespace App\Controller\Components\Action;
 
 /**
- * Conflict of interests index view class.
+ * Conflict of interests action class.
  */
 class InterestsConflict extends \App\Controller\Action
 {
