@@ -28,15 +28,16 @@ class BriaSoftphone extends Base
 	public $name = 'BRIA Softphone';
 
 	/** {@inheritdoc} */
-	public function performCall(\App\Integrations\Pbx $pbx): array
+	public function performCall(): array
 	{
 		// No GUI mode
 		return [];
 	}
 
 	/** {@inheritdoc} */
-	public function saveCalls(\App\Integrations\Pbx $pbx, \App\Request $request): array
+	public function saveCalls(\App\Request $request): array
 	{
+		$loadMore = true;
 		foreach ($request->getMultiDimensionArray('calls', [
 			'type' => 'Alnum',
 			'number' => 'Text',
@@ -46,11 +47,15 @@ class BriaSoftphone extends Base
 			'id' => 'Alnum',
 			'accountId' => 'Integer',
 		]) as $call) {
-			if (!(new \App\Db\Query())->from('vtiger_callhistory')->where(['from_number_extra' => $call['accountId'], 'phonecallid' => $call['id']])->exists()) {
-				$this->addCall($call);
+			if ((new \App\Db\Query())->from('vtiger_callhistory')->where(['subscriberId' => $call['accountId'], 'phonecallid' => $call['id']])->exists()) {
+				$loadMore = false;
+				break;
 			}
+			$this->addCall($call);
 		}
-		return [];
+		return [
+			'loadMore' => $loadMore
+		];
 	}
 
 	/**
@@ -63,9 +68,24 @@ class BriaSoftphone extends Base
 	private function addCall(array $call): void
 	{
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('CallHistory');
-		$recordModel->set('to_number', $call['number']);
+		$phoneNumber = $call['number'];
+		try {
+			\App\Fields\Phone::verifyNumber($phoneNumber);
+		} catch (\Throwable $th) {
+			$phoneNumber = '+' . $phoneNumber;
+		}
+		foreach (\App\Fields\Phone::parsePhone('to_number', ['to_number' => $phoneNumber]) as $key => $value) {
+			if ('to_number' !== $key) {
+				$value = ltrim($value, '+');
+			}
+			$recordModel->set($key, $value);
+			if ($id = $this->pbx->findNumber($value)) {
+				$recordModel->set('destination', $id);
+			}
+		}
+		$recordModel->set('location', 'BriaSoftphone');
 		$recordModel->set('duration', $call['duration']);
-		$recordModel->set('from_number_extra', $call['accountId']);
+		$recordModel->set('subscriberId', $call['accountId']);
 		$recordModel->set('phonecallid', $call['id']);
 		if ('dialed' === $call['type'] && 0 == $call['duration']) {
 			$call['type'] = 'dialedMissed';

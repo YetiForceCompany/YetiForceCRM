@@ -1091,18 +1091,8 @@ const App = (window.App = {
 		 */
 		showErrors(errors = []) {
 			for (let info of errors) {
-				this.showError(info.error);
+				app.showError(info.error);
 			}
-		}
-		/**
-		 * Show error
-		 */
-		showError(error) {
-			if (typeof error.type === 'undefined') {
-				error.type = 'error';
-			}
-			error.textTrusted = false;
-			app.showNotify(error);
 		}
 		/**
 		 * Error event handler from file upload request
@@ -1115,13 +1105,13 @@ const App = (window.App = {
 			app.errorLog('File upload error.');
 			const { jqXHR, files } = data;
 			if (typeof jqXHR.responseJSON === 'undefined' || jqXHR.responseJSON === null) {
-				return this.showError({
+				return app.showError({
 					title: app.vtranslate('JS_FILE_UPLOAD_ERROR'),
 					type: 'error'
 				});
 			}
 			files.forEach((file) => {
-				this.showError({
+				app.showError({
 					title: app.vtranslate('JS_FILE_UPLOAD_ERROR'),
 					text: file.name,
 					type: 'error'
@@ -3111,6 +3101,18 @@ const app = (window.app = {
 				overlayClose: false
 			})
 		});
+	},
+	/**
+	 * Show notify error
+	 * @param {object} error
+	 *
+	 */
+	showError(error) {
+		if (typeof error.type === 'undefined') {
+			error.type = 'error';
+		}
+		error.textTrusted = false;
+		app.showNotify(error);
 	},
 	/**
 	 * Show notify

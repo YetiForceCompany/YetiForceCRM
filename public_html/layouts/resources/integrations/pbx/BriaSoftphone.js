@@ -9,7 +9,7 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 	/** @inheritdoc */
 	constructor(container) {
 		super(container);
-		this.accountName = this.lastEvent = this.status = this.connected = false;
+		this.btnText = this.accountName = this.lastEvent = this.status = this.connected = false;
 		try {
 			this.initWebsocket();
 		} catch (e) {
@@ -24,10 +24,16 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 	}
 	/** @inheritdoc */
 	performCall(data) {
-		this.apiCall(
-			'call',
-			`<dial type="audio"><number>${data.phone}</number><displayName></displayName><suppressMainWindow>false</suppressMainWindow></dial>`
-		);
+		if (this.connected) {
+			this.apiCall(
+				'call',
+				`<dial type="audio"><number>${data.phone}</number><displayName></displayName><suppressMainWindow>false</suppressMainWindow></dial>`
+			);
+		} else {
+			app.showError({
+				title: app.vtranslate('JS_UNEXPECTED_ERROR')
+			});
+		}
 	}
 	/**
 	 * Connection initialization via websocket
@@ -38,12 +44,7 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 		this.websocket.onopen = (e) => {
 			this.connected = true;
 			this.setStatus('Connected', e);
-			// onConnectedToWebSocket(); ????
 			this.getStatus('account', '<accountType>sip</accountType>');
-			// this.getStatus('callHistory', '<count>2</count><entryType>all</entryType>');
-			// this.getStatus('phone');
-			// this.getStatus('call');
-			// this.getStatus('presence');
 		};
 		this.websocket.onclose = (e) => {
 			if (this.connected) {
@@ -72,14 +73,20 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 		const btn = this.container.find('.js-phone-status-btn'),
 			btnIcon = btn.find('.js-icon'),
 			btnText = btn.find('.js-text');
+		btn.removeClass('d-none');
 		btn.attr('class', function (i, c) {
 			return c.replace(/(^|\s)btn-\S+/g, '');
 		});
 		let title = this.status;
 		switch (this.status) {
 			case 'Connected':
+			default:
 				btn.addClass('btn-success');
 				btnIcon.removeClass().addClass('fa-solid fa-phone-flip js-icon');
+				break;
+			case 'Ringing':
+				btn.addClass('btn-primary');
+				btnIcon.removeClass().addClass('fa-solid fa-phone-volume js-icon');
 				break;
 			case 'Service Unavailable':
 				btn.addClass('btn-warning');
@@ -95,8 +102,8 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 			title += ' (' + (this.lastEvent.code || this.lastEvent.name) + ')';
 		}
 		btn.attr('title', title);
-		if (this.accountName) {
-			btnText.text(this.accountName).addClass('ml-2');
+		if (this.btnText) {
+			btnText.text(this.btnText).addClass('ml-2');
 		} else {
 			btnText.removeClass('ml-2');
 		}
@@ -106,9 +113,7 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 	 * @param {object} data
 	 */
 	received(data) {
-		// console.log(data);
 		const message = this.parseMessage(data);
-		// console.log(message);
 		if (message['errorCode']) {
 			this.setStatus(message['errorText']);
 		} else {
@@ -128,12 +133,11 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 	 * @param {jQuery} xml
 	 */
 	response(xml) {
-		const self = this,
-			type = xml.children(':first').attr('type'),
+		const type = xml.children(':first').attr('type'),
 			fn = 'request' + type.charAt(0).toUpperCase() + type.slice(1);
-		self.log('← ' + fn, this);
-		if (fn in self) {
-			self[fn](xml.find(type));
+		this.log('|◄| ' + fn + ' [' + (fn in this) + ']', xml.get(0));
+		if (fn in this) {
+			this[fn](xml.find(type));
 		}
 	}
 	/**
@@ -141,12 +145,11 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 	 * @param {jQuery} xml
 	 */
 	event(xml) {
-		const self = this,
-			type = xml.children(':first').attr('type'),
+		const type = xml.children(':first').attr('type'),
 			fn = 'event' + type.charAt(0).toUpperCase() + type.slice(1);
-		self.log('← ' + fn, this);
-		if (fn in self) {
-			self[fn]();
+		this.log('|◄| ' + fn + ' [' + (fn in this) + ']', xml.get(0));
+		if (fn in this) {
+			this[fn]();
 		}
 	}
 	/**
@@ -154,7 +157,12 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 	 * @param {jQuery} xml
 	 */
 	requestAccount(xml) {
-		this.accountName = xml.find('accountName').text();
+		this.btnText = this.accountName = xml.find('accountName').text();
+		const value = app.cacheGet('PBX|lastCallHistoryUpdate|' + this.accountName, null);
+		if (value == null || Math.floor((Date.now() - value) / 1000) > 300) {
+			app.cacheClear('PBX|lastCallHistoryUpdate|' + this.accountName);
+			this.getStatus('callHistory', '<count>20</count><entryType>all</entryType>');
+		}
 	}
 	/**
 	 * Call history details request
@@ -175,13 +183,40 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 			module: 'AppComponents',
 			action: 'Pbx',
 			mode: 'saveCalls',
-			calls: calls,
 			calls: calls
-		}).done(function (response) {});
+		}).done((response) => {
+			if (response.result.loadMore === true) {
+				this.getStatus('callHistory', '<count>100</count><entryType>all</entryType>');
+			}
+		});
+		app.cacheSet('PBX|lastCallHistoryUpdate|' + this.accountName, Date.now());
 	}
+	/**
+	 * Call request
+	 * @param {jQuery} xml
+	 */
+	requestCall(xml) {
+		console.log('requestCall');
+		if (xml.length) {
+			this.setStatus('Ringing');
+			this.btnText = xml.find('displayName').text();
+		} else {
+			this.setStatus('Connected');
+			this.btnText = this.accountName;
+		}
+	}
+	/**
+	 * Call history event
+	 */
 	eventCallHistory() {
-		// console.log('eventCallHistory');
-		// this.getStatus('callHistory', '<count>3</count><entryType>all</entryType>');
+		this.getStatus('callHistory', '<count>5</count><entryType>all</entryType>');
+	}
+	/**
+	 * Call event
+	 */
+	eventCall() {
+		this.setStatus('Ringing');
+		this.getStatus('call');
 	}
 	/**
 	 * Get status from phone application
@@ -217,7 +252,7 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 	 * @param {string} body
 	 */
 	apiCall(method, body) {
-		this.log('→ ' + method, body);
+		this.log('|►| ' + method, body);
 		body = '<?xml version="1.0" encoding="utf-8" ?>\r\n' + body;
 		let msg = 'GET /' + method + '\r\nUser-Agent: YetiForce CRM';
 		msg += '\r\nContent-Type: application/xml\r\nContent-Length: ';

@@ -322,34 +322,6 @@ abstract class Base
 	}
 
 	/**
-	 * Parse phone number.
-	 *
-	 * @param string $fieldName
-	 * @param array  $parsedData
-	 *
-	 * @return array
-	 */
-	public function parsePhone(string $fieldName, array $parsedData): array
-	{
-		if (\App\Config::main('phoneFieldAdvancedVerification', false)) {
-			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-			try {
-				$swissNumberProto = $phoneUtil->parse(trim($parsedData[$fieldName]));
-				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
-			} catch (\libphonenumber\NumberParseException $e) {
-				$international = false;
-			}
-			if ($international) {
-				$parsedData[$fieldName] = $international;
-			} else {
-				$parsedData[$fieldName . '_extra'] = trim($parsedData[$fieldName]);
-				unset($parsedData[$fieldName]);
-			}
-		}
-		return $parsedData;
-	}
-
-	/**
 	 * Return address data.
 	 *
 	 * @param string $type

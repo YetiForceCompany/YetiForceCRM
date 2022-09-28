@@ -73,7 +73,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		} else {
 			$href = 'tel:' . $href;
 		}
-		if ($rawText || (empty($international) && empty($extra))) {
+		if ($rawText || (empty($international))) {
 			return $international . $extra;
 		}
 		if (!\App\Integrations\Pbx::isActive()) {

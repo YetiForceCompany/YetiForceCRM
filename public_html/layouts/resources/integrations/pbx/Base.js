@@ -30,8 +30,9 @@ window.Integrations_Pbx_Base = class Integrations_Pbx_Base {
 			mode: 'performCall',
 			...data
 		}).done(function (response) {
-			Vtiger_Helper_Js.showMessage({
-				text: response.result
+			app.showNotify({
+				title: response.result,
+				type: 'info'
 			});
 		});
 	}

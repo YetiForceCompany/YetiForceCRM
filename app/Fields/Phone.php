@@ -56,7 +56,7 @@ class Phone
 	 *
 	 * @return bool
 	 */
-	public static function verifyNumber($phoneNumber, $phoneCountry)
+	public static function verifyNumber(string $phoneNumber, ?string $phoneCountry = null)
 	{
 		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 		if ($phoneCountry && !\in_array($phoneCountry, $phoneUtil->getSupportedRegions())) {
@@ -79,5 +79,34 @@ class Phone
 			\App\Log::info($e->getMessage(), __CLASS__);
 		}
 		throw new \App\Exceptions\FieldException('LBL_INVALID_PHONE_NUMBER');
+	}
+
+	/**
+	 * Parse phone number.
+	 *
+	 * @param string      $fieldName
+	 * @param array       $parsedData
+	 * @param string|null $phoneCountry
+	 *
+	 * @return array
+	 */
+	public static function parsePhone(string $fieldName, array $parsedData, ?string $phoneCountry = null): array
+	{
+		if (\App\Config::main('phoneFieldAdvancedVerification', false)) {
+			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+			try {
+				$swissNumberProto = $phoneUtil->parse(trim($parsedData[$fieldName]), $phoneCountry);
+				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
+			} catch (\libphonenumber\NumberParseException $e) {
+				$international = false;
+			}
+			if ($international) {
+				$parsedData[$fieldName] = $international;
+			} else {
+				$parsedData[$fieldName . '_extra'] = trim($parsedData[$fieldName]);
+				unset($parsedData[$fieldName]);
+			}
+		}
+		return $parsedData;
 	}
 }

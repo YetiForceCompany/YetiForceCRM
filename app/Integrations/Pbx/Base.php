@@ -1,6 +1,6 @@
 <?php
 /**
- * Base PBX integrations file.
+ * Base PBX driver integrations file.
  *
  * @package Integration
  *
@@ -12,7 +12,7 @@
 namespace App\Integrations\Pbx;
 
 /**
- * Base PBX integrations class.
+ * Base PBX driver integrations class.
  */
 abstract class Base
 {
@@ -22,24 +22,34 @@ abstract class Base
 	/** @var string[] Values to configure. */
 	public $configFields = [];
 
+	/** @var \App\Integrations\Pbx PBX main integration instance. */
+	protected $pbx;
+
+	/**
+	 * Base PBX driver constructor.
+	 *
+	 * @param \App\Integrations\Pbx $pbx
+	 */
+	public function __construct(\App\Integrations\Pbx $pbx)
+	{
+		$this->pbx = $pbx;
+	}
+
 	/**
 	 * Perform phone call.
 	 *
-	 * @param \App\Integrations\Pbx $pbx
-	 *
 	 * @return array
 	 */
-	abstract public function performCall(\App\Integrations\Pbx $pbx): array;
+	abstract public function performCall(): array;
 
 	/**
 	 * Save phone calls.
 	 *
-	 * @param \App\Integrations\Pbx $pbx
-	 * @param \App\Request          $request
+	 * @param \App\Request $request
 	 *
 	 * @return array
 	 */
-	public function saveCalls(\App\Integrations\Pbx $pbx, \App\Request $request): array
+	public function saveCalls(\App\Request $request): array
 	{
 		throw new \App\Exceptions\AppException('Method not supported');
 	}

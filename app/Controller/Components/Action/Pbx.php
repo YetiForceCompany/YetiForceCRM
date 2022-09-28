@@ -70,11 +70,11 @@ class Pbx extends \App\Controller\Action
 	public function saveCalls(\App\Request $request): void
 	{
 		$pbx = \App\Integrations\Pbx::getDefaultInstance();
-		$connector = \App\Integrations\Pbx::getConnectorInstance($pbx->get('type'));
+		$connector = $pbx->getConnector();
 		if (empty($connector)) {
 			throw new \App\Exceptions\AppException('No PBX connector found');
 		}
-		$result = $connector->saveCalls($pbx, $request);
+		$result = $connector->saveCalls($request);
 
 		$response = new \Vtiger_Response();
 		$response->setResult(array_merge(['type' => $pbx->get('type')], $result));

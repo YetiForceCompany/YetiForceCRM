@@ -232,7 +232,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		$moduleName = $this->getModule()->getName(true);
 		$mainParams = ['uitype' => 1, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
 		$fieldModels = [];
-		if ($connector = App\Integrations\Pbx::getConnectorInstance($this->get('type'))) {
+		if ($connector = \App\Integrations\Pbx::getDefaultInstance()->getConnectorByName($this->get('type'))) {
 			foreach ($connector->configFields as $name => $params) {
 				$fieldModel = Settings_Vtiger_Field_Model::init($moduleName, array_merge($mainParams, $params, ['column' => $name, 'name' => $name]));
 				$fieldModel->set('fieldvalue', $this->getParam($name));
@@ -280,7 +280,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 			$this->set($name, $data[$name] ?? null);
 		}
 		$params = [];
-		if ($connector = App\Integrations\Pbx::getConnectorInstance($data['type'])) {
+		if ($connector = \App\Integrations\Pbx::getDefaultInstance()->getConnectorByName($data['type'])) {
 			foreach ($connector->configFields as $name => $config) {
 				$params[$name] = $data[$name] ?? null;
 			}

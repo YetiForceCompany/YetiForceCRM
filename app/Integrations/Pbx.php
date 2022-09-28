@@ -1,15 +1,18 @@
 <?php
-
-namespace App\Integrations;
-
 /**
- * Pbx main class.
+ * PBX main integration file.
  *
  * @package Integration
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+
+namespace App\Integrations;
+
+/**
+ * PBX main integration class.
  */
 class Pbx extends \App\Base
 {
@@ -113,11 +116,29 @@ class Pbx extends \App\Base
 		}
 		$this->set('targetPhone', $targetPhone);
 		$this->set('record', $record);
-		$connector = static::getConnectorInstance($this->get('type'));
+		$connector = $this->getConnector();
 		if (empty($connector)) {
 			throw new \App\Exceptions\AppException('No PBX connector found');
 		}
-		$connector->performCall($this);
+		$connector->performCall();
+	}
+
+	/**
+	 * Get connector instance.
+	 *
+	 * @return \App\Integrations\Pbx\Base|null
+	 */
+	public function getConnector(): ?Pbx\Base
+	{
+		$className = '\App\Integrations\Pbx\\' . $this->get('type');
+		if (isset(static::$connectors[$className])) {
+			return static::$connectors[$className];
+		}
+		if (class_exists($className)) {
+			return static::$connectors[$className] = new $className($this);
+		}
+		\App\Log::warning('Not found Pbx class');
+		return null;
 	}
 
 	/**
@@ -127,14 +148,14 @@ class Pbx extends \App\Base
 	 *
 	 * @return \App\Integrations\Pbx\Base|null
 	 */
-	public static function getConnectorInstance($name): ?Pbx\Base
+	public static function getConnectorByName(string $name): ?Pbx\Base
 	{
-		$className = '\App\Integrations\Pbx\\' . $name;
+		$className = 'static|\App\Integrations\Pbx\\' . $name;
 		if (isset(static::$connectors[$className])) {
 			return static::$connectors[$className];
 		}
 		if (class_exists($className)) {
-			return static::$connectors[$className] = new $className();
+			return static::$connectors[$className] = new $className(new self());
 		}
 		\App\Log::warning('Not found Pbx class');
 		return null;
@@ -152,8 +173,22 @@ class Pbx extends \App\Base
 		if ($this->isEmpty('paramArray')) {
 			$this->set('paramArray', \App\Json::decode($this->get('param')));
 		}
-		$param = $this->get('paramArray');
+		return $this->get('paramArray')[$key] ?? null;
+	}
 
-		return $param[$key] ?? null;
+	/**
+	 * Searching for a relationship by phone number.
+	 *
+	 * @param string $phoneNumber
+	 *
+	 * @return int
+	 */
+	public function findNumber(string $phoneNumber): int
+	{
+		$queryGenerator = new \App\QueryGenerator('Contacts');
+		$queryGenerator->permissions = false;
+		$queryGenerator->setFields(['id']);
+		$queryGenerator->addCondition('phone', preg_replace('/(?<!^)\+|[^\d+]+/', '', $phoneNumber), 'e');
+		return $queryGenerator->createQuery()->scalar() ?: 0;
 	}
 }

@@ -48,10 +48,10 @@ class Customer extends Base
 			$parsedData = \array_replace_recursive($parsedData, $billingAddress);
 		}
 		if (!empty($parsedData['phone'])) {
-			$parsedData = $this->parsePhone('phone', $parsedData);
+			$parsedData = \App\Fields\Phone::parsePhone('phone', $parsedData);
 		}
 		if (!empty($parsedData['mobile'])) {
-			$parsedData = $this->parsePhone('mobile', $parsedData);
+			$parsedData = \App\Fields\Phone::parsePhone('mobile', $parsedData);
 		}
 		return $this->dataCrm = $parsedData;
 	}

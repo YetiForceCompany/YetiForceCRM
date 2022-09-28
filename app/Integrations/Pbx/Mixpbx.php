@@ -23,14 +23,14 @@ class Mixpbx extends Base
 	public $configFields = ['url' => ['label' => 'LBL_URL'], 'username' => ['label' => 'LBL_USERNAME'], 'password' => ['label' => 'LBL_PASSWORD']];
 
 	/** {@inheritdoc} */
-	public function performCall(\App\Integrations\Pbx $pbx): array
+	public function performCall(): array
 	{
 		$status = true;
-		$url = $pbx->getConfig('url');
-		$url .= '?username=' . urlencode($pbx->getConfig('username'));
-		$url .= '&password=' . urlencode($pbx->getConfig('password'));
-		$url .= '&number=' . urlencode($pbx->get('targetPhone'));
-		$url .= '&extension=' . urlencode($pbx->get('sourcePhone'));
+		$url = $this->pbx->getConfig('url');
+		$url .= '?username=' . urlencode($this->pbx->getConfig('username'));
+		$url .= '&password=' . urlencode($this->pbx->getConfig('password'));
+		$url .= '&number=' . urlencode($this->pbx->get('targetPhone'));
+		$url .= '&extension=' . urlencode($this->pbx->get('sourcePhone'));
 		try {
 			\App\Log::beginProfile("GET|Mixpbx::performCall|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url);
