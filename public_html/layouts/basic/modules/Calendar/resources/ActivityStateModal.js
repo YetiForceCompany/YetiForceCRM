@@ -7,7 +7,7 @@ jQuery.Class(
 	{
 		registerActivityState() {
 			const self = this;
-			$('.js-activity-buttons button:not(.close)').on('click', function (e) {
+			$('.js-activity-buttons').on('click', 'button:not(.close, .js-postpone), .js-postpone-time', function (e) {
 				let currentTarget = $(e.currentTarget);
 				app.hideModalWindow();
 				if (1 === currentTarget.data('type')) {
@@ -26,6 +26,9 @@ jQuery.Class(
 								currentTarget.data('id') +
 								'&fillFields=all',
 							params = {};
+						if (currentTarget.data('postpone-time')) {
+							url = url + '&postponeTime=' + currentTarget.data('postpone-time');
+						}
 						params.noCache = true;
 						App.Components.QuickCreate.getForm(url, 'Calendar', params).done(function (data) {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });

@@ -143,4 +143,8 @@ return [
 		'default' => true,
 		'description' => 'Whether to display the add to favorite users button',
 	],
+	'timePostponeCalendarEvents' => [
+		'default' => [],
+		'description' => 'Expand the option of postponing calendar events by adding time expressed in minutes. ([\'30 minutes\' => 30, \'1 days\' => 1440, \'7 days\' => 10080, \'30 days\' => 43200])',
+	],
 ];

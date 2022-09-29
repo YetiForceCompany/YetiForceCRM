@@ -31,7 +31,7 @@
 								{assign var=SHOW_QUICK_CREATE value=App\Config::module('Calendar','SHOW_QUICK_CREATE_BY_STATUS')}
 								{if $EMPTY && \App\Privilege::isPermitted($MODULE_NAME, 'ActivityCancel', $ID)}
 									<button type="button"
-										class="mr-1 btn btn-warning {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}"
+										class="float-left mr-1 btn btn-warning {if in_array($ACTIVITY_STATE_LABEL.cancelled,$SHOW_QUICK_CREATE)}showQuickCreate{/if}"
 										data-state="{$ACTIVITY_STATE_LABEL.cancelled}" data-id="{$ID}"
 										data-type="1">
 										<span class="fas fa-ban mr-1"></span>
@@ -40,7 +40,7 @@
 								{/if}
 								{if $EMPTY && \App\Privilege::isPermitted($MODULE_NAME, 'ActivityComplete', $ID)}
 									<button type="button"
-										class="mr-1 btn c-btn-done {if in_array($ACTIVITY_STATE_LABEL.completed,$SHOW_QUICK_CREATE)}showQuickCreate{/if}"
+										class="float-left mr-1 btn c-btn-done {if in_array($ACTIVITY_STATE_LABEL.completed,$SHOW_QUICK_CREATE)}showQuickCreate{/if}"
 										data-state="{$ACTIVITY_STATE_LABEL.completed}" data-id="{$ID}"
 										data-type="1">
 										<span class="far fa-check-square fa-lg mr-1"></span>
@@ -48,12 +48,27 @@
 									</button>
 								{/if}
 								{if $EMPTY && \App\Privilege::isPermitted($MODULE_NAME, 'ActivityPostponed', $ID)}
-									<button type="button" class="mr-1 btn btn-primary showQuickCreate"
-										data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}"
-										data-type="0">
-										<span class="fas fa-angle-double-right mr-1"></span>
-										{\App\Language::translate($ACTIVITY_STATE_LABEL.postponed, $MODULE_NAME)}
-									</button>
+									{if !empty($TIME_POSTPONE)}
+										<div class="float-left dropdown">
+											<button class="mr-1 btn btn-primary dropdown-toggle js-postpone" type="button" data-toggle="dropdown" aria-expanded="false" data-js="container">
+												<span class="fas fa-angle-double-right mr-1"></span>
+												{\App\Language::translate($ACTIVITY_STATE_LABEL.postponed, $MODULE_NAME)}
+											</button>
+											<div class="dropdown-menu">
+												{foreach from=$TIME_POSTPONE key=LABEL item=VALUE}
+													<a class="dropdown-item showQuickCreate js-postpone-time" href="#" data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}"
+														data-type="0" data-postpone-time="{$VALUE}" data-js="click">{$LABEL}</a>
+												{/foreach}
+											</div>
+										</div>
+									{else}
+										<button type="button" class="mr-1 btn btn-primary showQuickCreate"
+											data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}"
+											data-type="0">
+											<span class="fas fa-angle-double-right mr-1"></span>
+											{\App\Language::translate($ACTIVITY_STATE_LABEL.postponed, $MODULE_NAME)}
+										</button>
+									{/if}
 								{/if}
 								{if !$EMPTY}
 									{\App\Language::translate('LBL_NO_AVAILABLE_ACTIONS', $MODULE_NAME)}
