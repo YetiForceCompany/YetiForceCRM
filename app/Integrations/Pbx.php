@@ -38,7 +38,7 @@ class Pbx extends \App\Base
 					\App\Log::warning('Not found Pbx class');
 					continue;
 				}
-				$instance = new $className();
+				$instance = new $className(new self());
 				$connectors[$fileName] = $instance;
 			}
 		}

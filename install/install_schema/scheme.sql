@@ -5335,6 +5335,11 @@ CREATE TABLE `vtiger_callhistory` (
   PRIMARY KEY (`callhistoryid`),
   KEY `source` (`source`),
   KEY `destination` (`destination`),
+  KEY `subscriberid` (`subscriberid`),
+  KEY `phonecallid` (`phonecallid`),
+  KEY `callhistorytype` (`callhistorytype`),
+  KEY `to_number` (`to_number`),
+  KEY `start_time` (`start_time`),
   CONSTRAINT `vtiger_callhistory_ibfk_1` FOREIGN KEY (`callhistoryid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
