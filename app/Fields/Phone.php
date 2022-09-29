@@ -92,7 +92,7 @@ class Phone
 	 */
 	public static function parsePhone(string $fieldName, array $parsedData, ?string $phoneCountry = null): array
 	{
-		if (\App\Config::main('phoneFieldAdvancedVerification', false)) {
+		if (\App\Config::component('Phone', 'advancedVerification', false)) {
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 			try {
 				$swissNumberProto = $phoneUtil->parse(trim($parsedData[$fieldName]), $phoneCountry);

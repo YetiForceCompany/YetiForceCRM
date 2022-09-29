@@ -5353,6 +5353,7 @@ CREATE TABLE `vtiger_callhistorytype` (
   `callhistorytype` varchar(200) NOT NULL,
   `sortorderid` int(10) DEFAULT NULL,
   `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `color` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`callhistorytypeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 

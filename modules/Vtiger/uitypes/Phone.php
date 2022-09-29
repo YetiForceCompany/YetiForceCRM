@@ -17,7 +17,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		if (empty($value)) {
 			return '';
 		}
-		if (\Config\Main::$phoneFieldAdvancedVerification ?? false) {
+		if (\App\Config::component('Phone', 'advancedVerification', false)) {
 			$value = str_replace(' ', '', $value);
 		}
 		return \App\Purifier::decodeHtml($value);
@@ -35,7 +35,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		if (empty($value) || isset($this->validate[$value])) {
 			return;
 		}
-		if (\Config\Main::$phoneFieldAdvancedVerification ?? false) {
+		if (\App\Config::component('Phone', 'advancedVerification', false)) {
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 			try {
 				$phoneUtil->isValidNumber($phoneUtil->parse($value));
@@ -53,7 +53,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	{
 		$extra = '';
 		$href = $international = \App\Purifier::encodeHtml($value);
-		if ((\Config\Main::$phoneFieldAdvancedVerification ?? false) && ($format = \App\Config::main('phoneFieldAdvancedHrefFormat', \libphonenumber\PhoneNumberFormat::RFC3966)) !== false) {
+		if (\App\Config::component('Phone', 'advancedVerification', false) && ($format = \App\Config::component('Phone', 'advancedFormat', \libphonenumber\PhoneNumberFormat::RFC3966)) !== false) {
 			if ($recordModel) {
 				$extra = $recordModel->getDisplayValue($this->getFieldModel()->getName() . '_extra');
 				if ($extra) {
@@ -90,7 +90,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
 	{
 		$href = $international = ($value ? \App\Purifier::encodeHtml($value) : '');
-		if ((\Config\Main::$phoneFieldAdvancedVerification ?? false) && ($format = \App\Config::main('phoneFieldAdvancedHrefFormat', \libphonenumber\PhoneNumberFormat::RFC3966)) !== false) {
+		if (\App\Config::component('Phone', 'advancedVerification', false) && ($format = \App\Config::component('Phone', 'advancedFormat', \libphonenumber\PhoneNumberFormat::RFC3966)) !== false) {
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 			try {
 				$swissNumberProto = $phoneUtil->parse($value);
@@ -124,7 +124,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 			return '';
 		}
 		$href = $international = \App\Purifier::encodeHtml($value);
-		if ((\Config\Main::$phoneFieldAdvancedVerification ?? false) && ($format = \App\Config::main('phoneFieldAdvancedHrefFormat', \libphonenumber\PhoneNumberFormat::RFC3966)) !== false) {
+		if (\App\Config::component('Phone', 'advancedVerification', false) && ($format = \App\Config::component('Phone', 'advancedFormat', \libphonenumber\PhoneNumberFormat::RFC3966)) !== false) {
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 			try {
 				$swissNumberProto = $phoneUtil->parse($value);
@@ -169,7 +169,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 			'rawCountry' => $country,
 			'fieldName' => $this->getFieldModel()->getName(),
 		];
-		if (\App\Config::main('phoneFieldAdvancedVerification', false)) {
+		if (\App\Config::component('Phone', 'advancedVerification', false)) {
 			$phoneDetails = \App\Fields\Phone::getDetails($number, $country);
 			if (isset($phoneDetails['number'])) {
 				$details = array_merge($details, $phoneDetails);
@@ -187,7 +187,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		if ('' === $value && null !== $defaultValue) {
 			$value = $defaultValue;
 		}
-		if (\Config\Main::$phoneFieldAdvancedVerification ?? false) {
+		if (\App\Config::component('Phone', 'advancedVerification', false)) {
 			$value = preg_replace('/[^+\d]/', '', $value);
 		}
 		return $value;

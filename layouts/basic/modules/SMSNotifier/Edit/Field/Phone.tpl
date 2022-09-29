@@ -10,7 +10,7 @@
 		{assign var="PHONE_FIELDS" value=$FIELD_MODEL->getUITypeModel()->getRelatedFields($RECORD)}
 	{/if}
 	<div>
-		{if \App\Config::main('phoneFieldAdvancedVerification',false)}
+		{if \App\Config::component('Phone', 'advancedVerification', false)}
 			{if $NUMBER}
 				{assign var=PHONE_DETAIL value=App\Fields\Phone::getDetails($NUMBER)}
 				{assign var=COUNTRY value=$PHONE_DETAIL['country']}

@@ -2165,11 +2165,11 @@ insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('in
 
 /*Data for the table `vtiger_callhistorytype` */
 
-insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`) values (1,'Outgoing missed',1,1);
-insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`) values (2,'Outgoing received',2,1);
-insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`) values (3,'Incoming',3,1);
-insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`) values (4,'Missed',4,1);
-insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`) values (5,'Voicemail',5,1);
+insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`,`color`) values (1,'Outgoing missed',1,1,'FFF176');
+insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`,`color`) values (2,'Outgoing received',2,1,'81C784');
+insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`,`color`) values (3,'Incoming',3,1,'4DD0E1');
+insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`,`color`) values (4,'Missed',4,1,'F44336');
+insert  into `vtiger_callhistorytype`(`callhistorytypeid`,`callhistorytype`,`sortorderid`,`presence`,`color`) values (5,'Voicemail',5,1,'90A4AE');
 
 /*Data for the table `vtiger_campaign` */
 

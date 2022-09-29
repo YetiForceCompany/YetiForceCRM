@@ -378,6 +378,33 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool',
 		],
+		'advancedVerification' => [
+			'default' => true,
+			'description' => 'Enable advanced phone number validation. Enabling it will block saving invalid phone number.',
+		],
+		'advancedFormat' => [
+			'default' => new \Nette\PhpGenerator\PhpLiteral('\libphonenumber\PhoneNumberFormat::RFC3966'),
+			'description' => "Phone number display format. Values:\nfalse - formatting is disabled \n\\libphonenumber\\PhoneNumberFormat::RFC3966 - +48-44-668-18-00\n\\libphonenumber\\PhoneNumberFormat::E164 - +48446681800 \n\\libphonenumber\\PhoneNumberFormat::INTERNATIONAL - 044 668 18 00\n\\libphonenumber\\PhoneNumberFormat::NATIONAL - +48 44 668 18 00",
+			'validation' => function () {
+				return \in_array(func_get_arg(0), [
+					false,
+					\libphonenumber\PhoneNumberFormat::RFC3966,
+					\libphonenumber\PhoneNumberFormat::E164,
+					\libphonenumber\PhoneNumberFormat::INTERNATIONAL,
+					\libphonenumber\PhoneNumberFormat::NATIONAL,
+				]);
+			},
+		],
+	],
+	'Pbx' => [
+		'phoneSearchField' => [
+			'default' => [
+				'Contacts' => ['phone', 'mobile'],
+				'Accounts' => ['phone', 'otherphone'],
+				'Leads' => ['phone', 'mobile', 'fax'],
+			],
+			'description' => 'Map of modules and fields to search for relations by telephone number, for call history.',
+		],
 	],
 	'InterestsConflict' => [
 		'isActive' => [

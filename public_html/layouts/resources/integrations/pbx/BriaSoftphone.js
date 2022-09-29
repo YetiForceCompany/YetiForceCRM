@@ -79,11 +79,6 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 		});
 		let title = this.status;
 		switch (this.status) {
-			case 'Connected':
-			default:
-				btn.addClass('btn-success');
-				btnIcon.removeClass().addClass('fa-solid fa-phone-flip js-icon');
-				break;
 			case 'Ringing':
 				btn.addClass('btn-primary');
 				btnIcon.removeClass().addClass('fa-solid fa-phone-volume js-icon');
@@ -96,6 +91,11 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 			case 'Close':
 				btn.addClass('btn-danger');
 				btnIcon.removeClass().addClass('fa-solid fa-phone-slash js-icon');
+				break;
+			case 'Connected':
+			default:
+				btn.addClass('btn-success');
+				btnIcon.removeClass().addClass('fa-solid fa-phone-flip js-icon');
 				break;
 		}
 		if (this.lastEvent && (this.lastEvent.code || this.lastEvent.name)) {
@@ -145,16 +145,19 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 	 * @param {jQuery} xml
 	 */
 	event(xml) {
-		const type = xml.children(':first').attr('type'),
-			fn = 'event' + type.charAt(0).toUpperCase() + type.slice(1);
-		this.log('|◄| ' + fn + ' [' + (fn in this) + ']', xml.get(0));
-		if (fn in this) {
-			this[fn]();
+		if (xml) {
+			const type = xml.children(':first').attr('type'),
+				fn = 'event' + type.charAt(0).toUpperCase() + type.slice(1);
+			this.log('|◄| ' + fn + ' [' + (fn in this) + ']', xml.get(0));
+			if (fn in this) {
+				this[fn]();
+			}
 		}
 	}
 	/**
 	 * Account details request
 	 * @param {jQuery} xml
+	 * @description `|◄| requestAccount [true]`
 	 */
 	requestAccount(xml) {
 		this.btnText = this.accountName = xml.find('accountName').text();
@@ -167,6 +170,7 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 	/**
 	 * Call history details request
 	 * @param {jQuery} xml
+	 * @description `|◄| requestCallHistory [true]`
 	 */
 	requestCallHistory(xml) {
 		let calls = [];
@@ -194,9 +198,9 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 	/**
 	 * Call request
 	 * @param {jQuery} xml
+	 * @description `|◄| requestCall [true]`
 	 */
 	requestCall(xml) {
-		console.log('requestCall');
 		if (xml.length) {
 			this.setStatus('Ringing');
 			this.btnText = xml.find('displayName').text();
@@ -207,12 +211,14 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 	}
 	/**
 	 * Call history event
+	 * @description `|◄| eventCallHistory [true]`
 	 */
 	eventCallHistory() {
 		this.getStatus('callHistory', '<count>5</count><entryType>all</entryType>');
 	}
 	/**
 	 * Call event
+	 * @description `|◄| eventCall [true]`
 	 */
 	eventCall() {
 		this.setStatus('Ringing');
@@ -222,6 +228,7 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 	 * Get status from phone application
 	 * @param {string} type
 	 * @param {string} custom
+	 * @description `|►| status`
 	 */
 	getStatus(type, custom) {
 		if (!custom) {
@@ -231,6 +238,7 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 	}
 	/**
 	 * Show phone app
+	 * @description `|►| bringToFront`
 	 */
 	bringToFront() {
 		this.apiCall('bringToFront', `<bringToFront><window>main</window></bringToFront>`);

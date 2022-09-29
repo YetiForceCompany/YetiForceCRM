@@ -185,10 +185,22 @@ class Pbx extends \App\Base
 	 */
 	public function findNumber(string $phoneNumber): int
 	{
-		$queryGenerator = new \App\QueryGenerator('Contacts');
-		$queryGenerator->permissions = false;
-		$queryGenerator->setFields(['id']);
-		$queryGenerator->addCondition('phone', preg_replace('/(?<!^)\+|[^\d+]+/', '', $phoneNumber), 'e');
-		return $queryGenerator->createQuery()->scalar() ?: 0;
+		$id = 0;
+		$phoneNumber = preg_replace('/(?<!^)\+|[^\d+]+/', '', $phoneNumber);
+		foreach (\App\Config::component('Pbx', 'phoneSearchField', []) as $moduleName => $fields) {
+			if (\App\Module::isModuleActive($moduleName)) {
+				$queryGenerator = new \App\QueryGenerator($moduleName);
+				$queryGenerator->permissions = false;
+				$queryGenerator->setFields(['id']);
+				foreach ($fields as $fieldName) {
+					$queryGenerator->addCondition($fieldName, $phoneNumber, 'e', false);
+				}
+				if ($scalar = $queryGenerator->createQuery()->scalar()) {
+					$id = $scalar;
+					break;
+				}
+			}
+		}
+		return $id;
 	}
 }
