@@ -1814,18 +1814,21 @@ class TextParser
 				}
 				$html .= '</tr>';
 			}
-
-			$html .= '</tbody><tfoot><tr>';
-			foreach ($columns as $name => $field) {
-				$tb = $style = '';
-				if (\is_object($field) && $field->isSummary()) {
-					$style = 'border:1px solid #ddd;white-space: nowrap;';
-					$sum = $field->getSummaryValuesFromData($inventoryRows);
-					$tb = \CurrencyField::appendCurrencySymbol(\CurrencyField::convertToUserFormat($sum, null, true), $currencySymbol);
+			$html .= '</tbody>';
+			if (empty($config['showTableFoot']) || 'yes' === $config['showTableFoot']) {
+				$html .= '<tfoot><tr>';
+				foreach ($columns as $name => $field) {
+					$tb = $style = '';
+					if (\is_object($field) && $field->isSummary()) {
+						$style = 'border:1px solid #ddd;white-space: nowrap;';
+						$sum = $field->getSummaryValuesFromData($inventoryRows);
+						$tb = \CurrencyField::appendCurrencySymbol(\App\Fields\Currency::formatToDisplay($sum, null, true), $currencySymbol);
+					}
+					$html .= '<th class="col-type-' . (\is_object($field) ? $field->getType() : $name) . '" style="padding:0px 4px;text-align:right;' . $style . '">' . $tb . '</th>';
 				}
-				$html .= '<th class="col-type-' . (\is_object($field) ? $field->getType() : $name) . '" style="padding:0px 4px;text-align:right;' . $style . '">' . $tb . '</th>';
+				$html .= '</tr></tfoot>';
 			}
-			$html .= '</tr></tfoot></table>';
+			$html .= '</table>';
 		}
 		return $html;
 	}
@@ -1841,11 +1844,11 @@ class TextParser
 	protected function parseVariable(string $variable, int $id = 0): string
 	{
 		if ($id && Record::isExists($id)) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($id);
-			if (!$recordModel->isViewable()) {
+			$record = \Vtiger_Record_Model::getInstanceById($id);
+			if (!$record->isViewable()) {
 				return '';
 			}
-			$instance = static::getInstanceByModel($recordModel);
+			$instance = static::getInstanceByModel($record);
 		} else {
 			$instance = static::getInstance();
 		}
