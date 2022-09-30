@@ -104,9 +104,9 @@ class Pbx extends \App\Base
 	 *
 	 * @throws \Exception
 	 *
-	 * @return void
+	 * @return array
 	 */
-	public function performCall(string $targetPhone, int $record): void
+	public function performCall(string $targetPhone, int $record): array
 	{
 		if ($this->isEmpty('sourcePhone')) {
 			throw new \App\Exceptions\AppException('No user phone number');
@@ -120,7 +120,7 @@ class Pbx extends \App\Base
 		if (empty($connector)) {
 			throw new \App\Exceptions\AppException('No PBX connector found');
 		}
-		$connector->performCall();
+		return $connector->performCall();
 	}
 
 	/**
@@ -150,12 +150,12 @@ class Pbx extends \App\Base
 	 */
 	public static function getConnectorByName(string $name): ?Pbx\Base
 	{
-		$className = 'static|\App\Integrations\Pbx\\' . $name;
-		if (isset(static::$connectors[$className])) {
-			return static::$connectors[$className];
+		$className = '\App\Integrations\Pbx\\' . $name;
+		if (isset(static::$connectors['static|' . $className])) {
+			return static::$connectors['static|' . $className];
 		}
 		if (class_exists($className)) {
-			return static::$connectors[$className] = new $className(new self());
+			return static::$connectors['static|' . $className] = new $className(new self());
 		}
 		\App\Log::warning('Not found Pbx class');
 		return null;

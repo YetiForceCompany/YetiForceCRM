@@ -18,7 +18,6 @@ window.Integrations_Pbx_Base = class Integrations_Pbx_Base {
 	constructor(container) {
 		this.container = container;
 	}
-
 	/**
 	 * Perform call
 	 * @param {Object} data
@@ -30,13 +29,19 @@ window.Integrations_Pbx_Base = class Integrations_Pbx_Base {
 			mode: 'performCall',
 			...data
 		}).done(function (response) {
-			app.showNotify({
-				title: response.result,
-				type: 'info'
-			});
+			if (response.result.status) {
+				app.showNotify({
+					title: response.result.text,
+					type: 'info'
+				});
+			} else {
+				app.showError({
+					title: app.vtranslate('JS_UNEXPECTED_ERROR'),
+					text: response.result.text
+				});
+			}
 		});
 	}
-
 	/**
 	 * Register events.
 	 */
@@ -45,7 +50,6 @@ window.Integrations_Pbx_Base = class Integrations_Pbx_Base {
 			this.performCall($(e.currentTarget).data(), e);
 		});
 	}
-
 	/**
 	 * Get current class instance
 	 * @param {jQuery} container
@@ -54,5 +58,21 @@ window.Integrations_Pbx_Base = class Integrations_Pbx_Base {
 	static getInstance(container) {
 		const moduleClassName = 'Integrations_Pbx_' + Integrations_Pbx_Base.driver;
 		return (Integrations_Pbx_Base.instance = new window[moduleClassName](container));
+	}
+	/**
+	 * Show console logs
+	 * @param {string} message
+	 * @param {string} body
+	 */
+	log(message, body) {
+		if (CONFIG.debug) {
+			if (body) {
+				console.groupCollapsed('[PBX] ' + message);
+				console.dirxml(body);
+				console.groupEnd();
+			} else {
+				console.log('PBX ' + message, 'color: red;font-size: 1.2em;font-weight: bolder;');
+			}
+		}
 	}
 };

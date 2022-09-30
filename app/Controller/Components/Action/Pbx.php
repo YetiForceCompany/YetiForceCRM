@@ -54,9 +54,9 @@ class Pbx extends \App\Controller\Action
 	{
 		$pbx = \App\Integrations\Pbx::getDefaultInstance();
 		$pbx->loadUserPhone();
-		$pbx->performCall($request->getByType('phone', 'Phone'), $request->getInteger('record'));
+		$performCall = $pbx->performCall($request->getByType('phone', 'Phone'), $request->getInteger('record'));
 		$response = new \Vtiger_Response();
-		$response->setResult(\App\Language::translate('LBL_PHONE_CALL_SUCCESS'));
+		$response->setResult(array_merge(['text' => \App\Language::translate('LBL_PHONE_CALL_SUCCESS')], $performCall));
 		$response->emit();
 	}
 

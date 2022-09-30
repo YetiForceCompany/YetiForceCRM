@@ -96,10 +96,18 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDisplayValue(string $key)
 	{
-		if ('default' === $key) {
-			return $this->get($key) ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
+		switch ($key) {
+			case 'default':
+				$return = $this->get($key) ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
+				break;
+			case 'type':
+				$return = $this->getConnectorLabels()[$this->get($key)];
+				break;
+			default:
+				$return = \App\Purifier::encodeHtml($this->get($key));
+				break;
 		}
-		return \App\Purifier::encodeHtml($this->get($key));
+		return $return;
 	}
 
 	/**
@@ -201,18 +209,13 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getEditFieldsModel()
 	{
-		$moduleName = $this->getModule()->getName(true);
 		$mainParams = ['uitype' => 1, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
 		$fieldModels = [];
 		foreach ($this->editFields as $name => $params) {
 			if ('type' === $name) {
-				$connectors = [];
-				foreach (App\Integrations\Pbx::getConnectors() as $connectorName => $instance) {
-					$connectors[$connectorName] = \App\Language::translate($instance->name, $moduleName);
-				}
-				$params['picklistValues'] = $connectors;
+				$params['picklistValues'] = $this->getConnectorLabels();
 			}
-			$fieldModel = Settings_Vtiger_Field_Model::init($moduleName, array_merge($mainParams, $params, ['column' => $name, 'name' => $name]));
+			$fieldModel = Settings_Vtiger_Field_Model::init($this->getModule()->getName(true), array_merge($mainParams, $params, ['column' => $name, 'name' => $name]));
 			$fieldModel->set('fieldvalue', $this->get($name));
 			if ('type' === $name && $this->getId()) {
 				$fieldModel->set('isEditableReadOnly', true);
@@ -220,6 +223,21 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 			$fieldModels[$name] = $fieldModel;
 		}
 		return $fieldModels;
+	}
+
+	/**
+	 * Get connector labels.
+	 *
+	 * @return string[]
+	 */
+	protected function getConnectorLabels(): array
+	{
+		$moduleName = $this->getModule()->getName(true);
+		$labels = [];
+		foreach (App\Integrations\Pbx::getConnectors() as $connectorName => $instance) {
+			$labels[$connectorName] = \App\Language::translate($instance->name, $moduleName);
+		}
+		return $labels;
 	}
 
 	/**
@@ -232,7 +250,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		$moduleName = $this->getModule()->getName(true);
 		$mainParams = ['uitype' => 1, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
 		$fieldModels = [];
-		if ($connector = \App\Integrations\Pbx::getDefaultInstance()->getConnectorByName($this->get('type'))) {
+		if ($connector = \App\Integrations\Pbx::getConnectorByName($this->get('type'))) {
 			foreach ($connector->configFields as $name => $params) {
 				$fieldModel = Settings_Vtiger_Field_Model::init($moduleName, array_merge($mainParams, $params, ['column' => $name, 'name' => $name]));
 				$fieldModel->set('fieldvalue', $this->getParam($name));
@@ -280,7 +298,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 			$this->set($name, $data[$name] ?? null);
 		}
 		$params = [];
-		if ($connector = \App\Integrations\Pbx::getDefaultInstance()->getConnectorByName($data['type'])) {
+		if ($connector = \App\Integrations\Pbx::getConnectorByName($data['type'])) {
 			foreach ($connector->configFields as $name => $config) {
 				$params[$name] = $data[$name] ?? null;
 			}

@@ -9,11 +9,7 @@
  */
 class Settings_PBX_EditModal_View extends Settings_Vtiger_BasicModal_View
 {
-	/**
-	 * Process.
-	 *
-	 * @param \App\Request $request
-	 */
+	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
 		parent::preProcess($request);
@@ -34,5 +30,11 @@ class Settings_PBX_EditModal_View extends Settings_Vtiger_BasicModal_View
 		$viewer->assign('CONNECTOR_CONFIG', $request->getBoolean('connectorConfig'));
 		$viewer->view('EditModal.tpl', $qualifiedModuleName);
 		parent::postProcess($request);
+	}
+
+	/** {@inheritdoc} */
+	public function getSize(App\Request $request)
+	{
+		return 'modal-lg';
 	}
 }

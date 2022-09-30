@@ -133,11 +133,13 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 	 * @param {jQuery} xml
 	 */
 	response(xml) {
-		const type = xml.children(':first').attr('type'),
-			fn = 'request' + type.charAt(0).toUpperCase() + type.slice(1);
-		this.log('|◄| ' + fn + ' [' + (fn in this) + ']', xml.get(0));
-		if (fn in this) {
-			this[fn](xml.find(type));
+		if (xml) {
+			const type = xml.children(':first').attr('type'),
+				fn = 'request' + type.charAt(0).toUpperCase() + type.slice(1);
+			this.log('|◄| ' + fn + ' [' + (fn in this) + ']', xml.get(0));
+			if (fn in this) {
+				this[fn](xml.find(type));
+			}
 		}
 	}
 	/**
@@ -266,22 +268,6 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 		msg += '\r\nContent-Type: application/xml\r\nContent-Length: ';
 		msg += body.length + '\r\n\r\n' + body;
 		this.websocket.send(msg);
-	}
-	/**
-	 * Show console logs
-	 * @param {string} message
-	 * @param {string} body
-	 */
-	log(message, body) {
-		if (CONFIG.debug) {
-			if (body) {
-				console.groupCollapsed(message);
-				console.dirxml(body);
-				console.groupEnd();
-			} else {
-				console.log(message, 'color: red;font-size: 1.2em; font-weight: bolder; ');
-			}
-		}
 	}
 	/**
 	 * Parse response from websocket
