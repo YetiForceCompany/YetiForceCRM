@@ -17,10 +17,10 @@ namespace App\Integrations\Pbx;
 class GenesysWdeWhirly extends Base
 {
 	/** {@inheritdoc} */
-	public $name = 'Genesys WDE by Whirly';
+	const NAME = 'Genesys WDE by Whirly';
 
 	/** {@inheritdoc} */
-	public $configFields = [
+	const CONFIG_FIELDS = [
 		'httpListener' => ['label' => 'LBL_HTTP_LISTENER_PORT', 'uitype' => 7, 'typeofdata' => 'I~M', 'defaultvalue' => 6999],
 		'serviceValue' => ['label' => 'LBL_OUTBOUND_CONTEXT', 'uitype' => 1, 'typeofdata' => 'V~O'],
 	];

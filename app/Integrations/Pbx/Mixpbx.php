@@ -17,10 +17,12 @@ namespace App\Integrations\Pbx;
 class Mixpbx extends Base
 {
 	/** {@inheritdoc} */
-	public $name = 'MixPBX';
+	const NAME = 'MixPBX';
 
 	/** {@inheritdoc} */
-	public $configFields = ['url' => ['label' => 'LBL_URL'], 'username' => ['label' => 'LBL_USERNAME'], 'password' => ['label' => 'LBL_PASSWORD']];
+	const CONFIG_FIELDS = [
+		'url' => ['label' => 'LBL_URL'], 'username' => ['label' => 'LBL_USERNAME'], 'password' => ['label' => 'LBL_PASSWORD']
+	];
 
 	/** {@inheritdoc} */
 	public function performCall(): array

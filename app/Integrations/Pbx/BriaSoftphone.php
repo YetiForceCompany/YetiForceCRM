@@ -25,7 +25,7 @@ class BriaSoftphone extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $name = 'BRIA Softphone';
+	const NAME = 'BRIA Softphone';
 
 	/** {@inheritdoc} */
 	public function performCall(): array

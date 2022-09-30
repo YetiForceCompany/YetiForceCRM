@@ -17,10 +17,10 @@ namespace App\Integrations\Pbx;
 abstract class Base
 {
 	/** @var string Class name */
-	public $name = '';
+	const NAME = '';
 
 	/** @var string[] Values to configure. */
-	public $configFields = [];
+	const CONFIG_FIELDS = [];
 
 	/** @var \App\Integrations\Pbx PBX main integration instance. */
 	protected $pbx;

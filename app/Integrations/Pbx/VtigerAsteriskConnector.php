@@ -17,10 +17,14 @@ namespace App\Integrations\Pbx;
 class VtigerAsteriskConnector extends Base
 {
 	/** {@inheritdoc} */
-	public $name = 'VtigerAsteriskConnector';
+	const NAME = 'Vtiger Asterisk Connector';
 
 	/** {@inheritdoc} */
-	public $configFields = ['url' => ['label' => 'LBL_URL'], 'secretkey' => ['label' => 'LBL_SECRET_KEY'], 'outboundContext' => ['label' => 'LBL_OUTBOUND_CONTEXT']];
+	const CONFIG_FIELDS = [
+		'url' => ['label' => 'LBL_URL'],
+		'secretkey' => ['label' => 'LBL_SECRET_KEY'],
+		'outboundContext' => ['label' => 'LBL_OUTBOUND_CONTEXT']
+	];
 
 	/** {@inheritdoc} */
 	public function performCall(): array
