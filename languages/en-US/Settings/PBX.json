@@ -10,7 +10,8 @@
     "LBL_USERNAME": "Login",
     "LBL_PASSWORD": "Password",
     "LBL_SECRET_KEY": "Secret Key",
-    "LBL_OUTBOUND_CONTEXT": "Outbound context"
+    "LBL_OUTBOUND_CONTEXT": "Outbound context",
+    "LBL_HTTP_LISTENER_PORT": "HTTP listener port"
   },
   "js": {
     "JS_SAVE_SUCCESS": "Changes saved"
