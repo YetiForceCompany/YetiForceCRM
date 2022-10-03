@@ -119,7 +119,7 @@
     "LBL_LABEL_PROTOCOL_VERSION": "Versión del protocolo HTTP",
     "LBL_LABEL_HTTP_METHODS": "Métodos HTTP",
     "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "Cantidad máxima de memoria RAM",
-    "LBL_HELP_MAXIMUMMEMORYSIZE": "La cantidad máxima de RAM calculada en función de los parámetros de configuración actuales. Esta es la cantidad máxima de RAM necesaria para que el motor de la base de datos funcione correctamente. Esta cantidad de RAM solo está reservada para el motor de la base de datos. key_buffer_size + query_cache_size + tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + max_connections * (sort_buffer_size + read_buffer_size + read_rnd_buffer_size + join_buffer_size + thread_stack + binlog_cache_size)",
+    "LBL_HELP_MAXUSEDMEMORY": "The maximum amount of RAM calculated on the basis of current configuration parameters. This is the peak amount of RAM that is required for the database engine to work properly. This amount of RAM is only reserved for the database engine.\nkey_buffer_size + max_tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + query_cache_size + aria_pagecache_buffer_size + \nmax_connections * (read_buffer_size + read_rnd_buffer_size + sort_buffer_size + thread_stack + max_allowed_packet + join_buffer_size)",
     "LBL_HELP_MBSTRING": "Extensión usada para administrar cadenas. Utilizada para convertir cadenas a diferentes codificaciones.",
     "LBL_HELP_FILTER": "Extensión usada para filtrar datos de la solicitud entrante.",
     "LBL_HELP_BCMATH": "Operaciones matemáticas más precisas.",

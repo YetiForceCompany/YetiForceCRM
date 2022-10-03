@@ -157,6 +157,8 @@
     "LBL_SHOP_YETIFORCERCDKCVR_INTRO": "Pobieranie danych o duńskich i norweskich firmach z duńskiej bazy przedsiębiorstw (CVR)",
     "LBL_SHOP_YETIFORCERCDKCVR_DESC": "Pobieranie danych o duńskich i norweskich firmach przez CVR API z bazy Duńskiego centralnego rejestru przedsiębiorstw (CVR)\n\nKraj: Dania, Norwegia\nDostawca: CVR https://cvrapi.dk/ \nModuły: Kontrahenci, Leady, Dostawcy, Partnerzy, Konkurencja\nAutouzupełnianie danych w rekordzie: Tak\nDodatkowa opłata za dostęp do bazy danych: Nie\nRejestracja konta: Tak",
     "LBL_SHOP_YETIFORCERCNORTHDATA_INTRO": "Pobieranie danych firm z bazy North Data",
-    "LBL_SHOP_YETIFORCERCNORTHDATA_DESC": "Pobieranie danych firm z międzynarodowej bazy North Data\n\nKraj: Austria, Francja, Niemcy, Polska, Luksemburg, Hiszpania, Szwajcaria, Wielka Brytania\nDostawca danych: North Data https://www.northdata.com/ \nModuły: Accounts, Leads, Vendors, Partners, Competition\nAutouzupełnianie danych w rekordzie: Tak\nDodatkowa opłata za dostęp do bazy danych: Nie, ale obowiązują limity.\nRejestracja konta: Tak"
+    "LBL_SHOP_YETIFORCERCNORTHDATA_DESC": "Pobieranie danych firm z międzynarodowej bazy North Data\n\nKraj: Austria, Francja, Niemcy, Polska, Luksemburg, Hiszpania, Szwajcaria, Wielka Brytania\nDostawca danych: North Data https://www.northdata.com/ \nModuły: Accounts, Leads, Vendors, Partners, Competition\nAutouzupełnianie danych w rekordzie: Tak\nDodatkowa opłata za dostęp do bazy danych: Nie, ale obowiązują limity.\nRejestracja konta: Tak",
+    "LBL_SHOP_YETIFORCEPBXBRIASOFTPHONE_INTRO": "Integracja z PBX za pośrednictwem aplikacji Bria Softphone",
+    "LBL_SHOP_YETIFORCEPBXBRIASOFTPHONE_DESC": "Integracja z PBX za pośrednictwem aplikacji Bria Softphone\nPołączenie z Bria Softphone opiera się na Bria Desktop API, które pozwala użytkownikowi mieć informacje o połączeniach w czasie rzeczywistym."
   }
 }

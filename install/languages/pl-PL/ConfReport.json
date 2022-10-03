@@ -119,7 +119,7 @@
     "LBL_LABEL_PROTOCOL_VERSION": "Wersja protokołu HTTP",
     "LBL_LABEL_HTTP_METHODS": "Metody HTTP",
     "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "Maksymalna ilość pamięci RAM",
-    "LBL_HELP_MAXIMUMMEMORYSIZE": "Maksymalna ilość pamięci RAM, wyliczona na podstawie aktualnych parametrów konfiguracyjnych. Jest to szczytowa ilość pamięci RAM jaką potrzebuje silnik bazy danych do prawidłowej pracy. Jest to ilość pamięci zarezerwowana tylko dla silnika bazy danych. key_buffer_size + query_cache_size + tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + max_connections * (sort_buffer_size + read_buffer_size + read_rnd_buffer_size + join_buffer_size + thread_stack + binlog_cache_size)",
+    "LBL_HELP_MAXUSEDMEMORY": "The maximum amount of RAM calculated on the basis of current configuration parameters. This is the peak amount of RAM that is required for the database engine to work properly. This amount of RAM is only reserved for the database engine.\nkey_buffer_size + max_tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + query_cache_size + aria_pagecache_buffer_size + \nmax_connections * (read_buffer_size + read_rnd_buffer_size + sort_buffer_size + thread_stack + max_allowed_packet + join_buffer_size)",
     "LBL_HELP_MBSTRING": "Rozszerzeniem używane do zarządzania ciągami. Służy do konwersji łańcuchów na różne kodowania.",
     "LBL_HELP_FILTER": "Rozszerzenie do filtrowania danych wejściowych.",
     "LBL_HELP_BCMATH": "Bardziej dokładne operacji matematycznych.",

@@ -119,7 +119,7 @@
     "LBL_LABEL_PROTOCOL_VERSION": "HTTP 协议版本",
     "LBL_LABEL_HTTP_METHODS": "HTTP 方法",
     "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "最大内存",
-    "LBL_HELP_MAXIMUMMEMORYSIZE": "根据当前配置参数计算的最大内存。这是数据库引擎正常工作所需的内存峰值量。此内存仅保留给数据库引擎. key_buffer_size + query_cache_size + tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + max_connections * (sort_buffer_size + read_buffer_size + read_rnd_buffer_size + join_buffer_size + thread_stack + binlog_cache_size)",
+    "LBL_HELP_MAXUSEDMEMORY": "The maximum amount of RAM calculated on the basis of current configuration parameters. This is the peak amount of RAM that is required for the database engine to work properly. This amount of RAM is only reserved for the database engine.\nkey_buffer_size + max_tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + query_cache_size + aria_pagecache_buffer_size + \nmax_connections * (read_buffer_size + read_rnd_buffer_size + sort_buffer_size + thread_stack + max_allowed_packet + join_buffer_size)",
     "LBL_HELP_MBSTRING": "用于管理字符串的扩展。用于将字符串转换为不同的编码。",
     "LBL_HELP_FILTER": "用于筛选传入请求数据的扩展。",
     "LBL_HELP_BCMATH": "更精确的数学运算。",

@@ -119,7 +119,7 @@
     "LBL_LABEL_PROTOCOL_VERSION": "HTTP protokol verzija",
     "LBL_LABEL_HTTP_METHODS": "HTTP metode",
     "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "Maksimalna količina RAM-a",
-    "LBL_HELP_MAXIMUMMEMORYSIZE": "Maksimalna količina RAM-a izračunata na temelju trenutnih konfiguracijskih parametara. Ovo je najveća količina RAM-a potrebna za ispravno funkcioniranje motora baze podataka. Ova količina RAM-a rezervirana je samo za pokretanje baze podataka. key_buffer_size + query_cache_size + tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + max_connections * (sort_buffer_size + read_buffer_size + read_rnd_buffer_size + join_buffer_size + thread_stack + binlog_cache_size)",
+    "LBL_HELP_MAXUSEDMEMORY": "The maximum amount of RAM calculated on the basis of current configuration parameters. This is the peak amount of RAM that is required for the database engine to work properly. This amount of RAM is only reserved for the database engine.\nkey_buffer_size + max_tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + query_cache_size + aria_pagecache_buffer_size + \nmax_connections * (read_buffer_size + read_rnd_buffer_size + sort_buffer_size + thread_stack + max_allowed_packet + join_buffer_size)",
     "LBL_HELP_MBSTRING": "Proširenje se koristi za upravljanje nizovima. Koristi se za pretvaranje struna u različite kodove.",
     "LBL_HELP_FILTER": "Proširenje se koristi za filtriranje podataka dolaznih zahtjeva.",
     "LBL_HELP_BCMATH": "Tačnije matematičke operacije.",

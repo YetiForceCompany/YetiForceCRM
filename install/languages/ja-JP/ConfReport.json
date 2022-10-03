@@ -119,7 +119,7 @@
     "LBL_LABEL_PROTOCOL_VERSION": "HTTP プロトコルのバージョン",
     "LBL_LABEL_HTTP_METHODS": "HTTPメソッド",
     "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "RAMの最大量",
-    "LBL_HELP_MAXIMUMMEMORYSIZE": "現在の設定パラメータに基づいて計算されるRAMの最大量。 これは、データベースエンジンが正常に動作するために必要なRAMのピーク量です。 このRAMの量は、データベース・エンジン用にのみ予約されます。 key_buffer_size + query_cache_size + tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + max_connections * (sort_buffer_size + read_rnd_buffer_size + join_buffer_size + join_buffer_size + binlog_cache_size)",
+    "LBL_HELP_MAXUSEDMEMORY": "The maximum amount of RAM calculated on the basis of current configuration parameters. This is the peak amount of RAM that is required for the database engine to work properly. This amount of RAM is only reserved for the database engine.\nkey_buffer_size + max_tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + query_cache_size + aria_pagecache_buffer_size + \nmax_connections * (read_buffer_size + read_rnd_buffer_size + sort_buffer_size + thread_stack + max_allowed_packet + join_buffer_size)",
     "LBL_HELP_MBSTRING": "文字列の管理に使用されるエクステンション。文字列を異なるエンコーディングに変換するために使用されます。",
     "LBL_HELP_FILTER": "エクステンションは、受信リクエストデータのフィルタリングに使用されます。",
     "LBL_HELP_BCMATH": "より正確な数学演算。",

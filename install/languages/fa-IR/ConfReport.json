@@ -119,7 +119,7 @@
     "LBL_LABEL_PROTOCOL_VERSION": "پروتکل نسخه HTTP",
     "LBL_LABEL_HTTP_METHODS": "روش های HTTP",
     "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "حداکثر مقدار RAM",
-    "LBL_HELP_MAXIMUMMEMORYSIZE": "حداکثر مقدار RAM بر اساس پارامترهای پیکربندی فعلی محاسبه می شود. این میزان اوج حافظه رمی است که برای کارکرد مناسب موتور پایگاه داده لازم است. این مقدار RAM فقط برای موتور دیتابیس محفوظ است. key_buffer_size + query_cache_size + tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + max_connections * (sort_buffer_size + read_buffer_size + read_rnd_buffer_size + join_buffer_size + thread_stack + binlog_cache_size)",
+    "LBL_HELP_MAXUSEDMEMORY": "The maximum amount of RAM calculated on the basis of current configuration parameters. This is the peak amount of RAM that is required for the database engine to work properly. This amount of RAM is only reserved for the database engine.\nkey_buffer_size + max_tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + query_cache_size + aria_pagecache_buffer_size + \nmax_connections * (read_buffer_size + read_rnd_buffer_size + sort_buffer_size + thread_stack + max_allowed_packet + join_buffer_size)",
     "LBL_HELP_MBSTRING": "افزونه‌ای برای مدیریت رشته ها استفاده می شود. برای تبدیل رشته ها به رمزگذاری های مختلف استفاده می شود.",
     "LBL_HELP_FILTER": "افزونه برای فیلتر کردن داده های درخواست ورودی استفاده می شود.",
     "LBL_HELP_BCMATH": "عملیات ریاضی دقیقتر.",

@@ -119,7 +119,7 @@
     "LBL_LABEL_PROTOCOL_VERSION": "HTTP protocol version",
     "LBL_LABEL_HTTP_METHODS": "HTTP methods",
     "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "최대 메모리 용량",
-    "LBL_HELP_MAXIMUMMEMORYSIZE": "현재 설정된 파라메터(매개변수) 에 따라 최대 메모리가 계산됩니다. 이것은 데이터베이스 엔진이 원활히 동작하기위해 요구된 최대 메모리입니다. 이 메모리는 데이터 베이스엔진만을 위해 예약되었습니다. 계산방법: key_buffer_size + query_cache_size + tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + max_connections * (sort_buffer_size + read_buffer_size + read_rnd_buffer_size + join_buffer_size + thread_stack + binlog_cache_size)",
+    "LBL_HELP_MAXUSEDMEMORY": "The maximum amount of RAM calculated on the basis of current configuration parameters. This is the peak amount of RAM that is required for the database engine to work properly. This amount of RAM is only reserved for the database engine.\nkey_buffer_size + max_tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + query_cache_size + aria_pagecache_buffer_size + \nmax_connections * (read_buffer_size + read_rnd_buffer_size + sort_buffer_size + thread_stack + max_allowed_packet + join_buffer_size)",
     "LBL_HELP_MBSTRING": "Extension used to manage strings. Used to convert strings to different encodings.",
     "LBL_HELP_FILTER": "Extension used to filter incoming request data.",
     "LBL_HELP_BCMATH": "More accurate mathematical operations.",
