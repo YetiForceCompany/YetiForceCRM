@@ -14,10 +14,10 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
-		$sourceModuel = $request->getByType('source_module', \App\Purifier::ALNUM);
+		$sourceModule = $request->getByType('source_module', \App\Purifier::ALNUM);
 		$permissions = false;
 		if ($request->getBoolean('duplicate') || $request->isEmpty('record')) {
-			$permissions = \App\Privilege::isPermitted($sourceModuel, 'CreateCustomFilter');
+			$permissions = \App\Privilege::isPermitted($sourceModule, 'CreateCustomFilter');
 		} else {
 			$permissions = CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isEditable();
 		}

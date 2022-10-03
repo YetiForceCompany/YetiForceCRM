@@ -38,7 +38,7 @@ class GenesysWdeWhirly extends Base
 		if ($request->isEmpty('record')) {
 			$url .= '&crmsourceid=' . $request->getInteger('record');
 		}
-		if ($serviceValue = $params['serviceValue']) {
+		if ($params && ($serviceValue = ($params['serviceValueEmail'] ?? ''))) {
 			$url .= '&servicevalue=' . $serviceValue;
 		}
 		return [
