@@ -189,6 +189,7 @@ window.Integrations_Pbx_BriaSoftphone = class Integrations_Pbx_BriaSoftphone ext
 			module: 'AppComponents',
 			action: 'Pbx',
 			mode: 'saveCalls',
+			accountName: this.accountName,
 			calls: calls
 		}).done((response) => {
 			if (response.result.loadMore === true) {

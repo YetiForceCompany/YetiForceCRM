@@ -1,6 +1,6 @@
 <?php
 /**
- * Conflict of interests index view file.
+ * PBX action file.
  *
  * @package   Controller
  *
@@ -12,7 +12,7 @@
 namespace App\Controller\Components\Action;
 
 /**
- * Conflict of interests index view class.
+ * PBX action class.
  */
 class Pbx extends \App\Controller\Action
 {

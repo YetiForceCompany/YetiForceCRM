@@ -12,11 +12,28 @@ window.Integrations_Pbx_Base = class Integrations_Pbx_Base {
 	static instance;
 
 	/**
+	 * Get current class instance
+	 * @param {jQuery} container
+	 * @returns {window.Integrations_Pbx_Base}
+	 */
+	static getInstance(container) {
+		const moduleClassName = 'Integrations_Pbx_' + Integrations_Pbx_Base.driver;
+		return (Integrations_Pbx_Base.instance = new window[moduleClassName](container));
+	}
+	/**
 	 * Constructor
 	 * @param {jQuery} container
 	 */
 	constructor(container) {
 		this.container = container;
+	}
+	/**
+	 * Register events.
+	 */
+	registerEvents() {
+		this.container.on('click', '.js-phone-perform-call', (e) => {
+			this.performCall($(e.currentTarget).data(), e);
+		});
 	}
 	/**
 	 * Perform call
@@ -41,23 +58,6 @@ window.Integrations_Pbx_Base = class Integrations_Pbx_Base {
 				});
 			}
 		});
-	}
-	/**
-	 * Register events.
-	 */
-	registerEvents() {
-		this.container.on('click', '.js-phone-perform-call', (e) => {
-			this.performCall($(e.currentTarget).data(), e);
-		});
-	}
-	/**
-	 * Get current class instance
-	 * @param {jQuery} container
-	 * @returns {window.Integrations_Pbx_Base}
-	 */
-	static getInstance(container) {
-		const moduleClassName = 'Integrations_Pbx_' + Integrations_Pbx_Base.driver;
-		return (Integrations_Pbx_Base.instance = new window[moduleClassName](container));
 	}
 	/**
 	 * Show console logs

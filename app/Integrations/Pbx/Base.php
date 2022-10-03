@@ -43,6 +43,16 @@ abstract class Base
 	abstract public function performCall(): array;
 
 	/**
+	 * Whether a call is active with the PBX integration.
+	 *
+	 * @return bool
+	 */
+	public function isActive(): bool
+	{
+		return true;
+	}
+
+	/**
 	 * Save phone calls.
 	 *
 	 * @param \App\Request $request

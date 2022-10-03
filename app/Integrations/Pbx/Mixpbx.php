@@ -51,4 +51,10 @@ class Mixpbx extends Base
 		}
 		return ['status' => $status];
 	}
+
+	/** {@inheritdoc} */
+	public function isActive(): bool
+	{
+		return !empty(\App\User::getCurrentUserModel()->getDetail('phone_crm_extension_extra'));
+	}
 }

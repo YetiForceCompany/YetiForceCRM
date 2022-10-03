@@ -83,7 +83,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		if ($record) {
 			$data .= ' data-record="' . $record . '"';
 		}
-		return '<a class="cursor-pointer js-phone-perform-call" ' . $data . ' data-js="click|container"><span class="fas fa-phone" aria-hidden="true"></span> ' . $international . $extra . '</a>';
+		return '<a class="u-cursor-pointer js-phone-perform-call" ' . $data . ' data-js="click|container"><span class="fas fa-phone" aria-hidden="true"></span> ' . $international . $extra . '</a>';
 	}
 
 	/** {@inheritdoc} */

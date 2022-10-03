@@ -20,7 +20,7 @@ class Pbx extends \App\Base
 	private static $connectors = [];
 
 	/** @var array Cache for default PBX. */
-	private static $defaultCache;
+	private static $defaultCache = [];
 
 	/**
 	 * Get pbx connectors.
@@ -46,16 +46,36 @@ class Pbx extends \App\Base
 	}
 
 	/**
-	 * Undocumented function.
+	 * Get a list of all pbx servers.
+	 *
+	 * @return array
+	 */
+	public static function getAll()
+	{
+		if (\App\Cache::has('PBXServers', 'all')) {
+			return \App\Cache::get('PBXServers', 'all');
+		}
+		$all = (new \App\Db\Query())->from('s_#__pbx')->indexBy('pbxid')->all(\App\Db::getInstance('admin'));
+		\App\Cache::save('PBXServers', 'all', $all, \App\Cache::LONG);
+		return $all;
+	}
+
+	/**
+	 * Get default PBX details.
 	 *
 	 * @return array
 	 */
 	public static function getDefault(): array
 	{
-		if (isset(self::$defaultCache)) {
+		if (!empty(self::$defaultCache)) {
 			return self::$defaultCache;
 		}
-		return self::$defaultCache = (new \App\Db\Query())->from('s_#__pbx')->where(['default' => 1])->one() ?: [];
+		foreach (self::getAll() as $row) {
+			if (1 == $row['default']) {
+				self::$defaultCache = $row;
+			}
+		}
+		return self::$defaultCache;
 	}
 
 	/**
@@ -63,17 +83,28 @@ class Pbx extends \App\Base
 	 *
 	 * @return bool
 	 */
-	public static function isActive()
+	public static function isActive(): bool
 	{
-		$phone = \App\User::getCurrentUserModel()->getDetail('phone_crm_extension_extra');
-		if (empty($phone)) {
+		$userPbx = \App\User::getCurrentUserModel()->getDetail('user_pbx');
+		switch ($userPbx) {
+			case -1:
+				return false;
+			case 0:
+				$pbxInstance = self::getDefaultInstance();
+				break;
+			default:
+				$pbxInstance = self::getInstanceById($userPbx);
+				break;
+		}
+		$connector = $pbxInstance->getConnector();
+		if (empty($connector)) {
 			return false;
 		}
-		return !empty(self::getDefault());
+		return $connector->isActive();
 	}
 
 	/**
-	 * Get default pbx instance.
+	 * Get default PBX instance.
 	 *
 	 * @return self
 	 */
@@ -82,6 +113,23 @@ class Pbx extends \App\Base
 		$instance = new self();
 		if ($data = self::getDefault()) {
 			$instance->setData($data);
+		}
+		return $instance;
+	}
+
+	/**
+	 * Get PBX instance by Id.
+	 *
+	 * @param int $id
+	 *
+	 * @return self
+	 */
+	public static function getInstanceById(int $id): self
+	{
+		$instance = new self();
+		$all = self::getAll();
+		if (isset($all[$id])) {
+			$instance->setData($all[$id]);
 		}
 		return $instance;
 	}
@@ -114,12 +162,12 @@ class Pbx extends \App\Base
 		if (empty($targetPhone)) {
 			throw new \App\Exceptions\AppException('No target phone number');
 		}
-		$this->set('targetPhone', $targetPhone);
-		$this->set('record', $record);
 		$connector = $this->getConnector();
 		if (empty($connector)) {
 			throw new \App\Exceptions\AppException('No PBX connector found');
 		}
+		$this->set('targetPhone', $targetPhone);
+		$this->set('record', $record);
 		return $connector->performCall();
 	}
 

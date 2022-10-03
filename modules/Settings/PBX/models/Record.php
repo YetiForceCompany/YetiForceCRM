@@ -198,6 +198,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		if ($recordId) {
 			$db = App\Db::getInstance();
 			$result = $db->createCommand()->delete('s_#__pbx', ['pbxid' => $recordId])->execute();
+			\App\Cache::delete('PBXServers', 'all');
 		}
 		return !empty($result);
 	}
@@ -284,6 +285,7 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 				$this->set('pbxid', $db->getLastInsertID('s_#__pbx_pbxid_seq'));
 			}
 		}
+		\App\Cache::delete('PBXServers', 'all');
 		return $success;
 	}
 

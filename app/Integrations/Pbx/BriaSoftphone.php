@@ -37,6 +37,7 @@ class BriaSoftphone extends Base
 	/** {@inheritdoc} */
 	public function saveCalls(\App\Request $request): array
 	{
+		$accountName = $request->getByType('accountName', 'Text');
 		$loadMore = true;
 		foreach ($request->getMultiDimensionArray('calls', [
 			'type' => 'Alnum',
@@ -51,7 +52,7 @@ class BriaSoftphone extends Base
 				$loadMore = false;
 				break;
 			}
-			$this->addCall($call);
+			$this->addCall($call, $accountName);
 		}
 		return [
 			'loadMore' => $loadMore
@@ -61,11 +62,12 @@ class BriaSoftphone extends Base
 	/**
 	 * Add call history.
 	 *
-	 * @param array $call
+	 * @param array  $call
+	 * @param string $accountName
 	 *
 	 * @return void
 	 */
-	private function addCall(array $call): void
+	private function addCall(array $call, string $accountName): void
 	{
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('CallHistory');
 		$phoneNumber = $call['number'];
@@ -82,6 +84,9 @@ class BriaSoftphone extends Base
 			if ($id = $this->pbx->findNumber($value)) {
 				$recordModel->set('destination', $id);
 			}
+		}
+		foreach (\App\Fields\Phone::parsePhone('from_number', ['from_number' => $accountName]) as $key => $value) {
+			$recordModel->set($key, $value);
 		}
 		$recordModel->set('location', 'BriaSoftphone');
 		$recordModel->set('duration', $call['duration']);
