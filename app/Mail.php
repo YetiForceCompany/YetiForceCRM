@@ -234,7 +234,7 @@ class Mail
 			return Cache::staticGet('MailMailComposer');
 		}
 		$composer = \App\User::getCurrentUserModel()->getDetail('internal_mailer');
-		if (!\Config\Main::$isActiveSendingMails || 'Base' !== $composer && !self::getComposerInstance($composer)->isActive()) {
+		if (!\Config\Main::$isActiveSendingMails || 'Base' !== $composer && ($composerInstance = self::getComposerInstance($composer)) && !$composerInstance->isActive()) {
 			$composer = 'Base';
 		}
 		Cache::staticSave('MailMailComposer', '', $composer);
