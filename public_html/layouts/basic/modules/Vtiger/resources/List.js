@@ -1658,24 +1658,6 @@ $.Class(
 			self.writeSelectedIds([]);
 		},
 		/**
-		 * Function to register the click event of email field
-		 */
-		registerEmailFieldClickEvent: function () {
-			let listViewContentDiv = this.getListViewContentContainer();
-			listViewContentDiv.on('click', '.emailField', function (e) {
-				e.stopPropagation();
-			});
-		},
-		/**
-		 * Function to register the click event of phone field
-		 */
-		registerPhoneFieldClickEvent: function () {
-			let listViewContentDiv = this.getListViewContentContainer();
-			listViewContentDiv.on('click', '.phoneField', function (e) {
-				e.stopPropagation();
-			});
-		},
-		/**
 		 * Function to register the click event of url field
 		 */
 		registerUrlFieldClickEvent: function () {
@@ -2114,8 +2096,6 @@ $.Class(
 			if (typeof CustomView !== 'undefined') {
 				CustomView.registerCustomViewAdvCondEvents(this.getListViewContainer());
 			}
-			this.registerEmailFieldClickEvent();
-			this.registerPhoneFieldClickEvent();
 			this.registerMassActionsBtnEvents();
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 			this.registerUrlFieldClickEvent();

@@ -18,8 +18,8 @@ class Contacts_Record_Model extends Vtiger_Record_Model
 	public function getRecordRelatedListViewLinksLeftSide(Vtiger_RelationListView_Model $viewModel)
 	{
 		$links = parent::getRecordRelatedListViewLinksLeftSide($viewModel);
-		if (\App\Mail::checkMailClient()) {
-			if (\App\Mail::checkInternalMailClient()) {
+		if (\Config\Main::$isActiveSendingMails) {
+			if ('InternalClient' === \App\Mail::getMailComposer()) {
 				$links['LBL_SEND_EMAIL'] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => 'LBL_SEND_EMAIL',
 					'linkhref' => true,

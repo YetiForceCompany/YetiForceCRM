@@ -871,24 +871,6 @@ jQuery.Class(
 			}
 		},
 		/*
-		 * Function to register the click event of email field
-		 */
-		registerEmailFieldClickEvent: function () {
-			let detailContentsHolder = this.getContentHolder();
-			detailContentsHolder.on('click', '.emailField', function (e) {
-				e.stopPropagation();
-			});
-		},
-		/*
-		 * Function to register the click event of phone field
-		 */
-		registerPhoneFieldClickEvent: function () {
-			let detailContentsHolder = this.getContentHolder();
-			detailContentsHolder.on('click', '.phoneField', function (e) {
-				e.stopPropagation();
-			});
-		},
-		/*
 		 * Function to register the click event of url field
 		 */
 		registerUrlFieldClickEvent: function () {
@@ -2845,8 +2827,6 @@ jQuery.Class(
 			this.registerAjaxEditEvent();
 			this.registerRelatedRowClickEvent();
 			this.registerBlockStatusCheckOnLoad();
-			this.registerEmailFieldClickEvent();
-			this.registerPhoneFieldClickEvent();
 			this.registerEventForRelatedTabClick();
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 			this.registerUrlFieldClickEvent();

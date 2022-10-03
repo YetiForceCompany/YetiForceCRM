@@ -15,9 +15,9 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		unset($linkModelList['DETAIL_VIEW_ADDITIONAL']);
 
-		if (!$recordModel->isReadOnly() && \App\Mail::checkMailClient()) {
+		if (!$recordModel->isReadOnly() && \Config\Main::$isActiveSendingMails) {
 			$recordId = $recordModel->getId();
-			if (\App\Mail::checkInternalMailClient()) {
+			if ('InternalClient' === \App\Mail::getMailComposer()) {
 				$config = OSSMail_Module_Model::getComposeParameters();
 				$url = OSSMail_Module_Model::getComposeUrl();
 

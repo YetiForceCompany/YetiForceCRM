@@ -3863,6 +3863,15 @@ window.App.Fields = {
 			Integrations_Pbx_Base.getInstance(container).registerEvents();
 		}
 	},
+	Mail: {
+		/**
+		 * Register function
+		 * @param {jQuery} container
+		 */
+		register(container) {
+			Integrations_Mail_Base.getInstance(container).registerEvents();
+		}
+	},
 	Utils: {
 		registerMobileDateRangePicker(element) {
 			this.hideMobileKeyboard(element);

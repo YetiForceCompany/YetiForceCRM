@@ -82,8 +82,8 @@
 													</small>
 												</div>
 												<div class="bd-highlight mailActions d-flex justify-content-end mb-1 px-0">
-													{if \App\Mail::checkMailClient()}
-														{if \App\Mail::checkInternalMailClient()}
+													{if \Config\Main::$isActiveSendingMails}
+														{if 'InternalClient' === \App\Mail::getMailComposer()}
 															{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
 															<button type="button" class="btn btn-xs btn-outline-success sendMailBtn ml-1" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}">
 																<span class="fas fa-reply" title="{\App\Language::translate('LBL_REPLY','OSSMailView')}"></span>

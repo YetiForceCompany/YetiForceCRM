@@ -97,7 +97,7 @@ abstract class Page extends Base
 			$jsFileNames[] = "modules.$moduleName.resources.Edit";
 			$jsFileNames[] = "modules.$moduleName.resources.AdvanceFilter";
 		}
-		if (\App\Mail::checkMailClient()) {
+		if ('InternalClient' === \App\Mail::getMailComposer()) {
 			$jsFileNames[] = '~layouts/basic/modules/OSSMail/resources/checkmails.js';
 		}
 		if (!\App\RequestUtil::getBrowserInfo()->ie) {

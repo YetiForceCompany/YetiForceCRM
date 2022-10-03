@@ -3543,6 +3543,7 @@ $(function () {
 	App.Components.Scrollbar.initPage();
 	App.Clipboard.register(document);
 	App.Fields.Phone.register(document);
+	App.Fields.Mail.register(document);
 	String.prototype.toCamelCase = function () {
 		let value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();

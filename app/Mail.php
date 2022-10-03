@@ -198,18 +198,69 @@ class Mail
 	}
 
 	/**
-	 * Check if the user has access to the mail client.
+	 * Get attr form send mail button.
 	 *
-	 * @return bool
+	 * @param string      $email
+	 * @param int|null    $record
+	 * @param string|null $view
+	 * @param string|null $type
+	 *
+	 * @return string
 	 */
-	public static function checkMailClient(): bool
+	public static function getComposeAttr(string $email, ?int $record = null, ?string $view = null, ?string $type = null): string
 	{
-		if (Cache::staticHas('MailCheckMailClient')) {
-			return Cache::staticGet('MailCheckMailClient');
+		$return = '';
+		foreach ([
+			'email' => $email,
+			'record' => $record,
+			'view' => $view,
+			'type' => $type,
+		] as $key => $value) {
+			if (null !== $value) {
+				$return .= 'data-' . $key . '="' . Purifier::encodeHtml($value) . '" ';
+			}
 		}
-		$return = \Config\Main::$isActiveSendingMails && \App\Privilege::isPermitted('OSSMail');
-		Cache::staticSave('MailCheckMailClient', '', $return);
 		return $return;
+	}
+
+	/**
+	 * Get user composer.
+	 *
+	 * @return string
+	 */
+	public static function getMailComposer(): string
+	{
+		if (Cache::staticHas('MailMailComposer')) {
+			return Cache::staticGet('MailMailComposer');
+		}
+		$composer = \App\User::getCurrentUserModel()->getDetail('internal_mailer');
+		if (!\Config\Main::$isActiveSendingMails || 'Base' !== $composer && !self::getComposerInstance($composer)->isActive()) {
+			$composer = 'Base';
+		}
+		Cache::staticSave('MailMailComposer', '', $composer);
+		return $composer;
+	}
+
+	/**
+	 * Get composer instance.
+	 *
+	 * @param string $name
+	 *
+	 * @return \App\Mail\Composers\Base|null
+	 */
+	public static function getComposerInstance(string $name): ?Mail\Composers\Base
+	{
+		if (Cache::staticHas('MailComposerInstance', $name)) {
+			return Cache::staticGet('MailComposerInstance', $name);
+		}
+		$className = '\App\Mail\Composers\\' . $name;
+		if (!class_exists($className)) {
+			\App\Log::warning('Not found composer class');
+			return null;
+		}
+		$composer = new $className();
+		Cache::staticSave('MailComposerInstance', $name, $composer);
+		return $composer;
 	}
 
 	/**
@@ -219,11 +270,6 @@ class Mail
 	 */
 	public static function checkInternalMailClient(): bool
 	{
-		if (Cache::staticHas('MailCheckInternalMailClient')) {
-			return Cache::staticGet('MailCheckInternalMailClient');
-		}
-		$return = self::checkMailClient() && 1 === (int) \App\User::getCurrentUserModel()->getDetail('internal_mailer') && file_exists(ROOT_DIRECTORY . '/public_html/modules/OSSMail/roundcube/');
-		Cache::staticSave('MailCheckInternalMailClient', '', $return);
-		return $return;
+		return 'InternalClient' === self::getMailComposer();
 	}
 }

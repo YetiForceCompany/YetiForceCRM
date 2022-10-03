@@ -22,15 +22,16 @@ class GenesysWdeWhirly extends Base
 	/** {@inheritdoc} */
 	const CONFIG_FIELDS = [
 		'httpListener' => ['label' => 'LBL_HTTP_LISTENER_PORT', 'uitype' => 7, 'typeofdata' => 'I~M', 'defaultvalue' => 6999],
-		'serviceValue' => ['label' => 'LBL_OUTBOUND_CONTEXT', 'uitype' => 1, 'typeofdata' => 'V~O'],
+		'serviceValuePhone' => ['label' => 'FL_PHONE', 'uitype' => 1, 'typeofdata' => 'V~O'],
+		'serviceValueEmail' => ['label' => 'FL_EMAIL', 'uitype' => 13, 'typeofdata' => 'V~O'],
 	];
 
 	/** {@inheritdoc} */
 	public function performCall(): array
 	{
 		$url = "http://localhost:{$this->pbx->getConfig('httpListener')}/CLICKTODIAL?dialednumber={$this->pbx->get('targetPhone')}&crmsourceid={$this->pbx->get('record')}";
-		if ($serviceValue = $this->pbx->getConfig('serviceValue')) {
-			$url .= '&servicevalue=' . $serviceValue;
+		if ($serviceValuePhone = $this->pbx->getConfig('serviceValuePhone')) {
+			$url .= '&servicevalue=' . $serviceValuePhone;
 		}
 		return [
 			'status' => true,

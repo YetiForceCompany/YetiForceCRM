@@ -320,6 +320,7 @@ abstract class Base extends \App\Controller\Base
 			'~layouts/resources/Connector.js',
 			'~layouts/resources/ProgressIndicator.js',
 			'~layouts/resources/integrations/pbx/Base.js',
+			'~layouts/resources/integrations/mail/Base.js',
 			'libraries.clipboard.dist.clipboard',
 		];
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
@@ -333,6 +334,9 @@ abstract class Base extends \App\Controller\Base
 		}
 		if (\App\Integrations\Pbx::isActive()) {
 			$jsFileNames[] = '~layouts/resources/integrations/pbx/' . \App\Integrations\Pbx::getDefault()['type'] . '.js';
+		}
+		if ('Base' !== \App\Mail::getMailComposer()) {
+			$jsFileNames[] = '~layouts/resources/integrations/mail/' . \App\Mail::getMailComposer() . '.js';
 		}
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}

@@ -373,6 +373,12 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 80:
 						$fieldDataType = 'datetime';
 						break;
+					case 86:
+						$fieldDataType = 'pbx';
+						break;
+					case 87:
+						$fieldDataType = 'mailComposer';
+						break;
 					case 98:
 						$fieldDataType = 'userRole';
 						break;

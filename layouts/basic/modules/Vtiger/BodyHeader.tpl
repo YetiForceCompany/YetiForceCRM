@@ -173,7 +173,7 @@
 					</div>
 				{/if}
 			{/if}
-			{if \App\Mail::checkMailClient() && !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
+			{if \Config\Main::$isActiveSendingMails && 'InternalClient' === \App\Mail::getMailComposer() && !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
 				{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
 				{if $CONFIG['showMailIcon'] == 'true'}
 					{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
