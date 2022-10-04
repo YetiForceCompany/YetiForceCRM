@@ -37,7 +37,7 @@ class Settings_CustomView_SortOrderModal_View extends \App\Controller\ModalSetti
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
-		$sourceModuleModel = \Vtiger_Module_Model::getInstance($request->getInteger('sourceModule'));
+		$sourceModuleModel = \Vtiger_Module_Model::getInstance($request->getByType('sourceModule', \App\Purifier::ALNUM));
 		$customView = CustomView_Record_Model::getInstanceById($request->getInteger('cvid'));
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CVID', $customView->getId());

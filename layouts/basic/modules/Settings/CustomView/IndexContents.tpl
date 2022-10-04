@@ -2,7 +2,7 @@
 {strip}
 	<div class="tpl-Settings-CustomView-IndexContents">
 		<input id="js-add-filter-url" type="hidden" data-js="value"
-			value="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE_ID)}" />
+			value="{$MODULE_MODEL->getCreateFilterUrl($SOURCE_MODULE)}" />
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered table-sm listViewEntriesTable">
 				<thead>
@@ -50,7 +50,7 @@
 									</label>
 								</div>
 								<button type="button" class="btn btn-light btn-sm showModal"
-									data-url="{$MODULE_MODEL->getUrlDefaultUsers($SOURCE_MODULE_ID,$key, $item['setdefault'])}">
+									data-url="{$MODULE_MODEL->getUrlDefaultUsers($SOURCE_MODULE,$key, $item['setdefault'])}">
 									<span class="fas fa-user"></span></button>
 							</td>
 							<td>
@@ -88,7 +88,7 @@
 								</div>
 								{if $IS_PRIVATE}
 									<button type="button" id="permissions" name="permissions" class="btn btn-light btn-sm js-show-modal"
-										data-url="{$MODULE_MODEL->getPrivilegesUrl($SOURCE_MODULE_ID, $key)}">
+										data-url="{$MODULE_MODEL->getPrivilegesUrl($SOURCE_MODULE, $key)}">
 										<span class="fas fa-user"></span>
 									</button>
 								{/if}
@@ -107,12 +107,12 @@
 									</label>
 								</div>
 								<button type="button" class="btn btn-light btn-sm showModal"
-									data-url="{$MODULE_MODEL->getFeaturedFilterUrl($SOURCE_MODULE_ID,$key)}"><span
+									data-url="{$MODULE_MODEL->getFeaturedFilterUrl($SOURCE_MODULE,$key)}"><span
 										class="fas fa-user"></span></button>
 							</td>
 							<td>
 								<button type="button" id="sort" name="sort" class="btn btn-light btn-sm showModal"
-									data-url="{$MODULE_MODEL->getSortingFilterUrl($SOURCE_MODULE_ID,$key)}"><span
+									data-url="{$MODULE_MODEL->getSortingFilterUrl($SOURCE_MODULE,$key)}"><span
 										class="fas fa-sort"></span></button>
 							</td>
 							<td>{\App\Fields\Owner::getLabel($item['userid'])}</td>

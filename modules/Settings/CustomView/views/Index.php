@@ -18,7 +18,7 @@ class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$supportedModule = $request->getByType('sourceModule', 2);
+		$supportedModule = $request->getByType('sourceModule', \App\Purifier::ALNUM);
 		if (empty($supportedModule)) {
 			$supportedModules = Settings_CustomView_Module_Model::getSupportedModules();
 			$supportedModule = reset($supportedModules);
@@ -27,7 +27,6 @@ class Settings_CustomView_Index_View extends Settings_Vtiger_Index_View
 		$moduleModel = Settings_Vtiger_Module_Model::getInstance($qualifiedModuleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SOURCE_MODULE', $supportedModule);
-		$viewer->assign('SOURCE_MODULE_ID', App\Module::getModuleId($supportedModule));
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);

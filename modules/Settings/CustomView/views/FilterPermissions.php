@@ -15,7 +15,7 @@ class Settings_CustomView_FilterPermissions_View extends Settings_Vtiger_BasicMo
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule(false);
-		$sourceModuleId = $request->getInteger('sourceModule');
+		$sourceModuleName = $request->getByType('sourceModule', \App\Purifier::ALNUM);
 		$type = $request->getByType('type', \App\Purifier::STANDARD);
 		$moduleModel = Settings_LangManagement_Module_Model::getInstance($moduleName);
 		$recordModel = CustomView_Record_Model::getInstanceById($request->getInteger('cvid'));
@@ -24,7 +24,7 @@ class Settings_CustomView_FilterPermissions_View extends Settings_Vtiger_BasicMo
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('TITLE_LABEL', ['default' => 'SetDefault', 'featured' => 'LBL_FEATURED_LABELS', 'permissions' => 'LBL_PRIVILEGES_TO_VIEW'][$type]);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('SOURCE_MODULE', $sourceModuleId);
+		$viewer->assign('SOURCE_MODULE', $sourceModuleName);
 		$viewer->assign('CVID', $recordModel->getId());
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
