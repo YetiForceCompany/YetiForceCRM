@@ -1646,6 +1646,7 @@ const app = (window.app = {
 				toolbar: 'Min'
 			});
 			App.Fields.MultiAttachment.register(modalContainer);
+			App.Fields.MultiReference.register(modalContainer);
 			app.registesterScrollbar(modalContainer);
 			app.registerIframeEvents(modalContainer);
 			modalContainer.find('.modal-dialog').draggable({
