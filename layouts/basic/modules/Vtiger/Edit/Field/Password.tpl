@@ -50,9 +50,11 @@
 						<span class="fas fa-eye-slash"></span>
 					</button>
 				{/if}
-				<button class="btn btn-light js-popover-tooltip js-pwd-copy" data-content="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD',$MODULE_NAME)}" type="button" data-placement="bottom" data-js="popover">
-					<span class="fas fa-copy"></span>
-				</button>
+				{if !empty($PARAMS['copy'])}
+					<button class="btn btn-light js-popover-tooltip js-pwd-copy" data-content="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD',$MODULE_NAME)}" type="button" data-placement="bottom" data-js="popover">
+						<span class="fas fa-copy"></span>
+					</button>
+				{/if}
 				<button class="btn btn-light js-popover-tooltip js-pwd-show" data-content="{\App\Language::translate('LBL_SHOW_PASSWORD',$MODULE_NAME)}" type="button"
 					onmousedown="{$FIELD_NAME}.type = 'text';" onmouseup="{$FIELD_NAME}.type = 'password';" onmouseout="{$FIELD_NAME}.type = 'password';" data-placement="bottom" data-js="popover" {if $EDIT_MODE} disabled="disabled" {/if}>
 					<span class="fas fa-eye"></span>
