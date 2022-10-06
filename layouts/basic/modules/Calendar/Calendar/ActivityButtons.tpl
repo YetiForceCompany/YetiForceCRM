@@ -39,7 +39,7 @@
 							<div class="dropdown-menu">
 								{foreach from=$TIME_POSTPONE key=LABEL item=VALUE}
 									<a class="dropdown-item showQuickCreate js-postpone-time" href="#" data-state="{$ACTIVITY_STATE_LABEL.postponed}" data-id="{$ID}"
-										data-type="0" data-postpone-time="{$VALUE}" data-js="click">{$LABEL}</a>
+										data-type="0" data-postpone-time="{$VALUE|escape}" data-js="click">{\App\Language::translate($LABEL, $MODULE_NAME)}</a>
 								{/foreach}
 							</div>
 						</div>
