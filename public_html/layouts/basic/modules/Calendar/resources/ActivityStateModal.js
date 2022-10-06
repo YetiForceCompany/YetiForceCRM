@@ -27,7 +27,7 @@ jQuery.Class(
 								'&fillFields=all',
 							params = {};
 						if (currentTarget.data('postpone-time')) {
-							url = url + '&postponeTime=' + currentTarget.data('postpone-time');
+							url = url + '&postponeTime=' + encodeURIComponent(currentTarget.data('postpone-time'));
 						}
 						params.noCache = true;
 						App.Components.QuickCreate.getForm(url, 'Calendar', params).done(function (data) {

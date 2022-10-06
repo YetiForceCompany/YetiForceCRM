@@ -261,7 +261,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	}
 
 	/** {@inheritdoc} */
-	public function getValuesFromSource(App\Request $request, $moduleName = false)
+	public function getValuesFromSource(App\Request $request, $moduleName = false): array
 	{
 		$data = parent::getValuesFromSource($request);
 		if (!empty($postponeTime = $request->getInteger('postponeTime'))) {
