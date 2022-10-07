@@ -19,6 +19,13 @@ use vtlib\Functions;
  */
 class Record
 {
+	/** @var int Record state - Active */
+	public const STATE_ACTIVE = 0;
+	/** @var int Record state - Deleted */
+	public const STATE_DELETED = 1;
+	/** @var int Record state - Archived */
+	public const STATE_ARCHIVED = 2;
+
 	/**
 	 * Get label.
 	 *
@@ -258,15 +265,18 @@ class Record
 	/**
 	 * Function checks if record exists.
 	 *
-	 * @param int    $recordId   - Record ID
-	 * @param string $moduleName
+	 * @param int      $recordId   Record ID
+	 * @param string   $moduleName
+	 * @param int|null $state      null = [self::STATE_ACTIVE, self::STATE_ARCHIVED]
 	 *
 	 * @return bool
 	 */
-	public static function isExists($recordId, $moduleName = false)
+	public static function isExists(int $recordId, string $moduleName = '', ?int $state = null)
 	{
 		$recordMetaData = Functions::getCRMRecordMetadata($recordId);
-		return (isset($recordMetaData) && 1 !== $recordMetaData['deleted'] && ($moduleName ? $recordMetaData['setype'] === $moduleName : true)) ? true : false;
+		return isset($recordMetaData)
+			&& (null === $state ? self::STATE_DELETED !== $recordMetaData['deleted'] : $recordMetaData['deleted'] === $state)
+			&& ($moduleName ? $recordMetaData['setype'] === $moduleName : true);
 	}
 
 	/**
