@@ -144,7 +144,7 @@ return [
 		'description' => 'Whether to display the add to favorite users button',
 	],
 	'timePostponeIntervals' => [
-		'default' => ['LBL_THIRTY_MINUTES' => 30, 'LBL_ONE_DAY' => 1440, 'LBL_SEVEN_DAY' => 10080, 'LBL_THIRTY_DAY' => 43200],
+		'default' => ['LBL_THIRTY_MINUTES' => 30, 'LBL_ONE_DAY' => 1440, 'LBL_SEVEN_DAYS' => 10080, 'LBL_THIRTY_DAYS' => 43200],
 		'description' => 'Expand the option of postponing calendar events by adding time expressed in minutes.',
 		'docTags' => ['example' => '[\'LBL_ONE_DAY\' => 1440]', 'var' => 'array'],
 	],

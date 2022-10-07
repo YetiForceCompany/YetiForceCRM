@@ -264,8 +264,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public function getValuesFromSource(App\Request $request, $moduleName = false): array
 	{
 		$data = parent::getValuesFromSource($request);
-		if (!empty($postponeTime = $request->getInteger('postponeTime'))) {
-			$data = $this->postponeTimeValue($data, $postponeTime);
+
+		if (($postponeTime = $request->getInteger('postponeTime')) && $sourceRecordId = $request->getInteger('sourceRecord')) {
+			$data = array_merge($data, $this->postponeTimeValue($sourceRecordId, $postponeTime));
 		}
 		return $data;
 	}
@@ -273,27 +274,16 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	/**
 	 * Load field  postpone values.
 	 *
-	 * @param array $data
-	 * @param int   $postponeTime
+	 * @param int $sourceRecordId
+	 * @param int $postponeTime
 	 *
 	 * @return array
 	 */
-	public function postponeTimeValue(array $data, int $postponeTime): array
+	public function postponeTimeValue(int $sourceRecordId, int $postponeTime): array
 	{
-		if (!empty($start = $data['date_start'])) {
-			if (strpos($start, ' ')) {
-				$dateStart = $start;
-			} else {
-				$dateStart = $start . ' ' . $data['time_start'];
-			}
-		}
-		if (!empty($end = $data['due_date'])) {
-			if (strpos($end, ' ')) {
-				$dateEnd = $end;
-			} else {
-				$dateEnd = $end . ' ' . $data['time_end'];
-			}
-		}
+		$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId);
+		$dateStart = $sourceRecordModel->get('date_start') . ' ' . $sourceRecordModel->get('time_start');
+		$dateEnd = $sourceRecordModel->get('due_date') . ' ' . $sourceRecordModel->get('time_end');
 		$data['date_start'] = (new DateTime($dateStart))->modify("+ {$postponeTime} minutes")->format('Y-m-d H:i:s');
 		$data['due_date'] = (new DateTime($dateEnd))->modify("+ {$postponeTime} minutes")->format('Y-m-d H:i:s');
 		return $data;
