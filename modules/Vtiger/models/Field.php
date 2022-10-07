@@ -1558,6 +1558,18 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
+	 * Get value of a specific parameter from the fieldparams field.
+	 *
+	 * @param string $key
+	 *
+	 * @return mixed
+	 */
+	public function getParam(string $key)
+	{
+		return $this->getFieldParams()[$key] ?? null;
+	}
+
+	/**
 	 * Get field icon.
 	 *
 	 * @param string $place

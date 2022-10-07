@@ -34,7 +34,7 @@
 					</button>
 				{/if}
 				{assign var=ACTIONS_URL value=$UITYPE_MODEL->getActionsUrl()}
-				{if !empty($PARAMS['auto-generate']) && !empty($ACTIONS_URL['generate'])}
+				{if $UITYPE_MODEL->isPermitted('auto-generate') && !empty($ACTIONS_URL['generate'])}
 					<button class="btn btn-light js-popover-tooltip js-pwd-auto-generate" data-content="{\App\Language::translate('LBL_PWD_AUTO_GENERATE',$MODULE_NAME)}" type="button" data-field="{$FIELD_NAME}" data-url="{$ACTIONS_URL['generate']}" data-placement="bottom" data-js="popover|click">
 						<span class="mdi mdi-form-textbox-password"></span>
 					</button>
@@ -44,13 +44,13 @@
 						<span class="mdi mdi-lock-question"></span>
 					</button>
 				{/if}
-				{if $EDIT_MODE && !$FIELD_MODEL->get('fromOutsideList')}
+				{if $EDIT_MODE && $UITYPE_MODEL->isPermitted('copy')}
 					<button class="btn btn-light js-popover-tooltip js-pwd-get" data-content="{\App\Language::translate('LBL_PWD_GET',$MODULE_NAME)}" type="button"
 						data-placement="bottom" data-js="popover">
 						<span class="fas fa-eye-slash"></span>
 					</button>
 				{/if}
-				{if !empty($PARAMS['copy'])}
+				{if $UITYPE_MODEL->isPermitted('copy')}
 					<button class="btn btn-light js-popover-tooltip js-pwd-copy" data-content="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD',$MODULE_NAME)}" type="button" data-placement="bottom" data-js="popover">
 						<span class="fas fa-copy"></span>
 					</button>
