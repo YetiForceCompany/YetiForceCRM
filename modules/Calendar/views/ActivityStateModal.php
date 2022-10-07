@@ -39,6 +39,7 @@ class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('LINKS', $this->getLinks());
 		$viewer->assign('RECORD', $this->record);
+		$viewer->assign('TIME_POSTPONE', \App\Config::module('Calendar', 'timePostponeIntervals', []));
 		$viewer->assign('SCRIPTS', $this->getScripts($request));
 		$viewer->view($this->getTpl(), $moduleName);
 	}

@@ -190,7 +190,11 @@
     "LBL_GROUP_NAME": "Group name",
     "FL_MEETING_URL": "Meeting URL",
     "LBL_SEND_CALENDAR": "Send e-mail notification about Event",
-    "LBL_DATES_SELECTED_HOLIDAYS_CONFIRM": "Selected dates include holidays. Do you want to save?"
+    "LBL_DATES_SELECTED_HOLIDAYS_CONFIRM": "Selected dates include holidays. Do you want to save?",
+    "LBL_THIRTY_MINUTES": "30 minutes",
+    "LBL_ONE_DAY": "1 day",
+    "LBL_SEVEN_DAYS": "7 days",
+    "LBL_THIRTY_DAYS": "30 days"
   },
   "js": {
     "JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY": "Calendar view added successfully",

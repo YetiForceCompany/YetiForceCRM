@@ -260,6 +260,35 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		return App\Fields\Picklist::getValuesName('activitytype');
 	}
 
+	/** {@inheritdoc} */
+	public function getValuesFromSource(App\Request $request, $moduleName = false): array
+	{
+		$data = parent::getValuesFromSource($request);
+
+		if (($postponeTime = $request->getInteger('postponeTime')) && $sourceRecordId = $request->getInteger('sourceRecord')) {
+			$data = array_merge($data, $this->postponeTimeValue($sourceRecordId, $postponeTime));
+		}
+		return $data;
+	}
+
+	/**
+	 * Load field  postpone values.
+	 *
+	 * @param int $sourceRecordId
+	 * @param int $postponeTime
+	 *
+	 * @return array
+	 */
+	public function postponeTimeValue(int $sourceRecordId, int $postponeTime): array
+	{
+		$sourceRecordModel = Vtiger_Record_Model::getInstanceById($sourceRecordId);
+		$dateStart = $sourceRecordModel->get('date_start') . ' ' . $sourceRecordModel->get('time_start');
+		$dateEnd = $sourceRecordModel->get('due_date') . ' ' . $sourceRecordModel->get('time_end');
+		$data['date_start'] = (new DateTime($dateStart))->modify("+ {$postponeTime} minutes")->format('Y-m-d H:i:s');
+		$data['due_date'] = (new DateTime($dateEnd))->modify("+ {$postponeTime} minutes")->format('Y-m-d H:i:s');
+		return $data;
+	}
+
 	public static function getCalendarState($data = [])
 	{
 		if ($data) {
