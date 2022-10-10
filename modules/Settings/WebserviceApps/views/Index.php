@@ -9,6 +9,7 @@
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_WebserviceApps_Index_View extends Settings_Vtiger_Index_View
 {
@@ -30,18 +31,11 @@ class Settings_WebserviceApps_Index_View extends Settings_Vtiger_Index_View
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$listServers = Settings_WebserviceApps_Module_Model::getServers();
-		$isPortal = false;
-		foreach ($listServers as $value) {
-			if ('WebservicePremium' === $value['type']) {
-				$isPortal = true;
-				continue;
-			}
-		}
+		$listServers = Settings_WebserviceApps_Module_Model::getServers(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('LIST_SERVERS', $listServers);
-		$viewer->assign('IS_PORTAL', $isPortal);
+		$viewer->assign('IS_PORTAL', isset(array_column($listServers, 'type', 'type')['WebservicePremium']));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
