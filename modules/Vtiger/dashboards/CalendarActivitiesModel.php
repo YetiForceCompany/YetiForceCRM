@@ -19,8 +19,8 @@ class Vtiger_CalendarActivitiesModel_Dashboard extends Vtiger_Widget_Model
 
 	/** {@inheritdoc} */
 	public $customFields = [
-		'baseModuleFilter' => ['label' => 'LBL_SELECT_BASE_MODULE_FILTER', 'purifyType' => \App\Purifier::TEXT],
-		'additionalFiltersFields' => ['label' => 'LBL_SELECT_ADDITIONAL_FILTER_FIELDS', 'purifyType' => App\Purifier::TEXT]
+		'filterid' => ['label' => 'LBL_SELECT_BASE_MODULE_FILTER', 'purifyType' => \App\Purifier::TEXT],
+		'customFilters' => ['label' => 'LBL_SELECT_CUSTOM_FILTERS', 'purifyType' => App\Purifier::TEXT]
 	];
 
 	/** {@inheritdoc} */
@@ -41,13 +41,12 @@ class Vtiger_CalendarActivitiesModel_Dashboard extends Vtiger_Widget_Model
 			'label' => $this->getEditFields()[$name]['label'],
 			'tooltip' => $this->getEditFields()[$name]['tooltip'] ?? ''
 		];
-		if ('baseModuleFilter' === $name) {
+		if ('filterid' === $name) {
 			$params['uitype'] = 16;
 			$params['typeofdata'] = 'V~O';
-			$params['picklistValues'] = $this->getCalendarFilters();
+			$params['picklistValues'] = $this->getFilters();
 			$params['fieldvalue'] = $this->get('filterid') ?: '';
-		}
-		if ('additionalFiltersFields' === $name) {
+		} elseif ('customFilters' === $name) {
 			$params['uitype'] = 33;
 			$params['typeofdata'] = 'V~O';
 			$params['picklistValues'] = [
@@ -68,7 +67,7 @@ class Vtiger_CalendarActivitiesModel_Dashboard extends Vtiger_Widget_Model
 	 *
 	 * @return array
 	 */
-	protected function getCalendarFilters(): array
+	protected function getFilters(): array
 	{
 		$filtersForPicklist = [];
 		foreach (App\CustomView::getFiltersByModule('Calendar') as $filterId => $filter) {
@@ -88,10 +87,9 @@ class Vtiger_CalendarActivitiesModel_Dashboard extends Vtiger_Widget_Model
 				$fieldModel = $this->getFieldInstanceByName($fieldName)->getUITypeModel();
 				$fieldModel->validate($value, true);
 				$value = $fieldModel->getDBValue($value);
-				if ('baseModuleFilter' === $fieldName) {
+				if ('filterid' === $fieldName) {
 					$this->set('filterid', (int) $value);
-				}
-				if ('additionalFiltersFields' === $fieldName) {
+				} elseif ('customFilters' === $fieldName) {
 					$value = $value ? explode(' |##| ', $value) : [];
 					$data = $this->get('data') ? \App\Json::decode($this->get('data')) : [];
 					$data[$fieldName] = $value;

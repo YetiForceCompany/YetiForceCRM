@@ -99,14 +99,14 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$queryGenerator->addNativeCondition(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
 		} elseif ('createdByMeButNotMine' === $mode || 'createdByMeButNotMineOverdue' === $mode) {
 			$queryGenerator->addNativeCondition(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
-			$queryGenerator->addCondition('vtiger_crmentity.smcreatorid', $paramsMore['user'], 'e', false);
-			$queryGenerator->addCondition('vtiger_crmentity.smownerid', $paramsMore['user'], 'n', false);
+			$queryGenerator->addCondition('vtiger_crmentity.smcreatorid', $paramsMore['user'], 'e');
+			$queryGenerator->addCondition('vtiger_crmentity.smownerid', $paramsMore['user'], 'n');
 		}
 		if (isset($paramsMore['activitytype'])) {
-			$queryGenerator->addCondition('activitytype', $paramsMore['activitytype'], 'e', false);
+			$queryGenerator->addCondition('activitytype', $paramsMore['activitytype'], 'e');
 		}
 		if (isset($paramsMore['taskpriority'])) {
-			$queryGenerator->addCondition('taskpriority', $paramsMore['taskpriority'], 'e', false);
+			$queryGenerator->addCondition('taskpriority', $paramsMore['taskpriority'], 'e');
 		}
 		if ('all' !== $user && !empty($user)) {
 			$userId = (int) $user;

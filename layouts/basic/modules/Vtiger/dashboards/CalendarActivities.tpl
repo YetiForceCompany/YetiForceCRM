@@ -34,10 +34,10 @@
 				{include file=\App\Layout::getTemplatePath('dashboards/DashboardHeaderIcons.tpl', $MODULE_NAME)}
 			</div>
 		</div>
-		{if $ADDITIONAL_FILTER_FIELDS}
+		{if $CUSTOM_FILTERS}
 			<hr class="widgetHr" />
 			<div class="row no-gutters">
-				{if in_array('activitytype', $ADDITIONAL_FILTER_FIELDS)}
+				{if in_array('activitytype', $CUSTOM_FILTERS)}
 					<div class="col-4">
 						<div class="input-group input-group-sm">
 							<span class="input-group-prepend">
@@ -59,7 +59,7 @@
 						</div>
 					</div>
 				{/if}
-				{if in_array('taskpriority', $ADDITIONAL_FILTER_FIELDS)}
+				{if in_array('taskpriority', $CUSTOM_FILTERS)}
 					<div class="col-4">
 						<div class="input-group input-group-sm">
 							<span class="input-group-prepend">
@@ -80,7 +80,7 @@
 						</div>
 					</div>
 				{/if}
-				{if in_array('owner', $ADDITIONAL_FILTER_FIELDS)}
+				{if in_array('owner', $CUSTOM_FILTERS)}
 					<div class="col-4">
 						{include file=\App\Layout::getTemplatePath('dashboards/SelectAccessibleTemplate.tpl', $MODULE_NAME)}
 					</div>

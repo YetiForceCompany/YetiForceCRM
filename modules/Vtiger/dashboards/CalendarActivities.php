@@ -28,7 +28,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($sortOrder) || !\in_array($sortOrder, ['asc', 'desc'])) {
 			$sortOrder = 'asc';
 		}
-		$sortOrder = ('asc' === $sortOrder) ? 'SORT_ASC' : 'SORT_DESC';
+		$sortOrder = ('asc' === $sortOrder) ? SORT_ASC : SORT_DESC;
 		$orderBy = $request->getForSql('orderby') ?: ['date_start' => $sortOrder, 'time_start' => $sortOrder];
 		$params = [
 			'status' => [
@@ -58,7 +58,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$calendarActivities = (false === $owner) ? [] : $moduleModel->getCalendarActivities('upcoming', $pagingModel, $owner, false, $params);
 		$msgLabel = 'LBL_NO_SCHEDULED_ACTIVITIES';
 		$viewer->assign('WIDGET', $widget);
-		$viewer->assign('ADDITIONAL_FILTER_FIELDS', $additionalFiltersFields);
+		$viewer->assign('CUSTOM_FILTERS', $additionalFiltersFields);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTIVITIES', $calendarActivities);

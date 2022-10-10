@@ -43,14 +43,15 @@ class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 			$params['taskpriority'] = $request->getByType('taskpriority', 'Text');
 		}
 		$dataValue = $widget->get('data') ? \App\Json::decode($widget->get('data')) : [];
-		$additionalFiltersFields = $dataValue['additionalFiltersFields'] ?? [];
+		$customFilters = $dataValue['customFilters'] ?? [];
+
 		if ($filterId = $widget->get('filterid')) {
 			$params['filterId'] = $filterId;
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$overDueActivities = (false === $owner) ? [] : $moduleModel->getCalendarActivities('overdue', $pagingModel, $owner, false, $params);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('ADDITIONAL_FILTER_FIELDS', $additionalFiltersFields);
+		$viewer->assign('CUSTOM_FILTERS', $customFilters);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
