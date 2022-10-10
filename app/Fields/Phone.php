@@ -94,16 +94,22 @@ class Phone
 	{
 		if (\App\Config::component('Phone', 'advancedVerification', false)) {
 			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+			$phone = trim($parsedData[$fieldName]);
 			try {
-				$swissNumberProto = $phoneUtil->parse(trim($parsedData[$fieldName]), $phoneCountry);
+				$swissNumberProto = $phoneUtil->parse($phone, $phoneCountry);
 				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
 			} catch (\libphonenumber\NumberParseException $e) {
 				$international = false;
+				foreach ($phoneUtil->findNumbers($phone, $phoneCountry) as $phoneNumberMatch) {
+					$international = $phoneUtil->format($phoneNumberMatch->number(), \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
+					$parsedData[$fieldName . '_extra'] = trim(str_replace($phoneNumberMatch->rawString(), '', $phone));
+					break;
+				}
 			}
 			if ($international) {
 				$parsedData[$fieldName] = $international;
 			} else {
-				$parsedData[$fieldName . '_extra'] = trim($parsedData[$fieldName]);
+				$parsedData[$fieldName . '_extra'] = $phone;
 				unset($parsedData[$fieldName]);
 			}
 		}

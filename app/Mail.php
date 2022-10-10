@@ -234,7 +234,7 @@ class Mail
 			return Cache::staticGet('MailMailComposer');
 		}
 		$composer = \App\User::getCurrentUserModel()->getDetail('internal_mailer');
-		if (!\Config\Main::$isActiveSendingMails || 'Base' !== $composer && ($composerInstance = self::getComposerInstance($composer)) && !$composerInstance->isActive()) {
+		if (!\Config\Main::$isActiveSendingMails || 1 == $composer || 'Base' !== $composer && ($composerInstance = self::getComposerInstance($composer)) && !$composerInstance->isActive()) {
 			$composer = 'Base';
 		}
 		Cache::staticSave('MailMailComposer', '', $composer);
@@ -255,7 +255,7 @@ class Mail
 		}
 		$className = '\App\Mail\Composers\\' . $name;
 		if (!class_exists($className)) {
-			\App\Log::warning('Not found composer class');
+			\App\Log::warning('Not found composer class: ' . $className);
 			return null;
 		}
 		$composer = new $className();

@@ -35,7 +35,7 @@ class Pbx extends \App\Base
 			if ('dir' !== $fileInfo->getType() && 'Base' !== $fileName && 'php' === $fileInfo->getExtension()) {
 				$className = '\App\Integrations\Pbx\\' . $fileName;
 				if (!class_exists($className)) {
-					\App\Log::warning('Not found Pbx class');
+					\App\Log::warning('Not found Pbx class: ' . $className);
 					continue;
 				}
 				$instance = new $className(new self());
@@ -96,11 +96,13 @@ class Pbx extends \App\Base
 				$pbxInstance = self::getInstanceById($userPbx);
 				break;
 		}
-		$connector = $pbxInstance->getConnector();
-		if (empty($connector)) {
+		if (empty($pbxInstance->get('type'))) {
 			return false;
 		}
-		return $connector->isActive();
+		if ($connector = $pbxInstance->getConnector()) {
+			return $connector->isActive();
+		}
+		return false;
 	}
 
 	/**
@@ -185,7 +187,7 @@ class Pbx extends \App\Base
 		if (class_exists($className)) {
 			return static::$connectors[$className] = new $className($this);
 		}
-		\App\Log::warning('Not found Pbx class');
+		\App\Log::warning('Not found Pbx class: ' . $className);
 		return null;
 	}
 
@@ -205,7 +207,7 @@ class Pbx extends \App\Base
 		if (class_exists($className)) {
 			return static::$connectors['static|' . $className] = new $className(new self());
 		}
-		\App\Log::warning('Not found Pbx class');
+		\App\Log::warning('Not found Pbx class: ' . $className);
 		return null;
 	}
 
