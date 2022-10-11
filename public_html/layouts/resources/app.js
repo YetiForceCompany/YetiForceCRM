@@ -3423,7 +3423,11 @@ const app = (window.app = {
 							enabled: true
 						}
 					});
-					let url = target.data('url') + '&sourceView=' + sourceView;
+					let url = target.data('url') + (sourceView ? '&sourceView=' + sourceView : '');
+					if (target.data('type') === 'href') {
+						app.openUrl(url);
+						return false;
+					}
 					AppConnector.request(url).done(function (data) {
 						progressIndicatorElement.progressIndicator({
 							mode: 'hide'
@@ -3452,7 +3456,7 @@ const app = (window.app = {
 				addBtnIcon = 1;
 			}
 			if (addBtnIcon == 1) {
-				params.title = target.html() + ' ' + params.title;
+				params.title = target.html() + (params.title ? ' ' + params.title : '');
 			}
 			app.showConfirmModal(params);
 		});
