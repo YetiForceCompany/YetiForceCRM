@@ -97,17 +97,20 @@ abstract class Page extends Base
 			$jsFileNames[] = "modules.$moduleName.resources.Edit";
 			$jsFileNames[] = "modules.$moduleName.resources.AdvanceFilter";
 		}
-		if ('InternalClient' === \App\Mail::getMailComposer()) {
-			$jsFileNames[] = '~layouts/basic/modules/OSSMail/resources/checkmails.js';
-		}
-		if (!\App\RequestUtil::getBrowserInfo()->ie) {
-			if (\App\User::getCurrentUserRealId() === \App\User::getCurrentUserId() && \App\Privilege::isPermitted('Chat')) {
-				$jsFileNames[] = '~layouts/basic/modules/Chat/Chat.vue.js';
+		if (\App\Session::has('authenticated_user_id')) {
+			if ('InternalClient' === \App\Mail::getMailComposer()) {
+				$jsFileNames[] = '~layouts/basic/modules/OSSMail/resources/checkmails.js';
 			}
-			if (\App\Privilege::isPermitted('KnowledgeBase')) {
-				$jsFileNames[] = '~layouts/resources/views/KnowledgeBase/KnowledgeBase.vue.js';
+			if (!\App\RequestUtil::getBrowserInfo()->ie) {
+				if (\App\User::getCurrentUserRealId() === \App\User::getCurrentUserId() && \App\Privilege::isPermitted('Chat')) {
+					$jsFileNames[] = '~layouts/basic/modules/Chat/Chat.vue.js';
+				}
+				if (\App\Privilege::isPermitted('KnowledgeBase')) {
+					$jsFileNames[] = '~layouts/resources/views/KnowledgeBase/KnowledgeBase.vue.js';
+				}
 			}
 		}
+
 		foreach (\Vtiger_Link_Model::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERSCRIPT']) as $headerScripts) {
 			foreach ($headerScripts as $headerScript) {
 				$jsFileNames[] = $headerScript->linkurl;
