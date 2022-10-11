@@ -64,7 +64,7 @@ class Controller
 		}
 		$container = $_GET['_container'];
 		if (!\in_array($container, \Api\Core\Containers::LIST)) {
-			throw new Core\Exception('Web service - No container', 401);
+			throw new Core\Exception('Web service - No container' . print_r($_REQUEST, true), 401);
 		}
 		self::$container = $container;
 		$className = "Api\\{$container}\\Controller";

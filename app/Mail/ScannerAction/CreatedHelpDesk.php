@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Mail\ScannerAction;
@@ -27,26 +28,25 @@ class CreatedHelpDesk extends Base
 		if ($this->checkExceptions('CreatedHelpDesk')) {
 			return;
 		}
-		$scanner = $this->scannerEngine;
-		if (($prefix = RecordFinder::getRecordNumberFromString($scanner->get('subject'), 'HelpDesk')) && \App\Record::getIdByRecordNumber($prefix, 'HelpDesk')) {
+		if (($prefix = RecordFinder::getRecordNumberFromString($this->message->get('subject'), 'HelpDesk')) && \App\Record::getIdByRecordNumber($prefix, 'HelpDesk')) {
 			return;
 		}
-		$fromEmail = [$scanner->get('from_email')];
-		$contactId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $scanner->getEmailsFields('Contacts'))));
-		$parentId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $scanner->getEmailsFields('Accounts'))));
+		$fromEmail = [$this->message->get('from_email')];
+		$contactId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $this->message->getEmailsFields('Contacts'))));
+		$parentId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $this->message->getEmailsFields('Accounts'))));
 		if (!$parentId) {
-			$parentId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $scanner->getEmailsFields('Vendors'))));
+			$parentId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $this->message->getEmailsFields('Vendors'))));
 		}
 		if (!$parentId && $contactId) {
 			$parentId = \App\Record::getParentRecord($contactId, 'Contacts');
 		}
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('HelpDesk');
 		$this->loadServiceContracts($recordModel, $parentId);
-		$recordModel->set('assigned_user_id', $scanner->getUserId());
-		$recordModel->set('created_user_id', $scanner->getUserId());
-		$recordModel->set('createdtime', $scanner->get('date'));
-		$recordModel->setFromUserValue('ticket_title', \App\TextUtils::textTruncate($scanner->get('subject'), $recordModel->getField('ticket_title')->getMaxValue(), false));
-		$recordModel->set('description', \App\TextUtils::htmlTruncate($scanner->get('body'), $recordModel->getField('description')->getMaxValue()));
+		$recordModel->set('assigned_user_id', $this->message->getUserId());
+		$recordModel->set('created_user_id', $this->message->getUserId());
+		$recordModel->set('createdtime', $this->message->get('date'));
+		$recordModel->setFromUserValue('ticket_title', \App\TextUtils::textTruncate($this->message->get('subject'), $recordModel->getField('ticket_title')->getMaxValue(), false));
+		$recordModel->set('description', \App\TextUtils::htmlTruncate($this->message->get('body'), $recordModel->getField('description')->getMaxValue()));
 		$recordModel->set('ticketstatus', \Config\Modules\OSSMailScanner::$helpdeskCreateDefaultStatus);
 		if ($contactId) {
 			$recordModel->ext['relations'][] = [
@@ -54,17 +54,17 @@ class CreatedHelpDesk extends Base
 				'relatedRecords' => [$contactId],
 			];
 		}
-		if ($mailId = $scanner->getMailCrmId()) {
+		if ($mailId = $this->message->getMailCrmId()) {
 			$recordModel->ext['relations'][] = [
 				'reverse' => true,
 				'relatedModule' => 'OSSMailView',
 				'relatedRecords' => [$mailId],
-				'params' => $scanner->get('date'),
+				'params' => $this->message->get('date'),
 			];
 		}
 		$recordModel->save();
 		$id = $recordModel->getId();
-		$scanner->processData['CreatedHelpDesk'] = $id;
+		$this->message->processData['CreatedHelpDesk'] = $id;
 		if ($mailId) {
 			$dbCommand = \App\Db::getInstance()->createCommand();
 			$query = (new \App\Db\Query())->select(['documentsid'])->from('vtiger_ossmailview_files')->where(['ossmailviewid' => $mailId]);

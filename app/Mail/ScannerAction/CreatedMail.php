@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Mail\ScannerAction;
@@ -22,7 +23,7 @@ class CreatedMail extends Base
 	/** {@inheritdoc} */
 	public function process(): void
 	{
-		$scanner = $this->scannerEngine;
+		$scanner = $this->message;
 		if ($this->checkExceptions('CreatedMail') || false !== $scanner->getMailCrmId()) {
 			return;
 		}
@@ -43,7 +44,7 @@ class CreatedMail extends Base
 		$record->set('uid', $scanner->get('message_id'));
 		$type = $scanner->getMailType();
 		$record->set('type', $type);
-		$record->set('ossmailview_sendtype', \App\Mail\ScannerEngine\Base::MAIL_TYPES[$type]);
+		$record->set('ossmailview_sendtype', \App\Mail\Message\Base::MAIL_TYPES[$type]);
 		$record->set('content', \App\TextUtils::htmlTruncate($scanner->get('body'), $record->getField('content')->getMaxValue()));
 		$record->set('orginal_mail', \App\TextUtils::htmlTruncate($scanner->get('headers'), $record->getField('orginal_mail')->getMaxValue()));
 		$record->setHandlerExceptions(['disableHandlers' => true]);

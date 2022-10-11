@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Mail\ScannerAction;
@@ -22,7 +23,7 @@ class LinkByFields extends Base
 	/** {@inheritdoc} */
 	public function process(): void
 	{
-		$scanner = $this->scannerEngine;
+		$scanner = $this->message;
 		if (empty($scanner->processData['CreatedMail']) || false === $scanner->getMailCrmId()) {
 			return;
 		}

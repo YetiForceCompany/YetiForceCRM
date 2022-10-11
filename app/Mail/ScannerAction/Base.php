@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Mail\ScannerAction;
@@ -23,20 +24,20 @@ abstract class Base
 	 */
 	public static $priority = 9;
 	/**
-	 * Scanner engine instance.
+	 * Message instance.
 	 *
-	 * @var \App\Mail\ScannerEngine\Base
+	 * @var \App\Mail\Message\Base
 	 */
-	protected $scannerEngine;
+	protected $message;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param \App\Mail\ScannerEngine\Base $scannerEngine
+	 * @param \App\Mail\Message\Base $message
 	 */
-	public function __construct(\App\Mail\ScannerEngine\Base $scannerEngine)
+	public function __construct(\App\Mail\Message\Base $message)
 	{
-		$this->scannerEngine = $scannerEngine;
+		$this->message = $message;
 	}
 
 	/**
@@ -56,8 +57,8 @@ abstract class Base
 	public function checkExceptions(string $type): bool
 	{
 		$return = false;
-		if ($exceptions = $this->scannerEngine->getExceptions()[$type] ?? false) {
-			$mailForExceptions = (0 === $this->scannerEngine->getMailType()) ? $this->scannerEngine->get('to_email') : [$this->scannerEngine->get('from_email')];
+		if ($exceptions = $this->message->getExceptions()[$type] ?? false) {
+			$mailForExceptions = (0 === $this->message->getMailType()) ? $this->message->get('to_email') : [$this->message->get('from_email')];
 			$return = (bool) array_intersect($exceptions, $mailForExceptions);
 		}
 		return $return;

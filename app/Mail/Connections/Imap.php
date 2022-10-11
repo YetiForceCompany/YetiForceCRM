@@ -1,0 +1,117 @@
+<?php
+/**
+ * Mail imap file.
+ *
+ * @package App
+ *
+ * @copyright YetiForce S.A.
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+namespace App\Mail\Connections;
+
+/**
+ * Mail imap class.
+ */
+class Imap
+{
+	/** @var string Server hostname. */
+	protected $host;
+	/** @var int Server port. */
+	protected $port;
+	/** @var string Server encryption. Supported: none, ssl, tls, starttls or notls. */
+	protected $encryption;
+	/** @var string Server protocol. */
+	protected $protocol = 'imap';
+	/** @var bool Validate cert. */
+	protected $validateCert = true;
+	/** @var int Connection timeout. */
+	protected $timeout = 15;
+	/** @var string Account username. */
+	protected $username;
+	/** @var string Account password. */
+	protected $password;
+	/**
+	 * Account authentication method.
+	 *
+	 * @var string|null
+	 *
+	 * @example oauth, null
+	 */
+	protected $authentication;
+
+	/** Client */
+	private $client;
+
+	/** @var int */
+	private $attempt = 0;
+	/** @var bool Debug */
+	protected $debug = true;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param array $options
+	 */
+	public function __construct(array $options)
+	{
+		$reflect = new \ReflectionClass($this);
+		foreach ($options as $name => $value) {
+			if ($reflect->hasProperty($name) && !$reflect->getProperty($name)->isPrivate()) {
+				$this->{$name} = $value;
+			}
+		}
+	}
+
+	/**
+	 * Connect to server.
+	 *
+	 * @return $this
+	 */
+	public function connect()
+	{
+		if (!$this->client || !$this->client->isConnected()) {
+			$this->client = (new \Webklex\PHPIMAP\ClientManager(['options' => ['debug' => $this->debug]]))->make([
+				'host' => $this->host,
+				'port' => $this->port,
+				'encryption' => $this->encryption, //'ssl',
+				'validate_cert' => $this->validateCert,
+				'protocol' => $this->protocol,
+				'authentication' => $this->authentication,
+				'username' => $this->username,
+				'password' => $this->password,
+				'timeout' => $this->timeout
+			]);
+			++$this->attempt;
+			$this->client->connect();
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Disconnect from server.
+	 *
+	 * @return $this
+	 */
+	public function disconnect()
+	{
+		if ($this->client && $this->client->isConnected()) {
+			$this->client->disconnect();
+		}
+
+		return $this;
+	}
+
+	public function getFolders()
+	{
+		$this->connect();
+		$folders = [];
+		foreach ($this->client->getFolders() as $folder) {
+			$folders[] = $folder->full_name;
+		}
+
+		return $folders;
+	}
+}

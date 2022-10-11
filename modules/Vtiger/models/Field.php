@@ -379,6 +379,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 87:
 						$fieldDataType = 'mailComposer';
 						break;
+					case 88:
+						$fieldDataType = 'mailServer';
+						break;
 					case 98:
 						$fieldDataType = 'userRole';
 						break;
