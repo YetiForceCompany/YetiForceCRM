@@ -332,12 +332,15 @@ abstract class Base extends \App\Controller\Base
 		if (\App\Debuger::isDebugBar()) {
 			$jsFileNames[] = '~layouts/resources/debugbar/logs.js';
 		}
-		if (\App\Integrations\Pbx::isActive()) {
-			$jsFileNames[] = '~layouts/resources/integrations/pbx/' . \App\Integrations\Pbx::getDefault()['type'] . '.js';
+		if (\App\Session::has('authenticated_user_id')) {
+			if (\App\Integrations\Pbx::isActive()) {
+				$jsFileNames[] = '~layouts/resources/integrations/pbx/' . \App\Integrations\Pbx::getDefault()['type'] . '.js';
+			}
+			if ('Base' !== \App\Mail::getMailComposer()) {
+				$jsFileNames[] = '~layouts/resources/integrations/mail/' . \App\Mail::getMailComposer() . '.js';
+			}
 		}
-		if ('Base' !== \App\Mail::getMailComposer()) {
-			$jsFileNames[] = '~layouts/resources/integrations/mail/' . \App\Mail::getMailComposer() . '.js';
-		}
+
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
