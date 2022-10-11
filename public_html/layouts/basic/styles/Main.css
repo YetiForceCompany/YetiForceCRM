@@ -16179,7 +16179,7 @@ h3 {
     position: fixed;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
-    z-index: 10000000000000002000000 !important;
+    z-index: 10000000000000000000000 !important;
   }
   .daterangepicker.show-calendar.js-visible .drp-buttons {
     position: fixed;
@@ -25810,7 +25810,7 @@ ul.c-process-line li.c-process-line__active > a:after {
 
 /* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 @media (max-width: 767.98px) {
-  .o-view-detail {
+  .o-view-detail .detailViewContainer {
     font-size: 90%;
   }
 }
@@ -26864,4 +26864,5 @@ td.fieldValue .input-group {
   .c-module-table-row {
     width: calc(100vw - 0.5rem);
   }
-}/*# sourceMappingURL=Main.css.map */
+}
+/*# sourceMappingURL=Main.css.map */
