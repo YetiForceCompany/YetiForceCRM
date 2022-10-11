@@ -474,10 +474,10 @@ postcss@^8.4.14:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-quasar@^1.6.1:
-  version "1.21.1"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.21.1.tgz#c72286221acbc23df1d91579d78defa5eb5681d6"
-  integrity sha512-48OGUhDUv9t48PCNitJTzgUYXb4/Vh2ZZMv7Bwr2rvQUydv2/LkPLcEj45AsfnM5kNHhtQVC2PWvxwlzZbdnsQ==
+quasar@^2.9.2:
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-2.9.2.tgz#6e7d50f9c2c5a52b36e4b9bbd7129a440d64fb9c"
+  integrity sha512-Z4QWJDC4vFILKRJJdE0j/jnRTo94A2k403G6LtTiSIRSmV8dUl4YWqqNRH6lQQ01Vwjj06kKtN81fi3ontBt0w==
 
 regenerator-runtime@^0.13.4:
   version "0.13.9"
