@@ -89,6 +89,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 	public function setRelatedFieldsInHierarchy(Vtiger_Record_Model $recordModel, $fieldName)
 	{
 		$fieldValue = $recordModel->get($fieldName);
+		$viewName = $recordModel->isNew() ? 'Create' : 'Edit';
 		$relatedModules = \App\ModuleHierarchy::getRelationFieldByHierarchy($recordModel->getModuleName(), $fieldName);
 		if ($relatedModules && !empty($fieldValue) && $recordModel->getPreviousValue($fieldName) !== $fieldValue) {
 			$sourceModule = \App\Record::getType($fieldValue);
@@ -99,7 +100,7 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 						$toModel = $recordModel->getModule()->getFieldByName($to);
 						$relFieldModel = $relRecordModel->getModule()->getFieldByName($from[0]);
 						$relFieldValue = $relRecordModel->get($from[0]);
-						if ($relFieldValue && $relFieldModel && $toModel && $toModel->isWritable()) {
+						if ($relFieldValue && $relFieldModel && $toModel && $toModel->isWritable($viewName)) {
 							if ($toModel->isReferenceField() || $relFieldModel->isReferenceField()) {
 								$sourceType = \App\Record::getType($relFieldValue);
 								if (\in_array($sourceType, $toModel->getReferenceList())) {

@@ -106,7 +106,7 @@ class SaveInventory extends \Api\Core\BaseAction
 			return $result;
 		}
 		foreach ($this->moduleModel->getFields() as $fieldName => $fieldModel) {
-			if (!$fieldModel->isWritable()) {
+			if (!$fieldModel->isWritable('Create')) {
 				continue;
 			}
 			if ($this->controller->request->has($fieldName)) {
