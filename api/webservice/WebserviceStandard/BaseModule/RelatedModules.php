@@ -89,7 +89,7 @@ class RelatedModules extends \Api\Core\BaseAction
 		$moduleName = $this->controller->request->getModule();
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$return = [];
-		if ($moduleModel->isSummaryViewSupported()) {
+		if ($moduleModel->isSummaryViewSupported() && (new \App\Db\Query())->from('vtiger_widgets')->where(['tabid' => $moduleModel->getId(), 'type' => \Api\WebservicePremium\BaseModule\Widgets::SUPPORTED_TYPES])->exists()) {
 			$return['base'][] = [
 				'type' => 'summary',
 				'label' => \App\Language::translate('LBL_RECORD_SUMMARY', $moduleName),

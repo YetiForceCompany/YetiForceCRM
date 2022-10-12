@@ -22,7 +22,7 @@ class Widgets extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/** @var string[] Supported widget types */
-	protected $supportedTypes = ['RelatedModule', 'Updates', 'Comments', 'DetailView'];
+	public const SUPPORTED_TYPES = ['RelatedModule', 'Updates', 'Comments', 'DetailView'];
 
 	/**
 	 * Get widgets list method.
@@ -122,7 +122,7 @@ class Widgets extends \Api\Core\BaseAction
 		$columns = array_flip(['id', 'type', 'label', 'wcol', 'sequence', 'data', 'name']);
 
 		$dataReader = (new \App\Db\Query())->from('vtiger_widgets')
-			->where(['tabid' => \App\Module::getModuleId($moduleName), 'type' => $this->supportedTypes])
+			->where(['tabid' => \App\Module::getModuleId($moduleName), 'type' => self::SUPPORTED_TYPES])
 			->orderBy(['tabid' => SORT_ASC, 'sequence' => SORT_ASC])
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
