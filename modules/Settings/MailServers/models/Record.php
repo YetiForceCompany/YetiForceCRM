@@ -106,6 +106,8 @@ class Settings_MailServers_Record_Model extends Settings_Vtiger_Record_Model
 		if ($recordId) {
 			$result = $db->createCommand()->delete($this->getTable(), ['id' => $recordId])->execute();
 		}
+		\App\Cache::delete('MailServer', 'all');
+
 		return !empty($result);
 	}
 
@@ -199,7 +201,7 @@ class Settings_MailServers_Record_Model extends Settings_Vtiger_Record_Model
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Settings_MailServers_List_Js.deleteById(' . $this->getId() . ')',
+				'linkurl' => 'javascript:Settings_Vtiger_List_Js.deleteById(' . $this->getId() . ')',
 				'linkicon' => 'fas fa-trash-alt',
 				'linkclass' => 'btn text-white btn-danger btn-sm'
 			],
