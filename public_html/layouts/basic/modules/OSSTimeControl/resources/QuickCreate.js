@@ -21,6 +21,7 @@ window.OSSTimeControl_CalendarModal_Js = class OSSTimeControl_CalendarModal_Js e
 	 */
 	setCalendarModuleOptions() {
 		let options = super.setCalendarModuleOptions();
+		options.initialView = 'timeGridDay';
 		options.selectable = true;
 		options.eventClick = function (info) {
 			info.jsEvent.preventDefault();

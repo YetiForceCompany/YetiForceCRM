@@ -69,4 +69,16 @@ abstract class CronHandler
 	{
 		return $this->logs;
 	}
+
+	/**
+	 * Add text to logs.
+	 *
+	 * @param string $log
+	 *
+	 * @return void
+	 */
+	public function addTaskLog(string $log): void
+	{
+		$this->logs .= $log;
+	}
 }
