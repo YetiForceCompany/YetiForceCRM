@@ -762,8 +762,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function isWritable(string $viewName = 'Edit'): bool
 	{
 		$return = true;
-		if (isset($this->permissionsCache['isWritable'])) {
-			return $this->permissionsCache['isWritable'];
+		$keyCache = 'isWritable' . $viewName;
+		if (isset($this->permissionsCache[$keyCache])) {
+			return $this->permissionsCache[$keyCache];
 		}
 		$displayType = $this->get('displaytype');
 		if (!$this->isViewEnabled() || (4 === $displayType && ('Create' !== $viewName)) || 5 === $displayType
@@ -773,7 +774,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			|| !$this->getUITypeModel()->isWritable()) {
 			$return = false;
 		}
-		return $this->permissionsCache['isWritable'] = $return;
+		return $this->permissionsCache[$keyCache] = $return;
 	}
 
 	/**
@@ -786,15 +787,16 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function isEditable(string $viewName = 'Edit'): bool
 	{
 		$return = true;
-		if (isset($this->permissionsCache['isEditable'])) {
-			return $this->permissionsCache['isEditable'];
+		$keyCache = 'isEditable' . $viewName;
+		if (isset($this->permissionsCache[$keyCache])) {
+			return $this->permissionsCache[$keyCache];
 		}
 		$displayType = $this->get('displaytype');
 		if (!$this->isWritable($viewName) || !\in_array($displayType, [1, 4, 10])
 			|| true === $this->isReadOnly() || (4 === $displayType && ('Create' !== $viewName))) {
 			$return = false;
 		}
-		return $this->permissionsCache['isEditable'] = $return;
+		return $this->permissionsCache[$keyCache] = $return;
 	}
 
 	/**
