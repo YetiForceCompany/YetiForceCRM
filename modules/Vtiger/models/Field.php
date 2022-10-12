@@ -759,7 +759,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @return bool
 	 */
-	public function isWritable(string $viewName = 'Edit')
+	public function isWritable(string $viewName = 'Edit'): bool
 	{
 		$return = true;
 		if (isset($this->permissionsCache['isWritable'])) {
