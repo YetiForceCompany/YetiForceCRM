@@ -28,11 +28,11 @@
 						<div class="c-panel__body p-2 js-block-content {if !$EXPAND_BLOCKS}d-none{/if}">
 							<div class="form-group row mb-0">
 								{foreach from=$FIELDS item=FIELD_MODEL key=FIELD_NAME name=field}
-									{if $smarty.foreach.structre.first && !$smarty.foreach.field.first && $smarty.foreach.field.index == 2}
+									{if $smarty.foreach.structre.first && !$smarty.foreach.field.first && $smarty.foreach.field.index == 44}
 										<div class="w-100 u-fs-10px">&nbsp;</div>
 									{/if}
 
-									<div class="col-12 {if $FIELD_NAME neq 'members'}col-md-4 {/if} mb-2 js-field-container {if in_array($FIELD_NAME, ['client_id','client_secret','oauth_provider']) && $FIELDS['auth_method']->get('fieldvalue') !== 'oauth2'} d-none{/if}">
+									<div class="col-12 {if $FIELD_NAME neq 'members'}col-md-4 {/if} mb-2 js-field-container {if in_array($FIELD_NAME, ['client_id','client_secret','oauth_provider','redirect_uri_id']) && $FIELDS['auth_method']->get('fieldvalue') !== 'oauth2'} d-none{/if}">
 										<label class="u-text-small-bold mb-1">
 											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}
 											{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
@@ -42,21 +42,20 @@
 												</div>
 											{/if}:
 										</label>
-										{if $FIELD_MODEL->getName() === 'oauth_provider'}
+										{if $FIELD_MODEL->getName() === 'redirect_uri_id'}
+											{assign var=VALUE value=$FIELD_MODEL->get('fieldvalue')}
 											<div class="input-group fieldValue m-auto">
-												<select id="{$FIELD_MODEL->getName()}" name="{$FIELD_MODEL->getName()}" tabindex="0" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}" class="select2 form-control">
+												<select id="{$FIELD_MODEL->getName()}" name="{$FIELD_MODEL->getName()}" tabindex="0" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}" class="select2 form-control" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo="{\App\Json::encode($FIELD_MODEL->getFieldInfo())|escape}" data-select="allowClear" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}">
+													<optgroup class="p-0">
+														<option value="" {if !$VALUE || !in_array($VALUE, $FIELD_MODEL->getPicklistValues())} selected{/if}>{\App\Language::translate('LBL_SELECT_OPTION')}</option>
+													</optgroup>
 													{foreach from=$FIELD_MODEL->getPicklistValues() key=KEY item=VALUE}
-														<option value="{\App\Purifier::encodeHtml($KEY)}" {if $FIELD_MODEL->get('fieldvalue') === $KEY} selected{/if}>{\App\Purifier::encodeHtml($VALUE)}</option>
+														<option value="{\App\Purifier::encodeHtml($KEY)}" data-redirect="{\App\Mail\Server::getRedirectUriByServiceId($KEY)|escape}" {if $VALUE === $KEY} selected{/if}>{\App\Purifier::encodeHtml($VALUE)}</option>
 													{/foreach}
 												</select>
 												<span class="input-group-append">
-													<button class="btn btn-outline-secondary clipboard js-popover-tooltip" data-redirect="{$FIELD_MODEL->getParam('redirectUri')|escape}" type="button" data-placement="top" data-content="{\App\Language::translate('BTN_OAUTH_PROVIDER_COPY_TO_CLIPBOARD')}" data-copy-attribute="redirect">
+													<button class="btn btn-outline-secondary clipboard js-popover-tooltip" type="button" data-placement="top" data-content="{\App\Language::translate('BTN_REDIRECT_URI_ID_COPY_TO_CLIPBOARD')}" data-copy-target="#{$FIELD_MODEL->getName()}" data-copy-type="redirect">
 														<span class="fas fa-copy"></span>
-													</button>
-												</span>
-												<span class="input-group-append">
-													<button class="btn btn-outline-secondary js-popover-tooltip" type="button" data-placement="top" data-content="{\App\Language::translate('LBL_OAUTH_PROVIDER_REDIRECT_DESC', $QUALIFIED_MODULE)}">
-														<span class="fas fa-info-circle"></span>
 													</button>
 												</span>
 											</div>

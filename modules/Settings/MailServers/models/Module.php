@@ -50,16 +50,6 @@ class Settings_MailServers_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
-	 * Function get supported modules.
-	 *
-	 * @return array - List of modules
-	 */
-	public static function getSupportedModules()
-	{
-		return Vtiger_Module_Model::getAll([0], ['SMSNotifier', 'OSSMailView', 'Dashboard', 'ModComments', 'Notification'], true);
-	}
-
-	/**
 	 * Function verifies if it is possible to sort by given field in list view.
 	 *
 	 * @param string $fieldName
@@ -68,10 +58,7 @@ class Settings_MailServers_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function isSortByName($fieldName)
 	{
-		if (\in_array($fieldName, ['tabid', 'state', 'subject'])) {
-			return true;
-		}
-		return false;
+		return \in_array($fieldName, ['name', 'status', 'imap_host']);
 	}
 
 	/** {@inheritdoc} */
@@ -94,7 +81,7 @@ class Settings_MailServers_Module_Model extends Settings_Vtiger_Module_Model
 
 	/** @var string[] Fields name for edit view */
 	public $editFields = [
-		'name', 'auth_method', 'oauth_provider', 'client_id', 'client_secret', 'status', 'visible', 'validate_cert', 'imap_encrypt', 'imap_host', 'imap_port', 'smtp_encrypt', 'smtp_host', 'smtp_port', 'spellcheck', 'ip_check', 'identities_level'
+		'name', 'auth_method', 'oauth_provider', 'client_id', 'client_secret', 'redirect_uri_id', 'status', 'visible', 'validate_cert', 'imap_encrypt', 'imap_host', 'imap_port', 'smtp_encrypt', 'smtp_host', 'smtp_port', 'spellcheck', 'ip_check', 'identities_level'
 	];
 
 	/**
@@ -376,14 +363,23 @@ class Settings_MailServers_Module_Model extends Settings_Vtiger_Module_Model
 					'purifyType' => \App\Purifier::INTEGER,
 					'blockLabel' => 'BL_BASE',
 					'defaultvalue' => '',
-					'fieldparams' => \App\Json::encode(['redirectUri' => \App\Mail\Account::getRedirectUri()]),
 					'table' => $this->getBaseTable(),
 					'picklistValues' => array_map(fn ($provider) => \App\Language::translate($provider->getLabel(), $this->getName(true)), \App\Integrations\OAuth::getProviders())
 				];
-				// foreach(App\Integrations\OAuth::getProviders() as $provider){
-
-				// }
-				// $params['picklistValues'] = array_map(fn ($provider) => \App\Language::translate($provider->getLabel(), $this->getName(true)), \App\Integrations\OAuth::getProviders();
+				break;
+			case 'redirect_uri_id':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_REDIRECT_URI_ID',
+					'uitype' => 16,
+					'typeofdata' => 'I~M',
+					'maximumlength' => '2147483647',
+					'purifyType' => \App\Purifier::INTEGER,
+					'blockLabel' => 'BL_BASE',
+					'defaultvalue' => '',
+					'table' => $this->getBaseTable(),
+					'picklistValues' => array_map(fn ($service) => $service['name'], \App\Integrations\Services::getByType(\App\Integrations\Services::OAUTH))
+				];
 				break;
 			case 'client_id':
 				$params = [

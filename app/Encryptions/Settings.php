@@ -27,6 +27,7 @@ class Settings extends \App\Encryption
 		'dav_users' => ['columnName' => ['key'], 'index' => 'id', 'db' => 'base'],
 		\App\MeetingService::TABLE_NAME => ['columnName' => ['secret'], 'index' => 'id', 'db' => 'admin'],
 		'i_#__magento_servers' => ['columnName' => ['password'], 'index' => 'id', 'db' => 'admin'],
+		\App\Mail\Server::TABLE_NAME => ['columnName' => ['client_secret'], 'index' => 'id', 'db' => 'admin'],
 	];
 
 	/** {@inheritdoc} */

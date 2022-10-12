@@ -74,6 +74,22 @@ class Server extends \App\Base
 		return $server && (null === $state || $state === $server->getState());
 	}
 
+	public static function getRedirectUriByServiceId(int $serviceId): string
+	{
+		$service = \App\Integrations\Services::getById($serviceId);
+		$uri = '';
+		if ($service && $service['status'] && \App\Integrations\Services::OAUTH === $service['type']) {
+			$uri = \App\Config::main('site_URL') . 'webservice/OAuth/MailAccount/' . \App\Encryption::getInstance()->decrypt($service['api_key']);
+		}
+
+		return $uri;
+	}
+
+	public function getRedirectUri(): string
+	{
+		return self::getRedirectUriByServiceId((int) $this->get('redirect_uri_id'));
+	}
+
 	public function isViewable(): bool
 	{
 		return self::STATUS_ACTIVE === $this->get('status') && self::USER_VISIBLE === $this->get('visible');

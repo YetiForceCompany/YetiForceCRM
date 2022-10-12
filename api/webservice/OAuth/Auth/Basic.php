@@ -21,7 +21,10 @@ class Basic extends \Api\Core\Auth\Basic
 	{
 		$this->api->app = [];
 		$type = $this->api->request->getByType('_container', \App\Purifier::STANDARD);
-		$query = (new \App\Db\Query())->from('w_#__servers')->where(['type' => $type,  'status' => 1]);
+		$key = $this->api->request->getByType('action', \App\Purifier::ALNUM);
+		$dbKey = \App\Encryption::getInstance()->encrypt($key);
+
+		$query = (new \App\Db\Query())->from('w_#__servers')->where(['type' => $type,  'status' => 1, 'api_key' => $dbKey]);
 		if ($row = $query->one()) {
 			$row['id'] = (int) $row['id'];
 			$this->api->app = $row;
@@ -33,13 +36,10 @@ class Basic extends \Api\Core\Auth\Basic
 	/** {@inheritdoc}  */
 	public function authenticate(string $realm): bool
 	{
-		if ($this->api->request->isEmpty('action', true)) {
-			throw new \Api\Core\Exception('ERR_NO_TOKEN', 404);
+		if (!$this->api->app) {
+			$this->api->response->addHeader('WWW-Authenticate', 'Basic realm="' . $realm . '"');
+			throw new \Api\Core\Exception('Web service - Applications: Unauthorized', 401);
 		}
-		if (!\App\Validator::alnum($this->api->request->getRaw('action'))) {
-			throw new \App\Exceptions\Security('ERR_TOKEN_DOES_NOT_EXIST', 406);
-		}
-
 		return true;
 	}
 }

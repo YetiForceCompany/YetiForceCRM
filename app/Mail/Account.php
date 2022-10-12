@@ -59,20 +59,10 @@ class Account extends \App\Base
 			$instance->password = \App\Encryption::getInstance(\App\Module::getModuleId(self::MODULE_NAME))->decrypt($instance->source->get('password'));
 			$instance->refreshToken = \App\Encryption::getInstance(\App\Module::getModuleId(self::MODULE_NAME))->decrypt($instance->source->get('refresh_token'));
 			$instance->server = \App\Mail\Server::getInstanceById($instance->source->get('mail_server_id'));
-			$instance->redirectUri = self::getRedirectUri();
+			$instance->redirectUri = $instance->server->getRedirectUri();
 		}
 
 		return $instance;
-	}
-
-	/**
-	 * Get redirect uri.
-	 *
-	 * @return string
-	 */
-	public static function getRedirectUri(): string
-	{
-		return \App\Config::main('site_URL') . 'webservice/OAuth/MailAccount';
 	}
 
 	public function getPassword()

@@ -109,7 +109,7 @@ jQuery.Class(
 				let value = e.currentTarget.value;
 				console.log(value);
 				let clientFields = this.container
-					.find('[name="oauth_provider"],[name="client_id"],[name="client_secret"]')
+					.find('[name="oauth_provider"],[name="client_id"],[name="client_secret"],[name="redirect_uri_id"]')
 					.closest('.js-field-container');
 				console.log(clientFields);
 				if (value === 'oauth2') {
