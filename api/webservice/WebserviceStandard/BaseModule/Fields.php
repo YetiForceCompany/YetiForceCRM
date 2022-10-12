@@ -197,11 +197,10 @@ class Fields extends \Api\Core\BaseAction
 			$fieldInfo['id'] = $fieldModel->getId();
 			$fieldInfo['uitype'] = $fieldModel->getUIType();
 			if ($returnPrivileges) {
-				$isEditable = $fieldModel->isEditable();
 				$fieldInfo['isViewable'] = $fieldModel->isViewable();
 				$fieldInfo['isReadOnly'] = $fieldModel->isReadOnly();
-				$fieldInfo['isCreatable'] = $isEditable || 4 === $fieldModel->get('displaytype');
-				$fieldInfo['isEditable'] = $isEditable;
+				$fieldInfo['isCreatable'] = $fieldModel->isEditable('Create');
+				$fieldInfo['isEditable'] = $fieldModel->isEditable('Edit');
 				$fieldInfo['isEditableReadOnly'] = $fieldModel->isEditableReadOnly();
 				$fieldInfo['isEditableHidden'] = 9 === $fieldModel->get('displaytype');
 			}

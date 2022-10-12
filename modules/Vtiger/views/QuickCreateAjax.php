@@ -150,11 +150,11 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 				continue;
 			}
 			if (isset($this->recordStructure[$fieldName])) {
-				if ($this->fields[$fieldName]->isEditable() && ('' === $this->recordStructure[$fieldName]->get('fieldvalue') || null === $this->recordStructure[$fieldName]->get('fieldvalue'))) {
+				if ($this->fields[$fieldName]->isEditable('Create') && ('' === $this->recordStructure[$fieldName]->get('fieldvalue') || null === $this->recordStructure[$fieldName]->get('fieldvalue'))) {
 					$this->recordStructure[$fieldName]->set('fieldvalue', $fieldValue);
 				}
 			} else {
-				if (isset($this->fields[$fieldName]) && $this->fields[$fieldName]->isEditable()) {
+				if (isset($this->fields[$fieldName]) && $this->fields[$fieldName]->isEditable('Create')) {
 					$fieldModel = $this->fields[$fieldName];
 					$fieldModel->set('fieldvalue', $fieldValue);
 					$fieldValues[$fieldName] = $fieldModel;
