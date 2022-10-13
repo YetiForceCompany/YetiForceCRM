@@ -1,0 +1,9 @@
+{
+	"php": {
+		"MailAccount": "MailAccount",
+		"SINGLE_MailAccount": "MailAccount",
+		"LBL_CUSTOM_INFORMATION": "Custom Information",
+		"LBL_BASIC_INFORMATION": "Basic Information",
+		"FL_SUBJECT": "FL_SUBJECT"
+	}
+}

@@ -2311,7 +2311,7 @@ window.App.Fields = {
 						fieldDisplayElement = this.container.find('input[name="' + sourceFieldElement.attr('name') + '_display"]');
 					AppConnector.request({
 						module: sourceFieldElement.data('module-name'),
-						view: 'TreeModal',
+						view: sourceFieldElement.data('view') || 'TreeModal',
 						template: sourceFieldElement.data('treetemplate'),
 						fieldName: sourceFieldElement.attr('name'),
 						multiple: sourceFieldElement.data('multiple'),
