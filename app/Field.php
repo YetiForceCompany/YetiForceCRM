@@ -465,17 +465,28 @@ class Field
 	 * Get a list of custom default values for a given field type in the WebservicePremium API.
 	 *
 	 * @param \Vtiger_Field_Model $fieldModel
+	 * @param bool                $group
 	 *
-	 * @return string[]
+	 * @return array
 	 */
-	public static function getCustomListForDefaultValue(\Vtiger_Field_Model $fieldModel): array
+	public static function getCustomListForDefaultValue(\Vtiger_Field_Model $fieldModel, bool $group = false): array
 	{
 		if ($fieldModel->isReferenceField()) {
-			return [
+			$return = [
 				'loggedContact' => \App\Language::translate('LBL_LOGGED_CONTACT', 'Settings:LayoutEditor'),
 				'accountOnContact' => \App\Language::translate('LBL_ACCOUNT_ON_CONTACT', 'Settings:LayoutEditor'),
 				'accountLoggedContact' => \App\Language::translate('LBL_ACCOUNT_LOGGED_CONTACT', 'Settings:LayoutEditor'),
 			];
+			return $group ? ['LBL_SPECIAL_FUNCTION' => $return] : $return;
+		}
+		if ($fieldModel->isOwnerField()) {
+			$return = [
+				'ownerFromAccountOnContact' => \App\Language::translate('LBL_OWNER_FROM_ACCOUNT_CONTACT', 'Settings:LayoutEditor'),
+			];
+			$ownerField = \App\Fields\Owner::getInstance($fieldModel->getModuleName());
+			$users = $ownerField->getAccessibleUsers('', $fieldModel->getFieldDataType());
+			$groups = $ownerField->getAccessibleGroups('', $fieldModel->getFieldDataType(), true);
+			return $group ? ['LBL_SPECIAL_FUNCTION' => $return, 'LBL_USERS' => $users, 'LBL_GROUPS' => $groups] : array_merge($return, $users, $groups);
 		}
 		return [];
 	}

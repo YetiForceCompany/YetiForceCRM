@@ -228,7 +228,9 @@
     "LBL_ACCOUNT_LOGGED_CONTACT": "Account of contact currently logged in",
     "LBL_DISABLE_FIELD": "Disable the field",
     "LBL_SAVE_AND_CLOSE": "Save and close",
-    "MultiAttachment": "Attachments"
+    "MultiAttachment": "Attachments",
+    "LBL_OWNER_FROM_ACCOUNT_CONTACT": "Assigned To from the Contact Account",
+    "LBL_SPECIAL_FUNCTION": "Special function"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Block Name already exists",
