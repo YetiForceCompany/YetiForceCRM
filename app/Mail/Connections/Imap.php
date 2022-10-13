@@ -47,7 +47,7 @@ class Imap
 	/** @var int */
 	private $attempt = 0;
 	/** @var bool Debug */
-	protected $debug = true;
+	protected $debug = false;
 
 	/**
 	 * Constructor.
@@ -104,12 +104,46 @@ class Imap
 		return $this;
 	}
 
-	public function getFolders()
+	/**
+	 * Get folders list.
+	 * If hierarchical order is set to true, it will make a tree of folders, otherwise it will return flat array.
+	 *
+	 * @param bool        $hierarchical
+	 * @param string|null $parentFolder
+	 */
+	public function getFolders(bool $hierarchical = true, ?string $parentFolder = null)
 	{
 		$this->connect();
+
 		$folders = [];
-		foreach ($this->client->getFolders() as $folder) {
-			$folders[] = $folder->full_name;
+		if ($hierarchical) {
+			foreach ($this->client->getFolders(true, $parentFolder) as $folder) {
+				$folders = $this->getChildrenFolders($folder, $folders);
+			}
+		} else {
+			$folders = $this->client->getFolders(false, $parentFolder);
+		}
+
+		return $folders;
+	}
+
+	/**
+	 * Get children folders.
+	 *
+	 * @param object $folder
+	 * @param array  $folders
+	 *
+	 * @return array
+	 */
+	private function getChildrenFolders($folder, array &$folders): array
+	{
+		$folders[$folder->full_name]['name'] = $folder->name;
+		$folders[$folder->full_name]['fullName'] = $folder->full_name;
+		if ($folder->hasChildren()) {
+			foreach ($folder->children as $subFolder) {
+				$children = [];
+				$folders[$folder->full_name]['children'] = $this->getChildrenFolders($subFolder, $children);
+			}
 		}
 
 		return $folders;

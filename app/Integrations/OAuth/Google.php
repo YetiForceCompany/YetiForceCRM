@@ -15,13 +15,6 @@ namespace App\Integrations\OAuth;
 class Google extends AbstractProvider
 {
 	/**
-	 * Provider name | File name.
-	 * Max lenght: 50 characters.
-	 *
-	 * @var string
-	 */
-	protected $name = 'Google';
-	/**
 	 * OAuth provider label.
 	 *
 	 * @var string

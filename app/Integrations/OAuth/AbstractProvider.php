@@ -14,7 +14,6 @@ namespace App\Integrations\OAuth;
  */
 abstract class AbstractProvider extends \App\Base
 {
-	protected $name;
 	protected $label;
 	protected $icon;
 
@@ -25,9 +24,16 @@ abstract class AbstractProvider extends \App\Base
 	protected $scopes;
 	protected $scopesForAction;
 
+	/**
+	 * Get provider name.
+	 * Provider name | File name.
+	 * Max lenght: 50 characters.
+	 *
+	 * @return string
+	 */
 	public function getName(): string
 	{
-		return $this->name;
+		return basename(str_replace('\\', '/', static::class));
 	}
 
 	public function getLabel(): string

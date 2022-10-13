@@ -17,13 +17,6 @@ use TheNetworg\OAuth2\Client\Provider\Azure;
 class MSAzure extends AbstractProvider
 {
 	/**
-	 * Provider name | File name.
-	 * Max lenght: 50 characters.
-	 *
-	 * @var string
-	 */
-	protected $name = 'MSAzure';
-	/**
 	 * OAuth provider label.
 	 *
 	 * @var string
