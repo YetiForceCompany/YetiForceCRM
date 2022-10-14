@@ -82,15 +82,15 @@ jobs:
         with:
           fetch-depth: 0
       - name: Validate OpenAPI definition - WebservicePremium.yaml
-        uses: char0n/swagger-editor-validate@v1.3.1
+        uses: char0n/swagger-editor-validate@v1.3.2
         with:
           definition-file: api/doc/WebservicePremium.yaml
       - name: Validate OpenAPI definition - ManageConsents.yaml
-        uses: char0n/swagger-editor-validate@v1.3.1
+        uses: char0n/swagger-editor-validate@v1.3.2
         with:
           definition-file: api/doc/ManageConsents.yaml
       - name: Validate OpenAPI definition - WebserviceStandard.yaml
-        uses: char0n/swagger-editor-validate@v1.3.1
+        uses: char0n/swagger-editor-validate@v1.3.2
         with:
           definition-file: api/doc/WebserviceStandard.yaml
 
