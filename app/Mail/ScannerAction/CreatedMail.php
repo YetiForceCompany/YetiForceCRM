@@ -19,52 +19,113 @@ class CreatedMail extends Base
 {
 	/** {@inheritdoc} */
 	public static $priority = 2;
+	/** @var App\Mail\Message\Imap */
+	protected $message;
+	protected $attachments = [];
 
 	/** {@inheritdoc} */
 	public function process(): void
 	{
-		$scanner = $this->message;
-		if ($this->checkExceptions('CreatedMail') || false !== $scanner->getMailCrmId()) {
+		if ($this->checkExceptions()) {
 			return;
 		}
+
+		$owner = $this->account->getSource()->get('assigned_user_id');
+		if ($mailCrmId = $this->message->getMailCrmId($owner)) {
+			$record = \OSSMailView_Record_Model::getInstanceById($mailCrmId, 'OSSMailView');
+			if ($owner !== $record->get('assigned_user_id') && !\in_array($owner, explode(',', $record->get('shownerid')))) {
+				$fieldModel = $record->getField('shownerid');
+				$record->set($fieldModel->getName(), $owner)->setDataForSave([$fieldModel->getTableName() => [$fieldModel->getColumnName() => $owner]])->save();
+			}
+
+			$this->message->setMailCrmId($record->getId());
+			$this->message->setProcessData($this->getName(), ['mailViewId' => $record->getId()]);
+			return;
+		}
+
+		$this->message->getBody();
 		$record = \OSSMailView_Record_Model::getCleanInstance('OSSMailView');
-		$record->set('assigned_user_id', $scanner->getUserId());
-		$record->set('created_user_id', $scanner->getUserId());
-		$record->setFromUserValue('subject', \App\TextUtils::textTruncate($scanner->get('subject'), $record->getField('subject')->getMaxValue(), false));
-		$record->set('to_email', implode(',', $scanner->get('to_email')));
-		$record->set('from_email', $scanner->get('from_email'));
-		if ($scanner->has('cc_email')) {
-			$record->set('cc_email', implode(',', $scanner->get('cc_email')));
-		}
-		if ($scanner->has('bcc_email')) {
-			$record->set('bcc_email', implode(',', $scanner->get('bcc_email')));
-		}
-		$record->set('date', $scanner->get('date'));
-		$record->set('createdtime', $scanner->get('date'));
-		$record->set('uid', $scanner->get('message_id'));
-		$type = $scanner->getMailType();
+		$record->set('assigned_user_id', $owner);
+		$record->set('created_user_id', \App\User::getCurrentUserRealId());
+		$record->setFromUserValue('subject', \App\TextUtils::textTruncate($this->message->getHeader('subject'), $record->getField('subject')->getMaxValue(), false));
+		$record->set('to_email', implode(',', $this->message->getHeaderAsArray('to')));
+		$record->set('from_email', $this->message->getHeader('from'));
+		$record->set('cc_email', implode(',', $this->message->getHeaderAsArray('cc')));
+		$record->set('bcc_email', implode(',', $this->message->getHeaderAsArray('bcc')));
+		$record->set('reply_to_email', implode(',', $this->message->getHeaderAsArray('reply_to')));
+
+		$record->set('date', $this->message->getDate());
+		$record->set('createdtime', $this->message->getDate());
+		$record->set('uid', $this->message->getMsgId());
+		$type = $this->message->getMailType();
 		$record->set('type', $type);
+		$record->set('mid', $this->message->getMsgUid());
+		$record->set('mbox', $this->message->getFolderName());
 		$record->set('ossmailview_sendtype', \App\Mail\Message\Base::MAIL_TYPES[$type]);
-		$record->set('content', \App\TextUtils::htmlTruncate($scanner->get('body'), $record->getField('content')->getMaxValue()));
-		$record->set('orginal_mail', \App\TextUtils::htmlTruncate($scanner->get('headers'), $record->getField('orginal_mail')->getMaxValue()));
-		$record->setHandlerExceptions(['disableHandlers' => true]);
-		$record->setDataForSave(['vtiger_ossmailview' => [
-			'cid' => $scanner->getCid(),
-		]]);
-		$toEmails = $scanner->get('to_email') ?? [];
-		if ($scanner->has('cc_email')) {
-			$toEmails = array_merge($toEmails, $scanner->get('cc_email'));
+		$record->set('orginal_mail', \App\TextUtils::htmlTruncate($this->message->getHeaderRaw(), $record->getField('orginal_mail')->getMaxValue()));
+		$record->set('attachments_exist', (int) $this->message->hasAttachments());
+		$record->setDataForSave(['vtiger_ossmailview' => ['cid' => $this->message->getUniqueId()]]);
+
+		if ($this->message->hasAttachments()) {
+			$this->saveAttachments();
 		}
-		if ($scanner->has('bcc_email')) {
-			$toEmails = array_merge($toEmails, $scanner->get('bcc_email'));
-		}
-		$record->set('from_id', implode(',', array_unique(\App\Utils::flatten(\App\Mail\RecordFinder::findByEmail([$scanner->get('from_email')], $scanner->getEmailsFields())))));
-		$record->set('to_id', implode(',', array_unique(\App\Utils::flatten(\App\Mail\RecordFinder::findByEmail($toEmails, $scanner->getEmailsFields())))));
+		$record->set('content', \App\TextUtils::htmlTruncate($this->message->getBody(), $record->getField('content')->getMaxValue()));
+		// $record->setHandlerExceptions(['disableHandlers' => true]);
+		// $toEmails = $this->message->getHeaderAsArray('to');
+		// $toEmails = array_merge($toEmails, $this->message->getHeaderAsArray('cc'));
+		// $toEmails = array_merge($toEmails, $this->message->getHeaderAsArray('bcc'));
+
+		// $record->set('from_id', implode(',', array_unique(\App\Utils::flatten(\App\Mail\RecordFinder::findByEmail([$this->message->getHeaderAsArray('from')], $scanner->getEmailsFields())))));
+		// $record->set('to_id', implode(',', array_unique(\App\Utils::flatten(\App\Mail\RecordFinder::findByEmail($toEmails, $scanner->getEmailsFields())))));
 		$record->save();
-		$record->setHandlerExceptions([]);
-		if ($id = $record->getId()) {
-			$scanner->set('mailCrmId', $id);
+
+		$db = \App\Db::getInstance();
+		foreach ($this->attachments as $file) {
+			$db->createCommand()->insert('vtiger_ossmailview_files', [
+				'ossmailviewid' => $record->getId(),
+				'documentsid' => $file['crmid'],
+				'attachmentsid' => $file['attachmentsId'],
+			])->execute();
 		}
-		$scanner->processData['CreatedMail'] = $id;
+
+		$this->message->setMailCrmId($record->getId());
+		$this->message->setProcessData($this->getName(), ['mailViewId' => $record->getId(), 'attachments' => $this->attachments]);
+	}
+
+	public function saveAttachments()
+	{
+		$userId = $this->account->getSource()->get('assigned_user_id');
+		$useTime = $this->message->getDate();
+
+		$params = [
+			'created_user_id' => \App\User::getCurrentUserRealId(),
+			'assigned_user_id' => $userId,
+			'modifiedby' => $userId,
+			'createdtime' => $useTime,
+			'modifiedtime' => $useTime,
+			'folderid' => 'T2',
+		];
+		$maxSize = \App\Config::getMaxUploadSize();
+		foreach ($this->message->getAttachments() as $key => $file) {
+			if ($maxSize < ($size = $file->getSize())) {
+				\App\Log::error("Error - downloaded the file is too big '{$file->getName()}', size: {$size}, in mail: {$this->message->getDate()} | Folder: {$this->message->getFolderName()} | ID: {$this->message->getMsgUid()}", __CLASS__);
+				continue;
+			}
+			if ($file->validateAndSecure() && ($id = \App\Fields\File::saveFromContent($file, $params))) {
+				$this->attachments[$key] = $id;
+				$this->message->setBody(str_replace(["crm-id=\"{$key}\"", "attachment-id=\"{$key}\""], ["crm-id=\"{$id['crmid']}\"", "attachment-id=\"{$id['attachmentsId']}\""], $this->message->getBody()));
+			} else {
+				\App\Log::error("Error downloading the file '{$file->getName()}' in mail: {$this->message->getDate()} | Folder: {$this->message->getFolderName()} | ID: {$this->message->getMsgUid()}", __CLASS__);
+			}
+		}
+	}
+
+	public function checkExceptions(): bool
+	{
+		$domainExceptions = array_filter(explode(',', $this->account->getSource()->get('domain_exceptions') ?: ''));
+		$emailExceptions = array_column(\App\Json::decode($this->account->getSource()->get('email_exceptions') ?: '[]'), 'e');
+		$mail = (0 === $this->message->getMailType()) ? $this->message->getHeader('to') : $this->message->getHeader('from');
+
+		return ($domainExceptions || $emailExceptions) && (\in_array(substr(strrchr($mail, '@'), 1), $domainExceptions) || \in_array($mail, $emailExceptions));
 	}
 }

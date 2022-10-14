@@ -115,7 +115,9 @@ class Completions
 				if (!empty($attributes['type'])) {
 					switch ($attributes['type']) {
 						case 'Documents':
-								$return = '<img src="file.php?module=Documents&action=DownloadFile&record=' . $attributes['crm-id'] . '&fileid=' . $attributes['attachment-id'] . '&show=true" />';
+								$width = \App\Purifier::encodeHtml($attributes['width'] ?? '');
+								$height = \App\Purifier::encodeHtml($attributes['height'] ?? '');
+								$return = '<img src="file.php?module=Documents&action=DownloadFile&record=' . $attributes['crm-id'] . '&fileid=' . $attributes['attachment-id'] . "&show=true\" width=\"{$width}\" height=\"{$height}\"/>";
 							break;
 						default:
 							break;

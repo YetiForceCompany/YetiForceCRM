@@ -65,6 +65,11 @@ class Account extends \App\Base
 		return $instance;
 	}
 
+	public function getSource()
+	{
+		return $this->source;
+	}
+
 	public function getPassword()
 	{
 		return $this->password;
@@ -197,5 +202,17 @@ class Account extends \App\Base
 		}
 
 		return $imap;
+	}
+
+	public function getLastUid(string $folderName)
+	{
+		return (new \App\Db\Query())->select(['uid'])->from(Scanner::FOLDER_TABLE)
+			->where(['user_id' => $this->source->getId(), 'name' => $folderName])->scalar();
+	}
+
+	public function setLastUid(int $uid, string $folderName): bool
+	{
+		return (bool) \App\Db::getInstance()->createCommand()
+			->update(Scanner::FOLDER_TABLE, ['uid' => $uid], ['user_id' => $this->source->getId(), 'name' => $folderName])->execute();
 	}
 }

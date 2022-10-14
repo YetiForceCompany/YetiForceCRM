@@ -17,27 +17,27 @@ namespace App\Mail\ScannerAction;
  */
 abstract class Base
 {
-	/**
-	 * Action priority.
-	 *
-	 * @var int
-	 */
+	/** @var int Action priority. */
 	public static $priority = 9;
-	/**
-	 * Message instance.
-	 *
-	 * @var \App\Mail\Message\Base
-	 */
+
+	/** @var string[] Scope of availability. */
+	public static $available = ['Users', 'MailAccount'];
+
+	/** @var string Action label */
+	protected $label;
+
+	/** @var \App\Mail\Message\Base Message instance. */
 	protected $message;
 
 	/**
-	 * Constructor.
+	 * Get action name.
+	 * Action name | File name.
 	 *
-	 * @param \App\Mail\Message\Base $message
+	 * @return string
 	 */
-	public function __construct(\App\Mail\Message\Base $message)
+	public function getName(): string
 	{
-		$this->message = $message;
+		return basename(str_replace('\\', '/', static::class));
 	}
 
 	/**
@@ -48,19 +48,21 @@ abstract class Base
 	abstract public function process(): void;
 
 	/**
-	 * Check exceptions.
+	 * Set mail account.
 	 *
-	 * @param string $type
+	 * @param \App\Mail\Account $account
 	 *
-	 * @return bool
+	 * @return $this
 	 */
-	public function checkExceptions(string $type): bool
+	public function setAccount(\App\Mail\Account $account)
 	{
-		$return = false;
-		if ($exceptions = $this->message->getExceptions()[$type] ?? false) {
-			$mailForExceptions = (0 === $this->message->getMailType()) ? $this->message->get('to_email') : [$this->message->get('from_email')];
-			$return = (bool) array_intersect($exceptions, $mailForExceptions);
-		}
-		return $return;
+		$this->account = $account;
+		return $this;
+	}
+
+	public function setMessage(\App\Mail\Message\Base $message)
+	{
+		$this->message = $message;
+		return $this;
 	}
 }

@@ -11,6 +11,8 @@
 
 namespace App\Mail\Connections;
 
+use App\Mail\Messages;
+
 /**
  * Mail imap class.
  */
@@ -114,17 +116,34 @@ class Imap
 	public function getFolders(bool $hierarchical = true, ?string $parentFolder = null)
 	{
 		$this->connect();
-
 		$folders = [];
-		if ($hierarchical) {
-			foreach ($this->client->getFolders(true, $parentFolder) as $folder) {
-				$folders = $this->getChildrenFolders($folder, $folders);
-			}
-		} else {
-			$folders = $this->client->getFolders(false, $parentFolder);
+		foreach ($this->client->getFolders($hierarchical, $parentFolder) as $folder) {
+			$folders = $this->getChildrenFolders($folder, $folders);
 		}
 
 		return $folders;
+	}
+
+	public function getFolderByName(string $name)
+	{
+		$this->connect();
+		$imapFolderName = \App\Utils::convertCharacterEncoding($name, 'UTF-8', 'UTF7-IMAP');
+
+		return $this->client->getFolderByPath($imapFolderName);
+	}
+
+	/**
+	 * Get all messages with an uid greater than a given UID.
+	 *
+	 * @param int    $uid
+	 * @param string $folderName
+	 * @param int    $limit
+	 *
+	 * @return MessageCollection
+	 */
+	public function getMessagesGreaterThanUid(string $folderName, int $uid, int $limit)
+	{
+		return $this->getFolderByName($folderName)->query()->limit($limit)->getByUidGreater($uid);
 	}
 
 	/**

@@ -351,6 +351,8 @@ class Purifier
 				'type' => 'Text',
 				'crm-id' => 'Length',
 				'attachment-id' => 'Length',
+				'height' => 'Length',
+				'width' => 'Length',
 			]);
 			$def->addElement('s', 'Inline', 'Inline', 'Common');
 			$def->addElement('var', 'Inline', 'Inline', 'Common');

@@ -47,87 +47,94 @@ abstract class Base extends \App\Base
 	 */
 	protected $numberFieldsCache = [];
 
+	private $message;
+
+	// public function __construct($message)
+	// {
+	// 	$this->message = $message;
+	// }
+
 	/**
 	 * Main function to execute scanner engine actions.
 	 *
 	 * @return void
 	 */
-	public function process(): void
-	{
-		foreach ($this->getActions() as $action) {
-			$class = "App\\Mail\\ScannerAction\\{$action}";
-			(new $class($this))->process();
-		}
-	}
+	// public function process(): void
+	// {
+	// 	foreach ($this->getActions() as $action) {
+	// 		$class = "App\\Mail\\ScannerAction\\{$action}";
+	// 		(new $class($this))->process();
+	// 	}
+	// }
 
 	/**
 	 * Get scanner actions.
 	 *
 	 * @return array
-	 */
-	abstract public function getActions(): array;
+	 * //  */
+	// abstract public function getActions(): array;
 
-	/**
-	 * Get mail crm id.
-	 *
-	 * @return array
-	 */
-	abstract public function getMailCrmId();
+	// /**
+	//  * Get mail crm id.
+	//  *
+	//  * @return array
+	//  */
+	// abstract public function getMailCrmId();
 
-	/**
-	 * Get user id.
-	 *
-	 * @return int
-	 */
-	abstract public function getUserId(): int;
+	// /**
+	//  * Get user id.
+	//  *
+	//  * @return int
+	//  */
+	// abstract public function getUserId(): int;
 
-	/**
-	 * Get emails fields to search.
-	 *
-	 * @param string|null $searchModuleName
-	 *
-	 * @return array
-	 */
-	abstract public function getEmailsFields(?string $searchModuleName = null): array;
+	// /**
+	//  * Get emails fields to search.
+	//  *
+	//  * @param string|null $searchModuleName
+	//  *
+	//  * @return array
+	//  */
+	// abstract public function getEmailsFields(?string $searchModuleName = null): array;
 
-	/**
-	 * Find related records.
-	 *
-	 * @param bool $onlyId
-	 *
-	 * @return int[]
-	 */
-	abstract public function findRelatedRecords(bool $onlyId = false): array;
+	// /**
+	//  * Find related records.
+	//  *
+	//  * @param bool $onlyId
+	//  *
+	//  * @return int[]
+	//  */
+	// abstract public function findRelatedRecords(bool $onlyId = false): array;
 
-	/**
-	 * Find related records by emails.
-	 *
-	 * @return int[]
-	 */
-	abstract public function findRelatedRecordsByEmail(): array;
+	// /**
+	//  * Find related records by emails.
+	//  *
+	//  * @return int[]
+	//  */
+	// abstract public function findRelatedRecordsByEmail(): array;
 
-	/**
-	 * Find related records by subject.
-	 *
-	 * @return int[]
-	 */
-	abstract public function findRelatedRecordsBySubject(): array;
+	// /**
+	//  * Find related records by subject.
+	//  *
+	//  * @return int[]
+	//  */
+	// abstract public function findRelatedRecordsBySubject(): array;
 
-	/**
-	 * Get exceptions.
-	 *
-	 * @return array
-	 */
-	abstract public function getExceptions(): array;
+	// /**
+	//  * Get exceptions.
+	//  *
+	//  * @return array
+	//  */
+	// abstract public function getExceptions(): array;
 
-	/**
-	 * Initialize with request data.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return void
-	 */
-	abstract public function initFromRequest(\App\Request $request);
+	// /**
+	//  * Initialize with request data.
+	//  *
+	//  * @param \App\Request $request
+	//  *
+	//  * @return void
+	//  */
+	// abstract public function initFromRequest(\App\Request $request);
 
 	/**
 	 * Get mail type.
