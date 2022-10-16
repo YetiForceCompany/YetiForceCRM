@@ -23,19 +23,19 @@ class LinkByFields extends Base
 	/** {@inheritdoc} */
 	public function process(): void
 	{
-		$scanner = $this->message;
-		if (empty($scanner->processData['CreatedMail']) || false === $scanner->getMailCrmId()) {
+		$owner = $this->account->getSource()->get('assigned_user_id');
+		if (empty($this->message->processData['CreatedMail']) || !($mailCrmId = $this->message->getMailCrmId($owner))) {
 			return;
 		}
 		$returnIds = [];
-		if ($ids = $scanner->findRelatedRecords(true)) {
+		if ($ids = $this->findRelatedRecords(true)) {
 			$relationModel = new \OSSMailView_Relation_Model();
 			foreach ($ids as $id) {
-				if ($relationModel->addRelation($scanner->getMailCrmId(), $id, $scanner->get('date'))) {
+				if ($relationModel->addRelation($mailCrmId, $id, $this->message->getDate())) {
 					$returnIds[] = $id;
 				}
 			}
 		}
-		$scanner->processData['LinkByFields'] = $returnIds;
+		$this->message->setProcessData($this->getName(), $returnIds);
 	}
 }

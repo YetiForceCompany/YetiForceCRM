@@ -17,7 +17,7 @@ use App\Mail\RecordFinder;
 /**
  * Base mail scanner action class.
  */
-class CreatedHelpDesk extends Base
+class CreatedHelpDesk extends CreatedMail
 {
 	/** {@inheritdoc} */
 	public static $priority = 5;
@@ -25,56 +25,64 @@ class CreatedHelpDesk extends Base
 	/** {@inheritdoc} */
 	public function process(): void
 	{
-		if ($this->checkExceptions('CreatedHelpDesk')) {
+		if ($this->checkExceptions() || ($prefix = RecordFinder::getRecordNumberFromString($this->message->getHeader('subject'), 'HelpDesk')) && \App\Record::getIdByRecordNumber($prefix, 'HelpDesk')) {
 			return;
 		}
-		if (($prefix = RecordFinder::getRecordNumberFromString($this->message->get('subject'), 'HelpDesk')) && \App\Record::getIdByRecordNumber($prefix, 'HelpDesk')) {
-			return;
-		}
-		$fromEmail = [$this->message->get('from_email')];
-		$contactId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $this->message->getEmailsFields('Contacts'))));
-		$parentId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $this->message->getEmailsFields('Accounts'))));
+		$owner = $this->account->getSource()->get('assigned_user_id');
+		$fromEmail = $this->message->getEmail('from');
+		$contactId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $this->getEmailsFields('Contacts'))));
+		$parentId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $this->getEmailsFields('Accounts'))));
 		if (!$parentId) {
-			$parentId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $this->message->getEmailsFields('Vendors'))));
+			$parentId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $this->getEmailsFields('Vendors'))));
 		}
 		if (!$parentId && $contactId) {
 			$parentId = \App\Record::getParentRecord($contactId, 'Contacts');
 		}
 		$recordModel = \Vtiger_Record_Model::getCleanInstance('HelpDesk');
 		$this->loadServiceContracts($recordModel, $parentId);
-		$recordModel->set('assigned_user_id', $this->message->getUserId());
-		$recordModel->set('created_user_id', $this->message->getUserId());
-		$recordModel->set('createdtime', $this->message->get('date'));
-		$recordModel->setFromUserValue('ticket_title', \App\TextUtils::textTruncate($this->message->get('subject'), $recordModel->getField('ticket_title')->getMaxValue(), false));
-		$recordModel->set('description', \App\TextUtils::htmlTruncate($this->message->get('body'), $recordModel->getField('description')->getMaxValue()));
+		$recordModel->set('assigned_user_id', $owner);
+		$recordModel->set('created_user_id', \App\User::getCurrentUserRealId());
+		$recordModel->set('createdtime', $this->message->getDate());
+		$recordModel->setFromUserValue('ticket_title', \App\TextUtils::textTruncate($this->message->getHeader('subject'), $recordModel->getField('ticket_title')->getMaxValue(), false));
+
+		$mailId = $this->message->getMailCrmId($owner);
+		$this->message->getBody();
+		if ($mailId) {
+			$this->attachments = $this->message->processData['CreatedMail']['attachments'] ?? (new \App\Db\Query())->select(['crmid' => 'documentsid'])->from('vtiger_ossmailview_files')->where(['ossmailviewid' => $mailId])->all();
+		} elseif ($this->message->hasAttachments()) {
+			$this->message->saveAttachments([
+				'assigned_user_id' => $owner,
+				'modifiedby' => $owner,
+			]);
+		}
+
+		$recordModel->set('description', \App\TextUtils::htmlTruncate($this->message->getBody(true), $recordModel->getField('description')->getMaxValue()));
 		$recordModel->set('ticketstatus', \Config\Modules\OSSMailScanner::$helpdeskCreateDefaultStatus);
+
 		if ($contactId) {
 			$recordModel->ext['relations'][] = [
 				'relatedModule' => 'Contacts',
 				'relatedRecords' => [$contactId],
 			];
 		}
-		if ($mailId = $this->message->getMailCrmId()) {
+		if ($mailId) {
 			$recordModel->ext['relations'][] = [
 				'reverse' => true,
 				'relatedModule' => 'OSSMailView',
 				'relatedRecords' => [$mailId],
-				'params' => $this->message->get('date'),
+				'params' => $this->message->getDate(),
 			];
 		}
-		$recordModel->save();
-		$id = $recordModel->getId();
-		$this->message->processData['CreatedHelpDesk'] = $id;
-		if ($mailId) {
-			$dbCommand = \App\Db::getInstance()->createCommand();
-			$query = (new \App\Db\Query())->select(['documentsid'])->from('vtiger_ossmailview_files')->where(['ossmailviewid' => $mailId]);
-			$dataReader = $query->createCommand()->query();
-			while ($documentId = $dataReader->readColumn(0)) {
-				$dbCommand->insert('vtiger_senotesrel', ['crmid' => $id, 'notesid' => $documentId])->execute();
-			}
-			$dataReader->close();
-			unset($dataReader,$query, $dbCommand, $recordModel);
+
+		foreach ($this->attachments as $file) {
+			$recordModel->ext['relations'][] = [
+				'relatedModule' => 'Documents',
+				'relatedRecords' => [$file['crmid']],
+			];
 		}
+
+		$recordModel->save();
+		$this->message->setProcessData($this->getName(), $recordModel->getId());
 	}
 
 	/**

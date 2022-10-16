@@ -26,6 +26,8 @@ class Imap extends Base
 	protected $actions = [];
 	protected $body;
 	protected $mailCrmId;
+	protected $documents = [];
+	protected $attachments = [];
 	/**
 	 * @var int Mail type
 	 *
@@ -84,7 +86,7 @@ class Imap extends Base
 	public function getUniqueId()
 	{
 		if (!$this->has('cid')) {
-			$uid = hash('sha256', $this->getHeader('from') . '|' . $this->getDate() . '|' . $this->getHeader('subject') . '|' . $this->getMsgId());
+			$uid = hash('sha256', implode(',', $this->getEmail('from')) . '|' . $this->getDate() . '|' . $this->getHeader('subject') . '|' . $this->getMsgId());
 			$this->set('cid', $uid);
 		}
 
@@ -118,6 +120,12 @@ class Imap extends Base
 		return $attr ? $attr->__toString() : '';
 	}
 
+	public function getEmail(string $key): array
+	{
+		$attr = $this->message->header->get($key);
+		return $attr ? array_map(fn ($data) => $data->mail, $attr->all()) : [];
+	}
+
 	public function getHeaderAsArray(string $key): array
 	{
 		$attr = $this->message->header->get($key);
@@ -140,10 +148,10 @@ class Imap extends Base
 	{
 		if (null === $this->mailType) {
 			$to = false;
-			$from = (bool) \App\Mail\RecordFinder::findUserEmail([$this->getHeader('from')]);
+			$from = (bool) \App\Mail\RecordFinder::findUserEmail($this->getEmail('from'));
 			foreach (['to', 'cc', 'bcc'] as $header) {
-				if (($attr = $this->message->header->get($header)) && $attr->toArray()) {
-					$to = (bool) \App\Mail\RecordFinder::findUserEmail($attr->toArray());
+				if ($emails = $this->getEmail($header)) {
+					$to = (bool) \App\Mail\RecordFinder::findUserEmail($emails);
 					break;
 				}
 			}
@@ -173,20 +181,27 @@ class Imap extends Base
 	/**
 	 * Get the Message  body.
 	 *
-	 * @return string|null
+	 * @param bool $purify
+	 *
+	 * @return string
 	 */
-	public function getBody()
+	public function getBody(bool $purify = true)
 	{
 		if (null === $this->body) {
 			if ($this->hasHTMLBody()) {
 				$this->body = $this->message->getHTMLBody();
 				$this->parseBody();
 			} else {
-				$this->body = $this->message->getTextBody();
+				$this->body = $this->message->getTextBody() ?? '';
 			}
 		}
 
-		return $this->body;
+		return $purify ? \App\Purifier::decodeHtml(\App\Purifier::purifyHtml($this->body)) : $this->body;
+	}
+
+	public function getBodyRaw()
+	{
+		return $this->hasHTMLBody() ? $this->message->getHTMLBody() : $this->message->getTextBody();
 	}
 
 	public function setBody(string $body)
@@ -218,10 +233,10 @@ class Imap extends Base
 		// 		}
 		// 	}
 		// }
-		$encoding = mb_detect_encoding($html, mb_list_encodings(), true);
-		if ($encoding && 'UTF-8' !== $encoding) {
-			$html = mb_convert_encoding($html, 'UTF-8', $encoding);
-		}
+		// $encoding = mb_detect_encoding($html, mb_list_encodings(), true);
+		// if ($encoding && 'UTF-8' !== $encoding) {
+		// 	$html = mb_convert_encoding($html, 'UTF-8', $encoding);
+		// }
 		$html = preg_replace(
 			[':<(head|style|script).+?</\1>:is', // remove <head>, <styleand <scriptsections
 				':<!\[[^]<]+\]>:', // remove <![if !mso]and friends
@@ -256,26 +271,59 @@ class Imap extends Base
 
 	public function hasAttachments(): bool
 	{
+		$this->getBody(false);
 		return !empty($this->files) || $this->message->hasAttachments();
 	}
 
-	public function getAttachments()
+	public function getAttachments(): array
 	{
-		$this->files;
 		foreach ($this->message->getAttachments() as $attachment) {
-			$this->files[$attachment->id] = \App\Fields\File::loadFromContent($attachment->getContent(), $attachment->getName(), ['validateAllCodeInjection' => true]);
+			$this->files[$attachment->id] = \App\Fields\File::loadFromContent($attachment->getContent(), $attachment->getName(), ['validateAllCodeInjection' => true, 'id' => $attachment->id]);
 			$this->message->getAttachments()->forget($attachment->id);
 		}
 
 		return $this->files;
 	}
 
+	public function getDocuments(): array
+	{
+		return $this->documents;
+	}
+
+	public function saveAttachments(array $docData)
+	{
+		$this->getBody(false);
+		$useTime = $this->getDate();
+		$userId = \App\User::getCurrentUserRealId();
+
+		$params = array_merge([
+			'created_user_id' => $userId,
+			'assigned_user_id' => $userId,
+			'modifiedby' => $userId,
+			'createdtime' => $useTime,
+			'modifiedtime' => $useTime,
+			'folderid' => 'T2',
+		], $docData);
+
+		$maxSize = \App\Config::getMaxUploadSize();
+		foreach ($this->getAttachments() as $key => $file) {
+			if ($maxSize < ($size = $file->getSize())) {
+				\App\Log::error("Error - downloaded the file is too big '{$file->getName()}', size: {$size}, in mail: {$this->getDate()} | Folder: {$this->getFolderName()} | ID: {$this->getMsgUid()}", __CLASS__);
+				continue;
+			}
+			if ($file->validateAndSecure() && ($id = \App\Fields\File::saveFromContent($file, $params))) {
+				$this->documents[$key] = $id;
+				$this->setBody(str_replace(["crm-id=\"{$key}\"", "attachment-id=\"{$key}\""], ["crm-id=\"{$id['crmid']}\"", "attachment-id=\"{$id['attachmentsId']}\""], $this->getBody(false)));
+			} else {
+				\App\Log::error("Error downloading the file '{$file->getName()}' in mail: {$this->getDate()} | Folder: {$this->getFolderName()} | ID: {$this->getMsgUid()}", __CLASS__);
+			}
+		}
+	}
+
 	/**
 	 * Get file from image.
 	 *
 	 * @param DOMElement $element
-	 * @param array      $params
-	 * @param array      $attachments
 	 *
 	 * @return array
 	 */

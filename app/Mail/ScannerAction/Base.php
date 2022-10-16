@@ -65,4 +65,85 @@ abstract class Base
 		$this->message = $message;
 		return $this;
 	}
+
+	public function findRelatedRecords(bool $onlyId = false): array
+	{
+		$ids = $this->findRelatedRecordsByEmail();
+		if ($idsBySubject = $this->findRelatedRecordsBySubject()) {
+			$ids[] = current($idsBySubject);
+		}
+		if (!$onlyId) {
+			foreach ($ids as &$id) {
+				$id = [
+					'id' => $id,
+					'module' => \App\Record::getType($id),
+					'label' => \App\Record::getLabel($id),
+				];
+			}
+		}
+		return $ids;
+	}
+
+	public function findRelatedRecordsByEmail(): array
+	{
+		if (!isset($this->message->processData['findByEmail'])) {
+			$emails = array_unique(array_merge($this->message->getEmail('from'), $this->message->getEmail('to'), $this->message->getEmail('cc'), $this->message->getEmail('bcc')));
+			$this->message->setProcessData('findByEmail', \App\Utils::flatten(\App\Mail\RecordFinder::findByEmail($emails, $this->getEmailsFields())));
+		}
+
+		return $this->message->processData['findByEmail'];
+	}
+
+	public function findRelatedRecordsBySubject(): array
+	{
+		if (!isset($this->message->processData['findBySubject'])) {
+			$this->message->processData['findBySubject'] = \App\Mail\RecordFinder::findBySubject($this->message->getHeader('subject'), $this->getNumberFields());
+		}
+
+		return $this->message->processData['findBySubject'];
+	}
+
+	public function getEmailsFields(?string $searchModuleName = null): array
+	{
+		$cacheKey = $searchModuleName ?? '-';
+		if (isset($this->emailsFieldsCache[$cacheKey])) {
+			return $this->emailsFieldsCache[$cacheKey];
+		}
+
+		$fields = [];
+		if ($mailScannerFields = $this->account->getSource()->get('scanner_fields')) {
+			foreach (explode(',', trim($mailScannerFields, ',')) as $field) {
+				$field = explode('|', $field);
+				if (($searchModuleName && $searchModuleName !== $field[1]) || !\in_array($field[3], [13, 319])) {
+					continue;
+				}
+				$fields[$field[1]][$field[3]][] = $field[2];
+			}
+		}
+		$this->emailsFieldsCache[$cacheKey] = $fields;
+
+		return $fields;
+	}
+
+	public function getNumberFields(?string $searchModuleName = null): array
+	{
+		$cacheKey = $searchModuleName ?? '-';
+		if (isset($this->numberFieldsCache[$cacheKey])) {
+			return $this->numberFieldsCache[$cacheKey];
+		}
+
+		$fields = [];
+		if ($mailScannerFields = $this->account->getSource()->get('scanner_fields')) {
+			foreach (explode(',', trim($mailScannerFields, ',')) as $field) {
+				$field = explode('|', $field);
+				if (($searchModuleName && $searchModuleName !== $field[1]) || 4 !== (int) $field[3]) {
+					continue;
+				}
+				$fields[$field[1]][$field[3]][] = $field[2];
+			}
+		}
+
+		$this->numberFieldsCache[$cacheKey] = $fields;
+		return $fields;
+	}
 }

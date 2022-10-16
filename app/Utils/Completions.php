@@ -112,7 +112,7 @@ class Completions
 			$text = preg_replace_callback('/<yetiforce\s(.*)><\/yetiforce>/', function (array $matches) {
 				$attributes = \App\TextUtils::getTagAttributes($matches[0]);
 				$return = '';
-				if (!empty($attributes['type'])) {
+				if (!empty($attributes['type']) && !empty($attributes['crm-id'])) {
 					switch ($attributes['type']) {
 						case 'Documents':
 								$width = \App\Purifier::encodeHtml($attributes['width'] ?? '');
