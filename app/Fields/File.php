@@ -960,7 +960,7 @@ class File
 	 */
 	public static function saveFromContent(self $file, $params = [])
 	{
-		$fileName = $file->getName();
+		$notesTitle = $fileName = \App\Purifier::decodeHtml(\App\Purifier::purify($file->getName()));
 		$fileNameLength = \App\TextUtils::getTextLength($fileName);
 		$record = \Vtiger_Record_Model::getCleanInstance('Documents');
 		if ($fileNameLength > ($maxLength = $record->getField('filename')->getMaxValue())) {
@@ -972,9 +972,11 @@ class File
 			}
 			$fileName = \App\TextUtils::textTruncate($fileName, $maxLength - $extLength, false) . $ext;
 		}
-		$fileName = \App\Purifier::decodeHtml(\App\Purifier::purify($fileName));
+		if ($fileNameLength > ($maxLength = $record->getField('notes_title')->getMaxValue())) {
+			$notesTitle = \App\TextUtils::textTruncate((($params['titlePrefix'] ?? '') . $fileName), $maxLength, false);
+		}
 		$record->setData($params);
-		$record->set('notes_title', ($params['titlePrefix'] ?? '') . $fileName);
+		$record->set('notes_title', $notesTitle);
 		$record->set('filename', $fileName);
 		$record->set('filestatus', 1);
 		$record->set('filelocationtype', 'I');

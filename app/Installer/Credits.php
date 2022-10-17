@@ -27,19 +27,14 @@ class Credits
 	 */
 	public static $licenses = [
 		'bootstrap-tabdrop' => 'Apache-2.0',
-		'color-convert' => 'MIT',
 		'@fortawesome/fontawesome-free' => 'MIT',
-		'fontawesome-web' => 'MIT',
 		'ckeditor/ckeditor' => 'MPL-1.1+',
 		'block-ui' => 'MIT',
-		'jquery-slimscroll' => 'MIT',
 		'html5shiv' => 'MIT',
+		'jquery-slimscroll' => 'MIT',
 		'jquery-lazy' => 'MIT',
 		'nette/php-generator' => 'BSD-3-Clause',
 		'nette/utils' => 'BSD-3-Clause',
-		'@mdi/font' => 'MIT',
-		'domhandler' => 'BSD-2-Clause',
-		'domutils' => 'BSD-2-Clause',
 		'@vue/compiler-sfc' => 'MIT',
 	];
 
@@ -206,7 +201,7 @@ class Credits
 	 *
 	 * @return array
 	 */
-	public static function getLibraryValues($name, $dir): array
+	public static function getLibraryValues(string $name, string $dir): array
 	{
 		$library = ['name' => $name, 'version' => '', 'license' => '', 'homepage' => ''];
 		$existJsonFiles = true;
@@ -244,7 +239,7 @@ class Credits
 	 *
 	 * @return array
 	 */
-	public static function getLicenseInformation($dir, $libraryName)
+	public static function getLicenseInformation(string $dir, string $libraryName): array
 	{
 		$licenseError = false;
 		$returnLicense = '';
@@ -275,23 +270,23 @@ class Credits
 						$returnLicense = static::$licenses[$libraryName] . " [{$returnLicense}]";
 						$licenseToDisplay = static::$licenses[$libraryName];
 						$licenseError = false;
-						$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $licenseToDisplay . '.txt');
+						$showLicenseModal = self::checkIfLicenseFileExists($licenseToDisplay);
 						break;
 					}
 					if ($returnLicense) {
-						$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $returnLicense . '.txt');
+						$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
 						break;
 					}
 				} else {
 					if (isset(static::$licenses[$libraryName])) {
 						$returnLicense = static::$licenses[$libraryName];
-						$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $returnLicense . '.txt');
+						$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
 					}
 				}
 			} else {
 				if (isset(static::$licenses[$libraryName])) {
 					$returnLicense = static::$licenses[$libraryName];
-					$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $returnLicense . '.txt');
+					$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
 				}
 			}
 		}
@@ -305,7 +300,7 @@ class Credits
 	 *
 	 * @return bool
 	 */
-	public static function validateLicenseName($license)
+	public static function validateLicenseName($license): bool
 	{
 		if (!$license) {
 			return true;
@@ -329,7 +324,7 @@ class Credits
 	 *
 	 * @return bool
 	 */
-	public static function checkIfLicenseFileExists($license)
+	public static function checkIfLicenseFileExists(string $license): bool
 	{
 		$filePath = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $license . '.txt';
 		return file_exists($filePath);
@@ -342,7 +337,7 @@ class Credits
 	 *
 	 * @return array
 	 */
-	public static function getCredits()
+	public static function getCredits(): array
 	{
 		return ['static' => self::getBasicLibraries(), 'vendor' => self::getVendorLibraries(), 'public' => self::getPublicLibraries(), 'vue' => self::getVueLibs()];
 	}
