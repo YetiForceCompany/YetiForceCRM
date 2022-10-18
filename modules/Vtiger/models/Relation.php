@@ -664,10 +664,13 @@ class Vtiger_Relation_Model extends \App\Base
 	 * Set handler exceptions.
 	 *
 	 * @param array $exceptions
+	 * 
+	 * @return $this
 	 */
-	public function setHandlerExceptions($exceptions): void
+	public function setHandlerExceptions(array $exceptions)
 	{
 		$this->handlerExceptions = $exceptions;
+		return $this;
 	}
 
 	/**
