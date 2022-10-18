@@ -44,13 +44,14 @@
 										</label>
 										{if $FIELD_MODEL->getName() === 'redirect_uri_id'}
 											{assign var=VALUE value=$FIELD_MODEL->get('fieldvalue')}
+											{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 											<div class="input-group fieldValue m-auto">
 												<select id="{$FIELD_MODEL->getName()}" name="{$FIELD_MODEL->getName()}" tabindex="0" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}" class="select2 form-control" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-fieldinfo="{\App\Json::encode($FIELD_MODEL->getFieldInfo())|escape}" data-select="allowClear" data-placeholder="{\App\Language::translate('LBL_SELECT_OPTION')}">
 													<optgroup class="p-0">
-														<option value="" {if !$VALUE || !in_array($VALUE, $FIELD_MODEL->getPicklistValues())} selected{/if}>{\App\Language::translate('LBL_SELECT_OPTION')}</option>
+														<option value="" {if !$VALUE || !isset($PICKLIST_VALUES[$VALUE])} selected{/if}>{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 													</optgroup>
-													{foreach from=$FIELD_MODEL->getPicklistValues() key=KEY item=VALUE}
-														<option value="{\App\Purifier::encodeHtml($KEY)}" data-redirect="{\App\Mail\Server::getRedirectUriByServiceId($KEY)|escape}" {if $VALUE === $KEY} selected{/if}>{\App\Purifier::encodeHtml($VALUE)}</option>
+													{foreach from=$PICKLIST_VALUES key=KEY item=NAME}
+														<option value="{\App\Purifier::encodeHtml($KEY)}" data-redirect="{\App\Mail\Server::getRedirectUriByServiceId($KEY)|escape}" {if $VALUE === $KEY} selected{/if}>{\App\Purifier::encodeHtml($NAME)}</option>
 													{/foreach}
 												</select>
 												<span class="input-group-append">

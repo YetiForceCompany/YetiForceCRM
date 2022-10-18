@@ -128,13 +128,7 @@ class Settings_MailServers_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getBlockIcon($name): string
 	{
-		$blocks = [
-			'BL_BASIC_DATA' => ['icon' => 'yfi-company-detlis'],
-			'BL_CONDITIONS' => ['icon' => 'fas fa-filter fa-sm'],
-			'BL_ASSIGN_USERS' => ['icon' => 'yfi yfi-users-2'],
-			'BL_USER_SELECTION_CONDITIONS' => ['icon' => 'mdi mdi-account-filter-outline'],
-		];
-		return $blocks[$name]['icon'] ?? '';
+		return '';
 	}
 
 	/**
@@ -376,6 +370,7 @@ class Settings_MailServers_Module_Model extends Settings_Vtiger_Module_Model
 					'maximumlength' => '2147483647',
 					'purifyType' => \App\Purifier::INTEGER,
 					'blockLabel' => 'BL_BASE',
+					'tooltip' => 'LBL_REDIRECT_URI_ID_DESC',
 					'defaultvalue' => '',
 					'table' => $this->getBaseTable(),
 					'picklistValues' => array_map(fn ($service) => $service['name'], \App\Integrations\Services::getByType(\App\Integrations\Services::OAUTH))

@@ -19,10 +19,10 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	public function checkPermission(App\Request $request)
 	{
 		$currentUserPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$request->isEmpty('related_parent_module') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('related_parent_module', 2))) {
+		if (!$currentUserPrivilegesModel->hasModulePermission($request->getModule())) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (!$request->isEmpty('src_module') && (!\App\Security\AdminAccess::isPermitted($request->getByType('src_module', 2)) && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('src_module', 2)))) {
+		if (!$request->isEmpty('related_parent_module') && !$currentUserPrivilegesModel->hasModulePermission($request->getByType('related_parent_module', 2))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!$request->isEmpty('related_parent_id', true)) {
@@ -32,7 +32,15 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
-		if (!$request->isEmpty('src_record', true) && !\in_array($request->getByType('src_module', 2), ['Users', 'WebserviceUsers']) && !\App\Privilege::isPermitted($request->getByType('src_module', 2), 'DetailView', $request->getInteger('src_record'))) {
+
+		$srcModule = $request->isEmpty('src_module', true) ? '' : $request->getByType('src_module', \App\Purifier::ALNUM);
+		if ($srcModule && (!\App\Security\AdminAccess::isPermitted($srcModule) && !$currentUserPrivilegesModel->hasModulePermission($srcModule))) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
+		}
+		if (!$request->isEmpty('src_record', true) && (!$srcModule || ('Users' !== $srcModule && (
+				(\App\Module::getModuleId($srcModule) && !\App\Privilege::isPermitted($srcModule, 'DetailView', $request->getInteger('src_record'))) || !\App\Security\AdminAccess::isPermitted($srcModule)
+			)))
+		) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}

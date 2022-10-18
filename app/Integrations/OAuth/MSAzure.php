@@ -34,7 +34,7 @@ class MSAzure extends AbstractProvider
 	 * @see https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent
 	 */
 	protected $scopes;
-	protected $scopesForAction = ['MailAccount' => ['https://outlook.office.com/IMAP.AccessAsUser.All', 'offline_access', 'email', 'openid']];
+	protected $scopesForAction = ['MailAccount' => ['openid', 'https://outlook.office.com/IMAP.AccessAsUser.All', 'offline_access', 'email',  'https://outlook.office.com/SMTP.Send']];
 
 	/**
 	 * @var string If set, this will be sent to google as the "access_type" parameter.
