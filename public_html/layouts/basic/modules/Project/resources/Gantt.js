@@ -203,8 +203,8 @@ class Gantt {
 				LANG.JS_JULY,
 				LANG.JS_AUGUST,
 				LANG.JS_SEPTEMBER,
-				LANG.JS_NOVEMBER,
 				LANG.JS_OCTOBER,
+				LANG.JS_NOVEMBER,
 				LANG.JS_DECEMBER
 			],
 			monthsShort: [
@@ -217,8 +217,8 @@ class Gantt {
 				LANG.JS_JUL,
 				LANG.JS_AUG,
 				LANG.JS_SEP,
-				LANG.JS_NOV,
 				LANG.JS_OCT,
+				LANG.JS_NOV,
 				LANG.JS_DEC
 			],
 			ordinal: (n) => `${n}`,
