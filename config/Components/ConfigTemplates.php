@@ -381,6 +381,8 @@ return [
 		'advancedVerification' => [
 			'default' => true,
 			'description' => 'Enable advanced phone number validation. Enabling it will block saving invalid phone number.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool',
 		],
 		'advancedFormat' => [
 			'default' => new \Nette\PhpGenerator\PhpLiteral('\libphonenumber\PhoneNumberFormat::RFC3966'),
