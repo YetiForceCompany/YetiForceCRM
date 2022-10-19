@@ -64,10 +64,10 @@
   dependencies:
     "@pnotify/core" "^5.2.0"
 
-"@vue/compiler-sfc@2.7.11":
-  version "2.7.11"
-  resolved "https://registry.yarnpkg.com/@vue/compiler-sfc/-/compiler-sfc-2.7.11.tgz#3b8a60b4145f615a5da023492ee34cc3bb2b545b"
-  integrity sha512-Cf8zvrZWjROgd8yPL8Tc+O3q/Y8ZGM0Y+8blrAvj1RQsVouzUY0oHcx8BA7Hybhb90JRnzeApFrlQGZRUdYpRw==
+"@vue/compiler-sfc@2.7.13":
+  version "2.7.13"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-sfc/-/compiler-sfc-2.7.13.tgz#818944f4a9616b752d48dac6a56bffe2db88bdff"
+  integrity sha512-zzu2rLRZlgIU+OT3Atbr7Y6PG+LW4wVQpPfNRrGDH3dM9PsrcVfa+1pKb8bW467bGM3aDOvAnsYLWVpYIv3GRg==
   dependencies:
     "@babel/parser" "^7.18.4"
     postcss "^8.4.14"
@@ -466,23 +466,23 @@ popper.js@^1.15.0:
   integrity sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==
 
 postcss@^8.4.14:
-  version "8.4.17"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.17.tgz#f87863ec7cd353f81f7ab2dec5d67d861bbb1be5"
-  integrity sha512-UNxNOLQydcOFi41yHNMcKRZ39NeXlr8AxGuZJsdub8vIb12fHzcq37DTU/QtbI6WLxNg2gF9Z+8qtRwTj1UI1Q==
+  version "8.4.18"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.18.tgz#6d50046ea7d3d66a85e0e782074e7203bc7fbca2"
+  integrity sha512-Wi8mWhncLJm11GATDaQKobXSNEYGUHeQLiQqDFG1qQ5UTDPTEvKw0Xt5NsTpktGTwLps3ByrWsBrG0rB8YQ9oA==
   dependencies:
     nanoid "^3.3.4"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
 quasar@^1.6.1:
-  version "1.21.1"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.21.1.tgz#c72286221acbc23df1d91579d78defa5eb5681d6"
-  integrity sha512-48OGUhDUv9t48PCNitJTzgUYXb4/Vh2ZZMv7Bwr2rvQUydv2/LkPLcEj45AsfnM5kNHhtQVC2PWvxwlzZbdnsQ==
+  version "1.22.0"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.22.0.tgz#74fc8e0d5577409e33277271fcefcfabbc588e59"
+  integrity sha512-iV3n/DTKUeVsNSUDkoVLhxeJEOZlWs+HZyU5WLlGkRgWmUKu51FHguyZnfoTmRlW0mT1EvFV6F23j8ckVgIyZA==
 
 regenerator-runtime@^0.13.4:
-  version "0.13.9"
-  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.9.tgz#8925742a98ffd90814988d7566ad30ca3b263b52"
-  integrity sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==
+  version "0.13.10"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.10.tgz#ed07b19616bcbec5da6274ebc75ae95634bfc2ee"
+  integrity sha512-KepLsg4dU12hryUO7bp/axHAKvwGOCV0sGloQtpagJ12ai+ojVDqkeGSiRX1zlq+kjIMZ1t7gpze+26QqtdGqw==
 
 resize-observer-polyfill@^1.5.1:
   version "1.5.1"
@@ -579,20 +579,20 @@ vue-resize@^0.4.5:
   integrity sha512-bhP7MlgJQ8TIkZJXAfDf78uJO+mEI3CaLABLjv0WNzr4CcGRGPIAItyWYnP6LsPA4Oq0WE+suidNs6dgpO4RHg==
 
 vue-virtual-scroller@^1.0.10:
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/vue-virtual-scroller/-/vue-virtual-scroller-1.0.10.tgz#fdf243240001f05bd79aa77f2e2e60403760e2fb"
-  integrity sha512-Hn4qSBDhRY4XdngPioYy/ykDjrLX/NMm1fQXm/4UQQ/Xv1x8JbHGFZNftQowTcfICgN7yc31AKnUk1UGLJ2ndA==
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/vue-virtual-scroller/-/vue-virtual-scroller-1.1.2.tgz#b8a6362f177abf3f2149ce1eac18013c71fe353b"
+  integrity sha512-SkUyc7QHCJFB5h1Fya7LxVizlVzOZZuFVipBGHYoTK8dwLs08bIz/tclvRApYhksaJIm/nn51inzO2UjpGJPMQ==
   dependencies:
     scrollparent "^2.0.1"
     vue-observe-visibility "^0.4.4"
     vue-resize "^0.4.5"
 
 vue@^2.6.10, vue@^2.6.11:
-  version "2.7.11"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.7.11.tgz#e051d54a131e7094c3ea3a86b2c6ecf25f8d0002"
-  integrity sha512-VPAW5QelT7Tx6UoSw/cwx/jDROOKAK1y/Q0o7HkmVJ1WAypE7w1+UoFa+KsGxy1aYdHPU1oODB3vR6XwSfVhDg==
+  version "2.7.13"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.7.13.tgz#e9e499cc6da46dc7941c2510193b15aa6a84a79f"
+  integrity sha512-QnM6ULTNnPmn71eUO+4hdjfBIA3H0GLsBnchnI/kS678tjI45GOUZhXd0oP/gX9isikXz1PAzSnkPspp9EUNfQ==
   dependencies:
-    "@vue/compiler-sfc" "2.7.11"
+    "@vue/compiler-sfc" "2.7.13"
     csstype "^3.1.0"
 
 whatwg-fetch@^3.6.2:
