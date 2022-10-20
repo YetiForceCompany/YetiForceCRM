@@ -73,25 +73,42 @@ class VTEmailTemplateTask extends VTTask
 			if (!empty($this->copy_email)) {
 				$mailerContent['bcc'] = $this->copy_email;
 			}
-			if (!empty($this->attachments)) {
-				$attachmentsInfo = explode('::', $this->attachments);
-				$ids = [];
-				$relationListView = null;
-				if (\count($attachmentsInfo) > 1) {
-					if (!$recordModel->isEmpty($attachmentsInfo[1]) && App\Record::isExists($recordModel->get($attachmentsInfo[1]), $attachmentsInfo[0])) {
-						$relationListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($recordModel->get($attachmentsInfo[1]), $attachmentsInfo[0]), 'Documents');
-					}
-				} else {
-					$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'Documents');
-				}
-				if ($relationListView) {
-					$queryGenerator = $relationListView->getRelationQuery(true);
-					$queryGenerator->setFields(['id']);
-					$ids = $queryGenerator->createQuery()->column();
-					$mailerContent['attachments'] = ['ids' => $ids];
-				}
+			if ($attachments = $this->getAttachments($recordModel)) {
+				$mailerContent['attachments'] = ['ids' => $attachments];
 			}
 			\App\Mailer::sendFromTemplate($mailerContent);
 		}
+	}
+
+	public function getAttachments(Vtiger_Record_Model $recordModel): array
+	{
+		$documentIds = [];
+		if (!empty($this->attachments)) {
+			$attachmentsInfo = explode('::', $this->attachments);
+			$relationListView = null;
+			if (\count($attachmentsInfo) > 1) {
+				if (!$recordModel->isEmpty($attachmentsInfo[1]) && App\Record::isExists($recordModel->get($attachmentsInfo[1]), $attachmentsInfo[0])) {
+					$relationListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($recordModel->get($attachmentsInfo[1]), $attachmentsInfo[0]), 'Documents');
+				} elseif ('allAttachments' === $attachmentsInfo[1]) {
+					$currentValue = $recordModel->get($attachmentsInfo[0]);
+					$documentIds = $currentValue ? explode(',', $currentValue) : [];
+				} elseif ('latestAttachments' === $attachmentsInfo[1]
+				 && false !== $recordModel->getPreviousValue($attachmentsInfo[0])) {
+					$previousValue = $recordModel->getPreviousValue($attachmentsInfo[0]);
+					$previousAttachments = $previousValue ? explode(',', $previousValue) : [];
+					$currentValue = $recordModel->get($attachmentsInfo[0]);
+					$currentAttachments = $currentValue ? explode(',', $currentValue) : [];
+					$documentIds = array_diff($currentAttachments, $previousAttachments);
+				}
+			} else {
+				$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'Documents');
+			}
+			if ($relationListView) {
+				$queryGenerator = $relationListView->getRelationQuery(true);
+				$queryGenerator->setFields(['id']);
+				$documentIds = $queryGenerator->createQuery()->column();
+			}
+		}
+		return $documentIds;
 	}
 }

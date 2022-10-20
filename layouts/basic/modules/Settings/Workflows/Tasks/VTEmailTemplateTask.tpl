@@ -116,21 +116,7 @@
 			<div class="row pb-3">
 				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_ATTACH_DOCS_FROM', $QUALIFIED_MODULE)}</span>
 				<div class="col-md-4">
-					<select class="select2 form-control" name="attachments"
-						data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
-						<option value="">{\App\Language::translate('LBL_NONE')}</option>
-						{if $DOCUMENTS_MODULLES}
-							<option value="{$SOURCE_MODULE}" {if isset($TASK_OBJECT->attachments) && $TASK_OBJECT->attachments === $SOURCE_MODULE}selected="selected" {/if}>{\App\Language::translate($SOURCE_MODULE,$SOURCE_MODULE)}</option>
-						{/if}
-						{foreach from=$DOCUMENTS_RELATED_MODULLES item=RELATED_MODULES}
-							{foreach from=$RELATED_MODULES key=RELATED_MODULE_NAME item=FIELD_MODEL}
-								<option value="{$RELATED_MODULE_NAME}::{$FIELD_MODEL->getFieldName()}"
-									{if isset($TASK_OBJECT->attachments) && $TASK_OBJECT->attachments === {$RELATED_MODULE_NAME}|cat:'::'|cat:{$FIELD_MODEL->getFieldName()}}selected="selected" {/if}>
-									{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$SOURCE_MODULE)}&nbsp;({$FIELD_MODEL->getFieldName()})&nbsp;-&nbsp;{\App\Language::translate($RELATED_MODULE_NAME,$RELATED_MODULE_NAME)}
-								</option>
-							{/foreach}
-						{/foreach}
-					</select>
+					{include file=\App\Layout::getTemplatePath('Tasks/AttatchDocumentsFrom.tpl', $QUALIFIED_MODULE)}
 				</div>
 			</div>
 			<div class="row pb-3">
