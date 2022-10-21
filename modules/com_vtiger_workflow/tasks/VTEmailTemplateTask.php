@@ -80,6 +80,13 @@ class VTEmailTemplateTask extends VTTask
 		}
 	}
 
+	/**
+	 * Get attachments from document relation or multireference field.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 *
+	 * @return array
+	 */
 	public function getAttachments(Vtiger_Record_Model $recordModel): array
 	{
 		$documentIds = [];
