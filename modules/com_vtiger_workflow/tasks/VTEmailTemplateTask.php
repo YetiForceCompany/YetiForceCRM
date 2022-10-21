@@ -84,19 +84,25 @@ class VTEmailTemplateTask extends VTTask
 	{
 		$documentIds = [];
 		if (!empty($this->attachments)) {
-			$attachmentsInfo = explode('::', $this->attachments);
+			[$moduleOrFieldName, $fieldNameOrAction] = array_pad(explode('::', $this->attachments), 2, null);
 			$relationListView = null;
-			if (\count($attachmentsInfo) > 1) {
-				if (!$recordModel->isEmpty($attachmentsInfo[1]) && App\Record::isExists($recordModel->get($attachmentsInfo[1]), $attachmentsInfo[0])) {
-					$relationListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($recordModel->get($attachmentsInfo[1]), $attachmentsInfo[0]), 'Documents');
-				} elseif ('allAttachments' === $attachmentsInfo[1]) {
-					$currentValue = $recordModel->get($attachmentsInfo[0]);
+			if ($moduleOrFieldName && $fieldNameOrAction) {
+				$fieldModelList = array_intersect_key($recordModel->getModule()->getFields(), array_flip([$moduleOrFieldName]));
+				$isFieldActive = false;
+				foreach ($fieldModelList as $fieldModel) {
+					$isFieldActive = $fieldModel->isActiveField();
+				}
+				if (!$recordModel->isEmpty($fieldNameOrAction) && App\Record::isExists($recordModel->get($fieldNameOrAction), $moduleOrFieldName)) {
+					$relationListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($recordModel->get($fieldNameOrAction), $moduleOrFieldName), 'Documents');
+				} elseif ($isFieldActive && 'allAttachments' === $fieldNameOrAction) {
+					$currentValue = $recordModel->get($moduleOrFieldName);
 					$documentIds = $currentValue ? explode(',', $currentValue) : [];
-				} elseif ('latestAttachments' === $attachmentsInfo[1]
-				 && false !== $recordModel->getPreviousValue($attachmentsInfo[0])) {
-					$previousValue = $recordModel->getPreviousValue($attachmentsInfo[0]);
+				} elseif ($isFieldActive && 'latestAttachments' === $fieldNameOrAction
+					&& false !== $recordModel->getPreviousValue($moduleOrFieldName)
+				) {
+					$previousValue = $recordModel->getPreviousValue($moduleOrFieldName);
 					$previousAttachments = $previousValue ? explode(',', $previousValue) : [];
-					$currentValue = $recordModel->get($attachmentsInfo[0]);
+					$currentValue = $recordModel->get($moduleOrFieldName);
 					$currentAttachments = $currentValue ? explode(',', $currentValue) : [];
 					$documentIds = array_diff($currentAttachments, $previousAttachments);
 				}
