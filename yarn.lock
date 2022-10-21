@@ -329,10 +329,10 @@ good-listener@^1.2.2:
   dependencies:
     delegate "^3.1.2"
 
-gridstack@^5.0.0:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-5.1.1.tgz#2d11bbc0fed98cd6e8da573d5b71582b38eb6abc"
-  integrity sha512-cmJ8VAxzBQi96P9Z1JS01hhaMUGv+G0VM+YxBLoUcol1hB9c/9o+u5ejvIqxN7L/h26ox8f/6Vv42gkr/VA6EQ==
+gridstack@^7.0.0:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/gridstack/-/gridstack-7.0.1.tgz#6cec85cee9ff42453054fd42e380e5a67bb3a180"
+  integrity sha512-FF0nmZJ5lBDCh4IS4gw3ITMLKAuzhATMdYYpf8ZLTrxKSsYCG+ubSTMTPNF3B3nq8cLY3htEXa9XG4ka469dWQ==
 
 html2canvas@^1.0.0-alpha.12:
   version "1.4.1"
