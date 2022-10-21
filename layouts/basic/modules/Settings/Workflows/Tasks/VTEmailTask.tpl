@@ -11,11 +11,11 @@
 -->*}
 {strip}
 	<div id="VtEmailTaskContainer tpl-Settings-Workflows-Tasks-VTEmailTask">
-		<div class="">
+		<div>
 			<div class="form-row pb-3">
-				<span class="col-md-12 form-row">
-					<span class="col-md-2 col-form-label">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
-					<div class="col-md-10 px-0">
+				<span class="col-md-7 form-row">
+					<span class="col-md-3 col-form-label">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
+					<div class="col-md-9">
 						<select id="smtp_{\App\Layout::getUniqueId()}" name="smtp" class="select2 form-control "
 							data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 							<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>
@@ -29,15 +29,22 @@
 				</span>
 			</div>
 			<div class="form-row pb-3">
-				<span class="col-md-12 form-row">
-					<span class="col-md-2"></span>
-					<span class="col-md-10 form-row d-flex align-items-center">
-						<div class="col-md-3 mr-2 mb-0">
-							{\App\Language::translate('LBL_CHECK_EMAIL_OPTOUT', $QUALIFIED_MODULE)}
-						</div>
-						<input type="checkbox" class="alignTop" value="true" name="emailoptout"
+				<span class="col-md-7 form-row">
+					<span class="col-md-3 col-form-label">{\App\Language::translate('LBL_ATTACH_DOCS_FROM', $QUALIFIED_MODULE)}</span>
+					<div class="col-md-9">
+						{include file=\App\Layout::getTemplatePath('Tasks/AttatchDocumentsFrom.tpl', $QUALIFIED_MODULE)}
+					</div>
+				</span>
+
+			</div>
+			<div class="form-row pb-3">
+				<span class="col-md-7 form-row">
+					<span class="col-md-3 col-form-label"></span>
+					<div class="col-md-9">
+						{\App\Language::translate('LBL_CHECK_EMAIL_OPTOUT', $QUALIFIED_MODULE)}
+						<input type="checkbox" class="alignTop ml-3" value="true" name="emailoptout"
 							{if !empty($TASK_OBJECT->emailoptout)} checked {/if}>&nbsp;
-					</span>
+					</div>
 				</span>
 			</div>
 			<div class="form-row pb-3">
@@ -115,17 +122,25 @@
 				</span>
 				<div class="col-md-5">
 					<div class="col-md-12 px-0">
-						<select class="task-fields select2 form-control"
-							data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
-							<option></option>
-							{foreach item=FIELDS key=BLOCK_NAME from=$EMAIL_FIELD_OPTION}
-								<optgroup label="{$BLOCK_NAME}">
-									{foreach item=LABEL key=VAL from=$FIELDS}
-										<option value="{$VAL}">{$LABEL}</option>
-									{/foreach}
-								</optgroup>
-							{/foreach}
-						</select>
+						<div class="input-group">
+							<select class="task-fields select2 form-control" id="emailCC"
+								data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
+								<option></option>
+								{foreach item=FIELDS key=BLOCK_NAME from=$EMAIL_FIELD_OPTION}
+									<optgroup label="{$BLOCK_NAME}">
+										{foreach item=LABEL key=VAL from=$FIELDS}
+											<option value="{$VAL}">{$LABEL}</option>
+										{/foreach}
+									</optgroup>
+								{/foreach}
+							</select>
+							<div class="input-group-append">
+								<button type="button" class="btn btn-primary clipboard" data-copy-target="#emailCC"
+									title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}">
+									<span class="fas fa-copy"></span>
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -139,17 +154,25 @@
 				</span>
 				<div class="col-md-5">
 					<div class="col-md-12 px-0">
-						<select class="task-fields select2 form-control"
-							data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
-							<option></option>
-							{foreach item=FIELDS key=BLOCK_NAME from=$EMAIL_FIELD_OPTION}
-								<optgroup label="{$BLOCK_NAME}">
-									{foreach item=LABEL key=VAL from=$FIELDS}
-										<option value="{$VAL}">{$LABEL}</option>
-									{/foreach}
-								</optgroup>
-							{/foreach}
-						</select>
+						<div class="input-group">
+							<select class="task-fields select2 form-control" id="emailBcc"
+								data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
+								<option></option>
+								{foreach item=FIELDS key=BLOCK_NAME from=$EMAIL_FIELD_OPTION}
+									<optgroup label="{$BLOCK_NAME}">
+										{foreach item=LABEL key=VAL from=$FIELDS}
+											<option value="{$VAL}">{$LABEL}</option>
+										{/foreach}
+									</optgroup>
+								{/foreach}
+							</select>
+							<div class="input-group-append">
+								<button type="button" class="btn btn-primary clipboard" data-copy-target="#emailBcc"
+									title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}">
+									<span class="fas fa-copy"></span>
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
