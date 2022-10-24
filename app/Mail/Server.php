@@ -113,4 +113,22 @@ class Server extends \App\Base
 	{
 		return $this->get('status');
 	}
+
+	public function getImapHost()
+	{
+		$encrypt = $this->get('imap_encrypt');
+		$host = $this->get('imap_host');
+		$port = $this->get('imap_port');
+
+		return ($encrypt ? "{$encrypt}://" : '') . $host . ($port ? ":{$port}" : '');
+	}
+
+	public function getSmptHost()
+	{
+		$encrypt = $this->get('smtp_encrypt');
+		$host = $this->get('smtp_host');
+		$port = $this->get('smtp_port');
+
+		return ($encrypt ? "{$encrypt}://" : '') . $host . ($port ? ":{$port}" : '');
+	}
 }

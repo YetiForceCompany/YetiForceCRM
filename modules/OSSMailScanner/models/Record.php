@@ -641,7 +641,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				'user' => $row['user'],
 				'stop_user' => $row['stop_user'],
 				'count' => $row['count'],
-				'action' => $row['count'],
+				'action' => $row['action'],
 				'info' => $row['info'],
 			];
 		}

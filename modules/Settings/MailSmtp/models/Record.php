@@ -46,16 +46,6 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 		return $this->get('name');
 	}
 
-	/**
-	 * Function to get the Detail Url.
-	 *
-	 * @return string URL
-	 */
-	public function getDetailViewUrl()
-	{
-		return '?module=MailSmtp&parent=Settings&view=Detail&record=' . $this->getId();
-	}
-
 	/** {@inheritdoc} */
 	public function get($key)
 	{
@@ -277,7 +267,12 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 		return $fieldModel;
 	}
 
-	public function validate()
+	/**
+	 * Check data.
+	 *
+	 * @return array
+	 */
+	public function validate(): array
 	{
 		$response = [];
 		$isDuplicate = (new App\Db\Query())
@@ -288,10 +283,21 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 		if ($isDuplicate) {
 			$response[] = [
 				'result' => false,
-				'hoverField' => 'subject',
+				'hoverField' => 'name',
 				'message' => App\Language::translate('LBL_DUPLICATE', $this->getModule()->getName(true))
 			];
+		} else {
+			$mailer = new \App\Mailer();
+			$mailer->loadSmtp($this->getData());
+			$testMailer = $mailer->test();
+			if ((true !== ($testMailer['result'] ?? null)) || !empty($testMailer['error'])) {
+				$response[] = [
+					'result' => false,
+					'message' => $testMailer['error'] ?? \App\Language::translate('LBL_ERROR_DURING_SENDING', $this->getModule()->getName(true))
+				];
+			}
 		}
+
 		return $response;
 	}
 
@@ -328,6 +334,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 		if ($this->getId()) {
 			$result = (bool) $db->createCommand()->delete($this->getModule()->baseTable, ['id' => $this->getId()])->execute();
 		}
+		\App\Cache::delete('SmtpServers', 'all');
 
 		return $result;
 	}
@@ -347,7 +354,7 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 			\App\Log::error($ex->__toString());
 			throw $ex;
 		}
-		\App\Cache::delete('MailServer', 'all');
+		\App\Cache::delete('SmtpServers', 'all');
 	}
 
 	/**
@@ -360,6 +367,9 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 		if ($tablesData) {
 			$baseTable = $this->getModule()->baseTable;
 			$baseTableIndex = $this->getModule()->baseIndex;
+			if (!empty($tablesData['default'])) {
+				$db->createCommand()->update($baseTable, ['default' => 0])->execute();
+			}
 			foreach ($this->getValuesToSave($tablesData) as $tableName => $tableData) {
 				if (!$this->getId() && $baseTable === $tableName) {
 					$db->createCommand()->insert($tableName, $tableData)->execute();

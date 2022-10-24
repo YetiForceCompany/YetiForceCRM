@@ -42,7 +42,7 @@ class Settings_MailSmtp_Module_Model extends Settings_Vtiger_Module_Model
 
 	/** @var string[] Fields name for edit view */
 	public $editFields = [
-		'name', 'mailer_type', 'default', 'mail_account', 'secure', 'host', 'port', 'username', 'password', 'from_name', 'from_email', 'reply_to', 'authentication', 'individual_delivery', 'priority', 'confirm_reading_to', 'organization', 'unsubscribe', 'options', 'save_send_mail', 'smtp_host', 'smtp_port', 'smtp_username', 'smtp_password', 'smtp_folder', 'smtp_validate_cert'
+		'name', 'mailer_type', 'default', 'mail_account', 'secure', 'host', 'port', 'username', 'password', 'from_name', 'from_email', 'reply_to', 'authentication', 'individual_delivery', 'priority', 'confirm_reading_to', 'organization', 'unsubscribe', 'options', 'save_send_mail', 'imap_host', 'imap_port', 'imap_username', 'imap_password', 'imap_folder', 'imap_validate_cert'
 	];
 
 	/**
@@ -316,7 +316,7 @@ class Settings_MailSmtp_Module_Model extends Settings_Vtiger_Module_Model
 					'blockLabel' => 'LBL_SAVE_SENT_MESSAGE'
 				];
 				break;
-			case 'smtp_host':
+			case 'imap_host':
 				$params = [
 					'name' => $name,
 					'label' => 'LBL_HOST',
@@ -327,7 +327,7 @@ class Settings_MailSmtp_Module_Model extends Settings_Vtiger_Module_Model
 					'blockLabel' => 'LBL_SAVE_SENT_MESSAGE'
 				];
 				break;
-			case 'smtp_port':
+			case 'imap_port':
 				$params = [
 					'name' => $name,
 					'label' => 'LBL_PORT',
@@ -338,7 +338,7 @@ class Settings_MailSmtp_Module_Model extends Settings_Vtiger_Module_Model
 					'blockLabel' => 'LBL_SAVE_SENT_MESSAGE'
 				];
 				break;
-			case 'smtp_validate_cert':
+			case 'imap_validate_cert':
 				$params = [
 					'name' => $name,
 					'label' => 'LBL_VALIDATE_CERT',
@@ -349,7 +349,7 @@ class Settings_MailSmtp_Module_Model extends Settings_Vtiger_Module_Model
 					'blockLabel' => 'LBL_SAVE_SENT_MESSAGE'
 				];
 				break;
-			case 'smtp_username':
+			case 'imap_username':
 				$params = [
 					'name' => $name,
 					'label' => 'LBL_USERNAME',
@@ -360,7 +360,7 @@ class Settings_MailSmtp_Module_Model extends Settings_Vtiger_Module_Model
 					'blockLabel' => 'LBL_SAVE_SENT_MESSAGE'
 				];
 				break;
-			case 'smtp_password':
+			case 'imap_password':
 				$params = [
 					'name' => $name,
 					'label' => 'LBL_PASSWORD',
@@ -372,12 +372,12 @@ class Settings_MailSmtp_Module_Model extends Settings_Vtiger_Module_Model
 					'fromOutsideList' => true
 				];
 				break;
-			case 'smtp_folder':
+			case 'imap_folder':
 				$params = [
 					'name' => $name,
 					'label' => 'LBL_SEND_FOLDER',
 					'uitype' => 1,
-					'typeofdata' => 'V~O',
+					'typeofdata' => 'V~M',
 					'maximumlength' => '255',
 					'purifyType' => \App\Purifier::TEXT,
 					'blockLabel' => 'LBL_SAVE_SENT_MESSAGE'
@@ -401,12 +401,12 @@ class Settings_MailSmtp_Module_Model extends Settings_Vtiger_Module_Model
 			'username' => ['condition' => ['mailer_type' => ['value' => 'yfsmtp', 'operator' => 'e']], 'default' => ''],
 			'password' => ['condition' => ['mailer_type' => ['value' => 'yfsmtp', 'operator' => 'e']], 'default' => ''],
 			'secure' => ['condition' => ['mailer_type' => ['value' => 'yfsmtp', 'operator' => 'e']], 'default' => ''],
-			'smtp_host' => ['condition' => ['mailer_type' => ['value' => 'yfsmtp', 'operator' => 'e'], 'save_send_mail' => ['value' => 1, 'operator' => 'n']], 'default' => 0],
-			'smtp_port' => ['condition' => ['mailer_type' => ['value' => 'yfsmtp', 'operator' => 'e'], 'save_send_mail' => ['value' => 1, 'operator' => 'n']], 'default' => ''],
-			'smtp_username' => ['condition' => ['mailer_type' => ['value' => 'yfsmtp', 'operator' => 'e'], 'save_send_mail' => ['value' => 1, 'operator' => 'n']], 'default' => ''],
-			'smtp_password' => ['condition' => ['mailer_type' => ['value' => 'yfsmtp', 'operator' => 'e'], 'save_send_mail' => ['value' => 1, 'operator' => 'n']], 'default' => ''],
-			'smtp_validate_cert' => ['condition' => ['mailer_type' => ['value' => 'yfsmtp', 'operator' => 'e'], 'save_send_mail' => ['value' => 1, 'operator' => 'n']], 'default' => 0],
-			'smtp_folder' => ['condition' => ['save_send_mail' => ['value' => 1, 'operator' => 'n']], 'default' => '']
+			'imap_host' => ['condition' => ['mailer_type' => ['value' => 'yfsmtp', 'operator' => 'e'], 'save_send_mail' => ['value' => 1, 'operator' => 'n']], 'default' => 0],
+			'imap_port' => ['condition' => ['mailer_type' => ['value' => 'yfsmtp', 'operator' => 'e'], 'save_send_mail' => ['value' => 1, 'operator' => 'n']], 'default' => ''],
+			'imap_username' => ['condition' => ['mailer_type' => ['value' => 'yfsmtp', 'operator' => 'e'], 'save_send_mail' => ['value' => 1, 'operator' => 'n']], 'default' => ''],
+			'imap_password' => ['condition' => ['mailer_type' => ['value' => 'yfsmtp', 'operator' => 'e'], 'save_send_mail' => ['value' => 1, 'operator' => 'n']], 'default' => ''],
+			'imap_validate_cert' => ['condition' => ['mailer_type' => ['value' => 'yfsmtp', 'operator' => 'e'], 'save_send_mail' => ['value' => 1, 'operator' => 'n']], 'default' => 0],
+			'imap_folder' => ['condition' => ['save_send_mail' => ['value' => 1, 'operator' => 'n']], 'default' => '']
 		];
 
 		return $field ? ($dependency[$field] ?? '') : $dependency;

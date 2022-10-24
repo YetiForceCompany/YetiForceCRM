@@ -25,9 +25,9 @@
 					<optgroup class="p-0">
 						<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>
 					</optgroup>
-					{foreach from=App\Mail::getAll() item=ITEM key=ID}
-						<option value="{$ID}" {if isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp eq $ID}selected="selected" {/if}>{$ITEM['name']}
-							({$ITEM['host']})
+					{foreach from=App\Mail::getSmtpServers(true) item=ITEM key=ID}
+						<option value="{$ID}" {if isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp == $ID}selected{/if}>{\App\Purifier::encodeHtml($ITEM['name'])}
+							{if !empty($ITEM['host'])} ({\App\Purifier::encodeHtml($ITEM['host'])}){/if}
 						</option>
 					{/foreach}
 				</select>

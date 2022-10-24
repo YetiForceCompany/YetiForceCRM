@@ -6,7 +6,6 @@ Settings_Vtiger_Edit_Js(
 	{},
 	{
 		registerDependency() {
-			console.log('sssss');
 			let dependency = JSON.parse(this.container.find('.js-smtp-dependency').val());
 			for (let field in dependency) {
 				let fieldEl = this.container.find(`[name="${field}"]`);
@@ -17,19 +16,7 @@ Settings_Vtiger_Edit_Js(
 					let conFieldElVal =
 						conFieldEl.attr('type') === 'checkbox' ? Number(conFieldEl.is(':checked')) : conFieldEl.val();
 					let { value, operator } = conditions[conField];
-					console.log([
-						field,
-						conField,
-						value,
-						operator,
-						conFieldElVal,
-						[operator === 'e' && value == conFieldElVal, operator === 'n' && value != conFieldElVal],
-						conFieldEl.attr('type') === 'checkbox'
-					]);
-					if (operator === 'e' && value == conFieldElVal) {
-						hide = true;
-						break;
-					} else if (operator === 'n' && value != conFieldElVal) {
+					if ((operator === 'e' && value == conFieldElVal) || (operator === 'n' && value != conFieldElVal)) {
 						hide = true;
 						break;
 					}
@@ -96,19 +83,13 @@ Settings_Vtiger_Edit_Js(
 				e.preventDefault();
 				this.container.find('.js-toggle-panel').find('.js-block-content').removeClass('d-none');
 				if ($(e.currentTarget).validationEngine('validate')) {
-					document.progressLoader = $.progressIndicator({
+					let progressLoader = $.progressIndicator({
 						message: app.vtranslate('JS_SAVE_LOADER_INFO'),
 						position: 'html',
 						blockInfo: {
 							enabled: true
 						}
 					});
-					for (var key in this.conditionBuilders) {
-						this.container
-							.find(`input[name="${key}"]`)
-							.val(JSON.stringify(this.conditionBuilders[key].getConditions()));
-					}
-
 					this.preSaveValidation().done((response) => {
 						if (response === true) {
 							let formData = this.container.serializeFormData();
@@ -116,19 +97,19 @@ Settings_Vtiger_Edit_Js(
 								.saveAjax('save', [], formData)
 								.done(function (data) {
 									if (data.result && data.result.success) {
-										Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_SAVE_SUCCESS') });
+										app.showNotify({ text: app.vtranslate('JS_SAVE_SUCCESS'), type: 'success' });
 										window.location.href = data.result.url;
 									} else {
-										document.progressLoader.progressIndicator({ mode: 'hide' });
+										progressLoader.progressIndicator({ mode: 'hide' });
 										app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
 									}
 								})
 								.fail(function () {
-									document.progressLoader.progressIndicator({ mode: 'hide' });
+									progressLoader.progressIndicator({ mode: 'hide' });
 									app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
 								});
 						} else {
-							document.progressLoader.progressIndicator({ mode: 'hide' });
+							progressLoader.progressIndicator({ mode: 'hide' });
 						}
 					});
 				}

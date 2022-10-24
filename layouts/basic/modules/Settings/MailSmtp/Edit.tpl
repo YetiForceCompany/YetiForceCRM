@@ -32,7 +32,7 @@
 									{if $smarty.foreach.structre.first && !$smarty.foreach.field.first && $smarty.foreach.field.index == 44}
 										<div class="w-100 u-fs-10px">&nbsp;</div>
 									{/if}
-									<div class="col-md-6 mb-2 js-field-container {if !$RECORD_MODEL->isFieldActive($FIELD_NAME)} d-none{/if}">
+									<div class="col-md-4 mb-2 js-field-container {if !$RECORD_MODEL->isFieldActive($FIELD_NAME)} d-none{/if}">
 										<label class="u-text-small-bold mb-1">
 											{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}
 											{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}

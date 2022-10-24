@@ -172,6 +172,11 @@ class Account extends \App\Base
 		return $this->provider;
 	}
 
+	public function isActive(): bool
+	{
+		return 'PLL_ACTIVE' === $this->getSource()->get('mailaccount_status');
+	}
+
 	/**
 	 * Open imap connection.
 	 *
@@ -179,7 +184,7 @@ class Account extends \App\Base
 	 */
 	public function openImap(): Connections\Imap
 	{
-		$imap = new \App\Mail\Connections\Imap([
+		$imap = new Connections\Imap([
 			'host' => $this->getServer()->get('imap_host'),
 			'port' => $this->getServer()->get('imap_port'),
 			'encryption' => $this->getServer()->get('imap_encrypt'), //'ssl',

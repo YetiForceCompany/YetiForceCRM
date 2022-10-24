@@ -92,6 +92,11 @@ class Imap
 		return $this;
 	}
 
+	public function isConnected()
+	{
+		return $this->client && $this->client->isConnected();
+	}
+
 	/**
 	 * Disconnect from server.
 	 *
@@ -166,5 +171,16 @@ class Imap
 		}
 
 		return $folders;
+	}
+
+	public function appendMessage(string $folderName, $message): bool
+	{
+		$this->connect();
+		$folder = $this->client->getFolder($folderName);
+		if (!$folder) {
+			throw new \App\Exceptions\AppException('ERR_IMAP_FOLDER_NOT_EXISTS||' . $folderName);
+		}
+
+		return $folder->appendMessage($message);
 	}
 }

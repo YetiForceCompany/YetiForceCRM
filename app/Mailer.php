@@ -1,8 +1,6 @@
 <?php
 
-namespace App;
-
-/**
+/*
  * Mailer basic class.
  *
  * @package App
@@ -12,6 +10,11 @@ namespace App;
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+namespace App;
+
+use PHPMailer\PHPMailer\PHPMailer;
+
 class Mailer
 {
 	/** @var string[] Queue status */
@@ -27,11 +30,43 @@ class Mailer
 	/** @var string[] Columns list available in the database */
 	public static $quoteColumn = ['smtp_id', 'date', 'owner', 'status', 'from', 'subject', 'content', 'to', 'cc', 'bcc', 'attachments', 'priority'];
 
-	/** @var \PHPMailer\PHPMailer\PHPMailer PHPMailer instance */
+	/** @var PHPMailer Instance */
 	protected $mailer;
 
 	/** @var array SMTP configuration */
 	protected $smtp;
+
+	/** @var array Default settings */
+	private $default = [
+		'mailer_type' => 'smtp',
+		'password' => '',
+		'default' => '',
+		'name' => '',
+		'host' => '',
+		'port' => '',
+		'username' => '',
+		'authentication' => 1,
+		'secure' => '',
+		'options' => [],
+		'from_email' => '',
+		'from_name' => '',
+		'reply_to' => '',
+		'priority' => '',
+		'confirm_reading_to' => '',
+		'organization' => '',
+		'unsubscribe' => '',
+		'individual_delivery' => 1,
+		'imap_username' => '',
+		'imap_password' => '',
+		'imap_validate_cert' => 0,
+		'imap_host' => '',
+		'imap_port' => 0,
+		'imap_folder' => '',
+		'save_send_mail' => 0,
+		'authType' => '',
+		'authProvider' => null,
+		'mail_account' => 0
+	];
 
 	/** @var array Parameters for sending messages */
 	protected $params = [];
@@ -45,7 +80,7 @@ class Mailer
 	public function __construct()
 	{
 		static::$error = [];
-		$this->mailer = new \PHPMailer\PHPMailer\PHPMailer(false);
+		$this->mailer = new PHPMailer(false);
 		if (\App\Config::debug('MAILER_DEBUG')) {
 			$this->mailer->SMTPDebug = 2;
 			$this->mailer->Debugoutput = function ($str, $level) {
@@ -64,16 +99,15 @@ class Mailer
 	}
 
 	/**
-	 * Load configuration smtp by id.
+	 * Load configuration smtp by ID.
 	 *
 	 * @param int $smtpId Smtp ID
 	 *
 	 * @return $this mailer object itself
 	 */
-	public function loadSmtpByID($smtpId)
+	public function loadSmtpByID(int $smtpId)
 	{
-		$this->smtp = Mail::getSmtpById($smtpId);
-		$this->setSmtp();
+		$this->loadSmtp(Mail::getSmtpById($smtpId));
 		return $this;
 	}
 
@@ -86,9 +120,64 @@ class Mailer
 	 */
 	public function loadSmtp($smtpInfo)
 	{
-		$this->smtp = $smtpInfo;
+		$this->smtp = $this->parseData($smtpInfo);
 		$this->setSmtp();
+
 		return $this;
+	}
+
+	/**
+	 * Parse data.
+	 *
+	 * @param array $smtpInfo
+	 *
+	 * @return array
+	 */
+	public function parseData(array $smtpInfo): array
+	{
+		$data = array_merge($this->default, array_intersect_key($smtpInfo, $this->default));
+		if (('yfsmtp' === $data['mailer_type'])) {
+			if (!($account = Mail\Account::getInstanceById((int) $data['mail_account'])) || !$account->isActive()) {
+				static::$error[] = 'ERR_MAIL_ACCOUNT_NOT_ACTIVE';
+				return [];
+			}
+			$data['mailer_type'] = 'smtp';
+			$data['host'] = $account->getServer()->get('smtp_host');
+			$data['port'] = $account->getServer()->get('smtp_port');
+			$data['username'] = $account->getLogin();
+			$data['authentication'] = 1;
+			$data['secure'] = $account->getServer()->get('smtp_encrypt');
+			$data['imap_username'] = $account->getLogin();
+			$data['imap_validate_cert'] = $account->getServer()->get('imap_encrypt');
+			$data['imap_host'] = $account->getServer()->get('imap_host');
+			$data['imap_port'] = $account->getServer()->get('imap_port');
+			if ($account->getServer()->isOAuth()) {
+				$data['authType'] = 'XOAUTH2';
+				$data['authProvider'] = new \PHPMailer\PHPMailer\OAuth(
+					[
+						'provider' => $account->getOAuthProvider()->getClient(),
+						'clientId' => $account->getServer()->get('client_id'),
+						'clientSecret' => $account->getServer()->getClientSecret(),
+						'refreshToken' => $account->getRefreshToken(),
+						'userName' => $account->getLogin(),
+					]
+				);
+				if (!empty($data['save_send_mail'])) {
+					$data['imap_password'] = $account->getPassword();
+				}
+			} else {
+				$data['password'] = $data['imap_password'] = $account->getPassword();
+			}
+		} else {
+			$data['password'] = empty($data['password']) ? '' : Encryption::getInstance()->decrypt($data['password']);
+			$data['imap_password'] = empty($data['imap_password']) ? '' : Encryption::getInstance()->decrypt($data['imap_password']);
+		}
+		$options = $data['options'];
+		if ($options && !\is_array($options)) {
+			$data['options'] = Json::decode($options, true) ?: [];
+		}
+
+		return $data;
 	}
 
 	/**
@@ -152,8 +241,11 @@ class Mailer
 	 */
 	public static function addMail(array $params): bool
 	{
-		$params['status'] = Config::component('Mail', 'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING') ? 0 : 1;
+		$response = false;
 		$params['date'] = date('Y-m-d H:i:s');
+		if (!\array_key_exists('status', $params)) {
+			$params['status'] = Config::component('Mail', 'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING') ? 0 : 1;
+		}
 		if (empty($params['owner'])) {
 			$owner = User::getCurrentUserRealId();
 			$params['owner'] = $owner ?: 0;
@@ -162,69 +254,84 @@ class Mailer
 			$params['smtp_id'] = Mail::getDefaultSmtp();
 		}
 		if (empty($params['smtp_id'])) {
-			unset($params['priority'], $params['status']);
 			$params['error_code'] = 1;
-			static::insertMail($params, 'log');
+			static::insertMailLog($params);
 			Log::warning('No SMTP configuration', 'Mailer');
-			return false;
-		}
-		if (!\App\Mail::getSmtpById($params['smtp_id'])) {
-			unset($params['priority'], $params['status']);
+		} elseif (!\App\Mail::getSmtpById($params['smtp_id'])) {
 			$params['error_code'] = 2;
-			static::insertMail($params, 'log');
+			static::insertMailLog($params);
 			Log::warning('SMTP configuration with provided id not exists', 'Mailer');
-			return false;
-		}
-		if (empty($params['to'])) {
-			unset($params['priority'], $params['status']);
+		} elseif (empty($params['to'])) {
 			$params['error_code'] = 3;
-			static::insertMail($params, 'log');
+			static::insertMailLog($params);
 			Log::warning('No target email address provided', 'Mailer');
-			return false;
+		} else {
+			$smpt = \App\Mail::getSmtpById($params['smtp_id']);
+			if ($smpt['individual_delivery']) {
+				$to = $params['to'];
+				if (!\is_array($to)) {
+					$to = \App\Json::isJson($to) ? \App\Json::decode($to) : [$to];
+				}
+				foreach ($to as $key => $value) {
+					$params['to'] = [$key => $value];
+					$response = static::insertMail($params);
+				}
+			} else {
+				$response = static::insertMail($params);
+			}
 		}
-		static::insertMail($params, 'admin');
-		return true;
+
+		return $response;
 	}
 
 	/**
-	 * Save mail data in provided table.
+	 * Add mail to queue.
 	 *
-	 * @param array  $params
-	 * @param string $type   'admin' | 'log'
+	 * @param array $params
 	 *
-	 * @return void
+	 * @return bool
 	 */
-	public static function insertMail(array $params, string $type): void
+	public static function insertMail(array $params): bool
 	{
 		$eventHandler = new EventHandler();
 		$eventHandler->setParams($params);
-		$eventHandler->trigger('admin' === $type ? 'MailerAddToQueue' : 'MailerAddToLogs');
+		$eventHandler->trigger('MailerAddToQueue');
 		$params = $eventHandler->getParams();
 
+		$fields = ['smtp_id', 'date', 'owner', 'status', 'from', 'subject', 'to', 'content', 'cc', 'bcc', 'attachments', 'params', 'priority', 'error'];
+		$insertData = array_intersect_key($params, array_flip($fields));
 		foreach (static::$quoteJsonColumn as $key) {
-			if (isset($params[$key])) {
-				if (!\is_array($params[$key])) {
-					$params[$key] = [$params[$key]];
-				}
-				$params[$key] = Json::encode($params[$key]);
+			if (isset($insertData[$key]) && (!\is_string($insertData[$key]) || !\App\Json::isJson($insertData[$key]))) {
+				$insertData[$key] = Json::encode(!\is_array($insertData[$key]) ? [$insertData[$key]] : $insertData[$key]);
 			}
 		}
-		\App\Db::getInstance($type)->createCommand()->insert('admin' === $type ? 's_#__mail_queue' : 'l_#__mail', $params)->execute();
+
+		return (bool) \App\Db::getInstance('admin')->createCommand()->insert('s_#__mail_queue', $insertData)->execute();
 	}
 
 	/**
-	 * Get configuration smtp.
+	 * Save mail log data.
 	 *
-	 * @param string|null $key
+	 * @param array $params
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	public function getSmtp(?string $key = null)
+	public static function insertMailLog(array $params): void
 	{
-		if ($key && isset($this->smtp[$key])) {
-			return $this->smtp[$key];
+		$eventHandler = new EventHandler();
+		$eventHandler->setParams($params);
+		$eventHandler->trigger('MailerAddToLogs');
+		$params = $eventHandler->getParams();
+
+		$logFields = ['date', 'error_code', 'smtp_id', 'owner', 'status', 'from', 'subject', 'to', 'content', 'cc', 'bcc', 'attachments', 'params'];
+		$insertData = array_intersect_key($params, array_flip($logFields));
+		foreach (static::$quoteJsonColumn as $key) {
+			if (isset($insertData[$key]) && (!\is_string($insertData[$key]) || !\App\Json::isJson($insertData[$key]))) {
+				$insertData[$key] = Json::encode(!\is_array($insertData[$key]) ? [$insertData[$key]] : $insertData[$key]);
+			}
 		}
-		return $this->smtp;
+
+		\App\Db::getInstance('log')->createCommand()->insert('l_#__mail', $insertData)->execute();
 	}
 
 	/**
@@ -233,7 +340,8 @@ class Mailer
 	public function setSmtp(): void
 	{
 		if (!$this->smtp) {
-			throw new \App\Exceptions\AppException('ERR_NO_SMTP_CONFIGURATION');
+			static::$error[] = 'ERR_NO_SMTP_CONFIGURATION';
+			return;
 		}
 		switch ($this->smtp['mailer_type']) {
 			case 'smtp':
@@ -251,21 +359,21 @@ class Mailer
 			default:
 				break;
 		}
+
 		$this->mailer->Host = $this->smtp['host'];
 		if (!empty($this->smtp['port'])) {
 			$this->mailer->Port = $this->smtp['port'];
 		}
 		$this->mailer->SMTPSecure = $this->smtp['secure'];
-		$this->mailer->SMTPAuth = isset($this->smtp['authentication']) && (bool) $this->smtp['authentication'];
+		$this->mailer->SMTPAuth = (bool) $this->smtp['authentication'];
 		$this->mailer->Username = trim($this->smtp['username']);
-		$this->mailer->Password = trim(Encryption::getInstance()->decrypt($this->smtp['password']));
-		if ($this->smtp['options']) {
-			$this->mailer->SMTPOptions = Json::decode($this->smtp['options'], true);
+		if (!empty($this->smtp['password'])) {
+			$this->mailer->Password = $this->smtp['password'];
 		}
-		$this->mailer->From = $this->smtp['from_email'] ?: $this->smtp['username'];
-		if ($this->smtp['from_name']) {
-			$this->mailer->FromName = $this->smtp['from_name'];
+		if ($options = $this->smtp['options']) {
+			$this->mailer->SMTPOptions = $options;
 		}
+		$this->mailer->setFrom($this->smtp['from_email'] ?: $this->smtp['username'], $this->smtp['from_name'] ?? '', false);
 		if ($this->smtp['reply_to']) {
 			$this->mailer->addReplyTo($this->smtp['reply_to']);
 		}
@@ -297,6 +405,7 @@ class Mailer
 						$priority = 'Urgent';
 						$priorityName = 'High';
 					break;
+				default: break;
 			}
 			if ($priority) {
 				$this->mailer->Priority = $priorityX;
@@ -310,6 +419,12 @@ class Mailer
 		}
 		if ($this->smtp['organization']) {
 			$this->mailer->AddCustomHeader('Organization', $this->smtp['organization']);
+		}
+		if ($this->smtp['authType']) {
+			$this->mailer->AuthType = $this->smtp['authType'];
+		}
+		if ($this->smtp['authProvider']) {
+			$this->mailer->setOAuth($this->smtp['authProvider']);
 		}
 	}
 
@@ -358,8 +473,8 @@ class Mailer
 	public function from($address, $name = '')
 	{
 		$this->params['from'][$address] = $name;
-		$this->mailer->From = $address;
-		$this->mailer->FromName = $name;
+		$this->mailer->setFrom($address, $name, false);
+
 		return $this;
 	}
 
@@ -449,11 +564,16 @@ class Mailer
 	 */
 	public function send(): bool
 	{
+		if (static::$error) {
+			return false;
+		}
 		$eventHandler = new EventHandler();
 		$eventHandler->setParams(['mailer' => $this]);
 		$eventHandler->trigger('MailerBeforeSend');
+
 		$toAddresses = $this->mailer->From . ' >> ' . \print_r($this->mailer->getToAddresses(), true);
 		\App\Log::beginProfile("Mailer::send|{$toAddresses}", 'Mail|SMTP');
+
 		if ($this->mailer->send()) {
 			\App\Log::endProfile("Mailer::send|{$toAddresses}", 'Mail|SMTP');
 			if (!empty($this->smtp['save_send_mail'])) {
@@ -486,8 +606,7 @@ class Mailer
 	 */
 	public function test()
 	{
-		$this->mailer->SMTPDebug = 2;
-		static::$error = [];
+		$this->mailer->SMTPDebug = \PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;
 		$this->mailer->Debugoutput = function ($str, $level) {
 			if (false !== strpos(strtolower($str), 'error') || false !== strpos(strtolower($str), 'failed')) {
 				static::$error[] = trim($str);
@@ -506,7 +625,8 @@ class Mailer
 		$textParser = TextParser::getInstanceById($currentUser->getId(), 'Users');
 		$this->subject($textParser->setContent($template['subject'])->parse()->getContent());
 		$this->content($textParser->setContent($template['content'])->parse()->getContent());
-		return ['result' => $this->send(), 'error' => implode(PHP_EOL, static::$error)];
+
+		return ['result' => $this->send(), 'error' => implode('<br>', array_map(fn ($msg) => \App\Language::translate($msg, 'Other.Mailer'), static::$error))];
 	}
 
 	/**
@@ -559,36 +679,15 @@ class Mailer
 		if (!empty($rowQueue['params'])) {
 			$mailer->setCustomParams(Json::decode($rowQueue['params']));
 		}
-		if ($mailer->getSmtp('individual_delivery')) {
-			$emails = [];
-			foreach (Json::decode($rowQueue['to']) as $email => $name) {
-				if (is_numeric($email)) {
-					$email = $name;
-					$name = '';
-				}
-				$emails[$email] = $name;
+		foreach (Json::decode($rowQueue['to']) as $email => $name) {
+			if (is_numeric($email)) {
+				$email = $name;
+				$name = '';
 			}
-			foreach ($emails as $email => $name) {
-				$separateMailer = $mailer->cloneMailer();
-				$separateMailer->to($email, $name);
-				$status = $separateMailer->send();
-				if (!$status) {
-					$update['to'] = Json::encode($emails);
-					break;
-				}
-				unset($separateMailer, $emails[$email]);
-			}
-		} else {
-			foreach (Json::decode($rowQueue['to']) as $email => $name) {
-				if (is_numeric($email)) {
-					$email = $name;
-					$name = '';
-				}
-				$mailer->to($email, $name);
-			}
-			$status = $mailer->send();
-			unset($mailer);
+			$mailer->to($email, $name);
 		}
+		$status = $mailer->send();
+		unset($mailer);
 		$db = Db::getInstance('admin');
 		if ($status) {
 			$db->createCommand()->delete('s_#__mail_queue', ['id' => $rowQueue['id']])->execute();
@@ -637,43 +736,43 @@ class Mailer
 	 */
 	public function saveMail()
 	{
-		if (empty($this->smtp['smtp_username']) && empty($this->smtp['smtp_password']) && empty($this->smtp['smtp_host'])) {
-			Log::error('Mailer Error: No smtp data entered', 'Mailer');
-			return false;
+		$response = false;
+		if (empty($this->smtp['imap_username']) || empty($this->smtp['imap_password']) || empty($this->smtp['imap_host']) || empty($this->smtp['imap_folder'])) {
+			Log::error('Mailer Error: No imap data entered', 'Mailer');
+			static::$error[] = 'Mailer Error: No imap data entered' . print_r([
+				$this->smtp['imap_username'],
+				$this->smtp['imap_password'],
+				$this->smtp['imap_host'],
+				$this->smtp['imap_folder']
+			], true);
+			return $response;
 		}
-		$folder = Utils::convertCharacterEncoding($this->smtp['smtp_folder'], 'UTF-8', 'UTF7-IMAP');
-		$mbox = \OSSMail_Record_Model::imapConnect(
-			$this->smtp['smtp_username'],
-			Encryption::getInstance()->decrypt($this->smtp['smtp_password']),
-			$this->smtp['smtp_host'] . ':' . $this->smtp['smtp_port'], $folder, false,
-			[
-				'validate_cert' => !empty($this->smtp['smtp_validate_cert']),
-				'imap_max_retries' => 0,
-				'imap_params' => [],
-				'imap_open_add_connection_type' => true,
-			]
-		);
-		if (false === $mbox && !imap_last_error()) {
-			static::$error[] = 'IMAP error - ' . imap_last_error();
-			Log::error('Mailer Error: IMAP error - ' . imap_last_error(), 'Mailer');
-			return false;
+
+		$folderName = $this->smtp['imap_folder'];
+		try {
+			if ($this->smtp['mail_account']) {
+				$imap = \App\Mail\Account::getInstanceById((int) $this->smtp['mail_account'])->openImap();
+			} else {
+				$imap = new \App\Mail\Connections\Imap([
+					'host' => $this->smtp['imap_host'],
+					'port' => $this->smtp['imap_port'],
+					'encryption' => $this->smtp['imap_encrypt'],
+					'validate_cert' => (bool) $this->smtp['imap_validate_cert'],
+					'authentication' => null,
+					'username' => $this->smtp['imap_username'],
+					'password' => $this->smtp['imap_password']
+				]);
+				$imap->connect();
+			}
+
+			\App\Log::beginProfile(__METHOD__ . '|imap_append', 'Mail|IMAP');
+			$response = $imap->appendMessage($folderName, $this->mailer->getSentMIMEMessage());
+			\App\Log::endProfile(__METHOD__ . '|imap_append', 'Mail|IMAP');
+		} catch (\Throwable $th) {
+			static::$error[] = 'IMAP error - ' . $th->getMessage();
+			Log::error('Mailer Error: IMAP error - ' . $th->getMessage(), 'Mailer');
 		}
-		\App\Log::beginProfile(__METHOD__ . '|imap_append', 'Mail|IMAP');
-		imap_append($mbox, \OSSMail_Record_Model::$imapConnectMailbox, $this->mailer->getSentMIMEMessage(), '\\Seen');
-		\App\Log::endProfile(__METHOD__ . '|imap_append', 'Mail|IMAP');
 
-		return true;
-	}
-
-	/**
-	 * Clone the mailer object for individual shipment.
-	 *
-	 * @return \App\Mailer
-	 */
-	public function cloneMailer()
-	{
-		$clonedThis = clone $this;
-		$clonedThis->mailer = clone $this->mailer;
-		return $clonedThis;
+		return $response;
 	}
 }

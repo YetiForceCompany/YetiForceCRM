@@ -4,6 +4,8 @@
     "LBL_CRON_COMPLETED_IMPORT": "Record import summary for the module:",
     "LBL_DEFAULT_IN_BROWSER": "Base (default in browser)",
     "LBL_GENESYS_WDE": "Genesys WDE by Whirly",
-    "LBL_INTERNAL_CLIENT": "Internal client (Roundcube)"
+    "LBL_INTERNAL_CLIENT": "Internal client (Roundcube)",
+    "ERR_MAIL_ACCOUNT_NOT_ACTIVE": "There is no active e-mail account.",
+    "ERR_NO_SMTP_CONFIGURATION": "No configuration."
   }
 }

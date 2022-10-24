@@ -38,7 +38,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!$request->isEmpty('src_record', true) && (!$srcModule || ('Users' !== $srcModule && (
-				(\App\Module::getModuleId($srcModule) && !\App\Privilege::isPermitted($srcModule, 'DetailView', $request->getInteger('src_record'))) || !\App\Security\AdminAccess::isPermitted($srcModule)
+				(\App\Module::getModuleId($srcModule) && !\App\Privilege::isPermitted($srcModule, 'DetailView', $request->getInteger('src_record'))) || (!\App\Module::getModuleId($srcModule) && !\App\Security\AdminAccess::isPermitted($srcModule))
 			)))
 		) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);

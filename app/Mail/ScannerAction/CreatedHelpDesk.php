@@ -55,7 +55,6 @@ class CreatedHelpDesk extends CreatedMail
 				'modifiedby' => $owner,
 			]);
 		}
-
 		$recordModel->set('description', \App\TextUtils::htmlTruncate($this->message->getBody(true), $recordModel->getField('description')->getMaxValue()));
 		$recordModel->set('ticketstatus', \Config\Modules\OSSMailScanner::$helpdeskCreateDefaultStatus);
 
