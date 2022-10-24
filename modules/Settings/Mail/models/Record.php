@@ -66,8 +66,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 		$value = $this->get($key);
 		switch ($key) {
 			case 'smtp_id':
-				$smtpName = \App\Mail::getSmtpById($value)['name'] ?? '';
-				$value = '<a href=index.php?module=MailSmtp&parent=Settings&view=Detail&record=' . $value . '>' . $smtpName . '</a>';
+				$value = \App\Purifier::encodeHtml(\App\Mail::getSmtpById($value)['name'] ?? '');
 				break;
 			case 'status':
 				if (isset(\App\Mailer::$statuses[$value])) {
@@ -90,7 +89,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 			case 'to':
 			case 'cc':
 			case 'bcc':
-				$value = $this->getDisplayValueForEmail($value);
+				$value = \App\Purifier::encodeHtml($this->getDisplayValueForEmail($value));
 				break;
 			case 'attachments':
 				if ($value) {
@@ -103,8 +102,9 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 					}
 					foreach ($attachments as $path => $name) {
 						if (is_numeric($path)) {
-							$path = $name;
 							$name = \App\Language::translate('LBL_FILE');
+						} else {
+							$name = \App\Purifier::encodeHtml($name);
 						}
 						$actionPath = "?module=Mail&parent=Settings&action=DownloadAttachment&record={$this->getId()}&selectedFile=$fileCounter";
 						$value .= '<form action="' . $actionPath . '"
@@ -137,17 +137,17 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$value = '';
 		if ($emails) {
+			$displayEmails = [];
 			foreach (\App\Json::decode($emails) as $email => $name) {
 				if (is_numeric($email)) {
-					$email = $name;
-					$name = '';
-					$value .= $email . ', ';
+					$displayEmails[] = $name;
 				} else {
-					$value .= $name . ' &lt;' . $email . '&gt;, ';
+					$displayEmails[] = "{$name} <{$email}>";
 				}
 			}
+			$value = implode(' ,', $displayEmails);
 		}
-		return rtrim($value, ', ');
+		return $value;
 	}
 
 	/**
