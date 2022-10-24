@@ -14,7 +14,7 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return \App\Utils\Completions::encodeAll(\App\Purifier::decodeHtml($value));
+		return null !== $value ? \App\Utils\Completions::encodeAll(\App\Purifier::decodeHtml($value)) : '';
 	}
 
 	/** {@inheritdoc} */

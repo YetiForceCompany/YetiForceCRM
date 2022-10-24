@@ -19,8 +19,8 @@
 					<h3>{$RECORD->getName()}</h3>
 				</span>
 				<a class="span0 changeDetailViewMode height20 u-cursor-pointer"><sub>{\App\Language::translate('LBL_SHOW_FULL_DETAILS',$MODULE_NAME)}</sub></a>
-						{assign var="FULL_MODE_URL" value={$RECORD->getDetailViewAjaxUrl()|cat:'&mode=showDetailViewByMode&requestMode=full'} }
-						{assign var="SUMMARY_MODE_URL" value={$RECORD->getDetailViewAjaxUrl()|cat:'&mode=showDetailViewByMode&requestMode=summary'} }
+				{assign var="FULL_MODE_URL" value={$RECORD->getDetailViewAjaxUrl()|cat:'&mode=showDetailViewByMode&requestMode=full'} }
+				{assign var="SUMMARY_MODE_URL" value={$RECORD->getDetailViewAjaxUrl()|cat:'&mode=showDetailViewByMode&requestMode=summary'} }
 				<input type="hidden" name="viewMode" value="summary" data-nextviewname="full" data-currentviewlabel="{\App\Language::translate('LBL_SHOW_SUMMARY_DETAILS',{$MODULE_NAME})}" data-summary-url="{$SUMMARY_MODE_URL}" data-full-url="{$FULL_MODE_URL}" />
 			</div>
 			<div class="col-md-7">
@@ -29,7 +29,7 @@
 						{foreach item=DEVAIL_VIEW_BASIC_LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}
 							<span class="btn-group">
 								<button class="btn btn-light"
-										{if $DEVAIL_VIEW_BASIC_LINK->isPageLoadLink()} onclick="window.location.href = '{$DEVAIL_VIEW_BASIC_LINK->getUrl()}'"{/if}>
+									{if $DEVAIL_VIEW_BASIC_LINK->isPageLoadLink()} onclick="window.location.href = '{$DEVAIL_VIEW_BASIC_LINK->getUrl()}'" {/if}>
 									<strong>{\App\Language::translate($DEVAIL_VIEW_BASIC_LINK->getLabel(), $MODULE_NAME)}</strong>
 								</button>
 							</span>
@@ -43,7 +43,7 @@
 								<ul class="dropdown-menu float-right">
 									{foreach item=DETAIL_VIEW_LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']}
 										<li>
-											<a href={$DETAIL_VIEW_LINK->getUrl()} >{\App\Language::translate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
+											<a href={$DETAIL_VIEW_LINK->getUrl()}>{\App\Language::translate($DETAIL_VIEW_LINK->getLabel(), $MODULE_NAME)}</a>
 										</li>
 									{/foreach}
 
@@ -70,7 +70,7 @@
 						</li>
 					{/foreach}
 					{foreach item=RELATED_LINK from=$DETAILVIEW_LINKS['DETAILVIEWRELATED']}
-						<li class="" data-url="{$RELATED_LINK->getUrl()}" data-label-key="{$RELATED_LINK->getLabel()}" >
+						<li class="" data-url="{$RELATED_LINK->getUrl()}" data-label-key="{$RELATED_LINK->getLabel()}">
 							<a>{\App\Language::translate($RELATED_LINK->getLabel(),{$MODULE_NAME})}</a>
 						</li>
 					{/foreach}

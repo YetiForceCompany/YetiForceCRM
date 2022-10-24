@@ -8,6 +8,7 @@
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Rafal Pospiech <r.pospiech@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
  * UIType multi domain field Class.
@@ -80,7 +81,7 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
-		return array_filter(explode(',', \App\Purifier::encodeHtml($value)));
+		return $value ? array_filter(explode(',', \App\Purifier::encodeHtml($value))) : [];
 	}
 
 	/** {@inheritdoc} */
