@@ -32,7 +32,7 @@ class Exception extends \Exception
 		if (empty($this->code)) {
 			$this->code = $code;
 		}
-		if (!\App\Config::debug('apiShowExceptionMessages')) {
+		if (!\App\Config::debug('apiShowExceptionMessages') && 406 !== $code) {
 			$message = 'Internal Server Error';
 		}
 		$body = [

@@ -57,7 +57,7 @@
 							<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 						</optgroup>
 					{/if}
-					{if App\Config::module('Users','FAVORITE_OWNERS')}
+					{if $SHOW_FAVORITE_OWNERS}
 						{assign var=FAVORITE_OWNERS value=$OWNER_FIELD->getFavorites($FIELD_MODEL->getFieldDataType())}
 						{if $FAVORITE_OWNERS}
 							{assign var=FAVORITE_OWNERS value=array_intersect_key($ALL_ACTIVEUSER_LIST, $FAVORITE_OWNERS) + array_intersect_key($ALL_ACTIVEGROUP_LIST, $FAVORITE_OWNERS)}
@@ -92,5 +92,5 @@
 			</select>
 		</div>
 	{/if}
-	<!-- tpl-Base-Edit-Field-Owner -->
+	<!-- /tpl-Base-Edit-Field-Owner -->
 {/strip}

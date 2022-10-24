@@ -34,8 +34,9 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 			$request->set('assigned_user_id', App\User::getCurrentUserRealId());
 		}
 		if (!empty($fields)) {
+			$viewName = $this->record->isNew() ? 'Create' : 'Edit';
 			foreach ($this->record->getModule()->getFields() as $fieldName => $fieldModel) {
-				if (!$fieldModel->isWritable()) {
+				if (!$fieldModel->isWritable($viewName)) {
 					continue;
 				}
 				if ($request->has($fieldName) && !\in_array($fieldName, $fields)) {

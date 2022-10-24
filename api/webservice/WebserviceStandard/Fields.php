@@ -115,6 +115,14 @@ class Fields
 						$value = \App\Record::getParentRecord($actionModel->getUserCrmId());
 					}
 					break;
+				case 'ownerFromAccountOnContact':
+					$value = \App\Record::getParentRecord($actionModel->getUserCrmId());
+					if ($recordMetaData = \vtlib\Functions::getCRMRecordMetadata($value)) {
+						$value = $recordMetaData['smownerid'];
+					}
+					break;
+				default:
+					break;
 			}
 		}
 		return $value;

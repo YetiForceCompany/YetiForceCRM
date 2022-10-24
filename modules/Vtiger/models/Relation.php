@@ -34,6 +34,11 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	protected $customViewList;
 
+	/**
+	 * @var array Event handler exceptions
+	 */
+	protected $handlerExceptions = [];
+
 	//one to many
 	const RELATION_O2M = 1;
 
@@ -639,6 +644,9 @@ class Vtiger_Relation_Model extends \App\Base
 		];
 		$eventHandler = (new \App\EventHandler())->setModuleName($this->getRelationModuleModel()->getName());
 		$eventHandlerBySource = (new \App\EventHandler())->setModuleName($sourceModuleName);
+		if (!empty($this->getHandlerExceptions())) {
+			$eventHandler->setExceptions($this->getHandlerExceptions());
+		}
 		foreach ($destinationRecordIds as $destinationRecordId) {
 			$data['destinationRecordId'] = $destinationRecordId;
 			$eventHandler->setParams($data)->trigger('EntityBeforeLink');
@@ -650,6 +658,29 @@ class Vtiger_Relation_Model extends \App\Base
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Set handler exceptions.
+	 *
+	 * @param array $exceptions
+	 * 
+	 * @return $this
+	 */
+	public function setHandlerExceptions(array $exceptions)
+	{
+		$this->handlerExceptions = $exceptions;
+		return $this;
+	}
+
+	/**
+	 * get handler exceptions.
+	 *
+	 * @return array
+	 */
+	public function getHandlerExceptions(): array
+	{
+		return $this->handlerExceptions;
 	}
 
 	/**

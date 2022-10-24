@@ -91,10 +91,10 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 			$viewer->assign('RECORD_STRUCTURE_RELATED_MODULES', $recordStructureModulesField);
 			$viewer->assign('RECORD_STRUCTURE', Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel)->getStructure());
 		}
-		if ('VTEmailTemplateTask' === $taskType) {
+		if (\in_array($taskType, ['VTEmailTemplateTask', 'VTEmailTask'])) {
 			$relations = \App\Field::getRelatedFieldForModule($sourceModule);
 			$documentsModel = Vtiger_Module_Model::getInstance('Documents');
-			$relationsWithDocuments = [];
+			$relationsWithDocuments = $documentsMultiReferenceField = [];
 			foreach ($relations as $relatedModuleName => $info) {
 				$documentsRelations = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($relatedModuleName), $documentsModel);
 				if (false !== $documentsRelations) {
@@ -106,8 +106,15 @@ class Settings_Workflows_EditTask_View extends Settings_Vtiger_Index_View
 			if (false !== $documentsRelations) {
 				$documents = true;
 			}
-			$viewer->assign('DOCUMENTS_RELATED_MODULLES', $relationsWithDocuments);
-			$viewer->assign('DOCUMENTS_MODULLES', $documents);
+			foreach ($moduleModel->getFieldsByType('multiReference', true) as $fieldName => $fieldModel) {
+				$fieldParams = $fieldModel->getFieldParams();
+				if (isset($fieldParams['module']) && 'Documents' === $fieldParams['module']) {
+					$documentsMultiReferenceField[$fieldName] = $fieldModel;
+				}
+			}
+			$viewer->assign('DOCUMENTS_MULTI_REFERENCE_FIELD', $documentsMultiReferenceField);
+			$viewer->assign('DOCUMENTS_RELATED_MODULES', $relationsWithDocuments);
+			$viewer->assign('DOCUMENTS_MODULES', $documents);
 			$relationsEmails = [];
 			foreach ($moduleModel->getRelations() as $relation) {
 				if (!\in_array($relation->get('relatedModuleName'), [$sourceModule, 'Documents', 'OSSMailView'])) {

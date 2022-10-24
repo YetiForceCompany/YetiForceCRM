@@ -42,12 +42,18 @@
 				<div class="col-md-9">
 					<div class="js-default-value-container {if empty($DATA['is_default'])}d-none{/if}" data-js="container">
 						{if $FIELD_MODEL->isDefaultValueForWebservice()}
-							{assign var=DEFAULT_VALUE_LIST value=\App\Field::getCustomListForDefaultValue($FIELD_MODEL)}
+							{assign var=DEFAULT_VALUE_LIST value=\App\Field::getCustomListForDefaultValue($FIELD_MODEL, true)}
 							{if $DEFAULT_VALUE_LIST}
 								<div class="mb-3">
 									<select class="select2 form-control" name="customDefaultValue" data-validation-engine="validate[required]">
-										{foreach key=KEY item=VALUE from=$DEFAULT_VALUE_LIST}
-											<option value="{$KEY}" {if isset($DATA['default_value']) && $KEY == $DATA['default_value']}selected{/if}>{$VALUE}</option>
+										{foreach key=GROUP_NAME item=VALUES from=$DEFAULT_VALUE_LIST}
+											<optgroup label="{\App\Language::translate($GROUP_NAME, $QUALIFIED_MODULE)}">
+												{foreach key=KEY item=VALUE from=$VALUES}
+													<option value="{$KEY}" {if isset($DATA['default_value']) && $KEY == $DATA['default_value']}selected{/if}>
+														{$VALUE}
+													</option>
+												{/foreach}
+											</optgroup>
 										{/foreach}
 									</select>
 								</div>

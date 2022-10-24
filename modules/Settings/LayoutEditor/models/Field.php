@@ -282,9 +282,11 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	/**
 	 * Function to check field is editable or not.
 	 *
+	 * @param string $viewName
+	 *
 	 * @return bool true/false
 	 */
-	public function isEditable(): bool
+	public function isEditable(string $viewName = 'Edit'): bool
 	{
 		if ('ModComments' === $this->getModuleName() && \in_array($this->getName(), ['commentcontent', 'userid', 'created_user_id', 'customer', 'reasontoedit', 'parents', 'assigned_user_id', 'creator', 'modifiedtime', 'related_to', 'createdtime', 'parent_comments'])) {
 			return false;

@@ -21,18 +21,19 @@ class Calendar_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Mode
 		}
 		$values = [];
 		$recordModel = $this->getRecord();
+		$viewName = $recordModel->isNew() ? 'Create' : 'Edit';
 		$recordExists = !empty($recordModel);
 		$moduleModel = $this->getModule();
 		$blockModelList = $moduleModel->getBlocks();
 		if ($recordExists) {
-			$fieldsDependency = \App\FieldsDependency::getByRecordModel($recordModel->isNew() ? 'Create' : 'Edit', $recordModel);
+			$fieldsDependency = \App\FieldsDependency::getByRecordModel($viewName, $recordModel);
 		}
 		foreach ($blockModelList as $blockLabel => $blockModel) {
 			$fieldModelList = $blockModel->getFields();
 			if (!empty($fieldModelList)) {
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
-					if ($fieldModel->isEditable() && (empty($fieldsDependency['hide']['backend']) || !\in_array($fieldName, $fieldsDependency['hide']['backend']))) {
+					if ($fieldModel->isEditable($viewName) && (empty($fieldsDependency['hide']['backend']) || !\in_array($fieldName, $fieldsDependency['hide']['backend']))) {
 						if ($recordExists) {
 							$fieldValue = $recordModel->get($fieldName);
 							if ('date_start' === $fieldName) {

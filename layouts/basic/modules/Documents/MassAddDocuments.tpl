@@ -24,7 +24,7 @@
 				<input type="file" name="file[]" multiple id="filesToUpload">
 			</div>
 			<div class="fileContainer d-none">
-				<div class="fileItem">
+				<div class="fileItem mt-2">
 					<label>{\App\Language::translate('Title', $MODULE_NAME)}</label>
 					<div class="input-group">
 						<input type="text" name="nameFile[]" class="form-control">

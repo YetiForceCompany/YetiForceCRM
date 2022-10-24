@@ -47,13 +47,14 @@ class Save extends \Vtiger_Save_Action
 	protected function getRecordModelFromRequest(\App\Request $request)
 	{
 		$fieldModelList = $this->record->getModule()->getFields();
+		$viewName = $this->record->isNew() ? 'Create' : 'Edit';
 		$requestKeys = $request->getAllRaw();
 		unset($requestKeys['module'],$requestKeys['action'],$requestKeys['record']);
 		if (empty($requestKeys)) {
 			throw new \Api\Core\Exception('No input data', 406);
 		}
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
-			if (!$fieldModel->isWritable()) {
+			if (!$fieldModel->isWritable($viewName)) {
 				continue;
 			}
 			if ($request->has($fieldName)) {

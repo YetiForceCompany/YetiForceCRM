@@ -67,7 +67,7 @@
 				<td class="p-1">{$item['user']}</td>
 				<td class="p-1">{$item['count']}</td>
 				<td class="p-1">{$item['stop_user']}</td>
-				<td class="p-1">{\App\Language::translate($item['action'], 'OSSMailScanner')}</td>
+				<td class="p-1">{if $item['action']}{\App\Language::translate($item['action'], 'OSSMailScanner')}{/if}</td>
 				<td class="p-1">{$item['info']}</td>
 				<td class="p-1">
 					{if $item['status'] eq 'In progress'}

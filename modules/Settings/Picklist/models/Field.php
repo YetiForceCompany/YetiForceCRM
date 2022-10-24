@@ -11,12 +11,8 @@
 
 class Settings_Picklist_Field_Model extends Settings_Vtiger_Field_Model
 {
-	/**
-	 * Function to check whether the current field is editable.
-	 *
-	 * @return bool
-	 */
-	public function isEditable(): bool
+	/** {@inheritdoc} */
+	public function isEditable(string $viewName = 'Edit'): bool
 	{
 		if ($this->get('sourceFieldModel')) {
 			$permissions = $this->get('sourceFieldModel')->isEditable();
