@@ -341,7 +341,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function getRawValue($value)
 	{
-		return $value;
+		return $value ?? '';
 	}
 
 	/**
