@@ -31,7 +31,6 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 			}
 		}
 		$actionsList = OSSMailScanner_Record_Model::getActionsList();
-		$ConfigFolderList = OSSMailScanner_Record_Model::getConfigFolderList();
 		$emailSearch = OSSMailScanner_Record_Model::getEmailSearch(false, false);
 		$emailSearchList = OSSMailScanner_Record_Model::getEmailSearchList();
 		$widgetCfg = OSSMailScanner_Record_Model::getConfig(false);
@@ -46,7 +45,6 @@ class Settings_OSSMailScanner_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('RECORD_MODEL', $mailScannerRecordModel);
 		$viewer->assign('ACCOUNTS_LIST', $accountsList);
 		$viewer->assign('ACTIONS_LIST', $actionsList);
-		$viewer->assign('CONFIGFOLDERLIST', $ConfigFolderList);
 		$viewer->assign('WIDGET_CFG', $widgetCfg);
 		$viewer->assign('EMAILSEARCH', $emailSearch);
 		$viewer->assign('EMAILSEARCHLIST', $emailSearchList);

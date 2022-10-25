@@ -58,6 +58,8 @@ $.Class(
 		},
 		registerEvents() {
 			const thisInstance = this;
+			let container = $('.contentsDiv');
+			App.Fields.MultiEmail.register(container);
 			thisInstance.registerChangeConfig();
 			thisInstance.registerSignature();
 			App.Fields.Text.registerCopyClipboard($('.js-container-variable'));

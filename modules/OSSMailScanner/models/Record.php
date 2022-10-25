@@ -146,21 +146,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Return folders config.
-	 *
-	 * @param bool|string $folder
-	 *
-	 * @return array|string
-	 */
-	public static function getConfigFolderList($folder = false)
-	{
-		if ($folder) {
-			return (new \App\Db\Query())->select(['parameter'])->from('vtiger_ossmailscanner_config')->where(['and', ['conf_type' => 'folders'], ['like', 'value', $folder]])->orderBy('parameter')->scalar();
-		}
-		return (new \App\Db\Query())->select(['parameter', 'value'])->from('vtiger_ossmailscanner_config')->where(['conf_type' => 'folders'])->orderBy(['parameter' => SORT_DESC])->createCommand()->queryAllByGroup(0);
-	}
-
-	/**
 	 * Return mailscanner config.
 	 *
 	 * @param bool|string $confType

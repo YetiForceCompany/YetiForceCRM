@@ -18,8 +18,6 @@ class Settings_Mail_Config_View extends Settings_Vtiger_Index_View
 		$qualifiedModuleName = $request->getModule(false);
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_MODEL', Settings_Mail_Config_Model::getInstance());
-		$viewer->assign('ERROR_MESSAGE', $request->getByType('errorMessage', 'Text'));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->view('Config.tpl', $qualifiedModuleName);
 	}

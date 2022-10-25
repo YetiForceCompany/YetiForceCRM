@@ -67,7 +67,6 @@ class Settings_MailSmtp_Module_Model extends Settings_Vtiger_Module_Model
 	public function getFieldInstanceByName(string $name)
 	{
 		$moduleName = $this->getName(true);
-		// $fieldsLabel = $this->getEditFields();
 		$params = [];
 		switch ($name) {
 			case 'mail_account':

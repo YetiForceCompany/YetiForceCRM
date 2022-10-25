@@ -151,6 +151,19 @@ class Imap
 		return $this->getFolderByName($folderName)->query()->limit($limit)->getByUidGreater($uid);
 	}
 
+	public function getLastMessages(int $limit = 5, string $folderName = 'INBOX')
+	{
+		$folder = $this->getFolderByName($folderName);
+		$messages = [];
+		if ($folder) {
+			foreach ($folder->query()->setFetchOrder('desc')->limit($limit)->all()->get()->reverse() as $message) {
+				$messages[$message->getUid()] = (new \App\Mail\Message\Imap())->setMessage($message);
+			}
+		}
+
+		return $messages;
+	}
+
 	/**
 	 * Get children folders.
 	 *

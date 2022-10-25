@@ -1087,14 +1087,13 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('limit', $limitPage);
-		$config = OSSMail_Module_Model::getComposeParameters();
 		$histories = Vtiger_HistoryRelation_Widget::getHistory($request, $pagingModel);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('VIEW_MODEL', $this->record);
 		$viewer->assign('RECORD_ID', $request->getInteger('record'));
 		$viewer->assign('HISTORIES', $histories);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$viewer->assign('POPUP', $config['popup']);
+		$viewer->assign('POPUP', \App\User::getCurrentUserModel()->getDetail('mail_popup'));
 		$viewer->assign('NO_MORE', $request->getBoolean('noMore'));
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly') || $this->record->getRecord()->isReadOnly());
 		$viewer->assign('IS_FULLSCREEN', $request->getBoolean('isFullscreen'));

@@ -91,16 +91,4 @@ class CreatedMail extends Base
 		$this->message->setMailCrmId($record->getId());
 		$this->message->setProcessData($this->getName(), ['mailViewId' => $record->getId(), 'attachments' => $this->message->getDocuments()]);
 	}
-
-	public function checkExceptions(): bool
-	{
-		$domainExceptions = array_filter(explode(',', $this->account->getSource()->get('domain_exceptions') ?: ''));
-		$emailExceptions = array_column(\App\Json::decode($this->account->getSource()->get('email_exceptions') ?: '[]'), 'e');
-		$mails = (0 === $this->message->getMailType()) ? $this->message->getEmail('to') : $this->message->getEmail('from');
-
-		return $mails && ($domainExceptions || $emailExceptions) && (
-			\array_intersect($mails, $emailExceptions)
-			|| \array_intersect(array_map(fn ($email) => (substr(strrchr($email, '@'), 1)), $mails), $domainExceptions)
-		);
-	}
 }

@@ -82,7 +82,7 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 		}
 		$emails = [];
 		foreach ($value as $item) {
-			if ($rawText) {
+			if ($rawText || false === $this->getFieldModel()->getParam('consenticon')) {
 				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, false);
 				continue;
 			}
@@ -92,7 +92,7 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, true, false) . '<span class="fas fa-ban text-danger mx-2"></span>';
 			}
 		}
-		return \App\Layout::truncateHtml(implode('<br>', $emails), 'miniHtml', $length ?: 100, true);
+		return \App\Layout::truncateHtml(implode(', ', $emails), 'miniHtml', $length ?: 100, true);
 	}
 
 	/** {@inheritdoc} */

@@ -202,12 +202,6 @@ jQuery.Class(
 			jQuery('#email_search').on('change', function () {
 				thisIstance.saveEmailSearchList(jQuery('#email_search').val());
 			});
-			jQuery('#tab_email_view_widget_limit').on('blur', function () {
-				thisIstance.saveWidgetConfig('widget_limit', jQuery(this).val(), 'email_list');
-			});
-			jQuery('#tab_email_view_open_window').on('change', function () {
-				thisIstance.saveWidgetConfig('target', jQuery(this).val(), 'email_list');
-			});
 			jQuery('[name="email_to_notify"]').on('blur', function () {
 				let value = jQuery(this).val();
 				if (!!thisIstance.email_validate(value)) {

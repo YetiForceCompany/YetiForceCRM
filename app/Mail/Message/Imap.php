@@ -168,6 +168,11 @@ class Imap extends Base
 		return $this->mailType;
 	}
 
+	public function getFirstLetter()
+	{
+		return strtoupper(\App\TextUtils::textTruncate(trim(implode(',', $this->getEmail('from'))), 1, false));
+	}
+
 	/**
 	 * Check if the Message has a html body.
 	 *
