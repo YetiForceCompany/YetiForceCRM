@@ -111,7 +111,7 @@ class VTEmailTemplateTask extends VTTask
 					$previousAttachments = $previousValue ? explode(',', $previousValue) : [];
 					$currentValue = $recordModel->get($moduleOrFieldName);
 					$currentAttachments = $currentValue ? explode(',', $currentValue) : [];
-					$documentIds = array_diff($currentAttachments, $previousAttachments);
+					$documentIds = array_values(array_diff($currentAttachments, $previousAttachments));
 				}
 			} else {
 				$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'Documents');
