@@ -100,8 +100,13 @@ class Accounts extends \App\Integrations\Wapro\Synchronizer
 	/** {@inheritdoc} */
 	public function importRecord(): int
 	{
-		if (($id = $this->findInMapTable($this->waproId, 'KONTRAHENT')) || ($id = $this->findExistRecord())) {
+		if ($id = $this->findInMapTable($this->waproId, 'KONTRAHENT')) {
 			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, self::MODULE_NAME);
+		} elseif ($id = $this->findExistRecord()) {
+			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, self::MODULE_NAME);
+			$this->recordModel->setDataForSave([\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME => [
+				'wtable' => 'KONTRAHENT',
+			]]);
 		} else {
 			$this->recordModel = \Vtiger_Record_Model::getCleanInstance(self::MODULE_NAME);
 			$this->recordModel->setDataForSave([\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME => [

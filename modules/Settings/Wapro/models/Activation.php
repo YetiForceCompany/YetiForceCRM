@@ -28,7 +28,7 @@ class Settings_Wapro_Activation_Model
 			'typeofdata' => 'NN~O', 'displaytype' => 9
 		]],
 		['wapro_user', 'Users', 'LBL_USERLOGIN_ROLE', [
-			'uitype' => 1, 'label' => 'FL_WAPRO_USER', 'columntype' => 'varchar(20)', 'maximumlength' => '20', 'typeofdata' => 'V~O'
+			'uitype' => 1, 'label' => 'FL_WAPRO_USER', 'columntype' => 'varchar(200)', 'maximumlength' => '200', 'typeofdata' => 'V~O'
 		]],
 	];
 
