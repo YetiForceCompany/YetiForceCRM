@@ -96,27 +96,4 @@ class YetiForceWaproERP extends \App\YetiForce\Shop\AbstractBaseProduct
 		}
 		return $links;
 	}
-
-	/** {@inheritdoc} */
-	public function getSwitchButton(): ?\Vtiger_Link_Model
-	{
-		$link = null;
-		if (\App\Security\AdminAccess::isPermitted('MailIntegration')) {
-			$link = \Vtiger_Link_Model::getInstanceFromValues([
-				'linklabel' => \App\Language::translate('LBL_ACTIVATE_DEACTIVATE_SERVICE', 'Settings:YetiForce'),
-				'linkdata' => [
-					'url-on' => 'index.php?module=MailIntegration&parent=Settings&action=Activate&source=outlook&mode=activate',
-					'url-off' => 'index.php?module=MailIntegration&parent=Settings&action=Activate&source=outlook&mode=deactivate',
-					'confirm' => \App\Language::translate('LBL_ACTIVATE_DEACTIVATE_SERVICE_CONFIRM_DESC', 'Settings:YetiForce'),
-				],
-			]);
-		}
-		return $link;
-	}
-
-	/** {@inheritdoc} */
-	public function isActive(): bool
-	{
-		return \Settings_MailIntegration_Activate_Model::isActive('outlook');
-	}
 }

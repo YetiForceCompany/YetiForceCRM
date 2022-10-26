@@ -21,6 +21,9 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	const NAME = 'LBL_INVOICE';
 
 	/** {@inheritdoc} */
+	const MODULE_NAME = 'FInvoice';
+
+	/** {@inheritdoc} */
 	const SEQUENCE = 5;
 
 	/** @var string[] Map for payment methods with WAPRO ERP */
@@ -55,7 +58,7 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	public function process(): int
 	{
 		$query = (new \App\Db\Query())->select([
-			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA', 'ID_DOK_ORYGINALNEGO',
+			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA', 'ID_DOK_ORYGINALNEGO', 'ID_UZYTKOWNIKA',
 			'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA', 'WARTOSC_NETTO', 'WARTOSC_BRUTTO', 'RAZEM_ZAPLACONO', 'DOK_KOREKTY', 'DATA_KURS_WAL', 'DOK_WAL', 'SYM_WAL', 'STATUS_DOKUMENTU', 'RAZEM_ZAPLACONO', 'RAZEM_ZAPLACONO_WAL',
 			'issueTime' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_WYSTAWIENIA - 36163 as datetime)',
 			'saleDate' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_SPRZEDAZY - 36163 as datetime)',
@@ -109,12 +112,15 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	public function importRecord(): int
 	{
 		if ($id = $this->findInMapTable($this->waproId, 'DOKUMENT_HANDLOWY')) {
-			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, 'FInvoice');
+			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, self::MODULE_NAME);
 		} else {
-			$this->recordModel = \Vtiger_Record_Model::getCleanInstance('FInvoice');
+			$this->recordModel = \Vtiger_Record_Model::getCleanInstance(self::MODULE_NAME);
 			$this->recordModel->setDataForSave([\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME => [
 				'wtable' => 'DOKUMENT_HANDLOWY',
 			]]);
+			if ($userId = $this->getUser($this->row['ID_UZYTKOWNIKA'])) {
+				$this->recordModel->set('assigned_user_id', $userId);
+			}
 		}
 		$this->recordModel->set('wapro_id', $this->waproId);
 		$this->recordModel->set('finvoice_status', 'PLL_UNASSIGNED');
