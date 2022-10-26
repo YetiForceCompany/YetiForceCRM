@@ -200,5 +200,12 @@
 				<input type="checkbox" name="updateDates" value="true" {if !empty($TASK_OBJECT->updateDates)}checked{/if} />
 			</div>
 		</div>
+		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
+			<span class="col-md-3 col-form-label">{\App\Language::translate('LBL_MEETING_URL',$QUALIFIED_MODULE)}</span>
+			<div class="col-md-9">
+				<input class="form-control" name="meetingUrl" type="text"
+					value="{if isset($TASK_OBJECT->meetingUrl)}{$TASK_OBJECT->meetingUrl}{/if}" />
+			</div>
+		</div>
 	</div>
 {/strip}
