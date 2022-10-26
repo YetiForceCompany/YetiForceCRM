@@ -374,8 +374,16 @@ abstract class Synchronizer
 		} else {
 			$erpUsers = (new \App\Db\Query())->select(['ID_UZYTKOWNIKA', 'IDENTYFIKATOR'])
 				->from('dbo.UZYTKOWNIK')->createCommand($this->controller->getDb())->queryAllByGroup();
-			$crmUsers = (new \App\Db\Query())->select(['wapro_user', 'id'])->from('vtiger_users')
-				->where(['and', ['not', ['wapro_user' => null]], ['<>', 'wapro_user', '']])->createCommand()->queryAllByGroup();
+			$dataReader = (new \App\Db\Query())->select(['wapro_user', 'id'])->from('vtiger_users')
+				->where(['and', ['not', ['wapro_user' => null]], ['<>', 'wapro_user', '']])
+				->createCommand()->query();
+			$crmUsers = [];
+			while ($row = $dataReader->read()) {
+				$erpIds = explode(',', $row['wapro_user']);
+				foreach ($erpIds as $erpId) {
+					$crmUsers[$erpId] = $row['id'];
+				}
+			}
 			$users = [];
 			foreach ($erpUsers as $id => $ident) {
 				if (isset($crmUsers[$ident])) {
