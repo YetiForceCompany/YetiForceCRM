@@ -54,7 +54,7 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 		$query = (new \App\Db\Query())->select([
 			'dbo.ARTYKUL.ID_ARTYKULU', 'dbo.ARTYKUL.NAZWA', 'dbo.ARTYKUL.STAN', 'dbo.ARTYKUL.STAN_MINIMALNY',
 			'dbo.ARTYKUL.STAN_MAKSYMALNY', 'dbo.ARTYKUL.INDEKS_KATALOGOWY', 'dbo.ARTYKUL.INDEKS_HANDLOWY',
-			'dbo.ARTYKUL.INDEKS_PRODUCENTA', 'dbo.ARTYKUL.VAT_SPRZEDAZY',
+			'dbo.ARTYKUL.INDEKS_PRODUCENTA', 'dbo.ARTYKUL.VAT_SPRZEDAZY', 'dbo.ARTYKUL.CENA_ZAKUPU_BRUTTO',
 			'dbo.ARTYKUL.KOD_KRESKOWY', 'dbo.ARTYKUL.OPIS', 'dbo.ARTYKUL.WAGA',
 			'category' => 'dbo.KATEGORIA_ARTYKULU_TREE.NAZWA',
 			'unitName' => 'dbo.JEDNOSTKA.SKROT',
