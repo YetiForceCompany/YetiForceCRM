@@ -334,7 +334,7 @@ abstract class Base extends \App\Controller\Base
 		}
 		if (\App\Session::has('authenticated_user_id')) {
 			if (\App\Integrations\Pbx::isActive()) {
-				$jsFileNames[] = '~layouts/resources/integrations/pbx/' . \App\Integrations\Pbx::getDefault()['type'] . '.js';
+				$jsFileNames[] = '~layouts/resources/integrations/pbx/' . \App\Integrations\Pbx::getInstance()->get('type') . '.js';
 			}
 			if ('Base' !== \App\Mail::getMailComposer()) {
 				$jsFileNames[] = '~layouts/resources/integrations/mail/' . \App\Mail::getMailComposer() . '.js';
