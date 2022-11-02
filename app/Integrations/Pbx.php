@@ -86,9 +86,10 @@ class Pbx extends \App\Base
 	 *
 	 * @return bool
 	 */
-	public function isActive(): bool
+	public static function isActive(): bool
 	{
-		if ($connector = $this->getConnector()) {
+		$pbx = self::getInstance();
+		if ($pbx && ($connector = $pbx->getConnector())) {
 			return $connector->isActive();
 		}
 		return false;
