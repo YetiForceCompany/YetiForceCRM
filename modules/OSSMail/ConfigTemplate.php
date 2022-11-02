@@ -375,4 +375,8 @@ return RCUBE_INSTALL_PATH . "/../../../../cache/mail/";',
 		'default' => '',
 		'description' => 'Store spam messages in this mailbox'
 	],
+	'messageFlags' => [
+		'default' => '',
+		'description' => 'Flags to be set while scanning messages',
+	],
 ];

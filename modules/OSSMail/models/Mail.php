@@ -557,4 +557,17 @@ class OSSMail_Mail_Model extends \App\Base
 	public function postProcess()
 	{
 	}
+
+	/**
+	 * Set flag on message
+	 *
+	 * @param resource $mbox
+	 * @return void
+	 */
+	public function setFlag($mbox): void
+	{
+		if ($flags = \Config\Modules\OSSMail::$messageFlags) {
+			imap_setflag_full($mbox, $this->get('id'), $flags, ST_UID);
+		}
+	}
 }

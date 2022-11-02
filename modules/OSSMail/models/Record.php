@@ -350,6 +350,7 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			}
 			$mail->set('clean', $clean);
 		}
+		$mail->setFlag($mbox);
 		return $mail;
 	}
 
