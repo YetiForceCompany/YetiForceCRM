@@ -28,7 +28,7 @@ class BriaSoftphone extends Base
 	const NAME = 'BRIA Softphone';
 
 	/** {@inheritdoc} */
-	public function performCall(): array
+	public function performCall(string $targetPhone, int $record): array
 	{
 		// No GUI mode
 		return [];

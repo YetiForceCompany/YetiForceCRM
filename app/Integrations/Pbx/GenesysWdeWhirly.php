@@ -27,9 +27,9 @@ class GenesysWdeWhirly extends Base
 	];
 
 	/** {@inheritdoc} */
-	public function performCall(): array
+	public function performCall(string $targetPhone, int $record): array
 	{
-		$url = "http://localhost:{$this->pbx->getConfig('httpListener')}/CLICKTODIAL?dialednumber={$this->pbx->get('targetPhone')}&crmsourceid={$this->pbx->get('record')}";
+		$url = "http://localhost:{$this->pbx->getConfig('httpListener')}/CLICKTODIAL?dialednumber={$targetPhone}&crmsourceid={$record}";
 		if ($serviceValuePhone = $this->pbx->getConfig('serviceValuePhone')) {
 			$url .= '&servicevalue=' . $serviceValuePhone;
 		}

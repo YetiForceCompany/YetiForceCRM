@@ -94,7 +94,9 @@ class Action extends \Api\Core\BaseAction
 				header("location: {$result['redirect']}");
 			}
 		} catch (\Throwable $th) {
-			http_response_code($th->getCode());
+			if (is_numeric($th->getCode())) {
+				http_response_code($th->getCode());
+			}
 			$message = $th->getMessage();
 			if ($th instanceof \App\Exceptions\AppException) {
 				$message = $th->getDisplayMessage();

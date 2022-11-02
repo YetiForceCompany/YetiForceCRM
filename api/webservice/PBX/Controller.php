@@ -35,7 +35,9 @@ class Controller extends \Api\Controller
 	/** {@inheritdoc}  */
 	public function handleError(\Throwable $e): void
 	{
-		http_response_code($e->getCode());
+		if (is_numeric($e->getCode())) {
+			http_response_code($e->getCode());
+		}
 		echo 'Internal Server Error';
 		file_put_contents(__DIR__ . '/_Genesys_' . date('Y-m-d-H') . '_error.log', print_r([
 			'datetime' => date('Y-m-d H:i:s'),
