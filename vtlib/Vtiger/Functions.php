@@ -361,7 +361,9 @@ class Functions
 					];
 					$code = $e->getCode();
 				}
-				http_response_code($code);
+				if (is_numeric($code)) {
+					http_response_code($code);
+				}
 				$viewer = new \Vtiger_Viewer();
 				$viewer->assign('MESSAGE', \Config\Debug::$EXCEPTION_ERROR_TO_SHOW ? $message : \App\Language::translate('ERR_OCCURRED_ERROR'));
 				$viewer->assign('MESSAGE_EXPANDED', \Config\Debug::$EXCEPTION_ERROR_TO_SHOW ? \is_array($message) : false);

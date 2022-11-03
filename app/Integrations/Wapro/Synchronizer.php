@@ -230,7 +230,7 @@ abstract class Synchronizer
 	}
 
 	/**
-	 * Convert currency to system format.
+	 * Find relationship.
 	 *
 	 * @param string $value
 	 * @param array  $params
