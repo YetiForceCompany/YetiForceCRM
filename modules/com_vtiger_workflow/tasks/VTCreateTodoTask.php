@@ -18,7 +18,7 @@ class VTCreateTodoTask extends VTTask
 
 	public function getFieldNames()
 	{
-		return ['todo', 'description', 'time', 'days_start', 'days_end', 'status', 'priority', 'days', 'direction_start', 'datefield_start', 'direction_end', 'datefield_end', 'sendNotification', 'assigned_user_id', 'days', 'doNotDuplicate', 'duplicateStatus', 'updateDates'];
+		return ['todo', 'description', 'time', 'days_start', 'days_end', 'status', 'priority', 'days', 'direction_start', 'datefield_start', 'direction_end', 'datefield_end', 'sendNotification', 'assigned_user_id', 'days', 'doNotDuplicate', 'duplicateStatus', 'updateDates', 'meetingUrl'];
 	}
 
 	/**
@@ -152,6 +152,7 @@ class VTCreateTodoTask extends VTTask
 			'date_start' => $date_start,
 			'due_date' => $due_date,
 			'visibility' => 'Private',
+			'meeting_url' => $this->meetingUrl,
 		];
 		$field = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
 		if ($field) {

@@ -20,7 +20,7 @@ class VTCreateEventTask extends VTTask
 		return ['eventType', 'eventName', 'description', 'sendNotification',
 			'startTime', 'startDays', 'startDirection', 'startDatefield',
 			'endTime', 'endDays', 'endDirection', 'endDatefield',
-			'status', 'priority', 'assigned_user_id', ];
+			'status', 'priority', 'assigned_user_id', 'meetingUrl'];
 	}
 
 	/**
@@ -75,6 +75,7 @@ class VTCreateEventTask extends VTTask
 			'time_end' => self::convertToDBFormat($this->endTime),
 			'due_date' => $endDate,
 			'duration_hours' => 0,
+			'meeting_url' => $this->meetingUrl,
 		];
 		$id = $recordModel->getId();
 		$field = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
