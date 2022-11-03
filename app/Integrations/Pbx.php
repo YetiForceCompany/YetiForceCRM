@@ -131,7 +131,7 @@ class Pbx extends \App\Base
 				$pbxInstance = self::getInstanceById($userPbx);
 				break;
 		}
-		if (empty($pbxInstance->get('type'))) {
+		if ($pbxInstance && empty($pbxInstance->get('type'))) {
 			$pbxInstance = null;
 		}
 		return self::$userCache = $pbxInstance;
