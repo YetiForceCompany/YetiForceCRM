@@ -81,7 +81,7 @@ class CreatedHelpDesk extends CreatedMail
 		}
 
 		$recordModel->save();
-		$this->message->setProcessData($this->getName(), $recordModel->getId());
+		$this->message->setProcessData($this->getName(), ['crmid' => $recordModel->getId()]);
 	}
 
 	/**

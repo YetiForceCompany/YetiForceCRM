@@ -18,12 +18,16 @@ class MailAccount_Scann_Cron extends \App\CronHandler
 	public function process()
 	{
 		$scanner = new \App\Mail\Scanner();
-		$scanner->setLimit(\App\Config::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING', 100));
+		$scanner->setLimit(\App\Mail::getConfig('scanner', 'limit'));
+		if (!$scanner->isReady()) {
+			\App\Log::warning(\App\Language::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
+			return;
+		}
 
 		$queryGenerator = (new \App\QueryGenerator('MailAccount'));
 		$queryGenerator->permissions = false;
 		$queryGenerator->setFields(['id']);
-		$queryGenerator->addCondition('mailaccount_status', 'PLL_ACTIVE', 'e');
+		$queryGenerator->addCondition('mailaccount_status', \App\Mail\Account::STATUS_ACTIVE, 'e');
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($recordId = $dataReader->readColumn(0)) {
 			$mailAccount = \App\Mail\Account::getInstanceById($recordId);

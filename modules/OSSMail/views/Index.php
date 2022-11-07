@@ -41,20 +41,16 @@ class OSSMail_Index_View extends Vtiger_Index_View
 	 */
 	public function initAutologin()
 	{
-		$config = Settings_Mail_Config_Model::getConfig('autologin');
-		if ('true' == $config['autologinActive']) {
-			$account = OSSMail_Autologin_Model::getAutologinUsers();
-			if ($account) {
-				$rcUser = (isset($_SESSION['AutoLoginUser']) && \array_key_exists($_SESSION['AutoLoginUser'], $account)) ? $account[$_SESSION['AutoLoginUser']] : reset($account);
-
-				$key = md5($rcUser['rcuser_id'] . microtime());
-				$this->mainUrl .= '&_autologin=1&_autologinKey=' . $key;
-				$currentUserModel = Users_Record_Model::getCurrentUserModel();
-				$userId = $currentUserModel->getId();
-				$dbCommand = \App\Db::getInstance()->createCommand();
-				$dbCommand->delete('u_#__mail_autologin', ['cuid' => $userId])->execute();
-				$dbCommand->insert('u_#__mail_autologin', ['key' => $key, 'ruid' => $rcUser['rcuser_id'], 'cuid' => $userId, 'params' => \App\Json::encode(['language' => \App\Language::getLanguageTag()])])->execute();
-			}
+		$accounts = OSSMail_Autologin_Model::getAutologinUsers();
+		if ($accounts) {
+			$rcUser = (isset($_SESSION['AutoLoginUser']) && \array_key_exists($_SESSION['AutoLoginUser'], $accounts)) ? $accounts[$_SESSION['AutoLoginUser']] : reset($accounts);
+			$key = md5($rcUser['id'] . microtime());
+			$this->mainUrl .= '&_autologin=1&_autologinKey=' . $key;
+			$currentUserModel = Users_Record_Model::getCurrentUserModel();
+			$userId = $currentUserModel->getId();
+			$dbCommand = \App\Db::getInstance()->createCommand();
+			$dbCommand->delete('u_#__mail_autologin', ['cuid' => $userId])->execute();
+			$dbCommand->insert('u_#__mail_autologin', ['key' => $key, 'ruid' => $rcUser['id'], 'cuid' => $userId, 'params' => \App\Json::encode(['language' => \App\Language::getLanguageTag()])])->execute();
 		}
 	}
 

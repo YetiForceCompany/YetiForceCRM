@@ -19,7 +19,7 @@ class CreatedMail extends Base
 {
 	/** {@inheritdoc} */
 	public static $priority = 2;
-	/** @var App\Mail\Message\Imap */
+	/** @var \App\Mail\Message\Imap */
 	protected $message;
 
 	/** {@inheritdoc} */

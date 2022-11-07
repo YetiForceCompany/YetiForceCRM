@@ -1,6 +1,6 @@
 <?php
 /**
- * Mail scanner file.
+ * Mail scanner log file.
  *
  * @package App
  *
@@ -12,7 +12,7 @@
 namespace App\Mail;
 
 /**
- * Mail scanner class.
+ * Mail scanner log class.
  */
 class ScannerLog extends \App\Base
 {
