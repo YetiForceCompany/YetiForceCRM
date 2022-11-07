@@ -110,7 +110,6 @@ class OSSMail_Mail_Model extends \App\Base
 	{
 		if (isset($this->mailType)) {
 			if ($returnText) {
-				$cacheKey = 'Received';
 				switch ($this->mailType) {
 					case 0:
 						$cacheKey = 'Sent';
@@ -118,26 +117,28 @@ class OSSMail_Mail_Model extends \App\Base
 					case 2:
 						$cacheKey = 'Internal';
 						break;
+					default:
+						$cacheKey = 'Received';
+						break;
 				}
-				return $cacheKey;
 			}
-			return $this->mailType;
+			return $returnText ? $cacheKey : $this->mailType;
 		}
-		$account = $this->getAccount();
 		$fromEmailUser = $this->findEmailUser($this->get('from_email'));
-		$toEmailUser = $this->findEmailUser($this->get('to_email'));
-		$ccEmailUser = $this->findEmailUser($this->get('cc_email'));
-		$bccEmailUser = $this->findEmailUser($this->get('bcc_email'));
-		$existIdentitie = false;
-		foreach (OSSMailScanner_Record_Model::getIdentities($account['user_id']) as $identitie) {
-			if ($identitie['email'] == $this->get('from_email')) {
-				$existIdentitie = true;
+		$existIdentity = false;
+		foreach (OSSMailScanner_Record_Model::getIdentities($this->getAccount()['user_id']) as $identity) {
+			if ($identity['email'] == $this->get('from_email')) {
+				$existIdentity = true;
 			}
 		}
-		if ($fromEmailUser && ($toEmailUser || $ccEmailUser || $bccEmailUser)) {
+		if ($fromEmailUser && (
+			$this->findEmailUser($this->get('to_email'))
+			|| $this->findEmailUser($this->get('cc_email'))
+			|| $this->findEmailUser($this->get('bcc_email'))
+			)) {
 			$key = 2;
 			$cacheKey = 'Internal';
-		} elseif ($existIdentitie || $fromEmailUser) {
+		} elseif ($existIdentity || $fromEmailUser) {
 			$key = 0;
 			$cacheKey = 'Sent';
 		} else {
@@ -145,10 +146,7 @@ class OSSMail_Mail_Model extends \App\Base
 			$cacheKey = 'Received';
 		}
 		$this->mailType = $key;
-		if ($returnText) {
-			return $cacheKey;
-		}
-		return $key;
+		return $returnText ? $cacheKey : $key;
 	}
 
 	/**
@@ -160,8 +158,9 @@ class OSSMail_Mail_Model extends \App\Base
 	 */
 	public static function findEmailUser($emails)
 	{
-		$notFound = 0;
+		$notFound = null;
 		if (!empty($emails)) {
+			$notFound = 0;
 			foreach (explode(',', $emails) as $email) {
 				if (!\Users_Module_Model::checkMailExist($email)) {
 					++$notFound;
