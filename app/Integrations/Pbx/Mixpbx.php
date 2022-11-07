@@ -25,13 +25,16 @@ class Mixpbx extends Base
 	];
 
 	/** {@inheritdoc} */
-	public function performCall(): array
+	public function performCall(string $targetPhone, int $record): array
 	{
+		if ($this->pbx->isEmpty('sourcePhone')) {
+			throw new \App\Exceptions\AppException('No user phone number');
+		}
 		$status = true;
 		$url = $this->pbx->getConfig('url');
 		$url .= '?username=' . urlencode($this->pbx->getConfig('username'));
 		$url .= '&password=' . urlencode($this->pbx->getConfig('password'));
-		$url .= '&number=' . urlencode($this->pbx->get('targetPhone'));
+		$url .= '&number=' . urlencode($targetPhone);
 		$url .= '&extension=' . urlencode($this->pbx->get('sourcePhone'));
 		try {
 			\App\Log::beginProfile("GET|Mixpbx::performCall|{$url}", __NAMESPACE__);

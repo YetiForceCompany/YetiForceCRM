@@ -21,6 +21,9 @@ class CorrectingInvoice extends Invoice
 	const NAME = 'LBL_CORRECTING_INVOICE';
 
 	/** {@inheritdoc} */
+	const MODULE_NAME = 'FCorectingInvoice';
+
+	/** {@inheritdoc} */
 	const SEQUENCE = 6;
 
 	/** {@inheritdoc} */
@@ -38,7 +41,7 @@ class CorrectingInvoice extends Invoice
 	public function process(): int
 	{
 		$query = (new \App\Db\Query())->select([
-			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA',  'ID_DOK_ORYGINALNEGO',
+			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA',  'ID_DOK_ORYGINALNEGO', 'ID_UZYTKOWNIKA',
 			'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA', 'WARTOSC_NETTO', 'WARTOSC_BRUTTO', 'DOK_KOREKTY',
 			'issueTime' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_WYSTAWIENIA - 36163 as datetime)',
 			'saleDate' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_SPRZEDAZY - 36163 as datetime)',
@@ -91,12 +94,15 @@ class CorrectingInvoice extends Invoice
 	public function importRecord(): int
 	{
 		if ($id = $this->findInMapTable($this->waproId, 'DOKUMENT_HANDLOWY')) {
-			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, 'FCorectingInvoice');
+			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, self::MODULE_NAME);
 		} else {
-			$this->recordModel = \Vtiger_Record_Model::getCleanInstance('FCorectingInvoice');
+			$this->recordModel = \Vtiger_Record_Model::getCleanInstance(self::MODULE_NAME);
 			$this->recordModel->setDataForSave([\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME => [
 				'wtable' => 'DOKUMENT_HANDLOWY',
 			]]);
+			if ($userId = $this->getUser($this->row['ID_UZYTKOWNIKA'])) {
+				$this->recordModel->set('assigned_user_id', $userId);
+			}
 		}
 		$this->recordModel->set('wapro_id', $this->waproId);
 		$this->recordModel->set('finvoiceid', $this->findRelationship($this->row['ID_DOK_ORYGINALNEGO'], ['tableName' => 'DOKUMENT_HANDLOWY']));

@@ -52,7 +52,7 @@ class Pbx extends \App\Controller\Action
 	 */
 	public function performCall(\App\Request $request): void
 	{
-		$pbx = \App\Integrations\Pbx::getDefaultInstance();
+		$pbx = \App\Integrations\Pbx::getInstance();
 		$pbx->loadUserPhone();
 		$performCall = $pbx->performCall($request->getByType('phone', 'Phone'), $request->getInteger('record'));
 		$response = new \Vtiger_Response();
@@ -69,7 +69,7 @@ class Pbx extends \App\Controller\Action
 	 */
 	public function saveCalls(\App\Request $request): void
 	{
-		$pbx = \App\Integrations\Pbx::getDefaultInstance();
+		$pbx = \App\Integrations\Pbx::getInstance();
 		$connector = $pbx->getConnector();
 		if (empty($connector)) {
 			throw new \App\Exceptions\AppException('No PBX connector found');

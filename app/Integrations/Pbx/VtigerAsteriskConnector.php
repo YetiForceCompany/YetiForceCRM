@@ -27,14 +27,17 @@ class VtigerAsteriskConnector extends Base
 	];
 
 	/** {@inheritdoc} */
-	public function performCall(): array
+	public function performCall(string $targetPhone, int $record): array
 	{
+		if ($this->pbx->isEmpty('sourcePhone')) {
+			throw new \App\Exceptions\AppException('No user phone number');
+		}
 		$status = true;
 		$serviceURL = $this->pbx->getConfig('url');
 		$serviceURL .= '/makecall?event=OutgoingCall&';
 		$serviceURL .= 'secret=' . urlencode($this->pbx->getConfig('secretkey')) . '&';
 		$serviceURL .= 'from=' . urlencode($this->pbx->get('sourcePhone')) . '&';
-		$serviceURL .= 'to=' . urlencode($this->pbx->get('targetPhone')) . '&';
+		$serviceURL .= 'to=' . urlencode($targetPhone) . '&';
 		$serviceURL .= 'context=' . urlencode($this->pbx->get('outboundContext'));
 		try {
 			\App\Log::beginProfile("POST|VtigerAsteriskConnector::performCall|{$serviceURL}", __NAMESPACE__);

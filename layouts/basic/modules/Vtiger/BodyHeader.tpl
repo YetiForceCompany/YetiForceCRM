@@ -163,8 +163,8 @@
 		{/if}
 		<div class="o-navbar__right ml-auto d-inline-flex flex-sm-nowrap">
 			{if \App\Integrations\Pbx::isActive()}
-				{assign var=DEFAULT_PBX value=\App\Integrations\Pbx::getDefault()}
-				{if $DEFAULT_PBX['type'] === 'BriaSoftphone'}
+				{assign var=DEFAULT_PBX value=\App\Integrations\Pbx::getInstance()}
+				{if $DEFAULT_PBX->get('type') === 'BriaSoftphone'}
 					<div class="btn-group-sm mr-2">
 						<button type="button" class="btn btn-danger btn-sm d-none js-phone-status-btn" data-js="container">
 							<span class="fa-solid fa-phone-slash js-icon" data-js="container"></span>

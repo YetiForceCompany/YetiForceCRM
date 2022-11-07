@@ -38,9 +38,12 @@ abstract class Base
 	/**
 	 * Perform phone call.
 	 *
+	 * @param string $targetPhone
+	 * @param int    $record
+	 *
 	 * @return array
 	 */
-	abstract public function performCall(): array;
+	abstract public function performCall(string $targetPhone, int $record): array;
 
 	/**
 	 * Whether a call is active with the PBX integration.

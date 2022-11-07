@@ -21,6 +21,9 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 	const NAME = 'LBL_COMPANY_BANK_ACCOUNTS';
 
 	/** {@inheritdoc} */
+	const MODULE_NAME = 'BankAccounts';
+
+	/** {@inheritdoc} */
 	const SEQUENCE = 1;
 
 	/** {@inheritdoc} */
@@ -74,12 +77,15 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 			return 0;
 		}
 		if ($id = $this->findInMapTable($this->waproId, 'RACHUNEK_FIRMY')) {
-			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, 'BankAccounts');
+			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, self::MODULE_NAME);
 		} else {
-			$this->recordModel = \Vtiger_Record_Model::getCleanInstance('BankAccounts');
+			$this->recordModel = \Vtiger_Record_Model::getCleanInstance(self::MODULE_NAME);
 			$this->recordModel->setDataForSave([\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME => [
 				'wtable' => 'RACHUNEK_FIRMY',
 			]]);
+			if ($userId = $this->searchUserInActivity($this->waproId, 'RACHFIR')) {
+				$this->recordModel->set('assigned_user_id', $userId);
+			}
 		}
 		$this->recordModel->set('bankaccount_status', $this->row['AKTYWNY'] ? 'PLL_ACTIVE' : 'PLL_INACTIVE');
 		$this->recordModel->set('wapro_id', $this->waproId);

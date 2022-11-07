@@ -13,10 +13,10 @@
 	<div class="row">
 		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
 			<span class="col-md-3 col-form-label">{\App\Language::translate('LBL_EVENT_NAME',$QUALIFIED_MODULE)}<span
-						class="redColor">*</span></span>
+					class="redColor">*</span></span>
 			<div class="col-md-9">
 				<input data-validation-engine='validate[required]' class="form-control" name="eventName" type="text"
-					   value="{if isset($TASK_OBJECT->eventName)}{$TASK_OBJECT->eventName}{/if}"/>
+					value="{if isset($TASK_OBJECT->eventName)}{$TASK_OBJECT->eventName}{/if}" />
 			</div>
 		</div>
 		<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
@@ -70,7 +70,7 @@
 						{if $WORKFLOW_MODEL->get('execution_condition') === \VTWorkflowManager::$TRIGGER}
 							<option value="triggerUser" {if isset($TASK_OBJECT->assigned_user_id) && $TASK_OBJECT->assigned_user_id eq 'triggerUser'} selected="" {/if}>{\App\Language::translate('LBL_TRIGGER_USER',$QUALIFIED_MODULE)}</option>
 						{/if}
-                    </optgroup>
+					</optgroup>
 				</select>
 			</span>
 		</div>
@@ -84,7 +84,7 @@
 			<div class="col-md-9">
 				<div class="input-group time">
 					<input type="text" class="clockPicker form-control" data-format="{$timeFormat}" autocomplete="off"
-						   value="{$START_TIME}" name="startTime"/>
+						value="{$START_TIME}" name="startTime" />
 					<div class="input-group-append">
 						<span class="input-group-text u-cursor-pointer js-clock__btn" data-js="click">
 							<span class="far fa-clock"></span>
@@ -97,16 +97,16 @@
 			<div class="col-md-3 mb-1 mb-md-0">{\App\Language::translate('LBL_START_DATE',$QUALIFIED_MODULE)}</div>
 			<div class="col-md-2 mb-1 mb-md-0 pr-md-1">
 				<input class="form-control" type="text" value="{if isset($TASK_OBJECT->startDays)}{$TASK_OBJECT->startDays}{/if}" name="startDays"
-					   data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">
+					data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">
 			</div>
 			<div class="col-md-4 row no-gutters mb-1 mb-md-0 pr-md-1">
 				<div class="col-2 pt-1">{\App\Language::translate('LBL_DAYS',$QUALIFIED_MODULE)}</div>
 				<div class="col-10">
 					<select class="select2 form-control" name="startDirection">
 						<option {if isset($TASK_OBJECT->startDirection) && $TASK_OBJECT->startDirection eq 'after'}selected{/if}
-								value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
+							value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
 						<option {if isset($TASK_OBJECT->startDirection) && $TASK_OBJECT->startDirection eq 'before'}selected{/if}
-								value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
+							value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 					</select>
 				</div>
 			</div>
@@ -114,7 +114,7 @@
 				<select class="select2 form-control" name="startDatefield">
 					{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
 						<option {if isset($TASK_OBJECT->startDatefield) && $TASK_OBJECT->startDatefield eq $DATETIME_FIELD->get('name')}selected{/if}
-								value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
+							value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
 					{/foreach}
 				</select>
 			</span>
@@ -129,7 +129,7 @@
 			<div class="col-md-9">
 				<div class="input-group time">
 					<input type="text" class="clockPicker form-control" value="{$END_TIME}" name="endTime"
-						   autocomplete="off"/>
+						autocomplete="off" />
 					<div class="input-group-append">
 						<div class="input-group-text u-cursor-pointer js-clock__btn" data-js="click">
 							<span class="far fa-clock"></span>
@@ -142,7 +142,7 @@
 			<div class="col-md-3 mb-1 mb-md-0">{\App\Language::translate('LBL_END_DATE',$QUALIFIED_MODULE)}</div>
 			<div class="col-md-2 mb-1 mb-md-0 pr-md-1">
 				<input class="form-control" type="text" value="{if isset($TASK_OBJECT->endDays)}{$TASK_OBJECT->endDays}{/if}" name="endDays"
-					   data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">
+					data-validation-engine="validate[funcCall[Vtiger_WholeNumber_Validator_Js.invokeValidation]]">
 			</div>
 			<div class="col-md-4 row no-gutters mb-1 mb-md-0 pr-md-1">
 
@@ -150,9 +150,9 @@
 				<div class="col-10">
 					<select class="select2 form-control" name="endDirection">
 						<option {if isset($TASK_OBJECT->endDirection) && $TASK_OBJECT->endDirection eq 'after'}selected{/if}
-								value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
+							value="after">{\App\Language::translate('LBL_AFTER',$QUALIFIED_MODULE)}</option>
 						<option {if isset($TASK_OBJECT->endDirection) && $TASK_OBJECT->endDirection eq 'before'}selected{/if}
-								value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
+							value="before">{\App\Language::translate('LBL_BEFORE',$QUALIFIED_MODULE)}</option>
 					</select>
 				</div>
 			</div>
@@ -160,10 +160,19 @@
 				<select class="select2 form-control" name="endDatefield">
 					{foreach from=$DATETIME_FIELDS item=DATETIME_FIELD}
 						<option {if isset($TASK_OBJECT->endDatefield) && $TASK_OBJECT->endDatefield eq $DATETIME_FIELD->get('name')}selected{/if}
-								value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
+							value="{$DATETIME_FIELD->get('name')}">{\App\Language::translate($DATETIME_FIELD->get('label'),$SOURCE_MODULE)}</option>
 					{/foreach}
 				</select>
 			</span>
 		</div>
+		{if isset($TASK_TYPE_MODEL->getTaskBaseModule()->getField('meeting_url')) && $TASK_TYPE_MODEL->getTaskBaseModule()->getField('meeting_url')->isActiveField()}
+			<div class="row no-gutters col-12 col-xl-6 padding-bottom1per">
+				<span class="col-md-3 col-form-label">{\App\Language::translate('LBL_MEETING_URL',$QUALIFIED_MODULE)}</span>
+				<div class="col-md-9">
+					<input class="form-control" name="meetingUrl" type="text"
+						value="{if isset($TASK_OBJECT->meetingUrl)}{\App\Purifier::encodeHtml($TASK_OBJECT->meetingUrl)}{/if}" />
+				</div>
+			</div>
+		{/if}
 	</div>
 {/strip}

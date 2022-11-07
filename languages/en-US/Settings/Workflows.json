@@ -271,7 +271,8 @@
     "LBL_ONE_TO_MANY_RELATIONS": "One to many relations",
     "LBL_MANY_TO_MANY_RELATIONS": "Many to many relations",
     "LBL_ALL_ATTACHMENTS": "all attachments",
-    "LBL_LATEST_ATTACHMENTS": "latest attachments"
+    "LBL_LATEST_ATTACHMENTS": "latest attachments",
+    "LBL_MEETING_URL": "Meeting URL"
   },
   "js": {
     "JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE": "Same fields selected more than once",

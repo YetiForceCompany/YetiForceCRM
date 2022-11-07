@@ -22,6 +22,9 @@ class Pbx extends \App\Base
 	/** @var array Cache for default PBX. */
 	private static $defaultCache = [];
 
+	/** @var self Cache for user PBX. */
+	private static $userCache;
+
 	/**
 	 * Get pbx connectors.
 	 *
@@ -85,21 +88,8 @@ class Pbx extends \App\Base
 	 */
 	public static function isActive(): bool
 	{
-		$userPbx = \App\User::getCurrentUserModel()->getDetail('user_pbx');
-		switch ($userPbx) {
-			case -1:
-				return false;
-			case 0:
-				$pbxInstance = self::getDefaultInstance();
-				break;
-			default:
-				$pbxInstance = self::getInstanceById($userPbx);
-				break;
-		}
-		if (empty($pbxInstance->get('type'))) {
-			return false;
-		}
-		if ($connector = $pbxInstance->getConnector()) {
+		$pbx = self::getInstance();
+		if ($pbx && ($connector = $pbx->getConnector())) {
 			return $connector->isActive();
 		}
 		return false;
@@ -117,6 +107,34 @@ class Pbx extends \App\Base
 			$instance->setData($data);
 		}
 		return $instance;
+	}
+
+	/**
+	 * Get user PBX instance.
+	 *
+	 * @return self|null
+	 */
+	public static function getInstance(): ?self
+	{
+		if (!empty(self::$userCache)) {
+			return self::$userCache;
+		}
+		$userPbx = \App\User::getCurrentUserModel()->getDetail('user_pbx');
+		switch ($userPbx) {
+			case -1:
+				$pbxInstance = null;
+				break;
+			case 0:
+				$pbxInstance = self::getDefaultInstance();
+				break;
+			default:
+				$pbxInstance = self::getInstanceById($userPbx);
+				break;
+		}
+		if ($pbxInstance && empty($pbxInstance->get('type'))) {
+			$pbxInstance = null;
+		}
+		return self::$userCache = $pbxInstance;
 	}
 
 	/**
@@ -158,9 +176,6 @@ class Pbx extends \App\Base
 	 */
 	public function performCall(string $targetPhone, int $record): array
 	{
-		if ($this->isEmpty('sourcePhone')) {
-			throw new \App\Exceptions\AppException('No user phone number');
-		}
 		if (empty($targetPhone)) {
 			throw new \App\Exceptions\AppException('No target phone number');
 		}
@@ -168,9 +183,7 @@ class Pbx extends \App\Base
 		if (empty($connector)) {
 			throw new \App\Exceptions\AppException('No PBX connector found');
 		}
-		$this->set('targetPhone', $targetPhone);
-		$this->set('record', $record);
-		return $connector->performCall();
+		return $connector->performCall($targetPhone, $record);
 	}
 
 	/**

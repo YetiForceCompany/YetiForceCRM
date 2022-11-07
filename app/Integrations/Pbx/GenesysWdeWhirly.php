@@ -27,9 +27,9 @@ class GenesysWdeWhirly extends Base
 	];
 
 	/** {@inheritdoc} */
-	public function performCall(): array
+	public function performCall(string $targetPhone, int $record): array
 	{
-		$url = "http://localhost:{$this->pbx->getConfig('httpListener')}/CLICKTODIAL?dialednumber={$this->pbx->get('targetPhone')}&crmsourceid={$this->pbx->get('record')}";
+		$url = "http://localhost:{$this->pbx->getConfig('httpListener')}/CLICKTODIAL?dialednumber={$targetPhone}&crmsourceid={$record}";
 		if ($serviceValuePhone = $this->pbx->getConfig('serviceValuePhone')) {
 			$url .= '&servicevalue=' . $serviceValuePhone;
 		}
@@ -42,7 +42,7 @@ class GenesysWdeWhirly extends Base
 	/** {@inheritdoc} */
 	public function saveSettings(array $data): void
 	{
-		$host = 'localhost:' . $data['httpListener'];
+		$host = 'http://localhost:' . $data['httpListener'];
 		if (!\in_array($host, \Config\Security::$allowedConnectDomains)) {
 			$security = new \App\ConfigFile('security');
 			$security->set('allowedConnectDomains', array_values(array_merge((\Config\Security::$allowedConnectDomains), [

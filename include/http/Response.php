@@ -111,7 +111,9 @@ class Vtiger_Response
 		}
 		$this->setHeader(\App\Request::_getServer('SERVER_PROTOCOL') . ' ' . $statusCode . ' ' . str_ireplace(["\r\n", "\r", "\n"], ' ', $reasonPhrase));
 		$this->error = $error;
-		http_response_code($statusCode);
+		if (is_numeric($statusCode)) {
+			http_response_code($statusCode);
+		}
 	}
 
 	/**

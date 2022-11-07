@@ -10,6 +10,9 @@
 					<input type="checkbox" value="{$SYNCHRONIZER->className}" class="form-check-input js-synchronizer" id="wapro{$SYNCHRONIZER->className}" {if in_array($SYNCHRONIZER->className,$SYNCHRONIZERS)} checked{/if} data-js="container">
 					<label class="form-check-label ml-2" for="wapro{$SYNCHRONIZER->className}">
 						{\App\Language::translate($SYNCHRONIZER::NAME, $QUALIFIED_MODULE)} <span class="badge badge-primary">{\App\Language::translate('LBL_NUMBER_OF_ENTRIES', $QUALIFIED_MODULE)}: {$SYNCHRONIZER->getCounter()}</span>
+						{if !\App\Module::isModuleActive($SYNCHRONIZER::MODULE_NAME)}
+							<span class="ml-2 badge badge-danger">{\App\Language::translate('FL_INACTIVE')}</span>
+						{/if}
 					</label>
 				</div>
 			{/foreach}

@@ -19,6 +19,9 @@ abstract class Synchronizer
 	/** @var string Provider name | File name. */
 	const NAME = null;
 
+	/** @var string Module name. */
+	const MODULE_NAME = null;
+
 	/** @var string Priority order. */
 	const SEQUENCE = null;
 
@@ -227,7 +230,7 @@ abstract class Synchronizer
 	}
 
 	/**
-	 * Convert currency to system format.
+	 * Find relationship.
 	 *
 	 * @param string $value
 	 * @param array  $params
@@ -331,5 +334,64 @@ abstract class Synchronizer
 	protected function decode(string $value, array $params): string
 	{
 		return trim(preg_replace('/[\x{0081}\n]/u', ' ', \App\Purifier::decodeHtml($value)));
+	}
+
+	/**
+	 * Search for user in activity.
+	 *
+	 * @param int    $id
+	 * @param string $table
+	 *
+	 * @return int|null
+	 */
+	public function searchUserInActivity(int $id, string $table): ?int
+	{
+		$cacheKey = "$id|$table";
+		if (\App\Cache::has('WaproUser', $cacheKey)) {
+			return \App\Cache::get('WaproUser', $cacheKey);
+		}
+		$userId = null;
+		$erpId = (new \App\Db\Query())->select(['ID_UZYTKOWNIKA'])->from('dbo.AKTYWNOSC_UZYTKOWNIKA')
+			->where(['ID_ZAPISU' => $id, 'TYP_ZAPISU' => $table])->scalar($this->controller->getDb());
+		if ($erpId) {
+			$userId = $this->getUser($erpId);
+		}
+		\App\Cache::save('WaproUser', $cacheKey, $userId);
+		return $userId;
+	}
+
+	/**
+	 * Find CRM User ID by ID from ERP.
+	 *
+	 * @param int $erpId
+	 *
+	 * @return int|null
+	 */
+	protected function getUser(int $erpId): ?int
+	{
+		if (\App\Cache::has('WaproUserMap', '')) {
+			$users = \App\Cache::get('WaproUserMap', '');
+		} else {
+			$erpUsers = (new \App\Db\Query())->select(['ID_UZYTKOWNIKA', 'IDENTYFIKATOR'])
+				->from('dbo.UZYTKOWNIK')->createCommand($this->controller->getDb())->queryAllByGroup();
+			$dataReader = (new \App\Db\Query())->select(['wapro_user', 'id'])->from('vtiger_users')
+				->where(['and', ['not', ['wapro_user' => null]], ['<>', 'wapro_user', '']])
+				->createCommand()->query();
+			$crmUsers = [];
+			while ($row = $dataReader->read()) {
+				$erpIds = explode(',', $row['wapro_user']);
+				foreach ($erpIds as $erpId) {
+					$crmUsers[$erpId] = $row['id'];
+				}
+			}
+			$users = [];
+			foreach ($erpUsers as $id => $ident) {
+				if (isset($crmUsers[$ident])) {
+					$users[$id] = $crmUsers[$ident];
+				}
+			}
+			\App\Cache::save('WaproUserMap', '', $users);
+		}
+		return $users[$erpId] ?? null;
 	}
 }

@@ -145,13 +145,15 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 				} elseif ($baseTable === $tableName) {
 					$db->createCommand()->update($tableName, $tableData, [$baseTableIndex => $this->getId()])->execute();
 				} else {
-					$names = $tableData['names'];
-					$names[] = 'id';
-					foreach ($tableData['values'] as &$values) {
-						$values[] = $this->getId();
-					}
 					$db->createCommand()->delete($tableName, ['id' => $this->getId()])->execute();
-					$db->createCommand()->batchInsert($tableName, $names, $tableData['values'])->execute();
+					if ($tableData) {
+						$names = $tableData['names'];
+						$names[] = 'id';
+						foreach ($tableData['values'] as &$values) {
+							$values[] = $this->getId();
+						}
+						$db->createCommand()->batchInsert($tableName, $names, $tableData['values'])->execute();
+					}
 				}
 			}
 		}
@@ -180,6 +182,9 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 						\App\PrivilegeUtil::MEMBER_TYPE_ROLES => 's_#__auto_assign_roles',
 						\App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES => 's_#__auto_assign_roles'
 					];
+					foreach ($tables as $table) {
+						$forSave[$table] = [];
+					}
 					foreach ($members as $member) {
 						[$type, $id] = explode(':', $member);
 						$forSave[$tables[$type]]['names'] = ['member', 'type'];
@@ -191,6 +196,7 @@ class Settings_AutomaticAssignment_Record_Model extends Settings_Vtiger_Record_M
 					break;
 			}
 		}
+
 		return $forSave;
 	}
 
