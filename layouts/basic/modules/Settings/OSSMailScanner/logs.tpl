@@ -17,21 +17,6 @@
 			</td>
 		</tr>
 	</table>
-	<br />
-	<div class="row col-12">
-		<div class="row col-sm-10 col-md-8 col-lg-7 marginBottom10px">
-			<div class="row col-sm-4">{\App\Language::translate('email_to_notify', 'OSSMailScanner')}: &nbsp;</div>
-			<div class="col-sm-7"><input type="text" class="form-control"
-					title="{\App\Language::translate('email_to_notify', 'OSSMailScanner')}"
-					name="email_to_notify" value="{$WIDGET_CFG['cron']['email']}" /></div>
-		</div>
-		<div class='row col-sm-10 col-md-8 col-lg-7 marginBottom10px'>
-			<div class="row col-sm-4">{\App\Language::translate('time_to_notify', 'OSSMailScanner')}: &nbsp;</div>
-			<div class="col-sm-7"><input type="text" name="time_to_notify"
-					title="{\App\Language::translate('time_to_notify', 'OSSMailScanner')}"
-					class="form-control" value="{$WIDGET_CFG['cron']['time']}" /></div>
-		</div>
-	</div>
 	<div class="d-flex justify-content-end">
 		<select class="w-auto form-control js-page-num" name="page_num"
 			title="{\App\Language::translate('LBL_PAGE_NUMBER', $QUALIFIED_MODULE)}" data-js="change|value">

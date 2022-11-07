@@ -36,7 +36,10 @@ class OpenHelpDesk extends Base
 			$recordModel->set('ticketstatus', \Config\Modules\OSSMailScanner::$helpdeskBindOpenStatus);
 		}
 
-		$recordModel->save();
-		$this->message->setProcessData($this->getName(), $recordModel->getId());
+		if ($recordModel->getPreviousValue()) {
+			$recordModel->save();
+		}
+
+		$this->message->setProcessData($this->getName(), ['crmid' => $recordModel->getId()]);
 	}
 }

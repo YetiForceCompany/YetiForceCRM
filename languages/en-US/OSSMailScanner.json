@@ -106,8 +106,6 @@
     "OK": "ok",
     "In progress": "In realization",
     "Error": "Error",
-    "email_to_notify": "Notification email",
-    "time_to_notify": "Time to notify (min)",
     "StopCron": "Manually stop scanning",
     "Manually stopped": "Manually stopped",
     "stop_user": "Scanning stopped by",

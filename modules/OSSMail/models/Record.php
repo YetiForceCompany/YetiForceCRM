@@ -257,35 +257,38 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 			return [];
 		}
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		$config = Settings_Mail_Config_Model::getConfig('mailIcon');
-		$interval = $config['timeCheckingMail'] ?? 30;
+		$interval = \App\Mail::getConfig('mailIcon', 'timeCheckingMail') ?: 30;
 		$date = strtotime("-{$interval} seconds");
 		$counter = [];
 		$all = (new \App\Db\Query())->from('u_#__mail_quantities')->where(['userid' => $users])->indexBy('userid')->all();
+		$accounts = OSSMail_Autologin_Model::getAutologinUsers();
 		foreach ($users as $user) {
 			if (empty($all[$user]['date']) || $date > strtotime($all[$user]['date'])) {
-				if ($account = self::getMailAccountDetail($user)) {
+				if (isset($accounts[$user])) {
 					if (empty($all[$user])) {
 						$dbCommand->insert('u_#__mail_quantities', ['userid' => $user, 'num' => 0, 'date' => date('Y-m-d H:i:s')])->execute();
 					} else {
 						$dbCommand->update('u_#__mail_quantities', ['date' => date('Y-m-d H:i:s')], ['userid' => $user])->execute();
 					}
 					try {
-						$mbox = self::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], 'INBOX', false, [], $account);
-						if ($mbox) {
-							\App\Log::beginProfile(__METHOD__ . '|imap_status|' . $user, 'Mail|IMAP');
-							$info = imap_status($mbox, static::$imapConnectMailbox, SA_UNSEEN);
-							\App\Log::endProfile(__METHOD__ . '|imap_status|' . $user, 'Mail|IMAP');
-							$counter[$user] = $info->unseen ?? 0;
-							$dbCommand->update('u_#__mail_quantities', ['num' => $counter[$user], 'date' => date('Y-m-d H:i:s')], ['userid' => $user])->execute();
+						$mailAccount = \App\Mail\Account::getInstanceById($user);
+						$mailbox = $mailAccount->openImap();
+						$folder = $mailbox->getFolderByName('INBOX');
+						$count = 0;
+						if ($folder) {
+							$count = $folder->query()->unseen()->count();
 						}
+						$counter[$user] = $count;
+						$dbCommand->update('u_#__mail_quantities', ['num' => $count, 'date' => date('Y-m-d H:i:s')], ['userid' => $user])->execute();
 					} catch (\Throwable $th) {
+						\App\Log::error($th->__toString());
 					}
 				}
 			} else {
 				$counter[$user] = $all[$user]['num'] ?? 0;
 			}
 		}
+
 		return $counter;
 	}
 

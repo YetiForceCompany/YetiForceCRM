@@ -22,6 +22,7 @@ jQuery.Class(
 					})
 					.fail(function (_error) {
 						progressIndicator.progressIndicator({ mode: 'hide' });
+						app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
 					});
 			});
 		},
@@ -35,15 +36,19 @@ jQuery.Class(
 					parent: app.getParentModuleName(),
 					action: 'SaveAjax',
 					mode: 'acceptanceRecord',
-					id: $('#recordId').val()
+					record: container.find('#recordId').val()
 				})
 					.done(function (data) {
 						progressIndicator.progressIndicator({ mode: 'hide' });
 						Settings_Vtiger_Index_Js.showMessage({ text: data.result.message });
 						$(elem).remove();
+						if (data.result.success) {
+							window.location.reload();
+						}
 					})
 					.fail(function (_error) {
 						progressIndicator.progressIndicator({ mode: 'hide' });
+						app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
 					});
 			});
 		},
@@ -69,6 +74,7 @@ jQuery.Class(
 					})
 					.fail(function (_error) {
 						progressIndicator.progressIndicator({ mode: 'hide' });
+						app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
 					});
 			});
 		},

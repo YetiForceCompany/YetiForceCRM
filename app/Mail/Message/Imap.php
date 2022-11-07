@@ -66,6 +66,11 @@ class Imap extends Base
 		return $this->mailCrmId;
 	}
 
+	public function getMailCrmIdByCid()
+	{
+		return (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['cid' => $this->getUniqueId()])->limit(1)->scalar() ?: null;
+	}
+
 	public function setMailCrmId(int $mailCrmId)
 	{
 		$this->mailCrmId = $mailCrmId;
@@ -76,6 +81,11 @@ class Imap extends Base
 	{
 		$this->processData[$action] = $value;
 		return $this;
+	}
+
+	public function getProcessData(string $action = '')
+	{
+		return $action ? $this->processData[$action] ?? [] : [];
 	}
 
 	/**
@@ -141,6 +151,19 @@ class Imap extends Base
 	{
 		$attr = $this->message->header->get('date');
 		return $attr ? $attr->toDate()->toDateTimeString() : '';
+	}
+
+	/**
+	 * Set a given flag.
+	 *
+	 * @param string $flag
+	 *
+	 * @return $this
+	 */
+	public function setFlag(string $flag)
+	{
+		$this->message->setFlag($flag);
+		return $this;
 	}
 
 	/** {@inheritdoc} */

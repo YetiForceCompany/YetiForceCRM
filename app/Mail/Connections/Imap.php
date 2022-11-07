@@ -129,6 +129,11 @@ class Imap
 		return $folders;
 	}
 
+	/**
+	 * Get mailbox folder.
+	 *
+	 * @param string $name Folder name (utf8)
+	 */
 	public function getFolderByName(string $name)
 	{
 		$this->connect();
@@ -149,6 +154,12 @@ class Imap
 	public function getMessagesGreaterThanUid(string $folderName, int $uid, int $limit)
 	{
 		return $this->getFolderByName($folderName)->query()->limit($limit)->getByUidGreater($uid);
+	}
+
+	public function getMessageByUid(string $folderName, int $uid)
+	{
+		$message = $this->getFolderByName($folderName)->query()->getMessageByUid($uid);
+		return $message ? (new \App\Mail\Message\Imap())->setMessage($message) : null;
 	}
 
 	public function getLastMessages(int $limit = 5, string $folderName = 'INBOX')
@@ -186,7 +197,16 @@ class Imap
 		return $folders;
 	}
 
-	public function appendMessage(string $folderName, $message): bool
+	/**
+	 * Append a text message to the mailbox of the specified folder.
+	 *
+	 * @param string $folderName
+	 * @param string $message
+	 * @param array  $options
+	 *
+	 * @return bool
+	 */
+	public function appendMessage(string $folderName, string $message, array $options = []): bool
 	{
 		$this->connect();
 		$folder = $this->client->getFolder($folderName);
@@ -194,6 +214,6 @@ class Imap
 			throw new \App\Exceptions\AppException('ERR_IMAP_FOLDER_NOT_EXISTS||' . $folderName);
 		}
 
-		return $folder->appendMessage($message);
+		return $folder->appendMessage($message, $options);
 	}
 }

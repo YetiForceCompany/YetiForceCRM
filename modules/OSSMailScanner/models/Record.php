@@ -174,25 +174,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Update config widget param.
-	 *
-	 * @param string $confType
-	 * @param string $type
-	 * @param string $value
-	 *
-	 * @return string
-	 */
-	public function setConfigWidget($confType, $type, $value)
-	{
-		if (null === $value || 'null' === $value) {
-			$value = null;
-		}
-		App\Db::getInstance()->createCommand()->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => $confType, 'parameter' => $type])->execute();
-
-		return App\Language::translate('LBL_SAVE', 'OSSMailScanner');
-	}
-
-	/**
 	 * Returns folder type.
 	 *
 	 * @param string $folder
@@ -595,6 +576,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				break;
 			case 2:
 				$return = 'Manually stopped';
+				break;
+			case 3:
+				$return = 'Error';
 				break;
 			default:
 				break;

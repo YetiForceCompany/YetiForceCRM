@@ -287,13 +287,32 @@ class Settings_MailSmtp_Record_Model extends Settings_Vtiger_Record_Model
 				'message' => App\Language::translate('LBL_DUPLICATE', $this->getModule()->getName(true))
 			];
 		} else {
-			$mailer = new \App\Mailer();
-			$mailer->loadSmtp($this->getData());
-			$testMailer = $mailer->test();
-			if ((true !== ($testMailer['result'] ?? null)) || !empty($testMailer['error'])) {
+			$error = '';
+			$currentUser = \App\User::getCurrentUserModel();
+			$templateId = \App\Mail::getTemplateIdFromSysName('TestMailAboutTheMailServerConfiguration');
+			if (!$templateId) {
+				$error = \App\Language::translate('LBL_NO_EMAIL_TEMPLATE', $this->getModule()->getName(true));
+			} else {
+				$template = \App\Mail::getTemplate($templateId);
+				$textParser = \App\TextParser::getInstanceById($currentUser->getId(), 'Users');
+
+				$mailer = new \App\Mailer();
+				$mailer->loadSmtp($this->getData());
+				$mailer->debug = true;
+				$mailer->to($currentUser->getDetail('email1'));
+				$mailer->subject($textParser->setContent($template['subject'])->parse()->getContent());
+				$mailer->content($textParser->setContent($template['content'])->parse()->getContent());
+				if (!$mailer->send() || \App\Mailer::$error) {
+					$error .= \App\Language::translate('LBL_ERROR_DURING_SENDING', 'Settings.Mail');
+					if (\App\Mailer::$error) {
+						$error .= '<br>' . implode('<br>', array_map(fn ($msg) => \App\Language::translate($msg, 'Other.Mailer'), \App\Mailer::$error));
+					}
+				}
+			}
+			if ($error) {
 				$response[] = [
 					'result' => false,
-					'message' => $testMailer['error'] ?? \App\Language::translate('LBL_ERROR_DURING_SENDING', $this->getModule()->getName(true))
+					'message' => $error
 				];
 			}
 		}

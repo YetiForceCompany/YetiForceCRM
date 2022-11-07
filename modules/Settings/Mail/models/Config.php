@@ -15,34 +15,9 @@ class Settings_Mail_Config_Model extends \App\Base
 	/** @var array Record changes */
 	protected $changes = [];
 
-	public static function updateConfig($name, $val, $type)
+	public static function acceptanceRecord(int $id)
 	{
-		\App\Db::getInstance()->createCommand()->update('yetiforce_mail_config', ['value' => $val], [
-			'type' => $type,
-			'name' => $name,
-		])->execute();
-	}
-
-	public static function getConfig($type)
-	{
-		$config = [];
-		$dataReader = (new \App\Db\Query())->select(['name', 'value'])
-			->from('yetiforce_mail_config')
-			->where(['type' => $type])
-			->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$config[$row['name']] = $row['value'];
-		}
-		$dataReader->close();
-
-		return $config;
-	}
-
-	public static function acceptanceRecord($id)
-	{
-		\App\Db::getInstance('admin')->createCommand()->update('s_#__mail_queue', ['status' => 1], [
-			'id' => $id,
-		])->execute();
+		return \App\Db::getInstance('admin')->createCommand()->update('s_#__mail_queue', ['status' => 1], ['id' => $id])->execute();
 	}
 
 	/**
@@ -63,8 +38,9 @@ class Settings_Mail_Config_Model extends \App\Base
 	private function loadConfig()
 	{
 		$data = (new \App\Db\Query())->select(['name', 'value'])
-			->from('yetiforce_mail_config')
-			->where(['type' => $this->type])->orderBy(['sequence' => SORT_ASC])->createCommand()->queryAllByGroup();
+			->from($this->baseTable)
+			->where(['type' => $this->type])
+			->orderBy(['sequence' => SORT_ASC])->createCommand()->queryAllByGroup();
 		$this->setData($data);
 
 		return $this;
@@ -85,7 +61,7 @@ class Settings_Mail_Config_Model extends \App\Base
 			\App\Log::error($ex->__toString());
 			throw $ex;
 		}
-		// \App\Cache::delete('MailServer', 'all');
+		\App\Cache::delete('MailConfiguration', $this->type);
 	}
 
 	/**
@@ -109,23 +85,19 @@ class Settings_Mail_Config_Model extends \App\Base
 		return parent::set($key, $value);
 	}
 
-	public function getFields()
+	public function getFields(bool $byBlock = false)
 	{
-		// $configs = [
-		// 	'scanner' => [
-		// 		'domain_exceptions',
-		// 		'email_exceptions',
-		// 	]
-		// ];
 		$fields = [];
-		// echo '<pre>', print_r([$this]);
-		// echo '</pre>';
-		// exit;
 		foreach ($this->getData() as $fieldName => $value) {
 			$fieldModel = $this->getFieldInstanceByName($fieldName);
 			if ($fieldModel) {
 				$fieldModel->set('fieldvalue', $value);
-				$fields[$fieldName] = $fieldModel;
+				if ($byBlock) {
+					$blockLabel = $fieldModel->get('blockLabel') ?: '';
+					$fields[$blockLabel][$fieldName] = $fieldModel;
+				} else {
+					$fields[$fieldName] = $fieldModel;
+				}
 			}
 		}
 
@@ -147,27 +119,29 @@ class Settings_Mail_Config_Model extends \App\Base
 			case 'domain_exceptions':
 				$params = [
 					'name' => $name,
-					'label' => 'FL_DOMAIN_EXCEPTIONS',
+					'label' => 'FL_SCANNER_DOMAIN_EXCEPTIONS',
 					'uitype' => 319,
 					'typeofdata' => 'V~O',
 					'maximumlength' => '6500',
 					'defaultvalue' => '',
 					'purifyType' => \App\Purifier::TEXT,
-					'config' => 'scanner',
-					'fieldparams' => \App\Json::encode(['container_class' => 'col-md-12'])
+					'tooltip' => 'LBL_SCANNER_DOMAIN_EXCEPTIONS_DESC',
+					'fieldparams' => \App\Json::encode(['container_class' => 'col-md-7']),
+					'blockLabel' => 'BL_SCANNER_EXCEPTIONS'
 				];
 				break;
 			case 'email_exceptions':
 				$params = [
 					'name' => $name,
-					'label' => 'FL_EMAIL_EXCEPTIONS',
+					'label' => 'FL_SCANNER_EMAIL_EXCEPTIONS',
 					'uitype' => 314,
 					'typeofdata' => 'V~O',
 					'maximumlength' => '6500',
 					'defaultvalue' => '',
 					'purifyType' => [\App\Purifier::TEXT],
-					'config' => 'scanner',
-					'fieldparams' => \App\Json::encode(['container_class' => 'col-md-7'])
+					'tooltip' => 'LBL_SCANNER_EMAIL_EXCEPTIONS_DESC',
+					'fieldparams' => \App\Json::encode(['container_class' => 'col-md-5']),
+					'blockLabel' => 'BL_SCANNER_EXCEPTIONS'
 				];
 				break;
 			case 'showMailIcon':
@@ -178,8 +152,7 @@ class Settings_Mail_Config_Model extends \App\Base
 					'typeofdata' => 'C~O',
 					'maximumlength' => '0',
 					'defaultvalue' => 0,
-					'purifyType' => \App\Purifier::BOOL,
-					'blockLabel' => 'BL_BASE'
+					'purifyType' => \App\Purifier::BOOL
 				];
 				break;
 			case 'showNumberUnreadEmails':
@@ -190,8 +163,20 @@ class Settings_Mail_Config_Model extends \App\Base
 					'typeofdata' => 'C~O',
 					'maximumlength' => '0',
 					'defaultvalue' => 0,
-					'purifyType' => \App\Purifier::BOOL,
-					'blockLabel' => 'BL_BASE'
+					'purifyType' => \App\Purifier::BOOL
+				];
+				break;
+			case 'timeCheckingMail':
+				$params = [
+					'name' => $name,
+					'label' => 'LBL_TIME_CHECKING_MAIL',
+					'uitype' => 7,
+					'typeofdata' => 'I~O',
+					'maximumlength' => '5,86400',
+					'defaultvalue' => 30,
+					'purifyType' => \App\Purifier::TEXT,
+					'tooltip' => 'LBL_TIME_CHECKING_MAIL_DESC',
+					'fieldparams' => \App\Json::encode(['container_class' => 'col-md-4']),
 				];
 				break;
 			case 'addSignature':
@@ -203,7 +188,6 @@ class Settings_Mail_Config_Model extends \App\Base
 					'maximumlength' => '0',
 					'defaultvalue' => 0,
 					'purifyType' => \App\Purifier::BOOL,
-					'blockLabel' => 'BL_BASE'
 				];
 				break;
 			case 'signature':
@@ -216,6 +200,76 @@ class Settings_Mail_Config_Model extends \App\Base
 					'defaultvalue' => '',
 					'purifyType' => \App\Purifier::HTML,
 					'fieldparams' => \App\Json::encode(['variablePanel' => true])
+				];
+				break;
+			case 'time_for_notification':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_SCANNER_TIME_FOR_NOTIFICATION',
+					'uitype' => 7,
+					'typeofdata' => 'I~O',
+					'maximumlength' => '0,44640',
+					'defaultvalue' => 0,
+					'tooltip' => 'LBL_SCANNER_TIME_FOR_NOTIFICATION_DESC',
+					'purifyType' => \App\Purifier::TEXT,
+					'fieldparams' => \App\Json::encode(['container_class' => 'col-md-6']),
+					'blockLabel' => 'BL_SCANNER_NOTIFICATION'
+				];
+				break;
+			case 'email_for_notification':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_SCANNER_EMAIL_FOR_NOTIFICATION',
+					'uitype' => 13,
+					'typeofdata' => 'E~O',
+					'maximumlength' => '255',
+					'defaultvalue' => 0,
+					'tooltip' => 'LBL_SCANNER_EMAIL_FOR_NOTIFICATION_DESC',
+					'purifyType' => \App\Purifier::EMAIL,
+					'fieldparams' => \App\Json::encode(['container_class' => 'col-md-6']),
+					'blockLabel' => 'BL_SCANNER_NOTIFICATION'
+				];
+				break;
+			case 'flag_seen':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_SCANNER_FLAG_SEEN',
+					'uitype' => 56,
+					'typeofdata' => 'C~O',
+					'maximumlength' => '1',
+					'defaultvalue' => 0,
+					'tooltip' => 'LBL_SCANNER_FLAG_SEEN_DESC',
+					'purifyType' => \App\Purifier::BOOL,
+					'fieldparams' => \App\Json::encode(['container_class' => 'col-md-6']),
+					'blockLabel' => 'BL_SCANNER_BASIC'
+				];
+				break;
+			case 'deactivation_time':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_SCANNER_DEACTIVATION_TIME',
+					'uitype' => 7,
+					'typeofdata' => 'I~O',
+					'maximumlength' => '0,9999',
+					'defaultvalue' => 48,
+					'tooltip' => 'LBL_SCANNER_DEACTIVATION_TIME_DESC',
+					'purifyType' => \App\Purifier::TEXT,
+					'fieldparams' => \App\Json::encode(['container_class' => 'col-md-6']),
+					'blockLabel' => 'BL_SCANNER_BASIC'
+				];
+				break;
+			case 'limit':
+				$params = [
+					'name' => $name,
+					'label' => 'FL_SCANNER_LIMIT',
+					'uitype' => 7,
+					'typeofdata' => 'I~O',
+					'maximumlength' => '0,9999',
+					'defaultvalue' => 48,
+					'tooltip' => 'LBL_SCANNER_LIMIT_DESC',
+					'purifyType' => \App\Purifier::TEXT,
+					'fieldparams' => \App\Json::encode(['container_class' => 'col-md-6']),
+					'blockLabel' => 'BL_SCANNER_BASIC'
 				];
 				break;
 			default:

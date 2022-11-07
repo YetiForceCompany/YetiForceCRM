@@ -62,6 +62,9 @@ class Purifier
 	/** @var string Purify type Path. */
 	public const PATH = 'Path';
 
+	/** @var string Purify type email. */
+	public const EMAIL = 'Email';
+
 	/**
 	 * Default charset.
 	 *

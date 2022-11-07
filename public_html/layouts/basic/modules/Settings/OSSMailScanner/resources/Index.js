@@ -82,57 +82,9 @@ jQuery.Class(
 				container = jQuery('.contentsDiv');
 			thisIstance.registerColorField($('#exceptions select'));
 			thisIstance.registerEditFolders(container);
-			$('#exceptions select')
-				.on('select2:select', function (e) {
-					let value = e.params.data.id;
-					if (!!thisIstance.domainValidateToExceptions(value) || !!thisIstance.email_validate(value)) {
-						thisIstance.saveWidgetConfig(jQuery(this).attr('name'), jQuery(this).val().join(), 'exceptions');
-						thisIstance.registerColorField(jQuery(this));
-					} else {
-						jQuery(this)
-							.find("option[value='" + value + "']")
-							.remove();
-						jQuery(this).trigger('change');
-						app.showNotify({
-							text: app.vtranslate('JS_mail_error'),
-							type: 'error'
-						});
-					}
-				})
-				.on('select2:unselect', function () {
-					thisIstance.saveWidgetConfig(jQuery(this).attr('name'), jQuery(this).val(), 'exceptions');
-				});
 
 			$('#status').on('change', function () {
 				$('#confirm').attr('disabled', !this.checked);
-			});
-
-			jQuery('.conftabChangeTicketStatus').on('click', function () {
-				if ($(this).data('active') == '1') {
-					return false;
-				}
-				$('.conftabChangeTicketStatus').data('active', 0);
-				$(this).data('active', 1);
-				AppConnector.request({
-					async: true,
-					data: {
-						module: 'OSSMailScanner',
-						action: 'SaveRcConfig',
-						ct: 'emailsearch',
-						type: 'changeTicketStatus',
-						vale: $(this).val()
-					}
-				}).done(
-					function (data) {
-						if (data.success) {
-							app.showNotify({
-								text: data.result.data,
-								type: 'info'
-							});
-						}
-					},
-					function (data, err) {}
-				);
 			});
 			container.find('.js-delate-account').on('click', function () {
 				if (window.confirm(app.vtranslate('whether_remove_an_identity'))) {
@@ -201,28 +153,6 @@ jQuery.Class(
 			});
 			jQuery('#email_search').on('change', function () {
 				thisIstance.saveEmailSearchList(jQuery('#email_search').val());
-			});
-			jQuery('[name="email_to_notify"]').on('blur', function () {
-				let value = jQuery(this).val();
-				if (!!thisIstance.email_validate(value)) {
-					thisIstance.saveWidgetConfig('email', value, 'cron');
-				} else {
-					app.showNotify({
-						text: app.vtranslate('JS_mail_error'),
-						type: 'error'
-					});
-				}
-			});
-			jQuery('[name="time_to_notify"]').on('blur', function () {
-				let value = jQuery(this).val();
-				if (!!thisIstance.number_validate(value)) {
-					thisIstance.saveWidgetConfig('time', jQuery(this).val(), 'cron');
-				} else {
-					app.showNotify({
-						text: app.vtranslate('JS_time_error'),
-						type: 'error'
-					});
-				}
 			});
 			container.find('.js-page-num').on('change', function () {
 				thisIstance.reloadLogTable($(this).val() - 1);
@@ -357,28 +287,6 @@ jQuery.Class(
 		number_validate: function (value) {
 			let valid = !/^\s*$/.test(value) && !isNaN(value);
 			return valid;
-		},
-		saveWidgetConfig: function (name, value, type) {
-			AppConnector.request({
-				module: 'OSSMailScanner',
-				action: 'SaveWidgetConfig',
-				conf_type: type,
-				name: name,
-				value: value
-			}).done(function (data) {
-				let response = data['result'];
-				if (response['success']) {
-					app.showNotify({
-						text: response['data'],
-						type: 'info'
-					});
-				} else {
-					app.showNotify({
-						text: response['data'],
-						type: 'error'
-					});
-				}
-			});
 		},
 		/**
 		 * Function to reload table with given data from request

@@ -73,6 +73,8 @@ class Mailer
 
 	/** @var array Error logs */
 	public static $error;
+	/** @var bool Debug active */
+	public $debug = false;
 
 	/**
 	 * Construct.
@@ -80,18 +82,8 @@ class Mailer
 	public function __construct()
 	{
 		static::$error = [];
+		$this->debug = \App\Config::debug('MAILER_DEBUG');
 		$this->mailer = new PHPMailer(false);
-		if (\App\Config::debug('MAILER_DEBUG')) {
-			$this->mailer->SMTPDebug = 2;
-			$this->mailer->Debugoutput = function ($str, $level) {
-				if (false !== stripos($str, 'error') || false !== stripos($str, 'failed')) {
-					static::$error[] = $str;
-					Log::error(trim($str), 'Mailer');
-				} else {
-					Log::trace(trim($str), 'Mailer');
-				}
-			};
-		}
 		$this->mailer->XMailer = 'YetiForceCRM Mailer';
 		$this->mailer->Hostname = 'YetiForceCRM';
 		$this->mailer->FromName = 'YetiForce Mailer';
@@ -567,6 +559,17 @@ class Mailer
 		if (static::$error) {
 			return false;
 		}
+		if ($this->debug) {
+			$this->mailer->SMTPDebug = \PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;
+			$this->mailer->Debugoutput = function ($str, $level) {
+				if (false !== mb_stripos($str, 'error') || false !== mb_stripos($str, 'failed')) {
+					static::$error[] = trim($str);
+					Log::error(trim($str), 'Mailer');
+				} else {
+					Log::trace(trim($str), 'Mailer');
+				}
+			};
+		}
 		$eventHandler = new EventHandler();
 		$eventHandler->setParams(['mailer' => $this]);
 		$eventHandler->trigger('MailerBeforeSend');
@@ -597,36 +600,6 @@ class Mailer
 		}
 		$eventHandler->trigger('MailerAfterSendError');
 		return false;
-	}
-
-	/**
-	 * Check connection.
-	 *
-	 * @return array
-	 */
-	public function test()
-	{
-		$this->mailer->SMTPDebug = \PHPMailer\PHPMailer\SMTP::DEBUG_SERVER;
-		$this->mailer->Debugoutput = function ($str, $level) {
-			if (false !== strpos(strtolower($str), 'error') || false !== strpos(strtolower($str), 'failed')) {
-				static::$error[] = trim($str);
-				Log::error(trim($str), 'Mailer');
-			} else {
-				Log::trace(trim($str), 'Mailer');
-			}
-		};
-		$currentUser = \Users_Record_Model::getCurrentUserModel();
-		$this->to($currentUser->get('email1'));
-		$templateId = Mail::getTemplateIdFromSysName('TestMailAboutTheMailServerConfiguration');
-		if (!$templateId) {
-			return ['result' => false, 'error' => Language::translate('LBL_NO_EMAIL_TEMPLATE')];
-		}
-		$template = Mail::getTemplate($templateId);
-		$textParser = TextParser::getInstanceById($currentUser->getId(), 'Users');
-		$this->subject($textParser->setContent($template['subject'])->parse()->getContent());
-		$this->content($textParser->setContent($template['content'])->parse()->getContent());
-
-		return ['result' => $this->send(), 'error' => implode('<br>', array_map(fn ($msg) => \App\Language::translate($msg, 'Other.Mailer'), static::$error))];
 	}
 
 	/**
@@ -766,7 +739,7 @@ class Mailer
 			}
 
 			\App\Log::beginProfile(__METHOD__ . '|imap_append', 'Mail|IMAP');
-			$response = $imap->appendMessage($folderName, $this->mailer->getSentMIMEMessage());
+			$response = $imap->appendMessage($folderName, $this->mailer->getSentMIMEMessage(), ['Seen']);
 			\App\Log::endProfile(__METHOD__ . '|imap_append', 'Mail|IMAP');
 		} catch (\Throwable $th) {
 			static::$error[] = 'IMAP error - ' . $th->getMessage();

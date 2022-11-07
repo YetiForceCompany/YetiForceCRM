@@ -142,8 +142,8 @@ abstract class Base
 				$fields[$field[1]][$field[3]][] = $field[2];
 			}
 		}
-
 		$this->numberFieldsCache[$cacheKey] = $fields;
+
 		return $fields;
 	}
 
@@ -151,6 +151,12 @@ abstract class Base
 	{
 		$domainExceptions = array_filter(explode(',', $this->account->getSource()->get('domain_exceptions') ?: ''));
 		$emailExceptions = array_column(\App\Json::decode($this->account->getSource()->get('email_exceptions') ?: '[]'), 'e');
+		if ($domainGlobalExceptions = \App\Mail::getConfig('scanner', 'domain_exceptions')) {
+			$domainExceptions = array_merge($domainExceptions, array_filter(explode(',', $domainGlobalExceptions)));
+		}
+		if ($emailGlobalExceptions = \App\Mail::getConfig('scanner', 'email_exceptions')) {
+			$emailExceptions = array_merge(array_column(\App\Json::decode($emailGlobalExceptions), 'e'));
+		}
 		$mails = (0 === $this->message->getMailType()) ? $this->message->getEmail('to') : $this->message->getEmail('from');
 
 		return $mails && ($domainExceptions || $emailExceptions) && (

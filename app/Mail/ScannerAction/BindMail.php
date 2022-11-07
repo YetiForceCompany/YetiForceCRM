@@ -1,21 +1,21 @@
 <?php
 /**
- * Base mail scanner action file.
+ * Bind mail scanner action file.
  *
  * @package App
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Mail\ScannerAction;
 
 /**
- * Base mail scanner action class.
+ * Bind mail scanner action class.
  */
-class LinkByFields extends Base
+class BindMail extends Base
 {
 	/** {@inheritdoc} */
 	public static $priority = 3;

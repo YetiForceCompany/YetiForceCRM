@@ -14,7 +14,10 @@ namespace App;
  */
 class Mail
 {
+	/** @var int Default smtp ID */
 	public const SMTP_DEFOULT = 0;
+	/** @var string Table name for configuration */
+	public const TABLE_NAME_CONFIG = 'yetiforce_mail_config';
 
 	/**
 	 * Get smtp server by id.
@@ -276,5 +279,25 @@ class Mail
 	public static function checkInternalMailClient(): bool
 	{
 		return 'InternalClient' === self::getMailComposer();
+	}
+
+	/**
+	 * Get mail configuration by type.
+	 *
+	 * @param string $type
+	 * @param string $field
+	 *
+	 * @return string|array
+	 */
+	public static function getConfig(string $type, string $field = '')
+	{
+		if (Cache::has('MailConfiguration', $type)) {
+			$config = Cache::get('MailConfiguration', $type);
+		} else {
+			$config = (new \App\Db\Query())->from(self::TABLE_NAME_CONFIG)->indexBy('name')->where(['type' => $type])->all();
+			Cache::save('MailConfiguration', $type, $config);
+		}
+
+		return $field ? $config[$field]['value'] ?? '' : $config;
 	}
 }
