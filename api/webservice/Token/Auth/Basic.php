@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace Api\Token\Auth;
@@ -26,6 +27,7 @@ class Basic extends \Api\Core\Auth\Basic
 			$row['id'] = (int) $row['id'];
 			$this->api->app = $row;
 		}
+
 		return $this;
 	}
 
@@ -38,6 +40,7 @@ class Basic extends \Api\Core\Auth\Basic
 		if (!\App\Validator::alnum($this->api->request->getRaw('action'))) {
 			throw new \App\Exceptions\Security('ERR_TOKEN_DOES_NOT_EXIST', 406);
 		}
+
 		return true;
 	}
 }

@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Mail;
@@ -21,11 +22,11 @@ class Message
 	 *
 	 * @param string $engineName
 	 *
-	 * @return \App\Mail\ScannerEngine\Base
+	 * @return \App\Mail\Message\Base
 	 */
-	public static function getScannerByEngine(string $engineName): ScannerEngine\Base
+	public static function getScannerByEngine(string $engineName): Message\Base
 	{
-		$class = "App\\Mail\\ScannerEngine\\{$engineName}";
+		$class = "App\\Mail\\Message\\{$engineName}";
 		if (!class_exists($class)) {
 			throw new \App\Exceptions\NotAllowedMethod('ERR_PARAMETER_DOES_NOT_EXIST|$engineName|' . $engineName, 406);
 		}

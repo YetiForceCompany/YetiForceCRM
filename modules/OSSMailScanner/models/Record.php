@@ -146,21 +146,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Return folders config.
-	 *
-	 * @param bool|string $folder
-	 *
-	 * @return array|string
-	 */
-	public static function getConfigFolderList($folder = false)
-	{
-		if ($folder) {
-			return (new \App\Db\Query())->select(['parameter'])->from('vtiger_ossmailscanner_config')->where(['and', ['conf_type' => 'folders'], ['like', 'value', $folder]])->orderBy('parameter')->scalar();
-		}
-		return (new \App\Db\Query())->select(['parameter', 'value'])->from('vtiger_ossmailscanner_config')->where(['conf_type' => 'folders'])->orderBy(['parameter' => SORT_DESC])->createCommand()->queryAllByGroup(0);
-	}
-
-	/**
 	 * Return mailscanner config.
 	 *
 	 * @param bool|string $confType
@@ -186,25 +171,6 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 		$dataReader->close();
 
 		return $return;
-	}
-
-	/**
-	 * Update config widget param.
-	 *
-	 * @param string $confType
-	 * @param string $type
-	 * @param string $value
-	 *
-	 * @return string
-	 */
-	public function setConfigWidget($confType, $type, $value)
-	{
-		if (null === $value || 'null' === $value) {
-			$value = null;
-		}
-		App\Db::getInstance()->createCommand()->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => $confType, 'parameter' => $type])->execute();
-
-		return App\Language::translate('LBL_SAVE', 'OSSMailScanner');
 	}
 
 	/**
@@ -611,6 +577,9 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 			case 2:
 				$return = 'Manually stopped';
 				break;
+			case 3:
+				$return = 'Error';
+				break;
 			default:
 				break;
 		}
@@ -641,7 +610,7 @@ class OSSMailScanner_Record_Model extends Vtiger_Record_Model
 				'user' => $row['user'],
 				'stop_user' => $row['stop_user'],
 				'count' => $row['count'],
-				'action' => $row['count'],
+				'action' => $row['action'],
 				'info' => $row['info'],
 			];
 		}

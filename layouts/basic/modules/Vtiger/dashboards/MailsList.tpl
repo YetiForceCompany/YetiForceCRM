@@ -34,7 +34,7 @@
 							<option value="-">{\App\Language::translate('--None--', $MODULE_NAME)}</option>
 						{else}
 							{foreach from=$ACCOUNTSLIST item=item key=key}
-								<option title="{\App\Purifier::encodeHtml($item['username'])}" value="{$item['user_id']}" {if $USER == $item['user_id']}selected{/if}>{\App\Purifier::encodeHtml($item['username'])}</option>
+								<option title="{\App\Purifier::encodeHtml($item['name'])}" value="{$item['id']}" {if $USER == $item['id']}selected{/if}>{\App\Purifier::encodeHtml($item['name'])}</option>
 							{/foreach}
 						{/if}
 					</select>

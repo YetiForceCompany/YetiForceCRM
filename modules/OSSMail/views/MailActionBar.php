@@ -17,40 +17,25 @@ class OSSMail_MailActionBar_View extends Vtiger_Index_View
 	{
 		$moduleName = $request->getModule();
 		$uid = $request->getInteger('uid');
-		$params = null;
 		$account = OSSMail_Record_Model::getAccountByHash($request->getForSql('rcId'));
-		if (!$account) {
+		if (!$account || !\App\Record::isExists($account['crm_ma_id'], 'MailAccount') || !\App\Privilege::isPermitted('MailAccount', 'DetailView', $account['crm_ma_id'])) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if (OSSMail_Record_Model::MAIL_BOX_STATUS_DISABLED == $account['crm_status']) {
-			return;
-		}
-
-		$rcId = $account['user_id'];
-		if (OSSMail_Record_Model::MAIL_BOX_STATUS_BLOCKED_TEMP == $account['crm_status'] || OSSMail_Record_Model::MAIL_BOX_STATUS_BLOCKED_PERM == $account['crm_status']) {
-			OSSMail_Record_Model::setAccountUserData($rcId, ['crm_status' => OSSMail_Record_Model::MAIL_BOX_STATUS_ACTIVE]);
-			$account['crm_status'] = OSSMail_Record_Model::MAIL_BOX_STATUS_ACTIVE;
-		}
+		$mailAccount = \App\Mail\Account::getInstanceById($account['crm_ma_id']);
 		try {
 			$mailViewModel = OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 			$folderDecode = \App\Utils::convertCharacterEncoding($request->getRaw('folder'), 'UTF7-IMAP', 'UTF-8');
 			$folderDecode = \App\Purifier::purifyByType($folderDecode, 'Text');
 			$folderDecode = \App\Purifier::decodeHtml($folderDecode);
-			$modelMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
-			$folder = \App\Utils::convertCharacterEncoding($folderDecode, 'UTF-8', 'UTF7-IMAP');
-			$mbox = \OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], $folder, true, [], $account);
-			$record = $mailViewModel->checkMailExist($uid, $folderDecode, $rcId, $mbox);
-			if (!($record) && !empty($account['actions']) && false !== strpos($account['actions'], 'CreatedEmail')
-		&& isset(array_column($modelMailScanner->getFolders($rcId), 'folder', 'folder')[$folderDecode])
-	) {
-				if ($mail = OSSMail_Record_Model::getMail($mbox, $uid)) {
-					$return = OSSMailScanner_Record_Model::executeActions($account, $mail, $folderDecode, $params);
-					if (!empty($return['CreatedEmail'])) {
-						$record = $return['CreatedEmail']['mailViewId'];
-					}
-				} else {
-					App\Log::warning("Email not found. username: {$account['username']}, folder: $folder, uid: $uid ", __METHOD__);
+			$imap = $mailAccount->openImap();
+			$message = $imap->getMessageByUid($folderDecode, $uid);
+			$record = $message ? $message->getMailCrmIdByCid() : 0;
+			if (!$record && \in_array('CreatedMail', $mailAccount->getActions()) && \in_array($folderDecode, $mailAccount->getFolders())) {
+				$scanner = (new \App\Mail\Scanner())->setLimit(1);
+				foreach ($mailAccount->getActions() as $action) {
+					$scanner->getAction($action)->setAccount($mailAccount)->setMessage($message)->process();
 				}
+				$record = (int) $message->getProcessData('CreatedMail')['mailViewId'] ?? 0;
 			} elseif ($record && !\App\Privilege::isPermitted('OSSMailView', 'DetailView', $record)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($record, $mailViewModel->getModule());
 				$sharedOwner = $recordModel->isEmpty('shownerid') ? [] : explode(',', $recordModel->get('shownerid'));

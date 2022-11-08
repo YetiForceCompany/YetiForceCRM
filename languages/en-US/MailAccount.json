@@ -1,0 +1,28 @@
+{
+  "php": {
+    "MailAccount": "Mail accounts",
+    "SINGLE_MailAccount": "Mail account",
+    "LBL_CUSTOM_INFORMATION": "Custom Information",
+    "LBL_BASIC_INFORMATION": "Basic Information",
+    "BL_MAIL_SCANNER": "Scanner",
+    "FL_SUBJECT": "Name",
+    "FL_LOGIN": "Login",
+    "FL_PASSWORD": "Password",
+    "FL_REFRESH_TOKEN": "Refresh token",
+    "FL_MAIL_SERVER": "Mail server",
+    "PL_INACTIVE": "Inactive",
+    "PLL_ACTIVE": "Active",
+    "PLL_LOCKED": "Lock (auto)",
+    "FL_LOGS": "Logs",
+    "FL_STATUS": "Status",
+    "FL_EXPIRE_TIME": "Expire time",
+    "FL_LAST_LOGIN": "Last login",
+    "FL_SCANNER_ACTIONS": "Scanner actions",
+    "FL_DOMAIN_EXCEPTIONS": "Domain exceptions",
+    "FL_EMAIL_EXCEPTIONS": "Email exceptions",
+    "FL_MAIL_FOLDERS": "Folders",
+    "FL_SCANNER_FIELDS": "Search fields",
+    "LBL_OAUTH_AUTHORIZATION_DESC": "Are you sure you want to authorize?",
+    "LBL_OAUTH_AUTHORIZATION": "Authorization"
+  }
+}

@@ -62,6 +62,9 @@ class Purifier
 	/** @var string Purify type Path. */
 	public const PATH = 'Path';
 
+	/** @var string Purify type email. */
+	public const EMAIL = 'Email';
+
 	/**
 	 * Default charset.
 	 *
@@ -351,6 +354,8 @@ class Purifier
 				'type' => 'Text',
 				'crm-id' => 'Length',
 				'attachment-id' => 'Length',
+				'height' => 'Length',
+				'width' => 'Length',
 			]);
 			$def->addElement('s', 'Inline', 'Inline', 'Common');
 			$def->addElement('var', 'Inline', 'Inline', 'Common');

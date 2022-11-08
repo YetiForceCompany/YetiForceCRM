@@ -41,7 +41,7 @@ final class MailTest extends \Tests\Base
 		$recordModel->set('individual_delivery', 0);
 		$recordModel->save();
 
-		\App\Cache::delete('DefaultSmtp', '');
+		// \App\Cache::delete('DefaultSmtp', '');
 		$defaultSmtp = \App\Mail::getDefaultSmtp();
 		static::assertNotEmpty($defaultSmtp);
 	}

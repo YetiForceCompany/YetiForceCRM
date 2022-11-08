@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Mail\Composers;
@@ -28,28 +29,21 @@ class InternalClient extends Base
 	/** {@inheritdoc} */
 	public function sendMail(\App\Request $request): array
 	{
-		if ($request->isEmpty('record')) {
-			return [
-				'popup' => \OSSMail_Module_Model::getComposeParameters()['popup'],
-				'url' => 'index.php?module=OSSMail&view=Compose&to=' . $request->get('email'),
-			];
+		if ($request->isEmpty('record', true) || !\App\Record::isExists($request->getInteger('record'))) {
+			$url = 'index.php?module=OSSMail&view=Compose&to=' . $request->get('email');
+		} else {
+			$record = $request->getInteger('record');
+			$moduleName = \App\Record::getType($record);
+			$url = \OSSMail_Module_Model::getComposeUrl($moduleName, $record, $request->getByType('view'), $request->getByType('type'));
+			if ($to = $request->get('email')) {
+				$url .= '&to=' . $to;
+			}
 		}
-		$record = $request->getInteger('record');
-		if (!\App\Record::isExists($record)) {
-			return [
-				'popup' => \OSSMail_Module_Model::getComposeParameters()['popup'],
-				'url' => 'index.php?module=OSSMail&view=Compose&to=' . $request->get('email'),
-			];
-		}
-		$moduleName = \App\Record::getType($record);
-		$url = \OSSMail_Module_Model::getComposeUrl($moduleName, $record, $request->getByType('view'), $request->getByType('type'));
-		if ($to = $request->get('email')) {
-			$url .= '&to=' . $to;
-		}
+
 		return [
 			'status' => true,
 			'url' => $url,
-			'popup' => \OSSMail_Module_Model::getComposeParameters()['popup'],
+			'popup' => \App\User::getCurrentUserModel()->getDetail('mail_popup'),
 		];
 	}
 }

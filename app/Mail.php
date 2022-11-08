@@ -14,6 +14,11 @@ namespace App;
  */
 class Mail
 {
+	/** @var int Default smtp ID */
+	public const SMTP_DEFOULT = 0;
+	/** @var string Table name for configuration */
+	public const TABLE_NAME_CONFIG = 'yetiforce_mail_config';
+
 	/**
 	 * Get smtp server by id.
 	 *
@@ -23,17 +28,7 @@ class Mail
 	 */
 	public static function getSmtpById(int $smtpId): array
 	{
-		if (Cache::has('SmtpServer', $smtpId)) {
-			return Cache::get('SmtpServer', $smtpId);
-		}
-		$servers = static::getAll();
-		$smtp = [];
-		if (isset($servers[$smtpId])) {
-			$smtp = $servers[$smtpId];
-		}
-		Cache::save('SmtpServer', $smtpId, $smtp, Cache::LONG);
-
-		return $smtp;
+		return static::getSmtpServers()[$smtpId] ?? [];
 	}
 
 	/**
@@ -52,23 +47,36 @@ class Mail
 		return $all;
 	}
 
+	public static function getSmtpServers(bool $skipDefault = false): array
+	{
+		$all = [];
+		if (Cache::has('SmtpServers', 'all')) {
+			$all = Cache::get('SmtpServers', 'all');
+		} else {
+			$dataReader = (new Db\Query())->from('s_#__mail_smtp')->createCommand(Db::getInstance('admin'))->query();
+			while ($row = $dataReader->read()) {
+				$all[$row['id']] = $row;
+				if ($row['default']) {
+					$all[self::SMTP_DEFOULT] = $row;
+				}
+			}
+			Cache::save('SmtpServers', 'all', $all, Cache::LONG);
+		}
+		if ($skipDefault) {
+			unset($all[self::SMTP_DEFOULT]);
+		}
+
+		return $all;
+	}
+
 	/**
-	 * Get default smtp Id.
+	 * Get default smtp ID.
 	 *
 	 * @return int
 	 */
 	public static function getDefaultSmtp()
 	{
-		if (Cache::has('DefaultSmtp', '')) {
-			return Cache::get('DefaultSmtp', '');
-		}
-		$id = (new Db\Query())->select(['id'])->from('s_#__mail_smtp')->where(['default' => 1])->scalar(Db::getInstance('admin'));
-		if (!$id) {
-			$id = (new Db\Query())->select(['id'])->from('s_#__mail_smtp')->limit(1)->scalar(Db::getInstance('admin'));
-		}
-		Cache::save('DefaultSmtp', '', $id, Cache::LONG);
-
-		return $id;
+		return static::getSmtpById(static::SMTP_DEFOULT)['id'] ?? key(static::getSmtpServers());
 	}
 
 	/**
@@ -271,5 +279,25 @@ class Mail
 	public static function checkInternalMailClient(): bool
 	{
 		return 'InternalClient' === self::getMailComposer();
+	}
+
+	/**
+	 * Get mail configuration by type.
+	 *
+	 * @param string $type
+	 * @param string $field
+	 *
+	 * @return string|array
+	 */
+	public static function getConfig(string $type, string $field = '')
+	{
+		if (Cache::has('MailConfiguration', $type)) {
+			$config = Cache::get('MailConfiguration', $type);
+		} else {
+			$config = (new \App\Db\Query())->from(self::TABLE_NAME_CONFIG)->indexBy('name')->where(['type' => $type])->all();
+			Cache::save('MailConfiguration', $type, $config);
+		}
+
+		return $field ? $config[$field]['value'] ?? '' : $config;
 	}
 }

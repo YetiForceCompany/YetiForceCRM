@@ -112,10 +112,12 @@ class Completions
 			$text = preg_replace_callback('/<yetiforce\s(.*)><\/yetiforce>/', function (array $matches) {
 				$attributes = \App\TextUtils::getTagAttributes($matches[0]);
 				$return = '';
-				if (!empty($attributes['type'])) {
+				if (!empty($attributes['type']) && !empty($attributes['crm-id'])) {
 					switch ($attributes['type']) {
 						case 'Documents':
-								$return = '<img src="file.php?module=Documents&action=DownloadFile&record=' . $attributes['crm-id'] . '&fileid=' . $attributes['attachment-id'] . '&show=true" />';
+								$width = \App\Purifier::encodeHtml($attributes['width'] ?? '');
+								$height = \App\Purifier::encodeHtml($attributes['height'] ?? '');
+								$return = '<img src="file.php?module=Documents&action=DownloadFile&record=' . $attributes['crm-id'] . '&fileid=' . $attributes['attachment-id'] . "&show=true\" width=\"{$width}\" height=\"{$height}\"/>";
 							break;
 						default:
 							break;

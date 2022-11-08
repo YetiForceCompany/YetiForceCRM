@@ -14,9 +14,8 @@
 					<div class="btn-toolbar order-3 order-md-2 ml-md-auto mt-2 mt-md-0">
 						{if \Config\Main::$isActiveSendingMails}
 							{if 'InternalClient' === \App\Mail::getMailComposer()}
-								{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
 								{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
-								{assign var=POPUP value=$CONFIG['popup']}
+								{assign var=POPUP value=\App\User::getCurrentUserModel()->getDetail('mail_popup')}
 								<button type="button" class="btn btn-sm btn-outline-success sendMailBtn mr-1"
 									data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=reply"
 									data-popup="{$POPUP}">

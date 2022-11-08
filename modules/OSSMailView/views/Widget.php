@@ -37,24 +37,20 @@ class OSSMailView_Widget_View extends Vtiger_Edit_View
 		$record = $request->getInteger('record');
 		$mailFilter = $request->getByType('mailFilter', 1);
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName)->setId($srecord);
-		$config = OSSMail_Module_Model::getComposeParameters();
-		if ($request->has('limit')) {
-			$config['widget_limit'] = $request->getInteger('limit');
-		}
 		$relation = \App\Relation::getRelationId($smodule, $moduleName);
 		if (!$relation) {
 			throw new \App\Exceptions\AppException("ERR_RELATION_NOT_FOUND||$smodule||$moduleName", 400);
 		}
 		$relationModel = \Vtiger_Relation_Model::getInstanceById($relation)->set('parentRecord', $recordModel);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('RECOLDLIST', $recordModel->{$mode}($srecord, $smodule, $config, $type, $mailFilter));
+		$viewer->assign('RECOLDLIST', $recordModel->{$mode}($srecord, $smodule, ['widget_limit' => $request->getInteger('limit', 5)], $type, $mailFilter));
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('SMODULENAME', $smodule);
 		$viewer->assign('RECORD', $record);
 		$viewer->assign('SRECORD', $srecord);
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('RELATION_MODEL', $relationModel);
-		$viewer->assign('POPUP', $config['popup']);
+		$viewer->assign('POPUP', \App\User::getCurrentUserModel()->getDetail('mail_popup'));
 		$viewer->view('widgets.tpl', 'OSSMailView');
 	}
 }

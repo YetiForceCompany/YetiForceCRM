@@ -111,7 +111,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 					foreach ($params as $key => $value) {
 						$textParser->setParam($key, $value);
 					}
-					if ('Calendar' === $moduleName && !$recordModel->isEmpty('meeting_url') && !\array_key_exists('meetingUrl', $params) ) {
+					if ('Calendar' === $moduleName && !$recordModel->isEmpty('meeting_url') && !\array_key_exists('meetingUrl', $params)) {
 						$textParser->setParam('meetingUrl', $recordModel->get('meeting_url'));
 					}
 					$subject = $textParser->setContent($templateModel->get('subject'))->parse()->getContent();
@@ -173,24 +173,6 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$return['bcc'] = implode(',', $request->get('emails'));
 		}
 		return $return;
-	}
-
-	protected static $composeParam = false;
-
-	/**
-	 * Function get compose parameters.
-	 *
-	 * @return array
-	 */
-	public static function getComposeParameters()
-	{
-		if (!self::$composeParam) {
-			$config = (new \App\Db\Query())->select(['parameter', 'value'])->from('vtiger_ossmailscanner_config')
-				->where(['conf_type' => 'email_list'])->createCommand()->queryAllByGroup(0);
-			$config['popup'] = '_blank' == $config['target'] ? true : false;
-			self::$composeParam = $config;
-		}
-		return self::$composeParam;
 	}
 
 	/**

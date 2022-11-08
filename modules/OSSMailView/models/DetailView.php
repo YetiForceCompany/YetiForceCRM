@@ -18,14 +18,14 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 		if (!$recordModel->isReadOnly() && \Config\Main::$isActiveSendingMails) {
 			$recordId = $recordModel->getId();
 			if ('InternalClient' === \App\Mail::getMailComposer()) {
-				$config = OSSMail_Module_Model::getComposeParameters();
+				$popup = \App\User::getCurrentUserModel()->getDetail('mail_popup');
 				$url = OSSMail_Module_Model::getComposeUrl();
 
 				$detailViewLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLY',
-					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=reply', 'popup' => $config['popup']],
+					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=reply', 'popup' => $popup],
 					'linkicon' => 'fas fa-reply',
 					'linkclass' => 'btn-outline-dark btn-sm sendMailBtn',
 				];
@@ -33,7 +33,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLYALLL',
-					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=replyAll', 'popup' => $config['popup']],
+					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=replyAll', 'popup' => $popup],
 					'linkicon' => 'fas fa-reply-all',
 					'linkclass' => 'btn-outline-dark btn-sm sendMailBtn',
 				];
@@ -41,7 +41,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
 					'linkhint' => 'LBL_FORWARD',
-					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=forward', 'popup' => $config['popup']],
+					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=forward', 'popup' => $popup],
 					'linkicon' => 'fas fa-share',
 					'linkclass' => 'btn-outline-dark btn-sm sendMailBtn',
 				];

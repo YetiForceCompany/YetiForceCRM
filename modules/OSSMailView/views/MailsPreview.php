@@ -4,6 +4,7 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
 {
@@ -34,17 +35,15 @@ class OSSMailView_MailsPreview_View extends Vtiger_IndexAjax_View
 		$record = $request->getInteger('record');
 		$mailFilter = $request->get('mailFilter');
 		$recordModel = Vtiger_Record_Model::getCleanInstance($moduleName);
-		$config = OSSMail_Module_Model::getComposeParameters();
-		$config['widget_limit'] = '';
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign('RECOLDLIST', $recordModel->{$mode}($srecord, $smodule, $config, $type, $mailFilter));
+		$viewer->assign('RECOLDLIST', $recordModel->{$mode}($srecord, $smodule, ['widget_limit' => ''], $type, $mailFilter));
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('SMODULENAME', $smodule);
 		$viewer->assign('RECORD', $record);
 		$viewer->assign('SRECORD', $srecord);
 		$viewer->assign('TYPE', $type);
-		$viewer->assign('POPUP', $config['popup']);
+		$viewer->assign('POPUP', \App\User::getCurrentUserModel()->getDetail('mail_popup'));
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('MailsPreview.tpl', 'OSSMailView');
 	}

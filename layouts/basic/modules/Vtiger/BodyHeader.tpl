@@ -174,30 +174,28 @@
 				{/if}
 			{/if}
 			{if \Config\Main::$isActiveSendingMails && 'InternalClient' === \App\Mail::getMailComposer() && !Settings_ModuleManager_Library_Model::checkLibrary('roundcube')}
-				{assign var=CONFIG value=Settings_Mail_Config_Model::getConfig('mailIcon')}
-				{if $CONFIG['showMailIcon'] == 'true'}
+				{if \App\Mail::getConfig('mailIcon', 'showMailIcon')}
 					{assign var=AUTOLOGINUSERS value=OSSMail_Autologin_Model::getAutologinUsers()}
 					{if count($AUTOLOGINUSERS) > 0}
 						{assign var=MAIN_MAIL value=OSSMail_Module_Model::getDefaultMailAccount($AUTOLOGINUSERS)}
-						<div class="c-header__btn__container bg-white rounded js-header__btn--mail" {if $CONFIG['showNumberUnreadEmails']=='true'}data-numberunreademails="true" data-interval="{$CONFIG['timeCheckingMail']}" {/if}>
+						<div class="c-header__btn__container bg-white rounded js-header__btn--mail" {if \App\Mail::getConfig('mailIcon', 'showNumberUnreadEmails')}data-numberunreademails="true" data-interval="{\App\Mail::getConfig('mailIcon', 'timeCheckingMail')|escape}" {/if}>
 							{if count($AUTOLOGINUSERS) eq 1}
-								<a class="c-header__btn btn btn-outline-dark border-0 h-100" title="{$MAIN_MAIL.username}" href="index.php?module=OSSMail&view=Index">
+								<a class="c-header__btn btn btn-outline-dark border-0 h-100" title="{\App\Purifier::encodeHtml($MAIN_MAIL.name)}" href="index.php?module=OSSMail&view=Index">
 									<div class="d-none d-xxl-block">
-										{if !empty($ITEM.username)}{$ITEM.username}{/if}
-										<span class="mail_user_name">{$MAIN_MAIL.username}</span>
-										<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
+										<span class="mail_user_name">{\App\Purifier::encodeHtml($MAIN_MAIL.name)}</span>
+										<span data-id="{$MAIN_MAIL.id}" class="noMails"></span>
 									</div>
 									<div class="d-xxl-none">
 										<span class="fas fa-inbox fa-fw" title="{\App\Language::translate('LBL_EMAIL')}"></span>
-										<span data-id="{$MAIN_MAIL.rcuser_id}" class="noMails"></span>
+										<span data-id="{$MAIN_MAIL.id}" class="noMails"></span>
 									</div>
 								</a>
 							{else}
-								<div class="d-none d-xxl-block">
+								<div class="d-none d-xxl-block u-min-w-150pxr">
 									<select id="mail-select" class="form-control-sm" title="{\App\Language::translate('LBL_SEARCH_MODULE', $MODULE_NAME)}">
 										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
 											<option value="{$KEY}" {if $ITEM.active}selected{/if} data-id="{$KEY}" data-nomail="" class="noMails">
-												{$ITEM.username}
+												{\App\Purifier::encodeHtml($ITEM.name)}
 											</option>
 										{/foreach}
 									</select>
@@ -210,7 +208,7 @@
 										{foreach key=KEY item=ITEM from=$AUTOLOGINUSERS}
 											<li value="{$KEY}" data-nomail="" class="dropdown-item js-mail-link px-2" data-js="click">
 												<div class="d-flex w-100">
-													<span class="mr-2">{$ITEM.username}</span>
+													<span class="mr-2">{\App\Purifier::encodeHtml($ITEM.name)}</span>
 													<span data-id="{$KEY}" class="noMails ml-auto"></span>
 												</div>
 											</li>
