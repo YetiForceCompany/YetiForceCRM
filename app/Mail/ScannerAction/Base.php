@@ -97,7 +97,7 @@ abstract class Base
 	public function findRelatedRecordsBySubject(): array
 	{
 		if (!isset($this->message->processData['findBySubject'])) {
-			$this->message->processData['findBySubject'] = \App\Mail\RecordFinder::findBySubject($this->message->getHeader('subject'), $this->getNumberFields());
+			$this->message->processData['findBySubject'] = \App\Mail\RecordFinder::findBySubject($this->message->getSubject(), $this->getNumberFields());
 		}
 
 		return $this->message->processData['findBySubject'];

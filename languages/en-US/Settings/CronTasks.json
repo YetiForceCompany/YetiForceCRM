@@ -35,6 +35,7 @@
     "RecurringInvoice": "Recurring Invoice",
     "LBL_MAIL_SCANNER_ACTION": "Mail Scanner Action",
     "LBL_MAIL_SCANNER_VERIFICATION": "Mail Scanner Verification",
+    "LBL_MAIL_SCANNER_NOTIFICATION": "Mail Scanner notifications",
     "LBL_SEND_REMINDER": "Send Reminder",
     "LBL_SCHEDULED_IMPORT": "Scheduled Import",
     "LBL_SCHEDULE_REPORTS": "Schedule Reports",

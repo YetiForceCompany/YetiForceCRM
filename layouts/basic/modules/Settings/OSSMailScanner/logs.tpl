@@ -45,9 +45,9 @@
 		</thead>
 		{foreach item=item key=key from=$HISTORYACTIONLIST}
 			<tr>
-				<td class="p-1">{$item['id']}</td>
-				<td class="p-1">{$item['start_time']}</td>
-				<td class="p-1">{$item['end_time']}</td>
+				<td class="p-1 text-nowrap">{$item['id']}</td>
+				<td class="p-1 text-nowrap">{$item['start_time']}</td>
+				<td class="p-1 text-nowrap">{$item['end_time']}</td>
 				<td class="p-1">{\App\Language::translate($item['status'], 'OSSMailScanner')}</td>
 				<td class="p-1">{$item['user']}</td>
 				<td class="p-1">{$item['count']}</td>

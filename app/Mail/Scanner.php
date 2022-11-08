@@ -88,8 +88,11 @@ class Scanner extends \App\Base
 
 				$messageCollection = $imap->getMessagesGreaterThanUid($folderName, $uid, $this->limit);
 				foreach ($messageCollection as $message) {
-					if (($callback && $callback($this)) || !$this->log->isRunning()) {
+					if (!$this->log->isRunning()) {
 						return;
+					}
+					if (($callback && $callback($this))) {
+						break 2;
 					}
 					--$this->limit;
 					$messageObject = (new Message\Imap())->setMessage($message);
@@ -155,6 +158,6 @@ class Scanner extends \App\Base
 	 */
 	public function isReady(): bool
 	{
-		return ScannerLog::isScannRunning();
+		return !ScannerLog::isScannRunning();
 	}
 }

@@ -30,11 +30,14 @@ class CreatedMail extends Base
 		}
 
 		$owner = $this->account->getSource()->get('assigned_user_id');
-		if ($mailCrmId = $this->message->getMailCrmId($owner)) {
+		if ($mailCrmId = $this->message->getMailCrmId($this->account->getSource()->getId())) {
 			$record = \OSSMailView_Record_Model::getInstanceById($mailCrmId, 'OSSMailView');
 			if ($owner !== $record->get('assigned_user_id') && !\in_array($owner, explode(',', $record->get('shownerid')))) {
 				$fieldModel = $record->getField('shownerid');
-				$record->set($fieldModel->getName(), $owner)->setDataForSave([$fieldModel->getTableName() => [$fieldModel->getColumnName() => $owner]])->save();
+				$sharedOwner = explode(',', $record->get('shownerid'));
+				$sharedOwner[] = $owner;
+				$sharedOwner = implode(',', $sharedOwner);
+				$record->set($fieldModel->getName(), $sharedOwner)->setDataForSave([$fieldModel->getTableName() => [$fieldModel->getColumnName() => $sharedOwner]])->save();
 			}
 
 			$this->message->setMailCrmId($record->getId());
@@ -45,7 +48,7 @@ class CreatedMail extends Base
 		$record = \OSSMailView_Record_Model::getCleanInstance('OSSMailView');
 		$record->set('assigned_user_id', $owner);
 		$record->set('created_user_id', \App\User::getCurrentUserRealId());
-		$record->setFromUserValue('subject', \App\TextUtils::textTruncate($this->message->getHeader('subject'), $record->getField('subject')->getMaxValue(), false));
+		$record->setFromUserValue('subject', \App\TextUtils::textTruncate($this->message->getSubject(), $record->getField('subject')->getMaxValue(), false));
 		$record->set('to_email', implode(',', $this->message->getEmail('to')));
 		$record->set('from_email', implode(',', $this->message->getEmail('from')));
 		$record->set('cc_email', implode(',', $this->message->getEmail('cc')));
@@ -57,6 +60,7 @@ class CreatedMail extends Base
 		$record->set('uid', $this->message->getMsgId());
 		$type = $this->message->getMailType();
 		$record->set('type', $type);
+		$record->set('rc_user', $this->account->getSource()->getId());
 		$record->set('mid', $this->message->getMsgUid());
 		$record->set('mbox', $this->message->getFolderName());
 		$record->set('ossmailview_sendtype', \App\Mail\Message\Base::MAIL_TYPES[$type]);
@@ -72,8 +76,6 @@ class CreatedMail extends Base
 		}
 
 		$record->set('content', \App\TextUtils::htmlTruncate($this->message->getBody(true), $record->getField('content')->getMaxValue()));
-		// $record->setHandlerExceptions(['disableHandlers' => true]);
-
 		$record->set('from_id', implode(',', array_unique(\App\Utils::flatten(\App\Mail\RecordFinder::findByEmail($this->message->getEmail('from'), $this->getEmailsFields())))));
 		$toEmails = array_merge($this->message->getEmail('to'), $this->message->getEmail('cc'), $this->message->getEmail('bcc'));
 		$record->set('to_id', implode(',', array_unique(\App\Utils::flatten(\App\Mail\RecordFinder::findByEmail($toEmails, $this->getEmailsFields())))));

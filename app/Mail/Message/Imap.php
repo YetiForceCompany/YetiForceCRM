@@ -36,6 +36,32 @@ class Imap extends Base
 	protected $mailType;
 
 	/**
+	 * Get instance by crm mail ID.
+	 *
+	 * @param int $crmId
+	 *
+	 * @return \self
+	 */
+	public static function getInstanceById(int $crmId)
+	{
+		$recordModel = \Vtiger_Record_Model::getInstanceById($crmId);
+		$instance = new static();
+		$instance->set('uid', $recordModel->get('uid'))
+			->set('date', $recordModel->get('date'))
+			->set('from', explode(',', $recordModel->get('from_email')))
+			->set('to', explode(',', $recordModel->get('to_email')))
+			->set('cc', array_filter(explode(',', $recordModel->get('cc_email'))))
+			->set('bcc', array_filter(explode(',', $recordModel->get('bcc_email'))))
+			->set('reply_to', array_filter(explode(',', $recordModel->get('reply_to_email'))))
+			->set('cid', $recordModel->get('cid'));
+		$instance->mailType = $recordModel->get('type');
+		$instance->mailCrmId = $crmId;
+		$instance->body = $recordModel->get('content');
+
+		return $instance;
+	}
+
+	/**
 	 * Set third-party message object.
 	 *
 	 * @param object $message
@@ -49,7 +75,7 @@ class Imap extends Base
 	}
 
 	/** {@inheritdoc} */
-	public function getMailCrmId(int $userId)
+	public function getMailCrmId(int $mailAccountId)
 	{
 		if (!$this->mailCrmId) {
 			if (empty($this->getMsgId()) || \Config\Modules\OSSMailScanner::$ONE_MAIL_FOR_MULTIPLE_RECIPIENTS) {
@@ -58,7 +84,7 @@ class Imap extends Base
 				$queryGenerator = new \App\QueryGenerator('OSSMailView');
 				$queryGenerator->permissions = false;
 				$query = $queryGenerator->setFields(['id'])->addNativeCondition(['vtiger_ossmailview.cid' => $this->getUniqueId()])
-					->addCondition('assigned_user_id', $userId, 'e')->setLimit(1)->createQuery();
+					->addCondition('rc_user', $mailAccountId, 'e')->setLimit(1)->createQuery();
 			}
 			$this->mailCrmId = $query->scalar() ?: null;
 		}
@@ -66,23 +92,50 @@ class Imap extends Base
 		return $this->mailCrmId;
 	}
 
+	/**
+	 * Find crm ID by cid.
+	 *
+	 * @return int|null
+	 */
 	public function getMailCrmIdByCid()
 	{
 		return (new \App\Db\Query())->select(['ossmailviewid'])->from('vtiger_ossmailview')->where(['cid' => $this->getUniqueId()])->limit(1)->scalar() ?: null;
 	}
 
+	/**
+	 * Set mail record ID.
+	 *
+	 * @param int $mailCrmId
+	 *
+	 * @return $this
+	 */
 	public function setMailCrmId(int $mailCrmId)
 	{
 		$this->mailCrmId = $mailCrmId;
 		return $this;
 	}
 
+	/**
+	 * Set process data.
+	 *
+	 * @param string $action
+	 * @param mixed  $value
+	 *
+	 * @return $this
+	 */
 	public function setProcessData(string $action, $value)
 	{
 		$this->processData[$action] = $value;
 		return $this;
 	}
 
+	/**
+	 * Get process data.
+	 *
+	 * @param string $action
+	 *
+	 * @return mixed
+	 */
 	public function getProcessData(string $action = '')
 	{
 		return $action ? $this->processData[$action] ?? [] : [];
@@ -96,7 +149,7 @@ class Imap extends Base
 	public function getUniqueId()
 	{
 		if (!$this->has('cid')) {
-			$uid = hash('sha256', implode(',', $this->getEmail('from')) . '|' . $this->getDate() . '|' . $this->getHeader('subject') . '|' . $this->getMsgId());
+			$uid = hash('sha256', implode(',', $this->getEmail('from')) . '|' . $this->getDate() . '|' . $this->getSubject() . '|' . $this->getMsgId());
 			$this->set('cid', $uid);
 		}
 
@@ -110,8 +163,12 @@ class Imap extends Base
 	 */
 	public function getMsgId(): string
 	{
-		$attr = $this->message->header->get('message_id');
-		return $attr ? $attr->first() : '';
+		if (!$this->has('message_id')) {
+			$attr = $this->message->header->get('message_id');
+			$this->set('message_id', $attr ? $attr->first() : '');
+		}
+
+		return $this->get('message_id');
 	}
 
 	/**
@@ -121,36 +178,93 @@ class Imap extends Base
 	 */
 	public function getMsgUid(): int
 	{
-		return $this->message->getUid();
+		if (!$this->has('uid')) {
+			$this->set('uid', $this->message->getUid());
+		}
+
+		return $this->get('uid');
 	}
 
+	/**
+	 * Get subject.
+	 *
+	 * @return string
+	 */
+	public function getSubject(): string
+	{
+		if (!$this->has('subject')) {
+			$this->set('subject', $this->getHeader('subject'));
+		}
+
+		return $this->get('subject');
+	}
+
+	/**
+	 * Get header data.
+	 *
+	 * @param string $key
+	 *
+	 * @return string
+	 */
 	public function getHeader(string $key): string
 	{
 		$attr = $this->message->header->get($key);
 		return $attr ? $attr->__toString() : '';
 	}
 
+	/**
+	 * Get emials by key.
+	 *
+	 * @param string $key
+	 *
+	 * @return array
+	 */
 	public function getEmail(string $key): array
 	{
-		$attr = $this->message->header->get($key);
-		return $attr ? array_map(fn ($data) => $data->mail, $attr->all()) : [];
+		if (!$this->has($key)) {
+			$attr = $this->message->header->get($key);
+			$this->set('uid', $attr ? array_map(fn ($data) => $data->mail, $attr->all()) : []);
+		}
+
+		return $this->get($key);
 	}
 
+	/**
+	 * Get array header data by key.
+	 *
+	 * @param string $key
+	 *
+	 * @return array
+	 */
 	public function getHeaderAsArray(string $key): array
 	{
 		$attr = $this->message->header->get($key);
 		return $attr ? $attr->toArray() : [];
 	}
 
+	/**
+	 * Get header war data.
+	 *
+	 * @return string
+	 */
 	public function getHeaderRaw(): string
 	{
 		return $this->message->header->raw;
 	}
 
+	/**
+	 * Get date.
+	 *
+	 * @return string
+	 */
 	public function getDate()
 	{
-		$attr = $this->message->header->get('date');
-		return $attr ? $attr->toDate()->toDateTimeString() : '';
+		if (!$this->has('date')) {
+			$attr = $this->message->header->get('date');
+			$this->set('date', $attr ? $attr->toDate()->toDateTimeString() : '');
+		}
+
+		return $this->get('date');
 	}
 
 	/**
@@ -191,6 +305,11 @@ class Imap extends Base
 		return $this->mailType;
 	}
 
+	/**
+	 * Get first letter form email.
+	 *
+	 * @return void
+	 */
 	public function getFirstLetter()
 	{
 		return strtoupper(\App\TextUtils::textTruncate(trim(implode(',', $this->getEmail('from'))), 1, false));
@@ -227,17 +346,34 @@ class Imap extends Base
 		return $purify ? \App\Purifier::decodeHtml(\App\Purifier::purifyHtml($this->body)) : $this->body;
 	}
 
+	/**
+	 * Get body raw.
+	 *
+	 * @return string
+	 */
 	public function getBodyRaw()
 	{
 		return $this->hasHTMLBody() ? $this->message->getHTMLBody() : $this->message->getTextBody();
 	}
 
+	/**
+	 * Set body.
+	 *
+	 * @param string $body
+	 *
+	 * @return $this
+	 */
 	public function setBody(string $body)
 	{
 		$this->body = $body;
 		return $this;
 	}
 
+	/**
+	 * Get forlder name (utf8).
+	 *
+	 * @return string
+	 */
 	public function getFolderName(): string
 	{
 		return $this->message->getFolder()->full_name;
@@ -249,22 +385,6 @@ class Imap extends Base
 	private function parseBody()
 	{
 		$html = $this->body;
-		// if (!\App\Utils::isHtml($html) || !$this->get('isHtml')) {
-		// 	$html = nl2br($html);
-		// }
-		// $attachments = $this->get('attachments');
-		// if (\Config\Modules\OSSMailScanner::$attachHtmlAndTxtToMessageBody && \count($attachments) < 2) {
-		// 	foreach ($attachments as $key => $attachment) {
-		// 		if (('.html' === substr($attachment['filename'], -5)) || ('.txt' === substr($attachment['filename'], -4))) {
-		// 			$html .= $attachment['attachment'] . '<hr />';
-		// 			unset($attachments[$key]);
-		// 		}
-		// 	}
-		// }
-		// $encoding = mb_detect_encoding($html, mb_list_encodings(), true);
-		// if ($encoding && 'UTF-8' !== $encoding) {
-		// 	$html = mb_convert_encoding($html, 'UTF-8', $encoding);
-		// }
 		$html = preg_replace(
 			[':<(head|style|script).+?</\1>:is', // remove <head>, <styleand <scriptsections
 				':<!\[[^]<]+\]>:', // remove <![if !mso]and friends
@@ -297,12 +417,22 @@ class Imap extends Base
 		$this->body = $html;
 	}
 
+	/**
+	 * Check if mail has attachments.
+	 *
+	 * @return bool
+	 */
 	public function hasAttachments(): bool
 	{
 		$this->getBody(false);
 		return !empty($this->files) || $this->message->hasAttachments();
 	}
 
+	/**
+	 * Get attachments.
+	 *
+	 * @return array
+	 */
 	public function getAttachments(): array
 	{
 		foreach ($this->message->getAttachments() as $attachment) {
@@ -313,11 +443,23 @@ class Imap extends Base
 		return $this->files;
 	}
 
+	/**
+	 * Get documents.
+	 *
+	 * @return array
+	 */
 	public function getDocuments(): array
 	{
 		return $this->documents;
 	}
 
+	/**
+	 * Add attachemtns to CRM.
+	 *
+	 * @param array $docData
+	 *
+	 * @return void
+	 */
 	public function saveAttachments(array $docData)
 	{
 		$this->getBody(false);

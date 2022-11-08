@@ -25,7 +25,7 @@ class CreatedHelpDesk extends CreatedMail
 	/** {@inheritdoc} */
 	public function process(): void
 	{
-		if ($this->checkExceptions() || ($prefix = RecordFinder::getRecordNumberFromString($this->message->getHeader('subject'), 'HelpDesk')) && \App\Record::getIdByRecordNumber($prefix, 'HelpDesk')) {
+		if ($this->checkExceptions() || ($prefix = RecordFinder::getRecordNumberFromString($this->message->getSubject(), 'HelpDesk')) && \App\Record::getIdByRecordNumber($prefix, 'HelpDesk')) {
 			return;
 		}
 		$owner = $this->account->getSource()->get('assigned_user_id');
@@ -42,10 +42,9 @@ class CreatedHelpDesk extends CreatedMail
 		$this->loadServiceContracts($recordModel, $parentId);
 		$recordModel->set('assigned_user_id', $owner);
 		$recordModel->set('created_user_id', \App\User::getCurrentUserRealId());
-		$recordModel->set('createdtime', $this->message->getDate());
-		$recordModel->setFromUserValue('ticket_title', \App\TextUtils::textTruncate($this->message->getHeader('subject'), $recordModel->getField('ticket_title')->getMaxValue(), false));
+		$recordModel->setFromUserValue('ticket_title', \App\TextUtils::textTruncate($this->message->getSubject(), $recordModel->getField('ticket_title')->getMaxValue(), false));
 
-		$mailId = $this->message->getMailCrmId($owner);
+		$mailId = $this->message->getMailCrmId($this->account->getSource()->getId());
 		$this->message->getBody();
 		if ($mailId) {
 			$this->attachments = $this->message->processData['CreatedMail']['attachments'] ?? (new \App\Db\Query())->select(['crmid' => 'documentsid'])->from('vtiger_ossmailview_files')->where(['ossmailviewid' => $mailId])->all();

@@ -24,9 +24,9 @@ class MailAccount_DetailView_Model extends Vtiger_DetailView_Model
 		if (!$recordModel->isReadOnly() && $recordModel->isEditable() && $mailServer && $mailServer->isViewable() && $mailServer->isOAuth() && $mailServer->getRedirectUri()) {
 			$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_ADDITIONAL',
-				'linkdata' => ['url' => "index.php?module={$recordModel->getModuleName()}&action=OAuth&record={$recordModel->getId()}", 'confirm' => \App\Language::translate('LBL_OAUTH_AUTHORIZATION_DESC'), 'type' => 'href'],
+				'linkdata' => ['url' => "index.php?module={$recordModel->getModuleName()}&action=OAuth&record={$recordModel->getId()}", 'confirm' => \App\Language::translate('LBL_OAUTH_AUTHORIZATION_DESC', $recordModel->getModuleName()), 'type' => 'href'],
 				'linkicon' => \App\Integrations\OAuth::getProviderByName($mailServer->get('oauth_provider'))->getIcon(),
-				'linkhint' => 'Authorize', //'LBL_OAUTH_AUTHORIZATION',
+				'linkhint' => \App\Language::translate('LBL_OAUTH_AUTHORIZATION', $recordModel->getModuleName()),
 				'linkclass' => 'btn-outline-primary btn-sm js-action-confirm',
 				'showLabel' => true,
 			]);

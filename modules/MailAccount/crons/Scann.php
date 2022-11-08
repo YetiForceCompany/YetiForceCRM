@@ -25,9 +25,7 @@ class MailAccount_Scann_Cron extends \App\CronHandler
 		}
 
 		$queryGenerator = (new \App\QueryGenerator('MailAccount'));
-		$queryGenerator->permissions = false;
-		$queryGenerator->setFields(['id']);
-		$queryGenerator->addCondition('mailaccount_status', \App\Mail\Account::STATUS_ACTIVE, 'e');
+		$queryGenerator->setFields(['id'])->addCondition('mailaccount_status', \App\Mail\Account::STATUS_ACTIVE, 'e');
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($recordId = $dataReader->readColumn(0)) {
 			$mailAccount = \App\Mail\Account::getInstanceById($recordId);

@@ -26,7 +26,7 @@ class OpenHelpDesk extends Base
 	public function process(): void
 	{
 		$scanner = $this->message;
-		if ($this->checkExceptions() || \App\Mail\Message\Base::MAIL_TYPE_RECEIVED !== $scanner->getMailType() || !($prefix = RecordFinder::getRecordNumberFromString($this->message->getHeader('subject'), 'HelpDesk')) || !($id = \App\Record::getIdByRecordNumber($prefix, 'HelpDesk'))) {
+		if ($this->checkExceptions() || \App\Mail\Message\Base::MAIL_TYPE_RECEIVED !== $scanner->getMailType() || !($prefix = RecordFinder::getRecordNumberFromString($this->message->getSubject(), 'HelpDesk')) || !($id = \App\Record::getIdByRecordNumber($prefix, 'HelpDesk'))) {
 			return;
 		}
 		$recordModel = \Vtiger_Record_Model::getInstanceById($id, 'HelpDesk');

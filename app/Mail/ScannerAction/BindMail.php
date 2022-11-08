@@ -23,8 +23,7 @@ class BindMail extends Base
 	/** {@inheritdoc} */
 	public function process(): void
 	{
-		$owner = $this->account->getSource()->get('assigned_user_id');
-		if (empty($this->message->processData['CreatedMail']) || !($mailCrmId = $this->message->getMailCrmId($owner))) {
+		if (!($mailCrmId = $this->message->getMailCrmId($this->account->getSource()->getId()))) {
 			return;
 		}
 		$returnIds = [];

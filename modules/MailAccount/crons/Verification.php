@@ -1,70 +1,55 @@
 <?php
 /**
- * Cron for scheduled import.
+ * Mail account verification cron file.
  *
  * @package   Cron
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Tomasz Kur <t.kur@yetiforce.com>
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
- * OSSMailScanner_Verification_Cron class.
+ * Mail account verification cron class.
  */
 class MailAccount_Verification_Cron extends \App\CronHandler
 {
 	/** {@inheritdoc} */
 	public function process()
 	{
-		$this->notifications();
+		$pauser = \App\Pauser::getInstance('MailAccountVerification');
+		$lastId = (int) $pauser->getValue();
+		$deactivationTime = \App\Mail::getConfig('scanner', 'deactivation_time');
 
-		$hours = OSSMailScanner_Record_Model::getConfig('cron')['blockCheckHours'] ?? '';
-		$hours = $hours ? explode(',', $hours) : [];
-		$query = (new \App\Db\Query())->from('roundcube_users')->where(['crm_status' => \OSSMail_Record_Model::MAIL_BOX_STATUS_BLOCKED_TEMP]);
-		$dataReader = $query->createCommand()->query();
-		while ($account = $dataReader->read()) {
-			if (empty($account['actions'])) {
-				continue;
-			}
-			$check = true;
-			if (!empty($account['failed_login'])) {
-				$check = date('Y-m-d G', strtotime($account['failed_login'])) !== date('Y-m-d G');
-				if ($hours && $check) {
-					$check = \in_array(date('G'), $hours);
+		$queryGenerator = (new \App\QueryGenerator('MailAccount'))
+			->setFields(['id'])
+			->addCondition('mailaccount_status', \App\Mail\Account::STATUS_LOCKED, 'e');
+		if ($lastId) {
+			$queryGenerator->addCondition('id', $lastId, 'a');
+		}
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		$count = $dataReader->count();
+		while ($recordId = $dataReader->readColumn(0)) {
+			$pauser->setValue((string) $recordId);
+			$mailAccount = \App\Mail\Account::getInstanceById($recordId);
+			try {
+				$mailbox = $mailAccount->openImap();
+				if ($mailbox->isConnected()) {
+					$mailAccount->unlock();
+				}
+			} catch (\Throwable $th) {
+				$lastLogin = $mailAccount->getSource()->get('last_login') ?: $mailAccount->getSource()->get('createdtime');
+				$hours = \App\Fields\DateTime::getDiff($lastLogin, date('Y-m-d H:i:s'), 'hours');
+				if ((int) $hours >= (int) $deactivationTime) {
+					$mailAccount->deactivate($th->getMessage());
 				}
 			}
-			if ($check) {
-				\OSSMail_Record_Model::imapConnect($account['username'], \App\Encryption::getInstance()->decrypt($account['password']), $account['mail_host'], '', false, [], $account);
+			if ($this->checkTimeout()) {
+				break;
 			}
 		}
-		$dataReader->close();
-	}
-
-	public function notifications()
-	{
-		$duration = \App\Mail::getConfig('scanner', 'time_for_notification');
-		$email = \App\Mail::getConfig('scanner', 'email_for_notification');
-		if (!$duration || !$email) {
-			return false;
+		if (!$lastId || !$count) {
+			$pauser->destroy();
 		}
-		$dbCommand = App\Db::getInstance()->createCommand();
-		$dataReader = (new App\Db\Query())->from('vtiger_ossmails_logs')->where(['status' => 1])->createCommand()->query();
-		while ($row = $dataReader->read()) {
-			$startTime = strtotime($row['start_time']);
-			if (strtotime('now') > $startTime + ($duration * 60)
-			&& !(new \App\Db\Query())->from('vtiger_ossmailscanner_log_cron')->where(['laststart' => $startTime])->exists()) {
-				$dbCommand->insert('vtiger_ossmailscanner_log_cron', ['laststart' => $startTime, 'status' => 0, 'created_time' => date('Y-m-d H:i:s')])->execute();
-				$url = \App\Config::main('site_URL');
-				$mailStatus = \App\Mailer::addMail([
-					'to' => $email,
-					'subject' => App\Language::translate('Email_FromName', 'OSSMailScanner'),
-					'content' => App\Language::translate('Email_Body', 'OSSMailScanner') . "\r\n<br><a href='{$url}'>{$url}</a>",
-				]);
-				$dbCommand->update('vtiger_ossmailscanner_log_cron', ['status' => (int) $mailStatus], ['laststart' => $startTime])->execute();
-			}
-		}
-		$dataReader->close();
 	}
 }

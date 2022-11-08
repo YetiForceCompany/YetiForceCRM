@@ -22,7 +22,7 @@
 									<span class="body-icon fas fa-chevron-down"></span>
 								</button>
 							</div>
-							{\App\Purifier::encodeHtml($item->getHeader('subject'))}
+							{\App\Purifier::encodeHtml($item->getSubject())}
 
 							</p>
 
