@@ -9,7 +9,7 @@ window.Integrations_Mail_InternalClient = class Integrations_Mail_InternalClient
 	/** @inheritdoc */
 	sendMail(attr) {
 		this.log('|►| sendMail', attr);
-		if (attr['record'] && app.getRecordId() && attr['record'] !== app.getRecordId()) {
+		if (attr['record'] && app.getRecordId() && attr['record'] != app.getRecordId()) {
 			attr['crmModule'] = app.getModuleName();
 			attr['crmRecord'] = app.getRecordId();
 		}
@@ -21,14 +21,26 @@ window.Integrations_Mail_InternalClient = class Integrations_Mail_InternalClient
 				mode: 'sendMail',
 				...attr
 			}
-		}).done(function (response) {
+		}).done((response) => {
 			if (response.result.status) {
-				$.ajax({ url: response.result.url }).fail(function (_jqXHR, textStatus) {
-					app.showError({
-						title: app.vtranslate('JS_UNEXPECTED_ERROR'),
-						text: textStatus
+				$.ajax({ url: response.result.url })
+					.done((ajax) => {
+						this.log('|◄| sendMail', ajax);
+						if (ajax['data']['status'] == 1) {
+							app.showNotify({ title: ajax['data']['description'], type: 'success' });
+						} else {
+							app.showError({
+								title: app.vtranslate('JS_UNEXPECTED_ERROR'),
+								text: ajax['data']['description']
+							});
+						}
+					})
+					.fail((_jqXHR, textStatus) => {
+						app.showError({
+							title: app.vtranslate('JS_UNEXPECTED_ERROR'),
+							text: textStatus
+						});
 					});
-				});
 			} else {
 				app.showError({ title: app.vtranslate('JS_UNEXPECTED_ERROR'), text: response.result.text });
 			}

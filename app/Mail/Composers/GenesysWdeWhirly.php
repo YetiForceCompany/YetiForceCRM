@@ -35,7 +35,7 @@ class GenesysWdeWhirly extends Base
 			}
 		}
 		$url = "http://localhost:{$params['httpListener']}/CLICKTOMAIL?customeremail={$request->get('email')}";
-		if ($request->isEmpty('record')) {
+		if (!$request->isEmpty('record')) {
 			$url .= '&crmsourceid=' . $request->getInteger('record');
 		}
 		if ($params && ($serviceValue = ($params['serviceValueEmail'] ?? ''))) {

@@ -18,15 +18,27 @@ window.Integrations_Pbx_GenesysWdeWhirly = class Integrations_Pbx_GenesysWdeWhir
 			action: 'Pbx',
 			mode: 'performCall',
 			...data
-		}).done(function (response) {
+		}).done((response) => {
 			if (response.result.status) {
 				app.showNotify({ title: response.result.text, type: 'info' });
-				$.ajax({ url: response.result.url }).fail(function (_jqXHR, textStatus) {
-					app.showError({
-						title: app.vtranslate('JS_UNEXPECTED_ERROR'),
-						text: textStatus
+				$.ajax({ url: response.result.url })
+					.done((ajax) => {
+						this.log('|◄| performCall', ajax);
+						if (ajax['data']['status'] == 1) {
+							app.showNotify({ title: ajax['data']['description'], type: 'success' });
+						} else {
+							app.showError({
+								title: app.vtranslate('JS_UNEXPECTED_ERROR'),
+								text: ajax['data']['description']
+							});
+						}
+					})
+					.fail((_jqXHR, textStatus) => {
+						app.showError({
+							title: app.vtranslate('JS_UNEXPECTED_ERROR'),
+							text: textStatus
+						});
 					});
-				});
 			} else {
 				app.showError({ title: app.vtranslate('JS_UNEXPECTED_ERROR'), text: response.result.text });
 			}
