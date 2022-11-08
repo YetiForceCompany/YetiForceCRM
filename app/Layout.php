@@ -177,7 +177,7 @@ class Layout
 		if (\mb_strlen($text) < $length) {
 			return $nl2br ? nl2br($text) : $text;
 		}
-		$teaser = Purifier::encodeHtml(TextUtils::textTruncate($text, $length));
+		$teaser = TextUtils::textTruncate(Purifier::encodeHtml($text), $length);
 		$text = Purifier::encodeHtml($text);
 		if ($showIcon) {
 			$btn = '<span class="mdi mdi-overscan"></span>';

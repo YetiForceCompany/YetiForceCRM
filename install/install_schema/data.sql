@@ -20783,8 +20783,8 @@ insert  into `yetiforce_auth`(`id`,`type`,`param`,`value`) values (4,'ldap','dom
 
 /*Data for the table `yetiforce_mail_config` */
 
-insert  into `yetiforce_mail_config`(`type`,`name`,`value`,`sequence`) values ('mailIcon','showNumberUnreadEmails','0',1);
-insert  into `yetiforce_mail_config`(`type`,`name`,`value`,`sequence`) values ('mailIcon','showMailIcon','1',2);
+insert  into `yetiforce_mail_config`(`type`,`name`,`value`,`sequence`) values ('mailIcon','showNumberUnreadEmails','0',2);
+insert  into `yetiforce_mail_config`(`type`,`name`,`value`,`sequence`) values ('mailIcon','showMailIcon','1',1);
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`,`sequence`) values ('mailIcon','timeCheckingMail','60',3);
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`,`sequence`) values ('signature','signature','',2);
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`,`sequence`) values ('signature','addSignature','0',1);

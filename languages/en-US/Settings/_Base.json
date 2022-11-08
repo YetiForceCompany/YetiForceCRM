@@ -189,8 +189,6 @@
     "LBL_CONVERSION_TO_ACCOUNT": "Convert to Account",
     "LBL_DAV_KEYS": "DAV keys",
     "LBL_DAV_KEYS_DESCRIPTION": "Create and manage DAV keys",
-    "LBL_AUTOLOGIN": "Auto Login",
-    "LBL_AUTOLOGIN_DESCRIPTION": "Configuration of auto login for the email module",
     "LBL_MAIL_GENERAL_CONFIGURATION": "General configuration",
     "LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION": "General configuration of the email module",
     "LBL_SUPPORT_PROCESSES": "Support processes",

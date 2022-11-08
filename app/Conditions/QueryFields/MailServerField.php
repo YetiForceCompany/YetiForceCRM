@@ -19,9 +19,6 @@ class MailServerField extends BaseField
 	/** {@inheritdoc} */
 	public function getValue()
 	{
-		if (\is_array($this->value)) {
-			return $this->value;
-		}
-		return explode('##', $this->value);
+		return \is_array($this->value) ? $this->value : explode('##', $this->value);
 	}
 }
