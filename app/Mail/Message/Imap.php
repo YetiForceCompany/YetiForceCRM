@@ -46,7 +46,7 @@ class Imap extends Base
 	{
 		$recordModel = \Vtiger_Record_Model::getInstanceById($crmId);
 		$instance = new static();
-		$instance->set('uid', $recordModel->get('uid'))
+		$instance->set('uid', $recordModel->get('id'))
 			->set('date', $recordModel->get('date'))
 			->set('from', explode(',', $recordModel->get('from_email')))
 			->set('to', explode(',', $recordModel->get('to_email')))
@@ -223,7 +223,7 @@ class Imap extends Base
 	{
 		if (!$this->has($key)) {
 			$attr = $this->message->header->get($key);
-			$this->set('uid', $attr ? array_map(fn ($data) => $data->mail, $attr->all()) : []);
+			$this->set($key, $attr ? array_map(fn ($data) => $data->mail, $attr->all()) : []);
 		}
 
 		return $this->get($key);

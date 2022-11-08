@@ -57,7 +57,7 @@ class CreatedMail extends Base
 
 		$record->set('date', $this->message->getDate());
 		$record->set('createdtime', $this->message->getDate());
-		$record->set('uid', $this->message->getMsgId());
+		// $record->set('uid', $this->message->getMsgId());
 		$type = $this->message->getMailType();
 		$record->set('type', $type);
 		$record->set('rc_user', $this->account->getSource()->getId());
@@ -82,6 +82,7 @@ class CreatedMail extends Base
 		$record->save();
 
 		$db = \App\Db::getInstance();
+		$db->createCommand()->update('vtiger_ossmailview', ['id' => $this->message->getMsgId()], ['ossmailviewid' => $record->getId()])->execute();
 		foreach ($this->message->getDocuments() as $file) {
 			$db->createCommand()->insert('vtiger_ossmailview_files', [
 				'ossmailviewid' => $record->getId(),
