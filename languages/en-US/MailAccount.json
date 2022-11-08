@@ -8,6 +8,7 @@
     "FL_SUBJECT": "Name",
     "FL_LOGIN": "Login",
     "FL_PASSWORD": "Password",
+    "FL_REFRESH_TOKEN": "Refresh token",
     "FL_MAIL_SERVER": "Mail server",
     "PL_INACTIVE": "Inactive",
     "PLL_ACTIVE": "Active",
