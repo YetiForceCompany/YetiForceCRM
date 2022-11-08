@@ -220,7 +220,7 @@ class Account extends \App\Base
 			$imap->connect();
 			$this->update(['last_login']);
 		} catch (\Throwable $th) {
-			// // try only once if token has expired
+			// try only once if token has expired
 			if (1 === $this->attempt && 'oauth2' === $this->server->get('auth_method')) {
 				$this->getAccessToken();
 				$this->update();

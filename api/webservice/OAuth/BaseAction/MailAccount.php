@@ -26,7 +26,7 @@ class MailAccount extends \Api\Core\BaseAction
 		$state = $this->controller->request->get('state');
 		$hash = $state ? sha1($state) : '';
 		if (!$state || !\App\Session::has("OAuth.State.{$hash}") || $state !== \App\Session::get("OAuth.State.{$hash}")['state']) {
-			throw new \Api\Core\Exception('No permission or wrong data' . print_r([$_SESSION, $this->controller->request->getAllRaw()], true), 401);
+			throw new \Api\Core\Exception('No permission or wrong data', 401);
 		}
 	}
 

@@ -85,6 +85,13 @@ class Settings_Mail_Config_Model extends \App\Base
 		return parent::set($key, $value);
 	}
 
+	/**
+	 * Get fields structure.
+	 *
+	 * @param bool $byBlock
+	 *
+	 * @return array
+	 */
 	public function getFields(bool $byBlock = false)
 	{
 		$fields = [];

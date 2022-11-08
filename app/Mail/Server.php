@@ -68,12 +68,27 @@ class Server extends \App\Base
 		return $instance;
 	}
 
+	/**
+	 * Check if server exists.
+	 *
+	 * @param int      $serverId
+	 * @param int|null $state
+	 *
+	 * @return bool
+	 */
 	public static function isExists(int $serverId, ?int $state = self::STATUS_ACTIVE)
 	{
 		$server = static::getInstanceById($serverId);
 		return $server && (null === $state || $state === $server->getState());
 	}
 
+	/**
+	 * Get redirect URI from server.
+	 *
+	 * @param int $serviceId
+	 *
+	 * @return string
+	 */
 	public static function getRedirectUriByServiceId(int $serviceId): string
 	{
 		$service = \App\Integrations\Services::getById($serviceId);
@@ -85,16 +100,31 @@ class Server extends \App\Base
 		return $uri;
 	}
 
+	/**
+	 * Get redirect URI.
+	 *
+	 * @return string
+	 */
 	public function getRedirectUri(): string
 	{
 		return self::getRedirectUriByServiceId((int) $this->get('redirect_uri_id'));
 	}
 
+	/**
+	 * Check if server is viewable for users section.
+	 *
+	 * @return bool
+	 */
 	public function isViewable(): bool
 	{
 		return self::STATUS_ACTIVE === $this->get('status') && self::USER_VISIBLE === $this->get('visible');
 	}
 
+	/**
+	 * Get client secret.
+	 *
+	 * @return string
+	 */
 	public function getClientSecret()
 	{
 		if ($clientSecret = $this->get('client_secret')) {
@@ -104,17 +134,32 @@ class Server extends \App\Base
 		return $clientSecret;
 	}
 
+	/**
+	 * Check if authorization method is oauth2.
+	 *
+	 * @return bool
+	 */
 	public function isOAuth(): bool
 	{
 		return 'oauth2' === $this->get('auth_method');
 	}
 
+	/**
+	 * Get state.
+	 *
+	 * @return int
+	 */
 	public function getState(): int
 	{
 		return $this->get('status');
 	}
 
-	public function getImapHost()
+	/**
+	 * Get full imap host address.
+	 *
+	 * @return string
+	 */
+	public function getImapHost(): string
 	{
 		$encrypt = $this->get('imap_encrypt');
 		$host = $this->get('imap_host');
@@ -123,7 +168,12 @@ class Server extends \App\Base
 		return ($encrypt ? "{$encrypt}://" : '') . $host . ($port ? ":{$port}" : '');
 	}
 
-	public function getSmptHost()
+	/**
+	 * Get full smtp host address.
+	 *
+	 * @return string
+	 */
+	public function getSmptHost(): string
 	{
 		$encrypt = $this->get('smtp_encrypt');
 		$host = $this->get('smtp_host');
