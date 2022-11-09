@@ -81,12 +81,20 @@ class MailAccount extends \Api\Core\BaseAction
 		}
 	}
 
+	/**
+	 * Set logs for mail account.
+	 *
+	 * @param int    $recordId
+	 * @param string $message
+	 *
+	 * @return string
+	 */
 	private function setLogs(int $recordId, string $message): string
 	{
 		$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $this->moduleName);
 		$fieldModel = $recordModel->getField('logs');
 		$fieldModelStatus = $recordModel->getField('mailaccount_status');
-		$status = 'PLL_LOCKED';
+		$status = \App\Mail\Account::STATUS_LOCKED;
 		if (mb_strlen($message) > $fieldModel->getMaxValue()) {
 			$message = substr($message, 0, $fieldModel->getMaxValue());
 		}
