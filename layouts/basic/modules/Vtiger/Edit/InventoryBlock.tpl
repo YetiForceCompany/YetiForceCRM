@@ -3,10 +3,10 @@
 	<!-- tpl-Base-Edit-InventoryBlock -->
 	{assign var=FIELDS value=$INVENTORY_MODEL->getFieldsByBlock(1)}
 	{assign var=GROUP_FIELD value=$INVENTORY_MODEL->getField('grouplabel')}
-	{assign var=BLOCK_EXPANDED value=!$GROUP_FIELD || ($GROUP_FIELD && $GROUP_FIELD->isOpened())}
+	{assign var=BLOCK_ITEMS_HIDE value=$GROUP_FIELD && !$GROUP_FIELD->isOpened()}
 	<div class="js-toggle-panel js-inv-container-group c-panel mb-2 mt-2" data-js="click">
 		<div class="js-block-header c-panel__header py-2">
-			<span class="iconToggle fas {if $BLOCK_EXPANDED}fa-chevron-down{else}fa-chevron-right{/if} fa-xs m-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down" style="min-width: 15px;"></span>
+			<span class="iconToggle fas fa-chevron-down fa-xs m-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down" style="min-width: 15px;"></span>
 			<div class="row w-100 ml-1">
 				{if $GROUP_FIELD}
 					<th class="text-center u-w-1per-45px">
@@ -37,7 +37,7 @@
 				{break}
 			{/if}
 		{/foreach}
-		<div class="c-panel__body p-0 js-block-content {if !$BLOCK_EXPANDED}d-none{/if}">
+		<div class="c-panel__body p-0 js-block-content">
 			<div class="table-responsive">
 				<table class="table table-bordered inventoryItems mb-0 border-0">
 					<thead>
@@ -57,7 +57,7 @@
 								{include file=\App\Layout::getTemplatePath('Edit/InventoryHeaderItem.tpl', $MODULE_NAME)}
 							{/if}
 							{assign var=ROW_NO value=$ROW_NO+1}
-							{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
+							{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME) HIDE_ROW=$BLOCK_ITEMS_HIDE}
 						{foreachelse}
 							{if $INVENTORY_MODEL->getField('name')->isRequired()}
 								{assign var=ROW_NO value=$ROW_NO+1}

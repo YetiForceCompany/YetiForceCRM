@@ -121,28 +121,6 @@ $.Class(
 				this.hideLineItemsDeleteIcon();
 			}
 		},
-		/**
-		 * Set the visibility of the delete block button
-		 */
-		setDeleteBlockBtnVisibility() {
-			let deleteBtn = this.getContainer().find('.js-delete-block');
-			if (deleteBtn.length > 1) {
-				deleteBtn.removeClass('d-none');
-			} else {
-				deleteBtn.addClass('d-none');
-			}
-		},
-		/**
-		 * Register delete block btn
-		 */
-		registerDeleteBlock: function () {
-			this.getContainer().on('click', '.js-delete-block', (e) => {
-				let block = $(e.currentTarget).closest('.js-inv-container-group');
-				block.remove();
-				this.setDeleteBlockBtnVisibility();
-				this.rowsCalculations();
-			});
-		},
 		showLineItemsDeleteIcon: function () {
 			this.getInventoryItemsContainer().find('.deleteRow').removeClass('d-none');
 		},
@@ -1210,13 +1188,33 @@ $.Class(
 			const inventoryRowExpanded = this.getInventoryItemsContainer().find('[numrowex="' + row.attr('numrow') + '"]');
 			const element = row.find('.toggleVisibility');
 			element.data('status', '1');
+			element.removeClass(element.data('off')).addClass(element.data('on'));
 			inventoryRowExpanded.removeClass('d-none');
+			this.markCommentBtn(row);
 		},
 		hideExpandedRow: function (row) {
 			const inventoryRowExpanded = this.getInventoryItemsContainer().find('[numrowex="' + row.attr('numrow') + '"]');
 			const element = row.find('.toggleVisibility');
 			element.data('status', '0');
+			element.removeClass(element.data('on')).addClass(element.data('off'));
 			inventoryRowExpanded.addClass('d-none');
+			this.markCommentBtn(row);
+		},
+		/**
+		 * Mark button for extended fields
+		 * @param {jQuery} row
+		 */
+		markCommentBtn: function (row) {
+			let rowExpanded = this.getInventoryItemsContainer().find('[numrowex="' + row.attr('numrow') + '"]');
+			let value = rowExpanded.find('.js-inventory-item-comment').val();
+			const element = row.find('.js-inv-item-btn-icon');
+			let removeClass = element.data('active');
+			let addClass = element.data('inactive');
+			if (value) {
+				removeClass = addClass;
+				addClass = element.data('active');
+			}
+			element.removeClass(removeClass).addClass(addClass);
 		},
 		initDiscountsParameters: function (parentRow, modal) {
 			let parameters = parentRow.find('.discountParam').val();
@@ -1548,14 +1546,29 @@ $.Class(
 			});
 		},
 		registerShowHideExpanded: function () {
-			const thisInstance = this;
-			thisInstance.form.on('click', '.toggleVisibility', function (e) {
+			this.getInventoryItemsContainer().on('click', '.toggleVisibility', (e) => {
 				let element = $(e.currentTarget);
-				let row = thisInstance.getClosestRow(element);
+				let row = this.getClosestRow(element);
 				if (element.data('status') == 0) {
-					thisInstance.showExpandedRow(row);
+					this.showExpandedRow(row);
 				} else {
-					thisInstance.hideExpandedRow(row);
+					this.hideExpandedRow(row);
+				}
+			});
+		},
+		/**
+		 * Show/Hide group items
+		 */
+		registerShowHideExpandedGroup: function () {
+			this.getInventoryItemsContainer().on('click', '.js-inv-group-collapse-btn', (e) => {
+				let btn = $(e.currentTarget).find('.js-toggle-icon');
+				let row = btn.closest('tr.inventoryRowGroup');
+				let items = row.nextUntil('tr.inventoryRowGroup').filter('tr.inventoryRow');
+				if (btn.hasClass(btn.data('active'))) {
+					items.find(`.toggleVisibility.active`).closest('.toggleVisibility').trigger('click');
+					items.addClass('d-none');
+				} else {
+					items.removeClass('d-none');
 				}
 			});
 		},
@@ -2037,8 +2050,7 @@ $.Class(
 			this.registerChangeCurrency();
 			this.registerChangeDiscountAggregation();
 			this.setDefaultGlobalTax(container);
-			this.registerDeleteBlock();
-			this.setDeleteBlockBtnVisibility();
+			this.registerShowHideExpandedGroup();
 			app.registerBlockToggleEvent(container);
 		}
 	}

@@ -6,7 +6,8 @@
 	{else}
 		{assign var="REFERENCE_MODULE" value=current($INVENTORY_MODEL->getField('name')->getModules())}
 	{/if}
-	<tr class="inventoryRow" numrow="{$ROW_NO}">
+	{assign var="COMMENTS_SHOW" value=$IS_OPENED_COMMENTS && empty($HIDE_ROW)}
+	<tr class="inventoryRow {if !empty($HIDE_ROW)} d-none{/if}" numrow="{$ROW_NO}">
 		<td class="u-white-space-nowrap u-w-1per-45px">
 			{if $INVENTORY_MODEL->isField('seq')}
 				<a class="dragHandle mx-1 mr-2">
@@ -14,12 +15,13 @@
 				</a>
 				<input name="inventory[{$ROW_NO}][seq]" type="hidden" value="{$ROW_NO}" class="sequence" />
 			{/if}
-			<button type="button" class="btn btn-sm btn-danger fas fa-trash-alt deleteRow"
+			<button type="button" class="btn btn-sm btn-danger fas fa-trash-alt deleteRow{if !$ITEM_DATA} d-none{/if}"
 				title="{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}"></button>
 			{if $IS_VISIBLE_COMMENTS}
-				<button type="button" class="btn btn-sm btn-light toggleVisibility ml-1 js-toggle-icon__container" data-status="{$IS_OPENED_COMMENTS}"
-					href="#" data-js="click">
-					<span class="js-toggle-icon fas fa-angle-{if $IS_OPENED_COMMENTS}up{else}down{/if}" data-active="fa-angle-up" data-inactive="fa-angle-down" data-js="click"></span>
+				{assign var="IS_EMPTY_EXTANDED_FIELDS" value=$INVENTORY_MODEL->isCommentFieldsEmpty($ITEM_DATA)}
+				<button type="button" class="btn btn-sm {if $COMMENTS_SHOW}btn-info active{else}btn-light{/if} toggleVisibility ml-1" data-off="btn-light" data-on="btn-info active" data-status="{$COMMENTS_SHOW}"
+					data-active="btn-info" data-inactive="btn-light" data-js="click">
+					<span class="js-inv-item-btn-icon fa-fw {if $IS_EMPTY_EXTANDED_FIELDS}far{else}fas{/if} fa-comment" data-active="fas" data-inactive="far" data-js="click"></span>
 				</button>
 			{/if}
 			{if isset($ITEM_DATA['id'])}
@@ -42,11 +44,13 @@
 		{/foreach}
 	</tr>
 	{if $IS_VISIBLE_COMMENTS}
-		<tr class="inventoryRowExpanded numRow{$ROW_NO} {if !$IS_OPENED_COMMENTS}d-none{/if}" numrowex="{$ROW_NO}">
+		<tr class="inventoryRowExpanded numRow{$ROW_NO} {if !$COMMENTS_SHOW}d-none{/if}" numrowex="{$ROW_NO}">
 			<td class="colExpanded" colspan="{count($FIELDS)+1}">
 				{foreach item=FIELD from=$INVENTORY_MODEL->getFieldsByType('Comment')}
-					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE_NAME)}
-					{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME)}
+					{if $FIELD->isVisible()}
+						{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE_NAME)}
+						{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME)}
+					{/if}
 				{/foreach}
 			</td>
 		</tr>

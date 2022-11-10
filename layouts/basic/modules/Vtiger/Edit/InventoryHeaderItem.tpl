@@ -12,6 +12,9 @@
 					</a>
 				{/if}
 				<button type="button" class="btn btn-sm btn-danger fas fa-trash-alt js-delete-header-item" title="{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}"></button>
+				<button type="button" class="btn btn-sm btn-light ml-1 js-toggle-icon__container js-inv-group-collapse-btn" data-js="click">
+					<span class="js-toggle-icon fa-fw fas {if $GROUP_FIELD->isOpened()}fa-angle-down{else}fa-angle-right{/if}" data-active="fa-angle-down" data-inactive="fa-angle-right" data-js="click"></span>
+				</button>
 			</td>
 			<td class="p-1" colspan="{$COL_SPAN}">
 				<div class="{if !$GROUP_FIELD->isReadOnly()}u-max-w-250px{/if} fieldValue">

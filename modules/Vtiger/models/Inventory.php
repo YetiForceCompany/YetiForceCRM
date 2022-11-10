@@ -892,4 +892,24 @@ class Vtiger_Inventory_Model
 		}
 		return $data;
 	}
+
+	/**
+	 * Check if comment fields are empty.
+	 *
+	 * @param array $data
+	 *
+	 * @return bool
+	 */
+	public function isCommentFieldsEmpty(array $data)
+	{
+		$isEmpty = true;
+		foreach ($this->getFieldsByType('Comment') as $fieldModel) {
+			if ($fieldModel->isVisible() && $this->getEditValue($data, $fieldModel->getColumnName())) {
+				$isEmpty = false;
+				break;
+			}
+		}
+
+		return $isEmpty;
+	}
 }
