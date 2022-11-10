@@ -15,7 +15,7 @@
 	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 	{assign var=PARAMS value=$FIELD_MODEL->getFieldParams()}
-	{assign var=NUMBER value=$FIELD_MODEL->get('fieldvalue')}
+	{assign var=NUMBER value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}
 	<div>
 		{if \App\Config::component('Phone', 'advancedVerification', false)}
 			{if $NUMBER}
