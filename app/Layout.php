@@ -220,7 +220,6 @@ class Layout
 				$btn = $btnTemplate('LBL_SHOW_ORIGINAL_CONTENT');
 				$css = 'display: none;';
 				$teaser = TextUtils::textTruncate(trim(strip_tags($html)), $length);
-				$loadData = false;
 				break;
 			case 'miniHtml':
 				$btn = $btnTemplate('LBL_SHOW_ORIGINAL_CONTENT', '', 'data-modal-size="modal-md"');
