@@ -97,9 +97,24 @@ class Account extends \App\Base
 		return $this->server;
 	}
 
-	public function getRefreshToken()
+	/**
+	 * Returns the refresh token, if defined.
+	 *
+	 * @return string|null
+	 */
+	public function getRefreshToken(): ?string
 	{
 		return $this->refreshToken;
+	}
+
+	/**
+	 * Get expire time.
+	 *
+	 * @return string|null DateTime: date('Y-m-d H:i:s')
+	 */
+	public function getExpireTime(): ?string
+	{
+		return $this->expireTime;
 	}
 
 	public function update(array $fields = [])

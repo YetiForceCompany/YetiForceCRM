@@ -32,6 +32,7 @@ class OSSMail_SetUser_Action extends \App\Controller\Action
 	public function process(App\Request $request)
 	{
 		$user = $request->getInteger('user');
+		OSSMail_Logout_Model::logoutCurrentUser();
 		\App\Session::set('AutoLoginUser', $user);
 		OSSMail_Autologin_Model::updateActive($user);
 		$response = new Vtiger_Response();

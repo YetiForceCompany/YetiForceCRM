@@ -173,7 +173,7 @@ class Server extends \App\Base
 	 *
 	 * @return string
 	 */
-	public function getSmptHost(): string
+	public function getSmtpHost(): string
 	{
 		$encrypt = $this->get('smtp_encrypt');
 		$host = $this->get('smtp_host');
