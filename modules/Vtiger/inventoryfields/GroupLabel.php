@@ -93,23 +93,18 @@ class Vtiger_GroupLabel_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getConfigFieldsData(): array
 	{
-		$qualifiedModuleName = 'Settings:LayoutEditor';
 		$data = parent::getConfigFieldsData();
 		unset($data['colspan']);
 
 		$data['isOpened'] = [
 			'name' => 'isOpened',
 			'label' => 'LBL_INV_BLOCK_IS_OPENED',
-			'uitype' => 16,
+			'uitype' => 56,
 			'maximumlength' => '1',
-			'typeofdata' => 'V~M',
+			'typeofdata' => 'V~O',
 			'tooltip' => 'LBL_INV_BLOCK_IS_OPENED_INFO',
 			'purifyType' => \App\Purifier::INTEGER,
-			'defaultvalue' => 1,
-			'picklistValues' => [
-				0 => \App\Language::translate('LBL_NO', $qualifiedModuleName),
-				1 => \App\Language::translate('LBL_YES', $qualifiedModuleName)
-			],
+			'defaultvalue' => 1
 		];
 
 		return $data;
