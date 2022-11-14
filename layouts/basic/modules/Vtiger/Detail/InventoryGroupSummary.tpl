@@ -4,7 +4,7 @@
 	{if !empty($GROUP_FIELD) && $INVENTORY_MODEL->isField('name') && !empty($INVENTORY_ROWS) && array_filter(array_column($INVENTORY_ROWS, 'grouplabel'))}
 		{assign var=GROUP_LABELS value=array_column($INVENTORY_ROWS, 'grouplabel', 'groupid')}
 		{assign var=INVENTORY_ROW value=current($INVENTORY_ROWS)}
-		<div class="js-toggle-panel js-inv-container-group c-panel mb-2 mt-2" data-js="click">
+		<div class="js-toggle-panel js-inv-container-content c-panel mb-2 mt-2" data-js="click">
 			<div class="js-block-header c-panel__header py-2">
 				<span class="iconToggle fas fa-chevron-down fa-xs m-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down" style="min-width: 15px;"></span>
 				<div class="row w-100 ml-1 u-font-weight-700">

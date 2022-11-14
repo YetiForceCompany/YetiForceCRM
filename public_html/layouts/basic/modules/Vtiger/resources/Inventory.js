@@ -611,50 +611,71 @@ $.Class(
 			this.setTaxPercent(row, this.getTaxPercent(row));
 		},
 		summaryCalculations: function () {
-			let thisInstance = this;
-			thisInstance
-				.getInventoryItemsContainer()
+			this.getInventoryItemsContainer()
 				.find('tfoot .wisableTd')
-				.each(function () {
-					thisInstance.calculateSummary($(this), $(this).data('sumfield'));
+				.each((_n, e) => {
+					this.calculateSummary($(e));
 				});
-			thisInstance.calculateDiscountSummary();
-			thisInstance.calculateTaxSummary();
-			thisInstance.calculateCurrenciesSummary();
-			thisInstance.calculateMarginPSummary();
+			this.calculateDiscountSummary();
+			this.calculateTaxSummary();
+			this.calculateCurrenciesSummary();
+			this.calculateMarginPSummary();
+			this.summaryGroupCalculations();
 		},
-		calculateSummary: function (element, field) {
+		getGroups: function () {
+			return this.getInventoryItemsContainer().find('.inventoryRowGroup');
+		},
+		getGroupItems: function (groupRow) {
+			return groupRow.nextUntil('tr.inventoryRowGroup').filter('tr.inventoryRow');
+		},
+		summaryGroupCalculations: function () {
+			this.getGroups().each((_n, e) => {
+				let groupRow = $(e);
+				let items = this.getGroupItems(groupRow);
+				groupRow.find('.js-inv-container-group-summary').each((_n, e) => {
+					this.calculateSummary($(e), items);
+				});
+				this.calculateMarginPSummary(groupRow);
+			});
+		},
+		calculateSummary: function (element, rows) {
 			let thisInstance = this;
 			let sum = 0;
-			element
-				.closest('.js-inv-container-group')
-				.find(thisInstance.rowClass)
-				.each(function () {
-					let e = $(this).find('.' + field);
-					if (e.length > 0) {
-						sum += App.Fields.Double.formatToDb(e.val());
-					}
-				});
+			let fieldName = element.data('sumfield');
+			if (!rows) {
+				rows = this.getInventoryItemsContainer().find(thisInstance.rowClass);
+			}
+			rows.each(function () {
+				let e = $(this).find('.' + fieldName);
+				if (e.length > 0) {
+					sum += App.Fields.Double.formatToDb(e.val());
+				}
+			});
 			element.text(App.Fields.Double.formatToDisplay(sum));
 		},
-		calculateMarginPSummary: function () {
-			let sumRow = this.getInventoryItemsContainer().find('tfoot'),
-				totalPriceField =
+		calculateMarginPSummary: function (sumRow) {
+			if (!sumRow) {
+				sumRow = this.getInventoryItemsContainer().find('tfoot');
+			}
+			let totalPriceField =
 					sumRow.find('[data-sumfield="netPrice"]').length > 0
 						? sumRow.find('[data-sumfield="netPrice"]')
 						: sumRow.find('[data-sumfield="totalPrice"]'),
 				sumPrice = totalPriceField.getNumberFromText(),
 				purchase = 0,
 				marginp = 0;
-			this.getInventoryItemsContainer()
-				.find(this.rowClass)
-				.each(function () {
-					let qty = $(this).find('.qty').getNumberFromValue(),
-						purchasePrice = $(this).find('.purchase').getNumberFromValue();
-					if (qty > 0 && purchasePrice > 0) {
-						purchase += qty * purchasePrice;
-					}
-				});
+
+			let rows = sumRow.hasClass('inventoryRowGroup')
+				? this.getGroupItems(sumRow)
+				: this.getInventoryItemsContainer().find(this.rowClass);
+
+			rows.each(function () {
+				let qty = $(this).find('.qty').getNumberFromValue(),
+					purchasePrice = $(this).find('.purchase').getNumberFromValue();
+				if (qty > 0 && purchasePrice > 0) {
+					purchase += qty * purchasePrice;
+				}
+			});
 
 			let subtraction = sumPrice - purchase;
 			if (purchase !== 0 && sumPrice !== 0) {
@@ -940,7 +961,7 @@ $.Class(
 		 */
 		renumberHeaderItems() {
 			this.getContainer()
-				.find('.js-inv-container-group .js-groupid')
+				.find('.js-inv-container-content .js-groupid')
 				.each((n, e) => {
 					e.value = n + 1;
 				});
@@ -1495,7 +1516,7 @@ $.Class(
 						e.currentTarget.dataset.module,
 						e.currentTarget.dataset.field,
 						false,
-						$(e.currentTarget).closest('.js-inv-container-group')
+						$(e.currentTarget).closest('.js-inv-container-content')
 					);
 				});
 		},
@@ -1911,7 +1932,7 @@ $.Class(
 				app.showRecordsList(url, (_, instance) => {
 					instance.setSelectEvent((data) => {
 						for (let i in data) {
-							let parentElem = this.addItem(moduleName, '', false, currentTarget.closest('.js-inv-container-group'));
+							let parentElem = this.addItem(moduleName, '', false, currentTarget.closest('.js-inv-container-content'));
 							Vtiger_Edit_Js.getInstance().setReferenceFieldValue(parentElem.find('.rowName'), {
 								name: data[i],
 								id: i

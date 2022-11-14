@@ -16179,7 +16179,7 @@ h3 {
     position: fixed;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
-    z-index: 10000000000000000000000 !important;
+    z-index: 10000000000000002000000 !important;
   }
   .daterangepicker.show-calendar.js-visible .drp-buttons {
     position: fixed;
@@ -19997,7 +19997,7 @@ select[readonly], select[disabled] {
   min-width: 400px;
 }
 
-.table tr.inventoryRow td, .c-detail-widget__table tr.inventoryRow td {
+.table tr.inventoryRow td, .c-detail-widget__table tr.inventoryRow td, .table tr.inventoryRowGroup td, .c-detail-widget__table tr.inventoryRowGroup td {
   padding: 4px;
 }
 
@@ -26864,5 +26864,4 @@ td.fieldValue .input-group {
   .c-module-table-row {
     width: calc(100vw - 0.5rem);
   }
-}
-/*# sourceMappingURL=Main.css.map */
+}/*# sourceMappingURL=Main.css.map */

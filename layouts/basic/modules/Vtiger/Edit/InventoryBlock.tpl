@@ -4,7 +4,7 @@
 	{assign var=FIELDS value=$INVENTORY_MODEL->getFieldsByBlock(1)}
 	{assign var=GROUP_FIELD value=$INVENTORY_MODEL->getField('grouplabel')}
 	{assign var=BLOCK_ITEMS_HIDE value=$GROUP_FIELD && !$GROUP_FIELD->isOpened()}
-	<div class="js-toggle-panel js-inv-container-group c-panel mb-2 mt-2" data-js="click">
+	<div class="js-toggle-panel js-inv-container-content c-panel mb-2 mt-2" data-js="click">
 		<div class="js-block-header c-panel__header py-2">
 			<span class="iconToggle fas fa-chevron-down fa-xs m-2" data-hide="fas fa-chevron-right" data-show="fas fa-chevron-down" style="min-width: 15px;"></span>
 			<div class="row w-100 ml-1">
