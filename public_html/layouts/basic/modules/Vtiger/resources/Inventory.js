@@ -926,6 +926,9 @@ $.Class(
 			});
 		},
 		registerInventorySaveData: function () {
+			app.event.on('EditView.preValidation', (_e, _view) => {
+				this.showAllItems();
+			});
 			this.form.on(Vtiger_Edit_Js.recordPreSave, () => {
 				this.syncHeaderData();
 				if (!this.checkLimits(this.form)) {
@@ -1582,16 +1585,22 @@ $.Class(
 		 */
 		registerShowHideExpandedGroup: function () {
 			this.getInventoryItemsContainer().on('click', '.js-inv-group-collapse-btn', (e) => {
-				let btn = $(e.currentTarget).find('.js-toggle-icon');
+				let btn = $(e.currentTarget);
+				let icon = btn.find('.js-toggle-icon');
 				let row = btn.closest('tr.inventoryRowGroup');
-				let items = row.nextUntil('tr.inventoryRowGroup').filter('tr.inventoryRow');
-				if (btn.hasClass(btn.data('active'))) {
+				let items = this.getGroupItems(row);
+				if (icon.hasClass(icon.data('active'))) {
 					items.find(`.toggleVisibility.active`).closest('.toggleVisibility').trigger('click');
 					items.addClass('d-none');
+					btn.removeClass('js-inv-group-collapse-btn__active');
 				} else {
 					items.removeClass('d-none');
+					btn.addClass('js-inv-group-collapse-btn__active');
 				}
 			});
+		},
+		showAllItems: function () {
+			this.getGroups().find('.js-inv-group-collapse-btn:not(.js-inv-group-collapse-btn__active)').trigger('click');
 		},
 		registerPriceBookModal: function (container) {
 			container.find('.js-price-book-modal').on('click', (e) => {

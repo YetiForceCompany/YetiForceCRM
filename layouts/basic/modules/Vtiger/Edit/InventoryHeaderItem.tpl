@@ -11,7 +11,7 @@
 					</a>
 				{/if}
 				<button type="button" class="btn btn-sm btn-danger fas fa-trash-alt js-delete-header-item" title="{\App\Language::translate('LBL_DELETE',$MODULE_NAME)}"></button>
-				<button type="button" class="btn btn-sm btn-light ml-1 js-toggle-icon__container js-inv-group-collapse-btn" data-js="click">
+				<button type="button" class="btn btn-sm btn-light ml-1 js-toggle-icon__container js-inv-group-collapse-btn{if $GROUP_FIELD->isOpened()} js-inv-group-collapse-btn__active{/if}" data-js="click">
 					<span class="js-toggle-icon fa-fw fas {if $GROUP_FIELD->isOpened()}fa-angle-down{else}fa-angle-right{/if}" data-active="fa-angle-down" data-inactive="fa-angle-right" data-js="click"></span>
 				</button>
 			</td>
