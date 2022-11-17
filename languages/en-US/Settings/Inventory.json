@@ -44,7 +44,7 @@
     "LBL_VIEW_TAXCONFIGURATION": "Tax configuration",
     "LBL_VIEW_DISCOUNTCONFIGURATION": "Discount configuration",
     "LBL_VIEW_DISCOUNTS": "Discount base",
-    "LBL_DEFAULT_MODE": "Default type",
+    "LBL_DEFAULT_MODE": "Default mode",
     "LBL_ALERT_TAX_CONFIG_TITLE": "Tax settings description:",
     "LBL_ALERT_TAX_CONFIG_DESC": "Summation type:\r\nIn total:\r\n- Total value of all taxes calculated on the value of product/services.\r\n[Example]\r\nThere are two taxes selected: the first one 23%, the second one 8%. The system sums the value of both taxes from the original net amount. \r\nIn the above example for the net value 100zł, the gross amount will be (100zł * 1,31) = 131,00 zł\r\n\r\nCascade:\r\n- Tax amount is calculated each time from the product/service value.\r\n[Example]\r\nTwo taxes are selected: the first one 23%, the second one 8%. The system calculates the value for the first tax and then the value of second tax is added. \r\nIn the above example for the net value of 100zł, the gross amount will be (100zł * 1,23) * 1,08 = 132,84 zł\r\n\r\nTax settings description:\r\nTax from the list of available taxes:\r\n- Specified in settings for Advanced Modules.\r\nTax from products/services list:\r\n- Specified individually for products in the Products module.\r\nCustom tax:\r\n- Specified once for a selected record.\r\nAccount's tax:\r\n- Specified individually for a selected customer.",
     "LBL_ALERT_DISCOUNT_CONFIG_TITLE": "Discount settings description:",

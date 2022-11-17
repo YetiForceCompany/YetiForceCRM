@@ -7,7 +7,7 @@
 			data-maximumlength="{$FIELD->getRangeValues()}"
 			data-validation-engine="validate[required,funcCall[Vtiger_Currency_Validator_Js.invokeValidation]]"
 			data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD->getFieldInfo()))}"
-			class="unitPrice smallInputBox form-control form-control-sm" list-info="" {if $FIELD->isReadOnly()}readonly="readonly" {/if} />
+			class="unitPrice smallInputBox form-control form-control-sm text-right" list-info="" {if $FIELD->isReadOnly()}readonly="readonly" {/if} />
 
 		{assign var=PRICEBOOK_MODULE_MODEL value=Vtiger_Module_Model::getInstance('PriceBooks')}
 		{if $PRICEBOOK_MODULE_MODEL->isPermitted('DetailView')}

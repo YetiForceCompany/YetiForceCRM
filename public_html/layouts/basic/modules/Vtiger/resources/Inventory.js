@@ -261,7 +261,7 @@ $.Class(
 		},
 		/**
 		 * Get discount aggregation
-		 *@returns {int}
+		 * @returns {int}
 		 */
 		getDiscountAggregation: function () {
 			const element = $('.js-discount_aggreg', this.getInventoryHeadContainer()).find('option:selected');
@@ -362,7 +362,7 @@ $.Class(
 							discountRate += valuePrices * (discountParams.additionalDiscount / 100);
 							break;
 					}
-					if (aggregation === 2) {
+					if (aggregation === this.AGGREGATION_CASCADE) {
 						valuePrices = valuePrices - discountRate;
 					}
 				});
@@ -370,7 +370,13 @@ $.Class(
 			return discountRate;
 		},
 		getNetPrice: function (row) {
-			return this.getTotalPrice(row) - this.getDiscount(row);
+			let discount = this.getDiscount(row);
+			let discountParams = row.find('.discountParam').val();
+			if (discount && discountParams && JSON.parse(discountParams).type === 'markup') {
+				discount = -discount;
+			}
+
+			return this.getTotalPrice(row) - discount;
 		},
 		getTotalPrice: function (row) {
 			return this.getQuantityValue(row) * this.getUnitPriceValue(row);
@@ -807,63 +813,61 @@ $.Class(
 			}
 			this.setMarginP(row, marginp);
 		},
+		AGGREGATION_CANNOT_BE_COMBINED: 0,
+		AGGREGATION_IN_TOTAL: 1,
+		AGGREGATION_CASCADE: 2,
 		calculateDiscount: function (_row, modal) {
 			const netPriceBeforeDiscount = App.Fields.Double.formatToDb(modal.find('.valueTotalPrice').text()),
-				discountsType = modal.find('.discountsType').val();
-			let valuePrices = netPriceBeforeDiscount,
-				globalDiscount = 0,
-				groupDiscount = 0,
-				individualDiscount = 0,
-				additionalDiscount = 0;
-			if (discountsType == 0 || discountsType == 1) {
-				if (modal.find('.js-active .globalDiscount').length > 0) {
-					globalDiscount = App.Fields.Double.formatToDb(modal.find('.js-active .globalDiscount').val());
+				aggregationType = modal.find('.aggregationType').val(),
+				isMarkup = modal.find('.js-inv--discount-type.markup:checked').length === 1;
+			let valuePrices = netPriceBeforeDiscount;
+
+			let getValue = function (type, netPrice, isMarkup) {
+				let value = 0;
+				let element = modal.find(`.js-active .${type}`);
+				let customCheckTrue = true;
+				if (type === 'groupValue' && modal.find('.js-active .groupCheckbox').prop('checked') !== true) {
+					customCheckTrue = false;
 				}
-				if (modal.find('.js-active .additionalDiscountValue').length > 0) {
-					additionalDiscount = App.Fields.Double.formatToDb(modal.find('.js-active .additionalDiscountValue').val());
-				}
-				if (modal.find('.js-active .individualDiscountType').length > 0) {
-					let value = App.Fields.Double.formatToDb(modal.find('.js-active .individualDiscountValue').val());
-					if (modal.find('.js-active .individualDiscountType:checked').val() == 'percentage') {
-						individualDiscount = netPriceBeforeDiscount * (value / 100);
-					} else {
-						individualDiscount = value;
-					}
+				if (element.length > 0 && customCheckTrue) {
+					value = App.Fields.Double.formatToDb(element.val());
 				}
 				if (
-					modal.find('.js-active .groupCheckbox').length > 0 &&
-					modal.find('.js-active .groupCheckbox').prop('checked') == true
+					type === 'individualDiscountValue' &&
+					modal.find('.js-active .individualDiscountType:checked').val() == 'percentage'
 				) {
-					groupDiscount = App.Fields.Double.formatToDb(modal.find('.groupValue').val());
-					groupDiscount = netPriceBeforeDiscount * (groupDiscount / 100);
+					value = netPrice * (value / 100);
 				}
+				return value && isMarkup ? -value : value;
+			};
+
+			let globalDiscount, accountDiscount, individualDiscount, additionalDiscount;
+			if (aggregationType == this.AGGREGATION_CANNOT_BE_COMBINED || aggregationType == this.AGGREGATION_IN_TOTAL) {
+				globalDiscount = getValue('globalDiscount', valuePrices, isMarkup); // percentage
+				accountDiscount = getValue('groupValue', valuePrices, isMarkup); // percentage
+				individualDiscount = getValue('individualDiscountValue', valuePrices, isMarkup); // amount
+				additionalDiscount = getValue('additionalDiscountValue', valuePrices, isMarkup); // percentage
+
 				valuePrices = valuePrices * ((100 - globalDiscount) / 100);
 				valuePrices = valuePrices * ((100 - additionalDiscount) / 100);
 				valuePrices = valuePrices - individualDiscount;
-				valuePrices = valuePrices - groupDiscount;
-			} else if (discountsType == 2) {
-				modal.find('.js-active').each(function () {
-					let panel = $(this);
-					if (panel.find('.globalDiscount').length > 0) {
-						valuePrices =
-							valuePrices * ((100 - App.Fields.Double.formatToDb(panel.find('.globalDiscount').val())) / 100);
-					} else if (panel.find('.groupCheckbox').length > 0 && panel.find('.groupCheckbox').prop('checked') == true) {
-						valuePrices = valuePrices * ((100 - App.Fields.Double.formatToDb(panel.find('.groupValue').val())) / 100);
-					} else if (panel.find('.individualDiscountType').length > 0) {
-						let value = App.Fields.Double.formatToDb(panel.find('.individualDiscountValue').val());
-						if (panel.find('.individualDiscountType[name="individualDiscountType"]:checked').val() === 'percentage') {
-							valuePrices = valuePrices * ((100 - value) / 100);
-						} else {
-							valuePrices = valuePrices - value;
-						}
-					} else if (panel.find('.additionalDiscountValue').length > 0) {
-						valuePrices =
-							valuePrices * ((100 - App.Fields.Double.formatToDb(panel.find('.additionalDiscountValue').val())) / 100);
-					}
-				});
+				valuePrices = valuePrices * ((100 - accountDiscount) / 100);
+			} else if (aggregationType == this.AGGREGATION_CASCADE) {
+				globalDiscount = getValue('globalDiscount', valuePrices, isMarkup); // percentage
+				valuePrices = valuePrices * ((100 - globalDiscount) / 100);
+
+				accountDiscount = getValue('groupValue', valuePrices, isMarkup); // percentage
+				valuePrices = valuePrices * ((100 - accountDiscount) / 100);
+
+				individualDiscount = getValue('individualDiscountValue', valuePrices, isMarkup); // amount
+				valuePrices = valuePrices - individualDiscount;
+
+				additionalDiscount = getValue('additionalDiscountValue', valuePrices, isMarkup); // percentage
+				valuePrices = valuePrices * ((100 - additionalDiscount) / 100);
 			}
+			let discountValue = netPriceBeforeDiscount - valuePrices;
 			modal.find('.valuePrices').text(App.Fields.Double.formatToDisplay(valuePrices));
-			modal.find('.valueDiscount').text(App.Fields.Double.formatToDisplay(netPriceBeforeDiscount - valuePrices));
+			modal.find('.valueDiscount').text(App.Fields.Double.formatToDisplay(isMarkup ? -discountValue : discountValue));
 		},
 		calculateTax: function (_row, modal) {
 			let netPriceWithoutTax = App.Fields.Double.formatToDb(modal.find('.valueNetPrice').text()),
@@ -1184,6 +1188,9 @@ $.Class(
 					}
 				});
 			});
+			if (modal.find('.js-inv--discount-type.markup:checked').length) {
+				info['type'] = 'markup';
+			}
 			this.setDiscountParam($('#blackIthemTable'), info);
 			this.setDiscountParam(parentRow, info);
 		},
@@ -1697,6 +1704,8 @@ $.Class(
 			}
 			this.updateRowSequence();
 		},
+		DISCOUNT_MODE_GLOBAL: 0,
+		DISCOUNT_MODE_INDIVIDUAL: 1,
 		registerChangeDiscount: function () {
 			this.form.on('click', '.js-change-discount', (e) => {
 				let parentRow;
@@ -1711,16 +1720,18 @@ $.Class(
 				};
 				if (element.hasClass('groupDiscount')) {
 					parentRow = this.getInventoryItemsContainer();
+					params.discountParam = parentRow.find('.discountParam').val();
 					if (parentRow.find('tfoot .colTotalPrice').length != 0) {
 						params.totalPrice = App.Fields.Double.formatToDb(parentRow.find('tfoot .colTotalPrice').text());
 					} else {
 						params.totalPrice = 0;
 					}
-					params.discountType = 1;
+					params.discountMode = this.DISCOUNT_MODE_GLOBAL;
 				} else {
 					parentRow = element.closest(this.rowClass);
+					params.discountParam = parentRow.find('.discountParam').val();
 					params.totalPrice = this.getTotalPrice(parentRow);
-					params.discountType = 0;
+					params.discountMode = this.DISCOUNT_MODE_INDIVIDUAL;
 				}
 				let progressInstace = $.progressIndicator();
 				AppConnector.request(params)
@@ -1762,7 +1773,7 @@ $.Class(
 			});
 			modal.on(
 				'change',
-				'.activeCheckbox, .globalDiscount,.individualDiscountValue,.individualDiscountType,.groupCheckbox,.additionalDiscountValue',
+				'.activeCheckbox, .globalDiscount,.individualDiscountValue,.individualDiscountType,.groupCheckbox,.additionalDiscountValue,.js-inv--discount-type',
 				function () {
 					thisInstance.calculateDiscount(parentRow, modal);
 				}
@@ -1772,7 +1783,7 @@ $.Class(
 					return;
 				}
 				thisInstance.saveDiscountsParameters(parentRow, modal);
-				if (params.discountType == 0) {
+				if (params.discountMode === thisInstance.DISCOUNT_MODE_INDIVIDUAL) {
 					thisInstance.setDiscount(parentRow, App.Fields.Double.formatToDb(modal.find('.valueDiscount').text()));
 					thisInstance.quantityChangeActions(parentRow);
 				} else {

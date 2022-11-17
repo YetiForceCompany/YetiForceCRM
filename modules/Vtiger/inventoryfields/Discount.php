@@ -40,6 +40,8 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	protected $customPurifyType = [
 		'discountparam' => App\Purifier::TEXT,
 	];
+	/** {@inheritdoc} */
+	protected $params = ['type'];
 
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
@@ -121,6 +123,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		$value = $discountValue = 0.0;
 		$types = $discountParam['aggregationType'] ?? [];
+		$isMarkup = $this->isMarkup($discountParam);
 		if (!\is_array($types)) {
 			$types = [$types];
 		}
@@ -128,7 +131,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 			$discountValue = $this->getDiscountValueByType($type, $discountParam, $totalPrice);
 			$value += $discountValue;
 			if (2 === $mode) {
-				$totalPrice -= $discountValue;
+				$totalPrice = $isMarkup ? ($totalPrice + $discountValue) : ($totalPrice - $discountValue);
 			}
 		}
 		return $value;
@@ -165,5 +168,51 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	public function compare($value, $prevValue, string $column): bool
 	{
 		return $column === $this->getColumnName() ? \App\Validator::floatIsEqual((float) $value, (float) $prevValue, 8) : parent::compare($value, $prevValue, $column);
+	}
+
+	/** {@inheritdoc} */
+	public function getConfigFieldsData(): array
+	{
+		$qualifiedModuleName = 'Settings:LayoutEditor';
+		$data = parent::getConfigFieldsData();
+
+		$data['type'] = [
+			'name' => 'type',
+			'label' => 'LBL_INV_DISCOUNT_MARKUP_MODE',
+			'uitype' => 16,
+			'maximumlength' => '1',
+			'typeofdata' => 'V~M',
+			'tooltip' => 'LBL_INV_DISCOUNT_MARKUP_MODE_DESC',
+			'purifyType' => \App\Purifier::INTEGER,
+			'defaultvalue' => 0,
+			'picklistValues' => [
+				'0' => \App\Language::translate('Discount', $qualifiedModuleName),
+				'1' => \App\Language::translate('LBL_MARKUP', $qualifiedModuleName)
+			]
+		];
+
+		return $data;
+	}
+
+	/**
+	 * Check if markup is set by default.
+	 *
+	 * @return bool
+	 */
+	public function isMarkupDefault(): bool
+	{
+		return 1 === (int) ($this->getParamsConfig()['type'] ?? 0);
+	}
+
+	/**
+	 * Check if markup.
+	 *
+	 * @param array $params
+	 *
+	 * @return bool
+	 */
+	public function isMarkup(array $params): bool
+	{
+		return 'markup' === ($params['type'] ?? '');
 	}
 }

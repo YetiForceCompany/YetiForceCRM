@@ -6,6 +6,6 @@
 		data-validation-engine="validate[required,funcCall[Vtiger_PositiveNumber_Validator_Js.invokeValidation]]"
 		data-maximumlength="{$FIELD->getRangeValues()}"
 		data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD->getFieldInfo()))}"
-		class="purchase form-control form-control-sm" {if $FIELD->isReadOnly()}readonly="readonly" {/if} />
+		class="purchase form-control form-control-sm text-right" {if $FIELD->isReadOnly()}readonly="readonly" {/if} />
 	<!-- /tpl-Base-inventoryfields-EditViewPurchase -->
 {/strip}

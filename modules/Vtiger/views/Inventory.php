@@ -21,7 +21,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 	public function showDiscounts(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$discountType = $request->getInteger('discountType');
+		$discountMode = $request->getInteger('discountMode');
 		$currency = $request->getInteger('currency');
 		$relatedRecord = $request->isEmpty('relatedRecord', true) ? false : $request->getInteger('relatedRecord');
 		$totalPrice = $request->getByType('totalPrice', 'Double');
@@ -36,17 +36,21 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		} else {
 			$discountAggregation = $config['aggregation'];
 		}
+		$discountParam = $request->has('discountParam') ? $request->getArray('discountParam') : [];
+		$markup = $discountParam ? !empty($discountParam['type']) : $inventoryModel->getField('discount')->isMarkupDefault();
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('GLOBAL_DISCOUNTS', $inventoryModel->getGlobalDiscounts());
 		$viewer->assign('CURRENCY_SYMBOL', $currency ? \App\Fields\Currency::getById($currency)['currency_symbol'] : \App\Fields\Currency::getDefault()['currency_symbol']);
 		$viewer->assign('TOTAL_PRICE', $totalPrice);
 		$viewer->assign('CONFIG', $config);
-		$viewer->assign('DISCOUNT_TYPE', $discountType);
+		$viewer->assign('DISCOUNT_MODE', $discountMode);
 		$viewer->assign('AGGREGATION_TYPE', $discountAggregation);
 		$viewer->assign('AGGREGATION_INPUT_TYPE', 0 == $discountAggregation ? 'radio' : 'checkbox');
-		$viewer->assign('GROUP_DISCOUNT', $groupDiscount['discount']);
+		$viewer->assign('ACCOUNT_DISCOUNT', $groupDiscount['discount']);
 		$viewer->assign('ACCOUNT_NAME', $groupDiscount['name']);
+		$viewer->assign('IS_MARKUP', $markup);
 		$viewer->view('InventoryDiscounts.tpl', $moduleName);
 	}
 

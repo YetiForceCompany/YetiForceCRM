@@ -124,6 +124,8 @@
     "LBL_INV_BLOCK_IS_OPENED": "Expanded by default",
     "LBL_INV_BLOCK_IS_OPENED_INFO": "Record edit view.",
     "LBL_INV_GROUP_LABEL_DESC": "It allows you to group rows and give them a header.",
+    "LBL_INV_DISCOUNT_MARKUP_MODE": "Default type",
+    "LBL_INV_DISCOUNT_MARKUP_MODE_DESC": "Default setting of field working mode.",
     "LBL_SELECT_TYPE_OF_INVENTORY": "Select field type",
     "LBL_NEXT": "Next",
     "LBL_PARAMS_MODULES": "Modules",
