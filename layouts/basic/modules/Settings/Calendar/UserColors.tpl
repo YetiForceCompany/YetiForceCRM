@@ -27,7 +27,7 @@
 											class="paddingTop10">{\App\Language::translate($item.label,$QUALIFIED_MODULE)}</p>
 									</td>
 									<td>
-										<input class="marginTop10 js-update-event" type="checkbox" id="{$item.name}" name="{$item.name}"
+										<input class="marginTop10 js-update-event" type="checkbox" id="{$item.name}" name="{\App\Purifier::encodeHtml($item.name)}"
 											data-metod="updateCalendarConfig" data-js="click"
 											value=1 {if $item.value eq 1} checked{/if} />
 									</td>

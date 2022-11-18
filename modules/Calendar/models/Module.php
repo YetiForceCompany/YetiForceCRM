@@ -18,6 +18,9 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	/** {@inheritdoc} */
 	public $allowTypeChange = false;
 
+	/** @var string Config table name the calendar */
+	public const TABLE_NAME_CONFIG = 'vtiger_calendar_config';
+
 	/**
 	 * Function returns the default view for the Calendar module.
 	 *
@@ -36,6 +39,25 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	public function getCalendarViewUrl()
 	{
 		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getDefaultViewName();
+	}
+
+	/**
+	 * Get calendar configuration by type.
+	 *
+	 * @param string $type
+	 * @param string $name
+	 *
+	 * @return string|array
+	 */
+	public static function getConfig(string $type, string $name = '')
+	{
+		if (\App\Cache::has('CalendarConfiguration', $type)) {
+			$config = \App\Cache::get('CalendarConfiguration', $type);
+		} else {
+			$config = (new \App\Db\Query())->from(self::TABLE_NAME_CONFIG)->indexBy('name')->where(['type' => $type])->all();
+			\App\Cache::save('CalendarConfiguration', $type, $config);
+		}
+		return $name ? $config[$name]['value'] ?? '' : $config;
 	}
 
 	/**
@@ -175,25 +197,19 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	 */
 	public static function getCalendarReminder()
 	{
-		$includeSharingPerson = false;
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
 		$activityReminder = $currentUserModel->getCurrentUserActivityReminderInSeconds();
 		$recordModels = [];
 		if (!empty($activityReminder)) {
-			foreach (\Settings_Calendar_Module_Model::getCalendarConfig('reminder') as $value) {
-				if ('shared_persons' === $value['name'] && $value['value']) {
-					$includeSharingPerson = true;
-				}
-			}
 			$condition = ['vtiger_crmentity.smownerid' => $currentUserModel->getId()];
 			$time = date('Y-m-d H:i:s', strtotime("+$activityReminder seconds"));
 			$queryGenerator = new \App\QueryGenerator('Calendar');
 			$queryGenerator->setFields(['id']);
 			$queryGenerator->addJoin(['INNER JOIN', 'vtiger_activity_reminder_popup', 'vtiger_activity_reminder_popup.recordid = vtiger_activity.activityid']);
 			$queryGenerator->addJoin(['INNER JOIN', 'vtiger_activity_reminder_popup', 'vtiger_activity_reminder_popup.recordid = vtiger_crmentity.crmid']);
-			if ($includeSharingPerson) {
-				$queryGenerator->addJoin(['LEFT JOIN', 'u_yf_crmentity_showners', 'vtiger_activity_reminder_popup.recordid = u_yf_crmentity_showners.crmid']);
-				$condition = ['or', $condition, ['u_yf_crmentity_showners.userid' => $currentUserModel->getId()]];
+			if (self::getConfig('reminder', 'shared_persons')) {
+				$queryGenerator->addJoin(['LEFT JOIN', 'u_#___crmentity_showners', 'vtiger_activity_reminder_popup.recordid = u_#___crmentity_showners.crmid']);
+				$condition = ['or', $condition, ['u_#___crmentity_showners.userid' => $currentUserModel->getId()]];
 			}
 			$queryGenerator->addNativeCondition(['and', $condition, ['vtiger_crmentity.deleted' => 0, 'vtiger_activity.status' => self::getComponentActivityStateLabel('current')]]);
 			$queryGenerator->addNativeCondition(['or', ['and', ['vtiger_activity_reminder_popup.status' => Calendar_Record_Model::REMNDER_POPUP_ACTIVE], ['<=', 'vtiger_activity_reminder_popup.datetime', $time]], ['and', ['vtiger_activity_reminder_popup.status' => Calendar_Record_Model::REMNDER_POPUP_WAIT], ['<=', 'vtiger_activity_reminder_popup.datetime', date('Y-m-d H:i:s')]]]);
