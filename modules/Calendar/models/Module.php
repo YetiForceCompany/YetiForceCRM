@@ -201,20 +201,20 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		$activityReminder = $currentUserModel->getCurrentUserActivityReminderInSeconds();
 		$recordModels = [];
 		if (!empty($activityReminder)) {
-			$condition = ['vtiger_crmentity.smownerid' => $currentUserModel->getId()];
 			$time = date('Y-m-d H:i:s', strtotime("+$activityReminder seconds"));
 			$queryGenerator = new \App\QueryGenerator('Calendar');
 			$queryGenerator->setFields(['id']);
 			$queryGenerator->addJoin(['INNER JOIN', 'vtiger_activity_reminder_popup', 'vtiger_activity_reminder_popup.recordid = vtiger_activity.activityid']);
 			$queryGenerator->addJoin(['INNER JOIN', 'vtiger_activity_reminder_popup', 'vtiger_activity_reminder_popup.recordid = vtiger_crmentity.crmid']);
+			$queryGenerator->addCondition('assigned_user_id', $currentUserModel->getId(), 'e', false);
 			if (self::getConfig('reminder', 'shared_persons')) {
-				$queryGenerator->addJoin(['LEFT JOIN', 'u_#___crmentity_showners', 'vtiger_activity_reminder_popup.recordid = u_#___crmentity_showners.crmid']);
-				$condition = ['or', $condition, ['u_#___crmentity_showners.userid' => $currentUserModel->getId()]];
+				$queryGenerator->addCondition('shownerid', $currentUserModel->getId(), 'e', false);
 			}
-			$queryGenerator->addNativeCondition(['and', $condition, ['vtiger_crmentity.deleted' => 0, 'vtiger_activity.status' => self::getComponentActivityStateLabel('current')]]);
+			$queryGenerator->addCondition('activitystatus', self::getComponentActivityStateLabel('current'), 'e');
 			$queryGenerator->addNativeCondition(['or', ['and', ['vtiger_activity_reminder_popup.status' => Calendar_Record_Model::REMNDER_POPUP_ACTIVE], ['<=', 'vtiger_activity_reminder_popup.datetime', $time]], ['and', ['vtiger_activity_reminder_popup.status' => Calendar_Record_Model::REMNDER_POPUP_WAIT], ['<=', 'vtiger_activity_reminder_popup.datetime', date('Y-m-d H:i:s')]]]);
 			$queryGenerator->setLimit(\App\Config::module('Calendar', 'maxNumberCalendarNotifications', 20));
 			$dataReader = $queryGenerator->createQuery()->orderBy(['vtiger_activity_reminder_popup.datetime' => SORT_DESC])->distinct()->createCommand()->query();
+
 			while ($row = $dataReader->read()) {
 				$recordModels[] = Vtiger_Record_Model::getInstanceById($row['id'], 'Calendar');
 			}
