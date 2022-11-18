@@ -3,7 +3,7 @@
 
 var Settings_UserColors_Js = {
 	initEvants: function () {
-		$('.UserColors #update_event').on('click', Settings_UserColors_Js.updateEvent);
+		$('.UserColors .js-update-event').on('click', Settings_UserColors_Js.updateEvent);
 	},
 	updateEvent: function (e) {
 		var progress = $.progressIndicator({
