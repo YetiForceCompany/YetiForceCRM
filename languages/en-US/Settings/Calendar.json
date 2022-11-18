@@ -23,6 +23,7 @@
     "LBL_GENERATE_COLOR": "Generate random color",
     "LBL_GENERATED_COLOR": "Color generated",
     "LBL_NOTWORKING_DAYS": "Not working days",
+    "LBL_SHARING_PERSON": "Include sharing person in calendar notifications",
     "LBL_NOTWORKEDDAYS_INFO": "Not working days",
     "PLL_MONDAY": "Monday",
     "PLL_TUESDAY": "Tuesday",
@@ -39,5 +40,5 @@
   },
   "js": {
 
-  }
+}
 }

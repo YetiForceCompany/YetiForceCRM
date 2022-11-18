@@ -2158,6 +2158,7 @@ insert  into `vtiger_blocks`(`blockid`,`tabid`,`blocklabel`,`sequence`,`show_tit
 
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('reminder','update_event','LBL_UPDATE_EVENT','0');
 insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('info','notworkingdays','LBL_NOTWORKING_DAYS',NULL);
+insert  into `vtiger_calendar_config`(`type`,`name`,`label`,`value`) values ('reminder','shared_persons','LBL_SHARING_PERSON',NULL);
 
 /*Data for the table `vtiger_callhistory` */
 
