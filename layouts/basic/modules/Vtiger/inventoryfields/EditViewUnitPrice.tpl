@@ -17,6 +17,13 @@
 				</button>
 			</div>
 		{/if}
+		{if !$FIELD->isReadOnly() && $FIELD->getParamConfig('currency_convert')}
+			<div class="input-group-append">
+				<button type="button" class="btn btn-light js-currency-converter-event js-popover-tooltip" data-content="{\App\Language::translate('LBL_MORE_CURRENCIES', $MODULE_NAME)}" data-js="click">
+					<span class="adminIcon-currencies" title=""></span>
+				</button>
+			</div>
+		{/if}
 	</div>
 	<!-- /tpl-Base-inventoryfields-EditViewUnitPrice -->
 {/strip}

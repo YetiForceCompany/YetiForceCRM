@@ -823,6 +823,39 @@ const App = (window.App = {
 
 				return aDeferred.promise();
 			}
+		},
+		/**
+		 * Currency Converter class
+		 */
+		CurrencyConverter: class CurrencyConverter {
+			/**
+			 * Show modal window with currencies
+			 * @param {Object} params
+			 */
+			static modalView(params = {}) {
+				let aDeferred = $.Deferred();
+				let url = 'index.php?module=AppComponents&view=CurrencyConverter';
+				if (params && Object.keys(params).length) {
+					url = app.convertObjectToUrl(params, url);
+				}
+				let progressElement = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
+				app.showModalWindow({
+					id: 'CurrencyConverter',
+					url,
+					cb: (container) => {
+						progressElement.progressIndicator({ mode: 'hide' });
+						let form = container.find('form');
+						form.validationEngine(app.validationEngineOptions);
+						container.on('click', '.js-modal__save', (e) => {
+							let data = form.serializeFormData();
+							aDeferred.resolve(data);
+							app.hideModalWindow(null, 'CurrencyConverter');
+						});
+					}
+				});
+
+				return aDeferred.promise();
+			}
 		}
 	},
 	Notify: {
@@ -2980,9 +3013,13 @@ const app = (window.app = {
 			if (typeof value === 'object' || (typeof value === 'string' && value.startsWith('<'))) {
 				return;
 			}
-			url += key + '=' + encodeURIComponent(value) + '&';
+			if (!url.endsWith('&') && !url.endsWith('?')) {
+				url += '&';
+			}
+			url += key + '=' + encodeURIComponent(value);
 		});
-		return url.slice(0, -1);
+
+		return url;
 	},
 	formatToHourText: function (decTime, type = 'short', withSeconds = false, withMinutes = true) {
 		const short = type === 'short';

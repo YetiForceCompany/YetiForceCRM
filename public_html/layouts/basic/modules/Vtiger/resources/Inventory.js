@@ -2072,6 +2072,31 @@ $.Class(
 				});
 		},
 		/**
+		 * Register currency converter
+		 */
+		registerCurrencyConverter() {
+			this.form.find('.js-currency-converter-event').on('click', (e) => {
+				let row = $(e.currentTarget).closest(this.rowClass);
+				let unitPrice = this.getUnitPriceValue(row) || 0;
+				let currencyId = this.getCurrency();
+				App.Components.CurrencyConverter.modalView({
+					currencyId: currencyId,
+					amount: App.Fields.Double.formatToDisplay(unitPrice)
+				}).done((data) => {
+					let value;
+					if (currencyId === data.currency_target_id) {
+						value = data.currency_target_value;
+					} else if (currencyId === data.currency_base_id) {
+						value = data.currency_base_value;
+					}
+					if (value) {
+						this.setUnitPrice(row, App.Fields.Double.formatToDb(value));
+						this.quantityChangeActions(row);
+					}
+				});
+			});
+		},
+		/**
 		 * Function which will register all the events
 		 */
 		registerEvents: function (container) {
@@ -2093,6 +2118,7 @@ $.Class(
 			this.setDefaultGlobalTax(container);
 			this.registerShowHideExpandedGroup();
 			app.registerBlockToggleEvent(container);
+			this.registerCurrencyConverter();
 		}
 	}
 );

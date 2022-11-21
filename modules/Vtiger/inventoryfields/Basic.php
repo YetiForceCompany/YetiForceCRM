@@ -194,6 +194,18 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	}
 
 	/**
+	 * Get the configuration parameter value for the specified key.
+	 *
+	 * @param string $key
+	 *
+	 * @return mixed
+	 */
+	public function getParamConfig(string $key)
+	{
+		return $this->getParamsConfig()[$key] ?? null;
+	}
+
+	/**
 	 * Getting all values display Type.
 	 *
 	 * @return array
