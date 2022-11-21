@@ -96,7 +96,9 @@ class Response
 	 */
 	public function setStatus(int $status): void
 	{
-		$this->status = $status;
+		if (is_numeric($status)) {
+			$this->status = $status;
+		}
 	}
 
 	/**

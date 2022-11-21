@@ -28,40 +28,15 @@ use OpenApi\Annotations as OA;
  * - __CRM_URL__/webservice.php?_container=WebservicePremium&module=Accounts&action=RecordRelatedList&record=117&param=Contacts",
  * 		version="0.2",
  *   	termsOfService="https://yetiforce.com/",
- *   	@OA\Contact(
- *     		email="devs@yetiforce.com",
- *     		name="Devs API Team",
- *     		url="https://yetiforce.com/"
- *   	),
- *   	@OA\License(
- *    		name="YetiForce Public License",
- *     		url="https://yetiforce.com/en/yetiforce/license"
- *   	),
+ *   	@OA\Contact(email="devs@yetiforce.com", name="Devs API Team", url="https://yetiforce.com/"),
+ *   	@OA\License(name="YetiForce Public License", url="https://yetiforce.com/en/yetiforce/license"),
  *	)
- *	@OA\Server(
- *		url="https://gitdeveloper.yetiforce.com",
- *		description="Demo server of the development version",
- *	)
- *	@OA\Server(
- *		url="https://gitstable.yetiforce.com",
- *		description="Demo server of the latest stable version",
- *	)
- *	@OA\Tag(
- *		name="BaseModule",
- *		description="Access to record methods"
- *	)
- *	@OA\Tag(
- *		name="BaseAction",
- *		description="Access to user methods"
- *	)
- *	@OA\Tag(
- *		name="Products",
- *		description="Products methods"
- * )
- *	@OA\Tag(
- *		name="Users",
- *		description="Access to user methods"
- *	)
+ * @OA\Server(description="Demo server of the development version", url="https://gitdeveloper.yetiforce.com")
+ * @OA\Server(description="Demo server of the latest stable version", url="https://gitstable.yetiforce.com")
+ * @OA\Tag(name="BaseModule", description="Access to record methods")
+ * @OA\Tag(name="BaseAction", description="Access to user methods")
+ * @OA\Tag(name="Products", description="Products methods")
+ * @OA\Tag(name="Users", description="Access to user methods")
  */
 class Files extends \Api\WebserviceStandard\BaseAction\Files
 {
