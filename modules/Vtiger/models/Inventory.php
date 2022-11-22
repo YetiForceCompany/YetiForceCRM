@@ -890,6 +890,7 @@ class Vtiger_Inventory_Model
 				$row['add_header'] = true;
 			}
 		}
+
 		return $data;
 	}
 

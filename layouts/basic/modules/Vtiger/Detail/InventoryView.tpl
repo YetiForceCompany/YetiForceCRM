@@ -50,12 +50,18 @@
 						{assign var=ROW_NO value=$ROW_NO+1}
 						{if !empty($INVENTORY_ROW['add_header']) && $GROUP_FIELD && !empty($INVENTORY_ROW[$GROUP_FIELD->getColumnName()])}
 							<tr class="inventoryRowGroup">
-								<td class="p-1" colspan="{count($FIELDS[1])}">
-									<div class="u-font-weight-700">
-										{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$GROUP_FIELD->getTemplateName('DetailView',$MODULE_NAME)}
-										{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) FIELD=$GROUP_FIELD ITEM_VALUE=$INVENTORY_ROW[$GROUP_FIELD->getColumnName()]}
-									</div>
-								</td>
+								{foreach item=FIELD from=$FIELDS[1]}
+									{if $FIELD->getColumnName() eq 'name' && $FIELD->isVisible()}
+										<td class="p-1 u-font-weight-700">
+											{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$GROUP_FIELD->getTemplateName('DetailView',$MODULE_NAME)}
+											{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) FIELD=$GROUP_FIELD ITEM_VALUE=$INVENTORY_ROW[$GROUP_FIELD->getColumnName()]}
+										</td>
+									{else}
+										<td class="text-right u-font-weight-600 text-nowrap">
+											{if $FIELD->isSummary()}{{$FIELD->getDisplayValue($FIELD->getSummaryValuesFromData($INVENTORY_ROWS, $INVENTORY_ROW.groupid), $INVENTORY_ROW)}}{/if}
+										</td>
+									{/if}
+								{/foreach}
 							</tr>
 						{/if}
 						{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
