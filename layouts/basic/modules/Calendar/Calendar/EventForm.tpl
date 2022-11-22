@@ -91,34 +91,36 @@
 								</div>
 							</div>
 						{/foreach}
-						<div class="row-form fieldsLabelValue px-1 mb-2">
-							<div class="col-12 px-0 u-fs-sm">
-								<label class="muted mt-0 mb-0">
-									{\App\Language::translate('LBL_INVITE_RECORDS', $MODULE_NAME)}
-								</label>
-							</div>
-							<div class="fieldValue col-12 px-0">
-								<div class="input-group js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}">
-									<input type="text" class="form-control js-participants-search" title="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}"
-										placeholder="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}" data-js="click" />
-									<div class="input-group-append">
-										<button type="button" class="js-btn-add-invitation btn btn-light" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}">
-											<span class="fa fa-plus" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}"></span>
-										</button>
+						{if (\App\Config::module('Calendar', 'showInviteParticipantsBlock', true))}
+							<div class="row-form fieldsLabelValue px-1 mb-2">
+								<div class="col-12 px-0 u-fs-sm">
+									<label class="muted mt-0 mb-0">
+										{\App\Language::translate('LBL_INVITE_RECORDS', $MODULE_NAME)}
+									</label>
+								</div>
+								<div class="fieldValue col-12 px-0">
+									<div class="input-group js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}">
+										<input type="text" class="form-control js-participants-search" title="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}"
+											placeholder="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}" data-js="click" />
+										<div class="input-group-append">
+											<button type="button" class="js-btn-add-invitation btn btn-light" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}">
+												<span class="fa fa-plus" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}"></span>
+											</button>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="col-12 px-2 mt-1 js-participants-content d-flex flex-wrap flex-row justify-content-start align-items-left" data-js="container">
-								<div class="d-none">
-									{include file=\App\Layout::getTemplatePath('InviteRow.tpl', $MODULE_NAME)}
-								</div>
-								{if !empty($RECORD_ID)}
-									{foreach key=KEY item=INVITIE from=$RECORD->getInvities()}
+								<div class="col-12 px-2 mt-1 js-participants-content d-flex flex-wrap flex-row justify-content-start align-items-left" data-js="container">
+									<div class="d-none">
 										{include file=\App\Layout::getTemplatePath('InviteRow.tpl', $MODULE_NAME)}
-									{/foreach}
-								{/if}
+									</div>
+									{if !empty($RECORD_ID)}
+										{foreach key=KEY item=INVITIE from=$RECORD->getInvities()}
+											{include file=\App\Layout::getTemplatePath('InviteRow.tpl', $MODULE_NAME)}
+										{/foreach}
+									{/if}
+								</div>
 							</div>
-						</div>
+						{/if}
 					</div>
 				</div>
 				<div class="o-calendar__form__actions">
