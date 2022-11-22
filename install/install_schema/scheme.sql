@@ -3730,7 +3730,7 @@ CREATE TABLE `u_yf_mailaccount` (
   `refresh_token` text DEFAULT NULL,
   `mail_server_id` int(10) unsigned DEFAULT NULL,
   `mailaccount_status` varchar(255) DEFAULT NULL,
-  `logs` varchar(500) DEFAULT NULL,
+  `logs` text DEFAULT NULL,
   `expire_time` datetime DEFAULT NULL,
   `scanner_actions` text DEFAULT NULL,
   `scanner_fields` text DEFAULT NULL,
