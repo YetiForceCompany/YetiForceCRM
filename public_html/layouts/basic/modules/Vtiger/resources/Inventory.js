@@ -1573,6 +1573,7 @@ $.Class(
 					items.find('[numrow="' + numrow + '"]').after(child);
 					App.Fields.Text.Editor.register(child);
 					thisInstance.updateRowSequence();
+					thisInstance.summaryGroupCalculations();
 				}
 			});
 		},

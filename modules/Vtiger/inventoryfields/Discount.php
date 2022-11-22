@@ -41,7 +41,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 		'discountparam' => App\Purifier::TEXT,
 	];
 	/** {@inheritdoc} */
-	protected $params = ['type'];
+	protected $params = ['default_type'];
 
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
@@ -176,8 +176,8 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 		$qualifiedModuleName = 'Settings:LayoutEditor';
 		$data = parent::getConfigFieldsData();
 
-		$data['type'] = [
-			'name' => 'type',
+		$data['default_type'] = [
+			'name' => 'default_type',
 			'label' => 'LBL_INV_DISCOUNT_MARKUP_MODE',
 			'uitype' => 16,
 			'maximumlength' => '1',
@@ -201,7 +201,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	 */
 	public function isMarkupDefault(): bool
 	{
-		return 1 === (int) ($this->getParamsConfig()['type'] ?? 0);
+		return 1 === (int) ($this->getParamsConfig()['default_type'] ?? 0);
 	}
 
 	/**
