@@ -19,7 +19,7 @@
 			{append var=PICKLIST_VALUES value=\App\Language::translate($VALUE, $FIELD->getModuleName(), null, false) index=$VALUE}
 		{/if}
 		<div class="input-group-sm">
-			<select class="form-control form-control-sm selectInv {$FIELD->getColumnName()} js-grouplabel" {if $FIELD->isReadOnly()}readonly="readonly" {/if}>
+			<select class="form-control form-control-sm selectInv {$FIELD->getColumnName()} js-grouplabel" {if $FIELD->isReadOnly()}readonly="readonly" {/if} data-validation-engine="validate[required,maxSize[{$FIELD->getRangeValues()}]]">
 				{foreach from=$PICKLIST_VALUES key=KEY item=ITEM}
 					<option value="{\App\Purifier::encodeHtml($KEY)}" {if $KEY == $VALUE}selected{/if}>{\App\Purifier::encodeHtml($ITEM)}</option>
 				{/foreach}
