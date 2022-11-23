@@ -148,4 +148,10 @@ return [
 		'description' => 'Expand the option of postponing calendar events by adding time expressed in minutes.',
 		'docTags' => ['example' => '[\'LBL_ONE_DAY\' => 1440]', 'var' => 'array'],
 	],
+	'showInviteParticipantsBlock' => [
+		'default' => true,
+		'description' => 'Invite participant block is visible by default: true - show block, false - hide block',
+		'validation' => '\App\Validator::bool',
+		'sanitization' => '\App\Purifier::bool',
+	],
 ];

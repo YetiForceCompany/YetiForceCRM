@@ -159,6 +159,9 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function insertIntoInviteTable()
 	{
+		if (!\App\Config::module($this->getModuleName(), 'showInviteParticipantsBlock', true)) {
+			return false;
+		}
 		if (!\App\Request::_has('inviteesid')) {
 			\App\Log::info('No invitations in request, Exiting insertIntoInviteeTable method ...');
 			return;
