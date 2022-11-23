@@ -140,7 +140,7 @@ class Module
 	{
 		$moduleName = \App\Config::main('default_module') ?:  'Home';
 		if (!\App\Privilege::isPermitted($moduleName)) {
-			foreach (\vtlib\Functions::getAllModules() as $module) {
+			foreach (\vtlib\Functions::getAllModules(true, false, 0) as $module) {
 				if (\App\Privilege::isPermitted($module['name'])) {
 					$moduleName = $module['name'];
 					break;
