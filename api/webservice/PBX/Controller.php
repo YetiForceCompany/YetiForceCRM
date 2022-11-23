@@ -35,15 +35,28 @@ class Controller extends \Api\Controller
 	/** {@inheritdoc}  */
 	public function handleError(\Throwable $e): void
 	{
-		if (is_numeric($e->getCode())) {
-			http_response_code($e->getCode());
+		$params = print_r(array_merge(
+			$this->request->getAllRaw(), [
+				'ip' => $_SERVER['REMOTE_ADDR'],
+			]), true) . $e->__toString();
+		\App\DB::getInstance('log')->createCommand()
+			->insert('l_#__pbx', [
+				'error' => true,
+				'time' => date('Y-m-d H:i:s'),
+				'driver' => $this->request->getModule() . '::' . \App\Request::getRequestMethod(),
+				'message' => \App\TextUtils::textTruncate($e->getMessage(), 255),
+				'params' => \App\TextUtils::textTruncate($params, 65535),
+			])->execute();
+
+		if ($e instanceof \Api\Core\Exception) {
+			$e->handleError();
+		} else {
+			if ($e instanceof \App\Exceptions\AppException) {
+				$ex = new \Api\Core\Exception($e->getDisplayMessage(), $e->getCode(), $e);
+			} else {
+				$ex = new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
+			}
+			$ex->handleError();
 		}
-		echo 'Internal Server Error';
-		file_put_contents(__DIR__ . '/_Genesys_' . date('Y-m-d-H') . '_error.log', print_r([
-			'datetime' => date('Y-m-d H:i:s'),
-			'method' => \App\Request::getRequestMethod(),
-			'REQUEST' => $_REQUEST,
-			'error' => $e->__toString()
-		], true), FILE_APPEND);
 	}
 }
