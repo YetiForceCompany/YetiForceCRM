@@ -132,6 +132,25 @@ class Module
 	}
 
 	/**
+	 * Get default module name.
+	 *
+	 * @return string
+	 */
+	public static function getDefaultModule(): string
+	{
+		$moduleName = \App\Config::main('default_module') ?:  'Home';
+		if (!\App\Privilege::isPermitted($moduleName)) {
+			foreach (\vtlib\Functions::getAllModules(true, false, 0) as $module) {
+				if (\App\Privilege::isPermitted($module['name'])) {
+					$moduleName = $module['name'];
+					break;
+				}
+			}
+		}
+		return $moduleName;
+	}
+
+	/**
 	 * Get module owner by module id.
 	 *
 	 * @param int $tabId
