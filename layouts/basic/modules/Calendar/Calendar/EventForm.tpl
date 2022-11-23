@@ -91,7 +91,7 @@
 								</div>
 							</div>
 						{/foreach}
-						{if (\App\Config::module('Calendar', 'showInviteParticipantsBlock', true))}
+						{if (\App\Config::module($MODULE_NAME, 'showInviteParticipantsBlock', true))}
 							<div class="row-form fieldsLabelValue px-1 mb-2">
 								<div class="col-12 px-0 u-fs-sm">
 									<label class="muted mt-0 mb-0">

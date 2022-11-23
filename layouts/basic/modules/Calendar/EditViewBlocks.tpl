@@ -6,7 +6,7 @@
 	<input type="hidden" name="userChangedEndDateTime" value="{$USER_CHANGED_END_DATE_TIME}" />
 	{assign var=IS_HIDDEN value=false}
 	{assign var=INVITIES_SELECTED value=$RECORD->getInvities()}
-	{if (\App\Config::module('Calendar', 'showInviteParticipantsBlock', true))}
+	{if (\App\Config::module($MODULE_NAME, 'showInviteParticipantsBlock', true))}
 		<div class="js-toggle-panel c-panel c-panel--edit row mx-1 mb-3" data-js="click" data-label="LBL_INVITE_RECORDS">
 			<div class="blockHeader c-panel__header align-items-center">
 				<div class="col-md-7 form-row pl-1">

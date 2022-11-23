@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Calendar-Detail-BlocksView -->
 	{include file=\App\Layout::getTemplatePath('Detail/BlocksView.tpl', 'Vtiger') RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE_NAME=$MODULE_NAME}
-	{if (\App\Config::module('Calendar', 'showInviteParticipantsBlock', true))}
+	{if (\App\Config::module($MODULE_NAME, 'showInviteParticipantsBlock', true))}
 		{assign var="IS_HIDDEN" value=false}
 		<div class="detailViewTable">
 			<div class="js-toggle-panel c-panel" data-js="click" data-label="LBL_INVITE_RECORDS">
