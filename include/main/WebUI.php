@@ -112,31 +112,15 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			}
 			if (empty($moduleName)) {
 				if ($hasLogin) {
-					$defaultModule = App\Config::main('default_module');
-					if (!\App\Privilege::isPermitted($defaultModule)) {
-						foreach (\vtlib\Functions::getAllModules() as $module) {
-							if (\App\Privilege::isPermitted($module['name'])) {
-								$defaultModule = $module['name'];
-								break;
-							}
-						}
-					}
-					if (!empty($defaultModule) && 'Home' !== $defaultModule) {
-						$moduleName = $defaultModule;
-						$qualifiedModuleName = $defaultModule;
-						if (empty($view = Vtiger_Module_Model::getInstance($moduleName)->getDefaultViewName())) {
-							$view = 'List';
-						}
-					} else {
-						$qualifiedModuleName = $moduleName = 'Home';
+					$qualifiedModuleName = $moduleName = \App\Module::getDefaultModule();
+					if ('Home' === $moduleName) {
 						$view = 'DashBoard';
+					} else {
+						$view = Vtiger_Module_Model::getInstance($moduleName)->getDefaultViewName() ?: 'List';
 					}
-				} else {
-					$qualifiedModuleName = $moduleName = 'Users';
-					$view = 'Login';
+					$request->set('module', $moduleName);
+					$request->set('view', $view);
 				}
-				$request->set('module', $moduleName);
-				$request->set('view', $view);
 			}
 			if (!empty($action)) {
 				$componentType = 'Action';
