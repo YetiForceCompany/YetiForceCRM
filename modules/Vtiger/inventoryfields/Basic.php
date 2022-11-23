@@ -779,4 +779,16 @@ class Vtiger_Basic_InventoryField extends \App\Base
 
 		return $fields;
 	}
+
+	/**
+	 * Gets config field.
+	 *
+	 * @param string $key
+	 *
+	 * @return Vtiger_Field_Model|null
+	 */
+	public function getConfigField(string $key): ?Vtiger_Field_Model
+	{
+		return $this->getConfigFields()[$key] ?? null;
+	}
 }

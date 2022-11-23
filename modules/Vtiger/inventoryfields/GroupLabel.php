@@ -33,7 +33,7 @@ class Vtiger_GroupLabel_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	protected $sync = true;
 	/** {@inheritdoc} */
-	protected $params = ['isOpened'];
+	protected $params = ['isOpened', 'group_values'];
 	/** {@inheritdoc} */
 	protected $customColumn = [
 		'groupid' => [\yii\db\Schema::TYPE_INTEGER, 10, 0, true]
@@ -105,6 +105,21 @@ class Vtiger_GroupLabel_InventoryField extends Vtiger_Basic_InventoryField
 			'tooltip' => 'LBL_INV_BLOCK_IS_OPENED_INFO',
 			'purifyType' => \App\Purifier::INTEGER,
 			'defaultvalue' => 1
+		];
+
+		$groups = $this->getParamConfig('group_values');
+		$values = $groups ? explode(' |##| ', $groups) : [];
+		$data['group_values'] = [
+			'name' => 'group_values',
+			'label' => 'LBL_INV_GROUP_VALUES',
+			'uitype' => 33,
+			'maximumlength' => '1',
+			'typeofdata' => 'V~O',
+			'createTags' => true,
+			'tooltip' => 'LBL_INV_GROUP_VALUES_DESC',
+			'purifyType' => \App\Purifier::TEXT,
+			'picklistValues' => array_map(fn ($key) => \App\Language::translate($key, $this->getModuleName(), null, false), array_combine($values, $values)),
+			'fieldvalue' => $groups,
 		];
 
 		return $data;

@@ -1447,15 +1447,15 @@ $.Class(
 				this.setSubUnit(row, rowData.info.autoFields.subunit, rowData.info.autoFields.subunitText);
 			}
 			this.setComment(row, rowData.comment1);
-			this.setUnitPrice(row, App.Fields.Double.formatToDisplay(rowData.price));
-			this.setNetPrice(row, App.Fields.Double.formatToDisplay(rowData.net));
-			this.setGrossPrice(row, App.Fields.Double.formatToDisplay(rowData.gross));
-			this.setTotalPrice(row, App.Fields.Double.formatToDisplay(rowData.total));
-			this.setDiscountParam(row, rowData.discountparam ? JSON.parse(discountParam) : []);
-			this.setDiscount(row, App.Fields.Double.formatToDisplay(rowData.discount));
+			this.setUnitPrice(row, rowData.price);
+			this.setNetPrice(row, rowData.net);
+			this.setGrossPrice(row, rowData.gross);
+			this.setTotalPrice(row, rowData.total);
+			this.setDiscountParam(row, rowData.discountparam ? JSON.parse(rowData.discountparam) : []);
+			this.setDiscount(row, rowData.discount);
 			this.setTaxParam(row, rowData.taxparam ? JSON.parse(rowData.taxparam) : []);
-			this.setTax(row, App.Fields.Double.formatToDisplay(rowData.tax));
-			this.setTaxPercent(row, App.Fields.Double.formatToDisplay(rowData.tax_percent));
+			this.setTax(row, rowData.tax);
+			this.setTaxPercent(row, rowData.tax_percent);
 		},
 		/**
 		 * Add new row to inventory list
@@ -1499,7 +1499,19 @@ $.Class(
 			const items = this.getInventoryItemsContainer();
 			let newRow = this.getBasicRow();
 			if (data['grouplabel']) {
-				newRow.find('.js-grouplabel').val(data['grouplabel']);
+				let value = data['grouplabel'];
+				let el = newRow.find('.js-grouplabel');
+				if (
+					el.is('select') &&
+					![...el.get(0).options]
+						.map((o) => o.value)
+						.filter((e) => e !== '')
+						.includes(value)
+				) {
+					let newOption = new Option(value, value, true, true);
+					el.append(newOption);
+				}
+				el.val(value);
 			}
 			newRow = newRow.find('tr.inventoryRowGroup').appendTo(items.find('.js-inventory-items-body'));
 			this.initItem(newRow);

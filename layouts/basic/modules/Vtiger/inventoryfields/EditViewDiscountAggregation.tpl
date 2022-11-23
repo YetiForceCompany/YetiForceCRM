@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Base-inventoryfields-EditViewDiscountAggregation -->
 	{assign var=VALUE value=$INVENTORY_MODEL->getEditValue($ITEM_DATA, $FIELD->getColumnName())}
-	<select name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" class="select2 js-discount_aggreg"
+	<select class="select2 js-discount_aggreg"
 		title="{\App\Language::translate($FIELD->getLabel(), $MODULE_NAME)}" {if $FIELD->isReadOnly()}readonly="readonly" {/if} data-js="change|val">
 		{foreach from=$FIELD->getPicklistValues() item=ITEM key=KEY}
 			<option value="{\App\Purifier::encodeHtml($KEY)}" {if $KEY === $VALUE}selected{/if}>{\App\Language::translate($ITEM, $MODULE_NAME)}</option>

@@ -128,6 +128,8 @@
     "LBL_INV_DISCOUNT_MARKUP_MODE_DESC": "Default setting of field working mode.",
     "LBL_INV_UNITPRICE_CURRENCY_CONVERT": "Currency convert button",
     "LBL_INV_UNITPRICE_CURRENCY_CONVERT_DESC": "A simple currency conversion button will be available next to the field.",
+    "LBL_INV_GROUP_VALUES": "Available group values",
+    "LBL_INV_GROUP_VALUES_DESC": "Entering a value in this field will change the displayed field to picklist.",
     "LBL_SELECT_TYPE_OF_INVENTORY": "Select field type",
     "LBL_NEXT": "Next",
     "LBL_PARAMS_MODULES": "Modules",
