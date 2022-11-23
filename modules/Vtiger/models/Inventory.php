@@ -256,15 +256,17 @@ class Vtiger_Inventory_Model
 	/**
 	 * Getting summary fields name.
 	 *
+	 * @param bool $active
+	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return string[]
 	 */
-	public function getSummaryFields(): array
+	public function getSummaryFields(bool $active = true): array
 	{
 		$summaryFields = [];
 		foreach ($this->getFields() as $name => $field) {
-			if ($field->isSummary()) {
+			if ($active ? $field->isSummaryEnabled() : $field->isSummary()) {
 				$summaryFields[$name] = $name;
 			}
 		}

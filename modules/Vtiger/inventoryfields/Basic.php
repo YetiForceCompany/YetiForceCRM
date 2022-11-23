@@ -352,6 +352,16 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	}
 
 	/**
+	 * Check if summary enabled.
+	 *
+	 * @return bool
+	 */
+	public function isSummaryEnabled(): bool
+	{
+		return $this->isSummary() && 1 === (int) ($this->getParamConfig('summary_enabled') ?? 1);
+	}
+
+	/**
 	 * Gets default value by field.
 	 *
 	 * @param string $columnName
@@ -749,6 +759,18 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		$qualifiedModuleName = 'Settings:LayoutEditor';
 		foreach ($this->displayTypeBase() as $key => $value) {
 			$row['displaytype']['picklistValues'][$key] = \App\Language::translate($value, $qualifiedModuleName);
+		}
+
+		if ($this->isSummary()) {
+			$row['summary_enabled'] = [
+				'name' => 'summary_enabled',
+				'label' => 'LBL_INV_SUMMARY_ENABLED',
+				'uitype' => 56,
+				'maximumlength' => '1',
+				'typeofdata' => 'C~O',
+				'purifyType' => \App\Purifier::INTEGER,
+				'defaultvalue' => 1
+			];
 		}
 
 		return $row;

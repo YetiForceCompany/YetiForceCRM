@@ -20,6 +20,8 @@ class Vtiger_Purchase_InventoryField extends Vtiger_Basic_InventoryField
 	protected $summationValue = true;
 	protected $maximumLength = '99999999999999999999';
 	protected $purifyType = \App\Purifier::NUMBER;
+	/** {@inheritdoc} */
+	protected $params = ['summary_enabled'];
 
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)

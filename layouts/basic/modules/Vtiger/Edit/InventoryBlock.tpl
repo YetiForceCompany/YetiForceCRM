@@ -66,14 +66,14 @@
 							{/if}
 						{/foreach}
 					</tbody>
-					<tfoot>
+					<tfoot {if !$INVENTORY_MODEL->getSummaryFields()}class="d-none" {/if}>
 						<tr>
 							<td colspan="1" class="hideTd u-w-1per-45px">&nbsp;&nbsp;</td>
 							{foreach item=FIELD from=$FIELDS}
 								<td {if !$FIELD->isEditable()}colspan="0" {/if}
-									class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right text-nowrap {if !$FIELD->isSummary()} hideTd{else} wisableTd{/if}"
+									class="col{$FIELD->getType()}{if !$FIELD->isEditable()} d-none{/if} text-right text-nowrap {if !$FIELD->isSummaryEnabled()} hideTd{else} wisableTd{/if}"
 									data-sumfield="{lcfirst($FIELD->getType())|escape}">
-									{if $FIELD->isSummary()}
+									{if $FIELD->isSummaryEnabled()}
 										{CurrencyField::convertToUserFormat($FIELD->getSummaryValuesFromData($INVENTORY_ROWS), null, true)}
 									{/if}
 									{if $FIELD->getType() == 'Name' && $INVENTORY_MODEL->isField('price')}

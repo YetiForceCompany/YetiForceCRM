@@ -41,7 +41,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 		'discountparam' => App\Purifier::TEXT,
 	];
 	/** {@inheritdoc} */
-	protected $params = ['default_type'];
+	protected $params = ['default_type', 'summary_enabled'];
 
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)

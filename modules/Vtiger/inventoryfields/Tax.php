@@ -29,10 +29,10 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	protected $customPurifyType = [
 		'taxparam' => \App\Purifier::TEXT
 	];
-	/**
-	 * @var array List of shared fields
-	 */
+	/** @var array List of shared fields */
 	public $shared = ['taxparam' => 'tax_percent'];
+	/** {@inheritdoc} */
+	protected $params = ['summary_enabled'];
 
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
