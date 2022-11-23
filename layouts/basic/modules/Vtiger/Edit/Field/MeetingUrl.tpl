@@ -4,7 +4,7 @@
 	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 	{assign var="MEETING_SERVICE" value=\App\MeetingService::getInstance()}
-	{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
+	{assign var=PARAMS value=$FIELD_MODEL->getFieldParams()}
 	{assign var=TABINDEX value=$FIELD_MODEL->getTabIndex()}
 	{function MEETING_INFO PARAMS=[]}
 		{assign var="DEPENDENT_TEXT" value=[]}

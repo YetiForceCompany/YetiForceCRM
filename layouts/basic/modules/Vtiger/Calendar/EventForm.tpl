@@ -60,7 +60,7 @@
 							{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 							{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
 							{assign var="refrenceListCount" value=count($refrenceList)}
-							{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
+							{assign var=PARAMS value=$FIELD_MODEL->getFieldParams()}
 							<div class="row fieldsLabelValue pl-0 pr-0 mb-2 {$WIDTHTYPE} {$WIDTHTYPE_GROUP}">
 								{if !(isset($PARAMS['hideLabel']) && in_array($VIEW, $PARAMS['hideLabel']))}
 									<div class="col-12 u-fs-sm">

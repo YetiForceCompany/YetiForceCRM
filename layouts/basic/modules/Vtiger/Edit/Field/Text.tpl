@@ -17,7 +17,7 @@
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	<div>
 		{if $FIELD_MODEL->getUIType() eq '19' || $FIELD_MODEL->getUIType() eq '20' || $FIELD_MODEL->getUIType() eq '300' }
-			{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
+			{assign var=PARAMS value=$FIELD_MODEL->getFieldParams()}
 			{assign var=UNIQUE_ID value=10|mt_rand:20}
 			<textarea name="{$FIELD_MODEL->getFieldName()}" tabindex="{$FIELD_MODEL->getTabIndex()}"
 				id="{$MODULE}_editView_fieldName_{$FIELD_NAME}_{$UNIQUE_ID}{if $FIELD_MODEL->getUIType() eq '300' && !empty($VIEW) && $VIEW eq 'QuickCreateAjax'}_qc{/if}"
