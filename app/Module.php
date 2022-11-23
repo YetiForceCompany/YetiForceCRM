@@ -139,7 +139,7 @@ class Module
 	public static function getDefaultModule(): string
 	{
 		$moduleName = \App\Config::main('default_module') ?:  'Home';
-		if (!empty($moduleName) && !\App\Privilege::isPermitted($moduleName)) {
+		if (!\App\Privilege::isPermitted($moduleName)) {
 			foreach (\vtlib\Functions::getAllModules() as $module) {
 				if (\App\Privilege::isPermitted($module['name'])) {
 					$moduleName = $module['name'];
