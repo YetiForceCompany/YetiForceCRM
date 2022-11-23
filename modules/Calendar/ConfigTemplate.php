@@ -150,7 +150,7 @@ return [
 	],
 	'showInviteParticipantsBlock' => [
 		'default' => true,
-		'description' => 'Right calendar panel visible by default: true - show right panel, false - hide right panel',
+		'description' => 'Invite participant block is visible by default: true - show block, false - hide block',
 		'validation' => '\App\Validator::bool',
 		'sanitization' => '\App\Purifier::bool',
 	],
