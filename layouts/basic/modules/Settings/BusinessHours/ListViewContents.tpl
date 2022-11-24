@@ -35,7 +35,7 @@
 										<span class="actionImages">
 											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
-												<a class="{$RECORD_LINK->getClassName()}" {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};
+												<a class="{$RECORD_LINK->getClassName()}" {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{substr($RECORD_LINK_URL, strlen("javascript:"))};
 														if (event.stopPropagation){ldelim}
 																	event.stopPropagation();{rdelim} else{ldelim}
 																				event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>

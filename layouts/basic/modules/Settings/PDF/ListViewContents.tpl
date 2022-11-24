@@ -41,7 +41,7 @@
 														<a href="{$RECORD_LINK_URL}" class="btn btn-primary btn-sm"><span class="{$RECORD_LINK->getIcon()}"></span></a>
 													{else}
 														<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="
-																											 {$RECORD_LINK_URL|substr:strlen("javascript:")};
+																											 {substr($RECORD_LINK_URL, strlen("javascript:"))};
 																if (event.stopPropagation){ldelim}
 																			event.stopPropagation();{rdelim} else{ldelim}
 																						event.cancelBubble = true;{rdelim}

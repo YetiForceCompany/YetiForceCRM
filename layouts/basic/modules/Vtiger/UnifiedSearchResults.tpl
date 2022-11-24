@@ -77,7 +77,7 @@
 										<li id="{$ID}" class="col-12 form-row px-0">
 											<a target="_blank" id="{$ID}_link"
 												class="u-cursor-pointer col-12 form-row py-1" {if stripos($DETAILVIEW_URL, 'javascript:')===0}
-												onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' 
+												onclick='{substr($DETAILVIEW_URL, strlen("javascript:"))}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"'
 												{/if}>
 												<span class="col-8 text-left u-text-ellipsis">{$recordObject->getName()} {if $recordObject->get('assigned_user_id')}({$recordObject->getDisplayValue('assigned_user_id',$ID,true)}){/if}</span>
 												<span id="{$ID}_time"

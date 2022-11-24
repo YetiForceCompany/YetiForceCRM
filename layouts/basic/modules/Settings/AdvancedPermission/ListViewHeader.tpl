@@ -23,8 +23,8 @@
 			<div class="col-md-8 btn-toolbar">
 				{if \App\Config::security('CACHING_PERMISSION_TO_RECORD')}
 					{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-						<button class="btn btn-success addButton mr-1" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
-							{else} onclick='window.location.href = "{$LISTVIEW_BASICACTION->getUrl()}"' 
+						<button class="btn btn-success addButton mr-1" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{substr($LISTVIEW_BASICACTION->getUrl(), strlen("javascript:"))};'
+							{else} onclick='window.location.href = "{$LISTVIEW_BASICACTION->getUrl()}"'
 							{/if}>
 							<span class="fas fa-plus"></span>&nbsp;
 							<strong>{\App\Language::translate($LISTVIEW_BASICACTION->getLabel(), $QUALIFIED_MODULE)}</strong>

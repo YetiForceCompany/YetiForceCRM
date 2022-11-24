@@ -16,8 +16,8 @@
 						<button type="button" title="{if $LINK->getLabel()}{$LABEL}{/if}"
 							class="btn{if $LINK->getClassName()} {$LINK->getClassName()}{else} btn-light{/if}"
 							{if $LINK->getUrl()}
-								{if stripos($LINK->getUrl(), 'javascript:')===0} onclick='{$LINK->getUrl()|substr:strlen("javascript:")};'
-								{else} onclick='window.location.href = "{$LINK->getUrl()}"' 
+								{if stripos($LINK->getUrl(), 'javascript:')===0} onclick='{substr($LINK->getUrl(), strlen("javascript:"))};'
+								{else} onclick='window.location.href = "{$LINK->getUrl()}"'
 								{/if}
 							{/if}
 							{if $LINK->get('linkdata') neq '' && is_array($LINK->get('linkdata'))}

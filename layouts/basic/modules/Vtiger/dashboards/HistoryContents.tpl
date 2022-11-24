@@ -44,7 +44,7 @@
 										<div>
 											<strong>{$MODIFIER_NAME}&nbsp;</strong>
 											{\App\Language::translate('LBL_UPDATED','ModTracker')}&nbsp;
-											<a class="u-cursor-pointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' {/if}>
+											<a class="u-cursor-pointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} onclick='{substr($DETAILVIEW_URL, strlen("javascript:"))}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' {/if}>
 												{$PARENT->getName()}
 											</a>
 										</div>
@@ -86,21 +86,21 @@
 										{\App\Language::translate($HISTORY->getStatusLabel(), 'ModTracker')}&nbsp;
 										{if $RELATION->get('targetmodule') eq 'Calendar'}
 											{if \App\Privilege::isPermitted('Calendar', 'DetailView', $RELATION->get('targetid'))}
-												<a class="u-cursor-pointer" {if stripos($LINKED_RECORD_DETAIL_URL, 'javascript:')===0} onclick='{$LINKED_RECORD_DETAIL_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$LINKED_RECORD_DETAIL_URL}"' {/if}>
+												<a class="u-cursor-pointer" {if stripos($LINKED_RECORD_DETAIL_URL, 'javascript:')===0} onclick='{substr($LINKED_RECORD_DETAIL_URL, strlen("javascript:"))}' {else} onclick='window.location.href = "{$LINKED_RECORD_DETAIL_URL}"' {/if}>
 													{$RELATION->getValue()}
 												</a>
 											{else}
 												{\App\Language::translate($RELATION->get('targetmodule'), $RELATION->get('targetmodule'))}
 											{/if}
 										{else}
-											<a class="u-cursor-pointer" {if stripos($LINKED_RECORD_DETAIL_URL, 'javascript:')===0} onclick='{$LINKED_RECORD_DETAIL_URL|substr:strlen("javascript:")}'
+											<a class="u-cursor-pointer" {if stripos($LINKED_RECORD_DETAIL_URL, 'javascript:')===0} onclick='{substr($LINKED_RECORD_DETAIL_URL, strlen("javascript:"))}'
 												{else} onclick='window.location.href = "{$LINKED_RECORD_DETAIL_URL}"'
 												{/if}>
 												{\App\Language::translate($RELATION->getValue(), $RELATION->get('targetmodule') )}
 											</a>
 										{/if}{\App\Language::translate('LBL_FOR')}
 										<a class="u-cursor-pointer" {if stripos($PARENT_DETAIL_URL, 'javascript:')===0}
-											onclick='{$PARENT_DETAIL_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$PARENT_DETAIL_URL}"'
+											onclick='{substr($PARENT_DETAIL_URL, strlen("javascript:"))}' {else} onclick='window.location.href = "{$PARENT_DETAIL_URL}"'
 											{/if}>
 											{$RELATION->getParent()->getParent()->getName()}
 										</a>
@@ -108,7 +108,7 @@
 								{else}
 									<div>
 										<strong>{$MODIFIER_NAME}&nbsp;</strong>{\App\Language::translate($HISTORY->getStatusLabel(), 'ModTracker')}
-										<a class="u-cursor-pointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} onclick='{$DETAILVIEW_URL|substr:strlen("javascript:")}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' {/if}>
+										<a class="u-cursor-pointer" {if stripos($DETAILVIEW_URL, 'javascript:')===0} onclick='{substr($DETAILVIEW_URL, strlen("javascript:"))}' {else} onclick='window.location.href = "{$DETAILVIEW_URL}"' {/if}>
 											&nbsp;{$PARENT->getName()}
 										</a>
 									</div>
