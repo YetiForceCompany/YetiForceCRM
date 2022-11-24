@@ -252,6 +252,14 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 					'module' => $params['referenceModule']
 				];
 				break;
+			case 'MapCoordinates':
+				$fieldParams = [
+					'showType' => $params['isCoordinateType'] ?? 0,
+					'type' => $params['type'] ?? null,
+					'showMap' => $params['isCoordinateMap'] ?? 0,
+					'showLocation' => $params['isCoordinateMeLokaction'] ?? 0,
+				];
+				break;
 			default:
 				break;
 		}

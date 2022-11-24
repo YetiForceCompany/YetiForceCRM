@@ -196,7 +196,7 @@ class Vtiger_MapCoordinates_UIType extends Vtiger_Base_UIType
 				'lon' => '',
 			],
 			'codeplus' => '',
-			'type' => 'decimal',
+			'type' => '',
 		];
 	}
 }

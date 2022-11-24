@@ -34,7 +34,7 @@
 		<input name="{$FIELD_MODEL->getFieldName()}[codeplus]" id="{$MODULE_NAME}_editView_fieldName_{$FIELD_MODEL->getName()}_lat" title="{\App\Language::translate('LBL_CODE_PLUS', 'OpenStreetMap')}" type="text" class="form-control js-popover-tooltip js-geo-value {if $VALUE_TYPE !== 'codeplus'}d-none{/if}"
 			tabindex="{$TABINDEX}" placeholder="{\App\Language::translate('LBL_CODE_PLUS',  'OpenStreetMap')}"
 			value="{\App\Purifier::encodeHtml($FIELD_VALUE['codeplus'])}" {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if} {if $IS_EDITABLE_READ_ONLY}readonly="readonly" {else} data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {/if} data-placement="bottom" data-type="codeplus" />
-		<div class="input-group-append p-0">
+		<div class="input-group-append p-0 {if empty($PARAMS['showType'])}d-none{/if}">
 			<select name="{$FIELD_MODEL->getFieldName()}[type]" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}_type_{\App\Layout::getUniqueId()}" class="select2 js-geo-type" required="required" tabindex="{$TABINDEX}" data-dropdown-auto-width="true" data-minimum-results-for-search="Infinity" {if $IS_EDITABLE_READ_ONLY}readonly="readonly" {/if}>
 				{foreach item=COOR_LABEL key=COOR_KEY from=\App\Fields\MapCoordinates::COORDINATE_FORMATS}
 					<option value="{$COOR_KEY}" {if $VALUE_TYPE === $COOR_KEY}selected{/if}>
@@ -43,16 +43,20 @@
 				{/foreach}
 			</select>
 		</div>
-		<div class="input-group-append">
-			<button type="button" class="btn btn-info js-my-location__btn js-popover-tooltip" title="{\App\Language::translate('LBL_MY_LOCATION', 'OpenStreetMap')}" data-placement="top" tabindex="{$TABINDEX}" {if $IS_EDITABLE_READ_ONLY}disabled="disabled" {/if} data-js="click|popover">
-				<span class="fa-solid fa-location-crosshairs"></span>
-			</button>
-		</div>
-		<div class="input-group-append">
-			<button type="button" class="btn btn-warning js-map-edit__btn js-popover-tooltip" title="{\App\Language::translate('LBL_SHOW_MAP', 'OpenStreetMap')}" data-placement="top" tabindex="{$TABINDEX}" {if $IS_EDITABLE_READ_ONLY}disabled="disabled" {/if} data-js="click|popover">
-				<span class="fa-solid fa-map-location-dot"></span>
-			</button>
-		</div>
+		{if !empty($PARAMS['showMap'])}
+			<div class="input-group-append">
+				<button type="button" class="btn btn-info js-my-location__btn js-popover-tooltip" title="{\App\Language::translate('LBL_MY_LOCATION', 'OpenStreetMap')}" data-placement="top" tabindex="{$TABINDEX}" {if $IS_EDITABLE_READ_ONLY}disabled="disabled" {/if} data-js="click|popover">
+					<span class="fa-solid fa-location-crosshairs"></span>
+				</button>
+			</div>
+		{/if}
+		{if !empty($PARAMS['showLocation'])}
+			<div class="input-group-append">
+				<button type="button" class="btn btn-warning js-map-edit__btn js-popover-tooltip" title="{\App\Language::translate('LBL_SHOW_MAP', 'OpenStreetMap')}" data-placement="top" tabindex="{$TABINDEX}" {if $IS_EDITABLE_READ_ONLY}disabled="disabled" {/if} data-js="click|popover">
+					<span class="fa-solid fa-map-location-dot"></span>
+				</button>
+			</div>
+		{/if}
 	</div>
 	<!-- /tpl-Base-Edit-Field-MapCoordinates -->
 {/strip}
