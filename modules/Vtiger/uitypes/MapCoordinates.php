@@ -64,6 +64,9 @@ class Vtiger_MapCoordinates_UIType extends Vtiger_Base_UIType
 			}
 			$value = \App\Json::decode($value);
 		}
+		if (empty($value['type'])) {
+			return $this->getEmptyValue();
+		}
 		if (isset($value['value'])) {
 			$coordinates = $value[$value['type']] = $value['value'];
 		} else {
