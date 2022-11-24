@@ -169,8 +169,8 @@ $.Class(
 		},
 		showIndividualTax: function (row) {
 			let thisInstance = this;
-			let groupTax = thisInstance.getInventorySummaryTaxesContainer().find('.groupTax');
-			let items = thisInstance.getInventoryItemsContainer();
+			let groupTax = thisInstance.getInventoryItemsContainer().find('.js-inv-tax_global');
+			let items = thisInstance.getInventoryItemsContainer().find('.js-inventory-items-body');
 			let newRow = $('#blackIthemTable').find('tbody');
 			if (thisInstance.isIndividualTaxMode()) {
 				groupTax.addClass('d-none');
@@ -240,8 +240,8 @@ $.Class(
 		},
 		showIndividualDiscount: function (row) {
 			let thisInstance = this;
-			let groupDiscount = thisInstance.getInventorySummaryDiscountContainer().find('.groupDiscount');
-			let items = thisInstance.getInventoryItemsContainer();
+			let groupDiscount = thisInstance.getInventoryItemsContainer().find('.js-inv-discount_global');
+			let items = thisInstance.getInventoryItemsContainer().find('.js-inventory-items-body');
 			let newRow = $('#blackIthemTable').find('tbody');
 			if (thisInstance.isIndividualDiscountMode(row)) {
 				groupDiscount.addClass('d-none');
@@ -1731,7 +1731,7 @@ $.Class(
 					discountAggregation: this.getDiscountAggregation(),
 					relatedRecord: this.getAccountId()
 				};
-				if (element.hasClass('groupDiscount')) {
+				if (element.hasClass('js-inv-discount_global')) {
 					parentRow = this.getInventoryItemsContainer();
 					params.discountParam = parentRow.find('.discountParam').val();
 					if (parentRow.find('tfoot .colTotalPrice').length != 0) {
@@ -1823,7 +1823,7 @@ $.Class(
 					currency: thisInstance.getCurrency(),
 					relatedRecord: thisInstance.getAccountId()
 				};
-				if (element.hasClass('groupTax')) {
+				if (element.hasClass('js-inv-tax_global')) {
 					parentRow = thisInstance.getInventoryItemsContainer();
 					let totalPrice = 0;
 					if (parentRow.find('tfoot .colNetPrice').length > 0) {

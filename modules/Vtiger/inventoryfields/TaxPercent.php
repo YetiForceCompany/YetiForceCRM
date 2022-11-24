@@ -55,4 +55,21 @@ class Vtiger_TaxPercent_InventoryField extends Vtiger_Tax_InventoryField
 	{
 		return \App\Validator::floatIsEqual((float) $value, (float) $prevValue, 8);
 	}
+
+	/** {@inheritdoc} */
+	public function getConfigFieldsData(): array
+	{
+		$data = parent::getConfigFieldsData();
+		$data['summary_enabled'] = [
+			'name' => 'summary_enabled',
+			'label' => 'LBL_INV_SUMMARY_ENABLED',
+			'uitype' => 56,
+			'maximumlength' => '1',
+			'typeofdata' => 'C~O',
+			'purifyType' => \App\Purifier::INTEGER,
+			'defaultvalue' => 1
+		];
+
+		return $data;
+	}
 }
