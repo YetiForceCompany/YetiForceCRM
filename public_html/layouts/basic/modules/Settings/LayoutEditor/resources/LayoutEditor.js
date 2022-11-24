@@ -919,6 +919,9 @@ $.Class(
 						form.find('.preMultiReferenceValue').removeClass('d-none');
 						thisInstance.loadMultiReferenceFields(form);
 						break;
+					case 'MapCoordinates':
+						form.find('.coordinateOption').removeClass('d-none');
+						break;
 				}
 			});
 		},

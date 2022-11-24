@@ -203,15 +203,72 @@
 								</label>
 							</div>
 						</div>
+						<div class="form-group row align-items-center supportedType coordinateOption d-none">
+							<div class="col-md-3 col-form-label text-right">
+								{App\Language::translate('LBL_COORDINATE_TYPE', $QUALIFIED_MODULE)}
+							</div>
+							<div class="col-md-8 controls">
+								<select name="type" class="form-control">
+									{foreach item=COOR_LABEL key=COOR_KEY from=\App\Fields\MapCoordinates::COORDINATE_FORMATS}
+										<option value="{$COOR_KEY}">
+											{\App\Language::translate($COOR_LABEL, 'OpenStreetMap')}
+										</option>
+									{/foreach}
+								</select>
+							</div>
+						</div>
+						<div class="form-group row align-items-center supportedType coordinateOption d-none">
+							<div class="col-md-3 col-form-label text-right">
+								&nbsp;
+							</div>
+							<div class="col-md-8 controls">
+								<label class="checkbox">
+									<input type="checkbox" class="checkbox" name="isCoordinateType"
+										value="1">&nbsp;{App\Language::translate('LBL_SHOW_LIST_COORDINATE_TYPE',$QUALIFIED_MODULE)}
+								</label>
+							</div>
+						</div>
+						<div class="form-group row align-items-center supportedType coordinateOption d-none">
+							<div class="col-md-3 col-form-label text-right">
+								&nbsp;
+							</div>
+							<div class="col-md-8 controls">
+								<label class="checkbox">
+									<input type="checkbox" class="checkbox" name="isCoordinateMap"
+										value="1">&nbsp;
+									{App\Language::translate('LBL_SHOW_BUTTON_COORDINATE_MAP',$QUALIFIED_MODULE)}
+								</label>
+							</div>
+						</div>
+						<div class="form-group row align-items-center supportedType coordinateOption d-none">
+							<div class="col-md-3 col-form-label text-right">
+								&nbsp;
+							</div>
+							<div class="col-md-8 controls">
+								<label class="checkbox">
+									<input type="checkbox" class="checkbox" name="isCoordinateMeLokaction"
+										value="1">&nbsp;
+									{App\Language::translate('LBL_SHOW_BUTTON_MY_LOCATION',$QUALIFIED_MODULE)}
+								</label>
+							</div>
+						</div>
 						<div class="form-group row align-items-center supportedType preDefinedTreeList d-none">
 							<div class="col-md-3 col-form-label text-right">
 								<span class="redColor">*</span>&nbsp;
+
+
 								{App\Language::translate('LBL_TREE_TEMPLATE', $QUALIFIED_MODULE)}
 							</div>
 							<div class="col-md-8 controls">
 								<select class="TreeList form-control" name="tree" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
+
+
 									{foreach key=key item=item from=$SELECTED_MODULE_MODEL->getTreeTemplates($SELECTED_MODULE_NAME)}
-										<option value="{$key}">{App\Language::translate($item, $SELECTED_MODULE_NAME)}</option>
+										<option value="{$key}">
+
+											{App\Language::translate($item, $SELECTED_MODULE_NAME)}</option>
+
+
 									{/foreach}
 								</select>
 							</div>
@@ -219,12 +276,17 @@
 						<div class="form-group row align-items-center supportedType js-server-access-list d-none" data-js="removeClass:d-none">
 							<div class="col-md-3 col-form-label text-right">
 								<span class="redColor">*</span>&nbsp;
+
+
 								{App\Language::translate('WebserviceApps', 'Settings:WebserviceApps')}
 							</div>
 							<div class="col-md-8 controls">
 								<select class="form-control" name="server" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
+
+
 									{foreach key=key item=SERVER from=Settings_WebserviceApps_Module_Model::getServers()}
-										<option value="{$key}">{App\Purifier::encodeHtml($SERVER['name'])} ({\App\Language::translate($SERVER['type'], 'Settings:WebserviceApps')})</option>
+										<option value="{$key}">
+											{App\Purifier::encodeHtml($SERVER['name'])} ({\App\Language::translate($SERVER['type'], 'Settings:WebserviceApps')})</option>
 									{/foreach}
 								</select>
 							</div>

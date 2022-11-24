@@ -238,7 +238,11 @@
     "MultiAttachment": "Attachments",
     "LBL_OWNER_FROM_ACCOUNT_CONTACT": "Assigned To from the Contact Account",
     "LBL_SPECIAL_FUNCTION": "Special function",
-    "MapCoordinates": "Map coordinates"
+    "MapCoordinates": "Map coordinates",
+    "LBL_SHOW_BUTTON_COORDINATE_MAP": "Show map button",
+    "LBL_SHOW_LIST_COORDINATE_TYPE": "Show coordinate type list",
+    "LBL_SHOW_BUTTON_MY_LOCATION": "Show my location button",
+    "LBL_COORDINATE_TYPE": "Coordinate type"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Block Name already exists",
