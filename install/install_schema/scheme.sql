@@ -717,6 +717,18 @@ CREATE TABLE `l_yf_mail` (
   KEY `smtp_id` (`smtp_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `l_yf_pbx` */
+
+CREATE TABLE `l_yf_pbx` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `time` datetime NOT NULL,
+  `error` tinyint(1) DEFAULT NULL,
+  `driver` varchar(100) DEFAULT NULL,
+  `message` varchar(255) DEFAULT NULL,
+  `params` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `l_yf_portal_login_history` */
 
 CREATE TABLE `l_yf_portal_login_history` (
@@ -3654,6 +3666,7 @@ CREATE TABLE `u_yf_locations` (
   `phone` varchar(30) DEFAULT '',
   `phone_extra` varchar(100) DEFAULT NULL,
   `capacity` int(8) unsigned DEFAULT 0,
+  `coordinates` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`locationsid`),
   CONSTRAINT `fk_1_u_yf_locations` FOREIGN KEY (`locationsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -6429,7 +6442,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3140 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3141 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 

@@ -346,6 +346,8 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 
 /*Data for the table `l_yf_mail` */
 
+/*Data for the table `l_yf_pbx` */
+
 /*Data for the table `l_yf_portal_login_history` */
 
 /*Data for the table `l_yf_profile` */
@@ -5585,6 +5587,7 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`,`icon`) values (137,3137,'shownerid','vtiger_crmentity',1,120,'shownerid','Share with users',0,0,'','65535',0,484,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0,'','');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`,`icon`) values (137,3138,'private','vtiger_crmentity',2,56,'private','FL_IS_PRIVATE',0,2,'','-128,127',0,484,1,'C~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0,'','');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`,`icon`) values (29,3139,'mail_popup','vtiger_users',1,56,'mail_popup','FL_MAIL_POPUP',0,2,'',NULL,4,452,1,'C~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0,'','');
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`,`icon`) values (130,3140,'coordinates','u_yf_locations',1,331,'coordinates','FL_OORDINATES',0,2,'','100',10,456,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0,'','');
 
 /*Data for the table `vtiger_fieldmodulerel` */
 
@@ -9313,6 +9316,7 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,137,3137,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,137,3138,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,29,3139,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,130,3140,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
