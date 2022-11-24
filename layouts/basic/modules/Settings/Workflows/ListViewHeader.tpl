@@ -40,7 +40,7 @@
 			</div>
 			<div class="listViewActionsDi row my-2">
 				<div class="col-lg-4 btn-toolbar d-flex justify-content-between justify-content-lg-start">
-					<button class="btn btn-success addButton" {if stripos($MODULE_MODEL->getCreateViewUrl(), 'javascript:')===0} onclick="{$MODULE_MODEL->getCreateViewUrl()|substr:strlen('javascript:')};"
+					<button class="btn btn-success addButton" {if stripos($MODULE_MODEL->getCreateViewUrl(), 'javascript:')===0} onclick="{substr($MODULE_MODEL->getCreateViewUrl()):strlen('javascript:')};"
 						{else} onclick='window.location.href = "{$MODULE_MODEL->getCreateViewUrl()|escape}"'
 						{/if}>
 						<i class="fas fa-plus"></i>&nbsp;

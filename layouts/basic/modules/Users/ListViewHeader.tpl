@@ -29,7 +29,7 @@
 							{foreach item="LISTVIEW_MASSACTION" from=$LISTVIEW_MASSACTIONS name=actionCount}
 								<li id="{$MODULE}_listView_massAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}">
 									<a class="dropdown-item" href="javascript:void(0);"
-										{if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'
+										{if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{substr($LISTVIEW_MASSACTION->getUrl(), strlen("javascript:"))};'
 										{else}
 										onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')" {/if}>
 										{if $LISTVIEW_MASSACTION->get('linkicon') neq ''}
@@ -48,7 +48,7 @@
 							{/foreach}
 							{foreach item=LISTVIEW_ADVANCEDACTIONS from=$LISTVIEW_LINKS['LISTVIEW']}
 								<li id="{$MODULE}_listView_advancedAction_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}">
-									<a class="dropdown-item" {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0} href="javascript:void(0);" onclick="{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};" {else} href="{$LISTVIEW_ADVANCEDACTIONS->getUrl()}" {/if}>
+									<a class="dropdown-item" {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0} href="javascript:void(0);" onclick="{substr($LISTVIEW_ADVANCEDACTIONS->getUrl(), strlen("javascript:"))};" {else} href="{$LISTVIEW_ADVANCEDACTIONS->getUrl()}" {/if}>
 										{if $LISTVIEW_ADVANCEDACTIONS->get('linkicon') neq ''}
 											<span class="{$LISTVIEW_ADVANCEDACTIONS->get('linkicon')}"></span>
 											&nbsp;&nbsp;
@@ -62,7 +62,7 @@
 				</span>
 				{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 					<span class="btn-group">
-						<button class="btn btn-light addButton" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
+						<button class="btn btn-light addButton" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{substr($LISTVIEW_BASICACTION->getUrl(), strlen("javascript:"))};'
 							{else} onclick="window.location.href = '{$LISTVIEW_BASICACTION->getUrl()}'"
 							{/if}>
 							<span class="fas fa-plus mr-1"></span>

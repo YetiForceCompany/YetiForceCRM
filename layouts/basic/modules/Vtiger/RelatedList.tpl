@@ -83,7 +83,7 @@
 												{if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}{' '}
 												data-url="{$RELATED_LINK->getUrl()}"
 											{else}
-												onclick='{$RELATED_LINK->getUrl()|substr:strlen("javascript:")};'
+												onclick='{substr($RELATED_LINK->getUrl())};'
 											{/if}{' '}
 											{if $IS_SELECT_BUTTON neq true && stripos($RELATED_LINK->getUrl(), 'javascript:') !== 0}name="addButton" {/if}>
 											{if $IS_SELECT_BUTTON eq false}

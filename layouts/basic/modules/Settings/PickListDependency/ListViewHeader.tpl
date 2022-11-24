@@ -25,7 +25,7 @@
 						<button type="button" title="{if $LINK->getLabel()}{$LABEL}{/if}"
 							class="btn{if $LINK->getClassName()} {$LINK->getClassName()}{else} btn-light{/if} {if $LINK->get('modalView')}js-show-modal{/if}"
 							{if $LINK->getUrl()}
-								{if stripos($LINK->getUrl(), 'javascript:')===0} onclick='{$LINK->getUrl()|substr:strlen("javascript:")};'
+								{if stripos($LINK->getUrl(), 'javascript:')===0} onclick='{substr($LINK->getUrl(), strlen("javascript"))};'
 								{else} onclick='window.location.href = "{$LINK->getUrl()}"'
 								{/if}
 							{/if}

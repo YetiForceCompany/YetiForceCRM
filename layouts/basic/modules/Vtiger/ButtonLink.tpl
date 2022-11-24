@@ -59,7 +59,7 @@
 				{else}
 					{if $LINK_URL neq '' && !$LINK->get('linkhref')}
 						{if stripos($LINK_URL, 'javascript:')===0}
-							onclick='{$LINK_URL|substr:strlen("javascript:")};'
+							onclick='{substr($LINK_URL, strlen("javascript:"))};'
 						{else}
 							onclick='app.openUrl("{$LINK_URL}")'
 						{/if}
