@@ -49,7 +49,7 @@
     "BL_SCANNER_BASIC": "Basic configuration",
     "FL_SCANNER_LIMIT": "Limit",
     "LBL_SCANNER_LIMIT_DESC": "Number of scanned e-mails in a single process.",
-    "FL_SCANNER_DEACTIVATION_TIME": "Timeout for deactivation account [h]",
+    "FL_SCANNER_DEACTIVATION_TIME": "Timeout for account deactivation [h]",
     "LBL_SCANNER_DEACTIVATION_TIME_DESC": "In case of problems with access to the e-mail account, it will be deactivated after the set number of hours.",
     "FL_SCANNER_FLAG_SEEN": "Mark as seen",
     "LBL_SCANNER_FLAG_SEEN_DESC": "Scanned e-mails will be marked as seen automatically.",
