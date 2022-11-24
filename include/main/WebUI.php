@@ -51,7 +51,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if ($request->isAjax()) {
 				throw new \App\Exceptions\Unauthorized('LBL_LOGIN_IS_REQUIRED', 401);
 			}
-			header('location: index.php');
+			header('location: index.php?module=Users&view=Login');
 			return true;
 		}
 		return false;

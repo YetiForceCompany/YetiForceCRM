@@ -7,7 +7,7 @@
 	{if !isset($BUTTON_VIEW) }
 		{assign var=BUTTON_VIEW value=''}
 	{/if}
-	<div class="c-btn-link btn-group {if $BUTTON_VIEW|strrpos:'listView' !== false && $USER_MODEL->get('rowheight') eq 'narrow'}btn-group-sm{/if} {$CLASS}">
+	<div class="c-btn-link btn-group {if strrpos($BUTTON_VIEW,"listView") !== false && $USER_MODEL->get('rowheight') eq 'narrow'}btn-group-sm{/if} {$CLASS}">
 		{assign var="LABEL" value=$LINK->getLabel()}
 		{assign var="ACTION_NAME" value=$LABEL}
 		{if $LINK->get('linkhint') neq ''}
@@ -19,7 +19,7 @@
 		{if $LINK->get('linkhref')}<a role="button"
 			{else}
 				<button type="button" {/if} {if !$LINK->isActive()}{' '}disabled{/if}{' '}{if isset($TABINDEX)}tabindex="{$TABINDEX}" {/if}
-				class="{if isset($BTN_CLASS)}{$BTN_CLASS} {/if}btn {if $LINK->getClassName() neq ''}{if $LINK->getClassName()|strrpos:"btn-" === false}btn-outline-dark {/if}{$LINK->getClassName()}{else}btn-outline-dark{/if}  {if $LINK->get('modalView')}js-show-modal{/if} {$MODULE_NAME}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} js-popover-tooltip"
+				class="{if isset($BTN_CLASS)}{$BTN_CLASS} {/if}btn {if $LINK->getClassName() neq ''}{if strrpos($LINK->getClassName(),"btn-") === false}btn-outline-dark {/if}{$LINK->getClassName()}{else}btn-outline-dark{/if}  {if $LINK->get('modalView')}js-show-modal{/if} {$MODULE_NAME}_{$BUTTON_VIEW}_action_{Vtiger_Util_Helper::replaceSpaceWithUnderScores($ACTION_NAME)} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} js-popover-tooltip"
 			data-js="popover{/if}"
 			{if $LINK->get('linkdata') neq '' && is_array($LINK->get('linkdata'))}
 				{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
