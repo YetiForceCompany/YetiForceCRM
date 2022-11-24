@@ -484,6 +484,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 330:
 						$fieldDataType = 'multiAttachment';
 						break;
+					case 331:
+						$fieldDataType = 'mapCoordinates';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {

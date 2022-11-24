@@ -98,8 +98,7 @@ class Request
 	 *
 	 * @var array
 	 */
-	public $headersPurifierMap = [
-	];
+	public $headersPurifierMap = [];
 
 	/**
 	 * Constructor.
@@ -142,7 +141,6 @@ class Request
 		if ($value) {
 			$value = Purifier::purify($value);
 		}
-
 		return $this->purifiedValuesByGet[$key] = $value;
 	}
 
@@ -208,7 +206,6 @@ class Request
 		if (false !== ($value = filter_var($this->rawValues[$key], FILTER_VALIDATE_INT))) {
 			return $this->purifiedValuesByInteger[$key] = $value;
 		}
-
 		throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||$key||{$this->rawValues[$key]}", 406);
 	}
 
@@ -286,56 +283,7 @@ class Request
 
 			return $this->purifiedValuesByExploded[$key] = $value;
 		}
-
 		return $value;
-	}
-
-	/**
-	 * Purify multi dimension array.
-	 *
-	 * @param mixed        $values
-	 * @param array|string $template
-	 *
-	 * @throws \App\Exceptions\IllegalValue
-	 *
-	 * @return mixed
-	 */
-	private function purifyMultiDimensionArray($values, $template)
-	{
-		if (\is_array($template)) {
-			foreach ($values as $firstKey => $value) {
-				if (\is_array($value)) {
-					if (1 === \count($template)) {
-						$template = current($template);
-					}
-					foreach ($value as $secondKey => $val) {
-						$tempTemplate = $template;
-						if (isset($template[$firstKey])) {
-							$tempTemplate = $template[$firstKey];
-						}
-						if (1 === \count($tempTemplate)) {
-							$tempTemplate = current($tempTemplate);
-						} elseif (!isset($tempTemplate[$secondKey])) {
-							throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$secondKey}", 406);
-						} else {
-							$tempTemplate = $tempTemplate[$secondKey];
-						}
-						$values[$firstKey][$secondKey] = $this->purifyMultiDimensionArray($val, $tempTemplate);
-					}
-				} else {
-					if (\is_array($template) && 1 === \count($template)) {
-						$values[$firstKey] = $this->purifyMultiDimensionArray($value, current($template));
-					} elseif (isset($template[$firstKey])) {
-						$values[$firstKey] = $this->purifyMultiDimensionArray($value, $template[$firstKey]);
-					} else {
-						throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$firstKey}||" . print_r($template, true), 406);
-					}
-				}
-			}
-		} else {
-			$values = empty($values) ? $values : ($template ? Purifier::purifyByType($values, $template) : Purifier::purify($values));
-		}
-		return $values;
 	}
 
 	/**
@@ -360,10 +308,9 @@ class Request
 					Log::warning('Invalid data format, problem encountered while decoding JSON. Data should be in JSON format. Data: ' . $value);
 				}
 			}
-			$value = (array) $this->purifyMultiDimensionArray($value, $template);
+			$value = (array) Purifier::purifyMultiDimensionArray($value, $template);
 			$return = $this->purifiedValuesByMultiDimension[$key] = $value;
 		}
-
 		return $return;
 	}
 
@@ -435,7 +382,6 @@ class Request
 		foreach ($this->rawValues as $key => $value) {
 			$this->get($key);
 		}
-
 		return $this->purifiedValuesByGet;
 	}
 
@@ -462,7 +408,6 @@ class Request
 		if (isset($this->rawValues[$key])) {
 			return $this->rawValues[$key];
 		}
-
 		return $defaultValue;
 	}
 

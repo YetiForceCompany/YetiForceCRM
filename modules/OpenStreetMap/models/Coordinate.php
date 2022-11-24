@@ -1,12 +1,17 @@
 <?php
 
 /**
- * Coordiante model.
+ * OpenStreetMap Coordinate model file.
+ *
+ * @package   Model
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+/**
+ * OpenStreetMap Coordinate model class.
  */
 class OpenStreetMap_Coordinate_Model extends \App\Base
 {
@@ -143,7 +148,8 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$html .= '<button class="btn btn-success btn-xs startTrack marginTB3 mr-3"><span class="fas fa-truck mr-2"></span>' . \App\Language::translate('LBL_START') . '</button>';
 		$html .= '<button class="btn btn-danger btn-xs endTrack marginTB3"><span class="fas fa-flag-checkered mr-2"></span>' . \App\Language::translate('LBL_END') . '</button><br />';
 		$html .= '<button class="btn btn-warning btn-xs indirectPoint marginTB3 mr-3"><span class="fas fa-flag mr-2"></span>' . \App\Language::translate('LBL_INDIRECT_POINT', 'OpenStreetMap') . '</button>';
-		return $html . '<button class="btn btn-primary btn-xs searchInRadius marginTB3"><span class="fas fa-arrows-to-dot mr-2"></span>' . \App\Language::translate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
+		$html .= '<button class="btn btn-primary btn-xs searchInRadius marginTB3"><span class="fas fa-arrows-to-dot mr-2"></span>' . \App\Language::translate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
+		return $html . '<span class="border d-block my-1 p-1">' . $data['lat'] . ', ' . $data['lon'] . '</span>';
 	}
 
 	public static $colors = [];

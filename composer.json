@@ -92,7 +92,8 @@
     "symfony/filesystem": "^v5.4.3",
     "league/oauth2-google": "^4.0",
     "thenetworg/oauth2-azure": "^2.1",
-    "webklex/php-imap": "^4.0"
+    "webklex/php-imap": "^4.0",
+    "bogdaan/open-location-code": "dev-master"
   },
   "suggest": {
     "ext-imagick": "Library recommended for securing potentially dangerous graphic files",

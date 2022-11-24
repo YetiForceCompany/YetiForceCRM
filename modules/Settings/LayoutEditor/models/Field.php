@@ -68,6 +68,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		319 => 'MultiDomain',
 		324 => 'Token',
 		330 => 'MultiAttachment',
+		331 => 'MapCoordinates',
 		365 => 'AdvPercentage',
 	];
 

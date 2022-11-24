@@ -3939,5 +3939,183 @@ window.App.Fields = {
 				}, 5000);
 			}
 		}
+	},
+	/**
+	 * Map coordinates field class
+	 */
+	MapCoordinates: class MapCoordinates {
+		/**
+		 * Register function for detail view
+		 * @param {jQuery} container
+		 */
+		static register(container) {
+			$('.js-show-map__btn', container).each(function () {
+				let self = new MapCoordinates($(this), {});
+				self.registerEvents();
+			});
+		}
+		/**
+		 * Register function for edit view
+		 * @param {jQuery} container
+		 * @param {Object} options
+		 */
+		static registerEdit(container, options = {}) {
+			if (container.hasClass('js-map-coordinates')) {
+				let self = new MapCoordinates(container, options);
+				self.registerEditEvents();
+				return self;
+			}
+			const instances = [];
+			container.find('.js-map-coordinates').each((_, e) => {
+				let self = new MapCoordinates($(e), options);
+				self.registerEditEvents();
+				instances.push(self);
+			});
+			return instances;
+		}
+		/**
+		 * Constructor
+		 * @param {jQuery} container
+		 * @param {Object} options
+		 */
+		constructor(container, options) {
+			this.container = container;
+			this.fieldInfo = this.container.data('fieldinfo') || {};
+			this.values = this.container.data('fieldinfo') || {};
+			this.options = { ...options };
+		}
+		/**
+		 * Register events for edit view
+		 */
+		registerEditEvents() {
+			this.container.find('.js-map-edit__btn').on('click', () => {
+				this.showMap();
+			});
+			this.container.find('.js-geo-type').on('change', (e) => {
+				this.container.find('.js-geo-value').addClass('d-none');
+				this.container.find('.js-geo-value[data-type="' + $(e.currentTarget).val() + '"]').removeClass('d-none');
+			});
+			const locationBtn = this.container.find('.js-my-location__btn');
+			if (navigator.geolocation) {
+				navigator.permissions.query({ name: 'geolocation' }).then((response) => {
+					if (response.state === 'denied') {
+						locationBtn.addClass('d-none');
+					}
+				});
+			} else {
+				locationBtn.addClass('d-none');
+			}
+			locationBtn.on('click', () => {
+				this.detectLocation();
+			});
+		}
+		/**
+		 * Set value
+		 * @param {mixed} value
+		 * @param {string} type
+		 */
+		setValue(value, type) {
+			this.container.find('.js-geo-type').val(type).trigger('change');
+			if (typeof value === 'object') {
+				$.each(value, (index, val) => {
+					this.container.find(`.js-geo-value[name="${this.fieldInfo['name']}[${type}][${index}]"]`).val(val);
+				});
+			} else {
+				this.container.find(`.js-geo-value[name="${this.fieldInfo['name']}[${type}]"]`).val(value);
+			}
+		}
+		/**
+		 * Get value
+		 * @returns {object}
+		 */
+		getValue() {
+			let ret = { type: this.container.find('.js-geo-type').val(), decimal: {}, degrees: {} };
+			this.container.find(`.js-geo-value`).each((_, e) => {
+				e = $(e);
+				if (e.data('key')) {
+					ret[e.data('type')][e.data('key')] = e.val();
+				} else {
+					ret[e.data('type')] = e.val();
+				}
+			});
+			ret['value'] = ret[ret['type']];
+			return ret;
+		}
+		/**
+		 * Detect user location
+		 */
+		detectLocation() {
+			navigator.geolocation.getCurrentPosition((position) => {
+				this.setValue({ lat: position.coords.latitude, lon: position.coords.longitude }, 'decimal');
+			});
+		}
+		/**
+		 * Show map modal
+		 */
+		showMap() {
+			const progress = jQuery.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
+			AppConnector.request({
+				module: 'OpenStreetMap',
+				view: 'MapModal',
+				point: true,
+				srcModule: app.getModuleName(this.container),
+				srcField: this.fieldInfo['name'],
+				value: this.getValue()
+			})
+				.done((data) => {
+					progress.progressIndicator({ mode: 'hide' });
+					app.showModalWindow(data, (modal) => {
+						const mapView = new OpenStreetMap_Map_Js();
+						mapView.registerFromField(modal, this);
+					});
+				})
+				.fail((_error, err) => {
+					progress.progressIndicator({ mode: 'hide' });
+					app.showNotify({
+						title: app.vtranslate('JS_MESSAGE'),
+						text: err,
+						type: 'error'
+					});
+				});
+		}
+		/**
+		 * Register events for detail view
+		 */
+		registerEvents() {
+			this.container.on('click', (e) => {
+				e.preventDefault();
+				const element = $(e.currentTarget),
+					value = element.data('value');
+				if (!value) {
+					window.open(element.attr('href'), element.attr('href'), 'toolbar=0,menubar=0,location=0');
+					return;
+				}
+				const fieldName = element.closest('.js-field-block-column').data('field'),
+					progress = jQuery.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
+				AppConnector.request({
+					module: 'OpenStreetMap',
+					view: 'MapModal',
+					point: true,
+					srcModule: app.getModuleName(this.container),
+					srcField: fieldName,
+					value: value
+				})
+					.done((data) => {
+						progress.progressIndicator({ mode: 'hide' });
+						app.showModalWindow(data, (modal) => {
+							const mapView = new OpenStreetMap_Map_Js();
+							mapView.registerFromField(modal, this);
+						});
+					})
+					.fail((_error, err) => {
+						progress.progressIndicator({ mode: 'hide' });
+						app.showNotify({
+							title: app.vtranslate('JS_MESSAGE'),
+							text: err,
+							type: 'error'
+						});
+					});
+			});
+		}
 	}
 };

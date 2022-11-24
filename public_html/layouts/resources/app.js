@@ -1159,7 +1159,13 @@ const app = (window.app = {
 	 * Function to get the module name. This function will get the value from element which has id module
 	 * @return : string - module name
 	 */
-	getModuleName: function () {
+	getModuleName: function (container) {
+		if (container) {
+			let element = container.closest('form').find('[name="module"]');
+			if (element.length > 0) {
+				return element.val();
+			}
+		}
 		return this.getMainParams('module');
 	},
 	/**
@@ -1585,21 +1591,20 @@ const app = (window.app = {
 		if (typeof returnFormat === 'undefined') {
 			returnFormat = 'string';
 		}
-
 		parentElement = $(parentElement);
 
-		var encodedString = parentElement.children().serialize();
+		let encodedString = parentElement.children().serialize();
 		if (returnFormat == 'string') {
 			return encodedString;
 		}
-		var keyValueMap = {};
-		var valueList = encodedString.split('&');
+		let keyValueMap = {};
+		let valueList = encodedString.split('&');
 
-		for (var index in valueList) {
-			var keyValueString = valueList[index];
-			var keyValueArr = keyValueString.split('=');
-			var nameOfElement = keyValueArr[0];
-			var valueOfElement = keyValueArr[1];
+		for (let index in valueList) {
+			let keyValueString = valueList[index];
+			let keyValueArr = keyValueString.split('=');
+			let nameOfElement = keyValueArr[0];
+			let valueOfElement = keyValueArr[1];
 			keyValueMap[nameOfElement] = decodeURIComponent(valueOfElement);
 		}
 		return keyValueMap;
@@ -1647,6 +1652,7 @@ const app = (window.app = {
 			});
 			App.Fields.MultiAttachment.register(modalContainer);
 			App.Fields.MultiReference.register(modalContainer);
+			App.Fields.MapCoordinates.register(modalContainer);
 			app.registesterScrollbar(modalContainer);
 			app.registerIframeEvents(modalContainer);
 			modalContainer.find('.modal-dialog').draggable({
@@ -3549,6 +3555,7 @@ $(function () {
 	App.Clipboard.register(document);
 	App.Fields.Phone.register(document);
 	App.Fields.Mail.register(document);
+	App.Fields.MapCoordinates.register(document);
 	String.prototype.toCamelCase = function () {
 		let value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();

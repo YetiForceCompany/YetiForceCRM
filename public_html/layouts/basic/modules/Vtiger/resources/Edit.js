@@ -1726,6 +1726,7 @@ $.Class(
 			App.Fields.Password.register(container);
 			App.Components.ActivityNotifier.register(container);
 			App.Fields.MultiAttachment.register(container);
+			App.Fields.MapCoordinates.registerEdit(container);
 		},
 		registerEvents: function () {
 			let editViewForm = this.getForm();

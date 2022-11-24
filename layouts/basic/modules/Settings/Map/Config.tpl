@@ -16,7 +16,7 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link {if $ACTIVE_TAB eq 'Coordinates'}active{/if}" href="#Coordinates" data-toggle="tab">
-						<span class="fas fa-globe mr-2"></span>{\App\Language::translate('LBL_COORDINATES', $QUALIFIED_MODULE)}
+						<span class="fas fa-globe mr-2"></span>{\App\Language::translate('LBL_COORDINATES', 'OpenStreetMap')}
 					</a>
 				</li>
 				<li class="nav-item">

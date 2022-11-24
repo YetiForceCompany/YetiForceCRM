@@ -85,7 +85,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getAddSupportedFieldTypes()
 	{
 		return [
-			'Text', 'Decimal', 'Integer',  'Currency',  'Percent', 'AdvPercentage', 'Date', 'Time', 'DateTime', 'RangeTime', 'Phone', 'Email', 'MultiEmail', 'MultiDomain', 'Picklist', 'MultiSelectCombo', 'Country', 'URL', 'Checkbox', 'TextArea', 'Related1M', 'MultiReference', 'Editor', 'Tree', 'CategoryMultipicklist', 'Image', 'MultiImage',  'MultiAttachment', 'MultiReferenceValue', 'ServerAccess', 'Skype', 'Twitter', 'Token', 'Smtp',
+			'Text', 'Decimal', 'Integer',  'Currency',  'Percent', 'AdvPercentage', 'Date', 'Time', 'DateTime', 'RangeTime', 'Phone', 'Email', 'MultiEmail', 'MultiDomain', 'Picklist', 'MultiSelectCombo', 'Country', 'URL', 'Checkbox', 'TextArea', 'Related1M', 'MultiReference', 'Editor', 'Tree', 'CategoryMultipicklist', 'Image', 'MultiImage',  'MultiAttachment', 'MultiReferenceValue', 'ServerAccess', 'Skype', 'Twitter', 'Token', 'Smtp', 'MapCoordinates',
 		];
 	}
 
@@ -508,6 +508,11 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			case 'MultiReference':
 				$uitype = 321;
 				$type = $importerType->text();
+				$uichekdata = 'V~O';
+				break;
+			case 'MapCoordinates':
+				$uitype = 331;
+				$type = $importerType->stringType(100);
 				$uichekdata = 'V~O';
 				break;
 			default:
