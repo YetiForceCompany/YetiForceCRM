@@ -48,7 +48,6 @@ class Vtiger_MailServer_UIType extends Vtiger_Base_UIType
 		} elseif (\is_int($length)) {
 			$displayValue = \App\TextUtils::textTruncate($displayValue, $length);
 		}
-
 		return $rawText ? $displayValue : \App\Purifier::encodeHtml($displayValue);
 	}
 
@@ -93,7 +92,6 @@ class Vtiger_MailServer_UIType extends Vtiger_Base_UIType
 	{
 		$fieldInfo = $this->getFieldModel()->loadFieldInfo();
 		$fieldInfo['picklistvalues'] = $this->getPicklistValues();
-
 		return $fieldInfo;
 	}
 }

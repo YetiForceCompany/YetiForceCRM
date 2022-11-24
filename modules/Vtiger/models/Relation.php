@@ -664,7 +664,7 @@ class Vtiger_Relation_Model extends \App\Base
 	 * Set handler exceptions.
 	 *
 	 * @param array $exceptions
-	 * 
+	 *
 	 * @return $this
 	 */
 	public function setHandlerExceptions(array $exceptions)
@@ -1000,6 +1000,11 @@ class Vtiger_Relation_Model extends \App\Base
 			$dbCommand->delete('vtiger_relatedlists', ['relation_id' => $relationId])->execute();
 			$dbCommand->delete('vtiger_relatedlists_fields', ['relation_id' => $relationId])->execute();
 			App\Db::getInstance('admin')->createCommand()->delete('a_yf_relatedlists_inv_fields', ['relation_id' => $relationId])->execute();
+			$widgets = (new \App\Db\Query())->select(['id', 'tabid'])->from('vtiger_widgets')->where(['and', ['type' => 'RelatedModule'], ['like', 'data', "\"relation_id\":{$relationId},"]])->createCommand()->queryAllByGroup();
+			foreach ($widgets as $widgetId => $tabId) {
+				$dbCommand->delete('vtiger_widgets', ['id' => $widgetId])->execute();
+				\App\Cache::delete('ModuleWidgets', $tabId);
+			}
 		}
 		\App\Relation::clearCacheById($relationId);
 	}

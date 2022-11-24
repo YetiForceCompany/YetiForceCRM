@@ -256,15 +256,17 @@ class Vtiger_Inventory_Model
 	/**
 	 * Getting summary fields name.
 	 *
+	 * @param bool $active
+	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return string[]
 	 */
-	public function getSummaryFields(): array
+	public function getSummaryFields(bool $active = true): array
 	{
 		$summaryFields = [];
 		foreach ($this->getFields() as $name => $field) {
-			if ($field->isSummary()) {
+			if ($active ? $field->isSummaryEnabled() : $field->isSummary()) {
 				$summaryFields[$name] = $name;
 			}
 		}
@@ -890,6 +892,27 @@ class Vtiger_Inventory_Model
 				$row['add_header'] = true;
 			}
 		}
+
 		return $data;
+	}
+
+	/**
+	 * Check if comment fields are empty.
+	 *
+	 * @param array $data
+	 *
+	 * @return bool
+	 */
+	public function isCommentFieldsEmpty(array $data)
+	{
+		$isEmpty = true;
+		foreach ($this->getFieldsByType('Comment') as $fieldModel) {
+			if ($fieldModel->isVisible() && $this->getEditValue($data, $fieldModel->getColumnName())) {
+				$isEmpty = false;
+				break;
+			}
+		}
+
+		return $isEmpty;
 	}
 }

@@ -23,9 +23,7 @@ class Vtiger_TaxPercent_InventoryField extends Vtiger_Tax_InventoryField
 	protected $dbType = 'decimal(12,8) DEFAULT 0';
 	protected $maximumLength = '9999';
 	protected $purifyType = \App\Purifier::NUMBER;
-	/**
-	 * @var array List of shared fields
-	 */
+	/** @var array List of shared fields */
 	public $shared = ['taxparam' => 'tax'];
 
 	/** {@inheritdoc} */

@@ -20,7 +20,7 @@
 							</label>
 						</div>
 					</div>
-					{if $DISCOUNT_TYPE == '0'}
+					{if $DISCOUNT_MODE === 1}
 						<div class="col-md-6 text-center">
 							<div class="radio align-items-center">
 								<input type="radio" name="individualDiscountType" value="amount" class="individualDiscountType mr-2  ml-2" data-symbol="{$CURRENCY_SYMBOL}">

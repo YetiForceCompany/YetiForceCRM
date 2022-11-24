@@ -4,7 +4,7 @@
 	{assign var=VALUE value=$INVENTORY_MODEL->getEditValue($ITEM_DATA, $FIELD->getColumnName())}
 	{assign var=VALIDATION_ENGINE value='validate[required,funcCall[Vtiger_NumberUserFormat_Validator_Js.invokeValidation]]'}
 	<div class="input-group input-group-sm">
-		<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" type="text" class="qty smallInputBox form-control form-control-sm"
+		<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" type="text" class="qty smallInputBox form-control form-control-sm text-right"
 			data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD->getFieldInfo()))}"
 			data-maximumlength="{$FIELD->getRangeValues()}" data-validation-engine="{$VALIDATION_ENGINE}" value="{$FIELD->getDisplayValue($VALUE, $ITEM_DATA, true)|escape}"
 			{if $FIELD->isReadOnly()} readonly="readonly" {/if} />

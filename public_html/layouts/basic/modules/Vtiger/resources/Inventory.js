@@ -121,28 +121,6 @@ $.Class(
 				this.hideLineItemsDeleteIcon();
 			}
 		},
-		/**
-		 * Set the visibility of the delete block button
-		 */
-		setDeleteBlockBtnVisibility() {
-			let deleteBtn = this.getContainer().find('.js-delete-block');
-			if (deleteBtn.length > 1) {
-				deleteBtn.removeClass('d-none');
-			} else {
-				deleteBtn.addClass('d-none');
-			}
-		},
-		/**
-		 * Register delete block btn
-		 */
-		registerDeleteBlock: function () {
-			this.getContainer().on('click', '.js-delete-block', (e) => {
-				let block = $(e.currentTarget).closest('.js-inv-container-group');
-				block.remove();
-				this.setDeleteBlockBtnVisibility();
-				this.rowsCalculations();
-			});
-		},
 		showLineItemsDeleteIcon: function () {
 			this.getInventoryItemsContainer().find('.deleteRow').removeClass('d-none');
 		},
@@ -283,7 +261,7 @@ $.Class(
 		},
 		/**
 		 * Get discount aggregation
-		 *@returns {int}
+		 * @returns {int}
 		 */
 		getDiscountAggregation: function () {
 			const element = $('.js-discount_aggreg', this.getInventoryHeadContainer()).find('option:selected');
@@ -384,7 +362,7 @@ $.Class(
 							discountRate += valuePrices * (discountParams.additionalDiscount / 100);
 							break;
 					}
-					if (aggregation === 2) {
+					if (aggregation === this.AGGREGATION_CASCADE) {
 						valuePrices = valuePrices - discountRate;
 					}
 				});
@@ -392,7 +370,13 @@ $.Class(
 			return discountRate;
 		},
 		getNetPrice: function (row) {
-			return this.getTotalPrice(row) - this.getDiscount(row);
+			let discount = this.getDiscount(row);
+			let discountParams = row.find('.discountParam').val();
+			if (discount && discountParams && JSON.parse(discountParams).type === 'markup') {
+				discount = -discount;
+			}
+
+			return this.getTotalPrice(row) - discount;
 		},
 		getTotalPrice: function (row) {
 			return this.getQuantityValue(row) * this.getUnitPriceValue(row);
@@ -633,50 +617,71 @@ $.Class(
 			this.setTaxPercent(row, this.getTaxPercent(row));
 		},
 		summaryCalculations: function () {
-			let thisInstance = this;
-			thisInstance
-				.getInventoryItemsContainer()
+			this.getInventoryItemsContainer()
 				.find('tfoot .wisableTd')
-				.each(function () {
-					thisInstance.calculateSummary($(this), $(this).data('sumfield'));
+				.each((_n, e) => {
+					this.calculateSummary($(e));
 				});
-			thisInstance.calculateDiscountSummary();
-			thisInstance.calculateTaxSummary();
-			thisInstance.calculateCurrenciesSummary();
-			thisInstance.calculateMarginPSummary();
+			this.calculateDiscountSummary();
+			this.calculateTaxSummary();
+			this.calculateCurrenciesSummary();
+			this.calculateMarginPSummary();
+			this.summaryGroupCalculations();
 		},
-		calculateSummary: function (element, field) {
+		getGroups: function () {
+			return this.getInventoryItemsContainer().find('.inventoryRowGroup');
+		},
+		getGroupItems: function (groupRow) {
+			return groupRow.nextUntil('tr.inventoryRowGroup').filter('tr.inventoryRow');
+		},
+		summaryGroupCalculations: function () {
+			this.getGroups().each((_n, e) => {
+				let groupRow = $(e);
+				let items = this.getGroupItems(groupRow);
+				groupRow.find('.js-inv-container-group-summary').each((_n, e) => {
+					this.calculateSummary($(e), items);
+				});
+				this.calculateMarginPSummary(groupRow);
+			});
+		},
+		calculateSummary: function (element, rows) {
 			let thisInstance = this;
 			let sum = 0;
-			element
-				.closest('.js-inv-container-group')
-				.find(thisInstance.rowClass)
-				.each(function () {
-					let e = $(this).find('.' + field);
-					if (e.length > 0) {
-						sum += App.Fields.Double.formatToDb(e.val());
-					}
-				});
+			let fieldName = element.data('sumfield');
+			if (!rows) {
+				rows = this.getInventoryItemsContainer().find(thisInstance.rowClass);
+			}
+			rows.each(function () {
+				let e = $(this).find('.' + fieldName);
+				if (e.length > 0) {
+					sum += App.Fields.Double.formatToDb(e.val());
+				}
+			});
 			element.text(App.Fields.Double.formatToDisplay(sum));
 		},
-		calculateMarginPSummary: function () {
-			let sumRow = this.getInventoryItemsContainer().find('tfoot'),
-				totalPriceField =
+		calculateMarginPSummary: function (sumRow) {
+			if (!sumRow) {
+				sumRow = this.getInventoryItemsContainer().find('tfoot');
+			}
+			let totalPriceField =
 					sumRow.find('[data-sumfield="netPrice"]').length > 0
 						? sumRow.find('[data-sumfield="netPrice"]')
 						: sumRow.find('[data-sumfield="totalPrice"]'),
 				sumPrice = totalPriceField.getNumberFromText(),
 				purchase = 0,
 				marginp = 0;
-			this.getInventoryItemsContainer()
-				.find(this.rowClass)
-				.each(function () {
-					let qty = $(this).find('.qty').getNumberFromValue(),
-						purchasePrice = $(this).find('.purchase').getNumberFromValue();
-					if (qty > 0 && purchasePrice > 0) {
-						purchase += qty * purchasePrice;
-					}
-				});
+
+			let rows = sumRow.hasClass('inventoryRowGroup')
+				? this.getGroupItems(sumRow)
+				: this.getInventoryItemsContainer().find(this.rowClass);
+
+			rows.each(function () {
+				let qty = $(this).find('.qty').getNumberFromValue(),
+					purchasePrice = $(this).find('.purchase').getNumberFromValue();
+				if (qty > 0 && purchasePrice > 0) {
+					purchase += qty * purchasePrice;
+				}
+			});
 
 			let subtraction = sumPrice - purchase;
 			if (purchase !== 0 && sumPrice !== 0) {
@@ -808,63 +813,61 @@ $.Class(
 			}
 			this.setMarginP(row, marginp);
 		},
+		AGGREGATION_CANNOT_BE_COMBINED: 0,
+		AGGREGATION_IN_TOTAL: 1,
+		AGGREGATION_CASCADE: 2,
 		calculateDiscount: function (_row, modal) {
 			const netPriceBeforeDiscount = App.Fields.Double.formatToDb(modal.find('.valueTotalPrice').text()),
-				discountsType = modal.find('.discountsType').val();
-			let valuePrices = netPriceBeforeDiscount,
-				globalDiscount = 0,
-				groupDiscount = 0,
-				individualDiscount = 0,
-				additionalDiscount = 0;
-			if (discountsType == 0 || discountsType == 1) {
-				if (modal.find('.js-active .globalDiscount').length > 0) {
-					globalDiscount = App.Fields.Double.formatToDb(modal.find('.js-active .globalDiscount').val());
+				aggregationType = modal.find('.aggregationType').val(),
+				isMarkup = modal.find('.js-inv--discount-type.markup:checked').length === 1;
+			let valuePrices = netPriceBeforeDiscount;
+
+			let getValue = function (type, netPrice, isMarkup) {
+				let value = 0;
+				let element = modal.find(`.js-active .${type}`);
+				let customCheckTrue = true;
+				if (type === 'groupValue' && modal.find('.js-active .groupCheckbox').prop('checked') !== true) {
+					customCheckTrue = false;
 				}
-				if (modal.find('.js-active .additionalDiscountValue').length > 0) {
-					additionalDiscount = App.Fields.Double.formatToDb(modal.find('.js-active .additionalDiscountValue').val());
-				}
-				if (modal.find('.js-active .individualDiscountType').length > 0) {
-					let value = App.Fields.Double.formatToDb(modal.find('.js-active .individualDiscountValue').val());
-					if (modal.find('.js-active .individualDiscountType:checked').val() == 'percentage') {
-						individualDiscount = netPriceBeforeDiscount * (value / 100);
-					} else {
-						individualDiscount = value;
-					}
+				if (element.length > 0 && customCheckTrue) {
+					value = App.Fields.Double.formatToDb(element.val());
 				}
 				if (
-					modal.find('.js-active .groupCheckbox').length > 0 &&
-					modal.find('.js-active .groupCheckbox').prop('checked') == true
+					type === 'individualDiscountValue' &&
+					modal.find('.js-active .individualDiscountType:checked').val() == 'percentage'
 				) {
-					groupDiscount = App.Fields.Double.formatToDb(modal.find('.groupValue').val());
-					groupDiscount = netPriceBeforeDiscount * (groupDiscount / 100);
+					value = netPrice * (value / 100);
 				}
+				return value && isMarkup ? -value : value;
+			};
+
+			let globalDiscount, accountDiscount, individualDiscount, additionalDiscount;
+			if (aggregationType == this.AGGREGATION_CANNOT_BE_COMBINED || aggregationType == this.AGGREGATION_IN_TOTAL) {
+				globalDiscount = getValue('globalDiscount', valuePrices, isMarkup); // percentage
+				accountDiscount = getValue('groupValue', valuePrices, isMarkup); // percentage
+				individualDiscount = getValue('individualDiscountValue', valuePrices, isMarkup); // amount
+				additionalDiscount = getValue('additionalDiscountValue', valuePrices, isMarkup); // percentage
+
 				valuePrices = valuePrices * ((100 - globalDiscount) / 100);
 				valuePrices = valuePrices * ((100 - additionalDiscount) / 100);
 				valuePrices = valuePrices - individualDiscount;
-				valuePrices = valuePrices - groupDiscount;
-			} else if (discountsType == 2) {
-				modal.find('.js-active').each(function () {
-					let panel = $(this);
-					if (panel.find('.globalDiscount').length > 0) {
-						valuePrices =
-							valuePrices * ((100 - App.Fields.Double.formatToDb(panel.find('.globalDiscount').val())) / 100);
-					} else if (panel.find('.groupCheckbox').length > 0 && panel.find('.groupCheckbox').prop('checked') == true) {
-						valuePrices = valuePrices * ((100 - App.Fields.Double.formatToDb(panel.find('.groupValue').val())) / 100);
-					} else if (panel.find('.individualDiscountType').length > 0) {
-						let value = App.Fields.Double.formatToDb(panel.find('.individualDiscountValue').val());
-						if (panel.find('.individualDiscountType[name="individualDiscountType"]:checked').val() === 'percentage') {
-							valuePrices = valuePrices * ((100 - value) / 100);
-						} else {
-							valuePrices = valuePrices - value;
-						}
-					} else if (panel.find('.additionalDiscountValue').length > 0) {
-						valuePrices =
-							valuePrices * ((100 - App.Fields.Double.formatToDb(panel.find('.additionalDiscountValue').val())) / 100);
-					}
-				});
+				valuePrices = valuePrices * ((100 - accountDiscount) / 100);
+			} else if (aggregationType == this.AGGREGATION_CASCADE) {
+				globalDiscount = getValue('globalDiscount', valuePrices, isMarkup); // percentage
+				valuePrices = valuePrices * ((100 - globalDiscount) / 100);
+
+				accountDiscount = getValue('groupValue', valuePrices, isMarkup); // percentage
+				valuePrices = valuePrices * ((100 - accountDiscount) / 100);
+
+				individualDiscount = getValue('individualDiscountValue', valuePrices, isMarkup); // amount
+				valuePrices = valuePrices - individualDiscount;
+
+				additionalDiscount = getValue('additionalDiscountValue', valuePrices, isMarkup); // percentage
+				valuePrices = valuePrices * ((100 - additionalDiscount) / 100);
 			}
+			let discountValue = netPriceBeforeDiscount - valuePrices;
 			modal.find('.valuePrices').text(App.Fields.Double.formatToDisplay(valuePrices));
-			modal.find('.valueDiscount').text(App.Fields.Double.formatToDisplay(netPriceBeforeDiscount - valuePrices));
+			modal.find('.valueDiscount').text(App.Fields.Double.formatToDisplay(isMarkup ? -discountValue : discountValue));
 		},
 		calculateTax: function (_row, modal) {
 			let netPriceWithoutTax = App.Fields.Double.formatToDb(modal.find('.valueNetPrice').text()),
@@ -927,6 +930,9 @@ $.Class(
 			});
 		},
 		registerInventorySaveData: function () {
+			app.event.on('EditView.preValidation', (_e, _view) => {
+				this.showAllItems();
+			});
 			this.form.on(Vtiger_Edit_Js.recordPreSave, () => {
 				this.syncHeaderData();
 				if (!this.checkLimits(this.form)) {
@@ -962,7 +968,7 @@ $.Class(
 		 */
 		renumberHeaderItems() {
 			this.getContainer()
-				.find('.js-inv-container-group .js-groupid')
+				.find('.js-inv-container-content .js-groupid')
 				.each((n, e) => {
 					e.value = n + 1;
 				});
@@ -1182,6 +1188,9 @@ $.Class(
 					}
 				});
 			});
+			if (modal.find('.js-inv--discount-type.markup:checked').length) {
+				info['type'] = 'markup';
+			}
 			this.setDiscountParam($('#blackIthemTable'), info);
 			this.setDiscountParam(parentRow, info);
 		},
@@ -1210,13 +1219,33 @@ $.Class(
 			const inventoryRowExpanded = this.getInventoryItemsContainer().find('[numrowex="' + row.attr('numrow') + '"]');
 			const element = row.find('.toggleVisibility');
 			element.data('status', '1');
+			element.removeClass(element.data('off')).addClass(element.data('on'));
 			inventoryRowExpanded.removeClass('d-none');
+			this.markCommentBtn(row);
 		},
 		hideExpandedRow: function (row) {
 			const inventoryRowExpanded = this.getInventoryItemsContainer().find('[numrowex="' + row.attr('numrow') + '"]');
 			const element = row.find('.toggleVisibility');
 			element.data('status', '0');
+			element.removeClass(element.data('on')).addClass(element.data('off'));
 			inventoryRowExpanded.addClass('d-none');
+			this.markCommentBtn(row);
+		},
+		/**
+		 * Mark button for extended fields
+		 * @param {jQuery} row
+		 */
+		markCommentBtn: function (row) {
+			let rowExpanded = this.getInventoryItemsContainer().find('[numrowex="' + row.attr('numrow') + '"]');
+			let value = rowExpanded.find('.js-inventory-item-comment').val();
+			const element = row.find('.js-inv-item-btn-icon');
+			let removeClass = element.data('active');
+			let addClass = element.data('inactive');
+			if (value) {
+				removeClass = addClass;
+				addClass = element.data('active');
+			}
+			element.removeClass(removeClass).addClass(addClass);
 		},
 		initDiscountsParameters: function (parentRow, modal) {
 			let parameters = parentRow.find('.discountParam').val();
@@ -1418,15 +1447,15 @@ $.Class(
 				this.setSubUnit(row, rowData.info.autoFields.subunit, rowData.info.autoFields.subunitText);
 			}
 			this.setComment(row, rowData.comment1);
-			this.setUnitPrice(row, App.Fields.Double.formatToDisplay(rowData.price));
-			this.setNetPrice(row, App.Fields.Double.formatToDisplay(rowData.net));
-			this.setGrossPrice(row, App.Fields.Double.formatToDisplay(rowData.gross));
-			this.setTotalPrice(row, App.Fields.Double.formatToDisplay(rowData.total));
-			this.setDiscountParam(row, rowData.discountparam ? JSON.parse(discountParam) : []);
-			this.setDiscount(row, App.Fields.Double.formatToDisplay(rowData.discount));
+			this.setUnitPrice(row, rowData.price);
+			this.setNetPrice(row, rowData.net);
+			this.setGrossPrice(row, rowData.gross);
+			this.setTotalPrice(row, rowData.total);
+			this.setDiscountParam(row, rowData.discountparam ? JSON.parse(rowData.discountparam) : []);
+			this.setDiscount(row, rowData.discount);
 			this.setTaxParam(row, rowData.taxparam ? JSON.parse(rowData.taxparam) : []);
-			this.setTax(row, App.Fields.Double.formatToDisplay(rowData.tax));
-			this.setTaxPercent(row, App.Fields.Double.formatToDisplay(rowData.tax_percent));
+			this.setTax(row, rowData.tax);
+			this.setTaxPercent(row, rowData.tax_percent);
 		},
 		/**
 		 * Add new row to inventory list
@@ -1470,7 +1499,19 @@ $.Class(
 			const items = this.getInventoryItemsContainer();
 			let newRow = this.getBasicRow();
 			if (data['grouplabel']) {
-				newRow.find('.js-grouplabel').val(data['grouplabel']);
+				let value = data['grouplabel'];
+				let el = newRow.find('.js-grouplabel');
+				if (
+					el.is('select') &&
+					![...el.get(0).options]
+						.map((o) => o.value)
+						.filter((e) => e !== '')
+						.includes(value)
+				) {
+					let newOption = new Option(value, value, true, true);
+					el.append(newOption);
+				}
+				el.val(value);
 			}
 			newRow = newRow.find('tr.inventoryRowGroup').appendTo(items.find('.js-inventory-items-body'));
 			this.initItem(newRow);
@@ -1497,7 +1538,7 @@ $.Class(
 						e.currentTarget.dataset.module,
 						e.currentTarget.dataset.field,
 						false,
-						$(e.currentTarget).closest('.js-inv-container-group')
+						$(e.currentTarget).closest('.js-inv-container-content')
 					);
 				});
 		},
@@ -1544,20 +1585,42 @@ $.Class(
 					items.find('[numrow="' + numrow + '"]').after(child);
 					App.Fields.Text.Editor.register(child);
 					thisInstance.updateRowSequence();
+					thisInstance.summaryGroupCalculations();
 				}
 			});
 		},
 		registerShowHideExpanded: function () {
-			const thisInstance = this;
-			thisInstance.form.on('click', '.toggleVisibility', function (e) {
+			this.getInventoryItemsContainer().on('click', '.toggleVisibility', (e) => {
 				let element = $(e.currentTarget);
-				let row = thisInstance.getClosestRow(element);
+				let row = this.getClosestRow(element);
 				if (element.data('status') == 0) {
-					thisInstance.showExpandedRow(row);
+					this.showExpandedRow(row);
 				} else {
-					thisInstance.hideExpandedRow(row);
+					this.hideExpandedRow(row);
 				}
 			});
+		},
+		/**
+		 * Show/Hide group items
+		 */
+		registerShowHideExpandedGroup: function () {
+			this.getInventoryItemsContainer().on('click', '.js-inv-group-collapse-btn', (e) => {
+				let btn = $(e.currentTarget);
+				let icon = btn.find('.js-toggle-icon');
+				let row = btn.closest('tr.inventoryRowGroup');
+				let items = this.getGroupItems(row);
+				if (icon.hasClass(icon.data('active'))) {
+					items.find(`.toggleVisibility.active`).closest('.toggleVisibility').trigger('click');
+					items.addClass('d-none');
+					btn.removeClass('js-inv-group-collapse-btn__active');
+				} else {
+					items.removeClass('d-none');
+					btn.addClass('js-inv-group-collapse-btn__active');
+				}
+			});
+		},
+		showAllItems: function () {
+			this.getGroups().find('.js-inv-group-collapse-btn:not(.js-inv-group-collapse-btn__active)').trigger('click');
 		},
 		registerPriceBookModal: function (container) {
 			container.find('.js-price-book-modal').on('click', (e) => {
@@ -1654,6 +1717,8 @@ $.Class(
 			}
 			this.updateRowSequence();
 		},
+		DISCOUNT_MODE_GLOBAL: 0,
+		DISCOUNT_MODE_INDIVIDUAL: 1,
 		registerChangeDiscount: function () {
 			this.form.on('click', '.js-change-discount', (e) => {
 				let parentRow;
@@ -1668,16 +1733,18 @@ $.Class(
 				};
 				if (element.hasClass('groupDiscount')) {
 					parentRow = this.getInventoryItemsContainer();
+					params.discountParam = parentRow.find('.discountParam').val();
 					if (parentRow.find('tfoot .colTotalPrice').length != 0) {
 						params.totalPrice = App.Fields.Double.formatToDb(parentRow.find('tfoot .colTotalPrice').text());
 					} else {
 						params.totalPrice = 0;
 					}
-					params.discountType = 1;
+					params.discountMode = this.DISCOUNT_MODE_GLOBAL;
 				} else {
 					parentRow = element.closest(this.rowClass);
+					params.discountParam = parentRow.find('.discountParam').val();
 					params.totalPrice = this.getTotalPrice(parentRow);
-					params.discountType = 0;
+					params.discountMode = this.DISCOUNT_MODE_INDIVIDUAL;
 				}
 				let progressInstace = $.progressIndicator();
 				AppConnector.request(params)
@@ -1719,7 +1786,7 @@ $.Class(
 			});
 			modal.on(
 				'change',
-				'.activeCheckbox, .globalDiscount,.individualDiscountValue,.individualDiscountType,.groupCheckbox,.additionalDiscountValue',
+				'.activeCheckbox, .globalDiscount,.individualDiscountValue,.individualDiscountType,.groupCheckbox,.additionalDiscountValue,.js-inv--discount-type',
 				function () {
 					thisInstance.calculateDiscount(parentRow, modal);
 				}
@@ -1729,7 +1796,7 @@ $.Class(
 					return;
 				}
 				thisInstance.saveDiscountsParameters(parentRow, modal);
-				if (params.discountType == 0) {
+				if (params.discountMode === thisInstance.DISCOUNT_MODE_INDIVIDUAL) {
 					thisInstance.setDiscount(parentRow, App.Fields.Double.formatToDb(modal.find('.valueDiscount').text()));
 					thisInstance.quantityChangeActions(parentRow);
 				} else {
@@ -1898,7 +1965,7 @@ $.Class(
 				app.showRecordsList(url, (_, instance) => {
 					instance.setSelectEvent((data) => {
 						for (let i in data) {
-							let parentElem = this.addItem(moduleName, '', false, currentTarget.closest('.js-inv-container-group'));
+							let parentElem = this.addItem(moduleName, '', false, currentTarget.closest('.js-inv-container-content'));
 							Vtiger_Edit_Js.getInstance().setReferenceFieldValue(parentElem.find('.rowName'), {
 								name: data[i],
 								id: i
@@ -2018,6 +2085,31 @@ $.Class(
 				});
 		},
 		/**
+		 * Register currency converter
+		 */
+		registerCurrencyConverter() {
+			this.form.find('.js-currency-converter-event').on('click', (e) => {
+				let row = $(e.currentTarget).closest(this.rowClass);
+				let unitPrice = this.getUnitPriceValue(row) || 0;
+				let currencyId = this.getCurrency();
+				App.Components.CurrencyConverter.modalView({
+					currencyId: currencyId,
+					amount: App.Fields.Double.formatToDisplay(unitPrice)
+				}).done((data) => {
+					let value;
+					if (currencyId === data.currency_target_id) {
+						value = data.currency_target_value;
+					} else if (currencyId === data.currency_base_id) {
+						value = data.currency_base_value;
+					}
+					if (value) {
+						this.setUnitPrice(row, App.Fields.Double.formatToDb(value));
+						this.quantityChangeActions(row);
+					}
+				});
+			});
+		},
+		/**
 		 * Function which will register all the events
 		 */
 		registerEvents: function (container) {
@@ -2037,9 +2129,9 @@ $.Class(
 			this.registerChangeCurrency();
 			this.registerChangeDiscountAggregation();
 			this.setDefaultGlobalTax(container);
-			this.registerDeleteBlock();
-			this.setDeleteBlockBtnVisibility();
+			this.registerShowHideExpandedGroup();
 			app.registerBlockToggleEvent(container);
+			this.registerCurrencyConverter();
 		}
 	}
 );

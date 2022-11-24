@@ -31,7 +31,7 @@
 			<input type="hidden" id="isRequiredInventory" value="{$BASIC_FIELD->isRequired()}" />
 			{include file=\App\Layout::getTemplatePath('Edit/InventoryHeader.tpl', $MODULE_NAME)}
 			{assign var=ROW_NO value=0}
-			{include file=\App\Layout::getTemplatePath('Edit/InventoryBlock.tpl', $MODULE_NAME) BLOCK_EXPANDED=true ADD_EMPTY_ROW=true}
+			{include file=\App\Layout::getTemplatePath('Edit/InventoryBlock.tpl', $MODULE_NAME) ADD_EMPTY_ROW=true}
 			{include file=\App\Layout::getTemplatePath('Edit/InventorySummary.tpl', $MODULE_NAME) ITEM_DATA=$INVENTORY_ROW}
 		{/if}
 	</div>

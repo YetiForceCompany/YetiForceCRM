@@ -926,7 +926,7 @@ $.Class(
 							enabled: true
 						}
 					});
-					editViewForm.find('.js-toggle-panel').find('.js-block-content').removeClass('d-none');
+					app.event.trigger('EditView.preValidation', editViewForm);
 					if (editViewForm.validationEngine('validate')) {
 						//Once the form is submiting add data attribute to that form element
 						editViewForm.data('submit', 'true');
@@ -948,11 +948,15 @@ $.Class(
 				}
 			});
 		},
-		/*
-		 * Function to check the view permission of a record after save
+		/**
+		 * Pre-save events
+		 * @param {jQuery} form
 		 */
 		registerRecordPreSaveEventEvent: function (form) {
-			form.on(Vtiger_Edit_Js.recordPreSave, (e, data) => {
+			app.event.on('EditView.preValidation', (_e, view) => {
+				view.find('.js-block-content.d-none').siblings('.blockHeader').trigger('click');
+			});
+			form.on(Vtiger_Edit_Js.recordPreSave, (e, _data) => {
 				this.preSaveValidation(form).done((response) => {
 					if (response !== true) {
 						e.preventDefault();

@@ -57,16 +57,16 @@ class CreatedMail extends Base
 
 		$record->set('date', $this->message->getDate());
 		$record->set('createdtime', $this->message->getDate());
-		// $record->set('uid', $this->message->getMsgId());
+		$record->set('msgid', $this->message->getMsgId());
+		$record->set('uid', $this->message->getMsgUid());
 		$type = $this->message->getMailType();
 		$record->set('type', $type);
 		$record->set('rc_user', $this->account->getSource()->getId());
-		$record->set('mid', $this->message->getMsgUid());
 		$record->set('mbox', $this->message->getFolderName());
 		$record->set('ossmailview_sendtype', \App\Mail\Message\Base::MAIL_TYPES[$type]);
 		$record->set('orginal_mail', \App\TextUtils::htmlTruncate($this->message->getHeaderRaw(), $record->getField('orginal_mail')->getMaxValue()));
 		$record->set('attachments_exist', (int) $this->message->hasAttachments());
-		$record->setDataForSave(['vtiger_ossmailview' => ['cid' => $this->message->getUniqueId()]]);
+		$record->setDataForSave(['vtiger_ossmailview' => ['cid' => $this->message->getUniqueId(), 'uid' => $this->message->getMsgUid()]]);
 
 		if ($this->message->hasAttachments()) {
 			$this->message->saveAttachments([
@@ -82,7 +82,6 @@ class CreatedMail extends Base
 		$record->save();
 
 		$db = \App\Db::getInstance();
-		$db->createCommand()->update('vtiger_ossmailview', ['id' => $this->message->getMsgId()], ['ossmailviewid' => $record->getId()])->execute();
 		foreach ($this->message->getDocuments() as $file) {
 			$db->createCommand()->insert('vtiger_ossmailview_files', [
 				'ossmailviewid' => $record->getId(),

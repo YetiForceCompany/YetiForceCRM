@@ -1,13 +1,6 @@
-/**
- * SlaPolicy Edit Js class
- *
- * @package     Edit
- *
- * @description SlaPolicy Edit View scripts
- * @license     YetiForce Public License 5.0
- * @author      Rafal Pospiech <r.pospiech@yetiforce.com>
- */
+/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
+
 Settings_Vtiger_List_Js(
 	'Settings_Wapro_List_Js',
 	{},

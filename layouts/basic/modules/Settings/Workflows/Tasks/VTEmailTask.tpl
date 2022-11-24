@@ -206,8 +206,8 @@
 				</span>
 			</div>
 			<div class="pb-3">
-				<textarea id="content" class="form-control"
-					name="content">{if !empty($TASK_OBJECT->content)}{$TASK_OBJECT->content}{/if}</textarea>
+				<textarea id="content" class="js-editor form-control"
+					name="content" data-purify-mode="Html" data-js="ckeditor">{if !empty($TASK_OBJECT->content)}{$TASK_OBJECT->content}{/if}</textarea>
 			</div>
 		</div>
 	</div>

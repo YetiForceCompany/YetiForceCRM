@@ -2,8 +2,9 @@
 {strip}
 	<!-- tpl-Base-Detail-InventorySummary -->
 	<div class="row">
-		{if isset($FIELDS[1]['discount']) && isset($FIELDS[0]['discountmode'])}
-			{assign var="DISCOUNT" value=$INVENTORY_MODEL->getField('discount')->getSummaryValuesFromData($INVENTORY_ROWS)}
+		{assign var="FIELD_DISCOUNT" value=$INVENTORY_MODEL->getField('discount')}
+		{if $FIELD_DISCOUNT && $FIELD_DISCOUNT->isSummaryEnabled() && isset($FIELDS[1]['discount']) && isset($FIELDS[0]['discountmode'])}
+			{assign var="DISCOUNT" value=$FIELD_DISCOUNT->getSummaryValuesFromData($INVENTORY_ROWS)}
 			<div class="col-md-4">
 				<table class="table table-bordered inventorySummaryContainer">
 					<thead>
@@ -25,8 +26,8 @@
 				</table>
 			</div>
 		{/if}
-		{if isset($FIELDS[1]['tax']) && isset($FIELDS[0]['taxmode']) && $INVENTORY_MODEL->isField('net')}
-			{assign var=TAX_FIELD value=$FIELDS[1]['tax']}
+		{assign var="TAX_FIELD" value=$INVENTORY_MODEL->getField('tax')}
+		{if $TAX_FIELD && $TAX_FIELD->isSummaryEnabled() && isset($FIELDS[1]['tax']) && isset($FIELDS[0]['taxmode']) && $INVENTORY_MODEL->isField('net')}
 			{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
 				{if isset($TAXS) && isset($INVENTORY_ROW['taxparam']) }
 					{assign var="TAXS" value=$TAX_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $INVENTORY_ROW['net'], $TAXS)}

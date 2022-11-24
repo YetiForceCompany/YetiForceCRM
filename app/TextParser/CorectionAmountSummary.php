@@ -1,7 +1,4 @@
 <?php
-
-namespace App\TextParser;
-
 /**
  * Table for amount to return.
  *
@@ -10,6 +7,13 @@ namespace App\TextParser;
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Kon <a.kon@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+namespace App\TextParser;
+
+/**
+ * Corection Amount Summary class.
  */
 class CorectionAmountSummary extends Base
 {
@@ -33,23 +37,20 @@ class CorectionAmountSummary extends Base
 		$inventoryData = $this->textParser->recordModel->getInventoryData();
 		$rows = reset($inventoryData);
 		$currency = \App\Fields\Currency::getById($rows['currency']);
-		$differenceOfAmounts = \App\Fields\Double::formatToDisplay($this->textParser->recordModel->get('sum_gross') -$relatedRecordModel->get('sum_gross') ) . ' ' . $currency['currency_symbol'];
-		$differenceOfAmountsDesciption = $differenceOfAmounts > 0 ? \App\Language::translate('LBL_SURCHARGE_AMOUNT', 'Other.PDF') : \App\Language::translate('LBL_SURCHARGE_AMOUNT', 'Other.PDF');
-		
+		$differenceOfAmounts = \App\Fields\Double::formatToDisplay($this->textParser->recordModel->get('sum_gross') - $relatedRecordModel->get('sum_gross')) . ' ' . $currency['currency_symbol'];
+		$differenceOfAmountsDesciption = $differenceOfAmounts > 0 ? \App\Language::translate('LBL_SURCHARGE_AMOUNT', 'Other.PDF') : \App\Language::translate('LBL_REFUND_AMOUNT', 'Other.PDF');
+
 		return '<table cellspacing="0" style="border-collapse:collapse;width:100%;">
 				<thead>
 					<tr>
-						<th style="font-size:10px;">'.$differenceOfAmountsDesciption.'</th>
+						<th style="font-size:10px;">' . $differenceOfAmountsDesciption . '</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td style="border-color:#dddddd;border-style:solid;border-width:1px;font-size:12px;font-weight:bold;text-align:center;">'.$differenceOfAmounts .'</td>
+						<td style="border-color:#dddddd;border-style:solid;border-width:1px;font-size:12px;font-weight:bold;text-align:center;">' . $differenceOfAmounts . '</td>
 					</tr>
 				</tbody>
 			</table>';
-
 	}
-
-	
 }

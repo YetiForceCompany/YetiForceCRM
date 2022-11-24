@@ -444,10 +444,8 @@ class ModuleBasic
 		$db->createCommand()->delete('vtiger_relatedlists', ['or', ['tabid' => $this->id], ['related_tabid' => $this->id]])->execute();
 		if ($relations) {
 			$ids = array_keys($relations);
-			$db->createCommand()->delete('vtiger_relatedlists_fields', ['relation_id' => $ids])->execute();
-			$db->createCommand()->delete('a_#__relatedlists_inv_fields', ['relation_id' => $ids])->execute();
 			foreach ($ids as $id) {
-				\App\Relation::clearCacheById((int) $id, false);
+				\Vtiger_Relation_Model::removeRelationById($id);
 			}
 			foreach (array_unique($relations) as $tabId) {
 				\App\Relation::clearCacheByModule((string) \App\Module::getModuleName($tabId), false);

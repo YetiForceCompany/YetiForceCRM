@@ -289,16 +289,17 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function delete()
 	{
-		$db = \App\Db::getInstance();
 		$fieldModel = $this->getFieldModel();
 		$reference = $fieldModel->getReferenceList();
 
-		$db->createCommand()->delete('vtiger_relatedlists', [
+		$relations = (new \App\Db\Query())->select(['relation_id'])->from('vtiger_relatedlists')->where([
 			'field_name' => $fieldModel->getName(),
 			'related_tabid' => $fieldModel->getModuleId(),
 			'tabid' => array_map('App\Module::getModuleId', $reference),
-		])->execute();
-
+		])->column();
+		foreach ($relations as $relationId) {
+			\Vtiger_Relation_Model::removeRelationById($relationId);
+		}
 		foreach ($reference as $module) {
 			\App\Relation::clearCacheByModule($module);
 		}

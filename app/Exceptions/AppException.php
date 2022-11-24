@@ -16,6 +16,12 @@ namespace App\Exceptions;
  */
 class AppException extends \Exception
 {
+	/** {@inheritdoc}  */
+	public function __toString(): string
+	{
+		return rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', parent::__toString()), PHP_EOL);
+	}
+
 	/**
 	 * Gets the display exception message.
 	 *

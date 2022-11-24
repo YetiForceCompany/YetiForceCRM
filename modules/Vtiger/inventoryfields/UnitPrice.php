@@ -20,6 +20,8 @@ class Vtiger_UnitPrice_InventoryField extends Vtiger_Basic_InventoryField
 	protected $summationValue = false;
 	protected $maximumLength = '99999999999999999999';
 	protected $purifyType = \App\Purifier::NUMBER;
+	/** {@inheritdoc} */
+	protected $params = ['currency_convert'];
 
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
@@ -66,5 +68,23 @@ class Vtiger_UnitPrice_InventoryField extends Vtiger_Basic_InventoryField
 	public function compare($value, $prevValue, string $column): bool
 	{
 		return \App\Validator::floatIsEqual((float) $value, (float) $prevValue, 8);
+	}
+
+	/** {@inheritdoc} */
+	public function getConfigFieldsData(): array
+	{
+		$data = parent::getConfigFieldsData();
+		$data['currency_convert'] = [
+			'name' => 'currency_convert',
+			'label' => 'LBL_INV_UNITPRICE_CURRENCY_CONVERT',
+			'uitype' => 56,
+			'maximumlength' => '1',
+			'typeofdata' => 'C~O',
+			'tooltip' => 'LBL_INV_UNITPRICE_CURRENCY_CONVERT_DESC',
+			'purifyType' => \App\Purifier::INTEGER,
+			'defaultvalue' => 0
+		];
+
+		return $data;
 	}
 }

@@ -3401,7 +3401,7 @@ select {
 	min-width: 400px;
 }
 
-.table tr.inventoryRow td {
+.table tr.inventoryRow td,.table tr.inventoryRowGroup td {
 	padding: 4px;
 }
 

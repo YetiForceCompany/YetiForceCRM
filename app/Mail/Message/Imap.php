@@ -46,7 +46,8 @@ class Imap extends Base
 	{
 		$recordModel = \Vtiger_Record_Model::getInstanceById($crmId);
 		$instance = new static();
-		$instance->set('uid', $recordModel->get('id'))
+		$instance->set('uid', $recordModel->get('uid'))
+			->set('message_id', $recordModel->get('msgid'))
 			->set('date', $recordModel->get('date'))
 			->set('from', explode(',', $recordModel->get('from_email')))
 			->set('to', explode(',', $recordModel->get('to_email')))

@@ -18,6 +18,12 @@ namespace Api\Core;
 class Exception extends \Exception
 {
 	/** {@inheritdoc}  */
+	public function __toString(): string
+	{
+		return rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', parent::__toString()), PHP_EOL);
+	}
+
+	/** {@inheritdoc}  */
 	public function __construct($message, $code = 500, \Throwable $previous = null)
 	{
 		$message = rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $message), PHP_EOL);

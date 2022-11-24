@@ -48,6 +48,7 @@
     "Discount Amount": "Discount amount",
     "Discount Percent": "Discount percent",
     "Discount": "Discount",
+    "LBL_MARKUP": "Markup",
     "Documents": "Documents",
     "Due Date & Time": "Due date & time",
     "Due Date": "Due date",
@@ -1000,7 +1001,7 @@
     "LBL_PRICE_BEFORE_DISCOUNT": "Price before discount",
     "LBL_DISCOUNT_IN_TOTAL": "Discount in total",
     "LBL_PRICE_AFTER_DISCOUNT": "Price after discount",
-    "LBL_DISCOUNT_MODE": "Discount in total",
+    "LBL_DISCOUNT_MODE": "Discount mode",
     "LBL_VALUE": "Value",
     "LBL_QUANTITY": "Quantity",
     "LBL_REFERENCE": "Reference",
@@ -1514,7 +1515,9 @@
     "LBL_IMAGE_PREVIEW": "Image preview",
     "LBL_RECORD_DOES_NOT_EXIST": "Record does not exist",
     "LBL_RECORD_DOES_NOT_EXIST_DESC": "The record has been deleted and the name cannot be displayed.",
-    "LBL_CONDITION_WIZARD": "Condition wizard"
+    "LBL_CONDITION_WIZARD": "Condition wizard",
+    "LBL_CURRENCY_CONVERTER": "Currency converter",
+    "LBL_OK": "Ok"
   },
   "js": {
     "JS_APPROVE": "Approve",

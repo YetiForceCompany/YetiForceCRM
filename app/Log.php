@@ -159,6 +159,26 @@ class Log extends Logger
 				'duration' => 'Text',
 			],
 		],
+		'pbx' => [
+			'label' => 'LBL_PBX',
+			'labelModule' => 'Settings:PBX',
+			'table' => 'l_#__pbx',
+			'icon' => 'yfi yfi-pbx',
+			'columns' => [
+				'time' => ['type' => 'DateTime', 'label' => 'LBL_TIME'],
+				'driver' => ['type' => 'Text', 'label' => 'LBL_CATEGORY'],
+				'error' => ['type' => 'Text', 'label' => 'LBL_CODE'],
+				'message' => ['type' => 'Text', 'label' => 'LBL_MESSAGE'],
+				'params' => ['type' => 'Text', 'label' => 'LBL_MESSAGE'],
+			],
+			'filter' => [
+				'time' => 'DateTimeRange',
+				'driver' => 'Text',
+				// 'error' => 'Boolean',
+				'message' => 'Text',
+				'params' => 'Text',
+			],
+		],
 	];
 	public static $levelMap = [
 		'error' => Logger::LEVEL_ERROR,

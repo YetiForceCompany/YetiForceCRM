@@ -194,6 +194,18 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	}
 
 	/**
+	 * Get the configuration parameter value for the specified key.
+	 *
+	 * @param string $key
+	 *
+	 * @return mixed
+	 */
+	public function getParamConfig(string $key)
+	{
+		return $this->getParamsConfig()[$key] ?? null;
+	}
+
+	/**
 	 * Getting all values display Type.
 	 *
 	 * @return array
@@ -337,6 +349,16 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function isSummary(): bool
 	{
 		return $this->summationValue;
+	}
+
+	/**
+	 * Check if summary enabled.
+	 *
+	 * @return bool
+	 */
+	public function isSummaryEnabled(): bool
+	{
+		return $this->isSummary() && 1 === (int) ($this->getParamConfig('summary_enabled') ?? 1);
 	}
 
 	/**
@@ -739,6 +761,18 @@ class Vtiger_Basic_InventoryField extends \App\Base
 			$row['displaytype']['picklistValues'][$key] = \App\Language::translate($value, $qualifiedModuleName);
 		}
 
+		if ($this->isSummary()) {
+			$row['summary_enabled'] = [
+				'name' => 'summary_enabled',
+				'label' => 'LBL_INV_SUMMARY_ENABLED',
+				'uitype' => 56,
+				'maximumlength' => '1',
+				'typeofdata' => 'C~O',
+				'purifyType' => \App\Purifier::INTEGER,
+				'defaultvalue' => 1
+			];
+		}
+
 		return $row;
 	}
 
@@ -766,5 +800,17 @@ class Vtiger_Basic_InventoryField extends \App\Base
 		}
 
 		return $fields;
+	}
+
+	/**
+	 * Gets config field.
+	 *
+	 * @param string $key
+	 *
+	 * @return Vtiger_Field_Model|null
+	 */
+	public function getConfigField(string $key): ?Vtiger_Field_Model
+	{
+		return $this->getConfigFields()[$key] ?? null;
 	}
 }
