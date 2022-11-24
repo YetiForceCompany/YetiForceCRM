@@ -119,7 +119,7 @@
     "LBL_LABEL_PROTOCOL_VERSION": "HTTP protocol version",
     "LBL_LABEL_HTTP_METHODS": "HTTP methods",
     "LBL_LABEL_DB_MAXIMUM_MEMORY_SIZE": "Maximum amount of RAM",
-    "LBL_HELP_MAXUSEDMEMORY": "The maximum amount of RAM calculated on the basis of current configuration parameters. This is the peak amount of RAM that is required for the database engine to work properly. This amount of RAM is only reserved for the database engine.\nkey_buffer_size + max_tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + query_cache_size + aria_pagecache_buffer_size + \nmax_connections * (read_buffer_size + read_rnd_buffer_size + sort_buffer_size + thread_stack + max_allowed_packet + join_buffer_size)",
+    "LBL_HELP_MAXUSEDMEMORY": "RAM-muistin enimmäismäärä, joka on laskettu nykyisten konfiguraatioparametrien perusteella. Tämä on suurin määrä RAM-muistia, joka on tarpeen, jotta tietokantamoottori toimii kunnolla. Tämä määrä RAM-muistia on varattu vain tietokantamoottorin käyttöön.\nkey_buffer_size + max_tmp_table_size + innodb_buffer_pool_size + innodb_additional_mem_pool_size + innodb_log_buffer_size + query_cache_size + aria_pagecache_buffer_size + \nmax_connections * (read_buffer_size + read_rnd_buffer_size + sort_buffer_size + thread_stack + max_allowed_packet + join_buffer_size)",
     "LBL_HELP_MBSTRING": "Extension used to manage strings. Used to convert strings to different encodings.",
     "LBL_HELP_FILTER": "Extension used to filter incoming request data.",
     "LBL_HELP_BCMATH": "More accurate mathematical operations.",
