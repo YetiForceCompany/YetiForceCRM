@@ -375,4 +375,12 @@ return RCUBE_INSTALL_PATH . "/../../../../cache/mail/";',
 		'default' => '',
 		'description' => 'Store spam messages in this mailbox'
 	],
+	'zipdownload_selection' => [
+		'default' => '500MB',
+		'description' => "Zip selection of mail messages\nThis option enables downloading of multiple messages as one zip archive.\nThe number or string value specifies maximum total size of all messages\nin the archive (not the size of the archive itself)."
+	],
+	'zipdownload_charset' => [
+		'default' => 'UTF-8',
+		'description' => 'Charset to use for filenames inside the zip'
+	],
 ];
