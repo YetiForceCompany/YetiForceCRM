@@ -1725,6 +1725,7 @@ Vtiger_Base_Validator_Js(
 	{
 		/**
 		 * Function to validate the coordinates field data
+		 * @return {boolean}
 		 */
 		validate() {
 			let fieldValue = this.getFieldValue();
@@ -1748,8 +1749,7 @@ Vtiger_Base_Validator_Js(
 
 		/**
 		 * Function to validate the coordinates decimal field data
-		 * @return true if validation is successfull
-		 * @return false if validation error occurs
+		 * @return {boolean}
 		 */
 		validateDecimal(fieldValue, type) {
 			const lat = /^\(?[+-]?(90(\.0+)?|[1-8]?\d(\.\d+)?)$/;
@@ -1764,8 +1764,7 @@ Vtiger_Base_Validator_Js(
 		},
 		/**
 		 * Function to validate the coordinates degrees field data
-		 * @return true if validation is successfull
-		 * @return false if validation error occurs
+		 * @return {boolean}
 		 */
 		validateDegrees(fieldValue) {
 			const dmsLat = /^(([1-8]?\d)\D+([1-5]?\d|60)\D+([1-5]?\d|60)(\.\d+)?|90\D+0\D+0)\D+[NSns]?$/i;
@@ -1781,8 +1780,7 @@ Vtiger_Base_Validator_Js(
 
 		/**
 		 * Function to validate the coordinates code plus field data
-		 * @return true if validation is successfull
-		 * @return false if validation error occurs
+		 * @return {boolean}
 		 */
 		validateCodeplus(fieldValue) {
 			const regex = /^[a-z0-9 +]+$/i;
