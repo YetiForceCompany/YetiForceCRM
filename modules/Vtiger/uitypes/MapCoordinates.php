@@ -137,7 +137,7 @@ class Vtiger_MapCoordinates_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function isActiveSearchView()
 	{
-		return false;
+		return true;
 	}
 
 	/** {@inheritdoc} */
@@ -164,11 +164,11 @@ class Vtiger_MapCoordinates_UIType extends Vtiger_Base_UIType
 	// 	return 'ConditionBuilder/MapCoordinates.tpl';
 	// }
 
-	// /** {@inheritdoc} */
-	// public function getQueryOperators()
-	// {
-	// 	return ['e', 'n', 'y', 'ny'];
-	// }
+	/** {@inheritdoc} */
+	public function getQueryOperators()
+	{
+		return ['y', 'ny'];
+	}
 
 	/** {@inheritdoc} */
 	public function getFieldInfo(): array
