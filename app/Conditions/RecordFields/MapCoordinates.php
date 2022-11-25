@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Conditions\RecordFields;
-
 /**
  * Map coordinates condition record field file.
  *
@@ -11,6 +9,8 @@ namespace App\Conditions\RecordFields;
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
  */
+
+namespace App\Conditions\RecordFields;
 
 /**
  * Map coordinates condition record field class.
