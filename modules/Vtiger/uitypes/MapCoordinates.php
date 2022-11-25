@@ -158,23 +158,16 @@ class Vtiger_MapCoordinates_UIType extends Vtiger_Base_UIType
 		return ['string'];
 	}
 
-	// /** {@inheritdoc} */
-	// public function getOperatorTemplateName(string $operator = '')
-	// {
-	// 	return 'ConditionBuilder/MapCoordinates.tpl';
-	// }
-
-	// /** {@inheritdoc} */
-	// public function getQueryOperators()
-	// {
-	// 	return ['e', 'n', 'y', 'ny'];
-	// }
+	/** {@inheritdoc} */
+	public function getQueryOperators()
+	{
+		return ['y', 'ny'];
+	}
 
 	/** {@inheritdoc} */
 	public function getFieldInfo(): array
 	{
 		$fieldInfo = $this->getFieldModel()->loadFieldInfo();
-		// $fieldInfo['picklistvalues'] = $this->getPicklistValues();
 		$fieldInfo['type'] = '';
 		return $fieldInfo;
 	}
