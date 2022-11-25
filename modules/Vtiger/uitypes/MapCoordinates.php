@@ -164,14 +164,6 @@ class Vtiger_MapCoordinates_UIType extends Vtiger_Base_UIType
 		return ['y', 'ny'];
 	}
 
-	/** {@inheritdoc} */
-	public function getFieldInfo(): array
-	{
-		$fieldInfo = $this->getFieldModel()->loadFieldInfo();
-		$fieldInfo['type'] = '';
-		return $fieldInfo;
-	}
-
 	/**
 	 * Get empty value.
 	 *

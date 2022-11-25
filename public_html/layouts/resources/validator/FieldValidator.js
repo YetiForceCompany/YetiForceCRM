@@ -1704,7 +1704,7 @@ Vtiger_Base_Validator_Js(
 Vtiger_Double_Validator_Js('Vtiger_Advpercentage_Validator_Js', {});
 
 Vtiger_Base_Validator_Js(
-	'Vtiger_Coordinates_Validator_Js',
+	'Vtiger_MapCoordinates_Validator_Js',
 	{
 		/**
 		 * Function which invokes field validation
@@ -1731,12 +1731,13 @@ Vtiger_Base_Validator_Js(
 			let fieldValue = this.getFieldValue();
 			if (fieldValue !== '') {
 				let element = this.getElement();
-				let type = element.attr('name').split(/[[\]]{1,2}/);
+				let type = element.data('type');
+				let key = element.data('key');
 				let result = false;
-				if ('decimal' === type[1]) {
-					result = this.validateDecimal(fieldValue, type[2]);
-				} else if ('degrees' === type[1]) {
-					result = this.validateDegrees(fieldValue);
+				if ('decimal' === type) {
+					result = this.validateDecimal(fieldValue, key);
+				} else if ('degrees' === type) {
+					result = this.validateDegrees(fieldValue, key);
 				} else {
 					result = this.validateCodeplus(fieldValue);
 				}
@@ -1751,26 +1752,27 @@ Vtiger_Base_Validator_Js(
 		 * Function to validate the coordinates decimal field data
 		 * @return {boolean}
 		 */
-		validateDecimal(fieldValue, type) {
+		validateDecimal(fieldValue, key) {
 			const lat = /^\(?[+-]?(90(\.0+)?|[1-8]?\d(\.\d+)?)$/;
 			const lon = /^\s?[+-]?(180(\.0+)?|1[0-7]\d(\.\d+)?|\d{1,2}(\.\d+)?)\)?$/;
 			let result = false;
-			if (type === 'lat') {
+			if (key === 'lat') {
 				result = lat.test(fieldValue);
 			} else {
 				result = lon.test(fieldValue);
 			}
 			return result;
 		},
+
 		/**
 		 * Function to validate the coordinates degrees field data
 		 * @return {boolean}
 		 */
-		validateDegrees(fieldValue) {
+		validateDegrees(fieldValue, key) {
 			const dmsLat = /^(([1-8]?\d)\D+([1-5]?\d|60)\D+([1-5]?\d|60)(\.\d+)?|90\D+0\D+0)\D+[NSns]?$/i;
 			const dmsLon = /^\s*([1-7]?\d{1,2}\D+([1-5]?\d|60)\D+([1-5]?\d|60)(\.\d+)?|180\D+0\D+0)\D+[EWew]?$/i;
 			let result = false;
-			if (type === 'lat') {
+			if (key === 'lat') {
 				result = dmsLat.test(fieldValue);
 			} else {
 				result = dmsLon.test(fieldValue);
