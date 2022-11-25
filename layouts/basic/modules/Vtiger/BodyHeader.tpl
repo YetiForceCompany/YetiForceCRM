@@ -162,6 +162,13 @@
 			</div>
 		{/if}
 		<div class="o-navbar__right ml-auto d-inline-flex flex-sm-nowrap">
+			{if $HEADER_ADDITIONAL_TPL}
+				{foreach item=ADDITIONAL_TPL from=$HEADER_ADDITIONAL_TPL}
+					{if $ADDITIONAL_TPL->get('module') && $ADDITIONAL_TPL->get('tpl')}
+						{include file=\App\Layout::getTemplatePath({$ADDITIONAL_TPL->get('tpl')}, $ADDITIONAL_TPL->get('module'))}
+					{/if}
+				{/foreach}
+			{/if}
 			{if \App\Integrations\Pbx::isActive()}
 				{assign var=DEFAULT_PBX value=\App\Integrations\Pbx::getInstance()}
 				{if $DEFAULT_PBX->get('type') === 'BriaSoftphone'}
