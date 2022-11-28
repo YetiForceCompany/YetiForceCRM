@@ -1702,3 +1702,94 @@ Vtiger_Base_Validator_Js(
 	}
 );
 Vtiger_Double_Validator_Js('Vtiger_Advpercentage_Validator_Js', {});
+
+Vtiger_Base_Validator_Js(
+	'Vtiger_Mapcoordinates_Validator_Js',
+	{
+		/**
+		 * Function which invokes field validation
+		 * @param {jQuery} field - accepts field element as parameter
+		 * @return string|true - error text if validation fails, true on success
+		 */
+		invokeValidation(field, rules, i, options) {
+			let validatorInstance = new Vtiger_Mapcoordinates_Validator_Js();
+			validatorInstance.setElement(field);
+			let result = validatorInstance.validate();
+			if (result == true) {
+				return result;
+			} else {
+				return validatorInstance.getError();
+			}
+		}
+	},
+	{
+		/**
+		 * Function to validate the coordinates field data
+		 * @return {boolean}
+		 */
+		validate() {
+			let fieldValue = this.getFieldValue();
+			if (fieldValue !== '') {
+				let element = this.getElement();
+				let key = element.data('key');
+				let result = false;
+				switch (element.data('type')) {
+					case 'decimal':
+						result = this.validateDecimal(fieldValue, key);
+						break;
+					case 'degrees':
+						result = this.validateDegrees(fieldValue, key);
+						break;
+					default:
+						result = this.validateCodeplus(fieldValue);
+						break;
+				}
+				if (!result) {
+					this.setError(app.vtranslate('JS_INVALID_COORDINATES'));
+				}
+				return result;
+			}
+		},
+
+		/**
+		 * Function to validate the coordinates decimal field data
+		 * @return {boolean}
+		 */
+		validateDecimal(fieldValue, key) {
+			const lat = /^\(?[+-]?(90(\.0+)?|[1-8]?\d(\.\d+)?)$/;
+			const lon = /^\s?[+-]?(180(\.0+)?|1[0-7]\d(\.\d+)?|\d{1,2}(\.\d+)?)\)?$/;
+			let result = false;
+			if (key === 'lat') {
+				result = lat.test(fieldValue);
+			} else {
+				result = lon.test(fieldValue);
+			}
+			return result;
+		},
+
+		/**
+		 * Function to validate the coordinates degrees field data
+		 * @return {boolean}
+		 */
+		validateDegrees(fieldValue, key) {
+			const dmsLat = /^(([1-8]?\d)\D+([1-5]?\d|60)\D+([1-5]?\d|60)(\.\d+)?|90\D+0\D+0)\D+[NSns]?$/i;
+			const dmsLon = /^\s*([1-7]?\d{1,2}\D+([1-5]?\d|60)\D+([1-5]?\d|60)(\.\d+)?|180\D+0\D+0)\D+[EWew]?$/i;
+			let result = false;
+			if (key === 'lat') {
+				result = dmsLat.test(fieldValue);
+			} else {
+				result = dmsLon.test(fieldValue);
+			}
+			return result;
+		},
+
+		/**
+		 * Function to validate the coordinates code plus field data
+		 * @return {boolean}
+		 */
+		validateCodeplus(fieldValue) {
+			const regex = /^[a-z0-9 +]+$/i;
+			return regex.test(fieldValue);
+		}
+	}
+);
