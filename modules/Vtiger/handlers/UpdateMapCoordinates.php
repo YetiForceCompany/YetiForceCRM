@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Files clean handler class.
+ *  Update map coordinates handler file.
  *
  * @package Handler
  *
@@ -10,7 +10,7 @@
  * @author Arkadiusz Sołek <a.solek@yetiforce.com>
  */
 /**
- * Vtiger_Files_Handler class.
+ * Update map coordinates handler class.
  */
 class Vtiger_UpdateMapCoordinates_Handler
 {
