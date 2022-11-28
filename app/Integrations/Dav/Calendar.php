@@ -143,8 +143,18 @@ class Calendar
 	{
 		$instance = new self();
 		$instance->record = \Vtiger_Record_Model::getCleanInstance('Calendar');
-		$instance->vcalendar = VObject\Reader::read($calendar);
-		$instance->vcomponent = current($instance->vcalendar->getBaseComponents());
+		$instance->vcalendar = VObject\Reader::read($calendar, \Sabre\VObject\Reader::OPTION_FORGIVING);
+		foreach ($instance->vcalendar->children() as $child) {
+			if (!$child instanceof VObject\Component) {
+				continue;
+			}
+			if ('VTIMEZONE' === $child->name) {
+				continue;
+			}
+			if (empty($instance->vcomponent)) {
+				$instance->vcomponent = $child;
+			}
+		}
 		return $instance;
 	}
 
