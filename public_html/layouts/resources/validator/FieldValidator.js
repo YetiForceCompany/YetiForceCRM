@@ -1704,7 +1704,7 @@ Vtiger_Base_Validator_Js(
 Vtiger_Double_Validator_Js('Vtiger_Advpercentage_Validator_Js', {});
 
 Vtiger_Base_Validator_Js(
-	'Vtiger_MapCoordinates_Validator_Js',
+	'Vtiger_Mapcoordinates_Validator_Js',
 	{
 		/**
 		 * Function which invokes field validation
@@ -1712,7 +1712,7 @@ Vtiger_Base_Validator_Js(
 		 * @return string|true - error text if validation fails, true on success
 		 */
 		invokeValidation(field, rules, i, options) {
-			let validatorInstance = new Vtiger_MapCoordinates_Validator_Js();
+			let validatorInstance = new Vtiger_Mapcoordinates_Validator_Js();
 			validatorInstance.setElement(field);
 			let result = validatorInstance.validate();
 			if (result == true) {
