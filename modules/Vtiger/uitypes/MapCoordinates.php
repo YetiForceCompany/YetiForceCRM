@@ -59,10 +59,10 @@ class Vtiger_MapCoordinates_UIType extends Vtiger_Base_UIType
 			return $this->getEmptyValue();
 		}
 		if (\is_string($value)) {
-			if (\App\Json::isEmpty($value)) {
+			$value = \App\Json::decode($value);
+			if (empty($value['value']) || empty($value['value']['lat']) || empty($value['value']['lon'])) {
 				return $this->getEmptyValue();
 			}
-			$value = \App\Json::decode($value);
 		}
 		if (empty($value['type'])) {
 			return $this->getEmptyValue();
