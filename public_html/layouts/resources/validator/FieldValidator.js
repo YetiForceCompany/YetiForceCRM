@@ -1712,7 +1712,7 @@ Vtiger_Base_Validator_Js(
 		 * @return string|true - error text if validation fails, true on success
 		 */
 		invokeValidation(field, rules, i, options) {
-			let validatorInstance = new Vtiger_Twitter_Validator_Js();
+			let validatorInstance = new Vtiger_MapCoordinates_Validator_Js();
 			validatorInstance.setElement(field);
 			let result = validatorInstance.validate();
 			if (result == true) {
@@ -1731,15 +1731,18 @@ Vtiger_Base_Validator_Js(
 			let fieldValue = this.getFieldValue();
 			if (fieldValue !== '') {
 				let element = this.getElement();
-				let type = element.data('type');
 				let key = element.data('key');
 				let result = false;
-				if ('decimal' === type) {
-					result = this.validateDecimal(fieldValue, key);
-				} else if ('degrees' === type) {
-					result = this.validateDegrees(fieldValue, key);
-				} else {
-					result = this.validateCodeplus(fieldValue);
+				switch (element.data('type')) {
+					case 'decimal':
+						result = this.validateDecimal(fieldValue, key);
+						break;
+					case 'degrees':
+						result = this.validateDegrees(fieldValue, key);
+						break;
+					default:
+						result = this.validateCodeplus(fieldValue);
+						break;
 				}
 				if (!result) {
 					this.setError(app.vtranslate('JS_INVALID_COORDINATES'));
