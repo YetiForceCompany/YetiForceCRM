@@ -48,6 +48,7 @@
 					{/foreach}
 				</tbody>
 			</table>
+			<br />
 			<div class="tpl-EditViewActions c-form__action-panel ml-0">
 				<button class="btn btn-success" type="submit">
 					<span class="fas fa-check u-mr-5px"></span>

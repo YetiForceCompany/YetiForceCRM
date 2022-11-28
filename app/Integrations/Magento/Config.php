@@ -2,7 +2,8 @@
 /**
  * Class to read and save configuration for integration with magento.
  *
- * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription.
+ * File modification allowed only with the consent of the system producer.
  *
  * @package Integration
  *
@@ -23,9 +24,7 @@ use App\Db\Query;
  */
 class Config extends \App\Base
 {
-	/**
-	 * Table name.
-	 */
+	/** @var string Table name. */
 	private const TABLE_NAME = 'i_#__magento_config';
 
 	/**
