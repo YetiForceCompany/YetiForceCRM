@@ -60,15 +60,11 @@ class Vtiger_MapCoordinates_UIType extends Vtiger_Base_UIType
 		}
 		if (\is_string($value)) {
 			$value = \App\Json::decode($value);
-			if (empty($value['value']) || empty($value['value']['lat']) || empty($value['value']['lon']) || empty($value['type'])) {
-				return $this->getEmptyValue();
-			}
 		}
-		if (!empty($value['value'])) {
-			$coordinates = $value[$value['type']] = $value['value'];
-		} else {
-			$coordinates = $value[$value['type']];
+		if ((\App\Fields\MapCoordinates::CODE_PLUS === $value['type'] && empty($value['value'])) || (empty($value['value']['lat']) || empty($value['value']['lon']))) {
+			return $this->getEmptyValue();
 		}
+		$coordinates = $value[$value['type']] = $value['value'];
 		unset($value['value']);
 		foreach (array_keys(\App\Fields\MapCoordinates::COORDINATE_FORMATS) as $type) {
 			if ($value['type'] !== $type) {

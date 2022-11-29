@@ -200,42 +200,29 @@ class MapCoordinates
 	/**
 	 * Update of coordinates on the map.
 	 *
-	 * @param Vtiger_Record_Model $recordModel
-	 * @param string              $fieldName
+	 * @param int    $recordId
+	 * @param string $fieldName
+	 * @param array  $coordinateData
+	 * @param string $action
 	 */
-	public static function updateMapCoordinates(\Vtiger_Record_Model $recordModel, $fieldName)
+	public static function updateMapCoordinates(int $recordId, string $fieldName, array $coordinateData, string $action): void
 	{
-		$recordId = $recordModel->getId();
 		$db = \App\Db::getInstance();
-		$coordinateData = \App\Json::decode($recordModel->get($fieldName));
-		if (('codeplus' === $coordinateData['type'] && !empty($coordinateData['value'])) || (\in_array($coordinateData['type'], ['degrees', 'decimal']) && !empty($coordinateData['value']['lat'])) && !empty($coordinateData['value']['lon'])) {
-			switch ($coordinateData['type']) {
-				case 'degrees':
-					$coordinate = self::convert('degrees', 'decimal', $coordinateData['value']);
-					break;
-				case 'codeplus':
-					$coordinate = self::convert('codeplus', 'decimal', $coordinateData['value']);
-					break;
-				default:
-				$coordinate = $coordinateData['value'];
-					break;
-			}
-			if (!(new \App\Db\Query())->from(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME)
-				->where(['crmid' => $recordId, 'type' => $fieldName])->exists()) {
+		switch ($action) {
+			case 'insert':
 				$db->createCommand()->insert(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, [
 					'crmid' => $recordId,
 					'type' => $fieldName,
-					'lat' => round($coordinate['lat'], 7),
-					'lon' => round($coordinate['lon'], 7),
+					'lat' => round($coordinateData['lat'], 7),
+					'lon' => round($coordinateData['lon'], 7),
 				])->execute();
-			} elseif ($recordModel->getPreviousValue($fieldName)) {
-				$db->createCommand()->update(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, ['lat' => round($coordinate['lat'], 7), 'lon' => round($coordinate['lon'], 7)], ['crmid' => $recordId, 'type' => $fieldName])->execute();
-			}
-		} elseif ($recordModel->getPreviousValue($fieldName) && ('codeplus' === $coordinateData['type'] && empty($coordinateData['value'])) || (\in_array($coordinateData['type'], ['degrees', 'decimal']) && empty($coordinateData['value']['lat']) && empty($coordinateData['value']['lon']))) {
-			if ((new \App\Db\Query())->from(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME)
-				->where(['crmid' => $recordId, 'type' => $fieldName])->exists()) {
+				break;
+			case 'update':
+				$db->createCommand()->update(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, ['lat' => round($coordinateData['lat'], 7), 'lon' => round($coordinateData['lon'], 7)], ['crmid' => $recordId, 'type' => $fieldName])->execute();
+				break;
+			case 'delete':
 				$db->createCommand()->delete(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, ['crmid' => $recordId, 'type' => $fieldName])->execute();
+				break;
 			}
-		}
 	}
 }
