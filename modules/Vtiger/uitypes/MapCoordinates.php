@@ -60,14 +60,11 @@ class Vtiger_MapCoordinates_UIType extends Vtiger_Base_UIType
 		}
 		if (\is_string($value)) {
 			$value = \App\Json::decode($value);
-			if (empty($value['value']) || empty($value['value']['lat']) || empty($value['value']['lon'])) {
+			if (empty($value['value']) || empty($value['value']['lat']) || empty($value['value']['lon']) || empty($value['type'])) {
 				return $this->getEmptyValue();
 			}
 		}
-		if (empty($value['type'])) {
-			return $this->getEmptyValue();
-		}
-		if (isset($value['value'])) {
+		if (!empty($value['value'])) {
 			$coordinates = $value[$value['type']] = $value['value'];
 		} else {
 			$coordinates = $value[$value['type']];
@@ -84,14 +81,6 @@ class Vtiger_MapCoordinates_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
-		// $values = [];
-		// if (!\is_array($value)) {
-		// 	$value = $value ? explode('##', $value) : [];
-		// }
-		// foreach ($value as $val) {
-		// 	$values[] = parent::getDbConditionBuilderValue($val, $operator);
-		// }
-		// return implode('##', $values);
 		return $value;
 	}
 
