@@ -51,10 +51,11 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
-		$extra = '';
-		$href = $international = \App\Purifier::encodeHtml($value);
-		if (\App\Config::component('Phone', 'advancedVerification', false) && ($format = \App\Config::component('Phone', 'advancedFormat', \libphonenumber\PhoneNumberFormat::RFC3966)) !== false) {
-			if ($recordModel) {
+		$title = $extra = '';
+		$href = $international = ($value ? \App\Purifier::encodeHtml($value) : '');
+		if (\App\Config::component('Phone', 'advancedVerification', false)
+			&& ($format = \App\Config::component('Phone', 'advancedFormat', \libphonenumber\PhoneNumberFormat::INTERNATIONAL)) !== false) {
+			if ($recordModel && $recordModel->get($this->getFieldModel()->getName() . '_extra')) {
 				$extra = $recordModel->getDisplayValue($this->getFieldModel()->getName() . '_extra');
 				if ($extra) {
 					$extra = ' ' . $extra;
@@ -65,37 +66,11 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 				$swissNumberProto = $phoneUtil->parse($value);
 				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
 				$href = $phoneUtil->format($swissNumberProto, $format);
-			} catch (\libphonenumber\NumberParseException $e) {
-			}
-			if (\libphonenumber\PhoneNumberFormat::RFC3966 !== $format) {
-				$href = 'tel:' . $href;
-			}
-		} else {
-			$href = 'tel:' . $href;
-		}
-		if ($rawText || (empty($international))) {
-			return $international . $extra;
-		}
-		if (!\App\Integrations\Pbx::isActive()) {
-			return '<a href="' . $href . '">' . $international . $extra . '</a>';
-		}
-		$data = 'data-phone="' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '"';
-		if ($record) {
-			$data .= ' data-record="' . $record . '"';
-		}
-		return '<a class="u-cursor-pointer js-phone-perform-call" ' . $data . ' data-js="click|container"><span class="fas fa-phone" aria-hidden="true"></span> ' . $international . $extra . '</a>';
-	}
 
-	/** {@inheritdoc} */
-	public function getListViewDisplayValue($value, $record = false, $recordModel = false, $rawText = false)
-	{
-		$href = $international = ($value ? \App\Purifier::encodeHtml($value) : '');
-		if (\App\Config::component('Phone', 'advancedVerification', false) && ($format = \App\Config::component('Phone', 'advancedFormat', \libphonenumber\PhoneNumberFormat::RFC3966)) !== false) {
-			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-			try {
-				$swissNumberProto = $phoneUtil->parse($value);
-				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
-				$href = $phoneUtil->format($swissNumberProto, $format);
+				$title .= ' ' . \libphonenumber\geocoding\PhoneNumberOfflineGeocoder::getInstance()
+					->getDescriptionForNumber($swissNumberProto, \App\Language::getLanguage());
+				$title .= ' ' . \libphonenumber\PhoneNumberToCarrierMapper::getInstance()
+					->getNameForValidNumber($swissNumberProto, \App\Language::getShortLanguageName());
 			} catch (\libphonenumber\NumberParseException $e) {
 			}
 			if (\libphonenumber\PhoneNumberFormat::RFC3966 !== $format) {
@@ -104,17 +79,19 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		} else {
 			$href = 'tel:' . $href;
 		}
-		if ($rawText || empty($international)) {
-			return $international;
+		$label = $international . $extra;
+		if ($rawText || (empty($international))) {
+			return $label;
 		}
 		if (!\App\Integrations\Pbx::isActive()) {
-			return '<a href="' . $href . '">' . $international . '</a>';
+			return '<a href="' . $href . '" class="js-popover-tooltip" title="' . $label . ' ' . trim($title) . '">' . $label . '</a>';
 		}
 		$data = 'data-phone="' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '"';
 		if ($record) {
 			$data .= ' data-record="' . $record . '"';
 		}
-		return '<a class="cursor-pointer js-phone-perform-call" ' . $data . ' data-js="click|container"><span class="fas fa-phone" aria-hidden="true"></span> ' . $international . '</a>';
+		$data .= ' title="' . $label . ' ' . trim($title) . '"';
+		return '<a class="u-cursor-pointer js-phone-perform-call js-popover-tooltip" ' . $data . ' data-js="click|container"><span class="fas fa-phone" aria-hidden="true"></span> ' . $label . '</a>';
 	}
 
 	/** {@inheritdoc} */

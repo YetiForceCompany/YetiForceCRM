@@ -19,7 +19,7 @@
 	<div>
 		{if \App\Config::component('Phone', 'advancedVerification', false)}
 			{if $NUMBER}
-				{assign var=PHONE_DETAIL value=App\Fields\Phone::getDetails($NUMBER)}
+				{assign var=PHONE_DETAIL value=App\Fields\Phone::getDetails($NUMBER,null,\libphonenumber\PhoneNumberFormat::INTERNATIONAL)}
 				{assign var=COUNTRY value=$PHONE_DETAIL['country']}
 			{else}
 				{assign var=PHONE_DETAIL value=[]}

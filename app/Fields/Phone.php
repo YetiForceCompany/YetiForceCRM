@@ -21,17 +21,18 @@ class Phone
 	 *
 	 * @param string      $phoneNumber
 	 * @param string|null $phoneCountry
+	 * @param int         $numberFormat the PhoneNumberFormat the phone number should be formatted into
 	 *
 	 * @return array|bool
 	 */
-	public static function getDetails(string $phoneNumber, ?string $phoneCountry = null)
+	public static function getDetails(string $phoneNumber, ?string $phoneCountry = null, int $numberFormat = \libphonenumber\PhoneNumberFormat::NATIONAL)
 	{
 		$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
 		try {
 			$swissNumberProto = $phoneUtil->parse($phoneNumber, $phoneCountry);
 			if ($phoneUtil->isValidNumber($swissNumberProto)) {
 				return [
-					'number' => $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL),
+					'number' => $phoneUtil->format($swissNumberProto, $numberFormat),
 					'geocoding' => \libphonenumber\geocoding\PhoneNumberOfflineGeocoder::getInstance()->getDescriptionForNumber($swissNumberProto, \App\Language::getLanguage()),
 					'carrier' => \libphonenumber\PhoneNumberToCarrierMapper::getInstance()->getNameForValidNumber($swissNumberProto, \App\Language::getShortLanguageName()),
 					'country' => $phoneUtil->getRegionCodeForNumber($swissNumberProto),
