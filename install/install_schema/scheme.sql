@@ -3887,7 +3887,7 @@ CREATE TABLE `u_yf_occurrences` (
 
 CREATE TABLE `u_yf_openstreetmap` (
   `crmid` int(10) NOT NULL,
-  `type` char(1) NOT NULL,
+  `type` char(50) NOT NULL,
   `lat` decimal(10,7) NOT NULL,
   `lon` decimal(10,7) NOT NULL,
   KEY `u_yf_openstreetmap_lat_lon` (`lat`,`lon`),
