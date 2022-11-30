@@ -34,8 +34,7 @@
 											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
 												{if $RECORD_LINK_URL}
-													<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="
-														{$RECORD_LINK_URL|substr:strlen("javascript:")};
+													<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{substr($RECORD_LINK_URL, strlen('javascript:'))};
 															if (event.stopPropagation){ldelim}
 																		event.stopPropagation();{rdelim} else{ldelim}
 																					event.cancelBubble = true;{rdelim}
