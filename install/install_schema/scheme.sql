@@ -3887,7 +3887,7 @@ CREATE TABLE `u_yf_occurrences` (
 
 CREATE TABLE `u_yf_openstreetmap` (
   `crmid` int(10) NOT NULL,
-  `type` char(1) NOT NULL,
+  `type` varchar(50) NOT NULL,
   `lat` decimal(10,7) NOT NULL,
   `lon` decimal(10,7) NOT NULL,
   KEY `u_yf_openstreetmap_lat_lon` (`lat`,`lon`),
@@ -6322,7 +6322,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `privileges` tinyint(1) DEFAULT 1,
   PRIMARY KEY (`eventhandler_id`),
   KEY `event_name_class` (`event_name`,`handler_class`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_expectedresponse` */
 

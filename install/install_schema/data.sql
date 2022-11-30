@@ -3553,6 +3553,7 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (98,'EditViewPreSave','FInvoice_CheckingQuantityAvailableProduct_Handler',0,'FInvoice','',5,95,1);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (99,'EntityBeforeSave','SMSNotifier_Parser_Handler',1,'SMSNotifier','',5,45,1);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (100,'EntityAfterSave','MailAccount_Folders_Handler',1,'MailAccount','',9,137,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (101,'EntityAfterSave','Vtiger_UpdateMapCoordinates_Handler',1,'','',5,0,1);
 
 /*Data for the table `vtiger_expectedresponse` */
 

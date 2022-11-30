@@ -96,7 +96,7 @@ class MapCoordinates
 		}
 		$vars = explode('.', $coord, 2);
 		if (isset($vars[1])) {
-			$val = ('0.' . ($vars[1] ?? 0)) * 3600;
+			$val = (float) ('0.' . ($vars[1] ?? 0)) * 3600;
 			$min = floor($val / 60);
 			$sec = round($val - ($min * 60), $precision);
 			if (0 == $sec) {
@@ -195,5 +195,34 @@ class MapCoordinates
 	{
 		$return = \OpenLocationCode\OpenLocationCode::decode($coord);
 		return ['lat' => $return['latitudeCenter'], 'lon' => $return['longitudeCenter']];
+	}
+
+	/**
+	 * Update of coordinates on the map.
+	 *
+	 * @param int    $recordId
+	 * @param string $fieldName
+	 * @param array  $coordinateData
+	 * @param string $action
+	 */
+	public static function updateMapCoordinates(int $recordId, string $fieldName, array $coordinateData, string $action): void
+	{
+		$db = \App\Db::getInstance();
+		switch ($action) {
+			case 'insert':
+				$db->createCommand()->insert(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, [
+					'crmid' => $recordId,
+					'type' => $fieldName,
+					'lat' => round($coordinateData['lat'], 7),
+					'lon' => round($coordinateData['lon'], 7),
+				])->execute();
+				break;
+			case 'update':
+				$db->createCommand()->update(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, ['lat' => round($coordinateData['lat'], 7), 'lon' => round($coordinateData['lon'], 7)], ['crmid' => $recordId, 'type' => $fieldName])->execute();
+				break;
+			case 'delete':
+				$db->createCommand()->delete(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, ['crmid' => $recordId, 'type' => $fieldName])->execute();
+				break;
+			}
 	}
 }

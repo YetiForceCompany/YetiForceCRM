@@ -59,39 +59,18 @@ class Vtiger_MapCoordinates_UIType extends Vtiger_Base_UIType
 			return $this->getEmptyValue();
 		}
 		if (\is_string($value)) {
-			if (\App\Json::isEmpty($value)) {
-				return $this->getEmptyValue();
-			}
 			$value = \App\Json::decode($value);
 		}
-		if (empty($value['type'])) {
+		if ((\App\Fields\MapCoordinates::CODE_PLUS === $value['type'] && empty($value['value'])) || (empty($value['value']['lat']) || empty($value['value']['lon']))) {
 			return $this->getEmptyValue();
 		}
-		if (isset($value['value'])) {
-			$coordinates = $value[$value['type']] = $value['value'];
-		} else {
-			$coordinates = $value[$value['type']];
-		}
+		$coordinates = $value[$value['type']] = $value['value'];
 		unset($value['value']);
 		foreach (array_keys(\App\Fields\MapCoordinates::COORDINATE_FORMATS) as $type) {
 			if ($value['type'] !== $type) {
 				$value[$type] = \App\Fields\MapCoordinates::convert($value['type'], $type, $coordinates);
 			}
 		}
-		return $value;
-	}
-
-	/** {@inheritdoc} */
-	public function getDbConditionBuilderValue($value, string $operator)
-	{
-		// $values = [];
-		// if (!\is_array($value)) {
-		// 	$value = $value ? explode('##', $value) : [];
-		// }
-		// foreach ($value as $val) {
-		// 	$values[] = parent::getDbConditionBuilderValue($val, $operator);
-		// }
-		// return implode('##', $values);
 		return $value;
 	}
 
