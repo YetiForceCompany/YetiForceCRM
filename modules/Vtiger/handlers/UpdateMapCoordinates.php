@@ -41,7 +41,7 @@ class Vtiger_UpdateMapCoordinates_Handler
 					if ((new \App\Db\Query())->from(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME)
 						->where(['crmid' => $recordId, 'type' => $fieldName])->exists()) {
 						MapCoordinates::updateMapCoordinates($recordId, $fieldName, 'update', $coordinate);
-					} elseif ($recordModel->getPreviousValue($fieldName)) {
+					} else {
 						MapCoordinates::updateMapCoordinates($recordId, $fieldName, 'insert', $coordinate);
 					}
 				} elseif (!$isNew && empty($coordinate['lat']) && empty($coordinate['lon'])) {

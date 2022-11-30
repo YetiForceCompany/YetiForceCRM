@@ -266,7 +266,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$queryGenerator->setCustomColumn('vtiger_crmentity.crmid');
 		$queryGenerator->addJoin(['LEFT JOIN', 'u_#__openstreetmap', 'vtiger_crmentity.crmid = u_#__openstreetmap.crmid']);
 		$query = $queryGenerator->createQuery();
-		$andWhere = ['and', ['vtiger_crmentity.crmid' => $records], ['u_#__openstreetmap.type' => 'a']];
+		$andWhere = ['vtiger_crmentity.crmid' => $records];
 		if (!empty($coordinatesCenter) && !empty($radius)) {
 			$margins = self::getMargins($coordinatesCenter, $radius);
 			$andWhere[] = ['<', 'u_#__openstreetmap.lat', $margins['latMax']];
