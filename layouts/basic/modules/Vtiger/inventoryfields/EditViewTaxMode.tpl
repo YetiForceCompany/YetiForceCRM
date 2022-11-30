@@ -3,8 +3,9 @@
 	<!-- tpl-Base-inventoryfields-EditViewTaxMode -->
 	{assign var=VALUE value=$INVENTORY_MODEL->getEditValue($ITEM_DATA, $FIELD->getColumnName())}
 	<select class="select2 js-taxmode" title="{\App\Language::translate('LBL_TAX_MODE', $MODULE)}" {if $ROW_NO} name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" {/if}{if $FIELD->isReadOnly()}readonly="readonly" {/if} data-js="change|val">
-		<option value="0" {if $VALUE == '0'}selected{/if}>{\App\Language::translate('LBL_GROUP', $MODULE)}</option>
-		<option value="1" {if $VALUE == '1'}selected{/if}>{\App\Language::translate('LBL_INDIVIDUAL', $MODULE)}</option>
+		{foreach from=$FIELD->getModes() item=LABEL key=KEY}
+			<option value="{$KEY}" {if $VALUE == $KEY}selected{/if}>{\App\Language::translate($LABEL, $MODULE)}</option>
+		{/foreach}
 	</select>
 	<!-- /tpl-Base-inventoryfields-EditViewTaxMode -->
 {/strip}

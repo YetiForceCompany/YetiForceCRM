@@ -16,18 +16,10 @@
 				</button>
 			</td>
 			{foreach item=FIELD from=$INVENTORY_MODEL->getFieldsByBlock(1)}
-				{if $FIELD->getColumnName() eq 'name' && $FIELD->isVisible()}
-					<td class="p-1">
-						<div class="u-min-w-300pxr fieldValue">
-							{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$GROUP_FIELD->getTemplateName('EditView',$MODULE_NAME)}
-							{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) FIELD=$GROUP_FIELD}
-						</div>
-					</td>
-				{else}
-					<td {if !$FIELD->isEditable()}colspan="0" {/if} class="{if !$FIELD->isEditable()} d-none{/if} text-right">
-						<span class="text-nowrap u-font-weight-600 middle{if $FIELD->isSummary()} js-inv-container-group-summary{/if}" data-sumfield="{lcfirst($FIELD->getType())|escape}"></span>
-					</td>
-				{/if}
+				<td {if !$FIELD->isEditable()}colspan="0" {/if} class="{if !$FIELD->isEditable()} d-none{/if} text-right">
+					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('GroupHeaders/',$MODULE_NAME)}
+					{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) FIELD=$FIELD}
+				</td>
 			{/foreach}
 		</tr>
 	{/if}

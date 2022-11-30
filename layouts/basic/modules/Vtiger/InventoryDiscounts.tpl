@@ -16,6 +16,7 @@
 				</div>
 				<div class="modal-body">
 					<input type="hidden" class="aggregationType" value="{$AGGREGATION_TYPE}" />
+					<input type="hidden" class="discountMode" value="{$DISCOUNT_MODE}" />
 					{assign var="DISCOUNTS_EXISTS" value=count($GLOBAL_DISCOUNTS) || !empty($ACCOUNT_DISCOUNT) || array_intersect([2,3], $CONFIG['discounts'])}
 					{if !$DISCOUNTS_EXISTS}
 						<div class="alert alert-danger" role="alert">

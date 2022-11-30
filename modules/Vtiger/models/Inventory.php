@@ -12,6 +12,18 @@
  */
 class Vtiger_Inventory_Model
 {
+	/** @var int Discount global mode */
+	public const DISCOUT_MODE_GLOBAL = 0;
+	/** @var int Discount individual mode */
+	public const DISCOUT_MODE_INDIVIDUAL = 1;
+	/** @var int Discount group mode */
+	public const DISCOUT_MODE_GROUP = 2;
+
+	/** @var int Tax global mode */
+	public const TAX_MODE_GLOBAL = 0;
+	/** @var int Tax individual mode */
+	public const TAX_MODE_INDIVIDUAL = 1;
+
 	/**
 	 * Field configuration table postfix.
 	 */
@@ -644,11 +656,14 @@ class Vtiger_Inventory_Model
 			$config = [];
 			$dataReader = (new \App\Db\Query())->from('a_#__discounts_config')->createCommand(\App\Db::getInstance('admin'))->query();
 			while ($row = $dataReader->read()) {
-				$value = $row['value'];
-				if (\in_array($row['param'], ['discounts'])) {
-					$value = explode(',', $value);
+				$name = $row['param'];
+				if ('discounts' === $name) {
+					$discounts = $row['value'] ? explode(',', $row['value']) : [];
+					$value = array_map(fn ($val) => (int) $val, $discounts);
+				} else {
+					$value = (int) $row['value'];
 				}
-				$config[$row['param']] = $value;
+				$config[$name] = $value;
 			}
 			\App\Cache::save('Inventory', 'DiscountConfiguration', $config, \App\Cache::LONG);
 		}

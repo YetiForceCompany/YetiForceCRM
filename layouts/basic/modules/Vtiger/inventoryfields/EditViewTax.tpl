@@ -10,12 +10,12 @@
 		<input name="inventory[{$ROW_NO}][taxparam]" type="hidden" value="{\App\Purifier::encodeHtml($TAXPARAM_VALUE)}"
 			class="taxParam" {if $FIELD->isReadOnly()}readonly="readonly" {/if} />
 		<span class="input-group-append u-cursor-pointer changeTax {if $TAX_MODE == 0}d-none{/if}">
-			<div class="input-group-text">
+			<button type="button" class="btn btn-light">
 				<span class="small">
 					<span class="fas fa-long-arrow-alt-up"></span>
 					<span class="fas fa-percent"></span>
 				</span>
-			</div>
+			</button>
 		</span>
 	</div>
 	<!-- /tpl-Base-inventoryfields-EditViewTax -->

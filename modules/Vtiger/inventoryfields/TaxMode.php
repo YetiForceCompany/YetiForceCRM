@@ -17,7 +17,7 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	protected $defaultValue = '0';
 	protected $columnName = 'taxmode';
 	protected $dbType = 'smallint(1) DEFAULT 0';
-	protected $values = [0 => 'group', 1 => 'individual'];
+	protected $modes = [0 => 'LBL_INV_TAX_MODE_GLOBAL', 1 => 'LBL_INDIVIDUAL'];
 	protected $blocks = [0];
 	protected $maximumLength = '-32768,32767';
 	protected $purifyType = \App\Purifier::INTEGER;
@@ -25,7 +25,7 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		return '' !== $value ? \App\Language::translate('LBL_' . strtoupper($this->values[$value]), $this->getModuleName()) : $value;
+		return '' !== $value && null !== $value ? \App\Language::translate($this->modes[$value], $this->getModuleName()) : '';
 	}
 
 	/** {@inheritdoc} */
@@ -37,7 +37,7 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function validate($value, string $columnName, bool $isUserFormat, $originalValue = null)
 	{
-		if (!is_numeric($value) || !isset($this->values[$value])) {
+		if (!is_numeric($value) || !isset($this->modes[$value])) {
 			throw new \App\Exceptions\Security("ERR_ILLEGAL_FIELD_VALUE||$columnName||$value", 406);
 		}
 	}
@@ -53,5 +53,15 @@ class Vtiger_TaxMode_InventoryField extends Vtiger_Basic_InventoryField
 	public function compare($value, $prevValue, string $column): bool
 	{
 		return (int) $value === (int) $prevValue;
+	}
+
+	/**
+	 * Get available modes.
+	 *
+	 * @return array
+	 */
+	public function getModes(): array
+	{
+		return $this->modes;
 	}
 }

@@ -115,11 +115,11 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	 *
 	 * @param array  $discountParam
 	 * @param float  $totalPrice
-	 * @param string $mode          0-can not be combined, 1-summary, 2-cascade
+	 * @param string $aggregationMode 0-can not be combined, 1-summary, 2-cascade
 	 *
 	 * @return float
 	 */
-	private function getDiscountValue(array $discountParam, float $totalPrice, int $mode): float
+	private function getDiscountValue(array $discountParam, float $totalPrice, int $aggregationMode): float
 	{
 		$value = $discountValue = 0.0;
 		$types = $discountParam['aggregationType'] ?? [];
@@ -130,7 +130,7 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 		foreach ($types as $type) {
 			$discountValue = $this->getDiscountValueByType($type, $discountParam, $totalPrice);
 			$value += $discountValue;
-			if (2 === $mode) {
+			if (2 === $aggregationMode) {
 				$totalPrice = $isMarkup ? ($totalPrice + $discountValue) : ($totalPrice - $discountValue);
 			}
 		}

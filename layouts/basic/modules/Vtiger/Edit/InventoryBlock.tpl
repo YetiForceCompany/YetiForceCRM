@@ -50,14 +50,14 @@
 										<div class="p-0 form-control-plaintext">{\App\Language::translate($FIELD->get('label'), $FIELD->getModuleName())}</div>
 										{if in_array($FIELD->getType(), ['Discount']) && $INVENTORY_MODEL->isField('discountmode')}
 											{assign var=DISCOUNT_MODE value=$INVENTORY_MODEL->getField('discountmode')->getEditValue($INVENTORY_ROW)}
-											<div class="js-inv-discount_global js-change-discount {if $DISCOUNT_MODE == 1}d-none{/if}">
-												<button type="button" class="btn btn-primary btn-xs ml-1" title="{\App\Language::translate('LBL_SET_GLOBAL_DISCOUNT', $MODULE)}">
+											<div class="">
+												<button type="button" class="btn btn-primary btn-xs ml-1 js-inv-discount_global js-change-discount {if $DISCOUNT_MODE !== \Vtiger_Inventory_Model::DISCOUT_MODE_GLOBAL}d-none{/if}" title="{\App\Language::translate('LBL_SET_GLOBAL_DISCOUNT', $MODULE)}" data-mode="{\Vtiger_Inventory_Model::DISCOUT_MODE_GLOBAL}">
 													<span class="fas fa-sliders-h"></span>
 												</button>
 											</div>
 										{elseif in_array($FIELD->getType(), ['Tax','TaxPercent']) && $INVENTORY_MODEL->isField('taxmode')}
 											{assign var=TAX_MODE value=$INVENTORY_MODEL->getField('taxmode')->getEditValue($INVENTORY_ROW)}
-											<div class="js-inv-tax_global changeTax {if $TAX_MODE == 1}d-none{/if}">
+											<div class="js-inv-tax_global changeTax {if $TAX_MODE !== \Vtiger_Inventory_Model::TAX_MODE_GLOBAL}d-none{/if}">
 												<button type="button" class="btn btn-primary btn-xs ml-1" title="{\App\Language::translate('LBL_SET_GLOBAL_TAX', $MODULE)}">
 													<span class="fas fa-sliders-h"></span>
 												</button>
