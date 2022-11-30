@@ -108,23 +108,28 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 				$mapDelId = ['Accounts' => 'accountfid'];
 				$db->createCommand()->update('vtiger_convertleadmapping', [$mapDelId[$fldModule] => 0], [$mapDelId[$fldModule] => $id])->execute();
 			}
-
-			//HANDLE HERE - we have to remove the table for other picklist type values which are text area and multiselect combo box
-			if ('picklist' === $this->getFieldDataType() || 'multipicklist' === $this->getFieldDataType()) {
-				$query = (new \App\Db\Query())->from('vtiger_field')
-					->where(['fieldname' => $fieldname])
-					->andWhere(['in', 'uitype', [15, 16, 33]]);
-				$dataReader = $query->createCommand()->query();
-				if (!$dataReader->count()) {
-					$db->createCommand()->dropTable('vtiger_' . $fieldname)->execute();
-					//To Delete Sequence Table
-					if ($db->isTableExists('vtiger_' . $fieldname . '_seq')) {
-						$db->createCommand()->dropTable('vtiger_' . $fieldname . '_seq')->execute();
-					}
-					$db->createCommand()->delete('vtiger_picklist', ['name' => $fieldname])->execute();
-				}
+			switch ($this->getFieldDataType()) {
+				case 'picklist':
+				case 'multipicklist':
+						$query = (new \App\Db\Query())->from('vtiger_field')
+							->where(['fieldname' => $fieldname])
+							->andWhere(['in', 'uitype', [15, 16, 33]]);
+						$dataReader = $query->createCommand()->query();
+						if (!$dataReader->count()) {
+							$db->createCommand()->dropTable('vtiger_' . $fieldname)->execute();
+							//To Delete Sequence Table
+							if ($db->isTableExists('vtiger_' . $fieldname . '_seq')) {
+								$db->createCommand()->dropTable('vtiger_' . $fieldname . '_seq')->execute();
+							}
+							$db->createCommand()->delete('vtiger_picklist', ['name' => $fieldname])->execute();
+						}
+					break;
+					case 'mapCoordinates':
+						\App\Fields\MapCoordinates::reloadHandler();
+						break;
+				default:
+					break;
 			}
-
 			$entityInfo = \App\Module::getEntityInfo($fldModule);
 			foreach (['fieldnameArr' => 'fieldname', 'searchcolumnArr' => 'searchcolumn'] as $key => $name) {
 				if (false !== ($fieldNameKey = array_search($fieldname, $entityInfo[$key]))) {
@@ -181,20 +186,15 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	 */
 	public static function makeFieldActive($fieldIdsList, $blockId)
 	{
-		$maxSequence = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockId, 'presence' => [0, 2]])->max('sequence');
-		$db = \App\Db::getInstance();
-		$caseExpression = 'CASE';
+		$maxSequence = (new \App\Db\Query())->from('vtiger_field')
+			->where(['block' => $blockId, 'presence' => [0, 2]])->max('sequence');
 		foreach ($fieldIdsList as $fieldId) {
-			$caseExpression .= " WHEN fieldid = {$db->quoteValue($fieldId)} THEN {$db->quoteValue($maxSequence + 1)}";
+			++$maxSequence;
+			$fieldInstance = self::getInstance($fieldId);
+			$fieldInstance->set('sequence', $maxSequence);
+			$fieldInstance->set('presence', 2);
+			$fieldInstance->save();
 		}
-		$caseExpression .= ' ELSE sequence END';
-		$db->createCommand()
-			->update('vtiger_field', [
-				'presence' => 2,
-				'sequence' => new \yii\db\Expression($caseExpression),
-			], ['fieldid' => $fieldIdsList])->execute();
-		\App\Cache::clear();
-		\App\Colors::generate('picklist');
 	}
 
 	/**

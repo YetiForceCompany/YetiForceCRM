@@ -1398,7 +1398,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		} else {
 			$dbCommand->delete('s_#__fields_anonymization', ['field_id' => $this->getId()])->execute();
 		}
-		App\Cache::clear();
+		$this->afterFieldChange();
 	}
 
 	/**

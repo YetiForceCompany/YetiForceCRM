@@ -8,7 +8,11 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Sołek <a.solek@yetiforce.com>
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
+
+use App\Fields\MapCoordinates;
+
 /**
  * Update map coordinates handler class.
  */
@@ -18,53 +22,32 @@ class Vtiger_UpdateMapCoordinates_Handler
 	 * EntityAfterSave function.
 	 *
 	 * @param App\EventHandler $eventHandler
+	 *
+	 * @return void
 	 */
-	public function entityAfterSave(App\EventHandler $eventHandler)
+	public function entityAfterSave(App\EventHandler $eventHandler): void
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$recordId = $recordModel->getId();
+		$isNew = $recordModel->isNew();
 		foreach ($recordModel->getModule()->getFieldsByType(['mapCoordinates'], true) as $fieldName => $fieldModel) {
-			$coordinateData = $this->getCoordinateToDb($recordModel->get($fieldName));
-			if (!empty($coordinateData['lat']) && !empty($coordinateData['lon'])) {
-				if (!(new \App\Db\Query())->from(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME)
-					->where(['crmid' => $recordId, 'type' => $fieldName])->exists()) {
-					$action = 'insert';
-				} elseif ($recordModel->getPreviousValue($fieldName)) {
-					$action = 'update';
+			if ($isNew || false !== $recordModel->getPreviousValue($fieldName)) {
+				$value = $recordModel->get($fieldName);
+				if (!\App\Json::isEmpty($value)) {
+					$value = \App\Json::decode($value);
+					$coordinate = MapCoordinates::convert($value['type'], MapCoordinates::DECIMAL, $value['value']);
 				}
-			} elseif ($recordModel->getPreviousValue($fieldName) && empty($coordinateData['lat']) && empty($coordinateData['lon'])) {
-				if ((new \App\Db\Query())->from(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME)
-					->where(['crmid' => $recordId, 'type' => $fieldName])->exists()) {
-					$action = 'delete';
+				if (!empty($coordinate['lat']) && !empty($coordinate['lon'])) {
+					if ((new \App\Db\Query())->from(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME)
+						->where(['crmid' => $recordId, 'type' => $fieldName])->exists()) {
+						MapCoordinates::updateMapCoordinates($recordId, $fieldName, 'update', $coordinate);
+					} elseif ($recordModel->getPreviousValue($fieldName)) {
+						MapCoordinates::updateMapCoordinates($recordId, $fieldName, 'insert', $coordinate);
+					}
+				} elseif (!$isNew && empty($coordinate['lat']) && empty($coordinate['lon'])) {
+					MapCoordinates::updateMapCoordinates($recordId, $fieldName, 'delete');
 				}
 			}
-			if (isset($action)) {
-				\App\Fields\MapCoordinates::updateMapCoordinates($recordId, $fieldName, $coordinateData, $action);
-			}
 		}
-	}
-
-	/**
-	 * Retrieves the decimal coordinates according to the database type.
-	 *
-	 * @param string $value
-	 *
-	 * @return array
-	 */
-	public function getCoordinateToDb(string $value): array
-	{
-		$coordinateData = \App\Json::decode($value);
-		switch ($coordinateData['type']) {
-			case \App\Fields\MapCoordinates::DEGREES:
-				$coordinate = \App\Fields\MapCoordinates::convert(\App\Fields\MapCoordinates::DEGREES, \App\Fields\MapCoordinates::DECIMAL, $coordinateData['value']);
-				break;
-			case \App\Fields\MapCoordinates::CODE_PLUS:
-				$coordinate = \App\Fields\MapCoordinates::convert(\App\Fields\MapCoordinates::CODE_PLUS, \App\Fields\MapCoordinates::DECIMAL, $coordinateData['value']);
-				break;
-			default:
-			$coordinate = $coordinateData['value'];
-				break;
-		}
-		return $coordinate;
 	}
 }

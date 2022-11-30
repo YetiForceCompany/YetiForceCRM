@@ -89,6 +89,9 @@ class MapCoordinates
 	 */
 	public static function decimalToDegrees(string $coord, string $type, int $precision = 4): string
 	{
+		if (empty($coord)) {
+			return '';
+		}
 		if ('lat' === $type) {
 			$dir = $coord < 0 ? 'S' : 'N';
 		} else {
@@ -100,9 +103,11 @@ class MapCoordinates
 			$min = floor($val / 60);
 			$sec = round($val - ($min * 60), $precision);
 			if (0 == $sec) {
-				return sprintf("%s°%02d'%s", $vars[0], $min, $dir);
+				$return = sprintf("%s°%02d'%s", $vars[0], $min, $dir);
+			} else {
+				$return = sprintf("%s°%02d'%s\"%s", $vars[0], $min, $sec, $dir);
 			}
-			return sprintf("%s°%02d'%s\"%s", $vars[0], $min, $sec, $dir);
+			return $return;
 		}
 		return sprintf('%s°%s', $vars[0], $dir);
 	}
@@ -116,6 +121,9 @@ class MapCoordinates
 	 */
 	public static function degreesToDecimal(string $coord): ?string
 	{
+		if (empty($coord)) {
+			return '';
+		}
 		if (($dots = substr_count($coord, '.')) > 1) {
 			if (2 < \count(explode(' ', trim(preg_replace('/[a-zA-Z]/', '', preg_replace('/\./', ' ', $coord, $dots - 1)))))) {
 				$coord = preg_replace('/\./', ' ', $coord, $dots - 1);
@@ -200,29 +208,61 @@ class MapCoordinates
 	/**
 	 * Update of coordinates on the map.
 	 *
-	 * @param int    $recordId
+	 * @param int    $id
 	 * @param string $fieldName
-	 * @param array  $coordinateData
 	 * @param string $action
+	 * @param array  $coord
+	 *
+	 * @return void
 	 */
-	public static function updateMapCoordinates(int $recordId, string $fieldName, array $coordinateData, string $action): void
+	public static function updateMapCoordinates(int $id, string $fieldName, string $action, array $coord = []): void
 	{
-		$db = \App\Db::getInstance();
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		switch ($action) {
 			case 'insert':
-				$db->createCommand()->insert(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, [
-					'crmid' => $recordId,
+				$dbCommand->insert(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, [
+					'crmid' => $id,
 					'type' => $fieldName,
-					'lat' => round($coordinateData['lat'], 7),
-					'lon' => round($coordinateData['lon'], 7),
+					'lat' => round($coord['lat'], 7),
+					'lon' => round($coord['lon'], 7),
 				])->execute();
 				break;
 			case 'update':
-				$db->createCommand()->update(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, ['lat' => round($coordinateData['lat'], 7), 'lon' => round($coordinateData['lon'], 7)], ['crmid' => $recordId, 'type' => $fieldName])->execute();
+				$dbCommand->update(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME,
+					['lat' => round($coord['lat'], 7), 'lon' => round($coord['lon'], 7)],
+					['crmid' => $id, 'type' => $fieldName])
+					->execute();
 				break;
 			case 'delete':
-				$db->createCommand()->delete(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME, ['crmid' => $recordId, 'type' => $fieldName])->execute();
+				$dbCommand->delete(\OpenStreetMap_Module_Model::COORDINATES_TABLE_NAME,
+					['crmid' => $id, 'type' => $fieldName])
+					->execute();
 				break;
-			}
+			default:
+				break;
+		}
+	}
+
+	/**
+	 * Reloading the handler configuration.
+	 *
+	 * @return void
+	 */
+	public static function reloadHandler(): void
+	{
+		$fields = (new \App\Db\Query())->distinct()->select(['vtiger_field.tabid'])->from('vtiger_field')
+			->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
+			->where(['uitype' => 331, 'vtiger_tab.presence' => 0, 'vtiger_field.presence' => [0, 2]])->column();
+		foreach ($fields as $key => $value) {
+			$fields[$key] = \App\Module::getModuleName($value);
+		}
+		if ($fields) {
+			$id = (new \App\Db\Query())->select(['eventhandler_id'])->from('vtiger_eventhandlers')
+				->where(['handler_class' => 'Vtiger_UpdateMapCoordinates_Handler'])
+				->scalar();
+			\App\EventHandler::update(['is_active' => 1, 'include_modules' => \implode(',', $fields)], $id);
+		} else {
+			\App\EventHandler::setInActive('Vtiger_UpdateMapCoordinates_Handler');
+		}
 	}
 }
