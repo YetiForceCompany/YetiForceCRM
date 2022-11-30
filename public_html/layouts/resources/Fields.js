@@ -3980,7 +3980,7 @@ window.App.Fields = {
 		 */
 		constructor(container, options) {
 			this.container = container;
-			this.fieldInfo = this.container.data('fieldinfo') || {};
+			this.fieldInfo = this.container.find('input:first').data('fieldinfo') || {};
 			this.values = this.container.data('fieldinfo') || {};
 			this.options = { ...options };
 		}

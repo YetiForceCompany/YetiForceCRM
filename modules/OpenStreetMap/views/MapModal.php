@@ -66,7 +66,7 @@ class OpenStreetMap_MapModal_View extends \App\Controller\Modal
 			$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('srcModule', 'Alnum'));
 			$fieldModel = $moduleModel->getFieldByName($request->getByType('srcField', 'Alnum'));
 			$value = $fieldModel->getEditViewDisplayValue($request->getArray('value'));
-			if (!empty($value['decimal'])) {
+			if (!empty($value['decimal']['lat'])) {
 				$viewer->assign('POINT_DECIMAL', $value);
 			}
 			$viewer->assign('SHOW_PANEL', false);
