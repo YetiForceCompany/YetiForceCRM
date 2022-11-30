@@ -809,22 +809,41 @@ jQuery.Class(
 		registerRowsEvent: function () {
 			const self = this;
 			if (this.relatedView === 'List' || this.relatedView === 'Detail') {
+				let lastEvent = false;
 				this.content.find('.listViewEntries').on('click', function (e) {
 					if ($(e.target).hasClass('js-no-link')) return;
 					if ($(e.target).closest('div').hasClass('actions')) return;
 					if ($(e.target).is('button') || $(e.target).parent().is('button') || $(e.target).is('a')) return;
 					if ($(e.target).closest('a').hasClass('noLinkBtn')) return;
 					if ($(e.target).is('a')) return;
-					if ($(e.target, $(e.currentTarget)).is('td:first-child')) return;
 					if ($(e.target).is('input')) return;
-					if ($.contains($(e.currentTarget).find('td:last-child').get(0), e.target)) return;
-					if ($.contains($(e.currentTarget).find('td:first-child').get(0), e.target)) return;
-					let recordUrl = $(e.target).closest('tr').data('recordurl');
+					const element = $(e.currentTarget);
+					if ($(e.target, element).is('td:first-child')) return;
+					if ($.contains(element.find('td:last-child').get(0), e.target)) return;
+					if ($.contains(element.find('td:first-child').get(0), e.target)) return;
+					let recordUrl = element.data('recordurl');
 					if (!recordUrl) return;
-					if (app.getViewName() === 'DetailPreview') {
-						top.document.location.href = recordUrl;
+
+					if (lastEvent) {
+						lastEvent = e.timeStamp;
+						if (element.find('.js-quick-edit-modal').length) {
+							element.find('.js-quick-edit-modal').trigger('click');
+						} else if (element.find('.js-full-edit').length) {
+							element.find('.js-full-edit').trigger('click');
+						}
 					} else {
-						document.location.href = recordUrl;
+						lastEvent = e.timeStamp;
+						setTimeout(() => {
+							if (lastEvent === e.timeStamp) {
+								if (app.getViewName() === 'DetailPreview') {
+									top.document.location.href = recordUrl;
+								} else {
+									document.location.href = recordUrl;
+								}
+							} else {
+								lastEvent = false;
+							}
+						}, 300);
 					}
 				});
 				this.content.find('.js-toggle-hidden-row').on('click', function (e) {

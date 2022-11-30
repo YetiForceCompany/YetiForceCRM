@@ -1445,7 +1445,7 @@ class Vtiger_Record_Model extends \App\Base
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'yfi yfi-full-editing-view',
+				'linkicon' => 'yfi yfi-full-editing-view js-full-edit',
 				'linkclass' => 'btn-sm btn-default',
 				'linkhref' => true,
 			];
