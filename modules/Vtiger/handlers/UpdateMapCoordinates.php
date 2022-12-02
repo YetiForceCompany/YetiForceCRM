@@ -87,7 +87,7 @@ class Vtiger_UpdateMapCoordinates_Handler
 			}
 			if (isset($values['codeplus'][0])) {
 				$return['changeValues'][] = ['fieldName' => 'coordinates[codeplus]', 'value' => $values['codeplus'][0]];
-				$recordModel->set('coordinates[codeplus]', $values['codeplus'][0]['lat']);
+				$recordModel->set('coordinates[codeplus]', $values['codeplus'][0]);
 			}
 		}
 		return $return;
