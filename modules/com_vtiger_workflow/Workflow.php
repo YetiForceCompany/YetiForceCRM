@@ -228,7 +228,7 @@ class Workflow
 				} else {
 					$delay = 0;
 				}
-				if (true === (bool) $task->executeImmediately) {
+				if (true === (bool) $task->executeImmediately && 0 === $delay) {
 					$task->doTask($recordModel);
 				} else {
 					$hasContents = $task->hasContents($recordModel);
