@@ -1318,7 +1318,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 						if ($relatedModule == $sourceModule) {
 							foreach ($relatedFields as $to => $from) {
 								$fieldValue = $recordModel->get($from[0]);
-								if ($recordModel->getField($from[0])->isViewable() && '' !== $fieldValue) {
+								if ('' !== $fieldValue && ($fieldModel = $recordModel->getField($from[0])) && $fieldModel->isViewable()) {
 									$data[$to] = $fieldValue;
 								}
 							}
