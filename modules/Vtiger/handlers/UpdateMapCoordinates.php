@@ -62,32 +62,24 @@ class Vtiger_UpdateMapCoordinates_Handler
 	{
 		$return = [];
 		$recordModel = $eventHandler->getRecordModel();
-		$coordinates = $recordModel->get('coordinates');
-		if (!\App\Json::isEmpty($coordinates)) {
-			$coordinates = \App\Json::decode($coordinates);
+		$coordinatesFieldValue = $recordModel->get('coordinates');
+		if (!\App\Json::isEmpty($coordinatesFieldValue)) {
+			$coordinatesFieldValue = \App\Json::decode($coordinatesFieldValue);
 		}
-		$coordinatesConnector = \App\Map\Coordinates::getInstance();
-		$values = [];
-		if (!empty($coordinatesData = $coordinatesConnector->getCoordinates(\App\Map\Coordinates::getAddressParams($recordModel, 'a')))) {
+		if ((empty($coordinatesFieldValue['value']) || (empty($coordinatesFieldValue['value']['lat']) && empty($coordinatesFieldValue['value']['lon']))) && !empty($coordinatesData = \App\Map\Coordinates::getInstance()->getCoordinates(\App\Map\Coordinates::getAddressParams($recordModel, 'a')))) {
 			$coordinatesData = reset($coordinatesData);
 			foreach ([MapCoordinates::DECIMAL, MapCoordinates::DEGREES, MapCoordinates::CODE_PLUS] as $type) {
-				$values[$type][] = \App\Fields\MapCoordinates::convert(MapCoordinates::DECIMAL, $type, ['lat' => $coordinatesData['lat'], 'lon' => $coordinatesData['lon']]);
-			}
-			if (isset($values['decimal'][0]['lat'], $values['decimal'][0]['lon'])) {
-				$return['changeValues'][] = ['fieldName' => 'coordinates[decimal][lat]', 'value' => $values['decimal'][0]['lat']];
-				$return['changeValues'][] = ['fieldName' => 'coordinates[decimal][lon]', 'value' => $values['decimal'][0]['lon']];
-				$recordModel->set('coordinates[decimal][lat]', $values['decimal'][0]['lat']);
-				$recordModel->set('coordinates[decimal][lon]', $values['decimal'][0]['lon']);
-			}
-			if (isset($values['degrees'][0]['lat'], $values['degrees'][0]['lon'])) {
-				$return['changeValues'][] = ['fieldName' => 'coordinates[degrees][lat]', 'value' => $values['degrees'][0]['lat']];
-				$return['changeValues'][] = ['fieldName' => 'coordinates[degrees][lon]', 'value' => $values['degrees'][0]['lon']];
-				$recordModel->set('coordinates[degrees][lat]', $values['degrees'][0]['lat']);
-				$recordModel->set('coordinates[degrees][lon]', $values['degrees'][0]['lon']);
-			}
-			if (isset($values['codeplus'][0])) {
-				$return['changeValues'][] = ['fieldName' => 'coordinates[codeplus]', 'value' => $values['codeplus'][0]];
-				$recordModel->set('coordinates[codeplus]', $values['codeplus'][0]);
+				if (!empty($convertCoordinates = \App\Fields\MapCoordinates::convert(MapCoordinates::DECIMAL, $type, ['lat' => $coordinatesData['lat'], 'lon' => $coordinatesData['lon']]))) {
+					if (MapCoordinates::CODE_PLUS === $type) {
+						$return['changeValues'][] = ['fieldName' => 'coordinates[codeplus]', 'value' => $convertCoordinates];
+						$recordModel->set("coordinates[{$type}]", $convertCoordinates);
+					} else {
+						$return['changeValues'][] = ['fieldName' => "coordinates[{$type}][lat]", 'value' => $convertCoordinates['lat']];
+						$return['changeValues'][] = ['fieldName' => "coordinates[{$type}][lon]", 'value' => $convertCoordinates['lon']];
+						$recordModel->set("coordinates[{$type}][lat]", $convertCoordinates['lat']);
+						$recordModel->set("coordinates[{$type}][lon]", $convertCoordinates['lon']);
+					}
+				}
 			}
 		}
 		return $return;
