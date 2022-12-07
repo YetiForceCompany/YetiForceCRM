@@ -21,64 +21,28 @@ namespace App\Integrations\Magento\Synchronizer\Maps;
  */
 abstract class Base
 {
-	/**
-	 * Map module name.
-	 *
-	 * @var string
-	 */
+	/** @var string Map module name. */
 	protected $moduleName;
-	/**
-	 * Synchronizer.
-	 *
-	 * @var \App\Integrations\Magento\Synchronizer\Base
-	 */
+	/** @var \App\Integrations\Magento\Synchronizer\Base Synchronizer instance */
 	protected $synchronizer;
-	/**
-	 * Fields which are not exist in Magento but needed in YetiForce.
-	 *
-	 * @var string[]
-	 */
+	/** @var string[] Fields which are not exist in Magento but needed in YetiForce. */
 	public static $additionalFieldsCrm = [];
-	/**
-	 * Mapped fields.
-	 *
-	 * @var string[]
-	 */
+	/** @var string[] Mapped fields. */
 	public static $mappedFields = [];
-	/**
-	 * Mapped fields type.
-	 *
-	 * @var string[]
-	 */
+	/** @var string[] Mapped fields type. */
 	public static $fieldsType = [
 		'salutationtype' => 'map',
 		'gender' => 'map',
 		'addresslevel1a' => 'country',
 		'addresslevel1b' => 'country',
 	];
-	/**
-	 * Fields default value.
-	 *
-	 * @var string[]
-	 */
+	/** @var string[] Fields default value. */
 	public static $fieldsDefaultValue = [];
-	/**
-	 * Data from Magento.
-	 *
-	 * @var array
-	 */
+	/** @var array Data from Magento. */
 	public $data = [];
-	/**
-	 * Data from YetiForce.
-	 *
-	 * @var string[]
-	 */
+	/** @var string[] Data from YetiForce. */
 	public $dataCrm = [];
-	/**
-	 * Mapped billing fields.
-	 *
-	 * @var string[]
-	 */
+	/** @var string[] Mapped billing fields. */
 	public static $billingFields = [
 		'addresslevel1a' => 'country_id',
 		'addresslevel2a' => 'region|region',
@@ -95,11 +59,7 @@ abstract class Base
 		'phone' => 'telephone',
 		'mobile' => 'fax',
 	];
-	/**
-	 * Mapped shipping fields.
-	 *
-	 * @var string[]
-	 */
+	/** @var string[] Mapped shipping fields. */
 	public static $shippingFields = [
 		'addresslevel1b' => 'country_id',
 		'addresslevel2b' => 'region|region',
@@ -116,22 +76,12 @@ abstract class Base
 		'phone' => 'telephone',
 		'mobile' => 'fax',
 	];
-
-	/**
-	 * Contacts_gender map.
-	 *
-	 * @var string[]
-	 */
+	/** @var string[] Contacts_gender map. */
 	public static $salutationtype = [
 		'1' => 'Mr.',
 		'2' => 'Mrs.',
 	];
-
-	/**
-	 * Contacts_gender map.
-	 *
-	 * @var string[]
-	 */
+	/** @var string[] Contacts_gender map. */
 	public static $gender = [
 		'1' => 'PLL_MAN',
 		'2' => 'PLL_WOMAN',

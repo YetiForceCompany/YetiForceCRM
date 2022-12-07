@@ -20,11 +20,7 @@ namespace App\Integrations\Magento\Synchronizer;
  */
 class Category extends Record
 {
-	/**
-	 * Category cache.
-	 *
-	 * @var array
-	 */
+	/** @var array Category cache. */
 	protected $cache = [];
 
 	/** {@inheritdoc} */
@@ -99,8 +95,7 @@ class Category extends Record
 	/**
 	 * Get crm id by magento id.
 	 *
-	 * @param int         $magentoId
-	 * @param string|null $moduleName
+	 * @param int $magentoId
 	 *
 	 * @return int
 	 */
@@ -125,9 +120,9 @@ class Category extends Record
 	 * @param int   $id
 	 * @param array $category
 	 *
-	 * @return void
+	 * @return int
 	 */
-	public function createCategory(int $id, array $category = [])
+	public function createCategory(int $id, array $category = []): int
 	{
 		if (empty($category)) {
 			$category = $this->cache[$id] ?? $this->getCategory($id);

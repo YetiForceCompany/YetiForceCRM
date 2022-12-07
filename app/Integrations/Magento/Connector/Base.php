@@ -19,11 +19,7 @@ namespace App\Integrations\Magento\Connector;
  */
 abstract class Base
 {
-	/**
-	 * Config.
-	 *
-	 * @var \App\Integrations\Magento\Config
-	 */
+	/** @var \App\Integrations\Magento\Config Config instance. */
 	public $config;
 
 	/**
