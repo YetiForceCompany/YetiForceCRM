@@ -43,6 +43,26 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	protected $params = ['default_type', 'summary_enabled'];
 
+	/** @var string[] Aggregation types */
+	public const AGGREGATION_TYPES = [
+		0 => 'global',
+		1 => 'group',
+		2 => 'individual',
+		3 => 'additional',
+	];
+
+	/**
+	 * Get aggregation discount type.
+	 *
+	 * @param int $id
+	 *
+	 * @return string
+	 */
+	public function getAggregationNameById(int $id): string
+	{
+		return self::AGGREGATION_TYPES[$id];
+	}
+
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
@@ -58,7 +78,11 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	public function getEditValue(array $itemData, string $column = '')
 	{
 		$value = parent::getEditValue($itemData, $column);
-		return \App\Fields\Double::formatToDisplay($value, false);
+		if (!$column || $column === $this->getColumnName()) {
+			$value = \App\Fields\Double::formatToDisplay($value, false);
+		}
+
+		return $value;
 	}
 
 	/** {@inheritdoc} */
