@@ -225,22 +225,22 @@ class UkCompaniesHouse extends Base
 	 */
 	private function getDataFromApiByName(string $companyName): void
 	{
+		$data = [];
 		try {
 			$response = \App\RequestHttp::getClient()->request('GET', $this->url . '/advanced-search/companies?company_name_includes=' . $companyName, [
 				'auth' => [$this->apiKey, ''],
 			]);
+			$response = \App\Json::decode($response->getBody()->getContents());
+			foreach ($response['items'] as $key => $value) {
+				$data[$key] = $this->getDataFromApiByNcr($value['company_number']);
+				$this->response['links'][$key] = self::EXTERNAL_URL . $data[$key]['company_number'];
+				if (self::LIMIT === $key) {
+					break;
+				}
+			}
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
-		}
-		$response = \App\Json::decode($response->getBody()->getContents());
-		$data = [];
-		foreach ($response['items'] as $key => $value) {
-			$data[$key] = $this->getDataFromApiByNcr($value['company_number']);
-			$this->response['links'][$key] = self::EXTERNAL_URL . $data[$key]['company_number'];
-			if (self::LIMIT === $key) {
-				break;
-			}
 		}
 		$this->data = $data;
 	}
