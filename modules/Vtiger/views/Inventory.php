@@ -39,6 +39,7 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		}
 		$discountParam = $request->has('discountParam') ? $request->getArray('discountParam') : [];
 		$markup = $discountParam ? !empty($discountParam['type']) : $inventoryModel->getField('discount')->isMarkupDefault();
+		$selectedAggregations = (array) ($discountParam['aggregationType'] ?? []);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
@@ -52,6 +53,9 @@ class Vtiger_Inventory_View extends Vtiger_IndexAjax_View
 		$viewer->assign('ACCOUNT_DISCOUNT', $groupDiscount['discount']);
 		$viewer->assign('ACCOUNT_NAME', $groupDiscount['name']);
 		$viewer->assign('IS_MARKUP', $markup);
+		$viewer->assign('DISCOUNT_PARAM', $discountParam);
+		$viewer->assign('DISCOUNT_MODEL', $inventoryModel->getField('discount'));
+		$viewer->assign('SELECTED_AGGR', $selectedAggregations);
 		$viewer->view('InventoryDiscounts.tpl', $moduleName);
 	}
 
