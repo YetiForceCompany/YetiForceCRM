@@ -321,6 +321,12 @@ $.Class(
 			if (types) {
 				types.forEach((entry) => {
 					switch (entry) {
+						case 'global':
+							discountRate += valuePrices * (discountParams.globalDiscount / 100);
+							break;
+						case 'group':
+							discountRate += valuePrices * ((discountParams.groupDiscount ? discountParams.groupDiscount : 0) / 100);
+							break;
 						case 'individual':
 							if (discountParams.individualDiscountType === 'percentage') {
 								discountRate += valuePrices * (discountParams.individualDiscount / 100);
@@ -328,18 +334,12 @@ $.Class(
 								discountRate += discountParams.individualDiscount;
 							}
 							break;
-						case 'global':
-							discountRate += valuePrices * (discountParams.globalDiscount / 100);
-							break;
-						case 'group':
-							discountRate += valuePrices * ((discountParams.groupDiscount ? discountParams.groupDiscount : 0) / 100);
-							break;
 						case 'additional':
 							discountRate += valuePrices * (discountParams.additionalDiscount / 100);
 							break;
 					}
-					if (aggregation === this.AGGREGATION_CASCADE) {
-						valuePrices = valuePrices - discountRate;
+					if (aggregation == this.AGGREGATION_CASCADE) {
+						valuePrices = valuePrices - (discountParams.type === 'markup' ? -discountRate : discountRate);
 					}
 				});
 			}
@@ -847,33 +847,32 @@ $.Class(
 				) {
 					value = netPrice * (value / 100);
 				}
+
 				return value && isMarkup ? -value : value;
 			};
 
 			let globalDiscount, accountDiscount, individualDiscount, additionalDiscount;
 			if (aggregationType == this.AGGREGATION_CANNOT_BE_COMBINED || aggregationType == this.AGGREGATION_IN_TOTAL) {
-				globalDiscount = getValue('globalDiscount', valuePrices, isMarkup); // percentage
-				accountDiscount = getValue('groupValue', valuePrices, isMarkup); // percentage
-				individualDiscount = getValue('individualDiscountValue', valuePrices, isMarkup); // amount
-				additionalDiscount = getValue('additionalDiscountValue', valuePrices, isMarkup); // percentage
+				globalDiscount = getValue('globalDiscount', netPriceBeforeDiscount, isMarkup); // percentage
+				accountDiscount = getValue('groupValue', netPriceBeforeDiscount, isMarkup); // percentage
+				individualDiscount = getValue('individualDiscountValue', netPriceBeforeDiscount, isMarkup); // amount
+				additionalDiscount = getValue('additionalDiscountValue', netPriceBeforeDiscount, isMarkup); // percentage
 
-				valuePrices = valuePrices * ((100 - globalDiscount) / 100);
-				valuePrices = valuePrices * ((100 - additionalDiscount) / 100);
-				valuePrices = valuePrices - individualDiscount;
-				valuePrices = valuePrices * ((100 - accountDiscount) / 100);
+				valuePrices -= netPriceBeforeDiscount * (globalDiscount / 100);
+				valuePrices -= netPriceBeforeDiscount * (additionalDiscount / 100);
+				valuePrices -= individualDiscount;
+				valuePrices -= netPriceBeforeDiscount * (accountDiscount / 100);
 			} else if (aggregationType == this.AGGREGATION_CASCADE) {
 				globalDiscount = getValue('globalDiscount', valuePrices, isMarkup); // percentage
 				valuePrices = valuePrices * ((100 - globalDiscount) / 100);
-
 				accountDiscount = getValue('groupValue', valuePrices, isMarkup); // percentage
 				valuePrices = valuePrices * ((100 - accountDiscount) / 100);
-
 				individualDiscount = getValue('individualDiscountValue', valuePrices, isMarkup); // amount
 				valuePrices = valuePrices - individualDiscount;
-
 				additionalDiscount = getValue('additionalDiscountValue', valuePrices, isMarkup); // percentage
 				valuePrices = valuePrices * ((100 - additionalDiscount) / 100);
 			}
+
 			let discountValue = netPriceBeforeDiscount - valuePrices;
 			modal.find('.valuePrices').text(App.Fields.Double.formatToDisplay(valuePrices));
 			modal.find('.valueDiscount').text(App.Fields.Double.formatToDisplay(isMarkup ? -discountValue : discountValue));
@@ -1260,42 +1259,6 @@ $.Class(
 				addClass = element.data('active');
 			}
 			element.removeClass(removeClass).addClass(addClass);
-		},
-		initDiscountsParameters: function (parentRow, modal) {
-			let parameters = parentRow.find('.discountParam').val();
-			if (parameters == '' || parameters == undefined) {
-				return;
-			}
-			parameters = JSON.parse(parameters);
-			$.each(this.discountModalFields, function (_, param) {
-				let parameter = parameters[param];
-				let field = modal.find('[name="' + param + '"]');
-				if (field.attr('type') == 'checkbox' || field.attr('type') == 'radio') {
-					if ('groupCheckbox' === param && parameters['groupDiscount'] !== undefined) {
-						field.prop('checked', true);
-						return true;
-					}
-					let array = parameter;
-					if (!$.isArray(array)) {
-						array = [array];
-					}
-					$.each(array, function (_, arrayValue) {
-						let value = field.filter('[value="' + arrayValue + '"]').prop('checked', true);
-						if (param == 'aggregationType') {
-							value.closest('.js-panel').find('.js-panel__body').removeClass('d-none');
-							value.closest('.js-panel').addClass('js-active');
-						}
-					});
-				} else if (field.prop('tagName') == 'SELECT') {
-					field
-						.find('option[value="' + parameter + '"]')
-						.prop('selected', 'selected')
-						.change();
-				} else if (!field.prop('readonly')) {
-					field.val(parameter);
-				}
-			});
-			this.calculateDiscount(parentRow, modal);
 		},
 		initTaxParameters: function (parentRow, modal) {
 			let parameters;
@@ -1785,7 +1748,7 @@ $.Class(
 				AppConnector.request(params)
 					.done((data) => {
 						app.showModalWindow(data, (data) => {
-							this.initDiscountsParameters(parentRow, $(data));
+							this.calculateDiscount(parentRow, data);
 							this.registerChangeDiscountModal(data, parentRow, params);
 						});
 						progressInstace.hide();

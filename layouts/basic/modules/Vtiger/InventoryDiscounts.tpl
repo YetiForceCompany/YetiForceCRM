@@ -37,8 +37,13 @@
 							</div>
 						</div>
 						{foreach item=DISCOUNTID from=$CONFIG['discounts']}
+							{assign var="PARAM_VALUE_NAME" value="{$DISCOUNT_MODEL->getAggregationNameById($DISCOUNTID)}Discount"}
+							{assign var="DISCOUNT_VALUE" value=""}
+							{if isset($DISCOUNT_PARAM[$PARAM_VALUE_NAME])}
+								{assign var="DISCOUNT_VALUE" value=$DISCOUNT_PARAM[$PARAM_VALUE_NAME]}
+							{/if}
 							{assign var="DISCOUNT_TYPE_TPL" value="InventoryDiscountsType"|cat:$DISCOUNTID|cat:".tpl"}
-							{include file=\App\Layout::getTemplatePath($DISCOUNT_TYPE_TPL, $MODULE)}
+							{include file=\App\Layout::getTemplatePath($DISCOUNT_TYPE_TPL, $MODULE) DISCOUNT_VALUE=$DISCOUNT_VALUE}
 						{/foreach}
 					{/if}
 					<hr />
