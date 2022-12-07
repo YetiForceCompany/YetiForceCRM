@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:11.5
 
 MAINTAINER m.krzaczkowski@yetiforce.com
 
