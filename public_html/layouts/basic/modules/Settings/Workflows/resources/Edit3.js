@@ -166,10 +166,9 @@ Settings_Workflows_Edit_Js(
 			$('[name="field_value_mapping"]').val(JSON.stringify(values));
 		},
 		preSaveVTEmailTask: function (tasktype) {
-			var textAreaElement = $('#content');
+			$('#content').val($('#saveTask').serializeFormData().content);
 			//To keep the plain text value to the textarea which need to be
 			//sent to server
-			textAreaElement.val(CKEDITOR.instances['content'].getData());
 		},
 		preSaveVTUpdateRelatedFieldTask: function (tasktype) {
 			var values = this.getValues(tasktype);

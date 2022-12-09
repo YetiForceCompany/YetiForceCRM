@@ -140,10 +140,9 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 							foreach ($values as $index => $value) {
 								$values[$index]['value'] = htmlspecialchars($value['value']);
 							}
-
 							$taskObject->{$fieldName} = \App\Json::encode($values);
 						} else {
-							$taskObject->{$fieldName} = \App\Purifier::decodeHtml($request->getByType($fieldName, \App\Purifier::TEXT));
+							$taskObject->{$fieldName} = \App\Purifier::decodeHtml($request->getForHtml($fieldName));
 						}
 					} elseif (isset($fieldNamesRequestMethods[$fieldName])) {
 						$taskObject->{$fieldName} = $request->{$fieldNamesRequestMethods[$fieldName]}($fieldName);
@@ -152,7 +151,6 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 					}
 				}
 			}
-
 			$taskType = \get_class($taskObject);
 			if ('VTCreateEntityTask' === $taskType && $taskObject->field_value_mapping) {
 				$relationModuleModel = Vtiger_Module_Model::getInstance($taskObject->entity_type);
