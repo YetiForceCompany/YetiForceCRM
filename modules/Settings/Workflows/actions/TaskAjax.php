@@ -100,7 +100,7 @@ class Settings_Workflows_TaskAjax_Action extends Settings_Vtiger_Basic_Action
 		if (!empty($workflowId)) {
 			$record = !$request->isEmpty('task_id') ? $request->getInteger('task_id') : 0;
 			if ($record) {
-				$taskRecordModel =Settings_Workflows_TaskRecord_Model::getInstance($record);
+				$taskRecordModel = Settings_Workflows_TaskRecord_Model::getInstance($record);
 				$taskObject = $taskRecordModel->getTaskObject();
 			} else {
 				$workflowModel = Settings_Workflows_Record_Model::getInstance($workflowId);
