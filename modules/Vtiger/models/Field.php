@@ -1637,6 +1637,20 @@ class Vtiger_Field_Model extends vtlib\Field
 
 		return (int) $maximumLength;
 	}
+	/**
+	 * Get minimum value.
+	 *
+	 * @return int
+	 */
+	public function getMinValue(): int
+	{
+		$min = 0;
+		if (($maximumLength = $this->get('maximumlength')) && false !== strpos($maximumLength, ',')) {
+			$min = (int) explode(',', $maximumLength)[0];
+		}
+
+		return $min;
+	}
 
 	/**
 	 * Get length value form database.

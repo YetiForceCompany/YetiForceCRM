@@ -5,6 +5,7 @@
     "ERR_FAILED_TO_SAVE_SCRIPT": "Failed to save workflow methods script file.",
     "ERR_ILLEGAL_FIELD_VALUE": "Illegal value has been entered for this field type. Field name: %s, Module: %s, Value: %s",
     "ERR_VALUE_IS_TOO_LONG": "Character limit exceeded. Field name: %s, Module: %s, Value: %s",
+    "ERR_VALUE_IS_TOO_SHORT": "Entered value is too short. Field name: %s, Module: %s, Value: %s",
     "ERR_TO_MANY_FILES": "Too many files transferred - limit was exceeded. Field name: %s, Module: %s, Value: %s",
     "ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO": "The field value must be greater than zero. Field name: %s, Module: %s, Value: %s",
     "ERR_NOT_ALLOWED_VALUE": "Incorrect value detected, please contact your administrator",
