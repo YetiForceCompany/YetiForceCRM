@@ -333,6 +333,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 12:
 						$fieldDataType = 'accountName';
 						break;
+					case 18:
+						$fieldDataType = 'multipicklistTags';
+						break;
 					case 27:
 						$fieldDataType = 'fileLocationType';
 						break;
@@ -487,6 +490,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 331:
 						$fieldDataType = 'mapCoordinates';
 						break;
+					case 332:
+						$fieldDataType = 'woocommerceServer';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
@@ -616,7 +622,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		}
 		$fieldDataType = $this->getFieldDataType();
 		$fieldPickListValues = [];
-		if ('picklist' === $fieldDataType || 'multipicklist' === $fieldDataType) {
+		if ('picklist' === $fieldDataType || 'multipicklist' === $fieldDataType || 'multipicklistTags' === $fieldDataType) {
 			if ($this->isRoleBased() && !$skipCheckingRole) {
 				$picklistValues = \App\Fields\Picklist::getRoleBasedValues($this->getName(), \App\User::getCurrentUserModel()->getRole());
 			} else {
@@ -1013,6 +1019,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		switch ($fieldDataType) {
 			case 'picklist':
 			case 'multipicklist':
+			case 'multipicklistTags':
 			case 'multiowner':
 			case 'multiReferenceValue':
 			case 'inventoryLimit':

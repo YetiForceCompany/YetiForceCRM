@@ -137,7 +137,6 @@ class Item extends \App\Base
 			throw $e;
 		}
 		\App\Fields\Picklist::clearCache($this->fieldModel->getName(), $this->fieldModel->getModuleName());
-
 		return $result;
 	}
 
