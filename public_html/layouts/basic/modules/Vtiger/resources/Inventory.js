@@ -2100,7 +2100,8 @@ $.Class(
 				let currencyId = this.getCurrency();
 				App.Components.CurrencyConverter.modalView({
 					currencyId: currencyId,
-					amount: App.Fields.Double.formatToDisplay(unitPrice)
+					amount: App.Fields.Double.formatToDisplay(unitPrice),
+					currencyParam: this.form.find('.js-currencyparam').val()
 				}).done((data) => {
 					let value;
 					if (currencyId === data.currency_target_id) {

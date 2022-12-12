@@ -7,10 +7,15 @@ window.AppComponents_CurrencyConverter_Js = class {
 	 */
 	registerChangeCurrency() {
 		this.container.on('change', '.js-currencyc_list', (e) => {
+			this.container.find('.js-currency-rate').val(e.currentTarget.selectedOptions[0].dataset.currencyValue);
+			this.container.find('.js-currency-conv-rate').val(e.currentTarget.selectedOptions[0].dataset.conversionRate);
+			this.container.find('.js-currency-date').val(e.currentTarget.selectedOptions[0].dataset.conversionDate);
 			this.container
-				.find('.js-currency-conv-rate')
-				.text(App.Fields.Double.formatToDisplay(e.currentTarget.selectedOptions[0].dataset.conversionRate));
-			this.container.find('.js-currency-conv-date').text(e.currentTarget.selectedOptions[0].dataset.conversionDate);
+				.find('.js-currency-rate_text')
+				.text(App.Fields.Double.formatToDisplay(e.currentTarget.selectedOptions[0].dataset.currencyValue, false));
+			this.container
+				.find('.js-currency-date_text')
+				.text(App.Fields.Date.dateToUserFormat(e.currentTarget.selectedOptions[0].dataset.conversionDate));
 			this.container.find('.js-currencyc_value').first().trigger('keyup');
 		});
 		this.container.find('.js-currencyc_list').trigger('change');

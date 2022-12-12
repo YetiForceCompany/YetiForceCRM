@@ -16,7 +16,10 @@
 							{foreach key=KEY item=CURRENCY from=$CURRENCIES}
 								{if $KEY neq $CURRENCY_BASE['id']}{continue}{/if}
 								<option value="{$KEY}" data-conversion-rate="{$CURRENCY.conversion|escape}"
-									data-conversion-date="{\App\Fields\Date::formatToDisplay($CURRENCY.date)|escape}" data-currency-id="{$KEY}">{\App\Language::translate($CURRENCY.currency_code, 'Other.Currency')} ({$CURRENCY.currency_symbol|escape})</option>
+									data-conversion-date="{$CURRENCY.date|escape}"
+									data-currency-value="{$CURRENCY.value|escape}"
+									data-currency-id="{$KEY}">{\App\Language::translate($CURRENCY.currency_code, 'Other.Currency')} ({$CURRENCY.currency_symbol|escape})
+								</option>
 							{/foreach}
 						</select>
 					</div>
@@ -25,11 +28,14 @@
 			<div class="form-group row mb-1">
 				<div class="col-md-6">
 					<label class="mr-1 mb-1">{\App\Language::translate('LBL_EXCHANGE_RATE', $MODULE_NAME)}:</label>
-					<span class="js-currency-conv-rate"></span>
+					<input id="base_rate_value" name="base_rate_value" type="hidden" class="js-currency-rate" value="" />
+					<input id="base_conv_rate_value" name="base_conv_rate_value" type="hidden" class="js-currency-conv-rate" value="" />
+					<span class="js-currency-rate_text"></span>
 				</div>
 				<div class="col-md-6">
 					<label class="mr-1 mb-1">{\App\Language::translate('LBL_EXCHANGE_DATE', $MODULE_NAME)}:</label>
-					<span class="js-currency-conv-date"></span>
+					<input id="base_data_value" name="base_data_value" type="hidden" class="js-currency-date" value="" />
+					<span class="js-currency-date_text"></span>
 				</div>
 			</div>
 			<div class="form-group">
@@ -44,8 +50,13 @@
 						<select class="select2 js-currencyc_list" name="currency_base_id" title="{\App\Language::translate('LBL_RELATED_MODULE_TYPE')}" required="required">
 							{foreach key=KEY item=CURRENCY from=$CURRENCIES}
 								{if $KEY eq $CURRENCY_BASE['id']}{continue}{/if}
-								<option value="{$KEY}" {if $KEY eq $CURRENCY_ID} selected{/if} data-conversion-rate="{$CURRENCY.conversion|escape}"
-									data-conversion-date="{\App\Fields\Date::formatToDisplay($CURRENCY.date)|escape}" data-currency-id="{$KEY}">{\App\Language::translate($CURRENCY.currency_code, 'Other.Currency')} ({$CURRENCY.currency_symbol|escape})</option>
+								<option value="{$KEY}" {if $KEY eq $CURRENCY_ID} selected {/if}
+									data-conversion-rate="{$CURRENCY.conversion|escape}"
+									data-conversion-date="{$CURRENCY.date|escape}"
+									data-currency-value="{$CURRENCY.value|escape}"
+									data-currency-id="{$KEY}">
+									{\App\Language::translate($CURRENCY.currency_code, 'Other.Currency')} ({$CURRENCY.currency_symbol|escape})
+								</option>
 							{/foreach}
 						</select>
 					</div>
