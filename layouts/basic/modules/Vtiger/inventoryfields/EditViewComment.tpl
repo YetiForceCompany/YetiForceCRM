@@ -9,5 +9,5 @@
 		id="editView_comment{$FIELD->getColumnName()}{$ROW_NO}" data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode(['mandatory' => false]))}"
 		data-height="{$FIELD->getHeight()}px" data-width="{$FIELD->getWidth()}%" data-emoji-enabled="true" data-mentions-enabled="true"
 		class="comment js-inventory-item-comment form-control js-editor js-editor--basic" {if $FIELD->isReadOnly()}readonly="readonly" {/if} data-purify-mode="Html" data-js="ckeditor">{$FIELD->getDisplayValue($VALUE, $ITEM_DATA, true)|escape}</textarea>
-	<!-- tpl-Base-inventoryfields-EditViewComment -->
+	<!-- /tpl-Base-inventoryfields-EditViewComment -->
 {/strip}

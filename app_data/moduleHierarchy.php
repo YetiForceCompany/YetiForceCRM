@@ -26,6 +26,11 @@ return [
 		'ProjectTask' => ['level' => 3, 'parentModule' => 'ProjectMilestone'],
 		'Contacts' => ['level' => 4],
 	],
+	/*
+	 * 'Base module' => [
+	 * 		['From module (must by reference field)' => ['dest field name' => ['source field name']]],
+	 * ],
+	 */
 	'modulesMapRelatedFields' => [//Map links between modules
 		'ProjectTask' => [
 			'projectmilestoneid' => ['ProjectMilestone' => ['projectid' => ['projectid']]],

@@ -589,27 +589,24 @@ $.Class(
 			App.Fields.DateTime.register(container);
 		},
 		referenceCreateHandler: function (container) {
-			let thisInstance = this;
-			let postQuickCreateSave = function (data) {
-				thisInstance.setReferenceFieldValue(container, {
-					name: data.result._recordLabel,
-					id: data.result._recordId
-				});
-			};
-			let params = { callbackFunction: postQuickCreateSave };
-			if (app.getViewName() === 'Edit' && !app.getRecordId()) {
-				let formElement = this.getForm();
-				let formData = formElement.serializeFormData();
-				for (let i in formData) {
-					if (!formData[i] || $.inArray(i, ['_csrf', 'action']) != -1) {
-						delete formData[i];
-					}
+			let formData = this.getForm().serializeFormData();
+			for (let i in formData) {
+				if (!formData[i] || $.inArray(i, ['_csrf', 'action']) != -1) {
+					delete formData[i];
 				}
-				params.data = {};
-				params.data.sourceRecordData = formData;
 			}
-			let referenceModuleName = this.getReferencedModuleName(container);
-			App.Components.QuickCreate.createRecord(referenceModuleName, params);
+			App.Components.QuickCreate.createRecord(this.getReferencedModuleName(container), {
+				data: {
+					sourceModule: formData['module'],
+					sourceRecordData: formData
+				},
+				callbackFunction: (data) => {
+					this.setReferenceFieldValue(container, {
+						name: data.result._recordLabel,
+						id: data.result._recordId
+					});
+				}
+			});
 		},
 		/**
 		 * Function which will register event for create of reference record

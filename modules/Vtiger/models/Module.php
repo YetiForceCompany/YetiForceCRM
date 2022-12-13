@@ -1248,24 +1248,25 @@ class Vtiger_Module_Model extends \vtlib\Module
 		if ($sourceModule && ($request->has('sourceRecord') || !$request->isEmpty('sourceRecordData'))) {
 			$moduleModel = self::getInstance($moduleName);
 			if ($request->isEmpty('sourceRecord')) {
-				$sourceRecordData = $request->getRaw('sourceRecordData');
 				$recordModel = Vtiger_Record_Model::getCleanInstance($sourceModule);
-				$fieldModelList = $recordModel->getModule()->getFields();
-				foreach ($fieldModelList as $fieldName => $fieldModel) {
-					if (!$fieldModel->isWritable()) {
-						continue;
-					}
-					if (isset($sourceRecordData[$fieldName])) {
-						$fieldModel->getUITypeModel()->setValueFromRequest(new \App\Request($sourceRecordData, false), $recordModel);
-					} else {
-						$defaultValue = $fieldModel->getDefaultFieldValue();
-						if ('' !== $defaultValue) {
-							$recordModel->set($fieldName, $defaultValue);
-						}
-					}
-				}
 			} else {
 				$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $sourceModule);
+			}
+			$sourceRecordData = $request->getRaw('sourceRecordData');
+			$fieldModelList = $recordModel->getModule()->getFields();
+			$sourceRecordRequest = new \App\Request($sourceRecordData, false);
+			foreach ($fieldModelList as $fieldName => $fieldModel) {
+				if (!$fieldModel->isWritable()) {
+					continue;
+				}
+				if (isset($sourceRecordData[$fieldName])) {
+					$fieldModel->getUITypeModel()->setValueFromRequest($sourceRecordRequest, $recordModel);
+				} else {
+					$defaultValue = $fieldModel->getDefaultFieldValue();
+					if ('' !== $defaultValue) {
+						$recordModel->set($fieldName, $defaultValue);
+					}
+				}
 			}
 			$sourceModuleModel = $recordModel->getModule();
 			$relationField = false;
