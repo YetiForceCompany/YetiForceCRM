@@ -39,8 +39,8 @@ class Settings_Wapro_Activation_Model
 	 */
 	public static function check(): bool
 	{
-		$db = \App\Db::getInstance();
-		$check = $db->isTableExists(\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME) && $db->isTableExists(\App\Integrations\Wapro::LOG_TABLE_NAME);
+		$check = \App\Db::getInstance()->isTableExists(\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME)
+		 && \App\Db::getInstance('log')->isTableExists(\App\Integrations\Wapro::LOG_TABLE_NAME);
 		if ($check) {
 			foreach (self::FIELDS as $field) {
 				$check = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId($field[1]), 'fieldname' => $field[0]])->exists();
@@ -81,8 +81,9 @@ class Settings_Wapro_Activation_Model
 			)->execute();
 			$status = true;
 		}
-		if (!$db->isTableExists(\App\Integrations\Wapro::LOG_TABLE_NAME)) {
-			$db->createTable(\App\Integrations\Wapro::LOG_TABLE_NAME, [
+		$dbLog = \App\Db::getInstance('log');
+		if (!$dbLog->isTableExists(\App\Integrations\Wapro::LOG_TABLE_NAME)) {
+			$dbLog->createTable(\App\Integrations\Wapro::LOG_TABLE_NAME, [
 				'id' => $importer->primaryKeyUnsigned(),
 				'time' => $importer->dateTime()->notNull(),
 				'category' => $importer->stringType(100),

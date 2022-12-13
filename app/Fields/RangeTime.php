@@ -69,7 +69,6 @@ class RangeTime
 			$part = substr($formatOut, -1) ?: 'i';
 			$dateFormat[] = $short ? $seconds . \App\Language::translate(self::DIFF_INTERVAL_LABELS[$part]['short']) : "{$seconds} " . \App\Language::translate(self::DIFF_INTERVAL_LABELS[$part]['plural']);
 		}
-
 		return implode(' ', $dateFormat);
 	}
 
