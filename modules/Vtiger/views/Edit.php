@@ -11,11 +11,7 @@
 
 class Vtiger_Edit_View extends Vtiger_Index_View
 {
-	/**
-	 * Record model instance.
-	 *
-	 * @var Vtiger_Record_Model
-	 */
+	/** @var Vtiger_Record_Model Record model instance. */
 	protected $record;
 
 	/** {@inheritdoc} */
@@ -24,10 +20,10 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		if ($request->has('record')) {
 			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-			$isPermitted = $this->record->isEditable() || (true === $request->getBoolean('isDuplicate') && $this->record->getModule()->isPermitted('DuplicateRecord') && $this->record->isCreateable() && $this->record->isViewable());
+			$isPermitted = $this->record->isEditable() || (true === $request->getBoolean('isDuplicate') && $this->record->getModule()->isPermitted('DuplicateRecord') && $this->record->isCreatable() && $this->record->isViewable());
 		} else {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
-			$isPermitted = $this->record->isCreateable();
+			$isPermitted = $this->record->isCreatable();
 		}
 		if (!$isPermitted) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);

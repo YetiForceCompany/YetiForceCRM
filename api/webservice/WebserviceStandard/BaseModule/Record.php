@@ -36,7 +36,7 @@ class Record extends \Api\Core\BaseAction
 		$moduleName = $this->controller->request->getModule();
 		if ('POST' === $this->controller->method) {
 			$this->recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
-			if (!$this->recordModel->isCreateable()) {
+			if (!$this->recordModel->isCreatable()) {
 				throw new \Api\Core\Exception('No permissions to create record', 403);
 			}
 		} else {

@@ -32,7 +32,7 @@ class Record extends \Api\Core\BaseAction
 		$moduleName = $this->controller->request->getModule();
 		if ('POST' === $this->controller->method) {
 			$this->recordModel = \Users_Record_Model::getCleanInstance($moduleName);
-			if (!$this->recordModel->isCreateable()) {
+			if (!$this->recordModel->isCreatable()) {
 				throw new \Api\Core\Exception('No permissions to create user', 403);
 			}
 		} else {

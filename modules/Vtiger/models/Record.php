@@ -816,12 +816,12 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @return bool
 	 */
-	public function isCreateable()
+	public function isCreatable()
 	{
-		if (!isset($this->privileges['isCreateable'])) {
-			$this->privileges['isCreateable'] = $this->getModule()->isPermitted('CreateView');
+		if (!isset($this->privileges['isCreatable'])) {
+			$this->privileges['isCreatable'] = $this->getModule()->isPermitted('CreateView');
 		}
-		return $this->privileges['isCreateable'];
+		return $this->privileges['isCreatable'];
 	}
 
 	/**

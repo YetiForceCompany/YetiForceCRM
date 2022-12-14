@@ -41,7 +41,7 @@ class SaveInventory extends \Api\Core\BaseAction
 		parent::checkPermission();
 		$moduleName = $this->controller->request->getModule();
 		$this->recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
-		if (!$this->recordModel->isCreateable()) {
+		if (!$this->recordModel->isCreatable()) {
 			throw new \Api\Core\Exception('No permissions to create record', 403);
 		}
 	}

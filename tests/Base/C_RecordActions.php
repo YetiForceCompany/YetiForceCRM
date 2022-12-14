@@ -286,7 +286,7 @@ class C_RecordActions extends \Tests\Base
 	public function testPermission()
 	{
 		$this->assertTrue(self::$recordAccounts->isEditable());
-		$this->assertTrue(self::$recordAccounts->isCreateable());
+		$this->assertTrue(self::$recordAccounts->isCreatable());
 		$this->assertTrue(self::$recordAccounts->isViewable());
 		$this->assertFalse(self::$recordAccounts->privilegeToActivate());
 		$this->assertTrue(self::$recordAccounts->privilegeToArchive());

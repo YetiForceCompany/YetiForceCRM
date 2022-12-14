@@ -28,7 +28,7 @@ class Vtiger_ChangeValueHandler_Action extends \App\Controller\Action
 		$moduleName = $request->getModule();
 		if ($request->isEmpty('record', true)) {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
-			if (!$this->record->isCreateable()) {
+			if (!$this->record->isCreatable()) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		} else {

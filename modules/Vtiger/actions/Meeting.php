@@ -28,7 +28,7 @@ class Vtiger_Meeting_Action extends \App\Controller\Action
 		$moduleName = $request->getModule();
 		if ($request->isEmpty('record', true)) {
 			$this->record = \Vtiger_Record_Model::getCleanInstance($moduleName);
-			$permission = $this->record->isCreateable();
+			$permission = $this->record->isCreatable();
 		} else {
 			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			$permission = $this->record->isEditable();
