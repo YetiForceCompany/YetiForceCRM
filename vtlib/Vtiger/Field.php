@@ -33,7 +33,7 @@ class Field extends FieldBasic
 	public function setPicklistValues($values)
 	{
 		// Non-Role based picklist values
-		if (16 === $this->uitype) {
+		if (\in_array($this->uitype, [16, 18])) {
 			$this->setNoRolePicklistValues($values);
 			return true;
 		}

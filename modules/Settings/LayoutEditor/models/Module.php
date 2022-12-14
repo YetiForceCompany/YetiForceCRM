@@ -85,7 +85,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getAddSupportedFieldTypes()
 	{
 		return [
-			'Text', 'Decimal', 'Integer',  'Currency',  'Percent', 'AdvPercentage', 'Date', 'Time', 'DateTime', 'RangeTime', 'Phone', 'Email', 'MultiEmail', 'MultiDomain', 'Picklist', 'MultiSelectCombo', 'Country', 'URL', 'Checkbox', 'TextArea', 'Related1M', 'MultiReference', 'Editor', 'Tree', 'CategoryMultipicklist', 'Image', 'MultiImage',  'MultiAttachment', 'MultiReferenceValue', 'ServerAccess', 'Skype', 'Twitter', 'Token', 'Smtp', 'MapCoordinates',
+			'Text', 'Decimal', 'Integer',  'Currency',  'Percent', 'AdvPercentage', 'Date', 'Time', 'DateTime', 'RangeTime', 'Phone', 'Email', 'MultiEmail', 'MultiDomain', 'Picklist', 'MultiSelectCombo', 'MultipicklistTags', 'Country', 'URL', 'Checkbox', 'TextArea', 'Related1M', 'MultiReference', 'Editor', 'Tree', 'CategoryMultipicklist', 'Image', 'MultiImage',  'MultiAttachment', 'MultiReferenceValue', 'ServerAccess', 'Skype', 'Twitter', 'Token', 'Smtp', 'MapCoordinates',
 		];
 	}
 
@@ -116,7 +116,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				//including mantisaa and integer part
 				$details['maxLength'] = 64;
 			}
-			if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType) {
+			if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType || 'MultipicklistTags' === $fieldType) {
 				$details['preDefinedValueExists'] = true;
 				//text area value type , can give multiple values
 				$details['preDefinedValueType'] = 'text';
@@ -297,7 +297,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			$fieldInstance->typeofdata = 'V~O';
 			$fieldInstance->save($blockModel);
 		}
-		if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType) {
+		if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType || 'MultipicklistTags' === $fieldType) {
 			$fieldModel->setPicklistValues($pickListValues);
 		}
 		if ('Related1M' === $fieldType) {
@@ -396,6 +396,11 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			case 'URL':
 				$uitype = 17;
 				$type = $importerType->stringType()->defaultValue('');
+				$uichekdata = 'V~O';
+				break;
+			case 'MultipicklistTags':
+				$uitype = 18;
+				$type = $importerType->text();
 				$uichekdata = 'V~O';
 				break;
 			case 'Checkbox':

@@ -710,7 +710,11 @@ $.Class(
 							saveButton.attr('disabled', 'disabled');
 							thisInstance.validateFieldsValue(form).done((response) => {
 								if (!response) {
-									if (fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
+									if (
+										fieldTypeValue == 'Picklist' ||
+										fieldTypeValue == 'MultiSelectCombo' ||
+										fieldTypeValue == 'MultipicklistTags'
+									) {
 										thisInstance.checkPicklistExist(fieldNameValue).done((result) => {
 											if (result) {
 												thisInstance.saveCustomField(blockId, form);
@@ -921,6 +925,15 @@ $.Class(
 						break;
 					case 'MapCoordinates':
 						form.find('.coordinateOption').removeClass('d-none');
+						break;
+					case 'MultipicklistTags':
+						let picklistTags = form.find('.preDefinedValueExists');
+						picklistTags.find('.redColor').remove();
+						let pickListValues = picklistTags.find('#pickListValues');
+						pickListValues.attr(
+							'data-validation-engine',
+							pickListValues.data('validation-engine').replace('required, ', '')
+						);
 						break;
 				}
 			});

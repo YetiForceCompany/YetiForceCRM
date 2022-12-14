@@ -37,6 +37,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 		15 => 'Picklist',
 		16 => 'Picklist',
 		17 => 'URL',
+		18 => 'MultipicklistTags',
 		19 => 'TextArea',
 		21 => 'TextArea',
 		23 => 'Date',
