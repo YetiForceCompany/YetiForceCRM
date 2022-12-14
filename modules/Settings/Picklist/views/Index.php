@@ -24,7 +24,7 @@ class Settings_Picklist_Index_View extends Settings_Vtiger_Index_View
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PICKLIST_MODULES', $pickListSupportedModules);
-		$pickListFields = $moduleModel->getFieldsByType(['picklist', 'multipicklist'], true);
+		$pickListFields = $moduleModel->getFieldsByType(['picklist', 'multipicklist', 'multipicklistTags'], true);
 		if (\count($pickListFields) > 0) {
 			$selectedPickListFieldModel = reset($pickListFields);
 			$viewer->assign('PICKLIST_FIELDS', $pickListFields);
