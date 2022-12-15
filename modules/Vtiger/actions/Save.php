@@ -170,6 +170,9 @@ class Vtiger_Save_Action extends \App\Controller\Action
 			$handlerId = $handler['eventhandler_id'];
 			$response = $eventHandler->triggerHandler($handler);
 			if (!($response['result'] ?? null) && (!isset($response['hash'], $skipHandlers[$handlerId]) || $skipHandlers[$handlerId] !== $response['hash'])) {
+				if ($result && 'confirm' === ($response['type'] ?? '')) {
+					break;
+				}
 				$result[$handlerId] = $response;
 			}
 		}
