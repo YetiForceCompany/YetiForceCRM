@@ -256,22 +256,25 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function getTemplateName($view, $moduleName)
 	{
 		$tpl = $view . $this->type . '.tpl';
-		$filename = 'layouts' . DIRECTORY_SEPARATOR . \App\Layout::getActiveLayout() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'inventoryfields' . DIRECTORY_SEPARATOR . $tpl;
-		if (is_file($filename)) {
-			return $tpl;
+		$dirs = [
+			$filename = \App\Layout::getActiveLayout() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $moduleName,
+			$filename = \App\Layout::getActiveLayout() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'Vtiger',
+			$filename = Vtiger_Viewer::getDefaultLayoutName() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $moduleName,
+			$filename = Vtiger_Viewer::getDefaultLayoutName() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'Vtiger',
+		];
+		if (\App\Config::performance('LOAD_CUSTOM_FILES')) {
+			$loaderDirs[] = 'custom/layouts/';
 		}
-		$filename = 'layouts' . DIRECTORY_SEPARATOR . \App\Layout::getActiveLayout() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'Vtiger' . DIRECTORY_SEPARATOR . 'inventoryfields' . DIRECTORY_SEPARATOR . $tpl;
-		if (is_file($filename)) {
-			return $tpl;
+		$loaderDirs[] = 'layouts' . DIRECTORY_SEPARATOR;
+		foreach ($dirs as $dir) {
+			foreach ($loaderDirs as $loaderDir) {
+				$filename = $loaderDir . $dir . DIRECTORY_SEPARATOR . 'inventoryfields' . DIRECTORY_SEPARATOR . $tpl;
+				if (is_file($filename)) {
+					return $tpl;
+				}
+			}
 		}
-		$filename = 'layouts' . DIRECTORY_SEPARATOR . Vtiger_Viewer::getDefaultLayoutName() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . 'inventoryfields' . DIRECTORY_SEPARATOR . $tpl;
-		if (is_file($filename)) {
-			return $tpl;
-		}
-		$filename = 'layouts' . DIRECTORY_SEPARATOR . Vtiger_Viewer::getDefaultLayoutName() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . 'Vtiger' . DIRECTORY_SEPARATOR . 'inventoryfields' . DIRECTORY_SEPARATOR . $tpl;
-		if (is_file($filename)) {
-			return $tpl;
-		}
+
 		return $view . 'Base' . '.tpl';
 	}
 

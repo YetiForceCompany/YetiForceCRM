@@ -489,7 +489,10 @@ class Vtiger_Inventory_Model
 		if (\App\Cache::has(__METHOD__, $moduleName)) {
 			$inventoryTypes = \App\Cache::get(__METHOD__, $moduleName);
 		} else {
-			$fieldPaths = ["modules/$moduleName/inventoryfields/"];
+			if(\App\Config::performance('LOAD_CUSTOM_FILES')){
+				$fieldPaths[] = "custom/modules/{$moduleName}/inventoryfields/";
+			}
+			$fieldPaths[] = "modules/{$moduleName}/inventoryfields/";
 			if ('Vtiger' !== $moduleName) {
 				$fieldPaths[] = 'modules/Vtiger/inventoryfields/';
 			}

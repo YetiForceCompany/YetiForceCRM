@@ -58,7 +58,8 @@
 										</td>
 									{else}
 										<td class="text-right u-font-weight-600 text-nowrap">
-											{if $FIELD->isSummary()}{{$FIELD->getDisplayValue($FIELD->getSummaryValuesFromData($INVENTORY_ROWS, $INVENTORY_ROW.groupid), $INVENTORY_ROW)}}{/if}
+											{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('GroupHeaders/DetailView',$MODULE_NAME)}
+											{include file=\App\Layout::getTemplatePath($FIELD_TPL_NAME, $MODULE_NAME) FIELD=$FIELD}
 										</td>
 									{/if}
 								{/foreach}

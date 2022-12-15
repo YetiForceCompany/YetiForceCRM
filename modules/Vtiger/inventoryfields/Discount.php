@@ -239,4 +239,43 @@ class Vtiger_Discount_InventoryField extends Vtiger_Basic_InventoryField
 	{
 		return 'markup' === ($params['type'] ?? '');
 	}
+
+	/**
+	 * Get discount info.
+	 *
+	 * @param array $rowData
+	 * @param bool  $raw
+	 *
+	 * @return array
+	 */
+	public function getDiscountInfo(array $rowData, bool $raw = false): array
+	{
+		$discounts = [];
+		if (empty($rowData['discountparam'])) {
+			return $discounts;
+		}
+		$discountParam = \App\Json::decode($rowData['discountparam']);
+		$types = $discountParam['aggregationType'] ?? [];
+		if (!\is_array($types)) {
+			$types = [$types];
+		}
+		foreach ($types as $type) {
+			$discountType = $discountParam["{$type}DiscountType"] ?? 'percentage';
+			$discount = $discountParam["{$type}Discount"];
+			if (!$raw) {
+				$discount = \App\Fields\Double::formatToDisplay($discount, false);
+			}
+			switch ($discountType) {
+				case 'amount':
+					$discounts[$discountType] = $discount;
+					break;
+				case 'percentage':
+					$discounts[$discountType] = $raw ? $discount : $discount . '%';
+					break;
+				default: break;
+			}
+		}
+
+		return $discounts;
+	}
 }

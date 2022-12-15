@@ -663,7 +663,7 @@ $.Class(
 				}
 			});
 			if (typeof element === 'object') {
-				element.text(App.Fields.Double.formatToDisplay(sum));
+				element.get(0).innerText = App.Fields.Double.formatToDisplay(sum);
 			}
 
 			return sum;
@@ -1748,8 +1748,8 @@ $.Class(
 				AppConnector.request(params)
 					.done((data) => {
 						app.showModalWindow(data, (data) => {
-							this.calculateDiscount(parentRow, data);
 							this.registerChangeDiscountModal(data, parentRow, params);
+							this.calculateDiscount(parentRow, data);
 						});
 						progressInstace.hide();
 					})
