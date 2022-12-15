@@ -80,13 +80,7 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewLinks = $editModel->getEditViewLinks(['MODULE' => $moduleName, 'RECORD' => $recordId]);
 
 		$moduleModel = $this->record->getModule();
-		$fieldList = $moduleModel->getFields();
-		foreach (array_intersect($request->getKeys(), array_keys($fieldList)) as $fieldName) {
-			$fieldModel = $fieldList[$fieldName];
-			if ($fieldModel->isWritable()) {
-				$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->record);
-			}
-		}
+		$this->loadValues($request);
 		if ($moduleModel->isInventory() && !$request->isEmpty('inventory')) {
 			$this->record->initInventoryDataFromRequest($request);
 		}
@@ -198,5 +192,23 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 			$parentScript = array_merge($parentScript, $scriptInstances);
 		}
 		return $parentScript;
+	}
+
+	/**
+	 * Load record values form request.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	protected function loadValues(App\Request $request): void
+	{
+		$fieldList = $this->record->getModule()->getFields();
+		foreach (array_intersect($request->getKeys(), array_keys($fieldList)) as $fieldName) {
+			$fieldModel = $fieldList[$fieldName];
+			if ($fieldModel->isWritable()) {
+				$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->record);
+			}
+		}
 	}
 }

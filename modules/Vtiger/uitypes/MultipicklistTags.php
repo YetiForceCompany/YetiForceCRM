@@ -18,13 +18,13 @@ class Vtiger_MultipicklistTags_UIType extends Vtiger_Multipicklist_UIType
 	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
+		if (\is_string($value)) {
+			$value = explode(self::SEPARATOR, $value);
+		}
 		if (empty($value)
 		|| 'preSaveValidation' === App\Request::_get('mode')
 		|| isset($this->validate[\is_array($value) ? implode('|', $value) : $value])) {
 			return;
-		}
-		if (\is_string($value)) {
-			$value = explode('##', $value);
 		}
 		$picklistValues = App\Fields\Picklist::getValuesName($this->getFieldModel()->getName());
 		if ($missingValues = \array_diff($value, $picklistValues)) {

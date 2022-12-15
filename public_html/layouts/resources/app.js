@@ -3404,6 +3404,9 @@ const app = (window.app = {
 	 * @param {jQuery} element - Jquery trigger element.
 	 */
 	reloadAfterSave: function (responseData, params, form, element) {
+		if (responseData.skipReload) {
+			return;
+		}
 		const moduleName = params['module'];
 		const parentModuleName = app.getModuleName();
 		const viewName = app.getViewName();

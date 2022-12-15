@@ -5703,12 +5703,10 @@ CREATE TABLE `vtiger_crmentity` (
   PRIMARY KEY (`crmid`),
   KEY `crmentity_smcreatorid_idx` (`smcreatorid`),
   KEY `crmentity_modifiedby_idx` (`modifiedby`),
-  KEY `crmentity_deleted_idx` (`deleted`),
   KEY `crm_ownerid_del_setype_idx` (`smownerid`,`deleted`,`setype`),
   KEY `crmid` (`crmid`,`deleted`),
   KEY `crmid_2` (`crmid`,`setype`),
   KEY `setypedeleted` (`setype`,`deleted`),
-  KEY `setype` (`setype`),
   KEY `vtiger_crmentity_deleted_private_smownerid_idx` (`deleted`,`private`,`smownerid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8;
 
@@ -7440,8 +7438,6 @@ CREATE TABLE `vtiger_modtracker_basic` (
   `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `last_reviewed_users` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  KEY `crmidx` (`crmid`),
-  KEY `idx` (`id`),
   KEY `id` (`id`,`module`,`changedon`),
   KEY `crmid` (`crmid`,`changedon`),
   KEY `status` (`status`)

@@ -1644,6 +1644,7 @@ class Vtiger_Field_Model extends vtlib\Field
 
 		return (int) $maximumLength;
 	}
+
 	/**
 	 * Get minimum value.
 	 *
