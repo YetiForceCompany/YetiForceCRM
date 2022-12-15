@@ -25,6 +25,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$this->exposeMethod('checkLimits');
 		$this->exposeMethod('getDetails');
 		$this->exposeMethod('getTableData');
+		$this->exposeMethod('getCurrencyData');
 	}
 
 	/** {@inheritdoc} */
@@ -215,6 +216,26 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 
 		$response = new Vtiger_Response();
 		$response->setResult(array_values($data));
+		$response->emit();
+	}
+
+	/**
+	 * Get cuurenct currency data with conversion rate and date.
+	 *
+	 * @param App\Request $request
+	 */
+	public function getCurrencyData(App\Request $request)
+	{
+		$currencies = [];
+		$moduleName = $request->getModule();
+		$fieldModel = \Vtiger_Inventory_Model::getInstance($moduleName)->getField('currency');
+
+		if ($fieldModel && $fieldModel->getParamConfig('reset_currency')) {
+			$currencies = $fieldModel->getCurrencyParam(\App\Fields\Currency::getAll(true));
+		}
+
+		$response = new Vtiger_Response();
+		$response->setResult($currencies);
 		$response->emit();
 	}
 }

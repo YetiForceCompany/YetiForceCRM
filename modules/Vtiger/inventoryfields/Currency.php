@@ -28,6 +28,8 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	protected $customPurifyType = [
 		'currencyparam' => App\Purifier::TEXT
 	];
+	/** {@inheritdoc} */
+	protected $params = ['reset_currency'];
 
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
@@ -87,5 +89,23 @@ class Vtiger_Currency_InventoryField extends Vtiger_Basic_InventoryField
 	public function compare($value, $prevValue, string $column): bool
 	{
 		return $column === $this->getColumnName() ? (int) $value === (int) $prevValue : parent::compare($value, $prevValue, $column);
+	}
+
+	/** {@inheritdoc} */
+	public function getConfigFieldsData(): array
+	{
+		$data = parent::getConfigFieldsData();
+		$data['reset_currency'] = [
+			'name' => 'reset_currency',
+			'label' => 'LBL_INV_CURRENCY_RESET',
+			'uitype' => 56,
+			'maximumlength' => '1',
+			'typeofdata' => 'C~O',
+			'purifyType' => \App\Purifier::INTEGER,
+			'defaultvalue' => 0,
+			'tooltip' => 'LBL_INV_CURRENCY_RESET_DESC'
+		];
+
+		return $data;
 	}
 }

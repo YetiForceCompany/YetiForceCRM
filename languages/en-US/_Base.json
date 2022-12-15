@@ -1035,6 +1035,8 @@
     "LBL_CURRENCIES_SUMMARY": "Currency summary",
     "LBL_CHANGE_CURRENCY": "Change currency",
     "LBL_CHANGE_CURRENCY_INFO": "Changing the currency will convert all values.\nAre you sure you want to do that?",
+    "LBL_INV_CURRENCY_RESET_BTN": "Exchange rate reset",
+    "LBL_INV_CURRENCY_RESET_CONFIRMATION": "Exchange rate reset. Are you sure you want to do that?",
     "LBL_AMOUNT": "Amount",
     "LBL_SET_GLOBAL_TAX": "Set",
     "LBL_SET_GLOBAL_DISCOUNT": "Set",

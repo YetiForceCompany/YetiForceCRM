@@ -16,21 +16,32 @@
 	{/if}
 	<input {if $ROW_NO} name="inventory[{$ROW_NO}][currencyparam]" {/if} type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($CURRENCY_PARAMS))}"
 		class="js-currencyparam" data-js="" />
-	<select class="select2 js-currency" data-minimum-results-for-search="-1" data-old-value="{$SELECTED_CURRENCY}"
-		{if $ROW_NO} name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" {/if}
-		title="{\App\Language::translate('LBL_CURRENCY', $MODULE_NAME)}"
-		{if $FIELD->isReadOnly()}readonly="readonly" {/if}>
-		{foreach item=CURRENCY key=count from=$CURRENCIES}
-			{assign var=CURRENCY_PARAM value=$CURRENCY_PARAMS[$CURRENCY.id]}
-			<option value="{$CURRENCY.id}" class="textShadowNone" data-conversion-rate="{$CURRENCY_PARAM.conversion}"
-				data-conversion-date="{$CURRENCY_PARAM.date}"
-				data-conversion-symbol="{$CURRENCY.currency_symbol}"
-				data-base-currency="{if $CURRENCY.defaultid < 0}1{else}0{/if}"
-				{if $SELECTED_CURRENCY eq $CURRENCY.id}selected{/if}>
-				{\App\Language::translate($CURRENCY.currency_code, 'Other.Currency')} ({$CURRENCY.currency_symbol})
-			</option>
-		{/foreach}
-	</select>
+	<div class="input-group input-group-sm">
+		<div class="input-group-prepend col p-0">
+			<select class="select2 form-control js-currency" data-minimum-results-for-search="-1" data-old-value="{$SELECTED_CURRENCY}"
+				{if $ROW_NO} name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" {/if}
+				title="{\App\Language::translate('LBL_CURRENCY', $MODULE_NAME)}"
+				{if $FIELD->isReadOnly()}readonly="readonly" {/if}>
+				{foreach item=CURRENCY key=count from=$CURRENCIES}
+					{assign var=CURRENCY_PARAM value=$CURRENCY_PARAMS[$CURRENCY.id]}
+					<option value="{$CURRENCY.id}" class="textShadowNone" data-conversion-rate="{$CURRENCY_PARAM.conversion}"
+						data-conversion-date="{$CURRENCY_PARAM.date}"
+						data-conversion-symbol="{$CURRENCY.currency_symbol}"
+						data-base-currency="{if $CURRENCY.defaultid < 0}1{else}0{/if}"
+						{if $SELECTED_CURRENCY eq $CURRENCY.id}selected{/if}>
+						{\App\Language::translate($CURRENCY.currency_code, 'Other.Currency')} ({$CURRENCY.currency_symbol})
+					</option>
+				{/foreach}
+			</select>
+		</div>
+		{if count($CURRENCIES) > 1 && !empty($FIELD->getParamConfig('reset_currency')) && $FIELD->isEditable()}
+			<div class="input-group-append">
+				<button type="button" class="btn btn-light js-inv-cuurency_reset" title="{\App\Language::translate('LBL_INV_CURRENCY_RESET_BTN', $MODULE_NAME)}" data-url="index.php?module={$MODULE_NAME}&action=Inventory&mode=getCurrencyData" data-confirmation="{\App\Language::translate('LBL_INV_CURRENCY_RESET_CONFIRMATION', $MODULE_NAME)}">
+					<span class="adminIcon-currencies"></span>
+				</button>
+			</div>
+		{/if}
+	</div>
 	<div class="modelContainer modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">

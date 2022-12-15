@@ -2117,6 +2117,31 @@ $.Class(
 			});
 		},
 		/**
+		 * Register head element events
+		 */
+		registerHeadEvents() {
+			this.getInventoryHeadContainer()
+				.find('.js-inv-cuurency_reset')
+				.on('click', (e) => {
+					app.showConfirmModal({
+						textTrusted: false,
+						text: e.currentTarget.dataset.confirmation,
+						confirmedCallback: () => {
+							AppConnector.request(e.currentTarget.dataset.url).done((response) => {
+								if (response.result && Object.keys(response.result).length) {
+									this.setCurrencyParam(JSON.stringify(response.result));
+									this.getInventoryItemsContainer()
+										.find(this.rowClass)
+										.each((_, e) => {
+											this.syncHeaderData($(e));
+										});
+								}
+							});
+						}
+					});
+				});
+		},
+		/**
 		 * Function which will register all the events
 		 */
 		registerEvents: function (container) {
@@ -2139,6 +2164,7 @@ $.Class(
 			this.registerShowHideExpandedGroup();
 			app.registerBlockToggleEvent(container);
 			this.registerCurrencyConverter();
+			this.registerHeadEvents();
 		}
 	}
 );
