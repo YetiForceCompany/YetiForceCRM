@@ -1934,22 +1934,23 @@ $.Class(
 		registerRowAutoComplete: function (container) {
 			const thisInstance = this;
 			let sourceFieldElement = container.find('.sourceField.js-name');
-			sourceFieldElement.on(Vtiger_Edit_Js.referenceSelectionEvent, function (e, params) {
+			sourceFieldElement.on(Vtiger_Edit_Js.referenceSelectionEvent, (e, params) => {
 				let record = params.record;
 				let element = $(e.currentTarget);
 				let parentRow = element.closest(thisInstance.rowClass);
 				let selectedModule = parentRow.find('.rowName [name="popupReferenceModule"]').val();
-				let dataUrl =
-					'index.php?module=' +
-					app.getModuleName() +
-					'&action=Inventory&mode=getDetails&record=' +
-					record +
-					'&fieldname=' +
-					element.data('columnname');
-				if (thisInstance.getCurrency()) {
-					dataUrl += '&currency_id=' + thisInstance.getCurrency();
+				let formParam = {
+					module: app.getModuleName(),
+					action: 'Inventory',
+					mode: 'getDetails',
+					record: record,
+					fieldname: element.data('columnname')
+				};
+				if (this.getCurrency()) {
+					formParam.currency_id = this.getCurrency();
+					formParam.currencyParams = this.getInventoryHeadContainer().find('.js-currencyparam').val();
 				}
-				AppConnector.request(dataUrl).done(function (data) {
+				AppConnector.request(formParam).done(function (data) {
 					for (let id in data) {
 						if (typeof data[id] == 'object') {
 							let recordData = data[id];
@@ -2094,7 +2095,7 @@ $.Class(
 		 * Register currency converter
 		 */
 		registerCurrencyConverter() {
-			this.form.find('.js-currency-converter-event').on('click', (e) => {
+			this.form.on('click', '.js-currency-converter-event', (e) => {
 				let row = $(e.currentTarget).closest(this.rowClass);
 				let unitPrice = this.getUnitPriceValue(row) || 0;
 				let currencyId = this.getCurrency();
@@ -2130,11 +2131,7 @@ $.Class(
 							AppConnector.request(e.currentTarget.dataset.url).done((response) => {
 								if (response.result && Object.keys(response.result).length) {
 									this.setCurrencyParam(JSON.stringify(response.result));
-									this.getInventoryItemsContainer()
-										.find(this.rowClass)
-										.each((_, e) => {
-											this.syncHeaderData($(e));
-										});
+									this.syncHeaderData();
 								}
 							});
 						}

@@ -113,7 +113,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$fieldName = $request->getByType('fieldname');
 		$moduleName = $request->getModule();
 		if ($request->isEmpty('idlist')) {
-			$info = static::getRecordDetail($request->getInteger('record'), $currencyId, $moduleName, $fieldName);
+			$info = static::getRecordDetail($request->getInteger('record'), $currencyId, $moduleName, $fieldName, $request->getArray('currencyParams', \App\Purifier::TEXT));
 		} else {
 			foreach ($request->getArray('idlist', 'Integer') as $id) {
 				$info[] = static::getRecordDetail($id, $currencyId, $moduleName, $fieldName);
@@ -131,12 +131,13 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 	 * @param int|null $currencyId
 	 * @param string   $moduleName
 	 * @param string   $fieldName
+	 * @param array    $currencyParams
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 *
 	 * @return array
 	 */
-	public static function getRecordDetail(int $recordId, ?int $currencyId, string $moduleName, string $fieldName): array
+	public static function getRecordDetail(int $recordId, ?int $currencyId, string $moduleName, string $fieldName, array $currencyParams = []): array
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		if (!$recordModel->isViewable()) {
@@ -177,6 +178,7 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$eventHandler->setModuleName($recordModuleName);
 		$eventHandler->setParams([
 			'currencyId' => $currencyId,
+			'currencyParams' => $currencyParams,
 			'moduleName' => $moduleName,
 			'fieldName' => $fieldName,
 			'info' => $info,
@@ -209,7 +211,8 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$data = $inventoryModel->transformData($recordModel->getInventoryData());
 
 		foreach ($data as &$item) {
-			$item['info'] = static::getRecordDetail($item['name'], $item['currency'] ?? 0, $request->getModule(), 'name')[$item['name']];
+			$currencyParams = empty($item['currencyparam']) ? [] : \App\Json::decode($item['currencyparam']);
+			$item['info'] = static::getRecordDetail($item['name'], $item['currency'] ?? 0, $request->getModule(), 'name', $currencyParams)[$item['name']];
 			$item['moduleName'] = \App\Record::getType($item['info']['id']);
 			$item['basetableid'] = Vtiger_Module_Model::getInstance($item['moduleName'])->get('basetableid');
 		}

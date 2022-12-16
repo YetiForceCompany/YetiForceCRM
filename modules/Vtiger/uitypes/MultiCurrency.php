@@ -170,10 +170,11 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 	 *
 	 * @param string|array $value
 	 * @param int          $currencyId
+	 * @param array        $currencyParams
 	 *
 	 * @return float
 	 */
-	public function getValueForCurrency($value, int $currencyId): float
+	public function getValueForCurrency($value, int $currencyId, array $currencyParams = []): float
 	{
 		$result = 0;
 		if (\is_string($value)) {
@@ -184,10 +185,16 @@ class Vtiger_MultiCurrency_UIType extends Vtiger_Base_UIType
 		if ($data) {
 			$rate = 1;
 			if (!isset($data['currencies'][$currencyId])) {
-				$currencyInfo = \App\Fields\Currency::getById($currencyId);
-				$currencyId = $data['currencyId'];
-				$baseRate = 1 / \App\Fields\Currency::getById($currencyId)['conversion_rate'];
-				$rate = $baseRate * $currencyInfo['conversion_rate'];
+				if (isset($currencyParams[$currencyId], $currencyParams[$data['currencyId']])) {
+					$baseRate = $currencyParams[$data['currencyId']]['value'];
+					$rate = $baseRate * $currencyParams[$currencyId]['conversion'];
+					$currencyId = $data['currencyId'];
+				} else {
+					$currencyInfo = \App\Fields\Currency::getById($currencyId);
+					$currencyId = $data['currencyId'];
+					$baseRate = 1 / \App\Fields\Currency::getById($currencyId)['conversion_rate'];
+					$rate = $baseRate * $currencyInfo['conversion_rate'];
+				}
 			}
 			$result = $data['currencies'][$currencyId]['price'] * $rate;
 		}
