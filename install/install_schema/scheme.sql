@@ -1790,7 +1790,11 @@ CREATE TABLE `u_yf_cfixedassets` (
   `current_odometer_reading` int(10) unsigned DEFAULT NULL,
   `number_repair` smallint(5) unsigned DEFAULT NULL,
   `date_last_repair` date DEFAULT NULL,
+  `employee_id` int(10) unsigned DEFAULT 0,
+  `multicompany_id` int(10) unsigned DEFAULT 0,
   PRIMARY KEY (`cfixedassetsid`),
+  KEY `u_yf_cfixedassets_employee_id_idx` (`employee_id`),
+  KEY `u_yf_cfixedassets_multicompany_id_idx` (`multicompany_id`),
   CONSTRAINT `fk_1_vtiger_cfixedassetscfixedassetsid` FOREIGN KEY (`cfixedassetsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -6440,7 +6444,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3141 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3143 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -8602,7 +8606,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `related_tabid` (`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=681 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=683 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 

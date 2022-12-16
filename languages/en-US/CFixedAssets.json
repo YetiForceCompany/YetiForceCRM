@@ -37,6 +37,8 @@
     "FL_COST_INSURANCE_NW": "Personal Injury Protection insurance cost",
     "FL_NUMBER_MOTOHOURS": "Moto hours number",
     "FL_EQUIPMENT": "Equipment",
+    "FL_EMPLOYEE": "Employee",
+    "FL_DEPARTMENT": "Department",
     "PLL_UNAVAILABLE": "Unavailable",
     "PLL_AVAILABLE": "Available",
     "PLL_DEMAGED": "Damaged",
