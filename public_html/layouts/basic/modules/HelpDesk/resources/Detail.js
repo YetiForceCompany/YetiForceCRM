@@ -32,7 +32,7 @@ Vtiger_Detail_Js(
 		 */
 		registerSetReletedModule: function () {
 			const thisInstance = this;
-			$('.js-queck-add-relation').on('click', 'ul li', function (e) {
+			$('.js-quick-add-relation').on('click', 'ul li', function (e) {
 				let element = jQuery(e.currentTarget);
 				thisInstance
 					.saveFieldValues({
