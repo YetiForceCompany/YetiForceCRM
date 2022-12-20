@@ -5,6 +5,7 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 namespace App\Integrations\OAuth;
@@ -33,7 +34,7 @@ abstract class AbstractProvider extends \App\Base
 	 */
 	public function getName(): string
 	{
-		return basename(str_replace('\\', '/', static::class));
+		return substr(strrchr(static::class, '\\'), 1);
 	}
 
 	public function getLabel(): string

@@ -128,7 +128,7 @@ abstract class Base
 	 */
 	public function getName(): string
 	{
-		return basename(str_replace('\\', '/', static::class));
+		return substr(strrchr(static::class, '\\'), 1);
 	}
 
 	/**
