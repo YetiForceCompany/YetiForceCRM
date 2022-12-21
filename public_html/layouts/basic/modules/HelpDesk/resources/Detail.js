@@ -27,14 +27,17 @@ Vtiger_Detail_Js(
 		}
 	},
 	{
-		registerSetServiceContracts: function () {
-			var thisInstance = this;
-			$('.selectServiceContracts').on('click', 'ul li', function (e) {
-				var element = jQuery(e.currentTarget);
+		/**
+		 * Function sets the related module.
+		 */
+		registerSetReletedModule: function () {
+			const thisInstance = this;
+			$('.js-quick-add-relation').on('click', 'ul li', function (e) {
+				let element = jQuery(e.currentTarget);
 				thisInstance
 					.saveFieldValues({
 						setRelatedFields: true,
-						field: 'servicecontractsid',
+						field: element.data('field'),
 						value: element.data('id')
 					})
 					.done(function (response) {
@@ -42,6 +45,7 @@ Vtiger_Detail_Js(
 					});
 			});
 		},
+
 		/**
 		 * Function to get response from hierarchy
 		 * @param {array} params
@@ -327,7 +331,7 @@ Vtiger_Detail_Js(
 		},
 		registerEvents: function () {
 			this._super();
-			this.registerSetServiceContracts();
+			this.registerSetReletedModule();
 			this.registerHierarchyRecordCount();
 			this.registerShowHierarchy();
 		}
