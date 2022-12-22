@@ -22,7 +22,7 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 	setCalendarModuleOptions() {
 		const self = this;
 		return {
-			allDaySlot: false,
+			allDaySlot: app.getMainParams('allDaySlot'),
 			dateClick: (args) => {
 				if (this.eventCreate) {
 					self.registerDayClickEvent(args);
