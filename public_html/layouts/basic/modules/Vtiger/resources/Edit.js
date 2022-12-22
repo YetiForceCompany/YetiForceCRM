@@ -207,11 +207,7 @@ $.Class(
 		moduleName: app.getModuleName(),
 		getForm: function () {
 			if (this.formElement == false) {
-				if ($('#EditView').length) {
-					this.setForm($('#EditView'));
-				} else if ($('.js-form').length) {
-					this.setForm($('.js-form'));
-				}
+				this.formElement = $('#EditView').length ? $('#EditView') : $('.js-edit-form');
 			}
 			return this.formElement;
 		},
