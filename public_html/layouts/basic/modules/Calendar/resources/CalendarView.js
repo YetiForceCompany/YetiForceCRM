@@ -43,7 +43,7 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Vtiger_Calendar
 	setCalendarModuleOptions() {
 		const self = this;
 		return {
-			allDaySlot: false,
+			allDaySlot: app.getMainParams('allDaySlot'),
 			dateClick: (args) => {
 				if (this.eventCreate == 1) {
 					this.showCalendarCreateView().done((form) => {
