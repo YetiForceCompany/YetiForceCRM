@@ -19,6 +19,35 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-6.2.0.tgz#ba3510825b332816fe7190f28827f8cb33a298b5"
   integrity sha512-CNR7qRIfCwWHNN7FnKUniva94edPdyQzil/zCwk3v6k4R6rR2Fr8i4s3PM7n/lyfPA6Zfko9z5WDzFxG9SW1uQ==
 
+"@fullcalendar/core@~6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/core/-/core-6.0.1.tgz#145f66c5b256927c2b93626c16183a3986b4c245"
+  integrity sha512-JMBRbWrez8hKhS1wvqAW3TBSo58/xRmDHUu07x/lywdct4gD7Z9QphC/VDNqbRQpTknHHmOjMqSmauEwQ6wbaA==
+  dependencies:
+    preact "^10.0.5"
+
+"@fullcalendar/daygrid@~6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/daygrid/-/daygrid-6.0.1.tgz#720a989ddeaa08fb4171abf7c69d7c60d3fb4e9a"
+  integrity sha512-QKbZZhJ2LCvHjc0E7bbos5kGRZJ024i0JliTr2H+0zgaSORHp4kzbk+w+XJpRc2v/DbGKMrlFSDVLKNE99BLSQ==
+
+"@fullcalendar/interaction@~6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/interaction/-/interaction-6.0.1.tgz#e9b76e7960ceb2299b4ddaa2895f4d7bd4d95524"
+  integrity sha512-LdIaBaW5vAVGxXleBuHSQnk6O41DjiPsqomCUKQo6jboZvzWZnqS1xnpspeFjunDoYxBldr4nmTxbYFfxU88Iw==
+
+"@fullcalendar/list@~6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/list/-/list-6.0.1.tgz#7d8eee3a2e8d1e5f28d9514aea44d783c216d954"
+  integrity sha512-7+hFIZ92MJGeDIWLvjWhmrr8gseRUfwo8bKhBFA2CnTJGy99Q3STF9F2eyxQ46h6LcRPJr7uaNkWZbqZQv1TvQ==
+
+"@fullcalendar/timegrid@~6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/timegrid/-/timegrid-6.0.1.tgz#6a8bff3eb713336a0c4a1a095a945be83f3a765d"
+  integrity sha512-1yGy79z1riIIe1j/uyAZ1GaY++4K/QHb/Je6Shm0r45DCMgpeabahMOR0HywKqzzBAMmgJdko2vKWoPnueNyEw==
+  dependencies:
+    "@fullcalendar/daygrid" "~6.0.1"
+
 "@mdi/font@^7.0":
   version "7.0.96"
   resolved "https://registry.yarnpkg.com/@mdi/font/-/font-7.0.96.tgz#9853c222623072f5575b4039c8c195ea929b61fc"
@@ -308,10 +337,16 @@ footable@^2.0.6:
   dependencies:
     jquery ">=1.4.4"
 
-fullcalendar@^5:
-  version "5.11.3"
-  resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-5.11.3.tgz#866a062efac2ad5ae3c73aaf345223d617fe1c84"
-  integrity sha512-SgqiMEA+lWLyEd2jEwtIxdfx41j2CZr4KK00D2Gepj1MnGOjaEi13athnU6xvqMQXXjgJNj+vmlUP69QiuGncQ==
+fullcalendar@^6:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/fullcalendar/-/fullcalendar-6.0.1.tgz#f26aecc7b18dff9a0dd304129b93e2d2e825eee5"
+  integrity sha512-5rILt2MUMm2ECHusLuBQIq3FdDyeWVL4wRRhLj3NXnMIzbGzzh9dJCvSLal48yEJR3ksUTYE4KYt1R4ZWy8tgQ==
+  dependencies:
+    "@fullcalendar/core" "~6.0.1"
+    "@fullcalendar/daygrid" "~6.0.1"
+    "@fullcalendar/interaction" "~6.0.1"
+    "@fullcalendar/list" "~6.0.1"
+    "@fullcalendar/timegrid" "~6.0.1"
 
 gantt-elastic@^1.0.12:
   version "1.0.12"
@@ -473,6 +508,11 @@ postcss@^8.4.14:
     nanoid "^3.3.4"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
+
+preact@^10.0.5:
+  version "10.11.3"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.11.3.tgz#8a7e4ba19d3992c488b0785afcc0f8aa13c78d19"
+  integrity sha512-eY93IVpod/zG3uMF22Unl8h9KkrcKIRs2EGar8hwLZZDU1lkjph303V9HZBwufh2s736U6VXuhD109LYqPoffg==
 
 quasar@^1.6.1:
   version "1.22.1"
