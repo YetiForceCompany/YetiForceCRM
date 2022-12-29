@@ -27,7 +27,7 @@ Settings_Vtiger_Index_Js(
 					}
 				}
 			});
-			this.container.find('input').on('change', function () {
+			this.container.find('input,select').on('change', function () {
 				dataTable.ajax.reload();
 			});
 		},

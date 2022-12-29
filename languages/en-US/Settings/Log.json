@@ -17,6 +17,7 @@
     "LBL_REQUEST": "Request",
     "LBL_TIME": "Time",
     "LBL_CATEGORY": "Category",
+    "LBL_ERROR": "Error",
     "LBL_CODE": "Code",
     "LBL_BASE_USER": "Base user",
     "LBL_DEST_USER": "Target user",

@@ -57,6 +57,11 @@ class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 						case 'Reference':
 							$r[] = \App\Record::getLabel($row[$key]);
 							break;
+						case 'Boolean':
+							$r[] = \App\Language::translate(empty($row[$key]) ? 'LBL_NO' : 'LBL_YES');
+							break;
+						default:
+							break;
 					}
 				}
 				$rows[] = $r;
@@ -90,6 +95,11 @@ class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 						break;
 					case 'Text':
 						$query->andWhere(['like', $key, $request->getByType($key, 'Text')]);
+						break;
+					case 'Boolean':
+						$query->andWhere([$key => $request->getInteger($key)]);
+						break;
+					default:
 						break;
 				}
 			}

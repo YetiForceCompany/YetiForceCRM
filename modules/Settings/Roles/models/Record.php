@@ -479,7 +479,6 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$roles[$role->getId()] = $role;
 		}
 		$dataReader->close();
-
 		return $roles;
 	}
 
