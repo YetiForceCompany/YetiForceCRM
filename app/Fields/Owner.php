@@ -453,10 +453,11 @@ class Owner
 	 * @param bool       $view
 	 * @param bool|array $conditions
 	 * @param string     $fieldName
+	 * @param bool       $onlyActive
 	 *
 	 * @return array
 	 */
-	public function getUsersAndGroupForModuleList($view = false, $conditions = false, $fieldName = 'assigned_user_id')
+	public function getUsersAndGroupForModuleList($view = false, $conditions = false, string $fieldName = 'assigned_user_id', bool $onlyActive = false)
 	{
 		$queryGenerator = new \App\QueryGenerator($this->moduleName, $this->currentUser->getId());
 		if ($view) {
@@ -474,7 +475,9 @@ class Owner
 		$queryGenerator->clearFields();
 		if (false !== strpos($fieldName, ':')) {
 			$queryField = $queryGenerator->getQueryRelatedField($fieldName);
-			$queryGenerator->setFields([])->setCustomColumn($queryField->getColumnName())->addRelatedJoin($queryField->getRelated());
+			$queryGenerator->setFields([])
+				->setCustomColumn($queryField->getColumnName())
+				->addRelatedJoin($queryField->getRelated());
 		} else {
 			$queryGenerator->setFields([$fieldName]);
 		}
@@ -484,6 +487,9 @@ class Owner
 			$userModel = \App\User::getUserModel($id);
 			$name = $userModel->getName();
 			if (!empty($name) && ($adminInList || (!$adminInList && !$userModel->isAdmin()))) {
+				if ($onlyActive && !$userModel->isActive()) {
+					continue;
+				}
 				$users[$id] = $name;
 				if ($this->showRoleName) {
 					$roleName = \App\Language::translate($userModel->getRoleInstance()->getName());
@@ -500,7 +506,6 @@ class Owner
 				}
 			}
 		}
-
 		return ['users' => $users, 'group' => $groups];
 	}
 
