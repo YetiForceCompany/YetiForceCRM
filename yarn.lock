@@ -445,10 +445,10 @@ nanoid@^3.3.4:
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.4.tgz#730b67e3cd09e2deacf03c027c81c9d9dbc5e8ab"
   integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
 
-overlayscrollbars@^1.10.0:
-  version "1.13.3"
-  resolved "https://registry.yarnpkg.com/overlayscrollbars/-/overlayscrollbars-1.13.3.tgz#992c96fd2c8535802d1e56c40bc12ec03076c626"
-  integrity sha512-1nB/B5kaakJuHXaLXLRK0bUIilWhUGT6q5g+l2s5vqYdLle/sd0kscBHkQC1kuuDg9p9WR4MTdySDOPbeL/86g==
+overlayscrollbars@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/overlayscrollbars/-/overlayscrollbars-2.0.3.tgz#bbc3e095a38b3abf875e8edc543bfc085eb7fe86"
+  integrity sha512-boOkJFER1Tc21sxF4a7ghGl+ETV3WtP7YgsUyDPo1VTHUIPdQLfnTzMyOOdMkKkVcpJOYMKwwr4m+saCtgawCg==
 
 perfect-scrollbar@^1.3.0:
   version "1.5.5"
