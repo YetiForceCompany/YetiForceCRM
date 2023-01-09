@@ -48,7 +48,7 @@ class Vtiger_LabelUpdater_Cron extends \App\CronHandler
 			->innerJoin('vtiger_entityname', 'vtiger_tab.tabid = vtiger_entityname.tabid')
 			->leftJoin('u_#__crmentity_label', 'u_#__crmentity_label.crmid = vtiger_crmentity.crmid')
 			->where(['and',
-				['vtiger_crmentity.deleted' => 0],
+				['vtiger_crmentity.deleted' => [0, 2]],
 				['vtiger_tab.presence' => 0],
 				['not', ['vtiger_entityname.fieldname' => '']],
 				['u_#__crmentity_label.label' => null],
@@ -78,7 +78,7 @@ class Vtiger_LabelUpdater_Cron extends \App\CronHandler
 			->innerJoin('vtiger_entityname', 'vtiger_tab.tabid = vtiger_entityname.tabid')
 			->leftJoin('u_#__crmentity_search_label', 'u_#__crmentity_search_label.crmid = vtiger_crmentity.crmid')
 			->where(['and',
-				['vtiger_crmentity.deleted' => 0],
+				['vtiger_crmentity.deleted' => [0, 2]],
 				['vtiger_tab.presence' => 0],
 				['vtiger_entityname.turn_off' => 1],
 				['not', ['vtiger_entityname.searchcolumn' => '']],

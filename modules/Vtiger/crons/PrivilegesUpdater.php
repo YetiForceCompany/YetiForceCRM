@@ -22,7 +22,7 @@ class Vtiger_PrivilegesUpdater_Cron extends \App\CronHandler
 		$query = (new \App\Db\Query())->select(['crmid', 'setype'])
 			->from('vtiger_crmentity')
 			->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_crmentity.setype')
-			->where(['vtiger_tab.presence' => 0, 'deleted' => 0, 'users' => null])
+			->where(['vtiger_tab.presence' => 0, 'deleted' => [0, 2], 'users' => null])
 			->limit($limit);
 		foreach ($query->batch(100) as $rows) {
 			$this->updateLastActionTime();
@@ -62,7 +62,7 @@ class Vtiger_PrivilegesUpdater_Cron extends \App\CronHandler
 				} else {
 					$dataReaderCrm = (new \App\Db\Query())->select(['crmid'])
 						->from('vtiger_crmentity')
-						->where(['and', ['deleted' => 0], ['setype' => $row['module']], ['>', 'crmid', $crmid]])
+						->where(['and', ['deleted' => [0, 2]], ['setype' => $row['module']], ['>', 'crmid', $crmid]])
 						->limit($limit)
 						->createCommand()->query();
 					while ($rowCrm = $dataReaderCrm->read()) {
