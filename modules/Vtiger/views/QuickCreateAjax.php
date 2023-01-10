@@ -93,8 +93,8 @@ class Vtiger_QuickCreateAjax_View extends Vtiger_IndexAjax_View
 		}
 		$isRelationOperation = $request->getBoolean('relationOperation');
 		$viewer->assign('IS_RELATION_OPERATION', $isRelationOperation);
+		$viewer->assign('SOURCE_MODULE', $request->getByType('sourceModule', \App\Purifier::ALNUM));
 		if ($isRelationOperation) {
-			$viewer->assign('SOURCE_MODULE', $request->getByType('sourceModule', \App\Purifier::ALNUM));
 			$viewer->assign('SOURCE_RECORD', $request->getInteger('sourceRecord'));
 		}
 		$viewer->assign('LAYOUT', $layout);

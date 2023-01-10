@@ -33,6 +33,9 @@
 					<input type="hidden" name="fromView" value="Create" />
 					{assign var="FROM_VIEW" value='Create'}
 				{/if}
+				{if !empty($SOURCE_MODULE)}
+					<input type="hidden" name="fromModule" value="{$SOURCE_MODULE}" />
+				{/if}
 				<input type="hidden" name="action" value="Save" />
 				{if $IS_RELATION_OPERATION }
 					<input type="hidden" name="sourceModule" value="{$SOURCE_MODULE}" />

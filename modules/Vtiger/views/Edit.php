@@ -89,9 +89,9 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		$isRelationOperation = $request->getBoolean('relationOperation');
 		//if it is relation edit
 		$viewer->assign('IS_RELATION_OPERATION', $isRelationOperation);
+		$viewer->assign('SOURCE_MODULE', $request->getByType('sourceModule', \App\Purifier::ALNUM));
 		if ($isRelationOperation) {
 			$viewName = 'edit' === $mode ? 'Edit' : 'Create';
-			$viewer->assign('SOURCE_MODULE', $request->getByType('sourceModule', 2));
 			$viewer->assign('SOURCE_RECORD', $request->getInteger('sourceRecord'));
 			$sourceRelatedField = $moduleModel->getValuesFromSource($request);
 			foreach ($recordStructure as $block) {

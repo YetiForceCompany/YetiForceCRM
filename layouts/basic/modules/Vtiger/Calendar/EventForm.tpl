@@ -16,6 +16,9 @@
 				<input type="hidden" name="fromView" value="QuickCreate" />
 				{assign var="FROM_VIEW" value='QuickCreate'}
 			{/if}
+			{if !empty($SOURCE_MODULE)}
+				<input type="hidden" name="fromModule" value="{$SOURCE_MODULE}" />
+			{/if}
 			<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}" />
 			<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, $FROM_VIEW])}" />
 			{if !empty($MAPPING_RELATED_FIELD)}
