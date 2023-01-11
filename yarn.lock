@@ -475,9 +475,9 @@ postcss@^8.4.14:
     source-map-js "^1.0.2"
 
 quasar@^1.6.1:
-  version "1.22.1"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.22.1.tgz#0a71c47f35760864ef107a5020d50da00163fd39"
-  integrity sha512-z1dtJTM706v0Tygs1v34q4dsljmFqlTyN6AEJ2CQiUj3Gla11qy/m3Sv08weCHfebfsb/QWbue90aF1nEpAnUQ==
+  version "1.22.5"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.22.5.tgz#7c33a02a5541b62b057f1d805b64cbcb59243152"
+  integrity sha512-cb/Q1Nvx1Lo3i2Gq+7j6kN/DJzZrTPG6JJKus3WJ0YpqsiovoWchnbDrGkTyL8nCnj2Im4SAX50DF0Vbd6pK3w==
 
 regenerator-runtime@^0.13.10:
   version "0.13.10"
