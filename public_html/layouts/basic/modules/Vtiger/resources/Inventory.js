@@ -1694,6 +1694,7 @@ $.Class(
 			container.on('click', '.js-delete-header-item', (e) => {
 				$(e.currentTarget).closest('tr').remove();
 				this.syncHeaderData();
+				this.rowsCalculations();
 			});
 		},
 		deleteLineItem: function (num) {
