@@ -447,7 +447,9 @@ class Item extends \App\Base
 			$editFields[] = 'description';
 			$editFields[] = 'prefix';
 			if ($this->fieldModel->getFieldParams()['isProcessStatusField'] ?? false) {
-				$editFields[] = 'time_counting';
+				if (\App\Db::getInstance()->getTableSchema($this->getTableName())->getColumn('time_counting')) {
+					$editFields[] = 'time_counting';
+				}
 				$editFields[] = 'record_state';
 			}
 			if (15 === $this->fieldModel->getUIType()) {
