@@ -12,7 +12,6 @@
 [![Doc](https://img.shields.io/badge/Doc-doc.yetiforce.com-brightgreen.svg)](https://doc.yetiforce.com/)
 [![Backers on Open Collective](https://opencollective.com/YetiForceCRM/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/YetiForceCRM/sponsors/badge.svg)](#sponsors)
-[![Black Duck Security Risk](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer/badge-risk.svg)](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer)
 [![codecov](https://codecov.io/gh/YetiForceCompany/YetiForceCRM/branch/developer/graph/badge.svg)](https://codecov.io/gh/YetiForceCompany/YetiForceCRM)
 [![Scrutinizer](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/badges/quality-score.png?b=developer)](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/YetiForceCompany/YetiForceCRM.svg)](http://isitmaintained.com/project/YetiForceCompany/YetiForceCRM 'Average time to resolve an issue')
@@ -121,6 +120,7 @@ Testing Supported By<br/>
 [![sonarcloud.io sqale](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
 [![sonarcloud.io security](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=security_rating)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
 [![sonarcloud.io vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=YetiForceCRM&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=YetiForceCRM)
+[![Black Duck Security Risk](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer/badge-risk.svg)](https://copilot.blackducksoftware.com/github/repos/YetiForceCompany/YetiForceCRM/branches/developer)
 
 ## 🎯 Contributors
 
