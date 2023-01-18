@@ -852,7 +852,7 @@ class QueryGenerator
 	 *
 	 * @return \App\Db\Query
 	 */
-	public function createQuery($reBuild = false)
+	public function createQuery($reBuild = false): Db\Query
 	{
 		if (!$this->buildedQuery || $reBuild) {
 			$this->query = new Db\Query();
