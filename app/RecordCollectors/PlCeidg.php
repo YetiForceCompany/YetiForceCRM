@@ -89,6 +89,9 @@ class PlCeidg extends Base
 			'taxNumber' => 'registration_number_2',
 			'ncr' => 'registration_number_1',
 		],
+		'Partners' => [
+			'vatId' => 'vat_id',
+		],
 	];
 
 	/** {@inheritdoc} */

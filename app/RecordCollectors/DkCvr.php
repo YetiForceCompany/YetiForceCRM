@@ -90,9 +90,12 @@ class DkCvr extends Base
 		'Vendors' => [
 			'vatNumber' => 'vat_id',
 		],
+		'Partners' => [
+			'vatNumber' => 'vat_id',
+		],
 		'Competition' => [
 			'vatNumber' => 'vat_id',
-		]
+		],
 	];
 
 	/** {@inheritdoc} */

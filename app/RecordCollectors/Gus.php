@@ -22,7 +22,7 @@ namespace App\RecordCollectors;
 class Gus extends Base
 {
 	/** {@inheritdoc} */
-	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
+	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition', 'Partners'];
 
 	/** {@inheritdoc} */
 	public $icon = 'yfi-gus-regon-pl';
@@ -77,6 +77,9 @@ class Gus extends Base
 			'taxNumber' => 'registration_number_2',
 			'ncr' => 'registration_number_1',
 		],
+		'Partners' => [
+			'vatId' => 'vat_id',
+		],
 	];
 
 	/** {@inheritdoc} */
@@ -102,6 +105,7 @@ class Gus extends Base
 		],
 		'Leads' => [
 			'Nazwa' => 'company',
+			'Nip' => 'vat_id',
 			'Regon' => 'registration_number_2',
 			'NumerBudynku' => 'buildingnumbera',
 			'NumerLokalu' => 'localnumbera',
@@ -120,6 +124,7 @@ class Gus extends Base
 		],
 		'Partners' => [
 			'Nazwa' => 'subject',
+			'Nip' => 'vat_id',
 			'NumerBudynku' => 'buildingnumbera',
 			'NumerLokalu' => 'localnumbera',
 			'Ulica' => 'addresslevel8a',
@@ -132,6 +137,7 @@ class Gus extends Base
 		],
 		'Vendors' => [
 			'Nazwa' => 'vendorname',
+			'Nip' => 'vat_id',
 			'Regon' => 'registration_number_2',
 			'NumerBudynku' => 'buildingnumbera',
 			'NumerLokalu' => 'localnumbera',
@@ -145,6 +151,7 @@ class Gus extends Base
 		],
 		'Competition' => [
 			'Nazwa' => 'subject',
+			'Nip' => 'vat_id',
 			'NumerBudynku' => 'buildingnumbera',
 			'NumerLokalu' => 'localnumbera',
 			'Ulica' => 'addresslevel8a',

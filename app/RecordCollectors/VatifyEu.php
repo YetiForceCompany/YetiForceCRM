@@ -138,6 +138,10 @@ class VatifyEu extends Base
 			'vatNumber' => 'vat_id',
 			'country' => 'addresslevel1a'
 		],
+		'Partners' => [
+			'vatNumber' => 'vat_id',
+			'country' => 'addresslevel1a'
+		],
 	];
 
 	/** {@inheritdoc} */
