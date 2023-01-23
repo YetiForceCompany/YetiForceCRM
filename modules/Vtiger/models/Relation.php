@@ -989,6 +989,18 @@ class Vtiger_Relation_Model extends \App\Base
 	}
 
 	/**
+	 * Function to set custom view orderby .
+	 *
+	 * @param int  $relationId
+	 * @param bool $customViewOrderBy
+	 */
+	public static function updateRelationCustomViewOrderBy(int $relationId, bool $customViewOrderBy): void
+	{
+		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['custom_view_orderby' => $customViewOrderBy], ['relation_id' => $relationId])->execute();
+		\App\Relation::clearCacheById($relationId);
+	}
+
+	/**
 	 * Removes relation between modules.
 	 *
 	 * @param int $relationId
@@ -1238,5 +1250,21 @@ class Vtiger_Relation_Model extends \App\Base
 			}
 		}
 		return $this->customViewList = $cv;
+	}
+
+	/**
+	 * Get sort orderby for custom view.
+	 *
+	 * @param [type] $cvId
+	 *
+	 * @return array
+	 */
+	public function getCustomViewOrderBy($cvId): array
+	{
+		$orderBy = [];
+		if ($this->get('custom_view_orderby') && ($customViewRecordModel = CustomView_Record_Model::getInstanceById($cvId))) {
+			$orderBy = $customViewRecordModel->getSortOrderBy();
+		}
+		return $orderBy;
 	}
 }

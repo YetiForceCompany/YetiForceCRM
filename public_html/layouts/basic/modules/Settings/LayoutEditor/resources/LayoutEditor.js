@@ -161,6 +161,9 @@ $.Class(
 			relatedList.find('.js-related-custom-view').on('change', function (e) {
 				thisInstance.updateCustomView($(e.currentTarget));
 			});
+			relatedList.find('.js-related-custom-view-orderby').on('change', function (e) {
+				thisInstance.updateCustomViewOrderBy($(e.currentTarget));
+			});
 			relatedList.on('click', '.addRelation', function (e) {
 				let currentTarget = $(e.currentTarget);
 				var container = currentTarget.closest('#relatedTabOrder');
@@ -440,6 +443,37 @@ $.Class(
 			params['mode'] = 'updateCustomView';
 			params['relationId'] = relatedModule.data('relation-id');
 			params['cv'] = target.val();
+			AppConnector.request(params)
+				.done(function () {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+				})
+				.fail(function (error) {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					app.showNotify({
+						text: app.vtranslate('JS_ERROR'),
+						type: 'error'
+					});
+				});
+		},
+		/**
+		 * Set custom view order by
+		 * (jQuery) target
+		 */
+		updateCustomViewOrderBy: function (target) {
+			let params = {},
+				relatedModule = $(target).closest('.relatedModule'),
+				progressIndicatorElement = $.progressIndicator({
+					position: 'html',
+					blockInfo: {
+						enabled: true
+					}
+				});
+			params['module'] = app.getModuleName();
+			params['parent'] = app.getParentModuleName();
+			params['action'] = 'Relation';
+			params['mode'] = 'updateCustomViewOrderBy';
+			params['relationId'] = relatedModule.data('relation-id');
+			params['orderby'] = target.prop('checked');
 			AppConnector.request(params)
 				.done(function () {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });

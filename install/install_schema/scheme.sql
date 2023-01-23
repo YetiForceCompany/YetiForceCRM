@@ -8602,6 +8602,7 @@ CREATE TABLE `vtiger_relatedlists` (
   `view_type` varchar(100) NOT NULL DEFAULT 'RelatedTab',
   `field_name` varchar(50) DEFAULT NULL,
   `custom_view` varchar(255) DEFAULT NULL,
+  `custom_view_orderby` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`relation_id`),
   KEY `related_tabid` (`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),

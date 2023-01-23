@@ -175,9 +175,19 @@
 												</div>
 											</div>
 										</div>
+										<div class="form-horizontal js-related-custom-view-orderby-container" data-js="container">
+											<div class="form-group row">
+												<label class="col-sm-2 col-form-label text-right">
+													{\App\Language::translate('LBL_USE_SORTING_FROM_FILTERS',$QUALIFIED_MODULE)}:
+												</label>
+												<div class="col-sm-10">
+													<input name="orderby" class="js-related-custom-view-orderby align-middle" data-js="change" title="{\App\Language::translate('LBL_USE_SORTING_FROM_FILTERS',$QUALIFIED_MODULE)}" type="checkbox" {if $MODULE_MODEL->get('custom_view_orderby')} checked {/if} value="1">
+												</div>
+											</div>
+										</div>
 										{if $INVENTORY_MODEL}
 											{assign var=INVENTORY_FIELDS value=$INVENTORY_MODEL->getFields()}
-											<div class="form-horizontal js-related-column-list-container" data-js="container">
+											<div class=" form-horizontal js-related-column-list-container" data-js="container">
 												<div class="form-group row">
 													<label class="col-sm-2 col-form-label text-right">{\App\Language::translate('LBL_ADVANCED_BLOCK_FIELDS',$QUALIFIED_MODULE)}
 														:</label>
