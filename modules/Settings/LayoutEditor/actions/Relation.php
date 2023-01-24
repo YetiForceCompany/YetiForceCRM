@@ -22,6 +22,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('removeRelation');
 		$this->exposeMethod('updateRelatedViewType');
 		$this->exposeMethod('updateCustomView');
+		$this->exposeMethod('updateCustomViewOrderBy');
 		Settings_Vtiger_Tracker_Model::addBasic('save');
 	}
 
@@ -86,6 +87,27 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		try {
 			Vtiger_Relation_Model::updateRelationCustomView($relationId, $cv);
 			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_SAVE_NOTIFY_OK', '')]);
+		} catch (Exception $e) {
+			$response->setError($e->getCode(), $e->getMessage());
+		}
+		$response->emit();
+	}
+
+	/**
+	 * Update relation custom view orderby.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public function updateCustomViewOrderBy(App\Request $request): void
+	{
+		$relationId = $request->getInteger('relationId');
+		$orderBy = $request->getBoolean('orderby');
+		$response = new Vtiger_Response();
+		try {
+			Vtiger_Relation_Model::updateRelationCustomViewOrderBy($relationId, $orderBy);
+			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_CHANGES_SAVED', $request->getModule())]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

@@ -58,9 +58,8 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getByType('cvId', 'Alnum');
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'), $cvId);
-
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
-		if (empty($orderBy)) {
+		if (empty($orderBy) && !($orderBy = $relationListView->getRelationModel()->getCustomViewOrderBy($cvId))) {
 			$moduleInstance = $relationListView->getRelatedModuleModel()->getEntityInstance();
 			if ($moduleInstance->default_order_by && $moduleInstance->default_sort_order) {
 				$orderBy = [];

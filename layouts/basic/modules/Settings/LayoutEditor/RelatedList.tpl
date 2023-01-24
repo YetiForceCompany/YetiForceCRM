@@ -143,41 +143,51 @@
 													{\App\Language::translate('LBL_RELATED_CUSTOM_VIEW',$QUALIFIED_MODULE)}:
 												</label>
 												<div class="col-sm-10">
-													{assign var=SELECTED_CUSTOM_VIEW value=$MODULE_MODEL->getCustomView()}
-													{assign var=ALL_CUSTOM_VIEW value=CustomView_Record_Model::getAll($RELATED_MODULE_NAME)}
-													<select multiple="multiple" name="custom_view[]" class="form-control select2_container columnsSelect js-related-custom-view" data-select-cb="registerSelectSortable" data-js="sortable | change | select2">
-														<optgroup label=''>
-															{foreach item=SELECTED_CV from=$SELECTED_CUSTOM_VIEW}
-																<option value="{$SELECTED_CV}" selected>
-																	{if isset($BASE_CUSTOM_VIEW[$SELECTED_CV])}
-																		{$BASE_CUSTOM_VIEW[$SELECTED_CV]}
-																	{elseif isset($ALL_CUSTOM_VIEW[$SELECTED_CV])}
-																		{\App\Language::translate($ALL_CUSTOM_VIEW[$SELECTED_CV]->get('viewname'), $RELATED_MODULE_NAME)}
-																	{/if}
-																</option>
-															{/foreach}
-															{foreach key=CV_ID item=CV_NAME from=$BASE_CUSTOM_VIEW}
-																{if !in_array($CV_ID,$SELECTED_CUSTOM_VIEW)}
-																	<option value="{$CV_ID}">{$CV_NAME}</option>
-																{/if}
-															{/foreach}
-														</optgroup>
-														<optgroup label='{\App\Language::translate('LBL_FILTERS_FROM_MODULE', $QUALIFIED_MODULE)}'>
-															{foreach key=CV_ID item=CV_MODEL from=$ALL_CUSTOM_VIEW}
-																{if !in_array($CV_ID,$SELECTED_CUSTOM_VIEW)}
-																	<option value="{$CV_ID}">
-																		{\App\Language::translate($CV_MODEL->get('viewname'), $RELATED_MODULE_NAME)}
+													<div class="input-group">
+														<div class="input-group-prepend">
+															<span class="input-group-text" id="basic-addon1">
+																<input name="orderby" class="js-related-custom-view-orderby align-middle" data-js="change" title="{\App\Language::translate('LBL_USE_SORTING_FROM_FILTERS',$QUALIFIED_MODULE)}" type="checkbox" {if $MODULE_MODEL->get('custom_view_orderby')} checked {/if} value="1">
+																<span class="js-popover-tooltip ml-1" data-js="popover" data-content="{\App\Language::translate('LBL_USE_SORTING_FROM_FILTERS',$QUALIFIED_MODULE)}">
+																	<span class="fas fa-info-circle"></span>
+																</span>
+															</span>
+														</div>
+														{assign var=SELECTED_CUSTOM_VIEW value=$MODULE_MODEL->getCustomView()}
+														{assign var=ALL_CUSTOM_VIEW value=CustomView_Record_Model::getAll($RELATED_MODULE_NAME)}
+														<select multiple="multiple" name="custom_view[]" class="form-control select2_container columnsSelect js-related-custom-view" data-select-cb="registerSelectSortable" data-js="sortable | change | select2">
+															<optgroup label=''>
+																{foreach item=SELECTED_CV from=$SELECTED_CUSTOM_VIEW}
+																	<option value="{$SELECTED_CV}" selected>
+																		{if isset($BASE_CUSTOM_VIEW[$SELECTED_CV])}
+																			{$BASE_CUSTOM_VIEW[$SELECTED_CV]}
+																		{elseif isset($ALL_CUSTOM_VIEW[$SELECTED_CV])}
+																			{\App\Language::translate($ALL_CUSTOM_VIEW[$SELECTED_CV]->get('viewname'), $RELATED_MODULE_NAME)}
+																		{/if}
 																	</option>
-																{/if}
-															{/foreach}
-														</optgroup>
-													</select>
+																{/foreach}
+																{foreach key=CV_ID item=CV_NAME from=$BASE_CUSTOM_VIEW}
+																	{if !in_array($CV_ID,$SELECTED_CUSTOM_VIEW)}
+																		<option value="{$CV_ID}">{$CV_NAME}</option>
+																	{/if}
+																{/foreach}
+															</optgroup>
+															<optgroup label='{\App\Language::translate('LBL_FILTERS_FROM_MODULE', $QUALIFIED_MODULE)}'>
+																{foreach key=CV_ID item=CV_MODEL from=$ALL_CUSTOM_VIEW}
+																	{if !in_array($CV_ID,$SELECTED_CUSTOM_VIEW)}
+																		<option value="{$CV_ID}">
+																			{\App\Language::translate($CV_MODEL->get('viewname'), $RELATED_MODULE_NAME)}
+																		</option>
+																	{/if}
+																{/foreach}
+															</optgroup>
+														</select>
+													</div>
 												</div>
 											</div>
 										</div>
 										{if $INVENTORY_MODEL}
 											{assign var=INVENTORY_FIELDS value=$INVENTORY_MODEL->getFields()}
-											<div class="form-horizontal js-related-column-list-container" data-js="container">
+											<div class=" form-horizontal js-related-column-list-container" data-js="container">
 												<div class="form-group row">
 													<label class="col-sm-2 col-form-label text-right">{\App\Language::translate('LBL_ADVANCED_BLOCK_FIELDS',$QUALIFIED_MODULE)}
 														:</label>
