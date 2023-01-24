@@ -247,7 +247,7 @@
     "LBL_SHOW_LIST_COORDINATE_TYPE": "Show coordinate type list",
     "LBL_SHOW_BUTTON_MY_LOCATION": "Show my location button",
     "LBL_COORDINATE_TYPE": "Coordinate type",
-    "LBL_USE_SORTING_FROM_FILTERS": "Use sorting from filter"
+    "LBL_USE_SORTING_FROM_FILTERS": "Considers sorting of the selected item or keeps the default sorting"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Block Name already exists",

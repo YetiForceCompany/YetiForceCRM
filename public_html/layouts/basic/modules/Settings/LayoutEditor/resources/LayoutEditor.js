@@ -475,14 +475,19 @@ $.Class(
 			params['relationId'] = relatedModule.data('relation-id');
 			params['orderby'] = target.prop('checked');
 			AppConnector.request(params)
-				.done(function () {
+				.done(function (result) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					app.showNotify({
+						text: result.result.message,
+						type: 'success'
+					});
 				})
 				.fail(function (error) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					app.showNotify({
 						text: app.vtranslate('JS_ERROR'),
-						type: 'error'
+						type: 'error',
+						textTrusted: false
 					});
 				});
 		},

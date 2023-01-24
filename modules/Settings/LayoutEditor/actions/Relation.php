@@ -107,7 +107,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$response = new Vtiger_Response();
 		try {
 			Vtiger_Relation_Model::updateRelationCustomViewOrderBy($relationId, $orderBy);
-			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_SAVE_NOTIFY_OK', '')]);
+			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_CHANGES_SAVED', $request->getModule())]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}
