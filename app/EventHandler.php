@@ -498,10 +498,10 @@ class EventHandler
 			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 		}
 		if (isset($this->handlers[$className])) {
-			$handler = $this->handlers[$className];
+			$handlerInstance = $this->handlers[$className];
 		} else {
-			$handler = $this->handlers[$className] = new $className();
+			$handlerInstance = $this->handlers[$className] = new $className();
 		}
-		return $handler->{$function}($this);
+		return $handlerInstance->{$function}($this, $handler);
 	}
 }
