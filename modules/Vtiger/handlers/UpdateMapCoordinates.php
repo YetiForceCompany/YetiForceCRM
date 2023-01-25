@@ -50,4 +50,55 @@ class Vtiger_UpdateMapCoordinates_Handler
 			}
 		}
 	}
+
+	/**
+	 * EditViewChangeValue function.
+	 *
+	 * @param App\EventHandler $eventHandler
+	 *
+	 * @return array
+	 */
+	public function editViewChangeValue(App\EventHandler $eventHandler): array
+	{
+		$return = [];
+		$recordModel = $eventHandler->getRecordModel();
+		$coordinatesFieldValue = $recordModel->get('coordinates');
+		if (!\App\Json::isEmpty($coordinatesFieldValue)) {
+			$coordinatesFieldValue = \App\Json::decode($coordinatesFieldValue);
+		}
+		if ((empty($coordinatesFieldValue['value']) || (empty($coordinatesFieldValue['value']['lat']) && empty($coordinatesFieldValue['value']['lon']))) && !empty($coordinatesData = \App\Map\Coordinates::getInstance()->getCoordinates(\App\Map\Coordinates::getAddressParams($recordModel, 'a')))) {
+			$coordinatesData = reset($coordinatesData);
+			foreach ([MapCoordinates::DECIMAL, MapCoordinates::DEGREES, MapCoordinates::CODE_PLUS] as $type) {
+				if (!empty($convertCoordinates = \App\Fields\MapCoordinates::convert(MapCoordinates::DECIMAL, $type, ['lat' => $coordinatesData['lat'], 'lon' => $coordinatesData['lon']]))) {
+					if (MapCoordinates::CODE_PLUS === $type) {
+						$return['changeValues'][] = ['fieldName' => 'coordinates[codeplus]', 'value' => $convertCoordinates];
+						$recordModel->set("coordinates[{$type}]", $convertCoordinates);
+					} else {
+						$return['changeValues'][] = ['fieldName' => "coordinates[{$type}][lat]", 'value' => $convertCoordinates['lat']];
+						$return['changeValues'][] = ['fieldName' => "coordinates[{$type}][lon]", 'value' => $convertCoordinates['lon']];
+						$recordModel->set("coordinates[{$type}][lat]", $convertCoordinates['lat']);
+						$recordModel->set("coordinates[{$type}][lon]", $convertCoordinates['lon']);
+					}
+				}
+			}
+		}
+		return $return;
+	}
+
+	/**
+	 * Get variables for the current event.
+	 *
+	 * @param string $name
+	 * @param array  $params
+	 * @param string $moduleName
+	 *
+	 * @return array|null
+	 */
+	public function vars(string $name, array $params, string $moduleName): ?array
+	{
+		if (\App\EventHandler::EDIT_VIEW_CHANGE_VALUE === $name) {
+			return ['addresslevel1a', 'addresslevel2a', 'addresslevel3a',  'addresslevel5a', 'addresslevel8a', 'buildingnumbera', 'addresslevel8a'];
+		}
+		return null;
+	}
 }
