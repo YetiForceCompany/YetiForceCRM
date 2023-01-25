@@ -207,7 +207,8 @@ class Mailer
 			$textParser->setSourceRecord($params['sourceRecord'], $params['sourceModule']);
 		}
 		$textParser->setParams(array_diff_key($params, array_flip(['subject', 'content', 'attachments', 'recordModel'])));
-		$params['subject'] = $textParser->setContent($template['subject'])->parse()->getContent();
+		$subject = $params['subject'] ?? $template['subject'];
+		$params['subject'] = $textParser->setContent($subject)->parse()->getContent();
 		$params['content'] = $textParser->setContent(\App\Utils\Completions::decode(\App\Purifier::purifyHtml($template['content'])))->parse()->getContent();
 		unset($textParser);
 		if (empty($params['smtp_id']) && !empty($template['smtp_id'])) {
