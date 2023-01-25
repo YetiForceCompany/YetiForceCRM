@@ -1262,7 +1262,7 @@ class Vtiger_Relation_Model extends \App\Base
 	public function getCustomViewOrderBy($cvId): array
 	{
 		$orderBy = [];
-		if ($this->get('custom_view_orderby') && ($customViewRecordModel = CustomView_Record_Model::getInstanceById($cvId))) {
+		if ($cvId && $this->get('custom_view_orderby') && ($customViewRecordModel = CustomView_Record_Model::getInstanceById($cvId))) {
 			$orderBy = $customViewRecordModel->getSortOrderBy();
 		}
 		return $orderBy;
