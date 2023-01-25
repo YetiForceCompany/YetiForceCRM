@@ -59,10 +59,9 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'));
 		if ($request->isEmpty('cvId', true)) {
 			$relationListCustomView = $relationListView->getRelationModel()->getCustomView();
-			if (1 === \count($relationListCustomView) && is_numeric($relationListCustomView[0])) {
-				$cvId = $relationListCustomView[0];
-			} else {
-				$cvId = 0;
+			$cvId = current($relationListCustomView) ?: 0;
+			if (\in_array($cvId, ['private', 'all'])) {
+				$cvId = array_key_first($relationListView->getRelationModel()->getCustomViewList());
 			}
 		} else {
 			$cvId = $request->getByType('cvId', 'Alnum');
