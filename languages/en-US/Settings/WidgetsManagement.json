@@ -51,7 +51,9 @@
     "LBL_MOVE": "Move",
     "LBL_TRANSFER": "Transfer",
     "LBL_SAVED_SUCCESSFULLY": "Saved successfully",
-    "LBL_NOT_SAVED": "Your changes could not be saved"
+    "LBL_NOT_SAVED": "Your changes could not be saved",
+    "LBL_SELECT_BASE_MODULE_FILTER": "Select base module filter",
+    "LBL_SELECT_CUSTOM_FILTERS": "Select additional filter fields"
   },
   "js": {
     "JS_BLOCK_ADDED": "Block has been added successfully",

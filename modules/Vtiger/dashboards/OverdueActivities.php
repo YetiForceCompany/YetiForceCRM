@@ -21,15 +21,14 @@ class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		$currentUser = Users_Record_Model::getCurrentUserModel();
 		$moduleName = 'Home';
 		$page = $request->getInteger('page');
-		$linkId = $request->getInteger('linkid');
 		$sortOrder = $request->getForSql('sortorder');
 		if (empty($sortOrder) || !\in_array($sortOrder, ['asc', 'desc'])) {
 			$sortOrder = 'asc';
 		}
-		$sortOrder = ('asc' === $sortOrder) ? SORT_ASC : SORT_DESC;
+		$sortOrder = ('asc' === $sortOrder) ? 'SORT_ASC' : 'SORT_DESC';
 		$orderBy = $request->getForSql('orderby') ?: ['due_date' => $sortOrder, 'time_end' => $sortOrder];
 		$data = $request->getAll();
-		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
+		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($request->getInteger('widgetid'), $currentUser->getId());
 		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Calendar', $request->getByType('owner', 2));
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
@@ -43,9 +42,16 @@ class Vtiger_OverdueActivities_Dashboard extends Vtiger_IndexAjax_View
 		if (!$request->isEmpty('taskpriority') && 'all' !== $request->getByType('taskpriority', 'Text')) {
 			$params['taskpriority'] = $request->getByType('taskpriority', 'Text');
 		}
+		$dataValue = $widget->get('data') ? \App\Json::decode($widget->get('data')) : [];
+		$customFilters = $dataValue['customFilters'] ?? [];
+
+		if ($filterId = $widget->get('filterid')) {
+			$params['filterId'] = $filterId;
+		}
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$overDueActivities = (false === $owner) ? [] : $moduleModel->getCalendarActivities('overdue', $pagingModel, $owner, false, $params);
 		$viewer = $this->getViewer($request);
+		$viewer->assign('CUSTOM_FILTERS', $customFilters);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);

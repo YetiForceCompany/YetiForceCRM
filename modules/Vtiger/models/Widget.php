@@ -669,12 +669,7 @@ class Vtiger_Widget_Model extends \App\Base
 		$userPrivModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 		$params = vtlib\Functions::getQueryParams($this->get('linkurl'));
 		$moduleName = $params['module'];
-		$sourceModulePermission = true;
-		if (($name = $params['name'] ?? '') && \in_array($name, ['CalendarActivities', 'OverdueActivities'])) {
-			$sourceModulePermission = $userPrivModel->hasModulePermission('Calendar');
-		}
-
-		return 'ModTracker' === $moduleName || ($sourceModulePermission && $userPrivModel->hasModulePermission($moduleName));
+		return 'ModTracker' === $moduleName && $userPrivModel->hasModulePermission($moduleName);
 	}
 
 	/**
