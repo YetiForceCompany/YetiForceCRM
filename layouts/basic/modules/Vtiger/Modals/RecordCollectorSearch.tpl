@@ -92,6 +92,31 @@
 								</tr>
 							{/if}
 						{/foreach}
+						{if !empty($SEARCH_DATA['additional'])}
+							<tr class="thead-light">
+								<td colspan="{2 + count($SEARCH_DATA['keys'])}">
+									<strong>{\App\Language::translate('LBL_CUSTOM_INFORMATION', $MODULE_NAME)}</strong>
+								</td>
+							</tr>
+							{foreach from=$SEARCH_DATA['additional'] key=NAME item=VALUES}
+								<tr>
+									<td>{\App\Language::translate($NAME, $MODULE_NAME, null, true, 'Other.RecordCollector')}</td>
+									{if empty($SEARCH_DATA['recordModel'])}
+										<td></td>
+									{/if}
+									{foreach from=$SEARCH_DATA['keys'] item=KEY}
+										<td>
+											{if isset($VALUES[$KEY])}
+												{nl2br(\App\Purifier::encodeHtml($VALUES[$KEY]))}
+											{/if}
+										</td>
+									{/foreach}
+									{if isset($SEARCH_DATA['recordModel'])}
+										<td></td>
+									{/if}
+								</tr>
+							{/foreach}
+						{/if}
 					</tbody>
 				</table>
 			</form>
@@ -117,27 +142,6 @@
 									{/foreach}
 								</tr>
 							{/if}
-						{/foreach}
-					</tbody>
-				</table>
-			{/if}
-			{if !empty($SEARCH_DATA['additional'])}
-				<table class="table table-bordered mt-2" data-no="4">
-					<thead>
-						<tr>
-							<th class="text-center" colspan="{1 + count($SEARCH_DATA['keys'])}">{\App\Language::translate('LBL_CUSTOM_INFORMATION', $MODULE_NAME)}</th>
-						</tr>
-					</thead>
-					<tbody>
-						{foreach from=$SEARCH_DATA['additional'] key=NAME item=VALUES}
-							<tr>
-								<td class="text-break">{\App\Language::translate($NAME, $MODULE_NAME, null, true, 'Other.RecordCollector')}</td>
-								{foreach from=$SEARCH_DATA['keys'] item=KEY}
-									<td class="text-break">{if isset($VALUES[$KEY])}
-										{nl2br(\App\Purifier::encodeHtml($VALUES[$KEY]))}{/if}
-									</td>
-								{/foreach}
-							</tr>
 						{/foreach}
 					</tbody>
 				</table>
