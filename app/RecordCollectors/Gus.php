@@ -170,7 +170,7 @@ class Gus extends Base
 		if (!$this->isActive()) {
 			return [];
 		}
-		$vatId = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('vatId', 'Text'));
+		$vatId = preg_replace('/[^0-9]/', '', $this->request->getByType('vatId', 'Text'));
 		$taxNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('taxNumber', 'Text'));
 		$ncr = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('ncr', 'Text'));
 		$response = [];
