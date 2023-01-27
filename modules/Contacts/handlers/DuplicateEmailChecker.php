@@ -16,6 +16,9 @@ class Contacts_DuplicateEmailChecker_Handler
 	/** @var bool Allow record to be written */
 	const ALLOW_SAVE = false;
 
+	/** @var bool Search archived and deleted (true - Yes, false - No) */
+	const TRASH_ARCHIVE = true;
+
 	/** @var array A list of additional information about the record */
 	const FIELDS_DETAILS = [
 		'Contacts' => ['firstname', 'lastname', 'parent_id', 'assigned_user_id'],
@@ -43,6 +46,9 @@ class Contacts_DuplicateEmailChecker_Handler
 			$modules = explode(',', $handler['include_modules']);
 			foreach ($modules as $moduleName) {
 				$queryGenerator = new \App\QueryGenerator($moduleName);
+				if (self::TRASH_ARCHIVE) {
+					$queryGenerator->setStateCondition('All');
+				}
 				$queryGenerator->setFields(array_merge(['id'], self::FIELDS_DETAILS[$moduleName] ?? []))->permissions = false;
 				if ($moduleName === $recordModel->getModuleName() && $recordModel->getId()) {
 					$queryGenerator->addCondition('id', $recordModel->getId(), 'n');
