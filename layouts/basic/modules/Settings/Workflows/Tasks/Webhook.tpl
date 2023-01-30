@@ -27,7 +27,7 @@
 		<div class="col-md-4">
 			<select data-validation-engine='validate[required]' class="select2 form-control" name="format" data-placeholder="{\App\Language::translate('LBL_FORMAT')}">
 				{foreach item=FORMAT from=['json', 'form_params']}
-					<option value="{$FORMAT}" data-label="{$FORM}" {if isset($TASK_OBJECT->format) && $TASK_OBJECT->format eq $FORMAT}selected="" {/if}>
+					<option value="{$FORMAT}" data-label="{$FORMAT}" {if isset($TASK_OBJECT->format) && $TASK_OBJECT->format eq $FORMAT}selected="" {/if}>
 						{$FORMAT}
 					</option>
 				{/foreach}
@@ -41,7 +41,7 @@
 				{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
 					{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 					{assign var=MODULE_MODEL value=$FIELD_MODEL->getModule()}
-					<option value="{$FIELD_MODEL->getName()}" {if isset($TASK_OBJECT->fields) && in_array($FIELD_MODEL->getName(), $TASK_OBJECT->fields)} selected="" {/if}>
+					<option value="{$FIELD_MODEL->getName()}" {if !empty($TASK_OBJECT->fields) && in_array($FIELD_MODEL->getName(), $TASK_OBJECT->fields)} selected="" {/if}>
 						{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $SOURCE_MODULE)}
 					</option>
 				{/foreach}
