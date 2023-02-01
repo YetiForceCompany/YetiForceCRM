@@ -371,6 +371,9 @@ class Vtiger_RelationListView_Model extends \App\Base
 				$fields[$fieldModel->getFullName()] = $fieldModel;
 			}
 		}
+		if (empty($fields)) {
+			$fields = $this->getRelationModel()->getQueryFields();
+		}
 		unset($fields['id']);
 		foreach ($fields as $fieldName => $fieldModel) {
 			if (!$fieldModel) {
