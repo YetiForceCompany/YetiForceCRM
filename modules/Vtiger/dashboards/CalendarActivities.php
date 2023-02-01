@@ -51,14 +51,14 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('sortorder', $sortOrder);
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$dataValue = $widget->get('data') ? \App\Json::decode($widget->get('data')) : [];
-		$additionalFiltersFields = $dataValue['additionalFiltersFields'] ?? [];
+		$customFilters = $dataValue['customFilters'] ?? [];
 		if ($filterId = $widget->get('filterid')) {
 			$params['filterId'] = $filterId;
 		}
 		$calendarActivities = (false === $owner) ? [] : $moduleModel->getCalendarActivities('upcoming', $pagingModel, $owner, false, $params);
 		$msgLabel = 'LBL_NO_SCHEDULED_ACTIVITIES';
 		$viewer->assign('WIDGET', $widget);
-		$viewer->assign('CUSTOM_FILTERS', $additionalFiltersFields);
+		$viewer->assign('CUSTOM_FILTERS', $customFilters);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTIVITIES', $calendarActivities);
