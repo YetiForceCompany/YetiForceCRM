@@ -348,7 +348,10 @@ class Vtiger_RelationListView_Model extends \App\Base
 	public function getHeaders()
 	{
 		$fields = [];
-		if ($this->get('viewId')) {
+		foreach (App\Field::getFieldsFromRelation($this->getRelationModel()->getId()) as $fieldName) {
+			$fields[$fieldName] = $this->relatedModuleModel->getFieldByName($fieldName);
+		}
+		if (!$fields && $this->get('viewId')) {
 			$moduleModel = $this->getRelationModel()->getRelationModuleModel();
 			$customView = App\CustomView::getInstance($moduleModel->getName());
 			foreach ($customView->getColumnsListByCvid($this->get('viewId')) as $fieldInfo) {
@@ -688,9 +691,9 @@ class Vtiger_RelationListView_Model extends \App\Base
 				$relatedListFields[$fieldName] = $fieldModel;
 			} elseif (isset($relFields[$fieldName])) {
 				$relatedListFields[$fieldName] = $relFields[$fieldName];
-			} elseif(false !== strpos($fieldName,':')){
+			} elseif (false !== strpos($fieldName, ':')) {
 				[$relatedFieldName, $relatedModule, $sourceField] = array_pad(explode(':', $fieldName), 3, null);
-				if(($model = \Vtiger_Module_Model::getInstance($relatedModule)) && ($fieldModel = $model->getFieldByName($relatedFieldName)) && $fieldModel->isActiveField()){
+				if (($model = \Vtiger_Module_Model::getInstance($relatedModule)) && ($fieldModel = $model->getFieldByName($relatedFieldName)) && $fieldModel->isActiveField()) {
 					$fieldModel->set('source_field_name', $sourceField);
 					$relatedListFields[$fieldName] = $fieldModel;
 				}
