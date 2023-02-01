@@ -84,7 +84,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 			return $label;
 		}
 		if (!\App\Integrations\Pbx::isActive()) {
-			return '<a href="' . $href . '" class="js-popover-tooltip" title="' . $label . ' ' . trim($title) . '">' . $label . '</a>';
+			return '<a href="' . $href . '" class="js-popover-tooltip" title="' . $label . ' ' . trim($title) . '">' . $international . '</a>' . $extra;
 		}
 		$data = 'data-phone="' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '"';
 		if ($record) {
