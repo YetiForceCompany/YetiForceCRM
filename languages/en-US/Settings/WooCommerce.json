@@ -7,6 +7,8 @@
     "LBL_WOOCOMMERCE_SETTINGS": "Configuration of connection with WooCommerce",
     "LBL_URL": "API URL",
     "LBL_CONNECTOR": "Authentication",
+    "LBL_USER_NAME": "Consumer Key",
+    "LBL_PASSWORD": "Consumer Secret",
     "LBL_VERIFY_SSL": "Verify SSL",
     "LBL_MASTER": "Master System",
     "LBL_SYSTEM_YETIFORCE": "YetiForce",
