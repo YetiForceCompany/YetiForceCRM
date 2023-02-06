@@ -1525,12 +1525,11 @@ Vtiger_Base_Validator_Js(
 		 * @return  boolean true if validation is successful false if validation error occurs
 		 */
 		validate: function () {
-			let response = this._super();
+			const response = this._super();
 			if (response !== true) {
 				return response;
 			}
-			let field = this.getElement(),
-				errorInfo;
+			const field = this.getElement();
 			if (field.attr('data-inputmask')) {
 				let unMaskedValue = field.inputmask('unmaskedvalue'),
 					getMetaData = field.inputmask('getmetadata'),
@@ -1539,18 +1538,9 @@ Vtiger_Base_Validator_Js(
 						(getMetaData.match(/A/g) || []).length +
 						(getMetaData.match(/'*'/g) || []).length;
 				if (unMaskedValue.length !== 0 && maskLength > unMaskedValue.length) {
-					errorInfo = app.vtranslate('JS_INVALID_LENGTH');
-					this.setError(errorInfo);
-					window.inputMaskValidation = true;
+					this.setError(app.vtranslate('JS_INVALID_LENGTH'));
 					return false;
-				} else {
-					window.inputMaskValidation = false;
 				}
-			}
-			if (window.inputMaskValidation) {
-				errorInfo = app.vtranslate('JS_INVALID_LENGTH');
-				this.setError(errorInfo);
-				return false;
 			}
 			return true;
 		}
@@ -1663,10 +1653,11 @@ Vtiger_Base_Validator_Js(
 			const fieldValue = field.val();
 			let maximumlength = field.data('fieldinfo').maximumlength;
 
-			if(maximumlength){
-				let currentTextLenght = typeof TextEncoder === 'function' ? new TextEncoder().encode(fieldValue).byteLength : fieldValue.length;
+			if (maximumlength) {
+				let currentTextLenght =
+					typeof TextEncoder === 'function' ? new TextEncoder().encode(fieldValue).byteLength : fieldValue.length;
 				let [min, max] = maximumlength.split(',');
-				if(max == undefined){
+				if (max == undefined) {
 					max = min;
 					min = null;
 				}

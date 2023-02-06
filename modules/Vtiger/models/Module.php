@@ -1240,96 +1240,101 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	public function getValuesFromSource(App\Request $request, $moduleName = false)
 	{
-		$data = [];
+		$sourceModule = $request->getByType('sourceModule', 2);
+		if (
+			empty($sourceModule)
+			|| (!$request->has('sourceRecord') && $request->isEmpty('sourceRecordData'))
+			|| false === \App\Module::getModuleId($sourceModule)
+		) {
+			return [];
+		}
 		if (!$moduleName) {
 			$moduleName = $request->getModule();
 		}
-		$sourceModule = $request->getByType('sourceModule', 2);
-		if ($sourceModule && ($request->has('sourceRecord') || !$request->isEmpty('sourceRecordData'))) {
-			$moduleModel = self::getInstance($moduleName);
-			if ($request->isEmpty('sourceRecord')) {
-				$recordModel = Vtiger_Record_Model::getCleanInstance($sourceModule);
+		$data = [];
+		$moduleModel = self::getInstance($moduleName);
+		if ($request->isEmpty('sourceRecord')) {
+			$recordModel = Vtiger_Record_Model::getCleanInstance($sourceModule);
+		} else {
+			$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $sourceModule);
+		}
+		$sourceRecordData = $request->getRaw('sourceRecordData');
+		$fieldModelList = $recordModel->getModule()->getFields();
+		$sourceRecordRequest = new \App\Request($sourceRecordData, false);
+		foreach ($fieldModelList as $fieldName => $fieldModel) {
+			if (!$fieldModel->isWritable()) {
+				continue;
+			}
+			if (isset($sourceRecordData[$fieldName])) {
+				$fieldModel->getUITypeModel()->setValueFromRequest($sourceRecordRequest, $recordModel);
 			} else {
-				$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('sourceRecord'), $sourceModule);
-			}
-			$sourceRecordData = $request->getRaw('sourceRecordData');
-			$fieldModelList = $recordModel->getModule()->getFields();
-			$sourceRecordRequest = new \App\Request($sourceRecordData, false);
-			foreach ($fieldModelList as $fieldName => $fieldModel) {
-				if (!$fieldModel->isWritable()) {
-					continue;
-				}
-				if (isset($sourceRecordData[$fieldName])) {
-					$fieldModel->getUITypeModel()->setValueFromRequest($sourceRecordRequest, $recordModel);
-				} else {
-					$defaultValue = $fieldModel->getDefaultFieldValue();
-					if ('' !== $defaultValue) {
-						$recordModel->set($fieldName, $defaultValue);
-					}
+				$defaultValue = $fieldModel->getDefaultFieldValue();
+				if ('' !== $defaultValue) {
+					$recordModel->set($fieldName, $defaultValue);
 				}
 			}
-			$sourceModuleModel = $recordModel->getModule();
-			$relationField = false;
-			$fieldMap = [];
+		}
+		$sourceModuleModel = $recordModel->getModule();
+		$relationField = false;
+		$fieldMap = [];
 
-			$modelFields = $moduleModel->getFields();
-			foreach ($modelFields as $fieldName => $fieldModel) {
-				if ($fieldModel->isReferenceField() && $fieldModel->isViewable()) {
-					$referenceList = $fieldModel->getReferenceList();
-					if (!empty($referenceList)) {
-						foreach ($referenceList as $referenceModule) {
-							$fieldMap[$referenceModule] = $fieldName;
-						}
-						if (\in_array($sourceModule, $referenceList)) {
-							$relationField = $fieldName;
-						}
+		$modelFields = $moduleModel->getFields();
+		foreach ($modelFields as $fieldName => $fieldModel) {
+			if ($fieldModel->isReferenceField() && $fieldModel->isViewable()) {
+				$referenceList = $fieldModel->getReferenceList();
+				if (!empty($referenceList)) {
+					foreach ($referenceList as $referenceModule) {
+						$fieldMap[$referenceModule] = $fieldName;
+					}
+					if (\in_array($sourceModule, $referenceList)) {
+						$relationField = $fieldName;
 					}
 				}
 			}
+		}
 
-			$sourceModelFields = $sourceModuleModel->getFields();
-			$fillFields = 'all' === $request->getRaw('fillFields');
-			foreach ($sourceModelFields as $fieldName => $fieldModel) {
-				if (!$fieldModel->isViewable()) {
-					continue;
+		$sourceModelFields = $sourceModuleModel->getFields();
+		$fillFields = 'all' === $request->getRaw('fillFields');
+		foreach ($sourceModelFields as $fieldName => $fieldModel) {
+			if (!$fieldModel->isViewable()) {
+				continue;
+			}
+			if ($fillFields) {
+				$fieldValue = $recordModel->get($fieldName);
+				if ('' !== $fieldValue) {
+					$data[$fieldName] = $fieldValue;
 				}
-				if ($fillFields) {
-					$fieldValue = $recordModel->get($fieldName);
-					if ('' !== $fieldValue) {
-						$data[$fieldName] = $fieldValue;
-					}
-				} elseif ($fieldModel->isReferenceField()) {
-					$referenceList = $fieldModel->getReferenceList();
-					if (!empty($referenceList)) {
-						foreach ($referenceList as $referenceModule) {
-							if (isset($fieldMap[$referenceModule]) && $sourceModule != $referenceModule) {
-								$fieldValue = $recordModel->get($fieldName);
-								if (0 != $fieldValue && empty($data[$fieldMap[$referenceModule]]) && \App\Record::getType($fieldValue) == $referenceModule) {
-									$data[$fieldMap[$referenceModule]] = $fieldValue;
-								}
+			} elseif ($fieldModel->isReferenceField()) {
+				$referenceList = $fieldModel->getReferenceList();
+				if (!empty($referenceList)) {
+					foreach ($referenceList as $referenceModule) {
+						if (isset($fieldMap[$referenceModule]) && $sourceModule != $referenceModule) {
+							$fieldValue = $recordModel->get($fieldName);
+							if (0 != $fieldValue && empty($data[$fieldMap[$referenceModule]]) && \App\Record::getType($fieldValue) == $referenceModule) {
+								$data[$fieldMap[$referenceModule]] = $fieldValue;
 							}
 						}
 					}
 				}
 			}
-			$mappingRelatedField = \App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
-			if (!empty($mappingRelatedField)) {
-				foreach ($mappingRelatedField as $relatedModules) {
-					foreach ($relatedModules as $relatedModule => $relatedFields) {
-						if ($relatedModule == $sourceModule) {
-							foreach ($relatedFields as $to => $from) {
-								$fieldValue = $recordModel->get($from[0]);
-								if ('' !== $fieldValue && ($fieldModel = $recordModel->getField($from[0])) && $fieldModel->isViewable()) {
-									$data[$to] = $fieldValue;
-								}
+		}
+		$mappingRelatedField = \App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
+		if (!empty($mappingRelatedField)) {
+			foreach ($mappingRelatedField as $relatedModules) {
+				foreach ($relatedModules as $relatedModule => $relatedFields) {
+					if ($relatedModule == $sourceModule) {
+						foreach ($relatedFields as $to => $from) {
+							$fieldValue = $recordModel->get($from[0]);
+							if ('' !== $fieldValue && ($fieldModel = $recordModel->getField($from[0])) && $fieldModel->isViewable()) {
+								$data[$to] = $fieldValue;
 							}
 						}
 					}
 				}
 			}
-			if ($relationField && ($moduleName != $sourceModule || \App\Request::_get('addRelation'))) {
-				$data[$relationField] = $recordModel->getId();
-			}
+		}
+		if ($relationField && ($moduleName != $sourceModule || \App\Request::_get('addRelation'))) {
+			$data[$relationField] = $recordModel->getId();
 		}
 		return $data;
 	}

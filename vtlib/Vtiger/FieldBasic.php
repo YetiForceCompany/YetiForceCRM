@@ -165,7 +165,7 @@ class FieldBasic
 		}
 		if (!empty($this->columntype)) {
 			Utils::addColumn($this->table, $this->column, $this->columntype);
-			if (10 === $this->uitype || 318 === $this->uitype) {
+			if (\in_array($this->uitype, [10, 318, 325, 332])) {
 				$nameIndex = "{$this->table}_{$this->column}_idx";
 				$indexes = $db->getSchema()->getTableIndexes($this->table, true);
 				$isCreateIndex = true;

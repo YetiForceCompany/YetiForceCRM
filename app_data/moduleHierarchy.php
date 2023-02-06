@@ -28,7 +28,7 @@ return [
 	],
 	/*
 	 * 'Base module' => [
-	 * 		['From module (must by reference field)' => ['dest field name' => ['source field name']]],
+	 * 		['From module' => ['dest field name' => ['source field name']]],
 	 * ],
 	 */
 	'modulesMapRelatedFields' => [//Map links between modules
