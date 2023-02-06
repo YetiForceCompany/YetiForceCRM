@@ -241,7 +241,7 @@
     "LBL_FILE_OWNER": "Właściciel",
     "LBL_FILE_PERMISSIONS": "Uprawnienia",
     "LBL_LABEL_SCRIPT_USER": "Użytkownik wywołujący skrypt",
-    "LBL_ERROR_DURING_VERIFICATION": "Podczas weryfikacji wystapił błąd",
+    "LBL_ERROR_DURING_VERIFICATION": "Podczas weryfikacji wystąpił błąd",
     "LBL_LABEL_CRM_PROVIDER": "Dostawca",
     "LBL_LABEL_APP_ID": "Skrócony APP ID",
     "LBL_DATA_SIZE": "Rozmiar bazy danych",
