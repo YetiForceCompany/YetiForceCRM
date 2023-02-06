@@ -124,8 +124,8 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	{
 		$viewer = $this->getViewer($request);
 		$this->moduleName = $request->getModule();
-		$this->sourceModule = $request->getByType('src_module', 2);
-		$this->sourceField = $request->isEmpty('src_field', true) ? '' : $request->getByType('src_field', 2);
+		$this->sourceModule = $request->isEmpty('src_module', true) ? '' : $request->getByType('src_module', \App\Purifier::ALNUM);
+		$this->sourceField = $request->isEmpty('src_field', true) ? '' : $request->getByType('src_field', \App\Purifier::ALNUM);
 		$this->sourceRecord = $request->isEmpty('src_record', true) ? 0 : $request->getInteger('src_record');
 		if (!isset($this->relatedParentModule)) {
 			$this->relatedParentModule = $request->isEmpty('related_parent_module', true) ? '' : $request->getByType('related_parent_module', 2);
