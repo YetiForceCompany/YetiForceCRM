@@ -3562,7 +3562,7 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (99,'EntityBeforeSave','SMSNotifier_Parser_Handler',1,'SMSNotifier','',5,45,1);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (100,'EntityAfterSave','MailAccount_Folders_Handler',1,'MailAccount','',9,137,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (101,'EntityAfterSave','Vtiger_UpdateMapCoordinates_Handler',1,'Locations','',5,0,0);
-insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (102,'EditViewPreSave','Contacts_PhoneDuplicateChecker_Handler',1,'Contacts,Accounts','',5,4,1);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (102,'EditViewPreSave','Contacts_DuplicatePhoneChecker_Handler',1,'Contacts,Accounts','',5,4,1);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (103,'EntityAfterSave','Products_UpdateModifiedTime_Handler',0,'Products','',9,14,0);
 
 /*Data for the table `vtiger_expectedresponse` */

@@ -11,7 +11,7 @@
 /**
  * Phone duplicate checker handler class.
  */
-class Contacts_PhoneDuplicateChecker_Handler
+class Contacts_DuplicatePhoneChecker_Handler
 {
 	/** @var bool Allow record to be written */
 	const ALLOW_SAVE = false;
