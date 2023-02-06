@@ -1674,6 +1674,14 @@ $.Class(
 					this.triggerRecordEditEvents(data);
 				});
 				progress.progressIndicator({ mode: 'hide' });
+			}).fail(() => {
+				progress.progressIndicator({ mode: 'hide' });
+				app.showNotify({
+					text: app.vtranslate('JS_UNEXPECTED_ERROR'),
+					type: 'error',
+					delay: '2000',
+					hide: true
+				});
 			});
 		},
 		/**
