@@ -109,7 +109,7 @@ class Settings_WooCommerce_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		return \App\Db::getInstance('log')->isTableExists(\App\Integrations\WooCommerce\Config::LOG_TABLE_NAME)
 		&& $i === (new \App\Db\Query())->from('vtiger_field')->where($condition)->count()
-		&& \App\EventHandler::checkActive('Products_DuplicateEan_Handler', 'EntityAfterSave')
+		&& \App\EventHandler::checkActive('Products_DuplicateEan_Handler', 'EditViewPreSave')
 		&& \App\EventHandler::checkActive('Products_UpdateModifiedTime_Handler', 'EntityAfterSave')
 		&& \App\Cron::checkActive('Vtiger_WooCommerce_Cron');
 	}
@@ -205,7 +205,7 @@ class Settings_WooCommerce_Module_Model extends Settings_Vtiger_Module_Model
 			]);
 			++$i;
 		}
-		\App\EventHandler::setActive('Products_DuplicateEan_Handler', 'EntityAfterSave');
+		\App\EventHandler::setActive('Products_DuplicateEan_Handler', 'EditViewPreSave');
 		\App\EventHandler::setActive('Products_UpdateModifiedTime_Handler', 'EntityAfterSave');
 		\App\Cron::updateStatus(\App\Cron::STATUS_ENABLED, 'LBL_WOOCOMMERCE');
 		return $i;
