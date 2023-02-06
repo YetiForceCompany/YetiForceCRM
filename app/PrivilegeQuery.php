@@ -69,7 +69,7 @@ class PrivilegeQuery
 			$userId = \App\User::getCurrentUserId();
 		}
 		$userModel = \Users_Privileges_Model::getInstanceById($userId);
-		if (!$userModel->isAdminUser() && \App\Config::security('PERMITTED_BY_PRIVATE_FIELD') && ($fieldInfo = \App\Field::getFieldInfo('private', $moduleName)) && \in_array($fieldInfo['presence'], [0, 2])) {
+		if (!$userModel->isAdminUser() && !$userModel->hasGlobalReadPermission() && \App\Config::security('PERMITTED_BY_PRIVATE_FIELD') && ($fieldInfo = \App\Field::getFieldInfo('private', $moduleName)) && \in_array($fieldInfo['presence'], [0, 2])) {
 			$owners = array_merge([$userId], $userModel->groups);
 			$conditions = ['or'];
 			$conditions[] = ['vtiger_crmentity.private' => 0];
@@ -83,7 +83,7 @@ class PrivilegeQuery
 			$conditions[] = ['and', ['vtiger_crmentity.private' => 1], $subConditions];
 			$query->andWhere($conditions);
 		}
-		if (\App\Config::security('PERMITTED_BY_RECORD_HIERARCHY') && !empty($relatedRecord)) {
+		if (!empty($relatedRecord) && \App\Config::security('PERMITTED_BY_RECORD_HIERARCHY') && !$userModel->hasGlobalReadPermission()) {
 			$role = $userModel->getRoleDetail();
 			if (2 == $role->get('listrelatedrecord')) {
 				$parentRecord = \Users_Privileges_Model::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
@@ -100,7 +100,7 @@ class PrivilegeQuery
 			}
 		}
 		$tabId = Module::getModuleId($moduleName);
-		if (!$userModel->isAdminUser() && 1 == $userModel->profile_global_permission[1] && 1 == $userModel->profile_global_permission[2] && 3 === ($userModel->defaultOrgSharingPermission[$tabId] ?? null)) {
+		if (!$userModel->isAdminUser() && !$userModel->hasGlobalReadPermission() && 3 === ($userModel->defaultOrgSharingPermission[$tabId] ?? null)) {
 			$conditions = ['or'];
 			$conditions[] = ['vtiger_crmentity.smownerid' => $userId];
 			if (!empty($userModel->groups)) {
