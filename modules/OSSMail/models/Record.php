@@ -148,7 +148,6 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if (isset(self::$imapConnectCache[$cacheName])) {
 			return self::$imapConnectCache[$cacheName];
 		}
-
 		$hosts = [];
 		if ($imapHost = $config['imap_host'] ?? '') {
 			$hosts = \is_string($imapHost) ? [$imapHost => $imapHost] : $imapHost;
@@ -159,9 +158,9 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 		$parseHost = parse_url($host);
 		if (empty($parseHost['host'])) {
-			foreach ($hosts as $row) {
-				if (false !== strpos($row, $host)) {
-					$parseHost = parse_url($row);
+			foreach ($hosts as $hostUrl => $hostDomain) {
+				if (false !== strpos($hostUrl, $host)) {
+					$parseHost = parse_url($hostUrl);
 					break;
 				}
 			}
