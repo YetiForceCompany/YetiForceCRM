@@ -158,9 +158,11 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 
 		$parseHost = parse_url($host);
 		if (empty($parseHost['host'])) {
-			foreach ($hosts as $hostUrl => $hostDomain) {
-				if (false !== strpos($hostUrl, $host)) {
-					$parseHost = parse_url($hostUrl);
+			$hostToFind = $parseHost['host'] ?? $parseHost['path'];
+			foreach ($hosts as $configHost => $hostDomain) {
+				$parsedConfigHost = parse_url($configHost);
+				if (isset($parsedConfigHost['host']) && $parsedConfigHost['host'] === $hostToFind) {
+					$parseHost = $parsedConfigHost;
 					break;
 				}
 			}
