@@ -282,12 +282,6 @@ return [
 			'default' => '',
 			'description' => 'Login page alert icon, ex.  fas fa-exclamation-triangle, fas fa-exclamation-circle, fas fa-exclamation, far fa-question-circle, fas fa-info-circle',
 		],
-		'showRegistrationAlert' => [
-			'default' => true,
-			'description' => 'Show the alert when the system is incorrectly registered',
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool',
-		],
 	],
 	'debug' => [
 		'LOG_TO_FILE' => [
