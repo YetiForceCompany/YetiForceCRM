@@ -19,14 +19,14 @@ class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 	public function process(App\Request $request)
 	{
 		$type = $request->getByType('type');
-		if (!isset(\App\Log::$logsViewerColumnMapping[$type])) {
+		if (!isset(\App\Log::LOGS_VIEWER_COLUMN_MAP[$type])) {
 			throw new \App\Exceptions\NoPermittedForAdmin('ERR_ILLEGAL_VALUE');
 		}
 		$rows = $columns = [];
 		foreach ($request->getArray('columns') as $key => $value) {
 			$columns[$key] = $value['name'];
 		}
-		$mapping = \App\Log::$logsViewerColumnMapping[$type];
+		$mapping = \App\Log::LOGS_VIEWER_COLUMN_MAP[$type];
 		if (\App\Db::getInstance()->isTableExists($mapping['table'])) {
 			$query = (new \App\Db\Query())->from($mapping['table']);
 			$logsCountAll = (int) $query->count('*');

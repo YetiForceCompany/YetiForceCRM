@@ -467,4 +467,25 @@ return [
 			'docTags' => ['see' => 'https://github.com/chrome-php/chrome#available-options', 'var' => 'array'],
 		],
 	],
+	'IntegrationWooCommerce' => [
+		'logAll' => [
+			'default' => false,
+			'description' => 'Log all events (errors + info), when turned on creates a lot of logs.',
+			'docTags' => ['var' => 'bool'],
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool',
+		],
+		'attributes' => [
+			'default' => [],
+			'description' => "Product attributes map\n[WooCommerceAttrName => CrmFieldName]",
+			'docTags' => ['see' => 'App\Integrations\WooCommerce\Synchronizer\ProductAttributes', 'var' => 'array'],
+			'validation' => fn () => true,
+		],
+		'customAttributes' => [
+			'default' => [],
+			'description' => "Custom product attributes map\n[WooCommerceCustomName => CrmFieldName]\nAllowed field types depending on the values entered `Text area`",
+			'docTags' => ['see' => 'App\Integrations\WooCommerce\Synchronizer\ProductAttributes', 'var' => 'array'],
+			'validation' => fn () => true,
+		],
+	],
 ];

@@ -9,7 +9,7 @@
 		</div>
 		<div class="contents" id="listViewContainer">
 			<ul class="nav nav-tabs mr-0 mb-2">
-				{foreach key=INDEX item=ITEM from=\App\Log::$logsViewerColumnMapping}
+				{foreach key=INDEX item=ITEM from=\App\Log::LOGS_VIEWER_COLUMN_MAP}
 					<li class="nav-item">
 						<a class="nav-link {if $TYPE === $INDEX} active {/if}" href="index.php?parent=Settings&module=Log&view=LogsViewer&type={$INDEX}" data-type="{$INDEX}">
 							{if isset($ITEM['icon'])}

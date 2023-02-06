@@ -266,7 +266,7 @@ CREATE TABLE `a_yf_settings_modules` (
   `created_time` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `a_yf_settings_modules_name_status_idx` (`name`,`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_smsnotifier_servers` */
 
@@ -656,6 +656,46 @@ CREATE TABLE `i_yf_wapro` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `i_yf_woocommerce_config` */
+
+CREATE TABLE `i_yf_woocommerce_config` (
+  `server_id` int(10) unsigned NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `value` varchar(50) NOT NULL,
+  KEY `server_id` (`server_id`),
+  KEY `name` (`name`),
+  CONSTRAINT `i_yf_woocommerce_config_ibfk_1` FOREIGN KEY (`server_id`) REFERENCES `i_yf_woocommerce_servers` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `i_yf_woocommerce_servers` */
+
+CREATE TABLE `i_yf_woocommerce_servers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `name` varchar(50) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `user_name` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `connector` varchar(20) NOT NULL,
+  `verify_ssl` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `master` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `sync_currency` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `sync_categories` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `direction_categories` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `sync_tags` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `direction_tags` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `sync_products` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `direction_products` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `sync_orders` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `direction_orders` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `shipping_service_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `product_map_class` varchar(255) DEFAULT NULL,
+  `order_map_class` varchar(255) DEFAULT NULL,
+  `products_limit` smallint(5) unsigned NOT NULL DEFAULT 1000,
+  `orders_limit` smallint(5) unsigned NOT NULL DEFAULT 200,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `l_yf_api_login_history` */
 
 CREATE TABLE `l_yf_api_login_history` (
@@ -828,6 +868,18 @@ CREATE TABLE `l_yf_users_login_purpose` (
   `baseid` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `l_yf_users_login_purpose_userid_idx` (`userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `l_yf_woocommerce` */
+
+CREATE TABLE `l_yf_woocommerce` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `time` datetime NOT NULL,
+  `category` varchar(100) DEFAULT NULL,
+  `message` varchar(500) DEFAULT NULL,
+  `params` text DEFAULT NULL,
+  `trace` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `o_yf_access_for_admin` */
@@ -5751,7 +5803,7 @@ CREATE TABLE `vtiger_cron_task` (
   UNIQUE KEY `handler_class` (`handler_class`),
   KEY `vtiger_cron_task_status_idx` (`status`),
   KEY `vtiger_cron_task_sequence_idx` (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */
 
@@ -6324,7 +6376,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `privileges` tinyint(1) DEFAULT 1,
   PRIMARY KEY (`eventhandler_id`),
   KEY `event_name_class` (`event_name`,`handler_class`)
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_expectedresponse` */
 
@@ -8936,7 +8988,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 

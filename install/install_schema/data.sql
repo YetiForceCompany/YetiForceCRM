@@ -217,6 +217,7 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (85,'Wapro',1,'2022-06-13 15:05:10');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (86,'RecordCollector',1,'2022-06-27 11:20:43');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (87,'MailServers',1,'2022-11-08 11:59:24');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (88,'WooCommerce',1,'2022-11-28 10:52:16');
 
 /*Data for the table `a_yf_smsnotifier_servers` */
 
@@ -338,6 +339,10 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 
 /*Data for the table `i_yf_wapro` */
 
+/*Data for the table `i_yf_woocommerce_config` */
+
+/*Data for the table `i_yf_woocommerce_servers` */
+
 /*Data for the table `l_yf_api_login_history` */
 
 /*Data for the table `l_yf_batchmethod` */
@@ -363,6 +368,8 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 /*Data for the table `l_yf_userpass_history` */
 
 /*Data for the table `l_yf_users_login_purpose` */
+
+/*Data for the table `l_yf_woocommerce` */
 
 /*Data for the table `o_yf_access_for_admin` */
 
@@ -2352,6 +2359,7 @@ insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`laststart`,`last_update`,`lastend`,`sequence`,`max_exe_time`,`module`,`description`,`lase_error`) values (37,1,'LBL_MAIL_RBL','Vtiger_MailRbl_Cron',7200,NULL,NULL,NULL,35,NULL,'Vtiger',NULL,NULL);
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`laststart`,`last_update`,`lastend`,`sequence`,`max_exe_time`,`module`,`description`,`lase_error`) values (38,0,'LBL_INTEGRATION_PL_GUS_REGON','Vtiger_IntegrationPLGusRegon_Cron',43200,NULL,NULL,NULL,29,NULL,'Vtiger',NULL,NULL);
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`laststart`,`last_update`,`lastend`,`sequence`,`max_exe_time`,`module`,`description`,`lase_error`) values (40,1,'LBL_MAIL_SCANNER_NOTIFICATION','MailAccount_Notifications_Cron',28800,NULL,NULL,NULL,36,NULL,'MailAccount','',NULL);
+insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`laststart`,`last_update`,`lastend`,`sequence`,`max_exe_time`,`module`,`description`,`lase_error`) values (41,0,'LBL_WOOCOMMERCE','Vtiger_WooCommerce_Cron',300,NULL,NULL,NULL,37,NULL,NULL,NULL,NULL);
 
 /*Data for the table `vtiger_currencies` */
 
@@ -3555,6 +3563,7 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (100,'EntityAfterSave','MailAccount_Folders_Handler',1,'MailAccount','',9,137,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (101,'EntityAfterSave','Vtiger_UpdateMapCoordinates_Handler',1,'Locations','',5,0,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (102,'EditViewPreSave','Contacts_PhoneDuplicateChecker_Handler',1,'Contacts,Accounts','',5,4,1);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (103,'EntityAfterSave','Products_UpdateModifiedTime_Handler',0,'Products','',9,14,0);
 
 /*Data for the table `vtiger_expectedresponse` */
 
@@ -19724,6 +19733,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (136,5,'LBL_WAPRO_ERP','fab fa-connectdevelop','LBL_WAPRO_ERP_DESCRIPTION','index.php?parent=Settings&module=Wapro&view=List',17,0,0,1,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (137,5,'LBL_RECORD_COLLECTOR','yfi-record-collectors','LBL_RECORD_COLLECTOR_DESCRIPTION','index.php?parent=Settings&module=RecordCollector&view=List',18,0,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (138,8,'LBL_MAIL_SERVERS','fas fa-server','LBL_MAIL_SERVERS_DESCRIPTION','index.php?module=MailServers&parent=Settings&view=List',9,0,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (139,5,'LBL_WOOCOMMERCE','fa-solid fa-cash-register','LBL_WOOCOMMERCE_DESCRIPTION','index.php?parent=Settings&module=WooCommerce&view=List',19,0,0,1,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
