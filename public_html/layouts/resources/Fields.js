@@ -2211,6 +2211,8 @@ window.App.Fields = {
 		static FORMAT_USER_WITHOUT_ROUNDING = 0;
 		/** @static int Rounds num to specified precision */
 		static FORMAT_ROUND = 1;
+		/** @static int Truncate trailing zeros */
+		static FORMAT_TRUNCATE_TRAILING_ZEROS = 2;
 		/** @static int Show digits up to precision */
 		static FORMAT_DIGITS_UP_TO_PRECISION = 4;
 
@@ -2240,7 +2242,10 @@ window.App.Fields = {
 			}
 			let decimal = splittedFloat[1] || '';
 			if (numberOfDecimal) {
-				if (!CONFIG.truncateTrailingZeros || fix & Double.FORMAT_DIGITS_UP_TO_PRECISION) {
+				if (
+					!(fix & Double.FORMAT_TRUNCATE_TRAILING_ZEROS) &&
+					(!CONFIG.truncateTrailingZeros || fix & Double.FORMAT_DIGITS_UP_TO_PRECISION)
+				) {
 					let decimalLenght = decimal.length;
 					for (let i = decimalLenght; i < numberOfDecimal; ++i) {
 						decimal += '0';

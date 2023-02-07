@@ -1418,7 +1418,10 @@ $.Class(
 		 */
 		setRowData(row, rowData) {
 			this.setName(row, rowData.name, rowData.info.name);
-			this.setQuantity(row, App.Fields.Double.formatToDisplay(rowData.qty));
+			this.setQuantity(
+				row,
+				App.Fields.Double.formatToDisplay(rowData.qty, App.Fields.Double.FORMAT_TRUNCATE_TRAILING_ZEROS)
+			);
 			this.setUnit(row, rowData.info.autoFields.unit, rowData.info.autoFields.unitText);
 			if (typeof rowData.info.autoFields !== 'undefined' && typeof rowData.info.autoFields.subunit !== 'undefined') {
 				this.setSubUnit(row, rowData.info.autoFields.subunit, rowData.info.autoFields.subunitText);
@@ -1625,7 +1628,7 @@ $.Class(
 		registerRowChangeEvent: function (container) {
 			container.on('focusout', '.qty', (e) => {
 				let element = $(e.currentTarget);
-				element.formatNumber();
+				element.formatNumber(App.Fields.Double.FORMAT_TRUNCATE_TRAILING_ZEROS);
 				this.quantityChangeActions(this.getClosestRow(element));
 			});
 			container.on('focusout', '.unitPrice', (e) => {
