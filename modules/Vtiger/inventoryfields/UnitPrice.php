@@ -10,6 +10,9 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+use App\Fields\Double;
+
 class Vtiger_UnitPrice_InventoryField extends Vtiger_Basic_InventoryField
 {
 	protected $type = 'UnitPrice';
@@ -26,7 +29,7 @@ class Vtiger_UnitPrice_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		$value = \App\Fields\Double::formatToDisplay($value);
+		$value = \App\Fields\Double::formatToDisplay($value, Double::FORMAT_TRUNCATE_TRAILING_ZEROS | Double::FORMAT_DIGITS_UP_TO_PRECISION);
 		if (isset($rowData['currency']) && $currencySymbol = \App\Fields\Currency::getById($rowData['currency'])['currency_symbol'] ?? '') {
 			$value = \CurrencyField::appendCurrencySymbol($value, $currencySymbol);
 		}
@@ -38,7 +41,7 @@ class Vtiger_UnitPrice_InventoryField extends Vtiger_Basic_InventoryField
 	public function getEditValue(array $itemData, string $column = '')
 	{
 		$value = parent::getEditValue($itemData, $column);
-		return \App\Fields\Double::formatToDisplay($value, false);
+		return \App\Fields\Double::formatToDisplay($value, Double::FORMAT_TRUNCATE_TRAILING_ZEROS | Double::FORMAT_DIGITS_UP_TO_PRECISION);
 	}
 
 	/** {@inheritdoc} */

@@ -2206,31 +2206,27 @@ window.App.Fields = {
 			return integer;
 		}
 	},
-	Double: {
+	Double: class Double {
+		/** @static int User format without rounding */
+		static FORMAT_USER_WITHOUT_ROUNDING = 0;
+		/** @static int Rounds num to specified precision */
+		static FORMAT_ROUND = 1;
+		/** @static int Show digits up to precision */
+		static FORMAT_DIGITS_UP_TO_PRECISION = 4;
+
 		/**
 		 * Function returns the currency in user specified format.
 		 * @param {number} value
-		 * @param {boolean} numberOfDecimal
+		 * @param {int} fix				 A bitmask of one or more of the mode flags
 		 * @param {int} numberOfDecimal
 		 * @returns {string}
 		 */
-		formatToDisplay(value, fixed = true, numberOfDecimal = CONFIG.noOfCurrencyDecimals) {
+		static formatToDisplay(value, fix = Double.FORMAT_ROUND, numberOfDecimal = CONFIG.noOfCurrencyDecimals) {
 			if (!value) {
 				value = 0;
 			}
-			let strDecimal = value.toString().split('.')[1];
-			let numberOfZerosAtTheEnd = 0;
-			if (typeof strDecimal !== 'undefined') {
-				for (let i = strDecimal.length - 1; i > 0; --i) {
-					if (strDecimal[i] == '0') {
-						numberOfZerosAtTheEnd++;
-					} else {
-						break;
-					}
-				}
-			}
 			value = parseFloat(value);
-			if (fixed) {
+			if (fix & Double.FORMAT_ROUND) {
 				let base = 10 ** numberOfDecimal;
 				value =
 					Math.round(
@@ -2242,10 +2238,11 @@ window.App.Fields = {
 			if (integer !== '-0' && integer !== '0') {
 				integer = App.Fields.Integer.formatToDisplay(integer);
 			}
-			let decimal = splittedFloat[1];
+			let decimal = splittedFloat[1] || '';
 			if (numberOfDecimal) {
-				if (!CONFIG.truncateTrailingZeros && decimal) {
-					for (let i = 0; i < numberOfZerosAtTheEnd && decimal.length < numberOfDecimal; ++i) {
+				if (!CONFIG.truncateTrailingZeros || fix & Double.FORMAT_DIGITS_UP_TO_PRECISION) {
+					let decimalLenght = decimal.length;
+					for (let i = decimalLenght; i < numberOfDecimal; ++i) {
 						decimal += '0';
 					}
 				}
@@ -2254,13 +2251,13 @@ window.App.Fields = {
 				}
 			}
 			return integer;
-		},
+		}
 		/**
 		 * Function to get value for db format.
 		 * @param {string} value
 		 * @returns {number}
 		 */
-		formatToDb(value) {
+		static formatToDb(value) {
 			if (value == undefined || value == '') {
 				value = 0;
 			}

@@ -1,15 +1,18 @@
 <?php
 
-/**
- * Inventory Quantity Field Class.
- *
- * @package   InventoryField
- *
- * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- */
+ /**
+  * Inventory Quantity Field Class.
+  *
+  * @package   InventoryField
+  *
+  * @copyright YetiForce S.A.
+  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+  */
+
+ use App\Fields\Double;
+
 class Vtiger_Quantity_InventoryField extends Vtiger_Basic_InventoryField
 {
 	protected $type = 'Quantity';
@@ -23,7 +26,14 @@ class Vtiger_Quantity_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		return \App\Fields\Double::formatToDisplay($value, !$rawText);
+		return \App\Fields\Double::formatToDisplay($value, Double::FORMAT_TRUNCATE_TRAILING_ZEROS);
+	}
+
+	/** {@inheritdoc} */
+	public function getEditValue(array $itemData, string $column = '')
+	{
+		$value = parent::getEditValue($itemData, $column);
+		return \App\Fields\Double::formatToDisplay($value, Double::FORMAT_TRUNCATE_TRAILING_ZEROS);
 	}
 
 	/** {@inheritdoc} */
