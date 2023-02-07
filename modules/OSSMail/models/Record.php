@@ -148,20 +148,16 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if (isset(self::$imapConnectCache[$cacheName])) {
 			return self::$imapConnectCache[$cacheName];
 		}
-
-		$hosts = [];
-		if ($imapHost = $config['imap_host'] ?? '') {
-			$hosts = \is_string($imapHost) ? [$imapHost => $imapHost] : $imapHost;
-		}
-		if (!$host && $hosts) {
-			$host = array_key_first($hosts);
-		}
-
 		$parseHost = parse_url($host);
 		if (empty($parseHost['host'])) {
-			foreach ($hosts as $row) {
-				if (false !== strpos($row, $host)) {
-					$parseHost = parse_url($row);
+			$hosts = [];
+			if ($imapHost = $config['imap_host'] ?? '') {
+				$hosts = \is_string($imapHost) ? [$imapHost => $imapHost] : $imapHost;
+			}
+			foreach ($hosts as $configHost => $hostDomain) {
+				$parsedConfigHost = parse_url($configHost);
+				if (isset($parsedConfigHost['host']) && $parsedConfigHost['host'] === $host) {
+					$parseHost = $parsedConfigHost;
 					break;
 				}
 			}
