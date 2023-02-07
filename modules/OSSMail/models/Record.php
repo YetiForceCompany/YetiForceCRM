@@ -152,16 +152,15 @@ class OSSMail_Record_Model extends Vtiger_Record_Model
 		if ($imapHost = $config['imap_host'] ?? '') {
 			$hosts = \is_string($imapHost) ? [$imapHost => $imapHost] : $imapHost;
 		}
-		if (!$host && $hosts) {
-			$host = array_key_first($hosts);
-		}
-
 		$parseHost = parse_url($host);
 		if (empty($parseHost['host'])) {
-			$hostToFind = $parseHost['host'] ?? $parseHost['path'];
+			$hosts = [];
+			if ($imapHost = $config['imap_host'] ?? '') {
+				$hosts = \is_string($imapHost) ? [$imapHost => $imapHost] : $imapHost;
+			}
 			foreach ($hosts as $configHost => $hostDomain) {
 				$parsedConfigHost = parse_url($configHost);
-				if (isset($parsedConfigHost['host']) && $parsedConfigHost['host'] === $hostToFind) {
+				if (isset($parsedConfigHost['host']) && $parsedConfigHost['host'] === $host) {
 					$parseHost = $parsedConfigHost;
 					break;
 				}
