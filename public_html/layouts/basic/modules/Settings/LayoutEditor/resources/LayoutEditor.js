@@ -974,6 +974,9 @@ $.Class(
 							pickListValues.data('validation-engine').replace('required, ', '')
 						);
 						break;
+					case 'Group':
+						form.find('.js-group-module-option').removeClass('d-none');
+						break;
 				}
 			});
 		},

@@ -280,6 +280,19 @@
 								</select>
 							</div>
 						</div>
+						<div class="form-group row align-items-center supportedType js-group-module-option d-none" data-js="removeClass:d-none">
+							<div class="col-md-3 col-form-label text-right">
+								{App\Language::translate('LBL_ALL_GROUPS', $QUALIFIED_MODULE)}
+								<span class="js-popover-tooltip ml-1" data-toggle="popover"
+									data-placement="top"
+									data-content="{App\Language::translate('LBL_ALL_GROUPS_INFO', $QUALIFIED_MODULE)}" data-js="popover">
+									<span class="fas fa-info-circle"></span>
+								</span>
+							</div>
+							<div class="col-md-8 controls">
+								<input type="checkbox" class="checkbox" name="showAllGroups" value="1">
+							</div>
+						</div>
 					</div>
 					{include file=App\Layout::getTemplatePath('Modals/Footer.tpl', 'Vtiger') BTN_SUCCESS='LBL_SAVE' BTN_DANGER='LBL_CANCEL'}
 				</form>

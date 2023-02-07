@@ -305,7 +305,8 @@ jQuery.Class(
 						'userRole',
 						'multiReferenceValue',
 						'inventoryLimit',
-						'currencyList'
+						'currencyList',
+						'group'
 					]) >= 0
 				) {
 					searchOperator = 'e';

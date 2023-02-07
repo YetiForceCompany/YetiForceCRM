@@ -85,7 +85,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getAddSupportedFieldTypes()
 	{
 		return [
-			'Text', 'Decimal', 'Integer',  'Currency',  'Percent', 'AdvPercentage', 'Date', 'Time', 'DateTime', 'RangeTime', 'Phone', 'Email', 'MultiEmail', 'MultiDomain', 'Picklist', 'MultiSelectCombo', 'MultipicklistTags', 'Country', 'URL', 'Checkbox', 'TextArea', 'Related1M', 'MultiReference', 'Editor', 'Tree', 'CategoryMultipicklist', 'Image', 'MultiImage',  'MultiAttachment', 'MultiReferenceValue', 'ServerAccess', 'Skype', 'Twitter', 'Token', 'Smtp', 'MapCoordinates',
+			'Text', 'Decimal', 'Integer',  'Currency',  'Percent', 'AdvPercentage', 'Date', 'Time', 'DateTime', 'RangeTime', 'Phone', 'Email', 'MultiEmail', 'MultiDomain', 'Picklist', 'MultiSelectCombo', 'MultipicklistTags', 'Country', 'URL', 'Checkbox', 'TextArea', 'Related1M', 'MultiReference', 'Editor', 'Tree', 'CategoryMultipicklist', 'Image', 'MultiImage',  'MultiAttachment', 'MultiReferenceValue', 'ServerAccess', 'Skype', 'Twitter', 'Token', 'Smtp', 'MapCoordinates', 'Group',
 		];
 	}
 
@@ -258,6 +258,11 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 					'type' => $params['type'] ?? null,
 					'showMap' => $params['isCoordinateMap'] ?? 0,
 					'showLocation' => $params['isCoordinateMeLokaction'] ?? 0,
+				];
+				break;
+			case 'Group':
+				$fieldParams = [
+					'showAllGroups' => $params['showAllGroups'] ?? 0
 				];
 				break;
 			default:
@@ -527,6 +532,11 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 				$uitype = 331;
 				$type = $importerType->stringType(100);
 				$uichekdata = 'V~O';
+				break;
+			case 'Group':
+				$uitype = 333;
+				$type = $importerType->integer(10);
+				$uichekdata = 'I~O';
 				break;
 			default:
 				break;
