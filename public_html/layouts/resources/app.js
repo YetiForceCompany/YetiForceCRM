@@ -3620,9 +3620,9 @@ $(function () {
 	$.fn.setValue = function (value, params) {
 		return App.Fields.Utils.setValue($(this), value, params);
 	};
-	$.fn.formatNumber = function () {
+	$.fn.formatNumber = function (mode = App.Fields.Double.FORMAT_USER_WITHOUT_ROUNDING) {
 		let element = $(this);
-		element.val(App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val()), false));
+		element.val(App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val()), mode));
 	};
 	$.fn.disable = function () {
 		this.attr('disabled', 'disabled');

@@ -6,7 +6,7 @@
 	<div class="input-group input-group-sm">
 		<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" type="text" class="qty smallInputBox form-control form-control-sm text-right"
 			data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD->getFieldInfo()))}"
-			data-maximumlength="{$FIELD->getRangeValues()}" data-validation-engine="{$VALIDATION_ENGINE}" value="{$FIELD->getDisplayValue($VALUE, $ITEM_DATA, true)|escape}"
+			data-maximumlength="{$FIELD->getRangeValues()}" data-validation-engine="{$VALIDATION_ENGINE}" value="{$VALUE|escape}"
 			{if $FIELD->isReadOnly()} readonly="readonly" {/if} />
 		{assign var=QTY_PARAM value=''}
 		{if isset($ITEM_DATA['name']) && ($REFERENCE_MODULE === 'Products' ||  $REFERENCE_MODULE === 'Services')}
