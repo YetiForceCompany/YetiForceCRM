@@ -1525,7 +1525,8 @@
     "LBL_RECORD_DOES_NOT_EXIST_DESC": "The record has been deleted and the name cannot be displayed.",
     "LBL_CONDITION_WIZARD": "Condition wizard",
     "LBL_CURRENCY_CONVERTER": "Currency converter",
-    "LBL_OK": "Ok"
+    "LBL_OK": "Ok",
+    "LBL_BATCH_ADDING_RECORDS": "Batch adding records"
   },
   "js": {
     "JS_APPROVE": "Approve",

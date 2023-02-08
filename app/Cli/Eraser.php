@@ -102,19 +102,24 @@ class Eraser extends Base
 		if ($this->confirmation('Are you sure you want to delete the data?', 'Eraser')) {
 			return;
 		}
-		$this->climate->bold('Deleting entries from the database ...');
+		$this->climate->bold('Deleting data: ');
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		$i = $dbCommand->delete(
-			'vtiger_crmentity',
-			[
-				'NOT IN', 'setype',
+		$dataReader = (new \App\Db\Query())->select(['name'])->from('vtiger_tab')
+			->where(['isentitytype' => 1])
+			->andWhere([
+				'NOT IN', 'name',
 				[
 					'MultiCompany', 'OSSEmployees', 'BankAccounts', 'EmailTemplates',
 					'SMSTemplates', 'IStorages', 'MailAccount'
 				]
-			]
-		)->execute();
-		$this->climate->bold('Number of deleted entries: ' . $i);
+			])
+			->createCommand()->query();
+		while ($name = $dataReader->readColumn(0)) {
+			$this->climate->inline("{$name} ... ");
+			$i = $dbCommand->delete('vtiger_crmentity', ['setype' => $name])->execute();
+			$this->climate->out('- deleted ' . $i);
+		}
+		$dataReader->close();
 		$this->climate->lightYellow()->border('─', 200);
 		$this->climate->bold('Deleting data for the dav_addressbookchanges table ... ');
 		$i = $dbCommand->delete('dav_addressbookchanges')->execute();
