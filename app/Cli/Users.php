@@ -114,18 +114,11 @@ class Users extends Base
 	 */
 	public function resetAllPasswords(): void
 	{
-		$this->climate->arguments->add([
-			'confirmation' => [
-				'prefix' => 'c',
-				'description' => 'Don\'t ask for confirmation',
-			],
-		]);
-		if ($this->helpMode) {
-			return;
-		}
-		$this->climate->lightBlue('New passwords will be sent to the user\'s e-mail, it is required that the e-mail sending works properly.');
-		if (!$this->climate->arguments->defined('confirmation') && !$this->climate->confirm('Do you want to reset the passwords of all active users?')->confirmed()) {
-			$this->cli->actionsList('Users');
+		if ($this->confirmation(
+			'Do you want to reset the passwords of all active users?',
+			'Users',
+			'New passwords will be sent to the user\'s e-mail, it is required that the e-mail sending works properly.'
+			)) {
 			return;
 		}
 		$userIds = (new \App\Db\Query())->select(['id'])->from('vtiger_users')->where(['deleted' => 0])->column();

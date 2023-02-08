@@ -38,4 +38,34 @@ abstract class Base
 		$this->cli = $cli;
 		$this->climate = $cli->climate;
 	}
+
+	/**
+	 * Show confirmation of action execution.
+	 *
+	 * @param string $message
+	 * @param string $parentAction
+	 * @param string $description
+	 *
+	 * @return bool Abort the action in which the function was called
+	 */
+	protected function confirmation(string $message, string $parentAction, string $description = ''): bool
+	{
+		$this->climate->arguments->add([
+			'confirmation' => [
+				'prefix' => 'c',
+				'description' => 'Don\'t ask for confirmation',
+			],
+		]);
+		if ($this->helpMode) {
+			return true;
+		}
+		if ($description) {
+			$this->climate->lightBlue($description);
+		}
+		if (!$this->climate->arguments->defined('confirmation') && !$this->climate->confirm($message)->confirmed()) {
+			$this->cli->actionsList($parentAction);
+			return true;
+		}
+		return false;
+	}
 }
