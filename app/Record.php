@@ -417,11 +417,9 @@ class Record
 		if (empty($moduleName)) {
 			$moduleName = self::getType($id);
 		}
-		if ('Trash' === $state) {
-			$label = '<s>' . $label . '</s>';
-		}
+		$deleted = 'Trash' === $state;
 		if ($id && !Privilege::isPermitted($moduleName, 'DetailView', $id)) {
-			return $label;
+			return $deleted ? "<s>{$label}</s>" : $label;
 		}
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$url = $moduleModel->getDetailViewUrl($id);
@@ -429,6 +427,8 @@ class Record
 			$url = \Config\Main::$site_URL . $url;
 		}
 		$label = $moduleModel->getCustomLinkLabel($id, $label);
-		return "<a class=\"modCT_{$moduleName} showReferenceTooltip js-popover-tooltip--record\" href=\"{$url}\">$label</a>";
+		$label = "<a class=\"modCT_{$moduleName} showReferenceTooltip js-popover-tooltip--record\" href=\"{$url}\">{$label}</a>";
+
+		return $deleted ? "<s>{$label}</s>" : $label;
 	}
 }
