@@ -72,7 +72,7 @@ class ProductTags extends Base
 	public function import(): void
 	{
 		if ($this->config->get('logAll')) {
-			$this->log('Start import tags');
+			$this->log('Start import tags', []);
 		}
 		$picklistValues = \App\Fields\Picklist::getValues('tags');
 		$keys = array_flip(array_map('mb_strtolower', array_column($picklistValues, 'tags', 'tagsid')));
@@ -113,7 +113,7 @@ class ProductTags extends Base
 	public function export(): void
 	{
 		if ($this->config->get('logAll')) {
-			$this->log('Start export tags');
+			$this->log('Start export tags', []);
 		}
 		$tags = array_flip(array_map('mb_strtolower', array_column($this->cache, 'slug', 'id')));
 		$i = 0;

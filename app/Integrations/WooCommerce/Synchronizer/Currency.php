@@ -24,7 +24,7 @@ class Currency extends Base
 	public function process(): void
 	{
 		if ($this->config->get('logAll')) {
-			$this->log('Start import currencies');
+			$this->log('Start import currencies', []);
 		}
 		try {
 			if ($currency = $this->getCurrenciesFromApi()) {
@@ -45,7 +45,7 @@ class Currency extends Base
 		}
 		if ($this->config->get('logAll')) {
 			$this->log('End import currencies', [
-				'currency' => $currency,
+				'currency' => $currency ?? '',
 			]);
 		}
 	}

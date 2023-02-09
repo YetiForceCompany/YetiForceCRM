@@ -57,7 +57,7 @@ class ProductCategory extends Base
 	public function import(): void
 	{
 		if ($this->config->get('logAll')) {
-			$this->log('Start import tags');
+			$this->log('Start import tags', []);
 		}
 		$i = 0;
 		foreach ($this->cache as $category) {

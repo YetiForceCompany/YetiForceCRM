@@ -41,10 +41,10 @@ class ProductAttributes extends Base
 				\Vtiger_Module_Model::getInstance('Products')
 			);
 			if (empty($this->fieldModel)) {
-				$this->log('Field not found in mapping', ['fieldName' => $fieldName]);
+				$this->log('Field not found in mapping', ['fieldName' => $fieldName], null, true);
 				\App\Log::error('Field not found in mapping: ' . $fieldName, self::LOG_CATEGORY);
 			} elseif (!\in_array($this->fieldModel->getFieldDataType(), ['multipicklist'])) {
-				$this->log('Invalid field type', ['fieldName' => $fieldName, 'type' => $this->fieldModel->getFieldDataType()]);
+				$this->log('Invalid field type', ['fieldName' => $fieldName, 'type' => $this->fieldModel->getFieldDataType()], null, true);
 				\App\Log::error("Invalid field type: $fieldName ({$this->fieldModel->getFieldDataType()})", self::LOG_CATEGORY);
 			} elseif ($this->fieldModel->isActiveField()) {
 				$this->import($value);
@@ -62,11 +62,11 @@ class ProductAttributes extends Base
 	public function import(string $name): void
 	{
 		if ($this->config->get('logAll')) {
-			$this->log('Start import product attributes');
+			$this->log('Start import product attributes', [$name]);
 		}
 		$attr = $this->attributes['pa_' . $name] ?? null;
 		if (!$attr) {
-			$this->log('Attribute not found', [$name]);
+			$this->log('Attribute not found', [$name], null, true);
 			\App\Log::error('Attribute not found: ' . $name, self::LOG_CATEGORY);
 			return;
 		}

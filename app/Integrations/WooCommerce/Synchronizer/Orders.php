@@ -60,6 +60,7 @@ class Orders extends Base
 				'lastScan' => $this->lastScan,
 			]);
 		}
+		$i = 0;
 		try {
 			$page = 1;
 			$load = true;
@@ -69,6 +70,7 @@ class Orders extends Base
 					foreach ($rows as $id => $row) {
 						$this->importOrder($row);
 						$this->config->setScan('importOrders', 'id', $id);
+						++$i;
 					}
 					++$page;
 					if ($this->config->get('orders_limit') !== \count($rows)) {
@@ -85,7 +87,7 @@ class Orders extends Base
 			\App\Log::error('Error during import orders: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('End import orders');
+			$this->log('End import orders', ['imported' => $i]);
 		}
 	}
 
@@ -144,6 +146,7 @@ class Orders extends Base
 				'lastScan' => $this->lastScan,
 			]);
 		}
+		$i = 0;
 		try {
 			$page = 0;
 			$load = true;
@@ -155,6 +158,7 @@ class Orders extends Base
 					foreach ($rows as $id => $row) {
 						$this->exportOrder($row);
 						$this->config->setScan('exportOrders', 'id', $id);
+						++$i;
 					}
 					++$page;
 					if ($limit !== \count($rows)) {
@@ -171,7 +175,7 @@ class Orders extends Base
 			\App\Log::error('Error during export orders: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('End export order');
+			$this->log('End export order', ['exported' => $i]);
 		}
 	}
 

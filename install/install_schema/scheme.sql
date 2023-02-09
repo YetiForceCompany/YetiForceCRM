@@ -875,6 +875,7 @@ CREATE TABLE `l_yf_users_login_purpose` (
 CREATE TABLE `l_yf_woocommerce` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `time` datetime NOT NULL,
+  `error` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `category` varchar(100) DEFAULT NULL,
   `message` varchar(500) DEFAULT NULL,
   `params` text DEFAULT NULL,

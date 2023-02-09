@@ -43,7 +43,7 @@ class OrdersPayment extends Base
 			$this->map = $paymentMethods;
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('Start import orders payment methods');
+			$this->log('Start import orders payment methods', []);
 		}
 		$i = 0;
 		try {

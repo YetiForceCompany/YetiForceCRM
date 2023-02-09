@@ -227,10 +227,11 @@ abstract class Base
 	 * @param string      $category
 	 * @param array       $params
 	 * @param ?\Throwable $ex
+	 * @param bool        $error
 	 *
 	 * @return void
 	 */
-	public function log(string $category, ?array $params = null, ?\Throwable $ex = null): void
+	public function log(string $category, ?array $params, ?\Throwable $ex = null, bool $error = false): void
 	{
 		$message = $ex ? $ex->getMessage() : $category;
 		$params = print_r($params, true);
@@ -240,6 +241,7 @@ abstract class Base
 		\App\DB::getInstance('log')->createCommand()
 			->insert(\App\Integrations\WooCommerce\Config::LOG_TABLE_NAME, [
 				'time' => date('Y-m-d H:i:s'),
+				'error' => $ex ? 1 : ((int) $error),
 				'category' => $ex ? $category : 'info',
 				'message' => \App\TextUtils::textTruncate($message, 255),
 				'params' => $params ? \App\TextUtils::textTruncate($params, 65535) : null,

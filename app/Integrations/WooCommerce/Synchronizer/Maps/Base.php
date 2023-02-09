@@ -151,14 +151,14 @@ abstract class Base
 				} elseif (!\array_key_exists('optional', $field) || empty($field['optional'])) {
 					$error = "[API>YF] No column {$field['name']} ($fieldCrm)";
 					\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-					$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi]);
+					$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
 				}
 			} else {
 				$this->dataYf[$fieldCrm] = $this->dataApi[$field] ?? null;
 				if (!\array_key_exists($field, $this->dataApi)) {
 					$error = "[API>YF] No column $field ($fieldCrm)";
 					\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-					$this->synchronizer->log($error, $this->dataApi);
+					$this->synchronizer->log($error, $this->dataApi, null, true);
 				}
 			}
 		}
@@ -183,7 +183,7 @@ abstract class Base
 			} else {
 				$error = "[API>YF] No column $name ($fieldCrm)";
 				\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-				$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi]);
+				$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
 			}
 		}
 		if (isset($field['fn'])) {
@@ -208,7 +208,7 @@ abstract class Base
 			if (!\array_key_exists($this->dataApi[$field['name']], $field['map']) && empty($field['mayNotExist'])) {
 				$error = "[API>YF] No value `{$this->dataApi[$field['name']]}` in map {$field['name']}";
 				\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-				$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi]);
+				$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
 			}
 		} elseif (isset($field['fn'])) {
 			$this->dataYf[$fieldCrm] = $this->{$field['fn']}($this->dataApi[$field['name']], $field, true);
@@ -259,7 +259,7 @@ abstract class Base
 						} elseif (empty($field['mayNotExist'])) {
 							$error = "[YF>API] No value `{$this->dataYf[$fieldCrm]}` in map {$fieldCrm}";
 							\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-							$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataYf]);
+							$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataYf], null, true);
 						}
 					} elseif (isset($field['fn'])) {
 						$this->dataApi[$field['name']] = $this->{$field['fn']}($this->dataYf[$fieldCrm], $field, false);
@@ -269,14 +269,14 @@ abstract class Base
 				} elseif (!\array_key_exists('optional', $field) || empty($field['optional'])) {
 					$error = '[YF>API] No field ' . $fieldCrm;
 					\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-					$this->synchronizer->log($error, $this->dataApi);
+					$this->synchronizer->log($error, $this->dataApi, null, true);
 				}
 			} else {
 				$this->dataApi[$field] = $this->dataYf[$fieldCrm] ?? null;
 				if (!\array_key_exists($fieldCrm, $this->dataYf)) {
 					$error = '[YF>API] No field ' . $fieldCrm;
 					\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-					$this->synchronizer->log($error, $this->dataYf);
+					$this->synchronizer->log($error, $this->dataYf, null, true);
 				}
 			}
 		}

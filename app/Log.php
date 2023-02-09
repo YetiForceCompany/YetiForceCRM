@@ -166,6 +166,7 @@ class Log extends Logger
 			'icon' => 'fa-solid fa-cash-register',
 			'columns' => [
 				'time' => ['type' => 'DateTime', 'label' => 'LBL_TIME'],
+				'error' => ['type' => 'Boolean', 'label' => 'LBL_ERROR'],
 				'category' => ['type' => 'Text', 'label' => 'LBL_CATEGORY'],
 				'message' => ['type' => 'Text', 'label' => 'LBL_MESSAGE'],
 				'params' => ['type' => 'Text', 'label' => 'LBL_PARAMS'],
@@ -173,6 +174,7 @@ class Log extends Logger
 			],
 			'filter' => [
 				'time' => 'DateTimeRange',
+				'error' => 'Boolean',
 				'category' => 'Text',
 				'message' => 'Text',
 				'params' => 'Text',

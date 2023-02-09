@@ -69,6 +69,7 @@ class Product extends Base
 				'lastScan' => $this->lastScan,
 			]);
 		}
+		$i = 0;
 		try {
 			$page = 1;
 			$load = true;
@@ -78,6 +79,7 @@ class Product extends Base
 					foreach ($rows as $id => $row) {
 						$this->importProduct($row);
 						$this->config->setScan('importProduct', 'id', $id);
+						++$i;
 					}
 					++$page;
 					if ($this->config->get('products_limit') !== \count($rows)) {
@@ -94,7 +96,7 @@ class Product extends Base
 			\App\Log::error('Error during import products: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('End import product');
+			$this->log('End import product', ['imported' => $i]);
 		}
 	}
 
@@ -154,6 +156,7 @@ class Product extends Base
 				'lastScan' => $this->lastScan,
 			]);
 		}
+		$i = 0;
 		try {
 			$page = 0;
 			$load = true;
@@ -165,6 +168,7 @@ class Product extends Base
 					foreach ($rows as $id => $row) {
 						$this->exportProduct($row);
 						$this->config->setScan('exportProduct', 'id', $id);
+						++$i;
 					}
 					++$page;
 					if ($limit !== \count($rows)) {
@@ -181,7 +185,7 @@ class Product extends Base
 			\App\Log::error('Error during export products: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('End export product');
+			$this->log('End export product', ['exported' => $i]);
 		}
 	}
 
