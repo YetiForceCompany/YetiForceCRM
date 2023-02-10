@@ -1,7 +1,4 @@
 <?php
-
-namespace App\Conditions\QueryFields;
-
 /**
  * Group Query Field Class.
  *
@@ -11,6 +8,9 @@ namespace App\Conditions\QueryFields;
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Kon <a.kon@yetiforce.com>
  */
+
+namespace App\Conditions\QueryFields;
+
 class GroupField extends BaseField
 {
 	/** {@inheritdoc} */

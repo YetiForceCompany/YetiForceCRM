@@ -1,5 +1,4 @@
 <?php
-
 /**
  * UIType Group field file.
  *
@@ -43,10 +42,10 @@ class Vtiger_Group_UIType extends Vtiger_Picklist_UIType
 	{
 		$fieldParams = $this->getFieldModel()->getFieldParams();
 		$accessibleGroups = [];
-		if (isset($fieldParams['showAllGroups']) && $fieldParams['showAllGroups']) {
-			$accessibleGroups = (new \App\Db\Query())->select(['groupid', 'groupname'])->from('vtiger_groups')->createCommand()->queryAllByGroup(0);
-		} else {
+		if (empty($fieldParams['showAllGroups'])) {
 			$accessibleGroups = \App\Fields\Owner::getInstance($this->getFieldModel()->getModuleName())->getAccessibleGroupForModule();
+		} else {
+			$accessibleGroups = (new \App\Db\Query())->select(['groupid', 'groupname'])->from('vtiger_groups')->createCommand()->queryAllByGroup(0);
 		}
 		return $accessibleGroups;
 	}
