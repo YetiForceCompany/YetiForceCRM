@@ -493,6 +493,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 332:
 						$fieldDataType = 'woocommerceServer';
 						break;
+					case 333:
+						$fieldDataType = 'group';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
