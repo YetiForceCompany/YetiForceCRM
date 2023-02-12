@@ -77,7 +77,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDetailViewUrl()
 	{
-		return '?module=Groups&parent=Settings&view=Detail&record=' . $this->getId();
+		return 'index.php?module=Groups&parent=Settings&view=Detail&record=' . $this->getId();
 	}
 
 	/**
@@ -416,32 +416,6 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		\App\Cache::clear();
 	}
 
-	/** {@inheritdoc} */
-	public function getRecordLinks(): array
-	{
-		$links = [];
-		$recordLinks = [
-			[
-				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_EDIT_RECORD',
-				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'yfi yfi-full-editing-view',
-				'linkclass' => 'btn-sm btn-primary'
-			],
-			[
-				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'" . $this->getDeleteActionUrl() . "')",
-				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn-sm btn-danger'
-			],
-		];
-		foreach ($recordLinks as $recordLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
-		}
-		return $links;
-	}
-
 	/**
 	 * Function to get all the groups.
 	 *
@@ -621,5 +595,49 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		}
 
 		return $error;
+	}
+
+	/**
+	 * Gets display value.
+	 *
+	 * @param string $key
+	 * @param mixed  $value
+	 *
+	 * @return mixed
+	 */
+	public function getDisplayValue(string $key)
+	{
+		$qualifiedModuleName = $this->getModule()->getName(true);
+		switch ($key) {
+			case 'parentid':
+				$value = $this->get($key) ? App\Fields\Owner::getLabel($this->get($key)) : '';
+				break;
+			case 'groupname':
+				$value = App\Language::translate($this->get($key), $qualifiedModuleName);
+				break;
+			case 'members':
+				$members = [];
+				$groupMembers = $this->getFieldInstanceByName($key)->getEditViewDisplayValue($this->get($key), $this);
+				foreach ($groupMembers as $memberValue) {
+					$members[] = \App\Language::translate(App\Labels::member($memberValue), $qualifiedModuleName);
+				}
+				$value = App\TextUtils::textTruncateWithTooltip(implode(', ', $members), false, true);
+				break;
+			case 'modules':
+				$result = [];
+				$modules = explode(' |##| ', $this->get($key));
+				foreach ($modules as $moduleId) {
+					$moduleName = \App\Module::getModuleName((int) $moduleId);
+					$displayValue = App\Language::translate($moduleName, $moduleName);
+					$result[] = $displayValue;
+				}
+				$modules = implode(', ', $result);
+				$value = App\TextUtils::textTruncateWithTooltip($modules, false, true);
+				break;
+			default:
+				$value = \App\Purifier::encodeHtml($this->get($key));
+				break;
+		}
+		return $value;
 	}
 }
