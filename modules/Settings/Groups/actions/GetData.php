@@ -17,8 +17,11 @@ class Settings_Groups_GetData_Action extends \App\Controller\Action
 {
 	use \App\Controller\Traits\SettingsPermission;
 
+	/** @var App\Request request */
 	private $request;
+	/** @var Settings_Vtiger_Module_Model */
 	private $moduleModel;
+	/** @var string Base index */
 	private $baseIndex = '';
 
 	/**
@@ -75,16 +78,16 @@ class Settings_Groups_GetData_Action extends \App\Controller\Action
 	{
 		$qualifiedModuleName = $this->request->getModule(false);
 		$conditions = ['and'];
-		$users = $groups = $roles = $rolesAndSubordinates = [];
+		$users = $groups = $roles = $rolesAndSubordinates = $accessibleGroups = [];
 		foreach ($fields as $fieldModel) {
 			$fieldModelName = $fieldModel->getName();
 			if ($this->request->has($fieldModelName) && '' !== $this->request->get($fieldModelName)) {
 				$value = $this->moduleModel->getValueFromRequest($fieldModelName, $this->request);
 				switch ($fieldModelName) {
 					case 'groupname':
-						$accessibleGroups = (new \App\Db\Query())->select(['groupid', 'groupname'])->from('vtiger_groups')->createCommand()->queryAllByGroup(0);
-						foreach ($accessibleGroups as $groupId => $groupName) {
-							$accessibleGroups[$groupId] = App\Language::translate($groupName, $qualifiedModuleName);
+						$allGroups = Settings_Groups_Record_Model::getAll();
+						foreach ($allGroups as $groupId => $group) {
+							$accessibleGroups[$groupId] = App\Language::translate($group->getName(), $qualifiedModuleName);
 						}
 						$groupIdsContainName = preg_grep("/{$value}/i", $accessibleGroups);
 						$conditions[] = [$this->moduleModel->baseTable . '.' . $this->baseIndex => array_keys($groupIdsContainName)];

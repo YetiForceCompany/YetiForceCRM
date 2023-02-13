@@ -43,7 +43,7 @@ class Settings_Groups_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getDefaultUrl()
 	{
-		return 'index.php?module=Groups&parent=Settings&view=List';
+		return 'index.php?module=Groups&parent=Settings&view=Index';
 	}
 
 	/**
@@ -220,8 +220,8 @@ class Settings_Groups_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		switch ($fieldName) {
 			case 'groupname':
-				case 'description':
-				$value = $request->getByType($fieldName, \App\Purifier::ALNUM);
+			case 'description':
+				$value = $request->getByType($fieldName, \App\Purifier::TEXT);
 				break;
 			case 'parentid':
 				$value = $request->getArray($fieldName, \App\Purifier::INTEGER);

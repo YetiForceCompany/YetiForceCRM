@@ -198,4 +198,28 @@ class TextUtils
 		}
 		return $attributes;
 	}
+
+	/**
+	 * Truncating text.
+	 *
+	 * @param string   $text
+	 * @param bool|int $length
+	 * @param bool     $addDots
+	 * @param bool     $strict  Used when a string length in bytes is required
+	 *
+	 * @return string
+	 */
+	public static function textTruncateWithTooltip($text, $length = false, $addDots = true, bool $strict = false)
+	{
+		$truncateText = self::textTruncate($text, $length, $addDots, $strict);
+		if (!$length) {
+			$length = Config::main('listview_max_textlength');
+		}
+		if (\strlen($text) > $length) {
+			$truncateText .= '<span class="js-popover-tooltip ml-1 d-inline my-auto u-h-fit u-cursor-pointer" data-placement="top" data-content="' . $text . '">
+			<span class="fas fa-info-circle"></span>
+			</span>';
+		}
+		return $truncateText;
+	}
 }

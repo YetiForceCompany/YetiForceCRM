@@ -45,7 +45,10 @@ class Vtiger_Group_UIType extends Vtiger_Picklist_UIType
 		if (empty($fieldParams['showAllGroups'])) {
 			$accessibleGroups = \App\Fields\Owner::getInstance($this->getFieldModel()->getModuleName())->getAccessibleGroupForModule();
 		} else {
-			$accessibleGroups = (new \App\Db\Query())->select(['groupid', 'groupname'])->from('vtiger_groups')->createCommand()->queryAllByGroup(0);
+			$allGroups = Settings_Groups_Record_Model::getAll();
+			foreach ($allGroups as $groupId => $group) {
+				$accessibleGroups[$groupId] = $group->getName();
+			}
 		}
 		return $accessibleGroups;
 	}
