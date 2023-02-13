@@ -3450,6 +3450,185 @@ const app = (window.app = {
 		}
 	},
 	/**
+	 * Handler validation for ajax (quick edit)
+	 * @param {Object} params
+	 * @param {String} mode
+	 * @returns
+	 */
+	handlerEventAjax: function (params, mode = '') {
+		const aDeferred = $.Deferred();
+		let paramsTemp = JSON.parse(JSON.stringify(params));
+		if (mode) paramsTemp.data.mode = mode;
+
+		AppConnector.request(paramsTemp)
+			.done((data) => {
+				const response = data.result;
+				let lock = false;
+				for (let i in response) {
+					let handler = response[i];
+					switch (handler.type) {
+						case 'confirm':
+							app.showConfirmModal({
+								text: handler.message || '',
+								confirmedCallback: () => {
+									let handlers = {};
+									if (typeof params.data.skipHandlers !== 'undefined') {
+										handlers = JSON.parse(params.data.skipHandlers);
+									}
+									handlers[i] = response[i].hash;
+									params.data.skipHandlers = JSON.stringify(handlers);
+									app.handlerEventAjax(params, mode).then((responsePart) => {
+										aDeferred.resolve(responsePart);
+									});
+								},
+								rejectedCallback: () => {
+									aDeferred.resolve(false);
+								}
+							});
+							lock = true;
+							break;
+						case 'modal':
+							app.showModalWindow(null, handler.url, function (modalContainer) {
+								app.registerModalController(undefined, modalContainer, function (_, instance) {
+									instance.handlerEvent = aDeferred;
+									instance.handlerResponse = handler;
+									instance.form = params;
+								});
+							});
+							lock = true;
+							break;
+						case 'notice':
+						default:
+							app.showNotify({
+								text: handler.message ? handler.message : app.vtranslate('JS_ERROR'),
+								type: 'error'
+							});
+							break;
+					}
+				}
+				if (data.result.length <= 0) {
+					aDeferred.resolve(true);
+				} else if (!lock) {
+					aDeferred.resolve(false);
+				}
+			})
+			.fail((_textStatus, _errorThrown) => {
+				app.showNotify({
+					text: app.vtranslate('JS_ERROR'),
+					type: 'error'
+				});
+				aDeferred.resolve(false);
+			});
+
+		return aDeferred.promise();
+	},
+	/**
+	 * Handler validation for jQuery FORM
+	 * @param {jQuery} params
+	 * @param {String} mode
+	 * @returns
+	 */
+	handlerEventForm: function (form, mode = '') {
+		const aDeferred = $.Deferred();
+		document.progressLoader = $.progressIndicator({
+			message: app.vtranslate('JS_SAVE_LOADER_INFO'),
+			position: 'html',
+			blockInfo: {
+				enabled: true
+			}
+		});
+		let formData = new FormData(form[0]);
+		if (mode) formData.append('mode', mode);
+		AppConnector.request({
+			async: false,
+			url: 'index.php',
+			type: 'POST',
+			data: formData,
+			processData: false,
+			contentType: false
+		})
+			.done((data) => {
+				document.progressLoader.progressIndicator({ mode: 'hide' });
+				let response = data.result;
+				for (let i in response) {
+					let handler = response[i];
+					switch (handler.type) {
+						case 'confirm':
+							app.showConfirmModal({
+								text: handler.message || '',
+								confirmedCallback: () => {
+									let handlers = {},
+										handlerElement = form.find('input[name="skipHandlers"]');
+									if (handlerElement.length) {
+										handlers = JSON.parse(handlerElement.val());
+										handlerElement.remove();
+									}
+									handlers[i] = handler.hash;
+									form.append($('<input>', { name: 'skipHandlers', value: JSON.stringify(handlers), type: 'hidden' }));
+									form.submit();
+								}
+							});
+							break;
+						case 'modal':
+							app.showModalWindow(null, handler.url, function (modalContainer) {
+								app.registerModalController(undefined, modalContainer, function (_, instance) {
+									instance.handlerEvent = aDeferred;
+									instance.handlerResponse = handler;
+									instance.form = form;
+								});
+							});
+							break;
+						case 'notice':
+						default:
+							app.showNotify({
+								text: handler.message ? handler.message : app.vtranslate('JS_ERROR'),
+								type: 'error'
+							});
+							if (handler.hoverField) {
+								form.find('[name="' + handler.hoverField + '"]').focus();
+							}
+							break;
+					}
+				}
+				aDeferred.resolve(data.result.length <= 0);
+			})
+			.fail((textStatus, errorThrown) => {
+				document.progressLoader.progressIndicator({ mode: 'hide' });
+				app.showNotify({
+					text: app.vtranslate('JS_ERROR'),
+					type: 'error'
+				});
+				app.errorLog(textStatus, errorThrown);
+				aDeferred.resolve(false);
+			});
+
+		return aDeferred.promise();
+	},
+
+	/**
+	 * Handler validation
+	 * @param {*} params jQuery FORM or object
+	 * @param {String} mode
+	 * @param {Boolean} skip Skip the verification action
+	 * @returns
+	 */
+	handlerEvent: function (params, mode = '', skip = false) {
+		const aDeferred = $.Deferred();
+		if (skip) {
+			aDeferred.resolve(true);
+		} else if (params instanceof jQuery && params.is('form')) {
+			app.handlerEventForm(params, mode).done((response) => {
+				aDeferred.resolve(response);
+			});
+		} else {
+			app.handlerEventAjax(params, mode).done((response) => {
+				aDeferred.resolve(response);
+			});
+		}
+
+		return aDeferred.promise();
+	},
+	/**
 	 * Function to register the records events
 	 * @param {jQuery} container - Jquery container.
 	 */

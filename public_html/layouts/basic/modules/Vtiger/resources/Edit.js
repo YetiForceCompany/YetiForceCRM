@@ -73,7 +73,7 @@ $.Class(
 		 * @param {object} params
 		 * @returns {Promise}
 		 */
-		saveAjax: function (params, progressIndicator = true) {
+		saveAjax: function (params, progressIndicator = false) {
 			const aDeferred = $.Deferred();
 			if (typeof params === 'undefined' || $.isEmptyObject(params)) {
 				aDeferred.reject();
@@ -100,9 +100,8 @@ $.Class(
 					}
 				});
 			}
-			this.saveAjaxValidation(params).then((response) => {
+			app.handlerEvent(params, 'preSaveValidation', !this.getInstance().checkPreSaveValidation()).done((response) => {
 				if (response === true) {
-					delete params.data.mode;
 					AppConnector.request(params)
 						.done(function (responseData) {
 							aDeferred.resolve(responseData);
@@ -127,77 +126,7 @@ $.Class(
 					}
 				}
 			});
-			return aDeferred.promise();
-		},
-		/**
-		 * Record pre save validation
-		 * @param {object} params
-		 * @returns {Promise}
-		 */
-		saveAjaxValidation: function (params) {
-			const aDeferred = $.Deferred();
-			if (this.getInstance().checkPreSaveValidation()) {
-				let paramsTemp = JSON.parse(JSON.stringify(params));
-				paramsTemp.data.mode = 'preSaveValidation';
-				AppConnector.request(paramsTemp)
-					.done((data) => {
-						const response = data.result;
-						let lock = false;
-						for (let i in response) {
-							if (response[i].result !== true) {
-								if (response[i].type === 'confirm' && typeof response[i].hash !== 'undefined') {
-									app.showConfirmModal({
-										text: response[i].message || '',
-										confirmedCallback: () => {
-											let handlers = {};
-											if (typeof params.data.skipHandlers !== 'undefined') {
-												handlers = JSON.parse(params.data.skipHandlers);
-											}
-											handlers[i] = response[i].hash;
-											params.data.skipHandlers = JSON.stringify(handlers);
-											this.saveAjaxValidation(params, form).then((responsePart) => {
-												aDeferred.resolve(responsePart);
-											});
-										},
-										rejectedCallback: () => {
-											aDeferred.resolve(false);
-										}
-									});
-									lock = true;
-									break;
-								} else if (
-									typeof response[i].showModal !== 'undefined' &&
-									typeof response[i].showModal.url !== 'undefined'
-								) {
-									app.showModalWindow(null, response[i].showModal.url, function (modalContainer) {
-										app.registerModalController(undefined, modalContainer, function (_, instance) {
-											instance.formContainer = form;
-										});
-									});
-								} else {
-									app.showNotify({
-										text: response[i].message ? response[i].message : app.vtranslate('JS_ERROR'),
-										type: 'error'
-									});
-								}
-							}
-						}
-						if (data.result.length <= 0) {
-							aDeferred.resolve(true);
-						} else if (!lock) {
-							aDeferred.resolve(false);
-						}
-					})
-					.fail((textStatus, errorThrown) => {
-						app.showNotify({
-							text: app.vtranslate('JS_ERROR'),
-							type: 'error'
-						});
-						aDeferred.resolve(false);
-					});
-			} else {
-				aDeferred.resolve(true);
-			}
+
 			return aDeferred.promise();
 		}
 	},
@@ -954,93 +883,12 @@ $.Class(
 				view.find('.js-block-content.d-none').siblings('.blockHeader').trigger('click');
 			});
 			form.on(Vtiger_Edit_Js.recordPreSave, (e, _data) => {
-				this.preSaveValidation(form).done((response) => {
+				app.handlerEvent(form, 'preSaveValidation', !form.find('#preSaveValidation').val()).done((response) => {
 					if (response !== true) {
 						e.preventDefault();
 					}
 				});
 			});
-		},
-		preSaveValidation: function (form) {
-			const aDeferred = $.Deferred();
-			if (form.find('#preSaveValidation').val()) {
-				document.progressLoader = $.progressIndicator({
-					message: app.vtranslate('JS_SAVE_LOADER_INFO'),
-					position: 'html',
-					blockInfo: {
-						enabled: true
-					}
-				});
-				let formData = new FormData(form[0]);
-				formData.append('mode', 'preSaveValidation');
-				AppConnector.request({
-					async: false,
-					url: 'index.php',
-					type: 'POST',
-					data: formData,
-					processData: false,
-					contentType: false
-				})
-					.done((data) => {
-						document.progressLoader.progressIndicator({ mode: 'hide' });
-						let response = data.result;
-						for (let i in response) {
-							if (response[i].result !== true) {
-								if (response[i].type === 'confirm' && typeof response[i].hash !== 'undefined') {
-									app.showConfirmModal({
-										text: response[i].message || '',
-										confirmedCallback: () => {
-											let handlers = {},
-												handlerElement = form.find('input[name="skipHandlers"]');
-											if (handlerElement.length) {
-												handlers = JSON.parse(handlerElement.val());
-												handlerElement.remove();
-											}
-											handlers[i] = response[i].hash;
-											form.append(
-												$('<input>', { name: 'skipHandlers', value: JSON.stringify(handlers), type: 'hidden' })
-											);
-											form.submit();
-										}
-									});
-									aDeferred.resolve(false);
-									break;
-								} else if (
-									typeof response[i].showModal !== 'undefined' &&
-									typeof response[i].showModal.url !== 'undefined'
-								) {
-									app.showModalWindow(null, response[i].showModal.url, function (modalContainer) {
-										app.registerModalController(undefined, modalContainer, function (_, instance) {
-											instance.formContainer = form;
-										});
-									});
-								} else {
-									app.showNotify({
-										text: response[i].message ? response[i].message : app.vtranslate('JS_ERROR'),
-										type: 'error'
-									});
-								}
-								if (response[i].hoverField != undefined) {
-									form.find('[name="' + response[i].hoverField + '"]').focus();
-								}
-							}
-						}
-						aDeferred.resolve(data.result.length <= 0);
-					})
-					.fail((textStatus, errorThrown) => {
-						document.progressLoader.progressIndicator({ mode: 'hide' });
-						app.showNotify({
-							text: app.vtranslate('JS_ERROR'),
-							type: 'error'
-						});
-						app.errorLog(textStatus, errorThrown);
-						aDeferred.resolve(false);
-					});
-			} else {
-				aDeferred.resolve(true);
-			}
-
-			return aDeferred.promise();
 		},
 		registerLeavePageWithoutSubmit: function (form) {
 			if (
@@ -1669,20 +1517,22 @@ $.Class(
 			formData['action'] = 'ChangeValueHandler';
 			delete formData['view'];
 			let progress = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
-			AppConnector.request(formData).done((response) => {
-				$.each(response.result, (_, data) => {
-					this.triggerRecordEditEvents(data);
+			AppConnector.request(formData)
+				.done((response) => {
+					$.each(response.result, (_, data) => {
+						this.triggerRecordEditEvents(data);
+					});
+					progress.progressIndicator({ mode: 'hide' });
+				})
+				.fail(() => {
+					progress.progressIndicator({ mode: 'hide' });
+					app.showNotify({
+						text: app.vtranslate('JS_UNEXPECTED_ERROR'),
+						type: 'error',
+						delay: '2000',
+						hide: true
+					});
 				});
-				progress.progressIndicator({ mode: 'hide' });
-			}).fail(() => {
-				progress.progressIndicator({ mode: 'hide' });
-				app.showNotify({
-					text: app.vtranslate('JS_UNEXPECTED_ERROR'),
-					type: 'error',
-					delay: '2000',
-					hide: true
-				});
-			});
 		},
 		/**
 		 * Register keyboard shortcuts events

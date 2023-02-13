@@ -25,9 +25,9 @@ class Calendar_VerifyIsHolidayDate_Handler
 		if (!empty(App\Fields\Date::getHolidays($recordModel->get('date_start'), $recordModel->get('due_date')))) {
 			$response = [
 				'result' => false,
-				'type'=>'confirm',
+				'type' => 'confirm',
 				'message' => App\Language::translate('LBL_DATES_SELECTED_HOLIDAYS_CONFIRM', $recordModel->getModuleName()),
-				'hash' => hash('sha256', implode('|',$recordModel->getData()))
+				'hash' => hash('sha256', implode('|', $recordModel->getData()))
 			];
 		}
 
