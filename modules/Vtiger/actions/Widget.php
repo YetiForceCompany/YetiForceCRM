@@ -42,17 +42,16 @@ class Vtiger_Widget_Action extends \App\Controller\Action
 		$mode = $request->getMode();
 		if ($request->has('widgetid')) {
 			$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($request->getInteger('widgetid'), \App\User::getCurrentUserId());
-		} else {
-			if ('add' !== $mode) {
-				$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), \App\User::getCurrentUserId());
-			}
+		} elseif ('add' !== $mode) {
+			$widget = Vtiger_Widget_Model::getInstance($request->getInteger('linkid'), \App\User::getCurrentUserId());
 		}
 		if (('updateWidgetConfig' === $mode && $request->has('widgetid') && $widget->get('active'))
-			|| ('remove' === $mode && !$widget->isDefault() && \App\Privilege::isPermitted($moduleName))
+			|| (('remove' === $mode || 'removeWidgetFromList' === $mode) && !$widget->isDefault() && \App\Privilege::isPermitted($moduleName))
 			|| (('positions' === $mode || 'clear' === $mode) && \App\Privilege::isPermitted($moduleName))
 			|| 'add' === $mode) {
 			return true;
 		}
+
 		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 	}
 
