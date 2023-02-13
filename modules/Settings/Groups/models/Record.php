@@ -67,7 +67,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDeleteActionUrl()
 	{
-		return 'index.php?module=Groups&parent=Settings&view=DeleteAjax&record=' . $this->getId();
+		return 'index.php?module=Groups&parent=Settings&view=Delete&record=' . $this->getId();
 	}
 
 	/**
@@ -423,6 +423,11 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public static function getAll()
 	{
+		$cacheName = __CLASS__;
+		$key = __METHOD__;
+		if (\App\Cache::staticHas($cacheName, $key)) {
+			return \App\Cache::staticGet($cacheName, $key);
+		}
 		$dataReader = (new App\Db\Query())->from('vtiger_groups')->createCommand()->query();
 		$groups = [];
 		while ($row = $dataReader->read()) {
@@ -431,7 +436,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 			$groups[$group->getId()] = $group;
 		}
 		$dataReader->close();
-
+		\App\Cache::staticSave($cacheName, $key, $groups);
 		return $groups;
 	}
 
@@ -601,7 +606,6 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	 * Gets display value.
 	 *
 	 * @param string $key
-	 * @param mixed  $value
 	 *
 	 * @return mixed
 	 */

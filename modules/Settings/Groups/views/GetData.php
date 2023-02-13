@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Groups get data action file.
  *
@@ -13,7 +12,7 @@
 /**
  * Groups get data action class.
  */
-class Settings_Groups_GetData_Action extends \App\Controller\Action
+class Settings_Groups_GetData_View extends Settings_Vtiger_Index_View
 {
 	use \App\Controller\Traits\SettingsPermission;
 
@@ -36,10 +35,8 @@ class Settings_Groups_GetData_Action extends \App\Controller\Action
 		foreach ($this->request->getArray('columns') as $key => $value) {
 			$columns[$key] = $value['name'];
 		}
-
 		$this->moduleModel = Settings_Vtiger_Module_Model::getInstance($this->request->getModule(false));
 		$fields = $this->moduleModel->getListFields();
-
 		$table = $this->moduleModel->baseTable;
 		$this->baseIndex = $this->moduleModel->baseIndex;
 		$query = (new \App\Db\Query())->select(["{$table}.{$this->baseIndex}"])->from($table);
@@ -61,7 +58,6 @@ class Settings_Groups_GetData_Action extends \App\Controller\Action
 			}
 			$data[] = '<span class="js-detail-button d-none" data-recordurl="' . $recordModel->getDetailViewUrl() . '"></span>
 			<a class="btn btn-primary btn-sm js-no-link" title="' . \App\Language::translate('LBL_EDIT') . '" href="' . $recordModel->getEditViewUrl() . '"><span class="yfi yfi-full-editing-view"></span></a><button type="button" class="btn btn-danger btn-sm ml-1 js-no-link js-show-modal" data-id="' . $row[$this->baseIndex] . '" title="' . \App\Language::translate('LBL_DELETE_RECORD') . '" data-url="' . $recordModel->getDeleteActionUrl() . '"><span class="fas fa-trash-alt js-no-link"></span></button>';
-
 			$rows[] = $data;
 		}
 		$result = [
@@ -69,11 +65,18 @@ class Settings_Groups_GetData_Action extends \App\Controller\Action
 			'iTotalDisplayRecords' => $filter,
 			'aaData' => $rows
 		];
-
 		header('content-type: text/json; charset=UTF-8');
 		echo \App\Json::encode($result);
 	}
 
+	/**
+	 * Set conditions.
+	 *
+	 * @param App\Db\Query $query
+	 * @param array        $fields
+	 *
+	 * @return App\Db\Query
+	 */
 	private function setConditions(App\Db\Query $query, array $fields): App\Db\Query
 	{
 		$qualifiedModuleName = $this->request->getModule(false);
@@ -89,6 +92,7 @@ class Settings_Groups_GetData_Action extends \App\Controller\Action
 						foreach ($allGroups as $groupId => $group) {
 							$accessibleGroups[$groupId] = App\Language::translate($group->getName(), $qualifiedModuleName);
 						}
+						var_dump($value);
 						$groupIdsContainName = preg_grep("/{$value}/i", $accessibleGroups);
 						$conditions[] = [$this->moduleModel->baseTable . '.' . $this->baseIndex => array_keys($groupIdsContainName)];
 						break;
@@ -137,7 +141,7 @@ class Settings_Groups_GetData_Action extends \App\Controller\Action
 						}
 						break;
 					default:
-					$conditions[] = [$fieldModel->getColumnName() => $value];
+						$conditions[] = [$fieldModel->getColumnName() => $value];
 				}
 			}
 		}

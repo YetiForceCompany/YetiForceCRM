@@ -2,7 +2,7 @@
 'use strict';
 
 jQuery.Class(
-	'Settings_Groups_Index_Js',
+	'Settings_Groups_ListTable_Js',
 	{},
 	{
 		/**
@@ -49,13 +49,12 @@ jQuery.Class(
 		 * Load tab content
 		 */
 		loadTabContent: function () {
-			let params = {
+			let progress = jQuery.progressIndicator();
+			AppConnector.request({
 				module: app.getModuleName(),
 				parent: app.getParentModuleName(),
-				view: 'Index'
-			};
-			let progress = jQuery.progressIndicator();
-			AppConnector.request(params)
+				view: 'ListTable'
+			})
 				.done((data) => {
 					progress.progressIndicator({ mode: 'hide' });
 					this.contentContainer.html(data);
@@ -71,10 +70,8 @@ jQuery.Class(
 		 * Register events
 		 */
 		registerEvents: function (e) {
-			if (app.getViewName() === 'Index') {
-				this.contentContainer = $('.contentsDiv');
-				this.loadTabContent();
-			}
+			this.contentContainer = $('.contentsDiv');
+			this.loadTabContent();
 		}
 	}
 );

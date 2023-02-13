@@ -2,14 +2,14 @@
 'use strict';
 
 jQuery.Class(
-	'Settings_Groups_DeleteAjax_Js',
+	'Settings_Groups_Delete_Js',
 	{},
 	{
 		/**
-		 * Register save
+		 * Register delete
 		 */
 		registerDelete: function () {
-			this.container.find('.js-modal__save').on('click', (e) => {
+			this.container.find('.js-modal__save').on('click', () => {
 				let form = this.container.find('form');
 				let progress = $.progressIndicator({
 					message: app.vtranslate('JS_SAVE_LOADER_INFO'),
@@ -18,7 +18,7 @@ jQuery.Class(
 				let formData = form.serializeFormData();
 				app.saveAjax('', [], formData).done(function (data) {
 					if (data.result) {
-						Settings_Vtiger_Index_Js.showMessage({ text: app.vtranslate('JS_SAVE_SUCCESS') });
+						app.showNotify({ text: app.vtranslate('JS_SAVE_SUCCESS') });
 						$('.js-data-table').DataTable().ajax.reload();
 					} else {
 						app.showNotify({

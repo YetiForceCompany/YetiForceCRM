@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Settings groups index view file.
  *
@@ -13,7 +12,7 @@
 /**
  * Settings groups index view class.
  */
-class Settings_Groups_Index_View extends Settings_Vtiger_Index_View
+class Settings_Groups_ListTable_View extends Settings_Vtiger_Index_View
 {
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
@@ -23,6 +22,6 @@ class Settings_Groups_Index_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('LINKS', $moduleModel->getLinks());
-		$viewer->view('Index.tpl', $qualifiedModuleName);
+		$viewer->view('ListTable.tpl', $qualifiedModuleName);
 	}
 }

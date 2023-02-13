@@ -232,7 +232,6 @@ class Settings_Groups_Module_Model extends Settings_Vtiger_Module_Model
 			case 'modules':
 				$value = $request->getArray($fieldName, \App\Purifier::INTEGER);
 				break;
-			default: break;
 		}
 		return $value;
 	}
