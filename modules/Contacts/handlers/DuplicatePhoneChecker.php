@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
  * Phone duplicate checker handler class.
@@ -20,11 +21,7 @@ class Contacts_DuplicatePhoneChecker_Handler
 	const TRASH_ARCHIVE = true;
 
 	/** @var array A list of additional information about the record */
-	const FIELDS_DETAILS = [
-		'Contacts' => ['firstname', 'lastname', 'parent_id', 'assigned_user_id'],
-		'Accounts' => ['accountname', 'kod', 'assigned_user_id'],
-		'Leads' => ['company', 'kod', 'assigned_user_id'],
-	];
+	const FIELDS_DETAILS = [];
 
 	/**
 	 * EditViewPreSave handler function.
@@ -49,7 +46,9 @@ class Contacts_DuplicatePhoneChecker_Handler
 				if (self::TRASH_ARCHIVE) {
 					$queryGenerator->setStateCondition('All');
 				}
-				$queryGenerator->setFields(array_merge(['id'], self::FIELDS_DETAILS[$moduleName] ?? []))->permissions = false;
+				$allFields = array_keys($queryGenerator->getModuleFields());
+				$fieldsKeys = array_intersect(self::FIELDS_DETAILS[$moduleName] ?? [], $allFields);
+				$queryGenerator->setFields(array_merge(['id'], $fieldsKeys))->permissions = false;
 				if ($moduleName === $recordModel->getModuleName() && $recordModel->getId()) {
 					$queryGenerator->addCondition('id', $recordModel->getId(), 'n');
 				}
@@ -62,32 +61,22 @@ class Contacts_DuplicatePhoneChecker_Handler
 					$label = '';
 					foreach (self::FIELDS_DETAILS[$recordModel->getModuleName()] ?? [] as $fieldName) {
 						$fieldModel = $recordModel->getModule()->getFieldByName($fieldName);
-						if ('' !== $recordModel->get($fieldName) && $fieldModel->isViewable()) {
+						if ($fieldModel && '' !== $recordModel->get($fieldName) && $fieldModel->isViewable()) {
 							$label .= '<br>' . $fieldModel->getFullLabelTranslation() . ': ' . $recordModel->getDisplayValue($fieldName);
 						}
 					}
+					$response = [
+						'result' => false,
+						'message' => App\Language::translateArgs(
+							'LBL_DUPLICATE_PHONE',
+							$moduleName,
+							\App\Language::translate($moduleName, $moduleName)
+						) . '<br>' .
+						\App\Record::getHtmlLink($row['id'], $moduleName) . $label
+					];
 					if (self::ALLOW_SAVE) {
-						$response = [
-							'result' => false,
-							'type' => 'confirm',
-							'hash' => hash('sha256', implode('|', $recordModel->getData())),
-							'message' => App\Language::translateArgs(
-								'LBL_DUPLICATE_PHONE',
-								$moduleName,
-								\App\Language::translate($moduleName, $moduleName)
-							) . '<br>' .
-							\App\Record::getHtmlLink($row['id'], $moduleName) . $label
-						];
-					} else {
-						$response = [
-							'result' => false,
-							'message' => App\Language::translateArgs(
-								'LBL_DUPLICATE_PHONE',
-								$moduleName,
-								\App\Language::translate($moduleName, $moduleName),
-							) . '<br>' .
-							\App\Record::getHtmlLink($row['id'], $moduleName) . $label
-						];
+						$response['type'] = 'confirm';
+						$response['hash'] = hash('sha256', implode('|', $recordModel->getData()));
 					}
 					break;
 				}
