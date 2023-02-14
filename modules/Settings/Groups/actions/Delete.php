@@ -1,15 +1,18 @@
 <?php
-/* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce S.A.
- * *********************************************************************************** */
+/**
+ * Settings groups delete action file.
+ *
+ * @package   Settings.Action
+ *
+ * @copyright YetiForce S.A.
+ * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author Adrian Kon <a.kon@yetiforce.com>
+ */
 
-class Settings_Groups_DeleteAjax_Action extends Settings_Vtiger_Delete_Action
+/**
+ * Settings groups delete action class.
+ */
+class Settings_Groups_Delete_Action extends Settings_Vtiger_Delete_Action
 {
 	/** {@inheritdoc} */
 	public function process(App\Request $request)

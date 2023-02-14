@@ -14,10 +14,27 @@
  */
 class Settings_Groups_Module_Model extends Settings_Vtiger_Module_Model
 {
+	/** {@inheritdoc} */
 	public $baseTable = 'vtiger_groups';
+
+	/** {@inheritdoc} */
 	public $baseIndex = 'groupid';
-	public $listFields = ['groupname' => 'Name', 'description' => 'Description'];
+
+	/** {@inheritdoc} */
+	public $listFields = ['groupname' => 'Name', 'description' => 'Description', 'parentid' => 'FL_PARENT', 'modules' => 'LBL_MODULES', 'members' => 'LBL_GROUP_MEMBERS'];
+
+	/** {@inheritdoc} */
 	public $name = 'Groups';
+
+	/** {@inheritdoc} */
+	public function getListFields(): array
+	{
+		$fields = [];
+		foreach (array_keys($this->listFields) as $fieldName) {
+			$fields[$fieldName] = $this->getFieldInstanceByName($fieldName);
+		}
+		return $fields;
+	}
 
 	/**
 	 * Function to get the url for default view of the module.
@@ -26,7 +43,7 @@ class Settings_Groups_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getDefaultUrl()
 	{
-		return 'index.php?module=Groups&parent=Settings&view=List';
+		return 'index.php?module=Groups&parent=Settings&view=Index';
 	}
 
 	/**
@@ -152,11 +169,70 @@ class Settings_Groups_Module_Model extends Settings_Vtiger_Module_Model
 					'purifyType' => \App\Purifier::TEXT,
 					'picklistValues' => []
 				];
+				foreach (\App\PrivilegeUtil::getMembers() as $memberType) {
+					foreach ($memberType as $memberId => $memberValues) {
+						$params['picklistValues'][$memberId] = \App\Language::translate($memberValues['type'], $this->getName()) . ': ' .
+						\App\Language::translate($memberValues['name'], $this->getName());
+					}
+				}
 				break;
 			default:
 				break;
 		}
 
 		return $params ? \Vtiger_Field_Model::init($this->getName(true), $params, $name) : null;
+	}
+
+	/**
+	 * Function to get the links.
+	 *
+	 * @return Vtiger_Link_Model[]
+	 */
+	public function getLinks(): array
+	{
+		return [Vtiger_Link_Model::getInstanceFromValues([
+			'linktype' => 'LISTVIEWBASIC',
+			'linklabel' => App\Language::translate('LBL_ADD_RECORD', $this->getName()),
+			'linkurl' => $this->getCreateRecordUrl(),
+			'linkicon' => 'yfi yfi-full-editing-view',
+			'linkclass' => 'btn-primary',
+			'showLabel' => 1
+		])];
+	}
+
+	/**
+	 * Function to get Alphabet Search Field.
+	 */
+	public function getAlphabetSearchField()
+	{
+		return '';
+	}
+
+	/**
+	 * Gets value from request.
+	 *
+	 * @param string      $fieldName
+	 * @param App\Request $request
+	 *
+	 * @return mixed
+	 */
+	public function getValueFromRequest(string $fieldName, App\Request $request)
+	{
+		switch ($fieldName) {
+			case 'groupname':
+			case 'description':
+				$value = $request->getByType($fieldName, \App\Purifier::TEXT);
+				break;
+			case 'parentid':
+				$value = $request->getArray($fieldName, \App\Purifier::INTEGER);
+				break;
+			case 'members':
+				$value = $request->getArray($fieldName, \App\Purifier::TEXT);
+				break;
+			case 'modules':
+				$value = $request->getArray($fieldName, \App\Purifier::INTEGER);
+				break;
+		}
+		return $value;
 	}
 }
