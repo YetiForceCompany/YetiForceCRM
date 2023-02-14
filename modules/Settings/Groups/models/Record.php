@@ -424,7 +424,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	public static function getAll()
 	{
 		$cacheName = __CLASS__;
-		$key = __METHOD__;
+		$key = __FUNCTION__;
 		if (\App\Cache::staticHas($cacheName, $key)) {
 			return \App\Cache::staticGet($cacheName, $key);
 		}

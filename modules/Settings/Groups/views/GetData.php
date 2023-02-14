@@ -92,8 +92,8 @@ class Settings_Groups_GetData_View extends Settings_Vtiger_Index_View
 						foreach ($allGroups as $groupId => $group) {
 							$accessibleGroups[$groupId] = App\Language::translate($group->getName(), $qualifiedModuleName);
 						}
-						var_dump($value);
-						$groupIdsContainName = preg_grep("/{$value}/i", $accessibleGroups);
+						$quoteValue = preg_quote($value, '/');
+						$groupIdsContainName = preg_grep("/{$quoteValue}/i", $accessibleGroups);
 						$conditions[] = [$this->moduleModel->baseTable . '.' . $this->baseIndex => array_keys($groupIdsContainName)];
 						break;
 					case 'description':
@@ -118,8 +118,6 @@ class Settings_Groups_GetData_View extends Settings_Vtiger_Index_View
 									break;
 								case 'RoleAndSubordinates':
 									$rolesAndSubordinates[] = $memberId;
-									break;
-								default:
 									break;
 							}
 						}
