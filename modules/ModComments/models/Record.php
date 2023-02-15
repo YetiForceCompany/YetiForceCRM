@@ -398,7 +398,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived&sourceView=List&record=' . $this->getId(),
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'), 'source-view' => 'DetailTab'],
 				'linkicon' => 'fas fa-archive',
-				'linkclass' => 'btn-md m-0 px-1 py-0 js-action-confirm',
+				'linkclass' => 'btn-md m-0 px-1 py-0 js-record-action',
 				'style' => empty($stateColors['Archived']) ? '' : "color: {$stateColors['Archived']};",
 				'showLabel' => false,
 			]);
@@ -410,7 +410,7 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&sourceView=List&record=' . $this->getId(),
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC'), 'source-view' => 'DetailTab'],
 				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn-md text-danger m-0 px-1 py-0 js-action-confirm',
+				'linkclass' => 'btn-md text-danger m-0 px-1 py-0 js-record-action',
 				'showLabel' => false,
 			]);
 		}

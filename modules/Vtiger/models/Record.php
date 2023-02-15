@@ -1482,33 +1482,33 @@ class Vtiger_Record_Model extends \App\Base
 				$recordLinks['LBL_ACTIVATE_RECORD'] = [
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_ACTIVATE_RECORD',
-					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active&record=' . $this->getId(),
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Active&sourceView=List&record=' . $this->getId(),
 					'linkicon' => 'fas fa-undo-alt',
 					'style' => empty($stateColors['Active']) ? '' : "background: {$stateColors['Active']};",
-					'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC'), 'source-view' => 'List'],
-					'linkclass' => 'btn-sm btn-default entityStateBtn js-action-confirm',
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')],
+					'linkclass' => 'btn-sm btn-default entityStateBtn js-record-action',
 				];
 			}
 			if ($this->privilegeToArchive()) {
 				$recordLinks[] = [
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_ARCHIVE_RECORD',
-					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived&record=' . $this->getId(),
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived&sourceView=List&record=' . $this->getId(),
 					'linkicon' => 'fas fa-archive',
 					'style' => empty($stateColors['Archived']) ? '' : "background: {$stateColors['Archived']};",
-					'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'), 'source-view' => 'List'],
-					'linkclass' => 'btn-sm btn-default entityStateBtn js-action-confirm',
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')],
+					'linkclass' => 'btn-sm btn-default entityStateBtn js-record-action',
 				];
 			}
 			if ($this->privilegeToMoveToTrash()) {
 				$recordLinks['LBL_MOVE_TO_TRASH'] = [
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_MOVE_TO_TRASH',
-					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&record=' . $this->getId(),
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&sourceView=List&record=' . $this->getId(),
 					'linkicon' => 'fas fa-trash-alt',
 					'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
-					'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC'), 'source-view' => 'List'],
-					'linkclass' => 'btn-sm btn-default entityStateBtn js-action-confirm',
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
+					'linkclass' => 'btn-sm btn-default entityStateBtn js-record-action',
 				];
 			}
 			if ($this->privilegeToDelete()) {
@@ -1516,9 +1516,9 @@ class Vtiger_Record_Model extends \App\Base
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
 					'linkicon' => 'fas fa-eraser',
-					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete&record=' . $this->getId(),
-					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC'), 'source-view' => 'List'],
-					'linkclass' => 'btn-sm btn-dark js-action-confirm',
+					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete&sourceView=List&record=' . $this->getId(),
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
+					'linkclass' => 'btn-sm btn-dark js-record-action',
 				];
 			}
 		}
@@ -1784,6 +1784,10 @@ class Vtiger_Record_Model extends \App\Base
 	public function changeState($state)
 	{
 		$db = \App\Db::getInstance();
+		$eventHandler = $this->getEventHandler();
+		if ($this->getHandlerExceptions()) {
+			$eventHandler->setExceptions($this->getHandlerExceptions());
+		}
 		$transaction = $db->beginTransaction();
 		try {
 			$this->set('deleted', $state);
@@ -1809,14 +1813,7 @@ class Vtiger_Record_Model extends \App\Base
 			if ('Active' !== $state) {
 				$dbCommand->delete('u_#__crmentity_search_label', ['crmid' => $this->getId()])->execute();
 			}
-			$eventHandler = new App\EventHandler();
-			$eventHandler->setRecordModel($this);
-			$eventHandler->setModuleName($this->getModuleName());
-			if ($this->getHandlerExceptions()) {
-				$eventHandler->setExceptions($this->getHandlerExceptions());
-			}
 			$eventHandler->trigger('EntityChangeState');
-
 			$transaction->commit();
 		} catch (\Exception $e) {
 			$transaction->rollBack();

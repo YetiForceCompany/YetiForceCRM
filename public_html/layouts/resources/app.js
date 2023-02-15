@@ -3433,7 +3433,7 @@ const app = (window.app = {
 				}
 			} else {
 				let widget, block;
-				if (responseData.result._reload) {
+				if (responseData.result && responseData.result._reload) {
 					window.location.reload();
 				} else if (app.getUrlVar('mode') === 'showRelatedList') {
 					app.pageController.loadRelatedList();
@@ -3464,8 +3464,11 @@ const app = (window.app = {
 			.done((data) => {
 				const response = data.result;
 				let lock = false;
-				for (let i in response) {
-					let handler = response[i];
+				let handlers = Object.fromEntries(
+					Object.entries(response).filter(([_key, val]) => typeof val === 'object' && val.result === false)
+				);
+				for (let i in handlers) {
+					let handler = handlers[i];
 					switch (handler.type) {
 						case 'confirm':
 							app.showConfirmModal({
@@ -3475,10 +3478,10 @@ const app = (window.app = {
 									if (typeof params.data.skipHandlers !== 'undefined') {
 										handlers = JSON.parse(params.data.skipHandlers);
 									}
-									handlers[i] = response[i].hash;
+									handlers[i] = handler.hash;
 									params.data.skipHandlers = JSON.stringify(handlers);
-									app.handlerEventAjax(params, mode).then((responsePart) => {
-										aDeferred.resolve(responsePart);
+									app.handlerEventAjax(params, mode).then((responsePart, data) => {
+										aDeferred.resolve(responsePart, data);
 									});
 								},
 								rejectedCallback: () => {
@@ -3500,16 +3503,16 @@ const app = (window.app = {
 						case 'notice':
 						default:
 							app.showNotify({
-								text: handler.message ? handler.message : app.vtranslate('JS_ERROR'),
+								text: handler.message ? handler.message : app.vtranslate('JS_ERROR2'),
 								type: 'error'
 							});
 							break;
 					}
 				}
-				if (data.result.length <= 0) {
-					aDeferred.resolve(true);
+				if (Object.keys(handlers).length <= 0) {
+					aDeferred.resolve(true, response);
 				} else if (!lock) {
-					aDeferred.resolve(false);
+					aDeferred.resolve(false, response);
 				}
 			})
 			.fail((_textStatus, _errorThrown) => {
@@ -3607,7 +3610,7 @@ const app = (window.app = {
 
 	/**
 	 * Handler validation
-	 * @param {*} params jQuery FORM or object
+	 * @param {*} params jQuery FORM or object or url
 	 * @param {String} mode
 	 * @param {Boolean} skip Skip the verification action
 	 * @returns
@@ -3621,18 +3624,73 @@ const app = (window.app = {
 				aDeferred.resolve(response);
 			});
 		} else {
-			app.handlerEventAjax(params, mode).done((response) => {
-				aDeferred.resolve(response);
+			if ('string' === typeof params) {
+				params = {
+					data: app.convertUrlToObject(params),
+					async: false,
+					dataType: 'json'
+				};
+			}
+			app.handlerEventAjax(params, mode).done((response, data) => {
+				aDeferred.resolve(response, data);
 			});
 		}
 
 		return aDeferred.promise();
 	},
+
 	/**
 	 * Function to register the records events
 	 * @param {jQuery} container - Jquery container.
 	 */
 	registerRecordActionsEvents: function (container) {
+		container.on('click', '.js-record-action', function (event) {
+			event.stopPropagation();
+			let target = $(this),
+				addBtnIcon = target.data('addBtnIcon'),
+				presaveMode = target.data('presave-mode') || '';
+			let params = {
+				icon: false,
+				title: target.data('content'),
+				confirmedCallback: () => {
+					let url = target.data('url');
+					app.handlerEvent(url, presaveMode).done((response, data) => {
+						if (response === true) {
+							if (typeof data === 'object') {
+								for (let i in data) {
+									switch (i) {
+										case 'notify':
+											app.showNotify(data[i]);
+											app.reloadAfterSave(data, app.convertUrlToObject(url), null, target);
+											break;
+										case 'url':
+											app.openUrl(data[i]);
+											break;
+										default:
+											app.reloadAfterSave(data, app.convertUrlToObject(url), null, target);
+											break;
+									}
+								}
+							}
+						}
+					});
+				}
+			};
+			if (target.data('confirm')) {
+				params.text = target.data('confirm');
+				addBtnIcon = 1;
+			}
+			if (addBtnIcon == 1) {
+				params.title = target.html() + (params.title ? ' ' + params.title : '');
+			}
+			app.showConfirmModal(params);
+		});
+	},
+	/**
+	 * Function to register the records events
+	 * @param {jQuery} container - Jquery container.
+	 */
+	registerConfirmActionsEvents: function (container) {
 		container.on('click', '.js-action-confirm', function (event) {
 			event.stopPropagation();
 			let target = $(this),
@@ -3765,6 +3823,7 @@ $(function () {
 	app.registerShowHideBlock(document);
 	app.registerAfterLoginEvents(document);
 	app.registerFormsEvents(document);
+	app.registerConfirmActionsEvents(document);
 	app.registerRecordActionsEvents(document);
 	app.registerPrintEvent(document);
 	app.registerKeyboardShortcutsEvent(document);

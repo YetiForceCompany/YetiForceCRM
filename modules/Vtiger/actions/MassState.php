@@ -8,6 +8,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_MassState_Action extends Vtiger_Mass_Action
 {
@@ -79,6 +80,15 @@ class Vtiger_MassState_Action extends Vtiger_Mass_Action
 				default:
 					break;
 			}
+
+			$eventHandler = $recordModel->getEventHandler();
+			foreach ($eventHandler->getHandlers(\App\EventHandler::PRE_STATE_CHANGE) as $handler) {
+				if (!($eventHandler->triggerHandler($handler)['result'] ?? null)) {
+					$skipped[] = $recordModel->getName();
+					continue 2;
+				}
+			}
+
 			$recordModel->changeState($request->getByType('state'));
 			unset($recordModel);
 		}
@@ -86,9 +96,10 @@ class Vtiger_MassState_Action extends Vtiger_Mass_Action
 		$type = 'success';
 		if ($skipped) {
 			$type = 'info';
-			$text .= PHP_EOL . \App\Language::translate('LBL_OMITTED_RECORDS');
+			$break = '<br>';
+			$text .= $break . \App\Language::translate('LBL_OMITTED_RECORDS');
 			foreach ($skipped as $name) {
-				$text .= PHP_EOL . $name;
+				$text .= $break . $name;
 			}
 		}
 		$response = new Vtiger_Response();

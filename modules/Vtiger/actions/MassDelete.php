@@ -1,13 +1,17 @@
 <?php
-
 /**
- * Mass records delete action class.
+ * Mass records delete action file.
  *
  * @package Action
  *
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+/**
+ * Mass records delete action class.
  */
 class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 {
@@ -39,6 +43,13 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 				$skipped[] = $recordModel->getName();
 				continue;
 			}
+			$eventHandler = $recordModel->getEventHandler();
+			foreach ($eventHandler->getHandlers(\App\EventHandler::PRE_DELETE) as $handler) {
+				if (!($eventHandler->triggerHandler($handler)['result'] ?? null)) {
+					$skipped[] = $recordModel->getName();
+					continue 2;
+				}
+			}
 			$recordModel->delete();
 			unset($recordModel);
 		}
@@ -46,9 +57,10 @@ class Vtiger_MassDelete_Action extends Vtiger_Mass_Action
 		$type = 'success';
 		if ($skipped) {
 			$type = 'info';
-			$text .= PHP_EOL . \App\Language::translate('LBL_OMITTED_RECORDS');
+			$break = '<br>';
+			$text .= $break . \App\Language::translate('LBL_OMITTED_RECORDS');
 			foreach ($skipped as $name) {
-				$text .= PHP_EOL . $name;
+				$text .= $break . $name;
 			}
 		}
 		$response = new Vtiger_Response();
