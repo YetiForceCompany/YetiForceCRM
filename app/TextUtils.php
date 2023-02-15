@@ -216,7 +216,7 @@ class TextUtils
 			$length = Config::main('listview_max_textlength');
 		}
 		if (\strlen($text) > $length) {
-			$truncateText .= '<span class="js-popover-tooltip ml-1 d-inline my-auto u-h-fit u-cursor-pointer" data-placement="top" data-content="' . $text . '">
+			$truncateText .= '<span class="js-popover-tooltip ml-1 d-inline my-auto u-h-fit u-cursor-pointer" data-placement="top" data-content="' . \App\Purifier::encodeHtml($text) . '">
 			<span class="fas fa-info-circle"></span>
 			</span>';
 		}
