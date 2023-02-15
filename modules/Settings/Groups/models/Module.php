@@ -169,12 +169,6 @@ class Settings_Groups_Module_Model extends Settings_Vtiger_Module_Model
 					'purifyType' => \App\Purifier::TEXT,
 					'picklistValues' => []
 				];
-				foreach (\App\PrivilegeUtil::getMembers() as $memberType) {
-					foreach ($memberType as $memberId => $memberValues) {
-						$params['picklistValues'][$memberId] = \App\Language::translate($memberValues['type'], $this->getName()) . ': ' .
-						\App\Language::translate($memberValues['name'], $this->getName());
-					}
-				}
 				break;
 			default:
 				break;

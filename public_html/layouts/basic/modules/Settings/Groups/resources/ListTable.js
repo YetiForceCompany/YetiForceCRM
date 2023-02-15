@@ -13,7 +13,10 @@ jQuery.Class(
 			let form = this.contentContainer.find('.js-filter-form');
 			let dataTable = app.registerDataTables(table, {
 				order: [],
-				columnDefs: [{ targets: -1, orderable: false }],
+				columnDefs: [
+					{ targets: -1, orderable: false },
+					{ className: 'align-middle', targets: '_all' }
+				],
 				processing: true,
 				serverSide: true,
 				searching: false,
