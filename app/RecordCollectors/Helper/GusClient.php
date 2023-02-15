@@ -12,6 +12,7 @@
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Kon <a.kon@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\RecordCollectors\Helper;
@@ -108,8 +109,12 @@ class GusClient extends \SoapClient
 	/** {@inheritdoc} */
 	public function __doRequest($req, $location, $action, $version = SOAP_1_2, $oneWay = null): string
 	{
+		$original = ini_get('default_socket_timeout');
+		ini_set('default_socket_timeout', 10);
 		$response = parent::__doRequest($req, self::CONFIG['addressToService'], $action, $version);
+		ini_set('default_socket_timeout', $original);
 		preg_match('/<s:Envelope.*<\\/s:Envelope>/s', $response, $matches);
+
 		return $matches[0];
 	}
 

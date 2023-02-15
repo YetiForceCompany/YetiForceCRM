@@ -344,6 +344,7 @@ class Settings_MailServers_Module_Model extends Settings_Vtiger_Module_Model
 					'maximumlength' => '1',
 					'purifyType' => \App\Purifier::BOOL,
 					'blockLabel' => 'BL_BASE',
+					'tooltip' => 'LBL_VISIBLE_DESC',
 					'table' => $this->getBaseTable()
 				];
 				break;

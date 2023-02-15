@@ -9,6 +9,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\YetiForce;
@@ -295,6 +296,10 @@ class Shop
 		$content = [];
 		if (\file_exists(ROOT_DIRECTORY . '/app_data/shopCache.php')) {
 			$content = include ROOT_DIRECTORY . '/app_data/shopCache.php';
+			if (!\is_array($content)) {
+				\App\Log::error('Wrong data in cache file: /app_data/shopCache.php');
+				$content = [];
+			}
 		}
 		if (empty($content['products']) || ($content['key'] ?? '') !== md5(json_encode($content['products']))) {
 			$content['products'] = [];

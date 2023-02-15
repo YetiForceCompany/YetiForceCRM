@@ -8,6 +8,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -24,7 +25,7 @@ class Vtiger_MultipicklistTags_UIType extends Vtiger_Multipicklist_UIType
 			return;
 		}
 		if (\is_string($value)) {
-			$value = explode(self::SEPARATOR, $value);
+			$value = explode(static::SEPARATOR, $value);
 		}
 		$picklistValues = App\Fields\Picklist::getValuesName($this->getFieldModel()->getName());
 		if ($missingValues = \array_diff($value, $picklistValues)) {

@@ -184,7 +184,10 @@ class Security
 	/** Allowed domains which can be used as the target of a form submissions from a given context, used in CSP. */
 	public static $allowedFormDomains = ['https://www.paypal.com'];
 
-	/** Allowed domains which can be loaded using script interfaces. */
+	/**
+	 * Allowed domains which can be loaded using script interfaces.
+	 * CSP: connect-src.
+	 */
 	public static $allowedConnectDomains = [];
 
 	/** Generally allowed domains, used in CSP. */

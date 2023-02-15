@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -19,7 +20,7 @@ class KnowledgeBase_RecordPopover_Model extends Vtiger_RecordPopover_Model
 	{
 		$summaryFields = [];
 		$fields = $this->recordModel->getModule()->getFields();
-		foreach ($this->recordModel->getEntity()->list_fields_name as $fieldLabel => $fieldName) {
+		foreach ($this->recordModel->getEntity()->list_fields_name as $fieldName) {
 			$fieldModel = $fields[$fieldName] ?? '';
 			if ($fieldModel && !$this->recordModel->isEmpty($fieldName) && $fieldModel->isViewableInDetailView()) {
 				$summaryFields[$fieldName] = $fieldModel;

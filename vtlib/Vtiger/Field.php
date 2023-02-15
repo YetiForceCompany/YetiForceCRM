@@ -27,8 +27,7 @@ class Field extends FieldBasic
 	/**
 	 * Set values for picklist field (for all the roles).
 	 *
-	 * @param array List of values to add
-	 * @param mixed $values
+	 * @param array $values List of values to add
 	 */
 	public function setPicklistValues($values)
 	{

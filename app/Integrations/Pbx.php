@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Integrations;
@@ -89,10 +90,7 @@ class Pbx extends \App\Base
 	public static function isActive(): bool
 	{
 		$pbx = self::getInstance();
-		if ($pbx && ($connector = $pbx->getConnector())) {
-			return $connector->isActive();
-		}
-		return false;
+		return $pbx && ($connector = $pbx->getConnector()) && $connector->isActive();
 	}
 
 	/**

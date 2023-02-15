@@ -21,10 +21,17 @@ class Record
 {
 	/** @var int Record state - Active */
 	public const STATE_ACTIVE = 0;
-	/** @var int Record state - Deleted */
+	/** @var int Record state - Deleted (Recycle bin) */
 	public const STATE_DELETED = 1;
 	/** @var int Record state - Archived */
 	public const STATE_ARCHIVED = 2;
+
+	/** @var string[] Possible record states */
+	public const STATES = [
+		self::STATE_ACTIVE => 'Active',
+		self::STATE_DELETED => 'Trash',
+		self::STATE_ARCHIVED => 'Archived'
+	];
 
 	/**
 	 * Get label.

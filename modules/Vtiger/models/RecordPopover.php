@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -133,7 +134,7 @@ class Vtiger_RecordPopover_Model extends \App\Base
 			}
 		}
 		if (!$summaryFields) {
-			foreach ($this->recordModel->getEntity()->list_fields_name as $fieldLabel => $fieldName) {
+			foreach ($this->recordModel->getEntity()->list_fields_name as $fieldName) {
 				$fieldModel = $fields[$fieldName] ?? '';
 				if ($fieldModel && !$this->recordModel->isEmpty($fieldName) && $fieldModel->isViewableInDetailView()) {
 					$summaryFields[$fieldName] = $fieldModel;

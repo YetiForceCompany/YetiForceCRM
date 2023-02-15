@@ -830,7 +830,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 *
 	 * @param array $linkParams
 	 *
-	 * @return Vtiger_Link_Model[]
+	 * @return array
 	 */
 	public function getSideBarLinks($linkParams)
 	{

@@ -1164,7 +1164,7 @@ return [
 		],
 		'allowedConnectDomains' => [
 			'default' => [],
-			'description' => 'Allowed domains which can be loaded using script interfaces.',
+			'description' => "Allowed domains which can be loaded using script interfaces.\nCSP: connect-src.",
 			'loopValidate' => true,
 			'validation' => '\App\Validator::url',
 		],
