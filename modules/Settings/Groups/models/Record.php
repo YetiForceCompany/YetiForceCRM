@@ -639,7 +639,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 				$value = App\TextUtils::textTruncateWithTooltip($modules, false, true);
 				break;
 			default:
-				$value = \App\Purifier::encodeHtml($this->get($key));
+				$value = App\TextUtils::textTruncateWithTooltip($this->get($key));
 				break;
 		}
 		return $value;
