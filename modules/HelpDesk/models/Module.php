@@ -43,7 +43,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 	{
 		$listviewHeader = [];
 		$listviewEntries = [];
-		if ('Active' === \App\Record::getState($id)) {
+		if (\App\Record::STATE_ACTIVE === \App\Record::getState($id)) {
 			$listColumns = \App\Config::module('HelpDesk', 'COLUMNS_IN_HIERARCHY');
 			if (empty($listColumns)) {
 				$listColumns = $this->getEntityInstance()->list_fields_name;

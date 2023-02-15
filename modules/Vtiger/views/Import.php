@@ -233,7 +233,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			if (App\Record::isExists($recordId)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 				if ($recordModel->privilegeToMoveToTrash()) {
-					$recordModel->changeState('Trash');
+					$recordModel->changeState(\App\Record::STATE_TRASH);
 					++$noOfRecordsDeleted;
 				} elseif ($recordModel->privilegeToDelete()) {
 					$recordModel->delete();

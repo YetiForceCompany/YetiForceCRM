@@ -44,7 +44,7 @@ class Vtiger_MergeRecords_Action extends Vtiger_Mass_Action
 			foreach (array_keys($migrate) as $recordId) {
 				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId);
 				$recordModel->ext['modificationType'] = ModTracker_Record_Model::TRANSFER_DELETE;
-				$recordModel->changeState('Trash');
+				$recordModel->changeState(\App\Record::STATE_TRASH);
 			}
 			$result = true;
 		} catch (\Throwable $ex) {

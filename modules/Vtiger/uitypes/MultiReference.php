@@ -18,7 +18,7 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 	/**
 	 * Separator.
 	 */
-	const COMMA = ',';
+	public const COMMA = ',';
 
 	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
@@ -102,7 +102,7 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 					'value' => \App\Record::getLabel($recordId, true),
 					'record' => $recordId,
 					'referenceModule' => $referenceModuleName,
-					'state' => \App\Record::getState($recordId),
+					'state' => \App\Record::getStateLabel($recordId),
 					'isPermitted' => \App\Privilege::isPermitted($referenceModuleName, 'DetailView', $recordId),
 				];
 			}

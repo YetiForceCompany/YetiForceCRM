@@ -10,11 +10,11 @@
 				<span class="yfm-{$MODULE_NAME} mr-1"></span>
 			{/if}
 			<span class="u-text-ellipsis--no-hover mr-2" title="{$RECORD->getDisplayName()}">{$RECORD->getDisplayName()}</span>
-			{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
+			{assign var=RECORD_STATE value=\App\Record::getStateLabel($RECORD->getId())}
 			{if $RECORD_STATE && $RECORD_STATE !== 'Active'}
 				{assign var=COLOR value=App\Config::search('LIST_ENTITY_STATE_COLOR')}
 				<span class="badge badge-secondary ml-1 mr-1 float-right" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};" {/if}>
-					{if \App\Record::getState($RECORD->getId()) === 'Trash'}
+					{if $RECORD_STATE === 'Trash'}
 						<span class="fas fa-trash-alt mr-2"></span>
 						{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
 					{else}

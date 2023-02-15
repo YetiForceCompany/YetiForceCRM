@@ -41,7 +41,7 @@ class MultiCompany_Record_Model extends Vtiger_Record_Model
 	}
 
 	/** {@inheritdoc} */
-	public function privilegeToDelete()
+	public function privilegeToDelete(): bool
 	{
 		if (!isset($this->privileges['Deleted'])) {
 			$this->privileges['Deleted'] = parent::privilegeToDelete() && !\App\MultiCompany::getRolesByCompany($this->getId());
@@ -50,7 +50,7 @@ class MultiCompany_Record_Model extends Vtiger_Record_Model
 	}
 
 	/** {@inheritdoc} */
-	public function privilegeToMoveToTrash()
+	public function privilegeToMoveToTrash(): bool
 	{
 		if (!isset($this->privileges['MoveToTrash'])) {
 			$this->privileges['MoveToTrash'] = parent::privilegeToMoveToTrash() && !\App\MultiCompany::getRolesByCompany($this->getId());

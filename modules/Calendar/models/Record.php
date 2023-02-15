@@ -307,24 +307,10 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	}
 
 	/** {@inheritdoc} */
-	public function changeState($state)
+	public function changeState(int $state)
 	{
 		parent::changeState($state);
-		$stateId = 0;
-		switch ($state) {
-			case 'Active':
-				$stateId = 0;
-				break;
-			case 'Trash':
-				$stateId = 1;
-				break;
-			case 'Archived':
-				$stateId = 2;
-				break;
-			default:
-				break;
-		}
-		\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['deleted' => $stateId], ['activityid' => $this->getId()])->execute();
+		\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['deleted' => $state], ['activityid' => $this->getId()])->execute();
 	}
 
 	/** {@inheritdoc} */

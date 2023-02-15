@@ -58,27 +58,13 @@ class Vtiger_MassState_Action extends Vtiger_Mass_Action
 		$skipped = [];
 		foreach ($recordIds as $recordId) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			switch ($request->getByType('state')) {
-				case 'Archived':
-					if (!$recordModel->privilegeToArchive()) {
-						$skipped[] = $recordModel->getName();
-						continue 2;
-					}
-					break;
-				case 'Trash':
-					if (!$recordModel->privilegeToMoveToTrash()) {
-						$skipped[] = $recordModel->getName();
-						continue 2;
-					}
-					break;
-				case 'Active':
-					if (!$recordModel->privilegeToActivate()) {
-						$skipped[] = $recordModel->getName();
-						continue 2;
-					}
-					break;
-				default:
-					break;
+			$state = array_search($request->getByType('state'), \App\Record::STATES);
+			if (false === $state || (\App\Record::STATE_ARCHIVED === $state && !$recordModel->privilegeToArchive())
+				|| (\App\Record::STATE_TRASH === $state && !$recordModel->privilegeToMoveToTrash())
+				|| (\App\Record::STATE_ACTIVE === $state && !$recordModel->privilegeToActivate())
+			) {
+				$skipped[] = $recordModel->getName();
+				continue;
 			}
 
 			$eventHandler = $recordModel->getEventHandler();
@@ -89,9 +75,10 @@ class Vtiger_MassState_Action extends Vtiger_Mass_Action
 				}
 			}
 
-			$recordModel->changeState($request->getByType('state'));
+			$recordModel->changeState($state);
 			unset($recordModel);
 		}
+
 		$text = \App\Language::translate('LBL_CHANGES_SAVED');
 		$type = 'success';
 		if ($skipped) {

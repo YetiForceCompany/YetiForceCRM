@@ -1,7 +1,4 @@
 <?php
-
-Vtiger_Loader::includeOnce('~modules/com_vtiger_workflow/VTWorkflowManager.php');
-
 /**
  * Workflow handler.
  *
@@ -10,6 +7,12 @@ Vtiger_Loader::includeOnce('~modules/com_vtiger_workflow/VTWorkflowManager.php')
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+ Vtiger_Loader::includeOnce('~modules/com_vtiger_workflow/VTWorkflowManager.php');
+
+/**
+ * Workflow handler class.
  */
 class Vtiger_Workflow_Handler
 {
@@ -22,7 +25,7 @@ class Vtiger_Workflow_Handler
 	 */
 	public function entityChangeState(App\EventHandler $eventHandler)
 	{
-		if ('Trash' === $eventHandler->getRecordModel()->get('deleted')) {
+		if (\App\Record::STATE_TRASH === $eventHandler->getRecordModel()->get('deleted')) {
 			$this->performTasks($eventHandler, [
 				VTWorkflowManager::$ON_DELETE
 			]);

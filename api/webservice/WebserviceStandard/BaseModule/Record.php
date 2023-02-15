@@ -249,7 +249,7 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function delete(): bool
 	{
-		$this->recordModel->changeState('Trash');
+		$this->recordModel->changeState(\App\Record::STATE_TRASH);
 		return true;
 	}
 

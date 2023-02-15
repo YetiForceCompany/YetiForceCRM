@@ -1,11 +1,11 @@
 <?php
-
 /**
  * Recurring Events Class.
  *
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Calendar_RecuringEvents_Model extends \App\Base
 {
@@ -237,7 +237,7 @@ class Calendar_RecuringEvents_Model extends \App\Base
 				$records = $this->getRecords($this->recordModel->get('followup'));
 				foreach ($records as $recordId => $data) {
 					if ($recordId !== $this->templateRecordId) {
-						Vtiger_Record_Model::getInstanceById($recordId)->changeState('Trash');
+						Vtiger_Record_Model::getInstanceById($recordId)->changeState(\App\Record::STATE_TRASH);
 					}
 				}
 				break;
@@ -254,7 +254,7 @@ class Calendar_RecuringEvents_Model extends \App\Base
 						$omittedRecords[] = $recordId;
 						continue;
 					}
-					Vtiger_Record_Model::getInstanceById($recordId)->changeState('Trash');
+					Vtiger_Record_Model::getInstanceById($recordId)->changeState(\App\Record::STATE_TRASH);
 				}
 				break;
 			case self::UPDATE_THIS_EVENT:

@@ -56,7 +56,8 @@ class Vtiger_State_Action extends \App\Controller\Action
 		}
 
 		if (!$result) {
-			$this->record->changeState($request->getByType('state'));
+			$stateId = array_search($request->getByType('state'), \App\Record::STATES);
+			$this->record->changeState($stateId);
 			if ('List' === $request->getByType('sourceView')) {
 				$result = ['notify' => ['type' => 'success', 'text' => \App\Language::translate('LBL_CHANGES_SAVED')]];
 			} else {

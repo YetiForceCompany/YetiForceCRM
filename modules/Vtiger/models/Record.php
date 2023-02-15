@@ -985,7 +985,7 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @return bool
 	 */
-	public function privilegeToDelete()
+	public function privilegeToDelete(): bool
 	{
 		if (!isset($this->privileges['Deleted'])) {
 			$this->privileges['Deleted'] = \App\Privilege::isPermitted($this->getModuleName(), 'Delete', $this->getId()) && false === Users_Privileges_Model::checkLockEdit($this->getModuleName(), $this) && !$this->isLockByFields();
@@ -998,11 +998,12 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @return bool
 	 */
-	public function privilegeToMoveToTrash()
+	public function privilegeToMoveToTrash(): bool
 	{
 		if (!isset($this->privileges['MoveToTrash'])) {
-			$this->privileges['MoveToTrash'] = 'Trash' !== \App\Record::getState($this->getId()) && \App\Privilege::isPermitted($this->getModuleName(), 'MoveToTrash', $this->getId());
+			$this->privileges['MoveToTrash'] = \App\Record::STATE_TRASH !== \App\Record::getState($this->getId()) && \App\Privilege::isPermitted($this->getModuleName(), 'MoveToTrash', $this->getId());
 		}
+
 		return $this->privileges['MoveToTrash'];
 	}
 
@@ -1011,10 +1012,10 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @return bool
 	 */
-	public function privilegeToArchive()
+	public function privilegeToArchive(): bool
 	{
 		if (!isset($this->privileges['Archive'])) {
-			$this->privileges['Archive'] = 'Archived' !== \App\Record::getState($this->getId()) && \App\Privilege::isPermitted($this->getModuleName(), 'ArchiveRecord', $this->getId());
+			$this->privileges['Archive'] = \App\Record::STATE_ARCHIVED !== \App\Record::getState($this->getId()) && \App\Privilege::isPermitted($this->getModuleName(), 'ArchiveRecord', $this->getId());
 		}
 		return $this->privileges['Archive'];
 	}
@@ -1024,10 +1025,10 @@ class Vtiger_Record_Model extends \App\Base
 	 *
 	 * @return bool
 	 */
-	public function privilegeToActivate()
+	public function privilegeToActivate(): bool
 	{
 		if (!isset($this->privileges['Activate'])) {
-			$this->privileges['Activate'] = 'Active' !== \App\Record::getState($this->getId()) && \App\Privilege::isPermitted($this->getModuleName(), 'ActiveRecord', $this->getId());
+			$this->privileges['Activate'] = \App\Record::STATE_ACTIVE !== \App\Record::getState($this->getId()) && \App\Privilege::isPermitted($this->getModuleName(), 'ActiveRecord', $this->getId());
 		}
 		return $this->privileges['Activate'];
 	}
@@ -1779,10 +1780,17 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Change record state.
 	 *
-	 * @param type $state
+	 * @param int $state A value specifying the state of the record {@see \App\Record::STATES}
 	 */
-	public function changeState($state)
+	public function changeState(int $state)
 	{
+		if (!isset(\App\Record::STATES[$state])) {
+			throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||deleted||{$state}", 406);
+		}
+		if (\App\Record::getState($this->getId()) === $state) {
+			return;
+		}
+
 		$db = \App\Db::getInstance();
 		$eventHandler = $this->getEventHandler();
 		if ($this->getHandlerExceptions()) {
@@ -1791,26 +1799,12 @@ class Vtiger_Record_Model extends \App\Base
 		$transaction = $db->beginTransaction();
 		try {
 			$this->set('deleted', $state);
-			$stateId = 0;
-			switch ($state) {
-				case 'Active':
-					$stateId = 0;
-					break;
-				case 'Trash':
-					$stateId = 1;
-					break;
-				case 'Archived':
-					$stateId = 2;
-					break;
-				default:
-					break;
-			}
 			$dbCommand = $db->createCommand();
 			$dbCommand->update('vtiger_crmentity', [
-				'deleted' => $stateId, 'modifiedtime' => date('Y-m-d H:i:s'),
+				'deleted' => $state, 'modifiedtime' => date('Y-m-d H:i:s'),
 				'modifiedby' => \App\User::getCurrentUserId(),
 			], ['crmid' => $this->getId()])->execute();
-			if ('Active' !== $state) {
+			if (\App\Record::STATE_ACTIVE !== $state) {
 				$dbCommand->delete('u_#__crmentity_search_label', ['crmid' => $this->getId()])->execute();
 			}
 			$eventHandler->trigger('EntityChangeState');
@@ -1830,7 +1824,7 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		$colors = [];
 		$stateColors = App\Config::search('LIST_ENTITY_STATE_COLOR');
-		$state = \App\Record::getState($this->getId());
+		$state = \App\Record::getStateLabel($this->getId());
 		if (!empty($stateColors[$state])) {
 			$colors['leftBorder'] = $stateColors[$state];
 		}

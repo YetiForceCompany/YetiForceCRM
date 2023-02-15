@@ -20,7 +20,7 @@ class ModComments_SaveAjax_Action extends Vtiger_SaveAjax_Action
 	{
 		parent::checkPermission($request);
 		$parentCommentId = $request->isEmpty('parent_comments') ? 0 : $request->getInteger('parent_comments');
-		if ($parentCommentId && (!\App\Record::isExists($parentCommentId, $request->getModule()) || 'Active' !== \App\Record::getState($parentCommentId))) {
+		if ($parentCommentId && \App\Record::STATE_ACTIVE !== \App\Record::getState($parentCommentId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}

@@ -221,15 +221,15 @@ class ModTracker_ModTrackerHandler_Handler
 		$status = 0;
 		if (isset($recordModel->ext['modificationType'], ModTracker::getAllActionsTypes()[$recordModel->ext['modificationType']])) {
 			$status = $recordModel->ext['modificationType'];
-		} else {
-			switch ($recordModel->get('deleted')) {
-				case 'Active':
+		} elseif (is_numeric($state = $recordModel->get('deleted'))) {
+			switch ($state) {
+				case \App\Record::STATE_ACTIVE:
 					$status = ModTracker::$ACTIVE;
 					break;
-				case 'Trash':
+				case \App\Record::STATE_TRASH:
 					$status = ModTracker::$TRASH;
 					break;
-				case 'Archived':
+				case \App\Record::STATE_ARCHIVED:
 					$status = ModTracker::$ARCHIVED;
 					break;
 				default:
