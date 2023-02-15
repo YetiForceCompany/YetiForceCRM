@@ -43,7 +43,7 @@ class Settings_Groups_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getDefaultUrl()
 	{
-		return 'index.php?module=Groups&parent=Settings&view=Index';
+		return 'index.php?module=Groups&parent=Settings&view=ListTable';
 	}
 
 	/**
