@@ -623,7 +623,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 				$members = [];
 				$groupMembers = $this->getFieldInstanceByName($key)->getEditViewDisplayValue($this->get($key), $this);
 				foreach ($groupMembers as $memberValue) {
-					$members[] = \App\Language::translate(App\Labels::member($memberValue), $qualifiedModuleName);
+					$members[] = \App\Purifier::decodeHtml(\App\Language::translate(App\Labels::member($memberValue), $qualifiedModuleName));
 				}
 				$value = App\TextUtils::textTruncateWithTooltip(implode(', ', $members), false, true);
 				break;

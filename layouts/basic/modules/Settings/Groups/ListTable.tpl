@@ -12,7 +12,7 @@
 		{/foreach}
 	</div>
 	<form class="js-filter-form" data-js="container">
-		<table id="dataTableGroups" class="table table-sm table-striped display text-center mt-2 js-data-table u-cursor-pointer" data-url="index.php?module=Groups&parent=Settings&view=GetData">
+		<table id="dataTableGroups" class="table table-sm table-striped display nowrap text-center mt-2 js-data-table u-cursor-pointer" data-url="index.php?module=Groups&parent=Settings&view=GetData">
 			<thead>
 				<tr>
 					{foreach key=FIELD_NAME item=FIELD_MODEL from=$MODULE_MODEL->getListFields()}
@@ -24,7 +24,7 @@
 					{foreach key=FIELD_NAME item=FIELD_MODEL from=$MODULE_MODEL->getListFields()}
 						<td class="pl-1">
 							{assign var=FIELD_UI_TYPE_MODEL value=$FIELD_MODEL->getUITypeModel()}
-							{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME) SEARCH_INFO=[] MODULE=$MODULE_NAME}
+							{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $QUALIFIED_MODULE) SEARCH_INFO=[] MODULE=$MODULE_NAME}
 						</td>
 					{/foreach}
 					<td></td>
