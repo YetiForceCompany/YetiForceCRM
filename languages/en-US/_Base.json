@@ -1526,7 +1526,8 @@
     "LBL_CONDITION_WIZARD": "Condition wizard",
     "LBL_CURRENCY_CONVERTER": "Currency converter",
     "LBL_OK": "Ok",
-    "LBL_BATCH_ADDING_RECORDS": "Batch adding records"
+    "LBL_BATCH_ADDING_RECORDS": "Batch adding records",
+    "LBL_CONFIRM_DELETE_OR_CHANGE_STATE": "Record is related with others record, please confirm"
   },
   "js": {
     "JS_APPROVE": "Approve",
