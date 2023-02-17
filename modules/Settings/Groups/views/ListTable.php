@@ -22,6 +22,7 @@ class Settings_Groups_ListTable_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('LINKS', $moduleModel->getLinks());
+		$viewer->assign('VIEW', $request->getByType('view', \App\Purifier::STANDARD));
 		$viewer->view('ListTable.tpl', $qualifiedModuleName);
 	}
 }

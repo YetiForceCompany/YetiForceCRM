@@ -24,7 +24,7 @@
 					{foreach key=FIELD_NAME item=FIELD_MODEL from=$MODULE_MODEL->getListFields()}
 						<td class="pl-1">
 							{assign var=FIELD_UI_TYPE_MODEL value=$FIELD_MODEL->getUITypeModel()}
-							{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $QUALIFIED_MODULE) SEARCH_INFO=[] MODULE=$MODULE_NAME}
+							{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $QUALIFIED_MODULE) SEARCH_INFO=[] MODULE=$MODULE_NAME RECORD=null}
 						</td>
 					{/foreach}
 					<td></td>
