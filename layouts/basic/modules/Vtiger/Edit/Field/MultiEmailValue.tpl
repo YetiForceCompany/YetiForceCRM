@@ -6,7 +6,7 @@
 				value="{$ITEM['e']}"
 				placeholder="{\App\Language::translate('LBL_EMAIL_ADRESS', $MODULE)}"
 				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory()} required,{/if}funcCall[Vtiger_MultiEmail_Validator_Js.invokeValidation]]" />
-			{if $FIELD_MODEL->getParam('consenticon') neq false}
+			{if $FIELD_MODEL->getParam('consenticon') !== false}
 				<div class="input-group-append" title="{\App\Language::translate('LBL_CONSENT_TO_SEND', $MODULE)}">
 					<span class="js-multi-email-consenticon input-group-text btn btn-light" {if $ITEM['o'] eq 1}style="display:none" {/if}>
 						<span class="fas fa-ban"></span>
