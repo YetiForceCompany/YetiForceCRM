@@ -38,6 +38,7 @@
     "Customization": "Customization",
     "Training": "Training",
     "LBL_INVENTORY_LIMITED_FROM_POTENTIALS_INFO": "List of records is limited to the products and services associated with the sales opportunity",
-    "FL_COST": "Cost"
+    "FL_COST": "Cost",
+    "LBL_CONFIRM_DELETE_WHEN_HAS_RELATION": "Record is related with other record, please confirm the action"
   }
 }
