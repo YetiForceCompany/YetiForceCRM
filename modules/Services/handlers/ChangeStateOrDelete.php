@@ -29,7 +29,7 @@ class Services_ChangeStateOrDelete_Handler
 			$result = [
 				'result' => false,
 				'type' => 'confirm',
-				'message' => App\Language::translate('LBL_CONFIRM_DELETE_OR_CHANGE_STATE', $recordModel->getModuleName()),
+				'message' => App\Language::translate('LBL_CONFIRM_DELETE_WHEN_HAS_RELATION', $recordModel->getModuleName()),
 				'hash' => hash('sha256', implode('|', $recordModel->getData()))
 			];
 		}
@@ -51,7 +51,7 @@ class Services_ChangeStateOrDelete_Handler
 			$result = [
 				'result' => false,
 				'type' => 'confirm',
-				'message' => App\Language::translate('LBL_CONFIRM_DELETE_OR_CHANGE_STATE', $recordModel->getModuleName()),
+				'message' => App\Language::translate('LBL_CONFIRM_DELETE_WHEN_HAS_RELATION', $recordModel->getModuleName()),
 				'hash' => hash('sha256', implode('|', $recordModel->getData()))
 			];
 		}
