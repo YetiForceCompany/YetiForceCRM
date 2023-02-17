@@ -439,4 +439,55 @@ class Record
 
 		return $deleted ? "<s>{$label}</s>" : $label;
 	}
+
+	/**
+	 * Check if record is related in relations or inventory.
+	 *
+	 * @param \Vtiger_Record_Model $parentRecordModel
+	 * @param bool                 $checkRelations
+	 * @param bool                 $checkInventory
+	 *
+	 * @return string|false|null
+	 */
+	public static function isRelated(\Vtiger_Record_Model $parentRecordModel, bool $checkRelations = true, bool $checkInventory = false)
+	{
+		$parentModuleModel = $parentRecordModel->getModule();
+		$relatedRecord = false;
+		if ($checkRelations) {
+			$relations = \Vtiger_Relation_Model::getAllRelations($parentModuleModel, false, true, true);
+			foreach ($relations as $relationModel) {
+				$relationModel->set('parentRecord', $parentRecordModel);
+				$queryGenerator = $relationModel->getQuery();
+				$queryGenerator->permissions = false;
+				$queryGenerator->clearFields()->setFields(['id']);
+				if ($result = $queryGenerator->createQuery()->scalar()) {
+					$relatedRecord = $result;
+					break;
+				}
+			}
+		}
+		if ($checkInventory && !$relatedRecord) {
+			$recordId = $parentRecordModel->getId();
+			$parentModuleName = $parentModuleModel->getName();
+			$allModules = \vtlib\Functions::getAllModules(false, true);
+			foreach ($allModules as $moduleData) {
+				$moduleModel = \Vtiger_Module_Model::getInstance($moduleData['name']);
+				$inventoryModel = \Vtiger_Inventory_Model::getInstance($moduleData['name']);
+				if ($moduleModel->isInventory()
+				 && ($inventoryModel = \Vtiger_Inventory_Model::getInstance($moduleData['name']))
+				 && ($inventoryNameField = $inventoryModel->getField('name'))
+				 && ($modules = $inventoryNameField->getModules())
+				 && \in_array($parentModuleName, $modules)
+				 ) {
+					$inventoryTable = $inventoryModel->getDataTableName();
+					$result = (new \App\Db\Query())->select(['crmid'])->from($inventoryTable)->where(['name' => $recordId])->scalar();
+					if ($result) {
+						$relatedRecord = $result;
+						break;
+					}
+				}
+			}
+		}
+		return $relatedRecord;
+	}
 }
