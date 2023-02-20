@@ -70,24 +70,27 @@ user_privileges/user_privileges_9.php
 
 
 # dependencies COMPOSER
-/vendor
-/public_html/vendor/*
+vendor
+public_html/vendor/*
 
 # dependencies YARN
 yarn-error.log
-/node_modules/
-/public_html/libraries/*
-/public_html/src/node_modules/*
+node_modules/
+public_html/libraries/*
+public_html/src/node_modules/*
 
 # IDEs and editors
-/.buildpath
+.buildpath
 .c9/
 .classpath
 .project
-*.launch
 .settings/
-*.sublime-workspace
 .babelrc
 .sonarlint/
 .history/
+.frontmatter/
+frontmatter.json
+
 *.bak
+*.sublime-workspace
+*.launch

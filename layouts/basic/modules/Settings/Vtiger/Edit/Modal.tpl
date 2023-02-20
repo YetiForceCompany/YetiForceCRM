@@ -12,7 +12,10 @@
 				<div class="form-group row">
 					<label class="col-form-label col-md-3 u-text-small-bold text-right">
 						{\App\Language::translate($FIELD_MODEL->get('label'), $QUALIFIED_MODULE)}
-						{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}:
+						{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
+						{if !empty($FIELD_INFO['tooltip'])}
+							<span class="fas fa-info-circle u-cursor-pointer text-primary ml-1 js-popover-tooltip" data-js="popover" data-content="{\App\Purifier::encodeHtml(App\Language::translate($FIELD_MODEL->get('label')|cat:"_TOOLTIP", $QUALIFIED_MODULE))}" data-placement="top"></span>
+						{/if}
 					</label>
 					<div class="col-md-9 fieldValue">
 						{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE RECORD=null}

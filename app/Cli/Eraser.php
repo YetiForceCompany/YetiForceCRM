@@ -17,7 +17,7 @@ namespace App\Cli;
 class Eraser extends Base
 {
 	/** {@inheritdoc} */
-	public $moduleName = 'Eraser data';
+	public $moduleName = 'Data eraser';
 
 	/** @var string[] Methods list */
 	public $methods = [

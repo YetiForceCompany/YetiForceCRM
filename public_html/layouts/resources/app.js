@@ -130,7 +130,8 @@ const App = (window.App = {
 				}
 				if (
 					(app.getViewName() === 'Detail' || (app.getViewName() === 'Edit' && app.getRecordId() !== undefined)) &&
-					app.getParentModuleName() != 'Settings'
+					app.getParentModuleName() != 'Settings' &&
+					(!params['data'] || !('sourceModule' in params['data']))
 				) {
 					url += '&sourceModule=' + app.getModuleName();
 					url += '&sourceRecord=' + app.getRecordId();
