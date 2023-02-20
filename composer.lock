@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f734cd8c2fe698cb600a78ebcb4c52a2",
+    "content-hash": "cd9327995ea4e1533ab896d2ab7a761e",
     "packages": [
         {
             "name": "adhocore/jwt",
@@ -4220,16 +4220,16 @@
         },
         {
             "name": "setasign/fpdi",
-            "version": "v2.3.6",
+            "version": "v2.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Setasign/FPDI.git",
-                "reference": "6231e315f73e4f62d72b73f3d6d78ff0eed93c31"
+                "reference": "bccc892d5fa1f48c43f8ba7db5ed4ba6f30c8c05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Setasign/FPDI/zipball/6231e315f73e4f62d72b73f3d6d78ff0eed93c31",
-                "reference": "6231e315f73e4f62d72b73f3d6d78ff0eed93c31",
+                "url": "https://api.github.com/repos/Setasign/FPDI/zipball/bccc892d5fa1f48c43f8ba7db5ed4ba6f30c8c05",
+                "reference": "bccc892d5fa1f48c43f8ba7db5ed4ba6f30c8c05",
                 "shasum": ""
             },
             "require": {
@@ -4280,7 +4280,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Setasign/FPDI/issues",
-                "source": "https://github.com/Setasign/FPDI/tree/v2.3.6"
+                "source": "https://github.com/Setasign/FPDI/tree/v2.3.7"
             },
             "funding": [
                 {
@@ -4288,7 +4288,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-11T11:37:01+00:00"
+            "time": "2023-02-09T10:38:43+00:00"
         },
         {
             "name": "simplepie/simplepie",
