@@ -85,9 +85,9 @@ Settings_PDF_Edit_Js(
 		 */
 		registerEvents() {
 			const container = this.getContainer();
-			var opts = app.validationEngineOptions;
+			let opts = app.validationEngineOptions;
 			// to prevent the page reload after the validation has completed
-			opts['onValidationComplete'] = function (form, valid) {
+			opts['onValidationComplete'] = function (_form, valid) {
 				//returns the valid status
 				return valid;
 			};
@@ -95,7 +95,9 @@ Settings_PDF_Edit_Js(
 			container.validationEngine(opts);
 			App.Fields.Picklist.showSelect2ElementView(container.find('.select2'));
 			this.registerCancelStepClickEvent(container);
+			App.Tools.VariablesPanel.registerRefreshCompanyVariables(container);
 			App.Fields.Text.registerCopyClipboard(container);
+			App.Tools.VariablesPanel.refreshCompanyVariables(container);
 		}
 	}
 );
