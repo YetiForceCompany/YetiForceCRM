@@ -48,6 +48,11 @@ class Vtiger_SaveAjax_Action extends Vtiger_Save_Action
 		if (method_exists($this, 'addCustomResult')) {
 			$this->addCustomResult($result);
 		}
+		$eventHandler = $this->record->getEventHandler();
+		$eventHandler->setParams($result);
+		$eventHandler->trigger('EntityAfterSaveAjax');
+		$result = $eventHandler->getParams();
+
 		$response = new Vtiger_Response();
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
