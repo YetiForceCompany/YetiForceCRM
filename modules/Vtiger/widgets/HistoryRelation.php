@@ -139,14 +139,14 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 					'attachments_exist' => new \yii\db\Expression($db->quoteValue('')),
 					'type' => new \yii\db\Expression($db->quoteValue('Calendar')),
 					'id' => 'vtiger_crmentity.crmid',
-					'content' => 'a.subject',
+					'content' => 'vtiger_activity.subject',
 					'user' => 'vtiger_crmentity.smownerid',
-					'time' => new \yii\db\Expression('CONCAT(a.date_start, ' . $db->quoteValue(' ') . ', a.time_start)'),
+					'time' => new \yii\db\Expression('CONCAT(vtiger_activity.date_start, ' . $db->quoteValue(' ') . ', vtiger_activity.time_start)'),
 				])
-				->from('vtiger_activity a')
-				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = a.activityid')
+				->from('vtiger_activity')
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 				->where(['vtiger_crmentity.deleted' => 0])
-				->andWhere(['=', 'a.' . $field->getColumnName(), $recordId]);
+				->andWhere(['=', 'vtiger_activity.' . $field->getColumnName(), $recordId]);
 			\App\PrivilegeQuery::getConditions($query, 'Calendar', false, $recordId);
 			$queries[] = $query;
 		}
@@ -171,17 +171,17 @@ class Vtiger_HistoryRelation_Widget extends Vtiger_Basic_Widget
 		if (\in_array('OSSMailView', $type)) {
 			$query = (new \App\Db\Query())
 				->select([
-					'body' => 'o.content',
+					'body' => 'vtiger_ossmailview.content',
 					'attachments_exist',
-					'type' => new \yii\db\Expression('CONCAT(\'OSSMailView\', o.ossmailview_sendtype)'),
-					'id' => 'o.ossmailviewid',
-					'content' => 'o.subject',
+					'type' => new \yii\db\Expression('CONCAT(\'OSSMailView\', vtiger_ossmailview.ossmailview_sendtype)'),
+					'id' => 'vtiger_ossmailview.ossmailviewid',
+					'content' => 'vtiger_ossmailview.subject',
 					'user' => 'vtiger_crmentity.smownerid',
 					'time' => 'vtiger_crmentity.createdtime',
 				])
-				->from('vtiger_ossmailview o')
-				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = o.ossmailviewid')
-				->innerJoin('vtiger_ossmailview_relation r', 'r.ossmailviewid = o.ossmailviewid ')
+				->from('vtiger_ossmailview')
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid')
+				->innerJoin('vtiger_ossmailview_relation r', 'r.ossmailviewid = vtiger_ossmailview.ossmailviewid ')
 				->where(['vtiger_crmentity.deleted' => 0])
 				->andWhere(['=', 'r.crmid', $recordId]);
 			\App\PrivilegeQuery::getConditions($query, 'OSSMailView', false, $recordId);
