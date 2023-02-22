@@ -354,6 +354,7 @@ class Settings_WebserviceUsers_WebserviceStandard_Service extends Settings_Webse
 	{
 		$data = [
 			\Api\WebservicePremium\Privilege::USER_PERMISSIONS => 'PLL_USER_PERMISSIONS',
+			\Api\WebservicePremium\Privilege::CONTACT_RELATED_RECORDS => 'PLL_CONTACT_RELATED_RECORDS',
 			\Api\WebservicePremium\Privilege::ACCOUNTS_RELATED_RECORDS => 'PLL_ACCOUNTS_RELATED_RECORDS',
 			\Api\WebservicePremium\Privilege::ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY => 'PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY',
 			\Api\WebservicePremium\Privilege::ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY => 'PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY',

@@ -17,6 +17,7 @@
     "BTN_SAVE": "Save",
     "BTN_CLOSE": "Cancel",
     "PLL_USER_PERMISSIONS": "Permissions based on user",
+    "PLL_CONTACT_RELATED_RECORDS": "All related records directly to contact",
     "PLL_ACCOUNTS_RELATED_RECORDS": "All records of account assigned directly to contact",
     "PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY": "All related records of account assigned directly to contact and accounts lower in hierarchy",
     "PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY": "All related records of account assigned directly to contact and accounts from hierarchy",
