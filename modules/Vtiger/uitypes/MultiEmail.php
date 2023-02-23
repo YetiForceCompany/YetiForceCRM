@@ -87,9 +87,9 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 				continue;
 			}
 			if ($item['o']) {
-				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, false) . '<span class="fas fa-check text-success mx-2" title="' . \App\Language::translate('LBL_CONSENT_TO_SEND') . '"></span>';
+				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, false) . '<span class="fas fa-check text-success ml-1" title="' . \App\Language::translate('LBL_CONSENT_TO_SEND') . '"></span>';
 			} else {
-				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, true, false) . '<span class="fas fa-ban text-danger mx-2"></span>';
+				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, true, false) . '<span class="fas fa-ban text-danger ml-1"></span>';
 			}
 		}
 		return \App\Layout::truncateHtml(implode(', ', $emails), 'miniHtml', $length ?: 100, true);
