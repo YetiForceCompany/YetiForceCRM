@@ -19,7 +19,12 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	/** {@inheritdoc} */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
-		return \App\Purifier::decodeHtml($value);
+		if (!empty($value)) {
+			$value = array_filter(explode(',', \App\Purifier::decodeHtml($value)));
+			$value = implode(',', array_map('trim', $value));
+		}
+
+		return $value;
 	}
 
 	/** {@inheritdoc} */
@@ -123,7 +128,7 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
-		return ['c', 'k', 'y', 'ny', 'ef', 'nf'];
+		return ['e', 'n', 'c', 'k', 'y', 'ny', 'ef', 'nf'];
 	}
 
 	/** {@inheritdoc} */
