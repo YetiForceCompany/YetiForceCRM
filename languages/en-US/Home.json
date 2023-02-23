@@ -40,7 +40,7 @@
     "LBL_CHART_COLORS_FROM_FILTER": "Colors from filter",
     "LBL_WIDGET_DOWNLOAD": "Download graph",
     "LBL_WIDGET_PRINT": "Print graph",
-    "LBL_WIDGET_SHOW_SUMMARY": "Show summary",
+    "LBL_WIDGET_SHOW_COLUMNS_SUMMARY": "Show columns summary",
     "Upcoming events": "Upcoming events based on selected date fields.",
     "Upcoming Activities": "Calendar - pending",
     "ChartFilter": "Chart Filter",
@@ -58,6 +58,8 @@
     "LBL_CREATED_BY_ME_BUT_NOT_MINE_ACTIVITIES": "Matters delegated",
     "LIST_OF_LAST_UPDATED_RECORD": "List of last updated records",
     "Mails List": "Most recent emails",
-    "Notebook": "Notepad"
+    "Notebook": "Notepad",
+    "LBL_ROW_SUMMARY": "Summary",
+    "LBL_WIDGET_SHOW_ROWS_SUMMARY": "Show rows summary"
   }
 }
