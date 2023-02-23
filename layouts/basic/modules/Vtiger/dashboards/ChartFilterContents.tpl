@@ -10,6 +10,7 @@
 		{assign var=FIRST_ROW value=current($CHART_DATA)}
 		{assign var=HEADERS value=array_keys($CHART_DATA)}
 		{assign var=IS_SUMMARY value=$CHART_MODEL->getExtraData('summary')}
+		{assign var=IS_ROWS_SUMMARY value=$CHART_MODEL->getExtraData('rows_summary')}
 		{assign var=SUMMARY value=[]}
 		<div style="margin: -5px; line-height: 1;">
 			<div class="table-responsive">
@@ -27,6 +28,13 @@
 									</div>
 								</th>
 							{/foreach}
+							{if $IS_ROWS_SUMMARY}
+								<th class="u-white-space-nowrap text-center p-1" style="width: 5%;">
+									<div class="mt-1">
+										{\App\Language::translate('LBL_ROW_SUMMARY', $MODULE_NAME)}
+									</div>
+								</th>
+							{/if}
 						</thead>
 					{/if}
 					<tbody>
@@ -37,9 +45,11 @@
 								<td class="u-white-space-nowrap pr-0">
 									{$GROUP_HEADER}
 								</td>
+								{assign var=ROWS_SUMMARY value=[]}
 								{foreach from=$HEADERS item=HEADER}
 									<td class="text-center noWrap listButtons narrow">
 										{if $IS_SUMMARY} {$SUMMARY[$HEADER][] = $CHART_DATA.$HEADER.$GROUP_HEADER.$VALUE_TYPE} {/if}
+										{if $IS_ROWS_SUMMARY} {$ROWS_SUMMARY[] = $CHART_DATA.$HEADER.$GROUP_HEADER.$VALUE_TYPE} {/if}
 										{assign var=VALUE value=$CHART_MODEL->convertToUserFormat($CHART_DATA.$HEADER.$GROUP_HEADER.$VALUE_TYPE)}
 										{if !empty($CHART_DATA.$HEADER.$GROUP_HEADER.link)}
 											<a href="{$CHART_DATA.$HEADER.$GROUP_HEADER.link|escape}">{$VALUE}</a>
@@ -48,6 +58,12 @@
 										{/if}
 									</td>
 								{/foreach}
+								{if $IS_ROWS_SUMMARY}
+									<td class="text-center border-left border-secondary noWrap listButtons narrow">
+										{assign var=ROW_SUM value=array_sum($ROWS_SUMMARY)}
+										<b>{$CHART_MODEL->convertToUserFormat($ROW_SUM)}</b>
+									</td>
+								{/if}
 							</tr>
 						{/foreach}
 						{if $IS_SUMMARY}
@@ -61,6 +77,10 @@
 										<b>{$CHART_MODEL->convertToUserFormat($HEADER_SUM)}</b>
 									</td>
 								{/foreach}
+								{if $IS_ROWS_SUMMARY}
+									<td class="text-center noWrap listButtons narrow border-secondary">
+									</td>
+								{/if}
 							</tr>
 						{/if}
 					</tbody>
