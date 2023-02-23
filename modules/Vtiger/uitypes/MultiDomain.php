@@ -37,31 +37,15 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
-	public function getDbConditionBuilderValue($value, string $operator)
-	{
-		$values = [];
-		if (!\is_array($value)) {
-			$value = $value ? array_filter(explode(',', $value)) : [];
-		}
-		foreach ($value as $val) {
-			$values[] = parent::getDbConditionBuilderValue($val, $operator);
-		}
-		if (empty($values)) {
-			return null;
-		}
-		return implode(',', $values);
-	}
-
-	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if (empty($value)) {
 			return null;
 		}
 		if (!\is_array($value)) {
-			$value = [$value];
+			$value = array_filter(explode(',', $value));
 		}
-		$value = ',' . implode(',', $value) . ',';
+		$value = ',' . implode(',', array_map('trim', $value)) . ',';
 		return \App\Purifier::decodeHtml($value);
 	}
 
