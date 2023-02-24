@@ -120,6 +120,7 @@ class Vtiger_AdvancedFilter_Helper
 			'currencyInventory' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'not has changed'],
 			'country' => ['is', 'is not', 'is empty', 'is not empty'],
 			'group' => ['is', 'is not', 'is empty', 'is not empty'],
+			'totalTime' => ['equal to', 'less than', 'greater than', 'does not equal', 'less than or equal to', 'greater than or equal to', 'has changed', 'not has changed'],
 		];
 	}
 

@@ -141,13 +141,9 @@ class OSSTimeControl_TimeCounting_Model
 	public function recalculateTimeControl()
 	{
 		if ($this->isActiveSumTime) {
-			\App\Db::getInstance()
-				->createCommand()
-				->update(
-					$this->fieldModelSumTime->getTableName(),
-					[static::COLUMN_SUM_TIME => $this->getSumTime()],
-					[$this->primaryKey => $this->recordId]
-				)->execute();
+			$recordModel = \Vtiger_Record_Model::getInstanceById($this->recordId, $this->moduleName);
+			$recordModel->set($this->fieldModelSumTime->getName(), $this->getSumTime());
+			$recordModel->save();
 			if ($this->isActiveSumTimeSubordinate) {
 				$this->calculate($this->recordId);
 			}
