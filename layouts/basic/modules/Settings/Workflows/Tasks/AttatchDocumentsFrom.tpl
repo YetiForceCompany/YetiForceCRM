@@ -5,7 +5,7 @@
 	 	data-select="allowClear"
 	 	data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
 	 	<option value="">{\App\Language::translate('LBL_NONE')}</option>
-	 	{if $DOCUMENTS_MODULE}
+	 	{if !empty($DOCUMENTS_MODULE)}
 		 	<option value="{$SOURCE_MODULE}" {if isset($TASK_OBJECT->attachments) && $TASK_OBJECT->attachments === $SOURCE_MODULE}selected="selected" {/if}>{\App\Language::translate($SOURCE_MODULE,$SOURCE_MODULE)}</option>
 	 	{/if}
 	 	{foreach from=$DOCUMENTS_RELATED_MODULES item=RELATED_MODULES}
