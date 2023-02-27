@@ -136,7 +136,7 @@ $.Class(
 		moduleName: app.getModuleName(),
 		getForm: function () {
 			if (this.formElement == false) {
-				this.setForm($('#EditView'));
+				this.formElement = $('#EditView').length ? $('#EditView') : $('.js-edit-form');
 			}
 			return this.formElement;
 		},
