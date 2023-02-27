@@ -170,7 +170,8 @@ class Settings_Picklist_Module_Model extends Settings_Vtiger_Module_Model
 		while ($row = $dataReader->read()) {
 			$moduleName = \App\Module::getModuleName($row['tabid']);
 			$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
-			if ($moduleModel->isActive() && $moduleModel->getFieldByName($row['fieldname'])->isActiveField()) {
+			$fieldModel = $moduleModel->getFieldByName($row['fieldname']);
+			if ($moduleModel->isActive() && $fieldModel->isActiveField() && \in_array($fieldModel->getFieldDataType(), ['picklist', 'multipicklist', 'multipicklistTags'])) {
 				$interdependent[$row['fieldname']][] = \App\Language::translate($moduleName, $moduleName);
 			}
 		}
