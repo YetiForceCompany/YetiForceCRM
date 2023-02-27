@@ -15,18 +15,13 @@
 namespace App\Integrations\WooCommerce;
 
 use App\Db\Query;
+use App\Integrations\WooCommerce;
 
 /**
  * Class to read and save configuration for integration with WooCommerce.
  */
 class Config extends \App\Base
 {
-	/** @var string Table name. */
-	private const TABLE_NAME = 'i_#__woocommerce_config';
-
-	/** @var string Log table name. */
-	public const LOG_TABLE_NAME = 'l_#__woocommerce';
-
 	/**
 	 * Get all servers.
 	 *
@@ -38,7 +33,8 @@ class Config extends \App\Base
 			return \App\Cache::get('WooCommerce|getAllServers', '');
 		}
 		$servers = [];
-		$dataReader = (new Query())->from('i_#__woocommerce_servers')->createCommand(\App\Db::getInstance('admin'))->query();
+		$dataReader = (new Query())->from(WooCommerce::TABLE_NAME)
+			->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
 			$row['password'] = \App\Encryption::getInstance()->decrypt($row['password']);
 			$servers[$row['id']] = $row;
@@ -74,9 +70,12 @@ class Config extends \App\Base
 		$instance->setData(array_merge(
 			$servers[$serverId],
 			\App\Config::component('IntegrationWooCommerce'),
-			(new Query())->select(['name', 'value'])->from(self::TABLE_NAME)
-				->where(['server_id' => $serverId])->createCommand()->queryAllByGroup()
-			));
+			(new Query())->select(['name', 'value'])->from(WooCommerce::CONFIG_TABLE_NAME)
+				->where(['server_id' => $serverId])->createCommand()->queryAllByGroup(),
+			['maps' => (new Query())->select(['map', 'class'])->from(WooCommerce::MAP_TABLE_NAME)
+				->createCommand()->queryAllByGroup()]
+		),
+		);
 		return $instance;
 	}
 
@@ -97,12 +96,12 @@ class Config extends \App\Base
 		} else {
 			$data = ['name' => $type . '_start_scan_date', 'value' => date('Y-m-d H:i:s')];
 		}
-		if (!(new Query())->from(self::TABLE_NAME)
+		if (!(new Query())->from(WooCommerce::CONFIG_TABLE_NAME)
 			->where(['server_id' => $this->get('id'), 'name' => $data['name']])->exists()) {
 			$data['server_id'] = $this->get('id');
-			$dbCommand->insert(self::TABLE_NAME, $data)->execute();
+			$dbCommand->insert(WooCommerce::CONFIG_TABLE_NAME, $data)->execute();
 		}
-		$dbCommand->update(self::TABLE_NAME, $data, ['server_id' => $this->get('id'), 'name' => $data['name']])->execute();
+		$dbCommand->update(WooCommerce::CONFIG_TABLE_NAME, $data, ['server_id' => $this->get('id'), 'name' => $data['name']])->execute();
 		$this->set($data['name'], $data['value']);
 	}
 
@@ -130,12 +129,12 @@ class Config extends \App\Base
 			],
 		];
 		foreach ($saveData as $data) {
-			if (!(new Query())->from(self::TABLE_NAME)
+			if (!(new Query())->from(WooCommerce::CONFIG_TABLE_NAME)
 				->where(['server_id' => $this->get('id'), 'name' => $data['name']])->exists()) {
 				$data['server_id'] = $this->get('id');
-				$dbCommand->insert(self::TABLE_NAME, $data)->execute();
+				$dbCommand->insert(WooCommerce::CONFIG_TABLE_NAME, $data)->execute();
 			} else {
-				$dbCommand->update(self::TABLE_NAME, $data, ['server_id' => $this->get('id'), 'name' => $data['name']])->execute();
+				$dbCommand->update(WooCommerce::CONFIG_TABLE_NAME, $data, ['server_id' => $this->get('id'), 'name' => $data['name']])->execute();
 			}
 			$this->set($data['name'], $data['value']);
 		}
@@ -166,6 +165,6 @@ class Config extends \App\Base
 	 */
 	public static function reload(int $id): void
 	{
-		\App\Db::getInstance()->createCommand()->delete(self::TABLE_NAME, ['server_id' => $id])->execute();
+		\App\Db::getInstance()->createCommand()->delete(WooCommerce::CONFIG_TABLE_NAME, ['server_id' => $id])->execute();
 	}
 }

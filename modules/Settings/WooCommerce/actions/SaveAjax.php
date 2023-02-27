@@ -36,15 +36,11 @@ class Settings_WooCommerce_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		} else {
 			$recordModel = Settings_WooCommerce_Record_Model::getInstanceById($request->getInteger('record'));
 		}
-		try {
-			$recordModel->setDataFromRequest($request);
-			$recordModel->save();
-			$result = ['success' => true, 'url' => $recordModel->getModule()->getDefaultUrl()];
-		} catch (\App\Exceptions\AppException $e) {
-			$result = ['success' => false, 'message' => $e->getDisplayMessage()];
-		}
+		$recordModel->setDataFromRequest($request);
+		$recordModel->save();
+
 		$response = new Vtiger_Response();
-		$response->setResult($result);
+		$response->setResult(['url' => 'index.php?parent=Settings&module=WooCommerce&view=EditConfigModal&record=' . $recordModel->getId()]);
 		$response->emit();
 	}
 

@@ -25,7 +25,7 @@ abstract class Base
 	protected $maps;
 	/** @var \App\Integrations\WooCommerce\Config Config instance. */
 	public $config;
-	/** @var \App\Integrations\WooCommerce\Controller Controller instance. */
+	/** @var \App\Integrations\WooCommerce Controller instance. */
 	public $controller;
 	/** @var array Last scan config data. */
 	protected $lastScan = [];
@@ -48,9 +48,9 @@ abstract class Base
 	/**
 	 * Constructor.
 	 *
-	 * @param \App\Integrations\WooCommerce\Controller $controller
+	 * @param \App\Integrations\WooCommerce $controller
 	 */
-	public function __construct(\App\Integrations\WooCommerce\Controller $controller)
+	public function __construct(\App\Integrations\WooCommerce $controller)
 	{
 		$this->connector = $controller->getConnector();
 		$this->controller = $controller;
@@ -73,8 +73,8 @@ abstract class Base
 			return $this->maps[$name];
 		}
 		$className = "App\\Integrations\\WooCommerce\\Synchronizer\\Maps\\{$name}";
-		if ($class = $this->config->get(strtolower($name) . '_map_class')) {
-			$className = $class;
+		if (isset($this->config->get('maps')[$name])) {
+			$className = $this->config->get('maps')[$name];
 		}
 		return $this->maps[$name] = new $className($this);
 	}
@@ -239,7 +239,7 @@ abstract class Base
 			$params .= PHP_EOL . $raw;
 		}
 		\App\DB::getInstance('log')->createCommand()
-			->insert(\App\Integrations\WooCommerce\Config::LOG_TABLE_NAME, [
+			->insert(\App\Integrations\WooCommerce::LOG_TABLE_NAME, [
 				'time' => date('Y-m-d H:i:s'),
 				'error' => $ex ? 1 : ((int) $error),
 				'category' => $ex ? $category : 'info',

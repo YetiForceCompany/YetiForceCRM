@@ -26,8 +26,12 @@ abstract class Base
 	protected $fieldMap = [];
 	/** @var array Data from WooCommerce. */
 	protected $dataApi = [];
+	/** @var array Default data from WooCommerce. */
+	protected $defaultDataApi = [];
 	/** @var array Data from YetiForce. */
 	protected $dataYf = [];
+	/** @var array Default data from YetiForce. */
+	protected $defaultDataYf = [];
 	/** @var \App\Integrations\WooCommerce\Synchronizer\Base Synchronizer instance */
 	protected $synchronizer;
 	/** @var \Vtiger_Module_Model Module model instance */
@@ -58,7 +62,7 @@ abstract class Base
 	public function __construct(\App\Integrations\WooCommerce\Synchronizer\Base $synchronizer)
 	{
 		$this->synchronizer = $synchronizer;
-		$this->moduleModel = \Vtiger_Module_Model::getCleanInstance($this->moduleName);
+		$this->moduleModel = \Vtiger_Module_Model::getInstance($this->moduleName);
 	}
 
 	/**
@@ -68,7 +72,11 @@ abstract class Base
 	 */
 	public function setDataApi(array $data): void
 	{
-		$this->dataApi = $data;
+		if ($data) {
+			$this->dataApi = $data;
+		} else {
+			$this->dataApi = $this->defaultDataApi;
+		}
 	}
 
 	/**
@@ -138,12 +146,15 @@ abstract class Base
 	 */
 	public function getDataYf(string $type = 'fieldMap'): array
 	{
+		$this->dataYf = $this->defaultDataYf[$type] ?? [];
+		$this->parseMetaData();
 		foreach ($this->{$type} as $fieldCrm => $field) {
 			if (\is_array($field)) {
 				if (!empty($field['direction']) && 'api' === $field['direction']) {
 					continue;
 				}
 				$field['fieldCrm'] = $fieldCrm;
+
 				if (\is_array($field['name'])) {
 					$this->loadDataYfMultidimensional($fieldCrm, $field);
 				} elseif (\array_key_exists($field['name'], $this->dataApi)) {
@@ -186,34 +197,36 @@ abstract class Base
 				$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
 			}
 		}
-		if (isset($field['fn'])) {
-			$this->dataYf[$fieldCrm] = $this->{$field['fn']}($value, $field, true);
-		} else {
-			$this->dataYf[$fieldCrm] = $value;
+		if (empty($error)) {
+			$this->loadDataYfMap($fieldCrm, $field, $value);
 		}
 	}
 
 	/**
 	 * Parse data to YetiForce format from map.
 	 *
-	 * @param string $fieldCrm
-	 * @param array  $field
+	 * @param string     $fieldCrm
+	 * @param array      $field
+	 * @param mixed|null $value
 	 *
 	 * @return void
 	 */
-	protected function loadDataYfMap(string $fieldCrm, array $field): void
+	protected function loadDataYfMap(string $fieldCrm, array $field, $value = null): void
 	{
+		$value = $value ?? $this->dataApi[$field['name']];
 		if (isset($field['map'])) {
-			$this->dataYf[$fieldCrm] = $field['map'][$this->dataApi[$field['name']]];
-			if (!\array_key_exists($this->dataApi[$field['name']], $field['map']) && empty($field['mayNotExist'])) {
-				$error = "[API>YF] No value `{$this->dataApi[$field['name']]}` in map {$field['name']}";
+			if (\array_key_exists($value, $field['map'])) {
+				$this->dataYf[$fieldCrm] = $field['map'][$value];
+			} elseif (empty($field['mayNotExist'])) {
+				$value = print_r($value, true);
+				$error = "[API>YF] No value `{$value}` in map {$field['name']}";
 				\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
 				$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
 			}
 		} elseif (isset($field['fn'])) {
-			$this->dataYf[$fieldCrm] = $this->{$field['fn']}($this->dataApi[$field['name']], $field, true);
+			$this->dataYf[$fieldCrm] = $this->{$field['fn']}($value, $field, true);
 		} else {
-			$this->dataYf[$fieldCrm] = $this->dataApi[$field['name']];
+			$this->dataYf[$fieldCrm] = $value;
 		}
 	}
 
@@ -227,9 +240,20 @@ abstract class Base
 		foreach ($this->dataYf as $key => $value) {
 			$this->recordModel->set($key, $value);
 		}
+		if ($this->recordModel->isEmpty('assigned_user_id')) {
+			$this->recordModel->set('assigned_user_id', $this->synchronizer->config->get('assigned_user_id'));
+		}
+		if (
+			$this->recordModel->isEmpty('woocommerce_id')
+			&& $this->recordModel->getModule()->getFieldByName('woocommerce_id')
+			&& !empty($this->dataApi['id'])
+		) {
+			$this->recordModel->set('woocommerce_id', $this->dataApi['id']);
+		}
 		$this->recordModel->set('woocommerce_server_id', $this->synchronizer->config->get('id'));
 		$isNew = empty($this->recordModel->getId());
 		$this->recordModel->save();
+		$this->recordModel->ext['isNew'] = $isNew;
 		if ($isNew && $this->recordModel->get('woocommerce_id')) {
 			$this->synchronizer->updateMapIdCache(
 				$this->recordModel->getModuleName(),
@@ -330,6 +354,20 @@ abstract class Base
 	}
 
 	/**
+	 * Convert date to system format.
+	 *
+	 * @param mixed $value
+	 * @param array $field
+	 * @param bool  $fromApi
+	 *
+	 * @return string
+	 */
+	protected function convertDate($value, array $field, bool $fromApi)
+	{
+		return date('Y-m-d', strtotime($value));
+	}
+
+	/**
 	 * Convert price to system format.
 	 *
 	 * @param array $field
@@ -395,6 +433,26 @@ abstract class Base
 			return $this->synchronizer->getYfId($value, $moduleName);
 		}
 		return $this->synchronizer->getApiId($value, $moduleName);
+	}
+
+	/**
+	 * Add relationship in YF by API ID.
+	 *
+	 * @param mixed $value
+	 * @param array $field
+	 * @param bool  $fromApi
+	 *
+	 * @return string|array string (YF) or string (API)
+	 */
+	protected function addRelationship($value, array $field, bool $fromApi)
+	{
+		$moduleName = rtrim($field['moduleName'], 's');
+		$key = mb_strtolower($moduleName);
+		if (null === $this->{$key}) {
+			$this->{$key} = $this->synchronizer->getMapModel($moduleName);
+		}
+		$this->{$key}->setDataApi($this->dataApi);
+		return $this->{$key}->saveFromRelation($field);
 	}
 
 	/**
@@ -467,18 +525,45 @@ abstract class Base
 	}
 
 	/**
+	 * Convert currency.
+	 *
+	 * @param mixed $value
+	 * @param array $field
+	 * @param bool  $fromApi
+	 *
+	 * @return int|string int (YF) or string (API)
+	 */
+	protected function convertCurrency($value, array $field, bool $fromApi)
+	{
+		if ($fromApi) {
+			$currency = \App\Fields\Currency::getIdByCode($value);
+			if (empty($currency)) {
+				$currency = \App\Fields\Currency::addCurrency($value);
+			}
+		} else {
+			$currency = \App\Fields\Currency::getById($value)['currency_code'];
+		}
+		return $currency;
+	}
+
+	/**
 	 * Save record in YF from relation action.
+	 *
+	 * @param array $field
 	 *
 	 * @return int
 	 */
-	public function saveFromRelation(): int
+	public function saveFromRelation(array $field): int
 	{
 		$id = 0;
 		if ($dataYf = $this->getDataYf()) {
 			try {
-				$this->loadRecordModel($this->findRecordInYf());
-				$this->saveInYf();
-				$id = $this->getRecordModel()->getId();
+				$id = $this->findRecordInYf();
+				if (empty($field['onlyCreate']) || empty($id)) {
+					$this->loadRecordModel($this->findRecordInYf());
+					$this->saveInYf();
+					$id = $this->getRecordModel()->getId();
+				}
 			} catch (\Throwable $ex) {
 				$error = "[API>YF] Import {$this->moduleName}";
 				\App\Log::warning($error . "\n" . $ex->getMessage(), $this->synchronizer::LOG_CATEGORY);
@@ -496,5 +581,20 @@ abstract class Base
 	protected function findRecordInYf(): int
 	{
 		return $this->synchronizer->getYfId($this->dataApi['id'], $this->moduleName);
+	}
+
+	/**
+	 * Parsing `meta_data`.
+	 *
+	 * @return void
+	 */
+	protected function parseMetaData(): void
+	{
+		if ($this->dataApi['meta_data']) {
+			$this->dataApi['metaData'] = [];
+			foreach ($this->dataApi['meta_data'] as $value) {
+				$this->dataApi['metaData'][$value['key']] = $value['value'];
+			}
+		}
 	}
 }

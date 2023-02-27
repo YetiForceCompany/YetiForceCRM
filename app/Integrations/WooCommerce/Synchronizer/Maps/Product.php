@@ -35,7 +35,6 @@ class Product extends Base
 	 * {@inheritdoc}
 	 */
 	protected $fieldMap = [
-		'woocommerce_id' => 'id',
 		'productname' => 'name',
 		'discontinued' => ['name' => 'on_sale', 'fn' => 'convertBool'],
 		'alias' => ['name' => 'slug', 'optional' => true],
@@ -340,7 +339,7 @@ class Product extends Base
 	protected function exportCategories(): void
 	{
 		if (empty($this->synchronizer->controller->config->get('sync_categories'))) {
-			return [];
+			return;
 		}
 		if (null === $this->category) {
 			$this->category = new \App\Integrations\WooCommerce\Synchronizer\ProductCategory($this->synchronizer->controller);

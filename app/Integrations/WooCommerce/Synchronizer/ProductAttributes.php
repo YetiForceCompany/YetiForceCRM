@@ -34,12 +34,10 @@ class ProductAttributes extends Base
 		if (empty($attributes)) {
 			return;
 		}
+		$moduleModel = \Vtiger_Module_Model::getInstance($this->getMapModel('Product')->getModule());
 		$this->getListFromApi();
 		foreach ($attributes as $value => $fieldName) {
-			$this->fieldModel = \Settings_Picklist_Field_Model::getInstance(
-				$fieldName,
-				\Vtiger_Module_Model::getInstance('Products')
-			);
+			$this->fieldModel = \Settings_Picklist_Field_Model::getInstance($fieldName, $moduleModel);
 			if (empty($this->fieldModel)) {
 				$this->log('Field not found in mapping', ['fieldName' => $fieldName], null, true);
 				\App\Log::error('Field not found in mapping: ' . $fieldName, self::LOG_CATEGORY);

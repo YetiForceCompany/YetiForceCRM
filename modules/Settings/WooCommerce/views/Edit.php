@@ -12,22 +12,33 @@
 /**
  * Edit view class for Settings WooCommerce module.
  */
-class Settings_WooCommerce_Edit_View extends Settings_Vtiger_Index_View
+class Settings_WooCommerce_Edit_View extends \App\Controller\ModalSettings
 {
+	/** {@inheritdoc} */
+	public $showFooter = false;
+
+	/** {@inheritdoc} */
+	public $modalSize = 'modal-xl';
+
+	/** {@inheritdoc} */
+	public $successBtn = 'LBL_SAVE_AND_VERIFY';
+
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		$moduleName = $request->getModule(false);
-		$viewer = $this->getViewer($request);
 		$record = !$request->isEmpty('record') ? $request->getInteger('record') : '';
 		if ($record) {
 			$recordModel = Settings_WooCommerce_Record_Model::getInstanceById($record);
 		} else {
 			$recordModel = Settings_WooCommerce_Record_Model::getCleanInstance();
 		}
+		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
-		$viewer->assign('QUALIFIED_MODULE', $moduleName);
-		$viewer->view('Edit.tpl', $moduleName);
+		$viewer->assign('MODULE_NAME', $request->getModule());
+		$viewer->assign('BTN_SUCCESS', $this->successBtn);
+		$viewer->assign('BTN_SUCCESS_ICON', $this->successBtnIcon);
+		$viewer->assign('BTN_DANGER', $this->dangerBtn);
+		$viewer->view('Edit/Modal.tpl', $request->getModule(false));
 	}
 }

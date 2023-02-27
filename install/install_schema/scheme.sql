@@ -656,17 +656,6 @@ CREATE TABLE `i_yf_wapro` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `i_yf_woocommerce_config` */
-
-CREATE TABLE `i_yf_woocommerce_config` (
-  `server_id` int(10) unsigned NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `value` varchar(50) NOT NULL,
-  KEY `server_id` (`server_id`),
-  KEY `name` (`name`),
-  CONSTRAINT `i_yf_woocommerce_config_ibfk_1` FOREIGN KEY (`server_id`) REFERENCES `i_yf_woocommerce_servers` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `i_yf_woocommerce_servers` */
 
 CREATE TABLE `i_yf_woocommerce_servers` (

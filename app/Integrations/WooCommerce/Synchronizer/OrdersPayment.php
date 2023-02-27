@@ -21,10 +21,11 @@ namespace App\Integrations\WooCommerce\Synchronizer;
 class OrdersPayment extends Base
 {
 	/** @var string[] Map */
-	private $map = [
+	public $map = [
 		'bacs' => 'PLL_TRANSFER',
 		'cheque' => 'PLL_CHECK',
 		'cod' => 'PLL_CASH_ON_DELIVERY',
+		'przelewy24' => 'Przelewy24',
 	];
 	/** @var \Settings_Picklist_Field_Model */
 	private $fieldModel;

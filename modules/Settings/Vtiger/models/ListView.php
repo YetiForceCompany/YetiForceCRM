@@ -13,6 +13,9 @@
 
 class Settings_Vtiger_ListView_Model extends \App\Base
 {
+	/** @var Settings_Vtiger_Module_Model instance */
+	protected $module;
+
 	/**
 	 * Function to get the Module Model.
 	 *
@@ -27,14 +30,12 @@ class Settings_Vtiger_ListView_Model extends \App\Base
 	{
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Module', $name);
 		$this->module = new $modelClassName();
-
 		return $this;
 	}
 
 	public function setModuleFromInstance($module)
 	{
 		$this->module = $module;
-
 		return $this;
 	}
 

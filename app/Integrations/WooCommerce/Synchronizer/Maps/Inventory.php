@@ -24,6 +24,13 @@ abstract class Inventory extends Base
 	protected $invFieldMap = [];
 	/** @var array Inventory data from YetiForce. */
 	protected $invDataYf = [];
+	/** {@inheritdoc} */
+	protected $defaultDataYf = [
+		'invFieldMap' => [
+			'discountmode' => 1,
+			'discountparam' => '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":0}',
+		]
+	];
 
 	/**
 	 * Get inventory data from/for YetiForce.
@@ -37,8 +44,6 @@ abstract class Inventory extends Base
 			$self = clone $this;
 			$self->setDataApi($item);
 			$invDataYf = $self->getDataYf('invFieldMap');
-			$invDataYf['discountmode'] = 1;
-			$invDataYf['discountparam'] = '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":0}';
 			$invDataYf['currency'] = $this->dataYf['currency_id'];
 			$this->invDataYf[] = $invDataYf;
 		}
@@ -56,31 +61,25 @@ abstract class Inventory extends Base
 	public function saveInYf(): void
 	{
 		if ($invDataYf = $this->getInvDataYf()) {
+			if ($invRecord = $this->recordModel->getInventoryData()) {
+				foreach ($invDataYf as $newRowKey => $newRowValue) {
+					foreach ($invRecord as $keyRecord => $valueRecord) {
+						if ($valueRecord['name'] == $newRowValue['name']) {
+							$row = $valueRecord;
+							foreach ($newRowValue as $newKey => $newValue) {
+								$row[$newKey] = $valueRecord[$newKey];
+							}
+							unset($invDataYf[$newRowKey]);
+							$invDataYf[$keyRecord] = $row;
+							unset($invRecord[$keyRecord]);
+							break;
+						}
+					}
+				}
+			}
 			$this->recordModel->initInventoryData($invDataYf, false);
 		}
 		parent::saveInYf();
-	}
-
-	/**
-	 * Convert currency.
-	 *
-	 * @param mixed $value
-	 * @param array $field
-	 * @param bool  $fromApi
-	 *
-	 * @return int|string int (YF) or string (API)
-	 */
-	protected function convertCurrency($value, array $field, bool $fromApi)
-	{
-		if ($fromApi) {
-			$currency = \App\Fields\Currency::getIdByCode($value);
-			if (empty($currency)) {
-				$currency = \App\Fields\Currency::addCurrency($value);
-			}
-		} else {
-			$currency = \App\Fields\Currency::getById($value)['currency_code'];
-		}
-		return $currency;
 	}
 
 	/**

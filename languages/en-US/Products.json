@@ -91,6 +91,7 @@
     "FL_ALIAS": "Alias",
     "FL_WOOCOMMERCE_PRODUCT_STATUS": "Woocommerce status",
     "FL_WOOCOMMERCE_PRODUCT_VISIBILITY": "Woocommerce visibility",
+    "FL_WOOCOMMERCE_PERMALINK": "Shop URL",
     "FL_WOO_PUBLISH": "Published",
     "FL_WOO_PENDING": "Pending Review",
     "FL_WOO_DRAFT": "Draft",

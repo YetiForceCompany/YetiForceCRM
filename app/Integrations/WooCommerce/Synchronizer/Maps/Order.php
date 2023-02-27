@@ -25,7 +25,6 @@ class Order extends Inventory
 	/** {@inheritdoc} */
 	protected $fieldMap = [
 		'subject' => ['name' => 'id', 'direction' => 'yf'],
-		'woocommerce_id' => 'id',
 		'parent_id' => ['name' => 'parent_id', 'fn' => 'findRelationship', 'direction' => 'yf'],
 		'currency_id' => ['name' => 'currency', 'fn' => 'convertCurrency', 'direction' => 'yf'],
 		'ssingleorders_status' => ['name' => 'status', 'map' => [
@@ -39,7 +38,13 @@ class Order extends Inventory
 			'trash' => 'LBL_ENTITY_STATE_TRASH',
 		]],
 		'payment_methods' => ['name' => 'payment_method', 'fn' => 'convertPaymentMethod', 'direction' => 'yf'],
-		'accountid' => ['name' => 'customer_id', 'fn' => 'addAccount', 'direction' => 'yf'],
+		'accountid' => [
+			'name' => 'customer_id',
+			'fn' => 'addRelationship',
+			'moduleName' => 'Accounts',
+			'direction' => 'yf',
+			'onlyCreate' => true
+		],
 		'description' => ['name' => 'customer_note', 'direction' => 'yf'],
 		'createdtime' => ['name' => 'date_created_gmt', 'fn' => 'convertDateTime', 'direction' => 'yf'],
 	];
@@ -51,27 +56,22 @@ class Order extends Inventory
 		'taxparam' => ['name' => 'total_tax', 'fn' => 'convertTax', 'direction' => 'yf'],
 		'comment1' => ['name' => 'meta_data', 'fn' => 'convertInvDesc', 'direction' => 'yf'],
 	];
+	/** {@inheritdoc} */
+	protected $defaultDataYf = [
+		'fieldMap' => [
+			'ssingleorders_source' => 'PLL_WOOCOMMERCE'
+		],
+		'invFieldMap' => [
+			'discountmode' => 1,
+			'discountparam' => '{"aggregationType":"individual","individualDiscountType":"amount","individualDiscount":0}',
+		]
+	];
 	/** @var \App\Integrations\WooCommerce\Synchronizer\OrdersPayment Payment method model instance */
 	protected $payment;
 	/** @var \App\Integrations\WooCommerce\Synchronizer\Product Product method model instance */
 	protected $product;
 	/** @var \App\Integrations\WooCommerce\Synchronizer\Maps\Account Account model instance */
 	protected $account;
-
-	/** {@inheritdoc} */
-	public function getDataYf(string $type = 'fieldMap'): array
-	{
-		$this->dataYf = 'fieldMap' === $type ? ['ssingleorders_source' => 'PLL_WOOCOMMERCE'] : [];
-		parent::getDataYf($type);
-		return $this->dataYf;
-	}
-
-	/** {@inheritdoc} */
-	public function getDataApi(): array
-	{
-		parent::getDataApi();
-		return $this->dataApi;
-	}
 
 	/** {@inheritdoc} */
 	public function saveInApi(): void
@@ -98,24 +98,6 @@ class Order extends Inventory
 			$this->payment = new \App\Integrations\WooCommerce\Synchronizer\OrdersPayment($this->synchronizer->controller);
 		}
 		return $this->payment->map[$value] ?? $value;
-	}
-
-	/**
-	 * Add account in YF.
-	 *
-	 * @param mixed $value
-	 * @param array $field
-	 * @param bool  $fromApi
-	 *
-	 * @return string|array string (YF) or string (API)
-	 */
-	protected function addAccount($value, array $field, bool $fromApi)
-	{
-		if (null === $this->account) {
-			$this->account = $this->synchronizer->getMapModel('Account');
-		}
-		$this->account->setDataApi($this->dataApi);
-		return $this->account->saveFromRelation();
 	}
 
 	/**

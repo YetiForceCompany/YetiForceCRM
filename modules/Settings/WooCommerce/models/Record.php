@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings WooCommerce model file.
+ * Record file for WooCommerce integration model.
  *
  * @package   Settings.Model
  *
@@ -9,42 +9,14 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
- * Settings WooCommerce model class.
+ * Record class for WooCommerce integration model.
  */
 class Settings_WooCommerce_Record_Model extends Settings_Vtiger_Record_Model
 {
+	use App\Controller\Traits\RecordSettings;
+
 	/** @var \Settings_Vtiger_Module_Model Setting module model */
 	protected $module;
-
-	/**
-	 * Record ID.
-	 *
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->get('id');
-	}
-
-	/**
-	 * Record name.
-	 *
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->get('name');
-	}
-
-	/**
-	 * Function to get the Detail Url.
-	 *
-	 * @return string URL
-	 */
-	public function getDetailViewUrl()
-	{
-		return '?parent=Settings&module=WooCommerce&view=Edit&record=' . $this->getId();
-	}
 
 	/**
 	 * Function to get the Edit View Url.
@@ -54,60 +26,6 @@ class Settings_WooCommerce_Record_Model extends Settings_Vtiger_Record_Model
 	public function getEditViewUrl()
 	{
 		return 'index.php?parent=Settings&module=WooCommerce&view=Edit&record=' . $this->getId();
-	}
-
-	/**
-	 * Function to get the Save Ajax.
-	 *
-	 * @return string URL
-	 */
-	public function getSaveAjaxActionUrl()
-	{
-		return '?parent=Settings&module=WooCommerce&action=SaveAjax&mode=save';
-	}
-
-	/** {@inheritdoc} */
-	public function getRecordLinks(): array
-	{
-		$links = [];
-		$recordLinks = [
-			[
-				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'BTN_RECORD_EDIT',
-				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'yfi yfi-full-editing-view',
-				'linkclass' => 'btn btn-sm btn-info',
-			],
-			[
-				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_RELOAD_WOOCOMMERCE',
-				'linkurl' => "javascript:Settings_WooCommerce_List_Js.reload('{$this->getId()}')",
-				'linkicon' => 'mdi mdi-reload',
-				'linkclass' => 'btn btn-sm btn-warning text-white',
-			],
-			[
-				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => "javascript:Settings_Vtiger_List_Js.deleteById('{$this->getId()}')",
-				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn btn-sm btn-danger text-white',
-			],
-		];
-		foreach ($recordLinks as $recordLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
-		}
-		return $links;
-	}
-
-	/**
-	 * Function to delete the current record model.
-	 */
-	public function delete(): void
-	{
-		\App\Db::getInstance('admin')->createCommand()
-			->delete('i_#__woocommerce_servers', ['id' => $this->getId()])
-			->execute();
-		\App\Cache::delete('WooCommerce|getAllServers', '');
 	}
 
 	/**
@@ -135,14 +53,58 @@ class Settings_WooCommerce_Record_Model extends Settings_Vtiger_Record_Model
 	public static function getCleanInstance(): self
 	{
 		$instance = new self();
-		$instance->module = Settings_Vtiger_Module_Model::getInstance('Settings:WooCommerce');
+		$instance->getModule();
 		return $instance;
+	}
+
+	/** {@inheritdoc} */
+	public function getRecordLinks(): array
+	{
+		$recordLinks = [
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'BTN_RECORD_EDIT',
+				'linkdata' => ['url' => $this->getEditViewUrl()],
+				'linkicon' => 'yfi yfi-full-editing-view',
+				'linkclass' => 'btn btn-primary btn-sm js-edit-record-modal'
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'BTN_RECORD_INFO',
+				'linkicon' => 'fas fa-chart-bar',
+				'linkclass' => 'btn btn-secondary btn-sm js-list-sync',
+				'linkdata' => [
+					'url' => 'index.php?parent=Settings&module=WooCommerce&view=EditConfigModal&record=' . $this->getId()
+				],
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_RELOAD_WOOCOMMERCE',
+				'linkurl' => "javascript:Settings_WooCommerce_List_Js.reload('{$this->getId()}')",
+				'linkicon' => 'mdi mdi-reload',
+				'linkclass' => 'btn btn-sm btn-warning text-white',
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_DELETE_RECORD',
+				'linkurl' => "javascript:Settings_Vtiger_List_Js.deleteById('{$this->getId()}')",
+				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'btn btn-sm btn-danger text-white',
+			],
+		];
+		$links = [];
+		foreach ($recordLinks as $recordLink) {
+			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
+		}
+		return $links;
 	}
 
 	/**
 	 * Function to save.
+	 *
+	 * @return bool
 	 */
-	public function save(): void
+	public function save(): bool
 	{
 		$db = App\Db::getInstance('admin');
 		$params = [];
@@ -150,12 +112,29 @@ class Settings_WooCommerce_Record_Model extends Settings_Vtiger_Record_Model
 			$params[$key] = $value;
 		}
 		if ($this->getId()) {
-			$db->createCommand()->update('i_#__woocommerce_servers', $params, ['id' => $this->getId()])->execute();
+			$result = $db->createCommand()->update(\App\Integrations\WooCommerce::TABLE_NAME, $params, ['id' => $this->getId()])
+				->execute();
 		} else {
-			$db->createCommand()->insert('i_#__woocommerce_servers', $params)->execute();
+			$result = $db->createCommand()->insert(\App\Integrations\WooCommerce::TABLE_NAME, $params)
+				->execute();
 			$this->set('id', $db->getLastInsertID('i_#__woocommerce_servers_id_seq'));
 		}
 		\App\Cache::delete('WooCommerce|getAllServers', '');
+		return (bool) $result;
+	}
+
+	/**
+	 * Function to delete the current record model.
+	 *
+	 * @return int
+	 */
+	public function delete(): int
+	{
+		$return = \App\Db::getInstance('admin')->createCommand()
+			->delete(\App\Integrations\WooCommerce::TABLE_NAME, ['id' => $this->getId()])
+			->execute();
+		\App\Cache::delete('WooCommerce|getAllServers', '');
+		return $return;
 	}
 
 	/**
@@ -237,6 +216,9 @@ class Settings_WooCommerce_Record_Model extends Settings_Vtiger_Record_Model
 			case 'sync_orders':
 			case 'status':
 				$params['uitype'] = 56;
+				break;
+			case 'assigned_user_id':
+				$params['uitype'] = 53;
 				break;
 		}
 		$params['typeofdata'] .= $fields[$name]['required'] ? '~M' : '~O';

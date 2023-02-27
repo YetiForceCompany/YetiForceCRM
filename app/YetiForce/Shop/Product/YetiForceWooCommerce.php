@@ -45,7 +45,8 @@ class YetiForceWooCommerce extends \App\YetiForce\Shop\AbstractBaseProduct
 			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceWooCommerce');
 		} else {
 			$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
-			$status = !(new \App\Db\Query())->from('i_#__woocommerce_servers')->where(['status' => 1])->exists(\App\Db::getInstance('admin'));
+			$status = !(new \App\Db\Query())->from(\App\Integrations\WooCommerce::TABLE_NAME)
+				->where(['status' => 1])->exists(\App\Db::getInstance('admin'));
 		}
 		return ['status' => $status, 'message' => $message];
 	}
@@ -53,7 +54,7 @@ class YetiForceWooCommerce extends \App\YetiForce\Shop\AbstractBaseProduct
 	/** {@inheritdoc} */
 	public function analyzeConfiguration(): array
 	{
-		if (empty($this->expirationDate) || \Settings_WooCommerce_Module_Model::isActive()) {
+		if (empty($this->expirationDate) || \Settings_WooCommerce_Activation_Model::check()) {
 			return [];
 		}
 		return [
