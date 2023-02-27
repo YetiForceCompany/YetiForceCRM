@@ -136,7 +136,7 @@ window.Calendar_CalendarQuickCreate_Js = class Calendar_CalendarQuickCreate_Js e
 
 		modalTitles.addClass('d-none');
 		if (data.hasClass('js-edit-form')) {
-			let title = data.find('.js-sidebar-title ').data('title');
+			let title = data.find('.js-sidebar-title').data('title');
 			modalTitles.filter(`.js-modal-title--${title}`).removeClass('d-none');
 			this.sidebarName = title;
 		} else if (data.hasClass('js-activity-state')) {

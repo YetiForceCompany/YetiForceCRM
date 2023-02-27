@@ -6,12 +6,12 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
-	<div class="editViewContainer">
+	<div class="editViewContainer js-edit-form">
 		<div class="alert alert-warning">
 			<span class="mdi mdi-information-outline mr-2 u-fs-3x float-left"></span>
 			{\App\Language::translate('LBL_MAGENTO_ALERT', $QUALIFIED_MODULE)}<br>
 		</div>
-		<form class="js-edit-form form-horizontal recordEditView" method="post" id="EditView" action="index.php" data-js="submit|validationEngine">
+		<form class="js-form form-horizontal recordEditView" method="post" id="EditView" action="index.php" data-js="submit|validationEngine">
 			<input type="hidden" name="parent" value="Settings">
 			<input type="hidden" name="module" value="{$MODULE_NAME}">
 			<input type="hidden" name="action" value="SaveAjax">
