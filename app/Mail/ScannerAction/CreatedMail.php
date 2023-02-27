@@ -76,9 +76,9 @@ class CreatedMail extends Base
 		}
 
 		$record->set('content', \App\TextUtils::htmlTruncate($this->message->getBody(true), $record->getField('content')->getMaxValue()));
-		$record->set('from_id', implode(',', array_unique(\App\Utils::flatten(\App\Mail\RecordFinder::findByEmail($this->message->getEmail('from'), $this->getEmailsFields())))));
+		$record->set('from_id', implode(',', array_unique(\App\Utils::flatten(\App\Mail\RecordFinder::getInstance()->setFields($this->getEmailsFields())->findByEmail($this->message->getEmail('from'))))));
 		$toEmails = array_merge($this->message->getEmail('to'), $this->message->getEmail('cc'), $this->message->getEmail('bcc'));
-		$record->set('to_id', implode(',', array_unique(\App\Utils::flatten(\App\Mail\RecordFinder::findByEmail($toEmails, $this->getEmailsFields())))));
+		$record->set('to_id', implode(',', array_unique(\App\Utils::flatten(\App\Mail\RecordFinder::getInstance()->setFields($this->getEmailsFields())->findByEmail($toEmails)))));
 		$record->save();
 
 		$db = \App\Db::getInstance();

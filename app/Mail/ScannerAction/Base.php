@@ -29,6 +29,9 @@ abstract class Base
 	/** @var \App\Mail\Message\Imap Message instance. */
 	protected $message;
 
+	/** @var \App\Mail\Account Account. */
+	public $account;
+
 	/**
 	 * Get action name.
 	 * Action name | File name.
@@ -70,7 +73,7 @@ abstract class Base
 	{
 		$ids = $this->findRelatedRecordsByEmail();
 		if ($idsBySubject = $this->findRelatedRecordsBySubject()) {
-			$ids[] = current($idsBySubject);
+			$ids[] = array_unique(array_merge($ids, $idsBySubject));
 		}
 		if (!$onlyId) {
 			foreach ($ids as &$id) {
@@ -88,7 +91,7 @@ abstract class Base
 	{
 		if (!isset($this->message->processData['findByEmail'])) {
 			$emails = array_unique(array_merge($this->message->getEmail('from'), $this->message->getEmail('to'), $this->message->getEmail('cc'), $this->message->getEmail('bcc')));
-			$this->message->setProcessData('findByEmail', \App\Utils::flatten(\App\Mail\RecordFinder::findByEmail($emails, $this->getEmailsFields())));
+			$this->message->setProcessData('findByEmail', \App\Utils::flatten(\App\Mail\RecordFinder::getInstance()->setFields($this->getEmailsFields())->findByEmail($emails)));
 		}
 
 		return $this->message->processData['findByEmail'];
@@ -97,7 +100,7 @@ abstract class Base
 	public function findRelatedRecordsBySubject(): array
 	{
 		if (!isset($this->message->processData['findBySubject'])) {
-			$this->message->processData['findBySubject'] = \App\Mail\RecordFinder::findBySubject($this->message->getSubject(), $this->getNumberFields());
+			$this->message->processData['findBySubject'] = \App\Utils::flatten(\App\Mail\RecordFinder::getInstance()->setFields($this->getNumberFields())->findBySubject($this->message->getSubject(), $this->getNumberFields()));
 		}
 
 		return $this->message->processData['findBySubject'];
@@ -114,10 +117,10 @@ abstract class Base
 		if ($mailScannerFields = $this->account->getSource()->get('scanner_fields')) {
 			foreach (explode(',', trim($mailScannerFields, ',')) as $field) {
 				$field = explode('|', $field);
-				if (($searchModuleName && $searchModuleName !== $field[1]) || !\in_array($field[3], [13, 319])) {
+				if (($searchModuleName && $searchModuleName !== $field[1]) || !\in_array($field[3], [13, 319, 314])) {
 					continue;
 				}
-				$fields[$field[1]][$field[3]][] = $field[2];
+				$fields[$field[1]][] = $field[2];
 			}
 		}
 		$this->emailsFieldsCache[$cacheKey] = $fields;
@@ -139,7 +142,7 @@ abstract class Base
 				if (($searchModuleName && $searchModuleName !== $field[1]) || 4 !== (int) $field[3]) {
 					continue;
 				}
-				$fields[$field[1]][$field[3]][] = $field[2];
+				$fields[$field[1]][] = $field[2];
 			}
 		}
 		$this->numberFieldsCache[$cacheKey] = $fields;

@@ -133,7 +133,7 @@ class Outlook extends Base
 		if ($this->has('bcc_email')) {
 			$emails = array_merge($emails, $this->get('bcc_email'));
 		}
-		return $this->processData['findByEmail'] = \App\Utils::flatten(\App\Mail\RecordFinder::findByEmail($emails, $this->getEmailsFields()));
+		return $this->processData['findByEmail'] = \App\Utils::flatten(\App\Mail\RecordFinder::getInstance()->setFields($this->getEmailsFields())->findByEmail($emails));
 	}
 
 	/** {@inheritdoc} */
@@ -142,7 +142,7 @@ class Outlook extends Base
 		if (isset($this->processData['findBySubject'])) {
 			return $this->processData['findBySubject'];
 		}
-		return $this->processData['findBySubject'] = \App\Mail\RecordFinder::findBySubject($this->get('subject'), $this->getNumberFields());
+		return $this->processData['findBySubject'] = \App\Utils::flatten(\App\Mail\RecordFinder::getInstance()->setFields($this->getEmailsFields())->findBySubject($this->get('subject'), $this->getNumberFields()));
 	}
 
 	/** {@inheritdoc} */

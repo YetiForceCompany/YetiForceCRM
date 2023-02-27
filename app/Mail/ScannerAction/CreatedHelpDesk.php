@@ -30,10 +30,10 @@ class CreatedHelpDesk extends CreatedMail
 		}
 		$owner = $this->account->getSource()->get('assigned_user_id');
 		$fromEmail = $this->message->getEmail('from');
-		$contactId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $this->getEmailsFields('Contacts'))));
-		$parentId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $this->getEmailsFields('Accounts'))));
+		$contactId = current(\App\Utils::flatten(RecordFinder::getInstance()->setFields($this->getEmailsFields('Contacts'))->findByEmail($fromEmail)));
+		$parentId = current(\App\Utils::flatten(RecordFinder::getInstance()->setFields($this->getEmailsFields('Accounts'))->findByEmail($fromEmail)));
 		if (!$parentId) {
-			$parentId = current(\App\Utils::flatten(RecordFinder::findByEmail($fromEmail, $this->getEmailsFields('Vendors'))));
+			$parentId = current(\App\Utils::flatten(RecordFinder::getInstance()->setFields($this->getEmailsFields('Vendors'))->findByEmail($fromEmail)));
 		}
 		if (!$parentId && $contactId) {
 			$parentId = \App\Record::getParentRecord($contactId, 'Contacts');

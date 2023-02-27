@@ -23,7 +23,7 @@ class MultiEmailField extends BaseField
 	/** {@inheritdoc} */
 	public function getValue()
 	{
-		$valueArray = array_filter(explode($this->separator, $this->value));
+		$valueArray = \is_array($this->value) ? $this->value : array_filter(explode($this->separator, $this->value));
 		if (\in_array($this->operator, ['e', 'n'])) {
 			foreach ($valueArray as $key => $value) {
 				$valueArray[$key] = "\"{$value}\"";
