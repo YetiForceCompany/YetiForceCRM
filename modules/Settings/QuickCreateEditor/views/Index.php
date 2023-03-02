@@ -50,7 +50,6 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 		$recordModel = Vtiger_Record_Model::getCleanInstance($sourceModule);
 		$quickCreateFields = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_QUICKCREATE)->getStructure();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('RECORD_STRUCTURE', $quickCreateFields);
 		$layout = $recordModel->getModule()->getLayoutTypeForQuickCreate();
 		if ('blocks' === $layout) {
 			$selectedModuleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($sourceModule);
@@ -69,6 +68,14 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 			}
 			$viewer->assign('BLOCKS', $blockModels);
 			$viewer->assign('SELECTED_MODULE_MODEL', $selectedModuleModel);
+		} else {
+			uksort($quickCreateFields, function ($a, $b) use ($quickCreateFields) {
+				if ($quickCreateFields[$a]->get('quicksequence') === $quickCreateFields[$b]->get('quicksequence')) {
+					return 0;
+				}
+				return $quickCreateFields[$a]->get('quicksequence') < $quickCreateFields[$b]->get('quicksequence') ? -1 : 1;
+			});
+			$viewer->assign('RECORD_STRUCTURE', $quickCreateFields);
 		}
 		$viewer->assign('LAYOUT', $layout);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);

@@ -643,18 +643,18 @@ class Vtiger_Module_Model extends \vtlib\Module
 	{
 		$quickCreateFieldList = [];
 		foreach ($this->getFieldsByBlocks() as $blockFields) {
-			uksort($blockFields, function ($a, $b) use ($blockFields) {
-				if ($blockFields[$a]->get('quicksequence') === $blockFields[$b]->get('quicksequence')) {
-					return 0;
-				}
-				return $blockFields[$a]->get('quicksequence') < $blockFields[$b]->get('quicksequence') ? -1 : 1;
-			});
 			foreach ($blockFields as $fieldName => $fieldModel) {
 				if ($fieldModel->isQuickCreateEnabled() && $fieldModel->isEditable()) {
 					$quickCreateFieldList[$fieldName] = $fieldModel;
 				}
 			}
 		}
+		uksort($quickCreateFieldList, function ($a, $b) use ($quickCreateFieldList) {
+			if ($quickCreateFieldList[$a]->get('quicksequence') === $quickCreateFieldList[$b]->get('quicksequence')) {
+				return 0;
+			}
+			return $quickCreateFieldList[$a]->get('quicksequence') < $quickCreateFieldList[$b]->get('quicksequence') ? -1 : 1;
+		});
 		return $quickCreateFieldList;
 	}
 
