@@ -37,9 +37,8 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 						}
 						if (!empty($recordId)) {
 							//Set the fieldModel with the valuetype for the client side.
-							$fieldValueType = $recordModel->getFieldFilterValueType($fieldName);
 							$fieldInfo = $fieldModel->getFieldInfo();
-							$fieldInfo['workflow_valuetype'] = $fieldValueType;
+							$fieldInfo['workflow_valuetype'] = $recordModel->getFieldFilterValueType($fieldName);
 							$fieldModel->setFieldInfo($fieldInfo);
 						}
 						$fieldInfo['field_params'] = $fieldModel->getFieldParams();
@@ -71,7 +70,7 @@ class Settings_Workflows_FilterRecordStructure_Model extends Settings_Workflows_
 								$name = "($parentFieldName : ($refModule) $fieldName)";
 								$fieldModel->set('workflow_columnname', $name);
 								if (!empty($recordId)) {
-									$fieldValueType = $recordModel->getFieldFilterValueType($name);
+									$fieldValueType = $recordModel->getFieldFilterValueType($fieldName);
 									$fieldInfo = $fieldModel->getFieldInfo();
 									$fieldInfo['workflow_valuetype'] = $fieldValueType;
 									$fieldModel->setFieldInfo($fieldInfo);
