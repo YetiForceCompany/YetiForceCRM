@@ -274,17 +274,18 @@ class Record
 	/**
 	 * Function checks if record exists.
 	 *
-	 * @param int      $recordId   Record ID
-	 * @param string   $moduleName
-	 * @param int|null $state      null = [self::STATE_ACTIVE, self::STATE_ARCHIVED]
+	 * @param int       $recordId   Record ID
+	 * @param string    $moduleName
+	 * @param int|array $state      null = [self::STATE_ACTIVE, self::STATE_ARCHIVED]
 	 *
 	 * @return bool
 	 */
-	public static function isExists(int $recordId, string $moduleName = '', ?int $state = null)
+	public static function isExists(int $recordId, string $moduleName = '', $state = [self::STATE_ACTIVE, self::STATE_ARCHIVED])
 	{
 		$recordMetaData = Functions::getCRMRecordMetadata($recordId);
+
 		return isset($recordMetaData)
-			&& (null === $state ? self::STATE_TRASH !== $recordMetaData['deleted'] : $recordMetaData['deleted'] === $state)
+			&& \in_array($recordMetaData['deleted'], \is_array($state) ? $state : (array) $state)
 			&& ($moduleName ? $recordMetaData['setype'] === $moduleName : true);
 	}
 
