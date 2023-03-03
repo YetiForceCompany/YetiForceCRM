@@ -653,6 +653,7 @@ class Vtiger_Relation_Model extends \App\Base
 			$eventHandlerBySource->setParams($data)->trigger('EntityBeforeLinkForSource');
 			if ($result = $relationModel->create($sourceRecordId, $destinationRecordId)) {
 				\CRMEntity::trackLinkedInfo($sourceRecordId);
+				\CRMEntity::trackLinkedInfo($destinationRecordId);
 				$eventHandler->trigger('EntityAfterLink');
 				$eventHandler->trigger('EntityAfterLinkForSource');
 			}
@@ -770,6 +771,7 @@ class Vtiger_Relation_Model extends \App\Base
 				'destinationModule' => $destinationModuleName,
 				'destinationRecordId' => $relatedRecordId,
 				'relatedName' => $this->get('name'),
+				'relationId' => $this->getId(),
 			];
 			$eventHandler = (new \App\EventHandler())->setModuleName($destinationModuleName)->setParams($params);
 			$eventHandlerBySource = (new \App\EventHandler())->setModuleName($sourceModuleName)->setParams($params);
@@ -778,6 +780,7 @@ class Vtiger_Relation_Model extends \App\Base
 			if ($result = $this->getTypeRelationModel()->delete($sourceRecordId, $relatedRecordId)) {
 				$destinationModuleFocus->trackUnLinkedInfo($sourceRecordId);
 				$eventHandler->trigger('EntityAfterUnLink');
+				$destinationModuleFocus->trackUnLinkedInfo($relatedRecordId);
 				$eventHandlerBySource->trigger('EntityAfterUnLinkForSource');
 			}
 		}
