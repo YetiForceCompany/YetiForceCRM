@@ -339,8 +339,6 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 
 /*Data for the table `i_yf_wapro` */
 
-/*Data for the table `i_yf_woocommerce_config` */
-
 /*Data for the table `i_yf_woocommerce_servers` */
 
 /*Data for the table `l_yf_api_login_history` */
@@ -3566,6 +3564,7 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (103,'EntityAfterSave','Products_UpdateModifiedTime_Handler',0,'Products','',9,14,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (104,'PreDelete','Services_ChangeStateOrDelete_Handler',1,'Services,Products','',5,0,1);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (105,'PreStateChange','Services_ChangeStateOrDelete_Handler',1,'Services,Products','',5,0,1);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (106,'EditViewPreSave','Reservations_DuplicateChecker_Handler',1,'Reservations','',5,84,1);
 
 /*Data for the table `vtiger_expectedresponse` */
 

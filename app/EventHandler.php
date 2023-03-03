@@ -1,9 +1,6 @@
 <?php
-
-namespace App;
-
 /**
- * Event Handler main class.
+ * Event Handler main file.
  *
  * @package App
  *
@@ -11,6 +8,12 @@ namespace App;
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ */
+
+namespace App;
+
+/**
+ * Event Handler main class.
  */
 class EventHandler
 {
