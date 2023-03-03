@@ -66,6 +66,7 @@ class Reservations_DuplicateChecker_Handler
 			$queryGenerator->setStateCondition('All');
 		}
 		$queryGenerator->setFields(['id', 'reservations_status'])->permissions = false;
+		$queryGenerator->addCondition('reservations_status', 'PLL_CANCELLED', 'n');
 		if ($recordModel->getId()) {
 			$queryGenerator->addCondition('id', $recordModel->getId(), 'n');
 		}
