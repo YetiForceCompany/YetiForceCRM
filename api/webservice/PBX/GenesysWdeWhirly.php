@@ -435,7 +435,6 @@ class GenesysWdeWhirly extends \Api\Core\BaseAction
 			$id = $this->contact;
 		} else {
 			$moduleName = 'CallHistory';
-			$view = 'Edit';
 			$id = $this->interactionModel->getId();
 		}
 		$params = '';
@@ -595,7 +594,6 @@ class GenesysWdeWhirly extends \Api\Core\BaseAction
 	private function registerInteractionCampaign(): void
 	{
 		$request = $this->controller->request;
-		$this->userId = 202;
 		$this->interactionModel = $recordModel = \Vtiger_Record_Model::getCleanInstance('CallHistory');
 		$recordModel->set('assigned_user_id', $this->userId);
 		$recordModel->set('from_number', $this->getPhone('DialedNumber'));
@@ -664,6 +662,10 @@ class GenesysWdeWhirly extends \Api\Core\BaseAction
 		if (!empty($agentID) && $id = (new \App\Db\Query())->select(['id'])->from('vtiger_users')
 			->where(['gwde_agent_id' => $agentID, 'status' => 'Active'])->scalar()) {
 			$this->userId = $id;
+		} elseif ('registerInteractionCampaign' === \App\Process::$processName) {
+			$this->userId = \App\User::getCurrentUserId();
+		} else {
+			throw new \Api\Core\Exception('User not found', 404);
 		}
 	}
 }
