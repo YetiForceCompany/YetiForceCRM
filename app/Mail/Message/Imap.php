@@ -31,7 +31,7 @@ class Imap extends Base
 	/**
 	 * @var int Mail type
 	 *
-	 * @see App\Mail\Message\Imap::MAIL_TYPES,
+	 * @see \App\Mail\Message\Imap::MAIL_TYPES,
 	 */
 	protected $mailType;
 
