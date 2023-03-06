@@ -60,11 +60,7 @@ class MSAzure extends AbstractProvider
 	 * @var string
 	 */
 	protected $redirectUri;
-	/**
-	 * Undocumented variable.
-	 *
-	 * @var [type]
-	 */
+	/** @var \TheNetworg\OAuth2\Client\Provider\Azure Azure provider */
 	private $client;
 
 	protected $refreshToken;

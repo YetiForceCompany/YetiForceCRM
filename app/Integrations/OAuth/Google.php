@@ -58,11 +58,7 @@ class Google extends AbstractProvider
 	 * @var string
 	 */
 	protected $redirectUri;
-	/**
-	 * Undocumented variable.
-	 *
-	 * @var [type]
-	 */
+	/** @var \League\OAuth2\Client\Provider\Google Google provider */
 	private $client;
 
 	protected $refreshToken;
