@@ -30,8 +30,8 @@ class WooCommerce
 	/** @var string Map class table name */
 	public const MAP_TABLE_NAME = 'i_#__woocommerce_map_class';
 
-	/** @var \App\CronHandler|null Cron instance */
-	public $cron;
+	/** @var callable|null Bath iteration callback */
+	public $bathCallback;
 	/** @var \App\Integrations\WooCommerce\Config Config. */
 	public $config;
 	/** @var \App\Integrations\WooCommerce\Connector\Base Connector with WooCommerce. */
@@ -42,12 +42,12 @@ class WooCommerce
 	/**
 	 * Constructor. Connect with WooCommerce and authorize.
 	 *
-	 * @param int              $serverId
-	 * @param \App\CronHandler $cron
+	 * @param int           $serverId
+	 * @param callable|null $bathCallback
 	 */
-	public function __construct(int $serverId, ?\App\CronHandler $cron = null)
+	public function __construct(int $serverId, ?callable $bathCallback = null)
 	{
-		$this->cron = $cron;
+		$this->bathCallback = $bathCallback;
 		$this->config = WooCommerce\Config::getInstance($serverId);
 	}
 

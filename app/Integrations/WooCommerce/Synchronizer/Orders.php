@@ -50,7 +50,7 @@ class Orders extends Base
 		$this->lastScan = $this->config->getLastScan('importOrders');
 		if (
 			!$this->lastScan['start_date']
-			|| (0 === (int) $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])
+			|| (0 === $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])
 		) {
 			$this->config->setScan('importOrders');
 			$this->lastScan = $this->config->getLastScan('importOrders');
@@ -62,8 +62,9 @@ class Orders extends Base
 		}
 		$i = 0;
 		try {
-			$page = 1;
+			$page = $this->lastScan['page'] ?? 1;
 			$load = true;
+			$finish = false;
 			$limit = $this->config->get('orders_limit');
 			while ($load) {
 				if ($rows = $this->getFromApi('orders?&page=' . $page . '&' . $this->getSearchCriteria($limit))) {
@@ -73,13 +74,22 @@ class Orders extends Base
 						++$i;
 					}
 					++$page;
+					if (\is_callable($this->controller->bathCallback)) {
+						$load = \call_user_func($this->controller->bathCallback, 'importOrders');
+					}
 					if ($this->config->get('orders_limit') !== \count($rows)) {
-						$load = false;
-						$this->config->setEndScan('importOrders', $this->lastScan['start_date']);
+						$finish = true;
 					}
 				} else {
+					$finish = true;
+				}
+				if ($finish || !$load) {
 					$load = false;
-					$this->config->setEndScan('importOrders', $this->lastScan['start_date']);
+					if ($finish) {
+						$this->config->setEndScan('importOrders', $this->lastScan['start_date']);
+					} else {
+						$this->config->setScan('importOrders', 'page', $page);
+					}
 				}
 			}
 		} catch (\Throwable $ex) {
@@ -105,7 +115,7 @@ class Orders extends Base
 		if ($dataYf = $mapModel->getDataYf()) {
 			try {
 				$yfId = $this->getYfId($row['id']);
-				if (empty($yfId) || ($this->config->get('master') && empty($this->exported[$yfId]))) {
+				if (empty($yfId) || empty($this->exported[$yfId])) {
 					$mapModel->loadRecordModel($yfId);
 					$mapModel->saveInYf();
 					$this->imported[$row['id']] = $mapModel->getRecordModel()->getId();
@@ -136,7 +146,7 @@ class Orders extends Base
 		$this->lastScan = $this->config->getLastScan('exportOrders');
 		if (
 			!$this->lastScan['start_date']
-			|| (0 === (int) $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])
+			|| (0 === $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])
 		) {
 			$this->config->setScan('exportOrders');
 			$this->lastScan = $this->config->getLastScan('exportOrders');
@@ -148,8 +158,9 @@ class Orders extends Base
 		}
 		$i = 0;
 		try {
-			$page = 0;
+			$page = $this->lastScan['page'] ?? 0;
 			$load = true;
+			$finish = false;
 			$query = $this->getExportQuery();
 			$limit = $this->config->get('orders_limit');
 			while ($load) {
@@ -161,13 +172,22 @@ class Orders extends Base
 						++$i;
 					}
 					++$page;
+					if (\is_callable($this->controller->bathCallback)) {
+						$load = \call_user_func($this->controller->bathCallback, 'exportOrders');
+					}
 					if ($limit !== \count($rows)) {
-						$load = false;
-						$this->config->setEndScan('exportOrders', $this->lastScan['start_date']);
+						$finish = true;
 					}
 				} else {
+					$finish = true;
+				}
+				if ($finish || !$load) {
 					$load = false;
-					$this->config->setEndScan('exportOrders', $this->lastScan['start_date']);
+					if ($finish) {
+						$this->config->setEndScan('exportOrders', $this->lastScan['start_date']);
+					} else {
+						$this->config->setScan('exportOrders', 'page', $page);
+					}
 				}
 			}
 		} catch (\Throwable $ex) {

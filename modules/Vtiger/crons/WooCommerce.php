@@ -17,12 +17,13 @@ class Vtiger_WooCommerce_Cron extends \App\CronHandler
 	/** {@inheritdoc} */
 	public function process()
 	{
+		$bathCallback = fn (): bool => $this->checkTimeout() ? false : true;
 		foreach (App\Integrations\WooCommerce\Config::getAllServers() as $serverId => $config) {
 			if (0 === (int) $config['status']) {
 				continue;
 			}
 			$this->updateLastActionTime();
-			$connector = (new App\Integrations\WooCommerce\Controller($serverId, $this));
+			$connector = (new App\Integrations\WooCommerce($serverId, $bathCallback));
 			foreach ([
 				'sync_currency' => 'Currency',
 				'sync_categories' => 'ProductCategory',

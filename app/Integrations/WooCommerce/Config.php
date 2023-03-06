@@ -83,25 +83,29 @@ class Config extends \App\Base
 	 * Save in db last scanned id.
 	 *
 	 * @param string      $type
-	 * @param bool|string $name
-	 * @param bool|int    $id
+	 * @param string|null $name
+	 * @param int|null    $id
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public function setScan(string $type, $name = false, $id = false): void
+	public function setScan(string $type, ?string $name = null, ?int $id = null): void
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
-		if (false !== $name) {
+		if (null !== $name) {
 			$data = ['name' => "{$type}_last_scan_{$name}",	'value' => $id];
 		} else {
-			$data = ['name' => $type . '_start_scan_date', 'value' => date('Y-m-d H:i:s')];
+			$data = ['name' => $type . '_start_date', 'value' => date('Y-m-d H:i:s')];
 		}
 		if (!(new Query())->from(WooCommerce::CONFIG_TABLE_NAME)
 			->where(['server_id' => $this->get('id'), 'name' => $data['name']])->exists()) {
 			$data['server_id'] = $this->get('id');
 			$dbCommand->insert(WooCommerce::CONFIG_TABLE_NAME, $data)->execute();
 		}
-		$dbCommand->update(WooCommerce::CONFIG_TABLE_NAME, $data, ['server_id' => $this->get('id'), 'name' => $data['name']])->execute();
+		$dbCommand->update(
+			WooCommerce::CONFIG_TABLE_NAME,
+			$data,
+			['server_id' => $this->get('id'), 'name' => $data['name']]
+		)->execute();
 		$this->set($data['name'], $data['value']);
 	}
 
@@ -126,6 +130,9 @@ class Config extends \App\Base
 			], [
 				'name' => $type . '_last_scan_id',
 				'value' => 0,
+			], [
+				'name' => $type . '_last_scan_page',
+				'value' => null,
 			],
 		];
 		foreach ($saveData as $data) {
@@ -134,7 +141,11 @@ class Config extends \App\Base
 				$data['server_id'] = $this->get('id');
 				$dbCommand->insert(WooCommerce::CONFIG_TABLE_NAME, $data)->execute();
 			} else {
-				$dbCommand->update(WooCommerce::CONFIG_TABLE_NAME, $data, ['server_id' => $this->get('id'), 'name' => $data['name']])->execute();
+				$dbCommand->update(
+					WooCommerce::CONFIG_TABLE_NAME,
+					$data,
+					['server_id' => $this->get('id'), 'name' => $data['name']]
+				)->execute();
 			}
 			$this->set($data['name'], $data['value']);
 		}
@@ -150,9 +161,10 @@ class Config extends \App\Base
 	public function getLastScan(string $type): array
 	{
 		return [
-			'id' => $this->get($type . '_last_scan_id') ?? 0,
-			'start_date' => $this->get($type . '_start_scan_date') ?? false,
-			'end_date' => $this->get($type . '_end_scan_date') ?? false,
+			'id' => (int) $this->get($type . '_last_scan_id') ?? 0,
+			'page' => $this->get($type . '_last_scan_page') ?: null,
+			'start_date' => $this->get($type . '_start_date') ?? false,
+			'end_date' => $this->get($type . '_end_date') ?? false,
 		];
 	}
 

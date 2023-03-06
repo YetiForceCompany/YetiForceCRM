@@ -165,8 +165,8 @@ class Settings_WooCommerce_Activation_Model
 			$importer = new \App\Db\Importers\Base();
 			$db->createTable(\App\Integrations\WooCommerce::CONFIG_TABLE_NAME, [
 				'server_id' => $importer->integer(10)->unsigned()->notNull(),
-				'name' => $importer->stringType(50),
-				'value' => $importer->stringType(50),
+				'name' => $importer->stringType(50)->notNull(),
+				'value' => $importer->stringType(50)->null(),
 			]);
 			$db->createCommand()
 				->addForeignKey(

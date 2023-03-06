@@ -59,7 +59,7 @@ class Product extends Base
 		$this->lastScan = $this->config->getLastScan('importProduct');
 		if (
 			!$this->lastScan['start_date']
-			|| (0 === (int) $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])
+			|| (0 === $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])
 		) {
 			$this->config->setScan('importProduct');
 			$this->lastScan = $this->config->getLastScan('importProduct');
@@ -71,8 +71,9 @@ class Product extends Base
 		}
 		$i = 0;
 		try {
-			$page = 1;
+			$page = $this->lastScan['page'] ?? 1;
 			$load = true;
+			$finish = false;
 			$limit = $this->config->get('products_limit');
 			while ($load) {
 				if ($rows = $this->getFromApi('products?&page=' . $page . '&' . $this->getSearchCriteria($limit))) {
@@ -82,13 +83,22 @@ class Product extends Base
 						++$i;
 					}
 					++$page;
+					if (\is_callable($this->controller->bathCallback)) {
+						$load = \call_user_func($this->controller->bathCallback, 'importProduct');
+					}
 					if ($this->config->get('products_limit') !== \count($rows)) {
-						$load = false;
-						$this->config->setEndScan('importProduct', $this->lastScan['start_date']);
+						$finish = true;
 					}
 				} else {
+					$finish = true;
+				}
+				if ($finish || !$load) {
 					$load = false;
-					$this->config->setEndScan('importProduct', $this->lastScan['start_date']);
+					if ($finish) {
+						$this->config->setEndScan('importProduct', $this->lastScan['start_date']);
+					} else {
+						$this->config->setScan('importProduct', 'page', $page);
+					}
 				}
 			}
 		} catch (\Throwable $ex) {
@@ -114,12 +124,12 @@ class Product extends Base
 		if ($dataYf = $mapModel->getDataYf()) {
 			try {
 				$yfId = $this->getYfId($row['id']);
-				if (empty($yfId) || ($this->config->get('master') && empty($this->exported[$yfId]))) {
+				if (empty($yfId) || empty($this->exported[$yfId])) {
 					$mapModel->loadRecordModel($yfId);
 					$mapModel->saveInYf();
 					$this->imported[$row['id']] = $mapModel->getRecordModel()->getId();
 				}
-				$this->updateMapIdCache($mapModel->getModule(), $row['id'], $mapModel->getRecordModel()->getId());
+				$this->updateMapIdCache($mapModel->getModule(), $row['id'], $yfId ?: $mapModel->getRecordModel()->getId());
 			} catch (\Throwable $ex) {
 				$this->log('Import product', ['YF' => $dataYf, 'API' => $row], $ex);
 				\App\Log::error('Error during import product: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
@@ -146,7 +156,7 @@ class Product extends Base
 		$this->lastScan = $this->config->getLastScan('exportProduct');
 		if (
 			!$this->lastScan['start_date']
-			|| (0 === (int) $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])
+			|| (0 === $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])
 		) {
 			$this->config->setScan('exportProduct');
 			$this->lastScan = $this->config->getLastScan('exportProduct');
@@ -158,8 +168,9 @@ class Product extends Base
 		}
 		$i = 0;
 		try {
-			$page = 0;
+			$page = $this->lastScan['page'] ?? 0;
 			$load = true;
+			$finish = false;
 			$query = $this->getExportQuery();
 			$limit = $this->config->get('products_limit');
 			while ($load) {
@@ -171,13 +182,22 @@ class Product extends Base
 						++$i;
 					}
 					++$page;
+					if (\is_callable($this->controller->bathCallback)) {
+						$load = \call_user_func($this->controller->bathCallback, 'exportProduct');
+					}
 					if ($limit !== \count($rows)) {
-						$load = false;
-						$this->config->setEndScan('exportProduct', $this->lastScan['start_date']);
+						$finish = true;
 					}
 				} else {
+					$finish = true;
+				}
+				if ($finish || !$load) {
 					$load = false;
-					$this->config->setEndScan('exportProduct', $this->lastScan['start_date']);
+					if ($finish) {
+						$this->config->setEndScan('exportProduct', $this->lastScan['start_date']);
+					} else {
+						$this->config->setScan('exportProduct', 'page', $page);
+					}
 				}
 			}
 		} catch (\Throwable $ex) {
@@ -239,7 +259,7 @@ class Product extends Base
 				$this->updateMapIdCache(
 					$mapModel->getRecordModel()->getModuleName(),
 					$mapModel->getRecordModel()->get('woocommerce_id'),
-					$mapModel->getRecordModel()->getId()
+					$row['id']
 				);
 			} catch (\Throwable $ex) {
 				$this->log('Export product', ['YF' => $row, 'API' => $dataApi], $ex);
