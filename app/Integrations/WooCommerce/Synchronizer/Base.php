@@ -242,7 +242,7 @@ abstract class Base
 			->insert(\App\Integrations\WooCommerce::LOG_TABLE_NAME, [
 				'time' => date('Y-m-d H:i:s'),
 				'error' => $ex ? 1 : ((int) $error),
-				'message' => \App\TextUtils::textTruncate($message, 500),
+				'message' => \App\TextUtils::textTruncate($message, 255),
 				'params' => $params ? \App\TextUtils::textTruncate($params, 65535) : null,
 				'trace' => $ex ? \App\TextUtils::textTruncate(
 					rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $ex->__toString()), PHP_EOL), 65535
