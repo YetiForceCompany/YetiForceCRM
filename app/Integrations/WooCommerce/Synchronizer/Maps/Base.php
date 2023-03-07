@@ -160,14 +160,14 @@ abstract class Base
 				} elseif (\array_key_exists($field['name'], $this->dataApi)) {
 					$this->loadDataYfMap($fieldCrm, $field);
 				} elseif (!\array_key_exists('optional', $field) || empty($field['optional'])) {
-					$error = "[API>YF] No column {$field['name']} ($fieldCrm)";
+					$error = "[API>YF][1] No column {$field['name']} ($fieldCrm)";
 					\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
 					$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
 				}
 			} else {
 				$this->dataYf[$fieldCrm] = $this->dataApi[$field] ?? null;
 				if (!\array_key_exists($field, $this->dataApi)) {
-					$error = "[API>YF] No column $field ($fieldCrm)";
+					$error = "[API>YF][2] No column $field ($fieldCrm)";
 					\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
 					$this->synchronizer->log($error, $this->dataApi, null, true);
 				}
@@ -192,9 +192,11 @@ abstract class Base
 			if (\array_key_exists($name, $value)) {
 				$value = $value[$name];
 			} else {
-				$error = "[API>YF] No column $name ($fieldCrm)";
-				\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-				$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
+				$error = "[API>YF][3] No column $name ($fieldCrm)";
+				if (!\array_key_exists('optional', $field) || empty($field['optional'])) {
+					\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
+					$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
+				}
 			}
 		}
 		if (empty($error)) {

@@ -162,12 +162,11 @@ class Log extends Logger
 		'woocommerce' => [
 			'label' => 'LBL_WOOCOMMERCE',
 			'labelModule' => 'Settings:WooCommerce',
-			'table' => 'l_#__woocommerce',
+			'table' => Integrations\WooCommerce::LOG_TABLE_NAME,
 			'icon' => 'fa-solid fa-cash-register',
 			'columns' => [
 				'time' => ['type' => 'DateTime', 'label' => 'LBL_TIME'],
 				'error' => ['type' => 'Boolean', 'label' => 'LBL_ERROR'],
-				'category' => ['type' => 'Text', 'label' => 'LBL_CATEGORY'],
 				'message' => ['type' => 'Text', 'label' => 'LBL_MESSAGE'],
 				'params' => ['type' => 'Text', 'label' => 'LBL_PARAMS'],
 				'trace' => ['type' => 'Text', 'label' => 'LBL_BACKTRACE'],
@@ -175,7 +174,6 @@ class Log extends Logger
 			'filter' => [
 				'time' => 'DateTimeRange',
 				'error' => 'Boolean',
-				'category' => 'Text',
 				'message' => 'Text',
 				'params' => 'Text',
 				'trace' => 'Text',
@@ -184,7 +182,7 @@ class Log extends Logger
 		'wapro' => [
 			'label' => 'LBL_WAPRO_ERP',
 			'labelModule' => 'Settings:Wapro',
-			'table' => 'l_#__wapro',
+			'table' => Integrations\Wapro::LOG_TABLE_NAME,
 			'icon' => 'fab fa-connectdevelop',
 			'columns' => [
 				'time' => ['type' => 'DateTime', 'label' => 'LBL_TIME'],
