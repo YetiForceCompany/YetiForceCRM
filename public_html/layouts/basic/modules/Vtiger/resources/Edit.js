@@ -1419,7 +1419,7 @@ $.Class(
 		 * @param {object} params
 		 */
 		setFieldValue: function (params) {
-			const fieldElement = this.getForm().find(`[name="${params['fieldName']}"]`),
+			const fieldElement = this.getForm().find(`[name="${params['fieldName']}"]:last`),
 				fieldInfo = fieldElement.data('fieldinfo');
 			if (fieldElement.is('select')) {
 				if (fieldElement.find(`option[value="${params['value']}"]`).length) {
@@ -1427,6 +1427,8 @@ $.Class(
 				} else if (fieldInfo.picklistvalues.hasOwnProperty(params['value'])) {
 					fieldElement.append(new Option(params['value'], params['value'], true, true)).trigger('change');
 				}
+			} else if (fieldElement.attr('type') == 'checkbox') {
+				fieldElement.prop('checked', params['value'] == '1').trigger('change');
 			} else {
 				fieldElement.val(params['value']);
 			}
