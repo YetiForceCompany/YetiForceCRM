@@ -151,12 +151,8 @@ class Settings_WooCommerce_Activation_Model
 		if (!$db->isTableExists(\App\Integrations\WooCommerce::MAP_TABLE_NAME)) {
 			$importer = new \App\Db\Importers\Base();
 			$db->createTable(\App\Integrations\WooCommerce::MAP_TABLE_NAME, [
-				'id' => $importer->primaryKeyUnsigned(),
-				'time' => $importer->dateTime()->notNull(),
-				'category' => $importer->stringType(100),
-				'message' => $importer->stringType(255),
-				'params' => $importer->text(),
-				'trace' => $importer->text(),
+				'map' => $importer->stringType(50)->notNull(),
+				'class' => $importer->stringType(100)->notNull(),
 			]);
 			++$i;
 		}

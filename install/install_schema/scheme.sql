@@ -668,6 +668,7 @@ CREATE TABLE `i_yf_woocommerce_servers` (
   `connector` varchar(20) NOT NULL,
   `verify_ssl` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `master` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `assigned_user_id` smallint(5) unsigned NOT NULL,
   `sync_currency` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `sync_categories` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `direction_categories` tinyint(1) unsigned NOT NULL DEFAULT 0,
@@ -678,8 +679,6 @@ CREATE TABLE `i_yf_woocommerce_servers` (
   `sync_orders` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `direction_orders` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `shipping_service_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `product_map_class` varchar(255) DEFAULT NULL,
-  `order_map_class` varchar(255) DEFAULT NULL,
   `products_limit` smallint(5) unsigned NOT NULL DEFAULT 1000,
   `orders_limit` smallint(5) unsigned NOT NULL DEFAULT 200,
   PRIMARY KEY (`id`)
@@ -857,19 +856,6 @@ CREATE TABLE `l_yf_users_login_purpose` (
   `baseid` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `l_yf_users_login_purpose_userid_idx` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `l_yf_woocommerce` */
-
-CREATE TABLE `l_yf_woocommerce` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `time` datetime NOT NULL,
-  `error` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `category` varchar(100) DEFAULT NULL,
-  `message` varchar(500) DEFAULT NULL,
-  `params` text DEFAULT NULL,
-  `trace` text DEFAULT NULL,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `o_yf_access_for_admin` */

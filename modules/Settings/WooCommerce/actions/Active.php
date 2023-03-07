@@ -16,7 +16,7 @@ class Settings_WooCommerce_Active_Action extends Settings_Vtiger_Save_Action
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		Settings_WooCommerce_Module_Model::active();
+		Settings_WooCommerce_Activation_Model::activate();
 		header('Location: index.php?parent=Settings&module=WooCommerce&view=List');
 	}
 }

@@ -11,6 +11,7 @@
     "LBL_PASSWORD": "Consumer Secret",
     "LBL_VERIFY_SSL": "Verify SSL",
     "LBL_MASTER": "Master System",
+    "LBL_ASSIGNED_USER_ID": "Assigned To",
     "LBL_SYSTEM_YETIFORCE": "YetiForce",
     "LBL_SYSTEM_WOOCOMMERCE": "WooCommerce",
     "LBL_SYNC_CURRENCY": "Synchronize currencies",
@@ -31,6 +32,8 @@
     "LBL_DIR_CRM_TO_API": "One-way from YetiForce to WooCommerce",
     "LBL_DIR_CRM_API": "Two-way",
     "LBL_SHIPPING_SERVICE_ID": "Shipping service",
-    "LBL_SHIPPING_SERVICE_ID_TOOLTIP": "Additional item in invoice or order when there is a delivery cost.\nThe value is downloaded from the delivery cost in WooCommerce."
+    "LBL_SHIPPING_SERVICE_ID_TOOLTIP": "Additional item in invoice or order when there is a delivery cost.\nThe value is downloaded from the delivery cost in WooCommerce.",
+    "BTN_RECORD_INFO": "Show WooCommerce info and configuration",
+    "LBL_EDIT_CONFIG": "WooCommerce info and configuration"
   }
 }
