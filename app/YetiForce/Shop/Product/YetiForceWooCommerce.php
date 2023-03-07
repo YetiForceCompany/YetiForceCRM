@@ -82,7 +82,7 @@ class YetiForceWooCommerce extends \App\YetiForce\Shop\AbstractBaseProduct
 		];
 		if (\App\Security\AdminAccess::isPermitted('WooCommerce')) {
 			$links[] = \Vtiger_Link_Model::getInstanceFromValues([
-				'linklabel' => 'LBL_MAGENTO',
+				'linklabel' => 'LBL_WOOCOMMERCE',
 				'relatedModuleName' => 'Settings:WooCommerce',
 				'linkicon' => 'fa-solid fa-cash-register',
 				'linkhref' => true,
