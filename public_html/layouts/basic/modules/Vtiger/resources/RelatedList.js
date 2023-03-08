@@ -1541,20 +1541,6 @@ jQuery.Class(
 			});
 		},
 		/**
-		 * Register quick edit save event description.
-		 */
-		registerQuickEditSaveEvent() {
-			app.event.on('QuickEdit.AfterSaveFinal', (e, data, instance, element) => {
-				if (this.moduleName === instance.data('moduleName')) {
-					if (element.closest('.js-detail-widget').length) {
-						Vtiger_Detail_Js.getInstance().postSummaryWidgetAddRecord(data, element);
-					} else {
-						this.loadRelatedList();
-					}
-				}
-			});
-		},
-		/**
 		 * Register change related view.
 		 */
 		registerChangeViewEvent() {
@@ -1635,7 +1621,6 @@ jQuery.Class(
 			this.registerMainCheckBoxClickEvent();
 			this.registerSelectAllClickEvent();
 			this.registerDeselectAllClickEvent();
-			this.registerQuickEditSaveEvent();
 			this.registerChangeViewEvent();
 			this.registerMassRecordsEvents();
 			YetiForce_ListSearch_Js.registerSearch(this.content, (data) => {
