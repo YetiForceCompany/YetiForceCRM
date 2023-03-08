@@ -410,7 +410,6 @@ const App = (window.App = {
 				const submitSuccessCallback = params.callbackFunction || function () {};
 				const goToFullFormCallBack = params.goToFullFormcallback || function () {};
 				form.on('submit', (e) => {
-					const form = $(e.currentTarget);
 					if (form.hasClass('not_validation')) {
 						return true;
 					}
