@@ -441,6 +441,15 @@ class Vtiger_Inventory_Model
 					}
 				}
 			}
+			$moduleId = \App\Module::getModuleId($this->getModuleName());
+			$mappingIdsContainsModule = (new \App\Db\Query())->select(['id'])->from(Vtiger_MappedFields_Model::$baseTable)
+				->where(['or', ['tabid' => $moduleId], ['reltabid' => $moduleId]])
+				->column();
+			foreach ($mappingIdsContainsModule as $mappingId) {
+				$dbCommand->delete(Vtiger_MappedFields_Model::$mappingTable, [
+					'and', [Vtiger_MappedFields_Model::$mappingIndex => $mappingId, 'type' => 'INVENTORY'], ['or',  ['source' => $fieldName], ['target' => $fieldName]]
+				])->execute();
+			}
 			$dbCommand->delete($this->getTableName(), ['columnname' => $fieldName])->execute();
 			if ('seq' !== $fieldName) {
 				foreach ($columnsArray as $column) {
@@ -489,7 +498,7 @@ class Vtiger_Inventory_Model
 		if (\App\Cache::has(__METHOD__, $moduleName)) {
 			$inventoryTypes = \App\Cache::get(__METHOD__, $moduleName);
 		} else {
-			if(\App\Config::performance('LOAD_CUSTOM_FILES')){
+			if (\App\Config::performance('LOAD_CUSTOM_FILES')) {
 				$fieldPaths[] = "custom/modules/{$moduleName}/inventoryfields/";
 			}
 			$fieldPaths[] = "modules/{$moduleName}/inventoryfields/";
