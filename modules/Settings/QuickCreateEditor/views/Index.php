@@ -68,15 +68,8 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 			}
 			$viewer->assign('BLOCKS', $blockModels);
 			$viewer->assign('SELECTED_MODULE_MODEL', $selectedModuleModel);
-		} else {
-			uksort($quickCreateFields, function ($a, $b) use ($quickCreateFields) {
-				if ($quickCreateFields[$a]->get('quicksequence') === $quickCreateFields[$b]->get('quicksequence')) {
-					return 0;
-				}
-				return $quickCreateFields[$a]->get('quicksequence') < $quickCreateFields[$b]->get('quicksequence') ? -1 : 1;
-			});
-			$viewer->assign('RECORD_STRUCTURE', $quickCreateFields);
 		}
+		$viewer->assign('RECORD_STRUCTURE', $quickCreateFields);
 		$viewer->assign('LAYOUT', $layout);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', $menuModelsList);

@@ -637,7 +637,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function that returns all the quickcreate fields for the module.
 	 *
-	 * @return <Array of Vtiger_Field_Model> - list of field models
+	 * @return Vtiger_Field_Model[] - list of field models
 	 */
 	public function getQuickCreateFields()
 	{
@@ -660,8 +660,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function returns all the relation models.
-	 *
-	 * @return Vtiger_Relation_Model[]
 	 */
 	public function getRelations()
 	{
