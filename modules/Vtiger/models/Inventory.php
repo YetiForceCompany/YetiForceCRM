@@ -442,11 +442,20 @@ class Vtiger_Inventory_Model
 				}
 			}
 			$moduleId = \App\Module::getModuleId($this->getModuleName());
-			$mappingIdsContainsModule = (new \App\Db\Query())->select(['id'])->from(Vtiger_MappedFields_Model::$baseTable)
-				->where(['or', ['tabid' => $moduleId], ['reltabid' => $moduleId]])
-				->column();
-			foreach ($mappingIdsContainsModule as $mappingId) {
-				$dbCommand->delete(Vtiger_MappedFields_Model::$mappingTable, [
+			$mappingTable = Vtiger_MappedFields_Model::$mappingTable;
+			$mappingBaseTable = Vtiger_MappedFields_Model::$baseTable;
+			$queryWhenFieldIsSource = (new \App\Db\Query())->select(["$mappingTable.id"])
+				->from($mappingTable)
+				->innerJoin($mappingBaseTable, "$mappingTable.mappedid = $mappingBaseTable.id")
+				->where(['tabid' => $moduleId, 'type' => 'INVENTORY', 'source' => $fieldName]);
+			$mappedIdsToDelete = (new \App\Db\Query())->select(["$mappingTable.id"])
+				->from($mappingTable)
+				->innerJoin($mappingBaseTable, "$mappingTable.mappedid = $mappingBaseTable.id")
+				->where(['reltabid' => $moduleId, 'type' => 'INVENTORY', 'target' => $fieldName])
+				->union($queryWhenFieldIsSource)->column();
+
+			foreach ($mappedIdsToDelete as $mappingId) {
+				$dbCommand->delete($mappingTable, [
 					'and', [Vtiger_MappedFields_Model::$mappingIndex => $mappingId, 'type' => 'INVENTORY'], ['or',  ['source' => $fieldName], ['target' => $fieldName]]
 				])->execute();
 			}
