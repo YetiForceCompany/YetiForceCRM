@@ -545,9 +545,6 @@ class Vtiger_PDF_Model extends \App\Base
 		}
 
 		$zip->download('PdfZipFile_' . time());
-		foreach ($fileNames as $file) {
-			unlink($file['path']);
-		}
 	}
 
 	/**
@@ -560,5 +557,42 @@ class Vtiger_PDF_Model extends \App\Base
 	public function getPath(string $prefix = '')
 	{
 		return \App\Fields\File::createTempFile($prefix, 'pdf');
+	}
+
+	/**
+	 * Attach pdf as document.
+	 *
+	 * @param array $pdfFiles
+	 *
+	 * @return void
+	 */
+	public static function attachAsDocument(array $pdfFiles): void
+	{
+		$documentsModuleModel = Vtiger_Module_Model::getInstance('Documents');
+		foreach ($pdfFiles as $pdfFile) {
+			$recordId = $pdfFile['recordId'];
+			if (App\Record::isExists($recordId)) {
+				$sourceRecordModel = Vtiger_Record_Model::getInstanceById($recordId, $pdfFile['moduleName']);
+				$filePath = \App\Fields\File::loadFromPath($pdfFile['path']);
+				$fileName = $pdfFile['name'];
+				$file = ['name' => $fileName, 'type' => $filePath->getMimeType(), 'tmp_name' => $filePath->getPath(), 'error' => 0, 'size' => $filePath->getSize()];
+				$documentRecordModel = Vtiger_Record_Model::getCleanInstance('Documents');
+				$documentRecordModel->set('assigned_user_id', $sourceRecordModel->get('assigned_user_id'));
+				$documentRecordModel->set('filename', $fileName);
+				$documentRecordModel->set('filelocationtype', 'I');
+				$documentRecordModel->set('filetype', $file['type']);
+				$documentRecordModel->set('filesize', $file['size']);
+				$documentRecordModel->set('notes_title', $file['name']);
+				$documentRecordModel->set('filestatus', true);
+				$documentRecordModel->set('filelocationtype', 'I');
+				$documentRecordModel->file = $file;
+				$documentRecordModel->ext['attachedFromPdf'] = true;
+				$documentRecordModel->save();
+				$relationModel = Vtiger_Relation_Model::getInstance($sourceRecordModel->getModule(), $documentsModuleModel);
+				if ($relationModel && $documentsModuleModel->isActive()) {
+					$relationModel->addRelation($recordId, $documentRecordModel->getId());
+				}
+			}
+		}
 	}
 }

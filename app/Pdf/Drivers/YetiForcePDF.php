@@ -275,9 +275,13 @@ class YetiForcePDF extends Base
 		}
 		$this->writeHTML();
 		$output = $this->pdf->render();
-		if ('I' !== $mode && 'D' !== $mode) {
+		if (!\in_array($mode, ['I', 'D', 'AttachAndOutput'])) {
 			file_put_contents($fileName, $output);
 			return;
+		}
+		if ('AttachAndOutput' === $mode) {
+			file_put_contents($fileName, $output);
+			$fileName = ($this->getFileName() ?: time()) . '.pdf';
 		}
 		$destination = 'I' === $mode ? 'inline' : 'attachment';
 		header('accept-charset: utf-8');

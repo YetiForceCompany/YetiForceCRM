@@ -1526,7 +1526,8 @@
     "LBL_CONDITION_WIZARD": "Condition wizard",
     "LBL_CURRENCY_CONVERTER": "Currency converter",
     "LBL_OK": "Ok",
-    "LBL_BATCH_ADDING_RECORDS": "Batch adding records"
+    "LBL_BATCH_ADDING_RECORDS": "Batch adding records",
+    "LBL_ATTACH_DOCUMENT_DESC": "When you select this option, it will attach PDF to the records. It doesn't work with Send email action"
   },
   "js": {
     "JS_APPROVE": "Approve",
@@ -1992,6 +1993,8 @@
     "JS_CALENDAR_LIST": "Schedule",
     "JS_SPECIAL_CHARACTERS": "Special characters like",
     "JS_NOT_ALLOWED": "are not allowed",
-    "JS_INVALID_COORDINATES": "Wrong coordinates entered"
+    "JS_INVALID_COORDINATES": "Wrong coordinates entered",
+    "JS_PDF_GENERATED_AND_ATTACHED": "PDF generated and attached to the record",
+    "JS_PDF_GENERATED": "PDF attached to the record"
   }
 }
