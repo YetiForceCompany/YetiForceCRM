@@ -22,15 +22,17 @@ class MultiEmailField extends BaseField
 	/** {@inheritdoc} */
 	public function getValue(): array
 	{
+		$value = [];
 		if (!empty(parent::getValue()) && \in_array($this->operator, ['e', 'n'])) {
-			return array_map(fn ($email) => $email['e'], \App\Json::decode(parent::getValue()));
+			$value = array_map(fn ($email) => $email['e'], \App\Json::decode(parent::getValue()));
 		}
+		return $value;
 	}
 
 	/** {@inheritdoc} */
 	public function operatorE(): bool
 	{
-		return (bool) array_intersect($this->getValue(),    explode($this->separator, $this->value));
+		return (bool) array_intersect($this->getValue(), explode($this->separator, $this->value));
 	}
 
 	/** {@inheritdoc} */
