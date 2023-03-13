@@ -660,6 +660,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 
 	/**
 	 * Function returns all the relation models.
+	 *
+	 * @return Vtiger_Relation_Model[]
 	 */
 	public function getRelations()
 	{
