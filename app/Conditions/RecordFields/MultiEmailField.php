@@ -16,4 +16,40 @@ namespace App\Conditions\RecordFields;
  */
 class MultiEmailField extends BaseField
 {
+	/** @var string Separator. */
+	protected $separator = ',';
+
+	/** {@inheritdoc} */
+	public function getValue(): array
+	{
+		$value = [];
+		if (!empty(parent::getValue()) && \in_array($this->operator, ['e', 'n'])) {
+			$value = array_map(fn ($email) => $email['e'], \App\Json::decode(parent::getValue()));
+		}
+		return $value;
+	}
+
+	/** {@inheritdoc} */
+	public function operatorE(): bool
+	{
+		return (bool) array_intersect($this->getValue(), explode($this->separator, $this->value));
+	}
+
+	/** {@inheritdoc} */
+	public function operatorN(): bool
+	{
+		return (bool) !array_intersect($this->getValue(), explode($this->separator, $this->value));
+	}
+
+	/** {@inheritdoc} */
+	public function operatorC(): bool
+	{
+		return $this->operatorE();
+	}
+
+	/** {@inheritdoc} */
+	public function operatorK(): bool
+	{
+		return $this->operatorN();
+	}
 }
