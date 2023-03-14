@@ -441,6 +441,20 @@ class Vtiger_Inventory_Model
 					}
 				}
 			}
+			$moduleId = \App\Module::getModuleId($this->getModuleName());
+			$mappingTable = Vtiger_MappedFields_Model::$mappingTable;
+			$mappingBaseTable = Vtiger_MappedFields_Model::$baseTable;
+			$mappedQuery = (new \App\Db\Query())->select(["{$mappingTable}.id"])
+				->from($mappingTable)
+				->innerJoin($mappingBaseTable, "{$mappingTable}.mappedid = {$mappingBaseTable}.id")
+				->where(['or',
+					['tabid' => $moduleId, 'type' => 'INVENTORY', 'source' => $fieldName],
+					['reltabid' => $moduleId, 'type' => 'INVENTORY', 'target' => $fieldName]]
+				);
+			$dataReader = $mappedQuery->createCommand()->query();
+			while ($mappedId = $dataReader->readColumn(0)) {
+				$dbCommand->delete($mappingTable, ['id' => $mappedId])->execute();
+			}
 			$dbCommand->delete($this->getTableName(), ['columnname' => $fieldName])->execute();
 			if ('seq' !== $fieldName) {
 				foreach ($columnsArray as $column) {
@@ -489,7 +503,7 @@ class Vtiger_Inventory_Model
 		if (\App\Cache::has(__METHOD__, $moduleName)) {
 			$inventoryTypes = \App\Cache::get(__METHOD__, $moduleName);
 		} else {
-			if(\App\Config::performance('LOAD_CUSTOM_FILES')){
+			if (\App\Config::performance('LOAD_CUSTOM_FILES')) {
 				$fieldPaths[] = "custom/modules/{$moduleName}/inventoryfields/";
 			}
 			$fieldPaths[] = "modules/{$moduleName}/inventoryfields/";
