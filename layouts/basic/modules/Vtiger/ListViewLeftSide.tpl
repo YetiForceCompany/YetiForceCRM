@@ -19,8 +19,10 @@
 							<span class="fas fa-wrench" title="{\App\Language::translate('LBL_ACTIONS')}"></span>
 						</button>
 						<div class="dropdown-menu" aria-label="{\App\Language::translate('LBL_ACTIONS')}">
-							{foreach from=$LINKS item=LINK}
-								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
+							{foreach from=$LINKS key=NAME_LINK item=LINK}
+								{if $NAME_LINK neq 'BTN_ASSIGN_TO_ME'}
+									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
+								{/if}
 							{/foreach}
 						</div>
 					</div>
@@ -28,6 +30,9 @@
 			</div>
 		{/if}
 		<div class="d-flex align-items-center">
+			{if !empty($LINKS['BTN_ASSIGN_TO_ME'])}
+				{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic' LINK=$LINKS['BTN_ASSIGN_TO_ME']}
+			{/if}
 			{if in_array($MODULE_NAME, \App\Config::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW', [])) && $MODULE_MODEL->isPermitted('TimeLineList')}
 				<a data-url="{$LISTVIEW_ENTRY->getTimeLineUrl()}" class="c-badge__icon fa-fw timeLineIconList d-none u-cursor-pointer"></a>
 			{/if}
