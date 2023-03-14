@@ -452,8 +452,8 @@ class Vtiger_Inventory_Model
 					['reltabid' => $moduleId, 'type' => 'INVENTORY', 'target' => $fieldName]]
 				);
 			$dataReader = $mappedQuery->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$dbCommand->delete($mappingTable, ['id' => $row['id']])->execute();
+			while ($mappedId = $dataReader->readColumn(0)) {
+				$dbCommand->delete($mappingTable, ['id' => $mappedId])->execute();
 			}
 			$dbCommand->delete($this->getTableName(), ['columnname' => $fieldName])->execute();
 			if ('seq' !== $fieldName) {
