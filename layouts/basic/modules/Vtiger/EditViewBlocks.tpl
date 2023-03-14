@@ -163,8 +163,17 @@
 														</label>
 														<div class="{$WIDTHTYPE} {$WIDTHTYPE_GROUP} w-100 fieldValue {if !empty($EDIT_WIDTH)} {$EDIT_WIDTH} {elseif ($FIELD_MODEL->getUIType() neq "300") && empty($EDIT_WIDTH)} col-lg-12 col-xl-9 {/if}" {if $FIELD_MODEL->getUIType() eq '20'} colspan="3" {assign var=COUNTER value=$COUNTER+1}{elseif $FIELD_MODEL->getUIType() eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
 															{if $FIELD_MODEL->getUIType() eq "300"}
-																<label class="u-text-small-bold">{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
+																<label class="u-text-small-bold">
+																	{if $FIELD_MODEL->isMandatory() eq true}
+																		<span class="redColor">*</span>
+																	{/if}
 																	{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}
+																	{if $HELPINFO_LABEL}
+																		<a href="#" class="js-help-info u-cursor-pointer ml-1" title="" data-placement="top" data-content="{$HELPINFO_LABEL}"
+																			data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModuleName())}">
+																			<span class="fas fa-info-circle"></span>
+																		</a>
+																	{/if}
 																</label>
 															{/if}
 															{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
