@@ -97,7 +97,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$recordIds = $this->getRecords($request);
 
 		$templateIds = $request->getArray('pdf_template', 'Integer');
-		$attachAsDocument = 1 === $request->getInteger('attach_as_document', 0) && ($documentsModuleModel = Vtiger_Module_Model::getInstance('Documents')->isActive()) && Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($pdfModuleName), $documentsModuleModel);
+		$attachAsDocument = 1 === $request->getInteger('attach_as_document', 0) && !empty(\App\Relation::getByModule($pdfModuleName, true, 'Documents'));
 		$singlePdf = 1 === $request->getInteger('single_pdf');
 		$emailPdf = 1 === $request->getInteger('email_pdf');
 		$pdfFlag = $request->getByType('flag', \App\Purifier::STANDARD) ?: null;
