@@ -410,9 +410,13 @@ class Chromium extends Base
 		$page->navigate('file://' . $tempFileName)->waitForNavigation(\HeadlessChromium\Page::LOAD, 60000);
 		$pdf = $page->pdf($this->getPdfOptions());
 		unlink($tempFileName);
-		if ('I' !== $mode && 'D' !== $mode) {
+		if (!\in_array($mode, ['I', 'D', 'AttachAndOutput'])) {
 			$pdf->saveToFile($fileName);
 			return;
+		}
+		if ('AttachAndOutput' === $mode) {
+			$pdf->saveToFile($fileName);
+			$fileName = ($this->getFileName() ?: time()) . '.pdf';
 		}
 		$destination = 'I' === $mode ? 'inline' : 'attachment';
 		header('accept-charset: utf-8');

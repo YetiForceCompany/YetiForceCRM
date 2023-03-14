@@ -136,6 +136,16 @@
 		{/if}
 		<span class="js-records-info pl-3 text-info d-none" data-js="text"></span>
 		<div class="modal-footer">
+			{if $ATTACH_AS_DOCUMENT}
+				<div class="input-group-prepend">
+					<div class="input-group-text">
+						<input type="checkbox" name="attach_as_document" class="checkbox" value="1">
+						<span class="js-popover-tooltip ml-1" data-placement="top" data-content="{\App\Language::translate('LBL_ATTACH_DOCUMENT_DESC', $MODULE_NAME)}">
+							<i class="fas fa-info-circle"></i>
+						</span>
+					</div>
+				</div>
+			{/if}
 			<div class="btn-group mr-0">
 				<button id="generate_pdf" type="submit" class="btn btn-success js-submit-button" {if !$ACTIVE} disabled="disabled" {/if} data-js="click">
 					<span class="fas fa-file-pdf mr-1"></span>{\App\Language::translate('LBL_GENERATE', $MODULE_NAME)}

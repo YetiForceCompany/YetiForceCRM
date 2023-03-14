@@ -94,6 +94,7 @@ class Vtiger_PDF_View extends Vtiger_BasicModal_View
 			$viewer->assign('SELECTED_INVENTORY_COLUMNS', ($recordId && !$isRelatedView) ? \App\Pdf\InventoryColumns::getInventoryColumnsForRecord($recordId, $pdfModuleName) : array_keys($allInventoryColumns));
 			$viewer->assign('CAN_CHANGE_SCHEME', $moduleModel->isPermitted('RecordPdfInventory'));
 		}
+		$viewer->assign('ATTACH_AS_DOCUMENT', !empty(\App\Relation::getByModule($pdfModuleName, true, 'Documents')));
 		$viewer->assign('STANDARD_TEMPLATES', $templates);
 		$viewer->assign('DYNAMIC_TEMPLATES', $dynamicTemplates);
 		$viewer->assign('ACTIVE_DYNAMIC', $activeDynamic);
