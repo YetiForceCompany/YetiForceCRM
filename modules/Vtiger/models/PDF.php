@@ -589,9 +589,7 @@ class Vtiger_PDF_Model extends \App\Base
 				$documentRecordModel->ext['attachedFromPdf'] = true;
 				$documentRecordModel->save();
 				$relationModel = Vtiger_Relation_Model::getInstance($sourceRecordModel->getModule(), $documentsModuleModel);
-				if ($relationModel && $documentsModuleModel->isActive()) {
-					$relationModel->addRelation($recordId, $documentRecordModel->getId());
-				}
+				$relationModel->addRelation($recordId, $documentRecordModel->getId());
 			}
 		}
 	}

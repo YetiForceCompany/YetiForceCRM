@@ -1527,7 +1527,7 @@
     "LBL_CURRENCY_CONVERTER": "Currency converter",
     "LBL_OK": "Ok",
     "LBL_BATCH_ADDING_RECORDS": "Batch adding records",
-    "LBL_ATTACH_DOCUMENT_DESC": "When you select this option, it will attach PDF to the records. It doesn't work with Send email action"
+    "LBL_ATTACH_DOCUMENT_DESC": "When you select this option, it will attach PDF to the records. Send email action is omitted with this option"
   },
   "js": {
     "JS_APPROVE": "Approve",
