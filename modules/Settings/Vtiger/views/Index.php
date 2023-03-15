@@ -72,7 +72,7 @@ class Settings_Vtiger_Index_View extends \App\Controller\View\Page
 			$monitoringData['SECURITY_COUNT'] = [
 				'LABEL' => 'PLU_SECURITY',
 				'VALUE' => $this->getSecurityCount(),
-				'HREF' => 'index.php?module=Log&parent=Settings&view=Index',
+				'HREF' => 'index.php?module=Log&parent=Settings&module=Log&view=LogsOwasp',
 				'ICON' => 'yfi yfi-security-errors-2',
 			];
 		}
