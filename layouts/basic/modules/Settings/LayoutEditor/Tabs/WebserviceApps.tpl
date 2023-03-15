@@ -48,8 +48,8 @@
 															<span class="redColor">*</span>
 														{/if}
 														<span class="ml-3 badge badge-secondary">{$FIELD_MODEL->getName()}</span>
-														{if isset($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()])}
-															<span class="ml-3 badge badge-info">{App\Language::translate($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()], $QUALIFIED_MODULE)}</span>
+														{if isset($FIEL_TYPE_LABEL[$FIELD_MODEL->getFieldDataType()])}
+															<span class="ml-3 badge badge-info">{App\Language::translate($FIEL_TYPE_LABEL[$FIELD_MODEL->getFieldDataType()], $QUALIFIED_MODULE)}</span>
 														{/if}
 													</span>
 													<span class="float-right actions">
