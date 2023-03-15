@@ -539,9 +539,6 @@ class CustomView_Record_Model extends \App\Base
 		if (!empty($searchValue) && ($operator = $this->get('operator'))) {
 			$queryGenerator->addCondition($searchKey, $searchValue, $operator);
 		}
-		if ($advancedConditions = $this->get('advancedConditions')) {
-			$queryGenerator->setAdvancedConditions($advancedConditions);
-		}
 		$searchParams = $this->getArray('search_params');
 		if (empty($searchParams)) {
 			$searchParams = [];

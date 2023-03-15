@@ -751,8 +751,11 @@ class QueryGenerator
 		}
 		if (!$onlyFields) {
 			$this->conditions = CustomView::getConditions($viewId);
+			if (($customView = \App\CustomView::getCustomViewById($viewId)) && $customView['advanced_conditions']) {
+				$this->setAdvancedConditions($customView['advanced_conditions']);
+				$this->setDistinct('id');
+			}
 		}
-
 		return $this;
 	}
 

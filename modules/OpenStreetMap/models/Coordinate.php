@@ -300,7 +300,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 	public function getCoordinatesCustomView()
 	{
 		$selectedIds = $this->get('selectedIds');
-		if ('all' == $selectedIds) {
+		if ($selectedIds && 'all' == $selectedIds[0]) {
 			return $this->readAllCoordinatesFromCustomeView();
 		}
 		if (!empty($selectedIds)) {
