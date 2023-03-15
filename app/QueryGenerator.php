@@ -260,6 +260,16 @@ class QueryGenerator
 	}
 
 	/**
+	 * Get distinct column.
+	 *
+	 * @return string|null
+	 */
+	public function getDistinct(): ?string
+	{
+		return $this->distinct;
+	}
+
+	/**
 	 * Returns related fields.
 	 *
 	 * @return array

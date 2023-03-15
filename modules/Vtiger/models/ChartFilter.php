@@ -738,7 +738,19 @@ class Vtiger_ChartFilter_Model extends \App\Base
 			$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
 			$queryGenerator->initForCustomViewById($filter);
 		}
-		$queryGenerator->setFields(['id'])->setCustomColumn(['count' => new \yii\db\Expression('COUNT(1)'), 'id' => new \yii\db\Expression('MAX(' . $queryGenerator->getColumnName('id') . ')')]);
+		$queryGenerator->setFields(['id']);
+		if (empty($queryGenerator->getDistinct())) {
+			$queryGenerator->setCustomColumn([
+				'count' => new \yii\db\Expression('COUNT(1)'),
+				'id' => new \yii\db\Expression('MAX(' . $queryGenerator->getColumnName('id') . ')')
+			]);
+		} else {
+			$queryGenerator->setDistinct(null);
+			$queryGenerator->setCustomColumn([
+				'count' => new \yii\db\Expression('COUNT(DISTINCT ' . $queryGenerator->getColumnName('id') . ')'),
+				'id' => new \yii\db\Expression('MAX(' . $queryGenerator->getColumnName('id') . ')')
+			]);
+		}
 		foreach ([$this->groupName => $this->groupColumnName, $this->dividingName => $this->dividingColumnName] as $columnName => $groupBy) {
 			if (!empty($columnName) && $columnName !== $groupBy) {
 				$sqlColumnName = $queryGenerator->getColumnName($columnName);
@@ -959,6 +971,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	 */
 	protected function getRowsDb($query, $dividingValue)
 	{
+		file_put_contents(__FILE__ . '.log', print_r([$query->createCommand()->getRawSql()], true), FILE_APPEND);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			[$groupValue, $dividingValue] = $this->getFieldValuesFromRow($row, $dividingValue);
