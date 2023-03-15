@@ -1691,11 +1691,9 @@ $.Class(
 							thisInstance.reArrangeBlockFields(block);
 						}
 						if (result['mandatory']) {
-							if (fieldLabel.find('.redColor').length === 0) {
-								fieldRow.find('.fieldLabel').append($('<span class="redColor">*</span>'));
-							}
+							fieldLabel.find('.redColor').removeClass('d-none');
 						} else {
-							fieldRow.find('.fieldLabel').find('.redColor').remove();
+							fieldLabel.find('.redColor').addClass('d-none');
 						}
 					}
 				});
