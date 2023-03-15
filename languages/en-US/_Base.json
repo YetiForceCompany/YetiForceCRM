@@ -1995,6 +1995,6 @@
     "JS_NOT_ALLOWED": "are not allowed",
     "JS_INVALID_COORDINATES": "Wrong coordinates entered",
     "JS_PDF_GENERATED_AND_ATTACHED": "PDF generated and attached to the record",
-    "JS_PDF_GENERATED": "PDF attached to the record"
+    "JS_PDF_GENERATED": "PDF was created"
   }
 }
