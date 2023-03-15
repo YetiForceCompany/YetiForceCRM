@@ -183,14 +183,11 @@ class Workflow
 	public function isCompletedForRecord($recordId)
 	{
 		$isExistsActivateDonce = (new \App\Db\Query())->from('com_vtiger_workflow_activatedonce')->where(['entity_id' => $recordId, 'workflow_id' => $this->id])->exists();
-		$isExistsWorkflowTasks = (new \App\Db\Query())->from('com_vtiger_workflowtasks')
+		$queryWorkflowTasks = (new \App\Db\Query())->from('com_vtiger_workflowtasks')
 			->innerJoin('com_vtiger_workflowtask_queue', 'com_vtiger_workflowtasks.task_id= com_vtiger_workflowtask_queue.task_id')
-			->where(['entity_id' => $recordId, 'workflow_id' => $this->id])->exists();
+			->where(['entity_id' => $recordId, 'workflow_id' => $this->id]);
 
-		if (!$isExistsActivateDonce && !$isExistsWorkflowTasks) { // Workflow not done for specified record
-			return false;
-		}
-		return true;
+		return !(!$isExistsActivateDonce && !$queryWorkflowTasks->exists());
 	}
 
 	/**

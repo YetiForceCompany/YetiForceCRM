@@ -367,8 +367,6 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 
 /*Data for the table `l_yf_users_login_purpose` */
 
-/*Data for the table `l_yf_woocommerce` */
-
 /*Data for the table `o_yf_access_for_admin` */
 
 /*Data for the table `o_yf_access_for_api` */

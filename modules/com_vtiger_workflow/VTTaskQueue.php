@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  * ********************************************************************************** */
 
 /**
@@ -22,14 +23,18 @@ class VTTaskQueue
 	 *        an optional value with a default value of 0
 	 * @param mixed $taskContents
 	 */
-	public function queueTask($taskId, $entityId, $when = 0, $taskContents = false)
+	public function queueTask($taskId, $entityId, $when = 0, $taskContents = '')
 	{
-		\App\Db::getInstance()->createCommand()->insert('com_vtiger_workflowtask_queue', [
+		$data = [
 			'task_id' => $taskId,
 			'entity_id' => $entityId,
 			'do_after' => $when,
 			'task_contents' => $taskContents,
-		])->execute();
+		];
+		$query = (new \App\Db\Query())->from('com_vtiger_workflowtask_queue')->where($data);
+		if (!$query->exists()) {
+			\App\Db::getInstance()->createCommand()->insert('com_vtiger_workflowtask_queue', $data)->execute();
+		}
 
 		return true;
 	}

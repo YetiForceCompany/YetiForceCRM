@@ -367,7 +367,8 @@ CREATE TABLE `com_vtiger_workflowtask_queue` (
   `task_id` int(10) DEFAULT NULL,
   `entity_id` varchar(100) DEFAULT NULL,
   `do_after` int(10) DEFAULT NULL,
-  `task_contents` text DEFAULT NULL
+  `task_contents` text DEFAULT NULL,
+  KEY `workflowtask_queue_task_id_entity_id` (`task_id`,`entity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `com_vtiger_workflowtasks` */
