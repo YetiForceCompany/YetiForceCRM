@@ -23,38 +23,26 @@
 
 <img src="https://stats.yetiforce.com/matomo.php?idsite=4&amp;rec=1" style="border:0" alt="" />
 
-<div align="center">
-	<div data-badge="oss-users-love-us-white" style="width:120px; display: inline-block;">
-		<a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>
-			<img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' />
-		</a>
-	</div>
-	<div data-badge="oss-users-love-us-white" style="width:120px; display: inline-block;">
-		<a href='https://www.capterra.com/customer-relationship-management-software/#affordable' width="50">
-			<img border='0' src='https://public.yetiforce.com/img/CRM-AF-2017.png' width="150"/>
-		</a>
-	</div>
-	<div data-badge="oss-users-love-us-white" style="width:120px; display: inline-block;">
-		<a href="https://sourceforge.net/software/product/Yetiforce/?pk_campaign=badge&amp;pk_source=vendor" target="_blank" rel="nofollow">
-			<img alt="SourceForge Customers Love" src="https://sourceforge.net/cdn/syndication/badge_img/2970487/light-default" height="120px">
-		</a>
-	</div>
-	<div data-badge="oss-users-love-us-white" style="width:120px; display: inline-block;">
-		<a href="https://sourceforge.net/software/product/Yetiforce/?pk_campaign=badge&amp;pk_source=vendor" target="_blank" rel="nofollow">
-			<img alt="SourceForge Customers Love" src="https://sourceforge.net/cdn/syndication/badge_img/2324499/oss-users-love-us-white" height="120px">
-		</a>
-	</div>
-	<div data-badge="oss-users-love-us-white" style="width:120px; display: inline-block;">
-		<a href="https://sourceforge.net/software/product/Yetiforce/?pk_campaign=badge&amp;pk_source=vendor" target="_blank" rel="nofollow">
-			<img alt="SourceForge Customers Love" src="https://sourceforge.net/cdn/syndication/badge_img/2970487/top-performer-summer-white?achievement=top-performer-seasonal-2021-summer" height="120px">
-		</a>
-	</div>
-	<div data-badge="oss-users-love-us-white" style="width:120px; display: inline-block;">
-		<a href="https://sourceforge.net/software/product/Yetiforce/?pk_campaign=badge&amp;pk_source=vendor" target="_blank" rel="nofollow">
-			<img alt="SourceForge Customers Love" src="https://sourceforge.net/cdn/syndication/badge_img/2970487/top-performer-spring-white?achievement=top-performer-seasonal-2021-spring" height="120px">
-		</a>
-	</div>
-</div>
+<p align="center">
+	<a href='http://www.capterra.com/customer-relationship-management-software/reviews/159123/Yetiforce%20/YetiForce?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge'>
+		<img border='0' src='https://assets.capterra.com/badge/470cd214b89233aa4e89972fa49c3253.png?v=2111411&p=159123' />
+	</a>
+	<a href='https://www.capterra.com/customer-relationship-management-software/#affordable' width="50">
+		<img border='0' src='https://public.yetiforce.com/img/CRM-AF-2017.png' width="150"/>
+	</a>
+	<a href="https://sourceforge.net/software/product/Yetiforce/?pk_campaign=badge&amp;pk_source=vendor" target="_blank" rel="nofollow">
+		<img alt="SourceForge Customers Love" src="https://sourceforge.net/cdn/syndication/badge_img/2970487/light-default" height="120px" width="120px;">
+	</a>
+	<a href="https://sourceforge.net/software/product/Yetiforce/?pk_campaign=badge&amp;pk_source=vendor" target="_blank" rel="nofollow">
+		<img alt="SourceForge Customers Love" src="https://sourceforge.net/cdn/syndication/badge_img/2324499/oss-users-love-us-white" height="120px" width="120px;">
+	</a>
+	<a href="https://sourceforge.net/software/product/Yetiforce/?pk_campaign=badge&amp;pk_source=vendor" target="_blank" rel="nofollow">
+		<img alt="SourceForge Customers Love" src="https://sourceforge.net/cdn/syndication/badge_img/2970487/top-performer-summer-white?achievement=top-performer-seasonal-2021-summer" height="120px" width="120px;">
+	</a>
+	<a href="https://sourceforge.net/software/product/Yetiforce/?pk_campaign=badge&amp;pk_source=vendor" target="_blank" rel="nofollow">
+		<img alt="SourceForge Customers Love" src="https://sourceforge.net/cdn/syndication/badge_img/2970487/top-performer-spring-white?achievement=top-performer-seasonal-2021-spring" height="120px" width="120px;">
+	</a>
+</p>
 
 <p align="center">
 	<a href="https://sourceforge.net/projects/yetiforce/files/latest/download" rel="nofollow">
