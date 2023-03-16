@@ -68,17 +68,18 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	protected $webserviceData;
 
 	/**
-	 * Get field label by data type.
+	 * Get field data type label.
+	 *
+	 * @return string
 	 */
-	public function getFieldLabelByDataType()
+	public function getFieldDataTypeLabel(): string
 	{
-		if (isset($this->fieldTypeLabel[$this->getFieldDataType()])) {
-			$label = $this->fieldTypeLabel[$this->getFieldDataType()];
-			if (300 === $this->getUIType()) {
-				$label = 'Editor';
-			}
-			return $label;
+		if (300 === $this->getUIType()) {
+			$label = 'Editor';
+		} else {
+			$label = $this->fieldTypeLabel[$this->getFieldDataType()] ?? '';
 		}
+		return $label;
 	}
 
 	/**

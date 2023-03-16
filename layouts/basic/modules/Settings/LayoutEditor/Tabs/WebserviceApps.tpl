@@ -47,8 +47,8 @@
 															<span class="redColor">*</span>
 														{/if}
 														<span class="ml-3 badge badge-secondary">{$FIELD_MODEL->getName()}</span>
-														{if isset($FIELD_MODEL->getFieldLabelToDataType())}
-															<span class="ml-3 badge badge-info">{App\Language::translate($FIELD_MODEL->getFieldLabelToDataType(), $QUALIFIED_MODULE)}</span>
+														{if $FIELD_MODEL->getFieldDataTypeLabel()}
+															<span class="ml-3 badge badge-info">{App\Language::translate($FIELD_MODEL->getFieldDataTypeLabel(), $QUALIFIED_MODULE)}</span>
 														{/if}
 													</span>
 													<span class="float-right actions">

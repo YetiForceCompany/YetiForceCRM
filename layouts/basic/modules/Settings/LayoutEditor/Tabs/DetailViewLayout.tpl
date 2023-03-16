@@ -105,8 +105,8 @@
 														{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
 														<span class="redColor {if !$IS_MANDATORY}d-none{/if}">*</span>
 														<span class="ml-3 badge badge-secondary d-none d-sm-inline-block">{$FIELD_MODEL->getName()}</span>
-														{if isset($FIELD_MODEL->getFieldLabelToDataType())}
-															<span class="ml-3 badge badge-info d-none d-sm-inline-block">{App\Language::translate($FIELD_MODEL->getFieldLabelToDataType(), $QUALIFIED_MODULE)}</span>
+														{if $FIELD_MODEL->getFieldDataTypeLabel()}
+															<span class="ml-3 badge badge-info d-none d-sm-inline-block">{App\Language::translate($FIELD_MODEL->getFieldDataTypeLabel(), $QUALIFIED_MODULE)}</span>
 														{/if}
 													</span>
 													<span class="float-right actions">
