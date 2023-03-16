@@ -412,6 +412,7 @@ Vtiger_Edit_Js(
 			this.registerInviteEvent(container);
 			this.registerAddInvitation(container);
 			this.registerFormSubmitEvent(container);
+			this.registerReminderFieldCheckBox();
 		},
 		toggleTimesInputs: function (container) {
 			container.find(':checkbox').on('change', function () {
@@ -590,7 +591,6 @@ Vtiger_Edit_Js(
 			if (!this.proceedRegisterEvents()) {
 				return;
 			}
-			this.registerReminderFieldCheckBox();
 			this.registerRecurrenceFieldCheckBox();
 			this.registerRecurringTypeChangeEvent();
 			this._super();
