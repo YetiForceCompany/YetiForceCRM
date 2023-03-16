@@ -486,7 +486,10 @@ final class Chat
 			->from(['ROOM_PINNED' => static::TABLE_NAME['room'][$roomType]])
 			->where(['ROOM_PINNED.userid' => $userId])
 			->andWhere(['or', ['ROOM_SRC.reluserid' => $userId], ['ROOM_SRC.userid' => $userId]])
-			->leftJoin(['ROOM_SRC' => static::TABLE_NAME['room_name'][$roomType]], 'ROOM_PINNED.roomid = ROOM_SRC.roomid');
+			->leftJoin(['ROOM_SRC' => static::TABLE_NAME['room_name'][$roomType]], 'ROOM_PINNED.roomid = ROOM_SRC.roomid')
+			->leftJoin(['USERS' => 'vtiger_users'], 'USERS.id = ROOM_SRC.userid')
+			->leftJoin(['USERS_REL' => 'vtiger_users'], 'USERS_REL.id = ROOM_SRC.reluserid')
+			->andWhere(['and', ['not', ['USERS.id' => null]], ['USERS.status' => 'Active'], ['not', ['USERS_REL.id' => null]], ['USERS_REL.status' => 'Active']]);
 		$dataReader = $query->createCommand()->query();
 		$rooms = [];
 		while ($row = $dataReader->read()) {
