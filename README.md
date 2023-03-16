@@ -10,7 +10,6 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/YetiForceCompany/YetiForceCRM.svg)](https://GitHub.com/YetiForceCompany/YetiForceCRM/graphs/contributors/)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/yetiforcecrm/localized.svg)](https://crowdin.com/project/yetiforcecrm)
 [![Doc](https://img.shields.io/badge/Doc-doc.yetiforce.com-brightgreen.svg)](https://doc.yetiforce.com/)
-[![Backers on Open Collective](https://opencollective.com/YetiForceCRM/backers/badge.svg)](#backers)
 [![Sponsors on Open Collective](https://opencollective.com/YetiForceCRM/sponsors/badge.svg)](#sponsors)
 [![codecov](https://codecov.io/gh/YetiForceCompany/YetiForceCRM/branch/developer/graph/badge.svg)](https://codecov.io/gh/YetiForceCompany/YetiForceCRM)
 [![Scrutinizer](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/badges/quality-score.png?b=developer)](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/)
@@ -129,15 +128,6 @@ This project exists thanks to all the people who contribute. [[Contribute](CONTR
 <a href="https://github.com/YetiForceCompany/YetiForceCRM/graphs/contributors">
 <img src="https://contrib.rocks/image?repo=YetiForceCompany/YetiForceCRM" />
 </a>
-
-## 💰 Backers
-
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/YetiForceCRM#backer)]
-<a href="https://opencollective.com/YetiForceCRM#backers" target="_blank"><img src="https://opencollective.com/YetiForceCRM/backers.svg?width=890"></a>
-
-## 🍀 Sponsors
-
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/YetiForceCRM#sponsor)]
 
 <a href="https://opencollective.com/YetiForceCRM/sponsor/0/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/0/avatar.svg"></a>
 <a href="https://opencollective.com/YetiForceCRM/sponsor/1/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/1/avatar.svg"></a>
