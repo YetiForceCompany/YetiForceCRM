@@ -23,7 +23,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 	];
 
 	/** @var array Translations of field types */
-	public static $fieldTypeLabel = [
+	public $fieldTypeLabel = [
 		'string' => 'Text',
 		'date' => 'Date',
 		'integer' => 'Integer',
@@ -66,6 +66,20 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 
 	/** @var array Webservice field data */
 	protected $webserviceData;
+
+	/**
+	 * Get field label by data type.
+	 */
+	public function getFieldLabelByDataType()
+	{
+		if (isset($this->fieldTypeLabel[$this->getFieldDataType()])) {
+			$label = $this->fieldTypeLabel[$this->getFieldDataType()];
+			if (300 === $this->getUIType()) {
+				$label = 'Editor';
+			}
+			return $label;
+		}
+	}
 
 	/**
 	 * Function to remove field.
