@@ -10,7 +10,6 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/YetiForceCompany/YetiForceCRM.svg)](https://GitHub.com/YetiForceCompany/YetiForceCRM/graphs/contributors/)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/yetiforcecrm/localized.svg)](https://crowdin.com/project/yetiforcecrm)
 [![Doc](https://img.shields.io/badge/Doc-doc.yetiforce.com-brightgreen.svg)](https://doc.yetiforce.com/)
-[![Sponsors on Open Collective](https://opencollective.com/YetiForceCRM/sponsors/badge.svg)](#sponsors)
 [![codecov](https://codecov.io/gh/YetiForceCompany/YetiForceCRM/branch/developer/graph/badge.svg)](https://codecov.io/gh/YetiForceCompany/YetiForceCRM)
 [![Scrutinizer](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/badges/quality-score.png?b=developer)](https://scrutinizer-ci.com/g/YetiForceCompany/YetiForceCRM/)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/YetiForceCompany/YetiForceCRM.svg)](http://isitmaintained.com/project/YetiForceCompany/YetiForceCRM 'Average time to resolve an issue')
@@ -132,17 +131,6 @@ This project exists thanks to all the people who contribute. [[Contribute](CONTR
 <a href="https://github.com/YetiForceCompany/YetiForceCRM/graphs/contributors">
 <img src="https://contrib.rocks/image?repo=YetiForceCompany/YetiForceCRM" />
 </a>
-
-<a href="https://opencollective.com/YetiForceCRM/sponsor/0/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/0/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/1/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/1/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/2/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/2/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/3/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/3/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/4/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/4/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/5/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/5/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/6/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/6/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/7/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/7/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/8/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/8/avatar.svg"></a>
-<a href="https://opencollective.com/YetiForceCRM/sponsor/9/website" target="_blank"><img src="https://opencollective.com/YetiForceCRM/sponsor/9/avatar.svg"></a>
 
 ### Gallery: https://public.yetiforce.com/gallery
 
