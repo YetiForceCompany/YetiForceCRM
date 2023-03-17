@@ -92,7 +92,7 @@ class Config extends \App\Base
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		if (null !== $name) {
-			$data = ['name' => "{$type}_last_scan_{$name}",	'value' => $id];
+			$data = ['name' => "{$type}_last_{$name}",	'value' => $id];
 		} else {
 			$data = ['name' => $type . '_start_date', 'value' => date('Y-m-d H:i:s')];
 		}
@@ -125,13 +125,13 @@ class Config extends \App\Base
 		}
 		$saveData = [
 			[
-				'name' => $type . '_end_scan_date',
+				'name' => $type . '_end_date',
 				'value' => $date,
 			], [
-				'name' => $type . '_last_scan_id',
+				'name' => $type . '_last_id',
 				'value' => 0,
 			], [
-				'name' => $type . '_last_scan_page',
+				'name' => $type . '_last_page',
 				'value' => null,
 			],
 		];
@@ -161,8 +161,8 @@ class Config extends \App\Base
 	public function getLastScan(string $type): array
 	{
 		return [
-			'id' => (int) $this->get($type . '_last_scan_id') ?? 0,
-			'page' => $this->get($type . '_last_scan_page') ?: null,
+			'id' => (int) $this->get($type . '_last_id') ?? 0,
+			'page' => $this->get($type . '_last_page') ?: null,
 			'start_date' => $this->get($type . '_start_date') ?? false,
 			'end_date' => $this->get($type . '_end_date') ?? false,
 		];

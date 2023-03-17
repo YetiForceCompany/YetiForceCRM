@@ -505,13 +505,14 @@ abstract class Base
 	 *
 	 * @param string $source
 	 * @param string $target
+	 * @param bool   $checkField
 	 *
 	 * @return void
 	 */
-	protected function convertAddress(string $source, string $target): void
+	protected function convertAddress(string $source, string $target, bool $checkField = true): void
 	{
 		foreach ($this->addressMapFields as $yf => $api) {
-			if (!$this->moduleModel->getFieldByName($yf . $target)) {
+			if ($checkField && !$this->moduleModel->getFieldByName($yf . $target)) {
 				\App\Log::info(
 					"The {$yf}{$target} field does not exist in the {$this->moduleName} module",
 					$this->synchronizer::LOG_CATEGORY);

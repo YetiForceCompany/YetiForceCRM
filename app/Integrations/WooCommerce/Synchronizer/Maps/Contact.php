@@ -28,7 +28,7 @@ class Contact extends Base
 		'lastname' => ['name' => ['billing', 'last_name'], 'direction' => 'yf'],
 		'email' => ['name' => ['billing', 'email'], 'direction' => 'yf'],
 		'phone' => ['name' => ['billing', 'phone'], 'fn' => 'convertPhone', 'direction' => 'yf'],
-		'parent_id' => ['name' => 'customer_id', 'fn' => 'addRelationship', 'moduleName' => 'Accounts', 'direction' => 'yf'],
+		'parent_id' => ['name' => 'customer_id', 'fn' => 'addRelationship', 'moduleName' => 'Accounts', 'direction' => 'yf', 'onlyCreate' => true],
 	];
 	/** {@inheritdoc} */
 	protected $defaultDataYf = [
