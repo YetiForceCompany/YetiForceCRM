@@ -49,7 +49,6 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 	public function getEvents(App\Request $request)
 	{
 		$record = $this->getCalendarModel($request);
-		$record->remove('types');
 		$entity = array_merge($record->getEntity(), $record->getPublicHolidays());
 		$response = new Vtiger_Response();
 		$response->setResult($entity);
