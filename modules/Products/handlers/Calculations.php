@@ -19,9 +19,9 @@ class Products_Calculations_Handler
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$resultField = \App\Config::module($eventHandler->getModuleName(), 'CALCULATION_FIELD', 'commissionrate');
-		if ($resultField && ($purchaseField = $recordModel->getField('purchase')) && $purchaseField->isActiveField() &&
-			($marginField = $recordModel->getField('commissionrate')) && $marginField->isActiveField() &&
-			($unitPriceField = $recordModel->getField('unit_price')) && $unitPriceField->isActiveField()) {
+		if ($resultField && ($purchaseField = $recordModel->getField('purchase')) && $purchaseField->isActiveField()
+			&& ($marginField = $recordModel->getField('commissionrate')) && $marginField->isActiveField()
+			&& ($unitPriceField = $recordModel->getField('unit_price')) && $unitPriceField->isActiveField()) {
 			$uiTypeModel = $unitPriceField->getName() === $resultField ? $purchaseField->getUITypeModel() : $unitPriceField->getUITypeModel();
 			$value = $recordModel->get($uiTypeModel->getFieldModel()->getName());
 			$currencyId = $uiTypeModel->getBaseCurrency($value) ?? \App\Fields\Currency::getDefault()['id'];
@@ -32,7 +32,7 @@ class Products_Calculations_Handler
 					$value = $this->getValueField($currencyId, $value, null, (float) $recordModel->get($marginField->getName()));
 					break;
 				case $marginField->getName():
-					$purchaseValue = $purchaseField->getUITypeModel()->getValueForCurrency($recordModel->get($purchaseField->getName()), $currencyId);
+					$purchaseValue = $purchaseField->getUITypeModel()->getValueForCurrency($recordModel->get($purchaseField->getName()) ?? '', $currencyId);
 					$value = $this->getValueField($currencyId, (float) $purchaseValue, $value);
 					break;
 				case $purchaseField->getName():
