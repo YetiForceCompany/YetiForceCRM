@@ -9,6 +9,8 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
+use App\Integrations\WooCommerce;
+
 /**
  * Activation class for WooCommerce integration model.
  */
@@ -32,6 +34,11 @@ class Settings_WooCommerce_Activation_Model
 			'fields' => ['woocommerce_server_id', 'woocommerce_id'],
 		],
 	];
+	/** @var string[] Webhooks list */
+	private const WEBHOOKS = [
+		'product.created', 'product.updated', 'product.deleted', 'product.restored',
+		'order.created', 'order.updated', 'order.deleted', 'order.restored',
+	];
 
 	/**
 	 * Check if the functionality has been activated.
@@ -48,13 +55,14 @@ class Settings_WooCommerce_Activation_Model
 				$condition[] = ['tabid' => \App\Module::getModuleId($moduleName), 'fieldname' => $fieldName];
 			}
 		}
-		return \App\Db::getInstance('log')->isTableExists(\App\Integrations\WooCommerce::LOG_TABLE_NAME)
-		&& \App\Db::getInstance('log')->isTableExists(\App\Integrations\WooCommerce::MAP_TABLE_NAME)
-		&& \App\Db::getInstance('log')->isTableExists(\App\Integrations\WooCommerce::CONFIG_TABLE_NAME)
+		return \App\Db::getInstance('log')->isTableExists(WooCommerce::LOG_TABLE_NAME)
+		&& \App\Db::getInstance('log')->isTableExists(WooCommerce::MAP_TABLE_NAME)
+		&& \App\Db::getInstance('log')->isTableExists(WooCommerce::CONFIG_TABLE_NAME)
 		&& $i === (new \App\Db\Query())->from('vtiger_field')->where($condition)->count()
 		&& \App\EventHandler::checkActive('Products_DuplicateEan_Handler', 'EditViewPreSave')
 		&& \App\EventHandler::checkActive('Products_UpdateModifiedTime_Handler', 'EntityAfterSave')
-		&& \App\Cron::checkActive('Vtiger_WooCommerce_Cron');
+		&& \App\Cron::checkActive('Vtiger_WooCommerce_Cron')
+		&& self::checkWebhooks();
 	}
 
 	/**
@@ -136,9 +144,9 @@ class Settings_WooCommerce_Activation_Model
 			}
 		}
 		$dbLog = \App\Db::getInstance('log');
-		if (!$dbLog->isTableExists(\App\Integrations\WooCommerce::LOG_TABLE_NAME)) {
+		if (!$dbLog->isTableExists(WooCommerce::LOG_TABLE_NAME)) {
 			$importer = new \App\Db\Importers\Base();
-			$dbLog->createTable(\App\Integrations\WooCommerce::LOG_TABLE_NAME, [
+			$dbLog->createTable(WooCommerce::LOG_TABLE_NAME, [
 				'id' => $importer->primaryKeyUnsigned(),
 				'time' => $importer->dateTime()->notNull(),
 				'message' => $importer->stringType(255),
@@ -148,17 +156,17 @@ class Settings_WooCommerce_Activation_Model
 			++$i;
 		}
 		$db = \App\Db::getInstance();
-		if (!$db->isTableExists(\App\Integrations\WooCommerce::MAP_TABLE_NAME)) {
+		if (!$db->isTableExists(WooCommerce::MAP_TABLE_NAME)) {
 			$importer = new \App\Db\Importers\Base();
-			$db->createTable(\App\Integrations\WooCommerce::MAP_TABLE_NAME, [
+			$db->createTable(WooCommerce::MAP_TABLE_NAME, [
 				'map' => $importer->stringType(50)->notNull(),
 				'class' => $importer->stringType(100)->notNull(),
 			]);
 			++$i;
 		}
-		if (!$db->isTableExists(\App\Integrations\WooCommerce::CONFIG_TABLE_NAME)) {
+		if (!$db->isTableExists(WooCommerce::CONFIG_TABLE_NAME)) {
 			$importer = new \App\Db\Importers\Base();
-			$db->createTable(\App\Integrations\WooCommerce::CONFIG_TABLE_NAME, [
+			$db->createTable(WooCommerce::CONFIG_TABLE_NAME, [
 				'server_id' => $importer->integer(10)->unsigned()->notNull(),
 				'name' => $importer->stringType(50)->notNull(),
 				'value' => $importer->stringType(50)->null(),
@@ -166,7 +174,7 @@ class Settings_WooCommerce_Activation_Model
 			$db->createCommand()
 				->addForeignKey(
 					'i_yf_woocommerce_config_ibfk_1',
-					\App\Integrations\WooCommerce::CONFIG_TABLE_NAME,
+					WooCommerce::CONFIG_TABLE_NAME,
 					'server_id',
 					'i_yf_woocommerce_servers',
 					'id',
@@ -179,6 +187,7 @@ class Settings_WooCommerce_Activation_Model
 		\App\EventHandler::setActive('Products_DuplicateEan_Handler', 'EditViewPreSave');
 		\App\EventHandler::setActive('Products_UpdateModifiedTime_Handler', 'EntityAfterSave');
 		\App\Cron::updateStatus(\App\Cron::STATUS_ENABLED, 'LBL_WOOCOMMERCE');
+		self::activateWebhooks();
 		return $i;
 	}
 
@@ -214,5 +223,107 @@ class Settings_WooCommerce_Activation_Model
 				}
 			}
 		}
+	}
+
+	/**
+	 * Check if WooCommerce webhooks are installed.
+	 *
+	 * @return bool
+	 */
+	protected static function checkWebhooks(): bool
+	{
+		return empty(self::getMissingWebhooks());
+	}
+
+	/**
+	 * Activate WooCommerce webhooks.
+	 *
+	 * @return bool
+	 */
+	public static function activateWebhooks(): bool
+	{
+		$missing = self::getMissingWebhooks();
+		if (null === $missing) {
+			return false;
+		}
+		foreach ($missing as $serverId => $webhooks) {
+			$controller = (new WooCommerce($serverId));
+			$connector = $controller->getConnector();
+			foreach ($webhooks as $webhook) {
+				$webhook['name'] = 'YetiForce integration';
+				$connector->request('POST', 'webhooks', $webhook);
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Get missing WooCommerce webhooks.
+	 *
+	 * @return array|null
+	 */
+	protected static function getMissingWebhooks(): ?array
+	{
+		$api = self::getWebserviceApps();
+		if (empty($api)) {
+			return null;
+		}
+		$yfUrl = $api['url'] ?: \Config\Main::$site_URL;
+		if ('/' !== substr($yfUrl, -1)) {
+			$yfUrl .= '/';
+		}
+		$url = $yfUrl . 'webservice/WooCommerce/Webhooks';
+		$webhooks = [];
+		foreach (WooCommerce\Config::getAllServers() as $serverId => $config) {
+			if (0 === (int) $config['status']) {
+				continue;
+			}
+			$controller = (new WooCommerce($serverId));
+			$connector = $controller->getConnector();
+			foreach (self::getMissingWebhooksByServer($connector, $url) as $topic) {
+				$webhooks[$serverId][] = [
+					'topic' => $topic,
+					'delivery_url' => $url,
+					'secret' => $api['api_key'],
+				];
+			}
+		}
+		return $webhooks;
+	}
+
+	/**
+	 * Get missing WooCommerce webhooks by server.
+	 *
+	 * @param \App\Integrations\WooCommerce\Connector\Base $connector
+	 * @param string                                       $url
+	 *
+	 * @return array|null
+	 */
+	protected static function getMissingWebhooksByServer(WooCommerce\Connector\Base $connector, string $url): array
+	{
+		$response = $connector->request('GET', 'webhooks');
+		$webhooks = array_flip(self::WEBHOOKS);
+		foreach (\App\Json::decode($response) as $value) {
+			if (isset($webhooks[$value['topic']]) && $url === $value['delivery_url']) {
+				unset($webhooks[$value['topic']]);
+			}
+		}
+		return array_flip($webhooks);
+	}
+
+	/**
+	 * Get WooCommerce webservice details.
+	 *
+	 * @return array
+	 */
+	protected static function getWebserviceApps(): array
+	{
+		$row = (new \App\Db\Query())->from('w_#__servers')->where(['type' => 'WooCommerce',  'status' => 1])
+			->one(\App\Db::getInstance('webservice')) ?: [];
+		if (!$row) {
+			return [];
+		}
+		$row['api_key'] = \App\Encryption::getInstance()->decrypt($row['api_key']);
+		return $row;
 	}
 }
