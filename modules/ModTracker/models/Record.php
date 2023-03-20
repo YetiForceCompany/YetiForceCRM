@@ -169,7 +169,7 @@ class ModTracker_Record_Model extends Vtiger_Record_Model
 		}
 		$query = (new \App\Db\Query())->select(['crmid', 'u' => 'last_reviewed_users'])->from('vtiger_modtracker_basic')
 			->where(['crmid' => $recordsId])
-			->andWhere(['<>', 'status', self::DISPLAYED]);
+			->andWhere(['and', ['<>', 'status', self::DISPLAYED], ['<>', 'status', self::SHOW_HIDDEN_DATA]]);
 		if ($sort) {
 			$query->addSelect(['vtiger_ossmailview.type'])
 				->leftJoin('vtiger_modtracker_relations', 'vtiger_modtracker_basic.id = vtiger_modtracker_relations.id')
