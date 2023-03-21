@@ -64,6 +64,11 @@ class Field
 			'name' => 'description', 'column' => 'description',	'label' => 'Description',	'table' => 'vtiger_crmentity',
 			'uitype' => 300, 'typeofdata' => 'V~O',	'columntype' => 'text', 'maximumlength' => '65535', 'presence' => 2,
 		],
+		'attention' => [
+			'validationConditions' => ['name', 'table'],
+			'name' => 'attention', 'column' => 'attention',	'label' => 'Attention',	'table' => 'vtiger_crmentity',
+			'uitype' => 300, 'typeofdata' => 'V~O',	'columntype' => 'text', 'maximumlength' => '65535', 'presence' => 2,
+		],
 	];
 
 	/**
