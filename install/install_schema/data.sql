@@ -14207,6 +14207,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`,`custom_view`,`custom_view_orderby`) values (680,45,45,'getDependentsList',4,'SMSNotifier',0,'ADD',0,0,0,'RelatedTab','parentid',NULL,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`,`custom_view`,`custom_view_orderby`) values (681,61,113,'getDependentsList',12,'CFixedAssets',0,'ADD',0,0,0,'RelatedTab','employee_id',NULL,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`,`custom_view`,`custom_view_orderby`) values (682,119,113,'getDependentsList',5,'CFixedAssets',0,'ADD',0,0,0,'RelatedTab','multicompany_id',NULL,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`,`custom_view`,`custom_view_orderby`) values (683,135,54,'getEmails',1,'OSSMailView',0,'SEND',0,0,0,'RelatedTab',NULL,NULL,0);
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
