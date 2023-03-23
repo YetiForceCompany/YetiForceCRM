@@ -42,7 +42,7 @@ class OSSMailView_Preview_View extends Vtiger_Index_View
 		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('NOLOADLIBS', $load);
-		$viewer->assign('TO', explode(',', $recordModel->getDisplayValue('to_email')));
+		$viewer->assign('TO', $recordModel->getDisplayValue('to_email'));
 		$viewer->assign('CC', $recordModel->getDisplayValue('cc_email'));
 		$viewer->assign('BCC', $recordModel->getDisplayValue('bcc_email'));
 		if (\App\Utils::isHtml($recordModel->get('content'))) {
