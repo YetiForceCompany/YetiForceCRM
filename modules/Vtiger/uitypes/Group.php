@@ -77,13 +77,13 @@ class Vtiger_Group_UIType extends Vtiger_Picklist_UIType
 	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
-		return ['e', 'n', 'y'];
+		return ['e', 'n', 'y', 'ogr', 'ny'];
 	}
 
 	/** {@inheritdoc} */
 	public function getRecordOperators(): array
 	{
-		return parent::getRecordOperators();
+		return $this->getQueryOperators();
 	}
 
 	/** {@inheritdoc} */
