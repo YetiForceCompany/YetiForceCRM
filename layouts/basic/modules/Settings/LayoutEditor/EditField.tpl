@@ -15,7 +15,6 @@
 			</button>
 		</div>
 		<div class="modal-body pt-0">
-			{assign var=FIEL_TYPE_LABEL value=Settings_LayoutEditor_Field_Model::$fieldTypeLabel}
 			<form class="form-horizontal fieldDetailsForm sendByAjax validateForm" method="POST">
 				<input type="hidden" name="module" value="LayoutEditor" />
 				<input type="hidden" name="parent" value="Settings" />
@@ -29,7 +28,7 @@
 						<strong>{App\Language::translate('LBL_FIELD_NAME', $QUALIFIED_MODULE)}: </strong>{$FIELD_MODEL->getFieldName()}
 					</div>
 					<div class="col-md-6">
-						<strong>{App\Language::translate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}: </strong> {if isset($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()])}{App\Language::translate($FIEL_TYPE_LABEL[$FIELD_MODEL->getUIType()], $QUALIFIED_MODULE)}{/if} (UiType: {$FIELD_MODEL->getUIType()}, {$FIELD_MODEL->getDBColumnType(true)})<br />
+						<strong>{App\Language::translate('LBL_FIELD_TYPE', $QUALIFIED_MODULE)}: </strong> {if $FIELD_MODEL->getFieldDataTypeLabel()}{App\Language::translate($FIELD_MODEL->getFieldDataTypeLabel(), $QUALIFIED_MODULE)}{/if} (UiType: {$FIELD_MODEL->getUIType()}, {$FIELD_MODEL->getDBColumnType(true)})<br />
 						<strong>{App\Language::translate('LBL_LENGTH', $QUALIFIED_MODULE)}: </strong>{$FIELD_MODEL->get('maximumlength')|escape}
 					</div>
 				</div>

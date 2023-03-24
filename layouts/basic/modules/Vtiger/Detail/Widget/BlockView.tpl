@@ -71,7 +71,7 @@
 													data-prev-value='{\App\Purifier::encodeHtml($FIELD_MODEL->get('fieldvalue'))}' />
 											{else}
 												{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}
-												{if $FIELD_VALUE|is_array}
+												{if is_array($FIELD_VALUE)}
 													{assign var=FIELD_VALUE value=\App\Json::encode($FIELD_VALUE)}
 												{/if}
 												<input type="hidden" class="fieldname"

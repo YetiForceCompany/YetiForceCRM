@@ -21,4 +21,15 @@ class GroupField extends BaseField
 		}
 		return explode('##', $this->value);
 	}
+
+	/**
+	 * Currently logged-in user groups.
+	 *
+	 * @return array
+	 */
+	public function operatorOgr(): array
+	{
+		$groups = \App\Fields\Owner::getInstance($this->getModuleName())->getGroups(false, 'private');
+		return [$this->getColumnName() => \array_keys($groups)];
+	}
 }

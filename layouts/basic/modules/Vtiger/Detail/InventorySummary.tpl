@@ -73,7 +73,8 @@
 				</table>
 			</div>
 			{if isset($FIELDS[0]['currency']) && $BASE_CURRENCY['id'] != $CURRENCY}
-				{assign var="CURRENCY_PARAM" value=$INVENTORY_ROW['currencyparam']|json_decode:true}
+				{assign var="CURRENCY_FIELD" value=$INVENTORY_MODEL->getField('currency')}
+				{assign var="CURRENCY_PARAM" value=$CURRENCY_FIELD->getCurrencyParam([], $INVENTORY_ROW['currencyparam'])}
 				{assign var="RATE" value=$CURRENCY_PARAM[$CURRENCY]['value']}
 				<div class="col-md-4">
 					<table class="table table-bordered inventorySummaryContainer">
