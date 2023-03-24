@@ -34,17 +34,22 @@ class Webhooks extends \Api\Core\BaseAction
 					continue;
 				}
 				if ($source === $config['url']) {
-					$this->controller = (new \App\Integrations\WooCommerce($serverId));
+					$this->connector = (new \App\Integrations\WooCommerce($serverId));
 					break;
 				}
 			}
-			if (empty($this->controller)) {
+			if (empty($this->connector)) {
 				throw new \Api\Core\Exception('No WooCommerce found', 405);
 			}
 		} elseif (!$this->controller->request->has('webhook_id')) {
 			throw new \Api\Core\Exception('No WooCommerce found', 405);
 		}
 		\App\User::setCurrentUserId(\Users::getActiveAdminId());
+	}
+
+	/** {@inheritdoc}  */
+	protected function checkPermissionToModule(): void
+	{
 	}
 
 	/**
@@ -77,8 +82,8 @@ class Webhooks extends \Api\Core\BaseAction
 		if (empty($this->resource) || !method_exists($this, $this->resource)) {
 			throw new \Api\Core\Exception('No action found', 405);
 		}
-		if ($this->controller->config->get('sync_currency')) {
-			$this->controller->getSync('Currency')->process();
+		if ($this->connector->config->get('sync_currency')) {
+			$this->connector->getSync('Currency')->process();
 		}
 		$this->{$this->resource}();
 	}
@@ -90,10 +95,10 @@ class Webhooks extends \Api\Core\BaseAction
 	 */
 	protected function product(): void
 	{
-		if (!$this->controller->config->get('sync_products')) {
+		if (!$this->connector->config->get('sync_products')) {
 			return;
 		}
-		$synchronizer = $this->controller->getSync('Product');
+		$synchronizer = $this->connector->getSync('Product');
 		$direction = (int) $synchronizer->config->get('direction_products');
 		if (
 			($synchronizer::DIRECTION_TWO_WAY === $direction || $synchronizer::DIRECTION_API_TO_YF === $direction)
@@ -109,7 +114,7 @@ class Webhooks extends \Api\Core\BaseAction
 			switch ($this->event) {
 				case 'created':
 				case 'updated':
-					$this->controller->getSync('ProductAttributes')->process();
+					$this->connector->getSync('ProductAttributes')->process();
 					$synchronizer->importProduct($request->getAllRaw());
 					break;
 				case 'deleted':
@@ -135,10 +140,10 @@ class Webhooks extends \Api\Core\BaseAction
 	 */
 	protected function order(): void
 	{
-		if (!$this->controller->config->get('sync_orders')) {
+		if (!$this->connector->config->get('sync_orders')) {
 			return;
 		}
-		$synchronizer = $this->controller->getSync('Orders');
+		$synchronizer = $this->connector->getSync('Orders');
 		$direction = (int) $synchronizer->config->get('direction_orders');
 		$moduleName = $synchronizer->getMapModel()->getModule();
 		if (

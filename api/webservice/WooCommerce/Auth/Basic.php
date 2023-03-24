@@ -35,19 +35,21 @@ class Basic extends \Api\Core\Auth\Basic
 	/** {@inheritdoc}  */
 	public function authenticate(string $realm): bool
 	{
-		$headers = $this->api->request->getHeaders();
-		if (empty($headers['x-wc-webhook-signature'])) {
-			throw new \Api\Core\Exception('No signature', 401);
-		}
-		$signature = $headers['x-wc-webhook-signature'];
-		if (empty($this->api->app['api_key'])) {
-			throw new \Api\Core\Exception('Invalid api key', 401);
-		}
-		$content = file_get_contents('php://input');
-		$apiKey = \App\Encryption::getInstance()->decrypt($this->api->app['api_key']);
-		$sig = base64_encode(hash_hmac('sha256', $content, $apiKey, true));
-		if ($sig !== $signature) {
-			throw new \Api\Core\Exception('Invalid signature', 401);
+		if ($this->api->request->isEmpty('webhook_id')) {
+			$headers = $this->api->request->getHeaders();
+			if (empty($headers['x-wc-webhook-signature'])) {
+				throw new \Api\Core\Exception('No signature', 401);
+			}
+			$signature = $headers['x-wc-webhook-signature'];
+			if (empty($this->api->app['api_key'])) {
+				throw new \Api\Core\Exception('Invalid api key', 401);
+			}
+			$content = file_get_contents('php://input');
+			$apiKey = \App\Encryption::getInstance()->decrypt($this->api->app['api_key']);
+			$sig = base64_encode(hash_hmac('sha256', $content, $apiKey, true));
+			if ($sig !== $signature) {
+				throw new \Api\Core\Exception('Invalid signature', 401);
+			}
 		}
 		return true;
 	}
