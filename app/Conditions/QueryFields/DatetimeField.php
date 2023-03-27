@@ -118,10 +118,6 @@ class DatetimeField extends DateField
 	 */
 	public function getStdValue()
 	{
-		if ('custom' === $this->operator) {
-			$date = $this->getArrayValue();
-			return [$date[0], $date[1]];
-		}
 		$date = \DateTimeRange::getDateRangeByType($this->operator);
 		return [$date[0] . ' 00:00:00', $date[1] . ' 23:59:59'];
 	}

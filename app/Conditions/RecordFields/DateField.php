@@ -38,18 +38,6 @@ class DateField extends BaseField
 	}
 
 	/**
-	 * Custom operator.
-	 *
-	 * @return bool
-	 */
-	public function operatorCustom()
-	{
-		[$startDate, $endDate] = explode(',', $this->value);
-		$dateValue = date('Y-m-d', strtotime($this->getValue()));
-		return ($dateValue >= date('Y-m-d', strtotime($startDate))) && ($dateValue <= date('Y-m-d', strtotime($endDate)));
-	}
-
-	/**
 	 * Today operator.
 	 *
 	 * @return bool
@@ -387,7 +375,9 @@ class DateField extends BaseField
 	 */
 	public function operatorBw()
 	{
-		return $this->operatorCustom();
+		[$startDate, $endDate] = explode(',', $this->value);
+		$dateValue = date('Y-m-d', strtotime($this->getValue()));
+		return ($dateValue >= date('Y-m-d', strtotime($startDate))) && ($dateValue <= date('Y-m-d', strtotime($endDate)));
 	}
 
 	/**
