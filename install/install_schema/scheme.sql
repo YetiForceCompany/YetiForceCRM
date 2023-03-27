@@ -583,7 +583,7 @@ CREATE TABLE `dav_schedulingobjects` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-/*Table structure for table `dav_users` */ 
+/*Table structure for table `dav_users` */
 
 CREATE TABLE `dav_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
