@@ -583,17 +583,18 @@ CREATE TABLE `dav_schedulingobjects` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-/*Table structure for table `dav_users` */
+/*Table structure for table `dav_users` */ 
 
 CREATE TABLE `dav_users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `username` varbinary(50) DEFAULT NULL,
   `digesta1` varbinary(32) DEFAULT NULL,
-  `userid` int(10) unsigned DEFAULT NULL,
+  `userid` int(10) DEFAULT NULL,
   `key` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `userid` (`userid`)
+  UNIQUE KEY `userid` (`userid`),
+  CONSTRAINT `fk_dav_users` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Table structure for table `i_yf_magento_config` */
