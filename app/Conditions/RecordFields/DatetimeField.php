@@ -14,15 +14,15 @@ namespace App\Conditions\RecordFields;
 class DatetimeField extends DateField
 {
 	/**
-	 * Custom operator.
+	 * Between operator.
 	 *
-	 * @return bool
+	 * @return array
 	 */
-	public function operatorCustom()
+	public function operatorBw()
 	{
 		[$startDate, $endDate] = explode(',', $this->value);
-		$dateValue = strtotime($this->getValue());
-		return ($dateValue >= strtotime($startDate)) && ($dateValue <= strtotime($endDate));
+		$dateValue = date('Y-m-d H:i:s', strtotime($this->getValue()));
+		return ($dateValue >= date('Y-m-d H:i:s', strtotime($startDate))) && ($dateValue <= date('Y-m-d H:i:s', strtotime($endDate)));
 	}
 
 	/**
