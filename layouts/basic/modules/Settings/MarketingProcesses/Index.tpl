@@ -59,9 +59,7 @@
 									<td>
 										<select class="leadsFields select2 form-control-sm" name="mapping[{$smarty.foreach.mappingLoop.iteration}][lead]">
 											{foreach key=FIELD_NAME item=FIELD_INFO from=$LEAD_FIELDS}
-												<option value="{$FIELD_NAME}" {if $FIELD_NAME eq key($MAPPING_ARRAY)} selected {/if}>
-													{\App\Language::translate($FIELD_INFO->get('label'), $LEADS_MODULE_MODEL->getName())}
-												</option>
+												<option value="{$FIELD_NAME}" {if $FIELD_NAME eq key($MAPPING_ARRAY)} selected {/if}>{\App\Language::translate($FIELD_INFO->get('label'), $LEADS_MODULE_MODEL->getName())}</option>
 											{/foreach}
 										</select>
 									</td>
@@ -70,9 +68,7 @@
 											<div class="col-11">
 												<select class="accountsFields select2 form-control-sm" name="mapping[{$smarty.foreach.mappingLoop.iteration}][account]">
 													{foreach key=FIELD_NAME item=FIELD_INFO from=$ACCOUNT_FIELDS}
-														<option {if $FIELD_NAME eq current($MAPPING_ARRAY)} selected {/if} value="{$FIELD_NAME}">
-															{\App\Language::translate($FIELD_INFO->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}
-														</option>
+														<option {if $FIELD_NAME eq current($MAPPING_ARRAY)} selected {/if} value="{$FIELD_NAME}">{\App\Language::translate($FIELD_INFO->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}</option>
 													{/foreach}
 												</select>
 											</div>
@@ -87,9 +83,7 @@
 								<td>
 									<select class="leadsFields newSelect">
 										{foreach key=FIELD_NAME item=FIELD_INFO from=$LEAD_FIELDS}
-											<option value="{$FIELD_NAME}">
-												{\App\Language::translate($FIELD_INFO->get('label'), $LEADS_MODULE_MODEL->getName())}
-											</option>
+											<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD_INFO->get('label'), $LEADS_MODULE_MODEL->getName())}</option>
 										{/foreach}
 									</select>
 								</td>
@@ -98,9 +92,7 @@
 										<div class="col-11">
 											<select class="accountsFields newSelect">
 												{foreach key=FIELD_NAME item=FIELD_INFO from=$ACCOUNT_FIELDS}
-													<option value="{$FIELD_NAME}">
-														{\App\Language::translate($FIELD_INFO->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}
-													</option>
+													<option value="{$FIELD_NAME}">{\App\Language::translate($FIELD_INFO->get('label'), $ACCOUNTS_MODULE_MODEL->getName())}</option>
 												{/foreach}
 											</select>
 										</div>
