@@ -1468,7 +1468,7 @@ class PrivilegeUtil
 	public static function recalculateSharingRulesByUser($id)
 	{
 		$userModel = \App\User::getUserModel($id);
-		if (!$userModel->getId()) {
+		if (!$userModel->getId() || !$userModel->isActive()) {
 			return null;
 		}
 		$roles = explode('::', $userModel->getParentRolesSeq());
@@ -1529,7 +1529,7 @@ class PrivilegeUtil
 			}
 		}
 		foreach (array_unique(array_merge(...$users)) as $userId) {
-			UserPrivilegesFile::createUserSharingPrivilegesfile($userId);
+			(new \App\BatchMethod(['method' => '\App\UserPrivilegesFile::createUserSharingPrivilegesfile', 'params' => [$userId]]))->save();
 		}
 	}
 
