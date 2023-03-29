@@ -51,8 +51,10 @@ $.Class(
 				lockedFields: this.container.find('.js-locked-fields').val(),
 				lockedEmptyFields: this.container.find('.js-empty-fields').val(),
 				onlyBody: true,
-				cvId: this.getFilterSelectElement().val() || 0,
-				additionalData: this.container.find('.js-rl-additional_data').val() || null
+				cvId: this.getCurrentCvId(),
+				additionalData: this.container.find('.js-rl-additional_data').val() || null,
+				selected_ids: this.readSelectedIds(true),
+				excluded_ids: this.readExcludedIds(true)
 			};
 			let searchValue = this.listSearchInstance.getAlphabetSearchValue();
 			params['search_params'] = this.listSearchInstance.getListSearchParams(true);
@@ -64,6 +66,13 @@ $.Class(
 			this.listSearchInstance.parseConditions(params);
 			params.search_params = JSON.stringify(params.search_params);
 			return params;
+		},
+		/**
+		 * Get current cvid
+		 * @returns int
+		 */
+		getCurrentCvId: function () {
+			return this.getFilterSelectElement().val() || 0;
 		},
 		/**
 		 * Load records list
@@ -226,6 +235,8 @@ $.Class(
 				}
 				let row = $(this);
 				let data = row.data();
+				self.writeSelectedIds([data.id]);
+				let selectedRecords;
 				if (self.container.find('.js-multi-select').val()) {
 					let selected = {};
 					if (additional) {
@@ -241,10 +252,16 @@ $.Class(
 					} else {
 						selected[data.id] = data.name;
 					}
-					self.selectEvent(selected, e);
+					selectedRecords = selected;
 				} else {
-					self.selectEvent(data, e);
+					selectedRecords = selected;
 				}
+				self.selectEvent(
+					$.extend(self.getParams(), {
+						selectedRecords: selectedRecords
+					}),
+					e
+				);
 				app.hideModalWindow(false, self.container.parent().attr('id'));
 			});
 			self.container.on('click', '.js-selected-rows', function (e) {
@@ -278,7 +295,12 @@ $.Class(
 						type: 'error'
 					});
 				} else {
-					self.selectEvent(selected, e);
+					self.selectEvent(
+						$.extend(self.getParams(), {
+							selectedRecords: selected
+						}),
+						e
+					);
 					app.hideModalWindow($(e.target).closest('.js-modal-container'));
 				}
 			});
@@ -290,18 +312,143 @@ $.Class(
 					self.updatePagination();
 				});
 			});
-			self.container.on('click', '.js-select-checkbox', function (e) {
-				let parentElem, element;
-				parentElem = element = $(this);
-				if (element.data('type') === 'all') {
-					parentElem = element.closest('table').find('.js-select-checkbox[data-type="row"]');
-				}
-				if (element.is(':checked')) {
-					parentElem.prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
+			self.container.on('click', '.listViewHeaders .js-select-checkbox', function (_e) {
+				let parentElem, mainCheckbox;
+				mainCheckbox = $(this);
+				let selectedIds = self.readSelectedIds();
+				let excludedIds = self.readExcludedIds();
+				parentElem = mainCheckbox.closest('table').find('.js-select-checkbox[data-type="row"]');
+				let selectAllContainer = self.container.find('.js-check-all-records-container');
+				if (mainCheckbox.is(':checked')) {
+					selectAllContainer.removeClass('d-none');
+					parentElem.each(function (_index, element) {
+						$(this).prop('checked', true).closest('tr').addClass('highlightBackgroundColor');
+						if (selectedIds == 'all') {
+							if ($.inArray($(element).val(), excludedIds) != -1) {
+								excludedIds.splice($.inArray($(element).val(), excludedIds), 1);
+							}
+						} else if ($.inArray($(element).val(), selectedIds) == -1) {
+							selectedIds.push($(element).val());
+						}
+					});
 				} else {
-					parentElem.prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
+					selectAllContainer.addClass('d-none');
+					parentElem.each(function (_index, element) {
+						$(this).prop('checked', false).closest('tr').removeClass('highlightBackgroundColor');
+						if (selectedIds == 'all') {
+							if ($.inArray($(element).val(), excludedIds) != -1) {
+								excludedIds.splice($.inArray($(element).val(), excludedIds), 1);
+							}
+						} else if ($.inArray($(element).val(), selectedIds) == -1) {
+							selectedIds.push($(element).val());
+						}
+					});
+				}
+				self.checkSelectAll();
+				self.writeSelectedIds(selectedIds);
+				self.writeExcludedIds(excludedIds);
+			});
+			self.container.on('click', '.listViewEntriesTable tbody .js-select-checkbox', function (_e) {
+				let element = $(this);
+				let selectedIds = self.readSelectedIds();
+				let excludedIds = self.readExcludedIds();
+				let recordId = element.closest('tr').attr('data-id');
+				if (element.is(':checked')) {
+					element.closest('tr').addClass('highlightBackgroundColor');
+					if (selectedIds == 'all') {
+						excludedIds.splice($.inArray(recordId, excludedIds), 1);
+					} else if ($.inArray(recordId, selectedIds) == -1) {
+						selectedIds.push(recordId);
+					}
+				} else {
+					element.closest('tr').removeClass('highlightBackgroundColor');
+					if (selectedIds == 'all') {
+						excludedIds.push(recordId);
+						selectedIds = 'all';
+					} else {
+						selectedIds.splice($.inArray(recordId, selectedIds), 1);
+					}
+				}
+				self.checkSelectAll();
+				self.writeSelectedIds(selectedIds);
+				self.writeExcludedIds(excludedIds);
+			});
+		},
+		readSelectedIds: function (decode = false) {
+			let selectedIdsDataAttr = this.getCurrentCvId() + 'selectedIds',
+				selectedIdsElementDataAttributes = $('#selectedIds').data(),
+				selectedIds = [];
+			if (!(selectedIdsDataAttr in selectedIdsElementDataAttributes)) {
+				this.writeSelectedIds(selectedIds);
+			} else {
+				selectedIds = selectedIdsElementDataAttributes[selectedIdsDataAttr];
+			}
+			if (decode == true && typeof selectedIds == 'object') {
+				return JSON.stringify(selectedIds);
+			}
+			return selectedIds;
+		},
+		readExcludedIds: function (decode = false) {
+			let excludedIdsDataAttr = this.getCurrentCvId() + 'Excludedids',
+				excludedIdsElementDataAttributes = $('#excludedIds').data(),
+				excludedIds = [];
+			if (!(excludedIdsDataAttr in excludedIdsElementDataAttributes)) {
+				this.writeExcludedIds(excludedIds);
+			} else {
+				excludedIds = excludedIdsElementDataAttributes[excludedIdsDataAttr];
+			}
+			if (decode == true && typeof excludedIds == 'object') {
+				return JSON.stringify(excludedIds);
+			}
+			return excludedIds;
+		},
+		writeSelectedIds: function (selectedIds) {
+			if (!Array.isArray(selectedIds)) {
+				selectedIds = [selectedIds];
+			}
+			$('#selectedIds').data(this.getCurrentCvId() + 'selectedIds', selectedIds);
+		},
+		writeExcludedIds: function (excludedIds) {
+			$('#excludedIds').data(this.getCurrentCvId() + 'Excludedids', excludedIds);
+		},
+		registerSelectCheckAll: function () {
+			this.container.on('click', '.js-check-all-records-container', () => {
+				this.container.find('.js-check-all-records-container').addClass('d-none');
+				this.container.find('.js-uncheck-all-records-container').removeClass('d-none');
+				this.container
+					.find('.listViewEntriesTable tbody .js-select-checkbox')
+					.prop('checked', true)
+					.closest('tr')
+					.addClass('highlightBackgroundColor');
+
+				this.writeSelectedIds('all');
+			});
+		},
+		registerSelectUncheckAll: function () {
+			this.container.on('click', '.js-uncheck-all-records-container', () => {
+				this.container.find('.js-uncheck-all-records-container').addClass('d-none');
+				this.container.find('.listViewHeaders .js-select-checkbox').prop('checked', false);
+				this.container
+					.find('.listViewEntriesTable tbody .js-select-checkbox')
+					.prop('checked', false)
+					.closest('tr')
+					.removeClass('highlightBackgroundColor');
+
+				this.writeSelectedIds([]);
+				this.writeExcludedIds([]);
+			});
+		},
+		checkSelectAll: function () {
+			let state = true;
+			this.container.find('.listViewEntriesTable tbody .js-select-checkbox').each(function (index, element) {
+				if ($(element).is(':checked') && state) {
+					state = true;
+				} else {
+					state = false;
 				}
 			});
+			this.container.find('.listViewHeaders .js-select-checkbox').prop('checked', state);
+			return state;
 		},
 		getFilterSelectElement: function () {
 			return this.container.find('#customFilter');
@@ -352,6 +499,8 @@ $.Class(
 			this.registerBasicEvents();
 			this.registerListEvents();
 			this.registerHeadersClickEvent();
+			this.registerSelectCheckAll();
+			this.registerSelectUncheckAll();
 		}
 	}
 );

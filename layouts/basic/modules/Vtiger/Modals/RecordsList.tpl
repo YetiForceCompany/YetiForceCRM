@@ -20,9 +20,21 @@
 		{include file=\App\Layout::getTemplatePath('ListViewAlphabet.tpl', $MODULE)}
 		<input type="hidden" class="js-locked-fields" data-js="value" value="{\App\Purifier::encodeHtml(\App\Json::encode($LOCKED_FIELDS))}" />
 		<input type="hidden" class="js-empty-fields" data-js="value" value="{\App\Purifier::encodeHtml(\App\Json::encode($LOCKED_EMPTY_FIELDS))}" />
+		<input type="hidden" id="selectedIds" name="selectedIds" />
+		<input type="hidden" id="excludedIds" name="excludedIds" />
 		{if !empty($ADDITIONAL_DATA)}
 			<input type="hidden" class="js-rl-additional_data" data-js="value" value="{\App\Purifier::encodeHtml(\App\Json::encode($ADDITIONAL_DATA))}" />
 		{/if}
+		<div class="alert alert-info js-check-all-records-container d-none text-center m-0 p-1" data-js="container">
+			<strong>
+				<a href="#">{\App\Language::translate('LBL_SELECT_ALL',$MODULE_NAME)}
+					&nbsp;{\App\Language::translate($MODULE_NAME ,$MODULE_NAME)}
+				</a>
+			</strong>
+		</div>
+		<div class="alert alert-info js-uncheck-all-records-container d-none text-center m-0 p-1">
+			<strong><a href="#">{\App\Language::translate('LBL_DESELECT_ALL_RECORDS',$MODULE_NAME)}</a></strong>
+		</div>
 		<div class="table-responsive">
 			<table class="table table-bordered listViewEntriesTable">
 				<thead>
@@ -84,7 +96,7 @@
 							<td class="{$WIDTHTYPE} u-cursor-auto text-center">
 								{if $MULTI_SELECT}
 									<input class="js-select-checkbox" title="{App\Language::translate('LBL_SELECT_RECORD')}" {if $RECORD_SELECTED} checked="checked" {/if}
-										type="checkbox" data-type="row" data-js="click" />
+										type="checkbox" data-type="row" data-js="click" value="{$LISTVIEW_ENTRY->getId()}" />
 								{/if}
 							</td>
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}

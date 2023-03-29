@@ -386,8 +386,16 @@ jQuery.Class(
 			let params = $.extend(this.getRecordsListParams(), extendParams);
 			app.showRecordsList(params, (_modal, instance) => {
 				instance.setSelectEvent((responseData) => {
-					this.addRelations(Object.keys(responseData)).done(() => {
-						app.event.trigger('RelatedListView.AfterSelectRelation', responseData, this, instance, params);
+					const progressIndicatorElement = $.progressIndicator();
+					this.addRelations(responseData).done(() => {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						app.event.trigger(
+							'RelatedListView.AfterSelectRelation',
+							responseData.selectedRecords,
+							this,
+							instance,
+							params
+						);
 						let detail = Vtiger_Detail_Js.getInstance();
 						this.loadRelatedList().done(function () {
 							detail.registerRelatedModulesRecordCount();
@@ -408,21 +416,17 @@ jQuery.Class(
 				multi_select: true
 			};
 		},
-		addRelations: function (idList, params = {}) {
+		addRelations: function (params = {}) {
 			let aDeferred = jQuery.Deferred();
 			AppConnector.request(
-				$.extend(
-					{
-						module: this.parentModuleName,
-						action: 'RelationAjax',
-						mode: 'addRelation',
-						related_module: this.moduleName,
-						src_record: this.parentRecordId,
-						relationId: this.getCompleteParams()['relationId'],
-						related_record_list: $.isArray(idList) ? JSON.stringify(idList) : idList
-					},
-					params
-				)
+				$.extend(params, {
+					module: this.parentModuleName,
+					action: 'RelationAjax',
+					mode: 'addRelation',
+					related_module: this.moduleName,
+					src_record: this.parentRecordId,
+					relationId: this.getCompleteParams()['relationId']
+				})
 			)
 				.done(function (responseData) {
 					aDeferred.resolve(responseData);
