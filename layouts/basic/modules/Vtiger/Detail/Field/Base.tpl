@@ -6,9 +6,11 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
-<div class="tpl-Detail-Field-Base u-paragraph-m-0 u-word-break">
-{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}
-</div>
+{strip}
+	<div class="tpl-Detail-Field-Base u-paragraph-m-0 u-word-break">
+		{$FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId(), $RECORD)}
+	</div>
+{/strip}
