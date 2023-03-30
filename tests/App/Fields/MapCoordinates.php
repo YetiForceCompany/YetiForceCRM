@@ -11,7 +11,7 @@
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-namespace Tests\App;
+namespace Tests\App\Fields;
 
 /**
  * Test class for `\App\Fields\MapCoordinates`.
