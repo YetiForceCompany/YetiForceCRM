@@ -49,7 +49,9 @@ class Accounts_DuplicateVatId_Handler
 				$response = [
 					'result' => false,
 					'hoverField' => 'vat_id',
-					'message' => App\Language::translateArgs('LBL_DUPLICATE_VAT_ID', $recordModel->getModuleName(), \App\Language::translate($moduleName, $moduleName))
+					'message' => App\Language::translateArgs('LBL_DUPLICATE_VAT_ID', $recordModel->getModuleName(), \App\Language::translate($moduleName, $moduleName)),
+					'type' => 'confirm',
+					'hash' => hash('sha256', implode('|', $recordModel->getData()))
 				];
 				break;
 			}
