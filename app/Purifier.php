@@ -629,7 +629,6 @@ class Purifier
 						if (1 === \count($tempTemplate)) {
 							$tempTemplate = current($tempTemplate);
 						} elseif (!isset($tempTemplate[$secondKey])) {
-							var_dump($secondKey, $val, $tempTemplate);
 							throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$secondKey}", 406);
 						} else {
 							$tempTemplate = $tempTemplate[$secondKey];
@@ -642,7 +641,6 @@ class Purifier
 					} elseif (isset($template[$firstKey])) {
 						$values[$firstKey] = self::purifyMultiDimensionArray($value, $template[$firstKey]);
 					} else {
-						// var_dump($firstKey, $values, $template);
 						throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$firstKey}||" . print_r($template, true), 406);
 					}
 				}
