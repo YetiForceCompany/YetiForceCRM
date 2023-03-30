@@ -713,7 +713,7 @@ class Vtiger_Record_Model extends \App\Base
 			if ($this->getModule()->isCommentEnabled()) {
 				(new \App\BatchMethod(['method' => 'ModComments_Module_Model::deleteForRecord', 'params' => [$this->getId()]]))->save();
 			}
-			$this->clearPrivilegesCache($this->getId());
+			$this->clearPrivilegesCache();
 			$transaction->commit();
 		} catch (\Exception $e) {
 			$transaction->rollBack();
@@ -1807,6 +1807,7 @@ class Vtiger_Record_Model extends \App\Base
 			if (\App\Record::STATE_ACTIVE !== $state) {
 				$dbCommand->delete('u_#__crmentity_search_label', ['crmid' => $this->getId()])->execute();
 			}
+			$this->clearPrivilegesCache();
 			$eventHandler->trigger('EntityChangeState');
 			$transaction->commit();
 		} catch (\Exception $e) {

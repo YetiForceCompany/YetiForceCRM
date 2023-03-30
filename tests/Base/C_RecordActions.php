@@ -329,7 +329,7 @@ class C_RecordActions extends \Tests\Base
 		$this->assertSame(\App\Record::STATE_TRASH, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => self::$recordAccounts->getId()])->scalar());
 		self::$recordAccounts->changeState(\App\Record::STATE_ARCHIVED);
 		$this->assertSame(\App\Record::STATE_ARCHIVED, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => self::$recordAccounts->getId()])->scalar());
-		self::$recordAccounts->changeState(\App\Record::STATE_DELETED);
-		$this->assertSame(\App\Record::STATE_DELETED, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => self::$recordAccounts->getId()])->scalar());
+		self::$recordAccounts->changeState(\App\Record::STATE_ACTIVE);
+		$this->assertSame(\App\Record::STATE_ACTIVE, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => self::$recordAccounts->getId()])->scalar());
 	}
 }
