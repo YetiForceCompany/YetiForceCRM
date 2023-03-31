@@ -125,6 +125,8 @@ insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_
 insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`,`label`) values (7,601,95,117,NULL);
 insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`,`label`) values (8,602,95,218,NULL);
 insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`,`label`) values (9,661,452,452,NULL);
+insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`,`label`) values (10,268,126,95,NULL);
+insert  into `a_yf_record_list_filter`(`id`,`relationid`,`rel_relationid`,`dest_relationid`,`label`) values (11,514,126,452,NULL);
 
 /*Data for the table `a_yf_relatedlists_inv_fields` */
 

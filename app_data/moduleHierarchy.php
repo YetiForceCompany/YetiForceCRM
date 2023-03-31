@@ -36,6 +36,13 @@ return [
 			'projectmilestoneid' => ['ProjectMilestone' => ['projectid' => ['projectid']]],
 			'parentid' => ['ProjectTask' => ['projectid' => ['projectid'], 'projectmilestoneid' => ['projectmilestoneid']]],
 		],
+		'Project' => [
+			'servicecontractsid' => ['ServiceContracts' => ['linktoaccountscontacts' => ['sc_related_to', 'Accounts']]],
+			'ssalesprocessesid' => ['SSalesProcesses' => ['linktoaccountscontacts' => ['related_to', 'Accounts']]],
+			'parentid' => [
+				'Project' => ['linktoaccountscontacts' => ['linktoaccountscontacts'], 'servicecontractsid' => ['servicecontractsid']]
+			],
+		],
 		'HelpDesk' => [
 			'projectid' => ['Project' => ['parent_id' => ['linktoaccountscontacts']]],
 			'contact_id' => ['Contacts' => ['parent_id' => ['parent_id']]],

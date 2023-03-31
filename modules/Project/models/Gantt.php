@@ -699,7 +699,7 @@ class Project_Gantt_Model
 				'name' => $taskName,
 				'label' => $taskName,
 				'url' => 'index.php?module=ProjectTask&view=Detail&record=' . $row['id'],
-				'parentId' => (int) ($row['parentid'] ?? 0),
+				'parentId' => (int) ($row['parentid'] ?: $row['projectid']),
 				'canWrite' => false,
 				'canDelete' => false,
 				'cantWriteOnParent' => false,
