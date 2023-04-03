@@ -1649,7 +1649,11 @@ jQuery.Class(
 				);
 			}
 			relatedController
-				.addRelations(relatedModuleRecordId, params)
+				.addRelationsInDetailView(
+					$.extend(params, {
+						related_record_list: JSON.stringify([relatedModuleRecordId])
+					})
+				)
 				.done(function (data) {
 					let summaryViewContainer = thisInstance.getContentHolder();
 					let updatesWidget = summaryViewContainer.find("[data-type='Updates']");

@@ -374,6 +374,11 @@ $.Class(
 				self.writeExcludedIds(excludedIds);
 			});
 		},
+		/**
+		 * Get selected record ids
+		 * @param boolean decode
+		 * @returns mixed
+		 */
 		readSelectedIds: function (decode = false) {
 			let selectedIdsDataAttr = this.getCurrentCvId() + 'selectedIds',
 				selectedIdsElementDataAttributes = $('#selectedIds').data(),
@@ -388,6 +393,11 @@ $.Class(
 			}
 			return selectedIds;
 		},
+		/**
+		 * Get excluded record ids
+		 * @param boolean decode
+		 * @returns
+		 */
 		readExcludedIds: function (decode = false) {
 			let excludedIdsDataAttr = this.getCurrentCvId() + 'Excludedids',
 				excludedIdsElementDataAttributes = $('#excludedIds').data(),
@@ -402,15 +412,26 @@ $.Class(
 			}
 			return excludedIds;
 		},
+		/**
+		 * Set selected record ids
+		 * @param mixed selectedIds
+		 */
 		writeSelectedIds: function (selectedIds) {
 			if (!Array.isArray(selectedIds)) {
 				selectedIds = [selectedIds];
 			}
 			$('#selectedIds').data(this.getCurrentCvId() + 'selectedIds', selectedIds);
 		},
+		/**
+		 * Set excluded record ids
+		 * @param array excludedIds
+		 */
 		writeExcludedIds: function (excludedIds) {
 			$('#excludedIds').data(this.getCurrentCvId() + 'Excludedids', excludedIds);
 		},
+		/**
+		 * Select check all records
+		 */
 		registerSelectCheckAll: function () {
 			this.container.on('click', '.js-check-all-records-container', () => {
 				this.container.find('.js-check-all-records-container').addClass('d-none');
@@ -424,6 +445,9 @@ $.Class(
 				this.writeSelectedIds('all');
 			});
 		},
+		/**
+		 * Select uncheck all records
+		 */
 		registerSelectUncheckAll: function () {
 			this.container.on('click', '.js-uncheck-all-records-container', () => {
 				this.container.find('.js-uncheck-all-records-container').addClass('d-none');
@@ -438,6 +462,10 @@ $.Class(
 				this.writeExcludedIds([]);
 			});
 		},
+		/**
+		 * Check if all records from list are selected
+		 * @returns boolean
+		 */
 		checkSelectAll: function () {
 			let state = true;
 			this.container.find('.listViewEntriesTable tbody .js-select-checkbox').each(function (index, element) {

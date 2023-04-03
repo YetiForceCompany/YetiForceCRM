@@ -436,6 +436,34 @@ jQuery.Class(
 				});
 			return aDeferred.promise();
 		},
+		/**
+		 * Add relation between records in detail view
+		 * @param array params
+		 * @returns
+		 */
+		addRelationsInDetailView: function (params = {}) {
+			let aDeferred = jQuery.Deferred();
+			AppConnector.request(
+				$.extend(
+					{
+						module: this.parentModuleName,
+						action: 'RelationAjax',
+						mode: 'addRelation',
+						related_module: this.moduleName,
+						src_record: this.parentRecordId,
+						relationId: this.getCompleteParams()['relationId']
+					},
+					params
+				)
+			)
+				.done(function (responseData) {
+					aDeferred.resolve(responseData);
+				})
+				.fail(function (textStatus, errorThrown) {
+					aDeferred.reject(textStatus, errorThrown);
+				});
+			return aDeferred.promise();
+		},
 		deleteRelation(target) {
 			let params = {};
 			if (target.data('url')) {
