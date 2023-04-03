@@ -136,7 +136,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	{
 		$sourceModule = $request->getModule();
 		$sourceRecordId = $request->getInteger('src_record');
-		$relatedModule = $request->getByType('related_module', 2);
+		$relatedModule = $request->getByType('related_module', App\Purifier::ALNUM);
 		if (is_numeric($relatedModule)) {
 			$relatedModule = \App\Module::getModuleName($relatedModule);
 		}
@@ -149,7 +149,8 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		} else {
 			$relationModel = Vtiger_Relation_Model::getInstanceById($request->getInteger('relationId'));
 		}
-		foreach ($this->gerRecordIdsToRelate($request) as $relatedRecordId) {
+		$recordIdsToRelate = $request->has('selected_ids') ? $this->getRecordIdsToRelate($request) : $request->getArray('related_record_list', 'Integer');
+		foreach ($recordIdsToRelate as $relatedRecordId) {
 			if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {
 				$relationModel->addRelation($sourceRecordId, $relatedRecordId);
 			}
@@ -166,10 +167,10 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	 *
 	 * @return array
 	 */
-	public function gerRecordIdsToRelate(App\Request $request): array
+	public function getRecordIdsToRelate(App\Request $request): array
 	{
-		$cvId = $request->isEmpty('cvId') ? '' : $request->getByType('cvId', 2);
-		$moduleName = $request->getByType('related_module', 2);
+		$cvId = $request->isEmpty('cvId') ? '' : $request->getByType('cvId', App\Purifier::ALNUM);
+		$moduleName = $request->getByType('related_module', App\Purifier::ALNUM);
 		if ((!empty($cvId) && 'undefined' === $cvId) || '0' === $cvId) {
 			$cvId = CustomView_Record_Model::getAllFilterByModule($moduleName)->getId();
 		}
@@ -177,7 +178,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		if (!$customViewModel) {
 			return false;
 		}
-		$selectedIds = $request->getArray('selected_ids', 2);
+		$selectedIds = $request->getArray('selected_ids', App\Purifier::ALNUM);
 		if ($selectedIds && 'all' !== $selectedIds[0]) {
 			$queryGenerator = new App\QueryGenerator($moduleName);
 			$queryGenerator->initForCustomViewById($cvId);
@@ -188,7 +189,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				$searchKey = $request->getByType('search_key', 'Alnum');
 				$customViewModel->set('operator', $operator);
 				$customViewModel->set('search_key', $searchKey);
-				$customViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $moduleName, $searchKey, $operator));
+				$customViewModel->set('search_value', App\Condition::validSearchValue($request->getByType('search_value', App\Purifier::TEXT), $moduleName, $searchKey, $operator));
 			}
 			if ($request->getBoolean('isSortActive') && !$request->isEmpty('orderby')) {
 				$customViewModel->set('orderby', $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL));
@@ -197,7 +198,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 			if ($advancedConditions = $request->has('advancedConditions') ? $request->getArray('advancedConditions') : []) {
 				$customViewModel->set('advancedConditions', \App\Condition::validAdvancedConditions($advancedConditions));
 			}
-			$queryGenerator = $customViewModel->getRecordsListQuery($request->getArray('excluded_ids', 2), $moduleName);
+			$queryGenerator = $customViewModel->getRecordsListQuery($request->getArray('excluded_ids', App\Purifier::ALNUM), $moduleName);
 		}
 		$selectedRecords = $queryGenerator->clearFields()->createQuery()->column();
 		$relatedRecords = $this->getRelatedRecordIds($request);

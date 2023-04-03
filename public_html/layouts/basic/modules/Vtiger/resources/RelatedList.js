@@ -382,12 +382,12 @@ jQuery.Class(
 				});
 			return aDeferred.promise();
 		},
-		showSelectRelation: function (extendParams) {
+		showRelatedRecordsList: function (extendParams) {
 			let params = $.extend(this.getRecordsListParams(), extendParams);
-			app.showRecordsList(params, (_modal, instance) => {
+			app.showRelatedRecordsList(params, (_modal, instance) => {
 				instance.setSelectEvent((responseData) => {
 					const progressIndicatorElement = $.progressIndicator();
-					this.addRelations(responseData).done(() => {
+					this.addRelationsFromRecordList(responseData).done(() => {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						app.event.trigger(
 							'RelatedListView.AfterSelectRelation',
@@ -416,7 +416,7 @@ jQuery.Class(
 				multi_select: true
 			};
 		},
-		addRelations: function (params = {}) {
+		addRelations: function (idList, params = {}) {
 			let aDeferred = jQuery.Deferred();
 			AppConnector.request(
 				$.extend(params, {
@@ -425,7 +425,8 @@ jQuery.Class(
 					mode: 'addRelation',
 					related_module: this.moduleName,
 					src_record: this.parentRecordId,
-					relationId: this.getCompleteParams()['relationId']
+					relationId: this.getCompleteParams()['relationId'],
+					related_record_list: $.isArray(idList) ? JSON.stringify(idList) : idList
 				})
 			)
 				.done(function (responseData) {
@@ -441,20 +442,17 @@ jQuery.Class(
 		 * @param array params
 		 * @returns
 		 */
-		addRelationsInDetailView: function (params = {}) {
+		addRelationsFromRecordList: function (params = {}) {
 			let aDeferred = jQuery.Deferred();
 			AppConnector.request(
-				$.extend(
-					{
-						module: this.parentModuleName,
-						action: 'RelationAjax',
-						mode: 'addRelation',
-						related_module: this.moduleName,
-						src_record: this.parentRecordId,
-						relationId: this.getCompleteParams()['relationId']
-					},
-					params
-				)
+				$.extend(params, {
+					module: this.parentModuleName,
+					action: 'RelationAjax',
+					mode: 'addRelation',
+					related_module: this.moduleName,
+					src_record: this.parentRecordId,
+					relationId: this.getCompleteParams()['relationId']
+				})
 			)
 				.done(function (responseData) {
 					aDeferred.resolve(responseData);
@@ -1065,7 +1063,7 @@ jQuery.Class(
 						relationId: thisInstance.getCompleteParams()['relationId']
 					};
 				}
-				thisInstance.showSelectRelation(params);
+				thisInstance.showRelatedRecordsList(params);
 			});
 			this.content.find('button.relationDelete').on('click', function (e) {
 				e.stopImmediatePropagation();
