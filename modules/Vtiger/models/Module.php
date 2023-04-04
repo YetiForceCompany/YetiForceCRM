@@ -127,6 +127,26 @@ class Vtiger_Module_Model extends \vtlib\Module
 	}
 
 	/**
+	 * Gets base table name.
+	 *
+	 * @return string
+	 */
+	public function getBaseTableName(): string
+	{
+		return $this->basetable;
+	}
+
+	/**
+	 * Gets base table index.
+	 *
+	 * @return string
+	 */
+	public function getBaseTableIndex(): string
+	{
+		return $this->basetableid;
+	}
+
+	/**
 	 * Function checks if the module is Active.
 	 *
 	 * @return bool
@@ -222,6 +242,16 @@ class Vtiger_Module_Model extends \vtlib\Module
 		$instance = new $modelClassName();
 		$instance->initialize($valueArray);
 		return $instance;
+	}
+
+	/**
+	 * Gets inventory model.
+	 *
+	 * @return Vtiger_Inventory_Model|null
+	 */
+	public function getInventoryModel(): ?Vtiger_Inventory_Model
+	{
+		return $this->isInventory() ? \Vtiger_Inventory_Model::getInstance($this->getName()) : null;
 	}
 
 	/**

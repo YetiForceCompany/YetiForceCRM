@@ -212,7 +212,7 @@ class Fields extends \Api\Core\BaseAction
 				$fieldInfo['dbStructure'] = $fieldModel->getDBColumnType(false);
 			}
 			if ($returnQueryOperators) {
-				$fieldInfo['queryOperators'] = array_map(fn ($value) => \App\Language::translate($value, $moduleName), $fieldModel->getQueryOperators());
+				$fieldInfo['queryOperators'] = array_map(fn ($value) => \App\Language::translate($value, $moduleName), $fieldModel->getQueryOperatorLabels());
 			}
 			if (isset($fieldInfo['picklistvalues']) && $fieldModel->isEmptyPicklistOptionAllowed()) {
 				$fieldInfo['isEmptyPicklistOptionAllowed'] = $fieldModel->isEmptyPicklistOptionAllowed();

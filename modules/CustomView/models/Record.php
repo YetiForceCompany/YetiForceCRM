@@ -583,6 +583,7 @@ class CustomView_Record_Model extends \App\Base
 	{
 		$db = \App\Db::getInstance();
 		$currentUserModel = Users_Record_Model::getCurrentUserModel();
+		$result = false;
 
 		$cvIdOrg = $cvId = $this->getId();
 		$setDefault = (int) ($this->get('setdefault'));
@@ -618,11 +619,14 @@ class CustomView_Record_Model extends \App\Base
 				}
 			}
 			$transaction->commit();
+			$result = true;
 		} catch (\Throwable $ex) {
 			$transaction->rollBack();
 			\App\Log::error($ex->__toString());
 		}
 		\App\Cache::clear();
+
+		return $result;
 	}
 
 	/**
@@ -745,12 +749,15 @@ class CustomView_Record_Model extends \App\Base
 		[$fieldName, $fieldModuleName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
 		$operator = $rule['operator'];
 		$value = $rule['value'] ?? '';
-
 		if (!$this->get('advfilterlistDbFormat') && !\in_array($operator, array_merge(\App\Condition::OPERATORS_WITHOUT_VALUES, \App\Condition::FIELD_COMPARISON_OPERATORS, array_keys(App\Condition::DATE_OPERATORS)))) {
-			$value = Vtiger_Module_Model::getInstance($fieldModuleName)->getFieldByName($fieldName)
-				->getUITypeModel()
-				->getDbConditionBuilderValue($value, $operator);
+			$moduleModel = Vtiger_Module_Model::getInstance($fieldModuleName);
+			if ('INVENTORY' === $sourceFieldName) {
+				$value = $moduleModel->getInventoryModel()->getField($fieldName)->getDbConditionBuilderValue($value, $operator);
+			} else {
+				$value = $moduleModel->getFieldByName($fieldName)->getUITypeModel()->getDbConditionBuilderValue($value, $operator);
+			}
 		}
+
 		\App\Db::getInstance()->createCommand()->insert('u_#__cv_condition', [
 			'group_id' => $parentId,
 			'field_name' => $fieldName,

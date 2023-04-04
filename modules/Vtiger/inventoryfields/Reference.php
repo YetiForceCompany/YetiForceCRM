@@ -21,6 +21,12 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 	protected $purifyType = \App\Purifier::INTEGER;
 	/** {@inheritdoc} */
 	protected $onlyOne = false;
+	/** {@inheritdoc} */
+	protected $searchable = true;
+	/** {@inheritdoc} */
+	protected $queryOperators = ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
+	/** {@inheritdoc} */
+	protected $recordOperators = ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
 
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
@@ -101,6 +107,12 @@ class Vtiger_Reference_InventoryField extends Vtiger_Basic_InventoryField
 		if (!empty($value) && ($rangeValues[1] < $value || $rangeValues[0] > $value)) {
 			throw new \App\Exceptions\Security("ERR_VALUE_IS_TOO_LONG||$columnName||$value", 406);
 		}
+	}
+
+	/** {@inheritdoc} */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		return \App\Purifier::decodeHtml($value);
 	}
 
 	/** {@inheritdoc} */

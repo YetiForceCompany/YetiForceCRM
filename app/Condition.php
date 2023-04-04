@@ -147,6 +147,29 @@ class Condition
 	private static $recordCache = [];
 
 	/**
+	 * Gets operator labels.
+	 *
+	 * @param array $operators
+	 *
+	 * @return string[]
+	 */
+	public static function getOperatorLabels(array $operators): array
+	{
+		$labels = [];
+		foreach ($operators as $operator) {
+			$label = '';
+			if (isset(self::STANDARD_OPERATORS[$operator])) {
+				$label = self::STANDARD_OPERATORS[$operator];
+			} elseif (isset(self::DATE_OPERATORS[$operator])) {
+				$label = self::DATE_OPERATORS[$operator]['label'];
+			}
+			$labels[$operator] = $label;
+		}
+
+		return $labels;
+	}
+
+	/**
 	 * Checks structure search_params.
 	 *
 	 * @param string $moduleName

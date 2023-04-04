@@ -203,9 +203,21 @@ class Vtiger_Field_Model extends vtlib\Field
 	/**
 	 * Get field label.
 	 *
+	 * @deprecated 7.0 Use $this->getLabel()
+	 *
 	 * @return string
 	 */
 	public function getFieldLabel()
+	{
+		return $this->getLabel();
+	}
+
+	/**
+	 * Get field label.
+	 *
+	 * @return string
+	 */
+	public function getLabel(): string
 	{
 		return $this->label;
 	}
@@ -1201,10 +1213,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public static function getInstanceFromFilter($fieldInfo)
 	{
-		if (\is_string($fieldInfo)) {
-			$fieldInfo = array_combine(['field_name', 'module_name', 'source_field_name'], array_pad(explode(':', $fieldInfo), 3, false));
-		}
-		return static::getInstance($fieldInfo['field_name'], Vtiger_Module_Model::getInstance($fieldInfo['module_name']));
+		[$fieldName, $fieldModuleName, $sourceFieldName] = array_pad(explode(':', $fieldInfo), 3, false);
+
+		return 'INVENTORY' === $sourceFieldName ? \Vtiger_Inventory_Model::getInstance($fieldModuleName)->getField($fieldName) : static::getInstance($fieldName, Vtiger_Module_Model::getInstance($fieldModuleName));
 	}
 
 	/**
@@ -1803,41 +1814,19 @@ class Vtiger_Field_Model extends vtlib\Field
 	 *
 	 * @return string[]
 	 */
-	public function getQueryOperators(): array
+	public function getQueryOperatorLabels(): array
 	{
-		$operators = $this->getUITypeModel()->getQueryOperators();
-		$oper = [];
-		foreach ($operators as $op) {
-			$label = '';
-			if (isset(\App\Condition::STANDARD_OPERATORS[$op])) {
-				$label = \App\Condition::STANDARD_OPERATORS[$op];
-			} elseif (isset(\App\Condition::DATE_OPERATORS[$op])) {
-				$label = \App\Condition::DATE_OPERATORS[$op]['label'];
-			}
-			$oper[$op] = $label;
-		}
-		return $oper;
+		return \App\Condition::getOperatorLabels($this->getUITypeModel()->getQueryOperators());
 	}
 
 	/**
-	 * Return allowed record operators for field.
+	 * Gets record operator labels.
 	 *
 	 * @return string[]
 	 */
-	public function getRecordOperators(): array
+	public function getRecordOperatorLabels(): array
 	{
-		$operators = $this->getUITypeModel()->getRecordOperators();
-		$oper = [];
-		foreach ($operators as $op) {
-			$label = '';
-			if (isset(\App\Condition::STANDARD_OPERATORS[$op])) {
-				$label = \App\Condition::STANDARD_OPERATORS[$op];
-			} elseif (isset(\App\Condition::DATE_OPERATORS[$op])) {
-				$label = \App\Condition::DATE_OPERATORS[$op]['label'];
-			}
-			$oper[$op] = $label;
-		}
-		return $oper;
+		return \App\Condition::getOperatorLabels($this->getUITypeModel()->getRecordOperators());
 	}
 
 	/**

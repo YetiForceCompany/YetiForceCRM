@@ -29,13 +29,13 @@ class CustomView_Save_Action extends \App\Controller\Action
 		$customViewModel = $this->getCVModelFromRequest($request);
 		$response = new Vtiger_Response();
 		if (!$customViewModel->checkDuplicate()) {
-			$customViewModel->save();
+			$result = $customViewModel->save();
 			$cvId = $customViewModel->getId();
 			$url = $moduleModel->getListViewUrl() . '&viewname=' . $cvId;
 			if (!$request->isEmpty('mid', 'Alnum')) {
 				$url .= '&mid=' . $request->getInteger('mid');
 			}
-			$response->setResult(['success' => true, 'id' => $cvId, 'listviewurl' => $url]);
+			$response->setResult(['success' => $result, 'id' => $cvId, 'listviewurl' => $url]);
 		} else {
 			$response->setResult([
 				'success' => false,

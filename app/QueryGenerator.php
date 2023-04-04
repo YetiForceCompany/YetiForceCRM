@@ -789,7 +789,9 @@ class QueryGenerator
 				$where[] = $this->parseConditions($rule);
 			} else {
 				[$fieldName, $moduleName, $sourceFieldName] = array_pad(explode(':', $rule['fieldname']), 3, false);
-				if (!empty($sourceFieldName)) {
+				if ('INVENTORY' === $sourceFieldName) {
+					$condition = $this->getInvCondition($fieldName, $rule['value'], $rule['operator']);
+				} elseif (!empty($sourceFieldName)) {
 					$condition = $this->getRelatedCondition([
 						'relatedModule' => $moduleName,
 						'relatedField' => $fieldName,
@@ -1192,6 +1194,39 @@ class QueryGenerator
 	}
 
 	/**
+	 * Gets conditions for inventory field.
+	 *
+	 * @param string $fieldName
+	 * @param mixed  $value
+	 * @param string $operator
+	 * @param bool   $userFormat
+	 *
+	 * @return array
+	 */
+	private function getInvCondition(string $fieldName, $value, string $operator, bool $userFormat = false): array
+	{
+		$parseData = [];
+		if ($this->getModuleModel()->isInventory()) {
+			$queryField = $this->getQueryInvField($fieldName);
+			if ($userFormat) {
+				$value = $queryField->getDbConditionBuilderValue($value, $operator);
+			}
+			$queryField->setValue($value);
+			$queryField->setOperator($operator);
+			$parseData = $queryField->getCondition();
+			$invTableName = $this->getModuleModel()->getInventoryModel()->getDataTableName();
+			$tableName = $this->getModuleModel()->getBaseTableName();
+			$tableIndex = $this->getModuleModel()->getBaseTableIndex();
+			$this->addJoin(['LEFT JOIN', $invTableName, "{$tableName}.{$tableIndex} = {$invTableName}.crmid"]);
+			if (null === $this->distinct) {
+				$this->setDistinct('id');
+			}
+		}
+
+		return $parseData;
+	}
+
+	/**
 	 * Returns condition for field in related module.
 	 *
 	 * @param array $condition
@@ -1272,6 +1307,30 @@ class QueryGenerator
 		}
 		$queryField = new $className($this, $field);
 		return $this->queryFields[$fieldName] = $queryField;
+	}
+
+	/**
+	 * Gets query field instance for inventory field.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return Conditions\QueryFields\Inventory\BaseField
+	 */
+	public function getQueryInvField(string $fieldName): Conditions\QueryFields\Inventory\BaseField
+	{
+		$field = $this->getModuleModel()->getInventoryModel()->getField($fieldName);
+		if (empty($field)) {
+			Log::error("Not found inv field model | Field name: '{$fieldName}' in module" . $this->getModule());
+			throw new \App\Exceptions\AppException("ERR_NOT_FOUND_FIELD_MODEL|$fieldName|" . $this->getModule());
+		}
+
+		$className = '\App\Conditions\QueryFields\Inventory\\' . ucfirst($field->getType()) . 'Field';
+		if (!class_exists($className)) {
+			Log::error('Not found query inv field condition | FieldDataType: ' . ucfirst($field->getType()));
+			throw new \App\Exceptions\AppException('ERR_NOT_FOUND_QUERY_INV_FIELD_CONDITION|' . $fieldName);
+		}
+
+		return new $className($this, $field);
 	}
 
 	/**

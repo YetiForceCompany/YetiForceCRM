@@ -614,6 +614,9 @@ class Vtiger_ListView_Model extends \App\Base
 			$relatedFields[$fieldInfo['relatedModule']][$fieldInfo['sourceField']][] = $fieldInfo['relatedField'];
 		}
 		foreach ($rows as $row) {
+			if (isset($listViewRecordModels[$row['id']])) {
+				continue;
+			}
 			$extRecordModel = [];
 			foreach ($relatedFields as $relatedModuleName => $fields) {
 				foreach ($fields as $sourceField => $field) {

@@ -60,6 +60,12 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	protected $sync = false;
 	/** @var array List of changes */
 	protected $changes = [];
+	/** @var bool Search allowed */
+	protected $searchable = false;
+	/** @var array Operators for query {@see \App\Condition::STANDARD_OPERATORS} */
+	protected $queryOperators = ['e', 'n', 'y', 'ny'];
+	/** @var array Operators for record conditions {@see \App\Condition::STANDARD_OPERATORS} */
+	protected $recordOperators = ['e', 'n', 'y', 'ny'];
 
 	/**
 	 * Gets inventory field instance.
@@ -73,7 +79,7 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	 */
 	public static function getInstance(string $moduleName, ?string $type = 'Basic')
 	{
-		$cacheName = "$moduleName:$type";
+		$cacheName = "{$moduleName}:{$type}";
 		if (\App\Cache::has(__METHOD__, $cacheName)) {
 			$instance = \App\Cache::get(__METHOD__, $cacheName);
 		} else {
@@ -236,6 +242,104 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	}
 
 	/**
+	 * The function determines whether sorting on this field is allowed.
+	 *
+	 * @return bool
+	 */
+	public function isSearchable(): bool
+	{
+		return $this->searchable && \in_array(1, $this->getBlocks());
+	}
+
+	/**
+	 * Gets full field name for conditions.
+	 *
+	 * @return string
+	 */
+	public function getSearchName(): string
+	{
+		return "{$this->getColumnName()}:{$this->getModuleName()}:INVENTORY";
+	}
+
+	/**
+	 * Return allowed query operators for field.
+	 *
+	 * @return string[]
+	 */
+	public function getQueryOperators(): array
+	{
+		return $this->queryOperators;
+	}
+
+	/**
+	 * Return allowed record operators for field.
+	 *
+	 * @return string[]
+	 */
+	public function getRecordOperators(): array
+	{
+		return $this->recordOperators;
+	}
+
+	/**
+	 * Gets query operator labels.
+	 *
+	 * @return string[]
+	 */
+	public function getQueryOperatorLabels(): array
+	{
+		return \App\Condition::getOperatorLabels($this->getQueryOperators());
+	}
+
+	/**
+	 * Gets record operator labels.
+	 *
+	 * @return string[]
+	 */
+	public function getRecordOperatorLabels(): array
+	{
+		return \App\Condition::getOperatorLabels($this->getRecordOperators());
+	}
+
+	/**
+	 * Returns template for operator.
+	 *
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Base.tpl';
+	}
+
+	/**
+	 * Function to get the DB Insert Value, for the current field type with given User Value for condition builder.
+	 *
+	 * @param mixed  $value
+	 * @param string $operator
+	 *
+	 * @return string
+	 */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$this->validate($value, $this->getColumnName(), true);
+		return $this->getDBValue($value);
+	}
+
+	/**
+	 * Function to get the field model for condition builder.
+	 *
+	 * @param string $operator
+	 *
+	 * @return $this
+	 */
+	public function getConditionBuilderField(string $operator)
+	{
+		return $this;
+	}
+
+	/**
 	 * Get template name for edit.
 	 *
 	 * @return string
@@ -306,6 +410,16 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	public function getColumnName()
 	{
 		return $this->has('columnname') ? $this->get('columnname') : $this->columnName;
+	}
+
+	/**
+	 * Getting field name.
+	 *
+	 * @return string field name
+	 */
+	public function getName(): string
+	{
+		return $this->getColumnName();
 	}
 
 	/**

@@ -21,7 +21,7 @@ class FieldBasic
 	public $id;
 	public $name;
 	public $tabid = false;
-	public $label = false;
+	public $label = '';
 	public $table = false;
 	public $column = false;
 	public $columntype = false;

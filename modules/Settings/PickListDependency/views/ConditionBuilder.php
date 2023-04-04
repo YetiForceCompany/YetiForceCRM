@@ -43,7 +43,7 @@ class Settings_PickListDependency_ConditionBuilder_View extends Vtiger_Condition
 			}
 		}
 
-		$operators = $fieldModel->getRecordOperators();
+		$operators = $fieldModel->getRecordOperatorLabels();
 		if ($request->isEmpty('operator', true)) {
 			$selectedOperator = array_key_first($operators);
 		} else {

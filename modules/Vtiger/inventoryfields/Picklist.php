@@ -18,6 +18,12 @@ class Vtiger_Picklist_InventoryField extends Vtiger_Basic_InventoryField
 	protected $onlyOne = false;
 	protected $purifyType = \App\Purifier::TEXT;
 	protected $params = ['values'];
+	/** {@inheritdoc} */
+	protected $searchable = true;
+	/** {@inheritdoc} */
+	protected $queryOperators = ['e', 'n', 'y', 'ny'];
+	/** {@inheritdoc} */
+	protected $recordOperators = ['e', 'n', 'y', 'ny'];
 
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
@@ -30,6 +36,7 @@ class Vtiger_Picklist_InventoryField extends Vtiger_Basic_InventoryField
 		$values = $this->getParamsConfig()['values'] ?? [];
 		if (\is_string($values)) {
 			$values = explode(' |##| ', $values);
+			$values = array_combine($values, $values);
 		}
 
 		return $values;
@@ -54,5 +61,24 @@ class Vtiger_Picklist_InventoryField extends Vtiger_Basic_InventoryField
 		}
 
 		return $data;
+	}
+
+	/** {@inheritdoc} */
+	public function getOperatorTemplateName(string $operator = '')
+	{
+		return 'ConditionBuilder/Picklist.tpl';
+	}
+
+	/** {@inheritdoc} */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$values = [];
+		if (!\is_array($value)) {
+			$value = $value ? explode('##', $value) : [];
+		}
+		foreach ($value as $val) {
+			$values[] = parent::getDbConditionBuilderValue($val, $operator);
+		}
+		return implode('##', $values);
 	}
 }
