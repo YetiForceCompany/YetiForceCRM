@@ -50,11 +50,16 @@ class Vtiger_Field_Model extends vtlib\Field
 	/** @var Vtiger_Field_Model[][] Cache by module id and field id */
 	protected static $instanceCacheByName = [];
 
-	/**
-	 * @var array
-	 */
+	/** @var array Module field info. */
 	protected $fieldInfo;
+
+	/** @var string Field type. */
 	protected $fieldType;
+
+	/** @var string Field data type. */
+	public $fieldDataType;
+
+	/** @var string Field data type short. */
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
 
