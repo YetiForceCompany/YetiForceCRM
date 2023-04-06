@@ -22,7 +22,16 @@ require_once 'include/Webservices/Utils.php';
 
 class DateTimeField
 {
+	/** @var string Date and time. */
 	protected $datetime;
+
+	/** @var null Date. */
+	protected $date;
+
+	/** @var null Time. */
+	protected $time;
+
+	/** @var array Cache for time and time zones. */
 	private static $cache = [];
 
 	/**
