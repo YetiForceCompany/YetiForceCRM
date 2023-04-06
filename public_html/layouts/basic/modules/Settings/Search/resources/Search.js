@@ -61,8 +61,18 @@ var Settings_Index_Js = {
 			);
 			aDeferred.reject();
 		} else if (isSelect) {
-			target.validationEngine('hide');
-			aDeferred.resolve(target);
+			let maximumLength = target.data('fieldinfo').maximumlength;
+			let value = target.val();
+			if (Array.isArray(value)) {
+				value = value.join(',');
+			}
+			if (maximumLength && value.length > parseInt(maximumLength)) {
+				target.validationEngine('showPrompt', app.vtranslate('JS_ENTERED_VALUE_IS_TOO_LONG'), 'error', 'topLeft', true);
+				aDeferred.reject();
+			} else {
+				target.validationEngine('hide');
+				aDeferred.resolve(target);
+			}
 		} else {
 			aDeferred.resolve(target);
 		}
@@ -98,13 +108,21 @@ var Settings_Index_Js = {
 		AppConnector.request(params)
 			.done(function (data) {
 				let response = data['result'];
-				app.showNotify({
-					text: response['message'],
+				let params = {
+					text: response.message,
 					type: 'success'
-				});
+				};
+				if (!response.success) {
+					params.type = 'error';
+				}
+				app.showNotify(params);
 				progress.progressIndicator({ mode: 'hide' });
 			})
 			.fail(function (data, err) {
+				app.showNotify({
+					text: app.vtranslate('JS_ERROR'),
+					type: 'error'
+				});
 				progress.progressIndicator({ mode: 'hide' });
 			});
 	},

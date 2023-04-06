@@ -138,6 +138,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 					break;
 			}
 			$entityInfo = \App\Module::getEntityInfo($fldModule);
+			$searchModel = Settings_Search_Module_Model::getInstance('Settings:Search');
 			foreach (['fieldnameArr' => 'fieldname', 'searchcolumnArr' => 'searchcolumn'] as $key => $name) {
 				if (false !== ($fieldNameKey = array_search($fieldname, $entityInfo[$key]))) {
 					unset($entityInfo[$key][$fieldNameKey]);
@@ -146,7 +147,7 @@ class Settings_LayoutEditor_Field_Model extends Vtiger_Field_Model
 						'tabid' => $tabId,
 						'value' => $entityInfo[$key],
 					];
-					Settings_Search_Module_Model::save($params);
+					$searchModel->save($params);
 				}
 			}
 		} catch (\Throwable $ex) {

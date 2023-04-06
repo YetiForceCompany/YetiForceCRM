@@ -8,6 +8,9 @@
  */
 class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 {
+	/** @var string */
+	public $name = 'Search';
+
 	/**
 	 * Get entity modules.
 	 *
@@ -75,24 +78,27 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return bool
 	 */
-	public static function save($params)
+	public function save($params)
 	{
 		$db = App\Db::getInstance();
 		$name = $params['name'];
 		$tabId = (int) $params['tabid'];
-		if ('searchcolumn' === $name || 'fieldname' === $name) {
-			if (empty($params['value']) || array_diff($params['value'], array_keys(self::getFieldFromModule(false)[$tabId]))) {
-				throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE');
-			}
-			$db->createCommand()
-				->update('vtiger_entityname', [$name => implode(',', $params['value'])], ['tabid' => $tabId])
-				->execute();
-		} elseif ('turn_off' === $name) {
-			$db->createCommand()
-				->update('vtiger_entityname', ['turn_off' => (int) $params['value']], ['tabid' => $tabId])
-				->execute();
+		$value = $params['value'];
+
+		if (('searchcolumn' === $name || 'fieldname' === $name) && (empty($value) || array_diff($value, array_keys(self::getFieldFromModule(false)[$tabId])))) {
+			throw new \App\Exceptions\AppException('ERR_NOT_ALLOWED_VALUE');
 		}
+		$value = \is_array($value) ? implode(',', $value) : $value;
+		$fieldModel = $this->getFieldInstanceByName($name);
+		$fieldModel->getUITypeModel()->validate($value, true);
+		$value = $fieldModel->getUITypeModel()->getDBValue($value);
+
+		$db->createCommand()
+			->update('vtiger_entityname', [$name => $value], ['tabid' => $tabId])
+			->execute();
+
 		\App\Cache::delete('ModuleEntityInfo', '');
+
 		return true;
 	}
 
@@ -135,5 +141,42 @@ class Settings_Search_Module_Model extends Settings_Vtiger_Module_Model
 		$case .= ' END ';
 		$db->createCommand()->update('vtiger_entityname', ['sequence' => new yii\db\Expression($case)], ['tabid' => $tabIdList])->execute();
 		\App\Log::trace('Exiting Settings_Search_Module_Model::updateSequenceNumber() method ...');
+	}
+
+	/**
+	 * Function determines fields available in edition view.
+	 *
+	 * @param string $name
+	 *
+	 * @return \Vtiger_Field_Model
+	 */
+	public function getFieldInstanceByName($name)
+	{
+		$moduleName = $this->getName(true);
+		$params = ['column' => $name, 'name' => $name, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
+		switch ($name) {
+			case 'searchcolumn':
+				$params['uitype'] = 33;
+				$params['picklistValues'] = [];
+				$params['purifyType'] = \App\Purifier::ALNUM;
+				$params['maximumlength'] = '150';
+				break;
+			case 'fieldname':
+				$params['uitype'] = 33;
+				$params['picklistValues'] = [];
+				$params['purifyType'] = \App\Purifier::ALNUM;
+				$params['maximumlength'] = '100';
+				break;
+			case 'turn_off':
+				$params['uitype'] = 56;
+				$params['purifyType'] = \App\Purifier::BOOL;
+				$params['maximumlength'] = '1';
+				$params['typeofdata'] = 'C~O';
+				break;
+			default:
+				break;
+		}
+
+		return Settings_Vtiger_Field_Model::init($moduleName, $params);
 	}
 }

@@ -19,6 +19,7 @@ class Settings_Search_Index_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $request->getModule());
+		$viewer->assign('MODULE_MODEL', Settings_Search_Module_Model::getInstance('Settings:Search'));
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
