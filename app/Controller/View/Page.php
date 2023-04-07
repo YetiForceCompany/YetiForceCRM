@@ -111,7 +111,7 @@ abstract class Page extends Base
 				}
 			}
 		}
-		foreach (\Vtiger_Link_Model::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERSCRIPT', 'FOOTER_SCRIPT']) as $headerScripts) {
+		foreach (\Vtiger_Link_Model::getAllByType(\vtlib\Link::IGNORE_MODULE, ['FOOTER_SCRIPT']) as $headerScripts) {
 			foreach ($headerScripts as $headerScript) {
 				$jsFileNames[] = $headerScript->linkurl;
 			}
