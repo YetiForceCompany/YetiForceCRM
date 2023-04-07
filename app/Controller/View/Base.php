@@ -260,6 +260,11 @@ abstract class Base extends \App\Controller\Base
 			];
 			$jsFileNames = array_merge($polyfills, $jsFileNames);
 		}
+		foreach (\Vtiger_Link_Model::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADER_SCRIPT']) as $headerScripts) {
+			foreach ($headerScripts as $headerScript) {
+				$jsFileNames[] = $headerScript->linkurl;
+			}
+		}
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
