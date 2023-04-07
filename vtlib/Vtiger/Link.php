@@ -186,15 +186,13 @@ class Link
 			if (\is_array($type)) {
 				$multitype = true;
 				if (self::IGNORE_MODULE === $tabid) {
-					$permittedTabIdList = \vtlib\Deprecated::getPermittedModuleIdList();
-					if (!empty($permittedTabIdList)) {
-						$permittedTabIdList[] = 0;  // Added to support one link for all modules
-						foreach ($permittedTabIdList as $moduleId) {
-							foreach ($type as $typ) {
-								if (isset($rows[$moduleId][$typ])) {
-									foreach ($rows[$moduleId][$typ] as $data) {
-										$links[] = $data;
-									}
+					$permittedTabIdList = \App\User::getCurrentUserId() ? \vtlib\Deprecated::getPermittedModuleIdList() : [];
+					$permittedTabIdList[] = 0;  // Added to support one link for all modules
+					foreach ($permittedTabIdList as $moduleId) {
+						foreach ($type as $typ) {
+							if (isset($rows[$moduleId][$typ])) {
+								foreach ($rows[$moduleId][$typ] as $data) {
+									$links[] = $data;
 								}
 							}
 						}
