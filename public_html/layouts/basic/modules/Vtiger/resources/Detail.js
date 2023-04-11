@@ -171,7 +171,8 @@ jQuery.Class(
 				});
 		},
 		showWorkflowTriggerView: function (instance) {
-			$(instance).popover('hide');
+			let element = $(instance);
+			element.popover('hide');
 			const detailInstance = Vtiger_Detail_Js.getInstance(),
 				callback = function (data) {
 					let treeInstance = data.find('#treeWorkflowContents');
@@ -215,11 +216,11 @@ jQuery.Class(
 								type: 'info'
 							});
 							AppConnector.request({
-								module: app.getModuleName(),
+								module: element.data('module') || app.getModuleName(),
 								action: 'Workflow',
 								mode: 'execute',
 								user: data.find('[name="user"]').val(),
-								record: detailInstance.getRecordId(),
+								record: element.data('id') || detailInstance.getRecordId(),
 								tasks: JSON.stringify(tasks)
 							})
 								.done(function () {
@@ -243,9 +244,9 @@ jQuery.Class(
 					});
 				};
 			AppConnector.request({
-				module: app.getModuleName(),
+				module: element.data('module') || app.getModuleName(),
 				view: 'WorkflowTrigger',
-				record: detailInstance.getRecordId()
+				record: element.data('id') || detailInstance.getRecordId()
 			}).done(function (data) {
 				if (data) {
 					app.showModalWindow(data, '', callback);

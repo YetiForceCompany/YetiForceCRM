@@ -1129,7 +1129,7 @@ class Vtiger_Record_Model extends \App\Base
 			foreach ($mfInstance->getMapping() as $mapp) {
 				$fieldTarget = $mapp['target'];
 				$fieldSource = $mapp['source'];
-				if ((!\is_object($fieldTarget) || !\is_object($fieldSource))) {
+				if (!\is_object($fieldTarget) || !\is_object($fieldSource)) {
 					continue;
 				}
 				$type = $mapp['type'];
@@ -1627,6 +1627,24 @@ class Vtiger_Record_Model extends \App\Base
 						'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&view=PDF&fromview=Detail&record=' . $this->getId(),
 						'linkicon' => 'fas fa-file-pdf',
 						'linkclass' => 'btn-sm btn-outline-danger showModal js-pdf',
+					]);
+				}
+			}
+			if ($this->getModule()->isPermitted('WorkflowTrigger') && ($this->isEditable() || ($this->isPermitted('EditView') && $this->isPermitted('WorkflowTriggerWhenRecordIsBlocked') && $this->isBlocked()))) {
+				Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
+				Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/VTEntityMethodManager.php');
+				$wfs = new VTWorkflowManager();
+				$workflows = $wfs->getWorkflowsForModule($this->getModuleName(), VTWorkflowManager::$TRIGGER);
+				if (\count($workflows) > 0) {
+					$links['BTN_WORKFLOW_TRIGGER'] = Vtiger_Link_Model::getInstanceFromValues([
+						'linklabel' => 'BTN_WORKFLOW_TRIGGER',
+						'linkurl' => 'javascript:Vtiger_Detail_Js.showWorkflowTriggerView(this)',
+						'linkicon' => 'fas fa-plus-circle',
+						'linkclass' => 'btn-outline-warning btn-sm',
+						'linkdata' => [
+							'module' => $this->getModuleName(),
+							'id' => $this->getId(),
+						],
 					]);
 				}
 			}
