@@ -384,7 +384,8 @@ jQuery.Class(
 		},
 		showRelatedRecordsList: function (extendParams) {
 			let params = $.extend(this.getRecordsListParams(), extendParams);
-			app.showRelatedRecordsList(params, (_modal, instance) => {
+			params.view = 'RelatedRecordsList';
+			app.showRecordsList(params, (_modal, instance) => {
 				instance.setSelectEvent((responseData) => {
 					const progressIndicatorElement = $.progressIndicator();
 					this.addRelationsFromRecordList(responseData).done(() => {
@@ -419,15 +420,18 @@ jQuery.Class(
 		addRelations: function (idList, params = {}) {
 			let aDeferred = jQuery.Deferred();
 			AppConnector.request(
-				$.extend(params, {
-					module: this.parentModuleName,
-					action: 'RelationAjax',
-					mode: 'addRelation',
-					related_module: this.moduleName,
-					src_record: this.parentRecordId,
-					relationId: this.getCompleteParams()['relationId'],
-					related_record_list: $.isArray(idList) ? JSON.stringify(idList) : idList
-				})
+				$.extend(
+					{
+						module: this.parentModuleName,
+						action: 'RelationAjax',
+						mode: 'addRelation',
+						related_module: this.moduleName,
+						src_record: this.parentRecordId,
+						relationId: this.getCompleteParams()['relationId'],
+						related_record_list: $.isArray(idList) ? JSON.stringify(idList) : idList
+					},
+					params
+				)
 			)
 				.done(function (responseData) {
 					aDeferred.resolve(responseData);

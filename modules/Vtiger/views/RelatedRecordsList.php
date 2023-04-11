@@ -1,5 +1,16 @@
 <?php
-
+/**
+ * Record list in related view file.
+ *
+ * @package   View
+ *
+ * @copyright YetiForce S.A.
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Adrian Kon <a.kon@yetiforce.com>
+ */
+/**
+ * Record list in related view class.
+ */
 class Vtiger_RelatedRecordsList_View extends Vtiger_RecordsList_View
 {
 	/** {@inheritdoc} */
@@ -17,9 +28,14 @@ class Vtiger_RelatedRecordsList_View extends Vtiger_RecordsList_View
 	/** {@inheritdoc} */
 	public function getModalScripts(App\Request $request)
 	{
-		return array_merge(parent::getModalScripts($request), $this->checkAndConvertJsScripts([
-			'modules.Vtiger.resources.RecordsList',
-			"modules.{$request->getModule()}.resources.RecordsList",
-		]));
+		$moduleName = $request->getModule();
+		return array_merge(
+			$this->checkAndConvertJsScripts([
+				'modules.Vtiger.resources.RecordsList',
+				"modules.{$moduleName}.resources.RecordsList",
+				'modules.Vtiger.resources.RelatedRecordsList',
+				"modules.{$moduleName}.resources.RelatedRecordsList",
+			]),
+			parent::getModalScripts($request));
 	}
 }

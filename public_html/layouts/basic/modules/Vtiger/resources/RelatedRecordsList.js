@@ -1,70 +1,16 @@
 /* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
-
-$.Class(
+Base_RecordsList_JS(
 	'Base_RelatedRecordsList_JS',
 	{},
 	{
 		/**
-		 * Event for select row
-		 */
-		selectEvent: false,
-		/**
-		 * List search instance
-		 */
-		listSearchInstance: false,
-		/**
-		 * Module name
-		 */
-		moduleName: false,
-		/**
-		 * Modal container
-		 */
-		container: false,
-		/**
-		 * Set event for select row
-		 * @param {function} cb
-		 */
-		setSelectEvent: function (cb) {
-			this.selectEvent = cb;
-		},
-		/**
 		 * Get params for record list
-		 * @returns {{module: string, view: string, src_module: string, src_record: int, src_field: string, related_parent_module: string, related_parent_id: int|string, page: int, orderby: string, sortorder: string, multi_select: boolean, totalCount: int|string, noOfEntries: int, onlyBody: boolean}}
+		 * @returns object
 		 */
 		getParams: function () {
-			let params = {
-				module: this.moduleName,
-				view: this.container.data('view'),
-				src_module: this.container.find('.js-parent-module').val(),
-				src_record: this.container.find('.js-source-record').val(),
-				src_field: this.container.find('.js-source-field').val(),
-				related_parent_module: this.container.find('.js-related-parent-module').val(),
-				related_parent_id: this.container.find('.js-related-parent-id').val(),
-				page: this.container.find('.js-page-number').val(),
-				orderby: this.container.find('.js-order-by').val(),
-				sortorder: this.container.find('.js-sort-order').val(),
-				multi_select: this.container.find('.js-multi-select').val(),
-				totalCount: this.container.find('.js-total-count').val(),
-				noOfEntries: this.container.find('.js-no-entries').val(),
-				filterFields: JSON.parse(this.container.find('.js-filter-fields').val()),
-				lockedFields: this.container.find('.js-locked-fields').val(),
-				lockedEmptyFields: this.container.find('.js-empty-fields').val(),
-				onlyBody: true,
-				cvId: this.getCurrentCvId(),
-				additionalData: this.container.find('.js-rl-additional_data').val() || null,
-				selected_ids: this.readSelectedIds(true),
-				excluded_ids: this.readExcludedIds(true)
-			};
-			let searchValue = this.listSearchInstance.getAlphabetSearchValue();
-			params['search_params'] = this.listSearchInstance.getListSearchParams(true);
-			if (typeof searchValue !== 'undefined' && searchValue.length > 0) {
-				params['search_key'] = this.listSearchInstance.getAlphabetSearchField();
-				params['search_value'] = searchValue;
-				params['operator'] = 's';
-			}
-			this.listSearchInstance.parseConditions(params);
-			params.search_params = JSON.stringify(params.search_params);
+			let params = this._super();
+			(params.selected_ids = this.readSelectedIds(true)), (params.excluded_ids = this.readExcludedIds(true));
 			return params;
 		},
 		/**
@@ -73,155 +19,6 @@ $.Class(
 		 */
 		getCurrentCvId: function () {
 			return this.getFilterSelectElement().val() || 0;
-		},
-		/**
-		 * Load records list
-		 * @param {object} params
-		 * @returns {*}
-		 */
-		loadRecordList: function (params) {
-			const body = this.container.find('.js-modal-body');
-			const aDeferred = $.Deferred();
-			const progressIndicatorElement = $.progressIndicator({
-				blockInfo: {
-					enabled: true,
-					elementToBlock: body
-				}
-			});
-			AppConnector.request($.extend(this.getParams(), params))
-				.done((responseData) => {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					body.html(responseData);
-					this.registerBasicEvents();
-					aDeferred.resolve(responseData);
-				})
-				.fail(function (textStatus, errorThrown) {
-					aDeferred.reject(textStatus, errorThrown);
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					app.showNotify({
-						text: app.vtranslate('JS_NOT_ALLOWED_VALUE'),
-						type: 'error'
-					});
-				});
-			return aDeferred.promise();
-		},
-		/*
-		 * Register the click event for listView headers
-		 */
-		registerHeadersClickEvent: function () {
-			YetiForce_ListSearch_Js.registerSearch(this.container, (data) => {
-				this.loadRecordList(data);
-			});
-		},
-		/**
-		 * Update record pagination
-		 * @param {boolean} countNumberRecords
-		 */
-		updatePagination: function (countNumberRecords) {
-			let params = this.getParams();
-			params['mode'] = 'getPagination';
-			if (countNumberRecords) {
-				params['showTotalCount'] = true;
-			}
-			AppConnector.request(params).done((responseData) => {
-				this.container.find('.js-pagination-container').html(responseData);
-				let totalCount = this.container.find('.js-pagination-list').data('totalCount');
-				if (totalCount) {
-					this.container.find('.js-total-count').val(totalCount);
-				}
-				this.registerPaginationEvents();
-			});
-		},
-		/**
-		 * Register pagination events
-		 */
-		registerPaginationEvents: function () {
-			const self = this;
-			this.container.find('.js-next-page').on('click', function () {
-				if ($(this).hasClass('disabled')) {
-					return;
-				}
-				if (self.container.find('.js-no-entries').val() == self.container.find('.js-page-limit').val()) {
-					let pageNumber = self.container.find('.js-page-number');
-					let nextPageNumber = parseInt(parseFloat(pageNumber.val())) + 1;
-					pageNumber.val(nextPageNumber);
-					self.loadRecordList().done(function () {
-						self.updatePagination();
-					});
-				}
-			});
-			this.container.find('.js-page--previous').on('click', function () {
-				let pageNumber = self.container.find('.js-page-number');
-				if (pageNumber.val() > 1) {
-					let nextPageNumber = parseInt(parseFloat(pageNumber.val())) - 1;
-					pageNumber.val(nextPageNumber);
-					self.loadRecordList().done(function () {
-						self.updatePagination();
-					});
-				}
-			});
-			this.container.find('.js-page--set').on('click', function () {
-				if ($(this).hasClass('disabled')) {
-					return;
-				}
-				self.container.find('.js-page-number').val($(this).data('id'));
-				self.loadRecordList().done(function () {
-					self.updatePagination();
-				});
-			});
-			this.container.find('.js-count-number-records').on('click', function () {
-				app.hidePopover($(this));
-				Vtiger_Helper_Js.showMessage({
-					title: app.vtranslate('JS_LBL_PERMISSION'),
-					text: app.vtranslate('JS_GET_PAGINATION_INFO'),
-					type: 'info'
-				});
-				self.updatePagination(true);
-			});
-			this.container
-				.find('.js-page--jump-drop-down')
-				.on('click', 'li', function (e) {
-					e.stopImmediatePropagation();
-				})
-				.on('keypress', '.js-page-jump', function (e) {
-					if (e.which == 13) {
-						e.stopImmediatePropagation();
-						const element = $(this);
-						const response = Vtiger_WholeNumberGreaterThanZero_Validator_Js.invokeValidation(element);
-						if (typeof response !== 'undefined') {
-							element.validationEngine('showPrompt', response, '', 'topLeft', true);
-						} else {
-							element.validationEngine('hideAll');
-							let pageNumber = self.container.find('.js-page-number');
-							let currentPageNumber = pageNumber.val();
-							let newPageNumber = parseInt($(this).val());
-							let totalPages = parseInt(self.container.find('.js-page--total').text());
-							if (newPageNumber > totalPages) {
-								let error = app.vtranslate('JS_PAGE_NOT_EXIST');
-								element.validationEngine('showPrompt', error, '', 'topLeft', true);
-								return;
-							}
-							if (newPageNumber == currentPageNumber) {
-								Vtiger_Helper_Js.showMessage({
-									text: app.vtranslate('JS_YOU_ARE_IN_PAGE_NUMBER') + ' ' + newPageNumber,
-									type: 'info'
-								});
-								return;
-							}
-							pageNumber.val(newPageNumber);
-							self.loadRecordList().done(function () {
-								self.updatePagination();
-							});
-						}
-					}
-				});
-		},
-		/**
-		 * Register list search
-		 */
-		registerListSearch: function () {
-			this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(this.container, false, this, this.moduleName);
-			this.listSearchInstance.setViewName('RecordsList');
 		},
 		/**
 		 * Register list events
@@ -478,55 +275,18 @@ $.Class(
 			this.container.find('.listViewHeaders .js-select-checkbox').prop('checked', state);
 			return state;
 		},
-		getFilterSelectElement: function () {
-			return this.container.find('#customFilter');
-		},
-		registerCustomFilter: function () {
-			const filterSelectElement = this.getFilterSelectElement();
-			if (filterSelectElement.length > 0) {
-				App.Fields.Picklist.showSelect2ElementView(filterSelectElement, {
-					templateSelection: function (data) {
-						const resultContainer = document.createElement('span'),
-							span = document.createElement('span'),
-							image = $('.filterImage').detach();
-						image.removeAttr('style');
-						span.innerText = data.text;
-						resultContainer.appendChild(image.get(0));
-						resultContainer.appendChild(span);
-						return resultContainer;
-					},
-					customSortOptGroup: true,
-					closeOnSelect: true
-				});
-				filterSelectElement.data('select2').$dropdown.append(this.container.find('span.filterActionsDiv'));
-				this.registerChangeCustomFilterEvent(filterSelectElement);
-			}
-		},
-		registerChangeCustomFilterEvent: function (filterSelectElement) {
-			filterSelectElement.on('change', (_) => {
-				this.loadRecordList({ page: 1, totalCount: 0 }).done((_) => {
-					this.updatePagination();
-				});
-			});
-		},
 		/**
 		 * Register modal basic events
 		 */
 		registerBasicEvents: function () {
-			this.registerListSearch();
-			this.registerPaginationEvents();
+			this._super();
 		},
 		/**
 		 * Register modal events
 		 * @param {jQuery} modalContainer
 		 */
 		registerEvents: function (modalContainer) {
-			this.container = modalContainer;
-			this.moduleName = this.container.data('module');
-			this.registerCustomFilter();
-			this.registerBasicEvents();
-			this.registerListEvents();
-			this.registerHeadersClickEvent();
+			this._super(modalContainer);
 			this.registerSelectCheckAll();
 			this.registerSelectUncheckAll();
 		}

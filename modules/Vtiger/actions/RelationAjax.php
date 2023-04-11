@@ -199,10 +199,12 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 				$customViewModel->set('advancedConditions', \App\Condition::validAdvancedConditions($advancedConditions));
 			}
 			$queryGenerator = $customViewModel->getRecordsListQuery($request->getArray('excluded_ids', App\Purifier::ALNUM), $moduleName);
+
+			$queryGenerator->addNativeCondition(
+				['not in', $queryGenerator->getColumnName('id'), $this->getRelatedRecordIds($request)]
+			);
 		}
-		$selectedRecords = $queryGenerator->clearFields()->createQuery()->column();
-		$relatedRecords = $this->getRelatedRecordIds($request);
-		return array_diff($selectedRecords, $relatedRecords);
+		return $queryGenerator->clearFields()->createQuery()->column();
 	}
 
 	/**
@@ -210,16 +212,16 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 	 *
 	 * @param App\Request $request
 	 *
-	 * @return array
+	 * @return \App\Db\Query
 	 */
-	public function getRelatedRecordIds(App\Request $request): array
+	public function getRelatedRecordIds(App\Request $request): App\Db\Query
 	{
 		$parentRecordModel = \Vtiger_Record_Model::getInstanceById($request->getInteger('src_record'), $request->getModule());
 		$relationId = $request->isEmpty('relationId') ? false : $request->getInteger('relationId');
 		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getByType('cvId', \App\Purifier::ALNUM);
 		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $request->getByType('related_module', \App\Purifier::ALNUM), $relationId, $cvId);
 		$queryGenerator = $relationListView->getRelationQuery(true)->clearFields();
-		return $queryGenerator->createQuery()->column();
+		return $queryGenerator->createQuery();
 	}
 
 	/**
