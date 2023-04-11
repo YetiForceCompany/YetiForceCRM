@@ -3062,17 +3062,6 @@ const app = (window.app = {
 		});
 	},
 
-	showRelatedRecordsList: function (params, cb, afterShowModal) {
-		if (typeof params === 'object' && !params.view) {
-			params.view = 'RelatedRecordsList';
-		}
-		this.showRecordsListModal(params).done(function (modal) {
-			if (typeof afterShowModal === 'function') {
-				afterShowModal(modal);
-			}
-			app.registerModalController(false, modal, cb);
-		});
-	},
 	/**
 	 * Show records list modal
 	 * @param {object} params
