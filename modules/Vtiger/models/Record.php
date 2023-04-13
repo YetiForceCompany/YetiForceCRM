@@ -1210,19 +1210,29 @@ class Vtiger_Record_Model extends \App\Base
 	/**
 	 * Function to gets inventory default data fields.
 	 *
+	 * @param bool $fromRecord
+	 *
 	 * @return int|string|null
 	 */
-	public function getInventoryDefaultDataFields()
+	public function getInventoryDefaultDataFields(bool $fromRecord = false)
 	{
-		$inventoryData = $this->getInventoryData();
-		$lastItem = end($inventoryData);
 		$defaultData = [];
-		if (!empty($lastItem)) {
-			$items = ['discountparam', 'currencyparam', 'taxparam', 'taxmode', 'discountmode'];
-			foreach ($items as $key) {
-				$defaultData[$key] = $lastItem[$key] ?? null;
+		if ($fromRecord) {
+			$inventoryData = $this->getInventoryData();
+			$lastItem = end($inventoryData);
+			if (!empty($lastItem)) {
+				$items = ['discountparam', 'currencyparam', 'taxparam', 'taxmode', 'discountmode'];
+				foreach ($items as $key) {
+					$defaultData[$key] = $lastItem[$key] ?? null;
+				}
 			}
+		} else {
+			$eventHandler = (new \App\EventHandler())->setRecordModel($this)->setModuleName($this->getModuleName());
+			$eventHandler->setParams($defaultData);
+			$eventHandler->trigger('InventoryDefaultData');
+			$defaultData = $eventHandler->getParams();
 		}
+
 		return $defaultData;
 	}
 
