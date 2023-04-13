@@ -590,6 +590,19 @@ class User
 	}
 
 	/**
+	 * The function search users by label.
+	 *
+	 * @param string $searchValue
+	 *
+	 * @return array
+	 */
+	public static function searchByLabel(string $searchValue): array
+	{
+		return (new \App\Db\Query())->from('u_#__users_labels')->select(['id', 'label'])
+			->where(['like', 'label', $searchValue])->all();
+	}
+
+	/**
 	 * Check the previous password.
 	 *
 	 * @param int    $userId

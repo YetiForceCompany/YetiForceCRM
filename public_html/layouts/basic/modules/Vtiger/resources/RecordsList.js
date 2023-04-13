@@ -308,7 +308,7 @@ $.Class(
 		},
 		registerCustomFilter: function () {
 			const filterSelectElement = this.getFilterSelectElement();
-			if (filterSelectElement.length > 0) {
+			if (filterSelectElement.length > 0 && filterSelectElement.is('select')) {
 				App.Fields.Picklist.showSelect2ElementView(filterSelectElement, {
 					templateSelection: function (data) {
 						const resultContainer = document.createElement('span'),

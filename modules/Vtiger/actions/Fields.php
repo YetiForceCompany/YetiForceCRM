@@ -174,11 +174,18 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$limit = \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT');
 		$searchValue = \App\RecordSearch::getSearchField()->getUITypeModel()->getDbConditionBuilderValue($request->getByType('value', \App\Purifier::TEXT), '');
-		$rows = (new \App\RecordSearch($searchValue, $searchInModule, $limit))->setMode(\App\RecordSearch::LABEL_MODE)->search();
 		$data = $modules = [];
-		foreach ($rows as $row) {
-			$modules[$row['setype']][] = $row;
+		if ('Users' === $searchInModule[0]) {
+			foreach (\App\User::searchByLabel($searchValue, $limit) as $row) {
+				$modules['Users'][] = ['crmid' => $row['id'], 'label' => $row['label']];
+			}
+		} else {
+			$rows = (new \App\RecordSearch($searchValue, $searchInModule, $limit))->setMode(\App\RecordSearch::LABEL_MODE)->search();
+			foreach ($rows as $row) {
+				$modules[$row['setype']][] = $row;
+			}
 		}
+
 		foreach ($modules as $moduleName => $rows) {
 			$data[] = ['name' => App\Language::translateSingleMod($moduleName, $moduleName), 'type' => 'optgroup'];
 			foreach ($rows as $row) {

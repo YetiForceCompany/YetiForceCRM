@@ -882,4 +882,45 @@ class Owner
 			}
 		}
 	}
+
+	/**
+	 * Get record link and label.
+	 *
+	 * @param int         $id
+	 * @param string|null $moduleName
+	 * @param int|null    $length
+	 * @param bool        $fullUrl
+	 *
+	 * @return string
+	 */
+	public static function getHtmlLink(int $id, ?string $moduleName = null, ?int $length = null, bool $fullUrl = false): string
+	{
+		$label = $id ? self::getUserLabel($id) : '';
+		if (empty($label)) {
+			return '<i class="color-red-500" title="' . $id . '">' . \App\Language::translate('LBL_RECORD_DOES_NOT_EXIST') . '</i>';
+		}
+		if (null !== $length) {
+			$label = \App\TextUtils::textTruncate($label, $length);
+		}
+		if (!\App\User::getCurrentUserModel()->isAdmin()) {
+			return $label;
+		}
+		if (empty($moduleName)) {
+			$moduleName = self::getType($id);
+		}
+		if ('Users' !== $moduleName) {
+			return $label;
+		}
+		$userModel = \App\User::getUserModel($id);
+		if (!$userModel->isActive()) {
+			$label = '<s>' . $label . '</s>';
+		}
+		$recordModel = \Users_Record_Model::getCleanInstance('Users');
+		$recordModel->setId($id);
+		$url = $recordModel->getDetailViewUrl($id);
+		if ($fullUrl) {
+			$url = \Config\Main::$site_URL . $url;
+		}
+		return "<a class=\"modCT_{$moduleName} showReferenceTooltip js-popover-tooltip--record\" href=\"{$url}\">$label</a>";
+	}
 }
