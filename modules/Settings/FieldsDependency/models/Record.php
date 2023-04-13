@@ -135,9 +135,9 @@ class Settings_FieldsDependency_Record_Model extends Settings_Vtiger_Record_Mode
 		} else {
 			$db->createCommand()->insert('s_#__fields_dependency', $data)->execute();
 		}
+		$this->checkHandler();
 		\App\Cache::delete('FieldsDependency', $this->get('tabid'));
 		\App\FieldsDependency::$recordModelCache = [];
-		$this->checkHandler();
 	}
 
 	/**

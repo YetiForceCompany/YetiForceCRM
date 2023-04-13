@@ -39,11 +39,15 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
+		$hashValue = '';
 		if (\is_string($value)) {
+			$hashValue = $value;
 			$value = explode(self::SEPARATOR, $value);
+		} elseif (\is_array($value)) {
+			$hashValue = implode(self::SEPARATOR, $value);
 		}
-		$hashValue = \is_array($value) ? implode('|', $value) : $value;
-		if (isset($this->validate[$hashValue]) || empty($value)) {
+
+		if (empty($value) || isset($this->validate[$hashValue])) {
 			return;
 		}
 		if (!\is_array($value)) {
@@ -57,6 +61,11 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 			}
 		}
+		$maximumLength = $this->getFieldModel()->get('maximumlength');
+		if ($hashValue && $maximumLength && App\TextUtils::getTextLength($hashValue) > $maximumLength) {
+			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $hashValue, 406);
+		}
+
 		$this->validate[$hashValue] = true;
 	}
 

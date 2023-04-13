@@ -26,7 +26,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 			parent::validate($arrayDateTime[0], $isUserFormat);
 		} elseif (2 === $cnt) { //Date
 			parent::validate($arrayDateTime[0], $isUserFormat);
-			(new Vtiger_Time_UIType())->validate($arrayDateTime[1], $isUserFormat); //Time
+			(new Vtiger_Time_UIType())->set('field', $this->getFieldModel())->validate($arrayDateTime[1], $isUserFormat); //Time
 		}
 		$this->validate[$value] = true;
 	}
