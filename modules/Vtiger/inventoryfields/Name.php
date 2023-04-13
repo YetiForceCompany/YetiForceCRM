@@ -20,6 +20,12 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	protected $colSpan = 30;
 	protected $maximumLength = '-2147483648,2147483647';
 	protected $purifyType = \App\Purifier::INTEGER;
+	/** {@inheritdoc} */
+	protected $searchable = true;
+	/** {@inheritdoc} */
+	protected $queryOperators = ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
+	/** {@inheritdoc} */
+	protected $recordOperators = ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
 
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
@@ -38,6 +44,12 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 			return \App\Record::getLabel($value, $rawText);
 		}
 		return "<span class=\"yfm-{$referenceModuleName} mr-1\"></span>" . \App\Record::getHtmlLink($value, $referenceModuleName, \App\Config::main('href_max_length'));
+	}
+
+	/** {@inheritdoc} */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		return \App\Purifier::decodeHtml($value);
 	}
 
 	/**
