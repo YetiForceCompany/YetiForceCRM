@@ -83,6 +83,10 @@ class Vtiger_Workflow_Handler
 	 */
 	private function performTasks(App\EventHandler $eventHandler, $condition = [])
 	{
+		if (\App\Utils::detectRecursion(__CLASS__, __FUNCTION__, 2 + 1)) {
+			\App\Log::error('Detect recursion / circular references:  METHOD: ' . __METHOD__ . ', RECORD ID: ' . $eventHandler->getRecordModel()->getId());
+			return;
+		}
 		$recordModel = $eventHandler->getRecordModel();
 		$moduleName = $eventHandler->getModuleName();
 		if (!isset($this->workflows[$moduleName])) {

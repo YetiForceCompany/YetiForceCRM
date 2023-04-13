@@ -40,8 +40,6 @@ class VTCreateEntityTask extends VTTask
 			if ($this->reference_field && $newRecordModel->getField($this->reference_field)) {
 				$newRecordModel->set($this->reference_field, $recordId);
 			}
-			// To handle cyclic process
-			$newRecordModel->setHandlerExceptions(['disableHandlerClasses' => ['Vtiger_Workflow_Handler']]);
 			$newRecordModel->save();
 
 			$relationModel = \Vtiger_Relation_Model::getInstance($recordModel->getModule(), $newRecordModel->getModule(), $this->relationId);
@@ -70,7 +68,16 @@ class VTCreateEntityTask extends VTTask
 		}
 	}
 
-	private function setMappingFields(array $fieldValueMapping, Vtiger_Record_Model $recordModel, ?Vtiger_Record_Model $newRecordModel = null)
+	/**
+	 * Set record data.
+	 *
+	 * @param array                    $fieldValueMapping
+	 * @param Vtiger_Record_Model      $recordModel
+	 * @param Vtiger_Record_Model|null $newRecordModel
+	 *
+	 * @return Vtiger_Record_Model
+	 */
+	private function setMappingFields(array $fieldValueMapping, Vtiger_Record_Model $recordModel, ?Vtiger_Record_Model $newRecordModel = null): Vtiger_Record_Model
 	{
 		$entityType = $this->entity_type;
 		if (!$newRecordModel) {
@@ -126,6 +133,7 @@ class VTCreateEntityTask extends VTTask
 			}
 			$newRecordModel->set($fieldName, $fieldValue);
 		}
+
 		return $newRecordModel;
 	}
 

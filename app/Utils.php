@@ -1,7 +1,4 @@
 <?php
-
-namespace App;
-
 /**
  * Utils class.
  *
@@ -10,7 +7,11 @@ namespace App;
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+
+namespace App;
+
 class Utils
 {
 	/**
@@ -363,5 +364,28 @@ class Utils
 			}
 		}
 		return $return;
+	}
+
+	/**
+	 * Detect recursion / circular references.
+	 * Recommend not using this feature as it will be removed in the future.
+	 *
+	 * @param string $class
+	 * @param string $funtion
+	 * @param int    $limit
+	 *
+	 * @return bool
+	 */
+	public static function detectRecursion(string $class, string $funtion, int $limit = 1): bool
+	{
+		$counter = 0;
+		foreach (debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) as $trace) {
+			$counter += (int) ($class === $trace['class'] && $funtion === $trace['function']);
+			if ($counter > $limit) {
+				break;
+			}
+		}
+
+		return $counter > $limit;
 	}
 }
