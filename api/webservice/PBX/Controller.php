@@ -35,10 +35,11 @@ class Controller extends \Api\Controller
 	/** {@inheritdoc}  */
 	public function handleError(\Throwable $e): void
 	{
+		$stacktrace = rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->__toString()), PHP_EOL);
 		$params = print_r(array_merge(
 			$this->request->getAllRaw(), [
 				'ip' => $_SERVER['REMOTE_ADDR'],
-			]), true) . $e->__toString();
+			]), true) . $stacktrace;
 		\App\DB::getInstance('log')->createCommand()
 			->insert('l_#__pbx', [
 				'error' => true,
