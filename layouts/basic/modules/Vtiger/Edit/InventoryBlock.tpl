@@ -69,16 +69,21 @@
 						</tr>
 					</thead>
 					<tbody class="js-inventory-items-body" data-js="container">
+						{if empty($INVENTORY_ROWS) && !$RECORD->getId()}
+							{assign var="INVENTORY_ROWS" value=$RECORD->getInventoryDefaultDataFields()}
+						{/if}
 						{foreach key=KEY item=ITEM_DATA from=$INVENTORY_MODEL->transformData($INVENTORY_ROWS)}
 							{if !empty($ITEM_DATA['add_header'])}
 								{include file=\App\Layout::getTemplatePath('Edit/InventoryHeaderItem.tpl', $MODULE_NAME)}
 							{/if}
-							{assign var=ROW_NO value=$ROW_NO+1}
-							{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME) HIDE_ROW=$BLOCK_ITEMS_HIDE}
+							{if array_diff_key($ITEM_DATA,['add_header'=>'','grouplabel'=>'','groupid'=>''])}
+								{assign var=ROW_NO value=$ROW_NO+1}
+								{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME) HIDE_ROW=$BLOCK_ITEMS_HIDE}
+							{/if}
 						{foreachelse}
 							{if $INVENTORY_MODEL->getField('name')->isRequired()}
 								{assign var=ROW_NO value=$ROW_NO+1}
-								{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
+								{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields(true)}
 								{include file=\App\Layout::getTemplatePath('Edit/InventoryItem.tpl', $MODULE_NAME)}
 							{/if}
 						{/foreach}
@@ -105,7 +110,7 @@
 		</div>
 	</div>
 	{if !empty($ADD_EMPTY_ROW)}
-		{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
+		{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields(true)}
 		<table id="blackIthemTable" class="noValidate d-none">
 			{assign var="INVENTORY_LBLS" value=[]}
 			{foreach item=MAIN_MODULE from=$INVENTORY_MODEL->getField('name')->getModules()}
