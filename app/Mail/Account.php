@@ -68,7 +68,6 @@ class Account extends \App\Base
 			$instance->server = \App\Mail\Server::getInstanceById($instance->source->get('mail_server_id'));
 			$instance->redirectUri = $instance->server->getRedirectUri();
 		}
-
 		return $instance;
 	}
 

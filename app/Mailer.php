@@ -28,7 +28,7 @@ class Mailer
 	public static $quoteJsonColumn = ['from', 'to', 'cc', 'bcc', 'attachments', 'params'];
 
 	/** @var string[] Columns list available in the database */
-	public static $quoteColumn = ['smtp_id', 'date', 'owner', 'status', 'from', 'subject', 'content', 'to', 'cc', 'bcc', 'attachments', 'priority'];
+	public static $quoteColumn = ['smtp_id', 'date', 'owner', 'status', 'from', 'subject', 'content', 'to', 'cc', 'bcc', 'attachments', 'priority', 'callback'];
 
 	/** @var PHPMailer Instance */
 	protected $mailer;
@@ -273,7 +273,6 @@ class Mailer
 				$response = static::insertMail($params);
 			}
 		}
-
 		return $response;
 	}
 
@@ -291,14 +290,13 @@ class Mailer
 		$eventHandler->trigger('MailerAddToQueue');
 		$params = $eventHandler->getParams();
 
-		$fields = ['smtp_id', 'date', 'owner', 'status', 'from', 'subject', 'to', 'content', 'cc', 'bcc', 'attachments', 'params', 'priority', 'error'];
+		$fields = ['smtp_id', 'date', 'owner', 'status', 'from', 'subject', 'to', 'content', 'cc', 'bcc', 'attachments', 'params', 'priority', 'error', 'callback'];
 		$insertData = array_intersect_key($params, array_flip($fields));
 		foreach (static::$quoteJsonColumn as $key) {
 			if (isset($insertData[$key]) && (!\is_string($insertData[$key]) || !\App\Json::isJson($insertData[$key]))) {
 				$insertData[$key] = Json::encode(!\is_array($insertData[$key]) ? [$insertData[$key]] : $insertData[$key]);
 			}
 		}
-
 		return (bool) \App\Db::getInstance('admin')->createCommand()->insert('s_#__mail_queue', $insertData)->execute();
 	}
 
@@ -316,7 +314,7 @@ class Mailer
 		$eventHandler->trigger('MailerAddToLogs');
 		$params = $eventHandler->getParams();
 
-		$logFields = ['date', 'error_code', 'smtp_id', 'owner', 'status', 'from', 'subject', 'to', 'content', 'cc', 'bcc', 'attachments', 'params'];
+		$logFields = ['date', 'error_code', 'smtp_id', 'owner', 'status', 'from', 'subject', 'to', 'content', 'cc', 'bcc', 'attachments', 'params', 'callback'];
 		$insertData = array_intersect_key($params, array_flip($logFields));
 		foreach (static::$quoteJsonColumn as $key) {
 			if (isset($insertData[$key]) && (!\is_string($insertData[$key]) || !\App\Json::isJson($insertData[$key]))) {
@@ -651,7 +649,8 @@ class Mailer
 			}
 		}
 		if (!empty($rowQueue['params'])) {
-			$mailer->setCustomParams(Json::decode($rowQueue['params']));
+			$rowQueue['params'] = Json::decode($rowQueue['params']);
+			$mailer->setCustomParams($rowQueue['params']);
 		}
 		foreach (Json::decode($rowQueue['to']) as $email => $name) {
 			if (is_numeric($email)) {
@@ -672,6 +671,9 @@ class Mailer
 			$update['status'] = 2;
 			$update['error'] = implode(PHP_EOL, static::$error);
 			$db->createCommand()->update('s_#__mail_queue', $update, ['id' => $rowQueue['id']])->execute();
+		}
+		if ($rowQueue['callback']) {
+			\call_user_func_array($rowQueue['callback'], [$status, $rowQueue, static::$error]);
 		}
 		return $status;
 	}

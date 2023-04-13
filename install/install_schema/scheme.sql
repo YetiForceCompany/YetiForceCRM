@@ -732,7 +732,7 @@ CREATE TABLE `l_yf_mail` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `date` datetime NOT NULL,
   `error_code` int(10) unsigned NOT NULL,
-  `smtp_id` int(10) unsigned NOT NULL DEFAULT 1,
+  `smtp_id` int(10) unsigned DEFAULT NULL,
   `owner` int(10) NOT NULL,
   `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `from` text DEFAULT NULL,
@@ -743,6 +743,7 @@ CREATE TABLE `l_yf_mail` (
   `bcc` text DEFAULT NULL,
   `attachments` text DEFAULT NULL,
   `params` text DEFAULT NULL,
+  `callback` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `smtp_id` (`smtp_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1379,6 +1380,7 @@ CREATE TABLE `s_yf_mail_queue` (
   `priority` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `params` text DEFAULT NULL,
   `error` text DEFAULT NULL,
+  `callback` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `smtp_id` (`smtp_id`),
   KEY `status` (`status`),
