@@ -19,7 +19,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @var string[]
 	 */
-	private $editFields = ['name', 'isactive'];
+	private $editFields = ['name', 'isactive', 'default'];
 
 	/**
 	 * Function to get Id of this record instance.
@@ -111,11 +111,20 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDisplayValue(string $name)
 	{
-		if ('isactive' === $name) {
-			$moduleName = $this->getModule()->getName();
-			return empty($this->get($name)) ? \App\Language::translate('FL_INACTIVE', "Settings:$moduleName") : \App\Language::translate('FL_ACTIVE');
+		switch ($name) {
+			case 'isactive':
+				$moduleName = $this->getModule()->getName();
+				$displayValue = empty($this->get($name)) ? \App\Language::translate('FL_INACTIVE', "Settings:$moduleName") : \App\Language::translate('FL_ACTIVE');
+				break;
+			case 'default':
+				$moduleName = $this->getModule()->getName();
+				$displayValue = empty($this->get($name)) ? \App\Language::translate('LBL_NO') : \App\Language::translate('LBL_YES');
+				break;
+			default:
+				$displayValue = App\Purifier::encodeHtml($this->get($name));
 		}
-		return \App\Purifier::encodeHtml($this->get($name));
+
+		return $displayValue;
 	}
 
 	/**
@@ -145,7 +154,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	public function saveToDb()
 	{
 		$db = \App\Db::getInstance('admin');
-		$fields = array_flip(['providertype', 'isactive', 'api_key', 'parameters', 'name']);
+		$fields = array_flip(['providertype', 'isactive', 'api_key', 'parameters', 'name', 'default']);
 		$tablesData = $this->getId() ? array_intersect_key($this->getData(), $this->changes, $fields) : array_intersect_key($this->getData(), $fields);
 		if ($tablesData) {
 			$baseTable = $this->getModule()->baseTable;
@@ -156,8 +165,8 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 				$db->createCommand()->insert($baseTable, $tablesData)->execute();
 				$this->set('id', $db->getLastInsertID("{$baseTable}_{$baseTableIndex}_seq"));
 			}
-			if (!empty($tablesData['isactive'])) {
-				$db->createCommand()->update($baseTable, ['isactive' => 0], ['<>', $baseTableIndex, (int) $this->getId()])->execute();
+			if (!empty($tablesData['default'])) {
+				$db->createCommand()->update($baseTable, ['default' => 0], ['<>', $baseTableIndex, (int) $this->getId()])->execute();
 			}
 		}
 	}
@@ -190,7 +199,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 				$fieldModel->getUITypeModel()->validate($value, true);
 				$value = $fieldModel->getUITypeModel()->getDBValue($value);
 
-				if (\in_array($fieldName, ['id', 'providertype', 'isactive', 'api_key', 'name'])) {
+				if (\in_array($fieldName, ['id', 'providertype', 'isactive', 'api_key', 'name', 'default'])) {
 					$this->set($fieldName, $value);
 				} else {
 					$parameters = $this->getParameters();
@@ -314,6 +323,13 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 				$params['purifyType'] = \App\Purifier::INTEGER;
 				$params['fieldvalue'] = $this->getValueByField($name);
 				$params['picklistValues'] = [1 => \App\Language::translate('FL_ACTIVE'), 0 => \App\Language::translate('FL_INACTIVE')];
+				break;
+			case 'default':
+				$params['uitype'] = 16;
+				$params['label'] = 'FL_DEFAULT';
+				$params['purifyType'] = \App\Purifier::INTEGER;
+				$params['fieldvalue'] = $this->getValueByField($name);
+				$params['picklistValues'] = [1 => \App\Language::translate('LBL_YES'), 0 => \App\Language::translate('LBL_NO')];
 				break;
 			case 'name':
 				$params['uitype'] = 1;

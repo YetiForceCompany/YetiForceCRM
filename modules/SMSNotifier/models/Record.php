@@ -20,12 +20,25 @@ class SMSNotifier_Record_Model extends Vtiger_Record_Model
 	public function send(): bool
 	{
 		$result = false;
-		if ($this->isEditable() && ($provider = \App\Integrations\SMSProvider::getDefaultProvider())) {
+		if ($this->isEditable() && ($provider = $this->getProviderToSend())) {
 			$result = $provider->sendByRecord($this);
 			$this->set('smsnotifier_status', $result ? 'PLL_SENT' : 'PLL_FAILED');
 			$this->save();
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Get provider to send.
+	 *
+	 * @return App\Integrations\SMSProvider\Provider|null
+	 */
+	private function getProviderToSend(): ?App\Integrations\SMSProvider\Provider
+	{
+		if ($this->get('sms_provider_id') && ($provider = \App\Integrations\SMSProvider::getById($this->get('sms_provider_id')))) {
+			return $provider;
+		}
+		return \App\Integrations\SMSProvider::getDefaultProvider();
 	}
 }

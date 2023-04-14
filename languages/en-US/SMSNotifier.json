@@ -28,6 +28,7 @@
     "LBL_ADD_IMAGE_FILE": "Add an image file",
     "LBL_TYPE_THE_MESSAGE": "Type the message",
     "LBL_LIMIT_OF_ONETIME_CREATED_TEXT_MESSAGES": "Limit of one-time created text messages",
-    "LBL_SERVER_CONFIG": "Server configuration"
+    "LBL_SERVER_CONFIG": "Server configuration",
+    "FL_SMS_PROVIDER": "SMS Provider"
   }
 }

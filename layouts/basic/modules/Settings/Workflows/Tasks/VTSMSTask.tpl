@@ -12,10 +12,10 @@
 {strip}
 	<div class="form-group row">
 		<label class="col-md-2 col-form-label">{\App\Language::translate('LBL_RECEPIENTS',$QUALIFIED_MODULE)}<span
-					class="redColor">*</span></label>
+				class="redColor">*</span></label>
 		<div class="col-md-4">
 			<input type="text" class="fields form-control" data-validation-engine='validate[required]'
-				   name="sms_recepient" value="{if isset($TASK_OBJECT->sms_recepient)}{$TASK_OBJECT->sms_recepient}{/if}"/>
+				name="sms_recepient" value="{if isset($TASK_OBJECT->sms_recepient)}{$TASK_OBJECT->sms_recepient}{/if}" />
 		</div>
 		<div class="col-md-4">
 			<select class="select2 task-fields form-control">
@@ -54,11 +54,22 @@
 			</select>
 		</div>
 	</div>
-	<hr/>
+	<div class="form-group row">
+		<label class="col-md-2 col-form-label">{\App\Language::translate('LBL_SMS_PROVIDER',$QUALIFIED_MODULE)}</label>
+		<div class="col-md-4">
+			<select class="select2 task-fields form-control" name="sms_provider_id">
+				<option value="" selected="">{\App\Language::translate('LBL_SELECT')}</option>
+				{foreach from=\App\Integrations\SMSProvider::getAll(\App\Integrations\SMSProvider::STATUS_ACTIVE) item=SMS_PROVIDER}
+					<option value="{$SMS_PROVIDER['id']}" {if  $TASK_OBJECT->sms_provider_id eq $SMS_PROVIDER['id'] } selected {/if}> {$SMS_PROVIDER['name']} </option>
+				{/foreach}
+			</select>
+		</div>
+	</div>
+	<hr />
 	<div class="row">
 		{include file=\App\Layout::getTemplatePath('VariablePanel.tpl') SELECTED_MODULE=$SOURCE_MODULE PARSER_TYPE='mail' GRAY=true}
 	</div>
-	<hr/>
+	<hr />
 	<div class="form-group row">
 		<label class="col-md-2 col-form-label">{\App\Language::translate('LBL_SMS_TEXT',$QUALIFIED_MODULE)}</label>
 		<div class="col-md-8">
