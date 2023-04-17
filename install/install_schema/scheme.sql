@@ -277,6 +277,7 @@ CREATE TABLE `a_yf_smsnotifier_servers` (
   `isactive` tinyint(1) DEFAULT 0,
   `api_key` varchar(500) NOT NULL,
   `parameters` text DEFAULT NULL,
+  `default` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
