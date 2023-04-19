@@ -106,7 +106,7 @@ class SMSProvider extends \App\Base
 	 *
 	 * @return array
 	 */
-	public static function getAll(?int $active = null)
+	public static function getAll(?int $active = null): array
 	{
 		if (\App\Cache::has('SMSServer', 'all')) {
 			$providers = \App\Cache::get('SMSServer', 'all');

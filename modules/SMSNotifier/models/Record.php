@@ -36,9 +36,6 @@ class SMSNotifier_Record_Model extends Vtiger_Record_Model
 	 */
 	private function getProviderToSend(): ?App\Integrations\SMSProvider\Provider
 	{
-		if ($this->get('sms_provider_id') && ($provider = \App\Integrations\SMSProvider::getById($this->get('sms_provider_id')))) {
-			return $provider;
-		}
-		return \App\Integrations\SMSProvider::getDefaultProvider();
+		return $this->get('sms_provider_id') ? \App\Integrations\SMSProvider::getById($this->get('sms_provider_id')) : \App\Integrations\SMSProvider::getDefaultProvider();
 	}
 }

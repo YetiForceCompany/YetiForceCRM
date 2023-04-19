@@ -60,7 +60,7 @@
 			<select class="select2 task-fields form-control" name="sms_provider_id">
 				<option value="" selected="">{\App\Language::translate('LBL_SELECT')}</option>
 				{foreach from=\App\Integrations\SMSProvider::getAll(\App\Integrations\SMSProvider::STATUS_ACTIVE) item=SMS_PROVIDER}
-					<option value="{$SMS_PROVIDER['id']}" {if  $TASK_OBJECT->sms_provider_id eq $SMS_PROVIDER['id'] } selected {/if}> {$SMS_PROVIDER['name']} </option>
+					<option value="{$SMS_PROVIDER['id']}" {if $TASK_OBJECT->sms_provider_id eq $SMS_PROVIDER['id']} selected {/if}> {\App\Purifier::encodeHtml($SMS_PROVIDER['name'])} </option>
 				{/foreach}
 			</select>
 		</div>
