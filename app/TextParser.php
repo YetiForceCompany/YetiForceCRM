@@ -398,9 +398,9 @@ class TextParser
 	 */
 	public function setContent($content)
 	{
-		$content = str_replace(['%20%3A%20', '%20:%20'], ' : ', $content);
-		$this->content = str_replace('%7C', '|', $content);
-		$this->rawContent = $this->content;
+		$pattern = '/\$\(\w+( : |%20%3A%20|%20:%20)+([,"\+\#\%\.\:\;\=\-\[\]\&\w\s\|\)\(\:]+)\)\$/u';
+		$replacedContent = preg_replace_callback($pattern, fn ($matches) => str_replace(['%20%3A%20', '%20:%20', '%7C'], [' : ', ' : ', '|'], $matches[0]), $content);
+		$this->rawContent = $this->content = $replacedContent;
 		return $this;
 	}
 
