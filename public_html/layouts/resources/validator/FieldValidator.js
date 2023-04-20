@@ -1007,7 +1007,7 @@ Vtiger_Base_Validator_Js(
 			let decimalSeparator = fieldData.decimalSeparator ? fieldData.decimalSeparator : CONFIG.currencyDecimalSeparator;
 			let groupSeparator = fieldData.groupSeparator ? fieldData.groupSeparator : CONFIG.currencyGroupingSeparator;
 
-			let strippedValue = this.getFieldValue().replace(decimalSeparator, '');
+			let strippedValue = this.getFieldValue().replace(decimalSeparator, '.');
 			let spacePattern = /\s/;
 			if (spacePattern.test(decimalSeparator) || spacePattern.test(groupSeparator))
 				strippedValue = strippedValue.replace(/ /g, '');
@@ -1022,14 +1022,13 @@ Vtiger_Base_Validator_Js(
 
 			let regex = new RegExp(groupSeparator, 'g');
 			strippedValue = strippedValue.replace(regex, '');
-
 			if (isNaN(strippedValue)) {
 				errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
 				this.setError(errorInfo);
 				return false;
 			}
 			let negativeNumber = fieldData.fieldinfo && fieldData.fieldinfo.fieldtype === 'NN';
-			if (!negativeNumber && strippedValue < 0) {
+			if (!negativeNumber && parseFloat(strippedValue) < 0) {
 				errorInfo = app.vtranslate('JS_ACCEPT_POSITIVE_NUMBER');
 				this.setError(errorInfo);
 				return false;
@@ -1038,8 +1037,9 @@ Vtiger_Base_Validator_Js(
 			if (maximumLength) {
 				let ranges = maximumLength.split(',');
 				if (
-					(ranges.length === 2 && (strippedValue > parseFloat(ranges[1]) || strippedValue < parseFloat(ranges[0]))) ||
-					(ranges.length === 1 && (strippedValue > parseFloat(ranges[0]) || strippedValue < 0))
+					(ranges.length === 2 &&
+						(parseFloat(strippedValue) > parseFloat(ranges[1]) || parseFloat(strippedValue) > parseFloat(ranges[0]))) ||
+					(ranges.length === 1 && (parseFloat(strippedValue) > parseFloat(ranges[0]) || parseFloat(strippedValue) < 0))
 				) {
 					errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
 					this.setError(errorInfo);
