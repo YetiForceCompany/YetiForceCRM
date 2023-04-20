@@ -427,7 +427,7 @@ jQuery.Class(
 						mode: 'addRelation',
 						related_module: this.moduleName,
 						src_record: this.parentRecordId,
-						relationId: this.getCompleteParams()['relationId'],
+						relationId: this.getDefaultParams()['relationId'],
 						related_record_list: $.isArray(idList) ? JSON.stringify(idList) : idList
 					},
 					params
@@ -455,7 +455,7 @@ jQuery.Class(
 					mode: 'addRelation',
 					related_module: this.moduleName,
 					src_record: this.parentRecordId,
-					relationId: this.getCompleteParams()['relationId']
+					relationId: params['relationId']
 				})
 			)
 				.done(function (responseData) {
