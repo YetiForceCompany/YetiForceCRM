@@ -60,7 +60,7 @@ COPY ./tests/setup/docker_entrypoint.sh /
 RUN rm /var/www/html/.user.ini
 RUN rm /var/www/html/public_html/.user.ini
 
-RUN	service mysql start; \
+RUN	service mariadb start; \
 	mysql -uroot mysql; \
 	mysqladmin password "$DB_ROOT_PASS"; \
 	#echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASS';" | mysql --user=root; \
