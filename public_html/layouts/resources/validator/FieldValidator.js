@@ -1038,7 +1038,7 @@ Vtiger_Base_Validator_Js(
 				let ranges = maximumLength.split(',');
 				if (
 					(ranges.length === 2 &&
-						(parseFloat(strippedValue) > parseFloat(ranges[1]) || parseFloat(strippedValue) > parseFloat(ranges[0]))) ||
+						(parseFloat(strippedValue) > parseFloat(ranges[1]) || parseFloat(strippedValue) < parseFloat(ranges[0]))) ||
 					(ranges.length === 1 && (parseFloat(strippedValue) > parseFloat(ranges[0]) || parseFloat(strippedValue) < 0))
 				) {
 					errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
