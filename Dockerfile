@@ -25,7 +25,24 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends mariadb-server mariadb-client
 RUN apt-get install -y --no-install-recommends nginx nginx-extras zip unzip cron nodejs npm yarn mc htop openssh-server git
-RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-{fpm,mysql,curl,intl,gd,bcmath,soap,ldap,imap,xml,cli,zip,json,opcache,mbstring,apcu,imagick}
+# RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-{fpm,mysql,curl,intl,gd,bcmath,soap,ldap,imap,xml,cli,zip,json,opcache,mbstring,apcu,imagick}
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-fpm
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-mysql
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-curl
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-intl
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-gd
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-bcmath
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-soap
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-ldap
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-imap
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-xml
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-cli
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-zip
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-json
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-opcache
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-mbstring
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-apcu
+RUN apt-get install -y --no-install-recommends "php${PHP_VER}"-imagick
 RUN apt-get -y autoclean
 
 # RUN apt-cache search php
