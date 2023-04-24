@@ -68,7 +68,8 @@
     "LBL_EXAMPLE_EXPRESSION": "Expression",
     "LBL_ANNUAL_REVENUE": "Annual revenue",
     "LBL_EXPRESSION_EXAMPLE2": "if mailingcountry == 'India' then concat(firstname,' ',lastname) else concat(lastname,' ',firstname) end",
-    "MappedFields": "Mapping"
+    "MappedFields": "Mapping",
+    "LBL_INACTIVE_MODULE": "Mapping cannot be saved. Selected modules may be inactive."
   },
   "js": {
     "JS_IS_ALREADY_BEEN_MAPPED": "This field has already been mapped.",

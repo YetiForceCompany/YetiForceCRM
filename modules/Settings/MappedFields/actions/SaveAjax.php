@@ -20,7 +20,7 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 	public function step1(App\Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
-
+		$isActiveModule = true;
 		$params = $request->getByType('param', 'Text');
 		$step = (int) $params['step'];
 		if (3 !== $step) {
@@ -32,9 +32,13 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		$recordId = $params['record'] ?? null;
 		if ($recordId) {
 			$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
+			if (!Vtiger_Module_Model::getInstance($moduleInstance->get('tabid'))->isActive()) {
+				$isActiveModule = false;
+			}
 		} else {
 			$moduleInstance = Settings_MappedFields_Module_Model::getCleanInstance();
 		}
+
 		$stepFields = Settings_MappedFields_Module_Model::getFieldsByStep($step);
 		foreach ($stepFields as $field) {
 			$moduleInstance->getRecord()->set($field, $params[$field] ?? null);
@@ -44,12 +48,17 @@ class Settings_MappedFields_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		}
 		if (!$recordId && $moduleInstance->importsAllowed() >= 1) {
 			$message = 'LBL_TEMPATE_EXIST';
+		} elseif (!$isActiveModule) {
+			$message = 'LBL_INACTIVE_MODULE';
 		} else {
 			$moduleInstance->save();
 		}
-
+		$result = ['success' => true, 'id' => $moduleInstance->getRecordId()];
+		if (!empty($message)) {
+			$result = ['success' => false, 'message' => \App\Language::translate($message, $qualifiedModuleName)];
+		}
 		$response = new Vtiger_Response();
-		$response->setResult(['id' => $moduleInstance->getRecordId(), 'message' => \App\Language::translate($message ?? '', $qualifiedModuleName)]);
+		$response->setResult($result);
 		$response->emit();
 	}
 
