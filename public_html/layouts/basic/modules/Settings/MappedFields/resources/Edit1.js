@@ -58,7 +58,13 @@ Settings_MappedFields_Edit_Js(
 					}
 				});
 				app.saveAjax('step1', saveData).done(function (data) {
-					if (data.result.success === true && data.result.id) {
+					if (data.success === true) {
+						if (!data.result.id && data.result.message) {
+							Settings_Vtiger_Index_Js.showMessage({ text: data.result.message, type: 'error' });
+							aDeferred.resolve(false);
+							progressIndicatorElement.progressIndicator({ mode: 'hide' });
+							return false;
+						}
 						Settings_Vtiger_Index_Js.showMessage({
 							text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY')
 						});
@@ -67,6 +73,7 @@ Settings_MappedFields_Edit_Js(
 							mfRecordElement.val(data.result.id);
 							formData['record'] = data.result.id;
 						}
+
 						formData['record'] = data.result.id;
 						AppConnector.request(formData).done(function (data) {
 							form.hide();
@@ -75,10 +82,6 @@ Settings_MappedFields_Edit_Js(
 							});
 							aDeferred.resolve(data);
 						});
-					} else if (data.result.message) {
-						Settings_Vtiger_Index_Js.showMessage({ text: data.result.message, type: 'error' });
-						aDeferred.resolve(false);
-						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					}
 				});
 			}
