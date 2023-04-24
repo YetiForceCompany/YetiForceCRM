@@ -27,9 +27,7 @@
 					<div id="system-monitoring-collapse" class="js-collapse collapse multi-collapse"
 						aria-labelledby="system-monitoring">
 						<div class="c-panel__body px-3">
-							<div class="c-text-divider mb-3">
-								<hr class="c-text-divider__line u-text-gray" />
-							</div>
+							<hr class="c-text-divider__line u-text-gray" />
 							{include file=\App\Layout::getTemplatePath('DashBoard/SystemMonitoring.tpl', $QUALIFIED_MODULE)}
 						</div>
 					</div>
@@ -49,9 +47,7 @@
 				</div>
 				<div id="my-shortcuts-collapse" class="js-collapse collapse multi-collapse" aria-labelledby="my-shortcuts">
 					<div class="c-panel__body px-3">
-						<div class="c-text-divider mb-3">
-							<hr class="c-text-divider__line u-text-gray" />
-						</div>
+						<hr class="c-text-divider__line u-text-gray" />
 						{include file=\App\Layout::getTemplatePath('DashBoard/SettingsShortCutsContainer.tpl', $QUALIFIED_MODULE)}
 					</div>
 				</div>
