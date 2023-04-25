@@ -8992,6 +8992,7 @@ CREATE TABLE `vtiger_smsnotifier` (
   PRIMARY KEY (`smsnotifierid`),
   KEY `vtiger_smsnotifier_related_to_idx` (`related_to`),
   KEY `vtiger_smsnotifier_parentid_idx` (`parentid`),
+  KEY `vtiger_smsnotifier_sms_provider_id_idx` (`sms_provider_id`),
   CONSTRAINT `vtiger_smsnotifier_ibfk_1` FOREIGN KEY (`smsnotifierid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -55,7 +55,7 @@ class SMSNotifier_Module_Model extends Vtiger_Module_Model
 	public function isSMSActiveForModule(string $moduleName): bool
 	{
 		return $this->isPermitted('CreateView')
-				&& \App\Integrations\SMSProvider::getDefaultProvider()
+				&& \App\Integrations\SMSProvider::isActiveProvider()
 				&& \in_array($moduleName, $this->getFieldByName('related_to')->getReferenceList());
 	}
 

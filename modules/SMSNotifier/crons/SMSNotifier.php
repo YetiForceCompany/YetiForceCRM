@@ -22,7 +22,7 @@ class SMSNotifier_SMSNotifier_Cron extends \App\CronHandler
 	/** {@inheritdoc} */
 	public function process()
 	{
-		if (\App\Integrations\SMSProvider::getDefaultProvider()) {
+		if (\App\Integrations\SMSProvider::isActiveProvider()) {
 			$queryGenerator = new \App\QueryGenerator($this->moduleName);
 			$dataReader = $queryGenerator->setFields(['id'])
 				->addCondition('smsnotifier_status', static::STATUS_QUEUE, 'e')

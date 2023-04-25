@@ -87,6 +87,16 @@ class SMSProvider extends \App\Base
 	}
 
 	/**
+	 * Check if there is an active provider.
+	 *
+	 * @return bool
+	 */
+	public static function isActiveProvider(): bool
+	{
+		return (new \App\Db\Query())->from(self::TABLE_NAME)->where(['isactive' => self::STATUS_ACTIVE])->exists();
+	}
+
+	/**
 	 * Get provider by ID.
 	 *
 	 * @param int $id
@@ -115,7 +125,7 @@ class SMSProvider extends \App\Base
 			\App\Cache::save('SMSServer', 'all', $providers, \App\Cache::LONG);
 		}
 		if (null !== $active) {
-			$providers = array_filter($providers, fn ($server) => (null === $active || $server['isactive'] === $active));
+			$providers = array_filter($providers, fn ($server) => $server['isactive'] === $active);
 		}
 
 		return $providers;

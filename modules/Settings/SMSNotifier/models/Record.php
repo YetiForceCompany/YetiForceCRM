@@ -113,8 +113,8 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		switch ($name) {
 			case 'isactive':
-				$moduleName = $this->getModule()->getName();
-				$displayValue = empty($this->get($name)) ? \App\Language::translate('FL_INACTIVE', "Settings:$moduleName") : \App\Language::translate('FL_ACTIVE');
+				$moduleName = $this->getModule()->getName(true);
+				$displayValue = empty($this->get($name)) ? \App\Language::translate('FL_INACTIVE', $moduleName) : \App\Language::translate('FL_ACTIVE', $moduleName);
 				break;
 			case 'default':
 				$moduleName = $this->getModule()->getName();
@@ -218,6 +218,7 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	public function clearCache($id)
 	{
 		\App\Cache::staticDelete(__CLASS__, $id);
+		\App\Cache::delete('SMSServer', 'All');
 	}
 
 	/**
