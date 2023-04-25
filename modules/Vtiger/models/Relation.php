@@ -46,7 +46,7 @@ class Vtiger_Relation_Model extends \App\Base
 	const RELATION_M2M = 2;
 
 	//Advanced reference
-	const RELATION_AR = 2;
+	const RELATION_AR = 3;
 
 	/**
 	 * Function returns the relation id.
