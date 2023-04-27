@@ -244,7 +244,6 @@ class OrbIntelligence extends Base
 	 */
 	private function getDataFromApi(array $query): void
 	{
-		$response = [];
 		$client = \App\RequestHttp::getClient(['timeout' => 60]);
 		try {
 			$response = $client->get($this->url . '3/match/?' . http_build_query($query));

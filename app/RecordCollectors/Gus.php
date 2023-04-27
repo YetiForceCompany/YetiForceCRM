@@ -178,13 +178,8 @@ class Gus extends Base
 		$client = \App\RecordCollectors\Helper\GusClient::getInstance($this->getClientParams($moduleName));
 		try {
 			$infoFromGus = $client->search($vatId, $ncr, $taxNumber);
-			if ($recordId = $this->request->getInteger('record')) {
-				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-				$response['recordModel'] = $recordModel;
-				$fieldsModel = $recordModel->getModule()->getFields();
-			} else {
-				$fieldsModel = \Vtiger_Module_Model::getInstance($moduleName)->getFields();
-			}
+			$response['recordModel'] = $this->getRecordModel();
+			$fieldsModel = $response['recordModel']->getModule()->getFields();
 			if ($infoFromGus && isset($this->formFieldsToRecordMap[$moduleName])) {
 				$additional = $fieldsData = $skip = $dataCounter = [];
 				foreach ($infoFromGus as $key => &$row) {

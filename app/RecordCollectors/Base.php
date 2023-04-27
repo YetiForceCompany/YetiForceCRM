@@ -59,6 +59,9 @@ class Base
 	/** @var array Fields mapping for loading record data. */
 	protected $modulesFieldsMap = [];
 
+	/** @var array Form mapping for loading record data. */
+	public $formFieldsToRecordMap = [];
+
 	/**
 	 * Constructor.
 	 */
@@ -189,13 +192,8 @@ class Base
 		if (empty($this->data)) {
 			return;
 		}
-		if ($recordId = $this->request->getInteger('record')) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $this->moduleName);
-			$this->response['recordModel'] = $recordModel;
-			$fieldsModel = $recordModel->getModule()->getFields();
-		} else {
-			$fieldsModel = \Vtiger_Module_Model::getInstance($this->moduleName)->getFields();
-		}
+		$this->response['recordModel'] = $this->getRecordModel();
+		$fieldsModel = $this->response['recordModel']->getModule()->getFields();
 		$additional = $fieldsData = $skip = [];
 		$rows = isset($this->data[0]) ? $this->data : [$this->data];
 		foreach ($rows as $key => &$row) {
@@ -265,5 +263,37 @@ class Base
 			}
 		}
 		return $labels;
+	}
+
+	/**
+	 * Get record model from request data.
+	 *
+	 * @return \Vtiger_Record_Model
+	 */
+	protected function getRecordModel(): \Vtiger_Record_Model
+	{
+		$moduleName = $this->request->getModule();
+		if ($recordId = $this->request->getInteger('record')) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+		} else {
+			$recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
+		}
+		$formData = $this->request->getRaw('form');
+		$request = new \App\Request($formData, false);
+		$fieldModelList = $recordModel->getModule()->getFields();
+		foreach ($fieldModelList as $fieldName => $fieldModel) {
+			if (!$fieldModel->isWritable()) {
+				continue;
+			}
+			if (isset($formData[$fieldName])) {
+				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
+			} else {
+				$defaultValue = $fieldModel->getDefaultFieldValue();
+				if ('' !== $defaultValue) {
+					$recordModel->set($fieldName, $defaultValue);
+				}
+			}
+		}
+		return $recordModel;
 	}
 }

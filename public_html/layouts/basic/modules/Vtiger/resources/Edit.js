@@ -1309,7 +1309,9 @@ $.Class(
 									summary.html('');
 									summary.progressIndicator({});
 									e.preventDefault();
-									AppConnector.request(modalForm.serializeFormData()).done(function (data) {
+									let searchForm = modalForm.serializeFormData();
+									searchForm['form'] = formData;
+									AppConnector.request(searchForm).done(function (data) {
 										summary.progressIndicator({ mode: 'hide' });
 										summary.html(data);
 									});
