@@ -100,6 +100,7 @@ class Dependency
 			try {
 				$response = (new \GuzzleHttp\Client($options))->post($this->checkUrl, ['json' => [
 					'php' => PHP_VERSION,
+					'curl' => curl_version()['version'],
 					'env' => \App\Utils\ConfReport::getEnv(),
 					'dependencies' => $lockFile,
 				]]);
