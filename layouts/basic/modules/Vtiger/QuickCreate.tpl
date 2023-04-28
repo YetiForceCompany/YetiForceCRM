@@ -122,6 +122,7 @@
 									</div>
 								</div>
 							{/if}
+							{include file=\App\Layout::getTemplatePath('EditViewActions.tpl') EDITVIEW_LINKS=$QUICKCREATE_LINKS}
 						</div>
 					</div>
 				</form>

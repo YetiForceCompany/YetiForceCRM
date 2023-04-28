@@ -14,6 +14,16 @@
 		margin-right: 3px;
 	}
 }
+.quickCreateContent {
+	.c-form__action-panel {
+		position: unset;
+		background: unset;
+		width: 100%;
+		border-top: unset;
+		margin-left: 0px;
+	}
+}
+
 .fieldValue {
 	border-radius: 0.25rem;
 }
@@ -120,7 +130,8 @@
 		margin-bottom: 0;
 	}
 
-	.inventoryRowGroup td, .inventoryRowGroup td:hover {
+	.inventoryRowGroup td,
+	.inventoryRowGroup td:hover {
 		background-color: #d1d1db !important;
 		color: #000 !important;
 	}

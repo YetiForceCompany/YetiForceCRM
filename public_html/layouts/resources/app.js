@@ -200,6 +200,7 @@ const App = (window.App = {
 						new window[moduleClassName]().registerEvents(container);
 					}
 					quickCreateForm.validationEngine(app.validationEngineOptionsForRecord);
+					quickCreateForm.find('.js-form-submit-btn').prop('disabled', false);
 					if (typeof params.callbackPostShown !== 'undefined') {
 						params.callbackPostShown(quickCreateForm);
 					}
@@ -383,6 +384,7 @@ const App = (window.App = {
 				AppConnector.request(params).done(function (html) {
 					app.showModalWindow(html, (container) => {
 						let form = container.find('form[name="QuickEdit"]');
+						form.find('.js-form-submit-btn').prop('disabled', false);
 						let moduleName = form.find('[name="module"]').val();
 						let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
 						let moduleClassName = moduleName + '_QuickEdit_Js';
