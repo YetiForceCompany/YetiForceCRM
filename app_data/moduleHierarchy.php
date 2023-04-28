@@ -32,6 +32,9 @@ return [
 	 * ],
 	 */
 	'modulesMapRelatedFields' => [//Map links between modules
+		'ServiceContracts' => [
+			'parent_id' => ['ServiceContracts' => ['sc_related_to' => ['parent_id', 'Accounts']]],
+		],
 		'ProjectTask' => [
 			'projectmilestoneid' => ['ProjectMilestone' => ['projectid' => ['projectid']]],
 			'parentid' => ['ProjectTask' => ['projectid' => ['projectid'], 'projectmilestoneid' => ['projectmilestoneid']]],
@@ -51,7 +54,12 @@ return [
 		],
 		'OSSTimeControl' => [
 			'process' => ['Project' => ['link' => ['linktoaccountscontacts']]],
-			'subprocess' => ['HelpDesk' => ['name' => ['ticket_title'], 'link' => ['parent_id'], 'process' => ['servicecontractsid'], 'linkextend' => ['contact_id']]]
+			'subprocess' => [
+				'HelpDesk' => ['name' => ['ticket_title'], 'link' => ['parent_id'], 'process' => ['servicecontractsid'], 'linkextend' => ['contact_id']],
+			],
+			'subprocess_sl' => [
+				'ProjectTask' => ['process' => ['projectid'], 'name' => ['projecttaskname']],
+			]
 		],
 		'SRequirementsCards' => [
 			'salesprocessid' => ['SSalesProcesses' => ['accountid' => ['related_to']]],
