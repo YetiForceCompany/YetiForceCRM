@@ -252,7 +252,7 @@ class Vtiger_List_View extends Vtiger_Index_View
 			foreach ($request->getArray('search_params') as $fieldListGroup) {
 				$searchParamsRaw[] = $fieldListGroup;
 				foreach ($fieldListGroup as $fieldSearchInfo) {
-					$fieldSearchInfo['searchValue'] = $fieldSearchInfo[2];
+					$fieldSearchInfo['searchValue'] = \in_array($fieldSearchInfo[1], ['eid']) ? '' : $fieldSearchInfo[2];
 					$fieldSearchInfo['fieldName'] = $fieldName = $fieldSearchInfo[0];
 					$fieldSearchInfo['specialOption'] = \in_array($fieldSearchInfo[1], ['ch', 'kh']) ? true : '';
 					$searchParams[$fieldName] = $fieldSearchInfo;
