@@ -2,7 +2,6 @@
 {strip}
 	<!-- tpl-Base-EditViewActionsModal -->
 	<div class="w-100 d-flex justify-content-center">
-		{var_dump($MODULE_NAME)}
 		{assign var=SINGLE_MODULE_NAME value='SINGLE_'|cat:$MODULE_NAME}
 		<button class="btn btn-success js-form-submit-btn mr-1" type="submit" disabled="disabled" data-js="disabled" {if Vtiger_Field_Model::$tabIndexLastSeq}tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}" {/if}>
 			<span class="fas fa-check mr-1"></span>
