@@ -117,13 +117,11 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 				$displayValue = empty($this->get($name)) ? \App\Language::translate('FL_INACTIVE', $moduleName) : \App\Language::translate('FL_ACTIVE', $moduleName);
 				break;
 			case 'default':
-				$moduleName = $this->getModule()->getName();
 				$displayValue = empty($this->get($name)) ? \App\Language::translate('LBL_NO') : \App\Language::translate('LBL_YES');
 				break;
 			default:
 				$displayValue = App\Purifier::encodeHtml($this->get($name));
 		}
-
 		return $displayValue;
 	}
 
