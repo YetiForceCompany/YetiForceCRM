@@ -1114,7 +1114,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 		$operator = 'e';
 		$fieldDataType = $fieldModel->getFieldDataType();
 		if ($fieldModel->isReferenceField()) {
-			$operator = 'a';
+			$operator = 'eid';
 		} elseif (\in_array($fieldDataType, ['multipicklist', 'categoryMultipicklist'])) {
 			$operator = 'c';
 			$value = 'multipicklist' === $fieldDataType ? str_replace(' |##| ', '##', $value) : $value;
