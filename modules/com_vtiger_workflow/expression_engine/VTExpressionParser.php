@@ -135,7 +135,7 @@ class VTExpressionParser
 					throw new \App\Exceptions\AppException('Was expecting a closing bracket');
 				}
 			} else {
-				$this->consume('CLOSE_BRACKET', new Symbol(')'));
+				$this->consume('CLOSE_BRACKET', new VTExpressionSymbol(')'));
 			}
 
 			return new VTExpressionTreeNode($arr);

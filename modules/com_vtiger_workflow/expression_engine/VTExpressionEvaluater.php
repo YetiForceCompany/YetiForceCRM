@@ -173,7 +173,7 @@ class VTFieldExpressionEvaluater
 
 	public static function __vt_get_date($arr)
 	{
-		$type = $arr[0];
+		$type = $arr[0] ?? '';
 		switch ($type) {
 			case 'today':
 				return date('Y-m-d');
