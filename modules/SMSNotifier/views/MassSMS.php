@@ -29,7 +29,7 @@ class SMSNotifier_MassSMS_View extends \App\Controller\Modal
 		$sourceModule = $request->getByType('source_module', \App\Purifier::ALNUM);
 		$moduleModel = Vtiger_Module_Model::getInstance($request->getModule());
 		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$moduleModel->isPermitted('CreateView') || !\in_array($sourceModule, $moduleModel->getFieldByName('related_to')->getReferenceList()) || !$userPrivilegesModel->hasModuleActionPermission($sourceModule, 'MassSendSMS') || !\App\Integrations\SMSProvider::isActiveProvider()) {
+		if (!$moduleModel->isPermitted('CreateView') || !\in_array($sourceModule, $moduleModel->getFieldByName('related_to')->getReferenceList()) || !$userPrivilegesModel->hasModuleActionPermission($sourceModule, 'MassSendSMS') || !\App\Integrations\SMSProvider::getDefaultProvider()) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 	}

@@ -19,7 +19,9 @@
     "FL_CALLBACK_URL_FOR_REPORT": "Reports (SMS,MMS)",
     "FL_CALLBACK_URL_FOR_REPLY": "Reception (SMS)",
     "FL_CALLBACK_URL_FOR_REPORT_DESC": "URL for delivery reports. To be entered directly at the provider.",
-    "FL_CALLBACK_URL_FOR_REPLY_DESC": "URL for receptions. To be entered directly at the provider."
+    "FL_CALLBACK_URL_FOR_REPLY_DESC": "URL for receptions. To be entered directly at the provider.",
+    "FL_DEFAULT": "Default",
+    "LBL_SELECTED_PROVIDER_NOT_ACTIVE": "Selected provider is inactive. Activate it or change the provider."
   },
   "js": {
     "LBL_DELETE_CONFIRMATION": "Are you sure you want to delete this configuration?",

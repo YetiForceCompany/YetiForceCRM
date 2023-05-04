@@ -17,20 +17,20 @@ class SMSNotifier_SMSNotifier_Cron extends \App\CronHandler
 	/** @var string Status */
 	private const STATUS_QUEUE = 'PLL_QUEUE';
 	/** @var string Module name */
-	private $moduelName = 'SMSNotifier';
+	private $moduleName = 'SMSNotifier';
 
 	/** {@inheritdoc} */
 	public function process()
 	{
 		if (\App\Integrations\SMSProvider::isActiveProvider()) {
-			$queryGenerator = new \App\QueryGenerator($this->moduelName);
+			$queryGenerator = new \App\QueryGenerator($this->moduleName);
 			$dataReader = $queryGenerator->setFields(['id'])
 				->addCondition('smsnotifier_status', static::STATUS_QUEUE, 'e')
-				->setLimit(\App\Config::module($this->moduelName, 'maxCronSentSMS'))
+				->setLimit(\App\Config::module($this->moduleName, 'maxCronSentSMS'))
 				->createQuery()
 				->createCommand()->query();
 			while ($recordId = $dataReader->readColumn(0)) {
-				$recordModel = \SMSNotifier_Record_Model::getInstanceById($recordId, $this->moduelName);
+				$recordModel = \SMSNotifier_Record_Model::getInstanceById($recordId, $this->moduleName);
 				$recordModel->send();
 				$this->updateLastActionTime();
 				if ($this->checkTimeout()) {
