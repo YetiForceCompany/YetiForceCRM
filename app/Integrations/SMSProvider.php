@@ -82,8 +82,12 @@ class SMSProvider extends \App\Base
 	 */
 	public static function getDefaultProvider(): ?SMSProvider\Provider
 	{
-		$data = (new \App\Db\Query())->from(self::TABLE_NAME)->where(['default' => self::DEFAULT, 'isactive' => self::STATUS_ACTIVE])->one();
-		return $data ? self::getProviderByData($data) : null;
+		$providers = (new \App\Db\Query())->from(self::TABLE_NAME)->where(['isactive' => self::STATUS_ACTIVE])->all();
+		if (1 === \count($providers)) {
+			return self::getProviderByData(reset($providers));
+		}
+		$defaultProvider = array_filter($providers, fn ($server) => self::DEFAULT === $server['default']);
+		return $defaultProvider ? self::getProviderByData(reset($defaultProvider)) : null;
 	}
 
 	/**
