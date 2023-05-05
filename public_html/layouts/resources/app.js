@@ -1674,6 +1674,7 @@ const app = (window.app = {
 					}, this)
 				);
 		};
+
 		const modalContainer = container.find('.modal:first');
 		modalContainer.one('shown.bs.modal', function () {
 			thisInstance.registerDataTables(modalContainer.find('.js-modal-data-table'));
@@ -1699,6 +1700,7 @@ const app = (window.app = {
 		modalContainer.modal(params);
 		app.registerFormsEvents(modalContainer);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
+		app.registerModalPosition(modalContainer);
 	},
 	showModalWindow: function (data, url, cb, paramsObject = {}) {
 		if (!app.isCurrentWindowTarget('app.showModalWindow', arguments)) {
@@ -1762,6 +1764,7 @@ const app = (window.app = {
 				$('body').addClass('modal-open');
 			}
 		});
+
 		Window.lastModalId = modalId;
 		if (data) {
 			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
@@ -3802,6 +3805,17 @@ const app = (window.app = {
 		container.on('click', '.js-print-container', function (_) {
 			app.printModal($($(this).data('container')).children());
 		});
+	},
+
+	/**
+	 * Sets the position of the modal window.
+	 * @param {jQuery} container
+	 */
+	registerModalPosition: function (container) {
+		let modalContent = container.find('.modal-dialog');
+		if (app.getScreenHeight() > modalContent.height()) {
+			modalContent.parent().addClass('d-flex align-items-center');
+		}
 	}
 });
 $(function () {
