@@ -58,48 +58,44 @@
 				</label>
 			</span>
 		</div>
-		<div class="row pb-3">
-			<span class="col-md-4 col-form-label text-right">{\App\Language::translate('Select e-mail address', $QUALIFIED_MODULE)}</span>
-			<div class="col-md-4">
-				{assign var=IS_EMAILS value=isset($TASK_OBJECT->email) && is_array($TASK_OBJECT->email)}
-				<select class="select2 form-control" name="email"
-					data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}"
-					multiple="multiple"
-					data-validation-engine="validate[required]">
-					{assign var=TEXT_PARSER value=App\TextParser::getInstance($SOURCE_MODULE)}
-					{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable('email')}
-						<optgroup label="{$BLOCK_NAME}">
-							{foreach item=ITEM from=$FIELDS}
-								<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}"
-									{if isset($TASK_OBJECT->email) && (($IS_EMAILS && in_array($ITEM['var_value'], $TASK_OBJECT->email)) || ($TASK_OBJECT->email eq $ITEM['var_value']))}selected="" {/if}>
-									{$ITEM['label']}
-								</option>
+		{if !empty($TASK_OBJECT->email) }
+			{if  is_array($TASK_OBJECT->email)}
+				{assign var=EMAIL value=implode(',', $TASK_OBJECT->email)}
+			{else}
+				{assign var=EMAIL value=$TASK_OBJECT->email}
+			{/if}
+		{/if}
+		<div class="form-row pb-3">
+			<span class="col-md-7 form-row">
+				<span class="col-md-3 col-form-label">{\App\Language::translate('Select e-mail address',$QUALIFIED_MODULE)}<span
+						class="redColor">*</span></span>
+				<div class="col-md-9">
+					<input data-validation-engine='validate[required]' name="email" class="fields form-control"
+						type="text" value="{if !empty($EMAIL)}{\App\Purifier::encodeHtml($EMAIL)}{/if}" />
+				</div>
+			</span>
+			<div class="col-md-5">
+				<div class="col-md-12 px-0">
+					<div class="input-group">
+						<select class="task-fields select2 form-control" id="toEmailOption"
+							data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
+							<option></option>
+							{foreach item=FIELDS key=BLOCK_NAME from=$EMAIL_FIELD_OPTION}
+								<optgroup label="{$BLOCK_NAME}">
+									{foreach item=LABEL key=VAL from=$FIELDS}
+										<option value="{$VAL}">{$LABEL}</option>
+									{/foreach}
+								</optgroup>
 							{/foreach}
-						</optgroup>
-					{/foreach}
-					{foreach item=FIELDS from=$TEXT_PARSER->getRelatedVariable('email')}
-						{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$FIELDS}
-							<optgroup label="{$BLOCK_NAME}">
-								{foreach item=ITEM from=$RELATED_FIELDS}
-									<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}"
-										{if isset($TASK_OBJECT->email) && (($IS_EMAILS && in_array($ITEM['var_value'], $TASK_OBJECT->email)) || ($TASK_OBJECT->email eq $ITEM['var_value']))}selected="" {/if}>
-										{$ITEM['label']}
-									</option>
-								{/foreach}
-							</optgroup>
-						{/foreach}
-					{/foreach}
-					{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRelatedLevelVariable('email')}
-						<optgroup label="{$BLOCK_NAME}">
-							{foreach item=ITEM from=$RELATED_FIELDS}
-								<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}"
-									{if isset($TASK_OBJECT->email) && (($IS_EMAILS && in_array($ITEM['var_value'], $TASK_OBJECT->email)) || ($TASK_OBJECT->email eq $ITEM['var_value']))}selected="" {/if}>
-									{$ITEM['label']}
-								</option>
-							{/foreach}
-						</optgroup>
-					{/foreach}
-				</select>
+						</select>
+						<div class="input-group-append">
+							<button type="button" class="btn btn-primary clipboard" data-copy-target="#toEmailOption"
+								title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}">
+								<span class="fas fa-copy"></span>
+							</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
