@@ -1486,7 +1486,7 @@ $.Class(
 				let parentRow = this.getGroupFromItem(row);
 				let params = parentRow ? parentRow.find('.discountParam').val() : null;
 				this.setDiscountParam(row, params ? JSON.parse(params) : []);
-				this.setDiscount(row, this.getDiscount(row));
+				this.rowCalculations(row);
 			}
 		},
 		/**
