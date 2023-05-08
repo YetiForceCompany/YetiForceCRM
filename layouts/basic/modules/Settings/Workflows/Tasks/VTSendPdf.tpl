@@ -65,18 +65,16 @@
 				{assign var=EMAIL value=$TASK_OBJECT->email}
 			{/if}
 		{/if}
-		<div class="form-row pb-3">
-			<span class="col-md-7 form-row">
-				<span class="col-md-3 col-form-label">{\App\Language::translate('Select e-mail address',$QUALIFIED_MODULE)}<span
-						class="redColor">*</span></span>
-				<div class="col-md-9">
-					<input data-validation-engine='validate[required]' name="email" class="fields form-control"
-						type="text" value="{if !empty($EMAIL)}{\App\Purifier::encodeHtml($EMAIL)}{/if}" />
-				</div>
-			</span>
-			<div class="col-md-5">
-				<div class="col-md-12 px-0">
-					<div class="input-group">
+		<div class="row pb-3">
+			<span class="col-md-4 col-form-label text-right">{\App\Language::translate('Select e-mail address',$QUALIFIED_MODULE)}<span
+					class="redColor">*</span></span>
+			<div class="col-md-4">
+				<div class="col-md-12 px-0 row m-0">
+					<div class="col px-0 mr-1">
+						<input data-validation-engine='validate[required]' name="email" class="fields form-control"
+							type="text" value="{if !empty($EMAIL)}{\App\Purifier::encodeHtml($EMAIL)}{/if}" />
+					</div>
+					<div class="input-group col px-0">
 						<select class="task-fields select2 form-control" id="toEmailOption"
 							data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 							<option></option>
