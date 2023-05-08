@@ -33,8 +33,6 @@ class Vtiger_RelatedRecordsList_View extends Vtiger_RecordsList_View
 			$this->checkAndConvertJsScripts([
 				'modules.Vtiger.resources.RecordsList',
 				"modules.{$moduleName}.resources.RecordsList",
-				'modules.Vtiger.resources.RelatedRecordsList',
-				"modules.{$moduleName}.resources.RelatedRecordsList",
 			]),
 			parent::getModalScripts($request));
 	}

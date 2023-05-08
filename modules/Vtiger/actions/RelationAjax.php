@@ -149,7 +149,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		} else {
 			$relationModel = Vtiger_Relation_Model::getInstanceById($request->getInteger('relationId'));
 		}
-		$recordIdsToRelate = $request->has('selected_ids') ? $this->getRecordIdsToRelate($request) : $request->getArray('related_record_list', 'Integer');
+		$recordIdsToRelate = $request->has('selected_ids') ? $this->getRecordIdsToRelate($request) : $request->getArray('related_record_list', App\Purifier::INTEGER);
 		foreach ($recordIdsToRelate as $relatedRecordId) {
 			if (\App\Privilege::isPermitted($relatedModule, 'DetailView', $relatedRecordId)) {
 				$relationModel->addRelation($sourceRecordId, $relatedRecordId);
@@ -176,7 +176,7 @@ class Vtiger_RelationAjax_Action extends \App\Controller\Action
 		}
 		$customViewModel = CustomView_Record_Model::getInstanceById((int) $cvId);
 		if (!$customViewModel) {
-			return false;
+			return [];
 		}
 		$selectedIds = $request->getArray('selected_ids', App\Purifier::ALNUM);
 		if ($selectedIds && 'all' !== $selectedIds[0]) {
