@@ -247,13 +247,9 @@ class Workflow
 	public function executionConditionAsLabel($label = null)
 	{
 		if (null === $label) {
-			$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT', 'ON_RELATED'];
-
-			return $arr[$this->executionCondition - 1];
+			return Settings_Workflows_Module_Model::TRIGGER_TYPES[$this->executionCondition];
 		}
-		$arr = ['ON_FIRST_SAVE' => 1, 'ONCE' => 2, 'ON_EVERY_SAVE' => 3, 'ON_MODIFY' => 4,
-			'ON_DELETE' => 5, 'ON_SCHEDULE' => 6, 'MANUAL' => 7, 'TRIGGER' => 8, 'BLOCK_EDIT' => 9, 'ON_RELATED' => 10, ];
-		$this->executionCondition = $arr[$label];
+		$this->executionCondition = array_flip(Settings_Workflows_Module_Model::TRIGGER_TYPES)[$label];
 	}
 
 	/**
