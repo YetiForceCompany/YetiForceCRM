@@ -26,18 +26,26 @@ class Exception extends \Exception
 	/** {@inheritdoc}  */
 	public function __construct($message, $code = 500, \Throwable $previous = null)
 	{
-		$message = rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $message), PHP_EOL);
-		if (!empty($previous)) {
-			parent::__construct($message, $code, $previous);
+		parent::__construct($message, $code, $previous);
+	}
+
+	/**
+	 * Show exception error JSON.
+	 *
+	 * @return void
+	 */
+	public function showError(): void
+	{
+		$this->logError();
+		$message = rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $this->getMessage()), PHP_EOL);
+		if ($previous = $this->getPrevious()) {
 			$this->file = $previous->getFile();
 			$this->line = $previous->getLine();
 		}
 		if (empty($this->message)) {
 			$this->message = $message;
 		}
-		if (empty($this->code)) {
-			$this->code = $code;
-		}
+		$code = $this->getCode();
 		if (!\App\Config::debug('apiShowExceptionMessages') && 406 !== $code) {
 			$message = 'Internal Server Error';
 		}
@@ -57,6 +65,7 @@ class Exception extends \Exception
 			$body['error']['backtrace'] = \App\Debuger::getBacktrace();
 		}
 		$response = Response::getInstance();
+		$response->setContentType('application/json');
 		$response->setRequest(Request::init());
 		$response->setBody($body);
 		$response->setStatus($code);
@@ -67,11 +76,11 @@ class Exception extends \Exception
 	}
 
 	/**
-	 * Handle error function.
+	 * Log error function.
 	 *
 	 * @return void
 	 */
-	public function handleError(): void
+	public function logError(): void
 	{
 		if (\App\Config::debug('apiLogException')) {
 			$request = Request::init();

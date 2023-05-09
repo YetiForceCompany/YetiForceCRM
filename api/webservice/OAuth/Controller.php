@@ -31,6 +31,9 @@ class Controller extends \Api\Controller
 	/** {@inheritdoc}  */
 	public function handleError(\Throwable $e): void
 	{
+		if ($e instanceof \Api\Core\Exception) {
+			$e->logError();
+		}
 		if (is_numeric($e->getCode())) {
 			http_response_code($e->getCode());
 		}

@@ -50,14 +50,14 @@ class Controller extends \Api\Controller
 			])->execute();
 
 		if ($e instanceof \Api\Core\Exception) {
-			$e->handleError();
+			$e->showError();
 		} else {
 			if ($e instanceof \App\Exceptions\AppException) {
 				$ex = new \Api\Core\Exception($e->getDisplayMessage(), $e->getCode(), $e);
 			} else {
 				$ex = new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
 			}
-			$ex->handleError();
+			$ex->showError();
 		}
 	}
 }

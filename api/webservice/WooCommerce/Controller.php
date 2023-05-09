@@ -35,6 +35,9 @@ class Controller extends \Api\Controller
 	/** {@inheritdoc}  */
 	public function handleError(\Throwable $e): void
 	{
+		if ($e instanceof \Api\Core\Exception) {
+			$e->logError();
+		}
 		$stacktrace = rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $e->__toString()), PHP_EOL);
 		$params = print_r(array_merge(
 			$this->request->getAllRaw(), [

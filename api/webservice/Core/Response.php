@@ -60,6 +60,10 @@ class Response
 	 * @var string Reason phrase.
 	 */
 	protected $reasonPhrase;
+	/**
+	 * @var string Reason content type
+	 */
+	protected $contentType;
 
 	/**
 	 * Get instance.
@@ -176,6 +180,18 @@ class Response
 	}
 
 	/**
+	 * Set acceptable headers.
+	 *
+	 * @param string $type
+	 *
+	 * @return void
+	 */
+	public function setContentType(string $type): void
+	{
+		$this->contentType = $type;
+	}
+
+	/**
 	 * Get reason phrase.
 	 *
 	 * @return string
@@ -202,9 +218,13 @@ class Response
 		if (200 !== $this->status || 'data' !== $this->responseType) {
 			$encryptDataTransfer = 0;
 		}
-		$requestContentType = strtolower(\App\Request::_getServer('HTTP_ACCEPT'));
-		if (empty($requestContentType) || '*/*' === $requestContentType) {
-			$requestContentType = $this->request->contentType;
+		if (empty($this->contentType)) {
+			$requestContentType = strtolower(\App\Request::_getServer('HTTP_ACCEPT'));
+			if (empty($requestContentType) || '*/*' === $requestContentType) {
+				$this->contentType = $this->request->contentType;
+			} else {
+				$this->contentType = $requestContentType;
+			}
 		}
 		$headersSent = headers_sent();
 		if (!$headersSent) {
@@ -227,9 +247,9 @@ class Response
 				case 'data':
 					if (!empty($this->body)) {
 						if (!$headersSent) {
-							header("Content-type: $requestContentType");
+							header("Content-type: {$this->contentType}");
 						}
-						if (false !== strpos($requestContentType, 'application/xml')) {
+						if (false !== strpos($this->contentType, 'application/xml')) {
 							if (!$headersSent) {
 								header('Content-disposition: attachment; filename="api.xml"');
 							}
