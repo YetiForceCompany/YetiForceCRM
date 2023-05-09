@@ -3812,12 +3812,18 @@ const app = (window.app = {
 	 * @param {jQuery} container
 	 */
 	registerModalPosition: function (container) {
-		let modalContent = container.find('.modal-dialog');
-		if (app.getScreenHeight() > modalContent.height()) {
-			modalContent.parent().addClass('d-flex align-items-center');
+		if (CONFIG.centerModalWindow) {
+			let modalContent = container.find('.modal-dialog');
+			modalContent.css({ 'margin-top': '0px', 'margin-bottom': '0px' });
+			let modalHeight = modalContent.height();
+			if (app.getScreenHeight() > modalHeight) {
+				let difference = app.getScreenHeight() - modalHeight;
+				modalContent.css('top', difference / 2);
+			}
 		}
 	}
 });
+
 $(function () {
 	Quasar.iconSet.set(Quasar.iconSet.mdiV3);
 	let document = $(this);

@@ -469,6 +469,7 @@ abstract class Base extends \App\Controller\Base
 			'debug' => (bool) \App\Config::debug('JS_DEBUG'),
 			'modalTarget' => 'base',
 			'openUrlTarget' => 'base',
+			'centerModalWindow' => false
 		];
 		if (\App\Session::has('authenticated_user_id')) {
 			$userModel = \App\User::getCurrentUserModel();
