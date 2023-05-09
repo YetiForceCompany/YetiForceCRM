@@ -37,7 +37,9 @@ class Users_TwoFactorAuthenticationModal_View extends \App\Controller\Modal
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD', \App\User::getCurrentUserRealId());
 		$viewer->assign('SECRET', $authMethod->createSecret());
-		$viewer->assign('QR_CODE_HTML', $authMethod->createQrCodeForUser());
+		$url = $authMethod->createUrl();
+		$viewer->assign('QR_URL', $url);
+		$viewer->assign('QR_CODE_HTML', $authMethod->createQrCode($url, 'PNG'));
 		$viewer->assign('LOCK_EXIT', $this->lockExit);
 		$viewer->assign('SHOW_OFF', $this->showOff());
 		$viewer->assign('SECRET_OLD', $userModel->getDetail('authy_secret_totp'));

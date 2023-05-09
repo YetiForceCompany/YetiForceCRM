@@ -82,7 +82,7 @@ class Users_Totp_Authmethod
 	 *
 	 * @return \Milon\Barcode\path|string - HTML code
 	 */
-	private function createQrCode($otpAuthUrl, $type = 'HTML')
+	public function createQrCode($otpAuthUrl, $type = 'HTML')
 	{
 		$qrCodeGenerator = new \Milon\Barcode\DNS2D();
 		$qrCodeGenerator->setStorPath(__DIR__ . App\Config::main('tmp_dir'));
@@ -100,17 +100,15 @@ class Users_Totp_Authmethod
 	}
 
 	/**
-	 * Create QR code for user.
-	 *
-	 * @param string $type - acceptable types [HTML, SVG, PNG]
+	 * Create URL code for user.
 	 *
 	 * @throws \App\Exceptions\NotAllowedMethod
 	 *
 	 * @return \Milon\Barcode\path|string
 	 */
-	public function createQrCodeForUser($type = 'PNG')
+	public function createUrl()
 	{
-		return $this->createQrCode($this->getOtpAuthUrl($this->secret, \App\User::getUserModel($this->userId)->getDetail('user_name')), $type);
+		return $this->getOtpAuthUrl($this->secret, \App\User::getUserModel($this->userId)->getDetail('user_name'));
 	}
 
 	/**

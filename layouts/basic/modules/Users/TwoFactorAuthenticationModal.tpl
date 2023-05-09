@@ -36,7 +36,9 @@
 					</div>
 				</div>
 				<div class="col-sm-12 my-2 pt-2 pb-2 d-flex justify-content-center border-top border-bottom">
-					{$QR_CODE_HTML}
+					<a href="{$QR_URL}">
+						{$QR_CODE_HTML}
+					</a>
 				</div>
 			</div>
 			<div class="col-sm-12 pt-2  form-inline js-user-code" data-js="container|css:display">
