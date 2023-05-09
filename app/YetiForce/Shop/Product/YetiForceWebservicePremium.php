@@ -44,7 +44,7 @@ class YetiForceWebservicePremium extends \App\YetiForce\Shop\AbstractBaseProduct
 		if (\App\YetiForce\Register::getProducts('YetiForceWebservicePremium')) {
 			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceWebservicePremium');
 		} else {
-			if ((new \App\Db\Query())->from('w_#__servers')->where(['type' => 'WebservicePremium', 'status' => 1])->exists()) {
+			if (\App\Integrations\Services::getByType('WebservicePremium')) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;
 			}

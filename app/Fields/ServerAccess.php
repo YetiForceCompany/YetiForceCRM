@@ -93,7 +93,7 @@ class ServerAccess
 		if (\App\Cache::has(__METHOD__, $serverId)) {
 			return \App\Cache::get(__METHOD__, $serverId);
 		}
-		$row = (new \App\Db\Query())->from('w_#__servers')->where(['id' => $serverId])->one(\App\Db::getInstance('webservice')) ?: [];
+		$row = \App\Integrations\Services::getById($serverId);
 		\App\Cache::save(__METHOD__, $serverId, $row, \App\Cache::MEDIUM);
 		return $row;
 	}
