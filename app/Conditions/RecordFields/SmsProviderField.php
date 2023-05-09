@@ -1,4 +1,3 @@
-
 <?php
 /**
  * SMS provider record condition field file.
