@@ -33,7 +33,7 @@ try {
 	\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
 	if (!headers_sent()) {
 		$ex = new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
-		$ex->handleError();
+		$ex->showError();
 	}
 }
 \App\Log::endProfile(\App\Request::getRequestMethod() . '::' . $_SERVER['REQUEST_URI'], 'WebServiceAPI');

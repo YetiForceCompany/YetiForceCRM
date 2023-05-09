@@ -101,7 +101,7 @@
 						</div>
 					{/foreach}
 				{elseif $LAYOUT === 'vertical'}
-					<div class="massEditTable border-0 px-1 mx-auto m-0">
+					<div class="massEditTable border-0 px-1 mx-auto mb-3">
 						<div class="col-12 form-row d-flex justify-content-center px-0 m-0 {$WIDTHTYPE}">
 							{if !empty($NO_FIELD_ACCESS)}
 								<div class="alert alert-warning w-100 mt-2">
@@ -154,6 +154,7 @@
 							{/foreach}
 						</div>
 					</div>
+					<hr>
 				{else}
 					<div class="massEditTable border-0 px-1 mx-auto m-0">
 						<div class="px-0 m-0 form-row d-flex justify-content-center">

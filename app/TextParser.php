@@ -43,7 +43,7 @@ class TextParser
 		'LBL_INVENTORY_TABLE' => '$(inventory : type=table columns=seq,name,qty,unit,price,total,net href=no)$',
 		'LBL_DYNAMIC_INVENTORY_TABLE' => '$(custom : dynamicInventoryColumnsTable)$',
 		'LBL_BARCODE' => '$(barcode : type=EAN13 class=DNS1D , value=12345678)$',
-		'LBL_TOKEN_LINK' => '$(tokenLink : 85|xxxx=1|yyyy=1)$',
+		'LBL_TOKEN_LINK' => '$(tokenLink : 85|oneTime=1|buttonName=Test|expirationDate=+5 days|messages=Thank you for reporting)$',
 	];
 	/**
 	 * Default date list.
