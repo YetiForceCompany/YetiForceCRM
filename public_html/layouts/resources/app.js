@@ -1674,9 +1674,9 @@ const app = (window.app = {
 					}, this)
 				);
 		};
-
 		const modalContainer = container.find('.modal:first');
 		modalContainer.one('shown.bs.modal', function () {
+			app.registerModalPosition(modalContainer);
 			thisInstance.registerDataTables(modalContainer.find('.js-modal-data-table'));
 			cb(modalContainer);
 			App.Fields.Picklist.changeSelectElementView(modalContainer);
@@ -1802,6 +1802,20 @@ const app = (window.app = {
 		<div class="modal-body js-modal-content text-break ${params['bodyClass']}" data-js="container">${params['body']}</div>${footer}</div></div></div>`;
 		params.data = html;
 		return app.showModalWindow(params);
+	},
+	/**
+	 * Sets the position of the modal window.
+	 * @param {jQuery} container
+	 */
+	registerModalPosition: function (modalContainer) {
+		if (CONFIG.centerModalWindow) {
+			const modalContent = modalContainer.find('.modal-dialog');
+			const modalHeight = modalContent.height();
+			if (modalHeight && app.getScreenHeight() > modalHeight) {
+				modalContent.css({ 'margin-top': '0px', 'margin-bottom': '0px' });
+				modalContent.css('top', (app.getScreenHeight() - modalHeight) / 2);
+			}
+		}
 	},
 	/**
 	 * Check if current window is target for a modal and trigger in correct window if not
@@ -3805,22 +3819,6 @@ const app = (window.app = {
 		container.on('click', '.js-print-container', function (_) {
 			app.printModal($($(this).data('container')).children());
 		});
-	},
-
-	/**
-	 * Sets the position of the modal window.
-	 * @param {jQuery} container
-	 */
-	registerModalPosition: function (container) {
-		if (CONFIG.centerModalWindow) {
-			let modalContent = container.find('.modal-dialog');
-			modalContent.css({ 'margin-top': '0px', 'margin-bottom': '0px' });
-			let modalHeight = modalContent.height();
-			if (app.getScreenHeight() > modalHeight) {
-				let difference = app.getScreenHeight() - modalHeight;
-				modalContent.css('top', difference / 2);
-			}
-		}
 	}
 });
 

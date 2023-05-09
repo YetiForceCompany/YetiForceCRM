@@ -557,6 +557,13 @@ return [
 			'default' => 'very_small',
 			'description' => 'Default tile size. Available sizes: very_small, small, medium, big',
 		],
+		'centerModalWindow' => [
+			'default' => true,
+			'description' => 'All modal window will be vertically centered if this option is enabled.',
+			'validation' => '\App\Validator::bool',
+			'sanitization' => '\App\Purifier::bool',
+			'docTags' => ['var' => 'bool'],
+		],
 	],
 	'performance' => [
 		'CACHING_DRIVER' => [
@@ -801,15 +808,17 @@ return [
 		],
 		'recordActivityNotifier' => [
 			'default' => false,
-			'description' => "Functionality notifying about activity on the record\n\n@var bool",
+			'description' => 'Functionality notifying about activity on the record',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool',
+			'docTags' => ['var' => 'bool'],
 		],
 		'recordActivityNotifierInterval' => [
 			'default' => 5,
-			'description' => "Interval for Record activity notifier\n\n@var int Number of seconds",
+			'description' => 'Interval for Record activity notifier',
 			'validation' => '\App\Validator::naturalNumber',
 			'sanitization' => '\App\Purifier::naturalNumber',
+			'docTags' => ['var' => 'int Number of seconds'],
 		],
 	],
 	'relation' => [
