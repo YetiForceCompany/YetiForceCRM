@@ -198,7 +198,7 @@
 						</div>
 					</div>
 				{/if}
-				{include file=\App\Layout::getTemplatePath('EditViewActionsModal.tpl') EDITVIEW_LINKS=$QUICKCREATE_LINKS}
+				{include file=\App\Layout::getTemplatePath('Edit/ModalActions.tpl') EDITVIEW_LINKS=$QUICKCREATE_LINKS}
 			</div>
 		</div>
 		</form>

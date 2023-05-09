@@ -1314,6 +1314,7 @@ $.Class(
 									AppConnector.request(searchForm).done(function (data) {
 										summary.progressIndicator({ mode: 'hide' });
 										summary.html(data);
+										app.registerModalPosition(container);
 									});
 								}
 							});

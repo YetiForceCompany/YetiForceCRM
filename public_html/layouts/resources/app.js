@@ -1811,9 +1811,13 @@ const app = (window.app = {
 		if (CONFIG.centerModalWindow) {
 			const modalContent = modalContainer.find('.modal-dialog');
 			const modalHeight = modalContent.height();
-			if (modalHeight && app.getScreenHeight() > modalHeight) {
-				modalContent.css({ 'margin-top': '0px', 'margin-bottom': '0px' });
-				modalContent.css('top', (app.getScreenHeight() - modalHeight) / 2);
+			if (modalHeight) {
+				if (app.getScreenHeight() > modalHeight) {
+					modalContent.css({ 'margin-top': '0px', 'margin-bottom': '0px' });
+					modalContent.css('top', (app.getScreenHeight() - modalHeight) / 2);
+				} else {
+					modalContent.removeAttr('style');
+				}
 			}
 		}
 	},
