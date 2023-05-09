@@ -184,7 +184,7 @@ class Layout
 		} else {
 			$btn = Language::translate('LBL_MORE_BTN');
 		}
-		return "<div class=\"js-more-content c-text-divider col-11 px-0\"><pre class=\"teaserContent u-pre col-12 px-0\">$teaser</pre><span class=\"fullContent d-none\"><pre class=\"u-pre\">$text</pre></span><span class=\"text-right\"><button type=\"button\" class=\"btn btn-link btn-sm p-0 js-more\">{$btn}</button></span></div>";
+		return "<div class=\"js-more-content c-text-divider\"><pre class=\"teaserContent u-pre\">$teaser</pre><span class=\"fullContent d-none\"><pre class=\"u-pre\">$text</pre></span><span class=\"text-right\"><button type=\"button\" class=\"btn btn-link btn-sm p-0 js-more\">{$btn}</button></span></div>";
 	}
 
 	/**
