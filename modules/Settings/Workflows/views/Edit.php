@@ -56,7 +56,7 @@ class Settings_Workflows_Edit_View extends Settings_Vtiger_Index_View
 		}
 		$viewer->assign('WORKFLOW_MODEL', $workflowModel);
 		$viewer->assign('ALL_MODULES', Settings_Workflows_Module_Model::getSupportedModules());
-		$viewer->assign('TRIGGER_TYPES', Settings_Workflows_Module_Model::getTriggerTypes());
+		$viewer->assign('TRIGGER_TYPES', Settings_Workflows_Module_Model::TRIGGER_TYPES);
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

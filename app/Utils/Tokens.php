@@ -74,7 +74,8 @@ class Tokens
 	 */
 	public static function get(string $uid, bool $remove = false): ?array
 	{
-		$row = (new \App\Db\Query())->from(self::TABLE_NAME)->where(['uid' => $uid])->one(\App\Db::getInstance('admin')) ?: null;
+		$row = (new \App\Db\Query())->from(self::TABLE_NAME)
+			->where(['uid' => $uid])->one(\App\Db::getInstance('admin')) ?: null;
 		if (!empty($row['expiration_date']) && strtotime($row['expiration_date']) < time()) {
 			self::delete($uid);
 			$row = null;
@@ -115,19 +116,59 @@ class Tokens
 		}
 		$url = \App\Config::main('site_URL');
 		if (0 === $serverId) {
-			$row = (new \App\Db\Query())->from('w_#__servers')->where(['type' => 'Token'])->one(\App\Db::getInstance('webservice')) ?: [];
-			if ($row && $row['url']) {
-				$url = $row['url'];
-				if ('/' !== substr($url, -1)) {
-					$url .= '/';
+			if ($rows = \App\Integrations\Services::getByType('Token')) {
+				$row = reset($rows);
+				if ($row && $row['url']) {
+					$url = $row['url'];
+					if ('/' !== substr($url, -1)) {
+						$url .= '/';
+					}
 				}
 			}
-		} elseif ($serverId && ($data = \App\Fields\ServerAccess::get($serverId)) && $data['url']) {
+		} elseif ($serverId && ($data = \App\Integrations\Services::getById($serverId)) && $data['url']) {
 			$url = $data['url'];
 			if ('/' !== substr($url, -1)) {
 				$url .= '/';
 			}
 		}
 		return $url . 'webservice/Token/' . $token;
+	}
+
+	/**
+	 * Link action mechanism for TextParser.
+	 *
+	 * @param array             $params
+	 * @param \Api\Token\Action $self
+	 *
+	 * @return void
+	 */
+	public static function runWorkflow(array $params, \Api\Token\Action $self): void
+	{
+		if (empty($params['recordId'])) {
+			throw new \Api\Core\Exception('No record ID', 1001);
+		}
+		if (empty($params['workflowId'])) {
+			throw new \Api\Core\Exception('No workflow ID', 1002);
+		}
+		if (!\App\Record::isExists($params['recordId'], '', \App\Record::STATE_ACTIVE)) {
+			throw new \Api\Core\Exception("The record {$params['recordId']} does not exist", 1003);
+		}
+		\Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
+		$wfs = new \VTWorkflowManager();
+		$workflow = $wfs->retrieve($params['workflowId']);
+		if (empty($workflow)) {
+			throw new \Api\Core\Exception("The workflow {$params['workflowId']} does not exist", 1004);
+		}
+		$recordModel = \Vtiger_Record_Model::getInstanceById($params['recordId']);
+		if ($workflow->evaluate($recordModel)) {
+			$workflow->performTasks($recordModel);
+			if (!empty($params['messages'])) {
+				echo $params['messages'];
+			} elseif ($params['redirect']) {
+				header('location: ' . $params['redirect']);
+			}
+		} else {
+			throw new \Api\Core\Exception('ERR_TOKEN_NOT_EXECUTION_CONDITIONS', 1005);
+		}
 	}
 }

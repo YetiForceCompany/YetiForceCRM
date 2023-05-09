@@ -46,7 +46,7 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 		$viewer = $this->getViewer($request);
 		$templateModule = $moduleName = $request->getModule();
 		$sourceModule = $request->getByType('sourceModule', 2);
-		if ($sourceModule && isset(\App\TextParser::$sourceModules[$sourceModule]) && \in_array($moduleName, \App\TextParser::$sourceModules[$sourceModule])) {
+		if ($sourceModule && isset(\App\TextParser::SOURCE_MODULES[$sourceModule]) && \in_array($moduleName, \App\TextParser::SOURCE_MODULES[$sourceModule])) {
 			$templateModule = $sourceModule;
 		}
 		[$recordsNumber, $duplicates, $emailsByField, $emails] = $this->getStatistics($request);

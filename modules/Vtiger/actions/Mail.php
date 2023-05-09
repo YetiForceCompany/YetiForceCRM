@@ -71,7 +71,7 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 			}
 			foreach ($emails as $email => $ids) {
 				$id = current($ids);
-				if (isset(\App\TextParser::$sourceModules[$sourceModule]) && \in_array($moduleName, \App\TextParser::$sourceModules[$sourceModule])) {
+				if (isset(\App\TextParser::SOURCE_MODULES[$sourceModule]) && \in_array($moduleName, \App\TextParser::SOURCE_MODULES[$sourceModule])) {
 					$extraParams = [
 						'moduleName' => $sourceModule,
 						'recordId' => $sourceRecord,

@@ -22,7 +22,7 @@ class TextParser
 	 *
 	 * @var array
 	 */
-	public static $variableExamples = [
+	public const VARIABLE_EXAMPLES = [
 		'LBL_ORGANIZATION_NAME' => '$(organization : company_name)$',
 		'LBL_ORGANIZATION_LOGO' => '$(organization : logo)$',
 		'LBL_EMPLOYEE_NAME' => '$(employee : last_name)$',
@@ -43,14 +43,14 @@ class TextParser
 		'LBL_INVENTORY_TABLE' => '$(inventory : type=table columns=seq,name,qty,unit,price,total,net href=no)$',
 		'LBL_DYNAMIC_INVENTORY_TABLE' => '$(custom : dynamicInventoryColumnsTable)$',
 		'LBL_BARCODE' => '$(barcode : type=EAN13 class=DNS1D , value=12345678)$',
+		'LBL_TOKEN_LINK' => '$(tokenLink : 85|xxxx=1|yyyy=1)$',
 	];
-
 	/**
 	 * Default date list.
 	 *
 	 * @var string[]
 	 */
-	public static $variableDates = [
+	public const VARIABLE_DATES = [
 		'LBL_DATE_TODAY' => '$(date : now)$',
 		'LBL_DATE_TOMORROW' => '$(date : tomorrow)$',
 		'LBL_DATE_YESTERDAY' => '$(date : yesterday)$',
@@ -61,13 +61,12 @@ class TextParser
 		'LBL_DATE_FIRST_DAY_OF_NEXT_MONTH' => '$(date : first day of next month)$',
 		'LBL_DATE_NEXT_WORKING_DAY' => '$(date : nextworkingday)$',
 	];
-
 	/**
 	 * Variables for entity modules.
 	 *
 	 * @var array
 	 */
-	public static $variableGeneral = [
+	protected const VARIABLE_GENERAL = [
 		'LBL_CURRENT_DATE' => '$(general : CurrentDate)$',
 		'LBL_CURRENT_TIME' => '$(general : CurrentTime)$',
 		'LBL_BASE_TIMEZONE' => '$(general : BaseTimeZone)$',
@@ -76,13 +75,12 @@ class TextParser
 		'LBL_PORTAL_URL' => '$(general : PortalUrl)$',
 		'LBL_TRANSLATE' => '$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$, $(translate : LBL_SECONDS)$',
 	];
-
 	/**
 	 * Variables for entity modules.
 	 *
 	 * @var array
 	 */
-	public static $variableEntity = [
+	protected const VARIABLE_ENTITY = [
 		'CrmDetailViewURL' => 'LBL_CRM_DETAIL_VIEW_URL',
 		'PortalDetailViewURL' => 'LBL_PORTAL_DETAIL_VIEW_URL',
 		'RecordId' => 'LBL_RECORD_ID',
@@ -92,22 +90,26 @@ class TextParser
 		'Comments' => 'LBL_RECORD_COMMENT',
 		'SummaryFields' => 'LBL_SUMMARY_FIELDS',
 	];
-
 	/**
 	 * List of available functions.
 	 *
 	 * @var string[]
 	 */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'relatedRecordLevel', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date', 'inventory', 'userVariable', 'barcode'];
-
+	protected const BASE_FUNCTIONS = [
+		'general', 'translate', 'record', 'relatedRecord', 'relatedRecordLevel',
+		'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList',
+		'recordsList', 'date', 'inventory', 'userVariable', 'barcode', 'tokenLink'
+	];
 	/**
 	 * List of source modules.
 	 *
 	 * @var array
 	 */
-	public static $sourceModules = [
+	public const SOURCE_MODULES = [
 		'Campaigns' => ['Leads', 'Accounts', 'Contacts', 'Vendors', 'Partners', 'Competition'],
 	];
+	/** @var string[] Uitypes with large data */
+	protected const LARGE_DATA_UITYPES = ['multiImage', 'image'];
 	/**
 	 * Record variables.
 	 *
@@ -228,11 +230,8 @@ class TextParser
 	/** @var bool Permissions condition */
 	protected $permissions = true;
 
-	/** @var string[] Uitypes with large data */
-	protected $largeDataUiTypes = ['multiImage', 'image'];
-
 	/**
-	 * Get instanace by record id.
+	 * Get instance by record id.
 	 *
 	 * @param int    $record     Record id
 	 * @param string $moduleName Module name
@@ -250,7 +249,7 @@ class TextParser
 	}
 
 	/**
-	 * Get instanace by record model.
+	 * Get instance by record model.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
 	 *
@@ -267,7 +266,7 @@ class TextParser
 	}
 
 	/**
-	 * Get clean instanace.
+	 * Get clean instance.
 	 *
 	 * @param string $moduleName Module name
 	 *
@@ -476,7 +475,7 @@ class TextParser
 				preg_match(static::VARIABLE_REGEX, $text, $matches);
 				if ($matches) {
 					[, $function, $params] = array_pad($matches, 3, '');
-					$value = \in_array($function, static::$baseFunctions) ? $this->{$function}($params) : '';
+					$value = \in_array($function, static::BASE_FUNCTIONS) ? $this->{$function}($params) : '';
 				}
 				return $value;
 			}));
@@ -484,7 +483,7 @@ class TextParser
 		}
 		return preg_replace_callback(static::VARIABLE_REGEX, function ($matches) {
 			[, $function, $params] = array_pad($matches, 3, '');
-			return \in_array($function, static::$baseFunctions) ? $this->{$function}($params) : '';
+			return \in_array($function, static::BASE_FUNCTIONS) ? $this->{$function}($params) : '';
 		}, $content);
 	}
 
@@ -717,7 +716,7 @@ class TextParser
 					if (!$fieldModel) {
 						continue;
 					}
-					$currentValue = \in_array($fieldModel->getFieldDataType(), $this->largeDataUiTypes) ? '' : $this->getDisplayValueByField($fieldModel);
+					$currentValue = \in_array($fieldModel->getFieldDataType(), self::LARGE_DATA_UITYPES) ? '' : $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations) {
 						$label = \App\Purifier::encodeHtml($fieldModel->getFieldLabel());
 						$value .= "\$(translate : {$this->moduleName}|{$label})\$: $currentValue" . ($this->isHtml ? '<br>' : PHP_EOL);
@@ -1295,7 +1294,7 @@ class TextParser
 		}
 		$variables = [];
 		if (!$fieldType) {
-			foreach (static::$variableEntity as $key => $name) {
+			foreach (static::VARIABLE_ENTITY as $key => $name) {
 				$variables[Language::translate('LBL_ENTITY_VARIABLES', 'Other.TextParser')][] = [
 					'var_value' => "$(record : $key)$",
 					'var_label' => "$(translate : Other.TextParser|$name)$",
@@ -1327,18 +1326,18 @@ class TextParser
 	 */
 	public function getSourceVariable()
 	{
-		if (empty(self::$sourceModules[$this->moduleName])) {
+		if (empty(self::SOURCE_MODULES[$this->moduleName])) {
 			return false;
 		}
 		$variables = [];
-		foreach (static::$variableEntity as $key => $name) {
+		foreach (static::VARIABLE_ENTITY as $key => $name) {
 			$variables['LBL_ENTITY_VARIABLES'][] = [
 				'var_value' => "$(sourceRecord : $key)$",
 				'var_label' => "$(translate : Other.TextParser|$name)$",
 				'label' => Language::translate($name, 'Other.TextParser'),
 			];
 		}
-		foreach (self::$sourceModules[$this->moduleName] as $moduleName) {
+		foreach (self::SOURCE_MODULES[$this->moduleName] as $moduleName) {
 			$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 			foreach ($moduleModel->getBlocks() as $blockModel) {
 				foreach ($blockModel->getFields() as $fieldModel) {
@@ -1381,7 +1380,7 @@ class TextParser
 			}
 			$parentFieldNameLabel = Language::translate($field->getFieldLabel(), $this->moduleName);
 			if (!$fieldType) {
-				foreach (static::$variableEntity as $key => $name) {
+				foreach (static::VARIABLE_ENTITY as $key => $name) {
 					$variables[$parentFieldName]["$parentFieldNameLabel - $entityVariables"][] = [
 						'var_value' => "$(relatedRecord : $parentFieldName|$key)$",
 						'var_label' => "$(translate : Other.TextParser|$key)$",
@@ -1486,7 +1485,7 @@ class TextParser
 	public function getGeneralVariable()
 	{
 		$variables = [
-			'LBL_ENTITY_VARIABLES' => array_map(fn ($value) => Language::translate($value, 'Other.TextParser'), array_flip(static::$variableGeneral)),
+			'LBL_ENTITY_VARIABLES' => array_map(fn ($value) => Language::translate($value, 'Other.TextParser'), array_flip(static::VARIABLE_GENERAL)),
 		];
 		$variables['LBL_CUSTOM_VARIABLES'] = array_merge($this->getBaseGeneralVariable(), $this->getModuleGeneralVariable());
 		return $variables;
@@ -1560,6 +1559,28 @@ class TextParser
 			$variables[] = [
 				'key' => "$(relatedRecordsList : $var|__FIELDS_NAME__|__CONDITIONS__|__VIEW_ID_OR_NAME__|__LIMIT__|__MAX_LENGTH__)$",
 				'label' => Language::translate($relation->get('label'), $relation->get('relatedModuleName')),
+			];
+		}
+		return $variables;
+	}
+
+	/**
+	 * Get related modules list.
+	 *
+	 * @return array
+	 */
+	public function getLinkVariable()
+	{
+		if (!\App\Integrations\Services::getByType('Token') || empty($this->moduleName)) {
+			return [];
+		}
+		\Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
+		$workflows = (new \VTWorkflowManager())->getWorkflowsForModule($this->moduleName, \VTWorkflowManager::TOKEN_LINK);
+		$variables = [];
+		foreach ($workflows as $workflow) {
+			$variables[] = [
+				'key' => "$(tokenLink : $workflow->id|xxxx=1|yyyy=1)$",
+				'label' => Language::translate($workflow->description, 'Settings:Workflows'),
 			];
 		}
 		return $variables;
@@ -1833,6 +1854,39 @@ class TextParser
 			$html .= '</table>';
 		}
 		return $html;
+	}
+
+	/**
+	 * Parsing inventory.
+	 *
+	 * @param string $params
+	 *
+	 * @return string
+	 */
+	protected function tokenLink(string $params): string
+	{
+		[$workflowId, $params] = array_pad(explode('|', $params, 2), 2, '');
+		$paramsArray = $params ? self::parseFieldParam($params) : [];
+		$oneTime = (isset($paramsArray['oneTime']) && 1 != $paramsArray['oneTime']) ? false : true;
+		$expirationDate = '+ 30 days';
+		if (!empty($paramsArray['expirationDate'])) {
+			$expirationDate = date('Y-m-d H:i:s', strtotime($paramsArray['expirationDate']));
+		}
+		\App\Utils\Tokens::generate(
+			'\App\Utils\Tokens::runWorkflow',
+			[
+				'recordId' => $this->recordModel->getId(),
+				'workflowId' => $workflowId,
+				'messages' => $paramsArray['messages'] ?? '',
+			],
+			$expirationDate,
+			$oneTime
+		);
+		$url = \App\Utils\Tokens::generateLink();
+		if (!empty($paramsArray['buttonName'])) {
+			return '<a href="' . $url . '" target="_blank">' . $paramsArray['buttonName'] . '</a>';
+		}
+		return $url;
 	}
 
 	/**

@@ -113,27 +113,18 @@ class Vtiger_Workflow_Handler
 					}
 					break;
 				case VTWorkflowManager::$ON_EVERY_SAVE:
+				case VTWorkflowManager::$ON_DELETE:
 					$doEvaluate = true;
 					break;
 				case VTWorkflowManager::$ON_MODIFY:
 					$doEvaluate = !$recordModel->isNew() && !empty($recordModel->getPreviousValue());
 					break;
 				case VTWorkflowManager::$MANUAL:
-					$doEvaluate = false;
-					break;
 				case VTWorkflowManager::$ON_SCHEDULE:
-					$doEvaluate = false;
-					break;
-				case VTWorkflowManager::$ON_DELETE:
-					$doEvaluate = true;
-					break;
 				case VTWorkflowManager::$TRIGGER:
-					$doEvaluate = false;
-					break;
 				case VTWorkflowManager::$BLOCK_EDIT:
-					$doEvaluate = false;
-					break;
 				case VTWorkflowManager::$ON_RELATED:
+				case VTWorkflowManager::TOKEN_LINK:
 					$doEvaluate = false;
 					break;
 				default:

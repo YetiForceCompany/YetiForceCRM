@@ -49,6 +49,7 @@
     "ERR_CLASS_MUST_BE": "Class must be %s",
     "ERR_PAID_FUNCTIONALITY": "%s paid functionality, you must purchase it",
     "ERR_TOKEN_DOES_NOT_EXIST": "The token does not exist or has expired",
+    "ERR_TOKEN_NOT_EXECUTION_CONDITIONS": "The token does not meet the conditions for execution",
     "ERR_NO_TOKEN": "No token",
     "ERR_INCORRECT_2FA_TOTP_CODE": "Incorrect 2FA TOTP code",
     "ERR_NO_2FA_TOTP_CODE": "No 2FA TOTP code",

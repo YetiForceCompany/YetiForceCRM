@@ -147,6 +147,7 @@
     "TRIGGER": "Manual trigger by the user",
     "BLOCK_EDIT": "Block edition",
     "ON_SCHEDULE": "Execution schedule (defined time intervals)",
+    "TOKEN_LINK": "Token link (clicking on the link with the token)",
     "EmailTempleteList": "Select an email template to be sent",
     "Do you send all attachments": "Send all attachments?",
     "Select e-mail address": "Select email address",
