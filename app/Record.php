@@ -130,11 +130,11 @@ class Record
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$entityDisplay = [];
 		$cacheName = 'computeLabelsQuery';
+		$table = $metaInfo['tablename'];
+		$idColumn = $table . '.' . $metaInfo['entityidfield'];
+		$columnsName = $metaInfo['fieldnameArr'];
+		$columnsSearch = $metaInfo['searchcolumnArr'];
 		if (!\App\Cache::staticHas($cacheName, $moduleName)) {
-			$table = $metaInfo['tablename'];
-			$idColumn = $table . '.' . $metaInfo['entityidfield'];
-			$columnsName = $metaInfo['fieldnameArr'];
-			$columnsSearch = $metaInfo['searchcolumnArr'];
 			$columns = array_unique(array_merge($columnsName, $columnsSearch));
 			$leftJoinTables = $paramsCol = [];
 			$query = new \App\Db\Query();
@@ -156,9 +156,6 @@ class Record
 			\App\Cache::staticSave($cacheName, $moduleName, clone $query);
 		} else {
 			$query = \App\Cache::staticGet($cacheName, $moduleName);
-			$columnsName = $metaInfo['fieldnameArr'];
-			$columnsSearch = $metaInfo['searchcolumnArr'];
-			$idColumn = $metaInfo['entityidfield'];
 		}
 		$separator = $metaInfo['separator'] ?? ' ';
 		$ids = array_unique($ids);
