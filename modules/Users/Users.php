@@ -65,12 +65,12 @@ class Users extends CRMEntity
 	public $search_fields_name = [
 		'First Name' => 'first_name',
 		'Name' => 'last_name',
+		'Role Name' => 'roleid',
 		'Email' => 'email1',
+		'Status' => 'status',
 	];
 	public $module_name = 'Users';
-	public $object_name = 'User';
 	public $user_preferences;
-	public $encodeFields = ['first_name', 'last_name', 'description'];
 	// This is used to retrieve related fields from form posts.
 	public $additional_column_fields = ['reports_to_name'];
 
