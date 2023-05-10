@@ -1579,7 +1579,7 @@ class TextParser
 		$variables = [];
 		foreach ($workflows as $workflow) {
 			$variables[] = [
-				'key' => "$(tokenLink : $workflow->id|xxxx=1|yyyy=1)$",
+				'key' => "$(tokenLink : $workflow->id|oneTime=1|buttonName=Test|expirationDate=+5 days|messages=Thank you for reporting)$",
 				'label' => Language::translate($workflow->description, 'Settings:Workflows'),
 			];
 		}
@@ -1870,16 +1870,17 @@ class TextParser
 		$oneTime = (isset($paramsArray['oneTime']) && 1 != $paramsArray['oneTime']) ? false : true;
 		$expirationDate = '+ 30 days';
 		if (!empty($paramsArray['expirationDate'])) {
-			$expirationDate = date('Y-m-d H:i:s', strtotime($paramsArray['expirationDate']));
+			$expirationDate = urldecode($paramsArray['expirationDate']);
 		}
+		$expirationDateTime = date('Y-m-d H:i:s', strtotime($expirationDate));
 		\App\Utils\Tokens::generate(
 			'\App\Utils\Tokens::runWorkflow',
 			[
 				'recordId' => $this->recordModel->getId(),
 				'workflowId' => $workflowId,
-				'messages' => $paramsArray['messages'] ?? '',
+				'messages' => empty($paramsArray['messages']) ? '' : urldecode($paramsArray['messages']),
 			],
-			$expirationDate,
+			$expirationDateTime,
 			$oneTime
 		);
 		$url = \App\Utils\Tokens::generateLink();
