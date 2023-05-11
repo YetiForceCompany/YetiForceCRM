@@ -19,13 +19,18 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public $isentitytype = false;
 	/** @var string[] List of supported modules */
 	public static $supportedModules = false;
-
-	/**
-	 * Related view types.
-	 *
-	 * @var string[]
-	 */
-	private static $relatedViewType = [
+	/** @var string[] List of supported relation types */
+	const TYPES = [
+		'getRelatedList' => 'PLL_RELATED_LIST',
+		'getManyToMany' => 'PLL_SPLITED_RELATED_LIST',
+		'getAttachments' => 'PLL_ATTACHMENTS',
+		'getEmails' => 'PLL_EMAILS',
+		'getMultiReference' => 'PLL_MULTI_REFERENCE',
+		//'getDependentsList' => 'PLL_DEPENDENTS_LIST',
+		// 'getActivities' => 'PLL_ACTIVITIES',
+	];
+	/** @var string[] Related view types. */
+	public const RELATED_VIEW_TYPE = [
 		'RelatedTab' => 'LBL_RELATED_TAB_TYPE',
 		'DetailTop' => 'LBL_DETAIL_TOP_TYPE',
 		'DetailBottom' => 'LBL_DETAIL_BOTTOM_TYPE',
@@ -754,16 +759,16 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		return $treeList;
 	}
 
-	public static function getRelationsTypes(?string $moduleName = null)
+	/**
+	 * Get relations types.
+	 *
+	 * @param string|null $moduleName
+	 *
+	 * @return array
+	 */
+	public static function getRelationsTypes(?string $moduleName = null): array
 	{
-		$types = [
-			'getRelatedList' => 'PLL_RELATED_LIST',
-			//'getDependentsList' => 'PLL_DEPENDENTS_LIST',
-			'getManyToMany' => 'PLL_SPLITED_RELATED_LIST',
-			'getAttachments' => 'PLL_ATTACHMENTS',
-			// 'getActivities' => 'PLL_ACTIVITIES',
-			'getEmails' => 'PLL_EMAILS',
-		];
+		$types = self::TYPES;
 		if ('OSSMailView' === $moduleName) {
 			$types['getRecordToMails'] = 'PLL_RECORD_TO_MAILS';
 		}
@@ -788,16 +793,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	{
 		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['view_type' => implode(',', $type)], ['relation_id' => $relationId])->execute();
 		\App\Relation::clearCacheById($relationId);
-	}
-
-	/**
-	 * Get related view types.
-	 *
-	 * @return string[]
-	 */
-	public static function getRelatedViewTypes()
-	{
-		return static::$relatedViewType;
 	}
 
 	/**

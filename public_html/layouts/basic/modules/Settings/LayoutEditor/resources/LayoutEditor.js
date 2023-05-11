@@ -166,10 +166,10 @@ $.Class(
 			});
 			relatedList.on('click', '.addRelation', function (e) {
 				let currentTarget = $(e.currentTarget);
-				var container = currentTarget.closest('#relatedTabOrder');
-				var contentsDiv = container.closest('.contentsDiv');
-				var addRelationContainer = relatedList.find('.addRelationContainer').clone(true, true);
-				var callBackFunction = function (data) {
+				const container = currentTarget.closest('#relatedTabOrder'),
+					contentsDiv = container.closest('.contentsDiv'),
+					addRelationContainer = relatedList.find('.addRelationContainer').clone(true, true);
+				let callBackFunction = function (data) {
 					App.Fields.Picklist.showSelect2ElementView(data.find('select'));
 					data.find('.relLabel').val(data.find('.target option:selected').val());
 					data.on('change', '.target', function (e) {
@@ -186,8 +186,8 @@ $.Class(
 						}
 					});
 					data.on('click', '.addButton', function (e) {
-						var form = data.find('form').serializeFormData();
-						var params = {};
+						const form = data.find('form').serializeFormData();
+						let params = {};
 						params['module'] = app.getModuleName();
 						params['parent'] = app.getParentModuleName();
 						params['action'] = 'Relation';
