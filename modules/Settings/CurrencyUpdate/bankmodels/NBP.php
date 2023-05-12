@@ -89,13 +89,11 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 	/**
 	 * Fetch exchange rates.
 	 *
-	 * @param <Array> $currencies        - list of systems active currencies
-	 * @param <Date>  $date              - date for which exchange is fetched
-	 * @param bool    $cron              - if true then it is fired by server and crms currency conversion rates are updated
-	 * @param mixed   $otherCurrencyCode
-	 * @param mixed   $dateParam
+	 * @param array  $currencies - list of systems active currencies code ['code' => 'id']
+	 * @param string $dateParam  - date for which exchange is fetched
+	 * @param bool   $cron       - if true then it is fired by server and crms currency conversion rates are updated
 	 */
-	public function getRates($otherCurrencyCode, $dateParam, $cron = false)
+	public function getRates($currencies, $dateParam, $cron = false)
 	{
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 		$selectedBank = $moduleModel->getActiveBankId();
@@ -104,33 +102,23 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 		// check if data is correct, currency rates can be retrieved only for working days
 		$lastWorkingDay = vtlib\Functions::getLastWorkingDay($yesterday);
 
+		$tableBody = '';
 		$today = date('Y-m-d');
 		$mainCurrency = \App\Fields\Currency::getDefault()['currency_code'];
 		$tableUrl = 'http://api.nbp.pl/api/exchangerates/tables/a/';
+		$url = $tableUrl . $dateCur . '/?format=json';
+		try {
+			\App\Log::beginProfile("GET|NBP|{$url}", __NAMESPACE__);
+			$tryTable = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get($url, ['timeout' => 20, 'connect_timeout' => 10]);
+			\App\Log::endProfile("GET|NBP|{$url}", __NAMESPACE__);
+			if (200 == $tryTable->getStatusCode()) {
+				$tableBody = $tryTable->getBody();
+			}
+		} catch (\Throwable $exc) {
+		}
 
-		$numberOfDays = 1;
-		$iterationsLimit = 60;
-		$stateA = false;
-		while (!$stateA) {
-			$url = $tableUrl . $dateCur . '/?format=json';
-			try {
-				\App\Log::beginProfile("GET|NBP|{$url}", __NAMESPACE__);
-				$tryTable = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get($url, ['timeout' => 20, 'connect_timeout' => 10]);
-				\App\Log::endProfile("GET|NBP|{$url}", __NAMESPACE__);
-				if (200 == $tryTable->getStatusCode()) {
-					$stateA = true;
-					$tableBody = $tryTable->getBody();
-				}
-			} catch (\Throwable $exc) {
-			}
-			if (false === $stateA) {
-				$dateCur = strtotime("-$numberOfDays day", strtotime($dateCur));
-				$dateCur = date('Y-m-d', $dateCur);
-				++$numberOfDays;
-				if ($numberOfDays > $iterationsLimit) {
-					break;
-				}
-			}
+		if (empty($tableBody)) {
+			return false;
 		}
 
 		$json = \App\Json::decode($tableBody);
@@ -145,9 +133,10 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 				}
 			}
 		}
+
 		foreach ($json[0]['rates'] as $item) {
 			$currency = $item['code'];
-			foreach ($otherCurrencyCode as $key => $currId) {
+			foreach ($currencies as $key => $currId) {
 				if ($key == $currency && $currency != $mainCurrency) {
 					$exchange = $item['mid'];
 					$exchangeVtiger = $exchangeRate / $exchange;
@@ -169,7 +158,7 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 		if ($mainCurrency != $this->getMainCurrencyCode()) {
 			$exchange = $exchangeRate ? (1.00000 / $exchangeRate) : 0;
 			$mainCurrencyId = false;
-			foreach ($otherCurrencyCode as $code => $id) {
+			foreach ($currencies as $code => $id) {
 				if ($code == $this->getMainCurrencyCode()) {
 					$mainCurrencyId = $id;
 				}
@@ -189,5 +178,7 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 				}
 			}
 		}
+
+		return true;
 	}
 }

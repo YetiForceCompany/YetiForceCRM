@@ -204,4 +204,46 @@ class Currency
 		self::clearCache();
 		return $db->getLastInsertID('vtiger_currency_info_id_seq');
 	}
+
+	/**
+	 * Gets currency exchange rates from archive.
+	 *
+	 * @param string   $date
+	 * @param int      $currencyId
+	 * @param int|null $activeBankId
+	 *
+	 * @return array
+	 */
+	public static function getCurrencyRatesFromArchive(string $date, int $currencyId, ?int $activeBankId = null): array
+	{
+		if (null === $activeBankId) {
+			$activeBankId = self::getActiveBankForExchangeRateUpdate()['id'] ?? 0;
+		}
+
+		return (new \App\Db\Query())->from('yetiforce_currencyupdate')
+			->innerJoin('vtiger_currency_info', 'vtiger_currency_info.id = yetiforce_currencyupdate.currency_id AND deleted = :del', [':del' => 0])
+			->where(['yetiforce_currencyupdate.exchange_date' => $date,
+				'yetiforce_currencyupdate.bank_id' => $activeBankId,
+				'vtiger_currency_info.id' => $currencyId])
+			->one() ?: [];
+	}
+
+	/**
+	 * Gets bank for exchange rate update.
+	 *
+	 * @return array
+	 */
+	public static function getActiveBankForExchangeRateUpdate(): array
+	{
+		$cacheName = 'ActiveBankForExchangeRate';
+		$activeBank = [];
+		if (\App\Cache::has($cacheName, '')) {
+			$activeBank = \App\Cache::get($cacheName, '');
+		} else {
+			$activeBank = (new \App\Db\Query())->from('yetiforce_currencyupdate_banks')->where(['active' => 1])->one() ?: [];
+			\App\Cache::save($cacheName, '', $activeBank);
+		}
+
+		return $activeBank;
+	}
 }

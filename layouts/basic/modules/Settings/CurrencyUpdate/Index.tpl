@@ -30,7 +30,7 @@
 							<div class="col-md-5">
 								<select name="bank" id="bank" class="select2 form-control">
 									{foreach from=$BANK item=key}
-										<option value="{$key.id}" {if $key.active eq '1'}selected{/if} data-name="{$key.bank_name}">{\App\Language::translate($key.bank_name, $QUALIFIED_MODULE)}</option>
+										<option value="{$key.id}" {if $key.active eq '1'}selected{/if} data-name="{$key.bank_name|escape}">{\App\Language::translate($key.bank_name, $QUALIFIED_MODULE)}</option>
 									{/foreach}
 								</select>
 							</div>

@@ -580,18 +580,26 @@ class Functions
 		$defaultCurrencyId = \App\Fields\Currency::getDefault()['id'];
 		$info = [];
 		if (empty($date)) {
-			$yesterday = date('Y-m-d', strtotime('-1 day'));
-			$date = self::getLastWorkingDay($yesterday);
+			$date = date('Y-m-d', strtotime('-1 day'));
 		}
+		$date = self::getLastWorkingDay($date);
+
 		$info['date'] = $date;
-		if ($currencyId == $defaultCurrencyId) {
+		if ($currencyId == $defaultCurrencyId || !\App\Fields\Currency::getActiveBankForExchangeRateUpdate()) {
 			$info['value'] = 1.0;
 			$info['conversion'] = 1.0;
 		} else {
-			$value = \Settings_CurrencyUpdate_Module_Model::getCleanInstance()->getCRMConversionRate($currencyId, $defaultCurrencyId, $date);
+			$exchangeDate = $date;
+			$i = 5;
+			// Loop to skip holidays
+			while ($i-- && !($value = \Settings_CurrencyUpdate_Module_Model::getCleanInstance()->getCRMConversionRate($currencyId, $defaultCurrencyId, $exchangeDate))) {
+				$exchangeDate = date('Y-m-d', strtotime('-1 day', strtotime($exchangeDate)));
+			}
+			$info['date'] = $value ? $exchangeDate : $date;
 			$info['value'] = empty($value) ? 1.0 : round($value, 5);
 			$info['conversion'] = empty($value) ? 1.0 : round(1 / $value, 5);
 		}
+
 		return $info;
 	}
 
