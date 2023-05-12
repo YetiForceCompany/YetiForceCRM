@@ -140,6 +140,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 
 		$cvId = $request->getInteger('cvId');
+		[$cvId, $defaultFilterOrderBy] = $this->getViewByUserPreferences($cvId);
 		$pageNumber = $request->isEmpty('page', true) ? 1 : $request->getInteger('page');
 		$totalCount = $request->isEmpty('totalCount', true) ? false : $request->getInteger('totalCount');
 		$pagingModel = new Vtiger_Paging_Model();
@@ -149,7 +150,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		}
 
 		$this->setRelatedParent($request);
-		$this->setRecordListModel($request);
+		$this->setRecordListModel($request, $cvId);
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
 		if (empty($orderBy)) {
 			$moduleInstance = CRMEntity::getInstance($this->moduleName);
@@ -160,6 +161,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 				}
 			}
 		}
+		$orderBy = $orderBy ?: $defaultFilterOrderBy;
 		if (!empty($orderBy)) {
 			$this->recordListModel->set('orderby', $orderBy);
 		}
@@ -257,16 +259,43 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	}
 
 	/**
+	 * Get view by user preferences.
+	 *
+	 * @param int $cvId
+	 *
+	 * @return array
+	 */
+	public function getViewByUserPreferences(int $cvId): array
+	{
+		$defaultFilterOrderBy = [];
+		$defaultModuleCvId = $cvId;
+		$userRecordListFilter = \App\User::getCurrentUserModel()->getDetail('users_record_list_filter');
+		if ($userRecordListFilter) {
+			$defaultModuleCvId = 0;
+			if ('PLL_DEFAULT_FROM_LIST_VIEW' === $userRecordListFilter) {
+				$defaultModuleCvId = App\CustomView::getInstance($this->moduleName)->getDefaultCvId();
+			} elseif ('PLL_LAST_SELECTED_IN_LIST' === $userRecordListFilter && ($lastSelectedFilter = App\CustomView::getCurrentView($this->moduleName))) {
+				$defaultModuleCvId = $lastSelectedFilter;
+			}
+			if ($defaultModuleCvId && (0 === $cvId || $cvId === $defaultModuleCvId)) {
+				$defaultFilterOrderBy = CustomView_Record_Model::getInstanceById($defaultModuleCvId)->getSortOrderBy();
+			}
+		}
+
+		return [$defaultModuleCvId, $defaultFilterOrderBy];
+	}
+
+	/**
 	 * Set record list model.
 	 *
 	 * @param App\Request $request
+	 * @param int         $cvId
 	 */
-	public function setRecordListModel(App\Request $request)
+	public function setRecordListModel(App\Request $request, int $cvId)
 	{
 		if ($this->relatedParentId && !\App\Record::isExists($this->relatedParentId)) {
 			$this->relatedParentId = $this->relatedParentModule = '';
 		}
-		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getByType('cvId', 'Alnum');
 		if (!empty($this->relatedParentModule) && !empty($this->relatedParentId)) {
 			$this->showSwitch = !$request->has('showSwitch') || $request->getBoolean('showSwitch');
 			$parentRecordModel = Vtiger_Record_Model::getInstanceById($this->relatedParentId, $this->relatedParentModule);
