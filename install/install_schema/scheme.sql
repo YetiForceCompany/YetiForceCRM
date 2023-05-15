@@ -6477,7 +6477,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3144 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3145 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -9714,6 +9714,7 @@ CREATE TABLE `vtiger_users` (
   `calendar_all_users_by_default` tinyint(1) DEFAULT NULL,
   `user_pbx` smallint(5) NOT NULL DEFAULT -1,
   `mail_popup` tinyint(1) DEFAULT 1,
+  `users_record_list_filter` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),
@@ -9744,6 +9745,16 @@ CREATE TABLE `vtiger_users_last_import` (
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`assigned_user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `vtiger_users_record_list_filter` */
+
+CREATE TABLE `vtiger_users_record_list_filter` (
+  `users_record_list_filterid` int(11) NOT NULL AUTO_INCREMENT,
+  `users_record_list_filter` varchar(255) DEFAULT NULL,
+  `presence` tinyint(1) DEFAULT 1,
+  `sortorderid` smallint(6) DEFAULT 0,
+  PRIMARY KEY (`users_record_list_filterid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_users_seq` */
 

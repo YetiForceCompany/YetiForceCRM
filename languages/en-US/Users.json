@@ -420,7 +420,10 @@
     "LBL_MEMBER": "Members",
     "LBL_GROUP_MEMBERS_ADD_VIEW": "Add group members",
     "FL_WAPRO_USER": "WAPRO ERP User identifier",
-    "FL_MAIL_POPUP": "Open your mail client in a new window"
+    "FL_MAIL_POPUP": "Open your mail client in a new window",
+    "FL_RECORD_LIST_FILTER": "Record list filter",
+    "PLL_DEFAULT_FROM_LIST_VIEW": "Default from list view",
+    "PLL_LAST_SELECTED_IN_LIST": "Last selected in list view"
   },
   "js": {
     "JS_DELETE_USER_CONFIRMATION": "When a User is deleted, the user will be marked as \"Inactive\" and no new records can be assigned to the User, and the user will not be able to login. Are you sure you want to delete?",
