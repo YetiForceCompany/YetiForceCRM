@@ -552,7 +552,7 @@ class Vtiger_Relation_Model extends \App\Base
 				}
 				$returnVal = !$fieldModel->isMandatory() && $fieldModel->isEditable() && !$fieldModel->isEditableReadOnly() && (!$recordModel || $recordModel->isEditable());
 			}
-			if ($this->getRelationType() === static::RELATION_MR && ($fieldModel = $this->getRelationField())) {
+			if ($this->getRelationType() === static::RELATION_AR && ($fieldModel = $this->getRelationField())) {
 				$returnVal = false;
 			}
 		}
