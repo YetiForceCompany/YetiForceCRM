@@ -220,6 +220,7 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (86,'RecordCollector',1,'2022-06-27 11:20:43');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (87,'MailServers',1,'2022-11-08 11:59:24');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (88,'WooCommerce',1,'2022-11-28 10:52:16');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (89,'MailSignature',1,'2023-05-16 15:32:28');
 
 /*Data for the table `a_yf_smsnotifier_servers` */
 
@@ -19744,6 +19745,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (137,5,'LBL_RECORD_COLLECTOR','yfi-record-collectors','LBL_RECORD_COLLECTOR_DESCRIPTION','index.php?parent=Settings&module=RecordCollector&view=List',18,0,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (138,8,'LBL_MAIL_SERVERS','fas fa-server','LBL_MAIL_SERVERS_DESCRIPTION','index.php?module=MailServers&parent=Settings&view=List',9,0,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (139,5,'LBL_WOOCOMMERCE','fa-solid fa-cash-register','LBL_WOOCOMMERCE_DESCRIPTION','index.php?parent=Settings&module=WooCommerce&view=List',19,0,0,1,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (140,8,'LBL_MAIL_SIGNATURE','fa-solid fa-signature','LBL_MAIL_SIGNATURE_DESCRIPTION','index.php?parent=Settings&module=MailSignature&view=List',10,0,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
