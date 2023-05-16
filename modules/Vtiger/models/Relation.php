@@ -45,6 +45,9 @@ class Vtiger_Relation_Model extends \App\Base
 	//Many to many and many to one
 	const RELATION_M2M = 2;
 
+	//Advanced reference
+	const RELATION_AR = 3;
+
 	/**
 	 * Function returns the relation id.
 	 *
@@ -489,6 +492,10 @@ class Vtiger_Relation_Model extends \App\Base
 				}
 			}
 		}
+		if (empty($relationField) && $relatedModuleModel->isInventory()) {
+			$relatedModuleInventoryModel = Vtiger_Inventory_Model::getInstance($relatedModuleModel->getName());
+			$relationField = $relatedModuleInventoryModel->getField($this->get('field_name'));
+		}
 		$this->set('RelationField', $relationField ?: false);
 		return $relationField;
 	}
@@ -548,6 +555,9 @@ class Vtiger_Relation_Model extends \App\Base
 				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId);
 			}
 			$returnVal = !$fieldModel->isMandatory() && $fieldModel->isEditable() && !$fieldModel->isEditableReadOnly() && (!$recordModel || $recordModel->isEditable());
+		}
+		if ($returnVal && $this->getRelationType() === static::RELATION_AR && ($fieldModel = $this->getRelationField())) {
+			$returnVal = false;
 		}
 		return $returnVal;
 	}
