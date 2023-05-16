@@ -25,27 +25,23 @@ class Vtiger_Relation_Model extends \App\Base
 	protected static $cachedInstancesById = [];
 	protected $parentModule = false;
 	protected $relatedModule = false;
-	/**
-	 * @var \App\Relation\RelationAbstraction Class that includes basic operations on relations
-	 */
+
+	/** @var \App\Relation\RelationAbstraction Class that includes basic operations on relations */
 	protected $typeRelationModel;
-	/**
-	 * @var array Custom view list
-	 */
+
+	/** @var array Custom view list */
 	protected $customViewList;
 
-	/**
-	 * @var array Event handler exceptions
-	 */
+	/** @var array Event handler exceptions */
 	protected $handlerExceptions = [];
 
-	//one to many
+	/** @var int one to many */
 	const RELATION_O2M = 1;
 
-	//Many to many and many to one
+	/** @var int Many to many and many to one */
 	const RELATION_M2M = 2;
 
-	//Advanced reference
+	/** @var int Advanced reference */
 	const RELATION_AR = 3;
 
 	/**
@@ -549,15 +545,16 @@ class Vtiger_Relation_Model extends \App\Base
 	 */
 	public function privilegeToDelete(Vtiger_Record_Model $recordModel = null, int $recordId = null): bool
 	{
-		$returnVal = $this->getRelationModuleModel()->isPermitted('RemoveRelation');
-		if ($returnVal && $this->getRelationType() === static::RELATION_O2M && ($fieldModel = $this->getRelationField())) {
-			if (!$recordModel && $recordId) {
-				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId);
+		if ($returnVal = $this->getRelationModuleModel()->isPermitted('RemoveRelation')) {
+			if ($this->getRelationType() === static::RELATION_O2M && ($fieldModel = $this->getRelationField())) {
+				if (!$recordModel && $recordId) {
+					$recordModel = \Vtiger_Record_Model::getInstanceById($recordId);
+				}
+				$returnVal = !$fieldModel->isMandatory() && $fieldModel->isEditable() && !$fieldModel->isEditableReadOnly() && (!$recordModel || $recordModel->isEditable());
 			}
-			$returnVal = !$fieldModel->isMandatory() && $fieldModel->isEditable() && !$fieldModel->isEditableReadOnly() && (!$recordModel || $recordModel->isEditable());
-		}
-		if ($returnVal && $this->getRelationType() === static::RELATION_AR && ($fieldModel = $this->getRelationField())) {
-			$returnVal = false;
+			if ($this->getRelationType() === static::RELATION_MR && ($fieldModel = $this->getRelationField())) {
+				$returnVal = false;
+			}
 		}
 		return $returnVal;
 	}
