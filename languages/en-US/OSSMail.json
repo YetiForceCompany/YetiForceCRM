@@ -98,7 +98,8 @@
     "LBL_RC_ADDED_RBL_REPORT_IP_WHITE": "Sender's server is whitelisted, created a verification request for the administrator",
     "LBL_RC_ADDED_RBL_REPORT_IP_BLACK": "Sender's server is blacklisted, created a verification request for the administrator",
     "LBL_RC_ERROR_RBL_REPORT": "There was an error while sending a report to RBL",
-    "LBL_RC_MESSAGE_HAS_BEEN_ADDED": "The message has been added"
+    "LBL_RC_MESSAGE_HAS_BEEN_ADDED": "The message has been added",
+    "LBL_SIGNATURES": "Signatures"
   },
   "js": {
     "NoFindEmailInRecord": "Record does not have email address",

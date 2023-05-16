@@ -1,0 +1,12 @@
+{
+  "php": {
+    "MailSignature": "Email signature",
+    "LBL_MAIL_SIGNATURE": "Email signature",
+    "LBL_MAIL_SIGNATURE_DESCRIPTION": "Configure outgoing mail servers",
+    "FL_NAME": "Name",
+    "FL_DEFAULT": "Default",
+    "FL_BODY": "Body",
+    "BL_BASE": "Base"
+  },
+  "js": {}
+}

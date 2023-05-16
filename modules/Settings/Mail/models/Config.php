@@ -186,29 +186,6 @@ class Settings_Mail_Config_Model extends \App\Base
 					'fieldparams' => \App\Json::encode(['container_class' => 'col-md-4']),
 				];
 				break;
-			case 'addSignature':
-				$params = [
-					'name' => $name,
-					'label' => 'LBL_ADD_SIGNATURE',
-					'uitype' => 56,
-					'typeofdata' => 'C~O',
-					'maximumlength' => '0',
-					'defaultvalue' => 0,
-					'purifyType' => \App\Purifier::BOOL,
-				];
-				break;
-			case 'signature':
-				$params = [
-					'name' => $name,
-					'label' => '',
-					'uitype' => 300,
-					'typeofdata' => 'V~O',
-					'maximumlength' => '6500',
-					'defaultvalue' => '',
-					'purifyType' => \App\Purifier::HTML,
-					'fieldparams' => \App\Json::encode(['variablePanel' => true])
-				];
-				break;
 			case 'time_for_notification':
 				$params = [
 					'name' => $name,

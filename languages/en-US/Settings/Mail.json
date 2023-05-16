@@ -11,8 +11,6 @@
     "LBL_SHOW_MAIL_ACCOUNTS": "Show email accounts related to current user",
     "LBL_NUMBER_UNREAD_EMAILS": "Show the number of unread messages",
     "LBL_MAIL_ICON_CONFIG": "Mail Icon",
-    "LBL_ADD_SIGNATURE": "Activate a global footer for all outgoing emails",
-    "LBL_SIGNATURE": "Global signature",
     "LBL_SAVED_SIGNATURE": "Signature saved",
     "LBL_VIEW_AUTOLOGIN": "Auto Login",
     "LBL_VIEW_CONFIG": "General configuration",

@@ -464,6 +464,8 @@ insert  into `s_yf_fields_dependency`(`id`,`tabid`,`status`,`name`,`views`,`gui`
 
 /*Data for the table `s_yf_mail_servers` */
 
+/*Data for the table `s_yf_mail_signature` */
+
 /*Data for the table `s_yf_mail_smtp` */
 
 /*Data for the table `s_yf_meeting_services` */
@@ -20824,8 +20826,6 @@ insert  into `yetiforce_auth`(`id`,`type`,`param`,`value`) values (4,'ldap','dom
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`,`sequence`) values ('mailIcon','showNumberUnreadEmails','0',2);
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`,`sequence`) values ('mailIcon','showMailIcon','1',1);
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`,`sequence`) values ('mailIcon','timeCheckingMail','60',3);
-insert  into `yetiforce_mail_config`(`type`,`name`,`value`,`sequence`) values ('signature','signature','',2);
-insert  into `yetiforce_mail_config`(`type`,`name`,`value`,`sequence`) values ('signature','addSignature','0',1);
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`,`sequence`) values ('scanner','email_for_notification','',1);
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`,`sequence`) values ('scanner','time_for_notification','0',2);
 insert  into `yetiforce_mail_config`(`type`,`name`,`value`,`sequence`) values ('scanner','limit','100',3);

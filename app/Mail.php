@@ -297,7 +297,22 @@ class Mail
 			$config = (new \App\Db\Query())->from(self::TABLE_NAME_CONFIG)->indexBy('name')->where(['type' => $type])->all();
 			Cache::save('MailConfiguration', $type, $config);
 		}
-
 		return $field ? $config[$field]['value'] ?? '' : $config;
+	}
+
+	/**
+	 * Get signatures.
+	 *
+	 * @return array
+	 */
+	public static function getSignatures(): array
+	{
+		if (Cache::has('MailSignatures', 'all')) {
+			$rows = Cache::get('MailSignatures', 'all');
+		} else {
+			$rows = (new \App\Db\Query())->from('s_#__mail_signature')->indexBy('name')->where(['status' => 1])->all();
+			Cache::save('MailSignatures', 'all', $rows);
+		}
+		return $rows;
 	}
 }

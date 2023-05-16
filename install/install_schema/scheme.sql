@@ -1454,6 +1454,18 @@ CREATE TABLE `s_yf_mail_servers` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_mail_signature` */
+
+CREATE TABLE `s_yf_mail_signature` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `default` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `body` mediumtext DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_mail_smtp` */
 
 CREATE TABLE `s_yf_mail_smtp` (
