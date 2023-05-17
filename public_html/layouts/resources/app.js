@@ -914,6 +914,16 @@ const App = (window.App = {
 					instance.destroy();
 				});
 			});
+			container.on('click', 'button.js-copy-clipboard-url', (e) => {
+				e.preventDefault();
+				new Clipboard($(e.currentTarget)).load().then((instance) => {
+					ClipboardJS.copy(instance.text);
+					app.showNotify({
+						text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+						type: 'success'
+					});
+				});
+			});
 		}
 		/**
 		 * Initiation
