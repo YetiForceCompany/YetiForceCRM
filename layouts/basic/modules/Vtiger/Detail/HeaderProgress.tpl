@@ -49,8 +49,8 @@
 	{if isset($FIELDS_HEADER['progress'])}
 		{SHOW_PROGRESS_HEADER PROGRESS_HEADER=$FIELDS_HEADER['progress'] TYPE='PROGRESS'}
 	{/if}
-	{if isset($FIELDS_HEADER['progressSelection'])}
-		{SHOW_PROGRESS_HEADER PROGRESS_HEADER=$FIELDS_HEADER['progressSelection'] TYPE='PROGRESS_SELECTION'}
+	{if isset($FIELDS_HEADER['selectionBar'])}
+		{SHOW_PROGRESS_HEADER PROGRESS_HEADER=$FIELDS_HEADER['selectionBar'] TYPE='PROGRESS_SELECTION'}
 	{/if}
 	<!-- /tpl-Base-Detail-HeaderProgress -->
 {/strip}

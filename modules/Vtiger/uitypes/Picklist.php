@@ -112,7 +112,7 @@ class Vtiger_Picklist_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getHeaderTypes()
 	{
-		return ['LBL_HEADER_TYPE_VALUE' => 'value', 'LBL_HEADER_TYPE_HIGHLIGHTS' => 'highlights', 'LBL_HEADER_TYPE_PROGRESS' => 'progress', 'LBL_HEADER_TYPE_SELECTION_PROGRESS' => 'progressSelection'];
+		return ['LBL_HEADER_TYPE_VALUE' => 'value', 'LBL_HEADER_TYPE_HIGHLIGHTS' => 'highlights', 'LBL_HEADER_TYPE_PROGRESS' => 'progress', 'LBL_HEADER_TYPE_SELECTION_BAR' => 'selectionBar'];
 	}
 
 	/** {@inheritdoc} */
