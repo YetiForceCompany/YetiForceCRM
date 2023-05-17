@@ -105,6 +105,7 @@
     "PLL_RELATED_LIST": "Many to many",
     "PLL_DEPENDENTS_LIST": "One to many",
     "PLL_ATTACHMENTS": "Attachments",
+    "PLL_PLL_MULTI_REFERENCE": "Related field M:M",
     "PLL_SPLITED_RELATED_LIST": "Many to many - With separation of data",
     "PLL_ADD": "Add",
     "PLL_SELECT": "Select",
@@ -250,7 +251,8 @@
     "LBL_USE_SORTING_FROM_FILTERS": "Considers sorting of the selected item or keeps the default sorting",
     "LBL_ALL_GROUPS": "All groups",
     "LBL_ALL_GROUPS_INFO": "When the option is not selected it displays only accessible groups based on the selected modules in the group panel",
-    "Group": "Group"
+    "Group": "Group",
+    "LBL_MULTI_REFERENCE_FIELDS": "Related field M:M"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Block Name already exists",

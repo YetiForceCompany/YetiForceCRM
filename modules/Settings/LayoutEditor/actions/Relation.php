@@ -116,18 +116,24 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 
 	public function addRelation(App\Request $request)
 	{
-		$source = $request->getByType('source', 'Alnum');
-		$target = $request->getByType('target', 'Alnum');
-		$label = $request->getByType('label', 'Text');
-		$type = $request->getByType('type', 'Standard');
-		$response = new Vtiger_Response();
+		$fieldName = null;
+		$source = $request->getByType('source', App\Purifier::ALNUM);
+		$target = $request->getByType('target', App\Purifier::ALNUM);
+		$label = $request->getByType('label', App\Purifier::TEXT);
+		$type = $request->getByType('type', App\Purifier::STANDARD);
 
+		if ($request->has('multi_reference_field')) {
+			$referenceFieldValues = explode('::', $request->getByType('multi_reference_field', App\Purifier::TEXT));
+			$target = $referenceFieldValues[0];
+			$fieldName = $referenceFieldValues[1];
+		}
+		$response = new Vtiger_Response();
 		if ('getAttachments' === $type && 'Documents' !== $target) {
 			$response->setResult(['success' => false, 'message' => \App\Language::translate('LBL_WRONG_RELATION', 'Settings::LayoutEditor')]);
 		} else {
 			$module = vtlib\Module::getInstance($source);
 			$moduleInstance = vtlib\Module::getInstance($target);
-			$module->setRelatedList($moduleInstance, $label, $request->getArray('actions', 'Standard'), $type);
+			$module->setRelatedList($moduleInstance, $label, $request->getArray('actions', 'Standard'), $type, $fieldName);
 			$response->setResult(['success' => true]);
 		}
 		$response->emit();

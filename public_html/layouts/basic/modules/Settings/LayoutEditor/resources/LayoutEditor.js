@@ -170,6 +170,7 @@ $.Class(
 					contentsDiv = container.closest('.contentsDiv'),
 					addRelationContainer = relatedList.find('.addRelationContainer').clone(true, true);
 				let callBackFunction = function (data) {
+					data.find('[name="multi_reference_field"]').attr('disabled', true);
 					App.Fields.Picklist.showSelect2ElementView(data.find('select'));
 					data.find('.relLabel').val(data.find('.target option:selected').val());
 					data.on('change', '.target', function (e) {
@@ -177,35 +178,54 @@ $.Class(
 						data.find('.relLabel').val(currentTarget.find('option:selected').val());
 					});
 					data.find('[name="type"]').on('change', function () {
-						if ($(this).val() === 'getAttachments') {
+						let typeOption = $(this).val();
+						if (typeOption === 'getAttachments') {
 							data.find('[name="target"] option').not('[value="Documents"]').addClass('d-none');
+							data.find('[name="actions"]').attr('disabled', false);
+							data.find('[name="target"]').attr('readonly', false);
 							App.Fields.Picklist.showSelect2ElementView(data.find('[name="target"]'));
+						} else if (typeOption === 'getMultiReference') {
+							data.find('[name="multi_reference_field"]').attr('disabled', false);
+							data.find('[name="actions"]').attr('disabled', true);
+							data.find('[name="target"]').attr('readonly', true);
 						} else {
+							data.find('[name="actions"]').attr('disabled', false);
+							data.find('[name="target"]').attr('readonly', false);
 							data.find('[name="target"] option').removeClass('d-none');
 							App.Fields.Picklist.showSelect2ElementView(data.find('[name="target"]'));
 						}
 					});
 					data.on('click', '.addButton', function (e) {
-						const form = data.find('form').serializeFormData();
-						let params = {};
-						params['module'] = app.getModuleName();
-						params['parent'] = app.getParentModuleName();
-						params['action'] = 'Relation';
-						params['mode'] = 'addRelation';
-						$.extend(params, form);
-						AppConnector.request(params).done(function (data) {
-							let response = data.result;
-							if (response && response.success) {
-								thisInstance
-									.getRelModuleLayoutEditor(container.find('[name="layoutEditorRelModules"]').val())
-									.done(function (data) {
-										contentsDiv.html(data);
-										thisInstance.registerEvents();
-									});
-							} else if (response && response.message) {
-								Settings_Vtiger_Index_Js.showMessage({ type: 'error', text: response.message });
-							}
-						});
+						if (
+							data.find('[name="type"]').val() === 'getMultiReference' &&
+							data.find('[name="multi_reference_field"]').val() === null
+						) {
+							data
+								.find('[name="multi_reference_field"]')
+								.validationEngine('showPrompt', app.vtranslate('JS_REQUIRED_FIELD'), 'error', 'topRight', true);
+						} else {
+							const form = data.find('form').serializeFormData();
+							let params = {};
+							params['module'] = app.getModuleName();
+							params['parent'] = app.getParentModuleName();
+							params['action'] = 'Relation';
+							params['mode'] = 'addRelation';
+							$.extend(params, form);
+							AppConnector.request(params).done(function (data) {
+								let response = data.result;
+								if (response && response.success) {
+									thisInstance
+										.getRelModuleLayoutEditor(container.find('[name="layoutEditorRelModules"]').val())
+										.done(function (data) {
+											contentsDiv.html(data);
+											thisInstance.registerEvents();
+										});
+								} else if (response && response.message) {
+									Settings_Vtiger_Index_Js.showMessage({ type: 'error', text: response.message });
+								}
+							});
+							app.hideModalWindow();
+						}
 					});
 				};
 				app.showModalWindow(addRelationContainer, function (data) {
