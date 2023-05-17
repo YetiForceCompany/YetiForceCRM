@@ -139,8 +139,11 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$moduleModel = Vtiger_Module_Model::getInstance($this->moduleName);
 		$recordStructureInstance = Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel);
 
-		$cvId = $request->getInteger('cvId');
-		[$cvId, $defaultFilterOrderBy] = $this->getViewByUserPreferences($cvId);
+		if ($request->isEmpty('cvId')) {
+			[$cvId, $defaultFilterOrderBy] = $this->getViewByUserPreferences();
+		} else {
+			$cvId = $request->getInteger('cvId');
+		}
 		$pageNumber = $request->isEmpty('page', true) ? 1 : $request->getInteger('page');
 		$totalCount = $request->isEmpty('totalCount', true) ? false : $request->getInteger('totalCount');
 		$pagingModel = new Vtiger_Paging_Model();
@@ -153,15 +156,18 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 		$this->setRecordListModel($request, $cvId);
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
 		if (empty($orderBy)) {
-			$moduleInstance = CRMEntity::getInstance($this->moduleName);
-			if ($moduleInstance->default_order_by && $moduleInstance->default_sort_order) {
-				$orderBy = [];
-				foreach ((array) $moduleInstance->default_order_by as $value) {
-					$orderBy[$value] = $moduleInstance->default_sort_order;
+			if (!empty($defaultFilterOrderBy)) {
+				$orderBy = $defaultFilterOrderBy;
+			} else {
+				$moduleInstance = CRMEntity::getInstance($this->moduleName);
+				if ($moduleInstance->default_order_by && $moduleInstance->default_sort_order) {
+					$orderBy = [];
+					foreach ((array) $moduleInstance->default_order_by as $value) {
+						$orderBy[$value] = $moduleInstance->default_sort_order;
+					}
 				}
 			}
 		}
-		$orderBy = $orderBy ?: $defaultFilterOrderBy;
 		if (!empty($orderBy)) {
 			$this->recordListModel->set('orderby', $orderBy);
 		}
@@ -261,27 +267,23 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	/**
 	 * Get view by user preferences.
 	 *
-	 * @param int $cvId
-	 *
 	 * @return array
 	 */
-	public function getViewByUserPreferences(int $cvId): array
+	public function getViewByUserPreferences(): array
 	{
 		$defaultFilterOrderBy = [];
-		$defaultModuleCvId = $cvId;
+		$defaultModuleCvId = null;
 		$userRecordListFilter = \App\User::getCurrentUserModel()->getDetail('users_record_list_filter');
 		if ($userRecordListFilter) {
-			$defaultModuleCvId = 0;
 			if ('PLL_DEFAULT_FROM_LIST_VIEW' === $userRecordListFilter) {
 				$defaultModuleCvId = App\CustomView::getInstance($this->moduleName)->getDefaultCvId();
 			} elseif ('PLL_LAST_SELECTED_IN_LIST' === $userRecordListFilter && ($lastSelectedFilter = App\CustomView::getCurrentView($this->moduleName))) {
 				$defaultModuleCvId = $lastSelectedFilter;
 			}
-			if ($defaultModuleCvId && (0 === $cvId || $cvId === $defaultModuleCvId)) {
+			if ($defaultModuleCvId) {
 				$defaultFilterOrderBy = CustomView_Record_Model::getInstanceById($defaultModuleCvId)->getSortOrderBy();
 			}
 		}
-
 		return [$defaultModuleCvId, $defaultFilterOrderBy];
 	}
 
