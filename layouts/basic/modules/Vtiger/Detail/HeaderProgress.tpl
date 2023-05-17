@@ -14,7 +14,7 @@
 									{assign var=ICON_CLASS value="fas fa-lock"}
 								{elseif $PROGRESS_HEADER_VALUE['isActive'] && $TYPE eq 'PROGRESS'}
 									{assign var=ICON_CLASS value="far fa-dot-circle"}
-								{elseif $PROGRESS_HEADER_VALUE['isActive'] && $TYPE eq 'PROGRESS_SELECTION'}
+								{elseif $PROGRESS_HEADER_VALUE['isActive'] && $TYPE eq 'SELECTION_BAR'}
 									{assign var=ICON_CLASS value="fas fa-check"}
 								{else}
 									{if  $TYPE eq 'PROGRESS' && $ARROW_CLASS eq 'before'}
@@ -23,7 +23,7 @@
 										{assign var=ICON_CLASS value="c-progress__icon__dot"}
 									{/if}
 								{/if}
-								<li class="c-progress__item {if $TYPE eq 'PROGRESS_SELECTION'}c-progress__item--select{/if} list-inline-item mx-0 {if $smarty.foreach.progressHeaderValue.first}first{/if} {if $PROGRESS_HEADER_VALUE['isActive']}active{assign var=ARROW_CLASS value="after"}{else}{$ARROW_CLASS}{/if}{if $PROGRESS_HEADER_VALUE['isEditable'] && $PROGRESS_HEADER_KEY !== $RECORD->get($NAME)} u-cursor-pointer js-access{/if}" data-picklist-value="{$PROGRESS_HEADER_KEY}" data-picklist-label="{\App\Purifier::encodeHtml($PROGRESS_HEADER_VALUE['label'])}" data-js="confirm|click|data">
+								<li class="c-progress__item {if $TYPE eq 'SELECTION_BAR'}c-progress__item--select{/if} list-inline-item mx-0 {if $smarty.foreach.progressHeaderValue.first}first{/if} {if $PROGRESS_HEADER_VALUE['isActive']}active{assign var=ARROW_CLASS value="after"}{else}{$ARROW_CLASS}{/if}{if $PROGRESS_HEADER_VALUE['isEditable'] && $PROGRESS_HEADER_KEY !== $RECORD->get($NAME)} u-cursor-pointer js-access{/if}" data-picklist-value="{$PROGRESS_HEADER_KEY}" data-picklist-label="{\App\Purifier::encodeHtml($PROGRESS_HEADER_VALUE['label'])}" data-js="confirm|click|data">
 									<div class="c-progress__icon__container">
 										<span class="{$ICON_CLASS}
 								{' '}c-progress__icon"></span>
@@ -50,7 +50,7 @@
 		{SHOW_PROGRESS_HEADER PROGRESS_HEADER=$FIELDS_HEADER['progress'] TYPE='PROGRESS'}
 	{/if}
 	{if isset($FIELDS_HEADER['selectionBar'])}
-		{SHOW_PROGRESS_HEADER PROGRESS_HEADER=$FIELDS_HEADER['selectionBar'] TYPE='PROGRESS_SELECTION'}
+		{SHOW_PROGRESS_HEADER PROGRESS_HEADER=$FIELDS_HEADER['selectionBar'] TYPE='SELECTION_BAR'}
 	{/if}
 	<!-- /tpl-Base-Detail-HeaderProgress -->
 {/strip}
