@@ -17,7 +17,7 @@ class Vtiger_GetMultiReference_Relation extends \App\Relation\RelationAbstractio
 	/** {@inheritdoc} */
 	public function getRelationType(): int
 	{
-		return Vtiger_Relation_Model::RELATION_MF;
+		return Vtiger_Relation_Model::RELATION_MR;
 	}
 
 	/** {@inheritdoc} */

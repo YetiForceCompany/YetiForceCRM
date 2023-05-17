@@ -1144,4 +1144,31 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 
 		return $params ? \Vtiger_Field_Model::init($qualifiedModuleName, $params, $name)->set('sourceFieldModel', $this->fieldModel) : null;
 	}
+
+	/**
+	 * Loading the list of multireference fields related with module.
+	 *
+	 * @param string $sourceModule Source module name
+	 * @param string $moduleName
+	 *
+	 * @return Vtiger_Field_Model[]
+	 */
+	public static function getFieldsRelatedWithModule(string $moduleName): array
+	{
+		$referenceFieldModels = [];
+		$relatedReferenceFields = (new \App\Db\Query())
+			->select(['fieldid'])
+			->from('vtiger_field')
+			->where(['and',
+				['uitype' => 321],
+				['like', 'fieldparams', '{"module":"' . $moduleName . '"%', false]
+			])->column();
+		foreach ($relatedReferenceFields as $fieldId) {
+			$fieldModel = Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
+			if ($fieldModel->isActiveField()) {
+				$referenceFieldModels[] = $fieldModel;
+			}
+		}
+		return $referenceFieldModels;
+	}
 }

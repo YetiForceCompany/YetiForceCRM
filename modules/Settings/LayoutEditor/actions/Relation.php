@@ -123,7 +123,7 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$type = $request->getByType('type', App\Purifier::STANDARD);
 
 		if ($request->has('multi_reference_field')) {
-			$referenceFieldValues = explode('::', $request->getByType('multi_reference_field', App\Purifier::TEXT));
+			$referenceFieldValues = $request->getExploded('multi_reference_field', '::' . App\Purifier::TEXT);
 			$target = $referenceFieldValues[0];
 			$fieldName = $referenceFieldValues[1];
 		}
