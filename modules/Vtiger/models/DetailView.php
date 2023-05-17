@@ -414,8 +414,7 @@ class Vtiger_DetailView_Model extends \App\Base
 			];
 		}
 		foreach ($parentModuleModel->getRelations() as $relation) {
-			$relationField = $relation->getRelationField();
-			if ($relation->isRelatedViewType('RelatedTab') && (!$relationField || $relationField->isActiveField())) {
+			if ($relation->isRelatedViewType('RelatedTab') && (!$relation->isDirectRelation() || !($relationField = $relation->getRelationField()) || $relationField->isActiveField())) {
 				$relatedLinks[] = [
 					'linktype' => 'DETAILVIEWRELATED',
 					'linklabel' => $relation->get('label'),
