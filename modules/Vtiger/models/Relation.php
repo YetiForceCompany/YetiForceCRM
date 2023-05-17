@@ -488,9 +488,8 @@ class Vtiger_Relation_Model extends \App\Base
 				}
 			}
 		}
-		if (empty($relationField) && $relatedModuleModel->isInventory()) {
-			$relatedModuleInventoryModel = Vtiger_Inventory_Model::getInstance($relatedModuleModel->getName());
-			$relationField = $relatedModuleInventoryModel->getField($this->get('field_name'));
+		if (empty($relationField) && !$this->isEmpty('field_name') && $relatedModuleModel->isInventory()) {
+			$relationField = Vtiger_Inventory_Model::getInstance($relatedModuleModel->getName())->getField($this->get('field_name'));
 		}
 		$this->set('RelationField', $relationField ?: false);
 		return $relationField;
