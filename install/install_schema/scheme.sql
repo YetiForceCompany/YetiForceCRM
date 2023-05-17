@@ -7615,7 +7615,7 @@ CREATE TABLE `vtiger_notes` (
   `notesid` int(10) NOT NULL DEFAULT 0,
   `note_no` varchar(100) NOT NULL,
   `title` varchar(200) NOT NULL,
-  `filename` varchar(200) DEFAULT NULL,
+  `filename` varchar(400) DEFAULT NULL,
   `notecontent` text DEFAULT NULL,
   `folderid` varchar(255) DEFAULT NULL,
   `filetype` varchar(100) DEFAULT NULL,
