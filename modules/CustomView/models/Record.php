@@ -1056,7 +1056,7 @@ class CustomView_Record_Model extends \App\Base
 	 *
 	 * @return array
 	 */
-	public function getSortOrderBy()
+	public function getSortOrderBy(): array
 	{
 		return empty($this->get('sort')) ? [] : \App\Json::decode($this->get('sort'));
 	}

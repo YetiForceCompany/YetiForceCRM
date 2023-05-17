@@ -35,7 +35,10 @@ class CRMEntity
 {
 	/** @var array */
 	public $tab_name_index = [];
-
+	/** @var string Default order by. */
+	public $default_order_by = '';
+	/** @var string Default sort order. */
+	public $default_sort_order = '';
 	/** @var string[] Tables join clause. */
 	public $tableJoinClause = [
 		'vtiger_entity_stats' => 'LEFT JOIN',

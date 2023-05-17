@@ -86,5 +86,6 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<!-- /tpl-Base-Modals-RecordsListHeader -->
+				<div class="modal-body js-modal-body" data-js="container">
+					<!-- /tpl-Base-Modals-RecordsListHeader -->
 {/strip}

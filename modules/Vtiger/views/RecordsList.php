@@ -14,6 +14,26 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 {
 	/** {@inheritdoc} */
 	public $modalSize = 'modal-fullscreen';
+	/** @var bool Show switch */
+	public $showSwitch = false;
+	/** @var string Switch label */
+	public $switchLabel;
+	/** @var string Module name */
+	public $moduleName;
+	/** @var string Source module name */
+	public $sourceModule;
+	/** @var string Source module field name */
+	public $sourceField;
+	/** @var int Source record ID */
+	public $sourceRecord;
+	/** @var int Related parent ID */
+	public $relatedParentId;
+	/** @var string Related parent module name */
+	public $relatedParentModule;
+	/** @var int Parent relation ID */
+	public $parentRelationId;
+	/** @var mixed Record list model */
+	public $recordListModel;
 
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
@@ -90,27 +110,6 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 			"modules.{$request->getModule()}.resources.ListSearch",
 		]));
 	}
-
-	/** @var bool Show switch */
-	public $showSwitch = false;
-	/** @var string Switch label */
-	public $switchLabel;
-	/** @var string Module name */
-	public $moduleName;
-	/** @var string Source module name */
-	public $sourceModule;
-	/** @var string Source module field name */
-	public $sourceField;
-	/** @var int Source record ID */
-	public $sourceRecord;
-	/** @var int Related parent ID */
-	public $relatedParentId;
-	/** @var string Related parent module name */
-	public $relatedParentModule;
-	/** @var int Parent relation ID */
-	public $parentRelationId;
-	/** @var mixed Record list model */
-	public $recordListModel;
 
 	/**
 	 * Function to initialize the required data to display the record list view contents.
