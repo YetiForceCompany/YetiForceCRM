@@ -684,6 +684,20 @@ $progress-dot-size: calc(100% - #{calculate-rem(6px)});
 		}
 	}
 
+	&__item--select {
+		&:after,
+		&:before,
+		.c-progress__icon__container {
+			background: $progress-bg--inactive;
+		}
+	}
+
+	&__item--select.active {
+		.c-progress__icon__container {
+			background: $progress-bg--active;
+		}
+	}
+
 	&__link {
 		display: flex;
 		width: 100%;
