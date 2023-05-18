@@ -184,7 +184,7 @@ $.Class(
 								data.find('[name="target"] option').not('[value="Documents"]').addClass('d-none');
 								data.find('[name="actions"]').attr('disabled', false);
 								data.find('[name="target"]').attr('readonly', false);
-								App.Fields.Picklist.showSelect2ElementView(data.find('[name="target"]'));
+								data.find('[name="multi_reference_field"]').attr('disabled', true);
 								break;
 							case 'getMultiReference':
 								data.find('[name="multi_reference_field"]').attr('disabled', false);
@@ -192,11 +192,12 @@ $.Class(
 								data.find('[name="target"]').attr('readonly', true);
 								break;
 							default:
+								data.find('[name="multi_reference_field"]').attr('disabled', true);
 								data.find('[name="actions"]').attr('disabled', false);
 								data.find('[name="target"]').attr('readonly', false);
 								data.find('[name="target"] option').removeClass('d-none');
-								App.Fields.Picklist.showSelect2ElementView(data.find('[name="target"]'));
 						}
+						App.Fields.Picklist.showSelect2ElementView(data.find('[name="target"]'));
 					});
 					data.on('click', '.addButton', function (e) {
 						if (

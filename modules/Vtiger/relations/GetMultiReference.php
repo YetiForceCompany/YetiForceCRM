@@ -25,7 +25,7 @@ class Vtiger_GetMultiReference_Relation extends \App\Relation\RelationAbstractio
 	{
 		$relationField = $this->relationModel->getRelationField();
 		$queryGenerator = $this->relationModel->getQueryGenerator();
-		$queryGenerator->addCondition($relationField->getName(), $this->relationModel->getParentRecord()->getId(), 'c', false);
+		$queryGenerator->addCondition($relationField->getName(), $this->relationModel->getParentRecord()->getId(), 'c');
 	}
 
 	/** {@inheritdoc} */

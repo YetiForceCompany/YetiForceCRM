@@ -109,7 +109,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
-		$viewer->assign('MODULE_MULTI_REFERENCE_FIELDS', Vtiger_MultiReference_UIType::getFieldsRelatedWithModule($sourceModule));
+		$viewer->assign('MODULE_MULTI_REFERENCE_FIELDS', Settings_LayoutEditor_Module_Model::getMultiReferenceFieldsRelatedWithModule($sourceModule));
 		$viewer->assign('SUPPORTED_MODULES', $supportedModulesList);
 		$viewer->assign('RELATED_MODULES', $moduleModel->getRelations());
 		$viewer->assign('MODULE', $qualifiedModule);

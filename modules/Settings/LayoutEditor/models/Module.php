@@ -1153,7 +1153,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 *
 	 * @return Vtiger_Field_Model[]
 	 */
-	public static function getFieldsRelatedWithModule(string $moduleName): array
+	public static function getMultiReferenceFieldsRelatedWithModule(string $moduleName): array
 	{
 		$referenceFieldModels = [];
 		$relatedReferenceFields = (new \App\Db\Query())
