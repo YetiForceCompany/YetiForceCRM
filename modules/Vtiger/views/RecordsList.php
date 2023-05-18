@@ -271,7 +271,7 @@ class Vtiger_RecordsList_View extends \App\Controller\Modal
 	public function getViewByUserPreferences(): array
 	{
 		$defaultFilterOrderBy = [];
-		$defaultModuleCvId = null;
+		$defaultModuleCvId = 0;
 		$userRecordListFilter = \App\User::getCurrentUserModel()->getDetail('users_record_list_filter');
 		if ($userRecordListFilter) {
 			if ('PLL_DEFAULT_FROM_LIST_VIEW' === $userRecordListFilter) {

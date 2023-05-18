@@ -14,14 +14,10 @@
  */
 class PriceBooks_RecordsList_View extends Vtiger_RecordsList_View
 {
-	/**
-	 * Set record list model.
-	 *
-	 * @param App\Request $request
-	 */
-	public function setRecordListModel(App\Request $request)
+	/** {@inheritdoc} */
+	public function setRecordListModel(App\Request $request, int $cvId)
 	{
-		parent::setRecordListModel($request);
+		parent::setRecordListModel($request, $cvId);
 		if (!$request->isEmpty('currency_id', true)) {
 			$this->recordListModel->set('currency_id', $request->getInteger('currency_id'));
 		} elseif ($currencyId = $request->getArray('additionalData')['currency_id'] ?? null) {
