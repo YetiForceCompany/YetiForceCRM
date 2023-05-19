@@ -36,16 +36,18 @@ class ProductAttributes extends Base
 		}
 		$moduleModel = \Vtiger_Module_Model::getInstance($this->getMapModel('Product')->getModule());
 		$this->getListFromApi();
-		foreach ($attributes as $value => $fieldName) {
-			$this->fieldModel = \Settings_Picklist_Field_Model::getInstance($fieldName, $moduleModel);
-			if (empty($this->fieldModel)) {
-				$this->log('Field not found in mapping', ['fieldName' => $fieldName], null, true);
-				\App\Log::error('Field not found in mapping: ' . $fieldName, self::LOG_CATEGORY);
-			} elseif (!\in_array($this->fieldModel->getFieldDataType(), ['multipicklist'])) {
-				$this->log('Invalid field type', ['fieldName' => $fieldName, 'type' => $this->fieldModel->getFieldDataType()], null, true);
-				\App\Log::error("Invalid field type: $fieldName ({$this->fieldModel->getFieldDataType()})", self::LOG_CATEGORY);
-			} elseif ($this->fieldModel->isActiveField()) {
-				$this->import($value);
+		foreach ($attributes as $attrId => $fieldName) {
+			if ($fieldName) {
+				$this->fieldModel = \Settings_Picklist_Field_Model::getInstance($fieldName, $moduleModel);
+				if (empty($this->fieldModel)) {
+					$this->log('Field not found in mapping', ['fieldName' => $fieldName], null, true);
+					\App\Log::error('Field not found in mapping: ' . $fieldName, self::LOG_CATEGORY);
+				} elseif (!\in_array($this->fieldModel->getFieldDataType(), ['multipicklist'])) {
+					$this->log('Invalid field type', ['fieldName' => $fieldName, 'type' => $this->fieldModel->getFieldDataType()], null, true);
+					\App\Log::error("Invalid field type: $fieldName ({$this->fieldModel->getFieldDataType()})", self::LOG_CATEGORY);
+				} elseif ($this->fieldModel->isActiveField()) {
+					$this->import($attrId);
+				}
 			}
 		}
 	}
@@ -53,27 +55,27 @@ class ProductAttributes extends Base
 	/**
 	 * Import attributes from API.
 	 *
-	 * @param string $name
+	 * @param int $attrId
 	 *
 	 * @return void
 	 */
-	public function import(string $name): void
+	public function import(int $attrId): void
 	{
 		if ($this->config->get('logAll')) {
-			$this->log('Start import product attributes', [$name]);
+			$this->log('Start import product attributes', [$attrId]);
 		}
-		$attr = $this->attributes['pa_' . $name] ?? null;
-		if (!$attr) {
-			$this->log('Attribute not found', [$name], null, true);
-			\App\Log::error('Attribute not found: ' . $name, self::LOG_CATEGORY);
+		$attr = $this->attributes[$attrId] ?? null;
+		if (empty($attr)) {
+			$this->log('Attribute not found', [$attrId], null, true);
+			\App\Log::error('Attribute not found: ' . $attrId, self::LOG_CATEGORY);
 			return;
 		}
+		$isRoleBased = $this->fieldModel->isRoleBased();
 		$i = 0;
-		$rows = $this->getAttrFromApi($attr['id']);
 		if ('select' === $attr['type']) {
 			$picklistValues = \App\Fields\Picklist::getValues($this->fieldModel->getName());
 			$keys = array_flip(array_map('mb_strtolower', array_column($picklistValues, 'picklistValue', 'picklistValueId')));
-			foreach ($rows as $row) {
+			foreach ($this->getAttrFromApi($attrId) as $row) {
 				$name = mb_strtolower($row['name']);
 				if (empty($keys[$name]) || !$this->config->get('master')) {
 					try {
@@ -87,10 +89,12 @@ class ProductAttributes extends Base
 							}
 						}
 						if ($save) {
-							if (empty($this->roleIdList)) {
-								$this->roleIdList = array_keys(\Settings_Roles_Record_Model::getAll());
+							if ($isRoleBased) {
+								if (empty($this->roleIdList)) {
+									$this->roleIdList = array_keys(\Settings_Roles_Record_Model::getAll());
+								}
+								$itemModel->set('roles', $this->roleIdList);
 							}
-							$itemModel->set('roles', $this->roleIdList);
 							$itemModel->save();
 							++$i;
 						}
@@ -118,7 +122,7 @@ class ProductAttributes extends Base
 				if ($attrs = $this->getFromApi('products/attributes')) {
 					$attributes = [];
 					foreach ($attrs as $attr) {
-						$attributes[$attr['slug']] = $attr;
+						$attributes[$attr['id']] = $attr;
 					}
 					$this->attributes = $attributes;
 				}
@@ -147,17 +151,5 @@ class ProductAttributes extends Base
 			\App\Log::error('Error during get attr from API: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 		}
 		return $rows;
-	}
-
-	/**
-	 * Get field name from fields map.
-	 *
-	 * @param string $name
-	 *
-	 * @return string|null
-	 */
-	public function getMap(string $name): ?string
-	{
-		return $this->config->get('attributes')[substr($name, 3)] ?? null;
 	}
 }

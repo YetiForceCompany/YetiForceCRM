@@ -30,17 +30,19 @@ class Account extends Base
 	];
 
 	/** {@inheritdoc} */
-	public function getDataYf(string $type = 'fieldMap'): array
+	public function getDataYf(string $type = 'fieldMap', bool $mapped = true): array
 	{
-		parent::getDataYf($type);
-		if (empty($this->dataYf['accountname'])) {
-			$this->dataYf['accountname'] = "{$this->dataApi['billing']['first_name']}|##|{$this->dataApi['billing']['last_name']}";
-			$this->dataYf['legal_form'] = 'PLL_NATURAL_PERSON';
-		} else {
-			$this->dataYf['legal_form'] = 'PLL_COMPANY';
+		if ($mapped) {
+			parent::getDataYf($type);
+			if (empty($this->dataYf['accountname'])) {
+				$this->dataYf['accountname'] = "{$this->dataApi['billing']['first_name']}|##|{$this->dataApi['billing']['last_name']}";
+				$this->dataYf['legal_form'] = 'PLL_NATURAL_PERSON';
+			} else {
+				$this->dataYf['legal_form'] = 'PLL_COMPANY';
+			}
+			$this->convertAddress('billing', 'a');
+			$this->convertAddress('shipping', 'b');
 		}
-		$this->convertAddress('billing', 'a');
-		$this->convertAddress('shipping', 'b');
 		return $this->dataYf;
 	}
 

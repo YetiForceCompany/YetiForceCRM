@@ -54,11 +54,11 @@ abstract class Inventory extends Base
 	}
 
 	/**
-	 * Create/update product in YF.
+	 * Load additional data.
 	 *
 	 * @return void
 	 */
-	public function saveInYf(): void
+	public function loadAdditionalData(): void
 	{
 		if ($invDataYf = $this->getInvDataYf()) {
 			if ($invRecord = $this->recordModel->getInventoryData()) {
@@ -79,7 +79,6 @@ abstract class Inventory extends Base
 			}
 			$this->recordModel->initInventoryData($invDataYf, false);
 		}
-		parent::saveInYf();
 	}
 
 	/**

@@ -120,14 +120,16 @@ class Product extends Base
 	public function importProduct(array $row): void
 	{
 		$mapModel = $this->getMapModel();
+		$mapModel->isVariation = 'variation' === $row['type'];
 		$mapModel->setDataApi($row);
 		if ($dataYf = $mapModel->getDataYf()) {
 			try {
 				$yfId = $this->getYfId($row['id']);
 				if (empty($yfId) || empty($this->exported[$yfId])) {
 					$mapModel->loadRecordModel($yfId);
+					$mapModel->loadAdditionalData();
 					$mapModel->saveInYf();
-					$this->imported[$row['id']] = $mapModel->getRecordModel()->getId();
+					$dataYf['id'] = $this->imported[$row['id']] = $mapModel->getRecordModel()->getId();
 				}
 				$this->updateMapIdCache($mapModel->getModule(), $row['id'], $yfId ?: $mapModel->getRecordModel()->getId());
 			} catch (\Throwable $ex) {
@@ -138,10 +140,9 @@ class Product extends Base
 			\App\Log::error('Empty map product details', self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('Import product', [
+			$this->log('Import product | ' . (\array_key_exists($row['id'], $this->imported) ? 'imported' : 'skipped'), [
 				'API' => $row,
 				'YF' => $dataYf ?? [],
-				'imported' => \array_key_exists($row['id'], $this->imported) ? 1 : 0,
 			]);
 		}
 	}
@@ -176,9 +177,9 @@ class Product extends Base
 			while ($load) {
 				$query->offset($page);
 				if ($rows = $query->all()) {
-					foreach ($rows as $id => $row) {
-						$this->exportProduct($row);
-						$this->config->setScan('exportProduct', 'id', $id);
+					foreach ($rows as $row) {
+						$this->exportProduct($row['id']);
+						$this->config->setScan('exportProduct', 'id', $row['id']);
 						++$i;
 					}
 					++$page;
@@ -218,11 +219,7 @@ class Product extends Base
 	{
 		$mapModel = $this->getMapModel();
 		$queryGenerator = $this->getFromYf($mapModel->getModule());
-		$queryGenerator->setFields(array_merge(
-			['id', 'modifiedtime'],
-			array_keys($mapModel->getFields()),
-			$mapModel->getAttributesMapFields()
-		));
+		$queryGenerator->setFields(['id']);
 		$queryGenerator->setLimit($this->config->get('products_limit'));
 		$queryGenerator->addCondition('product_type', $mapModel->productType, 'e');
 		$query = $queryGenerator->createQuery();
@@ -238,23 +235,22 @@ class Product extends Base
 	/**
 	 * Export product.
 	 *
-	 * @param array $row
+	 * @param int $id
 	 *
 	 * @return void
 	 */
-	public function exportProduct(array $row): void
+	public function exportProduct(int $id): void
 	{
 		$mapModel = $this->getMapModel();
-		$mapModel->setDataYf($row, true);
+		$mapModel->setDataYfById($id);
 		$mapModel->setDataApi([]);
+		$row = $mapModel->getDataYf('fieldMap', false);
+		$mapModel->isVariation = 'PLL_TYPE_VARIATION' === $row['product_type'];
 		if ($dataApi = $mapModel->getDataApi()) {
 			try {
-				if (
-					empty($row['woocommerce_id'])
-					|| (!$this->config->get('master') && empty($this->imported[$row['woocommerce_id']]))
-				) {
+				if (empty($row['woocommerce_id']) || empty($this->imported[$row['woocommerce_id']])) {
 					$mapModel->saveInApi();
-					$this->exported[$row['id']] = $mapModel->getRecordModel()->get('woocommerce_id');
+					$dataApi['id'] = $this->exported[$row['id']] = $mapModel->getRecordModel()->get('woocommerce_id');
 				}
 				$this->updateMapIdCache(
 					$mapModel->getRecordModel()->getModuleName(),
@@ -269,10 +265,9 @@ class Product extends Base
 			\App\Log::error('Empty map product details', self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('Export product', [
+			$this->log('Export product | ' . (\array_key_exists($row['id'], $this->exported) ? 'exported' : 'skipped'), [
 				'YF' => $row,
 				'API' => $dataApi ?? [],
-				'exported' => \array_key_exists($row['id'], $this->exported) ? 1 : 0,
 			]);
 		}
 	}

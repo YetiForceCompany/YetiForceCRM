@@ -49,11 +49,19 @@ class Config extends \App\Base
 	 *
 	 * @param int $id
 	 *
-	 * @return string[]
+	 * @return array
 	 */
 	public static function getServer(int $id): array
 	{
-		return self::getAllServers()[$id] ?? [];
+		$servers = self::getAllServers();
+		if (empty($servers[$id])) {
+			throw new \App\Exceptions\AppException('WooCommerce Server not found: ' . $id);
+		}
+		$server = $servers[$id];
+		if (!empty($server['attributes'])) {
+			$server['attributes'] = \App\Json::decode($server['attributes']);
+		}
+		return $server;
 	}
 
 	/**
@@ -65,10 +73,9 @@ class Config extends \App\Base
 	 */
 	public static function getInstance(int $serverId): self
 	{
-		$servers = self::getAllServers();
 		$instance = new self();
 		$instance->setData(array_merge(
-			$servers[$serverId],
+			self::getServer($serverId),
 			\App\Config::component('IntegrationWooCommerce'),
 			(new Query())->select(['name', 'value'])->from(WooCommerce::CONFIG_TABLE_NAME)
 				->where(['server_id' => $serverId])->createCommand()->queryAllByGroup(),

@@ -45,6 +45,7 @@ class Product extends Base
 			'simple' => 'PLL_TYPE_SIMPLE',
 			'grouped' => 'PLL_TYPE_GROUPED',
 			'variable' => 'PLL_TYPE_VARIABLE',
+			'variation' => 'PLL_TYPE_VARIATION',
 		]],
 		'woocommerce_permalink' => ['name' => 'permalink', 'direction' => 'yf'],
 		'woocommerce_product_status' => ['name' => 'status', 'map' => [
@@ -85,22 +86,26 @@ class Product extends Base
 	public $tags;
 
 	/** {@inheritdoc} */
-	public function getDataYf(string $type = 'fieldMap'): array
+	public function getDataYf(string $type = 'fieldMap', bool $mapped = true): array
 	{
-		parent::getDataYf($type);
-		$this->importCategories();
-		$this->importAttributes();
+		if ($mapped) {
+			parent::getDataYf($type);
+			$this->importCategories();
+			$this->importAttributes();
+		}
 		return $this->dataYf;
 	}
 
 	/** {@inheritdoc} */
-	public function getDataApi(): array
+	public function getDataApi(bool $mapped = true): array
 	{
-		parent::getDataApi();
-		$this->exportCategories();
-		$this->exportAttributes();
-		if ('PLL_TYPE_VARIABLE' === $this->dataYf['product_type']) {
-			$this->exportVariations();
+		parent::getDataApi($mapped);
+		if ($mapped) {
+			$this->exportCategories();
+			if ('PLL_TYPE_VARIABLE' === $this->dataYf['product_type']) {
+				$this->exportVariations();
+			}
+			$this->exportAttributes();
 		}
 		return $this->dataApi;
 	}
@@ -109,7 +114,7 @@ class Product extends Base
 	public function saveInYf(): void
 	{
 		parent::saveInYf();
-		if (!empty($this->categories) || !$this->synchronizer->controller->config->get('master')) {
+		if (!empty($this->categories) || !$this->synchronizer->config->get('master')) {
 			$this->updateCategoriesInCrm();
 		}
 		if ('variable' === $this->dataApi['type']) {
@@ -131,7 +136,7 @@ class Product extends Base
 		if (empty($this->dataApi['id'])) {
 			$response = $this->synchronizer->controller->getConnector()->request('POST', $path, $this->dataApi);
 			$response = \App\Json::decode($response);
-			$this->recordModel->set('woocommerce_id', $response['id']);
+			$this->recordModel->set('woocommerce_id', $this->dataYf['woocommerce_id'] = $response['id']);
 			$this->recordModel->save();
 			$this->synchronizer->updateMapIdCache(
 				$this->recordModel->getModuleName(),
@@ -158,7 +163,7 @@ class Product extends Base
 		);
 		$relationModel->set('QueryFields', ['id'])->set('parentRecord', $this->recordModel);
 		$queryGenerator = $relationModel->getQuery();
-		$queryGenerator->addCondition('woocommerce_server_id', $this->synchronizer->controller->config->get('id'), 'e');
+		$queryGenerator->addCondition('woocommerce_server_id', $this->synchronizer->config->get('id'), 'e');
 		$recordCategories = array_flip($queryGenerator->createQuery()->column());
 		foreach ($this->categories as $categoryId) {
 			if (isset($recordCategories[$categoryId])) {
@@ -192,9 +197,16 @@ class Product extends Base
 				$mapModel->setDataYf($dataYf);
 				try {
 					$mapModel->loadRecordModel($variationsYf[$variation['id']] ?? 0);
+					$mapModel->loadAdditionalData();
 					$mapModel->saveInYf();
 					if (isset($variationsYf[$variation['id']])) {
 						unset($variationsYf[$variation['id']]);
+					}
+					if ($this->synchronizer->config->get('logAll')) {
+						$this->synchronizer->log('Export product variation', [
+							'YF' => $dataYf,
+							'API' => $variation ?? [],
+						]);
 					}
 				} catch (\Throwable $ex) {
 					$this->synchronizer->log('Saving product variation', $dataYf, $ex);
@@ -224,11 +236,7 @@ class Product extends Base
 		$queryGenerator = $this->synchronizer->getFromYf($this->getModule());
 		$queryGenerator->addCondition('parent_id', $this->recordModel->getId(), 'eid');
 		if ($additionalColumns) {
-			$queryGenerator->setFields(array_merge(
-				['id', 'modifiedtime'],
-				array_keys($this->getFields()),
-				$this->getAttributesMapFields()
-			));
+			$queryGenerator->setFields(array_merge(['id'], $this->getAttributesMapFields()));
 			$queryGenerator->addCondition('product_type', 'PLL_TYPE_VARIATION', 'e');
 		} else {
 			$queryGenerator->setFields(['id', 'woocommerce_id']);
@@ -250,7 +258,7 @@ class Product extends Base
 		$relationModel->set('parentRecord', $this->recordModel);
 		$queryGenerator = $relationModel->getQuery();
 		$queryGenerator->setFields(['id', 'woocommerce_id']);
-		$queryGenerator->addCondition('woocommerce_server_id', $this->synchronizer->controller->config->get('id'), 'e');
+		$queryGenerator->addCondition('woocommerce_server_id', $this->synchronizer->config->get('id'), 'e');
 		return $queryGenerator->createQuery()->all();
 	}
 
@@ -293,7 +301,7 @@ class Product extends Base
 	protected function importCategories(): void
 	{
 		$this->categories = [];
-		if (empty($this->synchronizer->controller->config->get('sync_categories')) || empty($this->dataApi['categories'])) {
+		if (empty($this->synchronizer->config->get('sync_categories')) || empty($this->dataApi['categories'])) {
 			return;
 		}
 		if (null === $this->category) {
@@ -321,8 +329,11 @@ class Product extends Base
 			if (isset($attributesList[$attr['id']])) {
 				$attributeMap = $attributesList[$attr['id']];
 				if (isset($attributeMap['yfField'])) {
-					$this->dataYf[$attributeMap['yfField']] = $this->isVariation ?
-					$attr['option'] : implode(\Vtiger_Multipicklist_UIType::SEPARATOR, $attr['options']);
+					if ($this->isVariation) {
+						$this->dataYf[$attributeMap['yfField']] = $attr['option'];
+					} else {
+						$this->dataYf[$attributeMap['yfField']] = implode(\Vtiger_Multipicklist_UIType::SEPARATOR, $attr['options']);
+					}
 				}
 			} elseif (isset($customAttributes[$attr['name']])) {
 				$this->dataYf[$customAttributes[$attr['name']]] = implode(' | ', $this->isVariation ?
@@ -362,6 +373,9 @@ class Product extends Base
 		foreach ($this->getAttributesMap() as $attrId => $attr) {
 			if (isset($attr['yfField'])) {
 				$api = ['id' => $attrId, 'name' => $attr['name'], 'position' => $position, 'visible' => 1];
+				if ('PLL_TYPE_VARIABLE' === $this->dataYf['product_type']) {
+					$api['variation'] = true;
+				}
 				$attrValue = explode(\Vtiger_Multipicklist_UIType::SEPARATOR, $this->dataYf[$attr['yfField']]);
 				if ($this->isVariation) {
 					$api['option'] = reset($attrValue);
@@ -394,8 +408,23 @@ class Product extends Base
 	protected function exportVariations(): void
 	{
 		$dataReader = $this->getVariationsFromYf(true)->createCommand()->query();
+		$attributes = $fields = [];
+		foreach ($this->getAttributesMap() as $attr) {
+			if (isset($attr['yfField'])) {
+				$attributes[$attr['yfField']] = [];
+				$fields[] = $attr['yfField'];
+			}
+		}
 		while ($variation = $dataReader->read()) {
 			$this->dataYf['variations'][] = $variation;
+			foreach ($fields as $fieldName) {
+				$attributes[$fieldName][] = $variation[$fieldName];
+			}
+		}
+		foreach ($attributes as $fieldName => $values) {
+			if ($values = array_unique($values)) {
+				$this->dataYf[$fieldName] = implode(\Vtiger_Multipicklist_UIType::SEPARATOR, $values);
+			}
 		}
 	}
 
@@ -416,24 +445,23 @@ class Product extends Base
 	 */
 	protected function updateVariationsInApi(): void
 	{
-		$master = $this->synchronizer->controller->config->get('master');
 		foreach ($this->dataYf['variations'] as $variation) {
-			foreach ($this->variationSkipDuplicateValues as $fieldName) {
-				if ($variation[$fieldName] == $this->dataYf[$fieldName]) {
-					$variation[$fieldName] = '';
-				}
-			}
 			$mapModel = clone $this;
 			$mapModel->isVariation = true;
-			$mapModel->setDataYf($variation, true);
+			$mapModel->setDataYfById($variation['id']);
+			$row = $mapModel->getDataYf('fieldMap', false);
+			foreach ($this->variationSkipDuplicateValues as $fieldName) {
+				if (isset($row[$fieldName], $this->dataYf[$fieldName]) && $row[$fieldName] == $this->dataYf[$fieldName]) {
+					$row[$fieldName] = '';
+				}
+			}
+			$mapModel->setDataYf($row);
 			$mapModel->setDataApi([]);
 			if ($dataApi = $mapModel->getDataApi()) {
 				try {
-					if (empty($variation['woocommerce_id']) || $master) {
-						$mapModel->saveInApi();
-					}
+					$mapModel->saveInApi();
 				} catch (\Throwable $ex) {
-					$this->synchronizer->log('Export product variation', ['YF' => $variation, 'API' => $dataApi], $ex);
+					$this->synchronizer->log('Export product variation', ['YF' => $row, 'API' => $dataApi], $ex);
 					\App\Log::error(
 						'Error during export product variation: ' . PHP_EOL . $ex->__toString(),
 						$this->synchronizer::LOG_CATEGORY
@@ -455,10 +483,17 @@ class Product extends Base
 		if (isset($this->attributesMap)) {
 			return $this->attributesMap;
 		}
+		$this->attributesMap = [];
 		$productAttributes = $this->synchronizer->controller->getSync('ProductAttributes');
+		$configAttributes = $this->synchronizer->config->get('attributes');
 		foreach ($productAttributes->getListFromApi() as $attribute) {
-			if ($fieldName = $productAttributes->getMap($attribute['slug'])) {
+			if (
+				$configAttributes
+				&& ($fieldName = $configAttributes[$attribute['id']])
+				&& ($fieldModel = $this->moduleModel->getFieldByName($fieldName))
+			) {
 				$attribute['yfField'] = $fieldName;
+				$attribute['yfFieldType'] = $fieldModel->getFieldDataType();
 			}
 			$this->attributesMap[$attribute['id']] = $attribute;
 		}
@@ -478,7 +513,7 @@ class Product extends Base
 				$fields[] = $attr['yfField'];
 			}
 		}
-		foreach ($this->synchronizer->controller->config->get('customAttributes') as $fieldName) {
+		foreach ($this->synchronizer->config->get('customAttributes') as $fieldName) {
 			$fields[] = $fieldName;
 		}
 		return $fields;

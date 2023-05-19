@@ -80,10 +80,12 @@ abstract class Base
 	}
 
 	/**
-	 * Set data from/for YetiForce.
+	 * Set data from/for YetiForce. YetiForce data is read-only.
 	 *
 	 * @param array $data
 	 * @param bool  $updateRecordModel
+	 *
+	 * @return void
 	 */
 	public function setDataYf(array $data, bool $updateRecordModel = false): void
 	{
@@ -91,6 +93,19 @@ abstract class Base
 		if ($updateRecordModel) {
 			$this->recordModel = \Vtiger_Module_Model::getInstance($this->moduleName)->getRecordFromArray($data);
 		}
+	}
+
+	/**
+	 * Set data from/for YetiForce by record ID. Read/Write YetiForce data.
+	 *
+	 * @param int $id
+	 *
+	 * @return void
+	 */
+	public function setDataYfById(int $id): void
+	{
+		$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, $this->moduleName);
+		$this->dataYf = $this->recordModel->getData();
 	}
 
 	/**
@@ -141,35 +156,38 @@ abstract class Base
 	 * Return parsed data in YetiForce format.
 	 *
 	 * @param string $type
+	 * @param bool   $mapped
 	 *
 	 * @return array
 	 */
-	public function getDataYf(string $type = 'fieldMap'): array
+	public function getDataYf(string $type = 'fieldMap', bool $mapped = true): array
 	{
-		$this->dataYf = $this->defaultDataYf[$type] ?? [];
-		$this->parseMetaData();
-		foreach ($this->{$type} as $fieldCrm => $field) {
-			if (\is_array($field)) {
-				if (!empty($field['direction']) && 'api' === $field['direction']) {
-					continue;
-				}
-				$field['fieldCrm'] = $fieldCrm;
+		if ($mapped) {
+			$this->dataYf = $this->defaultDataYf[$type] ?? [];
+			$this->parseMetaDataFromApi();
+			foreach ($this->{$type} as $fieldCrm => $field) {
+				if (\is_array($field)) {
+					if (!empty($field['direction']) && 'api' === $field['direction']) {
+						continue;
+					}
+					$field['fieldCrm'] = $fieldCrm;
 
-				if (\is_array($field['name'])) {
-					$this->loadDataYfMultidimensional($fieldCrm, $field);
-				} elseif (\array_key_exists($field['name'], $this->dataApi)) {
-					$this->loadDataYfMap($fieldCrm, $field);
-				} elseif (!\array_key_exists('optional', $field) || empty($field['optional'])) {
-					$error = "[API>YF][1] No column {$field['name']} ($fieldCrm)";
-					\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-					$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
-				}
-			} else {
-				$this->dataYf[$fieldCrm] = $this->dataApi[$field] ?? null;
-				if (!\array_key_exists($field, $this->dataApi)) {
-					$error = "[API>YF][2] No column $field ($fieldCrm)";
-					\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-					$this->synchronizer->log($error, $this->dataApi, null, true);
+					if (\is_array($field['name'])) {
+						$this->loadDataYfMultidimensional($fieldCrm, $field);
+					} elseif (\array_key_exists($field['name'], $this->dataApi)) {
+						$this->loadDataYfMap($fieldCrm, $field);
+					} elseif (!\array_key_exists('optional', $field) || empty($field['optional'])) {
+						$error = "[API>YF][1] No column {$field['name']} ($fieldCrm)";
+						\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
+						$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
+					}
+				} else {
+					$this->dataYf[$fieldCrm] = $this->dataApi[$field] ?? null;
+					if (!\array_key_exists($field, $this->dataApi)) {
+						$error = "[API>YF][2] No column $field ($fieldCrm)";
+						\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
+						$this->synchronizer->log($error, $this->dataApi, null, true);
+					}
 				}
 			}
 		}
@@ -267,46 +285,74 @@ abstract class Base
 	/**
 	 * Return parsed data in YetiForce format.
 	 *
+	 * @param bool $mapped
+	 *
 	 * @return array
 	 */
-	public function getDataApi(): array
+	public function getDataApi(bool $mapped = true): array
 	{
-		foreach ($this->fieldMap as $fieldCrm => $field) {
-			if (\is_array($field)) {
-				if (!empty($field['direction']) && 'yf' === $field['direction']) {
-					continue;
-				}
-				if (\array_key_exists($fieldCrm, $this->dataYf)) {
-					$field['fieldCrm'] = $fieldCrm;
-					if (isset($field['map'])) {
-						$mapValue = array_search($this->dataYf[$fieldCrm], $field['map']);
-						if (false !== $mapValue) {
-							$this->dataApi[$field['name']] = $mapValue;
-						} elseif (empty($field['mayNotExist'])) {
-							$error = "[YF>API] No value `{$this->dataYf[$fieldCrm]}` in map {$fieldCrm}";
-							\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-							$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataYf], null, true);
-						}
-					} elseif (isset($field['fn'])) {
-						$this->dataApi[$field['name']] = $this->{$field['fn']}($this->dataYf[$fieldCrm], $field, false);
-					} else {
-						$this->dataApi[$field['name']] = $this->dataYf[$fieldCrm];
+		if ($mapped) {
+			if (!empty($this->dataYf['woocommerce_id'])) {
+				$this->dataApi['id'] = $this->dataYf['woocommerce_id'];
+			}
+			foreach ($this->fieldMap as $fieldCrm => $field) {
+				if (\is_array($field)) {
+					if (!empty($field['direction']) && 'yf' === $field['direction']) {
+						continue;
 					}
-				} elseif (!\array_key_exists('optional', $field) || empty($field['optional'])) {
-					$error = '[YF>API] No field ' . $fieldCrm;
-					\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-					$this->synchronizer->log($error, $this->dataApi, null, true);
-				}
-			} else {
-				$this->dataApi[$field] = $this->dataYf[$fieldCrm] ?? null;
-				if (!\array_key_exists($fieldCrm, $this->dataYf)) {
-					$error = '[YF>API] No field ' . $fieldCrm;
-					\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-					$this->synchronizer->log($error, $this->dataYf, null, true);
+					if (\array_key_exists($fieldCrm, $this->dataYf)) {
+						$field['fieldCrm'] = $fieldCrm;
+						if (isset($field['map'])) {
+							$mapValue = array_search($this->dataYf[$fieldCrm], $field['map']);
+							if (false !== $mapValue) {
+								$this->setApiData($mapValue, $field);
+							} elseif (empty($field['mayNotExist'])) {
+								$error = "[YF>API] No value `{$this->dataYf[$fieldCrm]}` in map {$fieldCrm}";
+								\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
+								$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataYf], null, true);
+							}
+						} elseif (isset($field['fn'])) {
+							$this->setApiData($this->{$field['fn']}($this->dataYf[$fieldCrm], $field, false), $field);
+						} else {
+							$this->setApiData($this->dataYf[$fieldCrm], $field);
+						}
+					} elseif (!\array_key_exists('optional', $field) || empty($field['optional'])) {
+						$error = '[YF>API] No field ' . $fieldCrm;
+						\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
+						$this->synchronizer->log($error, $this->dataApi, null, true);
+					}
+				} else {
+					$this->dataApi[$field] = $this->dataYf[$fieldCrm] ?? null;
+					if (!\array_key_exists($fieldCrm, $this->dataYf)) {
+						$error = '[YF>API] No field ' . $fieldCrm;
+						\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
+						$this->synchronizer->log($error, $this->dataYf, null, true);
+					}
 				}
 			}
+			$this->parseMetaDataToApi();
 		}
 		return $this->dataApi;
+	}
+
+	/**
+	 * Set the data to in the appropriate key structure.
+	 *
+	 * @param mixed $value
+	 * @param array $field
+	 *
+	 * @return void
+	 */
+	public function setApiData($value, array $field): void
+	{
+		if (\is_array($field['name'])) {
+			foreach (array_reverse($field['name']) as $name) {
+				$value = [$name => $value];
+			}
+			$this->dataApi = \App\Utils::merge($this->dataApi, $value);
+		} else {
+			$this->dataApi[$field['name']] = $value;
+		}
 	}
 
 	/**
@@ -564,6 +610,7 @@ abstract class Base
 				$id = $this->findRecordInYf();
 				if (empty($field['onlyCreate']) || empty($id)) {
 					$this->loadRecordModel($this->findRecordInYf());
+					$this->loadAdditionalData();
 					$this->saveInYf();
 					$id = $this->getRecordModel()->getId();
 				}
@@ -587,11 +634,11 @@ abstract class Base
 	}
 
 	/**
-	 * Parsing `meta_data`.
+	 * Parsing `meta_data` from API.
 	 *
 	 * @return void
 	 */
-	protected function parseMetaData(): void
+	protected function parseMetaDataFromApi(): void
 	{
 		if ($this->dataApi['meta_data']) {
 			$this->dataApi['metaData'] = [];
@@ -599,5 +646,30 @@ abstract class Base
 				$this->dataApi['metaData'][$value['key']] = $value['value'];
 			}
 		}
+	}
+
+	/**
+	 * Parsing `meta_data` to API.
+	 *
+	 * @return void
+	 */
+	protected function parseMetaDataToApi(): void
+	{
+		if ($this->dataApi['metaData']) {
+			$this->dataApi['meta_data'] = [];
+			foreach ($this->dataApi['metaData'] as $key => $value) {
+				$this->dataApi['meta_data'][] = ['key' => $key, 'value' => $value];
+			}
+			unset($this->dataApi['metaData']);
+		}
+	}
+
+	/**
+	 * Load additional data.
+	 *
+	 * @return void
+	 */
+	public function loadAdditionalData(): void
+	{
 	}
 }

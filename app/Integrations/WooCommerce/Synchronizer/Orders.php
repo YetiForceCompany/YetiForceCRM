@@ -117,8 +117,9 @@ class Orders extends Base
 				$yfId = $this->getYfId($row['id']);
 				if (empty($yfId) || empty($this->exported[$yfId])) {
 					$mapModel->loadRecordModel($yfId);
+					$mapModel->loadAdditionalData();
 					$mapModel->saveInYf();
-					$this->imported[$row['id']] = $mapModel->getRecordModel()->getId();
+					$dataYf['id'] = $this->imported[$row['id']] = $mapModel->getRecordModel()->getId();
 				}
 			} catch (\Throwable $ex) {
 				$this->log('Import order', ['YF' => $dataYf, 'API' => $row], $ex);
@@ -128,10 +129,9 @@ class Orders extends Base
 			\App\Log::error('Empty map order details', self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('Import order', [
+			$this->log('Import order | ' . (\array_key_exists($row['id'], $this->imported) ? 'imported' : 'skipped'), [
 				'API' => $row,
 				'YF' => $dataYf ?? [],
-				'imported' => \array_key_exists($row['id'], $this->imported) ? 1 : 0,
 			]);
 		}
 	}
@@ -239,7 +239,7 @@ class Orders extends Base
 					|| (!$this->config->get('master') && empty($this->imported[$row['woocommerce_id']]))
 				) {
 					$mapModel->saveInApi();
-					$this->exported[$row['id']] = $mapModel->getRecordModel()->get('woocommerce_id');
+					$dataApi['id'] = $this->exported[$row['id']] = $mapModel->getRecordModel()->get('woocommerce_id');
 				}
 			} catch (\Throwable $ex) {
 				$this->log('Export order', ['YF' => $row, 'API' => $dataApi], $ex);
@@ -249,10 +249,9 @@ class Orders extends Base
 			\App\Log::error('Empty map order details', self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('Export order', [
+			$this->log('Export order | ' . (\array_key_exists($row['id'], $this->exported) ? 'exported' : 'skipped'), [
 				'YF' => $row,
 				'API' => $dataApi ?? [],
-				'exported' => \array_key_exists($row['id'], $this->exported) ? 1 : 0,
 			]);
 		}
 	}

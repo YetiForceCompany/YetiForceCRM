@@ -108,7 +108,10 @@ class Webhooks extends \Api\Core\BaseAction
 			if ($synchronizer->config->get('logAll')) {
 				$synchronizer->log(
 					"Start Webhook {$this->resource}:{$this->event}",
-					['X-WC-Webhook-ID' => $request->getHeader('x-wc-webhook-id')]
+					[
+						'X-WC-Webhook-ID' => $request->getHeader('x-wc-webhook-id'),
+						'data' => $request->getAll(),
+					]
 				);
 			}
 			switch ($this->event) {
@@ -154,7 +157,10 @@ class Webhooks extends \Api\Core\BaseAction
 			if ($synchronizer->config->get('logAll')) {
 				$synchronizer->log(
 					"Start Webhook {$this->resource}:{$this->event}",
-					['X-WC-Webhook-ID' => $request->getHeader('x-wc-webhook-id')]
+					[
+						'X-WC-Webhook-ID' => $request->getHeader('x-wc-webhook-id'),
+						'data' => $request->getAll(),
+					]
 				);
 			}
 			switch ($this->event) {

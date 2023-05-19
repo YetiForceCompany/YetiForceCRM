@@ -40,10 +40,12 @@ class Contact extends Base
 	protected $account;
 
 	/** {@inheritdoc} */
-	public function getDataYf(string $type = 'fieldMap'): array
+	public function getDataYf(string $type = 'fieldMap', bool $mapped = true): array
 	{
-		parent::getDataYf($type);
-		$this->convertAddress('billing', 'a');
+		if ($mapped) {
+			parent::getDataYf($type);
+			$this->convertAddress('billing', 'a');
+		}
 		return $this->dataYf;
 	}
 

@@ -84,7 +84,7 @@ class Settings_WooCommerce_Activation_Model
 			'woocommerce_id' => [
 				'columntype' => $importerType->integer(10)->defaultValue(0)->notNull()->unsigned(),
 				'label' => 'FL_WOOCOMMERCE_ID',
-				'uitype' => 7, 'displaytype' => 9,
+				'uitype' => 7, 'displaytype' => 2,
 				'maximumlength' => '4294967295', 'typeofdata' => 'I~O'
 			],
 			'alias' => [
