@@ -72,6 +72,13 @@ Vtiger_Edit_Js(
 						}
 						value = JSON.stringify(value);
 					}
+					if (attributeObject.name === 'data-validation-engine') {
+						if (thisInstance.isFileLocationExternalType(fileLocationTypeElement)) {
+							value = 'validate[maxSize[' + fileNameElement.data('fieldinfo').maximumlength + '],funcCall[Vtiger_Base_Validator_Js.invokeValidation]]';
+						} else {
+							value = 'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]';
+						}
+					}
 					newFileNameElement.attr(attributeObject.name, value);
 					newFileNameElement.addClass(className);
 				}
