@@ -261,7 +261,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="form-group row">
+								<div class="form-group row actionsBlock">
 									<label class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_RELATION_ACTIONS', $QUALIFIED_MODULE)}
 										:</label>
 									<div class="col-md-7 marginTop">
@@ -272,7 +272,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="form-group row">
+								<div class="form-group row targetBlock">
 									<label class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_TARGET_MODULE', $QUALIFIED_MODULE)}
 										:</label>
 									<div class="col-md-7 marginTop">
@@ -284,19 +284,24 @@
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_RELATION_LABLE', $QUALIFIED_MODULE)}
-										:</label>
+									<label class="col-md-4 col-form-label text-right">
+										{\App\Language::translate('LBL_RELATION_LABLE', $QUALIFIED_MODULE)}:
+									</label>
 									<div class="col-md-7">
 										<input name="label" type="text" class="relLabel form-control" />
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_MULTI_REFERENCE_FIELDS', $QUALIFIED_MODULE)}
-										:</label>
+									<label class="col-md-4 col-form-label text-right">
+										{\App\Language::translate('LBL_MULTI_REFERENCE_FIELDS', $QUALIFIED_MODULE)}:
+									</label>
 									<div class="col-md-7 marginTop">
-										<select name="multi_reference_field" class="form-control">
+										<select name="multi_reference_field" class="multiReferenceField form-control" disabled>
 											{foreach item=FIELD_MODEL from=$MODULE_MULTI_REFERENCE_FIELDS}
-												<option value="{$FIELD_MODEL->getModuleName()}::{$FIELD_MODEL->getFieldName()}">{\App\Language::translate($FIELD_MODEL->getLabel(), $MODULE_NAME)} ({\App\Language::translate($FIELD_MODEL->getModuleName(), $FIELD_MODEL->getModuleName())})</option>
+												{assign var=MODULE_LABEL value=\App\Language::translate($FIELD_MODEL->getModuleName(), $FIELD_MODEL->getModuleName())}
+												<option value="{$FIELD_MODEL->getModuleName()}::{$FIELD_MODEL->getFieldName()}" data-module="{$FIELD_MODEL->getModuleName()}">
+													{\App\Language::translate($FIELD_MODEL->getLabel(), $MODULE_NAME)} ({$MODULE_LABEL})
+												</option>
 											{/foreach}
 										</select>
 									</div>

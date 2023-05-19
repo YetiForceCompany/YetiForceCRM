@@ -170,16 +170,28 @@ $.Class(
 					contentsDiv = container.closest('.contentsDiv'),
 					addRelationContainer = relatedList.find('.addRelationContainer').clone(true, true);
 				let callBackFunction = function (data) {
+					const labelElement = data.find('.relLabel');
 					data.find('[name="multi_reference_field"]').attr('disabled', true);
 					App.Fields.Picklist.showSelect2ElementView(data.find('select'));
-					data.find('.relLabel').val(data.find('.target option:selected').val());
+					labelElement.val(data.find('.target option:selected').val());
 					data.on('change', '.target', function (e) {
 						let currentTarget = $(e.currentTarget);
-						data.find('.relLabel').val(currentTarget.find('option:selected').val());
+						switch ($(this).val()) {
+							case 'getMultiReference':
+								data.find('[name="multi_reference_field"]').attr('disabled', false);
+								data.find('[name="actions"]').attr('disabled', true);
+								data.find('[name="target"]').attr('readonly', true);
+								break;
+							default:
+								label.val(currentTarget.find('option:selected').val());
+								break;
+						}
 					});
 					data.find('[name="type"]').on('change', function () {
-						let typeOption = $(this).val();
-						switch (typeOption) {
+						data.find('.actionsBlock').removeClass('d-none');
+						data.find('.targetBlock').removeClass('d-none');
+						let label = data.find('.target option:selected').val();
+						switch ($(this).val()) {
 							case 'getAttachments':
 								data.find('[name="target"] option').not('[value="Documents"]').addClass('d-none');
 								data.find('[name="actions"]').attr('disabled', false);
@@ -190,13 +202,18 @@ $.Class(
 								data.find('[name="multi_reference_field"]').attr('disabled', false);
 								data.find('[name="actions"]').attr('disabled', true);
 								data.find('[name="target"]').attr('readonly', true);
+								data.find('.actionsBlock').addClass('d-none');
+								data.find('.targetBlock').addClass('d-none');
+								label = data.find('.multiReferenceField option:selected').data('module');
 								break;
 							default:
 								data.find('[name="multi_reference_field"]').attr('disabled', true);
 								data.find('[name="actions"]').attr('disabled', false);
 								data.find('[name="target"]').attr('readonly', false);
 								data.find('[name="target"] option').removeClass('d-none');
+								break;
 						}
+						labelElement.val(label);
 						App.Fields.Picklist.showSelect2ElementView(data.find('[name="target"]'));
 					});
 					data.on('click', '.addButton', function (e) {
