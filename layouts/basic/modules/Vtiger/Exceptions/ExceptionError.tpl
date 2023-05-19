@@ -91,14 +91,16 @@
 			{/if}
 			<script type="text/javascript" {if \App\Session::get('CSP_TOKEN')}nonce="{\App\Session::get('CSP_TOKEN')}" {/if}>
 				function errorLog() {
-					console.error(document.querySelector('.js-exception-error').textContent);
+					if (document.querySelector('.js-exception-error')) {
+						console.error(document.querySelector('.js-exception-error').textContent);
+					}
 					let html = '';
 					let backtrace = document.querySelector('.js-exception-backtrace');
-					let logs = document.querySelector('.js-exception-logs');
 					if (backtrace) {
 						html += backtrace.textContent;
 						backtrace.remove();
 					}
+					let logs = document.querySelector('.js-exception-logs');
 					if (logs) {
 						html += logs.textContent;
 						logs.remove();
