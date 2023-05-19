@@ -98,7 +98,7 @@ class TextParser
 	protected const BASE_FUNCTIONS = [
 		'general', 'translate', 'record', 'relatedRecord', 'relatedRecordLevel',
 		'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList',
-		'recordsList', 'date', 'inventory', 'userVariable', 'barcode', 'tokenLink', 'emailRolesHierarchy'
+		'recordsList', 'date', 'inventory', 'userVariable', 'barcode', 'tokenLink'
 	];
 	/**
 	 * List of source modules.
