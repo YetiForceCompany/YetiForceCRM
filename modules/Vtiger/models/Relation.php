@@ -44,6 +44,9 @@ class Vtiger_Relation_Model extends \App\Base
 	/** @var int Advanced reference */
 	const RELATION_AR = 3;
 
+	/** @var int Multi reference */
+	const RELATION_MR = 4;
+
 	/**
 	 * Function returns the relation id.
 	 *
@@ -551,7 +554,7 @@ class Vtiger_Relation_Model extends \App\Base
 				}
 				$returnVal = !$fieldModel->isMandatory() && $fieldModel->isEditable() && !$fieldModel->isEditableReadOnly() && (!$recordModel || $recordModel->isEditable());
 			}
-			if ($this->getRelationType() === static::RELATION_AR && ($fieldModel = $this->getRelationField())) {
+			if (\in_array($this->getRelationType(), [static::RELATION_AR, static::RELATION_MR])) {
 				$returnVal = false;
 			}
 		}

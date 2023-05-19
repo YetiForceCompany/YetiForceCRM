@@ -240,6 +240,17 @@
 						<form class="modal-Fields">
 							<div class="form-horizontal">
 								<div class="form-group row">
+									<label class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}
+										:</label>
+									<div class="col-md-7 marginTop">
+										<select name="source" class="form-control" readonly>
+											{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
+												<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
+											{/foreach}
+										</select>
+									</div>
+								</div>
+								<div class="form-group row">
 									<label class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_RELATION_TYPE', $QUALIFIED_MODULE)}
 										:</label>
 									<div class="col-md-7">
@@ -262,17 +273,6 @@
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}
-										:</label>
-									<div class="col-md-7 marginTop">
-										<select name="source" class="form-control">
-											{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-												<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
-											{/foreach}
-										</select>
-									</div>
-								</div>
-								<div class="form-group row">
 									<label class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_TARGET_MODULE', $QUALIFIED_MODULE)}
 										:</label>
 									<div class="col-md-7 marginTop">
@@ -290,12 +290,22 @@
 										<input name="label" type="text" class="relLabel form-control" />
 									</div>
 								</div>
+								<div class="form-group row">
+									<label class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_MULTI_REFERENCE_FIELDS', $QUALIFIED_MODULE)}
+										:</label>
+									<div class="col-md-7 marginTop">
+										<select name="multi_reference_field" class="form-control">
+											{foreach item=FIELD_MODEL from=$MODULE_MULTI_REFERENCE_FIELDS}
+												<option value="{$FIELD_MODEL->getModuleName()}::{$FIELD_MODEL->getFieldName()}">{\App\Language::translate($FIELD_MODEL->getLabel(), $MODULE_NAME)} ({\App\Language::translate($FIELD_MODEL->getModuleName(), $FIELD_MODEL->getModuleName())})</option>
+											{/foreach}
+										</select>
+									</div>
+								</div>
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
-
-						<button class="btn btn-success addButton" data-dismiss="modal" aria-hidden="true"><span
+						<button class="btn btn-success addButton"><span
 								class="fas fa-check u-mr-5px"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
 						</button>
 						<button class="btn btn-warning" id="closeModal" data-dismiss="modal" aria-hidden="true"><span

@@ -53,13 +53,13 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 			$fieldName = $fieldModel->getName();
 			$lastItem = strrchr($fieldName, '_');
 			$firstItem = '';
-			if($lastItem === '_extra'){
+			if ('_extra' === $lastItem) {
 				$firstItem = str_replace($lastItem, '', $fieldName);
 			}
-			if((!empty($firstItem) && !empty($firstItemModuleModal = \Vtiger_Field_Model::getInstance($firstItem, \Vtiger_Module_Model::getInstance($sourceModule))) && $firstItemModuleModal->isActiveField() && $fieldModel->isActiveField()) && ($firstItemModuleModal->getUIType() == 11) && ($fieldModel->getUIType() == 1)){
+			if ((!empty($firstItem) && !empty($firstItemModuleModal = \Vtiger_Field_Model::getInstance($firstItem, \Vtiger_Module_Model::getInstance($sourceModule))) && $firstItemModuleModal->isActiveField() && $fieldModel->isActiveField()) && (11 == $firstItemModuleModal->getUIType()) && (1 == $fieldModel->getUIType())) {
 				unset($fieldName);
 			}
-			if(isset($fieldName)){
+			if (isset($fieldName)) {
 				$blockIdFieldMap[$fieldModel->getBlockId()][$fieldName] = $fieldModel;
 			}
 			if (!$fieldModel->isActiveField()) {
@@ -109,6 +109,7 @@ class Settings_LayoutEditor_Index_View extends Settings_Vtiger_Index_View
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
+		$viewer->assign('MODULE_MULTI_REFERENCE_FIELDS', Settings_LayoutEditor_Module_Model::getMultiReferenceFieldsRelatedWithModule($sourceModule));
 		$viewer->assign('SUPPORTED_MODULES', $supportedModulesList);
 		$viewer->assign('RELATED_MODULES', $moduleModel->getRelations());
 		$viewer->assign('MODULE', $qualifiedModule);
