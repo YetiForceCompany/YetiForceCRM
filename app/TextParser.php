@@ -44,7 +44,6 @@ class TextParser
 		'LBL_DYNAMIC_INVENTORY_TABLE' => '$(custom : dynamicInventoryColumnsTable)$',
 		'LBL_BARCODE' => '$(barcode : type=EAN13 class=DNS1D , value=12345678)$',
 		'LBL_TOKEN_LINK' => '$(tokenLink : 85|oneTime=1|buttonName=Test|expirationDate=+5 days|messages=Thank you for reporting)$',
-		'LBL_USERS_EMAIL_FROM_ROLES' => '$(usersRoleHierarchyEmail : 0)$'
 	];
 	/**
 	 * Default date list.
@@ -99,7 +98,7 @@ class TextParser
 	protected const BASE_FUNCTIONS = [
 		'general', 'translate', 'record', 'relatedRecord', 'relatedRecordLevel',
 		'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList',
-		'recordsList', 'date', 'inventory', 'userVariable', 'barcode', 'tokenLink', 'usersRoleHierarchyEmail'
+		'recordsList', 'date', 'inventory', 'userVariable', 'barcode', 'tokenLink', 'emailRolesHierarchy'
 	];
 	/**
 	 * List of source modules.
@@ -1936,54 +1935,5 @@ class TextParser
 			}
 		}
 		return $part;
-	}
-
-	/**
-	 * Get users emails according to role hierarchy level.
-	 *
-	 * @param string $params
-	 *
-	 * @return string
-	 */
-	public function usersRoleHierarchyEmail(string $params): string
-	{
-		if (!isset($this->recordModel) || (!Privilege::isPermitted($this->moduleName))) {
-			return '';
-		}
-		$recordOwnerId = $this->recordModel->get('assigned_user_id');
-		if ('Groups' === Fields\Owner::getType($recordOwnerId)) {
-			return '';
-		}
-		[$higherLevelRoles] = array_pad(explode('|', $params, 1), 1, 0);
-		$higherLevelRoles = (int) $higherLevelRoles;
-		$userModel = User::getUserModel($recordOwnerId);
-		$userRole = $userModel->getRole();
-		$roleModel = \Settings_Roles_Record_Model::getInstanceById($userRole);
-		$usersEmails = [];
-		$usersEmails = $this->getEmailsFromRoleModel($roleModel, $usersEmails);
-
-		$userParentRoles = $userModel->getParentRoles();
-		while ($higherLevelRoles && ($roleId = array_pop($userParentRoles))) {
-			$roleModel = \Settings_Roles_Record_Model::getInstanceById($roleId);
-			$usersEmails = $this->getEmailsFromRoleModel($roleModel, $usersEmails);
-			--$higherLevelRoles;
-		}
-		return implode(',', $usersEmails);
-	}
-
-	/**
-	 * Get users email belongs to role.
-	 *
-	 * @param Settings_Roles_Record_Model $roleModel
-	 * @param array                       $usersEmails
-	 *
-	 * @return void
-	 */
-	public function getEmailsFromRoleModel($roleModel, $usersEmails): array
-	{
-		foreach ($roleModel->getUsers() as $userModel) {
-			$usersEmails[] = $userModel->get('email1');
-		}
-		return $usersEmails;
 	}
 }

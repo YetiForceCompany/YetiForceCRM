@@ -14,6 +14,10 @@ namespace App;
  */
 class EmailParser extends TextParser
 {
+	/** {@inheritdoc} */
+	protected const BASE_FUNCTIONS = [
+		'general', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'userVariable', 'emailRolesHierarchy'
+	];
 	private static $permissionToSend = [
 		'Accounts' => 'emailoptout',
 		'Contacts' => 'emailoptout',
@@ -83,5 +87,54 @@ class EmailParser extends TextParser
 			}
 		}
 		return rtrim($rows, ',');
+	}
+
+	/**
+	 * Get users emails according to role hierarchy level.
+	 *
+	 * @param string $params
+	 *
+	 * @return string
+	 */
+	public function emailRolesHierarchy(string $params): string
+	{
+		if (!isset($this->recordModel) || (!Privilege::isPermitted($this->moduleName))) {
+			return '';
+		}
+		$recordOwnerId = $this->recordModel->get('assigned_user_id');
+		if ('Groups' === Fields\Owner::getType($recordOwnerId)) {
+			return '';
+		}
+		[$higherLevelRoles] = array_pad(explode('|', $params, 1), 1, 0);
+		$higherLevelRoles = (int) $higherLevelRoles;
+		$userModel = User::getUserModel($recordOwnerId);
+		$userRole = $userModel->getRole();
+		$roleModel = \Settings_Roles_Record_Model::getInstanceById($userRole);
+		$usersEmails = [];
+		$usersEmails = $this->getEmailsFromRoleModel($roleModel, $usersEmails);
+
+		$userParentRoles = $userModel->getParentRoles();
+		while ($higherLevelRoles && ($roleId = array_pop($userParentRoles))) {
+			$roleModel = \Settings_Roles_Record_Model::getInstanceById($roleId);
+			$usersEmails = $this->getEmailsFromRoleModel($roleModel, $usersEmails);
+			--$higherLevelRoles;
+		}
+		return implode(',', $usersEmails);
+	}
+
+	/**
+	 * Get users email belongs to role.
+	 *
+	 * @param Settings_Roles_Record_Model $roleModel
+	 * @param array                       $usersEmails
+	 *
+	 * @return void
+	 */
+	public function getEmailsFromRoleModel($roleModel, $usersEmails): array
+	{
+		foreach ($roleModel->getUsers() as $userModel) {
+			$usersEmails[] = $userModel->get('email1');
+		}
+		return $usersEmails;
 	}
 }
