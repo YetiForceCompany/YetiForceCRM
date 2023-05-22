@@ -16,7 +16,7 @@ class EmailParser extends TextParser
 {
 	/** {@inheritdoc} */
 	protected const BASE_FUNCTIONS = [
-		'general', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'userVariable', 'emailRolesHierarchy'
+		'general', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'userVariable', 'roleEmails'
 	];
 	private static $permissionToSend = [
 		'Accounts' => 'emailoptout',
@@ -90,48 +90,50 @@ class EmailParser extends TextParser
 	}
 
 	/**
-	 * Get users emails according to role hierarchy level.
+	 * Get users' emails belongs to role. Value 0 is for owner role level.
 	 *
 	 * @param string $params
 	 *
 	 * @return string
 	 */
-	public function emailRolesHierarchy(string $params): string
+	public function roleEmails(string $params): string
 	{
-		if (!isset($this->recordModel) || (!Privilege::isPermitted($this->moduleName))) {
+		if (!isset($this->recordModel) || !Privilege::isPermitted($this->moduleName)) {
 			return '';
 		}
 		$recordOwnerId = $this->recordModel->get('assigned_user_id');
 		if ('Groups' === Fields\Owner::getType($recordOwnerId)) {
 			return '';
 		}
-		[$higherLevelRoles] = array_pad(explode('|', $params, 1), 1, 0);
-		$higherLevelRoles = (int) $higherLevelRoles;
-		$userModel = User::getUserModel($recordOwnerId);
-		$userRole = $userModel->getRole();
-		$roleModel = \Settings_Roles_Record_Model::getInstanceById($userRole);
+		[$roleLevel] = array_pad(explode('|', $params, 1), 1, 0);
+		$roleLevel = (int) $roleLevel;
 		$usersEmails = [];
-		$usersEmails = $this->getEmailsFromRoleModel($roleModel, $usersEmails);
-
-		$userParentRoles = $userModel->getParentRoles();
-		while ($higherLevelRoles && ($roleId = array_pop($userParentRoles))) {
-			$roleModel = \Settings_Roles_Record_Model::getInstanceById($roleId);
-			$usersEmails = $this->getEmailsFromRoleModel($roleModel, $usersEmails);
-			--$higherLevelRoles;
+		$userModel = User::getUserModel($recordOwnerId);
+		if (0 === $roleLevel) {
+			$userRole = $userModel->getRole();
+			$roleModel = \Settings_Roles_Record_Model::getInstanceById($userRole);
+			$usersEmails = $this->getEmailsFromRoleModel($roleModel);
+		} else {
+			$userParentRoles = array_reverse($userModel->getParentRoles());
+			$parentRolesKey = $roleLevel - 1;
+			if (isset($userParentRoles[$parentRolesKey])) {
+				$roleModel = \Settings_Roles_Record_Model::getInstanceById($userParentRoles[$parentRolesKey]);
+				$usersEmails = $this->getEmailsFromRoleModel($roleModel);
+			}
 		}
 		return implode(',', $usersEmails);
 	}
 
 	/**
-	 * Get users email belongs to role.
+	 * Get users' email belongs to role.
 	 *
 	 * @param Settings_Roles_Record_Model $roleModel
-	 * @param array                       $usersEmails
 	 *
-	 * @return void
+	 * @return array
 	 */
-	public function getEmailsFromRoleModel($roleModel, $usersEmails): array
+	public function getEmailsFromRoleModel(\Settings_Roles_Record_Model $roleModel): array
 	{
+		$usersEmails = [];
 		foreach ($roleModel->getUsers() as $userModel) {
 			$usersEmails[] = $userModel->get('email1');
 		}
