@@ -1,7 +1,7 @@
 {strip}
 	{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div id="VtVTEmailTemplateTaskContainer">
-		<div class="">
+		<div>
 			<div class="row pb-3">
 				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
 				<div class="col-md-4">
@@ -108,9 +108,17 @@
 			<div class="row pb-3">
 				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_TO')}</span>
 				<div class="col-md-4">
-					<input class="form-control"
-						data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-						name="address_emails" value="{if isset($TASK_OBJECT->address_emails)}{$TASK_OBJECT->address_emails}{/if}">
+					<div class="input-group mb-3">
+						<input class="form-control"
+							data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+							name="address_emails" value="{if isset($TASK_OBJECT->address_emails)}{$TASK_OBJECT->address_emails}{/if}">
+						<div class="input-group-append js-popover-tooltip u-cursor-pointer" data-placement="top" data-content="{\App\Language::translate('LBL_ADDRESS_EMAILS_INFO', $QUALIFIED_MODULE)}">
+							<span class="input-group-text">
+								<span class="fas fa-info-circle" </span>
+								</span>
+
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="row pb-3">

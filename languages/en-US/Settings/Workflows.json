@@ -274,7 +274,8 @@
     "LBL_ALL_ATTACHMENTS": "all attachments",
     "LBL_LATEST_ATTACHMENTS": "latest attachments",
     "LBL_MEETING_URL": "Meeting URL",
-    "LBL_SMS_PROVIDER": "SMS provider"
+    "LBL_SMS_PROVIDER": "SMS provider",
+    "LBL_ADDRESS_EMAILS_INFO": "You can use regular address email or use a special variable. Examples:\r\ntest@test.com,\r\n$(record : email)$,\r\n$(relatedRecord : created_user_id|email1|Users)$,\r\n$(roleEmails : 1)$"
   },
   "js": {
     "JS_SAME_FIELDS_SELECTED_MORE_THAN_ONCE": "Same fields selected more than once",
