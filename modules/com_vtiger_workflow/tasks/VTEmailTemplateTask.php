@@ -43,7 +43,7 @@ class VTEmailTemplateTask extends VTTask
 				$mailerContent['to'] = $emailParser->setContent($email)->parse()->getContent(true);
 			}
 			if ($this->address_emails) {
-				$emails = $emailParser->setContent($this->address_emails)->getContent(true);
+				$emails = $emailParser->setContent($this->address_emails)->parse()->getContent(true);
 				foreach ($emails as $email) {
 					$mailerContent['to'][] = $email;
 				}
