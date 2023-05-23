@@ -9,6 +9,6 @@
 			{$FIELD->getDisplayValue($VALUE, $ITEM_DATA, true)|escape}
 		</span>
 	{/if}
-	<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" type="{$INPUT_TYPE}" class="form-control form-control-sm {$FIELD->getColumnName()} integerVal text-right" data-validation-engine="validate[funcCall[Vtiger_Double_Validator_Js.invokeValidation],maxSize[{$FIELD->getRangeValues()}]]" value="{$FIELD->getDisplayValue($VALUE, $ITEM_DATA, true)|escape}" {if $FIELD->isReadOnly()}readonly="readonly" {/if} />
+	<input name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" type="{$INPUT_TYPE}" class="form-control form-control-sm {$FIELD->getColumnName()} js-inv-format_number text-right" data-format="" data-validation-engine="validate[funcCall[Vtiger_Double_Validator_Js.invokeValidation],maxSize[{$FIELD->getRangeValues()}]]" value="{$VALUE|escape}" {if $FIELD->isReadOnly()}readonly="readonly" {/if} />
 	<!-- /tpl-Base-inventoryfields-EditViewDouble -->
 {/strip}

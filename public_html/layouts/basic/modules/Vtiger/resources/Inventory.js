@@ -1626,6 +1626,9 @@ $.Class(
 			});
 		},
 		registerRowChangeEvent: function (container) {
+			container.on('focusout', '.js-inv-format_number', (e) => {
+				$(e.currentTarget).formatNumber(e.currentTarget.dataset.format);
+			});
 			container.on('focusout', '.qty', (e) => {
 				let element = $(e.currentTarget);
 				element.formatNumber(App.Fields.Double.FORMAT_TRUNCATE_TRAILING_ZEROS);
