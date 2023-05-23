@@ -444,7 +444,7 @@ $.Class(
 					//To Make the menu come up in the case of quick create
 					$(this).data('ui-autocomplete').menu.element.css('z-index', '100001');
 				},
-				position: {  collision: 'flip'  }
+				position: {  collision: 'flipfit'  }
 			});
 		},
 		/**

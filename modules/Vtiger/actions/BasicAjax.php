@@ -41,9 +41,10 @@ class Vtiger_BasicAjax_Action extends \App\Controller\Action
 				->getQueryForRecords($searchValue, \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT'), $srcRecord)
 				->createQuery()->createCommand()->query();
 			while ($row = $dataReader->read()) {
+				$label = \App\Record::getLabel($row['id'], true);
 				$result[] = [
-					'label' => App\Purifier::decodeHtml($row['search_label']),
-					'value' => App\Purifier::decodeHtml(\App\Record::getLabel($row['id'])),
+					'label' => $label,
+					'value' => $label,
 					'id' => $row['id'],
 				];
 			}
