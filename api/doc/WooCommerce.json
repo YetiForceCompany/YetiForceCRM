@@ -1,0 +1,24 @@
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/webservice/WooCommerce/Webhooks": {
+            "post": {
+                "summary": "WooCommerce webhook",
+                "description": "Retrieve data from webhook",
+                "operationId": "b5f2846c4f107c3c47761a5f0a87c02d",
+                "requestBody": {
+                    "description": "Contents of the request contains an associative array with the data record.",
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contents of the response contains only id"
+                    },
+                    "406": {
+                        "description": "No input data"
+                    }
+                }
+            }
+        }
+    }
+}

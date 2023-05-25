@@ -19,27 +19,27 @@ servers:
     url: 'https://gitstable.yetiforce.com'
     description: 'Demo server of the latest stable version'
 paths:
-  /webservice/PBX/Genesys/registerInteraction:
+  /webservice/PBX/GenesysWdeWhirly/registerInteraction:
     post:
       tags:
         - Genesys
       summary: 'PBX Genesys creating interactions'
-      description: 'Api PBX Genesys creating interactions method.'
-      operationId: ec3ebee06573408811dcf8c708b53ba3
+      description: 'Register interaction.'
+      operationId: e95965a0bbd65e7f1b55264fbfc58ee5
       requestBody:
         description: 'Contents of the request contains an associative array with the data.'
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PBX_Genesys_Full_Request'
+              $ref: '#/components/schemas/PBX_Genesys_RegisterInteraction_Request'
       responses:
         '200':
           description: 'Correct server response'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PBX_Genesys_Full_Response'
+                $ref: '#/components/schemas/PBX_Genesys_RegisterInteraction_Response'
         '401':
           description: 'Invalid api key'
         '404':
@@ -53,60 +53,61 @@ paths:
       security:
         -
           ApiKeyAuth: []
-  /webservice/PBX/Genesys/registerInteractionCampaign:
+  /webservice/PBX/GenesysWdeWhirly/updateInteraction:
+    post:
+      tags:
+        - Genesys
+      summary: 'PBX Genesys update interactions'
+      description: 'Update interaction.'
+      operationId: 4e4d955fe8b1079b376b67a017c6dfb7
+      requestBody:
+        description: 'Contents of the request contains an associative array with the data.'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PBX_Genesys_UpdateInteraction_Request'
+      responses:
+        '200':
+          description: 'Correct server response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PBX_Genesys_UpdateInteraction_Response'
+        '401':
+          description: 'Invalid api key'
+        '404':
+          description: 'Method Not Found'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PBX_Genesys_Error'
+      security:
+        -
+          ApiKeyAuth: []
+  /webservice/PBX/GenesysWdeWhirly/registerInteractionCampaign:
     post:
       tags:
         - Genesys
       summary: 'PBX Genesys creating interactions for campaign'
-      operationId: a4d002c1c39540e3361cdfb5b35ba525
+      description: 'Register interaction campaign.'
+      operationId: affe30c217d71a67719d82e489c99feb
       requestBody:
         description: 'Contents of the request contains an associative array with the data.'
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PBX_Genesys_Simple_Request'
+              $ref: '#/components/schemas/PBX_Genesys_RegisterInteractionCampaign_Request'
       responses:
         '200':
           description: 'Correct server response'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PBX_Genesys_Simple_Response'
-        '401':
-          description: 'Invalid api key'
-        '404':
-          description: 'Method Not Found'
-        '500':
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PBX_Genesys_Error'
-      security:
-        -
-          ApiKeyAuth: []
-  /webservice/PBX/Genesys/updateInteraction:
-    put:
-      tags:
-        - Genesys
-      summary: 'PBX Genesys interaction update'
-      description: 'Api PBX Genesys update interactions method.'
-      operationId: e60477350878a872455a506ed8915633
-      requestBody:
-        description: 'Contents of the request contains an associative array with the data.'
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PBX_Genesys_Simple_Request'
-      responses:
-        '200':
-          description: 'Correct server response'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PBX_Genesys_Simple_Response'
+                $ref: '#/components/schemas/PBX_Genesys_RegisterInteractionCampaign_Response'
         '401':
           description: 'Invalid api key'
         '404':
@@ -129,15 +130,87 @@ components:
         - description
       properties:
         status:
-          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          description: 'That indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
-          example: 0
+          example: 1
         description:
           description: 'Error description'
           type: string
           example: 'No data'
       type: object
-    PBX_Genesys_Full_Response:
+    PBX_Genesys_RegisterInteraction_Request:
+      title: 'Request for creating interactions'
+      required:
+        - GenesysIDInteraction
+        - InteractionStartDateTime
+        - MediaType
+      properties:
+        GenesysIDInteraction:
+          type: string
+          example: 00047aHK833X02TB
+        OutboundCallID:
+          type: integer
+        QueueName:
+          type: string
+        QueueTime:
+          type: integer
+          example: 122
+        ServiceType:
+          type: string
+        ServiceValue:
+          type: string
+        DialedNumber:
+          type: string
+        CustomerEmail:
+          type: string
+          example: test@yetiforce.com
+        CustomerPhoneNumber:
+          type: string
+          example: '+48884998123'
+        FacebookActorID:
+          type: string
+          example: '4187643884658211'
+        FacebookActorName:
+          type: string
+        CustomerContactName:
+          type: string
+          example: Tom
+        CustomerContactLastName:
+          type: string
+          example: Kowalski
+        CustomerNIP:
+          type: integer
+        CustomerAgreements:
+          type: string
+          example: '[]'
+        AgentName:
+          type: string
+        AgentID:
+          type: string
+        MediaType:
+          type: string
+          enum:
+            - 'voice in'
+            - 'voice out'
+            - callback
+            - chat
+            - InboundNew
+            - 'email out'
+            - 'email in'
+            - outbound
+            - messenger
+            - facebook
+            - facebookprivatemessage
+        CRMPreviewInteractionID:
+          type: string
+        InteractionStartDateTime:
+          type: string
+          example: '2022-11-08T14:54:55.9895353Z'
+        CRMSourceID:
+          type: integer
+          example: 4475
+      type: object
+    PBX_Genesys_RegisterInteraction_Response:
       title: 'Response for creating interactions'
       required:
         - status
@@ -145,7 +218,7 @@ components:
         - url
       properties:
         status:
-          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          description: 'That indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           example: 1
         interactionId:
@@ -157,51 +230,93 @@ components:
           type: string
           example: 'https://gitstable.yetiforce.com/index.php?module=Accounts&view=List'
       type: object
-    PBX_Genesys_Full_Request:
-      title: 'Request for creating interactions'
+    PBX_Genesys_UpdateInteraction_Request:
+      title: 'Request for update interactions'
+      required:
+        - GenesysIDInteraction
+        - SessionID
+        - InteractionEndDateTime
+        - CallResult
+        - AgentID
       properties:
-        genesysIdInteraction:
+        GenesysIDInteraction:
           type: string
-        outboundCallId:
-          type: integer
-        queueName:
+          example: 00016aFW01KD009T
+        InteractionEndDateTime:
           type: string
-        queueTime:
+          example: '2022-10-18T12:55:09.3474109Z'
+        InteractionHandleTime:
           type: integer
+          example: 90
+        DispositionCode:
+          type: string
+        AgentName:
+          type: string
+        TransferAgentID:
+          type: string
+        TransferAgentName:
+          type: string
+        CallResult:
+          type: string
+          example: ended
+        PersonalCallback:
+          type: integer
+        CRMInteractionID:
+          type: integer
+        AgentID:
+          type: string
+        CRMPreviousInteractionID:
+          type: integer
+        StatusInteraction:
+          type: string
+        SessionID:
+          type: string
+          example: 00QG8R2EQS9KT6Q31M0AHG5AES00001P
       type: object
-    PBX_Genesys_Simple_Response:
+    PBX_Genesys_UpdateInteraction_Response:
       title: 'Response for update interactions'
       required:
         - status
       properties:
         status:
-          description: 'A numeric value of 0 or 1 that indicates whether the communication is valid. 1 - success , 0 - error'
+          description: 'That indicates whether the communication is valid. 1 - success , 0 - error'
           type: integer
           example: 1
       type: object
-    PBX_Genesys_Simple_Request:
-      title: 'Request for creating interactions'
+    PBX_Genesys_RegisterInteractionCampaign_Request:
+      title: 'Request for creating interactions campaign'
+      required:
+        - GenesysIDInteraction
+        - SessionID
+        - InteractionEndDateTime
       properties:
-        genesysIdInteraction:
+        MediaType:
           type: string
-        outboundCallId:
+          enum:
+            - email
+            - sms
+          example: email
+        ServiceType:
+          type: string
+        ServiceValue:
+          type: string
+        GenesysIDInteraction:
+          type: string
+          example: 03RGG833ANU72009
+        OutboundCallID:
           type: integer
-        serviceType:
+        DialedNumber:
           type: string
-        serviceValue:
+        CustomerEMail:
           type: string
-        dialedNumber:
-          type: string
-      type: object
-    PBX_Genesys_Update_Request:
-      title: 'Request for creating interactions'
-      properties:
-        genesysIdInteraction:
-          type: string
-        interactionEndDate:
-          type: string
-        interactionEndTime:
-          type: string
-        interactionHandleTime:
+        CustomerNIP:
           type: integer
+        TemplateCRMID:
+          type: integer
+        InteractionStartDateTime:
+          type: string
+          example: '2022-11-04 09:17:26'
+        InteractionEndDateTime:
+          type: string
+          example: '2022-11-04 09:17:26'
       type: object
