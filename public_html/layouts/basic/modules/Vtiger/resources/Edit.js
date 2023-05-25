@@ -535,7 +535,8 @@ $.Class(
 						name: data.result._recordLabel,
 						id: data.result._recordId
 					});
-				}
+				},
+				noCache: true
 			});
 		},
 		/**
