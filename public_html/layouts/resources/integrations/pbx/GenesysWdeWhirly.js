@@ -21,7 +21,7 @@ window.Integrations_Pbx_GenesysWdeWhirly = class Integrations_Pbx_GenesysWdeWhir
 		}).done((response) => {
 			if (response.result.status) {
 				app.showNotify({ title: response.result.text, type: 'info' });
-				$.ajax({ url: response.result.url })
+				$.ajax({ url: response.result.url, headers: { 'Token-Api': response.result.token } })
 					.done((ajax) => {
 						this.log('|◄| performCall', ajax);
 						if (ajax['data']['status'] == 1) {
