@@ -131,7 +131,7 @@ class Login extends \Api\WebserviceStandard\Users\Login
 	 *		example={"column_name1" : "searched value 1", "column_name2" : "searched value 2"},
 	 *		@OA\ExternalDocumentation(
 	 *			description="Database communication engine",
-	 *			url="https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/item/new-db-communication-engine"
+	 *			url="https://doc.yetiforce.com/developer-guides/system-components/databases"
 	 *		),
 	 *	),
 	 *	@OA\Schema(

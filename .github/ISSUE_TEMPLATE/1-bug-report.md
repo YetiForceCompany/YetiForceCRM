@@ -13,7 +13,7 @@ Oh hi there! 😄
 To expedite issue processing please search open and closed issues before submitting a new one.
 Existing issues often contain information about workarounds, resolution, or progress updates.
 
-Before you create a new issue, please check out our [manual] (https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/how-to-report-bugs)
+Before you create a new issue, please check out our [manual] (https://doc.yetiforce.com/developer-guides/github/how-to-report-bugs)
 
 🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅-->
 
@@ -63,7 +63,7 @@ Please include a screenshot of your configuration. Here is an example: https://p
 <!--  Please send a part of logs that describes the circumstances when the error occurred to the following email address: github@yetiforce.com. The subject of the email MUST include your issue number.
 DO NOT paste the logs in the issues, as they might contain sensitive info, such as credentials.
 The more info you provide, the quicker we will be able to solve your problem.
-Description how to enable logs can be found here: https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/item/debugging
+Description how to enable logs can be found here: https://doc.yetiforce.com/developer-guides/debug
 Additionally, include a screenshot of your browser’s console (e.g. press F12 in Google Chrome).
 ex.
 

@@ -62,11 +62,11 @@ We design an innovative CRM system that is dedicated to large and medium-sized c
 
 ## 📖 Read the documentation to learn more.
 
-#### :computer: Requirements: [Web server requirements](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements)
+#### :computer: Requirements: [Web server requirements](https://doc.yetiforce.com/introduction/requirements/)
 
 #### :video_camera: Video Tutorials: [Video Tutorials on YouTube](https://www.youtube.com/playlist?list=PLX0lktP3Kukg_Da-TaEBys-aON68Yy2vh) , [Video Tutorials on our server](https://public.yetiforce.com/Tutorials/)
 
-#### :blue_book: Knowledge base: [yetiforce.com/en/knowledge-base/documentation](https://yetiforce.com/en/knowledge-base/documentation)
+#### :blue_book: Knowledge base: [doc.yetiforce.com](https://doc.yetiforce.com/)
 
 #### :pencil: Code Documentation: [doc.yetiforce.com/code/](https://doc.yetiforce.com/code/)
 
@@ -84,9 +84,9 @@ Follow us on [Twitter](https://twitter.com/YetiForceEN) or like on [FaceBook](ht
 - [Development version](https://download.yetiforce.com/crm-developer.zip) - full package (yarn + composer)
 - [Docker](tests/setup/docker.md) - docker container, for development purposes only
 
-1. Requirements [Web server requirements](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements)
-2. Installation [our website](https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/how-to-install-crm-system)
-3. The lists of changes for previous versions of YetiForce CRM are available at [our website](https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/category/changes-2).
+1. Requirements [Web server requirements](https://doc.yetiforce.com/introduction/requirements/)
+2. Installation [our website](https://doc.yetiforce.com/introduction/installation-manual)
+3. The lists of changes for previous versions of YetiForce CRM are available at [our website](https://doc.yetiforce.com/introduction/release-notes-changelog).
 4. Check Milestone to verify release due date
    https://github.com/YetiForceCompany/YetiForceCRM/milestones
 5. Update PKG link.
