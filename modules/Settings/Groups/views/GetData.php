@@ -138,6 +138,18 @@ class Settings_Groups_GetData_View extends Settings_Vtiger_Index_View
 							$conditions[] = ['vtiger_group2rs.roleandsubid' => $rolesAndSubordinates];
 						}
 						break;
+					case 'parentid':
+						$separator = \Vtiger_Multipicklist_UIType::SEPARATOR;
+						foreach ($value as $leaderId) {
+							$conditions[] = ['or like', 'parentid', [
+								$leaderId,
+								"%{$separator}{$leaderId}{$separator}%",
+								"{$leaderId}{$separator}%",
+								"%{$separator}{$leaderId}",
+							], false,
+							];
+						}
+						break;
 					default:
 						$conditions[] = [$fieldModel->getColumnName() => $value];
 				}

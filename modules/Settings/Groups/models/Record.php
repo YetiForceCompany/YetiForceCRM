@@ -204,17 +204,21 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 	 * Get leader users.
 	 *
 	 * @param int|null $leader
+	 * @param ?string  $leaders
 	 *
 	 * @return array
 	 */
-	public function getLeaderUsers(?int $leader): array
+	public function getLeaderUsers(?string $leaders): array
 	{
 		$users = [];
-		if ($leader) {
-			if ('Users' === \App\Fields\Owner::getType($leader)) {
-				$users[] = $leader;
-			} else {
-				$users = \App\PrivilegeUtil::getUsersByGroup($leader);
+		if ($leaders) {
+			$leaders = $this->getFieldInstanceByName('parentid')->getEditViewDisplayValue($leaders, $this);
+			foreach ($leaders as $leaderId) {
+				if ('Users' === \App\Fields\Owner::getType($leaderId)) {
+					$users[] = $leaderId;
+				} else {
+					$users = \App\PrivilegeUtil::getUsersByGroup($leaderId);
+				}
 			}
 		}
 		return $users;
@@ -318,9 +322,13 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 						$value = $request->getByType($fieldName, $fieldModel->get('purifyType'));
 						$fieldUITypeModel = $fieldModel->getUITypeModel();
 						$fieldUITypeModel->validate($value, true);
-						if ($value && ($ownerList = $fieldUITypeModel->getOwnerList($this)) && !isset($ownerList['LBL_USERS'][$value]) && !isset($ownerList['LBL_GROUPS'][$value])) {
-							$value = 0;
+						$leadersValue = [];
+						foreach ($value as $leaderId) {
+							if ($leaderId && ($ownerList = $fieldUITypeModel->getOwnerList($this)) && (isset($ownerList['LBL_USERS'][$leaderId]) || isset($ownerList['LBL_GROUPS'][$leaderId]))) {
+								$leadersValue[] = $leaderId;
+							}
 						}
+						$value = $fieldModel->getDBValue($leadersValue);
 						break;
 					default:
 						$fieldModel = $this->getFieldInstanceByName($fieldName);
@@ -614,7 +622,17 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 		$qualifiedModuleName = $this->getModule()->getName(true);
 		switch ($key) {
 			case 'parentid':
-				$value = $this->get($key) ? App\Fields\Owner::getLabel($this->get($key)) : '';
+				$result = [];
+				$leaders = $this->getFieldInstanceByName($key)->getEditViewDisplayValue($this->get($key), $this);
+				foreach ($leaders as $leaderId) {
+					if ('Users' === \App\Fields\Owner::getType($leaderId)) {
+						$result[] = \App\Fields\Owner::getUserLabel($leaderId) ?: '';
+					} else {
+						$result[] = \App\Fields\Owner::getGroupName($leaderId) ?: '';
+					}
+				}
+				$leadersNames = implode(', ', $result);
+				$value = App\TextUtils::textTruncateWithTooltip($leadersNames, false, true);
 				break;
 			case 'groupname':
 				$value = App\Language::translate($this->get($key), $qualifiedModuleName);
