@@ -79,7 +79,7 @@ class OSSMailScanner_CreatedHelpDesk_ScannerAction extends OSSMailScanner_BindHe
 		}
 		$accountOwner = $this->mail->getAccountOwner();
 		$record->set('assigned_user_id', $accountOwner);
-		$record->setFromUserValue('ticket_title', \App\TextUtils::textTruncate($this->mail->get('subject'), $record->getField('ticket_title')->getMaxValue()), false, true);
+		$record->setFromUserValue('ticket_title', \App\TextUtils::textTruncate($this->mail->get('subject'), $record->getField('ticket_title')->getMaxValue()));
 		$record->set('description', \App\TextUtils::htmlTruncate($this->mail->getContent(), $record->getField('description')->getMaxValue()));
 		if (!empty(\Config\Modules\OSSMailScanner::$helpdeskCreateDefaultStatus)) {
 			$record->set('ticketstatus', \Config\Modules\OSSMailScanner::$helpdeskCreateDefaultStatus);
