@@ -45,7 +45,7 @@ class Vtiger_CalendarExtSource_Model extends App\Base
 	public static function getByModule(int $moduleId): array
 	{
 		if (\App\Cache::has('Calendar-GetExtraSourcesList', $moduleId)) {
-			return \App\Cache::get('API-GetExtraSourcesList', $moduleId);
+			return \App\Cache::get('Calendar-GetExtraSourcesList', $moduleId);
 		}
 		$rows = (new \App\Db\Query())->from('s_#__calendar_sources')
 			->where(['base_module' => $moduleId])
