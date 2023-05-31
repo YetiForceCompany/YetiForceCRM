@@ -308,7 +308,13 @@ class Vtiger_CalendarExtSource_Model extends App\Base
 	 */
 	public function getExtraSourcesCount(): int
 	{
-		return $this->getExtraSourcesQuery()->count();
+		$privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if ($privileges->hasModuleActionPermission($this->baseModuleName, 'CalendarExtraSources')) {
+			if ($query = $this->getExtraSourcesQuery()) {
+				return $query->count();
+			}
+		}
+		return 0;
 	}
 
 	/**
@@ -318,7 +324,12 @@ class Vtiger_CalendarExtSource_Model extends App\Base
 	 */
 	public function getRows(): array
 	{
-		$dataReader = $this->getExtraSourcesQuery()->createCommand()->query();
+		$query = $this->getExtraSourcesQuery();
+		$privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$query || !$privileges->hasModuleActionPermission($this->baseModuleName, 'CalendarExtraSources')) {
+			return [];
+		}
+		$dataReader = $query->createCommand()->query();
 		$result = [];
 		while ($row = $dataReader->read()) {
 			$result[] = $this->formatRow($row);

@@ -1294,6 +1294,30 @@ CREATE TABLE `s_yf_business_hours` (
   KEY `business_hours_default_idx` (`default`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*Table structure for table `s_yf_calendar_sources` */
+
+CREATE TABLE `s_yf_calendar_sources` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `label` varchar(100) DEFAULT NULL,
+  `base_module` smallint(5) NOT NULL,
+  `target_module` smallint(5) NOT NULL,
+  `user_id` int(10) NOT NULL,
+  `type` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `public` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `include_filters` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `color` varchar(10) DEFAULT NULL,
+  `custom_view` int(10) unsigned NOT NULL DEFAULT 0,
+  `fieldid_a_date` int(10) NOT NULL,
+  `fieldid_a_time` int(10) NOT NULL DEFAULT 0,
+  `fieldid_b_date` int(10) NOT NULL DEFAULT 0,
+  `fieldid_b_time` int(10) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `base_module` (`base_module`),
+  KEY `target_module` (`target_module`),
+  CONSTRAINT `s_yf_calendar_sources_ibfk_1` FOREIGN KEY (`base_module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE,
+  CONSTRAINT `s_yf_calendar_sources_ibfk_2` FOREIGN KEY (`target_module`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `s_yf_companies` */
 
 CREATE TABLE `s_yf_companies` (

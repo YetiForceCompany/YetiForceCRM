@@ -23,7 +23,7 @@ class Vtiger_CalendarExtraSourcesModal_View extends \App\Controller\Modal
 	public function checkPermission(App\Request $request)
 	{
 		$privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$privileges->hasModuleActionPermission($request->getModule(), 'CalendarExtraSources')) {
+		if (!$privileges->hasModuleActionPermission($request->getModule(), 'CalendarExtraSourcesCreate')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if (!$request->isEmpty('id', true)) {
