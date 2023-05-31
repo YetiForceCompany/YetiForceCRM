@@ -45,7 +45,7 @@ class YetiForceWaproERP extends \App\YetiForce\Shop\AbstractBaseProduct
 			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceWaproERP');
 		} else {
 			if (
-				(new \App\Db\Query())->from('i_#__wapro')->count()
+				(new \App\Db\Query())->from('i_#__wapro')->count('*', \App\Db::getInstance('admin'))
 			) {
 				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
 				$status = false;

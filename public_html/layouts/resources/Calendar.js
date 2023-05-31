@@ -929,7 +929,8 @@ window.Calendar_Js = class {
 	 * @param {jQuery} modal
 	 */
 	registerExtraSourcesModal(modal, row) {
-		const picker = modal.find('.js-color-picker'),
+		const self = this,
+			picker = modal.find('.js-color-picker'),
 			form = modal.find('.js-modal-form'),
 			nav = this.getSidebarView().find('.js-extra-sources-nav'),
 			navTemplate = this.getSidebarView().find('.js-nav-template');
@@ -967,6 +968,7 @@ window.Calendar_Js = class {
 									.replace(/_LABEL_/g, formData['label'])
 							);
 						}
+						self.reloadCalendarData();
 					})
 					.fail(function (error, err) {
 						app.errorLog(error, err);

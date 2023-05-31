@@ -35,7 +35,7 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		if ('saveExtraSources' === $request->getMode() || 'deleteExtraSources' === $request->getMode()) {
-			if ($privileges->hasModuleActionPermission($moduleName, 'CalendarExtraSourcesCreate')) {
+			if (!$privileges->hasModuleActionPermission($moduleName, 'CalendarExtraSourcesCreate')) {
 				throw new \App\Exceptions\NoPermitted('ERR_ILLEGAL_VALUE');
 			}
 			if (!$request->isEmpty('id')) {
