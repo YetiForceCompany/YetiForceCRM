@@ -42,7 +42,7 @@ class CreatedHelpDesk extends CreatedMail
 		$this->loadServiceContracts($recordModel, $parentId);
 		$recordModel->set('assigned_user_id', $owner);
 		$recordModel->set('created_user_id', \App\User::getCurrentUserRealId());
-		$recordModel->setFromUserValue('ticket_title', \App\TextUtils::textTruncate($this->message->getSubject(), $recordModel->getField('ticket_title')->getMaxValue(), false));
+		$recordModel->setFromUserValue('ticket_title', \App\TextUtils::textTruncate($this->message->getSubject(), $recordModel->getField('ticket_title')->getMaxValue(), false, true));
 
 		$mailId = $this->message->getMailCrmId($this->account->getSource()->getId());
 		$this->message->getBody();
