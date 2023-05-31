@@ -209,8 +209,8 @@
     "LBL_SOURCE_RANGE_FIELDS": "Data based on a range of fields",
     "LBL_SOURCE_TYPE_1": "One date field or date time",
     "LBL_SOURCE_TYPE_2": "Two fields date and time",
-    "LBL_SOURCE_TYPE_3": "Time range one date field or date time",
-    "LBL_SOURCE_TYPE_4": "Time range two date and time fields"
+    "LBL_SOURCE_TYPE_3": "Time range for one date field or date and time field",
+    "LBL_SOURCE_TYPE_4": "Time range for two date and time fields"
   },
   "js": {
     "JS_CALENDAR_VIEW_ADDED_SUCCESSFULLY": "Calendar view added successfully",
