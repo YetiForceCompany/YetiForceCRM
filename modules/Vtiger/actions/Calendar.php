@@ -27,15 +27,27 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 	public function checkPermission(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if (!$userPrivilegesModel->hasModulePermission($moduleName) || !\method_exists(Vtiger_Module_Model::getInstance($moduleName), 'getCalendarViewUrl')) {
+		$privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		if (!$privileges->hasModulePermission($moduleName) || !\method_exists(Vtiger_Module_Model::getInstance($moduleName), 'getCalendarViewUrl')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
 		if ('updateEvent' === $request->getMode() && ($request->isEmpty('id', true) || !\App\Privilege::isPermitted($moduleName, 'EditView', $request->getInteger('id')))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
+		if ('saveExtraSources' === $request->getMode() || 'deleteExtraSources' === $request->getMode()) {
+			if ($privileges->hasModuleActionPermission($moduleName, 'CalendarExtraSources')) {
+				throw new \App\Exceptions\NoPermitted('ERR_ILLEGAL_VALUE');
+			}
+			if (!$request->isEmpty('id')) {
+				$source = Vtiger_CalendarExtSource_Model::getInstanceById($request->getInteger('id'));
+				if (!$privileges->isAdminUser() && $source->get('user_id') != $privileges->getId()) {
+					throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				}
+			}
+		}
 	}
 
+	/** {@inheritdoc} */
 	public function __construct()
 	{
 		parent::__construct();
@@ -44,12 +56,14 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 		$this->exposeMethod('updateEvent');
 		$this->exposeMethod('getCountEventsGroup');
 		$this->exposeMethod('pinOrUnpinUser');
+		$this->exposeMethod('saveExtraSources');
+		$this->exposeMethod('deleteExtraSources');
 	}
 
 	public function getEvents(App\Request $request)
 	{
 		$record = $this->getCalendarModel($request);
-		$entity = array_merge($record->getEntity(), $record->getPublicHolidays());
+		$entity = array_merge($record->getEntity(), $record->getPublicHolidays(), $record->getExtraSources());
 		$response = new Vtiger_Response();
 		$response->setResult($entity);
 		$response->emit();
@@ -68,7 +82,7 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 		foreach ($request->getArray('dates', 'date') as $datePair) {
 			$record->set('start', App\Fields\DateTime::formatToDisplay($datePair[0] . ' 00:00:00'));
 			$record->set('end', App\Fields\DateTime::formatToDisplay($datePair[1] . ' 23:59:59'));
-			$result[] = $record->getEntityRecordsCount();
+			$result[] = $record->getEntityRecordsCount() + $record->getExtraSourcesCount();
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
@@ -97,6 +111,9 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 		}
 		if ($request->has('cvid')) {
 			$record->set('customFilter', $request->getInteger('cvid'));
+		}
+		if ($request->has('extraSources')) {
+			$record->set('extraSources', $request->getArray('extraSources', 'Integer'));
 		}
 		return $record;
 	}
@@ -146,6 +163,50 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
+		$response->emit();
+	}
+
+	/**
+	 * Save extra sources.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public static function saveExtraSources(App\Request $request): void
+	{
+		$model = Vtiger_CalendarExtSource_Model::getCleanInstance($request->getModule());
+		$model->setData([
+			'id' => $request->isEmpty('id', true) ? 0 : $request->getInteger('id'),
+			'label' => $request->getByType('label', \App\Purifier::TEXT),
+			'base_module' => $request->getInteger('base_module'),
+			'target_module' => $request->getInteger('target_module'),
+			'type' => $request->getInteger('type'),
+			'public' => $request->getBoolean('public') ? 1 : 0,
+			'include_filters' => $request->getBoolean('include_filters') ? 1 : 0,
+			'color' => $request->isEmpty('color', true) ? '' : $request->getByType('color', 'Color'),
+			'custom_view' => $request->getInteger('custom_view'),
+			'fieldid_a_date' => $request->getInteger('fieldid_a_date'),
+			'fieldid_a_time' => $request->isEmpty('fieldid_a_time', true) ? 0 : $request->getInteger('fieldid_a_time'),
+			'fieldid_b_date' => $request->isEmpty('fieldid_b_date', true) ? 0 : $request->getInteger('fieldid_b_date'),
+			'fieldid_b_time' => $request->isEmpty('fieldid_b_time', true) ? 0 : $request->getInteger('fieldid_b_time'),
+		]);
+		$response = new Vtiger_Response();
+		$response->setResult($model->save());
+		$response->emit();
+	}
+
+	/**
+	 * Delete extra sources.
+	 *
+	 * @param App\Request $request
+	 *
+	 * @return void
+	 */
+	public static function deleteExtraSources(App\Request $request): void
+	{
+		$response = new Vtiger_Response();
+		$response->setResult(Vtiger_CalendarExtSource_Model::getInstanceById($request->getInteger('id'))->delete());
 		$response->emit();
 	}
 }

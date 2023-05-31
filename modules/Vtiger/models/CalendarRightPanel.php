@@ -84,18 +84,6 @@ class Vtiger_CalendarRightPanel_Model
 	}
 
 	/**
-	 * Get calendar types.
-	 *
-	 * @param string $moduleName
-	 *
-	 * @return array
-	 */
-	public static function getCalendarTypes(string $moduleName): array
-	{
-		return Vtiger_Calendar_Model::getInstance($moduleName)->getCalendarTypes();
-	}
-
-	/**
 	 * Return user favorite users.
 	 *
 	 * @param string $moduleName

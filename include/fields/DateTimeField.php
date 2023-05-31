@@ -362,4 +362,9 @@ class DateTimeField
 		$value = str_replace('T', ' ', $value);
 		return \App\Fields\DateTime::sanitizeDbFormat($value, $user->getDetail('date_format'));
 	}
+
+	public function getFullcalenderValue($user = null)
+	{
+		return self::convertToUserTimeZone($this->datetime, $user)->format('Y-m-d') . ' ' . $this->getFullcalenderTime($user);
+	}
 }

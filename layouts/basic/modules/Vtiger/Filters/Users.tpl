@@ -17,7 +17,12 @@
 							<span class="fas fa-search fa-fw"></span>
 						</span>
 					</div>
-					<input type="text" class="form-control js-filter__search" placeholder="{\App\Language::translate('LBL_USER_NAME',$MODULE_NAME)}" aria-describedby="search-icon">
+					<input type="text" class="form-control js-filter__search" placeholder="{\App\Language::translate('LBL_USER_NAME', $MODULE_NAME, null, true, 'Calendar')}" aria-describedby="search-icon">
+					<div class="input-group-append">
+						<button title="{\App\Language::translate('LBL_REMOVE_FILTERING')}" class="btn btn-outline-secondary border-left-0 border js-filter__clear" type="button">
+							<i class="fa fa-times"></i>
+						</button>
+					</div>
 				</div>
 				<div class="js-sidebar-filter-body position-relative p-0 u-max-h-70vh">
 					<ul class="nav form-row">

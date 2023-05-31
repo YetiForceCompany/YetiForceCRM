@@ -23,7 +23,7 @@ class Calendar_Calendar_Action extends Vtiger_Calendar_Action
 			}
 			$entity = array_merge($record->getEntityCount(), $record->getPublicHolidays());
 		} else {
-			$entity = array_merge($record->getEntity(), $record->getPublicHolidays());
+			$entity = array_merge($record->getEntity(), $record->getPublicHolidays(), $record->getExtraSources());
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($entity);

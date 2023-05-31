@@ -138,7 +138,7 @@ class Module
 	 */
 	public static function getDefaultModule(): string
 	{
-		$moduleName = \App\Config::main('default_module') ?:  'Home';
+		$moduleName = \App\Config::main('default_module') ?: 'Home';
 		if (!\App\Privilege::isPermitted($moduleName)) {
 			foreach (\vtlib\Functions::getAllModules(true, false, 0) as $module) {
 				if (\App\Privilege::isPermitted($module['name'])) {
@@ -417,6 +417,25 @@ class Module
 		}
 		\App\Cache::save('getQuickCreateModules', $restrictListString, $quickCreateModules);
 		return $quickCreateModules;
+	}
+
+	/**
+	 * Get a list of modules with permissions.
+	 *
+	 * @param bool $isEntityType   Only entity type
+	 * @param bool $showRestricted Show restricted
+	 * @param bool $hasPermission  Must have access to the module
+	 *
+	 * @return \Generator
+	 */
+	public static function getModulesList(bool $isEntityType = true, bool $showRestricted = false, bool $hasPermission = true): \Generator
+	{
+		$userPrivModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
+		foreach (\vtlib\Functions::getAllModules($isEntityType, $showRestricted, 0) as $module) {
+			if (!$hasPermission || ($hasPermission && $userPrivModel->hasModuleActionPermission($module['name'], 'DetailView'))) {
+				yield $module;
+			}
+		}
 	}
 }
 

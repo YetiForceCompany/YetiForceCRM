@@ -280,11 +280,6 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 		return parent::getOrderBySql($orderBy);
 	}
 
-	public static function getCalendarTypes()
-	{
-		return App\Fields\Picklist::getValuesName('activitytype');
-	}
-
 	/** {@inheritdoc} */
 	public function getValuesFromSource(App\Request $request, $moduleName = false): array
 	{
