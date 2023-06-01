@@ -53,11 +53,6 @@
 				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 				data-name="{$FIELD_NAME}" name="{$FIELD_NAME}[]" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if}
 				{if $FIELD_MODEL->isEditableReadOnly() || !$USER_MODEL->isAdminUser()}readonly="readonly" {/if}>
-				{if !$FIELD_MODEL->isMandatory()}
-					<optgroup class="p-0">
-						<option value="0">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
-					</optgroup>
-				{/if}
 				{foreach from=$OWNERS_ALL item=OWNERS key=BLOCK_NAME}
 					{OPTGRUOP BLOCK_NAME=$BLOCK_NAME OWNERS=$OWNERS}
 				{/foreach}
