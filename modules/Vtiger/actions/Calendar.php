@@ -186,6 +186,7 @@ class Vtiger_Calendar_Action extends \App\Controller\Action
 			'include_filters' => $request->getBoolean('include_filters') ? 1 : 0,
 			'color' => $request->isEmpty('color', true) ? '' : $request->getByType('color', 'Color'),
 			'custom_view' => $request->getInteger('custom_view'),
+			'field_label' => $request->getInteger('field_label'),
 			'fieldid_a_date' => $request->getInteger('fieldid_a_date'),
 			'fieldid_a_time' => $request->isEmpty('fieldid_a_time', true) ? 0 : $request->getInteger('fieldid_a_time'),
 			'fieldid_b_date' => $request->isEmpty('fieldid_b_date', true) ? 0 : $request->getInteger('fieldid_b_date'),

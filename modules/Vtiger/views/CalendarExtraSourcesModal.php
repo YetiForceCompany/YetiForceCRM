@@ -52,6 +52,7 @@ class Vtiger_CalendarExtraSourcesModal_View extends \App\Controller\Modal
 				'target_module' => $request->getInteger('target_module'),
 				'custom_view' => $request->getInteger('custom_view'),
 				'type' => $request->getInteger('type'),
+				'field_label' => $request->getInteger('field_label'),
 				'fieldid_a_date' => $request->getInteger('fieldid_a_date'),
 				'fieldid_a_time' => $request->isEmpty('fieldid_a_time', true) ? 0 : $request->getInteger('fieldid_a_time'),
 				'fieldid_b_date' => $request->isEmpty('fieldid_b_date', true) ? 0 : $request->getInteger('fieldid_b_date'),

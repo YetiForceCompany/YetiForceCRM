@@ -95,7 +95,8 @@ abstract class Vtiger_Calendar_Model extends App\Base
 				'linklabel' => 'LBL_EXTRA_SOURCES',
 				'linkclass' => 'js-extra-sources-form',
 				'template' => 'Filters/ExtraSources.tpl',
-				'filterData' => Vtiger_CalendarExtSource_Model::getByModule($this->getModule()->getId())
+				'filterData' => Vtiger_CalendarExtSource_Model::getByModule($this->getModule()->getId()),
+				'history' => $request->has('extraSources') ? $request->get('extraSources') : [],
 			]);
 		}
 		return $links;

@@ -5,7 +5,8 @@
 		<li class="m-0 p-0 col-12 mb-1 js-filter__item__container" data-js="classs: d-none">
 			<div class="mr-0 pr-0 col-12 form-row d-flex align-items-center">
 				<div>
-					<input value="{$SOURCE_ID}" type="checkbox" id="sourceId{$SOURCE_ID}" class="js-filter__item__val alignMiddle mr-2">
+					<input value="{$SOURCE_ID}" type="checkbox" id="sourceId{$SOURCE_ID}" class="js-filter__item__val alignMiddle mr-2"
+						{if !empty($SIDEBARWIDGET->get('history')) && in_array($SOURCE_ID, $SIDEBARWIDGET->get('history'))}checked{/if}>
 				</div>
 				<label class="m-0 p-0 col-8 col-xxl-9 js-filter__item__value u-text-ellipsis"
 					for="sourceId{$SOURCE_ID}">
@@ -32,11 +33,13 @@
 	<div class="card bg-light">
 		<div class="card-header p-1 pl-2">
 			{\App\Language::translate($SIDEBARWIDGET->get('linklabel'), $MODULE_NAME, null, true, 'Calendar')}
-			<div class="float-right ml-1">
-				<button class="btn btn-success btn-xs js-source-modal" data-js="click">
-					<span class="fa-solid fa-plus"></span>
-				</button>
-			</div>
+			{if {\App\Privilege::isPermitted($MODULE_NAME, 'CalendarExtraSourcesCreate')} }
+				<div class="float-right ml-1">
+					<button class="btn btn-success btn-xs js-source-modal" data-js="click">
+						<span class="fa-solid fa-plus"></span>
+					</button>
+				</div>
+			{/if}
 		</div>
 		<div class="card-body row p-1">
 			<div class="col-12">

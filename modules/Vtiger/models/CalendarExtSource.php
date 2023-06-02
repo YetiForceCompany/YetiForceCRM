@@ -47,9 +47,12 @@ class Vtiger_CalendarExtSource_Model extends App\Base
 		if (\App\Cache::has('Calendar-GetExtraSourcesList', $moduleId)) {
 			return \App\Cache::get('Calendar-GetExtraSourcesList', $moduleId);
 		}
-		$rows = (new \App\Db\Query())->from('s_#__calendar_sources')
-			->where(['base_module' => $moduleId])
-			->createCommand(\App\Db::getInstance('admin'))->queryAllByGroup(1);
+		$query = (new \App\Db\Query())->from('s_#__calendar_sources')
+			->where(['base_module' => $moduleId]);
+		if (!\App\User::getCurrentUserModel()->isAdmin()) {
+			$query->andWhere(['public' => 1]);
+		}
+		$rows = $query->createCommand(\App\Db::getInstance('admin'))->queryAllByGroup(1);
 		\App\Cache::save('Calendar-GetExtraSourcesList', $moduleId, $rows, \App\Cache::LONG);
 		return $rows;
 	}
@@ -69,6 +72,9 @@ class Vtiger_CalendarExtSource_Model extends App\Base
 		}
 		$moduleName = \App\Module::getModuleName($source['base_module']);
 		$className = Vtiger_Loader::getComponentClassName('Model', 'CalendarExtSource', $moduleName);
+		if ($source['color']) {
+			$source['textColor'] = \App\Colors::getContrast($source['color']);
+		}
 		$instance = new $className($source);
 		$instance->baseModuleName = $moduleName;
 		$instance->targetModuleName = \App\Module::getModuleName($source['target_module']);
@@ -181,7 +187,11 @@ class Vtiger_CalendarExtSource_Model extends App\Base
 		}
 		$this->queryGenerator->clearFields();
 		$this->queryGenerator->setField('assigned_user_id');
-		$this->nameFields = $this->getModule()->getNameFields();
+		if ($this->get('field_label')) {
+			$this->nameFields = [$this->getModule()->getField($this->get('field_label'))->getName()];
+		} else {
+			$this->nameFields = $this->getModule()->getNameFields();
+		}
 		foreach ($this->nameFields as $field) {
 			$this->queryGenerator->setField($field);
 		}
@@ -358,13 +368,9 @@ class Vtiger_CalendarExtSource_Model extends App\Base
 		}
 		$item['title'] = trim($title);
 		$item['backgroundColor'] = $this->get('color');
-		$item['className'] = 'js-popover-tooltip--record ownerCBr_' . $row['assigned_user_id'];
-		if ($this->getModule()->isSummaryViewSupported()) {
-			$item['url'] = 'index.php?module=' . $this->targetModuleName . '&view=Detail&record=' . $row['id'];
-			$item['className'] .= ' js-show-modal';
-		} else {
-			$item['url'] = $this->getModule()->getDetailViewUrl($row['id']);
-		}
+		$item['textColor'] = $this->get('textColor');
+		$item['className'] = 'js-show-modal js-quick-detail-modal js-popover-tooltip--record ownerCBr_' . $row['assigned_user_id'];
+		$item['url'] = 'index.php?module=' . $this->targetModuleName . '&view=Detail&record=' . $row['id'];
 		return $item;
 	}
 

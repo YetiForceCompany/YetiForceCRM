@@ -27,6 +27,31 @@
 		</div>
 		<div class="form-group row">
 			<label class="col-sm-4 col-form-label text-right" for="custom_view">
+				{\App\Language::translate('LBL_SOURCE_FIELD_LABEL', $MODULE_NAME, null, true, 'Calendar')}
+				<span class="redColor">*</span>
+			</label>
+			<div class="col-md-8">
+				<select class="select2 form-control" name="field_label" data-validation-engine="validate[required]">
+					<optgroup>
+						<option value="0" {if $FIELDS_DATA['field_label'] eq 0} selected="selected" {/if}>
+							{\App\Language::translate('LBL_SOURCE_EMPTY_FIELD_LABEL', $MODULE_NAME, null, true, 'Calendar')}
+						</option>
+					</optgroup>
+					<optgroup label="{\App\Language::translate('LBL_FIELDS')}">
+						{foreach from=$MODULE_MODEL->getFields() item=FIELD_MODEL}
+							{if $FIELD_MODEL->isActiveField() && $FIELD_MODEL->isViewEnabled()}
+								<option value="{$FIELD_MODEL->getId()}"
+									{if $FIELDS_DATA['field_label'] eq $FIELD_MODEL->getId()} selected="selected" {/if}>
+									{$FIELD_MODEL->getFullLabelTranslation()}
+								</option>
+							{/if}
+						{/foreach}
+					</optgroup>
+				</select>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label class="col-sm-4 col-form-label text-right" for="custom_view">
 				{if $FIELDS_DATA['type'] == 1 || $FIELDS_DATA['type'] == 2}
 					{\App\Language::translate('LBL_SOURCE_SINGLE_FIELD', $MODULE_NAME, null, true, 'Calendar')}
 				{else}
@@ -52,20 +77,24 @@
 						<div class="col-md-6">
 							<select class="select2 form-control" name="fieldid_a_date" data-validation-engine="validate[required]">
 								{foreach item=FIELD_MODEL from=$MODULE_MODEL->getFieldsByType('date', true)}
-									<option value="{$FIELD_MODEL->getId()}"
-										{if $FIELDS_DATA['fieldid_a_date'] eq $FIELD_MODEL->getId()} selected="selected" {/if}>
-										{$FIELD_MODEL->getFullLabelTranslation()}
-									</option>
+									{if $FIELD_MODEL->isActiveField() && $FIELD_MODEL->isViewEnabled()}
+										<option value="{$FIELD_MODEL->getId()}"
+											{if $FIELDS_DATA['fieldid_a_date'] eq $FIELD_MODEL->getId()} selected="selected" {/if}>
+											{$FIELD_MODEL->getFullLabelTranslation()}
+										</option>
+									{/if}
 								{/foreach}
 							</select>
 						</div>
 						<div class="col-md-6">
 							<select class="select2 form-control" name="fieldid_a_time" data-validation-engine="validate[required]">
 								{foreach item=FIELD_MODEL from=$MODULE_MODEL->getFieldsByType('time', true)}
-									<option value="{$FIELD_MODEL->getId()}"
-										{if $FIELDS_DATA['fieldid_a_time'] eq $FIELD_MODEL->getId()} selected="selected" {/if}>
-										{$FIELD_MODEL->getFullLabelTranslation()}
-									</option>
+									{if $FIELD_MODEL->isActiveField() && $FIELD_MODEL->isViewEnabled()}
+										<option value="{$FIELD_MODEL->getId()}"
+											{if $FIELDS_DATA['fieldid_a_time'] eq $FIELD_MODEL->getId()} selected="selected" {/if}>
+											{$FIELD_MODEL->getFullLabelTranslation()}
+										</option>
+									{/if}
 								{/foreach}
 							</select>
 						</div>
@@ -77,10 +106,12 @@
 							<div class="col-md-12">
 								<select class="select2 form-control" name="fieldid_b_date" data-validation-engine="validate[required]">
 									{foreach item=FIELD_MODEL from=$MODULE_MODEL->getFieldsByType(['date','datetime'], true)}
-										<option value="{$FIELD_MODEL->getId()}"
-											{if $FIELDS_DATA['fieldid_b_date'] eq $FIELD_MODEL->getId()} selected="selected" {/if}>
-											{$FIELD_MODEL->getFullLabelTranslation()}
-										</option>
+										{if $FIELD_MODEL->isActiveField() && $FIELD_MODEL->isViewEnabled()}
+											<option value="{$FIELD_MODEL->getId()}"
+												{if $FIELDS_DATA['fieldid_b_date'] eq $FIELD_MODEL->getId()} selected="selected" {/if}>
+												{$FIELD_MODEL->getFullLabelTranslation()}
+											</option>
+										{/if}
 									{/foreach}
 								</select>
 							</div>
@@ -89,20 +120,24 @@
 							<div class="col-md-6">
 								<select class="select2 form-control" name="fieldid_b_date" data-validation-engine="validate[required]">
 									{foreach item=FIELD_MODEL from=$MODULE_MODEL->getFieldsByType('date', true)}
-										<option value="{$FIELD_MODEL->getId()}"
-											{if $FIELDS_DATA['fieldid_b_date'] eq $FIELD_MODEL->getId()} selected="selected" {/if}>
-											{$FIELD_MODEL->getFullLabelTranslation()}
-										</option>
+										{if $FIELD_MODEL->isActiveField() && $FIELD_MODEL->isViewEnabled()}
+											<option value="{$FIELD_MODEL->getId()}"
+												{if $FIELDS_DATA['fieldid_b_date'] eq $FIELD_MODEL->getId()} selected="selected" {/if}>
+												{$FIELD_MODEL->getFullLabelTranslation()}
+											</option>
+										{/if}
 									{/foreach}
 								</select>
 							</div>
 							<div class="col-md-6">
 								<select class="select2 form-control" name="fieldid_b_time" data-validation-engine="validate[required]">
 									{foreach item=FIELD_MODEL from=$MODULE_MODEL->getFieldsByType('time', true)}
-										<option value="{$FIELD_MODEL->getId()}"
-											{if $FIELDS_DATA['fieldid_b_time'] eq $FIELD_MODEL->getId()} selected="selected" {/if}>
-											{$FIELD_MODEL->getFullLabelTranslation()}
-										</option>
+										{if $FIELD_MODEL->isActiveField() && $FIELD_MODEL->isViewEnabled()}
+											<option value="{$FIELD_MODEL->getId()}"
+												{if $FIELDS_DATA['fieldid_b_time'] eq $FIELD_MODEL->getId()} selected="selected" {/if}>
+												{$FIELD_MODEL->getFullLabelTranslation()}
+											</option>
+										{/if}
 									{/foreach}
 								</select>
 							</div>
