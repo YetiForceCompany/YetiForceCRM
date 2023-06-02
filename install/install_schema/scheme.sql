@@ -1307,6 +1307,7 @@ CREATE TABLE `s_yf_calendar_sources` (
   `include_filters` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `color` varchar(10) DEFAULT NULL,
   `custom_view` int(10) unsigned NOT NULL DEFAULT 0,
+  `field_label` int(10) NOT NULL DEFAULT 0,
   `fieldid_a_date` int(10) NOT NULL,
   `fieldid_a_time` int(10) NOT NULL DEFAULT 0,
   `fieldid_b_date` int(10) NOT NULL DEFAULT 0,
