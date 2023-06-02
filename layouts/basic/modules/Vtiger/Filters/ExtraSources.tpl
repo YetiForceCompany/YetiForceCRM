@@ -8,7 +8,7 @@
 					<input value="{$SOURCE_ID}" type="checkbox" id="sourceId{$SOURCE_ID}" class="js-filter__item__val alignMiddle mr-2"
 						{if !empty($SIDEBARWIDGET->get('history')) && in_array($SOURCE_ID, $SIDEBARWIDGET->get('history'))}checked{/if}>
 				</div>
-				<label class="m-0 p-0 col-8 col-xxl-9 js-filter__item__value u-text-ellipsis"
+				<label class="m-0 p-0 col js-filter__item__value u-text-ellipsis"
 					for="sourceId{$SOURCE_ID}">
 					<div class="d-inline-block align-middle mr-1 u-w-1em u-h-1em js-background" style="background: {$SOURCE['color']};" data-js="container"></div>
 					<span class="js-label" data-js="container">{$SOURCE['label']}</span>

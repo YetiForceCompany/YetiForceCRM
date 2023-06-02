@@ -192,10 +192,11 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Vtiger_Calendar
 		let options = this.getDefaultParams();
 		self.fullCalendar.removeAllEvents();
 		self.clearFilterButton(options['user']);
-		options.historyUrl = `index.php?module=${options['module']}&view=Calendar&history=true
-		&viewType=${this.fullCalendar.view.type}&start=${options['start']}&end=${options['end']}
-		&user=${JSON.stringify(options['user'])}&extraSources=${JSON.stringify(options['extraSources'])}
-		&time=${options['time']}&cvid=${options['cvid']}&hiddenDays=${this.fullCalendar.getOption('hiddenDays')}`;
+		options.historyUrl = `index.php?module=${options['module']}&view=Calendar&history=true`;
+		options.historyUrl += `&viewType=${this.fullCalendar.view.type}&start=${options['start']}&end=${options['end']}`;
+		options.historyUrl += `&time=${options['time']}&user=${JSON.stringify(options['user'])}`;
+		options.historyUrl += `&extraSources=${JSON.stringify(options['extraSources'])}`;
+		options.historyUrl += `&cvid=${options['cvid']}&hiddenDays=${this.fullCalendar.getOption('hiddenDays')}`;
 		let connectorMethod = window['AppConnector']['request'];
 		if (this.browserHistory && window.calendarLoaded) {
 			connectorMethod = window['AppConnector']['requestPjax'];
