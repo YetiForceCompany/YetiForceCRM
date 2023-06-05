@@ -41,50 +41,28 @@ Vtiger_Edit_Js(
 			return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
 		},
 
+		/**
+		 * Register file location type change event.
+		 * @param {jQuery} container
+		 */
 		registerFileLocationTypeChangeEvent: function (container) {
-			var thisInstance = this;
-			container.on('change', 'select[name="filelocationtype"]', function (e) {
-				var fileLocationTypeElement = container.find('[name="filelocationtype"]');
-				var fileNameElement = container.find('[name="filename"]');
-				var newFileNameElement;
+			let thisInstance = this;
+			let fileLocationTypeElement = container.find('[name="filelocationtype"]');
+			fileLocationTypeElement.on('change', function (e) {
+				let typeFile = $('.js-type-file');
+				let typeText = $('.js-type-text');
+				let fileNameElement = '';
 				if (thisInstance.isFileLocationInternalType(fileLocationTypeElement)) {
-					newFileNameElement = jQuery('<input type="file"/>');
+					fileNameElement = typeFile;
+					fileNameElement.addClass('show').removeClass('d-none');
+					typeText.addClass('d-none').removeClass('show');
 				} else {
-					newFileNameElement = jQuery('<input type="text" />');
-				}
-				var oldElementAttributeList = fileNameElement.get(0).attributes;
+					fileNameElement = typeText;
+					fileNameElement.addClass('show').removeClass('d-none');
+					typeFile.addClass('d-none').removeClass('show');
 
-				for (var index = 0; index < oldElementAttributeList.length; index++) {
-					var attributeObject = oldElementAttributeList[index];
-					//Dont update the type attribute
-					if (attributeObject.name == 'type' || attributeObject.name == 'value' || attributeObject.name == 'class') {
-						continue;
-					}
-					var value = attributeObject.value;
-					var className = '';
-					if (attributeObject.name == 'data-fieldinfo') {
-						value = JSON.parse(value);
-						if (thisInstance.isFileLocationExternalType(fileLocationTypeElement)) {
-							value['type'] = 'url';
-							className = 'form-control';
-						} else {
-							value['type'] = 'file';
-						}
-						value = JSON.stringify(value);
-					}
-					if (attributeObject.name === 'data-validation-engine') {
-						if (thisInstance.isFileLocationExternalType(fileLocationTypeElement)) {
-							value = 'validate[maxSize[' + fileNameElement.data('fieldinfo').maximumlength + '],funcCall[Vtiger_Base_Validator_Js.invokeValidation]]';
-						} else {
-							value = 'validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]';
-						}
-					}
-					newFileNameElement.attr(attributeObject.name, value);
-					newFileNameElement.addClass(className);
 				}
-				fileNameElement.replaceWith(newFileNameElement);
-				var fileNameElementTd = newFileNameElement.closest('.fieldValue');
-				var uploadFileDetails = fileNameElementTd.find('.uploadedFileDetails');
+				let uploadFileDetails = fileNameElement.closest('.fieldValue').find('.uploadedFileDetails');
 				if (thisInstance.isFileLocationExternalType(fileLocationTypeElement)) {
 					uploadFileDetails.addClass('d-none').removeClass('show');
 				} else {
