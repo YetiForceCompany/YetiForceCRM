@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Base-Filters-Groups -->
+	<!-- tpl-Base-Calendar-Filters-Groups -->
 	{if !empty($FILTER_DATA)}
 		{assign var="SELECT_ALL_BY_DEFAULT" value=$USER_MODEL->get('calendar_all_users_by_default')}
 		<div class="js-filter__container">
@@ -53,5 +53,5 @@
 			{/if}
 		</div>
 	{/if}
-	<!-- /tpl-Base-Filters-Groups -->
+	<!-- /tpl-Base-Calendar-Filters-Groups -->
 {/strip}

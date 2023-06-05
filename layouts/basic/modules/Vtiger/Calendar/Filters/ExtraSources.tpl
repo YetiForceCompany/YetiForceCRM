@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Base-Filters-ExtraSources -->
+	<!-- tpl-Base-Calendar-Filters-ExtraSources -->
 	{function SHOW_NAV_ROW SOURCE_ID='_SOURCE_ID_' SOURCE=['label'=> '_LABEL_', 'color'=> '_COLOR_'] IS_EDITABLE=true}
 		<li class="m-0 p-0 col-12 mb-1 js-filter__item__container" data-js="classs: d-none">
 			<div class="mr-0 pr-0 col-12 form-row d-flex align-items-center">
@@ -73,5 +73,5 @@
 			</div>
 		</div>
 	</div>
-	<!-- tpl-Base-Filters-ExtraSources -->
+	<!-- tpl-Base-Calendar-Filters-ExtraSources -->
 {/strip}

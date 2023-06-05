@@ -63,12 +63,18 @@ abstract class Vtiger_Calendar_Model extends App\Base
 	public function getSideBarLinks(array $linkParams): array
 	{
 		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['SIDEBARWIDGET'], $linkParams)['SIDEBARWIDGET'] ?? [];
+		$links[] = Vtiger_Link_Model::getInstanceFromValues([
+			'linktype' => 'SIDEBARWIDGET',
+			'linklabel' => 'LBL_TYPE',
+			'linkclass' => 'text-center',
+			'template' => 'Calendar/Filters/Switch.tpl',
+		]);
 		if ($types = $this->getCalendarTypes()) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_TYPE',
 				'linkdata' => ['cache' => 'calendar-types', 'name' => 'types'],
-				'template' => 'Filters/ActivityTypes.tpl',
+				'template' => 'Calendar/Filters/ActivityTypes.tpl',
 				'filterData' => $types,
 			]);
 		}
@@ -77,14 +83,14 @@ abstract class Vtiger_Calendar_Model extends App\Base
 		$links[] = Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'SIDEBARWIDGET',
 			'linkclass' => 'js-users-form usersForm ',
-			'template' => 'Filters/Users.tpl',
+			'template' => 'Calendar/Filters/Users.tpl',
 			'filterData' => Vtiger_CalendarRightPanel_Model::getUsersList($this->getModuleName()),
 			'historyUsers' => $historyUsers,
 		]);
 		$links[] = Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'SIDEBARWIDGET',
 			'linkclass' => 'js-group-form groupForm',
-			'template' => 'Filters/Groups.tpl',
+			'template' => 'Calendar/Filters/Groups.tpl',
 			'filterData' => Vtiger_CalendarRightPanel_Model::getGroupsList($this->getModuleName()),
 			'historyUsers' => $historyUsers,
 		]);
@@ -94,7 +100,7 @@ abstract class Vtiger_Calendar_Model extends App\Base
 				'linktype' => 'SIDEBARWIDGET',
 				'linklabel' => 'LBL_EXTRA_SOURCES',
 				'linkclass' => 'js-extra-sources-form',
-				'template' => 'Filters/ExtraSources.tpl',
+				'template' => 'Calendar/Filters/ExtraSources.tpl',
 				'filterData' => Vtiger_CalendarExtSource_Model::getByModule($this->getModule()->getId()),
 				'history' => $request->has('extraSources') ? $request->get('extraSources') : [],
 			]);

@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-Base-Filters-ActivityTypes -->
+	<!-- tpl-Base-Calendar-Filters-ActivityTypes -->
 	{if !empty($FILTER_DATA)}
 		<div class="card">
 			<div class="card-header p-1 pl-2">
@@ -17,5 +17,5 @@
 			</div>
 		</div>
 	{/if}
-	<!-- tpl-Base-Filters-ActivityTypes -->
+	<!-- tpl-Base-Calendar-Filters-ActivityTypes -->
 {/strip}
