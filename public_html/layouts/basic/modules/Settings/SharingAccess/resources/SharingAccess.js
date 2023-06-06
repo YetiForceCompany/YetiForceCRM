@@ -212,7 +212,6 @@ jQuery.Class(
 								customRuleTable.parent().find('.js-record-details').removeClass('d-none');
 								customRuleTable.addClass('d-none');
 							}
-
 						} else {
 							app.showNotify({
 								type: 'error',
