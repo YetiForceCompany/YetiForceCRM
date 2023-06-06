@@ -319,7 +319,7 @@ class Settings_Groups_Record_Model extends Settings_Vtiger_Record_Model
 				switch ($fieldName) {
 					case 'parentid':
 						$fieldModel = $this->getFieldInstanceByName($fieldName);
-						$value = $request->getByType($fieldName, $fieldModel->get('purifyType'));
+						$value = $request->getByType($fieldName, $fieldModel->get('purifyType')) ?: [];
 						$fieldUITypeModel = $fieldModel->getUITypeModel();
 						$fieldUITypeModel->validate($value, true);
 						$leadersValue = [];
