@@ -253,7 +253,7 @@ class PrivilegeUtil
 	 *
 	 * @return array
 	 */
-	public static function getUserByMember($member)
+	public static function getUserByMember(string $member)
 	{
 		if (Cache::has('getUserByMember', $member)) {
 			return Cache::get('getUserByMember', $member);
@@ -1323,7 +1323,7 @@ class PrivilegeUtil
 	public static function getLeadersGroupByUserId(int $userId): array
 	{
 		$result = [];
-		$query = self::getQueryToGroupsByUserId($userId)->andWhere(['<>', 'parentid', 0])->andWhere(['not', ['parentid' => null]]);
+		$query = self::getQueryToGroupsByUserId($userId)->andWhere(['<>', 'parentid', ''])->andWhere(['not', ['parentid' => null]]);
 		$query->select(['groupid', 'parentid'])->leftJoin('vtiger_users', 'vtiger_groups.parentid=vtiger_users.id');
 		$partnerIds = $query->createCommand()->queryAllByGroup(0);
 		$parentFieldModel = \Settings_Groups_Record_Model::getCleanInstance()->getFieldInstanceByName('parentid');
