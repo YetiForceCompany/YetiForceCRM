@@ -444,7 +444,7 @@ $.Class(
 					//To Make the menu come up in the case of quick create
 					$(this).data('ui-autocomplete').menu.element.css('z-index', '100001');
 				},
-				position: {  collision: 'flipfit'  }
+				position: { collision: 'flipfit' }
 			});
 		},
 		/**
@@ -1434,6 +1434,11 @@ $.Class(
 				}
 			} else if (fieldElement.attr('type') == 'checkbox') {
 				fieldElement.prop('checked', params['value'] == '1').trigger('change');
+			} else if ('reference' === fieldElement.data('fieldtype')) {
+				this.setReferenceFieldValue(fieldElement.closest('.js-field-block-column'), {
+					id: params['value'],
+					name: params['display']
+				});
 			} else {
 				fieldElement.val(params['value']);
 			}
