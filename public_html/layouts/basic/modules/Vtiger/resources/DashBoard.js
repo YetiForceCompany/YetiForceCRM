@@ -101,7 +101,6 @@ $.Class(
 					width: widget.attr('gs-w'),
 					height: widget.attr('gs-h')
 				};
-				this.getWidgetInstance(widget.find('.dashboardWidget')).loadScrollbar();
 			});
 			this.updateLazyWidget();
 			AppConnector.request({

@@ -12,7 +12,9 @@
 {strip}
 	<input class="widgetData" type="hidden" value='{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}' />
 	{if $DATA['show_chart'] }
-		<div class="widgetChartContainer"><canvas></canvas></div>
+		<div class="widgetChartContainer">
+			<div class="js-widget-container"></div>
+		</div>
 	{else}
 		<span class="noDataMsg">
 			{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}

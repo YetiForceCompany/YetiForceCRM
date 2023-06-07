@@ -8,7 +8,9 @@
 		<div class="dashboardWidgetContent">
 			<input type="hidden" name="typeChart" value="{$CHART_MODEL->getType()}">
 			<input class="widgetData" type="hidden" value='{\App\Purifier::encodeHtml(\App\Json::encode($CHART_DATA))}' />
-			<div class="widgetChartContainer u-min-height-250"><canvas></canvas></div>
+			<div class="widgetChartContainer u-min-height-250">
+				<div class="js-widget-container"></div>
+			</div>
 		</div>
 	{else}
 		<div class="alert alert-warning">

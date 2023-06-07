@@ -123,45 +123,35 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 			$rawData[$row['y']][$row['m']] = [round((float) $row['s'], 2)];
 		}
 		$dataReader->close();
+
 		$chartData = [
-			'labels' => [],
-			'datasets' => [],
-			'show_chart' => false,
+			'dataset' => [],
+			'show_chart' => (bool) \count($rawData),
 		];
 		$this->conditions = ['condition' => ['between', 'saledate', $dateStart, $dateEnd]];
-		$yearsData = $tempData = [];
+		$yearsData = [];
 		$chartData['show_chart'] = (bool) \count($rawData);
 		$shortMonth = ['LBL_Jan', 'LBL_Feb', 'LBL_Mar', 'LBL_Apr', 'LBL_May', 'LBL_Jun',
 			'LBL_Jul', 'LBL_Aug', 'LBL_Sep', 'LBL_Oct', 'LBL_Nov', 'LBL_Dec', ];
+
+		$chartData['dataset']['dimensions'][] = 'months';
 		for ($i = 0; $i < 12; ++$i) {
-			$chartData['labels'][] = App\Language::translate($shortMonth[$i]);
+			$chartData['dataset']['source'][$i] = ['months' => App\Language::translate($shortMonth[$i])];
 		}
 		foreach ($rawData as $y => $raw) {
 			$years[] = $y;
 			if (!isset($yearsData[$y])) {
-				$yearsData[$y] = [
-					'data' => [],
-					'label' => \App\Language::translate('LBL_YEAR', $moduleName) . ' ' . $y,
-					'backgroundColor' => [],
-				];
+				$chartData['dataset']['dimensions'][] = "{$y}";
+				$chartData['series'][] = ['type' => 'bar'];
 				for ($m = 0; $m < 12; ++$m) {
-					$tempData[$y][$m] = 0;
-					$yearsData[$y]['backgroundColor'][] = \App\Colors::getRandomColor($y * 10);
+					$chartData['dataset']['source'][$m]["{$y}"] = null;
 				}
 			}
 			foreach ($raw as $m => $value) {
-				$tempData[$y][$m - 1] = $value[0];
-				$yearsData[$y]['stack'] = (string) $y;
+				$chartData['dataset']['source'][$m - 1][$y] = $value[0];
 			}
 		}
-		foreach ($tempData as $year => $yearData) {
-			$yearsData[$year]['data'] = $yearData;
-		}
-		$years = array_values(array_unique($years));
-		$chartData['years'] = $years;
-		foreach ($yearsData as $data) {
-			$chartData['datasets'][] = $data;
-		}
+
 		return $chartData;
 	}
 }

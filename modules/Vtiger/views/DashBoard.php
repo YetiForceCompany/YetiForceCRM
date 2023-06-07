@@ -138,6 +138,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			'~libraries/gridstack/dist/gridstack-h5.js',
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',
+			'~libraries/echarts/dist/echarts.js',
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/chartjs-plugin-funnel/dist/chart.funnel.js',
 			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js',
@@ -146,6 +147,7 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			'modules.Vtiger.resources.DashBoard',
 			'modules.' . $moduleName . '.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',
+			'modules.Vtiger.resources.dashboards.Chart',
 			'~libraries/fullcalendar/main.js',
 		];
 

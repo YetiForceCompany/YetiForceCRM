@@ -446,51 +446,28 @@ class Vtiger_ChartFilter_Model extends \App\Base
 			return $this->getRows();
 		}
 		$chartData = [
-			'labels' => [],
-			'datasets' => [],
 			'show_chart' => false,
 		];
-		$datasetIndex = 0;
 
-		foreach ($this->getRows() as $dividingValue => &$dividing) {
-			if (!isset($chartData['datasets'][$datasetIndex])) {
-				$chartData['datasets'][] = [
-					'data' => [],
-					'links' => [],
-				];
-			}
-			// datasetIndex is for dividingValue
-			$dataset = &$chartData['datasets'][$datasetIndex];
-			if ($this->isMultiFilter()) {
-				$dataset['label'] = $this->getViewNameFromId($this->getFilterId($dividingValue));
-			} elseif ($this->isDividedByField()) {
-				$dataset['label'] = $dividingValue;
+		$datasetIndex = 0;
+		$rows = $this->getRows();
+		$countRows = \count($rows);
+		foreach ($rows as $dividingValue => &$dividing) {
+			if (1 === $countRows) {
+				$chartData['series'][$datasetIndex]['colorBy'] = 'data';
 			}
 			foreach ($dividing as $groupValue => &$group) {
-				if (!\in_array($groupValue, $chartData['labels'])) {
-					$chartData['labels'][] = $groupValue;
-				}
-				$dataset['data'][] = $group[$this->valueType];
-				if (\array_key_exists('link', $group)) {
-					$dataset['links'][] = $group['link'];
-				}
-				foreach ($chartData['datasets'] as $datasetIndex => &$dataset) {
-					if (!$this->isSingleColored()) {
-						$this->setChartDatasetsColorsMulti($chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing);
-					} else {
-						$this->setChartDatasetsColorsSingle($chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing);
-					}
+				$chartData['dataset']['source'][] = [$groupValue, $group[$this->valueType], ['link' => $group['link'] ?? '']];
+				$color = $this->setChartDatasetsColorsSingle($chartData, $datasetIndex, null, $groupValue, $group, $dividingValue, $dividing);
+				if ($color) {
+					$chartData['color'][] = $color;
 				}
 				$chartData['show_chart'] = true;
 			}
 			unset($dataset, $group);
 			++$datasetIndex;
 		}
-		unset($dividing);
-		if ($this->isSingleColored()) {
-			$this->buildSingleColors($chartData);
-		}
-		$chartData['valueType'] = $this->valueType;
+
 		return $chartData;
 	}
 
@@ -511,16 +488,16 @@ class Vtiger_ChartFilter_Model extends \App\Base
 		if (!isset($this->singleColors[$datasetIndex])) {
 			$this->singleColors[$datasetIndex] = [];
 		}
+		$color = null;
 		if ((!empty($group['color_id']) && !empty($this->colors[$group['color_id']])) || !isset($dividing['color_id'])) {
 			if (!isset($group['color_id'])) {
 				$color = $this->getFieldValueColor($groupValue, $dividingValue);
 				$this->singleColors[$datasetIndex][] = $color;
-				$chartData['datasets'][$datasetIndex]['pointBackgroundColor'][] = $color;
 			} else {
-				$chartData['datasets'][$datasetIndex]['pointBackgroundColor'][] = $this->colors[$group['color_id']];
-				$this->singleColors[$datasetIndex][] = $this->colors[$group['color_id']];
+				$color = $this->colors[$group['color_id']];
 			}
 		}
+		return $color;
 	}
 
 	/**

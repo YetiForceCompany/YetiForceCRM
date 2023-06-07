@@ -88,7 +88,8 @@
     "tributejs": "^5.0.0",
     "url-polyfill": "^1.1.7",
     "vue": "^2.6.11",
-    "whatwg-fetch": "^3.6.2"
+    "whatwg-fetch": "^3.6.2",
+    "echarts": "^5.4.2"
   },
   "resolutions": {},
   "bugs": {

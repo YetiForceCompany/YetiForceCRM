@@ -42,7 +42,9 @@ class Settings_LangManagement_Index_View extends Settings_Vtiger_Index_View
 			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
 			'~libraries/datatables.net-responsive/js/dataTables.responsive.js',
 			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
+			'~libraries/echarts/dist/echarts.js',
 			'modules.Vtiger.resources.dashboards.Widget',
+			'modules.Vtiger.resources.dashboards.Chart',
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js'
 		]));

@@ -40,6 +40,7 @@ class Project_Detail_View extends Vtiger_Detail_View
 	public function getFooterScripts(App\Request $request)
 	{
 		return array_merge(parent::getFooterScripts($request), $this->checkAndConvertJsScripts([
+			'~libraries/echarts/dist/echarts.js',
 			'~libraries/chart.js/dist/Chart.js',
 			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js',
 			'~libraries/gantt-elastic/dist/bundle.js',
