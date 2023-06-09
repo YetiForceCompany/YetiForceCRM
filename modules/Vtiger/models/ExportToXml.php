@@ -40,6 +40,7 @@ class Vtiger_ExportToXml_Model extends \App\Export\Records
 	/** {@inheritdoc} */
 	public function exportData()
 	{
+
 		$fileName = str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($this->moduleName, $this->moduleName)));
 		$entriesInventory = [];
 		$addInventoryData = $this->fullData && $this->moduleInstance->isInventory();
@@ -58,6 +59,7 @@ class Vtiger_ExportToXml_Model extends \App\Export\Records
 			}
 			++$count;
 		}
+
 		if (1 < $count) {
 			$this->outputZipFile($fileName);
 		} else {
@@ -196,9 +198,9 @@ class Vtiger_ExportToXml_Model extends \App\Export\Records
 			$xml->writeAttribute('type', $fieldModel->getFieldDataType());
 			$xml->writeAttribute('label', $header);
 			if ($this->isCData($fieldName)) {
-				$xml->writeCData($entries[$fieldName]);
+				$xml->writeCData($entries[$fieldName] ?? '');
 			} else {
-				$xml->text($entries[$fieldName]);
+				$xml->text($entries[$fieldName] ?? '');
 			}
 			$xml->endElement();
 		}
@@ -231,6 +233,7 @@ class Vtiger_ExportToXml_Model extends \App\Export\Records
 			$xml->endElement();
 		}
 		$xml->endElement();
+
 		file_put_contents($this->tmpXmlPath, $xml->flush(true), FILE_APPEND);
 	}
 

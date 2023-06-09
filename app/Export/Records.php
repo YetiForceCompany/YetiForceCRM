@@ -376,10 +376,10 @@ abstract class Records extends \App\Base
 				$idKey = $name . $idKey;
 				$dbKey = $name . $fieldModel->getName();
 			}
-
-			$response[$fieldModel->getFullName()] = $this->getDisplayValue($fieldModel, $recordValues[$dbKey], $recordValues[$idKey] ?? 0, $recordValues);
+			if (!empty($recordValues[$dbKey])) {
+				$response[$fieldModel->getFullName()] = $this->getDisplayValue($fieldModel, $recordValues[$dbKey], $recordValues[$idKey] ?? 0, $recordValues);
+			}
 		}
-
 		return $response;
 	}
 
@@ -400,10 +400,10 @@ abstract class Records extends \App\Base
 				$idKey = $name . $idKey;
 				$dbKey = $name . $fieldModel->getName();
 			}
-
-			$response[$fieldModel->getFullName()] = $fieldModel->getUITypeModel()->getValueToExport($recordValues[$dbKey], $recordValues[$idKey] ?? 0);
+			if (!empty($recordValues[$dbKey])) {
+				$response[$fieldModel->getFullName()] = $fieldModel->getUITypeModel()->getValueToExport($recordValues[$dbKey], $recordValues[$idKey] ?? 0);
+			}
 		}
-
 		return $response;
 	}
 
