@@ -28,7 +28,7 @@ class VTCreateEntityTask extends VTTask
 	{
 		$recordId = $recordModel->getId();
 		$entityType = $this->entity_type;
-		if (!\App\Module::isModuleActive($entityType)) {
+		if (!\App\Module::isModuleActive($entityType) || (!empty($this->verifyIfExists) && ($relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $entityType, $this->relationId)) && (int) $relationListView->getRelatedEntriesCount() > 0)) {
 			return;
 		}
 		$fieldValueMapping = [];
@@ -47,9 +47,6 @@ class VTCreateEntityTask extends VTTask
 				$relationModel->addRelation($recordModel->getId(), $newRecordModel->getId());
 			}
 		} elseif ($this->mappingPanel && $entityType) {
-			if (!empty($this->verifyIfExists) && ($relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, $entityType, $this->relationId)) && (int) $relationListView->getRelatedEntriesCount() > 0) {
-				return true;
-			}
 			$saveContinue = true;
 			$newRecordModel = Vtiger_Record_Model::getCleanInstance($entityType);
 			$newRecordModel->setRecordFieldValues($recordModel);
