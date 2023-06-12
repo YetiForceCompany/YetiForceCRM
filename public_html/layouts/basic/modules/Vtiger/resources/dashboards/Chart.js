@@ -24,7 +24,7 @@ YetiForce_Widget_Js(
 			return this.chartInstance;
 		},
 		destroyChartInstance: function () {
-			let chart = this.chartInstance || echarts.getInstanceByDom(this.getChartContainer());
+			let chart = this.chartInstance || echarts.getInstanceByDom(this.getChartContainer() || '');
 			if (chart) {
 				chart.isDisposed() ? chart.dispose() : null;
 				this.chartInstance = null;
@@ -90,6 +90,7 @@ YetiForce_Widget_Js(
 			// const type = this.getType();
 			let data = this.generateData();
 			data = this.mergeAll([data, this.getBasicOptions(data)]);
+			console.log(data);
 			this.destroyChartInstance();
 
 			let chart = this.getChartInstance();
@@ -210,15 +211,18 @@ YetiForce_Widget_Js(
 		},
 		registerSectionClick: function registerSectionClick() {
 			console.log(this.className);
-			this.getChartInstance().on('click', (e) => {
-				for (let key in e.data) {
-					if (key === 'link' && e.data[key]) {
-						window.location.href = e.data[key];
-					} else if (this.isObject(e.data[key]) && e.data[key].link) {
-						window.location.href = e.data[key].link;
+			let chart = this.getChartInstance();
+			if (chart) {
+				chart.on('click', (e) => {
+					for (let key in e.data) {
+						if (key === 'link' && e.data[key]) {
+							window.location.href = e.data[key];
+						} else if (this.isObject(e.data[key]) && e.data[key].link) {
+							window.location.href = e.data[key].link;
+						}
 					}
-				}
-			});
+				});
+			}
 		},
 		/**
 		 * Get data from event like mouse hover,click etc - get data which belongs to pointed element
@@ -1087,7 +1091,7 @@ YetiForce_Bar_Widget_Js(
 		// }
 	}
 );
-YetiForce_Bar_Widget_Js('YetiForce_LeadsBySource_Widget_Js', {}, {});
+
 YetiForce_Pie_Widget_Js('YetiForce_ClosedTicketsByPriority_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_ClosedTicketsByUser_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_OpenTickets_Widget_Js', {}, {});

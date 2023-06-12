@@ -19,7 +19,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($dates)) {
-			array_push($conditions, ['createdtime', 'bw', $dates[0] . ' 00:00:00,' . $dates[1] . ' 23:59:59']);
+			array_push($conditions, ['createdtime', 'bw', \App\Fields\DateTime::formatToDisplay($dates[0] . ' 00:00:00') . ',' . \App\Fields\DateTime::formatToDisplay($dates[1] . ' 23:59:59')]);
 		}
 		$listSearchParams[] = $conditions;
 		return '&search_params=' . json_encode($listSearchParams);
@@ -53,27 +53,23 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 		\App\PrivilegeQuery::getConditions($query, 'Leads');
 		$query->groupBy(['vtiger_leaddetails.leadsource', 'vtiger_leadsource.leadsourceid']);
 		$dataReader = $query->createCommand()->query();
+
 		$chartData = [
-			'labels' => [],
-			'datasets' => [
-				[
-					'data' => [],
-					'backgroundColor' => [],
-					'links' => [], // links generated in proccess method
-					'names' => [],
-				],
-			],
+			'dataset' => [],
 			'show_chart' => false,
 		];
+		$chartData['series'][0]['colorBy'] = 'data';
+		$moduleName = 'Leads';
+		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$colors = \App\Fields\Picklist::getColors('leadsource');
 		while ($row = $dataReader->read()) {
-			$chartData['labels'][] = \App\Language::translate($row['leadsourcevalue'], 'Leads');
-			$chartData['datasets'][0]['data'][] = (int) $row['count'];
-			$chartData['datasets'][0]['backgroundColor'][] = $colors[$row['leadsourceid']];
-			$chartData['datasets'][0]['names'][] = $row['leadsourcevalue'];
+			$link = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($row['leadsourcevalue'], $owner, $dateFilter);
+			$chartData['dataset']['source'][] = [\App\Language::translate($row['leadsourcevalue'], $moduleName), (int) $row['count'], ['link' => $link]];
+			$chartData['color'][] = $colors[$row['leadsourceid']] ?? null;
+			$chartData['show_chart'] = true;
 		}
-		$chartData['show_chart'] = (bool) \count($chartData['datasets'][0]['data']);
 		$dataReader->close();
+
 		return $chartData;
 	}
 
@@ -98,12 +94,6 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$data = (false === $owner) ? [] : $this->getLeadsBySource($owner, $createdTime);
 		$createdTime = \App\Fields\Date::formatRangeToDisplay($createdTime);
-		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
-		$leadSourceAmount = \count($data['datasets'][0]['names']);
-		for ($i = 0; $i < $leadSourceAmount; ++$i) {
-			$data['datasets'][0]['links'][$i] = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($data['datasets'][0]['names'][$i], $owner, $createdTime);
-		}
-		//Include special script and css needed for this widget
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
