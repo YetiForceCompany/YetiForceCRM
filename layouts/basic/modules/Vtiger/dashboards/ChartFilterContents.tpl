@@ -89,8 +89,8 @@
 		</div>
 	{elseif !empty($CHART_DATA['show_chart']) }
 		<input class="widgetData" name="data" type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($CHART_DATA))}" />
-		<div class="widgetChartContainer chartcontent">
-			<div class="js-widget-container"></div>
+		<div class="widgetChartContainer">
+			<div class="js-chart-container"></div>
 		</div>
 	{else}
 		<span class="noDataMsg">

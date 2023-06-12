@@ -12,7 +12,7 @@ YetiForce_Widget_Js(
 
 		getChartContainer: function getChartContainer(useCache = false) {
 			if (!this.plotContainer || !useCache) {
-				this.plotContainer = this.getContainer().find('.js-widget-container').get(0);
+				this.plotContainer = this.getContainer().find('.js-chart-container').get(0);
 			}
 			return this.plotContainer;
 		},
@@ -209,6 +209,7 @@ YetiForce_Widget_Js(
 			this._super();
 		},
 		registerSectionClick: function registerSectionClick() {
+			console.log(this.className);
 			this.getChartInstance().on('click', (e) => {
 				for (let key in e.data) {
 					if (key === 'link' && e.data[key]) {
@@ -791,16 +792,41 @@ YetiForce_Chart_Widget_Js(
 	{
 		getBasicOptions: function getBasicOptions() {
 			return {
+				legend: {},
 				xAxis: {
 					type: 'category'
 				},
 				yAxis: {
-					type: 'value'
+					type: 'value',
+					axisLabel: {
+						formatter: (value) => (typeof value === 'number' ? App.Fields.Double.formatToDisplay(value) : value)
+					}
 				},
-				tooltip: {},
+				grid: {
+					left: '3%',
+					right: '4%',
+					bottom: '3%',
+					top: '15%',
+					containLabel: true
+				},
+				tooltip: {
+					valueFormatter: (value) => (typeof value === 'number' ? App.Fields.Double.formatToDisplay(value) : value)
+				},
 				label: {
 					show: true,
-					position: 'top'
+					position: 'top',
+					formatter: function (data) {
+						let value;
+						if (typeof data.value === 'number') {
+							value = data.value;
+						} else if (typeof data.value[data.encode.y[0]] === 'number') {
+							value = data.value[data.encode.y[0]];
+						} else if (typeof data.value[data.seriesName] === 'number') {
+							value = data.value[data.seriesName];
+						}
+
+						return value !== undefined ? App.Fields.Double.formatToDisplay(value) : null;
+					}
 				},
 				labelLayout: {
 					hideOverlap: true
@@ -833,15 +859,39 @@ YetiForce_Bar_Widget_Js(
 		getBasicOptions: function getBasicOptions() {
 			return {
 				xAxis: {
-					type: 'value'
+					type: 'value',
+					axisLabel: {
+						formatter: (value) => (typeof value === 'number' ? App.Fields.Double.formatToDisplay(value) : value)
+					}
 				},
 				yAxis: {
 					type: 'category'
 				},
-				tooltip: {},
+				grid: {
+					left: '3%',
+					right: '4%',
+					bottom: '3%',
+					top: '4%',
+					containLabel: true
+				},
+				tooltip: {
+					valueFormatter: (value) => (typeof value === 'number' ? App.Fields.Double.formatToDisplay(value) : value)
+				},
 				label: {
 					show: true,
-					position: 'inside'
+					position: 'inside',
+					formatter: function (data) {
+						let value;
+						if (typeof data.value === 'number') {
+							value = data.value;
+						} else if (typeof data.value[data.encode.x[0]] === 'number') {
+							value = data.value[data.encode.x[0]];
+						} else if (typeof data.value[data.seriesName] === 'number') {
+							value = data.value[data.seriesName];
+						}
+
+						return value !== undefined ? App.Fields.Double.formatToDisplay(value) : null;
+					}
 				},
 				labelLayout: {
 					hideOverlap: true

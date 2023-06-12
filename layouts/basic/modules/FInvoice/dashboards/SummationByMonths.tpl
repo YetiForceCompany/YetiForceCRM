@@ -4,13 +4,6 @@
 	YetiForce_Bar_Widget_Js('YetiForce_SummationByMonths_Widget_Js', {}, {
 		getBasicOptions: function getBasicOptions() {
 			let options = this._super();
-			options.legend = {};
-			options.grid = {
-				left: '3%',
-				right: '4%',
-				bottom: '3%',
-				containLabel: true
-			};
 			options.yAxis = {
 				{if !empty($CONF_DATA['plotTickSize'])}
 					interval: {$CONF_DATA['plotTickSize']},
@@ -18,19 +11,6 @@
 				{if !empty($CONF_DATA['plotLimit'])}
 					max: {$CONF_DATA['plotLimit']},
 				{/if}
-				axisLabel: {
-					formatter: function(value) { return App.Fields.Double.formatToDisplay(value); }
-				}
-			};
-			options.tooltip = {
-				valueFormatter: function(value) {
-					return App.Fields.Double.formatToDisplay(value);
-				}
-			}
-			options.label = {
-				show: true,
-				position: 'top',
-				formatter: function(data, e, r) { console.log(data, e, r); return App.Fields.Double.formatToDisplay(data.value[data.seriesName]); }
 			};
 
 			return options;

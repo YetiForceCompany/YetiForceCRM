@@ -13,7 +13,7 @@
 	<input class="widgetData" type="hidden" value='{\App\Purifier::encodeHtml(\App\Json::encode($DATA))}' />
 	{if $DATA['show_chart'] }
 		<div class="widgetChartContainer">
-			<div class="js-widget-container"></div>
+			<div class="js-chart-container"></div>
 		</div>
 	{else}
 		<span class="noDataMsg">

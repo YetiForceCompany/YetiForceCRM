@@ -4,7 +4,7 @@
 		{assign var=SHOWING_ICON value=$TCPMODULE_MODEL->get('timeControlWidget')}
 		<div class="clearfix"></div>
 		<div class="widgetChartContainer">
-			<div class="js-widget-container"></div>
+			<div class="js-chart-container"></div>
 		</div>
 	{else}
 		<span class="noDataMsg">
