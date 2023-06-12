@@ -15,7 +15,7 @@ namespace App;
 class Field
 {
 	/** @var string[] Help info views. */
-	const HELP_INFO_VIEWS = ['LBL_EDIT_VIEW' => 'Edit', 'LBL_DETAIL_VIEW' => 'Detail', 'LBL_QUICK_CREATE_VIEW' => 'QuickCreateAjax'];
+	const HELP_INFO_VIEWS = ['LBL_EDIT_VIEW' => 'Edit', 'LBL_DETAIL_VIEW' => 'Detail', 'LBL_QUICK_CREATE_VIEW' => 'QuickCreateAjax', 'LBL_QUICK_EDIT_VIEW' => 'QuickEditModal'];
 
 	/** @var array System fields */
 	const SYSTEM_FIELDS = [

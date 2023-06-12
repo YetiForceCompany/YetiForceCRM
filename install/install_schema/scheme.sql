@@ -6491,7 +6491,7 @@ CREATE TABLE `vtiger_field` (
   `quickcreatesequence` tinyint(3) unsigned DEFAULT NULL,
   `info_type` char(3) DEFAULT NULL,
   `masseditable` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `helpinfo` varchar(30) DEFAULT '',
+  `helpinfo` varchar(60) DEFAULT '',
   `summaryfield` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `fieldparams` varchar(500) DEFAULT '',
   `header_field` varchar(255) DEFAULT NULL,
