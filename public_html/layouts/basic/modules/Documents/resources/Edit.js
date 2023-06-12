@@ -54,12 +54,12 @@ Vtiger_Edit_Js(
 				let fileNameElement = '';
 				if (thisInstance.isFileLocationInternalType(fileLocationTypeElement)) {
 					fileNameElement = typeFile;
-					fileNameElement.addClass('show').removeClass('d-none');
-					typeText.addClass('d-none').removeClass('show');
+					fileNameElement.addClass('show').attr('disabled', false).removeClass('d-none');
+					typeText.addClass('d-none').attr('disabled', true).removeClass('show');
 				} else {
 					fileNameElement = typeText;
-					fileNameElement.addClass('show').removeClass('d-none');
-					typeFile.addClass('d-none').removeClass('show');
+					fileNameElement.addClass('show').attr('disabled', false).removeClass('d-none');
+					typeFile.addClass('d-none').attr('disabled', true).removeClass('show');
 
 				}
 				let uploadFileDetails = fileNameElement.closest('.fieldValue').find('.uploadedFileDetails');
