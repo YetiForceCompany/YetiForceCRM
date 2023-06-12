@@ -25,7 +25,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$listSearchParams[] = $conditions;
 
-		return '&search_params=' . json_encode($listSearchParams);
+		return '&search_params=' . urlencode(json_encode($listSearchParams));
 	}
 
 	/**

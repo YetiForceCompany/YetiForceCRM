@@ -823,13 +823,13 @@ YetiForce_Chart_Widget_Js(
 						let value;
 						if (typeof data.value === 'number') {
 							value = data.value;
-						} else if (typeof data.value[data.encode.y[0]] === 'number') {
+						} else if (data.encode && typeof data.value[data.encode.y[0]] === 'number') {
 							value = data.value[data.encode.y[0]];
 						} else if (typeof data.value[data.seriesName] === 'number') {
 							value = data.value[data.seriesName];
 						}
 
-						return value !== undefined ? App.Fields.Double.formatToDisplay(value) : null;
+						return value !== undefined ? App.Fields.Double.formatToDisplay(value) : data.value;
 					}
 				},
 				labelLayout: {
@@ -938,6 +938,20 @@ YetiForce_Chart_Widget_Js(
 	'YetiForce_Pie_Widget_Js',
 	{},
 	{
+		getBasicOptions: function getBasicOptions() {
+			return {
+				legend: {},
+				tooltip: {
+					trigger: 'item',
+					valueFormatter: (value) => (typeof value === 'number' ? App.Fields.Double.formatToDisplay(value) : value)
+				},
+				series: [
+					{
+						type: 'pie'
+					}
+				]
+			};
+		},
 		getType: function getType() {
 			return 'pie';
 		}
@@ -1013,31 +1027,7 @@ YetiForce_LineStacked_Widget_Js(
 		}
 	}
 );
-YetiForce_Bar_Widget_Js(
-	'YetiForce_TicketsByStatus_Widget_Js',
-	{},
-	{
-		getBasicOptions: function () {
-			return {
-				legend: {
-					display: true
-				},
-				scales: {
-					xAxes: [
-						{
-							stacked: true
-						}
-					],
-					yAxes: [
-						{
-							stacked: true
-						}
-					]
-				}
-			};
-		}
-	}
-);
+
 YetiForce_Chart_Widget_Js(
 	'YetiForce_ChartFilter_Widget_Js',
 	{},
@@ -1092,9 +1082,6 @@ YetiForce_Bar_Widget_Js(
 	}
 );
 
-YetiForce_Pie_Widget_Js('YetiForce_ClosedTicketsByPriority_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_ClosedTicketsByUser_Widget_Js', {}, {});
-YetiForce_Bar_Widget_Js('YetiForce_OpenTickets_Widget_Js', {}, {});
 YetiForce_Bar_Widget_Js('YetiForce_AccountsByIndustry_Widget_Js', {}, {});
 YetiForce_Funnel_Widget_Js(
 	'YetiForce_EstimatedvalueByStatus_Widget_Js',

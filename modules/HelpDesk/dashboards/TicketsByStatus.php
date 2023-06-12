@@ -21,7 +21,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			array_push($conditionsArray, ['assigned_user_id', 'e', $assignedto]);
 		}
 		$listSearchParams[] = $conditionsArray;
-		return '&entityState=Active&viewname=All&search_params=' . json_encode($listSearchParams);
+		return '&entityState=Active&viewname=All&search_params=' . urlencode(json_encode($listSearchParams));
 	}
 
 	/**
@@ -44,7 +44,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			->from('vtiger_troubletickets')
 			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_ticketstatus', 'vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus')
-			->innerJoin('vtiger_ticketpriorities', 'vtiger_troubletickets.priority = vtiger_ticketpriorities.ticketpriorities')
+			->leftJoin('vtiger_ticketpriorities', 'vtiger_troubletickets.priority = vtiger_ticketpriorities.ticketpriorities')
 			->where(['vtiger_crmentity.deleted' => 0]);
 
 		if (!empty($owner)) {
@@ -56,55 +56,48 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		}
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['statusvalue', 'vtiger_troubletickets.priority', 'vtiger_ticketpriorities.ticketpriorities_id', 'vtiger_ticketstatus.sortorderid'])->orderBy('vtiger_ticketstatus.sortorderid');
-		$dataReader = $query->createCommand()->query();
-		$status = $priorities = $tickets = [];
-		$counter = 0;
+
 		$colors = \App\Fields\Picklist::getColors('ticketpriorities');
 		$chartData = [
-			'labels' => [],
-			'datasets' => [],
 			'show_chart' => false,
 		];
-		while ($row = $dataReader->read()) {
-			$tickets[$row['statusvalue']][$row['ticketpriorities_id']] = $row['count'];
-			if (!\array_key_exists($row['ticketpriorities_id'], $priorities)) {
-				$priorities[$row['ticketpriorities_id']] = ++$counter;
-				// datasets stacked by priority (status is X, bar divided by priority)
-				$chartData['datasets'][] = [
-					'data' => [],
-					'label' => \App\Language::translate($row['priority'], $moduleName),
-					'backgroundColor' => [],
-					'names' => [],
-					'links' => [],
-					'_priorityId' => $row['ticketpriorities_id'],
-				];
-			}
-			if (!\in_array($row['statusvalue'], $status)) {
-				$status[] = $row['statusvalue'];
-			}
-		}
-		$dataReader->close();
-		if (!empty($tickets)) {
-			$chartData['show_chart'] = true;
-			foreach ($tickets as $status => $ticketValue) {
-				foreach ($priorities as $priorityId => $priorityValue) {
-					if (isset($ticketValue[$priorityId])) {
-						$value = $ticketValue[$priorityId];
-					} else {
-						$value = 0;
-					}
-					foreach ($chartData['datasets'] as &$dataset) {
-						if ($dataset['_priorityId'] === $priorityId) {
-							$dataset['data'][] = $value;
-							$dataset['names'][] = $status;
-							$dataset['backgroundColor'][] = $colors[$priorityId];
-							break;
-						}
-					}
+
+		$data = $query->all();
+		$statuses = array_values(array_unique(array_column($data, 'statusvalue')));
+		$chartData['xAxis']['data'] = array_map(fn ($value) => \App\Language::translate($value, $moduleName), $statuses);
+		$priorities = array_values(array_unique(array_column($data, 'priority')));
+		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
+
+		foreach ($data as $row) {
+			$status = $row['statusvalue'];
+			$priority = $row['priority'];
+			$count = $row['count'];
+			$seriesIndex = array_search($priority, $priorities);
+
+			if (empty($chartData['series'][$seriesIndex])) {
+				foreach ($statuses as $s) {
+					$statusIndex = array_search($s, $statuses);
+					$chartData['series'][$seriesIndex]['data'][$statusIndex] = ['value' => null];
 				}
-				$chartData['labels'][] = App\Language::translate($status, $moduleName);
 			}
+
+			$statusIndex = array_search($status, $statuses);
+			$color = $colors[$row['ticketpriorities_id']] ?? \App\Colors::getRandomColor($priority);
+			$link = $listViewUrl . $this->getSearchParams($status, $owner);
+			$label = $priority ? \App\Language::translate($priority, $moduleName) : '(' . \App\Language::translate('LBL_EMPTY', 'Home') . ')';
+
+			$chartData['series'][$seriesIndex]['name'] = $label;
+			$chartData['series'][$seriesIndex]['type'] = 'bar';
+			$chartData['series'][$seriesIndex]['stack'] = 'total';
+			$chartData['series'][$seriesIndex]['color'] = $color;
+			$chartData['series'][$seriesIndex]['label'] = ['show' => true, 'position' => 'inside'];
+			$chartData['tooltip'] = ['trigger' => 'axis', 'axisPointer' => ['type' => 'shadow']];
+			$chartData['labelLayout'] = ['hideOverlap' => false];
+			$chartData['series'][$seriesIndex]['data'][$statusIndex] = ['value' => $count, 'itemStyle' => ['color' => $color], 'link' => $link];
+
+			$chartData['show_chart'] = true;
 		}
+
 		return $chartData;
 	}
 
@@ -123,12 +116,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			$owner = '';
 		}
 		$data = (false === $owner) ? [] : $this->getTicketsByStatus($owner);
-		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
-		foreach ($data['datasets'] as &$dataset) {
-			foreach ($dataset['names'] as $name) {
-				$dataset['links'][] = $listViewUrl . $this->getSearchParams($name, $owner);
-			}
-		}
+
 		$viewer->assign('USER_CONDITIONS', $this->conditions);
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
