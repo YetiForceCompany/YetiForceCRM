@@ -20,6 +20,7 @@ class Settings_Groups_Multipicklist_UIType extends Vtiger_Multipicklist_UIType
 		if (empty($value)) {
 			return '';
 		}
+		$result = [];
 		$fieldName = $this->getFieldModel()->getName();
 		$values = explode(' |##| ', $value);
 		switch ($fieldName) {
