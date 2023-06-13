@@ -47,7 +47,7 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 
 		$history = $moduleModel->getRatesHistory($selectBankId, $request->isEmpty('duedate') ? date('Y-m-01') : $dateStart, $dateEnd);
 		$bankTab = [];
-		$active = false;
+
 		$db = new \App\Db\Query();
 		$db->from('yetiforce_currencyupdate_banks');
 		$dataReader = $db->createCommand()->query();
@@ -57,9 +57,6 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 			$bankName = $row['bank_name'];
 			$bankTab[$i]['bank_name'] = $bankName;
 			$bankTab[$i]['active'] = $row['active'];
-			if (1 === $row['active']) {
-				$active = true;
-			}
 			++$i;
 		}
 		$dataReader->close();
@@ -74,7 +71,6 @@ class Settings_CurrencyUpdate_Index_View extends Settings_Vtiger_Index_View
 		$viewer->assign('MODULENAME', 'CurrencyUpdate');
 		$viewer->assign('DATE', ($request->has('duedate') ? (new Vtiger_Date_UIType())->getDisplayValue($dateStart) : ''));
 		$viewer->assign('CURRNUM', $curr_num);
-		$viewer->assign('ACTIVE_BANK', $active);
 		$viewer->assign('BANK', $bankTab);
 		$viewer->assign('HISTORIA', $history);
 		$viewer->assign('MAINCURR', $mainCurrencyInfo);

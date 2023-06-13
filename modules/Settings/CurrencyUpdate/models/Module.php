@@ -100,6 +100,9 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 				$db->createCommand()->insert('yetiforce_currencyupdate_banks', ['bank_name' => $bankClassName, 'active' => 0])->execute();
 			}
 		}
+		if (!$this->getActiveBankId()) {
+			$db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 1], ['bank_name' => 'NBP'])->execute();
+		}
 		\App\Cache::delete('ActiveBankForExchangeRate', '');
 	}
 
@@ -214,13 +217,11 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 		if (!\App\RequestUtil::isNetConnection()) {
 			return [];
 		}
-		if (!$bankName && !empty($this->getActiveBankName())) {
+		if (!$bankName) {
 			$bankName = 'Settings_CurrencyUpdate_' . $this->getActiveBankName() . '_BankModel';
 		}
-		if (!empty($this->getActiveBankName())) {
-			$bank = new $bankName();
-			$supported = $bank->getSupportedCurrencies($bankName);
-		}
+		$bank = new $bankName();
+		$supported = $bank->getSupportedCurrencies($bankName);
 		$dataReader = (new \App\Db\Query())->select(['currency_name', 'currency_code'])
 			->from('vtiger_currency_info')
 			->where(['currency_status' => 'Active', 'deleted' => 0])
@@ -231,7 +232,8 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 			$unsupported[$name] = $code;
 		}
 		$dataReader->close();
-		return array_diff($unsupported, !empty($supported) ? $supported : []);
+
+		return array_diff($unsupported, $supported);
 	}
 
 	/**
@@ -313,10 +315,8 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	public function setActiveBankById($bankId)
 	{
 		$db = \App\Db::getInstance();
-		$result = $db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 0])->execute();
-		if (!empty($bankId)) {
-			$result = $db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 1], ['id' => $bankId])->execute();
-		}
+		$db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 0])->execute();
+		$result = $db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 1], ['id' => $bankId])->execute();
 		\App\Cache::delete('ActiveBankForExchangeRate', '');
 
 		return (bool) $result;
