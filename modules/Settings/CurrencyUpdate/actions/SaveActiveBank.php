@@ -12,6 +12,7 @@ class Settings_CurrencyUpdate_SaveActiveBank_Action extends Settings_Vtiger_Basi
 		$id = $request->getInteger('id');
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
+
 		if (!$moduleModel->setActiveBankById($id)) {
 			$return = ['success' => false, 'message' => \App\Language::translate('LBL_SET_BANK_ERROR', $qualifiedModule)];
 		} else {
