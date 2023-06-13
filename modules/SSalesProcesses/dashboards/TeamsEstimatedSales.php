@@ -25,76 +25,121 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 			array_push($conditions, ['assigned_user_id', 'e', $owner]);
 		}
 		if (!empty($time)) {
-			array_push($conditions, ['estimated_date', 'bw', implode(',', \App\Fields\Date::formatRangeToDisplay(explode(',', $time)))]);
+			array_push($conditions, ['estimated_date', 'bw', implode(',', $time)]);
 		}
 		$listSearchParams[] = $conditions;
-		return '&viewname=All&search_params=' . json_encode($listSearchParams);
+		return '&viewname=All&search_params=' . urlencode(json_encode($listSearchParams));
 	}
 
 	/**
-	 * Parse data.
+	 * Gets query.
 	 *
-	 * @param array $data
-	 * @param array $previousData
+	 * @param array $time
+	 * @param bool  $owner
+	 *
+	 * @return App\QueryGenerator
+	 */
+	public function getQuery(array $time, $owner = false): App\QueryGenerator
+	{
+		$sum = new \yii\db\Expression('SUM(estimated)');
+		$queryGenerator = new \App\QueryGenerator('SSalesProcesses');
+		$queryGenerator->setFields(['assigned_user_id'])
+			->setCustomColumn(['estimated' => $sum])
+			->setGroup('assigned_user_id')
+			->addCondition('estimated_date', implode(',', $time), 'bw');
+		if ('all' !== $owner) {
+			$queryGenerator->addNativeCondition(['smownerid' => $owner]);
+		}
+
+		return $queryGenerator;
+	}
+
+	/**
+	 * Get raw data.
+	 *
+	 * @param array $time
+	 * @param int   $owner
+	 * @param bool  $compare
 	 *
 	 * @return array
 	 */
-	public function parseData($data, $previousData)
+	public function getDataForWidget(array $time, $owner, $compare): array
 	{
-		foreach ($data['datasets'] ?? [] as $key => $values) {
-			unset($values);
-			if (!isset($previousData['datasets'][$key])) {
-				$previousData['datasets'][$key]['data'] = [0];
-				$previousData['datasets'][$key]['backgroundColor'] = '#EDC240';
+		$data = [];
+		$dim = implode(',', $time);
+		$currentData = $this->getQuery($time, $owner)->createQuery()->createCommand()->queryAllByGroup();
+		if ($compare) {
+			$start = new \DateTime($time[0]);
+			$endPeriod = clone $start;
+			$end = new \DateTime($time[1]);
+			$interval = (int) $start->diff($end)->format('%r%a');
+			if ($time[0] !== $time[1]) {
+				++$interval;
+			}
+			$endPeriod->modify('-1 days');
+			$start->modify("-{$interval} days");
+			$previousTime = [$start->format('Y-m-d'), $endPeriod->format('Y-m-d')];
+			$previousData = $this->getQuery($previousTime, $owner)->createQuery()->createCommand()->queryAllByGroup();
+
+			$dim2 = implode(',', $previousTime);
+
+			foreach ($currentData as $ownerId => $value) {
+				$data[$ownerId][$dim2] = $previousData[$ownerId] ?? 0;
+				$data[$ownerId][$dim] = $value;
+			}
+			foreach ($previousData as $ownerId => $value) {
+				if (isset($data[$ownerId])) {
+					$data[$ownerId][$dim2] = $value;
+					$data[$ownerId][$dim] = $currentData[$ownerId] ?? 0;
+				}
+			}
+		} else {
+			foreach ($currentData as $ownerId => $value) {
+				$data[$ownerId][$dim] = $value;
 			}
 		}
-		foreach ($previousData['datasets'] ?? [] as $key => $values) {
-			$values['backgroundColor'] = '#EDC240';
-			if (isset($data['datasets'][$key]) && is_array($values)) {
-				$data['datasets'][] = $values;
-			}
-		}
-		if (isset($data['datasets'])) {
-			$data['datasets'] = array_reverse($data['datasets']);
-		}
+
 		return $data;
 	}
 
 	/**
 	 * Function to get data to chart.
 	 *
-	 * @param string      $time
-	 * @param bool $compare
-	 * @param int|string $owner
+	 * @param array $time
+	 * @param int   $owner
+	 * @param bool  $compare
 	 *
 	 * @return array
 	 */
-	public function getEstimatedValue(string $timeString, bool $compare = false, $owner = false): array
+	public function getEstimatedValue(array $time, $owner, $compare): array
 	{
-		unset($compare);
-		$queryGenerator = new \App\QueryGenerator('SSalesProcesses');
-		$queryGenerator->setFields(['assigned_user_id']);
-		$queryGenerator->setGroup('assigned_user_id');
-		$queryGenerator->addCondition('estimated_date', $timeString, 'bw', false, false);
-		if ('all' !== $owner) {
-		 $queryGenerator->addNativeCondition(['smownerid' => $owner]);
+		$listViewUrl = Vtiger_Module_Model::getInstance('SSalesProcesses')->getListViewUrl();
+		$data = $this->getDataForWidget($time, $owner, $compare);
+		$xAxisData = array_keys($data);
+		foreach ($data as $ownerId => $row) {
+			$label = \App\Fields\Owner::getLabel($ownerId);
+			$color = \App\Fields\Owner::getColor($ownerId);
+			$seriesIndex = 0;
+			foreach ($row as $dim => $value) {
+				$setColor = \count($row) > 1 && 0 === $seriesIndex;
+				$timeFormat = \App\Fields\Date::formatRangeToDisplay(explode(',', $dim));
+				$chartData['series'][$seriesIndex]['name'] = implode(',', $timeFormat);
+				$chartData['series'][$seriesIndex]['type'] = 'bar';
+				$chartData['series'][$seriesIndex]['color'] = $setColor ? '#EDC240' : $color;
+				$chartData['series'][$seriesIndex]['label'] = ['show' => true];
+				$statusIndex = array_search($ownerId, $xAxisData);
+				$chartData['series'][$seriesIndex]['data'][$statusIndex] = ['value' => round($value, 2), 'itemStyle' => ['color' => $setColor ? '#EDC240' : $color],
+					'link' => $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($ownerId, $timeFormat),
+					'fullLabel' => $label];
+				++$seriesIndex;
+			}
 		}
-		$sum = new \yii\db\Expression('SUM(estimated)');
-		$queryGenerator->setCustomColumn(['estimated' => $sum]);
-		$query = $queryGenerator->createQuery();
-		$listView = $queryGenerator->getModuleModel()->getListViewUrl();
-		$dataReader = $query->createCommand()->query();
-		$chartData = [];
-		while ($row = $dataReader->read()) {
-			$chartData['datasets'][0]['data'][] = round($row['estimated'], 2);
-			$chartData['datasets'][0]['backgroundColor'][] = '#95a458';
-			$chartData['datasets'][0]['links'][] = $listView . $this->getSearchParams($row['assigned_user_id'], $timeString);
-			$ownerName = \App\Fields\Owner::getUserLabel($row['assigned_user_id']);
-			$chartData['labels'][] = \App\Utils::getInitials($ownerName);
-			$chartData['fullLabels'][] = $ownerName;
+
+		foreach ($xAxisData as $ownerId) {
+			$chartData['xAxis']['data'][] = \App\Utils::getInitials(\App\Fields\Owner::getLabel($ownerId));
 		}
-		$chartData['show_chart'] = (bool) isset($chartData['datasets']);
-		$dataReader->close();
+		$chartData['show_chart'] = !empty($xAxisData);
+
 		return $chartData;
 	}
 
@@ -119,28 +164,13 @@ class SSalesProcesses_TeamsEstimatedSales_Dashboard extends Vtiger_IndexAjax_Vie
 		} else {
 			$owner = $request->getByType('owner', 2);
 		}
-		$timeString = implode(',', $time);
-		$data = $this->getEstimatedValue($timeString, $compare, $owner);
-		if ($compare) {
-			$start = new \DateTime($time[0]);
-			$endPeriod = clone $start;
-			$end = new \DateTime($time[1]);
-			$interval = (int) $start->diff($end)->format('%r%a');
-			if ($time[0] !== $time[1]) {
-				++$interval;
-			}
-			$endPeriod->modify('-1 days');
-			$start->modify("-{$interval} days");
-			$previousTime = $start->format('Y-m-d') . ',' . $endPeriod->format('Y-m-d');
-			$previousData = $this->getEstimatedValue($previousTime, $compare, $owner);
-			if (!empty($data) || !empty($previousData)) {
-				$data = $this->parseData($data, $previousData);
-			}
-		}
+
+		$data = $this->getEstimatedValue($time, $owner, $compare);
+
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
-		$viewer->assign('DTIME',  implode(',', \App\Fields\Date::formatRangeToDisplay($time)));
+		$viewer->assign('DTIME', implode(',', \App\Fields\Date::formatRangeToDisplay($time)));
 		$viewer->assign('COMPARE', $compare);
 		$viewer->assign('ACCESSIBLE_USERS', \App\Fields\Owner::getInstance('Accounts', $currentUserId)->getAccessibleUsersForModule());
 		$viewer->assign('ACCESSIBLE_GROUPS', \App\Fields\Owner::getInstance('Accounts', $currentUserId)->getAccessibleGroupForModule());

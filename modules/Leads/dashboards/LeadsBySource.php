@@ -64,7 +64,7 @@ class Leads_LeadsBySource_Dashboard extends Vtiger_IndexAjax_View
 		$colors = \App\Fields\Picklist::getColors('leadsource');
 		while ($row = $dataReader->read()) {
 			$link = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($row['leadsourcevalue'], $owner, $dateFilter);
-			$chartData['dataset']['source'][] = [\App\Language::translate($row['leadsourcevalue'], $moduleName), (int) $row['count'], ['link' => $link]];
+			$chartData['dataset']['source'][] = [\App\Language::translate($row['leadsourcevalue'], $moduleName, null, false), (int) $row['count'], ['link' => $link]];
 			$chartData['color'][] = $colors[$row['leadsourceid']] ?? null;
 			$chartData['show_chart'] = true;
 		}

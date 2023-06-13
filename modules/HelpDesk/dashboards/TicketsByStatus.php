@@ -83,7 +83,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			$statusIndex = array_search($status, $statuses);
 			$color = $colors[$row['ticketpriorities_id']] ?? \App\Colors::getRandomColor($priority);
 			$link = $listViewUrl . $this->getSearchParams($status, $owner);
-			$label = $priority ? \App\Language::translate($priority, $moduleName) : '(' . \App\Language::translate('LBL_EMPTY', 'Home') . ')';
+			$label = $priority ? \App\Language::translate($priority, $moduleName, null, false) : '(' . \App\Language::translate('LBL_EMPTY', 'Home', null, false) . ')';
 
 			$chartData['series'][$seriesIndex]['name'] = $label;
 			$chartData['series'][$seriesIndex]['type'] = 'bar';

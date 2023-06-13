@@ -101,7 +101,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function getWidgetData($moduleName, $owner)
 	{
-		$rawData = $data = $years = [];
+		$rawData = $years = [];
 		$dateStart = ((int) date('Y') - 2) . '-01-01';
 		$dateEnd = date('Y-m-d', strtotime('last day of december'));
 		$date = "{$dateStart},{$dateEnd}";

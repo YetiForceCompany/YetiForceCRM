@@ -74,7 +74,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		$colors = \App\Fields\Picklist::getColors('leadstatus');
 		while ($row = $dataReader->read()) {
 			$link = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($row['leadstatusvalue'], $owner, $dateFilter);
-			$chartData['dataset']['source'][] = [\App\Language::translate($row['leadstatusvalue'], $moduleName), (int) $row['count'], ['link' => $link]];
+			$chartData['dataset']['source'][] = [\App\Language::translate($row['leadstatusvalue'], $moduleName, null, false), (int) $row['count'], ['link' => $link]];
 			$chartData['color'][] = $colors[$row['leadstatusid']] ?? \App\Colors::getRandomColor($row['leadstatusvalue']);
 			$chartData['show_chart'] = true;
 		}

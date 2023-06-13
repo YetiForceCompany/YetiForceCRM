@@ -84,7 +84,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		while ($row = $dataReader->read()) {
 			$priotity = $row['priority'];
-			$label = $priotity ? \App\Language::translate($priotity, $moduleName) : ('(' . \App\Language::translate('LBL_EMPTY', 'Home') . ')');
+			$label = $priotity ? \App\Language::translate($priotity, $moduleName, null, false) : ('(' . \App\Language::translate('LBL_EMPTY', 'Home', null, false) . ')');
 			$link = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($priotity, $time, $owner);
 			$chartData['series'][0]['data'][] = ['value' => (int) $row['count'], 'name' => $label, 'itemStyle' => ['color' => $colors[$row['ticketpriorities_id']] ?? \App\Colors::getRandomColor($priotity)], 'link' => $link];
 			$chartData['show_chart'] = true;

@@ -66,7 +66,7 @@ class Leads_LeadsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		while ($row = $dataReader->read()) {
 			$industry = $row['industryvalue'];
 			$link = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($industry, $owner, $dateFilter);
-			$label = $industry ? \App\Language::translate($industry, $moduleName) : ('(' . \App\Language::translate('LBL_EMPTY', 'Home') . ')');
+			$label = $industry ? \App\Language::translate($industry, $moduleName, null, false) : ('(' . \App\Language::translate('LBL_EMPTY', 'Home', null, false) . ')');
 			$chartData['dataset']['source'][] = [$label, (int) $row['count'], ['link' => $link]];
 			$chartData['color'][] = $colors[$row['industryid']] ?? \App\Colors::getRandomColor($industry);
 			$chartData['show_chart'] = true;

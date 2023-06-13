@@ -29,7 +29,7 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 			$conditions[] = ['ssalesprocesses_status', 'e', $status];
 		}
 		$listSearchParams[] = $conditions;
-		return '&viewname=All&search_params=' . json_encode($listSearchParams);
+		return '&viewname=All&search_params=' . urlencode(json_encode($listSearchParams));
 	}
 
 	/**
@@ -42,7 +42,6 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 	private function getEstimatedValue($owner = false)
 	{
 		$moduleName = 'SSalesProcesses';
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$query = (new \App\Db\Query())->select([
 			'estimated' => new \yii\db\Expression('SUM(u_#__ssalesprocesses.estimated)'),
 			'u_#__ssalesprocesses.ssalesprocesses_status',
@@ -59,28 +58,25 @@ class SSalesProcesses_EstimatedValueByStatus_Dashboard extends Vtiger_IndexAjax_
 		}
 		$query->groupBy(['u_#__ssalesprocesses.ssalesprocesses_status', 'vtiger_ssalesprocesses_status.ssalesprocesses_statusid']);
 		$dataReader = $query->createCommand()->query();
-		$currencyInfo = \App\Fields\Currency::getDefault();
-		$colors = \App\Fields\Picklist::getColors('ssalesprocesses_status');
+
 		$chartData = [
-			'labels' => [],
-			'datasets' => [
-				[
-					'data' => [],
-					'backgroundColor' => [],
-					'names' => [], // names for link generation
-					'links' => [], // links generated in proccess method
-				],
-			],
+			'dataset' => [],
 			'show_chart' => false,
+			'color' => []
 		];
+		$chartData['series'][0]['colorBy'] = 'data';
+		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
+		$colors = \App\Fields\Picklist::getColors('ssalesprocesses_status');
 		while ($row = $dataReader->read()) {
-			$chartData['datasets'][0]['data'][] = round($row['estimated'], 2);
-			$chartData['datasets'][0]['backgroundColor'][] = $colors[$row['ssalesprocesses_statusid']];
-			$chartData['datasets'][0]['links'][] = $moduleModel->getListViewUrl() . $this->getSearchParams($owner, $row['ssalesprocesses_status']);
-			$chartData['labels'][] = \App\Language::translate($row['ssalesprocesses_status'], $moduleName) . ' - ' . CurrencyField::convertToUserFormat($row['estimated']) . ' ' . $currencyInfo['currency_symbol'];
+			$status = $row['ssalesprocesses_status'];
+			$link = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($owner, $status);
+			$label = $status ? \App\Language::translate($status, $moduleName, null, false) : ('(' . \App\Language::translate('LBL_EMPTY', 'Home', null, false) . ')');
+			$chartData['dataset']['source'][] = [$label, round($row['estimated'], 2), ['link' => $link]];
+			$chartData['color'][] = $colors[$row['ssalesprocesses_statusid']] ?? \App\Colors::getRandomColor($status);
+			$chartData['show_chart'] = true;
 		}
-		$chartData['show_chart'] = (bool) \count($chartData['datasets'][0]['data']);
 		$dataReader->close();
+
 		return $chartData;
 	}
 

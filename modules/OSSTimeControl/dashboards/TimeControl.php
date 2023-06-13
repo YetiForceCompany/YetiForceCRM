@@ -29,7 +29,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			array_push($conditions, ['due_date', 'bw', $date . ',' . $date]);
 		}
 		$listSearchParams[] = $conditions;
-		return '&search_params=' . json_encode($listSearchParams);
+		return '&search_params=' . urlencode(json_encode($listSearchParams));
 	}
 
 	public function getWidgetTimeControl($user, $date)
@@ -72,7 +72,7 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 
 			$color = $colors[$type] ?? \App\Colors::getRandomColor($type);
 			$link = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($user, $dueDate);
-			$label = $type ? \App\Language::translate($type, $moduleName) : '(' . \App\Language::translate('LBL_EMPTY', 'Home') . ')';
+			$label = $type ? \App\Language::translate($type, $moduleName, null, false) : '(' . \App\Language::translate('LBL_EMPTY', 'Home', null, false) . ')';
 
 			$chartData['series'][$seriesIndex]['name'] = $label;
 			$chartData['series'][$seriesIndex]['type'] = 'bar';

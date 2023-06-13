@@ -94,13 +94,13 @@ class Home_Module_Model extends Vtiger_Module_Model
 		$moduleFields = array_keys($queryGenerator->getModuleFields());
 		$moduleFields[] = 'id';
 		$queryGenerator->setFields($moduleFields);
-		$queryGenerator->setCustomColumn(['vtiger_crmentity.smownerid', 'vtiger_crmentity.setype']);
+		$queryGenerator->setCustomColumn(['smownerid' => 'vtiger_crmentity.smownerid', 'setype' => 'vtiger_crmentity.setype']);
 		if ('upcoming' === $mode || 'overdue' === $mode) {
 			$queryGenerator->addNativeCondition(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
 		} elseif ('createdByMeButNotMine' === $mode || 'createdByMeButNotMineOverdue' === $mode) {
 			$queryGenerator->addNativeCondition(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
-			$queryGenerator->addCondition('vtiger_crmentity.smcreatorid', $paramsMore['user'], 'e');
-			$queryGenerator->addCondition('vtiger_crmentity.smownerid', $paramsMore['user'], 'n');
+			$queryGenerator->addCondition('created_user_id', $paramsMore['user'], 'e');
+			$queryGenerator->addCondition('assigned_user_id', $paramsMore['user'], 'n');
 		}
 		if (isset($paramsMore['activitytype'])) {
 			$queryGenerator->addCondition('activitytype', $paramsMore['activitytype'], 'e');
