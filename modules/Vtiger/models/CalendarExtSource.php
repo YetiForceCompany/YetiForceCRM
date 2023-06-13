@@ -44,17 +44,13 @@ class Vtiger_CalendarExtSource_Model extends App\Base
 	 */
 	public static function getByModule(int $moduleId): array
 	{
-		if (\App\Cache::has('Calendar-GetExtraSourcesList', $moduleId)) {
-			return \App\Cache::get('Calendar-GetExtraSourcesList', $moduleId);
-		}
-		$query = (new \App\Db\Query())->from('s_#__calendar_sources')
+		$user = \App\User::getCurrentUserModel();
+		$query = (new \App\Db\Query())->from(self::EXTRA_SOURCE_TABLE)
 			->where(['base_module' => $moduleId]);
-		if (!\App\User::getCurrentUserModel()->isAdmin()) {
-			$query->andWhere(['public' => 1]);
+		if (!$user->isAdmin()) {
+			$query->andWhere(['or', ['public' => 1], ['user_id' => $user->getId()]]);
 		}
-		$rows = $query->createCommand(\App\Db::getInstance('admin'))->queryAllByGroup(1);
-		\App\Cache::save('Calendar-GetExtraSourcesList', $moduleId, $rows, \App\Cache::LONG);
-		return $rows;
+		return $query->createCommand(\App\Db::getInstance('admin'))->queryAllByGroup(1);
 	}
 
 	/**
