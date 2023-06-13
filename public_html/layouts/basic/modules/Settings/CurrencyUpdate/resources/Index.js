@@ -37,53 +37,54 @@ jQuery.Class(
 							enabled: true
 						}
 					}),
-					params = {};
-				params.data = {
-					parent: app.getParentModuleName(),
-					module: app.getModuleName(),
-					action: 'GetBankCurrencies',
-					mode: 'supported',
-					name: bankName
-				};
-				params.dataType = 'json';
-				AppConnector.request(params).done(function (data) {
-					let response = data['result'],
-						html = '',
-						name;
-					for (name in response) {
-						html += '<p><strong>' + name + '</strong> - ' + response[name] + '</p>';
-					}
-					container.find('#infoSpan').html(html);
-				});
-
-				params.data = {
-					parent: app.getParentModuleName(),
-					module: app.getModuleName(),
-					action: 'GetBankCurrencies',
-					mode: 'unsupported',
-					name: bankName
-				};
-				params.dataType = 'json';
-				AppConnector.request(params).done(function (data) {
-					let response = data['result'];
-					if (jQuery.isEmptyObject(response)) {
-						if (!container.find('#unsupportedCurrencies').hasClass('d-none')) {
-							container.find('#unsupportedCurrencies').addClass('d-none');
+				params = {};
+				if (bankName !== undefined) {
+					params.data = {
+						parent: app.getParentModuleName(),
+						module: app.getModuleName(),
+						action: 'GetBankCurrencies',
+						mode: 'supported',
+						name: bankName
+					};
+					params.dataType = 'json';
+					AppConnector.request(params).done(function (data) {
+						let response = data['result'],
+							html = '',
+							name;
+						for (name in response) {
+							html += '<p><strong>' + name + '</strong> - ' + response[name] + '</p>';
 						}
-						if (!container.find('#alertBlock').hasClass('d-none')) {
-							container.find('#alertBlock').addClass('d-none');
-						}
-					} else {
-						container.find('#unsupportedCurrencies').removeClass('d-none');
-					}
-					let html = '',
-						name;
-					for (name in response) {
-						html += '<p><strong>' + name + '</strong> - ' + response[name] + '</p>';
-					}
-					container.find('#alertSpan').html(html);
-				});
+						container.find('#infoSpan').html(html);
+					});
 
+					params.data = {
+						parent: app.getParentModuleName(),
+						module: app.getModuleName(),
+						action: 'GetBankCurrencies',
+						mode: 'unsupported',
+						name: bankName
+					};
+					params.dataType = 'json';
+					AppConnector.request(params).done(function (data) {
+						let response = data['result'];
+						if (jQuery.isEmptyObject(response)) {
+							if (!container.find('#unsupportedCurrencies').hasClass('d-none')) {
+								container.find('#unsupportedCurrencies').addClass('d-none');
+							}
+							if (!container.find('#alertBlock').hasClass('d-none')) {
+								container.find('#alertBlock').addClass('d-none');
+							}
+						} else {
+							container.find('#unsupportedCurrencies').removeClass('d-none');
+						}
+						let html = '',
+							name;
+						for (name in response) {
+							html += '<p><strong>' + name + '</strong> - ' + response[name] + '</p>';
+						}
+						container.find('#alertSpan').html(html);
+					});
+				}
 				let bankId = jQuery('#bank option:selected').val();
 				params.data = {
 					parent: app.getParentModuleName(),
