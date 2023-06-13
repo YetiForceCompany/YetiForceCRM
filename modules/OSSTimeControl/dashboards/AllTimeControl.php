@@ -24,105 +24,76 @@ class OSSTimeControl_AllTimeControl_Dashboard extends Vtiger_IndexAjax_View
 		return '&search_params=' . json_encode($listSearchParams);
 	}
 
-	public function getWidgetTimeControl($user, $time)
+	public function getWidgetTimeControl($user, $date)
 	{
-		if (!$time) {
+		if (!$date) {
 			return ['show_chart' => false];
 		}
-		$currentUser = Users_Record_Model::getCurrentUserModel();
-		if ('all' == $user) {
-			$user = array_keys(\App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers());
-		}
-		if (!\is_array($user)) {
-			$user = [$user];
-		}
-		$colors = \App\Fields\Picklist::getColors('timecontrol_type');
+
 		$moduleName = 'OSSTimeControl';
-		$query = (new App\Db\Query())->select(['sum_time', 'due_date', 'vtiger_osstimecontrol.timecontrol_type', 'vtiger_crmentity.smownerid', 'timecontrol_typeid'])
-			->from('vtiger_osstimecontrol')
-			->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
-			->innerJoin('vtiger_timecontrol_type', 'vtiger_osstimecontrol.timecontrol_type = vtiger_timecontrol_type.timecontrol_type')
-			->where(['vtiger_crmentity.setype' => $moduleName, 'vtiger_crmentity.smownerid' => $user]);
-		\App\PrivilegeQuery::getConditions($query, $moduleName);
-		$query->andWhere([
-			'and',
-			['>=', 'vtiger_osstimecontrol.due_date', $time[0]],
-			['<=', 'vtiger_osstimecontrol.due_date', $time[1]],
-			['vtiger_osstimecontrol.deleted' => 0],
-		]);
-		$timeTypes = [];
-		$smOwners = [];
-		$dataReader = $query->createCommand()->query();
+		$queryGenerator = new \App\QueryGenerator($moduleName);
+		$queryGenerator->setFields(['timecontrol_type', 'assigned_user_id'])
+			->setCustomColumn(['sum_time' => new \yii\db\Expression('SUM(sum_time)')])
+			->addCondition('due_date', implode(',', $date), 'bw')
+			->setGroup('assigned_user_id')->setGroup('timecontrol_type')->setOrder('assigned_user_id');
+		if ('all' !== $user) {
+			$queryGenerator->addCondition('assigned_user_id', $user, 'e');
+		} else {
+			$queryGenerator->addNativeCondition([$queryGenerator->getColumnName('assigned_user_id') => \App\Fields\Owner::getInstance()->getQueryInitUsers(false, 'Active')->select(['id'])]);
+		}
+
+		$data = $queryGenerator->createQuery()->all();
+		$colors = \App\Fields\Picklist::getColors('timecontrol_type', false);
 		$chartData = [
-			'labels' => [],
-			'fullLabels' => [],
-			'datasets' => [],
 			'show_chart' => false,
 		];
-		$time = \App\Fields\Date::formatRangeToDisplay($time);
-		$workingTimeByType = $workingTime = [];
-		while ($row = $dataReader->read()) {
-			$label = \App\Language::translate($row['timecontrol_type'], 'OSSTimeControl');
-			if (isset($workingTimeByType[$label])) {
-				$workingTimeByType[$label] += (float) $row['sum_time'];
-			} else {
-				$workingTimeByType[$label] = (float) $row['sum_time'];
+
+		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
+		$sumValuePerXAxisData = [];
+		$xAxisData = array_values(array_unique(array_column($data, 'assigned_user_id')));
+		$types = array_values(array_unique(array_column($data, 'timecontrol_type')));
+		foreach ($data as $row) {
+			$ownerId = $row['assigned_user_id'];
+			$type = $row['timecontrol_type'];
+			$sumTime = $row['sum_time'];
+			$sumValuePerXAxisData[$type] = ($sumValuePerXAxisData[$type] ?? 0) + (float) $sumTime;
+			$seriesIndex = array_search($type, $types);
+
+			if (empty($chartData['series'][$seriesIndex])) {
+				foreach (array_keys($xAxisData) as $statusIndex) {
+					$chartData['series'][$seriesIndex]['data'][$statusIndex] = ['value' => null];
+				}
 			}
-			if (isset($workingTime[$row['smownerid']][$row['timecontrol_type']])) {
-				$workingTime[$row['smownerid']][$row['timecontrol_type']] += (float) $row['sum_time'];
-			} else {
-				$workingTime[$row['smownerid']][$row['timecontrol_type']] = (float) $row['sum_time'];
-			}
-			if (!\in_array($row['timecontrol_type'], $timeTypes)) {
-				$timeTypes[$row['timecontrol_typeid']] = $row['timecontrol_type'];
-				// one dataset per type
-				$chartData['datasets'][] = [
-					'label' => $label,
-					'original_label' => $label,
-					'_type' => $row['timecontrol_type'],
-					'data' => [],
-					'dataFormatted' => [],
-					'backgroundColor' => [],
-					'links' => [],
-				];
-			}
-			if (!\in_array($row['smownerid'], $smOwners)) {
-				$smOwners[] = $row['smownerid'];
-				$ownerName = \App\Fields\Owner::getUserLabel($row['smownerid']);
-				$chartData['labels'][] = \App\Utils::getInitials($ownerName);
-				$chartData['fullLabels'][] = $ownerName;
-			}
-		}
-		foreach ($chartData['datasets'] as &$dataset) {
-			$dataset['label'] .= ': ' . \App\Fields\RangeTime::displayElapseTime($workingTimeByType[$dataset['label']]);
-		}
-		if ($dataReader->count() > 0) {
+			$statusIndex = array_search($ownerId, $xAxisData);
+
+			$color = $colors[$type] ?? \App\Colors::getRandomColor($type);
+			$link = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($ownerId, $date);
+			$label = $type ? \App\Language::translate($type, $moduleName) : '(' . \App\Language::translate('LBL_EMPTY', 'Home') . ')';
+
+			$chartData['series'][$seriesIndex]['name'] = $label;
+			$chartData['series'][$seriesIndex]['type'] = 'bar';
+			$chartData['series'][$seriesIndex]['stack'] = 'total';
+			$chartData['series'][$seriesIndex]['color'] = $color;
+			$chartData['series'][$seriesIndex]['label'] = ['show' => false];
+			$chartData['tooltip'] = ['trigger' => 'axis', 'axisPointer' => ['type' => 'shadow']];
+			$chartData['labelLayout'] = ['hideOverlap' => false];
+			$chartData['series'][$seriesIndex]['data'][$statusIndex] = ['value' => round($sumTime / 60, 2), 'itemStyle' => ['color' => $color], 'link' => $link, 'fullLabel' => \App\Fields\Owner::getLabel($ownerId), 'fullValue' => \App\Fields\RangeTime::displayElapseTime($sumTime), 'seriesLabel' => $label];
+
 			$chartData['show_chart'] = true;
-			foreach ($workingTime as $ownerId => $timeValue) {
-				foreach ($timeTypes as $timeTypeId => $timeType) {
-					// if owner has this kind of type
-					if (!empty($timeValue[$timeType])) {
-						$userTime = $timeValue[$timeType];
-					} else {
-						$userTime = 0;
-					}
-					foreach ($chartData['datasets'] as &$dataset) {
-						if ($dataset['_type'] === $timeType) {
-							// each data item is an different owner time in this dataset/time type
-							$dataset['data'][] = round($userTime / 60, 2);
-							$dataset['backgroundColor'][] = $colors[$timeTypeId];
-							$dataset['dataFormatted'][] = \App\Fields\RangeTime::displayElapseTime($userTime);
-						}
-					}
-				}
-			}
-			foreach ($smOwners as $ownerId) {
-				foreach ($chartData['datasets'] as &$dataset) {
-					$dataset['links'][] = 'index.php?module=OSSTimeControl&view=List&viewname=All&entityState=Active' . $this->getSearchParams($ownerId, $time);
-				}
-			}
 		}
-		$dataReader->close();
+
+		foreach ($xAxisData as $ownerId) {
+			$chartData['xAxis']['data'][] = \App\Utils::getInitials(\App\Fields\Owner::getLabel($ownerId));
+		}
+
+		foreach ($sumValuePerXAxisData as $type => $value) {
+			if (!$value) {
+				continue;
+			}
+			$seriesIndex = array_search($type, $types);
+			$chartData['series'][$seriesIndex]['name'] .= ': ' . \App\Fields\RangeTime::displayElapseTime($value);
+		}
+
 		return $chartData;
 	}
 

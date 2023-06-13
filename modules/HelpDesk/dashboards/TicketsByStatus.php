@@ -75,8 +75,7 @@ class HelpDesk_TicketsByStatus_Dashboard extends Vtiger_IndexAjax_View
 			$seriesIndex = array_search($priority, $priorities);
 
 			if (empty($chartData['series'][$seriesIndex])) {
-				foreach ($statuses as $s) {
-					$statusIndex = array_search($s, $statuses);
+				foreach (array_keys($statuses) as $statusIndex) {
 					$chartData['series'][$seriesIndex]['data'][$statusIndex] = ['value' => null];
 				}
 			}

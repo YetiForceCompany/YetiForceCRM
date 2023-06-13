@@ -1051,37 +1051,6 @@ YetiForce_Chart_Widget_Js(
 		}
 	}
 );
-YetiForce_Bar_Widget_Js(
-	'YetiForce_AllTimeControl_Widget_Js',
-	{},
-	{
-		getBasicOptions: function getBasicOptions() {
-			return {
-				xAxis: {
-					type: 'category'
-				},
-				yAxis: {
-					type: 'value'
-				},
-				series: [
-					{
-						type: 'bar'
-					}
-				]
-			};
-		}
-		// getDatasetOptions: function getDatasetOptions(dataset, type, datasetIndex) {
-		// 	return {
-		// 		datalabels: {
-		// 			formatter: function datalabelsFormatter(value, context) {
-		// 				return context.dataset.dataFormatted[context.dataIndex];
-		// 			}
-		// 		}
-		// 	};
-		// }
-	}
-);
-
 YetiForce_Bar_Widget_Js('YetiForce_AccountsByIndustry_Widget_Js', {}, {});
 YetiForce_Funnel_Widget_Js(
 	'YetiForce_EstimatedvalueByStatus_Widget_Js',
