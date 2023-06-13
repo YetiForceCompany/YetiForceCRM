@@ -233,7 +233,7 @@ $.Class(
 			let params = this.getRecordsListParams(parentElem);
 			app.showRecordsList(params, (_modal, instance) => {
 				instance.setSelectEvent((data) => {
-					this.setReferenceFieldValue(parentElem, data);
+					this.setReferenceFieldValue(parentElem, data.selectedRecords);
 				});
 			});
 		},
