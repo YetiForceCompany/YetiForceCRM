@@ -281,10 +281,12 @@ Vtiger_Edit_Js(
 		registerFormSubmitEvent: function (form) {
 			var thisInstance = this;
 			var lockSave = true;
-			if (app.getRecordId()) {
+			if (app.getRecordId() && 1 === 0) {
 				form.on(Vtiger_Edit_Js.recordPreSave, function (e) {
 					if (lockSave && form.find('input[name="reapeat"]').is(':checked')) {
 						e.preventDefault();
+						//jak wyłączyć drugi confirm  disable recordPreSave, old hash? recird model bez type saving
+						/*
 						app.showModalWindow(form.find('.typeSavingModal').clone(), function (container) {
 							container.find('.typeSavingBtn').on('click', function (e) {
 								var currentTarget = $(e.currentTarget);
@@ -294,6 +296,7 @@ Vtiger_Edit_Js(
 								form.submit();
 							});
 						});
+						*/
 					}
 				});
 			}

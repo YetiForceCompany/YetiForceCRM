@@ -35,9 +35,19 @@ class Vtiger_Delete_Action extends \App\Controller\Action
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
+		$result = $this->performDelete($request);
+
+		$response = new Vtiger_Response();
+		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response->setResult($result);
+		$response->emit();
+	}
+
+	protected function performDelete(App\Request $request): array
+	{
 		$result = [];
-		$eventHandler = $this->record->getEventHandler();
 		$skipHandlers = $request->getArray('skipHandlers', \App\Purifier::ALNUM, [], \App\Purifier::INTEGER);
+		$eventHandler = $this->record->getEventHandler();
 		foreach ($eventHandler->getHandlers(\App\EventHandler::PRE_DELETE) as $handler) {
 			$handlerId = $handler['eventhandler_id'];
 			$response = $eventHandler->triggerHandler($handler);
@@ -48,7 +58,6 @@ class Vtiger_Delete_Action extends \App\Controller\Action
 				$result[$handlerId] = $response;
 			}
 		}
-
 		if (!$result) {
 			$this->record->delete();
 			if ('List' === $request->getByType('sourceView')) {
@@ -57,10 +66,6 @@ class Vtiger_Delete_Action extends \App\Controller\Action
 				$result = ['url' => $this->record->getModule()->getListViewUrl()];
 			}
 		}
-
-		$response = new Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
-		$response->setResult($result);
-		$response->emit();
+		return $result;
 	}
 }
