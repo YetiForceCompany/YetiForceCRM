@@ -231,7 +231,7 @@
 						<select class="row modules select2 form-control" name="target_module" data-validation-engine="validate[required]" data-js="change">
 							{foreach from=\App\Module::getModulesList() item=MODULE_INFO}
 								<option value="{$MODULE_INFO['tabid']}" {if $SOURCE && $SOURCE->get('target_module') == $MODULE_INFO['tabid']}selected="true" {/if}>
-									{\App\Language::translate($MODULE_INFO['name'], $MODULE_INFO['tablabel'])}
+									{\App\Language::translate($MODULE_INFO['tablabel'], $MODULE_INFO['name'])}
 								</option>
 							{/foreach}
 						</select>
