@@ -4,7 +4,6 @@
  *  Class representing an extended calendar.
  * @extends Calendar_Calendar_Js
  */
-window.calendarLoaded = false; //Global calendar flag needed for correct loading data from history browser in year view
 window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Vtiger_Calendar_Js {
 	/**
 	 * Go to records list
@@ -26,15 +25,6 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Vtiger_Calendar
 		}
 		link += '&search_params=[[' + encodeURIComponent(searchParams) + ']]';
 		window.location.href = link;
-	}
-	/**
-	 * Create calendar's options.
-	 * @param {jQuery} container
-	 * @param {bool} readonly
-	 * @param {boolean} browserHistory
-	 */
-	constructor(container, readonly, browserHistory = true) {
-		super(container, readonly, browserHistory);
 	}
 	/**
 	 * Set calendar module options.
@@ -182,43 +172,6 @@ window.Calendar_Calendar_Js = class Calendar_Calendar_Js extends Vtiger_Calendar
 			}
 		};
 		return returnFunction;
-	}
-	/**
-	 * Load calendar data
-	 */
-	loadCalendarData() {
-		const self = this,
-			progressInstance = $.progressIndicator({ blockInfo: { enabled: true } });
-		let options = this.getDefaultParams();
-		self.fullCalendar.removeAllEvents();
-		self.clearFilterButton(options['user']);
-		options.historyUrl = `index.php?module=${options['module']}&view=Calendar&history=true`;
-		options.historyUrl += `&viewType=${this.fullCalendar.view.type}&start=${options['start']}&end=${options['end']}`;
-		options.historyUrl += `&time=${options['time']}&user=${JSON.stringify(options['user'])}`;
-		options.historyUrl += `&extraSources=${JSON.stringify(options['extraSources'])}`;
-		options.historyUrl += `&cvid=${options['cvid']}&hiddenDays=${this.fullCalendar.getOption('hiddenDays')}`;
-		let connectorMethod = window['AppConnector']['request'];
-		if (this.browserHistory && window.calendarLoaded) {
-			connectorMethod = window['AppConnector']['requestPjax'];
-		}
-		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && !window.calendarLoaded) {
-			options = Object.assign(options, {
-				start: this.browserHistoryConfig.start,
-				end: this.browserHistoryConfig.end,
-				user: this.browserHistoryConfig.user,
-				time: this.browserHistoryConfig.time,
-				cvid: this.browserHistoryConfig.cvid
-			});
-			connectorMethod = window['AppConnector']['request'];
-			app.setMainParams('showType', this.browserHistoryConfig.time);
-			app.setMainParams('usersId', this.browserHistoryConfig.user);
-		}
-		connectorMethod(options).done((events) => {
-			self.fullCalendar.removeAllEvents();
-			self.fullCalendar.addEventSource(events.result);
-			progressInstance.progressIndicator({ mode: 'hide' });
-		});
-		window.calendarLoaded = true;
 	}
 	/**
 	 * Show create view
