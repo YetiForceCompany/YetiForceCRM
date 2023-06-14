@@ -39,7 +39,7 @@ class Product extends Base
 		'discontinued' => ['name' => 'on_sale', 'fn' => 'convertBool'],
 		'alias' => ['name' => 'slug', 'optional' => true],
 		'ean' => 'sku',
-		'parent_id' => ['name' => 'parent_id', 'fn' => 'findRelationship'],
+		'parent_id' => ['name' => 'parent_id', 'fn' => 'findByRelationship'],
 		'tags' => ['name' => 'tags', 'fn' => 'convertTags', 'optional' => true],
 		'product_type' => ['name' => 'type', 'mayNotExist' => true, 'map' => [
 			'simple' => 'PLL_TYPE_SIMPLE',

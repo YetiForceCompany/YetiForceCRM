@@ -59,7 +59,7 @@ class ProductTags extends Base
 			if ($this->refreshCache) {
 				$this->cache = null;
 				$this->cacheList = null;
-				$this->getAllFromApi();
+				$this->getAllFromApi(false);
 			}
 		}
 	}
@@ -155,17 +155,23 @@ class ProductTags extends Base
 	/**
 	 * Get all tags from API.
 	 *
+	 * @param bool $cache
+	 *
 	 * @return array
 	 */
-	private function getAllFromApi(): array
+	private function getAllFromApi(bool $cache = true): array
 	{
-		if (null === $this->cache) {
+		if (null === $this->cache || !$cache) {
 			$this->cache = [];
 			try {
 				$page = 1;
 				$load = true;
 				while ($load) {
-					if ($rows = $this->getFromApi('products/tags?&page=' . $page . '&per_page=' . self::RECORDS_LIMIT_PER_PAGE)) {
+					if ($rows = $this->getFromApi(
+						'products/tags?&page=' . $page . '&per_page=' . self::RECORDS_LIMIT_PER_PAGE,
+						$cache
+						)
+					) {
 						foreach ($rows as $row) {
 							$this->cache[$row['id']] = $row;
 						}

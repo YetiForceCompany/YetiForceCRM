@@ -149,6 +149,7 @@ class Settings_WooCommerce_Activation_Model
 			$dbLog->createTable(WooCommerce::LOG_TABLE_NAME, [
 				'id' => $importer->primaryKeyUnsigned(),
 				'time' => $importer->dateTime()->notNull(),
+				'error' => $importer->tinyInteger(1)->unsigned()->defaultValue(0),
 				'message' => $importer->stringType(255),
 				'params' => $importer->text(),
 				'trace' => $importer->text(),

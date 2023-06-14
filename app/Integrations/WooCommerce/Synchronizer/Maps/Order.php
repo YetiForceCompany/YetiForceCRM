@@ -25,7 +25,7 @@ class Order extends Inventory
 	/** {@inheritdoc} */
 	protected $fieldMap = [
 		'subject' => ['name' => 'id', 'direction' => 'yf'],
-		'parent_id' => ['name' => 'parent_id', 'fn' => 'findRelationship', 'direction' => 'yf'],
+		'parent_id' => ['name' => 'parent_id', 'fn' => 'findByRelationship', 'direction' => 'yf'],
 		'currency_id' => ['name' => 'currency', 'fn' => 'convertCurrency', 'direction' => 'yf'],
 		'ssingleorders_status' => ['name' => 'status', 'map' => [
 			'pending' => 'PLL_NEW',
@@ -114,7 +114,7 @@ class Order extends Inventory
 		if ($this->dataApi['variation_id']) {
 			$value = $this->dataApi['variation_id'];
 		}
-		$id = $this->findRelationship($value, $field, $fromApi);
+		$id = $this->findByRelationship($value, $field, $fromApi);
 		if (!$id) {
 			if (null === $this->product) {
 				$this->product = new \App\Integrations\WooCommerce\Synchronizer\Product($this->synchronizer->controller);

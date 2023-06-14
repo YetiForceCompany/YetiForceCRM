@@ -83,13 +83,14 @@ abstract class Base
 	 * Get data by path from API.
 	 *
 	 * @param string $path
+	 * @param bool   $cache
 	 *
 	 * @return array
 	 */
-	public function getFromApi(string $path): array
+	public function getFromApi(string $path, bool $cache = true): array
 	{
 		$cacheKey = self::LOG_CATEGORY . '/API';
-		if (\App\Cache::staticHas($cacheKey, $path)) {
+		if ($cache && \App\Cache::staticHas($cacheKey, $path)) {
 			return \App\Cache::staticGet($cacheKey, $path);
 		}
 		$data = \App\Json::decode($this->connector->request('GET', $path));
@@ -233,20 +234,6 @@ abstract class Base
 	 */
 	public function log(string $category, ?array $params, ?\Throwable $ex = null, bool $error = false): void
 	{
-		$message = $ex ? $ex->getMessage() : $category;
-		$params = print_r($params, true);
-		if ($ex && ($raw = \App\RequestHttp::getRawException($ex))) {
-			$params .= PHP_EOL . $raw;
-		}
-		\App\DB::getInstance('log')->createCommand()
-			->insert(\App\Integrations\WooCommerce::LOG_TABLE_NAME, [
-				'time' => date('Y-m-d H:i:s'),
-				'error' => $ex ? 1 : ((int) $error),
-				'message' => \App\TextUtils::textTruncate($message, 255),
-				'params' => $params ? \App\TextUtils::textTruncate($params, 65535) : null,
-				'trace' => $ex ? \App\TextUtils::textTruncate(
-					rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $ex->__toString()), PHP_EOL), 65535
-				) : null,
-			])->execute();
+		\App\Integrations\WooCommerce::log($category, $params, $ex, $error);
 	}
 }

@@ -33,7 +33,7 @@ class Config extends \App\Base
 			return \App\Cache::get('WooCommerce|getAllServers', '');
 		}
 		$servers = [];
-		$dataReader = (new Query())->from(WooCommerce::TABLE_NAME)
+		$dataReader = (new Query())->from(WooCommerce::TABLE_NAME)->where(['status' => 1])
 			->createCommand(\App\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
 			$row['password'] = \App\Encryption::getInstance()->decrypt($row['password']);

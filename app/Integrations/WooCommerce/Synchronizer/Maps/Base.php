@@ -319,14 +319,14 @@ abstract class Base
 					} elseif (!\array_key_exists('optional', $field) || empty($field['optional'])) {
 						$error = '[YF>API] No field ' . $fieldCrm;
 						\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-						$this->synchronizer->log($error, $this->dataApi, null, true);
+						$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataYf], null, true);
 					}
 				} else {
 					$this->dataApi[$field] = $this->dataYf[$fieldCrm] ?? null;
 					if (!\array_key_exists($fieldCrm, $this->dataYf)) {
 						$error = '[YF>API] No field ' . $fieldCrm;
 						\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-						$this->synchronizer->log($error, $this->dataYf, null, true);
+						$this->synchronizer->log($error, ['fieldConfig' => $field, 'data' => $this->dataYf], null, true);
 					}
 				}
 			}
@@ -471,7 +471,7 @@ abstract class Base
 	 *
 	 * @return int
 	 */
-	protected function findRelationship($value, array $field, bool $fromApi): int
+	protected function findByRelationship($value, array $field, bool $fromApi): int
 	{
 		$moduleName = $field['moduleName'] ?? $this->moduleName;
 		if (empty($value)) {
@@ -609,7 +609,7 @@ abstract class Base
 			try {
 				$id = $this->findRecordInYf();
 				if (empty($field['onlyCreate']) || empty($id)) {
-					$this->loadRecordModel($this->findRecordInYf());
+					$this->loadRecordModel($id);
 					$this->loadAdditionalData();
 					$this->saveInYf();
 					$id = $this->getRecordModel()->getId();

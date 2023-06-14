@@ -24,6 +24,10 @@ class Vtiger_WooCommerce_Cron extends \App\CronHandler
 			}
 			$this->updateLastActionTime();
 			$connector = (new App\Integrations\WooCommerce($serverId, $bathCallback));
+			if ($message = $connector->testConnection()) {
+				$this->addErrorLog($message);
+				continue;
+			}
 			foreach ([
 				'sync_currency' => 'Currency',
 				'sync_categories' => 'ProductCategory',
