@@ -12,7 +12,7 @@ jQuery.Class(
 		 * Set saving mode for records
 		 */
 		setSavingModeForRecords() {
-			this.container.find('.typeSavingBtn').on('click', function (e) {
+			this.container.find('.js-repeat-events-mode').on('click', function (e) {
 				$('#EditView [name="typeSaving"]').val($(e.currentTarget).data('value'));
 				form.submit();
 				app.hideModalWindow();

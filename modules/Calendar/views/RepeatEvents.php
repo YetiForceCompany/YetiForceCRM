@@ -23,14 +23,20 @@ class Calendar_RepeatEvents_View extends \App\Controller\Modal
 	/** {@inheritdoc} */
 	protected $pageTitle = 'LBL_TITLE_TYPE_SAVING';
 
+	/** {@inheritdoc} */
 	public $showFooter = false;
+
+	/** {@inheritdoc} */
+	public $autoRegisterEvents = false;
 
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
-		return true;
-		//TODO
-		if (!(\App\Process::hasEvent('showVisitPurpose')) && !(\App\Process::hasEvent('showSuperUserVisitPurpose'))) {
+		if ($request->isEmpty('record', true)) {
+			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+		}
+		$recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), 'Calendar');
+		if (!$recordModel->isEditable()) {
 			throw new \App\Exceptions\NoPermitted('ERR_PERMISSION_DENIED', 406);
 		}
 	}

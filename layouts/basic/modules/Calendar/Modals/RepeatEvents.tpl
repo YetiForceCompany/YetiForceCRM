@@ -4,7 +4,7 @@
 	<div class="modal-body">
 		<div class="col-12 px-0 mb-3 form-row m-0">
 			<div class="col-12 col-lg-4 px-0">
-				<button class="btn btn-primary btn-sm typeSavingBtn" data-value="2">
+				<button class="btn btn-primary btn-sm js-repeat-events-mode" data-value="2">
 					{App\Language::translate('LBL_UPDATE_THIS_EVENT', $MODULE_NAME)}
 				</button>
 			</div>
@@ -14,7 +14,7 @@
 		</div>
 		<div class="col-12 px-0 mb-3 form-row m-0">
 			<div class="col-12 col-lg-4 px-0">
-				<button class="btn btn-primary btn-sm typeSavingBtn" data-value="3">
+				<button class="btn btn-primary btn-sm js-repeat-events-mode" data-value="3">
 					{App\Language::translate('LBL_UPDATE_FUTURE_EVENTS', $MODULE_NAME)}
 				</button>
 			</div>
@@ -24,7 +24,7 @@
 		</div>
 		<div class="col-12 px-0 mb-3 form-row m-0">
 			<div class="col-12 col-lg-4 px-0">
-				<button class="btn btn-primary btn-sm typeSavingBtn" type="button" data-value="1">
+				<button class="btn btn-primary btn-sm js-repeat-events-mode" type="button" data-value="1">
 					{App\Language::translate('LBL_UPDATE_ALL_EVENTS', $MODULE_NAME)}
 				</button>
 			</div>

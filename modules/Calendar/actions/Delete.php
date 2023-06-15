@@ -14,12 +14,13 @@ class Calendar_Delete_Action extends Vtiger_Delete_Action
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
+		$typeRemove = Calendar_RecuringEvents_Model::UPDATE_THIS_EVENT;
+		if (!$request->isEmpty('typeRemove')) {
+			$typeRemove = $request->getInteger('typeRemove');
+			$this->record->ext['repeatType'] = $typeRemove;
+		}
 		$result = $this->performDelete($request);
 		if (!$result) {
-			$typeRemove = Calendar_RecuringEvents_Model::UPDATE_THIS_EVENT;
-			if (!$request->isEmpty('typeRemove')) {
-				$typeRemove = $request->getInteger('typeRemove');
-			}
 			$recurringEvents = Calendar_RecuringEvents_Model::getInstance();
 			$recurringEvents->typeSaving = $typeRemove;
 			$recurringEvents->recordModel = $this->record;

@@ -22,12 +22,11 @@ class Calendar_RepeatEvents_Handler
 	{
 		$response = ['result' => true];
 		$recordModel = $eventHandler->getRecordModel();
-		$request = \App\Request::init();
-		if ($recordModel->get('reapeat') && $request->isEmpty('typeSaving')) {
+		if ($recordModel->get('reapeat') && !isset($recordModel->ext['repeatType'])) {
 			$response = [
 				'result' => false,
 				'type' => 'modal',
-				'url' => 'index.php?module=Calendar&view=RepeatEvents',
+				'url' => "index.php?module=Calendar&view=RepeatEvents&record={$recordModel->getId()}",
 			];
 		}
 		return $response;
@@ -44,12 +43,11 @@ class Calendar_RepeatEvents_Handler
 	{
 		$response = ['result' => true];
 		$recordModel = $eventHandler->getRecordModel();
-		$request = \App\Request::init();
-		if ($recordModel->get('reapeat') && $request->isEmpty('typeSaving')) {
+		if ($recordModel->get('reapeat') && !isset($recordModel->ext['repeatType'])) {
 			$response = [
 				'result' => false,
 				'type' => 'modal',
-				'url' => 'index.php?module=Calendar&view=RepeatEventsDelete',
+				'url' => "index.php?module=Calendar&view=RepeatEventsDelete&record={$recordModel->getId()}",
 			];
 		}
 		return $response;
@@ -64,16 +62,19 @@ class Calendar_RepeatEvents_Handler
 	 */
 	public function preStateChange(App\EventHandler $eventHandler)
 	{
-		$response = ['result' => true];
+		$responseData = ['result' => true];
 		$recordModel = $eventHandler->getRecordModel();
-		$request = \App\Request::init();
-		if ($recordModel->get('reapeat') && $request->isEmpty('typeSaving')) {
-			$response = [
+		$repeatCondition = $recordModel->get('reapeat');
+		$noRepeatType = !isset($recordModel->ext['repeatType']);
+		$newStateExists = isset($recordModel->ext['newState']);
+		$isTrashState = \App\Record::STATE_TRASH === $recordModel->ext['newState'];
+		if ($repeatCondition && $noRepeatType && $newStateExists && $isTrashState) {
+			$responseData = [
 				'result' => false,
 				'type' => 'modal',
-				'url' => 'index.php?module=Calendar&view=RepeatEventsDelete',
+				'url' => "index.php?module=Calendar&view=RepeatEventsDelete&record={$recordModel->getId()}",
 			];
 		}
-		return $response;
+		return $responseData;
 	}
 }

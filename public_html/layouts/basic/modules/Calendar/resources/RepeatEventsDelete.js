@@ -11,11 +11,22 @@ jQuery.Class(
 		/**
 		 * Set saving mode for records
 		 */
-		setSavingModeForRecords() {
-			this.container.find('.typeSavingBtn').on('click', function (e) {
-				$('#EditView [name="typeSaving"]').val($(e.currentTarget).data('value'));
-				form.submit();
+		seDeleteModeForRecords() {
+			const thisInstance = this;
+			this.container.find('.js-repeat-events-mode').on('click', function (e) {
 				app.hideModalWindow();
+				let deleteRecordActionUrl = thisInstance.container.find('[name="delete-url"]').attr('data-url');
+				let removeType = $(e.currentTarget).data('value');
+				AppConnector.request(deleteRecordActionUrl + '&typeRemove=' + removeType).done(function (data) {
+					if (data.success == true) {
+						window.location.href = data.result.url;
+					} else {
+						app.showNotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error'
+						});
+					}
+				});
 			});
 		},
 		/**
@@ -24,7 +35,7 @@ jQuery.Class(
 		 */
 		registerEvents: function (modalContainer) {
 			this.container = modalContainer;
-			this.setSavingModeForRecords();
+			this.seDeleteModeForRecords();
 		}
 	}
 );
