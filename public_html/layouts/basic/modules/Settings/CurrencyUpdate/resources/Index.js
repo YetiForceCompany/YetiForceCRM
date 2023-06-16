@@ -38,61 +38,15 @@ jQuery.Class(
 						}
 					}),
 				params = {};
-				if (bankName !== undefined) {
-					params.data = {
-						parent: app.getParentModuleName(),
-						module: app.getModuleName(),
-						action: 'GetBankCurrencies',
-						mode: 'supported',
-						name: bankName
-					};
-					params.dataType = 'json';
-					AppConnector.request(params).done(function (data) {
-						let response = data['result'],
-							html = '',
-							name;
-						for (name in response) {
-							html += '<p><strong>' + name + '</strong> - ' + response[name] + '</p>';
-						}
-						container.find('#infoSpan').html(html);
-					});
-
-					params.data = {
-						parent: app.getParentModuleName(),
-						module: app.getModuleName(),
-						action: 'GetBankCurrencies',
-						mode: 'unsupported',
-						name: bankName
-					};
-					params.dataType = 'json';
-					AppConnector.request(params).done(function (data) {
-						let response = data['result'];
-						if (jQuery.isEmptyObject(response)) {
-							if (!container.find('#unsupportedCurrencies').hasClass('d-none')) {
-								container.find('#unsupportedCurrencies').addClass('d-none');
-							}
-							if (!container.find('#alertBlock').hasClass('d-none')) {
-								container.find('#alertBlock').addClass('d-none');
-							}
-						} else {
-							container.find('#unsupportedCurrencies').removeClass('d-none');
-						}
-						let html = '',
-							name;
-						for (name in response) {
-							html += '<p><strong>' + name + '</strong> - ' + response[name] + '</p>';
-						}
-						container.find('#alertSpan').html(html);
-					});
-				}
 				let bankId = jQuery('#bank option:selected').val();
 				params.data = {
 					parent: app.getParentModuleName(),
 					module: app.getModuleName(),
-					action: 'SaveActiveBank',
+					name: bankName,
 					id: bankId
 				};
 				params.dataType = 'json';
+				params.data.action = 'SaveActiveBank';
 				AppConnector.request(params).done(function (data) {
 					let response = data['result'];
 					if (response['success']) {
@@ -109,6 +63,41 @@ jQuery.Class(
 					}
 					infoProgress.progressIndicator({ mode: 'hide' });
 				});
+
+				params.data.action = 'GetBankCurrencies';
+				params.data.mode = 'supported';
+				AppConnector.request(params).done(function (data) {
+					console.log(data);
+					let response = data['result'],
+						html = '',
+						name;
+					for (name in response) {
+						html += '<p><strong>' + name + '</strong> - ' + response[name] + '</p>';
+					}
+					container.find('#infoSpan').html(html);
+				});
+
+				params.data.mode = 'unsupported';
+				AppConnector.request(params).done(function (data) {
+					let response = data['result'];
+					if (jQuery.isEmptyObject(response)) {
+						if (!container.find('#unsupportedCurrencies').hasClass('d-none')) {
+							container.find('#unsupportedCurrencies').addClass('d-none');
+						}
+						if (!container.find('#alertBlock').hasClass('d-none')) {
+							container.find('#alertBlock').addClass('d-none');
+						}
+					} else {
+						container.find('#unsupportedCurrencies').removeClass('d-none');
+					}
+					let html = '',
+						name;
+					for (name in response) {
+						html += '<p><strong>' + name + '</strong> - ' + response[name] + '</p>';
+					}
+					container.find('#alertSpan').html(html);
+				});
+				window.location.reload();
 			});
 		},
 		/**

@@ -186,7 +186,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	 */
 	public function getSupportedCurrencies($bankName = null)
 	{
-		if (!\App\RequestUtil::isNetConnection()) {
+		if (!\App\RequestUtil::isNetConnection() || empty($this->getActiveBankName())) {
 			return [];
 		}
 		if (!$bankName) {
@@ -211,16 +211,16 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	 */
 	public function getUnSupportedCurrencies($bankName = null)
 	{
-		if (!\App\RequestUtil::isNetConnection()) {
+		if (!\App\RequestUtil::isNetConnection() || empty($this->getActiveBankName())) {
 			return [];
 		}
-		if (!$bankName && !empty($this->getActiveBankName())) {
+		if (!$bankName) {
 			$bankName = 'Settings_CurrencyUpdate_' . $this->getActiveBankName() . '_BankModel';
 		}
-		if (!empty($this->getActiveBankName())) {
-			$bank = new $bankName();
-			$supported = $bank->getSupportedCurrencies($bankName);
-		}
+
+		$bank = new $bankName();
+		$supported = $bank->getSupportedCurrencies($bankName);
+
 		$dataReader = (new \App\Db\Query())->select(['currency_name', 'currency_code'])
 			->from('vtiger_currency_info')
 			->where(['currency_status' => 'Active', 'deleted' => 0])
@@ -231,7 +231,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 			$unsupported[$name] = $code;
 		}
 		$dataReader->close();
-		return array_diff($unsupported, !empty($supported) ? $supported : []);
+		return array_diff($unsupported, $supported);
 	}
 
 	/**
