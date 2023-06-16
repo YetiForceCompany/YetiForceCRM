@@ -14,7 +14,7 @@ class Settings_CurrencyUpdate_GetBankCurrencies_Action extends Settings_Vtiger_B
 		$moduleModel = Settings_CurrencyUpdate_Module_Model::getCleanInstance();
 		$response = new Vtiger_Response();
 		if ('supported' === $mode) {
-			$supported = $moduleModel->getSupportedCurrencies($name);
+			$supported = $moduleModel->getSupportedCurrencies($name, true);
 			$response->setResult($supported);
 		} else {
 			$unsupported = $moduleModel->getUnSupportedCurrencies($name);

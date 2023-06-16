@@ -180,16 +180,17 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	/**
 	 * Returns list of supported currencies by active bank.
 	 *
-	 * @param string $bankName - bank name
+	 * @param string $bankName  - bank name
+	 * @param mixed  $inRequest
 	 *
 	 * @return <Array> - array of supported currencies
 	 */
-	public function getSupportedCurrencies($bankName = null)
+	public function getSupportedCurrencies($bankName = null, $inRequest = false)
 	{
-		if (!\App\RequestUtil::isNetConnection() || empty($this->getActiveBankName())) {
+		if (!\App\RequestUtil::isNetConnection() || (empty($bankName) && $inRequest)) {
 			return [];
 		}
-		if (!$bankName) {
+		if (empty($bankName)) {
 			$bankName = 'Settings_CurrencyUpdate_' . $this->getActiveBankName() . '_BankModel';
 		}
 		$currencies = [];
@@ -205,22 +206,21 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	/**
 	 * Returns list of unsupported currencies by active bank.
 	 *
-	 * @param string $bankName - bank name
+	 * @param string $bankName  - bank name
+	 * @param mixed  $inRequest
 	 *
 	 * @return <Array> - array of unsupported currencies
 	 */
 	public function getUnSupportedCurrencies($bankName = null)
 	{
-		if (!\App\RequestUtil::isNetConnection() || empty($this->getActiveBankName())) {
+		if (!\App\RequestUtil::isNetConnection() || (empty($bankName) && empty($this->getActiveBankName()))) {
 			return [];
 		}
-		if (!$bankName) {
+		if (empty($bankName)) {
 			$bankName = 'Settings_CurrencyUpdate_' . $this->getActiveBankName() . '_BankModel';
 		}
-
 		$bank = new $bankName();
-		$supported = $bank->getSupportedCurrencies($bankName);
-
+		$supported = $bank->getSupportedCurrencies();
 		$dataReader = (new \App\Db\Query())->select(['currency_name', 'currency_code'])
 			->from('vtiger_currency_info')
 			->where(['currency_status' => 'Active', 'deleted' => 0])

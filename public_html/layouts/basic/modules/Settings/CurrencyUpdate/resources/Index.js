@@ -37,7 +37,7 @@ jQuery.Class(
 							enabled: true
 						}
 					}),
-				params = {};
+					params = {};
 				let bankId = jQuery('#bank option:selected').val();
 				params.data = {
 					parent: app.getParentModuleName(),
@@ -63,11 +63,9 @@ jQuery.Class(
 					}
 					infoProgress.progressIndicator({ mode: 'hide' });
 				});
-
 				params.data.action = 'GetBankCurrencies';
 				params.data.mode = 'supported';
 				AppConnector.request(params).done(function (data) {
-					console.log(data);
 					let response = data['result'],
 						html = '',
 						name;
@@ -76,7 +74,6 @@ jQuery.Class(
 					}
 					container.find('#infoSpan').html(html);
 				});
-
 				params.data.mode = 'unsupported';
 				AppConnector.request(params).done(function (data) {
 					let response = data['result'];
@@ -97,7 +94,6 @@ jQuery.Class(
 					}
 					container.find('#alertSpan').html(html);
 				});
-				window.location.reload();
 			});
 		},
 		/**
