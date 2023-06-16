@@ -6704,8 +6704,8 @@ insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of
 
 /*Data for the table `vtiger_notification_status` */
 
-insert  into `vtiger_notification_status`(`notification_statusid`,`notification_status`,`sortorderid`,`presence`) values (1,'PLL_UNREAD',1,1);
-insert  into `vtiger_notification_status`(`notification_statusid`,`notification_status`,`sortorderid`,`presence`) values (2,'PLL_READ',2,1);
+insert  into `vtiger_notification_status`(`notification_statusid`,`notification_status`,`sortorderid`,`presence`) values (1,'PLL_UNREAD',1,0);
+insert  into `vtiger_notification_status`(`notification_statusid`,`notification_status`,`sortorderid`,`presence`) values (2,'PLL_READ',2,0);
 
 /*Data for the table `vtiger_notification_type` */
 
