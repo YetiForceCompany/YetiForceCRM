@@ -1883,7 +1883,7 @@ class TextParser
 			$expirationDateTime,
 			$oneTime
 		);
-		$url = \App\Utils\Tokens::generateLink();
+		$url = \App\Utils\Tokens::generateLink(null, 0);
 		if (!empty($paramsArray['buttonName'])) {
 			return '<a href="' . $url . '" target="_blank">' . $paramsArray['buttonName'] . '</a>';
 		}

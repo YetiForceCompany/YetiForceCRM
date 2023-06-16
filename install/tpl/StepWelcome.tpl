@@ -45,7 +45,7 @@
 							<div class="welcome-div">
 								<div class="float-right">
 									<a class="helpBtn" target="_blank" rel="noreferrer noopener"
-										href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation">
+										href="https://doc.yetiforce.com/">
 										<span class="fas fa-info-circle"></span>
 									</a>
 								</div>

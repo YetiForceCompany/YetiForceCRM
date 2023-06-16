@@ -43,7 +43,8 @@ class GenesysWdeWhirly extends Base
 		}
 		return [
 			'status' => true,
-			'url' => $url
+			'url' => $url,
+			'token' => $params['httpToken'],
 		];
 	}
 }

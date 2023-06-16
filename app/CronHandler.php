@@ -81,4 +81,19 @@ abstract class CronHandler
 	{
 		$this->logs .= $log;
 	}
+
+	/**
+	 * Add error message to log.
+	 *
+	 * @param string $message
+	 *
+	 * @return void
+	 */
+	public function addErrorLog(string $message): void
+	{
+		$this->addTaskLog($message);
+		$this->cronTask->setError($message . '||' . date('Y-m-d H:i:s'));
+		$this->cronTask->log($message, 'error');
+		\App\Log::warning($message, static::class);
+	}
 }

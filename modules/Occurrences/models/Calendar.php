@@ -15,6 +15,17 @@
  */
 class Occurrences_Calendar_Model extends Vtiger_Calendar_Model
 {
+	/** {@inheritdoc} */
+	public function getCalendarTypes(): array
+	{
+		$calendarTypes = [];
+		$moduleField = $this->getModule()->getFieldByName('occurrences_type');
+		if ($moduleField && $moduleField->isActiveField()) {
+			$calendarTypes = $moduleField->getPicklistValues();
+		}
+		return $calendarTypes;
+	}
+
 	/**
 	 * Get query.
 	 *
@@ -131,16 +142,6 @@ class Occurrences_Calendar_Model extends Vtiger_Calendar_Model
 		}
 		$dataReader->close();
 		return $result;
-	}
-
-	/**
-	 * Function to get type of calendars.
-	 *
-	 * @return string[]
-	 */
-	public function getCalendarTypes()
-	{
-		return $this->getModule()->getFieldByName('occurrences_type')->getPicklistValues();
 	}
 
 	/** {@inheritdoc} */

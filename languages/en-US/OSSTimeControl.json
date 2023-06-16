@@ -95,8 +95,6 @@
     "LBL_TIME_CONTROL_USER_GROUP": "Time Control List with additional information about users",
     "LBL_TYPE": "Activity type",
     "FL_SUBPROCESS_SECOND_LEVEL": "Second level subprocess",
-    "LBL_USER_NAME": "User name",
-    "LBL_GROUP_NAME": "Group name",
     "LBL_WORK_DAYS": "Work days",
     "Employees Time Control": "Employees Time Control",
     "LBL_ALL_TIME_CONTROL": "All users total working time",

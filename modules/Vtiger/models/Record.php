@@ -1433,16 +1433,14 @@ class Vtiger_Record_Model extends \App\Base
 			return [];
 		}
 		$links = $recordLinks = [];
-		if ($this->getModule()->isSummaryViewSupported() && array_filter($this->getModule()->getWidgets())) {
-			$recordLinks['LBL_SHOW_QUICK_DETAILS'] = [
-				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
-				'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
-				'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
-				'linkicon' => 'far fa-caret-square-right',
-				'linkclass' => 'btn-sm btn-default',
-				'modalView' => true,
-			];
-		}
+		$recordLinks['LBL_SHOW_QUICK_DETAILS'] = [
+			'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+			'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
+			'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
+			'linkicon' => 'far fa-caret-square-right',
+			'linkclass' => 'btn-sm btn-default',
+			'modalView' => true,
+		];
 		$recordLinks['LBL_SHOW_COMPLETE_DETAILS'] = [
 			'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 			'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
@@ -1566,17 +1564,15 @@ class Vtiger_Record_Model extends \App\Base
 		if (!$this->isViewable()) {
 			return [];
 		}
-		if ($this->getModule()->isSummaryViewSupported()) {
-			$defaultViewName = $viewModel->getParentRecordModel()->getModule()->getDefaultViewName();
-			$links['LBL_SHOW_QUICK_DETAILS'] = Vtiger_Link_Model::getInstanceFromValues([
-				'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
-				'linkhref' => 'ListPreview' !== $defaultViewName,
-				'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
-				'linkicon' => 'far fa-caret-square-right',
-				'linkclass' => 'btn-sm btn-default',
-				'modalView' => true,
-			]);
-		}
+		$defaultViewName = $viewModel->getParentRecordModel()->getModule()->getDefaultViewName();
+		$links['LBL_SHOW_QUICK_DETAILS'] = Vtiger_Link_Model::getInstanceFromValues([
+			'linklabel' => 'LBL_SHOW_QUICK_DETAILS',
+			'linkhref' => 'ListPreview' !== $defaultViewName,
+			'linkurl' => 'index.php?module=' . $this->getModuleName() . '&view=QuickDetailModal&record=' . $this->getId(),
+			'linkicon' => 'far fa-caret-square-right',
+			'linkclass' => 'btn-sm btn-default',
+			'modalView' => true,
+		]);
 		$links['LBL_SHOW_COMPLETE_DETAILS'] = Vtiger_Link_Model::getInstanceFromValues([
 			'linklabel' => 'LBL_SHOW_COMPLETE_DETAILS',
 			'linkurl' => $this->getFullDetailViewUrl(),

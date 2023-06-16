@@ -56,7 +56,11 @@ class Calendar
 	 * @var string[]
 	 */
 	protected static $customValues = [
+		'X-GOOGLE-CONFERENCE' => 'meeting_url',
+		'X-MS-OLK-MWSURL' => 'meeting_url',
 		'X-MICROSOFT-SKYPETEAMSMEETINGURL' => 'meeting_url',
+		'X-MICROSOFT-ONLINEMEETINGCONFLINK' => 'meeting_url',
+		'X-MICROSOFT-ONLINEMEETINGEXTERNALLINK' => 'meeting_url',
 	];
 	/**
 	 * Max date.

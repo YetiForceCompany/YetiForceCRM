@@ -438,6 +438,8 @@ insert  into `s_yf_auto_record_flow_updater`(`id`,`status`,`source_module`,`targ
 
 /*Data for the table `s_yf_business_hours` */
 
+/*Data for the table `s_yf_calendar_sources` */
+
 /*Data for the table `s_yf_companies` */
 
 insert  into `s_yf_companies`(`id`,`status`,`name`,`type`,`industry`,`vat_id`,`city`,`address`,`post_code`,`country`,`companysize`,`website`,`logo`,`firstname`,`lastname`,`email`,`facebook`,`twitter`,`linkedin`) values (1,0,'',1,NULL,'','','','','',0,'',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
@@ -1713,6 +1715,8 @@ insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) val
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (70,'ServiceContractsSla',0);
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (71,'TilesView',0);
 insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (72,'LeaderCanManageGroupMembership',0);
+insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (73,'CalendarExtraSources',0);
+insert  into `vtiger_actionmapping`(`actionid`,`actionname`,`securitycheck`) values (74,'CalendarExtraSourcesCreate',0);
 
 /*Data for the table `vtiger_activity` */
 
@@ -6700,8 +6704,8 @@ insert  into `vtiger_no_of_currency_decimals`(`no_of_currency_decimalsid`,`no_of
 
 /*Data for the table `vtiger_notification_status` */
 
-insert  into `vtiger_notification_status`(`notification_statusid`,`notification_status`,`sortorderid`,`presence`) values (1,'PLL_UNREAD',1,1);
-insert  into `vtiger_notification_status`(`notification_statusid`,`notification_status`,`sortorderid`,`presence`) values (2,'PLL_READ',2,1);
+insert  into `vtiger_notification_status`(`notification_statusid`,`notification_status`,`sortorderid`,`presence`) values (1,'PLL_UNREAD',1,0);
+insert  into `vtiger_notification_status`(`notification_statusid`,`notification_status`,`sortorderid`,`presence`) values (2,'PLL_READ',2,0);
 
 /*Data for the table `vtiger_notification_type` */
 
@@ -10183,6 +10187,8 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,9,68,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,9,69,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,9,71,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,9,73,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,9,74,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,13,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,13,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,13,6,0);
@@ -10872,6 +10878,8 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,51,68,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,51,69,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,51,71,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,51,73,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,51,74,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,54,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,54,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,54,6,0);
@@ -11488,6 +11496,8 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,84,68,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,84,69,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,84,71,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,84,73,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,84,74,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,85,0,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,85,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,85,6,0);
@@ -13420,6 +13430,8 @@ insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permissi
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,131,68,1);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,131,69,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,131,71,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,131,73,0);
+insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,131,74,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,132,5,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,132,6,0);
 insert  into `vtiger_profile2utility`(`profileid`,`tabid`,`activityid`,`permission`) values (1,132,8,0);

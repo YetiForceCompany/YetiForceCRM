@@ -98,7 +98,10 @@
     "CustomViewAdvCond": "Advanced custom view conditions",
     "RecordActivityNotifier": "Record activity notifier",
     "WorkflowTriggerWhenRecordIsBlocked": "Workflow trigger when record is blocked",
-    "LeaderCanManageGroupMembership": "Leader can manage group membership"
+    "LeaderCanManageGroupMembership": "Leader can manage group membership",
+    "TilesView": "Tiles view",
+    "CalendarExtraSources": "Calendar - Additional data sources",
+    "CalendarExtraSourcesCreate": "Calendar - Create additional data sources"
   },
   "js": {
     "JS_RECORD_DELETED_SUCCESSFULLY": "Profile deleted successfully"

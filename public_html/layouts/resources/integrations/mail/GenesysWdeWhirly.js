@@ -23,7 +23,7 @@ window.Integrations_Mail_InternalClient = class Integrations_Mail_InternalClient
 			}
 		}).done((response) => {
 			if (response.result.status) {
-				$.ajax({ url: response.result.url })
+				$.ajax({ url: response.result.url, headers: { 'Token-Api': response.result.token } })
 					.done((ajax) => {
 						this.log('|◄| sendMail', ajax);
 						if (ajax['data']['status'] == 1) {

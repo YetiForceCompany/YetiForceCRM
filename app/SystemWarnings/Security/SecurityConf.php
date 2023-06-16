@@ -56,12 +56,12 @@ class SecurityConf extends \App\SystemWarnings\Template
 		}
 		$errorsText .= '</pre>';
 		if (!$this->status) {
-			$this->link = 'https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements';
+			$this->link = 'https://doc.yetiforce.com/introduction/requirements/';
 			$this->linkTitle = \App\Language::translate('LBL_CONFIG_REPORT_LINK', 'Settings:SystemWarnings');
 			$this->description = \App\Language::translateArgs(
 				'LBL_SECURITY_CONF_DESC',
 				'Settings:SystemWarnings',
-				'<a target="_blank" rel="noreferrer noopener" href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirement"><u>' . \App\Language::translate('LBL_CONFIG_DOC_URL_LABEL', 'Settings:SystemWarnings') . '</u></a>'
+				'<a target="_blank" rel="noreferrer noopener" href="https://doc.yetiforce.com/introduction/requirements/"><u>' . \App\Language::translate('LBL_CONFIG_DOC_URL_LABEL', 'Settings:SystemWarnings') . '</u></a>'
 			) . $errorsText;
 		}
 	}

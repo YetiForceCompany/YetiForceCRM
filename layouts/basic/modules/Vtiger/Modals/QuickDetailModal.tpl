@@ -24,12 +24,12 @@
 					</div>
 					<div class="quickDetailContent">
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-12 pl-0">
 								<div class="moduleIcon">
 									<span class="o-detail__icon js-detail__icon yfm-{$MODULE_NAME}"></span>
 								</div>
 								<div class="paddingLeft5px">
-									<h4 class="recordLabel u-text-ellipsis pushDown marginbottomZero" title='{$RECORD->getName()}'>
+									<h4 class="recordLabel u-text-ellipsis marginbottomZero" title='{$RECORD->getName()}'>
 										<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 									</h4>
 									{if $MODULE_NAME}
@@ -73,7 +73,7 @@
 															</div>
 														</div>
 													</div>
-													<div class="c-detail-widget__content js-detail-widget-collapse collapse multi-collapse pt-0" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['widgetData']['id']}" aria-labelledby="{$WIDGET_UID}">
+													<div class="c-detail-widget__content js-detail-widget-collapse collapse multi-collapse show pt-0" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['widgetData']['id']}" aria-labelledby="{$WIDGET_UID}">
 														<div>{$WIDGET['content']}</div>
 													</div>
 												</div>

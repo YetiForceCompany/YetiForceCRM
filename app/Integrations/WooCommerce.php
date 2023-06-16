@@ -120,4 +120,53 @@ class WooCommerce
 			'count' => $count
 		];
 	}
+
+	/**
+	 * Test connection.
+	 *
+	 * @return string
+	 */
+	public function testConnection(): string
+	{
+		$status = '';
+		try {
+			$response = $this->getConnector()->request('GET', 'system_status');
+			if (!empty($response)) {
+				throw new AppException('Empty body');
+			}
+		} catch (\Throwable $th) {
+			self::log('Test connection error', null, $th);
+			$status = $th->getMessage();
+		}
+		return $status;
+	}
+
+	/**
+	 * Add log to YetiForce system.
+	 *
+	 * @param string      $category
+	 * @param array       $params
+	 * @param ?\Throwable $ex
+	 * @param bool        $error
+	 *
+	 * @return void
+	 */
+	public static function log(string $category, ?array $params, ?\Throwable $ex = null, bool $error = false): void
+	{
+		$message = $ex ? $ex->getMessage() : $category;
+		$params = print_r($params, true);
+		if ($ex && ($raw = \App\RequestHttp::getRawException($ex))) {
+			$params .= PHP_EOL . $raw;
+		}
+		\App\DB::getInstance('log')->createCommand()
+			->insert(self::LOG_TABLE_NAME, [
+				'time' => date('Y-m-d H:i:s'),
+				'error' => $ex ? 1 : ((int) $error),
+				'message' => \App\TextUtils::textTruncate($message, 255),
+				'params' => $params ? \App\TextUtils::textTruncate($params, 65535) : null,
+				'trace' => $ex ? \App\TextUtils::textTruncate(
+					rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $ex->__toString()), PHP_EOL), 65535
+				) : null,
+			])->execute();
+	}
 }

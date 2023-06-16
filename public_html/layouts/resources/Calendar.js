@@ -547,9 +547,18 @@ window.Calendar_Js = class {
 	 * @param {jQuery} container
 	 */
 	registerFilterForm(container) {
-		const self = this;
-		if (container.find('.js-filter__search').length) {
-			container.find('.js-filter__search').on('keyup', this.findElementOnList.bind(self));
+		const self = this,
+			search = container.find('.js-filter__search');
+		if (search.length) {
+			search.on('keyup', (e) => {
+				this.findElementOnList($(e.currentTarget));
+			});
+			if (container.find('.js-filter__clear').length) {
+				container.find('.js-filter__clear').on('click', () => {
+					search.val('');
+					this.findElementOnList(search);
+				});
+			}
 		}
 		container.find('.js-calendar__filter__select, .filterField').each((_, e) => {
 			let element = $(e);
@@ -597,11 +606,10 @@ window.Calendar_Js = class {
 	}
 	/**
 	 * Find element on list (user, group)
-	 * @param {jQuery.Event} e
+	 * @param {jQuery} target
 	 */
-	findElementOnList(e) {
-		const target = $(e.target),
-			value = target.val().toLowerCase(),
+	findElementOnList(target) {
+		const value = target.val().toLowerCase(),
 			container = target.closest('.js-filter__container');
 		container.find('.js-filter__item__value').filter(function () {
 			let item = $(this).closest('.js-filter__item__container');
@@ -849,6 +857,127 @@ window.Calendar_Js = class {
 		}
 	}
 	/**
+	 * Register extra sources events.
+	 */
+	registerExtraSources() {
+		let sideBar = this.getSidebarView();
+		if (!sideBar || sideBar.length <= 0) {
+			return;
+		}
+		const self = this;
+		sideBar.on('click', '.js-source-modal', function () {
+			self
+				.getExtraSourcesView({
+					id: this.dataset.id
+				})
+				.done((html) => {
+					if (html) {
+						let row = null;
+						if (this.dataset.id) {
+							row = $(this).closest('.js-filter__item__container');
+						}
+						app.showModalWindow(html, (modal) => {
+							self.registerExtraSourcesModal(modal, row);
+						});
+					}
+				});
+		});
+		sideBar.on('click', '.js-source-delete', function () {
+			app.showConfirmModal({
+				text: app.vtranslate('JS_LBL_ARE_YOU_SURE_YOU_WANT_TO_DELETE'),
+				confirmedCallback: () => {
+					AppConnector.request({
+						module: self.module ? self.module : CONFIG.module,
+						action: 'Calendar',
+						mode: 'deleteExtraSources',
+						id: this.dataset.id
+					}).done(() => {
+						$(this).closest('.js-filter__item__container').remove();
+					});
+				}
+			});
+		});
+	}
+	/**
+	 * Get extra sources view HTML.
+	 * @param {object} params
+	 * @returns {promise}
+	 */
+	getExtraSourcesView(params) {
+		delete params['action'];
+		const aDeferred = jQuery.Deferred();
+		AppConnector.request(
+			$.extend(
+				{
+					module: this.module ? this.module : CONFIG.module,
+					view: 'CalendarExtraSourcesModal'
+				},
+				params
+			)
+		)
+			.done(function (response) {
+				aDeferred.resolve(response);
+			})
+			.fail(function (error, err) {
+				app.errorLog(error, err);
+				aDeferred.reject(error);
+			});
+		return aDeferred.promise();
+	}
+	/**
+	 * Register extra sources modal events.
+	 * @param {jQuery} modal
+	 */
+	registerExtraSourcesModal(modal, row) {
+		const self = this,
+			picker = modal.find('.js-color-picker'),
+			form = modal.find('.js-modal-form'),
+			nav = this.getSidebarView().find('.js-extra-sources-nav'),
+			navTemplate = this.getSidebarView().find('.js-nav-template');
+		picker.on('click', () => {
+			App.Fields.Colors.showPicker({
+				color: picker.val(),
+				bgToUpdate: modal.find('.js-color-picker__color'),
+				fieldToUpdate: picker
+			});
+		});
+		modal.find('[name="target_module"],[name="type"]').on('change', () => {
+			this.getExtraSourcesView(form.serializeFormData()).done(function (html) {
+				if (html) {
+					const dynamicFields = modal.find('.js-dynamic-fields');
+					dynamicFields.html(html);
+					App.Fields.Picklist.changeSelectElementView(dynamicFields);
+				}
+			});
+		});
+		modal.find('.js-modal__save').on('click', () => {
+			if (form.validationEngine('validate') === true) {
+				const formData = form.serializeFormData();
+				AppConnector.request(formData)
+					.done(function (response) {
+						app.hideModalWindow();
+						if (row) {
+							row.find('.js-background').css('background', formData['color']);
+							row.find('.js-label').text(formData['label']);
+						} else {
+							nav.append(
+								navTemplate
+									.html()
+									.replace(/_SOURCE_ID_/g, response['result'])
+									.replace(/_COLOR_/g, formData['color'])
+									.replace(/_LABEL_/g, formData['label'])
+							);
+						}
+						self.reloadCalendarData();
+					})
+					.fail(function (error, err) {
+						app.errorLog(error, err);
+					});
+			}
+		});
+		modal.find('[name="target_module"]').trigger('change');
+	}
+	/**
 	 * Register events.
 	 */
 	registerEvents() {
@@ -857,5 +986,6 @@ window.Calendar_Js = class {
 		this.renderCalendar();
 		this.registerButtonSelectAll();
 		this.registerAddButton();
+		this.registerExtraSources();
 	}
 };

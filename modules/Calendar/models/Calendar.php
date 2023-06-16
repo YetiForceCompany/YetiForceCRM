@@ -18,12 +18,23 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 		'ServiceContracts' => ['vtiger_servicecontracts', 'servicecontractsid', 'sc_related_to'],
 	];
 
+	/** {@inheritdoc} */
+	public function getCalendarTypes(): array
+	{
+		$calendarTypes = [];
+		$moduleField = $this->getModule()->getFieldByName('activitytype');
+		if ($moduleField && $moduleField->isActiveField()) {
+			$calendarTypes = $moduleField->getPicklistValues();
+		}
+		return $calendarTypes;
+	}
+
 	/**
 	 * Get query.
 	 *
 	 * @return \App\Db\Query
 	 */
-	public function getQuery()
+	public function getQuery(): App\Db\Query
 	{
 		$queryGenerator = new App\QueryGenerator($this->getModuleName());
 		if ($this->has('customFilter')) {
@@ -100,7 +111,6 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 			$query->andWhere(array_merge(['or'], $conditions));
 		}
 		$query->orderBy('vtiger_activity.date_start,vtiger_activity.time_start');
-
 		return $query;
 	}
 
@@ -247,40 +257,6 @@ class Calendar_Calendar_Model extends Vtiger_Calendar_Model
 			return $instance;
 		}
 		return clone $instance;
-	}
-
-	public static function getCalendarTypes()
-	{
-		return [
-			'PLL_WORKING_TIME',
-			'PLL_BREAK_TIME',
-			'PLL_HOLIDAY',
-		];
-	}
-
-	/** {@inheritdoc} */
-	public function getSideBarLinks($linkParams)
-	{
-		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['SIDEBARWIDGET'], $linkParams)['SIDEBARWIDGET'] ?? [];
-		$request = \App\Request::init();
-		$historyUsers = $request->has('user') ? $request->get('user') : [];
-		$links[] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'SIDEBARWIDGET',
-			'linklabel' => 'LBL_USERS',
-			'linkclass' => 'js-users-form usersForm ',
-			'template' => 'Filters/Users.tpl',
-			'filterData' => Vtiger_CalendarRightPanel_Model::getUsersList($this->moduleName),
-			'historyUsers' => $historyUsers,
-		]);
-		$links[] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'SIDEBARWIDGET',
-			'linklabel' => 'LBL_GROUPS',
-			'linkclass' => 'js-group-form groupForm',
-			'template' => 'Filters/Groups.tpl',
-			'filterData' => Vtiger_CalendarRightPanel_Model::getGroupsList($this->moduleName),
-			'historyUsers' => $historyUsers,
-		]);
-		return $links;
 	}
 
 	/** {@inheritdoc} */

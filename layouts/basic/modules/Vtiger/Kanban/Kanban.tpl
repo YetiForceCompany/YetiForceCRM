@@ -58,15 +58,13 @@
 									</div>
 									<div class="card-footer p-1 text-right">
 										<div class="float-left pr-1 btns">
-											{if $MODULE_MODEL->isSummaryViewSupported()}
-												<button type="button" role="button"
-													class="btn btn-xs btn-light js-popover-tooltip js-show-modal"
-													data-url="index.php?module={$MODULE_NAME}&view=QuickDetailModal&record={$RECORD_ID}"
-													data-content="{\App\Language::translate('LBL_SHOW_QUICK_DETAILS')}"
-													data-js="popover|click" data-placement="bottom">
-													<span class="far fa-caret-square-right u-fs-xs"></span>
-												</button>
-											{/if}
+											<button type="button" role="button"
+												class="btn btn-xs btn-light js-popover-tooltip js-show-modal"
+												data-url="index.php?module={$MODULE_NAME}&view=QuickDetailModal&record={$RECORD_ID}"
+												data-content="{\App\Language::translate('LBL_SHOW_QUICK_DETAILS')}"
+												data-js="popover|click" data-placement="bottom">
+												<span class="far fa-caret-square-right u-fs-xs"></span>
+											</button>
 											<a class="btn btn-xs btn-light js-popover-tooltip" href="{$RECORD->getDetailViewUrl()}"
 												data-content="{\App\Language::translate('LBL_SHOW_COMPLETE_DETAILS')}" data-js="popover"
 												data-placement="bottom">

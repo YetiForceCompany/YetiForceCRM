@@ -22,6 +22,7 @@ class GenesysWdeWhirly extends Base
 	/** {@inheritdoc} */
 	const CONFIG_FIELDS = [
 		'httpListener' => ['label' => 'LBL_HTTP_LISTENER_PORT', 'uitype' => 7, 'typeofdata' => 'I~M', 'defaultvalue' => 6999],
+		'httpToken' => ['label' => 'LBL_HTTP_LISTENER_TOKEN', 'uitype' => 1, 'typeofdata' => 'V~O'],
 		'serviceValuePhone' => ['label' => 'FL_PHONE', 'uitype' => 1, 'typeofdata' => 'V~O'],
 		'serviceValueEmail' => ['label' => 'FL_EMAIL', 'uitype' => 13, 'typeofdata' => 'V~O'],
 	];
@@ -35,7 +36,8 @@ class GenesysWdeWhirly extends Base
 		}
 		return [
 			'status' => true,
-			'url' => $url
+			'url' => $url,
+			'token' => $this->pbx->getConfig('httpToken'),
 		];
 	}
 

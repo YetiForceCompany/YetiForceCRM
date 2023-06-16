@@ -3086,7 +3086,8 @@ window.App.Fields = {
 					if (data.success) {
 						this.select.append(new Option(data.result._recordLabel, data.result._recordId, true, true));
 					}
-				}
+				},
+				noCache: true
 			});
 		}
 		/**

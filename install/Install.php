@@ -10,7 +10,7 @@ $requiredVendors = [
 ];
 foreach ($requiredVendors as $dir) {
 	if (!file_exists($dir)) {
-		echo "Directory not found: $dir. For more information, visit <a href=\"https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/category/installation-updates\" rel=\"noreferrer noopener\">https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/category/installation-updates</a>";
+		echo "Directory not found: $dir. For more information, visit <a href=\"https://doc.yetiforce.com/administrator-guides/logs/updates/\" rel=\"noreferrer noopener\">https://doc.yetiforce.com/administrator-guides/logs/updates/</a>";
 		return false;
 	}
 }

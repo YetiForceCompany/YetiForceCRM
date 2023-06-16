@@ -15,18 +15,16 @@
 class Reservations_Calendar_Model extends Vtiger_Calendar_Model
 {
 	/** {@inheritdoc} */
-	public function getSideBarLinks($linkParams)
+	public function getCalendarTypes(): array
 	{
-		$links = parent::getSideBarLinks($linkParams);
-		$link = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'SIDEBARWIDGET',
-			'linklabel' => 'LBL_TYPE',
-			'linkdata' => ['cache' => 'calendar-types', 'name' => 'types'],
-			'template' => 'Filters/ActivityTypes.tpl',
-			'filterData' => Vtiger_CalendarRightPanel_Model::getCalendarTypes($this->getModuleName()),
-		]);
-		array_unshift($links, $link);
-		return $links;
+		$calendarTypes = [];
+		$moduleField = $this->getModule()->getFieldByName('type');
+		if ($moduleField && $moduleField->isActiveField()) {
+			$calendarTypes = (new App\Db\Query())->select(['tree', 'label'])->from('vtiger_trees_templates_data')
+				->where(['templateid' => $moduleField->getFieldParams()])
+				->createCommand()->queryAllByGroup(0);
+		}
+		return $calendarTypes;
 	}
 
 	/**
@@ -139,22 +137,5 @@ class Reservations_Calendar_Model extends Vtiger_Calendar_Model
 		}
 		$dataReader->close();
 		return $result;
-	}
-
-	/**
-	 * Function to get calendar types.
-	 *
-	 * @return string[]
-	 */
-	public function getCalendarTypes()
-	{
-		$calendarTypes = [];
-		$moduleField = $this->getModule()->getFieldByName('type');
-		if ($moduleField && $moduleField->isActiveField()) {
-			$calendarTypes = (new App\Db\Query())->select(['tree', 'label'])->from('vtiger_trees_templates_data')
-				->where(['templateid' => $moduleField->getFieldParams()])
-				->createCommand()->queryAllByGroup(0);
-		}
-		return $calendarTypes;
 	}
 }

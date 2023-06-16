@@ -64,8 +64,8 @@
 						</div>
 						{\App\Language::translate('LBL_STEP3_DESCRIPTION','Install')}&nbsp;
 						<a target="_blank" rel="noreferrer noopener"
-							href="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements"
-							aria-label="https://yetiforce.com/en/knowledge-base/documentation/implementer-documentation/item/web-server-requirements">
+							href="https://doc.yetiforce.com/introduction/requirements/"
+							aria-label="https://doc.yetiforce.com/introduction/requirements/">
 							<span class="fas fa-link"></span>
 						</a>
 

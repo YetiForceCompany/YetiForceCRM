@@ -27,14 +27,13 @@ class TextUtils
 	 */
 	public static function getTextLength($text, bool $strict = false)
 	{
-		$lenght = 0;
+		$length = 0;
 		if ($strict) {
-			$lenght = null !== $text ? \strlen($text) : 0;
+			$length = null !== $text ? \strlen($text) : 0;
 		} else {
-			$lenght = null !== $text ? mb_strlen($text) : 0;
+			$length = null !== $text ? \mb_strlen($text) : 0;
 		}
-
-		return $lenght;
+		return $length;
 	}
 
 	/**
@@ -83,13 +82,13 @@ class TextUtils
 		if (\strlen(strip_tags($html)) <= $length) {
 			return $html;
 		}
-		$totalLength = \mb_strlen($ending);
+		$totalLength = \strlen($ending);
 		$openTagsLength = 0;
 		$openTags = [];
 		preg_match_all('/(<.+?>)?([^<>]*)/s', $html, $tags, PREG_SET_ORDER);
 		$html = '';
 		foreach ($tags as $tag) {
-			$tagLength = \mb_strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $tag[2]));
+			$tagLength = \strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $tag[2]));
 			if (($totalLength + $tagLength + $openTagsLength) >= $length) {
 				if (empty($html)) {
 					preg_match('/^<\s*([^\s>!]+).*?>$/s', $tag[1], $tagName);
@@ -105,11 +104,11 @@ class TextUtils
 					$pos = array_search(strtolower($tagName[1]), $openTags);
 					if (false !== $pos) {
 						unset($openTags[$pos]);
-						$openTagsLength -= \mb_strlen("</{$tagName[1]}>");
+						$openTagsLength -= \strlen("</{$tagName[1]}>");
 					}
 				} elseif (preg_match('/^<\s*([^\s>!]+).*?>$/s', $tag[1], $tagName)) {
 					array_unshift($openTags, strtolower($tagName[1]));
-					$openTagsLength += \mb_strlen("</{$tagName[1]}>");
+					$openTagsLength += \strlen("</{$tagName[1]}>");
 				}
 			}
 			$html .= $tag[0];
@@ -136,13 +135,13 @@ class TextUtils
 		if (\strlen($html) <= $length) {
 			return $html;
 		}
-		$totalLength = \mb_strlen($ending);
+		$totalLength = \strlen($ending);
 		$openTagsLength = 0;
 		$openTags = [];
 		preg_match_all('/(<.+?>)?([^<>]*)/s', $html, $tags, PREG_SET_ORDER);
 		$html = '';
 		foreach ($tags as $tag) {
-			$tagLength = \mb_strlen($tag[0]);
+			$tagLength = \strlen($tag[0]);
 			if (($totalLength + $tagLength + $openTagsLength) >= $length) {
 				if (empty($html)) {
 					preg_match('/^<\s*([^\s>!]+).*?>$/s', $tag[1], $tagName);
@@ -158,11 +157,11 @@ class TextUtils
 					$pos = array_search(strtolower($tagName[1]), $openTags);
 					if (false !== $pos) {
 						unset($openTags[$pos]);
-						$openTagsLength -= \mb_strlen("</{$tagName[1]}>");
+						$openTagsLength -= \strlen("</{$tagName[1]}>");
 					}
 				} elseif (preg_match('/^<\s*([^\s>!]+).*?>$/s', $tag[1], $tagName)) {
 					array_unshift($openTags, strtolower($tagName[1]));
-					$openTagsLength += \mb_strlen("</{$tagName[1]}>");
+					$openTagsLength += \strlen("</{$tagName[1]}>");
 				}
 			}
 			$html .= $tag[0];

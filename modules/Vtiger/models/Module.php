@@ -474,13 +474,13 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function to get the field mode, the function creates a new object and does not pass a reference.
 	 *
-	 * @param string $fieldName - field name or field id
+	 * @param string|int $field - field name or field id
 	 *
 	 * @return Vtiger_Field_Model
 	 */
-	public function getField($fieldName)
+	public function getField($field)
 	{
-		return Vtiger_Field_Model::getInstance($fieldName, $this);
+		return Vtiger_Field_Model::getInstance($field, $this);
 	}
 
 	/**
@@ -704,7 +704,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function to retrieve name fields of a module.
 	 *
-	 * @return array - array which contains fields which together construct name fields
+	 * @return string[] - array which contains fields which together construct name fields
 	 */
 	public function getNameFields()
 	{
