@@ -131,7 +131,6 @@ class Purifier
 				return Cache::get('purify', $cacheKey);
 			}
 		}
-		$input = str_replace(["\r\n"], "\n", $input);
 		// Initialize the instance if it has not yet done
 		if (!static::$purifyInstanceCache) {
 			$config = \HTMLPurifier_Config::createDefault();
@@ -149,6 +148,7 @@ class Purifier
 					$value[$k] = static::purify($v);
 				}
 			} elseif (\is_string($input)) {
+				$input = str_replace(["\r\n"], "\n", $input);
 				static::purifyHtmlEventAttributes($input);
 				$value = static::$purifyInstanceCache->purify(static::decodeHtml($input));
 				if ($loop) {
