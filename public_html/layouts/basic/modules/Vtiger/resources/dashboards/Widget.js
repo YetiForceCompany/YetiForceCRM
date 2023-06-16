@@ -27,7 +27,6 @@ jQuery.Class(
 				container.attr(this.DOM_ATTRIBUTE_KEY, id);
 			}
 			if (this.instances[id] !== undefined) {
-				console.log('get form instance ' + id);
 				return this.instances[id];
 			}
 
@@ -36,21 +35,21 @@ jQuery.Class(
 			const yetiClass = window['YetiForce_' + widgetClassName + '_Widget_Js'];
 			const basicClass = YetiForce_Widget_Js;
 			let instance;
-			let classNames = {};
+			let className = '';
 			if (typeof moduleClass !== 'undefined') {
 				instance = new moduleClass(container, false, widgetClassName);
-				classNames.name = moduleName + '_' + widgetClassName + '_Widget_Js';
+				className = moduleName + '_' + widgetClassName + '_Widget_Js';
 			} else if (typeof fallbackClass !== 'undefined') {
 				instance = new fallbackClass(container, false, widgetClassName);
-				classNames.name = 'Vtiger_' + widgetClassName + '_Widget_Js';
+				className = 'Vtiger_' + widgetClassName + '_Widget_Js';
 			} else if (typeof yetiClass !== 'undefined') {
 				instance = new yetiClass(container, false, widgetClassName);
-				classNames.name = 'YetiForce_' + widgetClassName + '_Widget_Js';
+				className = 'YetiForce_' + widgetClassName + '_Widget_Js';
 			} else {
 				instance = new basicClass(container, false, widgetClassName);
-				classNames.name = 'YetiForce_Widget_Js';
+				className = 'YetiForce_Widget_Js';
 			}
-			instance.className = classNames.name;
+			instance.className = className;
 			this.instances[id] = instance;
 
 			return instance;
@@ -84,7 +83,7 @@ jQuery.Class(
 			if (widgetDataEl.length) {
 				return (this.widgetData = JSON.parse(widgetDataEl.val()));
 			}
-			return false;
+			return '';
 		},
 
 		getContainer: function getContainer() {
@@ -188,7 +187,6 @@ jQuery.Class(
 		},
 		registerResize: function resize() {
 			let container = this.getContainerContent();
-			console.log(container);
 			if (!container.length) {
 				return false;
 			}
