@@ -382,7 +382,6 @@ var Settings_Index_Js = {
 			}
 		}
 		html += '</div></div></div>';
-		this.getDataCharts(shortages, langStats);
 		let element = container.find('.statsData').html(html);
 		app.showScrollBar(element.find('.panel-body'), {
 			height: '400px',
@@ -421,56 +420,6 @@ var Settings_Index_Js = {
 					thisInstance.changeTranslation(input, 'html', input.data('mod'));
 				});
 			});
-		});
-	},
-	getDataCharts: function (shortages, max) {
-		let container = $('.LangManagement'),
-			data = [],
-			chartData = {
-				labels: [],
-				datasets: [
-					{
-						data: data,
-						backgroundColor: [],
-						datalabels: {
-							font: {
-								weight: 'bold'
-							},
-							color: 'white',
-							anchor: 'end',
-							align: 'start'
-						}
-					}
-				]
-			};
-		for (let i in shortages) {
-			let x = (shortages[i] * 100) / max,
-				langName = container
-					.find('select option[value="' + i + '"]')
-					.first()
-					.text();
-			data.push(Math.round(x * 100) / 100);
-			chartData.datasets[0].backgroundColor.push(App.Fields.Colors.getRandomColor());
-			chartData.labels.push(langName);
-		}
-		if (data.length > 0) {
-			container.find('.widgetData').val(JSON.stringify(chartData));
-			this.showCharts();
-		}
-	},
-	showCharts: function () {
-		var instance = Vtiger_Widget_Js.getInstance(jQuery('.chartBlock'), 'Bar');
-		instance.init(jQuery('.chartBlock'));
-		instance.loadChart({
-			scales: {
-				xAxes: [
-					{
-						ticks: {
-							minRotation: 0
-						}
-					}
-				]
-			}
 		});
 	},
 	registerEvents: function () {

@@ -398,16 +398,6 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	}
 
 	/**
-	 * Some of chart types doesn't have colors for each data.
-	 *
-	 * @return bool
-	 */
-	public function isSingleColored()
-	{
-		return 'line' === $this->getType(true) || 'lineplain' === $this->getType(true);
-	}
-
-	/**
 	 * Gets value type.
 	 *
 	 * @return string
@@ -606,34 +596,6 @@ class Vtiger_ChartFilter_Model extends \App\Base
 			}
 		}
 		return $color;
-	}
-
-	/**
-	 * By default all charts except line can have multiple colors in dataset
-	 * each data should have individual color this function is trying to get color from couple sources if available.
-	 *
-	 * @param $chartData
-	 * @param $datasetIndex
-	 * @param $dataset
-	 * @param $groupValue
-	 * @param $group
-	 * @param $dividingValue
-	 * @param $dividing
-	 */
-	protected function setChartDatasetsColorsMulti(&$chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing)
-	{
-		if ((!empty($group['color_id']) && !empty($this->colors[$group['color_id']])) || !isset($group['color_id'])) {
-			if (!isset($group['color_id'])) {
-				// we have all fields colors
-				// if some record doesn't have a field which have color use color from other dataset which have same value
-				$color = $this->getFieldValueColor($groupValue, $dividingValue);
-				$chartData['datasets'][$datasetIndex]['backgroundColor'][] = $color;
-				$chartData['datasets'][$datasetIndex]['pointBackgroundColor'][] = $color;
-			} else {
-				$chartData['datasets'][$datasetIndex]['backgroundColor'][] = $this->colors[$group['color_id']];
-				$chartData['datasets'][$datasetIndex]['pointBackgroundColor'][] = $this->colors[$group['color_id']];
-			}
-		}
 	}
 
 	/**

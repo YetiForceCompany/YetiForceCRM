@@ -250,7 +250,6 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~libraries/echarts/dist/echarts.js',
 			'modules.Vtiger.resources.dashboards.Widget',
 			'modules.Vtiger.resources.dashboards.Chart',
-			'~libraries/chart.js/dist/Chart.js',
 		];
 		if (\App\Privilege::isPermitted('Chat')) {
 			$jsFileNames[] = '~layouts/basic/modules/Chat/resources/Chat.js';

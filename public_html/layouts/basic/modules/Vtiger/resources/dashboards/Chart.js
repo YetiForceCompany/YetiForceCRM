@@ -95,6 +95,7 @@ YetiForce_Widget_Js(
 			let data = this.generateData();
 			data = this.mergeAll([data, this.customOption, this.getBasicOptions()]);
 			this.destroyChartInstance();
+			this.loadScrollbar(); // to resize
 
 			let chart = this.getChartInstance();
 			chart.setOption(data);
@@ -176,7 +177,7 @@ YetiForce_Widget_Js(
 		},
 		postLoadWidget: function postLoadWidget() {
 			if (!this.isEmptyData()) {
-				this.loadChart(this.options);
+				this.loadChart();
 			}
 			this._super();
 			this.registerRecordsCount();
@@ -184,7 +185,7 @@ YetiForce_Widget_Js(
 		},
 		postRefreshWidget: function postRefreshWidget() {
 			if (!this.isEmptyData()) {
-				this.loadChart(this.options);
+				this.loadChart();
 			}
 			this._super();
 			this.registerResize();

@@ -15,7 +15,7 @@
 				<div class="col-md-12">
 					<input class="widgetData" type="hidden" value='{\App\Purifier::encodeHtml(\App\Json::encode($RELATED_SUMMARY['userTime']))}' />
 					<div class="chartBlock chart-container" style="position: relative; height:200px; width:100%">
-						<div id="related-summary-chart-canvas" class="js-chart-container"></div>
+						<div id="related-summary-chart-canvas" class="js-chart-container h-100"></div>
 					</div>
 				</div>
 			</div>

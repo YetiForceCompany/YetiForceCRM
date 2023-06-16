@@ -40,7 +40,7 @@ jQuery(document).ready(function ($) {
 							}
 						};
 						widgetInstance.customOption = options;
-						widgetInstance.postLoadWidget();
+						widgetInstance.loadChart();
 					}
 					this.registerSwitch();
 				}

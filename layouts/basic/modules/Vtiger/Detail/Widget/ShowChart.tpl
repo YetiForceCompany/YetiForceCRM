@@ -9,7 +9,7 @@
 			<input type="hidden" name="typeChart" value="{$CHART_MODEL->getType()}">
 			<input class="widgetData" type="hidden" value='{\App\Purifier::encodeHtml(\App\Json::encode($CHART_DATA))}' />
 			<div class="widgetChartContainer u-min-height-250">
-				<div class="js-chart-container"></div>
+				<div class="js-chart-container h-100"></div>
 			</div>
 		</div>
 	{else}

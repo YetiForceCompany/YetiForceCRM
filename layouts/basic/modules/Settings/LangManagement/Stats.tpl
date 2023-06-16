@@ -31,17 +31,6 @@
 				</div>
 				<div class="col-md-1"></div>
 			</div>
-			<div class="chartBlock row" id="chartBlock">
-				<div class="col-md-2"></div>
-				<div class="col-md-8">
-					<div class="widgetChartContainer" id="widgetChartContainer" style="position:relative;">
-						<canvas id="language-stats-chart"></canvas>
-					</div>
-				</div>
-				<div class="col-md-2"></div>
-				<input class="widgetData" type="hidden" value=''>
-			</div>
-			<br />
 			<div class="row">
 				<div class="col-md-1"></div>
 				<div class="col-md-10 statsData"></div>

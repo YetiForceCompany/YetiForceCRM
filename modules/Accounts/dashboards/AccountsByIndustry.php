@@ -112,15 +112,9 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($createdTime)) {
 			$createdTime = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
 		}
-		// $moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+
 		$data = $this->getAccountsByIndustry($owner, $createdTime);
 		$createdTime = \App\Fields\Date::formatRangeToDisplay($createdTime);
-		// $listViewUrl = $moduleModel->getListViewUrl();
-		// $leadSIndustryAmount = \count($data['datasets'][0]['names']);
-		// for ($i = 0; $i < $leadSIndustryAmount; ++$i) {
-		// 	$data['datasets'][0]['links'][$i] = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($data['datasets'][0]['names'][$i], $owner, $createdTime);
-		// }
-		//Include special script and css needed for this widget
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);

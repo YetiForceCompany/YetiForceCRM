@@ -3,7 +3,7 @@
 	{if $DATA['show_chart']}
 		<div class="clearfix"></div>
 		<div class="widgetChartContainer">
-			<div class="js-chart-container"></div>
+			<div class="js-chart-container h-100"></div>
 		</div>
 	{else}
 		<span class="noDataMsg">

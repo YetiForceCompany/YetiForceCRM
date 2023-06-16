@@ -139,15 +139,12 @@ class Vtiger_DashBoard_View extends Vtiger_Index_View
 			'~libraries/css-element-queries/src/ResizeSensor.js',
 			'~libraries/css-element-queries/src/ElementQueries.js',
 			'~libraries/echarts/dist/echarts.js',
-			'~libraries/chart.js/dist/Chart.js',
-			'~libraries/chartjs-plugin-funnel/dist/chart.funnel.js',
-			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js',
 			'~libraries/jquery-lazy/jquery.lazy.js',
 			'~layouts/resources/Calendar.js',
-			'modules.Vtiger.resources.DashBoard',
-			'modules.' . $moduleName . '.resources.DashBoard',
 			'modules.Vtiger.resources.dashboards.Widget',
 			'modules.Vtiger.resources.dashboards.Chart',
+			'modules.Vtiger.resources.DashBoard',
+			'modules.' . $moduleName . '.resources.DashBoard',
 			'~libraries/fullcalendar/main.js',
 		];
 
