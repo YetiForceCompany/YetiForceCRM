@@ -102,11 +102,7 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($createdTime)) {
 			$createdTime = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
 		}
-		// echo '<pre>', print_r([
-		// 	'$createdTime' => $createdTime
-		// ]);
-		// echo '</pre>';
-		// exit;
+
 		$data = (false === $owner) ? [] : $this->getLeadsByStatus($owner, $createdTime);
 		$createdTime = \App\Fields\Date::formatRangeToDisplay($createdTime);
 

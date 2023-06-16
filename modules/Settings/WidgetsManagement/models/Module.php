@@ -16,7 +16,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'LBL_EXPIRING_SOLD_PRODUCTS',
 			'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'LBL_UPDATES',
 			'LBL_NOTIFICATION_BY_SENDER', 'LBL_NOTIFICATION_BY_RECIPIENT', 'DW_SUMMATION_BY_USER', 'Leads by Status',
-			'Leads by Industry', 'Leads by Source', 'Leads by Status Converted', 'Employees Time Control', 'LBL_ALL_TIME_CONTROL',
+			'Leads by Industry', 'Leads by Source', 'Employees Time Control', 'LBL_ALL_TIME_CONTROL',
 			'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_CLOSED_TICKETS_BY_USER', 'LBL_ACCOUNTS_BY_INDUSTRY', 'Mails List'
 		];
 	}
@@ -60,7 +60,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	{
 		return [
 			'LBL_NOTIFICATION_BY_SENDER', 'LBL_NOTIFICATION_BY_RECIPIENT', 'DW_SUMMATION_BY_USER', 'Leads by Status',
-			'Leads by Industry', 'Leads by Source', 'Leads by Status Converted', 'Employees Time Control', 'LBL_ALL_TIME_CONTROL',
+			'Leads by Industry', 'Leads by Source', 'Employees Time Control', 'LBL_ALL_TIME_CONTROL',
 			'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_CLOSED_TICKETS_BY_USER', 'LBL_ACCOUNTS_BY_INDUSTRY'
 		];
 	}
@@ -68,7 +68,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	public function getWidgetsWithFilterUsers(): array
 	{
 		return [
-			'Leads by Status Converted', 'Tickets by Status', 'Leads by Industry',
+			'Tickets by Status', 'Leads by Industry',
 			'Leads by Source', 'Leads by Status', 'Funnel', 'Upcoming Activities', 'Overdue Activities',
 			'Delegated project tasks', 'Delegated (overdue) project tasks',
 			'LBL_ALL_TIME_CONTROL',
