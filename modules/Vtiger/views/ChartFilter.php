@@ -75,17 +75,7 @@ class Vtiger_ChartFilter_View extends \App\Controller\Modal
 		switch ($request->getByType('step', 'Alnum')) {
 			case 'step1':
 				$modules = vtlib\Functions::getAllModules(true, false, 0);
-				$chartTypes = [
-					'Pie' => 'LBL_PIE_CHART',
-					'Donut' => 'LBL_DONUT_CHART',
-					'Bar' => 'LBL_VERTICAL_BAR_CHART',
-					'Horizontal' => 'LBL_HORIZONTAL_BAR_CHART',
-					'Line' => 'LBL_LINE_CHART',
-					'LinePlain' => 'LBL_LINE_CHART_PLAIN',
-					'Funnel' => 'LBL_FUNNEL_CHART',
-					'Table' => 'LBL_TABLE_CHART'
-				];
-				$viewer->assign('CHART_TYPES', $chartTypes);
+				$viewer->assign('CHART_TYPES', Vtiger_ChartFilter_Model::CHART_TYPES);
 				//Since comments is not treated as seperate module
 				unset($modules['ModComments']);
 				$viewer->assign('MODULES', $modules);

@@ -62,10 +62,12 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 			$query->andWhere(['vtiger_troubletickets.status' => $ticketStatus]);
 		}
 		if (!empty($time)) {
+			$time[0] .= ' 00:00:00';
+			$time[1] .= ' 23:59:59';
 			$query->andWhere([
 				'and',
-				['>=', 'vtiger_troubletickets.closing_datatime', $time[0] . ' 00:00:00'],
-				['<=', 'vtiger_troubletickets.closing_datatime', $time[1] . ' 23:59:59'],
+				['>=', 'vtiger_troubletickets.closing_datatime', $time[0]],
+				['<=', 'vtiger_troubletickets.closing_datatime', $time[1]],
 			]);
 		}
 		if (!empty($owner) && 'all' != $owner) {
@@ -76,8 +78,8 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		$dataReader = $query->createCommand()->query();
 
 		$colors = \App\Fields\Picklist::getColors('ticketpriorities');
+		$time = \App\Fields\DateTime::formatRangeToDisplay($time);
 
-		$time = \App\Fields\Date::formatRangeToDisplay($time);
 		$chartData = [
 			'show_chart' => false,
 		];

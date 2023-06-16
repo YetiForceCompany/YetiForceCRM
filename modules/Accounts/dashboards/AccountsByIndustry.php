@@ -57,12 +57,14 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			$query->andWhere(['smownerid' => $owner]);
 		}
 		if (!empty($dateFilter)) {
-			$query->andWhere(['between', 'createdtime', $dateFilter[0] . ' 00:00:00', $dateFilter[1] . ' 23:59:59']);
+			$dateFilter[0] .= ' 00:00:00';
+			$dateFilter[1] .= ' 23:59:59';
+			$query->andWhere(['between', 'createdtime', $dateFilter[0], $dateFilter[1]]);
 		}
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['vtiger_industry.sortorderid', 'industryvalue', 'vtiger_industry.industryid'])->orderBy('vtiger_industry.sortorderid');
 
-		$date = \App\Fields\Date::formatRangeToDisplay($dateFilter);
+		$date = \App\Fields\DateTime::formatRangeToDisplay($dateFilter);
 		$dataReader = $query->createCommand()->query();
 
 		$chartData = [

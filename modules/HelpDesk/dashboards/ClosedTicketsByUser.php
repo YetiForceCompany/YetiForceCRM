@@ -56,16 +56,18 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 			$query->andWhere(['vtiger_troubletickets.status' => $ticketStatus]);
 		}
 		if (!empty($time)) {
+			$time[0] .= ' 00:00:00';
+			$time[1] .= ' 23:59:59';
 			$query->andWhere([
 				'and',
-				['>=', 'vtiger_troubletickets.closing_datatime', $time[0] . ' 00:00:00'],
-				['<=', 'vtiger_troubletickets.closing_datatime', $time[1] . ' 23:59:59'],
+				['>=', 'vtiger_troubletickets.closing_datatime', $time[0]],
+				['<=', 'vtiger_troubletickets.closing_datatime', $time[1]],
 			]);
 		}
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy('vtiger_crmentity.smownerid');
 		$dataReader = $query->createCommand()->query();
-		$time = \App\Fields\Date::formatRangeToDisplay($time);
+		$time = \App\Fields\DateTime::formatRangeToDisplay($time);
 
 		$chartData = [
 			'dataset' => [],

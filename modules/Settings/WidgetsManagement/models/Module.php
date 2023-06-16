@@ -68,7 +68,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	public function getWidgetsWithFilterUsers(): array
 	{
 		return [
-			'Leads by Status Converted', 'Graf', 'Tickets by Status', 'Leads by Industry',
+			'Leads by Status Converted', 'Tickets by Status', 'Leads by Industry',
 			'Leads by Source', 'Leads by Status', 'Funnel', 'Upcoming Activities', 'Overdue Activities',
 			'Delegated project tasks', 'Delegated (overdue) project tasks',
 			'LBL_ALL_TIME_CONTROL',

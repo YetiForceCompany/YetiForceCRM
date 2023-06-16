@@ -45,6 +45,8 @@ class Notification_NotificationsBySender_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$moduleName = 'Notification';
+		$time[0] .= ' 00:00:00';
+		$time[1] .= ' 23:59:59';
 		$query = new \App\Db\Query();
 		$query->select(['count' => new \yii\db\Expression('COUNT(*)'), 'smcreatorid'])
 			->from('vtiger_crmentity')
@@ -53,13 +55,13 @@ class Notification_NotificationsBySender_Dashboard extends Vtiger_IndexAjax_View
 				['setype' => $moduleName],
 				['deleted' => 0],
 				['smcreatorid' => array_keys($accessibleUsers)],
-				['>=', 'createdtime', $time[0] . ' 00:00:00'],
-				['<=', 'createdtime', $time[1] . ' 23:59:59'],
+				['>=', 'createdtime', $time[0]],
+				['<=', 'createdtime', $time[1]],
 			]);
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['smcreatorid']);
 		$dataReader = $query->createCommand()->query();
-		$time = \App\Fields\Date::formatRangeToDisplay($time);
+		$time = \App\Fields\DateTime::formatRangeToDisplay($time);
 
 		$chartData = [
 			'dataset' => [],

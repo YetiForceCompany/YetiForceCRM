@@ -15,6 +15,17 @@
  */
 class Vtiger_ChartFilter_Model extends \App\Base
 {
+	/** @var array Chart types */
+	public const CHART_TYPES = [
+		'Pie' => 'LBL_PIE_CHART',
+		'Donut' => 'LBL_DONUT_CHART',
+		'Bar' => 'LBL_VERTICAL_BAR_CHART',
+		'Horizontal' => 'LBL_HORIZONTAL_BAR_CHART',
+		'Line' => 'LBL_LINE_CHART',
+		'LinePlain' => 'LBL_LINE_CHART_PLAIN',
+		'Funnel' => 'LBL_FUNNEL_CHART',
+		'Table' => 'LBL_TABLE_CHART'
+	];
 	/**
 	 * Widget model.
 	 *
@@ -289,7 +300,31 @@ class Vtiger_ChartFilter_Model extends \App\Base
 			default:
 				break;
 		}
+
 		return $lowerCase ? strtolower($type) : $type;
+	}
+
+	/**
+	 * Gets type for chart.
+	 *
+	 * @return string
+	 */
+	public function getTypeForChart(): string
+	{
+		$type = $this->chartType;
+		switch ($type) {
+			case 'Donut':
+			case 'Horizontal':
+				$type = 'bar';
+				break;
+			case 'LinePlain':
+				$type = 'line';
+				break;
+			default:
+				break;
+		}
+
+		return strtolower($type);
 	}
 
 	/**
@@ -452,20 +487,70 @@ class Vtiger_ChartFilter_Model extends \App\Base
 		$datasetIndex = 0;
 		$rows = $this->getRows();
 		$countRows = \count($rows);
-		foreach ($rows as $dividingValue => &$dividing) {
-			if (1 === $countRows) {
+
+		if (1 === $countRows) {
+			$chartData['legend'] = ['show' => false];
+			foreach ($rows as $dividingValue => $dividing) {
 				$chartData['series'][$datasetIndex]['colorBy'] = 'data';
-			}
-			foreach ($dividing as $groupValue => &$group) {
-				$chartData['dataset']['source'][] = [$groupValue, $group[$this->valueType], ['link' => $group['link'] ?? '']];
-				$color = $this->setChartDatasetsColorsSingle($chartData, $datasetIndex, null, $groupValue, $group, $dividingValue, $dividing);
-				if ($color) {
-					$chartData['color'][] = $color;
+				foreach ($dividing as $groupValue => $group) {
+					$chartData['dataset']['source'][] = [$groupValue, $group[$this->valueType], ['link' => $group['link'] ?? '']];
+					$color = $this->setChartDatasetsColorsSingle($datasetIndex, $groupValue, $group, $dividingValue, $dividing);
+					if ($color) {
+						$chartData['color'][] = $color;
+					}
+					$chartData['show_chart'] = true;
 				}
-				$chartData['show_chart'] = true;
+				unset($dataset, $group);
+				++$datasetIndex;
 			}
-			unset($dataset, $group);
-			++$datasetIndex;
+		} else {
+			$xAxisDefaultKey = '|x|';
+			foreach ($rows as $dividingValue => $dividing) {
+				$key = $dividingValue;
+				if (0 === $datasetIndex) {
+					$chartData['dataset']['dimensions'][] = $xAxisDefaultKey;
+				}
+
+				if ($this->isMultiFilter()) {
+					$dividingValue = $this->getViewNameFromId($this->getFilterId($dividingValue));
+					if ($this->areColorsFromFilter() && 'pie' === $this->getTypeForChart()) {
+						$chartData['legend']['icon'] = 'circle';
+						$chartData['legend']['itemStyle'] = [
+							'color' => '#fff',
+							'borderColor' => \App\Colors::EMPTY_COLOR,
+							'borderWidth' => 1,
+						];
+					}
+				}
+
+				$chartData['dataset']['dimensions'][] = $dividingValue;
+				$chartData['series'][$datasetIndex] = [
+					'type' => $this->getTypeForChart(),
+					'name' => $dividingValue,
+					'stack' => $this->isStacked() ? 'total' : null,
+				];
+
+				foreach ($dividing as $groupValue => $group) {
+					if (!isset($chartData['dataset']['source'][$xAxisDefaultKey]) || !\in_array($groupValue, $chartData['dataset']['source'][$xAxisDefaultKey])) {
+						$chartData['dataset']['source'][$xAxisDefaultKey][] = $groupValue;
+					}
+					if (($this->areColorsFromDividingField() || $this->areColorsFromFilter()) && !isset($chartData['series'][$datasetIndex]['color'])) {
+						$color = $this->setChartDatasetsColorsSingle($datasetIndex, $groupValue, $group, $key, $dividing);
+						$chartData['series'][$datasetIndex]['color'][] = $color;
+						$chartData['series'][$datasetIndex]['colorBy'] = 'series';
+					}
+					$xAxisKeyValue = array_search($groupValue, $chartData['dataset']['source'][$xAxisDefaultKey]);
+					$chartData['dataset']['source'][$dividingValue][$xAxisKeyValue] = $group[$this->valueType];
+					$chartData['links'][$datasetIndex][$xAxisKeyValue] = $group['link'] ?? '';
+					$chartData['show_chart'] = true;
+				}
+
+				unset($dataset, $group);
+				++$datasetIndex;
+			}
+		}
+		if ($this->isStacked()) {
+			$chartData['label'] = ['position' => 'inside'];
 		}
 
 		return $chartData;
@@ -475,15 +560,13 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	 * Gather information about data colors
 	 * Later we can build gradient or generate one color for line charts.
 	 *
-	 * @param array $chartData
 	 * @param mixed $datasetIndex
-	 * @param mixed $dataset
 	 * @param mixed $groupValue
 	 * @param array $group
 	 * @param mixed $dividingValue
 	 * @param mixed $dividing
 	 */
-	protected function setChartDatasetsColorsSingle(&$chartData, $datasetIndex, $dataset, $groupValue, $group, $dividingValue, $dividing)
+	protected function setChartDatasetsColorsSingle($datasetIndex, $groupValue, $group, $dividingValue, $dividing)
 	{
 		if (!isset($this->singleColors[$datasetIndex])) {
 			$this->singleColors[$datasetIndex] = [];
@@ -498,19 +581,6 @@ class Vtiger_ChartFilter_Model extends \App\Base
 			}
 		}
 		return $color;
-	}
-
-	/**
-	 * Build single color from array of dataset colors
-	 * It could be used to generate gradient for line charts or return one color that will represent line background.
-	 *
-	 * @param $chartData
-	 */
-	protected function buildSingleColors(&$chartData)
-	{
-		foreach ($chartData['datasets'] as &$dataset) {
-			$dataset['backgroundColor'] = \App\Colors::EMPTY_COLOR;
-		}
 	}
 
 	/**
@@ -774,6 +844,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 				$query->orderBy(['count' => $order]);
 			}
 		}
+
 		return $query;
 	}
 
@@ -795,32 +866,35 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	 */
 	protected function normalizeData()
 	{
-		foreach ($this->data as &$dividing) {
-			foreach ($dividing as $groupValueKey => &$values) {
-				// iterate data one more time to search other group values
-				$values[$this->valueType] = (float) $values[$this->valueType];
-				foreach ($values as $valueKey => $value) {
-					foreach ($this->data as &$otherDividing) {
-						if (!isset($otherDividing[$groupValueKey][$valueKey])) {
-							// if record doesn't have this value,
-							// doesn't have records with picklist value that other records have
-							// if we doesn't have picklist_id we can't set up color_id (picklist_id)
-							// for example this could be work_time but current user is just signed (no work time)
-							// set this as null or 0 (if it is valueType)
-							// 0 is for chart data (0 work time),
-							// null is used to find out missing color (maybe other purpose as well)
-							// null colors will be replaced in the last stage getChartData when all colors are already set
-							if ($valueKey !== $this->valueType) {
-								$otherDividing[$groupValueKey][$valueKey] = null;
-							} else {
-								$otherDividing[$groupValueKey][$valueKey] = 0;
+		if ('line' === $this->getTypeForChart()) {
+			foreach ($this->data as &$dividing) {
+				foreach ($dividing as $groupValueKey => &$values) {
+					// iterate data one more time to search other group values
+					$values[$this->valueType] = (float) $values[$this->valueType];
+					foreach ($values as $valueKey => $value) {
+						foreach ($this->data as &$otherDividing) {
+							if (!isset($otherDividing[$groupValueKey][$valueKey])) {
+								// if record doesn't have this value,
+								// doesn't have records with picklist value that other records have
+								// if we doesn't have picklist_id we can't set up color_id (picklist_id)
+								// for example this could be work_time but current user is just signed (no work time)
+								// set this as null or 0 (if it is valueType)
+								// 0 is for chart data (0 work time),
+								// null is used to find out missing color (maybe other purpose as well)
+								// null colors will be replaced in the last stage getChartData when all colors are already set
+								if ($valueKey !== $this->valueType) {
+									$otherDividing[$groupValueKey][$valueKey] = null;
+								} else {
+									$otherDividing[$groupValueKey][$valueKey] = 0;
+								}
 							}
 						}
 					}
 				}
 			}
+			unset($group, $values);
 		}
-		unset($group, $values);
+
 		if (empty($this->extraData['sortOrder'])) {
 			$groupCalculate = $this->groupFieldModel->isCalculateField();
 			ksort($this->data, SORT_LOCALE_STRING);
@@ -1014,25 +1088,16 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	 */
 	protected function findOutColorsFromRows()
 	{
+		$colorType = 'record_id';
 		if ($this->areColorsFromFilter()) {
-			return 'filters';
+			$colorType = 'filters';
+		} elseif ($this->isDividedByField() && $this->areColorsFromDividingField() && \in_array($this->getTargetModuleModel()->getFieldByName($this->dividingName)->getFieldDataType(), ['picklist', 'multipicklist', 'owner'])) {
+			$colorType = 'owner' === $this->getTargetModuleModel()->getFieldByName($this->dividingName)->getFieldDataType() ? 'assigned_user_id' : 'picklist';
+		} elseif ((!$this->isDividedByField() || !$this->areColorsFromDividingField()) && \in_array($this->getTargetModuleModel()->getFieldByName($this->groupName)->getFieldDataType(), ['picklist', 'multipicklist', 'owner'])) {
+			$colorType = 'owner' === $this->getTargetModuleModel()->getFieldByName($this->groupName)->getFieldDataType() ? 'assigned_user_id' : 'picklist';
 		}
-		foreach ($this->rows as $dividing) {
-			foreach ($dividing as $group) {
-				foreach ($group as $row) {
-					if (!empty($row['picklist_id'])) {
-						return 'picklist';
-					}
-					if (!empty($row['assigned_user_id'])) {
-						return 'assigned_user_id';
-					}
-					if (!empty($row['id'])) {
-						return 'record_id';
-					}
-				}
-			}
-		}
-		return 'record_number';
+
+		return $colorType;
 	}
 
 	/**
@@ -1113,11 +1178,15 @@ class Vtiger_ChartFilter_Model extends \App\Base
 		$groupValue = $this->groupColumnName !== $this->groupName ? $row[$this->groupColumnName] : $this->groupFieldModel->getDisplayValue($row[$this->groupName], false, false, true);
 		if (empty($groupValue)) {
 			$groupValue = '(' . \App\Language::translate('LBL_EMPTY', 'Home') . ')';
+		} elseif (\is_string($dividingValue)) {
+			$groupValue = \App\Purifier::decodeHtml($groupValue);
 		}
 		if ($this->isDividedByField()) {
 			$dividingValue = $this->sectors ? $row[$this->dividingColumnName] : $this->dividingFieldModel->getDisplayValue($row[$this->dividingName], false, false, true);
 			if (empty($dividingValue)) {
 				$dividingValue = '(' . \App\Language::translate('LBL_EMPTY', 'Home') . ')';
+			} elseif (\is_string($dividingValue)) {
+				$dividingValue = \App\Purifier::decodeHtml($dividingValue);
 			}
 		}
 		return [$groupValue, $dividingValue];
