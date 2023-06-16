@@ -369,7 +369,7 @@ jQuery.Class(
 						if (chart.length && typeof window['Vtiger_Widget_Js'] !== 'undefined') {
 							let widgetInstance = Vtiger_Widget_Js.getInstance(contentContainer, chart.val());
 							widgetInstance.init(contentContainer);
-							widgetInstance.loadChart();
+							widgetInstance.postLoadWidget();
 						}
 					}
 					app.event.trigger('DetailView.Widget.AfterLoad', contentContainer, relatedModuleName, thisInstance);

@@ -3,71 +3,10 @@
 
 jQuery(document).ready(function ($) {
 	if (window.loadInRelationTomeControl == undefined) {
-		jQuery.Class(
+		$.Class(
 			'OSSTimeControl_Calendar_Js',
 			{},
 			{
-				chart: false,
-				loadChart: function () {
-					var data = $('.sumaryRelatedTimeControl .widgetData').val();
-					if (data == undefined || data == '') {
-						return false;
-					}
-					var jdata = JSON.parse(data);
-					if (jdata.datasets.length == 0 || jdata.datasets[0].data.length == 0) {
-						return false;
-					}
-
-					jdata.datasets[0].datalabels = {
-						font: {
-							weight: 'bold'
-						},
-						color: 'white',
-						anchor: 'end',
-						align: 'start'
-					};
-
-					new Chart($(this.chart).find('canvas')[0].getContext('2d'), {
-						type: 'bar',
-						data: jdata,
-						options: {
-							tooltips: {
-								callbacks: {
-									labelColor: function (tooltipItem, chart) {
-										return {
-											borderColor: jdata.datasets[0].backgroundColor[tooltipItem['index']],
-											backgroundColor: jdata.datasets[0].borderColor[tooltipItem['index']]
-										};
-									},
-									title: function ([tooltipItem], chart) {
-										return jdata.datasets[0].tooltips[tooltipItem['index']];
-									},
-									label: function (tooltipItem, chart) {
-										return jdata.datasets[0].dataFormatted[tooltipItem['index']];
-									}
-								}
-							},
-							legend: {
-								display: false
-							},
-							title: {
-								display: true,
-								position: 'top',
-								text: jdata.title
-							},
-							maintainAspectRatio: false,
-							scales: {
-								yAxes: [
-									{
-										ticks: {
-											beginAtZero: true
-										}
-									}
-								]
-							}
-						}
-					});
-				},
 				registerSwitch: function () {
 					$('.switchChartContainer').on('click', function () {
 						var chartContainer = $('.chartContainer')[0];
@@ -81,8 +20,28 @@ jQuery(document).ready(function ($) {
 					});
 				},
 				registerEvents: function () {
-					this.chart = $('.sumaryRelatedTimeControl .chartBlock');
-					this.loadChart();
+					let chart = $('.sumaryRelatedTimeControl');
+					if (chart.length && typeof window['YetiForce_Chart_Widget_Js'] !== 'undefined') {
+						let widgetInstance = YetiForce_Chart_Widget_Js.getInstance(chart, 'Bar');
+						widgetInstance.init(chart);
+						let options = {
+							yAxis: {
+								axisLabel: {
+									formatter: (value) =>
+										typeof value === 'number'
+											? App.Fields.Double.formatToDisplay(value) + ' ' + app.vtranslate('JS_H')
+											: value
+								}
+							},
+							tooltip: {
+								formatter: function (params, _, __) {
+									return params.marker + params.data.fullName + ': <strong>' + params.data.fullValue + '</strong>';
+								}
+							}
+						};
+						widgetInstance.customOption = options;
+						widgetInstance.postLoadWidget();
+					}
 					this.registerSwitch();
 				}
 			}

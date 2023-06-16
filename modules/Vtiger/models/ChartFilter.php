@@ -1043,7 +1043,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	 */
 	protected function getRows()
 	{
-		if (empty($this->filterIds)) {
+		if (empty($this->filterIds) && !$this->getExtraData('relation_id')) {
 			return $this->data;
 		}
 		if ($this->isMultiFilter()) {
@@ -1133,7 +1133,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	 */
 	protected function setLinkFromRow($row, $groupValue, $dividingValue)
 	{
-		if (!$this->sectors && !isset($this->data[$groupValue][$dividingValue]['link']) && $this->groupFieldModel->isActiveSearchView() && (!$this->isDividedByField() || $this->dividingFieldModel->isActiveSearchView())) {
+		if (!$this->sectors && $this->getFilterId() && !isset($this->data[$groupValue][$dividingValue]['link']) && $this->groupFieldModel->isActiveSearchView() && (!$this->isDividedByField() || $this->dividingFieldModel->isActiveSearchView())) {
 			$params = array_merge($this->searchParams, [$this->getSearchParamValue($this->groupFieldModel, $row[$this->groupName])]);
 			if ($this->isDividedByField()) {
 				$params = array_merge($params, [$this->getSearchParamValue($this->dividingFieldModel, $row[$this->dividingName])]);

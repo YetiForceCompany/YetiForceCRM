@@ -53,8 +53,9 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 
 		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$sumValuePerXAxisData = [];
-		$chartData['xAxis']['data'] = array_map(fn ($dueDate) => $showMonth ? substr($dueDate, -5) : substr($dueDate, -2), array_unique(array_column($data, 'due_date')));
+		$chartData['xAxis']['data'] = array_map(fn ($dueDate) => $showMonth ? substr($dueDate, -5) : substr($dueDate, -2), array_unique(array_column($data, 'due_date')), []);
 		$types = array_values(array_unique(array_column($data, 'timecontrol_type')));
+
 		foreach ($data as $row) {
 			$dueDate = $row['due_date'];
 			$type = $row['timecontrol_type'];

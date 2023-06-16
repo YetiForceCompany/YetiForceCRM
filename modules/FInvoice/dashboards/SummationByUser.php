@@ -83,8 +83,8 @@ class FInvoice_SummationByUser_Dashboard extends Vtiger_IndexAjax_View
 			$chartData['xAxis']['data'][] = $name;
 			$chartData['show_chart'] = true;
 		}
-
 		$dataReader->close();
+
 		return $chartData;
 	}
 }

@@ -9,6 +9,7 @@ YetiForce_Widget_Js(
 		chartInstance: null,
 		chartData: [],
 		filterIds: [],
+		customOption: {},
 
 		/**
 		 * Get plot container
@@ -92,7 +93,7 @@ YetiForce_Widget_Js(
 			}
 
 			let data = this.generateData();
-			data = this.mergeAll([data, this.getBasicOptions(data)]);
+			data = this.mergeAll([data, this.customOption, this.getBasicOptions()]);
 			this.destroyChartInstance();
 
 			let chart = this.getChartInstance();
