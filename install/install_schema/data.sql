@@ -3574,6 +3574,9 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (106,'EditViewPreSave','Reservations_DuplicateChecker_Handler',1,'Reservations','',5,84,1);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (107,'EntityAfterLinkForSource','ModTracker_ModTrackerHandler_Handler',1,'','',8,32,0);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (108,'EntityAfterUnLinkForSource','ModTracker_ModTrackerHandler_Handler',1,'','',8,32,0);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (109,'EditViewPreSave','Calendar_RepeatEvents_Handler',1,'Calendar','',5,0,1);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (110,'PreDelete','Calendar_RepeatEvents_Handler',1,'Calendar','',5,0,1);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (111,'PreStateChange','Calendar_RepeatEvents_Handler',1,'Calendar','',5,0,1);
 
 /*Data for the table `vtiger_expectedresponse` */
 

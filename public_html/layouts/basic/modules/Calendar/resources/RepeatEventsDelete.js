@@ -15,6 +15,7 @@ jQuery.Class(
 			const thisInstance = this;
 			this.container.find('.js-repeat-events-mode').on('click', function (e) {
 				app.hideModalWindow();
+				$.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
 				let deleteRecordActionUrl = thisInstance.container.find('[name="delete-url"]').attr('data-url');
 				let removeType = $(e.currentTarget).data('value');
 				AppConnector.request(deleteRecordActionUrl + '&typeRemove=' + removeType).done(function (data) {

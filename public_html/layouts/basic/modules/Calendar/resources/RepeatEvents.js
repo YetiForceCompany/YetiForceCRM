@@ -13,6 +13,7 @@ jQuery.Class(
 		 */
 		setSavingModeForRecords() {
 			this.container.find('.js-repeat-events-mode').on('click', function (e) {
+				$.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
 				$('#EditView [name="typeSaving"]').val($(e.currentTarget).data('value'));
 				form.submit();
 				app.hideModalWindow();

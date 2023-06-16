@@ -101,11 +101,6 @@ class Vtiger_Save_Action extends \App\Controller\Action
 			$response = $eventHandler->triggerHandler($handler);
 
 			if (!($response['result'] ?? null) && (!isset($response['hash'], $skipHandlers[$handlerId]) || $skipHandlers[$handlerId] !== $response['hash'])) {
-				var_dump(
-					$skipHandlers,
-					$response
-				);
-				exit;
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
