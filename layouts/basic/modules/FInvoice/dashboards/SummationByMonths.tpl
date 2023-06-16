@@ -2,41 +2,18 @@
 {assign var=CONF_DATA value=\App\Json::decode(html_entity_decode($WIDGET->get('data')))}
 <script type="text/javascript">
 	YetiForce_Bar_Widget_Js('YetiForce_SummationByMonths_Widget_Js', {}, {
-		getBasicOptions: function getBasicOptions(chartData) {
-			return {
-				legend: {
-					display: true,
-				},
-				scales: {
-					yAxes: [{
-						stacked: true,
-						ticks: {
-							callback: function yAxisTickCallback(label, index, labels) {
-								return App.Fields.Double.formatToDisplay(label);
-							},
-							{if !empty($CONF_DATA['plotTickSize'])}
-								stepValue: {$CONF_DATA['plotTickSize']},
-							{/if}
-							{if !empty($CONF_DATA['plotLimit'])}
-								max: {$CONF_DATA['plotLimit']},
-							{/if}
-						},
-					}],
-					xAxes: [{
-						stacked: true
-					}]
-				},
-				tooltips: {
-					callbacks: {
-						label: function tooltipLabelCallback(item) {
-							return App.Fields.Double.formatToDisplay(item.yLabel);
-						},
-						title: function tooltipTitleCallback(item) {
-							return App.Fields.Date.fullMonthsTranslated[item[0].index] + ' ' + chartData.years[item[0].datasetIndex];
-						},
-					}
-				},
+		getBasicOptions: function getBasicOptions() {
+			let options = this._super();
+			options.yAxis = {
+				{if !empty($CONF_DATA['plotTickSize'])}
+					interval: {$CONF_DATA['plotTickSize']},
+				{/if}
+				{if !empty($CONF_DATA['plotLimit'])}
+					max: {$CONF_DATA['plotLimit']},
+				{/if}
 			};
+
+			return options;
 		},
 	});
 </script>

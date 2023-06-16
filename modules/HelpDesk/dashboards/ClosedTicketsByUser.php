@@ -6,14 +6,15 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 {
 	/**
 	 * Return search params (use to in building address URL to listview).
 	 *
-	 * @param int     $owner numer id of user
-	 * @param <Array> $time  contain start date and end time
+	 * @param int   $owner numer id of user
+	 * @param array $time  contain start date and end time
 	 *
 	 * @return string
 	 */
@@ -28,15 +29,15 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 			$conditions[] = ['assigned_user_id', 'e', $owner];
 		}
 		$listSearchParams[] = $conditions;
-		return '&entityState=Active&viewname=All&search_params=' . json_encode($listSearchParams);
+		return '&entityState=Active&viewname=All&search_params=' . urlencode(json_encode($listSearchParams));
 	}
 
 	/**
 	 * Function returns Tickets grouped by users.
 	 *
-	 * @param <Array> $time contain start date and end time
+	 * @param array $time contain start date and end time
 	 *
-	 * @return <Array> data to display chart
+	 * @return array data to display chart
 	 */
 	public function getTicketsByUser($time)
 	{
@@ -55,38 +56,35 @@ class HelpDesk_ClosedTicketsByUser_Dashboard extends Vtiger_IndexAjax_View
 			$query->andWhere(['vtiger_troubletickets.status' => $ticketStatus]);
 		}
 		if (!empty($time)) {
+			$time[0] .= ' 00:00:00';
+			$time[1] .= ' 23:59:59';
 			$query->andWhere([
 				'and',
-				['>=', 'vtiger_troubletickets.closing_datatime', $time[0] . ' 00:00:00'],
-				['<=', 'vtiger_troubletickets.closing_datatime', $time[1] . ' 23:59:59'],
+				['>=', 'vtiger_troubletickets.closing_datatime', $time[0]],
+				['<=', 'vtiger_troubletickets.closing_datatime', $time[1]],
 			]);
 		}
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy('vtiger_crmentity.smownerid');
 		$dataReader = $query->createCommand()->query();
-		$time = \App\Fields\Date::formatRangeToDisplay($time);
+		$time = \App\Fields\DateTime::formatRangeToDisplay($time);
+
 		$chartData = [
-			'labels' => [],
-			'datasets' => [
-				[
-					'data' => [],
-					'backgroundColor' => [],
-					'links' => [],
-					'titlesFormatted' => [],
-				],
-			],
+			'dataset' => [],
 			'show_chart' => false,
 		];
-		$chartData['show_chart'] = (bool) $dataReader->count();
+		$chartData['series'][0]['colorBy'] = 'data';
+		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
+
 		while ($row = $dataReader->read()) {
 			$label = \App\Fields\Owner::getLabel($row['smownerid']);
-			$chartData['labels'][] = \App\Utils::getInitials($label);
-			$chartData['datasets'][0]['titlesFormatted'][] = $label;
-			$chartData['datasets'][0]['data'][] = (int) $row['count'];
-			$chartData['datasets'][0]['backgroundColor'][] = \App\Fields\Owner::getColor((int) $row['smownerid']);
-			$chartData['datasets'][0]['links'][] = $listViewUrl . $this->getSearchParams($row['smownerid'], $time);
+			$link = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($row['smownerid'], $time);
+			$chartData['dataset']['source'][] = [\App\Utils::getInitials($label), (int) $row['count'], ['link' => $link, 'fullName' => $label]];
+			$chartData['color'][] = \App\Fields\Owner::getColor((int) $row['smownerid']);
+			$chartData['show_chart'] = true;
 		}
 		$dataReader->close();
+
 		return $chartData;
 	}
 

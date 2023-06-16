@@ -1,46 +1,34 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
-<script type="text/javascript">
-	YetiForce_Bar_Widget_Js('YetiForce_TimeControl_Widget_Js', {}, {
-		getBasicOptions: function getBasicOptions(chartData) {
-			return {
-				maintainAspectRatio: false,
-				title: {
-					display: false
-				},
-				legend: {
-					display: true
-				},
-				scales: {
-					yAxes: [{
-						stacked: true,
-						ticks: {
-							callback: function formatYAxisTick(value, index, values) {
-								return app.formatToHourText(value, 'short', false, false);
-							}
-						}
-					}],
-					xAxes: [{
-						stacked: true,
-						ticks: {
-							minRotation: 0,
-						}
-					}]
-				},
-				tooltips: {
-					callbacks: {
-						label: function(tooltipItem, data) {
-							return chartData.datasets[tooltipItem.datasetIndex].original_label + ': ' + chartData.datasets[tooltipItem.datasetIndex].dataFormatted[tooltipItem.index];
-						},
-						title: function(tooltipItems, data) {
-							return chartData.fullLabels[tooltipItems[0].index];
-						}
-					}
-				},
-			};
-		},
-	});
-</script>
 {strip}
+	<script type="text/javascript">
+		YetiForce_Bar_Widget_Js('YetiForce_TimeControl_Widget_Js', {}, {
+			getBasicOptions: function getBasicOptions() {
+				let options = this._super();
+				options.yAxis.axisLabel.formatter = (value) => (typeof value === 'number' ? App.Fields.Double.formatToDisplay(value) + ' ' + app.vtranslate('JS_H') : value);
+				options.tooltip = {
+					formatter: function(params, ticket, callback) {
+						let response = '';
+						let header;
+						for (let data of params) {
+							if (!header && data.data.fullLabel) {
+								header = '<strong>' + data.data.fullLabel + '</strong><br>';
+							}
+							if (data.data.fullValue === undefined) {
+								continue;
+							}
+							if (response) {
+								response += '<br>';
+							}
+							response += data.marker + data.data.seriesLabel + ': <strong>' + data.data.fullValue + '</strong>';
+						}
+						return header + response;
+					}
+				}
+
+				return options;
+			}
+		});
+	</script>
 	<div class="dashboardWidgetHeader">
 		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">
 			{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeaderTitle.tpl', $MODULE_NAME) CLASSNAME="col-md-10"}

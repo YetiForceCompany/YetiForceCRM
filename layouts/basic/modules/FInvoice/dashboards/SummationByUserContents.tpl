@@ -2,7 +2,9 @@
 {strip}
 	{if $DATA['show_chart']}
 		<div class="clearfix"></div>
-		<div class="widgetChartContainer"><canvas></canvas></div>
+		<div class="widgetChartContainer">
+			<div class="js-chart-container h-100"></div>
+		</div>
 	{else}
 		<span class="noDataMsg">
 			{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}

@@ -22,14 +22,14 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		$conditions = [];
 		$date = \App\Fields\Date::formatToDisplay($date);
 		$listSearchParams = [];
-		if ('' != $assignedto) {
+		if ($assignedto) {
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($date)) {
 			array_push($conditions, ['due_date', 'bw', $date . ',' . $date]);
 		}
 		$listSearchParams[] = $conditions;
-		return '&search_params=' . json_encode($listSearchParams);
+		return '&search_params=' . urlencode(json_encode($listSearchParams));
 	}
 
 	public function getWidgetTimeControl($user, $date)
@@ -37,85 +37,64 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 		if (!$date) {
 			return ['show_chart' => false];
 		}
-		$query = (new App\Db\Query())->select(['sum_time', 'due_date', 'vtiger_osstimecontrol.timecontrol_type', 'timecontrol_typeid'])
-			->from('vtiger_osstimecontrol')
-			->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
-			->innerJoin('vtiger_timecontrol_type', 'vtiger_osstimecontrol.timecontrol_type = vtiger_timecontrol_type.timecontrol_type')
-			->where(['vtiger_crmentity.setype' => 'OSSTimeControl', 'vtiger_crmentity.smownerid' => $user]);
-		\App\PrivilegeQuery::getConditions($query, 'OSSTimeControl');
-		$query->andWhere([
-			'and',
-			['>=', 'vtiger_osstimecontrol.due_date', $date[0]],
-			['<=', 'vtiger_osstimecontrol.due_date', $date[1]],
-			['vtiger_osstimecontrol.deleted' => 0],
-		])->orderBy('due_date');
-		$timeTypes = [];
-		$colors = \App\Fields\Picklist::getColors('timecontrol_type');
+		$moduleName = 'OSSTimeControl';
+		$queryGenerator = new \App\QueryGenerator($moduleName);
+		$queryGenerator->setFields(['due_date', 'timecontrol_type'])
+			->setCustomColumn(['sum_time' => new \yii\db\Expression('SUM(sum_time)')])
+			->addCondition('assigned_user_id', $user, 'e')
+			->addCondition('due_date', implode(',', $date), 'bw')
+			->setGroup('due_date')->setGroup('timecontrol_type')->setOrder('due_date');
+		$showMonth = \App\Fields\DateTime::getDiff($date[0], $date[1], 'days') > 31;
+		$data = $queryGenerator->createQuery()->all();
+		$colors = \App\Fields\Picklist::getColors('timecontrol_type', false);
 		$chartData = [
-			'labels' => [],
-			'fullLabels' => [],
-			'datasets' => [],
 			'show_chart' => false,
-			'days' => []
 		];
-		$dataReader = $query->createCommand()->query();
-		$workingTimeByType = $workingTime = [];
-		while ($row = $dataReader->read()) {
-			$label = \App\Language::translate($row['timecontrol_type'], 'OSSTimeControl');
-			if (isset($workingTimeByType[$label])) {
-				$workingTimeByType[$label] += (float) $row['sum_time'];
-			} else {
-				$workingTimeByType[$label] = (float) $row['sum_time'];
-			}
-			if (isset($workingTime[$row['due_date']][$row['timecontrol_type']])) {
-				$workingTime[$row['due_date']][$row['timecontrol_type']] += (float) $row['sum_time'];
-			} else {
-				$workingTime[$row['due_date']][$row['timecontrol_type']] = (float) $row['sum_time'];
-			}
-			if (!\in_array($row['timecontrol_type'], $timeTypes)) {
-				$timeTypes[$row['timecontrol_typeid']] = $row['timecontrol_type'];
-				// one dataset per type
-				$chartData['datasets'][] = [
-					'label' => $label,
-					'original_label' => $label,
-					'_type' => $row['timecontrol_type'],
-					'data' => [],
-					'dataFormatted' => [],
-					'backgroundColor' => [],
-					'links' => [],
-				];
-			}
-			if (!\in_array($row['due_date'], $chartData['days'])) {
-				$chartData['labels'][] = substr($row['due_date'], -2);
-				$chartData['fullLabels'][] = \App\Fields\DateTime::formatToDay($row['due_date'], true);
-				$chartData['days'][] = $row['due_date'];
-			}
-		}
-		$dataReader->close();
-		foreach ($chartData['datasets'] as &$dataset) {
-			$dataset['label'] .= ': ' . \App\Fields\RangeTime::displayElapseTime($workingTimeByType[$dataset['label']]);
-		}
-		if ($dataReader->count() > 0) {
-			$chartData['show_chart'] = true;
-			foreach ($workingTime as $timeValue) {
-				foreach ($timeTypes as $timeTypeId => $timeType) {
-					if (isset($timeValue[$timeType]) && !empty($timeValue[$timeType])) {
-						$value = $timeValue[$timeType];
-					} else {
-						$value = 0;
-					}
-					foreach ($chartData['datasets'] as &$dataset) {
-						if ($dataset['_type'] === $timeType) {
-							// each data item is an different day in this dataset/time type
-							$dataset['data'][] = round($value / 60, 2);
-							$dataset['dataFormatted'][] = \App\Fields\RangeTime::displayElapseTime($value);
-							$dataset['backgroundColor'][] = $colors[$timeTypeId];
-						}
-					}
+
+		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
+		$sumValuePerXAxisData = [];
+		$chartData['xAxis']['data'] = array_map(fn ($dueDate) => $showMonth ? substr($dueDate, -5) : substr($dueDate, -2), array_unique(array_column($data, 'due_date')), []);
+		$types = array_values(array_unique(array_column($data, 'timecontrol_type')));
+
+		foreach ($data as $row) {
+			$dueDate = $row['due_date'];
+			$type = $row['timecontrol_type'];
+			$sumTime = $row['sum_time'];
+			$xAxisLabel = $showMonth ? substr($dueDate, -5) : substr($dueDate, -2);
+			$sumValuePerXAxisData[$type] = ($sumValuePerXAxisData[$type] ?? 0) + (float) $sumTime;
+			$seriesIndex = array_search($type, $types);
+
+			if (empty($chartData['series'][$seriesIndex])) {
+				foreach (array_keys($chartData['xAxis']['data']) as $statusIndex) {
+					$chartData['series'][$seriesIndex]['data'][$statusIndex] = ['value' => null];
 				}
 			}
+			$statusIndex = array_search($xAxisLabel, $chartData['xAxis']['data']);
+
+			$color = $colors[$type] ?? \App\Colors::getRandomColor($type);
+			$link = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($user, $dueDate);
+			$label = $type ? \App\Language::translate($type, $moduleName, null, false) : '(' . \App\Language::translate('LBL_EMPTY', 'Home', null, false) . ')';
+
+			$chartData['series'][$seriesIndex]['name'] = $label;
+			$chartData['series'][$seriesIndex]['type'] = 'bar';
+			$chartData['series'][$seriesIndex]['stack'] = 'total';
+			$chartData['series'][$seriesIndex]['color'] = $color;
+			$chartData['series'][$seriesIndex]['label'] = ['show' => false];
+			$chartData['tooltip'] = ['trigger' => 'axis', 'axisPointer' => ['type' => 'shadow']];
+			$chartData['labelLayout'] = ['hideOverlap' => false];
+			$chartData['series'][$seriesIndex]['data'][$statusIndex] = ['value' => round($sumTime / 60, 2), 'itemStyle' => ['color' => $color], 'link' => $link, 'fullLabel' => \App\Fields\DateTime::formatToDay($dueDate, true), 'fullValue' => \App\Fields\RangeTime::displayElapseTime($sumTime), 'seriesLabel' => $label];
+
+			$chartData['show_chart'] = true;
 		}
-		$dataReader->close();
+
+		foreach ($sumValuePerXAxisData as $type => $value) {
+			if (!$value) {
+				continue;
+			}
+			$seriesIndex = array_search($type, $types);
+			$chartData['series'][$seriesIndex]['name'] .= ': ' . \App\Fields\RangeTime::displayElapseTime($value);
+		}
+
 		return $chartData;
 	}
 
@@ -134,16 +113,8 @@ class OSSTimeControl_TimeControl_Dashboard extends Vtiger_IndexAjax_View
 			$user = $currentUserId;
 		}
 		$data = $this->getWidgetTimeControl($user, $time);
-		if (!empty($data['datasets'])) {
-			foreach ($data['datasets'] as &$dataset) {
-				foreach ($dataset['data'] as $index => $dataItem) {
-					$dataset['links'][] = 'index.php?module=OSSTimeControl&view=List&viewname=All&entityState=Active' . $this->getSearchParams($user, $data['days'][$index]);
-				}
-			}
-		}
-		$TCPModuleModel = Settings_TimeControlProcesses_Module_Model::getCleanInstance();
 		$viewer->assign('USER_CONDITIONS', null);
-		$viewer->assign('TCPMODULE_MODEL', $TCPModuleModel->getConfigInstance());
+		$viewer->assign('TCPMODULE_MODEL', Settings_TimeControlProcesses_Module_Model::getCleanInstance()->getConfigInstance());
 		$viewer->assign('USERID', $user);
 		$viewer->assign('DTIME', \App\Fields\Date::formatRangeToDisplay($time));
 		$viewer->assign('DATA', $data);

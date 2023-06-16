@@ -15,14 +15,12 @@ class SSalesProcesses_ActualSalesOfTeam_Dashboard extends SSalesProcesses_TeamsE
 	/**
 	 * Function to get search params in address listview.
 	 *
-	 * @param int    $owner  number id of user
-	 * @param string $status
-	 * @param mixed  $row
-	 * @param mixed  $time
+	 * @param int   $owner number id of user
+	 * @param array $time
 	 *
 	 * @return string
 	 */
-	public function getSearchParams($row, $time)
+	public function getSearchParams($owner, $time)
 	{
 		$conditions = [];
 		$listSearchParams = [];
@@ -30,46 +28,26 @@ class SSalesProcesses_ActualSalesOfTeam_Dashboard extends SSalesProcesses_TeamsE
 			array_push($conditions, ['assigned_user_id', 'e', $owner]);
 		}
 		if (!empty($time)) {
-			array_push($conditions, ['actual_date', 'bw', implode(',', \App\Fields\Date::formatRangeToDisplay(explode(',', $time)))]);
+			array_push($conditions, ['actual_date', 'bw', implode(',', $time)]);
 		}
 		$listSearchParams[] = $conditions;
-		return '&viewname=All&search_params=' . json_encode($listSearchParams);
+
+		return '&viewname=All&search_params=' . urlencode(json_encode($listSearchParams));
 	}
 
-	/**
-	 * Function to get data to chart.
-	 *
-	 * @param string      $time
-	 * @param bool $compare
-	 * @param int|string $owner
-	 *
-	 * @return array
-	 */
-	public function getEstimatedValue(string $timeString, bool $compare = false, $owner = false): array
+	/** {@inheritdoc} */
+	public function getQuery(array $time, $owner = false): App\QueryGenerator
 	{
-		$queryGenerator = new \App\QueryGenerator('SSalesProcesses');
-		$queryGenerator->setFields(['assigned_user_id']);
-		$queryGenerator->setGroup('assigned_user_id');
-		$queryGenerator->addCondition('actual_date', $timeString, 'bw', true, false);
-		if ('all' !== $owner) {
-		 $queryGenerator->addNativeCondition(['smownerid' => $owner]);
-		}
 		$sum = new \yii\db\Expression('SUM(actual_sale)');
-		$queryGenerator->setCustomColumn(['actual_sale' => $sum]);
-		$query = $queryGenerator->createQuery();
-		$listView = $queryGenerator->getModuleModel()->getListViewUrl();
-		$dataReader = $query->createCommand()->query();
-		$chartData = [];
-		while ($row = $dataReader->read()) {
-			$chartData['datasets'][0]['data'][] = round($row['actual_sale'], 2);
-			$chartData['datasets'][0]['backgroundColor'][] = '#95a458';
-			$chartData['datasets'][0]['links'][] = $listView . $this->getSearchParams($row['assigned_user_id'], $timeString);
-			$ownerName = \App\Fields\Owner::getUserLabel($row['assigned_user_id']);
-			$chartData['labels'][] = \App\Utils::getInitials($ownerName);
-			$chartData['fullLabels'][] = $ownerName;
+		$queryGenerator = new \App\QueryGenerator('SSalesProcesses');
+		$queryGenerator->setFields(['assigned_user_id'])
+			->setCustomColumn(['estimated' => $sum])
+			->setGroup('assigned_user_id')
+			->addCondition('actual_date', implode(',', $time), 'bw');
+		if ('all' !== $owner) {
+			$queryGenerator->addNativeCondition(['smownerid' => $owner]);
 		}
-		$chartData['show_chart'] = (bool) isset($chartData['datasets']);
-		$dataReader->close();
-		return $chartData;
+
+		return $queryGenerator;
 	}
 }

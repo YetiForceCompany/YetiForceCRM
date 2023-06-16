@@ -247,8 +247,9 @@ class Vtiger_Detail_View extends Vtiger_Index_View
 			'~libraries/leaflet.markercluster/dist/leaflet.markercluster.js',
 			'~libraries/leaflet.awesome-markers/dist/leaflet.awesome-markers.js',
 			'modules.OpenStreetMap.resources.Map',
+			'~libraries/echarts/dist/echarts.js',
 			'modules.Vtiger.resources.dashboards.Widget',
-			'~libraries/chart.js/dist/Chart.js',
+			'modules.Vtiger.resources.dashboards.Chart',
 		];
 		if (\App\Privilege::isPermitted('Chat')) {
 			$jsFileNames[] = '~layouts/basic/modules/Chat/resources/Chat.js';

@@ -6,6 +6,7 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
+ * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -22,14 +23,14 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$listSearchParams = [];
 		$conditions = [['industry', 'e', $industry]];
-		if ('' != $assignedto) {
+		if ($assignedto) {
 			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($dates)) {
 			array_push($conditions, ['createdtime', 'bw', implode(',', $dates)]);
 		}
 		$listSearchParams[] = $conditions;
-		return '&search_params=' . App\Json::encode($listSearchParams);
+		return '&search_params=' . urlencode(App\Json::encode($listSearchParams));
 	}
 
 	/**
@@ -50,41 +51,40 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 			'industryvalue' => new \yii\db\Expression("CASE WHEN vtiger_account.industry IS NULL OR vtiger_account.industry = '' THEN '' ELSE vtiger_account.industry END"), ])
 			->from('vtiger_account')
 			->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
-			->innerJoin('vtiger_industry', 'vtiger_account.industry = vtiger_industry.industry')
+			->leftJoin('vtiger_industry', 'vtiger_account.industry = vtiger_industry.industry')
 			->where(['deleted' => 0]);
 		if (!empty($owner)) {
 			$query->andWhere(['smownerid' => $owner]);
 		}
 		if (!empty($dateFilter)) {
-			$query->andWhere(['between', 'createdtime', $dateFilter[0] . ' 00:00:00', $dateFilter[1] . ' 23:59:59']);
+			$dateFilter[0] .= ' 00:00:00';
+			$dateFilter[1] .= ' 23:59:59';
+			$query->andWhere(['between', 'createdtime', $dateFilter[0], $dateFilter[1]]);
 		}
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['vtiger_industry.sortorderid', 'industryvalue', 'vtiger_industry.industryid'])->orderBy('vtiger_industry.sortorderid');
+
+		$date = \App\Fields\DateTime::formatRangeToDisplay($dateFilter);
 		$dataReader = $query->createCommand()->query();
-		$colors = \App\Fields\Picklist::getColors('industry');
+
 		$chartData = [
-			'labels' => [],
-			'datasets' => [
-				[
-					'data' => [],
-					'backgroundColor' => [],
-					'borderColor' => [],
-					'tooltips' => [],
-					'names' => [], // names for link generation,
-					'links' => [], // links generated in proccess method
-				],
-			],
+			'dataset' => [],
 			'show_chart' => false,
+			'color' => []
 		];
+		$chartData['series'][0]['colorBy'] = 'data';
+		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
+		$colors = \App\Fields\Picklist::getColors('industry');
 		while ($row = $dataReader->read()) {
-			$chartData['labels'][] = \App\Language::translate($row['industryvalue'], $moduleName);
-			$chartData['datasets'][0]['data'][] = $row['count'];
-			$chartData['datasets'][0]['backgroundColor'][] = $colors[$row['industryid']];
-			$chartData['datasets'][0]['borderColor'][] = $colors[$row['industryid']];
-			$chartData['datasets'][0]['names'][] = $row['industryvalue'];
+			$status = $row['industryvalue'];
+			$link = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($status, $owner, $date);
+			$label = $status ? \App\Language::translate($status, $moduleName, null, false) : ('(' . \App\Language::translate('LBL_EMPTY', 'Home', null, false) . ')');
+			$chartData['dataset']['source'][] = [$label, round($row['count'], 2), ['link' => $link]];
+			$chartData['color'][] = $colors[$row['industryid']] ?? \App\Colors::getRandomColor($status);
+			$chartData['show_chart'] = true;
 		}
-		$chartData['show_chart'] = (bool) \count($chartData['datasets'][0]['data']);
 		$dataReader->close();
+
 		return $chartData;
 	}
 
@@ -112,15 +112,9 @@ class Accounts_AccountsByIndustry_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($createdTime)) {
 			$createdTime = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
 		}
-		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
+
 		$data = $this->getAccountsByIndustry($owner, $createdTime);
 		$createdTime = \App\Fields\Date::formatRangeToDisplay($createdTime);
-		$listViewUrl = $moduleModel->getListViewUrl();
-		$leadSIndustryAmount = \count($data['datasets'][0]['names']);
-		for ($i = 0; $i < $leadSIndustryAmount; ++$i) {
-			$data['datasets'][0]['links'][$i] = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($data['datasets'][0]['names'][$i], $owner, $createdTime);
-		}
-		//Include special script and css needed for this widget
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);

@@ -3060,29 +3060,6 @@ const app = (window.app = {
 
 		return url;
 	},
-	formatToHourText: function (decTime, type = 'short', withSeconds = false, withMinutes = true) {
-		const short = type === 'short';
-		const hour = Math.floor(decTime);
-		const min = Math.floor((decTime - hour) * 60);
-		const sec = Math.round(((decTime - hour) * 60 - min) * 60);
-		let result = '';
-		if (hour) {
-			result += short ? hour + app.vtranslate('JS_H') : `${hour} ` + app.vtranslate('JS_H_LONG');
-		}
-		if ((hour || min) && withMinutes) {
-			result += short ? ` ${min}` + app.vtranslate('JS_M') : ` ${min} ` + app.vtranslate('JS_M_LONG');
-		}
-		if (withSeconds !== false) {
-			result += short ? ` ${sec}` + app.vtranslate('JS_S') : ` ${sec} ` + app.vtranslate('JS_S_LONG');
-		}
-		if (!hour && !min && withSeconds === false && withMinutes) {
-			result += short ? '0' + app.vtranslate('JS_M') : '0 ' + app.vtranslate('JS_M_LONG');
-		}
-		if (!hour && !min && withSeconds === false && !withMinutes) {
-			result += short ? '0' + app.vtranslate('JS_H') : '0 ' + app.vtranslate('JS_H_LONG');
-		}
-		return result.trim();
-	},
 	showRecordsList: function (params, cb, afterShowModal) {
 		if (typeof params === 'object' && !params.view) {
 			params.view = 'RecordsList';

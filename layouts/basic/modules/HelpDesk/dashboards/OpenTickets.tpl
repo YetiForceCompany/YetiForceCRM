@@ -1,15 +1,20 @@
-{*<!--
-/*********************************************************************************
-** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is:  vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-*
-********************************************************************************/
--->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
+	<script type="text/javascript">
+		YetiForce_Bar_Widget_Js('YetiForce_OpenTickets_Widget_Js', {}, {
+			getBasicOptions: function getBasicOptions() {
+				let options = this._super();
+				options.tooltip = {
+					formatter: function(params, ticket, callback) {
+						let name = params.value[2].fullName || '';
+						let value = App.Fields.Double.formatToDisplay(params.value[1]);
+						return params.marker + (name ? (name + ': ') : '') + "<strong>" + value + '</strong>';
+					}
+				}
+				return options;
+			}
+		});
+	</script>
 	<div class="dashboardWidgetHeader">
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeader.tpl', $MODULE_NAME)}
 	</div>
