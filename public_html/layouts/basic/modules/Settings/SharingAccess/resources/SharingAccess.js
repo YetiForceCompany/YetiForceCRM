@@ -189,6 +189,10 @@ jQuery.Class(
 					AppConnector.request(deleteUrl).done(function (data) {
 						let response = data.result;
 						if (response && response.success) {
+							app.showNotify({
+								type: 'success',
+								text: response.message
+							});
 							currentRow.fadeOut('slow');
 							var customRuleTable = currentRow.closest('.js-custom-rule-table');
 							//after delete the custom rule, update the sequence number of existing rules

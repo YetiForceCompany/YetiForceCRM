@@ -63,6 +63,10 @@ class Settings_SharingAccess_IndexAjax_Action extends Settings_Vtiger_Save_Actio
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		try {
 			$ruleModel->delete();
+			$response->setResult([
+				'success' => true,
+				'message' => \App\Language::translate('LBL_CUSTOM_RULE_DELETED_SUCCESSFULLY', $request->getModule(false))
+			]);
 		} catch (\App\Exceptions\AppException $e) {
 			$response->setError(\App\Language::translate('LBL_CUSTOM_RULE_DELETING_FAILED', $request->getModule(false)));
 		}
