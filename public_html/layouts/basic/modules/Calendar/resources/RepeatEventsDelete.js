@@ -11,7 +11,7 @@ jQuery.Class(
 		/**
 		 * Set saving mode for records
 		 */
-		seDeleteModeForRecords() {
+		setDeleteModeForRecords() {
 			const thisInstance = this;
 			this.container.find('.js-repeat-events-mode').on('click', function (e) {
 				app.hideModalWindow();
@@ -36,7 +36,7 @@ jQuery.Class(
 		 */
 		registerEvents: function (modalContainer) {
 			this.container = modalContainer;
-			this.seDeleteModeForRecords();
+			this.setDeleteModeForRecords();
 		}
 	}
 );

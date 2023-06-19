@@ -10,11 +10,12 @@ jQuery.Class(
 		container: false,
 		/**
 		 * Set saving mode for records
+		 * @params : jQuery form element
 		 */
-		setSavingModeForRecords() {
+		setSavingModeForRecords(form) {
 			this.container.find('.js-repeat-events-mode').on('click', function (e) {
 				$.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
-				$('#EditView [name="typeSaving"]').val($(e.currentTarget).data('value'));
+				form.find('[name="typeSaving"]').val($(e.currentTarget).data('value'));
 				form.submit();
 				app.hideModalWindow();
 			});
@@ -25,7 +26,7 @@ jQuery.Class(
 		 */
 		registerEvents: function (modalContainer) {
 			this.container = modalContainer;
-			this.setSavingModeForRecords();
+			this.setSavingModeForRecords(this.form);
 		}
 	}
 );
