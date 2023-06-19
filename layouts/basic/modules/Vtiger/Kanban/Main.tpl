@@ -12,12 +12,19 @@
 		<div class="col-12 d-md-flex flex-sm-row my-1 px-0">
 			<div class="col-md-6 col-sm-12 px-0">
 				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='buttonTextHolder c-btn-block-sm-down mb-md-0 mb-1'}
-				<button type="button"
-					class="btn btn-light modCT_{$MODULE_NAME} js-quick-create-modal js-popover-tooltip ml-md-1 ml-sm-0 mb-md-0 mb-1 c-btn-block-sm-down"
-					data-module="{$MODULE_NAME}">
-					<span class="fas fa-plus-square mr-2"></span>
-					{\App\Language::translate('LBL_ADD_RECORD')}
-				</button>
+				{if $MODULE_MODEL->isQuickCreateSupported()}
+					<button type="button"
+						class="btn btn-light modCT_{$MODULE_NAME} js-quick-create-modal ml-md-1 ml-sm-0 mb-md-0 mb-1 c-btn-block-sm-down"
+						data-module="{$MODULE_NAME}">
+						<span class="fas fa-plus-square mr-2"></span>
+						{\App\Language::translate('LBL_ADD_RECORD')}
+					</button>
+				{else}
+					<button type="button"
+						class="btn btn-light modCT_{$MODULE_NAME} ml-md-1 ml-sm-0 mb-md-0 mb-1 c-btn-block-sm-down">
+						<a href="{$MODULE_MODEL->getCreateRecordUrl()}" class="text-reset text-decoration-none"> <span class="fas fa-plus-square mr-2"></span>{\App\Language::translate('LBL_ADD_RECORD')} </a>
+					</button>
+				{/if}
 			</div>
 			<div class="d-flex justify-content-md-end justify-content-sm-start col-md-6 col-12 px-0 mt-sm-0 mt-1">
 				<div class="js-hide-filter col-lg-6 col-11 px-0">
