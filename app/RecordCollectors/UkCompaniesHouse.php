@@ -241,6 +241,9 @@ class UkCompaniesHouse extends Base
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $e->getMessage();
+			if (404 === $e->getCode()) {
+				$this->response['error'] = \App\Language::translate('LBL_COMPANY_NOT_FOUND', 'Other.RecordCollector');
+			}
 		}
 		$this->data = $data;
 	}
