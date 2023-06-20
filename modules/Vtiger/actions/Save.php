@@ -101,7 +101,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 			$response = $eventHandler->triggerHandler($handler);
 
 			if (!($response['result'] ?? null) && (!isset($response['hash'], $skipHandlers[$handlerId]) || $skipHandlers[$handlerId] !== $response['hash'])) {
-				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord($response['message'] ?? 'ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}
 		if (!$request->isEmpty('fromView') && 'MassQuickCreate' === $request->getByType('fromView')) {
