@@ -174,7 +174,11 @@ class FrEnterpriseGouv extends Base
 			$data = isset($response) ? \App\Json::decode($response->getBody()->getContents()) : [];
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getMessage();
+			if (400 === $e->getCode()) {
+				$this->response['error'] = \App\Language::translate('LBL_BR_RECITA_WSsss_CNPJ_ERROR', 'Other.RecordCollector');
+			} else {
+				$this->response['error'] = $e->getMessage();
+			}
 		}
 		if (empty($data)) {
 			return;
