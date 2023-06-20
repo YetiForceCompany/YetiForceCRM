@@ -42,6 +42,9 @@ class PlVatPayerStatusVerification extends Base
 	/** @var string MF sever address */
 	protected $url = 'https://sprawdz-status-vat.mf.gov.pl/?wsdl';
 
+	/** @var string Response error code */
+	const ERROR_CODE = 'I';
+
 	/** {@inheritdoc} */
 	protected $fields = [
 		'vatNumber' => [
@@ -82,10 +85,14 @@ class PlVatPayerStatusVerification extends Base
 		}
 		try {
 			if ($client = new \SoapClient($this->url, \App\RequestHttp::getSoapOptions())) {
-				$r = $client->sprawdzNIP($vatNumber);
-				$response['fields'] = [
-					'' => $r->Komunikat
-				];
+				$apiResult = $client->sprawdzNIP($vatNumber);
+				if (self::ERROR_CODE === $apiResult->Kod) {
+					$response['error'] = $apiResult->Komunikat;
+				} else {
+					$response['fields'] = [
+						'' => $apiResult->Komunikat
+					];
+				}
 			}
 		} catch (\SoapFault $e) {
 			\App\Log::warning($e->faultstring, 'RecordCollectors');

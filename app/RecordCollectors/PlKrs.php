@@ -151,7 +151,11 @@ class PlKrs extends Base
 			$this->data = \App\Json::decode($responseData->getBody()->getContents())['odpis'] ?? [];
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getMessage();
+			if (400 === $e->getCode()) {
+				$this->response['error'] = \App\Language::translate('LBL_ERROR_400', 'Other.RecordCollector');
+			} else {
+				$this->response['error'] = $e->getMessage();
+			}
 		}
 	}
 

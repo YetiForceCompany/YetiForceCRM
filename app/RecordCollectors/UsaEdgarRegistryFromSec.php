@@ -173,7 +173,11 @@ class UsaEdgarRegistryFromSec extends Base
 			$this->data = isset($response) ? \App\Json::decode($response->getBody()->getContents()) : [];
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getMessage();
+			if (404 === $e->getCode()) {
+				$this->response['error'] = \App\Language::translate('LBL_COMPANY_NOT_FOUND', 'Other.RecordCollector');
+			} else {
+				$this->response['error'] = $e->getMessage();
+			}
 		}
 	}
 

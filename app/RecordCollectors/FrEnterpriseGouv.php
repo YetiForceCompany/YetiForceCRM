@@ -175,7 +175,7 @@ class FrEnterpriseGouv extends Base
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			if (400 === $e->getCode()) {
-				$this->response['error'] = \App\Language::translate('LBL_BR_RECITA_WSsss_CNPJ_ERROR', 'Other.RecordCollector');
+				$this->response['error'] = \App\Language::translate('LBL_ERROR_400', 'Other.RecordCollector');
 			} else {
 				$this->response['error'] = $e->getMessage();
 			}
