@@ -180,14 +180,13 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	/**
 	 * Returns list of supported currencies by active bank.
 	 *
-	 * @param string $bankName  - bank name
-	 * @param mixed  $inRequest
+	 * @param string $bankName - bank name
 	 *
 	 * @return <Array> - array of supported currencies
 	 */
-	public function getSupportedCurrencies($bankName = null, $inRequest = false)
+	public function getSupportedCurrencies($bankName = null)
 	{
-		if (!\App\RequestUtil::isNetConnection() || (empty($bankName) && $inRequest)) {
+		if (!\App\RequestUtil::isNetConnection() || (empty($bankName) && empty($this->getActiveBankName()))) {
 			return [];
 		}
 		if (empty($bankName)) {
@@ -206,8 +205,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	/**
 	 * Returns list of unsupported currencies by active bank.
 	 *
-	 * @param string $bankName  - bank name
-	 * @param mixed  $inRequest
+	 * @param string $bankName - bank name
 	 *
 	 * @return <Array> - array of unsupported currencies
 	 */
