@@ -146,9 +146,13 @@ class NoBrregEnhetsregisteret extends Base
 				return;
 			}
 		}
-		$this->data = isset($response) ? $this->parseData(\App\Json::decode($response->getBody()->getContents())) : [];
-		$this->response['links'][0] = self::EXTERNAL_URL . $companyNumber;
-		unset($this->data['_linksSelfHref']);
+		if (empty($response)) {
+			$this->response['error'] = \App\Language::translate('LBL_COMPANY_NOT_FOUND', 'Other.RecordCollector');
+		} else {
+			$this->data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
+			$this->response['links'][0] = self::EXTERNAL_URL . $companyNumber;
+			unset($this->data['_linksSelfHref']);
+		}
 	}
 
 	/**
