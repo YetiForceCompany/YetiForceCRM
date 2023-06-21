@@ -42,7 +42,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		}
 		if ('findAddress' !== $mode && 'getReference' !== $mode && 'validateByMode' !== $mode) {
 			$this->fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
-			if (!$this->fieldModel || !$this->fieldModel->isEditable()) {
+			if (!$this->fieldModel || !$this->fieldModel->isViewable()) {
 				throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD', 406);
 			}
 		}
@@ -74,9 +74,12 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		if (!App\Config::performance('SEARCH_OWNERS_BY_AJAX')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 		}
-		if ('owner' !== $this->fieldModel->getFieldDataType() && 'sharedOwner' !== $this->fieldModel->getFieldDataType()) {
+
+		if ('owner' !== $this->fieldModel->getFieldDataType() && 'sharedOwner' !== $this->fieldModel->getFieldDataType()
+			&& 'userCreator' !== $this->fieldModel->getFieldDataType()) {
 			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD');
 		}
+
 		$moduleName = $request->getModule();
 		$searchValue = $request->getByType('value', 'Text');
 		if ($request->has('result')) {
