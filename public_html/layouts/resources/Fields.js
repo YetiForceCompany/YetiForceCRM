@@ -3084,7 +3084,9 @@ window.App.Fields = {
 				},
 				callbackFunction: (data) => {
 					if (data.success) {
-						this.select.append(new Option(data.result._recordLabel, data.result._recordId, true, true));
+						this.select
+							.append(new Option(data.result._recordLabel, data.result._recordId, true, true))
+							.trigger('change');
 					}
 				},
 				noCache: true
@@ -3096,11 +3098,16 @@ window.App.Fields = {
 		 */
 		setReferenceFieldValue(data) {
 			const values = this.select.val();
+			let changed = false;
 			$.each(data, (id, label) => {
 				if (!values.includes(id)) {
+					changed = true;
 					this.select.append(new Option(label, id, true, true));
 				}
 			});
+			if (changed) {
+				this.select.trigger('change');
+			}
 		}
 		/**
 		 * Gets params
