@@ -125,6 +125,7 @@ class Vtiger_Viewer extends \Smarty
 		$moduleName = str_replace(':', '/', $moduleName);
 		$cacheKey = $templateName . $moduleName;
 		if (\App\Cache::has('ViewerTemplatePath', $cacheKey)) {
+			self::$completeTemplatePath = \App\Cache::get('ViewerCompleteTemplatePath', $cacheKey);
 			return \App\Cache::get('ViewerTemplatePath', $cacheKey);
 		}
 		foreach ($this->getTemplateDir() as $templateDir) {
@@ -157,6 +158,7 @@ class Vtiger_Viewer extends \Smarty
 			}
 			$filePath = "modules/Vtiger/$templateName";
 		}
+		\App\Cache::save('ViewerCompleteTemplatePath', $cacheKey, self::$completeTemplatePath, \App\Cache::LONG);
 		\App\Cache::save('ViewerTemplatePath', $cacheKey, $filePath, \App\Cache::LONG);
 		return $filePath;
 	}
