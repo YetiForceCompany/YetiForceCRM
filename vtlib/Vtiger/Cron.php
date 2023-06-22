@@ -563,4 +563,16 @@ class Cron
 	{
 		return self::$cronAction;
 	}
+
+	/**
+	 * Add log message.
+	 *
+	 * @param string $message log information
+	 * @param string $level   information type [info, warning, error]
+	 * @param bool   $indent  add three spaces at message begin
+	 */
+	public function log(string $message, string $level = 'info', bool $indent = true)
+	{
+		$this->cronInstance->log($message, $level, $indent);
+	}
 }

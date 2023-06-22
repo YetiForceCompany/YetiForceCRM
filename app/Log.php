@@ -199,6 +199,26 @@ class Log extends Logger
 				'trace' => 'Text',
 			],
 		],
+		'comarch' => [
+			'label' => 'LBL_COMARCH',
+			'labelModule' => 'Settings:Comarch',
+			'table' => Integrations\Comarch::LOG_TABLE_NAME,
+			'icon' => 'fa-brands fa-connectdevelop',
+			'columns' => [
+				'time' => ['type' => 'DateTime', 'label' => 'LBL_TIME'],
+				'error' => ['type' => 'Boolean', 'label' => 'LBL_ERROR'],
+				'message' => ['type' => 'Text', 'label' => 'LBL_MESSAGE'],
+				'params' => ['type' => 'Text', 'label' => 'LBL_PARAMS'],
+				'trace' => ['type' => 'Text', 'label' => 'LBL_BACKTRACE'],
+			],
+			'filter' => [
+				'time' => 'DateTimeRange',
+				'error' => 'Boolean',
+				'message' => 'Text',
+				'params' => 'Text',
+				'trace' => 'Text',
+			],
+		],
 	];
 	public static $levelMap = [
 		'error' => Logger::LEVEL_ERROR,
