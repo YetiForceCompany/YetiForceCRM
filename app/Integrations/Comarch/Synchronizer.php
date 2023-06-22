@@ -156,15 +156,15 @@ class Synchronizer
 	 */
 	public function getYfId(int $apiId, ?string $moduleName = null): int
 	{
-		// $moduleName = $moduleName ?? $this->getMapModel()->getModule();
-		// $cacheKey = 'Integrations/Comarch/CRM_ID/' . $moduleName;
-		// if (\App\Cache::staticHas($cacheKey, $apiId)) {
-		// 	return \App\Cache::staticGet($cacheKey, $apiId);
-		// }
-		// $queryGenerator = $this->getFromYf($moduleName);
-		// $queryGenerator->addCondition('comarch_id', $apiId, 'e');
-		// $yfId = $queryGenerator->createQuery()->scalar() ?: 0;
-		// $this->updateMapIdCache($moduleName, $apiId, $yfId);
+		$moduleName = $moduleName ?? $this->getMapModel()->getModule();
+		$cacheKey = 'Integrations/Comarch/CRM_ID/' . $moduleName;
+		if (\App\Cache::staticHas($cacheKey, $apiId)) {
+			return \App\Cache::staticGet($cacheKey, $apiId);
+		}
+		$queryGenerator = $this->getFromYf($moduleName);
+		$queryGenerator->addCondition($this->getMapModel()::FIELD_NAME_ID, $apiId, 'e');
+		$yfId = $queryGenerator->createQuery()->scalar() ?: 0;
+		$this->updateMapIdCache($moduleName, $apiId, $yfId);
 		return $yfId;
 	}
 

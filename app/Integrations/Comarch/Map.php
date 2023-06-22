@@ -535,7 +535,7 @@ abstract class Map
 	 *
 	 * @return int
 	 */
-	protected function findRecordInYf(): int
+	public function findRecordInYf(): int
 	{
 		return $this->synchronizer->getYfId($this->dataApi['id'], $this->moduleName); // ??
 	}
@@ -545,7 +545,7 @@ abstract class Map
 	 *
 	 * @return int
 	 */
-	protected function findRecordInApi(): int
+	public function findRecordInApi(): int
 	{
 		// return $this->synchronizer->getApiId($this->dataYf['id'], $this->moduleName); // ??
 		return 0;

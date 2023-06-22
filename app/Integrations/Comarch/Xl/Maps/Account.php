@@ -72,7 +72,7 @@ class Account extends \App\Integrations\Comarch\Map
 	protected $dependentSynchronizations = ['BankAccounts'];
 
 	/** {@inheritdoc} */
-	protected function findRecordInYf(): int
+	public function findRecordInYf(): int
 	{
 		$queryGenerator = new \App\QueryGenerator($this->moduleName);
 		$queryGenerator->setStateCondition('All');
@@ -115,7 +115,7 @@ class Account extends \App\Integrations\Comarch\Map
 	}
 
 	/** {@inheritdoc} */
-	protected function findRecordInApi(): int
+	public function findRecordInApi(): int
 	{
 		$response = '';
 		if (!empty($this->dataYf['account_short_name'])) {
