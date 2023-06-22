@@ -101,7 +101,7 @@ abstract class Base
 		}
 		\App\Cache::staticSave($cacheKey, $path, $data);
 		if ($this->config->get('logAll')) {
-			$this->log('Get from API', [
+			$this->controller->log('Get from API', [
 				'path' => $path,
 				'rows' => \count($data),
 			]);
@@ -188,7 +188,7 @@ abstract class Base
 			$recordModel = \Vtiger_Record_Model::getInstanceById($yfId, $moduleName);
 			$apiId = $recordModel->get('woocommerce_id') ?: 0;
 		} catch (\Throwable $th) {
-			$this->log('GetApiId', ['woocommerce_id' => $yfId, 'moduleName' => $moduleName], $th);
+			$this->controller->log('GetApiId', ['woocommerce_id' => $yfId, 'moduleName' => $moduleName], $th);
 			\App\Log::error('Error GetApiId: ' . PHP_EOL . $th->__toString(), self::LOG_CATEGORY);
 		}
 		$this->updateMapIdCache($moduleName, $apiId, $yfId);
@@ -220,20 +220,5 @@ abstract class Base
 	public function getFormattedTime(string $value): string
 	{
 		return \DateTimeField::convertTimeZone($value, \App\Fields\DateTime::getTimeZone(), 'UTC')->format('Y-m-d\\TH:i:s');
-	}
-
-	/**
-	 * Add log to YetiForce system.
-	 *
-	 * @param string      $category
-	 * @param array       $params
-	 * @param ?\Throwable $ex
-	 * @param bool        $error
-	 *
-	 * @return void
-	 */
-	public function log(string $category, ?array $params, ?\Throwable $ex = null, bool $error = false): void
-	{
-		\App\Integrations\WooCommerce::log($category, $params, $ex, $error);
 	}
 }

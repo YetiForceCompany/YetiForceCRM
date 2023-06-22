@@ -44,7 +44,7 @@ class OrdersPayment extends Base
 			$this->map = $paymentMethods;
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('Start import orders payment methods', []);
+			$this->controller->log('Start import orders payment methods', []);
 		}
 		$i = 0;
 		try {
@@ -61,21 +61,21 @@ class OrdersPayment extends Base
 							$itemModel->save();
 							++$i;
 						} catch (\Throwable $th) {
-							$this->log('Import payment method', $row, $th);
+							$this->controller->log('Import payment method', $row, $th);
 							\App\Log::error('Error during import payment method: ' . PHP_EOL . $th->__toString(), self::LOG_CATEGORY);
 						}
 					}
 				}
 			}
 		} catch (\Throwable $ex) {
-			$this->log('Import payment methods', $rows ?? null, $ex);
+			$this->controller->log('Import payment methods', $rows ?? null, $ex);
 			\App\Log::error(
 				'Error during import payment methods: ' . PHP_EOL . $ex->__toString(),
 				self::LOG_CATEGORY
 			);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('End import orders payment methods', [
+			$this->controller->log('End import orders payment methods', [
 				'currency' => $i,
 			]);
 		}

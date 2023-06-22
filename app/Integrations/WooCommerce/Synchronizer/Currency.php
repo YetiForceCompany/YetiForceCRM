@@ -24,7 +24,7 @@ class Currency extends Base
 	public function process(): void
 	{
 		if ($this->config->get('logAll')) {
-			$this->log('Start import currencies', []);
+			$this->controller->log('Start import currencies', []);
 		}
 		try {
 			if ($currency = $this->getCurrenciesFromApi()) {
@@ -40,11 +40,11 @@ class Currency extends Base
 				$this->connector->config->set('currency_id', $all[$currency['code']]);
 			}
 		} catch (\Throwable $ex) {
-			$this->log('Import currencies', $currency ?? null, $ex);
+			$this->controller->log('Import currencies', $currency ?? null, $ex);
 			\App\Log::error('Error during import currencies: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('End import currencies', [
+			$this->controller->log('End import currencies', [
 				'currency' => $currency ?? '',
 			]);
 		}

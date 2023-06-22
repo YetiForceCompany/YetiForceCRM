@@ -17,6 +17,14 @@ namespace App\Fields;
  */
 class Picklist
 {
+	/** @var array Picklist custom columns data types */
+	const COLUMN_DB_TYPES = [
+		'description' => \yii\db\Schema::TYPE_TEXT,
+		'prefix' => [\yii\db\Schema::TYPE_STRING, 30],
+		'color' => [\yii\db\Schema::TYPE_STRING, 25],
+		'icon' => [\yii\db\Schema::TYPE_STRING, 255]
+	];
+
 	/**
 	 * Function to get role based picklist values.
 	 *
@@ -416,5 +424,26 @@ class Picklist
 		\App\Cache::delete('Picklist::getValues', $fieldName);
 		\App\Cache::delete("RecordStatus::getLockStatus::$moduleName", true);
 		\App\Cache::delete("RecordStatus::getLockStatus::$moduleName", false);
+	}
+
+	/**
+	 * Undocumented function.
+	 *
+	 * @param string $column
+	 * @param string $baseTable
+	 *
+	 * @return void
+	 */
+	public static function addColumn(string $column, string $baseTable): void
+	{
+		if ($type = (self::COLUMN_DB_TYPES[$column] ?? '')) {
+			$length = null;
+			if (\is_array($type)) {
+				[$type, $length] = $type;
+			}
+			$criteria = \App\Db::getInstance()->getSchema()
+				->createColumnSchemaBuilder($type, $length)->defaultValue('');
+			\vtlib\Utils::addColumn($baseTable, $column, $criteria);
+		}
 	}
 }

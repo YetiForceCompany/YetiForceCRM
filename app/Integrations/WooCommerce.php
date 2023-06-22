@@ -135,7 +135,7 @@ class WooCommerce
 				throw new AppException('Empty body');
 			}
 		} catch (\Throwable $th) {
-			self::log('Test connection error', null, $th);
+			$this->log('Test connection error', null, $th);
 			$status = $th->getMessage();
 		}
 		return $status;
@@ -151,7 +151,7 @@ class WooCommerce
 	 *
 	 * @return void
 	 */
-	public static function log(string $category, ?array $params, ?\Throwable $ex = null, bool $error = false): void
+	public function log(string $category, ?array $params, ?\Throwable $ex = null, bool $error = false): void
 	{
 		$message = $ex ? $ex->getMessage() : $category;
 		$params = print_r($params, true);
@@ -160,6 +160,7 @@ class WooCommerce
 		}
 		\App\DB::getInstance('log')->createCommand()
 			->insert(self::LOG_TABLE_NAME, [
+				'server_id' => $this->config->get('id'),
 				'time' => date('Y-m-d H:i:s'),
 				'error' => $ex ? 1 : ((int) $error),
 				'message' => \App\TextUtils::textTruncate($message, 255),

@@ -65,7 +65,7 @@ class Product extends Base
 			$this->lastScan = $this->config->getLastScan('importProduct');
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('Start import product', [
+			$this->controller->log('Start import product', [
 				'lastScan' => $this->lastScan,
 			]);
 		}
@@ -102,11 +102,11 @@ class Product extends Base
 				}
 			}
 		} catch (\Throwable $ex) {
-			$this->log('Import products', null, $ex);
+			$this->controller->log('Import products', null, $ex);
 			\App\Log::error('Error during import products: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('End import product', ['imported' => $i]);
+			$this->controller->log('End import product', ['imported' => $i]);
 		}
 	}
 
@@ -133,14 +133,14 @@ class Product extends Base
 				}
 				$this->updateMapIdCache($mapModel->getModule(), $row['id'], $yfId ?: $mapModel->getRecordModel()->getId());
 			} catch (\Throwable $ex) {
-				$this->log('Import product', ['YF' => $dataYf, 'API' => $row], $ex);
+				$this->controller->log('Import product', ['YF' => $dataYf, 'API' => $row], $ex);
 				\App\Log::error('Error during import product: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 			}
 		} else {
 			\App\Log::error('Empty map product details', self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('Import product | ' . (\array_key_exists($row['id'], $this->imported) ? 'imported' : 'skipped'), [
+			$this->controller->log('Import product | ' . (\array_key_exists($row['id'], $this->imported) ? 'imported' : 'skipped'), [
 				'API' => $row,
 				'YF' => $dataYf ?? [],
 			]);
@@ -163,7 +163,7 @@ class Product extends Base
 			$this->lastScan = $this->config->getLastScan('exportProduct');
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('Start export product', [
+			$this->controller->log('Start export product', [
 				'lastScan' => $this->lastScan,
 			]);
 		}
@@ -202,11 +202,11 @@ class Product extends Base
 				}
 			}
 		} catch (\Throwable $ex) {
-			$this->log('Export products', null, $ex);
+			$this->controller->log('Export products', null, $ex);
 			\App\Log::error('Error during export products: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('End export product', ['exported' => $i]);
+			$this->controller->log('End export product', ['exported' => $i]);
 		}
 	}
 
@@ -258,14 +258,14 @@ class Product extends Base
 					$row['id']
 				);
 			} catch (\Throwable $ex) {
-				$this->log('Export product', ['YF' => $row, 'API' => $dataApi], $ex);
+				$this->controller->log('Export product', ['YF' => $row, 'API' => $dataApi], $ex);
 				\App\Log::error('Error during export product: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 			}
 		} else {
 			\App\Log::error('Empty map product details', self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('Export product | ' . (\array_key_exists($row['id'], $this->exported) ? 'exported' : 'skipped'), [
+			$this->controller->log('Export product | ' . (\array_key_exists($row['id'], $this->exported) ? 'exported' : 'skipped'), [
 				'YF' => $row,
 				'API' => $dataApi ?? [],
 			]);
@@ -288,11 +288,11 @@ class Product extends Base
 				$this->importProduct($row);
 				$id = $this->imported[$row['id']] ?? 0;
 			} else {
-				$this->log('Import product by id [Empty details]', ['apiId' => $apiId]);
+				$this->controller->log('Import product by id [Empty details]', ['apiId' => $apiId]);
 				\App\Log::error('Import during export product: Empty details', self::LOG_CATEGORY);
 			}
 		} catch (\Throwable $ex) {
-			$this->log('Import product by id', ['apiId' => $apiId, 'API' => $row], $ex);
+			$this->controller->log('Import product by id', ['apiId' => $apiId, 'API' => $row], $ex);
 			\App\Log::error('Error during import by ean product: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 		}
 		return $id;

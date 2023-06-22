@@ -57,7 +57,7 @@ class ProductCategory extends Base
 	public function import(): void
 	{
 		if ($this->config->get('logAll')) {
-			$this->log('Start import tags', []);
+			$this->controller->log('Start import tags', []);
 		}
 		$i = 0;
 		foreach ($this->cache as $category) {
@@ -71,13 +71,13 @@ class ProductCategory extends Base
 					++$i;
 				}
 			} catch (\Throwable $ex) {
-				$this->log('Import category', $category, $ex);
+				$this->controller->log('Import category', $category, $ex);
 				\App\Log::error('Error during import category: ' . PHP_EOL . $ex->__toString(),
 				 self::LOG_CATEGORY);
 			}
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('End import tags', ['imported' => $i]);
+			$this->controller->log('End import tags', ['imported' => $i]);
 		}
 	}
 
@@ -110,7 +110,7 @@ class ProductCategory extends Base
 					]);
 				}
 			} catch (\Throwable $th) {
-				$this->log('Export category', $row, $th);
+				$this->controller->log('Export category', $row, $th);
 				\App\Log::error('Error during export category: ' . PHP_EOL . $th->__toString(), self::LOG_CATEGORY);
 			}
 		}
@@ -151,7 +151,7 @@ class ProductCategory extends Base
 			\App\Cache::staticSave('Integrations/WooCommerce/CRM_ID/ProductCategory', $id, $recordModel->getId());
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('Import category', [
+			$this->controller->log('Import category', [
 				'API' => $category,
 				'YF' => $recordModel->getData(),
 			]);
@@ -193,7 +193,7 @@ class ProductCategory extends Base
 				}
 			}
 		} catch (\Throwable $ex) {
-			$this->log('Get categories', null, $ex);
+			$this->controller->log('Get categories', null, $ex);
 			\App\Log::error('Error during get categories: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 		}
 	}

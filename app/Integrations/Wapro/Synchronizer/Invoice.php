@@ -42,8 +42,14 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 
 	/** {@inheritdoc} */
 	protected $fieldMap = [
-		'ID_FIRMY' => ['fieldName' => 'multiCompanyId', 'fn' => 'findRelationship', 'tableName' => 'FIRMA', 'skipMode' => true],
-		'ID_KONTRAHENTA' => ['fieldName' => 'accountid', 'fn' => 'findRelationship', 'tableName' => 'KONTRAHENT', 'skipMode' => true],
+		'ID_FIRMY' => [
+			'fieldName' => 'multiCompanyId', 'fn' => 'findByRelationship',
+			'tableName' => 'FIRMA', 'skipMode' => true
+		],
+		'ID_KONTRAHENTA' => [
+			'fieldName' => 'accountid', 'fn' => 'findByRelationship',
+			'tableName' => 'KONTRAHENT', 'skipMode' => true
+		],
 		'FORMA_PLATNOSCI' => ['fieldName' => 'payment_methods', 'fn' => 'convertPaymentMethods'],
 		'UWAGI' => 'description',
 		'KONTRAHENT_NAZWA' => ['fieldName' => 'company_name_a', 'fn' => 'decode'],
@@ -300,7 +306,7 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 			->createCommand($this->controller->getDb())->query();
 		$inventory = [];
 		while ($row = $dataReader->read()) {
-			$productId = $this->findRelationship($row['ID_ARTYKULU'], ['tableName' => 'ARTYKUL']);
+			$productId = $this->findByRelationship($row['ID_ARTYKULU'], ['tableName' => 'ARTYKUL']);
 			if (!$productId) {
 				$productId = $this->addProduct($row['ID_ARTYKULU']);
 			}

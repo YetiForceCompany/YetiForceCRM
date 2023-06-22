@@ -28,8 +28,14 @@ class CorrectingInvoice extends Invoice
 
 	/** {@inheritdoc} */
 	protected $fieldMap = [
-		'ID_FIRMY' => ['fieldName' => 'multiCompanyId', 'fn' => 'findRelationship', 'tableName' => 'FIRMA', 'skipMode' => true],
-		'ID_KONTRAHENTA' => ['fieldName' => 'accountid', 'fn' => 'findRelationship', 'tableName' => 'KONTRAHENT', 'skipMode' => true],
+		'ID_FIRMY' => [
+			'fieldName' => 'multiCompanyId', 'fn' => 'findByRelationship',
+			'tableName' => 'FIRMA', 'skipMode' => true
+		],
+		'ID_KONTRAHENTA' => [
+			'fieldName' => 'accountid', 'fn' => 'findByRelationship',
+			'tableName' => 'KONTRAHENT', 'skipMode' => true
+		],
 		'FORMA_PLATNOSCI' => ['fieldName' => 'payment_methods', 'fn' => 'convertPaymentMethods'],
 		'UWAGI' => 'description',
 		'issueTime' => ['fieldName' => 'issue_time', 'fn' => 'convertDate'],
@@ -105,7 +111,10 @@ class CorrectingInvoice extends Invoice
 			}
 		}
 		$this->recordModel->set('wapro_id', $this->waproId);
-		$this->recordModel->set('finvoiceid', $this->findRelationship($this->row['ID_DOK_ORYGINALNEGO'], ['tableName' => 'DOKUMENT_HANDLOWY']));
+		$this->recordModel->set(
+			'finvoiceid',
+			$this->findByRelationship($this->row['ID_DOK_ORYGINALNEGO'], ['tableName' => 'DOKUMENT_HANDLOWY'])
+	);
 		$this->recordModel->set($this->recordModel->getModule()->getSequenceNumberFieldName(), $this->row['NUMER']);
 		$this->loadFromFieldMap();
 		$this->loadDeliveryAddress('a');
