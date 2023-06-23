@@ -29,7 +29,7 @@ abstract class Records extends \App\Base
 	/** @var \Vtiger_Module_Model Module model. */
 	protected $moduleInstance;
 
-	/** @var \Vtiger_Field_Model[] Field model instance. */
+	/** @var \Vtiger_Field_Model[] Field model instances. */
 	protected $moduleFieldInstances;
 
 	/** @var string File extension */
@@ -49,6 +49,9 @@ abstract class Records extends \App\Base
 
 	/** @var bool Export all data */
 	public $fullData = false;
+
+	/** @var \App\QueryGenerator */
+	protected $queryGenerator;
 
 	/**
 	 * Get instance.

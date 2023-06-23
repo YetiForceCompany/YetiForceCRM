@@ -22,6 +22,8 @@ class Vtiger_ExportToXml_Model extends \App\Export\Records
 	protected $tmpXmlPath = '';
 	protected $inventoryFields;
 	protected $fileExtension = 'xml';
+	/** @var string[] List of xml path */
+	protected $xmlList = [];
 
 	/**
 	 * Set template.
@@ -40,7 +42,6 @@ class Vtiger_ExportToXml_Model extends \App\Export\Records
 	/** {@inheritdoc} */
 	public function exportData()
 	{
-
 		$fileName = str_replace(' ', '_', \App\Purifier::decodeHtml(\App\Language::translate($this->moduleName, $this->moduleName)));
 		$entriesInventory = [];
 		$addInventoryData = $this->fullData && $this->moduleInstance->isInventory();

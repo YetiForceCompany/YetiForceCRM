@@ -134,7 +134,7 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 	 */
 	public function getReferenceList(): array
 	{
-		return (array) $this->getFieldModel()->getFieldParams()['module'] ?? [];
+		return (array) ($this->getFieldModel()->getFieldParams()['module'] ?? []);
 	}
 
 	/**
