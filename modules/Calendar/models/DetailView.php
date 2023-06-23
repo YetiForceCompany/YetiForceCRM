@@ -57,11 +57,12 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_EXTENDED',
 				'linklabel' => 'LBL_MOVE_TO_TRASH',
-				'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId() . '")',
-				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn-outline-dark btn-sm entityStateBtn',
-				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 				'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
+				'dataUrl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId(),
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
+				'linkicon' => 'fas fa-trash-alt',
+				'linkclass' => 'entityStateBtn btn-outline-dark btn-sm js-record-action',
+				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
 			]);
 		}
 		if (!$recordModel->isReadOnly() && $recordModel->privilegeToDelete() && 1 === $recordModel->get('reapeat')) {
@@ -71,12 +72,13 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				}
 			}
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'DETAIL_VIEW_EXTENDED',
-				'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-				'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId() . '")',
-				'linkicon' => 'fas fa-eraser',
-				'linkclass' => 'btn-outline-dark btn-sm',
-				'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY'),
+					'linktype' => 'DETAIL_VIEW_EXTENDED',
+					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY'),
+					'dataUrl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId(),
+					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
+					'linkicon' => 'fas fa-eraser',
+					'linkclass' => 'btn-dark btn-sm js-record-action',
 			]);
 		}
 		return $linkModelList;

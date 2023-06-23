@@ -279,30 +279,10 @@ Vtiger_Edit_Js(
 		 * @param {jQuery} form
 		 */
 		registerFormSubmitEvent: function (form) {
-			var thisInstance = this;
-			var lockSave = true;
-			if (app.getRecordId()) {
-				form.on(Vtiger_Edit_Js.recordPreSave, function (e) {
-					if (lockSave && form.find('input[name="reapeat"]').is(':checked')) {
-						e.preventDefault();
-						app.showModalWindow(form.find('.typeSavingModal').clone(), function (container) {
-							container.find('.typeSavingBtn').on('click', function (e) {
-								var currentTarget = $(e.currentTarget);
-								form.find('[name="typeSaving"]').val(currentTarget.data('value'));
-								app.hideModalWindow();
-								lockSave = false;
-								form.submit();
-							});
-						});
-					}
-				});
-			}
+			let thisInstance = this;
 			form.on('submit', function (e) {
 				const recurringCheck = form.find('input[name="reapeat"]').is(':checked');
 				if (recurringCheck) {
-					if (app.getRecordId() && lockSave) {
-						e.preventDefault();
-					}
 					form.find('[name="recurrence"]').val(thisInstance.getRule());
 				}
 				let rows = form.find('.js-participants-content .js-participant-row');

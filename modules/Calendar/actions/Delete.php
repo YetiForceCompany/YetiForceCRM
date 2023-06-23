@@ -14,22 +14,22 @@ class Calendar_Delete_Action extends Vtiger_Delete_Action
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
-		$this->record->delete();
 		$typeRemove = Calendar_RecuringEvents_Model::UPDATE_THIS_EVENT;
 		if (!$request->isEmpty('typeRemove')) {
 			$typeRemove = $request->getInteger('typeRemove');
+			$this->record->ext['repeatType'] = $typeRemove;
 		}
-		$recurringEvents = Calendar_RecuringEvents_Model::getInstance();
-		$recurringEvents->typeSaving = $typeRemove;
-		$recurringEvents->recordModel = $this->record;
-		$recurringEvents->templateRecordId = $request->getInteger('record');
-		$recurringEvents->delete();
+		$result = $this->performDelete($request);
+		if (!$result) {
+			$recurringEvents = Calendar_RecuringEvents_Model::getInstance();
+			$recurringEvents->typeSaving = $typeRemove;
+			$recurringEvents->recordModel = $this->record;
+			$recurringEvents->templateRecordId = $request->getInteger('record');
+		}
+
 		$response = new Vtiger_Response();
-		if ('List' === $request->getByType('sourceView')) {
-			$response->setResult(['notify' => ['type' => 'success', 'text' => \App\Language::translate('LBL_RECORD_HAS_BEEN_DELETED')]]);
-		} else {
-			$response->setResult($this->record->getModule()->getListViewUrl());
-		}
+		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response->setResult($result);
 		$response->emit();
 	}
 }

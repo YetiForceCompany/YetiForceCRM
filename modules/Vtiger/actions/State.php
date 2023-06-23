@@ -41,6 +41,8 @@ class Vtiger_State_Action extends \App\Controller\Action
 	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
+		$stateId = array_search($request->getByType('state'), \App\Record::STATES);
+		$this->record->ext['newState'] = $stateId;
 		$result = [];
 		$eventHandler = $this->record->getEventHandler();
 		$skipHandlers = $request->getArray('skipHandlers', \App\Purifier::ALNUM, [], \App\Purifier::INTEGER);
@@ -56,7 +58,6 @@ class Vtiger_State_Action extends \App\Controller\Action
 		}
 
 		if (!$result) {
-			$stateId = array_search($request->getByType('state'), \App\Record::STATES);
 			$this->record->changeState($stateId);
 			if ('List' === $request->getByType('sourceView')) {
 				$result = ['notify' => ['type' => 'success', 'text' => \App\Language::translate('LBL_CHANGES_SAVED')]];
