@@ -288,7 +288,11 @@ YetiForce_Chart_Widget_Js(
 			return {
 				legend: { type: 'scroll' },
 				xAxis: {
-					type: 'category'
+					type: 'category',
+					axisLabel: {
+						interval: 0,
+						hideOverlap: true
+					}
 				},
 				yAxis: {
 					type: 'value',
