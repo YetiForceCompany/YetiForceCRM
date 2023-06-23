@@ -558,7 +558,7 @@ return [
 			'description' => 'Default tile size. Available sizes: very_small, small, medium, big',
 		],
 		'centerModalWindow' => [
-			'default' => true,
+			'default' => false,
 			'description' => 'All modal window will be vertically centered if this option is enabled.',
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool',
