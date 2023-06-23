@@ -218,6 +218,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 			$bankName = 'Settings_CurrencyUpdate_' . $this->getActiveBankName() . '_BankModel';
 		}
 		$bank = new $bankName();
+		$unsupported = [];
 		$supported = $bank->getSupportedCurrencies();
 		$dataReader = (new \App\Db\Query())->select(['currency_name', 'currency_code'])
 			->from('vtiger_currency_info')
