@@ -100,9 +100,6 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 				$db->createCommand()->insert('yetiforce_currencyupdate_banks', ['bank_name' => $bankClassName, 'active' => 0])->execute();
 			}
 		}
-		if (!$this->getActiveBankId()) {
-			$db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 1], ['bank_name' => 'NBP'])->execute();
-		}
 		\App\Cache::delete('ActiveBankForExchangeRate', '');
 	}
 
@@ -189,10 +186,10 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	 */
 	public function getSupportedCurrencies($bankName = null)
 	{
-		if (!\App\RequestUtil::isNetConnection()) {
+		if (!\App\RequestUtil::isNetConnection() || (empty($bankName) && empty($this->getActiveBankName()))) {
 			return [];
 		}
-		if (!$bankName) {
+		if (empty($bankName)) {
 			$bankName = 'Settings_CurrencyUpdate_' . $this->getActiveBankName() . '_BankModel';
 		}
 		$currencies = [];
@@ -214,14 +211,15 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	 */
 	public function getUnSupportedCurrencies($bankName = null)
 	{
-		if (!\App\RequestUtil::isNetConnection()) {
+		if (!\App\RequestUtil::isNetConnection() || (empty($bankName) && empty($this->getActiveBankName()))) {
 			return [];
 		}
-		if (!$bankName) {
+		if (empty($bankName)) {
 			$bankName = 'Settings_CurrencyUpdate_' . $this->getActiveBankName() . '_BankModel';
 		}
 		$bank = new $bankName();
-		$supported = $bank->getSupportedCurrencies($bankName);
+		$unsupported = [];
+		$supported = $bank->getSupportedCurrencies();
 		$dataReader = (new \App\Db\Query())->select(['currency_name', 'currency_code'])
 			->from('vtiger_currency_info')
 			->where(['currency_status' => 'Active', 'deleted' => 0])
@@ -232,7 +230,6 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 			$unsupported[$name] = $code;
 		}
 		$dataReader->close();
-
 		return array_diff($unsupported, $supported);
 	}
 
@@ -315,8 +312,10 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	public function setActiveBankById($bankId)
 	{
 		$db = \App\Db::getInstance();
-		$db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 0])->execute();
-		$result = $db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 1], ['id' => $bankId])->execute();
+		$result = $db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 0])->execute();
+		if (!empty($bankId)) {
+			$result = $db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 1], ['id' => $bankId])->execute();
+		}
 		\App\Cache::delete('ActiveBankForExchangeRate', '');
 
 		return (bool) $result;
