@@ -19,7 +19,7 @@
 		{foreach from=$ACTIVITIES key=INDEX item=ACTIVITY}
 			<div class="changeActivity u-cursor-pointer" data-url="{$ACTIVITY->getActivityStateModalUrl()|escape}" accesskey="">
 				<div class="rowActivities">
-					<div class="d-flex mb-1">
+					<div class="d-flex mb-1 pt-1">
 						<div class="">
 							{assign var=ACTIVITY_TYPE value=$ACTIVITY->get('activitytype')}
 							{assign var=ACTIVITY_UPPERCASE value=$ACTIVITY_TYPE|upper}
