@@ -785,7 +785,7 @@ $h-calendar-form-actions: calculate-rem(49px);
 				right: calc(25% - 1px);
 				z-index: 100;
 				//border-left: 1px solid material-color('grey', '300');
-				//border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
+				border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
 				font-size: calculate-rem(13px);
 
 				@at-root .c-menu--open & {
