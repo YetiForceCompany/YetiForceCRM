@@ -151,6 +151,7 @@ class Vtiger_Viewer extends \Smarty
 					$intermediateFallBackFileName = 'modules/' . $fallBackModuleName . '/' . $templateName;
 					self::$completeTemplatePath = $templateDir . DIRECTORY_SEPARATOR . $intermediateFallBackFileName;
 					if (file_exists(self::$completeTemplatePath)) {
+						\App\Cache::save('ViewerCompleteTemplatePath', $cacheKey, self::$completeTemplatePath, \App\Cache::LONG);
 						\App\Cache::save('ViewerTemplatePath', $cacheKey, $intermediateFallBackFileName, \App\Cache::LONG);
 						return $intermediateFallBackFileName;
 					}
