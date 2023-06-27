@@ -479,7 +479,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 		$countRows = \count($rows);
 
 		if (1 === $countRows) {
-			$chartData['legend'] = ['show' => false];
+			$chartData['legend'] = ['show' => 'funnel' === $this->getTypeForChart()];
 			foreach ($rows as $dividingValue => $dividing) {
 				$chartData['series'][$datasetIndex]['colorBy'] = 'data';
 				foreach ($dividing as $groupValue => $group) {

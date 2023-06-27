@@ -6,6 +6,7 @@
 				let options = this._super();
 				options.yAxis.axisLabel.formatter = (value) => (typeof value === 'number' ? App.Fields.Double.formatToDisplay(value) + ' ' + app.vtranslate('JS_H') : value);
 				options.tooltip = {
+					appendToBody: true,
 					formatter: function(params, ticket, callback) {
 						let response = '';
 						let header;

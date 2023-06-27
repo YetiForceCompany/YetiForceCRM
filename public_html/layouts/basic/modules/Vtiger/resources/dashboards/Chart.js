@@ -113,10 +113,10 @@ YetiForce_Widget_Js(
 			if (!this.isObject(source) || !this.isObject(target)) {
 				return overwrite ? this.clone(source) : target;
 			}
-			for (var key in source) {
+			for (let key in source) {
 				if (source.hasOwnProperty(key) && key !== '__proto__') {
-					var targetProp = target[key];
-					var sourceProp = source[key];
+					let targetProp = target[key];
+					let sourceProp = source[key];
 					if (
 						this.isObject(sourceProp) &&
 						this.isObject(targetProp) &&
@@ -276,6 +276,17 @@ YetiForce_Widget_Js(
 				return this.filterIds.length > 1;
 			}
 			return false;
+		},
+
+		/**
+		 * Formatowanie numeru do formatu użytkownika
+		 * @param {int|float} number
+		 * @returns {int|float}
+		 */
+		formatNumber: function (number) {
+			return Number.isInteger(number)
+				? App.Fields.Integer.formatToDisplay(number)
+				: App.Fields.Double.formatToDisplay(number);
 		}
 	}
 );
@@ -297,7 +308,7 @@ YetiForce_Chart_Widget_Js(
 				yAxis: {
 					type: 'value',
 					axisLabel: {
-						formatter: (value) => (typeof value === 'number' ? App.Fields.Double.formatToDisplay(value) : value)
+						formatter: (value) => (typeof value === 'number' ? this.formatNumber(value) : value)
 					}
 				},
 				grid: {
@@ -308,14 +319,14 @@ YetiForce_Chart_Widget_Js(
 					containLabel: true
 				},
 				tooltip: {
-					valueFormatter: (value) => (typeof value === 'number' ? App.Fields.Double.formatToDisplay(value) : value),
+					valueFormatter: (value) => (typeof value === 'number' ? this.formatNumber(value) : value),
 					appendToBody: true
 				},
 
 				label: {
 					show: true,
 					position: 'top',
-					formatter: function (data) {
+					formatter: (data) => {
 						let value;
 						if (typeof data.value === 'number') {
 							value = data.value;
@@ -325,7 +336,7 @@ YetiForce_Chart_Widget_Js(
 							value = data.value[data.seriesName];
 						}
 
-						return value !== undefined ? App.Fields.Double.formatToDisplay(value) : data.value;
+						return value !== undefined ? this.formatNumber(value) : data.value;
 					}
 				},
 				labelLayout: {
@@ -379,7 +390,7 @@ YetiForce_Bar_Widget_Js(
 			options.yAxis.type = 'category';
 			options.grid.top = '10%';
 			options.label.position = 'inside';
-			options.label.formatter = function (data) {
+			options.label.formatter = (data) => {
 				let value;
 				if (typeof data.value === 'number') {
 					value = data.value;
@@ -389,7 +400,7 @@ YetiForce_Bar_Widget_Js(
 					value = data.value[data.seriesName];
 				}
 
-				return value !== undefined ? App.Fields.Double.formatToDisplay(value) : data.value;
+				return value !== undefined ? this.formatNumber(value) : data.value;
 			};
 
 			return options;
@@ -422,16 +433,36 @@ YetiForce_Chart_Widget_Js(
 				legend: { type: 'scroll' },
 				tooltip: {
 					trigger: 'item',
-					valueFormatter: (value) => (typeof value === 'number' ? App.Fields.Double.formatToDisplay(value) : value),
+					valueFormatter: (value) => (typeof value === 'number' ? this.formatNumber(value) : value),
 					appendToBody: true
 				},
 				series: [
 					{
 						type: 'funnel',
-						bottom: 10,
+						left: '5%',
+						top: 30,
+						bottom: 5,
+						width: '90%',
 						label: {
 							show: true,
-							position: 'left'
+							position: 'inside',
+							formatter: (data) => {
+								let value;
+								if (typeof data.value === 'number') {
+									value = data.value;
+								} else if (data.encode && typeof data.value[data.encode.value[0]] === 'number') {
+									value = data.value[data.encode.value[0]];
+								} else if (typeof data.value[data.seriesName] === 'number') {
+									value = data.value[data.seriesName];
+								}
+
+								return data.name + (value !== undefined ? ': ' + this.formatNumber(value) : '');
+							}
+						},
+						emphasis: {
+							label: {
+								fontSize: 17
+							}
 						}
 					}
 				]
@@ -504,7 +535,7 @@ YetiForce_Chart_Widget_Js(
 				legend: { type: 'scroll' },
 				tooltip: {
 					trigger: 'item',
-					valueFormatter: (value) => (typeof value === 'number' ? App.Fields.Double.formatToDisplay(value) : value),
+					valueFormatter: (value) => (typeof value === 'number' ? this.formatNumber(value) : value),
 					appendToBody: true
 				},
 				series: [
@@ -559,7 +590,7 @@ YetiForce_Chart_Widget_Js(
 				yAxis: {
 					type: 'value',
 					axisLabel: {
-						formatter: (value) => (typeof value === 'number' ? App.Fields.Double.formatToDisplay(value) : value)
+						formatter: (value) => (typeof value === 'number' ? this.formatNumber(value) : value)
 					}
 				},
 				grid: {
@@ -570,12 +601,12 @@ YetiForce_Chart_Widget_Js(
 					containLabel: true
 				},
 				tooltip: {
-					valueFormatter: (value) => (typeof value === 'number' ? App.Fields.Double.formatToDisplay(value) : value)
+					valueFormatter: (value) => (typeof value === 'number' ? this.formatNumber(value) : value)
 				},
 				label: {
 					show: true,
 					position: 'top',
-					formatter: function (data) {
+					formatter: (data) => {
 						let value;
 						if (typeof data.value === 'number') {
 							value = data.value;
@@ -585,7 +616,7 @@ YetiForce_Chart_Widget_Js(
 							value = data.value[data.seriesName];
 						}
 
-						return value !== undefined ? App.Fields.Double.formatToDisplay(value) : data.value;
+						return value !== undefined ? this.formatNumber(value) : data.value;
 					}
 				},
 				labelLayout: {

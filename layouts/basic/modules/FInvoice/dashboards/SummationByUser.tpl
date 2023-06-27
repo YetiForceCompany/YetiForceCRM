@@ -4,9 +4,10 @@
 		getBasicOptions: function getBasicOptions() {
 			let options = this._super();
 			options.tooltip = {
+				appendToBody: true,
 				formatter: function(params, ticket, callback) {
 					let name = params.data.fullName || '';
-					let value = App.Fields.Double.formatToDisplay(params.value);
+					let value = Number.isInteger(params.value) ? App.Fields.Integer.formatToDisplay(params.value) : App.Fields.Double.formatToDisplay(params.value);
 					return params.marker + (name ? (name + ': ') : '') + "<strong>" + value + '</strong>';
 				}
 			}

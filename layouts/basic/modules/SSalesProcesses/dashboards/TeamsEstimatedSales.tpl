@@ -6,6 +6,7 @@
 				let options = this._super();
 				options.legend = null;
 				options.tooltip = {
+					appendToBody: true,
 					formatter: function(params, ticket, callback) {
 						let value = App.Fields.Double.formatToDisplay(params.value);
 						let header = params.seriesName;
