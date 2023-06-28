@@ -7,7 +7,7 @@
 	{if !isset($BUTTON_VIEW) }
 		{assign var=BUTTON_VIEW value=''}
 	{/if}
-	<div class="c-btn-link btn-group {if strrpos($BUTTON_VIEW,"listView") !== false && $USER_MODEL->get('rowheight') eq 'narrow'}btn-group-sm{/if} {$CLASS}">
+	<div class="c-btn-link {if $BUTTON_VIEW neq 'listView'}btn-group{/if}{if $BUTTON_VIEW neq 'listView' && $USER_MODEL->get('rowheight') eq 'narrow'}btn-group-sm{/if} {$CLASS}">
 		{assign var="LABEL" value=$LINK->getLabel()}
 		{assign var="ACTION_NAME" value=$LABEL}
 		{if $LINK->get('linkhint') neq ''}
