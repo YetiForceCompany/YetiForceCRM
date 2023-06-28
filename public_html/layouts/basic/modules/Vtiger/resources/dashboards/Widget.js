@@ -75,8 +75,8 @@ jQuery.Class(
 		 * Get widget data
 		 * @returns {*}
 		 */
-		getWidgetData() {
-			if (typeof this.widgetData !== 'undefined') {
+		getWidgetData(reload = false) {
+			if (typeof this.widgetData !== 'undefined' && !reload) {
 				return this.widgetData;
 			}
 			let widgetDataEl = this.getContainer().find('.widgetData');

@@ -79,7 +79,7 @@ YetiForce_Widget_Js(
 		 * @return {object} data for chart
 		 */
 		generateData: function generateData() {
-			return this.getWidgetData();
+			return this.getWidgetData(true);
 		},
 
 		/**
@@ -88,7 +88,7 @@ YetiForce_Widget_Js(
 		 * @return {*} chartInstance
 		 */
 		loadChart: function loadChart() {
-			if (typeof this.chartData === 'undefined' || typeof this.getChartContainer() === 'undefined') {
+			if (typeof this.getChartContainer() === 'undefined') {
 				return false;
 			}
 
@@ -479,7 +479,7 @@ YetiForce_Chart_Widget_Js(
 	{
 		/** @inheritdoc */
 		generateData: function generateData() {
-			let dataChart = this.getWidgetData();
+			let dataChart = this.getWidgetData(true);
 			let groupKey = '|x|';
 			let convert =
 				dataChart.dataset &&
@@ -640,7 +640,7 @@ YetiForce_Line_Widget_Js(
 	{
 		/** @inheritdoc */
 		generateData: function generateData() {
-			let dataChart = this.getWidgetData();
+			let dataChart = this.getWidgetData(true);
 			if (Object.keys(dataChart.series).length > 1) {
 				dataChart = { ...this.getWidgetData() };
 				let defaultSeries = this.getBasicOptions().series;
