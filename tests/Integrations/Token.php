@@ -148,7 +148,7 @@ final class Token extends \Tests\Base
 
 		$request = $this->httpClient->get('@#$%^&*');
 		$this->logs = $body = $request->getBody()->getContents();
-		static::assertSame('Internal Server Error', $body, 'API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
+		static::assertSame('Internal Server Error [406]', $body, 'API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 		static::assertSame(406, $request->getStatusCode(), 'API error: ' . PHP_EOL . $request->getReasonPhrase() . '|' . $body);
 	}
 }
