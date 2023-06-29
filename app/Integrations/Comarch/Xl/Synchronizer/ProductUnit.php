@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Comarch account types synchronization file.
+ * Comarch product unit synchronization file.
  *
  * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription.
  * File modification allowed only with the consent of the system producer.
@@ -16,9 +16,9 @@
 namespace App\Integrations\Comarch\Xl\Synchronizer;
 
 /**
- * Comarch account types synchronization class.
+ * Comarch product unit synchronization class.
  */
-class AccountTypes extends \App\Integrations\Comarch\Synchronizer
+class ProductUnit extends \App\Integrations\Comarch\Synchronizer
 {
 	/** @var array Cache for data from the API */
 	private $cache;
@@ -31,8 +31,8 @@ class AccountTypes extends \App\Integrations\Comarch\Synchronizer
 	public function process(): void
 	{
 		$this->fieldModel = \Settings_Picklist_Field_Model::getInstance(
-			'accounttype',
-			\Vtiger_Module_Model::getInstance('Accounts')
+			'usageunit',
+			\Vtiger_Module_Model::getInstance('Products')
 		);
 		if ($this->fieldModel->isActiveField()) {
 			$this->getAllFromApi();
@@ -54,27 +54,33 @@ class AccountTypes extends \App\Integrations\Comarch\Synchronizer
 		if ($this->config->get('log_all')) {
 			$this->controller->log('Start import ' . $this->name, []);
 		}
-		$values = $this->getPicklistValues();
+		$fieldName = $this->fieldModel->getName();
+		$picklistValues = \App\Fields\Picklist::getValues($fieldName);
+		$values = [];
+		foreach ($picklistValues as $value) {
+			$values[mb_strtolower($value['picklistValue'])] = $value['picklistValue'];
+			$values[mb_strtolower(\App\Language::translate($value['picklistValue'], 'Products'))] = $value['picklistValue'];
+		}
 		$i = 0;
-		foreach ($this->cache as $key => $value) {
-			if (empty($value)) {
+		foreach ($this->cache as $value) {
+			if (empty($value['key'])) {
 				continue;
 			}
-			$name = mb_strtolower($value);
+			$name = mb_strtolower(trim($value['key'], '.'));
 			if (empty($values[$name])) {
 				try {
 					$itemModel = $this->fieldModel->getItemModel();
-					$itemModel->validateValue('name', $value);
-					$itemModel->set('name', $value);
+					$itemModel->validateValue('name', $value['key']);
+					$itemModel->set('name', $value['key']);
 					$itemModel->save();
-					$this->cacheList[$value] = $key;
+					$this->cacheList[$value['key']] = $value['key'];
 					++$i;
 				} catch (\Throwable $ex) {
 					$this->controller->log('Import ' . $this->name, ['API' => $value], $ex);
 					\App\Log::error("Error during import {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
 				}
 			} else {
-				$this->cacheList[$values[$name]] = $key;
+				$this->cacheList[$values[$name]] = $value['key'];
 			}
 		}
 		if ($this->config->get('log_all')) {
@@ -83,25 +89,7 @@ class AccountTypes extends \App\Integrations\Comarch\Synchronizer
 	}
 
 	/**
-	 * Get picklist values.
-	 *
-	 * @return array
-	 */
-	private function getPicklistValues(): array
-	{
-		$values = [];
-		foreach (\App\Fields\Picklist::getValues($this->fieldModel->getName()) as $value) {
-			$values[mb_strtolower($value['picklistValue'])] = $value['picklistValue'];
-			$values[mb_strtolower(\App\Language::translate($value['picklistValue'], 'Accounts'))] = $value['picklistValue'];
-		}
-		if (\in_array('Inny', $this->cache) && isset($values['other'])) {
-			$values['inny'] = $values['other'];
-		}
-		return $values;
-	}
-
-	/**
-	 * Get all account type from API.
+	 * Get all unit measure from API.
 	 *
 	 * @return array|null
 	 */
@@ -109,7 +97,7 @@ class AccountTypes extends \App\Integrations\Comarch\Synchronizer
 	{
 		if (null === $this->cache) {
 			try {
-				$this->cache = $this->getFromApi('Dictionary/CustomerType');
+				$this->cache = $this->getFromApi('Dictionary/UnitMeasure');
 			} catch (\Throwable $ex) {
 				$this->controller->log('Get ' . $this->name, null, $ex);
 				\App\Log::error("Error during getAllFromApi {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);

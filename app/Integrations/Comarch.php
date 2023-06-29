@@ -94,28 +94,19 @@ class Comarch
 	}
 
 	/**
-	 * Get information about Comarch ERP XL.
-	 *
-	 * @todo
+	 * Get information about Comarch ERP.
 	 *
 	 * @return array
 	 */
 	public function getInfo(): array
 	{
-		// TODO
-		// $connector = $this->getConnector();
-		// $response = $connector->request('GET', 'system_status');
-		// $response = \App\Json::decode($response);
-		$info = '';
-		// $info .= "[environment][home_url]: {$response['environment']['home_url']}\n";
-		$count = [];
-		// foreach ($response['post_type_counts'] as $value) {
-		// 	$count[$value['type']] = $value['count'];
-		// }
-		return [
-			'info' => trim($info),
-			'count' => $count
-		];
+		try {
+			return $this->getConnector()->getInfo();
+		} catch (\Throwable $th) {
+			$this->log('Get connection info', null, $th);
+			return ['info' => $th->getMessage(), 'count' => []];
+		}
+		return $this->getConnector()->getInfo();
 	}
 
 	/**
@@ -132,7 +123,7 @@ class Comarch
 			}
 		} catch (\Throwable $th) {
 			$this->log('Test connection error', null, $th);
-			$status = $th->getMessage();
+			$status = '[TestConnection]: ' . $th->getMessage();
 		}
 		return $status;
 	}

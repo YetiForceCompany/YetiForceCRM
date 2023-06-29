@@ -26,15 +26,15 @@ class Settings_Comarch_Activation_Model
 			],
 			'fieldsData' => ['comarch_server_id' => ['displaytype' => 1]],
 		],
-		// 'Products' => [
-		// 	'block' => ['name' => 'LBL_COMARCH', 'create' => true],
-		// 	'fields' => [
-		// 		'comarch_server_id', 'comarch_id',
-		// 		// 'alias', 'short_description', 'tags',
-		// 		// 'woocommerce_product_status', 'woocommerce_product_visibility', 'woocommerce_permalink'
-		// 	],
-		// 	'fieldsData' => ['comarch_server_id' => ['displaytype' => 1]],
-		// ],
+		'Products' => [
+			'block' => ['name' => 'LBL_COMARCH', 'create' => true],
+			'fields' => [
+				'comarch_server_id', 'comarch_id', 'product_type',
+				// 'alias', 'short_description', 'tags',
+				// 'woocommerce_product_status', 'woocommerce_product_visibility', 'woocommerce_permalink'
+			],
+			'fieldsData' => ['comarch_server_id' => ['displaytype' => 1]],
+		],
 		// 'ProductCategory' => [
 		// 	'block' => ['name' => 'LBL_BASIC_INFORMATION', 'create' => false],
 		// 	'fields' => ['comarch_server_id', 'comarch_id', 'alias', 'description'],
@@ -63,7 +63,7 @@ class Settings_Comarch_Activation_Model
 				'typeofdata' => 'I~O'
 			],
 			'comarch_id' => [
-				'columntype' => $importerType->integer(10)->defaultValue(0)->notNull()->unsigned(),
+				'columntype' => $importerType->integer(10)->unsigned(),
 				'label' => 'FL_COMARCH_ID',
 				'uitype' => 7, 'displaytype' => 2,
 				'maximumlength' => '4294967295', 'typeofdata' => 'I~O'
@@ -83,6 +83,11 @@ class Settings_Comarch_Activation_Model
 			'payment_methods' => [
 				'label' => 'FL_PAYMENTS_METHOD', 'columntype' => $importerType->stringType(255)->defaultValue(''),
 				'column' => 'accounts_formpayment', 'uitype' => 16, 'maximumlength' => '255', 'typeofdata' => 'V~O'
+			],
+			'product_type' => [
+				'label' => 'FL_PRODUCT_TYPE', 'columntype' => $importerType->stringType(255)->defaultValue(''),
+				'uitype' => 16, 'maximumlength' => '255', 'typeofdata' => 'V~O',
+				'values' => ['Product', 'Cost', 'Service', 'Commodity']
 			],
 			// 'alias' => [
 			// 	'columntype' => $importerType->stringType(255)->defaultValue(''),

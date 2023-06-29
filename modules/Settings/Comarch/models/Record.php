@@ -168,7 +168,7 @@ class Settings_Comarch_Record_Model extends Settings_Vtiger_Record_Model
 		];
 		switch ($name) {
 			case 'accounts_limit':
-			// case 'products_limit':
+			case 'products_limit':
 			// case 'orders_limit':
 				$params['uitype'] = 7;
 				$params['typeofdata'] = 'I';
@@ -197,7 +197,7 @@ class Settings_Comarch_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			// case 'direction_categories':
 			case 'direction_accounts':
-			// case 'direction_products':
+			case 'direction_products':
 			// case 'direction_orders':
 				$params['uitype'] = 16;
 				$params['picklistValues'] = [
@@ -210,11 +210,11 @@ class Settings_Comarch_Record_Model extends Settings_Vtiger_Record_Model
 				$params['uitype'] = 17;
 				$params['maximumlength'] = '250';
 				break;
-			case 'sync_currency':
 			case 'sync_accounts':
+			case 'sync_products':
 			// case 'sync_categories':
+			// case 'sync_currency':
 			// case 'sync_tags':
-			// case 'sync_products':
 			// case 'sync_customers':
 			// case 'sync_orders':
 			case 'status':

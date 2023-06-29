@@ -31,8 +31,14 @@ class Synchronizer
 	public $controller;
 	/** @var array Last scan config data. */
 	protected $lastScan = [];
+	/** @var int[] Imported ids */
+	protected $imported = [];
+	/** @var int[] Exported ids */
+	protected $exported = [];
 	/** @var string Category name used for the log mechanism */
 	const LOG_CATEGORY = 'Integrations/Comarch';
+	/** @var string The name of the configuration parameter for rows limit */
+	const LIMIT_NAME = '';
 	/** @var int Synchronization direction: one-way from Comarch to YetiForce */
 	const DIRECTION_API_TO_YF = 0;
 	/** @var int Synchronization direction: one-way from YetiForce to Comarch */
@@ -51,6 +57,17 @@ class Synchronizer
 		$this->connector = $controller->getConnector();
 		$this->controller = $controller;
 		$this->config = $controller->config;
+	}
+
+	/**
+	 * Main process function.
+	 * Required for master synchronizers, not required for dependent ones.
+	 *
+	 * @return void
+	 */
+	public function process(): void
+	{
+		throw new \App\Exceptions\AppException('Function not implemented');
 	}
 
 	/**
@@ -126,24 +143,22 @@ class Synchronizer
 	}
 
 	/**
-	 * Method to get search criteria Comarch records.
-	 *
-	 * @param int $pageSize
+	 * Method to get search conditions in the Comarch API.
 	 *
 	 * @return string
 	 */
-	public function getSearchCriteria(int $pageSize = 10): string
+	public function getFromApiCond(): string
 	{
-		// $searchCriteria = ['dates_are_gmt=true'];
-		// if (!empty($this->lastScan['start_date'])) {
-		// 	$searchCriteria[] = 'modified_before=' . $this->getFormattedTime($this->lastScan['start_date']);
-		// }
-		// if (!empty($this->lastScan['end_date'])) {
-		// 	$searchCriteria[] = 'modified_after=' . $this->getFormattedTime($this->lastScan['end_date']);
-		// }
-		// $searchCriteria[] = 'per_page=' . $pageSize;
-		// $searchCriteria = implode('&', $searchCriteria);
-		return $searchCriteria ?? 'searchCriteria';
+		$searchCriteria = [];
+		if (!empty($this->lastScan['start_date'])) {
+			$searchCriteria[] = 'dataCzasModyfikacjiDo=' . $this->getFormattedTime($this->lastScan['start_date']);
+		}
+		if (!empty($this->lastScan['end_date'])) {
+			$searchCriteria[] = 'dataCzasModyfikacjiOd=' . $this->getFormattedTime($this->lastScan['end_date']);
+		}
+		$searchCriteria[] = 'limit=' . $this->config->get(self::LIMIT_NAME);
+		$searchCriteria = implode('&', $searchCriteria);
+		return $searchCriteria ?? '';
 	}
 
 	/**
@@ -152,9 +167,9 @@ class Synchronizer
 	 * @param int         $apiId
 	 * @param string|null $moduleName
 	 *
-	 * @return int
+	 * @return int|null
 	 */
-	public function getYfId(int $apiId, ?string $moduleName = null): int
+	public function getYfId(int $apiId, ?string $moduleName = null): ?int
 	{
 		$moduleName = $moduleName ?? $this->getMapModel()->getModule();
 		$cacheKey = 'Integrations/Comarch/CRM_ID/' . $moduleName;
@@ -163,8 +178,10 @@ class Synchronizer
 		}
 		$queryGenerator = $this->getFromYf($moduleName);
 		$queryGenerator->addCondition($this->getMapModel()::FIELD_NAME_ID, $apiId, 'e');
-		$yfId = $queryGenerator->createQuery()->scalar() ?: 0;
-		$this->updateMapIdCache($moduleName, $apiId, $yfId);
+		$yfId = $queryGenerator->createQuery()->scalar() ?: null;
+		if (null !== $yfId) {
+			$this->updateMapIdCache($moduleName, $apiId, $yfId);
+		}
 		return $yfId;
 	}
 
@@ -173,27 +190,29 @@ class Synchronizer
 	 *
 	 * @param int     $yfId
 	 * @param ?string $moduleName
+	 * @param mixed   $apiValue
+	 * @param array   $field
 	 *
 	 * @return int
 	 */
-	public function getApiId(int $yfId, ?string $moduleName = null): int
-	{
-		// $moduleName = $moduleName ?? $this->getMapModel()->getModule();
-		// $cacheKey = 'Integrations/Comarch/API_ID/' . $moduleName;
-		// if (\App\Cache::staticHas($cacheKey, $yfId)) {
-		// 	return \App\Cache::staticGet($cacheKey, $yfId);
-		// }
-		// $apiId = 0;
-		// try {
-		// 	$recordModel = \Vtiger_Record_Model::getInstanceById($yfId, $moduleName);
-		// 	$apiId = $recordModel->get('comarch_id') ?: 0;
-		// } catch (\Throwable $th) {
-		// 	$this->controller->log('GetApiId', ['comarch_id' => $yfId, 'moduleName' => $moduleName], $th);
-		// 	\App\Log::error('Error GetApiId: ' . PHP_EOL . $th->__toString(), self::LOG_CATEGORY);
-		// }
-		// $this->updateMapIdCache($moduleName, $apiId, $yfId);
-		return $apiId;
-	}
+	// public function getApiId(int $yfId, ?string $moduleName = null): int
+	// {
+	// $moduleName = $moduleName ?? $this->getMapModel()->getModule();
+	// $cacheKey = 'Integrations/Comarch/API_ID/' . $moduleName;
+	// if (\App\Cache::staticHas($cacheKey, $yfId)) {
+	// 	return \App\Cache::staticGet($cacheKey, $yfId);
+	// }
+	// $apiId = 0;
+	// try {
+	// 	$recordModel = \Vtiger_Record_Model::getInstanceById($yfId, $moduleName);
+	// 	$apiId = $recordModel->get('comarch_id') ?: 0;
+	// } catch (\Throwable $th) {
+	// 	$this->controller->log('GetApiId', ['comarch_id' => $yfId, 'moduleName' => $moduleName], $th);
+	// 	\App\Log::error('Error GetApiId: ' . PHP_EOL . $th->__toString(), self::LOG_CATEGORY);
+	// }
+	// $this->updateMapIdCache($moduleName, $apiId, $yfId);
+	// 	return $apiId;
+	// }
 
 	/**
 	 * Get YF value by API value.
@@ -246,5 +265,129 @@ class Synchronizer
 	public function getFormattedTime(string $value): string
 	{
 		return \DateTimeField::convertTimeZone($value, \App\Fields\DateTime::getTimeZone(), 'UTC')->format('Y-m-d\\TH:i:s');
+	}
+
+	/**
+	 * Export items to Comarch.
+	 *
+	 * @return void
+	 */
+	public function export(): void
+	{
+		$this->lastScan = $this->config->getLastScan('export' . $this->name);
+		if (
+			!$this->lastScan['start_date']
+			|| (0 === $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])
+		) {
+			$this->config->setScan('export' . $this->name);
+			$this->lastScan = $this->config->getLastScan('export' . $this->name);
+		}
+		if ($this->config->get('log_all')) {
+			$this->controller->log('Start export ' . $this->name, [
+				'lastScan' => $this->lastScan,
+			]);
+		}
+		$i = 0;
+		try {
+			$page = $this->lastScan['page'] ?? 0;
+			$load = true;
+			$finish = false;
+			$query = $this->getExportQuery();
+			$limit = $this->config->get(self::LIMIT_NAME);
+			while ($load) {
+				$query->offset($page);
+				if ($rows = $query->all()) {
+					foreach ($rows as $row) {
+						$this->exportItem($row['id']);
+						$this->config->setScan('export' . $this->name, 'id', $row['id']);
+						++$i;
+					}
+					++$page;
+					if (\is_callable($this->controller->bathCallback)) {
+						$load = \call_user_func($this->controller->bathCallback, 'export' . $this->name);
+					}
+					if ($limit !== \count($rows)) {
+						$finish = true;
+					}
+				} else {
+					$finish = true;
+				}
+				if ($finish || !$load) {
+					$load = false;
+					if ($finish) {
+						$this->config->setEndScan('export' . $this->name, $this->lastScan['start_date']);
+					} else {
+						$this->config->setScan('export' . $this->name, 'page', $page);
+					}
+				}
+			}
+		} catch (\Throwable $ex) {
+			$this->controller->log('Export ' . $this->name, ['API' => $rows ?? ''], $ex);
+			\App\Log::error("Error during export {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
+		}
+		if ($this->config->get('log_all')) {
+			$this->controller->log('End export ' . $this->name, ['exported' => $i]);
+		}
+	}
+
+	/**
+	 * Get export query.
+	 *
+	 * @return \App\Db\Query
+	 */
+	protected function getExportQuery(): \App\Db\Query
+	{
+		$queryGenerator = $this->getFromYf($this->getMapModel()->getModule(), true);
+		$queryGenerator->setLimit($this->config->get(self::LIMIT_NAME));
+		return $queryGenerator->createQuery();
+	}
+
+	/**
+	 * Export item to Comarch from YetiFoce.
+	 *
+	 * @param int $id
+	 *
+	 * @return void
+	 */
+	public function exportItem(int $id): void
+	{
+		$mapModel = $this->getMapModel();
+		$mapModel->setDataApi([]);
+		$mapModel->setDataYfById($id);
+		$mapModel->loadModeApi();
+		$row = $mapModel->getDataYf('fieldMap', false);
+		$dataApi = $mapModel->getDataApi();
+		if ($mapModel->skip) {
+			if ($this->config->get('log_all')) {
+				$this->controller->log(__FUNCTION__ . ' | skipped , inconsistent data', ['YF' => $row, 'API' => $dataApi ?? []]);
+			}
+		} elseif (empty($dataApi)) {
+			\App\Log::error(__FUNCTION__ . ' | Empty map details', self::LOG_CATEGORY);
+			$this->controller->log(__FUNCTION__ . ' | Empty map details', ['YF' => $row, 'API' => $dataApi ?? []], null, true);
+		} else {
+			try {
+				if ('create' === $mapModel->getModeApi() || empty($this->imported[$row[$mapModel::FIELD_NAME_ID]])) {
+					$mapModel->saveInApi();
+					$dataApi = $mapModel->getDataApi(false);
+				} else {
+					$this->updateMapIdCache(
+						$mapModel->getRecordModel()->getModuleName(),
+						$mapModel->getRecordModel()->get($mapModel::FIELD_NAME_ID),
+						$row['id']
+					);
+				}
+			} catch (\Throwable $ex) {
+				$this->controller->log(__FUNCTION__, ['YF' => $row, 'API' => $dataApi], $ex);
+				\App\Log::error('Error during ' . __FUNCTION__ . ': ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
+			}
+		}
+		if ($this->config->get('log_all')) {
+			$this->controller->log(__FUNCTION__ . ' | ' .
+				(\array_key_exists($row['id'], $this->exported) ? 'exported' : 'skipped'),
+				[
+					'YF' => $row,
+					'API' => $dataApi ?? [],
+				]);
+		}
 	}
 }

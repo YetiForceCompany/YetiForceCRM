@@ -22,6 +22,8 @@ abstract class Map
 {
 	/** @var string The name of the field with the identifier in Comarch */
 	const FIELD_NAME_ID = 'comarch_id';
+	/** @var string The name of the key with the identifier from Comarch */
+	const API_NAME_ID = 'id';
 	/** @var string Map module name. */
 	protected $moduleName;
 	/** @var array Mapped fields. */
@@ -151,9 +153,9 @@ abstract class Map
 	/**
 	 * Load record model.
 	 *
-	 * @param int $id
+	 * @param int|null $id
 	 */
-	public function loadRecordModel(int $id): void
+	public function loadRecordModel(?int $id = null): void
 	{
 		if ($id) {
 			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, $this->moduleName);
@@ -212,10 +214,14 @@ abstract class Map
 					if (!empty($field['direction']) && 'api' === $field['direction']) {
 						continue;
 					}
-					$key = $field['name'] ?? $field['names'][$this->modeApi];
+					$key = $field['name'] ?? ($field['names'][$this->modeApi] ?? '');
 					$field['fieldCrm'] = $fieldCrm;
-
-					if (\is_array($key)) {
+					if (empty($key)) {
+						$this->synchronizer->controller->log(
+							"[API>YF][1] No key ($fieldCrm)",
+							['fieldConfig' => $field, 'data' => $this->dataApi], null, true
+						);
+					} elseif (\is_array($key)) {
 						$field['name'] = $key;
 						$this->loadDataYfMultidimensional($fieldCrm, $field);
 					} elseif (\array_key_exists($key, $this->dataApi)) {
@@ -277,13 +283,14 @@ abstract class Map
 	 */
 	protected function loadDataYfMap(string $fieldCrm, array $field, $value = null): void
 	{
-		$value = $value ?? $this->dataApi[$field['name']];
+		$key = $field['name'] ?? $field['names']['get'];
+		$value = $value ?? $this->dataApi[$key];
 		if (isset($field['map'])) {
 			if (\array_key_exists($value, $field['map'])) {
 				$this->dataYf[$fieldCrm] = $field['map'][$value];
 			} elseif (empty($field['mayNotExist'])) {
 				$value = print_r($value, true);
-				$error = "[API>YF] No value `{$value}` in map {$field['name']}";
+				$error = "[API>YF] No value `{$value}` in map {$key}";
 				\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
 				$this->synchronizer->controller->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
 			}
@@ -359,8 +366,13 @@ abstract class Map
 	 */
 	public function setApiData($value, array $field): void
 	{
-		$key = $field['name'] ?? $field['names'][$this->modeApi];
-		if (\is_array($key)) {
+		$key = $field['name'] ?? ($field['names'][$this->modeApi] ?? '');
+		if (empty($key)) {
+			$this->synchronizer->controller->log(
+				"[API>YF][1] No key ({$field['fieldCrm']})",
+				['fieldConfig' => $field, 'data' => $this->dataApi], null, true
+			);
+		} elseif (\is_array($key)) {
 			foreach (array_reverse($key) as $name) {
 				$value = [$name => $value];
 			}
@@ -533,11 +545,11 @@ abstract class Map
 	/**
 	 * Find record in YetiFoce.
 	 *
-	 * @return int
+	 * @return int|null
 	 */
-	public function findRecordInYf(): int
+	public function findRecordInYf(): ?int
 	{
-		return $this->synchronizer->getYfId($this->dataApi['id'], $this->moduleName); // ??
+		return $this->synchronizer->getYfId($this->dataApi['id'], $this->moduleName);
 	}
 
 	/**

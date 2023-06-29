@@ -40,7 +40,9 @@ class Settings_Comarch_SaveAjax_Action extends Settings_Vtiger_Save_Action
 		$recordModel->save();
 
 		$response = new Vtiger_Response();
-		$response->setResult(['url' => 'index.php?parent=Settings&module=Comarch&view=EditConfigModal&record=' . $recordModel->getId()]);
+		$response->setResult([
+			'url' => 'index.php?parent=Settings&module=Comarch&view=EditConfigModal&record=' . $recordModel->getId()
+		]);
 		$response->emit();
 	}
 
@@ -55,7 +57,10 @@ class Settings_Comarch_SaveAjax_Action extends Settings_Vtiger_Save_Action
 	{
 		try {
 			\App\Integrations\Comarch\Config::reload($request->getInteger('record'));
-			$result = ['success' => true, 'message' => \App\Language::translate('LBL_RELOAD_MESSAGE', $request->getModule(false))];
+			$result = [
+				'success' => true,
+				'message' => \App\Language::translate('LBL_RELOAD_MESSAGE', $request->getModule(false))
+			];
 		} catch (\App\Exceptions\AppException $e) {
 			$result = ['success' => false, 'message' => $e->getDisplayMessage()];
 		}

@@ -76,4 +76,18 @@ class Xl extends Base
 		\App\Log::endProfile("{$method}::request|{$url}", self::LOG_NAME);
 		return (string) $response->getBody();
 	}
+
+	/** {@inheritdoc} */
+	public function getInfo(): array
+	{
+		$response = $this->request('GET', 'Configuration/GetInformation');
+		$info = '';
+		foreach (\App\Json::decode($response) as $key => $value) {
+			$info .= "{$key}: {$value}\n";
+		}
+		return [
+			'info' => trim($info),
+			'count' => []
+		];
+	}
 }

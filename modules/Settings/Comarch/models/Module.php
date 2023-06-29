@@ -42,18 +42,18 @@ class Settings_Comarch_Module_Model extends Settings_Vtiger_Module_Model
 		// 'sync_currency' => ['required' => 1, 'default' => true, 'tooltip' => true, 'purifyType' => 'Integer'],
 		'sync_accounts' => ['required' => 1, 'default' => true, 'purifyType' => 'Integer'],
 		'direction_accounts' => ['required' => 1, 'default' => 0, 'purifyType' => 'Integer'],
+		'sync_products' => ['required' => 1, 'default' => true, 'purifyType' => 'Integer'],
+		'direction_products' => ['required' => 1, 'default' => 0, 'purifyType' => 'Integer'],
 		// 'sync_categories' => ['required' => 1, 'default' => true, 'tooltip' => true, 'purifyType' => 'Integer'],
 		// 'direction_categories' => ['required' => 1, 'default' => 0, 'purifyType' => 'Integer'],
 		// 'sync_tags' => ['required' => 1, 'default' => true, 'tooltip' => true, 'purifyType' => 'Integer'],
 		// 'direction_tags' => ['required' => 1, 'default' => 0, 'purifyType' => 'Integer'],
 
-		// 'sync_products' => ['required' => 1, 'default' => true, 'purifyType' => 'Integer'],
-		// 'direction_products' => ['required' => 1, 'default' => 0, 'purifyType' => 'Integer'],
 		// 'sync_orders' => ['required' => 1, 'default' => true, 'tooltip' => true, 'purifyType' => 'Integer'],
 		// 'direction_orders' => ['required' => 1, 'default' => 0, 'purifyType' => 'Integer'],
 		// 'shipping_service_id' => ['required' => 0, 'default' => 0, 'tooltip' => true, 'min' => 0, 'purifyType' => 'Integer'],
 		'accounts_limit' => ['required' => 1, 'default' => 1000, 'min' => 1, 'purifyType' => 'Text'],
-		// 'products_limit' => ['required' => 1, 'default' => 100, 'min' => 1, 'purifyType' => 'Text'],
+		'products_limit' => ['required' => 1, 'default' => 100, 'min' => 1, 'purifyType' => 'Text'],
 		// 'orders_limit' => ['required' => 1, 'default' => 50, 'min' => 1, 'purifyType' => 'Text'],
 	];
 

@@ -60,4 +60,11 @@ abstract class Base
 	 * @return string
 	 */
 	abstract public function request(string $method, string $action, array $params = []): string;
+
+	/**
+	 * Get information about Comarch ERP.
+	 *
+	 * @return array
+	 */
+	abstract public function getInfo(): array;
 }

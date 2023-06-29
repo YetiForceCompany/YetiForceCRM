@@ -109,7 +109,7 @@ class Tree
 	 *
 	 * @param array $itemTree
 	 *
-	 * @return flase|string
+	 * @return bool|string
 	 */
 	public static function getParentIdx(array $itemTree)
 	{

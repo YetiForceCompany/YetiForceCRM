@@ -11,6 +11,7 @@
     "FL_BANK_NAME": "Bank name",
     "FL_STATUS": "Status",
     "FL_MULTICOMPANY": "Department",
+    "FL_RELATED_TO": "Related to",
     "PLL_DRAFT": "Draft",
     "PLL_ACTIVE": "Active",
     "PLL_INACTIVE": "Inactive"

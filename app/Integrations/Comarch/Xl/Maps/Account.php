@@ -21,6 +21,8 @@ namespace App\Integrations\Comarch\Xl\Maps;
 class Account extends \App\Integrations\Comarch\Map
 {
 	/** {@inheritdoc} */
+	const API_NAME_ID = 'knt_GidNumer';
+	/** {@inheritdoc} */
 	protected $moduleName = 'Accounts';
 	/** {@inheritdoc} */
 	protected $fieldMap = [
@@ -30,15 +32,15 @@ class Account extends \App\Integrations\Comarch\Map
 		'account_short_name' => ['names' => ['get' => 'knt_Akronim', 'create' => 'Akronim', 'update' => 'Akronim']],
 		'account_second_name' => ['names' => ['get' => 'knt_Nazwa2', 'create' => 'Nazwa2', 'update' => 'Nazwa2']],
 		'account_third_name' => ['names' => ['get' => 'knt_Nazwa3', 'create' => 'Nazwa3', 'update' => 'Nazwa3']],
-		// 'accounttype' => [
-		// 	'names' => ['get' => 'Knt_Rodzaj', 'create' => 'Rodzaj', 'update' => 'Rodzaj'],
-		// 	'fn' => 'findBySynchronizer', 'synchronizer' => 'AccountTypes'
-		// ],
-		// 'payment_methods' => [
-		// 	'names' => ['get' => 'Knt_FormaPl', 'create' => 'FormaPl', 'update' => 'FormaPl'],
-		// 	'fn' => 'findBySynchronizer', 'synchronizer' => 'PaymentMethods'
-		// ],
-		'crmactivity' => ['names' => ['get' => 'Knt_SpTerminPlSpr', 'create' => 'TerminPlSpr', 'update' => 'SpTerminPlSpr']],
+		'accounttype' => [
+			'names' => ['get' => 'Knt_Rodzaj', 'create' => 'Rodzaj', 'update' => 'Rodzaj'],
+			'fn' => 'findBySynchronizer', 'synchronizer' => 'AccountTypes'
+		],
+		'payment_methods' => [
+			'names' => ['get' => 'Knt_FormaPl', 'create' => 'FormaPl', 'update' => 'FormaPl'],
+			'fn' => 'findBySynchronizer', 'synchronizer' => 'PaymentMethods'
+		],
+		'crmactivity' => ['names' => ['get' => 'Knt_SpTerminPlSpr', 'create' => 'LimitOkres', 'update' => 'SpTerminPlSpr']],
 		'addresslevel1a' => [
 			'names' => ['get' => 'knt_Kraj', 'create' => 'Kraj', 'update' => 'Kraj'], 'fn' => 'convertCountry'
 		],
@@ -72,7 +74,7 @@ class Account extends \App\Integrations\Comarch\Map
 	protected $dependentSynchronizations = ['BankAccounts'];
 
 	/** {@inheritdoc} */
-	public function findRecordInYf(): int
+	public function findRecordInYf(): ?int
 	{
 		$queryGenerator = new \App\QueryGenerator($this->moduleName);
 		$queryGenerator->setStateCondition('All');
@@ -85,7 +87,7 @@ class Account extends \App\Integrations\Comarch\Map
 		} elseif (!empty($this->dataYf['vat_id'])) {
 			$queryGenerator->addCondition('vat_id', $this->dataYf['vat_id'], 'e');
 		}
-		return $queryGenerator->createQuery()->scalar() ?: 0;
+		return $queryGenerator->createQuery()->scalar() ?: null;
 	}
 
 	/** {@inheritdoc} */

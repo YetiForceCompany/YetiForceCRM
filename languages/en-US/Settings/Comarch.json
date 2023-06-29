@@ -17,6 +17,9 @@
     "LBL_SYNC_ACCOUNTS": "Synchronize accounts",
     "LBL_DIRECTION_ACCOUNTS": "Accounts synchronization direction",
     "LBL_ACCOUNTS_LIMIT": "Accounts download limit",
+    "LBL_SYNC_PRODUCTS": "Synchronize products",
+    "LBL_DIRECTION_PRODUCTS": "Products synchronization direction",
+    "LBL_PRODUCTS_LIMIT": "Products download limit",
     "LBL_DIR_API_TO_CRM": "One-way from Comarch to YetiForce",
     "LBL_DIR_CRM_TO_API": "One-way from YetiForce to Comarch",
     "LBL_DIR_CRM_API": "Two-way"
