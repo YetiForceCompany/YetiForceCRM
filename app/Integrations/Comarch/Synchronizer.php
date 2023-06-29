@@ -264,7 +264,7 @@ class Synchronizer
 	 */
 	public function getFormattedTime(string $value): string
 	{
-		return \DateTimeField::convertTimeZone($value, \App\Fields\DateTime::getTimeZone(), 'UTC')->format('Y-m-d\\TH:i:s');
+		return \DateTimeField::convertTimeZone($value, \App\Fields\DateTime::getTimeZone(), 'GMT+2')->format('Y-m-d\\TH:i:s');
 	}
 
 	/**

@@ -29,21 +29,10 @@ class Settings_Comarch_Activation_Model
 		'Products' => [
 			'block' => ['name' => 'LBL_COMARCH', 'create' => true],
 			'fields' => [
-				'comarch_server_id', 'comarch_id', 'product_type',
-				// 'alias', 'short_description', 'tags',
-				// 'woocommerce_product_status', 'woocommerce_product_visibility', 'woocommerce_permalink'
+				'comarch_server_id', 'comarch_id',
 			],
 			'fieldsData' => ['comarch_server_id' => ['displaytype' => 1]],
 		],
-		// 'ProductCategory' => [
-		// 	'block' => ['name' => 'LBL_BASIC_INFORMATION', 'create' => false],
-		// 	'fields' => ['comarch_server_id', 'comarch_id', 'alias', 'description'],
-		// 	'fieldsData' => ['comarch_server_id' => ['displaytype' => 1]],
-		// ],
-		// 'SSingleOrders' => [
-		// 	'block' => ['name' => 'LBL_CUSTOM_INFORMATION', 'create' => false],
-		// 	'fields' => ['comarch_server_id', 'comarch_id'],
-		// ],
 	];
 
 	/**
@@ -84,41 +73,6 @@ class Settings_Comarch_Activation_Model
 				'label' => 'FL_PAYMENTS_METHOD', 'columntype' => $importerType->stringType(255)->defaultValue(''),
 				'column' => 'accounts_formpayment', 'uitype' => 16, 'maximumlength' => '255', 'typeofdata' => 'V~O'
 			],
-			'product_type' => [
-				'label' => 'FL_PRODUCT_TYPE', 'columntype' => $importerType->stringType(255)->defaultValue(''),
-				'uitype' => 16, 'maximumlength' => '255', 'typeofdata' => 'V~O',
-				'values' => ['Product', 'Cost', 'Service', 'Commodity']
-			],
-			// 'alias' => [
-			// 	'columntype' => $importerType->stringType(255)->defaultValue(''),
-			// 	'label' => 'FL_ALIAS',
-			// 	'uitype' => 1,
-			// 	'maximumlength' => '255', 'typeofdata' => 'V~O'
-			// ],
-			// 'description' => \App\Field::SYSTEM_FIELDS['description'],
-			// 'short_description' => [
-			// 	'label' => 'FL_SHORT_DESCRIPTION',
-			// 	'uitype' => 300, 'typeofdata' => 'V~O',
-			// 	'columntype' => 'text', 'maximumlength' => '65535'
-			// ],
-			// 'tags' => [
-			// 	'columntype' => 'text', 'maximumlength' => '65535',
-			// 	'label' => 'FL_TAGS', 'uitype' => 18, 'typeofdata' => 'V~O', 'values' => []
-			// ],
-			// 'woocommerce_product_status' => [
-			// 	'columntype' => $importerType->stringType(255)->defaultValue(''), 'maximumlength' => '255',
-			// 	'label' => 'FL_COMARCH_PRODUCT_STATUS', 'uitype' => 16, 'typeofdata' => 'V~O',
-			// 	'values' => ['FL_WOO_PUBLISH', 'FL_WOO_PENDING', 'FL_WOO_DRAFT']
-			// ],
-			// 'woocommerce_product_visibility' => [
-			// 	'columntype' => $importerType->stringType(255)->defaultValue(''), 'maximumlength' => '255',
-			// 	'label' => 'FL_COMARCH_PRODUCT_VISIBILITY', 'uitype' => 16, 'typeofdata' => 'V~O',
-			// 	'values' => ['FL_WOO_VISIBLE', 'FL_WOO_CATALOG', 'FL_WOO_SEARCH', 'FL_WOO_HIDDEN']
-			// ],
-			// 'woocommerce_permalink' => [
-			// 	'columntype' => $importerType->stringType(255)->defaultValue(''), 'maximumlength' => '255',
-			// 	'label' => 'FL_COMARCH_PERMALINK', 'uitype' => 17, 'typeofdata' => 'V~O',
-			// ],
 		];
 	}
 
@@ -141,10 +95,8 @@ class Settings_Comarch_Activation_Model
 		&& \App\Db::getInstance('log')->isTableExists(Comarch::MAP_TABLE_NAME)
 		&& \App\Db::getInstance('log')->isTableExists(Comarch::CONFIG_TABLE_NAME)
 		&& $i === (new \App\Db\Query())->from('vtiger_field')->where($condition)->count()
-		// && \App\EventHandler::checkActive('Products_DuplicateEan_Handler', 'EditViewPreSave')
-		// && \App\EventHandler::checkActive('Products_UpdateModifiedTime_Handler', 'EntityAfterSave')
-		// && \App\Cron::checkActive('Vtiger_Comarch_Cron')
-;
+		&& \App\EventHandler::checkActive('Products_DuplicateEan_Handler', 'EditViewPreSave')
+		&& \App\Cron::checkActive('Vtiger_Comarch_Cron');
 	}
 
 	/**
@@ -225,9 +177,8 @@ class Settings_Comarch_Activation_Model
 			)->execute();
 			++$i;
 		}
-		// \App\EventHandler::setActive('Products_DuplicateEan_Handler', 'EditViewPreSave');
-		// \App\EventHandler::setActive('Products_UpdateModifiedTime_Handler', 'EntityAfterSave');
-		// \App\Cron::updateStatus(\App\Cron::STATUS_ENABLED, 'LBL_COMARCH');
+		\App\EventHandler::setActive('Products_DuplicateEan_Handler', 'EditViewPreSave');
+		\App\Cron::updateStatus(\App\Cron::STATUS_ENABLED, 'LBL_COMARCH');
 		return $i;
 	}
 

@@ -15,9 +15,6 @@ class Settings_Comarch_Record_Model extends Settings_Vtiger_Record_Model
 {
 	use App\Controller\Traits\RecordSettings;
 
-	/** @var \Settings_Vtiger_Module_Model Setting module model */
-	protected $module;
-
 	/**
 	 * Function to get the Edit View Url.
 	 *
@@ -169,16 +166,10 @@ class Settings_Comarch_Record_Model extends Settings_Vtiger_Record_Model
 		switch ($name) {
 			case 'accounts_limit':
 			case 'products_limit':
-			// case 'orders_limit':
 				$params['uitype'] = 7;
 				$params['typeofdata'] = 'I';
 				$params['maximumlength'] = '65535';
 				break;
-			// case 'shipping_service_id':
-			// 	$params['uitype'] = 10;
-			// 	$params['isEditableReadOnly'] = false;
-			// 	$params['referenceList'] = ['Services'];
-			// 	break;
 			case 'verify_ssl':
 			case 'log_all':
 				$params['uitype'] = 16;
@@ -195,10 +186,13 @@ class Settings_Comarch_Record_Model extends Settings_Vtiger_Record_Model
 					1 => \App\Language::translate('LBL_SYSTEM_YETIFORCE', 'Settings:Comarch')
 				];
 				break;
-			// case 'direction_categories':
-			case 'direction_accounts':
 			case 'direction_products':
-			// case 'direction_orders':
+				$params['uitype'] = 16;
+				$params['picklistValues'] = [
+					0 => \App\Language::translate('LBL_DIR_API_TO_CRM', 'Settings:Comarch'),
+				];
+				break;
+			case 'direction_accounts':
 				$params['uitype'] = 16;
 				$params['picklistValues'] = [
 					0 => \App\Language::translate('LBL_DIR_API_TO_CRM', 'Settings:Comarch'),
@@ -212,11 +206,6 @@ class Settings_Comarch_Record_Model extends Settings_Vtiger_Record_Model
 				break;
 			case 'sync_accounts':
 			case 'sync_products':
-			// case 'sync_categories':
-			// case 'sync_currency':
-			// case 'sync_tags':
-			// case 'sync_customers':
-			// case 'sync_orders':
 			case 'status':
 				$params['uitype'] = 56;
 				break;
