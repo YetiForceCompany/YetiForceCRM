@@ -34,7 +34,7 @@ class Settings_Comarch_Module_Model extends Settings_Vtiger_Module_Model
 		'url' => ['required' => 1, 'purifyType' => 'Url'],
 		'user_name' => ['required' => 1, 'default' => '', 'purifyType' => 'Text'],
 		'password' => ['required' => 1, 'default' => '', 'purifyType' => ''],
-		'connector' => ['required' => 1, 'purifyType' => 'Standard'],
+		'connector' => ['required' => 1, 'purifyType' => 'Standard', 'tooltip' => true],
 		'verify_ssl' => ['required' => 1, 'default' => 1, 'purifyType' => 'Integer'],
 		'log_all' => ['required' => 1, 'default' => 1, 'purifyType' => 'Integer', 'tooltip' => true],
 		'master' => ['required' => 1, 'default' => 0, 'purifyType' => 'Integer'],

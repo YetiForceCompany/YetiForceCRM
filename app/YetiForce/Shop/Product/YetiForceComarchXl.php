@@ -17,7 +17,7 @@ namespace App\YetiForce\Shop\Product;
 class YetiForceComarchXl extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce Comarch XL';
+	public $label = 'YetiForce Comarch ERP XL';
 
 	/** {@inheritdoc} */
 	public $category = 'Integrations';
