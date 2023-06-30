@@ -11,8 +11,25 @@
 
 namespace Api\OAuth;
 
+use OpenApi\Annotations as OA;
+
 /**
  * OAuth controller class to handle communication via web services.
+ *
+ * @OA\Info(
+ * 		title="YetiForce API for OAuth. Type: OAuth",
+ * 		description="",
+ * 		version="0.1",
+ * 		termsOfService="https://yetiforce.com/",
+ *   	@OA\Contact(email="devs@yetiforce.com", name="Devs API Team", url="https://yetiforce.com/"),
+ *   	@OA\License(name="YetiForce Public License", url="https://yetiforce.com/en/yetiforce/license"),
+ * )
+ *	@OA\ExternalDocumentation(
+ *		description="Platform API Interactive Docs",
+ *		url="https://doc.yetiforce.com/api/?urls.primaryName=OAuth"
+ *	),
+ * @OA\Server(description="Demo server of the development version", url="https://gitdeveloper.yetiforce.com")
+ * @OA\Server(description="Demo server of the latest stable version", url="https://gitstable.yetiforce.com")
  */
 class Controller extends \Api\Controller
 {

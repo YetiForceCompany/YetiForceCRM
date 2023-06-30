@@ -31,12 +31,16 @@ use OpenApi\Annotations as OA;
  *   	@OA\Contact(email="devs@yetiforce.com", name="Devs API Team", url="https://yetiforce.com/"),
  *   	@OA\License(name="YetiForce Public License", url="https://yetiforce.com/en/yetiforce/license"),
  *	)
+ *	@OA\ExternalDocumentation(
+ *		description="Platform API Interactive Docs",
+ *		url="https://doc.yetiforce.com/api/?urls.primaryName=Webservice%20Premium"
+ * ),
  * @OA\Server(description="Demo server of the development version", url="https://gitdeveloper.yetiforce.com")
  * @OA\Server(description="Demo server of the latest stable version", url="https://gitstable.yetiforce.com")
- * @OA\Tag(name="BaseModule", description="Access to record methods")
- * @OA\Tag(name="BaseAction", description="Access to user methods")
- * @OA\Tag(name="Products", description="Products methods")
- * @OA\Tag(name="Users", description="Access to user methods")
+ * @OA\Tag(name="BaseModule", description="Access to record methods", x={"displayName" : "Base module"})
+ * @OA\Tag(name="BaseAction", description="Access to user methods", x={"displayName" : "Base actions"})
+ * @OA\Tag(name="Products", description="Products methods", x={"displayName" : "Products"})
+ * @OA\Tag(name="Users", description="Access to user methods", x={"displayName" : "Users"})
  */
 class Files extends \Api\WebserviceStandard\BaseAction\Files
 {

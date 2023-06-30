@@ -3122,9 +3122,15 @@ tags:
   -
     name: BaseModule
     description: 'Access to record methods'
+    x-displayName: 'Base module'
   -
     name: BaseAction
     description: 'Access to user methods'
+    x-displayName: 'Base actions'
   -
     name: Users
     description: 'Access to user methods'
+    x-displayName: Users
+externalDocs:
+  description: 'Platform API Interactive Docs'
+  url: 'https://doc.yetiforce.com/api/?urls.primaryName=Webservice%20Standard'

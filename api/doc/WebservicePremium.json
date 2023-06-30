@@ -6930,19 +6930,27 @@
     "tags": [
         {
             "name": "BaseModule",
-            "description": "Access to record methods"
+            "description": "Access to record methods",
+            "x-displayName": "Base module"
         },
         {
             "name": "BaseAction",
-            "description": "Access to user methods"
+            "description": "Access to user methods",
+            "x-displayName": "Base actions"
         },
         {
             "name": "Products",
-            "description": "Products methods"
+            "description": "Products methods",
+            "x-displayName": "Products"
         },
         {
             "name": "Users",
-            "description": "Access to user methods"
+            "description": "Access to user methods",
+            "x-displayName": "Users"
         }
-    ]
+    ],
+    "externalDocs": {
+        "description": "Platform API Interactive Docs",
+        "url": "https://doc.yetiforce.com/api/?urls.primaryName=Webservice%20Premium"
+    }
 }

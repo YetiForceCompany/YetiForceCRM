@@ -24,6 +24,10 @@ use OpenApi\Annotations as OA;
  *   	@OA\Contact(email="devs@yetiforce.com", name="Devs API Team", url="https://yetiforce.com/"),
  *   	@OA\License(name="YetiForce Public License", url="https://yetiforce.com/en/yetiforce/license"),
  * )
+ * @OA\ExternalDocumentation(
+ *		description="Platform API Interactive Docs",
+ * 		url="https://doc.yetiforce.com/api/?urls.primaryName=PBX"
+ * ),
  * @OA\Server(description="Demo server of the development version", url="https://gitdeveloper.yetiforce.com")
  * @OA\Server(description="Demo server of the latest stable version", url="https://gitstable.yetiforce.com")
  * @OA\Schema(
@@ -579,7 +583,7 @@ class GenesysWdeWhirly extends \Api\Core\BaseAction
 	 *
 	 * ),
 	 * @OA\Schema(
-	 * 		schema="PBX_Genesys_RegisterInteractionCampaign_Request",
+	 * 		schema="PBX_Genesys_RegisterInteractionCampaign_Response",
 	 * 		title=" Response for creating interactions campaign",
 	 *		type="object",
 	 *		required={"status"},

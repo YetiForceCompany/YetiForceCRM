@@ -1,4 +1,23 @@
 openapi: 3.0.0
+info:
+  title: 'YetiForce API for WooCommerce. Type: WooCommerce'
+  description: ''
+  termsOfService: 'https://yetiforce.com/'
+  contact:
+    name: 'Devs API Team'
+    url: 'https://yetiforce.com/'
+    email: devs@yetiforce.com
+  license:
+    name: 'YetiForce Public License'
+    url: 'https://yetiforce.com/en/yetiforce/license'
+  version: '0.1'
+servers:
+  -
+    url: 'https://gitdeveloper.yetiforce.com'
+    description: 'Demo server of the development version'
+  -
+    url: 'https://gitstable.yetiforce.com'
+    description: 'Demo server of the latest stable version'
 paths:
   /webservice/WooCommerce/Webhooks:
     post:
@@ -13,3 +32,6 @@ paths:
           description: 'Contents of the response contains only id'
         '406':
           description: 'No input data'
+externalDocs:
+  description: 'Platform API Interactive Docs'
+  url: 'https://doc.yetiforce.com/api/?urls.primaryName=WooCommerce'

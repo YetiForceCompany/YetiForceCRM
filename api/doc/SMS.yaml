@@ -116,3 +116,6 @@ components:
       description: Response
       type: string
       example: OK
+externalDocs:
+  description: 'Platform API Interactive Docs'
+  url: 'https://doc.yetiforce.com/api/?urls.primaryName=SMS'

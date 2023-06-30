@@ -459,7 +459,25 @@
                     }
                 },
                 "type": "object"
+            },
+            "PBX_Genesys_RegisterInteractionCampaign_Response": {
+                "title": " Response for creating interactions campaign",
+                "required": [
+                    "status"
+                ],
+                "properties": {
+                    "status": {
+                        "description": "That indicates whether the communication is valid. 1 - success , 0 - error",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
             }
         }
+    },
+    "externalDocs": {
+        "description": "Platform API Interactive Docs",
+        "url": "https://doc.yetiforce.com/api/?urls.primaryName=PBX"
     }
 }

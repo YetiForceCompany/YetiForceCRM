@@ -706,5 +706,9 @@
                 "in": "header"
             }
         }
+    },
+    "externalDocs": {
+        "description": "Platform API Interactive Docs",
+        "url": "https://doc.yetiforce.com/api/?urls.primaryName=Manage%20consents"
     }
 }
