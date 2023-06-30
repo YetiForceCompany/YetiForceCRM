@@ -8,6 +8,7 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -43,6 +44,7 @@ class Users_LoginPassChange_Action extends Users_Login_Action
 				$userRecordModel->set('changeUserPassword', true);
 				$userRecordModel->set('user_password', $password);
 				$userRecordModel->set('date_password_change', date('Y-m-d H:i:s'));
+				$userRecordModel->set('force_password_change', 0);
 
 				$eventHandler = new \App\EventHandler();
 				$eventHandler->setRecordModel($userRecordModel);

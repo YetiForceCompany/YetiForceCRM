@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Utils;
@@ -21,6 +22,11 @@ class Tokens
 
 	/** @var string Last generated token. */
 	private static $lastToken;
+
+	/** @var int Skip time verification when getting token data */
+	public const SKIP_TIME_VERIFICATION = 1;
+	/** @var int Skip count verification when getting token data */
+	public const SKIP_COUNT_VERIFICATION = 2;
 
 	/**
 	 * Generate token.
@@ -58,7 +64,7 @@ class Tokens
 	private static function generateUid(): string
 	{
 		$uid = \App\Encryption::generatePassword(64);
-		if (null !== self::get($uid)) {
+		if (null !== self::get($uid, self::SKIP_TIME_VERIFICATION | self::SKIP_COUNT_VERIFICATION)) {
 			return self::generateUid();
 		}
 		return $uid;
@@ -68,24 +74,26 @@ class Tokens
 	 * Get token detail.
 	 *
 	 * @param string $uid
-	 * @param bool   $remove
+	 * @param int    $skip {@example self::SKIP_TIME_VERIFICATION, self::SKIP_COUNT_VERIFICATION}
 	 *
 	 * @return array|null
 	 */
-	public static function get(string $uid, bool $remove = false): ?array
+	public static function get(string $uid, int $skip = 0): ?array
 	{
 		$row = (new \App\Db\Query())->from(self::TABLE_NAME)
 			->where(['uid' => $uid])->one(\App\Db::getInstance('admin')) ?: null;
-		if (!empty($row['expiration_date']) && strtotime($row['expiration_date']) < time()) {
+
+		if (!($skip & self::SKIP_TIME_VERIFICATION) && !empty($row['expiration_date']) && strtotime($row['expiration_date']) < time()) {
 			self::delete($uid);
 			$row = null;
-		}
-		if ($row) {
+		} elseif ($row) {
 			$row['params'] = \App\Json::decode($row['params']);
 		}
-		if ($remove || ($row && (bool) $row['one_time_use'])) {
+
+		if (!($skip & self::SKIP_COUNT_VERIFICATION) && $row && (bool) $row['one_time_use']) {
 			self::delete($uid);
 		}
+
 		return $row;
 	}
 
