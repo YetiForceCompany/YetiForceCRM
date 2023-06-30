@@ -28,6 +28,7 @@ class System extends Base
 		'showProducts' => 'Show active products',
 		'reloadModule' => 'Reload modules',
 		'reloadUserPrivileges' => 'Reload users privileges',
+		'reloadMenus' => 'Reload menus',
 	];
 
 	/**
@@ -231,7 +232,7 @@ class System extends Base
 	}
 
 	/**
-	 * Check registration status.
+	 * Reload modules.
 	 *
 	 * @return void
 	 */
@@ -252,7 +253,7 @@ class System extends Base
 	}
 
 	/**
-	 * Check registration status.
+	 * Reload users privileges.
 	 *
 	 * @return void
 	 */
@@ -278,5 +279,19 @@ class System extends Base
 			'post_code' => '', 'country' => '', 'companysize' => '', 'website' => '', 'logo' => '',
 			'firstname' => '', 'lastname' => '', 'email' => '', 'facebook' => '', 'twitter' => '', 'linkedin' => '',
 		])->execute();
+	}
+
+	/**
+	 * Reload menus.
+	 *
+	 * @return void
+	 */
+	public function reloadMenus(): void
+	{
+		$menuRecordModel = new \Settings_Menu_Record_Model();
+		$menuRecordModel->refreshMenuFiles();
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('System');
+		}
 	}
 }
