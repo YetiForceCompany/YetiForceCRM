@@ -5,7 +5,7 @@
 		<li class="m-0 p-0 col-12 mb-1 js-filter__item__container" data-js="classs: d-none">
 			<div class="mr-0 pr-0 col-12 form-row d-flex align-items-center">
 				<div>
-					<input value="{$SOURCE_ID}" type="checkbox" id="sourceId{$SOURCE_ID}" class="js-filter__item__val alignMiddle mr-2"
+					<input value="{$SOURCE_ID}" type="checkbox" id="sourceId{$SOURCE_ID}" data-cache="sourceId-{$SOURCE_ID}" class="js-filter__item__val alignMiddle mr-2"
 						{if !empty($SIDEBARWIDGET->get('history')) && in_array($SOURCE_ID, $SIDEBARWIDGET->get('history'))}checked{/if}>
 				</div>
 				<label class="m-0 p-0 col js-filter__item__value u-text-ellipsis"

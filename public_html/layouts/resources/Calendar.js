@@ -306,9 +306,9 @@ window.Calendar_Js = class {
 	 * @returns {{module: string, action: string, mode: string, start: string, end: string, user: *, cvid: int, emptyFilters: boolean}}
 	 */
 	getDefaultParams() {
-		let users = app.moduleCacheGet('calendar-users') || CONFIG.userId,
-			sideBar = this.getSidebarView(),
-			filters = [],
+		const users = app.moduleCacheGet('calendar-users') || CONFIG.userId,
+			sideBar = this.getSidebarView();
+		let filters = [],
 			params = {
 				module: this.module ? this.module : CONFIG.module,
 				action: 'Calendar',
@@ -475,6 +475,7 @@ window.Calendar_Js = class {
 	 */
 	setBrowserHistoryOptions() {
 		const historyParams = app.getMainParams('historyParams', true);
+		console.log(historyParams);
 		let options = {};
 		if (historyParams && (historyParams.length || Object.keys(historyParams).length)) {
 			let s = App.Fields.Date.getDateInstance(historyParams.start);
@@ -560,48 +561,50 @@ window.Calendar_Js = class {
 				});
 			}
 		}
-		container.find('.js-calendar__filter__select, .filterField').each((_, e) => {
-			let element = $(e);
-			let name = element.data('cache');
-			let cachedValue = app.moduleCacheGet(name);
-			if (element.length > 0 && cachedValue !== undefined) {
-				if (element.prop('tagName') == 'SELECT') {
-					element.val(cachedValue);
-				}
-			} else if (
-				name &&
-				element.length > 0 &&
-				cachedValue === undefined &&
-				!element.find(':selected').length &&
-				element.data('selected') !== 0
-			) {
-				let allOptions = [];
-				element.find('option').each((i, option) => {
-					allOptions.push($(option).val());
-				});
-				element.val(allOptions);
-				app.moduleCacheSet(name, cachedValue);
-			}
-			element.off('change');
-			App.Fields.Picklist.showSelect2ElementView(element);
-			element.on('change', (e) => {
-				let item = $(e.currentTarget);
-				let value = item.val();
-				if (value == null) {
-					value = '';
-				}
-				if (item.attr('type') == 'checkbox') {
-					value = element.is(':checked');
-				}
-				app.moduleCacheSet(item.data('cache'), value);
-				self.reloadCalendarData();
-			});
-		});
 		container
-			.find('.js-filter__container_checkbox_list .js-filter__item__val')
-			.off('change')
-			.on('change', (e) => {
-				self.reloadCalendarData();
+			.find('.js-calendar__filter__select, .filterField, .js-filter__container_checkbox_list .js-filter__item__val')
+			.each((_, e) => {
+				const element = $(e);
+				if (element.length == 0) {
+					return true;
+				}
+				const name = element.data('cache'),
+					cachedValue = app.moduleCacheGet(name);
+				if (cachedValue !== undefined) {
+					if (element.prop('tagName') == 'SELECT') {
+						element.val(cachedValue);
+					} else if (element.prop('tagName') == 'INPUT' && element.attr('type') == 'checkbox') {
+						element.prop('checked', cachedValue);
+					}
+				} else if (
+					name &&
+					cachedValue === undefined &&
+					!element.find(':selected').length &&
+					element.data('selected') !== 0
+				) {
+					let allOptions = [];
+					element.find('option').each((i, option) => {
+						allOptions.push($(option).val());
+					});
+					element.val(allOptions);
+					app.moduleCacheSet(name, cachedValue);
+				}
+				element.off('change');
+				if (element.prop('tagName') == 'SELECT') {
+					App.Fields.Picklist.showSelect2ElementView(element);
+				}
+				element.on('change', (e) => {
+					let item = $(e.currentTarget),
+						value = item.val();
+					if (value == null) {
+						value = '';
+					}
+					if (item.attr('type') == 'checkbox') {
+						value = element.is(':checked');
+					}
+					app.moduleCacheSet(item.data('cache'), value);
+					self.reloadCalendarData();
+				});
 			});
 	}
 	/**
