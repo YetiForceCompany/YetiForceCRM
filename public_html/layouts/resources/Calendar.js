@@ -475,7 +475,6 @@ window.Calendar_Js = class {
 	 */
 	setBrowserHistoryOptions() {
 		const historyParams = app.getMainParams('historyParams', true);
-		console.log(historyParams);
 		let options = {};
 		if (historyParams && (historyParams.length || Object.keys(historyParams).length)) {
 			let s = App.Fields.Date.getDateInstance(historyParams.start);
