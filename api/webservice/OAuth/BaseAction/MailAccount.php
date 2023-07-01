@@ -40,6 +40,15 @@ class MailAccount extends \Api\Core\BaseAction
 	{
 	}
 
+	/**
+	 * @OA\Get(
+	 *		path="/webservice/OAuth/MailAccount",
+	 *		summary="OAuth mail authorization api",
+	 *		@OA\Response(response=200, description="Result"),
+	 * ),
+	 *
+	 * @return void
+	 */
 	public function get()
 	{
 		$code = $this->controller->request->getRaw('code');

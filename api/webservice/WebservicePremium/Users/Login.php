@@ -25,8 +25,8 @@ class Login extends \Api\WebserviceStandard\Users\Login
 	 *
 	 *	@OA\Post(
 	 *		path="/webservice/WebservicePremium/Users/Login",
-	 *		description="Logs user into the system",
-	 *		summary="Logs user",
+	 *		description="Authenticate into the system",
+	 *		summary="Login",
 	 *		tags={"Users"},
 	 *		security={
 	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}

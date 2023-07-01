@@ -25,6 +25,19 @@
             "description": "Demo server of the latest stable version"
         }
     ],
+    "paths": {
+        "/webservice/OAuth/MailAccount": {
+            "get": {
+                "summary": "OAuth mail authorization api",
+                "operationId": "0037f4e5752f76f6199e8e3964ef6efb",
+                "responses": {
+                    "200": {
+                        "description": "Result"
+                    }
+                }
+            }
+        }
+    },
     "externalDocs": {
         "description": "Platform API Interactive Docs",
         "url": "https://doc.yetiforce.com/api/?urls.primaryName=OAuth"

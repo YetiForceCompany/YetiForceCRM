@@ -1208,8 +1208,8 @@ paths:
     post:
       tags:
         - Users
-      summary: 'Logs user'
-      description: 'Logs user into the system'
+      summary: Login
+      description: 'Authenticate into the system'
       operationId: 1ac849ff510b6b65243b46ffb9e48a9b
       parameters:
         -

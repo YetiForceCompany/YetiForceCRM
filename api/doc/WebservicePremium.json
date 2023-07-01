@@ -2836,8 +2836,8 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "Logs user",
-                "description": "Logs user into the system",
+                "summary": "Login",
+                "description": "Authenticate into the system",
                 "operationId": "07552cbaf12d5659d2905d46c06f30f5",
                 "parameters": [
                     {
