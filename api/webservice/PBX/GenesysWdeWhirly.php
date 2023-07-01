@@ -115,7 +115,7 @@ class GenesysWdeWhirly extends \Api\Core\BaseAction
 	 *
 	 * @OA\Post(
 	 *		path="/webservice/PBX/GenesysWdeWhirly/registerInteraction",
-	 *		summary="PBX Genesys creating interactions",
+	 *		summary="Creating interactions",
 	 *		tags={"Genesys"},
 	 * 		security={{"ApiKeyAuth" : {}}},
 	 *		@OA\RequestBody(
@@ -459,7 +459,7 @@ class GenesysWdeWhirly extends \Api\Core\BaseAction
 	 *
 	 * @OA\Post(
 	 *		path="/webservice/PBX/GenesysWdeWhirly/updateInteraction",
-	 *		summary="PBX Genesys update interactions",
+	 *		summary="Update interactions",
 	 *		tags={"Genesys"},
 	 * 		security={{"ApiKeyAuth" : {}}},
 	 *		@OA\RequestBody(
@@ -547,7 +547,7 @@ class GenesysWdeWhirly extends \Api\Core\BaseAction
 	 *
 	 * @OA\Post(
 	 *		path="/webservice/PBX/GenesysWdeWhirly/registerInteractionCampaign",
-	 *		summary="PBX Genesys creating interactions for campaign",
+	 *		summary="Creating interactions for campaign",
 	 *		tags={"Genesys"},
 	 * 		security={{"ApiKeyAuth" : {}}},
 	 *		@OA\RequestBody(

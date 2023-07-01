@@ -21,8 +21,6 @@ servers:
 paths:
   '/webservice/Token/{token}':
     get:
-      tags:
-        - Token
       summary: 'Token support'
       description: 'Token support method.'
       operationId: 4b163213903e75b07d7f8b9bea561f2c

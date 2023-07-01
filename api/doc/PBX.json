@@ -31,7 +31,7 @@
                 "tags": [
                     "Genesys"
                 ],
-                "summary": "PBX Genesys creating interactions",
+                "summary": "Creating interactions",
                 "description": "Register interaction.",
                 "operationId": "e95965a0bbd65e7f1b55264fbfc58ee5",
                 "requestBody": {
@@ -85,7 +85,7 @@
                 "tags": [
                     "Genesys"
                 ],
-                "summary": "PBX Genesys update interactions",
+                "summary": "Update interactions",
                 "description": "Update interaction.",
                 "operationId": "4e4d955fe8b1079b376b67a017c6dfb7",
                 "requestBody": {
@@ -139,7 +139,7 @@
                 "tags": [
                     "Genesys"
                 ],
-                "summary": "PBX Genesys creating interactions for campaign",
+                "summary": "Creating interactions for campaign",
                 "description": "Register interaction campaign.",
                 "operationId": "affe30c217d71a67719d82e489c99feb",
                 "requestBody": {

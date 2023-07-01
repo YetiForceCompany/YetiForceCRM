@@ -22,7 +22,7 @@ paths:
   /webservice/SMS/SMSAPI/Reception:
     get:
       tags:
-        - SMSAPI
+        - SMSApi
       summary: 'Receipt of SMS'
       description: 'Add record.'
       externalDocs:
@@ -49,7 +49,7 @@ paths:
   /webservice/SMS/SMSAPI/Report:
     get:
       tags:
-        - SMSAPI
+        - SMSApi
       summary: 'Report for sms'
       description: 'Update record status.'
       externalDocs:
@@ -75,7 +75,7 @@ paths:
           token: []
     post:
       tags:
-        - SMSAPI
+        - SMSApi
       summary: 'Report for sms'
       description: 'Update record status.'
       externalDocs:

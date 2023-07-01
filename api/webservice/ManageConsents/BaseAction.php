@@ -37,6 +37,9 @@ use OpenApi\Annotations as OA;
  *	),
  * @OA\Server(description="Demo server of the development version", url="https://gitdeveloper.yetiforce.com")
  * @OA\Server(description="Demo server of the latest stable version", url="https://gitstable.yetiforce.com")
+ * @OA\Tag(name="BaseModule", x={"displayName" : "Base module"})
+ * @OA\Tag(name="ApprovalsRegister", x={"displayName" : "Approvals register"})
+ * @OA\Tag(name="Approvals", x={"displayName" : "Approvals"})
  */
 class BaseAction extends \Api\Core\BaseAction
 {

@@ -29,7 +29,7 @@
         "/webservice/SMS/SMSAPI/Reception": {
             "get": {
                 "tags": [
-                    "SMSAPI"
+                    "SMSApi"
                 ],
                 "summary": "Receipt of SMS",
                 "description": "Add record.",
@@ -70,7 +70,7 @@
         "/webservice/SMS/SMSAPI/Report": {
             "get": {
                 "tags": [
-                    "SMSAPI"
+                    "SMSApi"
                 ],
                 "summary": "Report for sms",
                 "description": "Update record status.",
@@ -109,7 +109,7 @@
             },
             "post": {
                 "tags": [
-                    "SMSAPI"
+                    "SMSApi"
                 ],
                 "summary": "Report for sms",
                 "description": "Update record status.",

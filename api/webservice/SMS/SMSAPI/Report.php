@@ -76,7 +76,7 @@ class Report extends \Api\SMS\BaseAction
 	 * @OA\Get(
 	 *		path="/webservice/SMS/SMSAPI/Report",
 	 *		summary="Report for sms",
-	 *		tags={"SMSAPI"},
+	 *		tags={"SMSApi"},
 	 *		externalDocs={
 	 *			"description" : "SMSApi Documentation",
 	 *			"url" : "https://www.smsapi.pl/docs"
@@ -136,7 +136,7 @@ class Report extends \Api\SMS\BaseAction
 	 * @OA\Post(
 	 *		path="/webservice/SMS/SMSAPI/Report",
 	 *		summary="Report for sms",
-	 *		tags={"SMSAPI"},
+	 *		tags={"SMSApi"},
 	 *		externalDocs={
 	 *			"description" : "SMSApi Documentation",
 	 *			"url" : "https://www.smsapi.pl/docs"

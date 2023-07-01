@@ -55,7 +55,6 @@ class Action extends \Api\Core\BaseAction
 	 * @OA\Get(
 	 *		path="/webservice/Token/{token}",
 	 *		summary="Token support",
-	 *		tags={"Token"},
 	 * 		security={
 	 *			{"ApiKeyAuth" : {}, "token" : {}}
 	 *  	},

@@ -49,7 +49,7 @@ class Reception extends \Api\SMS\BaseAction
 	 * @OA\Get(
 	 *		path="/webservice/SMS/SMSAPI/Reception",
 	 *		summary="Receipt of SMS",
-	 *		tags={"SMSAPI"},
+	 *		tags={"SMSApi"},
 	 *		externalDocs={
 	 *			"description" : "SMSApi Documentation",
 	 *			"url" : "https://www.smsapi.pl/docs"
