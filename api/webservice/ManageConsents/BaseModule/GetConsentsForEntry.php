@@ -34,9 +34,7 @@ class GetConsentsForEntry extends \Api\ManageConsents\BaseAction
 	 *		path="/webservice/ManageConsents/{moduleName}/GetConsentsForEntry",
 	 *		summary="Gets the list of consents for specific entry",
 	 *		tags={"BaseModule"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *	},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\RequestBody(
 	 *				required=true,
 	 *				description="Required data for communication",

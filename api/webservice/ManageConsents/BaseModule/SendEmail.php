@@ -34,9 +34,7 @@ class SendEmail extends \Api\ManageConsents\BaseAction
 	 *		path="/webservice/ManageConsents/{moduleName}/SendEmail",
 	 *		summary="Send e-mail",
 	 *		tags={"BaseModule"},
-	 *    security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *    },
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\RequestBody(
 	 *				required=true,
 	 *				description="Required data for communication",

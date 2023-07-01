@@ -55,9 +55,6 @@ class Action extends \Api\Core\BaseAction
 	 * @OA\Get(
 	 *		path="/webservice/Token/{token}",
 	 *		summary="Token support",
-	 * 		security={
-	 *			{"ApiKeyAuth" : {}, "token" : {}}
-	 *  	},
 	 *		@OA\Parameter(name="token", in="path", @OA\Schema(type="string"), description="Token", required=true, example="vrm6bcA3fp2J0RB96AvDCAVsKv1MaMVbGQ1QbFtS5jr0DSXvUvc3ec08fMhCk7kd"),
 	 *		@OA\Response(response=200, description="Result", @OA\JsonContent(ref="#/components/schemas/Token_Get_Report")),
 	 *		@OA\Response(response=404, description="No token"),

@@ -44,10 +44,6 @@ paths:
           description: 'No token'
         '405':
           description: 'The token does not exist or has expired'
-      security:
-        -
-          ApiKeyAuth: []
-          token: []
 components:
   schemas:
     Token_Get_Report:

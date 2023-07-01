@@ -146,9 +146,7 @@ class Files extends \Api\WebserviceStandard\BaseAction\Files
 	 *		description="Download files from the system",
 	 *		summary="Download files",
 	 *		tags={"BaseAction"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\RequestBody(
 	 *			required=true,
 	 *			description="Action parameters to download the file",

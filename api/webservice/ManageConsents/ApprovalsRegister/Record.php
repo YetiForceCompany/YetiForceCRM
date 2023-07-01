@@ -49,9 +49,7 @@ class Record extends \Api\ManageConsents\BaseAction
 	 *		path="/webservice/ManageConsents/ApprovalsRegister/Record",
 	 *		summary="Adds an consent entry",
 	 *		tags={"ApprovalsRegister"},
-	 *    security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
-	 *    },
+	 * 		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\RequestBody(
 	 *				required=true,
 	 *				description="Required data for communication",
