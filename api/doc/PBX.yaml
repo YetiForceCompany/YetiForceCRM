@@ -330,6 +330,12 @@ components:
           type: integer
           example: 1
       type: object
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      description: 'Webservice api key header'
+      name: X-API-KEY
+      in: header
 externalDocs:
   description: 'Platform API Interactive Docs'
   url: 'https://doc.yetiforce.com/api/?urls.primaryName=PBX'

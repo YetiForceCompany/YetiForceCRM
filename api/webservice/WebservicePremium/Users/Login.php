@@ -28,9 +28,7 @@ class Login extends \Api\WebserviceStandard\Users\Login
 	 *		description="Authenticate into the system",
 	 *		summary="Login",
 	 *		tags={"Users"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\RequestBody(
 	 *  		required=true,
 	 *  		description="Input data format",
@@ -68,70 +66,6 @@ class Login extends \Api\WebserviceStandard\Users\Login
 	 *			description="No 2FA TOTP code",
 	 *			@OA\JsonContent(ref="#/components/schemas/Exception"),
 	 *			@OA\XmlContent(ref="#/components/schemas/Exception")
-	 *		),
-	 *	),
-	 *	@OA\SecurityScheme(
-	 *		type="http",
-	 *		securityScheme="basicAuth",
-	 *		scheme="basic",
-	 *   	description="Basic Authentication header"
-	 *	),
-	 *	@OA\SecurityScheme(
-	 * 		name="X-API-KEY",
-	 *   	type="apiKey",
-	 *    	in="header",
-	 *		securityScheme="ApiKeyAuth",
-	 *   	description="Webservice api key header"
-	 *	),
-	 *	@OA\Schema(
-	 *		schema="Header-Encrypted",
-	 *		type="integer",
-	 *		title="Header - Encrypted",
-	 *  	description="Is the content request is encrypted",
-	 *  	enum={0, 1},
-	 *   	default=0
-	 *	),
-	 *	@OA\Schema(
-	 *		schema="Conditions-Mix-For-Query-Generator",
-	 *		type="object",
-	 *		title="General - Mix conditions for query generator",
-	 *  	description="Multiple or one condition for a query generator",
-	 *		oneOf={
-	 *			@OA\Schema(ref="#/components/schemas/Condition-For-Query-Generator"),
-	 *			@OA\Schema(ref="#/components/schemas/Conditions-For-Query-Generator"),
-	 *		}
-	 *	),
-	 *	@OA\Schema(
-	 *		schema="Condition-For-Query-Generator",
-	 *		type="object",
-	 *		title="General - Condition for query generator",
-	 *  	description="One condition for query generator",
-	 *  	required={"fieldName", "value", "operator"},
-	 *		@OA\Property(property="fieldName", description="Field name", type="string", example="lastname"),
-	 *		@OA\Property(property="value", description="Search value", type="string", example="Kowalski"),
-	 *		@OA\Property(property="operator", description="Field operator", type="string", example="e"),
-	 *		@OA\Property(property="group", description="Condition group if true is AND", type="boolean", example=true),
-	 *	),
-	 *	@OA\Schema(
-	 *		schema="Conditions-For-Query-Generator",
-	 *		type="object",
-	 *		title="General - Conditions for query generator",
-	 *  	description="Multiple conditions for query generator",
-	 *		@OA\AdditionalProperties(
-	 *			description="Condition details",
-	 *			type="object",
-	 *			@OA\Schema(ref="#/components/schemas/Condition-For-Query-Generator"),
-	 *		),
-	 *	),
-	 *	@OA\Schema(
-	 *		schema="Conditions-For-Native-Query",
-	 *		type="object",
-	 *		title="General - Conditions for native query",
-	 *  	description="Conditions for native query, based on YII 2",
-	 *		example={"column_name1" : "searched value 1", "column_name2" : "searched value 2"},
-	 *		@OA\ExternalDocumentation(
-	 *			description="Database communication engine",
-	 *			url="https://doc.yetiforce.com/developer-guides/system-components/databases"
 	 *		),
 	 *	),
 	 *	@OA\Schema(
@@ -214,25 +148,6 @@ class Login extends \Api\WebserviceStandard\Users\Login
 	 * 				@OA\Property(property="creditlimit", type="integer")
 	 * 			),
 	 *    ),
-	 *	),
-	 *	@OA\Schema(
-	 *		schema="Exception",
-	 *		title="General - Error exception",
-	 *		type="object",
-	 *		required={"status", "error"},
-	 *		@OA\Property(property="status", type="integer", enum={0}, title="0 - error", example=0),
-	 *		@OA\Property(
-	 * 			property="error",
-	 *     	 	description="Error details",
-	 *    	 	type="object",
-	 *    	 	required={"message", "code"},
-	 *   		@OA\Property(property="message", type="string", example="Invalid method", description="To show more details turn on: config\Debug.php apiShowExceptionMessages = true"),
-	 *   		@OA\Property(property="code", type="integer", example=405),
-	 *   		@OA\Property(property="file", type="string", example="api\webservice\WebservicePremium\BaseAction\Files.php", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
-	 *   		@OA\Property(property="line", type="integer", example=101, description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
-	 *   		@OA\Property(property="previous", type="object", description="Previous exception"),
-	 * 			@OA\Property(property="backtrace", type="string", example="#0 api\webservice\WebservicePremium\BaseAction\Files.php (101) ....", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
-	 *    	),
 	 *	),
 	 */
 	public function post(): ?array

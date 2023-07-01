@@ -48,13 +48,6 @@ class Logout extends \Api\Core\BaseAction
 	 *			@OA\XmlContent(ref="#/components/schemas/UsersLogoutResponseBody"),
 	 *		),
 	 * ),
-	 *	@OA\SecurityScheme(
-	 * 		name="X-TOKEN",
-	 *   	type="apiKey",
-	 *   	in="header",
-	 *		securityScheme="token",
-	 *   	description="Webservice api token by user header"
-	 *	),
 	 * @OA\Schema(
 	 * 		schema="UsersLogoutResponseBody",
 	 * 		title="Users module - Users logout response body",

@@ -65,26 +65,6 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 *		type="object",
 	 * 		example={"fieldName" : "approvals_status", "value" : "PLL_ACTIVE", "operator" : "e"}
 	 *	),
-	 *	@OA\SecurityScheme(
-	 *		type="http",
-	 *		securityScheme="basicAuth",
-	 *		scheme="basic",
-	 *   	description="Basic Authentication header"
-	 *	),
-	 *	@OA\SecurityScheme(
-	 * 		name="X-API-KEY",
-	 *   	type="apiKey",
-	 *    	in="header",
-	 *		securityScheme="ApiKeyAuth",
-	 *   	description="Webservice api key header"
-	 *	),
-	 *	@OA\SecurityScheme(
-	 * 		name="X-TOKEN",
-	 *   	type="apiKey",
-	 *   	in="header",
-	 *		securityScheme="token",
-	 *   	description="Webservice api token by user header"
-	 *	),
 	 * @OA\Schema(
 	 *		schema="Approvals_Get_RecordsList_Response",
 	 *		title="List of consents",
@@ -133,28 +113,6 @@ class RecordsList extends \Api\ManageConsents\BaseAction
 	 * 				),
 	 * 				@OA\Property(property="isMorePages", description="There are more entries", type="boolean", example=true),
 	 * 		),
-	 *	),
-	 *	@OA\Schema(
-	 *		schema="Exception",
-	 *		title="General - Error exception",
-	 *		type="object",
-	 *  	@OA\Property(
-	 * 			property="status",
-	 *			description="0 - error",
-	 * 			enum={0},
-	 *			type="integer",
-	 *			example=0
-	 * 		),
-	 *		@OA\Property(
-	 * 			property="error",
-	 *     	 	description="Error  details",
-	 *    	 	type="object",
-	 *   		@OA\Property(property="message", type="string", example="Invalid method", description="To show more details turn on: config\Debug.php apiShowExceptionMessages = true"),
-	 *   		@OA\Property(property="code", type="integer", example=405),
-	 *   		@OA\Property(property="file", type="string", example="api\webservice\WebservicePremium\BaseAction\Files.php", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
-	 *   		@OA\Property(property="line", type="integer", example=101, description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
-	 * 			@OA\Property(property="backtrace", type="string", example="#0 api\webservice\WebservicePremium\BaseAction\Files.php (101) ....", description="default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true"),
-	 *    	),
 	 *	),
 	 */
 	public function get()

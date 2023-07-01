@@ -116,6 +116,17 @@ components:
       description: Response
       type: string
       example: OK
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      description: 'Webservice api key header'
+      name: X-API-KEY
+      in: header
+    token:
+      type: apiKey
+      description: 'Webservice api token by user header'
+      name: X-TOKEN
+      in: header
 externalDocs:
   description: 'Platform API Interactive Docs'
   url: 'https://doc.yetiforce.com/api/?urls.primaryName=SMS'

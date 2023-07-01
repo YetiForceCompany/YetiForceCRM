@@ -16,21 +16,21 @@ use OpenApi\Annotations as OA;
 /**
  * PBX Genesys WDE by Whirly class to handle communication via web services.
  *
- * @OA\Info(
+ * 	@OA\Info(
  * 		title="YetiForce API for PBX. Type: PBX",
  * 		description="",
  * 		version="0.1",
  * 		termsOfService="https://yetiforce.com/",
  *   	@OA\Contact(email="devs@yetiforce.com", name="Devs API Team", url="https://yetiforce.com/"),
  *   	@OA\License(name="YetiForce Public License", url="https://yetiforce.com/en/yetiforce/license"),
- * )
- * @OA\ExternalDocumentation(
+ * 	)
+ * 	@OA\ExternalDocumentation(
  *		description="Platform API Interactive Docs",
  * 		url="https://doc.yetiforce.com/api/?urls.primaryName=PBX"
- * ),
- * @OA\Server(description="Demo server of the development version", url="https://gitdeveloper.yetiforce.com")
- * @OA\Server(description="Demo server of the latest stable version", url="https://gitstable.yetiforce.com")
- * @OA\Schema(
+ * 	),
+ * 	@OA\Server(description="Demo server of the development version", url="https://gitdeveloper.yetiforce.com")
+ * 	@OA\Server(description="Demo server of the latest stable version", url="https://gitstable.yetiforce.com")
+ * 	@OA\Schema(
  *		schema="PBX_Genesys_Error",
  *		title="Response for Genesys errors",
  *		type="object",
@@ -42,7 +42,14 @@ use OpenApi\Annotations as OA;
  *			example=1
  *		),
  *		@OA\Property(property="description", type="string", description="Error description", example="No data"),
- * ),
+ * 	),
+ *	@OA\SecurityScheme(
+ * 		name="X-API-KEY",
+ *   	type="apiKey",
+ *    	in="header",
+ *		securityScheme="ApiKeyAuth",
+ *   	description="Webservice api key header"
+ *	),
  */
 class GenesysWdeWhirly extends \Api\Core\BaseAction
 {

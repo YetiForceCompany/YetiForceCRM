@@ -474,6 +474,14 @@
                 },
                 "type": "object"
             }
+        },
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "description": "Webservice api key header",
+                "name": "X-API-KEY",
+                "in": "header"
+            }
         }
     },
     "externalDocs": {

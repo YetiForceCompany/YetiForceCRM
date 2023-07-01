@@ -42,9 +42,7 @@ class Install extends \Api\Core\BaseAction
 	 *		summary="Test method for the portal",
 	 *		description="Install the system",
 	 *		tags={"BaseAction"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\RequestBody(
 	 *			required=false,
 	 *			description="Base action install request body",

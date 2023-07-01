@@ -28,9 +28,7 @@ class ResetPassword extends \Api\WebserviceStandard\Users\ResetPassword
 	 *		description="User password reset - Generating and sending a one-time token",
 	 *		summary="User password reset - Generating and sending a one-time token",
 	 *		tags={"Users"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\RequestBody(
 	 *  		required=true,
 	 *  		description="Input data",
@@ -96,9 +94,7 @@ class ResetPassword extends \Api\WebserviceStandard\Users\ResetPassword
 	 *		description="User password reset - Password change",
 	 *		summary="User password reset - Password change",
 	 *		tags={"Users"},
-	 *		security={
-	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}
-	 *		},
+	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
 	 *		@OA\RequestBody(
 	 *  		required=true,
 	 *  		description="Input data",
