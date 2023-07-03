@@ -1060,6 +1060,10 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		$moduleName = $this->getModuleName();
 		$path = "modules/$moduleName/summary_blocks";
+		if (\App\Config::performance('LOAD_CUSTOM_FILES')) {
+			$customPath = "custom/$path";
+			$path = is_dir($customPath) ? $customPath : $path;
+		}
 		if (!is_dir($path)) {
 			return [];
 		}
