@@ -182,13 +182,14 @@ class Purifier
 		if (Cache::has('purifyHtml', $cacheKey)) {
 			return Cache::get('purifyHtml', $cacheKey);
 		}
-		$input = str_replace(["\r\n"], "\n", $input);
+
 		// Initialize the instance if it has not yet done
 		if (!static::$purifyHtmlInstanceCache) {
 			$config = static::getHtmlConfig();
 			static::$purifyHtmlInstanceCache = new \HTMLPurifier($config);
 		}
 		if (static::$purifyHtmlInstanceCache) {
+			$input = str_replace(["\r\n"], "\n", $input);
 			$value = static::$purifyHtmlInstanceCache->purify($input);
 			$value = static::removeUnnecessaryCode($value);
 			if ($loop) {

@@ -196,7 +196,7 @@ class Base
 		$fieldsModel = $this->response['recordModel']->getModule()->getFields();
 		$additional = $fieldsData = $skip = [];
 		$rows = isset($this->data[0]) ? $this->data : [$this->data];
-		foreach ($rows as $key => &$row) {
+		foreach ($rows as $key => $row) {
 			$dataCounter[$key] = 0;
 			if (empty($row)) {
 				continue;

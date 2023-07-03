@@ -157,7 +157,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 		if ($this->getPreviousValue('user_password')) {
 			$this->set('date_password_change', date('Y-m-d H:i:s'));
-			if ($this->isNew() || (false === $this->getPreviousValue('force_password_change') && App\User::getCurrentUserRealId() !== $this->getId())) {
+			if ($this->isNew() || (false === $this->getPreviousValue('force_password_change') && ($relId = App\User::getCurrentUserRealId()) && $relId !== $this->getId())) {
 				$this->set('force_password_change', 1);
 			}
 		}

@@ -154,7 +154,7 @@ class VTWorkflowManager
 			\App\Cache::save('WorkflowsForModule', $moduleName, $rows);
 		}
 		if ($executionCondition) {
-			foreach ($rows as $key => &$row) {
+			foreach ($rows as $key => $row) {
 				if ($row['execution_condition'] !== $executionCondition) {
 					unset($rows[$key]);
 				}

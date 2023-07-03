@@ -113,7 +113,7 @@ class Vtiger_Action_Model extends \App\Base
 	 *
 	 * @var array
 	 */
-	protected static $cachedInstances = null;
+	protected static $cachedInstances;
 
 	/**
 	 * Return instance.
@@ -180,7 +180,7 @@ class Vtiger_Action_Model extends \App\Base
 			\App\Cache::save('Actions', 'all', $rows);
 		}
 		if ($configurable) {
-			foreach ($rows as $key => &$row) {
+			foreach ($rows as $key => $row) {
 				if (\in_array($row['actionname'], self::$nonConfigurableActions)) {
 					unset($rows[$key]);
 				}

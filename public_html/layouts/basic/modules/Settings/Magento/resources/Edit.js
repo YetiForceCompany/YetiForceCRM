@@ -6,13 +6,13 @@ Settings_Vtiger_Edit_Js(
 	{},
 	{
 		registerSubmitForm: function () {
-			var form = this.getForm();
+			let form = this.getForm();
 			form.on('submit', function (e) {
 				e.preventDefault();
 				e.stopPropagation();
 				if (form.validationEngine('validate') === true) {
-					var paramsForm = form.serializeFormData();
-					var progressIndicatorElement = jQuery.progressIndicator({
+					let paramsForm = form.serializeFormData();
+					let progressIndicatorElement = jQuery.progressIndicator({
 						blockInfo: { enabled: true }
 					});
 					AppConnector.request(paramsForm)
@@ -34,11 +34,9 @@ Settings_Vtiger_Edit_Js(
 								type: 'error'
 							});
 						});
-					return false;
 				} else {
 					app.formAlignmentAfterValidation(form);
 				}
-				return false;
 			});
 		},
 		getRecordsListParams: function (container) {

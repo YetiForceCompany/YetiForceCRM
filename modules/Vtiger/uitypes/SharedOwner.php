@@ -94,9 +94,9 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					break;
 				case 'Groups':
 					if ($isAdmin) {
-						$recordModel = new Settings_Groups_Record_Model();
-						$recordModel->set('groupid', $shownerid);
-						$detailViewUrl = $recordModel->getDetailViewUrl();
+						$groupModel = new Settings_Groups_Record_Model();
+						$groupModel->set('groupid', $shownerid);
+						$detailViewUrl = $groupModel->getDetailViewUrl();
 						$popoverRecordClass = '';
 					}
 					break;
@@ -145,9 +145,9 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 						continue 2;
 					}
 					$display[$key] = $name;
-					$recordModel = new Settings_Groups_Record_Model();
-					$recordModel->set('groupid', $shownerid);
-					$detailViewUrl = $recordModel->getDetailViewUrl();
+					$groupModel = new Settings_Groups_Record_Model();
+					$groupModel->set('groupid', $shownerid);
+					$detailViewUrl = $groupModel->getDetailViewUrl();
 					if ($isAdmin && !$rawText) {
 						$shownerData[$key]['link'] = $detailViewUrl;
 						$shownerData[$key]['class'] = '';
