@@ -11,9 +11,7 @@
 			{include file=\App\Layout::getTemplatePath('ActivityStateContent.tpl', $MODULE_NAME)}
 			<div class="o-calendar__form__actions">
 				<div class="d-flex flex-wrap">
-					{foreach item=LINK from=$LINKS}
-						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME)}
-					{/foreach}
+					{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME)}
 					{if $RECORD->isEditable()}
 						<a href="#" data-url="{$RECORD->getEditViewUrl()}" data-id="{$ID}"
 							class="editRecord btn mt-1 btn-default mr-1"
