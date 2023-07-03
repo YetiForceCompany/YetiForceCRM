@@ -77,7 +77,6 @@ class Products extends \App\Integrations\Comarch\Synchronizer
 				if ($rows = $this->getFromApi('Product/GetFiltered?&page=' . $page . '&' . $this->getFromApiCond())) {
 					foreach ($rows as $id => $row) {
 						$this->importItem($row);
-						return;
 						$this->config->setScan('import' . $this->name, 'id', $id);
 						++$i;
 					}
@@ -121,9 +120,9 @@ class Products extends \App\Integrations\Comarch\Synchronizer
 		$mapModel = $this->getMapModel();
 		$mapModel->setDataApi($row);
 		if ($dataYf = $mapModel->getDataYf()) {
-			print_r($row);
-			print_r($dataYf);
-			exit;
+			// print_r($row);
+			// print_r($dataYf);
+			// exit;
 			try {
 				$yfId = $mapModel->findRecordInYf();
 				if (empty($yfId) || empty($this->exported[$yfId])) {
@@ -140,14 +139,14 @@ class Products extends \App\Integrations\Comarch\Synchronizer
 					);
 				}
 			} catch (\Throwable $ex) {
-				$this->controller->log(__FUNCTION__, ['YF' => $dataYf, 'API' => $row], $ex);
+				$this->controller->log($this->name . ' ' . __FUNCTION__, ['YF' => $dataYf, 'API' => $row], $ex);
 				\App\Log::error('Error during ' . __FUNCTION__ . ': ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 			}
 		} else {
 			\App\Log::error('Empty map details in ' . __FUNCTION__, self::LOG_CATEGORY);
 		}
 		if ($this->config->get('log_all')) {
-			$this->controller->log(__FUNCTION__ . ' | ' .
+			$this->controller->log($this->name . ' ' . __FUNCTION__ . ' | ' .
 			 (\array_key_exists($row[$mapModel::API_NAME_ID], $this->imported) ? 'imported' : 'skipped'), [
 			 	'API' => $row,
 			 	'YF' => $dataYf ?? [],

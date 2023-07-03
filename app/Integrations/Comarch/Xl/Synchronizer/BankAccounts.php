@@ -70,7 +70,7 @@ class BankAccounts extends \App\Integrations\Comarch\Synchronizer
 			\App\Log::error('Empty map details in ' . __FUNCTION__, self::LOG_CATEGORY);
 		}
 		if ($this->config->get('log_all')) {
-			$this->controller->log(__FUNCTION__ . ' | ' . (empty($dataYf['id']) ? 'imported' : 'skipped'), [
+			$this->controller->log($this->name . ' ' . __FUNCTION__ . ' | ' . (empty($dataYf['id']) ? 'skipped' : 'imported'), [
 				'API' => $row,
 				'YF' => $dataYf ?? [],
 			]);
@@ -84,7 +84,7 @@ class BankAccounts extends \App\Integrations\Comarch\Synchronizer
 		$queryGenerator->setStateCondition('All');
 		$queryGenerator->setFields(['id'])->permissions = false;
 		$queryGenerator->addCondition('account_number', $accountNumber, 'e');
-		$queryGenerator->addCondition('related_to', $relatedTo, 'e');
+		$queryGenerator->addCondition('related_to', $relatedTo, 'eid');
 		return $queryGenerator->createQuery()->scalar() ?: 0;
 	}
 }

@@ -93,26 +93,24 @@ class Account extends \App\Integrations\Comarch\Map
 	/** {@inheritdoc} */
 	public function saveInApi(): void
 	{
-		// if (empty($this->dataApi['id'])) {
-		// 	print_r(['POST', 'customer/create', $this->dataApi]);
-		// 	$response = $this->synchronizer->controller->getConnector()
-		// 		->request('POST', 'customer/create', $this->dataApi);
-		// 	$response = \App\Json::decode($response);
-		// 	$this->recordModel->set(self::FIELD_NAME_ID, $response['id']);
-		// 	$this->recordModel->save();
-		// 	$this->dataYf[self::FIELD_NAME_ID] = $this->dataApi['id'] = $response['id'];
-		// } else {
-		// 	$id = $this->dataApi['id'];
-		// 	unset($this->dataApi['id']);
-		// 	print_r(['PUT', 'Customer/Update/' . $id, $this->dataApi]);
-		// 	$this->synchronizer->controller->getConnector()
-		// 		->request('PUT', 'Customer/Update/' . $id, $this->dataApi);
-		// 	$this->dataApi['id'] = $id;
-		// }
-		// $this->synchronizer->updateMapIdCache(
-		// 	$this->recordModel->getModuleName(),
-		// 	$this->dataApi['id'], $this->recordModel->getId()
-		// );
+		if (empty($this->dataApi['id'])) {
+			$response = $this->synchronizer->controller->getConnector()
+				->request('POST', 'customer/create', $this->dataApi);
+			$response = \App\Json::decode($response);
+			$this->recordModel->set(self::FIELD_NAME_ID, $response['id']);
+			$this->recordModel->save();
+			$this->dataYf[self::FIELD_NAME_ID] = $this->dataApi['id'] = $response['id'];
+		} else {
+			$id = $this->dataApi['id'];
+			unset($this->dataApi['id']);
+			$this->synchronizer->controller->getConnector()
+				->request('PUT', 'Customer/Update/' . $id, $this->dataApi);
+			$this->dataApi['id'] = $id;
+		}
+		$this->synchronizer->updateMapIdCache(
+			$this->recordModel->getModuleName(),
+			$this->dataApi['id'], $this->recordModel->getId()
+		);
 		$this->runDependentSynchronizer(false);
 	}
 
@@ -136,7 +134,6 @@ class Account extends \App\Integrations\Comarch\Map
 				$vatId = str_replace([' ', ',', '.', '-'], '', $this->dataApi['Nip']);
 				$response = $this->synchronizer->controller->getConnector()
 					->request('GET', 'Customer/Get?nip=' . $vatId);
-				print_r(['Customer/Get?nip=' . $vatId, $response]);
 				if ($response && ($response = \App\Json::decode($response))) {
 					return $response[0]['knt_GidNumer'];
 				}

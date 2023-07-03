@@ -359,31 +359,32 @@ class Synchronizer
 		$dataApi = $mapModel->getDataApi();
 		if ($mapModel->skip) {
 			if ($this->config->get('log_all')) {
-				$this->controller->log(__FUNCTION__ . ' | skipped , inconsistent data', ['YF' => $row, 'API' => $dataApi ?? []]);
+				$this->controller->log($this->name . ' ' . __FUNCTION__ . ' | skipped , inconsistent data', ['YF' => $row, 'API' => $dataApi ?? []]);
 			}
 		} elseif (empty($dataApi)) {
 			\App\Log::error(__FUNCTION__ . ' | Empty map details', self::LOG_CATEGORY);
-			$this->controller->log(__FUNCTION__ . ' | Empty map details', ['YF' => $row, 'API' => $dataApi ?? []], null, true);
+			$this->controller->log($this->name . ' ' . __FUNCTION__ . ' | Empty map details', ['YF' => $row, 'API' => $dataApi ?? []], null, true);
 		} else {
 			try {
 				if ('create' === $mapModel->getModeApi() || empty($this->imported[$row[$mapModel::FIELD_NAME_ID]])) {
 					$mapModel->saveInApi();
 					$dataApi = $mapModel->getDataApi(false);
+					$this->exported[$id] = $mapModel->getRecordModel()->get($mapModel::FIELD_NAME_ID);
 				} else {
 					$this->updateMapIdCache(
 						$mapModel->getRecordModel()->getModuleName(),
 						$mapModel->getRecordModel()->get($mapModel::FIELD_NAME_ID),
-						$row['id']
+						$id
 					);
 				}
 			} catch (\Throwable $ex) {
-				$this->controller->log(__FUNCTION__, ['YF' => $row, 'API' => $dataApi], $ex);
+				$this->controller->log($this->name . ' ' . __FUNCTION__, ['YF' => $row, 'API' => $dataApi], $ex);
 				\App\Log::error('Error during ' . __FUNCTION__ . ': ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 			}
 		}
 		if ($this->config->get('log_all')) {
-			$this->controller->log(__FUNCTION__ . ' | ' .
-				(\array_key_exists($row['id'], $this->exported) ? 'exported' : 'skipped'),
+			$this->controller->log($this->name . ' ' . __FUNCTION__ . ' | ' .
+				(\array_key_exists($id, $this->exported) ? 'exported' : 'skipped'),
 				[
 					'YF' => $row,
 					'API' => $dataApi ?? [],
