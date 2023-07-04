@@ -14,10 +14,10 @@ namespace App;
  */
 class Mail
 {
-	/** @var int Default smtp ID */
-	public const SMTP_DEFAULT = 0;
 	/** @var string Table name for configuration */
 	public const TABLE_NAME_CONFIG = 'yetiforce_mail_config';
+	/** @var int Default smtp ID */
+	public static $smtpDefault = 0;
 
 	/**
 	 * Get smtp server by id.
@@ -55,17 +55,16 @@ class Mail
 		} else {
 			$dataReader = (new Db\Query())->from('s_#__mail_smtp')->createCommand(Db::getInstance('admin'))->query();
 			while ($row = $dataReader->read()) {
-				$all[$row['id']] = $row;
 				if ($row['default']) {
-					$all[self::SMTP_DEFAULT] = $row;
+					self::$smtpDefault = $row['id'];
 				}
+				$all[$row['id']] = $row;
 			}
 			Cache::save('SmtpServers', 'all', $all, Cache::LONG);
 		}
 		if ($skipDefault) {
-			unset($all[self::SMTP_DEFAULT]);
+			unset($all[self::$smtpDefault]);
 		}
-
 		return $all;
 	}
 
@@ -74,9 +73,10 @@ class Mail
 	 *
 	 * @return int
 	 */
-	public static function getDefaultSmtp()
+	public static function getDefaultSmtp(): int
 	{
-		return static::getSmtpById(static::SMTP_DEFAULT)['id'] ?? key(static::getSmtpServers());
+		$smtp = static::getSmtpServers();
+		return $smtp[static::$smtpDefault]['id'] ?? 0;
 	}
 
 	/**

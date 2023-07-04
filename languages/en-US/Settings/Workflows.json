@@ -246,6 +246,7 @@
     "Notify Account On New comment added to ticket": "Notify Account on new comment added to ticket",
     "LBL_OWNER_RECORD": "Record Owner",
     "LBL_SMTP": "SMTP",
+    "LBL_SELECT_SMTP": "Select smtp",
     "LBL_CHECK_EMAIL_OPTOUT": "Verify if recipient agreed to receive e-mails",
     "LBL_SUMFIELDFROMDEPENDENT_SOURCE": "Field to be summed",
     "LBL_SUMFIELDFROMDEPENDENT_TARGET": "Field where summation will be saved",
