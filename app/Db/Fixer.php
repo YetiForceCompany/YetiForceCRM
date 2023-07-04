@@ -46,8 +46,12 @@ class Fixer
 
 	/**
 	 * Add missing entries in vtiger_profile2utility.
+	 *
+	 * @param bool $showMissingElements
+	 *
+	 * @return int
 	 */
-	public static function baseModuleTools(): int
+	public static function baseModuleTools(bool $showMissingElements = false): int
 	{
 		$i = 0;
 		$allUtility = $missing = $curentProfile2utility = [];
@@ -84,6 +88,12 @@ class Fixer
 			} elseif (isset($exceptions[$row['tabid']]['notAllowed']) && (false === $exceptions[$row['tabid']]['notAllowed'] || isset($exceptions[$row['tabid']]['notAllowed'][$row['activityid']]))) {
 				continue;
 			}
+
+			if ($showMissingElements) {
+				$nameOfModule = (new \App\Db\Query())->select(['name'])->from('vtiger_tab')->where(['tabid' => $row['tabid']])->one();
+				echo "Missing module: " . $nameOfModule['name'] . "\n";
+			}
+
 			$dbCommand->insert('vtiger_profile2utility', ['profileid' => $row['profileid'], 'tabid' => $row['tabid'], 'activityid' => $row['activityid'], 'permission' => 1])->execute();
 			++$i;
 		}

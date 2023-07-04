@@ -21,7 +21,7 @@ class Db_Fixer extends \Tests\Base
 	 */
 	public function testFixerDb()
 	{
-		$this->assertSame(0, \App\Db\Fixer::baseModuleTools());
+		$this->assertSame(0, \App\Db\Fixer::baseModuleTools(true));
 		$this->assertSame(0, \App\Db\Fixer::baseModuleActions());
 		$this->assertSame(0, \App\Db\Fixer::profileField());
 		$this->assertSame(0, \App\Db\Fixer::share());
