@@ -1699,6 +1699,7 @@ const app = (window.app = {
 			App.Fields.MultiAttachment.register(modalContainer);
 			App.Fields.MultiReference.register(modalContainer);
 			App.Fields.MapCoordinates.register(modalContainer);
+			App.Fields.Icon.register(modalContainer);
 			app.registesterScrollbar(modalContainer);
 			app.registerIframeEvents(modalContainer);
 			modalContainer.find('.modal-dialog').draggable({

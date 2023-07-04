@@ -29,8 +29,8 @@
 					<div class="c-kanban__sum w-100">
 						{foreach key=FIELD_NAME item=VALUE from=$DATA['sum'][$COLUMN_NAME]}
 							{assign var=FIELD_MODEL value=$MODULE_MODEL->getFieldByName($FIELD_NAME)}
-							{assign var=ICON value=$FIELD_MODEL->getIcon('Kanban')}
-							{if isset($ICON['name'])}<span class="{$ICON['name']} mr-2"></span>{/if}
+							{assign var=ICON value=$FIELD_MODEL->get('icon')}
+							{if $ICON}{\App\Layout\Media::getImageHtml($ICON)}{/if}
 							{$FIELD_MODEL->getFullLabelTranslation()}: {$FIELD_MODEL->getDisplayValue($VALUE)}<br />
 						{/foreach}
 					</div>
@@ -49,8 +49,8 @@
 												{assign var=VALUE value=$RECORD->getDisplayValue($NAME, false, false, 30)}
 												{if $NAME !== 'assigned_user_id' && $VALUE}
 													{assign var=FIELD_MODEL value=$MODULE_MODEL->getFieldByName($NAME)}
-													{assign var=ICON value=$FIELD_MODEL->getIcon('Kanban')}
-													{if isset($ICON['name'])}<span class="{$ICON['name']} mr-1"></span>{/if}
+													{assign var=ICON value=$FIELD_MODEL->get('icon')}
+													{if $ICON}{\App\Layout\Media::getImageHtml($ICON)}{/if}
 													{$VALUE}<br />
 												{/if}
 											{/foreach}

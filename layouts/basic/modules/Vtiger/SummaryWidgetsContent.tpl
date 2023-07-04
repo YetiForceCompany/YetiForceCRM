@@ -146,8 +146,8 @@
 										<tr class="c-table__row--hover border-bottom">
 											<td class="u-w-40per {$WIDTHTYPE} px-0">
 												<label class="font-weight-bold mb-0">
-													{assign var=ICON value=$HEADER_FIELD->getIcon('Summary')}
-													{if isset($ICON['name'])}<span class="{$ICON['name']} mr-2"></span>{/if}
+													{assign var=ICON value=$FIELD_MODEL->get('icon')}
+													{if $ICON}{\App\Layout\Media::getImageHtml($ICON)}{/if}
 													{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 												</label>
 											</td>
@@ -273,8 +273,8 @@
 								<tr class="c-table__row--hover border-bottom">
 									<td class="u-w-40per {$WIDTHTYPE} px-0">
 										<label class="font-weight-bold mb-0">
-											{assign var=ICON value=$HEADER_FIELD->getIcon('Summary')}
-											{if isset($ICON['name'])}<span class="{$ICON['name']} mr-2"></span>{/if}
+											{assign var=ICON value=$FIELD_MODEL->get('icon')}
+											{if $ICON}{\App\Layout\Media::getImageHtml($ICON)}{/if}
 											{\App\Language::translate($HEADER_FIELD->getFieldLabel(), $RELATED_MODULE->get('name'))}
 										</label>
 									</td>

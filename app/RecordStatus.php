@@ -191,13 +191,13 @@ class RecordStatus
 	 */
 	public static function addFieldsAndBlock(string $moduleName)
 	{
-		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName($moduleName);
+		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstance('Settings:LayoutEditor')->setSourceModule($moduleName);
 		$blockId = (new \App\Db\Query())->select(['blockid'])->from('vtiger_blocks')->where(['blocklabel' => 'BL_RECORD_STATUS_TIMES', 'tabid' => $moduleModel->getId()])->scalar();
 		if (!$blockId) {
 			$blockInstance = new \Settings_LayoutEditor_Block_Model();
 			$blockInstance->set('label', 'BL_RECORD_STATUS_TIMES');
 			$blockInstance->set('icon', 'fas fa-business-time');
-			$blockId = $blockInstance->save($moduleModel);
+			$blockId = $blockInstance->save($moduleModel->getSourceModule());
 		}
 		$allFields = $moduleModel->getFields();
 		foreach (static::$stateTimeFields as $type => $fields) {

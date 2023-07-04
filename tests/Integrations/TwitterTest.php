@@ -36,7 +36,7 @@ final class TwitterTest extends \Tests\Base
 	 */
 	public static function setUpBeforeClass(): void
 	{
-		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('Contacts');
+		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstance('Settings:LayoutEditor')->setSourceModule('Contacts');
 		$block = $moduleModel->getBlocks()['LBL_CONTACT_INFORMATION'];
 		$type = 'Twitter';
 		$suffix = '_t1';

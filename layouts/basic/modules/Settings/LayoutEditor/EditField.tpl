@@ -52,35 +52,35 @@
 						</div>
 						<div class="checkbox my-1">
 							<input type="hidden" name="presence" value="1" />
-							<input type="checkbox" name="presence" id="presence" {if $FIELD_MODEL->isActiveField()} checked {/if} {strip} {/strip}
+							<input type="checkbox" name="presence" id="presence" {if $FIELD_MODEL->isActiveField()} checked="checked" {/if}
 								{if $FIELD_MODEL->isActiveOptionDisabled()} readonly="readonly" class="optionDisabled" {/if} {if $IS_MANDATORY} readonly="readonly" {/if}
 								value="{$FIELD_MODEL->get('presence')|escape}" />
-							<label for="presence">
+							<label for="presence" class="ml-1">
 								{App\Language::translate('LBL_ACTIVE', $QUALIFIED_MODULE)}
 							</label>
 						</div>
 						<div class="checkbox my-1">
 							<input type="hidden" name="quickcreate" value="1" />
-							<input type="checkbox" name="quickcreate" id="quickcreate" {if $FIELD_MODEL->isQuickCreateEnabled()} checked {/if}{strip} {/strip}
+							<input type="checkbox" name="quickcreate" id="quickcreate" {if $FIELD_MODEL->isQuickCreateEnabled()} checked="checked" {/if}
 								{if $FIELD_MODEL->isQuickCreateOptionDisabled()} readonly="readonly" class="optionDisabled" {/if} {if $IS_MANDATORY} readonly="readonly" {/if}
 								value="2" />
-							<label for="quickcreate">
+							<label for="quickcreate" class="ml-1">
 								{App\Language::translate('LBL_QUICK_CREATE', $QUALIFIED_MODULE)}
 							</label>
 						</div>
 						<div class="checkbox my-1">
 							<input type="hidden" name="summaryfield" value="0" />
 							<input type="checkbox" name="summaryfield"
-								id="summaryfield" {if $FIELD_MODEL->isSummaryField()} checked {/if}{strip} {/strip}
+								id="summaryfield" {if $FIELD_MODEL->isSummaryField()} checked="checked" {/if}
 								{if $FIELD_MODEL->isSummaryFieldOptionDisabled()} readonly="readonly" class="optionDisabled" {/if} value="1" />
-							<label for="summaryfield">
+							<label for="summaryfield" class="ml-1">
 								{App\Language::translate('LBL_SUMMARY_FIELD', $QUALIFIED_MODULE)}
 							</label>
 						</div>
 						<div class="checkbox my-1">
 							<input type="hidden" name="header_field" value="0" />
 							<input type="checkbox" name="header_field" id="header_field" {if $FIELD_MODEL->isHeaderField()} checked {/if} value="1" />
-							<label for="header_field">
+							<label for="header_field" class="ml-1">
 								{App\Language::translate('LBL_HEADER_FIELD', $QUALIFIED_MODULE)}
 							</label>
 							<div class="js-toggle-hide form-group{if !$FIELD_MODEL->isHeaderField()} zeroOpacity {/if}" data-js="class:zeroOpacity">
@@ -118,9 +118,9 @@
 						</div>
 						<div class="checkbox">
 							<input type="hidden" name="masseditable" value="2" />
-							<input type="checkbox" name="masseditable" id="masseditable" {if $FIELD_MODEL->isMassEditable()} checked {/if} {strip} {/strip}
+							<input type="checkbox" name="masseditable" id="masseditable" {if $FIELD_MODEL->isMassEditable()} checked="checked" {/if}
 								{if $FIELD_MODEL->isMassEditOptionDisabled()} readonly="readonly" {/if} value="1" />
-							<label for="masseditable">
+							<label for="masseditable" class="ml-1">
 								{App\Language::translate('LBL_MASS_EDIT', $QUALIFIED_MODULE)}
 							</label>
 						</div>
@@ -128,16 +128,16 @@
 							<div class="checkbox">
 								<input type="hidden" name="generatedtype" value="0" />
 								<input type="checkbox" name="generatedtype" id="generatedtype" value="1" {if $FIELD_MODEL->get('generatedtype') eq 1} checked {/if} />
-								<label for="generatedtype">
+								<label for="generatedtype" class="ml-1">
 									{App\Language::translate('LBL_GENERATED_TYPE', $QUALIFIED_MODULE)}
 								</label>
 							</div>
 						{/if}
 						<div class="checkbox">
 							<input type="hidden" name="defaultvalue" value="0" />
-							<input type="checkbox" name="defaultvalue" id="defaultvalue" {if $FIELD_MODEL->hasDefaultValue()} checked {/if} {strip} {/strip}
+							<input type="checkbox" name="defaultvalue" id="defaultvalue" {if $FIELD_MODEL->hasDefaultValue()} checked="checked" {/if}
 								{if $FIELD_MODEL->isDefaultValueOptionDisabled()} readonly="readonly" {/if} value="1" />
-							<label for="defaultvalue">
+							<label for="defaultvalue" class="ml-1">
 								{App\Language::translate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}
 							</label>
 							<div class="js-toggle-hide form-group{if !$FIELD_MODEL->hasDefaultValue()} zeroOpacity {/if}" data-js="container">
@@ -220,7 +220,8 @@
 								<strong>{App\Language::translate('LBL_ANONYMIZATION_TARGET', $QUALIFIED_MODULE)}</strong>
 							</label>
 							<div>
-								<select name="anonymizationTarget[]" multiple class="form-control select2" id="anonymizationTarget">
+								<input type="hidden" name="anonymizationTarget" value="" />
+								<select name="anonymizationTarget[]" multiple="true" class="form-control select2" id="anonymizationTarget">
 									{foreach from=\App\Anonymization::getTypes() item=LABEL key=KEY}
 										<option value="{$KEY}" {if in_array($KEY, $FIELD_MODEL->get('anonymizationTarget'))}selected{/if}>
 											{App\Language::translate($LABEL, $QUALIFIED_MODULE)}
@@ -230,15 +231,14 @@
 							</div>
 						</div>
 						<div class="form-group">
-							{assign var=ICON value=$FIELD_MODEL->getIcon()}
-							<label for="icon_name"><strong>{App\Language::translate('LBL_FIELD_ICON', $QUALIFIED_MODULE)}</strong></label>
-							<div class="input-group">
-								<input type="text" class="form-control" id="icon_name" name="icon_name" value="{if isset($ICON['name'])}{$ICON['name']}{/if}" />
-								<div class="input-group-append">
-									<div class="input-group-text js-select-icon u-cursor-pointer" data-js="click">
-										<span class="fas fa-info-circle"></span>
-									</div>
-								</div>
+							{assign var=FIELD_ICON_MODEL value=$FIELD_MODEL->getFieldItemByName('icon')}
+							<label><strong>{App\Language::translate('LBL_FIELD_ICON', $QUALIFIED_MODULE)}</strong></label>
+							<div class="fieldValue">
+								{if $FIELD_ICON_MODEL->isEditableReadOnly()}
+									<input type="text" disabled="disabled" class="form-control-plaintext" value="{\App\Purifier::encodeHtml($FIELD_ICON_MODEL->getDisplayValue($FIELD_ICON_MODEL->get('fieldvalue'), false, false, true))}" />
+								{else}
+									{include file=\App\Layout::getTemplatePath($FIELD_ICON_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_ICON_MODEL MODULE=$QUALIFIED_MODULE MODULE_NAME=$QUALIFIED_MODULE RECORD=null}
+								{/if}
 							</div>
 						</div>
 					</div>

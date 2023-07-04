@@ -56,12 +56,12 @@
 				<ul class="nav nav-pills js-tabdrop justify-content-start" data-js="tabdrop">
 					{foreach item=BOARD from=$BOARDS}
 						{assign var=BOARDS_FIELD_MODEL value=\Vtiger_Field_Model::getInstanceFromFieldId($BOARD['fieldid'])}
-						{assign var=ICON value=$BOARDS_FIELD_MODEL->getIcon('Kanban')}
+						{assign var=ICON value=$BOARDS_FIELD_MODEL->get('icon')}
 						<li class="c-tab--small c-tab--hover c-tab--gray nav-item d-none float-left {if $BOARD['fieldid'] == $ACTIVE_BOARD['fieldid']} active {/if} js-board-tab"
 							data-id="{$BOARD['fieldid']}">
 							<a role="button"
 								class="flCT_{$MODULE_NAME}_{$BOARDS_FIELD_MODEL->getFieldName()} px-4 nav-link u-text-ellipsis">
-								{if isset($ICON['name'])}<span class="{$ICON['name']} mr-2"></span>{/if}
+								{if $ICON}{\App\Layout\Media::getImageHtml($ICON)}{/if}
 								{$BOARDS_FIELD_MODEL->getFullLabelTranslation()}
 							</a>
 						</li>

@@ -37,8 +37,11 @@ class Settings_LayoutEditor_EditField_View extends Settings_Vtiger_BasicModal_Vi
 		$qualifiedModuleName = $request->getModule(false);
 		$fieldId = $request->getInteger('fieldId');
 		$fieldModel = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
+		$moduleModel = Settings_LayoutEditor_Module_Model::getInstance($qualifiedModuleName);
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FIELD_MODEL', $fieldModel);
+		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('SELECTED_MODULE_NAME', $fieldModel->getModule()->getName());
 		$viewer->view('EditField.tpl', $qualifiedModuleName);
 		$this->postProcess($request);

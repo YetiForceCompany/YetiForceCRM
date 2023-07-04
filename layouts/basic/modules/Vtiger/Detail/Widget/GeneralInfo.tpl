@@ -41,8 +41,8 @@
 								<tr class="c-table__row--hover {if $FIELD_MODEL->get('hideField')} d-none{/if}">
 									<td class="fieldLabel {$WIDTHTYPE}">
 										<label class="font-weight-bold mb-0">
-											{assign var=ICON value=$FIELD_MODEL->getIcon('GeneralInfo')}
-											{if isset($ICON['name'])}<span class="{$ICON['name']} mr-2"></span>{/if}
+											{assign var=ICON value=$FIELD_MODEL->get('icon')}
+											{if $ICON}{\App\Layout\Media::getImageHtml($ICON)}{/if}
 											{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$MODULE_NAME)}
 											{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
 											{if $HELPINFO_LABEL}

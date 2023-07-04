@@ -1420,8 +1420,10 @@ class Vtiger_Field_Model extends vtlib\Field
 		], ['fieldid' => $this->get('id')])->execute();
 		if ($anonymizationTarget = $this->get('anonymizationTarget')) {
 			$anonymizationTarget = \App\Json::encode($anonymizationTarget);
-			$execute = $dbCommand->update('s_#__fields_anonymization', ['anonymization_target' => $anonymizationTarget], ['field_id' => $this->getId()])->execute();
-			if (!$execute) {
+			$exists = (new \App\Db\Query())->from('s_#__fields_anonymization')->where(['field_id' => $this->getId()])->exists();
+			if ($exists) {
+				$dbCommand->update('s_#__fields_anonymization', ['anonymization_target' => $anonymizationTarget], ['field_id' => $this->getId()])->execute();
+			} else {
 				$dbCommand->insert('s_#__fields_anonymization', ['field_id' => $this->getId(), 'anonymization_target' => $anonymizationTarget])->execute();
 			}
 		} else {

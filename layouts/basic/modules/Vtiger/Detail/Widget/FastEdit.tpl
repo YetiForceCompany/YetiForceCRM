@@ -28,8 +28,8 @@
 							{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
 							<div class="d-flex align-items-center m-0 col-lg-4 col-md-12 col-sm-4">
 								<label class="font-weight-bold mb-0">
-									{assign var=ICON value=$FIELD_MODEL->getIcon('FastEdit')}
-									{if isset($ICON['name'])}<span class="{$ICON['name']} mr-1"></span>{/if}
+									{assign var=ICON value=$FIELD_MODEL->get('icon')}
+									{if $ICON}{\App\Layout\Media::getImageHtml($ICON)}{/if}
 									{if $HELPINFO_LABEL}
 										<a href="#" class="js-help-info float-right u-cursor-pointer ml-2" title="" data-placement="top" data-content="{$HELPINFO_LABEL}"
 											data-original-title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModuleName())}">

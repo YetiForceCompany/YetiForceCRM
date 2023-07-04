@@ -11,12 +11,6 @@
 
 class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 {
-	/** @var string[] List of fields in edit view modal */
-	const EDIT_FIELDS_FORM = [
-		'label', 'presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field',
-		'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory', 'icon_name',
-	];
-
 	/**
 	 * Constructor.
 	 */
@@ -47,7 +41,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		$type = $request->getByType('fieldType', 'Alnum');
 		$moduleName = $request->getByType('sourceModule', 'Alnum');
 		$blockId = $request->getInteger('blockid');
-		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($moduleName);
+		$moduleModel = Settings_LayoutEditor_Module_Model::getInstance($request->getModule(false))->setSourceModule($moduleName);
 		$response = new Vtiger_Response();
 		try {
 			$fieldModel = $moduleModel->addField($type, $blockId, $request->getAll());
@@ -74,6 +68,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	public function validate(App\Request $request): void
 	{
 		$data = [];
+		$qualifiedModule = $request->getModule(false);
 		foreach (['fieldType', 'fieldLabel', 'fieldName', 'pickListValues'] as $name) {
 			if ($request->has($name)) {
 				if ('pickListValues' === $name) {
@@ -84,7 +79,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 				$data[$name] = $value;
 			}
 		}
-		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($request->getByType('sourceModule', 'Alnum'));
+		$moduleModel = Settings_LayoutEditor_Module_Model::getInstance($qualifiedModule)->setSourceModule($request->getByType('sourceModule', \App\Purifier::ALNUM));
 		$response = new Vtiger_Response();
 		$response->setResult($moduleModel->validate($data, false));
 		$response->emit();
@@ -106,25 +101,25 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 		if (empty($fieldId)) {
 			throw new \App\Exceptions\AppException('Empty field ID: ' . $fieldId);
 		}
-		$fieldInstance = Vtiger_Field_Model::getInstance($fieldId);
+		$fieldInstance = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
 		$uitypeModel = $fieldInstance->getUITypeModel();
-		foreach (self::EDIT_FIELDS_FORM as $field) {
+		foreach (Settings_LayoutEditor_Module_Model::EDIT_FIELDS_FORM as $field) {
 			if ($request->has($field)) {
 				switch ($field) {
 					case 'mandatory':
-						$fieldInstance->updateTypeofDataFromMandatory($request->getByType($field, 'Standard'));
+						$fieldInstance->updateTypeofDataFromMandatory($request->getByType($field, \App\Purifier::STANDARD));
 						break;
 					case 'label':
-						$fieldInstance->set($field, $request->getByType($field, 'Text'));
+						$fieldInstance->set($field, $request->getByType($field, \App\Purifier::TEXT));
 						break;
 					case 'header_field':
 						if ($request->getBoolean($field)) {
-							if (!\in_array($request->getByType('header_type', 'Standard'), $uitypeModel->getHeaderTypes())) {
+							if (!\in_array($request->getByType('header_type', \App\Purifier::STANDARD), $uitypeModel->getHeaderTypes())) {
 								throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . 'header_type', 406);
 							}
-							$data['type'] = $request->getByType('header_type', 'Standard');
+							$data['type'] = $request->getByType('header_type', \App\Purifier::STANDARD);
 							if ('highlights' === $data['type']) {
-								$data['class'] = $request->getByType('header_class', 'Standard');
+								$data['class'] = $request->getByType('header_class', \App\Purifier::STANDARD);
 							} elseif ('value' === $data['type'] && $fieldInstance->isReferenceField() && ($relFields = $request->getArray('header_rel_fields', \App\Purifier::ALNUM))) {
 								$relModuleModel = \Vtiger_Module_Model::getInstance(current($fieldInstance->getReferenceList()));
 								foreach ($relFields as $fieldName) {
@@ -146,12 +141,13 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 						}
 						$fieldInstance->set($field, $quickCreateValue);
 						break;
-					case 'icon_name':
+					case 'icon':
 						$fieldVal = null;
-						if (!$request->isEmpty('icon_name') && ($iconName = $request->getByType('icon_name', \App\Purifier::ALNUM_EXTENDED))) {
-							$iconArray = \App\Json::decode($fieldInstance->get('icon'));
-							$iconArray['name'] = $iconName;
-							$fieldVal = \App\Json::encode($iconArray);
+						if (!$request->isEmpty($field) && ($value = $request->getByType($field, \App\Purifier::TEXT))) {
+							$iconField = $fieldInstance->getFieldItemByName($field);
+							$fieldUITypeModel = $iconField->getUITypeModel();
+							$fieldUITypeModel->validate($value, true);
+							$fieldVal = $iconField->getDBValue($value);
 						}
 						$fieldInstance->set('icon', $fieldVal);
 						break;
@@ -316,7 +312,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	public function createSystemField(App\Request $request): void
 	{
 		$moduleName = $request->getByType('sourceModule', 'Alnum');
-		$moduleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($moduleName);
+		$moduleModel = Settings_LayoutEditor_Module_Model::getInstance($request->getModule(false))->setSourceModule($moduleName);
 		$response = new Vtiger_Response();
 		try {
 			$moduleModel->addSystemField($request->getByType('field', 'Alnum'), $request->getInteger('blockId'), [

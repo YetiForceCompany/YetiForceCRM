@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce S.A.
  * ********************************************************************************** */
 
-class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
+class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 {
 	/** {@inheritdoc} */
 	public $name = 'LayoutEditor';
@@ -37,6 +37,49 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		'SummaryTop' => 'LBL_SUMMARY_TOP_TYPE',
 		'SummaryBottom' => 'LBL_SUMMARY_BOTTOM_TYPE',
 	];
+	/** @var string[] List of fields in edit view modal */
+	const EDIT_FIELDS_FORM = [
+		'label', 'presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field',
+		'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory', 'icon',
+	];
+	/** @var array Relations */
+	public $relations;
+	/** @var Vtiger_Module_Model Source module */
+	public $sourceModule;
+
+	/**
+	 * Function to get the Module/Tab id.
+	 *
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->getSourceModule()->getId();
+	}
+
+	/**
+	 * Set source module.
+	 *
+	 * @param string $sourceModule
+	 *
+	 * @return $this
+	 */
+	public function setSourceModule(string $sourceModule)
+	{
+		$this->sourceModule = \Vtiger_Module_Model::getInstance($sourceModule);
+
+		return $this;
+	}
+
+	/**
+	 * Get source module model.
+	 *
+	 * @return Vtiger_Module_Model
+	 */
+	public function getSourceModule(): Vtiger_Module_Model
+	{
+		return $this->sourceModule;
+	}
 
 	/**
 	 * Gets parent name.
@@ -57,7 +100,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getFields($blockInstance = false)
 	{
-		if (empty($this->fieldsModule)) {
+		if (empty($this->fields)) {
 			$fieldList = [];
 			$blocks = $this->getBlocks();
 			$blockId = [];
@@ -67,35 +110,30 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			if (\count($blockId) > 0) {
 				$fieldList = Settings_LayoutEditor_Field_Model::getInstanceFromBlockIdList($blockId);
 			}
-			$this->fieldsModule = $fieldList;
+			$this->fields = $fieldList;
 		}
-		return $this->fieldsModule;
+
+		return $this->fields;
 	}
 
 	/**
 	 * Function returns all the blocks for the module.
 	 *
-	 * @return <Array of Vtiger_Block_Model> - list of block models
+	 * @return Vtiger_Block_Model[] - list of block models
 	 */
 	public function getBlocks()
 	{
 		if (empty($this->blocks)) {
 			$blocksList = [];
-			$moduleBlocks = Settings_LayoutEditor_Block_Model::getAllForModule($this);
+			$moduleBlocks = Settings_LayoutEditor_Block_Model::getAllForModule($this->sourceModule);
 			foreach ($moduleBlocks as $block) {
-				if (!$block->get('label')) {
-					continue;
-				}
-				if ('HelpDesk' === $this->getName() && 'LBL_COMMENTS' === $block->get('label')) {
-					continue;
-				}
-
-				if ('LBL_ITEM_DETAILS' != $block->get('label')) {
+				if ($block->get('label')) {
 					$blocksList[$block->get('label')] = $block;
 				}
 			}
 			$this->blocks = $blocksList;
 		}
+
 		return $this->blocks;
 	}
 
@@ -571,10 +609,17 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		];
 	}
 
+	/**
+	 * Get table name.
+	 *
+	 * @param string $type
+	 *
+	 * @return string
+	 */
 	public function getTableName($type)
 	{
 		if (\is_int($type)) {
-			$focus = CRMEntity::getInstance($this->getName());
+			$focus = CRMEntity::getInstance($this->getSourceModule()->getName());
 			if (0 == $type) {
 				$tableName = $focus->table_name;
 			} elseif (1 == $type) {
@@ -653,24 +698,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	}
 
 	/**
-	 * Get instance by name.
-	 *
-	 * @param string $moduleName
-	 *
-	 * @return self
-	 */
-	public static function getInstanceByName($moduleName)
-	{
-		$moduleInstance = Vtiger_Module_Model::getInstance($moduleName);
-		$objectProperties = get_object_vars($moduleInstance);
-		$selfInstance = new self();
-		foreach ($objectProperties as $properName => $propertyValue) {
-			$selfInstance->{$properName} = $propertyValue;
-		}
-		return $selfInstance;
-	}
-
-	/**
 	 * Function to get Entity module names list.
 	 *
 	 * @return string[] List of Entity modules
@@ -730,10 +757,27 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		return true;
 	}
 
+	/** {@inheritdoc} */
+	public function isTypeChangeAllowed()
+	{
+		return $this->getSourceModule()->isTypeChangeAllowed();
+	}
+
+	/** {@inheritdoc} */
+	public function getEntityInstance()
+	{
+		return $this->getSourceModule()->getEntityInstance();
+	}
+
+	/**
+	 * Get relations.
+	 *
+	 * @return array
+	 */
 	public function getRelations()
 	{
 		if (null === $this->relations) {
-			$this->relations = Vtiger_Relation_Model::getAllRelations($this, false, true, true);
+			$this->relations = Vtiger_Relation_Model::getAllRelations($this->getSourceModule(), false, true, true);
 		}
 		return $this->relations;
 	}
@@ -849,7 +893,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 			}
 			if (!$exist) {
 				unset($field['validationConditions']);
-				$missingFields[$name] = \Vtiger_Field_Model::init($this->name, $field, $field['name']);
+				$missingFields[$name] = \Vtiger_Field_Model::init($this->getSourceModule()->getName(), $field, $field['name']);
 			}
 		}
 		return $missingFields;
@@ -885,7 +929,7 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 		if ($this->checkFieldNameExists($fieldModel->get('name'))) {
 			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
 		}
-		$blockModel = Vtiger_Block_Model::getInstance($blockId, $this->name);
+		$blockModel = Vtiger_Block_Model::getInstance($blockId, $this->getSourceModule()->getName());
 		$blockModel->addField($fieldModel);
 	}
 
@@ -899,250 +943,6 @@ class Settings_LayoutEditor_Module_Model extends Vtiger_Module_Model
 	public function getFieldsForWebserviceApps(int $webserviceApp): array
 	{
 		return (new \App\Db\Query())->from('w_#__fields_server')->where(['serverid' => $webserviceApp])->indexBy('fieldid')->all(\App\Db::getInstance('webservice')) ?: [];
-	}
-
-	public function getEditFields()
-	{
-		$editFields = ['label', 'presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field',
-			'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory', 'icon'];
-		foreach ($editFields as $fieldName) {
-			$propertyModel = $this->getFieldInstanceByName($fieldName);
-			if (null !== $this->get($fieldName)) {
-				$propertyModel->set('fieldvalue', $this->get($fieldName));
-			} elseif (($defaultValue = $propertyModel->get('defaultvalue')) !== null) {
-				$propertyModel->set('fieldvalue', $defaultValue);
-			}
-			$fields[$fieldName] = $propertyModel;
-		}
-
-		return $fields;
-	}
-
-	/**
-	 * Get fields instance by name.
-	 *
-	 * @param string $name
-	 *
-	 * @return Vtiger_Field_Model
-	 */
-	public function getFieldInstanceByName($name)
-	{
-		$params = [];
-		$qualifiedModuleName = 'Settings:LayoutEditor';
-		// $tableName = $this->getTableName();
-		switch ($name) {
-			case 'icon':
-				$params = [
-					'name' => $name,
-					'column' => $name,
-					'label' => 'LBL_ICON',
-					'uitype' => 62,
-					'typeofdata' => 'V~O',
-					'maximumlength' => '255',
-					'purifyType' => \App\Purifier::TEXT,
-					'table' => 'vtiger_field',
-					'fieldDataType' => 'icon'
-				];
-				break;
-			case 'fieldlabel':
-				$params = [
-					'name' => $name,
-					'column' => $name,
-					'label' => 'LBL_LABEL',
-					'uitype' => 1,
-					'typeofdata' => 'V~M',
-					'maximumlength' => '50',
-					'purifyType' => \App\Purifier::TEXT
-				];
-				break;
-			case 'mandatory':
-				$params = [
-					'name' => $name,
-					'column' => $name,
-					'label' => 'LBL_MANDATORY_FIELD',
-					'uitype' => 56,
-					'typeofdata' => 'C~O',
-					'maximumlength' => '1',
-					'purifyType' => \App\Purifier::BOOL
-				];
-				break;
-			case 'presence':
-				$params = [
-					'name' => $name,
-					'column' => $name,
-					'label' => 'LBL_ACTIVE',
-					'uitype' => 56,
-					'typeofdata' => 'C~O',
-					'maximumlength' => '1',
-					'purifyType' => \App\Purifier::BOOL
-				];
-				break;
-			case 'quickcreate':
-				$params = [
-					'name' => $name,
-					'column' => $name,
-					'label' => 'LBL_QUICK_CREATE',
-					'uitype' => 56,
-					'typeofdata' => 'C~O',
-					'maximumlength' => '1',
-					'purifyType' => \App\Purifier::BOOL
-				];
-				break;
-			case 'summaryfield':
-				$params = [
-					'name' => $name,
-					'column' => $name,
-					'label' => 'LBL_SUMMARY_FIELD',
-					'uitype' => 56,
-					'typeofdata' => 'C~O',
-					'maximumlength' => '1',
-					'purifyType' => \App\Purifier::BOOL
-				];
-				break;
-			case 'header_field':
-				$params = [
-					'name' => $name,
-					'column' => $name,
-					'label' => 'LBL_HEADER_FIELD',
-					'uitype' => 56,
-					'typeofdata' => 'C~O',
-					'maximumlength' => '1',
-					'purifyType' => \App\Purifier::BOOL
-				];
-				break;
-			case 'masseditable':
-				$params = [
-					'name' => $name,
-					'column' => $name,
-					'label' => 'LBL_MASS_EDIT',
-					'uitype' => 56,
-					'typeofdata' => 'C~O',
-					'maximumlength' => '1',
-					'purifyType' => \App\Purifier::BOOL
-				];
-				break;
-			case 'generatedtype':
-				$params = [
-					'name' => $name,
-					'column' => $name,
-					'label' => 'LBL_GENERATED_TYPE',
-					'uitype' => 56,
-					'typeofdata' => 'C~O',
-					'maximumlength' => '1',
-					'purifyType' => \App\Purifier::BOOL,
-					'isEditableReadOnly' => !App\Config::developer('CHANGE_GENERATEDTYPE')
-				];
-				break;
-			case 'defaultvalue':
-				$params = [
-					'name' => $name,
-					'column' => $name,
-					'label' => 'LBL_DEFAULT_VALUE',
-					'uitype' => 56,
-					'typeofdata' => 'C~O',
-					'maximumlength' => '1',
-					'purifyType' => \App\Purifier::BOOL
-				];
-				break;
-			case 'fieldMask':
-				$params = [
-					'name' => $name,
-					'column' => $name,
-					'label' => 'LBL_FIELD_MASK',
-					'uitype' => 1,
-					'typeofdata' => 'V~O',
-					'maximumlength' => '25',
-					'purifyType' => \App\Purifier::TEXT,
-					'tooltip' => 'LBL_FIELD_MASK_INFO'
-				];
-				break;
-			case 'close_state':
-				$params = [
-					'name' => $name,
-					'column' => $name,
-					'label' => 'LBL_CLOSES_RECORD',
-					'uitype' => 56,
-					'typeofdata' => 'C~O',
-					'maximumlength' => '5',
-					'purifyType' => \App\Purifier::BOOL,
-					'tooltip' => 'LBL_BLOCKED_RECORD_INFO',
-					'table' => 'u_#__picklist_close_state'
-				];
-				break;
-			case 'icon':
-				$params = [
-					'name' => $name,
-					'column' => $name,
-					'label' => 'LBL_ICON',
-					'uitype' => 62,
-					'typeofdata' => 'V~O',
-					'maximumlength' => '255',
-					'purifyType' => \App\Purifier::TEXT,
-					'table' => $tableName
-				];
-				break;
-			case 'time_counting':
-				$params = [
-					'name' => $name,
-					'column' => $name,
-					'label' => 'LBL_TIME_COUNTING',
-					'uitype' => 16,
-					'typeofdata' => 'V~M',
-					'maximumlength' => '250',
-					'purifyType' => \App\Purifier::INTEGER,
-					'tooltip' => 'LBL_TIME_COUNTING_INFO',
-					'defaultvalue' => 0,
-					'picklistValues' => [
-						0 => \App\Language::translate('LBL_NONE', '_Base'),
-						\App\RecordStatus::TIME_COUNTING_REACTION => \App\Language::translate('LBL_TIME_COUNTING_REACTION', $qualifiedModuleName),
-						\App\RecordStatus::TIME_COUNTING_RESOLVE => \App\Language::translate('LBL_TIME_COUNTING_RESOLVE', $qualifiedModuleName),
-						\App\RecordStatus::TIME_COUNTING_IDLE => \App\Language::translate('LBL_TIME_COUNTING_IDLE', $qualifiedModuleName)
-					],
-					'table' => $tableName
-				];
-				break;
-			case 'record_state':
-				$params = [
-					'name' => $name,
-					'column' => $name,
-					'label' => 'LBL_RECORD_STATE',
-					'uitype' => 16,
-					'typeofdata' => 'V~M',
-					'maximumlength' => '250',
-					'purifyType' => \App\Purifier::INTEGER,
-					'tooltip' => 'LBL_RECORD_STATE_INFO',
-					'defaultvalue' => \App\RecordStatus::RECORD_STATE_NO_CONCERN,
-					'picklistValues' => [],
-					'table' => $tableName
-				];
-				foreach (\App\RecordStatus::getLabels() as $key => $value) {
-					$params['picklistValues'][$key] = \App\Language::translate($value, $qualifiedModuleName);
-				}
-				break;
-			case 'roles':
-				$params = [
-					'name' => $name,
-					'column' => $name,
-					'label' => 'LBL_ASSIGN_TO_ROLE',
-					'uitype' => 33,
-					'typeofdata' => 'V~O',
-					'maximumlength' => '500',
-					'purifyType' => \App\Purifier::TEXT,
-					'defaultvalue' => 'all',
-					'picklistValues' => [
-						'all' => \App\Language::translate('LBL_ALL_ROLES', $qualifiedModuleName)
-					],
-					'table' => $tableName
-				];
-				foreach (\Settings_Roles_Record_Model::getAll() as $key => $roleModel) {
-					$params['picklistValues'][$key] = \App\Language::translate($roleModel->get('rolename'), 'Settings:Roles');
-				}
-				break;
-			default:
-				break;
-		}
-
-		return $params ? \Vtiger_Field_Model::init($qualifiedModuleName, $params, $name)->set('sourceFieldModel', $this->fieldModel) : null;
 	}
 
 	/**

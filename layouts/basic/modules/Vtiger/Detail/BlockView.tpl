@@ -52,8 +52,8 @@
 								<div class="fieldLabel u-border-bottom-label-md u-border-right-0-md c-panel__label {if ($FIELD_MODEL->getUIType() eq '20' or $FIELD_MODEL->getUIType() eq '300') && empty($DETAILS_WIDTH)}  col-lg-3 {elseif !empty($DETAILS_WIDTH)} {$DETAILS_WIDTH} {else} col-lg-6 {/if} {$WIDTHTYPE} text-right" id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
 									{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL, $VIEW)}
 									<label class="flCT_{$MODULE_NAME}_{$FIELD_MODEL->getFieldName()} u-text-small-bold {if !empty($DETAILS_WIDTH) && ($DETAILS_WIDTH eq 'col-md-12')} mr-auto pl-2 {/if}">
-										{assign var=ICON value=$FIELD_MODEL->getIcon('Detail')}
-										{if isset($ICON['name'])}<span class="{$ICON['name']} mr-1"></span>{/if}
+										{assign var=ICON value=$FIELD_MODEL->get('icon')}
+										{if $ICON}{\App\Layout\Media::getImageHtml($ICON)}{/if}
 										{\App\Language::translate({$FIELD_MODEL->getFieldLabel()},{$MODULE_NAME})}
 										{if $HELPINFO_LABEL}
 											<a href="#" class="js-help-info float-right u-cursor-pointer"

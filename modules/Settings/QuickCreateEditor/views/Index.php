@@ -52,7 +52,7 @@ class Settings_QuickCreateEditor_Index_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$layout = $recordModel->getModule()->getLayoutTypeForQuickCreate();
 		if ('blocks' === $layout) {
-			$selectedModuleModel = Settings_LayoutEditor_Module_Model::getInstanceByName($sourceModule);
+			$selectedModuleModel = Settings_LayoutEditor_Module_Model::getInstance('Settings:LayoutEditor')->setSourceModule($sourceModule);
 			$blockModels = $selectedModuleModel->getBlocks();
 			$blockIdFieldMap = [];
 			foreach ($quickCreateFields as $fieldModel) {

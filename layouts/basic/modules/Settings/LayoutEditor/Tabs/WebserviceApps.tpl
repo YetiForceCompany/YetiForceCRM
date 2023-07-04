@@ -40,8 +40,8 @@
 												<div class="col-12 pr-0 js-field-container fieldContainer"
 													style="word-wrap: break-word;">
 													<span class="fieldLabel">
-														{assign var=ICON value=$FIELD_MODEL->getIcon()}
-														{if isset($ICON['name'])}<span class="{$ICON['name']} mr-2"></span>{/if}
+														{assign var=ICON value=$FIELD_MODEL->get('icon')}
+														{if $ICON}{\App\Layout\Media::getImageHtml($ICON)}{/if}
 														{App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
 														{if $FIELD_MODEL->isMandatory()}
 															<span class="redColor">*</span>
