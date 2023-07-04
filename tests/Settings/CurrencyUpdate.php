@@ -57,7 +57,7 @@ class CurrencyUpdate extends \Tests\Base
 			}
 			// @codeCoverageIgnoreStart
 		} catch (\Exception $e) {
-			$this->markTestSkipped('Possibly connection error from integration:' . $e->getTraceAsString() . 'File: ' . $e->getFile());
+			$this->markTestSkipped('Possibly connection error from integration:' . $e->getMessage());
 		}
 		// @codeCoverageIgnoreEnd
 	}
