@@ -19,11 +19,15 @@ class Fixer
 {
 	/**
 	 * Add missing entries in vtiger_profile2field.
+	 *
+	 * @param bool $showMissingElements
+	 *
 	 */
-	public static function profileField(): int
+	public static function profileField(bool $showMissingElements = false)
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
 		$i = 0;
+		$missingFields = [];
 		$profileIds = \vtlib\Profile::getAllIds();
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		foreach ($profileIds as $profileId) {
@@ -34,13 +38,26 @@ class Fixer
 				foreach ($fieldIds as $fieldId) {
 					$isExists = (new \App\Db\Query())->from('vtiger_profile2field')->where(['profileid' => $profileId, 'fieldid' => $fieldId])->exists();
 					if (!$isExists) {
+						if ($showMissingElements) {
+							$instanceOfField = \Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
+							$missingFields['names'][] = "Field: " . $instanceOfField->getName() . ", ProfileId: " . $profileId . ", TabId :" . $tabId;
+						}
+
 						$dbCommand->insert('vtiger_profile2field', ['profileid' => $profileId, 'tabid' => $tabId, 'fieldid' => $fieldId, 'visible' => 0, 'readonly' => 0])->execute();
 						++$i;
 					}
 				}
 			}
 		}
+
 		\App\Log::trace('Exiting ' . __METHOD__);
+
+		if ($showMissingElements) {
+			$missingFields['count'] = $i;
+
+			return $missingFields;
+		}
+
 		return $i;
 	}
 
@@ -49,14 +66,14 @@ class Fixer
 	 *
 	 * @param bool $showMissingElements
 	 *
-	 * @return int
 	 */
-	public static function baseModuleTools(bool $showMissingElements = false): int
+	public static function baseModuleTools(bool $showMissingElements = false)
 	{
 		$i = 0;
-		$allUtility = $missing = $curentProfile2utility = [];
+		$allUtility = $missing = $currentProfile2utility = $missingModules = [];
+
 		foreach ((new \App\Db\Query())->from('vtiger_profile2utility')->all() as $row) {
-			$curentProfile2utility[$row['profileid']][$row['tabid']][$row['activityid']] = true;
+			$currentProfile2utility[$row['profileid']][$row['tabid']][$row['activityid']] = true;
 			$allUtility[$row['tabid']][$row['activityid']] = true;
 		}
 		$profileIds = \vtlib\Profile::getAllIds();
@@ -66,20 +83,22 @@ class Fixer
 		foreach ($profileIds as $profileId) {
 			foreach ($moduleIds as $moduleId) {
 				foreach ($baseActionIds as $actionId) {
-					if (!isset($curentProfile2utility[$profileId][$moduleId][$actionId])) {
+					if (!isset($currentProfile2utility[$profileId][$moduleId][$actionId])) {
 						$missing["$profileId:$moduleId:$actionId"] = ['profileid' => $profileId, 'tabid' => $moduleId, 'activityid' => $actionId];
 					}
 				}
 				if (isset($allUtility[$moduleId])) {
 					foreach ($allUtility[$moduleId] as $actionId => $value) {
-						if (!isset($curentProfile2utility[$profileId][$moduleId][$actionId])) {
+						if (!isset($currentProfile2utility[$profileId][$moduleId][$actionId])) {
 							$missing["$profileId:$moduleId:$actionId"] = ['profileid' => $profileId, 'tabid' => $moduleId, 'activityid' => $actionId];
 						}
 					}
 				}
 			}
 		}
+
 		$dbCommand = \App\Db::getInstance()->createCommand();
+
 		foreach ($missing as $row) {
 			if (isset($exceptions[$row['tabid']]['allowed'])) {
 				if (!isset($exceptions[$row['tabid']]['allowed'][$row['activityid']])) {
@@ -90,23 +109,34 @@ class Fixer
 			}
 
 			if ($showMissingElements) {
-				$nameOfModule = (new \App\Db\Query())->select(['name'])->from('vtiger_tab')->where(['tabid' => $row['tabid']])->one();
-				echo "Missing module: " . $nameOfModule['name'] . "\n";
+				$nameOfModule = \App\Module::getModuleName($row['tabid']);
+				$missingModules['names'][] = "Module: " . $nameOfModule . ', ProfileId: '. $row['profileid'] . ', ActivityId:' . $row['activityid'];
 			}
 
 			$dbCommand->insert('vtiger_profile2utility', ['profileid' => $row['profileid'], 'tabid' => $row['tabid'], 'activityid' => $row['activityid'], 'permission' => 1])->execute();
 			++$i;
 		}
+
+		if ($showMissingElements) {
+			$missingModules['count'] = $i;
+
+			return $missingModules;
+		}
+
 		return $i;
 	}
 
 	/**
 	 * Add missing entries in vtiger_profile2standardpermissions.
+	 *
+	 * @param bool $showMissingElements
+	 *
 	 */
-	public static function baseModuleActions(): int
+	public static function baseModuleActions(bool $showMissingElements = false)
 	{
 		$i = 0;
-		$curentProfile = [];
+		$curentProfile = $missingActions = [];
+
 		foreach ((new \App\Db\Query())->from('vtiger_profile2standardpermissions')->all() as $row) {
 			$curentProfile[$row['profileid']][$row['tabid']][$row['operation']] = $row['permissions'];
 		}
@@ -116,12 +146,25 @@ class Fixer
 			foreach ($moduleIds as $moduleId) {
 				foreach (\Vtiger_Action_Model::$standardActions as $actionId => $actionName) {
 					if (!isset($curentProfile[$profileId][$moduleId][$actionId])) {
+
+						if ($showMissingElements) {
+							$nameOfAction = \Vtiger_Action_Model::getInstanceWithIdOrName($actionId);
+							$missingActions['names'][] = "Action: " . $nameOfAction . ", ProfileId: " . $profileId . ", TabId: " . $moduleId . ", ActionId: " . $actionId;
+						}
+
 						$dbCommand->insert('vtiger_profile2standardpermissions', ['profileid' => $profileId, 'tabid' => $moduleId, 'operation' => $actionId, 'permissions' => 1])->execute();
 						++$i;
 					}
 				}
 			}
 		}
+
+		if ($showMissingElements) {
+			$missingActions['count'] = $i;
+
+			return $missingActions;
+		}
+
 		return $i;
 	}
 

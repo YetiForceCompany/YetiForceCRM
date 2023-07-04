@@ -19,11 +19,15 @@ class Db_Fixer extends \Tests\Base
 	/**
 	 * Testing fixer function.
 	 */
-	public function testFixerDb()
+	public function testFixerDb(): void
 	{
-		$this->assertSame(0, \App\Db\Fixer::baseModuleTools(true));
-		$this->assertSame(0, \App\Db\Fixer::baseModuleActions());
-		$this->assertSame(0, \App\Db\Fixer::profileField());
+		$getMissingModulesInfo = \App\Db\Fixer::baseModuleTools(true);
+		$getMissingActionsInfo = \App\Db\Fixer::baseModuleActions(true);
+		$getMissingFieldInfo = \App\Db\Fixer::profileField(true);
+
+		$this->assertSame(0, $getMissingModulesInfo['count'], 'Missing modules: '. print_r($getMissingModulesInfo['names'] ?: 'No data', true));
+		$this->assertSame(0, $getMissingActionsInfo['count'],'Missing actions: '. print_r($getMissingActionsInfo['names'] ?: 'No data', true));
+		$this->assertSame(0, $getMissingFieldInfo['count'],'Missing fields: '. print_r($getMissingFieldInfo['names'] ?: 'No data', true));
 		$this->assertSame(0, \App\Db\Fixer::share());
 
 		$fields = \App\Db\Fixer::maximumFieldsLength();
