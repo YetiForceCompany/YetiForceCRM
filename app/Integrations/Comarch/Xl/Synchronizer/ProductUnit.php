@@ -24,6 +24,8 @@ class ProductUnit extends \App\Integrations\Comarch\Synchronizer
 	private $cache;
 	/** @var array ID by name cache from the API */
 	private $cacheList = [];
+	/** @var int[] */
+	private $roleIdList = [];
 	/** @var \Settings_Picklist_Field_Model */
 	private $fieldModel;
 
@@ -54,6 +56,7 @@ class ProductUnit extends \App\Integrations\Comarch\Synchronizer
 		if ($this->config->get('log_all')) {
 			$this->controller->log('Start import ' . $this->name, []);
 		}
+		$isRoleBased = $this->fieldModel->isRoleBased();
 		$fieldName = $this->fieldModel->getName();
 		$picklistValues = \App\Fields\Picklist::getValues($fieldName);
 		$values = [];
@@ -72,6 +75,12 @@ class ProductUnit extends \App\Integrations\Comarch\Synchronizer
 					$itemModel = $this->fieldModel->getItemModel();
 					$itemModel->validateValue('name', $value['key']);
 					$itemModel->set('name', $value['key']);
+					if ($isRoleBased) {
+						if (empty($this->roleIdList)) {
+							$this->roleIdList = array_keys(\Settings_Roles_Record_Model::getAll());
+						}
+						$itemModel->set('roles', $this->roleIdList);
+					}
 					$itemModel->save();
 					$this->cacheList[$value['key']] = $value['key'];
 					++$i;
@@ -118,7 +127,13 @@ class ProductUnit extends \App\Integrations\Comarch\Synchronizer
 	public function getApiValue($yfValue, array $field)
 	{
 		$this->loadCacheList();
-		return $this->cacheList[$yfValue] ?? null;
+		if ($value = $this->cacheList[$yfValue] ?? null) {
+			return $value;
+		}
+		if ($value = $this->cacheList[\App\Language::translate($yfValue, 'Products')] ?? null) {
+			return $value;
+		}
+		return null;
 	}
 
 	/**

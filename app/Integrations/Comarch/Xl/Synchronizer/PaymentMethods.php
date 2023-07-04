@@ -118,7 +118,13 @@ class PaymentMethods extends \App\Integrations\Comarch\Synchronizer
 	public function getApiValue($yfValue, array $field)
 	{
 		$this->loadCacheList();
-		return $this->cacheList[$yfValue] ?? '';
+		if ($value = $this->cacheList[$yfValue] ?? null) {
+			return $value;
+		}
+		if ($value = $this->cacheList[\App\Language::translate($yfValue, 'Accounts')] ?? null) {
+			return $value;
+		}
+		return null;
 	}
 
 	/**
