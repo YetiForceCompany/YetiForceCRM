@@ -23,7 +23,7 @@ class Vtiger_Comarch_Cron extends \App\CronHandler
 				continue;
 			}
 			$this->updateLastActionTime();
-			$connector = (new App\Integrations\WooCommerce($serverId, $bathCallback));
+			$connector = (new App\Integrations\Comarch($serverId, $bathCallback));
 			if ($message = $connector->testConnection()) {
 				$this->addErrorLog($message);
 				continue;

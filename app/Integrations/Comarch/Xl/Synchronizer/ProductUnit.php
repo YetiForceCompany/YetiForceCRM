@@ -58,8 +58,8 @@ class ProductUnit extends \App\Integrations\Comarch\Synchronizer
 		$picklistValues = \App\Fields\Picklist::getValues($fieldName);
 		$values = [];
 		foreach ($picklistValues as $value) {
-			$values[mb_strtolower($value['picklistValue'])] = $value['picklistValue'];
-			$values[mb_strtolower(\App\Language::translate($value['picklistValue'], 'Products'))] = $value['picklistValue'];
+			$values[trim(mb_strtolower($value['picklistValue']), '.')] = $value['picklistValue'];
+			$values[trim(mb_strtolower(\App\Language::translate($value['picklistValue'], 'Products')), '.')] = $value['picklistValue'];
 		}
 		$i = 0;
 		foreach ($this->cache as $value) {

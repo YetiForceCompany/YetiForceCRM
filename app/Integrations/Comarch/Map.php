@@ -132,7 +132,7 @@ abstract class Map
 	public function loadModeApi(): void
 	{
 		if (empty($this->modeApi)) {
-			$this->modeApi = empty($this->dataYf[self::FIELD_NAME_ID]) ? 'create' : 'update';
+			$this->modeApi = empty($this->dataYf[$this::FIELD_NAME_ID]) ? 'create' : 'update';
 			if (empty($this->dataApi['id']) && ($id = $this->findRecordInApi())) {
 				$this->dataApi['id'] = $id;
 				$this->modeApi = 'update';
@@ -311,8 +311,8 @@ abstract class Map
 	public function getDataApi(bool $mapped = true): array
 	{
 		if ($mapped) {
-			if (!empty($this->dataYf[self::FIELD_NAME_ID])) {
-				$this->dataApi['id'] = $this->dataYf[self::FIELD_NAME_ID];
+			if (!empty($this->dataYf[$this::FIELD_NAME_ID])) {
+				$this->dataApi['id'] = $this->dataYf[$this::FIELD_NAME_ID];
 			}
 			foreach ($this->fieldMap as $fieldCrm => $field) {
 				if ($this->skip) {
@@ -396,20 +396,21 @@ abstract class Map
 			$this->recordModel->set('assigned_user_id', $this->synchronizer->config->get('assigned_user_id'));
 		}
 		if (
-			$this->recordModel->isEmpty(self::FIELD_NAME_ID)
-			&& $this->recordModel->getModule()->getFieldByName(self::FIELD_NAME_ID)
-			&& !empty($this->dataApi['id'])
+			$this->recordModel->isEmpty($this::FIELD_NAME_ID)
+			&& ($id = $this->dataApi['id'] ?? $this->dataApi[$this::API_NAME_ID] ?? 0)
+			&& $this->recordModel->getModule()->getFieldByName($this::FIELD_NAME_ID)
+			&& !empty($id)
 		) {
-			$this->recordModel->set(self::FIELD_NAME_ID, $this->dataApi['id']);
+			$this->recordModel->set($this::FIELD_NAME_ID, $id);
 		}
 		$this->recordModel->set('comarch_server_id', $this->synchronizer->config->get('id'));
 		$isNew = empty($this->recordModel->getId());
 		$this->recordModel->save();
 		$this->recordModel->ext['isNew'] = $isNew;
-		if ($isNew && $this->recordModel->get(self::FIELD_NAME_ID)) {
+		if ($isNew && $this->recordModel->get($this::FIELD_NAME_ID)) {
 			$this->synchronizer->updateMapIdCache(
 				$this->recordModel->getModuleName(),
-				$this->recordModel->get(self::FIELD_NAME_ID), $this->recordModel->getId()
+				$this->recordModel->get($this::FIELD_NAME_ID), $this->recordModel->getId()
 			);
 		}
 	}
@@ -484,6 +485,11 @@ abstract class Map
 		}
 		if (null === $return && (!\array_key_exists('optional', $field) || empty($field['optional']))) {
 			$this->skip = true;
+			$this->synchronizer->controller->log(
+				($fromApi ? '[API>YF]' : '[YF>API]') .
+				"Skip value: {$value} (Field: {$field['fieldCrm']} ,Sync: {$field['synchronizer']})",
+				['fieldConfig' => $field, 'data' => $this->dataApi], null, true
+			);
 		}
 		return $return;
 	}
