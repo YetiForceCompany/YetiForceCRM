@@ -32,11 +32,12 @@ class Comarch extends \App\SystemWarnings\Template
 				'and',
 				['error' => 1],
 				['>=', 'time', date('Y-m-d H:i:s', strtotime('-24 hours'))]
-			])
+			])->orderBy(['id' => SORT_DESC])
 			->all(\App\DB::getInstance('log'));
 		if ($data) {
 			$this->status = 0;
-			$this->description = \App\TextUtils::getHtmlTable($data, [
+			$this->description = \App\Language::translate('LBL_CHECK_COMARCH_INTEGRATION_LOG_DESC', 'Settings:SystemWarnings');
+			$this->description .= '<br>' . \App\TextUtils::getHtmlTable($data, [
 				'time' => \App\Language::translate('LBL_TIME', 'Settings:Log'),
 				'message' => \App\Language::translate('LBL_MESSAGE', 'Settings:Comarch')
 			]);

@@ -27,7 +27,7 @@ Settings_Vtiger_Index_Js('Settings_Logs_Index_Js', {
 			});
 	},
 	registerWarningsList: function (container) {
-		container.find('table').dataTable({
+		container.find('.js-warning-table').dataTable({
 			order: [
 				[2, 'desc'],
 				[1, 'asc']

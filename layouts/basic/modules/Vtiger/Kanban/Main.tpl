@@ -51,7 +51,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="c-kanban__tabdrop js-kanban-header" js-data="container">
+		<div class="c-kanban__tabdrop js-kanban-header" data-js="container">
 			<div class="js-hide-filter col-auto px-0 related">
 				<ul class="nav nav-pills js-tabdrop justify-content-start" data-js="tabdrop">
 					{foreach item=BOARD from=$BOARDS}
@@ -92,7 +92,7 @@
 					</a>
 				</div>
 			{/if}
-			<div class="js-kanban-container pb-2 c-kanban__container" js-data="container">
+			<div class="js-kanban-container pb-2 c-kanban__container" data-js="container">
 				{include file=\App\Layout::getTemplatePath('Kanban/Kanban.tpl', $MODULE_NAME)}
 			</div>
 		{/if}
