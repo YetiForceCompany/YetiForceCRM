@@ -25,9 +25,9 @@ class Db_Fixer extends \Tests\Base
 		$getMissingActionsInfo = \App\Db\Fixer::baseModuleActions(true);
 		$getMissingFieldInfo = \App\Db\Fixer::profileField(true);
 
-		$this->assertSame(0, $getMissingModulesInfo['count'], 'Missing modules: ' . !array_key_exists('names', $getMissingModulesInfo) ? 'No data' : print_r($getMissingModulesInfo['names'], true));
-		$this->assertSame(0, $getMissingActionsInfo['count'],'Missing actions: ' . !array_key_exists('names', $getMissingActionsInfo) ? 'No data' : print_r($getMissingActionsInfo['names'], true));
-		$this->assertSame(0, $getMissingFieldInfo['count'],'Missing fields: ' . !array_key_exists('names', $getMissingFieldInfo) ? 'No data' : print_r($getMissingFieldInfo['names'], true));
+		$this->assertSame(0, $getMissingModulesInfo['count'], !array_key_exists('names', $getMissingModulesInfo) ?: print_r($getMissingModulesInfo['names'], true));
+		$this->assertSame(0, $getMissingActionsInfo['count'], !array_key_exists('names', $getMissingActionsInfo) ?: print_r($getMissingActionsInfo['names'], true));
+		$this->assertSame(0, $getMissingFieldInfo['count'], !array_key_exists('names', $getMissingFieldInfo) ?: print_r($getMissingFieldInfo['names'], true));
 		$this->assertSame(0, \App\Db\Fixer::share());
 
 		$fields = \App\Db\Fixer::maximumFieldsLength();
