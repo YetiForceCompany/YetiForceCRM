@@ -1,6 +1,6 @@
 <?php
 /**
- * Duplicate vat id handler.
+ * Short name duplicate checker handler field.
  *
  * @package Handler
  *
@@ -9,14 +9,13 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
- * Accounts_DuplicateVatId_Handler class.
+ * Short name duplicate checker handler class.
  */
-class Accounts_DuplicateVatId_Handler
+class Accounts_DuplicateShortName_Handler
 {
 	/** @var array List of fields for verification */
 	const FIELDS = [
-		'Accounts' => ['vat_id'],
-		'Leads' => ['vat_id'],
+		'Accounts' => ['account_short_name'],
 	];
 
 	/**
@@ -48,14 +47,12 @@ class Accounts_DuplicateVatId_Handler
 			if ($queryGenerator->createQuery()->exists()) {
 				$response = [
 					'result' => false,
-					'hoverField' => 'vat_id',
+					'hoverField' => reset($fields),
 					'message' => App\Language::translateArgs(
-						'LBL_DUPLICATE_VAT_ID',
+						'LBL_DUPLICATE_FIELD_VALUE',
 						$recordModel->getModuleName(),
-						\App\Language::translate($moduleName, $moduleName)
+						\App\Language::translate('FL_ACCOUNT_SHORT_NAME', $moduleName) . ': ' . implode(',', $values)
 					),
-					'type' => 'confirm',
-					'hash' => hash('sha256', implode('|', $recordModel->getData()))
 				];
 				break;
 			}

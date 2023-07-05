@@ -73,17 +73,18 @@ class Config extends \App\Base
 	 */
 	public static function getInstance(int $serverId): self
 	{
+		$db = \App\Db::getInstance('admin');
 		$instance = new self();
 		$instance->setData(array_merge(
 			self::getServer($serverId),
 			\App\Config::component('IntegrationComarch', null, []),
 			(new Query())->select(['name', 'value'])->from(Comarch::CONFIG_TABLE_NAME)
 				->where(['server_id' => $serverId])
-				->createCommand()->queryAllByGroup(),
+				->createCommand($db)->queryAllByGroup(),
 			[
 				'maps' => (new Query())->select(['map', 'class'])->from(Comarch::MAP_TABLE_NAME)
 					->where(['server_id' => $serverId])
-					->createCommand()->queryAllByGroup()
+					->createCommand($db)->queryAllByGroup()
 			]
 		),
 		);
@@ -101,7 +102,7 @@ class Config extends \App\Base
 	 */
 	public function setScan(string $type, ?string $name = null, ?int $id = null): void
 	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
+		$dbCommand = \App\Db::getInstance('admin')->createCommand();
 		if (null !== $name) {
 			$data = ['name' => "{$type}_last_{$name}",	'value' => $id];
 		} else {
@@ -130,7 +131,7 @@ class Config extends \App\Base
 	 */
 	public function setEndScan(string $type, string $date): void
 	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
+		$dbCommand = \App\Db::getInstance('admin')->createCommand();
 		if (!$date) {
 			$date = date('Y-m-d H:i:s');
 		}
@@ -188,7 +189,9 @@ class Config extends \App\Base
 	 */
 	public static function reload(int $id): void
 	{
-		\App\Db::getInstance()->createCommand()->delete(Comarch::CONFIG_TABLE_NAME, ['server_id' => $id])->execute();
+		\App\Db::getInstance('admin')->createCommand()
+			->delete(Comarch::CONFIG_TABLE_NAME, ['server_id' => $id])
+			->execute();
 	}
 
 	/**

@@ -92,8 +92,9 @@ class Settings_Comarch_Activation_Model
 			}
 		}
 		return \App\Db::getInstance('log')->isTableExists(Comarch::LOG_TABLE_NAME)
-		&& \App\Db::getInstance('log')->isTableExists(Comarch::MAP_TABLE_NAME)
-		&& \App\Db::getInstance('log')->isTableExists(Comarch::CONFIG_TABLE_NAME)
+		&& \App\Db::getInstance('admin')->isTableExists(Comarch::MAP_TABLE_NAME)
+		&& \App\Db::getInstance('admin')->isTableExists(Comarch::CONFIG_TABLE_NAME)
+		&& \App\Db::getInstance('admin')->isTableExists(Comarch::QUEUE_TABLE_NAME)
 		&& $i === (new \App\Db\Query())->from('vtiger_field')->where($condition)->count()
 		&& \App\EventHandler::checkActive('Products_DuplicateEan_Handler', 'EditViewPreSave')
 		&& \App\Cron::checkActive('Vtiger_Comarch_Cron');
@@ -132,9 +133,9 @@ class Settings_Comarch_Activation_Model
 				$i += \count($fieldsToAdd);
 			}
 		}
+		$importer = new \App\Db\Importers\Base();
 		$dbLog = \App\Db::getInstance('log');
 		if (!$dbLog->isTableExists(Comarch::LOG_TABLE_NAME)) {
-			$importer = new \App\Db\Importers\Base();
 			$dbLog->createTable(Comarch::LOG_TABLE_NAME, [
 				'id' => $importer->primaryKeyUnsigned(),
 				'server_id' => $importer->integer(10)->unsigned()->notNull(),
@@ -146,33 +147,61 @@ class Settings_Comarch_Activation_Model
 			]);
 			++$i;
 		}
-		$db = \App\Db::getInstance();
+		$db = \App\Db::getInstance('admin');
+		$tableServer = $db->convertTablePrefix(Comarch::TABLE_NAME);
 		if (!$db->isTableExists(Comarch::MAP_TABLE_NAME)) {
-			$importer = new \App\Db\Importers\Base();
+			$table = $db->convertTablePrefix(Comarch::MAP_TABLE_NAME);
 			$db->createTable(Comarch::MAP_TABLE_NAME, [
 				'server_id' => $importer->integer(10)->unsigned()->notNull(),
 				'map' => $importer->stringType(50)->notNull(),
 				'class' => $importer->stringType(100)->notNull(),
 			]);
+			$db->createCommand()
+				->createIndex($table . '_server_id_idx', Comarch::MAP_TABLE_NAME, 'server_id')
+				->execute();
 			$db->createCommand()->addForeignKey(
-				'i_yf_comarch_map_class_ibfk_1',
+				$table . '_ibfk_1',
 				Comarch::MAP_TABLE_NAME, 'server_id',
-				'i_yf_comarch_servers', 'id',
+				$tableServer, 'id',
 				'CASCADE', null
 			)->execute();
 			++$i;
 		}
 		if (!$db->isTableExists(Comarch::CONFIG_TABLE_NAME)) {
-			$importer = new \App\Db\Importers\Base();
+			$table = $db->convertTablePrefix(Comarch::CONFIG_TABLE_NAME);
 			$db->createTable(Comarch::CONFIG_TABLE_NAME, [
 				'server_id' => $importer->integer(10)->unsigned()->notNull(),
 				'name' => $importer->stringType(50)->notNull(),
 				'value' => $importer->stringType(50)->null(),
 			]);
+			$db->createCommand()
+				->createIndex($table . '_server_id_idx', Comarch::CONFIG_TABLE_NAME, 'server_id')
+				->execute();
 			$db->createCommand()->addForeignKey(
-				'i_yf_comarch_config_ibfk_1',
+				$table . '_id_ibfk_1',
 				Comarch::CONFIG_TABLE_NAME, 'server_id',
-				'i_yf_comarch_servers', 'id',
+				$tableServer, 'id',
+				'CASCADE', null
+			)->execute();
+			++$i;
+		}
+		if (!$db->isTableExists(Comarch::QUEUE_TABLE_NAME)) {
+			$table = $db->convertTablePrefix(Comarch::QUEUE_TABLE_NAME);
+			$db->createTable(Comarch::QUEUE_TABLE_NAME, [
+				'id' => $importer->primaryKeyUnsigned(),
+				'server_id' => $importer->integer(10)->unsigned()->notNull(),
+				'name' => $importer->stringType(50)->notNull(),
+				'value' => $importer->stringType(50)->null(),
+				'type' => $importer->stringType(50)->notNull(),
+				'counter' => $importer->smallInteger(1)->notNull()->defaultValue(1),
+			]);
+			$db->createCommand()
+				->createIndex($table . '_server_type_idx', Comarch::QUEUE_TABLE_NAME, ['server_id', 'type'])
+				->execute();
+			$db->createCommand()->addForeignKey(
+				$table . '_ibfk_1',
+				Comarch::QUEUE_TABLE_NAME, 'server_id',
+				$tableServer, 'id',
 				'CASCADE', null
 			)->execute();
 			++$i;
