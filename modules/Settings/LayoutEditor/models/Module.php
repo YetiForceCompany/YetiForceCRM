@@ -285,7 +285,7 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		$fieldParams = '';
 		$this->validate($params);
-		$moduleName = $this->getName();
+		$moduleName = $this->getSourceModule()->getName();
 		$tableName = $this->getTableName($params['fieldTypeList']);
 		switch ($fieldType) {
 			case 'Tree':
@@ -723,12 +723,9 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return bool
 	 */
-	public function isBlockSortableAllowed()
+	public function isBlockSortableAllowed(): bool
 	{
-		if ('ModComments' === $this->getName()) {
-			return false;
-		}
-		return true;
+		return 'ModComments' !== $this->getSourceModule()->getName();
 	}
 
 	/**
@@ -740,7 +737,7 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function isFieldsSortableAllowed($blockName)
 	{
-		$moduleName = $this->getName();
+		$moduleName = $this->getSourceModule()->getName();
 		$blocksEliminatedArray = ['HelpDesk' => ['LBL_TICKET_RESOLUTION', 'LBL_COMMENTS'],
 			'Faq' => ['LBL_COMMENT_INFORMATION'],
 			'Calendar' => ['LBL_TASK_INFORMATION', 'LBL_DESCRIPTION_INFORMATION', 'LBL_REMINDER_INFORMATION', 'LBL_RECURRENCE_INFORMATION'],
