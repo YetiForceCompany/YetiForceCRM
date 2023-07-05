@@ -22,14 +22,14 @@ class Vtiger_DisposalLogsData_Cron extends \App\CronHandler
 			->delete(\App\Integrations\Comarch::LOG_TABLE_NAME, [
 				'and',
 				['error' => 1],
-				['<', 'time', date('Y-m-d H:i:s', strtotime('-90 day'))]
+				['<', 'time', date('Y-m-d H:i:s', strtotime('-60 day'))]
 			])
 			->execute();
 		$logDb->createCommand()
 			->delete(\App\Integrations\Comarch::LOG_TABLE_NAME, [
 				'and',
 				['error' => 0],
-				['<', 'time', date('Y-m-d H:i:s', strtotime('-30 day'))]
+				['<', 'time', date('Y-m-d H:i:s', strtotime('-10 day'))]
 			])
 			->execute();
 	}

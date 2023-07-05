@@ -55,9 +55,9 @@ class SystemWarnings
 	 * @param array $folders
 	 * @param mixed $active
 	 *
-	 * @return array
+	 * @return \App\SystemWarnings\Template[]
 	 */
-	public static function getWarnings($folders, $active = true)
+	public static function getWarnings($folders, $active = true): array
 	{
 		if (empty($folders)) {
 			return [];
@@ -92,7 +92,6 @@ class SystemWarnings
 			}
 		}
 		krsort($actions);
-
 		return $actions;
 	}
 }

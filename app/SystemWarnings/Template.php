@@ -46,6 +46,8 @@ abstract class Template
 
 	/** @var string|null Link URL */
 	protected $link;
+	/** @var string|null Link title */
+	public $linkTitle;
 
 	/** @var bool Template flag */
 	protected $tpl = false;
