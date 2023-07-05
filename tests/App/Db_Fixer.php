@@ -32,7 +32,7 @@ class Db_Fixer extends \Tests\Base
 
 		$fields = \App\Db\Fixer::maximumFieldsLength();
 		$this->assertSame(0, $fields['TypeNotFound']);
-		$this->assertSame(0, $fields['Updated']);
+		$this->assertSame(0, $fields['Updated'], print_r($fields['UpdatedInfo'], true));
 		// @codeCoverageIgnoreStart
 		if (0 != $fields['RequiresVerification']) {
 			$this->markTestSkipped('Fields for verification detected:' . $fields['RequiresVerification']);
@@ -40,7 +40,7 @@ class Db_Fixer extends \Tests\Base
 		/** @codeCoverageIgnoreEnd */
 		$fields = \App\Db\Fixer::maximumFieldsLength(['fieldname' => 'email']);
 		$this->assertSame(0, $fields['TypeNotFound']);
-		$this->assertSame(0, $fields['Updated']);
+		$this->assertSame(0, $fields['Updated'], print_r($fields['UpdatedInfo'], true));
 		// @codeCoverageIgnoreStart
 		if (0 != $fields['RequiresVerification']) {
 			$this->markTestSkipped('Fields for verification detected:' . $fields['RequiresVerification']);

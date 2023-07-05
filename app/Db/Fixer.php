@@ -179,11 +179,12 @@ class Fixer
 	{
 		$typesNotSupported = ['datetime', 'date', 'year', 'timestamp', 'time'];
 		$uiTypeNotSupported = [30];
+		$updatedInfo = [];
 		$updated = $requiresVerification = $typeNotFound = $notSupported = 0;
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
 		$schema = $db->getSchema();
-		$query = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldid', 'maximumlength', 'uitype'])->from('vtiger_field');
+		$query = (new \App\Db\Query())->select(['tabid', 'tablename', 'columnname', 'fieldid', 'fieldname' ,'maximumlength', 'uitype'])->from('vtiger_field');
 		if ($conditions) {
 			$query->andWhere($conditions);
 		}
@@ -268,11 +269,12 @@ class Fixer
 			}
 			if ($update && false !== $range) {
 				$dbCommand->update('vtiger_field', ['maximumlength' => $range], ['fieldid' => $field['fieldid']])->execute();
+				$updatedInfo['fields'][] = "FieldId: " . $field['fieldid'] . ", FieldName: " . $field['fieldname'] . ", TabId: " . $field['tabid'] . ", TabName: " . \App\Module::getModuleName($field['tabid']);
 				++$updated;
 				\App\Log::trace("Updated: {$field['tablename']}.{$field['columnname']} |maximumlength:  before:{$field['maximumlength']} after: $range |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
 			}
 		}
-		return ['NotSupported' => $notSupported, 'TypeNotFound' => $typeNotFound, 'RequiresVerification' => $requiresVerification, 'Updated' => $updated];
+		return ['NotSupported' => $notSupported, 'TypeNotFound' => $typeNotFound, 'RequiresVerification' => $requiresVerification, 'Updated' => $updated, 'UpdatedInfo' => $updatedInfo];
 	}
 
 	/**
