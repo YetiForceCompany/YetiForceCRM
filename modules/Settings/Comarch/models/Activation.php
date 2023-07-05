@@ -196,7 +196,7 @@ class Settings_Comarch_Activation_Model
 				'counter' => $importer->smallInteger(1)->notNull()->defaultValue(1),
 			]);
 			$db->createCommand()
-				->createIndex($table . '_server_type_idx', Comarch::QUEUE_TABLE_NAME, ['server_id', 'type'])
+				->createIndex($table . '_server_type_idx', Comarch::QUEUE_TABLE_NAME, ['server_id', 'name', 'type'])
 				->execute();
 			$db->createCommand()->addForeignKey(
 				$table . '_ibfk_1',

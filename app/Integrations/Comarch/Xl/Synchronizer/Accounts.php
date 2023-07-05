@@ -31,16 +31,20 @@ class Accounts extends \App\Integrations\Comarch\Synchronizer
 			$direction = (int) $this->config->get('direction_accounts');
 			if ($this->config->get('master')) {
 				if (self::DIRECTION_TWO_WAY === $direction || self::DIRECTION_YF_TO_API === $direction) {
+					$this->runQueue('export');
 					$this->export();
 				}
 				if (self::DIRECTION_TWO_WAY === $direction || self::DIRECTION_API_TO_YF === $direction) {
+					$this->runQueue('import');
 					$this->import();
 				}
 			} else {
 				if (self::DIRECTION_TWO_WAY === $direction || self::DIRECTION_API_TO_YF === $direction) {
+					$this->runQueue('import');
 					$this->import();
 				}
 				if (self::DIRECTION_TWO_WAY === $direction || self::DIRECTION_YF_TO_API === $direction) {
+					$this->runQueue('export');
 					$this->export();
 				}
 			}
@@ -109,51 +113,39 @@ class Accounts extends \App\Integrations\Comarch\Synchronizer
 		// }
 	}
 
-	/**
-	 * Import account from Comarch to YetiFoce.
-	 *
-	 * @param array $row
-	 *
-	 * @return void
-	 */
-	public function importItem(array $row): void
+	/** {@inheritdoc} */
+	public function importItem(array $row): bool
 	{
-		// $mapModel = $this->getMapModel();
-		// $mapModel->setDataApi($row);
-		// if ($dataYf = $mapModel->getDataYf()) {
-		// 	try {
-		// 		$yfId = $this->getYfId($row['id']);
-		// 		if (empty($yfId) || empty($this->exported[$yfId])) {
-		// 			$mapModel->loadRecordModel($yfId);
-		// 			$mapModel->loadAdditionalData();
-		// 			$mapModel->saveInYf();
-		// 			$dataYf['id'] = $this->imported[$row['id']] = $mapModel->getRecordModel()->getId();
-		// 		}
-		// 		$this->updateMapIdCache($mapModel->getModule(), $row['id'], $yfId ?: $mapModel->getRecordModel()->getId());
-		// 	} catch (\Throwable $ex) {
-		// 		$this->controller->log(__FUNCTION__, ['YF' => $dataYf, 'API' => $row], $ex);
-		// 		\App\Log::error('Error during ' . __FUNCTION__ . ': ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
-		// 	}
-		// } else {
-		// 	\App\Log::error('Empty map details in ' . __FUNCTION__, self::LOG_CATEGORY);
-		// }
-		// if ($this->config->get('log_all')) {
-		// 	$this->controller->log(__FUNCTION__ . ' | ' . (\array_key_exists($row['id'], $this->imported) ? 'imported' : 'skipped'), [
-		// 		'API' => $row,
-		// 		'YF' => $dataYf ?? [],
-		// 	]);
-		// }
+		$mapModel = $this->getMapModel();
+		$mapModel->setDataApi($row);
+		if ($dataYf = $mapModel->getDataYf()) {
+			try {
+				$yfId = $this->getYfId($row['id']);
+				if (empty($yfId) || empty($this->exported[$yfId])) {
+					$mapModel->loadRecordModel($yfId);
+					$mapModel->loadAdditionalData();
+					$mapModel->saveInYf();
+					$dataYf['id'] = $this->imported[$row['id']] = $mapModel->getRecordModel()->getId();
+				}
+				$this->updateMapIdCache($mapModel->getModule(), $row['id'], $yfId ?: $mapModel->getRecordModel()->getId());
+				$status = true;
+			} catch (\Throwable $ex) {
+				$this->controller->log(__FUNCTION__, ['YF' => $dataYf, 'API' => $row], $ex);
+				\App\Log::error('Error during ' . __FUNCTION__ . ': ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
+			}
+		} else {
+			\App\Log::error('Empty map details in ' . __FUNCTION__, self::LOG_CATEGORY);
+		}
+		if ($this->config->get('log_all')) {
+			$this->controller->log(__FUNCTION__ . ' | ' . (\array_key_exists($row['id'], $this->imported) ? 'imported' : 'skipped'), [
+				'API' => $row,
+				'YF' => $dataYf ?? [],
+			]);
+		}
+		return $status ?? false;
 	}
 
-	/*
-	 * Import by API id.
-	 *
-	 * @param int     $apiId
-	 * @param int     $yfId
-	 * @param ?string $moduleName
-	 *
-	 * @return int
-	 */
+	// /** {@inheritdoc} */
 	// public function importById(int $apiId): int
 	// {
 	// 	$id = 0;

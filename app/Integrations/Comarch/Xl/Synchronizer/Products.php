@@ -31,16 +31,20 @@ class Products extends \App\Integrations\Comarch\Synchronizer
 			$direction = (int) $this->config->get('direction_products');
 			if ($this->config->get('master')) {
 				if (self::DIRECTION_TWO_WAY === $direction || self::DIRECTION_YF_TO_API === $direction) {
+					$this->runQueue('export');
 					$this->export();
 				}
 				if (self::DIRECTION_TWO_WAY === $direction || self::DIRECTION_API_TO_YF === $direction) {
+					$this->runQueue('import');
 					$this->import();
 				}
 			} else {
 				if (self::DIRECTION_TWO_WAY === $direction || self::DIRECTION_API_TO_YF === $direction) {
+					$this->runQueue('import');
 					$this->import();
 				}
 				if (self::DIRECTION_TWO_WAY === $direction || self::DIRECTION_YF_TO_API === $direction) {
+					$this->runQueue('export');
 					$this->export();
 				}
 			}
@@ -108,79 +112,66 @@ class Products extends \App\Integrations\Comarch\Synchronizer
 		}
 	}
 
-	/**
-	 * Import account from Comarch to YetiFoce.
-	 *
-	 * @param array $row
-	 *
-	 * @return void
-	 */
-	public function importItem(array $row): void
+	/** {@inheritdoc} */
+	public function importItem(array $row): bool
 	{
 		$mapModel = $this->getMapModel();
 		$mapModel->setDataApi($row);
+		$apiId = $row[$mapModel::API_NAME_ID];
 		if ($dataYf = $mapModel->getDataYf()) {
-			// print_r($row);
-			// print_r($dataYf);
-			// exit;
 			try {
 				$yfId = $mapModel->findRecordInYf();
 				if (empty($yfId) || empty($this->exported[$yfId])) {
 					$mapModel->loadRecordModel($yfId);
 					$mapModel->loadAdditionalData();
 					$mapModel->saveInYf();
-					$dataYf['id'] = $this->imported[$row[$mapModel::API_NAME_ID]] = $mapModel->getRecordModel()->getId();
+					$dataYf['id'] = $this->imported[$apiId] = $mapModel->getRecordModel()->getId();
 				}
-				if (!empty($row[$mapModel::API_NAME_ID])) {
+				if (!empty($apiId)) {
 					$this->updateMapIdCache(
-						$mapModel->getModule(),
-						$row[$mapModel::API_NAME_ID],
+						$mapModel->getModule(), $apiId,
 						$yfId ?: $mapModel->getRecordModel()->getId()
 					);
 				}
+				$status = true;
 			} catch (\Throwable $ex) {
 				$this->controller->log($this->name . ' ' . __FUNCTION__, ['YF' => $dataYf, 'API' => $row], $ex);
 				\App\Log::error('Error during ' . __FUNCTION__ . ': ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
+				$this->addToQueue('import', $apiId);
 			}
 		} else {
 			\App\Log::error('Empty map details in ' . __FUNCTION__, self::LOG_CATEGORY);
 		}
 		if ($this->config->get('log_all')) {
 			$this->controller->log($this->name . ' ' . __FUNCTION__ . ' | ' .
-			 (\array_key_exists($row[$mapModel::API_NAME_ID], $this->imported) ? 'imported' : 'skipped'), [
+			 (\array_key_exists($apiId, $this->imported) ? 'imported' : 'skipped'), [
 			 	'API' => $row,
 			 	'YF' => $dataYf ?? [],
 			 ]);
 		}
+		return $status ?? false;
 	}
 
-	/*
-	 * Import by API id.
-	 *
-	 * @param int     $apiId
-	 * @param int     $yfId
-	 * @param ?string $moduleName
-	 *
-	 * @return int
-	 */
-	// public function importById(int $apiId): int
-	// {
-	// 	$id = 0;
-	// 	try {
-	// 		$row = $this->getFromApi('products/' . $apiId);
-	// 		if ($row) {
-	// 			$this->importItem($row);
-	// 			$id = $this->imported[$row['id']] ?? 0;
-	// 		} else {
-	// 			$this->controller->log("Import {$this->name} by id [Empty details]", ['apiId' => $apiId]);
-	// 			\App\Log::error("Import during export {$this->name}: Empty details", self::LOG_CATEGORY);
-	// 		}
-	// 	} catch (\Throwable $ex) {
-	// 		$this->controller->log("Import {$this->name} by id", ['apiId' => $apiId, 'API' => $row], $ex);
-	// 		\App\Log::error("Error during import by id {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
-	// 	}
-	// 	return $id;
-	// }
+	/** {@inheritdoc} */
+	public function importById(int $apiId): int
+	{
+		$id = 0;
+		try {
+			$row = $this->getFromApi('Product/GetById/' . $apiId);
+			if ($row) {
+				$this->importItem($row);
+				$mapModel = $this->getMapModel();
+				$id = $this->imported[$row[$mapModel::API_NAME_ID]] ?? 0;
+			} else {
+				$this->controller->log("Import {$this->name} by id [Empty details]", ['apiId' => $apiId]);
+				\App\Log::error("Import during export {$this->name}: Empty details", self::LOG_CATEGORY);
+			}
+		} catch (\Throwable $ex) {
+			$this->controller->log("Import {$this->name} by id", ['apiId' => $apiId, 'API' => $row], $ex);
+			\App\Log::error("Error during import by id {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
+		}
+		return $id;
+	}
 
 	// {@inheritdoc}
 	// public function getApiId(int $yfId, ?string $moduleName = null): int

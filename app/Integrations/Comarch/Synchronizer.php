@@ -347,9 +347,9 @@ class Synchronizer
 	 *
 	 * @param int $id
 	 *
-	 * @return void
+	 * @return bool
 	 */
-	public function exportItem(int $id): void
+	public function exportItem(int $id): bool
 	{
 		$mapModel = $this->getMapModel();
 		$mapModel->setDataApi([]);
@@ -377,9 +377,11 @@ class Synchronizer
 						$id
 					);
 				}
+				$status = true;
 			} catch (\Throwable $ex) {
 				$this->controller->log($this->name . ' ' . __FUNCTION__, ['YF' => $row, 'API' => $dataApi], $ex);
 				\App\Log::error('Error during ' . __FUNCTION__ . ': ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
+				$this->addToQueue('export', $id);
 			}
 		}
 		if ($this->config->get('log_all')) {
@@ -389,6 +391,99 @@ class Synchronizer
 					'YF' => $row,
 					'API' => $dataApi ?? [],
 				]);
+		}
+		return $status ?? false;
+	}
+
+	/**
+	 * Import account from Comarch to YetiFoce.
+	 *
+	 * @param array $row
+	 *
+	 * @return bool
+	 */
+	public function importItem(array $row): bool
+	{
+		throw new \App\Exceptions\AppException('Function not implemented');
+	}
+
+	/**
+	 * Import by API id.
+	 *
+	 * @param int $apiId
+	 *
+	 * @return int
+	 */
+	public function importById(int $apiId): int
+	{
+		throw new \App\Exceptions\AppException('Function not implemented');
+	}
+
+	/**
+	 * Add import/export jobs to the queue.
+	 *
+	 * @param string $type
+	 * @param int    $id
+	 *
+	 * @return void
+	 */
+	public function addToQueue(string $type, int $id): void
+	{
+		$data = ['server_id' => $this->config->get('id'),
+			'name' => $this->name, 'type' => $type,	'value' => $id,
+		];
+		$db = \App\Db::getInstance('admin');
+		if ((new \App\Db\Query())->from(\App\Integrations\Comarch::QUEUE_TABLE_NAME)
+			->where(['server_id' => $this->config->get('id'), 'name' => $this->name, 'type' => $type])->exists($db)) {
+			return;
+		}
+		$db->createCommand()->insert(\App\Integrations\Comarch::QUEUE_TABLE_NAME, $data)->execute();
+	}
+
+	/**
+	 * Run import/export jobs from the queue.
+	 *
+	 * @param string $type
+	 *
+	 * @return void
+	 */
+	public function runQueue(string $type): void
+	{
+		$db = \App\Db::getInstance('admin');
+		$dataReader = (new \App\Db\Query())->from(\App\Integrations\Comarch::QUEUE_TABLE_NAME)
+			->where(['server_id' => $this->config->get('id'), 'name' => $this->name, 'type' => $type])
+			->createCommand(\App\Db::getInstance('admin'))->query();
+		while ($row = $dataReader->read()) {
+			switch ($type) {
+				case 'export':
+					$status = $this->exportItem($row['value']);
+					break;
+				case 'import':
+					$status = empty($this->importById($row['value']));
+					break;
+				default:
+					break;
+			}
+			$delete = false;
+			if ($status) {
+				$delete = true;
+			} else {
+				$counter = ((int) $row['counter']) + 1;
+				if (4 === $counter) {
+					$delete = true;
+				} else {
+					$db->createCommand()->update(
+						\App\Integrations\Comarch::QUEUE_TABLE_NAME,
+						['counter' => $counter], ['id' => $row['id']]
+					)->execute();
+				}
+			}
+			if ($delete) {
+				$db->createCommand()->delete(
+					\App\Integrations\Comarch::QUEUE_TABLE_NAME,
+					['id' => $row['id']]
+				)->execute();
+			}
 		}
 	}
 }

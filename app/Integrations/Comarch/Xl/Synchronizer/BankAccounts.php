@@ -47,14 +47,8 @@ class BankAccounts extends \App\Integrations\Comarch\Synchronizer
 		}
 	}
 
-	/**
-	 * Import bank account from Comarch to YetiFoce.
-	 *
-	 * @param array $row
-	 *
-	 * @return void
-	 */
-	public function importItem(array $row): void
+	/** {@inheritdoc} */
+	public function importItem(array $row): bool
 	{
 		$mapModel = $this->getMapModel();
 		$mapModel->setDataApi($row);
@@ -66,6 +60,7 @@ class BankAccounts extends \App\Integrations\Comarch\Synchronizer
 				$mapModel->saveInYf();
 				$dataYf['id'] = $mapModel->getRecordModel()->getId();
 			}
+			$status = true;
 		} else {
 			\App\Log::error('Empty map details in ' . __FUNCTION__, self::LOG_CATEGORY);
 		}
@@ -75,6 +70,7 @@ class BankAccounts extends \App\Integrations\Comarch\Synchronizer
 				'YF' => $dataYf ?? [],
 			]);
 		}
+		return $status ?? false;
 	}
 
 	/** {@inheritdoc} */
