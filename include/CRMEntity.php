@@ -33,7 +33,27 @@ require_once 'include/Webservices/Utils.php';
 
 class CRMEntity
 {
+	/** @var string Table name */
+	public $table_name = '';
+	/** @var string Table index */
+	public $table_index = '';
+	/** @var array Mandatory table for supporting custom fields. */
+	public $customFieldTable = [];
+	/** @var string[] Mandatory for Saving, Include tables related to this module */
+	public $tab_name = [];
 	/** @var array */
+	public $list_fields_name = [];
+	/** @var array For Popup listview and UI type support */
+	public $search_fields = [];
+	/** @var array */
+	public $search_fields_name = [];
+	/** @var string[] For Popup window record selection */
+	public $popup_fields = [];
+	/** @var string Field name For Alphabetical search. */
+	public $def_basicsearch_col = '';
+	/** @var string[] */
+	public $mandatory_fields = [];
+	/** @var array Mandatory for saving, Include tablename and tablekey columnname here. */
 	public $tab_name_index = [];
 	/** @var string Default order by. */
 	public $default_order_by = '';
@@ -45,6 +65,11 @@ class CRMEntity
 		'u_yf_openstreetmap' => 'LEFT JOIN',
 		'u_yf_wapro_records_map' => 'LEFT JOIN',
 	];
+
+	/** @var array Column fields */
+	public $column_fields = [];
+	/** @var array Lock fields */
+	protected $lockFields = [];
 
 	/**
 	 * Constructor which will set the column_fields in this object.
@@ -234,8 +259,7 @@ class CRMEntity
 	 */
 	public function trackUnLinkedInfo($crmId)
 	{
-		$currentTime = date('Y-m-d H:i:s');
-		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $crmId])->execute();
+		static::trackLinkedInfo($crmId);
 	}
 
 	/**
@@ -245,10 +269,7 @@ class CRMEntity
 	 */
 	public function getLockFields()
 	{
-		if (isset($this->lockFields)) {
-			return $this->lockFields;
-		}
-		return [];
+		return $this->lockFields;
 	}
 
 	/**
