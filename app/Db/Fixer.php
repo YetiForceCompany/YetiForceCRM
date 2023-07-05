@@ -28,6 +28,7 @@ class Fixer
 		\App\Log::trace('Entering ' . __METHOD__);
 		$i = 0;
 		$missingFields = [];
+		$missingFields['names'] = [];
 		$profileIds = \vtlib\Profile::getAllIds();
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		foreach ($profileIds as $profileId) {
@@ -49,16 +50,9 @@ class Fixer
 				}
 			}
 		}
-
 		\App\Log::trace('Exiting ' . __METHOD__);
 
-		if ($showMissingElements) {
-			$missingFields['count'] = $i;
-
-			return $missingFields;
-		}
-
-		return $i;
+		return $showMissingElements ? ['count' => $i, 'names' => $missingFields['names']] : $i;
 	}
 
 	/**
@@ -71,7 +65,6 @@ class Fixer
 	{
 		$i = 0;
 		$allUtility = $missing = $currentProfile2utility = $missingModules = [];
-
 		foreach ((new \App\Db\Query())->from('vtiger_profile2utility')->all() as $row) {
 			$currentProfile2utility[$row['profileid']][$row['tabid']][$row['activityid']] = true;
 			$allUtility[$row['tabid']][$row['activityid']] = true;
@@ -98,7 +91,7 @@ class Fixer
 		}
 
 		$dbCommand = \App\Db::getInstance()->createCommand();
-
+		$missingModules['names'] = [];
 		foreach ($missing as $row) {
 			if (isset($exceptions[$row['tabid']]['allowed'])) {
 				if (!isset($exceptions[$row['tabid']]['allowed'][$row['activityid']])) {
@@ -117,13 +110,7 @@ class Fixer
 			++$i;
 		}
 
-		if ($showMissingElements) {
-			$missingModules['count'] = $i;
-
-			return $missingModules;
-		}
-
-		return $i;
+		return $showMissingElements ? ['count' => $i, 'names' => $missingModules['names']] : $i;
 	}
 
 	/**
@@ -136,7 +123,7 @@ class Fixer
 	{
 		$i = 0;
 		$curentProfile = $missingActions = [];
-
+		$missingActions['names'] = [];
 		foreach ((new \App\Db\Query())->from('vtiger_profile2standardpermissions')->all() as $row) {
 			$curentProfile[$row['profileid']][$row['tabid']][$row['operation']] = $row['permissions'];
 		}
@@ -159,13 +146,7 @@ class Fixer
 			}
 		}
 
-		if ($showMissingElements) {
-			$missingActions['count'] = $i;
-
-			return $missingActions;
-		}
-
-		return $i;
+		return $showMissingElements ? ['count' => $i, 'names' => $missingActions['names']] : $i;
 	}
 
 	/**
