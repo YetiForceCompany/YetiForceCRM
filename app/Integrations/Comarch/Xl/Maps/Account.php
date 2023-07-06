@@ -33,14 +33,14 @@ class Account extends \App\Integrations\Comarch\Map
 		'account_second_name' => ['names' => ['get' => 'knt_Nazwa2', 'create' => 'Nazwa2', 'update' => 'Nazwa2']],
 		'account_third_name' => ['names' => ['get' => 'knt_Nazwa3', 'create' => 'Nazwa3', 'update' => 'Nazwa3']],
 		'accounttype' => [
-			'names' => ['get' => 'Knt_Rodzaj', 'create' => 'Rodzaj', 'update' => 'Rodzaj'],
+			'names' => ['get' => 'knt_Rodzaj', 'create' => 'Rodzaj', 'update' => 'Rodzaj'],
 			'fn' => 'findBySynchronizer', 'synchronizer' => 'AccountTypes'
 		],
 		'payment_methods' => [
-			'names' => ['get' => 'Knt_FormaPl', 'create' => 'FormaPl', 'update' => 'FormaPl'],
+			'names' => ['get' => 'knt_FormaPl', 'create' => 'FormaPl', 'update' => 'FormaPl'],
 			'fn' => 'findBySynchronizer', 'synchronizer' => 'PaymentMethods'
 		],
-		'crmactivity' => ['names' => ['get' => 'Knt_SpTerminPlSpr', 'create' => 'LimitOkres', 'update' => 'SpTerminPlSpr']],
+		'crmactivity' => ['names' => ['get' => 'knt_SpTerminPlSpr', 'create' => 'TerminPlSpr', 'update' => 'LimitOkres']],
 		'addresslevel1a' => [
 			'names' => ['get' => 'knt_Kraj', 'create' => 'Kraj', 'update' => 'Kraj'], 'fn' => 'convertCountry'
 		],
@@ -57,11 +57,11 @@ class Account extends \App\Integrations\Comarch\Map
 		],
 		'otherphone' => [
 			'names' => ['get' => 'knt_Gsm', 'create' => 'Gsm', 'update' => 'Gsm'],
-			'fn' => 'convertPhone'
+			'fn' => 'convertPhone', 'optional' => true
 		],
 		'fax' => [
 			'names' => ['get' => 'knt_Fax', 'create' => 'Fax', 'update' => 'Fax'],
-			'fn' => 'convertPhone'
+			'fn' => 'convertPhone', 'optional' => true
 		],
 	];
 	/** {@inheritdoc} */

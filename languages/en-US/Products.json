@@ -103,6 +103,7 @@
     "PLL_TYPE_GROUPED": "Grouped",
     "PLL_TYPE_VARIABLE": "Variable",
     "PLL_TYPE_VARIATION": "Variation",
-    "LBL_CONFIRM_DELETE_WHEN_HAS_RELATION": "Record is related with other record, please confirm the action"
+    "LBL_CONFIRM_DELETE_WHEN_HAS_RELATION": "Record is related with other record, please confirm the action",
+    "LBL_COMARCH_BLOCK": "Comarch"
   }
 }

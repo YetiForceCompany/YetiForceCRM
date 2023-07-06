@@ -102,7 +102,7 @@ class Synchronizer
 	 */
 	public function getFromApi(string $path, bool $cache = true): array
 	{
-		$cacheKey = self::LOG_CATEGORY . '/API';
+		$cacheKey = $this::LOG_CATEGORY . '/API';
 		if ($cache && \App\Cache::staticHas($cacheKey, $path)) {
 			return \App\Cache::staticGet($cacheKey, $path);
 		}
@@ -156,7 +156,7 @@ class Synchronizer
 		if (!empty($this->lastScan['end_date'])) {
 			$searchCriteria[] = 'dataCzasModyfikacjiOd=' . $this->getFormattedTime($this->lastScan['end_date']);
 		}
-		$searchCriteria[] = 'limit=' . $this->config->get(self::LIMIT_NAME);
+		$searchCriteria[] = 'limit=' . $this->config->get($this::LIMIT_NAME);
 		$searchCriteria = implode('&', $searchCriteria);
 		return $searchCriteria ?? '';
 	}
@@ -208,7 +208,7 @@ class Synchronizer
 	// 	$apiId = $recordModel->get('comarch_id') ?: 0;
 	// } catch (\Throwable $th) {
 	// 	$this->controller->log('GetApiId', ['comarch_id' => $yfId, 'moduleName' => $moduleName], $th);
-	// 	\App\Log::error('Error GetApiId: ' . PHP_EOL . $th->__toString(), self::LOG_CATEGORY);
+	// 	\App\Log::error('Error GetApiId: ' . PHP_EOL . $th->__toString(), $this::LOG_CATEGORY);
 	// }
 	// $this->updateMapIdCache($moduleName, $apiId, $yfId);
 	// 	return $apiId;
@@ -293,7 +293,7 @@ class Synchronizer
 			$load = true;
 			$finish = false;
 			$query = $this->getExportQuery();
-			$limit = $this->config->get(self::LIMIT_NAME);
+			$limit = $this->config->get($this::LIMIT_NAME);
 			while ($load) {
 				$query->offset($page);
 				if ($rows = $query->all()) {
@@ -323,7 +323,7 @@ class Synchronizer
 			}
 		} catch (\Throwable $ex) {
 			$this->controller->log('Export ' . $this->name, ['API' => $rows ?? ''], $ex);
-			\App\Log::error("Error during export {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
+			\App\Log::error("Error during export {$this->name}: \n{$ex->__toString()}", $this::LOG_CATEGORY);
 		}
 		if ($this->config->get('log_all')) {
 			$this->controller->log('End export ' . $this->name, ['exported' => $i]);
@@ -338,7 +338,7 @@ class Synchronizer
 	protected function getExportQuery(): \App\Db\Query
 	{
 		$queryGenerator = $this->getFromYf($this->getMapModel()->getModule(), true);
-		$queryGenerator->setLimit($this->config->get(self::LIMIT_NAME));
+		$queryGenerator->setLimit($this->config->get($this::LIMIT_NAME));
 		return $queryGenerator->createQuery();
 	}
 
@@ -362,7 +362,7 @@ class Synchronizer
 				$this->controller->log($this->name . ' ' . __FUNCTION__ . ' | skipped , inconsistent data', ['YF' => $row, 'API' => $dataApi ?? []]);
 			}
 		} elseif (empty($dataApi)) {
-			\App\Log::error(__FUNCTION__ . ' | Empty map details', self::LOG_CATEGORY);
+			\App\Log::error(__FUNCTION__ . ' | Empty map details', $this::LOG_CATEGORY);
 			$this->controller->log($this->name . ' ' . __FUNCTION__ . ' | Empty map details', ['YF' => $row, 'API' => $dataApi ?? []], null, true);
 		} else {
 			try {
@@ -380,7 +380,7 @@ class Synchronizer
 				$status = true;
 			} catch (\Throwable $ex) {
 				$this->controller->log($this->name . ' ' . __FUNCTION__, ['YF' => $row, 'API' => $dataApi], $ex);
-				\App\Log::error('Error during ' . __FUNCTION__ . ': ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
+				\App\Log::error('Error during ' . __FUNCTION__ . ': ' . PHP_EOL . $ex->__toString(), $this::LOG_CATEGORY);
 				$this->addToQueue('export', $id);
 			}
 		}
@@ -404,7 +404,41 @@ class Synchronizer
 	 */
 	public function importItem(array $row): bool
 	{
-		throw new \App\Exceptions\AppException('Function not implemented');
+		$mapModel = $this->getMapModel();
+		$mapModel->setDataApi($row);
+		$apiId = $row[$mapModel::API_NAME_ID];
+		if ($dataYf = $mapModel->getDataYf()) {
+			try {
+				$yfId = $mapModel->findRecordInYf();
+				if (empty($yfId) || empty($this->exported[$yfId])) {
+					$mapModel->loadRecordModel($yfId);
+					$mapModel->loadAdditionalData();
+					$mapModel->saveInYf();
+					$dataYf['id'] = $this->imported[$apiId] = $mapModel->getRecordModel()->getId();
+				}
+				if (!empty($apiId)) {
+					$this->updateMapIdCache(
+						$mapModel->getModule(), $apiId,
+						$yfId ?: $mapModel->getRecordModel()->getId()
+					);
+				}
+				$status = true;
+			} catch (\Throwable $ex) {
+				$this->controller->log($this->name . ' ' . __FUNCTION__, ['YF' => $dataYf, 'API' => $row], $ex);
+				\App\Log::error('Error during ' . __FUNCTION__ . ': ' . PHP_EOL . $ex->__toString(), $this::LOG_CATEGORY);
+				$this->addToQueue('import', $apiId);
+			}
+		} else {
+			\App\Log::error('Empty map details in ' . __FUNCTION__, $this::LOG_CATEGORY);
+		}
+		if ($this->config->get('log_all')) {
+			$this->controller->log($this->name . ' ' . __FUNCTION__ . ' | ' .
+			 (\array_key_exists($apiId, $this->imported) ? 'imported' : 'skipped'), [
+			 	'API' => $row,
+			 	'YF' => $dataYf ?? [],
+			 ]);
+		}
+		return $status ?? false;
 	}
 
 	/**

@@ -58,112 +58,83 @@ class Accounts extends \App\Integrations\Comarch\Synchronizer
 	 */
 	public function import(): void
 	{
-		//Not implemented and tested method
-		// $this->lastScan = $this->config->getLastScan('import' . $this->name);
-		// if (
-		// 	!$this->lastScan['start_date']
-		// 	|| (0 === $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])
-		// ) {
-		// 	$this->config->setScan('import' . $this->name);
-		// 	$this->lastScan = $this->config->getLastScan('import' . $this->name);
-		// }
-		// if ($this->config->get('log_all')) {
-		// 	$this->controller->log('Start import ' . $this->name, [
-		// 		'lastScan' => $this->lastScan,
-		// 	]);
-		// }
-		// $i = 0;
-		// try {
-		// 	$page = $this->lastScan['page'] ?? 1;
-		// 	$load = true;
-		// 	$finish = false;
-		// 	$limit = $this->config->get(self::LIMIT_NAME);
-		// 	while ($load) {
-		// 		if ($rows = $this->getFromApi('products?&page=' . $page . '&' . $this->getSearchCriteria($limit))) {
-		// 			foreach ($rows as $id => $row) {
-		// 				$this->importItem($row);
-		// 				$this->config->setScan('import' . $this->name, 'id', $id);
-		// 				++$i;
-		// 			}
-		// 			++$page;
-		// 			if (\is_callable($this->controller->bathCallback)) {
-		// 				$load = \call_user_func($this->controller->bathCallback, 'import' . $this->name);
-		// 			}
-		// 			if ($this->config->get(self::LIMIT_NAME) !== \count($rows)) {
-		// 				$finish = true;
-		// 			}
-		// 		} else {
-		// 			$finish = true;
-		// 		}
-		// 		if ($finish || !$load) {
-		// 			$load = false;
-		// 			if ($finish) {
-		// 				$this->config->setEndScan('import' . $this->name, $this->lastScan['start_date']);
-		// 			} else {
-		// 				$this->config->setScan('import' . $this->name, 'page', $page);
-		// 			}
-		// 		}
-		// 	}
-		// } catch (\Throwable $ex) {
-		// 	$this->controller->log('Import ' . $this->name, null, $ex);
-		// 	\App\Log::error("Error during import {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
-		// }
-		// if ($this->config->get('log_all')) {
-		// 	$this->controller->log('End import ' . $this->name, ['imported' => $i]);
-		// }
+		$this->lastScan = $this->config->getLastScan('import' . $this->name);
+		if (
+			!$this->lastScan['start_date']
+			|| (0 === $this->lastScan['id'] && $this->lastScan['start_date'] === $this->lastScan['end_date'])
+		) {
+			$this->config->setScan('import' . $this->name);
+			$this->lastScan = $this->config->getLastScan('import' . $this->name);
+		}
+		if ($this->config->get('log_all')) {
+			$this->controller->log('Start import ' . $this->name, [
+				'lastScan' => $this->lastScan,
+			]);
+		}
+		$i = 0;
+		try {
+			$page = $this->lastScan['page'] ?? 1;
+			$load = true;
+			$finish = false;
+			$limit = $this->config->get(self::LIMIT_NAME);
+			while ($load) {
+				if ($rows = $this->getFromApi('Customer/GetAll?&page=' . $page . '&' . $this->getFromApiCond())) {
+					foreach ($rows as $id => $row) {
+						if ('JEDNORAZOWY' === $row['knt_Akronim']) {
+							continue;
+						}
+						$this->importItem($row);
+						$this->config->setScan('import' . $this->name, 'id', $id);
+						++$i;
+					}
+					++$page;
+					if (\is_callable($this->controller->bathCallback)) {
+						$load = \call_user_func($this->controller->bathCallback, 'import' . $this->name);
+					}
+					if ($limit !== \count($rows)) {
+						$finish = true;
+					}
+				} else {
+					$finish = true;
+				}
+				if ($finish || !$load) {
+					$load = false;
+					if ($finish) {
+						$this->config->setEndScan('import' . $this->name, $this->lastScan['start_date']);
+					} else {
+						$this->config->setScan('import' . $this->name, 'page', $page);
+					}
+				}
+			}
+		} catch (\Throwable $ex) {
+			$this->controller->log('Import ' . $this->name, null, $ex);
+			\App\Log::error("Error during import {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
+		}
+		if ($this->config->get('log_all')) {
+			$this->controller->log('End import ' . $this->name, ['imported' => $i]);
+		}
 	}
 
 	/** {@inheritdoc} */
-	public function importItem(array $row): bool
+	public function importById(int $apiId): int
 	{
-		$mapModel = $this->getMapModel();
-		$mapModel->setDataApi($row);
-		if ($dataYf = $mapModel->getDataYf()) {
-			try {
-				$yfId = $this->getYfId($row['id']);
-				if (empty($yfId) || empty($this->exported[$yfId])) {
-					$mapModel->loadRecordModel($yfId);
-					$mapModel->loadAdditionalData();
-					$mapModel->saveInYf();
-					$dataYf['id'] = $this->imported[$row['id']] = $mapModel->getRecordModel()->getId();
-				}
-				$this->updateMapIdCache($mapModel->getModule(), $row['id'], $yfId ?: $mapModel->getRecordModel()->getId());
-				$status = true;
-			} catch (\Throwable $ex) {
-				$this->controller->log(__FUNCTION__, ['YF' => $dataYf, 'API' => $row], $ex);
-				\App\Log::error('Error during ' . __FUNCTION__ . ': ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
+		$id = 0;
+		try {
+			$row = $this->getFromApi('Customer/GetById/' . $apiId);
+			if ($row) {
+				$this->importItem($row);
+				$mapModel = $this->getMapModel();
+				$id = $this->imported[$row[$mapModel::API_NAME_ID]] ?? 0;
+			} else {
+				$this->controller->log("Import {$this->name} by id [Empty details]", ['apiId' => $apiId]);
+				\App\Log::error("Import during export {$this->name}: Empty details", self::LOG_CATEGORY);
 			}
-		} else {
-			\App\Log::error('Empty map details in ' . __FUNCTION__, self::LOG_CATEGORY);
+		} catch (\Throwable $ex) {
+			$this->controller->log("Import {$this->name} by id", ['apiId' => $apiId, 'API' => $row ?? []], $ex);
+			\App\Log::error("Error during import by id {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
 		}
-		if ($this->config->get('log_all')) {
-			$this->controller->log(__FUNCTION__ . ' | ' . (\array_key_exists($row['id'], $this->imported) ? 'imported' : 'skipped'), [
-				'API' => $row,
-				'YF' => $dataYf ?? [],
-			]);
-		}
-		return $status ?? false;
+		return $id;
 	}
-
-	// /** {@inheritdoc} */
-	// public function importById(int $apiId): int
-	// {
-	// 	$id = 0;
-	// 	try {
-	// 		$row = $this->getFromApi('products/' . $apiId);
-	// 		if ($row) {
-	// 			$this->importItem($row);
-	// 			$id = $this->imported[$row['id']] ?? 0;
-	// 		} else {
-	// 			$this->controller->log("Import {$this->name} by id [Empty details]", ['apiId' => $apiId]);
-	// 			\App\Log::error("Import during export {$this->name}: Empty details", self::LOG_CATEGORY);
-	// 		}
-	// 	} catch (\Throwable $ex) {
-	// 		$this->controller->log("Import {$this->name} by id", ['apiId' => $apiId, 'API' => $row], $ex);
-	// 		\App\Log::error("Error during import by id {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
-	// 	}
-	// 	return $id;
-	// }
 
 	// {@inheritdoc}
 	// public function getApiId(int $yfId, ?string $moduleName = null): int

@@ -19,7 +19,7 @@ class Settings_Comarch_Activation_Model
 	/** @var array Map relation table name */
 	private const FIELDS = [
 		'Accounts' => [
-			'block' => ['name' => 'LBL_ADVANCED_BLOCK', 'create' => false],
+			'block' => ['name' => 'LBL_COMARCH_BLOCK', 'create' => false],
 			'fields' => [
 				'comarch_server_id', 'comarch_id', 'account_short_name', 'account_second_name',
 				'account_third_name', 'payment_methods'
@@ -27,7 +27,7 @@ class Settings_Comarch_Activation_Model
 			'fieldsData' => ['comarch_server_id' => ['displaytype' => 1]],
 		],
 		'Products' => [
-			'block' => ['name' => 'LBL_COMARCH', 'create' => true],
+			'block' => ['name' => 'LBL_COMARCH_BLOCK', 'create' => true],
 			'fields' => [
 				'comarch_server_id', 'comarch_id',
 			],

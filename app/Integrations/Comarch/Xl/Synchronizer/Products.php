@@ -113,46 +113,6 @@ class Products extends \App\Integrations\Comarch\Synchronizer
 	}
 
 	/** {@inheritdoc} */
-	public function importItem(array $row): bool
-	{
-		$mapModel = $this->getMapModel();
-		$mapModel->setDataApi($row);
-		$apiId = $row[$mapModel::API_NAME_ID];
-		if ($dataYf = $mapModel->getDataYf()) {
-			try {
-				$yfId = $mapModel->findRecordInYf();
-				if (empty($yfId) || empty($this->exported[$yfId])) {
-					$mapModel->loadRecordModel($yfId);
-					$mapModel->loadAdditionalData();
-					$mapModel->saveInYf();
-					$dataYf['id'] = $this->imported[$apiId] = $mapModel->getRecordModel()->getId();
-				}
-				if (!empty($apiId)) {
-					$this->updateMapIdCache(
-						$mapModel->getModule(), $apiId,
-						$yfId ?: $mapModel->getRecordModel()->getId()
-					);
-				}
-				$status = true;
-			} catch (\Throwable $ex) {
-				$this->controller->log($this->name . ' ' . __FUNCTION__, ['YF' => $dataYf, 'API' => $row], $ex);
-				\App\Log::error('Error during ' . __FUNCTION__ . ': ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
-				$this->addToQueue('import', $apiId);
-			}
-		} else {
-			\App\Log::error('Empty map details in ' . __FUNCTION__, self::LOG_CATEGORY);
-		}
-		if ($this->config->get('log_all')) {
-			$this->controller->log($this->name . ' ' . __FUNCTION__ . ' | ' .
-			 (\array_key_exists($apiId, $this->imported) ? 'imported' : 'skipped'), [
-			 	'API' => $row,
-			 	'YF' => $dataYf ?? [],
-			 ]);
-		}
-		return $status ?? false;
-	}
-
-	/** {@inheritdoc} */
 	public function importById(int $apiId): int
 	{
 		$id = 0;
@@ -167,7 +127,7 @@ class Products extends \App\Integrations\Comarch\Synchronizer
 				\App\Log::error("Import during export {$this->name}: Empty details", self::LOG_CATEGORY);
 			}
 		} catch (\Throwable $ex) {
-			$this->controller->log("Import {$this->name} by id", ['apiId' => $apiId, 'API' => $row], $ex);
+			$this->controller->log("Import {$this->name} by id", ['apiId' => $apiId, 'API' => $row ?? []], $ex);
 			\App\Log::error("Error during import by id {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
 		}
 		return $id;
