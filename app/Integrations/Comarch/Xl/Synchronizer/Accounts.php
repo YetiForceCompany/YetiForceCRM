@@ -135,24 +135,4 @@ class Accounts extends \App\Integrations\Comarch\Synchronizer
 		}
 		return $id;
 	}
-
-	// {@inheritdoc}
-	// public function getApiId(int $yfId, ?string $moduleName = null): int
-	// {
-		// $moduleName = $moduleName ?? $this->getMapModel()->getModule();
-		// $cacheKey = 'Integrations/Comarch/API_ID/' . $moduleName;
-		// if (\App\Cache::staticHas($cacheKey, $yfId)) {
-		// 	return \App\Cache::staticGet($cacheKey, $yfId);
-		// }
-		// $apiId = 0;
-		// try {
-		// 	$recordModel = \Vtiger_Record_Model::getInstanceById($yfId, $moduleName);
-		// 	$apiId = $recordModel->get('comarch_id') ?: 0;
-		// } catch (\Throwable $th) {
-		// 	$this->controller->log('GetApiId', ['comarch_id' => $yfId, 'moduleName' => $moduleName], $th);
-		// 	\App\Log::error('Error GetApiId: ' . PHP_EOL . $th->__toString(), self::LOG_CATEGORY);
-		// }
-		// $this->updateMapIdCache($moduleName, $apiId, $yfId);
-	// 	return $apiId;
-	// }
 }

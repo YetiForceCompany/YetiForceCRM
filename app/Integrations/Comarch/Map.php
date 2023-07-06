@@ -549,7 +549,7 @@ abstract class Map
 	}
 
 	/**
-	 * Find record in YetiFoce.
+	 * Find record in YetiFoce.  It can only be based on data from CRM `$this->dataApi`.
 	 *
 	 * @return int|null
 	 */
@@ -565,105 +565,7 @@ abstract class Map
 	 */
 	public function findRecordInApi(): int
 	{
-		// return $this->synchronizer->getApiId($this->dataYf['id'], $this->moduleName); // ??
-		return 0;
-	}
-
-	/**
-	 * Convert bool to system format.
-	 *
-	 * @param mixed $value
-	 * @param array $field
-	 * @param bool  $fromApi
-	 *
-	 * @return int|bool int (YF) or bool (API)
-	 */
-	protected function convertBool($value, array $field, bool $fromApi)
-	{
-		if ($fromApi) {
-			return $value ? 1 : 0;
-		}
-		return 1 == $value;
-	}
-
-	/**
-	 * Convert date time to system format.
-	 *
-	 * @param mixed $value
-	 * @param array $field
-	 * @param bool  $fromApi
-	 *
-	 * @return string Date time Y-m-d H:i:s (YF) or Y-m-d\TH:i:s (API)
-	 */
-	protected function convertDateTime($value, array $field, bool $fromApi): string
-	{
-		if ($fromApi) {
-			return \DateTimeField::convertTimeZone($value, 'UTC', \App\Fields\DateTime::getTimeZone())
-				->format('Y-m-d H:i:s');
-		}
-		return \DateTimeField::convertTimeZone($value, \App\Fields\DateTime::getTimeZone(), 'UTC')
-			->format('Y-m-d\TH:i:s');
-	}
-
-	/**
-	 * Convert date to system format.
-	 *
-	 * @param mixed $value
-	 * @param array $field
-	 * @param bool  $fromApi
-	 *
-	 * @return string
-	 */
-	protected function convertDate($value, array $field, bool $fromApi)
-	{
-		return date('Y-m-d', strtotime($value));
-	}
-
-	/**
-	 * Convert price to system format.
-	 *
-	 * @param array $field
-	 * @param mixed $value
-	 * @param bool  $fromApi
-	 *
-	 * @return string|float JSON (YF) or string (API)
-	 */
-	protected function convertPrice($value, array $field, bool $fromApi)
-	{
-		$currency = $this->synchronizer->config->get('currency_id');
-		if ($fromApi) {
-			return \App\Json::encode([
-				'currencies' => [
-					$currency => ['price' => $value ?: 0]
-				],
-				'currencyId' => $currency
-			]);
-		}
-		$value = \App\Json::decode($value);
-		return (string) (empty($value['currencies'][$currency]) ? 0 : $value['currencies'][$currency]['price']);
-	}
-
-	/**
-	 * Convert price to system format.
-	 *
-	 * @param mixed $value
-	 * @param array $field
-	 * @param bool  $fromApi
-	 *
-	 * @return mixed
-	 */
-	protected function convert($value, array $field, bool $fromApi)
-	{
-		switch ($field[$fromApi ? 'crmType' : 'apiType'] ?? 'string') {
-			default:
-			case 'string':
-				$value = (string) $value;
-				break;
-			case 'float':
-				$value = (float) $value;
-				break;
-		}
-		return $value;
+		return $this->synchronizer->getApiId($this->dataYf['id'], $this->moduleName);
 	}
 
 	/**
@@ -707,33 +609,6 @@ abstract class Map
 			return $value;
 		}
 		return $fromApi ? \App\Fields\Country::getCountryName($value) : \App\Fields\Country::getCountryCode($value);
-	}
-
-	/**
-	 * Convert address fields.
-	 *
-	 * @param string $source
-	 * @param string $target
-	 * @param bool   $checkField
-	 *
-	 * @return void
-	 */
-	protected function convertAddress(string $source, string $target, bool $checkField = true): void
-	{
-		// foreach ($this->addressMapFields as $yf => $api) {
-		// 	if ($checkField && !$this->moduleModel->getFieldByName($yf . $target)) {
-		// 		\App\Log::info(
-		// 			"The {$yf}{$target} field does not exist in the {$this->moduleName} module",
-		// 			$this->synchronizer::LOG_CATEGORY);
-		// 		continue;
-		// 	}
-		// 	if (\is_array($api)) {
-		// 		$api['name'] = [$source, $api['name']]; //???
-		// 		$this->loadDataYfMultidimensional($yf . $target, $api);
-		// 	} elseif (\array_key_exists($api, $this->dataApi[$source])) {
-		// 		$this->dataYf[$yf . $target] = $this->dataApi[$source][$api];
-		// 	}
-		// }
 	}
 
 	/**

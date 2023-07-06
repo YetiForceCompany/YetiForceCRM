@@ -207,6 +207,7 @@ class Settings_Comarch_Activation_Model
 			++$i;
 		}
 		\App\EventHandler::setActive('Products_DuplicateEan_Handler', 'EditViewPreSave');
+		\App\EventHandler::setActive('Accounts_DuplicateShortName_Handler', 'EditViewPreSave');
 		\App\Cron::updateStatus(\App\Cron::STATUS_ENABLED, 'LBL_COMARCH');
 		return $i;
 	}
