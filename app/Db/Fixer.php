@@ -160,7 +160,7 @@ class Fixer
 	{
 		$typesNotSupported = ['datetime', 'date', 'year', 'timestamp', 'time'];
 		$uiTypeNotSupported = [30];
-		$updatedInfo = [];
+		$updatedInfo = $requiresVerificationInfo = [];
 		$updated = $requiresVerification = $typeNotFound = $notSupported = 0;
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
@@ -245,6 +245,7 @@ class Fixer
 					$update = true;
 				} else {
 					\App\Log::warning("Requires verification: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} <> {$range} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
+					$requiresVerificationInfo['fields'][] = "FieldId: " . $field['fieldid'] . ", FieldName: " . $field['fieldname'] . ", TabId: " . $field['tabid'] . ", TabName: " . \App\Module::getModuleName($field['tabid']);
 					++$requiresVerification;
 				}
 			}
@@ -255,7 +256,7 @@ class Fixer
 				\App\Log::trace("Updated: {$field['tablename']}.{$field['columnname']} |maximumlength:  before:{$field['maximumlength']} after: $range |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
 			}
 		}
-		return ['NotSupported' => $notSupported, 'TypeNotFound' => $typeNotFound, 'RequiresVerification' => $requiresVerification, 'Updated' => $updated, 'UpdatedInfo' => $updatedInfo];
+		return ['NotSupported' => $notSupported, 'TypeNotFound' => $typeNotFound, 'RequiresVerification' => $requiresVerification, 'RequiresVerificationInfo' => $requiresVerificationInfo,  'Updated' => $updated, 'UpdatedInfo' => $updatedInfo];
 	}
 
 	/**
