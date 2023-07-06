@@ -89,7 +89,11 @@
     "setasign/fpdf": "1.8.*",
     "setasign/fpdi": "^v2.3.6",
     "notihnio/php-multipart-form-data-parser": "*",
-    "symfony/filesystem": "^v5.4.3"
+	"symfony/filesystem": "^v5.4.3",
+	"league/oauth2-google": "^4.0",
+	"thenetworg/oauth2-azure": "^2.1",
+	"webklex/php-imap": "^4.0",
+	"bogdaan/open-location-code": "dev-master"
   },
   "require-dev": {
     "zircote/swagger-php": "^4.0",
