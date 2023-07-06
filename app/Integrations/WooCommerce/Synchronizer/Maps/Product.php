@@ -203,13 +203,13 @@ class Product extends Base
 						unset($variationsYf[$variation['id']]);
 					}
 					if ($this->synchronizer->config->get('logAll')) {
-						$this->synchronizer->log('Export product variation', [
+						$this->synchronizer->controller->log('Export product variation', [
 							'YF' => $dataYf,
 							'API' => $variation ?? [],
 						]);
 					}
 				} catch (\Throwable $ex) {
-					$this->synchronizer->log('Saving product variation', $dataYf, $ex);
+					$this->synchronizer->controller->log('Saving product variation', $dataYf, $ex);
 					\App\Log::error(
 						'Error during saving product variation: ' . PHP_EOL . $ex->__toString(),
 						$this->synchronizer::LOG_CATEGORY
@@ -461,7 +461,7 @@ class Product extends Base
 				try {
 					$mapModel->saveInApi();
 				} catch (\Throwable $ex) {
-					$this->synchronizer->log('Export product variation', ['YF' => $row, 'API' => $dataApi], $ex);
+					$this->synchronizer->controller->log('Export product variation', ['YF' => $row, 'API' => $dataApi], $ex);
 					\App\Log::error(
 						'Error during export product variation: ' . PHP_EOL . $ex->__toString(),
 						$this->synchronizer::LOG_CATEGORY

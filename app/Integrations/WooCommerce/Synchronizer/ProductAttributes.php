@@ -40,10 +40,10 @@ class ProductAttributes extends Base
 			if ($fieldName) {
 				$this->fieldModel = \Settings_Picklist_Field_Model::getInstance($fieldName, $moduleModel);
 				if (empty($this->fieldModel)) {
-					$this->log('Field not found in mapping', ['fieldName' => $fieldName], null, true);
+					$this->controller->log('Field not found in mapping', ['fieldName' => $fieldName], null, true);
 					\App\Log::error('Field not found in mapping: ' . $fieldName, self::LOG_CATEGORY);
 				} elseif (!\in_array($this->fieldModel->getFieldDataType(), ['multipicklist'])) {
-					$this->log('Invalid field type', ['fieldName' => $fieldName, 'type' => $this->fieldModel->getFieldDataType()], null, true);
+					$this->controller->log('Invalid field type', ['fieldName' => $fieldName, 'type' => $this->fieldModel->getFieldDataType()], null, true);
 					\App\Log::error("Invalid field type: $fieldName ({$this->fieldModel->getFieldDataType()})", self::LOG_CATEGORY);
 				} elseif ($this->fieldModel->isActiveField()) {
 					$this->import($attrId);
@@ -62,11 +62,11 @@ class ProductAttributes extends Base
 	public function import(int $attrId): void
 	{
 		if ($this->config->get('logAll')) {
-			$this->log('Start import product attributes', [$attrId]);
+			$this->controller->log('Start import product attributes', [$attrId]);
 		}
 		$attr = $this->attributes[$attrId] ?? null;
 		if (empty($attr)) {
-			$this->log('Attribute not found', [$attrId], null, true);
+			$this->controller->log('Attribute not found', [$attrId], null, true);
 			\App\Log::error('Attribute not found: ' . $attrId, self::LOG_CATEGORY);
 			return;
 		}
@@ -99,14 +99,14 @@ class ProductAttributes extends Base
 							++$i;
 						}
 					} catch (\Throwable $th) {
-						$this->log('Attribute tag', $row, $th);
+						$this->controller->log('Attribute tag', $row, $th);
 						\App\Log::error('Error during import attribute: ' . PHP_EOL . $th->__toString(), self::LOG_CATEGORY);
 					}
 				}
 			}
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('End import product attributes', ['imported' => $i]);
+			$this->controller->log('End import product attributes', ['imported' => $i]);
 		}
 	}
 
@@ -127,7 +127,7 @@ class ProductAttributes extends Base
 					$this->attributes = $attributes;
 				}
 			} catch (\Throwable $ex) {
-				$this->log('Get list from API', $attrs ?? [], $ex);
+				$this->controller->log('Get list from API', $attrs ?? [], $ex);
 				\App\Log::error('Error during get list from API: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 			}
 		}
@@ -147,7 +147,7 @@ class ProductAttributes extends Base
 		try {
 			$rows = $this->getFromApi('products/attributes/' . $id . '/terms');
 		} catch (\Throwable $ex) {
-			$this->log('Get attr from API', $rows ?? [], $ex);
+			$this->controller->log('Get attr from API', $rows ?? [], $ex);
 			\App\Log::error('Error during get attr from API: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 		}
 		return $rows;

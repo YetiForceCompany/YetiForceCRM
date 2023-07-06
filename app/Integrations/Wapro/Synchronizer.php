@@ -237,7 +237,7 @@ abstract class Synchronizer
 	 *
 	 * @return int
 	 */
-	protected function findRelationship(string $value, array $params): int
+	protected function findByRelationship(string $value, array $params): int
 	{
 		if ($id = $this->findInMapTable($value, $params['tableName'])) {
 			return $id;

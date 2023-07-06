@@ -72,7 +72,7 @@ class ProductTags extends Base
 	public function import(): void
 	{
 		if ($this->config->get('logAll')) {
-			$this->log('Start import tags', []);
+			$this->controller->log('Start import tags', []);
 		}
 		$picklistValues = \App\Fields\Picklist::getValues('tags');
 		$keys = array_flip(array_map('mb_strtolower', array_column($picklistValues, 'tags', 'tagsid')));
@@ -95,13 +95,13 @@ class ProductTags extends Base
 						++$i;
 					}
 				} catch (\Throwable $th) {
-					$this->log('Import tag', $tag, $th);
+					$this->controller->log('Import tag', $tag, $th);
 					\App\Log::error('Error during import tag: ' . PHP_EOL . $th->__toString(), self::LOG_CATEGORY);
 				}
 			}
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('End import tags', ['imported' => $i]);
+			$this->controller->log('End import tags', ['imported' => $i]);
 		}
 	}
 
@@ -113,7 +113,7 @@ class ProductTags extends Base
 	public function export(): void
 	{
 		if ($this->config->get('logAll')) {
-			$this->log('Start export tags', []);
+			$this->controller->log('Start export tags', []);
 		}
 		$tags = array_flip(array_map('mb_strtolower', array_column($this->cache, 'slug', 'id')));
 		$i = 0;
@@ -143,12 +143,12 @@ class ProductTags extends Base
 					}
 				}
 			} catch (\Throwable $th) {
-				$this->log('Export tag', $value, $th);
+				$this->controller->log('Export tag', $value, $th);
 				\App\Log::error('Error during export tag: ' . PHP_EOL . $th->__toString(), self::LOG_CATEGORY);
 			}
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('End export tags', ['exported' => $i]);
+			$this->controller->log('End export tags', ['exported' => $i]);
 		}
 	}
 
@@ -182,7 +182,7 @@ class ProductTags extends Base
 					}
 				}
 			} catch (\Throwable $ex) {
-				$this->log('Get tags', null, $ex);
+				$this->controller->log('Get tags', null, $ex);
 				\App\Log::error('Error during get tags: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 			}
 		}

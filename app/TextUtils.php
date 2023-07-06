@@ -221,4 +221,33 @@ class TextUtils
 		}
 		return $truncateText;
 	}
+
+	/**
+	 * Building html for a table from an array of data.
+	 *
+	 * @param array $rows   Entries to display
+	 * @param array $column List of labeled columns to display
+	 *
+	 * @return string
+	 */
+	public static function getHtmlTable(array $rows, array $column): string
+	{
+		if (empty($rows)) {
+			return '';
+		}
+		$html = '<table width="100%" border="1" cellpadding="3" style="border-collapse: collapse;"><thead><tr>';
+		foreach ($column as $key => $label) {
+			$html .= "<th>{$label}</th>";
+		}
+		$html .= '</tr></thead><tbody>';
+		foreach ($rows as $row) {
+			$html .= '<tr>';
+			foreach ($column as $key => $label) {
+				$html .= "<td>{$row[$key]}</td>";
+			}
+			$html .= '</tr>';
+		}
+		$html .= '</tbody></table>';
+		return $html;
+	}
 }

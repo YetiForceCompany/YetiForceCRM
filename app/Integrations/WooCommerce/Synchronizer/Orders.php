@@ -56,7 +56,7 @@ class Orders extends Base
 			$this->lastScan = $this->config->getLastScan('importOrders');
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('Start import order', [
+			$this->controller->log('Start import order', [
 				'lastScan' => $this->lastScan,
 			]);
 		}
@@ -93,11 +93,11 @@ class Orders extends Base
 				}
 			}
 		} catch (\Throwable $ex) {
-			$this->log('Import orders', null, $ex);
+			$this->controller->log('Import orders', null, $ex);
 			\App\Log::error('Error during import orders: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('End import orders', ['imported' => $i]);
+			$this->controller->log('End import orders', ['imported' => $i]);
 		}
 	}
 
@@ -122,14 +122,14 @@ class Orders extends Base
 					$dataYf['id'] = $this->imported[$row['id']] = $mapModel->getRecordModel()->getId();
 				}
 			} catch (\Throwable $ex) {
-				$this->log('Import order', ['YF' => $dataYf, 'API' => $row], $ex);
+				$this->controller->log('Import order', ['YF' => $dataYf, 'API' => $row], $ex);
 				\App\Log::error('Error during import order: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 			}
 		} else {
 			\App\Log::error('Empty map order details', self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('Import order | ' . (\array_key_exists($row['id'], $this->imported) ? 'imported' : 'skipped'), [
+			$this->controller->log('Import order | ' . (\array_key_exists($row['id'], $this->imported) ? 'imported' : 'skipped'), [
 				'API' => $row,
 				'YF' => $dataYf ?? [],
 			]);
@@ -152,7 +152,7 @@ class Orders extends Base
 			$this->lastScan = $this->config->getLastScan('exportOrders');
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('Start export order', [
+			$this->controller->log('Start export order', [
 				'lastScan' => $this->lastScan,
 			]);
 		}
@@ -191,11 +191,11 @@ class Orders extends Base
 				}
 			}
 		} catch (\Throwable $ex) {
-			$this->log('Export orders', null, $ex);
+			$this->controller->log('Export orders', null, $ex);
 			\App\Log::error('Error during export orders: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('End export order', ['exported' => $i]);
+			$this->controller->log('End export order', ['exported' => $i]);
 		}
 	}
 
@@ -242,14 +242,14 @@ class Orders extends Base
 					$dataApi['id'] = $this->exported[$row['id']] = $mapModel->getRecordModel()->get('woocommerce_id');
 				}
 			} catch (\Throwable $ex) {
-				$this->log('Export order', ['YF' => $row, 'API' => $dataApi], $ex);
+				$this->controller->log('Export order', ['YF' => $row, 'API' => $dataApi], $ex);
 				\App\Log::error('Error during export order: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 			}
 		} else {
 			\App\Log::error('Empty map order details', self::LOG_CATEGORY);
 		}
 		if ($this->config->get('logAll')) {
-			$this->log('Export order | ' . (\array_key_exists($row['id'], $this->exported) ? 'exported' : 'skipped'), [
+			$this->controller->log('Export order | ' . (\array_key_exists($row['id'], $this->exported) ? 'exported' : 'skipped'), [
 				'YF' => $row,
 				'API' => $dataApi ?? [],
 			]);

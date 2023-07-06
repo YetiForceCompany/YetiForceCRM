@@ -30,7 +30,6 @@ class OAuth extends \App\Base
 				$providers[$provider->getName()] = $provider;
 			}
 		}
-
 		return $providers;
 	}
 

@@ -148,6 +148,7 @@ class Settings_WooCommerce_Activation_Model
 			$importer = new \App\Db\Importers\Base();
 			$dbLog->createTable(WooCommerce::LOG_TABLE_NAME, [
 				'id' => $importer->primaryKeyUnsigned(),
+				'server_id' => $importer->integer(10)->unsigned()->notNull(),
 				'time' => $importer->dateTime()->notNull(),
 				'error' => $importer->tinyInteger(1)->unsigned()->defaultValue(0),
 				'message' => $importer->stringType(255),
@@ -279,14 +280,18 @@ class Settings_WooCommerce_Activation_Model
 			if (0 === (int) $config['status']) {
 				continue;
 			}
-			$controller = (new WooCommerce($serverId));
-			$connector = $controller->getConnector();
-			foreach (self::getMissingWebhooksByServer($connector, $url) as $topic) {
-				$webhooks[$serverId][] = [
-					'topic' => $topic,
-					'delivery_url' => $url,
-					'secret' => $api['api_key'],
-				];
+			try {
+				$controller = (new WooCommerce($serverId));
+				$connector = $controller->getConnector();
+				foreach (self::getMissingWebhooksByServer($connector, $url) as $topic) {
+					$webhooks[$serverId][] = [
+						'topic' => $topic,
+						'delivery_url' => $url,
+						'secret' => $api['api_key'],
+					];
+				}
+			} catch (\Throwable $th) {
+				\App\Log::error('Error: ' . $th->__toString(), __CLASS__);
 			}
 		}
 		return $webhooks;

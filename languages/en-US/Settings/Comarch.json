@@ -1,0 +1,29 @@
+{
+  "php": {
+    "Comarch": "Comarch",
+    "LBL_COMARCH": "Comarch",
+    "LBL_COMARCH_DESCRIPTION": "Integration with the Comarch ERP",
+    "LBL_URL": "API URL",
+    "LBL_CONNECTOR": "Connector",
+    "LBL_CONNECTOR_TOOLTIP": "Comarch XL - API from elte-s.com was used for the integration",
+    "LBL_USER_NAME": "Consumer Key",
+    "LBL_PASSWORD": "Consumer Secret",
+    "LBL_VERIFY_SSL": "Verify SSL",
+    "LBL_LOG_ALL": "Extended logs",
+    "LBL_LOG_ALL_TOOLTIP": "If set to 'No', only error logs are recorded.\nIf set to 'Yes', all communication is recorded.\nEnabling this option will cause a large amount of data to be stored, which takes up a lot of space.",
+    "LBL_MASTER": "Master System",
+    "LBL_ASSIGNED_USER_ID": "Assigned To",
+    "LBL_SYSTEM_YETIFORCE": "YetiForce",
+    "LBL_SYSTEM_COMARCH": "Comarch",
+    "LBL_SYNC_ACCOUNTS": "Synchronize accounts",
+    "LBL_DIRECTION_ACCOUNTS": "Accounts synchronization direction",
+    "LBL_ACCOUNTS_LIMIT": "Accounts download limit",
+    "LBL_SYNC_PRODUCTS": "Synchronize products",
+    "LBL_DIRECTION_PRODUCTS": "Products synchronization direction",
+    "LBL_PRODUCTS_LIMIT": "Products download limit",
+    "LBL_DIR_API_TO_CRM": "One-way from Comarch to YetiForce",
+    "LBL_DIR_CRM_TO_API": "One-way from YetiForce to Comarch",
+    "LBL_DIR_CRM_API": "Two-way",
+    "BTN_RECORD_INFO": "Show Comarch info and configuration"
+  }
+}

@@ -22,9 +22,14 @@ class Vtiger_SystemWarnings_Cron extends \App\CronHandler
 			if ('YetiForce' === $warning->getFolder()) {
 				continue;
 			}
-			$html .= '<h2>' . App\Language::translate($warning->getTitle(), 'Settings:SystemWarnings') . '</h2>';
-			$html .= '<p>' . $warning->getDescription() . '</p>';
+			$html .= '<h2>' . \App\Language::translate($warning->getTitle(), 'Settings:SystemWarnings') . '</h2>';
+			$html .= '<div>' . $warning->getDescription() . '</div>';
 			$html .= '<hr>';
+			if ($link = $warning->getLink()) {
+				$html .= '<a href="' . $link . '">'
+				. \App\Language::translate('LBL_SYSTEM_SETTINGS')
+				. ' | ' . $warning->linkTitle . '</a>';
+			}
 		}
 		if (empty($html)) {
 			return;

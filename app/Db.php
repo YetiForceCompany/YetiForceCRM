@@ -241,7 +241,19 @@ class Db extends \yii\db\Connection
 	 */
 	public function quoteSql($sql)
 	{
-		return str_replace('#__', $this->tablePrefix, $sql);
+		return $this->convertTablePrefix($sql);
+	}
+
+	/**
+	 * Convert table prefix.
+	 *
+	 * @param string $tableName
+	 *
+	 * @return string
+	 */
+	public function convertTablePrefix(string $tableName): string
+	{
+		return str_replace('#__', $this->tablePrefix, $tableName);
 	}
 
 	/**
@@ -255,7 +267,7 @@ class Db extends \yii\db\Connection
 	 */
 	public function getLastInsertID($sequenceName = '')
 	{
-		return parent::getLastInsertID(str_replace('#__', $this->tablePrefix, $sequenceName));
+		return parent::getLastInsertID($this->convertTablePrefix($sequenceName));
 	}
 
 	/**
@@ -320,7 +332,7 @@ class Db extends \yii\db\Connection
 	 */
 	public function isTableExists($tableName)
 	{
-		return \in_array(str_replace('#__', $this->tablePrefix, $tableName), $this->getSchema()->getTableNames());
+		return \in_array($this->convertTablePrefix($tableName), $this->getSchema()->getTableNames());
 	}
 
 	/**
@@ -355,7 +367,7 @@ class Db extends \yii\db\Connection
 		if (!$this->isTableExists($tableName)) {
 			return [];
 		}
-		$tableName = $this->quoteTableName(str_replace('#__', $this->tablePrefix, $tableName));
+		$tableName = $this->quoteTableName($this->convertTablePrefix($tableName));
 		$keys = [];
 		if ('mysql' === $this->getDriverName()) {
 			$dataReader = $this->createCommand()->setSql('SHOW KEYS FROM ' . $tableName)->query();
