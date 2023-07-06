@@ -221,6 +221,7 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (87,'MailServers',1,'2022-11-08 11:59:24');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (88,'WooCommerce',1,'2022-11-28 10:52:16');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (89,'MailSignature',1,'2023-05-16 15:32:28');
+insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (90,'Comarch',1,'2023-05-16 15:32:28');
 
 /*Data for the table `a_yf_smsnotifier_servers` */
 
@@ -335,6 +336,8 @@ insert  into `com_vtiger_workflowtasks_entitymethod`(`workflowtasks_entitymethod
 /*Data for the table `dav_schedulingobjects` */
 
 /*Data for the table `dav_users` */
+
+/*Data for the table `i_yf_comarch_servers` */
 
 /*Data for the table `i_yf_magento_config` */
 
@@ -2365,6 +2368,8 @@ insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`laststart`,`last_update`,`lastend`,`sequence`,`max_exe_time`,`module`,`description`,`lase_error`) values (38,0,'LBL_INTEGRATION_PL_GUS_REGON','Vtiger_IntegrationPLGusRegon_Cron',43200,NULL,NULL,NULL,29,NULL,'Vtiger',NULL,NULL);
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`laststart`,`last_update`,`lastend`,`sequence`,`max_exe_time`,`module`,`description`,`lase_error`) values (40,1,'LBL_MAIL_SCANNER_NOTIFICATION','MailAccount_Notifications_Cron',28800,NULL,NULL,NULL,36,NULL,'MailAccount','',NULL);
 insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`laststart`,`last_update`,`lastend`,`sequence`,`max_exe_time`,`module`,`description`,`lase_error`) values (41,0,'LBL_WOOCOMMERCE','Vtiger_WooCommerce_Cron',300,NULL,NULL,NULL,37,NULL,NULL,NULL,NULL);
+insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`laststart`,`last_update`,`lastend`,`sequence`,`max_exe_time`,`module`,`description`,`lase_error`) values (42,0,'LBL_COMARCH','Vtiger_Comarch_Cron',300,NULL,NULL,NULL,38,NULL,NULL,NULL,NULL);
+insert  into `vtiger_cron_task`(`id`,`status`,`name`,`handler_class`,`frequency`,`laststart`,`last_update`,`lastend`,`sequence`,`max_exe_time`,`module`,`description`,`lase_error`) values (43,0,'LBL_DISPOSAL_LOGS_DATA','Vtiger_DisposalLogsData_Cron',86400,NULL,NULL,NULL,39,NULL,NULL,NULL,NULL);
 
 /*Data for the table `vtiger_currencies` */
 
@@ -3577,6 +3582,7 @@ insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_clas
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (109,'EditViewPreSave','Calendar_RepeatEvents_Handler',1,'Calendar','',5,9,1);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (110,'PreDelete','Calendar_RepeatEvents_Handler',1,'Calendar','',5,9,1);
 insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (111,'PreStateChange','Calendar_RepeatEvents_Handler',1,'Calendar','',5,9,1);
+insert  into `vtiger_eventhandlers`(`eventhandler_id`,`event_name`,`handler_class`,`is_active`,`include_modules`,`exclude_modules`,`priority`,`owner_id`,`privileges`) values (112,'EditViewPreSave','Accounts_DuplicateShortName_Handler',1,'Accounts','',5,6,1);
 
 /*Data for the table `vtiger_expectedresponse` */
 
@@ -5616,6 +5622,8 @@ insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generate
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`,`icon`) values (113,3142,'multicompany_id','u_yf_cfixedassets',2,10,'multicompany_id','FL_DEPARTMENT',0,2,'','4294967295',4,379,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0,'','');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`,`icon`) values (45,3143,'sms_provider_id','vtiger_smsnotifier',1,90,'sms_provider_id','FL_SMS_PROVIDER',0,2,'',NULL,5,110,1,'I~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0,'','');
 insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`,`icon`) values (29,3144,'users_record_list_filter','vtiger_users',1,16,'users_record_list_filter','FL_RECORD_LIST_FILTER',0,2,'','40',7,454,1,'V~O',1,0,'BAS',1,'',0,'',NULL,0,0,0,0,'','');
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`,`icon`) values (6,3145,'account_short_name','vtiger_account',1,1,'account_short_name','FL_ACCOUNT_SHORT_NAME',0,0,'','255',12,9,1,'V~M',1,0,'BAS',1,'',0,'',NULL,0,0,0,0,'','');
+insert  into `vtiger_field`(`tabid`,`fieldid`,`columnname`,`tablename`,`generatedtype`,`uitype`,`fieldname`,`fieldlabel`,`readonly`,`presence`,`defaultvalue`,`maximumlength`,`sequence`,`block`,`displaytype`,`typeofdata`,`quickcreate`,`quickcreatesequence`,`info_type`,`masseditable`,`helpinfo`,`summaryfield`,`fieldparams`,`header_field`,`maxlengthtext`,`maxwidthcolumn`,`visible`,`tabindex`,`color`,`icon`) values (133,3146,'related_to','u_yf_bankaccounts',1,10,'related_to','FL_RELATED_TO',0,0,'','4294967295',8,470,1,'I~O',2,0,'BAS',1,'',0,'',NULL,0,0,0,0,'','');
 
 /*Data for the table `vtiger_fieldmodulerel` */
 
@@ -5843,6 +5851,7 @@ insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`se
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (3115,'SMSNotifier','SMSNotifier',NULL,0);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (3141,'CFixedAssets','OSSEmployees',NULL,0);
 insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (3142,'CFixedAssets','MultiCompany',NULL,0);
+insert  into `vtiger_fieldmodulerel`(`fieldid`,`module`,`relmodule`,`status`,`sequence`) values (3146,'BankAccounts','Accounts',NULL,0);
 
 /*Data for the table `vtiger_finvoice_status` */
 
@@ -9348,6 +9357,8 @@ insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`rea
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,113,3142,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,45,3143,0,0);
 insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,29,3144,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,6,3145,0,0);
+insert  into `vtiger_profile2field`(`profileid`,`tabid`,`fieldid`,`visible`,`readonly`) values (1,133,3146,0,0);
 
 /*Data for the table `vtiger_profile2globalpermissions` */
 
@@ -14232,6 +14243,7 @@ insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`,`custom_view`,`custom_view_orderby`) values (681,61,113,'getDependentsList',12,'CFixedAssets',0,'ADD',0,0,0,'RelatedTab','employee_id',NULL,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`,`custom_view`,`custom_view_orderby`) values (682,119,113,'getDependentsList',5,'CFixedAssets',0,'ADD',0,0,0,'RelatedTab','multicompany_id',NULL,0);
 insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`,`custom_view`,`custom_view_orderby`) values (683,135,54,'getEmails',1,'OSSMailView',0,'SEND',0,0,0,'RelatedTab',NULL,NULL,0);
+insert  into `vtiger_relatedlists`(`relation_id`,`tabid`,`related_tabid`,`name`,`sequence`,`label`,`presence`,`actions`,`favorites`,`creator_detail`,`relation_comment`,`view_type`,`field_name`,`custom_view`,`custom_view_orderby`) values (684,6,133,'getDependentsList',45,'BankAccounts',0,'ADD',0,0,0,'RelatedTab','related_to',NULL,0);
 
 /*Data for the table `vtiger_relatedlists_fields` */
 
@@ -19761,6 +19773,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (138,8,'LBL_MAIL_SERVERS','fas fa-server','LBL_MAIL_SERVERS_DESCRIPTION','index.php?module=MailServers&parent=Settings&view=List',9,0,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (139,5,'LBL_WOOCOMMERCE','fa-solid fa-cash-register','LBL_WOOCOMMERCE_DESCRIPTION','index.php?parent=Settings&module=WooCommerce&view=List',19,0,0,1,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (140,8,'LBL_MAIL_SIGNATURE','fa-solid fa-signature','LBL_MAIL_SIGNATURE_DESCRIPTION','index.php?parent=Settings&module=MailSignature&view=List',10,0,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`premium`,`admin_access`) values (141,5,'LBL_COMARCH','fa-brands fa-connectdevelop','LBL_COMARCH_DESCRIPTION','index.php?parent=Settings&module=Comarch&view=List',20,0,0,1,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 

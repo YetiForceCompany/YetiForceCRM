@@ -266,7 +266,7 @@ CREATE TABLE `a_yf_settings_modules` (
   `created_time` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `a_yf_settings_modules_name_status_idx` (`name`,`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `a_yf_smsnotifier_servers` */
 
@@ -597,6 +597,32 @@ CREATE TABLE `dav_users` (
   UNIQUE KEY `userid` (`userid`),
   CONSTRAINT `fk_dav_users` FOREIGN KEY (`userid`) REFERENCES `vtiger_users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Table structure for table `i_yf_comarch_servers` */
+
+CREATE TABLE `i_yf_comarch_servers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `type` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `name` varchar(50) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `user_name` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `connector` varchar(20) NOT NULL,
+  `verify_ssl` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `master` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `log_all` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `assigned_user_id` smallint(5) unsigned NOT NULL,
+  `sync_accounts` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `direction_accounts` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `sync_products` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `direction_products` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `accounts_limit` smallint(5) unsigned NOT NULL DEFAULT 1000,
+  `products_limit` smallint(5) unsigned NOT NULL DEFAULT 1000,
+  PRIMARY KEY (`id`),
+  KEY `type` (`type`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `i_yf_magento_config` */
 
@@ -1811,8 +1837,10 @@ CREATE TABLE `u_yf_bankaccounts` (
   `bankaccount_status` varchar(255) DEFAULT '',
   `account_number` varchar(255) DEFAULT '',
   `multicompanyid` int(11) unsigned DEFAULT 0,
+  `related_to` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`bankaccountsid`),
   KEY `u_yf_bankaccounts_multicompanyid_idx` (`multicompanyid`),
+  KEY `u_yf_bankaccounts_related_to_idx` (`related_to`),
   CONSTRAINT `fk_1_u_yf_bankaccountsbankaccountsid` FOREIGN KEY (`bankaccountsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -4967,6 +4995,7 @@ CREATE TABLE `vtiger_account` (
   `sum_open_orders` decimal(28,8) DEFAULT NULL,
   `taxes` text DEFAULT NULL,
   `accounts_available_taxes` text DEFAULT NULL,
+  `account_short_name` varchar(255) DEFAULT '',
   PRIMARY KEY (`accountid`),
   KEY `account_account_type_idx` (`account_type`),
   KEY `email_idx` (`email1`,`email2`),
@@ -5821,7 +5850,7 @@ CREATE TABLE `vtiger_cron_task` (
   UNIQUE KEY `handler_class` (`handler_class`),
   KEY `vtiger_cron_task_status_idx` (`status`),
   KEY `vtiger_cron_task_sequence_idx` (`sequence`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */
 
@@ -6394,7 +6423,7 @@ CREATE TABLE `vtiger_eventhandlers` (
   `privileges` tinyint(1) DEFAULT 1,
   PRIMARY KEY (`eventhandler_id`),
   KEY `event_name_class` (`event_name`,`handler_class`)
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_expectedresponse` */
 
@@ -6514,7 +6543,7 @@ CREATE TABLE `vtiger_field` (
   KEY `field_sequence_idx` (`sequence`),
   KEY `field_uitype_idx` (`uitype`),
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3145 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3147 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_fieldmodulerel` */
 
@@ -8677,7 +8706,7 @@ CREATE TABLE `vtiger_relatedlists` (
   KEY `related_tabid` (`related_tabid`),
   KEY `tabid_3` (`tabid`,`related_tabid`,`label`),
   KEY `tabid_4` (`tabid`,`related_tabid`,`presence`)
-) ENGINE=InnoDB AUTO_INCREMENT=684 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=685 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_relatedlists_fields` */
 
@@ -9006,7 +9035,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 
