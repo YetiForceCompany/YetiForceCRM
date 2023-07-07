@@ -35,8 +35,8 @@ class TextUtils extends \Tests\Base
 	 */
 	public function testTextTruncate()
 	{
-		$this->assertSame((\App\Config::main('listview_max_textlength') + 3), \strlen(\App\TextUtils::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), false, true)), 'string should be truncated in expexted format (default length)');
-		$this->assertSame(13, \strlen(\App\TextUtils::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), 10, true)), 'string should be truncated in expexted format (text length: 10)');
+		$this->assertSame((\App\Config::main('listview_max_textlength')), \strlen(\App\TextUtils::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), false, true)), 'string should be truncated in expexted format (default length)');
+		$this->assertSame(10, \strlen(\App\TextUtils::textTruncate(\Tests\Base\C_RecordActions::createLoremIpsumText(), 10, true)), 'string should be truncated in expexted format (text length: 10)');
 	}
 
 	/**
