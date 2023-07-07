@@ -41,6 +41,6 @@ class Utils extends \Tests\Base
 	 */
 	public function testCompletions(): void
 	{
-		$this->assertSame('<img src="file.php?module=Documents&action=DownloadFile&record=448&fileid=19&show=true" />', \App\Utils\Completions::decodeCustomTag('<yetiforce type="Documents" crm-id="448" attachment-id="19"></yetiforce>'));
+		$this->assertSame('<img src="file.php?module=Documents&action=DownloadFile&record=448&fileid=19&show=true" width="" height=""/>', \App\Utils\Completions::decodeCustomTag('<yetiforce type="Documents" crm-id="448" attachment-id="19"></yetiforce>'));
 	}
 }
