@@ -23,10 +23,11 @@ class CurrencyUpdate extends \Tests\Base
 		$this->assertIsInt($moduleModel->getCurrencyNum(), 'Expected currency number as integer');
 		try {
 			$this->assertNull($moduleModel->refreshBanks(), 'Method should return nothing');
+			$moduleModel->setActiveBankById((new \App\Db\Query())->select('id')->from('yetiforce_currencyupdate_banks')->where(['bank_name' => 'NBP'])->scalar());
 			$this->assertIsBool($moduleModel->fetchCurrencyRates(date('Y-m-d')), 'Expected boolean result.');
 			$this->assertIsArray($moduleModel->getSupportedCurrencies(), 'getSupportedCurrencies should always return array');
 			$this->assertIsArray($moduleModel->getUnSupportedCurrencies(), 'getUnSupportedCurrencies should always return array');
-			$this->assertIsNumeric($moduleModel->getCRMConversionRate(1, 3, date('Y-m-d')), 'getCRMConversionRate should always return number');
+			$this->assertIsNumeric($moduleModel->getCRMConversionRate(\App\Fields\Currency::getIdByCode('PLN'), \App\Fields\Currency::getIdByCode('USD'), date('Y-m-d')), 'getCRMConversionRate should always return number');
 			// @codeCoverageIgnoreStart
 		} catch (\Exception $e) {
 			$this->markTestSkipped('Possibly connection error from integration:' . $e->getTraceAsString() . 'File: ' . $e->getFile());
@@ -62,7 +63,7 @@ class CurrencyUpdate extends \Tests\Base
 				$this->assertNotEmpty($bank->getSource(), 'Bank source should be not empty');
 				$this->assertIsArray($bank->getSupportedCurrencies(), 'Expected array of currencies');
 				$this->assertNotEmpty($bank->getMainCurrencyCode(), 'Main bank currency should be not empty');
-				$this->assertNull($bank->getRates($currencyList, date('Y-m-d'), true), 'Expected nothing/null');
+				$this->assertNull($bank->getRates($currencyList, date('Y-m-d'), true), ' Expected nothing/null');
 			}
 			// @codeCoverageIgnoreStart
 		} catch (\Exception $e) {
