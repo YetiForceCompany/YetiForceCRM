@@ -393,6 +393,7 @@
 			}
 
 			&.active {
+				isolation: inherit;
 				border-bottom-color: transparent !important;
 			}
 
