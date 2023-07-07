@@ -42,14 +42,27 @@ class CurrencyUpdate extends \Tests\Base
 	 */
 	public function testBanks()
 	{
+		$dataReader = (new \App\Db\Query())->select(['id', 'currency_code'])
+			->from('vtiger_currency_info')
+			->where(['currency_status' => 'Active', 'deleted' => 0])
+			->andWhere(['<>', 'defaultid', -11])->createCommand()->query();
+		$currencyList = [];
+		while ($row = $dataReader->read()) {
+			$currencyList[$row['currency_code']] = $row['id'];
+		}
 		try {
 			foreach (['CBR', 'ECB', 'NBR', 'NBP'] as $bankCode) {
+				if (\in_array($bankCode, ['CBR'])) {
+					echo "$bankCode - Disabled due to data source instability\n";
+					continue;
+				}
 				$bankClass = '\Settings_CurrencyUpdate_' . $bankCode . '_BankModel';
 				$bank = new $bankClass();
 				$this->assertNotEmpty($bank->getName(), 'Bank name should be not empty');
 				$this->assertNotEmpty($bank->getSource(), 'Bank source should be not empty');
 				$this->assertIsArray($bank->getSupportedCurrencies(), 'Expected array of currencies');
 				$this->assertNotEmpty($bank->getMainCurrencyCode(), 'Main bank currency should be not empty');
+				$this->assertNull($bank->getRates($currencyList, date('Y-m-d'), true), 'Expected nothing/null');
 			}
 			// @codeCoverageIgnoreStart
 		} catch (\Exception $e) {
