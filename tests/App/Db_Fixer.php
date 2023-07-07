@@ -19,27 +19,33 @@ class Db_Fixer extends \Tests\Base
 	/**
 	 * Testing fixer function.
 	 */
-	public function testFixerDb()
+	public function testFixerDb(): void
 	{
-		$this->assertSame(0, \App\Db\Fixer::baseModuleTools());
-		$this->assertSame(0, \App\Db\Fixer::baseModuleActions());
-		$this->assertSame(0, \App\Db\Fixer::profileField());
+		$getMissingModulesInfo = \App\Db\Fixer::baseModuleTools(true);
+		$getMissingActionsInfo = \App\Db\Fixer::baseModuleActions(true);
+		$getMissingFieldInfo = \App\Db\Fixer::profileField(true);
+
+		$this->assertSame(0, $getMissingModulesInfo['count'], print_r($getMissingModulesInfo['names'], true));
+		$this->assertSame(0, $getMissingActionsInfo['count'], print_r($getMissingActionsInfo['names'], true));
+		$this->assertSame(0, $getMissingFieldInfo['count'], print_r($getMissingFieldInfo['names'], true));
 		$this->assertSame(0, \App\Db\Fixer::share());
 
 		$fields = \App\Db\Fixer::maximumFieldsLength();
 		$this->assertSame(0, $fields['TypeNotFound']);
-		$this->assertSame(0, $fields['Updated']);
+		$this->assertSame(0, $fields['Updated'], print_r($fields['UpdatedInfo'], true));
 		// @codeCoverageIgnoreStart
 		if (0 != $fields['RequiresVerification']) {
-			$this->markTestSkipped('Fields for verification detected:' . $fields['RequiresVerification']);
+			$this->markTestSkipped('Fields for verification detected:' . $fields['RequiresVerification'] . "\n" .
+				print_r($fields['RequiresVerificationInfo'], true));
 		}
 		/** @codeCoverageIgnoreEnd */
 		$fields = \App\Db\Fixer::maximumFieldsLength(['fieldname' => 'email']);
 		$this->assertSame(0, $fields['TypeNotFound']);
-		$this->assertSame(0, $fields['Updated']);
+		$this->assertSame(0, $fields['Updated'], print_r($fields['UpdatedInfo'], true));
 		// @codeCoverageIgnoreStart
 		if (0 != $fields['RequiresVerification']) {
-			$this->markTestSkipped('Fields for verification detected:' . $fields['RequiresVerification']);
+			$this->markTestSkipped('Fields for verification detected:' . $fields['RequiresVerification'] . "\n" .
+				print_r($fields['RequiresVerificationInfo'], true));
 		}
 		// @codeCoverageIgnoreEnd
 	}
