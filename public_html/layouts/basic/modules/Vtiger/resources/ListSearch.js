@@ -106,7 +106,7 @@ jQuery.Class(
 			}
 			listViewContainer.find('.js-empty-value').each(function () {
 				let element = $(this);
-				let parentField = element.parents('.searchField').find('.listSearchContributor');
+				let parentField = element.parents('.searchField,.picklistSearchField').find('.listSearchContributor');
 				let fieldName = parentField.attr('name');
 				let moduleName = parentField.data('module-name');
 				let sourceFieldName = parentField.data('source-field-name');

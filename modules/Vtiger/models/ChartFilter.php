@@ -266,6 +266,9 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	 */
 	private $additionalFiltersFields = [];
 
+	/** @var string[] Locked empty fields for link conditions */
+	private $lockedEmptyFields = [];
+
 	/**
 	 * Get instance.
 	 *
@@ -547,6 +550,157 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	}
 
 	/**
+	 * Get extra data.
+	 *
+	 * @param string $key
+	 *
+	 * @return mixed
+	 */
+	public function getExtraData($key)
+	{
+		return $this->extraData[$key] ?? null;
+	}
+
+	/**
+	 * Set widget model.
+	 *
+	 * @param \Vtiger_Widget_Model $widgetModel
+	 *
+	 * @throws Exception
+	 */
+	public function setWidgetModel($widgetModel)
+	{
+		$this->widgetModel = $widgetModel;
+		$this->extraData = App\Json::decode($this->widgetModel->get('data'));
+		$this->getTargetModuleModel();
+		$this->setFilterIds();
+		// Decode data if not done already.
+		if (\is_string($this->extraData)) {
+			$this->extraData = \App\Json::decode(App\Purifier::decodeHtml($this->extraData));
+		}
+		if (null === $this->extraData) {
+			throw new App\Exceptions\AppException('Invalid data');
+		}
+		$this->additionalFiltersFieldsNames = empty($this->extraData['additionalFiltersFields']) ? [] : (array) $this->extraData['additionalFiltersFields'];
+		$this->setChartHeaders();
+		$this->chartType = $this->extraData['chartType'];
+		$this->groupName = !empty($this->extraData['groupField']) ? $this->extraData['groupField'] : null;
+		$this->stacked = !empty($this->extraData['stacked']);
+		$this->sectors = empty($this->extraData['sectorField']) ? '' : $this->extraData['sectorField'];
+		$this->dividingName = 0;
+		if (!$this->isMultiFilter()) {
+			$this->dividingName = !empty($this->extraData['dividingField']) ? $this->extraData['dividingField'] : null;
+			if ($this->dividingName) {
+				$this->colorsFromDividingField = !empty($this->extraData['colorsFromDividingField']);
+			}
+		} else {
+			$this->colorsFromFilter = !empty($this->extraData['colorsFromFilter']);
+		}
+	}
+
+	/**
+	 * Get target module.
+	 *
+	 * @return string
+	 */
+	public function getTargetModule()
+	{
+		return $this->extraData['module'];
+	}
+
+	/**
+	 * Get target module model.
+	 *
+	 * @return \Vtiger_Module_Model
+	 */
+	public function getTargetModuleModel()
+	{
+		if (!$this->targetModuleModel) {
+			$this->targetModuleModel = Vtiger_Module_Model::getInstance($this->getTargetModule());
+		}
+		return $this->targetModuleModel;
+	}
+
+	/**
+	 * Get title.
+	 *
+	 * @param string $prefix
+	 *
+	 * @return string
+	 */
+	public function getTitle($prefix = '')
+	{
+		$title = $this->widgetModel->get('title');
+		if (empty($title)) {
+			$suffix = '';
+			$cvId = (int) $this->getFilterId(0);
+			$viewName = \App\CustomView::getCVDetails($cvId, $this->getTargetModule())['viewname'] ?? '';
+			if ($viewName) {
+				$suffix = ' - ' . \App\Language::translate($viewName, $this->getTargetModule());
+				if (!empty($this->extraData['groupField'])) {
+					$fieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
+					$suffix .= ' - ' . \App\Language::translate($fieldModel->getFieldLabel(), $this->getTargetModule());
+				}
+			}
+			return $prefix . \App\Language::translate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
+		}
+		return $title;
+	}
+
+	/**
+	 * Get total count url.
+	 *
+	 * @return string
+	 */
+	public function getTotalCountURL()
+	{
+		if (\count($this->getFilterIds()) > 1) {
+			return null;
+		}
+		return 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->getFilterId(0);
+	}
+
+	/**
+	 * Get list view url.
+	 *
+	 * @param int $dividingValue
+	 *
+	 * @return string
+	 */
+	public function getListViewURL($dividingValue = 0)
+	{
+		return 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->getFilterId($dividingValue);
+	}
+
+	public function isColor()
+	{
+		return false;
+	}
+
+	/**
+	 * Get all available fields for additional filter.
+	 *
+	 * @return array
+	 */
+	public function getFields()
+	{
+		if (!$this->fields) {
+			$moduleBlockFields = Vtiger_Field_Model::getAllForModule($this->targetModuleModel);
+			$this->fields = [];
+			foreach ($moduleBlockFields as $moduleFields) {
+				foreach ($moduleFields as $moduleField) {
+					$block = $moduleField->get('block');
+					if (empty($block)) {
+						continue;
+					}
+					$this->fields[$moduleField->get('name')] = $moduleField;
+				}
+			}
+		}
+		return $this->fields;
+	}
+
+	/**
 	 * Gather information about data colors
 	 * Later we can build gradient or generate one color for line charts.
 	 *
@@ -765,23 +919,23 @@ class Vtiger_ChartFilter_Model extends \App\Base
 				$sqlColumnName = $queryGenerator->getColumnName($columnName);
 				$queryGenerator->setCustomColumn([$columnName => new \yii\db\Expression("MAX({$sqlColumnName})")]);
 				switch ($this->sectors) {
-						case 'daily':
-							if ('datetime' === $queryGenerator->getModuleField($columnName)->getFieldDataType()) {
-								$queryGenerator->setCustomColumn([$groupBy => new \yii\db\Expression("CAST({$sqlColumnName} AS DATE)")]);
-							} else {
-								$queryGenerator->setCustomColumn([$groupBy => $sqlColumnName]);
-							}
-							break;
-						case 'monthly':
-							$queryGenerator->setCustomColumn([$groupBy => new \yii\db\Expression("SUBSTRING({$sqlColumnName}, 1, 7)")]);
-							break;
-						case 'yearly':
-							$queryGenerator->setCustomColumn([$groupBy => new \yii\db\Expression("EXTRACT(YEAR FROM {$sqlColumnName})")]);
-							break;
-						default:
-							$groupBy = $queryGenerator->getColumnName($columnName);
-							break;
-					}
+					case 'daily':
+						if ('datetime' === $queryGenerator->getModuleField($columnName)->getFieldDataType()) {
+							$queryGenerator->setCustomColumn([$groupBy => new \yii\db\Expression("CAST({$sqlColumnName} AS DATE)")]);
+						} else {
+							$queryGenerator->setCustomColumn([$groupBy => $sqlColumnName]);
+						}
+						break;
+					case 'monthly':
+						$queryGenerator->setCustomColumn([$groupBy => new \yii\db\Expression("SUBSTRING({$sqlColumnName}, 1, 7)")]);
+						break;
+					case 'yearly':
+						$queryGenerator->setCustomColumn([$groupBy => new \yii\db\Expression("EXTRACT(YEAR FROM {$sqlColumnName})")]);
+						break;
+					default:
+						$groupBy = $queryGenerator->getColumnName($columnName);
+						break;
+				}
 				$queryGenerator->setCustomGroup($groupBy);
 			} elseif (!empty($columnName)) {
 				$queryGenerator->setField($columnName)->setGroup($columnName);
@@ -929,9 +1083,9 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	/**
 	 * Increase number of rows for average calculation.
 	 *
-	 * @param $groupValue
-	 * @param $dividingValue
-	 * @param mixed $count
+	 * @param mixed $groupValue
+	 * @param mixed $dividingValue
+	 * @param int   $count
 	 */
 	protected function incNumRows($groupValue, $dividingValue, $count)
 	{
@@ -984,7 +1138,6 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	 */
 	protected function getRowsDb($query, $dividingValue)
 	{
-		file_put_contents(__FILE__ . '.log', print_r([$query->createCommand()->getRawSql()], true), FILE_APPEND);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			[$groupValue, $dividingValue] = $this->getFieldValuesFromRow($row, $dividingValue);
@@ -1096,11 +1249,20 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	protected function setLinkFromRow($row, $groupValue, $dividingValue)
 	{
 		if (!$this->sectors && $this->getFilterId() && !isset($this->data[$groupValue][$dividingValue]['link']) && $this->groupFieldModel->isActiveSearchView() && (!$this->isDividedByField() || $this->dividingFieldModel->isActiveSearchView())) {
-			$params = array_merge($this->searchParams, [$this->getSearchParamValue($this->groupFieldModel, $row[$this->groupName])]);
-			if ($this->isDividedByField()) {
-				$params = array_merge($params, [$this->getSearchParamValue($this->dividingFieldModel, $row[$this->dividingName])]);
+			$locks = [];
+			[$name, $operator, $value, $lockField] = $this->getSearchParamValue($this->groupFieldModel, $row[$this->groupName]);
+			if ($lockField) {
+				$locks[] = $lockField;
 			}
-			$link = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->getFilterId($dividingValue) . '&search_params=' . rawurlencode(App\Json::encode([$params]));
+			$params = array_merge($this->searchParams, [[$name, $operator, $value]]);
+			if ($this->isDividedByField()) {
+				[$name, $operator, $value, $lockField] = $this->getSearchParamValue($this->dividingFieldModel, $row[$this->dividingName]);
+				$params = array_merge($this->searchParams, [[$name, $operator, $value]]);
+				if ($lockField) {
+					$locks[] = $lockField;
+				}
+			}
+			$link = $this->getTargetModuleModel()->getListViewUrl() . '&viewname=' . $this->getFilterId($dividingValue) . '&search_params=' . rawurlencode(App\Json::encode([$params])) . ($locks ? '&lockedEmptyFields=' . rawurlencode(App\Json::encode($locks)) : '');
 			$this->addValue('link', $link, $groupValue, $dividingValue);
 		}
 	}
@@ -1116,14 +1278,20 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	protected function getSearchParamValue(Vtiger_Field_Model $fieldModel, $value): array
 	{
 		$operator = 'e';
+		$lockField = '';
 		$fieldDataType = $fieldModel->getFieldDataType();
-		if ($fieldModel->isReferenceField()) {
+		if ('' === $value || null === $value || ($fieldModel->isReferenceField() && empty($value))) {
+			$operator = 'y';
+			$value = '';
+			$lockField = $fieldModel->getName();
+		} elseif ($fieldModel->isReferenceField()) {
 			$operator = 'eid';
 		} elseif (\in_array($fieldDataType, ['multipicklist', 'categoryMultipicklist'])) {
 			$operator = 'c';
 			$value = 'multipicklist' === $fieldDataType ? str_replace(' |##| ', '##', $value) : $value;
 		}
-		return [$fieldModel->getName(), $operator, $value];
+
+		return [$fieldModel->getName(), $operator, $value, $lockField];
 	}
 
 	/**
@@ -1138,14 +1306,14 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	protected function getFieldValuesFromRow($row, $dividingValue)
 	{
 		$groupValue = $this->groupColumnName !== $this->groupName ? $row[$this->groupColumnName] : $this->groupFieldModel->getDisplayValue($row[$this->groupName], false, false, true);
-		if (empty($groupValue)) {
+		if ('' === $groupValue || null === $groupValue) {
 			$groupValue = '(' . \App\Language::translate('LBL_EMPTY', 'Home') . ')';
 		} elseif (\is_string($dividingValue)) {
 			$groupValue = \App\Purifier::decodeHtml($groupValue);
 		}
 		if ($this->isDividedByField()) {
 			$dividingValue = $this->sectors ? $row[$this->dividingColumnName] : $this->dividingFieldModel->getDisplayValue($row[$this->dividingName], false, false, true);
-			if (empty($dividingValue)) {
+			if ('' === $dividingValue || null === $dividingValue) {
 				$dividingValue = '(' . \App\Language::translate('LBL_EMPTY', 'Home') . ')';
 			} elseif (\is_string($dividingValue)) {
 				$dividingValue = \App\Purifier::decodeHtml($dividingValue);
@@ -1243,15 +1411,30 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	}
 
 	/**
-	 * Get extra data.
+	 * Get view name.
 	 *
-	 * @param string $key
-	 *
-	 * @return mixed
+	 * @param int $cvid
 	 */
-	public function getExtraData($key)
+	protected function getViewNameFromId($cvid)
 	{
-		return $this->extraData[$key] ?? null;
+		return $this->viewNames[$cvid];
+	}
+
+	/**
+	 * Get view id from view name.
+	 *
+	 * @param string $viewName
+	 *
+	 * @return int|string|null
+	 */
+	protected function getViewIdFromName($viewName)
+	{
+		foreach ($this->viewNames as $cvid => $vName) {
+			if ($viewName === $vName) {
+				return $cvid;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -1281,171 +1464,5 @@ class Vtiger_ChartFilter_Model extends \App\Base
 		foreach ($this->additionalFiltersFieldsNames as $fieldName) {
 			$this->additionalFiltersFields[] = $this->targetModuleModel->getFieldByName($fieldName);
 		}
-	}
-
-	/**
-	 * Set widget model.
-	 *
-	 * @param \Vtiger_Widget_Model $widgetModel
-	 *
-	 * @throws Exception
-	 */
-	public function setWidgetModel($widgetModel)
-	{
-		$this->widgetModel = $widgetModel;
-		$this->extraData = App\Json::decode($this->widgetModel->get('data'));
-		$this->getTargetModuleModel();
-		$this->setFilterIds();
-		// Decode data if not done already.
-		if (\is_string($this->extraData)) {
-			$this->extraData = \App\Json::decode(App\Purifier::decodeHtml($this->extraData));
-		}
-		if (null === $this->extraData) {
-			throw new App\Exceptions\AppException('Invalid data');
-		}
-		$this->additionalFiltersFieldsNames = empty($this->extraData['additionalFiltersFields']) ? [] : (array) $this->extraData['additionalFiltersFields'];
-		$this->setChartHeaders();
-		$this->chartType = $this->extraData['chartType'];
-		$this->groupName = !empty($this->extraData['groupField']) ? $this->extraData['groupField'] : null;
-		$this->stacked = !empty($this->extraData['stacked']);
-		$this->sectors = empty($this->extraData['sectorField']) ? '' : $this->extraData['sectorField'];
-		$this->dividingName = 0;
-		if (!$this->isMultiFilter()) {
-			$this->dividingName = !empty($this->extraData['dividingField']) ? $this->extraData['dividingField'] : null;
-			if ($this->dividingName) {
-				$this->colorsFromDividingField = !empty($this->extraData['colorsFromDividingField']);
-			}
-		} else {
-			$this->colorsFromFilter = !empty($this->extraData['colorsFromFilter']);
-		}
-	}
-
-	/**
-	 * Get target module.
-	 *
-	 * @return string
-	 */
-	public function getTargetModule()
-	{
-		return $this->extraData['module'];
-	}
-
-	/**
-	 * Get target module model.
-	 *
-	 * @return \Vtiger_Module_Model
-	 */
-	public function getTargetModuleModel()
-	{
-		if (!$this->targetModuleModel) {
-			$this->targetModuleModel = Vtiger_Module_Model::getInstance($this->getTargetModule());
-		}
-		return $this->targetModuleModel;
-	}
-
-	/**
-	 * Get view name.
-	 *
-	 * @param int $cvid
-	 */
-	protected function getViewNameFromId($cvid)
-	{
-		return $this->viewNames[$cvid];
-	}
-
-	/**
-	 * Get view id from view name.
-	 *
-	 * @param string $viewName
-	 *
-	 * @return int|string|null
-	 */
-	protected function getViewIdFromName($viewName)
-	{
-		foreach ($this->viewNames as $cvid => $vName) {
-			if ($viewName === $vName) {
-				return $cvid;
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Get title.
-	 *
-	 * @param string $prefix
-	 *
-	 * @return string
-	 */
-	public function getTitle($prefix = '')
-	{
-		$title = $this->widgetModel->get('title');
-		if (empty($title)) {
-			$suffix = '';
-			$cvId = (int) $this->getFilterId(0);
-			$viewName = \App\CustomView::getCVDetails($cvId, $this->getTargetModule())['viewname'] ?? '';
-			if ($viewName) {
-				$suffix = ' - ' . \App\Language::translate($viewName, $this->getTargetModule());
-				if (!empty($this->extraData['groupField'])) {
-					$fieldModel = Vtiger_Field_Model::getInstance($this->extraData['groupField'], $this->getTargetModuleModel());
-					$suffix .= ' - ' . \App\Language::translate($fieldModel->getFieldLabel(), $this->getTargetModule());
-				}
-			}
-			return $prefix . \App\Language::translate($this->getTargetModuleModel()->label, $this->getTargetModule()) . $suffix;
-		}
-		return $title;
-	}
-
-	/**
-	 * Get total count url.
-	 *
-	 * @return string
-	 */
-	public function getTotalCountURL()
-	{
-		if (\count($this->getFilterIds()) > 1) {
-			return null;
-		}
-		return 'index.php?module=' . $this->getTargetModule() . '&action=Pagination&mode=getTotalCount&viewname=' . $this->getFilterId(0);
-	}
-
-	/**
-	 * Get list view url.
-	 *
-	 * @param int $dividingValue
-	 *
-	 * @return string
-	 */
-	public function getListViewURL($dividingValue = 0)
-	{
-		return 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->getFilterId($dividingValue);
-	}
-
-	public function isColor()
-	{
-		return false;
-	}
-
-	/**
-	 * Get all available fields for additional filter.
-	 *
-	 * @return array
-	 */
-	public function getFields()
-	{
-		if (!$this->fields) {
-			$moduleBlockFields = Vtiger_Field_Model::getAllForModule($this->targetModuleModel);
-			$this->fields = [];
-			foreach ($moduleBlockFields as $moduleFields) {
-				foreach ($moduleFields as $moduleField) {
-					$block = $moduleField->get('block');
-					if (empty($block)) {
-						continue;
-					}
-					$this->fields[$moduleField->get('name')] = $moduleField;
-				}
-			}
-		}
-		return $this->fields;
 	}
 }

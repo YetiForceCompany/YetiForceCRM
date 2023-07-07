@@ -35,9 +35,9 @@
 		{else}
 			<div class="input-group">
 				<input type="text" name="{$FIELD_MODEL->getName()}" {if !empty($FIELD_MODEL->get('source_field_name'))} data-source-field-name="{$FIELD_MODEL->get('source_field_name')}" data-module-name="{$FIELD_MODEL->getModuleName()}"
-						{/if} class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{\App\Language::translate($FIELD_MODEL->getName(), $FIELD_MODEL->getModuleName())}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->searchLockedEmptyFields() || !$FIELD_MODEL->isActiveSearchView()}disabled{/if} />
-					{if !empty($MODULE_MODEL) && isset($MODULE_MODEL->isentitytype)}
-						<div class="input-group-append">
+						{/if} class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{\App\Language::translate($FIELD_MODEL->getName(), $FIELD_MODEL->getModuleName())}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->searchLockedEmptyFields() || !$FIELD_MODEL->isActiveSearchView()}disabled="" {/if} data-info="{!$FIELD_MODEL->searchLockedEmptyFields()}" />
+					{if !empty($MODULE_MODEL) && isset($MODULE_MODEL->isentitytype) && $FIELD_MODEL->isActiveSearchView()}
+						<div class="input-group-append" title="{\App\Language::translate('LBL_FILTER_EMPTY_VALUE', $FIELD_MODEL->getModuleName())}">
 							<div class="input-group-text px-1">
 								<input type="checkbox" class="js-empty-value" {if !$FIELD_MODEL->searchLockedEmptyFields()}checked{/if} {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}>
 							</div>
