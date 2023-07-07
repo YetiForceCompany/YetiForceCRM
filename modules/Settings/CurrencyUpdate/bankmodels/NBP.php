@@ -178,7 +178,5 @@ class Settings_CurrencyUpdate_NBP_BankModel extends Settings_CurrencyUpdate_Abst
 				}
 			}
 		}
-
-		return true;
 	}
 }
