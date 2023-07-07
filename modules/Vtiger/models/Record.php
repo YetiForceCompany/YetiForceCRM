@@ -1059,33 +1059,33 @@ class Vtiger_Record_Model extends \App\Base
 	public function getSummaryInfo()
 	{
 		$moduleName = $this->getModuleName();
-		$path = "modules/$moduleName/summary_blocks";
+		$dirs[] = "modules/$moduleName/summary_blocks/";
 		if (\App\Config::performance('LOAD_CUSTOM_FILES')) {
-			$customPath = "custom/$path";
-			$path = is_dir($customPath) ? $customPath : $path;
-		}
-		if (!is_dir($path)) {
-			return [];
+			$dirs[] = "custom/modules/$moduleName/summary_blocks/";
 		}
 		$tempSummaryBlocks = [];
-		$dir = new DirectoryIterator($path);
-		foreach ($dir as $fileinfo) {
-			if (!$fileinfo->isDot()) {
-				$tmp = explode('.', $fileinfo->getFilename());
-				$fullPath = $path . DIRECTORY_SEPARATOR . $tmp[0] . '.php';
-				if (file_exists($fullPath)) {
-					require_once $fullPath;
-					$block = new $tmp[0]();
-					if (isset($block->reference) && !\App\Module::isModuleActive($block->reference)) {
-						continue;
+		foreach ($dirs as $path) {
+			if (!is_dir($path)) {
+				continue;
+			}
+			foreach ((new DirectoryIterator($path)) as $fileinfo) {
+				if (!$fileinfo->isDot()) {
+					$tmp = explode('.', $fileinfo->getFilename());
+					$fullPath = $path . DIRECTORY_SEPARATOR . $tmp[0] . '.php';
+					if (file_exists($fullPath)) {
+						require_once $fullPath;
+						$block = new $tmp[0]();
+						if (isset($block->reference) && !\App\Module::isModuleActive($block->reference)) {
+							continue;
+						}
+						$tempSummaryBlocks[$block->sequence] = [
+							'name' => $block->name,
+							'data' => $block->process($this),
+							'reference' => $block->reference,
+							'type' => $block->type ?? false,
+							'icon' => $block->icon ?? false,
+						];
 					}
-					$tempSummaryBlocks[$block->sequence] = [
-						'name' => $block->name,
-						'data' => $block->process($this),
-						'reference' => $block->reference,
-						'type' => $block->type ?? false,
-						'icon' => $block->icon ?? false,
-					];
 				}
 			}
 		}

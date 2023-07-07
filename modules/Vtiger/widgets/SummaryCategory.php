@@ -23,12 +23,23 @@ class Vtiger_SummaryCategory_Widget extends Vtiger_Basic_Widget
 	 */
 	public function isExistsSummaryBlocks(): bool
 	{
-		$path = "modules/{$this->Module}/summary_blocks/";
+		$fileExists = [];
+		$dirs[] = "modules/{$this->Module}/summary_blocks/";
 		if (\App\Config::performance('LOAD_CUSTOM_FILES')) {
-			$customPath = "custom/$path";
-			$path = is_dir($customPath) ? $customPath : $path;
+			$dirs[] = "custom/modules/{$this->Module}/summary_blocks/";
 		}
-		return is_dir($path) ?? $path;
+		foreach ($dirs as $path) {
+			if (!is_dir($path)) {
+				continue;
+			}
+			foreach ((new DirectoryIterator($path)) as $fileinfo) {
+				if ($fileinfo->getBasename('.php') && !$fileinfo->isDot()) {
+					$fileExists[] = $fileinfo->getFilename();
+				}
+			}
+		}
+
+		return !empty($fileExists);
 	}
 
 	public function getWidget()
