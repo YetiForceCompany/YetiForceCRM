@@ -21,7 +21,7 @@
 		{/if}
 		<div class="c-detail-widget__content js-detail-widget-collapse js-detail-widget-content collapse multi-collapse" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['id']}" aria-labelledby="{$WIDGET_UID}" data-js="container|value">
 			<div class="px-0">
-				{foreach item=SUMMARY_CATEGORY from=Vtiger_SummaryCategory_Widget::getSummaryInfo($RECORD) }
+				{foreach item=SUMMARY_CATEGORY from=$WIDGET['instance']->getSummaryInfo($RECORD) }
 					<div class="d-flex text-center o-summary-category__row mb-2 px-0">
 						{foreach item=FIELD_VALUE from=$SUMMARY_CATEGORY}
 							<div class="card col mx-1 px-0" data-reference="{$FIELD_VALUE.reference}">

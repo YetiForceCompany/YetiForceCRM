@@ -52,7 +52,7 @@ class Vtiger_SummaryCategory_Widget extends Vtiger_Basic_Widget
 	 *
 	 * @return array
 	 */
-	public static function getSummaryInfo(Vtiger_Record_Model $recordModel): array
+	public function getSummaryInfo(Vtiger_Record_Model $recordModel): array
 	{
 		$moduleName = $recordModel->getModuleName();
 		$existsFiles = [];
@@ -99,8 +99,8 @@ class Vtiger_SummaryCategory_Widget extends Vtiger_Basic_Widget
 
 	public function getWidget()
 	{
+		$this->Config = parent::getWidget();
 		$this->Config['tpl'] = 'SummaryCategory.tpl';
-
 		return $this->Config;
 	}
 
