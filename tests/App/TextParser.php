@@ -263,8 +263,8 @@ class TextParser extends \Tests\Base
 		$employeeUser->set('email1', $userName . '@yetiforce.com');
 		$employeeUser->set('first_name', $userName);
 		$employeeUser->set('last_name', 'YetiForce');
-		$employeeUser->set('user_password', \Tests\Base\A_User::$defaultPassrowd);
-		$employeeUser->set('confirm_password', \Tests\Base\A_User::$defaultPassrowd);
+		$employeeUser->set('user_password', \Tests\Base\A_User::$defaultPassword);
+		$employeeUser->set('confirm_password', \Tests\Base\A_User::$defaultPassword);
 		$employeeUser->set('roleid', 'H2');
 		$employeeUser->set('is_admin', 'on');
 		$employeeUser->save();
