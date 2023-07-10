@@ -45,7 +45,6 @@ class Vtiger_Record_Model extends \App\Base
 	 * @var string Record label
 	 */
 	public $label;
-	public $summaryRowCount = 4;
 	public $isNew = true;
 	public $ext = [];
 
@@ -1056,55 +1055,6 @@ class Vtiger_Record_Model extends \App\Base
 		return $fieldModel->getRelatedListDisplayValue($this->get($fieldName));
 	}
 
-	/**
-	 * Function fetches data about the data summary widget.
-	 *
-	 * @return array
-	 */
-	public function getSummaryInfo(): array
-	{
-		$moduleName = $this->getModuleName();
-		$existsFiles = [];
-		if (\App\Config::performance('LOAD_CUSTOM_FILES')) {
-			$dirs[] = "custom/modules/$moduleName/summary_blocks/";
-		}
-		$dirs[] = "modules/$moduleName/summary_blocks/";
-		$tempSummaryBlocks = [];
-		foreach ($dirs as $path) {
-			if (!is_dir($path)) {
-				continue;
-			}
-			foreach ((new DirectoryIterator($path)) as $fileInfo) {
-				$fileName = $fileInfo->getBasename('.php');
-				if (!$fileInfo->isDot() && 'php' === $fileInfo->getExtension() && !\in_array($fileName, $existsFiles)) {
-					$existsFiles[] = $fileName;
-					$fullPath = $path . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
-					if (file_exists($fullPath)) {
-						require_once $fullPath;
-						$block = new $fileName();
-						if (isset($block->reference) && !\App\Module::isModuleActive($block->reference)) {
-							continue;
-						}
-						$tempSummaryBlocks[$block->sequence] = [
-							'name' => $block->name,
-							'data' => $block->process($this),
-							'reference' => $block->reference,
-							'type' => $block->type ?? false,
-							'icon' => $block->icon ?? false,
-						];
-					}
-				}
-			}
-		}
-		ksort($tempSummaryBlocks);
-		$blockCount = 0;
-		$summaryBlocks = [];
-		foreach ($tempSummaryBlocks as $key => $block) {
-			$summaryBlocks[(int) ($blockCount / $this->summaryRowCount)][$key] = $tempSummaryBlocks[$key];
-			++$blockCount;
-		}
-		return $summaryBlocks;
-	}
 
 	/**
 	 * Function to set record module field values.
