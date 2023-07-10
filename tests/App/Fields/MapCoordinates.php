@@ -30,7 +30,7 @@ class MapCoordinates extends \Tests\Base
 			['degrees', 'decimal', ['lat' => '50°12\'13.1188" N', 'lon' => '21°0\'17.983" E'], ['lat' => 50.203644111111, 'lon' => 21.004995277778]],
 			['degrees', 'decimal', ['lat' => '50°12\'13.1188"N', 'lon' => '21°0\'17.983"E'], ['lat' => 50.203644111111, 'lon' => 21.004995277778]],
 			['decimal', 'codeplus', ['lat' => 52.23155431436567, 'lon' => 21.00499528120955], '9G4362J3+JXH5'],
-			['codeplus', 'decimal', '9G4362J3+GR', ['lat' => 52.2313125, 'lon' => 21.0045625]]
+			['codeplus', 'decimal', '9G4362J3+GR', ['lat' => 52.23131249999999, 'lon' => 21.004562500000006]],
 		];
 	}
 
@@ -48,7 +48,7 @@ class MapCoordinates extends \Tests\Base
 	 */
 	public function testConvert(string $from, string $to, $value, $result): void
 	{
-		$this->assertEqualsWithDelta($result, \App\Fields\MapCoordinates::convert($from, $to, $value), 0.0001);
+		$this->assertEquals($result, \App\Fields\MapCoordinates::convert($from, $to, $value));
 	}
 
 	/**
