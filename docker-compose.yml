@@ -12,7 +12,18 @@ services:
       - type: volume
         source: db_data
         target: /var/lib/mysql
-  yetiforce-crm:
+  cron:
+    build:
+      context: ./docker_config/cron
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 60s
+    volumes:
+      - type: volume
+        source: config
+        target: /config
+  crm:
     build:
         context: .
     volumes:
@@ -49,6 +60,7 @@ services:
         - ./docker_config/caddy/Caddyfile:/etc/caddy/Caddyfile
         - ./docker_config/caddy/data:/data
         - ./docker_config/caddy/config:/config
+
 volumes:
   app_data:
   cache:

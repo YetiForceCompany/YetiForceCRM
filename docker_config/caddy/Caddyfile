@@ -4,9 +4,9 @@
 
 https://localhost {
 	tls internal
-	reverse_proxy yetiforce-crm:80
+	reverse_proxy crm:80
 }
 
 http://localhost {
-	reverse_proxy yetiforce-crm:80
+	reverse_proxy crm:80
 }
