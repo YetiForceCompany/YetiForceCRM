@@ -1056,25 +1056,32 @@ class Vtiger_Record_Model extends \App\Base
 		return $fieldModel->getRelatedListDisplayValue($this->get($fieldName));
 	}
 
-	public function getSummaryInfo()
+	/**
+	 * Function fetches data about the data summary widget.
+	 *
+	 * @return array
+	 */
+	public function getSummaryInfo(): array
 	{
 		$moduleName = $this->getModuleName();
-		$dirs[] = "modules/$moduleName/summary_blocks/";
+		$existsFiles = [];
 		if (\App\Config::performance('LOAD_CUSTOM_FILES')) {
 			$dirs[] = "custom/modules/$moduleName/summary_blocks/";
 		}
+		$dirs[] = "modules/$moduleName/summary_blocks/";
 		$tempSummaryBlocks = [];
 		foreach ($dirs as $path) {
 			if (!is_dir($path)) {
 				continue;
 			}
-			foreach ((new DirectoryIterator($path)) as $fileinfo) {
-				if (!$fileinfo->isDot()) {
-					$tmp = explode('.', $fileinfo->getFilename());
-					$fullPath = $path . DIRECTORY_SEPARATOR . $tmp[0] . '.php';
+			foreach ((new DirectoryIterator($path)) as $fileInfo) {
+				$fileName = $fileInfo->getBasename('.php');
+				if (!$fileInfo->isDot() && 'php' === $fileInfo->getExtension() && !\in_array($fileName, $existsFiles)) {
+					$existsFiles[] = $fileName;
+					$fullPath = $path . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
 					if (file_exists($fullPath)) {
 						require_once $fullPath;
-						$block = new $tmp[0]();
+						$block = new $fileName();
 						if (isset($block->reference) && !\App\Module::isModuleActive($block->reference)) {
 							continue;
 						}
