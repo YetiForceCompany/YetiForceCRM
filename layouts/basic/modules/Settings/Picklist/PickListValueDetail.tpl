@@ -69,8 +69,10 @@
 										{foreach key=PICKLIST_KEY item=PICKLIST_DATA from=\App\Fields\Picklist::getValues($SELECTED_PICKLIST_FIELDMODEL->getName())}
 											<tr class="pickListValue js-picklist-value u-bg-white-darken" data-key-id="{$PICKLIST_KEY}">
 												<td class="u-text-ellipsis p-2">
-													<span class="mdi mdi-drag"></span>
-													&nbsp;&nbsp;{\App\Language::translate($PICKLIST_DATA['picklistValue'],$SELECTED_MODULE_NAME)}
+													<span class="mdi mdi-drag"></span>&nbsp;&nbsp;
+													{assign var=ICON value=$SELECTED_PICKLIST_FIELDMODEL->getItemModel($PICKLIST_KEY)->get('icon')}
+													{if $ICON}{\App\Layout\Media::getImageHtml($ICON)}{/if}
+													{\App\Language::translate($PICKLIST_DATA['picklistValue'],$SELECTED_MODULE_NAME)}
 													<span class="float-right actions">
 														<button class="btn btn-primary btn-xs ml-1 js-picklist-edit" title="{App\Language::translate('LBL_EDIT', $QUALIFIED_MODULE)}" data-id="{$PICKLIST_KEY}">
 															<span class="yfi yfi-full-editing-view"></span>
