@@ -45,7 +45,6 @@ class Vtiger_Record_Model extends \App\Base
 	 * @var string Record label
 	 */
 	public $label;
-	public $summaryRowCount = 4;
 	public $isNew = true;
 	public $ext = [];
 
@@ -1056,44 +1055,6 @@ class Vtiger_Record_Model extends \App\Base
 		return $fieldModel->getRelatedListDisplayValue($this->get($fieldName));
 	}
 
-	public function getSummaryInfo()
-	{
-		$moduleName = $this->getModuleName();
-		$path = "modules/$moduleName/summary_blocks";
-		if (!is_dir($path)) {
-			return [];
-		}
-		$tempSummaryBlocks = [];
-		$dir = new DirectoryIterator($path);
-		foreach ($dir as $fileinfo) {
-			if (!$fileinfo->isDot()) {
-				$tmp = explode('.', $fileinfo->getFilename());
-				$fullPath = $path . DIRECTORY_SEPARATOR . $tmp[0] . '.php';
-				if (file_exists($fullPath)) {
-					require_once $fullPath;
-					$block = new $tmp[0]();
-					if (isset($block->reference) && !\App\Module::isModuleActive($block->reference)) {
-						continue;
-					}
-					$tempSummaryBlocks[$block->sequence] = [
-						'name' => $block->name,
-						'data' => $block->process($this),
-						'reference' => $block->reference,
-						'type' => $block->type ?? false,
-						'icon' => $block->icon ?? false,
-					];
-				}
-			}
-		}
-		ksort($tempSummaryBlocks);
-		$blockCount = 0;
-		$summaryBlocks = [];
-		foreach ($tempSummaryBlocks as $key => $block) {
-			$summaryBlocks[(int) ($blockCount / $this->summaryRowCount)][$key] = $tempSummaryBlocks[$key];
-			++$blockCount;
-		}
-		return $summaryBlocks;
-	}
 
 	/**
 	 * Function to set record module field values.
