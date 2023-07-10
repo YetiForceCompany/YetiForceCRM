@@ -1,77 +1,40 @@
-FROM debian:11
+FROM php:8.0-apache
 
-MAINTAINER m.krzaczkowski@yetiforce.com
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public_html
 
-ARG DEBIAN_FRONTEND=noninteractive
-ARG DB_ROOT_PASS=1r2VdePVnNxluabdGuqh
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-ENV PHP_VER 7.4
-ENV DB_USER_NAME yetiforce
-ENV DB_USER_PASS Q4WK2yRUpliyjMRivDJE
-ENV DB_PORT 3306
-#INSTALL_MODE = PROD , DEV , TEST
-ENV INSTALL_MODE PROD
-ENV GUI_MODE true
+RUN apt-get update && apt-get install -y git libc-client-dev libkrb5-dev libcurl4-openssl-dev zlib1g-dev libpng-dev libxml2-dev libzip-dev  lsb-release gnupg libldap-dev
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
+RUN npm install --global yarn
 
-ENV PROVIDER docker
+RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl && docker-php-ext-install -j8 imap pdo_mysql curl gd xml zip soap iconv intl bcmath sockets exif ldap opcache
 
-RUN apt-get update && apt-get install -y --no-install-recommends apt-utils curl openssl wget ca-certificates apt-transport-https lsb-release gnupg
-
-RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
-RUN	curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends mariadb-server mariadb-client
-RUN apt-get install -y --no-install-recommends nginx nginx-extras zip unzip cron nodejs npm yarn mc htop openssh-server git
-RUN apt-get install -y --no-install-recommends php${PHP_VER}-fpm php${PHP_VER}-mysql php${PHP_VER}-curl php${PHP_VER}-intl php${PHP_VER}-gd php${PHP_VER}-bcmath php${PHP_VER}-soap php${PHP_VER}-ldap php${PHP_VER}-imap php${PHP_VER}-xml php${PHP_VER}-cli php${PHP_VER}-zip php${PHP_VER}-json php${PHP_VER}-opcache php${PHP_VER}-mbstring php${PHP_VER}-apcu php${PHP_VER}-imagick
-RUN apt-get -y autoclean
-
-# RUN apt-cache search php
-RUN dpkg --get-selections | grep php
-
-RUN rm /var/www/html/index.nginx-debian.html
-COPY ./tests/setup/db/mysql.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
-COPY ./tests/setup/nginx/docker.conf /etc/nginx/sites-available/default
-COPY ./tests/setup/nginx/yetiforce.conf /etc/nginx/yetiforce.conf
-COPY ./tests/setup/fpm/docker.conf /etc/php/$PHP_VER/fpm/pool.d/www.conf
-COPY ./ /var/www/html
-COPY ./tests/setup/crons.conf /etc/cron.d/yetiforcecrm
-COPY ./tests/setup/php/prod.ini /etc/php/$PHP_VER/mods-available/yetiforce.ini
-COPY ./tests/setup/docker_entrypoint.sh /
-RUN rm /var/www/html/.user.ini
-RUN rm /var/www/html/public_html/.user.ini
-
-RUN	service mariadb start; \
-	mysql -uroot mysql; \
-	mysqladmin password "$DB_ROOT_PASS"; \
-	#echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '$DB_ROOT_PASS';" | mysql --user=root; \
-	echo "UPDATE mysql.user SET Password=PASSWORD('$DB_ROOT_PASS') WHERE User='root';" | mysql --user=root;\
-	echo "DELETE FROM mysql.user WHERE User='';" | mysql --user=root;\
-	echo "DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');" | mysql --user=root; \
-	echo "DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';" | mysql --user=root; \
-	echo "CREATE DATABASE yetiforce;" | mysql --user=root;\
-	echo "CREATE USER 'yetiforce'@'localhost' IDENTIFIED BY '$DB_USER_PASS';" | mysql --user=root;\
-	echo "GRANT ALL PRIVILEGES ON yetiforce.* TO 'yetiforce'@'localhost';" | mysql --user=root;\
-	echo "FLUSH PRIVILEGES;" | mysql --user=root
-
-RUN crontab /etc/cron.d/yetiforcecrm
-RUN ln -s /etc/php/$PHP_VER/mods-available/yetiforce.ini /etc/php/$PHP_VER/cli/conf.d/30-yetiforce.ini
-RUN ln -s /etc/php/$PHP_VER/mods-available/yetiforce.ini /etc/php/$PHP_VER/fpm/conf.d/30-yetiforce.ini
-RUN curl -sS https://getcomposer.org/installer | php
+WORKDIR /opt
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+RUN php composer-setup.php
+RUN php -r "unlink('composer-setup.php');"
 RUN mv composer.phar /usr/local/bin/composer
-RUN chmod +x /usr/local/bin/composer
-RUN	chmod -R +x /var/www/html/tests/setup
-RUN	chmod +x /docker_entrypoint.sh
-RUN	/var/www/html/tests/setup/dependency.sh
-RUN chown -R www-data:www-data /var/www/
-RUN php /var/www/html/tests/setup/docker_post_install.php
-RUN echo "PROVIDER=docker" > /etc/environment
+
+COPY --chown=www-data:www-data --chmod=644 ./ /var/www/html
 
 WORKDIR /var/www/html
 
-EXPOSE 80
-EXPOSE 3306
+RUN --mount=type=cache,target=/root/.yarn YARN_CACHE_FOLDER=/root/.yarn yarn install --modules-folder "./public_html/libraries" --ignore-optional --production=true
+WORKDIR /var/www/html/public_html/src
+RUN --mount=type=cache,target=/root/.yarn YARN_CACHE_FOLDER=/root/.yarn yarn install --ignore-optional --production=true
 
-ENTRYPOINT [ "/docker_entrypoint.sh" ]
+WORKDIR /var/www/html
+
+RUN --mount=type=cache,target=/root/.composer/cache composer --no-interaction install --no-dev
+
+WORKDIR /var/www/html
+
+RUN install -owww-data -gwww-data -m755 -d config/Modules
+RUN find . -type d -exec chown www-data:www-data -- {} \+
+RUN find . -type d -exec chmod 755 -- {} \+
+
+COPY ./docker_config/php/php.ini "$PHP_INI_DIR/php.ini"
+
+EXPOSE 80

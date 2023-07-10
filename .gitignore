@@ -94,3 +94,9 @@ frontmatter.json
 *.bak
 *.sublime-workspace
 *.launch
+
+# Mounts
+/docker_config/caddy/config/*
+!/docker_config/caddy/config/.gitkeep
+/docker_config/caddy/data/*
+!/docker_config/caddy/data/.gitkeep

@@ -1,0 +1,3 @@
+[mariadb]
+innodb_lock_wait_timeout = 600
+table_definition_cache = 2400

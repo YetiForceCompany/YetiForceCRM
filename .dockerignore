@@ -1,0 +1,17 @@
+.editorconfig
+.git
+.gitattributes
+.github
+.gitignore
+.php_cs.dist
+.prettierrc.js
+.scrutinizer.yml
+.whitesource
+codecov.yml
+crowdin.yml
+docker-compose.yml
+Dockerfile
+jsconfig.json
+sonar-project.properties
+tests
+whitesource.config.json

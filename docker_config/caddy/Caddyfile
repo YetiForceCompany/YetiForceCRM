@@ -1,0 +1,12 @@
+{
+    auto_https disable_redirects
+}
+
+https://localhost {
+	tls internal
+	reverse_proxy yetiforce-crm:80
+}
+
+http://localhost {
+	reverse_proxy yetiforce-crm:80
+}

@@ -1,10 +1,60 @@
 version: '3'
 services:
-    yetiforce-crm:
-        container_name: YetiForceCRM
-        build:
-            context: .
-        ports:
-            - '8000:80'
-            - '8022:22'
-            #- '8036:3306'
+  db:
+    image: mariadb:lts
+    environment:
+      MARIADB_ROOT_PASSWORD: example
+      MARIADB_DATABASE: yetiforce
+      MARIADB_USER: yeti
+      MARIADB_PASSWORD: yeti
+    volumes:
+      - ./docker_config/mariadb:/etc/mysql/conf.d:ro
+      - type: volume
+        source: db_data
+        target: /var/lib/mysql
+  yetiforce-crm:
+    build:
+        context: .
+    volumes:
+      - type: volume
+        source: app_data
+        target: /var/www/html/app_data
+      - type: volume
+        source: cache
+        target: /var/www/html/cache
+      - type: volume
+        source: cron
+        target: /var/www/html/cron
+      - type: volume
+        source: config
+        target: /var/www/html/config
+      - type: volume
+        source: install
+        target: /var/www/html/install
+      - type: volume
+        source: public_install
+        target: /var/www/html/public_html/install
+      - type: volume
+        source: user_privileges
+        target: /var/www/html/user_privileges
+    depends_on:
+      - db
+  caddy:
+      image: caddy:2.6
+      ports:
+        - "80:80"
+        - "443:443"
+        - "443:443/udp"
+      volumes:
+        - ./docker_config/caddy/Caddyfile:/etc/caddy/Caddyfile
+        - ./docker_config/caddy/data:/data
+        - ./docker_config/caddy/config:/config
+volumes:
+  app_data:
+  cache:
+  cron:
+  db_data:
+  config:
+  install:
+  public_install:
+  user_privileges:
