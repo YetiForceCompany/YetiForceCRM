@@ -245,7 +245,7 @@ class Fixer
 					$update = true;
 				} else {
 					\App\Log::warning("Requires verification: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} <> {$range} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
-					$requiresVerificationInfo['fields'][] = 'FieldId: ' . $field['fieldid'] . ', FieldName: ' . $field['fieldname'] . ', TabId: ' . $field['tabid'] . ', TabName: ' . \App\Module::getModuleName($field['tabid']);
+					$requiresVerificationInfo['fields'][] = 'FieldId: ' . $field['fieldid'] . ', FieldName: ' . $field['fieldname'] . ', TabId: ' . $field['tabid'] . ', TabName: ' . \App\Module::getModuleName($field['tabid']) . ", Diff: {$field['maximumlength']} <> {$range} | {$type}|{$column->type}|{$column->dbType}";
 					++$requiresVerification;
 				}
 			}
