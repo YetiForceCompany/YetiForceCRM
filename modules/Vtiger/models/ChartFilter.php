@@ -266,9 +266,6 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	 */
 	private $additionalFiltersFields = [];
 
-	/** @var string[] Locked empty fields for link conditions */
-	private $lockedEmptyFields = [];
-
 	/**
 	 * Get instance.
 	 *

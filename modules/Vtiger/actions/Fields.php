@@ -21,6 +21,21 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 */
 	protected $fieldModel;
 
+	/** {@inheritDoc} */
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('getOwners');
+		$this->exposeMethod('getReference');
+		$this->exposeMethod('getUserRole');
+		$this->exposeMethod('findAddress');
+		$this->exposeMethod('validateForField');
+		$this->exposeMethod('validateByMode');
+		$this->exposeMethod('verifyPhoneNumber');
+		$this->exposeMethod('changeFavoriteOwner');
+		$this->exposeMethod('validateFile');
+	}
+
 	/**
 	 * Function to check permission.
 	 *
@@ -46,20 +61,6 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 				throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD', 406);
 			}
 		}
-	}
-
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('getOwners');
-		$this->exposeMethod('getReference');
-		$this->exposeMethod('getUserRole');
-		$this->exposeMethod('findAddress');
-		$this->exposeMethod('validateForField');
-		$this->exposeMethod('validateByMode');
-		$this->exposeMethod('verifyPhoneNumber');
-		$this->exposeMethod('changeFavoriteOwner');
-		$this->exposeMethod('validateFile');
 	}
 
 	/**
