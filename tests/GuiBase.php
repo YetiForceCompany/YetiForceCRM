@@ -113,7 +113,7 @@ abstract class GuiBase extends TestCase
 			'getPageSource' => $this->driver->getPageSource(),
 		];
 		$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');
-		$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
+		$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassword);
 		$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
 		$this->isLogin = true;
 	}
