@@ -24,6 +24,8 @@ abstract class Map
 	const FIELD_NAME_ID = 'comarch_id';
 	/** @var string The name of the key with the identifier from Comarch */
 	const API_NAME_ID = 'id';
+	/** @var string Skip mode when data is incomplete */
+	public $skip = false;
 	/** @var string Map module name. */
 	protected $moduleName;
 	/** @var array Mapped fields. */
@@ -46,8 +48,6 @@ abstract class Map
 	protected $recordModel;
 	/** @var string API map mode: create, update, get. */
 	protected $modeApi;
-	/** @var string Skip mode when data is incomplete */
-	public $skip = false;
 
 	/** @var string[] Mapped address fields. */
 	protected $addressMapFields = [
@@ -219,7 +219,9 @@ abstract class Map
 					if (empty($key)) {
 						$this->synchronizer->controller->log(
 							"[API>YF][1] No key ($fieldCrm)",
-							['fieldConfig' => $field, 'data' => $this->dataApi], null, true
+							['fieldConfig' => $field, 'data' => $this->dataApi],
+							null,
+							true
 						);
 					} elseif (\is_array($key)) {
 						$field['name'] = $key;
@@ -242,63 +244,6 @@ abstract class Map
 			}
 		}
 		return $this->dataYf;
-	}
-
-	/**
-	 * Parse data to YetiForce format from multidimensional array.
-	 *
-	 * @param string $fieldCrm
-	 * @param array  $field
-	 *
-	 * @return void
-	 */
-	protected function loadDataYfMultidimensional(string $fieldCrm, array $field): void
-	{
-		$value = $this->dataApi;
-		$field['fieldCrm'] = $fieldCrm;
-		foreach ($field['name'] as $name) {
-			if (\array_key_exists($name, $value)) {
-				$value = $value[$name];
-			} else {
-				$error = "[API>YF][3] No column $name ($fieldCrm)";
-				if (!\array_key_exists('optional', $field) || empty($field['optional'])) {
-					\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-					$this->synchronizer->controller->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
-				}
-			}
-		}
-		if (empty($error)) {
-			$this->loadDataYfMap($fieldCrm, $field, $value);
-		}
-	}
-
-	/**
-	 * Parse data to YetiForce format from map.
-	 *
-	 * @param string     $fieldCrm
-	 * @param array      $field
-	 * @param mixed|null $value
-	 *
-	 * @return void
-	 */
-	protected function loadDataYfMap(string $fieldCrm, array $field, $value = null): void
-	{
-		$key = $field['name'] ?? $field['names']['get'];
-		$value = $value ?? $this->dataApi[$key];
-		if (isset($field['map'])) {
-			if (\array_key_exists($value, $field['map'])) {
-				$this->dataYf[$fieldCrm] = $field['map'][$value];
-			} elseif (empty($field['mayNotExist'])) {
-				$value = print_r($value, true);
-				$error = "[API>YF] No value `{$value}` in map {$key}";
-				\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-				$this->synchronizer->controller->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
-			}
-		} elseif (isset($field['fn'])) {
-			$this->dataYf[$fieldCrm] = $this->{$field['fn']}($value, $field, true);
-		} else {
-			$this->dataYf[$fieldCrm] = $value;
-		}
 	}
 
 	/**
@@ -370,7 +315,9 @@ abstract class Map
 		if (empty($key)) {
 			$this->synchronizer->controller->log(
 				"[API>YF][1] No key ({$field['fieldCrm']})",
-				['fieldConfig' => $field, 'data' => $this->dataApi], null, true
+				['fieldConfig' => $field, 'data' => $this->dataApi],
+				null,
+				true
 			);
 		} elseif (\is_array($key)) {
 			foreach (array_reverse($key) as $name) {
@@ -410,7 +357,8 @@ abstract class Map
 		if ($isNew && $this->recordModel->get($this::FIELD_NAME_ID)) {
 			$this->synchronizer->updateMapIdCache(
 				$this->recordModel->getModuleName(),
-				$this->recordModel->get($this::FIELD_NAME_ID), $this->recordModel->getId()
+				$this->recordModel->get($this::FIELD_NAME_ID),
+				$this->recordModel->getId()
 			);
 		}
 	}
@@ -423,6 +371,120 @@ abstract class Map
 	public function saveInApi(): void
 	{
 		throw new \App\Exceptions\AppException('Method not implemented');
+	}
+
+	/**
+	 * Save record in YF from relation action.
+	 *
+	 * @param array $field
+	 *
+	 * @return int
+	 */
+	public function saveFromRelation(array $field): int
+	{
+		$id = 0;
+		if ($dataYf = $this->getDataYf()) {
+			try {
+				$id = $this->findRecordInYf();
+				if (empty($field['onlyCreate']) || empty($id)) {
+					$this->loadRecordModel($id);
+					$this->loadAdditionalData();
+					$this->saveInYf();
+					$id = $this->getRecordModel()->getId();
+				}
+			} catch (\Throwable $ex) {
+				$error = "[API>YF] Import {$this->moduleName}";
+				\App\Log::warning($error . "\n" . $ex->getMessage(), $this->synchronizer::LOG_CATEGORY);
+				$this->synchronizer->controller->log($error, ['YF' => $dataYf, 'API' => $this->dataApi], $ex);
+			}
+		}
+		return $id;
+	}
+
+	/**
+	 * Find record in YetiFoce.  It can only be based on data from CRM `$this->dataApi`.
+	 *
+	 * @return int|null
+	 */
+	public function findRecordInYf(): ?int
+	{
+		return $this->synchronizer->getYfId($this->dataApi['id'], $this->moduleName);
+	}
+
+	/**
+	 * Find record in API. It can only be based on data from CRM `$this->dataYf`.
+	 *
+	 * @return int
+	 */
+	public function findRecordInApi(): int
+	{
+		return $this->synchronizer->getApiId($this->dataYf['id'], $this->moduleName);
+	}
+
+	/**
+	 * Load additional data.
+	 *
+	 * @return void
+	 */
+	public function loadAdditionalData(): void
+	{
+	}
+
+	/**
+	 * Parse data to YetiForce format from multidimensional array.
+	 *
+	 * @param string $fieldCrm
+	 * @param array  $field
+	 *
+	 * @return void
+	 */
+	protected function loadDataYfMultidimensional(string $fieldCrm, array $field): void
+	{
+		$value = $this->dataApi;
+		$field['fieldCrm'] = $fieldCrm;
+		foreach ($field['name'] as $name) {
+			if (\array_key_exists($name, $value)) {
+				$value = $value[$name];
+			} else {
+				$error = "[API>YF][3] No column $name ($fieldCrm)";
+				if (!\array_key_exists('optional', $field) || empty($field['optional'])) {
+					\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
+					$this->synchronizer->controller->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
+				}
+			}
+		}
+		if (empty($error)) {
+			$this->loadDataYfMap($fieldCrm, $field, $value);
+		}
+	}
+
+	/**
+	 * Parse data to YetiForce format from map.
+	 *
+	 * @param string     $fieldCrm
+	 * @param array      $field
+	 * @param mixed|null $value
+	 *
+	 * @return void
+	 */
+	protected function loadDataYfMap(string $fieldCrm, array $field, $value = null): void
+	{
+		$key = $field['name'] ?? $field['names']['get'];
+		$value ??= $this->dataApi[$key];
+		if (isset($field['map'])) {
+			if (\array_key_exists($value, $field['map'])) {
+				$this->dataYf[$fieldCrm] = $field['map'][$value];
+			} elseif (empty($field['mayNotExist'])) {
+				$value = print_r($value, true);
+				$error = "[API>YF] No value `{$value}` in map {$key}";
+				\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
+				$this->synchronizer->controller->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
+			}
+		} elseif (isset($field['fn'])) {
+			$this->dataYf[$fieldCrm] = $this->{$field['fn']}($value, $field, true);
+		} else {
+			$this->dataYf[$fieldCrm] = $value;
+		}
 	}
 
 	/**
@@ -488,38 +550,12 @@ abstract class Map
 			$this->synchronizer->controller->log(
 				($fromApi ? '[API>YF]' : '[YF>API]') .
 				"Skip value: {$value} (Field: {$field['fieldCrm']} ,Sync: {$field['synchronizer']})",
-				['fieldConfig' => $field, 'data' => $this->dataApi], null, true
+				['fieldConfig' => $field, 'data' => $this->dataApi],
+				null,
+				true
 			);
 		}
 		return $return;
-	}
-
-	/**
-	 * Save record in YF from relation action.
-	 *
-	 * @param array $field
-	 *
-	 * @return int
-	 */
-	public function saveFromRelation(array $field): int
-	{
-		$id = 0;
-		if ($dataYf = $this->getDataYf()) {
-			try {
-				$id = $this->findRecordInYf();
-				if (empty($field['onlyCreate']) || empty($id)) {
-					$this->loadRecordModel($id);
-					$this->loadAdditionalData();
-					$this->saveInYf();
-					$id = $this->getRecordModel()->getId();
-				}
-			} catch (\Throwable $ex) {
-				$error = "[API>YF] Import {$this->moduleName}";
-				\App\Log::warning($error . "\n" . $ex->getMessage(), $this->synchronizer::LOG_CATEGORY);
-				$this->synchronizer->controller->log($error, ['YF' => $dataYf, 'API' => $this->dataApi], $ex);
-			}
-		}
-		return $id;
 	}
 
 	/**
@@ -546,26 +582,6 @@ abstract class Map
 				}
 			}
 		}
-	}
-
-	/**
-	 * Find record in YetiFoce.  It can only be based on data from CRM `$this->dataApi`.
-	 *
-	 * @return int|null
-	 */
-	public function findRecordInYf(): ?int
-	{
-		return $this->synchronizer->getYfId($this->dataApi['id'], $this->moduleName);
-	}
-
-	/**
-	 * Find record in API. It can only be based on data from CRM `$this->dataYf`.
-	 *
-	 * @return int
-	 */
-	public function findRecordInApi(): int
-	{
-		return $this->synchronizer->getApiId($this->dataYf['id'], $this->moduleName);
 	}
 
 	/**
@@ -631,14 +647,5 @@ abstract class Map
 			$currency = \App\Fields\Currency::getById($value)['currency_code'];
 		}
 		return $currency;
-	}
-
-	/**
-	 * Load additional data.
-	 *
-	 * @return void
-	 */
-	public function loadAdditionalData(): void
-	{
 	}
 }

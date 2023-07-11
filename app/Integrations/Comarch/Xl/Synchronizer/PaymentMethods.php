@@ -87,25 +87,6 @@ class PaymentMethods extends \App\Integrations\Comarch\Synchronizer
 		}
 	}
 
-	/**
-	 * Get all account type from API.
-	 *
-	 * @return array
-	 */
-	private function getAllFromApi(): array
-	{
-		if (null === $this->cache) {
-			$this->cache = [];
-			try {
-				$this->cache = $this->getFromApi('PaymentMethod/Get');
-			} catch (\Throwable $ex) {
-				$this->controller->log('Get ' . $this->name, null, $ex);
-				\App\Log::error("Error during getAllFromApi {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
-			}
-		}
-		return $this->cache;
-	}
-
 	/** {@inheritdoc} */
 	public function getYfValue($apiValue, array $field)
 	{
@@ -125,6 +106,25 @@ class PaymentMethods extends \App\Integrations\Comarch\Synchronizer
 			return $value;
 		}
 		return null;
+	}
+
+	/**
+	 * Get all account type from API.
+	 *
+	 * @return array
+	 */
+	private function getAllFromApi(): array
+	{
+		if (null === $this->cache) {
+			$this->cache = [];
+			try {
+				$this->cache = $this->getFromApi('PaymentMethod/Get');
+			} catch (\Throwable $ex) {
+				$this->controller->log('Get ' . $this->name, null, $ex);
+				\App\Log::error("Error during getAllFromApi {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
+			}
+		}
+		return $this->cache;
 	}
 
 	/**

@@ -19,22 +19,6 @@ namespace App\Integrations\Comarch;
  */
 class Synchronizer
 {
-	/** @var string Synchronizer name. */
-	protected $name;
-	/** @var \App\Integrations\Comarch\Connector\Base Connector. */
-	protected $connector;
-	/** @var \App\Integrations\Comarch\Map[] Map synchronizer instances. */
-	protected $maps;
-	/** @var \App\Integrations\Comarch\Config Config instance. */
-	public $config;
-	/** @var \App\Integrations\Comarch Controller instance. */
-	public $controller;
-	/** @var array Last scan config data. */
-	protected $lastScan = [];
-	/** @var int[] Imported ids */
-	protected $imported = [];
-	/** @var int[] Exported ids */
-	protected $exported = [];
 	/** @var string Category name used for the log mechanism */
 	const LOG_CATEGORY = 'Integrations/Comarch';
 	/** @var string The name of the configuration parameter for rows limit */
@@ -45,6 +29,22 @@ class Synchronizer
 	const DIRECTION_YF_TO_API = 1;
 	/** @var int Synchronization direction: two-way */
 	const DIRECTION_TWO_WAY = 2;
+	/** @var \App\Integrations\Comarch\Config Config instance. */
+	public $config;
+	/** @var \App\Integrations\Comarch Controller instance. */
+	public $controller;
+	/** @var string Synchronizer name. */
+	protected $name;
+	/** @var \App\Integrations\Comarch\Connector\Base Connector. */
+	protected $connector;
+	/** @var \App\Integrations\Comarch\Map[] Map synchronizer instances. */
+	protected $maps;
+	/** @var array Last scan config data. */
+	protected $lastScan = [];
+	/** @var int[] Imported ids */
+	protected $imported = [];
+	/** @var int[] Exported ids */
+	protected $exported = [];
 
 	/**
 	 * Constructor.
@@ -171,7 +171,7 @@ class Synchronizer
 	 */
 	public function getYfId(int $apiId, ?string $moduleName = null): ?int
 	{
-		$moduleName = $moduleName ?? $this->getMapModel()->getModule();
+		$moduleName ??= $this->getMapModel()->getModule();
 		$cacheKey = 'Integrations/Comarch/CRM_ID/' . $moduleName;
 		if (\App\Cache::staticHas($cacheKey, $apiId)) {
 			return \App\Cache::staticGet($cacheKey, $apiId);
@@ -197,7 +197,7 @@ class Synchronizer
 	 */
 	public function getApiId(int $yfId, ?string $moduleName = null): int
 	{
-		$moduleName = $moduleName ?? $this->getMapModel()->getModule();
+		$moduleName ??= $this->getMapModel()->getModule();
 		$cacheKey = 'Integrations/Comarch/API_ID/' . $moduleName;
 		if (\App\Cache::staticHas($cacheKey, $yfId)) {
 			return \App\Cache::staticGet($cacheKey, $yfId);
@@ -331,18 +331,6 @@ class Synchronizer
 	}
 
 	/**
-	 * Get export query.
-	 *
-	 * @return \App\Db\Query
-	 */
-	protected function getExportQuery(): \App\Db\Query
-	{
-		$queryGenerator = $this->getFromYf($this->getMapModel()->getModule(), true);
-		$queryGenerator->setLimit($this->config->get($this::LIMIT_NAME));
-		return $queryGenerator->createQuery();
-	}
-
-	/**
 	 * Export item to Comarch from YetiFoce.
 	 *
 	 * @param int $id
@@ -385,12 +373,14 @@ class Synchronizer
 			}
 		}
 		if ($this->config->get('log_all')) {
-			$this->controller->log($this->name . ' ' . __FUNCTION__ . ' | ' .
+			$this->controller->log(
+				$this->name . ' ' . __FUNCTION__ . ' | ' .
 				(\array_key_exists($id, $this->exported) ? 'exported' : 'skipped'),
 				[
 					'YF' => $row,
 					'API' => $dataApi ?? [],
-				]);
+				]
+			);
 		}
 		return $status ?? false;
 	}
@@ -418,7 +408,8 @@ class Synchronizer
 				}
 				if (!empty($apiId)) {
 					$this->updateMapIdCache(
-						$mapModel->getModule(), $apiId,
+						$mapModel->getModule(),
+						$apiId,
 						$yfId ?: $mapModel->getRecordModel()->getId()
 					);
 				}
@@ -508,7 +499,8 @@ class Synchronizer
 				} else {
 					$db->createCommand()->update(
 						\App\Integrations\Comarch::QUEUE_TABLE_NAME,
-						['counter' => $counter], ['id' => $row['id']]
+						['counter' => $counter],
+						['id' => $row['id']]
 					)->execute();
 				}
 			}
@@ -519,5 +511,17 @@ class Synchronizer
 				)->execute();
 			}
 		}
+	}
+
+	/**
+	 * Get export query.
+	 *
+	 * @return \App\Db\Query
+	 */
+	protected function getExportQuery(): \App\Db\Query
+	{
+		$queryGenerator = $this->getFromYf($this->getMapModel()->getModule(), true);
+		$queryGenerator->setLimit($this->config->get($this::LIMIT_NAME));
+		return $queryGenerator->createQuery();
 	}
 }

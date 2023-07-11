@@ -64,7 +64,8 @@ class Product extends \App\Integrations\Comarch\Map
 		}
 		$this->synchronizer->updateMapIdCache(
 			$this->recordModel->getModuleName(),
-			$this->dataApi[self::API_NAME_ID], $this->recordModel->getId()
+			$this->dataApi[self::API_NAME_ID],
+			$this->recordModel->getId()
 		);
 	}
 

@@ -91,6 +91,27 @@ class AccountTypes extends \App\Integrations\Comarch\Synchronizer
 		}
 	}
 
+	/** {@inheritdoc} */
+	public function getYfValue($apiValue, array $field)
+	{
+		$this->loadCacheList();
+		$key = array_search($apiValue, $this->cacheList);
+		return $key ?? null;
+	}
+
+	/** {@inheritdoc} */
+	public function getApiValue($yfValue, array $field)
+	{
+		$this->loadCacheList();
+		if ($value = $this->cacheList[$yfValue] ?? null) {
+			return $value;
+		}
+		if ($value = $this->cacheList[\App\Language::translate($yfValue, 'Accounts')] ?? null) {
+			return $value;
+		}
+		return null;
+	}
+
 	/**
 	 * Get picklist values.
 	 *
@@ -125,27 +146,6 @@ class AccountTypes extends \App\Integrations\Comarch\Synchronizer
 			}
 		}
 		return $this->cache;
-	}
-
-	/** {@inheritdoc} */
-	public function getYfValue($apiValue, array $field)
-	{
-		$this->loadCacheList();
-		$key = array_search($apiValue, $this->cacheList);
-		return $key ?? null;
-	}
-
-	/** {@inheritdoc} */
-	public function getApiValue($yfValue, array $field)
-	{
-		$this->loadCacheList();
-		if ($value = $this->cacheList[$yfValue] ?? null) {
-			return $value;
-		}
-		if ($value = $this->cacheList[\App\Language::translate($yfValue, 'Accounts')] ?? null) {
-			return $value;
-		}
-		return null;
 	}
 
 	/**

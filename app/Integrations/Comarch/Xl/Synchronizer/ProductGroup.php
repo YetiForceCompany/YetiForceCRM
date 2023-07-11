@@ -83,6 +83,21 @@ class ProductGroup extends \App\Integrations\Comarch\Synchronizer
 		}
 	}
 
+	/** {@inheritdoc} */
+	public function getYfValue($apiValue, array $field)
+	{
+		$this->loadCacheList();
+		return $this->cacheList[$apiValue] ?? null;
+	}
+
+	/** {@inheritdoc} */
+	public function getApiValue($yfValue, array $field)
+	{
+		$this->loadCacheList();
+		$key = array_search($yfValue, $this->cacheList);
+		return $key ?? null;
+	}
+
 	/**
 	 * Get tree values.
 	 */
@@ -191,21 +206,6 @@ class ProductGroup extends \App\Integrations\Comarch\Synchronizer
 			}
 		}
 		return $this->cache;
-	}
-
-	/** {@inheritdoc} */
-	public function getYfValue($apiValue, array $field)
-	{
-		$this->loadCacheList();
-		return $this->cacheList[$apiValue] ?? null;
-	}
-
-	/** {@inheritdoc} */
-	public function getApiValue($yfValue, array $field)
-	{
-		$this->loadCacheList();
-		$key = array_search($yfValue, $this->cacheList);
-		return $key ?? null;
 	}
 
 	/**

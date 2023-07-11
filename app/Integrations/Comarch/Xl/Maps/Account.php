@@ -109,7 +109,8 @@ class Account extends \App\Integrations\Comarch\Map
 		}
 		$this->synchronizer->updateMapIdCache(
 			$this->recordModel->getModuleName(),
-			$this->dataApi['id'], $this->recordModel->getId()
+			$this->dataApi['id'],
+			$this->recordModel->getId()
 		);
 		$this->runDependentSynchronizer(false);
 	}
@@ -159,7 +160,7 @@ class Account extends \App\Integrations\Comarch\Map
 			$value = ($this->dataApi['knt_NipPrefiks'] ?? '') . $value;
 		} else {
 			$this->dataApi['NipPrefiks'] = '';
-			if (($pre = substr($value, 0, 2)) && !\is_numeric($pre)) {
+			if (($pre = substr($value, 0, 2)) && !is_numeric($pre)) {
 				$value = substr($value, 2);
 				$this->dataApi['NipPrefiks'] = $pre;
 			}
