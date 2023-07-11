@@ -63,8 +63,10 @@ class Mail
 			Cache::save('SmtpServers', 'all', $all, Cache::LONG);
 		}
 		if ($skipDefault && !empty($all[self::SMTP_DEFAULT])) {
-			unset($all[$all[self::SMTP_DEFAULT]['id']], $all[self::SMTP_DEFAULT]);
+			unset($all[self::SMTP_DEFAULT]);
 		}
+		ksort($all);
+		
 		return $all;
 	}
 
