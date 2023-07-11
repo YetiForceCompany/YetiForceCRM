@@ -22,6 +22,9 @@ class CustomView_Record_Model extends \App\Base
 	/** @var array Record changes */
 	protected $changes = [];
 
+	/** @var \Vtiger_Module_Model Module model */
+	public $module;
+
 	/**
 	 * Function to get all the accessible Custom Views, for a given module if specified.
 	 *

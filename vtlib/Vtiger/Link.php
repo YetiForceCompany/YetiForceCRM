@@ -48,6 +48,20 @@ class Link
 	public $handler;
 	/** @var array */
 	public $params;
+	/** @var string */
+	public $dataUrl;
+	/** @var string */
+	public $linkhint;
+	/** @var bool */
+	public $active = false;
+	/** @var string */
+	public $relatedModuleName;
+	/** @var string */
+	public $modalView;
+	/** @var  */
+	public $showLabel;
+	/** @var bool */
+	public $linkhref;
 
 	// Ignore module while selection
 	const IGNORE_MODULE = -1;
