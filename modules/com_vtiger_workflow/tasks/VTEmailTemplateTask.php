@@ -20,7 +20,7 @@ class VTEmailTemplateTask extends VTTask
 	 */
 	public function getFieldNames()
 	{
-		return ['template', 'email', 'relations_email', 'emailoptout', 'smtp', 'copy_email', 'address_emails', 'attachments'];
+		return ['template', 'email', 'relations_email', 'emailoptout', 'smtp', 'smtpTemplate', 'copy_email', 'address_emails', 'attachments'];
 	}
 
 	/**
@@ -31,9 +31,8 @@ class VTEmailTemplateTask extends VTTask
 	public function doTask($recordModel)
 	{
 		if (!empty($this->template)) {
-			$mailerContent = [
-				'smtp_id' => ($this->smtp) ? $this->smtp : App\Mail::getDefaultSmtp(),
-			];
+			$mailerContent['smtp_id'] = $this->smtp;
+			$mailerContent['smtpTemplate'] = $this->smtpTemplate;
 			$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
 			$emailParser->emailoptout = $this->emailoptout ? true : false;
 			$mailerContent['to'] = [];

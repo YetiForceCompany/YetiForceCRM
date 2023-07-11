@@ -20,7 +20,7 @@ class VTSendPdf extends VTTask
 	 */
 	public function getFieldNames()
 	{
-		return ['pdfTemplate', 'mailTemplate', 'email', 'emailoptout', 'smtp', 'copy_email'];
+		return ['pdfTemplate', 'mailTemplate', 'email', 'emailoptout', 'smtp', 'smtpTemplate', 'copy_email'];
 	}
 
 	/**
@@ -31,9 +31,8 @@ class VTSendPdf extends VTTask
 	public function doTask($recordModel)
 	{
 		if (!empty($this->mailTemplate) && !empty($this->pdfTemplate) && \App\Record::isExists($this->mailTemplate, 'EmailTemplates') && \Vtiger_PDF_Model::getInstanceById($this->pdfTemplate)) {
-			$mailerContent = [
-				'smtp_id' => ($this->smtp) ? $this->smtp : App\Mail::getDefaultSmtp(),
-			];
+			$mailerContent['smtp_id'] = $this->smtp;
+			$mailerContent['smtpTemplate'] = $this->smtpTemplate;
 			$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
 			$emailParser->emailoptout = $this->emailoptout ? true : false;
 			if ($this->email) {

@@ -15,6 +15,15 @@
 				</div>
 			</div>
 			<div class="row pb-3">
+				<span class="col-md-4"></span>
+				<span class="col-md-4">
+					<label>
+						<input type="checkbox" class="align-text-bottom" value="true" name="smtpTemplate"
+							{if isset($TASK_OBJECT->smtpTemplate) && $TASK_OBJECT->smtpTemplate}checked{/if}>&nbsp;{\App\Language::translate('LBL_GET_SMTP_FROM_TEMPLATE', $QUALIFIED_MODULE)}
+					</label>
+				</span>
+			</div>
+			<div class="row pb-3">
 				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('EmailTempleteList', $QUALIFIED_MODULE)}</span>
 				<div class="col-md-4">
 					<select class="select2 form-control" name="template" data-validation-engine="validate[required]"
