@@ -31,10 +31,9 @@ class VTSendPdf extends VTTask
 	public function doTask($recordModel)
 	{
 		if (!empty($this->mailTemplate) && !empty($this->pdfTemplate) && \App\Record::isExists($this->mailTemplate, 'EmailTemplates') && \Vtiger_PDF_Model::getInstanceById($this->pdfTemplate)) {
-			$mailerContent = [];
-			if (!empty($this->smtp)) {
-				$mailerContent['smtp_id'] = $this->smtp;
-			}
+			$mailerContent = [
+				'smtp_id' => ($this->smtp) ? $this->smtp : App\Mail::getDefaultSmtp(),
+			];
 			$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
 			$emailParser->emailoptout = $this->emailoptout ? true : false;
 			if ($this->email) {
