@@ -205,7 +205,7 @@ class AutoAssign extends Base
 	/**
 	 * Get an automatic selected user ID.
 	 *
-	 * @return int
+	 * @return int|null
 	 */
 	public function getOwner(): ?int
 	{
