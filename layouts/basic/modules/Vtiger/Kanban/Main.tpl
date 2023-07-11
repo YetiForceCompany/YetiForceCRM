@@ -12,17 +12,11 @@
 		<div class="col-12 d-md-flex flex-sm-row my-1 px-0">
 			<div class="col-md-6 col-sm-12 px-0">
 				{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$QUICK_LINKS['SIDEBARLINK'] CLASS='buttonTextHolder c-btn-block-sm-down mb-md-0 mb-1'}
-				{if \App\Privilege::isPermitted($MODULE_NAME, 'CreateView')}
-					<button type="button"
-						class="btn btn-light modCT_{$MODULE_NAME} {if $MODULE_MODEL->isQuickCreateSupported()} js-quick-create-modal {/if} ml-md-1 ml-sm-0 mb-md-0 mb-1 c-btn-block-sm-down"
-						data-module="{$MODULE_NAME}">
-						<span class="fas fa-plus-square mr-2"></span>
-						{if !$MODULE_MODEL->isQuickCreateSupported()}
-							<a href="{$MODULE_MODEL->getCreateRecordUrl()}" class="text-reset text-decoration-none"> {\App\Language::translate('LBL_ADD_RECORD')}</a>
-						{else}
-							{\App\Language::translate('LBL_ADD_RECORD')}
-						{/if}
-					</button>
+				{if $MODULE_MODEL->isPermitted('CreateView')}
+					<a href="{if $MODULE_MODEL->isQuickCreateSupported()}#{else}{$MODULE_MODEL->getCreateRecordUrl()}{/if}"
+						data-module="{$MODULE_NAME}"
+						class="text-reset text-decoration-none btn btn-light {if $MODULE_MODEL->isQuickCreateSupported()} js-quick-create-modal {/if} ml-md-1"><span class="fas fa-plus mr-1"></span> {\App\Language::translate('LBL_ADD_RECORD')}
+					</a>
 				{/if}
 			</div>
 			<div class="d-flex justify-content-md-end justify-content-sm-start col-md-6 col-12 px-0 mt-sm-0 mt-1">
