@@ -226,7 +226,7 @@ class Calendar_Module_Model extends Vtiger_Module_Model
 	/** {@inheritdoc} */
 	public function getFieldsByType($type, bool $active = false): array
 	{
-		$restrictedField = ['picklist' => ['activitystatus', 'visibility', 'duration_minutes']];
+		$restrictedField = ['picklist' => ['visibility', 'duration_minutes']];
 		if (!\is_array($type)) {
 			$type = [$type];
 		}
