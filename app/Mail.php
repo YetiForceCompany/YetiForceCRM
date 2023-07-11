@@ -60,13 +60,13 @@ class Mail
 					$all[self::SMTP_DEFAULT] = $row;
 				}
 			}
+			ksort($all);
 			Cache::save('SmtpServers', 'all', $all, Cache::LONG);
 		}
 		if ($skipDefault && !empty($all[self::SMTP_DEFAULT])) {
 			unset($all[self::SMTP_DEFAULT]);
 		}
-		ksort($all);
-		
+
 		return $all;
 	}
 
