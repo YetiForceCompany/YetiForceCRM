@@ -9755,7 +9755,7 @@ CREATE TABLE `vtiger_users` (
   `emailoptout` tinyint(3) unsigned NOT NULL DEFAULT 1,
   `available` tinyint(1) DEFAULT 0,
   `auto_assign` tinyint(1) DEFAULT 0,
-  `records_limit` int(10) unsigned DEFAULT NULL,
+  `records_limit` int(10) unsigned DEFAULT 0,
   `phone_crm_extension` varchar(100) DEFAULT NULL,
   `phone_crm_extension_extra` varchar(100) DEFAULT NULL,
   `accesskey` varchar(36) DEFAULT NULL,
