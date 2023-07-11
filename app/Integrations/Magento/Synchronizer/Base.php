@@ -21,14 +21,14 @@ namespace App\Integrations\Magento\Synchronizer;
  */
 abstract class Base
 {
-	/** @var \App\Integrations\Magento\Connector\Base Connector. */
-	protected $connector;
 	/** @var array Last scan config data. */
 	public $lastScan = [];
 	/** @var \App\Integrations\Magento\Config Config instance. */
 	public $config;
 	/** @var \App\Integrations\Magento\Controller Controller instance. */
 	public $controller;
+	/** @var \App\Integrations\Magento\Connector\Base Connector. */
+	protected $connector;
 
 	/**
 	 * Constructor.

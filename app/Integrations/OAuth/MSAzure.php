@@ -60,12 +60,12 @@ class MSAzure extends AbstractProvider
 	 * @var string
 	 */
 	protected $redirectUri;
-	/** @var \TheNetworg\OAuth2\Client\Provider\Azure Azure provider */
-	private $client;
 
 	protected $refreshToken;
 	protected $accessToken;
 	protected $expireTime;
+	/** @var \TheNetworg\OAuth2\Client\Provider\Azure Azure provider */
+	private $client;
 
 	public function getClient(array $options = [])
 	{

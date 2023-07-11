@@ -47,7 +47,7 @@ class GenesysWdeWhirly extends Base
 		$host = 'http://localhost:' . $data['httpListener'];
 		if (!\in_array($host, \Config\Security::$allowedConnectDomains)) {
 			$security = new \App\ConfigFile('security');
-			$security->set('allowedConnectDomains', array_values(array_merge((\Config\Security::$allowedConnectDomains), [
+			$security->set('allowedConnectDomains', array_values(array_merge(\Config\Security::$allowedConnectDomains, [
 				$host
 			])));
 			$security->create();

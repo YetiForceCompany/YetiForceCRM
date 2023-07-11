@@ -22,8 +22,6 @@ namespace App\Integrations\Magento\Synchronizer\Maps;
 class Customer extends Base
 {
 	/** {@inheritdoc} */
-	protected $moduleName = 'Accounts';
-	/** {@inheritdoc} */
 	public static $mappedFields = [
 		'firstname' => 'firstname',
 		'lastname' => 'lastname',
@@ -37,16 +35,18 @@ class Customer extends Base
 	public static $additionalFieldsCrm = [
 		'leadsource' => 'Magento',
 	];
+	/** {@inheritdoc} */
+	protected $moduleName = 'Accounts';
 
 	/** {@inheritdoc} */
 	public function getDataCrm(bool $onEdit = false): array
 	{
 		$parsedData = parent::getDataCrm($onEdit);
 		if (!empty($shippingAddress = $this->getAddressDataCrm('shipping'))) {
-			$parsedData = \array_replace_recursive($parsedData, $shippingAddress);
+			$parsedData = array_replace_recursive($parsedData, $shippingAddress);
 		}
 		if (!empty($billingAddress = $this->getAddressDataCrm('billing'))) {
-			$parsedData = \array_replace_recursive($parsedData, $billingAddress);
+			$parsedData = array_replace_recursive($parsedData, $billingAddress);
 		}
 		if (!empty($parsedData['phone'])) {
 			$parsedData = \App\Fields\Phone::parsePhone('phone', $parsedData);

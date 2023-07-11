@@ -20,10 +20,16 @@ namespace App\Integrations\WooCommerce\Synchronizer\Maps;
  */
 class Product extends Base
 {
-	/** {@inheritdoc} */
-	protected $moduleName = 'Products';
 	/** @var bool Is variation */
 	public $isVariation = false;
+	/** @var string[] */
+	public $productType = ['PLL_TYPE_SIMPLE', 'PLL_TYPE_GROUPED', 'PLL_TYPE_VARIABLE'];
+	/** @var \App\Integrations\WooCommerce\Synchronizer\ProductCategory Product category model instance */
+	public $category;
+	/** @var \App\Integrations\WooCommerce\Synchronizer\ProductTags Product category model instance */
+	public $tags;
+	/** {@inheritdoc} */
+	protected $moduleName = 'Products';
 	/**
 	 * @todo Properties:
 	 * 	[featured] => 1
@@ -78,12 +84,6 @@ class Product extends Base
 	protected $attributesMap;
 	/** @var int[] */
 	private $categories = [];
-	/** @var string[] */
-	public $productType = ['PLL_TYPE_SIMPLE', 'PLL_TYPE_GROUPED', 'PLL_TYPE_VARIABLE'];
-	/** @var \App\Integrations\WooCommerce\Synchronizer\ProductCategory Product category model instance */
-	public $category;
-	/** @var \App\Integrations\WooCommerce\Synchronizer\ProductTags Product category model instance */
-	public $tags;
 
 	/** {@inheritdoc} */
 	public function getDataYf(string $type = 'fieldMap', bool $mapped = true): array
@@ -140,7 +140,8 @@ class Product extends Base
 			$this->recordModel->save();
 			$this->synchronizer->updateMapIdCache(
 				$this->recordModel->getModuleName(),
-				$response['id'], $this->recordModel->getId()
+				$response['id'],
+				$this->recordModel->getId()
 			);
 		} else {
 			$this->synchronizer->controller->getConnector()->request('PUT', "$path/{$this->dataApi['id']}", $this->dataApi);
@@ -148,6 +149,52 @@ class Product extends Base
 		if ('PLL_TYPE_VARIABLE' === $this->dataYf['product_type']) {
 			$this->updateVariationsInApi();
 		}
+	}
+
+	/**
+	 * Get attributes map.
+	 *
+	 * @return array
+	 */
+	public function getAttributesMap(): array
+	{
+		if (isset($this->attributesMap)) {
+			return $this->attributesMap;
+		}
+		$this->attributesMap = [];
+		$productAttributes = $this->synchronizer->controller->getSync('ProductAttributes');
+		$configAttributes = $this->synchronizer->config->get('attributes');
+		foreach ($productAttributes->getListFromApi() as $attribute) {
+			if (
+				$configAttributes
+				&& ($fieldName = $configAttributes[$attribute['id']])
+				&& ($fieldModel = $this->moduleModel->getFieldByName($fieldName))
+			) {
+				$attribute['yfField'] = $fieldName;
+				$attribute['yfFieldType'] = $fieldModel->getFieldDataType();
+			}
+			$this->attributesMap[$attribute['id']] = $attribute;
+		}
+		return $this->attributesMap;
+	}
+
+	/**
+	 * Get attributes map fields.
+	 *
+	 * @return string[]
+	 */
+	public function getAttributesMapFields(): array
+	{
+		$fields = [];
+		foreach ($this->getAttributesMap() as $attr) {
+			if (isset($attr['yfField'])) {
+				$fields[] = $attr['yfField'];
+			}
+		}
+		foreach ($this->synchronizer->config->get('customAttributes') as $fieldName) {
+			$fields[] = $fieldName;
+		}
+		return $fields;
 	}
 
 	/**
@@ -471,51 +518,5 @@ class Product extends Base
 				\App\Log::error('Empty map product variation details', $this->synchronizer::LOG_CATEGORY);
 			}
 		}
-	}
-
-	/**
-	 * Get attributes map.
-	 *
-	 * @return array
-	 */
-	public function getAttributesMap(): array
-	{
-		if (isset($this->attributesMap)) {
-			return $this->attributesMap;
-		}
-		$this->attributesMap = [];
-		$productAttributes = $this->synchronizer->controller->getSync('ProductAttributes');
-		$configAttributes = $this->synchronizer->config->get('attributes');
-		foreach ($productAttributes->getListFromApi() as $attribute) {
-			if (
-				$configAttributes
-				&& ($fieldName = $configAttributes[$attribute['id']])
-				&& ($fieldModel = $this->moduleModel->getFieldByName($fieldName))
-			) {
-				$attribute['yfField'] = $fieldName;
-				$attribute['yfFieldType'] = $fieldModel->getFieldDataType();
-			}
-			$this->attributesMap[$attribute['id']] = $attribute;
-		}
-		return $this->attributesMap;
-	}
-
-	/**
-	 * Get attributes map fields.
-	 *
-	 * @return string[]
-	 */
-	public function getAttributesMapFields(): array
-	{
-		$fields = [];
-		foreach ($this->getAttributesMap() as $attr) {
-			if (isset($attr['yfField'])) {
-				$fields[] = $attr['yfField'];
-			}
-		}
-		foreach ($this->synchronizer->config->get('customAttributes') as $fieldName) {
-			$fields[] = $fieldName;
-		}
-		return $fields;
 	}
 }

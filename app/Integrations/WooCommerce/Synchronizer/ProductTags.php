@@ -136,8 +136,11 @@ class ProductTags extends Base
 						}
 					}
 					if ($save) {
-						$this->connector->request('PUT', 'products/tags/' . $tag['id'],
-						['name' => $value['tags'], 'slug' => $value['prefix'], 'description' => $value['description']]);
+						$this->connector->request(
+							'PUT',
+							'products/tags/' . $tag['id'],
+							['name' => $value['tags'], 'slug' => $value['prefix'], 'description' => $value['description']]
+						);
 						$this->refreshCache = true;
 						++$i;
 					}
@@ -150,6 +153,19 @@ class ProductTags extends Base
 		if ($this->config->get('logAll')) {
 			$this->controller->log('End export tags', ['exported' => $i]);
 		}
+	}
+
+	/**
+	 * Get tags ids from API.
+	 *
+	 * @return array
+	 */
+	public function getTagsIds(): array
+	{
+		if (null === $this->cache) {
+			$this->cacheList = array_column($this->getAllFromApi(), 'id', 'name');
+		}
+		return $this->cacheList;
 	}
 
 	/**
@@ -170,7 +186,7 @@ class ProductTags extends Base
 					if ($rows = $this->getFromApi(
 						'products/tags?&page=' . $page . '&per_page=' . self::RECORDS_LIMIT_PER_PAGE,
 						$cache
-						)
+					)
 					) {
 						foreach ($rows as $row) {
 							$this->cache[$row['id']] = $row;
@@ -187,18 +203,5 @@ class ProductTags extends Base
 			}
 		}
 		return $this->cache;
-	}
-
-	/**
-	 * Get tags ids from API.
-	 *
-	 * @return array
-	 */
-	public function getTagsIds(): array
-	{
-		if (null === $this->cache) {
-			$this->cacheList = array_column($this->getAllFromApi(), 'id', 'name');
-		}
-		return $this->cacheList;
 	}
 }

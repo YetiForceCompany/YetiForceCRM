@@ -72,8 +72,10 @@ class ProductCategory extends Base
 				}
 			} catch (\Throwable $ex) {
 				$this->controller->log('Import category', $category, $ex);
-				\App\Log::error('Error during import category: ' . PHP_EOL . $ex->__toString(),
-				 self::LOG_CATEGORY);
+				\App\Log::error(
+					'Error during import category: ' . PHP_EOL . $ex->__toString(),
+					self::LOG_CATEGORY
+				);
 			}
 		}
 		if ($this->config->get('logAll')) {

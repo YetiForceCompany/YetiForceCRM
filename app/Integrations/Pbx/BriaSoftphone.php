@@ -59,6 +59,18 @@ class BriaSoftphone extends Base
 		];
 	}
 
+	/** {@inheritdoc} */
+	public function saveSettings(array $data): void
+	{
+		if (!\in_array('wss://cpclientapi.softphone.com:9002', \Config\Security::$allowedConnectDomains)) {
+			$security = new \App\ConfigFile('security');
+			$security->set('allowedConnectDomains', array_values(array_merge(\Config\Security::$allowedConnectDomains, [
+				'wss://cpclientapi.softphone.com:9002'
+			])));
+			$security->create();
+		}
+	}
+
 	/**
 	 * Add call history.
 	 *
@@ -98,20 +110,8 @@ class BriaSoftphone extends Base
 		$recordModel->set('callhistorytype', self::STATUS_MAP[$call['type']]);
 		$recordModel->set('start_time', date('Y-m-d H:i:s', $call['timeInitiated']));
 		if ($call['duration']) {
-			$recordModel->set('end_time', date('Y-m-d H:i:s', ($call['timeInitiated'] + $call['duration'])));
+			$recordModel->set('end_time', date('Y-m-d H:i:s', $call['timeInitiated'] + $call['duration']));
 		}
 		$recordModel->save();
-	}
-
-	/** {@inheritdoc} */
-	public function saveSettings(array $data): void
-	{
-		if (!\in_array('wss://cpclientapi.softphone.com:9002', \Config\Security::$allowedConnectDomains)) {
-			$security = new \App\ConfigFile('security');
-			$security->set('allowedConnectDomains', array_values(array_merge((\Config\Security::$allowedConnectDomains), [
-				'wss://cpclientapi.softphone.com:9002'
-			])));
-			$security->create();
-		}
 	}
 }

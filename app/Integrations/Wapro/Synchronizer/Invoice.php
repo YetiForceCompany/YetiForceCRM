@@ -147,6 +147,12 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 		return 2;
 	}
 
+	/** {@inheritdoc} */
+	public function getCounter(): int
+	{
+		return (new \App\Db\Query())->from('dbo.DOKUMENT_HANDLOWY')->where(['ID_TYPU' => 1])->count('*', $this->controller->getDb());
+	}
+
 	/**
 	 * Convert payment method to system format.
 	 *
@@ -385,11 +391,5 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	protected function addProduct(int $id): int
 	{
 		return $this->controller->getSynchronizer('Products')->importRecordById($id);
-	}
-
-	/** {@inheritdoc} */
-	public function getCounter(): int
-	{
-		return (new \App\Db\Query())->from('dbo.DOKUMENT_HANDLOWY')->where(['ID_TYPU' => 1])->count('*', $this->controller->getDb());
 	}
 }

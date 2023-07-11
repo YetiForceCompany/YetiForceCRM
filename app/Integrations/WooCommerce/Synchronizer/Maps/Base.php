@@ -195,62 +195,6 @@ abstract class Base
 	}
 
 	/**
-	 * Parse data to YetiForce format from multidimensional array.
-	 *
-	 * @param string $fieldCrm
-	 * @param array  $field
-	 *
-	 * @return void
-	 */
-	protected function loadDataYfMultidimensional(string $fieldCrm, array $field): void
-	{
-		$value = $this->dataApi;
-		$field['fieldCrm'] = $fieldCrm;
-		foreach ($field['name'] as $name) {
-			if (\array_key_exists($name, $value)) {
-				$value = $value[$name];
-			} else {
-				$error = "[API>YF][3] No column $name ($fieldCrm)";
-				if (!\array_key_exists('optional', $field) || empty($field['optional'])) {
-					\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-					$this->synchronizer->controller->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
-				}
-			}
-		}
-		if (empty($error)) {
-			$this->loadDataYfMap($fieldCrm, $field, $value);
-		}
-	}
-
-	/**
-	 * Parse data to YetiForce format from map.
-	 *
-	 * @param string     $fieldCrm
-	 * @param array      $field
-	 * @param mixed|null $value
-	 *
-	 * @return void
-	 */
-	protected function loadDataYfMap(string $fieldCrm, array $field, $value = null): void
-	{
-		$value = $value ?? $this->dataApi[$field['name']];
-		if (isset($field['map'])) {
-			if (\array_key_exists($value, $field['map'])) {
-				$this->dataYf[$fieldCrm] = $field['map'][$value];
-			} elseif (empty($field['mayNotExist'])) {
-				$value = print_r($value, true);
-				$error = "[API>YF] No value `{$value}` in map {$field['name']}";
-				\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
-				$this->synchronizer->controller->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
-			}
-		} elseif (isset($field['fn'])) {
-			$this->dataYf[$fieldCrm] = $this->{$field['fn']}($value, $field, true);
-		} else {
-			$this->dataYf[$fieldCrm] = $value;
-		}
-	}
-
-	/**
 	 * Create/update product in YF.
 	 *
 	 * @return void
@@ -277,7 +221,8 @@ abstract class Base
 		if ($isNew && $this->recordModel->get('woocommerce_id')) {
 			$this->synchronizer->updateMapIdCache(
 				$this->recordModel->getModuleName(),
-				$this->recordModel->get('woocommerce_id'), $this->recordModel->getId()
+				$this->recordModel->get('woocommerce_id'),
+				$this->recordModel->getId()
 			);
 		}
 	}
@@ -363,6 +308,99 @@ abstract class Base
 	public function saveInApi(): void
 	{
 		throw new \App\Exceptions\AppException('Method not implemented');
+	}
+
+	/**
+	 * Save record in YF from relation action.
+	 *
+	 * @param array $field
+	 *
+	 * @return int
+	 */
+	public function saveFromRelation(array $field): int
+	{
+		$id = 0;
+		if ($dataYf = $this->getDataYf()) {
+			try {
+				$id = $this->findRecordInYf();
+				if (empty($field['onlyCreate']) || empty($id)) {
+					$this->loadRecordModel($id);
+					$this->loadAdditionalData();
+					$this->saveInYf();
+					$id = $this->getRecordModel()->getId();
+				}
+			} catch (\Throwable $ex) {
+				$error = "[API>YF] Import {$this->moduleName}";
+				\App\Log::warning($error . "\n" . $ex->getMessage(), $this->synchronizer::LOG_CATEGORY);
+				$this->synchronizer->controller->log($error, ['YF' => $dataYf, 'API' => $this->dataApi], $ex);
+			}
+		}
+		return $id;
+	}
+
+	/**
+	 * Load additional data.
+	 *
+	 * @return void
+	 */
+	public function loadAdditionalData(): void
+	{
+	}
+
+	/**
+	 * Parse data to YetiForce format from multidimensional array.
+	 *
+	 * @param string $fieldCrm
+	 * @param array  $field
+	 *
+	 * @return void
+	 */
+	protected function loadDataYfMultidimensional(string $fieldCrm, array $field): void
+	{
+		$value = $this->dataApi;
+		$field['fieldCrm'] = $fieldCrm;
+		foreach ($field['name'] as $name) {
+			if (\array_key_exists($name, $value)) {
+				$value = $value[$name];
+			} else {
+				$error = "[API>YF][3] No column $name ($fieldCrm)";
+				if (!\array_key_exists('optional', $field) || empty($field['optional'])) {
+					\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
+					$this->synchronizer->controller->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
+				}
+			}
+		}
+		if (empty($error)) {
+			$this->loadDataYfMap($fieldCrm, $field, $value);
+		}
+	}
+
+	/**
+	 * Parse data to YetiForce format from map.
+	 *
+	 * @param string     $fieldCrm
+	 * @param array      $field
+	 * @param mixed|null $value
+	 *
+	 * @return void
+	 */
+	protected function loadDataYfMap(string $fieldCrm, array $field, $value = null): void
+	{
+		$value ??= $this->dataApi[$field['name']];
+		if (isset($field['map'])) {
+			if (\array_key_exists($value, $field['map'])) {
+				$this->dataYf[$fieldCrm] = $field['map'][$value];
+			} elseif (empty($field['mayNotExist'])) {
+				$value = print_r($value, true);
+				$error = "[API>YF] No value `{$value}` in map {$field['name']}";
+				\App\Log::warning($error, $this->synchronizer::LOG_CATEGORY);
+				$this->synchronizer->controller->log($error, ['fieldConfig' => $field, 'data' => $this->dataApi], null, true);
+			}
+		} elseif (isset($field['fn'])) {
+			$this->dataYf[$fieldCrm] = $this->{$field['fn']}($value, $field, true);
+		} else {
+			$this->dataYf[$fieldCrm] = $value;
+		}
 	}
 
 	/**
@@ -561,7 +599,8 @@ abstract class Base
 			if ($checkField && !$this->moduleModel->getFieldByName($yf . $target)) {
 				\App\Log::info(
 					"The {$yf}{$target} field does not exist in the {$this->moduleName} module",
-					$this->synchronizer::LOG_CATEGORY);
+					$this->synchronizer::LOG_CATEGORY
+				);
 				continue;
 			}
 			if (\is_array($api)) {
@@ -593,34 +632,6 @@ abstract class Base
 			$currency = \App\Fields\Currency::getById($value)['currency_code'];
 		}
 		return $currency;
-	}
-
-	/**
-	 * Save record in YF from relation action.
-	 *
-	 * @param array $field
-	 *
-	 * @return int
-	 */
-	public function saveFromRelation(array $field): int
-	{
-		$id = 0;
-		if ($dataYf = $this->getDataYf()) {
-			try {
-				$id = $this->findRecordInYf();
-				if (empty($field['onlyCreate']) || empty($id)) {
-					$this->loadRecordModel($id);
-					$this->loadAdditionalData();
-					$this->saveInYf();
-					$id = $this->getRecordModel()->getId();
-				}
-			} catch (\Throwable $ex) {
-				$error = "[API>YF] Import {$this->moduleName}";
-				\App\Log::warning($error . "\n" . $ex->getMessage(), $this->synchronizer::LOG_CATEGORY);
-				$this->synchronizer->controller->log($error, ['YF' => $dataYf, 'API' => $this->dataApi], $ex);
-			}
-		}
-		return $id;
 	}
 
 	/**
@@ -662,14 +673,5 @@ abstract class Base
 			}
 			unset($this->dataApi['metaData']);
 		}
-	}
-
-	/**
-	 * Load additional data.
-	 *
-	 * @return void
-	 */
-	public function loadAdditionalData(): void
-	{
 	}
 }

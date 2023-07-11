@@ -84,7 +84,7 @@ abstract class AbstractProvider extends \App\Base
 
 	public function getAuthorizationUrl(array $options = []): string
 	{
-		$options = array_merge($options, ['state' => $this->getState()/*, 'prompt' => 'consent'*/]);
+		$options = array_merge($options, ['state' => $this->getState()/* , 'prompt' => 'consent' */]);
 		return $this->getClient()->getAuthorizationUrl($options);
 	}
 

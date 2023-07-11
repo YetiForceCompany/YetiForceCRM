@@ -87,8 +87,8 @@ abstract class Inventory extends Base
 		$fieldName = $this->getInvFieldName($fieldName);
 		$fieldParsed = null;
 		if (!empty($fieldName)) {
-			$methodName = 'getCrmInv' . \ucfirst($fieldName);
-			if (!\method_exists($this, $methodName)) {
+			$methodName = 'getCrmInv' . ucfirst($fieldName);
+			if (!method_exists($this, $methodName)) {
 				$fieldParsed = $this->dataInv[$fieldName] ?? null;
 			} else {
 				$fieldParsed = $this->{$methodName}();

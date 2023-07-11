@@ -152,6 +152,30 @@ abstract class Synchronizer
 	}
 
 	/**
+	 * Search for user in activity.
+	 *
+	 * @param int    $id
+	 * @param string $table
+	 *
+	 * @return int|null
+	 */
+	public function searchUserInActivity(int $id, string $table): ?int
+	{
+		$cacheKey = "$id|$table";
+		if (\App\Cache::has('WaproUser', $cacheKey)) {
+			return \App\Cache::get('WaproUser', $cacheKey);
+		}
+		$userId = null;
+		$erpId = (new \App\Db\Query())->select(['ID_UZYTKOWNIKA'])->from('dbo.AKTYWNOSC_UZYTKOWNIKA')
+			->where(['ID_ZAPISU' => $id, 'TYP_ZAPISU' => $table])->scalar($this->controller->getDb());
+		if ($erpId) {
+			$userId = $this->getUser($erpId);
+		}
+		\App\Cache::save('WaproUser', $cacheKey, $userId);
+		return $userId;
+	}
+
+	/**
 	 * Load data from DB based on field map.
 	 *
 	 * @return void
@@ -334,30 +358,6 @@ abstract class Synchronizer
 	protected function decode(string $value, array $params): string
 	{
 		return trim(preg_replace('/[\x{0081}\n]/u', ' ', \App\Purifier::decodeHtml($value)));
-	}
-
-	/**
-	 * Search for user in activity.
-	 *
-	 * @param int    $id
-	 * @param string $table
-	 *
-	 * @return int|null
-	 */
-	public function searchUserInActivity(int $id, string $table): ?int
-	{
-		$cacheKey = "$id|$table";
-		if (\App\Cache::has('WaproUser', $cacheKey)) {
-			return \App\Cache::get('WaproUser', $cacheKey);
-		}
-		$userId = null;
-		$erpId = (new \App\Db\Query())->select(['ID_UZYTKOWNIKA'])->from('dbo.AKTYWNOSC_UZYTKOWNIKA')
-			->where(['ID_ZAPISU' => $id, 'TYP_ZAPISU' => $table])->scalar($this->controller->getDb());
-		if ($erpId) {
-			$userId = $this->getUser($erpId);
-		}
-		\App\Cache::save('WaproUser', $cacheKey, $userId);
-		return $userId;
 	}
 
 	/**

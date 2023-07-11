@@ -34,6 +34,17 @@ class Controller
 	public $connector;
 
 	/**
+	 * Constructor. Connect with magento and authorize.
+	 *
+	 * @param int $serverId
+	 */
+	public function __construct(int $serverId)
+	{
+		$this->config = \App\Integrations\Magento\Config::getInstance($serverId);
+		$this->getConnector()->authorize();
+	}
+
+	/**
 	 * Returns connector.
 	 *
 	 * @return object
@@ -51,17 +62,6 @@ class Controller
 			}
 		}
 		return $this->connector;
-	}
-
-	/**
-	 * Constructor. Connect with magento and authorize.
-	 *
-	 * @param int $serverId
-	 */
-	public function __construct(int $serverId)
-	{
-		$this->config = \App\Integrations\Magento\Config::getInstance($serverId);
-		$this->getConnector()->authorize();
 	}
 
 	/**

@@ -19,16 +19,6 @@ namespace App\Integrations\WooCommerce\Synchronizer;
  */
 abstract class Base
 {
-	/** @var \App\Integrations\WooCommerce\Connector\Base Connector. */
-	protected $connector;
-	/** @var \App\Integrations\WooCommerce\Synchronizer\Maps\Base Map synchronizer instance. */
-	protected $maps;
-	/** @var \App\Integrations\WooCommerce\Config Config instance. */
-	public $config;
-	/** @var \App\Integrations\WooCommerce Controller instance. */
-	public $controller;
-	/** @var array Last scan config data. */
-	protected $lastScan = [];
 	/** @var string Category name used for the log mechanism */
 	const LOG_CATEGORY = 'Integrations/WooCommerce';
 	/** @var int Synchronization direction: one-way from WooCommerce to YetiForce */
@@ -37,13 +27,16 @@ abstract class Base
 	const DIRECTION_YF_TO_API = 1;
 	/** @var int Synchronization direction: two-way */
 	const DIRECTION_TWO_WAY = 2;
-
-	/**
-	 * Main process function.
-	 *
-	 * @return void
-	 */
-	abstract public function process(): void;
+	/** @var \App\Integrations\WooCommerce\Config Config instance. */
+	public $config;
+	/** @var \App\Integrations\WooCommerce Controller instance. */
+	public $controller;
+	/** @var \App\Integrations\WooCommerce\Connector\Base Connector. */
+	protected $connector;
+	/** @var \App\Integrations\WooCommerce\Synchronizer\Maps\Base Map synchronizer instance. */
+	protected $maps;
+	/** @var array Last scan config data. */
+	protected $lastScan = [];
 
 	/**
 	 * Constructor.
@@ -56,6 +49,13 @@ abstract class Base
 		$this->controller = $controller;
 		$this->config = $controller->config;
 	}
+
+	/**
+	 * Main process function.
+	 *
+	 * @return void
+	 */
+	abstract public function process(): void;
 
 	/**
 	 * Get map model instance.
@@ -156,7 +156,7 @@ abstract class Base
 	 */
 	public function getYfId(int $apiId, ?string $moduleName = null): int
 	{
-		$moduleName = $moduleName ?? $this->getMapModel()->getModule();
+		$moduleName ??= $this->getMapModel()->getModule();
 		$cacheKey = 'Integrations/WooCommerce/CRM_ID/' . $moduleName;
 		if (\App\Cache::staticHas($cacheKey, $apiId)) {
 			return \App\Cache::staticGet($cacheKey, $apiId);
@@ -178,7 +178,7 @@ abstract class Base
 	 */
 	public function getApiId(int $yfId, ?string $moduleName = null): int
 	{
-		$moduleName = $moduleName ?? $this->getMapModel()->getModule();
+		$moduleName ??= $this->getMapModel()->getModule();
 		$cacheKey = 'Integrations/WooCommerce/API_ID/' . $moduleName;
 		if (\App\Cache::staticHas($cacheKey, $yfId)) {
 			return \App\Cache::staticGet($cacheKey, $yfId);

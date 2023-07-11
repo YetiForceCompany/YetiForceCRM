@@ -200,27 +200,6 @@ class Orders extends Base
 	}
 
 	/**
-	 * Get export query.
-	 *
-	 * @return \App\Db\Query
-	 */
-	private function getExportQuery(): \App\Db\Query
-	{
-		$mapModel = $this->getMapModel();
-		$queryGenerator = $this->getFromYf($mapModel->getModule());
-		$queryGenerator->setFields(['id', 'modifiedtime', 'woocommerce_id', 'ssingleorders_status']);
-		$queryGenerator->setLimit($this->config->get('products_limit'));
-		$query = $queryGenerator->createQuery();
-		if (!empty($this->lastScan['start_date'])) {
-			$query->andWhere(['<', 'vtiger_crmentity.modifiedtime', $this->lastScan['start_date']]);
-		}
-		if (!empty($this->lastScan['end_date'])) {
-			$query->andWhere(['>', 'vtiger_crmentity.modifiedtime', $this->lastScan['end_date']]);
-		}
-		return $query;
-	}
-
-	/**
 	 * Export order.
 	 *
 	 * @param array $row
@@ -254,5 +233,26 @@ class Orders extends Base
 				'API' => $dataApi ?? [],
 			]);
 		}
+	}
+
+	/**
+	 * Get export query.
+	 *
+	 * @return \App\Db\Query
+	 */
+	private function getExportQuery(): \App\Db\Query
+	{
+		$mapModel = $this->getMapModel();
+		$queryGenerator = $this->getFromYf($mapModel->getModule());
+		$queryGenerator->setFields(['id', 'modifiedtime', 'woocommerce_id', 'ssingleorders_status']);
+		$queryGenerator->setLimit($this->config->get('products_limit'));
+		$query = $queryGenerator->createQuery();
+		if (!empty($this->lastScan['start_date'])) {
+			$query->andWhere(['<', 'vtiger_crmentity.modifiedtime', $this->lastScan['start_date']]);
+		}
+		if (!empty($this->lastScan['end_date'])) {
+			$query->andWhere(['>', 'vtiger_crmentity.modifiedtime', $this->lastScan['end_date']]);
+		}
+		return $query;
 	}
 }

@@ -22,8 +22,6 @@ namespace App\Integrations\Magento\Synchronizer\Maps;
 class Invoice extends Inventory
 {
 	/** {@inheritdoc} */
-	protected $moduleName = 'FInvoice';
-	/** {@inheritdoc} */
 	public static $additionalFieldsCrm = [
 		'sum_tax' => '',
 		'sum_total' => '',
@@ -79,16 +77,18 @@ class Invoice extends Inventory
 		'cashondelivery' => 'PLL_CASH_ON_DELIVERY',
 		'paypal_express' => 'PLL_PAYPAL_EXPRESS',
 	];
+	/** {@inheritdoc} */
+	protected $moduleName = 'FInvoice';
 
 	/** {@inheritdoc} */
 	public function getDataCrm(bool $onEdit = false): array
 	{
 		$parsedData = parent::getDataCrm($onEdit);
 		if (!empty($shippingAddress = $this->getAddressDataCrm('shipping'))) {
-			$parsedData = \array_replace_recursive($parsedData, $shippingAddress);
+			$parsedData = array_replace_recursive($parsedData, $shippingAddress);
 		}
 		if (!empty($billingAddress = $this->getAddressDataCrm('billing'))) {
-			$parsedData = \array_replace_recursive($parsedData, $billingAddress);
+			$parsedData = array_replace_recursive($parsedData, $billingAddress);
 		}
 		if (!empty($parsedData['phone'])) {
 			$parsedData = \App\Fields\Phone::parsePhone('phone', $parsedData);

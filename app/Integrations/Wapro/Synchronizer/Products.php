@@ -136,54 +136,6 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 	}
 
 	/**
-	 * Convert price to system format.
-	 *
-	 * @param string $value
-	 * @param array  $params
-	 *
-	 * @return string
-	 */
-	protected function convertPrice(string $value, array $params): string
-	{
-		$currency = $this->getBaseCurrency();
-		return \App\Json::encode([
-			'currencies' => [
-				$currency['currencyId'] => ['price' => $value]
-			],
-			'currencyId' => $currency['currencyId']
-		]);
-	}
-
-	/**
-	 * Convert category to system format.
-	 *
-	 * @param string $value
-	 * @param array  $params
-	 *
-	 * @return string
-	 */
-	protected function convertCategory(string $value, array $params): string
-	{
-		$fieldModel = $this->recordModel->getField($params['fieldName']);
-		$list = \App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName());
-		$key = array_search($value, $list);
-		return $key ?? '';
-	}
-
-	/**
-	 * Convert taxes to system format.
-	 *
-	 * @param string $value
-	 * @param array  $params
-	 *
-	 * @return string
-	 */
-	protected function convertTaxes(string $value, array $params): string
-	{
-		return $this->getGlobalTax($value, true);
-	}
-
-	/**
 	 * Import record by id.
 	 *
 	 * @param int $id
@@ -236,5 +188,53 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 	public function getCounter(): int
 	{
 		return (new \App\Db\Query())->from('dbo.ARTYKUL')->count('*', $this->controller->getDb());
+	}
+
+	/**
+	 * Convert price to system format.
+	 *
+	 * @param string $value
+	 * @param array  $params
+	 *
+	 * @return string
+	 */
+	protected function convertPrice(string $value, array $params): string
+	{
+		$currency = $this->getBaseCurrency();
+		return \App\Json::encode([
+			'currencies' => [
+				$currency['currencyId'] => ['price' => $value]
+			],
+			'currencyId' => $currency['currencyId']
+		]);
+	}
+
+	/**
+	 * Convert category to system format.
+	 *
+	 * @param string $value
+	 * @param array  $params
+	 *
+	 * @return string
+	 */
+	protected function convertCategory(string $value, array $params): string
+	{
+		$fieldModel = $this->recordModel->getField($params['fieldName']);
+		$list = \App\Fields\Tree::getPicklistValue($fieldModel->getFieldParams(), $fieldModel->getModuleName());
+		$key = array_search($value, $list);
+		return $key ?? '';
+	}
+
+	/**
+	 * Convert taxes to system format.
+	 *
+	 * @param string $value
+	 * @param array  $params
+	 *
+	 * @return string
+	 */
+	protected function convertTaxes(string $value, array $params): string
+	{
+		return $this->getGlobalTax($value, true);
 	}
 }

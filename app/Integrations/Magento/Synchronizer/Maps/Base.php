@@ -21,10 +21,6 @@ namespace App\Integrations\Magento\Synchronizer\Maps;
  */
 abstract class Base
 {
-	/** @var string Map module name. */
-	protected $moduleName;
-	/** @var \App\Integrations\Magento\Synchronizer\Base Synchronizer instance */
-	protected $synchronizer;
 	/** @var string[] Fields which are not exist in Magento but needed in YetiForce. */
 	public static $additionalFieldsCrm = [];
 	/** @var string[] Mapped fields. */
@@ -86,6 +82,10 @@ abstract class Base
 		'1' => 'PLL_MAN',
 		'2' => 'PLL_WOMAN',
 	];
+	/** @var string Map module name. */
+	protected $moduleName;
+	/** @var \App\Integrations\Magento\Synchronizer\Base Synchronizer instance */
+	protected $synchronizer;
 
 	/**
 	 * Constructor.
@@ -182,9 +182,9 @@ abstract class Base
 	public function getFieldValue(string $magentoFieldName, ?string $crmFieldName = null)
 	{
 		$parsedFieldName = $crmFieldName ?? $this->getFieldNameCrm($magentoFieldName);
-		$methodName = 'getCrm' . \ucfirst($parsedFieldName);
+		$methodName = 'getCrm' . ucfirst($parsedFieldName);
 		$fieldLevels = explode('|', $magentoFieldName);
-		if (!\method_exists($this, $methodName)) {
+		if (!method_exists($this, $methodName)) {
 			$fieldParsed = $this->data;
 			if (\count($fieldLevels) > 1) {
 				if ('custom_attributes' === $fieldLevels[0]) {
@@ -315,9 +315,9 @@ abstract class Base
 	 */
 	public function getAddressFieldValue(string $type, string $fieldNameCrm, string $fieldName)
 	{
-		$methodName = 'getCrm' . \ucfirst($fieldNameCrm);
+		$methodName = 'getCrm' . ucfirst($fieldNameCrm);
 		if (!empty($fieldParsed = $this->getAddressDataByType($type))) {
-			if (\method_exists($this, $methodName)) {
+			if (method_exists($this, $methodName)) {
 				$fieldParsed = $this->{$methodName}();
 			} else {
 				$fieldLevels = explode('|', $fieldName);

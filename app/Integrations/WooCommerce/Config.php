@@ -74,14 +74,15 @@ class Config extends \App\Base
 	public static function getInstance(int $serverId): self
 	{
 		$instance = new self();
-		$instance->setData(array_merge(
-			self::getServer($serverId),
-			\App\Config::component('IntegrationWooCommerce'),
-			(new Query())->select(['name', 'value'])->from(WooCommerce::CONFIG_TABLE_NAME)
-				->where(['server_id' => $serverId])->createCommand()->queryAllByGroup(),
-			['maps' => (new Query())->select(['map', 'class'])->from(WooCommerce::MAP_TABLE_NAME)
-				->createCommand()->queryAllByGroup()]
-		),
+		$instance->setData(
+			array_merge(
+				self::getServer($serverId),
+				\App\Config::component('IntegrationWooCommerce'),
+				(new Query())->select(['name', 'value'])->from(WooCommerce::CONFIG_TABLE_NAME)
+					->where(['server_id' => $serverId])->createCommand()->queryAllByGroup(),
+				['maps' => (new Query())->select(['map', 'class'])->from(WooCommerce::MAP_TABLE_NAME)
+					->createCommand()->queryAllByGroup()]
+			),
 		);
 		return $instance;
 	}

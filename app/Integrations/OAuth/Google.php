@@ -58,12 +58,12 @@ class Google extends AbstractProvider
 	 * @var string
 	 */
 	protected $redirectUri;
-	/** @var \League\OAuth2\Client\Provider\Google Google provider */
-	private $client;
 
 	protected $refreshToken;
 	protected $accessToken;
 	protected $expireTime;
+	/** @var \League\OAuth2\Client\Provider\Google Google provider */
+	private $client;
 
 	public function getClient(array $options = [])
 	{

@@ -211,28 +211,6 @@ class Product extends Base
 	}
 
 	/**
-	 * Get export query.
-	 *
-	 * @return \App\Db\Query
-	 */
-	private function getExportQuery(): \App\Db\Query
-	{
-		$mapModel = $this->getMapModel();
-		$queryGenerator = $this->getFromYf($mapModel->getModule());
-		$queryGenerator->setFields(['id']);
-		$queryGenerator->setLimit($this->config->get('products_limit'));
-		$queryGenerator->addCondition('product_type', $mapModel->productType, 'e');
-		$query = $queryGenerator->createQuery();
-		if (!empty($this->lastScan['start_date'])) {
-			$query->andWhere(['<', 'vtiger_crmentity.modifiedtime', $this->lastScan['start_date']]);
-		}
-		if (!empty($this->lastScan['end_date'])) {
-			$query->andWhere(['>', 'vtiger_crmentity.modifiedtime', $this->lastScan['end_date']]);
-		}
-		return $query;
-	}
-
-	/**
 	 * Export product.
 	 *
 	 * @param int $id
@@ -296,5 +274,27 @@ class Product extends Base
 			\App\Log::error('Error during import by ean product: ' . PHP_EOL . $ex->__toString(), self::LOG_CATEGORY);
 		}
 		return $id;
+	}
+
+	/**
+	 * Get export query.
+	 *
+	 * @return \App\Db\Query
+	 */
+	private function getExportQuery(): \App\Db\Query
+	{
+		$mapModel = $this->getMapModel();
+		$queryGenerator = $this->getFromYf($mapModel->getModule());
+		$queryGenerator->setFields(['id']);
+		$queryGenerator->setLimit($this->config->get('products_limit'));
+		$queryGenerator->addCondition('product_type', $mapModel->productType, 'e');
+		$query = $queryGenerator->createQuery();
+		if (!empty($this->lastScan['start_date'])) {
+			$query->andWhere(['<', 'vtiger_crmentity.modifiedtime', $this->lastScan['start_date']]);
+		}
+		if (!empty($this->lastScan['end_date'])) {
+			$query->andWhere(['>', 'vtiger_crmentity.modifiedtime', $this->lastScan['end_date']]);
+		}
+		return $query;
 	}
 }

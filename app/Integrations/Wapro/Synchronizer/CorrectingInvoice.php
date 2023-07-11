@@ -114,7 +114,7 @@ class CorrectingInvoice extends Invoice
 		$this->recordModel->set(
 			'finvoiceid',
 			$this->findByRelationship($this->row['ID_DOK_ORYGINALNEGO'], ['tableName' => 'DOKUMENT_HANDLOWY'])
-	);
+		);
 		$this->recordModel->set($this->recordModel->getModule()->getSequenceNumberFieldName(), $this->row['NUMER']);
 		$this->loadFromFieldMap();
 		$this->loadDeliveryAddress('a');

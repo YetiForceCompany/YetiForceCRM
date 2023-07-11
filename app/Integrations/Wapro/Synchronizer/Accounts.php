@@ -150,6 +150,12 @@ class Accounts extends \App\Integrations\Wapro\Synchronizer
 		return $recordId ?: null;
 	}
 
+	/** {@inheritdoc} */
+	public function getCounter(): int
+	{
+		return (new \App\Db\Query())->from('dbo.KONTRAHENT')->count('*', $this->controller->getDb());
+	}
+
 	/**
 	 * Convert discount to system format.
 	 *
@@ -161,11 +167,5 @@ class Accounts extends \App\Integrations\Wapro\Synchronizer
 	protected function convertDiscount(string $value, array $params): float
 	{
 		return -((float) $value);
-	}
-
-	/** {@inheritdoc} */
-	public function getCounter(): int
-	{
-		return (new \App\Db\Query())->from('dbo.KONTRAHENT')->count('*', $this->controller->getDb());
 	}
 }

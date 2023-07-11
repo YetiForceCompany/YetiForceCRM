@@ -74,7 +74,7 @@ class Config extends \App\Base
 		$instance->setData(array_merge(
 			$servers[$serverId],
 			(new Query())->select(['name', 'value'])->from(self::TABLE_NAME)->where(['server_id' => $serverId])->createCommand()->queryAllByGroup()
-			));
+		));
 		return $instance;
 	}
 
