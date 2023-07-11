@@ -18,6 +18,8 @@ include_once 'vtlib/Vtiger/Utils/StringTemplate.php';
  */
 class Link
 {
+	// Ignore module while selection
+	const IGNORE_MODULE = -1;
 	/** @var int */
 	public $tabid;
 	/** @var int */
@@ -53,7 +55,7 @@ class Link
 	/** @var string */
 	public $linkhint;
 	/** @var bool */
-	public $active = false;
+	public $active = true;
 	/** @var string */
 	public $relatedModuleName;
 	/** @var string */
@@ -63,8 +65,8 @@ class Link
 	/** @var bool */
 	public $linkhref;
 
-	// Ignore module while selection
-	const IGNORE_MODULE = -1;
+	/** Cache (Record) the schema changes to improve performance */
+	public static $__cacheSchemaChanges = [];
 
 	/**
 	 * Initialize this instance.
@@ -92,9 +94,6 @@ class Link
 		}
 		return false;
 	}
-
-	/** Cache (Record) the schema changes to improve performance */
-	public static $__cacheSchemaChanges = [];
 
 	/**
 	 * Add link given module.
