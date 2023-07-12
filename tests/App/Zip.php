@@ -85,8 +85,8 @@ class Zip extends \Tests\Base
 	 */
 	public function testCreateFileBadDir(): void
 	{
-		$this->expectException(\App\Exceptions\AppException::class);
-		$this->expectExceptionMessage("Unable to create the zip file");
-		\App\Zip::createFile(ROOT_DIRECTORY . '/tests/data/NxDir/NxFile.zip');
+		$zip = \App\Zip::createFile(ROOT_DIRECTORY . '/tests/data/NxDir/NxFile.zip');
+		$zip->addFromString('filename.txt', '<minimal content>');
+		$this->assertFalse($zip->close());
 	}
 }
