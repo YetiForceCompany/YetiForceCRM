@@ -10,6 +10,8 @@
  */
 class Vtiger_AdvancedFilter_Helper
 {
+	protected static $recordStructure = false;
+
 	public static function getMetaVariables()
 	{
 		return [
@@ -126,9 +128,13 @@ class Vtiger_AdvancedFilter_Helper
 
 	public static function getExpressions()
 	{
-		return ['concat' => 'concat(a,b)', 'time_diffdays(a,b)' => 'time_diffdays(a,b)', 'time_diffdays(a)' => 'time_diffdays(a)', 'time_diff(a,b)' => 'time_diff(a,b)', 'time_diff(a)' => 'time_diff(a)',
-			'add_days' => 'add_days(datefield, noofdays)', 'sub_days' => 'sub_days(datefield, noofdays)', 'add_time(timefield, minutes)' => 'add_time(timefield, minutes)', 'sub_time(timefield, minutes)' => 'sub_time(timefield, minutes)',
-			'today' => "get_date('today')", 'tomorrow' => "get_date('tomorrow')", 'yesterday' => "get_date('yesterday')", ];
+		return [
+			'concat' => 'concat(a,b)', 'time_diffdays(a,b)' => 'time_diffdays(a,b)', 'time_diffdays(a)' => 'time_diffdays(a)',
+			'time_diff(a,b)' => 'time_diff(a,b)', 'time_diff(a)' => 'time_diff(a)',
+			'add_days' => 'add_days(datefield, noofdays)', 'sub_days' => 'sub_days(datefield, noofdays)',
+			'add_time(timefield, minutes)' => 'add_time(timefield, minutes)', 'sub_time(timefield, minutes)' => 'sub_time(timefield, minutes)',
+			'today' => "get_date('today')", 'get_date(today,Y-m-d)' => "get_date('today','Y-m-d H:i:s')",
+			'tomorrow' => "get_date('tomorrow')", 'yesterday' => "get_date('yesterday')", ];
 	}
 
 	/**
@@ -145,7 +151,7 @@ class Vtiger_AdvancedFilter_Helper
 		$secondGroup = [];
 		if (!empty($conditions)) {
 			foreach ($conditions as $info) {
-				if (!($info['groupid'])) {
+				if (!$info['groupid']) {
 					$firstGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
 						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid'], ];
 				} else {
@@ -192,6 +198,4 @@ class Vtiger_AdvancedFilter_Helper
 		}
 		return $dateFilters;
 	}
-
-	protected static $recordStructure = false;
 }

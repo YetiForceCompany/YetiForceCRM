@@ -10,6 +10,34 @@
 
 class VTFieldExpressionEvaluater
 {
+	public function __construct($expr)
+	{
+		$this->operators = [
+			'+' => '__vt_add',
+			'-' => '__vt_sub',
+			'*' => '__vt_mul',
+			'/' => '__vt_div',
+			'==' => '__vt_equals',
+			'<=' => '__vt_ltequals',
+			'>=' => '__vt_gtequals',
+			'<' => '__vt_lt',
+			'>' => '__vt_gt',
+		];
+		$this->functions = [
+			'concat' => '__vt_concat',
+			'time_diff' => '__vt_time_diff',
+			'time_diffdays' => '__vt_time_diffdays',
+			'add_days' => '__vt_add_days',
+			'sub_days' => '__vt_sub_days',
+			'get_date' => '__vt_get_date',
+			'add_time' => '__vt_add_time',
+			'sub_time' => '__vt_sub_time',
+		];
+
+		$this->operations = array_merge($this->functions, $this->operators);
+		$this->expr = $expr;
+	}
+
 	public static function __vt_add($arr)
 	{
 		if (1 == \count($arr)) {
@@ -111,7 +139,7 @@ class VTFieldExpressionEvaluater
 		$time_operand1 = \App\Fields\DateTime::formatToDb($time_operand1, true);
 		$time_operand2 = \App\Fields\DateTime::formatToDb($time_operand2, true);
 
-		//to give the difference if it is only time field
+		// to give the difference if it is only time field
 		if (empty($time_operand1) && empty($time_operand2)) {
 			$pattern = '/([01]?[0-9]|2[0-3]):[0-5][0-9]/';
 			if (preg_match($pattern, $time1) && preg_match($pattern, $time2)) {
@@ -174,15 +202,16 @@ class VTFieldExpressionEvaluater
 	public static function __vt_get_date($arr)
 	{
 		$type = $arr[0] ?? '';
+		$format = $arr[1] ?? 'Y-m-d';
 		switch ($type) {
 			case 'today':
-				return date('Y-m-d');
+				return date($format);
 			case 'tomorrow':
-				return date('Y-m-d', strtotime('+1 day'));
+				return date($format, strtotime('+1 day'));
 			case 'yesterday':
-				return date('Y-m-d', strtotime('-1 day'));
+				return date($format, strtotime('-1 day'));
 			default:
-				return date('Y-m-d');
+				return date($format);
 		}
 	}
 
@@ -212,34 +241,6 @@ class VTFieldExpressionEvaluater
 		$endTime = strtotime("-$minutes minutes", strtotime($baseTime));
 
 		return date('H:i:s', $endTime);
-	}
-
-	public function __construct($expr)
-	{
-		$this->operators = [
-			'+' => '__vt_add',
-			'-' => '__vt_sub',
-			'*' => '__vt_mul',
-			'/' => '__vt_div',
-			'==' => '__vt_equals',
-			'<=' => '__vt_ltequals',
-			'>=' => '__vt_gtequals',
-			'<' => '__vt_lt',
-			'>' => '__vt_gt',
-		];
-		$this->functions = [
-			'concat' => '__vt_concat',
-			'time_diff' => '__vt_time_diff',
-			'time_diffdays' => '__vt_time_diffdays',
-			'add_days' => '__vt_add_days',
-			'sub_days' => '__vt_sub_days',
-			'get_date' => '__vt_get_date',
-			'add_time' => '__vt_add_time',
-			'sub_time' => '__vt_sub_time',
-		];
-
-		$this->operations = array_merge($this->functions, $this->operators);
-		$this->expr = $expr;
 	}
 
 	public function evaluate($env)
