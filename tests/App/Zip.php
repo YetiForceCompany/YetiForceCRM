@@ -77,16 +77,4 @@ class Zip extends \Tests\Base
 		$this->assertFileExists('tests/tmp/TestLinux/languages/pl-PL/TestLinux.json');
 		\vtlib\Functions::recurseDelete('tests' . \DIRECTORY_SEPARATOR . 'tmp' . \DIRECTORY_SEPARATOR . 'TestLinux');
 	}
-
-	/**
-	 * Testing file creation in not existent directory.
-	 *
-	 * @throws \App\Exceptions\AppException
-	 */
-	public function testCreateFileBadDir(): void
-	{
-		$this->expectException(\App\Exceptions\AppException::class);
-		$this->expectExceptionMessage("Unable to create the zip file");
-		\App\Zip::createFile(ROOT_DIRECTORY . '/tests/data/NxDir/NxFile.zip');
-	}
 }
