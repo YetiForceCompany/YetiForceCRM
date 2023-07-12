@@ -24,6 +24,7 @@
     "LBL_DIR_API_TO_CRM": "One-way from Comarch to YetiForce",
     "LBL_DIR_CRM_TO_API": "One-way from YetiForce to Comarch",
     "LBL_DIR_CRM_API": "Two-way",
-    "BTN_RECORD_INFO": "Show Comarch info and configuration"
+    "BTN_RECORD_INFO": "Show Comarch info and configuration",
+    "LBL_EDIT_CONFIG": "Comarch info and configuration"
   }
 }

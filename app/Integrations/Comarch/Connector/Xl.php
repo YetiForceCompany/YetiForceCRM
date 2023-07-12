@@ -85,6 +85,10 @@ class Xl extends Base
 		foreach (\App\Json::decode($response) as $key => $value) {
 			$info .= "{$key}: {$value}\n";
 		}
+		$response = $this->request('GET', 'Configuration/CheckVersion');
+		foreach (\App\Json::decode($response) as $key => $value) {
+			$info .= "{$key}: {$value}\n";
+		}
 		return [
 			'info' => trim($info),
 			'count' => []
