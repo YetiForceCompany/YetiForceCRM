@@ -60,7 +60,7 @@ class Link
 	public $relatedModuleName;
 	/** @var string */
 	public $modalView;
-	/** @var  */
+	/** @var bool|int|null */
 	public $showLabel;
 	/** @var bool */
 	public $linkhref;
