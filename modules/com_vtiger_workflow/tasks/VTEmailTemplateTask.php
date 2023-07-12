@@ -20,7 +20,7 @@ class VTEmailTemplateTask extends VTTask
 	 */
 	public function getFieldNames()
 	{
-		return ['template', 'email', 'relations_email', 'emailoptout', 'smtp', 'smtpTemplate', 'copy_email', 'address_emails', 'attachments'];
+		return ['template', 'email', 'relations_email', 'emailoptout', 'smtp', 'copy_email', 'address_emails', 'attachments'];
 	}
 
 	/**

@@ -20,7 +20,7 @@ class VTSendPdf extends VTTask
 	 */
 	public function getFieldNames()
 	{
-		return ['pdfTemplate', 'mailTemplate', 'email', 'emailoptout', 'smtp', 'smtpTemplate', 'copy_email'];
+		return ['pdfTemplate', 'mailTemplate', 'email', 'emailoptout', 'smtp', 'copy_email'];
 	}
 
 	/**
