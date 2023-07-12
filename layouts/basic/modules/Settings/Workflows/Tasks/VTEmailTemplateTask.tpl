@@ -7,21 +7,13 @@
 				<div class="col-md-4">
 					<select id="smtp_{\App\Layout::getUniqueId()}" name="smtp" class="select2 form-control">
 						{foreach from=App\Mail::getSmtpServers() item=ITEM key=ID}
-							<option value="{$ID}" {if (isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp eq $ID) || App\Mail::SMTP_DEFAULT eq $ID}selected{/if}>{\App\Purifier::encodeHtml($ITEM['name'])}
-								{if !empty($ITEM['host'])} ({\App\Purifier::encodeHtml($ITEM['host'])}){/if} {if App\Mail::SMTP_DEFAULT eq $ID} - {\App\Language::translate('LBL_DEFAULT')} {/if}
+							<option value="{$ID}" {if (isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp eq $ID) || App\Mail::SMTP_DEFAULT eq $ID}selected{/if}>
+								{if App\Mail::SMTP_DEFAULT eq $ID} {\App\Language::translate('LBL_DEFAULT')} {else} {\App\Purifier::encodeHtml($ITEM['name'])} {/if}
 							</option>
 						{/foreach}
+						<option value="-1" {if  isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp eq -1}selected{/if}>{\App\Language::translate('LBL_GET_SMTP_FROM_TEMPLATE', $QUALIFIED_MODULE)}</option>
 					</select>
 				</div>
-			</div>
-			<div class="row pb-3">
-				<span class="col-md-4"></span>
-				<span class="col-md-4">
-					<label>
-						<input type="checkbox" class="align-text-bottom" value="true" name="smtpTemplate"
-							{if isset($TASK_OBJECT->smtpTemplate) && $TASK_OBJECT->smtpTemplate}checked{/if}>&nbsp;{\App\Language::translate('LBL_GET_SMTP_FROM_TEMPLATE', $QUALIFIED_MODULE)}
-					</label>
-				</span>
 			</div>
 			<div class="row pb-3">
 				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('EmailTempleteList', $QUALIFIED_MODULE)}</span>
