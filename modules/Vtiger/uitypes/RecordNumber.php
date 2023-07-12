@@ -8,6 +8,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_RecordNumber_UIType extends Vtiger_Base_UIType
 {
@@ -29,7 +30,7 @@ class Vtiger_RecordNumber_UIType extends Vtiger_Base_UIType
 	{
 		$recordNumberInstance = \App\Fields\RecordNumber::getInstance($recordModel->getModuleName());
 		$recordNumberInstance->setRecord($recordModel);
-		if ($recordNumberInstance->isNewSequence() && empty($value)) {
+		if ($recordNumberInstance->isNewSequence()) {
 			$value = $recordNumberInstance->getIncrementNumber();
 			$recordModel->set($this->getFieldModel()->getName(), $value);
 		}

@@ -20,13 +20,20 @@ class RecordNumber extends \App\Base
 	 *
 	 * @var \App\Fields\RecordNumber[]
 	 */
-	private static $instanceCache = [];
+	private static array $instanceCache = [];
 	/**
 	 * Sequence number field cache by module id.
 	 *
 	 * @var array
 	 */
-	private static $sequenceNumberFieldCache = [];
+	private static array $sequenceNumberFieldCache = [];
+
+	/**
+	 * Related value.
+	 *
+	 * @var string
+	 */
+	private $relatedValue;
 
 	/**
 	 * Function to get instance.
@@ -41,7 +48,7 @@ class RecordNumber extends \App\Base
 			return self::$instanceCache[$tabId];
 		}
 		$instance = new static();
-		if (!\is_numeric($tabId)) {
+		if (!is_numeric($tabId)) {
 			$tabId = \App\Module::getModuleId($tabId);
 		}
 		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one() ?: [];
@@ -83,7 +90,7 @@ class RecordNumber extends \App\Base
 		$actualSequence = static::getSequenceNumber($this->get('reset_sequence'));
 		if ($this->get('reset_sequence') && $this->get('cur_sequence') !== $actualSequence) {
 			$currentSequenceNumber = 1;
-			$this->updateModuleSystemVariablesSequences($currentSequenceNumber);
+			$this->updateModuleVariablesSequences($currentSequenceNumber);
 		} else {
 			$currentSequenceNumber = $this->getCurrentSequenceNumber();
 		}
@@ -101,7 +108,7 @@ class RecordNumber extends \App\Base
 	}
 
 	/**
-	 * gets related value.
+	 * Gets related value.
 	 *
 	 * @param bool $reload
 	 *
@@ -127,31 +134,6 @@ class RecordNumber extends \App\Base
 	}
 
 	/**
-	 * Function to get current sequence number.
-	 *
-	 * @return int
-	 */
-	private function getCurrentSequenceNumber(): int
-	{
-		$seq = $this->get('cur_id');
-		if ($value = $this->getRelatedValue()) {
-			$seq = (new \App\Db\Query())->select(['cur_id'])->from('u_#__modentity_sequences')->where(['tabid' => $this->get('tabid'), 'value' => $value])->scalar() ?: 1;
-		}
-		return $seq;
-	}
-
-	/**
-	 * Returns name of picklist. Postfix or prefix can contains name of picklist.
-	 *
-	 * @return string
-	 */
-	private function getPicklistName(): string
-	{
-		preg_match('/{{picklist:([a-z0-9_]+)}}/i', $this->get('prefix') . $this->get('postfix'), $matches);
-		return $matches[1] ?? '';
-	}
-
-	/**
 	 * Parse number based on postfix and prefix.
 	 *
 	 * @param int $seq
@@ -164,9 +146,7 @@ class RecordNumber extends \App\Base
 		if ($this->getRecord()) {
 			$string = \App\TextParser::getInstanceByModel($this->getRecord())->setGlobalPermissions(false)->setContent($string)->parse()->getContent();
 		}
-		return preg_replace_callback('/{{picklist:([a-z0-9_]+)}}/i', function ($matches) {
-			return $this->getRecord() ? $this->getPicklistValue($matches[1]) : $matches[1];
-		}, $string);
+		return preg_replace_callback('/{{picklist:([a-z0-9_]+)}}/i', fn ($matches) => $this->getRecord() ? $this->getPicklistValue($matches[1]) : $matches[1], $string);
 	}
 
 	/**
@@ -209,13 +189,13 @@ class RecordNumber extends \App\Base
 	}
 
 	/**
-	 * Update all module system variables sequences.
+	 * Update all module variables sequences.
 	 *
 	 * @param string $currentId
 	 *
 	 * @return void
 	 */
-	public function updateModuleSystemVariablesSequences($currentId): void
+	public function updateModuleVariablesSequences($currentId): void
 	{
 		\App\Db::getInstance()->createCommand()->update('u_#__modentity_sequences', ['cur_id' => $currentId], ['tabid' => $this->get('tabid')])->execute();
 	}
@@ -229,29 +209,7 @@ class RecordNumber extends \App\Base
 	{
 		return $this->getRecord()->isNew()
 			|| ($this->getRelatedValue() && $this->getRelatedValue() !== self::getInstance($this->getRecord()->getModuleName())
-				->setRecord((clone $this->getRecord())->getInstanceByEntity($this->getRecord()->getEntity(), $this->getRecord()->getId())->setData($this->getRecord()->getData()))->getRelatedValue());
-	}
-
-	/**
-	 * Returns prefix of picklist.
-	 *
-	 * @param string      $picklistName
-	 * @param string|null $recordValue
-	 *
-	 * @return string
-	 */
-	private function getPicklistValue(string $picklistName, ?string $recordValue = null): string
-	{
-		$values = Picklist::getValues($picklistName);
-		if (null === $recordValue) {
-			$recordValue = $this->getRecord()->get($picklistName);
-		}
-		foreach ($values as $value) {
-			if ($recordValue === $value[$picklistName]) {
-				return $value['prefix'] ?? '';
-			}
-		}
-		return '';
+				->setRecord((clone $this->getRecord())->getInstanceByEntity($this->getRecord()->getEntity(), $this->getRecord()->getId()))->getRelatedValue());
 	}
 
 	/**
@@ -275,7 +233,7 @@ class RecordNumber extends \App\Base
 			if ($fieldTable === $moduleModel->getEntityInstance()->table_name) {
 				$picklistName = $this->getPicklistName();
 				$queryGenerator = new \App\QueryGenerator(\App\Module::getModuleName($this->get('tabid')));
-				$queryGenerator->setFields([$picklistName, $fieldModel->getFieldName(), 'id']);
+				$queryGenerator->setFields([$picklistName, $fieldModel->getName(), 'id']);
 				if (\App\TextParser::isVaribleToParse($this->get('prefix') . $this->get('postfix'))) {
 					$queryGenerator->setFields(array_keys($queryGenerator->getModuleFields()))->setField('id');
 				}
@@ -342,19 +300,26 @@ class RecordNumber extends \App\Base
 	 * Get sequence number that should be saved.
 	 *
 	 * @param string $resetSequence one character
+	 *
+	 * @return string
 	 */
-	public static function getSequenceNumber($resetSequence)
+	public static function getSequenceNumber($resetSequence): string
 	{
 		switch ($resetSequence) {
 			case 'Y':
-				return static::date('Y');
+				$currentSeqId = static::date('Y');
+				break;
 			case 'M':
-				return static::date('Ym'); // with year because 2016-10 (10) === 2017-10 (10) and number will be incremented but should be set to 1 (new year)
+				$currentSeqId = static::date('Ym'); // with year because 2016-10 (10) === 2017-10 (10) and number will be incremented but should be set to 1 (new year)
+				break;
 			case 'D':
-				return static::date('Ymd'); // same as above because od 2016-10-03 (03) === 2016-11-03 (03)
+				$currentSeqId = static::date('Ymd'); // same as above because 2016-10-03 (03) === 2016-11-03 (03)
+				break;
 			default:
-				return '';
+				$currentSeqId = '';
 		}
+
+		return $currentSeqId;
 	}
 
 	/**
@@ -379,14 +344,17 @@ class RecordNumber extends \App\Base
 				'cur_sequence' => $this->get('cur_sequence'),
 			])->execute();
 		}
-		return $dbCommand->update('vtiger_modentity_num', [
-			'cur_id' => $this->get('cur_id'),
-			'prefix' => $this->get('prefix'),
-			'leading_zeros' => $this->get('leading_zeros'),
-			'postfix' => $this->get('postfix'),
-			'reset_sequence' => $this->get('reset_sequence'),
-			'cur_sequence' => $this->get('cur_sequence'), ],
-				['tabid' => $this->get('tabid')])
+		return $dbCommand->update(
+			'vtiger_modentity_num',
+			[
+				'cur_id' => $this->get('cur_id'),
+				'prefix' => $this->get('prefix'),
+				'leading_zeros' => $this->get('leading_zeros'),
+				'postfix' => $this->get('postfix'),
+				'reset_sequence' => $this->get('reset_sequence'),
+				'cur_sequence' => $this->get('cur_sequence'), ],
+			['tabid' => $this->get('tabid')]
+		)
 			->execute();
 	}
 
@@ -431,5 +399,52 @@ class RecordNumber extends \App\Base
 			unset(self::$sequenceNumberFieldCache[$tabId]);
 		}
 		self::$sequenceNumberFieldCache = null;
+	}
+
+	/**
+	 * Function to get current sequence number.
+	 *
+	 * @return int
+	 */
+	private function getCurrentSequenceNumber(): int
+	{
+		$seq = $this->get('cur_id');
+		if ($value = $this->getRelatedValue()) {
+			$seq = (new \App\Db\Query())->select(['cur_id'])->from('u_#__modentity_sequences')->where(['tabid' => $this->get('tabid'), 'value' => $value])->scalar() ?: 1;
+		}
+		return $seq;
+	}
+
+	/**
+	 * Returns name of picklist. Postfix or prefix can contains name of picklist.
+	 *
+	 * @return string
+	 */
+	private function getPicklistName(): string
+	{
+		preg_match('/{{picklist:([a-z0-9_]+)}}/i', $this->get('prefix') . $this->get('postfix'), $matches);
+		return $matches[1] ?? '';
+	}
+
+	/**
+	 * Returns prefix of picklist.
+	 *
+	 * @param string      $picklistName
+	 * @param string|null $recordValue
+	 *
+	 * @return string
+	 */
+	private function getPicklistValue(string $picklistName, ?string $recordValue = null): string
+	{
+		$values = Picklist::getValues($picklistName);
+		if (null === $recordValue) {
+			$recordValue = $this->getRecord()->get($picklistName);
+		}
+		foreach ($values as $value) {
+			if ($recordValue === $value[$picklistName]) {
+				return $value['prefix'] ?? '';
+			}
+		}
+		return '';
 	}
 }
