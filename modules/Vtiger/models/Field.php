@@ -515,6 +515,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 333:
 						$fieldDataType = 'group';
 						break;
+					case 334:
+						$fieldDataType = 'comarchServer';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
