@@ -41,3 +41,10 @@ jobs:
             cat phpDoc/reports/errors.html
             exit 3
           fi
+      - name:  Upload artifact Logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: Reports
+          path: phpDoc/
+          
