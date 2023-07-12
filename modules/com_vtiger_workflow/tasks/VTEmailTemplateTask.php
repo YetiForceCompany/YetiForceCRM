@@ -35,7 +35,7 @@ class VTEmailTemplateTask extends VTTask
 			$mailerContent['smtp_id'] = $this->smtp;
 			if (empty($this->smtp)) {
 				$mailerContent['smtp_id'] = \App\Mail::getDefaultSmtp();
-			} elseif (('-1' === $this->smtp)) {
+			} elseif (-1 === (int) $this->smtp) {
 				$templateMail = \App\Mail::getTemplate($this->template);
 				$mailerContent['smtp_id'] = $templateMail['smtp_id'];
 			}
