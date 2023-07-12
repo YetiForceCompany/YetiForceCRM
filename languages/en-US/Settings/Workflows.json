@@ -220,6 +220,7 @@
     "LBL_SELECT_VARIABLES": "Select variable",
     "LBL_CREATE_CUSTOM_MAPPING": "Create custom mapping",
     "LBL_GET_FROM_PANEL_MAPPING": "Get mapping from panel",
+    "LBL_GET_SMTP_FROM_TEMPLATE": "Get smtp from template",
     "LBL_SELECT_TEMPLATE_FOR_MODULE": "Select template for module",
     "LBL_OVERWRITTEN_FIELDS": "Overwritten fields",
     "Birthdate": "Date of birth",

@@ -20,16 +20,13 @@
 		<div class="row pb-3">
 			<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
 			<div class="col-md-4">
-				<select id="smtp_{\App\Layout::getUniqueId()}" name="smtp" class="select2 form-control" data-select="allowClear"
-					data-placeholder="{\App\Language::translate('LBL_DEFAULT')}">
-					<optgroup class="p-0">
-						<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>
-					</optgroup>
-					{foreach from=App\Mail::getSmtpServers(true) item=ITEM key=ID}
-						<option value="{$ID}" {if isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp == $ID}selected{/if}>{\App\Purifier::encodeHtml($ITEM['name'])}
-							{if !empty($ITEM['host'])} ({\App\Purifier::encodeHtml($ITEM['host'])}){/if}
+				<select id="smtp_{\App\Layout::getUniqueId()}" name="smtp" class="select2 form-control">
+					{foreach from=App\Mail::getSmtpServers() item=ITEM key=ID}
+						<option value="{$ID}" {if (isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp eq $ID)}selected{/if}>
+							{if App\Mail::SMTP_DEFAULT eq $ID} {\App\Language::translate('LBL_DEFAULT')} {else} {\App\Purifier::encodeHtml($ITEM['name'])} {/if}
 						</option>
 					{/foreach}
+					<option value="-1" {if  isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp eq -1}selected{/if}>{\App\Language::translate('LBL_GET_SMTP_FROM_TEMPLATE', $QUALIFIED_MODULE)}</option>
 				</select>
 			</div>
 		</div>

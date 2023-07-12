@@ -31,8 +31,13 @@ class VTEmailTemplateTask extends VTTask
 	public function doTask($recordModel)
 	{
 		if (!empty($this->template)) {
-			$mailerContent = [];
-			if (!empty($this->smtp)) {
+			$mailerContent['template'] = $this->template;
+			if (empty($this->smtp)) {
+				$mailerContent['smtp_id'] = \App\Mail::getDefaultSmtp();
+			} elseif (-1 === (int) $this->smtp) {
+				$templateMail = \App\Mail::getTemplate($this->template);
+				$mailerContent['smtp_id'] = $templateMail['smtp_id'];
+			} else {
 				$mailerContent['smtp_id'] = $this->smtp;
 			}
 			$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
@@ -68,7 +73,6 @@ class VTEmailTemplateTask extends VTTask
 			if ('Contacts' === $recordModel->getModuleName() && !$recordModel->isEmpty('notifilanguage')) {
 				$mailerContent['language'] = $recordModel->get('notifilanguage');
 			}
-			$mailerContent['template'] = $this->template;
 			$mailerContent['recordModel'] = $recordModel;
 			if (!empty($this->copy_email)) {
 				$mailerContent['bcc'] = $this->copy_email;
