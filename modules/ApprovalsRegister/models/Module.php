@@ -23,8 +23,10 @@ class ApprovalsRegister_Module_Model extends Vtiger_Module_Model
 	 * Reload approvals.
 	 *
 	 * @param int $contactId
+	 *
+	 * @return array
 	 */
-	public static function reloadApprovals(int $contactId)
+	public static function reloadApprovals(int $contactId): array
 	{
 		if (\App\Record::isExists($contactId)) {
 			$moduleName = 'ApprovalsRegister';
@@ -54,20 +56,20 @@ class ApprovalsRegister_Module_Model extends Vtiger_Module_Model
 				$queryGenerator = $relationModel->getQuery();
 				$sqlColumnName = $queryGenerator->getColumnName('registration_date');
 				$approvalAll = $queryGenerator->clearFields()->setFields([$fieldModel->getName(), 'approvals_register_type'])
-					->setCustomColumn(['registration_date' => new \yii\db\Expression("MAX({$sqlColumnName})")])
+					->setCustomColumn(['max_registration_date' => new \yii\db\Expression("MAX({$sqlColumnName})")])
 					->addCondition('approvals_register_status', $acceptValue, 'e')
 					->addNativeCondition([$queryGenerator->getColumnName($fieldModel->getName()) => $subQuery])
 					->setGroup($fieldModel->getName())
 					->setGroup('approvals_register_type')
-					->setOrder('registration_date', \App\Db::DESC)
-					->createQuery()->createCommand()->queryAllByGroup(2);
+					->createQuery()
+					->orderBy(['max_registration_date' => SORT_DESC])
+					->createCommand()->queryAllByGroup(2);
 
-				$approves = array_keys(array_filter($approvalAll, function ($item) {
-					return 'PLL_ACCEPTANCE' === $item[0];
-				}));
+				$approves = array_keys(array_filter($approvalAll, fn ($item) => 'PLL_ACCEPTANCE' === $item[0]));
 
 				$recordModel->set($referenceFieldModel->getName(), $referenceFieldModel->getUITypeModel()->getDBValue($approves))->save();
 			}
 		}
+		return $approves ?? [];
 	}
 }
