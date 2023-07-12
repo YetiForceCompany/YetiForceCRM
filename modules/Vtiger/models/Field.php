@@ -25,16 +25,15 @@ class Vtiger_Field_Model extends vtlib\Field
 	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess', 'referenceExtend', 'referenceSubProcessSL'];
 
 	/** @var array Field maximum length by UiType. */
-	public static $uiTypeMaxLength = [
-		99 => 100,
-		120 => 65535,
+	public static array $uiTypeMaxLength = [
 		106 => '3,64',
+		120 => 65535,
 		156 => '3',
-		360 => '0,99999999',
+		360 => '0,99999999'
 	];
 
 	/** @var int[] Field maximum length by db type. */
-	public static $typesMaxLength = [
+	public static array $typesMaxLength = [
 		'tinytext' => 255,
 		'text' => 65535,
 		'mediumtext' => 16777215,
@@ -516,9 +515,6 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 333:
 						$fieldDataType = 'group';
 						break;
-					case 334:
-						$fieldDataType = 'comarchServer';
-						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
@@ -848,7 +844,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	public function isAjaxEditable()
 	{
 		return !(10 === (int) $this->get('displaytype') || $this->isReferenceField() || !$this->getUITypeModel()->isAjaxEditable()
-		|| !$this->isEditable() || \in_array($this->get('uitype'), [72, 12, 101]));
+			|| !$this->isEditable() || \in_array($this->get('uitype'), [72, 12, 101]));
 	}
 
 	public function isEditableReadOnly()

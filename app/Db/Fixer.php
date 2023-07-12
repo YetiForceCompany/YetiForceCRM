@@ -244,9 +244,13 @@ class Fixer
 				if (\in_array($field['uitype'], [1, 2, 7, 9, 10, 16, 52, 53, 56, 71, 72, 120, 156, 300, 308, 317, 327])) {
 					$update = true;
 				} else {
-					\App\Log::warning("Requires verification: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} <> {$range} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
-					$requiresVerificationInfo['fields'][] = 'FieldId: ' . $field['fieldid'] . ', FieldName: ' . $field['fieldname'] . ', TabId: ' . $field['tabid'] . ', TabName: ' . \App\Module::getModuleName($field['tabid']) . ", Diff: {$field['maximumlength']} <> {$range} | {$type}|{$column->type}|{$column->dbType}";
-					++$requiresVerification;
+					if ($range < $field['maximumlength']) {
+						\App\Log::warning("Requires verification: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} <> {$range} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
+						$requiresVerificationInfo['fields'][] = 'FieldId: ' . $field['fieldid'] . ', FieldName: ' . $field['fieldname'] . ', TabId: ' . $field['tabid'] . ', TabName: ' . \App\Module::getModuleName($field['tabid']) . ", Diff: {$field['maximumlength']} <> {$range} | {$type}|{$column->type}|{$column->dbType}";
+						++$requiresVerification;
+					} else {
+						\App\Log::info("Different maximum length for fieldID: " . $field['fieldid'] . ", TabID: " . $field['tabid'] . ", TabName: " . \App\Module::getModuleName($field['tabid']) . ", Diff: " . $field['maximumlength'] . "<>" . $range);
+					}
 				}
 			}
 			if ($update && false !== $range) {
