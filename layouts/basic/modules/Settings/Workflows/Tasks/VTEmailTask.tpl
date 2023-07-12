@@ -18,8 +18,8 @@
 					<div class="col-md-9">
 						<select id="smtp_{\App\Layout::getUniqueId()}" name="smtp" class="select2 form-control">
 							{foreach from=App\Mail::getSmtpServers() item=ITEM key=ID}
-								<option value="{$ID}" {if  isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp eq $ID}selected{/if}>{\App\Purifier::encodeHtml($ITEM['name'])}
-									{if !empty($ITEM['host'])} ({\App\Purifier::encodeHtml($ITEM['host'])}){/if} {if App\Mail::SMTP_DEFAULT eq $ID} - {\App\Language::translate('LBL_DEFAULT')} {/if}
+								<option value="{$ID}" {if (isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp eq $ID)}selected{/if}>
+									{if App\Mail::SMTP_DEFAULT eq $ID} {\App\Language::translate('LBL_DEFAULT')} {else} {\App\Purifier::encodeHtml($ITEM['name'])} {/if}
 								</option>
 							{/foreach}
 						</select>

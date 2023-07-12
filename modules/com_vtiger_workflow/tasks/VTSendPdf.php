@@ -32,12 +32,13 @@ class VTSendPdf extends VTTask
 	{
 		if (!empty($this->mailTemplate) && !empty($this->pdfTemplate) && \App\Record::isExists($this->mailTemplate, 'EmailTemplates') && \Vtiger_PDF_Model::getInstanceById($this->pdfTemplate)) {
 			$mailerContent['template'] = $this->mailTemplate;
-			$mailerContent['smtp_id'] = $this->smtp;
 			if (empty($this->smtp)) {
 				$mailerContent['smtp_id'] = \App\Mail::getDefaultSmtp();
 			} elseif (-1 === (int) $this->smtp) {
 				$templateMail = \App\Mail::getTemplate($this->mailTemplate);
 				$mailerContent['smtp_id'] = $templateMail['smtp_id'];
+			} else {
+				$mailerContent['smtp_id'] = $this->smtp;
 			}
 			$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
 			$emailParser->emailoptout = $this->emailoptout ? true : false;
