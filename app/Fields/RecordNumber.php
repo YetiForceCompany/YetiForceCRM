@@ -44,17 +44,32 @@ class RecordNumber extends \App\Base
 	 */
 	public static function getInstance($tabId): self
 	{
-		if (isset(self::$instanceCache[$tabId])) {
-			return self::$instanceCache[$tabId];
-		}
-		$instance = new static();
 		if (!is_numeric($tabId)) {
 			$tabId = \App\Module::getModuleId($tabId);
 		}
+		if (isset(static::$instanceCache[$tabId])) {
+			return static::$instanceCache[$tabId];
+		}
+		$instance = new static();
 		$row = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $tabId])->one() ?: [];
 		$row['tabid'] = $tabId;
 		$instance->setData($row);
-		return self::$instanceCache[$tabId] = $instance;
+
+		return static::$instanceCache[$tabId] = $instance;
+	}
+
+	/**
+	 * Get data for update.
+	 *
+	 * @return $this
+	 */
+	public function getNumDataForUpdate()
+	{
+		$sql = (new \App\Db\Query())->from('vtiger_modentity_num')->where(['tabid' => $this->get('tabid')])->createCommand()->getRawSql() . ' FOR UPDATE ';
+		$row = \App\Db::getInstance()->createCommand($sql)->queryOne();
+		$row['tabid'] = $this->get('tabid');
+
+		return $this->setData(array_merge($this->getData(), $row));
 	}
 
 	/**
@@ -87,23 +102,24 @@ class RecordNumber extends \App\Base
 	 */
 	public function getIncrementNumber(): string
 	{
+		$value = $this->getRelatedValue();
+		$this->getNumDataForUpdate();
 		$actualSequence = static::getSequenceNumber($this->get('reset_sequence'));
 		if ($this->get('reset_sequence') && $this->get('cur_sequence') !== $actualSequence) {
 			$currentSequenceNumber = 1;
 			$this->updateModuleVariablesSequences($currentSequenceNumber);
 		} else {
-			$currentSequenceNumber = $this->getCurrentSequenceNumber();
+			$currentSequenceNumber = $this->get('cur_id');
+			if ($value) {
+				$sql = (new \App\Db\Query())->select(['cur_id'])->from('u_#__modentity_sequences')->where(['tabid' => $this->get('tabid'), 'value' => $value])->createCommand()->getRawSql() . ' FOR UPDATE ';
+				$currentSequenceNumber = \App\Db::getInstance()->createCommand($sql)->queryScalar() ?: 1;
+			}
 		}
 
-		$fullPrefix = $this->parseNumber($currentSequenceNumber);
-		$strip = \strlen($currentSequenceNumber) - \strlen($currentSequenceNumber + 1);
-		if ($strip < 0) {
-			$strip = 0;
-		}
-		$temp = str_repeat('0', $strip);
-		$reqNo = $temp . ($currentSequenceNumber + 1);
-
+		$reqNo = $currentSequenceNumber + 1;
 		$this->setNumberSequence($reqNo, $actualSequence);
+		$fullPrefix = $this->parseNumber($currentSequenceNumber);
+
 		return \App\Purifier::decodeHtml($fullPrefix);
 	}
 
@@ -159,45 +175,30 @@ class RecordNumber extends \App\Base
 	 */
 	public function setNumberSequence(int $reqNo, string $actualSequence)
 	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
 		$data = ['cur_sequence' => $actualSequence];
 		$this->set('cur_sequence', $actualSequence);
 		if ($value = $this->getRelatedValue()) {
-			$this->updateNumberSequence($reqNo, $value);
+			$dbCommand->upsert('u_#__modentity_sequences', ['tabid' => $this->get('tabid'),	'value' => $value,	'cur_id' => $reqNo], ['cur_id' => $reqNo])->execute();
 		} else {
 			$data['cur_id'] = $reqNo;
 			$this->set('cur_id', $reqNo);
 		}
-		\App\Db::getInstance()->createCommand()->update('vtiger_modentity_num', $data, ['tabid' => $this->get('tabid')])->execute();
+		$dbCommand->update('vtiger_modentity_num', $data, ['tabid' => $this->get('tabid')])->execute();
 	}
 
 	/**
-	 * Update number sequence.
+	 * Update module variables sequences.
 	 *
-	 * @param int    $reqNo
-	 * @param string $prefix
-	 *
-	 * @return bool|int
-	 */
-	public function updateNumberSequence(int $reqNo, string $prefix)
-	{
-		if ((new \App\Db\Query())->from('u_#__modentity_sequences')->where(['value' => $prefix, 'tabid' => $this->get('tabid')])->exists()) {
-			$value = \App\Db::getInstance()->createCommand()->update('u_#__modentity_sequences', ['cur_id' => $reqNo], ['value' => $prefix, 'tabid' => $this->get('tabid')])->execute();
-		} else {
-			$value = \App\Db::getInstance()->createCommand()->insert('u_#__modentity_sequences', ['cur_id' => $reqNo, 'tabid' => $this->get('tabid'), 'value' => $prefix])->execute();
-		}
-		return $value;
-	}
-
-	/**
-	 * Update all module variables sequences.
-	 *
-	 * @param string $currentId
+	 * @param int   $currentId
+	 * @param array $conditions
 	 *
 	 * @return void
 	 */
-	public function updateModuleVariablesSequences($currentId): void
+	public function updateModuleVariablesSequences($currentId, $conditions = []): void
 	{
-		\App\Db::getInstance()->createCommand()->update('u_#__modentity_sequences', ['cur_id' => $currentId], ['tabid' => $this->get('tabid')])->execute();
+		$conditions['tabid'] = $this->get('tabid');
+		\App\Db::getInstance()->createCommand()->update('u_#__modentity_sequences', ['cur_id' => $currentId], $conditions)->execute();
 	}
 
 	/**
@@ -208,8 +209,8 @@ class RecordNumber extends \App\Base
 	public function isNewSequence(): bool
 	{
 		return $this->getRecord()->isNew()
-			|| ($this->getRelatedValue() && $this->getRelatedValue() !== self::getInstance($this->getRecord()->getModuleName())
-				->setRecord((clone $this->getRecord())->getInstanceByEntity($this->getRecord()->getEntity(), $this->getRecord()->getId()))->getRelatedValue());
+			|| ($this->getRelatedValue() && $this->getRelatedValue() !== (clone $this)
+				->setRecord((clone $this->getRecord())->getInstanceByEntity($this->getRecord()->getEntity(), $this->getRecord()->getId()))->getRelatedValue(true));
 	}
 
 	/**
@@ -399,20 +400,6 @@ class RecordNumber extends \App\Base
 			unset(self::$sequenceNumberFieldCache[$tabId]);
 		}
 		self::$sequenceNumberFieldCache = null;
-	}
-
-	/**
-	 * Function to get current sequence number.
-	 *
-	 * @return int
-	 */
-	private function getCurrentSequenceNumber(): int
-	{
-		$seq = $this->get('cur_id');
-		if ($value = $this->getRelatedValue()) {
-			$seq = (new \App\Db\Query())->select(['cur_id'])->from('u_#__modentity_sequences')->where(['tabid' => $this->get('tabid'), 'value' => $value])->scalar() ?: 1;
-		}
-		return $seq;
 	}
 
 	/**

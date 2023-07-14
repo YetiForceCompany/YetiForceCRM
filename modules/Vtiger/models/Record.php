@@ -1,20 +1,26 @@
 <?php
 
- /* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce S.A.
- * *********************************************************************************** */
+/* +***********************************************************************************
+* The contents of this file are subject to the vtiger CRM Public License Version 1.0
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+* Contributor(s): YetiForce S.A.
+* *********************************************************************************** */
 
 /**
  * Vtiger Entity Record Model Class.
  */
 class Vtiger_Record_Model extends \App\Base
 {
+	/**
+	 * @var string Record label
+	 */
+	public $label;
+	public $isNew = true;
+	public $ext = [];
 	/**
 	 * @var Vtiger_Module_Model Module model
 	 */
@@ -41,12 +47,6 @@ class Vtiger_Record_Model extends \App\Base
 	protected $handlerExceptions = [];
 	protected $handler;
 	protected $privileges = [];
-	/**
-	 * @var string Record label
-	 */
-	public $label;
-	public $isNew = true;
-	public $ext = [];
 
 	/**
 	 * Function to get the id of the record.
@@ -599,16 +599,16 @@ class Vtiger_Record_Model extends \App\Base
 		if ($this->isNew()) {
 			$entityModel = $this->getEntity();
 			$forSave[$entityModel->table_name] = [];
-			if (!empty($entityModel->customFieldTable)) {
-				$forSave[$entityModel->customFieldTable[0]] = [];
-			}
 			foreach ($entityModel->tab_name as $tableName) {
 				if (empty($forSave[$tableName])) {
 					$forSave[$tableName] = [];
 				}
 			}
 		} else {
-			$saveFields = array_intersect($saveFields, array_merge(array_keys($this->changes), [$moduleModel->getSequenceNumberFieldName()]));
+			$saveFields = array_intersect($saveFields, array_merge(array_keys($this->changes)));
+		}
+		if ($name = $moduleModel->getSequenceNumberFieldName()) {
+			$saveFields[] = $name;
 		}
 		foreach ($this->dataForSave as $tableName => $values) {
 			$forSave[$tableName] = array_merge($forSave[$tableName] ?? [], $values);
@@ -630,6 +630,7 @@ class Vtiger_Record_Model extends \App\Base
 				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $uitypeModel->convertToSave($value, $this);
 			}
 		}
+
 		return $forSave;
 	}
 
@@ -669,9 +670,9 @@ class Vtiger_Record_Model extends \App\Base
 		if (isset($this->ext['relations']) && \is_array($this->ext['relations'])) {
 			foreach ($this->ext['relations'] as $value) {
 				if ($reverse = empty($value['reverse'])) {
-					$relationModel = Vtiger_Relation_Model::getInstance($this->getModule(), Vtiger_Module_Model::getInstance($value['relatedModule']), ($value['relationId'] ?? false));
+					$relationModel = Vtiger_Relation_Model::getInstance($this->getModule(), Vtiger_Module_Model::getInstance($value['relatedModule']), $value['relationId'] ?? false);
 				} else {
-					$relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($value['relatedModule']), $this->getModule(), ($value['relationId'] ?? false));
+					$relationModel = Vtiger_Relation_Model::getInstance(Vtiger_Module_Model::getInstance($value['relatedModule']), $this->getModule(), $value['relationId'] ?? false);
 				}
 				if ($relationModel) {
 					foreach ($value['relatedRecords'] as $record) {
@@ -1055,7 +1056,6 @@ class Vtiger_Record_Model extends \App\Base
 		return $fieldModel->getRelatedListDisplayValue($this->get($fieldName));
 	}
 
-
 	/**
 	 * Function to set record module field values.
 	 *
@@ -1212,7 +1212,7 @@ class Vtiger_Record_Model extends \App\Base
 		} elseif (!isset($this->inventoryData) && $this->get('record_id')) {
 			$this->inventoryData = \Vtiger_Inventory_Model::getInventoryDataById($this->get('record_id'), $this->getModuleName());
 		} else {
-			$this->inventoryData = $this->inventoryData ?? [];
+			$this->inventoryData ??= [];
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
 		return $this->inventoryData;
@@ -1437,7 +1437,7 @@ class Vtiger_Record_Model extends \App\Base
 		}
 		if (!$this->isReadOnly()) {
 			if ($this->isViewable() && $this->getModule()->isPermitted('WatchingRecords')) {
-				$watching = (int) ($this->isWatchingRecord());
+				$watching = (int) $this->isWatchingRecord();
 				$recordLinks['BTN_WATCHING_RECORD'] = [
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'BTN_WATCHING_RECORD',
@@ -1568,7 +1568,7 @@ class Vtiger_Record_Model extends \App\Base
 				}
 			}
 			if ($this->getModule()->isPermitted('WatchingRecords')) {
-				$watching = (int) ($this->isWatchingRecord());
+				$watching = (int) $this->isWatchingRecord();
 				$links['BTN_WATCHING_RECORD'] = Vtiger_Link_Model::getInstanceFromValues([
 					'linklabel' => 'BTN_WATCHING_RECORD',
 					'linkurl' => 'javascript:Vtiger_Index_Js.changeWatching(this)',
@@ -1678,7 +1678,7 @@ class Vtiger_Record_Model extends \App\Base
 					'linkclass' => 'btn-sm btn-dark relationDelete entityStateBtn',
 				]);
 			}
-			if (!empty($relationModel->getTypeRelationModel()->customFields) && ($relationModel->getTypeRelationModel()->getFields(true)) && ($parentRecord = $relationModel->get('parentRecord')) && $parentRecord->isEditable() && $this->isEditable()) {
+			if (!empty($relationModel->getTypeRelationModel()->customFields) && $relationModel->getTypeRelationModel()->getFields(true) && ($parentRecord = $relationModel->get('parentRecord')) && $parentRecord->isEditable() && $this->isEditable()) {
 				$changeRelationDataButton = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 					'linklabel' => 'LBL_CHANGE_RELATION_DATA',
@@ -1827,7 +1827,7 @@ class Vtiger_Record_Model extends \App\Base
 		$image = [];
 		if (!$this->isEmpty('imagename') && \App\Json::isJson($this->get('imagename')) && !\App\Json::isEmpty($this->get('imagename'))) {
 			$image = \App\Json::decode($this->get('imagename'));
-			if (empty($image) || !($image = \current($image)) || empty($image['path'])) {
+			if (empty($image) || !($image = current($image)) || empty($image['path'])) {
 				\App\Log::warning("Problem with data compatibility: No parameter path [{$this->get('imagename')}]");
 				return [];
 			}
@@ -1841,7 +1841,7 @@ class Vtiger_Record_Model extends \App\Base
 			foreach ($this->getModule()->getFieldsByType('multiImage') as $fieldModel) {
 				if (!$this->isEmpty($fieldModel->getName()) && \App\Json::isJson($this->get($fieldModel->getName()))) {
 					$image = \App\Json::decode($this->get($fieldModel->getName()));
-					if (empty($image) || !($image = \current($image)) || empty($image['path'])) {
+					if (empty($image) || !($image = current($image)) || empty($image['path'])) {
 						\App\Log::warning("Problem with data compatibility: No parameter path [{$this->get('imagename')}]");
 						return [];
 					}

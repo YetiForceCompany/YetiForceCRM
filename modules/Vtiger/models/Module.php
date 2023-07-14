@@ -18,6 +18,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 	const STANDARD_TYPE = 0;
 	/** Advanced module type */
 	const ADVANCED_TYPE = 1;
+	/** @var bool */
+	public $allowTypeChange = true;
 
 	protected $blocks;
 	protected $nameFields;
@@ -26,8 +28,6 @@ class Vtiger_Module_Model extends \vtlib\Module
 	protected $relations;
 	protected $moduleType = '0';
 	protected $entityInstance;
-	/** @var bool */
-	public $allowTypeChange = true;
 
 	/**
 	 * Function to get the Module/Tab id.
@@ -101,7 +101,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 *
 	 * @throws Exception
 	 *
-	 * @return <Object>
+	 * @return mixed
 	 */
 	public function get($propertyName)
 	{
@@ -114,8 +114,8 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function to set the value of a given property.
 	 *
-	 * @param string   $propertyName
-	 * @param <Object> $propertyValue
+	 * @param string $propertyName
+	 * @param mixed  $propertyValue
 	 *
 	 * @return Vtiger_Module_Model instance
 	 */
@@ -642,7 +642,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 		foreach (App\Field::getFieldsPermissions($this->getId(), false) as $field) {
 			$editFields[] = $field['fieldname'];
 		}
-		return array_diff($editFields, ['shownerid', 'smcreatorid', 'modifiedtime', 'modifiedby']);
+		return array_diff($editFields, ['shownerid', 'smcreatorid', 'modifiedtime', 'modifiedby', $this->getSequenceNumberFieldName()]);
 	}
 
 	/**
@@ -746,45 +746,43 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 *
 	 * @return bool
 	 */
-	public function hasSequenceNumberField()
+	public function hasSequenceNumberField(): bool
 	{
-		if (!empty($this->fields)) {
-			foreach ($this->getFields() as $fieldModel) {
-				if (4 === $fieldModel->getUIType()) {
-					return true;
-				}
+		$exists = false;
+		foreach ($this->getFields() as $fieldModel) {
+			if (4 === $fieldModel->getUIType()) {
+				$exists = true;
+				break;
 			}
-		} else {
-			return (bool) \App\Fields\RecordNumber::getSequenceNumberFieldName($this->getId());
 		}
-		return false;
+
+		return $exists;
 	}
 
 	/**
 	 * Get sequence number field name.
 	 *
-	 * @return string|bool
+	 * @return string
 	 */
-	public function getSequenceNumberFieldName()
+	public function getSequenceNumberFieldName(): string
 	{
-		if (!empty($this->fields)) {
-			foreach ($this->getFields() as $fieldModel) {
-				if (4 === $fieldModel->getUIType() && $fieldModel->isActiveField()) {
-					return $fieldModel->getName();
-				}
+		$name = '';
+		foreach ($this->getFields() as $fieldModel) {
+			if (4 === $fieldModel->getUIType() && $fieldModel->isActiveField()) {
+				$name = $fieldModel->getName();
+				break;
 			}
-		} else {
-			return \App\Fields\RecordNumber::getSequenceNumberFieldName($this->getId());
 		}
-		return false;
+
+		return $name;
 	}
 
 	/**
 	 * Function to get all modules from CRM.
 	 *
-	 * @param <array> $presence
-	 * @param <array> $restrictedModulesList
-	 * @param mixed   $isEntityType
+	 * @param int[]    $presence
+	 * @param string[] $restrictedModulesList
+	 * @param bool     $isEntityType
 	 *
 	 * @return <array> List of module models Vtiger_Module_Model
 	 */
@@ -924,9 +922,9 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function returns latest comments for the module.
 	 *
-	 * @param <Vtiger_Paging_Model> $pagingModel
+	 * @param \Vtiger_Paging_Model $pagingModel
 	 *
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getComments($pagingModel)
 	{
@@ -961,10 +959,10 @@ class Vtiger_Module_Model extends \vtlib\Module
 	/**
 	 * Function returns comments and recent activities across module.
 	 *
-	 * @param <Vtiger_Paging_Model> $pagingModel
-	 * @param string                $type        - comments, updates or all
+	 * @param \Vtiger_Paging_Model $pagingModel
+	 * @param string               $type        comments, updates or all
 	 *
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getHistory($pagingModel, $type = false)
 	{
