@@ -16070,6 +16070,13 @@ a.text-dark:hover, a.text-dark:focus {
   background-image: url(../../../libraries/flag-icons/flags//1x1/ac.svg);
 }
 
+.fi-cefta {
+  background-image: url(../../../libraries/flag-icons/flags//4x3/cefta.svg);
+}
+.fi-cefta.fis {
+  background-image: url(../../../libraries/flag-icons/flags//1x1/cefta.svg);
+}
+
 .fi-cp {
   background-image: url(../../../libraries/flag-icons/flags//4x3/cp.svg);
 }
@@ -16103,6 +16110,13 @@ a.text-dark:hover, a.text-dark:focus {
 }
 .fi-es-ga.fis {
   background-image: url(../../../libraries/flag-icons/flags//1x1/es-ga.svg);
+}
+
+.fi-es-pv {
+  background-image: url(../../../libraries/flag-icons/flags//4x3/es-pv.svg);
+}
+.fi-es-pv.fis {
+  background-image: url(../../../libraries/flag-icons/flags//1x1/es-pv.svg);
 }
 
 .fi-eu {
@@ -16966,6 +16980,10 @@ label.btn[class*=btn-outline-]:not(.active):hover {
 }
 .fc-unthemed td {
   border-color: #ddd !important;
+}
+
+.fc-event-title {
+  font-weight: bold;
 }
 
 /* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
@@ -22932,7 +22950,6 @@ input[type=checkbox][disabled] {
 .c-text-divider {
   display: flex;
   align-items: center;
-  justify-content: center;
   position: relative;
   background-color: inherit;
 }
@@ -24404,6 +24421,7 @@ body > .o-exception-fixed-block {
   border-color: transparent !important;
 }
 .c-tab--border .nav-link.active {
+  isolation: inherit;
   border-bottom-color: transparent !important;
 }
 .c-tab--border .nav-link.active:after {
@@ -24888,14 +24906,6 @@ ul.c-process-line li.c-process-line__active > a:after {
 }
 .c-form__action-panel .btn-group {
   margin-right: 3px;
-}
-
-.quickCreateContent .c-form__action-panel {
-  position: unset;
-  background: unset;
-  width: 100%;
-  border-top: unset;
-  margin-left: 0px;
 }
 
 .fieldValue {
@@ -25693,6 +25703,7 @@ ul.c-process-line li.c-process-line__active > a:after {
     top: 3.125rem;
     right: calc(25% - 1px);
     z-index: 100;
+    border-radius: 25px 0 0 25px;
     font-size: 0.8125rem;
   }
   .c-menu--open .c-calendar-view .o-calendar__panel__tabs,
@@ -26367,6 +26378,13 @@ ul.c-process-line li.c-process-line__active > a:after {
 }
 .c-progress__item.first:before {
   background: #b0bec5;
+}
+.c-progress__item--select:after, .c-progress__item--select:before,
+.c-progress__item--select .c-progress__icon__container {
+  background: #b0bec5;
+}
+.c-progress__item--select.active .c-progress__icon__container {
+  background: #ff5722;
 }
 .c-progress__link {
   display: flex;
