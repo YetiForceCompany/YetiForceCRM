@@ -1569,6 +1569,8 @@ $.Class(
 		 *
 		 */
 		registerBasicEvents: function (container) {
+			this.registerEventForEditor();
+			this.stretchCKEditor();
 			this.referenceModulePopupRegisterEvent(container);
 			this.registerAutoCompleteFields(container);
 			this.registerClearReferenceSelectionEvent(container);
@@ -1607,8 +1609,6 @@ $.Class(
 			this.registerInventoryController(editViewForm);
 			app.registerBlockAnimationEvent(editViewForm);
 			this.registerBlockStatusCheckOnLoad();
-			this.registerEventForEditor();
-			this.stretchCKEditor();
 			this.registerBasicEvents(editViewForm);
 			this.registerEventForCopyAddress();
 			this.registerSubmitEvent();
