@@ -67,12 +67,11 @@ class G_Cron extends \Tests\Base
 		\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'LBK_SYSTEM_WARNINGS');
 		\App\Cron::updateStatus(\App\Cron::STATUS_DISABLED, 'LBL_MAIL_SCANNER_ACTION');
 		require_once 'cron.php';
-		$rows = (new \App\Db\Query())->select(['modue' => 'setype', 'rows' => 'count(*)'])->from('vtiger_crmentity')->groupBy('setype')->orderBy(['rows' => SORT_DESC])->all();
 		$c = '';
-		foreach ($rows as $value) {
-			$c .= "{$value['modue']} = {$value['rows']}, | ";
+		foreach (\App\Utils::getNumberRecordsByModule() as $module => $number) {
+			$c .= "{$module} = {$number}, | ";
 		}
-		\file_put_contents(ROOT_DIRECTORY . '/tests/records.log', $c . PHP_EOL, FILE_APPEND);
+		file_put_contents(ROOT_DIRECTORY . '/tests/records.log', $c . PHP_EOL, FILE_APPEND);
 		$this->assertFalse((new \App\Db\Query())->from('vtiger_cron_task')->where(['status' => 2])->exists());
 	}
 

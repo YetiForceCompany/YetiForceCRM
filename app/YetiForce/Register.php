@@ -17,36 +17,7 @@ namespace App\YetiForce;
  */
 class Register
 {
-	/**
-	 * Registration config cache.
-	 *
-	 * @var array
-	 */
-	private static $config;
-	/**
-	 * Last error.
-	 *
-	 * @var string
-	 */
-	public $error;
-	/**
-	 * Registration url.
-	 *
-	 * @var string
-	 */
-	private static $registrationUrl = 'https://api.yetiforce.com/registration/';
-
-	/**
-	 * Registration file path.
-	 *
-	 * @var string
-	 */
-	private const REGISTRATION_FILE = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app_data' . \DIRECTORY_SEPARATOR . 'registration.php';
-	/**
-	 * Status messages.
-	 *
-	 * @var string[]
-	 */
+	/** @var string[] Status messages. */
 	public const STATUS_MESSAGES = [
 		-2 => 'ERR_NO_INTERNET_CONNECTION',
 		-1 => 'ERR_IT_HAS_NO_BEEN_6_HOURS_SINCE_THE_LAST_CHECK',
@@ -60,6 +31,24 @@ class Register
 		8 => 'LBL_SPECIAL_REGISTRATION',
 		9 => 'LBL_ACCEPTED',
 	];
+	/** @var string Registration url. */
+	private const REGISTRATION_API_URL = 'https://api.yetiforce.com/registration/';
+
+	/** @var string Registration file path. */
+	private const REGISTRATION_FILE = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app_data' . \DIRECTORY_SEPARATOR . 'registration.php';
+
+	/**
+	 * Last error.
+	 *
+	 * @var string
+	 */
+	public $error;
+	/**
+	 * Registration config cache.
+	 *
+	 * @var array
+	 */
+	private static $config;
 
 	/**
 	 * Generate a unique key for the crm.
@@ -82,25 +71,6 @@ class Register
 	}
 
 	/**
-	 * Get registration data.
-	 *
-	 * @return string[]
-	 */
-	private function getData(): array
-	{
-		return [
-			'version' => \App\Version::get(),
-			'language' => \App\Language::getLanguage(),
-			'timezone' => date_default_timezone_get(),
-			'insKey' => static::getInstanceKey(),
-			'crmKey' => static::getCrmKey(),
-			'package' => \App\Company::getSize(),
-			'provider' => static::getProvider(),
-			'companies' => \App\Company::getAll(),
-		];
-	}
-
-	/**
 	 * Send registration data.
 	 *
 	 * @return bool
@@ -114,7 +84,7 @@ class Register
 		}
 		$result = false;
 		try {
-			$url = static::$registrationUrl . 'add';
+			$url = static::REGISTRATION_API_URL . 'add';
 			\App\Log::beginProfile("POST|Register::register|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client())->post($url, \App\Utils::merge(\App\RequestHttp::getOptions(), ['form_params' => $this->getData()]));
 			\App\Log::endProfile("POST|Register::register|{$url}", __NAMESPACE__);
@@ -161,7 +131,7 @@ class Register
 		$status = 0;
 		try {
 			$data = ['last_check_time' => date('Y-m-d H:i:s')];
-			$url = static::$registrationUrl . 'check';
+			$url = static::REGISTRATION_API_URL . 'check';
 			\App\Log::beginProfile("POST|Register::check|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
 				'form_params' => \App\Utils::merge($conf, [
@@ -195,7 +165,7 @@ class Register
 			static::updateMetaData($data);
 		} catch (\Throwable $e) {
 			\App\Log::warning($e->getMessage(), __METHOD__);
-			//Company details vary, re-registration is required.
+			// Company details vary, re-registration is required.
 			static::updateMetaData([
 				'last_error' => $e->getMessage(),
 				'last_error_date' => date('Y-m-d H:i:s'),
@@ -236,28 +206,6 @@ class Register
 	}
 
 	/**
-	 * Update registration data.
-	 *
-	 * @param string[] $data
-	 */
-	private static function updateMetaData(array $data): void
-	{
-		$conf = static::getConf();
-		static::$config = [
-			'last_check_time' => $data['last_check_time'] ?? '',
-			'register_time' => $data['register_time'] ?? $conf['register_time'] ?? '',
-			'status' => $data['status'] ?? $conf['status'] ?? 0,
-			'text' => $data['text'] ?? $conf['text'] ?? '',
-			'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
-			'products' => $data['products'] ?? $conf['products'] ?? [],
-			'last_error' => $data['last_error'] ?? '',
-			'last_error_date' => $data['last_error_date'] ?? '',
-		];
-		\App\Utils::saveToFile(static::REGISTRATION_FILE, static::$config, 'Modifying this file or functions that affect the footer appearance will violate the license terms!!!', 0, true);
-		\App\YetiForce\Shop::generateCache();
-	}
-
-	/**
 	 * Set offline serial.
 	 *
 	 * @param string $serial
@@ -290,22 +238,6 @@ class Register
 	public static function verifySerial(string $serial): bool
 	{
 		return hash_equals($serial, hash('sha1', self::getInstanceKey() . self::getCrmKey()));
-	}
-
-	/**
-	 * Get registration config.
-	 *
-	 * @return array
-	 */
-	private static function getConf(): array
-	{
-		if (isset(static::$config)) {
-			return static::$config;
-		}
-		if (!\file_exists(static::REGISTRATION_FILE)) {
-			return static::$config = [];
-		}
-		return static::$config = require static::REGISTRATION_FILE;
 	}
 
 	/**
@@ -368,6 +300,78 @@ class Register
 	}
 
 	/**
+	 * Get provider.
+	 *
+	 * @return string
+	 */
+	public static function getProvider(): string
+	{
+		$path = ROOT_DIRECTORY . '/app_data/installSource.txt';
+		if (file_exists($path)) {
+			return trim(file_get_contents($path));
+		}
+		return getenv('PROVIDER') ?: getenv('provider') ?: '';
+	}
+
+	/**
+	 * Get registration data.
+	 *
+	 * @return string[]
+	 */
+	private function getData(): array
+	{
+		return [
+			'version' => \App\Version::get(),
+			'language' => \App\Language::getLanguage(),
+			'timezone' => date_default_timezone_get(),
+			'insKey' => static::getInstanceKey(),
+			'crmKey' => static::getCrmKey(),
+			'package' => \App\Company::getSize(),
+			'provider' => static::getProvider(),
+			'companies' => \App\Company::getAll(),
+			'stats' => static::getStats(),
+		];
+	}
+
+	/**
+	 * Update registration data.
+	 *
+	 * @param string[] $data
+	 */
+	private static function updateMetaData(array $data): void
+	{
+		$conf = static::getConf();
+		static::$config = [
+			'last_check_time' => $data['last_check_time'] ?? '',
+			'register_time' => $data['register_time'] ?? $conf['register_time'] ?? '',
+			'status' => $data['status'] ?? $conf['status'] ?? 0,
+			'text' => $data['text'] ?? $conf['text'] ?? '',
+			'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
+			'products' => $data['products'] ?? $conf['products'] ?? [],
+			'last_error' => $data['last_error'] ?? '',
+			'last_error_date' => $data['last_error_date'] ?? '',
+		];
+		\App\Utils::saveToFile(static::REGISTRATION_FILE, static::$config, 'Modifying this file or functions that affect the footer appearance will violate the license terms!!!', 0, true);
+		\App\YetiForce\Shop::generateCache();
+	}
+
+	/**
+	 * Get registration config.
+	 *
+	 * @return array
+	 */
+	private static function getConf(): array
+	{
+		if (isset(static::$config)) {
+			return static::$config;
+		}
+		if (!file_exists(static::REGISTRATION_FILE)) {
+			return static::$config = [];
+		}
+		return static::$config = require static::REGISTRATION_FILE;
+	}
+
+	/**
 	 * Update company status.
 	 *
 	 * @param array $companies
@@ -377,7 +381,7 @@ class Register
 	private static function updateCompanies(array $companies): bool
 	{
 		$status = false;
-		$names = \array_column(\App\Company::getAll(), 'name', 'name');
+		$names = array_column(\App\Company::getAll(), 'name', 'name');
 		foreach ($companies as $row) {
 			if (!empty($row['name']) && isset($names[$row['name']])) {
 				\App\Company::statusUpdate($row['status'], $row['name']);
@@ -391,16 +395,14 @@ class Register
 	}
 
 	/**
-	 * Get provider.
+	 * Get statistical information.
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public static function getProvider(): string
+	private static function getStats(): array
 	{
-		$path = ROOT_DIRECTORY . '/app_data/installSource.txt';
-		if (\file_exists($path)) {
-			return trim(file_get_contents($path));
-		}
-		return getenv('PROVIDER') ?: getenv('provider') ?: '';
+		return [
+			'records' => \App\Utils::getNumberRecordsByModule()
+		];
 	}
 }

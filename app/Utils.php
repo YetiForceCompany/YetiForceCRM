@@ -115,11 +115,11 @@ class Utils
 				foreach ($values as $keySec => $value) {
 					switch ($type) {
 						case 'ucfirst':
-							$keySec = \ucfirst($keySec);
+							$keySec = ucfirst($keySec);
 							$newKey = "{$key}{$keySec}";
 							break;
 						default:
-						$newKey = "{$key}{$type}{$keySec}";
+							$newKey = "{$key}{$type}{$keySec}";
 							break;
 					}
 					$result[$newKey] = $value;
@@ -386,5 +386,17 @@ class Utils
 			}
 		}
 		return $counter > $limit;
+	}
+
+	/**
+	 * Get the number of records by modules.
+	 *
+	 * @return array
+	 */
+	public static function getNumberRecordsByModule(): array
+	{
+		return (new \App\Db\Query())->select(['setype', 'counter' => new \yii\db\Expression('count(setype)')])->from('vtiger_crmentity')
+			->groupBy('setype')->orderBy(['counter' => SORT_DESC])
+			->createCommand()->queryAllByGroup();
 	}
 }

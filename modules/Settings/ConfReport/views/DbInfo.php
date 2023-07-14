@@ -28,12 +28,9 @@ class Settings_ConfReport_DbInfo_View extends \App\Controller\ModalSettings
 	public function process(App\Request $request)
 	{
 		$qualifiedModule = $request->getModule(false);
-		$records = (new \App\Db\Query())
-			->select(['setype', 'counter' => new \yii\db\Expression('count(setype)')])->from('vtiger_crmentity')
-			->groupBy('setype')->orderBy(['counter' => SORT_DESC])->createCommand()->queryAllByGroup();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('DB_INFO', \App\Db::getInstance()->getDbInfo());
-		$viewer->assign('DB_RECORDS', $records);
+		$viewer->assign('DB_RECORDS', \App\Utils::getNumberRecordsByModule());
 		$viewer->view('DbInfo.tpl', $qualifiedModule);
 	}
 
