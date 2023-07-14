@@ -1819,16 +1819,11 @@ const app = (window.app = {
 	 * @param {jQuery} container
 	 */
 	registerModalPosition: function (modalContainer) {
-		if (CONFIG.centerModalWindow) {
+		if (modalContainer.hasClass('js-modal-center')) {
 			const modalContent = modalContainer.find('.modal-dialog');
-			const modalHeight = modalContent.height();
-			if (modalHeight) {
-				if (app.getScreenHeight() > modalHeight) {
-					modalContent.css({ 'margin-top': '0px', 'margin-bottom': '0px' });
-					modalContent.css('top', (app.getScreenHeight() - modalHeight) / 2);
-				} else {
-					modalContent.removeAttr('style');
-				}
+			if (modalContent.width()) {
+				modalContent.css({ 'min-width': modalContent.width() + 'px' });
+				modalContainer.addClass('c-modal-center');
 			}
 		}
 	},

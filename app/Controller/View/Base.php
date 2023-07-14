@@ -38,28 +38,6 @@ abstract class Base extends \App\Controller\Base
 	 */
 	protected $breadcrumbTitle;
 
-	/** {@inheritdoc} */
-	protected function showBodyHeader()
-	{
-		return false;
-	}
-
-	/** {@inheritdoc} */
-	protected function showFooter()
-	{
-		return false;
-	}
-
-	/**
-	 * Show bread crumbs.
-	 *
-	 * @return bool
-	 */
-	protected function showBreadCrumbLine()
-	{
-		return true;
-	}
-
 	/**
 	 * Static function to get the Instance of the Vtiger_Viewer.
 	 *
@@ -151,28 +129,6 @@ abstract class Base extends \App\Controller\Base
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}
-	}
-
-	/**
-	 * Pre process display function.
-	 *
-	 * @param \App\Request $request
-	 */
-	protected function preProcessDisplay(\App\Request $request)
-	{
-		$this->getViewer($request)->view($this->preProcessTplName($request), $request->getModule());
-	}
-
-	/**
-	 * Pre process template name.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return string
-	 */
-	protected function preProcessTplName(\App\Request $request)
-	{
-		return 'PageHeader.tpl';
 	}
 
 	/**
@@ -469,7 +425,6 @@ abstract class Base extends \App\Controller\Base
 			'debug' => (bool) \App\Config::debug('JS_DEBUG'),
 			'modalTarget' => 'base',
 			'openUrlTarget' => 'base',
-			'centerModalWindow' => \App\Config::layout('centerModalWindow', false)
 		];
 		if (\App\Session::has('authenticated_user_id')) {
 			$userModel = \App\User::getCurrentUserModel();
@@ -506,5 +461,49 @@ abstract class Base extends \App\Controller\Base
 		foreach ($jsEnv as $key => $value) {
 			\App\Config::setJsEnv($key, $value);
 		}
+	}
+
+	/** {@inheritdoc} */
+	protected function showBodyHeader()
+	{
+		return false;
+	}
+
+	/** {@inheritdoc} */
+	protected function showFooter()
+	{
+		return false;
+	}
+
+	/**
+	 * Show bread crumbs.
+	 *
+	 * @return bool
+	 */
+	protected function showBreadCrumbLine()
+	{
+		return true;
+	}
+
+	/**
+	 * Pre process display function.
+	 *
+	 * @param \App\Request $request
+	 */
+	protected function preProcessDisplay(\App\Request $request)
+	{
+		$this->getViewer($request)->view($this->preProcessTplName($request), $request->getModule());
+	}
+
+	/**
+	 * Pre process template name.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return string
+	 */
+	protected function preProcessTplName(\App\Request $request)
+	{
+		return 'PageHeader.tpl';
 	}
 }

@@ -100,3 +100,12 @@
 .clonedPopupUi.modal {
 	top: $h-header;
 }
+
+.c-modal-center {
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+}
+.c-modal-center .modal-dialog {
+	margin: auto;
+}

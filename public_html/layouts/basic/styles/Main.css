@@ -24721,6 +24721,16 @@ ul.c-process-line li.c-process-line__active > a:after {
   top: 3.125rem;
 }
 
+.c-modal-center {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.c-modal-center .modal-dialog {
+  margin: auto;
+}
+
 /* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 .dashboardContainer {
   padding: 0;
