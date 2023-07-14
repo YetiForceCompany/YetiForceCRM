@@ -86,7 +86,10 @@ class Register
 		try {
 			$url = static::REGISTRATION_API_URL . 'add';
 			\App\Log::beginProfile("POST|Register::register|{$url}", __NAMESPACE__);
-			$response = (new \GuzzleHttp\Client())->post($url, \App\Utils::merge(\App\RequestHttp::getOptions(), ['form_params' => $this->getData()]));
+			$response = (new \GuzzleHttp\Client())->post(
+				$url,
+				\App\Utils::merge(\App\RequestHttp::getOptions(), ['form_params' => static::getData()])
+			);
 			\App\Log::endProfile("POST|Register::register|{$url}", __NAMESPACE__);
 			$body = $response->getBody();
 			if (!\App\Json::isEmpty($body)) {
@@ -125,7 +128,7 @@ class Register
 			return -1;
 		}
 		$conf = static::getConf();
-		if (!$force && (!empty($conf['last_check_time']) && (($conf['status'] < 6 && strtotime('+6 hours', strtotime($conf['last_check_time'])) > time()) || ($conf['status'] >= 6 && strtotime('+7 day', strtotime($conf['last_check_time'])) > time())))) {
+		if (!$force && (!empty($conf['last_check_time']) && (($conf['status'] < 6 && strtotime('+6 hours', strtotime($conf['last_check_time'])) > time()) || ($conf['status'] >= 6 && strtotime('+1 day', strtotime($conf['last_check_time'])) > time())))) {
 			return -2;
 		}
 		$status = 0;
@@ -134,14 +137,7 @@ class Register
 			$url = static::REGISTRATION_API_URL . 'check';
 			\App\Log::beginProfile("POST|Register::check|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
-				'form_params' => \App\Utils::merge($conf, [
-					'version' => \App\Version::get(),
-					'crmKey' => static::getCrmKey(),
-					'insKey' => static::getInstanceKey(),
-					'provider' => static::getProvider(),
-					'package' => \App\Company::getSize(),
-					'shop' => \App\Utils\ConfReport::validateShopProducts('check', [], 'shop')['shop'],
-				]),
+				'form_params' => \App\Utils::merge($conf, static::getData()),
 			]);
 			\App\Log::endProfile("POST|Register::check|{$url}", __NAMESPACE__);
 			$body = $response->getBody();
@@ -318,7 +314,7 @@ class Register
 	 *
 	 * @return string[]
 	 */
-	private function getData(): array
+	private static function getData(): array
 	{
 		return [
 			'version' => \App\Version::get(),
@@ -330,6 +326,7 @@ class Register
 			'provider' => static::getProvider(),
 			'companies' => \App\Company::getAll(),
 			'stats' => static::getStats(),
+			'shop' => \App\Utils\ConfReport::validateShopProducts('check', [], 'shop')['shop'],
 		];
 	}
 
