@@ -13,6 +13,8 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	public $baseTable = 's_#__auto_assign';
 	/** {@inheritdoc} */
 	public $baseIndex = 'id';
+	/** @var array Vtiger_Field_Model[] */
+	public $listFieldModels = [];
 
 	/** @var array Members table */
 	public $customFieldTable = ['s_#__auto_assign_users' => 'id', 's_#__auto_assign_groups' => 'id', 's_#__auto_assign_roles' => 'id'];
@@ -81,7 +83,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 	/** {@inheritdoc} */
 	public function getListFields(): array
 	{
-		if (!isset($this->listFieldModels)) {
+		if (empty($this->listFieldModels)) {
 			$fields = $this->listFields;
 			$fieldObjects = [];
 			foreach ($fields as $fieldName => $fieldLabel) {
@@ -98,7 +100,7 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 
 	/** @var string[] Fields name for edit view */
 	public $editFields = [
-		'tabid', 'subject', 'state', 'workflow', 'handler', 'gui', 'conditions', 'members', 'method', 'default_assign', 'record_limit', 'record_limit_conditions'
+		'tabid', 'subject', 'state', 'workflow', 'handler', 'gui', 'conditions', 'members', 'method', 'default_assign', 'record_limit', 'working_hours', 'record_limit_conditions'
 	];
 
 	/**
@@ -280,6 +282,23 @@ class Settings_AutomaticAssignment_Module_Model extends Settings_Vtiger_Module_M
 					'table' => $this->getBaseTable(),
 				];
 				break;
+				case 'working_hours':
+					$params = [
+						'name' => $name,
+						'label' => 'FL_USER_WORKING_HOURS',
+						'uitype' => 16,
+						'typeofdata' => 'I~O',
+						'maximumlength' => '1',
+						'tooltip' => 'LBL_USER_WORKING_HOURS_DESC',
+						'blockLabel' => 'BL_USER_SELECTION_CONDITIONS',
+						'purifyType' => \App\Purifier::INTEGER,
+						'table' => $this->getBaseTable()
+					];
+					$params['picklistValues'] = [
+						0 => \App\Language::translate('LBL_NO', $this->getName(true)),
+						1 => \App\Language::translate('LBL_YES', $this->getName(true))
+					];
+					break;
 			case 'conditions':
 				$params = [
 					'name' => $name,

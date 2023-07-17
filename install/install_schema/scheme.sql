@@ -1229,6 +1229,7 @@ CREATE TABLE `s_yf_auto_assign` (
   `method` tinyint(1) NOT NULL DEFAULT 0,
   `record_limit_conditions` text DEFAULT NULL,
   `record_limit` int(10) unsigned NOT NULL DEFAULT 0,
+  `working_hours` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `s_yf_auto_assign_tabid_idx` (`tabid`),
   CONSTRAINT `s_yf_auto_assign_tabid_fk` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
