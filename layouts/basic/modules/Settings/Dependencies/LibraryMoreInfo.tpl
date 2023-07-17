@@ -13,7 +13,7 @@
 	<div class="modal-body col-md-12">
 		{if $RESULT}
 			<code>
-				<pre>{$FILE_CONTENT}</pre>
+				<pre>{$FILE_CONTENT|escape}</pre>
 			</code>
 		{else}
 			<div class="alert alert-danger" role="alert">

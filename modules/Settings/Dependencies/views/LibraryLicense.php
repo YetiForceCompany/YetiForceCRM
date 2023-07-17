@@ -8,6 +8,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Dependencies_LibraryLicense_View extends Settings_Vtiger_BasicModal_View
 {
@@ -36,8 +37,8 @@ class Settings_Dependencies_LibraryLicense_View extends Settings_Vtiger_BasicMod
 			$result = false;
 		} else {
 			$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'licenses' . DIRECTORY_SEPARATOR;
-			$filePath = $dir . $request->getByType('license', 'Text') . '.txt';
-			if (file_exists($filePath)) {
+			$filePath = $dir . $request->getByType('license', \App\Purifier::PATH) . '.txt';
+			if (file_exists($filePath) && \App\Fields\File::isAllowedFileDirectory($filePath)) {
 				$result = true;
 				$fileContent = file_get_contents($filePath);
 			} else {
