@@ -30,7 +30,7 @@ $.Class(
 		},
 		/**
 		 * Get params for record list
-		 * @returns {{module: string, view: string, src_module: string, src_record: int, src_field: string, related_parent_module: string, related_parent_id: int|string, page: int, orderby: string, sortorder: string, multi_select: boolean, totalCount: int|string, noOfEntries: int, onlyBody: boolean}}
+		 * @returns {{module: string, view: string, src_module: string, src_record: int, src_field: string, related_parent_module: string, related_parent_id: int|string, page: int, orderby: string, multi_select: boolean, totalCount: int|string, noOfEntries: int, onlyBody: boolean}}
 		 */
 		getParams: function () {
 			let params = {
@@ -42,8 +42,7 @@ $.Class(
 				related_parent_module: this.container.find('.js-related-parent-module').val(),
 				related_parent_id: this.container.find('.js-related-parent-id').val(),
 				page: this.container.find('.js-page-number').val(),
-				orderby: this.container.find('.js-order-by').val(),
-				sortorder: this.container.find('.js-sort-order').val(),
+				orderby: this.container.find('#orderBy').val(),
 				multi_select: this.container.find('.js-multi-select').val(),
 				totalCount: this.container.find('.js-total-count').val(),
 				noOfEntries: this.container.find('.js-no-entries').val(),
@@ -101,7 +100,9 @@ $.Class(
 		 */
 		registerHeadersClickEvent: function () {
 			YetiForce_ListSearch_Js.registerSearch(this.container, (data) => {
-				this.loadRecordList(data);
+				this.loadRecordList(data).done(() => {
+					this.updatePagination();
+				});
 			});
 		},
 		/**
