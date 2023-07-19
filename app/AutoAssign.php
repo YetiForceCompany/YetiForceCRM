@@ -348,8 +348,8 @@ class AutoAssign extends Base
 			->addCondition('auto_assign', 1, 'e');
 		if ($this->get('working_hours')) {
 			$currentTime = date('H:i');
-			$queryGenerator->addNativeCondition(['<=', 'start_hour', $currentTime])
-				->addNativeCondition(['>', 'end_hour', $currentTime]);
+			$queryGenerator->addNativeCondition(['<=', $queryGenerator->getColumnName('start_hour'), $currentTime])
+				->addNativeCondition(['>',  $queryGenerator->getColumnName('end_hour'), $currentTime]);
 		}
 		$columnName = $queryGenerator->getColumnName('id');
 
