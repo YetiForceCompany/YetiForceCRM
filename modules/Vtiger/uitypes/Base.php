@@ -576,4 +576,26 @@ class Vtiger_Base_UIType extends \App\Base
 	{
 		return $this->getFieldModel()->loadFieldInfo();
 	}
+
+	public function isColumnLengthChangeAllowed(): bool
+	{
+		return true;
+	}
+
+	public function validateColumnLength($newColumnLength): bool
+	{
+		$minColumnLength = 0;
+		$maxColumnLength = 255;
+		$newColumnLength = (int) $newColumnLength;
+		if ($newColumnLength > $minColumnLength && $newColumnLength <= $maxColumnLength) {
+			return true;
+		}
+		throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $newColumnLength, 406);
+	}
+
+	public function hasColumnLengthChanged($newColumnLength)
+	{
+		$dbColumnStructure = $this->getFieldModel()->getDBColumnType(false);
+		return (int) $newColumnLength !== $dbColumnStructure['size'];
+	}
 }

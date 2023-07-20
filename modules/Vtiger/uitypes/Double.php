@@ -23,7 +23,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 		$this->validate($value, true);
 		preg_match_all('/[^\-\d]+/', $value, $matches);
 		$matches[0] = array_map('trim', $matches[0]);
-		if ($matches && $operators = \array_intersect(array_map('App\\Purifier::decodeHtml', $matches[0]), App\Conditions\QueryFields\IntegerField::$extendedOperators)) {
+		if ($matches && $operators = array_intersect(array_map('App\\Purifier::decodeHtml', $matches[0]), App\Conditions\QueryFields\IntegerField::$extendedOperators)) {
 			$value = \App\Purifier::decodeHtml($value);
 			$valueConvert = [];
 			$operators = array_values($operators);
@@ -86,5 +86,25 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	public function getQueryOperators()
 	{
 		return array_merge(['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'], \App\Condition::FIELD_COMPARISON_OPERATORS);
+	}
+
+	public function isColumnLengthChangeAllowed(): bool
+	{
+		return true;
+	}
+
+	public function validateColumnLength($columnLength): bool
+	{
+		preg_match('/(?:[1-9]|[1-5][0-9]|60),[2-5]/', $columnLength, $matches);
+		if ($matches) {
+			return true;
+		}
+		throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $columnLength, 406);
+	}
+
+	public function hasColumnLengthChanged($newColumnLength)
+	{
+		$dbColumnStructure = $this->getFieldModel()->getDBColumnType(false);
+		return $dbColumnStructure['size'] . ',' . $dbColumnStructure['scale'] !== $newColumnLength;
 	}
 }
