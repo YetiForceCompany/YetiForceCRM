@@ -7,10 +7,13 @@
 	{if !isset($BUTTON_VIEW)}
 		{assign var=BUTTON_VIEW value=''}
 	{/if}
+	{if !isset($BREAKPOINT)}
+		{assign var=BREAKPOINT value=''}
+	{/if}
 	{assign var=COUNT_LINKS value=count($LINKS)}
 	<div class="c-btn-link {if ($COUNT_LINKS > 1 && $USER_MODEL->get('rowheight') eq 'narrow') && !isset($SKIP_GROUP)}btn-group-sm{elseif $COUNT_LINKS > 1 && !isset($SKIP_GROUP)}btn-group{/if} {$CLASS}">
 		{foreach item=LINK from=$LINKS}
-			{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW=$BUTTON_VIEW}
+			{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW=$BUTTON_VIEW MODULE_NAME=$MODULE BREAKPOINT=$BREAKPOINT}
 		{/foreach}
 	</div>
 	<!-- /tpl-Base-ButtonLinks -->

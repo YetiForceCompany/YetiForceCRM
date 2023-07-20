@@ -10,6 +10,7 @@
 			<span class="fas fa-times mr-1"></span>
 			<strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 		</button>
+		ffff
 		{if isset($EDITVIEW_LINKS['EDIT_VIEW_HEADER'])}
 			{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
 				{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='editViewHeader'}
