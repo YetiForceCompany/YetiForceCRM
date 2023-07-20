@@ -55,7 +55,11 @@ class PaymentMethods extends \App\Integrations\Comarch\Synchronizer
 		$values = [];
 		foreach ($picklistValues as $value) {
 			$values[mb_strtolower($value['picklistValue'])] = $value['picklistValue'];
-			$values[mb_strtolower(\App\Language::translate($value['picklistValue'], 'Accounts'))] = $value['picklistValue'];
+			$values[mb_strtolower(\App\Language::translate(
+				$value['picklistValue'],
+				'Accounts',
+				'pl-PL'
+			))] = $value['picklistValue'];
 		}
 		if (\in_array('Przelew', array_column($this->cache, 'kon_Wartosc')) && isset($values['pll_transfer'])) {
 			$values['przelew'] = $values['pll_transfer'];
@@ -102,7 +106,7 @@ class PaymentMethods extends \App\Integrations\Comarch\Synchronizer
 		if ($value = $this->cacheList[$yfValue] ?? null) {
 			return $value;
 		}
-		if ($value = $this->cacheList[\App\Language::translate($yfValue, 'Accounts')] ?? null) {
+		if ($value = $this->cacheList[\App\Language::translate($yfValue, 'Accounts', 'pl-PL')] ?? null) {
 			return $value;
 		}
 		return null;

@@ -22,59 +22,18 @@ class Settings_Comarch_Activation_Model
 			'block' => ['name' => 'LBL_COMARCH_BLOCK', 'create' => false],
 			'fields' => [
 				'comarch_server_id', 'comarch_id', 'account_short_name', 'account_second_name',
-				'account_third_name', 'payment_methods'
+				'account_third_name', 'payment_methods', 'log_comarch'
 			],
 			'fieldsData' => ['comarch_server_id' => ['displaytype' => 1]],
 		],
 		'Products' => [
 			'block' => ['name' => 'LBL_COMARCH_BLOCK', 'create' => true],
 			'fields' => [
-				'comarch_server_id', 'comarch_id',
+				'comarch_server_id', 'comarch_id', 'log_comarch'
 			],
 			'fieldsData' => ['comarch_server_id' => ['displaytype' => 1]],
 		],
 	];
-
-	/**
-	 * Get fields structure.
-	 *
-	 * @return array
-	 */
-	private static function getFieldsStructure(): array
-	{
-		$importerType = new \App\Db\Importers\Base();
-		return [
-			'comarch_server_id' => [
-				'columntype' => $importerType->integer(10)->defaultValue(0)->notNull()->unsigned(),
-				'label' => 'FL_COMARCH_SERVER',
-				'uitype' => 334,
-				'maximumlength' => '4294967295',
-				'typeofdata' => 'I~O'
-			],
-			'comarch_id' => [
-				'columntype' => $importerType->integer(10)->unsigned(),
-				'label' => 'FL_COMARCH_ID',
-				'uitype' => 7, 'displaytype' => 2,
-				'maximumlength' => '4294967295', 'typeofdata' => 'I~O'
-			],
-			'account_short_name' => [
-				'label' => 'FL_ACCOUNT_SHORT_NAME', 'columntype' => $importerType->stringType(255)->defaultValue(''),
-				'uitype' => 1, 'maximumlength' => '255', 'typeofdata' => 'V~M'
-			],
-			'account_second_name' => [
-				'label' => 'FL_ACCOUNT_SECOND_NAME', 'columntype' => $importerType->stringType(255)->defaultValue(''),
-				'uitype' => 1, 'maximumlength' => '255', 'typeofdata' => 'V~O'
-			],
-			'account_third_name' => [
-				'label' => 'FL_ACCOUNT_THIRD_NAME', 'columntype' => $importerType->stringType(255)->defaultValue(''),
-				'uitype' => 1, 'maximumlength' => '255', 'typeofdata' => 'V~O'
-			],
-			'payment_methods' => [
-				'label' => 'FL_PAYMENTS_METHOD', 'columntype' => $importerType->stringType(255)->defaultValue(''),
-				'column' => 'accounts_formpayment', 'uitype' => 16, 'maximumlength' => '255', 'typeofdata' => 'V~O'
-			],
-		];
-	}
 
 	/**
 	 * Check if the functionality has been activated.
@@ -161,9 +120,12 @@ class Settings_Comarch_Activation_Model
 				->execute();
 			$db->createCommand()->addForeignKey(
 				$table . '_ibfk_1',
-				Comarch::MAP_TABLE_NAME, 'server_id',
-				$tableServer, 'id',
-				'CASCADE', null
+				Comarch::MAP_TABLE_NAME,
+				'server_id',
+				$tableServer,
+				'id',
+				'CASCADE',
+				null
 			)->execute();
 			++$i;
 		}
@@ -179,9 +141,12 @@ class Settings_Comarch_Activation_Model
 				->execute();
 			$db->createCommand()->addForeignKey(
 				$table . '_id_ibfk_1',
-				Comarch::CONFIG_TABLE_NAME, 'server_id',
-				$tableServer, 'id',
-				'CASCADE', null
+				Comarch::CONFIG_TABLE_NAME,
+				'server_id',
+				$tableServer,
+				'id',
+				'CASCADE',
+				null
 			)->execute();
 			++$i;
 		}
@@ -200,9 +165,12 @@ class Settings_Comarch_Activation_Model
 				->execute();
 			$db->createCommand()->addForeignKey(
 				$table . '_ibfk_1',
-				Comarch::QUEUE_TABLE_NAME, 'server_id',
-				$tableServer, 'id',
-				'CASCADE', null
+				Comarch::QUEUE_TABLE_NAME,
+				'server_id',
+				$tableServer,
+				'id',
+				'CASCADE',
+				null
 			)->execute();
 			++$i;
 		}
@@ -224,7 +192,17 @@ class Settings_Comarch_Activation_Model
 	{
 		foreach ($fieldsToAdd as $fieldName => $fieldData) {
 			if (empty($fieldData['table'])) {
-				$fieldData['table'] = $blockModel->module->basetable;
+				if (!empty($fieldData['customTable'])) {
+					$entityInstance = CRMEntity::getInstance($blockModel->module->name);
+					if (empty($entityInstance->customFieldTable)) {
+						$tableName = $entityInstance->table_name;
+					} else {
+						$tableName = current($entityInstance->customFieldTable);
+					}
+					$fieldData['table'] = $tableName;
+				} else {
+					$fieldData['table'] = $blockModel->module->basetable;
+				}
 			}
 			$fieldInstance = \Vtiger_Field_Model::init($blockModel->module->name, $fieldData, $fieldName);
 			$fieldInstance->save($blockModel);
@@ -243,10 +221,57 @@ class Settings_Comarch_Activation_Model
 					$targetModule->setRelatedList(
 						$blockModel->module,
 						$blockModel->module->name,
-						['Add'], 'getDependentsList', $fieldName
+						['Add'],
+						'getDependentsList',
+						$fieldName
 					);
 				}
 			}
 		}
+	}
+
+	/**
+	 * Get fields structure.
+	 *
+	 * @return array
+	 */
+	private static function getFieldsStructure(): array
+	{
+		$importerType = new \App\Db\Importers\Base();
+		return [
+			'comarch_server_id' => [
+				'columntype' => $importerType->integer(10)->defaultValue(0)->notNull()->unsigned(),
+				'label' => 'FL_COMARCH_SERVER',
+				'uitype' => 334,
+				'maximumlength' => '4294967295',
+				'typeofdata' => 'I~O'
+			],
+			'comarch_id' => [
+				'columntype' => $importerType->integer(10)->unsigned(),
+				'label' => 'FL_COMARCH_ID',
+				'uitype' => 7, 'displaytype' => 2,
+				'maximumlength' => '4294967295', 'typeofdata' => 'I~O'
+			],
+			'account_short_name' => [
+				'label' => 'FL_ACCOUNT_SHORT_NAME', 'columntype' => $importerType->stringType(255)->defaultValue(''),
+				'uitype' => 1, 'maximumlength' => '255', 'typeofdata' => 'V~M'
+			],
+			'account_second_name' => [
+				'label' => 'FL_ACCOUNT_SECOND_NAME', 'columntype' => $importerType->stringType(255)->defaultValue(''),
+				'uitype' => 1, 'maximumlength' => '255', 'typeofdata' => 'V~O'
+			],
+			'account_third_name' => [
+				'label' => 'FL_ACCOUNT_THIRD_NAME', 'columntype' => $importerType->stringType(255)->defaultValue(''),
+				'uitype' => 1, 'maximumlength' => '255', 'typeofdata' => 'V~O'
+			],
+			'payment_methods' => [
+				'label' => 'FL_PAYMENTS_METHOD', 'columntype' => $importerType->stringType(255)->defaultValue(''),
+				'column' => 'accounts_formpayment', 'uitype' => 16, 'maximumlength' => '255', 'typeofdata' => 'V~O'
+			],
+			'log_comarch' => [
+				'label' => 'FL_COMARCH_LOG', 'columntype' => $importerType->text(), 'displaytype' => 2,
+				'customTable' => true, 'uitype' => 335, 'maximumlength' => '65535', 'typeofdata' => 'V~O'
+			],
+		];
 	}
 }

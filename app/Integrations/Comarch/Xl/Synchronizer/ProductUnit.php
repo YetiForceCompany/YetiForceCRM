@@ -62,7 +62,11 @@ class ProductUnit extends \App\Integrations\Comarch\Synchronizer
 		$values = [];
 		foreach ($picklistValues as $value) {
 			$values[trim(mb_strtolower($value['picklistValue']), '.')] = $value['picklistValue'];
-			$values[trim(mb_strtolower(\App\Language::translate($value['picklistValue'], 'Products')), '.')] = $value['picklistValue'];
+			$values[trim(mb_strtolower(\App\Language::translate(
+				$value['picklistValue'],
+				'Products',
+				'pl-PL'
+			)), '.')] = $value['picklistValue'];
 		}
 		$i = 0;
 		foreach ($this->cache as $value) {
@@ -112,7 +116,7 @@ class ProductUnit extends \App\Integrations\Comarch\Synchronizer
 		if ($value = $this->cacheList[$yfValue] ?? null) {
 			return $value;
 		}
-		if ($value = $this->cacheList[\App\Language::translate($yfValue, 'Products')] ?? null) {
+		if ($value = $this->cacheList[\App\Language::translate($yfValue, 'Products', 'pl-PL')] ?? null) {
 			return $value;
 		}
 		return null;

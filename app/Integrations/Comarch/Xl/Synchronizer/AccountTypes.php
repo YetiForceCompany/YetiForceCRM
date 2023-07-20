@@ -106,7 +106,7 @@ class AccountTypes extends \App\Integrations\Comarch\Synchronizer
 		if ($value = $this->cacheList[$yfValue] ?? null) {
 			return $value;
 		}
-		if ($value = $this->cacheList[\App\Language::translate($yfValue, 'Accounts')] ?? null) {
+		if ($value = $this->cacheList[\App\Language::translate($yfValue, 'Accounts', 'pl-PL')] ?? null) {
 			return $value;
 		}
 		return null;
@@ -122,7 +122,13 @@ class AccountTypes extends \App\Integrations\Comarch\Synchronizer
 		$values = [];
 		foreach (\App\Fields\Picklist::getValues($this->fieldModel->getName()) as $value) {
 			$values[mb_strtolower($value['picklistValue'])] = $value['picklistValue'];
-			$values[mb_strtolower(\App\Language::translate($value['picklistValue'], 'Accounts'))] = $value['picklistValue'];
+			$values[mb_strtolower(
+				\App\Language::translate(
+					$value['picklistValue'],
+					'Accounts',
+					'pl-PL'
+				)
+			)] = $value['picklistValue'];
 		}
 		if (\in_array('Inny', $this->cache) && isset($values['other'])) {
 			$values['inny'] = $values['other'];

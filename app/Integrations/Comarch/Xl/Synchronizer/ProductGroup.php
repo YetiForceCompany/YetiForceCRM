@@ -108,7 +108,7 @@ class ProductGroup extends \App\Integrations\Comarch\Synchronizer
 		foreach (\App\Fields\Tree::getValuesById($this->fieldModel->getFieldParams()) as $value) {
 			$this->parentTree[$value['tree']] = \App\Fields\Tree::getParentIdx($value);
 			$label = mb_strtolower($value['label']);
-			$translated = mb_strtolower(\App\Language::translate($value['label'], $moduleName));
+			$translated = mb_strtolower(\App\Language::translate($value['label'], $moduleName, 'pl-PL'));
 			if (isset($values[$label])) {
 				$values[$label][] = $value['tree'];
 			} else {
