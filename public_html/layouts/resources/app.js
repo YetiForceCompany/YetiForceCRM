@@ -1686,7 +1686,6 @@ const app = (window.app = {
 		};
 		const modalContainer = container.find('.modal:first');
 		modalContainer.one('shown.bs.modal', function () {
-			app.registerModalPosition(modalContainer);
 			thisInstance.registerDataTables(modalContainer.find('.js-modal-data-table'));
 			cb(modalContainer);
 			App.Fields.Picklist.changeSelectElementView(modalContainer);
