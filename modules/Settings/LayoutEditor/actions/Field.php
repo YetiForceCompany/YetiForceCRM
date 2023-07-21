@@ -333,7 +333,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	private function changeColumnLength($fieldInstance, $columnLength)
 	{
 		$uitypeModel = $fieldInstance->getUITypeModel();
-		if ($uitypeModel->isColumnLengthChangeAllowed() && $uitypeModel->hasColumnLengthChanged($columnLength) && $uitypeModel->validateColumnLength($columnLength)) {
+		if ($uitypeModel->isResizableColumn() && $uitypeModel->isColumnLengthDifferent($columnLength) && $uitypeModel->validateColumnLength($columnLength)) {
 			$dbColumnStructure = $fieldInstance->getDBColumnType(false);
 			$columnType = $dbColumnStructure['type'];
 			$db = App\Db::getInstance();

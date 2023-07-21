@@ -23,7 +23,7 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 		$this->validate($value, true);
 		preg_match_all('/\D+/', $value, $matches);
 		$matches[0] = array_map('trim', $matches[0]);
-		if ($matches && $operators = \array_intersect(array_map('App\\Purifier::decodeHtml', $matches[0]), App\Conditions\QueryFields\IntegerField::$extendedOperators)) {
+		if ($matches && $operators = array_intersect(array_map('App\\Purifier::decodeHtml', $matches[0]), App\Conditions\QueryFields\IntegerField::$extendedOperators)) {
 			$value = \App\Purifier::decodeHtml($value);
 			$valueConvert = [];
 			$operators = array_values($operators);
@@ -97,5 +97,30 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 	public function getQueryOperators()
 	{
 		return array_merge(['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'], \App\Condition::FIELD_COMPARISON_OPERATORS);
+	}
+
+	/** {@inheritdoc} */
+	public function isResizableColumn(): bool
+	{
+		return true;
+	}
+
+	/** {@inheritdoc} */
+	public function validateColumnLength($newColumnLength): bool
+	{
+		$minColumnLength = 0;
+		$maxColumnLength = 255;
+		$newColumnLength = (int) $newColumnLength;
+		if ($newColumnLength > $minColumnLength && $newColumnLength <= $maxColumnLength) {
+			return true;
+		}
+		return $newColumnLength > $minColumnLength && $newColumnLength <= $maxColumnLength ? true : false;
+	}
+
+	/** {@inheritdoc} */
+	public function isColumnLengthDifferent($newColumnLength): bool
+	{
+		$dbColumnStructure = $this->getFieldModel()->getDBColumnType(false);
+		return (int) $newColumnLength !== $dbColumnStructure['size'];
 	}
 }

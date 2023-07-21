@@ -1414,7 +1414,7 @@ Vtiger_WholeNumber_Validator_Js(
 			} else {
 				var fieldValue = this.getFieldValue();
 				if (fieldValue == 0) {
-					var errorInfo = app.vtranslate('JS_VALUE_SHOULD_BE_GREATER_THAN_ZERO');
+					var errorInfo = app.vtranslate('aaJS_VALUE_SHOULD_BE_GREATER_THAN_ZERO');
 					this.setError(errorInfo);
 					return false;
 				}

@@ -1700,7 +1700,7 @@ $.Class(
 					cb: function (modalContainer) {
 						thisInstance.registerFieldDetailsChange(modalContainer);
 						thisInstance.lockCheckbox(modalContainer);
-						thisInstance.registerVaribleToParsers(modalContainer);
+						thisInstance.registerVariableToParsers(modalContainer);
 						app.registerEventForClockPicker(modalContainer.find('.clockPicker'));
 						modalContainer.find('[data-inputmask]').inputmask();
 						modalContainer.find('.js-select-icon').on('click', function (e) {
@@ -1708,8 +1708,34 @@ $.Class(
 								modalContainer.find('[name="icon_name"]').val(data['name']);
 							});
 						});
+						modalContainer.find('[name="column_length"]').on('change', (e) => {
+							let element = $(e.currentTarget);
+							let columnDbType = modalContainer.find('[name="column_db_type"]').val();
+							let validClassInstance;
+							switch (columnDbType) {
+								case 'decimal':
+									break;
+								case 'integer':
+								case 'string':
+									validClassInstance = new Vtiger_MaxLength_Validator_Js();
+									break;
+							}
+							if (validClassInstance) {
+								validClassInstance.setElement(element);
+								var response = validClassInstance.validate();
+								if (response !== true) {
+									element.validationEngine('showPrompt', validClassInstance.getError(), '', 'topLeft', true);
+								}
+							}
+							app.showConfirmModal({
+								text: app.vtranslate('JS_COLUMN_LENGTH_CHANGE_WARNING'),
+								rejectedCallback: () => {
+									app.hideModalWindow();
+								}
+							});
+						});
 					},
-					sendByAjaxCb: (formData, response) => {
+					sendByAjaxCb: (_formData, response) => {
 						if (!response.success) {
 							return;
 						}
@@ -1740,7 +1766,7 @@ $.Class(
 				});
 			});
 		},
-		registerVaribleToParsers: function (container) {
+		registerVariableToParsers: function (container) {
 			container.find('.configButton').on('click', function (e) {
 				container.find('.js-toggle-hide .js-base-element').each(function (n, e) {
 					var currentElement = $(e);

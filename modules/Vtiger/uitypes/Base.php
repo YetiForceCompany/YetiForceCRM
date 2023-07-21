@@ -577,25 +577,37 @@ class Vtiger_Base_UIType extends \App\Base
 		return $this->getFieldModel()->loadFieldInfo();
 	}
 
-	public function isColumnLengthChangeAllowed(): bool
+	/**
+	 * Method is designed to determine whether it is possible to change the length of a column in a database structure.
+	 *
+	 * @return bool
+	 */
+	public function isResizableColumn(): bool
 	{
-		return true;
+		return false;
 	}
 
+	/**
+	 * Method is responsible for ensuring the validity of the length of a specific column in a database structure.
+	 *
+	 * @param $newColumnLength
+	 *
+	 * @return bool
+	 */
 	public function validateColumnLength($newColumnLength): bool
 	{
-		$minColumnLength = 0;
-		$maxColumnLength = 255;
-		$newColumnLength = (int) $newColumnLength;
-		if ($newColumnLength > $minColumnLength && $newColumnLength <= $maxColumnLength) {
-			return true;
-		}
-		throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $newColumnLength, 406);
+		return false;
 	}
 
-	public function hasColumnLengthChanged($newColumnLength)
+	/**
+	 * Method is responsible for comparing the current length of a column with its previous state to ascertain whether there have been any changes in the column length.
+	 *
+	 * @param $newColumnLength
+	 *
+	 * @return bool
+	 */
+	public function isColumnLengthDifferent($newColumnLength): bool
 	{
-		$dbColumnStructure = $this->getFieldModel()->getDBColumnType(false);
-		return (int) $newColumnLength !== $dbColumnStructure['size'];
+		return false;
 	}
 }

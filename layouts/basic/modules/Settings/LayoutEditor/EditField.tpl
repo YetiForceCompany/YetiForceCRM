@@ -5,6 +5,7 @@
 	{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
 	{assign var=FIELD_LABEL_TRANSLATION value=App\Language::translate($FIELD_MODEL->getFieldLabel(), $SELECTED_MODULE_NAME)}
 	<div class="modal-body js-modal-body" data-js="container">
+		{assign var=FIELD_DATABASE_INFO value=$FIELD_MODEL->getDBColumnType(false)}
 		<form class="form-horizontal fieldDetailsForm sendByAjax validateForm" method="POST">
 			<input type="hidden" name="module" value="LayoutEditor" />
 			<input type="hidden" name="parent" value="Settings" />
@@ -12,6 +13,7 @@
 			<input type="hidden" name="mode" value="save" />
 			<input type="hidden" name="fieldid" value="{$FIELD_MODEL->getId()}" />
 			<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE_NAME|escape}" />
+			<input type="hidden" name="column_db_type" value="{$FIELD_DATABASE_INFO['type']}" />
 			<div class="row mx-0 mb-2 py-2 border-bottom">
 				<div class="col-md-6">
 					<strong>{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}: </strong>{$FIELD_LABEL_TRANSLATION}<br />
@@ -136,7 +138,7 @@
 							{/if}
 						</div>
 					</div>
-					{if $FIELD_MODEL->getUITypeModel()->isColumnLengthChangeAllowed()}
+					{if $FIELD_MODEL->getUITypeModel()->isResizableColumn()}
 						<div class="form-group">
 							<label for="column_length"><strong>{App\Language::translate('LBL_COLUMN_LENGTH', $QUALIFIED_MODULE)}</strong></label>
 							<input type="text" class="form-control" id="column_length" name="column_length"

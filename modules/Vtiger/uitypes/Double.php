@@ -88,21 +88,21 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 		return array_merge(['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'], \App\Condition::FIELD_COMPARISON_OPERATORS);
 	}
 
-	public function isColumnLengthChangeAllowed(): bool
+	/** {@inheritdoc} */
+	public function isResizableColumn(): bool
 	{
 		return true;
 	}
 
+	/** {@inheritdoc} */
 	public function validateColumnLength($columnLength): bool
 	{
 		preg_match('/(?:[1-9]|[1-5][0-9]|60),[2-5]/', $columnLength, $matches);
-		if ($matches) {
-			return true;
-		}
-		throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $columnLength, 406);
+		return $matches ? true : false;
 	}
 
-	public function hasColumnLengthChanged($newColumnLength)
+	/** {@inheritdoc} */
+	public function isColumnLengthDifferent($newColumnLength): bool
 	{
 		$dbColumnStructure = $this->getFieldModel()->getDBColumnType(false);
 		return $dbColumnStructure['size'] . ',' . $dbColumnStructure['scale'] !== $newColumnLength;
