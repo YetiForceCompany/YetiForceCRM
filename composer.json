@@ -16,13 +16,13 @@
   "homepage": "https://yetiforce.com/",
   "support": {
     "issues": "https://github.com/YetiForceCompany/YetiForceCRM/issues",
-    "wiki": "https://yetiforce.com/en/documentation.html",
+    "wiki": "https://doc.yetiforce.com/",
     "source": "https://github.com/YetiForceCompany/YetiForceCRM"
   },
   "authors": [
     {
       "name": "YetiForceCompany",
-      "email": "info@yetiforce.com",
+      "email": "hello@yetiforce.com",
       "homepage": "https://yetiforce.com/"
     }
   ],
