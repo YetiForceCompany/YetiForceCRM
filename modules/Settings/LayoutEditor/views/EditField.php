@@ -8,20 +8,18 @@
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author Adrian Kon <a.kon@yetiforce.com>
  */
-
-use App\Request;
 
 /**
  * EditField View Class.
  */
-class Settings_LayoutEditor_EditField_View extends \App\Controller\ModalSettings
+class Settings_LayoutEditor_EditField_View extends Settings_Vtiger_BasicModal_View
 {
 	/** {@inheritdoc} */
-	public $modalSize = 'modal-xl';
-	/** {@inheritdoc} */
-	public $modalIcon = 'yfi yfi-full-editing-view';
+	public function getSize(App\Request $request)
+	{
+		return 'modal-xl';
+	}
 
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
@@ -33,21 +31,19 @@ class Settings_LayoutEditor_EditField_View extends \App\Controller\ModalSettings
 	}
 
 	/** {@inheritdoc} */
-	public function getPageTitle(Request $request)
-	{
-		return \App\Language::translate('LBL_EDIT_CUSTOM_FIELD', $request->getModule(false));
-	}
-
-	/** {@inheritdoc} */
 	public function process(App\Request $request)
 	{
+		$this->preProcess($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$fieldId = $request->getInteger('fieldId');
 		$fieldModel = Settings_LayoutEditor_Field_Model::getInstance($fieldId);
+		$moduleModel = Settings_LayoutEditor_Module_Model::getInstance($qualifiedModuleName);
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FIELD_MODEL', $fieldModel);
-		$viewer->assign('MODULE_MODEL', Settings_LayoutEditor_Module_Model::getInstance($qualifiedModuleName));
+		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('SELECTED_MODULE_NAME', $fieldModel->getModule()->getName());
 		$viewer->view('EditField.tpl', $qualifiedModuleName);
+		$this->postProcess($request);
 	}
 }

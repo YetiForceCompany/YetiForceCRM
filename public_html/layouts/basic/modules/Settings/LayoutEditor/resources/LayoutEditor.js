@@ -1714,6 +1714,7 @@ $.Class(
 							let validClassInstance;
 							switch (columnDbType) {
 								case 'decimal':
+									validClassInstance = new Vtiger_DecimalColumnLength_Validator_Js();
 									break;
 								case 'integer':
 								case 'string':
@@ -1722,7 +1723,7 @@ $.Class(
 							}
 							if (validClassInstance) {
 								validClassInstance.setElement(element);
-								var response = validClassInstance.validate();
+								let response = validClassInstance.validate();
 								if (response !== true) {
 									element.validationEngine('showPrompt', validClassInstance.getError(), '', 'topLeft', true);
 								}
@@ -1731,6 +1732,10 @@ $.Class(
 								text: app.vtranslate('JS_COLUMN_LENGTH_CHANGE_WARNING'),
 								rejectedCallback: () => {
 									app.hideModalWindow();
+								},
+								confirmedCallback: () => {
+									console.log(modalContainer.find('.js-modal__save'));
+									modalContainer.find('.js-modal__save').trigger('submit');
 								}
 							});
 						});
@@ -2488,6 +2493,49 @@ Vtiger_Base_Validator_Js(
 				}
 			});
 			return r;
+		}
+	}
+);
+
+Vtiger_Base_Validator_Js(
+	'Vtiger_DecimalColumnLength_Validator_Js',
+	{
+		/**
+		 * Function which invokes field validation
+		 * @param accepts field element as parameter
+		 * @return error|void
+		 */
+		invokeValidation: function (field, _rules, _i, _options) {
+			let instance = new Vtiger_DecimalColumnLength_Validator_Js();
+			instance.setElement(field);
+			let response = instance.validate();
+			if (response != true) {
+				return instance.getError();
+			}
+		}
+	},
+	{
+		/**
+		 * Function to validate the value for decimal column length
+		 * @return boolean
+		 */
+		validate: function () {
+			let response = this._super();
+			if (response != true) {
+				return response;
+			}
+			let result;
+			let fieldValue = this.getFieldValue();
+			console.log(fieldValue);
+			let inputRegex = /(?:[1-9]|[1-5][0-9]|59),[2-5]/;
+			if (inputRegex.test(fieldValue)) {
+				result = true;
+			} else {
+				let error = app.vtranslate('JS_DECIMAL_COLUMN_LENGTH_INFO');
+				this.setError(error);
+				result = false;
+			}
+			return result;
 		}
 	}
 );

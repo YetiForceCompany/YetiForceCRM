@@ -97,7 +97,7 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function validateColumnLength($columnLength): bool
 	{
-		preg_match('/(?:[1-9]|[1-5][0-9]|60),[2-5]/', $columnLength, $matches);
+		preg_match('/(?:[1-9]|[1-5][0-9]|59),[2-5]/', $columnLength, $matches);
 		return $matches ? true : false;
 	}
 
