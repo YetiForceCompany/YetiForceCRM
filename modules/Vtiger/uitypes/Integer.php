@@ -118,9 +118,9 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
-	public function isColumnLengthDifferent($newColumnLength): bool
+	public function isColumnLengthIncreased(string $newColumnLength): bool
 	{
 		$dbColumnStructure = $this->getFieldModel()->getDBColumnType(false);
-		return (int) $newColumnLength !== $dbColumnStructure['size'];
+		return (int) $newColumnLength > $dbColumnStructure['size'];
 	}
 }

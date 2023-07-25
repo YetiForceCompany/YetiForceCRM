@@ -602,11 +602,11 @@ class Vtiger_Base_UIType extends \App\Base
 	/**
 	 * Method is responsible for comparing the current length of a column with its previous state to ascertain whether there have been any changes in the column length.
 	 *
-	 * @param $newColumnLength
+	 * @param string $newColumnLength
 	 *
 	 * @return bool
 	 */
-	public function isColumnLengthDifferent($newColumnLength): bool
+	public function isColumnLengthIncreased(string $newColumnLength): bool
 	{
 		return false;
 	}

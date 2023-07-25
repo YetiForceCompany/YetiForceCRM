@@ -29,13 +29,13 @@ class Vtiger_String_UIType extends Vtiger_Base_UIType
 		if ($newColumnLength > $minColumnLength && $newColumnLength <= $maxColumnLength) {
 			return true;
 		}
-		return $newColumnLength > $minColumnLength && $newColumnLength <= $maxColumnLength ? true : false;
+		return $newColumnLength > $minColumnLength && $newColumnLength <= $maxColumnLength;
 	}
 
 	/** {@inheritdoc} */
-	public function isColumnLengthDifferent($newColumnLength): bool
+	public function isColumnLengthIncreased(string $newColumnLength): bool
 	{
 		$dbColumnStructure = $this->getFieldModel()->getDBColumnType(false);
-		return (int) $newColumnLength !== $dbColumnStructure['size'];
+		return (int) $newColumnLength > $dbColumnStructure['size'];
 	}
 }

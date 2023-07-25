@@ -294,7 +294,7 @@
     "JS_NOTIFY_COPY_TITLE": "Text",
     "JS_EXIST_PICKLIST_NAME": "This name is already used. Do you want to save it as shared picklist?",
     "JS_ARE_YOU_SURE_YOU_WANT_TO_INACTIVE_FIELD": "Are you sure that you want to disable the field?",
-    "JS_COLUMN_LENGTH_CHANGE_WARNING": "Changing the column length depending on the database size may take a while. If you changed the column length, please make sure you want to continue this process.",
+    "JS_COLUMN_LENGTH_CHANGE_WARNING": "Changing the column length depending on the database size may take a while. If you changed the column length, please make sure you want to continue this process. You can only increase length",
     "JS_DECIMAL_COLUMN_LENGTH_INFO": "The integer value should be between 1 and 59; decimal value from 2 to 5. Values should be separated by a comma."
   }
 }

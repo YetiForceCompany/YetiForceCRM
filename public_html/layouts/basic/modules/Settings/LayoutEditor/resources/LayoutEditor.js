@@ -1732,10 +1732,6 @@ $.Class(
 								text: app.vtranslate('JS_COLUMN_LENGTH_CHANGE_WARNING'),
 								rejectedCallback: () => {
 									app.hideModalWindow();
-								},
-								confirmedCallback: () => {
-									console.log(modalContainer.find('.js-modal__save'));
-									modalContainer.find('.js-modal__save').trigger('submit');
 								}
 							});
 						});

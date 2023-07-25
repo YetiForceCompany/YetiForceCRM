@@ -152,6 +152,7 @@
 							<div class="form-group">
 								<label for="column_length"><strong>{App\Language::translate('LBL_COLUMN_LENGTH', $QUALIFIED_MODULE)}</strong></label>
 								<input type="text" class="form-control" id="column_length" name="column_length"
+									data-validation-engine="validate[required,custom[integer]"
 									value="{$FIELD_MODEL->getDbValueLengthWithScale()}" />
 							</div>
 						{/if}
