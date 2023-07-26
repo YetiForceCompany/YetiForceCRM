@@ -30,7 +30,7 @@
 								</td>
 								<td nowrap class="{$WIDTHTYPE} rightRecordActions listButtons {$WIDTHTYPE}">
 									{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordLinks()}
-									{if !empty($LINKS) > 0}
+									{if !empty($LINKS)}
 										<div class="actions">
 											<div class="float-right">
 												{foreach from=$LINKS item=LINK}

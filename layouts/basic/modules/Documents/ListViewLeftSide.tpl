@@ -12,7 +12,7 @@
 			{assign var=ONLY_ONE value=count($LINKS) eq 1}
 			<div class="actions">
 				{if $ONLY_ONE}
-					{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) BUTTON_VIEW='listViewBasic'  SKIP_GROUP=true}
+					{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
 				{else}
 					<div class="dropright u-remove-dropdown-icon">
 						<button class="btn btn-sm btn-light toolsAction dropdown-toggle" type="button"
