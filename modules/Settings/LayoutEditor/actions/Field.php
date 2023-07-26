@@ -177,10 +177,10 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 					$fieldInstance->set('defaultvalue', '');
 				}
 			}
-			$fieldInstance->save();
 			if ($request->has('column_length')) {
 				$this->changeColumnLength($fieldInstance, $request->getByType('column_length', App\Purifier::TEXT));
 			}
+			$fieldInstance->save();
 			$response->setResult([
 				'success' => true,
 				'presence' => $request->getBoolean('presence') ? '1' : '0',
@@ -346,6 +346,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			$columnType = $dbColumnStructure['type'];
 			$db = App\Db::getInstance();
 			$db->createCommand()->alterColumn($fieldInstance->getTableName(), $fieldInstance->getColumnName(), "{$columnType}({$columnLength})")->execute();
+			$fieldInstance->set('maximumlength', $fieldInstance->getRangeValues());
 		}
 	}
 }

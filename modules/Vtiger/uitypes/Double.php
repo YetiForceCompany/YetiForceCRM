@@ -105,7 +105,8 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	public function isColumnLengthIncreased(string $newColumnLength): bool
 	{
 		$dbColumnStructure = $this->getFieldModel()->getDBColumnType(false);
-		$currentColumnLength = $dbColumnStructure['size'] . ',' . $dbColumnStructure['scale'];
-		return (float) $currentColumnLength > (float) $newColumnLength;
+		$currentColumnLength = $dbColumnStructure['size'] . '.' . $dbColumnStructure['scale'];
+		$newColumnLength = str_replace(',', '.', $newColumnLength);
+		return (float) $newColumnLength > (float) $currentColumnLength;
 	}
 }
