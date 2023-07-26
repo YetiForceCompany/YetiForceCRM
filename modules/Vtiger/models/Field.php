@@ -1418,7 +1418,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			'masseditable' => $this->get('masseditable'), 'header_field' => $this->get('header_field'), 'maxlengthtext' => $this->get('maxlengthtext'),
 			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'tabindex' => $this->get('tabindex'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
 			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
-			'fieldparams' => $this->get('fieldparams'), 'quickcreatesequence' => $this->get('quicksequence'), 'icon' => $this->get('icon'), 'fieldlabel' => $this->get('label'),
+			'fieldparams' => $this->get('fieldparams'), 'quickcreatesequence' => $this->get('quicksequence'), 'icon' => $this->get('icon'), 'fieldlabel' => $this->get('label'), 'maximumlength' => $this->get('maximumlength')
 		], ['fieldid' => $this->get('id')])->execute();
 		if ($anonymizationTarget = $this->get('anonymizationTarget')) {
 			$anonymizationTarget = \App\Json::encode($anonymizationTarget);
