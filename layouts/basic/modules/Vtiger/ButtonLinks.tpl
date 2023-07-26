@@ -11,7 +11,7 @@
 		{assign var=BREAKPOINT value=''}
 	{/if}
 	{assign var=COUNT_LINKS value=count($LINKS)}
-	<div class="c-btn-link {if ($COUNT_LINKS > 1 && $USER_MODEL->get('rowheight') eq 'narrow') && !isset($SKIP_GROUP)}btn-group-sm{elseif $COUNT_LINKS > 1 && !isset($SKIP_GROUP)}btn-group{/if} {$CLASS}">
+	<div class="c-btn-link {if ($COUNT_LINKS > 1 && $USER_MODEL->get('rowheight') eq 'narrow') && !isset($SKIP_GROUP)}btn-group-sm{elseif $COUNT_LINKS > 1 && !isset($SKIP_GROUP)}btn-group{/if} {$CLASS} {if !empty($CLASS) && $CLASS eq 'c-btn-link--responsive'}d-inline-block d-md-inline-flex{/if}">
 		{foreach item=LINK from=$LINKS}
 			{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW=$BUTTON_VIEW MODULE_NAME=$MODULE BREAKPOINT=$BREAKPOINT}
 		{/foreach}

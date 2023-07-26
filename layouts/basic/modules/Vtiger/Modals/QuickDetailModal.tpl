@@ -15,9 +15,9 @@
 				</script>
 				<div class="modal-body col-md-12 js-scrollbar" data-js="perfectscrollbar">
 					<div class="float-right text-xl-right">
-						{foreach item=LINK from=$LINKS}
-							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW=''}
-						{/foreach}
+						{if !empty($LINKS)}
+							{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$LINKS MODULE=$MODULE_NAME SKIP_GROUP=true CLASS='d-inline-block'}
+						{/if}
 						<button class="cancelLink btn btn-sm btn-danger" data-dismiss="modal" type="button" title="{\App\Language::translate('LBL_CLOSE')}">
 							<span class="fas fa-times"></span>
 						</button>

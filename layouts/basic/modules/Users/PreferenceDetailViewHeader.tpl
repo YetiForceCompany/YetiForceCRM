@@ -39,9 +39,9 @@
 			</div>
 			<div class="mr-0 pl-1 py-2 mt-0 detailViewButtoncontainer d-flex justify-content-center">
 				<div class="btn-group btn-toolbar flex-md-nowrap u-w-sm-down-100">
-					{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE']}
-						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='detailViewBasic' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
-					{/foreach}
+					{if !empty($DETAILVIEW_LINKS['DETAILVIEWPREFERENCE'])}
+						{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LINKS=$DETAILVIEW_LINKS['DETAILVIEWPREFERENCE'] BUTTON_VIEW='detailViewBasic' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
+					{/if}
 					{if $DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']|@count gt 0}
 						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') TEXT_HOLDER='LBL_MORE' LINKS=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC'] CLASS='c-btn-link--responsive btn-group' BTN_CLASS=' btn-outline-dark'}
 					{/if}

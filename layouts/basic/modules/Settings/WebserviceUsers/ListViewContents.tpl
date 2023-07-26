@@ -11,9 +11,7 @@
 	<div class="editViewContainer tab-pane active mt-2" id="{$TYPE_API}" data-type="{$TYPE_API}">
 		<div class="listViewActionsDiv row">
 			<div class="col-md-8 tn-toolbar">
-				{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-					{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
-				{/foreach}
+				{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$LISTVIEW_LINKS['LISTVIEWBASIC'] BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE SKIP_GROUP=true}
 			</div>
 			<div class="col-md-4 ">
 				<div class="float-right">

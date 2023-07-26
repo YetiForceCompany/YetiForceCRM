@@ -5,9 +5,7 @@
 		{assign var=ONLY_ONE value=count($LINKS) eq 1}
 		<div class="actions">
 			{if $ONLY_ONE}
-				{foreach from=$LINKS item=LINK}
-					{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
-				{/foreach}
+				{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE=$MODULE }
 			{else}
 				<div class="dropleft u-remove-dropdown-icon">
 					<button class="btn btn-sm btn-light toolsAction dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -15,9 +13,7 @@
 						<span class="sr-only">{\App\Language::translate('LBL_ACTIONS')}</span>
 					</button>
 					<div class="dropdown-menu" aria-label="{\App\Language::translate('LBL_ACTIONS')}">
-						{foreach from=$LINKS item=LINK}
-							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
-						{/foreach}
+						{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE=$MODULE }
 					</div>
 				</div>
 			{/if}

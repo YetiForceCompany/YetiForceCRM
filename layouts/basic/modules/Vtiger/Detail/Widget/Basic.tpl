@@ -94,9 +94,7 @@
 											</button>
 										{/if}
 										{if !empty($WIDGET['buttonHeader'])}
-											{foreach from=$WIDGET['buttonHeader'] item=$LINK}
-												{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='detailViewBasic' MODULE=$MODULE_NAME}
-											{/foreach}
+											{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$WIDGET['buttonHeader'] BUTTON_VIEW='detailViewBasic' MODULE=$MODULE_NAME SKIP_GROUP=true}
 										{/if}
 									{/if}
 								</div>

@@ -55,7 +55,7 @@
 										'confirm' => \App\Language::translate('LBL_REMOVE_RELATION_CONFIRMATION'), 'id' => $ROW['id'], 'url'=> $RELATION_MODEL->getDeleteUrl($ROW['id'])
 										]
 										])}
-										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) MODULE=$MODULE_NAME}
+										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='' MODULE=$MODULE_NAME}
 									{/if}
 									{if  \App\Privilege::isPermitted($MODULE_NAME, 'Delete', $ROW['id'])}
 										{assign var=LINK value=Vtiger_Link_Model::getInstanceFromValues(['dataUrl' => "index.php?module={$MODULE_NAME}&action=Delete&record={$ROW['id']}",
@@ -65,7 +65,7 @@
 										'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
 										'linkclass' => 'btn-xs btn-dark relationDelete entityStateBtn'
 										])}
-										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) MODULE=$MODULE_NAME}
+										{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='' MODULE=$MODULE_NAME}
 									{/if}
 								{/if}
 							</div>

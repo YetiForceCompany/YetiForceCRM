@@ -12,23 +12,17 @@
 			id="o-view-actions__container">
 			{if isset($DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL'])}
 				<div class="btn-group btn-toolbar mr-md-2 flex-md-nowrap d-block d-md-flex">
-					{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL']}
-						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='detailViewAdditional' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
-					{/foreach}
+					{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$DETAILVIEW_LINKS['DETAIL_VIEW_ADDITIONAL'] BUTTON_VIEW='detailViewAdditional' BREAKPOINT='md' MODULE=$MODULE_NAME CLASS='c-btn-link--responsive'}
 				</div>
 			{/if}
 			{if isset($DETAILVIEW_LINKS['DETAIL_VIEW_BASIC'])}
 				<div class="btn-group btn-toolbar mr-md-2 flex-md-nowrap d-block d-md-flex">
-					{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC']}
-						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='detailViewBasic' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
-					{/foreach}
+					{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$DETAILVIEW_LINKS['DETAIL_VIEW_BASIC'] BUTTON_VIEW='detailViewBasic' BREAKPOINT='md' MODULE=$MODULE_NAME CLASS='c-btn-link--responsive'}
 				</div>
 			{/if}
 			{if isset($DETAILVIEW_LINKS['DETAIL_VIEW_EXTENDED'])}
 				<div class="btn-group btn-toolbar mr-md-2 flex-md-nowrap d-block d-md-flex">
-					{foreach item=LINK from=$DETAILVIEW_LINKS['DETAIL_VIEW_EXTENDED']}
-						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='detailViewExtended' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
-					{/foreach}
+					{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$DETAILVIEW_LINKS['DETAIL_VIEW_EXTENDED'] BUTTON_VIEW='detailViewExtended' BREAKPOINT='md' MODULE=$MODULE_NAME CLASS='c-btn-link--responsive'}
 				</div>
 			{/if}
 		</div>
