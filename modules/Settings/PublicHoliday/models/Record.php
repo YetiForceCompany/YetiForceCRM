@@ -13,7 +13,7 @@ class Settings_PublicHoliday_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @var Settings_PublicHoliday_Module_Model
 	 */
-	protected $module;
+	public $module;
 
 	/**
 	 * Returns record id.
