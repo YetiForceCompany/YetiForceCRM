@@ -8,16 +8,17 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author  Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
  * Mail signature record model class.
  */
 class Settings_MailSignature_Record_Model extends Settings_Vtiger_Record_Model
 {
+	/** @var Settings_MailSignature_Module_Model Module instance */
+	public $module;
 	/** @var array Record changes */
 	protected $changes = [];
-	/** @var Settings_MailSignature_Module_Model Module instance */
-	protected $module;
 
 	/**
 	 * Function to get the Id.
@@ -314,6 +315,15 @@ class Settings_MailSignature_Record_Model extends Settings_Vtiger_Record_Model
 		}
 	}
 
+	/** {@inheritdoc} */
+	public function set($key, $value)
+	{
+		if ($this->getId() && !\in_array($key, ['id']) && (\array_key_exists($key, $this->value) && $this->value[$key] != $value)) {
+			$this->changes[$key] = $this->get($key);
+		}
+		return parent::set($key, $value);
+	}
+
 	/**
 	 * Function formats data for saving.
 	 *
@@ -331,14 +341,5 @@ class Settings_MailSignature_Record_Model extends Settings_Vtiger_Record_Model
 			$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $value;
 		}
 		return $forSave;
-	}
-
-	/** {@inheritdoc} */
-	public function set($key, $value)
-	{
-		if ($this->getId() && !\in_array($key, ['id']) && (\array_key_exists($key, $this->value) && $this->value[$key] != $value)) {
-			$this->changes[$key] = $this->get($key);
-		}
-		return parent::set($key, $value);
 	}
 }

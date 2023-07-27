@@ -7,6 +7,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
  * Record class for WooCommerce integration model.
@@ -16,7 +17,7 @@ class Settings_WooCommerce_Record_Model extends Settings_Vtiger_Record_Model
 	use App\Controller\Traits\RecordSettings;
 
 	/** @var \Settings_Vtiger_Module_Model Setting module model */
-	protected $module;
+	public $module;
 
 	/**
 	 * Function to get the Edit View Url.
@@ -162,7 +163,7 @@ class Settings_WooCommerce_Record_Model extends Settings_Vtiger_Record_Model
 		$moduleName = $this->getModule()->getName(true);
 		$fields = $this->getModule()->getFormFields();
 		$params = [
-			'label' => 'LBL_' . \strtoupper($name),
+			'label' => 'LBL_' . strtoupper($name),
 			'fieldvalue' => $this->get($name) ?? $fields[$name]['default'] ?? '',
 			'typeofdata' => 'V'
 		];
@@ -260,7 +261,7 @@ class Settings_WooCommerce_Record_Model extends Settings_Vtiger_Record_Model
 					break;
 			}
 			if ('' === $value && $fieldInfo['required']) {
-				throw new \App\Exceptions\IllegalValue('ERR_NO_VALUE||' . \App\Language::translate('LBL_' . \strtoupper($fieldName), $this->getModule()->getName(true)), 406);
+				throw new \App\Exceptions\IllegalValue('ERR_NO_VALUE||' . \App\Language::translate('LBL_' . strtoupper($fieldName), $this->getModule()->getName(true)), 406);
 			}
 			$this->set($fieldName, $value);
 		}
