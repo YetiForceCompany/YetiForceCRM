@@ -12,6 +12,7 @@
 /**
  * User Privileges Model Class.
  */
+#[AllowDynamicProperties]
 class Users_Privileges_Model extends Users_Record_Model
 {
 	/**

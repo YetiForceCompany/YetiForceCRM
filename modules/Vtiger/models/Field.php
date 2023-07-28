@@ -12,6 +12,7 @@
 /**
  * Vtiger Field Model Class.
  */
+#[AllowDynamicProperties]
 class Vtiger_Field_Model extends vtlib\Field
 {
 	const REFERENCE_TYPE = 'reference';
@@ -51,6 +52,12 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/** @var array Module field info. */
 	protected $fieldInfo;
+
+	/** @var bool Read only mode. */
+	public $isReadOnly = false;
+
+	/** @var Vtiger_Module_Model Module model. */
+	public $module;
 
 	/** @var string Field type. */
 	protected $fieldType;
@@ -868,7 +875,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isReadOnly(): bool
 	{
-		if (isset($this->isReadOnly)) {
+		if (!empty($this->isReadOnly)) {
 			return $this->isReadOnly;
 		}
 		return $this->isReadOnly = !$this->getProfileReadWritePermission();
