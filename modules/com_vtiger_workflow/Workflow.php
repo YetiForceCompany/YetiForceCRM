@@ -104,6 +104,43 @@ class Workflow
 	 */
 	public static $SCHEDULED_WORKINGDAY_MONTH = 13;
 
+	/** @var int Workflow id. */
+	public $id;
+	/** @var string The name of the module to which the task has been assigned. */
+	public $moduleName;
+	/** @var string Workflow title. */
+	public $description;
+	/** @var string Conditions to run the workflow. */
+	public $test;
+	/** @var int Execution condition. */
+	public $executionCondition;
+	/** @var int Workflow type. */
+	public $type;
+	/** @var inr Schedule execution frequency. */
+	public $schtypeid;
+	/** @var string Schedule execution frequency by time. */
+	public $schtime;
+	/**@var string Schedule execution frequency by day of the month. */
+	public $schdayofmonth;
+	/** @var string Schedule execution frequency by day of the week. */
+	public $schdayofweek;
+	/** @var string The frequency of execution of the schedule on a specific date. */
+	public $scheduleByDate;
+	/** @var string Schedule execution frequency by selected dates. */
+	public $schannualdates;
+	/** @var int The default workflow. */
+	public $defaultworkflow;
+	/** @var int Configuration of existing conditions. */
+	public $filtersavedinnew;
+	/** @var string Next trigger time. */
+	public $nexttrigger_time;
+	/** @var string Workflow parameters. */
+	public $params;
+	/** @var int Workflow execution order. */
+	public $sequence;
+	/** @var VTJsonCondition Condition strategy. */
+	public $conditionStrategy;
+
 	/**
 	 * Scheduled list.
 	 *
