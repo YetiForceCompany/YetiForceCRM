@@ -10,6 +10,7 @@
  * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
+ #[AllowDynamicProperties]
 class Users_Record_Model extends Vtiger_Record_Model
 {
 	/** {@inheritdoc} */
