@@ -15,6 +15,10 @@
  */
 class Vtiger_Record_Model extends \App\Base
 {
+	/** @var Vtiger_Record_Model Instance of the recrod */
+	public $entity;
+	/** @var bool Verifies if rekord is watching. */
+	public $isWatchingRecord;
 	/**
 	 * @var string Record label
 	 */
