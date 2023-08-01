@@ -49,7 +49,7 @@ class DkCvr extends Base
 
 	/** {@inheritdoc} */
 	public $settingsFields = [
-		'token' => ['required' => 0, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY_OPTIONAL'],
+		'token' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY_OPTIONAL'],
 	];
 
 	/** {@inheritdoc} */
