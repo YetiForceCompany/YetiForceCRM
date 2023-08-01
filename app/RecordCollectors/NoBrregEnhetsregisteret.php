@@ -65,7 +65,7 @@ class NoBrregEnhetsregisteret extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $formFieldsToRecordMap = [
+	public array $formFieldsToRecordMap = [
 		'Accounts' => [
 			'navn' => 'accountname',
 			'organisasjonsnummer' => 'registration_number_1',
@@ -117,7 +117,7 @@ class NoBrregEnhetsregisteret extends Base
 	{
 		$companyNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('companyNumber', 'Text'));
 
-		if (!$this->isActive() && empty($companyNumber)) {
+		if (empty($companyNumber) && !$this->isActive()) {
 			return [];
 		}
 
@@ -140,19 +140,14 @@ class NoBrregEnhetsregisteret extends Base
 			$response = \App\RequestHttp::getClient()->get($this->url . $companyNumber);
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getMessage();
 			if (400 === $e->getCode()) {
 				$this->response['error'] = \App\Language::translate('LBL_NO_BRREG_ENHETSREGISTERET_400', 'Other.RecordCollector');
 				return;
 			}
 		}
-		if (empty($response)) {
-			$this->response['error'] = \App\Language::translate('LBL_COMPANY_NOT_FOUND', 'Other.RecordCollector');
-		} else {
-			$this->data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
-			$this->response['links'][0] = self::EXTERNAL_URL . $companyNumber;
-			unset($this->data['_linksSelfHref']);
-		}
+		$this->data = !empty($response) ? $this->parseData(\App\Json::decode($response->getBody()->getContents())) : [];
+		$this->response['links'][0] = self::EXTERNAL_URL . $companyNumber;
+		unset($this->data['_linksSelfHref']);
 	}
 
 	/**

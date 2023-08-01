@@ -60,8 +60,7 @@ class Base
 	protected $modulesFieldsMap = [];
 
 	/** @var array Form mapping for loading record data. */
-	public $formFieldsToRecordMap = [];
-
+	public array $formFieldsToRecordMap = [];
 	/**
 	 * Constructor.
 	 */
@@ -148,6 +147,7 @@ class Base
 	{
 		return $this->modulesFieldsMap[$moduleName];
 	}
+
 
 	/**
 	 * Check whether it is active.
@@ -239,6 +239,7 @@ class Base
 				}
 			}
 		}
+		$this->response['error'] = isset($additional['error'], $additional['message']) ? $additional['message'] : false;
 		$this->response['fields'] = $fieldsData;
 		$this->response['skip'] = $skip;
 		$this->response['keys'] = array_keys($rows);
@@ -295,5 +296,32 @@ class Base
 			}
 		}
 		return $recordModel;
+	}
+
+	/**
+	 * @param string $message
+	 * @return string
+	 */
+	protected function getTranslationResponseMessage(string $message): string
+	{
+		switch ($message) {
+			case 'Not Found':
+				$translatedMessage = \App\Language::translate('LBL_NO_FOUND_RECORD', 'Other.RecordCollector');
+				break;
+			case 'TOO_MANY_OPTIONS':
+				$translatedMessage = \App\Language::translate('LBL_TOO_MANY_OPTIONS', 'Other.RecordCollector');
+				break;
+			case 'NO_SEARCH':
+				$translatedMessage = \App\Language::translate('LBL_NO_FILLED_DATA', 'Other.RecordCollector');
+				break;
+			case 'Bad Request':
+				$translatedMessage = \App\Language::translate('LBL_BAD_REQUEST', 'Other.RecordCollector');
+				break;
+			default :
+				$translatedMessage = $message;
+				break;
+		}
+
+		return $translatedMessage;
 	}
 }

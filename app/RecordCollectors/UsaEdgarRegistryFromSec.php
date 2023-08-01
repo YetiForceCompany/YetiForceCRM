@@ -19,6 +19,9 @@ namespace App\RecordCollectors;
  */
 class UsaEdgarRegistryFromSec extends Base
 {
+	/** @var int Central Index Key length */
+	public const CIK_LEN = 10;
+
 	/** {@inheritdoc} */
 	public $allowedModules = ['Accounts', 'Leads', 'Partners', 'Vendors', 'Competition'];
 
@@ -63,7 +66,7 @@ class UsaEdgarRegistryFromSec extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $formFieldsToRecordMap = [
+	public array $formFieldsToRecordMap = [
 		'Accounts' => [
 			'name' => 'accountname',
 			'cik' => 'registration_number_1',
@@ -132,9 +135,6 @@ class UsaEdgarRegistryFromSec extends Base
 		]
 	];
 
-	/** @var int Central Index Key length */
-	const CIK_LEN = 10;
-
 	/** {@inheritdoc} */
 	public function search(): array
 	{
@@ -167,13 +167,13 @@ class UsaEdgarRegistryFromSec extends Base
 		try {
 			$response = \App\RequestHttp::getClient()->get($this->url . $cik . '.json', [
 				'headers' => [
-					'User-Agent' => 'YetiForce S. A. devs@yetiforce.com',
+					'User-Agent' => 'YetiForce S. A. devs@yetiforce.com',  /////////// ?????????????????????????
 				],
 			]);
 			$this->data = isset($response) ? \App\Json::decode($response->getBody()->getContents()) : [];
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getMessage();
+			$this->response['error'] = $this->getTranslationResponseMessage($e->getMessage());
 		}
 	}
 

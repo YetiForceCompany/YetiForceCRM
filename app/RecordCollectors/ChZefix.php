@@ -86,7 +86,7 @@ class ChZefix extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $formFieldsToRecordMap = [
+	public array $formFieldsToRecordMap = [
 		'Accounts' => [
 			'name' => 'accountname',
 			'translation1' => 'accountname',
@@ -214,7 +214,7 @@ class ChZefix extends Base
 			}
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getResponse()->getReasonPhrase();
+			$this->response['error'] = $this->getTranslationResponseMessage($e->getResponse()->getReasonPhrase());
 		}
 	}
 
@@ -247,7 +247,7 @@ class ChZefix extends Base
 			}
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getResponse()->getReasonPhrase();
+			$this->response['error'] = $this->getTranslationResponseMessage($e->getResponse()->getReasonPhrase());
 		}
 	}
 

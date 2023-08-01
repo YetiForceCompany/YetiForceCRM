@@ -63,7 +63,7 @@ class PlKrs extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $formFieldsToRecordMap = [
+	public array $formFieldsToRecordMap = [
 		'Accounts' => [
 			'daneDzial1DanePodmiotuNazwa' => 'accountname',
 			'daneDzial1DanePodmiotuIdentyfikatoryRegon' => 'registration_number_2',
@@ -126,11 +126,11 @@ class PlKrs extends Base
 			return [];
 		}
 		$this->moduleName = $this->request->getModule();
-		$ncr = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('ncr', 'Text'));
-		if (!$ncr) {
+		$ncrNumber = str_replace([' ', ',', '.', '-'], '', $this->request->getByType('ncr', 'Text'));
+		if (!$ncrNumber) {
 			return [];
 		}
-		$this->getDataFromApi($ncr);
+		$this->getDataFromApi($ncrNumber);
 		$this->parseData();
 		$this->loadData();
 		return $this->response;
@@ -151,7 +151,7 @@ class PlKrs extends Base
 			$this->data = \App\Json::decode($responseData->getBody()->getContents())['odpis'] ?? [];
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getMessage();
+			$this->response['error'] = $this->getTranslationResponseMessage($e->getResponse()->getReasonPhrase());
 		}
 	}
 

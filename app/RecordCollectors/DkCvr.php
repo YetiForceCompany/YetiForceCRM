@@ -99,7 +99,7 @@ class DkCvr extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $formFieldsToRecordMap = [
+	public array $formFieldsToRecordMap = [
 		'Accounts' => [
 			'name' => 'accountname',
 			'vat' => 'vat_id',
@@ -196,7 +196,7 @@ class DkCvr extends Base
 		if ($phone = $this->request->getByType('phone', 'Text')) {
 			$params['phone'] = $phone;
 		}
-		if (!$this->isActive() && empty($params)) {
+		if (empty($params) && !$this->isActive()) {
 			return [];
 		}
 		$params['country'] = $this->request->getByType('country', 'Text');
@@ -225,7 +225,7 @@ class DkCvr extends Base
 	 *
 	 * @return void
 	 */
-	private function getDataFromApi($params): void
+	private function getDataFromApi(array $params): void
 	{
 		$params['format'] = 'json';
 		if (!empty($this->token)) {
@@ -233,16 +233,18 @@ class DkCvr extends Base
 		}
 		try {
 			$response = \App\RequestHttp::getClient()->get($this->url . http_build_query($params));
-			if (200 === $response->getStatusCode()) {
-				$this->data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
-				if (isset($this->data['name'])) {
-					$this->response['links'][0] = self::EXTERNAL_URL . $params['country'] . '/' . urlencode(str_replace(' ', '-', $this->data['name'])) . '/' . urlencode($this->data['vat']);
-				}
+			$this->data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
+			if (isset($this->data['error'])) {
+				$this->data['error'] = $this->getTranslationResponseMessage($this->data['error']);
+			}
+			if (isset($this->data['name'])) {
+				$this->response['links'][0] = self::EXTERNAL_URL . $params['country'] . '/' . urlencode(str_replace(' ', '-', $this->data['name'])) . '/' . urlencode($this->data['vat']);
 			}
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getResponse()->getReasonPhrase();
+			$this->response['error'] = $this->getTranslationResponseMessage($this->response['error'] ?? $e->getResponse()->getReasonPhrase());
 		}
+
 		if ($this->data && empty($this->data['error'])) {
 			switch ($params['country']) {
 				case 'no':

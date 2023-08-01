@@ -19,6 +19,9 @@ namespace App\RecordCollectors;
  */
 class OrbIntelligence extends Base
 {
+	/** @var int Limit for fetching companies */
+	const LIMIT = 4;
+
 	/** {@inheritdoc} */
 	public $allowedModules = ['Accounts', 'Leads', 'Partners', 'Vendors', 'Competition'];
 
@@ -89,8 +92,6 @@ class OrbIntelligence extends Base
 			'vatNumber' => 'vat_id',
 			'email' => 'email',
 			'phone' => 'phone',
-			'email' => 'email',
-			'phone' => 'phone'
 		],
 		'Vendors' => [
 			'country' => 'addresslevel1a',
@@ -116,7 +117,7 @@ class OrbIntelligence extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $formFieldsToRecordMap = [
+	public array $formFieldsToRecordMap = [
 		'Accounts' => [
 			'name' => 'accountname',
 			'eins0' => 'vat_id',
@@ -192,9 +193,6 @@ class OrbIntelligence extends Base
 		]
 	];
 
-	/** @var int Limit for fetching companies */
-	const LIMIT = 4;
-
 	/** {@inheritdoc} */
 	public function isActive(): bool
 	{
@@ -261,7 +259,7 @@ class OrbIntelligence extends Base
 				$response = $client->get($result['fetch_url']);
 			} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 				\App\Log::warning($e->getMessage(), 'RecordCollectors');
-				$this->response['error'] = $e->getMessage();
+				$this->response['error'] = $this->getTranslationResponseMessage($e->getResponse()->getReasonPhrase());
 			}
 			$this->data[$key] = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
 		}
