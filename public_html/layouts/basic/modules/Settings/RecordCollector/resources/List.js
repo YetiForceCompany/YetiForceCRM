@@ -61,6 +61,7 @@ $.Class(
 					function (modal) {
 						modal.on('click', '.js-modal__save', function () {
 							let form = modal.find('form');
+							form.validationEngine(app.validationEngineOptions);
 							AppConnector.request({
 								module: 'RecordCollector',
 								parent: 'Settings',

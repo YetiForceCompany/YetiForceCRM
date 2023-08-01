@@ -167,13 +167,13 @@ class UsaEdgarRegistryFromSec extends Base
 		try {
 			$response = \App\RequestHttp::getClient()->get($this->url . $cik . '.json', [
 				'headers' => [
-					'User-Agent' => 'YetiForce S. A. devs@yetiforce.com',  /////////// ?????????????????????????
+					'User-Agent' => 'YetiForce S. A. devs@yetiforce.com',  // ??
 				],
 			]);
 			$this->data = isset($response) ? \App\Json::decode($response->getBody()->getContents()) : [];
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $this->getTranslationResponseMessage($e->getMessage());
+			$this->response['error'] = $this->getTranslationResponseMessage($e->getResponse()->getReasonPhrase());
 		}
 	}
 

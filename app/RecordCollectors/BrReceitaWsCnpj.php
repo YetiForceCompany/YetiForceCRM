@@ -170,7 +170,6 @@ class BrReceitaWsCnpj extends Base
 			} else {
 				$this->data = $data;
 			}
-
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			$this->response['error'] = $this->getTranslationResponseMessage($this->response['error'] ?? $e->getResponse()->getReasonPhrase());
