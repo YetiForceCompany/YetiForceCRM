@@ -21,6 +21,8 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\Records
 	protected $colNo = 1;
 	protected $rowNo = 1;
 	protected $invNo = 0;
+	/** @var \App\Db\Query|\App\QueryGenerator  Query generator. */
+	public $queryGenerator;
 
 	/**
 	 * Constructor.
