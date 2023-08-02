@@ -179,8 +179,9 @@ class VTFieldExpressionEvaluater
 			$baseDate = date('Y-m-d'); // Current date
 		}
 		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
-		$baseDate = strtotime($match[0]);
-		return strftime('%Y-%m-%d', $baseDate + ($noOfDays * 24 * 60 * 60));
+		$date = new DateTime($match[0]);
+		$date->modify("+ $noOfDays days");
+		return $date->format('Y-m-d');
 	}
 
 	public static function __vt_sub_days($arr)
@@ -195,8 +196,9 @@ class VTFieldExpressionEvaluater
 			$baseDate = date('Y-m-d'); // Current date
 		}
 		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
-		$baseDate = strtotime($match[0]);
-		return strftime('%Y-%m-%d', $baseDate - ($noOfDays * 24 * 60 * 60));
+		$date = new DateTime($match[0]);
+		$date->modify("- $noOfDays days");
+		return $date->format('Y-m-d');
 	}
 
 	public static function __vt_get_date($arr)
