@@ -692,16 +692,16 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v6.8.1",
+            "version": "v6.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "5dbc8959427416b8ee09a100d7a8588c00fb2e26"
+                "reference": "71278f20b0a623389beefe87a641d03948a38870"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/5dbc8959427416b8ee09a100d7a8588c00fb2e26",
-                "reference": "5dbc8959427416b8ee09a100d7a8588c00fb2e26",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/71278f20b0a623389beefe87a641d03948a38870",
+                "reference": "71278f20b0a623389beefe87a641d03948a38870",
                 "shasum": ""
             },
             "require": {
@@ -749,9 +749,9 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v6.8.1"
+                "source": "https://github.com/firebase/php-jwt/tree/v6.7.0"
             },
-            "time": "2023-07-14T18:33:00+00:00"
+            "time": "2023-06-14T15:29:26+00:00"
         },
         {
             "name": "giggsey/libphonenumber-for-php",
@@ -4508,25 +4508,25 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v3.0.2",
+            "version": "v3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "26954b3d62a6c5fd0ea8a2a00c0353a14978d05c"
+                "reference": "7c3aff79d10325257a001fcf92d991f24fc967cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/26954b3d62a6c5fd0ea8a2a00c0353a14978d05c",
-                "reference": "26954b3d62a6c5fd0ea8a2a00c0353a14978d05c",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/7c3aff79d10325257a001fcf92d991f24fc967cf",
+                "reference": "7c3aff79d10325257a001fcf92d991f24fc967cf",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0.2"
+                "php": ">=8.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "3.0-dev"
+                    "dev-main": "3.4-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -4555,7 +4555,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.0.2"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.3.0"
             },
             "funding": [
                 {
@@ -4571,7 +4571,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-02T09:55:41+00:00"
+            "time": "2023-05-23T14:45:45+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -5367,24 +5367,27 @@
         },
         {
             "name": "thenetworg/oauth2-azure",
-            "version": "v2.1.1",
+            "version": "v2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TheNetworg/oauth2-azure.git",
-                "reference": "06fb2d620fb6e6c934f632c7ec7c5ea2e978a844"
+                "reference": "e092f6fca469f8109aab4694e9e2dee98717af17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TheNetworg/oauth2-azure/zipball/06fb2d620fb6e6c934f632c7ec7c5ea2e978a844",
-                "reference": "06fb2d620fb6e6c934f632c7ec7c5ea2e978a844",
+                "url": "https://api.github.com/repos/TheNetworg/oauth2-azure/zipball/e092f6fca469f8109aab4694e9e2dee98717af17",
+                "reference": "e092f6fca469f8109aab4694e9e2dee98717af17",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-openssl": "*",
-                "firebase/php-jwt": "~3.0||~4.0||~5.0||~6.0",
+                "firebase/php-jwt": "~3.0||~4.0||~5.0||~6.0 < 6.8",
                 "league/oauth2-client": "~2.0",
                 "php": "^7.1|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6"
             },
             "type": "library",
             "autoload": {
@@ -5418,9 +5421,9 @@
             ],
             "support": {
                 "issues": "https://github.com/TheNetworg/oauth2-azure/issues",
-                "source": "https://github.com/TheNetworg/oauth2-azure/tree/v2.1.1"
+                "source": "https://github.com/TheNetworg/oauth2-azure/tree/v2.2.1"
             },
-            "time": "2022-06-23T10:35:36+00:00"
+            "time": "2023-08-01T09:16:29+00:00"
         },
         {
             "name": "twig/twig",
