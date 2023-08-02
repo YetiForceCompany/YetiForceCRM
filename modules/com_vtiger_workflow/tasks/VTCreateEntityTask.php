@@ -60,6 +60,7 @@ class VTCreateEntityTask extends VTTask
 			foreach ($mandatoryFields as $field) {
 				if ('' === $newRecordModel->get($field->getName()) || null === $newRecordModel->get($field->getName())) {
 					$saveContinue = false;
+					\App\Log::warning('No mandatory value | ' . $field->getName(), 'Workflow');
 				}
 			}
 			if ($saveContinue) {
