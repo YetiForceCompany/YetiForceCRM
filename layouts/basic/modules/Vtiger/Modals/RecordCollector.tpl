@@ -25,7 +25,7 @@
 					</div>
 				</div>
 			{/foreach}
-			<div class="float-right mt-2">
+			<div class="float-right mt-2 searchButtons">
 				<button class="btn btn-success d-print-none" type="submit" name="saveButton" data-js="click">
 					<span class="fas fa-check mr-1"></span>{\App\Language::translate('LBL_SEARCH', $MODULE_NAME)}
 				</button>

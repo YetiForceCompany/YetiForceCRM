@@ -3783,16 +3783,17 @@ const app = (window.app = {
 	 * @param {jQuery} container
 	 */
 	printModal: function (container) {
+		let searchButtons = container.find('.searchButtons');
+		searchButtons.hide();
 		const html = container.html().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ' '),
-			head = $('head')
-				.html()
-				.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ' ');
+			head = $('head').html().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ' ');
 		const modal = window.open();
 		modal.document.write(`<head>${head}</head>`);
 		modal.document.write(`<body>${html}</body>`);
 		modal.onafterprint = (_e) => {
 			modal.close();
 		};
+		searchButtons.show();
 		setTimeout(function () {
 			modal.print();
 		}, 500);
