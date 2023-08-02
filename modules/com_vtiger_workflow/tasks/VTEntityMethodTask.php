@@ -12,8 +12,10 @@ require_once 'modules/com_vtiger_workflow/VTEntityMethodManager.php';
 
 class VTEntityMethodTask extends VTTask
 {
+	/** @var bool Execute immediately. */
 	public $executeImmediately = true;
-
+	/** @var string The name of the workflow task invocation method. */
+	public $methodName;
 	/** {@inheritdoc} */
 	public $recordEventState = self::RECORD_EVENT_DOUBLE_MODE;
 
