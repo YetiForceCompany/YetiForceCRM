@@ -14,10 +14,40 @@ require_once 'modules/Users/Users.php';
 class VTCreateEventTask extends VTTask
 {
 	public $executeImmediately = true;
+	/** @var string Event type. */
+	public $eventType;
+	/** @var string Event name. */
+	public $eventName;
+	/** @var string Event description. */
+	public $description;
+	/** @var string Specifies the number of days from which the task is to be active. */
+	public $startDays;
+	/** @var string The direction that determines the time to activate the task. */
+	public $startDirection;
+	/** @var string Specifies the time from which the task will be activated. */
+	public $startDatefield;
+	/** @var string Start time. */
+	public $startTime;
+	/** @var string Specifies the number of days after which the task should be valid. */
+	public $endDays;
+	/** @var string CDirection specifying the time to close the task. */
+	public $endDirection;
+	/** @var string Specifies the time from which the task will be completed. */
+	public $endDatefield;
+	/** @var string End time. */
+	public $endTime;
+	/** @var string Task status. */
+	public $status;
+	/** @var string Task priority. */
+	public $priority;
+	/** @var string Task owner. */
+	public $assigned_user_id;
+	/** @var string Meeting url. */
+	public $meetingUrl;
 
 	public function getFieldNames()
 	{
-		return ['eventType', 'eventName', 'description', 'sendNotification',
+		return ['eventType', 'eventName', 'description',
 			'startTime', 'startDays', 'startDirection', 'startDatefield',
 			'endTime', 'endDays', 'endDirection', 'endDatefield',
 			'status', 'priority', 'assigned_user_id', 'meetingUrl'];
