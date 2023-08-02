@@ -12,6 +12,8 @@
  */
 class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 {
+	/** @var int Relation type. */
+	public $relationType;
 	public function checkPermission(App\Request $request)
 	{
 		$recordId = $request->getInteger('src_record');
