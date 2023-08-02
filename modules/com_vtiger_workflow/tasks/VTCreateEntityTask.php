@@ -13,6 +13,18 @@ require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
 class VTCreateEntityTask extends VTTask
 {
 	public $executeImmediately = true;
+	/** @var string The name of the module for which to create a record. */
+	public $entity_type;
+	/** @var string Field value mapping. */
+	public $field_value_mapping;
+	/** @var string Field mapping between modules. */
+	public $mappingPanel;
+	/** @var int Reference field. */
+	public $reference_field;
+	/** @var string RelationI id. */
+	public $relationId;
+	/** @var string Checks if a related record exists. */
+	public $verifyIfExists;
 
 	public function getFieldNames()
 	{
