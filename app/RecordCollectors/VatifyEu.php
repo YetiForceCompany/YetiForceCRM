@@ -363,7 +363,7 @@ class VatifyEu extends Base
 			return;
 		}
 		if (empty($this->bearerToken)) {
-			$this->response['error'] = \App\Language::translate('LBL_VATIFY_EU_NO_AUTH', 'Other.RecordCollector');
+			$this->response['error'] = \App\Language::translate('LBL_VATIFY_EU_NO_AUTH', 'Other.RecordCollector', null, false);
 		}
 	}
 }

@@ -157,11 +157,11 @@
 				<span class="fa-solid fa-print mr-2"></span>
 				{\App\Language::translate('LBL_PRINT')}
 			</button>
-		{elseif isset($SEARCH_DATA['error']) }
+		{elseif isset($SEARCH_DATA['error'])}
 			<div class="alert alert-danger m-4" role="alert">
 				<span class="mdi mdi-alert-circle-outline mr-2"></span>
 				{foreach from=$SEARCH_DATA['error'] key=KEY item=VALUE}
-					{$VALUE}
+					{nl2br(\App\Purifier::encodeHtml($VALUE))}
 				{/foreach}
 			</div>
 		{else}

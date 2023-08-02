@@ -141,7 +141,7 @@ class NoBrregEnhetsregisteret extends Base
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
 			if (400 === $e->getCode()) {
-				$this->response['error'] = \App\Language::translate('LBL_NO_BRREG_ENHETSREGISTERET_400', 'Other.RecordCollector');
+				$this->response['error'] = \App\Language::translate('LBL_NO_BRREG_ENHETSREGISTERET_400', 'Other.RecordCollector', null, false);
 				return;
 			}
 		}

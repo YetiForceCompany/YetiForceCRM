@@ -208,10 +208,10 @@ class BrReceitaWsCnpj extends Base
 	{
 		switch ($message) {
 			case 'CNPJ inválido':
-				$translatedMessage = \App\Language::translate('LBL_BR_RECITA_WS_CNPJ_INVALIDATE', 'Other.RecordCollector');
+				$translatedMessage = \App\Language::translate('LBL_BR_RECITA_WS_CNPJ_INVALIDATE', 'Other.RecordCollector', null, false);
 				break;
 			case 'Too Many Requests':
-				$translatedMessage = \App\Language::translate('LBL_TOO_MANY_REQUESTS', 'Other.RecordCollector');
+				$translatedMessage = \App\Language::translate('LBL_TOO_MANY_REQUESTS', 'Other.RecordCollector', null, false);
 				break;
 			default :
 				$translatedMessage = $message;

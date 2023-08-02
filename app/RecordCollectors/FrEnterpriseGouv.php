@@ -205,10 +205,10 @@ class FrEnterpriseGouv extends Base
 	{
 		switch ($message) {
 			case 'Not Found':
-				$translatedMessage = \App\Language::translate('LBL_NO_FOUND_RECORD', 'Other.RecordCollector');
+				$translatedMessage = \App\Language::translate('LBL_NO_FOUND_RECORD', 'Other.RecordCollector', null, false);
 				break;
 			case 'Bad Request':
-				$translatedMessage = \App\Language::translate('LBL_FR_GOUV_BAD_REQUEST', 'Other.RecordCollector');
+				$translatedMessage = \App\Language::translate('LBL_FR_GOUV_BAD_REQUEST', 'Other.RecordCollector', null, false);
 				break;
 			default :
 				$translatedMessage = $message;

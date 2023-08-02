@@ -163,13 +163,6 @@ class Gus extends Base
 		],
 	];
 
-	/**
-	 * @var array
-	 */
-	protected array $validationMessages = [
-		// to fill messages
-	];
-
 	/** {@inheritdoc} */
 	public function search(): array
 	{

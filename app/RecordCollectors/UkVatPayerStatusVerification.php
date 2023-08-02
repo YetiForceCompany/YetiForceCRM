@@ -99,7 +99,7 @@ class UkVatPayerStatusVerification extends Base
 			];
 		} else {
 			$response['fields'] = [
-				'' => \App\Language::translate('LBL_UK_VAT_PAYER_NOT_CONFIRM', 'Other.RecordCollector')
+				'' => \App\Language::translate('LBL_UK_VAT_PAYER_NOT_CONFIRM', 'Other.RecordCollector', null, false)
 			];
 		}
 		return $response;

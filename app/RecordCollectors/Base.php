@@ -306,18 +306,18 @@ class Base
 	{
 		switch ($message) {
 			case 'Not Found':
-				$translatedMessage = \App\Language::translate('LBL_NO_FOUND_RECORD', 'Other.RecordCollector');
+				$translatedMessage = \App\Language::translate('LBL_NO_FOUND_RECORD', 'Other.RecordCollector', null, false);
 				break;
 			case 'TOO_MANY_OPTIONS':
-				$translatedMessage = \App\Language::translate('LBL_TOO_MANY_OPTIONS', 'Other.RecordCollector');
+				$translatedMessage = \App\Language::translate('LBL_TOO_MANY_OPTIONS', 'Other.RecordCollector', null, false);
 				break;
 			case 'NO_SEARCH':
-				$translatedMessage = \App\Language::translate('LBL_NO_FILLED_DATA', 'Other.RecordCollector');
+				$translatedMessage = \App\Language::translate('LBL_NO_FILLED_DATA', 'Other.RecordCollector', null, false);
 				break;
 			case 'Bad Request':
-				$translatedMessage = \App\Language::translate('LBL_BAD_REQUEST', 'Other.RecordCollector');
+				$translatedMessage = \App\Language::translate('LBL_BAD_REQUEST', 'Other.RecordCollector', null, false);
 				break;
-			default :
+			default:
 				$translatedMessage = $message;
 				break;
 		}
