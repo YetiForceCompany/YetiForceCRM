@@ -1531,7 +1531,9 @@
     "LBL_OK": "Ok",
     "LBL_BATCH_ADDING_RECORDS": "Batch adding records",
     "LBL_ATTACH_DOCUMENT_DESC": "When you select this option, it will attach PDF to the records. Send email action is omitted with this option",
-    "LBL_FILTER_EMPTY_VALUE": "Only empty values"
+    "LBL_FILTER_EMPTY_VALUE": "Only empty values",
+    "LBL_FIELD_NAME": "Field name",
+    "LBL_VALUE_OF_FIELDS": "Value from field"
   },
   "js": {
     "JS_APPROVE": "Approve",

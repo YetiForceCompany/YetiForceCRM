@@ -11,6 +11,18 @@
 -->*}
 {strip}
 	<!-- tpl-Base-DetailViewHeaderTitle -->
+	{foreach item=FIELD_MODEL key=FIELD_NAME from=$MODULE_MODEL->getFieldsByType('recordLog', true)}
+		{if $FIELD_MODEL->isActiveField() && $FIELD_MODEL->isViewEnabled() && !empty($RECORD->get($FIELD_NAME))}
+			<div class="alert alert-warning w-100 mx-4" role="alert">
+				<h4 class="alert-heading">
+					<span class="fas fa-exclamation-triangle pr-3"></span>
+					{$FIELD_MODEL->getFullLabelTranslation()}
+				</h4>
+				<p>{\App\Language::translate('ERR_DETECTED_ERRORS_CURRENT_RECORD','Other.Exceptions')}<br>{\App\Language::translate('ERR_DETECTED_ERRORS_WILL_DISAPPEAR','Other.Exceptions')}</p>
+				<p>{$RECORD->getDisplayValue($FIELD_NAME,false,false,1000)}</p>
+			</div>
+		{/if}
+	{/foreach}
 	<div class="d-flex flex-wrap flex-md-nowrap px-md-3 px-1 w-100">
 		<div class="u-min-w-md-70 w-100">
 			{assign var=COUNT_IN_HIERARCHY value=App\Config::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}

@@ -55,6 +55,9 @@
     "ERR_NO_2FA_TOTP_CODE": "No 2FA TOTP code",
     "ERR_FUNCTION_NOT_FOUND_IN_CLASS": "Function %s not found in class %s object",
     "ERR_FILE_SIZE_EXCEEDED": "File size exceeded",
-    "ERR_FILE_TYPE": "Invalid file type"
+    "ERR_FILE_TYPE": "Invalid file type",
+    "ERR_REQUIRED_VALUE_MISSING": "The field value is missing or is not supported",
+    "ERR_DETECTED_ERRORS_CURRENT_RECORD": "Problems or errors have been detected in this record. Please review the following message and modify the data accordingly.",
+    "ERR_DETECTED_ERRORS_WILL_DISAPPEAR": "The error will disappear only after the appropriate mechanisms are activated once the correction is made. This may take several minutes depending on your configuration."
   }
 }

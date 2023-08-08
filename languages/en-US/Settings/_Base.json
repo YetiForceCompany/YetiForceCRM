@@ -275,7 +275,6 @@
     "LBL_COMPANY_LOGO_IN_SYSTEM": "Company logo visible in the system",
     "LBL_COMPANY_LOGO_IN_LOGIN": "Company logo visible in the login panel",
     "LBL_ADD_CUSTOM_FIELD": "Add field",
-    "LBL_FIELD_NAME": "Field name",
     "LBL_HEIGHT_LOGO": "Logo height",
     "LBL_SECURITY": "Security",
     "LBL_LOG_ACCESS_TO_RECORD": "No access to records",

@@ -211,7 +211,7 @@ class Settings_Comarch_Activation_Model
 			}
 			if (isset($fieldData['referenceModule'])) {
 				if (!\is_array($fieldData['referenceModule'])) {
-					$moduleList[] = $fieldData['referenceModule'];
+					$moduleList = [$fieldData['referenceModule']];
 				} else {
 					$moduleList = $fieldData['referenceModule'];
 				}
@@ -270,7 +270,8 @@ class Settings_Comarch_Activation_Model
 			],
 			'log_comarch' => [
 				'label' => 'FL_COMARCH_LOG', 'columntype' => $importerType->text(), 'displaytype' => 2,
-				'customTable' => true, 'uitype' => 335, 'maximumlength' => '65535', 'typeofdata' => 'V~O'
+				'customTable' => true, 'uitype' => 335, 'maximumlength' => '65535',
+				'fieldparams' => \App\Json::encode(['type' => 'ComarchIntegration'])
 			],
 		];
 	}

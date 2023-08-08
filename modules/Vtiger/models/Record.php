@@ -568,16 +568,24 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		$entityInstance = $this->getModule()->getEntityInstance();
 		$db = \App\Db::getInstance();
+		$createCommand = $db->createCommand();
 		foreach ($this->getValuesForSave() as $tableName => $tableData) {
 			if ($this->isNew()) {
 				if ('vtiger_crmentity' === $tableName) {
-					$db->createCommand()->insert($tableName, $tableData)->execute();
+					$createCommand->insert($tableName, $tableData)->execute();
 					$this->setId((int) $db->getLastInsertID('vtiger_crmentity_crmid_seq'));
 				} else {
-					$db->createCommand()->insert($tableName, [$entityInstance->tab_name_index[$tableName] => $this->getId()] + $tableData)->execute();
+					$createCommand->insert(
+						$tableName,
+						[$entityInstance->tab_name_index[$tableName] => $this->getId()] + $tableData
+					)->execute();
 				}
 			} else {
-				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
+				$createCommand->update(
+					$tableName,
+					$tableData,
+					[$entityInstance->tab_name_index[$tableName] => $this->getId()]
+				)->execute();
 			}
 		}
 		if ($this->getModule()->isInventory()) {
@@ -630,7 +638,6 @@ class Vtiger_Record_Model extends \App\Base
 				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $uitypeModel->convertToSave($value, $this);
 			}
 		}
-
 		return $forSave;
 	}
 
