@@ -83,7 +83,8 @@
     "LBL_COMARCH_BLOCK": "Comarch",
     "FL_ACCOUNT_SECOND_NAME": "Account name 2",
     "FL_ACCOUNT_THIRD_NAME": "Account name 3",
-    "FL_ACCOUNT_SHORT_NAME": "Short name"
+    "FL_ACCOUNT_SHORT_NAME": "Short name",
+    "FL_PAYMENT_TERM_DAYS": "Payment term (in days)"
   },
   "js": {
     "JS_DUPLICTAE_CREATION_CONFIRMATION": "Account name already exists. Do you want to create a duplicate record?",

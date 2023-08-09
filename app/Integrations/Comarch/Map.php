@@ -344,7 +344,10 @@ abstract class Map
 					$fieldModel->getUITypeModel()->validate($value);
 					$this->recordModel->set($key, $value);
 				} catch (\Throwable $th) {
-					$errorLog[$key] = [$value, $th->getMessage()]; // TODO weryfikacja
+					$errorLog[$key] = [
+						'field' => $value,
+						'message' => $th->getMessage(),
+					];
 				}
 			}
 		}
@@ -438,6 +441,26 @@ abstract class Map
 	 */
 	public function loadAdditionalData(): void
 	{
+	}
+
+	/**
+	 * Set error logs.
+	 *
+	 * @param array $errorLog
+	 *
+	 * @return void
+	 */
+	public function setErrorLog(array $errorLog): void
+	{
+		$sid = $this->synchronizer->config->get('id');
+		$log = $this->recordModel->get('log_comarch');
+		$errors = \App\Json::isEmpty($log) ? [] : \App\Json::decode($log);
+		if (!empty($errorLog)) {
+			$errors[$sid] = $errorLog;
+		} elseif (isset($errors[$sid])) {
+			unset($errors[$sid]);
+		}
+		$this->recordModel->set('log_comarch', empty($errors) ? null : \App\Json::encode($errors));
 	}
 
 	/**
@@ -565,8 +588,9 @@ abstract class Map
 				true
 			);
 			$this->setErrorLog([
-				$field['fieldCrm'] => [$value, 'ERR_REQUIRED_VALUE_MISSING'] // TODO weryfikacja
+				$field['fieldCrm'] => ['field' => $value, 'message' => 'ERR_REQUIRED_VALUE_MISSING'] // TODO weryfikacja
 			]);
+			$this->recordModel->save();
 		}
 		return $return;
 	}
@@ -660,25 +684,5 @@ abstract class Map
 			$currency = \App\Fields\Currency::getById($value)['currency_code'];
 		}
 		return $currency;
-	}
-
-	/**
-	 * Set error logs.
-	 *
-	 * @param array $errorLog
-	 *
-	 * @return void
-	 */
-	private function setErrorLog(array $errorLog): void
-	{
-		$sid = $this->synchronizer->config->get('id');
-		$log = $this->recordModel->get('log_comarch');
-		$errors = \App\Json::isEmpty($log) ? [] : \App\Json::decode($log);
-		if (!empty($errorLog)) {
-			$errors[$sid] = $errorLog;
-		} elseif (isset($errors[$sid])) {
-			unset($errors[$sid]);
-		}
-		$this->recordModel->set('log_comarch', empty($errors) ? null : \App\Json::encode($log));
 	}
 }

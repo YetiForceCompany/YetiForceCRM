@@ -73,8 +73,7 @@ class ProductGroup extends \App\Integrations\Comarch\Synchronizer
 					$this->cacheList[$id] = $newId;
 					++$i;
 				} catch (\Throwable $ex) {
-					$this->controller->log('Import ' . $this->name, ['API' => $value], $ex);
-					\App\Log::error("Error during import {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
+					$this->logError('import ' . $this->name, ['API' => $value], $ex);
 				}
 			}
 		}
@@ -186,8 +185,7 @@ class ProductGroup extends \App\Integrations\Comarch\Synchronizer
 					];
 				}
 			} catch (\Throwable $ex) {
-				$this->controller->log('Get ' . $this->name, null, $ex);
-				\App\Log::error("Error during getAllFromApi {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
+				$this->logError('getAllFromApi ' . $this->name, ['id' => 0], $ex);
 			}
 			foreach ($this->cache as $id => $row) {
 				try {
@@ -200,8 +198,7 @@ class ProductGroup extends \App\Integrations\Comarch\Synchronizer
 						}
 					}
 				} catch (\Throwable $ex) {
-					$this->controller->log('Get ' . $this->name, null, $ex);
-					\App\Log::error("Error during getAllFromApi {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
+					$this->logError("getAllFromApi {$this->name}", ['id' => $id], $ex);
 				}
 			}
 		}

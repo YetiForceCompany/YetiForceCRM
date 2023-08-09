@@ -37,15 +37,24 @@ class Vtiger_RecordLog_UIType extends Vtiger_Base_UIType
 				$text .= '[' . $labels[$id] . "]\n";
 			}
 			foreach ($errors as $fieldName => $error) {
-				$fieldLabel = $fieldName;
 				if ($fieldModel = $moduleModel->getFieldByName($fieldName)) {
 					$fieldLabel = $fieldModel->getFullLabelTranslation();
+					$text .= \App\Language::translate('LBL_FIELD_NAME') . ': ' . $fieldLabel . PHP_EOL;
 				}
-				$text .= \App\Language::translate('LBL_FIELD_NAME') . ': ' . $fieldLabel . PHP_EOL;
-				$text .= \App\Language::translate('LBL_VALUE_OF_FIELDS') . ': ';
-				$text .= \App\Purifier::encodeHtml($error['field']) . PHP_EOL;
+				if (isset($error['field'])) {
+					$text .= \App\Language::translate('LBL_VALUE_OF_FIELDS') . ': ';
+					$text .= \App\Purifier::encodeHtml($error['field']) . PHP_EOL;
+				}
 				$text .= \App\Language::translate('LBL_ERROR_MASAGE') . ': ';
-				$text .= \App\Language::translate($error['message'], 'Other.Exceptions') . PHP_EOL . PHP_EOL;
+				if (false === strpos($error['message'], '||')) {
+					$message = \App\Language::translateSingleMod($error['message'], 'Other.Exceptions');
+				} else {
+					$params = explode('||', $error['message']);
+					$message = \call_user_func_array('vsprintf', [
+						\App\Language::translateSingleMod(array_shift($params), 'Other.Exceptions'), $params
+					]);
+				}
+				$text .= $message . PHP_EOL . PHP_EOL;
 			}
 		}
 		$text = trim($text);
@@ -53,7 +62,7 @@ class Vtiger_RecordLog_UIType extends Vtiger_Base_UIType
 			if (1000 == $length) {
 				$text = nl2br($text);
 			} else {
-				$text = \App\Layout::truncateText($text, $length ?: 200, true, true);
+				$text = \App\Layout::truncateText($text, $length ?: 160, true, true);
 			}
 		}
 		return $text;

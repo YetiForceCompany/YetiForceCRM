@@ -22,7 +22,7 @@ class Settings_Comarch_Activation_Model
 			'block' => ['name' => 'LBL_COMARCH_BLOCK', 'create' => false],
 			'fields' => [
 				'comarch_server_id', 'comarch_id', 'account_short_name', 'account_second_name',
-				'account_third_name', 'payment_methods', 'log_comarch'
+				'account_third_name', 'payment_methods', 'payment_term_days', 'log_comarch'
 			],
 			'fieldsData' => ['comarch_server_id' => ['displaytype' => 1]],
 		],
@@ -263,6 +263,10 @@ class Settings_Comarch_Activation_Model
 			'account_third_name' => [
 				'label' => 'FL_ACCOUNT_THIRD_NAME', 'columntype' => $importerType->stringType(255)->defaultValue(''),
 				'uitype' => 1, 'maximumlength' => '255', 'typeofdata' => 'V~O'
+			],
+			'payment_term_days' => [
+				'label' => 'FL_PAYMENT_TERM_DAYS', 'columntype' => $importerType->smallInteger(5),
+				'uitype' => 7, 'maximumlength' => '-32768,32768', 'typeofdata' => 'I~O', 'defaultvalue' => 14
 			],
 			'payment_methods' => [
 				'label' => 'FL_PAYMENTS_METHOD', 'columntype' => $importerType->stringType(255)->defaultValue(''),
