@@ -17,6 +17,8 @@ class Vtiger_BasicModal_View extends Vtiger_IndexAjax_View
 {
 	/** @var string Additional classes for the modal window. */
 	protected $modalClass = '';
+	/** @var int Relation type. */
+	public $relationType;
 
 	/**
 	 * Function get modal size.
