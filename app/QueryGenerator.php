@@ -1003,9 +1003,9 @@ class QueryGenerator
 		}
 		if ($this->searchFieldsForDuplicates) {
 			$duplicateCheckClause = [];
-			$stateFromMainQuery = (null === $this->stateCondition) ? 'All' : $this->stateCondition;
-			$queryGenerator = new self($this->moduleName, $this->user->getId());
-			$queryGenerator->setStateCondition($stateFromMainQuery);
+			$stateFromMainQuery  = $this->getState();
+            $queryGenerator = new self($this->moduleName, $this->user->getId());
+            $queryGenerator->setStateCondition($stateFromMainQuery);
 			$queryGenerator->permissions = $this->permissions;
 			$queryGenerator->setFields(array_keys($this->searchFieldsForDuplicates));
 			foreach ($this->searchFieldsForDuplicates as $fieldName => $ignoreEmptyValue) {
