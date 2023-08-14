@@ -12,6 +12,9 @@
 class Vtiger_Double_UIType extends Vtiger_Base_UIType
 {
 	/** {@inheritdoc} */
+	protected $isResizableColumn = true;
+
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		return App\Fields\Double::formatToDb($value);
@@ -86,12 +89,6 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	public function getQueryOperators()
 	{
 		return array_merge(['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'], \App\Condition::FIELD_COMPARISON_OPERATORS);
-	}
-
-	/** {@inheritdoc} */
-	public function isResizableColumn(): bool
-	{
-		return true;
 	}
 
 	/** {@inheritdoc} */

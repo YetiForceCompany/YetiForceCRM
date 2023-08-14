@@ -15,10 +15,7 @@
 class Vtiger_String_UIType extends Vtiger_Base_UIType
 {
 	/** {@inheritdoc} */
-	public function isResizableColumn(): bool
-	{
-		return true;
-	}
+	protected $isResizableColumn = true;
 
 	/** {@inheritdoc} */
 	public function validateColumnLength($newColumnLength): bool

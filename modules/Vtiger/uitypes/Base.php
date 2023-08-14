@@ -26,6 +26,9 @@ class Vtiger_Base_UIType extends \App\Base
 	/** @var mixed[] Verify the value. */
 	protected $validate = [];
 
+	/** @var bool If field column can be resizable. */
+	protected $isResizableColumn = false;
+
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value.
 	 *
@@ -584,7 +587,7 @@ class Vtiger_Base_UIType extends \App\Base
 	 */
 	public function isResizableColumn(): bool
 	{
-		return false;
+		return $this->isResizableColumn;
 	}
 
 	/**
