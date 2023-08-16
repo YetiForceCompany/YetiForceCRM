@@ -92,18 +92,9 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
-	public function validateColumnLength($columnLength): bool
+	public function validateMaximumLength(int $newMinValue, int $newMaxValue): bool
 	{
-		preg_match('/(?:[1-9]|[1-5][0-9]|59),[2-5]/', $columnLength, $matches);
-		return $matches ? true : false;
-	}
-
-	/** {@inheritdoc} */
-	public function isColumnLengthIncreased(string $newColumnLength): bool
-	{
-		$dbColumnStructure = $this->getFieldModel()->getDBColumnType(false);
-		$currentColumnLength = $dbColumnStructure['size'] . '.' . $dbColumnStructure['scale'];
-		$newColumnLength = str_replace(',', '.', $newColumnLength);
-		return (float) $newColumnLength > (float) $currentColumnLength;
+		$acceptableLengthRange = $this->getFieldModel()->getAcceptableLengthRange();
+		return $acceptableLengthRange['min'] <= $newMinValue && $acceptableLengthRange['max'] >= $newMinValue;
 	}
 }

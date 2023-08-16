@@ -103,21 +103,9 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
-	public function validateColumnLength($newColumnLength): bool
+	public function validateMaximumLength(int $newMinValue, int $newMaxValue): bool
 	{
-		$minColumnLength = 0;
-		$maxColumnLength = 255;
-		$newColumnLength = (int) $newColumnLength;
-		if ($newColumnLength > $minColumnLength && $newColumnLength <= $maxColumnLength) {
-			return true;
-		}
-		return $newColumnLength > $minColumnLength && $newColumnLength <= $maxColumnLength ? true : false;
-	}
-
-	/** {@inheritdoc} */
-	public function isColumnLengthIncreased(string $newColumnLength): bool
-	{
-		$dbColumnStructure = $this->getFieldModel()->getDBColumnType(false);
-		return (int) $newColumnLength > $dbColumnStructure['size'];
+		$acceptableLengthRange = $this->getFieldModel()->getAcceptableLengthRange();
+		return $acceptableLengthRange['min'] <= $newMinValue && $acceptableLengthRange['max'] >= $newMinValue;
 	}
 }

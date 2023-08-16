@@ -23,7 +23,6 @@
 				<input type="hidden" name="mode" value="save" />
 				<input type="hidden" name="fieldid" value="{$FIELD_MODEL->getId()}" />
 				<input type="hidden" name="sourceModule" value="{$SELECTED_MODULE_NAME|escape}" />
-				<input type="hidden" name="column_db_type" value="{$FIELD_DATABASE_INFO['type']}" />
 				<div class="row mx-0 mb-2 py-2 border-bottom">
 					<div class="col-md-6">
 						<strong>{App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}: </strong>{$FIELD_LABEL_TRANSLATION}<br />
@@ -43,6 +42,24 @@
 									id="label" data-validation-engine="validate[maxSize[50]]" />
 							</div>
 						</div>
+						{if $FIELD_MODEL->getUITypeModel()->isResizableColumn()}
+							<div class="form-row form-group">
+								{if in_array($FIELD_MODEL->getFieldDataType(),['integer','double'])}
+									<div class="col">
+										<label for="minimumlength"><strong>{App\Language::translate('LBL_MINIMUM_LENGTH', $QUALIFIED_MODULE)}</strong></label>
+										<input type="text" class="form-control" id="minimumlength" name="minimumlength"
+											data-validation-engine="validate[required,custom[integer],min[{$ACCEPTABLE_LENGTH_RANGE['min']}],max[{$ACCEPTABLE_LENGTH_RANGE['max']}]]"
+											value="{$FIELD_MODEL->getMinValue()}" />
+									</div>
+								{/if}
+								<div class="col">
+									<label for="maximumlength"><strong>{App\Language::translate('LBL_MAXIMUM_LENGTH', $QUALIFIED_MODULE)}</strong></label>
+									<input type="text" class="form-control {if $FIELD_MODEL->getFieldDataType() eq 'string'} js-string-max-length{/if}" id="maximumlength" name="maximumlength"
+										data-validation-engine="validate[required,custom[integer],min[{$ACCEPTABLE_LENGTH_RANGE['min']}],max[{$ACCEPTABLE_LENGTH_RANGE['max']}]]"
+										value="{$FIELD_MODEL->getMaxValue()}" />
+								</div>
+							</div>
+						{/if}
 						<div class="checkbox my-1">
 							<input type="hidden" name="mandatory" value="O" />
 							<input type="checkbox" name="mandatory"
@@ -148,14 +165,6 @@
 								{/if}
 							</div>
 						</div>
-						{if $FIELD_MODEL->getUITypeModel()->isResizableColumn()}
-							<div class="form-group">
-								<label for="column_length"><strong>{App\Language::translate('LBL_COLUMN_LENGTH', $QUALIFIED_MODULE)}</strong></label>
-								<input type="text" class="form-control" id="column_length" name="column_length"
-									data-validation-engine="validate[required,custom[integer]"
-									value="{$FIELD_MODEL->getDbValueLengthWithScale()}" />
-							</div>
-						{/if}
 					</div>
 					<div class="col-md-6 px-1">
 						{if in_array($FIELD_MODEL->getFieldDataType(),['string','currency','url','integer','double'])}
@@ -181,7 +190,7 @@
 							</div>
 						{/if}
 						<div class="form-group">
-							<label for="maxlengthtext"><strong>{App\Language::translate('LBL_MAX_LENGTH_TEXT', $QUALIFIED_MODULE)}</strong></label>
+							<label for="maxlengthtext"><strong>{App\Language::translate('LBL_MAX_DISPLAY_LENGTH_TEXT', $QUALIFIED_MODULE)}</strong></label>
 							<input type="text" class="form-control" id="maxlengthtext" name="maxlengthtext"
 								value="{$FIELD_MODEL->get('maxlengthtext')|escape}" />
 						</div>

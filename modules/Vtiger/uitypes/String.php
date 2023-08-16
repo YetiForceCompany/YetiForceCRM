@@ -18,18 +18,35 @@ class Vtiger_String_UIType extends Vtiger_Base_UIType
 	protected $isResizableColumn = true;
 
 	/** {@inheritdoc} */
-	public function validateColumnLength($newColumnLength): bool
+	public function validateMaximumLength(int $minimumLength, int $maximumLength): bool
 	{
-		$minColumnLength = 0;
-		$maxColumnLength = 255;
-		$newColumnLength = (int) $newColumnLength;
-		if ($newColumnLength > $minColumnLength && $newColumnLength <= $maxColumnLength) {
-			return true;
-		}
-		return $newColumnLength > $minColumnLength && $newColumnLength <= $maxColumnLength;
+		$allowedMaxValue = 255;
+		$newColumnLength = (int) $maximumLength;
+		return $newColumnLength <= $allowedMaxValue;
 	}
 
 	/** {@inheritdoc} */
+	public function changeMaximumLength(int $minimumLength, int $maximumLength): void
+	{
+		if ($this->isResizableColumn() && $this->validateMaximumLength($minimumLength, $maximumLength)) {
+			$fieldInstance = $this->getFieldModel();
+			if ($this->isColumnLengthIncreased($maximumLength)) {
+				$dbColumnStructure = $fieldInstance->getDBColumnType(false);
+				$columnType = $dbColumnStructure['type'];
+				$db = App\Db::getInstance();
+				$db->createCommand()->alterColumn($fieldInstance->getTableName(), $fieldInstance->getColumnName(), "{$columnType}({$maximumLength})")->execute();
+			}
+			$this->getFieldModel()->set('maximumlength', $maximumLength);
+		}
+	}
+
+	/**
+	 * Method is responsible for comparing the current length of a column with its previous state to ascertain whether there have been any changes in the column length.
+	 *
+	 * @param string $newColumnLength
+	 *
+	 * @return bool
+	 */
 	public function isColumnLengthIncreased(string $newColumnLength): bool
 	{
 		$dbColumnStructure = $this->getFieldModel()->getDBColumnType(false);

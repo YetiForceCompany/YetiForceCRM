@@ -1708,26 +1708,7 @@ $.Class(
 								modalContainer.find('[name="icon_name"]').val(data['name']);
 							});
 						});
-						modalContainer.find('[name="column_length"]').on('change', (e) => {
-							let element = $(e.currentTarget);
-							let columnDbType = modalContainer.find('[name="column_db_type"]').val();
-							let validClassInstance;
-							switch (columnDbType) {
-								case 'decimal':
-									validClassInstance = new Vtiger_DecimalColumnLength_Validator_Js();
-									break;
-								case 'integer':
-								case 'string':
-									validClassInstance = new Vtiger_MaxLength_Validator_Js();
-									break;
-							}
-							if (validClassInstance) {
-								validClassInstance.setElement(element);
-								let response = validClassInstance.validate();
-								if (response !== true) {
-									element.validationEngine('showPrompt', validClassInstance.getError(), '', 'topLeft', true);
-								}
-							}
+						modalContainer.find('.js-string-max-length').on('change', (_e) => {
 							app.showConfirmModal({
 								text: app.vtranslate('JS_COLUMN_LENGTH_CHANGE_WARNING'),
 								rejectedCallback: () => {
@@ -2489,49 +2470,6 @@ Vtiger_Base_Validator_Js(
 				}
 			});
 			return r;
-		}
-	}
-);
-
-Vtiger_Base_Validator_Js(
-	'Vtiger_DecimalColumnLength_Validator_Js',
-	{
-		/**
-		 * Function which invokes field validation
-		 * @param accepts field element as parameter
-		 * @return error|void
-		 */
-		invokeValidation: function (field, _rules, _i, _options) {
-			let instance = new Vtiger_DecimalColumnLength_Validator_Js();
-			instance.setElement(field);
-			let response = instance.validate();
-			if (response != true) {
-				return instance.getError();
-			}
-		}
-	},
-	{
-		/**
-		 * Function to validate the value for decimal column length
-		 * @return boolean
-		 */
-		validate: function () {
-			let response = this._super();
-			if (response != true) {
-				return response;
-			}
-			let result;
-			let fieldValue = this.getFieldValue();
-			console.log(fieldValue);
-			let inputRegex = /(?:[1-9]|[1-5][0-9]|59),[2-5]/;
-			if (inputRegex.test(fieldValue)) {
-				result = true;
-			} else {
-				let error = app.vtranslate('JS_DECIMAL_COLUMN_LENGTH_INFO');
-				this.setError(error);
-				result = false;
-			}
-			return result;
 		}
 	}
 );

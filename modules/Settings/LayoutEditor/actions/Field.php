@@ -177,8 +177,8 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 					$fieldInstance->set('defaultvalue', '');
 				}
 			}
-			if ($request->has('column_length')) {
-				$this->changeColumnLength($fieldInstance, $request->getByType('column_length', App\Purifier::TEXT));
+			if ($request->has('maximumlength')) {
+				$uitypeModel->changeMaximumLength($request->getInteger('minimumlength', 0), $request->getInteger('maximumlength', 0));
 			}
 			$fieldInstance->save();
 			$response->setResult([
@@ -328,25 +328,5 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 			$response->setError($e->getCode(), $e->getMessage());
 		}
 		$response->emit();
-	}
-
-	/**
-	 * Check if column length has changed.
-	 *
-	 * @param Settings_LayoutEditor_Field_Model $fieldInstance
-	 * @param string                            $columnLength
-	 *
-	 * @return void
-	 */
-	private function changeColumnLength(Settings_LayoutEditor_Field_Model $fieldInstance, string $columnLength)
-	{
-		$uitypeModel = $fieldInstance->getUITypeModel();
-		if ($uitypeModel->isResizableColumn() && $uitypeModel->isColumnLengthIncreased($columnLength) && $uitypeModel->validateColumnLength($columnLength)) {
-			$dbColumnStructure = $fieldInstance->getDBColumnType(false);
-			$columnType = $dbColumnStructure['type'];
-			$db = App\Db::getInstance();
-			$db->createCommand()->alterColumn($fieldInstance->getTableName(), $fieldInstance->getColumnName(), "{$columnType}({$columnLength})")->execute();
-			$fieldInstance->set('maximumlength', $fieldInstance->getRangeValues());
-		}
 	}
 }

@@ -581,6 +581,21 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
+	 * Change maximum field length.
+	 *
+	 * @param int $minimumLength
+	 * @param int $maximumLength
+	 *
+	 * @return void
+	 */
+	public function changeMaximumLength(int $minimumLength, int $maximumLength): void
+	{
+		if ($this->isResizableColumn() && $this->validateMaximumLength($minimumLength, $maximumLength)) {
+			$this->getFieldModel()->set('maximumlength', "{$minimumLength},{$maximumLength}");
+		}
+	}
+
+	/**
 	 * Method is designed to determine whether it is possible to change the length of a column in a database structure.
 	 *
 	 * @return bool
@@ -591,25 +606,14 @@ class Vtiger_Base_UIType extends \App\Base
 	}
 
 	/**
-	 * Method is responsible for ensuring the validity of the length of a specific column in a database structure.
+	 * Method is responsible for ensuring the validity of the length of a specific uitype.
 	 *
-	 * @param $newColumnLength
-	 *
-	 * @return bool
-	 */
-	public function validateColumnLength($newColumnLength): bool
-	{
-		return false;
-	}
-
-	/**
-	 * Method is responsible for comparing the current length of a column with its previous state to ascertain whether there have been any changes in the column length.
-	 *
-	 * @param string $newColumnLength
+	 * @param int $newMinValue
+	 * @param int $newMaxValue
 	 *
 	 * @return bool
 	 */
-	public function isColumnLengthIncreased(string $newColumnLength): bool
+	public function validateMaximumLength(int $newMinValue, int $newMaxValue): bool
 	{
 		return false;
 	}

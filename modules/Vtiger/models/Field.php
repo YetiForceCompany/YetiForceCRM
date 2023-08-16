@@ -1687,6 +1687,32 @@ class Vtiger_Field_Model extends vtlib\Field
 	}
 
 	/**
+	 * Get acceptable field type length range.
+	 *
+	 * @return array
+	 */
+	public function getAcceptableLengthRange(): array
+	{
+		$minAceptableLength = $maxAceeptableLength = false;
+		if ('string' === $this->getFieldDataType()) {
+			$minAceptableLength = 1;
+			$maxAceeptableLength = 255;
+		} else {
+			$rangeValue = $this->getRangeValues();
+			if (false !== strpos($rangeValue, ',')) {
+				$explodedRange = explode(',', $rangeValue);
+				$minAceptableLength = $explodedRange[0];
+				$maxAceeptableLength = $explodedRange[1];
+			} else {
+				$minAceptableLength = -$rangeValue;
+				$maxAceeptableLength = $rangeValue;
+			}
+		}
+
+		return ['min' => $minAceptableLength, 'max' => $maxAceeptableLength];
+	}
+
+	/**
 	 * Get length value form database.
 	 *
 	 * @return int
@@ -1747,26 +1773,6 @@ class Vtiger_Field_Model extends vtlib\Field
 			return $string;
 		}
 		return $data;
-	}
-	
-	/**
-	 * Get length value with scale form database.
-	 *
-	 * @return string
-	 */
-	public function getDbValueLengthWithScale(): string
-	{
-		$db = \App\Db::getInstance();
-		$tableSchema = $db->getSchema()->getTableSchema($this->getTableName());
-		if (empty($tableSchema)) {
-			throw new \App\Exceptions\AppException('ERR_TABLE_DOES_NOT_EXISTS||' . $this->getTableName());
-		}
-		$scale = $tableSchema->getColumn($this->getColumnName())->scale ?: '';
-		$size = (string) $this->getDbValueLength();
-		if ($scale) {
-			$size = $size . ',' . $scale;
-		}
-		return $size;
 	}
 
 	/**
