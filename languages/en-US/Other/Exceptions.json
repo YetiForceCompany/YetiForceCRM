@@ -43,6 +43,7 @@
     "ERR_ITERATIONS_LIMIT_EXCEEDED": "Exceeded iteration limit.",
     "ERR_CANNOT_PARSE_SERVER_RESPONSE": "Error while parsing server responses",
     "ERR_CANNOT_CONNECT_TO_REMOTE": "Error while connecting to remote server",
+    "ERR_ERROR_WHILE_SENDING_DATA": "Error while sending data, there is probably some error/missing data.",
     "ERR_NO_INTERNET_CONNECTION": "No Internet connection",
     "ERR_OBJECT_MUST_HAVE_INTERFACE": "The object must have an interface %s",
     "ERR_CLASS_NOT_FOUND": "Class %s not found",
@@ -55,6 +56,9 @@
     "ERR_NO_2FA_TOTP_CODE": "No 2FA TOTP code",
     "ERR_FUNCTION_NOT_FOUND_IN_CLASS": "Function %s not found in class %s object",
     "ERR_FILE_SIZE_EXCEEDED": "File size exceeded",
-    "ERR_FILE_TYPE": "Invalid file type"
+    "ERR_FILE_TYPE": "Invalid file type",
+    "ERR_REQUIRED_VALUE_MISSING": "The field value is missing or is not supported",
+    "ERR_DETECTED_ERRORS_CURRENT_RECORD": "Problems or errors have been detected in this record. Please review the following message and modify the data accordingly.",
+    "ERR_DETECTED_ERRORS_WILL_DISAPPEAR": "The error will disappear only after the appropriate mechanisms are activated once the correction is made. This may take several minutes depending on your configuration."
   }
 }

@@ -32,7 +32,7 @@ class TraceablePDOStatement extends \DebugBar\DataCollector\PDO\TraceablePDOStat
 	 *
 	 * @return bool TRUE on success or FALSE on failure.
 	 */
-	public function execute($input_parameters = null)
+	public function execute($input_parameters = null): bool
 	{
 		$this->boundParameters['backtrace'] = \App\Debuger::getBacktrace(4);
 		$this->boundParameters['driverName'] = $this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME);

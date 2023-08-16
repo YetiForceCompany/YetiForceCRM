@@ -39,7 +39,7 @@ class Layout
 	 */
 	public static function getLayoutFile($name)
 	{
-		$basePath = 'layouts' . '/' . \App\Config::main('defaultLayout') . '/';
+		$basePath = 'layouts/' . \App\Config::main('defaultLayout') . '/';
 		$filePath = \Vtiger_Loader::resolveNameToPath('~' . $basePath . $name);
 		if (is_file($filePath)) {
 			if (!IS_PUBLIC_DIR) {
@@ -47,7 +47,7 @@ class Layout
 			}
 			return $basePath . $name;
 		}
-		$basePath = 'layouts' . '/' . \Vtiger_Viewer::getDefaultLayoutName() . '/';
+		$basePath = 'layouts/' . \Vtiger_Viewer::getDefaultLayoutName() . '/';
 		if (!IS_PUBLIC_DIR) {
 			$basePath = 'public_html/' . $basePath;
 		}
@@ -174,7 +174,7 @@ class Layout
 	 */
 	public static function truncateText(string $text, int $length, bool $showIcon = false, bool $nl2br = false): string
 	{
-		if (\mb_strlen($text) < $length) {
+		if (mb_strlen($text) < $length) {
 			return $nl2br ? nl2br($text) : $text;
 		}
 		$teaser = TextUtils::textTruncate(Purifier::encodeHtml($text), $length);

@@ -207,8 +207,7 @@ class Synchronizer
 			$recordModel = \Vtiger_Record_Model::getInstanceById($yfId, $moduleName);
 			$apiId = $recordModel->get('comarch_id') ?: 0;
 		} catch (\Throwable $th) {
-			$this->controller->log('GetApiId', ['comarch_id' => $yfId, 'moduleName' => $moduleName], $th);
-			\App\Log::error('Error GetApiId: ' . PHP_EOL . $th->__toString(), $this::LOG_CATEGORY);
+			$this->logError('GetApiId ' . $this->name, ['comarch_id' => $yfId, 'moduleName' => $moduleName], $th);
 		}
 		$this->updateMapIdCache($moduleName, $apiId, $yfId);
 		return $apiId;
@@ -322,8 +321,7 @@ class Synchronizer
 				}
 			}
 		} catch (\Throwable $ex) {
-			$this->controller->log('Export ' . $this->name, ['API' => $rows ?? ''], $ex);
-			\App\Log::error("Error during export {$this->name}: \n{$ex->__toString()}", $this::LOG_CATEGORY);
+			$this->logError('export ' . $this->name, ['API' => $rows ?? ''], $ex);
 		}
 		if ($this->config->get('log_all')) {
 			$this->controller->log('End export ' . $this->name, ['exported' => $i]);
@@ -347,11 +345,19 @@ class Synchronizer
 		$dataApi = $mapModel->getDataApi();
 		if ($mapModel->skip) {
 			if ($this->config->get('log_all')) {
-				$this->controller->log($this->name . ' ' . __FUNCTION__ . ' | skipped , inconsistent data', ['YF' => $row, 'API' => $dataApi ?? []]);
+				$this->controller->log(
+					$this->name . ' ' . __FUNCTION__ . ' | skipped , inconsistent data',
+					['YF' => $row, 'API' => $dataApi ?? []]
+				);
 			}
 		} elseif (empty($dataApi)) {
 			\App\Log::error(__FUNCTION__ . ' | Empty map details', $this::LOG_CATEGORY);
-			$this->controller->log($this->name . ' ' . __FUNCTION__ . ' | Empty map details', ['YF' => $row, 'API' => $dataApi ?? []], null, true);
+			$this->controller->log(
+				$this->name . ' ' . __FUNCTION__ . ' | Empty map details',
+				['YF' => $row, 'API' => $dataApi ?? []],
+				null,
+				true
+			);
 		} else {
 			try {
 				if ('create' === $mapModel->getModeApi() || empty($this->imported[$row[$mapModel::FIELD_NAME_ID]])) {
@@ -367,9 +373,10 @@ class Synchronizer
 				}
 				$status = true;
 			} catch (\Throwable $ex) {
-				$this->controller->log($this->name . ' ' . __FUNCTION__, ['YF' => $row, 'API' => $dataApi], $ex);
-				\App\Log::error('Error during ' . __FUNCTION__ . ': ' . PHP_EOL . $ex->__toString(), $this::LOG_CATEGORY);
+				$this->logError(__FUNCTION__ . ' ' . $this->name, ['YF' => $row, 'API' => $dataApi], $ex);
 				$this->addToQueue('export', $id);
+				$mapModel->setErrorLog([['message' => 'ERR_ERROR_WHILE_SENDING_DATA']]);
+				$mapModel->getRecordModel()->save();
 			}
 		}
 		if ($this->config->get('log_all')) {
@@ -415,8 +422,7 @@ class Synchronizer
 				}
 				$status = true;
 			} catch (\Throwable $ex) {
-				$this->controller->log($this->name . ' ' . __FUNCTION__, ['YF' => $dataYf, 'API' => $row], $ex);
-				\App\Log::error('Error during ' . __FUNCTION__ . ': ' . PHP_EOL . $ex->__toString(), $this::LOG_CATEGORY);
+				$this->logError(__FUNCTION__ . ' ' . $this->name, ['YF' => $dataYf, 'API' => $row], $ex);
 				$this->addToQueue('import', $apiId);
 			}
 		} else {
@@ -523,5 +529,20 @@ class Synchronizer
 		$queryGenerator = $this->getFromYf($this->getMapModel()->getModule(), true);
 		$queryGenerator->setLimit($this->config->get($this::LIMIT_NAME));
 		return $queryGenerator->createQuery();
+	}
+
+	/**
+	 * Error logging.
+	 *
+	 * @param string     $title
+	 * @param array|null $params
+	 * @param \Throwable $ex
+	 *
+	 * @return void
+	 */
+	protected function logError(string $title, ?array $params, \Throwable $ex): void
+	{
+		$this->controller->log($title, $params, $ex);
+		\App\Log::error("Error during {$title}: \n{$ex->__toString()}", $this::LOG_CATEGORY);
 	}
 }

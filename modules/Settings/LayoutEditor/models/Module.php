@@ -11,14 +11,6 @@
 
 class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 {
-	/** {@inheritdoc} */
-	public $name = 'LayoutEditor';
-	/** @var string Parent name */
-	public $parent = 'Settings';
-	/** {@inheritdoc} */
-	public $isentitytype = false;
-	/** @var string[] List of supported modules */
-	public static $supportedModules = false;
 	/** @var string[] List of supported relation types */
 	const TYPES = [
 		'getRelatedList' => 'PLL_RELATED_LIST',
@@ -26,7 +18,7 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 		'getAttachments' => 'PLL_ATTACHMENTS',
 		'getEmails' => 'PLL_EMAILS',
 		'getMultiReference' => 'PLL_MULTI_REFERENCE',
-		//'getDependentsList' => 'PLL_DEPENDENTS_LIST',
+		// 'getDependentsList' => 'PLL_DEPENDENTS_LIST',
 		// 'getActivities' => 'PLL_ACTIVITIES',
 	];
 	/** @var string[] Related view types. */
@@ -42,6 +34,14 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 		'label', 'presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field',
 		'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory', 'icon',
 	];
+	/** {@inheritdoc} */
+	public $name = 'LayoutEditor';
+	/** @var string Parent name */
+	public $parent = 'Settings';
+	/** {@inheritdoc} */
+	public $isentitytype = false;
+	/** @var string[] List of supported modules */
+	public static $supportedModules = false;
 	/** @var array Relations */
 	public $relations;
 	/** @var Vtiger_Module_Model Source module */
@@ -175,12 +175,12 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 				if ('Currency' === $fieldType) {
 					$details['decimalReadonly'] = true;
 				}
-				//including mantisaa and integer part
+				// including mantisaa and integer part
 				$details['maxLength'] = 64;
 			}
 			if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType || 'MultipicklistTags' === $fieldType) {
 				$details['preDefinedValueExists'] = true;
-				//text area value type , can give multiple values
+				// text area value type , can give multiple values
 				$details['preDefinedValueType'] = 'text';
 				if ('Picklist' === $fieldType) {
 					$details['picklistoption'] = true;
@@ -369,7 +369,7 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		if ('Related1M' === $fieldType) {
 			if (!\is_array($params['referenceModule'])) {
-				$moduleList[] = $params['referenceModule'];
+				$moduleList = [$params['referenceModule']];
 			} else {
 				$moduleList = $params['referenceModule'];
 			}
@@ -408,7 +408,7 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 			case 'Decimal':
 				$fieldLength = $params['fieldLength'];
 				$decimal = $params['decimal'];
-				$uitype = $uitype ?? 7;
+				$uitype ??= 7;
 				$dbfldlength = $fieldLength + $decimal + 1;
 				$type = $importerType->decimal($dbfldlength, $decimal);
 				// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/6363

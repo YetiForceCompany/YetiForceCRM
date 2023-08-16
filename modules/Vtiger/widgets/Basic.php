@@ -13,6 +13,8 @@ class Vtiger_Basic_Widget
 	public $Module = false;
 	public $Record = false;
 	public $Config = [];
+	/** @var int Data widget.. */
+	public $Data;
 	public $moduleModel = false;
 	public $dbParams = [];
 	public $allowedModules = [];

@@ -15,6 +15,8 @@
  */
 class Vtiger_Record_Model extends \App\Base
 {
+	/** @var Vtiger_Record_Model Instance of the recrod */
+	protected $entity;
 	/**
 	 * @var string Record label
 	 */
@@ -211,13 +213,15 @@ class Vtiger_Record_Model extends \App\Base
 		return \App\Purifier::encodeHtml(App\Purifier::decodeHtml($displayName));
 	}
 
+	/**
+	 * Track changes in record.
+	 *
+	 * @return bool
+	 */
 	public function isWatchingRecord()
 	{
-		if (!isset($this->isWatchingRecord)) {
-			$watchdog = Vtiger_Watchdog_Model::getInstanceById($this->getId(), $this->getModuleName());
-			$this->isWatchingRecord = (bool) $watchdog->isWatchingRecord();
-		}
-		return $this->isWatchingRecord;
+		$watchdog = Vtiger_Watchdog_Model::getInstanceById($this->getId(), $this->getModuleName());
+		return  (bool) $watchdog->isWatchingRecord();
 	}
 
 	/**
@@ -568,16 +572,24 @@ class Vtiger_Record_Model extends \App\Base
 	{
 		$entityInstance = $this->getModule()->getEntityInstance();
 		$db = \App\Db::getInstance();
+		$createCommand = $db->createCommand();
 		foreach ($this->getValuesForSave() as $tableName => $tableData) {
 			if ($this->isNew()) {
 				if ('vtiger_crmentity' === $tableName) {
-					$db->createCommand()->insert($tableName, $tableData)->execute();
+					$createCommand->insert($tableName, $tableData)->execute();
 					$this->setId((int) $db->getLastInsertID('vtiger_crmentity_crmid_seq'));
 				} else {
-					$db->createCommand()->insert($tableName, [$entityInstance->tab_name_index[$tableName] => $this->getId()] + $tableData)->execute();
+					$createCommand->insert(
+						$tableName,
+						[$entityInstance->tab_name_index[$tableName] => $this->getId()] + $tableData
+					)->execute();
 				}
 			} else {
-				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
+				$createCommand->update(
+					$tableName,
+					$tableData,
+					[$entityInstance->tab_name_index[$tableName] => $this->getId()]
+				)->execute();
 			}
 		}
 		if ($this->getModule()->isInventory()) {
@@ -630,7 +642,6 @@ class Vtiger_Record_Model extends \App\Base
 				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $uitypeModel->convertToSave($value, $this);
 			}
 		}
-
 		return $forSave;
 	}
 

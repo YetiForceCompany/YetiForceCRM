@@ -9,20 +9,6 @@ on:
       - developer
 
 jobs:
-  tests74:
-    runs-on: ubuntu-latest
-    name: PHP 7.4 - MariaDB 10.5
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Tests
-        uses: YetiForceCompany/YetiForceCRM-Tests/7.4@main
-        env:
-          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
-
   tests80:
     runs-on: ubuntu-latest
     name: PHP 8.0 - MariaDB 10.5
@@ -79,81 +65,6 @@ jobs:
           YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
           YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
 
-  tests74MariaDB106:
-    needs: tests80
-    runs-on: ubuntu-latest
-    name: PHP 7.4 - MariaDB 10.6
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: Tests
-        uses: YetiForceCompany/YetiForceCRM-Tests/mariadb-10.6@main
-        env:
-          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
-
-  tests74MariaDB107:
-    needs: tests80
-    runs-on: ubuntu-latest
-    name: PHP 7.4 - MariaDB 10.7
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: Tests
-        uses: YetiForceCompany/YetiForceCRM-Tests/mariadb-10.7@main
-        env:
-          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
-
-  tests74MariaDB108:
-    needs: tests80
-    runs-on: ubuntu-latest
-    name: PHP 7.4 - MariaDB 10.8
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: Tests
-        uses: YetiForceCompany/YetiForceCRM-Tests/mariadb-10.8@main
-        env:
-          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
-
-  tests74MariaDB109:
-    needs: tests80
-    runs-on: ubuntu-latest
-    name: PHP 7.4 - MariaDB 10.9
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: Tests
-        uses: YetiForceCompany/YetiForceCRM-Tests/mariadb-10.9@main
-        env:
-          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
-
-  tests74MySQL57:
-    needs: tests80
-    runs-on: ubuntu-latest
-    name: PHP 7.4 - MySQL 5.7 Percona
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: Tests
-        uses: YetiForceCompany/YetiForceCRM-Tests/percona-mysql-5.7@main
-        env:
-          YETI_TEST_MODULE_KEY: ${{ secrets.YETI_TEST_MODULE_KEY }}
-          YETI_MAIL_PASS: ${{ secrets.YETI_MAIL_PASS }}
-
   coverage:
     needs: tests80
     runs-on: ubuntu-latest
@@ -180,7 +91,7 @@ jobs:
       - name: Scrutinizer CI
         run: |
           wget https://scrutinizer-ci.com/ocular.phar --quiet
-          /usr/bin/php7.4 ocular.phar code-coverage:upload --format=php-clover ${{github.workspace}}/tests/coverages/coverage.xml
+          /usr/bin/php8.0 ocular.phar code-coverage:upload --format=php-clover ${{github.workspace}}/tests/coverages/coverage.xml
 
       - name: Code Climate - Test & publish code coverage
         uses: paambaati/codeclimate-action@v3.0.0

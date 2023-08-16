@@ -214,7 +214,7 @@ class Settings_WooCommerce_Activation_Model
 			}
 			if (isset($fieldData['referenceModule'])) {
 				if (!\is_array($fieldData['referenceModule'])) {
-					$moduleList[] = $fieldData['referenceModule'];
+					$moduleList = [$fieldData['referenceModule']];
 				} else {
 					$moduleList = $fieldData['referenceModule'];
 				}
@@ -225,16 +225,6 @@ class Settings_WooCommerce_Activation_Model
 				}
 			}
 		}
-	}
-
-	/**
-	 * Check if WooCommerce webhooks are installed.
-	 *
-	 * @return bool
-	 */
-	protected static function checkWebhooks(): bool
-	{
-		return empty(self::getMissingWebhooks());
 	}
 
 	/**
@@ -257,6 +247,16 @@ class Settings_WooCommerce_Activation_Model
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Check if WooCommerce webhooks are installed.
+	 *
+	 * @return bool
+	 */
+	protected static function checkWebhooks(): bool
+	{
+		return empty(self::getMissingWebhooks());
 	}
 
 	/**

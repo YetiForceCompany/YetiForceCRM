@@ -10,8 +10,7 @@ class ListUpdatedRecord
 {
 	public static function getListRecord($module, array $columnList, $limit)
 	{
-		$moduleList = [];
-		$recordList = [];
+		$recordList = $moduleList = [];
 		if (!$module) {
 			$moduleList = (new \App\Db\Query())->select(['name'])
 				->from('vtiger_tab')
