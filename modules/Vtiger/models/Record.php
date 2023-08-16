@@ -15,6 +15,8 @@
  */
 class Vtiger_Record_Model extends \App\Base
 {
+	/** @var Vtiger_Record_Model Instance of the recrod */
+	protected $entity;
 	/**
 	 * @var string Record label
 	 */
@@ -211,13 +213,15 @@ class Vtiger_Record_Model extends \App\Base
 		return \App\Purifier::encodeHtml(App\Purifier::decodeHtml($displayName));
 	}
 
+	/**
+	 * Track changes in record.
+	 *
+	 * @return bool
+	 */
 	public function isWatchingRecord()
 	{
-		if (!isset($this->isWatchingRecord)) {
-			$watchdog = Vtiger_Watchdog_Model::getInstanceById($this->getId(), $this->getModuleName());
-			$this->isWatchingRecord = (bool) $watchdog->isWatchingRecord();
-		}
-		return $this->isWatchingRecord;
+		$watchdog = Vtiger_Watchdog_Model::getInstanceById($this->getId(), $this->getModuleName());
+		return  (bool) $watchdog->isWatchingRecord();
 	}
 
 	/**
