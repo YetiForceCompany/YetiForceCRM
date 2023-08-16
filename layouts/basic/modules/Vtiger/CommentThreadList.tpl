@@ -95,7 +95,7 @@
 						{/if}
 						{assign var=LINKS value=$COMMENT->getCommentLinks()}
 						{if !empty($LINKS)}
-							{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$LINKS BUTTON_VIEW='comment' MODULE=$MODULE_NAME}
+							{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$LINKS BUTTON_VIEW='comment' MODULE_NAME=$MODULE_NAME}
 						{/if}
 					</span>
 				</div>

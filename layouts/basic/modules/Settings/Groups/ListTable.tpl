@@ -8,7 +8,7 @@
 	</div>
 	<div class="actions mb-2">
 		{if !empty($LINKS)}
-			{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE}
+			{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE_NAME=$QUALIFIED_MODULE}
 		{/if}
 	</div>
 	<form class="js-filter-form" data-js="container">

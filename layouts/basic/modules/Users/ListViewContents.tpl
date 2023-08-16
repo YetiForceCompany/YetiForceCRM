@@ -44,7 +44,7 @@
 			{assign var=ONLY_ONE value=count($LINKS) eq 1}
 			<div class="actions">
 				{if $ONLY_ONE}
-					{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE}
+					{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE_NAME=$QUALIFIED_MODULE}
 				{else}
 					<div class="dropright u-remove-dropdown-icon">
 						<button class="btn btn-sm btn-light toolsAction dropdown-toggle" type="button"
@@ -54,7 +54,7 @@
 						</button>
 						<div class="dropdown-menu" aria-label="{\App\Language::translate('LBL_ACTIONS')}">
 							{if !empty($LINKS)}
-								{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE SKIP_GROUP=true}
+								{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE_NAME=$QUALIFIED_MODULE SKIP_GROUP=true}
 							{/if}
 						</div>
 					</div>
@@ -114,7 +114,7 @@
 									{assign var="SEARCH_INFO" value=[]}
 								{/if}
 								{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME)
-																																					FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
+																																								FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 							</td>
 						{/foreach}
 					</tr>

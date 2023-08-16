@@ -28,7 +28,7 @@
 						{/if}
 						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$LINKS TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS='listViewMassActions mr-sm-1 mb-1 mb-sm-0 c-btn-block-sm-down'}
 						{if !empty($LISTVIEW_LINKS['LISTVIEWBASIC'])}
-							{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LINKS=$LISTVIEW_LINKS['LISTVIEWBASIC'] BUTTON_VIEW='listView' MODULE=$MODULE CLASS='mr-sm-1 mb-1 c-btn-block-sm-down'}
+							{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LINKS=$LISTVIEW_LINKS['LISTVIEWBASIC'] BUTTON_VIEW='listView' MODULE_NAME=$MODULE CLASS='mr-sm-1 mb-1 c-btn-block-sm-down'}
 						{/if}
 					</div>
 					<div class="customFilterMainSpan ml-auto mx-xl-auto">

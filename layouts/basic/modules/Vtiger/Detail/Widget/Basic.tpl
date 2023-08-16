@@ -94,7 +94,7 @@
 											</button>
 										{/if}
 										{if !empty($WIDGET['buttonHeader'])}
-											{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$WIDGET['buttonHeader'] BUTTON_VIEW='detailViewBasic' MODULE=$MODULE_NAME SKIP_GROUP=true}
+											{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$WIDGET['buttonHeader'] BUTTON_VIEW='detailViewBasic' MODULE_NAME=$MODULE_NAME SKIP_GROUP=true}
 										{/if}
 									{/if}
 								</div>

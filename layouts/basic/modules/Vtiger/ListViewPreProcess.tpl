@@ -22,7 +22,7 @@
 					</div>
 					<div class="my-auto o-header-toggle__actions js-header-toggle__actions" id="o-view-actions__container">
 						{if !empty($HEADER_LINKS['LIST_VIEW_HEADER'])}
-							{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LINKS=$HEADER_LINKS['LIST_VIEW_HEADER'] BUTTON_VIEW='listViewHeader' BREAKPOINT='md' MODULE=$MODULE CLASS='c-btn-link--responsive'}
+							{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LINKS=$HEADER_LINKS['LIST_VIEW_HEADER'] BUTTON_VIEW='listViewHeader' BREAKPOINT='md' MODULE_NAME=$MODULE CLASS='c-btn-link--responsive'}
 						{/if}
 					</div>
 				</div>

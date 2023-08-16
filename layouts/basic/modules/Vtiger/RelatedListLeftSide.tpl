@@ -17,7 +17,7 @@
 			{assign var=ONLY_ONE value=count($LINKS) eq 1}
 			<div class="actions">
 				{if $ONLY_ONE}
-					{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE=$MODULE}
+					{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE_NAME=$MODULE}
 				{else}
 					<div class="dropright u-remove-dropdown-icon">
 						<button class="btn btn-sm btn-light toolsAction dropdown-toggle" type="button"
@@ -26,7 +26,7 @@
 							<span class="sr-only">{\App\Language::translate('LBL_ACTIONS')}</span>
 						</button>
 						<div class="dropdown-menu" aria-label="{\App\Language::translate('LBL_ACTIONS')}">
-							{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE=$MODULE SKIP_GROUP=true}
+							{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE_NAME=$MODULE SKIP_GROUP=true}
 						</div>
 					</div>
 				{/if}

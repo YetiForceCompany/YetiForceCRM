@@ -16,7 +16,7 @@
 				<div class="actions col-3">
 					<div class="float-right pr-1">
 						{if !empty($WIDGET_MODEL->getSettingsLinks())}
-							{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$WIDGET_MODEL->getSettingsLinks() MODULE=$QUALIFIED_MODULE  SKIP_GROUP=true}
+							{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$WIDGET_MODEL->getSettingsLinks() MODULE_NAME=$QUALIFIED_MODULE  SKIP_GROUP=true}
 						{/if}
 					</div>
 				</div>

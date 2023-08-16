@@ -10,7 +10,7 @@
 			<span class="mb-1 u-text-ellipsis--no-hover" title="{$RECORD->getDisplayName()}">{$RECORD->getDisplayName()}</span>
 			{if $HEADER_LINKS}
 				<div class="c-popover--link__header__buttons btn-group">
-					{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$HEADER_LINKS BUTTON_VIEW='recordPopover' MODULE=$MODULE_NAME SKIP_GROUP=true}
+					{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$HEADER_LINKS BUTTON_VIEW='recordPopover' MODULE_NAME=$MODULE_NAME SKIP_GROUP=true}
 				</div>
 			{/if}
 		</h5>

@@ -2,7 +2,7 @@
 {strip}
 	<!-- tpl-Settings-AdminAccess-Permissions -->
 	<div class="actions mb-2">
-		{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' BREAKPOINT='md' CLASS='c-btn-link--responsive' MODULE=$QUALIFIED_MODULE}
+		{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' BREAKPOINT='md' CLASS='c-btn-link--responsive' MODULE_NAME=$QUALIFIED_MODULE}
 	</div>
 	<form class="js-filter-form" data-js="container">
 		<table id="dataTableExamplePermissions" class="table table-sm table-striped display text-center mt-2 js-data-table" data-url="index.php?module=AdminAccess&parent=Settings&action=GetData&mode=access">

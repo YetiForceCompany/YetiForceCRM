@@ -64,7 +64,7 @@
 									{if count($LINKS) > 0}
 										<div class="actions">
 											<div class="float-right">
-												{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE}
+												{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE_NAME=$QUALIFIED_MODULE}
 											</div>
 										</div>
 									{/if}

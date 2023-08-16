@@ -18,7 +18,7 @@
 			<span class="fas fa-times mr-1"></span><strong>{\App\Language::translate('LBL_CANCEL', $MODULE)}</strong>
 		</button>
 		{if !empty($EDITVIEW_LINKS['EDIT_VIEW_HEADER'])}
-			{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LIKNS=$EDITVIEW_LINKS['EDIT_VIEW_HEADER'] BUTTON_VIEW='editViewHeader' MODULE=$MODULE}
+			{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LIKNS=$EDITVIEW_LINKS['EDIT_VIEW_HEADER'] BUTTON_VIEW='editViewHeader' MODULE_NAME=$MODULE}
 		{/if}
 	</div>
 	</form>

@@ -64,7 +64,7 @@
 										{/if}
 										{assign var=LINKS value=$COMMENT->getCommentLinks()}
 										{if !empty($LINKS)}
-											{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) BUTTON_VIEW='comment' MODULE=$MODULE_NAME  BTN_CLASS='btn-sm'}
+											{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) BUTTON_VIEW='comment' MODULE_NAME=$MODULE_NAME  BTN_CLASS='btn-sm'}
 										{/if}
 									{/if}
 									{assign var=CHILD_COMMENTS_COUNT value=$COMMENT->getChildCommentsCount()}

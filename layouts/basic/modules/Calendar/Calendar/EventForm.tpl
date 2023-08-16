@@ -129,7 +129,7 @@
 				<div class="o-calendar__form__actions">
 					<div class="d-flex flex-wrap{if empty($RECORD_ID)} justify-content-center{/if}">
 						{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
-							{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'] BUTTON_VIEW='quickcreateViewHeader' MODULE=$MODULE_NAME SKIP_GROUP=true}
+							{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'] BUTTON_VIEW='quickcreateViewHeader' MODULE_NAME=$MODULE_NAME SKIP_GROUP=true}
 						{/if}
 						<div class="ml-1">
 							<button type="submit" class="js-save-event btn btn-success"

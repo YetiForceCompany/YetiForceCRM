@@ -57,7 +57,7 @@
 		</div>
 		<div class="process-actions mt-3 mb-1 text-center">
 			{if !empty($PROCESS_WIZARD->getActions())}
-				{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$PROCESS_WIZARD->getActions() BUTTON_VIEW='detailViewProcessWizard' BREAKPOINT='md' MODULE=$MODULE_NAME SKIP_GROUP=true CLASS='c-btn-link--responsive'}
+				{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$PROCESS_WIZARD->getActions() BUTTON_VIEW='detailViewProcessWizard' BREAKPOINT='md' MODULE_NAME=$MODULE_NAME SKIP_GROUP=true CLASS='c-btn-link--responsive'}
 			{/if}
 		</div>
 	{/if}

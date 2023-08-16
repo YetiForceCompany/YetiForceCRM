@@ -11,7 +11,7 @@
 			<strong>{\App\Language::translate('LBL_CANCEL', $QUALIFIED_MODULE)}</strong>
 		</button>
 		{if isset($EDITVIEW_LINKS['EDIT_VIEW_HEADER'])}
-			{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$EDITVIEW_LINKS['EDIT_VIEW_HEADER'] BUTTON_VIEW='editViewHeader' MODULE=$QUALIFIED_MODULE SKIP_GROUP=true}
+			{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$EDITVIEW_LINKS['EDIT_VIEW_HEADER'] BUTTON_VIEW='editViewHeader' MODULE_NAME=$QUALIFIED_MODULE SKIP_GROUP=true}
 		{/if}
 	</div>
 	</form>

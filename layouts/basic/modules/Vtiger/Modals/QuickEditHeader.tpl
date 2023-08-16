@@ -37,7 +37,7 @@
 								{include file=\App\Layout::getTemplatePath('Edit/RecordCollectors.tpl', $MODULE) SHOW_BTN_LABEL=1 RECORD_COLLECTOR=$QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
 							{/if}
 							{if !empty($QUICKCREATE_LINKS['QUICKEDIT_VIEW_HEADER'])}
-								{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LINKS=$QUICKCREATE_LINKS['QUICKEDIT_VIEW_HEADER'] BUTTON_VIEW='quickcreateViewHeader' MODULE=$MODULE   TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq CLASS='px-1'}
+								{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LINKS=$QUICKCREATE_LINKS['QUICKEDIT_VIEW_HEADER'] BUTTON_VIEW='quickcreateViewHeader' MODULE_NAME=$MODULE   TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq CLASS='px-1'}
 							{/if}
 							<button class="btn btn-success mr-1" type="submit" tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}" title="{\App\Language::translate('LBL_SAVE', $MODULE)}">
 								<strong><span class="fas fa-check"></span></strong>
