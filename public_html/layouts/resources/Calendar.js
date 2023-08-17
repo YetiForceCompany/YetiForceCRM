@@ -211,30 +211,13 @@ window.Calendar_Js = class {
 				center: 'title,today',
 				right: 'prev,next'
 			},
+			locale: app.getLanguage(),
 			allDaySlot: app.getMainParams('allDaySlot'),
 			views: {
 				basic: {
 					dayMaxEvents: false
 				},
-				dayGridMonth: {
-					titleFormat: (args) => {
-						return this.formatDate(args.date, 'month');
-					}
-				},
-				timeGridWeek: {
-					titleFormat: (args) => {
-						return this.formatDate(args.date, 'week');
-					}
-				},
-				timeGridDay: {
-					titleFormat: (args) => {
-						return this.formatDate(args.date, 'day');
-					}
-				},
 				listWeek: {
-					titleFormat: (args) => {
-						return this.formatDate(args.date, 'week');
-					},
 					dayHeaderContent: (arg) => {
 						return {
 							html: `<span class="fc-list-day-text">${App.Fields.Date.fullDaysTranslated[arg.date.getDay()]}</span>
@@ -365,30 +348,6 @@ window.Calendar_Js = class {
 			}
 		});
 		return params;
-	}
-	/**
-	 * Converts the date format.
-	 * @param {object} date
-	 * @param {string} type
-	 * @returns {string}
-	 */
-	formatDate(date, type) {
-		switch (type) {
-			case 'month':
-				return Calendar_Js.monthFormat[CONFIG.dateFormat]
-					.replace('YYYY', date['year'])
-					.replace('MMMM', App.Fields.Date.fullMonthsTranslated[date['month']]);
-			case 'week':
-				return CONFIG.dateFormat
-					.replace('yyyy', date['year'])
-					.replace('mm', App.Fields.Date.monthsTranslated[date['month']])
-					.replace('dd', date['day'] + ' - ' + (date['day'] + 7));
-			case 'day':
-				return CONFIG.dateFormat
-					.replace('yyyy', date['year'])
-					.replace('mm', App.Fields.Date.monthsTranslated[date['month']])
-					.replace('dd', date['day']);
-		}
 	}
 	/**
 	 * Update calendar's event.
