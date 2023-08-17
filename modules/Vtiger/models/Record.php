@@ -15,37 +15,23 @@
  */
 class Vtiger_Record_Model extends \App\Base
 {
-	/** @var Vtiger_Record_Model Instance of the recrod */
-	protected $entity;
-	/**
-	 * @var string Record label
-	 */
+	/** @var string Record label */
 	public $label;
 	public $isNew = true;
 	public $ext = [];
-	/**
-	 * @var Vtiger_Module_Model Module model
-	 */
+	/** @var Vtiger_Module_Model Module model */
 	protected $module;
-	/**
-	 * @var array Inventory data
-	 */
+	/** @var CRMEntity Entity instance of the record */
+	protected $entity;
+	/** @var array Inventory data */
 	protected $inventoryData;
-	/**
-	 * @var array Record changes
-	 */
+	/** @var array Record changes */
 	protected $changes = [];
-	/**
-	 * @var array Record inventory changes
-	 */
+	/** @var array Record inventory changes */
 	protected $changesInventory = [];
-	/**
-	 * @var array Data for save
-	 */
+	/** @var array Data for save */
 	protected $dataForSave = [];
-	/**
-	 * @var array Event handler exceptions
-	 */
+	/** @var array Event handler exceptions */
 	protected $handlerExceptions = [];
 	protected $handler;
 	protected $privileges = [];
@@ -221,7 +207,7 @@ class Vtiger_Record_Model extends \App\Base
 	public function isWatchingRecord()
 	{
 		$watchdog = Vtiger_Watchdog_Model::getInstanceById($this->getId(), $this->getModuleName());
-		return  (bool) $watchdog->isWatchingRecord();
+		return (bool) $watchdog->isWatchingRecord();
 	}
 
 	/**
@@ -261,7 +247,7 @@ class Vtiger_Record_Model extends \App\Base
 	}
 
 	/**
-	 * Function to get the entity instance of the recrod.
+	 * Function to get the entity instance of the record.
 	 *
 	 * @return CRMEntity object
 	 */
