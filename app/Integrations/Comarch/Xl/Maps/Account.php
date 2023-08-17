@@ -40,7 +40,7 @@ class Account extends \App\Integrations\Comarch\Map
 			'names' => ['get' => 'knt_FormaPl', 'create' => 'FormaPl', 'update' => 'FormaPl'],
 			'fn' => 'findBySynchronizer', 'synchronizer' => 'PaymentMethods'
 		],
-		'crmactivity' => ['names' => ['get' => 'knt_SpTerminPlSpr', 'create' => 'TerminPlSpr', 'update' => 'LimitOkres']],
+		'payment_term_days' => ['names' => ['get' => 'knt_LimitOkres', 'create' => 'TerminPlSpr', 'update' => 'LimitOkres']],
 		'addresslevel1a' => [
 			'names' => ['get' => 'knt_Kraj', 'create' => 'Kraj', 'update' => 'Kraj'], 'fn' => 'convertCountry'
 		],

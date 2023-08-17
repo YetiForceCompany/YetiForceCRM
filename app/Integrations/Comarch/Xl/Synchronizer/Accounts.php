@@ -107,8 +107,7 @@ class Accounts extends \App\Integrations\Comarch\Synchronizer
 				}
 			}
 		} catch (\Throwable $ex) {
-			$this->controller->log('Import ' . $this->name, null, $ex);
-			\App\Log::error("Error during import {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
+			$this->logError('import ' . $this->name, null, $ex);
 		}
 		if ($this->config->get('log_all')) {
 			$this->controller->log('End import ' . $this->name, ['imported' => $i]);
@@ -130,8 +129,7 @@ class Accounts extends \App\Integrations\Comarch\Synchronizer
 				\App\Log::error("Import during export {$this->name}: Empty details", self::LOG_CATEGORY);
 			}
 		} catch (\Throwable $ex) {
-			$this->controller->log("Import {$this->name} by id", ['apiId' => $apiId, 'API' => $row ?? []], $ex);
-			\App\Log::error("Error during import by id {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
+			$this->logError("import {$this->name} by id", ['apiId' => $apiId, 'API' => $row ?? []], $ex);
 		}
 		return $id;
 	}

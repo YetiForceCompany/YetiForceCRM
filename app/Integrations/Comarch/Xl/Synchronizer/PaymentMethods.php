@@ -20,6 +20,8 @@ namespace App\Integrations\Comarch\Xl\Synchronizer;
  */
 class PaymentMethods extends \App\Integrations\Comarch\Synchronizer
 {
+	use \App\Integrations\Traits\SynchronizerPicklist;
+
 	/** @var array Cache for data from the API */
 	private $cache;
 	/** @var array ID by name cache from the API */
@@ -40,53 +42,6 @@ class PaymentMethods extends \App\Integrations\Comarch\Synchronizer
 		}
 	}
 
-	/**
-	 * Import account type from API.
-	 *
-	 * @return void
-	 */
-	public function import(): void
-	{
-		if ($this->config->get('log_all')) {
-			$this->controller->log('Start import ' . $this->name, []);
-		}
-		$fieldName = $this->fieldModel->getName();
-		$picklistValues = \App\Fields\Picklist::getValues($fieldName);
-		$values = [];
-		foreach ($picklistValues as $value) {
-			$values[mb_strtolower($value['picklistValue'])] = $value['picklistValue'];
-			$values[mb_strtolower(\App\Language::translate($value['picklistValue'], 'Accounts'))] = $value['picklistValue'];
-		}
-		if (\in_array('Przelew', array_column($this->cache, 'kon_Wartosc')) && isset($values['pll_transfer'])) {
-			$values['przelew'] = $values['pll_transfer'];
-		}
-		$i = 0;
-		foreach ($this->cache as $value) {
-			if (empty($value['kon_Wartosc'])) {
-				continue;
-			}
-			$name = mb_strtolower($value['kon_Wartosc']);
-			if (empty($values[$name])) {
-				try {
-					$itemModel = $this->fieldModel->getItemModel();
-					$itemModel->validateValue('name', $value['kon_Wartosc']);
-					$itemModel->set('name', $value['kon_Wartosc']);
-					$itemModel->save();
-					$this->cacheList[$value['kon_Wartosc']] = $value['kon_Lp'];
-					++$i;
-				} catch (\Throwable $ex) {
-					$this->controller->log('Import ' . $this->name, ['API' => $value], $ex);
-					\App\Log::error("Error during import {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
-				}
-			} else {
-				$this->cacheList[$values[$name]] = $value['kon_Lp'];
-			}
-		}
-		if ($this->config->get('log_all')) {
-			$this->controller->log('End import ' . $this->name, ['imported' => $i]);
-		}
-	}
-
 	/** {@inheritdoc} */
 	public function getYfValue($apiValue, array $field)
 	{
@@ -102,10 +57,33 @@ class PaymentMethods extends \App\Integrations\Comarch\Synchronizer
 		if ($value = $this->cacheList[$yfValue] ?? null) {
 			return $value;
 		}
-		if ($value = $this->cacheList[\App\Language::translate($yfValue, 'Accounts')] ?? null) {
+		if ($value = $this->cacheList[\App\Language::translate($yfValue, 'Accounts', 'pl-PL')] ?? null) {
 			return $value;
 		}
 		return null;
+	}
+
+	/**
+	 * Get picklist values.
+	 *
+	 * @return array
+	 */
+	private function getPicklistValues(): array
+	{
+		$picklistValues = \App\Fields\Picklist::getValues($this->fieldModel->getName());
+		$values = [];
+		foreach ($picklistValues as $value) {
+			$values[mb_strtolower($value['picklistValue'])] = $value['picklistValue'];
+			$values[mb_strtolower(\App\Language::translate(
+				$value['picklistValue'],
+				'Accounts',
+				'pl-PL'
+			))] = $value['picklistValue'];
+		}
+		if (\in_array('Przelew', array_column($this->cache, 'kon_Wartosc')) && isset($values['pll_transfer'])) {
+			$values['przelew'] = $values['pll_transfer'];
+		}
+		return $values;
 	}
 
 	/**
@@ -118,10 +96,14 @@ class PaymentMethods extends \App\Integrations\Comarch\Synchronizer
 		if (null === $this->cache) {
 			$this->cache = [];
 			try {
-				$this->cache = $this->getFromApi('PaymentMethod/Get');
+				foreach ($this->getFromApi('PaymentMethod/Get') as $value) {
+					if (empty($value['kon_Wartosc'])) {
+						continue;
+					}
+					$this->cache[$value['kon_Lp']] = $value['kon_Wartosc'];
+				}
 			} catch (\Throwable $ex) {
-				$this->controller->log('Get ' . $this->name, null, $ex);
-				\App\Log::error("Error during getAllFromApi {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
+				$this->logError('getAllFromApi ' . $this->name, null, $ex);
 			}
 		}
 		return $this->cache;

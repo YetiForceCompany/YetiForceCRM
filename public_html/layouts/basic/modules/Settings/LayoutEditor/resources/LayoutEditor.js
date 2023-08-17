@@ -183,7 +183,7 @@ $.Class(
 								data.find('[name="target"]').attr('readonly', true);
 								break;
 							default:
-								label.val(currentTarget.find('option:selected').val());
+								labelElement.val(currentTarget.find('option:selected').val());
 								break;
 						}
 					});
@@ -1703,11 +1703,6 @@ $.Class(
 						thisInstance.registerVariableToParsers(modalContainer);
 						app.registerEventForClockPicker(modalContainer.find('.clockPicker'));
 						modalContainer.find('[data-inputmask]').inputmask();
-						modalContainer.find('.js-select-icon').on('click', function (e) {
-							$.when(Settings_Vtiger_Index_Js.selectIcon({ skipImage: true })).done(function (data) {
-								modalContainer.find('[name="icon_name"]').val(data['name']);
-							});
-						});
 						modalContainer.find('.js-string-max-length').on('change', (_e) => {
 							app.showConfirmModal({
 								text: app.vtranslate('JS_COLUMN_LENGTH_CHANGE_WARNING'),

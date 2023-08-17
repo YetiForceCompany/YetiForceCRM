@@ -43,6 +43,28 @@ class Vtiger_Field_Model extends vtlib\Field
 		'longblob' => 4294967295,
 	];
 
+	/** @var string Field data type. */
+	public $fieldDataType;
+
+	/** @var string[] List of modules the field referenced to. */
+	public $referenceList;
+
+	/** @var string[] Picklist values only for custom fields;. */
+	public $picklistValues;
+
+	/**
+	 * TabIndex last sequence number.
+	 *
+	 * @var int
+	 */
+	public static $tabIndexLastSeq = 0;
+	/**
+	 * TabIndex default sequence number.
+	 *
+	 * @var int
+	 */
+	public static $tabIndexDefaultSeq = 0;
+
 	/** @var Vtiger_Field_Model[] Cache by field id */
 	protected static $instanceCacheById = [];
 
@@ -55,18 +77,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	/** @var string Field type. */
 	protected $fieldType;
 
-	/** @var string Field data type. */
-	public $fieldDataType;
-
 	/** @var string Field data type short. */
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
-
-	/** @var string[] List of modules the field referenced to. */
-	public $referenceList;
-
-	/** @var string[] Picklist values only for custom fields;. */
-	public $picklistValues;
 
 	/** @var bool Is calculate field */
 	protected $isCalculateField = true;
@@ -79,6 +92,30 @@ class Vtiger_Field_Model extends vtlib\Field
 
 	/** @var bool[] Permissions cache */
 	protected $permissionsCache = [];
+
+	public function __update()
+	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		1 === $this->get('generatedtype') ? $generatedType = 1 : $generatedType = 2;
+		$dbCommand->update('vtiger_field', ['typeofdata' => $this->get('typeofdata'), 'presence' => $this->get('presence'), 'quickcreate' => $this->get('quickcreate'),
+			'masseditable' => $this->get('masseditable'), 'header_field' => $this->get('header_field'), 'maxlengthtext' => $this->get('maxlengthtext'),
+			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'tabindex' => $this->get('tabindex'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
+			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
+			'fieldparams' => $this->get('fieldparams'), 'quickcreatesequence' => $this->get('quicksequence'), 'icon' => $this->get('icon'), 'fieldlabel' => $this->get('label'),
+		], ['fieldid' => $this->get('id')])->execute();
+		if ($anonymizationTarget = $this->get('anonymizationTarget')) {
+			$anonymizationTarget = \App\Json::encode($anonymizationTarget);
+			$exists = (new \App\Db\Query())->from('s_#__fields_anonymization')->where(['field_id' => $this->getId()])->exists();
+			if ($exists) {
+				$dbCommand->update('s_#__fields_anonymization', ['anonymization_target' => $anonymizationTarget], ['field_id' => $this->getId()])->execute();
+			} else {
+				$dbCommand->insert('s_#__fields_anonymization', ['field_id' => $this->getId(), 'anonymization_target' => $anonymizationTarget])->execute();
+			}
+		} else {
+			$dbCommand->delete('s_#__fields_anonymization', ['field_id' => $this->getId()])->execute();
+		}
+		$this->afterFieldChange();
+	}
 
 	/**
 	 * Initialize.
@@ -277,7 +314,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			if (isset($this->block->module)) {
 				$moduleObj = $this->block->module;
 			}
-			//fix for opensource emailTemplate listview break
+			// fix for opensource emailTemplate listview break
 			if (empty($moduleObj)) {
 				return false;
 			}
@@ -518,6 +555,9 @@ class Vtiger_Field_Model extends vtlib\Field
 					case 334:
 						$fieldDataType = 'comarchServer';
 						break;
+					case 335:
+						$fieldDataType = 'recordLog';
+						break;
 					default:
 						$fieldsDataType = App\Field::getFieldsTypeFromUIType();
 						if (isset($fieldsDataType[$uiType])) {
@@ -695,7 +735,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			2 => 'LBL_DISPLAY_TYPE_2',
 			3 => 'LBL_DISPLAY_TYPE_3',
 			4 => 'LBL_DISPLAY_TYPE_4',
-			//5 => 'LBL_DISPLAY_TYPE_5',
+			// 5 => 'LBL_DISPLAY_TYPE_5',
 			9 => 'LBL_DISPLAY_TYPE_9',
 			10 => 'LBL_DISPLAY_TYPE_10',
 			6 => 'LBL_DISPLAY_TYPE_6',
@@ -981,7 +1021,7 @@ class Vtiger_Field_Model extends vtlib\Field
 		$typeOfData = $this->get('typeofdata');
 		$fieldTypeOfData = explode('~', $typeOfData);
 		$fieldTypeOfData = $fieldTypeOfData[0];
-		//Special condition need for reference field as they should be treated as string field
+		// Special condition need for reference field as they should be treated as string field
 		if ('reference' === $this->getFieldDataType()) {
 			$fieldTypeOfData = 'V';
 		} else {
@@ -1194,7 +1234,7 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public static function getInstance($value, $module = false)
 	{
-		if (\is_numeric($value)) {
+		if (is_numeric($value)) {
 			if (isset(self::$instanceCacheById[$value])) {
 				return clone self::$instanceCacheById[$value];
 			}
@@ -1263,7 +1303,7 @@ class Vtiger_Field_Model extends vtlib\Field
 				if ('Project' === $this->getModule()->get('name')) {
 					$params = ['targetenddate'];
 				} else {
-					//for project task
+					// for project task
 					$params = ['enddate'];
 				}
 				$funcName = ['name' => 'lessThanDependentField',
@@ -1301,7 +1341,7 @@ class Vtiger_Field_Model extends vtlib\Field
 				$funcName = ['name' => 'ReferenceField'];
 				$validator[] = $funcName;
 				break;
-			//SRecurringOrders field sepecial validators
+				// SRecurringOrders field sepecial validators
 			case 'end_period':
 				$funcName1 = ['name' => 'greaterThanDependentField',
 					'params' => ['start_period'], ];
@@ -1310,7 +1350,7 @@ class Vtiger_Field_Model extends vtlib\Field
 					'params' => ['duedate'], ];
 				$validator[] = $funcName2;
 
-			// no break
+				// no break
 			case 'start_period':
 				$funcName = ['name' => 'lessThanDependentField',
 					'params' => ['end_period'], ];
@@ -1408,30 +1448,6 @@ class Vtiger_Field_Model extends vtlib\Field
 			return $this->permissions;
 		}
 		return \App\Field::getFieldPermission($this->getModuleId(), $this->getName(), $readOnly);
-	}
-
-	public function __update()
-	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		1 === $this->get('generatedtype') ? $generatedType = 1 : $generatedType = 2;
-		$dbCommand->update('vtiger_field', ['typeofdata' => $this->get('typeofdata'), 'presence' => $this->get('presence'), 'quickcreate' => $this->get('quickcreate'),
-			'masseditable' => $this->get('masseditable'), 'header_field' => $this->get('header_field'), 'maxlengthtext' => $this->get('maxlengthtext'),
-			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'tabindex' => $this->get('tabindex'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
-			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
-			'fieldparams' => $this->get('fieldparams'), 'quickcreatesequence' => $this->get('quicksequence'), 'icon' => $this->get('icon'), 'fieldlabel' => $this->get('label'), 'maximumlength' => $this->get('maximumlength')
-		], ['fieldid' => $this->get('id')])->execute();
-		if ($anonymizationTarget = $this->get('anonymizationTarget')) {
-			$anonymizationTarget = \App\Json::encode($anonymizationTarget);
-			$exists = (new \App\Db\Query())->from('s_#__fields_anonymization')->where(['field_id' => $this->getId()])->exists();
-			if ($exists) {
-				$dbCommand->update('s_#__fields_anonymization', ['anonymization_target' => $anonymizationTarget], ['field_id' => $this->getId()])->execute();
-			} else {
-				$dbCommand->insert('s_#__fields_anonymization', ['field_id' => $this->getId(), 'anonymization_target' => $anonymizationTarget])->execute();
-			}
-		} else {
-			$dbCommand->delete('s_#__fields_anonymization', ['field_id' => $this->getId()])->execute();
-		}
-		$this->afterFieldChange();
 	}
 
 	/**
@@ -1911,19 +1927,6 @@ class Vtiger_Field_Model extends vtlib\Field
 		}
 		return $this;
 	}
-
-	/**
-	 * TabIndex last sequence number.
-	 *
-	 * @var int
-	 */
-	public static $tabIndexLastSeq = 0;
-	/**
-	 * TabIndex default sequence number.
-	 *
-	 * @var int
-	 */
-	public static $tabIndexDefaultSeq = 0;
 
 	/**
 	 * Get TabIndex.

@@ -20,12 +20,12 @@ namespace App\Integrations\Comarch\Xl\Synchronizer;
  */
 class AccountTypes extends \App\Integrations\Comarch\Synchronizer
 {
+	use \App\Integrations\Traits\SynchronizerPicklist;
+
 	/** @var array Cache for data from the API */
 	private $cache;
 	/** @var array ID by name cache from the API */
 	private $cacheList = [];
-	/** @var int[] */
-	private $roleIdList = [];
 	/** @var \Settings_Picklist_Field_Model */
 	private $fieldModel;
 
@@ -46,51 +46,6 @@ class AccountTypes extends \App\Integrations\Comarch\Synchronizer
 		}
 	}
 
-	/**
-	 * Import account type from API.
-	 *
-	 * @return void
-	 */
-	public function import(): void
-	{
-		if ($this->config->get('log_all')) {
-			$this->controller->log('Start import ' . $this->name, []);
-		}
-		$isRoleBased = $this->fieldModel->isRoleBased();
-		$values = $this->getPicklistValues();
-		$i = 0;
-		foreach ($this->cache as $key => $value) {
-			if (empty($value)) {
-				continue;
-			}
-			$name = mb_strtolower($value);
-			if (empty($values[$name])) {
-				try {
-					$itemModel = $this->fieldModel->getItemModel();
-					$itemModel->validateValue('name', $value);
-					$itemModel->set('name', $value);
-					if ($isRoleBased) {
-						if (empty($this->roleIdList)) {
-							$this->roleIdList = array_keys(\Settings_Roles_Record_Model::getAll());
-						}
-						$itemModel->set('roles', $this->roleIdList);
-					}
-					$itemModel->save();
-					$this->cacheList[$value] = $key;
-					++$i;
-				} catch (\Throwable $ex) {
-					$this->controller->log('Import ' . $this->name, ['API' => $value], $ex);
-					\App\Log::error("Error during import {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
-				}
-			} else {
-				$this->cacheList[$values[$name]] = $key;
-			}
-		}
-		if ($this->config->get('log_all')) {
-			$this->controller->log('End import ' . $this->name, ['imported' => $i]);
-		}
-	}
-
 	/** {@inheritdoc} */
 	public function getYfValue($apiValue, array $field)
 	{
@@ -106,7 +61,7 @@ class AccountTypes extends \App\Integrations\Comarch\Synchronizer
 		if ($value = $this->cacheList[$yfValue] ?? null) {
 			return $value;
 		}
-		if ($value = $this->cacheList[\App\Language::translate($yfValue, 'Accounts')] ?? null) {
+		if ($value = $this->cacheList[\App\Language::translate($yfValue, 'Accounts', 'pl-PL')] ?? null) {
 			return $value;
 		}
 		return null;
@@ -122,7 +77,13 @@ class AccountTypes extends \App\Integrations\Comarch\Synchronizer
 		$values = [];
 		foreach (\App\Fields\Picklist::getValues($this->fieldModel->getName()) as $value) {
 			$values[mb_strtolower($value['picklistValue'])] = $value['picklistValue'];
-			$values[mb_strtolower(\App\Language::translate($value['picklistValue'], 'Accounts'))] = $value['picklistValue'];
+			$values[mb_strtolower(
+				\App\Language::translate(
+					$value['picklistValue'],
+					'Accounts',
+					'pl-PL'
+				)
+			)] = $value['picklistValue'];
 		}
 		if (\in_array('Inny', $this->cache) && isset($values['other'])) {
 			$values['inny'] = $values['other'];
@@ -141,8 +102,7 @@ class AccountTypes extends \App\Integrations\Comarch\Synchronizer
 			try {
 				$this->cache = $this->getFromApi('Dictionary/CustomerType');
 			} catch (\Throwable $ex) {
-				$this->controller->log('Get ' . $this->name, null, $ex);
-				\App\Log::error("Error during getAllFromApi {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
+				$this->logError('getAllFromApi ' . $this->name, null, $ex);
 			}
 		}
 		return $this->cache;

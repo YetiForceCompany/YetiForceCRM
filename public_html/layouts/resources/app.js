@@ -1672,7 +1672,7 @@ const app = (window.app = {
 			params.backdrop = 'static';
 		}
 		// In a modal dialog elements can be specified which can receive focus even though they are not descendants of the modal dialog.
-		$.fn.modal.Constructor.prototype.enforceFocus = function (e) {
+		$.fn.modal.Constructor.prototype._enforceFocus = function (e) {
 			$(document)
 				.off('focusin.bs.modal') // guard against infinite focus loop
 				.on(
@@ -1686,7 +1686,6 @@ const app = (window.app = {
 		};
 		const modalContainer = container.find('.modal:first');
 		modalContainer.one('shown.bs.modal', function () {
-			app.registerModalPosition(modalContainer);
 			thisInstance.registerDataTables(modalContainer.find('.js-modal-data-table'));
 			cb(modalContainer);
 			App.Fields.Picklist.changeSelectElementView(modalContainer);

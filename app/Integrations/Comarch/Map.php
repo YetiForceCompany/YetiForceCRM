@@ -336,16 +336,29 @@ abstract class Map
 	 */
 	public function saveInYf(): void
 	{
+		$moduleModel = $this->recordModel->getModule();
+		$errorLog = [];
 		foreach ($this->dataYf as $key => $value) {
-			$this->recordModel->set($key, $value);
+			if ($fieldModel = $moduleModel->getFieldByName($key)) {
+				try {
+					$fieldModel->getUITypeModel()->validate($value);
+					$this->recordModel->set($key, $value);
+				} catch (\Throwable $th) {
+					$errorLog[$key] = [
+						'field' => $value,
+						'message' => $th->getMessage(),
+					];
+				}
+			}
 		}
+		$this->setErrorLog($errorLog);
 		if ($this->recordModel->isEmpty('assigned_user_id')) {
 			$this->recordModel->set('assigned_user_id', $this->synchronizer->config->get('assigned_user_id'));
 		}
 		if (
 			$this->recordModel->isEmpty($this::FIELD_NAME_ID)
 			&& ($id = $this->dataApi['id'] ?? $this->dataApi[$this::API_NAME_ID] ?? 0)
-			&& $this->recordModel->getModule()->getFieldByName($this::FIELD_NAME_ID)
+			&& $moduleModel->getFieldByName($this::FIELD_NAME_ID)
 			&& !empty($id)
 		) {
 			$this->recordModel->set($this::FIELD_NAME_ID, $id);
@@ -428,6 +441,26 @@ abstract class Map
 	 */
 	public function loadAdditionalData(): void
 	{
+	}
+
+	/**
+	 * Set error logs.
+	 *
+	 * @param array $errorLog
+	 *
+	 * @return void
+	 */
+	public function setErrorLog(array $errorLog): void
+	{
+		$sid = $this->synchronizer->config->get('id');
+		$log = $this->recordModel->get('log_comarch');
+		$errors = \App\Json::isEmpty($log) ? [] : \App\Json::decode($log);
+		if (!empty($errorLog)) {
+			$errors[$sid] = $errorLog;
+		} elseif (isset($errors[$sid])) {
+			unset($errors[$sid]);
+		}
+		$this->recordModel->set('log_comarch', empty($errors) ? null : \App\Json::encode($errors));
 	}
 
 	/**
@@ -554,6 +587,10 @@ abstract class Map
 				null,
 				true
 			);
+			$this->setErrorLog([
+				$field['fieldCrm'] => ['field' => $value, 'message' => 'ERR_REQUIRED_VALUE_MISSING'] // TODO weryfikacja
+			]);
+			$this->recordModel->save();
 		}
 		return $return;
 	}

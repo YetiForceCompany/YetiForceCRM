@@ -73,8 +73,7 @@ class ProductGroup extends \App\Integrations\Comarch\Synchronizer
 					$this->cacheList[$id] = $newId;
 					++$i;
 				} catch (\Throwable $ex) {
-					$this->controller->log('Import ' . $this->name, ['API' => $value], $ex);
-					\App\Log::error("Error during import {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
+					$this->logError('import ' . $this->name, ['API' => $value], $ex);
 				}
 			}
 		}
@@ -108,7 +107,7 @@ class ProductGroup extends \App\Integrations\Comarch\Synchronizer
 		foreach (\App\Fields\Tree::getValuesById($this->fieldModel->getFieldParams()) as $value) {
 			$this->parentTree[$value['tree']] = \App\Fields\Tree::getParentIdx($value);
 			$label = mb_strtolower($value['label']);
-			$translated = mb_strtolower(\App\Language::translate($value['label'], $moduleName));
+			$translated = mb_strtolower(\App\Language::translate($value['label'], $moduleName, 'pl-PL'));
 			if (isset($values[$label])) {
 				$values[$label][] = $value['tree'];
 			} else {
@@ -186,8 +185,7 @@ class ProductGroup extends \App\Integrations\Comarch\Synchronizer
 					];
 				}
 			} catch (\Throwable $ex) {
-				$this->controller->log('Get ' . $this->name, null, $ex);
-				\App\Log::error("Error during getAllFromApi {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
+				$this->logError('getAllFromApi ' . $this->name, ['id' => 0], $ex);
 			}
 			foreach ($this->cache as $id => $row) {
 				try {
@@ -200,8 +198,7 @@ class ProductGroup extends \App\Integrations\Comarch\Synchronizer
 						}
 					}
 				} catch (\Throwable $ex) {
-					$this->controller->log('Get ' . $this->name, null, $ex);
-					\App\Log::error("Error during getAllFromApi {$this->name}: \n{$ex->__toString()}", self::LOG_CATEGORY);
+					$this->logError("getAllFromApi {$this->name}", ['id' => $id], $ex);
 				}
 			}
 		}
