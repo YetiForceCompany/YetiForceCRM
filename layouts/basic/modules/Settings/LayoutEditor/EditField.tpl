@@ -16,7 +16,6 @@
 		</div>
 		<div class="modal-body pt-0">
 			<form class="form-horizontal fieldDetailsForm sendByAjax validateForm" method="POST">
-				{assign var=FIELD_DATABASE_INFO value=$FIELD_MODEL->getDBColumnType(false)}
 				<input type="hidden" name="module" value="LayoutEditor" />
 				<input type="hidden" name="parent" value="Settings" />
 				<input type="hidden" name="action" value="Field" />
