@@ -184,8 +184,10 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 				if ('string' === $fieldInstance->getFieldDataType()) {
 					$dbColumnStructure = $fieldInstance->getDBColumnType(false);
 					$columnType = $dbColumnStructure['type'];
-					$db = App\Db::getInstance();
-					$db->createCommand()->alterColumn($fieldInstance->getTableName(), $fieldInstance->getColumnName(), "{$columnType}({$maxLength})")->execute();
+					if ($maxLength > $dbColumnStructure['size']) {
+						$db = App\Db::getInstance();
+						$db->createCommand()->alterColumn($fieldInstance->getTableName(), $fieldInstance->getColumnName(), "{$columnType}({$maxLength})")->execute();
+					}
 				}
 			}
 			$fieldInstance->save();
