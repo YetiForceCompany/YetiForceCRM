@@ -42,18 +42,19 @@
 							</div>
 						</div>
 						{if $FIELD_MODEL->getUITypeModel()->isResizableColumn()}
+							{assign var=ACCEPTABLE_LENGTH_RANGE value=$FIELD_MODEL->getAcceptableLengthRange()}
 							<div class="form-row form-group">
 								{if in_array($FIELD_MODEL->getFieldDataType(),['integer','double'])}
 									<div class="col">
-										<label for="minimumlength"><strong>{App\Language::translate('LBL_MINIMUM_LENGTH', $QUALIFIED_MODULE)}</strong></label>
-										<input type="text" class="form-control" id="minimumlength" name="minimumlength"
+										<label for="minLength"><strong>{App\Language::translate('LBL_MINIMUM_LENGTH', $QUALIFIED_MODULE)}</strong></label>
+										<input type="text" class="form-control" id="minLength" name="minLength"
 											data-validation-engine="validate[required,custom[integer],min[{$ACCEPTABLE_LENGTH_RANGE['min']}],max[{$ACCEPTABLE_LENGTH_RANGE['max']}]]"
 											value="{$FIELD_MODEL->getMinValue()}" />
 									</div>
 								{/if}
 								<div class="col">
-									<label for="maximumlength"><strong>{App\Language::translate('LBL_MAXIMUM_LENGTH', $QUALIFIED_MODULE)}</strong></label>
-									<input type="text" class="form-control {if $FIELD_MODEL->getFieldDataType() eq 'string'} js-string-max-length{/if}" id="maximumlength" name="maximumlength"
+									<label for="maxLength"><strong>{App\Language::translate('LBL_MAXIMUM_LENGTH', $QUALIFIED_MODULE)}</strong></label>
+									<input type="text" class="form-control {if $FIELD_MODEL->getFieldDataType() eq 'string'} js-string-max-length{/if}" id="maxLength" name="maxLength"
 										data-validation-engine="validate[required,custom[integer],min[{$ACCEPTABLE_LENGTH_RANGE['min']}],max[{$ACCEPTABLE_LENGTH_RANGE['max']}]]"
 										value="{$FIELD_MODEL->getMaxValue()}" />
 								</div>

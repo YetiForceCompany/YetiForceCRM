@@ -18,14 +18,6 @@ class Vtiger_String_UIType extends Vtiger_Base_UIType
 	protected $isResizableColumn = true;
 
 	/** {@inheritdoc} */
-	public function validateMaximumLength(int $minimumLength, int $maximumLength): bool
-	{
-		$allowedMaxValue = 255;
-		$newColumnLength = (int) $maximumLength;
-		return $newColumnLength <= $allowedMaxValue;
-	}
-
-	/** {@inheritdoc} */
 	public function changeMaximumLength(int $minimumLength, int $maximumLength): void
 	{
 		if ($this->isResizableColumn() && $this->validateMaximumLength($minimumLength, $maximumLength)) {

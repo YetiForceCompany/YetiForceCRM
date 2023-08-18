@@ -90,11 +90,4 @@ class Vtiger_Double_UIType extends Vtiger_Base_UIType
 	{
 		return array_merge(['e', 'n', 'l', 'g', 'm', 'h', 'y', 'ny'], \App\Condition::FIELD_COMPARISON_OPERATORS);
 	}
-
-	/** {@inheritdoc} */
-	public function validateMaximumLength(int $newMinValue, int $newMaxValue): bool
-	{
-		$acceptableLengthRange = $this->getFieldModel()->getAcceptableLengthRange();
-		return $acceptableLengthRange['min'] <= $newMinValue && $acceptableLengthRange['max'] >= $newMinValue;
-	}
 }

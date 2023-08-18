@@ -177,8 +177,16 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 					$fieldInstance->set('defaultvalue', '');
 				}
 			}
-			if ($request->has('maximumlength')) {
-				$uitypeModel->changeMaximumLength($request->getInteger('minimumlength', 0), $request->getInteger('maximumlength', 0));
+			$minLength = $request->getInteger('minLength', 1);
+			$maxLength = $request->getInteger('maxLength', 0);
+			if ($uitypeModel->isResizableColumn() && $fieldInstance->validateMaximumLength($minLength, $maxLength)) {
+				$fieldInstance->set('maximumlength', "{$minLength},{$maxLength}");
+				if ('string' === $fieldInstance->getFieldDataType()) {
+					$dbColumnStructure = $fieldInstance->getDBColumnType(false);
+					$columnType = $dbColumnStructure['type'];
+					$db = App\Db::getInstance();
+					$db->createCommand()->alterColumn($fieldInstance->getTableName(), $fieldInstance->getColumnName(), "{$columnType}({$maxLength})")->execute();
+				}
 			}
 			$fieldInstance->save();
 			$response->setResult([

@@ -41,7 +41,6 @@ class Settings_LayoutEditor_EditField_View extends Settings_Vtiger_BasicModal_Vi
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FIELD_MODEL', $fieldModel);
-		$viewer->assign('ACCEPTABLE_LENGTH_RANGE', $fieldModel->getAcceptableLengthRange());
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('SELECTED_MODULE_NAME', $fieldModel->getModule()->getName());
 		$viewer->view('EditField.tpl', $qualifiedModuleName);
