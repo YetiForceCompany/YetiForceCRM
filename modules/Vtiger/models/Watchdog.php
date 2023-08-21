@@ -410,7 +410,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 				}
 				$row['type'] = $data[0];
 				$row['name'] = $name;
-				$row['exceptions'] = explode(',', $row['exceptions']);
+				$row['exceptions'] = explode(',', $row['exceptions'] ?? '');
 				$members[] = $row;
 			}
 		} else {
@@ -433,7 +433,7 @@ class Vtiger_Watchdog_Model extends \App\Base
 			->from('u_#__watchdog_module')
 			->where(['module' => \App\Module::getModuleId($this->get('module')), 'member' => $member])->scalar();
 
-		return explode(',', $exceptions);
+		return explode(',', $exceptions ?? '');
 	}
 
 	/**

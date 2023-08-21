@@ -1442,7 +1442,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 	private function setFilterIds(): array
 	{
 		$this->customView = \App\CustomView::getInstance($this->getTargetModule());
-		foreach (explode(',', $this->widgetModel->get('filterid')) as $id) {
+		foreach (explode(',', $this->widgetModel->get('filterid') ?? []) as $id) {
 			$filterData = $this->customView->getFilterInfo((int) $id);
 			if ($filterData && $this->customView->isPermittedCustomView($id)) {
 				$this->filterIds[] = (int) $id;

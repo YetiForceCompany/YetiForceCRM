@@ -16,6 +16,8 @@ class Settings_PickListDependency_Record_Model extends Settings_Vtiger_Record_Mo
 
 	/** @var \Vtiger_Module_Model Source module model */
 	private $sourceModuleModel;
+	/** @var array Picklist dependency mapping. */
+	private $mapping;
 
 	/**
 	 * Function to get the Id.

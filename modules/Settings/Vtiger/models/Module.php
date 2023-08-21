@@ -25,6 +25,8 @@ class Settings_Vtiger_Module_Model extends \App\Base
 
 	/** @var string Module name. */
 	public $name = 'Vtiger';
+	/** @var array list field models. */
+	public $listFieldModels;
 
 	public function getName($includeParentIfExists = false)
 	{

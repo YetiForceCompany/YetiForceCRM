@@ -14,6 +14,9 @@ class Settings_SMSNotifier_Record_Model extends Settings_Vtiger_Record_Model
 	/** @var array Record changes */
 	protected $changes = [];
 
+	/** @var bool Is new record. */
+	public $isNew = true;
+
 	/**
 	 * Edit fields.
 	 *

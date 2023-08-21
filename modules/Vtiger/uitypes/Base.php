@@ -26,6 +26,9 @@ class Vtiger_Base_UIType extends \App\Base
 	/** @var mixed[] Verify the value. */
 	protected $validate = [];
 
+	/** @var bool Show full url. */
+	protected $fullUrl;
+
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value.
 	 *

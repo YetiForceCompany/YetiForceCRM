@@ -37,6 +37,8 @@ class Vtiger_Basic_InventoryField extends \App\Base
 	protected $defaultValue = '';
 	protected $params = [];
 	protected $dbType = 'string';
+	/** @var string Database value. */
+	protected $dbValue;
 	protected $customColumn = [];
 	protected $summationValue = false;
 	protected $onlyOne = true;

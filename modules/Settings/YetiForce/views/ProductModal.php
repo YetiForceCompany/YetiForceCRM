@@ -24,6 +24,9 @@ class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 	 */
 	public $headerClass = 'modal-header-xl';
 
+	/** @var string Qualified module name. */
+	public $qualifiedModuleName;
+
 	/**
 	 * Set modal title.
 	 *

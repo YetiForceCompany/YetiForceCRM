@@ -20,6 +20,12 @@ class Base
 	/** @var string Module name. */
 	public $moduleName;
 
+	/** @var bool Record collectors active. */
+	public $active;
+
+	/** @var bool Record collectors featured. */
+	public $featured;
+
 	/** @var string Record collector name. */
 	protected $name;
 

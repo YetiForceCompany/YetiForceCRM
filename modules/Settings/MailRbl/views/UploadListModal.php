@@ -21,6 +21,9 @@ class Settings_MailRbl_UploadListModal_View extends \App\Controller\ModalSetting
 	/** {@inheritdoc} */
 	public $showFooter = false;
 
+	/** @var string Qualified module name. */
+	public $qualifiedModuleName;
+
 	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{

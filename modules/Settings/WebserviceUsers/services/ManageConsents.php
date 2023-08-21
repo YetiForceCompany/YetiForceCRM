@@ -18,6 +18,9 @@ class Settings_WebserviceUsers_ManageConsents_Service extends Settings_Webservic
 	/** {@inheritdoc} */
 	public $baseIndex = 'id';
 
+	/** @var string Type api. */
+	public $typeApi;
+
 	/** {@inheritdoc} */
 	public $editFields = [
 		'server_id' => 'FL_SERVER',

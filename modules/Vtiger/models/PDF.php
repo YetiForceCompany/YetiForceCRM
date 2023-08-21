@@ -68,6 +68,9 @@ class Vtiger_PDF_Model extends \App\Base
 	 */
 	public static $customColumns = false;
 
+	/** @var \App\TextParser Text parser. */
+	private $textParser;
+
 	/**
 	 * Function to get watermark type.
 	 *

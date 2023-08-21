@@ -51,7 +51,7 @@ window.Settings_PickListDependency_Edit_Js = class {
 			for (var key in this.conditionBuilders) {
 				this.container.find(`input[name="${key}"]`).val(JSON.stringify(this.conditionBuilders[key].getConditions()));
 			}
-			this.validate(form).done(() => {
+			this.validate().done(() => {
 				this.saveAjax({ mode: 'save', ...this.form.serializeFormData() });
 			});
 		});

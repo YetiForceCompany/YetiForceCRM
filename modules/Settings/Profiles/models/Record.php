@@ -42,6 +42,19 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	private static $fieldLockedUiTypes = [70];
 
+	/** @var array Global permissions. */
+	private $globalPermissions;
+	/** @var array Permissions for modules. */
+	private $profileTabPermissions;
+	/** @var array Permission for actions. */
+	private $profileActionPermissions;
+	/** @var array profile tab field permissions. */
+	private $profileTabFieldPermissions;
+	/** @var array Profile utility permissions. */
+	private $profileUtilityPermissions;
+	/** @var array Module permissions. */
+	private $modulePermissions;
+
 	/**
 	 * Function to get the Id.
 	 *
@@ -133,19 +146,19 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getGlobalPermissions()
 	{
-		if (!isset($this->global_permissions)) {
-			$globalPermissions = [];
-			$globalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW] = $globalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT] = Settings_Profiles_Module_Model::GLOBAL_ACTION_DEFAULT_VALUE;
+		if (!isset($this->globalPermissions)) {
+			$permissions = [];
+			$permissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW] = $permissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT] = Settings_Profiles_Module_Model::GLOBAL_ACTION_DEFAULT_VALUE;
 			if ($this->getId()) {
-				$globalPermissions = (new App\Db\Query())
+				$permissions = (new App\Db\Query())
 					->select(['globalactionid', 'globalactionpermission'])
 					->from('vtiger_profile2globalpermissions')
 					->where(['profileid' => $this->getId()])
 					->createCommand()->queryAllByGroup(0);
 			}
-			$this->global_permissions = $globalPermissions;
+			$this->globalPermissions = $permissions;
 		}
-		return $this->global_permissions;
+		return $this->globalPermissions;
 	}
 
 	/**
@@ -369,7 +382,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getProfileTabPermissions()
 	{
-		if (!isset($this->profile_tab_permissions)) {
+		if (!isset($this->profileTabPermissions)) {
 			$profile2TabPermissions = [];
 			if ($this->getId()) {
 				$profile2TabPermissions = (new App\Db\Query())->select(['tabid', 'permissions'])
@@ -377,9 +390,9 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 					->where(['profileid' => $this->getId()])
 					->createCommand()->queryAllByGroup(0);
 			}
-			$this->profile_tab_permissions = $profile2TabPermissions;
+			$this->profileTabPermissions = $profile2TabPermissions;
 		}
-		return $this->profile_tab_permissions;
+		return $this->profileTabPermissions;
 	}
 
 	/**
@@ -391,7 +404,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getProfileTabFieldPermissions($tabId)
 	{
-		if (!isset($this->profile_tab_field_permissions[$tabId])) {
+		if (!isset($this->profileTabFieldPermissions[$tabId])) {
 			$profile2TabFieldPermissions = [];
 			if ($this->getId()) {
 				$dataReader = (new App\Db\Query())->from('vtiger_profile2field')
@@ -406,9 +419,9 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				$dataReader->close();
 			}
-			$this->profile_tab_field_permissions[$tabId] = $profile2TabFieldPermissions;
+			$this->profileTabFieldPermissions[$tabId] = $profile2TabFieldPermissions;
 		}
-		return $this->profile_tab_field_permissions[$tabId];
+		return $this->profileTabFieldPermissions[$tabId];
 	}
 
 	/**
@@ -418,7 +431,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getProfileActionPermissions()
 	{
-		if (!isset($this->profile_action_permissions)) {
+		if (!isset($this->profileActionPermissions)) {
 			$profile2ActionPermissions = [];
 			if ($this->getId()) {
 				$dataReader = (new App\Db\Query())
@@ -430,9 +443,9 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				$dataReader->close();
 			}
-			$this->profile_action_permissions = $profile2ActionPermissions;
+			$this->profileActionPermissions = $profile2ActionPermissions;
 		}
-		return $this->profile_action_permissions;
+		return $this->profileActionPermissions;
 	}
 
 	/**
@@ -442,7 +455,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getProfileUtilityPermissions()
 	{
-		if (!isset($this->profile_utility_permissions)) {
+		if (!isset($this->profileUtilityPermissions)) {
 			$profile2UtilityPermissions = [];
 			if ($this->getId()) {
 				$dataReader = (new App\Db\Query())
@@ -454,9 +467,9 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				$dataReader->close();
 			}
-			$this->profile_utility_permissions = $profile2UtilityPermissions;
+			$this->profileUtilityPermissions = $profile2UtilityPermissions;
 		}
-		return $this->profile_utility_permissions;
+		return $this->profileUtilityPermissions;
 	}
 
 	/**
@@ -466,7 +479,7 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getModulePermissions()
 	{
-		if (!isset($this->module_permissions)) {
+		if (!isset($this->modulePermissions)) {
 			$allModules = Vtiger_Module_Model::getAll([0], Settings_Profiles_Module_Model::getNonVisibleModulesList());
 			$profileTabPermissions = $this->getProfileTabPermissions();
 			$profileActionPermissions = $this->getProfileActionPermissions();
@@ -508,9 +521,9 @@ class Settings_Profiles_Record_Model extends Settings_Vtiger_Record_Model
 				}
 				$moduleModel->set('permissions', $permissions);
 			}
-			$this->module_permissions = $allModules;
+			$this->modulePermissions = $allModules;
 		}
-		return $this->module_permissions;
+		return $this->modulePermissions;
 	}
 
 	/**

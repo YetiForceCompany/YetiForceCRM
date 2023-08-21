@@ -16,6 +16,9 @@
  */
 class Settings_ApiAddress_ApiConfigModal_View extends \App\Controller\ModalSettings
 {
+	/** @var string Qualified module name. */
+	public $qualifiedModuleName;
+
 	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{
