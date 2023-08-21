@@ -33,7 +33,7 @@
 							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_created_time" nowrap>{$RECORD['rel_created_time']}</td>
 							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_created_user" nowrap>{$RECORD['rel_created_user']}</td>
 						{/if}
-						{if $SHOW_COMMENT}
+						{if $SHOW_COMMENT && isset($RECORD['rel_comment']) }
 							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_comment" nowrap>
 								{if strlen($RECORD['rel_comment']) > App\Config::relation('COMMENT_MAX_LENGTH')}
 									<a class="js-popover-tooltip" data-js="popover" data-placement="top" data-content="{$RECORD['rel_comment']}">
