@@ -1700,11 +1700,19 @@ $.Class(
 					cb: function (modalContainer) {
 						thisInstance.registerFieldDetailsChange(modalContainer);
 						thisInstance.lockCheckbox(modalContainer);
-						thisInstance.registerVaribleToParsers(modalContainer);
+						thisInstance.registerVariableToParsers(modalContainer);
 						app.registerEventForClockPicker(modalContainer.find('.clockPicker'));
 						modalContainer.find('[data-inputmask]').inputmask();
+						modalContainer.find('.js-string-max-length').on('change', (_e) => {
+							app.showConfirmModal({
+								text: app.vtranslate('JS_COLUMN_LENGTH_CHANGE_WARNING'),
+								rejectedCallback: () => {
+									app.hideModalWindow();
+								}
+							});
+						});
 					},
-					sendByAjaxCb: (formData, response) => {
+					sendByAjaxCb: (_formData, response) => {
 						if (!response.success) {
 							return;
 						}
@@ -1735,7 +1743,7 @@ $.Class(
 				});
 			});
 		},
-		registerVaribleToParsers: function (container) {
+		registerVariableToParsers: function (container) {
 			container.find('.configButton').on('click', function (e) {
 				container.find('.js-toggle-hide .js-base-element').each(function (n, e) {
 					var currentElement = $(e);

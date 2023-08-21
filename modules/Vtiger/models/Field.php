@@ -101,7 +101,7 @@ class Vtiger_Field_Model extends vtlib\Field
 			'masseditable' => $this->get('masseditable'), 'header_field' => $this->get('header_field'), 'maxlengthtext' => $this->get('maxlengthtext'),
 			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'tabindex' => $this->get('tabindex'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
 			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
-			'fieldparams' => $this->get('fieldparams'), 'quickcreatesequence' => $this->get('quicksequence'), 'icon' => $this->get('icon'), 'fieldlabel' => $this->get('label'),
+			'fieldparams' => $this->get('fieldparams'), 'quickcreatesequence' => $this->get('quicksequence'), 'icon' => $this->get('icon'), 'fieldlabel' => $this->get('label'), 'maximumlength' => $this->get('maximumlength')
 		], ['fieldid' => $this->get('id')])->execute();
 		if ($anonymizationTarget = $this->get('anonymizationTarget')) {
 			$anonymizationTarget = \App\Json::encode($anonymizationTarget);
@@ -1927,5 +1927,45 @@ class Vtiger_Field_Model extends vtlib\Field
 		\App\Fields\Picklist::removeDependencyConditionField($this->getModuleName(), $this->getName());
 		$this->getModule()->clearCache();
 		parent::delete();
+	}
+
+	/**
+	 * Method is responsible for ensuring the validity of the length of a specific uitype.
+	 *
+	 * @param int|bool $newMinValue
+	 * @param int      $newMaxValue
+	 *
+	 * @return bool
+	 */
+	public function validateMaximumLength($newMinValue, int $newMaxValue): bool
+	{
+		$fieldRangeValue = $this->getAcceptableLengthRange();
+
+		return $newMinValue < $newMaxValue
+			  && $fieldRangeValue['min'] <= $newMinValue
+			  && $fieldRangeValue['max'] >= $newMaxValue;
+	}
+
+	/**
+	 * Get acceptable field type length range.
+	 *
+	 * @return array
+	 */
+	public function getAcceptableLengthRange(): array
+	{
+		$minAceptableLength = 1;
+		if ('string' === $this->getFieldDataType()) {
+			$maxAceeptableLength = 255;
+		} else {
+			$rangeValue = $this->getRangeValues();
+			if (false !== strpos($rangeValue, ',')) {
+				$explodedRange = explode(',', $rangeValue);
+				$minAceptableLength = $explodedRange[0];
+				$maxAceeptableLength = $explodedRange[1];
+			} else {
+				$maxAceeptableLength = $rangeValue;
+			}
+		}
+		return ['min' => $minAceptableLength, 'max' => $maxAceeptableLength];
 	}
 }

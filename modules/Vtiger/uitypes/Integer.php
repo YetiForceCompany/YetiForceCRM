@@ -12,6 +12,9 @@
 class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 {
 	/** {@inheritdoc} */
+	protected $isResizableColumn = true;
+
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		return App\Fields\Integer::formatToDb($value);
@@ -23,7 +26,7 @@ class Vtiger_Integer_UIType extends Vtiger_Base_UIType
 		$this->validate($value, true);
 		preg_match_all('/\D+/', $value, $matches);
 		$matches[0] = array_map('trim', $matches[0]);
-		if ($matches && $operators = \array_intersect(array_map('App\\Purifier::decodeHtml', $matches[0]), App\Conditions\QueryFields\IntegerField::$extendedOperators)) {
+		if ($matches && $operators = array_intersect(array_map('App\\Purifier::decodeHtml', $matches[0]), App\Conditions\QueryFields\IntegerField::$extendedOperators)) {
 			$value = \App\Purifier::decodeHtml($value);
 			$valueConvert = [];
 			$operators = array_values($operators);

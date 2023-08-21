@@ -180,7 +180,7 @@
     "LBL_STANDARD_FIELDS": "Standard fields",
     "LBL_ADVANCED_BLOCK_FIELDS": "Advanced block fields",
     "LBL_ADD_ADVANCED_BLOCK_FIELDS": "Add advanced block fields",
-    "LBL_MAX_LENGTH_TEXT": "Max text length",
+    "LBL_MAX_DISPLAY_LENGTH_TEXT": "Max display text length",
     "LBL_MAX_WIDTH_COLUMN": "Column width [%]",
     "LBL_MAX_WIDTH_COLUMN_INFO": "The percentage value in relation to the width of the window.",
     "LBL_TABINDEX": "Tab key sequence",
@@ -255,7 +255,9 @@
     "LBL_ALL_GROUPS": "All groups",
     "LBL_ALL_GROUPS_INFO": "When the option is not selected it displays only accessible groups based on the selected modules in the group panel",
     "Group": "Group",
-    "LBL_MULTI_REFERENCE_FIELDS": "Related field M:M"
+    "LBL_MULTI_REFERENCE_FIELDS": "Related field M:M",
+    "LBL_MAXIMUM_LENGTH": "Maximum value length",
+    "LBL_MINIMUM_LENGTH": "Minimum value length"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Block Name already exists",
@@ -271,6 +273,7 @@
     "JS_FIELD_DETAILS_SAVED": "Field details saved",
     "JS_FIELD_SEQUENCE_UPDATED": "Field sequence updated",
     "JS_LENGTH_SHOULD_BE_LESS_THAN_EQUAL_TO": "Length should be less than or equal to",
+    "JS_LENGTH_SHOULD_BE_MORE_THAN_EQUAL_TO": "Length should be more than or equal to",
     "JS_NO_HIDDEN_FIELDS_EXISTS": "No inactive fields",
     "JS_NOT_ALLOWED": "are not allowed",
     "JS_PLEASE_ENTER_NUMBER_IN_RANGE_2TO5": "Decimal should be in the range 2 to 5",
@@ -292,6 +295,7 @@
     "JS_NOTIFY_COPY_TEXT": "Copied to clipboard",
     "JS_NOTIFY_COPY_TITLE": "Text",
     "JS_EXIST_PICKLIST_NAME": "This name is already used. Do you want to save it as shared picklist?",
-    "JS_ARE_YOU_SURE_YOU_WANT_TO_INACTIVE_FIELD": "Are you sure that you want to disable the field?"
+    "JS_ARE_YOU_SURE_YOU_WANT_TO_INACTIVE_FIELD": "Are you sure that you want to disable the field?",
+    "JS_COLUMN_LENGTH_CHANGE_WARNING": "Changing the column length depending on the database size may take a while. If you changed the column length, please make sure you want to continue this process. You can only increase length"
   }
 }
