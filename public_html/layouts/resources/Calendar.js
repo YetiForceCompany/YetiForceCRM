@@ -218,22 +218,23 @@ window.Calendar_Js = class {
 				},
 				dayGridMonth: {
 					titleFormat: (args) => {
-						return this.formatDate(args.date, 'month');
+						return this.formatDate(args.date, args.end, 'month');
 					}
 				},
 				timeGridWeek: {
 					titleFormat: (args) => {
-						return this.formatDate(args.date, 'week');
+						console.log(args);
+						return this.formatDate(args.date, args.end, 'week');
 					}
 				},
 				timeGridDay: {
 					titleFormat: (args) => {
-						return this.formatDate(args.date, 'day');
+						return this.formatDate(args.date, args.end, 'day');
 					}
 				},
 				listWeek: {
 					titleFormat: (args) => {
-						return this.formatDate(args.date, 'week');
+						return this.formatDate(args.date, args.end, 'week');
 					},
 					dayHeaderContent: (arg) => {
 						return {
@@ -368,26 +369,43 @@ window.Calendar_Js = class {
 	}
 	/**
 	 * Converts the date format.
-	 * @param {object} date
+	 * @param {object} startDate
+	 * @param {object} endDate
 	 * @param {string} type
 	 * @returns {string}
 	 */
-	formatDate(date, type) {
+	formatDate(startDate, endDate, type) {
 		switch (type) {
 			case 'month':
 				return Calendar_Js.monthFormat[CONFIG.dateFormat]
-					.replace('YYYY', date['year'])
-					.replace('MMMM', App.Fields.Date.fullMonthsTranslated[date['month']]);
+					.replace('YYYY', startDate['year'])
+					.replace('MMMM', App.Fields.Date.fullMonthsTranslated[startDate['month']]);
 			case 'week':
-				return CONFIG.dateFormat
-					.replace('yyyy', date['year'])
-					.replace('mm', App.Fields.Date.monthsTranslated[date['month']])
-					.replace('dd', date['day'] + ' - ' + (date['day'] + 7));
+				let weekRange = '';
+				let endMonth = '';
+				let startDay = startDate['day'];
+				let endYear = startDate['year'];
+				if (startDate['month'] !== endDate['month']) {
+					endMonth = App.Fields.Date.monthsTranslated[endDate['month']];
+				}
+				if (startDate['year'] !== endDate['year']) {
+					startDay = startDate['day'] + ', ' + startDate['year'];
+					endYear = endDate['year'];
+				}
+				weekRange = [
+					App.Fields.Date.monthsTranslated[startDate['month']],
+					startDay,
+					'-',
+					endMonth,
+					endDate['day'] + ',',
+					endYear
+				].join(' ');
+				return weekRange;
 			case 'day':
 				return CONFIG.dateFormat
-					.replace('yyyy', date['year'])
-					.replace('mm', App.Fields.Date.monthsTranslated[date['month']])
-					.replace('dd', date['day']);
+					.replace('yyyy', startDate['year'])
+					.replace('mm', App.Fields.Date.monthsTranslated[startDate['month']])
+					.replace('dd', startDate['day']);
 		}
 	}
 	/**

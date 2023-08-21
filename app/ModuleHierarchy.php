@@ -295,57 +295,6 @@ class ModuleHierarchy
 	}
 
 	/**
-	 * Get related records by field.
-	 *
-	 * @param int   $record
-	 * @param array $field
-	 *
-	 * @return int[]
-	 */
-	protected static function getRelatedRecordsByField($record, $field)
-	{
-		$queryGenerator = new QueryGenerator($field['name']);
-		$queryGenerator->setFields(['id']);
-		$queryGenerator->addNativeCondition([$field['tablename'] . '.' . $field['columnname'] => $record]);
-
-		return $queryGenerator->createQuery()->column();
-	}
-
-	/**
-	 * Function to get array of queries. Quries are used to create union.
-	 *
-	 * @param int      $record
-	 * @param string   $moduleName
-	 * @param array    $hierarchy
-	 * @param Db\Query $subQuery
-	 *
-	 * @return array
-	 */
-	private static function getQueriesForRelatedRecords(int $record, string $moduleName, array $hierarchy, Db\Query $subQuery = null): array
-	{
-		$modules = static::getChildModules($moduleName, $hierarchy);
-		$queries = [];
-		if ($modules) {
-			$fields = Field::getRelatedFieldForModule(false, $moduleName);
-			foreach ($fields as $field) {
-				if (\in_array($field['name'], $modules)) {
-					$queryGenerator = new QueryGenerator($field['name']);
-					$queryGenerator->setFields(['id']);
-					if ($subQuery) {
-						$queryGenerator->addNativeCondition([$field['tablename'] . '.' . $field['columnname'] => $subQuery]);
-					} else {
-						$queryGenerator->addNativeCondition([$field['tablename'] . '.' . $field['columnname'] => $record]);
-					}
-					$tempQuery = $queryGenerator->createQuery();
-					$queries[] = $tempQuery;
-					$queries = array_merge($queries, static::getQueriesForRelatedRecords($record, $field['name'], $hierarchy, clone $tempQuery));
-				}
-			}
-		}
-		return $queries;
-	}
-
-	/**
 	 * Get related query by hierarchy.
 	 *
 	 * @param int   $record
@@ -418,6 +367,57 @@ class ModuleHierarchy
 		}
 
 		return $data[$relationId] ?? [];
+	}
+
+	/**
+	 * Get related records by field.
+	 *
+	 * @param int   $record
+	 * @param array $field
+	 *
+	 * @return int[]
+	 */
+	protected static function getRelatedRecordsByField($record, $field)
+	{
+		$queryGenerator = new QueryGenerator($field['name']);
+		$queryGenerator->setFields(['id']);
+		$queryGenerator->addNativeCondition([$field['tablename'] . '.' . $field['columnname'] => $record]);
+
+		return $queryGenerator->createQuery()->column();
+	}
+
+	/**
+	 * Function to get array of queries. Quries are used to create union.
+	 *
+	 * @param int      $record
+	 * @param string   $moduleName
+	 * @param array    $hierarchy
+	 * @param Db\Query $subQuery
+	 *
+	 * @return array
+	 */
+	private static function getQueriesForRelatedRecords(int $record, string $moduleName, array $hierarchy, Db\Query $subQuery = null): array
+	{
+		$modules = static::getChildModules($moduleName, $hierarchy);
+		$queries = [];
+		if ($modules) {
+			$fields = Field::getRelatedFieldForModule(false, $moduleName);
+			foreach ($fields as $field) {
+				if (\in_array($field['name'], $modules)) {
+					$queryGenerator = new QueryGenerator($field['name']);
+					$queryGenerator->setFields(['id']);
+					if ($subQuery) {
+						$queryGenerator->addNativeCondition([$field['tablename'] . '.' . $field['columnname'] => $subQuery]);
+					} else {
+						$queryGenerator->addNativeCondition([$field['tablename'] . '.' . $field['columnname'] => $record]);
+					}
+					$tempQuery = $queryGenerator->createQuery();
+					$queries[] = $tempQuery;
+					$queries = array_merge($queries, static::getQueriesForRelatedRecords($record, $field['name'], $hierarchy, clone $tempQuery));
+				}
+			}
+		}
+		return $queries;
 	}
 }
 

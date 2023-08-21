@@ -1,6 +1,6 @@
 <?php
 /**
- * Duplicate product ean handler.
+ * Ean duplicate checker handler field.
  *
  * @package Handler
  *
@@ -9,7 +9,7 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
- * Products_DuplicateEan_Handler class.
+ * Ean duplicate checker handler class.
  */
 class Products_DuplicateEan_Handler
 {

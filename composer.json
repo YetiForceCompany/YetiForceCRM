@@ -13,6 +13,7 @@
     "System CRM"
   ],
   "type": "project",
+  "license": "proprietary",
   "homepage": "https://yetiforce.com/",
   "support": {
     "issues": "https://github.com/YetiForceCompany/YetiForceCRM/issues",
@@ -27,7 +28,7 @@
     }
   ],
   "require": {
-    "php": ">=7.4",
+    "php": ">=8.0.2",
     "ext-imap": "*",
     "ext-pdo": "*",
     "ext-pdo_mysql": "*",
@@ -77,15 +78,15 @@
     "phpmailer/dkimvalidator": "^v0.3",
     "league/climate": "^3.6",
     "twig/twig": "^3.0",
-    "illuminate/support": "^8.0",
+    "illuminate/support": "^9.0",
     "globalcitizen/php-iban": "^4.0.0",
     "chrome-php/chrome": "^v1.4.0",
     "setasign/fpdf": "1.8.*",
     "setasign/fpdi": "^v2.3.6",
-    "notihnio/php-multipart-form-data-parser": "*",
+    "notihnio/php-multipart-form-data-parser": "^2.0",
     "symfony/filesystem": "^v5.4.3",
     "league/oauth2-google": "^4.0",
-    "thenetworg/oauth2-azure": "^2.1",
+    "thenetworg/oauth2-azure": "^2.2",
     "webklex/php-imap": "^5.3",
     "bogdaan/open-location-code": "dev-master"
   },

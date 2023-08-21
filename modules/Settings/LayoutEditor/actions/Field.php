@@ -115,7 +115,7 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 					case 'header_field':
 						if ($request->getBoolean($field)) {
 							if (!\in_array($request->getByType('header_type', \App\Purifier::STANDARD), $uitypeModel->getHeaderTypes())) {
-								throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||' . 'header_type', 406);
+								throw new \App\Exceptions\IllegalValue('ERR_NOT_ALLOWED_VALUE||header_type', 406);
 							}
 							$data['type'] = $request->getByType('header_type', \App\Purifier::STANDARD);
 							if ('highlights' === $data['type']) {
@@ -177,6 +177,19 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 					$fieldInstance->set('defaultvalue', '');
 				}
 			}
+			$minLength = $request->getInteger('minLength', 1);
+			$maxLength = $request->getInteger('maxLength', 0);
+			if ($uitypeModel->isResizableColumn() && $fieldInstance->validateMaximumLength($minLength, $maxLength)) {
+				$fieldInstance->set('maximumlength', "{$minLength},{$maxLength}");
+				if ('string' === $fieldInstance->getFieldDataType()) {
+					$dbColumnStructure = $fieldInstance->getDBColumnType(false);
+					$columnType = $dbColumnStructure['type'];
+					if ($maxLength > $dbColumnStructure['size']) {
+						$db = App\Db::getInstance();
+						$db->createCommand()->alterColumn($fieldInstance->getTableName(), $fieldInstance->getColumnName(), "{$columnType}({$maxLength})")->execute();
+					}
+				}
+			}
 			$fieldInstance->save();
 			$response->setResult([
 				'success' => true,
@@ -224,12 +237,14 @@ class Settings_LayoutEditor_Field_Action extends Settings_Vtiger_Index_Action
 	 */
 	public function move(App\Request $request): void
 	{
-		Settings_LayoutEditor_Block_Model::updateFieldSequenceNumber($request->getMultiDimensionArray('updatedFields',
-		[
-			'block' => 'Integer',
-			'fieldid' => 'Integer',
-			'sequence' => 'Integer',
-		]));
+		Settings_LayoutEditor_Block_Model::updateFieldSequenceNumber($request->getMultiDimensionArray(
+			'updatedFields',
+			[
+				'block' => 'Integer',
+				'fieldid' => 'Integer',
+				'sequence' => 'Integer',
+			]
+		));
 		$response = new Vtiger_Response();
 		$response->setResult(['success' => true]);
 		$response->emit();

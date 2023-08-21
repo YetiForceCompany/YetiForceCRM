@@ -19,14 +19,14 @@ class Reservations_Time_UIType extends Vtiger_Time_UIType
 		if (!\in_array($fieldName, $specialTimeFields)) {
 			return parent::getEditViewDisplayValue($value, $recordModel);
 		}
-		return $this->getDisplayTimeDifferenceValue($fieldName, $value);
+		return $this->getDisplayTimeDifferenceValue($fieldName, $value ?? '');
 	}
 
 	/**
 	 * Function to get the calendar event call duration value in hour format.
 	 *
-	 * @param type $fieldName
-	 * @param type $value
+	 * @param string $fieldName
+	 * @param string $value
 	 *
 	 * @return <Vtiger_Time_UIType> - getTimeValue
 	 */

@@ -20,6 +20,17 @@ abstract class VTTask
 	public const RECORD_EVENT_INACTIVE = 1;
 	/** @var int */
 	public const RECORD_EVENT_DOUBLE_MODE = 2;
+	/** @var int Workflow id. */
+	public $workflowId;
+	/** @var string Title of the workflow task. */
+	public $summary;
+	/** @var int The order in which the workflow task is executed. */
+	public $sequence;
+	/** @var bool Specifies whether the workflow task is active. */
+	public $active;
+	/** @var string[] The time after which the task is to be performed. */
+	public $trigger;
+
 	/**
 	 * Task contents.
 	 *

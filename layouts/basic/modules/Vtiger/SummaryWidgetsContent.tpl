@@ -63,7 +63,7 @@
 							<td class="{$WIDTHTYPE} text-left" data-field-type="rel_created_user"
 								nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
 						{/if}
-						{if $SHOW_COMMENT}
+						{if $SHOW_COMMENT && isset($RELATED_RECORD->get('rel_comment'))}
 							<td class="{$WIDTHTYPE} text-left" data-field-type="rel_comment" nowrap>
 								{if strlen($RELATED_RECORD->get('rel_comment')) > App\Config::relation('COMMENT_MAX_LENGTH')}
 									<a class="js-popover-tooltip" data-js="popover" data-placement="top"
@@ -242,7 +242,7 @@
 							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_created_user"
 								nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
 						{/if}
-						{if $SHOW_COMMENT}
+						{if $SHOW_COMMENT && isset($RELATED_RECORD->get('rel_comment'))}
 							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_comment" nowrap>
 								{if strlen($RELATED_RECORD->get('rel_comment')) > App\Config::relation('COMMENT_MAX_LENGTH')}
 									<a class="js-popover-tooltip" data-js="popover" data-placement="top"
