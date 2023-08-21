@@ -26,6 +26,9 @@ class Vtiger_Base_UIType extends \App\Base
 	/** @var mixed[] Verify the value. */
 	protected $validate = [];
 
+	/** @var bool Show full url. */
+	protected $fullUrl;
+  
 	/** @var bool If field column can be resizable. */
 	protected $isResizableColumn = false;
 

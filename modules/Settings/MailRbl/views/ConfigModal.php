@@ -24,6 +24,9 @@ class Settings_MailRbl_ConfigModal_View extends \App\Controller\ModalSettings
 	/** {@inheritdoc} */
 	public $showFooter = false;
 
+	/** @var string Qualified module name. */
+	public $qualifiedModuleName;
+
 	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{

@@ -30,6 +30,9 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 		'status' => 'FL_ACTIVE'
 	];
 
+	/** @var Vtiger_Field_Model Field instance. */
+	private $fields;
+
 	/** {@inheritdoc} */
 	public function getListFields(): array
 	{

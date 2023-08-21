@@ -8,6 +8,11 @@
  */
 class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 {
+	/** @var Settings_Vtiger_Record_Model[] List view entries. */
+	protected $listViewEntries;
+	/** @var int List view entries count. */
+	protected $listViewCount;
+
 	public function __construct()
 	{
 		parent::__construct();

@@ -22,6 +22,9 @@ class Settings_WebserviceUsers_WebserviceStandard_Service extends Settings_Webse
 	/** @var string Table name. */
 	public $baseIndex = 'id';
 
+	/** @var string Type api. */
+	public $typeApi;
+
 	/** {@inheritdoc} */
 	public $editFields = [
 		'server_id' => 'FL_SERVER',

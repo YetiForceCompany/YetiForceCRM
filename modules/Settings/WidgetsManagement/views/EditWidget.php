@@ -23,6 +23,9 @@ class Settings_WidgetsManagement_EditWidget_View extends \App\Controller\ModalSe
 	/** {@inheritdoc} */
 	public $showFooter = false;
 
+	/** @var Vtiger_Widget_Model Widget model. */
+	public $widgetModel;
+
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{

@@ -13,6 +13,8 @@
  */
 class Calendar_ActivityStateModal_View extends Vtiger_BasicModal_View
 {
+	/** @var Vtiger_Record_Model Record model.*/
+	private $record;
 	/**
 	 * Get tpl path file.
 	 *

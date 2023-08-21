@@ -10,6 +10,9 @@
  */
 class HelpDesk_CheckValidateToClose_Action extends \App\Controller\Action
 {
+	/** @var Vtiger_Record_Model Record model. */
+	private $recordModel;
+
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
