@@ -109,3 +109,4 @@ class Media
 
 		return $icon;
 	}
+}
