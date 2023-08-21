@@ -1,18 +1,18 @@
 <?php
 
- /* * *******************************************************************************
- * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
- * ("License"); You may not use this file except in compliance with the
- * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
- * Software distributed under the License is distributed on an  "AS IS"  basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- * The Original Code is:  SugarCRM Open Source
- * The Initial Developer of the Original Code is SugarCRM, Inc.
- * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
- * All Rights Reserved.
- * Contributor(s): YetiForce S.A.
- * ****************************************************************************** */
+/* * *******************************************************************************
+* The contents of this file are subject to the SugarCRM Public License Version 1.1.2
+* ("License"); You may not use this file except in compliance with the
+* License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
+* Software distributed under the License is distributed on an  "AS IS"  basis,
+* WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
+* the specific language governing rights and limitations under the License.
+* The Original Code is:  SugarCRM Open Source
+* The Initial Developer of the Original Code is SugarCRM, Inc.
+* Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
+* All Rights Reserved.
+* Contributor(s): YetiForce S.A.
+* ****************************************************************************** */
 /* * *******************************************************************************
  * $Header: /advent/projects/wesat/vtiger_crm/vtigercrm/data/CRMEntity.php,v 1.16 2005/04/29 04:21:31 mickie Exp $
  * Description:  Defines the base class for all data entities used throughout the
@@ -80,6 +80,16 @@ class CRMEntity
 	}
 
 	/**
+	 * Get module name.
+	 *
+	 * @return string
+	 */
+	public function getName(): string
+	{
+		return static::class;
+	}
+
+	/**
 	 * Get CRMEntity instance.
 	 *
 	 * @param string $module
@@ -105,34 +115,11 @@ class CRMEntity
 			}
 		}
 		$focus = new $module();
-		$focus->moduleName = $module;
 		if (method_exists($focus, 'init')) {
 			$focus->init();
 		}
 		\App\Cache::staticSave('CRMEntity', $module, clone $focus);
 		return $focus;
-	}
-
-	/**
-	 * Loading the system configuration.
-	 *
-	 * @return void
-	 */
-	protected function init(): void
-	{
-		$this->tab_name_index += ['u_yf_wapro_records_map' => 'crmid'];
-	}
-
-	/**
-	 * Function returns the column alias for a field.
-	 *
-	 * @param array $fieldInfo - field information
-	 *
-	 * @return string field value
-	 */
-	protected function createColumnAliasForField(array $fieldInfo)
-	{
-		return strtolower($fieldInfo['tablename'] . $fieldInfo['fieldname']);
 	}
 
 	/**
@@ -180,7 +167,7 @@ class CRMEntity
 			foreach ($cachedModuleFields as $fieldInfo) {
 				$fieldvalue = '';
 				$fieldkey = $this->createColumnAliasForField($fieldInfo);
-				//Note : value is retrieved with a tablename+fieldname as we are using alias while building query
+				// Note : value is retrieved with a tablename+fieldname as we are using alias while building query
 				if (isset($resultRow[$fieldkey])) {
 					$fieldvalue = $resultRow[$fieldkey];
 				}
@@ -286,5 +273,27 @@ class CRMEntity
 		} elseif ('module.preupdate' === $eventType) {
 		} elseif ('module.postupdate' === $eventType) {
 		}
+	}
+
+	/**
+	 * Loading the system configuration.
+	 *
+	 * @return void
+	 */
+	protected function init(): void
+	{
+		$this->tab_name_index += ['u_yf_wapro_records_map' => 'crmid'];
+	}
+
+	/**
+	 * Function returns the column alias for a field.
+	 *
+	 * @param array $fieldInfo - field information
+	 *
+	 * @return string field value
+	 */
+	protected function createColumnAliasForField(array $fieldInfo)
+	{
+		return strtolower($fieldInfo['tablename'] . $fieldInfo['fieldname']);
 	}
 }

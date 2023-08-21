@@ -10,14 +10,16 @@
 
 class Vtiger_Cache_Connector_Memory
 {
+	protected $values = [];
+
 	public function set($key, $value)
 	{
-		$this->$key = $value;
+		$this->values[$key] = $value;
 	}
 
 	public function get($key)
 	{
-		return $this->$key ?? false;
+		return $this->values[$key] ?? false;
 	}
 
 	public function flush()

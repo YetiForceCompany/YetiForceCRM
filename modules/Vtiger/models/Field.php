@@ -93,6 +93,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	/** @var bool[] Permissions cache */
 	protected $permissionsCache = [];
 
+	/** @var Vtiger_Module_Model */
+	protected $module;
+
 	public function __update()
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();

@@ -1,17 +1,24 @@
 <?php
 
- /* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce S.A.
- * *********************************************************************************** */
+/* +***********************************************************************************
+* The contents of this file are subject to the vtiger CRM Public License Version 1.0
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+* Contributor(s): YetiForce S.A.
+* *********************************************************************************** */
 
 class Users_Record_Model extends Vtiger_Record_Model
 {
+	/**
+	 * Static Function to get the instance of the User Record model for the current user.
+	 *
+	 * @return Users_Record_Model instance
+	 */
+	protected static $currentUserModels = [];
+
 	/** {@inheritdoc} */
 	public function getModule(): Vtiger_Module_Model
 	{
@@ -138,7 +145,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 		if ($this->getModule()) {
 			return parent::getModuleName();
 		}
-		//get from the class propety module_name
+		// get from the class propety module_name
 		return $this->get('module_name');
 	}
 
@@ -261,34 +268,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * Get default value.
-	 *
-	 * @param string $fieldName
-	 *
-	 * @return mixed
-	 */
-	protected function getDefaultValue($fieldName)
-	{
-		switch ($fieldName) {
-			case 'currency_id':
-				return CurrencyField::getDBCurrencyId();
-			case 'accesskey':
-				return \App\Encryption::generatePassword(20, 'lbn');
-			case 'language':
-				return \App\Language::getLanguage();
-			case 'time_zone':
-				return App\Fields\DateTime::getTimeZone();
-			case 'theme':
-				return Vtiger_Viewer::DEFAULTTHEME;
-			case 'is_admin':
-				return 'off';
-			default:
-				break;
-		}
-		return false;
-	}
-
-	/**
 	 * Validation of modified data.
 	 *
 	 * @throws \App\Exceptions\SaveRecord
@@ -396,13 +375,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 		}
 	}
 
-	/**
-	 * Static Function to get the instance of the User Record model for the current user.
-	 *
-	 * @return Users_Record_Model instance
-	 */
-	protected static $currentUserModels = [];
-
 	public static function getCurrentUserModel()
 	{
 		$currentUser = \App\User::getCurrentUserModel();
@@ -432,9 +404,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$userDetails = array_map('\App\Purifier::decodeHtml', $currentUser->getDetails());
 		$userModel = new self();
-		foreach ($userDetails as $key => $value) {
-			$userModel->{$key} = $value;
-		}
+
 		return $userModel->setData($userDetails)->setModule('Users')->setId($currentUser->getId());
 	}
 
@@ -651,7 +621,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 	 */
 	public function getCurrentUserActivityReminderInSeconds()
 	{
-		$activityReminder = $this->reminder_interval;
+		$activityReminder = $this->get('reminder_interval');
 		$activityReminderInSeconds = '';
 		if ('None' != $activityReminder) {
 			preg_match('/([0-9]+)[\s]([a-zA-Z]+)/', $activityReminder, $matches);
@@ -865,9 +835,9 @@ class Users_Record_Model extends Vtiger_Record_Model
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$dbCommand->update('vtiger_crmentity', ['smcreatorid' => $newOwnerId, 'smownerid' => $newOwnerId], ['smcreatorid' => $userId, 'setype' => 'ModComments'])->execute();
-		//update history details in vtiger_modtracker_basic
+		// update history details in vtiger_modtracker_basic
 		$dbCommand->update('vtiger_modtracker_basic', ['whodid' => $newOwnerId], ['whodid' => $userId])->execute();
-		//update comments details in vtiger_modcomments
+		// update comments details in vtiger_modcomments
 		$dbCommand->update('vtiger_modcomments', ['userid' => $newOwnerId], ['userid' => $userId])->execute();
 		$dbCommand->delete('vtiger_users', ['id' => $userId])->execute();
 		$dbCommand->delete('vtiger_module_dashboard_widgets', ['userid' => $userId])->execute();
@@ -1026,44 +996,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 	}
 
 	/**
-	 * User authorization based on authorization methods.
-	 *
-	 * @param string $password
-	 *
-	 * @return bool|null
-	 */
-	protected function doLoginByAuthMethod($password)
-	{
-		$auth = $this->getAuthDetail();
-		if ('true' === $auth['ldap']['active']) {
-			$authMethod = new Users_Ldap_Authmethod($this);
-			return $authMethod->process($auth['ldap'], $password);
-		}
-		return null;
-	}
-
-	/**
-	 * Get authorization detail.
-	 *
-	 * @return array
-	 */
-	protected function getAuthDetail()
-	{
-		if (\App\Cache::has('getAuthMethods', 'config')) {
-			return \App\Cache::get('getAuthMethods', 'config');
-		}
-		$dataReader = (new \App\Db\Query())->from('yetiforce_auth')->createCommand()->query();
-		$auth = [];
-		while ($row = $dataReader->read()) {
-			$auth[$row['type']][$row['param']] = $row['value'];
-		}
-		$dataReader->close();
-		\App\Cache::save('getAuthMethods', 'config', $auth);
-
-		return $auth;
-	}
-
-	/**
 	 * Verify  password change.
 	 *
 	 * @param App\User $userModel
@@ -1123,5 +1055,71 @@ class Users_Record_Model extends Vtiger_Record_Model
 				$db->createCommand()->update('u_#__users_labels', ['label' => $label], ['id' => $this->getId()])->execute();
 			}
 		}
+	}
+
+	/**
+	 * Get default value.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return mixed
+	 */
+	protected function getDefaultValue($fieldName)
+	{
+		switch ($fieldName) {
+			case 'currency_id':
+				return CurrencyField::getDBCurrencyId();
+			case 'accesskey':
+				return \App\Encryption::generatePassword(20, 'lbn');
+			case 'language':
+				return \App\Language::getLanguage();
+			case 'time_zone':
+				return App\Fields\DateTime::getTimeZone();
+			case 'theme':
+				return Vtiger_Viewer::DEFAULTTHEME;
+			case 'is_admin':
+				return 'off';
+			default:
+				break;
+		}
+		return false;
+	}
+
+	/**
+	 * User authorization based on authorization methods.
+	 *
+	 * @param string $password
+	 *
+	 * @return bool|null
+	 */
+	protected function doLoginByAuthMethod($password)
+	{
+		$auth = $this->getAuthDetail();
+		if ('true' === $auth['ldap']['active']) {
+			$authMethod = new Users_Ldap_Authmethod($this);
+			return $authMethod->process($auth['ldap'], $password);
+		}
+		return null;
+	}
+
+	/**
+	 * Get authorization detail.
+	 *
+	 * @return array
+	 */
+	protected function getAuthDetail()
+	{
+		if (\App\Cache::has('getAuthMethods', 'config')) {
+			return \App\Cache::get('getAuthMethods', 'config');
+		}
+		$dataReader = (new \App\Db\Query())->from('yetiforce_auth')->createCommand()->query();
+		$auth = [];
+		while ($row = $dataReader->read()) {
+			$auth[$row['type']][$row['param']] = $row['value'];
+		}
+		$dataReader->close();
+		\App\Cache::save('getAuthMethods', 'config', $auth);
+
+		return $auth;
 	}
 }

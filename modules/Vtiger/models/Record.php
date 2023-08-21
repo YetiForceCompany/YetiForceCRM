@@ -783,9 +783,17 @@ class Vtiger_Record_Model extends \App\Base
 		return $instance;
 	}
 
+	/**
+	 * Get instance by entity object.
+	 *
+	 * @param CRMEntity $focus
+	 * @param int       $recordId
+	 *
+	 * @return void
+	 */
 	public static function getInstanceByEntity($focus, $recordId)
 	{
-		$moduleName = $focus->moduleName;
+		$moduleName = $focus->getName();
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
