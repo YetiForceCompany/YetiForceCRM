@@ -99,16 +99,13 @@ class Media
 	{
 		$icon = '';
 		if ($value && !\App\Json::isEmpty($value)) {
-			$value = \App\Json::decode($value);
-			if (isset($value['type'])) {
-				if ('icon' === $value['type']) {
-					$icon = "<span class=\"{$value['name']} mr-1\"></span>";
-				} elseif ('image' === $value['type'] && ($src = self::getImageUrl($value['name']))) {
-					$icon = '<img class="icon-img--picklist mr-1" src="' . $src . '">';
-				}
+			['type' => $type, 'name' => $name] = \App\Json::decode($value);
+			if ('icon' === $type) {
+				$icon = "<span class=\"{$name} mr-1\"></span>";
+			} elseif ('image' === $type && ($src = self::getImageUrl($name))) {
+				$icon = '<img class="icon-img--picklist mr-1" src="' . $src . '">';
 			}
 		}
 
 		return $icon;
 	}
-}
