@@ -13,6 +13,10 @@
 class Vtiger_TreeCategoryModal_Model extends \App\Base
 {
 	public static $_cached_instance;
+	/** @var Vtiger_Module_Model Relation module model. */
+	public $relationModel;
+	/** @var int Last id in tree. */
+	private $lastIdinTree;
 
 	/**
 	 * Function to get the Module Name.
