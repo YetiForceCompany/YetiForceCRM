@@ -386,8 +386,14 @@ jQuery.Class(
 			let params = $.extend(this.getRecordsListParams(), extendParams);
 			app.showRecordsList(params, (_modal, instance) => {
 				instance.setSelectEvent((responseData) => {
-					this.addRelations(Object.keys(responseData)).done(() => {
-						app.event.trigger('RelatedListView.AfterSelectRelation', responseData, this, instance, params);
+					this.addRelations([], responseData).done(() => {
+						app.event.trigger(
+							'RelatedListView.AfterSelectRelation',
+							responseData.selectedRecords,
+							this,
+							instance,
+							params
+						);
 						let detail = Vtiger_Detail_Js.getInstance();
 						this.loadRelatedList().done(function () {
 							detail.registerRelatedModulesRecordCount();

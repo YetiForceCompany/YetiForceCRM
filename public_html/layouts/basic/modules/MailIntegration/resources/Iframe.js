@@ -394,7 +394,7 @@ window.MailIntegration_Iframe = {
 			});
 			app.showRecordsList(params, (_modal, instance) => {
 				instance.setSelectEvent((responseData) => {
-					this.addRelation(responseData.id, params.module);
+					this.addRelation(responseData.selectedRecords.id, params.module);
 				});
 			});
 		});

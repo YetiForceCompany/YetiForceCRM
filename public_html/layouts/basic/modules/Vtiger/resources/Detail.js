@@ -1353,7 +1353,7 @@ jQuery.Class(
 					app.showRecordsList(params, (_modal, instance) => {
 						instance.setSelectEvent((responseData) => {
 							thisInstance
-								.addRelationBetweenRecords(referenceModuleName, Object.keys(responseData), null, {
+								.addRelationBetweenRecords(referenceModuleName, Object.keys(responseData.selectedRecords), null, {
 									relationId: params.relationId
 								})
 								.done(function () {
