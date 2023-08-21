@@ -244,11 +244,11 @@ class Vtiger_List_View extends Vtiger_Index_View
 			$advancedConditions = $this->listViewModel->get('advancedConditionsRaw');
 		}
 		$searchParams = App\Condition::validSearchParams($moduleName, $request->getArray('search_params'));
+		$this->listViewModel->loadSearchLockedFields($request);
 		if (!empty($searchParams) && \is_array($searchParams)) {
 			$transformedSearchParams = $this->listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 			$this->listViewModel->set('search_params', $transformedSearchParams);
-			$this->listViewModel->loadSearchLockedFields($request);
-			//To make smarty to get the details easily accesible
+			// To make smarty to get the details easily accesible
 			foreach ($request->getArray('search_params') as $fieldListGroup) {
 				$searchParamsRaw[] = $fieldListGroup;
 				foreach ($fieldListGroup as $fieldSearchInfo) {
