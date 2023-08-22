@@ -31,8 +31,11 @@ require_once 'modules/PickList/DependentPickListUtils.php';
 require_once 'modules/Users/Users.php';
 require_once 'include/Webservices/Utils.php';
 
+#[AllowDynamicProperties]
 class CRMEntity
 {
+	/** @var int Record id */
+	public $id;
 	/** @var string Table name */
 	public $table_name = '';
 	/** @var string Table index */

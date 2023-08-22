@@ -10,12 +10,14 @@
  * ********************************************************************************** */
 
 namespace vtlib;
+use AllowDynamicProperties;
 
 include_once 'vtlib/Vtiger/Utils/StringTemplate.php';
 
 /**
  * Provides API to handle custom links.
  */
+#[AllowDynamicProperties]
 class Link
 {
 	// Ignore module while selection
