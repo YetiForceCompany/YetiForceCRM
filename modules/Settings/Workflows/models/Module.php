@@ -15,6 +15,7 @@ require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager
 /**
  * Class settings workflows module model.
  */
+#[AllowDynamicProperties]
 class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 {
 	/**
@@ -157,7 +158,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	/** {@inheritdoc} */
 	public function getListFields(): array
 	{
-		if (!property_exists($this, 'listFieldModels')) {
+		if (!isset($this->listFieldModels)) {
 			$fields = $this->listFields;
 			$fieldObjects = [];
 			$fieldsNoSort = ['module_name', 'execution_condition', 'all_tasks', 'active_tasks'];

@@ -13,7 +13,7 @@ require_once 'modules/com_vtiger_workflow/include.php';
 require_once 'modules/com_vtiger_workflow/VTTaskManager.php';
 
 // Workflow Task Record Model Class
-
+#[AllowDynamicProperties]
 class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 {
 	/**
