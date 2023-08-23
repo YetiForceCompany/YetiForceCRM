@@ -80,7 +80,6 @@ class ServiceContracts extends CRMEntity
 	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
-	public $id;
 
 	/**
 	 * Invoked when special actions are performed on the module.

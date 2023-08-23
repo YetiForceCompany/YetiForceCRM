@@ -56,7 +56,7 @@
 							<div class="btn-group pr-2">
 								{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
 								<button type="button" class="btn btn-light addButton
-									{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modCT_{$RELATED_MODULE_NAME} {if !empty($RELATED_LINK->linkqcs)}quickCreateSupported{/if}"
+									{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modCT_{$RELATED_MODULE_NAME} {if !empty($RELATED_LINK->get('linkqcs'))}quickCreateSupported{/if}"
 									{if $IS_SELECT_BUTTON eq true}
 									data-moduleName={$RELATED_LINK->get('_module')->get('name')} {/if}
 									{if ($RELATED_LINK->isPageLoadLink())}
