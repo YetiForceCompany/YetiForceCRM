@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d03b17cfbed2f7ff0781b254357e865a",
+    "content-hash": "7852d5dfcc9387111f557b1101ab70d5",
     "packages": [
         {
             "name": "adhocore/jwt",
@@ -826,16 +826,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.13.18",
+            "version": "8.13.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "23eb0cb4577ec59ed7a89decc332815896085d24"
+                "reference": "7b60d1264ba806e68fb99b06e73e2ed07815689e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/23eb0cb4577ec59ed7a89decc332815896085d24",
-                "reference": "23eb0cb4577ec59ed7a89decc332815896085d24",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/7b60d1264ba806e68fb99b06e73e2ed07815689e",
+                "reference": "7b60d1264ba806e68fb99b06e73e2ed07815689e",
                 "shasum": ""
             },
             "require": {
@@ -894,7 +894,7 @@
                 "issues": "https://github.com/giggsey/libphonenumber-for-php/issues",
                 "source": "https://github.com/giggsey/libphonenumber-for-php"
             },
-            "time": "2023-08-03T11:09:03+00:00"
+            "time": "2023-08-22T13:59:44+00:00"
         },
         {
             "name": "giggsey/locale",
