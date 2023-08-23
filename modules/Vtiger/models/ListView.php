@@ -199,7 +199,6 @@ class Vtiger_ListView_Model extends \App\Base
 					'linkdata' => ['url' => 'index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List', 'type' => 'modal'],
 					'linkclass' => 'js-mass-action',
 					'linkicon' => 'fas fa-file-pdf',
-					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
 				];
 			}
 		}

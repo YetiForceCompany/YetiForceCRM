@@ -22,26 +22,34 @@ class Vtiger_Link_Model extends vtlib\Link
 	 *
 	 * @param string $propertyName
 	 *
-	 * @throws Exception
-	 *
 	 * @return mixed
 	 */
 	public function get($propertyName)
 	{
-		return property_exists($this, $propertyName) ? $this->{$propertyName} : '';
+		if (property_exists($this, $propertyName)) {
+			$value = $this->{$propertyName};
+		} else {
+			$value = $this->values[$propertyName] ?? '';
+		}
+
+		return $value;
 	}
 
 	/**
 	 * Function to set the value of a given property.
 	 *
-	 * @param string   $propertyName
-	 * @param <Object> $propertyValue
+	 * @param string $propertyName
+	 * @param mixed  $propertyValue
 	 *
-	 * @return Vtiger_Link_Model instance
+	 * @return $this instance
 	 */
 	public function set($propertyName, $propertyValue)
 	{
-		$this->{$propertyName} = $propertyValue;
+		if (property_exists($this, $propertyName)) {
+			$this->{$propertyName} = $propertyValue;
+		} else {
+			$this->values[$propertyName] = $propertyValue;
+		}
 
 		return $this;
 	}
@@ -152,6 +160,7 @@ class Vtiger_Link_Model extends vtlib\Link
 	 * Function to Add link to the child link list.
 	 *
 	 * @param Vtiger_Link_Model $link - link model
+	 *
 	 * @result Vtiger_Link_Model - current Instance;
 	 */
 	public function addChildLink(self $link)
@@ -173,7 +182,7 @@ class Vtiger_Link_Model extends vtlib\Link
 	 */
 	public function getChildLinks()
 	{
-		//See if indexing is need depending only user selection
+		// See if indexing is need depending only user selection
 		return $this->childlinks;
 	}
 
@@ -207,9 +216,9 @@ class Vtiger_Link_Model extends vtlib\Link
 		if (empty($url)) {
 			return $url;
 		}
-		//Check if the link is not javascript
+		// Check if the link is not javascript
 		if (!$this->isPageLoadLink()) {
-			//To convert single quotes and double quotes
+			// To convert single quotes and double quotes
 			return \App\Purifier::encodeHtml($url);
 		}
 		$module = $parent = false;
@@ -234,7 +243,7 @@ class Vtiger_Link_Model extends vtlib\Link
 			}
 			if (0 === strcmp($key, 'return_module')) {
 				$key = 'sourceModule';
-				//Indicating that it is an relation operation
+				// Indicating that it is an relation operation
 				$parametersParts[] = 'relationOperation=true';
 			}
 			if (0 === strcmp($key, 'return_id')) {
@@ -259,7 +268,7 @@ class Vtiger_Link_Model extends vtlib\Link
 			$parametersParts[$index] = implode('=', $newUrlParts);
 		}
 
-		//to append the reference field in one to many relation
+		// to append the reference field in one to many relation
 		if (!empty($module) && !empty($sourceModule) && !empty($sourceRecord) && empty($parent)) {
 			$sourceModuleModel = Vtiger_Module_Model::getInstance($sourceModule);
 			$relatedModuleModel = Vtiger_Module_Model::getInstance($module);
@@ -281,7 +290,7 @@ class Vtiger_Link_Model extends vtlib\Link
 			$this->relatedModuleName = $parent ? "$parent:$module" : $module;
 		}
 
-		//To convert single quotes and double quotes
+		// To convert single quotes and double quotes
 		return \App\Purifier::encodeHtml(implode('&', $parametersParts));
 	}
 
@@ -294,15 +303,9 @@ class Vtiger_Link_Model extends vtlib\Link
 	 */
 	public static function getInstanceFromValues($valueMap)
 	{
-		$linkModel = new self();
+		$linkModel = new static();
 		$linkModel->initialize($valueMap);
 
-		// To set other properties for Link Model
-		foreach ($valueMap as $property => $value) {
-			if (!isset($linkModel->{$property})) {
-				$linkModel->{$property} = $value;
-			}
-		}
 		return $linkModel;
 	}
 
@@ -322,13 +325,13 @@ class Vtiger_Link_Model extends vtlib\Link
 			$params = \App\Json::decode($objectProperties['params']);
 			if (!empty($params)) {
 				foreach ($params as $properName => $propertyValue) {
-					$linkModel->{$properName} = $propertyValue;
+					$linkModel->set($properName, $propertyValue);
 				}
 			}
 			unset($objectProperties['params']);
 		}
 		foreach ($objectProperties as $properName => $propertyValue) {
-			$linkModel->{$properName} = $propertyValue;
+			$linkModel->set($properName, $propertyValue);
 		}
 		// added support for multilayout
 		if (false !== strpos($linkModel->linkurl, '_layoutName_')) {

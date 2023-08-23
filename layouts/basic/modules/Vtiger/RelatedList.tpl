@@ -47,7 +47,7 @@
 									{/if}
 								{/foreach}
 								<button class="btn btn-light dropdown-toggle relatedViewBtn" data-toggle="dropdown">
-									{if $BTN_ICON}
+									{if !empty($BTN_ICON)}
 										<span class="{$BTN_ICON} mr-1"></span>
 									{else}
 										<span class="fas fa-list mr-1"></span>

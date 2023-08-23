@@ -85,7 +85,7 @@ class Users extends CRMEntity
 		'FL_FORCE_PASSWORD_CHANGE' => 'force_password_change',
 		'FL_DATE_PASSWORD_CHANGE' => 'date_password_change',
 	];
-	//Default Fields for Email Templates -- Pavani
+	// Default Fields for Email Templates -- Pavani
 	public $emailTemplate_defaultFields = ['first_name', 'last_name', 'title', 'department', 'phone_home', 'phone_mobile', 'signature', 'email1'];
 	public $popup_fields = ['last_name'];
 	// This is the list of fields that are in the lists.
@@ -93,7 +93,7 @@ class Users extends CRMEntity
 	public $default_sort_order = 'ASC';
 	public $record_id;
 	public $new_schema = true;
-	//Default Widgests
+	// Default Widgests
 	public $default_widgets = ['CVLVT', 'UA'];
 
 	/** constructor function for the main user class.
@@ -115,11 +115,12 @@ class Users extends CRMEntity
 	 */
 	public function isAdminUser()
 	{
-		return isset($this->is_admin) && 'on' === $this->is_admin;
+		return isset($this->column_fields['is_admin']) && 'on' === $this->column_fields['is_admin'];
 	}
 
 	/** Function to get the current user information from the user_privileges file.
 	 * @param $userid -- user id:: Type integer
+	 *
 	 * @returns user info in $this->column_fields array:: Type array
 	 */
 	public function retrieveCurrentUserInfoFromFile($userid)
@@ -128,7 +129,6 @@ class Users extends CRMEntity
 		$userInfo = $userPrivileges['user_info'];
 		foreach ($this->column_fields as $field => $value_iter) {
 			if (isset($userInfo[$field])) {
-				$this->{$field} = $userInfo[$field];
 				$this->column_fields[$field] = $userInfo[$field];
 			}
 		}
@@ -156,7 +156,7 @@ class Users extends CRMEntity
 				}
 			}
 			if (isset($result[$tableName][$fieldRow['columnname']])) {
-				$this->{$fieldName} = $this->column_fields[$fieldName] = $result[$tableName][$fieldRow['columnname']];
+				$this->column_fields[$fieldName] = $result[$tableName][$fieldRow['columnname']];
 			}
 		}
 		$this->column_fields['record_id'] = $record;
@@ -174,18 +174,18 @@ class Users extends CRMEntity
 		} else {
 			$currencySymbol = $currency['currency_symbol'];
 		}
-		$this->column_fields['currency_name'] = $this->currency_name = $currency['currency_name'];
-		$this->column_fields['currency_code'] = $this->currency_code = $currency['currency_code'];
-		$this->column_fields['currency_symbol'] = $this->currency_symbol = $currencySymbol;
-		$this->column_fields['conv_rate'] = $this->conv_rate = $currency['conversion_rate'];
+		$this->column_fields['currency_name'] = $currency['currency_name'];
+		$this->column_fields['currency_code'] = $currency['currency_code'];
+		$this->column_fields['currency_symbol'] = $currencySymbol;
+		$this->column_fields['conv_rate'] = $currency['conversion_rate'];
 		if ('' === $this->column_fields['no_of_currency_decimals']) {
-			$this->column_fields['no_of_currency_decimals'] = $this->no_of_currency_decimals = App\User::getCurrentUserId() ? (int) App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals') : 2;
+			$this->column_fields['no_of_currency_decimals'] = App\User::getCurrentUserId() ? (int) App\User::getCurrentUserModel()->getDetail('no_of_currency_decimals') : 2;
 		}
 		if ('' == $this->column_fields['currency_grouping_pattern'] && '' == $this->column_fields['currency_symbol_placement']) {
-			$this->column_fields['currency_grouping_pattern'] = $this->currency_grouping_pattern = '123,456,789';
-			$this->column_fields['currency_decimal_separator'] = $this->currency_decimal_separator = '.';
-			$this->column_fields['currency_grouping_separator'] = $this->currency_grouping_separator = ' ';
-			$this->column_fields['currency_symbol_placement'] = $this->currency_symbol_placement = '1.0$';
+			$this->column_fields['currency_grouping_pattern'] = '123,456,789';
+			$this->column_fields['currency_decimal_separator'] = '.';
+			$this->column_fields['currency_grouping_separator'] = ' ';
+			$this->column_fields['currency_symbol_placement'] = '1.0$';
 		}
 		$this->id = $record;
 		\App\Log::trace('Exit from retrieveEntityInfo() method.');
@@ -207,7 +207,7 @@ class Users extends CRMEntity
 		$eventHandler->trigger('UsersBeforeDelete');
 
 		App\Fields\Owner::transferOwnership($userId, $transformToUserId);
-		//updating the vtiger_users table
+		// updating the vtiger_users table
 		App\Db::getInstance()->createCommand()
 			->update('vtiger_users', [
 				'status' => 'Inactive',

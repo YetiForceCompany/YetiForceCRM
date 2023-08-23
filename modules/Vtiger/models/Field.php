@@ -96,6 +96,9 @@ class Vtiger_Field_Model extends vtlib\Field
 	/** @var Vtiger_Module_Model */
 	protected $module;
 
+	/** @var array Array for temporary data */
+	private array $values = [];
+
 	public function __update()
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
@@ -166,7 +169,8 @@ class Vtiger_Field_Model extends vtlib\Field
 		if (property_exists($this, $propertyName)) {
 			return $this->{$propertyName};
 		}
-		return null;
+
+		return $this->values[$propertyName] ?? null;
 	}
 
 	/**
@@ -179,7 +183,12 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function set(string $name, $value)
 	{
-		$this->{$name} = $value;
+		if (property_exists($this, $name)) {
+			$this->{$name} = $value;
+		} else {
+			$this->values[$name] = $value;
+		}
+
 		return $this;
 	}
 
@@ -911,10 +920,11 @@ class Vtiger_Field_Model extends vtlib\Field
 	 */
 	public function isReadOnly(): bool
 	{
-		if (isset($this->isReadOnly)) {
-			return $this->isReadOnly;
+		if (null === $this->get('isReadOnly')) {
+			$this->set('isReadOnly', !$this->getProfileReadWritePermission());
 		}
-		return $this->isReadOnly = !$this->getProfileReadWritePermission();
+
+		return $this->get('isReadOnly');
 	}
 
 	public function isQuickCreateEnabled()

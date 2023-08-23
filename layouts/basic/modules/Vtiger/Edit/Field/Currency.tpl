@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -22,7 +22,7 @@
 		{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 		{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 		{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
-		{assign var="SYMBOL_PLACEMENT" value=$USER_MODEL->currency_symbol_placement}
+		{assign var=SYMBOL_PLACEMENT value=$USER_MODEL->get('currency_symbol_placement')}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD)}
 		{if $FIELD_MODEL->getUIType() eq '71'}
 			<div class="input-group {$WIDTHTYPE_GROUP}" data-uitype="71">

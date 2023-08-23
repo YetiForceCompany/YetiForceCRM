@@ -80,6 +80,7 @@ class ServiceContracts extends CRMEntity
 	public $special_functions = ['set_import_assigned_user'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
+	public $id;
 
 	/**
 	 * Invoked when special actions are performed on the module.
@@ -139,19 +140,17 @@ class ServiceContracts extends CRMEntity
 	// Function to Compute and Update the Used Units and Progress of the Service Contract based on all the related Trouble tickets.
 	public function updateServiceContractState($focusId)
 	{
-		$this->id = $focusId;
 		$this->retrieveEntityInfo($focusId, 'ServiceContracts');
 		$dataReader = (new App\Db\Query())->select(['relcrmid'])
 			->from('vtiger_crmentityrel')
 			->where(['module' => 'ServiceContracts', 'relmodule' => 'HelpDesk', 'crmid' => $focusId])
 			->union((new App\Db\Query())->select(['crmid'])
-			->from('vtiger_crmentityrel')
-			->where(['relmodule' => 'ServiceContracts', 'module' => 'HelpDesk', 'relcrmid' => $focusId]))
+				->from('vtiger_crmentityrel')
+				->where(['relmodule' => 'ServiceContracts', 'module' => 'HelpDesk', 'relcrmid' => $focusId]))
 			->createCommand()->query();
 		$totalUsedUnits = 0;
 		$ticketFocus = CRMEntity::getInstance('HelpDesk');
 		while ($ticketId = $dataReader->readColumn(0)) {
-			$ticketFocus->id = $ticketId;
 			if (\App\Record::isExists($ticketId)) {
 				$ticketFocus->retrieveEntityInfo($ticketId, 'HelpDesk');
 				if ('closed' === strtolower($ticketFocus->column_fields['ticketstatus'])) {
@@ -198,7 +197,7 @@ class ServiceContracts extends CRMEntity
 	public function updateUsedUnits($usedUnits)
 	{
 		$this->column_fields['used_units'] = $usedUnits;
-		\App\Db::getInstance()->createCommand()->update($this->table_name, ['used_units' => $usedUnits], ['servicecontractsid' => $this->id])->execute();
+		\App\Db::getInstance()->createCommand()->update($this->table_name, ['used_units' => $usedUnits], ['servicecontractsid' => $this->column_fields['record_id']])->execute();
 	}
 
 	/**
@@ -223,11 +222,11 @@ class ServiceContracts extends CRMEntity
 		if ('Complete' === $contractStatus || (!empty($usedUnits) && !empty($totalUnits) && $usedUnits >= $totalUnits)) {
 			if (empty($endDate)) {
 				$endDate = date('Y-m-d');
-				$db->createCommand()->update($this->table_name, ['end_date' => $endDate], ['servicecontractsid' => $this->id])->execute();
+				$db->createCommand()->update($this->table_name, ['end_date' => $endDate], ['servicecontractsid' => $this->column_fields['record_id']])->execute();
 			}
 		} else {
 			$endDate = null;
-			$db->createCommand()->update($this->table_name, ['end_date' => $endDate], ['servicecontractsid' => $this->id])->execute();
+			$db->createCommand()->update($this->table_name, ['end_date' => $endDate], ['servicecontractsid' => $this->column_fields['record_id']])->execute();
 		}
 
 		// Calculate the Planned Duration based on Due date and Start date. (in days)
@@ -249,6 +248,6 @@ class ServiceContracts extends CRMEntity
 		} else {
 			$params['progress'] = null;
 		}
-		$db->createCommand()->update($this->table_name, $params, ['servicecontractsid' => $this->id])->execute();
+		$db->createCommand()->update($this->table_name, $params, ['servicecontractsid' => $this->column_fields['record_id']])->execute();
 	}
 }

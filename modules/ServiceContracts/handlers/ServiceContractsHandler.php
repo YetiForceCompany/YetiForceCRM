@@ -4,6 +4,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class ServiceContracts_ServiceContractsHandler_Handler
 {
@@ -40,7 +41,6 @@ class ServiceContracts_ServiceContractsHandler_Handler
 					->createCommand()->query();
 				while ($contractId = $dataReader->readColumn(0)) {
 					$scFocus = CRMEntity::getInstance('ServiceContracts');
-					$scFocus->id = $contractId;
 					$scFocus->retrieveEntityInfo($contractId, 'ServiceContracts');
 
 					$prevUsedUnits = $scFocus->column_fields['used_units'];
@@ -68,7 +68,6 @@ class ServiceContracts_ServiceContractsHandler_Handler
 			if ($recordModel->get('tracking_unit') !== $recordModel->getPreviousValue('tracking_unit')) { // Need to recompute used_units based when tracking_unit changes.
 				$scFocus->updateServiceContractState($contractId);
 			} else {
-				$scFocus->id = $contractId;
 				$scFocus->retrieveEntityInfo($contractId, 'ServiceContracts');
 				$scFocus->calculateProgress();
 			}

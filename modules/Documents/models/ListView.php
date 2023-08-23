@@ -38,7 +38,6 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 					'linkdata' => ['url' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=List', 'type' => 'modal'],
 					'linkclass' => 'js-mass-action',
 					'linkicon' => 'fas fa-file-pdf',
-					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
 				];
 			}
 		}
@@ -81,7 +80,7 @@ class Documents_ListView_Model extends Vtiger_ListView_Model
 		$linkTypes = ['LISTVIEWMASSACTION'];
 		$links = Vtiger_Link_Model::getAllByType($moduleModel->getId(), $linkTypes, $linkParams);
 
-		//Opensource fix to make documents module mass editable
+		// Opensource fix to make documents module mass editable
 		$massActionLinks = [];
 		if ($moduleModel->isPermitted('MassEdit')) {
 			$massActionLinks[] = [

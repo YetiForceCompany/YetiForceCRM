@@ -23,7 +23,7 @@ class WebservicesConvertLead
 	{
 		\App\Log::trace('Start ' . __METHOD__);
 		if (empty($entityvalues['assignedTo'])) {
-			$entityvalues['assignedTo'] = $user->id;
+			$entityvalues['assignedTo'] = $user->getId();
 		}
 		if (empty($entityvalues['transferRelatedRecordsTo'])) {
 			$entityvalues['transferRelatedRecordsTo'] = 'Accounts';
@@ -56,7 +56,7 @@ class WebservicesConvertLead
 				$entityObjectValues['assigned_user_id'] = $entityvalues['assignedTo'];
 				$entityObjectValues = static::vtwsPopulateConvertLeadEntities($entityvalue, $entityObjectValues, $recordModel, $leadInfo);
 
-				//update the contacts relation
+				// update the contacts relation
 				if ('Contacts' == $entityvalue['name'] && !empty($entityIds['Accounts'])) {
 					$entityObjectValues['parent_id'] = $entityIds['Accounts'];
 				}
@@ -235,7 +235,7 @@ class WebservicesConvertLead
 			if (false === $result) {
 				throw new WebServiceException('FAILED_TO_MARK_LEAD_CONVERTED', 'Failed mark lead converted');
 			}
-			//update the modifiedtime and modified by information for the record
+			// update the modifiedtime and modified by information for the record
 			$db->createCommand()
 				->update('vtiger_crmentity', ['modifiedtime' => date('Y-m-d H:i:s'), 'modifiedby' => $user->getId()], ['crmid' => $leadId])
 				->execute();

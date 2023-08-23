@@ -22,6 +22,9 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 	{
 		$linkTypes = ['LISTVIEWBASIC', 'LISTVIEW', 'LISTVIEWSETTING'];
 		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), $linkTypes, $linkParams);
+		if (!isset($links['LISTVIEWBASIC'])) {
+			$links['LISTVIEWBASIC'] = [];
+		}
 		if (App\User::getCurrentUserModel()->isAdmin()) {
 			$links['LISTVIEWBASIC'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'LISTVIEWBASIC',
@@ -35,6 +38,7 @@ class Users_ListView_Model extends Vtiger_ListView_Model
 		foreach ($advancedLinks as $advancedLink) {
 			$links['LISTVIEW'][] = Vtiger_Link_Model::getInstanceFromValues($advancedLink);
 		}
+
 		return $links;
 	}
 

@@ -57,7 +57,6 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_EXTENDED',
 				'linklabel' => 'LBL_MOVE_TO_TRASH',
-				'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
 				'dataUrl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId(),
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
 				'linkicon' => 'fas fa-trash-alt',
@@ -72,13 +71,12 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 				}
 			}
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
-					'linktype' => 'DETAIL_VIEW_EXTENDED',
-					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY'),
-					'dataUrl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId(),
-					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
-					'linkicon' => 'fas fa-eraser',
-					'linkclass' => 'btn-dark btn-sm js-record-action',
+				'linktype' => 'DETAIL_VIEW_EXTENDED',
+				'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
+				'dataUrl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId(),
+				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
+				'linkicon' => 'fas fa-eraser',
+				'linkclass' => 'btn-dark btn-sm js-record-action',
 			]);
 		}
 		return $linkModelList;

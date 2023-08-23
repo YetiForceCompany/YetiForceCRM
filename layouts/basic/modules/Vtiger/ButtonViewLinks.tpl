@@ -15,7 +15,7 @@
 		{/if}
 		<div class="d-inline-block {if isset($CLASS)}{$CLASS}{/if}">
 			<button class="btn {if isset($BTN_CLASS)}{$BTN_CLASS}{else}btn-light{/if} dropdown-toggle" data-toggle="dropdown">
-				{if isset($BTN_ICON)}
+				{if !empty($BTN_ICON)}
 					<span class="{$BTN_ICON}"></span>
 				{else}
 					<span class="fas fa-list"></span>

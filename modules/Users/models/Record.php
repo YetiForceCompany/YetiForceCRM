@@ -264,6 +264,7 @@ class Users_Record_Model extends Vtiger_Record_Model
 			$forSave['vtiger_users']['date_entered'] = $now;
 			$forSave['vtiger_users']['date_password_change'] = $now;
 		}
+
 		return $forSave;
 	}
 
@@ -679,7 +680,6 @@ class Users_Record_Model extends Vtiger_Record_Model
 					'linkurl' => $this->getDuplicateRecordUrl(),
 					'linkicon' => 'fas fa-clone',
 					'linkclass' => 'btn-outline-dark btn-sm',
-					'title' => \App\Language::translate('LBL_DUPLICATE_RECORD'),
 				];
 			}
 		}

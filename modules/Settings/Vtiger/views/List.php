@@ -11,15 +11,16 @@
 
 class Settings_Vtiger_List_View extends Settings_Vtiger_Index_View
 {
-	protected $listViewEntries = false;
-	protected $listViewHeaders = false;
-
 	/**
 	 * List view model instance.
 	 *
 	 * @var Settings_Vtiger_ListView_Model
 	 */
 	public $listViewModel;
+	protected $listViewEntries = false;
+	protected $listViewHeaders = false;
+	protected $listViewLinks;
+	protected $listViewCount;
 
 	/** {@inheritdoc} */
 	public function preProcess(App\Request $request, $display = true)

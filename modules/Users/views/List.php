@@ -104,7 +104,7 @@ class Users_List_View extends Settings_Vtiger_List_View
 		$transformedSearchParams = $this->listViewModel->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
 		$this->listViewModel->set('search_params', $transformedSearchParams);
 
-		//To make smarty to get the details easily accesible
+		// To make smarty to get the details easily accesible
 		foreach ($request->getArray('search_params') as $fieldListGroup) {
 			$searchParamsRaw[] = $fieldListGroup;
 			foreach ($fieldListGroup as $fieldSearchInfo) {

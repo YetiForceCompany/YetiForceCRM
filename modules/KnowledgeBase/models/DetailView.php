@@ -30,7 +30,6 @@ class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 				],
 				'vueId' => 'ArticlePreview',
 				'linkicon' => 'fas fa-expand',
-				'title' => \App\Language::translate('LBL_GO_TO_PREVIEW', $moduleName),
 				'linkhint' => \App\Language::translate('LBL_GO_TO_PREVIEW', $moduleName),
 				'linkclass' => 'btn-outline-dark btn-sm js-show-article-preview',
 			],

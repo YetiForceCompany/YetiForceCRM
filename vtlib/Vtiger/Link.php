@@ -64,9 +64,14 @@ class Link
 	public $showLabel;
 	/** @var bool */
 	public $linkhref;
+	/** @var string */
+	public $style;
 
 	/** Cache (Record) the schema changes to improve performance */
 	public static $__cacheSchemaChanges = [];
+
+	/** @var array Array for temporary data */
+	protected array $values = [];
 
 	/**
 	 * Initialize this instance.
@@ -77,9 +82,12 @@ class Link
 	{
 		foreach ($valuemap as $key => $value) {
 			if (!empty($value) && ('linkurl' == $key || 'linkicon' == $key)) {
-				$this->{$key} = \App\Purifier::decodeHtml($value);
-			} else {
+				$value = \App\Purifier::decodeHtml($value);
+			}
+			if (property_exists($this, $key)) {
 				$this->{$key} = $value;
+			} else {
+				$this->values[$key] = $value;
 			}
 		}
 	}

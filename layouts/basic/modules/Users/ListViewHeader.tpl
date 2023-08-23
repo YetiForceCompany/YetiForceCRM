@@ -6,7 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
+* Contributor(s): YetiForce S.A.
 ********************************************************************************/
 -->*}
 {strip}
@@ -20,7 +20,7 @@
 		<div class="listViewActionsDiv my-2 row">
 			<div class="col-md-4 btn-toolbar">
 				<span class="btn-group listViewMassActions">
-					{if count($LISTVIEW_MASSACTIONS) gt 0 || $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
+					{if count($LISTVIEW_MASSACTIONS) gt 0 || !empty($LISTVIEW_LINKS['LISTVIEW'])}
 						<button class="btn btn-light mr-1 dropdown-toggle" data-toggle="dropdown">
 							<span class="fas fa-list mr-1"></span>
 							{\App\Language::translate('LBL_ACTIONS', $MODULE)}

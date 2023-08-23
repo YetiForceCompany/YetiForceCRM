@@ -772,7 +772,6 @@ class Vtiger_Record_Model extends \App\Base
 			return \App\Cache::staticGet('RecordModel', $cacheName);
 		}
 		$focus = CRMEntity::getInstance($moduleName);
-		$focus->id = $recordId;
 		$focus->retrieveEntityInfo($recordId, $moduleName);
 		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
@@ -924,7 +923,6 @@ class Vtiger_Record_Model extends \App\Base
 					}
 				}
 				if ($loadData && $recordId) {
-					$focus->id = $recordId;
 					$focus->retrieveEntityInfo($recordId, $moduleName);
 					$this->setEntity($focus);
 				}

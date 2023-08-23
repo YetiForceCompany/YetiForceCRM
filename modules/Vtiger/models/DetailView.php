@@ -11,10 +11,10 @@
 
 class Vtiger_DetailView_Model extends \App\Base
 {
-	protected $module = false;
-	protected $record = false;
 	public $widgetsList = [];
 	public $widgets = [];
+	protected $module = false;
+	protected $record = false;
 
 	/**
 	 * Function to get Module instance.
@@ -252,7 +252,6 @@ class Vtiger_DetailView_Model extends \App\Base
 				$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_ACTIVATE_RECORD',
-					'title' => \App\Language::translate('LBL_ACTIVATE_RECORD'),
 					'dataUrl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Active&record=' . $recordModel->getId(),
 					'linkdata' => ['confirm' => \App\Language::translate('LBL_ACTIVATE_RECORD_DESC')],
 					'linkicon' => 'fas fa-undo-alt',
@@ -264,7 +263,6 @@ class Vtiger_DetailView_Model extends \App\Base
 				$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_ARCHIVE_RECORD',
-					'title' => \App\Language::translate('LBL_ARCHIVE_RECORD'),
 					'dataUrl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Archived&record=' . $recordModel->getId(),
 					'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC')],
 					'linkicon' => 'fas fa-archive',
@@ -276,7 +274,6 @@ class Vtiger_DetailView_Model extends \App\Base
 				$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_MOVE_TO_TRASH',
-					'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
 					'dataUrl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId(),
 					'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
 					'linkicon' => 'fas fa-trash-alt',
@@ -288,7 +285,6 @@ class Vtiger_DetailView_Model extends \App\Base
 				$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 					'linktype' => 'DETAIL_VIEW_EXTENDED',
 					'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-					'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY'),
 					'dataUrl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId(),
 					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
 					'linkicon' => 'fas fa-eraser',
@@ -302,7 +298,6 @@ class Vtiger_DetailView_Model extends \App\Base
 					'linkurl' => $recordModel->getDuplicateRecordUrl(),
 					'linkicon' => 'fas fa-clone',
 					'linkclass' => 'js-duplicate-btn btn-outline-dark btn-sm',
-					'title' => \App\Language::translate('LBL_DUPLICATE_RECORD'),
 				]);
 			}
 			if ($moduleModel->isPermitted('ExportPdf')) {
@@ -318,7 +313,6 @@ class Vtiger_DetailView_Model extends \App\Base
 					'dataUrl' => 'index.php?module=' . $moduleName . '&view=PDF&fromview=Detail&record=' . $recordId,
 					'linkicon' => 'fas fa-file-pdf',
 					'linkclass' => 'btn-outline-dark btn-sm showModal js-pdf' . $additionalClass,
-					'title' => \App\Language::translate('LBL_EXPORT_PDF'),
 				]);
 			}
 		}
@@ -330,7 +324,7 @@ class Vtiger_DetailView_Model extends \App\Base
 		$allLinks = Vtiger_Link_Model::getAllByType($moduleModel->getId(), ['DETAIL_VIEW_ADDITIONAL', 'DETAIL_VIEW_BASIC', 'DETAIL_VIEW_HEADER_WIDGET', 'DETAIL_VIEW_EXTENDED', 'DETAILVIEWTAB', 'DETAILVIEWRELATED'], $linkParams);
 		if (!empty($allLinks)) {
 			foreach ($allLinks as $type => &$allLinksByType) {
-				$linkModelList[$type] = $linkModelList[$type] ?? [];
+				$linkModelList[$type] ??= [];
 				foreach ($allLinksByType as $linkModel) {
 					$linkModelList[$type][] = $linkModel;
 				}
@@ -371,7 +365,7 @@ class Vtiger_DetailView_Model extends \App\Base
 				'related' => 'Summary',
 			];
 		}
-		//link which shows the summary information(generally detail of record)
+		// link which shows the summary information(generally detail of record)
 		$relatedLinks[] = [
 			'linktype' => 'DETAILVIEWTAB',
 			'linklabel' => 'LBL_RECORD_DETAILS',

@@ -2,7 +2,7 @@
 {strip}
 	<div class="tpl-Base-ConditionBuilder-Currency input-group input-group-sm">
 		{assign var="BASE_CURRENCY" value=\App\Fields\Currency::getDefault()}
-		{assign var="SYMBOL_PLACEMENT" value=$USER_MODEL->currency_symbol_placement}
+		{assign var="SYMBOL_PLACEMENT" value=$USER_MODEL->get('currency_symbol_placement')}
 		{if $SYMBOL_PLACEMENT neq '1.0$'}
 			<span class="input-group-prepend row">
 				<span class="input-group-text">{$BASE_CURRENCY['currency_symbol']}</span>
