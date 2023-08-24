@@ -54,7 +54,7 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 		$displayTime = [];
 		if (empty($time)) {
 			$time = [];
-			$time['start'] = App\Fields\Date::formatToDb('');
+			$time['start'] = App\Fields\Date::formatToDb(\DateTimeField::convertToUserFormat(date('Y-m-d')));
 			$time['end'] = $time['start'];
 		}
 
