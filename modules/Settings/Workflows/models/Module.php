@@ -23,7 +23,8 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 * @var string
 	 */
 	public $baseTable = 'com_vtiger_workflows';
-
+	/** @var string List field models. */
+	public $listFieldModels;
 	/**
 	 * Base table index column name.
 	 *
@@ -157,7 +158,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	/** {@inheritdoc} */
 	public function getListFields(): array
 	{
-		if (!property_exists($this, 'listFieldModels')) {
+		if (!isset($this->listFieldModels)) {
 			$fields = $this->listFields;
 			$fieldObjects = [];
 			$fieldsNoSort = ['module_name', 'execution_condition', 'all_tasks', 'active_tasks'];
