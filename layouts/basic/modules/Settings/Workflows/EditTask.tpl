@@ -27,7 +27,7 @@
 					<input type="hidden" name="mode" value="save" />
 					<input type="hidden" name="for_workflow" value="{$WORKFLOW_ID}" />
 					<input type="hidden" name="task_id" value="{$TASK_ID}" />
-					<input type="hidden" name="taskType" id="taskType" value="{\App\Purifier::encodeHtml($TASK_TYPE_MODEL->get('tasktypename'))}" />
+					<input type="hidden" name="taskType" id="taskType" value="{\App\Purifier::encodeHtml($TASK_TYPE_MODEL->getName())}" />
 					<div class="modal-body tabbable">
 						<div class="form-row pb-3">
 							<div class="col-md-2">
@@ -38,7 +38,7 @@
 							</div>
 							<div class="col-md-5">
 								<input name="summary" class="form-control" data-validation-engine='validate[required]'
-									type="text" value="{\App\Purifier::encodeHtml($TASK_MODEL->get('summary'))}" />
+									type="text" value="{\App\Purifier::encodeHtml($TASK_MODEL->getName())}" />
 							</div>
 							<div class="col-md-4 form-control-plaintext">
 								<div class="float-left">{\App\Language::translate('LBL_STATUS',$QUALIFIED_MODULE)}</div>
