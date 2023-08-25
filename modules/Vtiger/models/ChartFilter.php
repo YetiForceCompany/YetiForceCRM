@@ -1287,7 +1287,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 			$operator = 'c';
 			$value = 'multipicklist' === $fieldDataType ? str_replace(' |##| ', '##', $value) : $value;
 		} elseif (\in_array($fieldDataType, ['date', 'datetime'])) {
-			$value = DateTimeField::convertToUserFormat($value);
+			$value = 'datetime' === $fieldDataType ? App\Fields\DateTime::formatToDisplay($value) : App\Fields\Date::formatToDisplay($value);
 		}
 
 		return [$fieldModel->getName(), $operator, $value, $lockField];
