@@ -9,14 +9,14 @@
 						<tbody class="u-word-break-all small">
 							{foreach from=$FIELDS item=FIELD}
 								<div class="form-group row">
-								<label class="col-form-label col-md-3 u-text-small-bold text-right">
-									{\App\Language::translate($FIELD->get('label'), $QUALIFIED_MODULE)}
-									{if $FIELD->isMandatory()}<span class="redColor">*</span>{/if}:
-								</label>
-								<div class="col-md-9 fieldValue">
-									{include file=\App\Layout::getTemplatePath($FIELD->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD MODULE=$QUALIFIED_MODULE RECORD=null}
+									<label class="col-form-label col-md-3 u-text-small-bold text-right">
+										{\App\Language::translate($FIELD->get('label'), $QUALIFIED_MODULE)}
+										{if $FIELD->isMandatory()}<span class="redColor">*</span>{/if}:
+									</label>
+									<div class="col-md-9 fieldValue">
+										{include file=\App\Layout::getTemplatePath($FIELD->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD MODULE=$QUALIFIED_MODULE RECORD=null}
+									</div>
 								</div>
-							</div>
 							{/foreach}
 						</tbody>
 					</table>

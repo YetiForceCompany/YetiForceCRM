@@ -11,7 +11,13 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 {
 	public $inventoryField = false;
 	/** @var string Field data type */
+	public $mandatory_fields;
+	/** @var bool */
+	public $mandatory;
+	/** @var string */
 	public $fieldDataTypeForMapp;
+	/** @var Settings_MappedFields_Field_Model */
+	public $fieldModel;
 
 	/**
 	 * Function to get field uitype.
@@ -119,8 +125,8 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 		$row['uitype'] = $fieldModel->getUIType();
 		$row['table'] = $fieldModel->getTableName();
 		$row['column'] = $fieldModel->getColumnName();
-		$row['name'] = $fieldModel->getFieldName();
-		$row['label'] = $fieldModel->getFieldLabel();
+		$row['name'] = $fieldModel->getName();
+		$row['label'] = $fieldModel->getLabel();
 		$row['displaytype'] = $fieldModel->getDisplayType();
 		$row['masseditable'] = (bool) $fieldModel->get('masseditable');
 		$row['typeofdata'] = $fieldModel->get('typeofdata');
@@ -186,8 +192,8 @@ class Settings_MappedFields_Field_Model extends Vtiger_Field_Model
 	 * Function to get instance.
 	 *
 	 * @param <String/Integer> $value
-	 * @param string           $module
-	 * @param string           $type
+	 * @param string $module
+	 * @param string $type
 	 *
 	 * @return <Settings_MappedFields_Field_Model> field model
 	 */
