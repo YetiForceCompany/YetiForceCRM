@@ -16,7 +16,7 @@
 				<strong>{\App\Language::translate('LBL_WARNING', $QUALIFIED_MODULE)}</strong> {\App\Language::translate('MSG_NO_NET_CONN', $QUALIFIED_MODULE)}
 			</div>
 		{/if}
-		<form class="form-horizontal js-currency-update" method="post" action="index.php?module={$MODULENAME}&view=Index&parent=Settings" data-js="container">
+		<form class="form-horizontal js-currency-update_form" method="post" action="index.php?module={$MODULENAME}&view=Index&parent=Settings" data-js="container">
 			<table class="table table-bordered currencyTable">
 				<tr>
 					<th class="blockHeader" colspan="4">{\App\Language::translate('LBL_SELECT_BANK', $QUALIFIED_MODULE)}</th>
@@ -28,8 +28,10 @@
 					<td class="fieldValue">
 						<div class="row">
 							<div class="col-md-5">
-								<select name="bank" id="bank" class="select2 form-control" required="true" data-validation-engine="validate[required]">
-									<option value="0" {if !$ACTIVE_BANK}selected{/if}>{\App\Language::translate('LBL_SELECT_OPTION', $QUALIFIED_MODULE)}</option>
+								<select name="bank" id="bank" class="select2 form-control" data-validation-engine="validate[required]">
+									<optgroup>
+										<option value="" {if !$ACTIVE_BANK}selected{/if}>{\App\Language::translate('LBL_SELECT_OPTION', $QUALIFIED_MODULE)}</option>
+									</optgroup>
 									{foreach from=$BANK item=key}
 										<option value="{$key.id}" {if $key.active eq '1'}selected{/if} data-name="{$key.bank_name|escape}">{\App\Language::translate($key.bank_name, $QUALIFIED_MODULE)}</option>
 									{/foreach}
@@ -92,7 +94,7 @@
 							</div>
 							<input id="datepicker" type="text" class="form-control dateField" name="duedate" data-date-format="{$USER_MODEL->get('date_format')}" value="{$DATE}" data-validation-engine="validate[required]" />
 							<span class="input-group-append">
-								<button class="btn btn-success js-download" name="download" value="download" type="submit" data-js="click">{\App\Language::translate('LBL_SHOW', $QUALIFIED_MODULE)}</button>
+								<button class="btn btn-success" name="download" value="download" type="submit">{\App\Language::translate('LBL_SHOW', $QUALIFIED_MODULE)}</button>
 							</span>
 						</div>
 					</td>

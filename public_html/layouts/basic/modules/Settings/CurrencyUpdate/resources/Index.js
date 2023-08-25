@@ -122,13 +122,7 @@ jQuery.Class(
 		registerEvents: function () {
 			let container = jQuery('#currencyUpdateContainer');
 			App.Fields.Date.register('#datepicker', false, {});
-			let form = container.find('.js-currency-update');
-			let bank = form.find('#bank');
-			container.on('click', '.js-download', function (e) {
-				if (bank.val() === '0') {
-					bank.val('');
-				}
-			});
+			let form = container.find('.js-currency-update_form');
 			form.validationEngine(app.validationEngineOptions);
 			this.registerBankChange(container);
 			this.registerInfoButton(container);

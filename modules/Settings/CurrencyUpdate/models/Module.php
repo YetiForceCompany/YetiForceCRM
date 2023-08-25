@@ -52,7 +52,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	 */
 	public function fetchCurrencyRates($dateCur, $cron = false): bool
 	{
-		if (!\App\RequestUtil::isNetConnection() || \count(($currencies = \App\Fields\Currency::getAll(true))) <= 1) {
+		if (!\App\RequestUtil::isNetConnection() || \count($currencies = \App\Fields\Currency::getAll(true)) <= 1 || empty($this->getActiveBankName())) {
 			return false;
 		}
 		$notifyNewRates = false;
@@ -236,7 +236,7 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	/**
 	 * Sets systems exchange rate for chosen currency.
 	 *
-	 * @param string  $currency - currency code
+	 * @param string $currency - currency code
 	 * @param <Float> $exchange - exchange rate
 	 */
 	public function setCRMConversionRate($currency, $exchange)
@@ -305,11 +305,11 @@ class Settings_CurrencyUpdate_Module_Model extends \App\Base
 	/**
 	 * Saves new active bank by id.
 	 *
-	 * @param <Integer> $bankId - bank id
+	 * @param int|string $bankId - bank id
 	 *
 	 * @return bool - true on success or false
 	 */
-	public function setActiveBankById($bankId)
+	public function setActiveBankById($bankId): bool
 	{
 		$db = \App\Db::getInstance();
 		$result = $db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 0])->execute();
