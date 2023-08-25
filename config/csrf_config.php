@@ -16,7 +16,7 @@ class CSRFConfig
 	 */
 	public static function startup()
 	{
-		//Override the default expire time of token
+		// Override the default expire time of token
 		\CsrfMagic\Csrf::$expires = \App\Config::security('csrfLifetimeToken', 7200);
 		\CsrfMagic\Csrf::$callback = function ($tokens) {
 			throw new \App\Exceptions\Csrf('Invalid request - Response For Illegal Access', 403);
@@ -24,6 +24,9 @@ class CSRFConfig
 		$js = 'vendor/yetiforce/csrf-magic/src/Csrf.min.js';
 		if (!IS_PUBLIC_DIR) {
 			$js = 'public_html/' . $js;
+		}
+		if ('Install' === \App\Process::$requestMode) {
+			$js = '../' . $js;
 		}
 		\CsrfMagic\Csrf::$defer = true;
 		\CsrfMagic\Csrf::$dirSecret = __DIR__;
