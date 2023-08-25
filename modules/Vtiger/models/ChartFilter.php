@@ -1289,7 +1289,7 @@ class Vtiger_ChartFilter_Model extends \App\Base
 		} elseif ('date' === $fieldDataType) {
 			$value = App\Fields\Date::formatToDisplay($value);
 		} elseif ('datetime' === $fieldDataType) {
-			$value =App\Fields\DateTime::formatToDisplay($value);
+			$value = App\Fields\DateTime::formatToDisplay($value);
 		}
 		return [$fieldModel->getName(), $operator, $value, $lockField];
 	}
