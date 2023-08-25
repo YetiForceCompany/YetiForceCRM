@@ -21,7 +21,7 @@ class Accounts_NewAccounts_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	private function getAccounts($moduleName, $user, $time, Vtiger_Paging_Model $pagingModel)
 	{
-		$time[0] .=' 00:00:00';
+		$time[0] .= ' 00:00:00';
 		$time[1] .= ' 23:59:59';
 		$queryGenerator = new App\QueryGenerator($moduleName);
 		$queryGenerator->setFields(['id', 'accountname', 'assigned_user_id', 'createdtime']);
