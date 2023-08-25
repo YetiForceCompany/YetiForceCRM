@@ -34,7 +34,7 @@ class Settings_Workflows_TaskType_Model extends \App\Base
 	 */
 	public function getName()
 	{
-		return $this->get('tasktypename');
+		return $this->get('tasktypename') ?? '';
 	}
 
 	/**
@@ -44,7 +44,7 @@ class Settings_Workflows_TaskType_Model extends \App\Base
 	 */
 	public function getLabel()
 	{
-		return $this->get('label');
+		return $this->get('label') ?? '';
 	}
 
 	/**

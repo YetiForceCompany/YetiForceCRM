@@ -6,6 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
 /**
@@ -26,6 +27,9 @@ class Settings_Workflows_RecordStructure_Model extends Vtiger_RecordStructure_Mo
 	 * @var string
 	 */
 	const RECORD_STRUCTURE_MODE_FILTER = 'Filter';
+
+	/** @var object */
+	private $workFlowModel;
 
 	/**
 	 * Set workflow model.

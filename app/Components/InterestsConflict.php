@@ -8,6 +8,7 @@
  * @copyright YetiForce S.A.
  * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Components;
@@ -64,7 +65,6 @@ class InterestsConflict
 			if ($parent = self::getParent($record, $moduleName)) {
 				$record = $parent['id'];
 			} else {
-				\App\Log::warning("No parent record could be found |$record|$moduleName", __METHOD__);
 				return self::CHECK_STATUS_INACTIVE;
 			}
 		}

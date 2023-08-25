@@ -30,7 +30,7 @@ class VTTaskManager
 	{
 		$db = App\Db::getInstance();
 		if (!empty($task->id) && is_numeric($task->id)) {
-			//How do I check whether a member exists in php?
+			// How do I check whether a member exists in php?
 			$taskId = $task->id;
 			if (isset($task->email) && !\is_array($task->email)) {
 				$task->email = [$task->email];

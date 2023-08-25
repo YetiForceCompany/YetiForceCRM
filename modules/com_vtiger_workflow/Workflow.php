@@ -120,7 +120,7 @@ class Workflow
 	public $schtypeid;
 	/** @var string Schedule execution frequency by time. */
 	public $schtime;
-	/**@var string Schedule execution frequency by day of the month. */
+	/** @var string Schedule execution frequency by day of the month. */
 	public $schdayofmonth;
 	/** @var string Schedule execution frequency by day of the week. */
 	public $schdayofweek;
@@ -389,46 +389,46 @@ class Workflow
 		switch ($this->getWFScheduleType()) {
 			case self::$SCHEDULED_5_MINUTES:
 				$nextTime = date('Y-m-d H:i:s', strtotime('+5 minutes'));
-			break;
+				break;
 			case self::$SCHEDULED_15_MINUTES:
-					$nextTime = date('Y-m-d H:i:s', strtotime('+15 minutes'));
+				$nextTime = date('Y-m-d H:i:s', strtotime('+15 minutes'));
 				break;
 			case self::$SCHEDULED_30_MINUTES:
 				$nextTime = date('Y-m-d H:i:s', strtotime('+30 minutes'));
-			break;
+				break;
 			case self::$SCHEDULED_HOURLY:
-					$nextTime = date('Y-m-d H:i:s', strtotime('+1 hour'));
+				$nextTime = date('Y-m-d H:i:s', strtotime('+1 hour'));
 				break;
 			case self::$SCHEDULED_DAILY:
-					$nextTime = $this->getNextTriggerTimeForDaily($this->getWFScheduleTime());
+				$nextTime = $this->getNextTriggerTimeForDaily($this->getWFScheduleTime());
 				break;
 			case self::$SCHEDULED_WEEKLY:
-					$nextTime = $this->getNextTriggerTimeForWeekly($this->getWFScheduleWeek(), $this->getWFScheduleTime());
+				$nextTime = $this->getNextTriggerTimeForWeekly($this->getWFScheduleWeek(), $this->getWFScheduleTime());
 				break;
 			case self::$SCHEDULED_ON_SPECIFIC_DATE:
-					$nextTime = date('Y-m-d H:i:s', strtotime('+10 year'));
+				$nextTime = date('Y-m-d H:i:s', strtotime('+10 year'));
 				break;
 			case self::$SCHEDULED_MONTHLY_BY_DATE:
-					$nextTime = $this->getNextTriggerTimeForMonthlyByDate($this->getWFScheduleDay(), $this->getWFScheduleTime());
+				$nextTime = $this->getNextTriggerTimeForMonthlyByDate($this->getWFScheduleDay(), $this->getWFScheduleTime());
 				break;
 			case self::$SCHEDULED_MONTHLY_BY_WEEKDAY:
-					$nextTime = $this->getNextTriggerTimeForMonthlyByWeekDay($this->getWFScheduleDay(), $this->getWFScheduleTime());
+				$nextTime = $this->getNextTriggerTimeForMonthlyByWeekDay($this->getWFScheduleDay(), $this->getWFScheduleTime());
 				break;
 			case self::$SCHEDULED_ANNUALLY:
-					$nextTime = $this->getNextTriggerTimeForAnnualDates($this->getWFScheduleAnnualDates(), $this->getWFScheduleTime());
+				$nextTime = $this->getNextTriggerTimeForAnnualDates($this->getWFScheduleAnnualDates(), $this->getWFScheduleTime());
 				break;
 			case self::$SCHEDULED_WORKINGDAY_DAY:
-					$nextTime = $this->getNextTriggerTimeForDaily($this->getWFScheduleTime());
-					$firstWorkingDay = new DateTime($nextTime);
-					$nextTime = \App\Fields\Date::getWorkingDayFromDate($firstWorkingDay, '+0 day') . ' ' . $this->getWFScheduleTime();
+				$nextTime = $this->getNextTriggerTimeForDaily($this->getWFScheduleTime());
+				$firstWorkingDay = new DateTime($nextTime);
+				$nextTime = \App\Fields\Date::getWorkingDayFromDate($firstWorkingDay, '+0 day') . ' ' . $this->getWFScheduleTime();
 				break;
 			case self::$SCHEDULED_WORKINGDAY_WEEK:
-					$firstDayNextWeek = new DateTime('monday next week');
-					$nextTime = \App\Fields\Date::getWorkingDayFromDate($firstDayNextWeek, '+0 day') . ' ' . $this->getWFScheduleTime();
+				$firstDayNextWeek = new DateTime('monday next week');
+				$nextTime = \App\Fields\Date::getWorkingDayFromDate($firstDayNextWeek, '+0 day') . ' ' . $this->getWFScheduleTime();
 				break;
 			case self::$SCHEDULED_WORKINGDAY_MONTH:
-					$firstDayNextMonth = new DateTime('first day of next month');
-					$nextTime = \App\Fields\Date::getWorkingDayFromDate($firstDayNextMonth, '+0 day') . ' ' . $this->getWFScheduleTime();
+				$firstDayNextMonth = new DateTime('first day of next month');
+				$nextTime = \App\Fields\Date::getWorkingDayFromDate($firstDayNextMonth, '+0 day') . ' ' . $this->getWFScheduleTime();
 				break;
 		}
 		date_default_timezone_set($default_timezone);
@@ -480,22 +480,22 @@ class Workflow
 				$nextTriggerWeekDay = null;
 				sort($scheduledDaysOfWeek);
 				foreach ($scheduledDaysOfWeek as $index => $weekDay) {
-					if ($weekDay == $currentWeekDay) { //if today is the weekday selected
+					if ($weekDay == $currentWeekDay) { // if today is the weekday selected
 						$scheduleWeekDayInTime = strtotime(date('Y-m-d', strtotime($weekDays[$currentWeekDay])) . ' ' . $scheduledTime);
-						if ($currentTime < $scheduleWeekDayInTime) { //if the scheduled time is greater than current time, selected today
+						if ($currentTime < $scheduleWeekDayInTime) { // if the scheduled time is greater than current time, selected today
 							$nextTriggerWeekDay = $weekDay;
 							break;
 						}
-						//current time greater than scheduled time, get the next weekday
-							if (1 == \count($scheduledDaysOfWeek)) { //if only one weekday selected, then get next week
-								$nextTime = date('Y-m-d', strtotime('next ' . $weekDays[$weekDay])) . ' ' . $scheduledTime;
-							} else {
-								$nextWeekDay = $scheduledDaysOfWeek[$index + 1]; // its the last day of the week i.e. sunday
-								if (empty($nextWeekDay)) {
-									$nextWeekDay = $scheduledDaysOfWeek[0];
-								}
-								$nextTime = date('Y-m-d', strtotime('next ' . $weekDays[$nextWeekDay])) . ' ' . $scheduledTime;
+						// current time greater than scheduled time, get the next weekday
+						if (1 == \count($scheduledDaysOfWeek)) { // if only one weekday selected, then get next week
+							$nextTime = date('Y-m-d', strtotime('next ' . $weekDays[$weekDay])) . ' ' . $scheduledTime;
+						} else {
+							$nextWeekDay = $scheduledDaysOfWeek[$index + 1]; // its the last day of the week i.e. sunday
+							if (empty($nextWeekDay)) {
+								$nextWeekDay = $scheduledDaysOfWeek[0];
 							}
+							$nextTime = date('Y-m-d', strtotime('next ' . $weekDays[$nextWeekDay])) . ' ' . $scheduledTime;
+						}
 					} elseif ($weekDay > $currentWeekDay) {
 						$nextTriggerWeekDay = $weekDay;
 						break;

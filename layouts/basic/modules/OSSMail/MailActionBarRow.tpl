@@ -34,11 +34,6 @@
 						<span class="yfm-Services" aria-hidden="true"></span>
 					</button>
 				{/if}
-				{if $RELATED['is_related_to_documents'] && \App\Privilege::isPermitted('Documents', 'DetailView')}
-					<button class="addAttachments" data-type="1" title="{\App\Language::translate('LBL_ADD_DOCUMENTS', $MODULE_NAME)}">
-						<span class="yfm-Documents" aria-hidden="true"></span>
-					</button>
-				{/if}
 				<button class="removeRecord " title="{\App\Language::translate('LBL_REMOVE_RELATION',$MODULE_NAME)} {$RELATED['label']}">
 					<span class="fas fa-times"></span>
 				</button>
