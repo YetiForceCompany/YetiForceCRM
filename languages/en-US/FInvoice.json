@@ -46,6 +46,13 @@
     "DW_SUM_FIELD": "Summation field",
     "DW_SUMMATION_BY_MONTHS": "Sales comparison by month",
     "DW_SUMMATION_BY_USER": "Sales comparison by user",
-    "FL_WAPRO_PAID": "WAPRO ERP Paid"
+    "FL_WAPRO_PAID": "WAPRO ERP Paid",
+    "LBL_COMARCH_BLOCK": "Comarch integration information",
+    "FL_COMARCH_NUMBER": "Number from comarch",
+    "FL_COMARCH_INVOICE_STATUS": "Comarch integration status",
+    "PLL_COMARCH_DRAFT": "Draft",
+    "PLL_COMARCH_TO_SEND": "To send",
+    "PLL_COMARCH_SENT": "Sent",
+    "PLL_COMARCH_ERROR": "Error occurred"
   }
 }

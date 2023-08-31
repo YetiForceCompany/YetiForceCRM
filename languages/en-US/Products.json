@@ -86,6 +86,7 @@
     "LBL_IMPORT_STOCK_ALERT": "Changing the stock level requires verification and approval, only then the stock level will change.",
     "LBL_WOOCOMMERCE": "Woocommerce",
     "FL_PRODUCT_TYPE": "Product type",
+    "FL_PRODUCT_CODE": "Product code",
     "FL_SHORT_DESCRIPTION": "Short description",
     "FL_TAGS": "Tags",
     "FL_ALIAS": "Alias",
