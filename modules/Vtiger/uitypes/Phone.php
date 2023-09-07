@@ -53,10 +53,11 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	{
 		$title = $extra = '';
 		$href = $international = ($value ? \App\Purifier::encodeHtml($value) : '');
+		$fieldName = $this->getFieldModel()->getName();
 		if (\App\Config::component('Phone', 'advancedVerification', false)
 			&& ($format = \App\Config::component('Phone', 'advancedFormat', \libphonenumber\PhoneNumberFormat::INTERNATIONAL)) !== false) {
-			if ($recordModel && $recordModel->get($this->getFieldModel()->getName() . '_extra')) {
-				$extra = $recordModel->getDisplayValue($this->getFieldModel()->getName() . '_extra');
+			if ($recordModel && $recordModel->get($fieldName . '_extra')) {
+				$extra = $recordModel->getDisplayValue($fieldName . '_extra');
 				if ($extra) {
 					$extra = ' ' . $extra;
 				}
@@ -86,12 +87,15 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		if (!\App\Integrations\Pbx::isActive()) {
 			return '<a href="' . $href . '" class="js-popover-tooltip" title="' . $label . ' ' . trim($title) . '">' . $international . '</a>' . $extra;
 		}
+		$moduleName = $recordModel->getModuleName();
+		$url = "index.php?module={$moduleName}&action=Fields&mode=getCopyValue&fieldName={$fieldName}&record={$recordModel->getId()}";
+		$button = "<button type=\"button\" class=\"btn btn-primary btn-xs ml-1 js-copy-clipboard-url\" data-url=\"$url\" title=\"" . \App\Language::translate('BTN_COPY_TO_CLIPBOARD', $moduleName) . '"><span class="fa-regular fa-copy"></span></button>';
 		$data = 'data-phone="' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '"';
 		if ($record) {
 			$data .= ' data-record="' . $record . '"';
 		}
 		$data .= ' title="' . $label . ' ' . trim($title) . '"';
-		return '<a class="u-cursor-pointer js-phone-perform-call js-popover-tooltip" ' . $data . ' data-js="click|container"><span class="fas fa-phone" aria-hidden="true"></span> ' . $label . '</a>';
+		return '<a class="u-cursor-pointer js-phone-perform-call js-popover-tooltip" ' . $data . ' data-js="click|container"><span class="fas fa-phone" aria-hidden="true"></span> ' . $label . '</a>' . $button;
 	}
 
 	/** {@inheritdoc} */

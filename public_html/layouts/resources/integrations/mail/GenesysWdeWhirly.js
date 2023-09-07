@@ -13,36 +13,42 @@ window.Integrations_Mail_InternalClient = class Integrations_Mail_InternalClient
 			attr['crmModule'] = app.getModuleName();
 			attr['crmRecord'] = app.getRecordId();
 		}
-		AppConnector.request({
-			dataType: 'json',
-			data: {
-				module: 'AppComponents',
-				action: 'Mail',
-				mode: 'sendMail',
-				...attr
-			}
-		}).done((response) => {
-			if (response.result.status) {
-				$.ajax({ url: response.result.url, headers: { 'Token-Api': response.result.token } })
-					.done((ajax) => {
-						this.log('|◄| sendMail', ajax);
-						if (ajax['data']['status'] == 1) {
-							app.showNotify({ title: ajax['data']['description'], type: 'success' });
-						} else {
-							app.showError({
-								title: app.vtranslate('JS_UNEXPECTED_ERROR'),
-								text: ajax['data']['description']
+
+		app.showConfirmModal({
+			text: app.vtranslate('JS_SEND_MAIL_CONFIRMATION'),
+			confirmedCallback: () => {
+				AppConnector.request({
+					dataType: 'json',
+					data: {
+						module: 'AppComponents',
+						action: 'Mail',
+						mode: 'sendMail',
+						...attr
+					}
+				}).done((response) => {
+					if (response.result.status) {
+						$.ajax({ url: response.result.url, headers: { 'Token-Api': response.result.token } })
+							.done((ajax) => {
+								this.log('|◄| sendMail', ajax);
+								if (ajax['data']['status'] == 1) {
+									app.showNotify({ title: ajax['data']['description'], type: 'success' });
+								} else {
+									app.showError({
+										title: app.vtranslate('JS_UNEXPECTED_ERROR'),
+										text: ajax['data']['description']
+									});
+								}
+							})
+							.fail((_jqXHR, textStatus) => {
+								app.showError({
+									title: app.vtranslate('JS_UNEXPECTED_ERROR'),
+									text: textStatus
+								});
 							});
-						}
-					})
-					.fail((_jqXHR, textStatus) => {
-						app.showError({
-							title: app.vtranslate('JS_UNEXPECTED_ERROR'),
-							text: textStatus
-						});
-					});
-			} else {
-				app.showError({ title: app.vtranslate('JS_UNEXPECTED_ERROR'), text: response.result.text });
+					} else {
+						app.showError({ title: app.vtranslate('JS_UNEXPECTED_ERROR'), text: response.result.text });
+					}
+				});
 			}
 		});
 	}

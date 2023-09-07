@@ -43,11 +43,14 @@ class Vtiger_Email_UIType extends Vtiger_Base_UIType
 			$rawValue = $value;
 			$value = \App\Purifier::encodeHtml(App\TextUtils::textTruncate($value, $length));
 			$data = 'title="' . \App\Language::translate('LBL_SEND_EMAIL') . '" ' . \App\Mail::getComposeAttr($rawValue, $record, 'Detail', 'new');
-			$icon = '';
+			$icon = $button = '';
 			if ('Base' !== \App\Mail::getMailComposer()) {
 				$icon = '<span class="fa-solid fa-envelope" aria-hidden="true"></span> ';
+				$moduleName = $recordModel->getModuleName();
+				$url = "index.php?module={$moduleName}&action=Fields&mode=getCopyValue&fieldName={$this->getFieldModel()->getName()}&record={$recordModel->getId()}";
+				$button = "<button type=\"button\" class=\"btn btn-primary btn-xs ml-1 js-copy-clipboard-url\" data-url=\"$url\" title=\"" . \App\Language::translate('BTN_COPY_TO_CLIPBOARD', $moduleName) . '"><span class="fa-regular fa-copy"></span></button>';
 			}
-			return "<a class=\"u-cursor-pointer js-email-compose\" {$data} data-js=\"click|container\">{$icon}{$value}</a>";
+			return "<a class=\"u-cursor-pointer js-email-compose \" {$data} data-js=\"click|container\">{$icon}{$value}</a>$button";
 		}
 		$value = $value ? \App\Purifier::encodeHtml($value) : '';
 		return $length ? App\TextUtils::textTruncate($value, $length) : $value;

@@ -1674,6 +1674,8 @@
     "JS_YOU_ARE_IN_PAGE_NUMBER": "You are in page number",
     "JS_YOU_CAN_SELECT_ONLY": "You can select only",
     "LBL_DELETE_CONFIRMATION": "Are you sure you want to delete?",
+    "JS_SEND_MAIL_CONFIRMATION": "Are you sure to send the email?",
+    "JS_DIAL_NUMBER_CONFIRMATION": "Are you sure you want to dial the number?",
     "JS_CHANGE_VALUE_CONFIRMATION": "Do you want to set this value?",
     "JS_CHANGE_CONFIRMATION": "Are you sure you want to make changes?",
     "JS_DELETE_CONFIRMATION": "Are you sure you want to delete the relation with this module? Only the relation will be removed, to remove the record you have to go to the record and press delete",
