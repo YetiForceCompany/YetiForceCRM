@@ -1044,7 +1044,7 @@ jQuery.Class(
 					fieldElement.inputmask();
 				}
 				detailViewValue.addClass('d-none');
-				// actionElement.addClass('d-none');
+				actionElement.addClass('d-none');
 				editElement
 					.removeClass('d-none')
 					.children()

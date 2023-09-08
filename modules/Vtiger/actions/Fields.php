@@ -34,7 +34,6 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		$this->exposeMethod('verifyPhoneNumber');
 		$this->exposeMethod('changeFavoriteOwner');
 		$this->exposeMethod('validateFile');
-		$this->exposeMethod('getCopyValue');
 	}
 
 	/**
@@ -56,7 +55,7 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
 			}
 		}
-		if ('findAddress' !== $mode && 'getReference' !== $mode && 'validateByMode' !== $mode && 'getCopyValue' !== $mode) {
+		if ('findAddress' !== $mode && 'getReference' !== $mode && 'validateByMode' !== $mode) {
 			$this->fieldModel = Vtiger_Module_Model::getInstance($request->getModule())->getFieldByName($request->getByType('fieldName', 2));
 			if (!$this->fieldModel || !$this->fieldModel->isViewable()) {
 				throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD', 406);
@@ -336,19 +335,6 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 			'validate' => $validate,
 			'validateError' => $validateError ?? null,
 		]);
-		$response->emit();
-	}
-
-	/**
-	 * Gets copy value.
-	 *
-	 * @param App\Request $request
-	 */
-	public function getCopyValue(App\Request $request)
-	{
-		$recordModel = \Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
-		$response = new Vtiger_Response();
-		$response->setResult(['success' => true, 'text' => $recordModel->get($request->getByType('fieldName', 'Alnum'))]);
 		$response->emit();
 	}
 }
