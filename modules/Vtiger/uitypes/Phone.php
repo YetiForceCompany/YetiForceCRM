@@ -53,11 +53,10 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 	{
 		$title = $extra = '';
 		$href = $international = ($value ? \App\Purifier::encodeHtml($value) : '');
-		$fieldName = $this->getFieldModel()->getName();
 		if (\App\Config::component('Phone', 'advancedVerification', false)
 			&& ($format = \App\Config::component('Phone', 'advancedFormat', \libphonenumber\PhoneNumberFormat::INTERNATIONAL)) !== false) {
-			if ($recordModel && $recordModel->get($fieldName . '_extra')) {
-				$extra = $recordModel->getDisplayValue($fieldName . '_extra');
+			if ($recordModel && $recordModel->get($this->getFieldModel()->getName() . '_extra')) {
+				$extra = $recordModel->getDisplayValue($this->getFieldModel()->getName() . '_extra');
 				if ($extra) {
 					$extra = ' ' . $extra;
 				}
