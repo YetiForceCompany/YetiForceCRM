@@ -32,7 +32,12 @@ window.Integrations_Pbx_Base = class Integrations_Pbx_Base {
 	 */
 	registerEvents() {
 		this.container.on('click', '.js-phone-perform-call', (e) => {
-			this.performCall($(e.currentTarget).data(), e);
+			app.showConfirmModal({
+				text: app.vtranslate('JS_DIAL_NUMBER_CONFIRMATION'),
+				confirmedCallback: () => {
+					this.performCall($(e.currentTarget).data(), e);
+				}
+			});
 		});
 	}
 	/**

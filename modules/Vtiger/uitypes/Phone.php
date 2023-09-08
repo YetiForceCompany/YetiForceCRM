@@ -86,12 +86,13 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		if (!\App\Integrations\Pbx::isActive()) {
 			return '<a href="' . $href . '" class="js-popover-tooltip" title="' . $label . ' ' . trim($title) . '">' . $international . '</a>' . $extra;
 		}
+		$button = "<button type=\"button\" class=\"btn btn-primary btn-xs ml-1 clipboard\" data-copy-attribute=\"clipboard-text\" data-clipboard-text=\"{$international}\" title=\"" . \App\Language::translate('BTN_COPY_TO_CLIPBOARD', $recordModel->getModuleName()) . '"><span class="fa-regular fa-copy"></span></button>';
 		$data = 'data-phone="' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '"';
 		if ($record) {
 			$data .= ' data-record="' . $record . '"';
 		}
 		$data .= ' title="' . $label . ' ' . trim($title) . '"';
-		return '<a class="u-cursor-pointer js-phone-perform-call js-popover-tooltip" ' . $data . ' data-js="click|container"><span class="fas fa-phone" aria-hidden="true"></span> ' . $label . '</a>';
+		return '<a class="u-cursor-pointer js-phone-perform-call js-popover-tooltip" ' . $data . ' data-js="click|container"><span class="fas fa-phone" aria-hidden="true"></span> ' . $label . '</a>' . $button;
 	}
 
 	/** {@inheritdoc} */

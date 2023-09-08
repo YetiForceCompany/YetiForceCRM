@@ -1569,7 +1569,16 @@ td.listViewEntryValue .row input {
 	padding: 0;
 	margin-bottom: 0;
 }
-
+@media only screen and (min-width: 1200px) {
+	.listViewEntries .listViewEntryValue .clipboard,
+	.detailViewTable .fieldValue .clipboard {
+		display: none;
+	}
+	.listViewEntries .listViewEntryValue:hover .clipboard,
+	.detailViewTable .fieldValue:hover .clipboard {
+		display: inline-block;
+	}
+}
 .listViewContentDiv {
 	position: relative;
 }
@@ -3401,7 +3410,8 @@ select {
 	min-width: 400px;
 }
 
-.table tr.inventoryRow td,.table tr.inventoryRowGroup td {
+.table tr.inventoryRow td,
+.table tr.inventoryRowGroup td {
 	padding: 4px;
 }
 

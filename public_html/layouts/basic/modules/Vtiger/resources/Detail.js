@@ -2836,6 +2836,7 @@ jQuery.Class(
 				// Not detail view page
 				return;
 			}
+			App.Fields.Text.registerCopyClipboard(detailViewContainer);
 			this.registerWidgetProductAndServices();
 			this.registerSetReadRecord(detailViewContainer);
 			this.getForm().validationEngine(app.validationEngineOptionsForRecord);
