@@ -2112,6 +2112,7 @@ $.Class(
 			if (typeof CustomView !== 'undefined') {
 				CustomView.registerCustomViewAdvCondEvents(this.getListViewContainer());
 			}
+			App.Fields.Text.registerCopyClipboard(this.getListViewContainer());
 			this.registerMassActionsBtnEvents();
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 			this.registerUrlFieldClickEvent();

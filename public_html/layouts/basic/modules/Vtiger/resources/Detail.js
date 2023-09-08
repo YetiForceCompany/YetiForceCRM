@@ -1044,7 +1044,7 @@ jQuery.Class(
 					fieldElement.inputmask();
 				}
 				detailViewValue.addClass('d-none');
-				actionElement.addClass('d-none');
+				// actionElement.addClass('d-none');
 				editElement
 					.removeClass('d-none')
 					.children()
@@ -2836,6 +2836,7 @@ jQuery.Class(
 				// Not detail view page
 				return;
 			}
+			App.Fields.Text.registerCopyClipboard(detailViewContainer);
 			this.registerWidgetProductAndServices();
 			this.registerSetReadRecord(detailViewContainer);
 			this.getForm().validationEngine(app.validationEngineOptionsForRecord);

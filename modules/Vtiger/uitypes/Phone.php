@@ -88,8 +88,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 			return '<a href="' . $href . '" class="js-popover-tooltip" title="' . $label . ' ' . trim($title) . '">' . $international . '</a>' . $extra;
 		}
 		$moduleName = $recordModel->getModuleName();
-		$url = "index.php?module={$moduleName}&action=Fields&mode=getCopyValue&fieldName={$fieldName}&record={$recordModel->getId()}";
-		$button = "<button type=\"button\" class=\"btn btn-primary btn-xs ml-1 js-copy-clipboard-url\" data-url=\"$url\" title=\"" . \App\Language::translate('BTN_COPY_TO_CLIPBOARD', $moduleName) . '"><span class="fa-regular fa-copy"></span></button>';
+		$button = "<button type=\"button\" class=\"btn btn-primary btn-xs ml-1 clipboard\" data-copy-attribute=\"clipboard-text\" data-clipboard-text=\"{$international}\" title=\"" . \App\Language::translate('BTN_COPY_TO_CLIPBOARD', $moduleName) . '"><span class="fa-regular fa-copy"></span></button>';
 		$data = 'data-phone="' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '"';
 		if ($record) {
 			$data .= ' data-record="' . $record . '"';
