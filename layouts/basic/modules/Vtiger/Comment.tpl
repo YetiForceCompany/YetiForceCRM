@@ -50,7 +50,7 @@
 										{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 									{/if}
 									{if empty($IS_READ_ONLY)}
-										{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView')}
+										{if $COMMENTS_MODULE_MODEL->isPermitted('CreateView') && \App\Config::module('ModComments', 'showReplyToButton')}
 											<button type="button" class="btn text-success js-reply-comment m-0 px-1 py-0"
 												title="{\App\Language::translate('LBL_REPLY',$MODULE_NAME)}" data-js="click">
 												<span class="fas fa-share"></span>
