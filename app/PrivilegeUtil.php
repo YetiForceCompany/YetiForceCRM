@@ -253,7 +253,7 @@ class PrivilegeUtil
 	 *
 	 * @return array
 	 */
-	public static function getUserByMember($member)
+	public static function getUserByMember(string $member)
 	{
 		if (Cache::has('getUserByMember', $member)) {
 			return Cache::get('getUserByMember', $member);
@@ -1322,12 +1322,22 @@ class PrivilegeUtil
 	 */
 	public static function getLeadersGroupByUserId(int $userId): array
 	{
-		$db = \App\Db::getInstance();
-		$query = self::getQueryToGroupsByUserId($userId)->andWhere(['<>', 'parentid', 0])->andWhere(['not', ['parentid' => null]]);
-		$member = new \yii\db\Expression('CASE WHEN vtiger_users.id IS NOT NULL THEN CONCAT(' . $db->quoteValue(self::MEMBER_TYPE_USERS) . ',\':\', parentid) ELSE CONCAT(' . $db->quoteValue(self::MEMBER_TYPE_GROUPS) . ',\':\', parentid) END');
-		$query->select(['groupid', 'member' => $member])->leftJoin('vtiger_users', 'vtiger_groups.parentid=vtiger_users.id');
-
-		return $query->createCommand()->queryAllByGroup(0);
+		$result = [];
+		$query = self::getQueryToGroupsByUserId($userId)->andWhere(['<>', 'parentid', ''])->andWhere(['not', ['parentid' => null]]);
+		$query->select(['groupid', 'parentid'])->leftJoin('vtiger_users', 'vtiger_groups.parentid=vtiger_users.id');
+		$partnerIds = $query->createCommand()->queryAllByGroup(0);
+		$parentFieldModel = \Settings_Groups_Record_Model::getCleanInstance()->getFieldInstanceByName('parentid');
+		foreach ($partnerIds as $groupId => $leaderValue) {
+			$leaders = $parentFieldModel->getEditViewDisplayValue($leaderValue);
+			foreach ($leaders as $leaderId) {
+				if ('Users' === \App\Fields\Owner::getType($leaderId)) {
+					$result[$groupId][] = \Settings_Groups_Member_Model::MEMBER_TYPE_USERS . ':' . $leaderId;
+				} else {
+					$result[$groupId][] = \Settings_Groups_Member_Model::MEMBER_TYPE_GROUPS . ':' . $leaderId;
+				}
+			}
+		}
+		return $result;
 	}
 
 	/**
@@ -1339,7 +1349,14 @@ class PrivilegeUtil
 	 */
 	public static function getGroupsWhereUserIsLeader(int $userId): array
 	{
-		return (new \App\Db\Query())->select(['groupid'])->from('vtiger_groups')->where(['or', ['parentid' => $userId], ['parentid' => self::getQueryToGroupsByUserId($userId)]])->column();
+		$separator = \Vtiger_Multipicklist_UIType::SEPARATOR;
+		return (new \App\Db\Query())->select(['groupid'])->from('vtiger_groups')->where(['or',
+			['parentid' => $userId],
+			['or like', 'parentid', [
+				"%{$separator}{$userId}{$separator}%",
+				"{$userId}{$separator}%",
+				"%{$separator}{$userId}",
+			], false], ['parentid' => self::getQueryToGroupsByUserId($userId)]])->column();
 	}
 
 	/**

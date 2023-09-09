@@ -136,10 +136,10 @@ class Settings_Groups_Module_Model extends Settings_Vtiger_Module_Model
 				$params = [
 					'name' => $name,
 					'label' => 'FL_PARENT',
-					'uitype' => 53,
-					'typeofdata' => 'I~O',
-					'maximumlength' => '4294967295',
-					'purifyType' => \App\Purifier::INTEGER,
+					'uitype' => 33,
+					'typeofdata' => 'V~O',
+					'maximumlength' => '65535',
+					'purifyType' => \App\Purifier::TEXT,
 					'table' => $this->getBaseTable(),
 					'picklistValues' => []
 				];
