@@ -2836,7 +2836,7 @@ jQuery.Class(
 				// Not detail view page
 				return;
 			}
-			App.Fields.Text.registerCopyClipboard(detailViewContainer);
+			App.Fields.Text.registerCopyClipboard(detailViewContainer.find('.detailViewTable:not(.js-widget-general-info)'));
 			this.registerWidgetProductAndServices();
 			this.registerSetReadRecord(detailViewContainer);
 			this.getForm().validationEngine(app.validationEngineOptionsForRecord);

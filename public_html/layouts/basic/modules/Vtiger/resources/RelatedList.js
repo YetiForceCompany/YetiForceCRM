@@ -990,6 +990,12 @@ jQuery.Class(
 		},
 		registerListEvents: function () {
 			let thisInstance = this;
+			let listRow = this.content.find('.listViewEntries.js-list__row');
+			if (listRow.length > 0) {
+				listRow.find('.clipboard').on('click', function (e) {
+					App.Fields.Text.registerCopyClipboard($(e.currentTarget));
+				});
+			}
 			this.content.find('a.favorites').on('click', function () {
 				let progressInstance = jQuery.progressIndicator({
 					position: 'html',

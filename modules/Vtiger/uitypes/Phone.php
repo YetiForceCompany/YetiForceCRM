@@ -86,7 +86,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 		if (!\App\Integrations\Pbx::isActive()) {
 			return '<a href="' . $href . '" class="js-popover-tooltip" title="' . $label . ' ' . trim($title) . '">' . $international . '</a>' . $extra;
 		}
-		$button = "<button type=\"button\" class=\"btn btn-primary btn-xs ml-1 clipboard\" data-copy-attribute=\"clipboard-text\" data-clipboard-text=\"{$international}\" title=\"" . \App\Language::translate('BTN_COPY_TO_CLIPBOARD', $recordModel->getModuleName()) . '"><span class="fa-regular fa-copy"></span></button>';
+		$button = "<button type=\"button\" class=\"btn btn-primary btn-xs float-right clipboard\" data-copy-attribute=\"clipboard-text\" data-clipboard-text=\"{$international}\" title=\"" . \App\Language::translate('BTN_COPY_TO_CLIPBOARD', $recordModel->getModuleName()) . '"><span class="fa-regular fa-copy"></span></button>';
 		$data = 'data-phone="' . preg_replace('/(?<!^)\+|[^\d+]+/', '', $international) . '"';
 		if ($record) {
 			$data .= ' data-record="' . $record . '"';
@@ -109,7 +109,7 @@ class Vtiger_Phone_UIType extends Vtiger_Base_UIType
 				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
 				$href = $phoneUtil->format($swissNumberProto, $format);
 			} catch (\libphonenumber\NumberParseException $e) {
-				\App\Log::info($e->__toString(), __CLASS__);
+  				\App\Log::info($e->__toString(), __CLASS__);
 			}
 			if (\libphonenumber\PhoneNumberFormat::RFC3966 !== $format) {
 				$href = 'tel:' . $href;

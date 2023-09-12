@@ -1578,6 +1578,16 @@ td.listViewEntryValue .row input {
 	.detailViewTable .fieldValue:hover .clipboard {
 		display: inline-block;
 	}
+	.c-detail-widget .fieldValue:hover .clipboard,
+	.listViewEntries .listViewEntryValue:hover .clipboard {
+		position: absolute;
+	}
+	.listViewEntries .listViewEntryValue:hover .clipboard {
+		right: 0;
+	}
+	.c-detail-widget .fieldValue:hover .clipboard {
+		right: 36px;
+	}
 }
 .listViewContentDiv {
 	position: relative;
