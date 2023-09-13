@@ -118,6 +118,10 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 			],
 		],
 	];
+	/** @var Vtiger_Module_Model Module model. */
+	private $module;
+	/** @var array Details of access rules to the module. */
+	private $ruleDetails;
 
 	/**
 	 * Function to get the Id of the Sharing Access Rule.
@@ -152,36 +156,6 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 	public function getModule()
 	{
 		return $this->module;
-	}
-
-	/**
-	 * Function to get rules.
-	 *
-	 * @return array
-	 */
-	protected function getRuleComponents()
-	{
-		if (!isset($this->rule_details) && $this->getId()) {
-			$relationTypeComponents = explode('::', $this->get('relationtype'));
-			$sourceType = $relationTypeComponents[0];
-			$targetType = $relationTypeComponents[1];
-			$tableColumnInfo = self::$dataShareTableColArr[$sourceType][$targetType];
-			$tableName = $tableColumnInfo['table'];
-			$sourceColumnName = $tableColumnInfo['source_id'];
-			$targetColumnName = $tableColumnInfo['target_id'];
-			$row = (new App\Db\Query())->from($tableName)->where(['shareid' => $this->getId()])
-				->one();
-			if ($row) {
-				$sourceMemberType = self::$ruleMemberToRelationMapping[$sourceType];
-				$qualifiedSourceId = Settings_SharingAccess_RuleMember_Model::getQualifiedId($sourceMemberType, $row[$sourceColumnName]);
-				$this->rule_details['source_member'] = Settings_SharingAccess_RuleMember_Model::getInstance($qualifiedSourceId);
-				$targetMemberType = self::$ruleMemberToRelationMapping[$targetType];
-				$qualifiedTargetId = Settings_SharingAccess_RuleMember_Model::getQualifiedId($targetMemberType, $row[$targetColumnName]);
-				$this->rule_details['target_member'] = Settings_SharingAccess_RuleMember_Model::getInstance($qualifiedTargetId);
-				$this->rule_details['permission'] = $row['permission'];
-			}
-		}
-		return $this->rule_details;
 	}
 
 	public function getSourceMember()
@@ -435,5 +409,35 @@ class Settings_SharingAccess_Rule_Model extends \App\Base
 		$dataReader->close();
 
 		return $ruleModels;
+	}
+
+	/**
+	 * Function to get rules.
+	 *
+	 * @return array
+	 */
+	protected function getRuleComponents()
+	{
+		if (!isset($this->ruleDetails) && $this->getId()) {
+			$relationTypeComponents = explode('::', $this->get('relationtype'));
+			$sourceType = $relationTypeComponents[0];
+			$targetType = $relationTypeComponents[1];
+			$tableColumnInfo = self::$dataShareTableColArr[$sourceType][$targetType];
+			$tableName = $tableColumnInfo['table'];
+			$sourceColumnName = $tableColumnInfo['source_id'];
+			$targetColumnName = $tableColumnInfo['target_id'];
+			$row = (new App\Db\Query())->from($tableName)->where(['shareid' => $this->getId()])
+				->one();
+			if ($row) {
+				$sourceMemberType = self::$ruleMemberToRelationMapping[$sourceType];
+				$qualifiedSourceId = Settings_SharingAccess_RuleMember_Model::getQualifiedId($sourceMemberType, $row[$sourceColumnName]);
+				$this->ruleDetails['source_member'] = Settings_SharingAccess_RuleMember_Model::getInstance($qualifiedSourceId);
+				$targetMemberType = self::$ruleMemberToRelationMapping[$targetType];
+				$qualifiedTargetId = Settings_SharingAccess_RuleMember_Model::getQualifiedId($targetMemberType, $row[$targetColumnName]);
+				$this->ruleDetails['target_member'] = Settings_SharingAccess_RuleMember_Model::getInstance($qualifiedTargetId);
+				$this->ruleDetails['permission'] = $row['permission'];
+			}
+		}
+		return $this->ruleDetails;
 	}
 }
