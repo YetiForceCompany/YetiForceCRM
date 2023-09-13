@@ -94,15 +94,16 @@ class VTCreateTodoTask extends VTTask
 		$time = explode(' ', $baseDateStart);
 		if (\count($time) < 2) {
 			$timeWithSec = \App\Fields\Time::sanitizeDbFormat($this->time);
-			$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateStart . ' ' . $timeWithSec);
+			$dbInsertDateTime = DateTimeField::convertToDBTimeZone(App\Fields\Date::formatToDisplay($baseDateStart) . ' ' . $timeWithSec);
 			$time = $dbInsertDateTime->format('H:i:s');
 		} else {
 			$time = $time[1];
 		}
 		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateStart, $match);
-		$baseDateStart = strtotime($match[0]);
-		$date_start = strftime('%Y-%m-%d', $baseDateStart + (int) $this->days_start * 24 * 60 * 60 * ('before' == strtolower($this->direction_start) ? -1 : 1));
-		$endIncrement = \App\Fields\Double::formatToDb($this->days_end) * 24 * 60 * 60 * ('before' == strtolower($this->direction_end) ? -1 : 1);
+		$baseDateStart = new DateTime($match[0]);
+		$daysStart = (int) $this->days_start + ('before' === strtolower($this->direction_start) ? -1 : 1);
+		$dateStart = $baseDateStart->modify("+ $daysStart days")->format('Y-m-d');
+		$endIncrement = \App\Fields\Double::formatToDb($this->days_end) + ('before' == strtolower($this->direction_end) ? -1 : 1);
 
 		if ('fromDateStart' !== $this->datefield_end) {
 			if ('wfRunTime' == $this->datefield_end) {
@@ -123,21 +124,20 @@ class VTCreateTodoTask extends VTTask
 					$timeEnd = \App\User::getUserModel(\App\User::getActiveAdminId())->getDetail('end_hour');
 				}
 				$timeWithSec = \App\Fields\Time::sanitizeDbFormat($timeEnd);
-				$dbInsertDateTime = DateTimeField::convertToDBTimeZone($baseDateEnd . ' ' . $timeWithSec);
+				$dbInsertDateTime = DateTimeField::convertToDBTimeZone(App\Fields\Date::formatToDisplay($baseDateEnd) . ' ' . $timeWithSec);
 				$timeEnd = $dbInsertDateTime->format('H:i:s');
 			} else {
 				$timeEnd = $timeEnd[1];
 			}
 			preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateEnd, $match);
-			$baseDateEnd = strtotime($match[0]);
-			$due_date = strftime('%Y-%m-%d ', $baseDateEnd + $endIncrement);
+			$baseDateEnd = new DateTime($match[0]);
+			$dueDate = $baseDateEnd->modify("+ $endIncrement days")->format('Y-m-d');
 		} else {
-			$dueDateTime = date('Y-m-d H:i:s', strtotime($date_start . ' ' . $time) + $endIncrement);
+			$dueDateTime = date('Y-m-d H:i:s', strtotime($dateStart . ' ' . $time) + $endIncrement);
 			$dueDateTime = explode(' ', $dueDateTime);
-			$due_date = $dueDateTime[0];
+			$dueDate = $dueDateTime[0];
 			$timeEnd = $dueDateTime[1];
 		}
-
 		$textParser = \App\TextParser::getInstanceByModel($recordModel);
 		$fields = [
 			'activitytype' => 'Task',
@@ -149,8 +149,8 @@ class VTCreateTodoTask extends VTTask
 			'time_start' => $time,
 			'time_end' => $timeEnd,
 			'sendnotification' => ('' != $this->sendNotification && 'N' != $this->sendNotification),
-			'date_start' => $date_start,
-			'due_date' => $due_date,
+			'date_start' => $dateStart,
+			'due_date' => $dueDate,
 			'visibility' => 'Private',
 			'meeting_url' => $this->meetingUrl ?? '',
 		];

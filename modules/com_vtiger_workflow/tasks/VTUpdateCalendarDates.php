@@ -54,7 +54,9 @@ class VTUpdateCalendarDates extends VTTask
 				}
 			}
 			preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateStart, $match);
-			$baseDateStart = strtotime($match[0]);
+			$baseDateStart = new DateTime($match[0]);
+			$daysStart = $task['days_start'] + ('before' === strtolower($task['direction_start']) ? -1 : 1);
+			$dateStart = $baseDateStart->modify("+ $daysStart days")->format('Y-m-d');
 
 			if ('wfRunTime' === $task['datefield_end']) {
 				$baseDateEnd = date('Y-m-d H:i:s');
@@ -65,13 +67,12 @@ class VTUpdateCalendarDates extends VTTask
 				}
 			}
 			preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDateEnd, $match);
-			$baseDateEnd = strtotime($match[0]);
+			$baseDateEnd = new DateTime($match[0]);
+			$daysEnd = $task['days_end'] + ('before' === strtolower($task['direction_start']) ? -1 : 1);
+			$duedate = $baseDateEnd->modify("+ $daysEnd days")->format('Y-m-d');
 
-			$date_start = strftime('%Y-%m-%d', $baseDateStart + $task['days_start'] * 24 * 60 * 60 * ('before' == strtolower($task['direction_start']) ? -1 : 1));
-			$due_date = strftime('%Y-%m-%d', $baseDateEnd + $task['days_end'] * 24 * 60 * 60 * ('before' == strtolower($task['direction_start']) ? -1 : 1));
-
-			$rowRecordModel->set('date_start', $date_start);
-			$rowRecordModel->set('due_date', $due_date);
+			$rowRecordModel->set('date_start', $dateStart);
+			$rowRecordModel->set('due_date', $duedate);
 			$rowRecordModel->save();
 		}
 	}

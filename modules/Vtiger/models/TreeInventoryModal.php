@@ -19,6 +19,37 @@ class Vtiger_TreeInventoryModal_Model extends Vtiger_TreeCategoryModal_Model
 	 * @var bool Auto register events
 	 */
 	public $autoRegisterEvents = false;
+	/** @var int Last id in tree. */
+	private $lastTreeId;
+
+	/** {@inheritdoc} */
+	public static function getInstance(Vtiger_Module_Model $moduleModel)
+	{
+		$moduleName = $moduleModel->get('name');
+		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TreeInventoryModal', $moduleName);
+		$instance = new $modelClassName();
+		$instance->set('module', $moduleModel)->set('moduleName', $moduleName);
+		return $instance;
+	}
+
+	/**
+	 * Retrieves all records and categories.
+	 *
+	 * @return array
+	 */
+	public function getTreeData()
+	{
+		$treeData = [];
+		$treeList = $this->getTreeList();
+		$records = $this->getRecords();
+		foreach ($records as $tree) {
+			while (isset($treeList[$tree['parent']]) && !\in_array($treeList[$tree['parent']], $treeData)) {
+				$tree = $treeList[$tree['parent']];
+				$treeData[] = $tree;
+			}
+		}
+		return array_merge($treeData, $records);
+	}
 
 	/**
 	 * Creates a tree for records.
@@ -83,34 +114,5 @@ class Vtiger_TreeInventoryModal_Model extends Vtiger_TreeCategoryModal_Model
 		}
 		$this->lastTreeId = $lastId;
 		return $trees;
-	}
-
-	/** {@inheritdoc} */
-	public static function getInstance(Vtiger_Module_Model $moduleModel)
-	{
-		$moduleName = $moduleModel->get('name');
-		$modelClassName = Vtiger_Loader::getComponentClassName('Model', 'TreeInventoryModal', $moduleName);
-		$instance = new $modelClassName();
-		$instance->set('module', $moduleModel)->set('moduleName', $moduleName);
-		return $instance;
-	}
-
-	/**
-	 * Retrieves all records and categories.
-	 *
-	 * @return array
-	 */
-	public function getTreeData()
-	{
-		$treeData = [];
-		$treeList = $this->getTreeList();
-		$records = $this->getRecords();
-		foreach ($records as $tree) {
-			while (isset($treeList[$tree['parent']]) && !\in_array($treeList[$tree['parent']], $treeData)) {
-				$tree = $treeList[$tree['parent']];
-				$treeData[] = $tree;
-			}
-		}
-		return array_merge($treeData, $records);
 	}
 }
