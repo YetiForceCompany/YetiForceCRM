@@ -10,6 +10,9 @@
  */
 class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 {
+	/** @var string[] Fields to edit */
+	public $editFields = ['name', 'tabid', 'share'];
+
 	/**
 	 * Function to get the Id.
 	 *
@@ -70,7 +73,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDeleteUrl()
 	{
-		return '?module=TreesManager&parent=Settings&action=Delete&record=' . $this->getId();
+		return 'index.php?module=TreesManager&parent=Settings&action=Delete&record=' . $this->getId();
 	}
 
 	/**
@@ -108,7 +111,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE',
-				'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'" . $this->getDeleteUrl() . "');",
+				'linkurl' => "javascript:Settings_Vtiger_List_Js.triggerDelete(event,'" . $this->getDeleteUrl() . "')",
 				'linkicon' => 'fas fa-trash-alt',
 				'linkclass' => 'btn btn-sm btn-danger text-white',
 			],
@@ -304,33 +307,6 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
-	 * Update category multipicklist.
-	 *
-	 * @param array  $tree
-	 * @param string $tableName
-	 * @param string $columnName
-	 *
-	 * @throws \yii\db\Exception
-	 */
-	private function updateCategoryMultipicklist(array $tree, string $tableName, string $columnName)
-	{
-		$dbCommand = \App\Db::getInstance()->createCommand();
-		foreach ($tree as $treeRow) {
-			$query = (new \App\Db\Query())->from($tableName);
-			$query->orWhere(['like', $columnName, ",T{$treeRow['old'][0]},"]);
-			$dataReaderTree = $query->createCommand()->query();
-			while ($rowTree = $dataReaderTree->read()) {
-				$dbCommand->update(
-					$tableName,
-					[$columnName => str_replace(",T{$treeRow['old'][0]},", ",T{$treeRow['new'][0]},", $rowTree[$columnName])],
-					[$columnName => $rowTree[$columnName]]
-				)->execute();
-			}
-			$dataReaderTree->close();
-		}
-	}
-
-	/**
 	 * Function to delete the role.
 	 */
 	public function delete()
@@ -439,9 +415,6 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		\App\Cache::delete('TreeValuesById', $this->getId());
 	}
-
-	/** @var string[] Fields to edit */
-	public $editFields = ['name', 'tabid', 'share'];
 
 	/**
 	 * Get structure fields.
@@ -644,5 +617,32 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 			->execute();
 		$this->set('lastId', $last + 1);
 		return $treeID;
+	}
+
+	/**
+	 * Update category multipicklist.
+	 *
+	 * @param array  $tree
+	 * @param string $tableName
+	 * @param string $columnName
+	 *
+	 * @throws \yii\db\Exception
+	 */
+	private function updateCategoryMultipicklist(array $tree, string $tableName, string $columnName)
+	{
+		$dbCommand = \App\Db::getInstance()->createCommand();
+		foreach ($tree as $treeRow) {
+			$query = (new \App\Db\Query())->from($tableName);
+			$query->orWhere(['like', $columnName, ",T{$treeRow['old'][0]},"]);
+			$dataReaderTree = $query->createCommand()->query();
+			while ($rowTree = $dataReaderTree->read()) {
+				$dbCommand->update(
+					$tableName,
+					[$columnName => str_replace(",T{$treeRow['old'][0]},", ",T{$treeRow['new'][0]},", $rowTree[$columnName])],
+					[$columnName => $rowTree[$columnName]]
+				)->execute();
+			}
+			$dataReaderTree->close();
+		}
 	}
 }
