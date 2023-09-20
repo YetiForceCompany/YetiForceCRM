@@ -2836,7 +2836,6 @@ jQuery.Class(
 				// Not detail view page
 				return;
 			}
-			App.Fields.Text.registerCopyClipboard(detailViewContainer.find('#detailView'));
 			this.registerWidgetProductAndServices();
 			this.registerSetReadRecord(detailViewContainer);
 			this.getForm().validationEngine(app.validationEngineOptionsForRecord);
@@ -2849,6 +2848,7 @@ jQuery.Class(
 			this.registerSendPdfFromPdfViewer(detailViewContainer);
 			this.registerKeyboardShortcutsEvent(detailViewContainer);
 			App.Components.ActivityNotifier.register(detailViewContainer);
+			App.Fields.Text.registerCopyClipboard(detailViewContainer.find('#detailView'));
 		}
 	}
 );
