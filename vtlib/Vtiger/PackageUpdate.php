@@ -211,7 +211,7 @@ class PackageUpdate extends PackageImport
 		}
 
 		foreach ($modulenode->blocks->block as $blocknode) {
-			$this->listBlocks[] = (string) ($blocknode->blocklabel);
+			$this->listBlocks[] = (string) $blocknode->blocklabel;
 			$blockInstance = Block::getInstance((string) $blocknode->blocklabel, $moduleInstance->id);
 			if (!$blockInstance) {
 				$blockInstance = $this->importBlock($modulenode, $moduleInstance, $blocknode);
@@ -224,7 +224,7 @@ class PackageUpdate extends PackageImport
 		// Deleting removed blocks
 		$listBlockBeforeUpdate = Block::getAllForModule($moduleInstance);
 		foreach ($listBlockBeforeUpdate as $blockInstance) {
-			if (!(\in_array($blockInstance->label, $this->listBlocks))) {
+			if (!\in_array($blockInstance->label, $this->listBlocks)) {
 				$blockInstance->delete();
 			}
 		}
@@ -232,7 +232,7 @@ class PackageUpdate extends PackageImport
 		if ($this->listFields) {
 			$listFieldBeforeUpdate = Field::getAllForModule($moduleInstance);
 			foreach ($listFieldBeforeUpdate as $fieldInstance) {
-				if (!(\in_array($fieldInstance->name, $this->listFields))) {
+				if (!\in_array($fieldInstance->name, $this->listFields)) {
 					$fieldInstance->delete();
 				}
 			}
@@ -249,17 +249,16 @@ class PackageUpdate extends PackageImport
 	 */
 	public function updateBlock($modulenode, $moduleInstance, $blocknode, $blockInstance)
 	{
-		$blockInstance->label = (string) ($blocknode->blocklabel);
+		$blockInstance->label = (string) $blocknode->blocklabel;
 		if (isset($blocknode->sequence, $blocknode->display_status)) {
-			$blockInstance->sequence = (string) ($blocknode->sequence);
-			$blockInstance->showtitle = (string) ($blocknode->show_title);
-			$blockInstance->visible = (string) ($blocknode->visible);
-			$blockInstance->increateview = (string) ($blocknode->create_view);
-			$blockInstance->ineditview = (string) ($blocknode->edit_view);
-			$blockInstance->indetailview = (string) ($blocknode->detail_view);
-			$blockInstance->display_status = (string) ($blocknode->display_status);
-			$blockInstance->iscustom = (string) ($blocknode->iscustom);
-			$blockInstance->islist = (string) ($blocknode->islist);
+			$blockInstance->sequence = (string) $blocknode->sequence;
+			$blockInstance->showtitle = (string) $blocknode->show_title;
+			$blockInstance->visible = (string) $blocknode->visible;
+			$blockInstance->increateview = (string) $blocknode->create_view;
+			$blockInstance->ineditview = (string) $blocknode->edit_view;
+			$blockInstance->indetailview = (string) $blocknode->detail_view;
+			$blockInstance->display_status = (string) $blocknode->display_status;
+			$blockInstance->iscustom = (string) $blocknode->iscustom;
 		} else {
 			$blockInstance->display_status = null;
 		}
@@ -282,7 +281,7 @@ class PackageUpdate extends PackageImport
 		}
 
 		foreach ($blocknode->fields->field as $fieldnode) {
-			$this->listFields[] = (string) ($fieldnode->fieldname);
+			$this->listFields[] = (string) $fieldnode->fieldname;
 			$fieldInstance = Field::getInstance((string) $fieldnode->fieldname, $moduleInstance);
 			if (!$fieldInstance) {
 				$fieldInstance = $this->importField($blocknode, $blockInstance, $moduleInstance, $fieldnode);
@@ -305,31 +304,31 @@ class PackageUpdate extends PackageImport
 	public function updateField($blocknode, $blockInstance, $moduleInstance, $fieldnode, $fieldInstance)
 	{
 		// strval used because in $fieldnode there is a SimpleXMLElement object
-		$fieldInstance->name = (string) ($fieldnode->fieldname);
-		$fieldInstance->label = (string) ($fieldnode->fieldlabel);
-		$fieldInstance->table = (string) ($fieldnode->tablename);
-		$fieldInstance->column = (string) ($fieldnode->columnname);
-		$fieldInstance->uitype = (string) ($fieldnode->uitype);
-		$fieldInstance->generatedtype = (string) ($fieldnode->generatedtype);
-		$fieldInstance->readonly = (string) ($fieldnode->readonly);
-		$fieldInstance->presence = (string) ($fieldnode->presence);
-		$fieldInstance->defaultvalue = (string) ($fieldnode->defaultvalue);
-		$fieldInstance->maximumlength = (string) ($fieldnode->maximumlength);
-		$fieldInstance->sequence = (string) ($fieldnode->sequence);
-		$fieldInstance->quickcreate = (string) ($fieldnode->quickcreate);
-		$fieldInstance->quicksequence = (string) ($fieldnode->quickcreatesequence);
-		$fieldInstance->typeofdata = (string) ($fieldnode->typeofdata);
-		$fieldInstance->displaytype = (string) ($fieldnode->displaytype);
-		$fieldInstance->info_type = (string) ($fieldnode->info_type);
-		$fieldInstance->fieldparams = (string) ($fieldnode->fieldparams);
+		$fieldInstance->name = (string) $fieldnode->fieldname;
+		$fieldInstance->label = (string) $fieldnode->fieldlabel;
+		$fieldInstance->table = (string) $fieldnode->tablename;
+		$fieldInstance->column = (string) $fieldnode->columnname;
+		$fieldInstance->uitype = (string) $fieldnode->uitype;
+		$fieldInstance->generatedtype = (string) $fieldnode->generatedtype;
+		$fieldInstance->readonly = (string) $fieldnode->readonly;
+		$fieldInstance->presence = (string) $fieldnode->presence;
+		$fieldInstance->defaultvalue = (string) $fieldnode->defaultvalue;
+		$fieldInstance->maximumlength = (string) $fieldnode->maximumlength;
+		$fieldInstance->sequence = (string) $fieldnode->sequence;
+		$fieldInstance->quickcreate = (string) $fieldnode->quickcreate;
+		$fieldInstance->quicksequence = (string) $fieldnode->quickcreatesequence;
+		$fieldInstance->typeofdata = (string) $fieldnode->typeofdata;
+		$fieldInstance->displaytype = (string) $fieldnode->displaytype;
+		$fieldInstance->info_type = (string) $fieldnode->info_type;
+		$fieldInstance->fieldparams = (string) $fieldnode->fieldparams;
 
 		if (!empty($fieldnode->fieldparams)) {
-			$fieldInstance->fieldparams = (string) ($fieldnode->fieldparams);
+			$fieldInstance->fieldparams = (string) $fieldnode->fieldparams;
 		}
 
 		// Check if new parameters are defined
 		if (isset($fieldnode->columntype)) {
-			$fieldInstance->columntype = (string) ($fieldnode->columntype);
+			$fieldInstance->columntype = (string) $fieldnode->columntype;
 		} else {
 			$fieldInstance->columntype = null;
 		}
@@ -350,12 +349,12 @@ class PackageUpdate extends PackageImport
 		// Set the field as entity identifier if marked.
 		if (!empty($fieldnode->entityidentifier)) {
 			if (isset($fieldnode->entityidentifier->fieldname) && !empty($fieldnode->entityidentifier->fieldname)) {
-				$moduleInstance->entityfieldname = (string) ($fieldnode->entityidentifier->fieldname);
+				$moduleInstance->entityfieldname = (string) $fieldnode->entityidentifier->fieldname;
 			} else {
 				$moduleInstance->entityfieldname = $fieldInstance->name;
 			}
-			$moduleInstance->entityidfield = (string) ($fieldnode->entityidentifier->entityidfield);
-			$moduleInstance->entityidcolumn = (string) ($fieldnode->entityidentifier->entityidcolumn);
+			$moduleInstance->entityidfield = (string) $fieldnode->entityidentifier->entityidfield;
+			$moduleInstance->entityidcolumn = (string) $fieldnode->entityidentifier->entityidcolumn;
 			$moduleInstance->setEntityIdentifier($fieldInstance);
 		}
 
@@ -575,7 +574,7 @@ class PackageUpdate extends PackageImport
 			} else {
 				$cronTask->status = Cron::$STATUS_ENABLED;
 			}
-			if ((empty($importCronTask->sequence))) {
+			if (empty($importCronTask->sequence)) {
 				$importCronTask->sequence = Cron::nextSequence();
 			}
 			Cron::register("$importCronTask->name", "$importCronTask->handler", "$importCronTask->frequency", "$modulenode->name", "$importCronTask->status", "$importCronTask->sequence", "$importCronTask->description");
