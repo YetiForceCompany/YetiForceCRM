@@ -36,7 +36,7 @@ window.Settings_PickListDependency_Edit_Js = class {
 
 		this.fieldsContainer.on('change', 'select[name="source_field"]', () => {
 			this.graphContainer.html('');
-			this.validate(form).done(() => {
+			this.validate(this.form).done(() => {
 				this.getView({ mode: 'getDependencyGraph', ...this.getDefaultParams(), ...this.form.serializeFormData() }).done(
 					(data) => {
 						this.graphContainer.html(data);
