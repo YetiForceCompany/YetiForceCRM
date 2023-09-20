@@ -29,19 +29,8 @@ class Filter
 	public $privileges = 1;
 	public $sort;
 	public $module;
-
-	/**
-	 * Initialize this filter instance.
-	 *
-	 * @param mixed $module   Mixed id or name of the module
-	 * @param mixed $valuemap
-	 */
-	public function initialize($valuemap, $module = false)
-	{
-		$this->id = $valuemap['cvid'];
-		$this->name = $valuemap['viewname'];
-		$this->module = Module::getInstance($module ?: $valuemap['tabid']);
-	}
+	/** @var int Filter sequence. */
+	public $sequence;
 
 	/**
 	 * Create this instance.
@@ -101,6 +90,33 @@ class Filter
 	}
 
 	/**
+	 * Get the column value to use in custom view tables.
+	 *
+	 * @param FieldBasic $fieldInstance
+	 *
+	 * @return string
+	 */
+	public function __getColumnValue(FieldBasic $fieldInstance)
+	{
+		$tod = explode('~', $fieldInstance->typeofdata);
+		$displayinfo = $fieldInstance->getModuleName() . '_' . str_replace(' ', '_', $fieldInstance->label) . ':' . $tod[0];
+		return "$fieldInstance->table:$fieldInstance->column:$fieldInstance->name:$displayinfo";
+	}
+
+	/**
+	 * Initialize this filter instance.
+	 *
+	 * @param mixed $module   Mixed id or name of the module
+	 * @param mixed $valuemap
+	 */
+	public function initialize($valuemap, $module = false)
+	{
+		$this->id = $valuemap['cvid'];
+		$this->name = $valuemap['viewname'];
+		$this->module = Module::getInstance($module ?: $valuemap['tabid']);
+	}
+
+	/**
 	 * Save this instance.
 	 *
 	 * @param Module Instance of the module to use
@@ -122,20 +138,6 @@ class Filter
 	public function delete()
 	{
 		$this->__delete();
-	}
-
-	/**
-	 * Get the column value to use in custom view tables.
-	 *
-	 * @param FieldBasic $fieldInstance
-	 *
-	 * @return string
-	 */
-	public function __getColumnValue(FieldBasic $fieldInstance)
-	{
-		$tod = explode('~', $fieldInstance->typeofdata);
-		$displayinfo = $fieldInstance->getModuleName() . '_' . str_replace(' ', '_', $fieldInstance->label) . ':' . $tod[0];
-		return "$fieldInstance->table:$fieldInstance->column:$fieldInstance->name:$displayinfo";
 	}
 
 	/**
