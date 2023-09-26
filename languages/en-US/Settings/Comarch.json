@@ -27,6 +27,8 @@
     "LBL_SYNC_COR_INVOICES": "Synchronize correction invoices",
     "LBL_DIRECTION_COR_INVOICES": "Correction invoices synchronization direction",
     "LBL_COR_INVOICES_LIMIT": "Correction invoices download limit",
+    "LBL_SYNC_PAYMENTS": "Synchronize payments in",
+    "LBL_DIRECTION_PAYMENTS": "Payments in synchronization direction",
     "LBL_DIR_API_TO_CRM": "One-way from Comarch to YetiForce",
     "LBL_DIR_CRM_TO_API": "One-way from YetiForce to Comarch",
     "LBL_DIR_CRM_API": "Two-way",

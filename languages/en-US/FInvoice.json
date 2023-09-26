@@ -53,6 +53,7 @@
     "PLL_COMARCH_DRAFT": "Draft",
     "PLL_COMARCH_TO_SEND": "To send",
     "PLL_COMARCH_SENT": "Sent",
+    "PLL_FROM_COMARCH": "Loaded from Comarch",
     "PLL_COMARCH_ERROR": "Error occurred"
   }
 }
