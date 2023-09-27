@@ -38,7 +38,7 @@
 										<span class="actionImages">
 											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
-												<a class="{if $LISTVIEW_ENTRY->get('access') eq '0' && $RECORD_LINK->get('linklabel') eq 'LBL_DELETE'} d-none {/if} {$RECORD_LINK->getClassName()}" {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{substr($RECORD_LINK_URL, strlen("javascript"))};if (event.stopPropagation){ldelim}
+												<a class="{if $LISTVIEW_ENTRY->get('access') eq '0' && $RECORD_LINK->get('linklabel') eq 'LBL_DELETE'} d-none {/if} {$RECORD_LINK->getClassName()}" {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{substr($RECORD_LINK_URL, strlen("javascript:"))};if (event.stopPropagation){ldelim}
 															event.stopPropagation();{rdelim} else{ldelim}
 																		event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
 													<span class="{$RECORD_LINK->getIcon()}" title="{\App\Language::translate($RECORD_LINK->getLabel(), $QUALIFIED_MODULE)}"></span>

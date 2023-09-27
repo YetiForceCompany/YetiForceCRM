@@ -50,6 +50,29 @@ class PackageImport extends PackageExport
 	}
 
 	/**
+	 * Cache the field instance for re-use.
+	 *
+	 * @param mixed $moduleInstance
+	 * @param mixed $fieldname
+	 * @param mixed $fieldInstance
+	 */
+	public function __AddModuleFieldToCache($moduleInstance, $fieldname, $fieldInstance)
+	{
+		$this->_modulefields_cache["$moduleInstance->name"]["$fieldname"] = $fieldInstance;
+	}
+
+	/**
+	 * Get field instance from cache.
+	 *
+	 * @param mixed $moduleInstance
+	 * @param mixed $fieldname
+	 */
+	public function __GetModuleFieldFromCache($moduleInstance, $fieldname)
+	{
+		return $this->_modulefields_cache["$moduleInstance->name"]["$fieldname"];
+	}
+
+	/**
 	 * Get type of package (as specified in manifest).
 	 *
 	 * @return false|string
@@ -404,29 +427,6 @@ class PackageImport extends PackageExport
 	}
 
 	/**
-	 * Cache the field instance for re-use.
-	 *
-	 * @param mixed $moduleInstance
-	 * @param mixed $fieldname
-	 * @param mixed $fieldInstance
-	 */
-	public function __AddModuleFieldToCache($moduleInstance, $fieldname, $fieldInstance)
-	{
-		$this->_modulefields_cache["$moduleInstance->name"]["$fieldname"] = $fieldInstance;
-	}
-
-	/**
-	 * Get field instance from cache.
-	 *
-	 * @param mixed $moduleInstance
-	 * @param mixed $fieldname
-	 */
-	public function __GetModuleFieldFromCache($moduleInstance, $fieldname)
-	{
-		return $this->_modulefields_cache["$moduleInstance->name"]["$fieldname"];
-	}
-
-	/**
 	 * Initialize Import.
 	 *
 	 * @param mixed $zipfile
@@ -456,7 +456,7 @@ class PackageImport extends PackageExport
 				// Settings templates folder
 				'settings/templates' => "layouts/$defaultLayout/modules/Settings/$module",
 				'settings/public_resources' => "public_html/layouts/$defaultLayout/modules/Settings/$module/resources",
-				//module images
+				// module images
 				'images' => "layouts/$defaultLayout/images/$module",
 				'updates' => 'cache/updates',
 				'layouts' => 'layouts',
@@ -734,18 +734,17 @@ class PackageImport extends PackageExport
 		$blockInstance = new Block();
 		$blockInstance->label = $blocklabel;
 		if (isset($blocknode->sequence, $blocknode->display_status)) {
-			$blockInstance->sequence = (string) ($blocknode->sequence);
+			$blockInstance->sequence = (string) $blocknode->sequence;
 			if ($blockInstance->sequence = '') {
 				$blockInstance->sequence = null;
 			}
-			$blockInstance->showtitle = (string) ($blocknode->show_title);
-			$blockInstance->visible = (string) ($blocknode->visible);
-			$blockInstance->increateview = (string) ($blocknode->create_view);
-			$blockInstance->ineditview = (string) ($blocknode->edit_view);
-			$blockInstance->indetailview = (string) ($blocknode->detail_view);
-			$blockInstance->display_status = (string) ($blocknode->display_status);
-			$blockInstance->iscustom = (string) ($blocknode->iscustom);
-			$blockInstance->islist = (string) ($blocknode->islist);
+			$blockInstance->showtitle = (string) $blocknode->show_title;
+			$blockInstance->visible = (string) $blocknode->visible;
+			$blockInstance->increateview = (string) $blocknode->create_view;
+			$blockInstance->ineditview = (string) $blocknode->edit_view;
+			$blockInstance->indetailview = (string) $blocknode->detail_view;
+			$blockInstance->display_status = (string) $blocknode->display_status;
+			$blockInstance->iscustom = (string) $blocknode->iscustom;
 		} else {
 			$blockInstance->display_status = null;
 		}
@@ -813,7 +812,7 @@ class PackageImport extends PackageExport
 		}
 
 		if (isset($fieldnode->columntype) && !empty($fieldnode->columntype)) {
-			$fieldInstance->columntype = (string) ($fieldnode->columntype);
+			$fieldInstance->columntype = (string) $fieldnode->columntype;
 		}
 
 		if (!empty($fieldnode->tree_template)) {
@@ -1076,7 +1075,12 @@ class PackageImport extends PackageExport
 					'method' => "$customlinknode->handler", ];
 			}
 			$moduleInstance->addLink(
-				"$customlinknode->linktype", "$customlinknode->linklabel", "$customlinknode->linkurl", "$customlinknode->linkicon", "$customlinknode->sequence", $handlerInfo
+				"$customlinknode->linktype",
+				"$customlinknode->linklabel",
+				"$customlinknode->linkurl",
+				"$customlinknode->linkicon",
+				"$customlinknode->sequence",
+				$handlerInfo
 			);
 		}
 	}
@@ -1097,7 +1101,7 @@ class PackageImport extends PackageExport
 			} else {
 				$cronTask->status = Cron::$STATUS_ENABLED;
 			}
-			if ((empty($cronTask->sequence))) {
+			if (empty($cronTask->sequence)) {
 				$cronTask->sequence = Cron::nextSequence();
 			}
 			Cron::register("$cronTask->name", "$cronTask->handler", "$cronTask->frequency", "$modulenode->name", "$cronTask->status", "$cronTask->sequence", "$cronTask->description");
@@ -1253,12 +1257,12 @@ class PackageImport extends PackageExport
 			$tempFonts[$font['family']][$font['weight']][$font['style']] = $font['file'];
 		}
 		foreach ($files as $key => &$file) {
-			$file = \str_replace('fonts/', '', $file);
+			$file = str_replace('fonts/', '', $file);
 			if (empty($file)) {
 				unset($files[$key]);
 			}
 		}
-		$files = \array_flip($files);
+		$files = array_flip($files);
 		$missing = [];
 		if (!empty($this->_modulexml->fonts->font)) {
 			foreach ($this->_modulexml->fonts->font as $font) {
@@ -1276,11 +1280,11 @@ class PackageImport extends PackageExport
 			}
 		}
 		if ($missing) {
-			$this->_errorText = \App\Language::translate('LBL_ERROR_MISSING_FILES', 'Settings:ModuleManager') . ' ' . \implode(',', $missing);
+			$this->_errorText = \App\Language::translate('LBL_ERROR_MISSING_FILES', 'Settings:ModuleManager') . ' ' . implode(',', $missing);
 		}
 		$css = [];
 		foreach ($fonts as $key => $font) {
-			if (!\file_exists("$fontsDir/{$font['file']}")) {
+			if (!file_exists("$fontsDir/{$font['file']}")) {
 				unset($fonts[$key]);
 			} else {
 				$woff = pathinfo($font['file'], PATHINFO_FILENAME) . '.woff';

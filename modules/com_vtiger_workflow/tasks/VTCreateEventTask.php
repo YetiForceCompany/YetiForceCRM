@@ -106,21 +106,6 @@ class VTCreateEventTask extends VTTask
 		}
 	}
 
-	private function calculateDate($recordModel, $days, $direction, $datefield)
-	{
-		$baseDate = $recordModel->get($datefield);
-		if ('' == $baseDate) {
-			$baseDate = date('Y-m-d');
-		}
-		if ('' == $days) {
-			$days = 0;
-		}
-		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
-		$baseDate = strtotime($match[0]);
-		return strftime('%Y-%m-%d', $baseDate + $days * 24 * 60 * 60 *
-			('before' == strtolower($direction) ? -1 : 1));
-	}
-
 	/**
 	 * To convert time_start & time_end values to db format.
 	 *
@@ -132,8 +117,7 @@ class VTCreateEventTask extends VTTask
 	{
 		$date = new DateTime();
 		$time = \App\Fields\Time::sanitizeDbFormat($timeStr);
-		$dbInsertDateTime = DateTimeField::convertToDBTimeZone($date->format('Y-m-d') . ' ' . $time);
-
+		$dbInsertDateTime = DateTimeField::convertToDBTimeZone(App\Fields\Date::formatToDisplay($date->format('Y-m-d')) . ' ' . $time);
 		return $dbInsertDateTime->format('H:i:s');
 	}
 
@@ -152,5 +136,30 @@ class VTCreateEventTask extends VTTask
 	public function getTimeFieldList()
 	{
 		return ['startTime', 'endTime'];
+	}
+
+	/**
+	 * Calculate date.
+	 *
+	 * @param Vtiger_Record_Model $recordModel
+	 * @param int                 $days
+	 * @param string              $direction
+	 * @param string              $datefield
+	 *
+	 * @return string
+	 */
+	private function calculateDate(Vtiger_Record_Model $recordModel, int $days, string $direction, string $datefield): string
+	{
+		$baseDate = $recordModel->get($datefield);
+		if ('' == $baseDate) {
+			$baseDate = date('Y-m-d');
+		}
+		if ('' == $days) {
+			$days = 0;
+		}
+		preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
+		$days = $days + ('before' === strtolower($direction) ? -1 : 1);
+		$baseDate = new DateTime($match[0]);
+		return $baseDate->modify("+ $days days")->format('Y-m-d');
 	}
 }

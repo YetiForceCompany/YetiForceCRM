@@ -591,7 +591,7 @@ class Purifier
 	 */
 	public static function encodeHtml($string)
 	{
-		return htmlspecialchars($string, ENT_QUOTES, static::$defaultCharset);
+		return htmlspecialchars($string ?? '', ENT_QUOTES, static::$defaultCharset);
 	}
 
 	/**
