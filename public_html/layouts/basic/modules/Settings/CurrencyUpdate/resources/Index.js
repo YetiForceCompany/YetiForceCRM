@@ -120,11 +120,13 @@ jQuery.Class(
 		 * Register events
 		 */
 		registerEvents: function () {
-			var container = jQuery('#currencyUpdateContainer');
+			let container = jQuery('#currencyUpdateContainer');
 			App.Fields.Date.register('#datepicker', false, {});
+			let form = container.find('.js-currency-update_form');
+			form.validationEngine(app.validationEngineOptions);
+			this.registerBankChange(container);
 			this.registerInfoButton(container);
 			this.registerAlertButton(container);
-			this.registerBankChange(container);
 		}
 	}
 );

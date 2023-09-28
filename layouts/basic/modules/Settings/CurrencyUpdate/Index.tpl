@@ -16,27 +16,28 @@
 				<strong>{\App\Language::translate('LBL_WARNING', $QUALIFIED_MODULE)}</strong> {\App\Language::translate('MSG_NO_NET_CONN', $QUALIFIED_MODULE)}
 			</div>
 		{/if}
-		<form class="form-horizontal" method="post" action="index.php?module={$MODULENAME}&view=Index&parent=Settings">
+		<form class="form-horizontal js-currency-update_form" method="post" action="index.php?module={$MODULENAME}&view=Index&parent=Settings" data-js="container">
 			<table class="table table-bordered currencyTable">
 				<tr>
 					<th class="blockHeader" colspan="4">{\App\Language::translate('LBL_SELECT_BANK', $QUALIFIED_MODULE)}</th>
 				</tr>
 				<tr>
 					<td class="fieldLabel">
-						<span class="float-right"><strong>{\App\Language::translate('LBL_BANK', $QUALIFIED_MODULE)}:</strong></span>
+						<span class="float-right"><strong>{\App\Language::translate('LBL_BANK', $QUALIFIED_MODULE)}:</strong><span class="redColor">*</span></span>
 					</td>
 					<td class="fieldValue">
 						<div class="row">
 							<div class="col-md-5">
-								<select name="bank" id="bank" class="select2 form-control">
-									<option value="0" {if !$ACTIVE_BANK}selected{/if}>{\App\Language::translate('LBL_SELECT_OPTION', $QUALIFIED_MODULE)}</option>
+								<select name="bank" id="bank" class="select2 form-control" data-validation-engine="validate[required]">
+									<optgroup>
+										<option value="" {if !$ACTIVE_BANK}selected{/if}>{\App\Language::translate('LBL_SELECT_OPTION', $QUALIFIED_MODULE)}</option>
+									</optgroup>
 									{foreach from=$BANK item=key}
 										<option value="{$key.id}" {if $key.active eq '1'}selected{/if} data-name="{$key.bank_name|escape}">{\App\Language::translate($key.bank_name, $QUALIFIED_MODULE)}</option>
 									{/foreach}
 								</select>
 							</div>
 							<div class="col-md-7 btn-toolbar justify-content-end">
-								{*<button class="btn btn-success float-right" name="save" type="submit"><strong>{\App\Language::translate('LBL_SET_DEFAULT_BANK', $QUALIFIED_MODULE)}</strong></button>*}
 								{if count($SUPPORTED_CURRENCIES) gt 0}
 									<button class="btn btn-info"
 										id="supportedCurrencies"
@@ -82,7 +83,7 @@
 				</tr>
 				<tr>
 					<td class="fieldLabel">
-						<span class="float-right"><strong>{\App\Language::translate('LBL_CAL_DATE', $QUALIFIED_MODULE)}:</strong></label>
+						<span class="float-right"><strong>{\App\Language::translate('LBL_CAL_DATE', $QUALIFIED_MODULE)}:</strong><span class="redColor">*</span></label>
 					</td>
 					<td class="fieldValue">
 						<div class="input-group">
@@ -91,7 +92,7 @@
 									<span class="fas fa-calendar-alt"></span>
 								</span>
 							</div>
-							<input id="datepicker" type="text" class="form-control dateField" name="duedate" data-date-format="{$USER_MODEL->get('date_format')}" value="{$DATE}" />
+							<input id="datepicker" type="text" class="form-control dateField" name="duedate" data-date-format="{$USER_MODEL->get('date_format')}" value="{$DATE}" data-validation-engine="validate[required]" />
 							<span class="input-group-append">
 								<button class="btn btn-success" name="download" value="download" type="submit">{\App\Language::translate('LBL_SHOW', $QUALIFIED_MODULE)}</button>
 							</span>
