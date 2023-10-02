@@ -95,7 +95,7 @@ class NorthData extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $formFieldsToRecordMap = [
+	public array $formFieldsToRecordMap = [
 		'Accounts' => [
 			'nameName' => 'accountname',
 			'registerId' => 'registration_number_1',
@@ -191,10 +191,10 @@ class NorthData extends Base
 				$suggestResponse = \App\Json::decode($suggestResponse->getBody()->getContents());
 				foreach ($suggestResponse['results'] as $key => $company) {
 					$companyResponse = $client->get($this->url . 'company/v1/company?' . http_build_query([
-						'companyId' => $company['company']['id'],
-						'financials' => true, 'relations' => true, 'sheets' => true, 'extras' => true,
-						'language' => $language,
-					]));
+							'companyId' => $company['company']['id'],
+							'financials' => true, 'relations' => true, 'sheets' => true, 'extras' => true,
+							'language' => $language,
+						]));
 					$companyResponse = \App\Json::decode($companyResponse->getBody()->getContents());
 					$this->response['links'][$key] = $companyResponse['northDataUrl'];
 					$this->data[$key] = $this->parseData($companyResponse);
@@ -202,7 +202,7 @@ class NorthData extends Base
 			}
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getResponse()->getReasonPhrase();
+			$this->response['error'] = $this->getTranslationResponseMessage($e->getResponse()->getReasonPhrase());
 		}
 	}
 

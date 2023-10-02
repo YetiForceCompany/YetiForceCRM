@@ -131,26 +131,26 @@ class Vies extends Base
 		$response = [];
 		try {
 			if ($client = new \SoapClient($this->url, \App\RequestHttp::getSoapOptions())) {
-				$r = $client->checkVatApprox([
+				$responseData = $client->checkVatApprox([
 					'countryCode' => $countryCode,
 					'vatNumber' => $vatNumber,
 					'requesterCountryCode' => $countryCode,
 					'requesterVatNumber' => $vatNumber
 				]);
-				if ($r->valid) {
+				if ($responseData->valid) {
 					$response['fields'] = [
-						'Country' => $r->countryCode,
-						'Vat ID' => $r->countryCode . $r->vatNumber,
-						'LBL_COMPANY_NAME' => $r->traderName,
-						'Address details' => $r->traderAddress,
-						'LBL_REQUEST_DATE' => $r->requestDate,
-						'LBL_REQUEST_ID' => $r->requestIdentifier
+						'Country' => $responseData->countryCode,
+						'Vat ID' => $responseData->countryCode . $responseData->vatNumber,
+						'LBL_COMPANY_NAME' => $responseData->traderName,
+						'Address details' => $responseData->traderAddress,
+						'LBL_REQUEST_DATE' => $responseData->requestDate,
+						'LBL_REQUEST_ID' => $responseData->requestIdentifier
 					];
 				}
 			}
 		} catch (\SoapFault $e) {
 			\App\Log::warning($e->faultstring, 'RecordCollectors');
-			$response['error'] = $e->faultstring;
+			$response['error'] = $this->getTranslationResponseMessage($e->faultstring);
 		}
 		return $response;
 	}

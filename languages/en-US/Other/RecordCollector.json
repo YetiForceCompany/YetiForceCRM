@@ -34,6 +34,7 @@
     "LBL_BR_RECITA_WS_CNPJ_DESC": "Fetch data on Brazilian companies from the database of the Federal Tax Office of Brazil (Cadastro Nacional de Pessoas Jurídicas) provided by Receita WS",
     "LBL_BR_RECITA_WS_CNPJ_NUMBER": "CNPJ",
     "LBL_BR_RECITA_WS_CNPJ_ERROR": "The query limit has been exceeded. Wait one minute.",
+    "LBL_BR_RECITA_WS_CNPJ_INVALIDATE": "CNPJ number is invalid.",
     "LBL_NO_BRREG_ENHETSREGISTERET": "Brreg Enhetsregisteret [NO]",
     "LBL_NO_BRREG_ENHETSREGISTERET_DESC": "Fetch data on Norwegian companies from the Central Brønnøysund Database (The Brønnøysund Register Centre)",
     "LBL_NO_BRREG_ENHETSREGISTERET_400": "Organization number must be a number with exactly 9 digits.",
@@ -42,6 +43,13 @@
     "LBL_UA_YOU_CONTROL": "YouControl [UA]",
     "LBL_UA_YOU_CONTROL_DESC": "Fetch data on Ukrainian companies from the YouControl database provided by YouScore API",
     "LBL_CH_ZEFIX": "Swiss Zefix [CH]",
-    "LBL_CH_ZEFIX_DESC": "Fetch data on Swiss companies from the Swiss Central Business Name Index (Zentraler Firmenindex)"
+    "LBL_CH_ZEFIX_DESC": "Fetch data on Swiss companies from the Swiss Central Business Name Index (Zentraler Firmenindex)",
+    "LBL_NO_FOUND_RECORD": "No result was found that met the specified conditions.",
+    "LBL_TOO_MANY_REQUESTS": "Too many requests. Wait a while and try again.",
+    "LBL_TOO_MANY_OPTIONS": "You have provided too many options, only one option at a time.",
+    "LBL_NO_FILLED_DATA": "You have to use the given options in order to search.",
+    "LBL_FR_GOUV_BAD_REQUEST": "Bad request. The entered data should be real. SIC code should contains 6 numbers.",
+    "LBL_BAD_REQUEST": "Bad request. Make sure you have entered the correct data.",
+    "LBL_INCORRECT_VAT_NUMBER": "Incorrect VAT number. Make sure you have entered the correct data."
   }
 }

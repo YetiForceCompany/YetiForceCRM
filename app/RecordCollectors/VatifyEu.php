@@ -145,7 +145,7 @@ class VatifyEu extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $formFieldsToRecordMap = [
+	public array $formFieldsToRecordMap = [
 		'Accounts' => [
 			'title' => 'accountname',
 			'transliteratedTitle' => 'accountname',
@@ -281,7 +281,7 @@ class VatifyEu extends Base
 			$link = $response->getHeaderLine('location');
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getResponse()->getReasonPhrase();
+			$this->response['error'] = $this->getTranslationResponseMessage($e->getResponse()->getReasonPhrase());
 			return;
 		}
 		if (empty($link)) {
@@ -304,7 +304,7 @@ class VatifyEu extends Base
 				}
 			} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 				\App\Log::warning($e->getMessage(), 'RecordCollectors');
-				$this->response['error'] = $e->getResponse()->getReasonPhrase();
+				$this->response['error'] = $this->getTranslationResponseMessage($e->getResponse()->getReasonPhrase());
 				$response = true;
 			}
 			++$counter;
@@ -359,11 +359,11 @@ class VatifyEu extends Base
 			$this->bearerToken = $response['access_token'];
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getResponse()->getReasonPhrase();
+			$this->response['error'] = $this->getTranslationResponseMessage($e->getResponse()->getReasonPhrase());
 			return;
 		}
 		if (empty($this->bearerToken)) {
-			$this->response['error'] = \App\Language::translate('LBL_VATIFY_EU_NO_AUTH', 'Other.RecordCollector');
+			$this->response['error'] = \App\Language::translate('LBL_VATIFY_EU_NO_AUTH', 'Other.RecordCollector', null, false);
 		}
 	}
 }

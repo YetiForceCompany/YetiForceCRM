@@ -18,6 +18,9 @@ namespace App\RecordCollectors;
  */
 class PlCeidg extends Base
 {
+	/** @var int Limit for fetching companies */
+	public const LIMIT = 4;
+
 	/** {@inheritdoc} */
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
@@ -95,7 +98,7 @@ class PlCeidg extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $formFieldsToRecordMap = [
+	public array $formFieldsToRecordMap = [
 		'Accounts' => [
 			'nazwa' => 'accountname',
 			'email' => 'email1',
@@ -186,9 +189,6 @@ class PlCeidg extends Base
 		]
 	];
 
-	/** @var int Limit for fetching companies */
-	const LIMIT = 4;
-
 	/** {@inheritdoc} */
 	public function isActive(): bool
 	{
@@ -255,7 +255,7 @@ class PlCeidg extends Base
 					}
 				} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 					\App\Log::warning($e->getMessage(), 'RecordCollectors');
-					$this->response['error'] = $e->getMessage();
+					$this->response['error'] = $this->getTranslationResponseMessage($e->getResponse()->getReasonPhrase());
 				}
 			}
 		} elseif (isset($query['nip'])) {

@@ -83,7 +83,7 @@ class Gus extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $formFieldsToRecordMap = [
+	public array $formFieldsToRecordMap = [
 		'Accounts' => [
 			'Nazwa' => 'accountname',
 			'Regon' => 'registration_number_2',
@@ -116,7 +116,6 @@ class Gus extends Base
 			'Powiat' => 'addresslevel3a',
 			'Wojewodztwo' => 'addresslevel2a',
 			'Kraj' => 'addresslevel1a',
-			'NumerBudynku' => 'buildingnumbera',
 			'NumerTelefonu' => 'phone',
 			'NumerFaksu' => 'fax',
 			'AdresEmail' => 'email',
@@ -176,6 +175,7 @@ class Gus extends Base
 		$response = [];
 		$moduleName = $this->request->getModule();
 		$client = \App\RecordCollectors\Helper\GusClient::getInstance($this->getClientParams($moduleName));
+
 		try {
 			$infoFromGus = $client->search($vatId, $ncr, $taxNumber);
 			$response['recordModel'] = $this->getRecordModel();

@@ -19,6 +19,15 @@ namespace App\RecordCollectors;
  */
 class UkCompaniesHouse extends Base
 {
+	/** @var string CH sever address */
+	public const EXTERNAL_URL = 'https://find-and-update.company-information.service.gov.uk/company/';
+
+	/** @var string[] Keys to skip in additional */
+	public const REMOVE_KEYS = ['linksSelf', 'linksFiling_history', 'linksOfficers', 'linksPersons_with_significant_control-statements', 'linksCharges'];
+
+	/** @var int Limit for fetching companies */
+	public const LIMIT = 4;
+
 	/** {@inheritdoc} */
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
@@ -47,9 +56,6 @@ class UkCompaniesHouse extends Base
 
 	/** @var string Api Key. */
 	private $apiKey;
-
-	/** @var string CH sever address */
-	const EXTERNAL_URL = 'https://find-and-update.company-information.service.gov.uk/company/';
 
 	/** {@inheritdoc} */
 	protected $fields = [
@@ -84,7 +90,7 @@ class UkCompaniesHouse extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $formFieldsToRecordMap = [
+	public array $formFieldsToRecordMap = [
 		'Accounts' => [
 			'company_name' => 'accountname',
 			'company_number' => 'registration_number_1',
@@ -145,11 +151,6 @@ class UkCompaniesHouse extends Base
 		]
 	];
 
-	/** @var string[] Keys to skip in additional */
-	const REMOVE_KEYS = ['linksSelf', 'linksFiling_history', 'linksOfficers', 'linksPersons_with_significant_control-statements', 'linksCharges'];
-
-	/** @var int Limit for fetching companies */
-	const LIMIT = 4;
 
 	/** {@inheritdoc} */
 	public function isActive(): bool
@@ -198,7 +199,7 @@ class UkCompaniesHouse extends Base
 			]);
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getMessage();
+			$this->response['error'] = $this->getTranslationResponseMessage($e->getMessage());
 		}
 		$data = isset($response) ? $this->parseData(\App\Json::decode($response->getBody()->getContents(), true)) : [];
 		if (!empty($data)) {
@@ -240,7 +241,7 @@ class UkCompaniesHouse extends Base
 			}
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getMessage();
+			$this->response['error'] = $this->getTranslationResponseMessage($e->getMessage());
 		}
 		$this->data = $data;
 	}
@@ -289,7 +290,7 @@ class UkCompaniesHouse extends Base
 			]);
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			$this->response['error'] = $e->getMessage();
+			$this->response['error'] = $this->getTranslationResponseMessage($e->getMessage());
 		}
 		$names = [];
 		$items = \App\Json::decode($response->getBody()->getContents())['items'];

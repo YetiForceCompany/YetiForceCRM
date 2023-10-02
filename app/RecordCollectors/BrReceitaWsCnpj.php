@@ -45,7 +45,7 @@ class BrReceitaWsCnpj extends Base
 
 	/** {@inheritdoc} */
 	public $settingsFields = [
-		'api_key' => ['required' => 0, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY_OPTIONAL'],
+		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY_OPTIONAL'],
 	];
 
 	/** {@inheritdoc} */
@@ -71,7 +71,7 @@ class BrReceitaWsCnpj extends Base
 	];
 
 	/** {@inheritdoc} */
-	public $formFieldsToRecordMap = [
+	public array $formFieldsToRecordMap = [
 		'Accounts' => [
 			'nome' => 'accountname',
 			'fantasia' => 'accountname',
@@ -135,11 +135,11 @@ class BrReceitaWsCnpj extends Base
 	/** {@inheritdoc} */
 	public function search(): array
 	{
-		$cnpj = str_replace([' ', '/', '.', '-'], '', $this->request->getByType('cnpj', 'Text'));
-		if (!$this->isActive() || empty($cnpj)) {
+		$cnpjNumber = str_replace([' ', '/', '.', '-'], '', $this->request->getByType('cnpj', 'Text'));
+		if (empty($cnpjNumber) || !$this->isActive()) {
 			return [];
 		}
-		$this->getDataFromApi($cnpj);
+		$this->getDataFromApi($cnpjNumber);
 		$this->loadData();
 		return $this->response;
 	}
@@ -151,7 +151,7 @@ class BrReceitaWsCnpj extends Base
 	 *
 	 * @return void
 	 */
-	private function getDataFromApi(string $cnpj): void
+	private function getDataFromApi(string $cnpjNumber): void
 	{
 		try {
 			$this->setApiKey();
@@ -162,23 +162,17 @@ class BrReceitaWsCnpj extends Base
 					]
 				];
 			}
-			$response = \App\RequestHttp::getClient()->get($this->url . $cnpj, $options ?? []);
+			$response = \App\RequestHttp::getClient()->get($this->url . $cnpjNumber, $options ?? []);
 			$data = $this->parseData(\App\Json::decode($response->getBody()->getContents()));
 			if (isset($data['status']) && 'ERROR' === $data['status']) {
-				$this->response['error'] = $data['message'];
+				$this->response['error'] = $this->getTranslationResponseMessage($data['message']);
 				unset($this->data['fields']);
 			} else {
 				$this->data = $data;
 			}
 		} catch (\GuzzleHttp\Exception\GuzzleException $e) {
 			\App\Log::warning($e->getMessage(), 'RecordCollectors');
-			if (429 === $e->getCode()) {
-				$this->response['error'] = \App\Language::translate('LBL_BR_RECITA_WS_CNPJ_ERROR', 'Other.RecordCollector');
-			} elseif ($e->getCode() > 400) {
-				$this->response['error'] = $e->getResponse()->getReasonPhrase();
-			} else {
-				$this->response['error'] = $e->getMessage();
-			}
+			$this->response['error'] = $this->getTranslationResponseMessage($this->response['error'] ?? $e->getResponse()->getReasonPhrase());
 		}
 	}
 
@@ -204,5 +198,26 @@ class BrReceitaWsCnpj extends Base
 		if (($params = $this->getParams()) && !empty($params['api_key'])) {
 			$this->apiKey = $params['api_key'];
 		}
+	}
+
+	/**
+	 * @param string $message
+	 * @return string
+	 */
+	protected function getTranslationResponseMessage(string $message): string
+	{
+		switch ($message) {
+			case 'CNPJ inválido':
+				$translatedMessage = \App\Language::translate('LBL_BR_RECITA_WS_CNPJ_INVALIDATE', 'Other.RecordCollector', null, false);
+				break;
+			case 'Too Many Requests':
+				$translatedMessage = \App\Language::translate('LBL_TOO_MANY_REQUESTS', 'Other.RecordCollector', null, false);
+				break;
+			default :
+				$translatedMessage = $message;
+				break;
+		}
+
+		return $translatedMessage;
 	}
 }
