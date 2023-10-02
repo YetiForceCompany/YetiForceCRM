@@ -15,10 +15,44 @@ require_once 'modules/Users/Users.php';
 class VTCreateTodoTask extends VTTask
 {
 	public $executeImmediately = true;
+	/** @var string Task subject. */
+	public $todo;
+	/** @var string Task status. */
+	public $status;
+	/** @var string Task priority. */
+	public $priority;
+	/** @var string Task owner. */
+	public $assigned_user_id;
+	/** @var string Task time. */
+	public $time;
+	/** @var string Specifies the number of days from which the task is to be active. */
+	public $days_start;
+	/** @var string Specifies the number of days after which the task should be valid. */
+	public $days_end;
+	/** @var string The direction that determines the time to activate the task. */
+	public $direction_start;
+	/** @var string Specifies the time from which the task will be activated. */
+	public $datefield_start;
+	/** @var string Direction specifying the time to close the task. */
+	public $direction_end;
+	/** @var string Send notification. */
+	public $sendNotification;
+	/** @var string Specifies the time from which the task will be completed. */
+	public $datefield_end;
+	/** @var string A parameter that specifies not to duplicate a record. */
+	public $doNotDuplicate;
+	/** @var string Status specifying not to repeat the record. */
+	public $duplicateStatus;
+	/** @var string Updating the date of generated events. */
+	public $updateDates;
+	/** @var string Meeting url. */
+	public $meetingUrl;
+	/** @var string Conditions to run the workflow. */
+	public $days;
 
 	public function getFieldNames()
 	{
-		return ['todo', 'description', 'time', 'days_start', 'days_end', 'status', 'priority', 'days', 'direction_start', 'datefield_start', 'direction_end', 'datefield_end', 'sendNotification', 'assigned_user_id', 'days', 'doNotDuplicate', 'duplicateStatus', 'updateDates', 'meetingUrl'];
+		return ['todo', 'description', 'time', 'days_start', 'days_end', 'status', 'priority', 'days', 'direction_start', 'datefield_start', 'direction_end', 'datefield_end', 'sendNotification', 'assigned_user_id', 'doNotDuplicate', 'duplicateStatus', 'updateDates', 'meetingUrl'];
 	}
 
 	/**
