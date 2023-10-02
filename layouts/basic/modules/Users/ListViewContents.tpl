@@ -44,9 +44,7 @@
 			{assign var=ONLY_ONE value=count($LINKS) eq 1}
 			<div class="actions">
 				{if $ONLY_ONE}
-					{foreach from=$LINKS item=LINK}
-						{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
-					{/foreach}
+					{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE_NAME=$QUALIFIED_MODULE}
 				{else}
 					<div class="dropright u-remove-dropdown-icon">
 						<button class="btn btn-sm btn-light toolsAction dropdown-toggle" type="button"
@@ -55,9 +53,9 @@
 							<span class="sr-only">{\App\Language::translate('LBL_ACTIONS')}</span>
 						</button>
 						<div class="dropdown-menu" aria-label="{\App\Language::translate('LBL_ACTIONS')}">
-							{foreach from=$LINKS item=LINK}
-								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listViewBasic'}
-							{/foreach}
+							{if !empty($LINKS)}
+								{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE_NAME=$QUALIFIED_MODULE SKIP_GROUP=true}
+							{/if}
 						</div>
 					</div>
 				{/if}
@@ -116,7 +114,7 @@
 									{assign var="SEARCH_INFO" value=[]}
 								{/if}
 								{include file=\App\Layout::getTemplatePath($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(), $MODULE_NAME)
-													FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
+																																								FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 							</td>
 						{/foreach}
 					</tr>

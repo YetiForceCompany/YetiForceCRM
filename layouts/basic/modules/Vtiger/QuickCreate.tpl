@@ -63,9 +63,7 @@
 							{/if}
 							{assign var="EDIT_VIEW_URL" value=$MODULE_MODEL->getCreateRecordUrl()}
 							{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
-								{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS='display-block-md' TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq}
-								{/foreach}
+								{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LINKS=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'] BUTTON_VIEW='quickcreateViewHeader' MODULE_NAME=$MODULE  TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq CLASS='d-inline-block'}
 							{/if}
 							<button class="btn btn-success mr-1" type="submit" tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}" title="{\App\Language::translate('LBL_SAVE', $MODULE)}">
 								<strong><span class="fas fa-check"></span></strong>

@@ -3,13 +3,13 @@
 	<!-- tpl-Settings-Groups-ListTable -->
 	<div class="o-breadcrumb widget_header row mb-2">
 		<div class="col-md-12">
-			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
+			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
 		</div>
 	</div>
 	<div class="actions mb-2">
-		{foreach from=$LINKS item=LINK}
-			{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $QUALIFIED_MODULE) BUTTON_VIEW='listViewBasic' MODULE_NAME=$QUALIFIED_MODULE}
-		{/foreach}
+		{if !empty($LINKS)}
+			{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $QUALIFIED_MODULE) LINKS=$LINKS BUTTON_VIEW='listViewBasic' MODULE_NAME=$QUALIFIED_MODULE}
+		{/if}
 	</div>
 	<form class="js-filter-form" data-js="container">
 		<table id="dataTableGroups" class="table table-sm table-striped display nowrap text-center mt-2 js-data-table u-cursor-pointer" data-url="index.php?module=Groups&parent=Settings&view=GetData">

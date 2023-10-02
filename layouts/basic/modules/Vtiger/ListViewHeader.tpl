@@ -27,9 +27,9 @@
 							{include file=\App\Layout::getTemplatePath('TilesSize.tpl')}
 						{/if}
 						{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$LINKS TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS='listViewMassActions mr-sm-1 mb-1 mb-sm-0 c-btn-block-sm-down'}
-						{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='listView' CLASS='mr-sm-1 mb-1 c-btn-block-sm-down'}
-						{/foreach}
+						{if !empty($LISTVIEW_LINKS['LISTVIEWBASIC'])}
+							{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LINKS=$LISTVIEW_LINKS['LISTVIEWBASIC'] BUTTON_VIEW='listView' MODULE_NAME=$MODULE CLASS='mr-sm-1 mb-1 c-btn-block-sm-down'}
+						{/if}
 					</div>
 					<div class="customFilterMainSpan ml-auto mx-xl-auto">
 						{if $CUSTOM_VIEWS|@count gt 0}

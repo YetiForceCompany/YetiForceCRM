@@ -12,9 +12,7 @@
 			<strong>{\App\Language::translate('LBL_CANCEL', $MODULE_NAME)}</strong>
 		</button>
 		{if isset($EDITVIEW_LINKS['EDIT_VIEW_HEADER'])}
-			{foreach item=LINK from=$EDITVIEW_LINKS['EDIT_VIEW_HEADER']}
-				{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='editViewHeader'}
-			{/foreach}
+			{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$EDITVIEW_LINKS['EDIT_VIEW_HEADER'] BUTTON_VIEW='editViewHeader' MODULE_NAME=$MODULE_NAME SKIP_GROUP=true}
 		{/if}
 		{if \App\Privilege::isPermitted($MODULE_NAME, 'RecordCollector') && !empty($EDITVIEW_LINKS['EDIT_VIEW_RECORD_COLLECTOR'])}
 			{include file=\App\Layout::getTemplatePath('Edit/RecordCollectors.tpl', $MODULE_NAME) RECORD_COLLECTOR=$EDITVIEW_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}

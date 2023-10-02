@@ -129,21 +129,21 @@
 				<div class="o-calendar__form__actions">
 					<div class="d-flex flex-wrap{if empty($RECORD_ID)} justify-content-center{/if}">
 						{if !empty($QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'])}
-							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
-								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='quickcreateViewHeader'}
-							{/foreach}
+							{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER'] BUTTON_VIEW='quickcreateViewHeader' MODULE_NAME=$MODULE_NAME SKIP_GROUP=true}
 						{/if}
-						<button type="submit" class="js-save-event btn btn-success"
-							title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" data-js="click">
-							<span title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" class="fas fa-check mr-1"></span>
-							{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
-						</button>
-						{if !empty($RECORD_ID) && $VIEW === 'EventForm'}
-							<a href="#" role="button" class="btn btn-danger js-summary-close-edit ml-auto u-h-fit">
-								<span title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"
-									class="fas fa-times"></span>
-							</a>
-						{/if}
+						<div class="ml-1">
+							<button type="submit" class="js-save-event btn btn-success"
+								title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" data-js="click">
+								<span title="{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}" class="fas fa-check mr-1"></span>
+								{\App\Language::translate('LBL_SAVE', $MODULE_NAME)}
+							</button>
+							{if !empty($RECORD_ID) && $VIEW === 'EventForm'}
+								<a href="#" role="button" class="btn btn-danger js-summary-close-edit ml-auto u-h-fit">
+									<span title="{\App\Language::translate('LBL_CLOSE', $MODULE_NAME)}"
+										class="fas fa-times"></span>
+								</a>
+							{/if}
+						</div>
 					</div>
 				</div>
 			</div>

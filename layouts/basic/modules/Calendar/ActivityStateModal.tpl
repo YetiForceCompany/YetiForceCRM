@@ -9,9 +9,7 @@
 						{\App\Language::translate('LBL_SET_RECORD_STATUS', $MODULE_NAME)}
 					</h5>
 					<div class="">
-						{foreach item=LINK from=$LINKS}
-							{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='detailViewBasic' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
-						{/foreach}
+						{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$LINKS BUTTON_VIEW='detailViewBasic' BREAKPOINT='md' CLASS='c-btn-link--responsive' MODULE_NAME=$MODULE_NAME}
 						<button type="button" class="close" data-dismiss="modal"
 							aria-label="{\App\Language::translate('LBL_CLOSE')}">
 							<span aria-hidden="true" title="{\App\Language::translate('LBL_CLOSE')}">&times;</span>

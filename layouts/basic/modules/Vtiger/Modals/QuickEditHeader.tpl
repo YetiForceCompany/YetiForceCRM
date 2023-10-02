@@ -32,14 +32,12 @@
 								</span>
 							</h5>
 						</div>
-						<div class="col-xl-6 col-12 text-center text-xl-right">
+						<div class="col-xl-6 col-12 d-xl-flex justify-content-xl-end justify-content-center text-center">
 							{if \App\Privilege::isPermitted($MODULE_NAME, 'RecordCollector') && !empty($QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR'])}
 								{include file=\App\Layout::getTemplatePath('Edit/RecordCollectors.tpl', $MODULE) SHOW_BTN_LABEL=1 RECORD_COLLECTOR=$QUICKCREATE_LINKS['EDIT_VIEW_RECORD_COLLECTOR']}
 							{/if}
 							{if !empty($QUICKCREATE_LINKS['QUICKEDIT_VIEW_HEADER'])}
-								{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKEDIT_VIEW_HEADER']}
-									{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='quickcreateViewHeader' CLASS='display-block-md' TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq}
-								{/foreach}
+								{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE) LINKS=$QUICKCREATE_LINKS['QUICKEDIT_VIEW_HEADER'] BUTTON_VIEW='quickcreateViewHeader' MODULE_NAME=$MODULE   TABINDEX=Vtiger_Field_Model::$tabIndexLastSeq CLASS='px-1'}
 							{/if}
 							<button class="btn btn-success mr-1" type="submit" tabindex="{Vtiger_Field_Model::$tabIndexLastSeq}" title="{\App\Language::translate('LBL_SAVE', $MODULE)}">
 								<strong><span class="fas fa-check"></span></strong>

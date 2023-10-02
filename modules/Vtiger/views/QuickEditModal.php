@@ -218,7 +218,7 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 			'showLabel' => 1,
 			'linkicon' => 'yfi yfi-full-editing-view',
 			'linkdata' => ['js' => 'click', 'url' => $recordModel->getEditViewUrl()],
-			'linkclass' => 'btn-light js-full-editlink fontBold u-text-ellipsis mb-2 mb-md-0 col-12',
+			'linkclass' => 'btn-light js-full-editlink fontBold u-text-ellipsis mb-2 mb-md-0',
 		]);
 		return $links;
 	}

@@ -56,9 +56,9 @@
 			{/foreach}
 		</div>
 		<div class="process-actions mt-3 mb-1 text-center">
-			{foreach item=LINK from=$PROCESS_WIZARD->getActions()}
-				{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE_NAME) BUTTON_VIEW='detailViewProcessWizard' BREAKPOINT='md' CLASS='c-btn-link--responsive'}
-			{/foreach}
+			{if !empty($PROCESS_WIZARD->getActions())}
+				{include file=\App\Layout::getTemplatePath('ButtonLinks.tpl', $MODULE_NAME) LINKS=$PROCESS_WIZARD->getActions() BUTTON_VIEW='detailViewProcessWizard' BREAKPOINT='md' MODULE_NAME=$MODULE_NAME SKIP_GROUP=true CLASS='c-btn-link--responsive'}
+			{/if}
 		</div>
 	{/if}
 	<!-- /tpl-Base-Detail-ProcessWizard -->
