@@ -1570,10 +1570,12 @@ td.listViewEntryValue .row input {
 	margin-bottom: 0;
 }
 @media only screen and (min-width: 1200px) {
+	.c-popover--link__body .c-popover--link__value-content .clipboard,
 	.listViewEntries .listViewEntryValue .clipboard,
 	.detailViewTable .fieldValue .clipboard {
 		display: none;
 	}
+	.c-popover--link__body .c-popover--link__value-content:hover .clipboard,
 	.listViewEntries .listViewEntryValue:hover .clipboard,
 	.detailViewTable .fieldValue:hover .clipboard {
 		display: inline-block;
@@ -1583,7 +1585,7 @@ td.listViewEntryValue .row input {
 		position: absolute;
 	}
 	.listViewEntries .listViewEntryValue:hover .clipboard {
-		right: 0;
+		right: 11px;
 	}
 	.c-detail-widget .fieldValue:hover .clipboard {
 		right: 36px;
