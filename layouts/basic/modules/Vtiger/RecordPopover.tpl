@@ -33,7 +33,7 @@
 		</h5>
 		<div class="c-popover--link__body px-2 pb-1">
 			{foreach item=FIELD_MODEL key=FIELD_NAME from=$FIELDS}
-				<div class="u-white-space-nowrap u-text-ellipsis--no-hover">
+				<div class="c-popover--link__value-content u-white-space-nowrap u-text-ellipsis--no-hover">
 					{assign var=ICON value=$FIELD_MODEL->get('icon')}
 					{if $ICON}
 						{\App\Layout\Media::getImageHtml($ICON)}

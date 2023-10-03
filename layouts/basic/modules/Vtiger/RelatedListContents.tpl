@@ -145,7 +145,7 @@
 							{/if}
 							{assign var=COUNT value=$COUNT+1}
 							{assign var=RELATED_HEADERNAME value=$HEADER_FIELD->getFieldName()}
-							<td class="{$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap
+							<td class="listViewEntryValue {$WIDTHTYPE}" data-field-type="{$HEADER_FIELD->getFieldDataType()}" nowrap
 								{if $smarty.foreach.listHeaderForeach.iteration eq $RELATED_HEADER_COUNT} colspan="2" {/if}>
 								{if empty($HEADER_FIELD->get('source_field_name')) && ($HEADER_FIELD->isNameField() eq true or $HEADER_FIELD->getUIType() eq '4') &&  $RELATED_MODULE->isListViewNameFieldNavigationEnabled() && $RELATED_RECORD->isViewable()}
 									<a class="modCT_{$RELATED_MODULE_NAME} js-list__field js-popover-tooltip--record" data-js="width" title="" href="{$RELATED_RECORD->getDetailViewUrl()}">
