@@ -26,6 +26,7 @@
     "PLL_READ": "Read",
     "PLL_USERS": "From users",
     "PLL_SYSTEM": "System",
+    "PLL_PORTAL": "Portal",
     "FL_RELATED_RECORD": "Related record",
     "FL_STATUS": "Status",
     "FL_USER": "User",

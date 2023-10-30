@@ -257,7 +257,8 @@
     "Group": "Group",
     "LBL_MULTI_REFERENCE_FIELDS": "Related field M:M",
     "LBL_MAXIMUM_LENGTH": "Maximum value length",
-    "LBL_MINIMUM_LENGTH": "Minimum value length"
+    "LBL_MINIMUM_LENGTH": "Minimum value length",
+    "LBL_RELATED_FIELDS_LIST": "List of related fields"
   },
   "js": {
     "JS_BLOCK_NAME_EXISTS": "Block Name already exists",
