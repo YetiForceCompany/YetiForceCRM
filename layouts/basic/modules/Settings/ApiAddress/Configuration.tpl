@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <!-- tpl-Settings-ApiAddress-Configuration -->
 {strip}
 	<div id="menuEditorContainer">
@@ -57,15 +57,6 @@
 									<tr>
 										<th scope="row">
 											{\App\Language::translate('LBL_PROVIDER_'|cat:$KEY|upper, $MODULENAME)}
-											{if $KEY === 'YetiForceGeocoder'}
-												<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}">
-													<span class="yfi-premium color-red-600"></span>
-												</span>
-											{else}
-												<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PROVIDER_NOT_VERIFIED', 'Settings::Map')}">
-													<span class="fas fa-triangle-exclamation color-red-600"></span>
-												</span>
-											{/if}
 										</th>
 										<td {if !$CONFIGURED}{UNSET_POPOVER}{else}class="text-center" {/if}>
 											<input name="active" data-type="{$KEY}" type="checkbox" {if !empty($ITEM->config['active'])} checked{/if}{if !$CONFIGURED} disabled{/if}>

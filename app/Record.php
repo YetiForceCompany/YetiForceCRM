@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -19,22 +19,6 @@ use vtlib\Functions;
  */
 class Record
 {
-	/** @var int Record state - Deleted permanently */
-	public const STATE_DELETED = -1;
-	/** @var int Record state - Active */
-	public const STATE_ACTIVE = 0;
-	/** @var int Record state - Deleted (Recycle bin) */
-	public const STATE_TRASH = 1;
-	/** @var int Record state - Archived */
-	public const STATE_ARCHIVED = 2;
-
-	/** @var string[] Possible record states */
-	public const STATES = [
-		self::STATE_ACTIVE => 'Active',
-		self::STATE_TRASH => 'Trash',
-		self::STATE_ARCHIVED => 'Archived'
-	];
-
 	/**
 	 * Get label.
 	 *
@@ -130,11 +114,11 @@ class Record
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$entityDisplay = [];
 		$cacheName = 'computeLabelsQuery';
-		$table = $metaInfo['tablename'];
-		$idColumn = $table . '.' . $metaInfo['entityidfield'];
-		$columnsName = $metaInfo['fieldnameArr'];
-		$columnsSearch = $metaInfo['searchcolumnArr'];
 		if (!\App\Cache::staticHas($cacheName, $moduleName)) {
+			$table = $metaInfo['tablename'];
+			$idColumn = $table . '.' . $metaInfo['entityidfield'];
+			$columnsName = $metaInfo['fieldnameArr'];
+			$columnsSearch = $metaInfo['searchcolumnArr'];
 			$columns = array_unique(array_merge($columnsName, $columnsSearch));
 			$leftJoinTables = $paramsCol = [];
 			$query = new \App\Db\Query();
@@ -156,6 +140,9 @@ class Record
 			\App\Cache::staticSave($cacheName, $moduleName, clone $query);
 		} else {
 			$query = \App\Cache::staticGet($cacheName, $moduleName);
+			$columnsName = $metaInfo['fieldnameArr'];
+			$columnsSearch = $metaInfo['searchcolumnArr'];
+			$idColumn = $metaInfo['entityidfield'];
 		}
 		$separator = $metaInfo['separator'] ?? ' ';
 		$ids = array_unique($ids);
@@ -271,19 +258,15 @@ class Record
 	/**
 	 * Function checks if record exists.
 	 *
-	 * @param int       $recordId   Record ID
-	 * @param string    $moduleName
-	 * @param int|array $state      null = [self::STATE_ACTIVE, self::STATE_ARCHIVED]
+	 * @param int    $recordId   - Record ID
+	 * @param string $moduleName
 	 *
 	 * @return bool
 	 */
-	public static function isExists(int $recordId, string $moduleName = '', $state = [self::STATE_ACTIVE, self::STATE_ARCHIVED])
+	public static function isExists($recordId, $moduleName = false)
 	{
 		$recordMetaData = Functions::getCRMRecordMetadata($recordId);
-
-		return isset($recordMetaData)
-			&& \in_array($recordMetaData['deleted'], \is_array($state) ? $state : (array) $state)
-			&& ($moduleName ? $recordMetaData['setype'] === $moduleName : true);
+		return (isset($recordMetaData) && 1 !== $recordMetaData['deleted'] && ($moduleName ? $recordMetaData['setype'] === $moduleName : true)) ? true : false;
 	}
 
 	/**
@@ -318,24 +301,25 @@ class Record
 	 *
 	 * @param int $recordId
 	 *
-	 * @return int
+	 * @return string
 	 */
-	public static function getState(int $recordId): int
+	public static function getState($recordId)
 	{
 		$metadata = Functions::getCRMRecordMetadata($recordId);
-		return $metadata['deleted'] ?? self::STATE_DELETED;
-	}
-
-	/**
-	 * Get record state label.
-	 *
-	 * @param int $recordId
-	 *
-	 * @return string {@see \App\Record::STATES}
-	 */
-	public static function getStateLabel(int $recordId): string
-	{
-		return self::STATES[self::getState($recordId)] ?? '';
+		switch ($metadata['deleted'] ?? 3) {
+			case 0:
+				$state = 'Active';
+				break;
+			case 1:
+				$state = 'Trash';
+				break;
+			case 2:
+				$state = 'Archived';
+				break;
+			default:
+				$state = null;
+		}
+		return $state;
 	}
 
 	/**
@@ -436,56 +420,5 @@ class Record
 		$label = "<a class=\"modCT_{$moduleName} showReferenceTooltip js-popover-tooltip--record\" href=\"{$url}\">{$label}</a>";
 
 		return $deleted ? "<s>{$label}</s>" : $label;
-	}
-
-	/**
-	 * Check if record is related in relations or inventory.
-	 *
-	 * @param \Vtiger_Record_Model $parentRecordModel
-	 * @param bool                 $checkRelations
-	 * @param bool                 $checkInventory
-	 *
-	 * @return string|false|null
-	 */
-	public static function isRelated(\Vtiger_Record_Model $parentRecordModel, bool $checkRelations = true, bool $checkInventory = false)
-	{
-		$parentModuleModel = $parentRecordModel->getModule();
-		$relatedRecord = false;
-		if ($checkRelations) {
-			$relations = \Vtiger_Relation_Model::getAllRelations($parentModuleModel, false, true, true);
-			foreach ($relations as $relationModel) {
-				$relationModel->set('parentRecord', $parentRecordModel);
-				$queryGenerator = $relationModel->getQuery();
-				$queryGenerator->permissions = false;
-				$queryGenerator->clearFields()->setFields(['id']);
-				if ($result = $queryGenerator->createQuery()->scalar()) {
-					$relatedRecord = $result;
-					break;
-				}
-			}
-		}
-		if ($checkInventory && !$relatedRecord) {
-			$recordId = $parentRecordModel->getId();
-			$parentModuleName = $parentModuleModel->getName();
-			$allModules = \vtlib\Functions::getAllModules(false, true);
-			foreach ($allModules as $moduleData) {
-				$moduleModel = \Vtiger_Module_Model::getInstance($moduleData['name']);
-				$inventoryModel = \Vtiger_Inventory_Model::getInstance($moduleData['name']);
-				if ($moduleModel->isInventory()
-				 && ($inventoryModel = \Vtiger_Inventory_Model::getInstance($moduleData['name']))
-				 && ($inventoryNameField = $inventoryModel->getField('name'))
-				 && ($modules = $inventoryNameField->getModules())
-				 && \in_array($parentModuleName, $modules)
-				 ) {
-					$inventoryTable = $inventoryModel->getDataTableName();
-					$result = (new \App\Db\Query())->select(['crmid'])->from($inventoryTable)->where(['name' => $recordId])->scalar();
-					if ($result) {
-						$relatedRecord = $result;
-						break;
-					}
-				}
-			}
-		}
-		return $relatedRecord;
 	}
 }

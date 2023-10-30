@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  *
  * @see       http://project-osrm.org
@@ -25,7 +25,7 @@ class Osrm extends Base
 		if (!\App\RequestUtil::isNetConnection()) {
 			throw new \App\Exceptions\AppException('ERR_NO_INTERNET_CONNECTION');
 		}
-		$url = $this->url . '/route/v1/car/' . implode(';', $this->parsePoints()) . '?' . \http_build_query([
+		$url = $this->url . '/route/v1/car/' . implode(';', $this->parsePoints()) . '?' . http_build_query([
 			'geometries' => 'geojson',
 			'steps' => 'true',
 		]);

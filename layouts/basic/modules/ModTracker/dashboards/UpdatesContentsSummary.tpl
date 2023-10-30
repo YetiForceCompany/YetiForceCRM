@@ -1,8 +1,15 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-ModTracker-dashboards-UpdatesContentsSummary -->
 	<input type="hidden" class="js-widget-data" value="{\App\Purifier::encodeHtml(App\Json::encode($WIDGET_DATA))}" data-js="value">
-	{if $UPDATES}
+	{assign var=CHECK_ALERT value=\App\YetiForce\Shop::checkAlert('YetiForceWidgets')}
+	{if $CHECK_ALERT}
+		<div class="alert alert-warning">
+			<span class="yfi-premium mr-2 u-fs-2em color-red-600 float-left"></span>
+			{\App\Language::translate($CHECK_ALERT, 'Settings::YetiForce')} {if $USER_MODEL->isAdminUser()}<a class="btn btn-primary btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop"><span class="yfi yfi-shop mr-2"></span>{\App\Language::translate('LBL_YETIFORCE_SHOP', $MODULE_NAME)}</a>{/if}
+		</div>
+	{/if}
+	{if !$CHECK_ALERT && $UPDATES}
 		<div style="margin: -5px; line-height: 1;">
 			<div class="table-responsive">
 				<table class="config-table table u-word-break-all">
@@ -46,7 +53,7 @@
 				</table>
 			</div>
 		</div>
-	{else}
+	{elseif !$CHECK_ALERT}
 		<span class="noDataMsg">
 			{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA', $MODULE_NAME)}
 		</span>

@@ -26,14 +26,13 @@ class Vtiger_EditRecordStructure_Model extends Vtiger_RecordStructure_Model
 		$values = [];
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
-		$viewName = $recordModel->isNew() ? 'Create' : 'Edit';
-		$fieldsDependency = \App\FieldsDependency::getByRecordModel($viewName, $recordModel);
+		$fieldsDependency = \App\FieldsDependency::getByRecordModel($recordModel->isNew() ? 'Create' : 'Edit', $recordModel);
 		$blockModelList = $this->getModule()->getBlocks();
 		foreach ($blockModelList as $blockLabel => $blockModel) {
 			if ($fieldModelList = $blockModel->getFields()) {
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
-					if ($fieldModel->isEditable($viewName) && (!$fieldsDependency['hide']['backend'] || !\in_array($fieldName, $fieldsDependency['hide']['backend']))) {
+					if ($fieldModel->isEditable() && (!$fieldsDependency['hide']['backend'] || !\in_array($fieldName, $fieldsDependency['hide']['backend']))) {
 						if ('' !== $recordModel->get($fieldName)) {
 							$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
 						} else {

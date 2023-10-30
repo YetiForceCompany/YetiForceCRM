@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="statsContainer">
 		<div class="form-horizontal">
@@ -31,6 +31,17 @@
 				</div>
 				<div class="col-md-1"></div>
 			</div>
+			<div class="chartBlock row" id="chartBlock">
+				<div class="col-md-2"></div>
+				<div class="col-md-8">
+					<div class="widgetChartContainer" id="widgetChartContainer" style="position:relative;">
+						<canvas id="language-stats-chart"></canvas>
+					</div>
+				</div>
+				<div class="col-md-2"></div>
+				<input class="widgetData" type="hidden" value=''>
+			</div>
+			<br />
 			<div class="row">
 				<div class="col-md-1"></div>
 				<div class="col-md-10 statsData"></div>

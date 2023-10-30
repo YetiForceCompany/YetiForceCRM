@@ -2,7 +2,7 @@
 /**
  * Countries action class.
  *
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Wojciech Bruggemann <w.bruggemann@yetiforce.com>
  */
 

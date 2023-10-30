@@ -5,7 +5,7 @@
  * @package View
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -75,7 +75,17 @@ class Vtiger_ChartFilter_View extends \App\Controller\Modal
 		switch ($request->getByType('step', 'Alnum')) {
 			case 'step1':
 				$modules = vtlib\Functions::getAllModules(true, false, 0);
-				$viewer->assign('CHART_TYPES', Vtiger_ChartFilter_Model::CHART_TYPES);
+				$chartTypes = [
+					'Pie' => 'LBL_PIE_CHART',
+					'Donut' => 'LBL_DONUT_CHART',
+					'Bar' => 'LBL_VERTICAL_BAR_CHART',
+					'Horizontal' => 'LBL_HORIZONTAL_BAR_CHART',
+					'Line' => 'LBL_LINE_CHART',
+					'LinePlain' => 'LBL_LINE_CHART_PLAIN',
+					'Funnel' => 'LBL_FUNNEL_CHART',
+					'Table' => 'LBL_TABLE_CHART'
+				];
+				$viewer->assign('CHART_TYPES', $chartTypes);
 				//Since comments is not treated as seperate module
 				unset($modules['ModComments']);
 				$viewer->assign('MODULES', $modules);

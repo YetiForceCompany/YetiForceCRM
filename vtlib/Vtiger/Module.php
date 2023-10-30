@@ -126,9 +126,12 @@ class Module extends ModuleBasic
 	/**
 	 * Unset related list information that exists with other module.
 	 *
-	 * @param Module $moduleInstance Instance of target module with which relation should be setup
-	 * @param string $label          Label to display in related list (default is target module name)
-	 * @param string $function_name  Callback function name of this module to use as handler
+	 * @param \Module Instance of target module with which relation should be setup
+	 * @param string Label to display in related list (default is target module name)
+	 * @param string Callback function name of this module to use as handler
+	 * @param mixed $moduleInstance
+	 * @param mixed $label
+	 * @param mixed $function_name
 	 */
 	public function unsetRelatedList($moduleInstance, $label = '', $function_name = 'getRelatedList')
 	{
@@ -138,14 +141,15 @@ class Module extends ModuleBasic
 		if (empty($label)) {
 			$label = $moduleInstance->name;
 		}
-		$relationId = (new \App\Db\Query())
+		$id = (new \App\Db\Query())
 			->select(['relation_id'])
 			->from('vtiger_relatedlists')
 			->where(['tabid' => $this->id, 'related_tabid' => $moduleInstance->id, 'name' => $function_name, 'label' => $label])
 			->scalar();
-		if ($relationId) {
-			\Vtiger_Relation_Model::removeRelationById($relationId);
-		}
+		$createCommand = \App\Db::getInstance()->createCommand();
+		$createCommand->delete('vtiger_relatedlists', ['relation_id' => $id])->execute();
+		$createCommand->delete('vtiger_relatedlists_fields', ['relation_id' => $id])->execute();
+		\App\Relation::clearCacheById($id);
 		\App\Log::trace("Unsetting relation with $moduleInstance->name ... DONE", __METHOD__);
 	}
 

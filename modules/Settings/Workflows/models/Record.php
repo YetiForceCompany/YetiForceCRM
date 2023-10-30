@@ -17,9 +17,6 @@ require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager
  */
 class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 {
-	/** @var Workflow object */
-	public $workflowObject;
-
 	/**
 	 * Get record id.
 	 *
@@ -71,13 +68,27 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 	}
 
 	/**
+	 * Set workflow object.
+	 *
+	 * @param object $wf
+	 *
+	 * @return $this
+	 */
+	protected function setWorkflowObject($wf)
+	{
+		$this->workflow_object = $wf;
+
+		return $this;
+	}
+
+	/**
 	 * Get workflow object.
 	 *
 	 * @return object
 	 */
 	public function getWorkflowObject()
 	{
-		return $this->workflowObject;
+		return $this->workflow_object;
 	}
 
 	/**
@@ -178,6 +189,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		$wf->schtime = $this->get('schtime');
 		$wf->schdayofmonth = $this->get('schdayofmonth');
 		$wf->schdayofweek = $this->get('schdayofweek');
+		$wf->schmonth = $this->get('schmonth');
 		$wf->schannualdates = $this->get('schannualdates');
 		$wf->nexttrigger_time = $this->get('nexttrigger_time');
 		$wf->params = $this->get('params');
@@ -320,7 +332,8 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 		if (null === $executionCondition) {
 			$executionCondition = $this->get('execution_condition');
 		}
-		return Settings_Workflows_Module_Model::TRIGGER_TYPES[$executionCondition] ?? '';
+		$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT', 'ON_RELATED'];
+		return $arr[$executionCondition - 1] ?? '';
 	}
 
 	/**
@@ -353,7 +366,7 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 
 		if (!empty($conditions)) {
 			foreach ($conditions as $info) {
-				if (!$info['groupid']) {
+				if (!($info['groupid'])) {
 					$firstGroup[] = ['columnname' => $info['fieldname'], 'comparator' => $info['operation'], 'value' => $info['value'],
 						'column_condition' => $info['joincondition'], 'valuetype' => $info['valuetype'], 'groupid' => $info['groupid'], ];
 				} else {
@@ -477,19 +490,5 @@ class Settings_Workflows_Record_Model extends Settings_Vtiger_Record_Model
 			}
 		}
 		return $moduleRelationsByType;
-	}
-
-	/**
-	 * Set workflow object.
-	 *
-	 * @param object $wf
-	 *
-	 * @return $this
-	 */
-	protected function setWorkflowObject($wf)
-	{
-		$this->workflowObject = $wf;
-
-		return $this;
 	}
 }

@@ -6,7 +6,7 @@
  * @package View
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -46,7 +46,7 @@ class Vtiger_SendMailModal_View extends Vtiger_BasicModal_View
 		$viewer = $this->getViewer($request);
 		$templateModule = $moduleName = $request->getModule();
 		$sourceModule = $request->getByType('sourceModule', 2);
-		if ($sourceModule && isset(\App\TextParser::SOURCE_MODULES[$sourceModule]) && \in_array($moduleName, \App\TextParser::SOURCE_MODULES[$sourceModule])) {
+		if ($sourceModule && isset(\App\TextParser::$sourceModules[$sourceModule]) && \in_array($moduleName, \App\TextParser::$sourceModules[$sourceModule])) {
 			$templateModule = $sourceModule;
 		}
 		[$recordsNumber, $duplicates, $emailsByField, $emails] = $this->getStatistics($request);

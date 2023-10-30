@@ -47,13 +47,7 @@
     "LBL_SKIP_YEAR_DESC": "Skip the year of the event by only considering the month and day.",
     "LBL_WIDGET_NAME": "Widget name",
     "BTN_NEXT": "Next",
-    "LBL_DEFAULT_TIME": "Default call end time (min)",
-    "LBL_MOVE": "Move",
-    "LBL_TRANSFER": "Transfer",
-    "LBL_SAVED_SUCCESSFULLY": "Saved successfully",
-    "LBL_NOT_SAVED": "Your changes could not be saved",
-    "LBL_SELECT_BASE_MODULE_FILTER": "Select base module filter",
-    "LBL_SELECT_CUSTOM_FILTERS": "Select additional filter fields"
+    "LBL_DEFAULT_TIME": "Default call end time (min)"
   },
   "js": {
     "JS_BLOCK_ADDED": "Block has been added successfully",
@@ -61,7 +55,6 @@
     "JS_CUSTOM_BLOCK_DELETED": "Block has been deleted successfully",
     "JS_WIDGET_ADDED": "Widget has been added successfully",
     "JS_FIELD_EMPTY": "The field cannot be empty",
-    "JS_FILTERS_AVAILABLE": "Filters available",
-    "JS_SELECT_AT_LEAST_ONE_WIDGET": "Select at least one widget"
+    "JS_FILTERS_AVAILABLE": "Filters available"
   }
 }

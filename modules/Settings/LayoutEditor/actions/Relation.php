@@ -22,7 +22,6 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$this->exposeMethod('removeRelation');
 		$this->exposeMethod('updateRelatedViewType');
 		$this->exposeMethod('updateCustomView');
-		$this->exposeMethod('updateCustomViewOrderBy');
 		Settings_Vtiger_Tracker_Model::addBasic('save');
 	}
 
@@ -93,47 +92,20 @@ class Settings_LayoutEditor_Relation_Action extends Settings_Vtiger_Index_Action
 		$response->emit();
 	}
 
-	/**
-	 * Update relation custom view orderby.
-	 *
-	 * @param App\Request $request
-	 *
-	 * @return void
-	 */
-	public function updateCustomViewOrderBy(App\Request $request): void
-	{
-		$relationId = $request->getInteger('relationId');
-		$orderBy = $request->getBoolean('orderby');
-		$response = new Vtiger_Response();
-		try {
-			Vtiger_Relation_Model::updateRelationCustomViewOrderBy($relationId, $orderBy);
-			$response->setResult(['success' => true, 'message' => \App\Language::translate('LBL_CHANGES_SAVED', $request->getModule())]);
-		} catch (Exception $e) {
-			$response->setError($e->getCode(), $e->getMessage());
-		}
-		$response->emit();
-	}
-
 	public function addRelation(App\Request $request)
 	{
-		$fieldName = null;
-		$source = $request->getByType('source', App\Purifier::ALNUM);
-		$target = $request->getByType('target', App\Purifier::ALNUM);
-		$label = $request->getByType('label', App\Purifier::TEXT);
-		$type = $request->getByType('type', App\Purifier::STANDARD);
-
-		if ($request->has('multi_reference_field')) {
-			$referenceFieldValues = $request->getExploded('multi_reference_field', '::', App\Purifier::ALNUM);
-			$target = $referenceFieldValues[0];
-			$fieldName = $referenceFieldValues[1];
-		}
+		$source = $request->getByType('source', 'Alnum');
+		$target = $request->getByType('target', 'Alnum');
+		$label = $request->getByType('label', 'Text');
+		$type = $request->getByType('type', 'Standard');
 		$response = new Vtiger_Response();
+
 		if ('getAttachments' === $type && 'Documents' !== $target) {
 			$response->setResult(['success' => false, 'message' => \App\Language::translate('LBL_WRONG_RELATION', 'Settings::LayoutEditor')]);
 		} else {
 			$module = vtlib\Module::getInstance($source);
 			$moduleInstance = vtlib\Module::getInstance($target);
-			$module->setRelatedList($moduleInstance, $label, $request->getArray('actions', 'Standard'), $type, $fieldName);
+			$module->setRelatedList($moduleInstance, $label, $request->getArray('actions', 'Standard'), $type);
 			$response->setResult(['success' => true]);
 		}
 		$response->emit();

@@ -6,7 +6,7 @@
  * @package UIType
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -35,6 +35,18 @@ class DateField extends BaseField
 		}
 		Log::error("Not found operator: $fn in  " . __CLASS__);
 		return false;
+	}
+
+	/**
+	 * Custom operator.
+	 *
+	 * @return bool
+	 */
+	public function operatorCustom()
+	{
+		[$startDate, $endDate] = explode(',', $this->value);
+		$dateValue = date('Y-m-d', strtotime($this->getValue()));
+		return ($dateValue >= date('Y-m-d', strtotime($startDate))) && ($dateValue <= date('Y-m-d', strtotime($endDate)));
 	}
 
 	/**
@@ -375,9 +387,7 @@ class DateField extends BaseField
 	 */
 	public function operatorBw()
 	{
-		[$startDate, $endDate] = explode(',', $this->value);
-		$dateValue = date('Y-m-d', strtotime($this->getValue()));
-		return ($dateValue >= date('Y-m-d', strtotime($startDate))) && ($dateValue <= date('Y-m-d', strtotime($endDate)));
+		return $this->operatorCustom();
 	}
 
 	/**

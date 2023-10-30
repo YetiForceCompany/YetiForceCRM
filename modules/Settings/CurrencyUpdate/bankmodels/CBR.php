@@ -1,7 +1,7 @@
 <?php
 /**
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Maciej Stencel <m.stencel@yetiforce.com>
  */
 
@@ -31,13 +31,9 @@ class Settings_CurrencyUpdate_CBR_BankModel extends Settings_CurrencyUpdate_Abst
 		$supportedCurrencies = [];
 		$supportedCurrencies[Settings_CurrencyUpdate_Module_Model::getCRMCurrencyName($this->getMainCurrencyCode())] = $this->getMainCurrencyCode();
 		$source = $this->getSource();
-
-		$original = ini_get('default_socket_timeout');
-		ini_set('default_socket_timeout', 10);
 		$client = new \SoapClient($source[0], \App\RequestHttp::getSoapOptions());
 		$curs = $client->GetCursOnDate(['On_date' => date('Y-m-d')]);
 		$ratesXml = new \SimpleXMLElement($curs->GetCursOnDateResult->any);
-		ini_set('default_socket_timeout', $original);
 
 		foreach ($ratesXml->ValuteData[0] as $currency) {
 			$currencyCode = (string) $currency->VchCode;
@@ -79,13 +75,9 @@ class Settings_CurrencyUpdate_CBR_BankModel extends Settings_CurrencyUpdate_Abst
 
 		$dateCur = $dateParam;
 		$source = $this->getSource();
-
-		$original = ini_get('default_socket_timeout');
-		ini_set('default_socket_timeout', 10);
 		$client = new \SoapClient($source[0], \App\RequestHttp::getSoapOptions());
 		$curs = $client->GetCursOnDate(['On_date' => $dateCur]);
 		$ratesXml = new \SimpleXMLElement($curs->GetCursOnDateResult->any);
-		ini_set('default_socket_timeout', $original);
 
 		$datePublicationOfFile = $dateCur;
 

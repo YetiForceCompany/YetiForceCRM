@@ -6,7 +6,7 @@
  * @package   View
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -21,7 +21,7 @@ class Calendar_EventForm_View extends Vtiger_QuickCreateAjax_View
 		if ($request->has('record')) {
 			$this->recordModel = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			if (!$this->recordModel->isEditable()
-				|| (true === $request->getBoolean('isDuplicate') && (!$this->recordModel->isCreatable() || !$this->recordModel->isPermitted('ActivityPostponed')))
+				|| (true === $request->getBoolean('isDuplicate') && (!$this->recordModel->isCreateable() || !$this->recordModel->isPermitted('ActivityPostponed')))
 			) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}

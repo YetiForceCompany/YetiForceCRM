@@ -5,7 +5,7 @@
  * @package Tests
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -41,6 +41,6 @@ class Utils extends \Tests\Base
 	 */
 	public function testCompletions(): void
 	{
-		$this->assertSame('<img src="file.php?module=Documents&action=DownloadFile&record=448&fileid=19&show=true" width="" height=""/>', \App\Utils\Completions::decodeCustomTag('<yetiforce type="Documents" crm-id="448" attachment-id="19"></yetiforce>'));
+		$this->assertSame('<img src="file.php?module=Documents&action=DownloadFile&record=448&fileid=19&show=true" />', \App\Utils\Completions::decodeCustomTag('<yetiforce type="Documents" crm-id="448" attachment-id="19"></yetiforce>'));
 	}
 }

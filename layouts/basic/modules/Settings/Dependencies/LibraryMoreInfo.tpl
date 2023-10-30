@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-Dependencies-LibraryMoreInfo -->
 	<div class="modal-header">
@@ -13,7 +13,7 @@
 	<div class="modal-body col-md-12">
 		{if $RESULT}
 			<code>
-				<pre>{$FILE_CONTENT|escape}</pre>
+				<pre>{$FILE_CONTENT}</pre>
 			</code>
 		{else}
 			<div class="alert alert-danger" role="alert">

@@ -7,7 +7,7 @@
  * @see https://github.com/php-webdriver/php-webdriver
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -113,7 +113,7 @@ abstract class GuiBase extends TestCase
 			'getPageSource' => $this->driver->getPageSource(),
 		];
 		$this->driver->findElement(WebDriverBy::id('username'))->sendKeys('demo');
-		$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassword);
+		$this->driver->findElement(WebDriverBy::id('password'))->sendKeys(\Tests\Base\A_User::$defaultPassrowd);
 		$this->driver->findElement(WebDriverBy::tagName('form'))->submit();
 		$this->isLogin = true;
 	}

@@ -4,7 +4,7 @@
  *
  * @package App
  *
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @copyright YetiForce S.A.
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -604,54 +604,6 @@ class Purifier
 	public static function decodeHtml($string)
 	{
 		return html_entity_decode($string, ENT_QUOTES, static::$defaultCharset);
-	}
-
-	/**
-	 * Purify multi dimension array.
-	 *
-	 * @param mixed        $values
-	 * @param array|string $template
-	 *
-	 * @throws \App\Exceptions\IllegalValue
-	 *
-	 * @return mixed
-	 */
-	public static function purifyMultiDimensionArray($values, $template)
-	{
-		if (\is_array($template)) {
-			foreach ($values as $firstKey => $value) {
-				if (\is_array($value)) {
-					if (1 === \count($template)) {
-						$template = current($template);
-					}
-					foreach ($value as $secondKey => $val) {
-						$tempTemplate = $template;
-						if (isset($template[$firstKey])) {
-							$tempTemplate = $template[$firstKey];
-						}
-						if (1 === \count($tempTemplate)) {
-							$tempTemplate = current($tempTemplate);
-						} elseif (!isset($tempTemplate[$secondKey])) {
-							throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$secondKey}", 406);
-						} else {
-							$tempTemplate = $tempTemplate[$secondKey];
-						}
-						$values[$firstKey][$secondKey] = self::purifyMultiDimensionArray($val, $tempTemplate);
-					}
-				} else {
-					if (\is_array($template) && 1 === \count($template)) {
-						$values[$firstKey] = self::purifyMultiDimensionArray($value, current($template));
-					} elseif (isset($template[$firstKey])) {
-						$values[$firstKey] = self::purifyMultiDimensionArray($value, $template[$firstKey]);
-					} else {
-						throw new Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$firstKey}||" . print_r($template, true), 406);
-					}
-				}
-			}
-		} else {
-			$values = empty($values) ? $values : ($template ? self::purifyByType($values, $template) : self::purify($values));
-		}
-		return $values;
 	}
 }
 

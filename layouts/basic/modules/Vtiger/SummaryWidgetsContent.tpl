@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var=IS_INVENTORY value=($RELATED_MODULE->isInventory() && !empty($INVENTORY_FIELDS))}
 	{if !$TYPE_VIEW || $TYPE_VIEW eq 'List'}
@@ -63,7 +63,7 @@
 							<td class="{$WIDTHTYPE} text-left" data-field-type="rel_created_user"
 								nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
 						{/if}
-						{if $SHOW_COMMENT && isset($RELATED_RECORD->get('rel_comment'))}
+						{if $SHOW_COMMENT}
 							<td class="{$WIDTHTYPE} text-left" data-field-type="rel_comment" nowrap>
 								{if strlen($RELATED_RECORD->get('rel_comment')) > App\Config::relation('COMMENT_MAX_LENGTH')}
 									<a class="js-popover-tooltip" data-js="popover" data-placement="top"
@@ -242,7 +242,7 @@
 							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_created_user"
 								nowrap>{\App\Fields\Owner::getLabel($RELATED_RECORD->get('rel_created_user'))}</td>
 						{/if}
-						{if $SHOW_COMMENT && isset($RELATED_RECORD->get('rel_comment'))}
+						{if $SHOW_COMMENT}
 							<td class="{$WIDTHTYPE} text-center" data-field-type="rel_comment" nowrap>
 								{if strlen($RELATED_RECORD->get('rel_comment')) > App\Config::relation('COMMENT_MAX_LENGTH')}
 									<a class="js-popover-tooltip" data-js="popover" data-placement="top"

@@ -271,8 +271,8 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		}
 		$queryGenerator = new \App\QueryGenerator('ModComments');
 		$queryGenerator->setFields(array_merge(array_keys(\App\Field::getModuleFieldInfosByPresence('ModComments')), ['id']));
-		// Condition are directly added as query_generator transforms the
-		// reference field and searches their entity names
+		//Condition are directly added as query_generator transforms the
+		//reference field and searches their entity names
 		$queryGenerator->addNativeCondition(['parent_comments' => $parentCommentId, 'related_to' => $this->get('related_to')]);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$recordInstances = [];
@@ -394,10 +394,11 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		if ($this->privilegeToArchive()) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_ARCHIVE_RECORD',
+				'title' => \App\Language::translate('LBL_ARCHIVE_RECORD'),
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Archived&sourceView=List&record=' . $this->getId(),
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_ARCHIVE_RECORD_DESC'), 'source-view' => 'DetailTab'],
 				'linkicon' => 'fas fa-archive',
-				'linkclass' => 'btn-md m-0 px-1 py-0 js-record-action',
+				'linkclass' => 'btn-md m-0 px-1 py-0 js-action-confirm',
 				'style' => empty($stateColors['Archived']) ? '' : "color: {$stateColors['Archived']};",
 				'showLabel' => false,
 			]);
@@ -405,10 +406,11 @@ class ModComments_Record_Model extends Vtiger_Record_Model
 		if ($this->privilegeToMoveToTrash()) {
 			$links[] = Vtiger_Link_Model::getInstanceFromValues([
 				'linklabel' => 'LBL_MOVE_TO_TRASH',
+				'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
 				'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=State&state=Trash&sourceView=List&record=' . $this->getId(),
 				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC'), 'source-view' => 'DetailTab'],
 				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn-md text-danger m-0 px-1 py-0 js-record-action',
+				'linkclass' => 'btn-md text-danger m-0 px-1 py-0 js-action-confirm',
 				'showLabel' => false,
 			]);
 		}

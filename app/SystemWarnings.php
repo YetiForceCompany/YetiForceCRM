@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -55,9 +55,9 @@ class SystemWarnings
 	 * @param array $folders
 	 * @param mixed $active
 	 *
-	 * @return \App\SystemWarnings\Template[]
+	 * @return array
 	 */
-	public static function getWarnings($folders, $active = true): array
+	public static function getWarnings($folders, $active = true)
 	{
 		if (empty($folders)) {
 			return [];
@@ -92,6 +92,7 @@ class SystemWarnings
 			}
 		}
 		krsort($actions);
+
 		return $actions;
 	}
 }

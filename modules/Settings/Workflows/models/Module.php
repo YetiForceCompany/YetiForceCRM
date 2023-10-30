@@ -18,24 +18,6 @@ require_once 'modules/com_vtiger_workflow/expression_engine/VTExpressionsManager
 class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 {
 	/**
-	 * Workflow triggers list.
-	 *
-	 * @var string[]
-	 */
-	public const TRIGGER_TYPES = [
-		1 => 'ON_FIRST_SAVE',
-		4 => 'ON_MODIFY',
-		3 => 'ON_EVERY_SAVE',
-		2 => 'ONCE',
-		5 => 'ON_DELETE',
-		6 => 'ON_SCHEDULE',
-		7 => 'MANUAL',
-		8 => 'TRIGGER',
-		9 => 'BLOCK_EDIT',
-		// 10 => 'ON_RELATED',
-		VTWorkflowManager::TOKEN_LINK => 'TOKEN_LINK',
-	];
-	/**
 	 * Base table name.
 	 *
 	 * @var string
@@ -83,6 +65,24 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 * @var string
 	 */
 	public $name = 'Workflows';
+
+	/**
+	 * Workflow triggers list.
+	 *
+	 * @var array
+	 */
+	public static $triggerTypes = [
+		1 => 'ON_FIRST_SAVE',
+		4 => 'ON_MODIFY',
+		3 => 'ON_EVERY_SAVE',
+		2 => 'ONCE',
+		5 => 'ON_DELETE',
+		6 => 'ON_SCHEDULE',
+		7 => 'MANUAL',
+		8 => 'TRIGGER',
+		9 => 'BLOCK_EDIT',
+		//10 => 'ON_RELATED',
+	];
 
 	/**
 	 * Function to get the url for default view of the module.
@@ -142,6 +142,16 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	}
 
 	/**
+	 * Get supported triggers list.
+	 *
+	 * @return array
+	 */
+	public static function getTriggerTypes()
+	{
+		return self::$triggerTypes;
+	}
+
+	/**
 	 * Get expressions list.
 	 *
 	 * @return array
@@ -156,7 +166,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	/** {@inheritdoc} */
 	public function getListFields(): array
 	{
-		if (!isset($this->listFieldModels)) {
+		if (!property_exists($this, 'listFieldModels')) {
 			$fields = $this->listFields;
 			$fieldObjects = [];
 			$fieldsNoSort = ['module_name', 'execution_condition', 'all_tasks', 'active_tasks'];
@@ -247,7 +257,7 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 		if (!$this->checkPathForImportMethod($functionPath)) {
 			throw new \App\Exceptions\Security('ERR_NOT_ALLOWED_VALUE||function_path', 406);
 		}
-		if (!preg_match('/^<\\?php/', $scriptData)) {
+		if (!\preg_match('/^<\\?php/', $scriptData)) {
 			throw new \App\Exceptions\Security('ERR_NOT_ALLOWED_VALUE||script_content', 406);
 		}
 		if (!file_exists($functionPath)) {
@@ -291,8 +301,8 @@ class Settings_Workflows_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function checkPathForImportMethod(string $path): bool
 	{
-		if ($returnVal = preg_match('/^modules[\\\\|\\/]([A-Z][a-z,A-Z]+)[\\\\|\\/]workflows[\\\\|\\/][A-Z][a-z,A-Z]+\\.php$/', $path, $match)) {
-			// Check if the module exists
+		if ($returnVal = \preg_match('/^modules[\\\\|\\/]([A-Z][a-z,A-Z]+)[\\\\|\\/]workflows[\\\\|\\/][A-Z][a-z,A-Z]+\\.php$/', $path, $match)) {
+			//Check if the module exists
 			$returnVal = false !== \vtlib\Module::getInstance($match[1]);
 		}
 		return $returnVal;

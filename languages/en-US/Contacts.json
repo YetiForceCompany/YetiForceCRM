@@ -48,6 +48,7 @@
     "FL_GENDER": "Gender",
     "PLL_WOMAN": "Woman",
     "PLL_MAN": "Man",
+    "LBL_DUPLICATE_EMAIL_ADDRESS": "A contact with this email address already exists in the system.",
     "History": "History",
     "Overdue Activities": "Overdue activities"
   },

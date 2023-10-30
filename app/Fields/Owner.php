@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -453,11 +453,10 @@ class Owner
 	 * @param bool       $view
 	 * @param bool|array $conditions
 	 * @param string     $fieldName
-	 * @param bool       $onlyActive
 	 *
 	 * @return array
 	 */
-	public function getUsersAndGroupForModuleList($view = false, $conditions = false, string $fieldName = 'assigned_user_id', bool $onlyActive = false)
+	public function getUsersAndGroupForModuleList($view = false, $conditions = false, $fieldName = 'assigned_user_id')
 	{
 		$queryGenerator = new \App\QueryGenerator($this->moduleName, $this->currentUser->getId());
 		if ($view) {
@@ -475,9 +474,7 @@ class Owner
 		$queryGenerator->clearFields();
 		if (false !== strpos($fieldName, ':')) {
 			$queryField = $queryGenerator->getQueryRelatedField($fieldName);
-			$queryGenerator->setFields([])
-				->setCustomColumn($queryField->getColumnName())
-				->addRelatedJoin($queryField->getRelated());
+			$queryGenerator->setFields([])->setCustomColumn($queryField->getColumnName())->addRelatedJoin($queryField->getRelated());
 		} else {
 			$queryGenerator->setFields([$fieldName]);
 		}
@@ -487,9 +484,6 @@ class Owner
 			$userModel = \App\User::getUserModel($id);
 			$name = $userModel->getName();
 			if (!empty($name) && ($adminInList || (!$adminInList && !$userModel->isAdmin()))) {
-				if ($onlyActive && !$userModel->isActive()) {
-					continue;
-				}
 				$users[$id] = $name;
 				if ($this->showRoleName) {
 					$roleName = \App\Language::translate($userModel->getRoleInstance()->getName());
@@ -506,6 +500,7 @@ class Owner
 				}
 			}
 		}
+
 		return ['users' => $users, 'group' => $groups];
 	}
 
@@ -881,46 +876,5 @@ class Owner
 				}
 			}
 		}
-	}
-
-	/**
-	 * Get record link and label.
-	 *
-	 * @param int         $id
-	 * @param string|null $moduleName
-	 * @param int|null    $length
-	 * @param bool        $fullUrl
-	 *
-	 * @return string
-	 */
-	public static function getHtmlLink(int $id, ?string $moduleName = null, ?int $length = null, bool $fullUrl = false): string
-	{
-		$label = $id ? self::getUserLabel($id) : '';
-		if (empty($label)) {
-			return '<i class="color-red-500" title="' . $id . '">' . \App\Language::translate('LBL_RECORD_DOES_NOT_EXIST') . '</i>';
-		}
-		if (null !== $length) {
-			$label = \App\TextUtils::textTruncate($label, $length);
-		}
-		if (!\App\User::getCurrentUserModel()->isAdmin()) {
-			return $label;
-		}
-		if (empty($moduleName)) {
-			$moduleName = self::getType($id);
-		}
-		if ('Users' !== $moduleName) {
-			return $label;
-		}
-		$userModel = \App\User::getUserModel($id);
-		if (!$userModel->isActive()) {
-			$label = '<s>' . $label . '</s>';
-		}
-		$recordModel = \Users_Record_Model::getCleanInstance('Users');
-		$recordModel->setId($id);
-		$url = $recordModel->getDetailViewUrl($id);
-		if ($fullUrl) {
-			$url = \Config\Main::$site_URL . $url;
-		}
-		return "<a class=\"modCT_{$moduleName} showReferenceTooltip js-popover-tooltip--record\" href=\"{$url}\">$label</a>";
 	}
 }

@@ -6,9 +6,8 @@
  * @package Action
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Mail_Action extends \App\Controller\Action
 {
@@ -24,10 +23,6 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 	 */
 	public function checkPermission(App\Request $request)
 	{
-		$moduleModel = \Vtiger_Module_Model::getInstance($request->getModule());
-		if (!$moduleModel || !$moduleModel->isPermitted('MassComposeEmail') || !App\Config::main('isActiveSendingMails') || !App\Mail::getDefaultSmtp()) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED', 406);
-		}
 		if (!$request->isEmpty('sourceRecord') && !\App\Privilege::isPermitted($request->getByType('sourceModule', 2), 'DetailView', $request->getInteger('sourceRecord'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
@@ -39,7 +34,26 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 	public function __construct()
 	{
 		parent::__construct();
+		$this->exposeMethod('checkSmtp');
 		$this->exposeMethod('sendMails');
+	}
+
+	/**
+	 * Check if smtps are active.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return void
+	 */
+	public function checkSmtp(App\Request $request): void
+	{
+		$result = false;
+		if (App\Config::main('isActiveSendingMails')) {
+			$result = !empty(App\Mail::getAll());
+		}
+		$response = new Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
 	}
 
 	/**
@@ -71,7 +85,7 @@ class Vtiger_Mail_Action extends \App\Controller\Action
 			}
 			foreach ($emails as $email => $ids) {
 				$id = current($ids);
-				if (isset(\App\TextParser::SOURCE_MODULES[$sourceModule]) && \in_array($moduleName, \App\TextParser::SOURCE_MODULES[$sourceModule])) {
+				if (isset(\App\TextParser::$sourceModules[$sourceModule]) && \in_array($moduleName, \App\TextParser::$sourceModules[$sourceModule])) {
 					$extraParams = [
 						'moduleName' => $sourceModule,
 						'recordId' => $sourceRecord,

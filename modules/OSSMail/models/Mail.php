@@ -5,7 +5,7 @@
  * @package Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -110,6 +110,7 @@ class OSSMail_Mail_Model extends \App\Base
 	{
 		if (isset($this->mailType)) {
 			if ($returnText) {
+				$cacheKey = 'Received';
 				switch ($this->mailType) {
 					case 0:
 						$cacheKey = 'Sent';
@@ -117,28 +118,26 @@ class OSSMail_Mail_Model extends \App\Base
 					case 2:
 						$cacheKey = 'Internal';
 						break;
-					default:
-						$cacheKey = 'Received';
-						break;
 				}
+				return $cacheKey;
 			}
-			return $returnText ? $cacheKey : $this->mailType;
+			return $this->mailType;
 		}
+		$account = $this->getAccount();
 		$fromEmailUser = $this->findEmailUser($this->get('from_email'));
-		$existIdentity = false;
-		foreach (OSSMailScanner_Record_Model::getIdentities($this->getAccount()['user_id']) as $identity) {
-			if ($identity['email'] == $this->get('from_email')) {
-				$existIdentity = true;
+		$toEmailUser = $this->findEmailUser($this->get('to_email'));
+		$ccEmailUser = $this->findEmailUser($this->get('cc_email'));
+		$bccEmailUser = $this->findEmailUser($this->get('bcc_email'));
+		$existIdentitie = false;
+		foreach (OSSMailScanner_Record_Model::getIdentities($account['user_id']) as $identitie) {
+			if ($identitie['email'] == $this->get('from_email')) {
+				$existIdentitie = true;
 			}
 		}
-		if ($fromEmailUser && (
-			$this->findEmailUser($this->get('to_email'))
-			|| $this->findEmailUser($this->get('cc_email'))
-			|| $this->findEmailUser($this->get('bcc_email'))
-			)) {
+		if ($fromEmailUser && ($toEmailUser || $ccEmailUser || $bccEmailUser)) {
 			$key = 2;
 			$cacheKey = 'Internal';
-		} elseif ($existIdentity || $fromEmailUser) {
+		} elseif ($existIdentitie || $fromEmailUser) {
 			$key = 0;
 			$cacheKey = 'Sent';
 		} else {
@@ -146,7 +145,10 @@ class OSSMail_Mail_Model extends \App\Base
 			$cacheKey = 'Received';
 		}
 		$this->mailType = $key;
-		return $returnText ? $cacheKey : $key;
+		if ($returnText) {
+			return $cacheKey;
+		}
+		return $key;
 	}
 
 	/**
@@ -158,9 +160,8 @@ class OSSMail_Mail_Model extends \App\Base
 	 */
 	public static function findEmailUser($emails)
 	{
-		$notFound = null;
+		$notFound = 0;
 		if (!empty($emails)) {
-			$notFound = 0;
 			foreach (explode(',', $emails) as $email) {
 				if (!\Users_Module_Model::checkMailExist($email)) {
 					++$notFound;

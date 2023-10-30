@@ -60,126 +60,13 @@ class Accounts extends CRMEntity
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['assigned_user_id', 'createdtime', 'modifiedtime', 'accountname'];
-	// Default Fields for Email Templates -- Pavani
+	//Default Fields for Email Templates -- Pavani
 	public $emailTemplate_defaultFields = ['accountname', 'account_type', 'industry', 'annualrevenue', 'phone', 'email1', 'rating', 'website', 'fax'];
-	// Added these variables which are used as default order by and sortorder in ListView
+	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 	// For Alphabetical search
 	public $def_basicsearch_col = 'accountname';
-
-	/**
-	 * Function to Recursively get all the upper accounts of a given Account.
-	 *
-	 * @param int   $id                  - accountid
-	 * @param array $parentAccounts      - Array of all the parent accounts
-	 *                                   returns All the parent accounts of the given accountid in array format
-	 * @param mixed $encounteredAccounts
-	 * @param mixed $depthBase
-	 * @param array $hierarchyFields
-	 */
-	public function __getParentAccounts($id, &$parentAccounts, &$encounteredAccounts, $depthBase = 0, $hierarchyFields = [])
-	{
-		\App\Log::trace('Entering __getParentAccounts(' . $id . ') method ...');
-		if ($depthBase == App\Config::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
-			\App\Log::error('Exiting __getParentAccounts method ... - exceeded maximum depth of hierarchy');
-			return $parentAccounts;
-		}
-		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
-		$row = (new App\Db\Query())->select(['vtiger_account.*', 'vtiger_accountaddress.*', 'user_name' => new \yii\db\Expression('CASE when (vtiger_users.user_name not like ' . App\Db::getInstance()->quoteValue('') . ") THEN $userNameSql ELSE vtiger_groups.groupname END")])
-			->from('vtiger_account')
-			->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
-			->innerJoin('vtiger_accountaddress', 'vtiger_accountaddress.accountaddressid = vtiger_account.accountid')
-			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
-			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
-			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_account.accountid' => $id])->one();
-		if ($row) {
-			$parentId = $row['parentid'];
-			if ('' != $parentId && 0 != $parentId && !\in_array($parentId, $encounteredAccounts)) {
-				$encounteredAccounts[] = $parentId;
-				$this->__getParentAccounts($parentId, $parentAccounts, $encounteredAccounts, $depthBase + 1, $hierarchyFields);
-			}
-			$parentAccountInfo = [];
-			$depth = 0;
-			if (isset($parentAccounts[$parentId])) {
-				$depth = $parentAccounts[$parentId]['depth'] + 1;
-			}
-			$parentAccountInfo['depth'] = $depth;
-			foreach ($hierarchyFields as &$field) {
-				$fieldName = $field['fieldname'];
-
-				if ('assigned_user_id' == $fieldName) {
-					$parentAccountInfo[$fieldName] = $row['user_name'];
-				} elseif ('shownerid' == $fieldName) {
-					$sharedOwners = \App\Fields\SharedOwner::getById($row['accountid']);
-					if (!empty($sharedOwners)) {
-						$sharedOwners = implode(',', array_map('\App\Fields\Owner::getLabel', $sharedOwners));
-						$parentAccountInfo[$fieldName] = $sharedOwners;
-					}
-				} else {
-					$parentAccountInfo[$fieldName] = $row[$field['columnname']];
-				}
-			}
-			$parentAccounts[$id] = $parentAccountInfo;
-		}
-		\App\Log::trace('Exiting __getParentAccounts method ...');
-		return $parentAccounts;
-	}
-
-	/**
-	 * Function to Recursively get all the child accounts of a given Account.
-	 *
-	 * @param int   $id              - accountid
-	 * @param array $childAccounts   - Array of all the child accounts
-	 * @param int   $depth           - Depth at which the particular account has to be placed in the hierarchy
-	 *                               returns All the child accounts of the given accountid in array format
-	 * @param mixed $depthBase
-	 * @param array $hierarchyFields
-	 */
-	public function __getChildAccounts($id, &$childAccounts, $depthBase, $hierarchyFields = [])
-	{
-		\App\Log::trace('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
-		if (empty($id) || $depthBase == App\Config::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
-			\App\Log::error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
-			return $childAccounts;
-		}
-
-		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
-		$dataReader = (new App\Db\Query())
-			->select(['vtiger_account.*', 'vtiger_accountaddress.*', 'user_name' => new \yii\db\Expression('CASE when (vtiger_users.user_name not like ' . App\Db::getInstance()->quoteValue('') . ") THEN $userNameSql ELSE vtiger_groups.groupname END")])
-			->from('vtiger_account')
-			->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
-			->innerJoin('vtiger_accountaddress', 'vtiger_account.accountid = vtiger_accountaddress.accountaddressid')
-			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
-			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
-			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_account.parentid' => $id])->createCommand()->query();
-		if ($dataReader->count() > 0) {
-			$depth = $depthBase + 1;
-			while ($row = $dataReader->read()) {
-				$childAccId = $row['accountid'];
-				$childAccountInfo = [];
-				$childAccountInfo['depth'] = $depth;
-				foreach ($hierarchyFields as &$field) {
-					$fieldName = $field['fieldname'];
-					if ('assigned_user_id' == $fieldName) {
-						$childAccountInfo[$fieldName] = $row['user_name'];
-					} elseif ('shownerid' == $fieldName) {
-						$sharedOwners = \App\Fields\SharedOwner::getById($childAccId);
-						if (!empty($sharedOwners)) {
-							$sharedOwners = implode(',', array_map('\App\Fields\Owner::getLabel', $sharedOwners));
-							$childAccountInfo[$fieldName] = $sharedOwners;
-						}
-					} else {
-						$childAccountInfo[$fieldName] = $row[$field['columnname']];
-					}
-				}
-				$childAccounts[$childAccId] = $childAccountInfo;
-				$this->__getChildAccounts($childAccId, $childAccounts[$childAccId], $depth, $hierarchyFields);
-			}
-		}
-		\App\Log::trace('Exiting __getChildAccounts method ...');
-		return $childAccounts;
-	}
 
 	/**
 	 * Function to get the relation tables for related modules.
@@ -224,7 +111,6 @@ class Accounts extends CRMEntity
 			$listColumns = $this->list_fields_name;
 		}
 
-		$accountsList = [];
 		$hierarchyFields = [];
 		foreach ($listColumns as $fieldLabel => $fieldName) {
 			if (\App\Field::getFieldPermission('Accounts', $fieldName)) {
@@ -233,15 +119,17 @@ class Accounts extends CRMEntity
 			$field = \App\Field::getFieldInfo($fieldName, 'Accounts');
 			$hierarchyFields[] = $field;
 		}
+		$this->hierarchyFields = $hierarchyFields;
+		$accountsList = [];
 
 		// Get the accounts hierarchy from the top most account in the hierarch of the current account, including the current account
 		$encounteredAccounts = [$id];
-		$accountsList = $this->__getParentAccounts($id, $accountsList, $encounteredAccounts, 0, $hierarchyFields);
+		$accountsList = $this->__getParentAccounts($id, $accountsList, $encounteredAccounts);
 		$baseId = current(array_keys($accountsList));
 		$accountsList = [$baseId => $accountsList[$baseId] ?? []];
 		// Get the accounts hierarchy (list of child accounts) based on the current account
-		$accountsList[$baseId] = $this->__getChildAccounts($baseId, $accountsList[$baseId], $accountsList[$baseId]['depth'], $hierarchyFields);
-		$this->getHierarchyData($id, $accountsList[$baseId], $baseId, $listViewEntries, $hierarchyFields);
+		$accountsList[$baseId] = $this->__getChildAccounts($baseId, $accountsList[$baseId], $accountsList[$baseId]['depth']);
+		$this->getHierarchyData($id, $accountsList[$baseId], $baseId, $listViewEntries);
 		\App\Log::trace('Exiting getAccountHierarchy method ...');
 		return ['header' => $listViewHeader, 'entries' => $listViewEntries];
 	}
@@ -254,14 +142,12 @@ class Accounts extends CRMEntity
 	 * @param int   $accountId       - accountid
 	 * @param array $listViewEntries
 	 *                               returns All the parent accounts of the given accountid in array format
-	 * @param array $hierarchyFields
 	 */
-	public function getHierarchyData($id, $accountInfoBase, $accountId, &$listViewEntries, $hierarchyFields = [])
+	public function getHierarchyData($id, $accountInfoBase, $accountId, &$listViewEntries)
 	{
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $accountId . ') method ...');
 		$hasRecordViewAccess = \App\Privilege::isPermitted('Accounts', 'DetailView', $accountId);
-		$accountInfoData = [];
-		foreach ($hierarchyFields as &$field) {
+		foreach ($this->hierarchyFields as &$field) {
 			$fieldName = $field['fieldname'];
 			$rawData = '';
 			// Permission to view account is restricted, avoid showing field values (except account name)
@@ -292,12 +178,123 @@ class Accounts extends CRMEntity
 		if (\is_array($accountInfoBase)) {
 			foreach ($accountInfoBase as $accId => $accountInfo) {
 				if (\is_array($accountInfo) && (int) $accId) {
-					$listViewEntries = $this->getHierarchyData($id, $accountInfo, $accId, $listViewEntries, $hierarchyFields);
+					$listViewEntries = $this->getHierarchyData($id, $accountInfo, $accId, $listViewEntries);
 				}
 			}
 		}
 		\App\Log::trace('Exiting getHierarchyData method ...');
 
 		return $listViewEntries;
+	}
+
+	/**
+	 * Function to Recursively get all the upper accounts of a given Account.
+	 *
+	 * @param int   $id                  - accountid
+	 * @param array $parentAccounts      - Array of all the parent accounts
+	 *                                   returns All the parent accounts of the given accountid in array format
+	 * @param mixed $encounteredAccounts
+	 * @param mixed $depthBase
+	 */
+	public function __getParentAccounts($id, &$parentAccounts, &$encounteredAccounts, $depthBase = 0)
+	{
+		\App\Log::trace('Entering __getParentAccounts(' . $id . ') method ...');
+		if ($depthBase == App\Config::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
+			\App\Log::error('Exiting __getParentAccounts method ... - exceeded maximum depth of hierarchy');
+			return $parentAccounts;
+		}
+		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
+		$row = (new App\Db\Query())->select(['vtiger_account.*', 'vtiger_accountaddress.*', 'user_name' => new \yii\db\Expression('CASE when (vtiger_users.user_name not like ' . App\Db::getInstance()->quoteValue('') . ") THEN $userNameSql ELSE vtiger_groups.groupname END")])
+			->from('vtiger_account')
+			->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_accountaddress', 'vtiger_accountaddress.accountaddressid = vtiger_account.accountid')
+			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
+			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_account.accountid' => $id])->one();
+		if ($row) {
+			$parentId = $row['parentid'];
+			if ('' != $parentId && 0 != $parentId && !\in_array($parentId, $encounteredAccounts)) {
+				$encounteredAccounts[] = $parentId;
+				$this->__getParentAccounts($parentId, $parentAccounts, $encounteredAccounts, $depthBase + 1);
+			}
+			$parentAccountInfo = [];
+			$depth = 0;
+			if (isset($parentAccounts[$parentId])) {
+				$depth = $parentAccounts[$parentId]['depth'] + 1;
+			}
+			$parentAccountInfo['depth'] = $depth;
+			foreach ($this->hierarchyFields as &$field) {
+				$fieldName = $field['fieldname'];
+
+				if ('assigned_user_id' == $fieldName) {
+					$parentAccountInfo[$fieldName] = $row['user_name'];
+				} elseif ('shownerid' == $fieldName) {
+					$sharedOwners = \App\Fields\SharedOwner::getById($row['accountid']);
+					if (!empty($sharedOwners)) {
+						$sharedOwners = implode(',', array_map('\App\Fields\Owner::getLabel', $sharedOwners));
+						$parentAccountInfo[$fieldName] = $sharedOwners;
+					}
+				} else {
+					$parentAccountInfo[$fieldName] = $row[$field['columnname']];
+				}
+			}
+			$parentAccounts[$id] = $parentAccountInfo;
+		}
+		\App\Log::trace('Exiting __getParentAccounts method ...');
+		return $parentAccounts;
+	}
+
+	/**
+	 * Function to Recursively get all the child accounts of a given Account.
+	 *
+	 * @param int   $id            - accountid
+	 * @param array $childAccounts - Array of all the child accounts
+	 * @param int   $depth         - Depth at which the particular account has to be placed in the hierarchy
+	 *                             returns All the child accounts of the given accountid in array format
+	 * @param mixed $depthBase
+	 */
+	public function __getChildAccounts($id, &$childAccounts, $depthBase)
+	{
+		\App\Log::trace('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
+		if (empty($id) || $depthBase == App\Config::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
+			\App\Log::error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
+			return $childAccounts;
+		}
+
+		$userNameSql = App\Module::getSqlForNameInDisplayFormat('Users');
+		$dataReader = (new App\Db\Query())
+			->select(['vtiger_account.*', 'vtiger_accountaddress.*', 'user_name' => new \yii\db\Expression('CASE when (vtiger_users.user_name not like ' . App\Db::getInstance()->quoteValue('') . ") THEN $userNameSql ELSE vtiger_groups.groupname END")])
+			->from('vtiger_account')
+			->innerJoin('vtiger_crmentity', 'vtiger_account.accountid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_accountaddress', 'vtiger_account.accountid = vtiger_accountaddress.accountaddressid')
+			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
+			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_account.parentid' => $id])->createCommand()->query();
+		if ($dataReader->count() > 0) {
+			$depth = $depthBase + 1;
+			while ($row = $dataReader->read()) {
+				$childAccId = $row['accountid'];
+				$childAccountInfo = [];
+				$childAccountInfo['depth'] = $depth;
+				foreach ($this->hierarchyFields as &$field) {
+					$fieldName = $field['fieldname'];
+					if ('assigned_user_id' == $fieldName) {
+						$childAccountInfo[$fieldName] = $row['user_name'];
+					} elseif ('shownerid' == $fieldName) {
+						$sharedOwners = \App\Fields\SharedOwner::getById($childAccId);
+						if (!empty($sharedOwners)) {
+							$sharedOwners = implode(',', array_map('\App\Fields\Owner::getLabel', $sharedOwners));
+							$childAccountInfo[$fieldName] = $sharedOwners;
+						}
+					} else {
+						$childAccountInfo[$fieldName] = $row[$field['columnname']];
+					}
+				}
+				$childAccounts[$childAccId] = $childAccountInfo;
+				$this->__getChildAccounts($childAccId, $childAccounts[$childAccId], $depth);
+			}
+		}
+		\App\Log::trace('Exiting __getChildAccounts method ...');
+		return $childAccounts;
 	}
 }

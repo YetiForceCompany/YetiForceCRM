@@ -6,7 +6,7 @@
  * @package   Action
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
@@ -28,7 +28,7 @@ class Vtiger_Meeting_Action extends \App\Controller\Action
 		$moduleName = $request->getModule();
 		if ($request->isEmpty('record', true)) {
 			$this->record = \Vtiger_Record_Model::getCleanInstance($moduleName);
-			$permission = $this->record->isCreatable();
+			$permission = $this->record->isCreateable();
 		} else {
 			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 			$permission = $this->record->isEditable();

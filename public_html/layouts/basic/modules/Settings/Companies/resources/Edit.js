@@ -1,50 +1,30 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 Settings_Vtiger_Edit_Js(
 	'Settings_Companies_Edit_Js',
 	{},
 	{
-		/**
-		 * Register events for form checkbox element
-		 */
-		registerNewsletter() {
-			const form = $('[name="EditCompanies"]');
-			form.find('[id$="newsletter"]').on('click', (e) => {
-				let inputsContainer = $(e.target).closest('.js-card-body');
-				if ($(e.target).prop('checked')) {
-					inputsContainer.find('[id$="firstname"]').attr('data-validation-engine', 'validate[required]');
-					inputsContainer.find('[id$="lastname"]').attr('data-validation-engine', 'validate[required]');
-					inputsContainer.find('[id$="email"]').attr('data-validation-engine', 'validate[required,custom[email]]');
-					inputsContainer.find('.js-newsletter-content').removeClass('d-none');
-				} else {
-					inputsContainer.find('[id$="firstname"]').removeAttr('data-validation-engine').val('');
-					inputsContainer.find('[id$="lastname"]').removeAttr('data-validation-engine').val('');
-					inputsContainer.find('[id$="email"]').removeAttr('data-validation-engine').val('');
-					inputsContainer.find('.js-newsletter-content').addClass('d-none');
-				}
-			});
-		},
+		/** Submit form */
 		registerSubmitForm: function () {
-			var form = this.getForm();
+			let form = this.getForm();
 			form.on('submit', function (e) {
 				e.preventDefault();
 				if (form.validationEngine('validate') === true) {
-					app.removeEmptyFilesInput(form[0]);
-					var formData = new FormData(form[0]);
-					var params = {
+					let formData = new FormData(form[0]);
+					let params = {
 						url: 'index.php',
 						type: 'POST',
 						data: formData,
 						processData: false,
 						contentType: false
 					};
-					var progressIndicatorElement = jQuery.progressIndicator({
+					let progressIndicatorElement = jQuery.progressIndicator({
 						blockInfo: { enabled: true }
 					});
 					AppConnector.request(params).done(function (data) {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						if (true == data.result.success) {
+						if (true === data.result.success) {
 							window.location.href = data.result.url;
 						} else {
 							Settings_Vtiger_Index_Js.showMessage({ text: data.result.message, type: 'error' });
@@ -55,14 +35,47 @@ Settings_Vtiger_Edit_Js(
 				}
 			});
 		},
+
+		/** Check registration status */
+		registerRefreshStatus: function () {
+			let form = this.getForm();
+			form.find('.js-refresh-status').on('click', function () {
+				const progressIndicator = $.progressIndicator({
+					blockInfo: { enabled: true }
+				});
+				AppConnector.request({
+					parent: 'Settings',
+					module: 'Companies',
+					action: 'CheckStatus'
+				}).done((data) => {
+					progressIndicator.progressIndicator({ mode: 'hide' });
+					if (data.success && data.result) {
+						if (data.result.message) {
+							app.showNotify({
+								text: data.result.message,
+								type: data.result.type,
+								hide: true,
+								delay: 8000,
+								textTrusted: false
+							});
+						}
+						if (data.result.success) {
+							window.location.reload();
+						}
+					}
+				});
+			});
+		},
+
+		/** @inheritdoc */
 		registerEvents: function () {
-			var form = this.getForm();
+			let form = this.getForm();
 			if (form.length) {
 				form.validationEngine(app.validationEngineOptions);
 				form.find('[data-inputmask]').inputmask();
 			}
 			this.registerSubmitForm();
-			this.registerNewsletter();
+			this.registerRefreshStatus();
 		}
 	}
 );

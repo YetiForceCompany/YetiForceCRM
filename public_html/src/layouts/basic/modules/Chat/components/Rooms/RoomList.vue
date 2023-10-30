@@ -1,4 +1,4 @@
-<!-- /* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
+<!-- /* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
 	<q-list v-if="isVisible" class="q-mb-none" dense>
 		<q-item-label class="flex items-center text-bold text-muted q-py-sm q-px-md" @click="showAllRoomsButton ? toggleRoomExpanded(roomType) : ''">

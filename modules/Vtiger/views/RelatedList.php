@@ -55,19 +55,12 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 		if ($request->has('limit')) {
 			$pagingModel->set('limit', $request->getInteger('limit'));
 		}
+		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getByType('cvId', 'Alnum');
 		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'));
-		if ($request->isEmpty('cvId', true)) {
-			$cvId = array_key_first($relationListView->getRelationModel()->getCustomViewList());
-		} else {
-			$cvId = $request->getByType('cvId', 'Alnum');
-		}
-		if (is_numeric($cvId)) {
-			$relationListView->set('viewId', $cvId);
-		}
+		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'), $cvId);
 
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
-		if (empty($orderBy) && !($orderBy = $relationListView->getRelationModel()->getCustomViewOrderBy($cvId))) {
+		if (empty($orderBy)) {
 			$moduleInstance = $relationListView->getRelatedModuleModel()->getEntityInstance();
 			if ($moduleInstance->default_order_by && $moduleInstance->default_sort_order) {
 				$orderBy = [];
@@ -133,11 +126,7 @@ class Vtiger_RelatedList_View extends Vtiger_Index_View
 			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
 		}
 		if ($request->has('fields')) {
-			if (\is_array($request->getRaw('fields'))) {
-				$relationListView->setFields(array_merge(['id'], $request->getArray('fields', 'Alnum')));
-			} else {
-				$relationListView->setFields(array_merge(['id'], $request->getExploded('fields', ',', 'Alnum')));
-			}
+			$relationListView->setFields(array_merge(['id'], $request->getArray('fields', 'Alnum')));
 		}
 		if ($request->has('quickSearchEnabled')) {
 			$relationListView->set('quickSearchEnabled', $request->getBoolean('quickSearchEnabled'));

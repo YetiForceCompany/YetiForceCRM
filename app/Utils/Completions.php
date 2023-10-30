@@ -6,7 +6,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -112,12 +112,10 @@ class Completions
 			$text = preg_replace_callback('/<yetiforce\s(.*)><\/yetiforce>/', function (array $matches) {
 				$attributes = \App\TextUtils::getTagAttributes($matches[0]);
 				$return = '';
-				if (!empty($attributes['type']) && !empty($attributes['crm-id'])) {
+				if (!empty($attributes['type'])) {
 					switch ($attributes['type']) {
 						case 'Documents':
-								$width = \App\Purifier::encodeHtml($attributes['width'] ?? '');
-								$height = \App\Purifier::encodeHtml($attributes['height'] ?? '');
-								$return = '<img src="file.php?module=Documents&action=DownloadFile&record=' . $attributes['crm-id'] . '&fileid=' . $attributes['attachment-id'] . "&show=true\" width=\"{$width}\" height=\"{$height}\"/>";
+								$return = '<img src="file.php?module=Documents&action=DownloadFile&record=' . $attributes['crm-id'] . '&fileid=' . $attributes['attachment-id'] . '&show=true" />';
 							break;
 						default:
 							break;

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Base-Modals-QuickDetailModal modal js-modal-data {if $LOCK_EXIT}static{/if}" tabindex="-1" data-js="data"
 		role="dialog" {foreach from=$MODAL_VIEW->modalData key=KEY item=VALUE} data-{$KEY}="{$VALUE}" {/foreach}>
@@ -24,12 +24,12 @@
 					</div>
 					<div class="quickDetailContent">
 						<div class="row">
-							<div class="col-md-12 pl-0">
+							<div class="col-md-12">
 								<div class="moduleIcon">
 									<span class="o-detail__icon js-detail__icon yfm-{$MODULE_NAME}"></span>
 								</div>
 								<div class="paddingLeft5px">
-									<h4 class="recordLabel u-text-ellipsis marginbottomZero" title='{$RECORD->getName()}'>
+									<h4 class="recordLabel u-text-ellipsis pushDown marginbottomZero" title='{$RECORD->getName()}'>
 										<span class="modCT_{$MODULE_NAME}">{$RECORD->getName()}</span>
 									</h4>
 									{if $MODULE_NAME}
@@ -73,7 +73,7 @@
 															</div>
 														</div>
 													</div>
-													<div class="c-detail-widget__content js-detail-widget-collapse collapse multi-collapse show pt-0" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['widgetData']['id']}" aria-labelledby="{$WIDGET_UID}">
+													<div class="c-detail-widget__content js-detail-widget-collapse collapse multi-collapse pt-0" id="{$WIDGET_UID}-collapse" data-storage-key="{$WIDGET['widgetData']['id']}" aria-labelledby="{$WIDGET_UID}">
 														<div>{$WIDGET['content']}</div>
 													</div>
 												</div>
@@ -82,8 +82,6 @@
 											<div>{$WIDGET['content']}</div>
 										{/if}
 									</div>
-								{foreachelse}
-									{include file=\App\Layout::getTemplatePath('Detail/BlocksView.tpl', $MODULE_NAME)}
 								{/foreach}
 							</div>
 						</div>

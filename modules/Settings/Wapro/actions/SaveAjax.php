@@ -6,7 +6,7 @@
  * @package Settings.Action
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
@@ -19,6 +19,15 @@ class Settings_Wapro_SaveAjax_Action extends Settings_Vtiger_Index_Action
 	{
 		parent::__construct();
 		$this->exposeMethod('saveWidget');
+	}
+
+	/** {@inheritdoc} */
+	public function checkPermission(App\Request $request)
+	{
+		parent::checkPermission($request);
+		if (!\App\YetiForce\Register::getProduct('YetiForceWaproERP')) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
 	}
 
 	/** {@inheritdoc} */

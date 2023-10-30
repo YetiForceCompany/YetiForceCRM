@@ -5,8 +5,9 @@
  * @package Cli
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Cli;
@@ -60,7 +61,7 @@ class System extends Base
 	 */
 	public function update(): void
 	{
-		$maxExecutionTime = ini_get('max_execution_time');
+		$maxExecutionTime = \ini_get('max_execution_time');
 		if ($maxExecutionTime < 1 || $maxExecutionTime > 600) {
 			$this->climate->lightGreen('Max execution time = ' . $maxExecutionTime);
 		} else {
@@ -80,6 +81,116 @@ class System extends Base
 			$this->updateByType($this->climate->arguments->get('type'));
 		} else {
 			$this->updateBySelect();
+		}
+	}
+
+	/**
+	 * Check registration status.
+	 *
+	 * @return void
+	 */
+	public function checkRegStatus(): void
+	{
+		$registration = new \App\YetiForce\Register();
+		$this->climate->bold('Status: ' . \App\Language::translate(\App\YetiForce\Register::STATUS_MESSAGES[$registration->getStatus(true)], 'Settings::Companies'));
+		if ($error = $registration->getError()) {
+			$this->climate->lightRed('Status error: ' . \App\Language::translateSingleMod($error, 'Other.Exceptions'));
+		}
+		$this->climate->border('─', 200);
+		$this->climate->bold('APP ID: ' . \App\YetiForce\Register::getInstanceKey());
+		$this->climate->border('─', 200);
+		$this->climate->bold('CRM ID: ' . \App\YetiForce\Register::getCrmKey());
+		$this->climate->border('─', 200);
+		$this->climate->bold('Provider: ' . \App\YetiForce\Register::getProvider());
+		$this->climate->border('─', 200);
+		$table = [];
+		foreach (\App\Company::getCompany() as $key => $value) {
+			$table[$key] = $value;
+		}
+		$this->climate->table([$table]);
+		$this->climate->border('─', 200);
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('System');
+		}
+	}
+
+	/**
+	 * Show active products.
+	 *
+	 * @return void
+	 */
+	public function showProducts(): void
+	{
+		$table = \App\YetiForce\Register::getProducts();
+
+		$table ? $this->climate->table($table) : $this->climate->bold('None');
+		$this->climate->border('─', 200);
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('System');
+		}
+	}
+
+	/**
+	 * Reload modules.
+	 *
+	 * @return void
+	 */
+	public function reloadModule(): void
+	{
+		$this->climate->bold('Tools: ' . \App\Db\Fixer::baseModuleTools());
+		$this->climate->bold('Actions: ' . \App\Db\Fixer::baseModuleActions());
+		$this->climate->bold('Profile field: ' . \App\Db\Fixer::profileField());
+		$this->climate->bold('Share: ' . \App\Db\Fixer::share());
+		\App\Module::createModuleMetaFile();
+		$this->climate->bold('Create module meta file');
+		\App\Colors::generate();
+		$this->climate->bold('Colors');
+		$this->climate->lightYellow()->border('─', 200);
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('System');
+		}
+	}
+
+	/**
+	 * Reload users privileges.
+	 *
+	 * @return void
+	 */
+	public function reloadUserPrivileges(): void
+	{
+		$this->climate->bold('Users: ' . \App\UserPrivilegesFile::recalculateAll());
+		$this->climate->lightYellow()->border('─', 200);
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('System');
+		}
+	}
+
+	/**
+	 * Delete registration data.
+	 *
+	 * @return void
+	 */
+	public function deleteRegistration(): void
+	{
+		\App\Db::getInstance('admin')->createCommand()->update('s_#__companies', [
+			'status' => 0,
+			'name' => '', 'industry' => '', 'vat_id' => '', 'city' => '', 'address' => '',
+			'post_code' => '', 'country' => '', 'companysize' => '', 'website' => '', 'logo' => '',
+			'firstname' => '', 'lastname' => '', 'email' => '', 'facebook' => '', 'twitter' => '', 'linkedin' => '',
+		])->execute();
+	}
+
+	/**
+	 * Reload menus.
+	 *
+	 * @return void
+	 */
+	public function reloadMenus(): void
+	{
+		$menuRecordModel = new \Settings_Menu_Record_Model();
+		$menuRecordModel->refreshMenuFiles();
+		if (!$this->climate->arguments->defined('action')) {
+			$this->cli->actionsList('System');
 		}
 	}
 
@@ -177,121 +288,5 @@ class System extends Base
 			$this->climate->lightRed($th->__toString());
 		}
 		$this->climate->lightBlue('Total time: ' . round(microtime(true) - $startTime, 2));
-	}
-
-	/**
-	 * Check registration status.
-	 *
-	 * @return void
-	 */
-	public function checkRegStatus(): void
-	{
-		\App\YetiForce\Register::check(true);
-		$this->climate->bold('Status: ' . \App\Language::translate(\App\YetiForce\Register::STATUS_MESSAGES[\App\YetiForce\Register::getStatus()], 'Settings::Companies'));
-		$this->climate->border('─', 200);
-		$this->climate->bold('APP ID: ' . \App\YetiForce\Register::getInstanceKey());
-		$this->climate->border('─', 200);
-		$this->climate->bold('CRM ID: ' . \App\YetiForce\Register::getCrmKey());
-		$this->climate->border('─', 200);
-		$this->climate->bold('Provider: ' . \App\YetiForce\Register::getProvider());
-		$this->climate->border('─', 200);
-		$table = [];
-		foreach (\App\Company::getAll() as $row) {
-			$table[] = [
-				'name' => $row['name'],
-				'status' => $row['status'],
-				'type' => $row['type'],
-				'companysize' => $row['companysize'],
-				'vat_id' => $row['vat_id'],
-			];
-		}
-		$this->climate->table($table);
-		$this->climate->border('─', 200);
-		if (!$this->climate->arguments->defined('action')) {
-			$this->cli->actionsList('System');
-		}
-	}
-
-	/**
-	 * Show active products.
-	 *
-	 * @return void
-	 */
-	public function showProducts(): void
-	{
-		$table = [];
-		foreach (\App\YetiForce\Register::getProducts() as $row) {
-			$row['params'] = \App\Utils::varExport($row['params']);
-			$table[] = $row;
-		}
-		$table ? $this->climate->table($table) : $this->climate->bold('None');
-		$this->climate->border('─', 200);
-		if (!$this->climate->arguments->defined('action')) {
-			$this->cli->actionsList('System');
-		}
-	}
-
-	/**
-	 * Reload modules.
-	 *
-	 * @return void
-	 */
-	public function reloadModule(): void
-	{
-		$this->climate->bold('Tools: ' . \App\Db\Fixer::baseModuleTools());
-		$this->climate->bold('Actions: ' . \App\Db\Fixer::baseModuleActions());
-		$this->climate->bold('Profile field: ' . \App\Db\Fixer::profileField());
-		$this->climate->bold('Share: ' . \App\Db\Fixer::share());
-		\App\Module::createModuleMetaFile();
-		$this->climate->bold('Create module meta file');
-		\App\Colors::generate();
-		$this->climate->bold('Colors');
-		$this->climate->lightYellow()->border('─', 200);
-		if (!$this->climate->arguments->defined('action')) {
-			$this->cli->actionsList('System');
-		}
-	}
-
-	/**
-	 * Reload users privileges.
-	 *
-	 * @return void
-	 */
-	public function reloadUserPrivileges(): void
-	{
-		$this->climate->bold('Users: ' . \App\UserPrivilegesFile::recalculateAll());
-		$this->climate->lightYellow()->border('─', 200);
-		if (!$this->climate->arguments->defined('action')) {
-			$this->cli->actionsList('System');
-		}
-	}
-
-	/**
-	 * Delete registration data.
-	 *
-	 * @return void
-	 */
-	public function deleteRegistration(): void
-	{
-		\App\Db::getInstance('admin')->createCommand()->update('s_#__companies', [
-			'status' => 0,
-			'name' => '', 'industry' => '', 'vat_id' => '', 'city' => '', 'address' => '',
-			'post_code' => '', 'country' => '', 'companysize' => '', 'website' => '', 'logo' => '',
-			'firstname' => '', 'lastname' => '', 'email' => '', 'facebook' => '', 'twitter' => '', 'linkedin' => '',
-		])->execute();
-	}
-
-	/**
-	 * Reload menus.
-	 *
-	 * @return void
-	 */
-	public function reloadMenus(): void
-	{
-		$menuRecordModel = new \Settings_Menu_Record_Model();
-		$menuRecordModel->refreshMenuFiles();
-		if (!$this->climate->arguments->defined('action')) {
-			$this->cli->actionsList('System');
-		}
 	}
 }

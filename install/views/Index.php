@@ -1,14 +1,14 @@
 <?php
 
- /* +***********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce S.A.
- * *********************************************************************************** */
+/* +***********************************************************************************
+* The contents of this file are subject to the vtiger CRM Public License Version 1.0
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+* Contributor(s): YetiForce S.A.
+* *********************************************************************************** */
 
 class Install_Index_View extends \App\Controller\View\Base
 {
@@ -37,9 +37,6 @@ class Install_Index_View extends \App\Controller\View\Base
 		parent::__construct();
 		$this->exposeMethod('step1');
 		$this->exposeMethod('step2');
-		$this->exposeMethod('stepChooseHost');
-		$this->exposeMethod('showBuyModal');
-		$this->exposeMethod('showProductModal');
 		$this->exposeMethod('step3');
 		$this->exposeMethod('step4');
 		$this->exposeMethod('step5');
@@ -177,62 +174,6 @@ class Install_Index_View extends \App\Controller\View\Base
 		}
 	}
 
-	/**
-	 * Show choose host step.
-	 *
-	 * @param App\Request $request
-	 *
-	 * @return void
-	 */
-	public function stepChooseHost(App\Request $request)
-	{
-		$this->viewer->assign('PRODUCT_ClOUD', \App\YetiForce\Shop::getProduct('YetiForceInstallInCloud'));
-		$this->viewer->assign('PRODUCT_SHARED', \App\YetiForce\Shop::getProduct('YetiForceInstallInHosting'));
-		$this->viewer->display('StepChooseHost.tpl');
-	}
-
-	/**
-	 * Show buy modal in choose host step.
-	 *
-	 * @param App\Request $request
-	 *
-	 * @return void
-	 */
-	public function showBuyModal(App\Request $request)
-	{
-		$request = new \App\Request([
-			'product' => $request->getByType('product'),
-			'module' => 'YetiForce',
-			'parent' => 'Settings',
-			'installation' => true,
-		], false);
-		$instance = new Settings_YetiForce_BuyModal_View();
-		$instance->preProcessAjax($request);
-		$instance->process($request);
-		$instance->postProcessAjax($request);
-	}
-
-	/**
-	 * Show product modal in choose host step.
-	 *
-	 * @param App\Request $request
-	 *
-	 * @return void
-	 */
-	public function showProductModal(App\Request $request)
-	{
-		$request = new \App\Request([
-			'product' => $request->getByType('product'),
-			'module' => 'YetiForce',
-			'parent' => 'Settings',
-			'installation' => true,
-		], false);
-		$instance = new Settings_YetiForce_ProductModal_View();
-		$instance->preProcessAjax($request);
-		$instance->process($request);
-		$instance->postProcessAjax($request);
-	}
-
 	public function step3(App\Request $request)
 	{
 		$this->viewer->assign('ALL', \App\Utils\ConfReport::getByType([
@@ -363,9 +304,11 @@ class Install_Index_View extends \App\Controller\View\Base
 		$this->viewer->assign('BREAK_INSTALL', $error);
 		$this->viewer->assign('DB_CONNECTION_INFO', $dbConnection);
 		$this->viewer->assign('INFORMATION', $_SESSION['config_file_info'] ?? []);
+		$this->viewer->assign('NEXT_STEP', 'step7');
 		if (!$error) {
 			$this->viewer->assign('CONF_REPORT_RESULT', \App\Utils\ConfReport::getByType(['database']));
 		}
+
 		$this->viewer->display('StepConfirmConfigurationSettings.tpl');
 	}
 
@@ -391,19 +334,17 @@ class Install_Index_View extends \App\Controller\View\Base
 			$configFile->set('application_unique_key', '');
 			$configFile->create();
 		}
-
-		$this->viewer->display('StepCompanyDetails.tpl');
 	}
 
 	public function step7(App\Request $request)
 	{
 		set_time_limit(0);
+		$this->step6($request);
 		if (\App\Config::main('application_unique_key', false) && !empty($_SESSION['config_file_info'])) {
 			// Initialize and set up tables
 			$initSchema = new Install_InitSchema_Model();
 			try {
 				$initSchema->initialize();
-				$initSchema->setCompanyDetails($request);
 				chmod(ROOT_DIRECTORY . '/cron/cron.sh', 0744);
 			} catch (\Throwable $e) {
 				$_SESSION['installation_success'] = false;
@@ -419,10 +360,6 @@ class Install_Index_View extends \App\Controller\View\Base
 		}
 		$this->viewer->assign('INSTALLATION_SUCCESS', $success);
 		$this->viewer->display('StepInstall.tpl');
-	}
-
-	protected function preProcessDisplay(App\Request $request)
-	{
 	}
 
 	/** {@inheritdoc} */
@@ -473,14 +410,6 @@ class Install_Index_View extends \App\Controller\View\Base
 		if ('step7' === $request->getMode()) {
 			return [];
 		}
-		if ('stepChooseHost' === $request->getMode()) {
-			$viewScripts = $this->checkAndConvertJsScripts([
-				'~layouts/resources/Field.js',
-				'~layouts/resources/validator/BaseValidator.js',
-				'~layouts/resources/validator/FieldValidator.js',
-				'modules.Settings.YetiForce.resources.Shop',
-			]);
-		}
 		return array_merge(parent::getFooterScripts($request), $viewScripts, $this->checkAndConvertJsScripts([
 			'~libraries/datatables.net/js/jquery.dataTables.js',
 			'~libraries/datatables.net-bs4/js/dataTables.bootstrap4.js',
@@ -488,5 +417,9 @@ class Install_Index_View extends \App\Controller\View\Base
 			'~libraries/datatables.net-responsive-bs4/js/responsive.bootstrap4.js',
 			'~install/tpl/resources/Index.js',
 		]));
+	}
+
+	protected function preProcessDisplay(App\Request $request)
+	{
 	}
 }

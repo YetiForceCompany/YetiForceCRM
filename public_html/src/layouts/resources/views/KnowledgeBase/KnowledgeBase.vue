@@ -3,7 +3,7 @@
  * KnowledgeBase component
  *
  * @description Knowledge base view root component
- * @license YetiForce Public License 5.0
+ * @license YetiForce Public License 6.5
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 -->

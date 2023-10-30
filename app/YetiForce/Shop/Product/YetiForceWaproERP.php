@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -17,42 +17,7 @@ namespace App\YetiForce\Shop\Product;
 class YetiForceWaproERP extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce Wapro ERP';
-
-	/** {@inheritdoc} */
-	public $category = 'Integrations';
-
-	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-wapro-erp';
-
-	/** {@inheritdoc} */
-	public $prices = [
-		'Micro' => 5,
-		'Small' => 12,
-		'Medium' => 25,
-		'Large' => 50,
-		'Corporation' => 100,
-	];
-
-	/** {@inheritdoc} */
-	public $featured = true;
-
-	/** {@inheritdoc} */
-	public function verify(): array
-	{
-		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForceWaproERP')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceWaproERP');
-		} else {
-			if (
-				(new \App\Db\Query())->from('i_#__wapro')->count('*', \App\Db::getInstance('admin'))
-			) {
-				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
-				$status = false;
-			}
-		}
-		return ['status' => $status, 'message' => $message];
-	}
+	protected bool $disabled = true;
 
 	/** {@inheritdoc} */
 	public function analyzeConfiguration(): array

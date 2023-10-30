@@ -1,16 +1,14 @@
 <?php
 
 /**
- * OpenStreetMap map modal view file.
- *
- * @package   View
+ * Map modal file.
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
- * OpenStreetMap map modal view class.
+ * Map modal class.
  */
 class OpenStreetMap_MapModal_View extends \App\Controller\Modal
 {
@@ -59,39 +57,28 @@ class OpenStreetMap_MapModal_View extends \App\Controller\Modal
 	public function process(App\Request $request)
 	{
 		$moduleName = $request->getModule();
+		$moduleModel = OpenStreetMap_Module_Model::getInstance($moduleName);
 		$coordinatesModel = OpenStreetMap_Coordinate_Model::getInstance();
-		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_NAME', $moduleName);
-		if ($request->getBoolean('point')) {
-			$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('srcModule', 'Alnum'));
-			$fieldModel = $moduleModel->getFieldByName($request->getByType('srcField', 'Alnum'));
-			$value = $fieldModel->getEditViewDisplayValue($request->getArray('value'));
-			if (!empty($value['decimal']['lat'])) {
-				$viewer->assign('POINT_DECIMAL', $value);
-			}
-			$viewer->assign('SHOW_PANEL', false);
-		} else {
-			if (!$request->isEmpty('srcModule', true)) {
-				$moduleModel = Vtiger_Module_Model::getInstance($request->getByType('srcModule'));
-				$fields = $moduleModel->getFields();
-				$fieldsToGroup = [];
-				foreach ($fields as $fieldModel) {
-					if ('picklist' === $fieldModel->getFieldDataType()) {
-						$fieldsToGroup[] = $fieldModel;
-					}
+		if (!$request->isEmpty('srcModule', true)) {
+			$srcModuleModel = Vtiger_Module_Model::getInstance($request->getByType('srcModule'));
+			$fields = $srcModuleModel->getFields();
+			$fieldsToGroup = [];
+			foreach ($fields as $fieldModel) {
+				if ('picklist' === $fieldModel->getFieldDataType()) {
+					$fieldsToGroup[] = $fieldModel;
 				}
-				$cacheRecords[$request->getByType('srcModule')] = 0; // default values
-				$cacheRecords = array_merge($cacheRecords, $coordinatesModel->getCachedRecords());
-				$viewer->assign('FIELDS_TO_GROUP', $fieldsToGroup);
-			} else {
-				$cacheRecords = $coordinatesModel->getCachedRecords();
 			}
-			$moduleModel = OpenStreetMap_Module_Model::getInstance($moduleName);
-			$viewer->assign('SHOW_PANEL', true);
-			$viewer->assign('SRC_MODULE', $request->getByType('srcModule'));
-			$viewer->assign('CACHE_GROUP_RECORDS', $cacheRecords);
-			$viewer->assign('ALLOWED_MODULES', $moduleModel->getAllowedModules());
+			$cacheRecords[$request->getByType('srcModule')] = 0; // default values
+			$cacheRecords = array_merge($cacheRecords, $coordinatesModel->getCachedRecords());
+		} else {
+			$cacheRecords = $coordinatesModel->getCachedRecords();
 		}
+		$viewer = $this->getViewer($request);
+		$viewer->assign('ALLOWED_MODULES', $moduleModel->getAllowedModules());
+		$viewer->assign('FIELDS_TO_GROUP', $fieldsToGroup);
+		$viewer->assign('CACHE_GROUP_RECORDS', $cacheRecords);
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('SRC_MODULE', $request->getByType('srcModule'));
 		$viewer->view('MapModal.tpl', $moduleName);
 	}
 

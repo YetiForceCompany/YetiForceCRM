@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
@@ -105,6 +105,21 @@ class Item extends \App\Base
 	}
 
 	/**
+	 * Gets field datatypes.
+	 *
+	 * @return array
+	 */
+	public function getDbTypes(): array
+	{
+		return [
+			'description' => \yii\db\Schema::TYPE_TEXT,
+			'prefix' => [\yii\db\Schema::TYPE_STRING, 30],
+			'color' => [\yii\db\Schema::TYPE_STRING, 25],
+			'icon' => [\yii\db\Schema::TYPE_STRING, 255]
+		];
+	}
+
+	/**
 	 * Save.
 	 *
 	 * @return bool
@@ -139,9 +154,14 @@ class Item extends \App\Base
 		$baseTable = $this->getTableName();
 
 		$dataForSave = $this->getValuesToSave();
-		foreach (array_keys(\App\Fields\Picklist::COLUMN_DB_TYPES) as $column) {
+		foreach ($this->getDbTypes() as $column => $type) {
 			if (isset($dataForSave[$baseTable][$column])) {
-				\App\Fields\Picklist::addColumn($column, $baseTable);
+				$length = null;
+				if (\is_array($type)) {
+					[$type, $length] = $type;
+				}
+				$criteria = $db->getSchema()->createColumnSchemaBuilder($type, $length)->defaultValue('');
+				\vtlib\Utils::addColumn($baseTable, $column, $criteria);
 			}
 		}
 

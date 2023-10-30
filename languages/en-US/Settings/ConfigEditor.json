@@ -25,8 +25,14 @@
     "LBL_RELATION_SHOW_RECORDS_COUNT": "Show record count in tabs of related modules",
     "LBL_RELATION_SEPARATE_CHANGE_RELATION_BUTTON": "Separate action buttons for changing additional data",
     "LBL_RELATION_SEPARATE_CHANGE_RELATION_BUTTON_DESC": "The button defines a special data type that belongs only to relations, available e.g. in the Occurrences module",
-    "LBL_MAX_NUMBER_EXPORT_RECORDS" : "Max number of export records",
-    "LBL_PERFORMANCE": "Performance"
+    "LBL_MAX_NUMBER_EXPORT_RECORDS": "Max number of export records",
+    "LBL_PERFORMANCE": "Performance",
+    "LBL_BRAND_DATA_NAME": "Footer's name",
+    "LBL_TWITTER": "Twitter URL",
+    "LBL_FACEBOOK": "Facebook URL",
+    "LBL_LINKEDIN": "LinkedIn URL",
+    "LBL_BRAND_DATA": "Brand data",
+    "LBL_BRAND_DATA_INFO": "Block used when YetiForce Branding is purchased allows you to enter custom data visible in the footer."
   },
   "js": {
     "JS_CONFIGURATION_DETAILS_SAVED": "Configuration details saved",

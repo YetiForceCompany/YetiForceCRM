@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-Kanban-Index -->
 	<input id="js-module-name" type="hidden" value="{$SELECTED_MODULE_NAME}" data-js="value" />
@@ -8,10 +8,12 @@
 		</div>
 		<div class="col-md-6">
 			<div class="btn-toolbar justify-content-end form-row">
-				<button class="btn btn-primary float-right mr-2 js-add-board" type="button">
-					<span class="fas fa-plus mr-2"></span>
-					{\App\Language::translate('LBL_ADD_BOARD', $QUALIFIED_MODULE)}
-				</button>
+				{if \App\YetiForce\Shop::check('YetiForceKanban')}
+					<button class="btn btn-primary float-right mr-2 js-add-board" type="button">
+						<span class="fas fa-plus mr-2"></span>
+						{\App\Language::translate('LBL_ADD_BOARD', $QUALIFIED_MODULE)}
+					</button>
+				{/if}
 				<div class="btn-group col-5 float-right px-1">
 					<select class="select2 form-control js-module-list" data-js="change">
 						{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}

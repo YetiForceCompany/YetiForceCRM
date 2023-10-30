@@ -3,7 +3,7 @@
  * Main config.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
 	'api' => [
@@ -146,10 +146,10 @@ return [
 			'validation' => '\App\Validator::languageTag',
 		],
 		'application_unique_key' => [
-			'default' => sha1(time() + random_int(1, 9999999)),
+			'default' => sha1(time() . '' . random_int(1, 9999999)),
 			'description' => 'Unique Application Key',
 			'validation' => fn () => !class_exists('\\Config\\Main'),
-			'sanitization' => fn () => sha1(time() + random_int(1, 9999999)),
+			'sanitization' => fn () => sha1(time() . '' . random_int(1, 9999999)),
 		],
 		'listview_max_textlength' => [
 			'default' => 40,
@@ -556,13 +556,6 @@ return [
 		'tileDefaultSize' => [
 			'default' => 'very_small',
 			'description' => 'Default tile size. Available sizes: very_small, small, medium, big',
-		],
-		'centerModalWindow' => [
-			'default' => false,
-			'description' => 'All modal window will be vertically centered if this option is enabled.',
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool',
-			'docTags' => ['var' => 'bool'],
 		],
 	],
 	'performance' => [

@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -93,7 +93,7 @@ class ServerAccess
 		if (\App\Cache::has(__METHOD__, $serverId)) {
 			return \App\Cache::get(__METHOD__, $serverId);
 		}
-		$row = \App\Integrations\Services::getById($serverId);
+		$row = (new \App\Db\Query())->from('w_#__servers')->where(['id' => $serverId])->one(\App\Db::getInstance('webservice')) ?: [];
 		\App\Cache::save(__METHOD__, $serverId, $row, \App\Cache::MEDIUM);
 		return $row;
 	}

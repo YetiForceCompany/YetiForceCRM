@@ -5,7 +5,7 @@
  * @package Handler
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
@@ -25,9 +25,9 @@ class Calendar_VerifyIsHolidayDate_Handler
 		if (!empty(App\Fields\Date::getHolidays($recordModel->get('date_start'), $recordModel->get('due_date')))) {
 			$response = [
 				'result' => false,
-				'type' => 'confirm',
+				'type'=>'confirm',
 				'message' => App\Language::translate('LBL_DATES_SELECTED_HOLIDAYS_CONFIRM', $recordModel->getModuleName()),
-				'hash' => hash('sha256', implode('|', $recordModel->getData()))
+				'hash' => hash('sha256', implode('|',$recordModel->getData()))
 			];
 		}
 

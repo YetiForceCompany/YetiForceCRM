@@ -6,7 +6,7 @@
  * @package Action
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -25,7 +25,6 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$this->exposeMethod('checkLimits');
 		$this->exposeMethod('getDetails');
 		$this->exposeMethod('getTableData');
-		$this->exposeMethod('getCurrencyData');
 	}
 
 	/** {@inheritdoc} */
@@ -102,21 +101,16 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$response->emit();
 	}
 
-	/**
-	 * Get record details.
-	 *
-	 * @param App\Request $request
-	 */
 	public function getDetails(App\Request $request)
 	{
 		$currencyId = $request->getInteger('currency_id');
 		$fieldName = $request->getByType('fieldname');
 		$moduleName = $request->getModule();
 		if ($request->isEmpty('idlist')) {
-			$info = static::getRecordDetail($request->getInteger('record'), $currencyId, $moduleName, $fieldName, $request->getArray('currencyParams', \App\Purifier::TEXT));
+			$info = self::getRecordDetail($request->getInteger('record'), $currencyId, $moduleName, $fieldName);
 		} else {
 			foreach ($request->getArray('idlist', 'Integer') as $id) {
-				$info[] = static::getRecordDetail($id, $currencyId, $moduleName, $fieldName);
+				$info[] = self::getRecordDetail($id, $currencyId, $moduleName, $fieldName);
 			}
 		}
 		$response = new Vtiger_Response();
@@ -131,13 +125,12 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 	 * @param int|null $currencyId
 	 * @param string   $moduleName
 	 * @param string   $fieldName
-	 * @param array    $currencyParams
 	 *
 	 * @throws \App\Exceptions\NoPermittedToRecord
 	 *
 	 * @return array
 	 */
-	public static function getRecordDetail(int $recordId, ?int $currencyId, string $moduleName, string $fieldName, array $currencyParams = []): array
+	public static function getRecordDetail(int $recordId, ?int $currencyId, string $moduleName, string $fieldName): array
 	{
 		$recordModel = Vtiger_Record_Model::getInstanceById($recordId);
 		if (!$recordModel->isViewable()) {
@@ -178,7 +171,6 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 		$eventHandler->setModuleName($recordModuleName);
 		$eventHandler->setParams([
 			'currencyId' => $currencyId,
-			'currencyParams' => $currencyParams,
 			'moduleName' => $moduleName,
 			'fieldName' => $fieldName,
 			'info' => $info,
@@ -207,38 +199,14 @@ class Vtiger_Inventory_Action extends \App\Controller\Action
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 		$recordModel = Vtiger_Record_Model::getInstanceById($srcRecord, $srcModule);
-		$inventoryModel = Vtiger_Inventory_Model::getInstance($srcModule);
-		$data = $inventoryModel->transformData($recordModel->getInventoryData());
-
+		$data = $recordModel->getInventoryData();
 		foreach ($data as &$item) {
-			$currencyParams = empty($item['currencyparam']) ? [] : \App\Json::decode($item['currencyparam']);
-			$item['info'] = static::getRecordDetail($item['name'], $item['currency'] ?? 0, $request->getModule(), 'name', $currencyParams)[$item['name']];
+			$item['info'] = $this->getRecordDetail($item['name'], $item['currency'] ?? 0, $request->getModule(), 'name')[$item['name']];
 			$item['moduleName'] = \App\Record::getType($item['info']['id']);
 			$item['basetableid'] = Vtiger_Module_Model::getInstance($item['moduleName'])->get('basetableid');
 		}
-
 		$response = new Vtiger_Response();
-		$response->setResult(array_values($data));
-		$response->emit();
-	}
-
-	/**
-	 * Get cuurenct currency data with conversion rate and date.
-	 *
-	 * @param App\Request $request
-	 */
-	public function getCurrencyData(App\Request $request)
-	{
-		$currencies = [];
-		$moduleName = $request->getModule();
-		$fieldModel = \Vtiger_Inventory_Model::getInstance($moduleName)->getField('currency');
-
-		if ($fieldModel && $fieldModel->getParamConfig('reset_currency')) {
-			$currencies = $fieldModel->getCurrencyParam(\App\Fields\Currency::getAll(true));
-		}
-
-		$response = new Vtiger_Response();
-		$response->setResult($currencies);
+		$response->setResult($data);
 		$response->emit();
 	}
 }

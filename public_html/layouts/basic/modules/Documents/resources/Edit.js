@@ -41,28 +41,43 @@ Vtiger_Edit_Js(
 			return Math.max(fileSizeInBytes, 0.1).toFixed(1) + byteUnits[i];
 		},
 
-		/**
-		 * Register file location type change event.
-		 * @param {jQuery} container
-		 */
 		registerFileLocationTypeChangeEvent: function (container) {
-			let thisInstance = this;
-			let fileLocationTypeElement = container.find('[name="filelocationtype"]');
-			fileLocationTypeElement.on('change', function (e) {
-				let typeFile = $('.js-type-file');
-				let typeText = $('.js-type-text');
-				let fileNameElement = '';
+			var thisInstance = this;
+			container.on('change', 'select[name="filelocationtype"]', function (e) {
+				var fileLocationTypeElement = container.find('[name="filelocationtype"]');
+				var fileNameElement = container.find('[name="filename"]');
+				var newFileNameElement;
 				if (thisInstance.isFileLocationInternalType(fileLocationTypeElement)) {
-					fileNameElement = typeFile;
-					fileNameElement.addClass('show').attr('disabled', false).removeClass('d-none');
-					typeText.addClass('d-none').attr('disabled', true).removeClass('show');
+					newFileNameElement = jQuery('<input type="file"/>');
 				} else {
-					fileNameElement = typeText;
-					fileNameElement.addClass('show').attr('disabled', false).removeClass('d-none');
-					typeFile.addClass('d-none').attr('disabled', true).removeClass('show');
-
+					newFileNameElement = jQuery('<input type="text" />');
 				}
-				let uploadFileDetails = fileNameElement.closest('.fieldValue').find('.uploadedFileDetails');
+				var oldElementAttributeList = fileNameElement.get(0).attributes;
+
+				for (var index = 0; index < oldElementAttributeList.length; index++) {
+					var attributeObject = oldElementAttributeList[index];
+					//Dont update the type attribute
+					if (attributeObject.name == 'type' || attributeObject.name == 'value' || attributeObject.name == 'class') {
+						continue;
+					}
+					var value = attributeObject.value;
+					var className = '';
+					if (attributeObject.name == 'data-fieldinfo') {
+						value = JSON.parse(value);
+						if (thisInstance.isFileLocationExternalType(fileLocationTypeElement)) {
+							value['type'] = 'url';
+							className = 'form-control';
+						} else {
+							value['type'] = 'file';
+						}
+						value = JSON.stringify(value);
+					}
+					newFileNameElement.attr(attributeObject.name, value);
+					newFileNameElement.addClass(className);
+				}
+				fileNameElement.replaceWith(newFileNameElement);
+				var fileNameElementTd = newFileNameElement.closest('.fieldValue');
+				var uploadFileDetails = fileNameElementTd.find('.uploadedFileDetails');
 				if (thisInstance.isFileLocationExternalType(fileLocationTypeElement)) {
 					uploadFileDetails.addClass('d-none').removeClass('show');
 				} else {

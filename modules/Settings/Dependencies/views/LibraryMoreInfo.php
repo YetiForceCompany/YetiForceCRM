@@ -6,9 +6,8 @@
  * @package   Settings.View
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Dependencies_LibraryMoreInfo_View extends Settings_Vtiger_BasicModal_View
 {
@@ -24,25 +23,34 @@ class Settings_Dependencies_LibraryMoreInfo_View extends Settings_Vtiger_BasicMo
 	{
 		$result = false;
 		$fileContent = '';
-		if (!$request->isEmpty('type') && !$request->isEmpty('libraryName')) {
-			$type = $request->getByType('type', \App\Purifier::STANDARD);
-			if ('public' === $type) {
+		if ($request->isEmpty('type') || $request->isEmpty('libraryName')) {
+			$result = false;
+		} else {
+			if ('public' === $request->getByType('type', 1)) {
 				$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR;
-				$libraryName = $request->getByType('libraryName', \App\Purifier::PATH);
+				$libraryName = $request->getByType('libraryName', 'Text');
 				foreach ($this->packageFiles as $file) {
 					$packageFile = $dir . $libraryName . DIRECTORY_SEPARATOR . $file;
-					if (file_exists($packageFile) && \App\Fields\File::isAllowedFileDirectory($packageFile)) {
+					if ($fileContent) {
+						continue;
+					}
+					if (file_exists($packageFile)) {
 						$fileContent = file_get_contents($packageFile);
 						$result = true;
-						break;
+					} else {
+						$result = false;
 					}
 				}
-			} elseif ('vendor' === $type) {
-				$filePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . $request->getByType('libraryName', \App\Purifier::PATH) . DIRECTORY_SEPARATOR . 'composer.json';
-				if (file_exists($filePath) && \App\Fields\File::isAllowedFileDirectory($filePath)) {
+			} elseif ('vendor' === $request->getByType('type', 1)) {
+				$filePath = 'vendor' . DIRECTORY_SEPARATOR . $request->getByType('libraryName', 'Text') . DIRECTORY_SEPARATOR . 'composer.json';
+				if (file_exists($filePath)) {
 					$fileContent = file_get_contents($filePath);
 					$result = true;
+				} else {
+					$result = false;
 				}
+			} else {
+				$result = false;
 			}
 		}
 		$this->preProcess($request);

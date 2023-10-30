@@ -4,7 +4,7 @@
  * Gantt view.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 class Project_Gantt_View extends Vtiger_Index_View
@@ -58,6 +58,8 @@ class Project_Gantt_View extends Vtiger_Index_View
 	public function getFooterScripts(App\Request $request)
 	{
 		$jsFileNames = [
+			'~libraries/chart.js/dist/Chart.js',
+			'~libraries/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.js',
 			'modules.Project.resources.Gantt',
 			'~libraries/gantt-elastic/dist/bundle.js',
 			'modules.Project.resources.GanttController',

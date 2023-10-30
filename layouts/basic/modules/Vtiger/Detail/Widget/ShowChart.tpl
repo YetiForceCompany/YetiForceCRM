@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Detail-Widget-ShowChart -->
 	{if $CHART_DATA && $CHART_DATA.show_chart}
@@ -8,9 +8,7 @@
 		<div class="dashboardWidgetContent">
 			<input type="hidden" name="typeChart" value="{$CHART_MODEL->getType()}">
 			<input class="widgetData" type="hidden" value='{\App\Purifier::encodeHtml(\App\Json::encode($CHART_DATA))}' />
-			<div class="widgetChartContainer u-min-height-250">
-				<div class="js-chart-container h-100"></div>
-			</div>
+			<div class="widgetChartContainer u-min-height-250"><canvas></canvas></div>
 		</div>
 	{else}
 		<div class="alert alert-warning">

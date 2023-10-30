@@ -6,17 +6,13 @@
  * @package Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_TreeCategoryModal_Model extends \App\Base
 {
 	public static $_cached_instance;
-	/** @var Vtiger_Module_Model Relation module model. */
-	public $relationModel;
-	/** @var int Last id in tree. */
-	private $lastIdinTree;
 
 	/**
 	 * Function to get the Module Name.

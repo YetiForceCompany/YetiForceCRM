@@ -6,7 +6,7 @@
  * @package Integration
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -21,9 +21,6 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	const NAME = 'LBL_INVOICE';
 
 	/** {@inheritdoc} */
-	const MODULE_NAME = 'FInvoice';
-
-	/** {@inheritdoc} */
 	const SEQUENCE = 5;
 
 	/** @var string[] Map for payment methods with WAPRO ERP */
@@ -34,38 +31,24 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 		'pobranie' => 'PLL_CASH_ON_DELIVERY',
 	];
 
-	/** @var string[] Map for status with WAPRO ERP */
-	const STATUS_MAP = [
-		'V' => 'PLL_ACCEPTED',
-		'O' => 'PLL_CANCELLED',
-	];
-
 	/** {@inheritdoc} */
 	protected $fieldMap = [
-		'ID_FIRMY' => [
-			'fieldName' => 'multiCompanyId', 'fn' => 'findByRelationship',
-			'tableName' => 'FIRMA', 'skipMode' => true
-		],
-		'ID_KONTRAHENTA' => [
-			'fieldName' => 'accountid', 'fn' => 'findByRelationship',
-			'tableName' => 'KONTRAHENT', 'skipMode' => true
-		],
+		'ID_FIRMY' => ['fieldName' => 'multiCompanyId', 'fn' => 'findRelationship', 'tableName' => 'FIRMA', 'skipMode' => true],
+		'ID_KONTRAHENTA' => ['fieldName' => 'accountid', 'fn' => 'findRelationship', 'tableName' => 'KONTRAHENT', 'skipMode' => true],
 		'FORMA_PLATNOSCI' => ['fieldName' => 'payment_methods', 'fn' => 'convertPaymentMethods'],
 		'UWAGI' => 'description',
 		'KONTRAHENT_NAZWA' => ['fieldName' => 'company_name_a', 'fn' => 'decode'],
 		'issueTime' => ['fieldName' => 'issue_time', 'fn' => 'convertDate'],
 		'saleDate' => ['fieldName' => 'saledate', 'fn' => 'convertDate'],
 		'paymentDate' => ['fieldName' => 'paymentdate', 'fn' => 'convertDate'],
-		'RAZEM_ZAPLACONO' => ['fieldName' => 'payment_status', 'fn' => 'convertPaymentStatus'],
-		'STATUS_DOKUMENTU' => ['fieldName' => 'finvoice_status', 'fn' => 'convertStatus'],
 	];
 
 	/** {@inheritdoc} */
 	public function process(): int
 	{
 		$query = (new \App\Db\Query())->select([
-			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA', 'ID_DOK_ORYGINALNEGO', 'ID_UZYTKOWNIKA',
-			'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA', 'WARTOSC_NETTO', 'WARTOSC_BRUTTO', 'RAZEM_ZAPLACONO', 'DOK_KOREKTY', 'DATA_KURS_WAL', 'DOK_WAL', 'SYM_WAL', 'STATUS_DOKUMENTU', 'RAZEM_ZAPLACONO', 'RAZEM_ZAPLACONO_WAL',
+			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA', 'ID_DOK_ORYGINALNEGO',
+			'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA', 'WARTOSC_NETTO', 'WARTOSC_BRUTTO', 'DOK_KOREKTY', 'DATA_KURS_WAL', 'DOK_WAL', 'SYM_WAL',
 			'issueTime' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_WYSTAWIENIA - 36163 as datetime)',
 			'saleDate' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_SPRZEDAZY - 36163 as datetime)',
 			'paymentDate' => 'cast (dbo.DOKUMENT_HANDLOWY.TERMIN_PLAT - 36163 as datetime)',
@@ -118,20 +101,16 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	public function importRecord(): int
 	{
 		if ($id = $this->findInMapTable($this->waproId, 'DOKUMENT_HANDLOWY')) {
-			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, self::MODULE_NAME);
+			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, 'FInvoice');
 		} else {
-			$this->recordModel = \Vtiger_Record_Model::getCleanInstance(self::MODULE_NAME);
+			$this->recordModel = \Vtiger_Record_Model::getCleanInstance('FInvoice');
 			$this->recordModel->setDataForSave([\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME => [
 				'wtable' => 'DOKUMENT_HANDLOWY',
 			]]);
-			if ($userId = $this->getUser($this->row['ID_UZYTKOWNIKA'])) {
-				$this->recordModel->set('assigned_user_id', $userId);
-			}
 		}
 		$this->recordModel->set('wapro_id', $this->waproId);
 		$this->recordModel->set('finvoice_status', 'PLL_UNASSIGNED');
 		$this->recordModel->set('finvoice_type', 'PLL_DOMESTIC_INVOICE');
-		$this->recordModel->set('wapro_paid', $this->row['DOK_WAL'] ? $this->row['RAZEM_ZAPLACONO_WAL'] : $this->row['RAZEM_ZAPLACONO']);
 		$this->recordModel->set($this->recordModel->getModule()->getSequenceNumberFieldName(), $this->row['NUMER']);
 		$this->loadFromFieldMap();
 		$this->loadDeliveryAddress('b');
@@ -145,12 +124,6 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 			return $this->recordModel->getPreviousValue() ? 1 : 3;
 		}
 		return 2;
-	}
-
-	/** {@inheritdoc} */
-	public function getCounter(): int
-	{
-		return (new \App\Db\Query())->from('dbo.DOKUMENT_HANDLOWY')->where(['ID_TYPU' => 1])->count('*', $this->controller->getDb());
 	}
 
 	/**
@@ -187,49 +160,6 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	{
 		$value = explode(' ', $value);
 		return $value[0];
-	}
-
-	/**
-	 * Convert payment status.
-	 *
-	 * @param string $value
-	 * @param array  $params
-	 *
-	 * @return string
-	 */
-	protected function convertPaymentStatus(string $value, array $params): string
-	{
-		switch ($value <=> $this->row['WARTOSC_BRUTTO']) {
-			case -1:
-				$status = 'PLL_UNDERPAID';
-				break;
-			case 0:
-				$status = 'PLL_PAID';
-				break;
-			case 1:
-				$status = 'PLL_OVERPAID';
-				break;
-			default:
-				$status = 'PLL_NOT_PAID';
-				break;
-		}
-		return $status;
-	}
-
-	/**
-	 * Convert status.
-	 *
-	 * @param string $value
-	 * @param array  $params
-	 *
-	 * @return string
-	 */
-	protected function convertStatus(string $value, array $params): string
-	{
-		if (isset(self::STATUS_MAP[$value])) {
-			return self::STATUS_MAP[$value];
-		}
-		return 'PLL_UNASSIGNED';
 	}
 
 	/**
@@ -312,14 +242,14 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 			->createCommand($this->controller->getDb())->query();
 		$inventory = [];
 		while ($row = $dataReader->read()) {
-			$productId = $this->findByRelationship($row['ID_ARTYKULU'], ['tableName' => 'ARTYKUL']);
+			$productId = $this->findRelationship($row['ID_ARTYKULU'], ['tableName' => 'ARTYKUL']);
 			if (!$productId) {
 				$productId = $this->addProduct($row['ID_ARTYKULU']);
 			}
 			$inventory[] = [
 				'name' => $productId,
 				'qty' => $row['ILOSC'],
-				'price' => empty($this->row['DOK_WAL']) ? $row['CENA_NETTO'] : $row['CENA_NETTO_WAL'],
+				'price' => $this->row['DOK_WAL'] ? $row['CENA_NETTO_WAL'] : $row['CENA_NETTO'],
 				'comment1' => trim($row['OPIS']),
 				'unit' => $this->convertUnitName($row['JEDNOSTKA'], ['fieldName' => 'usageunit', 'moduleName' => 'Products']),
 				'discountmode' => 1,
@@ -391,5 +321,11 @@ class Invoice extends \App\Integrations\Wapro\Synchronizer
 	protected function addProduct(int $id): int
 	{
 		return $this->controller->getSynchronizer('Products')->importRecordById($id);
+	}
+
+	/** {@inheritdoc} */
+	public function getCounter(): int
+	{
+		return (new \App\Db\Query())->from('dbo.DOKUMENT_HANDLOWY')->where(['ID_TYPU' => 1])->count('*', $this->controller->getDb());
 	}
 }

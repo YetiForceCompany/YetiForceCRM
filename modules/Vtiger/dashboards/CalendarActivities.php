@@ -24,6 +24,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$data = $request->getAll();
 		$stateActivityLabels = Calendar_Module_Model::getComponentActivityStateLabel();
 		$page = $request->getInteger('page');
+		$linkId = $request->getInteger('linkid');
 		$sortOrder = $request->getForSql('sortorder');
 		if (empty($sortOrder) || !\in_array($sortOrder, ['asc', 'desc'])) {
 			$sortOrder = 'asc';
@@ -42,7 +43,7 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		if (!$request->isEmpty('taskpriority') && 'all' !== $request->getByType('taskpriority', 'Text')) {
 			$params['taskpriority'] = $request->getByType('taskpriority', 'Text');
 		}
-		$widget = Vtiger_Widget_Model::getInstanceWithWidgetId($request->getInteger('widgetid'), $currentUser->getId());
+		$widget = Vtiger_Widget_Model::getInstance($linkId, $currentUser->getId());
 		$owner = Settings_WidgetsManagement_Module_Model::getDefaultUserId($widget, 'Calendar', $request->getByType('owner', 2));
 		$pagingModel = new Vtiger_Paging_Model();
 		$pagingModel->set('page', $page);
@@ -50,15 +51,9 @@ class Vtiger_CalendarActivities_Dashboard extends Vtiger_IndexAjax_View
 		$pagingModel->set('orderby', $orderBy);
 		$pagingModel->set('sortorder', $sortOrder);
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
-		$dataValue = $widget->get('data') ? \App\Json::decode($widget->get('data')) : [];
-		$customFilters = $dataValue['customFilters'] ?? [];
-		if ($filterId = $widget->get('filterid')) {
-			$params['filterId'] = $filterId;
-		}
 		$calendarActivities = (false === $owner) ? [] : $moduleModel->getCalendarActivities('upcoming', $pagingModel, $owner, false, $params);
 		$msgLabel = 'LBL_NO_SCHEDULED_ACTIVITIES';
 		$viewer->assign('WIDGET', $widget);
-		$viewer->assign('CUSTOM_FILTERS', $customFilters);
 		$viewer->assign('SOURCE_MODULE', 'Calendar');
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTIVITIES', $calendarActivities);

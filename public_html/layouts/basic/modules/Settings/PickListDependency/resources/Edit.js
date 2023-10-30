@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 window.Settings_PickListDependency_Edit_Js = class {
 	conditionBuilders = [];
@@ -51,7 +51,7 @@ window.Settings_PickListDependency_Edit_Js = class {
 			for (var key in this.conditionBuilders) {
 				this.container.find(`input[name="${key}"]`).val(JSON.stringify(this.conditionBuilders[key].getConditions()));
 			}
-			this.validate().done(() => {
+			this.validate(form).done(() => {
 				this.saveAjax({ mode: 'save', ...this.form.serializeFormData() });
 			});
 		});

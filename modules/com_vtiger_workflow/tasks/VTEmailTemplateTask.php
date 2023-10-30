@@ -4,7 +4,7 @@
  * Email Template Task Class.
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -31,13 +31,8 @@ class VTEmailTemplateTask extends VTTask
 	public function doTask($recordModel)
 	{
 		if (!empty($this->template)) {
-			$mailerContent['template'] = $this->template;
-			if (empty($this->smtp)) {
-				$mailerContent['smtp_id'] = \App\Mail::getDefaultSmtp();
-			} elseif (-1 === (int) $this->smtp) {
-				$templateMail = \App\Mail::getTemplate($this->template);
-				$mailerContent['smtp_id'] = $templateMail['smtp_id'];
-			} else {
+			$mailerContent = [];
+			if (!empty($this->smtp)) {
 				$mailerContent['smtp_id'] = $this->smtp;
 			}
 			$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
@@ -48,7 +43,7 @@ class VTEmailTemplateTask extends VTTask
 				$mailerContent['to'] = $emailParser->setContent($email)->parse()->getContent(true);
 			}
 			if ($this->address_emails) {
-				$emails = $emailParser->setContent($this->address_emails)->parse()->getContent(true);
+				$emails = $emailParser->setContent($this->address_emails)->getContent(true);
 				foreach ($emails as $email) {
 					$mailerContent['to'][] = $email;
 				}
@@ -73,59 +68,30 @@ class VTEmailTemplateTask extends VTTask
 			if ('Contacts' === $recordModel->getModuleName() && !$recordModel->isEmpty('notifilanguage')) {
 				$mailerContent['language'] = $recordModel->get('notifilanguage');
 			}
+			$mailerContent['template'] = $this->template;
 			$mailerContent['recordModel'] = $recordModel;
 			if (!empty($this->copy_email)) {
 				$mailerContent['bcc'] = $this->copy_email;
 			}
-			if ($attachments = $this->getAttachments($recordModel)) {
-				$mailerContent['attachments'] = ['ids' => $attachments];
+			if (!empty($this->attachments)) {
+				$attachmentsInfo = explode('::', $this->attachments);
+				$ids = [];
+				$relationListView = null;
+				if (\count($attachmentsInfo) > 1) {
+					if (!$recordModel->isEmpty($attachmentsInfo[1]) && App\Record::isExists($recordModel->get($attachmentsInfo[1]), $attachmentsInfo[0])) {
+						$relationListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($recordModel->get($attachmentsInfo[1]), $attachmentsInfo[0]), 'Documents');
+					}
+				} else {
+					$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'Documents');
+				}
+				if ($relationListView) {
+					$queryGenerator = $relationListView->getRelationQuery(true);
+					$queryGenerator->setFields(['id']);
+					$ids = $queryGenerator->createQuery()->column();
+					$mailerContent['attachments'] = ['ids' => $ids];
+				}
 			}
 			\App\Mailer::sendFromTemplate($mailerContent);
 		}
-	}
-
-	/**
-	 * Get attachments from document relation or multireference field.
-	 *
-	 * @param Vtiger_Record_Model $recordModel
-	 *
-	 * @return array
-	 */
-	public function getAttachments(Vtiger_Record_Model $recordModel): array
-	{
-		$documentIds = [];
-		if (!empty($this->attachments)) {
-			[$moduleOrFieldName, $fieldNameOrAction] = array_pad(explode('::', $this->attachments), 2, null);
-			$relationListView = null;
-			if ($moduleOrFieldName && $fieldNameOrAction) {
-				$fieldModelList = array_intersect_key($recordModel->getModule()->getFields(), array_flip([$moduleOrFieldName]));
-				$isFieldActive = false;
-				foreach ($fieldModelList as $fieldModel) {
-					$isFieldActive = $fieldModel->isActiveField();
-				}
-				if (!$recordModel->isEmpty($fieldNameOrAction) && App\Record::isExists($recordModel->get($fieldNameOrAction), $moduleOrFieldName)) {
-					$relationListView = Vtiger_RelationListView_Model::getInstance(Vtiger_Record_Model::getInstanceById($recordModel->get($fieldNameOrAction), $moduleOrFieldName), 'Documents');
-				} elseif ($isFieldActive && 'allAttachments' === $fieldNameOrAction) {
-					$currentValue = $recordModel->get($moduleOrFieldName);
-					$documentIds = $currentValue ? explode(',', $currentValue) : [];
-				} elseif ($isFieldActive && 'latestAttachments' === $fieldNameOrAction
-					&& false !== $recordModel->getPreviousValue($moduleOrFieldName)
-				) {
-					$previousValue = $recordModel->getPreviousValue($moduleOrFieldName);
-					$previousAttachments = $previousValue ? explode(',', $previousValue) : [];
-					$currentValue = $recordModel->get($moduleOrFieldName);
-					$currentAttachments = $currentValue ? explode(',', $currentValue) : [];
-					$documentIds = array_values(array_diff($currentAttachments, $previousAttachments));
-				}
-			} else {
-				$relationListView = Vtiger_RelationListView_Model::getInstance($recordModel, 'Documents');
-			}
-			if ($relationListView) {
-				$queryGenerator = $relationListView->getRelationQuery(true);
-				$queryGenerator->setFields(['id']);
-				$documentIds = $queryGenerator->createQuery()->column();
-			}
-		}
-		return $documentIds;
 	}
 }

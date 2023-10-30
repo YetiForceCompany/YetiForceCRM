@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -60,10 +60,6 @@ class Response
 	 * @var string Reason phrase.
 	 */
 	protected $reasonPhrase;
-	/**
-	 * @var string Reason content type
-	 */
-	protected $contentType;
 
 	/**
 	 * Get instance.
@@ -100,9 +96,7 @@ class Response
 	 */
 	public function setStatus(int $status): void
 	{
-		if (is_numeric($status)) {
-			$this->status = $status;
-		}
+		$this->status = $status;
 	}
 
 	/**
@@ -180,18 +174,6 @@ class Response
 	}
 
 	/**
-	 * Set acceptable headers.
-	 *
-	 * @param string $type
-	 *
-	 * @return void
-	 */
-	public function setContentType(string $type): void
-	{
-		$this->contentType = $type;
-	}
-
-	/**
 	 * Get reason phrase.
 	 *
 	 * @return string
@@ -218,13 +200,9 @@ class Response
 		if (200 !== $this->status || 'data' !== $this->responseType) {
 			$encryptDataTransfer = 0;
 		}
-		if (empty($this->contentType)) {
-			$requestContentType = strtolower(\App\Request::_getServer('HTTP_ACCEPT'));
-			if (empty($requestContentType) || '*/*' === $requestContentType) {
-				$this->contentType = $this->request->contentType;
-			} else {
-				$this->contentType = $requestContentType;
-			}
+		$requestContentType = strtolower(\App\Request::_getServer('HTTP_ACCEPT'));
+		if (empty($requestContentType) || '*/*' === $requestContentType) {
+			$requestContentType = $this->request->contentType;
 		}
 		$headersSent = headers_sent();
 		if (!$headersSent) {
@@ -247,9 +225,9 @@ class Response
 				case 'data':
 					if (!empty($this->body)) {
 						if (!$headersSent) {
-							header("Content-type: {$this->contentType}");
+							header("Content-type: $requestContentType");
 						}
-						if (false !== strpos($this->contentType, 'application/xml')) {
+						if (false !== strpos($requestContentType, 'application/xml')) {
 							if (!$headersSent) {
 								header('Content-disposition: attachment; filename="api.xml"');
 							}
@@ -300,11 +278,7 @@ class Response
 				$log .= "----------- Response data -----------\n";
 				$log .= print_r($this->body, true) . PHP_EOL;
 			}
-			$path = ROOT_DIRECTORY . '/cache/logs/webserviceDebug.log';
-			if (isset(\Api\Controller::$container)) {
-				$path = ROOT_DIRECTORY . '/cache/logs/webservice' . \Api\Controller::$container . 'Debug.log';
-			}
-			file_put_contents($path, $log, FILE_APPEND);
+			file_put_contents('cache/logs/webserviceDebug.log', $log, FILE_APPEND);
 		}
 	}
 

@@ -5,7 +5,7 @@
  * @package   Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 
@@ -63,7 +63,7 @@ class OSSMail_Logout_Model
 	 *
 	 * @throws \yii\db\Exception
 	 */
-	public static function logoutUserById(int $userId)
+	public static function logutUserById(int $userId)
 	{
 		$sessId = static::getSessId($userId);
 		if ($sessId) {

@@ -1,13 +1,14 @@
 <?php
-
 /**
  * YetiForce shop AbstractBaseProduct file.
  *
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Klaudia Łozowska <k.lozowska@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\YetiForce\Shop;
@@ -17,129 +18,192 @@ namespace App\YetiForce\Shop;
  */
 abstract class AbstractBaseProduct
 {
+	private const DEFAULT_CURRENCY = 'EUR';
+
+	/**
+	 * Product ID.
+	 *
+	 * @var string
+	 */
+	protected string $id;
+
 	/**
 	 * Product label.
 	 *
 	 * @var string
 	 */
-	public $label;
+	protected string $label;
+
 	/**
 	 * Product name.
 	 *
 	 * @var string
 	 */
-	public $name;
+	protected string $name;
+
+	/**
+	 * Is the product active.
+	 *
+	 * @var bool
+	 */
+	protected bool $active;
+
 	/**
 	 * Is the product featured.
 	 *
 	 * @var bool
 	 */
-	public $active = true;
-	/**
-	 * Is the product featured.
-	 *
-	 * @var bool
-	 */
-	public $featured = false;
+	protected bool $featured;
+
 	/**
 	 * Product category.
 	 *
 	 * @var string
 	 */
-	public $category;
+	protected string $category;
+
 	/**
 	 * Product website.
 	 *
 	 * @var string
 	 */
-	public $website;
-	/**
-	 * Price table depending on the size of the company.
-	 *
-	 * @var int[]
-	 */
-	public $prices = [];
+	protected string $website;
 
 	/**
-	 * Custom prices label.
+	 * Price packages.
 	 *
-	 * @var array
+	 * @var Package[]
 	 */
-	public $customPricesLabel = [];
+	protected array $packages = [];
 
 	/**
-	 * Price type (table,manual,selection).
+	 * Fit package.
 	 *
-	 * @var string
+	 * @var Package
 	 */
-	public $pricesType = 'table';
-
-	/**
-	 * Currency code.
-	 *
-	 * @var string
-	 */
-	public $currencyCode = 'EUR';
+	protected $package;
 
 	/**
 	 * Expiration date.
 	 *
 	 * @var string|null
 	 */
-	public $expirationDate;
+	protected ?string $expirationDate;
 
 	/**
-	 * Paid package.
+	 * Introduction / short description.
 	 *
-	 * @var string|null
+	 * @var string
 	 */
-	public $paidPackage;
+	protected string $introduction;
 
 	/**
-	 * Custom Fields.
+	 * Description.
 	 *
-	 * @var array
+	 * @var string
 	 */
-	public $customFields = [];
+	protected string $description;
 
 	/**
-	 * Verify the product.
+	 * Image.
 	 *
-	 * @return array
+	 * @var string
 	 */
-	public function verify(): array
+	protected string $image;
+
+	/** @var bool Disabled product */
+	protected bool $disabled = false;
+
+	/** @var bool Status */
+	private bool $status = false;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param string $productName
+	 */
+	public function __construct(string $productName)
 	{
-		return ['status' => true];
+		$this->status = false;
+		$this->name = $productName;
+
+		$statusData = \App\YetiForce\Register::getProduct($productName);
+		if ($statusData) {
+			$expiresAt = $statusData['expiresAt'];
+			$this->expirationDate = (new \DateTime($expiresAt, new \DateTimeZone('GMT')))->setTimezone(new \DateTimeZone(\App\Fields\DateTime::getTimeZone()))->format('Y-m-d');
+			$this->status = strtotime($this->expirationDate) >= strtotime(date('Y-m-d'));
+		} else {
+			$this->expirationDate = null;
+		}
+	}
+
+	/**
+	 * Get subscription status.
+	 *
+	 * @return bool
+	 */
+	public function getStatus(): bool
+	{
+		return $this->status;
+	}
+
+	/**
+	 * Check if the product is configured correctly.
+	 *
+	 * @return bool
+	 */
+	public function isConfigured(): bool
+	{
+		return true;
 	}
 
 	/**
 	 * Construct.
 	 *
-	 * @param string $name
+	 * @param array $data
+	 *
+	 * @return static
 	 */
-	public function __construct(string $name)
+	public static function fromArray(array $data): static
 	{
-		$this->name = $name;
+		$name = $data['name'] ?? '';
+		$self = new static($name);
+		$self->label = \App\Purifier::purifyByType($data['label'] ?? '', \App\Purifier::TEXT);
+		$self->id = $data['id'] ?? '';
+		$self->featured = $data['featured'] ?? false;
+		$self->category = $data['category'] ?? '';
+		$self->website = $data['website'] ?? '';
+		$self->introduction = \App\Purifier::purifyByType($data['shortDescription'] ?? '', \App\Purifier::TEXT);
+		$self->description = \App\Purifier::decodeHtml(\App\Purifier::purifyByType($data['description'] ?? '', \App\Purifier::HTML));
+		$self->image = $data['image'] ?? null;
+
+		$packages = [];
+		$currencyCode = \App\Fields\Currency::getDefault()['currency_code'];
+		foreach ($data['packages'] as $packageData) {
+			$package = new Package($packageData);
+			if ($package->isAvailable()) {
+				$packages[$package->getCurrencyCode()][] = $package;
+			}
+		}
+		if (isset($packages[$currencyCode])) {
+			$self->packages = $packages[$currencyCode];
+		} elseif (isset($packages[self::DEFAULT_CURRENCY])) {
+			$self->packages = $packages[self::DEFAULT_CURRENCY];
+		} elseif ($packages) {
+			$self->packages = current($packages);
+		}
+
+		return $self;
 	}
 
 	/**
-	 * Get price type.
+	 * Get product ID.
 	 *
 	 * @return string
 	 */
-	public function getPriceType(): string
+	public function getId(): string
 	{
-		return $this->pricesType;
-	}
-
-	/**
-	 * Get product price.
-	 *
-	 * @return int
-	 */
-	public function getPrice(): int
-	{
-		return $this->prices[\App\Company::getSize()] ?? $this->prices[0] ?? 0;
+		return $this->id;
 	}
 
 	/**
@@ -149,10 +213,7 @@ abstract class AbstractBaseProduct
 	 */
 	public function getLabel(): string
 	{
-		if (!empty($this->label)) {
-			return $this->label;
-		}
-		return \App\Language::translate('LBL_SHOP_' . \strtoupper($this->name), 'Settings:YetiForce');
+		return $this->label;
 	}
 
 	/**
@@ -166,38 +227,33 @@ abstract class AbstractBaseProduct
 	}
 
 	/**
-	 * Get product description.
+	 * Get category.
 	 *
 	 * @return string
 	 */
-	public function getIntroduction(): string
+	public function getCategory(): string
 	{
-		return \App\Language::translate('LBL_SHOP_' . \strtoupper($this->name) . '_INTRO', 'Settings:YetiForce');
+		return $this->category;
 	}
 
 	/**
-	 * Get product description.
+	 * Price packages.
 	 *
-	 * @return string
+	 * @return Package[]
 	 */
-	public function getDescription(): string
+	public function getPackages(): array
 	{
-		return \App\Language::translate('LBL_SHOP_' . \strtoupper($this->name) . '_DESC', 'Settings:YetiForce');
+		return $this->packages;
 	}
 
 	/**
-	 * Get product image.
+	 * Get product price.
 	 *
-	 * @return string
+	 * @return int
 	 */
-	public function getImage(): ?string
+	public function getPrice(): int
 	{
-		$filePath = null;
-		$file = 'modules/Settings/YetiForce/' . $this->name . '.png';
-		if (\file_exists(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'public_html' . \DIRECTORY_SEPARATOR . $file)) {
-			$filePath = \App\Layout::getPublicUrl($file);
-		}
-		return $filePath;
+		return $this->package->getPrice();
 	}
 
 	/**
@@ -207,34 +263,92 @@ abstract class AbstractBaseProduct
 	 *
 	 * @return string
 	 */
-	public function getPriceLabel($key): string
+	public function getPriceLabel(string $key): string
 	{
-		return \App\Language::translate('LBL_SHOP_COMPANY_SIZE_' . \strtoupper($key), 'Settings::YetiForce');
+		return isset($this->packages[$key])
+			? $this->packages[$key]->getLabel()
+			: \App\Language::translate('LBL_SHOP_COMPANY_SIZE_' . strtoupper($key), 'Settings::YetiForce');
+	}
+
+	/**
+	 * Get currency code.
+	 *
+	 * @return string
+	 */
+	public function getCurrencyCode(): string
+	{
+		return $this->package->getCurrencyCode();
+	}
+
+	/**
+	 * Get fit package.
+	 *
+	 * @return Package|null
+	 */
+	public function getFitPackage(): ?Package
+	{
+		if (!$this->package) {
+			$packages = $this->getPackages();
+			usort($packages, fn ($a, $b) => $a->getPriceNet() <=> $b->getPriceNet());
+			$this->package = current($packages);
+		}
+
+		return $this->package;
+	}
+
+	/**
+	 * Get product description.
+	 *
+	 * @return string
+	 */
+	public function getIntroduction(): string
+	{
+		return $this->introduction;
+	}
+
+	/**
+	 * Get product description.
+	 *
+	 * @return string
+	 */
+	public function getDescription(): string
+	{
+		return $this->description;
+	}
+
+	/**
+	 * Get product image.
+	 *
+	 * @return ?string
+	 */
+	public function getImage(): ?string
+	{
+		return $this->image ?? '';
 	}
 
 	/**
 	 * The period for which the service is purchased.
 	 *
-	 * @return void
+	 * @return string
 	 */
-	public function getPeriodLabel(): string
+	public function getPaymentFrequency(): string
 	{
-		return 'LBL_PERIOD_OF_MONTH';
+		return $this->package->getPaymentFrequency();
 	}
 
 	/**
-	 * Loading configuration.
+	 * Get short period name for which the service is purchased.
 	 *
-	 * @param array $config
-	 *
-	 * @return void
+	 * @return string
 	 */
-	public function loadConfig(array $config)
+	public function getPaymentFrequencyShort(): string
 	{
-		if (\App\YetiForce\Shop::verifyProductKey($config['key'])) {
-			$this->expirationDate = $config['date'];
-			$this->paidPackage = $config['package'];
-		}
+		return $this->package->getPaymentFrequencyShort();
+	}
+
+	public function isExpired(): bool
+	{
+		return isset($this->expirationDate) && !$this->status;
 	}
 
 	/**
@@ -244,8 +358,7 @@ abstract class AbstractBaseProduct
 	 */
 	public function getVariable(): array
 	{
-		$productSelection = 'selection' === $this->pricesType;
-		$data = [
+		return array_merge([
 			'cmd' => '_xclick-subscriptions',
 			'no_shipping' => 1,
 			'no_note' => 1,
@@ -254,61 +367,35 @@ abstract class AbstractBaseProduct
 			't3' => 'M',
 			'p3' => 1,
 			'item_name' => $this->name,
-			'currency_code' => $this->currencyCode,
+			'currency_code' => $this->getCurrencyCode(),
 			'on0' => 'Package',
-		];
-		if (!$productSelection) {
-			$data['os0'] = \App\Company::getSize();
-		}
-		if ('manual' !== $this->pricesType && !$productSelection) {
-			$data['a3'] = $this->getPrice();
-		}
-		return array_merge($data, \App\YetiForce\Shop::getVariablePayments($this->isCustom()));
+			'os0' => $this->package->getName(),
+			'a3' => $this->package->getPriceGross()
+		], \App\YetiForce\Shop::getVariablePayments());
 	}
 
 	/**
-	 * Get product custom fields.
+	 * Show alert in marketplace.
+	 *
+	 * @param bool $require
 	 *
 	 * @return array
 	 */
-	public function getCustomFields(): array
+	public function getAlertMessage(bool $require = true): string
 	{
-		return $this->customFields;
-	}
-
-	/**
-	 * Is custom fields.
-	 *
-	 * @return bool
-	 */
-	public function isCustom(): bool
-	{
-		return !empty($this->customFields);
-	}
-
-	/**
-	 * Show alert.
-	 *
-	 * @return array
-	 */
-	public function showAlert(): array
-	{
-		$return = ['status' => false];
-		if (isset($this->paidPackage, $this->expirationDate)) {
-			if (strtotime('now') > strtotime($this->expirationDate)) {
-				$return = ['status' => true, 'type' => 'LBL_SHOP_RENEW', 'message' => 'LBL_SUBSCRIPTION_HAS_EXPIRED'];
-			} elseif (!\App\Company::compareSize($this->paidPackage)) {
-				$return = ['status' => true, 'type' => 'LBL_SHOP_RENEW', 'message' => 'LBL_SIZE_OF_YOUR_COMPANY_HAS_CHANGED'];
-			} elseif ($analyze = $this->analyzeConfiguration()) {
-				$return = array_merge(['status' => true], $analyze);
-			}
-		} else {
-			$check = $this->verify();
-			if (!$check['status']) {
-				$return = ['status' => true, 'type' => 'LBL_SHOP_RENEW', 'message' => $check['message']];
-			}
+		$message = '';
+		$status = $this->getStatus();
+		if ($this->disabled) {
+			$message = 'LBL_FUNCTIONALITY_NOT_AVAILABLE';
+		} elseif ($this->isExpired()) {
+			$message = 'LBL_SUBSCRIPTION_HAS_EXPIRED';
+		} elseif ($status && !$this->isConfigured()) {
+			$message = 'LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED';
+		} elseif ($require && !$status) {
+			$message = 'LBL_PAID_FUNCTIONALITY';
 		}
-		return $return;
+
+		return $message;
 	}
 
 	/**
@@ -324,7 +411,7 @@ abstract class AbstractBaseProduct
 	/**
 	 * Product modal additional buttons.
 	 *
-	 * @return Vtiger_Link_Model[]
+	 * @return \Vtiger_Link_Model[]
 	 */
 	public function getAdditionalButtons(): array
 	{
@@ -342,12 +429,32 @@ abstract class AbstractBaseProduct
 	}
 
 	/**
+	 * Get expiration date.
+	 *
+	 * @return string|null
+	 */
+	public function getExpirationDate(): ?string
+	{
+		return $this->expirationDate ?? null;
+	}
+
+	/**
 	 * Check if the service is active.
 	 *
 	 * @return bool
 	 */
 	public function isActive(): bool
 	{
-		return false;
+		return $this->active;
+	}
+
+	/**
+	 * Check if product is available.
+	 *
+	 * @return bool
+	 */
+	public function isAvailable(): bool
+	{
+		return !empty($this->getFitPackage());
 	}
 }

@@ -9,7 +9,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Rembiesa <s.rembiesa@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -135,10 +135,6 @@ class VatifyEu extends Base
 			'country' => 'addresslevel1a'
 		],
 		'Competition' => [
-			'vatNumber' => 'vat_id',
-			'country' => 'addresslevel1a'
-		],
-		'Partners' => [
 			'vatNumber' => 'vat_id',
 			'country' => 'addresslevel1a'
 		],

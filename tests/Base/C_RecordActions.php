@@ -6,7 +6,7 @@
  * @package   Tests
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -286,7 +286,7 @@ class C_RecordActions extends \Tests\Base
 	public function testPermission()
 	{
 		$this->assertTrue(self::$recordAccounts->isEditable());
-		$this->assertTrue(self::$recordAccounts->isCreatable());
+		$this->assertTrue(self::$recordAccounts->isCreateable());
 		$this->assertTrue(self::$recordAccounts->isViewable());
 		$this->assertFalse(self::$recordAccounts->privilegeToActivate());
 		$this->assertTrue(self::$recordAccounts->privilegeToArchive());
@@ -325,11 +325,11 @@ class C_RecordActions extends \Tests\Base
 	 */
 	public function testStateRecord()
 	{
-		self::$recordAccounts->changeState(\App\Record::STATE_TRASH);
-		$this->assertSame(\App\Record::STATE_TRASH, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => self::$recordAccounts->getId()])->scalar());
-		self::$recordAccounts->changeState(\App\Record::STATE_ARCHIVED);
-		$this->assertSame(\App\Record::STATE_ARCHIVED, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => self::$recordAccounts->getId()])->scalar());
-		self::$recordAccounts->changeState(\App\Record::STATE_ACTIVE);
-		$this->assertSame(\App\Record::STATE_ACTIVE, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => self::$recordAccounts->getId()])->scalar());
+		self::$recordAccounts->changeState('Trash');
+		$this->assertSame(1, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => self::$recordAccounts->getId()])->scalar());
+		self::$recordAccounts->changeState('Archived');
+		$this->assertSame(2, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => self::$recordAccounts->getId()])->scalar());
+		self::$recordAccounts->changeState('Active');
+		$this->assertSame(0, (new \App\Db\Query())->select(['deleted'])->from('vtiger_crmentity')->where(['crmid' => self::$recordAccounts->getId()])->scalar());
 	}
 }

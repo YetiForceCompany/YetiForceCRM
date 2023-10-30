@@ -5,7 +5,7 @@
  * @package   Settings.View
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
@@ -22,9 +22,6 @@ class Settings_WidgetsManagement_EditWidget_View extends \App\Controller\ModalSe
 
 	/** {@inheritdoc} */
 	public $showFooter = false;
-
-	/** @var Vtiger_Widget_Model Widget model. */
-	public $widgetModel;
 
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)

@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -250,24 +250,5 @@ class DateTime
 			}
 		}
 		return $value;
-	}
-
-	/**
-	 * Convert date from database format to user format.
-	 *
-	 * @param array $range ['2023-06-16 23:59:59','2023-06-16 23:59:59']
-	 *
-	 * @return array|bool ['03.02.2018','04.02.2018']
-	 */
-	public static function formatRangeToDisplay($range): array
-	{
-		$result = [];
-		if (\is_array($range) && !empty($range[0]) && !empty($range[1])) {
-			$result = [
-				static::formatToDisplay($range[0]),
-				static::formatToDisplay($range[1]),
-			];
-		}
-		return $result;
 	}
 }

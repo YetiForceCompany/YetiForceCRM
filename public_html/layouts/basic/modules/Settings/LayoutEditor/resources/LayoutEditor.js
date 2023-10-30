@@ -161,92 +161,48 @@ $.Class(
 			relatedList.find('.js-related-custom-view').on('change', function (e) {
 				thisInstance.updateCustomView($(e.currentTarget));
 			});
-			relatedList.find('.js-related-custom-view-orderby').on('change', function (e) {
-				thisInstance.updateCustomViewOrderBy($(e.currentTarget));
-			});
 			relatedList.on('click', '.addRelation', function (e) {
 				let currentTarget = $(e.currentTarget);
-				const container = currentTarget.closest('#relatedTabOrder'),
-					contentsDiv = container.closest('.contentsDiv'),
-					addRelationContainer = relatedList.find('.addRelationContainer').clone(true, true);
-				let callBackFunction = function (data) {
-					const labelElement = data.find('.relLabel');
-					data.find('[name="multi_reference_field"]').attr('disabled', true);
+				var container = currentTarget.closest('#relatedTabOrder');
+				var contentsDiv = container.closest('.contentsDiv');
+				var addRelationContainer = relatedList.find('.addRelationContainer').clone(true, true);
+				var callBackFunction = function (data) {
 					App.Fields.Picklist.showSelect2ElementView(data.find('select'));
-					labelElement.val(data.find('.target option:selected').val());
+					data.find('.relLabel').val(data.find('.target option:selected').val());
 					data.on('change', '.target', function (e) {
 						let currentTarget = $(e.currentTarget);
-						switch ($(this).val()) {
-							case 'getMultiReference':
-								data.find('[name="multi_reference_field"]').attr('disabled', false);
-								data.find('[name="actions"]').attr('disabled', true);
-								data.find('[name="target"]').attr('readonly', true);
-								break;
-							default:
-								labelElement.val(currentTarget.find('option:selected').val());
-								break;
-						}
+						data.find('.relLabel').val(currentTarget.find('option:selected').val());
 					});
 					data.find('[name="type"]').on('change', function () {
-						data.find('.actionsBlock').removeClass('d-none');
-						data.find('.targetBlock').removeClass('d-none');
-						let label = data.find('.target option:selected').val();
-						switch ($(this).val()) {
-							case 'getAttachments':
-								data.find('[name="target"] option').not('[value="Documents"]').addClass('d-none');
-								data.find('[name="actions"]').attr('disabled', false);
-								data.find('[name="target"]').attr('readonly', false);
-								data.find('[name="multi_reference_field"]').attr('disabled', true);
-								break;
-							case 'getMultiReference':
-								data.find('[name="multi_reference_field"]').attr('disabled', false);
-								data.find('[name="actions"]').attr('disabled', true);
-								data.find('[name="target"]').attr('readonly', true);
-								data.find('.actionsBlock').addClass('d-none');
-								data.find('.targetBlock').addClass('d-none');
-								label = data.find('.multiReferenceField option:selected').data('module');
-								break;
-							default:
-								data.find('[name="multi_reference_field"]').attr('disabled', true);
-								data.find('[name="actions"]').attr('disabled', false);
-								data.find('[name="target"]').attr('readonly', false);
-								data.find('[name="target"] option').removeClass('d-none');
-								break;
+						if ($(this).val() === 'getAttachments') {
+							data.find('[name="target"] option').not('[value="Documents"]').addClass('d-none');
+							App.Fields.Picklist.showSelect2ElementView(data.find('[name="target"]'));
+						} else {
+							data.find('[name="target"] option').removeClass('d-none');
+							App.Fields.Picklist.showSelect2ElementView(data.find('[name="target"]'));
 						}
-						labelElement.val(label);
-						App.Fields.Picklist.showSelect2ElementView(data.find('[name="target"]'));
 					});
 					data.on('click', '.addButton', function (e) {
-						if (
-							data.find('[name="type"]').val() === 'getMultiReference' &&
-							data.find('[name="multi_reference_field"]').val() === null
-						) {
-							data
-								.find('[name="multi_reference_field"]')
-								.validationEngine('showPrompt', app.vtranslate('JS_REQUIRED_FIELD'), 'error', 'topRight', true);
-						} else {
-							const form = data.find('form').serializeFormData();
-							let params = {};
-							params['module'] = app.getModuleName();
-							params['parent'] = app.getParentModuleName();
-							params['action'] = 'Relation';
-							params['mode'] = 'addRelation';
-							$.extend(params, form);
-							AppConnector.request(params).done(function (data) {
-								let response = data.result;
-								if (response && response.success) {
-									thisInstance
-										.getRelModuleLayoutEditor(container.find('[name="layoutEditorRelModules"]').val())
-										.done(function (data) {
-											contentsDiv.html(data);
-											thisInstance.registerEvents();
-										});
-								} else if (response && response.message) {
-									Settings_Vtiger_Index_Js.showMessage({ type: 'error', text: response.message });
-								}
-							});
-							app.hideModalWindow();
-						}
+						var form = data.find('form').serializeFormData();
+						var params = {};
+						params['module'] = app.getModuleName();
+						params['parent'] = app.getParentModuleName();
+						params['action'] = 'Relation';
+						params['mode'] = 'addRelation';
+						$.extend(params, form);
+						AppConnector.request(params).done(function (data) {
+							let response = data.result;
+							if (response && response.success) {
+								thisInstance
+									.getRelModuleLayoutEditor(container.find('[name="layoutEditorRelModules"]').val())
+									.done(function (data) {
+										contentsDiv.html(data);
+										thisInstance.registerEvents();
+									});
+							} else if (response && response.message) {
+								Settings_Vtiger_Index_Js.showMessage({ type: 'error', text: response.message });
+							}
+						});
 					});
 				};
 				app.showModalWindow(addRelationContainer, function (data) {
@@ -493,42 +449,6 @@ $.Class(
 					app.showNotify({
 						text: app.vtranslate('JS_ERROR'),
 						type: 'error'
-					});
-				});
-		},
-		/**
-		 * Set custom view order by
-		 * (jQuery) target
-		 */
-		updateCustomViewOrderBy: function (target) {
-			let params = {},
-				relatedModule = $(target).closest('.relatedModule'),
-				progressIndicatorElement = $.progressIndicator({
-					position: 'html',
-					blockInfo: {
-						enabled: true
-					}
-				});
-			params['module'] = app.getModuleName();
-			params['parent'] = app.getParentModuleName();
-			params['action'] = 'Relation';
-			params['mode'] = 'updateCustomViewOrderBy';
-			params['relationId'] = relatedModule.data('relation-id');
-			params['orderby'] = target.prop('checked');
-			AppConnector.request(params)
-				.done(function (result) {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					app.showNotify({
-						text: result.result.message,
-						type: 'success'
-					});
-				})
-				.fail(function (error) {
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					app.showNotify({
-						text: app.vtranslate('JS_ERROR'),
-						type: 'error',
-						textTrusted: false
 					});
 				});
 		},
@@ -790,11 +710,7 @@ $.Class(
 							saveButton.attr('disabled', 'disabled');
 							thisInstance.validateFieldsValue(form).done((response) => {
 								if (!response) {
-									if (
-										fieldTypeValue == 'Picklist' ||
-										fieldTypeValue == 'MultiSelectCombo' ||
-										fieldTypeValue == 'MultipicklistTags'
-									) {
+									if (fieldTypeValue == 'Picklist' || fieldTypeValue == 'MultiSelectCombo') {
 										thisInstance.checkPicklistExist(fieldNameValue).done((result) => {
 											if (result) {
 												thisInstance.saveCustomField(blockId, form);
@@ -1002,21 +918,6 @@ $.Class(
 					case 'MultiReferenceValue':
 						form.find('.preMultiReferenceValue').removeClass('d-none');
 						thisInstance.loadMultiReferenceFields(form);
-						break;
-					case 'MapCoordinates':
-						form.find('.coordinateOption').removeClass('d-none');
-						break;
-					case 'MultipicklistTags':
-						let picklistTags = form.find('.preDefinedValueExists');
-						picklistTags.find('.redColor').remove();
-						let pickListValues = picklistTags.find('#pickListValues');
-						pickListValues.attr(
-							'data-validation-engine',
-							pickListValues.data('validation-engine').replace('required, ', '')
-						);
-						break;
-					case 'Group':
-						form.find('.js-group-module-option').removeClass('d-none');
 						break;
 				}
 			});
@@ -1700,19 +1601,16 @@ $.Class(
 					cb: function (modalContainer) {
 						thisInstance.registerFieldDetailsChange(modalContainer);
 						thisInstance.lockCheckbox(modalContainer);
-						thisInstance.registerVariableToParsers(modalContainer);
+						thisInstance.registerVaribleToParsers(modalContainer);
 						app.registerEventForClockPicker(modalContainer.find('.clockPicker'));
 						modalContainer.find('[data-inputmask]').inputmask();
-						modalContainer.find('.js-string-max-length').on('change', (_e) => {
-							app.showConfirmModal({
-								text: app.vtranslate('JS_COLUMN_LENGTH_CHANGE_WARNING'),
-								rejectedCallback: () => {
-									app.hideModalWindow();
-								}
+						modalContainer.find('.js-select-icon').on('click', function (e) {
+							$.when(Settings_Vtiger_Index_Js.selectIcon({ skipImage: true })).done(function (data) {
+								modalContainer.find('[name="icon_name"]').val(data['name']);
 							});
 						});
 					},
-					sendByAjaxCb: (_formData, response) => {
+					sendByAjaxCb: (formData, response) => {
 						if (!response.success) {
 							return;
 						}
@@ -1735,15 +1633,17 @@ $.Class(
 							thisInstance.reArrangeBlockFields(block);
 						}
 						if (result['mandatory']) {
-							fieldLabel.find('.redColor').removeClass('d-none');
+							if (fieldLabel.find('.redColor').length === 0) {
+								fieldRow.find('.fieldLabel').append($('<span class="redColor">*</span>'));
+							}
 						} else {
-							fieldLabel.find('.redColor').addClass('d-none');
+							fieldRow.find('.fieldLabel').find('.redColor').remove();
 						}
 					}
 				});
 			});
 		},
-		registerVariableToParsers: function (container) {
+		registerVaribleToParsers: function (container) {
 			container.find('.configButton').on('click', function (e) {
 				container.find('.js-toggle-hide .js-base-element').each(function (n, e) {
 					var currentElement = $(e);
@@ -1890,6 +1790,7 @@ $.Class(
 			container.find('.editInventoryField').on('click', function (e) {
 				let currentTarget = $(e.currentTarget);
 				var selectedModule = $('#layoutEditorContainer').find('[name="layoutEditorModules"]').val();
+				var blockId = currentTarget.closest('.inventoryBlock').data('block-id');
 				var editField = currentTarget.closest('.editFields');
 				var progress = $.progressIndicator();
 				app.showModalWindow(
@@ -1902,7 +1803,7 @@ $.Class(
 						editField.data('name'),
 					function (container) {
 						app.showPopoverElementView(container.find('.js-help-info'));
-						thisInstance.registerStep2(container);
+						thisInstance.registerStep2(container, blockId);
 						progress.progressIndicator({ mode: 'hide' });
 					}
 				);
@@ -1938,7 +1839,7 @@ $.Class(
 								'&type=' +
 								type,
 							(modalContainer) => {
-								thisInstance.registerStep2(modalContainer);
+								thisInstance.registerStep2(modalContainer, blockId);
 								progress.progressIndicator({ mode: 'hide' });
 							}
 						);
@@ -1948,22 +1849,56 @@ $.Class(
 		},
 		/**
 		 * Function to save inventory field
-		 * @param {jQuery} container
 		 */
-		registerStep2: function (container) {
+		registerStep2: function (container, blockId) {
+			let thisInstance = this;
+			let containerInventory = thisInstance.getInventoryViewLayout();
 			let form = container.find('form');
+			let selectedModule = this.container.find('[name="layoutEditorModules"]').val();
 			form.validationEngine(app.validationEngineOptions);
-			form.on('submit', (e) => {
-				e.preventDefault();
+			form.on('submit', function (e) {
 				let formData = form.serializeFormData();
-				if (form.validationEngine('validate')) {
-					app.saveAjax('saveInventoryField', null, formData).done((data) => {
+				let paramsName = container.find('#params');
+				if (paramsName.length) {
+					paramsName = JSON.parse(paramsName.val());
+					let params = {};
+					for (let i in formData) {
+						if ($.inArray(i, paramsName) != -1) {
+							let value = formData[i];
+							if (i === 'modules' && typeof value === 'string') {
+								value = [value];
+							}
+							params[i] = value;
+							delete formData[i];
+						}
+					}
+					formData.params = JSON.stringify(params);
+				}
+				let errorExists = form.validationEngine('validate');
+				if (errorExists != false) {
+					formData.block = blockId;
+					formData.sourceModule = selectedModule;
+					app.saveAjax('saveInventoryField', null, formData).done(function (data) {
+						let result = data.result,
+							success = data.success;
 						app.hideModalWindow();
-						if (data.result && data.success) {
-							let selectedModule = this.container.find('[name="layoutEditorModules"]').val();
-							window.location.href =
-								'index.php?module=LayoutEditor&parent=Settings&view=Index&tab=inventoryViewLayout&sourceModule=' +
-								selectedModule;
+						if (success && result && result.edit) {
+							let liElement = containerInventory.find('[data-id="' + result.data.id + '"]');
+							liElement.find('.fieldLabel').text(result.data.translate);
+						} else if (success && result) {
+							let newLiElement = containerInventory.find('.newLiElement').clone(true, true);
+							newLiElement
+								.removeClass('d-none newLiElement')
+								.find('.editFields')
+								.attr('data-id', result.data.id)
+								.attr('data-sequence', result.data.sequence)
+								.attr('data-name', result.data.columnName)
+								.attr('data-type', result.data.invtype)
+								.find('.fieldLabel')
+								.text(result.data.translate);
+							containerInventory
+								.find('[data-block-id="' + result.data.block + '"] .connectedSortable')
+								.append(newLiElement);
 						} else {
 							app.showNotify({
 								text: app.vtranslate('JS_ERROR'),
@@ -1972,6 +1907,9 @@ $.Class(
 						}
 					});
 				}
+			});
+			container.find('form').on('submit', function (event) {
+				event.preventDefault();
 			});
 		},
 		/**
@@ -2030,6 +1968,9 @@ $.Class(
 								Settings_Vtiger_Index_Js.showMessage(param);
 								progressIndicatorElement.progressIndicator({ mode: 'hide' });
 							});
+					},
+					rejectedCallback: () => {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 					}
 				});
 			});

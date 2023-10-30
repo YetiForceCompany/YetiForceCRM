@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <!-- tpl-Settings-RecordCollector-Configuration -->
 {strip}
 	<div class="o-breadcrumb widget_header row mb-2">
@@ -13,20 +13,6 @@
 	</div>
 	<div class="main_content">
 		<form class="js-validation-form">
-			{foreach from=$SHOP_RECORD_COLLECTOR item=SHOP_PRODUCT}
-				{assign var=CHECK_ALERT value=\App\YetiForce\Shop::checkAlert($SHOP_PRODUCT)}
-				{if $CHECK_ALERT}
-					<div class="alert alert-warning">
-						<span class="yfi-premium mr-2 u-fs-2em color-red-600 float-left"></span>
-						{\App\YetiForce\Shop::getProduct($SHOP_PRODUCT)->getLabel()} -
-						{\App\Language::translate($CHECK_ALERT, 'Settings::YetiForce')}
-						<a class="btn btn-primary btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop&product={$SHOP_PRODUCT}&mode=showProductModal">
-							<span class="yfi yfi-shop mr-2"></span>
-							{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}
-						</a>
-					</div>
-				{/if}
-			{/foreach}
 			<div class="form-row m-0">
 				<div class="col-12 form-row mb-2">
 					<div class="js-config-table table-responsive" data-js="container">
@@ -46,7 +32,7 @@
 							</thead>
 							<tbody>
 								{foreach from=$COLLECTORS item=COLLECTOR}
-									<tr>
+									<tr class="{if !$COLLECTOR->isAvailable()}bg-white{/if}">
 										<td>
 											<span class="{$COLLECTOR->icon} u-fs-3x mr-2"></span>
 											{\App\Language::translate($COLLECTOR->label, 'Other.RecordCollector')}
@@ -70,7 +56,7 @@
 											<input class="js-featured-change js-visibility {if !$COLLECTOR->active}d-none{/if}" name="featured" value="{$COLLECTOR->getName()}" type="checkbox" {if $COLLECTOR->featured}checked{/if}>
 										</td>
 										<td class="text-center">
-											<input class="js-status-change" name="is_active" value="{$COLLECTOR->getName()}" type="checkbox" {if $COLLECTOR->active}checked{/if}>
+											<input class="js-status-change" name="is_active" value="{$COLLECTOR->getName()}" type="checkbox" {if $COLLECTOR->active}checked{/if} {if !$COLLECTOR->active && !$COLLECTOR->isAvailable()} disabled="disabled" {/if}>
 										</td>
 										<td class="text-center">
 											{if !empty($COLLECTOR->settingsFields)}

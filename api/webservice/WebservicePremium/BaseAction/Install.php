@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -42,7 +42,9 @@ class Install extends \Api\Core\BaseAction
 	 *		summary="Test method for the portal",
 	 *		description="Install the system",
 	 *		tags={"BaseAction"},
-	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
+	 *		security={
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}
+	 *		},
 	 *		@OA\RequestBody(
 	 *			required=false,
 	 *			description="Base action install request body",

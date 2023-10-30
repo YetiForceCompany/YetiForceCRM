@@ -4,7 +4,7 @@
  * OSSMailScanner save email search list action class.
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailScanner_SaveEmailSearchList_Action extends \App\Controller\Action
 {

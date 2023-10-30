@@ -4,7 +4,7 @@
  * Record Model.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
@@ -96,18 +96,10 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getDisplayValue(string $key)
 	{
-		switch ($key) {
-			case 'default':
-				$return = $this->get($key) ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
-				break;
-			case 'type':
-				$return = $this->getConnectorLabels()[$this->get($key)];
-				break;
-			default:
-				$return = \App\Purifier::encodeHtml($this->get($key));
-				break;
+		if ('default' === $key) {
+			return $this->get($key) ? \App\Language::translate('LBL_YES') : \App\Language::translate('LBL_NO');
 		}
-		return $return;
+		return \App\Purifier::encodeHtml($this->get($key));
 	}
 
 	/**
@@ -198,7 +190,6 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		if ($recordId) {
 			$db = App\Db::getInstance();
 			$result = $db->createCommand()->delete('s_#__pbx', ['pbxid' => $recordId])->execute();
-			\App\Cache::delete('PBXServers', 'all');
 		}
 		return !empty($result);
 	}
@@ -210,13 +201,18 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getEditFieldsModel()
 	{
+		$moduleName = $this->getModule()->getName(true);
 		$mainParams = ['uitype' => 1, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
 		$fieldModels = [];
 		foreach ($this->editFields as $name => $params) {
 			if ('type' === $name) {
-				$params['picklistValues'] = $this->getConnectorLabels();
+				$connectors = [];
+				foreach (App\Integrations\Pbx::getConnectors() as $connectorName => $instance) {
+					$connectors[$connectorName] = \App\Language::translate($instance->name, $moduleName);
+				}
+				$params['picklistValues'] = $connectors;
 			}
-			$fieldModel = Settings_Vtiger_Field_Model::init($this->getModule()->getName(true), array_merge($mainParams, $params, ['column' => $name, 'name' => $name]));
+			$fieldModel = Settings_Vtiger_Field_Model::init($moduleName, array_merge($mainParams, $params, ['column' => $name, 'name' => $name]));
 			$fieldModel->set('fieldvalue', $this->get($name));
 			if ('type' === $name && $this->getId()) {
 				$fieldModel->set('isEditableReadOnly', true);
@@ -224,21 +220,6 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 			$fieldModels[$name] = $fieldModel;
 		}
 		return $fieldModels;
-	}
-
-	/**
-	 * Get connector labels.
-	 *
-	 * @return string[]
-	 */
-	protected function getConnectorLabels(): array
-	{
-		$moduleName = $this->getModule()->getName(true);
-		$labels = [];
-		foreach (App\Integrations\Pbx::getConnectors() as $connectorName => $instance) {
-			$labels[$connectorName] = \App\Language::translate($instance::NAME, $moduleName);
-		}
-		return $labels;
 	}
 
 	/**
@@ -251,8 +232,9 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		$moduleName = $this->getModule()->getName(true);
 		$mainParams = ['uitype' => 1, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
 		$fieldModels = [];
-		if ($connector = \App\Integrations\Pbx::getConnectorByName($this->get('type'))) {
-			foreach ($connector::CONFIG_FIELDS as $name => $params) {
+		$connector = App\Integrations\Pbx::getConnectorInstance($this->get('type'));
+		if ($connector) {
+			foreach ($connector->configFields as $name => $params) {
 				$fieldModel = Settings_Vtiger_Field_Model::init($moduleName, array_merge($mainParams, $params, ['column' => $name, 'name' => $name]));
 				$fieldModel->set('fieldvalue', $this->getParam($name));
 				$fieldModels[$name] = $fieldModel;
@@ -277,16 +259,15 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		if ($this->getId()) {
 			unset($data['pbxid']);
-			$success = true;
+			$seccess = true;
 			$db->createCommand()->update('s_#__pbx', $data, ['pbxid' => $this->getId()])->execute();
 		} else {
-			$success = $db->createCommand()->insert('s_#__pbx', $data)->execute();
-			if ($success) {
+			$seccess = $db->createCommand()->insert('s_#__pbx', $data)->execute();
+			if ($seccess) {
 				$this->set('pbxid', $db->getLastInsertID('s_#__pbx_pbxid_seq'));
 			}
 		}
-		\App\Cache::delete('PBXServers', 'all');
-		return $success;
+		return $seccess;
 	}
 
 	/**
@@ -299,12 +280,10 @@ class Settings_PBX_Record_Model extends Settings_Vtiger_Record_Model
 		foreach ($this->getEditFields() as $name => $value) {
 			$this->set($name, $data[$name] ?? null);
 		}
+		$connector = App\Integrations\Pbx::getConnectorInstance($data['type']);
 		$params = [];
-		if ($connector = \App\Integrations\Pbx::getConnectorByName($data['type'])) {
-			foreach ($connector::CONFIG_FIELDS as $name => $config) {
-				$params[$name] = $data[$name] ?? null;
-			}
-			$connector->saveSettings($data);
+		foreach ($connector->configFields as $name => $config) {
+			$params[$name] = $data[$name] ?? null;
 		}
 		$this->param = $params;
 		$this->set('param', \App\Json::encode($params));

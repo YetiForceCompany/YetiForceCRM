@@ -1,17 +1,12 @@
 <?php
 
 /**
- * OpenStreetMap Coordinate model file.
- *
- * @package   Model
+ * Coordiante model.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- */
-/**
- * OpenStreetMap Coordinate model class.
  */
 class OpenStreetMap_Coordinate_Model extends \App\Base
 {
@@ -148,8 +143,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$html .= '<button class="btn btn-success btn-xs startTrack marginTB3 mr-3"><span class="fas fa-truck mr-2"></span>' . \App\Language::translate('LBL_START') . '</button>';
 		$html .= '<button class="btn btn-danger btn-xs endTrack marginTB3"><span class="fas fa-flag-checkered mr-2"></span>' . \App\Language::translate('LBL_END') . '</button><br />';
 		$html .= '<button class="btn btn-warning btn-xs indirectPoint marginTB3 mr-3"><span class="fas fa-flag mr-2"></span>' . \App\Language::translate('LBL_INDIRECT_POINT', 'OpenStreetMap') . '</button>';
-		$html .= '<button class="btn btn-primary btn-xs searchInRadius marginTB3"><span class="fas fa-arrows-to-dot mr-2"></span>' . \App\Language::translate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
-		return $html . '<span class="border d-block my-1 p-1">' . $data['lat'] . ', ' . $data['lon'] . '</span>';
+		return $html . '<button class="btn btn-primary btn-xs searchInRadius marginTB3"><span class="fas fa-arrows-to-dot mr-2"></span>' . \App\Language::translate('LBL_SEARCH_IN_RADIUS', 'OpenStreetMap') . '</button>';
 	}
 
 	public static $colors = [];
@@ -266,7 +260,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 		$queryGenerator->setCustomColumn('vtiger_crmentity.crmid');
 		$queryGenerator->addJoin(['LEFT JOIN', 'u_#__openstreetmap', 'vtiger_crmentity.crmid = u_#__openstreetmap.crmid']);
 		$query = $queryGenerator->createQuery();
-		$andWhere = ['vtiger_crmentity.crmid' => $records];
+		$andWhere = ['and', ['vtiger_crmentity.crmid' => $records], ['u_#__openstreetmap.type' => 'a']];
 		if (!empty($coordinatesCenter) && !empty($radius)) {
 			$margins = self::getMargins($coordinatesCenter, $radius);
 			$andWhere[] = ['<', 'u_#__openstreetmap.lat', $margins['latMax']];
@@ -300,7 +294,7 @@ class OpenStreetMap_Coordinate_Model extends \App\Base
 	public function getCoordinatesCustomView()
 	{
 		$selectedIds = $this->get('selectedIds');
-		if ($selectedIds && 'all' == $selectedIds[0]) {
+		if ('all' == $selectedIds) {
 			return $this->readAllCoordinatesFromCustomeView();
 		}
 		if (!empty($selectedIds)) {

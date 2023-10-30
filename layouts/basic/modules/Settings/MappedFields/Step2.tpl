@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-MappedFields-Step2 mfTemplateContents">
 		<form name="editMFTemplate" action="index.php" method="post" id="mf_step2" class="form-horizontal">
@@ -39,11 +39,11 @@
 									<tbody>
 										<tr class="listViewHeaders">
 											<th class="sourceModuleName">
-												<b>{\App\Language::translate('SINGLE_'|cat:$SEL_MODULE_MODEL->getSourceModule()->getName(), $SEL_MODULE_MODEL->getSourceModule()->getName())}</b>
+												<b>{\App\Language::translate('SINGLE_'|cat:$SEL_MODULE_MODEL->getName(), $SEL_MODULE_MODEL->getName())}</b>
 											</th>
 											<th><b>{\App\Language::translate('LBL_FIELDS_TYPE', $QUALIFIED_MODULE)}</b></th>
 											<th class="targetModuleName">
-												<b>{\App\Language::translate('SINGLE_'|cat:$REL_MODULE_MODEL->getSourceModule()->getName(), $REL_MODULE_MODEL->getSourceModule()->getName())}</b>
+												<b>{\App\Language::translate('SINGLE_'|cat:$REL_MODULE_MODEL->getName(), $REL_MODULE_MODEL->getName())}</b>
 											</th>
 											<th class="defaultHeader">
 												<b>{\App\Language::translate('LBL_DEFAULT_VALUE', $QUALIFIED_MODULE)}</b>
@@ -59,13 +59,13 @@
 													<select class="sourceFields select2" name="mapping[{$SEQ}][source]">
 														{foreach key=BLOCK_NAME item=FIELDS from=$SEL_MODULE_MODEL->getFields(true)}
 															<optgroup
-																label="{\App\Language::translate($BLOCK_NAME, $SEL_MODULE_MODEL->getSourceModule()->getName())}">
+																label="{\App\Language::translate($BLOCK_NAME, $SEL_MODULE_MODEL->getName())}">
 																{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
 																	<option data-type="{$FIELD_OBJECT->getFieldDataType()}"
 																		data-mappingtype="{$FIELD_OBJECT->getFieldType()}" {if $FIELD_ID eq $MAPPING_ARRAY['source']->getId()} selected {/if}
-																		label="{\App\Language::translate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getSourceModule()->getName())}"
+																		label="{\App\Language::translate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}"
 																		value="{$FIELD_ID}">
-																		{\App\Language::translate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getSourceModule()->getName())}
+																		{\App\Language::translate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}
 																	</option>
 																{/foreach}
 															</optgroup>
@@ -79,13 +79,13 @@
 													<select class="targetFields select2" name="mapping[{$SEQ}][target]">
 														{foreach key=BLOCK_NAME item=FIELDS from=$REL_MODULE_MODEL->getFields()}
 															<optgroup
-																label="{\App\Language::translate($BLOCK_NAME, $REL_MODULE_MODEL->getSourceModule()->getName())}">
+																label="{\App\Language::translate($BLOCK_NAME, $REL_MODULE_MODEL->getName())}">
 																{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
 																	{if $MAPPING_ARRAY['target']->getFieldDataType() eq $FIELD_OBJECT->getFieldDataType()}
 																		<option data-type="{$FIELD_OBJECT->getFieldDataType()}" {if $FIELD_ID eq $MAPPING_ARRAY['target']->getId()} selected {/if}
-																			label="{\App\Language::translate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getSourceModule()->getName())}"
+																			label="{\App\Language::translate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}"
 																			value="{$FIELD_ID}">
-																			{\App\Language::translate($FIELD_OBJECT->getFieldLabelKey(), $REL_MODULE_MODEL->getSourceModule()->getName())}
+																			{\App\Language::translate($FIELD_OBJECT->getFieldLabelKey(), $REL_MODULE_MODEL->getName())}
 																		</option>
 																	{/if}
 																{/foreach}
@@ -115,14 +115,14 @@
 														label="{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}">{\App\Language::translate('LBL_NONE', $QUALIFIED_MODULE)}</option>
 													{foreach key=BLOCK_NAME item=FIELDS from=$SEL_MODULE_MODEL->getFields(true)}
 														<optgroup
-															label="{\App\Language::translate($BLOCK_NAME, $SEL_MODULE_MODEL->getSourceModule()->getName())}">
+															label="{\App\Language::translate($BLOCK_NAME, $SEL_MODULE_MODEL->getName())}">
 															{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
 																<option data-type="{$FIELD_OBJECT->getFieldDataType()}"
 																	data-type-name="{\App\Language::translate($FIELD_OBJECT->getFieldDataType(), $QUALIFIED_MODULE)}"
 																	data-mappingtype="{$FIELD_OBJECT->getFieldType()}"
-																	label="{\App\Language::translate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getSourceModule()->getName())}"
+																	label="{\App\Language::translate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}"
 																	value="{$FIELD_ID}">
-																	{\App\Language::translate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getSourceModule()->getName())}
+																	{\App\Language::translate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}
 																</option>
 															{/foreach}
 														</optgroup>
@@ -135,12 +135,12 @@
 												<select class="targetFields newSelect">
 													{foreach key=BLOCK_NAME item=FIELDS from=$REL_MODULE_MODEL->getFields()}
 														<optgroup
-															label="{\App\Language::translate($BLOCK_NAME, $REL_MODULE_MODEL->getSourceModule()->getName())}">
+															label="{\App\Language::translate($BLOCK_NAME, $REL_MODULE_MODEL->getName())}">
 															{foreach key=FIELD_ID item=FIELD_OBJECT from=$FIELDS}
 																<option data-type="{$FIELD_OBJECT->getFieldDataType()}"
-																	label="{\App\Language::translate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getSourceModule()->getName())}"
+																	label="{\App\Language::translate($FIELD_OBJECT->getFieldLabelKey(), $SEL_MODULE_MODEL->getName())}"
 																	value="{$FIELD_ID}">
-																	{\App\Language::translate($FIELD_OBJECT->getFieldLabelKey(), $REL_MODULE_MODEL->getSourceModule()->getName())}
+																	{\App\Language::translate($FIELD_OBJECT->getFieldLabelKey(), $REL_MODULE_MODEL->getName())}
 																</option>
 															{/foreach}
 														</optgroup>

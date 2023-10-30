@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -68,32 +68,5 @@ abstract class CronHandler
 	public function getTaskLog(): string
 	{
 		return $this->logs;
-	}
-
-	/**
-	 * Add text to logs.
-	 *
-	 * @param string $log
-	 *
-	 * @return void
-	 */
-	public function addTaskLog(string $log): void
-	{
-		$this->logs .= $log;
-	}
-
-	/**
-	 * Add error message to log.
-	 *
-	 * @param string $message
-	 *
-	 * @return void
-	 */
-	public function addErrorLog(string $message): void
-	{
-		$this->addTaskLog($message);
-		$this->cronTask->setError($message . '||' . date('Y-m-d H:i:s'));
-		$this->cronTask->log($message, 'error');
-		\App\Log::warning($message, static::class);
 	}
 }

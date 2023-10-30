@@ -7,7 +7,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Rembiesa <s.rembiesa@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -19,6 +19,8 @@ namespace App\RecordCollectors;
  */
 class OrbIntelligence extends Base
 {
+	/** @var int Limit for fetching companies */
+	const LIMIT = 4;
 	/** {@inheritdoc} */
 	public $allowedModules = ['Accounts', 'Leads', 'Partners', 'Vendors', 'Competition'];
 
@@ -40,79 +42,6 @@ class OrbIntelligence extends Base
 	/** {@inheritdoc} */
 	public $settingsFields = [
 		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY']
-	];
-
-	/** @var string ORB Intelligence sever address */
-	protected $url = 'https://api.orb-intelligence.com/';
-
-	/** @var string Api Key. */
-	private $apiKey;
-
-	/** {@inheritdoc} */
-	protected $fields = [
-		'country' => [
-			'labelModule' => '_Base',
-			'label' => 'Country',
-			'typeofdata' => 'V~M',
-			'uitype' => 35
-		],
-		'name' => [
-			'labelModule' => '_Base',
-			'label' => 'Account Name',
-		],
-		'vatNumber' => [
-			'labelModule' => 'Other.RecordCollector',
-			'label' => 'LBL_ORB_VAT',
-		],
-		'phone' => [
-			'labelModule' => '_Base',
-			'label' => 'Phone',
-		],
-		'email' => [
-			'labelModule' => '_Base',
-			'label' => 'Email',
-		]
-	];
-
-	/** {@inheritdoc} */
-	protected $modulesFieldsMap = [
-		'Accounts' => [
-			'name' => 'accountname',
-			'country' => 'addresslevel1a',
-			'vatNumber' => 'vat_id',
-			'email' => 'email1',
-			'phone' => 'phone'
-		],
-		'Leads' => [
-			'country' => 'addresslevel1a',
-			'name' => 'company',
-			'vatNumber' => 'vat_id',
-			'email' => 'email',
-			'phone' => 'phone',
-			'email' => 'email',
-			'phone' => 'phone'
-		],
-		'Vendors' => [
-			'country' => 'addresslevel1a',
-			'name' => 'vendorname',
-			'vatNumber' => 'vat_id',
-			'email' => 'email',
-			'phone' => 'phone'
-		],
-		'Partners' => [
-			'country' => 'addresslevel1a',
-			'name' => 'subject',
-			'vatNumber' => 'vat_id',
-			'email' => 'email',
-			'phone' => 'phone'
-		],
-		'Competition' => [
-			'country' => 'addresslevel1a',
-			'name' => 'subject',
-			'vatNumber' => 'vat_id',
-			'email' => 'email',
-			'phone' => 'phone'
-		],
 	];
 
 	/** {@inheritdoc} */
@@ -192,8 +121,81 @@ class OrbIntelligence extends Base
 		]
 	];
 
-	/** @var int Limit for fetching companies */
-	const LIMIT = 4;
+	/** @var string ORB Intelligence sever address */
+	protected $url = 'https://api.orb-intelligence.com/';
+
+	/** {@inheritdoc} */
+	protected $fields = [
+		'country' => [
+			'labelModule' => '_Base',
+			'label' => 'Country',
+			'typeofdata' => 'V~M',
+			'uitype' => 35
+		],
+		'name' => [
+			'labelModule' => '_Base',
+			'label' => 'Account Name',
+		],
+		'vatNumber' => [
+			'labelModule' => 'Other.RecordCollector',
+			'label' => 'LBL_ORB_VAT',
+		],
+		'phone' => [
+			'labelModule' => '_Base',
+			'label' => 'Phone',
+		],
+		'email' => [
+			'labelModule' => '_Base',
+			'label' => 'Email',
+		]
+	];
+
+	/** {@inheritdoc} */
+	protected $modulesFieldsMap = [
+		'Accounts' => [
+			'name' => 'accountname',
+			'country' => 'addresslevel1a',
+			'vatNumber' => 'vat_id',
+			'email' => 'email1',
+			'phone' => 'phone'
+		],
+		'Leads' => [
+			'country' => 'addresslevel1a',
+			'name' => 'company',
+			'vatNumber' => 'vat_id',
+			'email' => 'email',
+			'phone' => 'phone',
+			'email' => 'email',
+			'phone' => 'phone'
+		],
+		'Vendors' => [
+			'country' => 'addresslevel1a',
+			'name' => 'vendorname',
+			'vatNumber' => 'vat_id',
+			'email' => 'email',
+			'phone' => 'phone'
+		],
+		'Partners' => [
+			'country' => 'addresslevel1a',
+			'name' => 'subject',
+			'vatNumber' => 'vat_id',
+			'email' => 'email',
+			'phone' => 'phone'
+		],
+		'Competition' => [
+			'country' => 'addresslevel1a',
+			'name' => 'subject',
+			'vatNumber' => 'vat_id',
+			'email' => 'email',
+			'phone' => 'phone'
+		],
+	];
+
+	/** {@inheritdoc} */
+	protected bool $paid = false;
+
+	/** @var string Api Key. */
+	private $apiKey;
 
 	/** {@inheritdoc} */
 	public function isActive(): bool
@@ -244,6 +246,7 @@ class OrbIntelligence extends Base
 	 */
 	private function getDataFromApi(array $query): void
 	{
+		$response = [];
 		$client = \App\RequestHttp::getClient(['timeout' => 60]);
 		try {
 			$response = $client->get($this->url . '3/match/?' . http_build_query($query));

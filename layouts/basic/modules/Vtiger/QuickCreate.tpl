@@ -14,16 +14,13 @@
 	{foreach key=index item=jsModel from=$SCRIPTS}
 		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
 	{/foreach}
-	<div class="modal quickCreateContainer {if \App\Config::layout('centerModalWindow', false)}js-modal-center{/if}" tabindex="-3" role="dialog">
+	<div class="modal quickCreateContainer" tabindex="-3" role="dialog">
 		<div class="modal-dialog modal-lg modal-full" role="document">
 			<div class="modal-content">
 				<form class="form-horizontal recordEditView js-form" name="{$FROM_VIEW}" method="post" action="index.php" enctype="multipart/form-data">
 					<input type="hidden" name="module" value="{$MODULE}" />
 					<input type="hidden" name="action" value="SaveAjax" />
 					<input type="hidden" name="fromView" value="{$FROM_VIEW}" />
-					{if !empty($SOURCE_MODULE)}
-						<input type="hidden" name="fromModule" value="{$SOURCE_MODULE}" />
-					{/if}
 					<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}" />
 					<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, $FROM_VIEW])}" />
 					{if !empty($IS_RELATION_OPERATION) && !empty($SOURCE_MODULE) && !empty($SOURCE_RECORD)}
@@ -122,7 +119,6 @@
 									</div>
 								</div>
 							{/if}
-							{include file=\App\Layout::getTemplatePath('Edit/ModalActions.tpl') EDITVIEW_LINKS=$QUICKCREATE_LINKS}
 						</div>
 					</div>
 				</form>

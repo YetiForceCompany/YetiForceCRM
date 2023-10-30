@@ -6,7 +6,7 @@
  * @package Settings.Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
@@ -29,9 +29,6 @@ class Settings_AdminAccess_Module_Model extends Settings_Vtiger_Module_Model
 		'user' => 'FL_USER',
 		'status' => 'FL_ACTIVE'
 	];
-
-	/** @var Vtiger_Field_Model Field instance. */
-	private $fields;
 
 	/** {@inheritdoc} */
 	public function getListFields(): array

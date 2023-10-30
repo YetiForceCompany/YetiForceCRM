@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-ConfigEditor-Detail -->
 	<div class="verticalScroll">
@@ -22,6 +22,11 @@
 				<li class="nav-item">
 					<a class="nav-link {if $ACTIVE_TAB eq 'Performance'}active{/if}" href="#Performance" data-toggle="tab" data-name="Performance">
 						<span class="fa-solid fa-gauge-high mr-2"></span>{\App\Language::translate('LBL_PERFORMANCE', $QUALIFIED_MODULE)}
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link {if $ACTIVE_TAB eq 'Branding'}active{/if}" href="#Branding" data-toggle="tab" data-name="Branding">
+						<span class="fas fa-globe mr-2"></span>{\App\Language::translate('LBL_BRAND_DATA', $QUALIFIED_MODULE)}
 					</a>
 				</li>
 			</ul>

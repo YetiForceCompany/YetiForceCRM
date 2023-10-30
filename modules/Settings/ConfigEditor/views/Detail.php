@@ -5,7 +5,7 @@
  * @package   Settings.View
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 /**
  * Config editor detail view class.
@@ -16,7 +16,7 @@ class Settings_ConfigEditor_Detail_View extends Settings_Vtiger_Index_View
 	protected $pageTitle = 'LBL_CONFIG_EDITOR';
 
 	/** @var array config names */
-	protected $configNames = ['Relation', 'Performance'];
+	protected $configNames = ['Relation', 'Performance', 'Branding'];
 
 	/**
 	 * Get config names.

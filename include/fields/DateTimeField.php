@@ -22,10 +22,7 @@ require_once 'include/Webservices/Utils.php';
 
 class DateTimeField
 {
-	/** @var string Date and time. */
 	protected $datetime;
-
-	/** @var array Cache for time and time zones. */
 	private static $cache = [];
 
 	/**
@@ -36,94 +33,13 @@ class DateTimeField
 		if (empty($value)) {
 			$value = date('Y-m-d H:i:s');
 		}
+		$this->date = null;
+		$this->time = null;
 		$this->datetime = $value;
-	}
-
-	/**
-	 * @param string $date
-	 * @param string $format
-	 *
-	 * @return string
-	 */
-	public static function __convertToDBFormat($date, $format)
-	{
-		if (empty($date)) {
-			\App\Log::trace('End ' . __METHOD__);
-
-			return $date;
-		}
-		if ('' == $format) {
-			$format = 'yyyy-mm-dd';
-		}
-		return \App\Fields\Date::sanitizeDbFormat($date, $format);
-	}
-
-	/**
-	 * @param string $date
-	 * @param string $format
-	 *
-	 * @return string
-	 */
-	public static function __convertToUserFormat($date, $format)
-	{
-		\App\Log::trace('Start ' . __METHOD__ . ' ' . serialize($date) . ' | ' . $format);
-		if (!\is_array($date)) {
-			$date = explode(' ', $date);
-		}
-		$separator = '-';
-		if (false !== strpos($date[0], '-')) {
-			$separator = '-';
-		} elseif (false !== strpos($date[0], '.')) {
-			$separator = '.';
-		} elseif (false !== strpos($date[0], '/')) {
-			$separator = '/';
-		}
-		[$y, $m, $d] = array_pad(explode($separator, $date[0]), 3, null);
-
-		switch ($format) {
-			case 'dd-mm-yyyy':
-				$date[0] = $d . '-' . $m . '-' . $y;
-				break;
-			case 'mm-dd-yyyy':
-				$date[0] = $m . '-' . $d . '-' . $y;
-				break;
-			case 'yyyy-mm-dd':
-				$date[0] = $y . '-' . $m . '-' . $d;
-				break;
-			case 'dd.mm.yyyy':
-				$date[0] = $d . '.' . $m . '.' . $y;
-				break;
-			case 'mm.dd.yyyy':
-				$date[0] = $m . '.' . $d . '.' . $y;
-				break;
-			case 'yyyy.mm.dd':
-				$date[0] = $y . '.' . $m . '.' . $d;
-				break;
-			case 'dd/mm/yyyy':
-				$date[0] = $d . '/' . $m . '/' . $y;
-				break;
-			case 'mm/dd/yyyy':
-				$date[0] = $m . '/' . $d . '/' . $y;
-				break;
-			case 'yyyy/mm/dd':
-				$date[0] = $y . '/' . $m . '/' . $d;
-				break;
-			default:
-				break;
-		}
-
-		if (isset($date[1]) && '' != $date[1]) {
-			$userDate = $date[0] . ' ' . $date[1];
-		} else {
-			$userDate = $date[0];
-		}
-		\App\Log::trace('End ' . __METHOD__);
-		return $userDate;
 	}
 
 	/** Function to set date values compatible to database (YY_MM_DD).
 	 * @param $user -- value :: Type Users
-	 *
 	 * @returns $insert_date -- insert_date :: Type string
 	 */
 	public function getDBInsertDateValue()
@@ -196,6 +112,25 @@ class DateTimeField
 
 	/**
 	 * @param string $date
+	 * @param string $format
+	 *
+	 * @return string
+	 */
+	public static function __convertToDBFormat($date, $format)
+	{
+		if (empty($date)) {
+			\App\Log::trace('End ' . __METHOD__);
+
+			return $date;
+		}
+		if ('' == $format) {
+			$format = 'yyyy-mm-dd';
+		}
+		return \App\Fields\Date::sanitizeDbFormat($date, $format);
+	}
+
+	/**
+	 * @param string $date
 	 * @param Users  $user
 	 *
 	 * @return string
@@ -212,6 +147,69 @@ class DateTimeField
 	}
 
 	/**
+	 * @param string $date
+	 * @param string $format
+	 *
+	 * @return string
+	 */
+	public static function __convertToUserFormat($date, $format)
+	{
+		\App\Log::trace('Start ' . __METHOD__ . ' ' . serialize($date) . ' | ' . $format);
+		if (!\is_array($date)) {
+			$date = explode(' ', $date);
+		}
+		$separator = '-';
+		if (false !== strpos($date[0], '-')) {
+			$separator = '-';
+		} elseif (false !== strpos($date[0], '.')) {
+			$separator = '.';
+		} elseif (false !== strpos($date[0], '/')) {
+			$separator = '/';
+		}
+		[$y, $m, $d] = array_pad(explode($separator, $date[0]), 3, null);
+
+		switch ($format) {
+			case 'dd-mm-yyyy':
+				$date[0] = $d . '-' . $m . '-' . $y;
+				break;
+			case 'mm-dd-yyyy':
+				$date[0] = $m . '-' . $d . '-' . $y;
+				break;
+			case 'yyyy-mm-dd':
+				$date[0] = $y . '-' . $m . '-' . $d;
+				break;
+			case 'dd.mm.yyyy':
+				$date[0] = $d . '.' . $m . '.' . $y;
+				break;
+			case 'mm.dd.yyyy':
+				$date[0] = $m . '.' . $d . '.' . $y;
+				break;
+			case 'yyyy.mm.dd':
+				$date[0] = $y . '.' . $m . '.' . $d;
+				break;
+			case 'dd/mm/yyyy':
+				$date[0] = $d . '/' . $m . '/' . $y;
+				break;
+			case 'mm/dd/yyyy':
+				$date[0] = $m . '/' . $d . '/' . $y;
+				break;
+			case 'yyyy/mm/dd':
+				$date[0] = $y . '/' . $m . '/' . $d;
+				break;
+			default:
+				break;
+		}
+
+		if (isset($date[1]) && '' != $date[1]) {
+			$userDate = $date[0] . ' ' . $date[1];
+		} else {
+			$userDate = $date[0];
+		}
+		\App\Log::trace('End ' . __METHOD__);
+		return $userDate;
+	}
+
+	/**
 	 * @param string $value
 	 * @param Users  $user
 	 */
@@ -222,7 +220,7 @@ class DateTimeField
 		if (empty($user)) {
 			$user = $current_user;
 		}
-		$timeZone = \is_object($user) ? $user->get('time_zone') : App\Config::main('default_timezone');
+		$timeZone = \is_object($user) ? $user->time_zone : App\Config::main('default_timezone');
 		$return = self::convertTimeZone($value, App\Fields\DateTime::getTimeZone(), $timeZone);
 		\App\Log::trace('End ' . __METHOD__);
 		return $return;
@@ -246,9 +244,9 @@ class DateTimeField
 	}
 
 	/**
-	 * @param string $time
-	 * @param string $sourceTimeZoneName
-	 * @param string $targetTimeZoneName
+	 * @param type $time
+	 * @param type $sourceTimeZoneName
+	 * @param type $targetTimeZoneName
 	 *
 	 * @return DateTime
 	 */
@@ -327,7 +325,7 @@ class DateTimeField
 			$date = new DateTime($this->datetime);
 		}
 		$time = $fullTime ? $date->format('H:i:s') : $date->format('H:i');
-		// Convert time to user preferred value
+		//Convert time to user preferred value
 		if ('12' === \App\User::getCurrentUserModel()->getDetail('hour_format')) {
 			$time = Vtiger_Time_UIType::getTimeValueInAMorPM($time);
 		}
@@ -342,11 +340,6 @@ class DateTimeField
 		$time = $date->format('H:i:s');
 		\App\Log::trace('Exiting getDisplayTime method ...');
 		return $time;
-	}
-
-	public function getFullcalenderValue($user = null)
-	{
-		return self::convertToUserTimeZone($this->datetime, $user)->format('Y-m-d') . ' ' . $this->getFullcalenderTime($user);
 	}
 
 	/**

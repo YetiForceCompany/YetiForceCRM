@@ -5,7 +5,7 @@
  * @package UIType
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -29,7 +29,7 @@ class Vtiger_MailScannerFields_UIType extends Vtiger_MultiListFields_UIType
 			->leftJoin('vtiger_relatedlists', 'vtiger_tab.tabid = vtiger_relatedlists.tabid')
 			->where(['and',
 				['<>', 'vtiger_field.presence', 1],
-				['uitype' => [4, 13, 319, 314]],
+				['uitype' => [4, 13, 319]],
 				['<>', 'vtiger_tab.name', 'Users'],
 				['vtiger_tab.presence' => 0],
 				['vtiger_relatedlists.related_tabid' => \App\Module::getModuleId('OSSMailView')],

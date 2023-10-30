@@ -8,9 +8,8 @@ namespace App\TextParser;
  * @package TextParser
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class ProductsTable extends Base
 {
@@ -34,19 +33,15 @@ class ProductsTable extends Base
 		}
 		$inventory = \Vtiger_Inventory_Model::getInstance($this->textParser->moduleName);
 		$inventoryRows = $this->textParser->recordModel->getInventoryData();
-
+		$firstRow = current($inventoryRows);
 		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
-		$currencyId = current($inventoryRows)['currency'] ?? null;
-		if (!$currencyId) {
-			$currencyId = \App\Fields\Currency::getDefault()['id'];
-			foreach ($inventoryRows as &$row) {
-				$row['currency'] = $currencyId;
-			}
+		if ($inventory->isField('currency')) {
+			$currency = $inventoryRows && $firstRow['currency'] ? $firstRow['currency'] : $baseCurrency['id'];
+			$currencyData = \App\Fields\Currency::getById($currency);
+			$currencySymbol = $currencyData['currency_symbol'];
+		} else {
+			$currencyData = \App\Fields\Currency::getDefault();
 		}
-		$currencyData = \App\Fields\Currency::getById($currencyId);
-		$currencySymbol = $currencyData['currency_symbol'];
-		$firstRow = current($inventoryRows) ?: [];
-
 		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;';
 		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;';
 		$html = '<table  class="products-table" style="border-collapse:collapse;width:100%;"><thead><tr>';
@@ -71,21 +66,15 @@ class ProductsTable extends Base
 		}
 		$html .= '</tr></thead>';
 		if ($groupModels) {
-			$groupField = $inventory->getField('grouplabel');
-			$count = \count($groupModels);
 			$html .= '<tbody>';
-			foreach ($inventory->transformData($inventoryRows) as $inventoryRow) {
-				if (!empty($inventoryRow['add_header']) && $groupField && $groupField->isVisible() && !empty($blockLabel = $inventoryRow['grouplabel'])) {
-					$html .= "<tr><td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, $inventoryRow, true)) . '</td></tr>';
-				}
+			foreach ($inventoryRows as $key => $inventoryRow) {
 				$html .= '<tr>';
 				foreach ($groupModels as $fieldModel) {
 					$typeName = $fieldModel->getType();
 					$itemValue = $inventoryRow[$fieldModel->getColumnName()];
 					$styleField = $bodyStyle;
 					if ('Name' === $typeName) {
-						$value = \App\Purifier::encodeHtml($fieldModel->getDisplayValue($itemValue, $inventoryRow));
-						$fieldValue = "<strong>{$value}</strong>";
+						$fieldValue = "<strong>{$fieldModel->getDisplayValue($itemValue, $inventoryRow)}</strong>";
 						foreach ($inventory->getFieldsByType('Comment') as $commentField) {
 							$commentFieldName = $commentField->getColumnName();
 							if ($inventory->isField($commentFieldName) && $commentField->isVisible() && ($value = $inventoryRow[$commentFieldName]) && $comment = $commentField->getDisplayValue($value, $inventoryRow)) {
@@ -93,7 +82,7 @@ class ProductsTable extends Base
 							}
 						}
 					} elseif (\in_array($typeName, ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'])) {
-						$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
+						$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
 						$styleField = $bodyStyle . ' text-align:right;';
 					} else {
 						$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
@@ -135,7 +124,7 @@ class ProductsTable extends Base
 							</thead>
 							<tbody>
 								<tr>
-									<td style="border:1px solid #ddd;text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencySymbol . '</td>
+									<td style="border:1px solid #ddd;text-align:right;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($discount, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 								</tr>
 							</tbody>
 						</table>';
@@ -155,21 +144,21 @@ class ProductsTable extends Base
 					$tax_AMOUNT += $tax;
 					$html .= '<tr>
 										<td class="name" style="padding:0px 4px;">' . $key . '%</td>
-										<td class="value" style="padding:0px 4px;text-align:right;">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencySymbol . '</td>
+										<td class="value" style="padding:0px 4px;text-align:right;">' . \CurrencyField::convertToUserFormat($tax, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 									</tr>';
 				}
 				$html .= '<tr class="summary" style="border:1px solid #ddd;">
 									<td class="name" style="padding:0px 4px;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
-									<td class="value" style="padding:0px 4px;text-align:right;">' . \CurrencyField::convertToUserFormat($tax_AMOUNT, null, true) . ' ' . $currencySymbol . '</td>
+									<td class="value" style="padding:0px 4px;text-align:right;">' . \CurrencyField::convertToUserFormat($tax_AMOUNT, null, true) . ' ' . $currencyData['currency_symbol'] . '</td>
 								</tr>
 							</tbody>
 						</table>';
-				if ($inventory->isField('currency') && $baseCurrency['id'] != $currencyId) {
+				if ($inventory->isField('currency') && $baseCurrency['id'] != $currency) {
 					$RATE = $baseCurrency['conversion_rate'] / $currencyData['conversion_rate'];
 					$html .= '<table class="products-table-summary-currency" style="width:100%;border-collapse:collapse;">
 								<thead>
 									<tr>
-										<th style="padding:0px 4px;" colspan="2">' . \App\Language::translate('LBL_CURRENCIES_SUMMARY2', $this->textParser->moduleName) . '</th>
+										<th style="padding:0px 4px;" colspan="2">' . \App\Language::translate('LBL_CURRENCIES_SUMMARY', $this->textParser->moduleName) . '</th>
 									</tr>
 								</thead>
 								<tbody>';

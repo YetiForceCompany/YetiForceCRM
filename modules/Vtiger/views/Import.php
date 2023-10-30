@@ -153,7 +153,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			$viewer->assign('USER_INPUT', $request);
 			$mandatoryFields = [];
 			foreach ($moduleModel->getMandatoryFieldModels() as $fieldName => $fieldModel) {
-				if ($fieldModel->isEditable('Create')) {
+				if ($fieldModel->isEditable()) {
 					$mandatoryFields[$fieldName] = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 				}
 			}
@@ -233,7 +233,7 @@ class Vtiger_Import_View extends Vtiger_Index_View
 			if (App\Record::isExists($recordId)) {
 				$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
 				if ($recordModel->privilegeToMoveToTrash()) {
-					$recordModel->changeState(\App\Record::STATE_TRASH);
+					$recordModel->changeState('Trash');
 					++$noOfRecordsDeleted;
 				} elseif ($recordModel->privilegeToDelete()) {
 					$recordModel->delete();

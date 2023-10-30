@@ -6,7 +6,7 @@
  * @package   InventoryField
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -20,12 +20,12 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	protected $colSpan = 30;
 	protected $maximumLength = '-2147483648,2147483647';
 	protected $purifyType = \App\Purifier::INTEGER;
+
 	/** {@inheritdoc} */
-	protected $searchable = true;
-	/** {@inheritdoc} */
-	protected $queryOperators = ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
-	/** {@inheritdoc} */
-	protected $recordOperators = ['e', 'n', 's', 'ew', 'c', 'k', 'y', 'ny'];
+	public function getEditTemplateName()
+	{
+		return 'inventoryTypes/Name.tpl';
+	}
 
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
@@ -47,9 +47,9 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	}
 
 	/** {@inheritdoc} */
-	public function getDbConditionBuilderValue($value, string $operator)
+	public function getEditValue($value)
 	{
-		return \App\Purifier::decodeHtml($value);
+		return \App\Record::getLabel($value);
 	}
 
 	/**
@@ -62,7 +62,7 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 	public function getReferenceModule($record): ?Vtiger_Module_Model
 	{
 		if (!empty($record)) {
-			$referenceModuleList = $this->getModules(false);
+			$referenceModuleList = $this->getParamsConfig()['modules'] ?? [];
 			$referenceModuleList = !\is_array($referenceModuleList) ? [$referenceModuleList] : $referenceModuleList;
 			$referenceEntityType = vtlib\Functions::getCRMRecordMetadata($record)['setype'] ?? '';
 			if (!empty($referenceModuleList) && \in_array($referenceEntityType, $referenceModuleList)) {
@@ -73,6 +73,32 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Getting value to display.
+	 *
+	 * @return array
+	 */
+	public function limitValues()
+	{
+		return [
+			['id' => 0, 'name' => 'LBL_NO'],
+			['id' => 1, 'name' => 'LBL_YES'],
+		];
+	}
+
+	/**
+	 * Getting value to display.
+	 *
+	 * @return array
+	 */
+	public function mandatoryValues()
+	{
+		return [
+			['id' => 'true', 'name' => 'LBL_YES'],
+			['id' => 'false', 'name' => 'LBL_NO'],
+		];
 	}
 
 	/** {@inheritdoc} */
@@ -123,78 +149,5 @@ class Vtiger_Name_InventoryField extends Vtiger_Basic_InventoryField
 			$view = 'TreeInventoryModal';
 		}
 		return "index.php?module={$moduleName}&view={$view}&src_module={$this->getModuleName()}&multi_select=true";
-	}
-
-	/**
-	 * Get modules.
-	 *
-	 * @param bool $permissions
-	 *
-	 * @return array
-	 */
-	public function getModules(bool $permissions = true): array
-	{
-		$modules = $this->getParamsConfig()['modules'] ?? [];
-		if (\is_string($modules)) {
-			$modules = explode(' |##| ', $modules);
-		}
-		return $permissions ? array_filter($modules, fn ($moduleName) => \App\Privilege::isPermitted($moduleName)) : $modules;
-	}
-
-	/** {@inheritdoc} */
-	public function getConfigFieldsData(): array
-	{
-		$qualifiedModuleName = 'Settings:LayoutEditor';
-		$data = parent::getConfigFieldsData();
-
-		$data['modules'] = [
-			'name' => 'modules',
-			'label' => 'LBL_PARAMS_MODULES',
-			'uitype' => 33,
-			'maximumlength' => '25',
-			'typeofdata' => 'V~M',
-			'purifyType' => \App\Purifier::ALNUM,
-			'picklistValues' => []
-		];
-		foreach (Vtiger_Module_Model::getAll([0], [], true) as $module) {
-			$data['modules']['picklistValues'][$module->getName()] = \App\Language::translate($module->getName(), $module->getName());
-		}
-
-		$grossLabel = self::getInstance($this->getModuleName(), 'GrossPrice')->getDefaultLabel();
-		$data['limit'] = [
-			'name' => 'limit',
-			'label' => 'LBL_PARAMS_LIMIT',
-			'uitype' => 16,
-			'maximumlength' => '1',
-			'typeofdata' => 'V~M',
-			'purifyType' => \App\Purifier::INTEGER,
-			'tooltip' => \App\Language::translate('LBL_PARAMS_LIMIT_CONDITIONS', $qualifiedModuleName) . ': ' . \App\Language::translate($grossLabel, $qualifiedModuleName),
-			'defaultvalue' => '0',
-			'picklistValues' => [
-				0 => \App\Language::translate('LBL_NO', $qualifiedModuleName),
-				1 => \App\Language::translate('LBL_YES', $qualifiedModuleName)
-			],
-		];
-		$data['mandatory'] = [
-			'name' => 'mandatory',
-			'label' => 'LBL_PARAMS_MANDATORY',
-			'uitype' => 16,
-			'maximumlength' => '5',
-			'typeofdata' => 'V~M',
-			'purifyType' => \App\Purifier::STANDARD,
-			'tooltip' => 'LBL_EDIT_MANDATORY_INFO',
-			'defaultvalue' => 'true',
-			'picklistValues' => [
-				'false' => \App\Language::translate('LBL_NO', $qualifiedModuleName),
-				'true' => \App\Language::translate('LBL_YES', $qualifiedModuleName),
-			],
-		];
-		return $data;
-	}
-
-	/** {@inheritdoc} */
-	public function compare($value, $prevValue, string $column): bool
-	{
-		return (int) $value === (int) $prevValue;
 	}
 }

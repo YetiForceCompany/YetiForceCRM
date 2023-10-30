@@ -29,7 +29,7 @@ abstract class Records extends \App\Base
 	/** @var \Vtiger_Module_Model Module model. */
 	protected $moduleInstance;
 
-	/** @var \Vtiger_Field_Model[] Field model instances. */
+	/** @var \Vtiger_Field_Model[] Field model instance. */
 	protected $moduleFieldInstances;
 
 	/** @var string File extension */
@@ -49,9 +49,6 @@ abstract class Records extends \App\Base
 
 	/** @var bool Export all data */
 	public $fullData = false;
-
-	/** @var \App\QueryGenerator */
-	protected $queryGenerator;
 
 	/**
 	 * Get instance.
@@ -379,8 +376,10 @@ abstract class Records extends \App\Base
 				$idKey = $name . $idKey;
 				$dbKey = $name . $fieldModel->getName();
 			}
+
 			$response[$fieldModel->getFullName()] = $this->getDisplayValue($fieldModel, $recordValues[$dbKey], $recordValues[$idKey] ?? 0, $recordValues);
 		}
+
 		return $response;
 	}
 
@@ -401,8 +400,10 @@ abstract class Records extends \App\Base
 				$idKey = $name . $idKey;
 				$dbKey = $name . $fieldModel->getName();
 			}
+
 			$response[$fieldModel->getFullName()] = $fieldModel->getUITypeModel()->getValueToExport($recordValues[$dbKey], $recordValues[$idKey] ?? 0);
 		}
+
 		return $response;
 	}
 

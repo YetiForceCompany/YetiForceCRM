@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
@@ -76,7 +76,7 @@ class Report extends \Api\SMS\BaseAction
 	 * @OA\Get(
 	 *		path="/webservice/SMS/SMSAPI/Report",
 	 *		summary="Report for sms",
-	 *		tags={"SMSApi"},
+	 *		tags={"SMSAPI"},
 	 *		externalDocs={
 	 *			"description" : "SMSApi Documentation",
 	 *			"url" : "https://www.smsapi.pl/docs"
@@ -136,7 +136,7 @@ class Report extends \Api\SMS\BaseAction
 	 * @OA\Post(
 	 *		path="/webservice/SMS/SMSAPI/Report",
 	 *		summary="Report for sms",
-	 *		tags={"SMSApi"},
+	 *		tags={"SMSAPI"},
 	 *		externalDocs={
 	 *			"description" : "SMSApi Documentation",
 	 *			"url" : "https://www.smsapi.pl/docs"

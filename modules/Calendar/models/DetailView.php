@@ -57,11 +57,11 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_EXTENDED',
 				'linklabel' => 'LBL_MOVE_TO_TRASH',
-				'dataUrl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId(),
-				'linkdata' => ['confirm' => \App\Language::translate('LBL_MOVE_TO_TRASH_DESC')],
+				'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=State&state=Trash&record=' . $recordModel->getId() . '")',
 				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'entityStateBtn btn-outline-dark btn-sm js-record-action',
+				'linkclass' => 'btn-outline-dark btn-sm entityStateBtn',
 				'style' => empty($stateColors['Trash']) ? '' : "background: {$stateColors['Trash']};",
+				'title' => \App\Language::translate('LBL_MOVE_TO_TRASH'),
 			]);
 		}
 		if (!$recordModel->isReadOnly() && $recordModel->privilegeToDelete() && 1 === $recordModel->get('reapeat')) {
@@ -73,10 +73,10 @@ class Calendar_DetailView_Model extends Vtiger_DetailView_Model
 			$linkModelList['DETAIL_VIEW_EXTENDED'][] = Vtiger_Link_Model::getInstanceFromValues([
 				'linktype' => 'DETAIL_VIEW_EXTENDED',
 				'linklabel' => 'LBL_DELETE_RECORD_COMPLETELY',
-				'dataUrl' => 'index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId(),
-				'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC')],
+				'linkurl' => 'javascript:Calendar_Detail_Js.deleteRecord("index.php?module=' . $recordModel->getModuleName() . '&action=Delete&record=' . $recordModel->getId() . '")',
 				'linkicon' => 'fas fa-eraser',
-				'linkclass' => 'btn-dark btn-sm js-record-action',
+				'linkclass' => 'btn-outline-dark btn-sm',
+				'title' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY'),
 			]);
 		}
 		return $linkModelList;

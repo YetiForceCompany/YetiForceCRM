@@ -6,19 +6,17 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): YetiForce S.A.
  * ********************************************************************************** */
 require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
-require_once 'modules/com_vtiger_workflow/tasks/VTEmailTemplateTask.php';
 
-class VTEmailTask extends VTEmailTemplateTask
+class VTEmailTask extends VTTask
 {
 	// Sending email takes more time, this should be handled via queue all the time.
 	public $executeImmediately = true;
 
 	public function getFieldNames()
 	{
-		return ['subject', 'content', 'recepient', 'emailcc', 'emailbcc', 'fromEmail', 'smtp', 'emailoptout', 'attachments'];
+		return ['subject', 'content', 'recepient', 'emailcc', 'emailbcc', 'fromEmail', 'smtp', 'emailoptout'];
 	}
 
 	/**
@@ -64,9 +62,6 @@ class VTEmailTask extends VTEmailTemplateTask
 		$textParser = \App\TextParser::getInstanceByModel($recordModel);
 		$mailerContent['subject'] = $textParser->setContent($this->subject)->parse()->getContent();
 		$mailerContent['content'] = $textParser->setContent($this->content)->parse()->getContent();
-		if ($attachments = $this->getAttachments($recordModel)) {
-			$mailerContent['attachments'] = ['ids' => $attachments];
-		}
 		if (!empty($mailerContent['content'])) {
 			\App\Mailer::addMail($mailerContent);
 		}

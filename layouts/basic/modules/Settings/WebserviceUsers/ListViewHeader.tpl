@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-WebserviceUsers-ListViewHeader -->
 	<div class="listViewPageDiv">
@@ -14,7 +14,7 @@
 			</div>
 		</div>
 		<ul id="tabs" class="nav nav-tabs mt-2 mr-0" data-tabs="tabs">
-			{foreach item=VALUE from=\Api\Core\Containers::LIST_TAB name=typeLoop}
+			{foreach item=VALUE from=\Api\Core\Containers::$listTab name=typeLoop}
 				<li class="tabApi nav-item" data-typeapi="{$VALUE}">
 					<a class="nav-link {if $TYPE_API === $VALUE} active{/if}" data-toggle="tab" href="#">
 						<strong>{\App\Language::translate($VALUE, 'Settings:WebserviceApps')}</strong>

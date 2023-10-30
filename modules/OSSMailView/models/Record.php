@@ -4,7 +4,7 @@
  * OSSMailView record model class.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailView_Record_Model extends Vtiger_Record_Model
 {
@@ -83,8 +83,6 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			$query->limit($config['widget_limit']);
 		}
 
-		$popup = \App\User::getCurrentUserModel()->getDetail('mail_popup');
-
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$from = $this->findRecordsById($row['from_id']);
@@ -93,7 +91,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 			$to = ($to && '' !== $to) ? $to : $row['to_email'];
 			$content = \App\Purifier::purifyHtml(vtlib\Functions::getHtmlOrPlainText($row['content']));
 			if (\App\Privilege::isPermitted('OSSMailView', 'DetailView', $row['ossmailviewid'])) {
-				$subject = '<a href="index.php?module=OSSMailView&view=Preview&record=' . $row['ossmailviewid'] . '" target="' . ($popup ? '_blank' : '_self') . '"> ' . \App\Purifier::encodeHtml($row['subject']) . '</a>';
+				$subject = '<a href="index.php?module=OSSMailView&view=Preview&record=' . $row['ossmailviewid'] . '" target="' . $config['target'] . '"> ' . \App\Purifier::encodeHtml($row['subject']) . '</a>';
 			} else {
 				$subject = \App\Purifier::encodeHtml($row['subject']);
 			}
@@ -143,7 +141,8 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 	{
 		$return = false;
 		if (!empty($ids)) {
-			$popup = \App\User::getCurrentUserModel()->getDetail('mail_popup');
+			$recordModelMailScanner = Vtiger_Record_Model::getCleanInstance('OSSMailScanner');
+			$config = $recordModelMailScanner->getConfig('email_list');
 			if (strpos($ids, ',')) {
 				$idsArray = explode(',', $ids);
 			} else {
@@ -163,7 +162,7 @@ class OSSMailView_Record_Model extends Vtiger_Record_Model
 				}
 				if (\App\Privilege::isPermitted($module, 'DetailView', $id)) {
 					$label = \App\Record::getLabel($id);
-					$return .= '<a href="index.php?module=' . $module . '&view=Detail&record=' . $id . '" target="' . ($popup ? '_blank' : '_self') . '"> ' . $label . '</a>,';
+					$return .= '<a href="index.php?module=' . $module . '&view=Detail&record=' . $id . '" target="' . $config['target'] . '"> ' . $label . '</a>,';
 				}
 			}
 		}

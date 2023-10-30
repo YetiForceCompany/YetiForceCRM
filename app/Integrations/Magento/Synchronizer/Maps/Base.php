@@ -3,13 +3,12 @@
 /**
  * Abstract base map file.
  *
- * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription.
- * File modification allowed only with the consent of the system producer.
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
  *
  * @package Integration
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -21,24 +20,64 @@ namespace App\Integrations\Magento\Synchronizer\Maps;
  */
 abstract class Base
 {
-	/** @var string[] Fields which are not exist in Magento but needed in YetiForce. */
+	/**
+	 * Map module name.
+	 *
+	 * @var string
+	 */
+	protected $moduleName;
+	/**
+	 * Synchronizer.
+	 *
+	 * @var \App\Integrations\Magento\Synchronizer\Base
+	 */
+	protected $synchronizer;
+	/**
+	 * Fields which are not exist in Magento but needed in YetiForce.
+	 *
+	 * @var string[]
+	 */
 	public static $additionalFieldsCrm = [];
-	/** @var string[] Mapped fields. */
+	/**
+	 * Mapped fields.
+	 *
+	 * @var string[]
+	 */
 	public static $mappedFields = [];
-	/** @var string[] Mapped fields type. */
+	/**
+	 * Mapped fields type.
+	 *
+	 * @var string[]
+	 */
 	public static $fieldsType = [
 		'salutationtype' => 'map',
 		'gender' => 'map',
 		'addresslevel1a' => 'country',
 		'addresslevel1b' => 'country',
 	];
-	/** @var string[] Fields default value. */
+	/**
+	 * Fields default value.
+	 *
+	 * @var string[]
+	 */
 	public static $fieldsDefaultValue = [];
-	/** @var array Data from Magento. */
+	/**
+	 * Data from Magento.
+	 *
+	 * @var array
+	 */
 	public $data = [];
-	/** @var string[] Data from YetiForce. */
+	/**
+	 * Data from YetiForce.
+	 *
+	 * @var string[]
+	 */
 	public $dataCrm = [];
-	/** @var string[] Mapped billing fields. */
+	/**
+	 * Mapped billing fields.
+	 *
+	 * @var string[]
+	 */
 	public static $billingFields = [
 		'addresslevel1a' => 'country_id',
 		'addresslevel2a' => 'region|region',
@@ -55,7 +94,11 @@ abstract class Base
 		'phone' => 'telephone',
 		'mobile' => 'fax',
 	];
-	/** @var string[] Mapped shipping fields. */
+	/**
+	 * Mapped shipping fields.
+	 *
+	 * @var string[]
+	 */
 	public static $shippingFields = [
 		'addresslevel1b' => 'country_id',
 		'addresslevel2b' => 'region|region',
@@ -72,20 +115,26 @@ abstract class Base
 		'phone' => 'telephone',
 		'mobile' => 'fax',
 	];
-	/** @var string[] Contacts_gender map. */
+
+	/**
+	 * Contacts_gender map.
+	 *
+	 * @var string[]
+	 */
 	public static $salutationtype = [
 		'1' => 'Mr.',
 		'2' => 'Mrs.',
 	];
-	/** @var string[] Contacts_gender map. */
+
+	/**
+	 * Contacts_gender map.
+	 *
+	 * @var string[]
+	 */
 	public static $gender = [
 		'1' => 'PLL_MAN',
 		'2' => 'PLL_WOMAN',
 	];
-	/** @var string Map module name. */
-	protected $moduleName;
-	/** @var \App\Integrations\Magento\Synchronizer\Base Synchronizer instance */
-	protected $synchronizer;
 
 	/**
 	 * Constructor.
@@ -182,9 +231,9 @@ abstract class Base
 	public function getFieldValue(string $magentoFieldName, ?string $crmFieldName = null)
 	{
 		$parsedFieldName = $crmFieldName ?? $this->getFieldNameCrm($magentoFieldName);
-		$methodName = 'getCrm' . ucfirst($parsedFieldName);
+		$methodName = 'getCrm' . \ucfirst($parsedFieldName);
 		$fieldLevels = explode('|', $magentoFieldName);
-		if (!method_exists($this, $methodName)) {
+		if (!\method_exists($this, $methodName)) {
 			$fieldParsed = $this->data;
 			if (\count($fieldLevels) > 1) {
 				if ('custom_attributes' === $fieldLevels[0]) {
@@ -273,6 +322,34 @@ abstract class Base
 	}
 
 	/**
+	 * Parse phone number.
+	 *
+	 * @param string $fieldName
+	 * @param array  $parsedData
+	 *
+	 * @return array
+	 */
+	public function parsePhone(string $fieldName, array $parsedData): array
+	{
+		if (\App\Config::main('phoneFieldAdvancedVerification', false)) {
+			$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+			try {
+				$swissNumberProto = $phoneUtil->parse(trim($parsedData[$fieldName]));
+				$international = $phoneUtil->format($swissNumberProto, \libphonenumber\PhoneNumberFormat::INTERNATIONAL);
+			} catch (\libphonenumber\NumberParseException $e) {
+				$international = false;
+			}
+			if ($international) {
+				$parsedData[$fieldName] = $international;
+			} else {
+				$parsedData[$fieldName . '_extra'] = trim($parsedData[$fieldName]);
+				unset($parsedData[$fieldName]);
+			}
+		}
+		return $parsedData;
+	}
+
+	/**
 	 * Return address data.
 	 *
 	 * @param string $type
@@ -315,9 +392,9 @@ abstract class Base
 	 */
 	public function getAddressFieldValue(string $type, string $fieldNameCrm, string $fieldName)
 	{
-		$methodName = 'getCrm' . ucfirst($fieldNameCrm);
+		$methodName = 'getCrm' . \ucfirst($fieldNameCrm);
 		if (!empty($fieldParsed = $this->getAddressDataByType($type))) {
-			if (method_exists($this, $methodName)) {
+			if (\method_exists($this, $methodName)) {
 				$fieldParsed = $this->{$methodName}();
 			} else {
 				$fieldLevels = explode('|', $fieldName);

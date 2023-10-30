@@ -7,7 +7,7 @@
  * @package AuthMethod
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -82,7 +82,7 @@ class Users_Totp_Authmethod
 	 *
 	 * @return \Milon\Barcode\path|string - HTML code
 	 */
-	public function createQrCode($otpAuthUrl, $type = 'HTML')
+	private function createQrCode($otpAuthUrl, $type = 'HTML')
 	{
 		$qrCodeGenerator = new \Milon\Barcode\DNS2D();
 		$qrCodeGenerator->setStorPath(__DIR__ . App\Config::main('tmp_dir'));
@@ -100,15 +100,17 @@ class Users_Totp_Authmethod
 	}
 
 	/**
-	 * Create URL code for user.
+	 * Create QR code for user.
+	 *
+	 * @param string $type - acceptable types [HTML, SVG, PNG]
 	 *
 	 * @throws \App\Exceptions\NotAllowedMethod
 	 *
 	 * @return \Milon\Barcode\path|string
 	 */
-	public function createUrl()
+	public function createQrCodeForUser($type = 'PNG')
 	{
-		return $this->getOtpAuthUrl($this->secret, \App\User::getUserModel($this->userId)->getDetail('user_name'));
+		return $this->createQrCode($this->getOtpAuthUrl($this->secret, \App\User::getUserModel($this->userId)->getDetail('user_name')), $type);
 	}
 
 	/**

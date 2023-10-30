@@ -5,7 +5,7 @@
  * @package UIType
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Rafal Pospiech <r.pospiech@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -37,15 +37,31 @@ class Vtiger_MultiDomain_UIType extends Vtiger_Base_UIType
 	}
 
 	/** {@inheritdoc} */
+	public function getDbConditionBuilderValue($value, string $operator)
+	{
+		$values = [];
+		if (!\is_array($value)) {
+			$value = $value ? array_filter(explode(',', $value)) : [];
+		}
+		foreach ($value as $val) {
+			$values[] = parent::getDbConditionBuilderValue($val, $operator);
+		}
+		if (empty($values)) {
+			return null;
+		}
+		return implode(',', $values);
+	}
+
+	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
 		if (empty($value)) {
 			return null;
 		}
 		if (!\is_array($value)) {
-			$value = array_filter(explode(',', $value));
+			$value = [$value];
 		}
-		$value = ',' . implode(',', array_map('trim', $value)) . ',';
+		$value = ',' . implode(',', $value) . ',';
 		return \App\Purifier::decodeHtml($value);
 	}
 

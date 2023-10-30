@@ -13,7 +13,7 @@
 	<!-- tpl-Base-Edit-Field-Number -->
 	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
-	{assign var=PARAMS value=$FIELD_MODEL->getFieldParams()}
+	{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
 	<input name="{$FIELD_MODEL->getFieldName()}" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" type="text" class="tpl-Edit-Field-Number form-control"
 		data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" tabindex="{$FIELD_MODEL->getTabIndex()}"

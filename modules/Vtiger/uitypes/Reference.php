@@ -118,7 +118,7 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 			'value' => \App\Record::getLabel($value, true),
 			'raw' => $value,
 			'referenceModule' => $referenceModuleName,
-			'state' => \App\Record::getStateLabel($value),
+			'state' => \App\Record::getState($value),
 			'isPermitted' => \App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value),
 		];
 	}
@@ -289,17 +289,16 @@ class Vtiger_Reference_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function delete()
 	{
+		$db = \App\Db::getInstance();
 		$fieldModel = $this->getFieldModel();
 		$reference = $fieldModel->getReferenceList();
 
-		$relations = (new \App\Db\Query())->select(['relation_id'])->from('vtiger_relatedlists')->where([
+		$db->createCommand()->delete('vtiger_relatedlists', [
 			'field_name' => $fieldModel->getName(),
 			'related_tabid' => $fieldModel->getModuleId(),
 			'tabid' => array_map('App\Module::getModuleId', $reference),
-		])->column();
-		foreach ($relations as $relationId) {
-			\Vtiger_Relation_Model::removeRelationById($relationId);
-		}
+		])->execute();
+
 		foreach ($reference as $module) {
 			\App\Relation::clearCacheByModule($module);
 		}

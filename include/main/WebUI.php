@@ -51,7 +51,7 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			if ($request->isAjax()) {
 				throw new \App\Exceptions\Unauthorized('LBL_LOGIN_IS_REQUIRED', 401);
 			}
-			header('location: index.php?module=Users&view=Login');
+			header('location: index.php');
 			return true;
 		}
 		return false;
@@ -112,15 +112,23 @@ class Vtiger_WebUI extends Vtiger_EntryPoint
 			}
 			if (empty($moduleName)) {
 				if ($hasLogin) {
-					$qualifiedModuleName = $moduleName = \App\Module::getDefaultModule();
-					if ('Home' === $moduleName) {
-						$view = 'DashBoard';
+					$defaultModule = App\Config::main('default_module');
+					if (!empty($defaultModule) && 'Home' !== $defaultModule && \App\Privilege::isPermitted($defaultModule)) {
+						$moduleName = $defaultModule;
+						$qualifiedModuleName = $defaultModule;
+						if (empty($view = Vtiger_Module_Model::getInstance($moduleName)->getDefaultViewName())) {
+							$view = 'List';
+						}
 					} else {
-						$view = Vtiger_Module_Model::getInstance($moduleName)->getDefaultViewName() ?: 'List';
+						$qualifiedModuleName = $moduleName = 'Home';
+						$view = 'DashBoard';
 					}
-					$request->set('module', $moduleName);
-					$request->set('view', $view);
+				} else {
+					$qualifiedModuleName = $moduleName = 'Users';
+					$view = 'Login';
 				}
+				$request->set('module', $moduleName);
+				$request->set('view', $view);
 			}
 			if (!empty($action)) {
 				$componentType = 'Action';

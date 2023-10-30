@@ -60,27 +60,14 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	public function getDisplayValue($value, $record = false, $recordModel = false, $rawText = false, $length = false)
 	{
 		$value = '******';
-		if (!$rawText && $recordModel && $recordModel->isViewable() && $this->isPermitted('copy') && !\App\Encryption::getInstance($this->getFieldModel()->getModuleId())->isRunning()) {
+		if (!$rawText && $recordModel && $recordModel->isViewable() && !\App\Encryption::getInstance($this->getFieldModel()->getModuleId())->isRunning()) {
 			$moduleName = $recordModel->getModuleName();
 			$fieldName = $this->getFieldModel()->getName();
+			$id = $recordModel->getId();
 			$uniqueId = \App\Layout::getUniqueId("PWD-{$fieldName}");
-			$url = "index.php?module={$moduleName}&action=Password&mode=getPwd&field={$fieldName}&record={$recordModel->getId()}";
-			$value = "<span class=\"text-muted u-cursor-pointer js-no-link js-copy-clipboard\" id=\"{$uniqueId}\" data-url=\"$url\" title=\"" . \App\Language::translate('LBL_PWD_CLIPBOARD_DBCLICK', $moduleName) . "\">{$value}</span><button type=\"button\" class=\"btn btn-primary btn-xs ml-1 js-copy-clipboard-url\" data-url=\"$url\" id=\"{$uniqueId}-btn\" title=\"" . \App\Language::translate('BTN_COPY_TO_CLIPBOARD', $moduleName) . "\"><span class=\"fa-regular fa-copy\"></span></button>";
+			$value = "<span class=\"text-muted u-cursor-pointer js-no-link js-copy-clipboard\" id=\"{$uniqueId}\" data-url=\"index.php?module={$moduleName}&action=Password&mode=getPwd&field={$fieldName}&record={$id}\" title=\"" . \App\Language::translate('LBL_PWD_CLIPBOARD_DBCLICK', $moduleName) . "\">{$value}</span>";
 		}
-
 		return $value;
-	}
-
-	/**
-	 * Check action permissions.
-	 *
-	 * @param string $action
-	 *
-	 * @return bool
-	 */
-	public function isPermitted(string $action): bool
-	{
-		return true === $this->getFieldModel()->getParam($action);
 	}
 
 	/** {@inheritdoc} */
@@ -128,7 +115,7 @@ class Vtiger_Password_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel, array $params = [])
 	{
-		if ($this->isPermitted('copy') && !empty($params['showHiddenData'])) {
+		if (!empty($params['showHiddenData'])) {
 			$value = $this->getPwd($value);
 			(new App\EventHandler())->setRecordModel($recordModel)->setModuleName($recordModel->getModuleName())->trigger('EntityAfterShowHiddenData');
 		} else {

@@ -7,7 +7,7 @@
  * @package Config
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 
 namespace Config;
@@ -138,7 +138,7 @@ class Performance
 	public static $picklistLimit = 50;
 
 	/** If there is no translation in the chosen language, then get from the default language. */
-	public static $recursiveTranslate = false;
+	public static $recursiveTranslate = true;
 
 	/** Parameter defining how fields are displayed in quick edit. Available values: standard,blocks,vertical */
 	public static $quickEditLayout = 'blocks';

@@ -6,7 +6,7 @@
  * File modification allowed only with the consent of the system producer.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
@@ -17,11 +17,6 @@ namespace App\Integrations\SMSProvider;
  */
 class SMSAPI extends Provider
 {
-	/** @var string Encoding */
-	public $encoding = 'utf-8';
-
-	/** @var string Format */
-	public $format = 'json';
 	/** {@inheritdoc} */
 	protected $name = 'SMSAPI';
 
@@ -36,6 +31,12 @@ class SMSAPI extends Provider
 
 	/** @var string Backup address URL for MMS */
 	protected $mmsUrlBackup = 'https://api2.smsapi.pl/mms.do';
+
+	/** @var string Encoding */
+	public $encoding = 'utf-8';
+
+	/** @var string Format */
+	public $format = 'json';
 
 	/** @var \GuzzleHttp\Psr7\Response Response object */
 	private $response;
@@ -102,7 +103,9 @@ class SMSAPI extends Provider
 	 */
 	public function setPhone(string $phoneNumber): self
 	{
-		$phoneNumber = preg_replace_callback('/[^\d]/s', fn () => '', $phoneNumber);
+		$phoneNumber = preg_replace_callback('/[^\d]/s', function () {
+			return '';
+		}, $phoneNumber);
 		$this->set('to', $phoneNumber);
 
 		return $this;
@@ -121,6 +124,46 @@ class SMSAPI extends Provider
 		$this->set('message', $message);
 
 		return $this;
+	}
+
+	/**
+	 * Get body data.
+	 *
+	 * @return array
+	 */
+	private function getBody(): array
+	{
+		$params = [
+			'encoding' => $this->encoding,
+			'format' => $this->format
+		];
+		foreach ($this->getRequiredParams() as $key) {
+			if ('' !== $this->get($key)) {
+				$params[$key] = $this->get($key);
+			}
+		}
+
+		return $params;
+	}
+
+	/**
+	 * Get body data for MMS.
+	 *
+	 * @return array
+	 */
+	private function getMMSBody(): array
+	{
+		$params = [
+			['name' => 'format', 'contents' => $this->format],
+			['name' => 'smil', 'contents' => $this->getSmil()],
+			['name' => 'subject', 'contents' => $this->getSubject()]
+		];
+
+		foreach (['to', 'idx'] as $key) {
+			$params[] = ['name' => $key, 'contents' => $this->get($key) ?? ''];
+		}
+
+		return $params;
 	}
 
 	/** {@inheritdoc} */
@@ -290,26 +333,26 @@ class SMSAPI extends Provider
 		$moduleName = 'Settings:SMSNotifier';
 		$field = ['uitype' => 16, 'column' => $name, 'name' => $name, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
 		switch ($name) {
-			case 'api_key':
-				$field['uitype'] = 99;
-				$field['label'] = 'FL_API_KEY';
-				$field['purifyType'] = \App\Purifier::ALNUM;
-				$field['fromOutsideList'] = true;
-				$field['maximumlength'] = '100';
-				$field['fieldvalue'] = $this->has($name) ? $this->get($name) : '';
-				break;
-			case 'from':
-				$field['uitype'] = 1;
-				$field['label'] = 'FL_SMSAPI_FROM';
-				$field['typeofdata'] = 'V~M';
-				$field['maximumlength'] = '11';
-				$field['purifyType'] = \App\Purifier::TEXT;
-				$field['fieldvalue'] = $this->has($name) ? $this->get($name) : '';
-				break;
-			default:
-				$field = [];
-				break;
-		}
+				case 'api_key':
+					$field['uitype'] = 99;
+					$field['label'] = 'FL_API_KEY';
+					$field['purifyType'] = \App\Purifier::ALNUM;
+					$field['fromOutsideList'] = true;
+					$field['maximumlength'] = '100';
+					$field['fieldvalue'] = $this->has($name) ? $this->get($name) : '';
+					break;
+				case 'from':
+					$field['uitype'] = 1;
+					$field['label'] = 'FL_SMSAPI_FROM';
+					$field['typeofdata'] = 'V~M';
+					$field['maximumlength'] = '11';
+					$field['purifyType'] = \App\Purifier::TEXT;
+					$field['fieldvalue'] = $this->has($name) ? $this->get($name) : '';
+					break;
+				default:
+					$field = [];
+					break;
+			}
 
 		return $field ? \Vtiger_Field_Model::init($moduleName, $field, $name) : null;
 	}
@@ -348,45 +391,5 @@ class SMSAPI extends Provider
 		];
 
 		return $callBackUrl . http_build_query($params);
-	}
-
-	/**
-	 * Get body data.
-	 *
-	 * @return array
-	 */
-	private function getBody(): array
-	{
-		$params = [
-			'encoding' => $this->encoding,
-			'format' => $this->format
-		];
-		foreach ($this->getRequiredParams() as $key) {
-			if ('' !== $this->get($key)) {
-				$params[$key] = $this->get($key);
-			}
-		}
-
-		return $params;
-	}
-
-	/**
-	 * Get body data for MMS.
-	 *
-	 * @return array
-	 */
-	private function getMMSBody(): array
-	{
-		$params = [
-			['name' => 'format', 'contents' => $this->format],
-			['name' => 'smil', 'contents' => $this->getSmil()],
-			['name' => 'subject', 'contents' => $this->getSubject()]
-		];
-
-		foreach (['to', 'idx'] as $key) {
-			$params[] = ['name' => $key, 'contents' => $this->get($key) ?? ''];
-		}
-
-		return $params;
 	}
 }

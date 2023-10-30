@@ -6,7 +6,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -98,81 +98,5 @@ class RequestHttp
 			}
 		}
 		return $options;
-	}
-
-	/**
-	 * Get raw exception.
-	 *
-	 * @param \Throwable $ex
-	 *
-	 * @return string
-	 */
-	public static function getRawException(\Throwable $ex): string
-	{
-		$raw = '';
-		if (method_exists($ex, 'getRequest') && ($request = $ex->getRequest())) {
-			$raw .= '#Request:' . PHP_EOL . self::getRawRequest($request);
-		}
-		if (method_exists($ex, 'getResponse') && ($response = $ex->getResponse())) {
-			$raw .= PHP_EOL . '#Response:' . PHP_EOL . self::getRawResponse($response);
-		}
-		return $raw;
-	}
-
-	/**
-	 * Get raw request.
-	 *
-	 * @param \GuzzleHttp\Psr7\Request $request
-	 *
-	 * @return string
-	 */
-	public static function getRawRequest(\GuzzleHttp\Psr7\Request $request): string
-	{
-		$return = 'URL: ' . $request->getUri()->__toString() . PHP_EOL;
-		$return .= 'Method: ' . $request->getMethod() . PHP_EOL;
-		$return .= 'Headers: ' . PHP_EOL;
-		foreach ($request->getHeaders() as $key => $lines) {
-			foreach ($lines as $line) {
-				$return .= " {$key}: $line\n";
-			}
-		}
-		if ($content = $request->getBody()->__toString()) {
-			$return .= 'Body: ' . PHP_EOL;
-			if (\App\Json::isJson($content)) {
-				$return .= Json::encode(Json::decode($content), JSON_PRETTY_PRINT);
-			} else {
-				$return .= $content;
-			}
-		}
-		return $return;
-	}
-
-	/**
-	 * Get raw response.
-	 *
-	 * @param \GuzzleHttp\Psr7\Response $response
-	 *
-	 * @return string
-	 */
-	public static function getRawResponse(\GuzzleHttp\Psr7\Response $response): string
-	{
-		$return = 'StatusCode: ' . $response->getStatusCode() . PHP_EOL;
-		$return .= 'ReasonPhrase: ' . $response->getReasonPhrase() . PHP_EOL;
-		$return .= 'Protocol: ' . $response->getProtocolVersion() . PHP_EOL;
-		$return .= 'Headers: ' . PHP_EOL;
-		foreach ($response->getHeaders() as $key => $lines) {
-			foreach ($lines as $line) {
-				$return .= " {$key}: $line\n";
-			}
-		}
-		if ($content = $response->getBody()->getContents()) {
-			$return .= 'Body: ' . PHP_EOL;
-			if (\App\Json::isJson($content)) {
-				$return .= Json::encode(Json::decode($content), JSON_PRETTY_PRINT);
-			} else {
-				$return .= $content;
-			}
-		}
-		return $return;
 	}
 }

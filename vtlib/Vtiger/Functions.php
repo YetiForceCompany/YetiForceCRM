@@ -361,12 +361,10 @@ class Functions
 					];
 					$code = $e->getCode();
 				}
-				if (is_numeric($code)) {
-					http_response_code($code);
-				}
+				http_response_code($code);
 				$viewer = new \Vtiger_Viewer();
 				$viewer->assign('MESSAGE', \Config\Debug::$EXCEPTION_ERROR_TO_SHOW ? $message : \App\Language::translate('ERR_OCCURRED_ERROR'));
-				$viewer->assign('MESSAGE_EXPANDED', \Config\Debug::$EXCEPTION_ERROR_TO_SHOW ? \is_array($message) : false);
+				$viewer->assign('MESSAGE_EXPANDED', \is_array($message));
 				$viewer->assign('HEADER_MESSAGE', \App\Language::translate($messageHeader));
 				$viewer->view('Exceptions/ExceptionError.tpl', 'Vtiger');
 			} else {
@@ -580,26 +578,18 @@ class Functions
 		$defaultCurrencyId = \App\Fields\Currency::getDefault()['id'];
 		$info = [];
 		if (empty($date)) {
-			$date = date('Y-m-d', strtotime('-1 day'));
+			$yesterday = date('Y-m-d', strtotime('-1 day'));
+			$date = self::getLastWorkingDay($yesterday);
 		}
-		$date = self::getLastWorkingDay($date);
-
 		$info['date'] = $date;
-		if ($currencyId == $defaultCurrencyId || !\App\Fields\Currency::getActiveBankForExchangeRateUpdate()) {
+		if ($currencyId == $defaultCurrencyId) {
 			$info['value'] = 1.0;
 			$info['conversion'] = 1.0;
 		} else {
-			$exchangeDate = $date;
-			$i = 5;
-			// Loop to skip holidays
-			while ($i-- && !($value = \Settings_CurrencyUpdate_Module_Model::getCleanInstance()->getCRMConversionRate($currencyId, $defaultCurrencyId, $exchangeDate))) {
-				$exchangeDate = date('Y-m-d', strtotime('-1 day', strtotime($exchangeDate)));
-			}
-			$info['date'] = $value ? $exchangeDate : $date;
+			$value = \Settings_CurrencyUpdate_Module_Model::getCleanInstance()->getCRMConversionRate($currencyId, $defaultCurrencyId, $date);
 			$info['value'] = empty($value) ? 1.0 : round($value, 5);
 			$info['conversion'] = empty($value) ? 1.0 : round(1 / $value, 5);
 		}
-
 		return $info;
 	}
 

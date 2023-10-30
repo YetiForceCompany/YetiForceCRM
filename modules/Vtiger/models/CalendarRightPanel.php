@@ -5,7 +5,7 @@
  * @package Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Kon <a.kon@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -30,8 +30,7 @@ class Vtiger_CalendarRightPanel_Model
 		switch ($roleInstance->get('clendarallorecords')) {
 			case 3:
 				if (App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST') && !\App\Config::module($moduleName, 'DISABLED_SHOW_OWNER_ONLY_IN_LIST', false)) {
-					$usersAndGroup = \App\Fields\Owner::getInstance($moduleName, $currentUser)
-						->getUsersAndGroupForModuleList(false, false, 'assigned_user_id', true);
+					$usersAndGroup = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getUsersAndGroupForModuleList();
 					$users = $usersAndGroup['users'];
 				} else {
 					$users = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
@@ -70,8 +69,7 @@ class Vtiger_CalendarRightPanel_Model
 				break;
 			case 3:
 				if (App\Config::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST') && !\App\Config::module($moduleName, 'DISABLED_SHOW_OWNER_ONLY_IN_LIST', false)) {
-					$usersAndGroup = \App\Fields\Owner::getInstance($moduleName, $currentUser)
-						->getUsersAndGroupForModuleList();
+					$usersAndGroup = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getUsersAndGroupForModuleList();
 					$groups = $usersAndGroup['group'];
 				} else {
 					$groups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
@@ -81,6 +79,18 @@ class Vtiger_CalendarRightPanel_Model
 				break;
 		}
 		return $groups;
+	}
+
+	/**
+	 * Get calendar types.
+	 *
+	 * @param string $moduleName
+	 *
+	 * @return array
+	 */
+	public static function getCalendarTypes(string $moduleName): array
+	{
+		return Vtiger_Calendar_Model::getInstance($moduleName)->getCalendarTypes();
 	}
 
 	/**

@@ -6,7 +6,7 @@
  * @package Action
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 /**
  * Calendar actions class.
@@ -23,7 +23,7 @@ class Calendar_Calendar_Action extends Vtiger_Calendar_Action
 			}
 			$entity = array_merge($record->getEntityCount(), $record->getPublicHolidays());
 		} else {
-			$entity = array_merge($record->getEntity(), $record->getPublicHolidays(), $record->getExtraSources());
+			$entity = array_merge($record->getEntity(), $record->getPublicHolidays());
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($entity);

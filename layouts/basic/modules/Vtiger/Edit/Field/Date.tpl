@@ -13,7 +13,7 @@
 	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
 	{assign var="dateFormat" value=$USER_MODEL->get('date_format')}
-	{assign var=PARAMS value=$FIELD_MODEL->getFieldParams()}
+	{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
 	<div class="tpl-Edit-Field-Date input-group {$WIDTHTYPE_GROUP} date">
 		{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 		<input name="{$FIELD_MODEL->getFieldName()}" class="{if !$FIELD_MODEL->isEditableReadOnly()}dateField datepicker{/if} form-control"

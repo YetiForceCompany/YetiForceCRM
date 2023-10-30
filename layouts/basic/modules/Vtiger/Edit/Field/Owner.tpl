@@ -21,7 +21,7 @@
 		{assign var=FIELD_NAME value=$FIELD_MODEL->getName()}
 		{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'),$RECORD)}
-		{if $FIELD_VALUE eq '' && isset($VIEW) && $VIEW neq 'MassEdit' && $FIELD_MODEL->isMandatory()}
+		{if $FIELD_VALUE eq '' && isset($VIEW) && $VIEW neq 'MassEdit'}
 			{assign var=FIELD_VALUE value=$CURRENT_USER_ID}
 		{/if}
 		{assign var=SHOW_FAVORITE_OWNERS value=App\Config::module('Users','FAVORITE_OWNERS') && $CURRENT_USER_ID === \App\User::getCurrentUserRealId()}
@@ -52,12 +52,12 @@
 				{/if}>
 				{if !App\Config::performance('SEARCH_OWNERS_BY_AJAX')}
 					{assign var=FOUND_SELECT_VALUE value=isset($ALL_ACTIVEUSER_LIST[$FIELD_VALUE]) || isset($ALL_ACTIVEGROUP_LIST[$FIELD_VALUE])}
-					{if (isset($VIEW) && $VIEW eq 'MassEdit') || !$FIELD_MODEL->isMandatory()}
+					{if isset($VIEW) && $VIEW eq 'MassEdit'}
 						<optgroup class="p-0">
 							<option value="">{\App\Language::translate('LBL_SELECT_OPTION')}</option>
 						</optgroup>
 					{/if}
-					{if $SHOW_FAVORITE_OWNERS}
+					{if App\Config::module('Users','FAVORITE_OWNERS')}
 						{assign var=FAVORITE_OWNERS value=$OWNER_FIELD->getFavorites($FIELD_MODEL->getFieldDataType())}
 						{if $FAVORITE_OWNERS}
 							{assign var=FAVORITE_OWNERS value=array_intersect_key($ALL_ACTIVEUSER_LIST, $FAVORITE_OWNERS) + array_intersect_key($ALL_ACTIVEGROUP_LIST, $FAVORITE_OWNERS)}
@@ -92,5 +92,5 @@
 			</select>
 		</div>
 	{/if}
-	<!-- /tpl-Base-Edit-Field-Owner -->
+	<!-- tpl-Base-Edit-Field-Owner -->
 {/strip}

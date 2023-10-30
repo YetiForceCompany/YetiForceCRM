@@ -3,7 +3,7 @@
  * Calendar module config.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
  */
 return [
@@ -142,16 +142,5 @@ return [
 	'showPinUser' => [
 		'default' => true,
 		'description' => 'Whether to display the add to favorite users button',
-	],
-	'timePostponeIntervals' => [
-		'default' => ['LBL_THIRTY_MINUTES' => 30, 'LBL_ONE_DAY' => 1440, 'LBL_SEVEN_DAYS' => 10080, 'LBL_THIRTY_DAYS' => 43200],
-		'description' => 'Expand the option of postponing calendar events by adding time expressed in minutes.',
-		'docTags' => ['example' => '[\'LBL_ONE_DAY\' => 1440]', 'var' => 'array'],
-	],
-	'showInviteParticipantsBlock' => [
-		'default' => true,
-		'description' => 'Invite participant block is visible by default: true - show block, false - hide block',
-		'validation' => '\App\Validator::bool',
-		'sanitization' => '\App\Purifier::bool',
 	],
 ];

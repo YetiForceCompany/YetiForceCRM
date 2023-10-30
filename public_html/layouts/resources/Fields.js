@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 window.App.Fields = {
@@ -2206,29 +2206,31 @@ window.App.Fields = {
 			return integer;
 		}
 	},
-	Double: class Double {
-		/** @static int User format without rounding */
-		static FORMAT_USER_WITHOUT_ROUNDING = 0;
-		/** @static int Rounds num to specified precision */
-		static FORMAT_ROUND = 1;
-		/** @static int Truncate trailing zeros */
-		static FORMAT_TRUNCATE_TRAILING_ZEROS = 2;
-		/** @static int Show digits up to precision */
-		static FORMAT_DIGITS_UP_TO_PRECISION = 4;
-
+	Double: {
 		/**
 		 * Function returns the currency in user specified format.
 		 * @param {number} value
-		 * @param {int} fix				 A bitmask of one or more of the mode flags
+		 * @param {boolean} numberOfDecimal
 		 * @param {int} numberOfDecimal
 		 * @returns {string}
 		 */
-		static formatToDisplay(value, fix = Double.FORMAT_ROUND, numberOfDecimal = CONFIG.noOfCurrencyDecimals) {
+		formatToDisplay(value, fixed = true, numberOfDecimal = CONFIG.noOfCurrencyDecimals) {
 			if (!value) {
 				value = 0;
 			}
+			let strDecimal = value.toString().split('.')[1];
+			let numberOfZerosAtTheEnd = 0;
+			if (typeof strDecimal !== 'undefined') {
+				for (let i = strDecimal.length - 1; i > 0; --i) {
+					if (strDecimal[i] == '0') {
+						numberOfZerosAtTheEnd++;
+					} else {
+						break;
+					}
+				}
+			}
 			value = parseFloat(value);
-			if (fix & Double.FORMAT_ROUND) {
+			if (fixed) {
 				let base = 10 ** numberOfDecimal;
 				value =
 					Math.round(
@@ -2240,14 +2242,10 @@ window.App.Fields = {
 			if (integer !== '-0' && integer !== '0') {
 				integer = App.Fields.Integer.formatToDisplay(integer);
 			}
-			let decimal = splittedFloat[1] || '';
+			let decimal = splittedFloat[1];
 			if (numberOfDecimal) {
-				if (
-					!(fix & Double.FORMAT_TRUNCATE_TRAILING_ZEROS) &&
-					(!CONFIG.truncateTrailingZeros || fix & Double.FORMAT_DIGITS_UP_TO_PRECISION)
-				) {
-					let decimalLenght = decimal.length;
-					for (let i = decimalLenght; i < numberOfDecimal; ++i) {
+				if (!CONFIG.truncateTrailingZeros && decimal) {
+					for (let i = 0; i < numberOfZerosAtTheEnd && decimal.length < numberOfDecimal; ++i) {
 						decimal += '0';
 					}
 				}
@@ -2256,13 +2254,13 @@ window.App.Fields = {
 				}
 			}
 			return integer;
-		}
+		},
 		/**
 		 * Function to get value for db format.
 		 * @param {string} value
 		 * @returns {number}
 		 */
-		static formatToDb(value) {
+		formatToDb(value) {
 			if (value == undefined || value == '') {
 				value = 0;
 			}
@@ -2313,7 +2311,7 @@ window.App.Fields = {
 						fieldDisplayElement = this.container.find('input[name="' + sourceFieldElement.attr('name') + '_display"]');
 					AppConnector.request({
 						module: sourceFieldElement.data('module-name'),
-						view: sourceFieldElement.data('view') || 'TreeModal',
+						view: 'TreeModal',
 						template: sourceFieldElement.data('treetemplate'),
 						fieldName: sourceFieldElement.attr('name'),
 						multiple: sourceFieldElement.data('multiple'),
@@ -2372,6 +2370,7 @@ window.App.Fields = {
 					this.value = selectedItemData.label;
 					let element = $(this).attr('readonly', true);
 					element.closest('.js-tree-container').find('input.sourceField').val(selectedItemData.id).trigger('change');
+					return false;
 				},
 				change: function (event, ui) {},
 				open: function (event, ui) {
@@ -3083,9 +3082,7 @@ window.App.Fields = {
 				},
 				callbackFunction: (data) => {
 					if (data.success) {
-						this.select
-							.append(new Option(data.result._recordLabel, data.result._recordId, true, true))
-							.trigger('change');
+						this.select.append(new Option(data.result._recordLabel, data.result._recordId, true, true));
 					}
 				},
 				noCache: true
@@ -3097,16 +3094,11 @@ window.App.Fields = {
 		 */
 		setReferenceFieldValue(data) {
 			const values = this.select.val();
-			let changed = false;
 			$.each(data, (id, label) => {
 				if (!values.includes(id)) {
-					changed = true;
 					this.select.append(new Option(label, id, true, true));
 				}
 			});
-			if (changed) {
-				this.select.trigger('change');
-			}
 		}
 		/**
 		 * Gets params
@@ -3863,24 +3855,6 @@ window.App.Fields = {
 			return this.container.find('.js-source-field');
 		}
 	},
-	Phone: {
-		/**
-		 * Register function
-		 * @param {jQuery} container
-		 */
-		register(container) {
-			Integrations_Pbx_Base.getInstance(container).registerEvents();
-		}
-	},
-	Mail: {
-		/**
-		 * Register function
-		 * @param {jQuery} container
-		 */
-		register(container) {
-			Integrations_Mail_Base.getInstance(container).registerEvents();
-		}
-	},
 	Utils: {
 		registerMobileDateRangePicker(element) {
 			this.hideMobileKeyboard(element);
@@ -3947,184 +3921,6 @@ window.App.Fields = {
 					fieldValue.removeClass('border border-info');
 				}, 5000);
 			}
-		}
-	},
-	/**
-	 * Map coordinates field class
-	 */
-	MapCoordinates: class MapCoordinates {
-		/**
-		 * Register function for detail view
-		 * @param {jQuery} container
-		 */
-		static register(container) {
-			$('.js-show-map__btn', container).each(function () {
-				let self = new MapCoordinates($(this), {});
-				self.registerEvents();
-			});
-		}
-		/**
-		 * Register function for edit view
-		 * @param {jQuery} container
-		 * @param {Object} options
-		 */
-		static registerEdit(container, options = {}) {
-			if (container.hasClass('js-map-coordinates')) {
-				let self = new MapCoordinates(container, options);
-				self.registerEditEvents();
-				return self;
-			}
-			const instances = [];
-			container.find('.js-map-coordinates').each((_, e) => {
-				let self = new MapCoordinates($(e), options);
-				self.registerEditEvents();
-				instances.push(self);
-			});
-			return instances;
-		}
-		/**
-		 * Constructor
-		 * @param {jQuery} container
-		 * @param {Object} options
-		 */
-		constructor(container, options) {
-			this.container = container;
-			this.fieldInfo = this.container.find('input:first').data('fieldinfo') || {};
-			this.values = this.container.data('fieldinfo') || {};
-			this.options = { ...options };
-		}
-		/**
-		 * Register events for edit view
-		 */
-		registerEditEvents() {
-			this.container.find('.js-map-edit__btn').on('click', () => {
-				this.showMap();
-			});
-			this.container.find('.js-geo-type').on('change', (e) => {
-				this.container.find('.js-geo-value').addClass('d-none');
-				this.container.find('.js-geo-value[data-type="' + $(e.currentTarget).val() + '"]').removeClass('d-none');
-			});
-			const locationBtn = this.container.find('.js-my-location__btn');
-			if (navigator.geolocation) {
-				navigator.permissions.query({ name: 'geolocation' }).then((response) => {
-					if (response.state === 'denied') {
-						locationBtn.addClass('d-none');
-					}
-				});
-			} else {
-				locationBtn.addClass('d-none');
-			}
-			locationBtn.on('click', () => {
-				this.detectLocation();
-			});
-		}
-		/**
-		 * Set value
-		 * @param {mixed} value
-		 * @param {string} type
-		 */
-		setValue(value, type) {
-			this.container.find('.js-geo-type').val(type).trigger('change');
-			if (typeof value === 'object') {
-				$.each(value, (index, val) => {
-					this.container.find(`.js-geo-value[name="${this.fieldInfo['name']}[${type}][${index}]"]`).val(val);
-				});
-			} else {
-				this.container.find(`.js-geo-value[name="${this.fieldInfo['name']}[${type}]"]`).val(value);
-			}
-		}
-		/**
-		 * Get value
-		 * @returns {object}
-		 */
-		getValue() {
-			let ret = { type: this.container.find('.js-geo-type').val(), decimal: {}, degrees: {} };
-			this.container.find(`.js-geo-value`).each((_, e) => {
-				e = $(e);
-				if (e.data('key')) {
-					ret[e.data('type')][e.data('key')] = e.val();
-				} else {
-					ret[e.data('type')] = e.val();
-				}
-			});
-			ret['value'] = ret[ret['type']];
-			return ret;
-		}
-		/**
-		 * Detect user location
-		 */
-		detectLocation() {
-			navigator.geolocation.getCurrentPosition((position) => {
-				this.setValue({ lat: position.coords.latitude, lon: position.coords.longitude }, 'decimal');
-			});
-		}
-		/**
-		 * Show map modal
-		 */
-		showMap() {
-			const progress = jQuery.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
-			AppConnector.request({
-				module: 'OpenStreetMap',
-				view: 'MapModal',
-				point: true,
-				srcModule: app.getModuleName(this.container),
-				srcField: this.fieldInfo['name'],
-				value: this.getValue()
-			})
-				.done((data) => {
-					progress.progressIndicator({ mode: 'hide' });
-					app.showModalWindow(data, (modal) => {
-						const mapView = new OpenStreetMap_Map_Js();
-						mapView.registerFromField(modal, this);
-					});
-				})
-				.fail((_error, err) => {
-					progress.progressIndicator({ mode: 'hide' });
-					app.showNotify({
-						title: app.vtranslate('JS_MESSAGE'),
-						text: err,
-						type: 'error'
-					});
-				});
-		}
-		/**
-		 * Register events for detail view
-		 */
-		registerEvents() {
-			this.container.on('click', (e) => {
-				e.preventDefault();
-				const element = $(e.currentTarget),
-					value = element.data('value');
-				if (!value) {
-					window.open(element.attr('href'), element.attr('href'), 'toolbar=0,menubar=0,location=0');
-					return;
-				}
-				const fieldName = element.closest('.js-field-block-column').data('field'),
-					progress = jQuery.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
-				AppConnector.request({
-					module: 'OpenStreetMap',
-					view: 'MapModal',
-					point: true,
-					srcModule: app.getModuleName(this.container),
-					srcField: fieldName,
-					value: value
-				})
-					.done((data) => {
-						progress.progressIndicator({ mode: 'hide' });
-						app.showModalWindow(data, (modal) => {
-							const mapView = new OpenStreetMap_Map_Js();
-							mapView.registerFromField(modal, this);
-						});
-					})
-					.fail((_error, err) => {
-						progress.progressIndicator({ mode: 'hide' });
-						app.showNotify({
-							title: app.vtranslate('JS_MESSAGE'),
-							text: err,
-							type: 'error'
-						});
-					});
-			});
 		}
 	}
 };

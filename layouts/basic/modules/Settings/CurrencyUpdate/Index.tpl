@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div id="currencyUpdateContainer">
 		<div class="o-breadcrumb widget_header row mb-2">
@@ -29,9 +29,8 @@
 						<div class="row">
 							<div class="col-md-5">
 								<select name="bank" id="bank" class="select2 form-control">
-									<option value="0" {if !$ACTIVE_BANK}selected{/if}>{\App\Language::translate('LBL_SELECT_OPTION', $QUALIFIED_MODULE)}</option>
 									{foreach from=$BANK item=key}
-										<option value="{$key.id}" {if $key.active eq '1'}selected{/if} data-name="{$key.bank_name|escape}">{\App\Language::translate($key.bank_name, $QUALIFIED_MODULE)}</option>
+										<option value="{$key.id}" {if $key.active eq '1'}selected{/if} data-name="{$key.bank_name}">{\App\Language::translate($key.bank_name, $QUALIFIED_MODULE)}</option>
 									{/foreach}
 								</select>
 							</div>

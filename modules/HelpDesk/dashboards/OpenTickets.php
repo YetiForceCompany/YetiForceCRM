@@ -38,23 +38,29 @@ class HelpDesk_OpenTickets_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$query->groupBy(['smownerid', 'vtiger_users.last_name', 'vtiger_users.first_name', 'vtiger_groups.groupname', 'vtiger_users.cal_color', 'vtiger_groups.color']);
 		$dataReader = $query->createCommand()->query();
-
+		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$chartData = [
-			'dataset' => [],
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'backgroundColor' => [],
+					'links' => [],
+					'titlesFormatted' => [],
+				],
+			],
 			'show_chart' => false,
 		];
-		$chartData['series'][0]['colorBy'] = 'data';
-		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
-
+		$chartData['show_chart'] = (bool) $dataReader->count();
 		while ($row = $dataReader->read()) {
 			$label = trim($row['name']);
-			$link = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($row['id']);
-			$chartData['dataset']['source'][] = [\App\Utils::getInitials($label), (int) $row['count'], ['link' => $link, 'fullName' => $label]];
-			$chartData['color'][] = \App\Fields\Owner::getColor($row['id']);
-			$chartData['show_chart'] = true;
+			$chartData['labels'][] = \App\Utils::getInitials($label);
+			$chartData['datasets'][0]['titlesFormatted'][] = $label;
+			$chartData['datasets'][0]['data'][] = (int) $row['count'];
+			$chartData['datasets'][0]['links'][] = $listViewUrl . $this->getSearchParams($row['id']);
+			$chartData['datasets'][0]['backgroundColor'][] = \App\Fields\Owner::getColor($row['id']);
 		}
 		$dataReader->close();
-
 		return $chartData;
 	}
 

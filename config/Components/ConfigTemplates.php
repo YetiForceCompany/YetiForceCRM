@@ -3,7 +3,7 @@
  * Components config.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 return [
 	'AddressFinder' => [
@@ -378,35 +378,6 @@ return [
 			'validation' => '\App\Validator::bool',
 			'sanitization' => '\App\Purifier::bool',
 		],
-		'advancedVerification' => [
-			'default' => true,
-			'description' => 'Enable advanced phone number validation. Enabling it will block saving invalid phone number.',
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool',
-		],
-		'advancedFormat' => [
-			'default' => new \Nette\PhpGenerator\PhpLiteral('\libphonenumber\PhoneNumberFormat::INTERNATIONAL'),
-			'description' => "Phone number display format. Values:\nfalse - formatting is disabled \n\\libphonenumber\\PhoneNumberFormat::E164 (0) - `+48446681800`, `+48884998123`\n\\libphonenumber\\PhoneNumberFormat::INTERNATIONAL (1) - `+48 44 668 18 00`, `+48 884 998 123`\n\\libphonenumber\\PhoneNumberFormat::NATIONAL (2) - `44 668 18 00`, `884 998 123`\n\\libphonenumber\\PhoneNumberFormat::RFC3966 (3) - `tel:+48-44-668-18-00`, `tel:+48-884-998-123`.",
-			'validation' => function () {
-				return \in_array(func_get_arg(0), [
-					false,
-					\libphonenumber\PhoneNumberFormat::E164,
-					\libphonenumber\PhoneNumberFormat::INTERNATIONAL,
-					\libphonenumber\PhoneNumberFormat::NATIONAL,
-					\libphonenumber\PhoneNumberFormat::RFC3966,
-				]);
-			},
-		],
-	],
-	'Pbx' => [
-		'phoneSearchField' => [
-			'default' => [
-				'Contacts' => ['phone', 'mobile'],
-				'Accounts' => ['phone', 'otherphone'],
-				'Leads' => ['phone', 'mobile', 'fax'],
-			],
-			'description' => 'Map of modules and fields to search for relations by telephone number, for call history.',
-		],
 	],
 	'InterestsConflict' => [
 		'isActive' => [
@@ -465,27 +436,6 @@ return [
 			'default' => ['noSandbox' => true],
 			'description' => 'Chromium browser options available for the browser factory.',
 			'docTags' => ['see' => 'https://github.com/chrome-php/chrome#available-options', 'var' => 'array'],
-		],
-	],
-	'IntegrationWooCommerce' => [
-		'logAll' => [
-			'default' => false,
-			'description' => 'Log all events (errors + info), when turned on creates a lot of logs.',
-			'docTags' => ['var' => 'bool'],
-			'validation' => '\App\Validator::bool',
-			'sanitization' => '\App\Purifier::bool',
-		],
-		'attributes' => [
-			'default' => [],
-			'description' => "Product attributes map\n[WooCommerceAttrName => CrmFieldName]",
-			'docTags' => ['see' => 'App\Integrations\WooCommerce\Synchronizer\ProductAttributes', 'var' => 'array'],
-			'validation' => fn () => true,
-		],
-		'customAttributes' => [
-			'default' => [],
-			'description' => "Custom product attributes map\n[WooCommerceCustomName => CrmFieldName]\nAllowed field types depending on the values entered `Text area`",
-			'docTags' => ['see' => 'App\Integrations\WooCommerce\Synchronizer\ProductAttributes', 'var' => 'array'],
-			'validation' => fn () => true,
 		],
 	],
 ];

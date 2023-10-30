@@ -20,7 +20,7 @@
 	{/if}
 	<div class="picklistSearchField input-group {if isset($CLASS_SIZE)}{$CLASS_SIZE}{/if} u-min-w-150pxr">
 		<select class="select2 listSearchContributor form-control" name="{$FIELD_MODEL->getName()}" multiple="multiple"
-			{if !$FIELD_MODEL->searchLockedEmptyFields() || !$FIELD_MODEL->isActiveSearchView()}disabled="disabled" data-placeholder=" " {/if}
+			{if !$FIELD_MODEL->isActiveSearchView()}disabled="disabled" data-placeholder=" " {/if}
 			title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $FIELD_MODEL->getModule()->getName())}"
 			data-fieldinfo='{$FIELD_INFO|escape}'
 			{if !empty($FIELD_MODEL->get('source_field_name'))}
@@ -32,13 +32,6 @@
 				</option>
 			{/foreach}
 		</select>
-		{if !empty($MODULE_MODEL) && isset($MODULE_MODEL->isentitytype) && $FIELD_MODEL->isActiveSearchView()}
-			<div class="input-group-append" title="{\App\Language::translate('LBL_FILTER_EMPTY_VALUE', $FIELD_MODEL->getModuleName())}">
-				<div class="input-group-text px-1">
-					<input type="checkbox" class="js-empty-value" {if !$FIELD_MODEL->searchLockedEmptyFields()}checked{/if} {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}>
-				</div>
-			</div>
-		{/if}
 	</div>
 	<!-- /tpl-Base-List-Field-PickList -->
 {/strip}

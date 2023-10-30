@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var=COUNT value=count($RECOLDLIST)}
 	<div class="tpl-OSSMailView-MailsPreview modelContainer modal fade" tabindex="-1">
@@ -82,8 +82,8 @@
 													</small>
 												</div>
 												<div class="bd-highlight mailActions d-flex justify-content-end mb-1 px-0">
-													{if \Config\Main::$isActiveSendingMails}
-														{if 'InternalClient' === \App\Mail::getMailComposer()}
+													{if \App\Mail::checkMailClient()}
+														{if \App\Mail::checkInternalMailClient()}
 															{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
 															<button type="button" class="btn btn-xs btn-outline-success sendMailBtn ml-1" data-url="{$COMPOSE_URL}&mid={$ROW['id']}&type=reply" data-popup="{$POPUP}">
 																<span class="fas fa-reply" title="{\App\Language::translate('LBL_REPLY','OSSMailView')}"></span>

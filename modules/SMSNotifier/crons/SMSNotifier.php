@@ -5,7 +5,7 @@
  * @package Cron
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
@@ -17,20 +17,20 @@ class SMSNotifier_SMSNotifier_Cron extends \App\CronHandler
 	/** @var string Status */
 	private const STATUS_QUEUE = 'PLL_QUEUE';
 	/** @var string Module name */
-	private $moduleName = 'SMSNotifier';
+	private $moduelName = 'SMSNotifier';
 
 	/** {@inheritdoc} */
 	public function process()
 	{
 		if (\App\Integrations\SMSProvider::isActiveProvider()) {
-			$queryGenerator = new \App\QueryGenerator($this->moduleName);
+			$queryGenerator = new \App\QueryGenerator($this->moduelName);
 			$dataReader = $queryGenerator->setFields(['id'])
 				->addCondition('smsnotifier_status', static::STATUS_QUEUE, 'e')
-				->setLimit(\App\Config::module($this->moduleName, 'maxCronSentSMS'))
+				->setLimit(\App\Config::module($this->moduelName, 'maxCronSentSMS'))
 				->createQuery()
 				->createCommand()->query();
 			while ($recordId = $dataReader->readColumn(0)) {
-				$recordModel = \SMSNotifier_Record_Model::getInstanceById($recordId, $this->moduleName);
+				$recordModel = \SMSNotifier_Record_Model::getInstanceById($recordId, $this->moduelName);
 				$recordModel->send();
 				$this->updateLastActionTime();
 				if ($this->checkTimeout()) {

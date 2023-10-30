@@ -364,6 +364,18 @@ var Vtiger_Index_Js = {
 	sendNotification: function () {
 		App.Components.QuickCreate.createRecord('Notification');
 	},
+	performPhoneCall: function (phoneNumber, record) {
+		AppConnector.request({
+			module: app.getModuleName(),
+			view: 'BasicAjax',
+			mode: 'performPhoneCall',
+			phoneNumber: phoneNumber,
+			record: record
+		}).done(function (response) {
+			response = JSON.parse(response);
+			Vtiger_Helper_Js.showMessage({ text: response.result });
+		});
+	},
 	registerEvents: function () {
 		Vtiger_Index_Js.registerReminders();
 		Vtiger_Index_Js.changeSkin();

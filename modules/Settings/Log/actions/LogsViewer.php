@@ -6,7 +6,7 @@
  * @package   Action
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Sołek <a.solek@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -19,14 +19,14 @@ class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 	public function process(App\Request $request)
 	{
 		$type = $request->getByType('type');
-		if (!isset(\App\Log::LOGS_VIEWER_COLUMN_MAP[$type])) {
+		if (!isset(\App\Log::$logsViewerColumnMapping[$type])) {
 			throw new \App\Exceptions\NoPermittedForAdmin('ERR_ILLEGAL_VALUE');
 		}
 		$rows = $columns = [];
 		foreach ($request->getArray('columns') as $key => $value) {
 			$columns[$key] = $value['name'];
 		}
-		$mapping = \App\Log::LOGS_VIEWER_COLUMN_MAP[$type];
+		$mapping = \App\Log::$logsViewerColumnMapping[$type];
 		if (\App\Db::getInstance()->isTableExists($mapping['table'])) {
 			$query = (new \App\Db\Query())->from($mapping['table']);
 			$logsCountAll = (int) $query->count('*');
@@ -56,11 +56,6 @@ class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 							break;
 						case 'Reference':
 							$r[] = \App\Record::getLabel($row[$key]);
-							break;
-						case 'Boolean':
-							$r[] = \App\Language::translate(empty($row[$key]) ? 'LBL_NO' : 'LBL_YES');
-							break;
-						default:
 							break;
 					}
 				}
@@ -95,11 +90,6 @@ class Settings_Log_LogsViewer_Action extends Settings_Vtiger_Basic_Action
 						break;
 					case 'Text':
 						$query->andWhere(['like', $key, $request->getByType($key, 'Text')]);
-						break;
-					case 'Boolean':
-						$query->andWhere([$key => $request->getInteger($key)]);
-						break;
-					default:
 						break;
 				}
 			}

@@ -46,11 +46,8 @@ class Calendar_Save_Action extends Vtiger_Save_Action
 	protected function getRecordModelFromRequest(App\Request $request)
 	{
 		parent::getRecordModelFromRequest($request);
-		if (!$request->isEmpty('typeSaving') && ($typeSaving = $request->getInteger('typeSaving'))) {
-			$this->record->ext['repeatType'] = $typeSaving;
-			if (Calendar_RecuringEvents_Model::UPDATE_THIS_EVENT === $typeSaving) {
-				$this->record->set('recurrence', $this->record->getPreviousValue('recurrence'));
-			}
+		if (!$request->isEmpty('typeSaving') && Calendar_RecuringEvents_Model::UPDATE_THIS_EVENT === $request->getInteger('typeSaving')) {
+			$this->record->set('recurrence', $this->record->getPreviousValue('recurrence'));
 		}
 		return $this->record;
 	}

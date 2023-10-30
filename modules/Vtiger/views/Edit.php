@@ -11,7 +11,11 @@
 
 class Vtiger_Edit_View extends Vtiger_Index_View
 {
-	/** @var Vtiger_Record_Model Record model instance. */
+	/**
+	 * Record model instance.
+	 *
+	 * @var Vtiger_Record_Model
+	 */
 	protected $record;
 
 	/** {@inheritdoc} */
@@ -20,10 +24,10 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		$moduleName = $request->getModule();
 		if ($request->has('record')) {
 			$this->record = Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
-			$isPermitted = $this->record->isEditable() || (true === $request->getBoolean('isDuplicate') && $this->record->getModule()->isPermitted('DuplicateRecord') && $this->record->isCreatable() && $this->record->isViewable());
+			$isPermitted = $this->record->isEditable() || (true === $request->getBoolean('isDuplicate') && $this->record->getModule()->isPermitted('DuplicateRecord') && $this->record->isCreateable() && $this->record->isViewable());
 		} else {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
-			$isPermitted = $this->record->isCreatable();
+			$isPermitted = $this->record->isCreateable();
 		}
 		if (!$isPermitted) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -80,7 +84,13 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		$viewLinks = $editModel->getEditViewLinks(['MODULE' => $moduleName, 'RECORD' => $recordId]);
 
 		$moduleModel = $this->record->getModule();
-		$this->loadValues($request);
+		$fieldList = $moduleModel->getFields();
+		foreach (array_intersect($request->getKeys(), array_keys($fieldList)) as $fieldName) {
+			$fieldModel = $fieldList[$fieldName];
+			if ($fieldModel->isWritable()) {
+				$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->record);
+			}
+		}
 		if ($moduleModel->isInventory() && !$request->isEmpty('inventory')) {
 			$this->record->initInventoryDataFromRequest($request);
 		}
@@ -89,16 +99,15 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 		$isRelationOperation = $request->getBoolean('relationOperation');
 		//if it is relation edit
 		$viewer->assign('IS_RELATION_OPERATION', $isRelationOperation);
-		$viewer->assign('SOURCE_MODULE', $request->getByType('sourceModule', \App\Purifier::ALNUM));
 		if ($isRelationOperation) {
-			$viewName = 'edit' === $mode ? 'Edit' : 'Create';
+			$viewer->assign('SOURCE_MODULE', $request->getByType('sourceModule', 2));
 			$viewer->assign('SOURCE_RECORD', $request->getInteger('sourceRecord'));
 			$sourceRelatedField = $moduleModel->getValuesFromSource($request);
 			foreach ($recordStructure as $block) {
 				foreach ($sourceRelatedField as $field => $value) {
 					if (isset($block[$field]) && '' !== $value) {
 						$fieldModel = $block[$field];
-						if ($fieldModel->isEditable($viewName) && ('' === $fieldModel->get('fieldvalue') || null === $fieldModel->get('fieldvalue'))) {
+						if ($fieldModel->isEditable() && ('' === $fieldModel->get('fieldvalue') || null === $fieldModel->get('fieldvalue'))) {
 							$fieldModel->set('fieldvalue', $value);
 						}
 					}
@@ -192,23 +201,5 @@ class Vtiger_Edit_View extends Vtiger_Index_View
 			$parentScript = array_merge($parentScript, $scriptInstances);
 		}
 		return $parentScript;
-	}
-
-	/**
-	 * Load record values form request.
-	 *
-	 * @param App\Request $request
-	 *
-	 * @return void
-	 */
-	protected function loadValues(App\Request $request): void
-	{
-		$fieldList = $this->record->getModule()->getFields();
-		foreach (array_intersect($request->getKeys(), array_keys($fieldList)) as $fieldName) {
-			$fieldModel = $fieldList[$fieldName];
-			if ($fieldModel->isWritable()) {
-				$fieldModel->getUITypeModel()->setValueFromRequest($request, $this->record);
-			}
-		}
 	}
 }

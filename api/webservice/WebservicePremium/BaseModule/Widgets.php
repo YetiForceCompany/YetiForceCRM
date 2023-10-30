@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
@@ -22,7 +22,7 @@ class Widgets extends \Api\Core\BaseAction
 	public $allowedMethod = ['GET'];
 
 	/** @var string[] Supported widget types */
-	public const SUPPORTED_TYPES = ['RelatedModule', 'Updates', 'Comments', 'DetailView'];
+	protected $supportedTypes = ['RelatedModule', 'Updates', 'Comments', 'DetailView'];
 
 	/**
 	 * Get widgets list method.
@@ -122,7 +122,7 @@ class Widgets extends \Api\Core\BaseAction
 		$columns = array_flip(['id', 'type', 'label', 'wcol', 'sequence', 'data', 'name']);
 
 		$dataReader = (new \App\Db\Query())->from('vtiger_widgets')
-			->where(['tabid' => \App\Module::getModuleId($moduleName), 'type' => self::SUPPORTED_TYPES])
+			->where(['tabid' => \App\Module::getModuleId($moduleName), 'type' => $this->supportedTypes])
 			->orderBy(['tabid' => SORT_ASC, 'sequence' => SORT_ASC])
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {

@@ -6,9 +6,8 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\Db;
@@ -20,16 +19,11 @@ class Fixer
 {
 	/**
 	 * Add missing entries in vtiger_profile2field.
-	 *
-	 * @param bool $showMissingElements
-	 *
-	 * @return int|array
 	 */
-	public static function profileField(bool $showMissingElements = false)
+	public static function profileField(): int
 	{
 		\App\Log::trace('Entering ' . __METHOD__);
 		$i = 0;
-		$missingData = [];
 		$profileIds = \vtlib\Profile::getAllIds();
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		foreach ($profileIds as $profileId) {
@@ -40,11 +34,6 @@ class Fixer
 				foreach ($fieldIds as $fieldId) {
 					$isExists = (new \App\Db\Query())->from('vtiger_profile2field')->where(['profileid' => $profileId, 'fieldid' => $fieldId])->exists();
 					if (!$isExists) {
-						if ($showMissingElements) {
-							$instanceOfField = \Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
-							$missingData[] = 'Field: ' . $instanceOfField->getName() . ', ProfileId: ' . $profileId . ', TabId :' . $tabId;
-						}
-
 						$dbCommand->insert('vtiger_profile2field', ['profileid' => $profileId, 'tabid' => $tabId, 'fieldid' => $fieldId, 'visible' => 0, 'readonly' => 0])->execute();
 						++$i;
 					}
@@ -52,23 +41,18 @@ class Fixer
 			}
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);
-
-		return $showMissingElements ? ['count' => $i, 'names' => $missingData] : $i;
+		return $i;
 	}
 
 	/**
 	 * Add missing entries in vtiger_profile2utility.
-	 *
-	 * @param bool $showMissingElements
-	 *
-	 * @return int|array
 	 */
-	public static function baseModuleTools(bool $showMissingElements = false)
+	public static function baseModuleTools(): int
 	{
 		$i = 0;
-		$allUtility = $missing = $currentProfile2utility = $missingData = [];
+		$allUtility = $missing = $curentProfile2utility = [];
 		foreach ((new \App\Db\Query())->from('vtiger_profile2utility')->all() as $row) {
-			$currentProfile2utility[$row['profileid']][$row['tabid']][$row['activityid']] = true;
+			$curentProfile2utility[$row['profileid']][$row['tabid']][$row['activityid']] = true;
 			$allUtility[$row['tabid']][$row['activityid']] = true;
 		}
 		$profileIds = \vtlib\Profile::getAllIds();
@@ -78,20 +62,19 @@ class Fixer
 		foreach ($profileIds as $profileId) {
 			foreach ($moduleIds as $moduleId) {
 				foreach ($baseActionIds as $actionId) {
-					if (!isset($currentProfile2utility[$profileId][$moduleId][$actionId])) {
+					if (!isset($curentProfile2utility[$profileId][$moduleId][$actionId])) {
 						$missing["$profileId:$moduleId:$actionId"] = ['profileid' => $profileId, 'tabid' => $moduleId, 'activityid' => $actionId];
 					}
 				}
 				if (isset($allUtility[$moduleId])) {
 					foreach ($allUtility[$moduleId] as $actionId => $value) {
-						if (!isset($currentProfile2utility[$profileId][$moduleId][$actionId])) {
+						if (!isset($curentProfile2utility[$profileId][$moduleId][$actionId])) {
 							$missing["$profileId:$moduleId:$actionId"] = ['profileid' => $profileId, 'tabid' => $moduleId, 'activityid' => $actionId];
 						}
 					}
 				}
 			}
 		}
-
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		foreach ($missing as $row) {
 			if (isset($exceptions[$row['tabid']]['allowed'])) {
@@ -101,30 +84,19 @@ class Fixer
 			} elseif (isset($exceptions[$row['tabid']]['notAllowed']) && (false === $exceptions[$row['tabid']]['notAllowed'] || isset($exceptions[$row['tabid']]['notAllowed'][$row['activityid']]))) {
 				continue;
 			}
-
-			if ($showMissingElements) {
-				$nameOfModule = \App\Module::getModuleName($row['tabid']);
-				$missingData[] = 'Module: ' . $nameOfModule . ', ProfileId: ' . $row['profileid'] . ', ActivityId:' . $row['activityid'];
-			}
-
 			$dbCommand->insert('vtiger_profile2utility', ['profileid' => $row['profileid'], 'tabid' => $row['tabid'], 'activityid' => $row['activityid'], 'permission' => 1])->execute();
 			++$i;
 		}
-
-		return $showMissingElements ? ['count' => $i, 'names' => $missingData] : $i;
+		return $i;
 	}
 
 	/**
 	 * Add missing entries in vtiger_profile2standardpermissions.
-	 *
-	 * @param bool $showMissingElements
-	 *
-	 * @return int|array
 	 */
-	public static function baseModuleActions(bool $showMissingElements = false)
+	public static function baseModuleActions(): int
 	{
 		$i = 0;
-		$curentProfile = $missingData = [];
+		$curentProfile = [];
 		foreach ((new \App\Db\Query())->from('vtiger_profile2standardpermissions')->all() as $row) {
 			$curentProfile[$row['profileid']][$row['tabid']][$row['operation']] = $row['permissions'];
 		}
@@ -134,19 +106,13 @@ class Fixer
 			foreach ($moduleIds as $moduleId) {
 				foreach (\Vtiger_Action_Model::$standardActions as $actionId => $actionName) {
 					if (!isset($curentProfile[$profileId][$moduleId][$actionId])) {
-						if ($showMissingElements) {
-							$nameOfAction = \Vtiger_Action_Model::getInstanceWithIdOrName($actionId);
-							$missingData[] = 'Action: ' . $nameOfAction . ', ProfileId: ' . $profileId . ', TabId: ' . $moduleId . ', ActionId: ' . $actionId;
-						}
-
 						$dbCommand->insert('vtiger_profile2standardpermissions', ['profileid' => $profileId, 'tabid' => $moduleId, 'operation' => $actionId, 'permissions' => 1])->execute();
 						++$i;
 					}
 				}
 			}
 		}
-
-		return $showMissingElements ? ['count' => $i, 'names' => $missingData] : $i;
+		return $i;
 	}
 
 	/**
@@ -160,12 +126,11 @@ class Fixer
 	{
 		$typesNotSupported = ['datetime', 'date', 'year', 'timestamp', 'time'];
 		$uiTypeNotSupported = [30];
-		$updatedInfo = $requiresVerificationInfo = [];
 		$updated = $requiresVerification = $typeNotFound = $notSupported = 0;
 		$db = \App\Db::getInstance();
 		$dbCommand = $db->createCommand();
 		$schema = $db->getSchema();
-		$query = (new \App\Db\Query())->select(['tabid', 'tablename', 'columnname', 'fieldid', 'fieldname', 'maximumlength', 'uitype'])->from('vtiger_field');
+		$query = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldid', 'maximumlength', 'uitype'])->from('vtiger_field');
 		if ($conditions) {
 			$query->andWhere($conditions);
 		}
@@ -244,23 +209,17 @@ class Fixer
 				if (\in_array($field['uitype'], [1, 2, 7, 9, 10, 16, 52, 53, 56, 71, 72, 120, 156, 300, 308, 317, 327])) {
 					$update = true;
 				} else {
-					if ($range < $field['maximumlength']) {
-						\App\Log::warning("Requires verification: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} <> {$range} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
-						$requiresVerificationInfo['fields'][] = 'FieldId: ' . $field['fieldid'] . ', FieldName: ' . $field['fieldname'] . ', TabId: ' . $field['tabid'] . ', TabName: ' . \App\Module::getModuleName($field['tabid']) . ", Diff: {$field['maximumlength']} <> {$range} | {$type}|{$column->type}|{$column->dbType}";
-						++$requiresVerification;
-					} else {
-						\App\Log::info("Different maximum length for fieldID: " . $field['fieldid'] . ", TabID: " . $field['tabid'] . ", TabName: " . \App\Module::getModuleName($field['tabid']) . ", Diff: " . $field['maximumlength'] . "<>" . $range);
-					}
+					\App\Log::warning("Requires verification: {$field['tablename']}.{$field['columnname']} |uitype: {$field['uitype']} |maximumlength: {$field['maximumlength']} <> {$range} |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
+					++$requiresVerification;
 				}
 			}
 			if ($update && false !== $range) {
 				$dbCommand->update('vtiger_field', ['maximumlength' => $range], ['fieldid' => $field['fieldid']])->execute();
-				$updatedInfo['fields'][] = 'FieldId: ' . $field['fieldid'] . ', FieldName: ' . $field['fieldname'] . ', TabId: ' . $field['tabid'] . ', TabName: ' . \App\Module::getModuleName($field['tabid']);
 				++$updated;
 				\App\Log::trace("Updated: {$field['tablename']}.{$field['columnname']} |maximumlength:  before:{$field['maximumlength']} after: $range |type:{$type}|{$column->type}|{$column->dbType}", __METHOD__);
 			}
 		}
-		return ['NotSupported' => $notSupported, 'TypeNotFound' => $typeNotFound, 'RequiresVerification' => $requiresVerification, 'RequiresVerificationInfo' => $requiresVerificationInfo,  'Updated' => $updated, 'UpdatedInfo' => $updatedInfo];
+		return ['NotSupported' => $notSupported, 'TypeNotFound' => $typeNotFound, 'RequiresVerification' => $requiresVerification, 'Updated' => $updated];
 	}
 
 	/**

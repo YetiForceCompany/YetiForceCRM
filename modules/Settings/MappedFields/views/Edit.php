@@ -4,7 +4,7 @@
  * Edit View Class for MappedFields Settings.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
@@ -34,18 +34,16 @@ class Settings_MappedFields_Edit_View extends Settings_Vtiger_Index_View
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-		$allModules = Settings_MappedFields_Module_Model::getSupportedModules();
 		if (!$request->isEmpty('record')) {
 			$recordId = $request->getInteger('record');
 			$moduleInstance = Settings_MappedFields_Module_Model::getInstanceById($recordId);
 			$viewer->assign('RECORDID', $recordId);
 			$viewer->assign('MODE', 'edit');
-			$allModules[$moduleInstance->get('tabid')] = Vtiger_Module_Model::getInstance($moduleInstance->get('tabid'));
-			$allModules[$moduleInstance->get('reltabid')] = Vtiger_Module_Model::getInstance($moduleInstance->get('reltabid'));
 		} else {
 			$moduleInstance = Settings_MappedFields_Module_Model::getCleanInstance();
 		}
 		$viewer->assign('MAPPEDFIELDS_MODULE_MODEL', $moduleInstance);
+		$allModules = Settings_MappedFields_Module_Model::getSupportedModules();
 		$viewer->assign('ALL_MODULES', $allModules);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

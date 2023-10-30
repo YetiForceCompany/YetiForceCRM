@@ -1,19 +1,16 @@
 <?php
-/**
- * Event Handler main file.
- *
- * @package App
- *
- * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- */
 
 namespace App;
 
 /**
  * Event Handler main class.
+ *
+ * @package App
+ *
+ * @copyright YetiForce S.A.
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class EventHandler
 {
@@ -41,18 +38,6 @@ class EventHandler
 	public const EDIT_VIEW_CHANGE_VALUE = 'EditViewChangeValue';
 	/** @var string Record converter after create record */
 	public const RECORD_CONVERTER_AFTER_SAVE = 'RecordConverterAfterSave';
-	/** @var string This handler executes before the record is deleted */
-	public const ENTITY_BEFORE_DELETE = 'EntityBeforeDelete';
-	/**
-	 * @var string This handler executes before the record is deleted and gives the option to return a response to the user.
-	 *             Usage: custom record deletion verification.
-	 */
-	public const PRE_DELETE = 'PreDelete';
-	/**
-	 * @var string This handler executes before the record state changes and gives the possibility to return a response to the user.
-	 *             Usage: custom record state change verification.
-	 */
-	public const PRE_STATE_CHANGE = 'PreStateChange';
 
 	/**
 	 * Handler types.
@@ -388,14 +373,10 @@ class EventHandler
 	 * Set params.
 	 *
 	 * @param array $params
-	 *
-	 * @return $this
 	 */
 	public function setParams($params)
 	{
 		$this->params = $params;
-
-		return $this;
 	}
 
 	/**
@@ -513,10 +494,10 @@ class EventHandler
 			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 		}
 		if (isset($this->handlers[$className])) {
-			$handlerInstance = $this->handlers[$className];
+			$handler = $this->handlers[$className];
 		} else {
-			$handlerInstance = $this->handlers[$className] = new $className();
+			$handler = $this->handlers[$className] = new $className();
 		}
-		return $handlerInstance->{$function}($this, $handler);
+		return $handler->{$function}($this);
 	}
 }

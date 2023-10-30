@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -17,50 +17,22 @@ namespace App\YetiForce\Shop\Product;
 class YetiForceMagento extends \App\YetiForce\Shop\AbstractBaseProduct
 {
 	/** {@inheritdoc} */
-	public $label = 'YetiForce Magento Integration';
-
-	/** {@inheritdoc} */
-	public $category = 'Integrations';
-
-	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-magento-integration-en';
-
-	/** {@inheritdoc} */
-	public $prices = [
-		'Micro' => 10,
-		'Small' => 25,
-		'Medium' => 50,
-		'Large' => 100,
-		'Corporation' => 500,
-	];
-
-	/** {@inheritdoc} */
-	public $featured = true;
-
-	/** {@inheritdoc} */
-	public function verify(): array
-	{
-		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForceMagento')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceMagento');
-		} else {
-			$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
-			$status = !(new \App\Db\Query())->from('i_#__magento_servers')->where(['status' => 1])->exists(\App\Db::getInstance('admin'));
-		}
-		return ['status' => $status, 'message' => $message];
-	}
+	protected bool $disabled = true;
 
 	/** {@inheritdoc} */
 	public function analyzeConfiguration(): array
 	{
-		if (empty($this->expirationDate) || \Settings_Magento_Module_Model::isActive()) {
-			return [];
-		}
-		return [
+		return !\Settings_Magento_Module_Model::isActive() ? [
 			'message' => \App\Language::translateArgs('LBL_FUNCTIONALITY_HAS_NOT_YET_BEEN_ACTIVATED', 'Settings:Magento', 'Magento'),
 			'type' => 'LBL_REQUIRES_INTERVENTION',
 			'href' => 'index.php?parent=Settings&module=Magento&view=List',
-		];
+		] : [];
+	}
+
+	/** {@inheritdoc} */
+	public function isConfigured(): bool
+	{
+		return \Settings_Magento_Module_Model::isActive();
 	}
 
 	/** {@inheritdoc} */

@@ -5,7 +5,7 @@
  * @package   Settings.View
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -38,7 +38,7 @@ class Settings_LayoutEditor_HelpInfo_View extends \App\Controller\ModalSettings
 		$viewer->assign('FIELD_MODEL', $fieldModel);
 		$viewer->assign('LANG_DEFAULT', \App\Language::getLanguage());
 		$viewer->assign('LANGUAGES', \App\Language::getAll());
-		$viewer->assign('SELECTED_VIEWS', ['Edit', 'Detail', 'QuickCreateAjax', 'QuickEditModal']);
+		$viewer->assign('SELECTED_VIEWS', ['Edit', 'Detail', 'QuickCreateAjax']);
 		$viewer->assign('DEFAULT_VALUE', $request->getByType('defaultValue', 'Text'));
 		$viewer->view('HelpInfo.tpl', $qualifiedModuleName);
 	}

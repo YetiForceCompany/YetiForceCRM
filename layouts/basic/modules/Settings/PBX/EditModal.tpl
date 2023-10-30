@@ -1,10 +1,10 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if $CONNECTOR_CONFIG}
 		<div class="tpl-Settings-PBX-EditModal editModalContent my-3">
 			{foreach from=$RECORD_MODEL->getConnectorFieldsModel() item=FIELD_MODEL key=FIELD_NAME}
-				<div class="form-group form-row">
-					<label class="col-form-label col-md-4 u-text-small-bold text-right">
+				<div class="form-group form-row d-flex justify-content-center">
+					<label class="col-form-label col-md-4 u-text-small-bold text-left">
 						{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}
 						{if $FIELD_MODEL->isMandatory()}<span class="redColor"> *</span>{/if}:
 					</label>

@@ -8,7 +8,7 @@
  * @package App\Pdf
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author	  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -107,24 +107,6 @@ class Chromium extends Base
 	/** @var array Pdf options. */
 	protected $pdfOptions = [];
 
-	/** {@inheritdoc} */
-	public static function isActive(): bool
-	{
-		$status = false;
-		if (\App\YetiForce\Register::isRegistered() && class_exists('HeadlessChromium\BrowserFactory')) {
-			try {
-				if (!empty(\Config\Components\Pdf::$chromiumBinaryPath)) {
-					$browserFactory = new \HeadlessChromium\BrowserFactory(\Config\Components\Pdf::$chromiumBinaryPath ?? '');
-					$browser = $browserFactory->createBrowser(\Config\Components\Pdf::$chromiumBrowserOptions ?? []);
-					$status = $browser instanceof \HeadlessChromium\Browser;
-				}
-			} catch (\Throwable $th) {
-				\App\Log::warning($th->__toString(), __CLASS__);
-			}
-		}
-		return $status;
-	}
-
 	/**
 	 * Constructor.
 	 */
@@ -142,6 +124,24 @@ class Chromium extends Base
 		$this->setBottomMargin($this->defaultMargins['bottom']);
 		$this->setLeftMargin($this->defaultMargins['left']);
 		$this->setRightMargin($this->defaultMargins['right']);
+	}
+
+	/** {@inheritdoc} */
+	public static function isActive(): bool
+	{
+		$status = false;
+		if (\App\YetiForce\Register::isRegistered() && class_exists('HeadlessChromium\BrowserFactory') && \App\YetiForce\Shop::check('YetiForcePdfPremium')) {
+			try {
+				if (!empty(\Config\Components\Pdf::$chromiumBinaryPath)) {
+					$browserFactory = new \HeadlessChromium\BrowserFactory(\Config\Components\Pdf::$chromiumBinaryPath ?? '');
+					$browser = $browserFactory->createBrowser(\Config\Components\Pdf::$chromiumBrowserOptions ?? []);
+					$status = $browser instanceof \HeadlessChromium\Browser;
+				}
+			} catch (\Throwable $th) {
+				\App\Log::warning($th->__toString(), __CLASS__);
+			}
+		}
+		return $status;
 	}
 
 	/** {@inheritdoc} */
@@ -263,26 +263,6 @@ class Chromium extends Base
 	}
 
 	/**
-	 * Get PDF options.
-	 *
-	 * @return array
-	 */
-	protected function getPdfOptions(): array
-	{
-		return $this->pdfOptions;
-	}
-
-	/**
-	 * Get PDF HTML.
-	 *
-	 * @return string
-	 */
-	protected function getPdfHtml(): string
-	{
-		return $this->pdfHtml;
-	}
-
-	/**
 	 * Write html.
 	 *
 	 * @return $this
@@ -308,28 +288,6 @@ class Chromium extends Base
 		$watermark = $this->watermark ? $this->wrapWatermark($this->template->parseVariables($this->watermark)) : '';
 		$this->pdfHtml = $this->wrapContent('<div id="body">' . $watermark . '<div id="content">' . $this->getBody() . '</div></div>');
 		return $this;
-	}
-
-	/**
-	 * Wrap body content.
-	 *
-	 * @param string $content
-	 *
-	 * @return string
-	 */
-	protected function wrapContent(string $content): string
-	{
-		$style = 'body{' . ($this->font ? ('font-family: ' . $this->font . ';') : '') . ($this->fontSize ? ('font-size: ' . $this->fontSize . ';') : '') . ';}';
-		if ($this->template->get('styles')) {
-			$style .= PHP_EOL . str_replace(['<', '>'], '', $this->template->get('styles'));
-		}
-		$content = str_replace(['{p}', '{a}'], ['<span class="pageNumber"></span>', '<span class="totalPages"></span>'], $content);
-		return '<!DOCTYPE html><html lang="' . ($this->template->get('language') ?: \App\Language::getShortLanguageName()) . '">
-			<head>
-				<meta charset="' . $this->charset . '" />
-				<style>' . $style . '</style>
-			</head>
-			<body style="margin: 0; padding: 0;">' . $content . '</body></html>';
 	}
 
 	/**
@@ -410,13 +368,9 @@ class Chromium extends Base
 		$page->navigate('file://' . $tempFileName)->waitForNavigation(\HeadlessChromium\Page::LOAD, 60000);
 		$pdf = $page->pdf($this->getPdfOptions());
 		unlink($tempFileName);
-		if (!\in_array($mode, ['I', 'D', 'AttachAndOutput'])) {
+		if ('I' !== $mode && 'D' !== $mode) {
 			$pdf->saveToFile($fileName);
 			return;
-		}
-		if ('AttachAndOutput' === $mode) {
-			$pdf->saveToFile($fileName);
-			$fileName = ($this->getFileName() ?: time()) . '.pdf';
 		}
 		$destination = 'I' === $mode ? 'inline' : 'attachment';
 		header('accept-charset: utf-8');
@@ -424,5 +378,47 @@ class Chromium extends Base
 		$basename = \App\Fields\File::sanitizeUploadFileName($fileName);
 		header("content-disposition: {$destination}; filename=\"{$basename}\"");
 		echo base64_decode($pdf->getBase64(60000));
+	}
+
+	/**
+	 * Get PDF options.
+	 *
+	 * @return array
+	 */
+	protected function getPdfOptions(): array
+	{
+		return $this->pdfOptions;
+	}
+
+	/**
+	 * Get PDF HTML.
+	 *
+	 * @return string
+	 */
+	protected function getPdfHtml(): string
+	{
+		return $this->pdfHtml;
+	}
+
+	/**
+	 * Wrap body content.
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 */
+	protected function wrapContent(string $content): string
+	{
+		$style = 'body{' . ($this->font ? ('font-family: ' . $this->font . ';') : '') . ($this->fontSize ? ('font-size: ' . $this->fontSize . ';') : '') . ';}';
+		if ($this->template->get('styles')) {
+			$style .= PHP_EOL . str_replace(['<', '>'], '', $this->template->get('styles'));
+		}
+		$content = str_replace(['{p}', '{a}'], ['<span class="pageNumber"></span>', '<span class="totalPages"></span>'], $content);
+		return '<!DOCTYPE html><html lang="' . ($this->template->get('language') ?: \App\Language::getShortLanguageName()) . '">
+			<head>
+				<meta charset="' . $this->charset . '" />
+				<style>' . $style . '</style>
+			</head>
+			<body style="margin: 0; padding: 0;">' . $content . '</body></html>';
 	}
 }

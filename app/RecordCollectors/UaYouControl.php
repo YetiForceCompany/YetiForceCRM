@@ -9,7 +9,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Rembiesa <s.rembiesa@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -39,36 +39,9 @@ class UaYouControl extends Base
 	/** {@inheritdoc} */
 	public $docUrl = 'https://youscore.com.ua/en/';
 
-	/** @var string YouScore sever address */
-	private $url = 'https://api.youscore.com.ua/v1/companyInfo/';
-
 	/** {@inheritdoc} */
 	public $settingsFields = [
 		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY'],
-	];
-
-	/** @var string Api Key. */
-	private $apiKey;
-
-	/** {@inheritdoc} */
-	protected $fields = [
-		'companyNumber' => [
-			'labelModule' => '_Base',
-			'label' => 'Registration number 1',
-		]
-	];
-
-	/** {@inheritdoc} */
-	protected $modulesFieldsMap = [
-		'Accounts' => [
-			'companyNumber' => 'registration_number_1',
-		],
-		'Leads' => [
-			'companyNumber' => 'registration_number_1',
-		],
-		'Vendors' => [
-			'companyNumber' => 'registration_number_1',
-		],
 	];
 
 	/** {@inheritdoc} */
@@ -100,6 +73,35 @@ class UaYouControl extends Base
 			'economicActivityDescription' => 'description'
 		],
 	];
+
+	/** {@inheritdoc} */
+	protected $fields = [
+		'companyNumber' => [
+			'labelModule' => '_Base',
+			'label' => 'Registration number 1',
+		]
+	];
+
+	/** {@inheritdoc} */
+	protected $modulesFieldsMap = [
+		'Accounts' => [
+			'companyNumber' => 'registration_number_1',
+		],
+		'Leads' => [
+			'companyNumber' => 'registration_number_1',
+		],
+		'Vendors' => [
+			'companyNumber' => 'registration_number_1',
+		],
+	];
+	/** {@inheritdoc} */
+	protected bool $paid = false;
+
+	/** @var string YouScore sever address */
+	private $url = 'https://api.youscore.com.ua/v1/companyInfo/';
+
+	/** @var string Api Key. */
+	private $apiKey;
 
 	/** {@inheritdoc} */
 	public function isActive(): bool

@@ -6,7 +6,7 @@
  * @package Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
@@ -30,6 +30,7 @@ class KnowledgeBase_DetailView_Model extends Vtiger_DetailView_Model
 				],
 				'vueId' => 'ArticlePreview',
 				'linkicon' => 'fas fa-expand',
+				'title' => \App\Language::translate('LBL_GO_TO_PREVIEW', $moduleName),
 				'linkhint' => \App\Language::translate('LBL_GO_TO_PREVIEW', $moduleName),
 				'linkclass' => 'btn-outline-dark btn-sm js-show-article-preview',
 			],

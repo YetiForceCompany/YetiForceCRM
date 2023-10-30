@@ -6,7 +6,7 @@
  * @package Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
@@ -15,19 +15,19 @@
 class EmailTemplates_Record_Model extends Vtiger_Record_Model
 {
 	/** {@inheritdoc} */
-	public function privilegeToDelete(): bool
+	public function privilegeToDelete()
 	{
 		return $this->isEmpty('sys_name') && parent::privilegeToDelete();
 	}
 
 	/** {@inheritdoc} */
-	public function privilegeToMoveToTrash(): bool
+	public function privilegeToMoveToTrash()
 	{
 		return $this->isEmpty('sys_name') && parent::privilegeToMoveToTrash();
 	}
 
 	/** {@inheritdoc} */
-	public function privilegeToArchive(): bool
+	public function privilegeToArchive()
 	{
 		return $this->isEmpty('sys_name') && parent::privilegeToArchive();
 	}

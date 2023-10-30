@@ -6,7 +6,7 @@
  * @package View
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  */
 class Calendar_InviteEmail_View extends \App\Controller\Modal
@@ -20,8 +20,7 @@ class Calendar_InviteEmail_View extends \App\Controller\Modal
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
-		$moduleName = $request->getModule();
-		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView') || !\App\Config::module($moduleName, 'showInviteParticipantsBlock', true)) {
+		if (!\App\Privilege::isPermitted($request->getModule(), 'EditView')) {
 			throw new \App\Exceptions\NoPermitted('ERR_NOT_ACCESSIBLE', 406);
 		}
 	}

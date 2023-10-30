@@ -3,7 +3,7 @@
  * Requirements validation.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 if (\PHP_VERSION_ID < 70400) {
 	throw new \Exception('Wrong PHP version, recommended version >= 7.4');

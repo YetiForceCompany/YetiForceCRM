@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -37,13 +37,9 @@ class PrivilegeQuery
 		if (!$user->has('permission_type')) {
 			return \App\PrivilegeQuery::getPrivilegeQuery($query, $moduleName, $user, $relatedRecord);
 		}
-		$permissionType = $user->get('permission_type');
-		switch ($permissionType) {
+		switch ($user->get('permission_type')) {
 			case Privilege::USER_PERMISSIONS:
 				return \App\PrivilegeQuery::getPrivilegeQuery($query, $moduleName, $user, $relatedRecord);
-			case Privilege::CONTACT_RELATED_RECORDS:
-				$parentId = $user->get('permission_crmid');
-				break;
 			case Privilege::ACCOUNTS_RELATED_RECORDS:
 				$parentId = \App\Record::getParentRecord($user->get('permission_crmid'));
 				break;
@@ -68,7 +64,7 @@ class PrivilegeQuery
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$relatedRecordModuleName = $relatedRecord ? \App\Record::getType($relatedRecord) : '';
 
-		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName) || (Privilege::CONTACT_RELATED_RECORDS === $permissionType && 'Contacts' === $moduleName)) {
+		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName)) {
 			$where[] = ["{$moduleModel->basetable}.{$moduleModel->basetableid}" => $parentId];
 		} elseif (\in_array($moduleName, ['Products', 'Services'])) {
 			// exception

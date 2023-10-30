@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 Vtiger_Detail_Js(
@@ -27,17 +27,14 @@ Vtiger_Detail_Js(
 		}
 	},
 	{
-		/**
-		 * Function sets the related module.
-		 */
-		registerSetReletedModule: function () {
-			const thisInstance = this;
-			$('.js-quick-add-relation').on('click', 'ul li', function (e) {
-				let element = jQuery(e.currentTarget);
+		registerSetServiceContracts: function () {
+			var thisInstance = this;
+			$('.selectServiceContracts').on('click', 'ul li', function (e) {
+				var element = jQuery(e.currentTarget);
 				thisInstance
 					.saveFieldValues({
 						setRelatedFields: true,
-						field: element.data('field'),
+						field: 'servicecontractsid',
 						value: element.data('id')
 					})
 					.done(function (response) {
@@ -45,7 +42,6 @@ Vtiger_Detail_Js(
 					});
 			});
 		},
-
 		/**
 		 * Function to get response from hierarchy
 		 * @param {array} params
@@ -331,7 +327,7 @@ Vtiger_Detail_Js(
 		},
 		registerEvents: function () {
 			this._super();
-			this.registerSetReletedModule();
+			this.registerSetServiceContracts();
 			this.registerHierarchyRecordCount();
 			this.registerShowHierarchy();
 		}

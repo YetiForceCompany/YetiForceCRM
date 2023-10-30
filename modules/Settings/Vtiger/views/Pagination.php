@@ -4,15 +4,10 @@
  * Settings Pagination view class.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_Vtiger_Pagination_View extends Settings_Vtiger_IndexAjax_View
 {
-	/** @var Settings_Vtiger_Record_Model[] List view entries. */
-	protected $listViewEntries;
-	/** @var int List view entries count. */
-	protected $listViewCount;
-
 	public function __construct()
 	{
 		parent::__construct();

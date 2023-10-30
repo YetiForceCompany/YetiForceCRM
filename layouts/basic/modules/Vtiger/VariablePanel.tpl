@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-VariablePanel -->
 	{if empty($TEXT_PARSER)}
@@ -8,7 +8,7 @@
 		{assign var=TEXT_PARSER value=$TEXT_PARSER->setType($PARSER_TYPE)}
 	{/if}
 	{if $SELECTED_MODULE && App\Module::getEntityInfo($SELECTED_MODULE)}
-		<div class="col-sm-6 row form-group align-items-center my-1" data-type="recordVariable">
+		<div class="col-sm-6 row form-group align-items-center my-1">
 			<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_MODULE_FIELDS','Other.TextParser')}</label>
 			<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 				<div class="input-group">
@@ -38,7 +38,7 @@
 		</div>
 		{assign var=RELATED_VARIABLE value=$TEXT_PARSER->getRelatedVariable()}
 		{if $RELATED_VARIABLE}
-			<div class="col-sm-6 row form-group align-items-center my-1" data-type="relatedVariable">
+			<div class="col-sm-6 row form-group align-items-center my-1">
 				<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_DEPENDENT_MODULE_FIELDS','Other.TextParser')}</label>
 				<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 					<div class="input-group">
@@ -70,7 +70,7 @@
 		{/if}
 		{assign var=RELATED_LEVEL_VARIABLE value=$TEXT_PARSER->getRelatedLevelVariable()}
 		{if $RELATED_LEVEL_VARIABLE}
-			<div class="col-sm-6 row form-group align-items-center my-1" data-type="relatedRecordLevel">
+			<div class="col-sm-6 row form-group align-items-center my-1">
 				<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_DEPENDENT_NEXT_LEVEL_MODULE_FIELDS','Other.TextParser')}</label>
 				<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 					<div class="input-group">
@@ -98,7 +98,7 @@
 		{/if}
 		{assign var=SOURCE_VARIABLE value=$TEXT_PARSER->getSourceVariable()}
 		{if $SOURCE_VARIABLE}
-			<div class="col-sm-6 row form-group align-items-center my-1" data-type="sourceVariable">
+			<div class="col-sm-6 row form-group align-items-center my-1">
 				<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_SOURCE_MODULE_FIELDS','Other.TextParser')}</label>
 				<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 					<div class="input-group">
@@ -145,7 +145,7 @@
 			{assign var=RELATED_LISTS value=$TEXT_PARSER->getRelatedListVariable()}
 		{/if}
 		{if $RELATED_LISTS}
-			<div class="col-sm-6 row form-group align-items-center my-1" data-type="relatedLists">
+			<div class="col-sm-6 row form-group align-items-center my-1">
 				<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_RELATED_RECORDS_LIST','Other.TextParser')}</label>
 				<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 					<div class="input-group">
@@ -169,7 +169,7 @@
 		{assign var=BASE_LISTS value=$TEXT_PARSER->getBaseListVariable()}
 	{/if}
 	{if $BASE_LISTS}
-		<div class="col-sm-6 row form-group align-items-center my-1" data-type="recordList">
+		<div class="col-sm-6 row form-group align-items-center my-1">
 			<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_RECORDS_LIST')}</label>
 			<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 				<div class="input-group">
@@ -188,30 +188,7 @@
 			</div>
 		</div>
 	{/if}
-	{if !isset($LINK_LISTS)}
-		{assign var=LINK_LISTS value=$TEXT_PARSER->getLinkVariable()}
-	{/if}
-	{if $LINK_LISTS}
-		<div class="col-sm-6 row form-group align-items-center my-1" data-type="linkList">
-			<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_LINK_LIST','Other.TextParser')}</label>
-			<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
-				<div class="input-group">
-					<select class="select2 form-control" id="linkList" data-width="style">
-						{foreach item=LINK from=$LINK_LISTS}
-							<option value="{$LINK['key']}">{$LINK['label']}</option>
-						{/foreach}
-					</select>
-					<div class="input-group-append">
-						<button type="button" class="btn btn-primary clipboard" data-copy-target="#linkList"
-							title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')} - {\App\Language::translate('LBL_COPY_VALUE','Other.TextParser')}">
-							<span class="fas fa-copy"></span>
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	{/if}
-	<div class="col-sm-6 row form-group align-items-center my-1" data-type="generalVariable">
+	<div class="col-sm-6 row form-group align-items-center my-1">
 		<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_ADDITIONAL_VARIABLES','Other.TextParser')}</label>
 		<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 			<div class="input-group">
@@ -234,7 +211,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-6 row form-group align-items-center my-1" data-type="companyList">
+	<div class="col-sm-6 row form-group align-items-center my-1">
 		<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_ORGANIZATION','Other.TextParser')}</label>
 		<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 			<div class="input-group">
@@ -248,7 +225,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-6 row form-group align-items-center my-1" data-type="companyVariable">
+	<div class="col-sm-6 row form-group align-items-center my-1">
 		<label class="my-0 col-lg-12 col-xl-3 fieldLabel text-lg-left text-xl-right u-text-small-bold">{\App\Language::translate('LBL_COMPANY_VARIABLES','Other.TextParser')}</label>
 		<div class="medium w-100 col-lg-12 col-xl-9 fieldValue">
 			<div class="input-group">

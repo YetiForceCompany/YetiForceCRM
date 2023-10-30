@@ -8,7 +8,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -74,7 +74,7 @@ class NominatimGeocoder extends Base
 		}
 		$rows = [];
 		try {
-			$url = $this->config['map_url'] . '/?' . \http_build_query($params);
+			$url = $this->config['map_url'] . '?' . http_build_query($params);
 			\App\Log::beginProfile("GET|NominatimGeocoder::find|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))
 				->request('GET', $url, $options);
@@ -92,8 +92,8 @@ class NominatimGeocoder extends Base
 				$countryMapping = \Config\Components\AddressFinder::nominatimRemappingForCountry();
 				foreach ($body as $row) {
 					$mappingFunction = $mainMapping;
-					if (isset($row['address']['country_code'], $countryMapping[\strtoupper($row['address']['country_code'])])) {
-						$mappingFunction = $countryMapping[\strtoupper($row['address']['country_code'])];
+					if (isset($row['address']['country_code'], $countryMapping[strtoupper($row['address']['country_code'])])) {
+						$mappingFunction = $countryMapping[strtoupper($row['address']['country_code'])];
 					}
 					$rows[] = [
 						'label' => $row['display_name'],

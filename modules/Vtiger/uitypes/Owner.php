@@ -14,7 +14,7 @@ class Vtiger_Owner_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return empty($value) && $this->getFieldModel()->isMandatory() ? \App\User::getCurrentUserRealId() : (int) $value;
+		return empty($value) ? \App\User::getCurrentUserRealId() : (int) $value;
 	}
 
 	/** {@inheritdoc} */

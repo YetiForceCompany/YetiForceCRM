@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 /**
@@ -6,6 +6,15 @@
  * @extends Calendar_Js
  */
 window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
+	/**
+	 * Create calendar's options.
+	 * @param {jQuery} container
+	 * @param {bool} readonly
+	 * @param {boolean} browserHistory
+	 */
+	constructor(container, readonly, browserHistory = false) {
+		super(container, readonly, browserHistory);
+	}
 	/**
 	 * Set calendar module options.
 	 * @returns {{allDaySlot: boolean, dayClick: object, selectable: boolean}}
@@ -72,40 +81,15 @@ window.Vtiger_Calendar_Js = class Vtiger_Calendar_Js extends Calendar_Js {
 	 */
 	loadCalendarData() {
 		const self = this,
+			defaultParams = this.getDefaultParams(),
 			progressInstance = $.progressIndicator({ blockInfo: { enabled: true } });
-		let options = this.getDefaultParams();
 		self.fullCalendar.removeAllEvents();
-		self.clearFilterButton(options['user']);
-		options.historyUrl = `index.php?module=${options['module']}&view=Calendar&history=true`;
-		options.historyUrl += `&viewType=${this.fullCalendar.view.type}&start=${options['start']}&end=${options['end']}`;
-		options.historyUrl += `&time=${options['time']}&user=${JSON.stringify(options['user'])}`;
-		options.historyUrl += `&extraSources=${JSON.stringify(options['extraSources'])}`;
-		options.historyUrl += `&hiddenDays=${this.fullCalendar.getOption('hiddenDays')}`;
-		if (options['cvid']) {
-			options.historyUrl += `&cvid=${options['cvid']}`;
-		}
-		let connectorMethod = window['AppConnector']['request'];
-		if (this.browserHistory && window.calendarLoaded) {
-			connectorMethod = window['AppConnector']['requestPjax'];
-		}
-		if (this.browserHistoryConfig && Object.keys(this.browserHistoryConfig).length && !window.calendarLoaded) {
-			options = Object.assign(options, {
-				start: this.browserHistoryConfig.start,
-				end: this.browserHistoryConfig.end,
-				user: this.browserHistoryConfig.user,
-				time: this.browserHistoryConfig.time,
-				cvid: this.browserHistoryConfig.cvid
-			});
-			connectorMethod = window['AppConnector']['request'];
-			app.setMainParams('showType', this.browserHistoryConfig.time);
-			app.setMainParams('usersId', this.browserHistoryConfig.user);
-		}
-		connectorMethod(options).done((events) => {
+		self.clearFilterButton(defaultParams['user']);
+		AppConnector.request(defaultParams).done((events) => {
 			self.fullCalendar.removeAllEvents();
 			self.fullCalendar.addEventSource(events.result);
 			progressInstance.progressIndicator({ mode: 'hide' });
 		});
-		window.calendarLoaded = true;
 	}
 	/**
 	 * Reload calendar data after changing search parameters

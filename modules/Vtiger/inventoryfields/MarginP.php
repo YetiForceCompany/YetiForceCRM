@@ -6,7 +6,7 @@
  * @package   InventoryField
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -21,8 +21,6 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	protected $colSpan = 15;
 	protected $maximumLength = '99999999999999999999';
 	protected $purifyType = \App\Purifier::NUMBER;
-	/** {@inheritdoc} */
-	protected $params = ['summary_enabled'];
 
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
@@ -31,21 +29,16 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 	}
 
 	/** {@inheritdoc} */
-	public function getEditValue(array $itemData, string $column = '')
+	public function getEditValue($value)
 	{
-		$value = parent::getEditValue($itemData, $column);
 		return \App\Fields\Double::formatToDisplay($value, false);
 	}
 
-	/** {@inheritdoc} */
-	public function getSummaryValuesFromData($data, ?int $groupId = null)
+	public function getSummaryValuesFromData($data)
 	{
 		$sum = $purchase = $totalOrNet = 0;
 		if (\is_array($data)) {
 			foreach ($data as $row) {
-				if (null !== $groupId && $groupId !== $row['groupid'] ?? -1) {
-					continue;
-				}
 				$purchase += $row['qty'] * ($row['purchase'] ?? 0);
 				if (isset($row['net'])) {
 					$totalOrNet += $row['net'];
@@ -101,11 +94,5 @@ class Vtiger_MarginP_InventoryField extends Vtiger_Basic_InventoryField
 			$value = 100.0 * static::getInstance($this->getModuleName(), 'Margin')->getValueForSave($item, $userFormat) / $totalPurchase;
 		}
 		return $value;
-	}
-
-	/** {@inheritdoc} */
-	public function compare($value, $prevValue, string $column): bool
-	{
-		return \App\Validator::floatIsEqual((float) $value, (float) $prevValue, 8);
 	}
 }

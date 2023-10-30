@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-Wapro-ListSynchronizerModal -->
 	<div class="modal-body pb-0">
@@ -10,9 +10,6 @@
 					<input type="checkbox" value="{$SYNCHRONIZER->className}" class="form-check-input js-synchronizer" id="wapro{$SYNCHRONIZER->className}" {if in_array($SYNCHRONIZER->className,$SYNCHRONIZERS)} checked{/if} data-js="container">
 					<label class="form-check-label ml-2" for="wapro{$SYNCHRONIZER->className}">
 						{\App\Language::translate($SYNCHRONIZER::NAME, $QUALIFIED_MODULE)} <span class="badge badge-primary">{\App\Language::translate('LBL_NUMBER_OF_ENTRIES', $QUALIFIED_MODULE)}: {$SYNCHRONIZER->getCounter()}</span>
-						{if !\App\Module::isModuleActive($SYNCHRONIZER::MODULE_NAME)}
-							<span class="ml-2 badge badge-danger">{\App\Language::translate('FL_INACTIVE')}</span>
-						{/if}
 					</label>
 				</div>
 			{/foreach}

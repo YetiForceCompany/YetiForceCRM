@@ -39,7 +39,7 @@ class Vtiger_Save_Action extends \App\Controller\Action
 		$moduleName = $request->getModule();
 		if ($request->isEmpty('record', true)) {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
-			if (!$this->record->isCreatable()) {
+			if (!$this->record->isCreateable()) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		} else {
@@ -99,9 +99,8 @@ class Vtiger_Save_Action extends \App\Controller\Action
 		foreach ($eventHandler->getHandlers(\App\EventHandler::EDIT_VIEW_PRE_SAVE) as $handler) {
 			$handlerId = $handler['eventhandler_id'];
 			$response = $eventHandler->triggerHandler($handler);
-
 			if (!($response['result'] ?? null) && (!isset($response['hash'], $skipHandlers[$handlerId]) || $skipHandlers[$handlerId] !== $response['hash'])) {
-				throw new \App\Exceptions\NoPermittedToRecord($response['message'] ?? 'ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
+				throw new \App\Exceptions\NoPermittedToRecord($response['message'], 406);
 			}
 		}
 		if (!$request->isEmpty('fromView') && 'MassQuickCreate' === $request->getByType('fromView')) {
@@ -169,12 +168,9 @@ class Vtiger_Save_Action extends \App\Controller\Action
 		$skipHandlers = $request->getArray('skipHandlers', \App\Purifier::ALNUM, [], \App\Purifier::INTEGER);
 		foreach ($eventHandler->getHandlers(\App\EventHandler::EDIT_VIEW_PRE_SAVE) as $handler) {
 			$handlerId = $handler['eventhandler_id'];
-			$handlerResponse = $eventHandler->triggerHandler($handler);
-			if (!($handlerResponse['result'] ?? null) && (!isset($handlerResponse['hash'], $skipHandlers[$handlerId]) || $skipHandlers[$handlerId] !== $handlerResponse['hash'])) {
-				$result[$handlerId] = $handlerResponse;
-				if ('confirm' === ($handlerResponse['type'] ?? '')) {
-					break;
-				}
+			$response = $eventHandler->triggerHandler($handler);
+			if (!($response['result'] ?? null) && (!isset($response['hash'], $skipHandlers[$handlerId]) || $skipHandlers[$handlerId] !== $response['hash'])) {
+				$result[$handlerId] = $response;
 			}
 		}
 		$response = new Vtiger_Response();

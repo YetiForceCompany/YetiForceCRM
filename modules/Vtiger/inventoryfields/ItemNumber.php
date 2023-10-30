@@ -6,7 +6,7 @@
  * @package   InventoryField
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -29,11 +29,5 @@ class Vtiger_ItemNumber_InventoryField extends Vtiger_Basic_InventoryField
 		if ($value && (!is_numeric($value) || (string) $value !== (string) filter_var($value, FILTER_VALIDATE_INT))) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $columnName . '||' . $this->getModuleName() . '||' . $value, 406);
 		}
-	}
-
-	/** {@inheritdoc} */
-	public function compare($value, $prevValue, string $column): bool
-	{
-		return (int) $value === (int) $prevValue;
 	}
 }

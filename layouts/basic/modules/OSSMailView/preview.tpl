@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-OSSMailView-preview -->
 	{if !$NOLOADLIBS}
@@ -12,10 +12,11 @@
 				<div class="{if $ISMODAL}modal-header{else}blockHeader emailPreviewHeader{/if} flex-wrap flex-md-nowrap">
 					<h5 {if $ISMODAL}class="modal-title" {/if}>{\App\Language::translate('emailPreviewHeader',$MODULENAME)}</h5>
 					<div class="btn-toolbar order-3 order-md-2 ml-md-auto mt-2 mt-md-0">
-						{if \Config\Main::$isActiveSendingMails}
-							{if 'InternalClient' === \App\Mail::getMailComposer()}
+						{if \App\Mail::checkMailClient()}
+							{if \App\Mail::checkInternalMailClient()}
+								{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
 								{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($SMODULENAME, $SRECORD, 'Detail')}
-								{assign var=POPUP value=\App\User::getCurrentUserModel()->getDetail('mail_popup')}
+								{assign var=POPUP value=$CONFIG['popup']}
 								<button type="button" class="btn btn-sm btn-outline-success sendMailBtn mr-1"
 									data-url="{$COMPOSE_URL}&mid={$RECORD_MODEL->getId()}&type=reply"
 									data-popup="{$POPUP}">
@@ -81,7 +82,7 @@
 								<span class="muted">{\App\Language::translate('From',$MODULENAME)}</span>: <span id="emailPreview_From" class="">{$RECORD_MODEL->getDisplayValue('from_email')}</span>
 							</p>
 							<p class="mb-0 u-fs-15px u-lh-12 u-text-ellipsis">
-								<span class="muted">{\App\Language::translate('To',$MODULENAME)}</span>: <span id="emailPreview_To" class="">{$TO}</span>
+								<span class="muted">{\App\Language::translate('To',$MODULENAME)}</span>: <span id="emailPreview_To" class="">{assign var=TO_EMAILS value=","|implode:$TO}{$TO_EMAILS}</span>
 							</p>
 							{if !empty($CC)}
 								<p class="mb-0 u-fs-15px u-lh-12 u-text-ellipsis">

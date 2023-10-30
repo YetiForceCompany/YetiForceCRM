@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 Settings_Vtiger_Edit_Js(
@@ -6,13 +6,13 @@ Settings_Vtiger_Edit_Js(
 	{},
 	{
 		registerSubmitForm: function () {
-			let form = this.getForm();
+			var form = this.getForm();
 			form.on('submit', function (e) {
 				e.preventDefault();
 				e.stopPropagation();
 				if (form.validationEngine('validate') === true) {
-					let paramsForm = form.serializeFormData();
-					let progressIndicatorElement = jQuery.progressIndicator({
+					var paramsForm = form.serializeFormData();
+					var progressIndicatorElement = jQuery.progressIndicator({
 						blockInfo: { enabled: true }
 					});
 					AppConnector.request(paramsForm)
@@ -34,9 +34,11 @@ Settings_Vtiger_Edit_Js(
 								type: 'error'
 							});
 						});
+					return false;
 				} else {
 					app.formAlignmentAfterValidation(form);
 				}
+				return false;
 			});
 		},
 		getRecordsListParams: function (container) {

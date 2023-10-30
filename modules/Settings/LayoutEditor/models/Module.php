@@ -11,6 +11,14 @@
 
 class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 {
+	/** {@inheritdoc} */
+	public $name = 'LayoutEditor';
+	/** @var string Parent name */
+	public $parent = 'Settings';
+	/** {@inheritdoc} */
+	public $isentitytype = false;
+	/** @var string[] List of supported modules */
+	public static $supportedModules = false;
 	/** @var string[] List of supported relation types */
 	const TYPES = [
 		'getRelatedList' => 'PLL_RELATED_LIST',
@@ -18,7 +26,7 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 		'getAttachments' => 'PLL_ATTACHMENTS',
 		'getEmails' => 'PLL_EMAILS',
 		'getMultiReference' => 'PLL_MULTI_REFERENCE',
-		// 'getDependentsList' => 'PLL_DEPENDENTS_LIST',
+		//'getDependentsList' => 'PLL_DEPENDENTS_LIST',
 		// 'getActivities' => 'PLL_ACTIVITIES',
 	];
 	/** @var string[] Related view types. */
@@ -34,22 +42,10 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 		'label', 'presence', 'quickcreate', 'summaryfield', 'generatedtype', 'masseditable', 'header_field',
 		'displaytype', 'maxlengthtext', 'maxwidthcolumn', 'tabindex', 'mandatory', 'icon',
 	];
-	/** {@inheritdoc} */
-	public $name = 'LayoutEditor';
-	/** @var string Parent name */
-	public $parent = 'Settings';
-	/** {@inheritdoc} */
-	public $isentitytype = false;
-	/** @var string[] List of supported modules */
-	public static $supportedModules = false;
 	/** @var array Relations */
 	public $relations;
 	/** @var Vtiger_Module_Model Source module */
 	public $sourceModule;
-	/** @var array Block from source module */
-	public $blocks = [];
-	/** @var array Field form sourde module */
-	public $fields = [];
 
 	/**
 	 * Function to get the Module/Tab id.
@@ -98,9 +94,11 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function that returns all the fields for the module.
 	 *
+	 * @param mixed $blockInstance
+	 *
 	 * @return Vtiger_Field_Model[] - list of field models
 	 */
-	public function getFields()
+	public function getFields($blockInstance = false)
 	{
 		if (empty($this->fields)) {
 			$fieldList = [];
@@ -109,7 +107,7 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 			foreach ($blocks as $block) {
 				$blockId[] = $block->get('id');
 			}
-			if (!empty($blockId)) {
+			if (\count($blockId) > 0) {
 				$fieldList = Settings_LayoutEditor_Field_Model::getInstanceFromBlockIdList($blockId);
 			}
 			$this->fields = $fieldList;
@@ -175,12 +173,12 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 				if ('Currency' === $fieldType) {
 					$details['decimalReadonly'] = true;
 				}
-				// including mantisaa and integer part
+				//including mantisaa and integer part
 				$details['maxLength'] = 64;
 			}
 			if ('Picklist' === $fieldType || 'MultiSelectCombo' === $fieldType || 'MultipicklistTags' === $fieldType) {
 				$details['preDefinedValueExists'] = true;
-				// text area value type , can give multiple values
+				//text area value type , can give multiple values
 				$details['preDefinedValueType'] = 'text';
 				if ('Picklist' === $fieldType) {
 					$details['picklistoption'] = true;
@@ -209,32 +207,32 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 			switch ($key) {
 				case 'fieldLabel':
 					if ($result = $this->checkFieldLabelExists($value)) {
-						$message = \App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', $this->getName(true));
+						$message = \App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor');
 						$code = 513;
 					}
 					break;
 				case 'fieldName':
 					$value = strtolower($value);
 					if ($result = $this->checkFieldNameCharacters($value)) {
-						$message = \App\Language::translate('LBL_INVALIDCHARACTER', $this->getName(true));
+						$message = \App\Language::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor');
 						$code = 512;
 					} elseif ($result = $this->checkFieldNameExists($value)) {
-						$message = \App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', $this->getName(true));
+						$message = \App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor');
 						$code = 512;
 					} elseif ($result = $this->checkFieldNameIsAnException($value)) {
-						$message = \App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', $this->getName(true));
+						$message = \App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor');
 						$code = 512;
 					} elseif (\strlen($value) > 30) {
-						$message = \App\Language::translate('LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME', $this->getName(true));
+						$message = \App\Language::translate('LBL_EXCEEDED_MAXIMUM_NUMBER_CHARACTERS_FOR_FIELD_NAME', 'Settings::LayoutEditor');
 						$code = 512;
 					} elseif (isset($data['fieldType']) && \in_array($data['fieldType'], ['Picklist', 'MultiSelectCombo']) && ($result = $this->checkIfPicklistFieldNameReserved($value))) {
-						$message = \App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', $this->getName(true));
+						$message = \App\Language::translate('LBL_FIELD_NAME_IS_RESERVED', 'Settings::LayoutEditor');
 						$code = 512;
 					}
 					break;
 				case 'fieldType':
 					if ($result = !\in_array($value, $this->getAddSupportedFieldTypes())) {
-						$message = \App\Language::translate('LBL_WRONG_FIELD_TYPE', $this->getName(true));
+						$message = \App\Language::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor');
 						$code = 513;
 					}
 					break;
@@ -369,7 +367,7 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 		}
 		if ('Related1M' === $fieldType) {
 			if (!\is_array($params['referenceModule'])) {
-				$moduleList = [$params['referenceModule']];
+				$moduleList[] = $params['referenceModule'];
 			} else {
 				$moduleList = $params['referenceModule'];
 			}
@@ -408,7 +406,7 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 			case 'Decimal':
 				$fieldLength = $params['fieldLength'];
 				$decimal = $params['decimal'];
-				$uitype ??= 7;
+				$uitype = $uitype ?? 7;
 				$dbfldlength = $fieldLength + $decimal + 1;
 				$type = $importerType->decimal($dbfldlength, $decimal);
 				// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/6363
@@ -911,7 +909,7 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 	{
 		$missingSystemFields = $this->getMissingSystemFields();
 		if (empty($missingSystemFields[$sysName])) {
-			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', $this->getName(true)), 512);
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
 		}
 		$fieldModel = $missingSystemFields[$sysName];
 		if ($params) {
@@ -920,13 +918,13 @@ class Settings_LayoutEditor_Module_Model extends Settings_Vtiger_Module_Model
 			}
 		}
 		if ($this->checkFieldLabelExists($fieldModel->get('name'))) {
-			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', $this->getName(true)), 513);
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 513);
 		}
 		if ($this->checkFieldNameCharacters($fieldModel->get('name'))) {
-			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_INVALIDCHARACTER', $this->getName(true)), 512);
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_INVALIDCHARACTER', 'Settings::LayoutEditor'), 512);
 		}
 		if ($this->checkFieldNameExists($fieldModel->get('name'))) {
-			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', $this->getName(true)), 512);
+			throw new \App\Exceptions\AppException(\App\Language::translate('LBL_DUPLICATE_FIELD_EXISTS', 'Settings::LayoutEditor'), 512);
 		}
 		$blockModel = Vtiger_Block_Model::getInstance($blockId, $this->getSourceModule()->getName());
 		$blockModel->addField($fieldModel);

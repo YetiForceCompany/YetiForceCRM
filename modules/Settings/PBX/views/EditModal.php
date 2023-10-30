@@ -4,12 +4,16 @@
  * Edit view class.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_PBX_EditModal_View extends Settings_Vtiger_BasicModal_View
 {
-	/** {@inheritdoc} */
+	/**
+	 * Process.
+	 *
+	 * @param \App\Request $request
+	 */
 	public function process(App\Request $request)
 	{
 		parent::preProcess($request);
@@ -30,11 +34,5 @@ class Settings_PBX_EditModal_View extends Settings_Vtiger_BasicModal_View
 		$viewer->assign('CONNECTOR_CONFIG', $request->getBoolean('connectorConfig'));
 		$viewer->view('EditModal.tpl', $qualifiedModuleName);
 		parent::postProcess($request);
-	}
-
-	/** {@inheritdoc} */
-	public function getSize(App\Request $request)
-	{
-		return 'modal-lg';
 	}
 }

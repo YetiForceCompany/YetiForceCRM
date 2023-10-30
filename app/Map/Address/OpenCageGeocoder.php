@@ -8,7 +8,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -44,15 +44,15 @@ class OpenCageGeocoder extends Base
 			'tooltip' => 'LBL_KEY_PLACEHOLDER',
 		],
 	];
+
+	/** {@inheritdoc} */
+	public $docUrl = 'https://opencagedata.com/api/';
 	/**
 	 * API Address to retrieve data.
 	 *
 	 * @var string
 	 */
 	protected static $url = 'https://api.opencagedata.com/geocode/v1/';
-
-	/** {@inheritdoc} */
-	public $docUrl = 'https://opencagedata.com/api/';
 
 	/** {@inheritdoc} */
 	public function find($value)
@@ -93,7 +93,7 @@ class OpenCageGeocoder extends Base
 						'label' => $row['formatted'],
 						'address' => \call_user_func_array($mappingFunction, [$row]),
 						'coordinates' => ['lat' => $row['geometry']['lat'], 'lon' => $row['geometry']['lng']],
-						'countryCode' => strtolower($row['components']['country'] ?? ''),
+						'countryCode' => strtolower($row['components']['ISO_3166-1_alpha-2'] ?? ''),
 					];
 				}
 			}

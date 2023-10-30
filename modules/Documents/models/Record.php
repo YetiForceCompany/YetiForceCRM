@@ -15,10 +15,6 @@
  */
 class Documents_Record_Model extends Vtiger_Record_Model
 {
-	/** @var string[] Data files. */
-	public $file;
-	/** @var string[] File details. */
-	public $fileDetails;
 	/** @var string[] Types included in the preview of the file. */
 	public $filePreview = [
 		'application/pdf', 'image/png', 'image/jpeg', 'image/jpeg', 'image/jpeg', 'image/gif', 'image/bmp', 'image/vnd.microsoft.icon', 'image/tiff', 'image/tiff'

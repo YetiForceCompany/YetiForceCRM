@@ -14,12 +14,6 @@
  */
 class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 {
-
-	/** @var array Stores child roles. */
-	private $children;
-	/** @var array All the profiles associated with the current role. */
-	private $profiles;
-
 	/**
 	 * Function to get the Id.
 	 *
@@ -485,6 +479,7 @@ class Settings_Roles_Record_Model extends Settings_Vtiger_Record_Model
 			$roles[$role->getId()] = $role;
 		}
 		$dataReader->close();
+
 		return $roles;
 	}
 

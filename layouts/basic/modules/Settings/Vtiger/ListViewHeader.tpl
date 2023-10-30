@@ -15,9 +15,6 @@
 		<div class="o-breadcrumb widget_header row">
 			<div class="col-12 d-flex">
 				{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $QUALIFIED_MODULE)}
-				{if \App\Layout::checkTemplatePath('ListView/BreadCrumbs.tpl', $QUALIFIED_MODULE)}
-					{include file=\App\Layout::getTemplatePath('ListView/BreadCrumbs.tpl', $QUALIFIED_MODULE)}
-				{/if}
 			</div>
 		</div>
 		<div class="listViewActionsDiv row mt-2 mb-2">

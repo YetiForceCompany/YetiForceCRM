@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 /**
@@ -22,17 +22,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 		this.registerShopSearch();
 		this.registerCategories();
 		this.registerSwitch();
-		this.showInitialModal();
-	}
-	showInitialModal() {
-		const request = app.convertUrlToObject(window.location.href);
-		if (request.mode) {
-			if (request.showBuyModal === 'buy') {
-				this.showBuyModal(request.product, request.department);
-			} else if (request.mode === 'showProductModal') {
-				this.showProductModal(request.product, request.department);
-			}
-		}
+		this.registerRefresh();
 	}
 	/**
 	 * Register events.
@@ -66,8 +56,10 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 			if (target.hasClass('js-product-switch') || target.closest('.js-stop-parent-trigger').length) {
 				return;
 			}
+			let progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
 			const currentTarget = $(e.currentTarget);
-			this.showProductModal(currentTarget.data('product'), this.getDepartment(currentTarget));
+			this.showProductModal(currentTarget.data('product'), currentTarget.data('productId'));
+			progressIndicatorElement.progressIndicator({ mode: 'hide' });
 		});
 	}
 	/**
@@ -101,16 +93,15 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	 * Show product modal action.
 	 *
 	 * @param   {string}  productName
-	 * @param   {string}  department
 	 */
-	showProductModal(productName, department) {
+	showProductModal(productName, productId = '') {
 		app.showModalWindow(
 			null,
-			`${this.modalUrl}&view=ProductModal&product=${productName}${department ? '&department=' + department : ''}`,
+			`${this.modalUrl}&view=ProductModal&product=${productName}&productId=${productId}`,
 			(modalContainer) => {
 				modalContainer.find('.js-modal__save').on('click', (_) => {
 					app.hideModalWindow();
-					this.showBuyModal(productName, department);
+					this.showBuyModal(productName, productId);
 				});
 			}
 		);
@@ -121,105 +112,74 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 	 */
 	registerBuyModalClick() {
 		this.container.find('.js-buy-modal').on('click', (e) => {
+			let progressIndicatorElement = $.progressIndicator({ blockInfo: { enabled: true } });
 			e.stopPropagation();
 			const currentTarget = $(e.currentTarget);
-			this.showBuyModal(currentTarget.data('product'), this.getDepartment(currentTarget));
+			this.showBuyModal(currentTarget.data('product'), currentTarget.data('productId'));
+			progressIndicatorElement.progressIndicator({ mode: 'hide' });
 		});
 	}
 	/**
 	 * Show buy modal action.
 	 *
 	 * @param   {string}  productName
-	 * @param   {string}  department
+	 * @param   {string}  productId
 	 */
-	showBuyModal(productName, department) {
+	showBuyModal(productName, productId) {
 		app.showModalWindow(
 			null,
-			`${this.modalUrl}&view=BuyModal&product=${productName}${department ? '&department=' + department : ''}`,
+			`${this.modalUrl}&view=BuyModal&product=${productName}${productId ? '&productId=' + productId : ''}`,
 			this.registerBuyModalEvents.bind(this)
 		);
 	}
 
 	registerBuyModalEvents(modalContainer) {
-		const companyForm = modalContainer.find('.js-update-company-form');
 		const buyForm = modalContainer.find('.js-buy-form');
+		const companyForm = modalContainer.find('.js-update-company-form');
 		modalContainer.find('.js-modal__save').on('click', (_) => {
 			this.registerBuyModalForms(companyForm, buyForm);
 		});
-		if (companyForm.length) {
-			companyForm.validationEngine(app.validationEngineOptions);
-			companyForm.find('[data-inputmask]').inputmask();
-		}
+		companyForm.validationEngine(app.validationEngineOptions);
+		companyForm.find('[data-inputmask]').inputmask();
 		if (buyForm.length) {
 			buyForm.validationEngine(app.validationEngineOptions);
+			buyForm.find('[data-inputmask]').inputmask();
 		}
+		modalContainer.find('.js-price-by-size').on('change', (e) => {
+			let dataset = e.currentTarget.selectedOptions[0].dataset;
+			for (let d in dataset) {
+				modalContainer.find(`.js-buy-text[data-key="${d}"]`).text(dataset[d]);
+				modalContainer.find(`.js-buy-value[name="${d}"]`).text(dataset[d]);
+			}
+		});
 	}
 	registerBuyModalForms(companyForm, buyForm) {
-		if (companyForm.length) {
-			if (companyForm.validationEngine('validate') === true) {
-				app.removeEmptyFilesInput(companyForm[0]);
-				const formData = new FormData(companyForm[0]);
-				const params = {
-					url: 'index.php',
-					type: 'POST',
-					data: formData,
-					processData: false,
-					contentType: false
-				};
-				const progressIndicatorElement = $.progressIndicator({
-					blockInfo: { enabled: true }
-				});
-				AppConnector.request(params).done((data) => {
-					if (data.success) {
-						buyForm.submit();
-						app.hideModalWindow();
-					}
-					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-				});
-			} else {
-				app.formAlignmentAfterValidation(companyForm);
-			}
-		} else {
-			if (buyForm.validationEngine('validate') === true) {
-				this.updateCustomData(buyForm);
-				buyForm.submit();
-				app.hideModalWindow();
-			} else {
-				app.formAlignmentAfterValidation(buyForm);
-			}
-		}
-	}
-	/**
-	 * Update custom data.
-	 */
-	updateCustomData(buyForm) {
-		let customField = buyForm.find('.js-custom-data');
-		let priceBySize = buyForm.find('.js-price-by-size');
-		if (customField.length) {
-			let customFields = buyForm.find('.js-custom-field');
-			customFields.each((i, el) => {
-				let field = $(el);
-				customField.val(
-					`${customField.val()}${field.data('name')}::${field.val()}${customFields.length - 1 !== i ? '|' : ''}`
-				);
+		if (companyForm.validationEngine('validate') === true) {
+			let formData = companyForm.serializeFormData();
+			const progressIndicatorElement = $.progressIndicator({
+				blockInfo: { enabled: true }
 			});
+			AppConnector.request(formData).done((data) => {
+				let response = data.result;
+				if (data.success && response && response.success && response.orderId) {
+					let customField = buyForm.find('input[name="custom"]');
+					customField.val(`${customField.val()}|${response.orderId}`);
+					buyForm.submit();
+					app.hideModalWindow();
+				} else {
+					app.showNotify({
+						text: response?.message || app.vtranslate('JS_ERROR'),
+						type: data.result.type,
+						hide: true,
+						delay: 8000,
+						textTrusted: false
+					});
+				}
+				progressIndicatorElement.progressIndicator({ mode: 'hide' });
+			});
+		} else {
+			app.formAlignmentAfterValidation(companyForm);
 		}
-		if (priceBySize.length) {
-			priceBySize
-				.siblings('.js-price-by-size-input')
-				.val(priceBySize.find(`option[value="${priceBySize.val()}"]`).data('os0'));
-		}
-	}
-	/**
-	 * Get department.
-	 *
-	 * @param   {object}  element  jQuery
-	 *
-	 * @return  {string}
-	 */
-	getDepartment(element) {
-		let department = element.closest('.js-department');
-		return department.length ? department.data('department') : '';
 	}
 	/**
 	 * Register categories.
@@ -245,6 +205,36 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 			} else {
 				product.addClass('d-none');
 			}
+		});
+	}
+
+	/** Check registration status */
+	registerRefresh() {
+		this.container.find('.js-refresh-status').on('click', function () {
+			const progressIndicator = $.progressIndicator({
+				blockInfo: { enabled: true }
+			});
+			AppConnector.request({
+				parent: 'Settings',
+				module: 'Companies',
+				action: 'CheckStatus'
+			}).done((data) => {
+				progressIndicator.progressIndicator({ mode: 'hide' });
+				if (data.success && data.result) {
+					if (data.result.message) {
+						app.showNotify({
+							text: data.result.message,
+							type: data.result.type,
+							hide: true,
+							delay: 8000,
+							textTrusted: false
+						});
+					}
+					if (data.result.success) {
+						window.location.reload();
+					}
+				}
+			});
 		});
 	}
 };

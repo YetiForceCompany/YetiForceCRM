@@ -6,7 +6,7 @@
  * @package   Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -141,9 +141,13 @@ class OSSTimeControl_TimeCounting_Model
 	public function recalculateTimeControl()
 	{
 		if ($this->isActiveSumTime) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($this->recordId, $this->moduleName);
-			$recordModel->set($this->fieldModelSumTime->getName(), $this->getSumTime());
-			$recordModel->save();
+			\App\Db::getInstance()
+				->createCommand()
+				->update(
+					$this->fieldModelSumTime->getTableName(),
+					[static::COLUMN_SUM_TIME => $this->getSumTime()],
+					[$this->primaryKey => $this->recordId]
+				)->execute();
 			if ($this->isActiveSumTimeSubordinate) {
 				$this->calculate($this->recordId);
 			}

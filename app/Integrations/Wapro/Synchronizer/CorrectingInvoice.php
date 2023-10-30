@@ -6,7 +6,7 @@
  * @package Integration
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -21,33 +21,13 @@ class CorrectingInvoice extends Invoice
 	const NAME = 'LBL_CORRECTING_INVOICE';
 
 	/** {@inheritdoc} */
-	const MODULE_NAME = 'FCorectingInvoice';
-
-	/** {@inheritdoc} */
 	const SEQUENCE = 6;
-
-	/** {@inheritdoc} */
-	protected $fieldMap = [
-		'ID_FIRMY' => [
-			'fieldName' => 'multiCompanyId', 'fn' => 'findByRelationship',
-			'tableName' => 'FIRMA', 'skipMode' => true
-		],
-		'ID_KONTRAHENTA' => [
-			'fieldName' => 'accountid', 'fn' => 'findByRelationship',
-			'tableName' => 'KONTRAHENT', 'skipMode' => true
-		],
-		'FORMA_PLATNOSCI' => ['fieldName' => 'payment_methods', 'fn' => 'convertPaymentMethods'],
-		'UWAGI' => 'description',
-		'issueTime' => ['fieldName' => 'issue_time', 'fn' => 'convertDate'],
-		'saleDate' => ['fieldName' => 'saledate', 'fn' => 'convertDate'],
-		'paymentDate' => ['fieldName' => 'paymentdate', 'fn' => 'convertDate'],
-	];
 
 	/** {@inheritdoc} */
 	public function process(): int
 	{
 		$query = (new \App\Db\Query())->select([
-			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA',  'ID_DOK_ORYGINALNEGO', 'ID_UZYTKOWNIKA',
+			'ID_DOKUMENTU_HANDLOWEGO', 'ID_FIRMY', 'ID_KONTRAHENTA',  'ID_DOK_ORYGINALNEGO',
 			'NUMER', 'FORMA_PLATNOSCI', 'UWAGI', 'KONTRAHENT_NAZWA', 'WARTOSC_NETTO', 'WARTOSC_BRUTTO', 'DOK_KOREKTY',
 			'issueTime' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_WYSTAWIENIA - 36163 as datetime)',
 			'saleDate' => 'cast (dbo.DOKUMENT_HANDLOWY.DATA_SPRZEDAZY - 36163 as datetime)',
@@ -100,21 +80,15 @@ class CorrectingInvoice extends Invoice
 	public function importRecord(): int
 	{
 		if ($id = $this->findInMapTable($this->waproId, 'DOKUMENT_HANDLOWY')) {
-			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, self::MODULE_NAME);
+			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, 'FCorectingInvoice');
 		} else {
-			$this->recordModel = \Vtiger_Record_Model::getCleanInstance(self::MODULE_NAME);
+			$this->recordModel = \Vtiger_Record_Model::getCleanInstance('FCorectingInvoice');
 			$this->recordModel->setDataForSave([\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME => [
 				'wtable' => 'DOKUMENT_HANDLOWY',
 			]]);
-			if ($userId = $this->getUser($this->row['ID_UZYTKOWNIKA'])) {
-				$this->recordModel->set('assigned_user_id', $userId);
-			}
 		}
 		$this->recordModel->set('wapro_id', $this->waproId);
-		$this->recordModel->set(
-			'finvoiceid',
-			$this->findByRelationship($this->row['ID_DOK_ORYGINALNEGO'], ['tableName' => 'DOKUMENT_HANDLOWY'])
-		);
+		$this->recordModel->set('finvoiceid', $this->findRelationship($this->row['ID_DOK_ORYGINALNEGO'], ['tableName' => 'DOKUMENT_HANDLOWY']));
 		$this->recordModel->set($this->recordModel->getModule()->getSequenceNumberFieldName(), $this->row['NUMER']);
 		$this->loadFromFieldMap();
 		$this->loadDeliveryAddress('a');

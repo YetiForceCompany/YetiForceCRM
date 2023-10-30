@@ -2,13 +2,12 @@
 /**
  * Class to read and save configuration for integration with magento.
  *
- * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription.
- * File modification allowed only with the consent of the system producer.
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
  *
  * @package Integration
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -24,7 +23,9 @@ use App\Db\Query;
  */
 class Config extends \App\Base
 {
-	/** @var string Table name. */
+	/**
+	 * Table name.
+	 */
 	private const TABLE_NAME = 'i_#__magento_config';
 
 	/**
@@ -74,7 +75,7 @@ class Config extends \App\Base
 		$instance->setData(array_merge(
 			$servers[$serverId],
 			(new Query())->select(['name', 'value'])->from(self::TABLE_NAME)->where(['server_id' => $serverId])->createCommand()->queryAllByGroup()
-		));
+			));
 		return $instance;
 	}
 

@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -18,17 +18,17 @@ namespace Api\Core;
 class Containers
 {
 	/** @var string[] List of available API containers */
-	const LIST = [
-		'WebserviceStandard', 'WebservicePremium', 'ManageConsents', 'SMS', 'Token', 'PBX', 'OAuth', 'WooCommerce'
+	public static $list = [
+		'WebserviceStandard', 'WebservicePremium', 'ManageConsents', 'SMS',
 	];
 
 	/** @var string[] List of GUI tabs */
-	const LIST_TAB = [
+	public static $listTab = [
 		'WebserviceStandard', 'WebservicePremium', 'ManageConsents', 'SMS',
 	];
 
 	/** @var array List of db tables */
-	const LIST_TABLES = [
+	public static $listTables = [
 		'WebserviceStandard' => [
 			'user' => 'w_#__api_user',
 			'session' => 'w_#__api_session',
@@ -45,14 +45,5 @@ class Containers
 		'SMS' => [
 			'user' => 'w_#__sms_user',
 		],
-	];
-
-	/** @var array List of container configuration fields */
-	const CONFIG_FIELDS = [
-		'SMS' => ['name' => 'M', 'status' => 'M', 'type' => 'M', 'ips' => 'M'],
-		'PBX' => ['name' => 'M', 'status' => 'M', 'type' => 'M', 'ips' => 'O'],
-		'Token' => ['name' => 'M', 'status' => 'M', 'type' => 'M', 'ips' => 'O', 'url' => 'O'],
-		'OAuth' => ['name' => 'M', 'status' => 'M', 'type' => 'M', 'ips' => 'O'],
-		'WooCommerce' => ['name' => 'M', 'status' => 'M', 'type' => 'M', 'ips' => 'O', 'url' => 'O'],
 	];
 }

@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 jQuery.Class(
@@ -433,69 +433,63 @@ jQuery.Class(
 			});
 			locationBtn.on('click', () => {
 				navigator.geolocation.getCurrentPosition((position) => {
-					this.addMarker(
-						position.coords.latitude,
-						position.coords.longitude,
-						this.getMarkerPopup(
-							locationBtn.data('label'),
-							{
-								lat: position.coords.latitude,
-								lon: position.coords.longitude
-							},
-							false
-						),
-						L.AwesomeMarkers.icon({
-							icon: 'street-view',
+					let marker = L.marker([position.coords.latitude, position.coords.longitude], {
+						icon: L.AwesomeMarkers.icon({
+							icon: 'home',
+							markerColor: 'cadetblue',
 							prefix: 'fa'
 						})
+					}).bindPopup(
+						this.getMarkerPopup(locationBtn.data('label'), {
+							lat: position.coords.latitude,
+							lon: position.coords.longitude
+						})
 					);
-					this.mapInstance.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 12);
+					this.layerMarkers.addLayer(marker);
+					this.mapInstance.addLayer(this.layerMarkers);
+					this.mapInstance.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 10);
 				});
 			});
 		},
 		registerBasicModal: function () {
-			this.registerSearchAddress();
-			this.registerMyLocation();
-		},
-		registerPanel: function () {
-			let thisInstance = this;
-			let container = this.container;
-			let map = this.mapInstance;
-			let layer, description;
+			var thisInstance = this;
+			var container = this.container;
+			var map = thisInstance.mapInstance;
+			var layer, description;
 			app.registerBlockAnimationEvent(container);
-			this.registerCacheEvents(container);
-			container.find('.groupBy').on('click', () => {
-				let progressIndicator = jQuery.progressIndicator({
+			thisInstance.registerCacheEvents(container);
+			container.find('.groupBy').on('click', function () {
+				var progressIndicatorElement = jQuery.progressIndicator({
 					position: container,
 					blockInfo: {
 						enabled: true
 					}
 				});
-				let params = {
+				var params = {
 					module: 'OpenStreetMap',
 					action: 'GetMarkers',
 					srcModule: app.getModuleName(),
 					groupBy: container.find('.fieldsToGroup').val(),
 					searchValue: container.find('.js-search-address').val(),
 					radius: container.find('.js-radius').val(),
-					cache: this.getCacheParamsToRequest()
+					cache: thisInstance.getCacheParamsToRequest()
 				};
-				params = $.extend(this.selectedParams, params);
-				AppConnector.request(params).done((response) => {
-					progressIndicator.progressIndicator({ mode: 'hide' });
-					this.setMarkers(response.result);
+				params = $.extend(thisInstance.selectedParams, params);
+				AppConnector.request(params).done(function (response) {
+					progressIndicatorElement.progressIndicator({ mode: 'hide' });
+					thisInstance.setMarkers(response.result);
 				});
 			});
-			container.find('.groupNeighbours').on('change', (group) => {
-				let currentTarget = $(group.currentTarget);
-				map.removeLayer(this.layerMarkers);
-				let markers = this.markers;
+			container.find('.groupNeighbours').on('change', function (e) {
+				var currentTarget = $(e.currentTarget);
+				map.removeLayer(thisInstance.layerMarkers);
+				var markers = thisInstance.markers;
 				if (currentTarget.is(':checked')) {
 					layer = L.markerClusterGroup({
 						maxClusterRadius: 10
 					});
-					markers.forEach((e) => {
-						let marker = L.marker([e.lat, e.lon], {
+					markers.forEach(function (e) {
+						var marker = L.marker([e.lat, e.lon], {
 							icon: L.AwesomeMarkers.icon({
 								icon: 'home',
 								markerColor: 'blue',
@@ -505,13 +499,14 @@ jQuery.Class(
 						}).bindPopup(e.label);
 						layer.addLayer(marker);
 					});
-					Object.keys(this.cacheLayerMarkers).forEach((key) => {
-						map.removeLayer(this.cacheLayerMarkers[key]);
-						let cacheLayer = L.markerClusterGroup({
+
+					Object.keys(thisInstance.cacheLayerMarkers).forEach(function (key) {
+						map.removeLayer(thisInstance.cacheLayerMarkers[key]);
+						var cacheLayer = L.markerClusterGroup({
 							maxClusterRadius: 10
 						});
-						this.cacheMarkers[key].forEach((e) => {
-							let marker = L.marker([e.lat, e.lon], {
+						thisInstance.cacheMarkers[key].forEach(function (e) {
+							var marker = L.marker([e.lat, e.lon], {
 								icon: L.AwesomeMarkers.icon({
 									icon: 'home',
 									markerColor: 'orange',
@@ -521,13 +516,13 @@ jQuery.Class(
 							}).bindPopup(e.label);
 							cacheLayer.addLayer(marker);
 						});
-						this.cacheLayerMarkers[key] = cacheLayer;
+						thisInstance.cacheLayerMarkers[key] = cacheLayer;
 						map.addLayer(cacheLayer);
 					});
 				} else {
-					let markerArray = [];
-					markers.forEach((e) => {
-						let marker = L.marker([e.lat, e.lon], {
+					var markerArray = [];
+					markers.forEach(function (e) {
+						var marker = L.marker([e.lat, e.lon], {
 							icon: L.AwesomeMarkers.icon({
 								icon: 'home',
 								markerColor: 'blue',
@@ -538,11 +533,11 @@ jQuery.Class(
 						markerArray.push(marker);
 					});
 					layer = L.featureGroup(markerArray);
-					Object.keys(this.cacheLayerMarkers).forEach((key) => {
-						map.removeLayer(this.cacheLayerMarkers[key]);
-						let markerArray = [];
-						this.cacheMarkers[key].forEach((e) => {
-							let marker = L.marker([e.lat, e.lon], {
+					Object.keys(thisInstance.cacheLayerMarkers).forEach(function (key) {
+						map.removeLayer(thisInstance.cacheLayerMarkers[key]);
+						var markerArray = [];
+						thisInstance.cacheMarkers[key].forEach(function (e) {
+							var marker = L.marker([e.lat, e.lon], {
 								icon: L.AwesomeMarkers.icon({
 									icon: 'home',
 									markerColor: 'orange',
@@ -552,28 +547,28 @@ jQuery.Class(
 							}).bindPopup(e.label);
 							markerArray.push(marker);
 						});
-						this.cacheLayerMarkers[key] = L.featureGroup(markerArray);
-						map.addLayer(this.cacheLayerMarkers[key]);
+						thisInstance.cacheLayerMarkers[key] = L.featureGroup(markerArray);
+						map.addLayer(thisInstance.cacheLayerMarkers[key]);
 					});
 				}
-				this.layerMarkers = layer;
+				thisInstance.layerMarkers = layer;
 				map.addLayer(layer);
 			});
-			let startIconLayer = false;
-			container.on('click', '.startTrack', (e) => {
+			var startIconLayer = false;
+			container.on('click', '.startTrack', function (e) {
 				if (startIconLayer) {
 					map.removeLayer(startIconLayer);
 				}
-				let currentTargetTrack = $(e.currentTarget);
-				let containerPopup = currentTargetTrack.closest('.leaflet-popup-content');
+				var currentTarget = $(e.currentTarget);
+				var containerPopup = currentTarget.closest('.leaflet-popup-content');
 				description = containerPopup.find('.description').html();
-				let startElement = container.find('.start');
-				let coordinates = containerPopup.find('.coordinates');
+				var startElement = container.find('.start');
+				var coordinates = containerPopup.find('.coordinates');
 				description = description.replace(/\<br\>/gi, ', ');
 				startElement.val(description);
 				startElement.data('lat', coordinates.data('lat'));
 				startElement.data('lon', coordinates.data('lon'));
-				let marker = L.marker([coordinates.data('lat'), coordinates.data('lon')], {
+				var marker = L.marker([coordinates.data('lat'), coordinates.data('lon')], {
 					icon: L.AwesomeMarkers.icon({
 						icon: 'truck',
 						markerColor: 'green',
@@ -582,23 +577,23 @@ jQuery.Class(
 				}).bindPopup(containerPopup.html());
 				startIconLayer = L.featureGroup([marker]);
 				map.addLayer(startIconLayer);
-				this.showCalculateBtn();
+				thisInstance.showCalculateBtn();
 			});
-			let endIconLayer = false;
-			container.on('click', '.endTrack', (e) => {
+			var endIconLayer = false;
+			container.on('click', '.endTrack', function (e) {
 				if (endIconLayer) {
 					map.removeLayer(endIconLayer);
 				}
-				let currentTargetTrack = $(e.currentTarget);
-				let containerPopup = currentTargetTrack.closest('.leaflet-popup-content');
+				var currentTarget = $(e.currentTarget);
+				var containerPopup = currentTarget.closest('.leaflet-popup-content');
 				description = containerPopup.find('.description').html();
-				let endElement = container.find('.end');
-				let coordinates = containerPopup.find('.coordinates');
+				var endElement = container.find('.end');
+				var coordinates = containerPopup.find('.coordinates');
 				description = description.replace(/\<br\>/gi, ', ');
 				endElement.val(description);
 				endElement.data('lat', coordinates.data('lat'));
 				endElement.data('lon', coordinates.data('lon'));
-				let marker = L.marker([coordinates.data('lat'), coordinates.data('lon')], {
+				var marker = L.marker([coordinates.data('lat'), coordinates.data('lon')], {
 					icon: L.AwesomeMarkers.icon({
 						icon: 'flag-checkered',
 						markerColor: 'red',
@@ -607,88 +602,89 @@ jQuery.Class(
 				}).bindPopup(containerPopup.html());
 				endIconLayer = L.featureGroup([marker]);
 				map.addLayer(endIconLayer);
-				this.showCalculateBtn();
+				thisInstance.showCalculateBtn();
 			});
-			container.on('click', '.indirectPoint', (e) => {
-				let currentTarget = $(e.currentTarget);
-				let containerPopup = currentTarget.closest('.leaflet-popup-content');
+
+			container.on('click', '.indirectPoint', function (e) {
+				var currentTarget = $(e.currentTarget);
+				var containerPopup = currentTarget.closest('.leaflet-popup-content');
 				description = containerPopup.find('.description').html();
-				let template = container.find('.indirectTemplate');
-				let indirect = template.clone();
+				var template = container.find('.indirectTemplate');
+				var indirect = template.clone();
 				template.before(indirect);
 				indirect.removeClass('indirectTemplate');
 				indirect.removeClass('d-none');
-				let coordinates = containerPopup.find('.coordinates');
+				var coordinates = containerPopup.find('.coordinates');
 				description = description.replace(/\<br\>/gi, ', ');
-				if (typeof this.indirectPointLayer[description] !== 'undefined') {
-					map.removeLayer(this.indirectPointLayer[description]);
+				if (typeof thisInstance.indirectPointLayer[description] !== 'undefined') {
+					map.removeLayer(thisInstance.indirectPointLayer[description]);
 				}
-				let indirectField = indirect.find('.indirect');
+				var indirectField = indirect.find('.indirect');
 				indirectField.val(description);
 				indirectField.data('lat', coordinates.data('lat'));
 				indirectField.data('lon', coordinates.data('lon'));
-				let marker = L.marker([coordinates.data('lat'), coordinates.data('lon')], {
+				var marker = L.marker([coordinates.data('lat'), coordinates.data('lon')], {
 					icon: L.AwesomeMarkers.icon({
 						icon: 'flag',
 						markerColor: 'orange',
 						prefix: 'fa'
 					})
 				}).bindPopup(containerPopup.html());
-				this.indirectPointLayer[description] = L.featureGroup([marker]);
-				map.addLayer(this.indirectPointLayer[description]);
+				thisInstance.indirectPointLayer[description] = L.featureGroup([marker]);
+				map.addLayer(thisInstance.indirectPointLayer[description]);
 			});
-			container.on('click', '.removeIndirect', (e) => {
-				let currentTarget = $(e.currentTarget);
-				let container = currentTarget.closest('.indirectContainer');
-				map.removeLayer(this.indirectPointLayer[container.find('.indirect').val()]);
+			container.on('click', '.removeIndirect', function (e) {
+				var currentTarget = $(e.currentTarget);
+				var container = currentTarget.closest('.indirectContainer');
+				map.removeLayer(thisInstance.indirectPointLayer[container.find('.indirect').val()]);
 				currentTarget.closest('.indirectContainer').remove();
 			});
-			container.on('click', '.moveUp', (e) => {
-				let currentTarget = $(e.currentTarget);
-				let container = currentTarget.closest('.indirectContainer');
-				let previousElement = container.prev();
+			container.on('click', '.moveUp', function (e) {
+				var currentTarget = $(e.currentTarget);
+				var container = currentTarget.closest('.indirectContainer');
+				var previousElement = container.prev();
 				if (!previousElement.hasClass('startContainer')) {
 					previousElement.before(container);
 				}
 			});
-			container.on('click', '.moveDown', (e) => {
-				let currentTarget = $(e.currentTarget);
-				let container = currentTarget.closest('.indirectContainer');
-				let nextElement = container.next();
+			container.on('click', '.moveDown', function (e) {
+				var currentTarget = $(e.currentTarget);
+				var container = currentTarget.closest('.indirectContainer');
+				var nextElement = container.next();
 				if (!nextElement.hasClass('indirectTemplate')) {
 					nextElement.after(container);
 				}
 			});
-			container.on('click', '.searchInRadius', (e) => {
+			container.on('click', '.searchInRadius', function (e) {
 				if (endIconLayer) {
 					map.removeLayer(endIconLayer);
 				}
-				let currentTarget = $(e.currentTarget);
-				let containerPopup = currentTarget.closest('.leaflet-popup-content');
-				let coordinates = containerPopup.find('.coordinates');
-				let progressIndicatorElement = jQuery.progressIndicator({
+				var currentTarget = $(e.currentTarget);
+				var containerPopup = currentTarget.closest('.leaflet-popup-content');
+				var coordinates = containerPopup.find('.coordinates');
+				var progressIndicatorElement = jQuery.progressIndicator({
 					position: container,
 					blockInfo: {
 						enabled: true
 					}
 				});
-				let params = {
+				var params = {
 					module: 'OpenStreetMap',
 					action: 'GetMarkers',
 					srcModule: app.getModuleName(),
 					radius: container.find('.radius').val(),
 					lat: coordinates.data('lat'),
 					lon: coordinates.data('lon'),
-					cache: this.getCacheParamsToRequest()
+					cache: thisInstance.getCacheParamsToRequest()
 				};
-				params = $.extend(this.selectedParams, params);
+				params = $.extend(thisInstance.selectedParams, params);
 				AppConnector.request(params).done(function (response) {
 					progressIndicatorElement.progressIndicator({ mode: 'hide' });
-					this.setMarkers(response.result);
+					thisInstance.setMarkers(response.result);
 				});
 			});
 			const descriptionContainer = container.find('.js-description-container');
-			container.find('.js-calculate-route').on('click', () => {
+			container.find('.js-calculate-route').on('click', function () {
 				let indirectLon = [];
 				let indirectLat = [];
 				container.find('.indirectContainer:not(.d-none) input.indirect').each(function () {
@@ -717,14 +713,14 @@ jQuery.Class(
 						tlat: endElement.data('lat')
 					}
 				})
-					.done((response) => {
+					.done(function (response) {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
-						if (this.routeLayer) {
-							map.removeLayer(this.routeLayer);
+						if (thisInstance.routeLayer) {
+							map.removeLayer(thisInstance.routeLayer);
 						}
 						let route = L.geoJson(response.result.geoJson);
-						this.routeLayer = L.featureGroup([route]);
-						map.addLayer(this.routeLayer);
+						thisInstance.routeLayer = L.featureGroup([route]);
+						map.addLayer(thisInstance.routeLayer);
 						descriptionContainer.removeClass('d-none');
 						const instruction = container.find('.js-instruction_block');
 						if (response.result.properties.description) {
@@ -740,7 +736,7 @@ jQuery.Class(
 							.find('.travelTime')
 							.html(App.Fields.Double.formatToDisplay(response.result.properties.traveltime / 60));
 					})
-					.fail(function (error, _title) {
+					.fail(function (error, title) {
 						progressIndicatorElement.progressIndicator({ mode: 'hide' });
 						app.showNotify({
 							titleTrusted: false,
@@ -751,7 +747,7 @@ jQuery.Class(
 						});
 					});
 			});
-			container.on('click', '.setView', (e) => {
+			container.on('click', '.setView', function (e) {
 				let currentTarget = $(e.currentTarget);
 				let inputInstance = currentTarget.closest('.input-group').find('.end,.start,.indirect');
 				let lat = inputInstance.data('lat');
@@ -761,50 +757,49 @@ jQuery.Class(
 				}
 			});
 			this.registerSearchCompany();
+			this.registerSearchAddress();
+			this.registerMyLocation();
 		},
 		registerModalView: function (container) {
-			this.container = container;
-			const progress = jQuery.progressIndicator({
+			let thisInstance = this;
+			let progressIndicatorElement = jQuery.progressIndicator({
 				position: container,
 				blockInfo: {
 					enabled: true
 				}
 			});
-			container.find('#mapid').css({
+			this.container = container;
+			$('#mapid').css({
 				height: $('body').height() - 160
 			});
 			this.registerMap([0, 0], 2);
-			this.registerBasicModal();
-			this.registerPanel();
-			AppConnector.request(
-				$.extend(this.selectedParams, {
-					module: 'OpenStreetMap',
-					action: 'GetMarkers',
-					srcModule: app.getModuleName()
-				})
-			).done((response) => {
-				progress.progressIndicator({ mode: 'hide' });
-				this.setMarkers(response.result);
+			let params = {
+				module: 'OpenStreetMap',
+				action: 'GetMarkers',
+				srcModule: app.getModuleName()
+			};
+			params = $.extend(this.selectedParams, params);
+			thisInstance.registerBasicModal();
+			AppConnector.request(params).done(function (response) {
+				progressIndicatorElement.progressIndicator({ mode: 'hide' });
+				thisInstance.setMarkers(response.result);
 			});
 		},
-		getMarkerPopup: function (label, coordinates, btn = true) {
-			let popup = `<span class="description">${label}</span>
-			<br /><input type=hidden class="coordinates" data-lat="${coordinates.lat}" data-lon="${coordinates.lon}">`;
-			if (btn) {
-				popup += `<button class="btn btn-success btn-sm p-1 startTrack mr-2"><span class="fas  fa-truck"></span></button>
+		getMarkerPopup: function (label, coordinates) {
+			return `<span class="description">${label}</span>
+			<br /><input type=hidden class="coordinates" data-lon="${coordinates.lon}"
+			data-lat="${coordinates.lat}">
+			<button class="btn btn-success btn-sm p-1 startTrack mr-2"><span class="fas  fa-truck"></span></button>
 		<button class="btn btn-warning btn-sm p-1 indirectPoint mr-2"><span class="fas fa-flag-checkered"></span></button>
 		<button class="btn btn-danger btn-sm p-1 endTrack"><span class="fas fa-flag-checkered"></span></button>`;
-			}
-			popup += `<span class="border d-block my-1 p-1">${coordinates.lat}, ${coordinates.lon}</span>`;
-			return popup;
 		},
 		registerDetailView: function (container) {
 			this.container = container;
-			let coordinates = container.find('#coordinates').val();
+			var coordinates = container.find('#coordinates').val();
 			coordinates = JSON.parse(coordinates);
-			let startCoordinate = [0, 0],
-				startZoom = 2;
-			const $map = container.find('#mapid');
+			var startCoordinate = [0, 0];
+			var startZoom = 2;
+			var $map = container.find('#mapid');
 			if (coordinates.length) {
 				startCoordinate = coordinates[0];
 				startZoom = 6;
@@ -828,72 +823,23 @@ jQuery.Class(
 					$map.height(1000);
 				}
 			}
-			const myMap = this.registerMap(startCoordinate, startZoom),
-				markers = L.markerClusterGroup({
-					maxClusterRadius: 10
-				});
-			coordinates.forEach(function (e) {
-				markers.addLayer(
-					L.marker([e.lat, e.lon], {
-						icon: L.AwesomeMarkers.icon({
-							icon: 'home',
-							markerColor: 'blue',
-							prefix: 'fa',
-							iconColor: e.color
-						})
-					}).bindPopup(e.label)
-				);
-			});
-			myMap.addLayer(markers);
-		},
-		registerFromField: function (container, _fieldInstance) {
-			this.container = container;
-			container.find('#mapid').css({
-				height: $('body').height() - 160
-			});
-			const decimalPoint = container.find('.js-point-decimal');
-			let point = null;
-			if (decimalPoint.length > 0) {
-				point = JSON.parse(decimalPoint.val());
-			}
-			if (point) {
-				this.registerMap([point['lat'], point['lon']], 14);
-			} else {
-				this.registerMap([0, 0], 3);
-			}
-			this.registerBasicModal();
-			this.layerMarkers = L.markerClusterGroup({
+
+			var myMap = this.registerMap(startCoordinate, startZoom);
+			var markers = L.markerClusterGroup({
 				maxClusterRadius: 10
 			});
-			if (point) {
-				this.addMarker(
-					point['lat'],
-					point['lon'],
-					this.getMarkerPopup(
-						'',
-						{
-							lat: point['lat'],
-							lon: point['lon']
-						},
-						false
-					)
-				);
-			}
-		},
-		addMarker: function (lat, lon, label, icon) {
-			if (!icon) {
-				icon = L.AwesomeMarkers.icon({
-					icon: 'home',
-					markerColor: 'cadetblue',
-					prefix: 'fa'
-				});
-			}
-			const marker = L.marker([lat, lon], { icon: icon });
-			if (label) {
-				marker.bindPopup(label);
-			}
-			this.layerMarkers.addLayer(marker);
-			this.mapInstance.addLayer(this.layerMarkers);
+			coordinates.forEach(function (e) {
+				var marker = L.marker([e.lat, e.lon], {
+					icon: L.AwesomeMarkers.icon({
+						icon: 'home',
+						markerColor: 'blue',
+						prefix: 'fa',
+						iconColor: e.color
+					})
+				}).bindPopup(e.label);
+				markers.addLayer(marker);
+			});
+			myMap.addLayer(markers);
 		}
 	}
 );

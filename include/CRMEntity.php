@@ -1,18 +1,18 @@
 <?php
 
-/* * *******************************************************************************
-* The contents of this file are subject to the SugarCRM Public License Version 1.1.2
-* ("License"); You may not use this file except in compliance with the
-* License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
-* Software distributed under the License is distributed on an  "AS IS"  basis,
-* WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
-* the specific language governing rights and limitations under the License.
-* The Original Code is:  SugarCRM Open Source
-* The Initial Developer of the Original Code is SugarCRM, Inc.
-* Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
-* All Rights Reserved.
-* Contributor(s): YetiForce S.A.
-* ****************************************************************************** */
+ /* * *******************************************************************************
+ * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
+ * ("License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
+ * Software distributed under the License is distributed on an  "AS IS"  basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
+ * the specific language governing rights and limitations under the License.
+ * The Original Code is:  SugarCRM Open Source
+ * The Initial Developer of the Original Code is SugarCRM, Inc.
+ * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
+ * All Rights Reserved.
+ * Contributor(s): YetiForce S.A.
+ * ****************************************************************************** */
 /* * *******************************************************************************
  * $Header: /advent/projects/wesat/vtiger_crm/vtigercrm/data/CRMEntity.php,v 1.16 2005/04/29 04:21:31 mickie Exp $
  * Description:  Defines the base class for all data entities used throughout the
@@ -33,32 +33,9 @@ require_once 'include/Webservices/Utils.php';
 
 class CRMEntity
 {
-	/** @var string Table name */
-	public $table_name = '';
-	/** @var string Table index */
-	public $table_index = '';
-	/** @var array Mandatory table for supporting custom fields. */
-	public $customFieldTable = [];
-	/** @var string[] Mandatory for Saving, Include tables related to this module */
-	public $tab_name = [];
 	/** @var array */
-	public $list_fields_name = [];
-	/** @var array For Popup listview and UI type support */
-	public $search_fields = [];
-	/** @var array */
-	public $search_fields_name = [];
-	/** @var string[] For Popup window record selection */
-	public $popup_fields = [];
-	/** @var string Field name For Alphabetical search. */
-	public $def_basicsearch_col = '';
-	/** @var string[] */
-	public $mandatory_fields = [];
-	/** @var array Mandatory for saving, Include tablename and tablekey columnname here. */
 	public $tab_name_index = [];
-	/** @var string Default order by. */
-	public $default_order_by = '';
-	/** @var string Default sort order. */
-	public $default_sort_order = '';
+
 	/** @var string[] Tables join clause. */
 	public $tableJoinClause = [
 		'vtiger_entity_stats' => 'LEFT JOIN',
@@ -66,27 +43,12 @@ class CRMEntity
 		'u_yf_wapro_records_map' => 'LEFT JOIN',
 	];
 
-	/** @var array Column fields */
-	public $column_fields = [];
-	/** @var array Lock fields */
-	protected $lockFields = [];
-
 	/**
 	 * Constructor which will set the column_fields in this object.
 	 */
 	public function __construct()
 	{
 		$this->column_fields = vtlib\Deprecated::getColumnFields(static::class);
-	}
-
-	/**
-	 * Get module name.
-	 *
-	 * @return string
-	 */
-	public function getName(): string
-	{
-		return static::class;
 	}
 
 	/**
@@ -115,11 +77,34 @@ class CRMEntity
 			}
 		}
 		$focus = new $module();
+		$focus->moduleName = $module;
 		if (method_exists($focus, 'init')) {
 			$focus->init();
 		}
 		\App\Cache::staticSave('CRMEntity', $module, clone $focus);
 		return $focus;
+	}
+
+	/**
+	 * Loading the system configuration.
+	 *
+	 * @return void
+	 */
+	protected function init(): void
+	{
+		$this->tab_name_index += ['u_yf_wapro_records_map' => 'crmid'];
+	}
+
+	/**
+	 * Function returns the column alias for a field.
+	 *
+	 * @param array $fieldInfo - field information
+	 *
+	 * @return string field value
+	 */
+	protected function createColumnAliasForField(array $fieldInfo)
+	{
+		return strtolower($fieldInfo['tablename'] . $fieldInfo['fieldname']);
 	}
 
 	/**
@@ -167,7 +152,7 @@ class CRMEntity
 			foreach ($cachedModuleFields as $fieldInfo) {
 				$fieldvalue = '';
 				$fieldkey = $this->createColumnAliasForField($fieldInfo);
-				// Note : value is retrieved with a tablename+fieldname as we are using alias while building query
+				//Note : value is retrieved with a tablename+fieldname as we are using alias while building query
 				if (isset($resultRow[$fieldkey])) {
 					$fieldvalue = $resultRow[$fieldkey];
 				}
@@ -246,7 +231,8 @@ class CRMEntity
 	 */
 	public function trackUnLinkedInfo($crmId)
 	{
-		static::trackLinkedInfo($crmId);
+		$currentTime = date('Y-m-d H:i:s');
+		\App\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => \App\User::getCurrentUserId()], ['crmid' => $crmId])->execute();
 	}
 
 	/**
@@ -256,7 +242,10 @@ class CRMEntity
 	 */
 	public function getLockFields()
 	{
-		return $this->lockFields;
+		if (isset($this->lockFields)) {
+			return $this->lockFields;
+		}
+		return [];
 	}
 
 	/**
@@ -273,27 +262,5 @@ class CRMEntity
 		} elseif ('module.preupdate' === $eventType) {
 		} elseif ('module.postupdate' === $eventType) {
 		}
-	}
-
-	/**
-	 * Loading the system configuration.
-	 *
-	 * @return void
-	 */
-	protected function init(): void
-	{
-		$this->tab_name_index += ['u_yf_wapro_records_map' => 'crmid'];
-	}
-
-	/**
-	 * Function returns the column alias for a field.
-	 *
-	 * @param array $fieldInfo - field information
-	 *
-	 * @return string field value
-	 */
-	protected function createColumnAliasForField(array $fieldInfo)
-	{
-		return strtolower($fieldInfo['tablename'] . $fieldInfo['fieldname']);
 	}
 }

@@ -4,7 +4,7 @@
  * LangManagement Module Class.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    YetiForce S.A.
  */
 class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
@@ -222,7 +222,7 @@ class Settings_LangManagement_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Function to set language as default.
 	 *
-	 * @param array $prefix
+	 * @param string $prefix
 	 *
 	 * @return array
 	 */

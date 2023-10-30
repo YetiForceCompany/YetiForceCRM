@@ -19,6 +19,7 @@ class Vtiger_BasicAjax_View extends \App\Controller\View\Page
 		parent::__construct();
 		$this->exposeMethod('showAdvancedSearch');
 		$this->exposeMethod('showSearchResults');
+		$this->exposeMethod('performPhoneCall');
 		$this->exposeMethod('getDashBoardPredefinedWidgets');
 	}
 
@@ -158,6 +159,24 @@ class Vtiger_BasicAjax_View extends \App\Controller\View\Page
 		}
 	}
 
+	/**
+	 * Perform phone call.
+	 *
+	 * @param \App\Request $request
+	 */
+	public function performPhoneCall(App\Request $request)
+	{
+		$pbx = App\Integrations\Pbx::getDefaultInstance();
+		$pbx->loadUserPhone();
+		try {
+			$pbx->performCall($request->getByType('phoneNumber', 'Phone'));
+			$response = new Vtiger_Response();
+			$response->setResult(\App\Language::translate('LBL_PHONE_CALL_SUCCESS'));
+			$response->emit();
+		} catch (Exception $exc) {
+			\App\Log::error('Error while telephone connections: ' . $exc->getMessage(), 'PBX');
+		}
+	}
 
 	/**
 	 * Return button of predefined widgets.

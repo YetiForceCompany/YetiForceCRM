@@ -3,7 +3,7 @@
  * Settings OSSMailView index view class.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Model
 {
@@ -16,8 +16,8 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 			'LBL_EXPIRING_SOLD_PRODUCTS',
 			'LBL_NEW_ACCOUNTS', 'LBL_NEGLECTED_ACCOUNTS', 'LBL_UPDATES',
 			'LBL_NOTIFICATION_BY_SENDER', 'LBL_NOTIFICATION_BY_RECIPIENT', 'DW_SUMMATION_BY_USER', 'Leads by Status',
-			'Leads by Industry', 'Leads by Source', 'Employees Time Control', 'LBL_ALL_TIME_CONTROL',
-			'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_CLOSED_TICKETS_BY_USER', 'LBL_ACCOUNTS_BY_INDUSTRY', 'Mails List'
+			'Leads by Industry', 'Leads by Source', 'Leads by Status Converted', 'Employees Time Control', 'LBL_ALL_TIME_CONTROL',
+			'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_CLOSED_TICKETS_BY_USER', 'LBL_ACCOUNTS_BY_INDUSTRY'
 		];
 	}
 
@@ -60,7 +60,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	{
 		return [
 			'LBL_NOTIFICATION_BY_SENDER', 'LBL_NOTIFICATION_BY_RECIPIENT', 'DW_SUMMATION_BY_USER', 'Leads by Status',
-			'Leads by Industry', 'Leads by Source', 'Employees Time Control', 'LBL_ALL_TIME_CONTROL',
+			'Leads by Industry', 'Leads by Source', 'Leads by Status Converted', 'Employees Time Control', 'LBL_ALL_TIME_CONTROL',
 			'LBL_CLOSED_TICKETS_BY_PRIORITY', 'LBL_CLOSED_TICKETS_BY_USER', 'LBL_ACCOUNTS_BY_INDUSTRY'
 		];
 	}
@@ -68,7 +68,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	public function getWidgetsWithFilterUsers(): array
 	{
 		return [
-			'Tickets by Status', 'Leads by Industry',
+			'Leads by Status Converted', 'Graf', 'Tickets by Status', 'Leads by Industry',
 			'Leads by Source', 'Leads by Status', 'Funnel', 'Upcoming Activities', 'Overdue Activities',
 			'Delegated project tasks', 'Delegated (overdue) project tasks',
 			'LBL_ALL_TIME_CONTROL',
@@ -260,7 +260,7 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 	{
 		$subQuery = (new \App\Db\Query())->from('vtiger_module_dashboard')->select(['vtiger_links.linkid'])
 			->innerJoin('vtiger_links', 'vtiger_module_dashboard.linkid = vtiger_links.linkid')
-			->where(['blockid' => $blockId])->andWhere(['not', ['linklabel' => ['Multifilter', 'Upcoming events', 'Upcoming Activities', 'Overdue Activities']]]);
+			->where(['blockid' => $blockId])->andWhere(['not', ['linklabel' => ['Multifilter', 'Upcoming events']]]);
 		$dataReader = (new \App\Db\Query())->from('vtiger_links')
 			->select(['vtiger_links.*', 'blockid' => 'vtiger_module_dashboard_blocks.id'])
 			->innerJoin('vtiger_tab', 'vtiger_links.tabid = vtiger_tab.tabid')
@@ -523,65 +523,5 @@ class Settings_WidgetsManagement_Module_Model extends Settings_Vtiger_Module_Mod
 		\App\Log::trace('Exiting Settings_WidgetsManagement_Module_Model::removeBlock() method ...');
 
 		return ['success' => true];
-	}
-
-	/**
-	 * Manage widgets between roles.
-	 *
-	 * @param array $data
-	 *
-	 * @return void
-	 */
-	public function transfer(array $data): bool
-	{
-		$result = true;
-		$block = self::getBlocksFromModule($data['sourceModule'], $data['authorized'], $data['dashboardId']);
-		$newBlockId = reset($block);
-		if (!$newBlockId) {
-			$newBlockId = $this->addBlock(['authorized' => $data['authorized'], 'dashboardId' => $data['dashboardId']], $data['sourceModule'], null)['id'];
-		}
-		$db = App\Db::getInstance();
-		$transaction = $db->beginTransaction();
-		try {
-			$widgetLinkId = $data['widgetLinkId'];
-			foreach ($widgetLinkId as $id) {
-				$moduleDashboardRow = (new App\Db\Query())->from('vtiger_module_dashboard')->where(['id' => $id])->one();
-				if ($moduleDashboardRow && !$this->exists($moduleDashboardRow, $newBlockId)) {
-					if ('copy' === $data['actionOption']) {
-						$moduleDashboardRow['blockid'] = $newBlockId;
-						unset($moduleDashboardRow['id']);
-						$db->createCommand()->insert('vtiger_module_dashboard', $moduleDashboardRow)->execute();
-					} else {
-						$db->createCommand()->update('vtiger_module_dashboard', ['blockid' => $newBlockId], ['id' => $id])->execute();
-						$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['templateid' => $id])->execute();
-					}
-				} else {
-					$result = false;
-				}
-			}
-			$transaction->commit();
-		} catch (Throwable $e) {
-			$result = false;
-			$transaction->rollBack();
-		}
-		return $result;
-	}
-
-	/**
-	 * Check if widget exists.
-	 *
-	 * @param array $data
-	 * @param int   $dashboardId
-	 *
-	 * @return bool
-	 */
-	public function exists(array $data, int $dashboardId): bool
-	{
-		return (new App\Db\Query())->from('vtiger_module_dashboard')->where([
-			'linkid' => $data['linkid'],
-			'filterid' => $data['filterid'],
-			'data' => $data['data'],
-			'blockid' => $dashboardId,
-		])->exists();
 	}
 }

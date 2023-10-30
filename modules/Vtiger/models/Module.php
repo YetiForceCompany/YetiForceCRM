@@ -20,6 +20,7 @@ class Vtiger_Module_Model extends \vtlib\Module
 	const ADVANCED_TYPE = 1;
 	/** @var bool */
 	public $allowTypeChange = true;
+
 	protected $blocks;
 	protected $nameFields;
 	protected $moduleMeta;
@@ -651,13 +652,16 @@ class Vtiger_Module_Model extends \vtlib\Module
 	 */
 	public function getSummaryViewFieldsList()
 	{
-		$summaryFields = [];
-		foreach ($this->getFields() as $fieldName => &$fieldModel) {
-			if ($fieldModel->isSummaryField() && $fieldModel->isActiveField()) {
-				$summaryFields[$fieldName] = $fieldModel;
+		if (!isset($this->summaryFields)) {
+			$summaryFields = [];
+			foreach ($this->getFields() as $fieldName => &$fieldModel) {
+				if ($fieldModel->isSummaryField() && $fieldModel->isActiveField()) {
+					$summaryFields[$fieldName] = $fieldModel;
+				}
 			}
+			$this->summaryFields = $summaryFields;
 		}
-		return $summaryFields;
+		return $this->summaryFields;
 	}
 
 	/**

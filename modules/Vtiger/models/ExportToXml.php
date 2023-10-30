@@ -6,7 +6,7 @@
  * @package Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -22,8 +22,6 @@ class Vtiger_ExportToXml_Model extends \App\Export\Records
 	protected $tmpXmlPath = '';
 	protected $inventoryFields;
 	protected $fileExtension = 'xml';
-	/** @var string[] List of xml path */
-	protected $xmlList = [];
 
 	/**
 	 * Set template.
@@ -60,7 +58,6 @@ class Vtiger_ExportToXml_Model extends \App\Export\Records
 			}
 			++$count;
 		}
-
 		if (1 < $count) {
 			$this->outputZipFile($fileName);
 		} else {
@@ -199,9 +196,9 @@ class Vtiger_ExportToXml_Model extends \App\Export\Records
 			$xml->writeAttribute('type', $fieldModel->getFieldDataType());
 			$xml->writeAttribute('label', $header);
 			if ($this->isCData($fieldName)) {
-				$xml->writeCData($entries[$fieldName] ?? '');
+				$xml->writeCData($entries[$fieldName]);
 			} else {
-				$xml->text($entries[$fieldName] ?? '');
+				$xml->text($entries[$fieldName]);
 			}
 			$xml->endElement();
 		}
@@ -234,7 +231,6 @@ class Vtiger_ExportToXml_Model extends \App\Export\Records
 			$xml->endElement();
 		}
 		$xml->endElement();
-
 		file_put_contents($this->tmpXmlPath, $xml->flush(true), FILE_APPEND);
 	}
 

@@ -6,7 +6,7 @@
  * @package Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -15,17 +15,6 @@
  */
 class Occurrences_Calendar_Model extends Vtiger_Calendar_Model
 {
-	/** {@inheritdoc} */
-	public function getCalendarTypes(): array
-	{
-		$calendarTypes = [];
-		$moduleField = $this->getModule()->getFieldByName('occurrences_type');
-		if ($moduleField && $moduleField->isActiveField()) {
-			$calendarTypes = $moduleField->getPicklistValues();
-		}
-		return $calendarTypes;
-	}
-
 	/**
 	 * Get query.
 	 *
@@ -142,6 +131,16 @@ class Occurrences_Calendar_Model extends Vtiger_Calendar_Model
 		}
 		$dataReader->close();
 		return $result;
+	}
+
+	/**
+	 * Function to get type of calendars.
+	 *
+	 * @return string[]
+	 */
+	public function getCalendarTypes()
+	{
+		return $this->getModule()->getFieldByName('occurrences_type')->getPicklistValues();
 	}
 
 	/** {@inheritdoc} */

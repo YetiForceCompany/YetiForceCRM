@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-Log-LogsViewer -->
 	<div class="js-logs-container" data-js="container">
@@ -9,7 +9,7 @@
 		</div>
 		<div class="contents" id="listViewContainer">
 			<ul class="nav nav-tabs mr-0 mb-2">
-				{foreach key=INDEX item=ITEM from=\App\Log::LOGS_VIEWER_COLUMN_MAP}
+				{foreach key=INDEX item=ITEM from=\App\Log::$logsViewerColumnMapping}
 					<li class="nav-item">
 						<a class="nav-link {if $TYPE === $INDEX} active {/if}" href="index.php?parent=Settings&module=Log&view=LogsViewer&type={$INDEX}" data-type="{$INDEX}">
 							{if isset($ITEM['icon'])}

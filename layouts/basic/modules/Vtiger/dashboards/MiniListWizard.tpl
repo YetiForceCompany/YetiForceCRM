@@ -71,7 +71,7 @@
 										<td class="fieldValue">
 											{assign "VALUE_FIELD" $WIDGET_MODEL->getValueForEditView('fields')}
 											<select class="form-control{if $WIDGET_ID} select2{/if}" name="fields" size="2" multiple="true"
-												data-validation-engine="validate[required]" data-select-cb="registerSelectSortable" {if $WIDGET_ID} disabled{/if}>
+												data-validation-engine="validate[required]" {if $WIDGET_ID} disabled{/if}>
 												{if $VALUE_FIELD}
 													{assign "WIDGET_MODULE_MODEL" Vtiger_Module_Model::getInstance($WIDGET_MODEL->getValueForEditView('module'))}
 													{foreach from=$VALUE_FIELD item=FIELD_NAME}

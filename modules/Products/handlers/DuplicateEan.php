@@ -1,15 +1,15 @@
 <?php
 /**
- * Ean duplicate checker handler field.
+ * Duplicate product ean handler.
  *
  * @package Handler
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
- * Ean duplicate checker handler class.
+ * Products_DuplicateEan_Handler class.
  */
 class Products_DuplicateEan_Handler
 {

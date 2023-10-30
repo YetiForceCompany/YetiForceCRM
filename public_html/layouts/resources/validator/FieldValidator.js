@@ -1007,7 +1007,7 @@ Vtiger_Base_Validator_Js(
 			let decimalSeparator = fieldData.decimalSeparator ? fieldData.decimalSeparator : CONFIG.currencyDecimalSeparator;
 			let groupSeparator = fieldData.groupSeparator ? fieldData.groupSeparator : CONFIG.currencyGroupingSeparator;
 
-			let strippedValue = this.getFieldValue().replace(decimalSeparator, '.');
+			let strippedValue = this.getFieldValue().replace(decimalSeparator, '');
 			let spacePattern = /\s/;
 			if (spacePattern.test(decimalSeparator) || spacePattern.test(groupSeparator))
 				strippedValue = strippedValue.replace(/ /g, '');
@@ -1022,13 +1022,14 @@ Vtiger_Base_Validator_Js(
 
 			let regex = new RegExp(groupSeparator, 'g');
 			strippedValue = strippedValue.replace(regex, '');
+
 			if (isNaN(strippedValue)) {
 				errorInfo = app.vtranslate('JS_CONTAINS_ILLEGAL_CHARACTERS');
 				this.setError(errorInfo);
 				return false;
 			}
 			let negativeNumber = fieldData.fieldinfo && fieldData.fieldinfo.fieldtype === 'NN';
-			if (!negativeNumber && parseFloat(strippedValue) < 0) {
+			if (!negativeNumber && strippedValue < 0) {
 				errorInfo = app.vtranslate('JS_ACCEPT_POSITIVE_NUMBER');
 				this.setError(errorInfo);
 				return false;
@@ -1037,9 +1038,8 @@ Vtiger_Base_Validator_Js(
 			if (maximumLength) {
 				let ranges = maximumLength.split(',');
 				if (
-					(ranges.length === 2 &&
-						(parseFloat(strippedValue) > parseFloat(ranges[1]) || parseFloat(strippedValue) < parseFloat(ranges[0]))) ||
-					(ranges.length === 1 && (parseFloat(strippedValue) > parseFloat(ranges[0]) || parseFloat(strippedValue) < 0))
+					(ranges.length === 2 && (strippedValue > parseFloat(ranges[1]) || strippedValue < parseFloat(ranges[0]))) ||
+					(ranges.length === 1 && (strippedValue > parseFloat(ranges[0]) || strippedValue < 0))
 				) {
 					errorInfo = app.vtranslate('JS_ERROR_MAX_VALUE');
 					this.setError(errorInfo);
@@ -1525,11 +1525,12 @@ Vtiger_Base_Validator_Js(
 		 * @return  boolean true if validation is successful false if validation error occurs
 		 */
 		validate: function () {
-			const response = this._super();
+			let response = this._super();
 			if (response !== true) {
 				return response;
 			}
-			const field = this.getElement();
+			let field = this.getElement(),
+				errorInfo;
 			if (field.attr('data-inputmask')) {
 				let unMaskedValue = field.inputmask('unmaskedvalue'),
 					getMetaData = field.inputmask('getmetadata'),
@@ -1538,9 +1539,18 @@ Vtiger_Base_Validator_Js(
 						(getMetaData.match(/A/g) || []).length +
 						(getMetaData.match(/'*'/g) || []).length;
 				if (unMaskedValue.length !== 0 && maskLength > unMaskedValue.length) {
-					this.setError(app.vtranslate('JS_INVALID_LENGTH'));
+					errorInfo = app.vtranslate('JS_INVALID_LENGTH');
+					this.setError(errorInfo);
+					window.inputMaskValidation = true;
 					return false;
+				} else {
+					window.inputMaskValidation = false;
 				}
+			}
+			if (window.inputMaskValidation) {
+				errorInfo = app.vtranslate('JS_INVALID_LENGTH');
+				this.setError(errorInfo);
+				return false;
 			}
 			return true;
 		}
@@ -1651,26 +1661,15 @@ Vtiger_Base_Validator_Js(
 			}
 			const field = this.getElement();
 			const fieldValue = field.val();
-			let maximumlength = field.data('fieldinfo').maximumlength;
-
-			if (maximumlength) {
-				let currentTextLenght =
-					typeof TextEncoder === 'function' ? new TextEncoder().encode(fieldValue).byteLength : fieldValue.length;
-				let [min, max] = maximumlength.split(',');
-				if (max == undefined) {
-					max = min;
-					min = null;
-				}
-				if (currentTextLenght && min && currentTextLenght < parseInt(min)) {
-					this.setError(app.vtranslate('JS_ENTERED_VALUE_IS_TOO_SHORT'));
-					return false;
-				}
-				if (max && currentTextLenght > parseInt(max)) {
-					this.setError(app.vtranslate('JS_MAXIMUM_TEXT_SIZE_IN_BYTES') + ': ' + parseInt(max));
-					return false;
-				}
+			if (
+				field.data('fieldinfo').maximumlength &&
+				(typeof TextEncoder === 'function'
+					? new TextEncoder().encode(fieldValue).byteLength > field.data('fieldinfo').maximumlength
+					: fieldValue.length > field.data('fieldinfo').maximumlength)
+			) {
+				this.setError(app.vtranslate('JS_MAXIMUM_TEXT_SIZE_IN_BYTES') + ' ' + field.data('fieldinfo').maximumlength);
+				return false;
 			}
-
 			return true;
 		}
 	}
@@ -1703,94 +1702,3 @@ Vtiger_Base_Validator_Js(
 	}
 );
 Vtiger_Double_Validator_Js('Vtiger_Advpercentage_Validator_Js', {});
-
-Vtiger_Base_Validator_Js(
-	'Vtiger_Mapcoordinates_Validator_Js',
-	{
-		/**
-		 * Function which invokes field validation
-		 * @param {jQuery} field - accepts field element as parameter
-		 * @return string|true - error text if validation fails, true on success
-		 */
-		invokeValidation(field, rules, i, options) {
-			let validatorInstance = new Vtiger_Mapcoordinates_Validator_Js();
-			validatorInstance.setElement(field);
-			let result = validatorInstance.validate();
-			if (result == true) {
-				return result;
-			} else {
-				return validatorInstance.getError();
-			}
-		}
-	},
-	{
-		/**
-		 * Function to validate the coordinates field data
-		 * @return {boolean}
-		 */
-		validate() {
-			let fieldValue = this.getFieldValue();
-			if (fieldValue !== '') {
-				let element = this.getElement();
-				let key = element.data('key');
-				let result = false;
-				switch (element.data('type')) {
-					case 'decimal':
-						result = this.validateDecimal(fieldValue, key);
-						break;
-					case 'degrees':
-						result = this.validateDegrees(fieldValue, key);
-						break;
-					default:
-						result = this.validateCodeplus(fieldValue);
-						break;
-				}
-				if (!result) {
-					this.setError(app.vtranslate('JS_INVALID_COORDINATES'));
-				}
-				return result;
-			}
-		},
-
-		/**
-		 * Function to validate the coordinates decimal field data
-		 * @return {boolean}
-		 */
-		validateDecimal(fieldValue, key) {
-			const lat = /^\(?[+-]?(90(\.0+)?|[1-8]?\d(\.\d+)?)$/;
-			const lon = /^\s?[+-]?(180(\.0+)?|1[0-7]\d(\.\d+)?|\d{1,2}(\.\d+)?)\)?$/;
-			let result = false;
-			if (key === 'lat') {
-				result = lat.test(fieldValue);
-			} else {
-				result = lon.test(fieldValue);
-			}
-			return result;
-		},
-
-		/**
-		 * Function to validate the coordinates degrees field data
-		 * @return {boolean}
-		 */
-		validateDegrees(fieldValue, key) {
-			const dmsLat = /^(([1-8]?\d)\D+([1-5]?\d|60)\D+([1-5]?\d|60)(\.\d+)?|90\D+0\D+0)\D+[NSns]?$/i;
-			const dmsLon = /^\s*([1-7]?\d{1,2}\D+([1-5]?\d|60)\D+([1-5]?\d|60)(\.\d+)?|180\D+0\D+0)\D+[EWew]?$/i;
-			let result = false;
-			if (key === 'lat') {
-				result = dmsLat.test(fieldValue);
-			} else {
-				result = dmsLon.test(fieldValue);
-			}
-			return result;
-		},
-
-		/**
-		 * Function to validate the coordinates code plus field data
-		 * @return {boolean}
-		 */
-		validateCodeplus(fieldValue) {
-			const regex = /^[a-z0-9 +]+$/i;
-			return regex.test(fieldValue);
-		}
-	}
-);

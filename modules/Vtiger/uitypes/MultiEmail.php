@@ -6,7 +6,7 @@
  * @package   UIType
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -19,12 +19,7 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	/** {@inheritdoc} */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
-		if (!empty($value)) {
-			$value = array_filter(explode(',', \App\Purifier::decodeHtml($value)));
-			$value = implode(',', array_map('trim', $value));
-		}
-
-		return $value;
+		return \App\Purifier::decodeHtml($value);
 	}
 
 	/** {@inheritdoc} */
@@ -87,7 +82,7 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 		}
 		$emails = [];
 		foreach ($value as $item) {
-			if ($rawText || false === $this->getFieldModel()->getParam('consenticon')) {
+			if ($rawText) {
 				$emails[] = parent::getDisplayValue($item['e'], $record, $recordModel, $rawText, false);
 				continue;
 			}
@@ -128,7 +123,7 @@ class Vtiger_MultiEmail_UIType extends Vtiger_Email_UIType
 	/** {@inheritdoc} */
 	public function getQueryOperators()
 	{
-		return ['e', 'n', 'c', 'k', 'y', 'ny', 'ef', 'nf'];
+		return ['c', 'k', 'y', 'ny', 'ef', 'nf'];
 	}
 
 	/** {@inheritdoc} */

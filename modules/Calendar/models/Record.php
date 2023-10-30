@@ -159,9 +159,6 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	 */
 	public function insertIntoInviteTable()
 	{
-		if (!\App\Config::module($this->getModuleName(), 'showInviteParticipantsBlock', true)) {
-			return false;
-		}
 		if (!\App\Request::_has('inviteesid')) {
 			\App\Log::info('No invitations in request, Exiting insertIntoInviteeTable method ...');
 			return;
@@ -176,7 +173,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 		}
 		$dataReader->close();
 		if (!empty($inviteesRequest)) {
-			foreach ($inviteesRequest as $invitation) {
+			foreach ($inviteesRequest as &$invitation) {
 				if (\App\TextUtils::getTextLength($invitation[0]) > 100 || !\App\Validator::email($invitation[0])) {
 					throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||inviteesid||Calendar||' . $invitation[0], 406);
 				}
@@ -307,10 +304,24 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 	}
 
 	/** {@inheritdoc} */
-	public function changeState(int $state)
+	public function changeState($state)
 	{
 		parent::changeState($state);
-		\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['deleted' => $state], ['activityid' => $this->getId()])->execute();
+		$stateId = 0;
+		switch ($state) {
+			case 'Active':
+				$stateId = 0;
+				break;
+			case 'Trash':
+				$stateId = 1;
+				break;
+			case 'Archived':
+				$stateId = 2;
+				break;
+			default:
+				break;
+		}
+		\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['deleted' => $stateId], ['activityid' => $this->getId()])->execute();
 	}
 
 	/** {@inheritdoc} */
@@ -366,7 +377,7 @@ class Calendar_Record_Model extends Vtiger_Record_Model
 					'linklabel' => 'LBL_EDIT',
 					'linkurl' => $this->getEditViewUrl(),
 					'linkhref' => true,
-					'linkicon' => 'yfi yfi-full-editing-view js-full-edit',
+					'linkicon' => 'yfi yfi-full-editing-view',
 					'linkclass' => 'btn-sm btn-default',
 				]);
 			}

@@ -1,6 +1,7 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-InventoryDiscounts -->
+	{assign var=AGGREGATION value=$CONFIG['aggregation']}
 	<div class="modelContainer modal fade">
 		<div class="modal-dialog">
 			<form class="modal-content">
@@ -15,36 +16,15 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<input type="hidden" class="aggregationType" value="{$AGGREGATION_TYPE}" />
-					<input type="hidden" class="discountMode" value="{$DISCOUNT_MODE}" />
-					{assign var="DISCOUNTS_EXISTS" value=count($GLOBAL_DISCOUNTS) || !empty($ACCOUNT_DISCOUNT) || array_intersect([2,3], $CONFIG['discounts'])}
-					{if !$DISCOUNTS_EXISTS}
+					<input type="hidden" class="discountsType" value="{$AGGREGATION_TYPE}" />
+					{foreach item=DISCOUNTID from=$CONFIG['discounts']}
+						{assign var="DISCOUNT_TYPE_TPL" value="InventoryDiscountsType"|cat:$DISCOUNTID|cat:".tpl"}
+						{include file=\App\Layout::getTemplatePath($DISCOUNT_TYPE_TPL, $MODULE)}
+					{/foreach}
+					{if count($GLOBAL_DISCOUNTS) == 0 && $GROUP_DISCOUNT == 0 && $DISCOUNT_TYPE != '0'}
 						<div class="alert alert-danger" role="alert">
 							{\App\Language::translate('LBL_NO_DISCOUNTS')}
 						</div>
-					{else}
-						<div class="form-group">
-							<div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
-								<label class="btn btn-sm btn-outline-primary{if !$IS_MARKUP} active{/if}">
-									<input class="js-inv--discount-type" type="radio" name="discount-type" id="discont-type-0"
-										autocomplete="off"
-										{if !$IS_MARKUP}checked{/if}> {\App\Language::translate('Discont',$MODULE_NAME)}
-								</label>
-								<label class="btn btn-sm btn-outline-primary{if $IS_MARKUP} active{/if}">
-									<input class="js-inv--discount-type markup" type="radio" name="discount-type" id="discont-type-1"
-										autocomplete="off" {if $IS_MARKUP}checked{/if}> {\App\Language::translate('LBL_MARKUP',$MODULE_NAME)}
-								</label>
-							</div>
-						</div>
-						{foreach item=DISCOUNTID from=$CONFIG['discounts']}
-							{assign var="PARAM_VALUE_NAME" value="{$DISCOUNT_MODEL->getAggregationNameById($DISCOUNTID)}Discount"}
-							{assign var="DISCOUNT_VALUE" value=""}
-							{if isset($DISCOUNT_PARAM[$PARAM_VALUE_NAME])}
-								{assign var="DISCOUNT_VALUE" value=$DISCOUNT_PARAM[$PARAM_VALUE_NAME]}
-							{/if}
-							{assign var="DISCOUNT_TYPE_TPL" value="InventoryDiscountsType"|cat:$DISCOUNTID|cat:".tpl"}
-							{include file=\App\Layout::getTemplatePath($DISCOUNT_TYPE_TPL, $MODULE) DISCOUNT_VALUE=$DISCOUNT_VALUE}
-						{/foreach}
 					{/if}
 					<hr />
 					<div class="row">
@@ -67,7 +47,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					{if $DISCOUNTS_EXISTS}
+					{if count($GLOBAL_DISCOUNTS) > 0 || $GROUP_DISCOUNT != 0 || $DISCOUNT_TYPE == '0' || ($DISCOUNT_TYPE == '1' && in_array(2, $CONFIG['discounts']))}
 						<button class="btn btn-success js-save-discount" type="button" data-js="click">
 							<strong>
 								<span class="fas fa-check mr-2"></span>

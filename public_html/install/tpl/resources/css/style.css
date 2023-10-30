@@ -265,18 +265,6 @@ span.yes {
 		margin-bottom: 100px;
 	}
 }
-.o-product {
-	background-repeat: round;
-}
-.o-product--own {
-	background-image: url('../images/Own.png');
-}
-.o-product--cloud {
-	background-image: url('../images/Cloud.png');
-}
-.o-product--shared {
-	background-image: url('../images/Shared.png');
-}
 .os-padding {
 	z-index: auto;
 }

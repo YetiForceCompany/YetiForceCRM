@@ -4,7 +4,7 @@
  * OSSMailView DetailView model class.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 {
@@ -15,17 +15,17 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		unset($linkModelList['DETAIL_VIEW_ADDITIONAL']);
 
-		if (!$recordModel->isReadOnly() && \Config\Main::$isActiveSendingMails) {
+		if (!$recordModel->isReadOnly() && \App\Mail::checkMailClient()) {
 			$recordId = $recordModel->getId();
-			if ('InternalClient' === \App\Mail::getMailComposer()) {
-				$popup = \App\User::getCurrentUserModel()->getDetail('mail_popup');
+			if (\App\Mail::checkInternalMailClient()) {
+				$config = OSSMail_Module_Model::getComposeParameters();
 				$url = OSSMail_Module_Model::getComposeUrl();
 
 				$detailViewLinks[] = [
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLY',
-					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=reply', 'popup' => $popup],
+					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=reply', 'popup' => $config['popup']],
 					'linkicon' => 'fas fa-reply',
 					'linkclass' => 'btn-outline-dark btn-sm sendMailBtn',
 				];
@@ -33,7 +33,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
 					'linkhint' => 'LBL_REPLYALLL',
-					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=replyAll', 'popup' => $popup],
+					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=replyAll', 'popup' => $config['popup']],
 					'linkicon' => 'fas fa-reply-all',
 					'linkclass' => 'btn-outline-dark btn-sm sendMailBtn',
 				];
@@ -41,7 +41,7 @@ class OSSMailView_DetailView_Model extends Vtiger_DetailView_Model
 					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
 					'linklabel' => '',
 					'linkhint' => 'LBL_FORWARD',
-					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=forward', 'popup' => $popup],
+					'linkdata' => ['url' => $url . '&mid=' . $recordId . '&type=forward', 'popup' => $config['popup']],
 					'linkicon' => 'fas fa-share',
 					'linkclass' => 'btn-outline-dark btn-sm sendMailBtn',
 				];

@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -16,38 +16,23 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForcePdfPremium extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/** {@inheritdoc} */
-	public $label = 'YetiForce PDF Premium';
-
-	/** {@inheritdoc} */
-	public $category = 'Addons';
-
-	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-pdf-premium-en';
-
-	/** {@inheritdoc} */
-	public $prices = [
-		'Micro' => 10,
-		'Small' => 25,
-		'Medium' => 50,
-		'Large' => 100,
-		'Corporation' => 500,
-	];
-
-	/** {@inheritdoc} */
-	public $featured = true;
-
-	/** {@inheritdoc} */
-	public function verify(): array
+	/** {@inheritDoc} */
+	public function getAlertMessage(bool $require = true): string
 	{
-		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForcePdfPremium')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForcePdfPremium');
-		} else {
-			$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
-			$status = !(new \App\Db\Query())->from('a_#__pdf')->where(['generator' => 'Chromium'])->exists();
+		$message = parent::getAlertMessage();
+		if (!$this->getStatus() && $this->isConfigured()) {
+			$message = 'LBL_PAID_FUNCTIONALITY';
+		} elseif (!$this->getStatus() && !$this->isConfigured()) {
+			$message = '';
 		}
-		return ['status' => $status, 'message' => $message];
+
+		return $message;
+	}
+
+	/** {@inheritDoc} */
+	public function isConfigured(): bool
+	{
+		return class_exists('HeadlessChromium\BrowserFactory') && !empty(\Config\Components\Pdf::$chromiumBinaryPath);
 	}
 
 	/** {@inheritdoc} */

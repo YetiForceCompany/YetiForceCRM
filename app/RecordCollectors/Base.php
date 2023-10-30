@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -19,15 +19,6 @@ class Base
 {
 	/** @var string Module name. */
 	public $moduleName;
-
-	/** @var bool Record collectors active. */
-	public $active;
-
-	/** @var bool Record collectors featured. */
-	public $featured;
-
-	/** @var string Record collector name. */
-	protected $name;
 
 	/** @var string[] Allowed modules. */
 	public $allowedModules;
@@ -50,6 +41,9 @@ class Base
 	/** @var string Url to Documentation API */
 	public $docUrl;
 
+	/** @var string Record collector name. */
+	protected $name;
+
 	/** var array List of fields for the modal search window. */
 	protected $fields = [];
 
@@ -65,17 +59,19 @@ class Base
 	/** @var array Fields mapping for loading record data. */
 	protected $modulesFieldsMap = [];
 
-	/** @var array Form mapping for loading record data. */
-	public $formFieldsToRecordMap = [];
+	/** @var bool Requires subscription. */
+	protected bool $paid = true;
 
 	/**
 	 * Constructor.
 	 */
 	public function __construct()
 	{
-		$this->name = substr(strrchr(static::class, '\\'), 1);
-		$class = '\\Config\\Components\\RecordCollectors\\' . $this->name;
-		if (!\class_exists($class)) {
+		$name = basename(str_replace('\\', '/', static::class));
+		$this->name = $name;
+
+		$class = '\\Config\\Components\\RecordCollectors\\' . $name;
+		if (!class_exists($class)) {
 			return;
 		}
 		$config = (new \ReflectionClass($class))->getStaticProperties();
@@ -162,7 +158,17 @@ class Base
 	 */
 	public function isActive(): bool
 	{
-		return \in_array($this->moduleName, $this->allowedModules);
+		return \in_array($this->moduleName, $this->allowedModules) && $this->isAvailable();
+	}
+
+	/**
+	 * Check if product is available.
+	 *
+	 * @return bool
+	 */
+	public function isAvailable(): bool
+	{
+		return !$this->paid || \App\YetiForce\Shop::check($this->getName());
 	}
 
 	/**
@@ -176,19 +182,6 @@ class Base
 	}
 
 	/**
-	 * Get params of collector.
-	 *
-	 * @return array
-	 */
-	protected function getParams(): array
-	{
-		if ($params = (new \App\Db\Query())->select(['params'])->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linkurl' => static::class])->scalar()) {
-			return \App\Json::decode($params, true);
-		}
-		return [];
-	}
-
-	/**
 	 * Load data.
 	 *
 	 * @return void
@@ -198,11 +191,16 @@ class Base
 		if (empty($this->data)) {
 			return;
 		}
-		$this->response['recordModel'] = $this->getRecordModel();
-		$fieldsModel = $this->response['recordModel']->getModule()->getFields();
+		if ($recordId = $this->request->getInteger('record')) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $this->moduleName);
+			$this->response['recordModel'] = $recordModel;
+			$fieldsModel = $recordModel->getModule()->getFields();
+		} else {
+			$fieldsModel = \Vtiger_Module_Model::getInstance($this->moduleName)->getFields();
+		}
 		$additional = $fieldsData = $skip = [];
 		$rows = isset($this->data[0]) ? $this->data : [$this->data];
-		foreach ($rows as $key => $row) {
+		foreach ($rows as $key => &$row) {
 			$dataCounter[$key] = 0;
 			if (empty($row)) {
 				continue;
@@ -272,34 +270,15 @@ class Base
 	}
 
 	/**
-	 * Get record model from request data.
+	 * Get params of collector.
 	 *
-	 * @return \Vtiger_Record_Model
+	 * @return array
 	 */
-	protected function getRecordModel(): \Vtiger_Record_Model
+	protected function getParams(): array
 	{
-		$moduleName = $this->request->getModule();
-		if ($recordId = $this->request->getInteger('record')) {
-			$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-		} else {
-			$recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
+		if ($params = (new \App\Db\Query())->select(['params'])->from('vtiger_links')->where(['linktype' => 'EDIT_VIEW_RECORD_COLLECTOR', 'linkurl' => static::class])->scalar()) {
+			return \App\Json::decode($params, true);
 		}
-		$formData = $this->request->getRaw('form');
-		$request = new \App\Request($formData, false);
-		$fieldModelList = $recordModel->getModule()->getFields();
-		foreach ($fieldModelList as $fieldName => $fieldModel) {
-			if (!$fieldModel->isWritable()) {
-				continue;
-			}
-			if (isset($formData[$fieldName])) {
-				$fieldModel->getUITypeModel()->setValueFromRequest($request, $recordModel);
-			} else {
-				$defaultValue = $fieldModel->getDefaultFieldValue();
-				if ('' !== $defaultValue) {
-					$recordModel->set($fieldName, $defaultValue);
-				}
-			}
-		}
-		return $recordModel;
+		return [];
 	}
 }

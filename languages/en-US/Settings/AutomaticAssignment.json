@@ -52,9 +52,7 @@
     "FL_STATE": "State",
     "PLL_ACTIVE": "Active",
     "PLL_INACTIVE": "Inactive",
-    "LBL_DUPLICATE": "Duplicate.\nThe subject of the entry must be unique within the module.",
-    "FL_USER_WORKING_HOURS": "Working hours",
-    "LBL_USER_SELECTION_CONDITIONS": "Selecting this option will verify the working hours defined in the user panel. Users will be available if the record creation time is between `Day start at` and `Day end at`."
+    "LBL_DUPLICATE": "Duplicate.\nThe subject of the entry must be unique within the module."
   },
   "js": {
     "JS_STATE_CONFIRMATION": "Are you sure you want to change record state?",

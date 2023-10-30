@@ -9,7 +9,6 @@
     "LBL_NUMBER": "Number",
     "LBL_CLOSED_TIME": "Closed time",
     "FL_PHONE": "Phone",
-    "FL_CAPACITY": "Capacity",
-    "FL_COORDINATES": "Coordinates"
+    "FL_CAPACITY": "Capacity"
   }
 }

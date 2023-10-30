@@ -5,7 +5,7 @@
  * @package Integration
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -20,18 +20,6 @@ use Sabre\HTTP\ResponseInterface;
  */
 class Debug extends DAV\ServerPlugin
 {
-	/**
-	 * Debug file path.
-	 *
-	 * @var string
-	 */
-	const DEBUG_FILE = 'cache/logs/davRequests.log';
-	/**
-	 * Exception file path.
-	 *
-	 * @var string
-	 */
-	const EXCEPTION_FILE = 'cache/logs/davExceptions.log';
 	/**
 	 * Reference to server object.
 	 *
@@ -50,6 +38,18 @@ class Debug extends DAV\ServerPlugin
 	 * @var string
 	 */
 	protected $request;
+	/**
+	 * Debug file path.
+	 *
+	 * @var string
+	 */
+	const DEBUG_FILE = 'cache/logs/davRequests.log';
+	/**
+	 * Exception file path.
+	 *
+	 * @var string
+	 */
+	const EXCEPTION_FILE = 'cache/logs/davExceptions.log';
 
 	/**
 	 * Initializes selected functions.
@@ -62,7 +62,7 @@ class Debug extends DAV\ServerPlugin
 		$this->server->on('beforeMethod:*', [$this, 'beforeMethod'], 50);
 		$this->server->on('exception', [$this, 'exception']);
 		$this->server->on('afterResponse', [$this, 'afterResponse']);
-		$this->server->setLogger(new Logger());
+		$this->server->setLogger((new Logger()));
 	}
 
 	/**

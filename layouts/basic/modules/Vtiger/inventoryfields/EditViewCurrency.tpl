@@ -1,9 +1,9 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-inventoryfields-EditViewCurrency -->
-	{assign var=SELECTED_CURRENCY value=$INVENTORY_MODEL->getEditValue($ITEM_DATA, $FIELD->getColumnName())}
 	{assign var=CURRENCIES value=\App\Fields\Currency::getAll(true)}
-	{if !$SELECTED_CURRENCY}
+	{assign var=SELECTED_CURRENCY value=$ITEM_VALUE}
+	{if $SELECTED_CURRENCY eq ''}
 		{assign var=USER_CURRENCY_ID value=$USER_MODEL->get('currency_id')}
 		{foreach item=CURRENCY from=$CURRENCIES}
 			{if $CURRENCY.id eq $USER_CURRENCY_ID}
@@ -16,32 +16,21 @@
 	{/if}
 	<input {if $ROW_NO} name="inventory[{$ROW_NO}][currencyparam]" {/if} type="hidden" value="{\App\Purifier::encodeHtml(\App\Json::encode($CURRENCY_PARAMS))}"
 		class="js-currencyparam" data-js="" />
-	<div class="input-group input-group-sm">
-		<div class="input-group-prepend col p-0">
-			<select class="select2 form-control js-currency" data-minimum-results-for-search="-1" data-old-value="{$SELECTED_CURRENCY}"
-				{if $ROW_NO} name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" {/if}
-				title="{\App\Language::translate('LBL_CURRENCY', $MODULE_NAME)}"
-				{if $FIELD->isReadOnly()}readonly="readonly" {/if}>
-				{foreach item=CURRENCY key=count from=$CURRENCIES}
-					{assign var=CURRENCY_PARAM value=$CURRENCY_PARAMS[$CURRENCY.id]}
-					<option value="{$CURRENCY.id}" class="textShadowNone" data-conversion-rate="{$CURRENCY_PARAM.conversion}"
-						data-conversion-date="{$CURRENCY_PARAM.date}"
-						data-conversion-symbol="{$CURRENCY.currency_symbol}"
-						data-base-currency="{if $CURRENCY.defaultid < 0}1{else}0{/if}"
-						{if $SELECTED_CURRENCY eq $CURRENCY.id}selected{/if}>
-						{\App\Language::translate($CURRENCY.currency_code, 'Other.Currency')} ({$CURRENCY.currency_symbol})
-					</option>
-				{/foreach}
-			</select>
-		</div>
-		{if count($CURRENCIES) > 1 && !empty($FIELD->getParamConfig('reset_currency')) && $FIELD->isEditable()}
-			<div class="input-group-append">
-				<button type="button" class="btn btn-light js-inv-cuurency_reset" title="{\App\Language::translate('LBL_INV_CURRENCY_RESET_BTN', $MODULE_NAME)}" data-url="index.php?module={$MODULE_NAME}&action=Inventory&mode=getCurrencyData" data-confirmation="{\App\Language::translate('LBL_INV_CURRENCY_RESET_CONFIRMATION', $MODULE_NAME)}">
-					<span class="adminIcon-currencies"></span>
-				</button>
-			</div>
-		{/if}
-	</div>
+	<select class="select2 js-currency" data-minimum-results-for-search="-1" data-old-value="{$SELECTED_CURRENCY}"
+		{if $ROW_NO} name="inventory[{$ROW_NO}][{$FIELD->getColumnName()}]" {/if}
+		title="{\App\Language::translate('LBL_CURRENCY', $MODULE_NAME)}"
+		{if $FIELD->isReadOnly()}readonly="readonly" {/if}>
+		{foreach item=CURRENCY key=count from=$CURRENCIES}
+			{assign var=CURRENCY_PARAM value=$CURRENCY_PARAMS[$CURRENCY.id]}
+			<option value="{$CURRENCY.id}" class="textShadowNone" data-conversion-rate="{$CURRENCY_PARAM.conversion}"
+				data-conversion-date="{$CURRENCY_PARAM.date}"
+				data-conversion-symbol="{$CURRENCY.currency_symbol}"
+				data-base-currency="{if $CURRENCY.defaultid < 0}1{else}0{/if}"
+				{if $SELECTED_CURRENCY eq $CURRENCY.id}selected{/if}>
+				{\App\Language::translate($CURRENCY.currency_code, 'Other.Currency')} ({$CURRENCY.currency_symbol})
+			</option>
+		{/foreach}
+	</select>
 	<div class="modelContainer modal fade">
 		<div class="modal-dialog">
 			<div class="modal-content">

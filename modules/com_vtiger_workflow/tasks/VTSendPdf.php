@@ -4,7 +4,7 @@
  * Email PDF Template Task Class.
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radoslaw Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -31,13 +31,8 @@ class VTSendPdf extends VTTask
 	public function doTask($recordModel)
 	{
 		if (!empty($this->mailTemplate) && !empty($this->pdfTemplate) && \App\Record::isExists($this->mailTemplate, 'EmailTemplates') && \Vtiger_PDF_Model::getInstanceById($this->pdfTemplate)) {
-			$mailerContent['template'] = $this->mailTemplate;
-			if (empty($this->smtp)) {
-				$mailerContent['smtp_id'] = \App\Mail::getDefaultSmtp();
-			} elseif (-1 === (int) $this->smtp) {
-				$templateMail = \App\Mail::getTemplate($this->mailTemplate);
-				$mailerContent['smtp_id'] = $templateMail['smtp_id'];
-			} else {
+			$mailerContent = [];
+			if (!empty($this->smtp)) {
 				$mailerContent['smtp_id'] = $this->smtp;
 			}
 			$emailParser = \App\EmailParser::getInstanceByModel($recordModel);

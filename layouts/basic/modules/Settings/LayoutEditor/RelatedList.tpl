@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-LayoutEditor-RelatedList -->
 	<div id="relatedTabOrder">
@@ -94,7 +94,7 @@
 													<select data-placeholder="{\App\Language::translate('LBL_RELATED_VIEW_TYPE_DESC',$MODULE)}"
 														multiple="multiple" data-prompt-position="topLeft"
 														class="form-control select2_container relatedViewType validate[required]">
-														{foreach key=KEY item=NAME from=Settings_LayoutEditor_Module_Model::RELATED_VIEW_TYPE}
+														{foreach key=KEY item=NAME from=Settings_LayoutEditor_Module_Model::getRelatedViewTypes()}
 															<option value="{$KEY}" {if $MODULE_MODEL->isRelatedViewType($KEY)}selected{/if}>
 																{\App\Language::translate($NAME, $QUALIFIED_MODULE)}
 															</option>
@@ -143,51 +143,41 @@
 													{\App\Language::translate('LBL_RELATED_CUSTOM_VIEW',$QUALIFIED_MODULE)}:
 												</label>
 												<div class="col-sm-10">
-													<div class="input-group">
-														<div class="input-group-prepend">
-															<span class="input-group-text" id="basic-addon1">
-																<input name="orderby" class="js-related-custom-view-orderby align-middle" data-js="change" title="{\App\Language::translate('LBL_USE_SORTING_FROM_FILTERS',$QUALIFIED_MODULE)}" type="checkbox" {if $MODULE_MODEL->get('custom_view_orderby')} checked {/if} value="1">
-																<span class="js-popover-tooltip ml-1" data-js="popover" data-content="{\App\Language::translate('LBL_USE_SORTING_FROM_FILTERS',$QUALIFIED_MODULE)}">
-																	<span class="fas fa-info-circle"></span>
-																</span>
-															</span>
-														</div>
-														{assign var=SELECTED_CUSTOM_VIEW value=$MODULE_MODEL->getCustomView()}
-														{assign var=ALL_CUSTOM_VIEW value=CustomView_Record_Model::getAll($RELATED_MODULE_NAME)}
-														<select multiple="multiple" name="custom_view[]" class="form-control select2_container columnsSelect js-related-custom-view" data-select-cb="registerSelectSortable" data-js="sortable | change | select2">
-															<optgroup label=''>
-																{foreach item=SELECTED_CV from=$SELECTED_CUSTOM_VIEW}
-																	<option value="{$SELECTED_CV}" selected>
-																		{if isset($BASE_CUSTOM_VIEW[$SELECTED_CV])}
-																			{$BASE_CUSTOM_VIEW[$SELECTED_CV]}
-																		{elseif isset($ALL_CUSTOM_VIEW[$SELECTED_CV])}
-																			{\App\Language::translate($ALL_CUSTOM_VIEW[$SELECTED_CV]->get('viewname'), $RELATED_MODULE_NAME)}
-																		{/if}
+													{assign var=SELECTED_CUSTOM_VIEW value=$MODULE_MODEL->getCustomView()}
+													{assign var=ALL_CUSTOM_VIEW value=CustomView_Record_Model::getAll($RELATED_MODULE_NAME)}
+													<select multiple="multiple" name="custom_view[]" class="form-control select2_container columnsSelect js-related-custom-view" data-select-cb="registerSelectSortable" data-js="sortable | change | select2">
+														<optgroup label=''>
+															{foreach item=SELECTED_CV from=$SELECTED_CUSTOM_VIEW}
+																<option value="{$SELECTED_CV}" selected>
+																	{if isset($BASE_CUSTOM_VIEW[$SELECTED_CV])}
+																		{$BASE_CUSTOM_VIEW[$SELECTED_CV]}
+																	{elseif isset($ALL_CUSTOM_VIEW[$SELECTED_CV])}
+																		{\App\Language::translate($ALL_CUSTOM_VIEW[$SELECTED_CV]->get('viewname'), $RELATED_MODULE_NAME)}
+																	{/if}
+																</option>
+															{/foreach}
+															{foreach key=CV_ID item=CV_NAME from=$BASE_CUSTOM_VIEW}
+																{if !in_array($CV_ID,$SELECTED_CUSTOM_VIEW)}
+																	<option value="{$CV_ID}">{$CV_NAME}</option>
+																{/if}
+															{/foreach}
+														</optgroup>
+														<optgroup label='{\App\Language::translate('LBL_FILTERS_FROM_MODULE', $QUALIFIED_MODULE)}'>
+															{foreach key=CV_ID item=CV_MODEL from=$ALL_CUSTOM_VIEW}
+																{if !in_array($CV_ID,$SELECTED_CUSTOM_VIEW)}
+																	<option value="{$CV_ID}">
+																		{\App\Language::translate($CV_MODEL->get('viewname'), $RELATED_MODULE_NAME)}
 																	</option>
-																{/foreach}
-																{foreach key=CV_ID item=CV_NAME from=$BASE_CUSTOM_VIEW}
-																	{if !in_array($CV_ID,$SELECTED_CUSTOM_VIEW)}
-																		<option value="{$CV_ID}">{$CV_NAME}</option>
-																	{/if}
-																{/foreach}
-															</optgroup>
-															<optgroup label='{\App\Language::translate('LBL_FILTERS_FROM_MODULE', $QUALIFIED_MODULE)}'>
-																{foreach key=CV_ID item=CV_MODEL from=$ALL_CUSTOM_VIEW}
-																	{if !in_array($CV_ID,$SELECTED_CUSTOM_VIEW)}
-																		<option value="{$CV_ID}">
-																			{\App\Language::translate($CV_MODEL->get('viewname'), $RELATED_MODULE_NAME)}
-																		</option>
-																	{/if}
-																{/foreach}
-															</optgroup>
-														</select>
-													</div>
+																{/if}
+															{/foreach}
+														</optgroup>
+													</select>
 												</div>
 											</div>
 										</div>
 										{if $INVENTORY_MODEL}
 											{assign var=INVENTORY_FIELDS value=$INVENTORY_MODEL->getFields()}
-											<div class=" form-horizontal js-related-column-list-container" data-js="container">
+											<div class="form-horizontal js-related-column-list-container" data-js="container">
 												<div class="form-group row">
 													<label class="col-sm-2 col-form-label text-right">{\App\Language::translate('LBL_ADVANCED_BLOCK_FIELDS',$QUALIFIED_MODULE)}
 														:</label>
@@ -240,17 +230,6 @@
 						<form class="modal-Fields">
 							<div class="form-horizontal">
 								<div class="form-group row">
-									<label class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}
-										:</label>
-									<div class="col-md-7 marginTop">
-										<select name="source" class="form-control" readonly>
-											{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
-												<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
-											{/foreach}
-										</select>
-									</div>
-								</div>
-								<div class="form-group row">
 									<label class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_RELATION_TYPE', $QUALIFIED_MODULE)}
 										:</label>
 									<div class="col-md-7">
@@ -261,7 +240,7 @@
 										</select>
 									</div>
 								</div>
-								<div class="form-group row actionsBlock">
+								<div class="form-group row">
 									<label class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_RELATION_ACTIONS', $QUALIFIED_MODULE)}
 										:</label>
 									<div class="col-md-7 marginTop">
@@ -272,7 +251,18 @@
 										</select>
 									</div>
 								</div>
-								<div class="form-group row targetBlock">
+								<div class="form-group row">
+									<label class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_SOURCE_MODULE', $QUALIFIED_MODULE)}
+										:</label>
+									<div class="col-md-7 marginTop">
+										<select name="source" class="form-control">
+											{foreach item=MODULE_NAME from=$SUPPORTED_MODULES}
+												<option value="{$MODULE_NAME}" {if $MODULE_NAME eq $SELECTED_MODULE_NAME} selected {/if}>{\App\Language::translate($MODULE_NAME, $MODULE_NAME)}</option>
+											{/foreach}
+										</select>
+									</div>
+								</div>
+								<div class="form-group row">
 									<label class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_TARGET_MODULE', $QUALIFIED_MODULE)}
 										:</label>
 									<div class="col-md-7 marginTop">
@@ -284,33 +274,18 @@
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-md-4 col-form-label text-right">
-										{\App\Language::translate('LBL_RELATION_LABLE', $QUALIFIED_MODULE)}:
-									</label>
+									<label class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_RELATION_LABLE', $QUALIFIED_MODULE)}
+										:</label>
 									<div class="col-md-7">
 										<input name="label" type="text" class="relLabel form-control" />
-									</div>
-								</div>
-								<div class="form-group row">
-									<label class="col-md-4 col-form-label text-right">
-										{\App\Language::translate('LBL_MULTI_REFERENCE_FIELDS', $QUALIFIED_MODULE)}:
-									</label>
-									<div class="col-md-7 marginTop">
-										<select name="multi_reference_field" class="multiReferenceField form-control" disabled>
-											{foreach item=FIELD_MODEL from=$MODULE_MULTI_REFERENCE_FIELDS}
-												{assign var=MODULE_LABEL value=\App\Language::translate($FIELD_MODEL->getModuleName(), $FIELD_MODEL->getModuleName())}
-												<option value="{$FIELD_MODEL->getModuleName()}::{$FIELD_MODEL->getFieldName()}" data-module="{$FIELD_MODEL->getModuleName()}">
-													{\App\Language::translate($FIELD_MODEL->getLabel(), $MODULE_NAME)} ({$MODULE_LABEL})
-												</option>
-											{/foreach}
-										</select>
 									</div>
 								</div>
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button class="btn btn-success addButton"><span
+
+						<button class="btn btn-success addButton" data-dismiss="modal" aria-hidden="true"><span
 								class="fas fa-check u-mr-5px"></span>&nbsp;&nbsp;{\App\Language::translate('LBL_SAVE', $QUALIFIED_MODULE)}
 						</button>
 						<button class="btn btn-warning" id="closeModal" data-dismiss="modal" aria-hidden="true"><span

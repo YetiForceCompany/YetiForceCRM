@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -17,12 +17,15 @@ namespace App;
  */
 class Company extends Base
 {
+	/** @var string Edit view URL */
+	public const EDIT_VIEW_URL = 'index.php?parent=Settings&module=Companies&view=Edit';
+
 	/**
 	 * Classification of enterprises due to their size.
 	 *
 	 * @var int[]
 	 */
-	public static $sizes = [
+	public static array $sizes = [
 		'Micro' => 20,
 		'Small' => 50,
 		'Medium' => 250,
@@ -33,72 +36,22 @@ class Company extends Base
 	/**
 	 * Function to get the instance of the Company model.
 	 *
-	 * @return array
+	 * @throws \App\Exceptions\DbException
+	 *
+	 * @return array|bool
 	 */
-	public static function getAll()
+	public static function getCompany(): array|bool
 	{
-		if (Cache::has('CompanyGetAll', '')) {
-			return Cache::get('CompanyGetAll', '');
+		if (Cache::staticHas('CompanyGet', '')) {
+			return Cache::staticGet('CompanyGet', '');
 		}
-		$rows = (new Db\Query())->from('s_#__companies')->all(Db::getInstance('admin'));
-		Cache::save('CompanyGetAll', '', $rows, Cache::LONG);
-		return $rows;
-	}
+		$row = (new Db\Query())->from('s_#__companies')->one(Db::getInstance('admin'));
+		if (!$row) {
+			throw new Exceptions\DbException('LBL_RECORD_NOT_FOUND');
+		}
+		Cache::staticSave('CompanyGet', '', $row, Cache::LONG);
 
-	/**
-	 * Update company status.
-	 *
-	 * @param int         $status
-	 * @param string|null $name
-	 *
-	 * @throws \yii\db\Exception
-	 */
-	public static function statusUpdate(int $status, ?string $name = null)
-	{
-		if ($name) {
-			Db::getInstance('admin')->createCommand()
-				->update('s_#__companies', [
-					'status' => $status,
-				], ['name' => $name])->execute();
-		}
-		Db::getInstance('admin')->createCommand()
-			->update('s_#__companies', [
-				'status' => $status,
-			])->execute();
-	}
-
-	/**
-	 * Send registration data to YetiForce API server.
-	 *
-	 * @param array $companiesNew
-	 *
-	 * @throws Exceptions\Security
-	 *
-	 * @return bool
-	 */
-	public static function registerOnline(array $companiesNew): bool
-	{
-		if (empty($companiesNew)) {
-			return false;
-		}
-		$companies = \array_column(static::getAll(), 'id', 'id');
-		foreach ($companiesNew as $company) {
-			if (!isset($companies[$company['id']])) {
-				throw new Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $company['id']);
-			}
-			$recordModel = \Settings_Companies_Record_Model::getInstance((int) $company['id']);
-			$field = $recordModel->getModule()->getFormFields();
-			foreach (array_keys($field) as $fieldName) {
-				if (isset($company[$fieldName])) {
-					$uiTypeModel = $recordModel->getFieldInstanceByName($fieldName)->getUITypeModel();
-					$uiTypeModel->validate($company[$fieldName], true);
-					$recordModel->set($fieldName, $uiTypeModel->getDBValue($company[$fieldName]));
-				}
-			}
-			$recordModel->saveCompanyLogos();
-			$recordModel->save();
-		}
-		return (new YetiForce\Register())->register();
+		return $row;
 	}
 
 	/**

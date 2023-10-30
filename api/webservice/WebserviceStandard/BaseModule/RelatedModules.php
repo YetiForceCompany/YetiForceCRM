@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -89,7 +89,7 @@ class RelatedModules extends \Api\Core\BaseAction
 		$moduleName = $this->controller->request->getModule();
 		$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 		$return = [];
-		if ($moduleModel->isSummaryViewSupported() && (new \App\Db\Query())->from('vtiger_widgets')->where(['tabid' => $moduleModel->getId(), 'type' => \Api\WebservicePremium\BaseModule\Widgets::SUPPORTED_TYPES])->exists()) {
+		if ($moduleModel->isSummaryViewSupported()) {
 			$return['base'][] = [
 				'type' => 'summary',
 				'label' => \App\Language::translate('LBL_RECORD_SUMMARY', $moduleName),

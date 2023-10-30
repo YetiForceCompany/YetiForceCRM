@@ -8,9 +8,8 @@ namespace App\TextParser;
  * @package TextParser
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class ProductsTableCorrectingBefore extends Base
 {
@@ -34,17 +33,18 @@ class ProductsTableCorrectingBefore extends Base
 		$beforeRecordModel = \Vtiger_Record_Model::getInstanceById($this->textParser->recordModel->get('finvoiceid'));
 		$inventory = \Vtiger_Inventory_Model::getInstance($beforeRecordModel->getModuleName());
 		$inventoryRows = $beforeRecordModel->getInventoryData();
-
-		$currencyId = current($inventoryRows)['currency'] ?? null;
-		if (!$currencyId) {
-			$currencyId = \App\Fields\Currency::getDefault()['id'];
-			foreach ($inventoryRows as &$row) {
-				$row['currency'] = $currencyId;
+		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
+		$firstRow = current($inventoryRows);
+		if ($inventory->isField('currency')) {
+			if (!empty($firstRow) && null !== $firstRow['currency']) {
+				$currency = $firstRow['currency'];
+			} else {
+				$currency = $baseCurrency['id'];
 			}
+			$currencySymbol = \App\Fields\Currency::getById($currency)['currency_symbol'];
+		} else {
+			$currencySymbol = \App\Fields\Currency::getDefault()['currency_symbol'];
 		}
-		$currencySymbol = \App\Fields\Currency::getById($currencyId)['currency_symbol'];
-		$firstRow = current($inventoryRows) ?: [];
-
 		$headerStyle = 'font-size:9px;padding:0px 4px;text-align:center;background-color:#ddd;';
 		$bodyStyle = 'font-size:8px;border:1px solid #ddd;padding:0px 4px;';
 		$html .= '<table class="products-table-correcting-before" style="border-collapse:collapse;width:100%"><thead><tr>';
@@ -56,7 +56,7 @@ class ProductsTableCorrectingBefore extends Base
 					continue;
 				}
 				if (\in_array($fieldModel->getType(), ['Currency', 'DiscountMode', 'TaxMode'])) {
-					$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate($fieldModel->getLabel(), $this->textParser->moduleName) . ': ' . $fieldModel->getDisplayValue($firstRow[$columnName] ?? '', $firstRow) . '</th>';
+					$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate($fieldModel->get('label'), $this->textParser->moduleName) . ': ' . $fieldModel->getDisplayValue($firstRow[$columnName]) . '</th>';
 				} else {
 					$groupModels[$columnName] = $fieldModel;
 				}
@@ -65,39 +65,34 @@ class ProductsTableCorrectingBefore extends Base
 		$html .= '</tr></thead></table>';
 		$html .= '<table class="products-table-header" style="border-collapse:collapse;width:100%;"><thead><tr>';
 		foreach ($groupModels as $fieldModel) {
-			$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate($fieldModel->getLabel(), $this->textParser->moduleName) . '</th>';
+			$html .= "<th style=\"{$headerStyle}\">" . \App\Language::translate($fieldModel->get('label'), $this->textParser->moduleName) . '</th>';
 		}
 		$html .= '</tr></thead><tbody>';
 		$counter = 1;
-		$groupField = $inventory->getField('grouplabel');
-		$count = \count($groupModels);
-		foreach ($inventory->transformData($inventoryRows) as $inventoryRow) {
-			if (!empty($inventoryRow['add_header']) && $groupField && $groupField->isVisible() && !empty($blockLabel = $inventoryRow['grouplabel'])) {
-				$html .= "<tr><td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, $inventoryRow, true)) . '</td></tr>';
-			}
+		foreach ($inventoryRows as $inventoryRow) {
 			$html .= '<tr>';
 			foreach ($groupModels as $fieldModel) {
 				$columnName = $fieldModel->getColumnName();
 				$typeName = $fieldModel->getType();
 				$styleField = $bodyStyle;
 				if ('ItemNumber' === $typeName) {
-					$html .= "<td style=\"{$bodyStyle}\">" . $counter++ . '</td>';
+					$html .= "<td style=\"{$bodyStyle}font-weight:bold;\">" . $counter++ . '</td>';
 				} elseif ('ean' === $columnName) {
 					$code = $inventoryRow[$columnName];
 					$html .= "<td style=\"{$bodyStyle}\"><div data-barcode=\"EAN13\" data-code=\"{$code}\" data-size=\"1\" data-height=\"16\">{$code}</div></td>";
 				} else {
 					$itemValue = $inventoryRow[$columnName];
 					if ('Name' === $typeName) {
-						$fieldValue = '<strong>' . $fieldModel->getDisplayValue($itemValue, $inventoryRow, true) . '</strong>';
+						$fieldValue = '<strong>' . $fieldModel->getDisplayValue($itemValue, $inventoryRow) . '</strong>';
 						foreach ($inventory->getFieldsByType('Comment') as $commentField) {
 							$commentFieldName = $commentField->getColumnName();
-							if ($inventory->isField($commentFieldName) && $commentField->isVisible() && ($value = $inventoryRow[$commentFieldName]) && $comment = $commentField->getDisplayValue($value, $inventoryRow, true)) {
+							if ($inventory->isField($commentFieldName) && $commentField->isVisible() && ($value = $inventoryRow[$commentFieldName]) && $comment = $commentField->getDisplayValue($value, $inventoryRow)) {
 								$fieldValue .= '<br />' . $comment;
 							}
 						}
 					} elseif (\in_array($typeName, ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'])) {
-						$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
-						$styleField = $bodyStyle . ' text-align:right;white-space: nowrap;';
+						$fieldValue = \CurrencyField::appendCurrencySymbol($fieldModel->getDisplayValue($itemValue, $inventoryRow), $currencySymbol);
+						$styleField = $bodyStyle . ' text-align:right;';
 					} else {
 						$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
 					}
@@ -108,7 +103,7 @@ class ProductsTableCorrectingBefore extends Base
 		}
 		$html .= '</tbody><tfoot><tr>';
 		foreach ($groupModels as $fieldModel) {
-			$html .= '<th style="font-size:9px;padding:0px 4px;text-align:right;background-color:#ddd;white-space: nowrap;">';
+			$html .= '<th style="font-size:9px;padding:0px 4px;text-align:right;background-color:#ddd;">';
 			if ($fieldModel->isSummary()) {
 				$sum = 0;
 				foreach ($inventoryRows as $inventoryRow) {

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-LayoutEditor-Modals-WebserviceAppsModal -->
 	<form name="importList" class="js-validate-form js-form-ajax-submit js-modal-form form-horizontal validateForm" action="index.php" method="post" class="form-horizontal" enctype="multipart/form-data" data-js="container">
@@ -42,18 +42,12 @@
 				<div class="col-md-9">
 					<div class="js-default-value-container {if empty($DATA['is_default'])}d-none{/if}" data-js="container">
 						{if $FIELD_MODEL->isDefaultValueForWebservice()}
-							{assign var=DEFAULT_VALUE_LIST value=\App\Field::getCustomListForDefaultValue($FIELD_MODEL, true)}
+							{assign var=DEFAULT_VALUE_LIST value=\App\Field::getCustomListForDefaultValue($FIELD_MODEL)}
 							{if $DEFAULT_VALUE_LIST}
 								<div class="mb-3">
 									<select class="select2 form-control" name="customDefaultValue" data-validation-engine="validate[required]">
-										{foreach key=GROUP_NAME item=VALUES from=$DEFAULT_VALUE_LIST}
-											<optgroup label="{\App\Language::translate($GROUP_NAME, $QUALIFIED_MODULE)}">
-												{foreach key=KEY item=VALUE from=$VALUES}
-													<option value="{$KEY}" {if isset($DATA['default_value']) && $KEY == $DATA['default_value']}selected{/if}>
-														{$VALUE}
-													</option>
-												{/foreach}
-											</optgroup>
+										{foreach key=KEY item=VALUE from=$DEFAULT_VALUE_LIST}
+											<option value="{$KEY}" {if isset($DATA['default_value']) && $KEY == $DATA['default_value']}selected{/if}>{$VALUE}</option>
 										{/foreach}
 									</select>
 								</div>

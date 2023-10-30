@@ -4,9 +4,8 @@
  * Widget showing ticket which have closed. We can filter by users or date.
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -22,11 +21,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 	public function getSearchParams($priority, $time, $owner)
 	{
 		$listSearchParams = [];
-
 		$conditions = [['ticketpriorities', 'e', $priority]];
-		if ($ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify()) {
-			$conditions[] = ['ticketstatus', 'e', implode('##', $ticketStatus)];
-		}
 		if (!empty($time)) {
 			$conditions[] = ['closing_datatime', 'bw', implode(',', $time)];
 		}
@@ -34,7 +29,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 			$conditions[] = ['assigned_user_id', 'e', $owner];
 		}
 		$listSearchParams[] = $conditions;
-		return '&entityState=Active&viewname=All&search_params=' . urlencode(\App\Json::encode($listSearchParams));
+		return '&entityState=Active&viewname=All&search_params=' . \App\Json::encode($listSearchParams);
 	}
 
 	/**
@@ -49,6 +44,7 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 	{
 		$moduleName = 'HelpDesk';
 		$ticketStatus = Settings_SupportProcesses_Module_Model::getTicketStatusNotModify();
+		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$query = (new App\Db\Query())->select([
 			'count' => new \yii\db\Expression('COUNT(*)'),
 			'vtiger_troubletickets.priority',
@@ -56,18 +52,16 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		])->from('vtiger_troubletickets')
 			->innerJoin('vtiger_crmentity', 'vtiger_troubletickets.ticketid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_ticketstatus', 'vtiger_troubletickets.status = vtiger_ticketstatus.ticketstatus')
-			->leftJoin('vtiger_ticketpriorities', 'vtiger_ticketpriorities.ticketpriorities = vtiger_troubletickets.priority')
+			->innerJoin('vtiger_ticketpriorities', 'vtiger_ticketpriorities.ticketpriorities = vtiger_troubletickets.priority')
 			->where(['vtiger_crmentity.deleted' => 0]);
 		if (!empty($ticketStatus)) {
 			$query->andWhere(['vtiger_troubletickets.status' => $ticketStatus]);
 		}
 		if (!empty($time)) {
-			$time[0] .= ' 00:00:00';
-			$time[1] .= ' 23:59:59';
 			$query->andWhere([
 				'and',
-				['>=', 'vtiger_troubletickets.closing_datatime', $time[0]],
-				['<=', 'vtiger_troubletickets.closing_datatime', $time[1]],
+				['>=', 'vtiger_troubletickets.closing_datatime', $time[0] . ' 00:00:00'],
+				['<=', 'vtiger_troubletickets.closing_datatime', $time[1] . ' 23:59:59'],
 			]);
 		}
 		if (!empty($owner) && 'all' != $owner) {
@@ -76,23 +70,27 @@ class HelpDesk_ClosedTicketsByPriority_Dashboard extends Vtiger_IndexAjax_View
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['vtiger_troubletickets.priority', 'vtiger_ticketpriorities.ticketpriorities_id']);
 		$dataReader = $query->createCommand()->query();
-
 		$colors = \App\Fields\Picklist::getColors('ticketpriorities');
-		$time = \App\Fields\DateTime::formatRangeToDisplay($time);
-
 		$chartData = [
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'backgroundColor' => [],
+					'links' => [],
+				],
+			],
 			'show_chart' => false,
 		];
-		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
+		$chartData['show_chart'] = (bool) $dataReader->count();
+		$time = \App\Fields\Date::formatRangeToDisplay($time);
 		while ($row = $dataReader->read()) {
-			$priotity = $row['priority'];
-			$label = $priotity ? \App\Language::translate($priotity, $moduleName, null, false) : ('(' . \App\Language::translate('LBL_EMPTY', 'Home', null, false) . ')');
-			$link = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($priotity, $time, $owner);
-			$chartData['series'][0]['data'][] = ['value' => (int) $row['count'], 'name' => $label, 'itemStyle' => ['color' => $colors[$row['ticketpriorities_id']] ?? \App\Colors::getRandomColor($priotity)], 'link' => $link];
-			$chartData['show_chart'] = true;
+			$chartData['labels'][] = \App\Language::translate($row['priority'], $moduleName);
+			$chartData['datasets'][0]['data'][] = (int) $row['count'];
+			$chartData['datasets'][0]['links'][] = $listViewUrl . $this->getSearchParams($row['priority'], $time, $owner);
+			$chartData['datasets'][0]['backgroundColor'][] = $colors[$row['ticketpriorities_id']];
 		}
 		$dataReader->close();
-
 		return $chartData;
 	}
 

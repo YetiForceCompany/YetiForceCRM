@@ -6,7 +6,7 @@
  * @package   Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
@@ -15,16 +15,18 @@
 class Reservations_Calendar_Model extends Vtiger_Calendar_Model
 {
 	/** {@inheritdoc} */
-	public function getCalendarTypes(): array
+	public function getSideBarLinks($linkParams)
 	{
-		$calendarTypes = [];
-		$moduleField = $this->getModule()->getFieldByName('type');
-		if ($moduleField && $moduleField->isActiveField()) {
-			$calendarTypes = (new App\Db\Query())->select(['tree', 'label'])->from('vtiger_trees_templates_data')
-				->where(['templateid' => $moduleField->getFieldParams()])
-				->createCommand()->queryAllByGroup(0);
-		}
-		return $calendarTypes;
+		$links = parent::getSideBarLinks($linkParams);
+		$link = Vtiger_Link_Model::getInstanceFromValues([
+			'linktype' => 'SIDEBARWIDGET',
+			'linklabel' => 'LBL_TYPE',
+			'linkdata' => ['cache' => 'calendar-types', 'name' => 'types'],
+			'template' => 'Filters/ActivityTypes.tpl',
+			'filterData' => Vtiger_CalendarRightPanel_Model::getCalendarTypes($this->getModuleName()),
+		]);
+		array_unshift($links, $link);
+		return $links;
 	}
 
 	/**
@@ -137,5 +139,22 @@ class Reservations_Calendar_Model extends Vtiger_Calendar_Model
 		}
 		$dataReader->close();
 		return $result;
+	}
+
+	/**
+	 * Function to get calendar types.
+	 *
+	 * @return string[]
+	 */
+	public function getCalendarTypes()
+	{
+		$calendarTypes = [];
+		$moduleField = $this->getModule()->getFieldByName('type');
+		if ($moduleField && $moduleField->isActiveField()) {
+			$calendarTypes = (new App\Db\Query())->select(['tree', 'label'])->from('vtiger_trees_templates_data')
+				->where(['templateid' => $moduleField->getFieldParams()])
+				->createCommand()->queryAllByGroup(0);
+		}
+		return $calendarTypes;
 	}
 }

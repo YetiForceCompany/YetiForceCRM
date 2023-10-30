@@ -7,7 +7,7 @@
     "url": "git+https://github.com/YetiForceCompany/YetiForceCRM.git"
   },
   "author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
-  "license": "YetiForce Public License 5.0",
+  "license": "YetiForce Public License 6.5",
   "scripts": {
     "vue-prod": "cross-env NODE_ENV=production node buildVue.js",
     "vue-watch": "cross-env NODE_ENV=development node buildVue.js",
@@ -72,7 +72,7 @@
     "rollup-plugin-vue": "<=5.1.5",
     "sass": "^1.43.4",
     "stylus": "^0.54.5",
-    "vue-template-compiler": "2.7.8"
+    "vue-template-compiler": "^2.6.10"
   },
   "bugs": {
     "url": "https://github.com/YetiForceCompany/YetiForceCRM/issues"

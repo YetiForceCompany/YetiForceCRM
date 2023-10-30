@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-PDF-ListViewHeader listViewPageDiv" id="listViewContainer">
 		<div class="listViewTopMenuDiv">
@@ -11,7 +11,7 @@
 			{if $CHECK_ALERT}
 				<div class="alert alert-warning">
 					<span class="yfi-premium mr-2 u-fs-2em color-red-600 float-left"></span>
-					{\App\Language::translate($CHECK_ALERT, 'Settings::YetiForce')} <a class="btn btn-primary btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForcePdfPremium&mode=showProductModal"><span class="yfi yfi-shop mr-2"></span>{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
+					{\App\Language::translate($CHECK_ALERT, 'Settings::YetiForce')} ({\App\Language::translate('LBL_CHROMIUM_PDF', $QUALIFIED_MODULE)}) <a class="btn btn-primary btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForcePdfPremium&mode=showProductModal"><span class="yfi yfi-shop mr-2"></span>{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
 				</div>
 			{/if}
 			<div class="form-row">

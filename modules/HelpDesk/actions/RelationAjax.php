@@ -4,9 +4,8 @@
  * RelationAjax Class for HelpDesk.
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Arkadiusz Dudek <a.dudek@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class HelpDesk_RelationAjax_Action extends Vtiger_RelationAjax_Action
 {
@@ -31,7 +30,7 @@ class HelpDesk_RelationAjax_Action extends Vtiger_RelationAjax_Action
 		}
 		$moduleModel = \Vtiger_Module_Model::getInstance($sourceModule);
 		$hierarchy = $moduleModel->getHierarchy($recordId);
-		$hierarchyAmount = \App\Record::STATE_ACTIVE === \App\Record::getState($recordId) ? \count($hierarchy['entries']) - 1 : 0;
+		$hierarchyAmount = 'Active' === \App\Record::getState($recordId) ? \count($hierarchy['entries']) - 1 : 0;
 		$response = new Vtiger_Response();
 		$response->setResult($hierarchyAmount);
 		$response->emit();

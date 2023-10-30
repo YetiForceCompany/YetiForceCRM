@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -17,16 +17,22 @@ namespace Api\WebservicePremium;
  */
 class Privilege
 {
-	/** Permissions based on user. */
+	/**
+	 * Permissions based on user.
+	 */
 	const USER_PERMISSIONS = 1;
-	/** All records of account assigned directly to contact. */
+	/**
+	 * All records of account assigned directly to contact.
+	 */
 	const ACCOUNTS_RELATED_RECORDS = 2;
-	/** All related records of account assigned directly to contact and accounts lower in hierarchy. */
+	/**
+	 * All related records of account assigned directly to contact and accounts lower in hierarchy.
+	 */
 	const ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY = 3;
-	/** All related records of account assigned directly to contact and accounts from hierarchy. */
+	/**
+	 * All related records of account assigned directly to contact and accounts from hierarchy.
+	 */
 	const ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY = 4;
-	/** All related records directly to contact. */
-	const CONTACT_RELATED_RECORDS = 5;
 
 	/**
 	 * Function to check permission for a Module/Action/Record.
@@ -51,13 +57,9 @@ class Privilege
 		if (empty($record) || !$user->has('permission_type')) {
 			return \App\Privilege::checkPermission($moduleName, $actionName, $record, $userId);
 		}
-		$permissionType = $user->get('permission_type');
-		switch ($permissionType) {
+		switch ($user->get('permission_type')) {
 			case self::USER_PERMISSIONS:
 				return \App\Privilege::checkPermission($moduleName, $actionName, $record, $userId);
-			case self::CONTACT_RELATED_RECORDS:
-				$parentRecordId = $user->get('permission_crmid');
-				break;
 			case self::ACCOUNTS_RELATED_RECORDS:
 				$parentRecordId = \App\Record::getParentRecord($user->get('permission_crmid'));
 				break;
@@ -75,26 +77,23 @@ class Privilege
 		if (!\App\Privilege::checkPermission($moduleName, $actionName, $record, $userId)) {
 			return false;
 		}
-
-		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName) || (self::CONTACT_RELATED_RECORDS === $permissionType && 'Contacts' === $moduleName)) {
+		if (0 === \App\ModuleHierarchy::getModuleLevel($moduleName)) {
 			$permission = $parentRecordId === $record;
 			\App\Privilege::$isPermittedLevel = 'RECORD_HIERARCHY_LEVEL_' . ($permission ? 'YES' : 'NO');
 			return $permission;
 		}
-
 		$recordModel = \Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		if ('ModComments' !== $moduleName && !$recordModel->get($permissionFieldInfo['fieldname'])) {
 			\App\Privilege::$isPermittedLevel = "FIELD_PERMISSION_NO {$permissionFieldInfo['fieldname']}: {$recordModel->get($permissionFieldInfo['fieldname'])}";
 			return false;
 		}
 
+		$parentModule = \App\Record::getType($parentRecordId) ?? '';
+		$moduleModel = $recordModel->getModule();
 		if (\in_array($moduleName, ['Products', 'Services'])) {
 			\App\Privilege::$isPermittedLevel = $moduleName . '_SPECIAL_PERMISSION_YES';
 			return true;
 		}
-
-		$parentModule = \App\Record::getType($parentRecordId) ?? '';
-		$moduleModel = $recordModel->getModule();
 		$fieldsForParent = $moduleModel->getReferenceFieldsForModule($parentModule);
 		if ($fieldsForParent) {
 			foreach ($fieldsForParent as $referenceField) {
@@ -106,7 +105,6 @@ class Privilege
 			\App\Privilege::$isPermittedLevel = 'RECORD_RELATED_NO';
 			return false;
 		}
-
 		foreach (array_keys(\App\Relation::getByModule($parentModule, true, $moduleName)) as $relationId) {
 			$relationModel = \Vtiger_Relation_Model::getInstanceById($relationId);
 			$relationModel->set('parentRecord', \Vtiger_Record_Model::getInstanceById($parentRecordId, $parentModule));
@@ -118,7 +116,6 @@ class Privilege
 				return true;
 			}
 		}
-
 		if ($fields = $moduleModel->getFieldsByReference()) {
 			foreach ($fields as $fieldModel) {
 				if (!$fieldModel->isActiveField() || $recordModel->isEmpty($fieldModel->getName())) {
@@ -139,7 +136,6 @@ class Privilege
 				}
 			}
 		}
-
 		if ('Documents' === $moduleName) {
 			foreach (\Documents_Record_Model::getReferenceModuleByDocId($record) as $parentModuleName) {
 				$relationListView = \Vtiger_RelationListView_Model::getInstance($recordModel, $parentModuleName);

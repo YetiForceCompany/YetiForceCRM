@@ -4,7 +4,7 @@
  * Settings TreesManager record model class.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -212,6 +212,7 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		}
 		$dataReader->close();
 		$this->set('lastId', $lastId);
+
 		return $tree;
 	}
 
@@ -602,47 +603,5 @@ class Settings_TreesManager_Record_Model extends Settings_Vtiger_Record_Model
 		}
 
 		return $value;
-	}
-
-	/**
-	 * Add value to tree.
-	 *
-	 * @param string $label
-	 * @param string $parent Parent ID e.g. T2
-	 *
-	 * @return string Id for the newly added entry e.g. T9
-	 */
-	public function addValue(string $label, string $parent = ''): string
-	{
-		$depth = 0;
-		if (!($last = $this->get('lastId'))) {
-			$last = (new App\Db\Query())->select(['tree'])->from('vtiger_trees_templates_data')
-				->where(['templateid' => $this->getId()])->orderBy(['tree' => SORT_DESC])
-				->scalar() ?: 0;
-			$last = (int) str_replace('T', '', $last);
-		}
-		$parentTree = $treeID = 'T' . ($last + 1);
-		if ($parent) {
-			$parentItem = (new App\Db\Query())->select(['parentTree', 'depth'])->from('vtiger_trees_templates_data')
-				->where(['templateid' => $this->getId(), 'tree' => $parent])->one();
-			if ($parentItem) {
-				$depth = ((int) $parentItem['depth']) + 1;
-				$parentTree = $parentItem['parentTree'] . '::' . $treeID;
-			}
-		}
-		\App\Db::getInstance()->createCommand()
-			->insert('vtiger_trees_templates_data', [
-				'templateid' => $this->getId(),
-				'name' => $label,
-				'label' => $label,
-				'tree' => $treeID,
-				'parentTree' => $parentTree,
-				'depth' => $depth,
-				'state' => '',
-				'icon' => ''
-			])
-			->execute();
-		$this->set('lastId', $last + 1);
-		return $treeID;
 	}
 }

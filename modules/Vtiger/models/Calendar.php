@@ -6,7 +6,7 @@
  * @package Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author   Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -15,9 +15,13 @@
  */
 abstract class Vtiger_Calendar_Model extends App\Base
 {
-	/** @var string Module name */
+	/**
+	 * @var string Module name
+	 */
 	public $moduleName;
-	/** @var \Vtiger_Module_Model Module model */
+	/**
+	 * @var \Vtiger_Module_Model Module model
+	 */
 	public $module;
 
 	/**
@@ -53,58 +57,24 @@ abstract class Vtiger_Calendar_Model extends App\Base
 		return $this->getQuery()->count();
 	}
 
-	/**
-	 * Function to get the right side bar links for the module.
-	 *
-	 * @param array $linkParams
-	 *
-	 * @return Vtiger_Link_Model[]
-	 */
-	public function getSideBarLinks(array $linkParams): array
+	/** {@inheritdoc} */
+	public function getSideBarLinks($linkParams)
 	{
 		$links = Vtiger_Link_Model::getAllByType($this->getModule()->getId(), ['SIDEBARWIDGET'], $linkParams)['SIDEBARWIDGET'] ?? [];
 		$links[] = Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'SIDEBARWIDGET',
-			'linklabel' => 'LBL_TYPE',
-			'linkclass' => 'text-center',
-			'template' => 'Calendar/Filters/Switch.tpl',
-		]);
-		if ($types = $this->getCalendarTypes()) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_TYPE',
-				'linkdata' => ['cache' => 'calendar-types', 'name' => 'types'],
-				'template' => 'Calendar/Filters/ActivityTypes.tpl',
-				'filterData' => $types,
-			]);
-		}
-		$request = \App\Request::init();
-		$historyUsers = $request->has('user') ? $request->get('user') : [];
-		$links[] = Vtiger_Link_Model::getInstanceFromValues([
-			'linktype' => 'SIDEBARWIDGET',
-			'linkclass' => 'js-users-form usersForm ',
-			'template' => 'Calendar/Filters/Users.tpl',
+			'linklabel' => 'LBL_USERS',
+			'linkclass' => 'js-calendar__filter--users',
+			'template' => 'Filters/Users.tpl',
 			'filterData' => Vtiger_CalendarRightPanel_Model::getUsersList($this->getModuleName()),
-			'historyUsers' => $historyUsers,
 		]);
 		$links[] = Vtiger_Link_Model::getInstanceFromValues([
 			'linktype' => 'SIDEBARWIDGET',
-			'linkclass' => 'js-group-form groupForm',
-			'template' => 'Calendar/Filters/Groups.tpl',
+			'linklabel' => 'LBL_GROUPS',
+			'linkclass' => 'js-calendar__filter--groups',
+			'template' => 'Filters/Groups.tpl',
 			'filterData' => Vtiger_CalendarRightPanel_Model::getGroupsList($this->getModuleName()),
-			'historyUsers' => $historyUsers,
 		]);
-		$privileges = Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		if ($privileges->hasModuleActionPermission($this->getModuleName(), 'CalendarExtraSources')) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues([
-				'linktype' => 'SIDEBARWIDGET',
-				'linklabel' => 'LBL_EXTRA_SOURCES',
-				'linkclass' => 'js-extra-sources-form',
-				'template' => 'Calendar/Filters/ExtraSources.tpl',
-				'filterData' => Vtiger_CalendarExtSource_Model::getByModule($this->getModule()->getId()),
-				'history' => $request->has('extraSources') ? $request->get('extraSources') : [],
-			]);
-		}
 		return $links;
 	}
 
@@ -120,16 +90,6 @@ abstract class Vtiger_Calendar_Model extends App\Base
 		$handler = new $className();
 		$handler->moduleName = $moduleName;
 		return $handler;
-	}
-
-	/**
-	 * Get calendar types list.
-	 *
-	 * @return string[]
-	 */
-	public function getCalendarTypes(): array
-	{
-		return [];
 	}
 
 	/**
@@ -201,45 +161,5 @@ abstract class Vtiger_Calendar_Model extends App\Base
 			$success = false;
 		}
 		return $success;
-	}
-
-	/**
-	 * Get calendar extra sources rows.
-	 *
-	 * @return array
-	 */
-	public function getExtraSources(): array
-	{
-		$result = [];
-		if ($this->get('extraSources')) {
-			foreach ($this->get('extraSources') as $sourceId) {
-				$source = Vtiger_CalendarExtSource_Model::getInstanceById($sourceId);
-				$source->set('start', $this->get('start'));
-				$source->set('end', $this->get('end'));
-				$source->set('user', $this->get('user'));
-				$result = array_merge($result, $source->getRows());
-			}
-		}
-		return $result;
-	}
-
-	/**
-	 * Get calendar extra sources counter.
-	 *
-	 * @return int
-	 */
-	public function getExtraSourcesCount(): int
-	{
-		$counter = 0;
-		if ($this->get('extraSources')) {
-			foreach ($this->get('extraSources') as $sourceId) {
-				$source = Vtiger_CalendarExtSource_Model::getInstanceById($sourceId);
-				$source->set('start', $this->get('start'));
-				$source->set('end', $this->get('end'));
-				$source->set('user', $this->get('user'));
-				$counter += $source->getExtraSourcesCount();
-			}
-		}
-		return $counter;
 	}
 }

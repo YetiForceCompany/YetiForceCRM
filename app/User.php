@@ -8,7 +8,7 @@ namespace App;
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -19,6 +19,10 @@ class User
 	protected static $currentUserCache = false;
 	protected static $userModelCache = [];
 	protected $privileges = [];
+
+	protected static $userPrivilegesCache = [];
+
+	protected static $userSharingCache = [];
 
 	/**
 	 * Get current user Id.
@@ -99,8 +103,6 @@ class User
 		return $userModel;
 	}
 
-	protected static $userPrivilegesCache = [];
-
 	/**
 	 * Get base privileges from file by id.
 	 *
@@ -160,8 +162,6 @@ class User
 			static::$currentUserCache = false;
 		}
 	}
-
-	protected static $userSharingCache = [];
 
 	/**
 	 * Get sharing privileges from file by id.
@@ -487,7 +487,7 @@ class User
 			return Cache::get('UserImageById', $this->getId());
 		}
 		$image = Json::decode($this->getDetail('imagename'));
-		if (empty($image) || !($imageData = \current($image))) {
+		if (empty($image) || !($imageData = current($image))) {
 			return [];
 		}
 		$imageData['path'] = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $imageData['path'];
@@ -549,7 +549,7 @@ class User
 		if (Cache::has('NumberOfUsers', '')) {
 			return Cache::get('NumberOfUsers', '');
 		}
-		$count = (new Db\Query())->from('vtiger_users')->where(['status' => 'Active'])->andWhere(['<>', 'id', 1])->count();
+		$count = (new Db\Query())->from('vtiger_users')->where(['status' => 'Active'])->count();
 		Cache::save('NumberOfUsers', '', $count, Cache::LONG);
 		return $count;
 	}
@@ -587,19 +587,6 @@ class User
 	public static function getAllLabels()
 	{
 		return (new \App\Db\Query())->from('u_#__users_labels')->select(['id', 'label'])->createCommand()->queryAllByGroup();
-	}
-
-	/**
-	 * The function search users by label.
-	 *
-	 * @param string $searchValue
-	 *
-	 * @return array
-	 */
-	public static function searchByLabel(string $searchValue): array
-	{
-		return (new \App\Db\Query())->from('u_#__users_labels')->select(['id', 'label'])
-			->where(['like', 'label', $searchValue])->all();
 	}
 
 	/**

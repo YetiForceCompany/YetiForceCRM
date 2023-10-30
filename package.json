@@ -22,7 +22,7 @@
     "IE 11"
   ],
   "author": "YetiForceCompany <info@yetiforce.com> (https://yetiforce.com)",
-  "license": "YetiForce Public License 5.0",
+  "license": "YetiForce Public License 6.5",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.1",
     "@mdi/font": "^7.0",
@@ -34,6 +34,9 @@
     "bootstrap-datepicker": "^1.9.0",
     "bootstrap-daterangepicker": "^3.0.4",
     "bootstrap-tabdrop": "https://github.com/jmschabdach/bootstrap-tabdrop",
+    "chart.js": "^2.9.4",
+    "chartjs-plugin-datalabels": "^1.0.0",
+    "chartjs-plugin-funnel": "^1.1.5",
     "clipboard": ">=2.0.0",
     "clockpicker": "https://github.com/djibe/clockpicker#gh-pages",
     "css-element-queries": "^1.2.3",
@@ -85,8 +88,7 @@
     "tributejs": "^5.0.0",
     "url-polyfill": "^1.1.7",
     "vue": "^2.6.11",
-    "whatwg-fetch": "^3.6.2",
-    "echarts": "^5.4.2"
+    "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {},
   "bugs": {

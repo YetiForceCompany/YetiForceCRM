@@ -6,7 +6,7 @@
  * @package Settings
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -121,7 +121,7 @@ class Settings_WebserviceUsers_WebservicePremium_Service extends Settings_Webser
 			case 'password':
 				$params['uitype'] = 99;
 				$params['typeApi'] = $this->getModule()->typeApi;
-				$params['fieldparams'] = '{"validate":["pwned","config"],"auto-generate":true,"strengthMeter":true,"copy":true}';
+				$params['fieldparams'] = '{"validate":["pwned","config"],"auto-generate":true,"strengthMeter":true}';
 				$params['maximumlength'] = '100';
 				$params['typeofdata'] = 'V~O';
 				if ($this->has('id')) {

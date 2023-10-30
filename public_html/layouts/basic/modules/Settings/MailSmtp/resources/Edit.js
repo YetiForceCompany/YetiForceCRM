@@ -1,138 +1,78 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 Settings_Vtiger_Edit_Js(
 	'Settings_MailSmtp_Edit_Js',
 	{},
 	{
-		registerDependency() {
-			let dependency = JSON.parse(this.container.find('.js-smtp-dependency').val());
-			for (let field in dependency) {
-				let fieldEl = this.container.find(`[name="${field}"]`);
-				let conditions = dependency[field]['condition'];
-				let hide = false;
-				for (let conField in conditions) {
-					let conFieldEl = this.container.find(`[data-fieldinfo][name="${conField}"]`);
-					let conFieldElVal =
-						conFieldEl.attr('type') === 'checkbox' ? Number(conFieldEl.is(':checked')) : conFieldEl.val();
-					let { value, operator } = conditions[conField];
-					if ((operator === 'e' && value == conFieldElVal) || (operator === 'n' && value != conFieldElVal)) {
-						hide = true;
-						break;
-					}
-				}
-				if (hide) {
-					fieldEl.closest('.js-field-container').addClass('d-none');
-				} else {
-					fieldEl.closest('.js-field-container').removeClass('d-none');
-				}
-			}
-		},
-		changeMailerType: function () {
-			this.container.find('select').on('change', (e) => {
-				this.registerDependency();
-			});
-			this.container.find('input[type="checkbox"]').on('click', (e) => {
-				this.registerDependency();
-			});
-		},
-		/**
-		 * PreSave validation
-		 */
-		preSaveValidation: function () {
-			const aDeferred = $.Deferred();
-			let formData = new FormData(this.container[0]);
-			formData.append('mode', 'preSaveValidation');
-			AppConnector.request({
-				async: false,
-				url: 'index.php',
-				type: 'POST',
-				data: formData,
-				processData: false,
-				contentType: false
-			})
-				.done((data) => {
-					let response = data.result;
-					for (let i in response) {
-						if (response[i].result !== true) {
-							app.showNotify({
-								text: response[i].message ? response[i].message : app.vtranslate('JS_ERROR'),
-								type: 'error'
-							});
-							if (response[i].hoverField != undefined) {
-								this.container.find('[name="' + response[i].hoverField + '"]').focus();
-							}
-						}
-					}
-					aDeferred.resolve(data.result.length <= 0);
-				})
-				.fail((textStatus, errorThrown) => {
-					app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
-					app.errorLog(textStatus, errorThrown);
-					aDeferred.resolve(false);
-				});
-
-			return aDeferred.promise();
-		},
-
-		/**
-		 * Register submit event
-		 */
-		registerSubmitEvent() {
-			this.container.off('submit').on('submit', (e) => {
-				e.preventDefault();
-				this.container.find('.js-toggle-panel').find('.js-block-content').removeClass('d-none');
-				if ($(e.currentTarget).validationEngine('validate')) {
-					let progressLoader = $.progressIndicator({
-						message: app.vtranslate('JS_SAVE_LOADER_INFO'),
-						position: 'html',
-						blockInfo: {
-							enabled: true
-						}
+		registerSubmitForm: function () {
+			var form = this.getForm();
+			form.on('submit', function (e) {
+				if (form.validationEngine('validate') === true) {
+					var paramsForm = form.serializeFormData();
+					var progressIndicatorElement = jQuery.progressIndicator({
+						blockInfo: { enabled: true }
 					});
-					this.preSaveValidation().done((response) => {
-						if (response === true) {
-							let formData = this.container.serializeFormData();
-							app
-								.saveAjax('save', [], formData)
-								.done(function (data) {
-									if (data.result && data.result.success) {
-										app.showNotify({ text: app.vtranslate('JS_SAVE_SUCCESS'), type: 'success' });
-										window.location.href = data.result.url;
-									} else {
-										progressLoader.progressIndicator({ mode: 'hide' });
-										app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
-									}
-								})
-								.fail(function () {
-									progressLoader.progressIndicator({ mode: 'hide' });
-									app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
-								});
+					AppConnector.request(paramsForm).done(function (data) {
+						progressIndicatorElement.progressIndicator({ mode: 'hide' });
+						if (true == data.result.success) {
+							window.location.href = data.result.url;
 						} else {
-							progressLoader.progressIndicator({ mode: 'hide' });
+							form.find('.alert').removeClass('d-none');
+							form.find('.alert p').text(data.result.message);
 						}
 					});
+					return false;
+				} else {
+					app.formAlignmentAfterValidation(form);
 				}
-				e.stopPropagation();
-				return false;
 			});
 		},
-
-		registerBasicEvents: function () {
-			this.referenceModulePopupRegisterEvent(this.container);
-			this.registerAutoCompleteFields(this.container);
-			this.registerClearReferenceSelectionEvent(this.container);
-			this.container.validationEngine(app.validationEngineOptionsForRecord);
-			this.registerSubmitEvent();
-			app.registerBlockToggleEvent(this.container);
-			App.Fields.Password.register(this.container);
-			App.Fields.Text.registerCopyClipboard(this.container);
+		/**
+		 * Register events to preview password
+		 */
+		registerPreviewPassword: function () {
+			const container = this.getForm();
+			const button = container.find('.previewPassword');
+			button.on('mousedown', function (e) {
+				container.find('[name="' + $(e.currentTarget).data('targetName') + '"]').attr('type', 'text');
+			});
+			button.on('mouseup', function (e) {
+				container.find('[name="' + $(e.currentTarget).data('targetName') + '"]').attr('type', 'password');
+			});
+			button.on('mouseout', function (e) {
+				container.find('[name="' + $(e.currentTarget).data('targetName') + '"]').attr('type', 'password');
+			});
 		},
-
+		registerSaveSendMail() {
+			const form = this.getForm();
+			form.find('.js-save-send-mail').on('click', () => {
+				if (form.find('.saveMailContent').hasClass('d-none')) {
+					form.find('.js-smtp-host').attr('data-validation-engine', 'validate[required]');
+					form.find('.js-smtp-port').attr('data-validation-engine', 'validate[required,custom[integer]]');
+					form.find('.js-smtp-password').attr('data-validation-engine', 'validate[required]');
+					form.find('.js-smtp-username').attr('data-validation-engine', 'validate[required]');
+					form.find('.js-smtp-folder').attr('data-validation-engine', 'validate[required]');
+					form.find('.saveMailContent').removeClass('d-none');
+				} else {
+					form.find('.js-smtp-host').removeAttr('data-validation-engine');
+					form.find('.js-smtp-port').removeAttr('data-validation-engine');
+					form.find('.js-smtp-password').removeAttr('data-validation-engine');
+					form.find('.js-smtp-username').removeAttr('data-validation-engine');
+					form.find('.js-smtp-folder').removeAttr('data-validation-engine');
+					form.find('.saveMailContent').addClass('d-none');
+				}
+			});
+		},
 		registerEvents: function () {
-			this.container = this.getForm();
-			this.changeMailerType();
-			this.registerBasicEvents(this.container);
+			const form = this.getForm();
+			if (form.length) {
+				form.validationEngine(app.validationEngineOptions);
+				form.find('[data-inputmask]').inputmask();
+			}
+			this.registerSubmitForm();
+			this.registerPreviewPassword();
+			this.registerSaveSendMail();
 		}
 	}
 );

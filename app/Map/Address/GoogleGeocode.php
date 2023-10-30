@@ -8,7 +8,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -20,13 +20,6 @@ namespace App\Map\Address;
  */
 class GoogleGeocode extends Base
 {
-	/**
-	 * API Address to retrieve data.
-	 *
-	 * @var string
-	 */
-	protected static $url = 'https://maps.googleapis.com/maps/api/geocode/json?';
-
 	/** {@inheritdoc} */
 	public $docUrl = 'https://code.google.com/apis/console/?noredirect';
 
@@ -42,6 +35,12 @@ class GoogleGeocode extends Base
 			'tooltip' => 'LBL_KEY_PLACEHOLDER',
 		],
 	];
+	/**
+	 * API Address to retrieve data.
+	 *
+	 * @var string
+	 */
+	protected static $url = 'https://maps.googleapis.com/maps/api/geocode/json?';
 
 	/** {@inheritdoc} */
 	public function find($value)
@@ -67,32 +66,17 @@ class GoogleGeocode extends Base
 		}
 		$rows = [];
 		if (empty($body['error_message']) && isset($body['status'])) {
-			if (isset($body['results'][0])) {
-				$location = $body['results'][0]['geometry']['location'];
-				$urlParam = "key={$key}&language={$lang}&latlng={$location['lat']},{$location['lng']}";
-				try {
-					\App\Log::beginProfile("GET|GoogleGeocode::find|{$urlParam}", __NAMESPACE__);
-					$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->get(static::$url . $urlParam);
-					\App\Log::endProfile("GET|GoogleGeocode::find|{$urlParam}", __NAMESPACE__);
-					if (200 !== $response->getStatusCode()) {
-						\App\Log::warning('Error: ' . static::$url . $urlParam . ' | ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase(), __CLASS__);
-						return false;
-					}
-					$body = \App\Json::decode($response->getBody()->getContents());
-				} catch (\Throwable $exc) {
-					\App\Log::warning('Error: ' . static::$url . $urlParam . ' | ' . $exc->getMessage(), __CLASS__);
-					return false;
-				}
-				if (isset($body['results'])) {
-					foreach ($body['results'] as $row) {
-						$rows[] = [
-							'label' => $row['formatted_address'],
-							'address' => $this->parse($row['address_components']),
-							'coordinates' => ['lat' => $row['geometry']['lat'], 'lon' => $row['geometry']['lng']],
-							'countryCode' => '',
-						];
-					}
-				}
+			foreach ($body['results'] as $row) {
+				$address = $this->parse($row['address_components']);
+				$rows[] = [
+					'label' => $row['formatted_address'],
+					'address' => $address,
+					'coordinates' => [
+						'lat' => $row['geometry']['location']['lat'],
+						'lon' => $row['geometry']['location']['lng']
+					],
+					'countryCode' => strtolower($address['addresslevel1'][1] ?? ''),
+				];
 			}
 		} elseif (isset($body['error_message'])) {
 			\App\Log::warning("{$body['status']}: {$body['error_message']}", __NAMESPACE__);

@@ -6,7 +6,7 @@
         "homepage": "https:\/\/yarnpkg.com\/en\/package\/clamp",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "lodash.difference": {
         "name": "lodash.difference",
@@ -15,7 +15,7 @@
         "homepage": "https:\/\/lodash.com\/",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "lodash.get": {
         "name": "lodash.get",
@@ -24,7 +24,7 @@
         "homepage": "https:\/\/lodash.com\/",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "lodash.isequal": {
         "name": "lodash.isequal",
@@ -33,7 +33,7 @@
         "homepage": "https:\/\/lodash.com\/",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "lodash.throttle": {
         "name": "lodash.throttle",
@@ -42,7 +42,7 @@
         "homepage": "https:\/\/lodash.com\/",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "lodash.unionby": {
         "name": "lodash.unionby",
@@ -51,7 +51,7 @@
         "homepage": "https:\/\/lodash.com\/",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "material-colors": {
         "name": "material-colors",
@@ -60,16 +60,16 @@
         "homepage": "https:\/\/github.com\/shuhei\/material-colors",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "tinycolor2": {
         "name": "tinycolor2",
-        "version": "1.6.0",
+        "version": "1.4.2",
         "license": "MIT",
         "homepage": "https:\/\/yarnpkg.com\/en\/package\/tinycolor2",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "vue-color": {
         "name": "vue-color",
@@ -78,7 +78,7 @@
         "homepage": "https:\/\/yarnpkg.com\/en\/package\/vue-color",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "vue-drag-resize": {
         "name": "vue-drag-resize",
@@ -87,7 +87,7 @@
         "homepage": "https:\/\/github.com\/kirillmurashov\/vue-drag-resize.git",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     },
     "vuex": {
         "name": "vuex",
@@ -96,6 +96,6 @@
         "homepage": "https:\/\/github.com\/vuejs\/vuex#readme",
         "licenseError": false,
         "licenseToDisplay": "",
-        "showLicenseModal": true
+        "showLicenseModal": false
     }
 }

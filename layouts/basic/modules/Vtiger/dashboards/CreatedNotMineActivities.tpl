@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{assign var=ACCESSIBLE_USERS value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 	{assign var=ACCESSIBLE_GROUPS value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
@@ -36,7 +36,7 @@
 					<select name="activitytype" class="widgetFilter select2 form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
 						title="{\App\Language::translate('Activity Type',$SOURCE_MODULE)}">
 						<option value="all">{\App\Language::translate('LBL_ALL')}</option>
-						{foreach item=TYPE from=\App\Fields\Picklist::getValuesName('activitytype')}
+						{foreach item=TYPE from=Calendar_Module_Model::getCalendarTypes()}
 							<option value="{\App\Purifier::encodeHtml($TYPE)}">{\App\Language::translate($TYPE,$SOURCE_MODULE)}</option>
 						{/foreach}
 					</select>

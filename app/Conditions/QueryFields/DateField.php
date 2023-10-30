@@ -5,7 +5,7 @@
  * @package UIType
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -76,7 +76,9 @@ class DateField extends BaseField
 	 */
 	public function getArrayValue()
 	{
-		return array_map(fn ($row) => \current(explode(' ', $row)), explode(',', $this->value));
+		return array_map(function ($row) {
+			return \current(explode(' ', $row));
+		}, explode(',', $this->value));
 	}
 
 	/**
@@ -86,7 +88,12 @@ class DateField extends BaseField
 	 */
 	public function getStdValue()
 	{
-		return \DateTimeRange::getDateRangeByType($this->operator);
+		if ('custom' === $this->operator) {
+			$date = $this->getArrayValue();
+		} else {
+			$date = \DateTimeRange::getDateRangeByType($this->operator);
+		}
+		return $date;
 	}
 
 	/**

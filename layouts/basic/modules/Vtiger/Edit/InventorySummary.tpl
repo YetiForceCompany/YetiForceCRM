@@ -1,9 +1,8 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Edit-InventorySummary -->
 	<div class="row mb-2">
-		{assign var=DISCOUNT_FIELD value=$INVENTORY_MODEL->getField('discount')}
-		{if $DISCOUNT_FIELD && $DISCOUNT_FIELD->isSummaryEnabled() && $INVENTORY_MODEL->isField('discountmode')}
+		{if $INVENTORY_MODEL->isField('discount') && $INVENTORY_MODEL->isField('discountmode')}
 			<div class="col-md-4">
 				<div class="card mb-3 mb-md-0 inventorySummaryContainer inventorySummaryDiscounts">
 					<div class="card-header">
@@ -14,6 +13,16 @@
 									<span class="fas fa-percent"></span>
 								</span>
 								{\App\Language::translate('LBL_DISCOUNTS_SUMMARY',$MODULE)}
+							</div>
+							{if isset($ITEM_DATA['discountmode'])}
+								{assign var=DISCOUNT_MODE value=$ITEM_DATA['discountmode']}
+							{else}
+								{assign var=DISCOUNT_MODE value=$DISCOUNTS_CONFIG['default_mode']}
+							{/if}
+							<div class="col-12 col-lg-3 p-0 groupDiscount js-change-discount {if $DISCOUNT_MODE == 1}d-none{/if}">
+								<button type="button" class="btn btn-primary btn-sm c-btn-block-md-down float-right u-white-space-nowrap">
+									<span class="fas fa-sliders-h mr-2"></span>{\App\Language::translate('LBL_SET_GLOBAL_DISCOUNT', $MODULE)}
+								</button>
 							</div>
 						</div>
 					</div>
@@ -32,12 +41,7 @@
 				</div>
 			</div>
 		{/if}
-		{assign var=TAX_FIELD value=$INVENTORY_MODEL->getField('tax')}
-		{if !$TAX_FIELD}
-			{assign var=TAX_FIELD value=$INVENTORY_MODEL->getField('tax_percent')}
-		{/if}
-		{if $TAX_FIELD && $TAX_FIELD->getParamConfig('summary_enabled') !== 0 && $INVENTORY_MODEL->isField('taxmode')}
-			{assign var="TAX_DEFAULT" value=Vtiger_Inventory_Model::getDefaultGlobalTax()}
+		{if ($INVENTORY_MODEL->isField('tax') || $INVENTORY_MODEL->isField('tax_percent')) && $INVENTORY_MODEL->isField('taxmode')}
 			<div class="col-md-4">
 				<div class="card mb-3 mb-md-0 inventorySummaryContainer inventorySummaryTaxes">
 					<div class="card-header">
@@ -48,6 +52,16 @@
 									<span class="fas fa-percent"></span>
 								</span>
 								{\App\Language::translate('LBL_TAX_SUMMARY',$MODULE)}
+							</div>
+							{if isset($ITEM_DATA['taxmode'])}
+								{assign var=TAX_MODE value=$ITEM_DATA['taxmode']}
+							{else}
+								{assign var=TAX_MODE value=$TAXS_CONFIG['default_mode']}
+							{/if}
+							<div class="col-12 col-lg-3 p-0 groupTax changeTax {if $TAX_MODE == 1}d-none{/if}">
+								<button type="button" class="btn btn-primary btn-sm float-right c-btn-block-md-down u-white-space-nowrap">
+									<span class="fas fa-sliders-h mr-2"></span>{\App\Language::translate('LBL_SET_GLOBAL_TAX', $MODULE)}
+								</button>
 							</div>
 						</div>
 					</div>

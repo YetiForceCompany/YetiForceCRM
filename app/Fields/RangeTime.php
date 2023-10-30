@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -69,6 +69,7 @@ class RangeTime
 			$part = substr($formatOut, -1) ?: 'i';
 			$dateFormat[] = $short ? $seconds . \App\Language::translate(self::DIFF_INTERVAL_LABELS[$part]['short']) : "{$seconds} " . \App\Language::translate(self::DIFF_INTERVAL_LABELS[$part]['plural']);
 		}
+
 		return implode(' ', $dateFormat);
 	}
 

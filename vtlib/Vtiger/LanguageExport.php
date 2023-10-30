@@ -89,7 +89,7 @@ class LanguageExport extends Package
 		$this->outputNode('language', 'type');
 		$this->outputNode(\App\Config::main('default_charset'), 'encoding');
 		$this->outputNode('YetiForce S.A.', 'author');
-		$this->outputNode('YetiForce Public License 5.0 (yetiforce.com)', 'license');
+		$this->outputNode('YetiForce Public License 6.5 (yetiforce.com)', 'license');
 		// Export dependency information
 		$this->openNode('dependencies');
 		$this->outputNode(\App\Version::get(), 'vtiger_version');

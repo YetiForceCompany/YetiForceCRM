@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<form id="configForm">
 		<input type="hidden" id="view" value="{$VIEW}" />
@@ -24,10 +24,8 @@
 						<div class="form-group form-row">
 							{if $VIEW eq 'DiscountConfiguration'}
 								{assign var=FIELD value='discounts'}
-								{assign var=FIELD_MODEL value=Vtiger_Basic_InventoryField::getInstance('Vtiger', 'DiscountMode')}
 							{else}
 								{assign var=FIELD value='taxs'}
-								{assign var=FIELD_MODEL value=Vtiger_Basic_InventoryField::getInstance('Vtiger', 'TaxMode')}
 							{/if}
 							{if $CONFIG[$FIELD] neq ''}
 								{assign var=FIELD_VALUE value=explode(',', $CONFIG[$FIELD])}
@@ -50,9 +48,8 @@
 							<label class="col-md-3 u-text-small-bold col-form-label text-md-right form-control-plaintext">{\App\Language::translate('LBL_DEFAULT_MODE', $QUALIFIED_MODULE)}</label>
 							<div class="col-md-9">
 								<select class="select2 form-control" name="default_mode">
-									{foreach from=$FIELD_MODEL->getModes() item=LABEL key=KEY}
-										<option value="{$KEY}" {if $CONFIG['default_mode'] == $KEY}selected{/if}>{\App\Language::translate($LABEL)}</option>
-									{/foreach}
+									<option value="0" {if $CONFIG['default_mode'] == 0}selected{/if}>{\App\Language::translate('LBL_GROUP')}</option>
+									<option value="1" {if $CONFIG['default_mode'] == 1}selected{/if}>{\App\Language::translate('LBL_INDIVIDUAL')}</option>
 								</select>
 							</div>
 						</div>

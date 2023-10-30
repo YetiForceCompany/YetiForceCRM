@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 jQuery.Class(
@@ -22,7 +22,6 @@ jQuery.Class(
 					})
 					.fail(function (_error) {
 						progressIndicator.progressIndicator({ mode: 'hide' });
-						app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
 					});
 			});
 		},
@@ -36,19 +35,15 @@ jQuery.Class(
 					parent: app.getParentModuleName(),
 					action: 'SaveAjax',
 					mode: 'acceptanceRecord',
-					record: container.find('#recordId').val()
+					id: $('#recordId').val()
 				})
 					.done(function (data) {
 						progressIndicator.progressIndicator({ mode: 'hide' });
 						Settings_Vtiger_Index_Js.showMessage({ text: data.result.message });
 						$(elem).remove();
-						if (data.result.success) {
-							window.location.reload();
-						}
 					})
 					.fail(function (_error) {
 						progressIndicator.progressIndicator({ mode: 'hide' });
-						app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
 					});
 			});
 		},
@@ -74,7 +69,6 @@ jQuery.Class(
 					})
 					.fail(function (_error) {
 						progressIndicator.progressIndicator({ mode: 'hide' });
-						app.showNotify({ text: app.vtranslate('JS_ERROR'), type: 'error' });
 					});
 			});
 		},

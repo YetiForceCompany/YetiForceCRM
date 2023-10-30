@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Calendar-EventForm -->
 	<div class="js-edit-form">
@@ -15,9 +15,6 @@
 			{else}
 				<input type="hidden" name="fromView" value="QuickCreate" />
 				{assign var="FROM_VIEW" value='QuickCreate'}
-			{/if}
-			{if !empty($SOURCE_MODULE)}
-				<input type="hidden" name="fromModule" value="{$SOURCE_MODULE}" />
 			{/if}
 			<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}" />
 			<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, $FROM_VIEW])}" />
@@ -63,8 +60,8 @@
 							{assign var="isReferenceField" value=$FIELD_MODEL->getFieldDataType()}
 							{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
 							{assign var="refrenceListCount" value=count($refrenceList)}
-							{assign var=PARAMS value=$FIELD_MODEL->getFieldParams()}
-							<div class="row fieldsLabelValue js-field-block-column pl-0 pr-0 mb-2 {$WIDTHTYPE} {$WIDTHTYPE_GROUP}" data-field="{$FIELD_MODEL->getFieldName()}">
+							{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
+							<div class="row fieldsLabelValue pl-0 pr-0 mb-2 {$WIDTHTYPE} {$WIDTHTYPE_GROUP}">
 								{if !(isset($PARAMS['hideLabel']) && in_array($VIEW, $PARAMS['hideLabel']))}
 									<div class="col-12 u-fs-sm">
 										{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}

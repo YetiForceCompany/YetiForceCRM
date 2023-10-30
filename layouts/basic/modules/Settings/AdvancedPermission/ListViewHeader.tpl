@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div class="tpl-Settings-AdvancedPermission-ListViewHeader">
 		<div class="o-breadcrumb widget_header row">
 			<div class="col-12">
@@ -23,7 +23,7 @@
 			<div class="col-md-8 btn-toolbar">
 				{if \App\Config::security('CACHING_PERMISSION_TO_RECORD')}
 					{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
-						<button class="btn btn-success addButton mr-1" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{substr($LISTVIEW_BASICACTION->getUrl(), strlen("javascript:"))};'
+						<button class="btn btn-success addButton mr-1" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
 							{else} onclick='window.location.href = "{$LISTVIEW_BASICACTION->getUrl()}"'
 							{/if}>
 							<span class="fas fa-plus"></span>&nbsp;

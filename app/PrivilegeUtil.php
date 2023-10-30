@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -1468,7 +1468,7 @@ class PrivilegeUtil
 	public static function recalculateSharingRulesByUser($id)
 	{
 		$userModel = \App\User::getUserModel($id);
-		if (!$userModel->getId() || !$userModel->isActive()) {
+		if (!$userModel->getId()) {
 			return null;
 		}
 		$roles = explode('::', $userModel->getParentRolesSeq());
@@ -1529,7 +1529,7 @@ class PrivilegeUtil
 			}
 		}
 		foreach (array_unique(array_merge(...$users)) as $userId) {
-			(new \App\BatchMethod(['method' => '\App\UserPrivilegesFile::createUserSharingPrivilegesfile', 'params' => [$userId]]))->save();
+			UserPrivilegesFile::createUserSharingPrivilegesfile($userId);
 		}
 	}
 

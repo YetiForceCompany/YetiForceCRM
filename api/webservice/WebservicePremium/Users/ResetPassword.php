@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -28,7 +28,9 @@ class ResetPassword extends \Api\WebserviceStandard\Users\ResetPassword
 	 *		description="User password reset - Generating and sending a one-time token",
 	 *		summary="User password reset - Generating and sending a one-time token",
 	 *		tags={"Users"},
-	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
+	 *		security={
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}
+	 *		},
 	 *		@OA\RequestBody(
 	 *  		required=true,
 	 *  		description="Input data",
@@ -94,7 +96,9 @@ class ResetPassword extends \Api\WebserviceStandard\Users\ResetPassword
 	 *		description="User password reset - Password change",
 	 *		summary="User password reset - Password change",
 	 *		tags={"Users"},
-	 *		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
+	 *		security={
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}}
+	 *		},
 	 *		@OA\RequestBody(
 	 *  		required=true,
 	 *  		description="Input data",

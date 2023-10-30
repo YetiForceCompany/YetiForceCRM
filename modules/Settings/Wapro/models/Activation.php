@@ -5,7 +5,7 @@
  * @package Settings.Model
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -23,13 +23,6 @@ class Settings_Wapro_Activation_Model
 		['wapro_id', 'Products', 'LBL_PRODUCT_INFORMATION'],
 		['wapro_id', 'FInvoice', 'LBL_CUSTOM_INFORMATION'],
 		['wapro_id', 'FCorectingInvoice', 'LBL_CUSTOM_INFORMATION'],
-		['wapro_paid', 'FInvoice', 'LBL_CUSTOM_INFORMATION', [
-			'uitype' => 317, 'label' => 'FL_WAPRO_PAID', 'columntype' => 'decimal(28,8)', 'maximumlength' => '1.0E+20',
-			'typeofdata' => 'NN~O', 'displaytype' => 9
-		]],
-		['wapro_user', 'Users', 'LBL_USERLOGIN_ROLE', [
-			'uitype' => 1, 'label' => 'FL_WAPRO_USER', 'columntype' => 'varchar(200)', 'maximumlength' => '200', 'typeofdata' => 'V~O'
-		]],
 	];
 
 	/**
@@ -39,8 +32,8 @@ class Settings_Wapro_Activation_Model
 	 */
 	public static function check(): bool
 	{
-		$check = \App\Db::getInstance()->isTableExists(\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME)
-		 && \App\Db::getInstance('log')->isTableExists(\App\Integrations\Wapro::LOG_TABLE_NAME);
+		$db = \App\Db::getInstance();
+		$check = $db->isTableExists(\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME) && $db->isTableExists(\App\Integrations\Wapro::LOG_TABLE_NAME);
 		if ($check) {
 			foreach (self::FIELDS as $field) {
 				$check = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => \App\Module::getModuleId($field[1]), 'fieldname' => $field[0]])->exists();
@@ -81,9 +74,8 @@ class Settings_Wapro_Activation_Model
 			)->execute();
 			$status = true;
 		}
-		$dbLog = \App\Db::getInstance('log');
-		if (!$dbLog->isTableExists(\App\Integrations\Wapro::LOG_TABLE_NAME)) {
-			$dbLog->createTable(\App\Integrations\Wapro::LOG_TABLE_NAME, [
+		if (!$db->isTableExists(\App\Integrations\Wapro::LOG_TABLE_NAME)) {
+			$db->createTable(\App\Integrations\Wapro::LOG_TABLE_NAME, [
 				'id' => $importer->primaryKeyUnsigned(),
 				'time' => $importer->dateTime()->notNull(),
 				'category' => $importer->stringType(100),
@@ -97,34 +89,21 @@ class Settings_Wapro_Activation_Model
 			$moduleId = \App\Module::getModuleId($field[1]);
 			$check = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $moduleId, 'fieldname' => $field[0]])->exists();
 			if (!$check) {
-				$moduleModel = Vtiger_Module_Model::getInstance($field[1]);
 				$blockModel = vtlib\Block::getInstance($field[2], $field[1]);
 				if (!$blockModel) {
-					$blocks = vtlib\Block::getAllForModule($moduleModel);
+					$blocks = vtlib\Block::getAllForModule(vtlib\Module::getInstance($field[1]));
 					$blockModel = current($blocks);
 				}
 				$fieldInstance = new Vtiger_Field_Model();
-				$fieldInstance->set('name', $field[0])->set('tabid', $moduleId);
-				if ('wapro_id' === $field[0]) {
-					$fieldInstance->set('column', 'wid')
-						->set('columntype', $importer->integer(10)->notNull())
-						->set('table', $db->quoteSql(\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME))
-						->set('label', 'FL_WAPRO_ID')
-						->set('uitype', 1)
-						->set('displaytype', 9)
-						->set('typeofdata', 'I~O');
-				} else {
-					$entityInstance = $moduleModel->getEntityInstance();
-					if (empty($entityInstance->customFieldTable)) {
-						$tableName = $entityInstance->table_name;
-					} else {
-						$tableName = current($entityInstance->customFieldTable);
-					}
-					$fieldInstance->set('column', $field[0])->set('table', $tableName);
-					foreach ($field[3] as $key => $value) {
-						$fieldInstance->set($key, $value);
-					}
-				}
+				$fieldInstance->set('name', $field[0])
+					->set('tabid', $moduleId)
+					->set('column', 'wid')
+					->set('columntype', $importer->integer(10)->notNull())
+					->set('table', $db->quoteSql(\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME))
+					->set('label', 'FL_WAPRO_ID')
+					->set('uitype', 1)
+					->set('displaytype', 9)
+					->set('typeofdata', 'I~O');
 				if ($fieldInstance->save($blockModel)) {
 					$status = true;
 				} else {

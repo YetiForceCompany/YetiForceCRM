@@ -6,7 +6,7 @@
  * @package Settings
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -21,9 +21,6 @@ class Settings_WebserviceUsers_WebserviceStandard_Service extends Settings_Webse
 
 	/** @var string Table name. */
 	public $baseIndex = 'id';
-
-	/** @var string Type api. */
-	public $typeApi;
 
 	/** {@inheritdoc} */
 	public $editFields = [
@@ -135,7 +132,7 @@ class Settings_WebserviceUsers_WebserviceStandard_Service extends Settings_Webse
 			case 'password':
 				$params['uitype'] = 99;
 				$params['typeApi'] = $this->getModule()->typeApi;
-				$params['fieldparams'] = '{"validate":["pwned","config"],"auto-generate":true,"strengthMeter":true,"copy":true}';
+				$params['fieldparams'] = '{"validate":["pwned","config"],"auto-generate":true,"strengthMeter":true}';
 				$params['maximumlength'] = '100';
 				$params['typeofdata'] = 'V~O';
 				if ($this->has('id')) {
@@ -357,7 +354,6 @@ class Settings_WebserviceUsers_WebserviceStandard_Service extends Settings_Webse
 	{
 		$data = [
 			\Api\WebservicePremium\Privilege::USER_PERMISSIONS => 'PLL_USER_PERMISSIONS',
-			\Api\WebservicePremium\Privilege::CONTACT_RELATED_RECORDS => 'PLL_CONTACT_RELATED_RECORDS',
 			\Api\WebservicePremium\Privilege::ACCOUNTS_RELATED_RECORDS => 'PLL_ACCOUNTS_RELATED_RECORDS',
 			\Api\WebservicePremium\Privilege::ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY => 'PLL_ACCOUNTS_RELATED_RECORDS_AND_LOWER_IN_HIERARCHY',
 			\Api\WebservicePremium\Privilege::ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY => 'PLL_ACCOUNTS_RELATED_RECORDS_IN_HIERARCHY',

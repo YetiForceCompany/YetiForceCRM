@@ -13,6 +13,41 @@
 class Leads_Module_Model extends Vtiger_Module_Model
 {
 	/**
+	 * Function returns the Number of Leads created per week.
+	 *
+	 * @param int   $owner
+	 * @param array $dateFilter
+	 *
+	 * @return <Array>
+	 */
+	public function getLeadsCreated($owner, $dateFilter)
+	{
+		$query = (new App\Db\Query())->select(['count' => 'COUNT(*)', 'time' => 'date(createdtime)'])
+			->from('vtiger_leaddetails')
+			->innerJoin('vtiger_crmentity', 'vtiger_leaddetails.leadid = vtiger_crmentity.crmid')
+			->where(['deleted' => 0, 'converted' => 0]);
+		\App\PrivilegeQuery::getConditions($query, $this->getName());
+		if (!empty($owner)) {
+			$query->andWhere(['smownerid' => $owner]);
+		}
+		if (!empty($dateFilter)) {
+			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
+		}
+		$dataReader = $query->groupBy('date(createdtime)')
+			->createCommand()
+			->query();
+
+		$response = [];
+		while ($row = $dataReader->read()) {
+			$response[] = [
+				$row['count'],
+				$row['time'],
+			];
+		}
+		return $response;
+	}
+
+	/**
 	 * Function to get list view query for popup window.
 	 *
 	 * @param string              $sourceModule   Parent module

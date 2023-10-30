@@ -8,7 +8,7 @@ namespace App\Map\Address;
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -128,7 +128,7 @@ abstract class Base
 	 */
 	public function getName(): string
 	{
-		return substr(strrchr(static::class, '\\'), 1);
+		return basename(str_replace('\\', '/', static::class));
 	}
 
 	/**

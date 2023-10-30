@@ -5,7 +5,7 @@
  * @package   Settings.Action
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_MailIntegration_Download_Action extends Settings_Vtiger_Basic_Action
@@ -15,6 +15,15 @@ class Settings_MailIntegration_Download_Action extends Settings_Vtiger_Basic_Act
 	{
 		parent::__construct();
 		$this->exposeMethod('outlook');
+	}
+
+	/** {@inheritdoc} */
+	public function checkPermission(\App\Request $request)
+	{
+		parent::checkPermission($request);
+		if(!\App\YetiForce\Shop::check('YetiForceOutlook')){
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		}
 	}
 
 	/**

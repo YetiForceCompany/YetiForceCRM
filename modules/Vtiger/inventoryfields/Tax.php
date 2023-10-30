@@ -6,7 +6,7 @@
  * @package   InventoryField
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -29,31 +29,15 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	protected $customPurifyType = [
 		'taxparam' => \App\Purifier::TEXT
 	];
-	/** @var array List of shared fields */
+	/**
+	 * @var array List of shared fields
+	 */
 	public $shared = ['taxparam' => 'tax_percent'];
-	/** {@inheritdoc} */
-	protected $params = ['summary_enabled'];
 
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		$value = \App\Fields\Currency::formatToDisplay($value, null, true);
-		if (isset($rowData['currency']) && $currencySymbol = \App\Fields\Currency::getById($rowData['currency'])['currency_symbol'] ?? '') {
-			$value = \CurrencyField::appendCurrencySymbol($value, $currencySymbol);
-		}
-
-		return $value;
-	}
-
-	/** {@inheritdoc} */
-	public function getEditValue(array $itemData, string $column = '')
-	{
-		$value = parent::getEditValue($itemData, $column);
-		if (!$column || $column === $this->getColumnName()) {
-			$value = \App\Fields\Currency::formatToDisplay($value, null, true);
-		}
-
-		return $value;
+		return CurrencyField::convertToUserFormat($value, null, true);
 	}
 
 	public function getClassName($data)
@@ -110,20 +94,23 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 	/**
 	 * Get configuration parameters for taxes.
 	 *
-	 * @param string $taxParam String parameters json encode
-	 * @param float  $net
-	 * @param array  $return
+	 * @param string     $taxParam String parameters json encode
+	 * @param float      $net
+	 * @param array|null $return
 	 *
 	 * @return array
 	 */
-	public function getTaxParam(string $taxParam, float $net, array $return = []): array
+	public function getTaxParam(string $taxParam, float $net, ?array $return = []): array
 	{
 		$taxParam = json_decode($taxParam, true);
 		if (empty($taxParam)) {
-			return $return;
+			return [];
 		}
 		if (\is_string($taxParam['aggregationType'])) {
 			$taxParam['aggregationType'] = [$taxParam['aggregationType']];
+		}
+		if (!$return || empty($taxParam['aggregationType'])) {
+			$return = [];
 		}
 		if (isset($taxParam['aggregationType'])) {
 			foreach ($taxParam['aggregationType'] as $aggregationType) {
@@ -133,9 +120,7 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 				}
 				$return[$percent] += $net * ($percent / 100);
 			}
-			ksort($return);
 		}
-
 		return $return;
 	}
 
@@ -181,11 +166,5 @@ class Vtiger_Tax_InventoryField extends Vtiger_Basic_InventoryField
 			}
 		}
 		return $value;
-	}
-
-	/** {@inheritdoc} */
-	public function compare($value, $prevValue, string $column): bool
-	{
-		return $column === $this->getColumnName() ? \App\Validator::floatIsEqual((float) $value, (float) $prevValue, 8) : parent::compare($value, $prevValue, $column);
 	}
 }

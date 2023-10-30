@@ -1,9 +1,9 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 var Settings_UserColors_Js = {
 	initEvants: function () {
-		$('.UserColors .js-update-event').on('click', Settings_UserColors_Js.updateEvent);
+		$('.UserColors #update_event').on('click', Settings_UserColors_Js.updateEvent);
 	},
 	updateEvent: function (e) {
 		var progress = $.progressIndicator({

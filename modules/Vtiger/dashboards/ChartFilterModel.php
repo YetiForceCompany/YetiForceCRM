@@ -5,7 +5,7 @@
  * @package   Dashboard
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
@@ -26,7 +26,6 @@ class Vtiger_ChartFilterModel_Dashboard extends Vtiger_Widget_Model
 		'dividingField' => ['label' => '', 'purifyType' => \App\Purifier::TEXT],
 		'stacked' => ['label' => '', 'purifyType' => \App\Purifier::BOOL],
 		'summary' => ['label' => '', 'purifyType' => \App\Purifier::BOOL],
-		'rows_summary' => ['label' => '', 'purifyType' => \App\Purifier::BOOL],
 		'sortOrder' => ['label' => '', 'purifyType' => \App\Purifier::STANDARD],
 		'additionalFiltersFields' => ['label' => '', 'purifyType' => \App\Purifier::TEXT],
 		'colorsFromFilter' => ['label' => '', 'purifyType' => \App\Purifier::BOOL],
@@ -93,7 +92,6 @@ class Vtiger_ChartFilterModel_Dashboard extends Vtiger_Widget_Model
 			case 'dividingField':
 			case 'stacked':
 			case 'summary':
-			case 'rows_summary':
 			case 'sortOrder':
 				$value = $this->getDataValue($name) ?: '';
 				break;
@@ -146,7 +144,6 @@ class Vtiger_ChartFilterModel_Dashboard extends Vtiger_Widget_Model
 				break;
 			case 'stacked':
 			case 'summary':
-			case 'rows_summary':
 			case 'colorsFromFilter':
 			case 'colorsFromDividingField':
 				$params['uitype'] = 56;
@@ -181,7 +178,6 @@ class Vtiger_ChartFilterModel_Dashboard extends Vtiger_Widget_Model
 					case 'sortOrder':
 					case 'stacked':
 					case 'summary':
-					case 'rows_summary':
 					case 'colorsFromFilter':
 					case 'colorsFromDividingField':
 						$data[$fieldName] = $value;

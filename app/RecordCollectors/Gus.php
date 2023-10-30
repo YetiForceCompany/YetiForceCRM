@@ -9,7 +9,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Kon <a.kon@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -178,8 +178,13 @@ class Gus extends Base
 		$client = \App\RecordCollectors\Helper\GusClient::getInstance($this->getClientParams($moduleName));
 		try {
 			$infoFromGus = $client->search($vatId, $ncr, $taxNumber);
-			$response['recordModel'] = $this->getRecordModel();
-			$fieldsModel = $response['recordModel']->getModule()->getFields();
+			if ($recordId = $this->request->getInteger('record')) {
+				$recordModel = \Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
+				$response['recordModel'] = $recordModel;
+				$fieldsModel = $recordModel->getModule()->getFields();
+			} else {
+				$fieldsModel = \Vtiger_Module_Model::getInstance($moduleName)->getFields();
+			}
 			if ($infoFromGus && isset($this->formFieldsToRecordMap[$moduleName])) {
 				$additional = $fieldsData = $skip = $dataCounter = [];
 				foreach ($infoFromGus as $key => &$row) {

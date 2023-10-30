@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -109,7 +109,7 @@ class Tree
 	 *
 	 * @param array $itemTree
 	 *
-	 * @return bool|string
+	 * @return flase|string
 	 */
 	public static function getParentIdx(array $itemTree)
 	{

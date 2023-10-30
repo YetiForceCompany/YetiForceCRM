@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
@@ -16,34 +16,29 @@ use OpenApi\Annotations as OA;
 /**
  * BaseAction class.
  *
- * 	@OA\Info(
+ * @OA\Info(
  * 		title="YetiForce API for SMS. Type: SMS",
  * 		description="",
  * 		version="0.1",
  * 		termsOfService="https://yetiforce.com/",
- *   	@OA\Contact(email="devs@yetiforce.com", name="Devs API Team", url="https://yetiforce.com/"),
- *   	@OA\License(name="YetiForce Public License", url="https://yetiforce.com/en/yetiforce/license"),
- * 	)
- *	@OA\ExternalDocumentation(
- *		description="Platform API Interactive Docs",
- *		url="https://doc.yetiforce.com/api/?urls.primaryName=SMS"
- *	),
- * 	@OA\Server(description="Demo server of the development version", url="https://gitdeveloper.yetiforce.com")
- * 	@OA\Server(description="Demo server of the latest stable version", url="https://gitstable.yetiforce.com")
- *	@OA\SecurityScheme(
- * 		name="X-API-KEY",
- *   	type="apiKey",
- *    	in="header",
- *		securityScheme="ApiKeyAuth",
- *   	description="Webservice api key header"
- *	),
- *	@OA\SecurityScheme(
- * 		name="X-TOKEN",
- *   	type="apiKey",
- *   	in="header",
- *		securityScheme="token",
- *   	description="Webservice api token by user header"
- * 	),
+ *   	@OA\Contact(
+ *     		email="devs@yetiforce.com",
+ *     		name="Devs API Team",
+ *     		url="https://yetiforce.com/"
+ *   	),
+ *   	@OA\License(
+ *    		name="YetiForce Public License",
+ *     		url="https://yetiforce.com/en/yetiforce/license"
+ *		),
+ * )
+ * @OA\Server(
+ *		url="https://gitdeveloper.yetiforce.com",
+ *		description="Demo server of the development version",
+ * )
+ * @OA\Server(
+ *		url="https://gitstable.yetiforce.com",
+ *		description="Demo server of the latest stable version",
+ * )
  */
 class BaseAction extends \Api\Core\BaseAction
 {

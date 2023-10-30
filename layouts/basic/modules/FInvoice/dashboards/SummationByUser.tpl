@@ -1,17 +1,16 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 <script type="text/javascript">
 	YetiForce_Bar_Widget_Js('YetiForce_SummationByUser_Widget_Js', {}, {
-		getBasicOptions: function getBasicOptions() {
-			let options = this._super();
-			options.tooltip = {
-				appendToBody: true,
-				formatter: function(params, ticket, callback) {
-					let name = params.data.fullName || '';
-					let value = Number.isInteger(params.value) ? App.Fields.Integer.formatToDisplay(params.value) : App.Fields.Double.formatToDisplay(params.value);
-					return params.marker + (name ? (name + ': ') : '') + "<strong>" + value + '</strong>';
+		getBasicOptions: function getBasicOptions(chartData) {
+			return {
+				tooltips: {
+					callbacks: {
+						title: function tooltipsTitleCallback(tooltipItems, data) {
+							return data.fullLabels[tooltipItems[0].index];
+						}
+					}
 				}
-			}
-			return options;
+			};
 		}
 	});
 </script>

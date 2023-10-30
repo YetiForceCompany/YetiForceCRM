@@ -10,9 +10,6 @@
 ************************************************************************************/
 -->*}
 {strip}
-	<script type="text/javascript">
-		YetiForce_Bar_Widget_Js('YetiForce_LeadsBySource_Widget_Js', {}, {});
-	</script>
 	<div class="dashboardWidgetHeader">
 		{assign var=WIDGET_WIDTH value=$WIDGET->getWidth()}
 		<div class="d-flex flex-row flex-nowrap no-gutters justify-content-between">

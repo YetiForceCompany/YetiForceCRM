@@ -1,13 +1,10 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Modals-QuickEdit -->
 	<input type="hidden" name="module" value="{$MODULE_NAME}" />
 	<input type="hidden" name="record" value="{$RECORD_ID}" />
 	<input type="hidden" name="action" value="SaveAjax" />
 	<input type="hidden" name="fromView" value="QuickEdit" />
-	{if !empty($SOURCE_MODULE)}
-		<input type="hidden" name="fromModule" value="{$SOURCE_MODULE}" />
-	{/if}
 	{if $RECORD_ID && !empty($RECORD_ACTIVITY_NOTIFIER)}
 		<input type="hidden" id="recordActivityNotifier" data-interval="{App\Config::performance('recordActivityNotifierInterval', 10)}" data-record="{$RECORD_ID}" data-module="{$MODULE_NAME}" />
 	{/if}
@@ -101,7 +98,7 @@
 						</div>
 					{/foreach}
 				{elseif $LAYOUT === 'vertical'}
-					<div class="massEditTable border-0 px-1 mx-auto mb-3">
+					<div class="massEditTable border-0 px-1 mx-auto m-0">
 						<div class="col-12 form-row d-flex justify-content-center px-0 m-0 {$WIDTHTYPE}">
 							{if !empty($NO_FIELD_ACCESS)}
 								<div class="alert alert-warning w-100 mt-2">
@@ -154,7 +151,6 @@
 							{/foreach}
 						</div>
 					</div>
-					<hr>
 				{else}
 					<div class="massEditTable border-0 px-1 mx-auto m-0">
 						<div class="px-0 m-0 form-row d-flex justify-content-center">
@@ -198,7 +194,6 @@
 						</div>
 					</div>
 				{/if}
-				{include file=\App\Layout::getTemplatePath('Edit/ModalActions.tpl') EDITVIEW_LINKS=$QUICKCREATE_LINKS}
 			</div>
 		</div>
 		</form>

@@ -43,7 +43,7 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 	{
 		$listviewHeader = [];
 		$listviewEntries = [];
-		if (\App\Record::STATE_ACTIVE === \App\Record::getState($id)) {
+		if ('Active' === \App\Record::getState($id)) {
 			$listColumns = \App\Config::module('HelpDesk', 'COLUMNS_IN_HIERARCHY');
 			if (empty($listColumns)) {
 				$listColumns = $this->getEntityInstance()->list_fields_name;
@@ -184,13 +184,13 @@ class HelpDesk_Module_Model extends Vtiger_Module_Model
 			}
 			foreach ($listColumns as $columnname) {
 				if ('assigned_user_id' === $columnname) {
-					$parentInfo[$columnname] = $row['user_name'] ?? '';
+					$parentInfo[$columnname] = $row['user_name'];
 				} elseif ('ticket_title' === $columnname) {
-					$parentInfo[$columnname] = $row['title'] ?? '';
+					$parentInfo[$columnname] = $row['title'];
 				} elseif ('ticketstatus' === $columnname) {
-					$parentInfo[$columnname] = App\Language::translate($row['status'] ?? '', 'HelpDesk');
+					$parentInfo[$columnname] = App\Language::translate($row['status'], 'HelpDesk');
 				} elseif ('ticketpriorities' === $columnname) {
-					$parentInfo[$columnname] = App\Language::translate($row['priority'] ?? '', 'HelpDesk');
+					$parentInfo[$columnname] = App\Language::translate($row['priority'], 'HelpDesk');
 				} else {
 					$parentInfo[$columnname] = $row[$columnname];
 				}

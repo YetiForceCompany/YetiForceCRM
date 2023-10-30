@@ -706,23 +706,5 @@
                 "in": "header"
             }
         }
-    },
-    "tags": [
-        {
-            "name": "BaseModule",
-            "x-displayName": "Base module"
-        },
-        {
-            "name": "ApprovalsRegister",
-            "x-displayName": "Approvals register"
-        },
-        {
-            "name": "Approvals",
-            "x-displayName": "Approvals"
-        }
-    ],
-    "externalDocs": {
-        "description": "Platform API Interactive Docs",
-        "url": "https://doc.yetiforce.com/api/?urls.primaryName=Manage%20consents"
     }
 }

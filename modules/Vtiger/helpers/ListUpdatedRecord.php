@@ -4,13 +4,14 @@
  * ListUpdatedRecord class.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class ListUpdatedRecord
 {
 	public static function getListRecord($module, array $columnList, $limit)
 	{
-		$recordList = $moduleList = [];
+		$moduleList = [];
+		$recordList = [];
 		if (!$module) {
 			$moduleList = (new \App\Db\Query())->select(['name'])
 				->from('vtiger_tab')

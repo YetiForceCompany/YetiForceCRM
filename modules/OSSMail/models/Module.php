@@ -2,7 +2,7 @@
 
 /**
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -64,13 +64,10 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 
 	public static function getComposeParam(App\Request $request)
 	{
-		$return = [];
 		$moduleName = $request->getByType('crmModule');
 		$record = $request->getInteger('crmRecord');
 		$type = $request->getByType('type');
-		if (!empty($type)) {
-			$return['type'] = $type;
-		}
+		$return = [];
 		if (('Users' === $moduleName && $record === \App\User::getCurrentUserRealId()) || ('Users' !== $moduleName && !empty($record) && \App\Record::isExists($record) && \App\Privilege::isPermitted($moduleName, 'DetailView', $record))) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 			$eventHandler = new App\EventHandler();
@@ -114,7 +111,7 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 					foreach ($params as $key => $value) {
 						$textParser->setParam($key, $value);
 					}
-					if ('Calendar' === $moduleName && !$recordModel->isEmpty('meeting_url') && !\array_key_exists('meetingUrl', $params)) {
+					if ('Calendar' === $moduleName && !$recordModel->isEmpty('meeting_url') && !\array_key_exists('meetingUrl', $params) ) {
 						$textParser->setParam('meetingUrl', $recordModel->get('meeting_url'));
 					}
 					$subject = $textParser->setContent($templateModel->get('subject'))->parse()->getContent();
@@ -146,8 +143,9 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 		if (!$request->isEmpty('crmView')) {
 			$return['crmview'] = $request->getByType('crmView');
 		}
-		if (!$request->isEmpty('mid')) {
+		if (!$request->isEmpty('mid') && !empty($type)) {
 			$return['mailId'] = (int) $request->getInteger('mid');
+			$return['type'] = $type;
 		}
 		if (!$request->isEmpty('pdf_path')) {
 			$return['filePath'] = $request->get('pdf_path');
@@ -175,6 +173,24 @@ class OSSMail_Module_Model extends Vtiger_Module_Model
 			$return['bcc'] = implode(',', $request->get('emails'));
 		}
 		return $return;
+	}
+
+	protected static $composeParam = false;
+
+	/**
+	 * Function get compose parameters.
+	 *
+	 * @return array
+	 */
+	public static function getComposeParameters()
+	{
+		if (!self::$composeParam) {
+			$config = (new \App\Db\Query())->select(['parameter', 'value'])->from('vtiger_ossmailscanner_config')
+				->where(['conf_type' => 'email_list'])->createCommand()->queryAllByGroup(0);
+			$config['popup'] = '_blank' == $config['target'] ? true : false;
+			self::$composeParam = $config;
+		}
+		return self::$composeParam;
 	}
 
 	/**

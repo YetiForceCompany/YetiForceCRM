@@ -1,10 +1,9 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Detail-InventorySummary -->
 	<div class="row">
-		{assign var="FIELD_DISCOUNT" value=$INVENTORY_MODEL->getField('discount')}
-		{if $FIELD_DISCOUNT && $FIELD_DISCOUNT->isSummaryEnabled() && isset($FIELDS[1]['discount']) && isset($FIELDS[0]['discountmode'])}
-			{assign var="DISCOUNT" value=$FIELD_DISCOUNT->getSummaryValuesFromData($INVENTORY_ROWS)}
+		{if isset($FIELDS[1]['discount']) && isset($FIELDS[0]['discountmode'])}
+			{assign var="DISCOUNT" value=$INVENTORY_MODEL->getField('discount')->getSummaryValuesFromData($INVENTORY_ROWS)}
 			<div class="col-md-4">
 				<table class="table table-bordered inventorySummaryContainer">
 					<thead>
@@ -26,13 +25,13 @@
 				</table>
 			</div>
 		{/if}
-		{assign var="TAX_FIELD" value=$INVENTORY_MODEL->getField('tax')}
-		{if $TAX_FIELD && $TAX_FIELD->isSummaryEnabled() && isset($FIELDS[1]['tax']) && isset($FIELDS[0]['taxmode']) && $INVENTORY_MODEL->isField('net')}
+		{if isset($FIELDS[1]['tax']) && isset($FIELDS[0]['taxmode']) && $INVENTORY_MODEL->isField('net')}
+			{assign var=TAX_FIELD value=$FIELDS[1]['tax']}
 			{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
 				{if isset($TAXS) && isset($INVENTORY_ROW['taxparam']) }
 					{assign var="TAXS" value=$TAX_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $INVENTORY_ROW['net'], $TAXS)}
 				{elseif isset($INVENTORY_ROW['taxparam']) }
-					{assign var="TAXS" value=$TAX_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $INVENTORY_ROW['net'])}
+					{assign var="TAXS" value=$TAX_FIELD->getTaxParam($INVENTORY_ROW['taxparam'], $INVENTORY_ROW['net'], [])}
 				{else}
 					{assign var="TAXS" value=[]}
 				{/if}
@@ -73,8 +72,7 @@
 				</table>
 			</div>
 			{if isset($FIELDS[0]['currency']) && $BASE_CURRENCY['id'] != $CURRENCY}
-				{assign var="CURRENCY_FIELD" value=$INVENTORY_MODEL->getField('currency')}
-				{assign var="CURRENCY_PARAM" value=$CURRENCY_FIELD->getCurrencyParam([], $INVENTORY_ROW['currencyparam'])}
+				{assign var="CURRENCY_PARAM" value=$INVENTORY_ROW['currencyparam']|json_decode:true}
 				{assign var="RATE" value=$CURRENCY_PARAM[$CURRENCY]['value']}
 				<div class="col-md-4">
 					<table class="table table-bordered inventorySummaryContainer">

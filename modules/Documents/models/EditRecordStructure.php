@@ -20,15 +20,14 @@ class Documents_EditRecordStructure_Model extends Vtiger_EditRecordStructure_Mod
 		$values = [];
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
-		$viewName = $recordModel->isNew() ? 'Create' : 'Edit';
-		$fieldsDependency = \App\FieldsDependency::getByRecordModel($viewName, $recordModel);
+		$fieldsDependency = \App\FieldsDependency::getByRecordModel($recordModel->isNew() ? 'Create' : 'Edit', $recordModel);
 		$blockModelList = $this->getModule()->getBlocks();
 		foreach ($blockModelList as $blockLabel => $blockModel) {
 			$fieldModelList = $blockModel->getFields();
 			if (!empty($fieldModelList)) {
 				$values[$blockLabel] = [];
 				foreach ($fieldModelList as $fieldName => $fieldModel) {
-					if ($fieldModel->isEditable($viewName) && (!$fieldsDependency['hide']['backend'] || !\in_array($fieldName, $fieldsDependency['hide']['backend']))) {
+					if ($fieldModel->isEditable() && (!$fieldsDependency['hide']['backend'] || !\in_array($fieldName, $fieldsDependency['hide']['backend']))) {
 						$fieldValue = $recordModel->get($fieldName);
 						if (!$fieldValue && !$recordId) {
 							$fieldValue = $fieldModel->getDefaultFieldValue();

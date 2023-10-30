@@ -6,7 +6,7 @@
  * @package Integration
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -19,9 +19,6 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 {
 	/** {@inheritdoc} */
 	const NAME = 'LBL_COMPANY_BANK_ACCOUNTS';
-
-	/** {@inheritdoc} */
-	const MODULE_NAME = 'BankAccounts';
 
 	/** {@inheritdoc} */
 	const SEQUENCE = 1;
@@ -77,15 +74,12 @@ class BankAccounts extends \App\Integrations\Wapro\Synchronizer
 			return 0;
 		}
 		if ($id = $this->findInMapTable($this->waproId, 'RACHUNEK_FIRMY')) {
-			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, self::MODULE_NAME);
+			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, 'BankAccounts');
 		} else {
-			$this->recordModel = \Vtiger_Record_Model::getCleanInstance(self::MODULE_NAME);
+			$this->recordModel = \Vtiger_Record_Model::getCleanInstance('BankAccounts');
 			$this->recordModel->setDataForSave([\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME => [
 				'wtable' => 'RACHUNEK_FIRMY',
 			]]);
-			if ($userId = $this->searchUserInActivity($this->waproId, 'RACHFIR')) {
-				$this->recordModel->set('assigned_user_id', $userId);
-			}
 		}
 		$this->recordModel->set('bankaccount_status', $this->row['AKTYWNY'] ? 'PLL_ACTIVE' : 'PLL_INACTIVE');
 		$this->recordModel->set('wapro_id', $this->waproId);

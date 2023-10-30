@@ -11,9 +11,6 @@
 
 class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 {
-	/** @var string Value separator in the database */
-	const SEPARATOR = ' |##| ';
-
 	/** {@inheritdoc} */
 	public function getDbConditionBuilderValue($value, string $operator)
 	{
@@ -31,7 +28,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	public function getDBValue($value, $recordModel = false)
 	{
 		if (\is_array($value)) {
-			$value = implode(self::SEPARATOR, $value);
+			$value = implode(' |##| ', $value);
 		}
 		return \App\Purifier::decodeHtml($value);
 	}
@@ -39,16 +36,12 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
 	{
-		$hashValue = '';
-		if (\is_string($value)) {
-			$hashValue = $value;
-			$value = explode(self::SEPARATOR, $value);
-		} elseif (\is_array($value)) {
-			$hashValue = implode(self::SEPARATOR, $value);
-		}
-
-		if (empty($value) || isset($this->validate[$hashValue])) {
+		$hashValue = \is_array($value) ? implode('|', $value) : $value;
+		if (isset($this->validate[$hashValue]) || empty($value)) {
 			return;
+		}
+		if (\is_string($value)) {
+			$value = explode(' |##| ', $value);
 		}
 		if (!\is_array($value)) {
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
@@ -61,11 +54,6 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 				throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 			}
 		}
-		$maximumLength = $this->getFieldModel()->get('maximumlength');
-		if ($hashValue && $maximumLength && App\TextUtils::getTextLength($hashValue) > $maximumLength) {
-			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $hashValue, 406);
-		}
-
 		$this->validate[$hashValue] = true;
 	}
 
@@ -76,7 +64,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 			return null;
 		}
 		$valueRaw = $valueHtml = '';
-		$values = explode(self::SEPARATOR, $value);
+		$values = explode(' |##| ', $value);
 		$trValueRaw = $trValue = [];
 		$moduleName = $this->getFieldModel()->getModuleName();
 		$fieldName = App\Colors::sanitizeValue($this->getFieldModel()->getName());
@@ -96,12 +84,12 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 			$trValue[] = "<span class=\"picklistValue picklistLb_{$moduleName}_{$fieldName}_{$value}\">{$icon}{$displayValue}</span>";
 		}
 		if ($rawText) {
-			$valueRaw = str_ireplace(self::SEPARATOR, ', ', implode(self::SEPARATOR, $trValueRaw));
+			$valueRaw = str_ireplace(' |##| ', ', ', implode(' |##| ', $trValueRaw));
 			if (\is_int($length)) {
 				$valueRaw = \App\TextUtils::textTruncate($valueRaw, $length);
 			}
 		} else {
-			$valueHtml = str_ireplace(self::SEPARATOR, ' ', implode(self::SEPARATOR, $trValue));
+			$valueHtml = str_ireplace(' |##| ', ' ', implode(' |##| ', $trValue));
 			if (\is_int($length)) {
 				$valueHtml = \App\TextUtils::htmlTruncateByWords($valueHtml, $length);
 			}
@@ -116,7 +104,7 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 			return $value;
 		}
 
-		return $value ? explode(self::SEPARATOR, \App\Purifier::encodeHtml($value)) : [];
+		return $value ? explode(' |##| ', \App\Purifier::encodeHtml($value)) : [];
 	}
 
 	/** {@inheritdoc} */
@@ -126,11 +114,11 @@ class Vtiger_Multipicklist_UIType extends Vtiger_Base_UIType
 		if ('' === $trimmedValue) {
 			return $defaultValue ?? '';
 		}
-		$explodedValue = explode(self::SEPARATOR, $trimmedValue);
+		$explodedValue = explode(' |##| ', $trimmedValue);
 		foreach ($explodedValue as $key => $value) {
 			$explodedValue[$key] = trim($value);
 		}
-		return implode(self::SEPARATOR, $explodedValue);
+		return implode(' |##| ', $explodedValue);
 	}
 
 	/** {@inheritdoc} */

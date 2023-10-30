@@ -84,9 +84,9 @@
 				</ul>
 				<div class="float-right p-0">
 					<ul class="pagination {if $DISABLE_BRANDING }mt-1{/if}">
-						{if !\App\YetiForce\Register::verify(true)}
+						{if !\App\YetiForce\Register::isRegistered()}
 							{if \App\Security\AdminAccess::isPermitted('Companies')}
-								{assign var="INFO_REGISTRATION_ERROR" value="<a href='index.php?module=Companies&parent=Settings&view=List&displayModal=online'>{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}</a>"}
+								{assign var="INFO_REGISTRATION_ERROR" value="<a href='{\App\Company::EDIT_VIEW_URL}'>{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}</a>"}
 							{else}
 								{assign var="INFO_REGISTRATION_ERROR" value=\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}
 							{/if}
@@ -95,21 +95,12 @@
 									data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
 									title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
 									{if \App\Security\AdminAccess::isPermitted('Companies')}
-										href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
+										href="{\App\Company::EDIT_VIEW_URL}"
 									{else}
 										href="#"
 									{/if}>
 									<span class="yfi yfi-yeti-register-alert fa-2x">
 									</span>
-								</a>
-							</li>
-						{/if}
-						{assign var=VERIFY value=\App\YetiForce\Shop::verify()}
-						{if $VERIFY}
-							<li class="page-item">
-								<a class="page-link text-warning mr-md-1 js-popover-tooltip" role="button" data-content="{$VERIFY}" title="{\App\Purifier::encodeHtml('<span class="yfi yfi-shop-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
-									{if $IS_ADMIN} href="index.php?module=YetiForce&parent=Settings&view=Shop" {else} href="#" {/if}>
-									<span class="yfi yfi-shop-alert {if !$DISABLE_BRANDING }fa-2x{/if}"></span>
 								</a>
 							</li>
 						{/if}

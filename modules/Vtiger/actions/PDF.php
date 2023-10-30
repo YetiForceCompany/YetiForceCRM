@@ -6,7 +6,7 @@
  * @package Action
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Maciej Stencel <m.stencel@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Adrian Koń <a.kon@yetiforce.com>
@@ -97,7 +97,6 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 		$recordIds = $this->getRecords($request);
 
 		$templateIds = $request->getArray('pdf_template', 'Integer');
-		$attachAsDocument = 1 === $request->getInteger('attach_as_document', 0) && !empty(\App\Relation::getByModule($pdfModuleName, true, 'Documents'));
 		$singlePdf = 1 === $request->getInteger('single_pdf');
 		$emailPdf = 1 === $request->getInteger('email_pdf');
 		$pdfFlag = $request->getByType('flag', \App\Purifier::STANDARD) ?: null;
@@ -180,7 +179,7 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 				$eventHandler->trigger('PdfGenerate');
 
 				$attach = $template->attachFiles ?? [];
-				if ($attachAsDocument || $attach || $emailPdf || ($countTemplates > 1 || (1 === $countTemplates && !isset($skip[$templateId]) && $countRecords > 1))) {
+				if ($attach || $emailPdf || ($countTemplates > 1 || (1 === $countTemplates && !isset($skip[$templateId]) && $countRecords > 1))) {
 					$fileName = ($pdf->getFileName() ?: time());
 					$increment[$fileName] = $increment[$fileName] ?? 0;
 					$fileName .= ($increment[$fileName]++ > 0 ? '_' . $increment[$fileName] : '') . '.pdf';
@@ -198,27 +197,19 @@ class Vtiger_PDF_Action extends \App\Controller\Action
 						}
 					}
 				}
-				if ($attachAsDocument && 1 === $countTemplates && 1 === $countRecords) {
-					$mode = 'AttachAndOutput';
-				}
 				$pdf->output($filePath, $mode ?? $pdfFlag ?? 'D');
 			}
 		}
 		if ($singlePdf) {
 			\App\Pdf\Pdf::merge(array_column($pdfFiles, 'path'), \App\Fields\File::sanitizeUploadFileName(\App\Language::translate('LBL_PDF_MANY_IN_ONE')) . '.pdf', $pdfFlag ?: 'D');
+			foreach ($pdfFiles as $pdfFile) {
+				unlink($pdfFile['path']);
+			}
 		} elseif ($emailPdf) {
 			$pdfFiles = array_values($pdfFiles);
 			Vtiger_PDF_Model::attachToEmail(\App\Json::encode($pdfFiles));
-		} elseif ($pdfFiles && ($countRecords > 1 || $countTemplates > 1)) {
+		} elseif ($pdfFiles) {
 			Vtiger_PDF_Model::zipAndDownload($pdfFiles);
-		}
-
-		if ($attachAsDocument && !$emailPdf) {
-			Vtiger_PDF_Model::attachAsDocument($pdfFiles);
-		} elseif (!$emailPdf) {
-			foreach ($pdfFiles as $fileToDelete) {
-				unlink($fileToDelete['path']);
-			}
 		}
 	}
 

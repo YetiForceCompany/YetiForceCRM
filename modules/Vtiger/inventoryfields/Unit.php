@@ -6,9 +6,8 @@
  * @package   InventoryField
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Unit_InventoryField extends Vtiger_Basic_InventoryField
 {
@@ -28,9 +27,15 @@ class Vtiger_Unit_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		if (($rel = $rowData['name'] ?? '') && (($module = \App\Record::getType($rel)) && $mapDetail = $this->getMapDetail($module))) {
+		if (($rel = $rowData['name'] ?? '') && (($type = \App\Record::getType($rel)) && $mapDetail = $this->getMapDetail($type))) {
 			$value = $mapDetail->getDisplayValue($value, false, false, $rawText);
 		}
 		return $value;
+	}
+
+	/** {@inheritdoc} */
+	public function getEditValue($value)
+	{
+		return \App\Purifier::encodeHtml($value);
 	}
 }

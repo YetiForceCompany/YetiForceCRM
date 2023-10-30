@@ -6,7 +6,7 @@
  * @package Integration
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -19,9 +19,6 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 {
 	/** {@inheritdoc} */
 	const NAME = 'LBL_MULTI_COMPANY';
-
-	/** {@inheritdoc} */
-	const MODULE_NAME = 'MultiCompany';
 
 	/** {@inheritdoc} */
 	const SEQUENCE = 0;
@@ -50,8 +47,6 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 	public function process(): int
 	{
 		$dataReader = (new \App\Db\Query())->from('dbo.FIRMA')
-			->select(['dbo.FIRMA.ID_FIRMY', 'NAZWA', 'NIP', 'REGON',  'WOJEWODZTWO', 'POWIAT', 'GMINA', 'MIEJSCOWOSC',
-				'POCZTA', 'KOD_POCZTOWY', 'ULICA', 'NR_DOMU', 'NR_LOKALU', 'SKRYTKA', 'E_MAIL', 'TELEFON', 'SYM_KRAJU'])
 			->leftJoin('dbo.ADRESY_FIRMY', 'dbo.FIRMA.ID_ADRESU_DOMYSLNEGO = dbo.ADRESY_FIRMY.ID_ADRESY_FIRMY')
 			->where(['>', 'dbo.FIRMA.ID_FIRMY', 0])->createCommand($this->controller->getDb())->query();
 		$s = $e = $i = $u = 0;
@@ -85,14 +80,9 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 	public function importRecord(): int
 	{
 		if ($id = $this->findInMapTable($this->waproId, 'FIRMA')) {
-			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, self::MODULE_NAME);
-		} elseif ($id = $this->findExistRecord()) {
-			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, self::MODULE_NAME);
-			$this->recordModel->setDataForSave([\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME => [
-				'wtable' => 'FIRMA',
-			]]);
+			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, 'MultiCompany');
 		} else {
-			$this->recordModel = \Vtiger_Record_Model::getCleanInstance(self::MODULE_NAME);
+			$this->recordModel = \Vtiger_Record_Model::getCleanInstance('MultiCompany');
 			$this->recordModel->setDataForSave([\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME => [
 				'wtable' => 'FIRMA',
 			]]);
@@ -111,23 +101,5 @@ class MultiCompany extends \App\Integrations\Wapro\Synchronizer
 	public function getCounter(): int
 	{
 		return (new \App\Db\Query())->from('dbo.FIRMA')->count('*', $this->controller->getDb());
-	}
-
-	/**
-	 * Check if there is a duplicate record.
-	 *
-	 * @return int|null
-	 */
-	public function findExistRecord(): ?int
-	{
-		if (empty($this->row['NIP'])) {
-			return null;
-		}
-		$queryGenerator = (new \App\QueryGenerator(self::MODULE_NAME));
-		$queryGenerator->permissions = false;
-		$queryGenerator->setFields(['id']);
-		$queryGenerator->addCondition('vat', $this->row['NIP'], 'e');
-		$recordId = $queryGenerator->createQuery()->scalar();
-		return $recordId ?: null;
 	}
 }

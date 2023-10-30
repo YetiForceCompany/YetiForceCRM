@@ -2,7 +2,7 @@
  * KnowledgeBase components initializations
  *
  * @description KnowledgeBase views' instances
- * @license YetiForce Public License 5.0
+ * @license YetiForce Public License 6.5
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 

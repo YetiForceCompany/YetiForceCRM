@@ -1,17 +1,22 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div id="VtVTEmailTemplateTaskContainer">
-		<div>
+		<div class="">
 			<div class="row pb-3">
 				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
 				<div class="col-md-4">
-					<select id="smtp_{\App\Layout::getUniqueId()}" name="smtp" class="select2 form-control">
-						{foreach from=App\Mail::getSmtpServers() item=ITEM key=ID}
-							<option value="{$ID}" {if (isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp eq $ID)}selected{/if}>
-								{if App\Mail::SMTP_DEFAULT eq $ID} {\App\Language::translate('LBL_DEFAULT')} {else} {\App\Purifier::encodeHtml($ITEM['name'])} {/if}
+					<select id="smtp_{\App\Layout::getUniqueId()}" name="smtp" class="select2 form-control"
+						data-validation-engine="validate[required]"
+						data-placeholder="{\App\Language::translate('LBL_DEFAULT',$QUALIFIED_MODULE)}"
+						data-select="allowClear">
+						<optgroup class="p-0">
+							<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>
+						</optgroup>
+						{foreach from=App\Mail::getAll() item=ITEM key=ID}
+							<option value="{$ID}" {if isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp == $ID}selected{/if}>{$ITEM['name']}
+								({$ITEM['host']})
 							</option>
 						{/foreach}
-						<option value="-1" {if  isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp eq -1}selected{/if}>{\App\Language::translate('LBL_GET_SMTP_FROM_TEMPLATE', $QUALIFIED_MODULE)}</option>
 					</select>
 				</div>
 			</div>
@@ -103,23 +108,29 @@
 			<div class="row pb-3">
 				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_TO')}</span>
 				<div class="col-md-4">
-					<div class="input-group mb-3">
-						<input class="form-control"
-							data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-							name="address_emails" value="{if isset($TASK_OBJECT->address_emails)}{$TASK_OBJECT->address_emails}{/if}">
-						<div class="input-group-append js-popover-tooltip u-cursor-pointer" data-placement="top" data-content="{\App\Language::translate('LBL_ADDRESS_EMAILS_INFO', $QUALIFIED_MODULE)}">
-							<span class="input-group-text">
-								<span class="fas fa-info-circle" </span>
-								</span>
-
-						</div>
-					</div>
+					<input class="form-control"
+						data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
+						name="address_emails" value="{if isset($TASK_OBJECT->address_emails)}{$TASK_OBJECT->address_emails}{/if}">
 				</div>
 			</div>
 			<div class="row pb-3">
 				<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_ATTACH_DOCS_FROM', $QUALIFIED_MODULE)}</span>
 				<div class="col-md-4">
-					{include file=\App\Layout::getTemplatePath('Tasks/AttatchDocumentsFrom.tpl', $QUALIFIED_MODULE)}
+					<select class="select2 form-control" name="attachments"
+						data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}">
+						<option value="">{\App\Language::translate('LBL_NONE')}</option>
+						{if $DOCUMENTS_MODULLES}
+							<option value="{$SOURCE_MODULE}" {if isset($TASK_OBJECT->attachments) && $TASK_OBJECT->attachments === $SOURCE_MODULE}selected="selected" {/if}>{\App\Language::translate($SOURCE_MODULE,$SOURCE_MODULE)}</option>
+						{/if}
+						{foreach from=$DOCUMENTS_RELATED_MODULLES item=RELATED_MODULES}
+							{foreach from=$RELATED_MODULES key=RELATED_MODULE_NAME item=FIELD_MODEL}
+								<option value="{$RELATED_MODULE_NAME}::{$FIELD_MODEL->getFieldName()}"
+									{if isset($TASK_OBJECT->attachments) && $TASK_OBJECT->attachments === {$RELATED_MODULE_NAME}|cat:'::'|cat:{$FIELD_MODEL->getFieldName()}}selected="selected" {/if}>
+									{\App\Language::translate($FIELD_MODEL->getFieldLabel(),$SOURCE_MODULE)}&nbsp;({$FIELD_MODEL->getFieldName()})&nbsp;-&nbsp;{\App\Language::translate($RELATED_MODULE_NAME,$RELATED_MODULE_NAME)}
+								</option>
+							{/foreach}
+						{/foreach}
+					</select>
 				</div>
 			</div>
 			<div class="row pb-3">

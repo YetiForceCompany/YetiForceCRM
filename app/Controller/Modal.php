@@ -6,7 +6,7 @@
  * @package   Controller
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -18,13 +18,6 @@ namespace App\Controller;
  */
 abstract class Modal extends View\Base
 {
-	/**
-	 * Page title.
-	 *
-	 * @var string
-	 */
-	protected $pageTitle;
-
 	/**
 	 * Modal size.
 	 *
@@ -110,6 +103,15 @@ abstract class Modal extends View\Base
 	 */
 	public $autoRegisterEvents = true;
 
+	/** @var string Page title. */
+	protected $pageTitle;
+
+	/** @var bool Blur background */
+	protected bool $blurBackground = false;
+
+	/** @var bool Draggable */
+	protected bool $draggable = true;
+
 	/** {@inheritdoc} */
 	public function preProcessAjax(\App\Request $request)
 	{
@@ -135,6 +137,8 @@ abstract class Modal extends View\Base
 		$viewer->assign('MODAL_SCRIPTS', $this->getModalScripts($request));
 		$viewer->assign('MODAL_CSS', $this->getModalCss($request));
 		$viewer->assign('REGISTER_EVENTS', $this->autoRegisterEvents);
+		$viewer->assign('BLUR_BACKGROUND', $this->blurBackground);
+		$viewer->assign('MODAL_DRAGGABLE', $this->draggable);
 		if ($request->getBoolean('onlyBody')) {
 			$this->showHeader = false;
 			$this->showFooter = false;
@@ -142,18 +146,6 @@ abstract class Modal extends View\Base
 		if ($this->showHeader) {
 			$viewer->view($this->preProcessTplName($request), $moduleName);
 		}
-	}
-
-	/**
-	 * Pre process template name.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return string
-	 */
-	protected function preProcessTplName(\App\Request $request)
-	{
-		return 'Modals/Header.tpl';
 	}
 
 	/** {@inheritdoc} */
@@ -167,12 +159,6 @@ abstract class Modal extends View\Base
 			$viewer->assign('FOOTER_CLASS', $this->footerClass);
 			$viewer->view('Modals/Footer.tpl', $request->getModule());
 		}
-	}
-
-	/** {@inheritdoc} */
-	protected function showFooter()
-	{
-		return $this->showFooter;
 	}
 
 	/**
@@ -217,5 +203,23 @@ abstract class Modal extends View\Base
 			$pageTitle = \App\Language::translate($moduleName, $moduleName);
 		}
 		return $pageTitle;
+	}
+
+	/**
+	 * Pre process template name.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return string
+	 */
+	protected function preProcessTplName(\App\Request $request)
+	{
+		return 'Modals/Header.tpl';
+	}
+
+	/** {@inheritdoc} */
+	protected function showFooter()
+	{
+		return $this->showFooter;
 	}
 }

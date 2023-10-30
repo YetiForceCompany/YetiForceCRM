@@ -2,7 +2,7 @@
  * InRelation SlaPolicy
  *
  * @description InRelation scripts for SlaPolicy module
- * @license     YetiForce Public License 5.0
+ * @license     YetiForce Public License 6.5
  * @author      Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author      Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */

@@ -11,9 +11,6 @@
 
 class Vtiger_DashBoard_Model extends \App\Base
 {
-	/** @var Vtiger_Module_Model Module model. */
-	private $module;
-
 	/**
 	 * Get widget special.
 	 *

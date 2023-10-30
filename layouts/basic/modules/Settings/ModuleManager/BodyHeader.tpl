@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<!-- tpl-Base-BodyHeader -->
 	{assign var='count' value=0}
 	<header class="navbar navbar-expand-md navbar-dark fixed-top px-2 js-header c-header"
@@ -13,16 +13,9 @@
 					</a>
 				</div>
 			</div>
-			{assign var=VERIFY value=\App\YetiForce\Shop::verify()}
-			{if $VERIFY}
-				<a class="d-flex align-items-center text-warning mr-2 js-popover-tooltip" data-content="{$VERIFY}" aria-label="{\App\Language::translate('LBL_YETIFORCE_SHOP')}"
-					{if $USER_MODEL->isAdminUser()} href="index.php?module=YetiForce&parent=Settings&view=Shop" {else} href="#" {/if}>
-					<span class="yfi yfi-shop-alert fa-2x"></span>
-				</a>
-			{/if}
-			{if !\App\YetiForce\Register::verify(true)}
+			{if !\App\YetiForce\Register::isRegistered()}
 				{if \App\Security\AdminAccess::isPermitted('Companies')}
-					{assign var="INFO_REGISTRATION_ERROR" value="<a href='index.php?module=Companies&parent=Settings&view=List&displayModal=online'>{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}</a>"}
+					{assign var="INFO_REGISTRATION_ERROR" value="<a href='{\App\Company::EDIT_VIEW_URL}'>{\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}</a>"}
 				{else}
 					{assign var="INFO_REGISTRATION_ERROR" value=\App\Language::translate('LBL_YETIFORCE_REGISTRATION_CHECK_STATUS', $MODULE_NAME)}
 				{/if}
@@ -30,7 +23,7 @@
 					data-content="{\App\Language::translateArgs('LBL_YETIFORCE_REGISTRATION_ERROR', $MODULE_NAME, $INFO_REGISTRATION_ERROR)}"
 					title="{\App\Purifier::encodeHtml('<span class="yfi yfi-yeti-register-alert mr-1"></span>')}{\App\Language::translate('LBL_YETIFORCE_REGISTRATION', $MODULE_NAME)}"
 					{if \App\Security\AdminAccess::isPermitted('Companies')}
-						href="index.php?parent=Settings&module=Companies&view=List&displayModal=online"
+						href="{\App\Company::EDIT_VIEW_URL}"
 					{else}
 						href="#"
 					{/if}>
@@ -67,7 +60,7 @@
 							{assign var="HREF" value='#'}
 							{assign var="ICON_PATH" value=$obj->getIconPath()}
 							{assign var="LINK" value=$obj->convertToNativeLink()}
-							{assign var="ICON" value=$obj->getIcon()}
+							{assign var="ICON" value=$obj->getHeaderIcon()}
 							{assign var="TITLE" value=$obj->getLabel()}
 							{assign var="CHILD_LINKS" value=$obj->getChildLinks()}
 							{if !empty($LINK)}
@@ -81,15 +74,13 @@
 											data-{$DATA_NAME}="{$DATA_VALUE}"
 										{/foreach}
 									{/if}>
+									{if $ICON}
+										<span class="{$ICON}" title="{\App\Language::translate($TITLE)}"></span>
+										<span class="c-header__label--sm-down">{\App\Language::translate($TITLE)}</span>
+									{/if}
 									{if $ICON_PATH}
-										<img src="{$ICON_PATH|escape}" alt="{\App\Language::translate($TITLE)}" title="{\App\Language::translate($TITLE)}" />
-									{elseif $ICON}
-										<span class="{$ICON|escape}" title="{\App\Language::translate($TITLE, $obj->getModuleName())}"></span>
+										<img src="{$ICON_PATH}" alt="{\App\Language::translate($TITLE)}" title="{\App\Language::translate($TITLE)}" />
 									{/if}
-									{if !empty($obj->linkdata['auto-refresh'])}
-										<span class="badge badge-danger d-none mr-1">0</span>
-									{/if}
-									<span class="c-header__label--sm-down">{\App\Language::translate($TITLE, $obj->getModuleName())}</span>
 								</a>
 								{if !empty($CHILD_LINKS)}
 									<ul class="dropdown-menu">

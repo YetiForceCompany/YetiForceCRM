@@ -1,5 +1,5 @@
 {strip}
-	{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+	{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 	<div id="VtVTEmailTemplateTaskContainer">
 		<div class="row">
 			<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_PDF_TEMPLATE', $QUALIFIED_MODULE)}</span>
@@ -20,13 +20,16 @@
 		<div class="row pb-3">
 			<span class="col-md-4 col-form-label text-right">{\App\Language::translate('LBL_SMTP', $QUALIFIED_MODULE)}</span>
 			<div class="col-md-4">
-				<select id="smtp_{\App\Layout::getUniqueId()}" name="smtp" class="select2 form-control">
-					{foreach from=App\Mail::getSmtpServers() item=ITEM key=ID}
-						<option value="{$ID}" {if (isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp eq $ID)}selected{/if}>
-							{if App\Mail::SMTP_DEFAULT eq $ID} {\App\Language::translate('LBL_DEFAULT')} {else} {\App\Purifier::encodeHtml($ITEM['name'])} {/if}
+				<select id="smtp_{\App\Layout::getUniqueId()}" name="smtp" class="select2 form-control" data-select="allowClear"
+					data-placeholder="{\App\Language::translate('LBL_DEFAULT')}">
+					<optgroup class="p-0">
+						<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>
+					</optgroup>
+					{foreach from=App\Mail::getAll() item=ITEM key=ID}
+						<option value="{$ID}" {if isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp eq $ID}selected="selected" {/if}>{$ITEM['name']}
+							({$ITEM['host']})
 						</option>
 					{/foreach}
-					<option value="-1" {if  isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp eq -1}selected{/if}>{\App\Language::translate('LBL_GET_SMTP_FROM_TEMPLATE', $QUALIFIED_MODULE)}</option>
 				</select>
 			</div>
 		</div>
@@ -55,51 +58,48 @@
 				</label>
 			</span>
 		</div>
-		{if !empty($TASK_OBJECT->email) }
-			{if  is_array($TASK_OBJECT->email)}
-				{assign var=EMAIL value=implode(',', $TASK_OBJECT->email)}
-			{else}
-				{assign var=EMAIL value=$TASK_OBJECT->email}
-			{/if}
-		{/if}
 		<div class="row pb-3">
-			<span class="col-md-4 col-form-label text-right">{\App\Language::translate('Select e-mail address',$QUALIFIED_MODULE)}<span
-					class="redColor">*</span></span>
+			<span class="col-md-4 col-form-label text-right">{\App\Language::translate('Select e-mail address', $QUALIFIED_MODULE)}</span>
 			<div class="col-md-4">
-				<div class="col-md-12 px-0 row m-0">
-					<div class="col px-0 mr-1">
-						<input data-validation-engine='validate[required]' name="email" class="fields form-control"
-							type="text" value="{if !empty($EMAIL)}{\App\Purifier::encodeHtml($EMAIL)}{/if}" />
-					</div>
-					<div class="input-group col px-0">
-						<select class="task-fields select2 form-control" id="toEmailOption"
-							data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
-							<option></option>
-							{foreach item=FIELDS key=BLOCK_NAME from=$EMAIL_FIELD_OPTION}
-								<optgroup label="{$BLOCK_NAME}">
-									{foreach item=LABEL key=VAL from=$FIELDS}
-										<option value="{$VAL}">{$LABEL}</option>
-									{/foreach}
-								</optgroup>
+				{assign var=IS_EMAILS value=isset($TASK_OBJECT->email) && is_array($TASK_OBJECT->email)}
+				<select class="select2 form-control" name="email"
+					data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}"
+					multiple="multiple"
+					data-validation-engine="validate[required]">
+					{assign var=TEXT_PARSER value=App\TextParser::getInstance($SOURCE_MODULE)}
+					{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable('email')}
+						<optgroup label="{$BLOCK_NAME}">
+							{foreach item=ITEM from=$FIELDS}
+								<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}"
+									{if isset($TASK_OBJECT->email) && (($IS_EMAILS && in_array($ITEM['var_value'], $TASK_OBJECT->email)) || ($TASK_OBJECT->email eq $ITEM['var_value']))}selected="" {/if}>
+									{$ITEM['label']}
+								</option>
 							{/foreach}
-							{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRelatedLevelVariable('email')}
-								<optgroup label="{$BLOCK_NAME}">
-									{foreach item=ITEM from=$RELATED_FIELDS}
-										<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">
-											{$ITEM['label']}
-										</option>
-									{/foreach}
-								</optgroup>
+						</optgroup>
+					{/foreach}
+					{foreach item=FIELDS from=$TEXT_PARSER->getRelatedVariable('email')}
+						{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$FIELDS}
+							<optgroup label="{$BLOCK_NAME}">
+								{foreach item=ITEM from=$RELATED_FIELDS}
+									<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}"
+										{if isset($TASK_OBJECT->email) && (($IS_EMAILS && in_array($ITEM['var_value'], $TASK_OBJECT->email)) || ($TASK_OBJECT->email eq $ITEM['var_value']))}selected="" {/if}>
+										{$ITEM['label']}
+									</option>
+								{/foreach}
+							</optgroup>
+						{/foreach}
+					{/foreach}
+					{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRelatedLevelVariable('email')}
+						<optgroup label="{$BLOCK_NAME}">
+							{foreach item=ITEM from=$RELATED_FIELDS}
+								<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}"
+									{if isset($TASK_OBJECT->email) && (($IS_EMAILS && in_array($ITEM['var_value'], $TASK_OBJECT->email)) || ($TASK_OBJECT->email eq $ITEM['var_value']))}selected="" {/if}>
+									{$ITEM['label']}
+								</option>
 							{/foreach}
-						</select>
-						<div class="input-group-append">
-							<button type="button" class="btn btn-primary clipboard" data-copy-target="#toEmailOption"
-								title="{\App\Language::translate('BTN_COPY_TO_CLIPBOARD')}">
-								<span class="fas fa-copy"></span>
-							</button>
-						</div>
-					</div>
-				</div>
+						</optgroup>
+					{/foreach}
+				</select>
 			</div>
 		</div>
 	</div>

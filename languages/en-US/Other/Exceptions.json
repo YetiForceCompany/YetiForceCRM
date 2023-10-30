@@ -5,7 +5,6 @@
     "ERR_FAILED_TO_SAVE_SCRIPT": "Failed to save workflow methods script file.",
     "ERR_ILLEGAL_FIELD_VALUE": "Illegal value has been entered for this field type. Field name: %s, Module: %s, Value: %s",
     "ERR_VALUE_IS_TOO_LONG": "Character limit exceeded. Field name: %s, Module: %s, Value: %s",
-    "ERR_VALUE_IS_TOO_SHORT": "Entered value is too short. Field name: %s, Module: %s, Value: %s",
     "ERR_TO_MANY_FILES": "Too many files transferred - limit was exceeded. Field name: %s, Module: %s, Value: %s",
     "ERR_VALUE_CAN_NOT_BE_LESS_THAN_ZERO": "The field value must be greater than zero. Field name: %s, Module: %s, Value: %s",
     "ERR_NOT_ALLOWED_VALUE": "Incorrect value detected, please contact your administrator",
@@ -50,7 +49,6 @@
     "ERR_CLASS_MUST_BE": "Class must be %s",
     "ERR_PAID_FUNCTIONALITY": "%s paid functionality, you must purchase it",
     "ERR_TOKEN_DOES_NOT_EXIST": "The token does not exist or has expired",
-    "ERR_TOKEN_NOT_EXECUTION_CONDITIONS": "The token does not meet the conditions for execution",
     "ERR_NO_TOKEN": "No token",
     "ERR_INCORRECT_2FA_TOTP_CODE": "Incorrect 2FA TOTP code",
     "ERR_NO_2FA_TOTP_CODE": "No 2FA TOTP code",
@@ -59,6 +57,9 @@
     "ERR_FILE_TYPE": "Invalid file type",
     "ERR_REQUIRED_VALUE_MISSING": "The field value is missing or is not supported",
     "ERR_DETECTED_ERRORS_CURRENT_RECORD": "Problems or errors have been detected in this record. Please review the following message and modify the data accordingly.",
-    "ERR_DETECTED_ERRORS_WILL_DISAPPEAR": "The error will disappear only after the appropriate mechanisms are activated once the correction is made. This may take several minutes depending on your configuration."
+    "ERR_DETECTED_ERRORS_WILL_DISAPPEAR": "The error will disappear only after the appropriate mechanisms are activated once the correction is made. This may take several minutes depending on your configuration.",
+    "ERR_REGISTER_FILES_PERMISSIONS": "Incorrect permissions on files or directory %s",
+    "ERR_PLEASE_USE_LATIN_CHARACTERS": "Please make sure to use Latin characters only",
+    "ERR_RECREATE_APP_ACCESS": "The system has detected a change in the basic registration data. The add-ons you purchased may not be available. Please contact your provider in case of any issues."
   }
 }

@@ -5,7 +5,7 @@
  * @package Widget
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 /**
@@ -16,7 +16,7 @@ class Vtiger_PDFViewer_Widget extends Vtiger_Basic_Widget
 	/** {@inheritdoc} */
 	public function isPermitted(): bool
 	{
-		return parent::isPermitted() && Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModuleActionPermission($this->Module, 'ExportPdf') && \Vtiger_PDF_Model::getTemplatesByModule($this->Module);
+		return parent::isPermitted() && \App\YetiForce\Shop::check('YetiForceWidgets') && Users_Privileges_Model::getCurrentUserPrivilegesModel()->hasModuleActionPermission($this->Module, 'ExportPdf') && \Vtiger_PDF_Model::getTemplatesByModule($this->Module);
 	}
 
 	/** {@inheritdoc} */

@@ -7,7 +7,7 @@
  * @package   Tests
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -773,7 +773,7 @@ final class WebservicePremiumTest extends \Tests\Base
 		static::assertTrue($response['result']['mailerStatus'], $assertMessage);
 		self::assertResponseBodyMatch($response, self::$schemaManager, '/webservice/WebservicePremium/Users/ResetPassword', 'post', 200);
 
-		$row = (new \App\Db\Query())->from(\App\Utils\Tokens::TABLE_NAME)->where(['method' => '\Api\WebserviceStandard\Users\ResetPassword'])->one();
+		$row = (new \App\Db\Query())->from('s_#__tokens')->where(['method' => '\Api\WebserviceStandard\Users\ResetPassword'])->one();
 		static::assertNotEmpty($row, $assertMessage);
 		static::assertNotEmpty($row['uid'], $assertMessage);
 

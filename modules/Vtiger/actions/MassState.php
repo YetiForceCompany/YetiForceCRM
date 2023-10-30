@@ -6,9 +6,8 @@
  * @package Action
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_MassState_Action extends Vtiger_Mass_Action
 {
@@ -58,35 +57,38 @@ class Vtiger_MassState_Action extends Vtiger_Mass_Action
 		$skipped = [];
 		foreach ($recordIds as $recordId) {
 			$recordModel = Vtiger_Record_Model::getInstanceById($recordId, $moduleName);
-			$state = array_search($request->getByType('state'), \App\Record::STATES);
-			if (false === $state || (\App\Record::STATE_ARCHIVED === $state && !$recordModel->privilegeToArchive())
-				|| (\App\Record::STATE_TRASH === $state && !$recordModel->privilegeToMoveToTrash())
-				|| (\App\Record::STATE_ACTIVE === $state && !$recordModel->privilegeToActivate())
-			) {
-				$skipped[] = $recordModel->getName();
-				continue;
+			switch ($request->getByType('state')) {
+				case 'Archived':
+					if (!$recordModel->privilegeToArchive()) {
+						$skipped[] = $recordModel->getName();
+						continue 2;
+					}
+					break;
+				case 'Trash':
+					if (!$recordModel->privilegeToMoveToTrash()) {
+						$skipped[] = $recordModel->getName();
+						continue 2;
+					}
+					break;
+				case 'Active':
+					if (!$recordModel->privilegeToActivate()) {
+						$skipped[] = $recordModel->getName();
+						continue 2;
+					}
+					break;
+				default:
+					break;
 			}
-
-			$eventHandler = $recordModel->getEventHandler();
-			foreach ($eventHandler->getHandlers(\App\EventHandler::PRE_STATE_CHANGE) as $handler) {
-				if (!($eventHandler->triggerHandler($handler)['result'] ?? null)) {
-					$skipped[] = $recordModel->getName();
-					continue 2;
-				}
-			}
-
-			$recordModel->changeState($state);
+			$recordModel->changeState($request->getByType('state'));
 			unset($recordModel);
 		}
-
 		$text = \App\Language::translate('LBL_CHANGES_SAVED');
 		$type = 'success';
 		if ($skipped) {
 			$type = 'info';
-			$break = '<br>';
-			$text .= $break . \App\Language::translate('LBL_OMITTED_RECORDS');
+			$text .= PHP_EOL . \App\Language::translate('LBL_OMITTED_RECORDS');
 			foreach ($skipped as $name) {
-				$text .= $break . $name;
+				$text .= PHP_EOL . $name;
 			}
 		}
 		$response = new Vtiger_Response();

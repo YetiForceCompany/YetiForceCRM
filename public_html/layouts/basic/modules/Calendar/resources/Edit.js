@@ -166,7 +166,8 @@ Vtiger_Edit_Js(
 				container.find('.js-autofill').trigger('change');
 				if (start > end) {
 					end = start;
-					endDateElement.val(moment(end).format(dateFormat)).datepicker('update');
+					endDateElement.val(moment(end).format(dateFormat));
+					App.Fields.Date.register(container);
 				}
 			});
 			container.find('input[name="time_start"]').on('focus', function (e) {
@@ -279,10 +280,30 @@ Vtiger_Edit_Js(
 		 * @param {jQuery} form
 		 */
 		registerFormSubmitEvent: function (form) {
-			let thisInstance = this;
+			var thisInstance = this;
+			var lockSave = true;
+			if (app.getRecordId()) {
+				form.on(Vtiger_Edit_Js.recordPreSave, function (e) {
+					if (lockSave && form.find('input[name="reapeat"]').is(':checked')) {
+						e.preventDefault();
+						app.showModalWindow(form.find('.typeSavingModal').clone(), function (container) {
+							container.find('.typeSavingBtn').on('click', function (e) {
+								var currentTarget = $(e.currentTarget);
+								form.find('[name="typeSaving"]').val(currentTarget.data('value'));
+								app.hideModalWindow();
+								lockSave = false;
+								form.submit();
+							});
+						});
+					}
+				});
+			}
 			form.on('submit', function (e) {
 				const recurringCheck = form.find('input[name="reapeat"]').is(':checked');
 				if (recurringCheck) {
+					if (app.getRecordId() && lockSave) {
+						e.preventDefault();
+					}
 					form.find('[name="recurrence"]').val(thisInstance.getRule());
 				}
 				let rows = form.find('.js-participants-content .js-participant-row');
@@ -392,7 +413,6 @@ Vtiger_Edit_Js(
 			this.registerInviteEvent(container);
 			this.registerAddInvitation(container);
 			this.registerFormSubmitEvent(container);
-			this.registerReminderFieldCheckBox();
 		},
 		toggleTimesInputs: function (container) {
 			container.find(':checkbox').on('change', function () {
@@ -571,6 +591,7 @@ Vtiger_Edit_Js(
 			if (!this.proceedRegisterEvents()) {
 				return;
 			}
+			this.registerReminderFieldCheckBox();
 			this.registerRecurrenceFieldCheckBox();
 			this.registerRecurringTypeChangeEvent();
 			this._super();

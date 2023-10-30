@@ -1209,7 +1209,7 @@ class PackageImport extends PackageExport
 						break;
 					case 'displayType':
 						$displayType = (int) $fieldNode->displaytype;
-						if (!isset($fieldModel->displayTypeBase()[$displayType])) {
+						if (!\in_array($displayType, $fieldModel->displayTypeBase())) {
 							throw new \App\Exceptions\IllegalValue("ERR_NOT_ALLOWED_VALUE||{$name}||" . $displayType, 406);
 						}
 						$fieldModel->set($name, $displayType);

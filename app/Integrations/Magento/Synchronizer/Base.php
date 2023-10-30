@@ -2,13 +2,12 @@
 /**
  * Synchronize.
  *
- * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription.
- * File modification allowed only with the consent of the system producer.
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
  *
  * @package Integration
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -21,14 +20,30 @@ namespace App\Integrations\Magento\Synchronizer;
  */
 abstract class Base
 {
-	/** @var array Last scan config data. */
-	public $lastScan = [];
-	/** @var \App\Integrations\Magento\Config Config instance. */
-	public $config;
-	/** @var \App\Integrations\Magento\Controller Controller instance. */
-	public $controller;
-	/** @var \App\Integrations\Magento\Connector\Base Connector. */
+	/**
+	 * Connector.
+	 *
+	 * @var \App\Integrations\Magento\Connector\Token
+	 */
 	protected $connector;
+	/**
+	 * Last scan config data.
+	 *
+	 * @var array
+	 */
+	public $lastScan = [];
+	/**
+	 * Config.
+	 *
+	 * @var \App\Integrations\Magento\Config
+	 */
+	public $config;
+	/**
+	 * Controller.
+	 *
+	 * @var \App\Integrations\Magento\Controller
+	 */
+	public $controller;
 
 	/**
 	 * Constructor.

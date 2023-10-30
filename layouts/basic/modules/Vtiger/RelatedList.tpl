@@ -47,7 +47,7 @@
 									{/if}
 								{/foreach}
 								<button class="btn btn-light dropdown-toggle relatedViewBtn" data-toggle="dropdown">
-									{if !empty($BTN_ICON)}
+									{if $BTN_ICON}
 										<span class="{$BTN_ICON} mr-1"></span>
 									{else}
 										<span class="fas fa-list mr-1"></span>
@@ -77,13 +77,13 @@
 									<div class="btn-group mr-md-1 c-btn-block-sm-down">
 										{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
 										<button type="button" class="btn btn-light addButton
-											{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modCT_{$RELATED_MODULE_NAME} {if !empty($RELATED_LINK->get('linkqcs'))}quickCreateSupported{/if}" {' '}
+											{if $IS_SELECT_BUTTON eq true} selectRelation {/if} modCT_{$RELATED_MODULE_NAME} {if !empty($RELATED_LINK->linkqcs)}quickCreateSupported{/if}" {' '}
 											{if $IS_SELECT_BUTTON eq true} data-moduleName={$RELATED_LINK->get('_module')->get('name')} {/if}{' '}
 											{if ($RELATED_LINK->isPageLoadLink())}{' '}
 												{if $RELATION_FIELD} data-name="{$RELATION_FIELD->getName()}" {/if}{' '}
 												data-url="{$RELATED_LINK->getUrl()}"
 											{else}
-												onclick='{substr($RELATED_LINK->getUrl(), strlen("javascript:"))}'
+												onclick='{substr($RELATED_LINK->getUrl())};'
 											{/if}{' '}
 											{if $IS_SELECT_BUTTON neq true && stripos($RELATED_LINK->getUrl(), 'javascript:') !== 0}name="addButton" {/if}>
 											{if $IS_SELECT_BUTTON eq false}

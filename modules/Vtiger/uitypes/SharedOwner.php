@@ -6,7 +6,7 @@
  * @package   UIType
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -94,9 +94,9 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 					break;
 				case 'Groups':
 					if ($isAdmin) {
-						$groupModel = new Settings_Groups_Record_Model();
-						$groupModel->set('groupid', $shownerid);
-						$detailViewUrl = $groupModel->getDetailViewUrl();
+						$recordModel = new Settings_Groups_Record_Model();
+						$recordModel->set('groupid', $shownerid);
+						$detailViewUrl = $recordModel->getDetailViewUrl();
 						$popoverRecordClass = '';
 					}
 					break;
@@ -145,9 +145,9 @@ class Vtiger_SharedOwner_UIType extends Vtiger_Base_UIType
 						continue 2;
 					}
 					$display[$key] = $name;
-					$groupModel = new Settings_Groups_Record_Model();
-					$groupModel->set('groupid', $shownerid);
-					$detailViewUrl = $groupModel->getDetailViewUrl();
+					$recordModel = new Settings_Groups_Record_Model();
+					$recordModel->set('groupid', $shownerid);
+					$detailViewUrl = $recordModel->getDetailViewUrl();
 					if ($isAdmin && !$rawText) {
 						$shownerData[$key]['link'] = $detailViewUrl;
 						$shownerData[$key]['class'] = '';

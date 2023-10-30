@@ -248,48 +248,42 @@ $.Class(
 			});
 		},
 		registerReminderNotice: function () {
+			let self = this;
 			$('#page').before(
-				`<div class="remindersNoticeContainer js-reminders-sidebar c-sidebar-right" tabindex="-1" role="dialog" aria-label="${app.vtranslate(
+				`<div class="remindersNoticeContainer" tabindex="-1" role="dialog" aria-label="${app.vtranslate(
 					'JS_REMINDER'
 				)}" aria-hidden="true"></div>`
 			);
 			let block = $('.remindersNoticeContainer');
 			let remindersNotice = $('.remindersNotice');
-			remindersNotice.on('click', () => {
+			remindersNotice.on('click', function () {
 				if (!remindersNotice.hasClass('autoRefreshing')) {
 					Vtiger_Index_Js.requestReminder();
 				}
-				let open = !block.hasClass('toggled');
-				this.closeSidebars();
-				if (open) {
-					block.addClass('toggled');
-				}
+				self.hideActionMenu();
+				self.hideBreadcrumbActionMenu();
+				block.toggleClass('toggled');
+				self.hideReminderNotification();
+				app.closeSidebar();
+				self.hideSearchMenu();
 			});
 		},
 		registerReminderNotification: function () {
-			$('#page').before(
-				'<div class="remindersNotificationContainer js-reminders-sidebar c-sidebar-right" tabindex="-1" role="dialog"></div>'
-			);
+			let self = this;
+			$('#page').before('<div class="remindersNotificationContainer" tabindex="-1" role="dialog"></div>');
 			let block = $('.remindersNotificationContainer');
 			let remindersNotice = $('.notificationsNotice');
-			remindersNotice.on('click', () => {
+			remindersNotice.on('click', function () {
 				if (!remindersNotice.hasClass('autoRefreshing')) {
 					Vtiger_Index_Js.getNotificationsForReminder();
 				}
-				let open = !block.hasClass('toggled');
-				this.closeSidebars();
-				if (open) {
-					block.addClass('toggled');
-				}
+				self.hideActionMenu();
+				self.hideBreadcrumbActionMenu();
+				block.toggleClass('toggled');
+				self.hideReminderNotice();
+				app.closeSidebar();
+				self.hideSearchMenu();
 			});
-		},
-		/** Close all sidebars */
-		closeSidebars() {
-			this.hideActionMenu();
-			this.hideBreadcrumbActionMenu();
-			this.hideReminderSideBar();
-			this.hideSearchMenu();
-			app.closeSidebar();
 		},
 		toggleBreadcrumbActions(container) {
 			let actionsContainer = container.find('.js-header-toggle__actions');
@@ -311,21 +305,22 @@ $.Class(
 		registerMobileEvents: function () {
 			const self = this,
 				container = this.getContentsContainer();
-			$('.js-sidebar-btn').on('click', () => {
-				this.hideActionMenu();
-				this.hideBreadcrumbActionMenu();
-				this.hideReminderSideBar();
-				this.hideSearchMenu();
+			$('.rightHeaderBtnMenu').on('click', function () {
+				self.hideActionMenu();
+				self.hideBreadcrumbActionMenu();
+				self.hideSearchMenu();
+				self.hideReminderNotice();
+				self.hideReminderNotification();
+				$('.mobileLeftPanel ').toggleClass('mobileMenuOn');
 			});
-			$('.js-quick-action-btn').on('click', (e) => {
-				let currentTarget = $(e.currentTarget);
-
+			$('.js-quick-action-btn').on('click', function () {
+				let currentTarget = $(this);
 				app.closeSidebar();
-				this.hideBreadcrumbActionMenu();
-				this.hideReminderSideBar();
-				this.hideSearchMenu();
+				self.hideBreadcrumbActionMenu();
+				self.hideSearchMenu();
+				self.hideReminderNotice();
+				self.hideReminderNotification();
 				$('.actionMenu').toggleClass('actionMenuOn');
-
 				if (currentTarget.hasClass('active')) {
 					currentTarget.removeClass('active');
 					currentTarget.attr('aria-expanded', 'false');
@@ -335,8 +330,8 @@ $.Class(
 					currentTarget.attr('aria-expanded', 'true');
 					currentTarget.popover('disable');
 				}
-				$('.quickCreateModules').on('click', () => {
-					this.hideActionMenu();
+				$('.quickCreateModules').on('click', function () {
+					self.hideActionMenu();
 				});
 			});
 			$('.searchMenuBtn').on('click', function () {
@@ -344,7 +339,8 @@ $.Class(
 				app.closeSidebar();
 				self.hideActionMenu();
 				self.hideBreadcrumbActionMenu();
-				self.hideReminderSideBar();
+				self.hideReminderNotice();
+				self.hideReminderNotification();
 				$('.searchMenu').toggleClass('toogleSearchMenu');
 				if (currentTarget.hasClass('active')) {
 					currentTarget.removeClass('active');
@@ -354,14 +350,18 @@ $.Class(
 					$('.searchMenuBtn .c-header__btn').attr('aria-expanded', 'true');
 				}
 			});
-			$('.js-header__btn--mail .dropdown').on('show.bs.dropdown', () => {
+			$('.js-header__btn--mail .dropdown').on('show.bs.dropdown', function () {
 				app.closeSidebar();
-				this.hideActionMenu();
-				this.hideBreadcrumbActionMenu();
-				this.hideReminderSideBar();
-				this.hideSearchMenu();
+				self.hideActionMenu();
+				self.hideBreadcrumbActionMenu();
+				self.hideReminderNotice();
+				self.hideReminderNotification();
+				self.hideSearchMenu();
 			});
 			this.toggleBreadcrumbActions(container);
+		},
+		hideMobileMenu: function () {
+			$('.mobileLeftPanel ').removeClass('mobileMenuOn');
 		},
 		hideSearchMenu: function () {
 			$('.searchMenu').removeClass('toogleSearchMenu');
@@ -372,9 +372,11 @@ $.Class(
 		hideBreadcrumbActionMenu: function () {
 			$('.js-header-toggle__actions').removeClass('is-active');
 		},
-		/** Hide all reminder sidebars */
-		hideReminderSideBar: function () {
-			$('.js-reminders-sidebar').removeClass('toggled');
+		hideReminderNotice: function () {
+			$('.remindersNoticeContainer').removeClass('toggled');
+		},
+		hideReminderNotification: function () {
+			$('.remindersNotificationContainer').removeClass('toggled');
 		},
 		registerFooTable: function () {
 			let container = $('.tableRWD');

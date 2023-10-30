@@ -57,6 +57,12 @@ class Vtiger_Recurrence_UIType extends Vtiger_Base_UIType
 		return 'Edit/Field/Recurrence.tpl';
 	}
 
+	/** {@inheritdoc} */
+	public function getDetailViewTemplateName()
+	{
+		return 'Detail/Field/Recurrence.tpl';
+	}
+
 	/**
 	 * Function to get the edit value in display view.
 	 *

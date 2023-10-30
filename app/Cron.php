@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -66,9 +66,6 @@ class Cron
 	/** @var bool Flag to keep log file after run finish */
 	public static $keepLogFile = false;
 
-	/** @var int Max execution cron time. */
-	private static $maxExecutionCronTime;
-
 	/** @var bool Register enabled flag */
 	public static $registerIsActive = true;
 
@@ -80,6 +77,9 @@ class Cron
 
 	/** @var bool ConfReport enabled flag */
 	public static $confReportIsActive = true;
+
+	/** @var int Max execution cron time. */
+	private static $maxExecutionCronTime;
 
 	/**
 	 * Init and configure object.
@@ -94,10 +94,7 @@ class Cron
 			YetiForce\Watchdog::send();
 		}
 		if (self::$registerIsActive) {
-			YetiForce\Register::check();
-		}
-		if (self::$shopIsActive) {
-			YetiForce\Shop::generateCache();
+			(new YetiForce\Register())->send();
 		}
 		if (!(static::$logActive = Config::debug('DEBUG_CRON'))) {
 			return;
@@ -110,6 +107,23 @@ class Cron
 			$this->logFile = date('Ymd_Hi') . '.log';
 		}
 		$this->log('File start', 'info', false);
+	}
+
+	/**
+	 * Remove log file if no value information was stored.
+	 */
+	public function __destruct()
+	{
+		if (!static::$keepLogFile) {
+			if (!static::$logActive) {
+				return;
+			}
+			if (file_exists($this->logPath . $this->logFile)) {
+				unlink($this->logPath . $this->logFile);
+			}
+		} else {
+			$this->log('------------------------------------' . PHP_EOL . Log::getlastLogs(), 'info', false);
+		}
 	}
 
 	/**
@@ -146,23 +160,6 @@ class Cron
 		}
 		$all['last_start'] = time();
 		return file_put_contents(ROOT_DIRECTORY . '/app_data/cron.php', '<?php return ' . Utils::varExport($all) . ';', LOCK_EX);
-	}
-
-	/**
-	 * Remove log file if no value information was stored.
-	 */
-	public function __destruct()
-	{
-		if (!static::$keepLogFile) {
-			if (!static::$logActive) {
-				return;
-			}
-			if (\file_exists($this->logPath . $this->logFile)) {
-				unlink($this->logPath . $this->logFile);
-			}
-		} else {
-			$this->log('------------------------------------' . PHP_EOL . Log::getlastLogs(), 'info', false);
-		}
 	}
 
 	/**
@@ -207,7 +204,7 @@ class Cron
 			return self::$maxExecutionCronTime;
 		}
 		$maxExecutionTime = (int) Config::main('maxExecutionCronTime');
-		$iniMaxExecutionTime = (int) ini_get('max_execution_time');
+		$iniMaxExecutionTime = (int) \ini_get('max_execution_time');
 		if (0 !== $iniMaxExecutionTime && $iniMaxExecutionTime < $maxExecutionTime) {
 			$maxExecutionTime = $iniMaxExecutionTime;
 		}

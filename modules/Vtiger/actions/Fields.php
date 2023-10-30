@@ -6,7 +6,7 @@
  * @package Action
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -20,21 +20,6 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 	 * @var Vtiger_Field_Model
 	 */
 	protected $fieldModel;
-
-	/** {@inheritDoc} */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('getOwners');
-		$this->exposeMethod('getReference');
-		$this->exposeMethod('getUserRole');
-		$this->exposeMethod('findAddress');
-		$this->exposeMethod('validateForField');
-		$this->exposeMethod('validateByMode');
-		$this->exposeMethod('verifyPhoneNumber');
-		$this->exposeMethod('changeFavoriteOwner');
-		$this->exposeMethod('validateFile');
-	}
 
 	/**
 	 * Function to check permission.
@@ -61,6 +46,20 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 				throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD', 406);
 			}
 		}
+	}
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->exposeMethod('getOwners');
+		$this->exposeMethod('getReference');
+		$this->exposeMethod('getUserRole');
+		$this->exposeMethod('findAddress');
+		$this->exposeMethod('validateForField');
+		$this->exposeMethod('validateByMode');
+		$this->exposeMethod('verifyPhoneNumber');
+		$this->exposeMethod('changeFavoriteOwner');
+		$this->exposeMethod('validateFile');
 	}
 
 	/**
@@ -178,18 +177,11 @@ class Vtiger_Fields_Action extends \App\Controller\Action
 		$response = new Vtiger_Response();
 		$limit = \App\Config::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT');
 		$searchValue = \App\RecordSearch::getSearchField()->getUITypeModel()->getDbConditionBuilderValue($request->getByType('value', \App\Purifier::TEXT), '');
+		$rows = (new \App\RecordSearch($searchValue, $searchInModule, $limit))->setMode(\App\RecordSearch::LABEL_MODE)->search();
 		$data = $modules = [];
-		if ('Users' === $searchInModule[0]) {
-			foreach (\App\User::searchByLabel($searchValue, $limit) as $row) {
-				$modules['Users'][] = ['crmid' => $row['id'], 'label' => $row['label']];
-			}
-		} else {
-			$rows = (new \App\RecordSearch($searchValue, $searchInModule, $limit))->setMode(\App\RecordSearch::LABEL_MODE)->search();
 			foreach ($rows as $row) {
 				$modules[$row['setype']][] = $row;
 			}
-		}
-
 		foreach ($modules as $moduleName => $rows) {
 			$data[] = ['name' => App\Language::translateSingleMod($moduleName, $moduleName), 'type' => 'optgroup'];
 			foreach ($rows as $row) {

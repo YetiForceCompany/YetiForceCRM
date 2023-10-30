@@ -5,7 +5,7 @@
  * @package   Controller
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -37,6 +37,28 @@ abstract class Base extends \App\Controller\Base
 	 * @var string
 	 */
 	protected $breadcrumbTitle;
+
+	/** {@inheritdoc} */
+	protected function showBodyHeader()
+	{
+		return false;
+	}
+
+	/** {@inheritdoc} */
+	protected function showFooter()
+	{
+		return false;
+	}
+
+	/**
+	 * Show bread crumbs.
+	 *
+	 * @return bool
+	 */
+	protected function showBreadCrumbLine()
+	{
+		return true;
+	}
 
 	/**
 	 * Static function to get the Instance of the Vtiger_Viewer.
@@ -132,6 +154,28 @@ abstract class Base extends \App\Controller\Base
 	}
 
 	/**
+	 * Pre process display function.
+	 *
+	 * @param \App\Request $request
+	 */
+	protected function preProcessDisplay(\App\Request $request)
+	{
+		$this->getViewer($request)->view($this->preProcessTplName($request), $request->getModule());
+	}
+
+	/**
+	 * Pre process template name.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return string
+	 */
+	protected function preProcessTplName(\App\Request $request)
+	{
+		return 'PageHeader.tpl';
+	}
+
+	/**
 	 * Post process function.
 	 *
 	 * @param \App\Request $request
@@ -216,11 +260,6 @@ abstract class Base extends \App\Controller\Base
 			];
 			$jsFileNames = array_merge($polyfills, $jsFileNames);
 		}
-		foreach (\Vtiger_Link_Model::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADER_SCRIPT']) as $headerScripts) {
-			foreach ($headerScripts as $headerScript) {
-				$jsFileNames[] = $headerScript->linkurl;
-			}
-		}
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
@@ -280,8 +319,6 @@ abstract class Base extends \App\Controller\Base
 			'~layouts/resources/helper.js',
 			'~layouts/resources/Connector.js',
 			'~layouts/resources/ProgressIndicator.js',
-			'~layouts/resources/integrations/pbx/Base.js',
-			'~layouts/resources/integrations/mail/Base.js',
 			'libraries.clipboard.dist.clipboard',
 		];
 		$languageHandlerShortName = \App\Language::getShortLanguageName();
@@ -293,15 +330,6 @@ abstract class Base extends \App\Controller\Base
 		if (\App\Debuger::isDebugBar()) {
 			$jsFileNames[] = '~layouts/resources/debugbar/logs.js';
 		}
-		if (\App\Session::has('authenticated_user_id')) {
-			if (\App\Integrations\Pbx::isActive()) {
-				$jsFileNames[] = '~layouts/resources/integrations/pbx/' . \App\Integrations\Pbx::getInstance()->get('type') . '.js';
-			}
-			if ('Base' !== \App\Mail::getMailComposer()) {
-				$jsFileNames[] = '~layouts/resources/integrations/mail/' . \App\Mail::getMailComposer() . '.js';
-			}
-		}
-
 		return $this->checkAndConvertJsScripts($jsFileNames);
 	}
 
@@ -461,49 +489,5 @@ abstract class Base extends \App\Controller\Base
 		foreach ($jsEnv as $key => $value) {
 			\App\Config::setJsEnv($key, $value);
 		}
-	}
-
-	/** {@inheritdoc} */
-	protected function showBodyHeader()
-	{
-		return false;
-	}
-
-	/** {@inheritdoc} */
-	protected function showFooter()
-	{
-		return false;
-	}
-
-	/**
-	 * Show bread crumbs.
-	 *
-	 * @return bool
-	 */
-	protected function showBreadCrumbLine()
-	{
-		return true;
-	}
-
-	/**
-	 * Pre process display function.
-	 *
-	 * @param \App\Request $request
-	 */
-	protected function preProcessDisplay(\App\Request $request)
-	{
-		$this->getViewer($request)->view($this->preProcessTplName($request), $request->getModule());
-	}
-
-	/**
-	 * Pre process template name.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return string
-	 */
-	protected function preProcessTplName(\App\Request $request)
-	{
-		return 'PageHeader.tpl';
 	}
 }

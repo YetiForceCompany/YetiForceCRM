@@ -4,87 +4,54 @@
  * Companies module model class.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 {
+	/**
+	 * @inheritdoc
+	 */
 	public $baseTable = 's_yf_companies';
+
+	/**
+	 * @inheritdoc
+	 */
 	public $baseIndex = 'id';
-	public $listFields = ['name' => 'LBL_NAME', 'status' => 'LBL_STATUS', 'type' => 'LBL_TYPE', 'email' => 'LBL_EMAIL', 'address' => 'AddressLevel8', 'post_code' => 'AddressLevel7', 'city' => 'LBL_CITY', 'country' => 'LBL_COUNTRY', 'website' => 'LBL_WEBSITE', 'vat_id' => 'LBL_VAT_ID'];
+
+	/**
+	 * @inheritdoc
+	 */
+	public $listFields = [
+		'name' => 'LBL_NAME',
+        'email' => 'LBL_EMAIL',
+        'vat_id' => 'LBL_VAT_ID',
+        'country' => 'LBL_COUNTRY',
+        'industry' => 'LBL_INDUSTRY',
+		'website' => 'LBL_WEBSITE',
+	];
+
 	/**
 	 * List of fields in form.
 	 *
 	 * @var array
 	 */
-	public static $formFields = [
-		'type' => [
-			'registerView' => true,
-			'infoText' => 'LBL_TYPE_INFO',
-		],
-		'name' => [
-			'registerView' => true,
-			'paymentData' => true,
-		],
+	public static array $formFields = [
+		'name' => [],
+        'email' => [],
 		'vat_id' => [
-			'paymentData' => true,
-			'registerView' => true,
 			'infoText' => 'LBL_VAT_ID_INFO',
 		],
-		'country' => [
-			'registerView' => true,
-			'paymentData' => true,
-		],
-		'post_code' => [
-			'paymentData' => true,
-			'registerView' => true,
-		],
-		'city' => [
-			'registerView' => true,
-		],
-		'address' => [
-			'paymentData' => true,
-			'registerView' => true,
-		],
-		'industry' => [
-			'registerView' => true,
-		],
-		'companysize' => [
-			'registerView' => true,
-		],
+		'country' => [],
+		'industry' => [],
 		'website' => [
-			'registerView' => true,
 			'infoText' => 'LBL_WEBSITE_INFO',
-		],
-		'spacer' => [
-			'registerView' => true,
-		],
-		'newsletter' => [
-			'registerView' => true,
-		],
-		'firstname' => [
-			'registerView' => true,
-		],
-		'lastname' => [
-			'registerView' => true,
-		],
-		'email' => [
-			'registerView' => true,
-		],
-		'logo' => [
-			'registerView' => false,
-		],
-		'facebook' => [
-			'brandBlock' => true,
-		],
-		'twitter' => [
-			'brandBlock' => true,
-		],
-		'linkedin' => [
-			'brandBlock' => true,
 		],
 	];
 
+	/**
+	 * @inheritdoc
+	 */
 	public $name = 'Companies';
 
 	/**
@@ -92,19 +59,19 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return string URL
 	 */
-	public function getDefaultUrl()
+	public function getDefaultUrl(): string
 	{
-		return 'index.php?module=Companies&parent=Settings&view=List';
+		return 'index.php?parent=Settings&module=Companies&view=Edit';
 	}
 
 	/**
-	 * Function to get the url for create view of the module.
+	 * New entities mustn't be created.
 	 *
-	 * @return string URL
+	 * @return bool
 	 */
-	public function getCreateRecordUrl()
+	public function hasCreatePermissions(): bool
 	{
-		return 'index.php?module=Companies&parent=Settings&view=Edit';
+		return false;
 	}
 
 	/**
@@ -112,12 +79,13 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return array|false
 	 */
-	public static function getColumnNames()
+	public static function getColumnNames(): bool|array
 	{
 		$tableSchema = \App\Db::getInstance('admin')->getTableSchema('s_#__companies', true);
 		if ($tableSchema) {
 			return $tableSchema->getColumnNames();
 		}
+
 		return false;
 	}
 
@@ -134,7 +102,7 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return string[]
 	 */
-	public static function getFormFields()
+	public static function getFormFields(): array
 	{
 		return static::$formFields;
 	}
@@ -142,9 +110,9 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	/**
 	 * Names of fields.
 	 *
-	 * @return array
+	 * @return bool|array
 	 */
-	public function getNameFields()
+	public function getNameFields(): bool|array
 	{
 		$columnNames = self::getColumnNames();
 		unset($columnNames[array_search('id', $columnNames)]);
@@ -152,6 +120,7 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 		usort($columnNames, function ($a, $b) use ($editFields) {
 			return array_search($a, $editFields) < array_search($b, $editFields) ? -1 : 1;
 		});
+
 		return $columnNames;
 	}
 }

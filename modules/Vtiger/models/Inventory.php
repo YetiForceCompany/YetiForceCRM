@@ -6,24 +6,12 @@
  * @package Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Inventory_Model
 {
-	/** @var int Discount global mode */
-	public const DISCOUT_MODE_GLOBAL = 0;
-	/** @var int Discount individual mode */
-	public const DISCOUT_MODE_INDIVIDUAL = 1;
-	/** @var int Discount group mode */
-	public const DISCOUT_MODE_GROUP = 2;
-
-	/** @var int Tax global mode */
-	public const TAX_MODE_GLOBAL = 0;
-	/** @var int Tax individual mode */
-	public const TAX_MODE_INDIVIDUAL = 1;
-
 	/**
 	 * Field configuration table postfix.
 	 */
@@ -163,13 +151,16 @@ class Vtiger_Inventory_Model
 	public function getFieldById(int $fieldId): ?Vtiger_Basic_InventoryField
 	{
 		$fieldModel = null;
-		foreach ($this->getFields() as $field) {
-			if ($fieldId === $field->getId()) {
-				$fieldModel = $field;
-				break;
+		if (\App\Cache::staticHas(__METHOD__, $fieldId)) {
+			$fieldModel = \App\Cache::staticGet(__METHOD__, $fieldId);
+		} else {
+			$row = (new \App\Db\Query())->from($this->getTableName())->where(['id' => $fieldId])->one();
+			if ($row) {
+				$fieldModel = $this->getFieldCleanInstance($row['invtype']);
+				$this->setFieldData($fieldModel, $row);
 			}
+			\App\Cache::staticSave(__METHOD__, $fieldId, $fieldModel);
 		}
-
 		return $fieldModel;
 	}
 
@@ -186,35 +177,6 @@ class Vtiger_Inventory_Model
 		foreach ($this->getFields() as $fieldName => $fieldModel) {
 			$fieldList[$fieldModel->get('block')][$fieldName] = $fieldModel;
 		}
-		return $fieldList;
-	}
-
-	/**
-	 * Function that returns all the fields for given block ID.
-	 *
-	 * @param int $blockId
-	 *
-	 * @return \Vtiger_Basic_InventoryField[]
-	 */
-	public function getFieldsByBlock(int $blockId): array
-	{
-		return $this->getFieldsByBlocks()[$blockId] ?? [];
-	}
-
-	/**
-	 * Get syncronized fields.
-	 *
-	 * @return \Vtiger_Basic_InventoryField[]
-	 */
-	public function getFieldsToSync(): array
-	{
-		$fieldList = [];
-		foreach ($this->getFields() as $fieldName => $fieldModel) {
-			if (0 === $fieldModel->get('block') || $fieldModel->isSync()) {
-				$fieldList[$fieldName] = $fieldModel;
-			}
-		}
-
 		return $fieldList;
 	}
 
@@ -268,17 +230,15 @@ class Vtiger_Inventory_Model
 	/**
 	 * Getting summary fields name.
 	 *
-	 * @param bool $active
-	 *
 	 * @throws \App\Exceptions\AppException
 	 *
 	 * @return string[]
 	 */
-	public function getSummaryFields(bool $active = true): array
+	public function getSummaryFields(): array
 	{
 		$summaryFields = [];
 		foreach ($this->getFields() as $name => $field) {
-			if ($active ? $field->isSummaryEnabled() : $field->isSummary()) {
+			if ($field->isSummary()) {
 				$summaryFields[$name] = $name;
 			}
 		}
@@ -294,16 +254,15 @@ class Vtiger_Inventory_Model
 	public function setFieldData(Vtiger_Basic_InventoryField $fieldModel, array $row)
 	{
 		$fieldModel->set('id', (int) $row['id'])
-			->set('columnname', $row['columnname'])
+			->set('columnName', $row['columnname'])
 			->set('label', $row['label'])
 			->set('presence', (int) $row['presence'])
-			->set('defaultvalue', $row['defaultvalue'])
+			->set('defaultValue', $row['defaultvalue'])
 			->set('sequence', (int) $row['sequence'])
 			->set('block', (int) $row['block'])
-			->set('displaytype', (int) $row['displaytype'])
+			->set('displayType', (int) $row['displaytype'])
 			->set('params', $row['params'])
-			->set('invtype', $row['invtype'])
-			->set('colspan', (int) $row['colspan']);
+			->set('colSpan', (int) $row['colspan']);
 	}
 
 	/**
@@ -387,23 +346,23 @@ class Vtiger_Inventory_Model
 		if (!$fieldModel->has('sequence')) {
 			$fieldModel->set('sequence', $db->getUniqueID($tableName, 'sequence', false));
 		}
-		if (!$fieldModel->getId() && !$fieldModel->isOnlyOne()) {
-			$id = (new \App\Db\Query())->from($tableName)->where(['invtype' => $fieldModel->getType()])->max('id');
-			$fieldModel->set('columnname', $fieldModel->getColumnName() . ($id ? ++$id : ''));
+		if ($fieldModel->isEmpty('id') && !$fieldModel->isOnlyOne()) {
+			$id = (new \App\Db\Query())->from($tableName)->where(['invtype' => $fieldModel->getType()])->max('id') + 1;
+			$fieldModel->set('columnName', $fieldModel->getColumnName() . $id);
 		}
 		$transaction = $db->beginTransaction();
 		try {
-			$result = true;
-			if (!$fieldModel->getId()) {
+			$data = array_change_key_case($fieldModel->getData(), CASE_LOWER);
+			if ($fieldModel->isEmpty('id')) {
 				$table = $this->getTableName(self::TABLE_POSTFIX_DATA);
 				vtlib\Utils::addColumn($table, $fieldModel->getColumnName(), $fieldModel->getDBType());
 				foreach ($fieldModel->getCustomColumn() as $column => $criteria) {
 					vtlib\Utils::addColumn($table, $column, $criteria);
 				}
-				$result = $db->createCommand()->insert($tableName, $fieldModel->getData())->execute();
+				$result = $db->createCommand()->insert($tableName, $data)->execute();
 				$fieldModel->set('id', $db->getLastInsertID("{$tableName}_id_seq"));
-			} elseif ($data = array_intersect_key($fieldModel->getData(), $fieldModel->getPreviousValue())) {
-				$result = $db->createCommand()->update($tableName, $data, ['id' => $fieldModel->getId()])->execute();
+			} else {
+				$result = $db->createCommand()->update($tableName, $data, ['id' => $fieldModel->get('id')])->execute();
 			}
 			$transaction->commit();
 		} catch (\Throwable $ex) {
@@ -440,20 +399,6 @@ class Vtiger_Inventory_Model
 						unset($columnsArray[$key]);
 					}
 				}
-			}
-			$moduleId = \App\Module::getModuleId($this->getModuleName());
-			$mappingTable = Vtiger_MappedFields_Model::$mappingTable;
-			$mappingBaseTable = Vtiger_MappedFields_Model::$baseTable;
-			$mappedQuery = (new \App\Db\Query())->select(["{$mappingTable}.id"])
-				->from($mappingTable)
-				->innerJoin($mappingBaseTable, "{$mappingTable}.mappedid = {$mappingBaseTable}.id")
-				->where(['or',
-					['tabid' => $moduleId, 'type' => 'INVENTORY', 'source' => $fieldName],
-					['reltabid' => $moduleId, 'type' => 'INVENTORY', 'target' => $fieldName]]
-				);
-			$dataReader = $mappedQuery->createCommand()->query();
-			while ($mappedId = $dataReader->readColumn(0)) {
-				$dbCommand->delete($mappingTable, ['id' => $mappedId])->execute();
 			}
 			$dbCommand->delete($this->getTableName(), ['columnname' => $fieldName])->execute();
 			if ('seq' !== $fieldName) {
@@ -503,10 +448,7 @@ class Vtiger_Inventory_Model
 		if (\App\Cache::has(__METHOD__, $moduleName)) {
 			$inventoryTypes = \App\Cache::get(__METHOD__, $moduleName);
 		} else {
-			if (\App\Config::performance('LOAD_CUSTOM_FILES')) {
-				$fieldPaths[] = "custom/modules/{$moduleName}/inventoryfields/";
-			}
-			$fieldPaths[] = "modules/{$moduleName}/inventoryfields/";
+			$fieldPaths = ["modules/$moduleName/inventoryfields/"];
 			if ('Vtiger' !== $moduleName) {
 				$fieldPaths[] = 'modules/Vtiger/inventoryfields/';
 			}
@@ -531,18 +473,17 @@ class Vtiger_Inventory_Model
 	 *
 	 * @throws \App\Exceptions\AppException
 	 *
-	 * @return \Vtiger_Basic_InventoryField[]
+	 * @return astring[]
 	 */
 	public function getAllColumns()
 	{
 		$columns = [];
-		foreach ($this->getFields() as $name => $field) {
-			$columns[$name] = $field;
-			foreach (array_keys($field->getCustomColumn()) as $name) {
-				$columns[$name] = $field;
+		foreach ($this->getFields() as $field) {
+			$columns[] = $field->getColumnName();
+			foreach ($field->getCustomColumn() as $name => $field) {
+				$columns[] = $name;
 			}
 		}
-
 		return $columns;
 	}
 
@@ -624,25 +565,6 @@ class Vtiger_Inventory_Model
 	}
 
 	/**
-	 * Get edit value.
-	 *
-	 * @param array  $itemData
-	 * @param string $column
-	 * @param string $default
-	 *
-	 * @return mixed
-	 */
-	public function getEditValue(array $itemData, string $column, $default = '')
-	{
-		$value = $default;
-		if ($fieldModel = $this->getAllColumns()[$column] ?? null) {
-			$value = $fieldModel->getEditValue($itemData, $column, $default);
-		}
-
-		return $value;
-	}
-
-	/**
 	 * Gets template to purify.
 	 *
 	 * @throws \App\Exceptions\AppException
@@ -673,14 +595,11 @@ class Vtiger_Inventory_Model
 			$config = [];
 			$dataReader = (new \App\Db\Query())->from('a_#__discounts_config')->createCommand(\App\Db::getInstance('admin'))->query();
 			while ($row = $dataReader->read()) {
-				$name = $row['param'];
-				if ('discounts' === $name) {
-					$discounts = $row['value'] ? explode(',', $row['value']) : [];
-					$value = array_map(fn ($val) => (int) $val, $discounts);
-				} else {
-					$value = (int) $row['value'];
+				$value = $row['value'];
+				if (\in_array($row['param'], ['discounts'])) {
+					$value = explode(',', $value);
 				}
-				$config[$name] = $value;
+				$config[$row['param']] = $value;
 			}
 			\App\Cache::save('Inventory', 'DiscountConfiguration', $config, \App\Cache::LONG);
 		}
@@ -905,46 +824,5 @@ class Vtiger_Inventory_Model
 			}
 		}
 		return $data;
-	}
-
-	/**
-	 * Transform data.
-	 *
-	 * @param array $data
-	 *
-	 * @return array
-	 */
-	public function transformData(array $data): array
-	{
-		$set = [];
-		foreach ($data as &$row) {
-			$groupId = $row['groupid'] ?? null;
-			if ($groupId && !isset($set[$groupId])) {
-				$set[$groupId] = $groupId;
-				$row['add_header'] = true;
-			}
-		}
-
-		return $data;
-	}
-
-	/**
-	 * Check if comment fields are empty.
-	 *
-	 * @param array $data
-	 *
-	 * @return bool
-	 */
-	public function isCommentFieldsEmpty(array $data)
-	{
-		$isEmpty = true;
-		foreach ($this->getFieldsByType('Comment') as $fieldModel) {
-			if ($fieldModel->isVisible() && $this->getEditValue($data, $fieldModel->getColumnName())) {
-				$isEmpty = false;
-				break;
-			}
-		}
-
-		return $isEmpty;
 	}
 }

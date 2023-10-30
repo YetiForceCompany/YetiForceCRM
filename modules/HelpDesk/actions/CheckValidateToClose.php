@@ -5,14 +5,11 @@
  * @package   Action
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Kon <a.kon@yetiforce.com>
  */
 class HelpDesk_CheckValidateToClose_Action extends \App\Controller\Action
 {
-	/** @var Vtiger_Record_Model Record model. */
-	private $recordModel;
-
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{

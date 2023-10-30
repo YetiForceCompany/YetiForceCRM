@@ -12,8 +12,6 @@
 class Settings_Leads_Mapping_Model extends Settings_Vtiger_Module_Model
 {
 	public $name = 'Leads';
-	/** @var array List of mapping details. */
-	private $mapping;
 
 	/**
 	 * Function to get detail view url of this model.

@@ -11,14 +11,18 @@
 
 class Settings_Picklist_Field_Model extends Settings_Vtiger_Field_Model
 {
-	/** {@inheritdoc} */
-	public function isEditable(string $viewName = 'Edit'): bool
+	/**
+	 * Function to check whether the current field is editable.
+	 *
+	 * @return bool
+	 */
+	public function isEditable(): bool
 	{
 		if ($this->get('sourceFieldModel')) {
 			$permissions = $this->get('sourceFieldModel')->isEditable();
 		} else {
 			$nonEditablePickListValues = ['duration_minutes', 'payment_duration', 'recurring_frequency', 'visibility'];
-			$permissions = \in_array($this->get('displaytype'), [1, 10]) && \in_array($this->get('presence'), [0, 2]) && !\in_array($this->getName(), $nonEditablePickListValues) && \in_array($this->getFieldDataType(), ['picklist', 'multipicklist', 'multipicklistTags']) && 'Users' !== $this->getModuleName();
+			$permissions = \in_array($this->get('displaytype'), [1, 10]) && \in_array($this->get('presence'), [0, 2]) && !\in_array($this->getName(), $nonEditablePickListValues) && \in_array($this->getFieldDataType(), ['picklist', 'multipicklist']) && 'Users' !== $this->getModuleName();
 		}
 
 		return $permissions;

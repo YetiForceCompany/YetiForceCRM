@@ -5,9 +5,8 @@
  * @package   View
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
- * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 /**
@@ -28,7 +27,7 @@ class Users_LoginPassChange_View extends Users_Login_View
 					throw new \App\Exceptions\AppException('ERR_NO_TOKEN', 405);
 				}
 				$token = $request->getByType('token', \App\Purifier::ALNUM);
-				$tokenData = \App\Utils\Tokens::get($token, \App\Utils\Tokens::SKIP_COUNT_VERIFICATION);
+				$tokenData = \App\Utils\Tokens::get($token, false);
 				if (empty($tokenData)) {
 					throw new \App\Exceptions\AppException('ERR_TOKEN_DOES_NOT_EXIST', 405);
 				}

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Settings-Calendar-UsersColors UserColors">
 		<div class="o-breadcrumb widget_header row mb-2">
@@ -27,8 +27,8 @@
 											class="paddingTop10">{\App\Language::translate($item.label,$QUALIFIED_MODULE)}</p>
 									</td>
 									<td>
-										<input class="marginTop10 js-update-event" type="checkbox" id="{$item.name}" name="{\App\Purifier::encodeHtml($item.name)}"
-											data-metod="updateCalendarConfig" data-js="click"
+										<input class="marginTop10" type="checkbox" id="update_event" name="update_event"
+											data-metod="updateCalendarConfig"
 											value=1 {if $item.value eq 1} checked{/if} />
 									</td>
 								</tr>

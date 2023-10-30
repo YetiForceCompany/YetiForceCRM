@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 /**
@@ -21,7 +21,6 @@ window.OSSTimeControl_CalendarModal_Js = class OSSTimeControl_CalendarModal_Js e
 	 */
 	setCalendarModuleOptions() {
 		let options = super.setCalendarModuleOptions();
-		options.initialView = 'timeGridDay';
 		options.selectable = true;
 		options.eventClick = function (info) {
 			info.jsEvent.preventDefault();

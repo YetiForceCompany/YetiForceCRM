@@ -74,26 +74,6 @@ jQuery.Class(
 				});
 			});
 		},
-		showBuyModal(event) {
-			$.get(`Install.php?mode=showBuyModal&product=${$(event.currentTarget).data('product')}`).done((data) => {
-				app.showModalWindow(data, '', (modalContainer) => {
-					new window.Settings_YetiForce_Shop_Js().registerBuyModalEvents(modalContainer);
-				});
-			});
-		},
-		registerEventForStepChooseHost() {
-			$('.js-buy-modal').on('click', this.showBuyModal);
-			$('.js-product-modal').on('click', (e) => {
-				$.get(`Install.php?mode=showProductModal&product=${$(e.currentTarget).data('product')}`).done((data) => {
-					app.showModalWindow(data, '', (modalContainer) => {
-						modalContainer.find('.js-modal__save').on('click', (_) => {
-							app.hideModalWindow();
-							this.showBuyModal(e);
-						});
-					});
-				});
-			});
-		},
 		registerEventForStep3: function () {
 			$('#recheck').on('click', function () {
 				window.location.reload();
@@ -275,9 +255,6 @@ jQuery.Class(
 			this.registerEventForStep5();
 			this.registerEventForStep6();
 			this.registerEventForMigration();
-			if (form.attr('name') === 'step-stepChooseHost') {
-				this.registerEventForStepChooseHost();
-			}
 			$('select[name="lang"]').on('change', this.changeLanguage);
 		}
 	}

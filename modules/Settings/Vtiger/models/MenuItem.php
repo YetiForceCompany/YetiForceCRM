@@ -30,9 +30,6 @@ class Settings_Vtiger_MenuItem_Model extends Settings_Vtiger_Menu_Model
 	 */
 	protected static $itemsTable = 'vtiger_settings_field';
 
-	/** @var Settings_Vtiger_Menu_Model Menu item. */
-	public $menu;
-
 	/**
 	 * Table index.
 	 *

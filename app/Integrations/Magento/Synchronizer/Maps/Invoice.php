@@ -3,13 +3,12 @@
 /**
  * Invoice field map.
  *
- * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription.
- * File modification allowed only with the consent of the system producer.
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
  *
  * @package Integration
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -21,6 +20,8 @@ namespace App\Integrations\Magento\Synchronizer\Maps;
  */
 class Invoice extends Inventory
 {
+	/** {@inheritdoc} */
+	protected $moduleName = 'FInvoice';
 	/** {@inheritdoc} */
 	public static $additionalFieldsCrm = [
 		'sum_tax' => '',
@@ -77,30 +78,28 @@ class Invoice extends Inventory
 		'cashondelivery' => 'PLL_CASH_ON_DELIVERY',
 		'paypal_express' => 'PLL_PAYPAL_EXPRESS',
 	];
-	/** {@inheritdoc} */
-	protected $moduleName = 'FInvoice';
 
 	/** {@inheritdoc} */
 	public function getDataCrm(bool $onEdit = false): array
 	{
 		$parsedData = parent::getDataCrm($onEdit);
 		if (!empty($shippingAddress = $this->getAddressDataCrm('shipping'))) {
-			$parsedData = array_replace_recursive($parsedData, $shippingAddress);
+			$parsedData = \array_replace_recursive($parsedData, $shippingAddress);
 		}
 		if (!empty($billingAddress = $this->getAddressDataCrm('billing'))) {
-			$parsedData = array_replace_recursive($parsedData, $billingAddress);
+			$parsedData = \array_replace_recursive($parsedData, $billingAddress);
 		}
 		if (!empty($parsedData['phone'])) {
-			$parsedData = \App\Fields\Phone::parsePhone('phone', $parsedData);
+			$parsedData = $this->parsePhone('phone', $parsedData);
 		}
 		if (!empty($parsedData['mobile'])) {
-			$parsedData = \App\Fields\Phone::parsePhone('mobile', $parsedData);
+			$parsedData = $this->parsePhone('mobile', $parsedData);
 		}
 		if (!empty($parsedData['phone_a'])) {
-			$parsedData = \App\Fields\Phone::parsePhone('phone_a', $parsedData);
+			$parsedData = $this->parsePhone('phone_a', $parsedData);
 		}
 		if (!empty($parsedData['phone_b'])) {
-			$parsedData = \App\Fields\Phone::parsePhone('phone_b', $parsedData);
+			$parsedData = $this->parsePhone('phone_b', $parsedData);
 		}
 		return $this->dataCrm = $parsedData;
 	}

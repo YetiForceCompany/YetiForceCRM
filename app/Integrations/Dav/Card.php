@@ -8,7 +8,7 @@
  * @package Integration
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -69,11 +69,11 @@ class Card
 		'OSSEmployees' => ['business_phone' => 'WORK', 'private_phone' => 'CELL', 'secondary_phone' => 'OTHER'],
 	];
 
-	/** @var \Users_Record_Model User record model. */
-	public $user;
-
 	/** @var \Sabre\VObject\Component\VCard Card object. */
 	private $card;
+
+	/** @var \Users_Record_Model User record model. */
+	public $user;
 
 	/** @var \Vtiger_Record_Model Record model. */
 	private $record;
@@ -242,32 +242,6 @@ class Card
 	}
 
 	/**
-	 * Set record address.
-	 *
-	 * @param string               $moduleName
-	 * @param \Vtiger_Record_Model $record
-	 *
-	 * @return void
-	 */
-	public function setRecordAddress(string $moduleName, \Vtiger_Record_Model $record): void
-	{
-		foreach ($this->card->ADR as $property) {
-			if ($typeOfAddress = $this->getTypeOfAddress($property)) {
-				$address = $this->convertAddress($property->getParts());
-				foreach (static::ADDRESS_MAPPING[$moduleName][$typeOfAddress] ?? [] as $fieldName => $fieldsInVCard) {
-					$fieldsForJoin = [];
-					foreach ($fieldsInVCard as $val) {
-						$fieldsForJoin[] = $address[$val];
-					}
-					if ($fieldModel = $record->getField($fieldName)) {
-						$record->set($fieldName, $fieldModel->getDBValue(implode(' ', $fieldsForJoin)));
-					}
-				}
-			}
-		}
-	}
-
-	/**
 	 * Parse phone.
 	 *
 	 * @return void
@@ -361,6 +335,32 @@ class Card
 				break;
 		}
 		return $salutation;
+	}
+
+	/**
+	 * Set record address.
+	 *
+	 * @param string               $moduleName
+	 * @param \Vtiger_Record_Model $record
+	 *
+	 * @return void
+	 */
+	public function setRecordAddress(string $moduleName, \Vtiger_Record_Model $record): void
+	{
+		foreach ($this->card->ADR as $property) {
+			if ($typeOfAddress = $this->getTypeOfAddress($property)) {
+				$address = $this->convertAddress($property->getParts());
+				foreach (static::ADDRESS_MAPPING[$moduleName][$typeOfAddress] ?? [] as $fieldName => $fieldsInVCard) {
+					$fieldsForJoin = [];
+					foreach ($fieldsInVCard as $val) {
+						$fieldsForJoin[] = $address[$val];
+					}
+					if ($fieldModel = $record->getField($fieldName)) {
+						$record->set($fieldName, $fieldModel->getDBValue(implode(' ', $fieldsForJoin)));
+					}
+				}
+			}
+		}
 	}
 
 	/**

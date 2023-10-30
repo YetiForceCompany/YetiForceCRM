@@ -29,7 +29,7 @@
         "/webservice/SMS/SMSAPI/Reception": {
             "get": {
                 "tags": [
-                    "SMSApi"
+                    "SMSAPI"
                 ],
                 "summary": "Receipt of SMS",
                 "description": "Add record.",
@@ -70,7 +70,7 @@
         "/webservice/SMS/SMSAPI/Report": {
             "get": {
                 "tags": [
-                    "SMSApi"
+                    "SMSAPI"
                 ],
                 "summary": "Report for sms",
                 "description": "Update record status.",
@@ -109,7 +109,7 @@
             },
             "post": {
                 "tags": [
-                    "SMSApi"
+                    "SMSAPI"
                 ],
                 "summary": "Report for sms",
                 "description": "Update record status.",
@@ -168,24 +168,6 @@
                 "type": "string",
                 "example": "OK"
             }
-        },
-        "securitySchemes": {
-            "ApiKeyAuth": {
-                "type": "apiKey",
-                "description": "Webservice api key header",
-                "name": "X-API-KEY",
-                "in": "header"
-            },
-            "token": {
-                "type": "apiKey",
-                "description": "Webservice api token by user header",
-                "name": "X-TOKEN",
-                "in": "header"
-            }
         }
-    },
-    "externalDocs": {
-        "description": "Platform API Interactive Docs",
-        "url": "https://doc.yetiforce.com/api/?urls.primaryName=SMS"
     }
 }

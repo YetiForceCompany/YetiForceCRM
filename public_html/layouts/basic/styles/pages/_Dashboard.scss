@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 .dashboardContainer {
 	padding: 0;
@@ -219,8 +219,11 @@
 	}
 	&__timer {
 		font-size: 40px;
+		color: #b4b2af;
 	}
 	&__navigator-buttons {
+		width: calculate-rem(160px);
+		height: calculate-rem(160px);
 		border: 13px solid #fafafa;
 		border-radius: 50%;
 		a {

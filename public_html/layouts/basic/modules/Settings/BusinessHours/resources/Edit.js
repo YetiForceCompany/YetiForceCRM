@@ -4,7 +4,7 @@
  * @package     Edit
  *
  * @description Edit scripts for business hours
- * @license     YetiForce Public License 5.0
+ * @license     YetiForce Public License 6.5
  * @author      Rafal Pospiech <r.pospiech@yetiforce.com>
  */
 'use strict';

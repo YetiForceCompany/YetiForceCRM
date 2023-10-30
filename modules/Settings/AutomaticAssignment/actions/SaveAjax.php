@@ -6,7 +6,7 @@
  * @package Settings.Action
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_Action
@@ -19,22 +19,13 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 		$this->exposeMethod('preSaveValidation');
 	}
 
-	/**
-	 * Function to get the record model based on the request parameters.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return Vtiger_Record_Model or Module specific Record Model instance
-	 */
-	protected function getRecordModelFromRequest(App\Request $request)
+	/** {@inheritdoc} */
+	public function checkPermission(App\Request $request)
 	{
-		if ($request->isEmpty('record')) {
-			$recordModel = Settings_AutomaticAssignment_Record_Model::getCleanInstance();
-		} else {
-			$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($request->getInteger('record'));
+		parent::checkPermission($request);
+		if (!\App\YetiForce\Shop::check('YetiForceAutoAssignment')) {
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
-		$recordModel->setDataFromRequest($request);
-		return $recordModel;
 	}
 
 	/**
@@ -73,5 +64,23 @@ class Settings_AutomaticAssignment_SaveAjax_Action extends Settings_Vtiger_Save_
 		$response = new Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
+	}
+
+	/**
+	 * Function to get the record model based on the request parameters.
+	 *
+	 * @param \App\Request $request
+	 *
+	 * @return Vtiger_Record_Model or Module specific Record Model instance
+	 */
+	protected function getRecordModelFromRequest(App\Request $request)
+	{
+		if ($request->isEmpty('record')) {
+			$recordModel = Settings_AutomaticAssignment_Record_Model::getCleanInstance();
+		} else {
+			$recordModel = Settings_AutomaticAssignment_Record_Model::getInstanceById($request->getInteger('record'));
+		}
+		$recordModel->setDataFromRequest($request);
+		return $recordModel;
 	}
 }

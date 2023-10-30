@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Modals-MeetingModal -->
 	<div class="modal-body js-modal-body mb-0" data-js="container">
@@ -57,8 +57,9 @@
 									{if \App\Mail::checkInternalMailClient()}
 										{assign var=URLDATA value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD_ID, 'Detail', 'new')}
 										{assign var=URLDATA value="{$URLDATA}&template={$EMAIL_TEMPLATE}&templateParams={$TEMPLATE_PARAMS}"}
+										{assign var=CONFIG value=OSSMail_Module_Model::getComposeParameters()}
 										<span class="m-1 yfi-send-invitation text-info u-fs-4x sendMailBtn u-cursor-pointer" data-url="{\App\Purifier::encodeHtml($URLDATA)}"
-											data-module="{$MODULE_NAME}" data-record="{$RECORD_ID}" data-popup="{\App\User::getCurrentUserModel()->getDetail('mail_popup')}"
+											data-module="{$MODULE_NAME}" data-record="{$RECORD_ID}" data-popup="{$CONFIG['popup']}"
 											title="{\App\Language::translate('LBL_MEETING_SEND_INVITATION', $MODULE_NAME)}">
 										</span>
 										<div class="text-center text-info">

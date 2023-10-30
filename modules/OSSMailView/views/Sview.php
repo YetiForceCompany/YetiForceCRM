@@ -4,7 +4,7 @@
  * OSSMailView sview view class.
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailView_Sview_View extends Vtiger_Index_View
 {
@@ -34,7 +34,7 @@ class OSSMailView_Sview_View extends Vtiger_Index_View
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('NOLOADLIBS', $request->getBoolean('noloadlibs'));
 		$viewer->assign('FROM', $recordModel->getDisplayValue('from_email'));
-		$viewer->assign('TO', $recordModel->getDisplayValue('to_email'));
+		$viewer->assign('TO', explode(',', $recordModel->getDisplayValue('to_email')));
 		$viewer->assign('CC', $recordModel->getDisplayValue('cc_email'));
 		$viewer->assign('BCC', $recordModel->getDisplayValue('bcc_email'));
 		$viewer->assign('SUBJECT', $recordModel->getDisplayValue('subject'));

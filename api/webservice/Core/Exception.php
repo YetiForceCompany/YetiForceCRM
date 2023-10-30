@@ -6,7 +6,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -18,35 +18,21 @@ namespace Api\Core;
 class Exception extends \Exception
 {
 	/** {@inheritdoc}  */
-	public function __toString(): string
-	{
-		return rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', parent::__toString()), PHP_EOL);
-	}
-
-	/** {@inheritdoc}  */
 	public function __construct($message, $code = 500, \Throwable $previous = null)
 	{
-		parent::__construct($message, $code, $previous);
-	}
-
-	/**
-	 * Show exception error JSON.
-	 *
-	 * @return void
-	 */
-	public function showError(): void
-	{
-		$this->logError();
-		$message = rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $this->getMessage()), PHP_EOL);
-		if ($previous = $this->getPrevious()) {
+		$message = rtrim(str_replace(ROOT_DIRECTORY . \DIRECTORY_SEPARATOR, '', $message), PHP_EOL);
+		if (!empty($previous)) {
+			parent::__construct($message, $code, $previous);
 			$this->file = $previous->getFile();
 			$this->line = $previous->getLine();
 		}
 		if (empty($this->message)) {
 			$this->message = $message;
 		}
-		$code = $this->getCode();
-		if (!\App\Config::debug('apiShowExceptionMessages') && 406 !== $code) {
+		if (empty($this->code)) {
+			$this->code = $code;
+		}
+		if (!\App\Config::debug('apiShowExceptionMessages')) {
 			$message = 'Internal Server Error';
 		}
 		$body = [
@@ -65,7 +51,6 @@ class Exception extends \Exception
 			$body['error']['backtrace'] = \App\Debuger::getBacktrace();
 		}
 		$response = Response::getInstance();
-		$response->setContentType('application/json');
 		$response->setRequest(Request::init());
 		$response->setBody($body);
 		$response->setStatus($code);
@@ -76,11 +61,11 @@ class Exception extends \Exception
 	}
 
 	/**
-	 * Log error function.
+	 * Handle error function.
 	 *
 	 * @return void
 	 */
-	public function logError(): void
+	public function handleError(): void
 	{
 		if (\App\Config::debug('apiLogException')) {
 			$request = Request::init();
@@ -111,11 +96,7 @@ class Exception extends \Exception
 				$error .= "----------- Request payload -----------\n";
 				$error .= print_r($payload, true) . PHP_EOL;
 			}
-			$path = ROOT_DIRECTORY . '/cache/logs/webserviceErrors.log';
-			if (isset(\Api\Controller::$container)) {
-				$path = ROOT_DIRECTORY . '/cache/logs/webservice' . \Api\Controller::$container . 'Errors.log';
-			}
-			file_put_contents($path, '============ Error exception ====== ' . date('Y-m-d H:i:s') . ' ======'
+			file_put_contents(ROOT_DIRECTORY . '/cache/logs/webserviceErrors.log', '============ Error exception ====== ' . date('Y-m-d H:i:s') . ' ======'
 				. PHP_EOL . $error . PHP_EOL, FILE_APPEND);
 		}
 	}

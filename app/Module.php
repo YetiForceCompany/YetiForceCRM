@@ -8,7 +8,7 @@ namespace App;
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -129,25 +129,6 @@ class Module
 	public static function getModuleName($tabId)
 	{
 		return static::$tabdataCache['tabName'][$tabId] ?? false;
-	}
-
-	/**
-	 * Get default module name.
-	 *
-	 * @return string
-	 */
-	public static function getDefaultModule(): string
-	{
-		$moduleName = \App\Config::main('default_module') ?: 'Home';
-		if (!\App\Privilege::isPermitted($moduleName)) {
-			foreach (\vtlib\Functions::getAllModules(true, false, 0) as $module) {
-				if (\App\Privilege::isPermitted($module['name'])) {
-					$moduleName = $module['name'];
-					break;
-				}
-			}
-		}
-		return $moduleName;
 	}
 
 	/**
@@ -303,14 +284,6 @@ class Module
 			Log::error("The file $filename does not exist");
 		}
 		static::initFromDb();
-		register_shutdown_function(function () {
-			try {
-				YetiForce\Shop::generateCache();
-			} catch (\Throwable $e) {
-				\App\Log::error($e->getMessage() . PHP_EOL . $e->__toString());
-				throw $e;
-			}
-		});
 	}
 
 	/**
@@ -417,25 +390,6 @@ class Module
 		}
 		\App\Cache::save('getQuickCreateModules', $restrictListString, $quickCreateModules);
 		return $quickCreateModules;
-	}
-
-	/**
-	 * Get a list of modules with permissions.
-	 *
-	 * @param bool $isEntityType   Only entity type
-	 * @param bool $showRestricted Show restricted
-	 * @param bool $hasPermission  Must have access to the module
-	 *
-	 * @return \Generator
-	 */
-	public static function getModulesList(bool $isEntityType = true, bool $showRestricted = false, bool $hasPermission = true): \Generator
-	{
-		$userPrivModel = \Users_Privileges_Model::getCurrentUserPrivilegesModel();
-		foreach (\vtlib\Functions::getAllModules($isEntityType, $showRestricted, 0) as $module) {
-			if (!$hasPermission || ($hasPermission && $userPrivModel->hasModuleActionPermission($module['name'], 'DetailView'))) {
-				yield $module;
-			}
-		}
 	}
 }
 

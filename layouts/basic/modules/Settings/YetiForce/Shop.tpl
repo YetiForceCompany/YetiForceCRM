@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-YetiForce-Shop -->
 	<div class="tpl-Settings-YetiForce-Shop">
@@ -32,14 +32,10 @@
 				{/if}
 				<nav>
 					<div class="o-shop__nav nav nav-under mx-3" role="tablist">
-						<a class="o-shop__nav__item nav-item nav-link {if $TAB === 'Premium'} active{/if}" id="nav-premium-tab" data-toggle="tab" href="#nav-premium" role="tab" aria-controls="nav-premium" aria-selected="{$TAB === 'Premium'}">
-							<span class="yfi yfi-for-admin"></span>
-							{\App\Language::translate('LBL_PREMIUM_ZONE', $QUALIFIED_MODULE)}
-						</a>
-						<a class="o-shop__nav__item nav-item nav-link {if $TAB === 'Partner'} active{/if}" id="nav-partner-tab" data-toggle="tab" href="#nav-partner" role="tab" aria-controls="nav-partner" aria-selected="{$TAB === 'Partner'}" data-js="data">
-							<span class="yfi yfi-for-partners"></span>
-							{\App\Language::translate('LBL_PARTNER_ZONE', $QUALIFIED_MODULE)}
-						</a>
+						<button class="btn btn-primary js-popover-tooltip mr-n1 js-refresh-status" type="button">
+							<i class="fas fa-refresh mr-1"></i>
+							{App\Language::translate('LBL_REFRESH', $QUALIFIED_MODULE)}
+						</button>
 						<div class="js-popover-tooltip ml-sm-auto mr-2 d-inline mt-2" data-js="popover" data-content="{\App\Language::translate('LBL_MARKETPLACE_YETIFORCE_DESCRIPTION', $QUALIFIED_MODULE)}">
 							<span class="fas fa-info-circle"></span>
 						</div>
@@ -52,7 +48,7 @@
 					</div>
 				</nav>
 				<div class="tab-content justify-content-center">
-					<div class="tab-pane fade js-nav-premium {if $TAB === 'Premium'} show active{/if}" id="nav-premium" role="tabpanel" aria-labelledby="nav-premium-tab" data-js="container">
+					<div class="tab-pane fade js-nav-premium show active" id="nav-premium" role="tabpanel" aria-labelledby="nav-premium-tab" data-js="container">
 						<div class="mt-2 mx-3">
 							<ul class="nav nav-tabs" role="tablist">
 								{foreach \App\YetiForce\Shop::PRODUCT_CATEGORIES as $KEY => $ITEM}
@@ -67,13 +63,6 @@
 						<div class="d-flex flex-wrap mb-3 mx-3">
 							{foreach $PRODUCTS_PREMIUM as $PRODUCT}
 								{include file=\App\Layout::getTemplatePath('Shop/ProductPremium.tpl', $QUALIFIED_MODULE)}
-							{/foreach}
-						</div>
-					</div>
-					<div class="tab-pane fade js-department{if $TAB === 'Partner'} show active{/if}" data-department="Partner" id="nav-partner" role="tabpanel" aria-labelledby="nav-partner-tab">
-						<div class="d-flex flex-wrap mb-3 mx-3 justify-content-center">
-							{foreach $PRODUCTS_PARTNER as $PRODUCT}
-								{include file=\App\Layout::getTemplatePath('Shop/ProductPartner.tpl', $QUALIFIED_MODULE)}
 							{/foreach}
 						</div>
 					</div>

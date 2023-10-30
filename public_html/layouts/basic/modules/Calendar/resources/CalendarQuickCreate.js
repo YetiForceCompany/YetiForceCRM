@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 /**
@@ -136,7 +136,7 @@ window.Calendar_CalendarQuickCreate_Js = class Calendar_CalendarQuickCreate_Js e
 
 		modalTitles.addClass('d-none');
 		if (data.hasClass('js-edit-form')) {
-			let title = data.find('.js-sidebar-title').data('title');
+			let title = data.find('.js-sidebar-title ').data('title');
 			modalTitles.filter(`.js-modal-title--${title}`).removeClass('d-none');
 			this.sidebarName = title;
 		} else if (data.hasClass('js-activity-state')) {

@@ -8,9 +8,8 @@ namespace App\TextParser;
  * @package TextParser
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class ProductsTableRelatedModule extends Base
 {
@@ -56,21 +55,16 @@ class ProductsTableRelatedModule extends Base
 			}
 			$html .= '</tr></thead>';
 			if (!empty($groupModels)) {
-				$groupField = $inventory->getField('grouplabel');
-				$count = \count($groupModels);
 				$html .= '<tbody>';
 				$counter = 1;
-				foreach ($inventory->transformData($inventoryRows) as $inventoryRow) {
-					if (!empty($inventoryRow['add_header']) && $groupField && $groupField->isVisible() && !empty($blockLabel = $inventoryRow['grouplabel'])) {
-						$html .= "<tr><td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, $inventoryRow, true)) . '</td></tr>';
-					}
+				foreach ($inventoryRows as $inventoryRow) {
 					$html .= '<tr class="row-' . $counter . '">';
 					foreach ($groupModels as $fieldModel) {
 						$columnName = $fieldModel->getColumnName();
 						$typeName = $fieldModel->getType();
 						$fieldStyle = $bodyStyle;
 						if ('ItemNumber' === $typeName) {
-							$html .= "<td class=\"col-type-ItemNumber\" style=\"{$fieldStyle}text-align:center;\">" . $counter++ . '</td>';
+							$html .= "<td class=\"col-type-ItemNumber\" style=\"{$fieldStyle}font-weight:bold;text-align:center;\">" . $counter++ . '</td>';
 						} elseif ('ean' === $columnName) {
 							$code = $inventoryRow[$columnName];
 							$html .= "<td class=\"col-type-barcode\" style=\"{$fieldStyle}font-weight:bold;text-align:center;\"><div data-barcode=\"EAN13\" data-code=\"{$code}\" data-size=\"1\" data-height=\"16\">{$code}</div></td>";
@@ -85,7 +79,7 @@ class ProductsTableRelatedModule extends Base
 								}
 							} elseif (\in_array($typeName, ['TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice'])) {
 								$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
-								$fieldStyle = $bodyStyle . 'text-align:right;white-space: nowrap;';
+								$fieldStyle = $bodyStyle . 'text-align:right;';
 							} else {
 								$fieldValue = $fieldModel->getDisplayValue($itemValue, $inventoryRow);
 							}

@@ -6,7 +6,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -197,10 +197,11 @@ class Fields extends \Api\Core\BaseAction
 			$fieldInfo['id'] = $fieldModel->getId();
 			$fieldInfo['uitype'] = $fieldModel->getUIType();
 			if ($returnPrivileges) {
+				$isEditable = $fieldModel->isEditable();
 				$fieldInfo['isViewable'] = $fieldModel->isViewable();
 				$fieldInfo['isReadOnly'] = $fieldModel->isReadOnly();
-				$fieldInfo['isCreatable'] = $fieldModel->isEditable('Create');
-				$fieldInfo['isEditable'] = $fieldModel->isEditable('Edit');
+				$fieldInfo['isCreatable'] = $isEditable || 4 === $fieldModel->get('displaytype');
+				$fieldInfo['isEditable'] = $isEditable;
 				$fieldInfo['isEditableReadOnly'] = $fieldModel->isEditableReadOnly();
 				$fieldInfo['isEditableHidden'] = 9 === $fieldModel->get('displaytype');
 			}
@@ -212,7 +213,7 @@ class Fields extends \Api\Core\BaseAction
 				$fieldInfo['dbStructure'] = $fieldModel->getDBColumnType(false);
 			}
 			if ($returnQueryOperators) {
-				$fieldInfo['queryOperators'] = array_map(fn ($value) => \App\Language::translate($value, $moduleName), $fieldModel->getQueryOperatorLabels());
+				$fieldInfo['queryOperators'] = array_map(fn ($value) => \App\Language::translate($value, $moduleName), $fieldModel->getQueryOperators());
 			}
 			if (isset($fieldInfo['picklistvalues']) && $fieldModel->isEmptyPicklistOptionAllowed()) {
 				$fieldInfo['isEmptyPicklistOptionAllowed'] = $fieldModel->isEmptyPicklistOptionAllowed();

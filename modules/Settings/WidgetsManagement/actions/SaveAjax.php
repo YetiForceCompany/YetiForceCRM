@@ -2,7 +2,7 @@
 
 /**
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -15,7 +15,6 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_A
 		$this->exposeMethod('delete');
 		$this->exposeMethod('addBlock');
 		$this->exposeMethod('removeBlock');
-		$this->exposeMethod('transfer');
 	}
 
 	/**
@@ -86,39 +85,6 @@ class Settings_WidgetsManagement_SaveAjax_Action extends Settings_Vtiger_Basic_A
 		}
 		$response = new Vtiger_Response();
 		$response->setResult($result);
-		$response->emit();
-	}
-
-	/**
-	 * Manage widgets between roles.
-	 *
-	 * @param App\Request $request
-	 *
-	 * @return void
-	 */
-	public function transfer(App\Request $request): void
-	{
-		$data = $request->getMultiDimensionArray('form', [
-			'dashboardBlockId' => App\Purifier::INTEGER,
-			'sourceModule' => App\Purifier::ALNUM,
-			'authorized' => App\Purifier::ALNUM,
-			'widgetLinkId' => [App\Purifier::INTEGER],
-			'actionOption' => App\Purifier::STANDARD,
-			'dashboardId' => App\Purifier::INTEGER
-		]);
-		$moduleName = $request->getModule(false);
-		$message = \App\Language::translate('LBL_SAVED_SUCCESSFULLY', $moduleName);
-		if (!\is_array($data) || !$data) {
-			$message = \App\Language::translate('LBL_NOT_SAVED', $moduleName);
-		} else {
-			$widgetsManagementModel = new Settings_WidgetsManagement_Module_Model();
-			$result = $widgetsManagementModel->transfer($data);
-			if (!$result) {
-				$message = \App\Language::translate('LBL_NOT_SAVED', $moduleName);
-			}
-		}
-		$response = new Vtiger_Response();
-		$response->setResult($message);
 		$response->emit();
 	}
 }

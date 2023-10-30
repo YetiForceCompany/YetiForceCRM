@@ -1,11 +1,10 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-Workflows-Tasks-VTUpdateRelatedFieldTask -->
 	<div class="d-flex px-1 px-md-2">
 		<strong class="align-self-center mr-2">{\App\Language::translate('LBL_SET_FIELD_VALUES',$QUALIFIED_MODULE)}</strong>
-		<button type="button" class="btn btn-outline-dark" id="addFieldBtn">
-			<span class="fa-solid fa-plus mr-2"></span> {\App\Language::translate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}
-		</button>
+		<button type="button" class="btn btn-outline-dark"
+			id="addFieldBtn">{\App\Language::translate('LBL_ADD_FIELD',$QUALIFIED_MODULE)}</button>
 	</div>
 	<br />
 	<div class="row js-conditions-container no-gutters px-1" id="save_fieldvaluemapping" data-js="container">
@@ -90,48 +89,21 @@
 	<br />
 	<div class="row no-gutters col-12 col-xl-6 js-add-basic-field-container d-none padding-bottom1per px-md-2">
 		<div class="col-md-5 mb-1 mb-md-0">
-			{assign var=RESTRICT_FIELD_YPES value=['multiCurrency', 'multiDependField', 'multiDomain', 'multiEmail', 'multiImage', 'multiReferenceValue', 'image']}
 			<select name="fieldname" data-placeholder="{\App\Language::translate('LBL_SELECT_FIELD',$QUALIFIED_MODULE)}"
 				class="form-control">
 				<option></option>
 				{foreach item=REFERENCE_FIELD from=$MODULE_MODEL->getFieldsByReference()}
 					{foreach from=$REFERENCE_FIELD->getReferenceList() item=RELATION_MODULE_NAME}
-						<optgroup label="{\App\Language::translate('LBL_RELATIONSHIPS_BASED_ON_FIELDS')}"></optgroup>
-						{assign var=RELATION_MODULE_MODEL value=Vtiger_Module_Model::getInstance($RELATION_MODULE_NAME)}
-						{foreach from=$RELATION_MODULE_MODEL->getBlocks() key=BLOCK_LABEL item=BLOCK_MODEL}
-							<optgroup
-								label="{\App\Language::translate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)} - {\App\Language::translate($BLOCK_LABEL, $RELATION_MODULE_NAME)}">
-								{foreach from=$BLOCK_MODEL->getFields() item=FIELD_MODEL}
-									{if !$FIELD_MODEL->isWritable() || $FIELD_MODEL->isReferenceField() || ($RELATION_MODULE_MODEL->getName()=="Documents" && in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS)) || in_array($FIELD_MODEL->getFieldDataType(), $RESTRICT_FIELD_YPES)}
-										{continue}
-									{/if}
-									{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
-									{assign var=VALUE value=$REFERENCE_FIELD->get('name')|cat:'::'|cat:$RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->getName()}
-									<option value="{$VALUE}" data-fieldtype="{$FIELD_MODEL->getFieldType()}"
-										data-field-name="{$FIELD_MODEL->getName()}"
-										data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}">
-										{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATION_MODULE_NAME)}
-									</option>
-
-								{/foreach}
-							</optgroup>
-						{/foreach}
-					{/foreach}
-				{/foreach}
-				{foreach item=RELATION_MODEL from=Vtiger_Relation_Model::getAllRelations($MODULE_MODEL, false)}
-					<optgroup label="{\App\Language::translate('LBL_RELATIONSHIPS_BASED_ON_MODULES')}"></optgroup>
-					{assign var=RELATION_MODULE_NAME value=$RELATION_MODEL->getRelationModuleName()}
-					{assign var=RELATION_MODULE_MODEL value=$RELATION_MODEL->getRelationModuleModel()}
-					{foreach from=$RELATION_MODULE_MODEL->getBlocks() key=BLOCK_LABEL item=BLOCK_MODEL}
 						<optgroup
-							label="{\App\Language::translate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)} - {\App\Language::translate($BLOCK_LABEL, $RELATION_MODULE_NAME)}">
-							{foreach from=$BLOCK_MODEL->getFields() item=FIELD_MODEL}
-								{if !$FIELD_MODEL->isWritable() || $FIELD_MODEL->isReferenceField() || ($RELATION_MODULE_MODEL->getName()=="Documents" && in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS)) || in_array($FIELD_MODEL->getFieldDataType(), $RESTRICT_FIELD_YPES)}
+							label="{\App\Language::translate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)} - {\App\Language::translate('LBL_RELATIONSHIPS_BASED_ON_FIELDS')}">
+							{assign var=RELATION_MODULE_MODEL value=Vtiger_Module_Model::getInstance($RELATION_MODULE_NAME)}
+							{foreach from=$RELATION_MODULE_MODEL->getFields() item=FIELD_MODEL}
+								{if !$FIELD_MODEL->isEditable() || $FIELD_MODEL->isReferenceField() || ($RELATION_MODULE_MODEL->getName()=="Documents" && in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS)) || in_array($FIELD_MODEL->getFieldDataType(), ['multiCurrency', 'multiDependField', 'multiDomain', 'multiEmail', 'multiImage', 'multiReferenceValue', 'image'])}
 									{continue}
 								{/if}
 								{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
-								<option value="{$RELATION_MODULE_NAME}::{$FIELD_MODEL->getName()}"
-									data-fieldtype="{$FIELD_MODEL->getFieldType()}"
+								{assign var=VALUE value=$REFERENCE_FIELD->get('name')|cat:'::'|cat:$RELATION_MODULE_NAME|cat:'::'|cat:$FIELD_MODEL->getName()}
+								<option value="{$VALUE}" data-fieldtype="{$FIELD_MODEL->getFieldType()}"
 									data-field-name="{$FIELD_MODEL->getName()}"
 									data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}">
 									{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATION_MODULE_NAME)}
@@ -139,6 +111,25 @@
 							{/foreach}
 						</optgroup>
 					{/foreach}
+				{/foreach}
+				{foreach item=RELATION_MODEL from=Vtiger_Relation_Model::getAllRelations($MODULE_MODEL, false)}
+					{assign var=RELATION_MODULE_NAME value=$RELATION_MODEL->getRelationModuleName()}
+					{assign var=RELATION_MODULE_MODEL value=$RELATION_MODEL->getRelationModuleModel()}
+					<optgroup
+						label="{\App\Language::translate($RELATION_MODULE_NAME, $RELATION_MODULE_NAME)} - {\App\Language::translate('LBL_RELATIONSHIPS_BASED_ON_MODULES')}">
+						{foreach from=$RELATION_MODULE_MODEL->getFields() item=FIELD_MODEL}
+							{if !$FIELD_MODEL->isEditable() || $FIELD_MODEL->isReferenceField() || ($RELATION_MODULE_MODEL->getName()=="Documents" && in_array($FIELD_MODEL->getName(),$RESTRICTFIELDS)) || in_array($FIELD_MODEL->getFieldDataType(), ['multiCurrency', 'multiDependField', 'multiDomain', 'multiEmail', 'multiImage', 'multiReferenceValue', 'image'])}
+								{continue}
+							{/if}
+							{assign var=FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}
+							<option value="{$RELATION_MODULE_NAME}::{$FIELD_MODEL->getName()}"
+								data-fieldtype="{$FIELD_MODEL->getFieldType()}"
+								data-field-name="{$FIELD_MODEL->getName()}"
+								data-fieldinfo="{\App\Purifier::encodeHtml(\App\Json::encode($FIELD_INFO))}">
+								{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $RELATION_MODULE_NAME)}
+							</option>
+						{/foreach}
+					</optgroup>
 				{/foreach}
 			</select>
 		</div>

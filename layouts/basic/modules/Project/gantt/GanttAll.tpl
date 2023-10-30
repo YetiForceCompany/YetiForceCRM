@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-Project-gantt-GanttAll">
 		<div class="noprint mb-2">
@@ -11,9 +11,9 @@
 								title="{\App\Language::translate('LBL_CUSTOM_FILTER')}">
 								{foreach item="CUSTOM_VIEW" from=$CUSTOM_VIEWS}
 								<option value="{$CUSTOM_VIEW->get('cvid')}" {/strip}
-									{strip}data-id="{$CUSTOM_VIEW->get('cvid')}" 
-										{if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected" 
-										{elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'} selected="selected" 
+									{strip}data-id="{$CUSTOM_VIEW->get('cvid')}"
+										{if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected"
+										{elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'} selected="selected"
 										{/if}
 										class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">{\App\Language::translate($CUSTOM_VIEW->get('viewname'), $MODULE)}</option>
 								{/foreach}

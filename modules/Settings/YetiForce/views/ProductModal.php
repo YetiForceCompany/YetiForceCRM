@@ -6,8 +6,9 @@
  * @package   Settings
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 /**
@@ -47,33 +48,22 @@ class Settings_YetiForce_ProductModal_View extends \App\Controller\ModalSettings
 	 */
 	public function process(App\Request $request)
 	{
-		$installation = $request->getBoolean('installation');
-		$department = $request->isEmpty('department') ? '' : $request->getByType('department');
-		$product = \App\YetiForce\Shop::getProduct($request->getByType('product'), $department);
-		$alert = $product->showAlert();
-		$links = $product->getAdditionalButtons() ?? [];
-		if (isset($product->expirationDate)) {
-			if ($alert['status']) {
-				$links[] = Vtiger_Link_Model::getInstanceFromValues([
-					'linklabel' => \App\Language::translate($alert['type'], 'Settings:_Base'),
-					'linkicon' => 'fas fa-exclamation-triangle',
-					'linkhref' => true,
-					'linkurl' => $alert['href'] ?? '',
-					'linkclass' => 'btn-warning',
-					'showLabel' => 1,
-				]);
-			}
-			$this->successBtn = '';
-		} else {
-			$this->successBtn = 'LBL_BUY';
+		try {
+			$productId = $request->isEmpty('productId') ? '' : $request->getByType('productId', \App\Purifier::ALNUM2);
+			$product = \App\YetiForce\Shop::getProduct($request->getByType('product', \App\Purifier::ALNUM2), $productId);
+			$links = $product->getAdditionalButtons() ?? [];
+			$this->successBtn = $product->getStatus() ? '' : 'LBL_BUY';
+
+			$viewer = $this->getViewer($request);
+			$viewer->assign('MODULE', $this->qualifiedModuleName);
+			$viewer->assign('BTN_LINKS', $links);
+			$viewer->assign('PRODUCT', $product);
+			$viewer->assign('CURRENCY', $product->getCurrencyCode());
+			$viewer->assign('PRICE', $product->getPrice());
+			$viewer->assign('IMAGE', $product->getImage());
+			$viewer->view('ProductModal.tpl', $this->qualifiedModuleName);
+		} catch (\Throwable $e) {
+			\App\Log::error($e->__toString());
 		}
-		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE', $this->qualifiedModuleName);
-		$viewer->assign('BTN_LINKS', $links);
-		$viewer->assign('PRODUCT', $product);
-		$viewer->assign('CURRENCY', $product->isCustom() ? $product->currencyCode : 'EUR');
-		$viewer->assign('PRICE', $installation ? false : $product->getPrice());
-		$viewer->assign('IMAGE', ($installation ? '../' : '') . $product->getImage());
-		$viewer->view('ProductModal.tpl', $this->qualifiedModuleName);
 	}
 }

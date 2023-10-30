@@ -5,7 +5,7 @@
  * @package   Cron
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -20,7 +20,7 @@ class Vtiger_SessionCleaner_Cron extends \App\CronHandler
 	public function process()
 	{
 		$dbCommand = \App\Db::getInstance('webservice')->createCommand();
-		foreach (\Api\Core\Containers::LIST_TABLES as $row) {
+		foreach (\Api\Core\Containers::$listTables as $row) {
 			if (!isset($row['session'])) {
 				continue;
 			}
@@ -36,7 +36,7 @@ class Vtiger_SessionCleaner_Cron extends \App\CronHandler
 					'logout_time' => date('Y-m-d H:i:s'),
 					'status' => 'Automatic signed off'
 				])->execute();
-				OSSMail_Logout_Model::logoutUserById($userId);
+				OSSMail_Logout_Model::logutUserById($userId);
 			}
 		} else {
 			\App\Log::warning('Session cleaning has been omitted because the server headers have already been sent');

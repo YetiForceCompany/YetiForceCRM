@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -22,7 +22,7 @@ class TextParser
 	 *
 	 * @var array
 	 */
-	public const VARIABLE_EXAMPLES = [
+	public static $variableExamples = [
 		'LBL_ORGANIZATION_NAME' => '$(organization : company_name)$',
 		'LBL_ORGANIZATION_LOGO' => '$(organization : logo)$',
 		'LBL_EMPLOYEE_NAME' => '$(employee : last_name)$',
@@ -43,14 +43,14 @@ class TextParser
 		'LBL_INVENTORY_TABLE' => '$(inventory : type=table columns=seq,name,qty,unit,price,total,net href=no)$',
 		'LBL_DYNAMIC_INVENTORY_TABLE' => '$(custom : dynamicInventoryColumnsTable)$',
 		'LBL_BARCODE' => '$(barcode : type=EAN13 class=DNS1D , value=12345678)$',
-		'LBL_TOKEN_LINK' => '$(tokenLink : 85|oneTime=1|buttonName=Test|expirationDate=+5 days|messages=Thank you for reporting)$',
 	];
+
 	/**
 	 * Default date list.
 	 *
 	 * @var string[]
 	 */
-	public const VARIABLE_DATES = [
+	public static $variableDates = [
 		'LBL_DATE_TODAY' => '$(date : now)$',
 		'LBL_DATE_TOMORROW' => '$(date : tomorrow)$',
 		'LBL_DATE_YESTERDAY' => '$(date : yesterday)$',
@@ -59,14 +59,14 @@ class TextParser
 		'LBL_DATE_FIRST_DAY_OF_THIS_MONTH' => '$(date : first day of this month)$',
 		'LBL_DATE_LAST_DAY_OF_THIS_MONTH' => '$(date : last day of this month)$',
 		'LBL_DATE_FIRST_DAY_OF_NEXT_MONTH' => '$(date : first day of next month)$',
-		'LBL_DATE_NEXT_WORKING_DAY' => '$(date : nextworkingday)$',
 	];
+
 	/**
 	 * Variables for entity modules.
 	 *
 	 * @var array
 	 */
-	protected const VARIABLE_GENERAL = [
+	public static $variableGeneral = [
 		'LBL_CURRENT_DATE' => '$(general : CurrentDate)$',
 		'LBL_CURRENT_TIME' => '$(general : CurrentTime)$',
 		'LBL_BASE_TIMEZONE' => '$(general : BaseTimeZone)$',
@@ -75,12 +75,13 @@ class TextParser
 		'LBL_PORTAL_URL' => '$(general : PortalUrl)$',
 		'LBL_TRANSLATE' => '$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$, $(translate : LBL_SECONDS)$',
 	];
+
 	/**
 	 * Variables for entity modules.
 	 *
 	 * @var array
 	 */
-	protected const VARIABLE_ENTITY = [
+	public static $variableEntity = [
 		'CrmDetailViewURL' => 'LBL_CRM_DETAIL_VIEW_URL',
 		'PortalDetailViewURL' => 'LBL_PORTAL_DETAIL_VIEW_URL',
 		'RecordId' => 'LBL_RECORD_ID',
@@ -90,26 +91,22 @@ class TextParser
 		'Comments' => 'LBL_RECORD_COMMENT',
 		'SummaryFields' => 'LBL_SUMMARY_FIELDS',
 	];
+
 	/**
 	 * List of available functions.
 	 *
 	 * @var string[]
 	 */
-	protected const BASE_FUNCTIONS = [
-		'general', 'translate', 'record', 'relatedRecord', 'relatedRecordLevel',
-		'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList',
-		'recordsList', 'date', 'inventory', 'userVariable', 'barcode', 'tokenLink'
-	];
+	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'relatedRecordLevel', 'sourceRecord', 'organization', 'employee', 'params', 'custom', 'relatedRecordsList', 'recordsList', 'date', 'inventory', 'userVariable', 'barcode'];
+
 	/**
 	 * List of source modules.
 	 *
 	 * @var array
 	 */
-	public const SOURCE_MODULES = [
+	public static $sourceModules = [
 		'Campaigns' => ['Leads', 'Accounts', 'Contacts', 'Vendors', 'Partners', 'Competition'],
 	];
-	/** @var string[] Uitypes with large data */
-	protected const LARGE_DATA_UITYPES = ['multiImage', 'image'];
 	/**
 	 * Record variables.
 	 *
@@ -230,8 +227,11 @@ class TextParser
 	/** @var bool Permissions condition */
 	protected $permissions = true;
 
+	/** @var string[] Uitypes with large data */
+	protected $largeDataUiTypes = ['multiImage', 'image'];
+
 	/**
-	 * Get instance by record id.
+	 * Get instanace by record id.
 	 *
 	 * @param int    $record     Record id
 	 * @param string $moduleName Module name
@@ -249,7 +249,7 @@ class TextParser
 	}
 
 	/**
-	 * Get instance by record model.
+	 * Get instanace by record model.
 	 *
 	 * @param \Vtiger_Record_Model $recordModel
 	 *
@@ -266,7 +266,7 @@ class TextParser
 	}
 
 	/**
-	 * Get clean instance.
+	 * Get clean instanace.
 	 *
 	 * @param string $moduleName Module name
 	 *
@@ -397,9 +397,7 @@ class TextParser
 	 */
 	public function setContent($content)
 	{
-		$pattern = '/\$\(\w+( : |%20%3A%20|%20:%20)+([,"\+\#\%\.\:\;\=\-\[\]\&\w\s\|\)\(\:]+)\)\$/u';
-		$replacedContent = preg_replace_callback($pattern, fn ($matches) => str_replace(['%20%3A%20', '%20:%20', '%7C'], [' : ', ' : ', '|'], $matches[0]), $content);
-		$this->rawContent = $this->content = $replacedContent;
+		$this->rawContent = $this->content = str_replace(['%20%3A%20', '%20:%20'], ' : ', $content);
 		return $this;
 	}
 
@@ -475,7 +473,7 @@ class TextParser
 				preg_match(static::VARIABLE_REGEX, $text, $matches);
 				if ($matches) {
 					[, $function, $params] = array_pad($matches, 3, '');
-					$value = \in_array($function, static::BASE_FUNCTIONS) ? $this->{$function}($params) : '';
+					$value = \in_array($function, static::$baseFunctions) ? $this->{$function}($params) : '';
 				}
 				return $value;
 			}));
@@ -483,7 +481,7 @@ class TextParser
 		}
 		return preg_replace_callback(static::VARIABLE_REGEX, function ($matches) {
 			[, $function, $params] = array_pad($matches, 3, '');
-			return \in_array($function, static::BASE_FUNCTIONS) ? $this->{$function}($params) : '';
+			return \in_array($function, static::$baseFunctions) ? $this->{$function}($params) : '';
 		}, $content);
 	}
 
@@ -716,7 +714,7 @@ class TextParser
 					if (!$fieldModel) {
 						continue;
 					}
-					$currentValue = \in_array($fieldModel->getFieldDataType(), self::LARGE_DATA_UITYPES) ? '' : $this->getDisplayValueByField($fieldModel);
+					$currentValue = \in_array($fieldModel->getFieldDataType(), $this->largeDataUiTypes) ? '' : $this->getDisplayValueByField($fieldModel);
 					if ($this->withoutTranslations) {
 						$label = \App\Purifier::encodeHtml($fieldModel->getFieldLabel());
 						$value .= "\$(translate : {$this->moduleName}|{$label})\$: $currentValue" . ($this->isHtml ? '<br>' : PHP_EOL);
@@ -1093,13 +1091,13 @@ class TextParser
 	{
 		$model = $this->recordModel;
 		if (false === $value) {
-			$value = \App\Utils\Completions::decode($this->recordModel->getValueByFieldModel($fieldModel), \App\Utils\Completions::FORMAT_TEXT);
+			$value = \App\Utils\Completions::decode($this->recordModel->get($fieldModel->getName()), \App\Utils\Completions::FORMAT_TEXT);
 			if (!$fieldModel->isViewEnabled() && !$fieldModel->get('fromOutsideList')) {
 				return '';
 			}
 		} elseif (\is_object($value)) {
 			$model = $value;
-			$value = $value->getValueByFieldModel($fieldModel);
+			$value = $value->get($fieldModel->getName());
 			if (!$fieldModel->isViewEnabled() && !$fieldModel->get('fromOutsideList')) {
 				return false;
 			}
@@ -1294,7 +1292,7 @@ class TextParser
 		}
 		$variables = [];
 		if (!$fieldType) {
-			foreach (static::VARIABLE_ENTITY as $key => $name) {
+			foreach (static::$variableEntity as $key => $name) {
 				$variables[Language::translate('LBL_ENTITY_VARIABLES', 'Other.TextParser')][] = [
 					'var_value' => "$(record : $key)$",
 					'var_label' => "$(translate : Other.TextParser|$name)$",
@@ -1326,18 +1324,18 @@ class TextParser
 	 */
 	public function getSourceVariable()
 	{
-		if (empty(self::SOURCE_MODULES[$this->moduleName])) {
+		if (empty(self::$sourceModules[$this->moduleName])) {
 			return false;
 		}
 		$variables = [];
-		foreach (static::VARIABLE_ENTITY as $key => $name) {
+		foreach (static::$variableEntity as $key => $name) {
 			$variables['LBL_ENTITY_VARIABLES'][] = [
 				'var_value' => "$(sourceRecord : $key)$",
 				'var_label' => "$(translate : Other.TextParser|$name)$",
 				'label' => Language::translate($name, 'Other.TextParser'),
 			];
 		}
-		foreach (self::SOURCE_MODULES[$this->moduleName] as $moduleName) {
+		foreach (self::$sourceModules[$this->moduleName] as $moduleName) {
 			$moduleModel = \Vtiger_Module_Model::getInstance($moduleName);
 			foreach ($moduleModel->getBlocks() as $blockModel) {
 				foreach ($blockModel->getFields() as $fieldModel) {
@@ -1380,7 +1378,7 @@ class TextParser
 			}
 			$parentFieldNameLabel = Language::translate($field->getFieldLabel(), $this->moduleName);
 			if (!$fieldType) {
-				foreach (static::VARIABLE_ENTITY as $key => $name) {
+				foreach (static::$variableEntity as $key => $name) {
 					$variables[$parentFieldName]["$parentFieldNameLabel - $entityVariables"][] = [
 						'var_value' => "$(relatedRecord : $parentFieldName|$key)$",
 						'var_label' => "$(translate : Other.TextParser|$key)$",
@@ -1485,7 +1483,7 @@ class TextParser
 	public function getGeneralVariable()
 	{
 		$variables = [
-			'LBL_ENTITY_VARIABLES' => array_map(fn ($value) => Language::translate($value, 'Other.TextParser'), array_flip(static::VARIABLE_GENERAL)),
+			'LBL_ENTITY_VARIABLES' => array_map(fn ($value) => Language::translate($value, 'Other.TextParser'), array_flip(static::$variableGeneral)),
 		];
 		$variables['LBL_CUSTOM_VARIABLES'] = array_merge($this->getBaseGeneralVariable(), $this->getModuleGeneralVariable());
 		return $variables;
@@ -1559,28 +1557,6 @@ class TextParser
 			$variables[] = [
 				'key' => "$(relatedRecordsList : $var|__FIELDS_NAME__|__CONDITIONS__|__VIEW_ID_OR_NAME__|__LIMIT__|__MAX_LENGTH__)$",
 				'label' => Language::translate($relation->get('label'), $relation->get('relatedModuleName')),
-			];
-		}
-		return $variables;
-	}
-
-	/**
-	 * Get related modules list.
-	 *
-	 * @return array
-	 */
-	public function getLinkVariable()
-	{
-		if (!\App\Integrations\Services::getByType('Token') || empty($this->moduleName)) {
-			return [];
-		}
-		\Vtiger_Loader::includeOnce('~~modules/com_vtiger_workflow/include.php');
-		$workflows = (new \VTWorkflowManager())->getWorkflowsForModule($this->moduleName, \VTWorkflowManager::TOKEN_LINK);
-		$variables = [];
-		foreach ($workflows as $workflow) {
-			$variables[] = [
-				'key' => "$(tokenLink : $workflow->id|oneTime=1|buttonName=Test|expirationDate=+5 days|messages=Thank you for reporting)$",
-				'label' => Language::translate($workflow->description, 'Settings:Workflows'),
 			];
 		}
 		return $variables;
@@ -1737,19 +1713,21 @@ class TextParser
 		$inventory = \Vtiger_Inventory_Model::getInstance($this->moduleName);
 		$fields = $inventory->getFieldsByBlocks();
 		$inventoryRows = $this->recordModel->getInventoryData();
-
-		$currencyId = current($inventoryRows)['currency'] ?? null;
-		if (!$currencyId) {
-			$currencyId = \App\Fields\Currency::getDefault()['id'];
-			foreach ($inventoryRows as &$row) {
-				$row['currency'] = $currencyId;
+		$baseCurrency = \Vtiger_Util_Helper::getBaseCurrency();
+		$firstRow = current($inventoryRows);
+		if ($inventory->isField('currency')) {
+			if (!empty($firstRow) && null !== $firstRow['currency']) {
+				$currency = $firstRow['currency'];
+			} else {
+				$currency = $baseCurrency['id'];
 			}
+			$currencyData = \App\Fields\Currency::getById($currency);
+			$currencySymbol = $currencyData['currency_symbol'];
 		}
-		$currencySymbol = \App\Fields\Currency::getById($currencyId)['currency_symbol'];
-
 		$html = '';
 		if (!empty($fields[1])) {
 			$fieldsTextAlignRight = ['Unit', 'TotalPrice', 'Tax', 'MarginP', 'Margin', 'Purchase', 'Discount', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Quantity', 'TaxPercent'];
+			$fieldsWithCurrency = ['TotalPrice', 'Purchase', 'NetPrice', 'GrossPrice', 'UnitPrice', 'Discount', 'Margin', 'Tax'];
 			$html .= '<table class="inventory-table" style="border-collapse:collapse;width:100%"><thead><tr>';
 			$columns = [];
 			$customFieldClassSeq = 0;
@@ -1767,7 +1745,7 @@ class TextParser
 					continue;
 				}
 				if ('seq' === $name) {
-					$html .= '<th class="col-type-ItemNumber" style="border:1px solid #ddd;">' . Language::translate('LBL_ITEM_NUMBER', $this->moduleName) . '</th>';
+					$html .= '<th class="col-type-ItemNumber" style="border:1px solid #ddd">' . Language::translate('LBL_ITEM_NUMBER', $this->moduleName) . '</th>';
 					$columns[$name] = false;
 					continue;
 				}
@@ -1778,33 +1756,18 @@ class TextParser
 				if (!$field->isVisible()) {
 					continue;
 				}
-				if ('grouplabel' === $field->getColumnName()) {
-					$columns[$field->getColumnName()] = $field;
-					continue;
-				}
 				$html .= '<th class="col-type-' . $field->getType() . '" style="border:1px solid #ddd ' . (empty($width[$key]) ? '' : ";width: {$width[$key]}") . '">' . (empty($labels[$key]) ? Language::translate($field->get('label'), $this->moduleName) : Purifier::encodeHtml($labels[$key])) . '</th>';
 				$columns[$field->getColumnName()] = $field;
 			}
-
-			if (isset($columns['grouplabel'])) {
-				unset($columns['grouplabel']);
-				$groupField = $inventory->getField('grouplabel');
-			} else {
-				$groupField = null;
-			}
-			$count = \count($columns);
 			$html .= '</tr></thead><tbody>';
 			$counter = 0;
-			foreach ($inventory->transformData($inventoryRows) as $inventoryRow) {
-				if (!empty($inventoryRow['add_header']) && $groupField && !empty($blockLabel = $inventoryRow['grouplabel'])) {
-					$html .= "<tr><td colspan=\"{$count}\" style=\"font-size:8px;border:1px solid #ddd;padding:2px 6px;font-weight:bold;\">" . \App\Purifier::encodeHtml($groupField->getDisplayValue($blockLabel, $inventoryRow, true)) . '</td></tr>';
-				}
+			foreach ($inventoryRows as $inventoryRow) {
 				++$counter;
 				$html .= '<tr class="row-' . $counter . '">';
 				$customFieldClassSeq = 0;
 				foreach ($columns as $name => $field) {
 					if ('seq' === $name) {
-						$html .= '<td class="col-type-ItemNumber" style="border:1px solid #ddd;text-align:center;">' . $counter . '</td>';
+						$html .= '<td class="col-type-ItemNumber" style="border:1px solid #ddd;font-weight:bold;">' . $counter . '</td>';
 					} elseif (!\is_object($field)) {
 						if ('(' === $field[0] && ')' === substr($field, -1)) {
 							$field = $this->parseVariable("\${$field}\$", $inventoryRow['name'] ?? 0);
@@ -1815,10 +1778,10 @@ class TextParser
 						$html .= '<td class="col-type-ItemNumber" style="border:1px solid #ddd;font-weight:bold;">' . $counter . '</td>';
 					} elseif ('ean' === $name) {
 						$itemValue = $inventoryRow[$name];
-						$html .= '<td class="col-type-barcode" style="border:1px solid #ddd;padding:0px 4px;' . (\in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;white-space: nowrap;' : '') . '"><div data-barcode="EAN13" data-code="' . $itemValue . '" data-size="1" data-height="16"></div></td>';
+						$html .= '<td class="col-type-barcode" style="border:1px solid #ddd;padding:0px 4px;' . (\in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '"><div data-barcode="EAN13" data-code="' . $itemValue . '" data-size="1" data-height="16"></div></td>';
 					} else {
 						$itemValue = $inventoryRow[$name];
-						$html .= '<td class="col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (\in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;white-space: nowrap;' : '') . '">';
+						$html .= '<td class="col-type-' . $field->getType() . '" style="border:1px solid #ddd;padding:0px 4px;' . (\in_array($field->getType(), $fieldsTextAlignRight) ? 'text-align:right;' : '') . '">';
 						if ('Name' === $field->getType()) {
 							$html .= '<strong>' . $field->getDisplayValue($itemValue, $inventoryRow, $rawText) . '</strong>';
 							foreach ($inventory->getFieldsByType('Comment') as $commentField) {
@@ -1829,6 +1792,8 @@ class TextParser
 									}
 								}
 							}
+						} elseif (\in_array($field->getType(), $fieldsWithCurrency, true)) {
+							$html .= \CurrencyField::appendCurrencySymbol($field->getDisplayValue($itemValue, $inventoryRow, $rawText), $currencySymbol);
 						} else {
 							$html .= $field->getDisplayValue($itemValue, $inventoryRow, $rawText);
 						}
@@ -1837,57 +1802,23 @@ class TextParser
 				}
 				$html .= '</tr>';
 			}
-			$html .= '</tbody>';
-			if (empty($config['showTableFoot']) || 'yes' === $config['showTableFoot']) {
-				$html .= '<tfoot><tr>';
-				foreach ($columns as $name => $field) {
-					$tb = $style = '';
-					if (\is_object($field) && $field->isSummary()) {
-						$style = 'border:1px solid #ddd;white-space: nowrap;';
-						$sum = $field->getSummaryValuesFromData($inventoryRows);
-						$tb = \CurrencyField::appendCurrencySymbol(\App\Fields\Currency::formatToDisplay($sum, null, true), $currencySymbol);
+
+			$html .= '</tbody><tfoot><tr>';
+			foreach ($columns as $name => $field) {
+				$tb = $style = '';
+				if (\is_object($field) && $field->isSummary()) {
+					$style = 'border:1px solid #ddd;';
+					$sum = 0;
+					foreach ($inventoryRows as $inventoryRow) {
+						$sum += $inventoryRow[$name];
 					}
-					$html .= '<th class="col-type-' . (\is_object($field) ? $field->getType() : $name) . '" style="padding:0px 4px;text-align:right;' . $style . '">' . $tb . '</th>';
+					$tb = \CurrencyField::appendCurrencySymbol(\CurrencyField::convertToUserFormat($sum, null, true), $currencySymbol);
 				}
-				$html .= '</tr></tfoot>';
+				$html .= '<th class="col-type-' . (\is_object($field) ? $field->getType() : $name) . '" style="padding:0px 4px;text-align:right;' . $style . '">' . $tb . '</th>';
 			}
-			$html .= '</table>';
+			$html .= '</tr></tfoot></table>';
 		}
 		return $html;
-	}
-
-	/**
-	 * Parsing inventory.
-	 *
-	 * @param string $params
-	 *
-	 * @return string
-	 */
-	protected function tokenLink(string $params): string
-	{
-		[$workflowId, $params] = array_pad(explode('|', $params, 2), 2, '');
-		$paramsArray = $params ? self::parseFieldParam($params) : [];
-		$oneTime = (isset($paramsArray['oneTime']) && 1 != $paramsArray['oneTime']) ? false : true;
-		$expirationDate = '+ 30 days';
-		if (!empty($paramsArray['expirationDate'])) {
-			$expirationDate = urldecode($paramsArray['expirationDate']);
-		}
-		$expirationDateTime = date('Y-m-d H:i:s', strtotime($expirationDate));
-		\App\Utils\Tokens::generate(
-			'\App\Utils\Tokens::runWorkflow',
-			[
-				'recordId' => $this->recordModel->getId(),
-				'workflowId' => $workflowId,
-				'messages' => empty($paramsArray['messages']) ? '' : urldecode($paramsArray['messages']),
-			],
-			$expirationDateTime,
-			$oneTime
-		);
-		$url = \App\Utils\Tokens::generateLink(null, 0);
-		if (!empty($paramsArray['buttonName'])) {
-			return '<a href="' . $url . '" target="_blank">' . $paramsArray['buttonName'] . '</a>';
-		}
-		return $url;
 	}
 
 	/**
@@ -1901,11 +1832,11 @@ class TextParser
 	protected function parseVariable(string $variable, int $id = 0): string
 	{
 		if ($id && Record::isExists($id)) {
-			$record = \Vtiger_Record_Model::getInstanceById($id);
-			if (!$record->isViewable()) {
+			$recordModel = \Vtiger_Record_Model::getInstanceById($id);
+			if (!$recordModel->isViewable()) {
 				return '';
 			}
-			$instance = static::getInstanceByModel($record);
+			$instance = static::getInstanceByModel($recordModel);
 		} else {
 			$instance = static::getInstance();
 		}

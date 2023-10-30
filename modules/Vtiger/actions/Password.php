@@ -6,7 +6,7 @@
  * @package Action
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Vtiger_Password_Action extends \App\Controller\Action
@@ -49,10 +49,6 @@ class Vtiger_Password_Action extends \App\Controller\Action
 	 */
 	public function generatePwd(App\Request $request)
 	{
-		if (!$this->fieldModel->getUITypeModel()->isPermitted('auto-generate')) {
-			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD', 406);
-		}
-
 		$response = new Vtiger_Response();
 		$response->setResult(['pwd' => \App\Encryption::generateUserPassword(10)]);
 		$response->emit();
@@ -82,9 +78,6 @@ class Vtiger_Password_Action extends \App\Controller\Action
 	public function getPwd(App\Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!$this->fieldModel->getUITypeModel()->isPermitted('copy')) {
-			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_TO_FIELD', 406);
-		}
 		$recordModel = \Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $moduleName);
 		$pwd = $this->fieldModel->getUITypeModel()->getPwd($recordModel->get($this->fieldModel->getName()));
 

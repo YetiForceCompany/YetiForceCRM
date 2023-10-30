@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -849,7 +849,7 @@ class Importer
 				}
 			}
 			if ($add) {
-				$this->logs .= "  > add: {$keyName}, {$sourceTableName}:{$key[2]}, {$destTableName}:{$key[4]} ... ";
+				$this->logs .= "  > add: $keyName, $sourceTableName ... ";
 				$start = microtime(true);
 				try {
 					$dbCommand->addForeignKey($keyName, $sourceTableName, $key[2], $destTableName, $key[4], $key[5], $key[6])->execute();

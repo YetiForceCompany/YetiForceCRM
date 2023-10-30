@@ -6,7 +6,7 @@
  * @package Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -699,7 +699,7 @@ class Project_Gantt_Model
 				'name' => $taskName,
 				'label' => $taskName,
 				'url' => 'index.php?module=ProjectTask&view=Detail&record=' . $row['id'],
-				'parentId' => (int) ($row['parentid'] ?: $row['projectid']),
+				'parentId' => (int) ($row['parentid'] ?? 0),
 				'canWrite' => false,
 				'canDelete' => false,
 				'cantWriteOnParent' => false,

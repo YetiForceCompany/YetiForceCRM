@@ -8,7 +8,7 @@ namespace App;
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class UserPrivilegesFile
 {
@@ -32,7 +32,6 @@ class UserPrivilegesFile
 	 * Creates a file with all the user, user-role,user-profile, user-groups informations.
 	 *
 	 * @param int $userid
-	 *
 	 * @returns User_Privileges_Userid file under the User_Privileges Directory
 	 */
 	public static function createUserPrivilegesfile($userid)
@@ -42,18 +41,21 @@ class UserPrivilegesFile
 		if ($handle) {
 			$newBuf = '';
 			$newBuf .= "<?php\n";
-			$userFocus = clone \CRMEntity::getInstance('Users');
+			$userFocus = \CRMEntity::getInstance('Users');
 			$userFocus->retrieveEntityInfo($userid, 'Users');
 			$userInfo = [];
-			$userFocus->column_fields['id'] = $userid;
+			$userFocus->column_fields['id'] = '';
+			$userFocus->id = $userid;
 			foreach ($userFocus->column_fields as $field => $value) {
-				if ('currency_symbol' === $field || 'imagename' === $field || 'othereventduration' === $field) {
-					$userInfo[$field] = $value;
-				} else {
-					$userInfo[$field] = is_numeric($value) ? $value : \App\Purifier::encodeHtml($value);
+				if (isset($userFocus->{$field})) {
+					if ('currency_symbol' === $field || $field === 'imagename'|| $field === 'othereventduration') {
+						$userInfo[$field] = $userFocus->{$field};
+					} else {
+						$userInfo[$field] = is_numeric($userFocus->{$field}) ? $userFocus->{$field} : \App\Purifier::encodeHtml($userFocus->{$field});
+					}
 				}
 			}
-			if ('on' == $userFocus->column_fields['is_admin']) {
+			if ('on' == $userFocus->is_admin) {
 				$newBuf .= "\$is_admin=true;\n";
 				$newBuf .= '$user_info=' . Utils::varExport($userInfo) . ";\n";
 			} else {
@@ -96,33 +98,31 @@ class UserPrivilegesFile
 	 * In this file the information of the other users whose data is shared with the specified user is stored.
 	 *
 	 * @param int $userid
-	 *
 	 * @returns sharing_privileges_userid file under the user_privileges directory
 	 */
 	public static function createUserSharingPrivilegesfile($userid)
 	{
 		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/user_privileges_' . $userid . '.php');
 		require 'user_privileges/user_privileges_' . $userid . '.php';
-		$sharingFileLoc = 'user_privileges/sharing_privileges_' . $userid . '.php';
-		$fileUserSharingPrivileges = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $sharingFileLoc;
+		$fileUserSharingPrivileges = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'user_privileges/sharing_privileges_' . $userid . '.php';
 		$handle = fopen($fileUserSharingPrivileges, 'w+');
 		if ($handle) {
 			$newBuf = "<?php\n";
 			$userFocus = \CRMEntity::getInstance('Users');
 			$userFocus->retrieveEntityInfo($userid, 'Users');
-			if ('on' == $userFocus->column_fields['is_admin']) {
+			if ('on' == $userFocus->is_admin) {
 				fwrite($handle, $newBuf);
 				fclose($handle);
 			} else {
 				$sharingPrivileges = [];
-				// Constructig the Default Org Share Array
+				//Constructig the Default Org Share Array
 				$defOrgShare = PrivilegeUtil::getAllDefaultSharingAction();
 				$newBuf .= '$defaultOrgSharingPermission=' . Utils::varExport($defOrgShare) . ";\n";
 				$sharingPrivileges['defOrgShare'] = $defOrgShare;
 				$relatedModuleShare = PrivilegeUtil::getDatashareRelatedModules();
 				$newBuf .= '$related_module_share=' . Utils::varExport($relatedModuleShare) . ";\n";
 				$sharingPrivileges['relatedModuleShare'] = $relatedModuleShare;
-				// Constructing Account Sharing Rules
+				//Constructing Account Sharing Rules
 				$accountSharePerArray = PrivilegeUtil::getUserModuleSharingObjects('Accounts', $userid, $defOrgShare, $current_user_roles, $parent_roles, $current_user_groups);
 				$accountShareReadPer = $accountSharePerArray['read'];
 				$accountShareWritePer = $accountSharePerArray['write'];
@@ -130,11 +130,11 @@ class UserPrivilegesFile
 				$newBuf .= "\$Accounts_share_read_permission=array('ROLE'=>" . Utils::varExport($accountShareReadPer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accountShareReadPer['GROUP']) . ");\n";
 				$newBuf .= "\$Accounts_share_write_permission=array('ROLE'=>" . Utils::varExport($accountShareWritePer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accountShareWritePer['GROUP']) . ");\n";
 				$sharingPrivileges['permission']['Accounts'] = ['read' => $accountShareReadPer, 'write' => $accountShareWritePer];
-				// Constructing Contact Sharing Rules
+				//Constructing Contact Sharing Rules
 				$newBuf .= "\$Contacts_share_read_permission=array('ROLE'=>" . Utils::varExport($accountShareReadPer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accountShareReadPer['GROUP']) . ");\n";
 				$newBuf .= "\$Contacts_share_write_permission=array('ROLE'=>" . Utils::varExport($accountShareWritePer['ROLE']) . ",'GROUP'=>" . Utils::varExport($accountShareWritePer['GROUP']) . ");\n";
 				$sharingPrivileges['permission']['Contacts'] = ['read' => $accountShareReadPer, 'write' => $accountShareWritePer];
-				// Constructing the Account Ticket Related Module Sharing Array
+				//Constructing the Account Ticket Related Module Sharing Array
 				$acctRelatedTkt = static::getRelatedModuleSharingArray('Accounts', 'HelpDesk', $accountSharingruleMembers, $accountShareReadPer, $accountShareWritePer, $defOrgShare);
 				$accTktShareReadPer = $acctRelatedTkt['read'];
 				$accTktShareWriteer = $acctRelatedTkt['write'];
@@ -159,8 +159,7 @@ class UserPrivilegesFile
 				// END
 				fwrite($handle, $newBuf);
 				fclose($handle);
-				// Populating Temp Tables
-				\App\Cache::resetFileCache($sharingFileLoc);
+				//Populating Temp Tables
 				\App\Cache::resetFileCache($fileUserSharingPrivileges);
 				static::populateSharingtmptables($userid);
 				User::clearCache($userid);
@@ -318,7 +317,7 @@ class UserPrivilegesFile
 		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userid . '.php');
 
 		require 'user_privileges/sharing_privileges_' . $userid . '.php';
-		// Deleting from the existing vtiger_tables
+		//Deleting from the existing vtiger_tables
 		$tableArr = ['vtiger_tmp_read_user_sharing_per', 'vtiger_tmp_write_user_sharing_per', 'vtiger_tmp_read_group_sharing_per', 'vtiger_tmp_write_group_sharing_per', 'vtiger_tmp_read_user_rel_sharing_per', 'vtiger_tmp_write_user_rel_sharing_per', 'vtiger_tmp_read_group_rel_sharing_per', 'vtiger_tmp_write_group_rel_sharing_per'];
 		foreach ($tableArr as $tableName) {
 			$dbCommand->delete($tableName, ['userid' => $userid])->execute();
@@ -334,7 +333,7 @@ class UserPrivilegesFile
 			static::populateSharingPrivileges('GROUP', $userid, $module, 'read', ${$moduleSharingReadPermvar});
 			static::populateSharingPrivileges('GROUP', $userid, $module, 'write', ${$moduleSharingWritePermvar});
 		}
-		// Populating Values into the temp related sharing tables
+		//Populating Values into the temp related sharing tables
 		foreach ($related_module_share as $relTabId => $tabIdArr) {
 			$relTabName = Module::getModuleName($relTabId);
 			if (!empty($relTabName)) {

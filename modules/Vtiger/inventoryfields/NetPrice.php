@@ -6,7 +6,7 @@
  * @package   InventoryField
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -20,25 +20,17 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 	protected $summationValue = true;
 	protected $maximumLength = '99999999999999999999';
 	protected $purifyType = \App\Purifier::NUMBER;
-	/** {@inheritdoc} */
-	protected $params = ['summary_enabled'];
 
 	/** {@inheritdoc} */
 	public function getDisplayValue($value, array $rowData = [], bool $rawText = false)
 	{
-		$value = \App\Fields\Double::formatToDisplay($value);
-		if (isset($rowData['currency']) && $currencySymbol = \App\Fields\Currency::getById($rowData['currency'])['currency_symbol'] ?? '') {
-			$value = \CurrencyField::appendCurrencySymbol($value, $currencySymbol);
-		}
-
-		return $value;
+		return \App\Fields\Double::formatToDisplay($value);
 	}
 
 	/** {@inheritdoc} */
-	public function getEditValue(array $itemData, string $column = '')
+	public function getEditValue($value)
 	{
-		$value = parent::getEditValue($itemData, $column);
-		return \App\Fields\Double::formatToDisplay($value);
+		return \App\Fields\Double::formatToDisplay($value, false);
 	}
 
 	/** {@inheritdoc} */
@@ -73,17 +65,7 @@ class Vtiger_NetPrice_InventoryField extends Vtiger_Basic_InventoryField
 	/** {@inheritdoc} */
 	public function getValueForSave(array $item, bool $userFormat = false, string $column = null)
 	{
-		$totalPrice = static::getInstance($this->getModuleName(), 'TotalPrice')->getValueForSave($item, $userFormat);
-		$discountField = static::getInstance($this->getModuleName(), 'Discount');
-		$discountValue = $discountField->getValueForSave($item, $userFormat);
-		$discountParam = \App\Json::isEmpty($item['discountparam'] ?? '') ? [] : \App\Json::decode($item['discountparam']) ?? [];
-
-		return $discountField->isMarkup($discountParam) ? $totalPrice + $discountValue : $totalPrice - $discountValue;
-	}
-
-	/** {@inheritdoc} */
-	public function compare($value, $prevValue, string $column): bool
-	{
-		return \App\Validator::floatIsEqual((float) $value, (float) $prevValue, 8);
+		return static::getInstance($this->getModuleName(), 'TotalPrice')->getValueForSave($item, $userFormat)
+			- static::getInstance($this->getModuleName(), 'Discount')->getValueForSave($item, $userFormat);
 	}
 }

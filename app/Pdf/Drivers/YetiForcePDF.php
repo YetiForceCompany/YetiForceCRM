@@ -6,7 +6,7 @@
  * @package App\Pdf
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Rafal Pospiech <r.pospiech@yetifoce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author	  Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -275,13 +275,9 @@ class YetiForcePDF extends Base
 		}
 		$this->writeHTML();
 		$output = $this->pdf->render();
-		if (!\in_array($mode, ['I', 'D', 'AttachAndOutput'])) {
+		if ('I' !== $mode && 'D' !== $mode) {
 			file_put_contents($fileName, $output);
 			return;
-		}
-		if ('AttachAndOutput' === $mode) {
-			file_put_contents($fileName, $output);
-			$fileName = ($this->getFileName() ?: time()) . '.pdf';
 		}
 		$destination = 'I' === $mode ? 'inline' : 'attachment';
 		header('accept-charset: utf-8');

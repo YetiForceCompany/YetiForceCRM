@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -35,7 +35,7 @@ class Record extends \Api\ManageConsents\BaseAction
 		parent::checkPermission();
 		$moduleName = $this->controller->request->getModule();
 		$this->recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
-		if (!$this->recordModel->isCreatable()) {
+		if (!$this->recordModel->isCreateable()) {
 			throw new \Api\Core\Exception('No permissions to create record', 403);
 		}
 	}
@@ -49,7 +49,9 @@ class Record extends \Api\ManageConsents\BaseAction
 	 *		path="/webservice/ManageConsents/ApprovalsRegister/Record",
 	 *		summary="Adds an consent entry",
 	 *		tags={"ApprovalsRegister"},
-	 * 		security={{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}},
+	 *    security={
+	 *			{"basicAuth" : {}, "ApiKeyAuth" : {}, "token" : {}}
+	 *    },
 	 *		@OA\RequestBody(
 	 *				required=true,
 	 *				description="Required data for communication",

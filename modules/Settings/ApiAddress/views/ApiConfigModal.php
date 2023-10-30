@@ -6,7 +6,7 @@
  * @package Settings.View
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -16,9 +16,6 @@
  */
 class Settings_ApiAddress_ApiConfigModal_View extends \App\Controller\ModalSettings
 {
-	/** @var string Qualified module name. */
-	public $qualifiedModuleName;
-
 	/** {@inheritdoc} */
 	public function preProcessAjax(App\Request $request)
 	{

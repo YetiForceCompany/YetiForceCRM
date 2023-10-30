@@ -21,9 +21,7 @@
     "Digit Grouping Separator": "Digit grouping separator",
     "ForgotPassword": "Forgot password",
     "Home Phone": "Home phone",
-    "FL_INTERNAL_MAIL_COMPOSER": "Mail composer",
-    "FL_USER_PBX": "User PBX",
-    "LBL_PBX": "Phone branch exchange",
+    "INTERNAL_MAIL_COMPOSER": "Internal mail composer",
     "Language": "Language",
     "FL_AVAILABLE": "Is the user available?",
     "FL_AUTO_ASSIGN_RECORDS": "Can records be automatically assigned to the user?",
@@ -419,11 +417,8 @@
     "LBL_GROUP_MEMBERS_CHANGE_VIEW": "Managing group members",
     "LBL_MEMBER": "Members",
     "LBL_GROUP_MEMBERS_ADD_VIEW": "Add group members",
-    "FL_WAPRO_USER": "WAPRO ERP User identifier",
-    "FL_MAIL_POPUP": "Open your mail client in a new window",
-    "FL_RECORD_LIST_FILTER": "Record list filter",
-    "PLL_DEFAULT_FROM_LIST_VIEW": "Default from list view",
-    "PLL_LAST_SELECTED_IN_LIST": "Last selected in list view"
+    "LBL_NO_ACCESS_TITLE": "Access denied",
+    "LBL_NO_ACCESS_DESCRIPTION": "The system is going through the registration process. Please try again later or report it to the administrator."
   },
   "js": {
     "JS_DELETE_USER_CONFIRMATION": "When a User is deleted, the user will be marked as \"Inactive\" and no new records can be assigned to the User, and the user will not be able to login. Are you sure you want to delete?",

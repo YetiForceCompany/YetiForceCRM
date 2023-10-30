@@ -3,13 +3,12 @@
 /**
  * Abstract inventory map file.
  *
- * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription.
- * File modification allowed only with the consent of the system producer.
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
  *
  * @package Integration
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Dudek <a.dudek@yetiforce.com>
  */
 
@@ -87,8 +86,8 @@ abstract class Inventory extends Base
 		$fieldName = $this->getInvFieldName($fieldName);
 		$fieldParsed = null;
 		if (!empty($fieldName)) {
-			$methodName = 'getCrmInv' . ucfirst($fieldName);
-			if (!method_exists($this, $methodName)) {
+			$methodName = 'getCrmInv' . \ucfirst($fieldName);
+			if (!\method_exists($this, $methodName)) {
 				$fieldParsed = $this->dataInv[$fieldName] ?? null;
 			} else {
 				$fieldParsed = $this->{$methodName}();

@@ -16,7 +16,9 @@
 			{assign var="HELP_TEXT" value='LBL_HELP_'|cat:strtoupper(\App\Colors::sanitizeValue($KEY))}
 			{assign var="HELP_TEXT_TRANS" value=\App\Language::translateEncodeHtml($HELP_TEXT, 'ConfReport')}
 			{if !empty($HELP_TEXT_TRANS) && $HELP_TEXT_TRANS!==$HELP_TEXT }
-				<a href="#" class="js-popover-tooltip float-right" data-js="popover" data-trigger="focus hover" data-placement="right" data-content="{$HELP_TEXT_TRANS}">
+				<a href="#" class="js-popover-tooltip float-right" data-js="popover"
+					data-trigger="focus hover" data-placement="right"
+					data-content="{$HELP_TEXT_TRANS}">
 					<span class="fas fa-info-circle"></span>
 				</a>
 			{/if}

@@ -1547,39 +1547,23 @@ $.Class(
 		 * Function to register the list view row click event
 		 */
 		registerRowClickEvent: function () {
-			let lastEvent = false;
-			this.getListViewContentContainer().on('click', '.listViewEntries', function (e) {
+			let listViewContentDiv = this.getListViewContentContainer();
+			listViewContentDiv.on('click', '.listViewEntries', function (e) {
 				if ($(e.target).hasClass('js-no-link')) return;
 				if ($(e.target).closest('div').hasClass('actions')) return;
 				if ($(e.target).is('button') || $(e.target).parent().is('button')) return;
 				if ($(e.target).closest('a').hasClass('noLinkBtn')) return;
 				if ($(e.target).is('a')) return;
+				if ($(e.target, $(e.currentTarget)).is('td:first-child')) return;
 				if ($(e.target).is('input[type="checkbox"]')) return;
-				const element = $(e.currentTarget);
-				if ($(e.target, element).is('td:first-child')) return;
-				if ($.contains(element.find('td:last-child').get(0), e.target)) return;
-				if ($.contains(element.find('td:first-child').get(0), e.target)) return;
-				let recordUrl = element.data('recordurl');
+				if ($.contains($(e.currentTarget).find('td:last-child').get(0), e.target)) return;
+				if ($.contains($(e.currentTarget).find('td:first-child').get(0), e.target)) return;
+				let elem = $(e.currentTarget);
+				let recordUrl = elem.data('recordurl');
 				if (typeof recordUrl === 'undefined') {
 					return;
 				}
-				if (lastEvent) {
-					lastEvent = e.timeStamp;
-					if (element.find('.js-quick-edit-modal').length) {
-						element.find('.js-quick-edit-modal').trigger('click');
-					} else if (element.find('.js-full-edit').length) {
-						element.find('.js-full-edit').trigger('click');
-					}
-				} else {
-					lastEvent = e.timeStamp;
-					setTimeout(() => {
-						if (lastEvent === e.timeStamp) {
-							window.location.href = recordUrl;
-						} else {
-							lastEvent = false;
-						}
-					}, 300);
-				}
+				window.location.href = recordUrl;
 			});
 		},
 		/**
@@ -1672,6 +1656,24 @@ $.Class(
 				self.getListViewRecords(urlParams);
 			}
 			self.writeSelectedIds([]);
+		},
+		/**
+		 * Function to register the click event of email field
+		 */
+		registerEmailFieldClickEvent: function () {
+			let listViewContentDiv = this.getListViewContentContainer();
+			listViewContentDiv.on('click', '.emailField', function (e) {
+				e.stopPropagation();
+			});
+		},
+		/**
+		 * Function to register the click event of phone field
+		 */
+		registerPhoneFieldClickEvent: function () {
+			let listViewContentDiv = this.getListViewContentContainer();
+			listViewContentDiv.on('click', '.phoneField', function (e) {
+				e.stopPropagation();
+			});
 		},
 		/**
 		 * Function to register the click event of url field
@@ -2112,7 +2114,8 @@ $.Class(
 			if (typeof CustomView !== 'undefined') {
 				CustomView.registerCustomViewAdvCondEvents(this.getListViewContainer());
 			}
-			App.Fields.Text.registerCopyClipboard(this.getListViewContainer());
+			this.registerEmailFieldClickEvent();
+			this.registerPhoneFieldClickEvent();
 			this.registerMassActionsBtnEvents();
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 			this.registerUrlFieldClickEvent();

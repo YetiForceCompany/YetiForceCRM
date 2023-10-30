@@ -39,10 +39,8 @@ class Vtiger_Text_UIType extends Vtiger_Base_UIType
 			throw new \App\Exceptions\Security('ERR_ILLEGAL_FIELD_VALUE||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$maximumLength = $this->getFieldModel()->getMaxValue();
-		if ($maximumLength && \App\TextUtils::getTextLength($value, true) > $maximumLength) {
+		if ($maximumLength && \strlen($value) > $maximumLength) {
 			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_LONG||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
-		} elseif ($value && ($minLength = $this->getFieldModel()->getMinValue()) && \App\TextUtils::getTextLength($value, true) < $minLength){
-			throw new \App\Exceptions\Security('ERR_VALUE_IS_TOO_SHORT||' . $this->getFieldModel()->getName() . '||' . $this->getFieldModel()->getModuleName() . '||' . $value, 406);
 		}
 		$this->validate[$value] = true;
 	}

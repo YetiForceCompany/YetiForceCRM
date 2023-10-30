@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Calendar-Calendar-EventForm -->
 	<div class="js-edit-form">
@@ -16,9 +16,6 @@
 			{else}
 				<input type="hidden" name="fromView" value="QuickCreate" />
 				{assign var="FROM_VIEW" value='QuickCreate'}
-			{/if}
-			{if !empty($SOURCE_MODULE)}
-				<input type="hidden" name="fromModule" value="{$SOURCE_MODULE}" />
 			{/if}
 			<input type="hidden" id="preSaveValidation" value="{!empty(\App\EventHandler::getByType(\App\EventHandler::EDIT_VIEW_PRE_SAVE, $MODULE_NAME))}" />
 			<input type="hidden" class="js-change-value-event" value="{\App\EventHandler::getVarsByType(\App\EventHandler::EDIT_VIEW_CHANGE_VALUE, $MODULE_NAME, [$RECORD, $FROM_VIEW])}" />
@@ -64,7 +61,7 @@
 							{assign var="refrenceList" value=$FIELD_MODEL->getReferenceList()}
 							{assign var="refrenceListCount" value=count($refrenceList)}
 							{assign var="PARAMS" value=$FIELD_MODEL->getFieldParams()}
-							<div class="row-form fieldsLabelValue js-field-block-column px-1 mb-2 {$WIDTHTYPE} {$WIDTHTYPE_GROUP}" data-field="{$FIELD_MODEL->getFieldName()}">
+							<div class="row-form fieldsLabelValue px-1 mb-2 {$WIDTHTYPE} {$WIDTHTYPE_GROUP}">
 								{if !(isset($PARAMS['hideLabel']) && in_array($VIEW, $PARAMS['hideLabel']))}
 									<div class="col-12 u-fs-sm px-0">
 										{assign var=HELPINFO_LABEL value=\App\Language::getTranslateHelpInfo($FIELD_MODEL,$VIEW)}
@@ -94,36 +91,34 @@
 								</div>
 							</div>
 						{/foreach}
-						{if (\App\Config::module($MODULE_NAME, 'showInviteParticipantsBlock', true))}
-							<div class="row-form fieldsLabelValue px-1 mb-2">
-								<div class="col-12 px-0 u-fs-sm">
-									<label class="muted mt-0 mb-0">
-										{\App\Language::translate('LBL_INVITE_RECORDS', $MODULE_NAME)}
-									</label>
-								</div>
-								<div class="fieldValue col-12 px-0">
-									<div class="input-group js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}">
-										<input type="text" class="form-control js-participants-search" title="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}"
-											placeholder="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}" data-js="click" />
-										<div class="input-group-append">
-											<button type="button" class="js-btn-add-invitation btn btn-light" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}">
-												<span class="fa fa-plus" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}"></span>
-											</button>
-										</div>
+						<div class="row-form fieldsLabelValue px-1 mb-2">
+							<div class="col-12 px-0 u-fs-sm">
+								<label class="muted mt-0 mb-0">
+									{\App\Language::translate('LBL_INVITE_RECORDS', $MODULE_NAME)}
+								</label>
+							</div>
+							<div class="fieldValue col-12 px-0">
+								<div class="input-group js-popover-tooltip" data-js="popover" data-content="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}">
+									<input type="text" class="form-control js-participants-search" title="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}"
+										placeholder="{\App\Language::translate('LBL_SELECT_INVITE', $MODULE_NAME)}" data-js="click" />
+									<div class="input-group-append">
+										<button type="button" class="js-btn-add-invitation btn btn-light" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}">
+											<span class="fa fa-plus" title="{\App\Language::translate('LBL_ADD_PARTICIPANT', $MODULE_NAME)}"></span>
+										</button>
 									</div>
-								</div>
-								<div class="col-12 px-2 mt-1 js-participants-content d-flex flex-wrap flex-row justify-content-start align-items-left" data-js="container">
-									<div class="d-none">
-										{include file=\App\Layout::getTemplatePath('InviteRow.tpl', $MODULE_NAME)}
-									</div>
-									{if !empty($RECORD_ID)}
-										{foreach key=KEY item=INVITIE from=$RECORD->getInvities()}
-											{include file=\App\Layout::getTemplatePath('InviteRow.tpl', $MODULE_NAME)}
-										{/foreach}
-									{/if}
 								</div>
 							</div>
-						{/if}
+							<div class="col-12 px-2 mt-1 js-participants-content d-flex flex-wrap flex-row justify-content-start align-items-left" data-js="container">
+								<div class="d-none">
+									{include file=\App\Layout::getTemplatePath('InviteRow.tpl', $MODULE_NAME)}
+								</div>
+								{if !empty($RECORD_ID)}
+									{foreach key=KEY item=INVITIE from=$RECORD->getInvities()}
+										{include file=\App\Layout::getTemplatePath('InviteRow.tpl', $MODULE_NAME)}
+									{/foreach}
+								{/if}
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="o-calendar__form__actions">

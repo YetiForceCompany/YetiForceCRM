@@ -14,10 +14,6 @@
  */
 class Users_Privileges_Model extends Users_Record_Model
 {
-	protected static $userPrivilegesModelCache = [];
-
-	protected static $lockEditCache = [];
-
 	/**
 	 * Function to get the Display Name for the record.
 	 *
@@ -25,7 +21,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 */
 	public function getName(): string
 	{
-		if (!$this->has('label')) {
+		if (!isset($this->label)) {
 			$entityData = \App\Module::getEntityInfo('Users');
 			$separator = $entityData['separator'] ?? ' ';
 			$labelName = [];
@@ -33,10 +29,33 @@ class Users_Privileges_Model extends Users_Record_Model
 				$fieldModel = $this->getModule()->getFieldByColumn($columnName);
 				$labelName[] = $fieldModel->getDisplayValue($this->get($fieldModel->getName()), $this->getId(), $this, true);
 			}
-			$this->set('label', \App\Purifier::encodeHtml(implode($separator, $labelName)));
+			$this->label = \App\Purifier::encodeHtml(implode($separator, $labelName));
 		}
+		return $this->label;
+	}
 
-		return $this->get('label');
+	/**
+	 * Function to get the Global Read Permission for the user.
+	 *
+	 * @return <Number> 0/1
+	 */
+	protected function getGlobalReadPermission()
+	{
+		$profileGlobalPermissions = $this->get('profile_global_permission');
+
+		return $profileGlobalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW];
+	}
+
+	/**
+	 * Function to get the Global Write Permission for the user.
+	 *
+	 * @return <Number> 0/1
+	 */
+	protected function getGlobalWritePermission()
+	{
+		$profileGlobalPermissions = $this->get('profile_global_permission');
+
+		return $profileGlobalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT];
 	}
 
 	/**
@@ -91,7 +110,7 @@ class Users_Privileges_Model extends Users_Record_Model
 	 *
 	 * @param <Number>        $tabId
 	 * @param <String/Number> $action
-	 * @param mixed $mixed
+	 * @param mixed           $mixed
 	 *
 	 * @return bool true/false
 	 */
@@ -106,24 +125,28 @@ class Users_Privileges_Model extends Users_Record_Model
 			$mixed = 1;
 		}
 		$moduleModel = Vtiger_Module_Model::getInstance($mixed);
-		return $moduleModel->isActive() && $this->hasModulePermission($mixed) && ($this->isAdminUser() || (isset($profileTabsPermissions[$moduleModel->getId()][$actionId]) && Settings_Profiles_Module_Model::IS_PERMITTED_VALUE === $profileTabsPermissions[$moduleModel->getId()][$actionId]));
+		return $moduleModel->isActive() && $this->hasModulePermission($mixed) && (($this->isAdminUser() || (isset($profileTabsPermissions[$moduleModel->getId()][$actionId]) && Settings_Profiles_Module_Model::IS_PERMITTED_VALUE === $profileTabsPermissions[$moduleModel->getId()][$actionId])));
 	}
 
 	/**
 	 * Static Function to get the instance of the User Privileges model from the given list of key-value array.
 	 *
-	 * @param array $valueMap
+	 * @param <Array> $valueMap
 	 *
 	 * @return \Users_Privileges_Model object
 	 */
 	public static function getInstance($valueMap)
 	{
 		$instance = new self();
+		foreach ($valueMap as $key => $value) {
+			$instance->{$key} = $value;
+		}
 		$instance->setData($valueMap);
 		$instance->setModule('Users');
-
 		return $instance;
 	}
+
+	protected static $userPrivilegesModelCache = [];
 
 	/**
 	 * Static Function to get the instance of the User Privileges model, given the User id.
@@ -160,6 +183,8 @@ class Users_Privileges_Model extends Users_Record_Model
 	{
 		return self::getInstanceById(App\User::getCurrentUserId());
 	}
+
+	protected static $lockEditCache = [];
 
 	public static function checkLockEdit($moduleName, Vtiger_Record_Model $recordModel)
 	{
@@ -396,29 +421,5 @@ class Users_Privileges_Model extends Users_Record_Model
 		\App\Log::trace('Get profile list');
 
 		return $this->get('profiles');
-	}
-
-	/**
-	 * Function to get the Global Read Permission for the user.
-	 *
-	 * @return <Number> 0/1
-	 */
-	protected function getGlobalReadPermission()
-	{
-		$profileGlobalPermissions = $this->get('profile_global_permission');
-
-		return $profileGlobalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_VIEW];
-	}
-
-	/**
-	 * Function to get the Global Write Permission for the user.
-	 *
-	 * @return <Number> 0/1
-	 */
-	protected function getGlobalWritePermission()
-	{
-		$profileGlobalPermissions = $this->get('profile_global_permission');
-
-		return $profileGlobalPermissions[Settings_Profiles_Module_Model::GLOBAL_ACTION_EDIT];
 	}
 }

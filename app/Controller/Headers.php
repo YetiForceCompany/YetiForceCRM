@@ -5,7 +5,7 @@
  * @package Controller
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -17,6 +17,33 @@ namespace App\Controller;
  */
 class Headers
 {
+	/** Default CSP img-src */
+	/** @todo remove one addres */
+	private const CSP_IMG = ['https://api.yetiforce.eu/', 'https://public.yetiforce.com/'];
+
+	/**
+	 * Default CSP header values.
+	 *
+	 * @var string[]
+	 */
+	public $csp = [
+		'default-src' => '\'self\' blob:',
+		'img-src' => '\'self\' data:',
+		'font-src' => '\'self\' data:',
+		'script-src' => '\'self\' \'unsafe-inline\' blob:',
+		'form-action' => '\'self\'',
+		'frame-ancestors' => '\'self\'',
+		'frame-src' => '\'self\' mailto: tel:',
+		'style-src' => '\'self\' \'unsafe-inline\'',
+		'connect-src' => '\'self\'',
+	];
+
+	/**
+	 * Headers instance..
+	 *
+	 * @var self
+	 */
+	public static $instance;
 	/**
 	 * Default header values.
 	 *
@@ -39,47 +66,11 @@ class Headers
 		'X-Permitted-Cross-Domain-Policies' => 'none',
 	];
 	/**
-	 * Default CSP header values.
-	 *
-	 * @var string[]
-	 */
-	public $csp = [
-		'default-src' => '\'self\' blob:',
-		'img-src' => '\'self\' data:',
-		'font-src' => '\'self\' data:',
-		'script-src' => '\'self\' \'unsafe-inline\' blob:',
-		'form-action' => '\'self\'',
-		'frame-ancestors' => '\'self\'',
-		'frame-src' => '\'self\' mailto: tel:',
-		'style-src' => '\'self\' \'unsafe-inline\'',
-		'connect-src' => '\'self\'',
-	];
-	/**
 	 * Headers to delete.
 	 *
 	 * @var string[]
 	 */
 	protected $headersToDelete = ['X-Powered-By', 'Server'];
-
-	/**
-	 * Headers instance..
-	 *
-	 * @var self
-	 */
-	public static $instance;
-
-	/**
-	 * Get headers instance.
-	 *
-	 * @return \self
-	 */
-	public static function getInstance()
-	{
-		if (isset(self::$instance)) {
-			return self::$instance;
-		}
-		return self::$instance = new self();
-	}
 
 	/**
 	 * Construct, loads default headers depending on the browser and environment.
@@ -105,6 +96,19 @@ class Headers
 		if ($keys = \App\Config::security('hpkpKeysHeader')) {
 			$this->headers['Public-Key-Pins'] = 'pin-sha256="' . implode('"; pin-sha256="', $keys) . '"; max-age=10000;';
 		}
+	}
+
+	/**
+	 * Get headers instance.
+	 *
+	 * @return \self
+	 */
+	public static function getInstance()
+	{
+		if (isset(self::$instance)) {
+			return self::$instance;
+		}
+		return self::$instance = new self();
 	}
 
 	/**
@@ -161,25 +165,28 @@ class Headers
 	public function loadCsp()
 	{
 		if (\Config\Security::$generallyAllowedDomains) {
-			$this->csp['default-src'] .= ' ' . \implode(' ', \Config\Security::$generallyAllowedDomains);
+			$this->csp['default-src'] .= ' ' . implode(' ', \Config\Security::$generallyAllowedDomains);
+		}
+		if (self::CSP_IMG) {
+			$this->csp['img-src'] .= ' ' . implode(' ', self::CSP_IMG);
 		}
 		if (\Config\Security::$allowedImageDomains) {
-			$this->csp['img-src'] .= ' ' . \implode(' ', \Config\Security::$allowedImageDomains);
+			$this->csp['img-src'] .= ' ' . implode(' ', \Config\Security::$allowedImageDomains);
 		}
 		if (\Config\Security::$allowedScriptDomains) {
-			$this->csp['script-src'] .= ' ' . \implode(' ', \Config\Security::$allowedScriptDomains);
+			$this->csp['script-src'] .= ' ' . implode(' ', \Config\Security::$allowedScriptDomains);
 		}
 		if (\Config\Security::$allowedFormDomains) {
-			$this->csp['form-action'] .= ' ' . \implode(' ', \Config\Security::$allowedFormDomains);
+			$this->csp['form-action'] .= ' ' . implode(' ', \Config\Security::$allowedFormDomains);
 		}
 		if (\Config\Security::$allowedFrameDomains) {
-			$this->csp['frame-ancestors'] .= ' ' . \implode(' ', \Config\Security::$allowedFrameDomains);
+			$this->csp['frame-ancestors'] .= ' ' . implode(' ', \Config\Security::$allowedFrameDomains);
 		}
 		if (\Config\Security::$allowedConnectDomains) {
-			$this->csp['connect-src'] .= ' ' . \implode(' ', \Config\Security::$allowedConnectDomains);
+			$this->csp['connect-src'] .= ' ' . implode(' ', \Config\Security::$allowedConnectDomains);
 		}
 		if (\Config\Security::$allowedDomainsLoadInFrame) {
-			$this->csp['frame-src'] .= ' ' . \implode(' ', \Config\Security::$allowedDomainsLoadInFrame);
+			$this->csp['frame-src'] .= ' ' . implode(' ', \Config\Security::$allowedDomainsLoadInFrame);
 		}
 	}
 

@@ -171,8 +171,7 @@ jQuery.Class(
 				});
 		},
 		showWorkflowTriggerView: function (instance) {
-			let element = $(instance);
-			element.popover('hide');
+			$(instance).popover('hide');
 			const detailInstance = Vtiger_Detail_Js.getInstance(),
 				callback = function (data) {
 					let treeInstance = data.find('#treeWorkflowContents');
@@ -216,11 +215,11 @@ jQuery.Class(
 								type: 'info'
 							});
 							AppConnector.request({
-								module: element.data('module') || app.getModuleName(),
+								module: app.getModuleName(),
 								action: 'Workflow',
 								mode: 'execute',
 								user: data.find('[name="user"]').val(),
-								record: element.data('id') || detailInstance.getRecordId(),
+								record: detailInstance.getRecordId(),
 								tasks: JSON.stringify(tasks)
 							})
 								.done(function () {
@@ -244,9 +243,9 @@ jQuery.Class(
 					});
 				};
 			AppConnector.request({
-				module: element.data('module') || app.getModuleName(),
+				module: app.getModuleName(),
 				view: 'WorkflowTrigger',
-				record: element.data('id') || detailInstance.getRecordId()
+				record: detailInstance.getRecordId()
 			}).done(function (data) {
 				if (data) {
 					app.showModalWindow(data, '', callback);
@@ -369,7 +368,7 @@ jQuery.Class(
 						if (chart.length && typeof window['Vtiger_Widget_Js'] !== 'undefined') {
 							let widgetInstance = Vtiger_Widget_Js.getInstance(contentContainer, chart.val());
 							widgetInstance.init(contentContainer);
-							widgetInstance.postLoadWidget();
+							widgetInstance.loadChart();
 						}
 					}
 					app.event.trigger('DetailView.Widget.AfterLoad', contentContainer, relatedModuleName, thisInstance);
@@ -872,6 +871,24 @@ jQuery.Class(
 			}
 		},
 		/*
+		 * Function to register the click event of email field
+		 */
+		registerEmailFieldClickEvent: function () {
+			let detailContentsHolder = this.getContentHolder();
+			detailContentsHolder.on('click', '.emailField', function (e) {
+				e.stopPropagation();
+			});
+		},
+		/*
+		 * Function to register the click event of phone field
+		 */
+		registerPhoneFieldClickEvent: function () {
+			let detailContentsHolder = this.getContentHolder();
+			detailContentsHolder.on('click', '.phoneField', function (e) {
+				e.stopPropagation();
+			});
+		},
+		/*
 		 * Function to register the click event of url field
 		 */
 		registerUrlFieldClickEvent: function () {
@@ -1353,7 +1370,7 @@ jQuery.Class(
 					app.showRecordsList(params, (_modal, instance) => {
 						instance.setSelectEvent((responseData) => {
 							thisInstance
-								.addRelationBetweenRecords(referenceModuleName, Object.keys(responseData.selectedRecords), null, {
+								.addRelationBetweenRecords(referenceModuleName, Object.keys(responseData), null, {
 									relationId: params.relationId
 								})
 								.done(function () {
@@ -2657,7 +2674,6 @@ jQuery.Class(
 					tabElement.trigger('click');
 				});
 			app.registerIframeEvents(detailContentsHolder);
-			app.registerBlockToggleEvent(detailContentsHolder);
 		},
 		reloadWidgetActivitesStats: function (container) {
 			let countElement = container.find('.countActivities');
@@ -2828,6 +2844,8 @@ jQuery.Class(
 			this.registerAjaxEditEvent();
 			this.registerRelatedRowClickEvent();
 			this.registerBlockStatusCheckOnLoad();
+			this.registerEmailFieldClickEvent();
+			this.registerPhoneFieldClickEvent();
 			this.registerEventForRelatedTabClick();
 			Vtiger_Helper_Js.showHorizontalTopScrollBar();
 			this.registerUrlFieldClickEvent();
@@ -2836,7 +2854,6 @@ jQuery.Class(
 				// Not detail view page
 				return;
 			}
-			App.Fields.Text.registerCopyClipboard(detailViewContainer);
 			this.registerWidgetProductAndServices();
 			this.registerSetReadRecord(detailViewContainer);
 			this.getForm().validationEngine(app.validationEngineOptionsForRecord);

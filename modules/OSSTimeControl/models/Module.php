@@ -6,7 +6,7 @@
  * @package   Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 {
@@ -49,33 +49,35 @@ class OSSTimeControl_Module_Model extends Vtiger_Module_Model
 	{
 		$totalTime = $query->limit(null)->orderBy('')->sum('vtiger_osstimecontrol.sum_time');
 
-		$chartData = [
-			'show_chart' => false,
+		$userTime = [
+			'labels' => [],
+			'title' => \App\Language::translate('LBL_SUM', $this->getName()) . ': ' . \App\Fields\RangeTime::displayElapseTime($totalTime, 'i', 'hi', false),
+			'datasets' => [
+				[
+					'data' => [],
+					'backgroundColor' => [],
+					'borderColor' => [],
+					'tooltips' => [],
+				],
+			],
 		];
 
-		$datasetIndex = 0;
 		$dataReader = $query->select(['sumtime' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)'), 'vtiger_crmentity.smownerid'])
 			->groupBy('vtiger_crmentity.smownerid')->orderBy(['vtiger_crmentity.smownerid' => SORT_ASC])->createCommand()
 			->query();
-		$chartData['title'] = [
-			'text' => \App\Language::translate('LBL_SUM', $this->getName()) . ': ' . \App\Fields\RangeTime::displayElapseTime($totalTime, 'i', 'hi', false),
-			'textStyle' => [
-				'fontSize' => 12
-			]
-		];
 		while ($row = $dataReader->read()) {
-			$color = \App\Fields\Owner::getColor($row['smownerid']);
-			$fullName = trim(\App\Fields\Owner::getLabel($row['smownerid']));
-			$label = \App\Utils::getInitials($fullName);
-
-			$chartData['series'][$datasetIndex]['data'][] = ['value' => round((float) $row['sumtime'] / 60, 2), 'name' => $label, 'itemStyle' => ['color' => $color], 'link' => '', 'fullName' => $fullName, 'fullValue' => \App\Fields\RangeTime::displayElapseTime((float) $row['sumtime'])];
-			$chartData['series'][$datasetIndex]['type'] = 'bar';
-			$chartData['xAxis']['data'][] = $label;
-			$chartData['show_chart'] = true;
+			$ownerName = App\Fields\Owner::getLabel($row['smownerid']) ?? '';
+			$color = App\Fields\Owner::getColor($row['smownerid']);
+			$userTime['labels'][] = \App\Utils::getInitials($ownerName);
+			$userTime['datasets'][0]['tooltips'][] = $ownerName;
+			$userTime['datasets'][0]['data'][] = round((float) $row['sumtime'] / 60, 2);
+			$userTime['datasets'][0]['dataFormatted'][] = \App\Fields\RangeTime::displayElapseTime($row['sumtime']);
+			$userTime['datasets'][0]['backgroundColor'][] = $color;
+			$userTime['datasets'][0]['borderColor'][] = $color;
 		}
 		$dataReader->close();
 
-		return ['totalTime' => $totalTime, 'userTime' => $chartData];
+		return ['totalTime' => $totalTime, 'userTime' => $userTime];
 	}
 
 	/** {@inheritdoc} */

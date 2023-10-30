@@ -8,7 +8,7 @@ namespace App\TextParser;
  * @package TextParser
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  */
 class TableCorrectTaxSummary extends Base
@@ -68,26 +68,24 @@ class TableCorrectTaxSummary extends Base
 				}
 			}
 			if ($inventory->isField('tax') && $inventory->isField('taxmode')) {
-				$correctionTaxAmount = $invoiceTaxAmount = $taxValue = 0;
-				foreach ($taxes as $tax) {
-					$correctionTaxAmount += $tax;
-				}
-				foreach ($relatedTaxes as $tax) {
-					$invoiceTaxAmount += $tax;
-				}
-				$taxValue = $correctionTaxAmount - $invoiceTaxAmount;
-				$taxLabel = $taxValue > 0 ? 'LBL_VAT_INCREASE_AMOUNT' : 'LBL_VAT_REDUCTION_AMOUNT';
+				$taxAmount = $relatedTaxAmount = 0;
 				$html .= '
 						<table class="table-correct-tax-summary" style="width:100%;vertical-align:top;border-collapse:collapse;border:1px solid #ddd;">
 						<thead>
 								<tr>
-									<th colspan="2" style="font-weight:bold;padding:0px 4px;">' . \App\Language::translate($taxLabel, $this->textParser->moduleName) . '</th>
+									<th colspan="2" style="font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_TAX_CORRECT_SUMMARY', $this->textParser->moduleName) . '</th>
 								</tr>
 								</thead><tbody>';
 
+				foreach ($taxes as $tax) {
+					$taxAmount += $tax;
+				}
+				foreach ($relatedTaxes as $tax) {
+					$relatedTaxAmount += $tax;
+				}
 				$html .= '<tr>
 									<td class="name" style="text-align:left;font-weight:bold;padding:0px 4px;">' . \App\Language::translate('LBL_AMOUNT', $this->textParser->moduleName) . '</td>
-									<td class="value" style="text-align:right;font-weight:bold;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($taxValue, null, true) . ' ' . $currencySymbol . '</td>
+									<td class="value" style="text-align:right;font-weight:bold;padding:0px 4px;">' . \CurrencyField::convertToUserFormat($relatedTaxAmount - $taxAmount, null, true) . ' ' . $currencySymbol . '</td>
 								</tr>
 								</tbody>
 						</table>';

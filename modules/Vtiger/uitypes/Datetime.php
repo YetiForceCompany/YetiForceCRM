@@ -26,7 +26,7 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 			parent::validate($arrayDateTime[0], $isUserFormat);
 		} elseif (2 === $cnt) { //Date
 			parent::validate($arrayDateTime[0], $isUserFormat);
-			(new Vtiger_Time_UIType())->set('field', $this->getFieldModel())->validate($arrayDateTime[1], $isUserFormat); //Time
+			(new Vtiger_Time_UIType())->validate($arrayDateTime[1], $isUserFormat); //Time
 		}
 		$this->validate[$value] = true;
 	}
@@ -130,18 +130,5 @@ class Vtiger_Datetime_UIType extends Vtiger_Date_UIType
 			return $value;
 		}
 		return $value . date(' (T P)', strtotime($value));
-	}
-
-	/** {@inheritdoc} */
-	public function getDefaultValue()
-	{
-		$defaultValue = $this->getFieldModel()->get('defaultvalue');
-		if ($defaultValue && \App\TextParser::isVaribleToParse($defaultValue)) {
-			$textParser = \App\TextParser::getInstance($this->getFieldModel()->getModuleName());
-			$textParser->setContent($defaultValue)->parse();
-			$defaultValue = $textParser->getContent() . ' ' . \App\User::getCurrentUserModel()->getDetail('start_hour');
-		}
-
-		return $defaultValue;
 	}
 }

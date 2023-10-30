@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Arkadiusz Adach <a.adach@yetiforce.com>
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
@@ -41,7 +41,7 @@ class SaveInventory extends \Api\Core\BaseAction
 		parent::checkPermission();
 		$moduleName = $this->controller->request->getModule();
 		$this->recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
-		if (!$this->recordModel->isCreatable()) {
+		if (!$this->recordModel->isCreateable()) {
 			throw new \Api\Core\Exception('No permissions to create record', 403);
 		}
 	}
@@ -106,7 +106,7 @@ class SaveInventory extends \Api\Core\BaseAction
 			return $result;
 		}
 		foreach ($this->moduleModel->getFields() as $fieldName => $fieldModel) {
-			if (!$fieldModel->isWritable('Create')) {
+			if (!$fieldModel->isWritable()) {
 				continue;
 			}
 			if ($this->controller->request->has($fieldName)) {

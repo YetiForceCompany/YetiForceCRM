@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<style type="text/css">
 		small.small-a {
@@ -15,7 +15,7 @@
 					<div class='float-left'>
 						{assign var=PROJECT_ID value=$TASKS->get('projectid')}
 						{assign var=ACCOUNT value=$TASKS->get('account')}
-						<a href="{$TASKS->getDetailViewUrl()}">{\App\Purifier::encodeHtml(\App\TextUtils::textTruncate($TASKS->get('projecttaskname'), $NAMELENGTH))}</a>
+						<a href="{$TASKS->getDetailViewUrl()}">{$TASKS->get('projecttaskname')|html_entity_decode:$smarty.const.ENT_QUOTES:'utf-8'|truncate:$NAMELENGTH:'...'}</a>
 						{if $PROJECT_ID}
 							<br /><small class='small-a'><strong>{$TASKS->getDisplayValue('projectid')}</strong></small>
 						{/if}

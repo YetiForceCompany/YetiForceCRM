@@ -5,7 +5,7 @@
  * @package   Settings.Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 /**
  * Config editor basic module class.
@@ -44,6 +44,14 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 		'separateChangeRelationButton' => 'LBL_RELATION_SEPARATE_CHANGE_RELATION_BUTTON',
 	];
 
+	/** @var array Fields for branding */
+	public $brandingFields = [
+		'footerName' => 'LBL_BRAND_DATA_NAME',
+		'urlFacebook' => 'LBL_FACEBOOK',
+		'urlLinkedIn' => 'LBL_LINKEDIN',
+		'urlTwitter' => 'LBL_TWITTER'
+	];
+
 	/** @var string Configuration type */
 	public $type;
 
@@ -59,7 +67,12 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 		$this->type = $type;
 		foreach (array_keys($this->getEditFields()) as $fieldName) {
 			$source = $this->getFieldInstanceByName($fieldName)->get('source');
-			$value = \App\Config::{$source}($fieldName);
+			[$type, $component] = strpos($source, ':') ? explode(':', $source, 2) : [$source, ''];
+			if ($component) {
+				$value = \App\Config::{$type}($component, $fieldName);
+			} else {
+				$value = \App\Config::{$type}($fieldName);
+			}
 			if ('upload_maxsize' === $fieldName) {
 				$value /= 1048576;
 			}
@@ -87,6 +100,9 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 				break;
 			case 'Performance':
 				$fields = $this->performanceFields;
+				break;
+			case 'Branding':
+				$fields = $this->brandingFields;
 				break;
 			default:
 				break;
@@ -211,7 +227,7 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 				$params['purifyType'] = \App\Purifier::TEXT;
 				unset($params['validator']);
 				break;
-			// Realtion
+				// Realtion
 			case 'COMMENT_MAX_LENGTH':
 				$params['label'] = $this->relationFields[$name];
 				$params['uitype'] = 7;
@@ -253,8 +269,35 @@ class Settings_ConfigEditor_Module_Model extends Settings_Vtiger_Module_Model
 			case 'list_max_entries_per_page':
 			case 'href_max_length':
 				$params['uitype'] = 7;
+				$params['purifyType'] = \App\Purifier::INTEGER;
+				$params['maximumlength'] = '255';
+				break;
+				// Branding
+			case 'footerName':
+				$params['label'] = $this->brandingFields[$name];
+				$params['uitype'] = 1;
+				$params['typeofdata'] = 'V~O';
 				$params['purifyType'] = \App\Purifier::TEXT;
 				$params['maximumlength'] = '255';
+				$params['source'] = 'component:Branding';
+				$params['fieldvalue'] = $this->get($name);
+				$params['isEditableReadOnly'] = !\App\YetiForce\Shop::check('YetiForceDisableBranding');
+				unset($params['validator']);
+				break;
+			case 'urlFacebook':
+			case 'urlLinkedIn':
+			case 'urlTwitter':
+				$config = new \App\ConfigFile('component', 'Branding');
+				$defaullt = $config->getTemplate($name)['default'];
+				$params['label'] = $this->brandingFields[$name];
+				$params['uitype'] = 17;
+				$params['typeofdata'] = 'V~O';
+				$params['purifyType'] = \App\Purifier::URL;
+				$params['maximumlength'] = '255';
+				$params['source'] = 'component:Branding';
+				$params['fieldvalue'] = $defaullt === $this->get($name) ? '' : $this->get($name);
+				$params['isEditableReadOnly'] = !\App\YetiForce\Shop::check('YetiForceDisableBranding');
+				unset($params['validator']);
 				break;
 			default:
 				break;

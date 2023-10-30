@@ -6,8 +6,9 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 namespace App\YetiForce;
@@ -15,8 +16,11 @@ namespace App\YetiForce;
 /**
  * YetiForce register class.
  */
-class Register
+final class Register extends AbstractBase
 {
+	/** @var string URL */
+	public const URL = 'https://api.yetiforce.eu/registrations';
+
 	/** @var string[] Status messages. */
 	public const STATUS_MESSAGES = [
 		-2 => 'ERR_NO_INTERNET_CONNECTION',
@@ -25,30 +29,25 @@ class Register
 		1 => 'LBL_WAITING_FOR_ACCEPTANCE',
 		2 => 'LBL_INCORRECT_DATA',
 		3 => 'LBL_INCOMPLETE_DATA',
-		5 => 'LBL_OFFLINE_SERIAL_NOT_FOUND',
-		6 => 'LBL_OFFLINE_SIGNED',
-		7 => 'LBL_OFFLINE_SIGNED',
 		8 => 'LBL_SPECIAL_REGISTRATION',
-		9 => 'LBL_ACCEPTED',
+		9 => 'LBL_REGISTERED',
 	];
-	/** @var string Registration url. */
-	private const REGISTRATION_API_URL = 'https://api.yetiforce.com/registration/';
 
 	/** @var string Registration file path. */
-	private const REGISTRATION_FILE = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app_data' . \DIRECTORY_SEPARATOR . 'registration.php';
+	public const REGISTRATION_FILE = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'app_data' . \DIRECTORY_SEPARATOR . 'registration.php';
 
-	/**
-	 * Last error.
-	 *
-	 * @var string
-	 */
-	public $error;
+	/** @var array Products */
+	private static $products;
+
 	/**
 	 * Registration config cache.
 	 *
 	 * @var array
 	 */
-	private static $config;
+	private static array $config;
+
+	/** @var array Company data */
+	private array $rawCompanyData = [];
 
 	/**
 	 * Generate a unique key for the crm.
@@ -67,7 +66,7 @@ class Register
 	 */
 	public static function getInstanceKey(): string
 	{
-		return sha1(\App\Config::main('application_unique_key') . \App\Config::main('site_URL') . gethostname());
+		return sha1(\App\Config::main('application_unique_key') . trim(preg_replace("(^https?://)", '', \App\Config::main('site_URL')), '/'));
 	}
 
 	/**
@@ -77,193 +76,97 @@ class Register
 	 */
 	public function register(): bool
 	{
-		if (!\App\RequestUtil::isNetConnection() || 'api.yetiforce.com' === gethostbyname('api.yetiforce.com')) {
-			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
-			$this->error = 'ERR_NO_INTERNET_CONNECTION';
-			return false;
+		$this->success = false;
+		$client = new ApiClient();
+		$method = (new Config())->getToken() ? 'PUT' : 'POST';
+		$client->send(self::URL, $method, ['form_params' => $this->getData()]);
+		$this->error = $client->getError();
+		if (!$this->error && ($code = $client->getStatusCode())) {
+			$content = $client->getResponseBody();
+			$this->success = 204 === $code || (\in_array($code, [200, 201]) && $content && (new Config())->setToken(\App\Json::decode($content)));
+		} elseif (409 === $client->getStatusCode() && false !== stripos($this->error, 'app')) {
+			throw new \App\Exceptions\AppException('ERR_RECREATE_APP_ACCESS');
 		}
-		$result = false;
+
+		return $this->success;
+	}
+
+	/**
+	 * Check registration status.
+	 *
+	 * @return bool
+	 */
+	public function check(): bool
+	{
 		try {
-			$url = static::REGISTRATION_API_URL . 'add';
-			\App\Log::beginProfile("POST|Register::register|{$url}", __NAMESPACE__);
-			$response = (new \GuzzleHttp\Client())->post(
-				$url,
-				\App\Utils::merge(\App\RequestHttp::getOptions(), ['form_params' => static::getData()])
-			);
-			\App\Log::endProfile("POST|Register::register|{$url}", __NAMESPACE__);
-			$body = $response->getBody();
-			if (!\App\Json::isEmpty($body)) {
-				$body = \App\Json::decode($body);
-				if ('OK' === $body['text']) {
-					static::updateMetaData([
-						'register_time' => date('Y-m-d H:i:s'),
-						'status' => $body['status'],
-						'text' => $body['text'],
-						'serialKey' => $body['serialKey'] ?? '',
-						'last_check_time' => '',
-					]);
-					$result = true;
-				}
+			$client = new ApiClient();
+			$this->success = $client->send(self::URL . '/status', 'GET');
+			$this->error = $client->getError();
+			if (!$this->error && 200 === $client->getStatusCode()) {
+				$this->updateMetaData(\App\Json::decode($client->getResponseBody()));
+				$this->success = true;
+			} elseif (409 === $client->getStatusCode() && false !== stripos($this->error, 'app')) {
+				(new self())->recreate();
+				throw new \App\Exceptions\AppException('ERR_RECREATE_APP_ACCESS');
 			}
 		} catch (\Throwable $e) {
+			$this->success = false;
 			$this->error = $e->getMessage();
-			\App\Log::warning($e->getMessage(), __METHOD__);
+			\App\Log::error($e->getMessage(), __METHOD__);
 		}
-		\App\Company::statusUpdate(1);
-		return $result;
+
+		return $this->success;
 	}
 
 	/**
-	 * Checking registration status.
+	 * Recreate access.
 	 *
-	 * @param bool $force
-	 *
-	 * @return int
+	 * @return void
 	 */
-	public static function check($force = false): int
+	public function recreate()
 	{
-		if (!\App\RequestUtil::isNetConnection() || 'api.yetiforce.com' === gethostbyname('api.yetiforce.com')) {
-			\App\Log::warning('ERR_NO_INTERNET_CONNECTION', __METHOD__);
-			static::updateMetaData(['last_error' => 'ERR_NO_INTERNET_CONNECTION', 'last_error_date' => date('Y-m-d H:i:s')]);
-			return -1;
-		}
-		$conf = static::getConf();
-		if (!$force && (!empty($conf['last_check_time']) && (($conf['status'] < 6 && strtotime('+6 hours', strtotime($conf['last_check_time'])) > time()) || ($conf['status'] >= 6 && strtotime('+1 day', strtotime($conf['last_check_time'])) > time())))) {
-			return -2;
-		}
-		$status = 0;
 		try {
-			$data = ['last_check_time' => date('Y-m-d H:i:s')];
-			$url = static::REGISTRATION_API_URL . 'check';
-			\App\Log::beginProfile("POST|Register::check|{$url}", __NAMESPACE__);
-			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, [
-				'form_params' => \App\Utils::merge($conf, static::getData()),
-			]);
-			\App\Log::endProfile("POST|Register::check|{$url}", __NAMESPACE__);
-			$body = $response->getBody();
-			if (!\App\Json::isEmpty($body)) {
-				$body = \App\Json::decode($body);
-				if ('OK' === $body['text'] && static::updateCompanies($body['companies'])) {
-					$data = [
-						'status' => $body['status'],
-						'text' => $body['text'],
-						'serialKey' => $body['serialKey'],
-						'last_check_time' => date('Y-m-d H:i:s'),
-						'products' => $body['activeProducts'],
-					];
-					$status = 1;
-				} else {
-					throw new \App\Exceptions\AppException($body['text'], 4);
-				}
-			} else {
-				throw new \App\Exceptions\AppException('ERR_BODY_IS_EMPTY', 0);
+			$client = new ApiClient();
+			$this->success = $client->send(self::URL . '/copy', 'POST', ['form_params' => ['newAppId' => self::getInstanceKey()]]);
+			$this->error = $client->getError();
+			if (!$this->error && ($code = $client->getStatusCode())) {
+				$content = $client->getResponseBody();
+				$this->success = \in_array($code, [200, 201]) && $content && (new Config())->setToken(\App\Json::decode($content));
 			}
-			static::updateMetaData($data);
 		} catch (\Throwable $e) {
-			\App\Log::warning($e->getMessage(), __METHOD__);
-			// Company details vary, re-registration is required.
-			static::updateMetaData([
-				'last_error' => $e->getMessage(),
-				'last_error_date' => date('Y-m-d H:i:s'),
-				'last_check_time' => date('Y-m-d H:i:s'),
-			]);
-			$status = $e->getCode();
+			$this->success = false;
+			$this->error = $e->getMessage();
+			\App\Log::error($e->getMessage(), __METHOD__);
 		}
-		return $status;
 	}
 
 	/**
-	 * Registration verification.
+	 * Set company data.
 	 *
-	 * @param bool $timer
+	 * @param array $data
 	 *
-	 * @return bool
+	 * @return self
 	 */
-	public static function verify($timer = false): bool
+	public function setRawCompanyData(array $data): self
 	{
-		if (\App\Cache::staticHas('RegisterVerify', $timer)) {
-			return \App\Cache::staticGet('RegisterVerify', $timer);
-		}
-		$conf = static::getConf();
-		if (!$conf) {
-			\App\Cache::staticSave('RegisterVerify', $timer, false);
-			return false;
-		}
-		$status = $conf['status'] > 5;
-		if (!empty($conf['serialKey']) && $status && static::verifySerial($conf['serialKey'])) {
-			\App\Cache::staticSave('RegisterVerify', $timer, true);
-			return true;
-		}
-		if ($timer && !empty($conf['register_time']) && strtotime('+14 days', strtotime($conf['register_time'])) > time()) {
-			$status = true;
-		}
-		\App\Cache::staticSave('RegisterVerify', $timer, $status);
-		return $status;
-	}
+		$this->rawCompanyData = $data;
 
-	/**
-	 * Set offline serial.
-	 *
-	 * @param string $serial
-	 *
-	 * @return bool
-	 */
-	public static function setSerial($serial)
-	{
-		if (!static::verifySerial($serial)) {
-			return false;
-		}
-		static::updateMetaData([
-			'register_time' => date('Y-m-d H:i:s'),
-			'status' => 6,
-			'text' => 'OK',
-			'insKey' => static::getInstanceKey(),
-			'serialKey' => $serial,
-		]);
-		\App\Company::statusUpdate(6);
-		return true;
-	}
-
-	/**
-	 * Verification of the serial number.
-	 *
-	 * @param string $serial
-	 *
-	 * @return bool
-	 */
-	public static function verifySerial(string $serial): bool
-	{
-		return hash_equals($serial, hash('sha1', self::getInstanceKey() . self::getCrmKey()));
-	}
-
-	/**
-	 * Get last check time.
-	 *
-	 * @return mixed
-	 */
-	public static function getLastCheckTime()
-	{
-		return static::getConf()['last_check_time'] ?? false;
-	}
-
-	/**
-	 * Get last check error.
-	 *
-	 * @return bool|string
-	 */
-	public static function getLastCheckError()
-	{
-		return static::getConf()['last_error'] ?? false;
+		return $this;
 	}
 
 	/**
 	 * Get registration status.
 	 *
+	 * @param bool $force
+	 *
 	 * @return int
 	 */
-	public static function getStatus(): int
+	public function getStatus(bool $force = false): int
 	{
-		return (int) (static::getConf()['status'] ?? 0);
+		if ($force) {
+			$this->check();
+		}
+		return (int) (self::getConf()['status'] ?? 0);
 	}
 
 	/**
@@ -273,26 +176,41 @@ class Register
 	 */
 	public static function isRegistered(): bool
 	{
-		return static::getStatus() >= 6;
+		return (new self())->getStatus() >= 6 && self::getConfValue('appId') === self::getInstanceKey();
 	}
 
 	/**
-	 * Get registration products.
+	 * Get registration product.
 	 *
-	 * @param mixed $name
+	 * @param string $name
 	 *
 	 * @return array
 	 */
-	public static function getProducts($name = ''): array
+	public static function getProduct(string $name): array
 	{
-		$rows = [];
-		foreach (static::getConf()['products'] ?? [] as $row) {
-			$rows[$row['product']] = $row;
+		if (!isset(self::$products)) {
+			self::$products = [];
+			foreach (self::getConf()['subscriptions'] ?? [] as $row) {
+				self::$products[$row['product']] = $row;
+			}
 		}
-		if ($name) {
-			return $rows[$name] ?? [];
+
+		return self::$products[$name] ?? [];
+	}
+
+	/**
+	 * Gets products.
+	 *
+	 * @return array
+	 */
+	public static function getProducts(): array
+	{
+		$products = [];
+		foreach (self::getConf()['subscriptions'] ?? [] as $row) {
+			$products[] = array_intersect_key($row, array_flip(['product', 'expiresAt']));
 		}
-		return $rows;
+
+		return $products;
 	}
 
 	/**
@@ -310,24 +228,115 @@ class Register
 	}
 
 	/**
+	 * Should enforce registration.
+	 *
+	 * @return bool
+	 */
+	public static function shouldEnforceRegistration(): bool
+	{
+		$interval = null;
+		if ($registrationDate = (self::getConf()['last_forced_reg_time'] ?? null)) {
+			$interval = (new \DateTime('now', new \DateTimeZone('GMT')))->diff(new \DateTime($registrationDate, new \DateTimeZone('GMT')));
+		}
+
+		return !self::isRegistered() && (self::getInstanceKey() !== self::getConfValue('appId') || ($interval && $interval->days > 6));
+	}
+
+	/**
+	 * Was registration attempted.
+	 *
+	 * @return bool
+	 */
+	public static function isPreRegistered(): bool
+	{
+		return self::isRegistered() || self::getInstanceKey() === self::getConfValue('appId');
+	}
+
+	/**
+	 * Get parsed company registration data.
+	 *
+	 * @return array
+	 */
+	public function getCompanyData(): array
+	{
+		if (!$this->rawCompanyData) {
+			$this->setRawCompanyData(\App\Company::getCompany());
+		}
+
+		return [
+			'name' => $this->rawCompanyData['name'] ?: null,
+			'vatId' => $this->rawCompanyData['vat_id'] ?: null,
+			'country' => $this->rawCompanyData['country'] ?: null,
+			'industry' => $this->rawCompanyData['industry'] ?: null,
+			'webpage' => $this->rawCompanyData['website'] ?: null,
+		];
+	}
+
+	/**
+	 * Send statistics.
+	 *
+	 * @return bool
+	 */
+	public function sendStats(): bool
+	{
+		$this->success = false;
+		$client = new ApiClient();
+		$client->send(self::URL . '/stats', 'PUT', ['form_params' => ['crmVersion' => \App\Version::get(), 'stats' => $this->getStats()]]);
+		$this->error = $client->getError();
+
+		return $this->success = !$this->error && \in_array($client->getStatusCode(), [200, 204]);
+	}
+
+	/**
+	 * Check statuses and send statistics.
+	 *
+	 * @return void
+	 */
+	public function send()
+	{
+		if (($date = $this->getConfValue('last_check_time')) && (new \DateTime('now'))->diff(new \DateTime($date))->days > 0 && $this->check()) {
+			$this->sendStats();
+		}
+	}
+
+	/**
+	 * Get the number of records by modules.
+	 *
+	 * @return array
+	 */
+	public function getStats(): array
+	{
+		$modules = [
+			'Accounts', 'Campaigns', 'SSalesProcesses', 'SQuotes', 'SSingleOrders', 'Project', 'HelpDesk', 'FInvoice', 'PaymentsIn', 'PaymentsOut', 'FInvoiceCost', 'ISTN', 'IGRN', 'Products', 'Assets', 'Services', 'OSSMailView', 'Documents', 'Notification', 'Calendar'
+		];
+		$stats['Modules'] = (new \App\Db\Query())->select(['setype', 'count' => new \yii\db\Expression('count(1)'), 'last_create' => new \yii\db\Expression('MAX(createdtime)')])->from('vtiger_crmentity')->where(['setype' => $modules])->groupBy('setype')->all();
+		$stats['Crons'] = (new \App\Db\Query())->from('vtiger_cron_task')->count();
+		$stats['Workflows'] = (new \App\Db\Query())->from('com_vtiger_workflows')->count();
+
+		$usersData = (new \App\Db\Query())->select(['count' => new \yii\db\Expression('COUNT(*)'), 'status', 'last_create' => new \yii\db\Expression('MAX(date_entered)')])->from('vtiger_users')->groupBy(['status'])->all();
+		$users = array_column($usersData, 'count', 'status');
+		$dates = array_column($usersData, 'last_create');
+		$users['last_create'] = max($dates);
+		$stats['Users'] = $users;
+
+		return $stats;
+	}
+
+	/**
 	 * Get registration data.
 	 *
 	 * @return string[]
 	 */
-	private static function getData(): array
+	private function getData(): array
 	{
-		return [
-			'version' => \App\Version::get(),
-			'language' => \App\Language::getLanguage(),
+		return array_merge([
+			'language' => \App\Language::getLanguage() ?: null,
 			'timezone' => date_default_timezone_get(),
-			'insKey' => static::getInstanceKey(),
-			'crmKey' => static::getCrmKey(),
-			'package' => \App\Company::getSize(),
-			'provider' => static::getProvider(),
-			'companies' => \App\Company::getAll(),
-			'stats' => static::getStats(),
-			'shop' => \App\Utils\ConfReport::validateShopProducts('check', [], 'shop')['shop'],
-		];
+			'appId' => self::getInstanceKey(),
+			'crmKey' => self::getCrmKey(),
+			'crmVersion' => \App\Version::get(),
+			'provider' => self::getProvider() ?: null,
+		], $this->getCompanyData());
 	}
 
 	/**
@@ -335,21 +344,26 @@ class Register
 	 *
 	 * @param string[] $data
 	 */
-	private static function updateMetaData(array $data): void
+	private function updateMetaData(array $data): bool
 	{
-		$conf = static::getConf();
-		static::$config = [
-			'last_check_time' => $data['last_check_time'] ?? '',
-			'register_time' => $data['register_time'] ?? $conf['register_time'] ?? '',
-			'status' => $data['status'] ?? $conf['status'] ?? 0,
-			'text' => $data['text'] ?? $conf['text'] ?? '',
-			'serialKey' => $data['serialKey'] ?? $conf['serialKey'] ?? '',
-			'products' => $data['products'] ?? $conf['products'] ?? [],
-			'last_error' => $data['last_error'] ?? '',
-			'last_error_date' => $data['last_error_date'] ?? '',
-		];
-		\App\Utils::saveToFile(static::REGISTRATION_FILE, static::$config, 'Modifying this file or functions that affect the footer appearance will violate the license terms!!!', 0, true);
-		\App\YetiForce\Shop::generateCache();
+		$conf = self::getConf();
+		self::$config = array_merge($conf, $data);
+		self::$config['last_check_time'] = date('Y-m-d H:i:s');
+		self::$config['appId'] = self::getInstanceKey();
+
+		if (self::isRegistered()) {
+			unset(self::$config['last_forced_reg_time']);
+		} else {
+			self::$config['last_forced_reg_time'] ??= gmdate('Y-m-d H:i:s');
+		}
+
+		$data = (new Encryption())->encrypt(self::$config, true);
+		return \App\Utils::saveToFile(
+			self::REGISTRATION_FILE,
+			$data,
+			'Modifying this file or functions that affect the footer appearance will violate the license terms!!!',
+			0,
+		);
 	}
 
 	/**
@@ -359,47 +373,35 @@ class Register
 	 */
 	private static function getConf(): array
 	{
-		if (isset(static::$config)) {
-			return static::$config;
+		if (isset(self::$config)) {
+			return self::$config;
 		}
-		if (!file_exists(static::REGISTRATION_FILE)) {
-			return static::$config = [];
+		if (!file_exists(self::REGISTRATION_FILE)) {
+			return self::$config = [];
 		}
-		return static::$config = require static::REGISTRATION_FILE;
+		\App\Cache::resetFileCache(self::REGISTRATION_FILE);
+
+		try {
+			$data = file_get_contents(self::REGISTRATION_FILE);
+			[, ,$registyData] = explode("\n", $data);
+			self::$config = (new Encryption())->decrypt($registyData);
+		} catch (\Throwable $e) {
+			\App\Log::error($e->__toString());
+			self::$config = [];
+		}
+
+		return self::$config;
 	}
 
 	/**
-	 * Update company status.
+	 * Get configuration value by key.
 	 *
-	 * @param array $companies
+	 * @param string $key
 	 *
-	 * @return bool
+	 * @return mixed
 	 */
-	private static function updateCompanies(array $companies): bool
+	private static function getConfValue(string $key)
 	{
-		$status = false;
-		$names = array_column(\App\Company::getAll(), 'name', 'name');
-		foreach ($companies as $row) {
-			if (!empty($row['name']) && isset($names[$row['name']])) {
-				\App\Company::statusUpdate($row['status'], $row['name']);
-				$status = true;
-			}
-		}
-		if (!$status) {
-			throw new \App\Exceptions\AppException('ERR_COMPANY_DATA_IS_NOT_COMPATIBLE', 3);
-		}
-		return $status;
-	}
-
-	/**
-	 * Get statistical information.
-	 *
-	 * @return array
-	 */
-	private static function getStats(): array
-	{
-		return [
-			'records' => \App\Utils::getNumberRecordsByModule()
-		];
+		return self::getConf()[$key] ?? null;
 	}
 }

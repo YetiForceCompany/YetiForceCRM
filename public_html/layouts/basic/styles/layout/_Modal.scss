@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 
 .modal-content {
 	-moz-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
@@ -8,6 +8,10 @@
 
 .modal-backdrop {
 	z-index: 1032;
+}
+
+.modal-backdrop-filter {
+  backdrop-filter: blur(10px);
 }
 
 @include media-breakpoint-down(sm) {
@@ -99,13 +103,4 @@
 
 .clonedPopupUi.modal {
 	top: $h-header;
-}
-
-.c-modal-center {
-	display: flex !important;
-	align-items: center;
-	justify-content: center;
-}
-.c-modal-center .modal-dialog {
-	margin: auto;
 }

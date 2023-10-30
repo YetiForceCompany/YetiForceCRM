@@ -6,7 +6,7 @@
  * @package View
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -42,16 +42,18 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		$moduleName = $request->getModule();
 		$srcRecord = $request->getInteger('src_record');
 		$srcModule = $request->getByType('src_module', 2);
+
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		$treeCategoryModel = Vtiger_TreeCategoryModal_Model::getInstance($moduleModel);
 		$treeCategoryModel->set('srcRecord', $srcRecord);
 		$treeCategoryModel->set('srcModule', $srcModule);
+		$this->relationType = $treeCategoryModel->getRelationType();
 		$viewer->assign('TREE', \App\Json::encode($treeCategoryModel->getTreeData()));
 		$viewer->assign('SRC_RECORD', $srcRecord);
 		$viewer->assign('SRC_MODULE', $srcModule);
 		$viewer->assign('TEMPLATE', $treeCategoryModel->getTemplate());
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('RELATION_TYPE', $treeCategoryModel->getRelationType());
+		$viewer->assign('RELATION_TYPE', $this->relationType);
 		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
 		$viewer->view('TreeCategoryModal.tpl', $moduleName);
 		$this->postProcess($request);
@@ -62,11 +64,12 @@ class Vtiger_TreeCategoryModal_View extends Vtiger_BasicModal_View
 		$scripts = [
 			'~libraries/jstree/dist/jstree.js',
 			'~layouts/resources/libraries/jstree.category.js',
-			'~layouts/resources/libraries/jstree.checkbox.js',
-			'~layouts/resources/libraries/jstree.edit.js',
-			'modules.Vtiger.resources.TreeCategoryModal'
+			'~layouts/resources/libraries/jstree.checkbox.js'
 		];
-
+		if (1 == $this->relationType) {
+			$scripts[] = '~layouts/resources/libraries/jstree.edit.js';
+		}
+		$scripts[] = 'modules.Vtiger.resources.TreeCategoryModal';
 		return array_merge($this->checkAndConvertJsScripts($scripts), parent::getModalScripts($request));
 	}
 

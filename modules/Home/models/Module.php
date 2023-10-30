@@ -87,26 +87,22 @@ class Home_Module_Model extends Vtiger_Module_Model
 		if (!$user) {
 			$user = \App\User::getCurrentUserId();
 		}
-		$queryGenerator = new App\QueryGenerator('Calendar');
-		if (isset($paramsMore['filterId'])) {
-			$queryGenerator->initForCustomViewById($paramsMore['filterId']);
-		}
-		$moduleFields = array_keys($queryGenerator->getModuleFields());
-		$moduleFields[] = 'id';
-		$queryGenerator->setFields($moduleFields);
-		$queryGenerator->setCustomColumn(['smownerid' => 'vtiger_crmentity.smownerid', 'setype' => 'vtiger_crmentity.setype']);
+		$query->select(['vtiger_crmentity.crmid', 'vtiger_crmentity.smownerid', 'vtiger_crmentity.setype', 'vtiger_activity.*', 'taskpriority' => 'vtiger_activity.priority'])
+			->from('vtiger_activity')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
+			->where(['vtiger_crmentity.deleted' => 0]);
+		\App\PrivilegeQuery::getConditions($query, 'Calendar');
 		if ('upcoming' === $mode || 'overdue' === $mode) {
-			$queryGenerator->addNativeCondition(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
+			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
 		} elseif ('createdByMeButNotMine' === $mode || 'createdByMeButNotMineOverdue' === $mode) {
-			$queryGenerator->addNativeCondition(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
-			$queryGenerator->addCondition('created_user_id', $paramsMore['user'], 'e');
-			$queryGenerator->addCondition('assigned_user_id', $paramsMore['user'], 'n');
+			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
+			$query->andWhere(['and', ['vtiger_crmentity.smcreatorid' => $paramsMore['user']], ['NOT IN', 'vtiger_crmentity.smownerid', $paramsMore['user']]]);
 		}
 		if (isset($paramsMore['activitytype'])) {
-			$queryGenerator->addCondition('activitytype', $paramsMore['activitytype'], 'e');
+			$query->andWhere(['vtiger_activity.activitytype' => $paramsMore['activitytype']]);
 		}
 		if (isset($paramsMore['taskpriority'])) {
-			$queryGenerator->addCondition('taskpriority', $paramsMore['taskpriority'], 'e');
+			$query->andWhere(['vtiger_activity.priority' => $paramsMore['taskpriority']]);
 		}
 		if ('all' !== $user && !empty($user)) {
 			$userId = (int) $user;
@@ -117,18 +113,16 @@ class Home_Module_Model extends Vtiger_Module_Model
 			$userAndGroups[] = $userId;
 			$subQuery = (new \App\Db\Query())->select(['crmid'])->from('u_#__crmentity_showners')->innerJoin('vtiger_activity', 'u_#__crmentity_showners.crmid=vtiger_activity.activityid')->where(['userid' => $userAndGroups])->distinct('crmid');
 			$query->andWhere(['or', ['vtiger_crmentity.smownerid' => $userAndGroups], ['vtiger_crmentity.crmid' => $subQuery]]);
-			$queryGenerator->addNativeCondition(['or', ['vtiger_crmentity.smownerid' => $userAndGroups], ['vtiger_crmentity.crmid' => $subQuery]]);
 		}
-		foreach ($pagingModel->get('orderby') as $fieldName => $order) {
-			$queryGenerator->setOrder($fieldName, $order);
-		}
-		$queryGenerator->setLimit($pagingModel->getPageLimit() + 1)->setOffset($pagingModel->getStartIndex());
-		$query = $queryGenerator->createQuery();
+
+		$query->orderBy($pagingModel->get('orderby'))
+			->limit($pagingModel->getPageLimit() + 1)
+			->offset($pagingModel->getStartIndex());
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$model = Vtiger_Record_Model::getCleanInstance('Calendar');
 			$model->setData($row);
-			$model->setId($row['id']);
+			$model->setId($row['crmid']);
 			if (!empty($row['parent_id']) && \App\Record::isExists($row['parent_id'])) {
 				$record = Vtiger_Record_Model::getInstanceById($row['parent_id']);
 				if ('Accounts' === $record->getModuleName()) {

@@ -5,7 +5,7 @@
  * @package   Settings.Action
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 /**
  * Config editor basic action class.
@@ -28,12 +28,13 @@ class Settings_ConfigEditor_SaveAjax_Action extends Settings_Vtiger_Basic_Action
 		try {
 			$configFiles = [];
 			foreach (array_keys($moduleModel->getEditFields()) as $fieldName) {
-				if ($request->has($fieldName)) {
-					$fieldModel = $moduleModel->getFieldInstanceByName($fieldName);
+				$fieldModel = $moduleModel->getFieldInstanceByName($fieldName);
+				if ($request->has($fieldName) && !$fieldModel->isEditableReadOnly()) {
 					$fieldValue = $request->getByType($fieldName, $fieldModel->get('purifyType'));
 					$source = $fieldModel->get('source');
+					[$type, $component] = strpos($source, ':') ? explode(':', $source, 2) : [$source, ''];
 					if (!isset($configFiles[$source])) {
-						$configFiles[$source] = new \App\ConfigFile($source);
+						$configFiles[$source] = new \App\ConfigFile($type, $component);
 					}
 					$configFiles[$source]->set($fieldName, $fieldModel->getUITypeModel()->getDBValue($fieldValue));
 				}

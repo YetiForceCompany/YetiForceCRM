@@ -6,7 +6,7 @@
  * @package Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -66,7 +66,8 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 		$value = $this->get($key);
 		switch ($key) {
 			case 'smtp_id':
-				$value = \App\Purifier::encodeHtml(\App\Mail::getSmtpById($value)['name'] ?? '');
+				$smtpName = \App\Mail::getSmtpById($value)['name'] ?? '';
+				$value = '<a href=index.php?module=MailSmtp&parent=Settings&view=Detail&record=' . $value . '>' . $smtpName . '</a>';
 				break;
 			case 'status':
 				if (isset(\App\Mailer::$statuses[$value])) {
@@ -89,7 +90,7 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 			case 'to':
 			case 'cc':
 			case 'bcc':
-				$value = \App\Purifier::encodeHtml($this->getDisplayValueForEmail($value));
+				$value = $this->getDisplayValueForEmail($value);
 				break;
 			case 'attachments':
 				if ($value) {
@@ -102,9 +103,8 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 					}
 					foreach ($attachments as $path => $name) {
 						if (is_numeric($path)) {
+							$path = $name;
 							$name = \App\Language::translate('LBL_FILE');
-						} else {
-							$name = \App\Purifier::encodeHtml($name);
 						}
 						$actionPath = "?module=Mail&parent=Settings&action=DownloadAttachment&record={$this->getId()}&selectedFile=$fileCounter";
 						$value .= '<form action="' . $actionPath . '"
@@ -137,17 +137,17 @@ class Settings_Mail_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$value = '';
 		if ($emails) {
-			$displayEmails = [];
 			foreach (\App\Json::decode($emails) as $email => $name) {
 				if (is_numeric($email)) {
-					$displayEmails[] = $name;
+					$email = $name;
+					$name = '';
+					$value .= $email . ', ';
 				} else {
-					$displayEmails[] = "{$name} <{$email}>";
+					$value .= $name . ' &lt;' . $email . '&gt;, ';
 				}
 			}
-			$value = implode(' ,', $displayEmails);
 		}
-		return $value;
+		return rtrim($value, ', ');
 	}
 
 	/**

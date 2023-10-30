@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-MailIntegration-Index -->
 	<div class="o-breadcrumb widget_header row mb-2">
@@ -38,7 +38,8 @@
 						{\App\Language::translate($CHECK_ALERT, 'Settings::YetiForce')} <a class="btn btn-primary btn-sm" href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceOutlook&mode=showProductModal"><span class="yfi yfi-shop mr-2"></span>{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}</a>
 					</div>
 				{/if}
-				{if !Settings_MailIntegration_Activate_Model::isActive('outlook')}
+				{assign var=MAILINTEGRATION_ACTIVE value=Settings_MailIntegration_Activate_Model::isActive('outlook')}
+				{if !$MAILINTEGRATION_ACTIVE}
 					<div class="alert alert-danger">
 						<form action='index.php' method="POST" enctype="multipart/form-data">
 							<input type="hidden" name="module" value="MailIntegration" />
@@ -56,13 +57,39 @@
 						</form>
 					</div>
 				{/if}
+				{function DEACTIVATE_FORM}
+					<div class="">
+						<form action='index.php' method="POST" enctype="multipart/form-data">
+							<input type="hidden" name="module" value="MailIntegration" />
+							<input type="hidden" name="parent" value="Settings" />
+							<input type="hidden" name="action" value="Activate" />
+							<input type="hidden" name="source" value="outlook" />
+							<input type="hidden" name="mode" value="deactivate" />
+							<button type="submit" class="btn btn-danger btn-sm ml-3 float-right">
+								<span class="mdi mdi-close mr-2 float-left"></span>
+								{\App\Language::translate('LBL_DEACTIVATE_FUNCTIONALITY', $QUALIFIED_MODULE)}
+							</button>
+						</form>
+					</div>
+				{/function}
 				<div class="alert alert-info">
-					<span class="mdi mdi-information-outline mr-2 u-fs-lg float-left"></span>
-					{\App\Language::translateArgs('LBL_OUTLOOK_ALERT', $QUALIFIED_MODULE, '<a rel="noreferrer noopener" target="_blank" href="https://support.microsoft.com/en-us/office/installed-add-ins-a61762b7-7a82-47bd-b14e-bbc15eaeb70f">support.microsoft.com</a>')}
-					<a href="index.php?parent=Settings&module=MailIntegration&action=Download&mode=outlook" class="btn btn-primary btn-sm float-right">
-						<span class="fas fa-download mr-2"></span>
-						{App\Language::translate('BTN_DOWNLOAD_OUTLOOK_INSTALLATION_FILE', $QUALIFIED_MODULE)}
-					</a>
+					<div class="row">
+						<div class="">
+							<span class="mdi mdi-information-outline mr-2 u-fs-lg float-left"></span>
+							{\App\Language::translateArgs('LBL_OUTLOOK_ALERT', $QUALIFIED_MODULE, '<a rel="noreferrer noopener" target="_blank" href="https://support.microsoft.com/en-us/office/installed-add-ins-a61762b7-7a82-47bd-b14e-bbc15eaeb70f">support.microsoft.com</a>')}
+						</div>
+						<div class="col-md">
+							{if $MAILINTEGRATION_ACTIVE}
+								{DEACTIVATE_FORM}
+							{/if}
+							{if \App\YetiForce\Shop::check('YetiForceOutlook')}
+								<a href="index.php?parent=Settings&module=MailIntegration&action=Download&mode=outlook" class="btn btn-primary btn-sm float-right">
+								<span class="fas fa-download mr-2"></span>
+								{App\Language::translate('BTN_DOWNLOAD_OUTLOOK_INSTALLATION_FILE', $QUALIFIED_MODULE)}
+								</a>
+							{/if}
+						</div>
+					</div>
 				</div>
 				<form class="js-form-single-save js-validate-form" data-js="container|validationEngine">
 					<input type="hidden" name="parent" value="Settings">

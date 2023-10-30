@@ -1,17 +1,7 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 $.Class('Vtiger_PDF_Js', {
-	/*
-	 * Function to register the click event for generate button
-	 */
-	registerPreSubmitEvent: function (container) {
-		container.find('#generate_pdf, #single_pdf, #email_pdf').on('click', (e) => {
-			e.preventDefault();
-			this.proceedSubmit.apply(this, [$(e.currentTarget).attr('id')]);
-		});
-	},
-
 	/**
 	 * Proceed form submission
 	 */
@@ -26,12 +16,10 @@ $.Class('Vtiger_PDF_Js', {
 		switch (mode) {
 			case 'generate_pdf':
 				this.container.find('#pdfExportModal').submit();
-				this.displayNotify();
 				break;
 			case 'single_pdf':
 				this.container.find('[name="single_pdf"]').val(1);
 				this.container.find('#pdfExportModal').submit();
-				this.displayNotify();
 				break;
 			case 'email_pdf':
 				this.container.find('[name="email_pdf"]').val(1);
@@ -41,21 +29,18 @@ $.Class('Vtiger_PDF_Js', {
 		loader.progressIndicator({ mode: 'hide' });
 		app.hideModalWindow();
 	},
-	/**
-	 * Display notify after submit
+
+	/*
+	 * Function to register the click event for generate button
 	 */
-	displayNotify() {
-		let message = '';
-		if (this.container.find('[name="attach_as_document"]').is(':checked')) {
-			message = app.vtranslate('JS_PDF_GENERATED_AND_ATTACHED');
-		} else {
-			message = app.vtranslate('JS_PDF_GENERATED');
-		}
-		app.showNotify({
-			text: message,
-			type: 'success'
+	registerPreSubmitEvent: function (container) {
+		const self = this;
+		container.find('#generate_pdf, #single_pdf, #email_pdf').on('click', (e) => {
+			e.preventDefault();
+			self.proceedSubmit.apply(self, [$(e.currentTarget).attr('id')]);
 		});
 	},
+
 	/**
 	 * Register list view check records
 	 *

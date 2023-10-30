@@ -1,4 +1,4 @@
-<!-- /* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
+<!-- /* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */ -->
 <template>
 	<div style="min-height: inherit">
 		<div v-if="isVisible" :key="isVisible" class="flex column justify-between" style="min-height: inherit">

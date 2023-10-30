@@ -24,7 +24,7 @@ class Users_Save_Action extends Vtiger_Save_Action
 			$this->record = Vtiger_Record_Model::getInstanceById($record, $moduleName);
 		} else {
 			$this->record = Vtiger_Record_Model::getCleanInstance($moduleName);
-			if (!$this->record->isCreatable()) {
+			if (!$this->record->isCreateable()) {
 				throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 			}
 		}

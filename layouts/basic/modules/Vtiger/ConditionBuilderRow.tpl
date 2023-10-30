@@ -1,10 +1,10 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {*<!--  Do not add comments through the DIV  -->*}
 {strip}
 	<div class="tpl-Base-ConditionBuilderRow c-condition-builder__row d-flex pt-2 form-group-sm js-condition-builder-conditions-row" data-js="container">
 		{if empty($SELECTED_FIELD_MODEL) && !empty($CONDITIONS_ROW)}
 			{assign var=SELECTED_FIELD_MODEL value=Vtiger_Field_Model::getInstanceFromFilter($CONDITIONS_ROW['fieldname'])}
-			{assign var=OPERATORS value=$SELECTED_FIELD_MODEL->getRecordOperatorLabels()}
+			{assign var=OPERATORS value=$SELECTED_FIELD_MODEL->getRecordOperators()}
 		{/if}
 		{if empty($SELECTED_OPERATOR) && !empty($CONDITIONS_ROW)}
 			{assign var=SELECTED_OPERATOR value=$CONDITIONS_ROW['operator']}
@@ -27,17 +27,6 @@
 						{/foreach}
 					</optgroup>
 				{/foreach}
-				{if !empty($RECORD_STRUCTURE_INV)}
-					{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE_INV}
-						<optgroup label="{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)}">
-							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
-								<option value="{$FIELD_MODEL->getSearchName()}" {if $FIELD_INFO eq $FIELD_MODEL->getSearchName()} selected="selected" {/if}>
-									{\App\Language::translate($BLOCK_LABEL, $SOURCE_MODULE)} - {\App\Language::translate($FIELD_MODEL->getLabel(), $SOURCE_MODULE)}
-								</option>
-							{/foreach}
-						</optgroup>
-					{/foreach}
-				{/if}
 				{foreach key=MODULE_KEY item=RECORD_STRUCTURE_FIELD from=$RECORD_STRUCTURE_RELATED_MODULES}
 					{foreach key=RELATED_FIELD_NAME item=RECORD_STRUCTURE from=$RECORD_STRUCTURE_FIELD}
 						{assign var=RELATED_FIELD_LABEL value=Vtiger_Module_Model::getInstance($SOURCE_MODULE)->getFieldByName($RELATED_FIELD_NAME)->getFieldLabel()}

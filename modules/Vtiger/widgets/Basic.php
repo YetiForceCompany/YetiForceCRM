@@ -6,15 +6,13 @@
  * @package Widget
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Vtiger_Basic_Widget
 {
 	public $Module = false;
 	public $Record = false;
 	public $Config = [];
-	/** @var int Data widget.. */
-	public $Data;
 	public $moduleModel = false;
 	public $dbParams = [];
 	public $allowedModules = [];
@@ -39,11 +37,6 @@ class Vtiger_Basic_Widget
 		return !$this->allowedModules || \in_array($this->Module, $this->allowedModules);
 	}
 
-	/**
-	 * Function return config template name.
-	 *
-	 * @return string
-	 */
 	public function getConfigTplName()
 	{
 		return 'BasicConfig';

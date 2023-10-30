@@ -4,23 +4,22 @@
  * Companies record model class.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 {
-	/**
-	 * List of types.
-	 */
-	public const TYPES = [1 => 'LBL_TYPE_TARGET_USER', 2 => 'LBL_TYPE_INTEGRATOR', 3 => 'LBL_TYPE_PROVIDER'];
+	public $module;
+	/** @var array Record changes */
+	protected $changes = [];
 
 	/**
 	 * Function to get the Id.
 	 *
 	 * @return int Id
 	 */
-	public function getId()
+	public function getId(): int
 	{
 		return $this->get('id');
 	}
@@ -30,7 +29,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->get('name');
 	}
@@ -38,61 +37,53 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Function to get the Edit View Url.
 	 *
-	 * @param mixed $step
-	 *
 	 * @return string URL
 	 */
-	public function getEditViewUrl($step = false)
+	public function getEditViewUrl(): string
 	{
-		return '?module=Companies&parent=Settings&view=Edit&record=' . $this->getId();
-	}
-
-	/**
-	 * Function to get the Detail Url.
-	 *
-	 * @return string URL
-	 */
-	public function getDetailViewUrl()
-	{
-		return '?module=Companies&parent=Settings&view=Detail&record=' . $this->getId();
+		return '?module=Companies&parent=Settings&view=Edit';
 	}
 
 	/**
 	 * Function to get the instance of companies record model.
 	 *
-	 * @param int $id
+	 * @throws \App\Exceptions\DbException
 	 *
-	 * @return \self instance, if exists
+	 * @return bool|Settings_Companies_Record_Model instance, if exists
 	 */
-	public static function getInstance($id)
+	public static function getInstance(): bool|self
 	{
 		$db = \App\Db::getInstance('admin');
-		$row = (new \App\Db\Query())->from('s_#__companies')->where(['id' => $id])->one($db);
-		$instance = false;
+		$row = (new \App\Db\Query())->from('s_#__companies')->one($db);
 		if ($row) {
 			$instance = new self();
 			$instance->setData($row);
-		}
-		return $instance;
-	}
 
-	/**
-	 * function to get clean instance.
-	 *
-	 * @return \static
-	 */
-	public static function getCleanInstance()
-	{
-		return new static();
+			return $instance;
+		} else {
+			throw new \App\Exceptions\DbException('LBL_RECORD_NOT_FOUND');
+		}
 	}
 
 	/** {@inheritdoc} */
-	public function get($key)
+	public function set($key, $value)
 	{
-		if ('newsletter' === $key && !empty(parent::get('email'))) {
-			return 1;
+		if ($this->getId() && !\in_array($key, ['id']) && (\array_key_exists($key, $this->value) && $this->value[$key] != $value)) {
+			$this->changes[$key] = $this->get($key);
 		}
-		return parent::get($key);
+		return parent::set($key, $value);
+	}
+
+	/**
+	 * Get pervious value by field.
+	 *
+	 * @param string $fieldName
+	 *
+	 * @return mixed
+	 */
+	public function getPreviousValue(string $fieldName = '')
+	{
+		return $fieldName ? ($this->changes[$fieldName] ?? null) : $this->changes;
 	}
 
 	/**
@@ -100,38 +91,46 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return Settings_Companies_Module_Model
 	 */
-	public function getModule()
+	public function getModule(): Settings_Companies_Module_Model
 	{
 		if (!isset($this->module)) {
-			$this->module = Settings_Vtiger_Module_Model::getInstance('Settings:Companies');
+			/** @var Settings_Companies_Module_Model $module */
+			$module = Settings_Vtiger_Module_Model::getInstance('Settings:Companies');
+			$this->module = $module;
 		}
+
 		return $this->module;
 	}
 
 	/**
 	 * Function to save.
 	 */
-	public function save()
+	public function save(): void
 	{
-		$db = \App\Db::getInstance('admin');
-		$recordId = $this->getId();
-		$fields = $this->getModule()->getNameFields();
-		$params = array_intersect_key($this->getData(), array_flip($fields));
-		if ($recordId) {
-			$db->createCommand()->update('s_#__companies', $params, ['id' => $recordId])->execute();
-		} else {
-			$db->createCommand()->insert('s_#__companies', $params)->execute();
-			$this->set('id', $db->getLastInsertID('s_#__companies_id_seq'));
+		$db = App\Db::getInstance('admin');
+		$transaction = $db->beginTransaction();
+
+		try {
+			if (($changes = $this->getPreviousValue()) && (\count($changes) > 1 || !$this->getPreviousValue('email'))) {
+				$registration = (new \App\YetiForce\Register());
+				$registration->setRawCompanyData($this->getData())->register();
+				if ($error = $registration->getError()) {
+					throw new \App\Exceptions\AppException($error);
+				}
+				\App\Process::removeEvent(\Settings_Companies_EditModal_View::MODAL_EVENT['name']);
+			}
+			$fields = $this->getModule()->getNameFields();
+			$params = array_intersect_key($this->getData(), array_flip($fields));
+			$db->createCommand()->update('s_#__companies', $params, ['id' => $this->getId()])->execute();
+			$transaction->commit();
+		} catch (\Throwable $ex) {
+			$transaction->rollBack();
+			\App\Log::error($ex->__toString());
+			throw $ex;
 		}
-		if ('LBL_TYPE_TARGET_USER' === self::TYPES[$params['type']] || 1 === (new \App\Db\Query())->from('s_#__companies')->count()) {
-			$configFile = new \App\ConfigFile('component', 'Branding');
-			$configFile->set('footerName', $params['name']);
-			$configFile->set('urlFacebook', $params['facebook'] ?? '');
-			$configFile->set('urlTwitter', $params['twitter'] ?? '');
-			$configFile->set('urlLinkedIn', $params['linkedin'] ?? '');
-			$configFile->create();
-		}
+
 		\App\Cache::clear();
+		\App\Cache::staticDelete('CompanyGet', '');
 	}
 
 	/**
@@ -141,114 +140,28 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return string
 	 */
-	public function getDisplayValue(string $key)
+	public function getDisplayValue(string $key): string
 	{
 		$value = $this->get($key) ?? '';
-		switch ($key) {
-			case 'type':
-				$value = \App\Language::translate(self::TYPES[$value], 'Settings::Companies');
-				break;
-			case 'status':
-				$value = \App\Language::translate(\App\YetiForce\Register::STATUS_MESSAGES[(int) $value], 'Settings::Companies');
-				break;
-			case 'tabid':
-				$value = \App\Module::getModuleName((int) $value);
-				break;
-			case 'industry':
-				$value = App\Language::translate($value);
-				break;
-			case 'country':
-				$value = \App\Language::translateSingleMod($value, 'Other.Country');
-				break;
-			case 'logo':
-				$src = \App\Purifier::encodeHtml($value);
-				$value = $src ? "<img src='$src' class='img-thumbnail sad'/>" : \App\Language::translate('LBL_COMPANY_LOGO', 'Settings::Companies');
-				break;
-			default:
-				$value = \App\Purifier::encodeHtml($value);
-				break;
-		}
-		return $value;
+
+		return match ($key) {
+			'tabid' => \App\Module::getModuleName((int) $value),
+			'industry' => App\Language::translate($value),
+			'country' => \App\Language::translateSingleMod($value, 'Other.Country'),
+			default => \App\Purifier::encodeHtml($value),
+		};
 	}
 
 	/**
 	 * Function to delete the current Record Model.
 	 *
+	 * @throws \App\Exceptions\NoPermitted
+	 *
 	 * @return bool
 	 */
 	public function delete(): bool
 	{
-		$delete = \App\Db::getInstance('admin')->createCommand()
-			->delete('s_#__companies', ['id' => $this->getId()])
-			->execute();
-		if ($delete) {
-			\App\Cache::clear();
-		}
-		return $delete;
-	}
-
-	/** {@inheritdoc} */
-	public function getRecordLinks(): array
-	{
-		$links = [];
-		$recordLinks = [];
-		$recordLinks[] = [
-			'linktype' => 'LISTVIEWRECORD',
-			'linklabel' => 'LBL_EDIT_RECORD',
-			'linkurl' => $this->getEditViewUrl(),
-			'linkicon' => 'yfi yfi-full-editing-view',
-			'linkclass' => 'btn btn-xs btn-info',
-		];
-		if (null === Settings_Companies_ListView_Model::$recordsCount) {
-			Settings_Companies_ListView_Model::$recordsCount = (new \App\Db\Query())->from('s_#__companies')->count();
-		}
-		if (Settings_Companies_ListView_Model::$recordsCount > 1) {
-			$recordLinks[] = [
-				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => "javascript:Settings_Vtiger_List_Js.deleteById('{$this->getId()}')",
-				'linkicon' => 'fas fa-trash-alt',
-				'linkclass' => 'btn btn-xs btn-danger',
-			];
-		}
-		foreach ($recordLinks as $recordLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
-		}
-		return $links;
-	}
-
-	/**
-	 * Function to save company logo.
-	 *
-	 * @throws \Exception
-	 */
-	public function saveCompanyLogos()
-	{
-		if (!empty($_FILES['logo']['name'])) {
-			$fileInstance = \App\Fields\File::loadFromRequest($_FILES['logo']);
-			if ($fileInstance->validateAndSecure('image')) {
-				$this->set('logo', \App\Fields\File::getImageBaseData($fileInstance->getPath()));
-			}
-		}
-	}
-
-	/**
-	 * Function to check if company duplicated.
-	 *
-	 * @param \App\Request $request
-	 *
-	 * @return bool
-	 */
-	public function isCompanyDuplicated(App\Request $request)
-	{
-		$db = App\Db::getInstance('admin');
-		$query = new \App\Db\Query();
-		$query->from('s_#__companies')
-			->where(['name' => $request->getByType('name', 'Text')]);
-		if (!$request->isEmpty('record')) {
-			$query->andWhere(['<>', 'id', $request->getInteger('record')]);
-		}
-		return $query->exists($db);
+		throw new \App\Exceptions\NoPermitted('LBL_OPERATION_NOT_PERMITTED');
 	}
 
 	/**
@@ -257,9 +170,9 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 * @param string $name
 	 * @param string $label
 	 *
-	 * @return \Settings_Vtiger_Field_Model
+	 * @return \Vtiger_Field_Model
 	 */
-	public function getFieldInstanceByName($name, $label = '')
+	public function getFieldInstanceByName(string $name, string $label = ''): Vtiger_Field_Model
 	{
 		$moduleName = $this->getModule()->getName(true);
 		$labels = $this->getModule()->getFormFields();
@@ -267,7 +180,19 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 		$sourceModule = $this->get('source');
 		$companyId = $this->getId();
 		$fieldName = 'YetiForce' === $sourceModule ? "companies[$companyId][$name]" : $name;
-		$params = ['uitype' => 1, 'column' => $name, 'name' => $fieldName, 'value' => '', 'label' => $label, 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => '', 'isEditableReadOnly' => false, 'maximumlength' => '255'];
+		$params = [
+			'uitype' => 1,
+			'column' => $name,
+			'name' => $fieldName,
+			'value' => '',
+			'label' => $label,
+			'displaytype' => 1,
+			'typeofdata' => 'V~M',
+			'presence' => '',
+			'isEditableReadOnly' => false,
+			'maximumlength' => '255',
+			'purifyType' => \App\Purifier::TEXT
+		];
 		switch ($name) {
 			case 'name':
 				unset($params['validator']);
@@ -277,51 +202,32 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 				$params['maximumlength'] = '50';
 				$params['picklistValues'] = [];
 				foreach (Settings_Companies_Module_Model::getIndustryList() as $industry) {
-					$params['picklistValues'][$industry] = \App\Language::translate($industry, $moduleName);
+					$params['picklistValues'][$industry] = \App\Language::translate($industry, $moduleName, null, false);
 				}
-				break;
-			case 'city':
-				$params['maximumlength'] = '100';
-				unset($params['validator']);
 				break;
 			case 'country':
 				$params['uitype'] = 16;
 				$params['maximumlength'] = '100';
 				$params['picklistValues'] = [];
 				foreach (\App\Fields\Country::getAll() as $country) {
-					$params['picklistValues'][$country['name']] = \App\Language::translateSingleMod($country['name'], 'Other.Country');
+					$params['picklistValues'][$country['name']] = \App\Language::translateSingleMod($country['name'], 'Other.Country', null, false);
 				}
-				break;
-			case 'companysize':
-				$params['uitype'] = 7;
-				$params['typeofdata'] = 'I~M';
-				$params['maximumlength'] = '16777215';
-				unset($params['validator']);
-				break;
-			case 'website':
-			case 'facebook':
-			case 'linkedin':
-			case 'twitter':
-				$params['uitype'] = 17;
-				$params['typeofdata'] = 'V~O';
-				unset($params['validator']);
-				break;
-			case 'firstname':
-				unset($params['validator']);
-				break;
-			case 'lastname':
 				break;
 			case 'email':
 				$params['uitype'] = 13;
+				$params['purifyType'] = \App\Purifier::EMAIL;
+				$params['isEditableReadOnly'] = true;
 				break;
-			case 'newsletter':
+			case 'website':
+				$params['uitype'] = 17;
 				$params['typeofdata'] = 'V~O';
-				$params['uitype'] = 56;
 				unset($params['validator']);
+				$params['purifyType'] = \App\Purifier::URL;
 				break;
 			default:
 				break;
 		}
+
 		return Settings_Vtiger_Field_Model::init($moduleName, $params);
 	}
 }

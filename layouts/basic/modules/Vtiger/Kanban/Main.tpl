@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-Kanban-Main -->
 	<div class="o-breadcrumb widget_header row mb-1">
@@ -85,16 +85,19 @@
 				<div class="alert alert-warning m-1">
 					<span class="yfi-premium mr-2 u-fs-2em color-red-600 float-left"></span>
 					{\App\Language::translate($CHECK_ALERT, 'Settings::YetiForce')}
-					<a class="btn btn-primary btn-sm ml-1"
-						href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceKanban&mode=showProductModal">
-						<span class="yfi yfi-shop mr-2"></span>
-						{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}
-					</a>
+					{if $USER_MODEL->isAdminUser()}
+						<a class="btn btn-primary btn-sm ml-1"
+							href="index.php?parent=Settings&module=YetiForce&view=Shop&product=YetiForceKanban&mode=showProductModal">
+							<span class="yfi yfi-shop mr-2"></span>
+							{\App\Language::translate('LBL_YETIFORCE_SHOP', $QUALIFIED_MODULE)}
+						</a>
+					{/if}
+				</div>
+			{else}
+				<div class="js-kanban-container pb-2 c-kanban__container" data-js="container">
+					{include file=\App\Layout::getTemplatePath('Kanban/Kanban.tpl', $MODULE_NAME)}
 				</div>
 			{/if}
-			<div class="js-kanban-container pb-2 c-kanban__container" data-js="container">
-				{include file=\App\Layout::getTemplatePath('Kanban/Kanban.tpl', $MODULE_NAME)}
-			</div>
 		{/if}
 	</div>
 	<!-- tpl-Base-Kanban-Main -->

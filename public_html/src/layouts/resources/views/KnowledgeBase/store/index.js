@@ -2,7 +2,7 @@
  * Knowledge base module
  *
  * @description Knowledge base vuex module
- * @license YetiForce Public License 5.0
+ * @license YetiForce Public License 6.5
  * @author Tomasz Poradzewski <t.poradzewski@yetiforce.com>
  */
 

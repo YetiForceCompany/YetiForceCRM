@@ -6,7 +6,7 @@
  * @package   Model
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -41,7 +41,7 @@ class MultiCompany_Record_Model extends Vtiger_Record_Model
 	}
 
 	/** {@inheritdoc} */
-	public function privilegeToDelete(): bool
+	public function privilegeToDelete()
 	{
 		if (!isset($this->privileges['Deleted'])) {
 			$this->privileges['Deleted'] = parent::privilegeToDelete() && !\App\MultiCompany::getRolesByCompany($this->getId());
@@ -50,7 +50,7 @@ class MultiCompany_Record_Model extends Vtiger_Record_Model
 	}
 
 	/** {@inheritdoc} */
-	public function privilegeToMoveToTrash(): bool
+	public function privilegeToMoveToTrash()
 	{
 		if (!isset($this->privileges['MoveToTrash'])) {
 			$this->privileges['MoveToTrash'] = parent::privilegeToMoveToTrash() && !\App\MultiCompany::getRolesByCompany($this->getId());

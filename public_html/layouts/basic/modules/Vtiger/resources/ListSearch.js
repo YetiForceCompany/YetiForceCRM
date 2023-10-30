@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 jQuery.Class(
@@ -106,7 +106,7 @@ jQuery.Class(
 			}
 			listViewContainer.find('.js-empty-value').each(function () {
 				let element = $(this);
-				let parentField = element.parents('.searchField,.picklistSearchField').find('.listSearchContributor');
+				let parentField = element.parents('.searchField').find('.listSearchContributor');
 				let fieldName = parentField.attr('name');
 				let moduleName = parentField.data('module-name');
 				let sourceFieldName = parentField.data('source-field-name');
@@ -305,8 +305,7 @@ jQuery.Class(
 						'userRole',
 						'multiReferenceValue',
 						'inventoryLimit',
-						'currencyList',
-						'group'
+						'currencyList'
 					]) >= 0
 				) {
 					searchOperator = 'e';

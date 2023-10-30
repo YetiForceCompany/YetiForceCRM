@@ -26,25 +26,10 @@ return [
 		'ProjectTask' => ['level' => 3, 'parentModule' => 'ProjectMilestone'],
 		'Contacts' => ['level' => 4],
 	],
-	/*
-	 * 'Base module' => [
-	 * 		['From module' => ['dest field name' => ['source field name']]],
-	 * ],
-	 */
 	'modulesMapRelatedFields' => [//Map links between modules
-		'ServiceContracts' => [
-			'parent_id' => ['ServiceContracts' => ['sc_related_to' => ['parent_id', 'Accounts']]],
-		],
 		'ProjectTask' => [
 			'projectmilestoneid' => ['ProjectMilestone' => ['projectid' => ['projectid']]],
 			'parentid' => ['ProjectTask' => ['projectid' => ['projectid'], 'projectmilestoneid' => ['projectmilestoneid']]],
-		],
-		'Project' => [
-			'servicecontractsid' => ['ServiceContracts' => ['linktoaccountscontacts' => ['sc_related_to', 'Accounts']]],
-			'ssalesprocessesid' => ['SSalesProcesses' => ['linktoaccountscontacts' => ['related_to', 'Accounts']]],
-			'parentid' => [
-				'Project' => ['linktoaccountscontacts' => ['linktoaccountscontacts'], 'servicecontractsid' => ['servicecontractsid']]
-			],
 		],
 		'HelpDesk' => [
 			'projectid' => ['Project' => ['parent_id' => ['linktoaccountscontacts']]],
@@ -54,12 +39,7 @@ return [
 		],
 		'OSSTimeControl' => [
 			'process' => ['Project' => ['link' => ['linktoaccountscontacts']]],
-			'subprocess' => [
-				'HelpDesk' => ['name' => ['ticket_title'], 'link' => ['parent_id'], 'process' => ['servicecontractsid'], 'linkextend' => ['contact_id']],
-			],
-			'subprocess_sl' => [
-				'ProjectTask' => ['process' => ['projectid'], 'name' => ['projecttaskname']],
-			]
+			'subprocess' => ['HelpDesk' => ['name' => ['ticket_title'], 'link' => ['parent_id'], 'process' => ['servicecontractsid'], 'linkextend' => ['contact_id']]]
 		],
 		'SRequirementsCards' => [
 			'salesprocessid' => ['SSalesProcesses' => ['accountid' => ['related_to']]],

@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 jQuery.Class(
@@ -7,8 +7,9 @@ jQuery.Class(
 	{
 		registerActivityState() {
 			const self = this;
-			$('.js-activity-buttons').on('click', 'button:not(.close, .js-postpone), .js-postpone-time', function (e) {
-				let currentTarget = $(e.currentTarget);
+			$('.js-activity-buttons button:not(.close)').on('click', function (e) {
+				let currentTarget = $(e.currentTarget),
+					viewName = app.getViewName();
 				app.hideModalWindow();
 				if (1 === currentTarget.data('type')) {
 					self.updateActivityState(currentTarget);
@@ -26,9 +27,6 @@ jQuery.Class(
 								currentTarget.data('id') +
 								'&fillFields=all',
 							params = {};
-						if (currentTarget.data('postpone-time')) {
-							url = url + '&postponeTime=' + encodeURIComponent(currentTarget.data('postpone-time'));
-						}
 						params.noCache = true;
 						App.Components.QuickCreate.getForm(url, 'Calendar', params).done(function (data) {
 							progressIndicatorElement.progressIndicator({ mode: 'hide' });

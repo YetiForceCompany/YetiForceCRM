@@ -6,7 +6,7 @@
  * @package Settings.View
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Index_View
 {
@@ -33,6 +33,7 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$defaultValues = $widgetsManagementModel->getDefaultValues();
 		$size = $widgetsManagementModel->getSize();
 		$widgetsWithLimit = $widgetsManagementModel->getWidgetsWithLimit();
+		$authorization = Settings_Roles_Record_Model::getAll();
 		$blocks = $widgetsManagementModel->getBlocksId($currentDashboard);
 		$specialWidgets = Settings_WidgetsManagement_Module_Model::getSpecialWidgets($sourceModule);
 		$filterSelect = $widgetsManagementModel->getFilterSelect();
@@ -43,7 +44,7 @@ class Settings_WidgetsManagement_Configuration_View extends Settings_Vtiger_Inde
 		$viewer->assign('FILTER_SELECT', $filterSelect);
 		$viewer->assign('FILTER_SELECT_DEFAULT', $filterSelectDefault);
 		$viewer->assign('DATE_SELECT_DEFAULT', Settings_WidgetsManagement_Module_Model::getDateSelectDefault());
-		$viewer->assign('ALL_AUTHORIZATION', Settings_Roles_Record_Model::getAll());
+		$viewer->assign('ALL_AUTHORIZATION', $authorization);
 		$viewer->assign('ALL_SERVERS', Settings_WebserviceApps_Module_Model::getServers());
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', array_keys($dashboardModules));

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-dashboards-ChartFilter -->
 	{assign "COL_LBL" "col-sm-12 col-md-4 col-lg-3 col-form-label"}
@@ -222,18 +222,10 @@
 		{if $CHART_TYPE eq 'Table'}
 			<div class="form-group row mb-2">
 				{assign "VALUE_SUMMARY" $WIDGET_MODEL->getValueForEditView('summary')}
-				<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_WIDGET_SHOW_COLUMNS_SUMMARY','Home')}</label></div>
+				<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_WIDGET_SHOW_SUMMARY','Home')}</label></div>
 				<div class="{$COL_CTRL} m-auto">
 					<input type="hidden" name="summary" value="0">
 					<input type="checkbox" class="form-control saveParam" name="summary" value="1" {if $VALUE_SUMMARY} checked{/if}>
-				</div>
-			</div>
-			<div class="form-group row mb-2">
-				{assign "VALUE_ROWS_SUMMARY" $WIDGET_MODEL->getValueForEditView('rows_summary')}
-				<div class="{$COL_LBL}"><label>{\App\Language::translate('LBL_WIDGET_SHOW_ROWS_SUMMARY','Home')}</label></div>
-				<div class="{$COL_CTRL} m-auto">
-					<input type="hidden" name="rows_summary" value="0">
-					<input type="checkbox" class="form-control saveParam" name="rows_summary" value="1" {if $VALUE_ROWS_SUMMARY} checked{/if}>
 				</div>
 			</div>
 		{/if}

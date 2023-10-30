@@ -200,7 +200,6 @@ const App = (window.App = {
 						new window[moduleClassName]().registerEvents(container);
 					}
 					quickCreateForm.validationEngine(app.validationEngineOptionsForRecord);
-					quickCreateForm.find('.js-form-submit-btn').prop('disabled', false);
 					if (typeof params.callbackPostShown !== 'undefined') {
 						params.callbackPostShown(quickCreateForm);
 					}
@@ -220,7 +219,6 @@ const App = (window.App = {
 				const submitSuccessCallback = params.callbackFunction || function () {};
 				const goToFullFormCallBack = params.goToFullFormcallback || function () {};
 				form.on('submit', (e) => {
-					const form = $(e.currentTarget);
 					if (form.hasClass('not_validation')) {
 						return true;
 					}
@@ -384,7 +382,6 @@ const App = (window.App = {
 				AppConnector.request(params).done(function (html) {
 					app.showModalWindow(html, (container) => {
 						let form = container.find('form[name="QuickEdit"]');
-						form.find('.js-form-submit-btn').prop('disabled', false);
 						let moduleName = form.find('[name="module"]').val();
 						let editViewInstance = Vtiger_Edit_Js.getInstanceByModuleName(moduleName);
 						let moduleClassName = moduleName + '_QuickEdit_Js';
@@ -825,39 +822,6 @@ const App = (window.App = {
 
 				return aDeferred.promise();
 			}
-		},
-		/**
-		 * Currency Converter class
-		 */
-		CurrencyConverter: class CurrencyConverter {
-			/**
-			 * Show modal window with currencies
-			 * @param {Object} params
-			 */
-			static modalView(params = {}) {
-				let aDeferred = $.Deferred();
-				let url = 'index.php?module=AppComponents&view=CurrencyConverter';
-				if (params && Object.keys(params).length) {
-					url = app.convertObjectToUrl(params, url);
-				}
-				let progressElement = $.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
-				app.showModalWindow({
-					id: 'CurrencyConverter',
-					url,
-					cb: (container) => {
-						progressElement.progressIndicator({ mode: 'hide' });
-						let form = container.find('form');
-						form.validationEngine(app.validationEngineOptions);
-						container.on('click', '.js-modal__save', (e) => {
-							let data = form.serializeFormData();
-							aDeferred.resolve(data);
-							app.hideModalWindow(null, 'CurrencyConverter');
-						});
-					}
-				});
-
-				return aDeferred.promise();
-			}
 		}
 	},
 	Notify: {
@@ -912,16 +876,6 @@ const App = (window.App = {
 					instance.createClipboard();
 					instance.copy();
 					instance.destroy();
-				});
-			});
-			container.on('click', 'button.js-copy-clipboard-url', (e) => {
-				e.preventDefault();
-				new Clipboard($(e.currentTarget)).load().then((instance) => {
-					ClipboardJS.copy(instance.text);
-					app.showNotify({
-						text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
-						type: 'success'
-					});
 				});
 			});
 		}
@@ -1136,8 +1090,18 @@ const App = (window.App = {
 		 */
 		showErrors(errors = []) {
 			for (let info of errors) {
-				app.showError(info.error);
+				this.showError(info.error);
 			}
+		}
+		/**
+		 * Show error
+		 */
+		showError(error) {
+			if (typeof error.type === 'undefined') {
+				error.type = 'error';
+			}
+			error.textTrusted = false;
+			app.showNotify(error);
 		}
 		/**
 		 * Error event handler from file upload request
@@ -1150,13 +1114,13 @@ const App = (window.App = {
 			app.errorLog('File upload error.');
 			const { jqXHR, files } = data;
 			if (typeof jqXHR.responseJSON === 'undefined' || jqXHR.responseJSON === null) {
-				return app.showError({
+				return this.showError({
 					title: app.vtranslate('JS_FILE_UPLOAD_ERROR'),
 					type: 'error'
 				});
 			}
 			files.forEach((file) => {
-				app.showError({
+				this.showError({
 					title: app.vtranslate('JS_FILE_UPLOAD_ERROR'),
 					text: file.name,
 					type: 'error'
@@ -1204,13 +1168,7 @@ const app = (window.app = {
 	 * Function to get the module name. This function will get the value from element which has id module
 	 * @return : string - module name
 	 */
-	getModuleName: function (container) {
-		if (container) {
-			let element = container.closest('form').find('[name="module"]');
-			if (element.length > 0) {
-				return element.val();
-			}
-		}
+	getModuleName: function () {
 		return this.getMainParams('module');
 	},
 	/**
@@ -1636,6 +1594,7 @@ const app = (window.app = {
 		if (typeof returnFormat === 'undefined') {
 			returnFormat = 'string';
 		}
+
 		parentElement = $(parentElement);
 
 		let encodedString = parentElement.children().serialize();
@@ -1696,12 +1655,10 @@ const app = (window.app = {
 				toolbar: 'Min'
 			});
 			App.Fields.MultiAttachment.register(modalContainer);
-			App.Fields.MultiReference.register(modalContainer);
-			App.Fields.MapCoordinates.register(modalContainer);
 			App.Fields.Icon.register(modalContainer);
 			app.registesterScrollbar(modalContainer);
 			app.registerIframeEvents(modalContainer);
-			modalContainer.find('.modal-dialog').draggable({
+			modalContainer.find('.modal-dialog:not(.js-no-drag)').draggable({
 				handle: '.modal-title'
 			});
 			modalContainer.find('.modal-title').css('cursor', 'move');
@@ -1710,7 +1667,6 @@ const app = (window.app = {
 		modalContainer.modal(params);
 		app.registerFormsEvents(modalContainer);
 		thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
-		app.registerModalPosition(modalContainer);
 	},
 	showModalWindow: function (data, url, cb, paramsObject = {}) {
 		if (!app.isCurrentWindowTarget('app.showModalWindow', arguments)) {
@@ -1774,7 +1730,6 @@ const app = (window.app = {
 				$('body').addClass('modal-open');
 			}
 		});
-
 		Window.lastModalId = modalId;
 		if (data) {
 			thisInstance.showModalData(data, container, paramsObject, cb, url, sendByAjaxCb);
@@ -1812,19 +1767,6 @@ const app = (window.app = {
 		<div class="modal-body js-modal-content text-break ${params['bodyClass']}" data-js="container">${params['body']}</div>${footer}</div></div></div>`;
 		params.data = html;
 		return app.showModalWindow(params);
-	},
-	/**
-	 * Sets the position of the modal window.
-	 * @param {jQuery} container
-	 */
-	registerModalPosition: function (modalContainer) {
-		if (modalContainer.hasClass('js-modal-center')) {
-			const modalContent = modalContainer.find('.modal-dialog');
-			if (modalContent.width()) {
-				modalContent.css({ 'min-width': modalContent.width() + 'px' });
-				modalContainer.addClass('c-modal-center');
-			}
-		}
 	},
 	/**
 	 * Check if current window is target for a modal and trigger in correct window if not
@@ -3055,6 +2997,29 @@ const app = (window.app = {
 
 		return url;
 	},
+	formatToHourText: function (decTime, type = 'short', withSeconds = false, withMinutes = true) {
+		const short = type === 'short';
+		const hour = Math.floor(decTime);
+		const min = Math.floor((decTime - hour) * 60);
+		const sec = Math.round(((decTime - hour) * 60 - min) * 60);
+		let result = '';
+		if (hour) {
+			result += short ? hour + app.vtranslate('JS_H') : `${hour} ` + app.vtranslate('JS_H_LONG');
+		}
+		if ((hour || min) && withMinutes) {
+			result += short ? ` ${min}` + app.vtranslate('JS_M') : ` ${min} ` + app.vtranslate('JS_M_LONG');
+		}
+		if (withSeconds !== false) {
+			result += short ? ` ${sec}` + app.vtranslate('JS_S') : ` ${sec} ` + app.vtranslate('JS_S_LONG');
+		}
+		if (!hour && !min && withSeconds === false && withMinutes) {
+			result += short ? '0' + app.vtranslate('JS_M') : '0 ' + app.vtranslate('JS_M_LONG');
+		}
+		if (!hour && !min && withSeconds === false && !withMinutes) {
+			result += short ? '0' + app.vtranslate('JS_H') : '0 ' + app.vtranslate('JS_H_LONG');
+		}
+		return result.trim();
+	},
 	showRecordsList: function (params, cb, afterShowModal) {
 		if (typeof params === 'object' && !params.view) {
 			params.view = 'RecordsList';
@@ -3150,18 +3115,6 @@ const app = (window.app = {
 				overlayClose: false
 			})
 		});
-	},
-	/**
-	 * Show notify error
-	 * @param {object} error
-	 *
-	 */
-	showError(error) {
-		if (typeof error.type === 'undefined') {
-			error.type = 'error';
-		}
-		error.textTrusted = false;
-		app.showNotify(error);
 	},
 	/**
 	 * Show notify
@@ -3455,247 +3408,10 @@ const app = (window.app = {
 		}
 	},
 	/**
-	 * Handler validation for ajax (quick edit)
-	 * @param {Object} params
-	 * @param {String} mode
-	 * @returns
-	 */
-	handlerEventAjax: function (params, mode = '') {
-		const aDeferred = $.Deferred();
-		let paramsTemp = JSON.parse(JSON.stringify(params));
-		if (mode) paramsTemp.data.mode = mode;
-
-		AppConnector.request(paramsTemp)
-			.done((data) => {
-				const response = data.result;
-				let lock = false;
-				let handlers = Object.fromEntries(
-					Object.entries(response).filter(([_key, val]) => typeof val === 'object' && val.result === false)
-				);
-				for (let i in handlers) {
-					let handler = handlers[i];
-					switch (handler.type) {
-						case 'confirm':
-							app.showConfirmModal({
-								text: handler.message || '',
-								confirmedCallback: () => {
-									let handlers = {};
-									if (typeof params.data.skipHandlers !== 'undefined') {
-										handlers = JSON.parse(params.data.skipHandlers);
-									}
-									handlers[i] = handler.hash;
-									params.data.skipHandlers = JSON.stringify(handlers);
-									app.handlerEventAjax(params, mode).then((responsePart, data) => {
-										aDeferred.resolve(responsePart, data);
-									});
-								},
-								rejectedCallback: () => {
-									aDeferred.resolve(false);
-								}
-							});
-							lock = true;
-							break;
-						case 'modal':
-							app.showModalWindow(null, handler.url, function (modalContainer) {
-								app.registerModalController(undefined, modalContainer, function (_, instance) {
-									instance.handlerEvent = aDeferred;
-									instance.handlerResponse = handler;
-									instance.form = params;
-								});
-							});
-							lock = true;
-							break;
-						case 'notice':
-						default:
-							app.showNotify({
-								text: handler.message ? handler.message : app.vtranslate('JS_ERROR2'),
-								type: 'error'
-							});
-							break;
-					}
-				}
-				if (Object.keys(handlers).length <= 0) {
-					aDeferred.resolve(true, response);
-				} else if (!lock) {
-					aDeferred.resolve(false, response);
-				}
-			})
-			.fail((_textStatus, _errorThrown) => {
-				app.showNotify({
-					text: app.vtranslate('JS_ERROR'),
-					type: 'error'
-				});
-				aDeferred.resolve(false);
-			});
-
-		return aDeferred.promise();
-	},
-	/**
-	 * Handler validation for jQuery FORM
-	 * @param {jQuery} params
-	 * @param {String} mode
-	 * @returns
-	 */
-	handlerEventForm: function (form, mode = '') {
-		const aDeferred = $.Deferred();
-		document.progressLoader = $.progressIndicator({
-			message: app.vtranslate('JS_SAVE_LOADER_INFO'),
-			position: 'html',
-			blockInfo: {
-				enabled: true
-			}
-		});
-		let formData = new FormData(form[0]);
-		if (mode) formData.append('mode', mode);
-		AppConnector.request({
-			async: false,
-			url: 'index.php',
-			type: 'POST',
-			data: formData,
-			processData: false,
-			contentType: false
-		})
-			.done((data) => {
-				document.progressLoader.progressIndicator({ mode: 'hide' });
-				let response = data.result;
-				for (let i in response) {
-					let handler = response[i];
-					switch (handler.type) {
-						case 'confirm':
-							app.showConfirmModal({
-								text: handler.message || '',
-								confirmedCallback: () => {
-									let handlers = {},
-										handlerElement = form.find('input[name="skipHandlers"]');
-									if (handlerElement.length) {
-										handlers = JSON.parse(handlerElement.val());
-										handlerElement.remove();
-									}
-									handlers[i] = handler.hash;
-									form.append($('<input>', { name: 'skipHandlers', value: JSON.stringify(handlers), type: 'hidden' }));
-									form.submit();
-								}
-							});
-							break;
-						case 'modal':
-							app.showModalWindow(null, handler.url, function (modalContainer) {
-								app.registerModalController(undefined, modalContainer, function (_, instance) {
-									instance.handlerEvent = aDeferred;
-									instance.handlerResponse = handler;
-									instance.form = form;
-								});
-							});
-							break;
-						case 'notice':
-						default:
-							app.showNotify({
-								text: handler.message ? handler.message : app.vtranslate('JS_ERROR'),
-								type: 'error'
-							});
-							if (handler.hoverField) {
-								form.find('[name="' + handler.hoverField + '"]').focus();
-							}
-							break;
-					}
-				}
-				aDeferred.resolve(data.result.length <= 0);
-			})
-			.fail((textStatus, errorThrown) => {
-				document.progressLoader.progressIndicator({ mode: 'hide' });
-				app.showNotify({
-					text: app.vtranslate('JS_ERROR'),
-					type: 'error'
-				});
-				app.errorLog(textStatus, errorThrown);
-				aDeferred.resolve(false);
-			});
-
-		return aDeferred.promise();
-	},
-
-	/**
-	 * Handler validation
-	 * @param {*} params jQuery FORM or object or url
-	 * @param {String} mode
-	 * @param {Boolean} skip Skip the verification action
-	 * @returns
-	 */
-	handlerEvent: function (params, mode = '', skip = false) {
-		const aDeferred = $.Deferred();
-		if (skip) {
-			aDeferred.resolve(true);
-		} else if (params instanceof jQuery && params.is('form')) {
-			app.handlerEventForm(params, mode).done((response) => {
-				aDeferred.resolve(response);
-			});
-		} else {
-			if ('string' === typeof params) {
-				params = {
-					data: app.convertUrlToObject(params),
-					async: false,
-					dataType: 'json'
-				};
-			}
-			app.handlerEventAjax(params, mode).done((response, data) => {
-				aDeferred.resolve(response, data);
-			});
-		}
-
-		return aDeferred.promise();
-	},
-
-	/**
 	 * Function to register the records events
 	 * @param {jQuery} container - Jquery container.
 	 */
 	registerRecordActionsEvents: function (container) {
-		container.on('click', '.js-record-action', function (event) {
-			event.stopPropagation();
-			let target = $(this),
-				addBtnIcon = target.data('addBtnIcon'),
-				presaveMode = target.data('presave-mode') || '';
-			let params = {
-				icon: false,
-				title: target.data('content'),
-				confirmedCallback: () => {
-					let url = target.data('url');
-					app.handlerEvent(url, presaveMode).done((response, data) => {
-						if (response === true) {
-							if (typeof data === 'object') {
-								for (let i in data) {
-									switch (i) {
-										case 'notify':
-											app.showNotify(data[i]);
-											app.reloadAfterSave(data, app.convertUrlToObject(url), null, target);
-											break;
-										case 'url':
-											app.openUrl(data[i]);
-											break;
-										default:
-											app.reloadAfterSave(data, app.convertUrlToObject(url), null, target);
-											break;
-									}
-								}
-							}
-						}
-					});
-				}
-			};
-			if (target.data('confirm')) {
-				params.text = target.data('confirm');
-				addBtnIcon = 1;
-			}
-			if (addBtnIcon == 1) {
-				params.title = target.html() + (params.title ? ' ' + params.title : '');
-			}
-			app.showConfirmModal(params);
-		});
-	},
-	/**
-	 * Function to register the records events
-	 * @param {jQuery} container - Jquery container.
-	 */
-	registerConfirmActionsEvents: function (container) {
 		container.on('click', '.js-action-confirm', function (event) {
 			event.stopPropagation();
 			let target = $(this),
@@ -3711,11 +3427,7 @@ const app = (window.app = {
 							enabled: true
 						}
 					});
-					let url = target.data('url') + (sourceView ? '&sourceView=' + sourceView : '');
-					if (target.data('type') === 'href') {
-						app.openUrl(url);
-						return false;
-					}
+					let url = target.data('url') + '&sourceView=' + sourceView;
 					AppConnector.request(url).done(function (data) {
 						progressIndicatorElement.progressIndicator({
 							mode: 'hide'
@@ -3807,7 +3519,6 @@ const app = (window.app = {
 		});
 	}
 });
-
 $(function () {
 	Quasar.iconSet.set(Quasar.iconSet.mdiV3);
 	let document = $(this);
@@ -3829,7 +3540,6 @@ $(function () {
 	app.registerShowHideBlock(document);
 	app.registerAfterLoginEvents(document);
 	app.registerFormsEvents(document);
-	app.registerConfirmActionsEvents(document);
 	app.registerRecordActionsEvents(document);
 	app.registerPrintEvent(document);
 	app.registerKeyboardShortcutsEvent(document);
@@ -3837,9 +3547,6 @@ $(function () {
 	App.Components.QuickCreate.register(document);
 	App.Components.Scrollbar.initPage();
 	App.Clipboard.register(document);
-	App.Fields.Phone.register(document);
-	App.Fields.Mail.register(document);
-	App.Fields.MapCoordinates.register(document);
 	String.prototype.toCamelCase = function () {
 		let value = this.valueOf();
 		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
@@ -3864,9 +3571,9 @@ $(function () {
 	$.fn.setValue = function (value, params) {
 		return App.Fields.Utils.setValue($(this), value, params);
 	};
-	$.fn.formatNumber = function (mode = App.Fields.Double.FORMAT_USER_WITHOUT_ROUNDING) {
+	$.fn.formatNumber = function () {
 		let element = $(this);
-		element.val(App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val()), mode));
+		element.val(App.Fields.Double.formatToDisplay(App.Fields.Double.formatToDb(element.val()), false));
 	};
 	$.fn.disable = function () {
 		this.attr('disabled', 'disabled');

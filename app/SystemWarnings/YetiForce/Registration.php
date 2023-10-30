@@ -6,7 +6,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -34,7 +34,7 @@ class Registration extends \App\SystemWarnings\Template
 	 */
 	public function process(): void
 	{
-		if (\App\YetiForce\Register::verify(true) || 'demo' === \App\Config::main('systemMode')) {
+		if (\App\YetiForce\Register::isRegistered() || 'demo' === \App\Config::main('systemMode')) {
 			$this->status = 1;
 		} else {
 			$this->status = 0;

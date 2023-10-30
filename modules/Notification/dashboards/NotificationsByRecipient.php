@@ -6,10 +6,9 @@
  * @package Dashboard
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_View
 {
@@ -32,7 +31,7 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 			$conditions[] = ['assigned_user_id', 'e', $owner];
 		}
 		$listSearchParams[] = $conditions;
-		return '&entityState=Active&viewname=All&search_params=' . urlencode(json_encode($listSearchParams));
+		return '&entityState=Active&viewname=All&search_params=' . json_encode($listSearchParams);
 	}
 
 	/**
@@ -46,8 +45,7 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 	{
 		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
 		$moduleName = 'Notification';
-		$time[0] .= ' 00:00:00';
-		$time[1] .= ' 23:59:59';
+		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$query = new \App\Db\Query();
 		$query->select(['count' => new \yii\db\Expression('COUNT(*)'), 'smownerid'])
 			->from('vtiger_crmentity')
@@ -56,31 +54,34 @@ class Notification_NotificationsByRecipient_Dashboard extends Vtiger_IndexAjax_V
 				['setype' => $moduleName],
 				['deleted' => 0],
 				['smcreatorid' => array_keys($accessibleUsers)],
-				['>=', 'createdtime', $time[0]],
-				['<=', 'createdtime', $time[1]],
+				['>=', 'createdtime', $time[0] . ' 00:00:00'],
+				['<=', 'createdtime', $time[1] . ' 23:59:59'],
 			]);
 		\App\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['smownerid']);
 		$dataReader = $query->createCommand()->query();
-		$time = \App\Fields\DateTime::formatRangeToDisplay($time);
-
+		$time = \App\Fields\Date::formatRangeToDisplay($time);
 		$chartData = [
-			'dataset' => [],
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'backgroundColor' => [],
+					'links' => [],
+				],
+			],
 			'show_chart' => false,
 		];
-		$chartData['series'][0]['colorBy'] = 'data';
-		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
-
 		while ($row = $dataReader->read()) {
-			$ownerId = (int) $row['smownerid'];
-			$label = $accessibleUsers[$ownerId];
-			$link = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($ownerId, $time);
-			$chartData['dataset']['source'][] = [\App\Utils::getInitials($label), (int) $row['count'], ['link' => $link, 'fullName' => $label]];
-			$chartData['color'][] = \App\Fields\Owner::getColor($ownerId);
-			$chartData['show_chart'] = true;
+			$label = $accessibleUsers[$row['smownerid']];
+			$chartData['labels'][] = \App\Utils::getInitials($label);
+			$chartData['datasets'][0]['titlesFormatted'][] = $label;
+			$chartData['datasets'][0]['data'][] = $row['count'];
+			$chartData['datasets'][0]['links'][] = $listViewUrl . $this->getSearchParams($row['smownerid'], $time);
+			$chartData['datasets'][0]['backgroundColor'][] = App\Fields\Owner::getColor($row['smownerid']);
 		}
+		$chartData['show_chart'] = (bool) $dataReader->count();
 		$dataReader->close();
-
 		return $chartData;
 	}
 

@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Users-TwoFactorAuthenticationModal -->
 	<form name="TwoFactorAuthenticationModal" class="form-horizontal validateForm" action="index.php" method="post" autocomplete="off">
@@ -36,9 +36,7 @@
 					</div>
 				</div>
 				<div class="col-sm-12 my-2 pt-2 pb-2 d-flex justify-content-center border-top border-bottom">
-					<a href="{$QR_URL}">
-						{$QR_CODE_HTML}
-					</a>
+					{$QR_CODE_HTML}
 				</div>
 			</div>
 			<div class="col-sm-12 pt-2  form-inline js-user-code" data-js="container|css:display">

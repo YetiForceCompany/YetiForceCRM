@@ -5,7 +5,7 @@
  * @package   View
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -76,7 +76,6 @@ class Vtiger_QuickEditModal_View extends \App\Controller\Modal
 		}
 		$recordStructure = $this->getStructure($recordModel, $request);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('SOURCE_MODULE', $request->getByType('sourceModule', \App\Purifier::ALNUM));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', Vtiger_RecordStructure_Model::getInstanceForModule($moduleModel));
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$layout = $request->getByType('showLayout') ?: Config\Performance::$quickEditLayout ?? 'blocks';

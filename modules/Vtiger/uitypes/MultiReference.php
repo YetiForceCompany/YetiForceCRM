@@ -6,7 +6,7 @@
  * @package UIType
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
@@ -18,7 +18,7 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 	/**
 	 * Separator.
 	 */
-	public const COMMA = ',';
+	const COMMA = ',';
 
 	/** {@inheritdoc} */
 	public function validate($value, $isUserFormat = false)
@@ -52,7 +52,7 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 		if (!\is_array($value)) {
 			$value = [$value];
 		}
-		return implode(self::COMMA, $value);
+		return implode(',', $value);
 	}
 
 	/** {@inheritdoc} */
@@ -75,14 +75,13 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 		if (empty($value) || !$referenceModuleName || !($referenceModule = \Vtiger_Module_Model::getInstance($referenceModuleName)) || !$referenceModule->isActive()) {
 			return '';
 		}
-		$isUser = 'Users' === $referenceModuleName;
 		$displayValue = [];
 		foreach ($this->getArrayValues($value) as $recordId) {
 			$recordId = (int) $recordId;
 			if ($rawText) {
-				$displayValue[] = $isUser ? \App\Fields\Owner::getLabel($recordId) : App\Record::getLabel($recordId);
+				$displayValue[] = App\Record::getLabel($recordId);
 			} else {
-				$displayValue[] = $isUser ? \App\Fields\Owner::getHtmlLink($recordId, $referenceModuleName, null, !empty($this->fullUrl)) : \App\Record::getHtmlLink($recordId, $referenceModuleName, null, !empty($this->fullUrl));
+				$displayValue[] = \App\Record::getHtmlLink($recordId, $referenceModuleName, null, !empty($this->fullUrl));
 			}
 		}
 		$maxLength = (int) ($this->getFieldModel()->getFieldParams()['displayLength'] ?? (\is_int($length) ? $length : \App\Config::main('href_max_length')));
@@ -93,33 +92,17 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 	public function getApiDisplayValue($value, Vtiger_Record_Model $recordModel, array $params = [])
 	{
 		$referenceModuleName = current($this->getReferenceList());
-		if (
-			empty($value)
-			|| !$referenceModuleName
-			|| !($referenceModule = \Vtiger_Module_Model::getInstance($referenceModuleName))
-			|| !$referenceModule->isActive()
-		) {
+		if (empty($value) || !$referenceModuleName || !($referenceModule = \Vtiger_Module_Model::getInstance($referenceModuleName)) || !$referenceModule->isActive()) {
 			return '';
 		}
-		$isUser = 'Users' === $referenceModuleName;
 		$result = [];
 		foreach ($this->getArrayValues($value) as $recordId) {
-			if ($isUser) {
-				if (\App\User::isExists($recordId, false)) {
-					$result[$recordId] = [
-						'value' => \App\Fields\Owner::getLabel($recordId),
-						'record' => $recordId,
-						'referenceModule' => $referenceModuleName,
-						'state' => \App\User::getUserModel($recordId)->isActive() ? 'Active' : 'Archived',
-						'isPermitted' => false,
-					];
-				}
-			} elseif (\App\Record::isExists($recordId)) {
+			if (\App\Record::isExists($recordId)) {
 				$result[$recordId] = [
 					'value' => \App\Record::getLabel($recordId, true),
 					'record' => $recordId,
 					'referenceModule' => $referenceModuleName,
-					'state' => \App\Record::getStateLabel($recordId),
+					'state' => \App\Record::getState($recordId),
 					'isPermitted' => \App\Privilege::isPermitted($referenceModuleName, 'DetailView', $recordId),
 				];
 			}
@@ -134,7 +117,7 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 	 */
 	public function getReferenceList(): array
 	{
-		return (array) ($this->getFieldModel()->getFieldParams()['module'] ?? []);
+		return (array) $this->getFieldModel()->getFieldParams()['module'] ?? [];
 	}
 
 	/**
@@ -166,25 +149,12 @@ class Vtiger_MultiReference_UIType extends Vtiger_Base_UIType
 	public function getEditViewDisplayValue($value, $recordModel = false)
 	{
 		$displayValue = [];
-		$isUser = 'Users' === current($this->getReferenceList());
 		foreach ($this->getArrayValues($value) as $recordId) {
-			if (is_numeric($recordId)) {
-				if ($isUser) {
-					if (\App\User::isExists($recordId, false)) {
-						$displayValue[$recordId] = \App\Fields\Owner::getLabel($recordId);
-					}
-				} elseif (\App\Record::isExists($recordId)) {
-					$displayValue[$recordId] = \App\Record::getLabel($recordId);
-				}
+			if (is_numeric($recordId) && \App\Record::isExists($recordId)) {
+				$displayValue[$recordId] = \App\Record::getLabel($recordId);
 			}
 		}
 		return $displayValue;
-	}
-
-	/** {@inheritdoc} */
-	public function getEditViewValue($value, $recordModel = false)
-	{
-		return $this->getDBValue($value);
 	}
 
 	/** {@inheritdoc} */

@@ -4,11 +4,12 @@
  * Module Class for MappedFields Settings.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 {
+	protected $record = false;
 	public $baseTable = 'a_yf_mapped_config';
 	public $mappingTable = 'a_yf_mapped_fields';
 	public $baseIndex = 'id';
@@ -41,10 +42,6 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	];
 	public $name = 'MappedFields';
 	public $parent = 'Settings';
-	/** @var Settings_MappedFields_Module_Model Mapping record */
-	protected $record;
-	/** @var Vtiger_Module_Model Source module */
-	private $sourceModule;
 
 	public function getCreateRecordUrl()
 	{
@@ -68,7 +65,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 */
 	public function getId()
 	{
-		return \App\Module::getModuleId($this->getSourceModule()->getName());
+		return \App\Module::getModuleId($this->getName());
 	}
 
 	public static function getFieldsByStep($step = 1)
@@ -124,7 +121,7 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @param mixed $moduleName
 	 *
-	 * @return Settings_MappedFields_Module_Model
+	 * @return <Settings_MappedFields_Module_Model>
 	 */
 	public static function getCleanInstance($moduleName = 'Vtiger')
 	{
@@ -161,41 +158,22 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @param string $moduleName
 	 *
-	 * @return Settings_MappedFields_Module_Model|null
+	 * @return <Settings_MappedFields_Module_Model>
 	 */
 	public static function getInstance($moduleName = 'Settings:Vtiger')
 	{
-		$instance = null;
+		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ') method ...');
 		$moduleModel = Vtiger_Module_Model::getInstance($moduleName);
 		if ($moduleModel) {
-			$instance = new self();
-			$instance->setSourceModule($moduleModel);
+			$objectProperties = get_object_vars($moduleModel);
+			$moduleModel = new self();
+			foreach ($objectProperties as $properName => $propertyValue) {
+				$moduleModel->{$properName} = $propertyValue;
+			}
 		}
+		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 
-		return $instance;
-	}
-
-	/**
-	 * Set source module model.
-	 *
-	 * @param Vtiger_Module_Model $moduleModel
-	 *
-	 * @return $this
-	 */
-	public function setSourceModule(Vtiger_Module_Model $moduleModel)
-	{
-		$this->sourceModule = $moduleModel;
-		return $this;
-	}
-
-	/**
-	 * Get source module model.
-	 *
-	 * @return Vtiger_Module_Model
-	 */
-	public function getSourceModule()
-	{
-		return $this->sourceModule;
+		return $moduleModel;
 	}
 
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
@@ -253,11 +231,12 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @param mixed $source
 	 *
-	 * @return vtlib\Field[]
+	 * @return <Array of vtlib\Field>
 	 */
 	public function getFields($source = false)
 	{
-		$moduleModel = $this->sourceModule;
+		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
+		$moduleModel = Vtiger_Module_Model::getInstance($this->getName());
 		$fields = [];
 		foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
 			if ($fieldModel->isActiveField() && !(false === $source && !($fieldModel->isEditable() && !\in_array($fieldModel->getUIType(), $this->getRestrictedUitypes())))) {
@@ -275,12 +254,13 @@ class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 		}
 
 		if ($moduleModel->isInventory()) {
-			$inventoryModel = Vtiger_Inventory_Model::getInstance($this->getSourceModule()->getName());
+			$inventoryModel = Vtiger_Inventory_Model::getInstance($this->getName());
 			$blockName = 'LBL_ADVANCED_BLOCK';
 			foreach ($inventoryModel->getFields() as $field) {
 				$fields[$blockName][$field->getColumnName()] = Settings_MappedFields_Field_Model::getInstanceFromInventoryFieldObject($field);
 			}
 		}
+		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 
 		return $fields;
 	}

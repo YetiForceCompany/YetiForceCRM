@@ -4,7 +4,7 @@
  * OSSMailView preview view class.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
 class OSSMailView_Preview_View extends Vtiger_Index_View
 {
@@ -42,7 +42,7 @@ class OSSMailView_Preview_View extends Vtiger_Index_View
 		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('NOLOADLIBS', $load);
-		$viewer->assign('TO', $recordModel->getDisplayValue('to_email'));
+		$viewer->assign('TO', explode(',', $recordModel->getDisplayValue('to_email')));
 		$viewer->assign('CC', $recordModel->getDisplayValue('cc_email'));
 		$viewer->assign('BCC', $recordModel->getDisplayValue('bcc_email'));
 		if (\App\Utils::isHtml($recordModel->get('content'))) {

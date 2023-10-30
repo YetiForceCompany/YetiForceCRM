@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-Base-Index -->
 	<div class="o-breadcrumb widget_header row">
@@ -27,7 +27,9 @@
 					<div id="system-monitoring-collapse" class="js-collapse collapse multi-collapse"
 						aria-labelledby="system-monitoring">
 						<div class="c-panel__body px-3">
-							<hr class="c-text-divider__line u-text-gray" />
+							<div class="c-text-divider mb-3">
+								<hr class="c-text-divider__line u-text-gray" />
+							</div>
 							{include file=\App\Layout::getTemplatePath('DashBoard/SystemMonitoring.tpl', $QUALIFIED_MODULE)}
 						</div>
 					</div>
@@ -47,7 +49,9 @@
 				</div>
 				<div id="my-shortcuts-collapse" class="js-collapse collapse multi-collapse" aria-labelledby="my-shortcuts">
 					<div class="c-panel__body px-3">
-						<hr class="c-text-divider__line u-text-gray" />
+						<div class="c-text-divider mb-3">
+							<hr class="c-text-divider__line u-text-gray" />
+						</div>
 						{include file=\App\Layout::getTemplatePath('DashBoard/SettingsShortCutsContainer.tpl', $QUALIFIED_MODULE)}
 					</div>
 				</div>

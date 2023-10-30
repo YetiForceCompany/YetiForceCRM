@@ -291,7 +291,7 @@
 					</div>
 					<div class="form-button-nav fixed-bottom button-container p-1 bg-light">
 						<div class="text-center w-100">
-							<a class="btn btn-lg c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php?mode=stepChooseHost"
+							<a class="btn btn-lg c-btn-block-xs-down btn-danger mr-sm-1 mb-1 mb-sm-0" href="Install.php?mode=step1"
 								role="button">
 								<span class="fas fa-lg fa-arrow-circle-left mr-2"></span>
 								{App\Language::translate('LBL_BACK', 'Install')}

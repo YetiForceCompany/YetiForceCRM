@@ -3,7 +3,7 @@
  * CalDAV Cron Class.
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -16,6 +16,10 @@ class Calendar_CalDav_Cron extends \App\CronHandler
 	public function process()
 	{
 		\App\Log::trace('Start cron CalDAV');
+		if(!\App\YetiForce\Shop::check('YetiForceDav')){
+			$this->logs = \App\YetiForce\Shop::checkAlert('YetiForceDav');
+			return;
+		}
 		$dav = new API_DAV_Model();
 		$davUsers = API_DAV_Model::getAllUser(2);
 		foreach (Users_Record_Model::getAll() as $id => $user) {

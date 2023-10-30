@@ -8,7 +8,7 @@ namespace App\Installer;
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -27,14 +27,19 @@ class Credits
 	 */
 	public static $licenses = [
 		'bootstrap-tabdrop' => 'Apache-2.0',
+		'color-convert' => 'MIT',
 		'@fortawesome/fontawesome-free' => 'MIT',
+		'fontawesome-web' => 'MIT',
 		'ckeditor/ckeditor' => 'MPL-1.1+',
 		'block-ui' => 'MIT',
-		'html5shiv' => 'MIT',
 		'jquery-slimscroll' => 'MIT',
+		'html5shiv' => 'MIT',
 		'jquery-lazy' => 'MIT',
 		'nette/php-generator' => 'BSD-3-Clause',
 		'nette/utils' => 'BSD-3-Clause',
+		'@mdi/font' => 'MIT',
+		'domhandler' => 'BSD-2-Clause',
+		'domutils' => 'BSD-2-Clause',
 		'@vue/compiler-sfc' => 'MIT',
 	];
 
@@ -49,7 +54,7 @@ class Credits
 			'YetiForce' => [
 				'name' => 'YetiForce',
 				'version' => \App\Version::get(),
-				'license' => 'YetiForce Public License 5.0',
+				'license' => 'YetiForce Public License 6.5',
 				'homepage' => 'https://yetiforce.com/en/yetiforce/license',
 				'notPackageFile' => true,
 				'showLicenseModal' => true,
@@ -201,7 +206,7 @@ class Credits
 	 *
 	 * @return array
 	 */
-	public static function getLibraryValues(string $name, string $dir): array
+	public static function getLibraryValues($name, $dir): array
 	{
 		$library = ['name' => $name, 'version' => '', 'license' => '', 'homepage' => ''];
 		$existJsonFiles = true;
@@ -239,7 +244,7 @@ class Credits
 	 *
 	 * @return array
 	 */
-	public static function getLicenseInformation(string $dir, string $libraryName): array
+	public static function getLicenseInformation($dir, $libraryName)
 	{
 		$licenseError = false;
 		$returnLicense = '';
@@ -270,23 +275,23 @@ class Credits
 						$returnLicense = static::$licenses[$libraryName] . " [{$returnLicense}]";
 						$licenseToDisplay = static::$licenses[$libraryName];
 						$licenseError = false;
-						$showLicenseModal = self::checkIfLicenseFileExists($licenseToDisplay);
+						$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $licenseToDisplay . '.txt');
 						break;
 					}
 					if ($returnLicense) {
-						$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
+						$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $returnLicense . '.txt');
 						break;
 					}
 				} else {
 					if (isset(static::$licenses[$libraryName])) {
 						$returnLicense = static::$licenses[$libraryName];
-						$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
+						$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $returnLicense . '.txt');
 					}
 				}
 			} else {
 				if (isset(static::$licenses[$libraryName])) {
 					$returnLicense = static::$licenses[$libraryName];
-					$showLicenseModal = self::checkIfLicenseFileExists($returnLicense);
+					$showLicenseModal = file_exists($dir . '..' . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $returnLicense . '.txt');
 				}
 			}
 		}
@@ -300,7 +305,7 @@ class Credits
 	 *
 	 * @return bool
 	 */
-	public static function validateLicenseName($license): bool
+	public static function validateLicenseName($license)
 	{
 		if (!$license) {
 			return true;
@@ -324,7 +329,7 @@ class Credits
 	 *
 	 * @return bool
 	 */
-	public static function checkIfLicenseFileExists(string $license): bool
+	public static function checkIfLicenseFileExists($license)
 	{
 		$filePath = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . 'licenses' . \DIRECTORY_SEPARATOR . $license . '.txt';
 		return file_exists($filePath);
@@ -337,7 +342,7 @@ class Credits
 	 *
 	 * @return array
 	 */
-	public static function getCredits(): array
+	public static function getCredits()
 	{
 		return ['static' => self::getBasicLibraries(), 'vendor' => self::getVendorLibraries(), 'public' => self::getPublicLibraries(), 'vue' => self::getVueLibs()];
 	}

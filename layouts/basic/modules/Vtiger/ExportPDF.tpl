@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Base-ExportPDF -->
 	<form id="pdfExportModal" action="index.php" target="_blank" method="POST">
@@ -136,16 +136,6 @@
 		{/if}
 		<span class="js-records-info pl-3 text-info d-none" data-js="text"></span>
 		<div class="modal-footer">
-			{if $ATTACH_AS_DOCUMENT}
-				<div class="input-group-prepend">
-					<div class="input-group-text">
-						<input type="checkbox" name="attach_as_document" class="checkbox" value="1">
-						<span class="js-popover-tooltip ml-1" data-placement="top" data-content="{\App\Language::translate('LBL_ATTACH_DOCUMENT_DESC', $MODULE_NAME)}">
-							<i class="fas fa-info-circle"></i>
-						</span>
-					</div>
-				</div>
-			{/if}
 			<div class="btn-group mr-0">
 				<button id="generate_pdf" type="submit" class="btn btn-success js-submit-button" {if !$ACTIVE} disabled="disabled" {/if} data-js="click">
 					<span class="fas fa-file-pdf mr-1"></span>{\App\Language::translate('LBL_GENERATE', $MODULE_NAME)}

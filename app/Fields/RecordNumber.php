@@ -8,7 +8,7 @@ namespace App\Fields;
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -158,7 +158,7 @@ class RecordNumber extends \App\Base
 	 */
 	public function parseNumber(int $seq): string
 	{
-		$string = str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [$this::date('Y'), $this::date('y'), $this::date('m'), $this::date('n'), $this::date('d'), $this::date('j')], $this->get('prefix') . str_pad((string) $seq, $this->get('leading_zeros'), '0', STR_PAD_LEFT) . $this->get('postfix'));
+		$string = str_replace(['{{YYYY}}', '{{YY}}', '{{MM}}', '{{M}}', '{{DD}}', '{{D}}'], [static::date('Y'), static::date('y'), static::date('m'), static::date('n'), static::date('d'), static::date('j')], $this->get('prefix') . str_pad((string) $seq, $this->get('leading_zeros'), '0', STR_PAD_LEFT) . $this->get('postfix'));
 		if ($this->getRecord()) {
 			$string = \App\TextParser::getInstanceByModel($this->getRecord())->setGlobalPermissions(false)->setContent($string)->parse()->getContent();
 		}

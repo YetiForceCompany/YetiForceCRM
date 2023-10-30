@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license	YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license	YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author	Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author	Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author	Arkadiusz Adach <a.adach@yetiforce.com>
@@ -36,7 +36,7 @@ class Record extends \Api\Core\BaseAction
 		$moduleName = $this->controller->request->getModule();
 		if ('POST' === $this->controller->method) {
 			$this->recordModel = \Vtiger_Record_Model::getCleanInstance($moduleName);
-			if (!$this->recordModel->isCreatable()) {
+			if (!$this->recordModel->isCreateable()) {
 				throw new \Api\Core\Exception('No permissions to create record', 403);
 			}
 		} else {
@@ -249,7 +249,7 @@ class Record extends \Api\Core\BaseAction
 	 */
 	public function delete(): bool
 	{
-		$this->recordModel->changeState(\App\Record::STATE_TRASH);
+		$this->recordModel->changeState('Trash');
 		return true;
 	}
 

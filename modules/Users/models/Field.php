@@ -109,11 +109,9 @@ class Users_Field_Model extends Vtiger_Field_Model
 	/**
 	 * Function to check whether this field editable or not.
 	 *
-	 * @param string $viewName
-	 *
 	 * @return bool true/false
 	 */
-	public function isEditable(string $viewName = 'Edit'): bool
+	public function isEditable(): bool
 	{
 		if (null === $this->get('editable')) {
 			if (115 === $this->get('uitype') && (!\App\User::getCurrentUserModel()->isAdmin() || \App\User::getCurrentUserId() === $this->get('recordId'))) {
@@ -123,7 +121,7 @@ class Users_Field_Model extends Vtiger_Field_Model
 			} elseif ('authy_secret_totp' === $this->getColumnName()) {
 				$permission = $this->get('recordId') === \App\User::getCurrentUserId();
 			} else {
-				$permission = parent::isEditable($viewName);
+				$permission = parent::isEditable();
 			}
 			$this->set('editable', $permission);
 		}
@@ -143,11 +141,11 @@ class Users_Field_Model extends Vtiger_Field_Model
 	}
 
 	/** {@inheritdoc} */
-	public function isWritable(string $viewName = 'Edit'): bool
+	public function isWritable()
 	{
 		if (('is_admin' === $this->getName()) && \App\User::getCurrentUserModel()->isAdmin()) {
 			return true;
 		}
-		return parent::isWritable($viewName);
+		return parent::isWritable();
 	}
 }

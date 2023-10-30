@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-Magento-Edit -->
 	<div class="o-breadcrumb widget_header mb-2 d-flex flex-nowrap flex-md-wrap justify-content-between px-2 row">
@@ -6,12 +6,12 @@
 			{include file=\App\Layout::getTemplatePath('BreadCrumbs.tpl', $MODULE_NAME)}
 		</div>
 	</div>
-	<div class="editViewContainer js-edit-form">
+	<div class="editViewContainer">
 		<div class="alert alert-warning">
 			<span class="mdi mdi-information-outline mr-2 u-fs-3x float-left"></span>
 			{\App\Language::translate('LBL_MAGENTO_ALERT', $QUALIFIED_MODULE)}<br>
 		</div>
-		<form class="js-form form-horizontal recordEditView" method="post" id="EditView" action="index.php" data-js="submit|validationEngine">
+		<form class="js-edit-form form-horizontal recordEditView" method="post" id="EditView" action="index.php" data-js="submit|validationEngine">
 			<input type="hidden" name="parent" value="Settings">
 			<input type="hidden" name="module" value="{$MODULE_NAME}">
 			<input type="hidden" name="action" value="SaveAjax">
@@ -48,7 +48,6 @@
 					{/foreach}
 				</tbody>
 			</table>
-			<br />
 			<div class="tpl-EditViewActions c-form__action-panel ml-0">
 				<button class="btn btn-success" type="submit">
 					<span class="fas fa-check u-mr-5px"></span>

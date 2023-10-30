@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-LayoutEditor-EditField -->
 	<div>
@@ -41,25 +41,6 @@
 									id="label" data-validation-engine="validate[maxSize[50]]" />
 							</div>
 						</div>
-						{if $FIELD_MODEL->getUITypeModel()->isResizableColumn()}
-							{assign var=ACCEPTABLE_LENGTH_RANGE value=$FIELD_MODEL->getAcceptableLengthRange()}
-							<div class="form-row form-group">
-								{if in_array($FIELD_MODEL->getFieldDataType(),['integer','double'])}
-									<div class="col">
-										<label for="minLength"><strong>{App\Language::translate('LBL_MINIMUM_LENGTH', $QUALIFIED_MODULE)}</strong></label>
-										<input type="text" class="form-control" id="minLength" name="minLength"
-											data-validation-engine="validate[required,custom[integer],min[{$ACCEPTABLE_LENGTH_RANGE['min']}],max[{$ACCEPTABLE_LENGTH_RANGE['max']}]]"
-											value="{$FIELD_MODEL->getMinValue()}" />
-									</div>
-								{/if}
-								<div class="col">
-									<label for="maxLength"><strong>{App\Language::translate('LBL_MAXIMUM_LENGTH', $QUALIFIED_MODULE)}</strong></label>
-									<input type="text" class="form-control {if $FIELD_MODEL->getFieldDataType() eq 'string'} js-string-max-length{/if}" id="maxLength" name="maxLength"
-										data-validation-engine="validate[required,custom[integer],min[{$ACCEPTABLE_LENGTH_RANGE['min']}],max[{$ACCEPTABLE_LENGTH_RANGE['max']}]]"
-										value="{$FIELD_MODEL->getMaxValue()}" />
-								</div>
-							</div>
-						{/if}
 						<div class="checkbox my-1">
 							<input type="hidden" name="mandatory" value="O" />
 							<input type="checkbox" name="mandatory"
@@ -190,7 +171,7 @@
 							</div>
 						{/if}
 						<div class="form-group">
-							<label for="maxlengthtext"><strong>{App\Language::translate('LBL_MAX_DISPLAY_LENGTH_TEXT', $QUALIFIED_MODULE)}</strong></label>
+							<label for="maxlengthtext"><strong>{App\Language::translate('LBL_MAX_LENGTH_TEXT', $QUALIFIED_MODULE)}</strong></label>
 							<input type="text" class="form-control" id="maxlengthtext" name="maxlengthtext"
 								value="{$FIELD_MODEL->get('maxlengthtext')|escape}" />
 						</div>

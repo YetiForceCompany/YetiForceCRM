@@ -5,7 +5,7 @@
  * @package   Tests
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -41,7 +41,7 @@ final class MailTest extends \Tests\Base
 		$recordModel->set('individual_delivery', 0);
 		$recordModel->save();
 
-		// \App\Cache::delete('DefaultSmtp', '');
+		\App\Cache::delete('DefaultSmtp', '');
 		$defaultSmtp = \App\Mail::getDefaultSmtp();
 		static::assertNotEmpty($defaultSmtp);
 	}

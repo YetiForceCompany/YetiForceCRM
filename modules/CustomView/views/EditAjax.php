@@ -14,10 +14,10 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
-		$sourceModule = $request->getByType('source_module', \App\Purifier::ALNUM);
+		$sourceModuel = $request->getByType('source_module', \App\Purifier::ALNUM);
 		$permissions = false;
 		if ($request->getBoolean('duplicate') || $request->isEmpty('record')) {
-			$permissions = \App\Privilege::isPermitted($sourceModule, 'CreateCustomFilter');
+			$permissions = \App\Privilege::isPermitted($sourceModuel, 'CreateCustomFilter');
 		} else {
 			$permissions = CustomView_Record_Model::getInstanceById($request->getInteger('record'))->isEditable();
 		}
@@ -46,15 +46,6 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 				$recordStructureModulesField[$relatedModuleName][$referenceField->getFieldName()] = Vtiger_RecordStructure_Model::getInstanceForModule(Vtiger_Module_Model::getInstance($relatedModuleName))->getStructure();
 			}
 		}
-		$invFields = [];
-		if ($sourceModuleModel->isInventory()) {
-			foreach ($sourceModuleModel->getInventoryModel()->getFields() as $invField) {
-				if ($invField->isSearchable()) {
-					$invFields['LBL_ADVANCED_BLOCK'][$invField->getColumnName()] = $invField;
-				}
-			}
-		}
-
 		if (!empty($record)) {
 			$customViewModel = CustomView_Record_Model::getInstanceById($record);
 			$viewer->assign('MODE', 'edit');
@@ -68,7 +59,6 @@ class CustomView_EditAjax_View extends Vtiger_IndexAjax_View
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('RECORD_STRUCTURE_RELATED_MODULES', $recordStructureModulesField);
 		$viewer->assign('RECORD_STRUCTURE', Vtiger_RecordStructure_Model::getInstanceForModule($sourceModuleModel)->getStructure());
-		$viewer->assign('RECORD_STRUCTURE_INV', $invFields);
 		$viewer->assign('CUSTOMVIEW_MODEL', $customViewModel);
 		if (!$request->getBoolean('duplicate')) {
 			$viewer->assign('RECORD_ID', $record);

@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 $sitebar-border: 1px solid #ccc;
 $modal-body-paddings: 2rem;
 $h-modal-header: calculate-rem(55px);
@@ -784,7 +784,8 @@ $h-calendar-form-actions: calculate-rem(49px);
 				top: $h-header;
 				right: calc(25% - 1px);
 				z-index: 100;
-				border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
+				//border-left: 1px solid material-color('grey', '300');
+				//border-radius: $tab-left-border-radius 0 0 $tab-left-border-radius;
 				font-size: calculate-rem(13px);
 
 				@at-root .c-menu--open & {

@@ -5,7 +5,7 @@
  * @package   Controller
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -17,18 +17,6 @@ namespace App\Controller\View;
  */
 abstract class Page extends Base
 {
-	/** {@inheritdoc} */
-	protected function showBodyHeader()
-	{
-		return true;
-	}
-
-	/** {@inheritdoc} */
-	protected function showFooter()
-	{
-		return true;
-	}
-
 	/** {@inheritdoc} */
 	public function preProcess(\App\Request $request, $display = true)
 	{
@@ -46,7 +34,7 @@ abstract class Page extends Base
 		$view->assign('REMINDER_ACTIVE', $activeReminder);
 		$view->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$view->assign('MENUS', $this->getMenu());
-		$view->assign('SHOW_FOOTER_BAR', $this->showFooter() && 8 !== \App\YetiForce\Register::getStatus());
+		$view->assign('SHOW_FOOTER_BAR', $this->showFooter() && 8 !== (new \App\YetiForce\Register())->getStatus());
 		if (!$request->isEmpty('mid')) {
 			$view->assign('MID', $request->getInteger('mid'));
 		}
@@ -99,7 +87,7 @@ abstract class Page extends Base
 			$jsFileNames[] = "modules.$moduleName.resources.AdvanceFilter";
 		}
 		if (\App\Session::has('authenticated_user_id')) {
-			if ('InternalClient' === \App\Mail::getMailComposer()) {
+			if (\App\Mail::checkMailClient()) {
 				$jsFileNames[] = '~layouts/basic/modules/OSSMail/resources/checkmails.js';
 			}
 			if (!\App\RequestUtil::getBrowserInfo()->ie) {
@@ -111,7 +99,7 @@ abstract class Page extends Base
 				}
 			}
 		}
-		foreach (\Vtiger_Link_Model::getAllByType(\vtlib\Link::IGNORE_MODULE, ['FOOTER_SCRIPT']) as $headerScripts) {
+		foreach (\Vtiger_Link_Model::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERSCRIPT']) as $headerScripts) {
 			foreach ($headerScripts as $headerScript) {
 				$jsFileNames[] = $headerScript->linkurl;
 			}
@@ -134,6 +122,33 @@ abstract class Page extends Base
 			}
 		}
 		return $headerCssInstances;
+	}
+
+	/** {@inheritdoc} */
+	public function loadJsConfig(\App\Request $request)
+	{
+		parent::loadJsConfig($request);
+		if ('Settings' !== $request->getRaw('parent')) {
+			$moduleModel = \Vtiger_Module_Model::getInstance($request->getModule());
+			foreach ([
+				'isQuickCreateSupported' => $moduleModel->isQuickCreateSupported(),
+				'isEntityModule' => $moduleModel->isEntityModule(),
+			] as $key => $value) {
+				\App\Config::setJsEnv($key, $value);
+			}
+		}
+	}
+
+	/** {@inheritdoc} */
+	protected function showBodyHeader()
+	{
+		return true;
+	}
+
+	/** {@inheritdoc} */
+	protected function showFooter()
+	{
+		return true;
 	}
 
 	/**
@@ -159,7 +174,7 @@ abstract class Page extends Base
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_VIDEO_CONFERENCE',
 				'linkdata' => ['url' => 'index.php?module=Users&view=MeetingModal&record=' . \App\User::getCurrentUserRealId()],
-				'linkicon' => 'mdi mdi-card-account-phone c-mdi',
+				'icon' => 'mdi mdi-card-account-phone c-mdi',
 				'linkclass' => 'js-show-modal',
 			];
 		}
@@ -169,14 +184,14 @@ abstract class Page extends Base
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_SYSTEM_SETTINGS',
 					'linkurl' => 'index.php?module=YetiForce&parent=Settings&view=Shop',
-					'linkicon' => 'fas fa-cog fa-fw',
+					'icon' => 'fas fa-cog fa-fw',
 				];
 			} else {
 				$headerLinks[] = [
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_USER_PANEL',
 					'linkurl' => 'index.php',
-					'linkicon' => 'fas fa-house-user fa-fw',
+					'icon' => 'fas fa-house-user fa-fw',
 				];
 			}
 		}
@@ -184,7 +199,7 @@ abstract class Page extends Base
 			'linktype' => 'HEADERLINK',
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
-			'linkicon' => 'fas fa-power-off fa-fw',
+			'icon' => 'fas fa-power-off fa-fw',
 			'linkclass' => 'btn-danger d-md-none js-post-action',
 		];
 
@@ -221,7 +236,7 @@ abstract class Page extends Base
 				'linklabel' => 'LBL_MY_PREFERENCES',
 				'linkurl' => $userModel->getPreferenceDetailViewUrl(),
 				'linkclass' => 'd-block',
-				'linkicon' => 'fas fa-user-cog fa-fw',
+				'icon' => 'fas fa-user-cog fa-fw',
 			];
 		}
 		if (\App\Config::security('CHANGE_LOGIN_PASSWORD') && \App\User::getCurrentUserId() === \App\User::getCurrentUserRealId()) {
@@ -230,7 +245,7 @@ abstract class Page extends Base
 				'linklabel' => 'LBL_CHANGE_PASSWORD',
 				'linkdata' => ['url' => 'index.php?module=Users&view=PasswordModal&mode=change&record=' . $userModel->getId()],
 				'linkclass' => 'showModal d-block',
-				'linkicon' => 'yfi yfi-change-passowrd',
+				'icon' => 'yfi yfi-change-passowrd',
 			];
 		}
 		if (
@@ -242,7 +257,7 @@ abstract class Page extends Base
 				'linklabel' => 'LBL_2FA_TOTP_QR_CODE',
 				'linkdata' => ['url' => 'index.php?module=Users&view=TwoFactorAuthenticationModal&record=' . $userModel->getId()],
 				'linkclass' => 'showModal d-block',
-				'linkicon' => 'fas fa-key',
+				'icon' => 'fas fa-key',
 			];
 		}
 		if (\Users_Module_Model::getSwitchUsers()) {
@@ -250,7 +265,7 @@ abstract class Page extends Base
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'SwitchUsers',
 				'linkurl' => '',
-				'linkicon' => 'fas fa-exchange-alt fa-fw',
+				'icon' => 'fas fa-exchange-alt fa-fw',
 				'linkdata' => ['url' => $userModel->getSwitchUsersUrl()],
 				'linkclass' => 'showModal d-block',
 			];
@@ -260,7 +275,7 @@ abstract class Page extends Base
 			'linklabel' => 'BTN_YOUR_ACCOUNT_ACCESS_HISTORY',
 			'linkdata' => ['url' => 'index.php?module=Users&view=LoginHistoryModal&mode=change&record=' . $userModel->get('id')],
 			'linkclass' => 'showModal d-block',
-			'linkicon' => 'yfi yfi-login-history',
+			'icon' => 'yfi yfi-login-history',
 		];
 		$headerLinks[] = [
 			'linktype' => 'SEPARATOR',
@@ -270,7 +285,7 @@ abstract class Page extends Base
 			'linktype' => 'HEADERLINK',
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
-			'linkicon' => 'fas fa-power-off fa-fw',
+			'icon' => 'fas fa-power-off fa-fw',
 			'linkclass' => 'd-none d-sm-none d-md-block js-post-action',
 		];
 		$headerLinkInstances = [];
@@ -288,21 +303,6 @@ abstract class Page extends Base
 	protected function getMenu()
 	{
 		return \Vtiger_Menu_Model::getAll();
-	}
-
-	/** {@inheritdoc} */
-	public function loadJsConfig(\App\Request $request)
-	{
-		parent::loadJsConfig($request);
-		if ('Settings' !== $request->getRaw('parent')) {
-			$moduleModel = \Vtiger_Module_Model::getInstance($request->getModule());
-			foreach ([
-				'isQuickCreateSupported' => $moduleModel->isQuickCreateSupported(),
-				'isEntityModule' => $moduleModel->isEntityModule(),
-			] as $key => $value) {
-				\App\Config::setJsEnv($key, $value);
-			}
-		}
 	}
 
 	/**

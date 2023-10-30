@@ -6,7 +6,7 @@
  * @package Integration
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -19,9 +19,6 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 {
 	/** {@inheritdoc} */
 	const NAME = 'LBL_PRODUCTS';
-
-	/** {@inheritdoc} */
-	const MODULE_NAME = 'Products';
 
 	/** {@inheritdoc} */
 	const SEQUENCE = 4;
@@ -52,10 +49,7 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 	public function process(): int
 	{
 		$query = (new \App\Db\Query())->select([
-			'dbo.ARTYKUL.ID_ARTYKULU', 'dbo.ARTYKUL.NAZWA', 'dbo.ARTYKUL.STAN', 'dbo.ARTYKUL.STAN_MINIMALNY',
-			'dbo.ARTYKUL.STAN_MAKSYMALNY', 'dbo.ARTYKUL.INDEKS_KATALOGOWY', 'dbo.ARTYKUL.INDEKS_HANDLOWY',
-			'dbo.ARTYKUL.INDEKS_PRODUCENTA', 'dbo.ARTYKUL.VAT_SPRZEDAZY', 'dbo.ARTYKUL.CENA_ZAKUPU_BRUTTO',
-			'dbo.ARTYKUL.KOD_KRESKOWY', 'dbo.ARTYKUL.OPIS', 'dbo.ARTYKUL.WAGA',
+			'dbo.ARTYKUL.*',
 			'category' => 'dbo.KATEGORIA_ARTYKULU_TREE.NAZWA',
 			'unitName' => 'dbo.JEDNOSTKA.SKROT',
 			'total' => 'dbo.CENA_ARTYKULU.CENA_NETTO',
@@ -111,15 +105,12 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 	public function importRecord(): int
 	{
 		if ($id = $this->findInMapTable($this->waproId, 'ARTYKUL')) {
-			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, self::MODULE_NAME);
+			$this->recordModel = \Vtiger_Record_Model::getInstanceById($id, 'Products');
 		} else {
-			$this->recordModel = \Vtiger_Record_Model::getCleanInstance(self::MODULE_NAME);
+			$this->recordModel = \Vtiger_Record_Model::getCleanInstance('Products');
 			$this->recordModel->setDataForSave([\App\Integrations\Wapro::RECORDS_MAP_TABLE_NAME => [
 				'wtable' => 'ARTYKUL',
 			]]);
-			if ($userId = $this->searchUserInActivity($this->waproId, 'ARTYKUL')) {
-				$this->recordModel->set('assigned_user_id', $userId);
-			}
 		}
 		$this->recordModel->set('wapro_id', $this->waproId);
 		$this->recordModel->set('discontinued', 1);
@@ -133,61 +124,6 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 			return $this->recordModel->getPreviousValue() ? 1 : 3;
 		}
 		return 2;
-	}
-
-	/**
-	 * Import record by id.
-	 *
-	 * @param int $id
-	 *
-	 * @return int
-	 */
-	public function importRecordById(int $id): int
-	{
-		$this->row = $this->getRecordById($id);
-		$this->waproId = $this->row['ID_ARTYKULU'];
-		try {
-			$this->importRecord();
-		} catch (\Throwable $th) {
-			$this->logError($th);
-			throw $th;
-		}
-		return $this->recordModel->getId();
-	}
-
-	/**
-	 * Get product record by record id.
-	 *
-	 * @param int $id
-	 *
-	 * @return array
-	 */
-	public function getRecordById(int $id): array
-	{
-		if (isset($this->cache[$id])) {
-			return $this->cache[$id];
-		}
-		return $this->cache[$id] = (new \App\Db\Query())->select([
-			'dbo.ARTYKUL.ID_ARTYKULU', 'dbo.ARTYKUL.NAZWA', 'dbo.ARTYKUL.STAN', 'dbo.ARTYKUL.STAN_MINIMALNY',
-			'dbo.ARTYKUL.STAN_MAKSYMALNY', 'dbo.ARTYKUL.INDEKS_KATALOGOWY', 'dbo.ARTYKUL.INDEKS_HANDLOWY',
-			'dbo.ARTYKUL.INDEKS_PRODUCENTA', 'dbo.ARTYKUL.VAT_SPRZEDAZY',
-			'dbo.ARTYKUL.KOD_KRESKOWY', 'dbo.ARTYKUL.OPIS', 'dbo.ARTYKUL.WAGA',
-			'category' => 'dbo.KATEGORIA_ARTYKULU_TREE.NAZWA',
-			'unitName' => 'dbo.JEDNOSTKA.SKROT',
-			'total' => 'dbo.CENA_ARTYKULU.CENA_NETTO',
-			'gross' => 'dbo.CENA_ARTYKULU.CENA_BRUTTO',
-		])->from('dbo.ARTYKUL')
-			->leftJoin('dbo.KATEGORIA_ARTYKULU_TREE', 'dbo.ARTYKUL.ID_KATEGORII_TREE = dbo.KATEGORIA_ARTYKULU_TREE.ID_KATEGORII_TREE')
-			->leftJoin('dbo.JEDNOSTKA', 'dbo.ARTYKUL.ID_JEDNOSTKI = dbo.JEDNOSTKA.ID_JEDNOSTKI')
-			->leftJoin('dbo.CENA_ARTYKULU', 'dbo.ARTYKUL.ID_CENY_DOM = dbo.CENA_ARTYKULU.ID_CENY')
-			->where(['dbo.ARTYKUL.ID_ARTYKULU' => $id])
-			->one($this->controller->getDb()) ?? [];
-	}
-
-	/** {@inheritdoc} */
-	public function getCounter(): int
-	{
-		return (new \App\Db\Query())->from('dbo.ARTYKUL')->count('*', $this->controller->getDb());
 	}
 
 	/**
@@ -236,5 +172,57 @@ class Products extends \App\Integrations\Wapro\Synchronizer
 	protected function convertTaxes(string $value, array $params): string
 	{
 		return $this->getGlobalTax($value, true);
+	}
+
+	/**
+	 * Import record by id.
+	 *
+	 * @param int $id
+	 *
+	 * @return int
+	 */
+	public function importRecordById(int $id): int
+	{
+		$this->row = $this->getRecordById($id);
+		$this->waproId = $this->row['ID_ARTYKULU'];
+		try {
+			$this->importRecord();
+		} catch (\Throwable $th) {
+			$this->logError($th);
+			throw $th;
+		}
+		return $this->recordModel->getId();
+	}
+
+	/**
+	 * Get product record by record id.
+	 *
+	 * @param int $id
+	 *
+	 * @return array
+	 */
+	public function getRecordById(int $id): array
+	{
+		if (isset($this->cache[$id])) {
+			return $this->cache[$id];
+		}
+		return $this->cache[$id] = (new \App\Db\Query())->select([
+			'dbo.ARTYKUL.*',
+			'category' => 'dbo.KATEGORIA_ARTYKULU_TREE.NAZWA',
+			'unitName' => 'dbo.JEDNOSTKA.SKROT',
+			'total' => 'dbo.CENA_ARTYKULU.CENA_NETTO',
+			'gross' => 'dbo.CENA_ARTYKULU.CENA_BRUTTO',
+		])->from('dbo.ARTYKUL')
+			->leftJoin('dbo.KATEGORIA_ARTYKULU_TREE', 'dbo.ARTYKUL.ID_KATEGORII_TREE = dbo.KATEGORIA_ARTYKULU_TREE.ID_KATEGORII_TREE')
+			->leftJoin('dbo.JEDNOSTKA', 'dbo.ARTYKUL.ID_JEDNOSTKI = dbo.JEDNOSTKA.ID_JEDNOSTKI')
+			->leftJoin('dbo.CENA_ARTYKULU', 'dbo.ARTYKUL.ID_CENY_DOM = dbo.CENA_ARTYKULU.ID_CENY')
+			->where(['dbo.ARTYKUL.ID_ARTYKULU' => $id])
+			->one($this->controller->getDb()) ?? [];
+	}
+
+	/** {@inheritdoc} */
+	public function getCounter(): int
+	{
+		return (new \App\Db\Query())->from('dbo.ARTYKUL')->count('*', $this->controller->getDb());
 	}
 }

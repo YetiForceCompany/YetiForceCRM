@@ -1,25 +1,50 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-LayoutEditor-inventoryTypes-Base -->
-	{foreach from=$FIELD_INSTANCE->getConfigFields() item=$FIELD_MODEL}
-		<div class="form-group row align-items-center">
-			<label class="u-font-weight-600 col-md-5 textAlignRight align-self-center col-form-label">
-				{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $QUALIFIED_MODULE)}
-				{if $FIELD_MODEL->isMandatory()}<span class="redColor">*</span>{/if}
-				{if $FIELD_MODEL->get('tooltip')}
-					<div class="js-popover-tooltip ml-1 d-inline my-auto u-h-fit u-cursor-pointer" data-js="popover" data-trigger="hover focus" data-content="{\App\Language::translate($FIELD_MODEL->get('tooltip'), $QUALIFIED_MODULE)}">
+	<div class="form-group row align-items-center">
+		<div class="col-md-4 col-form-label text-right">
+			{\App\Language::translate('LBL_LABEL_NAME', $QUALIFIED_MODULE)}:
+		</div>
+		<div class="col-md-7">
+			{assign var='LABEL' value=$FIELD_INSTANCE->getDefaultLabel()}
+			{if $FIELD_INSTANCE->get('label') }
+				{assign var='LABEL' value=$FIELD_INSTANCE->get('label')}
+			{/if}
+			<input name="label" value="{$LABEL}" type="text" class="form-control"
+				data-validation-engine="validate[required]" />
+		</div>
+	</div>
+	<div class="form-group row align-items-center">
+		<div class="col-md-4 col-form-label text-right">
+			{\App\Language::translate('LBL_DISPLAY_TYPE', $QUALIFIED_MODULE)}:
+		</div>
+		<div class="col-md-7">
+			<select class='form-control select2' name="displayType" data-validation-engine="validate[required]">
+				{foreach from=$FIELD_INSTANCE->displayTypeBase() item=ITEM key=KEY}
+					<option value="{$ITEM}" {if $ITEM eq $FIELD_INSTANCE->get('displayType')} selected {/if}>
+						{\App\Language::translate($KEY, $QUALIFIED_MODULE)}
+					</option>
+				{/foreach}
+			</select>
+		</div>
+	</div>
+	<div class="form-group row">
+		<div class="col-md-4 col-form-label text-right">
+			{\App\Language::translate('LBL_COLSPAN', $QUALIFIED_MODULE)}:
+		</div>
+		<div class="col-md-7">
+			<div class=" input-group">
+				<input name="colSpan" value="{$FIELD_INSTANCE->getColSpan()}" type="text" class="form-control"
+					data-validation-engine="validate[required, custom[integer]]" />
+				<div class="input-group-append">
+					<div class="input-group-text js-popover-tooltip u-cursor-pointer" data-js="popover"
+						data-placement="top"
+						data-content="{App\Language::translate('LBL_MAX_WIDTH_COLUMN_INFO', $QUALIFIED_MODULE)}">
 						<span class="fas fa-info-circle"></span>
 					</div>
-				{/if}:
-			</label>
-			<div class="fieldValue col-md-7">
-				{if $FIELD_MODEL->isEditableReadOnly()}
-					<input type="text" disabled="disabled" class="form-control-plaintext" value="{\App\Purifier::encodeHtml($FIELD_MODEL->getDisplayValue($FIELD_MODEL->get('fieldvalue'), false, false, true))}" />
-				{else}
-					{include file=\App\Layout::getTemplatePath($FIELD_MODEL->getUITypeModel()->getTemplateName(), $QUALIFIED_MODULE) FIELD_MODEL=$FIELD_MODEL MODULE=$QUALIFIED_MODULE MODULE_NAME=$QUALIFIED_MODULE RECORD=null}
-				{/if}
+				</div>
 			</div>
 		</div>
-	{/foreach}
+	</div>
 	<!-- /tpl-Settings-LayoutEditor-inventoryTypes-Base -->
 {/strip}

@@ -5,7 +5,7 @@
  * @package Handler
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 /**
@@ -13,12 +13,6 @@
  */
 class Accounts_DuplicateVatId_Handler
 {
-	/** @var array List of fields for verification */
-	const FIELDS = [
-		'Accounts' => ['vat_id'],
-		'Leads' => ['vat_id'],
-	];
-
 	/**
 	 * EditViewPreSave handler function.
 	 *
@@ -28,36 +22,21 @@ class Accounts_DuplicateVatId_Handler
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$response = ['result' => true];
-		$values = [];
-		foreach (self::FIELDS[$recordModel->getModuleName()] as $fieldName) {
-			$fieldModel = $recordModel->getModule()->getFieldByName($fieldName);
-			if ($fieldModel->isViewable() && ($value = $recordModel->get($fieldName))) {
-				$values[] = $value;
-			}
-		}
-		foreach (self::FIELDS as $moduleName => $fields) {
-			$queryGenerator = new \App\QueryGenerator($moduleName);
+		$fieldModel = $recordModel->getModule()->getFieldByName('vat_id');
+		if ($fieldModel->isViewable() && ($vat = $recordModel->get('vat_id'))) {
+			$queryGenerator = new \App\QueryGenerator($recordModel->getModuleName());
 			$queryGenerator->setStateCondition('All');
 			$queryGenerator->setFields(['id'])->permissions = false;
-			if ($moduleName === $recordModel->getModuleName() && $recordModel->getId()) {
+			$queryGenerator->addCondition($fieldModel->getName(), $vat, 'e');
+			if ($recordModel->getId()) {
 				$queryGenerator->addCondition('id', $recordModel->getId(), 'n');
-			}
-			foreach ($fields as $fieldName) {
-				$queryGenerator->addCondition($fieldName, $values, 'e', false);
 			}
 			if ($queryGenerator->createQuery()->exists()) {
 				$response = [
 					'result' => false,
 					'hoverField' => 'vat_id',
-					'message' => App\Language::translateArgs(
-						'LBL_DUPLICATE_VAT_ID',
-						$recordModel->getModuleName(),
-						\App\Language::translate($moduleName, $moduleName)
-					),
-					'type' => 'confirm',
-					'hash' => hash('sha256', implode('|', $recordModel->getData()))
+					'message' => App\Language::translate('LBL_DUPLICATE_VAT_ID', $recordModel->getModuleName())
 				];
-				break;
 			}
 		}
 		return $response;

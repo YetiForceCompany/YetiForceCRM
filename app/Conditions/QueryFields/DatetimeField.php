@@ -8,7 +8,7 @@ namespace App\Conditions\QueryFields;
  * @package UIType
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -118,6 +118,10 @@ class DatetimeField extends DateField
 	 */
 	public function getStdValue()
 	{
+		if ('custom' === $this->operator) {
+			$date = $this->getArrayValue();
+			return [$date[0], $date[1]];
+		}
 		$date = \DateTimeRange::getDateRangeByType($this->operator);
 		return [$date[0] . ' 00:00:00', $date[1] . ' 23:59:59'];
 	}

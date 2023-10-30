@@ -7,7 +7,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -88,9 +88,6 @@ class PlCeidg extends Base
 			'vatId' => 'vat_id',
 			'taxNumber' => 'registration_number_2',
 			'ncr' => 'registration_number_1',
-		],
-		'Partners' => [
-			'vatId' => 'vat_id',
 		],
 	];
 

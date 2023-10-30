@@ -6,7 +6,7 @@
  * @package   Settings.View
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -34,14 +34,13 @@ class Settings_LayoutEditor_CreateInventoryFields_View extends Settings_Vtiger_I
 	{
 		$inventory = Vtiger_Inventory_Model::getInstance($request->getByType('sourceModule', 'Standard'));
 		if ($request->has('fieldName')) {
-			$fieldInstance = $inventory->getField($request->getByType('fieldName', \App\Purifier::ALNUM));
+			$fieldInstance = $inventory->getField($request->getByType('fieldName', 'Alnum'));
 		} else {
-			$fieldInstance = $inventory->getFieldCleanInstance($request->getByType('type', \App\Purifier::STANDARD))->setDefaultDataConfig();
+			$fieldInstance = $inventory->getFieldCleanInstance($request->getByType('type', 'Standard'));
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FIELD_INSTANCE', $fieldInstance);
 		$viewer->assign('INVENTORY_MODEL', $inventory);
-		$viewer->assign('VIEW', $request->getByType('view', \App\Purifier::ALNUM));
 		$viewer->view('CreateInventoryFieldsStep2.tpl', $request->getModule(false));
 	}
 }

@@ -27,12 +27,13 @@ class Field extends FieldBasic
 	/**
 	 * Set values for picklist field (for all the roles).
 	 *
-	 * @param array $values List of values to add
+	 * @param array List of values to add
+	 * @param mixed $values
 	 */
 	public function setPicklistValues($values)
 	{
 		// Non-Role based picklist values
-		if (\in_array($this->uitype, [16, 18])) {
+		if (16 === $this->uitype) {
 			$this->setNoRolePicklistValues($values);
 			return true;
 		}

@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -48,6 +48,13 @@ class Logout extends \Api\Core\BaseAction
 	 *			@OA\XmlContent(ref="#/components/schemas/UsersLogoutResponseBody"),
 	 *		),
 	 * ),
+	 *	@OA\SecurityScheme(
+	 * 		name="X-TOKEN",
+	 *   	type="apiKey",
+	 *   	in="header",
+	 *		securityScheme="token",
+	 *   	description="Webservice api token by user header"
+	 *	),
 	 * @OA\Schema(
 	 * 		schema="UsersLogoutResponseBody",
 	 * 		title="Users module - Users logout response body",

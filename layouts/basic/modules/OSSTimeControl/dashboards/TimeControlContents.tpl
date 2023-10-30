@@ -1,11 +1,9 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if $DATA['show_chart'] }
 		{assign var=SHOWING_ICON value=$TCPMODULE_MODEL->get('timeControlWidget')}
 		<div class="clearfix"></div>
-		<div class="widgetChartContainer">
-			<div class="js-chart-container h-100"></div>
-		</div>
+		<div class="widgetChartContainer"><canvas></canvas></div>
 	{else}
 		<span class="noDataMsg">
 			{\App\Language::translate('LBL_NO_RECORDS_MATCHED_THIS_CRITERIA')}

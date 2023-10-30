@@ -14,38 +14,75 @@ Vtiger_Loader::includeOnce('~modules/com_vtiger_workflow/Workflow.php');
 
 class VTWorkflowManager
 {
-	/** @var int On first save. */
+	/**
+	 * On first save.
+	 *
+	 * @var int
+	 */
 	public static $ON_FIRST_SAVE = 1;
 
-	/** @var int Once. */
+	/**
+	 * Once.
+	 *
+	 * @var int
+	 */
 	public static $ONCE = 2;
 
-	/** @var int On every save. */
+	/**
+	 * On every save.
+	 *
+	 * @var int
+	 */
 	public static $ON_EVERY_SAVE = 3;
 
-	/** @var int On modify. */
+	/**
+	 * On modify.
+	 *
+	 * @var int
+	 */
 	public static $ON_MODIFY = 4;
 
-	/** @var int On delete. */
+	/**
+	 * On delete.
+	 *
+	 * @var int
+	 */
 	public static $ON_DELETE = 5;
 
-	/** @var int On schedule. */
+	/**
+	 * On schedule.
+	 *
+	 * @var int
+	 */
 	public static $ON_SCHEDULE = 6;
 
-	/** @var int Manual. */
+	/**
+	 * Manual.
+	 *
+	 * @var int
+	 */
 	public static $MANUAL = 7;
 
-	/** @var int Trigger. */
+	/**
+	 * Trigger.
+	 *
+	 * @var int
+	 */
 	public static $TRIGGER = 8;
 
-	/** @var int Block edit. */
+	/**
+	 * Block edit.
+	 *
+	 * @var int
+	 */
 	public static $BLOCK_EDIT = 9;
 
-	/** @var int On related. */
+	/**
+	 * On related.
+	 *
+	 * @var int
+	 */
 	public static $ON_RELATED = 10;
-
-	/** @var int On related. */
-	public const TOKEN_LINK = 11;
 
 	/**
 	 * Save workflow data.
@@ -154,7 +191,7 @@ class VTWorkflowManager
 			\App\Cache::save('WorkflowsForModule', $moduleName, $rows);
 		}
 		if ($executionCondition) {
-			foreach ($rows as $key => $row) {
+			foreach ($rows as $key => &$row) {
 				if ($row['execution_condition'] !== $executionCondition) {
 					unset($rows[$key]);
 				}
@@ -190,7 +227,7 @@ class VTWorkflowManager
 	 *
 	 * @param string $type
 	 *
-	 * @return Workflow
+	 * @return \workflowClass
 	 */
 	protected function getWorkflowInstance($type = 'basic')
 	{
@@ -206,14 +243,15 @@ class VTWorkflowManager
 	 * @param The id of the workflow
 	 * @param mixed $id
 	 *
-	 * @return Workflow|null workflow object
+	 * @return A workflow object
 	 */
-	public function retrieve($id): ?Workflow
+	public function retrieve($id)
 	{
 		$data = (new App\Db\Query())->from('com_vtiger_workflows')->where(['workflow_id' => $id])->one();
 		if ($data) {
 			$workflow = $this->getWorkflowInstance($data['type']);
 			$workflow->setup($data);
+
 			return $workflow;
 		}
 		return null;
@@ -224,7 +262,7 @@ class VTWorkflowManager
 	 *
 	 * @param int $id
 	 */
-	public function delete($id): void
+	public function delete($id)
 	{
 		$dbCommand = \App\Db::getInstance()->createCommand();
 		$subQuery = (new \App\Db\Query())->select(['workflow_id'])->from('com_vtiger_workflows')->where(['workflow_id' => $id])->andWhere(['or', ['defaultworkflow' => null], ['<>', 'defaultworkflow', 1]]);
@@ -239,12 +277,13 @@ class VTWorkflowManager
 	 *
 	 * @return Workflow
 	 */
-	public function newWorkflow($moduleName): Workflow
+	public function newWorkflow($moduleName)
 	{
 		$workflow = $this->getWorkflowInstance();
 		$workflow->moduleName = $moduleName;
 		$workflow->executionCondition = self::$ON_EVERY_SAVE;
 		$workflow->type = 'basic';
+
 		return $workflow;
 	}
 

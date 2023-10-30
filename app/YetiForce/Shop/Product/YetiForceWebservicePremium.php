@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -16,42 +16,6 @@ namespace App\YetiForce\Shop\Product;
  */
 class YetiForceWebservicePremium extends \App\YetiForce\Shop\AbstractBaseProduct
 {
-	/** {@inheritdoc} */
-	public $label = 'YetiForce Webservice Premium';
-
-	/** {@inheritdoc} */
-	public $category = 'Integrations';
-
-	/** {@inheritdoc} */
-	public $website = 'https://yetiforce.com/en/yetiforce-webservice-premium';
-
-	/** {@inheritdoc} */
-	public $prices = [
-		'Micro' => 45,
-		'Small' => 85,
-		'Medium' => 165,
-		'Large' => 325,
-		'Corporation' => 645,
-	];
-
-	/** {@inheritdoc} */
-	public $featured = true;
-
-	/** {@inheritdoc} */
-	public function verify(): array
-	{
-		$message = $status = true;
-		if (\App\YetiForce\Register::getProducts('YetiForceWebservicePremium')) {
-			[$status, $message] = \App\YetiForce\Shop::checkWithMessage('YetiForceWebservicePremium');
-		} else {
-			if (\App\Integrations\Services::getByType('WebservicePremium')) {
-				$message = 'LBL_PAID_FUNCTIONALITY_ACTIVATED';
-				$status = false;
-			}
-		}
-		return ['status' => $status, 'message' => $message];
-	}
-
 	/** {@inheritdoc} */
 	public function getAdditionalButtons(): array
 	{

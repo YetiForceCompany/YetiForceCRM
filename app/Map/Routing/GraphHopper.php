@@ -5,7 +5,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  *
  * @see       https://graphhopper.com
@@ -28,13 +28,13 @@ class GraphHopper extends Base
 		$options = [
 			'timeout' => 120,
 			'http_errors' => false,
-			'json' => array_merge([
+			'json' => [
 				'points' => $this->parsePoints(),
 				'points_encoded' => false,
 				'locale' => \App\Language::getShortLanguageName(),
-			], $this->params),
+			],
 		];
-		$url = $this->url . '/route';
+		$url = $this->url . '/route?' . ($this->params['key'] ?? '');
 		\App\Log::beginProfile("POST|YetiForceRouting::calculate|{$url}", __NAMESPACE__);
 		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, $options);
 		\App\Log::endProfile("POST|YetiForceRouting::calculate|{$url}", __NAMESPACE__);

@@ -16,16 +16,16 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 	public function getSearchParams($value, $assignedto, $dates)
 	{
 		$listSearchParams = [];
-		$conditions = [['leadstatus', 'e', $value]];
+		$conditionsArray = [['leadstatus', 'e', $value]];
 		if ('' != $assignedto) {
-			array_push($conditions, ['assigned_user_id', 'e', $assignedto]);
+			array_push($conditionsArray, ['assigned_user_id', 'e', $assignedto]);
 		}
 		if (!empty($dates)) {
-			array_push($conditions, ['createdtime', 'bw', \App\Fields\DateTime::formatToDisplay($dates[0] . ' 00:00:00') . ',' . \App\Fields\DateTime::formatToDisplay($dates[1] . ' 23:59:59')]);
+			array_push($conditionsArray, ['createdtime', 'bw', $dates[0] . ' 00:00:00,' . $dates[1] . ' 23:59:59']);
 		}
-		$listSearchParams[] = $conditions;
+		$listSearchParams[] = $conditionsArray;
 
-		return '&search_params=' . urlencode(json_encode($listSearchParams));
+		return '&search_params=' . json_encode($listSearchParams);
 	}
 
 	/**
@@ -63,23 +63,27 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		}
 		$query->groupBy(['leadstatusvalue', 'vtiger_leadstatus.leadstatusid', 'vtiger_leadstatus.sortorderid'])->orderBy('vtiger_leadstatus.sortorderid');
 		$dataReader = $query->createCommand()->query();
-
 		$chartData = [
-			'dataset' => [],
+			'labels' => [],
+			'datasets' => [
+				[
+					'data' => [],
+					'backgroundColor' => [],
+					'names' => [], // names for link generation
+					'links' => [], // links generated in proccess method
+				],
+			],
 			'show_chart' => false,
 		];
-		$chartData['series'][0]['colorBy'] = 'data';
-		$moduleName = 'Leads';
-		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
 		$colors = \App\Fields\Picklist::getColors('leadstatus');
 		while ($row = $dataReader->read()) {
-			$link = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($row['leadstatusvalue'], $owner, $dateFilter);
-			$chartData['dataset']['source'][] = [\App\Language::translate($row['leadstatusvalue'], $moduleName, null, false), (int) $row['count'], ['link' => $link]];
-			$chartData['color'][] = $colors[$row['leadstatusid']] ?? \App\Colors::getRandomColor($row['leadstatusvalue']);
+			$chartData['labels'][] = \App\Language::translate($row['leadstatusvalue'], 'Leads');
+			$chartData['datasets'][0]['data'][] = (int) $row['count'];
+			$chartData['datasets'][0]['names'][] = $row['leadstatusvalue'];
+			$chartData['datasets'][0]['backgroundColor'][] = $colors[$row['leadstatusid']];
 			$chartData['show_chart'] = true;
 		}
 		$dataReader->close();
-
 		return $chartData;
 	}
 
@@ -102,10 +106,14 @@ class Leads_LeadsByStatus_Dashboard extends Vtiger_IndexAjax_View
 		if (empty($createdTime)) {
 			$createdTime = Settings_WidgetsManagement_Module_Model::getDefaultDateRange($widget);
 		}
-
 		$data = (false === $owner) ? [] : $this->getLeadsByStatus($owner, $createdTime);
 		$createdTime = \App\Fields\Date::formatRangeToDisplay($createdTime);
-
+		$listViewUrl = Vtiger_Module_Model::getInstance($moduleName)->getListViewUrl();
+		$leadStatusAmount = \count($data['datasets'][0]['names']);
+		for ($i = 0; $i < $leadStatusAmount; ++$i) {
+			$data['datasets'][0]['links'][$i] = $listViewUrl . '&viewname=All&entityState=Active' . $this->getSearchParams($data['datasets'][0]['names'][$i], $owner, $createdTime);
+		}
+		//Include special script and css needed for this widget
 		$viewer->assign('WIDGET', $widget);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);

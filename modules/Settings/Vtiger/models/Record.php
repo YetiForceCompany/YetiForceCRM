@@ -13,9 +13,6 @@
  */
 abstract class Settings_Vtiger_Record_Model extends App\Base
 {
-	/** @var Settings_Vtiger_Module_Model Settings module model */
-	public $module;
-
 	/**
 	 * Record ID.
 	 *

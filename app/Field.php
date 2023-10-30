@@ -8,35 +8,35 @@ namespace App;
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 class Field
 {
 	/** @var string[] Help info views. */
-	const HELP_INFO_VIEWS = ['LBL_EDIT_VIEW' => 'Edit', 'LBL_DETAIL_VIEW' => 'Detail', 'LBL_QUICK_CREATE_VIEW' => 'QuickCreateAjax', 'LBL_QUICK_EDIT_VIEW' => 'QuickEditModal'];
+	const HELP_INFO_VIEWS = ['LBL_EDIT_VIEW' => 'Edit', 'LBL_DETAIL_VIEW' => 'Detail', 'LBL_QUICK_CREATE_VIEW' => 'QuickCreateAjax'];
 
 	/** @var array System fields */
 	const SYSTEM_FIELDS = [
 		'assigned_user_id' => [
 			'validationConditions' => ['name'],
-			'name' => 'assigned_user_id', 'column' => 'smownerid',	'label' => 'Assigned To',	'table' => 'vtiger_crmentity',
+			'name' => 'assigned_user_id',	'column' => 'smownerid',	'label' => 'Assigned To',	'table' => 'vtiger_crmentity',
 			'uitype' => 53,	'typeofdata' => 'V~M',	'maximumlength' => 65535,
 		],
 		'createdtime' => [
 			'validationConditions' => ['name'],
-			'name' => 'createdtime', 'column' => 'createdtime',	'label' => 'Created Time',	'table' => 'vtiger_crmentity',
+			'name' => 'createdtime',	'column' => 'createdtime',	'label' => 'Created Time',	'table' => 'vtiger_crmentity',
 			'uitype' => 70,	'typeofdata' => 'DT~O',	'displaytype' => 2,	'maximumlength' => 65535,
 		],
 		'modifiedtime' => [
 			'validationConditions' => ['name'],
-			'name' => 'modifiedtime', 'column' => 'modifiedtime',	'label' => 'Modified Time',	'table' => 'vtiger_crmentity',
+			'name' => 'modifiedtime',	'column' => 'modifiedtime',	'label' => 'Modified Time',	'table' => 'vtiger_crmentity',
 			'uitype' => 70,	'typeofdata' => 'DT~O',	'displaytype' => 2,	'maximumlength' => 65535,
 		],
 		'created_user_id' => [
 			'validationConditions' => ['column'],
-			'name' => 'created_user_id', 'column' => 'smcreatorid',	'label' => 'Created By',	'table' => 'vtiger_crmentity',
+			'name' => 'created_user_id',	'column' => 'smcreatorid',	'label' => 'Created By',	'table' => 'vtiger_crmentity',
 			'uitype' => 52,	'typeofdata' => 'V~O',	'displaytype' => 2,	'quickcreate' => 3, 'masseditable' => 0, 'maximumlength' => 65535,
 		],
 		'modifiedby' => [
@@ -46,28 +46,18 @@ class Field
 		],
 		'shownerid' => [
 			'validationConditions' => ['name'],
-			'name' => 'shownerid', 'column' => 'shownerid',	'label' => 'Share with users',	'table' => 'vtiger_crmentity',
+			'name' => 'shownerid',	'column' => 'shownerid',	'label' => 'Share with users',	'table' => 'vtiger_crmentity',
 			'uitype' => 120,	'typeofdata' => 'V~O',	'columntype' => 'int(11)', 'maximumlength' => 65535,
 		],
 		'private' => [
 			'validationConditions' => ['name'],
-			'name' => 'private', 'column' => 'private',	'label' => 'FL_IS_PRIVATE',	'table' => 'vtiger_crmentity',
+			'name' => 'private',	'column' => 'private',	'label' => 'FL_IS_PRIVATE',	'table' => 'vtiger_crmentity',
 			'uitype' => 56,	'typeofdata' => 'C~O',	'columntype' => 'int(11)', 'maximumlength' => '-128,127', 'presence' => 2, 'generatedtype' => 2,
 		],
 		'share_externally' => [
 			'validationConditions' => ['uitype', 'fieldparams'],
-			'name' => 'share_externally', 'column' => 'share_externally',	'label' => 'FL_SHARE_EXTERNALLY',	'defaultvalue' => 0,	'fieldparams' => 1,
-			'uitype' => 318, 'typeofdata' => 'C~O',	'columntype' => 'tinyint(1)', 'maximumlength' => '-128,127',
-		],
-		'description' => [
-			'validationConditions' => ['name', 'table'],
-			'name' => 'description', 'column' => 'description',	'label' => 'Description',	'table' => 'vtiger_crmentity',
-			'uitype' => 300, 'typeofdata' => 'V~O',	'columntype' => 'text', 'maximumlength' => '65535', 'presence' => 2,
-		],
-		'attention' => [
-			'validationConditions' => ['name', 'table'],
-			'name' => 'attention', 'column' => 'attention',	'label' => 'Attention',	'table' => 'vtiger_crmentity',
-			'uitype' => 300, 'typeofdata' => 'V~O',	'columntype' => 'text', 'maximumlength' => '65535', 'presence' => 2,
+			'name' => 'share_externally',	'column' => 'share_externally',	'label' => 'FL_SHARE_EXTERNALLY',	'defaultvalue' => 0,	'fieldparams' => 1,
+			'uitype' => 318,	'typeofdata' => 'C~O',	'columntype' => 'tinyint(1)', 'maximumlength' => '-128,127',
 		],
 	];
 
@@ -475,28 +465,17 @@ class Field
 	 * Get a list of custom default values for a given field type in the WebservicePremium API.
 	 *
 	 * @param \Vtiger_Field_Model $fieldModel
-	 * @param bool                $group
 	 *
-	 * @return array
+	 * @return string[]
 	 */
-	public static function getCustomListForDefaultValue(\Vtiger_Field_Model $fieldModel, bool $group = false): array
+	public static function getCustomListForDefaultValue(\Vtiger_Field_Model $fieldModel): array
 	{
 		if ($fieldModel->isReferenceField()) {
-			$return = [
+			return [
 				'loggedContact' => \App\Language::translate('LBL_LOGGED_CONTACT', 'Settings:LayoutEditor'),
 				'accountOnContact' => \App\Language::translate('LBL_ACCOUNT_ON_CONTACT', 'Settings:LayoutEditor'),
 				'accountLoggedContact' => \App\Language::translate('LBL_ACCOUNT_LOGGED_CONTACT', 'Settings:LayoutEditor'),
 			];
-			return $group ? ['LBL_SPECIAL_FUNCTION' => $return] : $return;
-		}
-		if ($fieldModel->isOwnerField()) {
-			$return = [
-				'ownerFromAccountOnContact' => \App\Language::translate('LBL_OWNER_FROM_ACCOUNT_CONTACT', 'Settings:LayoutEditor'),
-			];
-			$ownerField = \App\Fields\Owner::getInstance($fieldModel->getModuleName());
-			$users = $ownerField->getAccessibleUsers('', $fieldModel->getFieldDataType());
-			$groups = $ownerField->getAccessibleGroups('', $fieldModel->getFieldDataType(), true);
-			return $group ? ['LBL_SPECIAL_FUNCTION' => $return, 'LBL_USERS' => $users, 'LBL_GROUPS' => $groups] : array_merge($return, $users, $groups);
 		}
 		return [];
 	}

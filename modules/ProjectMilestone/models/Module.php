@@ -18,6 +18,50 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 	protected static $cacheEstimatedWorkTime = [];
 
 	/**
+	 * Get children by parent ID.
+	 *
+	 * @param int $id
+	 *
+	 * @return int[]
+	 */
+	protected static function getChildren(int $id): array
+	{
+		return (new \App\Db\Query())
+			->select(['id' => 'vtiger_projectmilestone.projectmilestoneid', 'vtiger_projectmilestone.projectmilestone_progress'])
+			->from('vtiger_projectmilestone')
+			->innerJoin('vtiger_crmentity', 'vtiger_projectmilestone.projectmilestoneid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => [0, 2]])
+			->andWhere(['vtiger_projectmilestone.parentid' => $id])->all();
+	}
+
+	/**
+	 * Calculate the progress of tasks.
+	 *
+	 * @param int   $id
+	 * @param float $estimatedWorkTime
+	 * @param float $progressInHours
+	 *
+	 * @throws \App\Exceptions\AppException
+	 */
+	protected static function calculateProgressOfTasks(int $id, float &$estimatedWorkTime, float &$progressInHours)
+	{
+		$row = (new \App\Db\Query())
+			->select([
+				'estimated_work_time' => new \yii\db\Expression('SUM(vtiger_projecttask.estimated_work_time)'),
+				'progress_in_hours' => new \yii\db\Expression('SUM(vtiger_projecttask.estimated_work_time * vtiger_projecttask.projecttaskprogress / 100)')
+			])
+			->from('vtiger_projecttask')
+			->innerJoin('vtiger_crmentity', 'vtiger_projecttask.projecttaskid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => [0, 2]])
+			->andWhere(['vtiger_projecttask.projectmilestoneid' => $id])
+			->one();
+		if (false !== $row && null !== $row['estimated_work_time']) {
+			$estimatedWorkTime += (float) $row['estimated_work_time'];
+			$progressInHours += (float) $row['progress_in_hours'];
+		}
+	}
+
+	/**
 	 * Calculate estimated work time.
 	 *
 	 * @param int   $id
@@ -71,9 +115,7 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 		$recordModel->save();
 		if ($recordModel->isEmpty('parentid')) {
 			static::$cacheEstimatedWorkTime[$id] = $estimatedWorkTime;
-			if ($recordModel->get('projectid')) {
-				Project_Module_Model::updateProgress($recordModel->get('projectid'));
-			}
+			Project_Module_Model::updateProgress($recordModel->get('projectid'));
 		} else {
 			static::updateProgress(
 				$recordModel->get('parentid'),
@@ -97,50 +139,6 @@ class ProjectMilestone_Module_Model extends Vtiger_Module_Model
 			if (!empty($filterFields['projectid'])) {
 				$queryGenerator->addNativeCondition(['projectid' => (int) $filterFields['projectid']]);
 			}
-		}
-	}
-
-	/**
-	 * Get children by parent ID.
-	 *
-	 * @param int $id
-	 *
-	 * @return int[]
-	 */
-	protected static function getChildren(int $id): array
-	{
-		return (new \App\Db\Query())
-			->select(['id' => 'vtiger_projectmilestone.projectmilestoneid', 'vtiger_projectmilestone.projectmilestone_progress'])
-			->from('vtiger_projectmilestone')
-			->innerJoin('vtiger_crmentity', 'vtiger_projectmilestone.projectmilestoneid = vtiger_crmentity.crmid')
-			->where(['vtiger_crmentity.deleted' => [0, 2]])
-			->andWhere(['vtiger_projectmilestone.parentid' => $id])->all();
-	}
-
-	/**
-	 * Calculate the progress of tasks.
-	 *
-	 * @param int   $id
-	 * @param float $estimatedWorkTime
-	 * @param float $progressInHours
-	 *
-	 * @throws \App\Exceptions\AppException
-	 */
-	protected static function calculateProgressOfTasks(int $id, float &$estimatedWorkTime, float &$progressInHours)
-	{
-		$row = (new \App\Db\Query())
-			->select([
-				'estimated_work_time' => new \yii\db\Expression('SUM(vtiger_projecttask.estimated_work_time)'),
-				'progress_in_hours' => new \yii\db\Expression('SUM(vtiger_projecttask.estimated_work_time * vtiger_projecttask.projecttaskprogress / 100)')
-			])
-			->from('vtiger_projecttask')
-			->innerJoin('vtiger_crmentity', 'vtiger_projecttask.projecttaskid = vtiger_crmentity.crmid')
-			->where(['vtiger_crmentity.deleted' => [0, 2]])
-			->andWhere(['vtiger_projecttask.projectmilestoneid' => $id])
-			->one();
-		if (false !== $row && null !== $row['estimated_work_time']) {
-			$estimatedWorkTime += (float) $row['estimated_work_time'];
-			$progressInHours += (float) $row['progress_in_hours'];
 		}
 	}
 }

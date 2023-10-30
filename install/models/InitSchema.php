@@ -21,6 +21,7 @@ class Install_InitSchema_Model
 		$this->db = \App\Db::getInstance();
 		$this->initializeDatabase($this->sql_directory, ['scheme', 'data']);
 		if ($_SESSION['installation_success'] ?? false) {
+			$this->setLanguage();
 			$this->createConfigFiles();
 			$this->setDefaultUsersAccess();
 			$this->db->createCommand()
@@ -103,6 +104,7 @@ class Install_InitSchema_Model
 		if (empty($_SESSION['config_file_info']['user_name'])) {
 			return false;
 		}
+		$lang = $_SESSION['language'] ?? '';
 		$this->db->createCommand()
 			->update('vtiger_users', [
 				'user_name' => $_SESSION['config_file_info']['user_name'],
@@ -112,7 +114,7 @@ class Install_InitSchema_Model
 				'last_name' => $_SESSION['config_file_info']['lastname'],
 				'email1' => $_SESSION['config_file_info']['admin_email'],
 				'accesskey' => \App\Encryption::generatePassword(20, 'lbn'),
-				'language' => \App\Language::DEFAULT_LANG,
+				'language' => ($lang && \App\Language::DEFAULT_LANG !== $lang && \App\Language::getLangInfo($lang)) ? $lang : \App\Language::DEFAULT_LANG,
 			])->execute();
 		$userRecordModel = Users_Record_Model::getInstanceById(1, 'Users');
 		$userRecordModel->set('user_password', $_SESSION['config_file_info']['password']);
@@ -172,27 +174,15 @@ class Install_InitSchema_Model
 	}
 
 	/**
-	 * Set company details.
+	 * Set default language.
 	 *
-	 * @param \App\Request $request
-	 *
-	 * @throws \App\Exceptions\AppException
+	 * @return void
 	 */
-	public function setCompanyDetails(App\Request $request)
+	private function setLanguage()
 	{
-		if (!($_SESSION['installation_success'] ?? false)) {
-			return;
-		}
-		$details = [];
-		foreach (Settings_Companies_Module_Model::getColumnNames() as $name) {
-			if ($request->has("company_{$name}")) {
-				$details[$name] = $request->getByType("company_{$name}", 'Text');
-			}
-		}
-		$companies = $this->db->createCommand()->update('s_#__companies', $details);
-		$multiCompany = $this->db->createCommand()->update('u_#__multicompany', ['company_name' => $details['name']]);
-		if (!$details || !$companies->execute() || !$multiCompany->execute()) {
-			throw new \App\Exceptions\AppException('No company data', 406);
+		$lang = $_SESSION['language'] ?? '';
+		if ($lang && \App\Language::DEFAULT_LANG !== $lang && ($languages = \App\Installer\Languages::getAll()) && isset($languages[$lang]) && (int) $languages[$lang]['progress'] > 60 && \App\Installer\Languages::download($lang) && \App\Language::getLangInfo($lang)) {
+			Settings_LangManagement_Module_Model::setAsDefault($lang);
 		}
 	}
 

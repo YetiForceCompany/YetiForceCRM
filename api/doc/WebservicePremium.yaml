@@ -133,7 +133,6 @@ paths:
         -
           basicAuth: []
           ApiKeyAuth: []
-          token: []
   /webservice/WebservicePremium/Menu:
     get:
       tags:
@@ -1913,8 +1912,8 @@ paths:
     post:
       tags:
         - Users
-      summary: Login
-      description: 'Authenticate into the system'
+      summary: 'Logs user'
+      description: 'Logs user into the system'
       operationId: 07552cbaf12d5659d2905d46c06f30f5
       parameters:
         -
@@ -1977,7 +1976,6 @@ paths:
         -
           basicAuth: []
           ApiKeyAuth: []
-          token: []
   /webservice/WebservicePremium/Users/Logout:
     put:
       tags:
@@ -2309,7 +2307,6 @@ paths:
         -
           basicAuth: []
           ApiKeyAuth: []
-          token: []
     post:
       tags:
         - Users
@@ -2359,7 +2356,6 @@ paths:
         -
           basicAuth: []
           ApiKeyAuth: []
-          token: []
   /webservice/WebservicePremium/Users/TwoFactorAuth:
     get:
       tags:
@@ -2501,108 +2497,6 @@ paths:
           token: []
 components:
   schemas:
-    Exception:
-      title: 'General - Error exception'
-      required:
-        - status
-        - error
-      properties:
-        status:
-          title: '0 - error'
-          description: 'Webservice premium container - Get elements of menu class.'
-          type: integer
-          enum:
-            - 0
-          example: 0
-        error:
-          description: 'Error details'
-          required:
-            - message
-            - code
-          properties:
-            message:
-              description: 'To show more details turn on: config\Debug.php apiShowExceptionMessages = true'
-              type: string
-              example: 'Invalid method'
-            code:
-              type: integer
-              example: 405
-            file:
-              description: 'default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true'
-              type: string
-              example: api\webservice\WebservicePremium\BaseAction\Files.php
-            line:
-              description: 'default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true'
-              type: integer
-              example: 101
-            previous:
-              description: 'Previous exception'
-              type: object
-            backtrace:
-              description: 'default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true'
-              type: string
-              example: '#0 api\webservice\WebservicePremium\BaseAction\Files.php (101) ....'
-          type: object
-      type: object
-    Header-Encrypted:
-      title: 'Header - Encrypted'
-      description: 'Is the content request is encrypted'
-      type: integer
-      default: 0
-      enum:
-        - 0
-        - 1
-    Conditions-Mix-For-Query-Generator:
-      title: 'General - Mix conditions for query generator'
-      description: 'Multiple or one condition for a query generator'
-      type: object
-      oneOf:
-        -
-          $ref: '#/components/schemas/Condition-For-Query-Generator'
-        -
-          $ref: '#/components/schemas/Conditions-For-Query-Generator'
-    Condition-For-Query-Generator:
-      title: 'General - Condition for query generator'
-      description: 'One condition for query generator'
-      required:
-        - fieldName
-        - value
-        - operator
-      properties:
-        fieldName:
-          description: 'Field name'
-          type: string
-          example: lastname
-        value:
-          description: 'Search value'
-          type: string
-          example: Kowalski
-        operator:
-          description: 'Field operator'
-          type: string
-          example: e
-        group:
-          description: 'Condition group if true is AND'
-          type: boolean
-          example: true
-      type: object
-    Conditions-For-Query-Generator:
-      title: 'General - Conditions for query generator'
-      description: 'Multiple conditions for query generator'
-      type: object
-      additionalProperties:
-        description: 'Condition details'
-        type: object
-    Conditions-For-Native-Query:
-      title: 'General - Conditions for native query'
-      description: 'Conditions for native query, based on YII 2'
-      type: object
-      externalDocs:
-        description: 'Database communication engine'
-        url: 'https://doc.yetiforce.com/developer-guides/system-components/databases'
-      example:
-        column_name1: 'searched value 1'
-        column_name2: 'searched value 2'
     BaseAction_Put_Files_Request:
       title: 'Base action - Files request schema'
       description: 'Action parameters to download the file'
@@ -3842,6 +3736,65 @@ components:
           type: boolean
           example: false
       type: object
+    Header-Encrypted:
+      title: 'Header - Encrypted'
+      description: 'Is the content request is encrypted'
+      type: integer
+      default: 0
+      enum:
+        - 0
+        - 1
+    Conditions-Mix-For-Query-Generator:
+      title: 'General - Mix conditions for query generator'
+      description: 'Multiple or one condition for a query generator'
+      type: object
+      oneOf:
+        -
+          $ref: '#/components/schemas/Condition-For-Query-Generator'
+        -
+          $ref: '#/components/schemas/Conditions-For-Query-Generator'
+    Condition-For-Query-Generator:
+      title: 'General - Condition for query generator'
+      description: 'One condition for query generator'
+      required:
+        - fieldName
+        - value
+        - operator
+      properties:
+        fieldName:
+          description: 'Field name'
+          type: string
+          example: lastname
+        value:
+          description: 'Search value'
+          type: string
+          example: Kowalski
+        operator:
+          description: 'Field operator'
+          type: string
+          example: e
+        group:
+          description: 'Condition group if true is AND'
+          type: boolean
+          example: true
+      type: object
+    Conditions-For-Query-Generator:
+      title: 'General - Conditions for query generator'
+      description: 'Multiple conditions for query generator'
+      type: object
+      additionalProperties:
+        description: 'Condition details'
+        type: object
+    Conditions-For-Native-Query:
+      title: 'General - Conditions for native query'
+      description: 'Conditions for native query, based on YII 2'
+      type: object
+      externalDocs:
+        description: 'Database communication engine'
+        url: 'https://yetiforce.com/en/knowledge-base/documentation/developer-documentation/item/new-db-communication-engine'
+      example:
+        column_name1: 'searched value 1'
+        column_name2: 'searched value 2'
     Users_Post_Login_Request:
       title: 'Users module - Users login request body'
       description: 'JSON or form-data'
@@ -4049,6 +4002,48 @@ components:
                 creditlimit:
                   type: integer
               type: object
+          type: object
+      type: object
+    Exception:
+      title: 'General - Error exception'
+      required:
+        - status
+        - error
+      properties:
+        status:
+          title: '0 - error'
+          type: integer
+          enum:
+            - 0
+          example: 0
+        error:
+          description: 'Error details'
+          required:
+            - message
+            - code
+          properties:
+            message:
+              description: 'To show more details turn on: config\Debug.php apiShowExceptionMessages = true'
+              type: string
+              example: 'Invalid method'
+            code:
+              type: integer
+              example: 405
+            file:
+              description: 'default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true'
+              type: string
+              example: api\webservice\WebservicePremium\BaseAction\Files.php
+            line:
+              description: 'default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true'
+              type: integer
+              example: 101
+            previous:
+              description: 'Previous exception'
+              type: object
+            backtrace:
+              description: 'default disabled to enable set: config\Debug.php apiShowExceptionBacktrace = true'
+              type: string
+              example: '#0 api\webservice\WebservicePremium\BaseAction\Files.php (101) ....'
           type: object
       type: object
     Users_Put_Logout_Response:
@@ -4325,19 +4320,12 @@ tags:
   -
     name: BaseModule
     description: 'Access to record methods'
-    x-displayName: 'Base module'
   -
     name: BaseAction
     description: 'Access to user methods'
-    x-displayName: 'Base actions'
   -
     name: Products
     description: 'Products methods'
-    x-displayName: Products
   -
     name: Users
     description: 'Access to user methods'
-    x-displayName: Users
-externalDocs:
-  description: 'Platform API Interactive Docs'
-  url: 'https://doc.yetiforce.com/api/?urls.primaryName=Webservice%20Premium'

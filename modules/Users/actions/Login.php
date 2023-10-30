@@ -13,6 +13,20 @@ use App\Purifier;
 
 class Users_Login_Action extends \App\Controller\Action
 {
+	/**
+	 * Users record model.
+	 *
+	 * @var Users_Record_Model
+	 */
+	private $userRecordModel;
+
+	/**
+	 * Base user model.
+	 *
+	 * @var \App\User
+	 */
+	private $userModel;
+
 	/** {@inheritdoc} */
 	public function __construct()
 	{
@@ -29,20 +43,6 @@ class Users_Login_Action extends \App\Controller\Action
 		$this->headers->csp['base-uri'] = '\'self\'';
 		$this->headers->csp['object-src'] = '\'none\'';
 	}
-
-	/**
-	 * Users record model.
-	 *
-	 * @var Users_Record_Model
-	 */
-	private $userRecordModel;
-
-	/**
-	 * Base user model.
-	 *
-	 * @var \App\User
-	 */
-	private $userModel;
 
 	/** {@inheritdoc} */
 	public function loginRequired()
@@ -97,21 +97,6 @@ class Users_Login_Action extends \App\Controller\Action
 	}
 
 	/**
-	 * Redirect the user to a different page.
-	 */
-	private function redirectUser(): void
-	{
-		if ($param = ($_SESSION['return_params'] ?? false)) {
-			unset($_SESSION['return_params']);
-			header('location: index.php?' . $param);
-		} elseif (App\Config::performance('SHOW_ADMIN_PANEL') && $this->userModel->isAdmin()) {
-			header('location: index.php?module=Vtiger&parent=Settings&view=Index');
-		} else {
-			header('location: index.php');
-		}
-	}
-
-	/**
 	 * User login to the system.
 	 *
 	 * @param \App\Request $request
@@ -129,7 +114,7 @@ class Users_Login_Action extends \App\Controller\Action
 		if (!empty($password) && $this->userRecordModel->doLogin($password)) {
 			$this->userModel = App\User::getUserModel($this->userRecordModel->getId());
 			$this->afterLogin($request);
-			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($userName), 'Signed in'); //Track the login History
+			Users_Module_Model::getInstance('Users')->saveLoginHistory(strtolower($userName), 'Signed in'); // Track the login History
 			if ($this->isMultiFactorAuthentication() && !Users_Totp_Authmethod::mustInit($this->userRecordModel->getId())) {
 				header('location: index.php');
 			} else {
@@ -197,32 +182,30 @@ class Users_Login_Action extends \App\Controller\Action
 				'url' => 'index.php?module=Users&view=VisitPurpose',
 			]);
 		}
-		if (\App\YetiForce\Shop::verify(false, true)) {
+		if (\App\YetiForce\Shop::verify()) {
 			\App\Process::addEvent([
 				'name' => 'YetiForceShopAlert',
 				'type' => 'modal',
 				'execution' => 'once',
-				'url' => 'index.php?module=Users&view=YetiForce&view=YetiForce&mode=shop',
+				'url' => 'index.php?module=Users&view=YetiForce&mode=shop',
 			]);
 		}
-		if (!\App\YetiForce\Register::isRegistered()) {
-			\App\Process::addEvent([
-				'name' => 'YetiForceRegistrationAlert',
-				'type' => 'modal',
-				'execution' => 'once',
-				'url' => 'index.php?module=Users&view=YetiForce&view=YetiForce&mode=registration',
-			]);
-		}
-	}
 
-	/**
-	 * Check whether to run multi-factor authentication.
-	 *
-	 * @return bool
-	 */
-	private function isMultiFactorAuthentication(): bool
-	{
-		return Users_Totp_Authmethod::isActive($this->userRecordModel->getId()) && !\in_array(\App\RequestUtil::getRemoteIP(true), \App\Config::security('whitelistIp2fa', []));
+		if (App\YetiForce\Register::shouldEnforceRegistration()) {
+			if ($this->userModel->isAdmin()) {
+				App\Process::addEvent(Settings_Companies_EditModal_View::MODAL_EVENT);
+			} else {
+				App\Process::addEvent(Users_NoAccessModal_View::MODAL_EVENT);
+			}
+		}
+
+		if (!App\YetiForce\Register::isPreRegistered()) {
+			if ($this->userModel->isAdmin()) {
+				App\Process::addEvent(Settings_Companies_EmailVerificationModal_View::MODAL_EVENT);
+			} else {
+				App\Process::addEvent(Users_NoAccessModal_View::MODAL_EVENT);
+			}
+		}
 	}
 
 	/**
@@ -278,5 +261,30 @@ class Users_Login_Action extends \App\Controller\Action
 		}
 		Users_Module_Model::getInstance('Users')->saveLoginHistory(Purifier::encodeHtml($userName), $status);
 		header('location: index.php?module=Users&view=Login');
+	}
+
+	/**
+	 * Redirect the user to a different page.
+	 */
+	private function redirectUser(): void
+	{
+		if ($param = ($_SESSION['return_params'] ?? false)) {
+			unset($_SESSION['return_params']);
+			header('location: index.php?' . $param);
+		} elseif (App\Config::performance('SHOW_ADMIN_PANEL') && $this->userModel->isAdmin()) {
+			header('location: index.php?module=Vtiger&parent=Settings&view=Index');
+		} else {
+			header('location: index.php');
+		}
+	}
+
+	/**
+	 * Check whether to run multi-factor authentication.
+	 *
+	 * @return bool
+	 */
+	private function isMultiFactorAuthentication(): bool
+	{
+		return Users_Totp_Authmethod::isActive($this->userRecordModel->getId()) && !\in_array(\App\RequestUtil::getRemoteIP(true), \App\Config::security('whitelistIp2fa', []));
 	}
 }

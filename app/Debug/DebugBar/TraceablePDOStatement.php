@@ -5,7 +5,7 @@
  * @package Log
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -32,7 +32,7 @@ class TraceablePDOStatement extends \DebugBar\DataCollector\PDO\TraceablePDOStat
 	 *
 	 * @return bool TRUE on success or FALSE on failure.
 	 */
-	public function execute($input_parameters = null): bool
+	public function execute($input_parameters = null)
 	{
 		$this->boundParameters['backtrace'] = \App\Debuger::getBacktrace(4);
 		$this->boundParameters['driverName'] = $this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME);

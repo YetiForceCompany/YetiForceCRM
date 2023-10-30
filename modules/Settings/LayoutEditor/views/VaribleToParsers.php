@@ -5,7 +5,7 @@
  * @package   Settings.View
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -34,7 +34,7 @@ class Settings_LayoutEditor_VaribleToParsers_View extends Settings_Vtiger_BasicM
 		$this->preProcess($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
-		$viewer->assign('VARIBLES', \App\TextParser::VARIABLE_DATES);
+		$viewer->assign('VARIBLES', \App\TextParser::$variableDates);
 		$viewer->assign('DEFAULT_VALUE', $request->getByType('defaultValue', 'Text'));
 		$viewer->view('VaribleToParsers.tpl', $qualifiedModuleName);
 		$this->postProcess($request);

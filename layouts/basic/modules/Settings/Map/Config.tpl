@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-Map-Config -->
 	<div>
@@ -16,7 +16,7 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link {if $ACTIVE_TAB eq 'Coordinates'}active{/if}" href="#Coordinates" data-toggle="tab">
-						<span class="fas fa-globe mr-2"></span>{\App\Language::translate('LBL_COORDINATES', 'OpenStreetMap')}
+						<span class="fas fa-globe mr-2"></span>{\App\Language::translate('LBL_COORDINATES', $QUALIFIED_MODULE)}
 					</a>
 				</li>
 				<li class="nav-item">
@@ -26,17 +26,6 @@
 				</li>
 			</ul>
 		</div>
-		{function NOTE KEY=''}
-			{if $KEY === 'YetiForce'}
-				<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PAID_FUNCTIONALITY', 'Settings::YetiForce')}">
-					<span class="yfi-premium color-red-600"></span>
-				</span>
-			{else}
-				<span class="btn js-popover-tooltip" data-content="{\App\Language::translate('LBL_PROVIDER_NOT_VERIFIED', 'Settings::Map')}">
-					<span class="fas fa-triangle-exclamation color-red-600"></span>
-				</span>
-			{/if}
-		{/function}
 		<div id="my-tab-content" class="tab-content">
 			<div class="tab-pane {if $ACTIVE_TAB eq 'TileLayer'}active{/if}" id="TileLayer">
 				<div class="alert alert-info">
@@ -60,7 +49,6 @@
 									<tr>
 										<th scope="row">
 											{\App\Language::translate($KEY, $QUALIFIED_MODULE)}
-											{NOTE KEY=$KEY}
 										</th>
 										<td>{$ITEM}</td>
 										<td class="text-center">
@@ -99,7 +87,6 @@
 									<tr>
 										<th scope="row">
 											{\App\Language::translate($KEY, $QUALIFIED_MODULE)}
-											{NOTE KEY=$KEY}
 											{if isset($ITEM['docUrl'])}
 												<a href="{$ITEM['docUrl']}" class="float-right u-cursor-pointer js-popover-tooltip" data-placement="top" data-content="{$ITEM['docUrl']}" data-js="popover"><span class="fas fa-info-circle"></span></a>
 											{/if}
@@ -140,7 +127,6 @@
 									<tr>
 										<th scope="row">
 											{\App\Language::translate($KEY, $QUALIFIED_MODULE)}
-											{NOTE KEY=$KEY}
 											{if isset($ITEM['docUrl'])}
 												<a href="{$ITEM['docUrl']}" class="float-right u-cursor-pointer js-popover-tooltip" data-placement="top" data-content="{$ITEM['docUrl']}" data-js="popover"><span class="fas fa-info-circle"></span></a>
 											{/if}

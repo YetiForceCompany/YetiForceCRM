@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-MappedFields-ListViewContents -->
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
@@ -34,7 +34,8 @@
 											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
 												{if $RECORD_LINK_URL}
-													<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{substr($RECORD_LINK_URL, strlen('javascript:'))};
+													<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="
+																										 {$RECORD_LINK_URL|substr:strlen("javascript:")};
 															if (event.stopPropagation){ldelim}
 																		event.stopPropagation();{rdelim} else{ldelim}
 																					event.cancelBubble = true;{rdelim}

@@ -4,7 +4,7 @@
  * FInvoice Summation By Months Dashboard Class.
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -101,7 +101,7 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 	 */
 	public function getWidgetData($moduleName, $owner)
 	{
-		$rawData = $years = [];
+		$rawData = $data = $years = [];
 		$dateStart = ((int) date('Y') - 2) . '-01-01';
 		$dateEnd = date('Y-m-d', strtotime('last day of december'));
 		$date = "{$dateStart},{$dateEnd}";
@@ -123,35 +123,45 @@ class FInvoice_SummationByMonths_Dashboard extends Vtiger_IndexAjax_View
 			$rawData[$row['y']][$row['m']] = [round((float) $row['s'], 2)];
 		}
 		$dataReader->close();
-
 		$chartData = [
-			'dataset' => [],
-			'show_chart' => (bool) \count($rawData),
+			'labels' => [],
+			'datasets' => [],
+			'show_chart' => false,
 		];
 		$this->conditions = ['condition' => ['between', 'saledate', $dateStart, $dateEnd]];
-		$yearsData = [];
+		$yearsData = $tempData = [];
 		$chartData['show_chart'] = (bool) \count($rawData);
 		$shortMonth = ['LBL_Jan', 'LBL_Feb', 'LBL_Mar', 'LBL_Apr', 'LBL_May', 'LBL_Jun',
 			'LBL_Jul', 'LBL_Aug', 'LBL_Sep', 'LBL_Oct', 'LBL_Nov', 'LBL_Dec', ];
-
-		$chartData['dataset']['dimensions'][] = 'months';
 		for ($i = 0; $i < 12; ++$i) {
-			$chartData['dataset']['source'][$i] = ['months' => App\Language::translate($shortMonth[$i])];
+			$chartData['labels'][] = App\Language::translate($shortMonth[$i]);
 		}
 		foreach ($rawData as $y => $raw) {
 			$years[] = $y;
 			if (!isset($yearsData[$y])) {
-				$chartData['dataset']['dimensions'][] = "{$y}";
-				$chartData['series'][] = ['type' => 'bar'];
+				$yearsData[$y] = [
+					'data' => [],
+					'label' => \App\Language::translate('LBL_YEAR', $moduleName) . ' ' . $y,
+					'backgroundColor' => [],
+				];
 				for ($m = 0; $m < 12; ++$m) {
-					$chartData['dataset']['source'][$m]["{$y}"] = null;
+					$tempData[$y][$m] = 0;
+					$yearsData[$y]['backgroundColor'][] = \App\Colors::getRandomColor($y * 10);
 				}
 			}
 			foreach ($raw as $m => $value) {
-				$chartData['dataset']['source'][$m - 1][$y] = $value[0];
+				$tempData[$y][$m - 1] = $value[0];
+				$yearsData[$y]['stack'] = (string) $y;
 			}
 		}
-
+		foreach ($tempData as $year => $yearData) {
+			$yearsData[$year]['data'] = $yearData;
+		}
+		$years = array_values(array_unique($years));
+		$chartData['years'] = $years;
+		foreach ($yearsData as $data) {
+			$chartData['datasets'][] = $data;
+		}
 		return $chartData;
 	}
 }

@@ -33,6 +33,7 @@
     "Amount": "Amount",
     "Date": "Effective date (of currency)",
     "DateK": "Accounting date",
+    "Kontrahent": "Account",
     "Currancy operation": "Transactions currency",
     "Amount operation": "Amount in currency",
     "Liczba transakcji:": "Number of transactions:",

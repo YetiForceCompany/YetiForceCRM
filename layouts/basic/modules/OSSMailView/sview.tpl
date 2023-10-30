@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="SendEmailFormStep2" id="emailPreview" name="emailPreview">
 		<div>
@@ -20,7 +20,7 @@
 							<span class="text-muted">{\App\Language::translate('To',$MODULENAME)}</span>
 						</span>
 						<span class="col-11">
-							<span id="emailPreview_To" class="">{$TO}</span>
+							<span id="emailPreview_To" class="">{assign var=TO_EMAILS value=","|implode:$TO}{$TO_EMAILS}</span>
 						</span>
 					</span>
 				</div>

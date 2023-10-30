@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author	Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -47,14 +47,13 @@ class Save extends \Vtiger_Save_Action
 	protected function getRecordModelFromRequest(\App\Request $request)
 	{
 		$fieldModelList = $this->record->getModule()->getFields();
-		$viewName = $this->record->isNew() ? 'Create' : 'Edit';
 		$requestKeys = $request->getAllRaw();
 		unset($requestKeys['module'],$requestKeys['action'],$requestKeys['record']);
 		if (empty($requestKeys)) {
 			throw new \Api\Core\Exception('No input data', 406);
 		}
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
-			if (!$fieldModel->isWritable($viewName)) {
+			if (!$fieldModel->isWritable()) {
 				continue;
 			}
 			if ($request->has($fieldName)) {

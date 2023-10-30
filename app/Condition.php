@@ -6,7 +6,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Tomasz Kur <t.kur@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
@@ -23,6 +23,7 @@ class Condition
 	 * @var array Data filter list.
 	 */
 	const DATE_OPERATORS = [
+		'custom' => ['label' => 'LBL_CUSTOM'],
 		'smallerthannow' => ['label' => 'LBL_SMALLER_THAN_NOW'],
 		'greaterthannow' => ['label' => 'LBL_GREATER_THAN_NOW'],
 		'prevfy' => ['label' => 'LBL_PREVIOUS_FY'],
@@ -145,29 +146,6 @@ class Condition
 	 * @var Vtiger_Record_Model[]
 	 */
 	private static $recordCache = [];
-
-	/**
-	 * Gets operator labels.
-	 *
-	 * @param array $operators
-	 *
-	 * @return string[]
-	 */
-	public static function getOperatorLabels(array $operators): array
-	{
-		$labels = [];
-		foreach ($operators as $operator) {
-			$label = '';
-			if (isset(self::STANDARD_OPERATORS[$operator])) {
-				$label = self::STANDARD_OPERATORS[$operator];
-			} elseif (isset(self::DATE_OPERATORS[$operator])) {
-				$label = self::DATE_OPERATORS[$operator]['label'];
-			}
-			$labels[$operator] = $label;
-		}
-
-		return $labels;
-	}
 
 	/**
 	 * Checks structure search_params.

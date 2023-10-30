@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	{if count($LINKS) gt 0}
 		{if empty($BTN_ICON) && empty($TEXT_HOLDER)}
@@ -15,7 +15,7 @@
 		{/if}
 		<div class="d-inline-block {if isset($CLASS)}{$CLASS}{/if}">
 			<button class="btn {if isset($BTN_CLASS)}{$BTN_CLASS}{else}btn-light{/if} dropdown-toggle" data-toggle="dropdown">
-				{if !empty($BTN_ICON)}
+				{if isset($BTN_ICON)}
 					<span class="{$BTN_ICON}"></span>
 				{else}
 					<span class="fas fa-list"></span>

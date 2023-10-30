@@ -23,15 +23,6 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	const TASK_STATUS_ACTIVE = 1;
 
-	/** @var VTTaskManager */
-	private $taskMenager;
-	/** @var VTTask */
-	private $taskObject;
-	/** @var Workflow */
-	private $workflow;
-	/** @var Settings_Workflows_TaskType_Model */
-	private $taskTypeModel;
-
 	/**
 	 * Return task record id.
 	 *
@@ -49,7 +40,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getName()
 	{
-		return $this->get('summary') ?? '';
+		return $this->get('summary');
 	}
 
 	/**
@@ -82,7 +73,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getTaskObject()
 	{
-		return $this->taskObject;
+		return $this->task_object;
 	}
 
 	/**
@@ -94,7 +85,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function setTaskObject($task)
 	{
-		$this->taskObject = $task;
+		$this->task_object = $task;
 
 		return $this;
 	}
@@ -106,7 +97,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getTaskManager()
 	{
-		return $this->taskMenager;
+		return $this->task_manager;
 	}
 
 	/**
@@ -116,7 +107,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function setTaskManager($tm)
 	{
-		$this->taskMenager = $tm;
+		$this->task_manager = $tm;
 	}
 
 	/**
@@ -126,7 +117,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getEditViewUrl()
 	{
-		$url = 'index.php?module=Workflows&parent=Settings&view=EditTask&type=' . $this->getTaskType()->getName() . '&for_workflow=' . $this->getWorkflow()->getId();
+		$url = 'index.php?module=Workflows&parent=Settings&view=EditTask&type=' . $this->task_type->getName() . '&for_workflow=' . $this->getWorkflow()->getId();
 		if ($this->getId()) {
 			$url .= '&task_id=' . $this->getId();
 		}
@@ -166,7 +157,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	/**
 	 * Set workflow from instance.
 	 *
-	 * @param Workflow $workflowModel
+	 * @param object $workflowModel
 	 *
 	 * @return $this
 	 */
@@ -184,14 +175,14 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getTaskType()
 	{
-		if (empty($this->taskTypeModel)) {
+		if (empty($this->task_type)) {
 			$taskObject = $this->getTaskObject();
 			if (!empty($taskObject)) {
 				$taskClass = \get_class($taskObject);
-				$this->taskTypeModel = Settings_Workflows_TaskType_Model::getInstanceFromClassName($taskClass);
+				$this->task_type = Settings_Workflows_TaskType_Model::getInstanceFromClassName($taskClass);
 			}
 		}
-		return $this->taskTypeModel;
+		return $this->task_type;
 	}
 
 	/**
@@ -203,7 +194,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function setTaskType(Settings_Workflows_TaskType_Model $taskType): self
 	{
-		$this->taskTypeModel = $taskType;
+		$this->task_type = $taskType;
 		return $this;
 	}
 
@@ -295,7 +286,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function delete()
 	{
-		$this->getTaskManager()->deleteTask($this->getId());
+		$this->task_manager->deleteTask($this->getId());
 	}
 
 	/**
@@ -304,7 +295,7 @@ class Settings_Workflows_TaskRecord_Model extends Settings_Vtiger_Record_Model
 	public function save()
 	{
 		$taskObject = $this->getTaskObject();
-		$this->getTaskManager()->saveTask($taskObject);
+		$this->task_manager->saveTask($taskObject);
 		$this->set('summary', $taskObject->summary)->set('status', $taskObject->active);
 	}
 

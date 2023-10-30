@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Documents-MassAddDocuments-->
 	<div class="modal-header">
@@ -24,7 +24,7 @@
 				<input type="file" name="file[]" multiple id="filesToUpload">
 			</div>
 			<div class="fileContainer d-none">
-				<div class="fileItem mt-2">
+				<div class="fileItem">
 					<label>{\App\Language::translate('Title', $MODULE_NAME)}</label>
 					<div class="input-group">
 						<input type="text" name="nameFile[]" class="form-control">

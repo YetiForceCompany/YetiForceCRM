@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {if 'test' === \App\Config::main('systemMode')}
 	<span class="YetiForceError!!!">
 		{$HEADER_MESSAGE}
@@ -91,16 +91,14 @@
 			{/if}
 			<script type="text/javascript" {if \App\Session::get('CSP_TOKEN')}nonce="{\App\Session::get('CSP_TOKEN')}" {/if}>
 				function errorLog() {
-					if (document.querySelector('.js-exception-error')) {
-						console.error(document.querySelector('.js-exception-error').textContent);
-					}
+					console.error(document.querySelector('.js-exception-error').textContent);
 					let html = '';
 					let backtrace = document.querySelector('.js-exception-backtrace');
+					let logs = document.querySelector('.js-exception-logs');
 					if (backtrace) {
 						html += backtrace.textContent;
 						backtrace.remove();
 					}
-					let logs = document.querySelector('.js-exception-logs');
 					if (logs) {
 						html += logs.textContent;
 						logs.remove();

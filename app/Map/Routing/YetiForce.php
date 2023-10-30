@@ -7,7 +7,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -21,7 +21,7 @@ class YetiForce extends Base
 	/** {@inheritdoc} */
 	public function calculate()
 	{
-		$product = \App\YetiForce\Register::getProducts('YetiForceMap');
+		$product = \App\YetiForce\Register::getProduct('YetiForceMap');
 		if (!\App\RequestUtil::isNetConnection() || ((empty($product['params']['login']) || empty($product['params']['pass'])) && empty($product['params']['token']))) {
 			throw new \App\Exceptions\AppException('ERR_NO_INTERNET_CONNECTION');
 		}
@@ -44,7 +44,7 @@ class YetiForce extends Base
 		} else {
 			$options['auth'] = [$product['params']['login'], $product['params']['pass']];
 		}
-		$url = 'https://osm-route.yetiforce.eu?' . \http_build_query($params);
+		$url = 'https://osm-route.yetiforce.eu?' . http_build_query($params);
 		\App\Log::beginProfile("POST|YetiForceRouting::calculate|{$url}", __NAMESPACE__);
 		$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->post($url, $options);
 		\App\Log::endProfile("POST|YetiForceRouting::calculate|{$url}", __NAMESPACE__);

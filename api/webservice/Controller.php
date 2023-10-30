@@ -1,11 +1,11 @@
 <?php
 /**
- * Base controller file to handle communication via web services.
+ * Base file to handle communication via web services.
  *
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -13,15 +13,12 @@
 namespace Api;
 
 /**
- * Base controller class to handle communication via web services.
+ * Base class to handle communication via web services.
  */
 class Controller
 {
 	/** @var \self */
 	private static $instance;
-
-	/** @var string Container name. */
-	public static $container;
 
 	/** @var Core\BaseAction */
 	private $actionHandler;
@@ -62,18 +59,7 @@ class Controller
 		if (isset(self::$instance)) {
 			return self::$instance;
 		}
-		$container = $_GET['_container'];
-		if (!\in_array($container, \Api\Core\Containers::LIST)) {
-			throw new Core\Exception('Web service - No container', 401);
-		}
-		self::$container = $container;
-		$className = "Api\\{$container}\\Controller";
-		if (class_exists($className)) {
-			self::$instance = new $className();
-		} else {
-			self::$instance = new self();
-		}
-		return self::$instance;
+		return self::$instance = new self();
 	}
 
 	/**
@@ -104,9 +90,9 @@ class Controller
 		if (empty($this->app)) {
 			throw new Core\Exception('Web service - Applications: Unauthorized', 401);
 		}
-		$this->app['tables'] = Core\Containers::LIST_TABLES[$this->app['type']] ?? [];
+		$this->app['tables'] = Core\Containers::$listTables[$this->app['type']] ?? [];
 		if (!empty($this->app['ips']) && !\in_array(\App\RequestUtil::getRemoteIP(true), array_map('trim', explode(',', $this->app['ips'])))) {
-			throw new Core\Exception("Illegal IP address|{$this->app['ips']}<>" . \App\RequestUtil::getRemoteIP(true), 401);
+			throw new Core\Exception('Illegal IP address', 401);
 		}
 		if ($this->request->isEmpty('action', true)) {
 			throw new Core\Exception('No action', 404);
@@ -170,7 +156,7 @@ class Controller
 	 *
 	 * @return string
 	 */
-	protected function getActionClassName(): string
+	private function getActionClassName(): string
 	{
 		$type = $this->request->getByType('_container', 'Standard');
 		$this->request->delete('_container');
@@ -198,7 +184,7 @@ class Controller
 	 *
 	 * @return void
 	 */
-	protected function debugRequest(): void
+	public function debugRequest(): void
 	{
 		if (\App\Config::debug('apiLogAllRequests')) {
 			$log = '============ Request ' . \App\RequestUtil::requestId() . ' (Controller) ======  ' . date('Y-m-d H:i:s') . "  ======\n";
@@ -225,11 +211,7 @@ class Controller
 				$log .= "----------- Request payload -----------\n";
 				$log .= print_r($payload, true) . PHP_EOL;
 			}
-			$path = ROOT_DIRECTORY . '/cache/logs/webserviceDebug.log';
-			if (isset(self::$container)) {
-				$path = ROOT_DIRECTORY . '/cache/logs/webservice' . self::$container . 'Debug.log';
-			}
-			file_put_contents($path, $log, FILE_APPEND);
+			file_put_contents(ROOT_DIRECTORY . '/cache/logs/webserviceDebug.log', $log, FILE_APPEND);
 		}
 	}
 
@@ -251,16 +233,6 @@ class Controller
 					'error_method' => $this->request->getServer('REQUEST_URI'),
 				],
 			]);
-		}
-		if ($e instanceof \Api\Core\Exception) {
-			$e->showError();
-		} else {
-			if ($e instanceof \App\Exceptions\AppException) {
-				$ex = new \Api\Core\Exception($e->getDisplayMessage(), $e->getCode(), $e);
-			} else {
-				$ex = new \Api\Core\Exception($e->getMessage(), $e->getCode(), $e);
-			}
-			$ex->showError();
 		}
 	}
 

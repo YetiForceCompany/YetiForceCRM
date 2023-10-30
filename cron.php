@@ -29,10 +29,11 @@ $user = (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey 
 $response = '';
 if (PHP_SAPI === 'cli' || $user || App\Config::main('application_unique_key') === \App\Request::_get('app_key')) {
 	$cronInstance = new \App\Cron();
-	$cronInstance->log('Cron start | SAPI: ' . PHP_SAPI . ', User: ' . Users::getActiveAdminId(), 'info', false);
+	$cronInstance->log('SAPI: ' . PHP_SAPI . ', User: ' . Users::getActiveAdminId(), 'info', false);
+	$cronTasks = false;
+	$cronInstance->log('Cron start', 'info', false);
 	$cronInstance::$cronTimeStart = microtime(true);
 	vtlib\Cron::setCronAction(true);
-	$cronTasks = false;
 	if (\App\Request::_has('service')) {
 		$cronTask = vtlib\Cron::getInstance(\App\Request::_get('service'));
 		if (!$cronTask) {

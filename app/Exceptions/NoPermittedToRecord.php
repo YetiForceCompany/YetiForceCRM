@@ -8,7 +8,7 @@ namespace App\Exceptions;
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 class NoPermittedToRecord extends NoPermitted
@@ -19,12 +19,13 @@ class NoPermittedToRecord extends NoPermitted
 		\App\Session::init();
 
 		$request = \App\Request::init();
+		$record = $request->getInteger('record', 0);
 		$userName = \App\Session::get('full_user_name');
 		\App\DB::getInstance('log')->createCommand()->insert('o_#__access_to_record', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => \App\TextUtils::textTruncate(\App\RequestUtil::getRemoteIP(), 100, false),
-			'record' => $request->isEmpty('record') ? 0 : $request->getInteger('record'),
+			'record' => $record,
 			'module' => $request->getModule(),
 			'url' => \App\TextUtils::textTruncate(\App\RequestUtil::getBrowserInfo()->url, 300, false),
 			'agent' => \App\TextUtils::textTruncate(\App\Request::_getServer('HTTP_USER_AGENT', '-'), 500, false),

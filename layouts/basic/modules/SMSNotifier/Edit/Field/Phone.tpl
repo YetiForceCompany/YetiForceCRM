@@ -1,6 +1,6 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
-	<!-- tpl-SMSNotifier-Edit-Field-Phone -->
+	<!-- tpl-Base-Edit-Field-Phone -->
 	{assign var=TABINDEX value=$FIELD_MODEL->getTabIndex()}
 	{assign var=FIELD_INFO value=\App\Purifier::encodeHtml(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var=SPECIAL_VALIDATOR value=$FIELD_MODEL->getValidator()}
@@ -10,16 +10,16 @@
 		{assign var="PHONE_FIELDS" value=$FIELD_MODEL->getUITypeModel()->getRelatedFields($RECORD)}
 	{/if}
 	<div>
-		{if \App\Config::component('Phone', 'advancedVerification', false)}
+		{if \App\Config::main('phoneFieldAdvancedVerification',false)}
 			{if $NUMBER}
-				{assign var=PHONE_DETAIL value=App\Fields\Phone::getDetails($NUMBER,null,\libphonenumber\PhoneNumberFormat::INTERNATIONAL)}
-				{assign var=COUNTRY value=$PHONE_DETAIL['country']}
+				{assign var="PHONE_DETAIL" value=App\Fields\Phone::getDetails($NUMBER)}
+				{assign var="COUNTRY" value=$PHONE_DETAIL['country']}
 			{else}
-				{assign var=PHONE_DETAIL value=[]}
+				{assign var="PHONE_DETAIL" value=[]}
 				{if !\App\Config::component('Phone', 'defaultPhoneCountry')}
-					{assign var=COUNTRY value=\App\Language::getLanguageRegion()}
+					{assign var="COUNTRY" value=\App\Language::getLanguageRegion()}
 				{else}
-					{assign var=COUNTRY value=''}
+					{assign var="COUNTRY" value=''}
 				{/if}
 			{/if}
 			{assign var="FIELD_NAME_EXTRA" value=$FIELD_MODEL->getFieldName()|cat:'_extra'}
@@ -68,5 +68,5 @@
 			<input name="{$FIELD_MODEL->getFieldName()}" tabindex="{$TABINDEX}" value="{\App\Purifier::encodeHtml($NUMBER)}" id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->getName()}" title="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" placeholder="{\App\Language::translate($FIELD_MODEL->getFieldLabel(), $MODULE)}" type="text" class="form-control" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}{if $FIELD_MODEL->get('maximumlength')}maxSize[{$FIELD_MODEL->get('maximumlength')}],{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-advanced-verification="0" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Purifier::encodeHtml(\App\Json::encode($SPECIAL_VALIDATOR))}' {/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly" {/if} {if isset($PARAMS['mask'])}data-inputmask="'mask': {\App\Purifier::encodeHtml(\App\Json::encode($PARAMS['mask']))}" {/if} />
 		{/if}
 	</div>
-	<!-- /tpl-SMSNotifier-Edit-Field-Phone -->
+	<!-- /tpl-Base-Edit-Field-Phone -->
 {/strip}

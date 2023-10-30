@@ -3,13 +3,12 @@
 /**
  * Synchronize products categories file.
  *
- * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription.
- * File modification allowed only with the consent of the system producer.
+ * The file is part of the paid functionality. Using the file is allowed only after purchasing a subscription. File modification allowed only with the consent of the system producer.
  *
  * @package Integration
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -20,7 +19,11 @@ namespace App\Integrations\Magento\Synchronizer;
  */
 class Category extends Record
 {
-	/** @var array Category cache. */
+	/**
+	 * Category cache.
+	 *
+	 * @var array
+	 */
 	protected $cache = [];
 
 	/** {@inheritdoc} */
@@ -95,7 +98,8 @@ class Category extends Record
 	/**
 	 * Get crm id by magento id.
 	 *
-	 * @param int $magentoId
+	 * @param int         $magentoId
+	 * @param string|null $moduleName
 	 *
 	 * @return int
 	 */
@@ -120,9 +124,9 @@ class Category extends Record
 	 * @param int   $id
 	 * @param array $category
 	 *
-	 * @return int
+	 * @return void
 	 */
-	public function createCategory(int $id, array $category = []): int
+	public function createCategory(int $id, array $category = [])
 	{
 		if (empty($category)) {
 			$category = $this->cache[$id] ?? $this->getCategory($id);

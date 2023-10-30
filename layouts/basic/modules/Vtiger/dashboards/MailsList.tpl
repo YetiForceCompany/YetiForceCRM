@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="dashboardWidgetHeader">
 		{foreach key=index item=cssModel from=$STYLES}
@@ -34,7 +34,7 @@
 							<option value="-">{\App\Language::translate('--None--', $MODULE_NAME)}</option>
 						{else}
 							{foreach from=$ACCOUNTSLIST item=item key=key}
-								<option title="{\App\Purifier::encodeHtml($item['name'])}" value="{$item['id']}" {if $USER == $item['id']}selected{/if}>{\App\Purifier::encodeHtml($item['name'])}</option>
+								<option title="{\App\Purifier::encodeHtml($item['username'])}" value="{$item['user_id']}" {if $USER == $item['user_id']}selected{/if}>{\App\Purifier::encodeHtml($item['username'])}</option>
 							{/foreach}
 						{/if}
 					</select>

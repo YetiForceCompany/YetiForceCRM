@@ -5,7 +5,7 @@
  * @package   Tests
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Sławomir Kłos <s.klos@yetiforce.com>
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
@@ -263,8 +263,8 @@ class TextParser extends \Tests\Base
 		$employeeUser->set('email1', $userName . '@yetiforce.com');
 		$employeeUser->set('first_name', $userName);
 		$employeeUser->set('last_name', 'YetiForce');
-		$employeeUser->set('user_password', \Tests\Base\A_User::$defaultPassword);
-		$employeeUser->set('confirm_password', \Tests\Base\A_User::$defaultPassword);
+		$employeeUser->set('user_password', \Tests\Base\A_User::$defaultPassrowd);
+		$employeeUser->set('confirm_password', \Tests\Base\A_User::$defaultPassrowd);
 		$employeeUser->set('roleid', 'H2');
 		$employeeUser->set('is_admin', 'on');
 		$employeeUser->save();

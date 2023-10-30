@@ -1,8 +1,15 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!--
+/*+**********************************************************************************
+* The contents of this file are subject to the vtiger CRM Public License Version 1.1
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+* Contributor(s): YetiForce S.A.
+************************************************************************************/
+-->*}
 {strip}
-	<script type="text/javascript">
-		YetiForce_Bar_Widget_Js('YetiForce_TicketsByStatus_Widget_Js', {}, {});
-	</script>
 	<div class="dashboardWidgetHeader">
 		{include file=\App\Layout::getTemplatePath('dashboards/WidgetHeadeAccessible.tpl', $MODULE_NAME)}
 	</div>

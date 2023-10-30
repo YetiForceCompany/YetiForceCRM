@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-Settings-Dav-Keys -->
 	<div class="" id="DavKeysContainer">
@@ -10,9 +10,11 @@
 				<a href="https://doc.yetiforce.com/administrator-guides/apps#sabredav-integration" target="_blank" class="btn btn-outline-info float-right mr-3 js-popover-tooltip" data-content="{App\Language::translate('BTM_GOTO_YETIFORCE_DOCUMENTATION')}" rel="noreferrer noopener" data-js="popover">
 					<span class="mdi mdi-book-open-page-variant u-fs-lg"></span>
 				</a>
-				<button class="btn btn-primary js-add-key" data-js="click">
-					<span class="fas fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD_KEY',$QUALIFIED_MODULE)}
-				</button>
+				{if \App\YetiForce\Shop::check('YetiForceDav')}
+					<button class="btn btn-primary js-add-key" data-js="click">
+						<span class="fas fa-plus mr-1"></span>{\App\Language::translate('LBL_ADD_KEY',$QUALIFIED_MODULE)}
+					</button>
+				{/if}
 			</div>
 		</div>
 		{if !\App\YetiForce\Register::isRegistered()}

@@ -5,7 +5,7 @@
  * @package API
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
@@ -114,14 +114,6 @@ class Fields
 					if (!$value) {
 						$value = \App\Record::getParentRecord($actionModel->getUserCrmId());
 					}
-					break;
-				case 'ownerFromAccountOnContact':
-					$value = \App\Record::getParentRecord($actionModel->getUserCrmId());
-					if ($recordMetaData = \vtlib\Functions::getCRMRecordMetadata($value)) {
-						$value = $recordMetaData['smownerid'];
-					}
-					break;
-				default:
 					break;
 			}
 		}

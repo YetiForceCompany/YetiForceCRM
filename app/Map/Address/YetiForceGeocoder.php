@@ -11,7 +11,7 @@
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
@@ -57,7 +57,7 @@ class YetiForceGeocoder extends Base
 	/** {@inheritdoc} */
 	public function find($value): array
 	{
-		$product = \App\YetiForce\Register::getProducts('YetiForceGeocoder');
+		$product = \App\YetiForce\Register::getProduct('YetiForceGeocoder');
 		if (empty($value) || !\App\RequestUtil::isNetConnection() || empty($product['params']['login']) || empty($product['params']['pass'])) {
 			return [];
 		}
@@ -85,7 +85,7 @@ class YetiForceGeocoder extends Base
 		}
 		$rows = [];
 		try {
-			$url = 'https://osm-search.yetiforce.eu/?' . \http_build_query($params);
+			$url = 'https://osm-search.yetiforce.eu/?' . http_build_query($params);
 			\App\Log::beginProfile("GET|YetiForceGeocoder::find|{$url}", __NAMESPACE__);
 			$response = (new \GuzzleHttp\Client(\App\RequestHttp::getOptions()))->request('GET', $url, $options);
 			\App\Log::endProfile("GET|YetiForceGeocoder::find|{$url}", __NAMESPACE__);
@@ -102,8 +102,8 @@ class YetiForceGeocoder extends Base
 				$countryMapping = \Config\Components\AddressFinder::yetiForceRemappingForCountry();
 				foreach ($body as $row) {
 					$mappingFunction = $mainMapping;
-					if (isset($row['address']['country_code'], $countryMapping[\strtoupper($row['address']['country_code'])])) {
-						$mappingFunction = $countryMapping[\strtoupper($row['address']['country_code'])];
+					if (isset($row['address']['country_code'], $countryMapping[strtoupper($row['address']['country_code'])])) {
+						$mappingFunction = $countryMapping[strtoupper($row['address']['country_code'])];
 					}
 					$rows[] = [
 						'label' => $row['display_name'],

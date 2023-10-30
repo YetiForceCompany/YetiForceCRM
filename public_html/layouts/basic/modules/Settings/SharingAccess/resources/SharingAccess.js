@@ -1,4 +1,4 @@
-/* {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
+/* {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} */
 'use strict';
 
 jQuery.Class(
@@ -189,10 +189,6 @@ jQuery.Class(
 					AppConnector.request(deleteUrl).done(function (data) {
 						let response = data.result;
 						if (response && response.success) {
-							app.showNotify({
-								type: 'success',
-								text: response.message
-							});
 							currentRow.fadeOut('slow');
 							var customRuleTable = currentRow.closest('.js-custom-rule-table');
 							//after delete the custom rule, update the sequence number of existing rules

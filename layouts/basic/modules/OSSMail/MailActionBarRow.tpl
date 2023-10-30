@@ -1,4 +1,4 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License 5.0 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
+{*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<div class="tpl-OSSMail-MailActionBarRow rowRelatedRecord mb-1 pr-2 d-flex align-items-center" data-id="{$RELATED['id']}" data-module="{$RELATED['module']}">
 		{if \App\Privilege::isPermitted($RELATED['module'], 'DetailView', $RELATED['id'])}
@@ -32,6 +32,11 @@
 				{if in_array($RELATED['module'], ['Accounts','Contacts','Leads']) &&  \App\Privilege::isPermitted('Services','DetailView')}
 					<button class="selectRecord" data-type="1" data-module="Services" title="{\App\Language::translate('LBL_ADD_SERVICES',$MODULE_NAME)}">
 						<span class="yfm-Services" aria-hidden="true"></span>
+					</button>
+				{/if}
+				{if $RELATED['is_related_to_documents'] && \App\Privilege::isPermitted('Documents', 'DetailView')}
+					<button class="addAttachments" data-type="1" title="{\App\Language::translate('LBL_ADD_DOCUMENTS', $MODULE_NAME)}">
+						<span class="yfm-Documents" aria-hidden="true"></span>
 					</button>
 				{/if}
 				<button class="removeRecord " title="{\App\Language::translate('LBL_REMOVE_RELATION',$MODULE_NAME)} {$RELATED['label']}">

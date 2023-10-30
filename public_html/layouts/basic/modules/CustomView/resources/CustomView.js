@@ -116,7 +116,7 @@ class CustomView {
 				} else {
 					$.unblockUI();
 					app.showNotify({
-						title: response.message ? response.message : app.vtranslate('JS_ERROR'),
+						title: app.vtranslate('JS_DUPLICATE_RECORD'),
 						text: response.message,
 						type: 'error'
 					});

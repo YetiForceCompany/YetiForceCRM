@@ -1,17 +1,16 @@
 <?php
+
+namespace App;
+
 /**
  * Utils class.
  *
  * @package App
  *
  * @copyright YetiForce S.A.
- * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
- * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-
-namespace App;
-
 class Utils
 {
 	/**
@@ -115,11 +114,11 @@ class Utils
 				foreach ($values as $keySec => $value) {
 					switch ($type) {
 						case 'ucfirst':
-							$keySec = ucfirst($keySec);
+							$keySec = \ucfirst($keySec);
 							$newKey = "{$key}{$keySec}";
 							break;
 						default:
-							$newKey = "{$key}{$type}{$keySec}";
+						$newKey = "{$key}{$type}{$keySec}";
 							break;
 					}
 					$result[$newKey] = $value;
@@ -364,39 +363,5 @@ class Utils
 			}
 		}
 		return $return;
-	}
-
-	/**
-	 * Detect recursion / circular references.
-	 * Recommend not using this feature as it will be removed in the future.
-	 *
-	 * @param string $class
-	 * @param string $function
-	 * @param int    $limit
-	 *
-	 * @return bool
-	 */
-	public static function detectRecursion(string $class, string $function, int $limit = 1): bool
-	{
-		$counter = 0;
-		foreach (debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) as $trace) {
-			$counter += (int) ($class === ($trace['class'] ?? '') && $function === $trace['function']);
-			if ($counter > $limit) {
-				break;
-			}
-		}
-		return $counter > $limit;
-	}
-
-	/**
-	 * Get the number of records by modules.
-	 *
-	 * @return array
-	 */
-	public static function getNumberRecordsByModule(): array
-	{
-		return (new \App\Db\Query())->select(['setype', 'counter' => new \yii\db\Expression('count(setype)')])->from('vtiger_crmentity')
-			->groupBy('setype')->orderBy(['counter' => SORT_DESC])
-			->createCommand()->queryAllByGroup();
 	}
 }
