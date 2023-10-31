@@ -29,7 +29,7 @@ class OSSEmployees_Record_Model extends Vtiger_Record_Model
 				}
 				$recordModel = Vtiger_Record_Model::getCleanInstance('OSSEmployees');
 				$recordModel->setId($employeeId);
-				$hierarchy['entries'][$employeeId][0] = $dashes[0] . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $label . '</a>';
+				$hierarchy['entries'][$employeeId][0] = ($dashes[0] ?? '') . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $label . '</a>';
 			}
 		}
 		return $hierarchy;

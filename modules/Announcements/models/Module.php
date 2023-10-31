@@ -155,6 +155,6 @@ class Announcements_Module_Model extends Vtiger_Module_Model
 	 */
 	public function getMarkInfo($record, $userId)
 	{
-		return (new App\Db\Query())->from('u_#__announcement_mark')->where(['announcementid' => $record, 'userid' => $userId])->one();
+		return (new App\Db\Query())->from('u_#__announcement_mark')->where(['announcementid' => $record, 'userid' => $userId])->one() ?: [];
 	}
 }

@@ -921,12 +921,17 @@ window.App.Fields = {
 			validate(element) {
 				let status = true,
 					params;
-				if (element.data('purifyMode')) {
+				const form = element.closest('form');
+				if (
+					element.data('purifyMode') ||
+					!form.find('[name="module"]').length ||
+					form.find('[name="parent"]').val() === 'Settings'
+				) {
 					params = {
 						module: 'Users',
 						action: 'Fields',
 						mode: 'validateByMode',
-						purifyMode: element.data('purifyMode'),
+						purifyMode: element.data('purifyMode') || 'Html',
 						value: element.val()
 					};
 				} else {

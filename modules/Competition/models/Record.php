@@ -26,7 +26,7 @@ class Competition_Record_Model extends Vtiger_Record_Model
 
 				$recordModel = Vtiger_Record_Model::getCleanInstance('Competition');
 				$recordModel->setId($competitionId);
-				$hierarchy['entries'][$competitionId][0] = $dashes[0] . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $name[2] .
+				$hierarchy['entries'][$competitionId][0] = ($dashes[0] ?? '') . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $name[2] .
 					'</a>';
 			}
 		}

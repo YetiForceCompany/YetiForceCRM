@@ -19,7 +19,7 @@
 						<select id="smtp_{\App\Layout::getUniqueId()}" name="smtp" class="select2 form-control "
 							data-placeholder="{\App\Language::translate('LBL_SELECT_OPTIONS',$QUALIFIED_MODULE)}">
 							<option value="">{\App\Language::translate('LBL_DEFAULT')}</option>
-							{foreach from=App\Mail::getSmtpServers(true) item=ITEM key=ID}
+							{foreach from=App\Mail::getAll() item=ITEM key=ID}
 								<option value="{$ID}" {if isset($TASK_OBJECT->smtp) && $TASK_OBJECT->smtp == $ID}selected{/if}>{\App\Purifier::encodeHtml($ITEM['name'])}
 									{if !empty($ITEM['host'])} ({\App\Purifier::encodeHtml($ITEM['host'])}){/if}
 								</option>
@@ -27,15 +27,6 @@
 						</select>
 					</div>
 				</span>
-			</div>
-			<div class="form-row pb-3">
-				<span class="col-md-7 form-row">
-					<span class="col-md-3 col-form-label">{\App\Language::translate('LBL_ATTACH_DOCS_FROM', $QUALIFIED_MODULE)}</span>
-					<div class="col-md-9">
-						{include file=\App\Layout::getTemplatePath('Tasks/AttatchDocumentsFrom.tpl', $QUALIFIED_MODULE)}
-					</div>
-				</span>
-
 			</div>
 			<div class="form-row pb-3">
 				<span class="col-md-7 form-row">

@@ -25,7 +25,7 @@
 					<div class="col-sm-11 col-md-9">
 						<div class="d-flex flex-column h-100">
 							<h5 class="h3">
-								{App\Purifier::encodeHtml($PRODUCT->getLabel())}
+								{$PRODUCT->getLabel()}
 							</h5>
 							<div>{$PRODUCT->getDescription()}</div>
 						</div>

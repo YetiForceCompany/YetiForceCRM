@@ -27,7 +27,7 @@ class Project_Record_Model extends Vtiger_Record_Model
 				preg_match('/<a(.*)>(.*)<\\/a>/i', $info[0], $name);
 				$recordModel = Vtiger_Record_Model::getCleanInstance('Project');
 				$recordModel->setId($id);
-				$hierarchy['entries'][$id][0] = $dashes[0] . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $name[2] . '</a>';
+				$hierarchy['entries'][$id][0] = ($dashes[0] ?? '') . '<a href=' . $recordModel->getDetailViewUrl() . '>' . $name[2] . '</a>';
 			}
 		}
 		return $hierarchy;
