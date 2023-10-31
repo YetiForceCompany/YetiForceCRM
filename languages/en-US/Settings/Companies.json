@@ -10,7 +10,6 @@
     "LBL_CITY": "City",
     "LBL_ADDRESS": "Address",
     "LBL_CONDITIONS_OF_REGISTRATION": "All data below must be true, it is an obligatory condition of registering the product that results from the license terms.  %s \nIn order for the system to correctly verify the registration key, Cron must be active and function properly. \n\nThe validity of data submitted during registration is verified within 72h. Providing any false data will cause the entire registration to be declined. Thank you for your patience.\n%s",
-    "LBL_CHANGING_ENTITY_NAME": "Each change in the entity's information requires re-registration.",
     "LBL_WEBSITE": "The website of the entity",
     "LBL_WEBSITE_INFO": "Enter the entity's website or a personal website. DO NOT enter the URL where your CRM is installed.",
     "LBL_INDUSTRY": "Industry",

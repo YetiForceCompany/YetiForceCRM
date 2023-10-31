@@ -19,7 +19,7 @@ class Headers
 {
 	/** Default CSP img-src */
 	/** @todo remove one addres */
-	private const CSP_IMG = ['https://api.yetiforce.eu/', 'https://public.yetiforce.com/'];
+	private const CSP_IMG = ['https://api.yetiforce.eu'];
 
 	/**
 	 * Default CSP header values.

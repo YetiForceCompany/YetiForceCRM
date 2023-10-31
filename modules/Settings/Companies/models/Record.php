@@ -83,7 +83,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getPreviousValue(string $fieldName = '')
 	{
-		return $fieldName ? ($this->changes[$fieldName] ?? false) : $this->changes;
+		return $fieldName ? (array_key_exists($fieldName, $this->changes) ? $this->changes[$fieldName] : false) : $this->changes;
 	}
 
 	/**
