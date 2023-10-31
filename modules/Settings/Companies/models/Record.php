@@ -83,7 +83,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 */
 	public function getPreviousValue(string $fieldName = '')
 	{
-		return $fieldName ? ($this->changes[$fieldName] ?? null) : $this->changes;
+		return $fieldName ? ($this->changes[$fieldName] ?? false) : $this->changes;
 	}
 
 	/**
@@ -111,7 +111,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 		$transaction = $db->beginTransaction();
 
 		try {
-			if (($changes = $this->getPreviousValue()) && (\count($changes) > 1 || !$this->getPreviousValue('email'))) {
+			if (($changes = $this->getPreviousValue()) && (\count($changes) > 1) || false === $this->getPreviousValue('email')) {
 				$registration = (new \App\YetiForce\Register());
 				$registration->setRawCompanyData($this->getData())->register();
 				if ($error = $registration->getError()) {

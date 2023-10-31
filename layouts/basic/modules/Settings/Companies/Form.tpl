@@ -11,7 +11,7 @@
 				{if App\Security\AdminAccess::isPermitted('Dependencies')}
 					{assign var=CREDITS_LINK value="<a target=\"_blank\" href=\"index.php?module=Dependencies&view=Credits&parent=Settings&displayLicenseModal=YetiForce\">Link</a>"}
 				{/if}
-				{App\Language::translateArgs('LBL_CONDITIONS_OF_REGISTRATION', $QUALIFIED_MODULE, $CREDITS_LINK, App\Language::translate('LBL_CHANGING_ENTITY_NAME', $QUALIFIED_MODULE))}
+				{App\Language::translateArgs('LBL_CONDITIONS_OF_REGISTRATION', $QUALIFIED_MODULE, $CREDITS_LINK, '')}
 			</span>
 		</div>
 		<div data-js="container">

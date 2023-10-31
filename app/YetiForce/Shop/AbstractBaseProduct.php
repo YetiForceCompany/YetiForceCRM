@@ -109,7 +109,7 @@ abstract class AbstractBaseProduct
 	 *
 	 * @var string
 	 */
-	protected string $image;
+	protected ?string $image;
 
 	/** @var bool Disabled product */
 	protected bool $disabled = false;
@@ -175,7 +175,7 @@ abstract class AbstractBaseProduct
 		$self->website = $data['website'] ?? '';
 		$self->introduction = \App\Purifier::purifyByType($data['shortDescription'] ?? '', \App\Purifier::TEXT);
 		$self->description = \App\Purifier::decodeHtml(\App\Purifier::purifyByType($data['description'] ?? '', \App\Purifier::HTML));
-		$self->image = $data['image'] ?? null;
+		$self->image = $data['imageUrl'] ?? null;
 
 		$packages = [];
 		$currencyCode = \App\Fields\Currency::getDefault()['currency_code'];
