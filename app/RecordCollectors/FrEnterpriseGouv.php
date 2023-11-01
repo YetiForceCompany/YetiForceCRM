@@ -21,6 +21,9 @@ namespace App\RecordCollectors;
  */
 class FrEnterpriseGouv extends Base
 {
+	/** @var int Number of items returned */
+	const LIMIT = 4;
+
 	/** {@inheritdoc} */
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
 
@@ -38,50 +41,6 @@ class FrEnterpriseGouv extends Base
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://api.gouv.fr/les-api/api-entreprise/';
-
-	/** @var string Server address */
-	private $url = 'https://recherche-entreprises.api.gouv.fr/';
-
-	/** {@inheritdoc} */
-	protected $fields = [
-		'companyName' => [
-			'labelModule' => '_Base',
-			'label' => 'Account name',
-		],
-		'sicCode' => [
-			'labelModule' => '_Base',
-			'label' => 'SIC code',
-		],
-		'vatNumber' => [
-			'labelModule' => '_Base',
-			'label' => 'VAT',
-		],
-	];
-
-	/** {@inheritdoc} */
-	protected $modulesFieldsMap = [
-		'Accounts' => [
-			'companyName' => 'accountname',
-			'sicCode' => 'siccode',
-			'vatNumber' => 'vat_id'
-		],
-		'Leads' => [
-			'companyName' => 'company',
-			'vatNumber' => 'vat_id'
-		],
-		'Vendors' => [
-			'companyName' => 'vendorname',
-			'vatNumber' => 'vat_id'
-		],
-		'Partners' => [
-			'companyName' => 'subject',
-			'vatNumber' => 'vat_id'
-		],
-		'Competition' => [
-			'companyName' => 'subject',
-			'vatNumber' => 'vat_id'
-		],
-	];
 
 	/** {@inheritdoc} */
 	public $formFieldsToRecordMap = [
@@ -126,9 +85,52 @@ class FrEnterpriseGouv extends Base
 			'siegeLibelle_commune' => 'addresslevel4a'
 		],
 	];
+	/** {@inheritdoc} */
+	protected string $addOnName = 'YetiForceRcFrEnterpriseGouv';
 
-	/** @var int Number of items returned */
-	const LIMIT = 4;
+	/** {@inheritdoc} */
+	protected $fields = [
+		'companyName' => [
+			'labelModule' => '_Base',
+			'label' => 'Account name',
+		],
+		'sicCode' => [
+			'labelModule' => '_Base',
+			'label' => 'SIC code',
+		],
+		'vatNumber' => [
+			'labelModule' => '_Base',
+			'label' => 'VAT',
+		],
+	];
+
+	/** {@inheritdoc} */
+	protected $modulesFieldsMap = [
+		'Accounts' => [
+			'companyName' => 'accountname',
+			'sicCode' => 'siccode',
+			'vatNumber' => 'vat_id'
+		],
+		'Leads' => [
+			'companyName' => 'company',
+			'vatNumber' => 'vat_id'
+		],
+		'Vendors' => [
+			'companyName' => 'vendorname',
+			'vatNumber' => 'vat_id'
+		],
+		'Partners' => [
+			'companyName' => 'subject',
+			'vatNumber' => 'vat_id'
+		],
+		'Competition' => [
+			'companyName' => 'subject',
+			'vatNumber' => 'vat_id'
+		],
+	];
+
+	/** @var string Server address */
+	private $url = 'https://recherche-entreprises.api.gouv.fr/';
 
 	/** {@inheritdoc} */
 	public function search(): array

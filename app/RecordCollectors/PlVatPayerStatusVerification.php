@@ -38,6 +38,8 @@ class PlVatPayerStatusVerification extends Base
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://www.podatki.gov.pl/e-deklaracje/dokumentacja-it/';
+	/** {@inheritdoc} */
+	protected string $addOnName = 'YetiForceRcPlVatPayerStatus';
 
 	/** @var string MF sever address */
 	protected $url = 'https://sprawdz-status-vat.mf.gov.pl/?wsdl';

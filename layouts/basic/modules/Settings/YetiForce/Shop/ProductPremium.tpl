@@ -6,7 +6,7 @@
 		{if $PRODUCT_ALERT}
 			<span class="text-danger fas fa-exclamation-circle animate__animated animate__infinite animate__flash animate__slow mr-1 mt-1 u-cursor-pointer js-popover-tooltip position-absolute u-position-r-0" data-toggle="popover" data-js="popover | mouseenter" data-content="{App\Language::translate($PRODUCT_ALERT, $QUALIFIED_MODULE)}"></span>
 		{/if}
-		<div class="o-small-product pl-2 {if $PRODUCT->isExpired()}bg-color-red-100{elseif $PRODUCT->getStatus()} bg-yellow {else} u-bg-light-darken{/if}">
+		<div class="o-small-product pl-2 {if $PRODUCT->isExpired()}bg-color-red-100{elseif $PRODUCT->getStatus()} bg-yellow {else} u-bg-white-darken{/if}">
 			<div class="o-small-product__container d-flex u-min-h-120px-rem no-wrap py-2 px-1 {if !$PRODUCT->isExpired()} bg-white u-bg-white-darken{/if}">
 				<div class="o-small-product__img d-flex row">
 					<div class="col-12">

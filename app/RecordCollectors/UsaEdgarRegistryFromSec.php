@@ -19,6 +19,9 @@ namespace App\RecordCollectors;
  */
 class UsaEdgarRegistryFromSec extends Base
 {
+	/** @var int Central Index Key length */
+	const CIK_LEN = 10;
+
 	/** {@inheritdoc} */
 	public $allowedModules = ['Accounts', 'Leads', 'Partners', 'Vendors', 'Competition'];
 
@@ -36,31 +39,6 @@ class UsaEdgarRegistryFromSec extends Base
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://www.sec.gov/edgar/sec-api-documentation';
-
-	/** @var string SEC sever address */
-	protected $url = 'https://data.sec.gov/submissions/CIK';
-
-	/** {@inheritdoc} */
-	protected $fields = [
-		'cik' => [
-			'labelModule' => '_Base',
-			'label' => 'Registration number 1',
-			'typeofdata' => 'V~M',
-		]
-	];
-
-	/** {@inheritdoc} */
-	protected $modulesFieldsMap = [
-		'Accounts' => [
-			'cik' => 'registration_number_1',
-		],
-		'Leads' => [
-			'cik' => 'registration_number_1',
-		],
-		'Vendors' => [
-			'cik' => 'registration_number_1',
-		],
-	];
 
 	/** {@inheritdoc} */
 	public $formFieldsToRecordMap = [
@@ -131,9 +109,33 @@ class UsaEdgarRegistryFromSec extends Base
 			'addressesBusinessStateOrCountryDescription' => 'addresslevel2a',
 		]
 	];
+	/** {@inheritdoc} */
+	protected string $addOnName = 'YetiForceRcUsaEdgar';
 
-	/** @var int Central Index Key length */
-	const CIK_LEN = 10;
+	/** @var string SEC sever address */
+	protected $url = 'https://data.sec.gov/submissions/CIK';
+
+	/** {@inheritdoc} */
+	protected $fields = [
+		'cik' => [
+			'labelModule' => '_Base',
+			'label' => 'Registration number 1',
+			'typeofdata' => 'V~M',
+		]
+	];
+
+	/** {@inheritdoc} */
+	protected $modulesFieldsMap = [
+		'Accounts' => [
+			'cik' => 'registration_number_1',
+		],
+		'Leads' => [
+			'cik' => 'registration_number_1',
+		],
+		'Vendors' => [
+			'cik' => 'registration_number_1',
+		],
+	];
 
 	/** {@inheritdoc} */
 	public function search(): array

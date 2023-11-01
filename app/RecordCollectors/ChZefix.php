@@ -39,50 +39,9 @@ class ChZefix extends Base
 	public $docUrl = 'https://www.zefix.admin.ch/';
 
 	/** {@inheritdoc} */
-	private $url = 'https://www.zefix.admin.ch/ZefixPublicREST/api/v1/company/';
-
-	/** {@inheritdoc} */
 	public $settingsFields = [
 		'username' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'Username'],
 		'password' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'Password'],
-	];
-
-	/** @var string Username. */
-	private $username;
-
-	/** @var string Password. */
-	private $password;
-
-	/** {@inheritdoc} */
-	protected $fields = [
-		'companyName' => [
-			'labelModule' => '_Base',
-			'label' => 'Account name',
-		],
-		'companyId' => [
-			'labelModule' => '_Base',
-			'label' => 'Registration number 1',
-		],
-	];
-
-	/** {@inheritdoc} */
-	protected $modulesFieldsMap = [
-		'Accounts' => [
-			'companyId' => 'registration_number_1',
-			'companyName' => 'accountname'
-		],
-		'Leads' => [
-			'companyId' => 'registration_number_1',
-			'companyName' => 'company'
-		],
-		'Vendors' => [
-			'companyId' => 'registration_number_1',
-			'companyName' => 'vendorname'
-		],
-		'Competition' => [
-			'companyId' => 'registration_number_1',
-			'companyName' => 'subject'
-		]
 	];
 
 	/** {@inheritdoc} */
@@ -157,6 +116,50 @@ class ChZefix extends Base
 			'purpose' => 'description'
 		],
 	];
+
+	/** {@inheritdoc} */
+	protected string $addOnName = 'YetiForceRcChZefix';
+
+	/** {@inheritdoc} */
+	protected $fields = [
+		'companyName' => [
+			'labelModule' => '_Base',
+			'label' => 'Account name',
+		],
+		'companyId' => [
+			'labelModule' => '_Base',
+			'label' => 'Registration number 1',
+		],
+	];
+
+	/** {@inheritdoc} */
+	protected $modulesFieldsMap = [
+		'Accounts' => [
+			'companyId' => 'registration_number_1',
+			'companyName' => 'accountname'
+		],
+		'Leads' => [
+			'companyId' => 'registration_number_1',
+			'companyName' => 'company'
+		],
+		'Vendors' => [
+			'companyId' => 'registration_number_1',
+			'companyName' => 'vendorname'
+		],
+		'Competition' => [
+			'companyId' => 'registration_number_1',
+			'companyName' => 'subject'
+		]
+	];
+
+	/** {@inheritdoc} */
+	private $url = 'https://www.zefix.admin.ch/ZefixPublicREST/api/v1/company/';
+
+	/** @var string Username. */
+	private $username;
+
+	/** @var string Password. */
+	private $password;
 
 	/** {@inheritdoc} */
 	public function isActive(): bool

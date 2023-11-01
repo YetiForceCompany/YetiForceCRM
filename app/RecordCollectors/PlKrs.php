@@ -37,31 +37,6 @@ class PlKrs extends Base
 	/** {@inheritdoc} */
 	public $docUrl = 'https://prs.ms.gov.pl/krs/openApi';
 
-	/** @var string KRS sever address */
-	protected $url = 'https://api-krs.ms.gov.pl/api/krs/OdpisAktualny/';
-
-	/** {@inheritdoc} */
-	protected $fields = [
-		'ncr' => [
-			'labelModule' => '_Base',
-			'label' => 'Registration number 1',
-			'typeofdata' => 'V~M',
-		]
-	];
-
-	/** {@inheritdoc} */
-	protected $modulesFieldsMap = [
-		'Accounts' => [
-			'ncr' => 'registration_number_1',
-		],
-		'Leads' => [
-			'ncr' => 'registration_number_1',
-		],
-		'Vendors' => [
-			'ncr' => 'registration_number_1',
-		]
-	];
-
 	/** {@inheritdoc} */
 	public $formFieldsToRecordMap = [
 		'Accounts' => [
@@ -116,6 +91,33 @@ class PlKrs extends Base
 			'daneDzial1SiedzibaIAdresSiedzibaWojewodztwo' => 'addresslevel2a',
 			'daneDzial1SiedzibaIAdresSiedzibaKraj' => 'addresslevel1a',
 			'daneDzial1SiedzibaIAdresAdresKraj' => 'addresslevel1a',
+		]
+	];
+	/** {@inheritdoc} */
+	protected string $addOnName = 'YetiForceRcPlKrs';
+
+	/** @var string KRS sever address */
+	protected $url = 'https://api-krs.ms.gov.pl/api/krs/OdpisAktualny/';
+
+	/** {@inheritdoc} */
+	protected $fields = [
+		'ncr' => [
+			'labelModule' => '_Base',
+			'label' => 'Registration number 1',
+			'typeofdata' => 'V~M',
+		]
+	];
+
+	/** {@inheritdoc} */
+	protected $modulesFieldsMap = [
+		'Accounts' => [
+			'ncr' => 'registration_number_1',
+		],
+		'Leads' => [
+			'ncr' => 'registration_number_1',
+		],
+		'Vendors' => [
+			'ncr' => 'registration_number_1',
 		]
 	];
 

@@ -62,6 +62,9 @@ class Base
 	/** @var bool Requires subscription. */
 	protected bool $paid = true;
 
+	/** @var string The name of Add-on. */
+	protected string $addOnName = '';
+
 	/**
 	 * Constructor.
 	 */
@@ -168,7 +171,7 @@ class Base
 	 */
 	public function isAvailable(): bool
 	{
-		return !$this->paid || \App\YetiForce\Shop::check($this->getName());
+		return !$this->paid || \App\YetiForce\Shop::check($this->addOnName);
 	}
 
 	/**

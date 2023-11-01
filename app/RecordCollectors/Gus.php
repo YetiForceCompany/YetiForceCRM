@@ -40,49 +40,6 @@ class Gus extends Base
 	public $docUrl = 'https://api.stat.gov.pl/Home/RegonApi';
 
 	/** {@inheritdoc} */
-	protected $fields = [
-		'vatId' => [
-			'labelModule' => '_Base',
-			'label' => 'Vat ID',
-		],
-		'ncr' => [
-			'labelModule' => '_Base',
-			'label' => 'Registration number 1',
-		],
-		'taxNumber' => [
-			'labelModule' => '_Base',
-			'label' => 'Registration number 2',
-		],
-	];
-
-	/** {@inheritdoc} */
-	protected $modulesFieldsMap = [
-		'Accounts' => [
-			'vatId' => 'vat_id',
-			'taxNumber' => 'registration_number_2',
-			'ncr' => 'registration_number_1',
-		],
-		'Leads' => [
-			'vatId' => 'vat_id',
-			'taxNumber' => 'registration_number_2',
-			'ncr' => 'registration_number_1',
-		],
-		'Vendors' => [
-			'vatId' => 'vat_id',
-			'taxNumber' => 'registration_number_2',
-			'ncr' => 'registration_number_1',
-		],
-		'Competition' => [
-			'vatId' => 'vat_id',
-			'taxNumber' => 'registration_number_2',
-			'ncr' => 'registration_number_1',
-		],
-		'Partners' => [
-			'vatId' => 'vat_id',
-		],
-	];
-
-	/** {@inheritdoc} */
 	public $formFieldsToRecordMap = [
 		'Accounts' => [
 			'Nazwa' => 'accountname',
@@ -161,6 +118,52 @@ class Gus extends Base
 			'Powiat' => 'addresslevel3a',
 			'Wojewodztwo' => 'addresslevel2a',
 			'Kraj' => 'addresslevel1a',
+		],
+	];
+
+	/** {@inheritdoc} */
+	protected $fields = [
+		'vatId' => [
+			'labelModule' => '_Base',
+			'label' => 'Vat ID',
+		],
+		'ncr' => [
+			'labelModule' => '_Base',
+			'label' => 'Registration number 1',
+		],
+		'taxNumber' => [
+			'labelModule' => '_Base',
+			'label' => 'Registration number 2',
+		],
+	];
+
+	/** {@inheritdoc} */
+	protected string $addOnName = 'YetiForcePlGus';
+
+	/** {@inheritdoc} */
+	protected $modulesFieldsMap = [
+		'Accounts' => [
+			'vatId' => 'vat_id',
+			'taxNumber' => 'registration_number_2',
+			'ncr' => 'registration_number_1',
+		],
+		'Leads' => [
+			'vatId' => 'vat_id',
+			'taxNumber' => 'registration_number_2',
+			'ncr' => 'registration_number_1',
+		],
+		'Vendors' => [
+			'vatId' => 'vat_id',
+			'taxNumber' => 'registration_number_2',
+			'ncr' => 'registration_number_1',
+		],
+		'Competition' => [
+			'vatId' => 'vat_id',
+			'taxNumber' => 'registration_number_2',
+			'ncr' => 'registration_number_1',
+		],
+		'Partners' => [
+			'vatId' => 'vat_id',
 		],
 	];
 

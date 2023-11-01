@@ -20,6 +20,9 @@ namespace App\RecordCollectors;
  */
 class DkCvr extends Base
 {
+	/** @var string CH sever address */
+	const EXTERNAL_URL = 'https://cvrapi.dk/virksomhed/';
+
 	/** {@inheritdoc} */
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Partners', 'Competition'];
 
@@ -38,61 +41,9 @@ class DkCvr extends Base
 	/** {@inheritdoc} */
 	public $docUrl = 'https://cvrapi.dk/documentation';
 
-	/** @var string CH sever address */
-	const EXTERNAL_URL = 'https://cvrapi.dk/virksomhed/';
-
-	/** @var string CH sever address */
-	private $url = 'http://cvrapi.dk/api?';
-
-	/** @var string Token key */
-	private $token;
-
 	/** {@inheritdoc} */
 	public $settingsFields = [
 		'token' => ['required' => 0, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY_OPTIONAL'],
-	];
-
-	/** {@inheritdoc} */
-	protected $fields = [
-		'country' => [
-			'labelModule' => '_Base',
-			'label' => 'Country',
-			'picklistModule' => 'Other.Country',
-			'typeofdata' => 'V~M',
-			'uitype' => 16,
-			'picklistValues' => [
-				'no' => 'Norway',
-				'dk' => 'Denmark'
-			]
-		],
-		'vatNumber' => [
-			'labelModule' => '_Base',
-			'label' => 'Vat ID',
-		],
-		'name' => [
-			'labelModule' => '_Base',
-			'label' => 'FL_COMPANY_NAME',
-		],
-		'phone' => [
-			'labelModule' => '_Base',
-			'label' => 'FL_PHONE',
-		],
-	];
-
-	/** {@inheritdoc} */
-	protected $modulesFieldsMap = [
-		'Accounts' => [
-			'vatNumber' => 'vat_id',
-		],
-		'Leads' => [
-			'vatNumber' => 'vat_id',
-		],
-		'Vendors' => [
-			'vatNumber' => 'vat_id',
-		],
-		'Competition' => [
-			'vatNumber' => 'vat_id',
-		]
 	];
 
 	/** {@inheritdoc} */
@@ -179,6 +130,57 @@ class DkCvr extends Base
 			'country' => 'addresslevel1a',
 		]
 	];
+	/** {@inheritdoc} */
+	protected string $addOnName = 'YetiForceRcDkCvr';
+
+	/** {@inheritdoc} */
+	protected $fields = [
+		'country' => [
+			'labelModule' => '_Base',
+			'label' => 'Country',
+			'picklistModule' => 'Other.Country',
+			'typeofdata' => 'V~M',
+			'uitype' => 16,
+			'picklistValues' => [
+				'no' => 'Norway',
+				'dk' => 'Denmark'
+			]
+		],
+		'vatNumber' => [
+			'labelModule' => '_Base',
+			'label' => 'Vat ID',
+		],
+		'name' => [
+			'labelModule' => '_Base',
+			'label' => 'FL_COMPANY_NAME',
+		],
+		'phone' => [
+			'labelModule' => '_Base',
+			'label' => 'FL_PHONE',
+		],
+	];
+
+	/** {@inheritdoc} */
+	protected $modulesFieldsMap = [
+		'Accounts' => [
+			'vatNumber' => 'vat_id',
+		],
+		'Leads' => [
+			'vatNumber' => 'vat_id',
+		],
+		'Vendors' => [
+			'vatNumber' => 'vat_id',
+		],
+		'Competition' => [
+			'vatNumber' => 'vat_id',
+		]
+	];
+
+	/** @var string CH sever address */
+	private $url = 'http://cvrapi.dk/api?';
+
+	/** @var string Token key */
+	private $token;
 
 	/** {@inheritdoc} */
 	public function search(): array

@@ -40,58 +40,9 @@ class NorthData extends Base
 	/** {@inheritdoc} */
 	public $docUrl = 'https://www.northdata.com/_data';
 
-	/** @var string NorthData sever address */
-	protected $url = 'https://www.northdata.com/_api/';
-
 	/** {@inheritdoc} */
 	public $settingsFields = [
 		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY']
-	];
-
-	/** @var string Api Key. */
-	private $apiKey;
-
-	/** {@inheritdoc} */
-	protected $fields = [
-		'companyName' => [
-			'labelModule' => '_Base',
-			'label' => 'Account Name',
-		],
-		'country' => [
-			'labelModule' => '_Base',
-			'label' => 'Country',
-			'picklistModule' => 'Other.Country',
-			'uitype' => 16,
-			'picklistValues' => [
-				'AT' => 'Austria',
-				'FR' => 'France',
-				'DE' => 'Germany',
-				'LU' => 'Luxembourg',
-				'PL' => 'Poland',
-				'ES' => 'Spain',
-				'CH' => 'Switzerland',
-				'GB' => 'United Kingdom',
-			]
-		],
-	];
-
-	/** {@inheritdoc} */
-	protected $modulesFieldsMap = [
-		'Accounts' => [
-			'companyName' => 'accountname',
-		],
-		'Leads' => [
-			'companyName' => 'company',
-		],
-		'Partners' => [
-			'companyName' => 'subject',
-		],
-		'Vendors' => [
-			'companyName' => 'vendorname',
-		],
-		'Competition' => [
-			'companyName' => 'subject',
-		],
 	];
 
 	/** {@inheritdoc} */
@@ -142,6 +93,57 @@ class NorthData extends Base
 			'addressCountry' => 'addresslevel1a',
 		],
 	];
+	/** {@inheritdoc} */
+	protected string $addOnName = 'YetiForceRcNorthData';
+
+	/** @var string NorthData sever address */
+	protected $url = 'https://www.northdata.com/_api/';
+
+	/** {@inheritdoc} */
+	protected $fields = [
+		'companyName' => [
+			'labelModule' => '_Base',
+			'label' => 'Account Name',
+		],
+		'country' => [
+			'labelModule' => '_Base',
+			'label' => 'Country',
+			'picklistModule' => 'Other.Country',
+			'uitype' => 16,
+			'picklistValues' => [
+				'AT' => 'Austria',
+				'FR' => 'France',
+				'DE' => 'Germany',
+				'LU' => 'Luxembourg',
+				'PL' => 'Poland',
+				'ES' => 'Spain',
+				'CH' => 'Switzerland',
+				'GB' => 'United Kingdom',
+			]
+		],
+	];
+
+	/** {@inheritdoc} */
+	protected $modulesFieldsMap = [
+		'Accounts' => [
+			'companyName' => 'accountname',
+		],
+		'Leads' => [
+			'companyName' => 'company',
+		],
+		'Partners' => [
+			'companyName' => 'subject',
+		],
+		'Vendors' => [
+			'companyName' => 'vendorname',
+		],
+		'Competition' => [
+			'companyName' => 'subject',
+		],
+	];
+
+	/** @var string Api Key. */
+	private $apiKey;
 
 	/** {@inheritdoc} */
 	public function isActive(): bool

@@ -19,6 +19,15 @@ namespace App\RecordCollectors;
  */
 class UkCompaniesHouse extends Base
 {
+	/** @var string CH sever address */
+	const EXTERNAL_URL = 'https://find-and-update.company-information.service.gov.uk/company/';
+
+	/** @var string[] Keys to skip in additional */
+	const REMOVE_KEYS = ['linksSelf', 'linksFiling_history', 'linksOfficers', 'linksPersons_with_significant_control-statements', 'linksCharges'];
+
+	/** @var int Limit for fetching companies */
+	const LIMIT = 4;
+
 	/** {@inheritdoc} */
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
@@ -37,50 +46,9 @@ class UkCompaniesHouse extends Base
 	/** {@inheritdoc} */
 	public $docUrl = 'https://developer.company-information.service.gov.uk/';
 
-	/** @var string CH sever address */
-	private $url = 'https://api.company-information.service.gov.uk';
-
 	/** {@inheritdoc} */
 	public $settingsFields = [
 		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY'],
-	];
-
-	/** @var string Api Key. */
-	private $apiKey;
-
-	/** @var string CH sever address */
-	const EXTERNAL_URL = 'https://find-and-update.company-information.service.gov.uk/company/';
-
-	/** {@inheritdoc} */
-	protected $fields = [
-		'ncr' => [
-			'labelModule' => '_Base',
-			'label' => 'Registration number 1',
-		],
-		'companyName' => [
-			'labelModule' => '_Base',
-			'label' => 'Account name',
-		]
-	];
-
-	/** {@inheritdoc} */
-	protected $modulesFieldsMap = [
-		'Accounts' => [
-			'ncr' => 'registration_number_1',
-			'companyName' => 'accountname'
-		],
-		'Leads' => [
-			'ncr' => 'registration_number_1',
-			'companyName' => 'company'
-		],
-		'Vendors' => [
-			'ncr' => 'registration_number_1',
-			'companyName' => 'vendorname'
-		],
-		'Competition' => [
-			'ncr' => 'registration_number_1',
-			'companyName' => 'subject'
-		]
 	];
 
 	/** {@inheritdoc} */
@@ -144,12 +112,46 @@ class UkCompaniesHouse extends Base
 			'registered_office_addressPo_box' => 'poboxa',
 		]
 	];
+	/** {@inheritdoc} */
+	protected string $addOnName = 'YetiForceRcUkCompaniesHouse';
 
-	/** @var string[] Keys to skip in additional */
-	const REMOVE_KEYS = ['linksSelf', 'linksFiling_history', 'linksOfficers', 'linksPersons_with_significant_control-statements', 'linksCharges'];
+	/** {@inheritdoc} */
+	protected $fields = [
+		'ncr' => [
+			'labelModule' => '_Base',
+			'label' => 'Registration number 1',
+		],
+		'companyName' => [
+			'labelModule' => '_Base',
+			'label' => 'Account name',
+		]
+	];
 
-	/** @var int Limit for fetching companies */
-	const LIMIT = 4;
+	/** {@inheritdoc} */
+	protected $modulesFieldsMap = [
+		'Accounts' => [
+			'ncr' => 'registration_number_1',
+			'companyName' => 'accountname'
+		],
+		'Leads' => [
+			'ncr' => 'registration_number_1',
+			'companyName' => 'company'
+		],
+		'Vendors' => [
+			'ncr' => 'registration_number_1',
+			'companyName' => 'vendorname'
+		],
+		'Competition' => [
+			'ncr' => 'registration_number_1',
+			'companyName' => 'subject'
+		]
+	];
+
+	/** @var string CH sever address */
+	private $url = 'https://api.company-information.service.gov.uk';
+
+	/** @var string Api Key. */
+	private $apiKey;
 
 	/** {@inheritdoc} */
 	public function isActive(): bool

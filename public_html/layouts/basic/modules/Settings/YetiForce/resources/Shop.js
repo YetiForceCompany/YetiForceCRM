@@ -149,7 +149,7 @@ window.Settings_YetiForce_Shop_Js = class Settings_YetiForce_Shop_Js {
 			let dataset = e.currentTarget.selectedOptions[0].dataset;
 			for (let d in dataset) {
 				modalContainer.find(`.js-buy-text[data-key="${d}"]`).text(dataset[d]);
-				modalContainer.find(`.js-buy-value[name="${d}"]`).text(dataset[d]);
+				modalContainer.find(`.js-buy-value[name="${d}"]`).val(dataset[d]);
 			}
 		});
 	}

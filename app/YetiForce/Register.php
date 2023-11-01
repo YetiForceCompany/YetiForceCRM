@@ -294,7 +294,9 @@ final class Register extends AbstractBase
 	 */
 	public function send()
 	{
-		if (($date = $this->getConfValue('last_check_time')) && (new \DateTime('now'))->diff(new \DateTime($date))->days > 0 && $this->check()) {
+		if (($date = $this->getConfValue('last_check_time'))
+			&& (new \DateTime(date('Y-m-d')))->diff(new \DateTime(date('Y-m-d', strtotime($date))))->days > 0
+			&& $this->check()) {
 			$this->sendStats();
 		}
 	}
@@ -304,16 +306,16 @@ final class Register extends AbstractBase
 	 *
 	 * @return array
 	 */
-	public function getStats(): array
+	private function getStats(): array
 	{
 		$modules = [
 			'Accounts', 'Campaigns', 'SSalesProcesses', 'SQuotes', 'SSingleOrders', 'Project', 'HelpDesk', 'FInvoice', 'PaymentsIn', 'PaymentsOut', 'FInvoiceCost', 'ISTN', 'IGRN', 'Products', 'Assets', 'Services', 'OSSMailView', 'Documents', 'Notification', 'Calendar'
 		];
-		$stats['Modules'] = (new \App\Db\Query())->select(['setype', 'count' => new \yii\db\Expression('count(1)'), 'last_create' => new \yii\db\Expression('MAX(createdtime)')])->from('vtiger_crmentity')->where(['setype' => $modules])->groupBy('setype')->all();
+		$stats['Modules'] = (new \App\Db\Query())->select(['setype', 'count' => new \yii\db\Expression('count(1)'), 'last_create' => new \yii\db\Expression('MAX(CAST(createdtime AS DATE))')])->from('vtiger_crmentity')->where(['setype' => $modules])->groupBy('setype')->all();
 		$stats['Crons'] = (new \App\Db\Query())->from('vtiger_cron_task')->count();
 		$stats['Workflows'] = (new \App\Db\Query())->from('com_vtiger_workflows')->count();
 
-		$usersData = (new \App\Db\Query())->select(['count' => new \yii\db\Expression('COUNT(*)'), 'status', 'last_create' => new \yii\db\Expression('MAX(date_entered)')])->from('vtiger_users')->groupBy(['status'])->all();
+		$usersData = (new \App\Db\Query())->select(['count' => new \yii\db\Expression('COUNT(*)'), 'status', 'last_create' => new \yii\db\Expression('MAX(CAST(date_entered AS DATE))')])->from('vtiger_users')->groupBy(['status'])->all();
 		$users = array_column($usersData, 'count', 'status');
 		$dates = array_column($usersData, 'last_create');
 		$users['last_create'] = max($dates);
@@ -346,7 +348,17 @@ final class Register extends AbstractBase
 	 */
 	private function updateMetaData(array $data): bool
 	{
+		$products = $data['subscriptions'] ?? [];
+		foreach ($products as $product) {
+			$children = $product['children'] ?? [];
+			['product' => $product,'expiresAt' => $date] = $product;
+			foreach ($children as $child) {
+				$products[] = ['product' => $child['product'], 'expiresAt' => $date];
+			}
+		}
+		$data['subscriptions'] = $products;
 		$conf = self::getConf();
+
 		self::$config = array_merge($conf, $data);
 		self::$config['last_check_time'] = date('Y-m-d H:i:s');
 		self::$config['appId'] = self::getInstanceKey();

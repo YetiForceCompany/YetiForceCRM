@@ -40,104 +40,9 @@ class VatifyEu extends Base
 	public $docUrl = 'https://www.vatify.eu/docs/api/getting-started/';
 
 	/** {@inheritdoc} */
-	private $url = 'https://api.vatify.eu/v1/';
-
-	/** {@inheritdoc} */
 	public $settingsFields = [
 		'client_id' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_CLIENT_ID'],
 		'access_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_ACCESS_KEY'],
-	];
-	/** @var string Access Key. */
-	private $accessKey;
-
-	/** @var string Client ID. */
-	private $clientId;
-
-	/** @var string Bearer Token. */
-	private $bearerToken;
-
-	/** {@inheritdoc} */
-	protected $fields = [
-		'country' => [
-			'labelModule' => '_Base',
-			'label' => 'Country',
-			'picklistModule' => 'Other.Country',
-			'typeofdata' => 'V~M',
-			'uitype' => 16,
-			'picklistValues' => [
-				'AL' => 'Albania',
-				'AT' => 'Austria',
-				'BY' => 'Belarus',
-				'BE' => 'Belgium',
-				'BA' => 'Bosnia And Herzegovina',
-				'BG' => 'Bulgaria',
-				'CY' => 'Cyprus',
-				'CZ' => 'Czech Republic',
-				'DE' => 'Germany',
-				'DK' => 'Denmark',
-				'EE' => 'Estonia',
-				'GB' => 'United Kingdom',
-				'GR' => 'Greece',
-				'ES' => 'Spain',
-				'FI' => 'Finland',
-				'FR' => 'France',
-				'GB' => 'Northern Ireland',
-				'GE' => 'Georgia',
-				'HR' => 'Croatia',
-				'HU' => 'Hungary',
-				'IS' => 'Iceland',
-				'IE' => 'Ireland',
-				'IL' => 'Israel',
-				'IT' => 'Italy',
-				'KZ' => 'Kazakstan',
-				'Kosovo' => 'Kosovo',
-				'LV' => 'Latvia',
-				'LI' => 'Liechtenstein',
-				'LT' => 'Lithuania',
-				'LU' => 'Luxembourg',
-				'MK' => 'Macedonia, The Former Yugoslav Republic Of',
-				'MT' => 'Malta',
-				'MD' => 'Moldova, Republic Of',
-				'ME' => 'Montenegro',
-				'NO' => 'Norway',
-				'NL' => 'Netherlands',
-				'PL' => 'Poland',
-				'PT' => 'Portugal',
-				'RO' => 'Romania',
-				'RU' => 'Russian Federation',
-				'SE' => 'Sweden',
-				'SK' => 'Slovenia',
-				'RS' => 'Serbia',
-				'CH' => 'Switzerland',
-				'UA' => 'Ukraine',
-				'ZA' => 'South Africa',
-			]
-		],
-		'vatNumber' => [
-			'labelModule' => '_Base',
-			'label' => 'Vat ID',
-			'typeofdata' => 'V~M',
-		]
-	];
-
-	/** {@inheritdoc} */
-	protected $modulesFieldsMap = [
-		'Accounts' => [
-			'vatNumber' => 'vat_id',
-			'country' => 'addresslevel1a'
-		],
-		'Leads' => [
-			'vatNumber' => 'vat_id',
-			'country' => 'addresslevel1a'
-		],
-		'Vendors' => [
-			'vatNumber' => 'vat_id',
-			'country' => 'addresslevel1a'
-		],
-		'Competition' => [
-			'vatNumber' => 'vat_id',
-			'country' => 'addresslevel1a'
-		],
 	];
 
 	/** {@inheritdoc} */
@@ -235,6 +140,103 @@ class VatifyEu extends Base
 			'email_address' => 'email',
 		],
 	];
+	/** {@inheritdoc} */
+	protected string $addOnName = 'YetiForceRcVatifyEu';
+
+	/** {@inheritdoc} */
+	protected $fields = [
+		'country' => [
+			'labelModule' => '_Base',
+			'label' => 'Country',
+			'picklistModule' => 'Other.Country',
+			'typeofdata' => 'V~M',
+			'uitype' => 16,
+			'picklistValues' => [
+				'AL' => 'Albania',
+				'AT' => 'Austria',
+				'BY' => 'Belarus',
+				'BE' => 'Belgium',
+				'BA' => 'Bosnia And Herzegovina',
+				'BG' => 'Bulgaria',
+				'CY' => 'Cyprus',
+				'CZ' => 'Czech Republic',
+				'DE' => 'Germany',
+				'DK' => 'Denmark',
+				'EE' => 'Estonia',
+				'GB' => 'United Kingdom',
+				'GR' => 'Greece',
+				'ES' => 'Spain',
+				'FI' => 'Finland',
+				'FR' => 'France',
+				'GB' => 'Northern Ireland',
+				'GE' => 'Georgia',
+				'HR' => 'Croatia',
+				'HU' => 'Hungary',
+				'IS' => 'Iceland',
+				'IE' => 'Ireland',
+				'IL' => 'Israel',
+				'IT' => 'Italy',
+				'KZ' => 'Kazakstan',
+				'Kosovo' => 'Kosovo',
+				'LV' => 'Latvia',
+				'LI' => 'Liechtenstein',
+				'LT' => 'Lithuania',
+				'LU' => 'Luxembourg',
+				'MK' => 'Macedonia, The Former Yugoslav Republic Of',
+				'MT' => 'Malta',
+				'MD' => 'Moldova, Republic Of',
+				'ME' => 'Montenegro',
+				'NO' => 'Norway',
+				'NL' => 'Netherlands',
+				'PL' => 'Poland',
+				'PT' => 'Portugal',
+				'RO' => 'Romania',
+				'RU' => 'Russian Federation',
+				'SE' => 'Sweden',
+				'SK' => 'Slovenia',
+				'RS' => 'Serbia',
+				'CH' => 'Switzerland',
+				'UA' => 'Ukraine',
+				'ZA' => 'South Africa',
+			]
+		],
+		'vatNumber' => [
+			'labelModule' => '_Base',
+			'label' => 'Vat ID',
+			'typeofdata' => 'V~M',
+		]
+	];
+
+	/** {@inheritdoc} */
+	protected $modulesFieldsMap = [
+		'Accounts' => [
+			'vatNumber' => 'vat_id',
+			'country' => 'addresslevel1a'
+		],
+		'Leads' => [
+			'vatNumber' => 'vat_id',
+			'country' => 'addresslevel1a'
+		],
+		'Vendors' => [
+			'vatNumber' => 'vat_id',
+			'country' => 'addresslevel1a'
+		],
+		'Competition' => [
+			'vatNumber' => 'vat_id',
+			'country' => 'addresslevel1a'
+		],
+	];
+
+	/** {@inheritdoc} */
+	private $url = 'https://api.vatify.eu/v1/';
+	/** @var string Access Key. */
+	private $accessKey;
+
+	/** @var string Client ID. */
+	private $clientId;
+
+	/** @var string Bearer Token. */
+	private $bearerToken;
 
 	/** {@inheritdoc} */
 	public function isActive(): bool

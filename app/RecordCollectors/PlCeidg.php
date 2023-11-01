@@ -18,6 +18,9 @@ namespace App\RecordCollectors;
  */
 class PlCeidg extends Base
 {
+	/** @var int Limit for fetching companies */
+	const LIMIT = 4;
+
 	/** {@inheritdoc} */
 	public $allowedModules = ['Accounts', 'Leads', 'Vendors', 'Competition'];
 
@@ -39,56 +42,6 @@ class PlCeidg extends Base
 	/** {@inheritdoc} */
 	public $settingsFields = [
 		'api_key' => ['required' => 1, 'purifyType' => 'Text', 'label' => 'LBL_API_KEY'],
-	];
-
-	/** @var string Polish CEIDG sever address */
-	protected $url = 'https://dane.biznes.gov.pl/api/ceidg/v2/firmy';
-
-	/** @var string Api Key. */
-	private $apiKey;
-
-	/** {@inheritdoc} */
-	protected $fields = [
-		'vatId' => [
-			'labelModule' => '_Base',
-			'label' => 'Vat ID',
-		],
-		'ncr' => [
-			'labelModule' => '_Base',
-			'label' => 'Registration number 1',
-		],
-		'taxNumber' => [
-			'labelModule' => '_Base',
-			'label' => 'Registration number 2',
-		],
-		'name' => [
-			'labelModule' => '_Base',
-			'label' => 'LBL_COMPANY_NAME',
-		],
-	];
-
-	/** {@inheritdoc} */
-	protected $modulesFieldsMap = [
-		'Accounts' => [
-			'vatId' => 'vat_id',
-			'taxNumber' => 'registration_number_2',
-			'ncr' => 'registration_number_1',
-		],
-		'Leads' => [
-			'vatId' => 'vat_id',
-			'taxNumber' => 'registration_number_2',
-			'ncr' => 'registration_number_1',
-		],
-		'Vendors' => [
-			'vatId' => 'vat_id',
-			'taxNumber' => 'registration_number_2',
-			'ncr' => 'registration_number_1',
-		],
-		'Competition' => [
-			'vatId' => 'vat_id',
-			'taxNumber' => 'registration_number_2',
-			'ncr' => 'registration_number_1',
-		],
 	];
 
 	/** {@inheritdoc} */
@@ -183,8 +136,58 @@ class PlCeidg extends Base
 		]
 	];
 
-	/** @var int Limit for fetching companies */
-	const LIMIT = 4;
+	/** {@inheritdoc} */
+	protected string $addOnName = 'YetiForceRcPlCeidg';
+
+	/** @var string Polish CEIDG sever address */
+	protected $url = 'https://dane.biznes.gov.pl/api/ceidg/v2/firmy';
+
+	/** {@inheritdoc} */
+	protected $fields = [
+		'vatId' => [
+			'labelModule' => '_Base',
+			'label' => 'Vat ID',
+		],
+		'ncr' => [
+			'labelModule' => '_Base',
+			'label' => 'Registration number 1',
+		],
+		'taxNumber' => [
+			'labelModule' => '_Base',
+			'label' => 'Registration number 2',
+		],
+		'name' => [
+			'labelModule' => '_Base',
+			'label' => 'LBL_COMPANY_NAME',
+		],
+	];
+
+	/** {@inheritdoc} */
+	protected $modulesFieldsMap = [
+		'Accounts' => [
+			'vatId' => 'vat_id',
+			'taxNumber' => 'registration_number_2',
+			'ncr' => 'registration_number_1',
+		],
+		'Leads' => [
+			'vatId' => 'vat_id',
+			'taxNumber' => 'registration_number_2',
+			'ncr' => 'registration_number_1',
+		],
+		'Vendors' => [
+			'vatId' => 'vat_id',
+			'taxNumber' => 'registration_number_2',
+			'ncr' => 'registration_number_1',
+		],
+		'Competition' => [
+			'vatId' => 'vat_id',
+			'taxNumber' => 'registration_number_2',
+			'ncr' => 'registration_number_1',
+		],
+	];
+
+	/** @var string Api Key. */
+	private $apiKey;
 
 	/** {@inheritdoc} */
 	public function isActive(): bool
@@ -232,7 +235,7 @@ class PlCeidg extends Base
 	{
 		$query['limit'] = self::LIMIT;
 		try {
-			$response = (\App\RequestHttp::getClient())->request('GET', $this->url . '?' . http_build_query($query), [
+			$response = \App\RequestHttp::getClient()->request('GET', $this->url . '?' . http_build_query($query), [
 				'headers' => ['Authorization' => 'Bearer ' . $this->apiKey],
 			]);
 			$rows = \App\Json::decode($response->getBody()->getContents()) ?? [];
@@ -243,7 +246,7 @@ class PlCeidg extends Base
 		if (!empty($rows['firmy'])) {
 			foreach ($rows['firmy'] as $key => $value) {
 				try {
-					$response = (\App\RequestHttp::getClient())->request('GET', $value['link'], [
+					$response = \App\RequestHttp::getClient()->request('GET', $value['link'], [
 						'headers' => ['Authorization' => 'Bearer ' . $this->apiKey],
 					]);
 					$response = \App\Json::decode($response->getBody()->getContents()) ?? [];

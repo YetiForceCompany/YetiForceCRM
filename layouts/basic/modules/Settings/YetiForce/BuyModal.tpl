@@ -27,7 +27,6 @@
 							<tr>
 								<td class="{$LABEL_CLASS}">{App\Language::translate('LBL_SHOP_PACKAGE', $QUALIFIED_MODULE)}</td>
 								<td class="w-50 input-group-sm">
-									{* <input class="js-price-by-size-input" name="os0" type="hidden" value="{key($PRODUCT->getPackages())}" data-js="val"> *}
 									<select class="select2 form-control js-price-by-size" data-js="container">
 										{foreach key=KEY item=PACKAGE from=$PRODUCT->getPackages()}
 											<option value="{$PACKAGE->getId()}"

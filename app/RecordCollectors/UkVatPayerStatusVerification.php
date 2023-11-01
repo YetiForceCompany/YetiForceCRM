@@ -37,6 +37,8 @@ class UkVatPayerStatusVerification extends Base
 
 	/** {@inheritdoc} */
 	public $docUrl = 'https://developer.service.hmrc.gov.uk/api-documentation';
+	/** {@inheritdoc} */
+	protected string $addOnName = 'YetiForceRcUkVatPayerStatus';
 
 	/** @var string API sever address */
 	protected $url = 'https://api.service.hmrc.gov.uk/';
