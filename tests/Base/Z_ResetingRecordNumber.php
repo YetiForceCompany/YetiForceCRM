@@ -22,26 +22,7 @@ class RecordNumber extends \App\Fields\RecordNumber
 	 * @var array of dates
 	 */
 	public static $dates = [
-		'2015-01-01',
-		'2015-03-03',
-		'2015-03-03',
-		'2015-03-03',
-		'2015-03-04',
-		'2015-03-04',
-		'2015-03-05',
-		'2015-11-09',
-		'2015-11-10',
-		'2015-11-11',
-		'2015-11-28',
-		'2016-11-29',
-		'2017-03-15',
-		'2017-03-18',
-		'2017-07-19',
-		'2018-01-01',
-		'2018-01-02',
-		'2018-01-02',
-		'2018-02-03',
-		'2018-05-05',
+		'2015-01-01'
 	];
 
 	/**
@@ -82,15 +63,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	public static function setUpBeforeClass(): void
 	{
 		self::$transaction = \App\Db::getInstance()->beginTransaction();
-	}
-
-	/**
-	 * Cleaning after tests.
-	 */
-	public static function tearDownAfterClass(): void
-	{
-		self::$transaction->rollBack();
-		\App\Cache::clear();
+		RecordNumber::$dates[0] = date('Y-m-d');
 	}
 
 	/**
@@ -141,6 +114,25 @@ class Z_ResetingRecordNumber extends \Tests\Base
 			$this->assertSame('', $number->get('cur_sequence'));
 			$this->assertSame('F-I', $number->get('prefix'));
 			$this->assertSame('', $number->get('postfix'));
+		}
+	}
+
+	/**
+	 * Test method "Parse".
+	 * Test parsing method for record numbers on different dates.
+	 */
+	public function testParse()
+	{
+		$instance = RecordNumber::getInstance('FInvoice');
+		foreach (RecordNumber::$dates as $index => $date) {
+			RecordNumber::$currentDateIndex = $index;
+			$parts = explode('-', $date);
+			$instance->set('prefix', '{{DD}}/');
+			$this->assertSame($parts[2] . '/1', $instance->parseNumber(1));
+			$instance->set('prefix', '{{MM}}/');
+			$this->assertSame($parts[1] . '/1', $instance->parseNumber(1));
+			$instance->set('prefix', '{{YYYY}}/');
+			$this->assertSame($parts[0] . '/1', $instance->parseNumber(1));
 		}
 	}
 
@@ -334,7 +326,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 					$currentNumber = 1;
 					$currentDate = $sequence;
 				}
-				$currentNumber = str_pad($currentNumber, $leadingZeros, '0', STR_PAD_LEFT);
+				$currentNumber = \str_pad($currentNumber, $leadingZeros, '0', STR_PAD_LEFT);
 				$this->assertSame("$date/$currentNumber", $instance->getIncrementNumber());
 				$number = RecordNumber::getInstance('FInvoice');
 				$this->assertSame($currentNumber + 1, $number->get('cur_id'));
@@ -345,5 +337,14 @@ class Z_ResetingRecordNumber extends \Tests\Base
 				$this->assertSame($postfix, $number->get('postfix'));
 			}
 		}
+	}
+
+	/**
+	 * Cleaning after tests.
+	 */
+	public static function tearDownAfterClass(): void
+	{
+		self::$transaction->rollBack();
+		\App\Cache::clear();
 	}
 }
