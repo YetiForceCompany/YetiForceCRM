@@ -54,6 +54,47 @@ class AutoAssign extends \Tests\Base
 	private static $autoAssign;
 
 	/**
+	 * @codeCoverageIgnore
+	 * Setting of tests.
+	 */
+	public static function setUpBeforeClass(): void
+	{
+		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
+		self::$users['assignUserNo'] = self::createUserRecord('assignUserNo');
+		self::$users['assignUserYes'] = self::createUserRecord('assignUserYes', ['available' => '1', 'auto_assign' => '1']);
+		self::$users['assignUserYes2'] = self::createUserRecord('assignUserYes2', ['available' => '1', 'auto_assign' => '1']);
+		self::$defaultUser = self::createUserRecord('assignUserDefault');
+
+		self::$autoAssignUsers = array_filter(array_map(fn ($userModel) => $userModel->get('auto_assign') ? $userModel->getId() : null, self::$users));
+
+		$members = array_map(fn ($userModel) => \App\PrivilegeUtil::MEMBER_TYPE_USERS . ':' . $userModel->getId(), self::$users);
+
+		$recordModel = \Settings_Groups_Record_Model::getCleanInstance();
+		$recordModel->set('groupname', 'Support groups');
+		$recordModel->set('description', 'Test description');
+		$recordModel->set('members', $recordModel->getFieldInstanceByName('members')->getDBValue($members));
+		$recordModel->set('modules', $recordModel->getFieldInstanceByName('modules')->getDBValue([\App\Module::getModuleId('HelpDesk')]));
+		$recordModel->save();
+		self::$groupId = $recordModel->getId();
+	}
+
+	/**
+	 * Cleaning after tests.
+	 *
+	 * @return void
+	 */
+	public static function tearDownAfterClass(): void
+	{
+		foreach (self::$tickets as $recordModel) {
+			$recordModel->delete();
+		}
+		foreach (self::$users as $recordModel) {
+			\Users_Record_Model::deleteUserPermanently($recordModel->getId(), \App\User::getCurrentUserId());
+		}
+		\Users_Record_Model::deleteUserPermanently(self::$defaultUser->getId(), \App\User::getCurrentUserId());
+	}
+
+	/**
 	 * Create user.
 	 *
 	 * @codeCoverageIgnore
@@ -104,35 +145,6 @@ class AutoAssign extends \Tests\Base
 	}
 
 	/**
-	 * @codeCoverageIgnore
-	 * Setting of tests.
-	 */
-	public static function setUpBeforeClass(): void
-	{
-		\App\User::setCurrentUserId(\App\User::getActiveAdminId());
-		self::$users['assignUserNo'] = self::createUserRecord('assignUserNo');
-		self::$users['assignUserYes'] = self::createUserRecord('assignUserYes', ['available' => '1', 'auto_assign' => '1']);
-		self::$users['assignUserYes2'] = self::createUserRecord('assignUserYes2', ['available' => '1', 'auto_assign' => '1']);
-		self::$defaultUser = self::createUserRecord('assignUserDefault');
-
-		self::$autoAssignUsers = array_filter(array_map(function ($userModel) {
-			return $userModel->get('auto_assign') ? $userModel->getId() : null;
-		}, self::$users));
-
-		$members = array_map(function ($userModel) {
-			return \App\PrivilegeUtil::MEMBER_TYPE_USERS . ':' . $userModel->getId();
-		}, self::$users);
-
-		$recordModel = \Settings_Groups_Record_Model::getCleanInstance();
-		$recordModel->set('groupname', 'Support groups');
-		$recordModel->set('description', 'Test description');
-		$recordModel->set('members', $recordModel->getFieldInstanceByName('members')->getDBValue($members));
-		$recordModel->set('modules', $recordModel->getFieldInstanceByName('modules')->getDBValue([\App\Module::getModuleId('HelpDesk')]));
-		$recordModel->save();
-		self::$groupId = $recordModel->getId();
-	}
-
-	/**
 	 * Testing create auto assign record.
 	 */
 	public function testCreate()
@@ -170,6 +182,10 @@ class AutoAssign extends \Tests\Base
 	 */
 	public function testHandler()
 	{
+		if (!\App\YetiForce\Shop::check('YetiForceAutoAssignment')) {
+			$this->markTestSkipped('No required access to test this functionality');
+			return;
+		}
 		$recordModel = self::createTicket(self::$groupId);
 		$owner = $recordModel->get('assigned_user_id');
 		$possibleOwners = self::$autoAssignUsers;
@@ -209,6 +225,10 @@ class AutoAssign extends \Tests\Base
 	 */
 	public function testRoundRobin()
 	{
+		if (!\App\YetiForce\Shop::check('YetiForceAutoAssignment')) {
+			$this->markTestSkipped('No required access to test this functionality');
+			return;
+		}
 		$assigned = [];
 		for ($i = 0; $i < \count(self::$autoAssignUsers); ++$i) {
 			$recordModel = self::createTicket(self::$groupId);
@@ -238,21 +258,5 @@ class AutoAssign extends \Tests\Base
 
 		$handlers = (new \App\EventHandler())->setModuleName('HelpDesk')->getHandlers('EntityBeforeSave');
 		$this->assertFalse(isset($handlers['Vtiger_AutoAssign_Handler']), 'The handler should not be active');
-	}
-
-	/**
-	 * Cleaning after tests.
-	 *
-	 * @return void
-	 */
-	public static function tearDownAfterClass(): void
-	{
-		foreach (self::$tickets as $recordModel) {
-			$recordModel->delete();
-		}
-		foreach (self::$users as $recordModel) {
-			\Users_Record_Model::deleteUserPermanently($recordModel->getId(), \App\User::getCurrentUserId());
-		}
-		\Users_Record_Model::deleteUserPermanently(self::$defaultUser->getId(), \App\User::getCurrentUserId());
 	}
 }
