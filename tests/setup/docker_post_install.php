@@ -12,7 +12,8 @@ if (file_exists($path)) {
 	$content = str_replace(
 		['; Pool Definitions ;', ''],
 		["; Pool Definitions ;\nlog_level = warning\nerror_log = /var/log/fpm-php.www.log\n"],
-	 file_get_contents($path));
+		file_get_contents($path)
+	);
 	file_put_contents($path, $content);
 }
 
@@ -63,7 +64,7 @@ if ('TEST' === getenv('INSTALL_MODE')) {
 	$configFile->set('MINIMIZE_CSS', false);
 	$configFile->set('CHANGE_VISIBILITY', true);
 	$configFile->set('CHANGE_RELATIONS', true);
-	$configFile->set('MISSING_LIBRARY_DEV_MODE', true);
+	// $configFile->set('MISSING_LIBRARY_DEV_MODE', true);
 	$configFile->set('LANGUAGES_UPDATE_DEV_MODE', true);
 	$configFile->set('updaterDevMode', true);
 	$configFile->create();
