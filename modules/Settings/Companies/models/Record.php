@@ -51,7 +51,7 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	 *
 	 * @return bool|Settings_Companies_Record_Model instance, if exists
 	 */
-	public static function getInstance(): bool|self
+	public static function getInstance()
 	{
 		$db = \App\Db::getInstance('admin');
 		$row = (new \App\Db\Query())->from('s_#__companies')->one($db);
@@ -144,12 +144,22 @@ class Settings_Companies_Record_Model extends Settings_Vtiger_Record_Model
 	{
 		$value = $this->get($key) ?? '';
 
-		return match ($key) {
-			'tabid' => \App\Module::getModuleName((int) $value),
-			'industry' => App\Language::translate($value),
-			'country' => \App\Language::translateSingleMod($value, 'Other.Country'),
-			default => \App\Purifier::encodeHtml($value),
-		};
+		switch ($key) {
+			case 'tabid':
+				$value = \App\Module::getModuleName((int) $value);
+				break;
+			case 'industry':
+				$value = App\Language::translate($value);
+				break;
+			case 'country':
+				$value =\App\Language::translateSingleMod($value, 'Other.Country');
+				break;
+			default:
+				$value =\App\Purifier::encodeHtml($value);
+				break;
+		}
+
+		return $value;
 	}
 
 	/**

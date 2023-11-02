@@ -89,7 +89,8 @@ final class Shop extends AbstractBase
 	 */
 	public static function check(string $productName): bool
 	{
-		$product = new (self::getProductClass($productName))($productName);
+		$className = self::getProductClass($productName);
+		$product = new $className($productName);
 		return $product->getStatus();
 	}
 
@@ -129,7 +130,8 @@ final class Shop extends AbstractBase
 	 */
 	public static function checkAlert(string $productName): string
 	{
-		$product = new (self::getProductClass($productName))($productName);
+		$className = self::getProductClass($productName);
+		$product = new $className($productName);
 		return $product->getAlertMessage();
 	}
 
@@ -159,7 +161,8 @@ final class Shop extends AbstractBase
 		$products = \App\YetiForce\Register::getProducts();
 		foreach ($products ?? [] as $row) {
 			$productName = $row['product'];
-			$product = new (self::getProductClass($productName))($productName);
+			$className = self::getProductClass($productName);
+			$product = new $className($productName);
 			if ($product->isExpired()) {
 				$names[$productName] = $productName;
 				if (!$getNames) {
@@ -269,7 +272,8 @@ final class Shop extends AbstractBase
 	{
 		foreach ($products as $productData) {
 			$name = $productData['name'] ?? '';
-			if (!empty($productData['packages']) && ($product = self::getProductClass($name)::fromArray($productData)) && $product->isAvailable()) {
+			$className = self::getProductClass($name);
+			if (!empty($productData['packages']) && ($product = $className::fromArray($productData)) && $product->isAvailable()) {
 				self::$productCache[$product->getName()] = $product;
 			}
 		}

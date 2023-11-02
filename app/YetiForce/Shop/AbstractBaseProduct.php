@@ -164,7 +164,7 @@ abstract class AbstractBaseProduct
 	 *
 	 * @return static
 	 */
-	public static function fromArray(array $data): static
+	public static function fromArray(array $data)
 	{
 		$name = $data['name'] ?? '';
 		$self = new static($name);
@@ -254,20 +254,6 @@ abstract class AbstractBaseProduct
 	public function getPrice(): int
 	{
 		return $this->package->getPrice();
-	}
-
-	/**
-	 * Get price label.
-	 *
-	 * @param string $key
-	 *
-	 * @return string
-	 */
-	public function getPriceLabel(string $key): string
-	{
-		return isset($this->packages[$key])
-			? $this->packages[$key]->getLabel()
-			: \App\Language::translate('LBL_SHOP_COMPANY_SIZE_' . strtoupper($key), 'Settings::YetiForce');
 	}
 
 	/**

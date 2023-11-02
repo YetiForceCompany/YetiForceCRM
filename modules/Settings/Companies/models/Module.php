@@ -79,7 +79,7 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return array|false
 	 */
-	public static function getColumnNames(): bool|array
+	public static function getColumnNames()
 	{
 		$tableSchema = \App\Db::getInstance('admin')->getTableSchema('s_#__companies', true);
 		if ($tableSchema) {
@@ -112,7 +112,7 @@ class Settings_Companies_Module_Model extends Settings_Vtiger_Module_Model
 	 *
 	 * @return bool|array
 	 */
-	public function getNameFields(): bool|array
+	public function getNameFields()
 	{
 		$columnNames = self::getColumnNames();
 		unset($columnNames[array_search('id', $columnNames)]);

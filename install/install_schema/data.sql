@@ -163,7 +163,6 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (28,'Log',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (29,'LoginHistory',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (30,'Logs',1,'2020-09-09 12:08:50');
-insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (31,'Magento',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (32,'Mail',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (33,'MailIntegration',1,'2020-09-09 12:08:50');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (34,'MailSmtp',1,'2020-09-09 12:08:50');
@@ -214,7 +213,6 @@ insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (82,'Kanban',1,'2021-08-13 11:36:47');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (83,'MeetingServices',1,'2021-11-18 16:39:26');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (84,'Media',1,'2022-06-07 17:18:53');
-insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (85,'Wapro',1,'2022-06-13 15:05:10');
 insert  into `a_yf_settings_modules`(`id`,`name`,`status`,`created_time`) values (86,'RecordCollector',1,'2022-06-27 11:20:43');
 
 /*Data for the table `a_yf_smsnotifier_servers` */

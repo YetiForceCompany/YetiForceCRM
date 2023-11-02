@@ -40,7 +40,7 @@ class Company extends Base
 	 *
 	 * @return array|bool
 	 */
-	public static function getCompany(): array|bool
+	public static function getCompany()
 	{
 		if (Cache::staticHas('CompanyGet', '')) {
 			return Cache::staticGet('CompanyGet', '');
