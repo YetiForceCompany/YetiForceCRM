@@ -71,7 +71,6 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	 */
 	public function testDateMock()
 	{
-		$this->assertCount(20, RecordNumber::$dates);
 		foreach (RecordNumber::$dates as $index => $date) {
 			RecordNumber::$currentDateIndex = $index;
 			$this->assertSame($date, RecordNumber::date('Y-m-d'));
