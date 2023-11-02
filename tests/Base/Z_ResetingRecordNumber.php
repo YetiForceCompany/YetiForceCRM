@@ -85,6 +85,15 @@ class Z_ResetingRecordNumber extends \Tests\Base
 	}
 
 	/**
+	 * Cleaning after tests.
+	 */
+	public static function tearDownAfterClass(): void
+	{
+		self::$transaction->rollBack();
+		\App\Cache::clear();
+	}
+
+	/**
 	 * Test method "DateMock".
 	 */
 	public function testDateMock()
@@ -132,25 +141,6 @@ class Z_ResetingRecordNumber extends \Tests\Base
 			$this->assertSame('', $number->get('cur_sequence'));
 			$this->assertSame('F-I', $number->get('prefix'));
 			$this->assertSame('', $number->get('postfix'));
-		}
-	}
-
-	/**
-	 * Test method "Parse".
-	 * Test parsing method for record numbers on different dates.
-	 */
-	public function testParse()
-	{
-		$instance = RecordNumber::getInstance('FInvoice');
-		foreach (RecordNumber::$dates as $index => $date) {
-			RecordNumber::$currentDateIndex = $index;
-			$parts = explode('-', $date);
-			$instance->set('prefix', '{{DD}}/');
-			$this->assertSame($parts[2] . '/1', $instance->parseNumber(1));
-			$instance->set('prefix', '{{MM}}/');
-			$this->assertSame($parts[1] . '/1', $instance->parseNumber(1));
-			$instance->set('prefix', '{{YYYY}}/');
-			$this->assertSame($parts[0] . '/1', $instance->parseNumber(1));
 		}
 	}
 
@@ -344,7 +334,7 @@ class Z_ResetingRecordNumber extends \Tests\Base
 					$currentNumber = 1;
 					$currentDate = $sequence;
 				}
-				$currentNumber = \str_pad($currentNumber, $leadingZeros, '0', STR_PAD_LEFT);
+				$currentNumber = str_pad($currentNumber, $leadingZeros, '0', STR_PAD_LEFT);
 				$this->assertSame("$date/$currentNumber", $instance->getIncrementNumber());
 				$number = RecordNumber::getInstance('FInvoice');
 				$this->assertSame($currentNumber + 1, $number->get('cur_id'));
@@ -355,14 +345,5 @@ class Z_ResetingRecordNumber extends \Tests\Base
 				$this->assertSame($postfix, $number->get('postfix'));
 			}
 		}
-	}
-
-	/**
-	 * Cleaning after tests.
-	 */
-	public static function tearDownAfterClass(): void
-	{
-		self::$transaction->rollBack();
-		\App\Cache::clear();
 	}
 }

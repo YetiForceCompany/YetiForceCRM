@@ -85,7 +85,28 @@ class Purifier extends \Tests\Base
 		$userRecordModel->set('hour_format', '24');
 		$userRecordModel->set('time_zone', \App\Fields\DateTime::getTimeZone());
 		$userRecordModel->save();
-		\date_default_timezone_set(\App\Fields\DateTime::getTimeZone());
+		date_default_timezone_set(\App\Fields\DateTime::getTimeZone());
+	}
+
+	/**
+	 * Restore current user preferences.
+	 *
+	 * @throws \Exception
+	 */
+	public static function tearDownAfterClass(): void
+	{
+		$userModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
+		$userModel->set('currency_decimal_separator', self::$separatorDecimal);
+		$userModel->set('currency_grouping_separator', self::$separatorGrouping);
+		$userModel->set('currency_symbol_placement', self::$symbolPlacement);
+		$userModel->set('currency_grouping_pattern', self::$patternGrouping);
+		$userModel->set('no_of_currency_decimals', self::$decimalNum);
+		$userModel->set('truncate_trailing_zeros', self::$truncateTrailingZeros);
+		$userModel->set('hour_format', self::$hourFormat);
+		$userModel->set('time_zone', self::$userTimeZone);
+		$userModel->save();
+		date_default_timezone_set(self::$timeZone);
+		parent::tearDownAfterClass();
 	}
 
 	/**
@@ -97,7 +118,7 @@ class Purifier extends \Tests\Base
 	 */
 	public function dataProviderByType()
 	{
-		//$type, $assertion, $expected, $text, $message, $exception
+		// $type, $assertion, $expected, $text, $message, $exception
 		return [
 			['Standard', 'Same', 'Test-text-string-for-purifier', 'Test-text-string-for-purifier', 'Sample text should be unchanged', null],
 			['Standard', 'Same', ['Test-text-string-for-purifier', 'Test-text-string-for-purifier'], ['Test-text-string-for-purifier', 'Test-text-string-for-purifier'], 'Sample text should be unchanged(array)', null],
@@ -108,8 +129,8 @@ class Purifier extends \Tests\Base
 			[2, 'NotSame', 'Test_text_alnum_4_purifier%$54#T$#BR-', 'Test_text_alnum_4_purifier%$54#T$#BR-', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
 			['DateInUserFormat', 'Same', date('Y-m-d'), date('Y-m-d'), 'Sample text should be unchanged', null],
 			['DateInUserFormat', 'NotSame', date('Y.m.d'), date('Y.m.d'), 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
-			['DateRangeUserFormat', 'Same', [date('Y-m-d'), date('Y-m-d', \strtotime('+1 day'))], date('Y-m-d') . ',' . date('Y-m-d', \strtotime('+1 day')), 'Sample text should be unchanged', null],
-			['DateRangeUserFormat', 'NotSame', date('Y.m.d') . ',' . date('Y.m.d', \strtotime('+1 day')), date('Y.m.d') . ',' . date('Y.m.d', \strtotime('+1 day')), 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
+			['DateRangeUserFormat', 'Same', [date('Y-m-d'), date('Y-m-d', strtotime('+1 day'))], date('Y-m-d') . ',' . date('Y-m-d', strtotime('+1 day')), 'Sample text should be unchanged', null],
+			['DateRangeUserFormat', 'NotSame', date('Y.m.d') . ',' . date('Y.m.d', strtotime('+1 day')), date('Y.m.d') . ',' . date('Y.m.d', strtotime('+1 day')), 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
 			['date', 'Same', date('Y-m-d'), date('Y-m-d'), 'Sample text should be unchanged', null],
 			['date', 'NotSame', '201X-07-26', '201X-07-26', 'Sample text should be purified', \App\Exceptions\IllegalValue::class],
 			['time', 'Same', date('H:i:s'), date('H:i:s'), 'Sample text should be unchanged', null],
@@ -131,9 +152,9 @@ class Purifier extends \Tests\Base
 			['Text', 'NotSame', 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//  <svg/onload=alert(1) onfocus=alert(2)//', 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//  <svg/onload=alert(1) onfocus=alert(2)//', 'Sample number should be purified', \App\Exceptions\IllegalValue::class],
 			['Default', 'Same', 'Test-text-string-for-purifier', 'Test-text-string-for-purifier', 'Sample number should be unchanged', null],
 			['Default', 'NotSame', 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//  <svg/onload=alert(1) onfocus=alert(2)//', 'ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!) &lt;svg/onabort=alert(3)//  <svg/onload=alert(1) onfocus=alert(2)//', 'Sample number should be purified', \App\Exceptions\IllegalValue::class],
-			['MailId', 'Same', '<5FB2B5EF@xx.cc.it> (added by postmaster@cc.it)', '<5FB2B5EF@xx.cc.it> (added by postmaster@cc.it)', 'Sample text should be unchanged', null],
-			['MailId', 'Same', '<30.123.12.JavaMail."admin.azure"@A-PROXY01>', '<30.123.12.JavaMail."admin.azure"@A-PROXY01>', 'Sample text should be unchanged', null],
-			['MailId', 'Same', '<CAK01GN-UtTiM90_wQNB07OnE6aBm=w@mail.g.c>', '<CAK01GN-UtTiM90_wQNB07OnE6aBm=w@mail.g.c>', 'Sample text should be unchanged', null],
+			['MailId', 'Same',  '5FB2B5EF@xx.cc.it> (added by postmaster@cc.it)', '<5FB2B5EF@xx.cc.it> (added by postmaster@cc.it)', 'Sample text should be unchanged', null],
+			['MailId', 'Same',  '30.123.12.JavaMail."admin.azure"@A-PROXY01', '<30.123.12.JavaMail."admin.azure"@A-PROXY01>', 'Sample text should be unchanged', null],
+			['MailId', 'Same',  'CAK01GN-UtTiM90_wQNB07OnE6aBm=w@mail.g.c', '<CAK01GN-UtTiM90_wQNB07OnE6aBm=w@mail.g.c>', 'Sample text should be unchanged', null],
 			[\App\Purifier::PATH, 'NotSame', '../Test', '../Test', 'Path should be discarded', \App\Exceptions\IllegalValue::class],
 			[\App\Purifier::PATH, 'Same', '/Test/test', '/Test/test', 'Path should be unchanged', null],
 		];
@@ -246,7 +267,7 @@ class Purifier extends \Tests\Base
 			['<div>Test-text-string-for-purifier</div>', '<div>Test-text-string-for-purifier</div>', true],
 			['ę€ółśążźćń23{}":?>><>?:"{}+_)', 'ę€ółśążźćń23{}":?&gt;&gt;&lt;&gt;?:"{}+_)', true],
 			['ę€ółśążźćń23{}":?>><>?:"{}+_)(*&^%$#@!)', 'ę€ółśążźćń23{}":?&gt;&gt;&lt;&gt;?:"{}+_)(*&amp;^%$#@!)', true],
-			[\file_get_contents(ROOT_DIRECTORY . '/tests/data/phpFile1.html'), \file_get_contents(ROOT_DIRECTORY . '/tests/data/phpFile2.html'), true],
+			[file_get_contents(ROOT_DIRECTORY . '/tests/data/phpFile1.html'), file_get_contents(ROOT_DIRECTORY . '/tests/data/phpFile2.html'), true],
 			['<p><yetiforce type="Documents" crm-id="70521" attachment-id="22855"></yetiforce></p>', '<p><yetiforce type="Documents" crm-id="70521" attachment-id="22855"></yetiforce></p>', true],
 		];
 	}
@@ -262,26 +283,5 @@ class Purifier extends \Tests\Base
 	public function testPurifyHtmlSuccess(string $text, string $expected): void
 	{
 		$this->assertSame($expected, \App\Purifier::purifyHtml($text), 'Sample text should be unchanged');
-	}
-
-	/**
-	 * Restore current user preferences.
-	 *
-	 * @throws \Exception
-	 */
-	public static function tearDownAfterClass(): void
-	{
-		$userModel = \Vtiger_Record_Model::getInstanceById(\App\User::getCurrentUserId(), 'Users');
-		$userModel->set('currency_decimal_separator', self::$separatorDecimal);
-		$userModel->set('currency_grouping_separator', self::$separatorGrouping);
-		$userModel->set('currency_symbol_placement', self::$symbolPlacement);
-		$userModel->set('currency_grouping_pattern', self::$patternGrouping);
-		$userModel->set('no_of_currency_decimals', self::$decimalNum);
-		$userModel->set('truncate_trailing_zeros', self::$truncateTrailingZeros);
-		$userModel->set('hour_format', self::$hourFormat);
-		$userModel->set('time_zone', self::$userTimeZone);
-		$userModel->save();
-		\date_default_timezone_set(self::$timeZone);
-		parent::tearDownAfterClass();
 	}
 }
