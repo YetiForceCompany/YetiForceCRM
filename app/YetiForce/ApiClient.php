@@ -33,7 +33,7 @@ final class ApiClient
 	/** @var int Total timeout of the request in seconds. */
 	private int $timeout = 20;
 	/** @var int The number of seconds to wait while trying to connect to a server. */
-	private int $connectTimeout = 2;
+	private int $connectTimeout = 10;
 
 	/**
 	 * Send registration data.
