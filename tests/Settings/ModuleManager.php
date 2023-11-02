@@ -124,7 +124,7 @@ class ModuleManager extends \Tests\Base
 	 */
 	public function testCreateNewBlock()
 	{
-		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('TestModule');
+		$moduleModel = \Vtiger_Module_Model::getInstance('TestModule');
 		$blockInstance = new \Settings_LayoutEditor_Block_Model();
 		$blockInstance->set('label', 'label block');
 		$blockInstance->set('iscustom', 1);
@@ -155,14 +155,14 @@ class ModuleManager extends \Tests\Base
 		if ('Tree' === $type || 'CategoryMultipicklist' === $type) {
 			//Add a tree if it does not exist
 			if (empty(self::$treeId)) {
-				self::$treeId = (new TreesManager())->testAddTree(1, \Settings_LayoutEditor_Module_Model::getInstanceByName('TestModule')->getId());
+				self::$treeId = (new TreesManager())->testAddTree(1, \Vtiger_Module_Model::getInstance('TestModule')->getId());
 			}
 			$param['tree'] = self::$treeId;
 		} elseif ('MultiReferenceValue' === $type) {
 			$param['MRVField'] = $this->getMRVField();
 		}
 
-		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName($param['sourceModule']);
+		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstance('Settings:LayoutEditor')->setSourceModule($param['sourceModule']);
 		$fieldModel = $moduleModel->addField($param['fieldType'], self::$blockId, $param);
 		self::$fieldsId[$key] = $fieldModel->getId();
 		$details = $moduleModel->getTypeDetailsForAddField($type, $param);
@@ -237,7 +237,7 @@ class ModuleManager extends \Tests\Base
 		$moduleInstance = \vtlib\Module::getInstance('Contacts');
 		$source_Module->setRelatedList($moduleInstance, 'TestRel123', ['ADD', 'SELECT'], 'getRelatedList');
 
-		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstanceByName('TestModule');
+		$moduleModel = \Settings_LayoutEditor_Module_Model::getInstance('Settings:LayoutEditor')->setSourceModule('TestModule');
 		$fields = [];
 		foreach ($moduleModel->getRelations() as $value) {
 			foreach ($value->getFields() as $valF) {
