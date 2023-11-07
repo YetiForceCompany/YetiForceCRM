@@ -56,6 +56,10 @@ class RecordCollector extends \Tests\Base
 	public function testPlKrs(): void
 	{
 		$recordCollector = \App\RecordCollector::getInstance('App\RecordCollectors\PlKrs', 'Accounts');
+		if (!$recordCollector->isActive()) {
+			$this->markTestSkipped('No required access to test this functionality');
+			return;
+		}
 		$recordCollector->setRequest(new \App\Request([
 			'module' => 'Accounts',
 			'ncr' => '0000940956',
@@ -81,6 +85,10 @@ class RecordCollector extends \Tests\Base
 	public function testDkCvr(): void
 	{
 		$recordCollector = \App\RecordCollector::getInstance('App\RecordCollectors\DkCvr', 'Accounts');
+		if (!$recordCollector->isActive()) {
+			$this->markTestSkipped('No required access to test this functionality');
+			return;
+		}
 		$recordCollector->setRequest(new \App\Request([
 			'module' => 'Accounts',
 			'country' => 'no',
@@ -105,6 +113,10 @@ class RecordCollector extends \Tests\Base
 	public function testFrEnterpriseGouv(): void
 	{
 		$recordCollector = \App\RecordCollector::getInstance('App\RecordCollectors\FrEnterpriseGouv', 'Accounts');
+		if (!$recordCollector->isActive()) {
+			$this->markTestSkipped('No required access to test this functionality');
+			return;
+		}
 		$recordCollector->setRequest(new \App\Request([
 			'module' => 'Accounts',
 			'vatNumber' => '213305295',
@@ -128,6 +140,10 @@ class RecordCollector extends \Tests\Base
 	public function testNoBrregEnhetsregisteret(): void
 	{
 		$recordCollector = \App\RecordCollector::getInstance('App\RecordCollectors\NoBrregEnhetsregisteret', 'Accounts');
+		if (!$recordCollector->isActive()) {
+			$this->markTestSkipped('No required access to test this functionality');
+			return;
+		}
 		$recordCollector->setRequest(new \App\Request([
 			'module' => 'Accounts',
 			'vatNumber' => '923486178',
@@ -152,6 +168,10 @@ class RecordCollector extends \Tests\Base
 	public function testUsaEdgarRegistryFromSec(): void
 	{
 		$recordCollector = \App\RecordCollector::getInstance('App\RecordCollectors\UsaEdgarRegistryFromSec', 'Accounts');
+		if (!$recordCollector->isActive()) {
+			$this->markTestSkipped('No required access to test this functionality');
+			return;
+		}
 		$recordCollector->setRequest(new \App\Request([
 			'module' => 'Accounts',
 			'cik' => '0001823466',
