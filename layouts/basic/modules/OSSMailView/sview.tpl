@@ -20,7 +20,7 @@
 							<span class="text-muted">{\App\Language::translate('To',$MODULENAME)}</span>
 						</span>
 						<span class="col-11">
-							<span id="emailPreview_To" class="">{assign var=TO_EMAILS value=","|implode:$TO}{$TO_EMAILS}</span>
+							<span id="emailPreview_To" class="">{assign var=TO_EMAILS value=implode(",",$TO)}{$TO_EMAILS}</span>
 						</span>
 					</span>
 				</div>

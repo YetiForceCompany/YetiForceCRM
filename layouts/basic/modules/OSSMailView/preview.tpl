@@ -82,7 +82,7 @@
 								<span class="muted">{\App\Language::translate('From',$MODULENAME)}</span>: <span id="emailPreview_From" class="">{$RECORD_MODEL->getDisplayValue('from_email')}</span>
 							</p>
 							<p class="mb-0 u-fs-15px u-lh-12 u-text-ellipsis">
-								<span class="muted">{\App\Language::translate('To',$MODULENAME)}</span>: <span id="emailPreview_To" class="">{assign var=TO_EMAILS value=","|implode:$TO}{$TO_EMAILS}</span>
+								<span class="muted">{\App\Language::translate('To',$MODULENAME)}</span>: <span id="emailPreview_To" class="">{assign var=TO_EMAILS value=implode(",",$TO)}{$TO_EMAILS}</span>
 							</p>
 							{if !empty($CC)}
 								<p class="mb-0 u-fs-15px u-lh-12 u-text-ellipsis">
