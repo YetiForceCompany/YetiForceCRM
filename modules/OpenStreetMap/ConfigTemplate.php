@@ -39,7 +39,7 @@ return [
 		'docTags' => ['var' => 'array'],
 	],
 	'coordinatesServer' => [
-		'default' => '',
+		'default' => 'Nominatim',
 		'description' => 'Name of connector to get coordinates.',
 		'validation' => '\App\Validator::text',
 	],
