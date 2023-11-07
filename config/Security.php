@@ -170,7 +170,7 @@ class Security
 	public static $cspHeaderTokenTime = '5 minutes';
 
 	/** Allowed domains for loading images, used in CSP. */
-	public static $allowedImageDomains = [];
+	public static $allowedImageDomains = ['*.tile.openstreetmap.org'];
 
 	/**
 	 * Specifies valid parents that may embed a page using <frame>, <iframe>, <object>, <embed> or <applet> and validate referer.
