@@ -59,6 +59,7 @@ class Settings_ApiAddress_Module_Model extends Settings_Vtiger_Module_Model
 				$result = $db->createCommand()->insert($this->baseTable, ['val' => $val, 'type' => $type, 'name' => $key])->execute();
 			}
 		}
+		\App\Cache::delete('AddressFinder', 'Config');
 
 		return (bool) $result;
 	}
