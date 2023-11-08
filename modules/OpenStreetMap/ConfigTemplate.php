@@ -78,7 +78,7 @@ return [
 		'description' => "List of available routing servers, free list of servers is available on page https://wiki.openstreetmap.org/wiki/Routing/online_routers\n Value: 'server name' => ['driverName' => 'xxx', 'apiUrl' => 'https://xxx.org', 'docUrl' => 'https://xxx', 'params' => []]",
 	],
 	'tileLayerServer' => [
-		'default' => '',
+		'default' => 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 		'description' => 'Tile layer url template, url used to load and display tile layers on the map.',
 		'validation' => '\App\Validator::text',
 	],
