@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a2fcacabe3aaf114bbbfa21d78a1dc2",
+    "content-hash": "0a8594826f8d9a5324c3f8be6dcb1b0b",
     "packages": [
         {
             "name": "adhocore/jwt",
@@ -5154,16 +5154,16 @@
         },
         {
             "name": "yetiforce/csrf-magic",
-            "version": "v1.1.3",
+            "version": "v1.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/YetiForceCompany/csrf-magic.git",
-                "reference": "aecd6d438962d8f6dbef8749ca8821caea01d7af"
+                "reference": "6034adf8912844cc4dbce1564f091d20ba155b3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/YetiForceCompany/csrf-magic/zipball/aecd6d438962d8f6dbef8749ca8821caea01d7af",
-                "reference": "aecd6d438962d8f6dbef8749ca8821caea01d7af",
+                "url": "https://api.github.com/repos/YetiForceCompany/csrf-magic/zipball/6034adf8912844cc4dbce1564f091d20ba155b3c",
+                "reference": "6034adf8912844cc4dbce1564f091d20ba155b3c",
                 "shasum": ""
             },
             "require": {
@@ -5199,9 +5199,9 @@
                 "security"
             ],
             "support": {
-                "source": "https://github.com/YetiForceCompany/csrf-magic/tree/v1.1.3"
+                "source": "https://github.com/YetiForceCompany/csrf-magic/tree/v1.1.7"
             },
-            "time": "2023-06-23T05:14:55+00:00"
+            "time": "2023-11-16T13:00:48+00:00"
         },
         {
             "name": "yetiforce/yetiforcepdf",
