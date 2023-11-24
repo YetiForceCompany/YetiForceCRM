@@ -59,7 +59,7 @@
     "phpmailer/phpmailer": "^v6.1",
     "ezyang/htmlpurifier": "^v4.11.0",
     "simshaun/recurr": "^v5.0",
-    "giggsey/libphonenumber-for-php": "^8.8.11",
+    "giggsey/libphonenumber-for-php": "^8.13.26",
     "simplepie/simplepie": "^1",
     "phpoffice/phpspreadsheet": "^1.3.1",
     "pragmarx/google2fa": "^v8",
