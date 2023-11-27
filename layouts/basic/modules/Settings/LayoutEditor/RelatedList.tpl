@@ -94,7 +94,7 @@
 													<select data-placeholder="{\App\Language::translate('LBL_RELATED_VIEW_TYPE_DESC',$MODULE)}"
 														multiple="multiple" data-prompt-position="topLeft"
 														class="form-control select2_container relatedViewType validate[required]">
-														{foreach key=KEY item=NAME from=Settings_LayoutEditor_Module_Model::getRelatedViewTypes()}
+														{foreach key=KEY item=NAME from=Settings_LayoutEditor_Module_Model::RELATED_VIEW_TYPE}
 															<option value="{$KEY}" {if $MODULE_MODEL->isRelatedViewType($KEY)}selected{/if}>
 																{\App\Language::translate($NAME, $QUALIFIED_MODULE)}
 															</option>
