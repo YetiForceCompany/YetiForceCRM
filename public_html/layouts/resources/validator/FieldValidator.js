@@ -526,7 +526,7 @@ Vtiger_Base_Validator_Js(
 			const selectElementValue = fieldInstance.val();
 			if (Array.isArray(selectElementValue)) {
 				for (let value of selectElementValue) {
-					if (value && !/(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/iu.test(value)) {
+					if (value && !/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/iu.test(value)) {
 						this.setError(app.vtranslate('JS_PLEASE_SELECT_VALID_DOMAIN_NAMES'));
 						return false;
 					}
