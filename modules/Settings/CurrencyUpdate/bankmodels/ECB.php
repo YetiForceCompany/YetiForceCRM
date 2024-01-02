@@ -21,7 +21,7 @@ class Settings_CurrencyUpdate_ECB_BankModel extends Settings_CurrencyUpdate_Abst
 
 	public function getSource()
 	{
-		return ['http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml', 'http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml'];
+		return ['https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml', 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml'];
 	}
 
 	// Returns list of currencies supported by this bank
