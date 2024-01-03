@@ -45,6 +45,7 @@ class Relation
 				$row['favorites'] = (int) $row['favorites'];
 				$row['creator_detail'] = (int) $row['creator_detail'];
 				$row['relation_comment'] = (int) $row['relation_comment'];
+				$row['related_module_presence'] = (int) $row['related_module_presence'];
 				$allRelations[$row['relation_id']] = $row;
 			}
 			Cache::save('App\Relation::getByModule', $moduleName, $allRelations, Cache::LONG);
