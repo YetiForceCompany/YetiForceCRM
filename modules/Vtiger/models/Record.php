@@ -1394,21 +1394,7 @@ class Vtiger_Record_Model extends \App\Base
 	 */
 	public function getRecordListViewLinksRightSide()
 	{
-		$links = $recordLinks = [];
-		if ($this->isEditable() && $this->isCanAssignToHimself()) {
-			$recordLinks[] = [
-				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_RIGHT_SIDE',
-				'linklabel' => 'BTN_ASSIGN_TO_ME',
-				'linkurl' => 'javascript:Vtiger_Index_Js.assignToOwner(this)',
-				'linkicon' => 'fas fa-user',
-				'linkclass' => 'btn-sm btn-success',
-				'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId()],
-			];
-		}
-		foreach ($recordLinks as $recordLink) {
-			$links[] = Vtiger_Link_Model::getInstanceFromValues($recordLink);
-		}
-		return $links;
+		return [];
 	}
 
 	/**
@@ -1519,6 +1505,16 @@ class Vtiger_Record_Model extends \App\Base
 					'dataUrl' => 'index.php?module=' . $this->getModuleName() . '&action=Delete&record=' . $this->getId(),
 					'linkdata' => ['confirm' => \App\Language::translate('LBL_DELETE_RECORD_COMPLETELY_DESC'), 'source-view' => 'List'],
 					'linkclass' => 'btn-sm btn-dark js-action-confirm',
+				];
+			}
+			if ($this->isEditable() && $this->isCanAssignToHimself()) {
+				$recordLinks['BTN_ASSIGN_TO_ME'] = [
+					'linktype' => 'LIST_VIEW_ACTIONS_RECORD_RIGHT_SIDE',
+					'linklabel' => 'BTN_ASSIGN_TO_ME',
+					'linkurl' => 'javascript:Vtiger_Index_Js.assignToOwner(this)',
+					'linkicon' => 'fas fa-user',
+					'linkclass' => 'btn-sm btn-success mr-1',
+					'linkdata' => ['module' => $this->getModuleName(), 'record' => $this->getId()],
 				];
 			}
 		}

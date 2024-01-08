@@ -92,6 +92,17 @@ class Vtiger_DetailView_Model extends \App\Base
 				]);
 			}
 		} else {
+			if ($recordModel->isEditable() && $recordModel->isCanAssignToHimself()) {
+				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
+					'linktype' => 'DETAIL_VIEW_ADDITIONAL',
+					'linklabel' => 'BTN_ASSIGN_TO_ME',
+					'linkurl' => 'javascript:Vtiger_Index_Js.assignToOwner(this)',
+					'linkicon' => 'fas fa-user',
+					'linkclass' => 'btn-sm btn-success',
+					'linkdata' => ['module' => $recordModel->getModuleName(), 'record' => $recordModel->getId()],
+					'linkhint' => 'BTN_ASSIGN_TO_ME',
+				]);
+			}
 			$userPrivilegesModel = Users_Privileges_Model::getCurrentUserPrivilegesModel();
 			if (\Config\Components\InterestsConflict::$isActive && \App\Components\InterestsConflict::getParent($recordId, $moduleName)) {
 				$linkModelList['DETAIL_VIEW_ADDITIONAL'][] = Vtiger_Link_Model::getInstanceFromValues([
