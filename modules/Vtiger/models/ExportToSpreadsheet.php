@@ -153,7 +153,7 @@ class Vtiger_ExportToSpreadsheet_Model extends \App\Export\Records
 				}
 				break;
 			default:
-				$displayValue = $this->getDisplayValue($fieldModel, $value, $id, []) ?: '';
+				$displayValue = $this->getDisplayValue($fieldModel, $value, $id, []);
 				$this->workSheet->setCellValueExplicitByColumnAndRow($this->colNo, $this->rowNo, $displayValue, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
 		}
 		++$this->colNo;
