@@ -94,7 +94,7 @@ jobs:
           /usr/bin/php8.0 ocular.phar code-coverage:upload --format=php-clover ${{github.workspace}}/tests/coverages/coverage.xml
 
       - name: Code Climate - Test & publish code coverage
-        uses: paambaati/codeclimate-action@v3.0.0
+        uses: paambaati/codeclimate-action@v3.2.0
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
         with:
