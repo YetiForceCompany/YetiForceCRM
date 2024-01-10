@@ -48,7 +48,8 @@ class ConfReport
 	 * @var string[]
 	 */
 	public static $container = ['php', 'env', 'ext', 'request', 'db', 'writableFilesAndFolders'];
-
+	/** @var string[] Skip writable files in install. */
+	public static $skipWritableFilesInInstall = ['config/Modules'];
 	/**
 	 * Stability variables map.
 	 *
@@ -1595,7 +1596,7 @@ class ConfReport
 			$path = ROOT_DIRECTORY . \DIRECTORY_SEPARATOR . $path;
 		}
 		$exists = file_exists($path);
-		if (empty($row['mustExist']) && !$exists) {
+		if ((empty($row['mustExist']) || ((isset(\App\Process::$requestMode) && 'Install' === \App\Process::$requestMode) && in_array($name, static::$skipWritableFilesInInstall))) && !$exists) {
 			$row['mode'] = 'skipParam';
 		} else {
 			$row['status'] = \App\Fields\File::isWriteable($path, true);
