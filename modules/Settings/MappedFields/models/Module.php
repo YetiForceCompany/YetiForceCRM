@@ -7,6 +7,7 @@
  * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
+#[AllowDynamicProperties]
 class Settings_MappedFields_Module_Model extends Settings_Vtiger_Module_Model
 {
 	protected $record = false;
