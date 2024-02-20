@@ -48,7 +48,8 @@
     "LBL_UPLOAD_LOGO": "Upload logo",
     "LBL_UPLOAD_ERROR": "Error during upload",
     "LBL_UPLOAD_SUCCESS": "Uploaded successfully",
-    "LBL_MULTI_COMPANY": "Organizational structure"
+    "LBL_MULTI_COMPANY": "Organizational structure",
+    "LBL_USERS_AND_GROUPS_RELATED_TO_LOGGED_IN_USER": "Users and groups who belong to the same group as the logged in user"
   },
   "js": {
     "JS_NO_PERMISSIONS_TO_MOVE": "No permissions to move",

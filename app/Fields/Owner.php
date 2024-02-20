@@ -81,8 +81,14 @@ class Owner
 		$cacheKey = $private . $this->moduleName . $fieldType . $this->currentUser->getRole();
 		if (!\App\Cache::has('getAccessibleGroups', $cacheKey)) {
 			$currentUserRoleModel = \Settings_Roles_Record_Model::getInstanceById($this->currentUser->getRole());
-			if (!empty($fieldType) && (5 === (int) $currentUserRoleModel->get('sharedOwner' === $fieldType ? 'assignedmultiowner' : 'allowassignedrecordsto')) && 'Public' !== $private) {
+			$assignValue = (int) $currentUserRoleModel->get('sharedOwner' === $fieldType ? 'assignedmultiowner' : 'allowassignedrecordsto');
+			if (!empty($fieldType) && 5 === $assignValue && 'Public' !== $private) {
 				$accessibleGroups = $this->getAllocation('groups', $private, $fieldType);
+			} elseif (!empty($fieldType) && 6 === $assignValue && 'Public' !== $private) {
+				$accessibleGroups = $this->getGroups(false, 'private');
+				foreach (\App\User::getCurrentUserModel()->get('leader') as $groupId) {
+					$accessibleGroups[$groupId] = self::getGroupName($groupId);
+				}
 			} else {
 				$accessibleGroups = $this->getGroups(false, $private);
 			}
@@ -130,12 +136,45 @@ class Owner
 				$accessibleUser[$this->currentUser->getId()] = $this->currentUser->getName();
 			} elseif (!empty($fieldType) && 5 === $assignTypeValue) {
 				$accessibleUser = $this->getAllocation('users', '', $fieldType);
+			} elseif (!empty($fieldType) && 6 === $assignTypeValue) {
+				$accessibleUser = $this->getUsersInTheSameGroup();
 			} else {
 				$accessibleUser[$this->currentUser->getId()] = $this->currentUser->getName();
 			}
 			\App\Cache::save('getAccessibleUsers', $cacheKey, $accessibleUser);
 		}
 		return \App\Cache::get('getAccessibleUsers', $cacheKey);
+	}
+
+	/**
+	 * Get users in the same group as currently logged user. Including users where user is a team leader.
+	 *
+	 * @return array
+	 */
+	public function getUsersInTheSameGroup(): array
+	{
+		$accessibleUsers = [];
+		$queryGenerator = (new \App\QueryGenerator('Users'))
+			->setFields(['id'])
+			->addCondition('status', 'Active', 'e');
+		$columnName = $queryGenerator->getColumnName('id');
+		$condition = ['or'];
+		$accessibleGroups = $this->getGroups(false, 'private');
+		foreach (array_keys($accessibleGroups) as $groupId) {
+			$condition[] = [$columnName => (new \App\Db\Query())->select(['userid'])->from(["condition_Groups_{$groupId}_" . \App\Layout::getUniqueId() => \App\PrivilegeUtil::getQueryToUsersByGroup((int) $groupId)])];
+		}
+		foreach (\App\User::getCurrentUserModel()->get('leader') as $groupId) {
+			$condition[] = [$columnName => (new \App\Db\Query())->select(['userid'])->from(["condition_Groups_{$groupId}_" . \App\Layout::getUniqueId() => \App\PrivilegeUtil::getQueryToUsersByGroup((int) $groupId)])];
+		}
+		if (1 === \count($condition)) {
+			$condition = [$columnName => 0];
+		}
+		$queryGenerator->addNativeCondition($condition);
+		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$accessibleUsers[$row['id']] = self::getUserLabel($row['id']);
+		}
+		return $accessibleUsers;
 	}
 
 	/**

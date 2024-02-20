@@ -83,17 +83,20 @@
 				<label class="col-md-4"><strong>{\App\Language::translate('LBL_CAN_ASSIGN_MULTIOWNER_TO', $QUALIFIED_MODULE)}
 						: </strong></label>
 				<div class="col-md-7 fieldValue">
+					{assign var="ASSIGNED_MULTIOWNER" value=$RECORD_MODEL->get('assignedmultiowner')}
 					<select id="assignedmultiowner" class="row select2 form-control" name="assignedmultiowner">
 						<option value="1"
-							{if $RECORD_MODEL->get('assignedmultiowner') == '1'}selected="true" {/if}>{\App\Language::translate('LBL_ALL_USERS', $QUALIFIED_MODULE)}</option>
+							{if $ASSIGNED_MULTIOWNER == '1'}selected="true" {/if}>{\App\Language::translate('LBL_ALL_USERS', $QUALIFIED_MODULE)}</option>
 						<option value="2"
-							{if $RECORD_MODEL->get('assignedmultiowner') == '2'}selected="true" {/if}>{\App\Language::translate('LBL_USERS_WITH_SAME_OR_LOWER_LEVEL', $QUALIFIED_MODULE)}</option>
+							{if $ASSIGNED_MULTIOWNER == '2'}selected="true" {/if}>{\App\Language::translate('LBL_USERS_WITH_SAME_OR_LOWER_LEVEL', $QUALIFIED_MODULE)}</option>
 						<option value="3"
-							{if $RECORD_MODEL->get('assignedmultiowner') == '3'}selected="true" {/if}>{\App\Language::translate('LBL_USERS_WITH_LOWER_LEVEL', $QUALIFIED_MODULE)}</option>
+							{if $ASSIGNED_MULTIOWNER == '3'}selected="true" {/if}>{\App\Language::translate('LBL_USERS_WITH_LOWER_LEVEL', $QUALIFIED_MODULE)}</option>
 						<option value="4"
-							{if $RECORD_MODEL->get('assignedmultiowner') == '4'}selected="true" {/if}>{\App\Language::translate('LBL_JUST_ME', $QUALIFIED_MODULE)}</option>
+							{if $ASSIGNED_MULTIOWNER == '4'}selected="true" {/if}>{\App\Language::translate('LBL_JUST_ME', $QUALIFIED_MODULE)}</option>
 						<option value="5"
-							{if $RECORD_MODEL->get('assignedmultiowner') == '5'}selected="true" {/if}>{\App\Language::translate('LBL_FROM_PANEL', $QUALIFIED_MODULE)}</option>
+							{if $ASSIGNED_MULTIOWNER == '5'}selected="true" {/if}>{\App\Language::translate('LBL_FROM_PANEL', $QUALIFIED_MODULE)}</option>
+						<option value="6"
+							{if $ASSIGNED_MULTIOWNER == '6'}selected="true" {/if}>{\App\Language::translate('LBL_USERS_AND_GROUPS_RELATED_TO_LOGGED_IN_USER', $QUALIFIED_MODULE)}</option>
 					</select>
 				</div>
 			</div>
