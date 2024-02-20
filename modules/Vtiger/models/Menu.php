@@ -241,8 +241,8 @@ class Vtiger_Menu_Model
 			case 'CustomFilter':
 				$cvid = \is_int($row['type']) ? $row['dataurl'] : vtlib\Functions::getQueryParams($row['dataurl'])['viewname'];
 				$data = \App\CustomView::getCustomViewById($cvid);
-				$name = self::vtranslateMenu($data['entitytype'], $data['entitytype']) . ': ' . \App\Language::translate($data['viewname'], $data['entitytype']);
-				break;
+				$name = empty($row['label']) ? self::vtranslateMenu($data['entitytype'], $data['entitytype']) . ': ' . \App\Language::translate($data['viewname'], $data['entitytype']) : self::vtranslateMenu($row['label'], $data['entitytype']); //BMN
+                break;
 			case 'RecycleBin':
 				$name = self::vtranslateMenu($moduleName, $moduleName);
 				break;
