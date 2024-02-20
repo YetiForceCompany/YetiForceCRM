@@ -64,7 +64,7 @@
     "phpoffice/phpspreadsheet": "^1.3.1",
     "pragmarx/google2fa": "^v8",
     "milon/barcode": "^9.0.0",
-    "ckeditor/ckeditor": "4.22.1",
+    "ckeditor/ckeditor": "4.24.0",
     "parsecsv/php-parsecsv": "^1.1.0",
     "guzzlehttp/guzzle": "^7.0",
     "nette/php-generator": "^3.2.1",
