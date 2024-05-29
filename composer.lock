@@ -4155,16 +4155,16 @@
         },
         {
             "name": "smarty/smarty",
-            "version": "v4.3.4",
+            "version": "v4.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smarty-php/smarty.git",
-                "reference": "3931d8f54b8f7a4ffab538582d34d4397ba8daa5"
+                "reference": "732040276609d0c3ad3381781c7444e7c5df9456"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/3931d8f54b8f7a4ffab538582d34d4397ba8daa5",
-                "reference": "3931d8f54b8f7a4ffab538582d34d4397ba8daa5",
+                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/732040276609d0c3ad3381781c7444e7c5df9456",
+                "reference": "732040276609d0c3ad3381781c7444e7c5df9456",
                 "shasum": ""
             },
             "require": {
@@ -4215,9 +4215,9 @@
             "support": {
                 "forum": "https://github.com/smarty-php/smarty/discussions",
                 "issues": "https://github.com/smarty-php/smarty/issues",
-                "source": "https://github.com/smarty-php/smarty/tree/v4.3.4"
+                "source": "https://github.com/smarty-php/smarty/tree/v4.5.2"
             },
-            "time": "2023-09-14T10:59:08+00:00"
+            "time": "2024-04-05T22:34:05+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
