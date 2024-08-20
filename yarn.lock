@@ -267,10 +267,10 @@ datatables.net-responsive@>=2.4.1:
     datatables.net ">=1.13.4"
     jquery ">=1.7"
 
-datatables.net@>=1.13.4, datatables.net@^1.11.3:
-  version "1.13.6"
-  resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.13.6.tgz#6e282adbbb2732e8df495611b8bb54e19f7a943e"
-  integrity sha512-rHNcnW+yEP9me82/KmRcid5eKrqPqW3+I/p1TwqCW3c/7GRYYkDyF6aJQOQ9DNS/pw+nyr4BVpjyJ3yoZXiFPg==
+datatables.net@>=1.13.4, datatables.net@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-2.1.4.tgz#b25c021b0d92292521955cb9ed8ff74705a63006"
+  integrity sha512-Qxfsow9o8iYjU/OP9Ju9W46gDj+jD+ZN6qkRLArOvNF0mOKAO8ZvmTe37FhipXh8sH6tPh19oJoRSdZ3GnQUjA==
   dependencies:
     jquery ">=1.7"
 
