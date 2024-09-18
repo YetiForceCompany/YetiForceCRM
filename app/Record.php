@@ -80,6 +80,7 @@ class Record
 			->from('u_#__crmentity_label cl')
 			->innerJoin('vtiger_crmentity', 'cl.crmid = vtiger_crmentity.crmid')
 			->where(['vtiger_crmentity.setype' => $moduleName])
+			->andWhere(['vtiger_crmentity.deleted' => 0])
 			->andWhere(['cl.label' => $label]);
 		if ($userId) {
 			$query->andWhere(['like', 'vtiger_crmentity.users', ",$userId,"]);
